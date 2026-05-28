@@ -155,6 +155,11 @@ Before `NEXT_PUBLIC_DATA_SOURCE=supabase` can be used:
 4. Define UI data freshness display requirements.
 5. Keep global markets other than TWSE as inactive placeholders.
 
+Follow-up:
+
+- Data freshness / source attribution UI requirements are now tracked in
+  `docs/DATA_FRESHNESS_UI.md`.
+
 ## Next Implementation Slice
 
 Approved next slice:

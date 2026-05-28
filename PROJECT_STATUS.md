@@ -80,6 +80,7 @@ D:\指數燈號
 - 已建立 `data_runs` 匯入紀錄表與 bootstrap 驗證查詢，用於追蹤資料來源、筆數、狀態與資料日期。
 - 已建立本機 Supabase bootstrap 驗證腳本 `npm run db:validate`；需 `.env.local`，只驗證資料庫，不切換 UI。
 - 已建立 Supabase 執行 runbook，明確規定建立專案、執行 bootstrap、填 `.env.local`、驗證資料庫，以及 UI 繼續保持 mock。
+- 已建立資料 freshness / source attribution UI 規格，作為未來切換 Supabase UI 前的必要條件。
 
 ## 下一次開工建議
 
