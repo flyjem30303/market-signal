@@ -152,6 +152,7 @@ generate weekly summary
 - 最新每日行情腳本會產生 `supabase/seed/002_seed_latest_market_data.sql`，只包含股票主檔已存在的代號。
 - 股票主檔已補全球化欄位：`country`、`exchange`、`currency`、`timezone`、`asset_type`。
 - TWSE 每日行情 SQL 已改用 `country + exchange + symbol` 對應 `stocks`，避免未來全球市場 symbol 碰撞。
+- 已建立 `market_exchanges` seed，TWSE 為 active，TPEx / NASDAQ / NYSE 暫列為 inactive future placeholders。
 
 ## 模型 v1 資料需求
 

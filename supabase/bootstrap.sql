@@ -1,5 +1,5 @@
 -- Taiwan Market Signal Supabase bootstrap SQL.
--- Generated at 2026-05-28T14:54:15.640Z.
+-- Generated at 2026-05-28T15:02:08.461Z.
 -- Run this in a new Supabase project's SQL editor.
 
 begin;
@@ -12,6 +12,20 @@ begin;
 -- Target database: PostgreSQL / Supabase.
 
 create extension if not exists "pgcrypto";
+
+create table if not exists public.market_exchanges (
+  country text not null,
+  exchange text not null,
+  name text not null,
+  display_name text not null,
+  currency text not null,
+  timezone text not null,
+  locale text not null default 'en-US',
+  is_active boolean not null default false,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  primary key (country, exchange)
+);
 
 create table if not exists public.stocks (
   id uuid primary key default gen_random_uuid(),
@@ -29,6 +43,7 @@ create table if not exists public.stocks (
   is_active boolean not null default true,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
+  foreign key (country, exchange) references public.market_exchanges(country, exchange),
   unique (country, exchange, symbol)
 );
 
@@ -138,6 +153,70 @@ create index if not exists daily_prices_trade_date_idx on public.daily_prices(tr
 create index if not exists news_items_published_at_idx on public.news_items(published_at desc);
 create index if not exists stocks_market_industry_idx on public.stocks(market, industry);
 create index if not exists stocks_country_exchange_symbol_idx on public.stocks(country, exchange, symbol);
+create index if not exists market_exchanges_active_idx on public.market_exchanges(is_active, country, exchange);
+
+-- ============================================================================
+-- Source: supabase/seed/000_seed_markets.sql
+-- ============================================================================
+
+insert into public.market_exchanges (
+  country,
+  exchange,
+  name,
+  display_name,
+  currency,
+  timezone,
+  locale,
+  is_active
+) values
+(
+  'TW',
+  'TWSE',
+  'Taiwan Stock Exchange',
+  '台灣證券交易所',
+  'TWD',
+  'Asia/Taipei',
+  'zh-TW',
+  true
+),
+(
+  'TW',
+  'TPEx',
+  'Taipei Exchange',
+  '櫃買中心',
+  'TWD',
+  'Asia/Taipei',
+  'zh-TW',
+  false
+),
+(
+  'US',
+  'NASDAQ',
+  'Nasdaq Stock Market',
+  'NASDAQ',
+  'USD',
+  'America/New_York',
+  'en-US',
+  false
+),
+(
+  'US',
+  'NYSE',
+  'New York Stock Exchange',
+  'NYSE',
+  'USD',
+  'America/New_York',
+  'en-US',
+  false
+)
+on conflict (country, exchange) do update set
+  name = excluded.name,
+  display_name = excluded.display_name,
+  currency = excluded.currency,
+  timezone = excluded.timezone,
+  locale = excluded.locale,
+  is_active = excluded.is_active,
+  updated_at = now();
 
 -- ============================================================================
 -- Source: supabase/seed/001_seed_stocks.sql

@@ -15,6 +15,27 @@ supabase/bootstrap.sql
 Run that file in a new Supabase project's SQL editor to create the schema,
 stocks, latest prices, and latest fundamentals in one pass.
 
+## Generate Market Exchange Seed SQL
+
+```bash
+npm run seed:markets
+```
+
+This reads:
+
+```text
+data/seeds/markets.seed.json
+```
+
+and writes:
+
+```text
+supabase/seed/000_seed_markets.sql
+```
+
+Markets marked `is_active=false` are future expansion placeholders, not live
+data coverage.
+
 ## Fetch TWSE Stock Master
 
 ```bash

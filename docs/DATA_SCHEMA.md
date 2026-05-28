@@ -2,6 +2,27 @@
 
 建議正式網站使用 PostgreSQL。初期可用 Supabase。
 
+## market_exchanges
+
+市場 / 交易所 metadata。這是全球化擴張的基礎表，避免把幣別、時區與語系寫死在程式裡。
+
+| 欄位 | 型別 | 說明 |
+|---|---|---|
+| country | text | 國家 / 地區代碼，例如 TW / US |
+| exchange | text | 交易所，例如 TWSE / TPEx / NASDAQ / NYSE |
+| name | text | 英文名稱 |
+| display_name | text | 畫面顯示名稱 |
+| currency | text | 主要交易幣別 |
+| timezone | text | 交易所時區 |
+| locale | text | 預設語系 |
+| is_active | boolean | 是否已啟用資料覆蓋 |
+
+主鍵：
+
+```sql
+primary key(country, exchange)
+```
+
 ## stocks
 
 股票主檔。
@@ -46,6 +67,8 @@ unique(country, exchange, symbol)
 ```
 
 注意：`symbol` 不可視為全球唯一鍵。台股 MVP 可繼續使用 `/stocks/2330`，但資料層必須以 `country + exchange + symbol` 作為全球擴張命名空間。
+
+`stocks.country + stocks.exchange` 需對應 `market_exchanges`，讓每個標的都有明確的市場、幣別、時區與語系來源。
 
 ## daily_fundamentals
 

@@ -5,6 +5,7 @@
 專案已具備：
 
 - Supabase migration SQL
+- 市場 / 交易所 metadata seed SQL
 - 股票 seed SQL
 - 最新每日行情 / 估值 seed SQL
 - 單檔 bootstrap SQL 產生器
@@ -63,6 +64,7 @@ supabase/bootstrap.sql
 
 ```text
 stocks_count 約 1086
+market_exchanges_count 約 4
 daily_prices_count 約 1083
 daily_fundamentals_count 約 1077
 latest_price_date 為最新 TWSE 交易日

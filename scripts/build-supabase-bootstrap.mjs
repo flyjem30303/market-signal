@@ -3,6 +3,7 @@ import fs from "node:fs";
 const outputPath = "supabase/bootstrap.sql";
 const inputFiles = [
   "supabase/migrations/0001_initial_schema.sql",
+  "supabase/seed/000_seed_markets.sql",
   "supabase/seed/001_seed_stocks.sql",
   "supabase/seed/002_seed_latest_market_data.sql",
 ];

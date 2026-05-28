@@ -1,0 +1,42 @@
+[
+  {
+    "country": "TW",
+    "exchange": "TWSE",
+    "name": "Taiwan Stock Exchange",
+    "display_name": "台灣證券交易所",
+    "currency": "TWD",
+    "timezone": "Asia/Taipei",
+    "locale": "zh-TW",
+    "is_active": true
+  },
+  {
+    "country": "TW",
+    "exchange": "TPEx",
+    "name": "Taipei Exchange",
+    "display_name": "櫃買中心",
+    "currency": "TWD",
+    "timezone": "Asia/Taipei",
+    "locale": "zh-TW",
+    "is_active": false
+  },
+  {
+    "country": "US",
+    "exchange": "NASDAQ",
+    "name": "Nasdaq Stock Market",
+    "display_name": "NASDAQ",
+    "currency": "USD",
+    "timezone": "America/New_York",
+    "locale": "en-US",
+    "is_active": false
+  },
+  {
+    "country": "US",
+    "exchange": "NYSE",
+    "name": "New York Stock Exchange",
+    "display_name": "NYSE",
+    "currency": "USD",
+    "timezone": "America/New_York",
+    "locale": "en-US",
+    "is_active": false
+  }
+]

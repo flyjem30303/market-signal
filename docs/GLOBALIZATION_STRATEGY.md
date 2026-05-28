@@ -81,6 +81,10 @@ Future schema changes should support:
 Current `market` values such as `TWSE` remain useful as grouping labels, but
 `stocks` should use `country + exchange + symbol` as the global-safe namespace.
 
+`market_exchanges` is the global market registry. It stores the exchange-level
+currency, timezone, locale, and activation status. Future exchanges can be added
+as inactive placeholders before full data coverage is ready.
+
 ### URLs
 
 Current Taiwan MVP route:

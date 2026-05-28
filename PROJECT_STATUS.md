@@ -74,6 +74,7 @@ D:\指數燈號
 - CEO 已定調全球化策略：先以台股與台灣使用者為 wedge market，但資料模型、路由、語系、時區、幣別與評分模型必須從現在開始預留全球市場。
 - 已將股票主檔 schema 與 seed 調整為全球化命名空間：`country + exchange + symbol`，並補 `currency`、`timezone`、`asset_type`。
 - Repository data source 切換已改為明確模式：`mock` 可用，`supabase` 未完成前會報錯，不再靜默 fallback。
+- 已建立 `market_exchanges` 市場 metadata registry，TWSE 先啟用，TPEx / NASDAQ / NYSE 作為未來全球擴張 placeholder。
 
 ## 下一次開工建議
 
