@@ -285,6 +285,7 @@ docs/reviews/CP1_ETF_MIS_VALIDATION_PLAN_2026-05-29.md
 docs/reviews/CP1_ETF_MIS_SMOKE_REPORTER_2026-05-29.md
 docs/reviews/CP1_ETF_MIS_LEGAL_FAIR_USE_2026-05-29.md
 docs/reviews/CP1_SCORE_SOURCE_FRESHNESS_STRIP_2026-05-29.md
+docs/reviews/CP1_SCORE_AREA_MODEL_STATUS_2026-05-29.md
 ```
 
 CEO approved proceeding only to internal raw market preview and diagnostics.

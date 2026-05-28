@@ -109,6 +109,8 @@ F / UIUX guidance:
 - Use stronger visual treatment only for stale, partial, or mock status.
 - Do not place the freshness strip inside score cards.
 - Do not make the strip look like an advertisement or CTA.
+- Keep a lightweight score-source note near interpreted score cards while
+  scores remain mock or mixed.
 
 ## Legal Requirements
 

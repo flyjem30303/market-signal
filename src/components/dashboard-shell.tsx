@@ -166,7 +166,9 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
         ))}
       </nav>
 
-      {activeTab === "today" && <TodayTab selectedSymbol={selected.symbol} snapshot={snapshot} />}
+      {activeTab === "today" && (
+        <TodayTab scoreSourceLabel={freshness.scoreSourceLabel} selectedSymbol={selected.symbol} snapshot={snapshot} />
+      )}
       {activeTab === "trend" && (
         <TrendTab
           chartMode={chartMode}
@@ -363,7 +365,15 @@ function AssetSelector({
   );
 }
 
-function TodayTab({ selectedSymbol, snapshot }: { selectedSymbol: string; snapshot: SignalSnapshot }) {
+function TodayTab({
+  scoreSourceLabel,
+  selectedSymbol,
+  snapshot
+}: {
+  scoreSourceLabel: string;
+  selectedSymbol: string;
+  snapshot: SignalSnapshot;
+}) {
   return (
     <>
       <section className="score-grid">
@@ -382,6 +392,13 @@ function TodayTab({ selectedSymbol, snapshot }: { selectedSymbol: string; snapsh
           </p>
         </article>
       </section>
+
+      <aside className="score-source-note" aria-label="模型狀態">
+        <strong>目前分數來源：{scoreSourceLabel}</strong>
+        <span>正式上線前，分數仍用於產品體驗驗證，不代表已完成真實投資模型校準。</span>
+        <a href="/methodology">方法論</a>
+        <a href="/disclaimer">免責聲明</a>
+      </aside>
 
       <section className="content-grid">
         <article className="panel">
