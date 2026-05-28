@@ -71,6 +71,7 @@ D:\指數燈號
 - 已將上市普通股主檔 seed 擴充為 1086 筆，並重產 Supabase seed SQL。
 - 已建立 TWSE 官方 OpenAPI 最新每日行情 / 估值 SQL 產生腳本 `npm run fetch:daily-market`。
 - 已建立 Supabase 單檔 bootstrap SQL 產生器 `npm run db:bootstrap`。
+- CEO 已定調全球化策略：先以台股與台灣使用者為 wedge market，但資料模型、路由、語系、時區、幣別與評分模型必須從現在開始預留全球市場。
 
 ## 下一次開工建議
 
@@ -101,3 +102,4 @@ D:\指數燈號
 - 不先做會員，先做資料可信度與 SEO。
 - 不先買新聞 API，先用官方資料與週報內容。
 - 不先重度投放廣告，避免破壞金融工具信任感。
+- 不把產品做成台灣限定架構；台灣是第一市場，不是長期邊界。

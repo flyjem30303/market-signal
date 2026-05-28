@@ -9,6 +9,7 @@
 - [ ] 設定 ESLint / Prettier。
 - [ ] 建立 Vercel 專案。
 - [ ] 建立 Supabase 專案。
+- [ ] 補全球化資料模型欄位規格：country / exchange / currency / timezone / asset_type。
 
 ## B. 資料庫
 
@@ -70,6 +71,7 @@
 - [x] 方法論頁。
 - [x] 資料品質欄位。
 - [ ] 股票 / ETF 分開校準規格。
+- [ ] 市場別模型校準規格：TW / US / ETF / INDEX。
 - [ ] 回測揭露規格。
 
 ## I. 設計與體驗
