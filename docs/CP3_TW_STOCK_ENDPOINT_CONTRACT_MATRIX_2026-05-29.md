@@ -138,3 +138,8 @@ run no bulk downloads
 record docs/reviews report only
 ```
 
+Metadata probe report:
+
+```text
+docs/reviews/CP3_TW_STOCK_ENDPOINT_METADATA_PROBE_2026-05-29.md
+```
