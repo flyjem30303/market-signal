@@ -89,7 +89,7 @@ function calculateInternalQualityScore({
   if (mixed.scoreSource === "mock") score -= 35;
   if (!mixed.quote.tradeDate) score -= 20;
   if (mixed.quote.close === null) score -= 20;
-  if (mixed.quote.pe === null || mixed.quote.pb === null) score -= 10;
+  if ((mixed.quote.pe === null || mixed.quote.pb === null) && !mixed.stock.isEtf) score -= 10;
 
   for (const caveat of caveats) {
     if (caveat.severity === "critical") score -= 25;

@@ -1,3 +1,4 @@
+import { getAssetTypePolicy } from "@/lib/asset-type-policy";
 import type { RawMarketSnapshot } from "@/lib/repositories/raw-market-types";
 import type { SignalSnapshot } from "@/lib/signal-model";
 
@@ -47,11 +48,12 @@ export function buildMixedMarketSnapshot({
   const stock = raw?.stock;
   const price = raw?.price;
   const fundamentals = raw?.fundamentals;
+  const assetTypePolicy = getAssetTypePolicy({ assetType: stock?.assetType, isEtf: stock?.isEtf });
   const warnings = [
     "score-is-mock",
     ...(raw ? [] : ["raw-market-data-unavailable"]),
     ...(price ? [] : ["latest-price-unavailable"]),
-    ...(fundamentals ? [] : [stock?.isEtf ? "fundamentals-not-applicable-for-etf" : "latest-fundamentals-unavailable"])
+    ...(fundamentals ? [] : [assetTypePolicy.missingFundamentalsCode])
   ];
 
   return {

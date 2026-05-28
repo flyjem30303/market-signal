@@ -56,6 +56,7 @@ src/lib/repositories/types.ts
 src/lib/repositories/mock-market-signal-repository.ts
 src/lib/repositories/supabase-market-signal-repository.ts
 src/lib/repositories/market-signal-repository.ts
+src/lib/asset-type-policy.ts
 src/lib/public-release-gate.ts
 src/lib/supabase/client.ts
 src/lib/supabase/server.ts
@@ -81,6 +82,7 @@ scripts/fetch-twse-daily-market.mjs
 scripts/build-supabase-bootstrap.mjs
 scripts/validate-supabase-bootstrap.mjs
 scripts/review-supabase-market-trust.mjs
+scripts/check-asset-type-policy.mjs
 scripts/README.md
 ```
 
@@ -101,6 +103,7 @@ docs/PROJECT_REVIEW_CHECKPOINTS.md
 docs/reviews/CP1_DATA_TRUST_2026-05-28.md
 docs/reviews/CP1_SUPABASE_MARKET_TRUST_REVIEW_2026-05-29.md
 docs/reviews/CP1_PUBLIC_RELEASE_GATE_2026-05-29.md
+docs/reviews/CP1_ETF_DATA_MODEL_2026-05-29.md
 docs/MIGRATION_CHECKLIST.md
 docs/FILE_MANIFEST.md
 docs/MVP_TASKS.md
@@ -112,6 +115,7 @@ docs/REPOSITORY_ARCHITECTURE.md
 docs/SUPABASE_SETUP.md
 docs/SUPABASE_EXECUTION_RUNBOOK.md
 docs/DATA_SCHEMA.md
+docs/ETF_DATA_MODEL.md
 docs/DATA_FRESHNESS_UI.md
 docs/DATA_SOURCES.md
 docs/INGESTION_PLAN.md
