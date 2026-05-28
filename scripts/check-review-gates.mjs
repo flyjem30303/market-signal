@@ -28,6 +28,11 @@ const checks = [
     name: "cp1-to-cp2"
   },
   {
+    command: [node, "scripts/check-cp3-model-credibility.mjs"],
+    expectStatus: "not_ready",
+    name: "cp3-model-credibility"
+  },
+  {
     command: [node, "scripts/check-score-source-ui.mjs"],
     expectStatus: "ok",
     name: "score-source-ui"

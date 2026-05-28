@@ -97,6 +97,7 @@ scripts/report-etf-mis-smoke.mjs
 scripts/check-internal-route-exposure.mjs
 scripts/check-cp1-snapshot.mjs
 scripts/check-cp1-to-cp2.mjs
+scripts/check-cp3-model-credibility.mjs
 scripts/check-freshness-state-ui.mjs
 scripts/check-score-source-ui.mjs
 scripts/check-review-gates.mjs
@@ -155,6 +156,7 @@ docs/ETF_JSON_URL_DISCOVERY_2026-05-29.md
 docs/ETF_MIS_NAV_DISCLOSURE_RESEARCH_2026-05-29.md
 docs/ETF_MIS_VALIDATION_PLAN_2026-05-29.md
 docs/ETF_MIS_LEGAL_FAIR_USE_REVIEW_2026-05-29.md
+docs/CP3_MODEL_CREDIBILITY_PLAN.md
 docs/reviews/CP1_ETF_ENDPOINT_RESEARCH_2026-05-29.md
 docs/reviews/CP1_ETF_JSON_URL_DISCOVERY_2026-05-29.md
 docs/reviews/CP1_ETF_MIS_NAV_DISCLOSURE_2026-05-29.md
@@ -165,6 +167,7 @@ docs/reviews/CP1_SCORE_SOURCE_FRESHNESS_STRIP_2026-05-29.md
 docs/reviews/CP1_SCORE_AREA_MODEL_STATUS_2026-05-29.md
 docs/reviews/CP1_SCORE_SOURCE_UI_GUARD_2026-05-29.md
 docs/reviews/CP1_FRESHNESS_STATE_COPY_2026-05-29.md
+docs/reviews/CP3_MODEL_CREDIBILITY_PATH_2026-05-29.md
 docs/CP1_TO_CP2_RELEASE_CHECKLIST.md
 docs/DATA_FRESHNESS_UI.md
 docs/DATA_SOURCES.md
