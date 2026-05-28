@@ -123,6 +123,11 @@ const checks = [
     name: "cp3-twse-stock-day-staging-boundary-design"
   },
   {
+    command: [node, "scripts/check-cp3-twse-stock-day-staging-sql-design.mjs"],
+    expectStatus: "ok",
+    name: "cp3-twse-stock-day-staging-sql-design"
+  },
+  {
     command: [node, "scripts/check-cp3-tw-stock-model-candidates.mjs"],
     expectStatus: "ok",
     name: "cp3-tw-stock-model"

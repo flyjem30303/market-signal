@@ -35,6 +35,7 @@
     "check:cp3-twse-stock-day-controlled-dry-run": "node scripts/check-cp3-twse-stock-day-controlled-dry-run.mjs",
     "check:cp3-twse-stock-day-dry-run-human-review": "node scripts/check-cp3-twse-stock-day-dry-run-human-review.mjs",
     "check:cp3-twse-stock-day-staging-boundary-design": "node scripts/check-cp3-twse-stock-day-staging-boundary-design.mjs",
+    "check:cp3-twse-stock-day-staging-sql-design": "node scripts/check-cp3-twse-stock-day-staging-sql-design.mjs",
     "check:cp3-tw-stock-source-depth": "node scripts/check-cp3-tw-stock-source-depth.mjs",
     "check:cp3-tw-stock-backtest": "node scripts/check-cp3-tw-stock-backtest-method.mjs",
     "check:cp3-tw-stock-dry-run": "node scripts/check-cp3-tw-stock-dry-run-contract.mjs",
