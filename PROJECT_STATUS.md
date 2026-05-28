@@ -69,6 +69,7 @@ D:\指數燈號
 - 已完成 F Request 001：設計系統基礎、Header 升級與晨報第一屏視覺升級。
 - 已建立 TWSE 官方 OpenAPI 股票主檔抓取腳本 `npm run fetch:stocks`。
 - 已將上市普通股主檔 seed 擴充為 1086 筆，並重產 Supabase seed SQL。
+- 已建立 TWSE 官方 OpenAPI 最新每日行情 / 估值 SQL 產生腳本 `npm run fetch:daily-market`。
 
 ## 下一次開工建議
 
