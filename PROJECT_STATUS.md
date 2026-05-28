@@ -102,6 +102,8 @@ D:\指數燈號
 - 已新增 `npm run db:split-bootstrap`，可將 Supabase bootstrap SQL 拆成較小的依序執行檔，降低 SQL Editor 操作風險。
 - 已新增 `npm run env:init-local`，可安全建立本機 `.env.local` 範本且不覆蓋既有金鑰。
 - Supabase bootstrap 已完成並通過 `db:validate` / `db:freshness` / `db:raw-market`；資料日期為 2026-05-27，2330 raw market smoke test 通過。
+- 已完成 CP1 Supabase readiness review；CEO 核准只啟用 Supabase freshness，不核准切換主資料源。
+- 本機已啟用 `DATA_FRESHNESS_SOURCE=supabase`，`/briefing` 與 `/stocks/2330` 已顯示 TWSE OpenAPI freshness；`NEXT_PUBLIC_DATA_SOURCE` 仍維持 `mock`。
 
 ## 下一次開工建議
 
@@ -109,7 +111,7 @@ D:\指數燈號
 2. 依 `docs/SUPABASE_EXECUTION_RUNBOOK.md` 建立 Supabase 專案並執行 bootstrap SQL。
 3. 建立 `.env.local` 後執行 `npm run db:validate`。
 4. 暫不切換 `NEXT_PUBLIC_DATA_SOURCE=supabase`。
-5. 下一步為 CP1 Supabase readiness 小檢討，決定是否只開啟 Supabase freshness 或繼續維持 mock，不切換 `NEXT_PUBLIC_DATA_SOURCE=supabase`。
+5. 下一步為 CP1 freshness rollout 小檢討，決定是否維持本機 Supabase freshness、是否允許未來部署環境同步啟用；仍不切換 `NEXT_PUBLIC_DATA_SOURCE=supabase`。
 
 ## 環境狀態
 

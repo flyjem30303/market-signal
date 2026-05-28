@@ -93,6 +93,8 @@
 - [x] 建立 Supabase bootstrap SQL split 指令。
 - [x] 建立本機 `.env.local` 初始化指令。
 - [x] 完成 Supabase bootstrap 實體驗證。
+- [x] 完成 CP1 Supabase readiness review。
+- [x] 本機啟用 Supabase freshness 並驗證 briefing / stock page。
 
 ## H. 投資模型可信度
 

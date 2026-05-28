@@ -36,8 +36,8 @@ if (env?.NEXT_PUBLIC_DATA_SOURCE && env.NEXT_PUBLIC_DATA_SOURCE !== "mock") {
   warnings.push("NEXT_PUBLIC_DATA_SOURCE should remain mock until a checkpoint approves switching.");
 }
 
-if (env?.DATA_FRESHNESS_SOURCE && env.DATA_FRESHNESS_SOURCE !== "mock") {
-  warnings.push("DATA_FRESHNESS_SOURCE should remain mock until db:freshness passes.");
+if (env?.DATA_FRESHNESS_SOURCE && !["mock", "supabase"].includes(env.DATA_FRESHNESS_SOURCE)) {
+  warnings.push("DATA_FRESHNESS_SOURCE should be mock or supabase.");
 }
 
 const status = {

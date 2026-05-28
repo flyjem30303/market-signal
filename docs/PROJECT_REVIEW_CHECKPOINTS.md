@@ -260,6 +260,7 @@ docs/reviews/CP1_FRESHNESS_SOURCE_2026-05-28.md
 docs/reviews/CP1_MIXED_ADAPTER_PREVIEW_2026-05-29.md
 docs/reviews/CP1_DATA_QUALITY_SCORING_2026-05-29.md
 docs/reviews/SUPABASE_BOOTSTRAP_VALIDATION_2026-05-29.md
+docs/reviews/CP1_SUPABASE_READINESS_2026-05-29.md
 ```
 
 CEO approved proceeding only to a raw Supabase market read contract. Full UI
