@@ -80,6 +80,7 @@
     "check:cp3-ui-copy-tokens-draft": "node scripts/check-cp3-ui-copy-tokens-draft.mjs",
     "check:cp3-ui-copy-tokens-draft-role-review": "node scripts/check-cp3-ui-copy-tokens-draft-role-review.mjs",
     "check:cp3-ui-wiring-launch-blocker-checklist-gate": "node scripts/check-cp3-ui-wiring-launch-blocker-checklist-gate.mjs",
+    "check:cp3-ui-wiring-launch-blocker-implementation-plan": "node scripts/check-cp3-ui-wiring-launch-blocker-implementation-plan.mjs",
     "check:cp3-tw-stock-backtest": "node scripts/check-cp3-tw-stock-backtest-method.mjs",
     "check:cp3-tw-stock-dry-run": "node scripts/check-cp3-tw-stock-dry-run-contract.mjs",
     "check:cp3-tw-stock-dry-run-report": "node scripts/check-cp3-tw-stock-dry-run-report.mjs",

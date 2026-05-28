@@ -356,6 +356,7 @@ docs/reviews/CP3_NON_RUNTIME_UI_COPY_TOKEN_DRAFT_APPROVAL_GATE_2026-05-29.md
 src/lib/cp3-ui-copy-tokens.draft.ts
 docs/reviews/CP3_UI_COPY_TOKENS_DRAFT_ROLE_REVIEW_2026-05-29.md
 docs/reviews/CP3_UI_WIRING_LAUNCH_BLOCKER_CHECKLIST_GATE_2026-05-29.md
+docs/CP3_UI_WIRING_LAUNCH_BLOCKER_IMPLEMENTATION_PLAN_2026-05-29.md
 ```
 
 CEO approved proceeding only to internal raw market preview and diagnostics.
