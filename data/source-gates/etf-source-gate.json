@@ -1,0 +1,45 @@
+{
+  "asset_type": "etf",
+  "decision": "blocked",
+  "minimum_required_fields": [
+    "fund_category",
+    "tracking_index",
+    "issuer",
+    "expense_ratio",
+    "aum",
+    "nav",
+    "premium_discount",
+    "tracking_difference",
+    "distribution_frequency",
+    "constituent_count",
+    "top_holdings"
+  ],
+  "approved_source": null,
+  "candidate_sources": [
+    {
+      "coverage": "TW",
+      "name": "TWSE official ETF disclosures",
+      "status": "research",
+      "notes": "Potential source for Taiwan ETF profile, NAV, holdings, and disclosure data. Requires endpoint/license confirmation before ingestion."
+    },
+    {
+      "coverage": "US/global",
+      "name": "Issuer official ETF pages",
+      "status": "research",
+      "notes": "Potential source for issuer-level holdings and fund metadata. Requires per-issuer format and license review."
+    },
+    {
+      "coverage": "US/global",
+      "name": "Paid market data vendor",
+      "status": "research",
+      "notes": "Potential long-term source for normalized ETF data. Requires cost, terms, redistribution, and reliability review."
+    }
+  ],
+  "blockers": [
+    "no-approved-etf-source",
+    "no-license-review",
+    "no-ingestion-validation",
+    "no-etf-scoring-review",
+    "no-etf-legal-disclosure-review"
+  ]
+}

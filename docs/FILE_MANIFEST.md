@@ -68,6 +68,7 @@ src/lib/supabase/database.types.ts
 ```text
 data/seeds/stocks.seed.json
 data/seeds/markets.seed.json
+data/source-gates/etf-source-gate.json
 supabase/migrations/0001_initial_schema.sql
 supabase/migrations/0002_etf_data_model.sql
 supabase/bootstrap.sql
@@ -85,6 +86,7 @@ scripts/validate-supabase-bootstrap.mjs
 scripts/review-supabase-market-trust.mjs
 scripts/check-asset-type-policy.mjs
 scripts/check-supabase-etf-schema.mjs
+scripts/check-etf-source-gate.mjs
 scripts/README.md
 ```
 
@@ -108,6 +110,7 @@ docs/reviews/CP1_PUBLIC_RELEASE_GATE_2026-05-29.md
 docs/reviews/CP1_ETF_DATA_MODEL_2026-05-29.md
 docs/reviews/CP1_ETF_SCHEMA_2026-05-29.md
 docs/reviews/CP1_ETF_SCHEMA_ROLLOUT_GUARD_2026-05-29.md
+docs/reviews/CP1_ETF_SOURCE_SELECTION_GATE_2026-05-29.md
 docs/MIGRATION_CHECKLIST.md
 docs/FILE_MANIFEST.md
 docs/MVP_TASKS.md
@@ -121,6 +124,7 @@ docs/SUPABASE_EXECUTION_RUNBOOK.md
 docs/DATA_SCHEMA.md
 docs/ETF_DATA_MODEL.md
 docs/ETF_SCHEMA.md
+docs/ETF_SOURCE_SELECTION.md
 docs/DATA_FRESHNESS_UI.md
 docs/DATA_SOURCES.md
 docs/INGESTION_PLAN.md
