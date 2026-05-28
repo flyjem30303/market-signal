@@ -47,6 +47,13 @@ Preferred sample period:
 If data cannot start by 2020-01-01, the report must state why and lower the
 confidence level.
 
+Current source-depth validation:
+
+```text
+docs/CP3_TW_STOCK_SOURCE_DEPTH_VALIDATION.md
+npm run check:cp3-tw-stock-source-depth
+```
+
 ## Trading-Day Alignment
 
 Backtest calculations must:
