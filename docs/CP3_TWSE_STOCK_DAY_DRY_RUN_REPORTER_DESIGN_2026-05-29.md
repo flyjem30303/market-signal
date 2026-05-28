@@ -220,3 +220,8 @@ do not write Supabase
 do not commit raw market data
 ```
 
+Controlled dry-run report:
+
+```text
+docs/reviews/CP3_TWSE_STOCK_DAY_CONTROLLED_DRY_RUN_2026-05-29.md
+```
