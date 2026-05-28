@@ -83,6 +83,7 @@ D:\指數燈號
 - 已建立資料 freshness / source attribution UI 規格，作為未來切換 Supabase UI 前的必要條件。
 - 已新增資料 freshness read model 與 UI strip，晨報與股票頁會明確顯示目前為模擬資料。
 - 已新增 Supabase `data_runs` freshness snapshot helper，未來可由真實資料庫紀錄生成資料狀態。
+- 已新增 Supabase freshness repository，可讀取 `market_exchanges` 與 `data_runs` 生成資料 freshness snapshot，但尚未接入前台 UI。
 
 ## 下一次開工建議
 
