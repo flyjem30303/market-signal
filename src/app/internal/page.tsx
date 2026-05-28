@@ -28,6 +28,12 @@ export default function InternalDiagnosticsHome({ searchParams }: InternalDiagno
       status: "internal-only"
     },
     {
+      description: "Inspect the CP3 Taiwan stock dry-run report while keeping scoreSource mock and public eligibility false.",
+      href: withToken("/internal/cp3-dry-run?symbol=2330", searchParams.token),
+      name: "CP3 Dry Run",
+      status: "internal-only"
+    },
+    {
       description: "Review ETF source scores, field gaps, and role-owned blockers before ingestion.",
       href: withToken("/internal/etf-source-readiness", searchParams.token),
       name: "ETF Source Readiness",

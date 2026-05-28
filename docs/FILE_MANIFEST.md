@@ -27,6 +27,7 @@ src/app/globals.css
 src/app/briefing/page.tsx
 src/app/stocks/[symbol]/page.tsx
 src/app/internal/page.tsx
+src/app/internal/cp3-dry-run/page.tsx
 src/app/internal/etf-source-readiness/page.tsx
 src/app/weekly/page.tsx
 src/app/methodology/page.tsx
@@ -183,6 +184,7 @@ docs/reviews/CP3_TW_STOCK_BACKTEST_METHOD_2026-05-29.md
 docs/reviews/CP3_TW_STOCK_INPUT_READINESS_2026-05-29.md
 docs/reviews/CP3_TW_STOCK_DRY_RUN_CONTRACT_2026-05-29.md
 docs/reviews/CP3_TW_STOCK_DRY_RUN_REPORTER_2026-05-29.md
+docs/reviews/CP3_TW_STOCK_DRY_RUN_INTERNAL_VIEW_2026-05-29.md
 docs/CP1_TO_CP2_RELEASE_CHECKLIST.md
 docs/DATA_FRESHNESS_UI.md
 docs/DATA_SOURCES.md

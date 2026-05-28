@@ -14,6 +14,7 @@ const publicFiles = [
 ];
 const requiredInternalFiles = [
   "src/app/internal/page.tsx",
+  "src/app/internal/cp3-dry-run/page.tsx",
   "src/app/internal/raw-market-preview/page.tsx",
   "src/app/internal/etf-source-readiness/page.tsx"
 ];
