@@ -26,6 +26,7 @@ src/app/page.tsx
 src/app/globals.css
 src/app/briefing/page.tsx
 src/app/stocks/[symbol]/page.tsx
+src/app/internal/etf-source-readiness/page.tsx
 src/app/weekly/page.tsx
 src/app/methodology/page.tsx
 src/app/disclaimer/page.tsx
@@ -57,6 +58,7 @@ src/lib/repositories/mock-market-signal-repository.ts
 src/lib/repositories/supabase-market-signal-repository.ts
 src/lib/repositories/market-signal-repository.ts
 src/lib/asset-type-policy.ts
+src/lib/etf-source-readiness.ts
 src/lib/public-release-gate.ts
 src/lib/supabase/client.ts
 src/lib/supabase/server.ts
@@ -118,6 +120,7 @@ docs/reviews/CP1_ETF_SOURCE_RESEARCH_2026-05-29.md
 docs/reviews/CP1_ETF_SOURCE_READINESS_SCORE_2026-05-29.md
 docs/reviews/CP1_ETF_SOURCE_DUE_DILIGENCE_2026-05-29.md
 docs/reviews/CP1_ETF_SOURCE_REPORTING_2026-05-29.md
+docs/reviews/CP1_ETF_SOURCE_INTERNAL_VIEW_2026-05-29.md
 docs/MIGRATION_CHECKLIST.md
 docs/FILE_MANIFEST.md
 docs/MVP_TASKS.md

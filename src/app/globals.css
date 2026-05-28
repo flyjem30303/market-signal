@@ -902,6 +902,26 @@ input[type="date"] {
   font-size: 18px;
 }
 
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 14px;
+  overflow-wrap: anywhere;
+}
+
+.data-table th,
+.data-table td {
+  border-bottom: 1px solid var(--line);
+  padding: 12px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.data-table th {
+  color: var(--muted);
+  font-size: 13px;
+}
+
 .technical-panel {
   display: grid;
   gap: 14px;

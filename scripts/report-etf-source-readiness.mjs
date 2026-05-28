@@ -1,40 +1,11 @@
 import fs from "node:fs";
+import { buildEtfSourceReadinessSummary } from "../src/lib/etf-source-readiness.ts";
 
 const sourceGatePath = "data/source-gates/etf-source-gate.json";
 const dueDiligencePath = "data/source-gates/etf-source-due-diligence.json";
-const requiredFields = [
-  "fund_category",
-  "tracking_index",
-  "issuer",
-  "expense_ratio",
-  "aum",
-  "nav",
-  "premium_discount",
-  "tracking_difference",
-  "distribution_frequency",
-  "constituent_count",
-  "top_holdings"
-];
 
 function readJson(path) {
   return JSON.parse(fs.readFileSync(path, "utf8"));
-}
-
-function scoreCandidate(source) {
-  const fieldCoverage = requiredFields.filter((field) => source.field_coverage?.includes(field));
-  const fieldScore = Math.round((fieldCoverage.length / requiredFields.length) * 55);
-  const trustScore = source.source_type === "official" ? 15 : source.source_type === "vendor" ? 10 : 8;
-  const evidenceScore = Math.min(10, (source.evidence_urls?.length ?? 0) * 3);
-  const automationScore = source.automation_status === "confirmed" ? 10 : source.automation_status === "unknown" ? 2 : 0;
-  const legalScore = source.license_status === "approved" ? 10 : source.license_status === "unknown" ? 0 : -10;
-  const readinessScore = Math.max(0, Math.min(100, fieldScore + trustScore + evidenceScore + automationScore + legalScore));
-
-  return {
-    ...source,
-    covered_fields: fieldCoverage,
-    field_coverage_ratio: `${fieldCoverage.length}/${requiredFields.length}`,
-    readiness_score: readinessScore
-  };
 }
 
 function list(items) {
@@ -50,16 +21,7 @@ function table(rows) {
 
 const sourceGate = readJson(sourceGatePath);
 const dueDiligence = readJson(dueDiligencePath);
-const candidateScores = (sourceGate.candidate_sources ?? []).map(scoreCandidate).sort((a, b) => b.readiness_score - a.readiness_score);
-const coveredByCandidates = [
-  ...new Set((sourceGate.candidate_sources ?? []).flatMap((source) => source.field_coverage ?? []).filter(Boolean))
-].sort();
-const candidateCoverageGaps = requiredFields.filter((field) => !coveredByCandidates.includes(field));
-const checks = dueDiligence.checks ?? [];
-const openChecks = checks.filter((check) => check.status !== "approved");
-const ingestionBlockers = openChecks.filter((check) => check.required_for === "ingestion").map((check) => check.id);
-const scoringBlockers = openChecks.filter((check) => check.required_for === "scoring").map((check) => check.id);
-const publicReleaseBlockers = openChecks.filter((check) => check.required_for === "public-release").map((check) => check.id);
+const summary = buildEtfSourceReadinessSummary({ dueDiligence, sourceGate });
 const generatedAt = new Intl.DateTimeFormat("sv-SE", {
   dateStyle: "short",
   timeStyle: "medium",
@@ -80,11 +42,11 @@ No ETF source is approved. ETF ingestion, ETF scoring, and public ETF interpreta
 
 ## Candidate Scores
 
-${table(candidateScores)}
+${table(summary.candidateScores)}
 
 ## Candidate Coverage Gaps
 
-${list(candidateCoverageGaps)}
+${list(summary.candidateCoverageGaps)}
 
 ## Priority Candidate
 
@@ -94,15 +56,15 @@ ${dueDiligence.priority_candidate}
 
 ## Ingestion Blockers
 
-${list(ingestionBlockers)}
+${list(summary.ingestionBlockers)}
 
 ## Scoring Blockers
 
-${list(scoringBlockers)}
+${list(summary.scoringBlockers)}
 
 ## Public Release Blockers
 
-${list(publicReleaseBlockers)}
+${list(summary.publicReleaseBlockers)}
 
 ## Next Allowed Work
 

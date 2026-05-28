@@ -120,6 +120,12 @@ Generate a CEO-readable report with:
 npm run report:etf-source
 ```
 
+Internal browser view:
+
+```text
+/internal/etf-source-readiness?token=your-local-token
+```
+
 Current expected status:
 
 ```text
