@@ -178,6 +178,16 @@ const checks = [
     name: "cp3-twse-stock-day-staging-migration-execution-approval-gate"
   },
   {
+    command: [node, "scripts/check-cp3-twse-stock-day-staging-migration-execution-readiness.mjs"],
+    expectStatus: "ok",
+    name: "cp3-twse-stock-day-staging-migration-execution-readiness"
+  },
+  {
+    command: [node, "scripts/check-cp3-twse-stock-day-staging-post-migration-validation-rollback-plan.mjs"],
+    expectStatus: "ok",
+    name: "cp3-twse-stock-day-staging-post-migration-validation-rollback-plan"
+  },
+  {
     command: [node, "scripts/check-cp3-tw-stock-model-candidates.mjs"],
     expectStatus: "ok",
     name: "cp3-tw-stock-model"
