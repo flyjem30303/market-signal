@@ -72,6 +72,12 @@ define backtest methodology
 keep public scoreSource as mock
 ```
 
+Current candidate documents:
+
+```text
+docs/CP3_TW_STOCK_MODEL_CANDIDATES.md
+```
+
 Not allowed:
 
 ```text

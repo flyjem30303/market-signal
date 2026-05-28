@@ -33,6 +33,11 @@ const checks = [
     name: "cp3-model-credibility"
   },
   {
+    command: [node, "scripts/check-cp3-tw-stock-model-candidates.mjs"],
+    expectStatus: "ok",
+    name: "cp3-tw-stock-model"
+  },
+  {
     command: [node, "scripts/check-score-source-ui.mjs"],
     expectStatus: "ok",
     name: "score-source-ui"
