@@ -76,10 +76,13 @@ etf_daily_metrics
 etf_holdings
 ```
 
-Remote Supabase may still need:
+Remote Supabase ETF schema is validated:
 
 ```text
-supabase/migrations/0002_etf_data_model.sql
+etf_profiles: exists, 0 rows
+etf_daily_metrics: exists, 0 rows
+etf_holdings: exists, 0 rows
+0050 / 006208: classified as ETF
 ```
 
 ETF source readiness:
@@ -138,7 +141,7 @@ E / CEO:
 Apply one of these controlled actions:
 
 ```text
-Option A: Ask user to apply 0002_etf_data_model.sql in Supabase, then run db:etf-schema.
+Option A: Continue TWSE / ETFortune endpoint research for ETF source due diligence.
 Option B: Continue TWSE / ETFortune endpoint research for ETF source due diligence.
 Option C: Add a docs-first release checklist for moving from CP1 to CP2.
 ```
@@ -146,6 +149,5 @@ Option C: Add a docs-first release checklist for moving from CP1 to CP2.
 CEO recommendation:
 
 ```text
-Option A if the user is ready to touch Supabase.
-Option C if the user wants to keep coding without remote database changes.
+Option A, because remote ETF schema is now validated.
 ```

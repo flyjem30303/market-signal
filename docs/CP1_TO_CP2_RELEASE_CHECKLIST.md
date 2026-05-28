@@ -24,7 +24,7 @@ CP1 may continue internal diagnostics and source due diligence. CP2 is not open.
 - [x] Supabase freshness validated.
 - [x] Supabase raw market diagnostics validated.
 - [x] Public source remains `NEXT_PUBLIC_DATA_SOURCE=mock`.
-- [ ] Remote Supabase ETF schema validated, if ETF work is in scope.
+- [x] Remote Supabase ETF schema validated, if ETF work is in scope.
 - [ ] Public Supabase repository contract approved.
 
 ### Model And Scores

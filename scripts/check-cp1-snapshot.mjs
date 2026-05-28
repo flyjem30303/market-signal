@@ -8,9 +8,10 @@ const requiredPhrases = [
   "DATA_FRESHNESS_SOURCE=supabase",
   "npm run check:review-gates -> ok",
   "ETF source gate -> blocked, expected",
-  "supabase/migrations/0002_etf_data_model.sql",
+  "Remote Supabase ETF schema is validated",
+  "etf_profiles: exists, 0 rows",
   "Option A",
-  "Option C"
+  "remote ETF schema is now validated"
 ];
 
 const content = fs.readFileSync(snapshotPath, "utf8");
