@@ -83,6 +83,11 @@ const checks = [
     name: "cp3-twse-stock-day-metadata-probe"
   },
   {
+    command: [node, "scripts/check-cp3-twse-stock-day-source-depth-smoke-design.mjs"],
+    expectStatus: "ok",
+    name: "cp3-twse-stock-day-source-depth-smoke-design"
+  },
+  {
     command: [node, "scripts/check-cp3-tw-stock-model-candidates.mjs"],
     expectStatus: "ok",
     name: "cp3-tw-stock-model"

@@ -168,3 +168,9 @@ Metadata-only probe report:
 ```text
 docs/reviews/CP3_TWSE_STOCK_DAY_METADATA_PROBE_2026-05-29.md
 ```
+
+Source-depth smoke design:
+
+```text
+docs/CP3_TWSE_STOCK_DAY_SOURCE_DEPTH_SMOKE_DESIGN_2026-05-29.md
+```

@@ -69,3 +69,9 @@ Historical source research:
 ```text
 docs/CP3_TW_STOCK_HISTORICAL_SOURCE_RESEARCH_2026-05-29.md
 ```
+
+TWSE STOCK_DAY source-depth smoke design:
+
+```text
+docs/CP3_TWSE_STOCK_DAY_SOURCE_DEPTH_SMOKE_DESIGN_2026-05-29.md
+```
