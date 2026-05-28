@@ -104,6 +104,54 @@ export type Database = {
         };
         Update: Partial<Database["public"]["Tables"]["stocks"]["Insert"]>;
       };
+      daily_prices: {
+        Row: {
+          close: number | null;
+          created_at: string;
+          high: number | null;
+          low: number | null;
+          open: number | null;
+          stock_id: string;
+          trade_date: string;
+          turnover: number | null;
+          volume: number | null;
+        };
+        Insert: {
+          close?: number | null;
+          created_at?: string;
+          high?: number | null;
+          low?: number | null;
+          open?: number | null;
+          stock_id: string;
+          trade_date: string;
+          turnover?: number | null;
+          volume?: number | null;
+        };
+        Update: Partial<Database["public"]["Tables"]["daily_prices"]["Insert"]>;
+      };
+      daily_fundamentals: {
+        Row: {
+          created_at: string;
+          dividend_yield: number | null;
+          eps_ttm: number | null;
+          pb: number | null;
+          pe: number | null;
+          revenue_yoy: number | null;
+          stock_id: string;
+          trade_date: string;
+        };
+        Insert: {
+          created_at?: string;
+          dividend_yield?: number | null;
+          eps_ttm?: number | null;
+          pb?: number | null;
+          pe?: number | null;
+          revenue_yoy?: number | null;
+          stock_id: string;
+          trade_date: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["daily_fundamentals"]["Insert"]>;
+      };
       daily_scores: {
         Row: {
           composite_score: number;

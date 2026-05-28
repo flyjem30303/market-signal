@@ -78,6 +78,7 @@
 - [x] 建立 Supabase freshness repository 讀取 `data_runs` / `market_exchanges`。
 - [x] 建立 Supabase freshness smoke test 指令。
 - [x] 在晨報與股票頁加入可切換 Supabase 的資料 freshness 顯示。
+- [x] 建立 Supabase raw market read model / repository contract。
 
 ## H. 投資模型可信度
 

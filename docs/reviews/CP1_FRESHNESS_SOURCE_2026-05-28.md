@@ -146,6 +146,12 @@ Approved next slice:
 Define Supabase raw market read model and repository contract.
 ```
 
+Implementation note:
+
+- Completed: Supabase raw market read model and repository contract.
+- Still pending: smoke test / server loader that exercises the contract against
+  a real Supabase project.
+
 Not approved yet:
 
 ```text
