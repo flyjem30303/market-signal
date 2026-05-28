@@ -49,6 +49,8 @@
     "check:cp3-twse-stock-day-staging-post-migration-validation-rollback-plan": "node scripts/check-cp3-twse-stock-day-staging-post-migration-validation-rollback-plan.mjs",
     "check:cp3-twse-stock-day-staging-read-only-validation-script-design": "node scripts/check-cp3-twse-stock-day-staging-read-only-validation-script-design.mjs",
     "check:cp3-twse-stock-day-staging-read-only-validation-script-approval-gate": "node scripts/check-cp3-twse-stock-day-staging-read-only-validation-script-approval-gate.mjs",
+    "check:twse-stock-day-staging-readonly-validator-safety": "node scripts/check-twse-stock-day-staging-readonly-validator-safety.mjs",
+    "check:cp3-twse-stock-day-staging-read-only-validator-draft-review": "node scripts/check-cp3-twse-stock-day-staging-read-only-validator-draft-review.mjs",
     "check:cp3-tw-stock-source-depth": "node scripts/check-cp3-tw-stock-source-depth.mjs",
     "check:cp3-tw-stock-backtest": "node scripts/check-cp3-tw-stock-backtest-method.mjs",
     "check:cp3-tw-stock-dry-run": "node scripts/check-cp3-tw-stock-dry-run-contract.mjs",
