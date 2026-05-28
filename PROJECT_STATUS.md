@@ -85,6 +85,7 @@ D:\指數燈號
 - 已新增 Supabase `data_runs` freshness snapshot helper，未來可由真實資料庫紀錄生成資料狀態。
 - 已新增 Supabase freshness repository，可讀取 `market_exchanges` 與 `data_runs` 生成資料 freshness snapshot，但尚未接入前台 UI。
 - 已新增 `npm run db:freshness` smoke test，供 `.env.local` 完成後驗證 Supabase freshness 讀取路徑。
+- 已新增 `DATA_FRESHNESS_SOURCE`，讓晨報與股票頁可獨立切換 freshness 來源；主資料源仍維持 `NEXT_PUBLIC_DATA_SOURCE=mock`。
 
 ## 下一次開工建議
 

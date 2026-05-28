@@ -12,11 +12,12 @@ import {
   type SignalSnapshot
 } from "@/lib/signal-model";
 import { buildQuoteSnapshot, type QuoteSnapshot } from "@/lib/market-data";
-import { buildMockDataFreshnessSnapshot } from "@/lib/data-freshness";
+import { buildMockDataFreshnessSnapshot, type DataFreshnessSnapshot } from "@/lib/data-freshness";
 import { getMarketSignalRepository } from "@/lib/repositories/market-signal-repository";
 import { trackEvent } from "@/lib/tracking";
 
 type DashboardShellProps = {
+  freshnessSnapshot?: DataFreshnessSnapshot;
   initialSymbol: string;
   includeSeoContent?: boolean;
 };
@@ -26,7 +27,7 @@ type ChartMode = "health" | "risk" | "composite";
 
 const today = "2026-05-28";
 
-export function DashboardShell({ initialSymbol, includeSeoContent = false }: DashboardShellProps) {
+export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoContent = false }: DashboardShellProps) {
   const [symbol, setSymbol] = useState(initialSymbol);
   const [query, setQuery] = useState("");
   const [favorites, setFavorites] = useState<string[]>([]);
@@ -36,7 +37,7 @@ export function DashboardShell({ initialSymbol, includeSeoContent = false }: Das
   const [endIndex, setEndIndex] = useState(0);
   const [newsDate, setNewsDate] = useState(today);
   const repository = useMemo(() => getMarketSignalRepository(), []);
-  const freshness = useMemo(() => buildMockDataFreshnessSnapshot(), []);
+  const freshness = useMemo(() => freshnessSnapshot ?? buildMockDataFreshnessSnapshot(), [freshnessSnapshot]);
   const availableAssets = useMemo(() => repository.getAssets(), [repository]);
   const selected = repository.getAssetBySymbol(symbol) ?? availableAssets[0];
   const snapshot = useMemo(() => repository.getSnapshot(selected.symbol, today)!, [repository, selected.symbol]);

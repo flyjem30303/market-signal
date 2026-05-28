@@ -89,6 +89,7 @@ NEXT_PUBLIC_SUPABASE_URL=your-project-url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
 SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
 NEXT_PUBLIC_DATA_SOURCE=mock
+DATA_FRESHNESS_SOURCE=mock
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
 ```
 
@@ -96,6 +97,7 @@ Important:
 
 - `.env.local` must not be committed.
 - Keep `NEXT_PUBLIC_DATA_SOURCE=mock`.
+- Keep `DATA_FRESHNESS_SOURCE=mock` until `npm run db:freshness` passes.
 - The service role key is only for server-side scripts such as validation.
 
 ## Step 5: Validate Bootstrap
@@ -162,6 +164,12 @@ Do not change this yet:
 
 ```text
 NEXT_PUBLIC_DATA_SOURCE=mock
+```
+
+The freshness source should also remain mock until the smoke test passes:
+
+```text
+DATA_FRESHNESS_SOURCE=mock
 ```
 
 The UI must not switch to Supabase until a future checkpoint approves:

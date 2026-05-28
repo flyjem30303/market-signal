@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { PageViewTracker } from "@/components/page-view-tracker";
-import { buildMockDataFreshnessSnapshot } from "@/lib/data-freshness";
+import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
 import { getMarketSignalRepository } from "@/lib/repositories/market-signal-repository";
 import type { SignalSnapshot } from "@/lib/signal-model";
 import { signalColor } from "@/lib/signal-model";
@@ -11,9 +11,9 @@ export const metadata: Metadata = {
   description: "每天快速查看台股市場健康度、風險升溫標的、ETF 節奏與 AI 半導體觀察。"
 };
 
-export default function BriefingPage() {
+export default async function BriefingPage() {
   const repository = getMarketSignalRepository();
-  const freshness = buildMockDataFreshnessSnapshot();
+  const freshness = await getDataFreshnessSnapshot();
   const snapshots = repository
     .getAssets()
     .map((asset) => repository.getSnapshot(asset.symbol, "2026-05-28"))
