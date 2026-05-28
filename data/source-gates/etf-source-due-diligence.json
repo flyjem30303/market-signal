@@ -12,6 +12,7 @@
       "evidence_required": [
         "endpoint URLs",
         "sample response",
+        "issuer fixed JSON URL discovery method",
         "date parameter behavior",
         "rate-limit or access note"
       ]

@@ -23,7 +23,7 @@ license status: up to 10
 Current scores:
 
 ```text
-TWSE official ETF disclosures: 61
+TWSE official ETF disclosures: 62
 Issuer official ETF pages: 31
 Paid market data vendor: 12
 ```

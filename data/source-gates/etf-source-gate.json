@@ -22,7 +22,8 @@
       "evidence_urls": [
         "https://www.twse.com.tw/en/page/ETF/daily.html",
         "https://www.twse.com.tw/en/ETFortune-institute/index",
-        "https://www.twse.com.tw/en/ETFortune-institute/etfInfo/009804"
+        "https://www.twse.com.tw/en/ETFortune-institute/etfInfo/009804",
+        "https://dsp.twse.com.tw/public/static/downloads/tradingDepartment/ETF%20%E7%94%B3%E8%B4%96%E8%B3%87%E8%A8%8A%E5%8F%8A%E5%8D%B3%E6%99%82%E6%B7%A8%E5%80%BC%E6%8F%AD%E9%9C%B2%E5%B0%88%E5%8D%80%E4%BB%8B%E6%8E%A5%E6%A0%BC%E5%BC%8F%E8%AA%AA%E6%98%8E_20250109142554.pdf"
       ],
       "field_coverage": [
         "fund_category",
@@ -31,7 +32,10 @@
         "aum",
         "nav",
         "premium_discount",
-        "distribution_frequency"
+        "distribution_frequency",
+        "daily_close_price",
+        "previous_nav",
+        "data_timestamp"
       ],
       "gaps": [
         "expense_ratio",
@@ -39,6 +43,7 @@
         "constituent_count",
         "top_holdings",
         "license-review",
+        "issuer-fixed-json-url-discovery",
         "automation-endpoint-confirmation"
       ],
       "license_status": "unknown",
