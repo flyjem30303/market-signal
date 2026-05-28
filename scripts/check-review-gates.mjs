@@ -43,6 +43,11 @@ const checks = [
     name: "cp3-tw-stock-historical-plan"
   },
   {
+    command: [node, "scripts/check-cp3-tw-stock-historical-source-research.mjs"],
+    expectStatus: "ok",
+    name: "cp3-tw-stock-historical-source-research"
+  },
+  {
     command: [node, "scripts/check-cp3-tw-stock-model-candidates.mjs"],
     expectStatus: "ok",
     name: "cp3-tw-stock-model"

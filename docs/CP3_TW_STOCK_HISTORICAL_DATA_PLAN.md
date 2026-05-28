@@ -128,6 +128,12 @@ document candidate endpoints and terms
 do not ingest yet
 ```
 
+Source research record:
+
+```text
+docs/CP3_TW_STOCK_HISTORICAL_SOURCE_RESEARCH_2026-05-29.md
+```
+
 ## Not Allowed
 
 ```text

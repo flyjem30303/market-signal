@@ -63,3 +63,9 @@ Historical data plan:
 ```text
 docs/CP3_TW_STOCK_HISTORICAL_DATA_PLAN.md
 ```
+
+Historical source research:
+
+```text
+docs/CP3_TW_STOCK_HISTORICAL_SOURCE_RESEARCH_2026-05-29.md
+```

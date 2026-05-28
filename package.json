@@ -19,6 +19,7 @@
     "check:cp1-to-cp2": "node scripts/check-cp1-to-cp2.mjs",
     "check:cp3-model-credibility": "node scripts/check-cp3-model-credibility.mjs",
     "check:cp3-tw-stock-historical-plan": "node scripts/check-cp3-tw-stock-historical-plan.mjs",
+    "check:cp3-tw-stock-historical-source-research": "node scripts/check-cp3-tw-stock-historical-source-research.mjs",
     "check:cp3-tw-stock-source-depth": "node scripts/check-cp3-tw-stock-source-depth.mjs",
     "check:cp3-tw-stock-backtest": "node scripts/check-cp3-tw-stock-backtest-method.mjs",
     "check:cp3-tw-stock-dry-run": "node scripts/check-cp3-tw-stock-dry-run-contract.mjs",
