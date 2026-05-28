@@ -44,6 +44,12 @@ For mock data, the UI must say:
 目前為模擬資料
 ```
 
+The strip should also include a short state description, for example:
+
+```text
+狀態說明：資料完整，可作為頁面狀態參考。
+```
+
 ## Status Labels
 
 Use these user-facing labels:
@@ -65,6 +71,9 @@ Internal mapping:
 | stale | 延遲 | Data exists but is older than expected |
 | mock | 模擬 | Data is synthetic or local mock |
 | unavailable | 不可用 | Required data cannot be loaded |
+
+The UI should show a short state description beside the labels, especially for
+`partial`, `stale`, `mock`, and `unavailable`.
 
 ## Placement
 
@@ -111,6 +120,7 @@ F / UIUX guidance:
 - Do not make the strip look like an advertisement or CTA.
 - Keep a lightweight score-source note near interpreted score cards while
   scores remain mock or mixed.
+- Keep state descriptions short enough to wrap cleanly on mobile.
 
 ## Legal Requirements
 

@@ -3,6 +3,7 @@ export type DataFreshnessState = "complete" | "partial" | "stale" | "mock" | "un
 export type DataFreshnessSnapshot = {
   asOfDate: string;
   currency: string;
+  description: string;
   isMock: boolean;
   market: string;
   scoreSource: "mock" | "real" | "mixed" | "unavailable";
@@ -35,10 +36,19 @@ const stateLabels: Record<DataFreshnessState, string> = {
   unavailable: "不可用"
 };
 
+const stateDescriptions: Record<DataFreshnessState, string> = {
+  complete: "資料完整，可作為頁面狀態參考。",
+  partial: "部分資料缺漏，分數與解讀需保守看待。",
+  stale: "資料可能延遲，請避免當成即時狀態。",
+  mock: "目前為模擬資料，用於產品體驗驗證。",
+  unavailable: "資料暫時無法取得，請勿依此做投資判斷。"
+};
+
 export function buildMockDataFreshnessSnapshot(): DataFreshnessSnapshot {
   return {
     asOfDate: "2026-05-28",
     currency: "TWD",
+    description: stateDescriptions.mock,
     isMock: true,
     market: "TWSE",
     scoreSource: "mock",
@@ -65,6 +75,7 @@ export function buildSupabaseDataFreshnessSnapshot({
     return {
       asOfDate: "-",
       currency: market.currency,
+      description: stateDescriptions.unavailable,
       isMock: false,
       market: market.exchange,
       scoreSource: "mock",
@@ -85,6 +96,7 @@ export function buildSupabaseDataFreshnessSnapshot({
   return {
     asOfDate: latestDate ?? "-",
     currency: market.currency,
+    description: stateDescriptions[state],
     isMock: false,
     market: market.exchange,
     scoreSource: "mock",

@@ -14,6 +14,7 @@ export function DataFreshnessStrip({ freshness }: DataFreshnessStripProps) {
       <span>幣別：{freshness.currency}</span>
       <span>時區：{freshness.timezone}</span>
       <span className={`freshness-score-source ${freshness.scoreSource}`}>分數來源：{freshness.scoreSourceLabel}</span>
+      <span className="freshness-description">{freshness.description}</span>
     </aside>
   );
 }

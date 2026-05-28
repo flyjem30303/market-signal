@@ -173,6 +173,13 @@ select {
   color: var(--muted);
 }
 
+.freshness-strip .freshness-description {
+  background: transparent;
+  color: var(--muted);
+  flex: 1 1 260px;
+  font-weight: 650;
+}
+
 .freshness-strip .freshness-score-source.mock,
 .freshness-strip .freshness-score-source.mixed {
   background: #fff5df;

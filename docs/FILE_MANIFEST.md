@@ -97,6 +97,7 @@ scripts/report-etf-mis-smoke.mjs
 scripts/check-internal-route-exposure.mjs
 scripts/check-cp1-snapshot.mjs
 scripts/check-cp1-to-cp2.mjs
+scripts/check-freshness-state-ui.mjs
 scripts/check-score-source-ui.mjs
 scripts/check-review-gates.mjs
 scripts/README.md
@@ -163,6 +164,7 @@ docs/reviews/CP1_ETF_MIS_LEGAL_FAIR_USE_2026-05-29.md
 docs/reviews/CP1_SCORE_SOURCE_FRESHNESS_STRIP_2026-05-29.md
 docs/reviews/CP1_SCORE_AREA_MODEL_STATUS_2026-05-29.md
 docs/reviews/CP1_SCORE_SOURCE_UI_GUARD_2026-05-29.md
+docs/reviews/CP1_FRESHNESS_STATE_COPY_2026-05-29.md
 docs/CP1_TO_CP2_RELEASE_CHECKLIST.md
 docs/DATA_FRESHNESS_UI.md
 docs/DATA_SOURCES.md

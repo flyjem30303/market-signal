@@ -58,7 +58,7 @@ CP1 may continue internal diagnostics and source due diligence. CP2 is not open.
 
 - [x] Internal diagnostics console exists.
 - [ ] Public UI copy for real raw data vs model interpretation approved.
-- [ ] Public UI state for stale / partial / unavailable real data approved.
+- [x] Public UI state for stale / partial / unavailable real data approved.
 - [ ] SEO expansion reviewed by B / Marketing and D / Legal.
 
 ## Current Blocking Gates

@@ -33,6 +33,11 @@ const checks = [
     name: "score-source-ui"
   },
   {
+    command: [node, "scripts/check-freshness-state-ui.mjs"],
+    expectStatus: "ok",
+    name: "freshness-state-ui"
+  },
+  {
     command: [node, "scripts/check-etf-source-gate.mjs"],
     expectStatus: "blocked",
     name: "etf-source-gate"
