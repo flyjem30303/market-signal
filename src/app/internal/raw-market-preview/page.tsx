@@ -59,6 +59,8 @@ export default async function RawMarketPreviewPage({ searchParams }: RawMarketPr
           <KeyValue label="Raw data source" value={mixed?.rawDataSource ?? "unavailable"} />
           <KeyValue label="Score source" value={mixed?.scoreSource ?? "unavailable"} />
           <KeyValue label="Quality label" value={quality.qualityLabel} />
+          <KeyValue label="Quality score" value={String(quality.qualityScore)} />
+          <KeyValue label="Public eligible" value={String(quality.scoreCanBeShownPublicly)} />
         </article>
 
         <article className="panel">

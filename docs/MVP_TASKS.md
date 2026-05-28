@@ -87,6 +87,8 @@
 - [x] 完成 CP1 mixed adapter preview review。
 - [x] 建立預設關閉的 internal raw market preview page。
 - [x] 建立 mixed data quality summary / caveat copy。
+- [x] 完成 CP1 data-quality scoring review。
+- [x] 建立 internal-only mixed data quality score helper。
 
 ## H. 投資模型可信度
 

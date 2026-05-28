@@ -13,6 +13,7 @@ export type MixedDataQualitySummary = {
   caveats: DataQualityCaveat[];
   legalCaveat: string;
   qualityLabel: "internal-only" | "partial" | "unavailable";
+  qualityScore: number;
   scoreCanBeShownPublicly: false;
 };
 
@@ -52,19 +53,45 @@ export function buildMixedDataQualitySummary(mixed: MixedMarketSnapshot | null):
       ],
       legalCaveat: buildLegalCaveat(),
       qualityLabel: "unavailable",
+      qualityScore: 0,
       scoreCanBeShownPublicly: false
     };
   }
 
   const caveats = mixed.warnings.map(toCaveat);
   const hasCritical = caveats.some((caveat) => caveat.severity === "critical");
+  const qualityScore = calculateInternalQualityScore({ caveats, mixed });
 
   return {
     caveats,
     legalCaveat: buildLegalCaveat(),
     qualityLabel: hasCritical ? "unavailable" : "internal-only",
+    qualityScore,
     scoreCanBeShownPublicly: false
   };
+}
+
+function calculateInternalQualityScore({
+  caveats,
+  mixed
+}: {
+  caveats: DataQualityCaveat[];
+  mixed: MixedMarketSnapshot;
+}) {
+  let score = 100;
+
+  if (mixed.rawDataSource !== "real") score -= 45;
+  if (mixed.scoreSource === "mock") score -= 35;
+  if (!mixed.quote.tradeDate) score -= 20;
+  if (mixed.quote.close === null) score -= 20;
+  if (mixed.quote.pe === null || mixed.quote.pb === null) score -= 10;
+
+  for (const caveat of caveats) {
+    if (caveat.severity === "critical") score -= 25;
+    if (caveat.severity === "warning") score -= 10;
+  }
+
+  return Math.max(0, Math.min(100, score));
 }
 
 function toCaveat(code: string): DataQualityCaveat {
