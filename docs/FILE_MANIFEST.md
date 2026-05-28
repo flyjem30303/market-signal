@@ -79,6 +79,7 @@ scripts/fetch-twse-stock-master.mjs
 scripts/fetch-twse-daily-market.mjs
 scripts/build-supabase-bootstrap.mjs
 scripts/validate-supabase-bootstrap.mjs
+scripts/review-supabase-market-trust.mjs
 scripts/README.md
 ```
 
@@ -97,6 +98,7 @@ docs/HANDOFF.md
 docs/GLOBALIZATION_STRATEGY.md
 docs/PROJECT_REVIEW_CHECKPOINTS.md
 docs/reviews/CP1_DATA_TRUST_2026-05-28.md
+docs/reviews/CP1_SUPABASE_MARKET_TRUST_REVIEW_2026-05-29.md
 docs/MIGRATION_CHECKLIST.md
 docs/FILE_MANIFEST.md
 docs/MVP_TASKS.md

@@ -15,6 +15,7 @@
     "db:preflight": "node scripts/check-supabase-preflight.mjs",
     "db:raw-market": "node --env-file=.env.local scripts/check-supabase-raw-market.mjs",
     "db:split-bootstrap": "node scripts/split-supabase-bootstrap.mjs",
+    "db:trust-review": "node --env-file=.env.local scripts/review-supabase-market-trust.mjs",
     "db:validate": "node --env-file=.env.local scripts/validate-supabase-bootstrap.mjs",
     "fetch:daily-market": "node scripts/fetch-twse-daily-market.mjs",
     "fetch:stocks": "node scripts/fetch-twse-stock-master.mjs",

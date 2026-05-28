@@ -261,7 +261,8 @@ docs/reviews/CP1_MIXED_ADAPTER_PREVIEW_2026-05-29.md
 docs/reviews/CP1_DATA_QUALITY_SCORING_2026-05-29.md
 docs/reviews/SUPABASE_BOOTSTRAP_VALIDATION_2026-05-29.md
 docs/reviews/CP1_SUPABASE_READINESS_2026-05-29.md
+docs/reviews/CP1_SUPABASE_MARKET_TRUST_REVIEW_2026-05-29.md
 ```
 
-CEO approved proceeding only to a raw Supabase market read contract. Full UI
-repository switching remains unapproved.
+CEO approved proceeding only to internal raw market preview and diagnostics.
+Full UI repository switching remains unapproved.
