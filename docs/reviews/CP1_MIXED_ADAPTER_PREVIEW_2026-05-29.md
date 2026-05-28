@@ -85,6 +85,12 @@ Approved next slice:
 Create internal mixed market preview page.
 ```
 
+Implementation note:
+
+- Completed: internal mixed market preview page.
+- Completed: mixed data quality summary and caveat copy.
+- Still pending: CEO review before true data quality scoring work.
+
 Not approved yet:
 
 ```text

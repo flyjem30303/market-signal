@@ -86,6 +86,7 @@
 - [x] 在 internal diagnostics 輸出 mixed adapter preview。
 - [x] 完成 CP1 mixed adapter preview review。
 - [x] 建立預設關閉的 internal raw market preview page。
+- [x] 建立 mixed data quality summary / caveat copy。
 
 ## H. 投資模型可信度
 

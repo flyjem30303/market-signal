@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { assertInternalDiagnosticsAccess } from "@/lib/internal-diagnostics";
+import { buildMixedDataQualitySummary } from "@/lib/mixed-data-quality";
 import { buildMixedMarketSnapshot } from "@/lib/mixed-market-adapter";
 import { getServerRawMarketOverview } from "@/lib/raw-market-loader";
 import { mockMarketSignalRepository } from "@/lib/repositories/mock-market-signal-repository";
@@ -35,6 +36,7 @@ export default async function RawMarketPreviewPage({ searchParams }: RawMarketPr
   const scoreDate = overview.snapshot?.price?.tradeDate ?? "2026-05-28";
   const score = mockMarketSignalRepository.getSnapshot(symbol, scoreDate);
   const mixed = score ? buildMixedMarketSnapshot({ raw: overview.snapshot, score }) : null;
+  const quality = buildMixedDataQualitySummary(mixed);
 
   return (
     <main className="page-shell">
@@ -56,16 +58,20 @@ export default async function RawMarketPreviewPage({ searchParams }: RawMarketPr
           <KeyValue label="Active markets" value={String(overview.activeMarkets.length)} />
           <KeyValue label="Raw data source" value={mixed?.rawDataSource ?? "unavailable"} />
           <KeyValue label="Score source" value={mixed?.scoreSource ?? "unavailable"} />
+          <KeyValue label="Quality label" value={quality.qualityLabel} />
         </article>
 
         <article className="panel">
           <p className="panel-label">Warnings</p>
           <h2>Mixed Data State</h2>
           <ul>
-            {(mixed?.warnings ?? ["snapshot-unavailable"]).map((warning) => (
-              <li key={warning}>{warning}</li>
+            {quality.caveats.map((caveat) => (
+              <li key={caveat.code}>
+                <strong>{caveat.severity}</strong> {caveat.label}: {caveat.message}
+              </li>
             ))}
           </ul>
+          <p>{quality.legalCaveat}</p>
         </article>
       </section>
 
