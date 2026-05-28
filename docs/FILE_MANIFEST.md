@@ -158,6 +158,7 @@ scripts/check-cp3-claim-to-runtime-state-mapping-role-review.mjs
 scripts/check-cp3-runtime-state-schema-draft.mjs
 scripts/check-cp3-runtime-state-schema-draft-role-review.mjs
 scripts/check-cp3-runtime-state-source-gate-draft.mjs
+scripts/check-cp3-runtime-state-source-gate-role-review.mjs
 scripts/check-cp3-non-runtime-typescript-policy-draft-approval-gate.mjs
 scripts/check-cp3-runtime-policy-draft.mjs
 scripts/check-cp3-runtime-policy-draft-role-review.mjs
@@ -247,6 +248,7 @@ docs/reviews/CP3_CLAIM_TO_RUNTIME_STATE_MAPPING_ROLE_REVIEW_2026-05-29.md
 docs/CP3_RUNTIME_STATE_SCHEMA_DRAFT_2026-05-29.md
 docs/reviews/CP3_RUNTIME_STATE_SCHEMA_DRAFT_ROLE_REVIEW_2026-05-29.md
 docs/reviews/CP3_RUNTIME_STATE_SOURCE_GATE_DRAFT_2026-05-29.md
+docs/reviews/CP3_RUNTIME_STATE_SOURCE_GATE_ROLE_REVIEW_2026-05-29.md
 docs/reviews/CP3_NON_RUNTIME_TYPESCRIPT_POLICY_DRAFT_APPROVAL_GATE_2026-05-29.md
 src/lib/cp3-runtime-policy.draft.ts
 docs/reviews/CP3_RUNTIME_POLICY_DRAFT_ROLE_REVIEW_2026-05-29.md
