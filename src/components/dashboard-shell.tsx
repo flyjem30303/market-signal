@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import type { Asset } from "@/lib/assets";
 import { StockSeoContent } from "@/components/stock-seo-content";
 import { CommercialSlot } from "@/components/commercial-slot";
+import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import {
   signalColor,
   type BacktestBucket,
@@ -11,6 +12,7 @@ import {
   type SignalSnapshot
 } from "@/lib/signal-model";
 import { buildQuoteSnapshot, type QuoteSnapshot } from "@/lib/market-data";
+import { buildMockDataFreshnessSnapshot } from "@/lib/data-freshness";
 import { getMarketSignalRepository } from "@/lib/repositories/market-signal-repository";
 import { trackEvent } from "@/lib/tracking";
 
@@ -34,6 +36,7 @@ export function DashboardShell({ initialSymbol, includeSeoContent = false }: Das
   const [endIndex, setEndIndex] = useState(0);
   const [newsDate, setNewsDate] = useState(today);
   const repository = useMemo(() => getMarketSignalRepository(), []);
+  const freshness = useMemo(() => buildMockDataFreshnessSnapshot(), []);
   const availableAssets = useMemo(() => repository.getAssets(), [repository]);
   const selected = repository.getAssetBySymbol(symbol) ?? availableAssets[0];
   const snapshot = useMemo(() => repository.getSnapshot(selected.symbol, today)!, [repository, selected.symbol]);
@@ -127,7 +130,10 @@ export function DashboardShell({ initialSymbol, includeSeoContent = false }: Das
       />
 
       {includeSeoContent && (
-        <QuoteSummary asset={selected} isFavorite={isFavorite} quote={quote} snapshot={snapshot} onFavorite={toggleFavorite} />
+        <>
+          <DataFreshnessStrip freshness={freshness} />
+          <QuoteSummary asset={selected} isFavorite={isFavorite} quote={quote} snapshot={snapshot} onFavorite={toggleFavorite} />
+        </>
       )}
 
       <nav className="tabs" aria-label="儀表板頁籤">

@@ -142,6 +142,54 @@ select {
   padding: 18px;
 }
 
+.freshness-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+  margin: 0 0 16px;
+  padding: 10px 12px;
+}
+
+.freshness-strip strong,
+.freshness-strip span {
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 750;
+  padding: 6px 9px;
+}
+
+.freshness-strip strong {
+  background: #fff5df;
+  color: var(--amber);
+}
+
+.freshness-strip span {
+  background: var(--panel-muted);
+  color: var(--muted);
+}
+
+.freshness-strip.complete strong {
+  background: #e8f5ef;
+  color: var(--green);
+}
+
+.freshness-strip.partial strong,
+.freshness-strip.stale strong,
+.freshness-strip.mock strong {
+  background: #fff5df;
+  color: var(--amber);
+}
+
+.freshness-strip.unavailable strong {
+  background: #fff1f1;
+  color: var(--red);
+}
+
 .panel h2 {
   margin-top: 0;
 }

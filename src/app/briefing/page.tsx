@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { PageViewTracker } from "@/components/page-view-tracker";
+import { buildMockDataFreshnessSnapshot } from "@/lib/data-freshness";
 import { getMarketSignalRepository } from "@/lib/repositories/market-signal-repository";
 import type { SignalSnapshot } from "@/lib/signal-model";
 import { signalColor } from "@/lib/signal-model";
@@ -11,6 +13,7 @@ export const metadata: Metadata = {
 
 export default function BriefingPage() {
   const repository = getMarketSignalRepository();
+  const freshness = buildMockDataFreshnessSnapshot();
   const snapshots = repository
     .getAssets()
     .map((asset) => repository.getSnapshot(asset.symbol, "2026-05-28"))
@@ -41,6 +44,7 @@ export default function BriefingPage() {
           <span>{market.modelVersion}</span>
         </div>
       </section>
+      <DataFreshnessStrip freshness={freshness} />
 
       <section className="briefing-summary">
         <article className="panel briefing-market-card" style={{ ["--signal" as string]: signalColor(market.signal.key) }}>
