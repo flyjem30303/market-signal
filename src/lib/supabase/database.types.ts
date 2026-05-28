@@ -185,6 +185,87 @@ export type Database = {
         };
         Update: Partial<Database["public"]["Tables"]["daily_scores"]["Insert"]>;
       };
+      etf_profiles: {
+        Row: {
+          distribution_frequency: string | null;
+          expense_ratio: number | null;
+          fund_category: string | null;
+          issuer: string | null;
+          source_name: string | null;
+          source_url: string | null;
+          stock_id: string;
+          tracking_index: string | null;
+          updated_at: string;
+        };
+        Insert: {
+          distribution_frequency?: string | null;
+          expense_ratio?: number | null;
+          fund_category?: string | null;
+          issuer?: string | null;
+          source_name?: string | null;
+          source_url?: string | null;
+          stock_id: string;
+          tracking_index?: string | null;
+          updated_at?: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["etf_profiles"]["Insert"]>;
+      };
+      etf_daily_metrics: {
+        Row: {
+          aum: number | null;
+          constituent_count: number | null;
+          created_at: string;
+          last_distribution: number | null;
+          nav: number | null;
+          premium_discount: number | null;
+          source_name: string | null;
+          source_url: string | null;
+          stock_id: string;
+          tracking_difference: number | null;
+          trade_date: string;
+        };
+        Insert: {
+          aum?: number | null;
+          constituent_count?: number | null;
+          created_at?: string;
+          last_distribution?: number | null;
+          nav?: number | null;
+          premium_discount?: number | null;
+          source_name?: string | null;
+          source_url?: string | null;
+          stock_id: string;
+          tracking_difference?: number | null;
+          trade_date: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["etf_daily_metrics"]["Insert"]>;
+      };
+      etf_holdings: {
+        Row: {
+          as_of_date: string;
+          created_at: string;
+          holding_country: string | null;
+          holding_exchange: string | null;
+          holding_name: string;
+          holding_symbol: string;
+          source_name: string | null;
+          source_url: string | null;
+          stock_id: string;
+          weight: number | null;
+        };
+        Insert: {
+          as_of_date: string;
+          created_at?: string;
+          holding_country?: string | null;
+          holding_exchange?: string | null;
+          holding_name: string;
+          holding_symbol: string;
+          source_name?: string | null;
+          source_url?: string | null;
+          stock_id: string;
+          weight?: number | null;
+        };
+        Update: Partial<Database["public"]["Tables"]["etf_holdings"]["Insert"]>;
+      };
       score_modules: {
         Row: {
           created_at: string;

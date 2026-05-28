@@ -51,6 +51,26 @@ constituent_count
 top_holdings
 ```
 
+## Proposed Tables
+
+```text
+etf_profiles
+etf_daily_metrics
+etf_holdings
+```
+
+`etf_profiles` stores stable fund metadata such as issuer, tracking index,
+expense ratio, and distribution frequency.
+
+`etf_daily_metrics` stores date-based ETF metrics such as NAV, premium /
+discount, AUM, tracking difference, constituent count, and last distribution.
+
+`etf_holdings` stores top holdings snapshots by `as_of_date`.
+
+These tables are designed to stay global-ready by referencing `stocks.id`; the
+country / exchange / currency / timezone context still comes from `stocks` and
+`market_exchanges`.
+
 ## Scoring Difference
 
 Common stocks may use:
@@ -90,6 +110,8 @@ ETF public interpretation remains blocked until:
 ## Current Code Behavior
 
 - `asset_type=etf` uses ETF policy.
+- ETF schema exists as empty tables only; no ETF-specific data source is
+  approved yet.
 - Missing stock-style fundamentals are marked as:
 
 ```text

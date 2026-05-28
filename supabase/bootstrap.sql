@@ -1,5 +1,5 @@
 -- Taiwan Market Signal Supabase bootstrap SQL.
--- Generated at 2026-05-28T15:15:19.259Z.
+-- Generated at 2026-05-28T16:59:51.318Z.
 -- Run this in a new Supabase project's SQL editor.
 
 begin;
@@ -173,6 +173,57 @@ create index if not exists stocks_market_industry_idx on public.stocks(market, i
 create index if not exists stocks_country_exchange_symbol_idx on public.stocks(country, exchange, symbol);
 create index if not exists market_exchanges_active_idx on public.market_exchanges(is_active, country, exchange);
 create index if not exists data_runs_target_table_idx on public.data_runs(target_table, finished_at desc);
+
+-- ============================================================================
+-- Source: supabase/migrations/0002_etf_data_model.sql
+-- ============================================================================
+
+-- ETF-specific data model.
+-- Safe to run after 0001_initial_schema.sql. It creates empty tables only.
+
+create table if not exists public.etf_profiles (
+  stock_id uuid primary key references public.stocks(id) on delete cascade,
+  fund_category text,
+  tracking_index text,
+  issuer text,
+  expense_ratio numeric,
+  distribution_frequency text,
+  source_name text,
+  source_url text,
+  updated_at timestamptz not null default now()
+);
+
+create table if not exists public.etf_daily_metrics (
+  stock_id uuid not null references public.stocks(id) on delete cascade,
+  trade_date date not null,
+  nav numeric,
+  premium_discount numeric,
+  aum numeric,
+  tracking_difference numeric,
+  constituent_count integer,
+  last_distribution numeric,
+  source_name text,
+  source_url text,
+  created_at timestamptz not null default now(),
+  primary key (stock_id, trade_date)
+);
+
+create table if not exists public.etf_holdings (
+  stock_id uuid not null references public.stocks(id) on delete cascade,
+  holding_symbol text not null,
+  holding_name text not null,
+  holding_country text,
+  holding_exchange text,
+  weight numeric,
+  as_of_date date not null,
+  source_name text,
+  source_url text,
+  created_at timestamptz not null default now(),
+  primary key (stock_id, holding_symbol, as_of_date)
+);
+
+create index if not exists etf_daily_metrics_trade_date_idx on public.etf_daily_metrics(trade_date desc);
+create index if not exists etf_holdings_as_of_date_idx on public.etf_holdings(as_of_date desc);
 
 -- ============================================================================
 -- Source: supabase/seed/000_seed_markets.sql
@@ -38320,6 +38371,9 @@ select count(*) as stocks_count from public.stocks;
 select count(*) as market_exchanges_count from public.market_exchanges;
 select count(*) as daily_prices_count from public.daily_prices;
 select count(*) as daily_fundamentals_count from public.daily_fundamentals;
+select count(*) as etf_profiles_count from public.etf_profiles;
+select count(*) as etf_daily_metrics_count from public.etf_daily_metrics;
+select count(*) as etf_holdings_count from public.etf_holdings;
 select target_table, status, row_count, data_end_date from public.data_runs order by target_table;
 select max(trade_date) as latest_price_date from public.daily_prices;
 select max(trade_date) as latest_fundamental_date from public.daily_fundamentals;
