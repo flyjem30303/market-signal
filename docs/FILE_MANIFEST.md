@@ -139,6 +139,7 @@ scripts/validate-supabase-twse-stock-day-staging-readonly.mjs
 scripts/check-twse-stock-day-staging-readonly-validator-safety.mjs
 scripts/check-cp3-twse-stock-day-staging-read-only-validator-draft-review.mjs
 scripts/check-cp3-twse-stock-day-staging-read-only-validator-role-review.mjs
+scripts/check-cp3-twse-stock-day-staging-remote-read-only-validation-approval-gate.mjs
 scripts/check-cp3-tw-stock-source-depth.mjs
 scripts/check-cp3-tw-stock-backtest-method.mjs
 scripts/check-cp3-tw-stock-dry-run-contract.mjs
@@ -239,6 +240,7 @@ docs/CP3_TWSE_STOCK_DAY_STAGING_READ_ONLY_VALIDATION_SCRIPT_DESIGN_2026-05-29.md
 docs/reviews/CP3_TWSE_STOCK_DAY_STAGING_READ_ONLY_VALIDATION_SCRIPT_APPROVAL_GATE_2026-05-29.md
 docs/reviews/CP3_TWSE_STOCK_DAY_STAGING_READ_ONLY_VALIDATOR_DRAFT_REVIEW_2026-05-29.md
 docs/reviews/CP3_TWSE_STOCK_DAY_STAGING_READ_ONLY_VALIDATOR_ROLE_REVIEW_2026-05-29.md
+docs/reviews/CP3_TWSE_STOCK_DAY_STAGING_REMOTE_READ_ONLY_VALIDATION_APPROVAL_GATE_2026-05-29.md
 docs/reviews/CP1_ETF_ENDPOINT_RESEARCH_2026-05-29.md
 docs/reviews/CP1_ETF_JSON_URL_DISCOVERY_2026-05-29.md
 docs/reviews/CP1_ETF_MIS_NAV_DISCLOSURE_2026-05-29.md
