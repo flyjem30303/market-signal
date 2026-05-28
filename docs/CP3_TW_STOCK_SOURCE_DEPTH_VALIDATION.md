@@ -57,3 +57,9 @@ REVISE
 
 The project may continue internal latest-row dry-run reporting. It must not run
 or publish CP3 backtest claims from the current latest-only seed.
+
+Historical data plan:
+
+```text
+docs/CP3_TW_STOCK_HISTORICAL_DATA_PLAN.md
+```
