@@ -53,6 +53,7 @@
     "check:cp3-twse-stock-day-staging-read-only-validator-draft-review": "node scripts/check-cp3-twse-stock-day-staging-read-only-validator-draft-review.mjs",
     "check:cp3-twse-stock-day-staging-read-only-validator-role-review": "node scripts/check-cp3-twse-stock-day-staging-read-only-validator-role-review.mjs",
     "check:cp3-twse-stock-day-staging-remote-read-only-validation-approval-gate": "node scripts/check-cp3-twse-stock-day-staging-remote-read-only-validation-approval-gate.mjs",
+    "check:cp3-twse-stock-day-staging-remote-read-only-validation-readiness-checklist": "node scripts/check-cp3-twse-stock-day-staging-remote-read-only-validation-readiness-checklist.mjs",
     "check:cp3-tw-stock-source-depth": "node scripts/check-cp3-tw-stock-source-depth.mjs",
     "check:cp3-tw-stock-backtest": "node scripts/check-cp3-tw-stock-backtest-method.mjs",
     "check:cp3-tw-stock-dry-run": "node scripts/check-cp3-tw-stock-dry-run-contract.mjs",
