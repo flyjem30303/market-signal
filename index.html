@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>多標的健康度與回檔風險燈號</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="shell">
+    <section class="topbar" aria-label="總覽">
+      <div>
+        <p class="eyebrow">Market Signal Dashboard</p>
+        <h1>多標的健康度與回檔風險燈號</h1>
+        <p class="subtitle">先選擇標的，再查看該標的的今日燈號、區間變化、新聞信心與回測驗證。</p>
+      </div>
+      <div class="date-box">
+        <span>資料日期</span>
+        <strong id="dataDate">--</strong>
+      </div>
+    </section>
+
+    <section class="asset-shell" aria-label="標的選擇">
+      <div class="asset-toolbar">
+        <label class="search-box">
+          <span>標的搜尋</span>
+          <input id="assetSearch" type="search" placeholder="輸入代號或名稱">
+        </label>
+        <label class="select-box">
+          <span>快速切換</span>
+          <select id="assetSelect"></select>
+        </label>
+        <button id="favoriteToggle" class="favorite-main" type="button" aria-pressed="false">♡ 加入愛心</button>
+      </div>
+      <div class="favorite-row" id="favoriteRow"></div>
+      <div class="asset-grid" id="assetGrid"></div>
+    </section>
+
+    <nav class="tabs" aria-label="儀表板頁籤">
+      <button class="tab-button is-active" type="button" data-tab="today">今日燈號</button>
+      <button class="tab-button" type="button" data-tab="trend">區間變化</button>
+      <button class="tab-button" type="button" data-tab="news">新聞信心</button>
+      <button class="tab-button" type="button" data-tab="backtest">回測驗證</button>
+    </nav>
+
+    <section class="tab-panel is-active" id="tab-today">
+      <section class="summary-grid dual-summary">
+        <article class="score-panel">
+          <div class="score-ring" id="healthRing" aria-label="多頭健康度">
+            <span id="healthScore">--</span>
+            <small>/ 100</small>
+          </div>
+          <div>
+            <p class="panel-label">多頭健康度</p>
+            <h2 id="healthTitle">--</h2>
+            <p id="healthText" class="signal-text">--</p>
+          </div>
+        </article>
+
+        <article class="score-panel">
+          <div class="score-ring risk-ring" id="riskRing" aria-label="回檔風險度">
+            <span id="riskScore">--</span>
+            <small>/ 100</small>
+          </div>
+          <div>
+            <p class="panel-label">回檔風險度</p>
+            <h2 id="riskTitle">--</h2>
+            <p id="riskText" class="signal-text">--</p>
+          </div>
+        </article>
+      </section>
+
+      <section class="summary-grid">
+        <article class="risk-panel">
+          <p class="panel-label">綜合燈號</p>
+          <h2 id="signalTitle">--</h2>
+          <p id="signalText">--</p>
+        </article>
+
+        <article class="risk-panel">
+          <p class="panel-label">操作提醒</p>
+          <h2 id="actionTitle">--</h2>
+          <p id="actionText">--</p>
+        </article>
+
+        <article class="market-panel">
+          <p class="panel-label">標的狀態</p>
+          <div class="state-list" id="stateList"></div>
+        </article>
+      </section>
+
+      <section class="content-grid">
+        <article class="section-block">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Research Modules</p>
+              <h2>六大研究模組</h2>
+            </div>
+            <button id="todayButton" type="button">回到今日</button>
+          </div>
+          <div class="module-list" id="moduleList"></div>
+        </article>
+
+        <aside class="section-block">
+          <p class="eyebrow">Matrix</p>
+          <h2>健康度 × 風險度</h2>
+          <div class="matrix" id="matrix"></div>
+          <div class="history-list" id="historyList"></div>
+        </aside>
+      </section>
+    </section>
+
+    <section class="tab-panel" id="tab-trend">
+      <section class="section-block">
+        <div class="section-head chart-head">
+          <div>
+            <p class="eyebrow">Score Timeline</p>
+            <h2>時間區間分數變化</h2>
+          </div>
+          <div class="chart-toggle" role="group" aria-label="圖表指標">
+            <button class="chart-mode is-active" type="button" data-mode="health">健康度</button>
+            <button class="chart-mode" type="button" data-mode="risk">風險度</button>
+            <button class="chart-mode" type="button" data-mode="composite">綜合分</button>
+          </div>
+        </div>
+
+        <div class="slider-grid">
+          <label>
+            <span>起始日期</span>
+            <input id="startRange" type="range" min="0" value="0">
+            <strong id="startDateLabel">--</strong>
+          </label>
+          <label>
+            <span>結束日期</span>
+            <input id="endRange" type="range" min="0" value="0">
+            <strong id="endDateLabel">--</strong>
+          </label>
+        </div>
+
+        <div class="chart-wrap">
+          <svg id="scoreChart" viewBox="0 0 920 360" role="img" aria-label="分數折線圖"></svg>
+        </div>
+
+        <div class="trend-metrics">
+          <div><span>區間最高</span><strong id="rangeHigh">--</strong></div>
+          <div><span>區間最低</span><strong id="rangeLow">--</strong></div>
+          <div><span>區間平均</span><strong id="rangeAvg">--</strong></div>
+          <div><span>最新狀態</span><strong id="rangeSignal">--</strong></div>
+        </div>
+      </section>
+    </section>
+
+    <section class="tab-panel" id="tab-news">
+      <section class="news-layout">
+        <article class="section-block">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Confidence Review</p>
+              <h2>選擇日期與新聞評論</h2>
+            </div>
+          </div>
+
+          <div class="date-picker-row">
+            <label>
+              <span>新聞日期</span>
+              <input id="newsDate" type="date" min="2000-01-01">
+            </label>
+            <div class="confidence-pill" id="confidencePill">--</div>
+          </div>
+
+          <div class="commentary-box">
+            <p class="panel-label">投資信心評論</p>
+            <h2 id="confidenceTitle">--</h2>
+            <p id="confidenceComment">--</p>
+          </div>
+
+          <div class="source-strip" id="sourceStrip"></div>
+        </article>
+
+        <article class="section-block">
+          <p class="eyebrow">Related News</p>
+          <h2>相關新聞彙整</h2>
+          <div class="news-list" id="newsList"></div>
+        </article>
+      </section>
+    </section>
+
+    <section class="tab-panel" id="tab-backtest">
+      <section class="section-block">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Validation</p>
+            <h2>回測驗證</h2>
+          </div>
+        </div>
+        <div class="backtest-grid" id="backtestGrid"></div>
+      </section>
+
+      <section class="section-block">
+        <p class="eyebrow">Signal Events</p>
+        <h2>燈號事件樣本</h2>
+        <div class="event-list" id="eventList"></div>
+      </section>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+{
+  "name": "taiwan-market-signal",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Taiwan stock health and pullback-risk signal dashboard.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "check:json": "node -e \"const fs=require('fs'); for (const f of ['package.json','tsconfig.json','data/seeds/stocks.seed.json']) { JSON.parse(fs.readFileSync(f,'utf8')); console.log(f+' ok'); }\"",
+    "check:env": "node -e \"const fs=require('fs'); const s=fs.readFileSync('.env.example','utf8'); for (const k of ['NEXT_PUBLIC_SUPABASE_URL','NEXT_PUBLIC_SUPABASE_ANON_KEY','SUPABASE_SERVICE_ROLE_KEY','NEXT_PUBLIC_DATA_SOURCE','NEXT_PUBLIC_SITE_URL']) { if (!s.includes(k+'=')) throw new Error('Missing '+k); console.log(k+' ok'); }\"",
+    "seed:stocks": "node scripts/seed-stocks-sql.mjs"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.4",
+    "next": "^14.2.15",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.16.11",
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.3.1",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "^14.2.15",
+    "typescript": "^5.6.3"
+  }
+}

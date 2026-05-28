@@ -1,0 +1,27 @@
+# System files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Dependencies
+node_modules/
+
+# Build outputs
+.next/
+dist/
+build/
+out/
+*.tsbuildinfo
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Local database / cache
+*.sqlite
+*.sqlite3
+*.db
+.cache/

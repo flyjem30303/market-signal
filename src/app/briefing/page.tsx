@@ -1,0 +1,188 @@
+import type { Metadata } from "next";
+import { PageViewTracker } from "@/components/page-view-tracker";
+import { getMarketSignalRepository } from "@/lib/repositories/market-signal-repository";
+import type { SignalSnapshot } from "@/lib/signal-model";
+import { signalColor } from "@/lib/signal-model";
+
+export const metadata: Metadata = {
+  title: "台股每日晨報",
+  description: "每天快速查看台股市場健康度、風險升溫標的、ETF 節奏與 AI 半導體觀察。"
+};
+
+export default function BriefingPage() {
+  const repository = getMarketSignalRepository();
+  const snapshots = repository
+    .getAssets()
+    .map((asset) => repository.getSnapshot(asset.symbol, "2026-05-28"))
+    .filter((snapshot): snapshot is SignalSnapshot => Boolean(snapshot));
+  const market = snapshots.find((item) => item.asset.symbol === "TWII") ?? snapshots[0];
+  const strongest = snapshots.slice().sort((a, b) => b.compositeScore - a.compositeScore).slice(0, 4);
+  const heated = snapshots.slice().sort((a, b) => b.riskScore - a.riskScore).slice(0, 4);
+  const etfs = snapshots.filter((item) => item.asset.group === "ETF").sort((a, b) => b.healthScore - a.healthScore);
+  const aiSemis = snapshots
+    .filter((item) => ["半導體", "IC 設計", "AI 伺服器", "電子代工"].includes(item.asset.group))
+    .sort((a, b) => b.compositeScore - a.compositeScore)
+    .slice(0, 4);
+
+  return (
+    <main className="page-shell">
+      <PageViewTracker eventName="briefing_page_viewed" payload={{ page: "briefing" }} />
+      <section className="hero briefing-hero">
+        <div>
+          <p className="eyebrow">Daily Briefing</p>
+          <h1>台股每日晨報</h1>
+          <p>
+            用一分鐘查看今天的市場健康度、風險升溫標的與觀察重點。這是研究模型摘要，不是買賣建議。
+          </p>
+        </div>
+        <div className="briefing-meta">
+          <span>2026-05-28</span>
+          <span>資料品質 {market.dataQualityGrade} 級</span>
+          <span>{market.modelVersion}</span>
+        </div>
+      </section>
+
+      <section className="briefing-summary">
+        <article className="panel briefing-market-card" style={{ ["--signal" as string]: signalColor(market.signal.key) }}>
+          <div className="market-card-head">
+            <div>
+              <p className="panel-label">今日市場狀態</p>
+              <h2>{market.asset.name}</h2>
+            </div>
+            <strong className="signal-badge">{market.signal.title}</strong>
+          </div>
+          <div className="market-score-row">
+            <div className="market-score">
+              <span>{market.compositeScore}</span>
+              <small>/100</small>
+            </div>
+            <div className="market-score-copy">
+              <b>今日節奏：觀察風險擴散與熱門股集中度</b>
+              <p>
+                多頭健康度 {market.healthScore}/100，回檔風險度 {market.riskScore}/100。先看大盤結構，再看個股變化。
+              </p>
+            </div>
+          </div>
+        </article>
+        <MetricPanel label="資料品質" value={`${market.dataQualityGrade} 級`} text={`完整度 ${market.dataQualityScore}/100`} />
+        <MetricPanel label="模型版本" value={market.modelVersion} text="正式上線前會改接真實資料" />
+        <MetricPanel label="今日重點" value="分批與觀察" text="避免把單日燈號視為交易指令" />
+      </section>
+
+      <section className="weekly-grid">
+        <BriefingList title="健康度較強" description="可作為今日觀察名單，但仍需搭配估值與籌碼風險。" items={strongest} valueKey="composite" />
+        <BriefingList title="風險升溫" description="風險分數較高，代表追價節奏需要更保守。" items={heated} valueKey="risk" />
+      </section>
+
+      <section className="weekly-grid">
+        <article className="panel briefing-article">
+          <p className="eyebrow">ETF Watch</p>
+          <h2>ETF 觀察</h2>
+          <p>
+            大型 ETF 適合觀察市場核心資金是否穩定。若 ETF 健康度維持高檔但風險升溫，
+            今日更適合檢查加碼節奏，而不是只看指數表面強弱。
+          </p>
+          <div className="rank-list">
+            {etfs.map((item) => (
+              <a className="rank-row" href={`/stocks/${item.asset.symbol}`} key={item.asset.id}>
+                <strong>{item.asset.symbol}</strong>
+                <span>{item.asset.name}</span>
+                <b>健 {item.healthScore}</b>
+              </a>
+            ))}
+          </div>
+        </article>
+
+        <article className="panel briefing-article">
+          <p className="eyebrow">AI & Semiconductor</p>
+          <h2>AI / 半導體觀察</h2>
+          <p>
+            AI 與半導體仍是台股權值與市場信心的核心來源。今天可優先看分數是否集中在少數股票，
+            若集中度提高，代表指數強勢可能不等於市場廣度健康。
+          </p>
+          <div className="rank-list">
+            {aiSemis.map((item) => (
+              <a className="rank-row" href={`/stocks/${item.asset.symbol}`} key={item.asset.id}>
+                <strong>{item.asset.symbol}</strong>
+                <span>{item.asset.name}</span>
+                <b>{item.compositeScore}</b>
+              </a>
+            ))}
+          </div>
+        </article>
+      </section>
+
+      <section className="panel briefing-article">
+        <p className="eyebrow">Today's Rhythm</p>
+        <h2>今日投資節奏提醒</h2>
+        <div className="briefing-actions">
+          <ActionCard title="先看大盤" text="確認台指與大型 ETF 的健康度是否同步，避免只被單一熱門股帶動情緒。" />
+          <ActionCard title="再看風險" text="檢查風險升溫名單是否集中在同一族群，集中度提高時追價要更保守。" />
+          <ActionCard title="最後看個股" text="進入個股頁看六大模組、新聞信心與回測摘要，再決定是否需要調整觀察清單。" />
+        </div>
+      </section>
+
+      <section className="panel briefing-links">
+        <h2>下一步</h2>
+        <a className="text-link" href="/weekly">看本週週報</a>
+        <a className="text-link" href="/methodology">了解評分方法論</a>
+        <a className="text-link" href="/stocks/2330">查看 2330 台積電</a>
+      </section>
+
+      <article className="disclaimer">
+        <h2>投資免責聲明</h2>
+        <p>
+          本晨報為模型摘要與資訊整理，不構成投資建議、買賣推薦或收益保證。所有分數仍需搭配個人風險承受度判斷。
+        </p>
+      </article>
+    </main>
+  );
+}
+
+function MetricPanel({ label, value, text }: { label: string; value: string; text: string }) {
+  return (
+    <article className="panel metric-card">
+      <span>{label}</span>
+      <strong>{value}</strong>
+      <p>{text}</p>
+    </article>
+  );
+}
+
+function BriefingList({
+  title,
+  description,
+  items,
+  valueKey
+}: {
+  title: string;
+  description: string;
+  items: SignalSnapshot[];
+  valueKey: "composite" | "risk";
+}) {
+  return (
+    <section className="panel briefing-article">
+      <p className="eyebrow">Watchlist</p>
+      <h2>{title}</h2>
+      <p>{description}</p>
+      <div className="rank-list">
+        {items.map((item) => (
+          <a className="rank-row" href={`/stocks/${item.asset.symbol}`} key={item.asset.id}>
+            <strong>{item.asset.symbol}</strong>
+            <span>{item.asset.name}</span>
+            <b>{valueKey === "risk" ? `險 ${item.riskScore}` : item.compositeScore}</b>
+          </a>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function ActionCard({ title, text }: { title: string; text: string }) {
+  return (
+    <article className="action-card">
+      <h3>{title}</h3>
+      <p>{text}</p>
+    </article>
+  );
+}

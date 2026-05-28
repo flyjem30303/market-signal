@@ -1,0 +1,93 @@
+[
+  {
+    "symbol": "TWII",
+    "name": "台灣加權指數",
+    "market": "INDEX",
+    "industry": "指數",
+    "listed_date": null,
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "0050",
+    "name": "元大台灣50",
+    "market": "TWSE",
+    "industry": "ETF",
+    "listed_date": "2003-06-30",
+    "is_etf": true,
+    "is_active": true
+  },
+  {
+    "symbol": "006208",
+    "name": "富邦台50",
+    "market": "TWSE",
+    "industry": "ETF",
+    "listed_date": "2012-07-17",
+    "is_etf": true,
+    "is_active": true
+  },
+  {
+    "symbol": "2330",
+    "name": "台積電",
+    "market": "TWSE",
+    "industry": "半導體",
+    "listed_date": "1994-09-05",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2454",
+    "name": "聯發科",
+    "market": "TWSE",
+    "industry": "IC 設計",
+    "listed_date": "2001-07-23",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2317",
+    "name": "鴻海",
+    "market": "TWSE",
+    "industry": "電子代工",
+    "listed_date": "1991-06-18",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2308",
+    "name": "台達電",
+    "market": "TWSE",
+    "industry": "電源/工控",
+    "listed_date": "1988-12-19",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2382",
+    "name": "廣達",
+    "market": "TWSE",
+    "industry": "AI 伺服器",
+    "listed_date": "1999-01-08",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2412",
+    "name": "中華電",
+    "market": "TWSE",
+    "industry": "電信",
+    "listed_date": "2000-10-27",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2882",
+    "name": "國泰金",
+    "market": "TWSE",
+    "industry": "金融",
+    "listed_date": "2001-12-31",
+    "is_etf": false,
+    "is_active": true
+  }
+]
+

@@ -1,0 +1,39 @@
+import type { Metadata } from "next";
+import type { ReactNode } from "react";
+import "./globals.css";
+
+export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
+  title: {
+    default: "台股健康度與回檔風險燈號",
+    template: "%s | 台股健康度與回檔風險燈號"
+  },
+  description: "用多頭健康度、回檔風險度、新聞信心與回測摘要追蹤台股標的。"
+};
+
+export default function RootLayout({ children }: { children: ReactNode }) {
+  return (
+    <html lang="zh-Hant">
+      <body>
+        <header className="site-header">
+          <a className="site-logo" href="/">
+            <span className="logo-mark">MS</span>
+            <span>
+              台股燈號
+              <small>Market Signal</small>
+            </span>
+          </a>
+          <nav aria-label="主要導覽">
+            <a href="/briefing">晨報</a>
+            <a href="/weekly">週報</a>
+            <a href="/methodology">方法論</a>
+            <a href="/privacy">隱私權</a>
+            <a href="/terms">使用條款</a>
+            <a href="/disclaimer">免責聲明</a>
+          </nav>
+        </header>
+        {children}
+      </body>
+    </html>
+  );
+}

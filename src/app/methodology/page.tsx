@@ -1,0 +1,113 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "評分方法論",
+  description: "說明台股燈號的多頭健康度、回檔風險度、六大模組、資料品質與回測揭露原則。"
+};
+
+const modules = [
+  ["價格趨勢", "18%", "收盤價、均線、相對強弱、成交量", "觀察趨勢是否延續，是否出現結構轉弱。"],
+  ["獲利基本面", "18%", "月營收、EPS、毛利率、營益率", "確認獲利是否支撐目前評價。"],
+  ["估值壓力", "16%", "PE、PB、殖利率、歷史分位", "判斷是否進入追價或過熱區。"],
+  ["市場廣度 / 族群", "14%", "同產業上漲比例、站上均線比例", "檢查漲勢是否擴散，而不是只靠少數權值股。"],
+  ["籌碼資金", "16%", "三大法人、融資、借券、當沖比", "觀察資金是否穩定，散戶槓桿是否偏熱。"],
+  ["宏觀與上游", "18%", "SOX、NASDAQ、VIX、10Y、DXY、USD/TWD", "評估外部環境是否支持風險資產。"]
+];
+
+const qualityLevels = [
+  ["A", "核心資料完整，更新時間正常，燈號可作為主要觀察依據。"],
+  ["B", "少數非核心資料缺漏，分數仍可參考，但需保留解讀空間。"],
+  ["C", "重要資料缺漏，分數需保守解讀，避免過度依賴單日燈號。"],
+  ["D", "資料不足，不應產生正式燈號，只能顯示資料不足。"]
+];
+
+export default function MethodologyPage() {
+  return (
+    <main className="page-shell">
+      <section className="hero">
+        <p className="eyebrow">Methodology</p>
+        <h1>評分方法論</h1>
+        <p>
+          台股燈號的定位是市場狀態儀表，協助投資人觀察多頭健康度與回檔風險。
+          分數不是買賣建議，也不是收益保證。
+        </p>
+      </section>
+
+      <section className="panel method-section">
+        <h2>健康度、風險度與綜合燈號</h2>
+        <div className="method-grid">
+          <article>
+            <h3>多頭健康度</h3>
+            <p>衡量趨勢、基本面、資金與產業支撐是否仍存在。分數越高，代表多頭條件越完整。</p>
+          </article>
+          <article>
+            <h3>回檔風險度</h3>
+            <p>衡量估值、籌碼、波動、集中度與宏觀壓力是否升高。分數越高，代表追價需要更謹慎。</p>
+          </article>
+          <article>
+            <h3>綜合燈號</h3>
+            <p>把健康度與風險度合併，作為投資節奏參考。燈號反映風險環境，不代表交易指令。</p>
+          </article>
+        </div>
+      </section>
+
+      <section className="panel method-section">
+        <h2>六大評分模組</h2>
+        <div className="method-table" role="table" aria-label="六大評分模組">
+          <div className="method-row method-head" role="row">
+            <span>模組</span>
+            <span>權重</span>
+            <span>主要資料</span>
+            <span>專業判讀</span>
+          </div>
+          {modules.map(([name, weight, data, comment]) => (
+            <div className="method-row" role="row" key={name}>
+              <strong>{name}</strong>
+              <span>{weight}</span>
+              <span>{data}</span>
+              <span>{comment}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="weekly-grid">
+        <article className="panel method-section">
+          <h2>股票與 ETF 分開校準</h2>
+          <p>
+            個股需要更重視基本面、估值、籌碼與產業資料；ETF 則需要更重視成分股廣度、
+            整體市場趨勢、折溢價、成交量與大盤風險。正式模型會分開校準，避免同一套權重套用所有標的。
+          </p>
+        </article>
+
+        <article className="panel method-section">
+          <h2>回測揭露原則</h2>
+          <p>
+            每個燈號都應揭露樣本期間、樣本數、20 日與 60 日平均報酬、勝率、最大回檔、
+            是否含交易成本，以及是否存在存活者偏誤。
+          </p>
+        </article>
+      </section>
+
+      <section className="panel method-section">
+        <h2>資料品質分級</h2>
+        <div className="quality-grid">
+          {qualityLevels.map(([level, text]) => (
+            <article className="quality-card" key={level}>
+              <strong>{level}</strong>
+              <p>{text}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <article className="disclaimer">
+        <h2>目前限制</h2>
+        <p>
+          目前版本仍使用 mock model 與合成報酬，適合驗證產品體驗，不適合作為真實投資模型。
+          正式上線前必須接入真實資料、記錄模型版本，並完成回測揭露。
+        </p>
+      </article>
+    </main>
+  );
+}
