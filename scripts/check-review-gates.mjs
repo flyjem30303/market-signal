@@ -153,6 +153,16 @@ const checks = [
     name: "cp3-twse-stock-day-staging-migration-draft-approval-gate"
   },
   {
+    command: [node, "scripts/check-supabase-twse-stock-day-staging-schema.mjs"],
+    expectStatus: "ok",
+    name: "twse-stock-day-staging-schema-static"
+  },
+  {
+    command: [node, "scripts/check-cp3-twse-stock-day-staging-migration-draft-review.mjs"],
+    expectStatus: "ok",
+    name: "cp3-twse-stock-day-staging-migration-draft-review"
+  },
+  {
     command: [node, "scripts/check-cp3-tw-stock-model-candidates.mjs"],
     expectStatus: "ok",
     name: "cp3-tw-stock-model"
