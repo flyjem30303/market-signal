@@ -318,6 +318,11 @@ const checks = [
     name: "cp3-runtime-state-sample-packet-draft"
   },
   {
+    command: [node, "scripts/check-cp3-runtime-state-sample-packet-role-review.mjs"],
+    expectStatus: "ok",
+    name: "cp3-runtime-state-sample-packet-role-review"
+  },
+  {
     command: [node, "scripts/check-cp3-non-runtime-typescript-policy-draft-approval-gate.mjs"],
     expectStatus: "ok",
     name: "cp3-non-runtime-typescript-policy-draft-approval-gate"
