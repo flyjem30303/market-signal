@@ -102,6 +102,18 @@ Validate it with:
 npm run check:etf-source-gate
 ```
 
+ETF source due diligence is stored at:
+
+```text
+data/source-gates/etf-source-due-diligence.json
+```
+
+Validate it with:
+
+```bash
+npm run check:etf-due-diligence
+```
+
 Current expected status:
 
 ```text

@@ -69,6 +69,7 @@ src/lib/supabase/database.types.ts
 data/seeds/stocks.seed.json
 data/seeds/markets.seed.json
 data/source-gates/etf-source-gate.json
+data/source-gates/etf-source-due-diligence.json
 supabase/migrations/0001_initial_schema.sql
 supabase/migrations/0002_etf_data_model.sql
 supabase/bootstrap.sql
@@ -87,6 +88,7 @@ scripts/review-supabase-market-trust.mjs
 scripts/check-asset-type-policy.mjs
 scripts/check-supabase-etf-schema.mjs
 scripts/check-etf-source-gate.mjs
+scripts/check-etf-due-diligence.mjs
 scripts/README.md
 ```
 
@@ -113,6 +115,7 @@ docs/reviews/CP1_ETF_SCHEMA_ROLLOUT_GUARD_2026-05-29.md
 docs/reviews/CP1_ETF_SOURCE_SELECTION_GATE_2026-05-29.md
 docs/reviews/CP1_ETF_SOURCE_RESEARCH_2026-05-29.md
 docs/reviews/CP1_ETF_SOURCE_READINESS_SCORE_2026-05-29.md
+docs/reviews/CP1_ETF_SOURCE_DUE_DILIGENCE_2026-05-29.md
 docs/MIGRATION_CHECKLIST.md
 docs/FILE_MANIFEST.md
 docs/MVP_TASKS.md

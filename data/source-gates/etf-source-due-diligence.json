@@ -1,0 +1,81 @@
+{
+  "asset_type": "etf",
+  "decision": "blocked",
+  "priority_candidate": "TWSE official ETF disclosures",
+  "checks": [
+    {
+      "id": "twse-automation-endpoints",
+      "owner_role": "A",
+      "status": "open",
+      "required_for": "ingestion",
+      "description": "Confirm stable machine-readable endpoints or CSV downloads for TWSE ETF profile, NAV, premium/discount, AUM, and distribution data.",
+      "evidence_required": [
+        "endpoint URLs",
+        "sample response",
+        "date parameter behavior",
+        "rate-limit or access note"
+      ]
+    },
+    {
+      "id": "twse-license-review",
+      "owner_role": "D",
+      "status": "open",
+      "required_for": "ingestion",
+      "description": "Review TWSE / ETFortune terms for automated ingestion, storage, internal analysis, and public display.",
+      "evidence_required": [
+        "terms URL",
+        "redistribution permission",
+        "attribution requirement",
+        "usage restrictions"
+      ]
+    },
+    {
+      "id": "etf-field-gap-plan",
+      "owner_role": "A",
+      "status": "open",
+      "required_for": "ingestion",
+      "description": "Plan how to fill expense_ratio, tracking_difference, constituent_count, and top_holdings gaps.",
+      "evidence_required": [
+        "field-by-field source mapping",
+        "fallback source decision",
+        "missing-field handling rule"
+      ]
+    },
+    {
+      "id": "etf-investment-model-review",
+      "owner_role": "C",
+      "status": "open",
+      "required_for": "scoring",
+      "description": "Confirm ETF-specific fields are sufficient for internal ETF scoring design.",
+      "evidence_required": [
+        "approved ETF scoring modules",
+        "excluded common-stock metrics",
+        "risk caveats"
+      ]
+    },
+    {
+      "id": "etf-public-disclosure-review",
+      "owner_role": "D",
+      "status": "open",
+      "required_for": "public-release",
+      "description": "Draft and review ETF-specific disclosure before public interpretation is allowed.",
+      "evidence_required": [
+        "ETF risk disclosure copy",
+        "source attribution copy",
+        "not investment advice copy"
+      ]
+    },
+    {
+      "id": "etf-product-scope-review",
+      "owner_role": "E",
+      "status": "open",
+      "required_for": "public-release",
+      "description": "CEO decides whether ETF scope remains Taiwan-only or expands to global ETF source research.",
+      "evidence_required": [
+        "recommended scope",
+        "cost / complexity note",
+        "release gate decision"
+      ]
+    }
+  ]
+}
