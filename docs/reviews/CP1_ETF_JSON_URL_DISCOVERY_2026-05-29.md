@@ -15,6 +15,9 @@ Reviewed official TWSE / DSP surfaces:
 ```text
 TWSE / DSP document download list
 TWSE ETF JSON disclosure format PDF
+ETF issuer operating notes
+ETF subscription / redemption operation basic data file
+ETFortune ETF basic data file
 TWSE ETF / ETFortune public pages
 ```
 
@@ -22,14 +25,17 @@ Finding:
 
 ```text
 The JSON format exists and requires issuer fixed http / https URLs.
+ETF issuer operating notes require issuers to provide URL links to TWSE before listing.
+The inspected ETF basic-data forms do not publish a public JSON URL index.
 No public centralized index of all issuer fixed JSON URLs has been confirmed.
 ```
 
 ## A / PM + Developer
 
-A confirms there is still no implementation-ready endpoint discovery method.
-The next engineering-safe action is docs-first: inspect official downloadable
-basic-data documents and only then design a non-ingesting probe.
+A confirms there is still no implementation-ready endpoint discovery method. The
+next engineering-safe action is to investigate whether the TWSE market
+information ETF issued-units / real-time NAV disclosure area has a public query
+endpoint, without crawling issuer JSON URLs.
 
 ## B / Marketing
 
@@ -71,11 +77,12 @@ Update ETF gates so the blocker is explicit:
 
 ```text
 official centralized JSON URL index unconfirmed
-downloadable TWSE basic-data documents require schema inspection
+inspected TWSE basic-data forms do not expose the JSON URL list
+issuer URL submission workflow exists but public access is unconfirmed
 ```
 
 ## Next Implementation Slice
 
 ```text
-Docs-first inspection of official TWSE ETF downloadable files, without ingestion.
+Research TWSE market information ETF NAV disclosure query surface, without ingestion.
 ```

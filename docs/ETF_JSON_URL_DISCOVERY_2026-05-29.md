@@ -22,7 +22,7 @@ Observed official downloadable documents:
 ETF JSON disclosure format specification
 ETF issuer operating notes
 ETF subscription / redemption operation basic data file
-e添富 ETF basic data file
+ETFortune ETF basic data file
 ETF securities code application form
 ```
 
@@ -42,18 +42,47 @@ estimated premium / discount, previous NAV, data date, data time, reference URL,
 update interval, rtMessage, and rtCode.
 ```
 
+## Downloadable Document Inspection
+
+Inspected local copies of the official downloadable files:
+
+```text
+ETF issuer operating notes
+ETF subscription / redemption operation basic data file
+ETFortune ETF basic data file
+```
+
+Observed:
+
+```text
+ETF issuer operating notes require issuers to provide two URLs to TWSE before
+listing: an intraday estimated NAV URL and a formatted data URL for the TWSE
+market information ETF issued-units / real-time NAV disclosure area.
+
+ETF subscription / redemption operation basic data file contains fund code,
+fund name, issuer, ETF type, approved issued units, creation / redemption
+method, settlement timing, order cutoff time, available positions, and contact
+information. It does not expose a public JSON URL index.
+
+ETFortune ETF basic data file contains ETF name, security code, listing date,
+asset class, issuer, topic tags, distribution frequency / months, return type,
+and active ETF investment strategy. It does not expose a public JSON URL index.
+```
+
 ## Discovery Result
 
 Current conclusion:
 
 ```text
 No public centralized index of all issuer fixed JSON URLs has been confirmed.
+TWSE appears to receive issuer URL submissions through a listing workflow, but
+the inspected public downloadable forms do not publish the URL list.
 ```
 
 This means the project cannot yet build a reliable ETF JSON ingestion job. The
-best next research path is to inspect the official downloadable basic-data
-documents and issuer operating notes, then verify whether they include URL
-fields or instructions for URL registration.
+best next research path is to find whether TWSE's market information ETF
+issued-units / real-time NAV disclosure area has a public query endpoint or
+whether URL access is limited to the exchange workflow.
 
 ## Product Impact
 
