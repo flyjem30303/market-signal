@@ -84,6 +84,8 @@
 - [x] 建立預設關閉的 internal raw market diagnostics route。
 - [x] 建立 mock score / real raw data mixed adapter。
 - [x] 在 internal diagnostics 輸出 mixed adapter preview。
+- [x] 完成 CP1 mixed adapter preview review。
+- [x] 建立預設關閉的 internal raw market preview page。
 
 ## H. 投資模型可信度
 

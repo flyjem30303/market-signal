@@ -257,6 +257,7 @@ Latest follow-up:
 
 ```text
 docs/reviews/CP1_FRESHNESS_SOURCE_2026-05-28.md
+docs/reviews/CP1_MIXED_ADAPTER_PREVIEW_2026-05-29.md
 ```
 
 CEO approved proceeding only to a raw Supabase market read contract. Full UI
