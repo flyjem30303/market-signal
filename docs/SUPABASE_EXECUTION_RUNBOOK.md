@@ -43,6 +43,20 @@ This generates:
 supabase/bootstrap.sql
 ```
 
+Optional: split the bootstrap into smaller ordered files:
+
+```bash
+npm run db:split-bootstrap
+```
+
+This generates local helper files under:
+
+```text
+supabase/bootstrap-parts/
+```
+
+These files are ignored by Git and can be regenerated.
+
 ## Step 3: Run Bootstrap SQL
 
 Open the Supabase SQL Editor and run the full contents of:
@@ -50,6 +64,9 @@ Open the Supabase SQL Editor and run the full contents of:
 ```text
 supabase/bootstrap.sql
 ```
+
+If the SQL Editor is easier to operate in smaller batches, run the generated
+`supabase/bootstrap-parts/*.sql` files in filename order instead.
 
 The bootstrap creates:
 

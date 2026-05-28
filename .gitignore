@@ -25,3 +25,4 @@ out/
 *.sqlite3
 *.db
 .cache/
+supabase/bootstrap-parts/
