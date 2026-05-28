@@ -120,6 +120,15 @@ Generate a CEO-readable report with:
 npm run report:etf-source
 ```
 
+Run all local review gates with:
+
+```bash
+npm run check:review-gates
+```
+
+This treats ETF source and due-diligence `blocked` as the expected current
+state.
+
 Internal browser view:
 
 ```text

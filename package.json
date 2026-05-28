@@ -14,6 +14,7 @@
     "check:etf-source-gate": "node scripts/check-etf-source-gate.mjs",
     "check:env": "node -e \"const fs=require('fs'); const s=fs.readFileSync('.env.example','utf8'); for (const k of ['NEXT_PUBLIC_SUPABASE_URL','NEXT_PUBLIC_SUPABASE_ANON_KEY','SUPABASE_SERVICE_ROLE_KEY','NEXT_PUBLIC_DATA_SOURCE','DATA_FRESHNESS_SOURCE','INTERNAL_DIAGNOSTICS_ENABLED','INTERNAL_DIAGNOSTICS_TOKEN','NEXT_PUBLIC_SITE_URL']) { if (!s.includes(k+'=')) throw new Error('Missing '+k); console.log(k+' ok'); }\"",
     "check:internal-routes": "node scripts/check-internal-route-exposure.mjs",
+    "check:review-gates": "node scripts/check-review-gates.mjs",
     "db:bootstrap": "node scripts/build-supabase-bootstrap.mjs",
     "db:etf-schema": "node --env-file=.env.local scripts/check-supabase-etf-schema.mjs",
     "db:freshness": "node --env-file=.env.local scripts/check-supabase-freshness.mjs",
