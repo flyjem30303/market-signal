@@ -82,6 +82,7 @@ D:\指數燈號
 - 已建立 Supabase 執行 runbook，明確規定建立專案、執行 bootstrap、填 `.env.local`、驗證資料庫，以及 UI 繼續保持 mock。
 - 已建立資料 freshness / source attribution UI 規格，作為未來切換 Supabase UI 前的必要條件。
 - 已新增資料 freshness read model 與 UI strip，晨報與股票頁會明確顯示目前為模擬資料。
+- 已新增 Supabase `data_runs` freshness snapshot helper，未來可由真實資料庫紀錄生成資料狀態。
 
 ## 下一次開工建議
 

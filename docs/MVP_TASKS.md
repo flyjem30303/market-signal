@@ -73,6 +73,7 @@
 - [x] 聯盟行銷揭露格式。
 - [x] 資料 freshness / source attribution UI 規格。
 - [x] 在晨報與股票頁加入 mock 資料 freshness 顯示。
+- [x] 建立 Supabase data_runs freshness snapshot helper。
 - [ ] 在晨報與股票頁加入 Supabase 資料 freshness 顯示。
 
 ## H. 投資模型可信度
