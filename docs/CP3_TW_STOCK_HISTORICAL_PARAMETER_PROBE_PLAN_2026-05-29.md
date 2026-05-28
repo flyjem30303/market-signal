@@ -185,3 +185,9 @@ review-gates pass
 CP3 source-depth remains not_ready
 no market data files are created
 ```
+
+Historical parameter probe report:
+
+```text
+docs/reviews/CP3_TW_STOCK_HISTORICAL_PARAMETER_PROBE_2026-05-29.md
+```

@@ -97,6 +97,7 @@ scripts/report-etf-source-readiness.mjs
 scripts/report-etf-mis-smoke.mjs
 scripts/report-cp3-tw-stock-dry-run.mjs
 scripts/report-cp3-tw-stock-endpoint-metadata.mjs
+scripts/report-cp3-tw-stock-historical-parameter-probe.mjs
 scripts/check-internal-route-exposure.mjs
 scripts/check-cp1-snapshot.mjs
 scripts/check-cp1-to-cp2.mjs
@@ -104,6 +105,7 @@ scripts/check-cp3-model-credibility.mjs
 scripts/check-cp3-tw-stock-historical-plan.mjs
 scripts/check-cp3-tw-stock-historical-source-research.mjs
 scripts/check-cp3-tw-stock-historical-parameter-probe-plan.mjs
+scripts/check-cp3-tw-stock-historical-parameter-probe.mjs
 scripts/check-cp3-tw-stock-source-depth.mjs
 scripts/check-cp3-tw-stock-backtest-method.mjs
 scripts/check-cp3-tw-stock-dry-run-contract.mjs
@@ -202,6 +204,7 @@ docs/reviews/CP3_TW_STOCK_SOURCE_DEPTH_2026-05-29.md
 docs/reviews/CP3_TW_STOCK_HISTORICAL_DATA_PLAN_2026-05-29.md
 docs/reviews/CP3_TW_STOCK_ENDPOINT_METADATA_PROBE_2026-05-29.md
 docs/reviews/CP3_TW_STOCK_LEGAL_FIELD_CONTRACT_REVIEW_2026-05-29.md
+docs/reviews/CP3_TW_STOCK_HISTORICAL_PARAMETER_PROBE_2026-05-29.md
 docs/CP1_TO_CP2_RELEASE_CHECKLIST.md
 docs/DATA_FRESHNESS_UI.md
 docs/DATA_SOURCES.md
