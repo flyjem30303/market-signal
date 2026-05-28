@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
+import { buildMixedDataQualitySummary } from "@/lib/mixed-data-quality";
 import { buildMixedMarketSnapshot } from "@/lib/mixed-market-adapter";
+import { buildPublicReleaseGate } from "@/lib/public-release-gate";
 import { getServerRawMarketOverview } from "@/lib/raw-market-loader";
 import { mockMarketSignalRepository } from "@/lib/repositories/mock-market-signal-repository";
 import type { MarketKey } from "@/lib/repositories/raw-market-types";
@@ -37,10 +39,14 @@ export async function GET(request: NextRequest) {
   const scoreDate = overview.snapshot.price?.tradeDate ?? "2026-05-28";
   const score = mockMarketSignalRepository.getSnapshot(symbol, scoreDate);
   const mixed = score ? buildMixedMarketSnapshot({ raw: overview.snapshot, score }) : null;
+  const quality = buildMixedDataQualitySummary(mixed);
+  const publicGate = buildPublicReleaseGate({ mixed, quality });
 
   return NextResponse.json({
     mixed,
     overview,
+    publicGate,
+    quality,
     status: "ok"
   });
 }

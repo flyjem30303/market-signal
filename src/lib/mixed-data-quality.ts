@@ -18,6 +18,11 @@ export type MixedDataQualitySummary = {
 };
 
 const caveatCopy: Record<string, Omit<DataQualityCaveat, "code">> = {
+  "fundamentals-not-applicable-for-etf": {
+    label: "ETF fundamentals need separate model",
+    message: "Stock-style valuation fields are not available for this ETF; use an ETF-specific data model before public interpretation.",
+    severity: "info"
+  },
   "latest-fundamentals-unavailable": {
     label: "Latest fundamentals unavailable",
     message: "Valuation fields are missing, so raw data coverage is incomplete.",

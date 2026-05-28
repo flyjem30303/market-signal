@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { assertInternalDiagnosticsAccess } from "@/lib/internal-diagnostics";
 import { buildMixedDataQualitySummary } from "@/lib/mixed-data-quality";
 import { buildMixedMarketSnapshot } from "@/lib/mixed-market-adapter";
+import { buildPublicReleaseGate } from "@/lib/public-release-gate";
 import { getServerRawMarketOverview } from "@/lib/raw-market-loader";
 import { mockMarketSignalRepository } from "@/lib/repositories/mock-market-signal-repository";
 
@@ -37,6 +38,7 @@ export default async function RawMarketPreviewPage({ searchParams }: RawMarketPr
   const score = mockMarketSignalRepository.getSnapshot(symbol, scoreDate);
   const mixed = score ? buildMixedMarketSnapshot({ raw: overview.snapshot, score }) : null;
   const quality = buildMixedDataQualitySummary(mixed);
+  const publicGate = buildPublicReleaseGate({ mixed, quality });
 
   return (
     <main className="page-shell">
@@ -60,13 +62,18 @@ export default async function RawMarketPreviewPage({ searchParams }: RawMarketPr
           <KeyValue label="Score source" value={mixed?.scoreSource ?? "unavailable"} />
           <KeyValue label="Quality label" value={quality.qualityLabel} />
           <KeyValue label="Quality score" value={String(quality.qualityScore)} />
-          <KeyValue label="Public eligible" value={String(quality.scoreCanBeShownPublicly)} />
+          <KeyValue label="Public gate" value={publicGate.label} />
         </article>
 
         <article className="panel">
           <p className="panel-label">Warnings</p>
           <h2>Mixed Data State</h2>
           <ul>
+            {publicGate.blockers.map((blocker) => (
+              <li key={blocker}>
+                <strong>blocker</strong> {blocker}
+              </li>
+            ))}
             {quality.caveats.map((caveat) => (
               <li key={caveat.code}>
                 <strong>{caveat.severity}</strong> {caveat.label}: {caveat.message}

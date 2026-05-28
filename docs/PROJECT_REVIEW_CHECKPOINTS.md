@@ -262,6 +262,7 @@ docs/reviews/CP1_DATA_QUALITY_SCORING_2026-05-29.md
 docs/reviews/SUPABASE_BOOTSTRAP_VALIDATION_2026-05-29.md
 docs/reviews/CP1_SUPABASE_READINESS_2026-05-29.md
 docs/reviews/CP1_SUPABASE_MARKET_TRUST_REVIEW_2026-05-29.md
+docs/reviews/CP1_PUBLIC_RELEASE_GATE_2026-05-29.md
 ```
 
 CEO approved proceeding only to internal raw market preview and diagnostics.

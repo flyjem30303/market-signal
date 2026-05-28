@@ -56,6 +56,7 @@ src/lib/repositories/types.ts
 src/lib/repositories/mock-market-signal-repository.ts
 src/lib/repositories/supabase-market-signal-repository.ts
 src/lib/repositories/market-signal-repository.ts
+src/lib/public-release-gate.ts
 src/lib/supabase/client.ts
 src/lib/supabase/server.ts
 src/lib/supabase/database.types.ts
@@ -99,6 +100,7 @@ docs/GLOBALIZATION_STRATEGY.md
 docs/PROJECT_REVIEW_CHECKPOINTS.md
 docs/reviews/CP1_DATA_TRUST_2026-05-28.md
 docs/reviews/CP1_SUPABASE_MARKET_TRUST_REVIEW_2026-05-29.md
+docs/reviews/CP1_PUBLIC_RELEASE_GATE_2026-05-29.md
 docs/MIGRATION_CHECKLIST.md
 docs/FILE_MANIFEST.md
 docs/MVP_TASKS.md

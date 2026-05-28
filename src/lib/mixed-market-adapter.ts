@@ -51,7 +51,7 @@ export function buildMixedMarketSnapshot({
     "score-is-mock",
     ...(raw ? [] : ["raw-market-data-unavailable"]),
     ...(price ? [] : ["latest-price-unavailable"]),
-    ...(fundamentals ? [] : ["latest-fundamentals-unavailable"])
+    ...(fundamentals ? [] : [stock?.isEtf ? "fundamentals-not-applicable-for-etf" : "latest-fundamentals-unavailable"])
   ];
 
   return {
