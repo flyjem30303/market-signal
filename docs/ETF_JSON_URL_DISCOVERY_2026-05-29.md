@@ -84,6 +84,12 @@ best next research path is to find whether TWSE's market information ETF
 issued-units / real-time NAV disclosure area has a public query endpoint or
 whether URL access is limited to the exchange workflow.
 
+Follow-up finding:
+
+```text
+docs/ETF_MIS_NAV_DISCLOSURE_RESEARCH_2026-05-29.md
+```
+
 ## Product Impact
 
 Allowed:

@@ -16,6 +16,9 @@
         "official centralized JSON URL index conclusion",
         "TWSE issuer URL submission workflow note",
         "TWSE market information ETF NAV disclosure query surface conclusion",
+        "MIS all_etf.txt sample response",
+        "MIS getCategory.jsp sample response",
+        "legacy etf_nav.jsp status",
         "date parameter behavior",
         "rate-limit or access note"
       ]
