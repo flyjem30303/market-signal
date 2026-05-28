@@ -26,14 +26,17 @@
     {
       "id": "twse-license-review",
       "owner_role": "D",
-      "status": "open",
+      "status": "blocked",
       "required_for": "ingestion",
-      "description": "Review TWSE / ETFortune terms for automated ingestion, storage, internal analysis, and public display.",
+      "description": "Review TWSE / ETFortune terms for automated ingestion, storage, internal analysis, and public display. Current TWSE terms and market information rules block automated ingestion until written permission, an approved TWSE contract, or an approved vendor license is obtained.",
       "evidence_required": [
         "terms URL",
+        "TWSE website terms crawler / automation restriction",
+        "TWSE market information use contract requirement",
         "redistribution permission",
         "attribution requirement",
-        "usage restrictions"
+        "usage restrictions",
+        "written permission or approved data contract"
       ]
     },
     {

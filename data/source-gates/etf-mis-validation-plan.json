@@ -68,23 +68,25 @@
     {
       "id": "rate-limit-fair-use",
       "owner_role": "D",
-      "status": "open",
+      "status": "blocked",
       "required_for": "adapter-design",
-      "description": "Confirm whether repeated internal validation calls are acceptable and define safe cadence.",
+      "description": "Confirm whether repeated internal validation calls are acceptable. Current TWSE terms prohibit unapproved automated download or scraping, so scheduled validation and adapter design remain blocked until explicit permission or an approved data contract exists.",
       "evidence_required": [
-        "terms or fair-use note",
-        "recommended max cadence",
+        "TWSE terms review",
+        "written permission or approved contract",
+        "recommended max cadence if approved",
         "backoff rule"
       ]
     },
     {
       "id": "license-redistribution",
       "owner_role": "D",
-      "status": "open",
+      "status": "blocked",
       "required_for": "ingestion",
-      "description": "Confirm storage, analysis, public display, attribution, and redistribution permissions.",
+      "description": "Confirm storage, analysis, public display, attribution, and redistribution permissions. Current review finds no permission to store, republish, or redistribute MIS ETF payloads.",
       "evidence_required": [
         "terms URL",
+        "TWSE market information use contract or approved vendor license",
         "storage permission",
         "public display permission",
         "attribution requirement"

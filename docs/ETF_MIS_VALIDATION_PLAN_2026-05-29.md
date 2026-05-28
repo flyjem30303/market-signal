@@ -87,6 +87,28 @@ The reporter is intentionally not part of `check:review-gates` because it
 depends on external network availability. It emits a report only and must not
 write Supabase, seed data, fixtures, or public UI state.
 
+## Legal / Fair-Use Review
+
+Current review:
+
+```text
+docs/ETF_MIS_LEGAL_FAIR_USE_REVIEW_2026-05-29.md
+docs/reviews/CP1_ETF_MIS_LEGAL_FAIR_USE_2026-05-29.md
+```
+
+Current legal blockers:
+
+```text
+rate-limit-fair-use: blocked
+license-redistribution: blocked
+```
+
+TWSE website terms restrict unapproved automated download / scraping. TWSE
+information-use pages point applicants to trading-information rules, contracts,
+and fees. Therefore, MIS ETF surfaces remain manual, internal, non-persistent
+evidence only until written permission, an approved contract, an approved vendor
+license, or explicit open-data/API terms cover the intended use.
+
 ## CEO Current Decision
 
 ```text
