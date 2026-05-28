@@ -91,6 +91,8 @@ D:\指數燈號
 - 已新增 `npm run db:raw-market` smoke test，供 `.env.local` 完成後驗證 Supabase raw market read path。
 - 已新增 Next.js server raw market loader，可在伺服器端讀 Supabase raw market snapshot，但尚未接入公開 UI。
 - 已新增預設關閉的 internal raw market diagnostics route，可在 Next.js runtime 驗證 loader，不影響公開 UI。
+- 已新增 mixed market adapter，可明確分離 real raw market data 與 mock score，避免使用者誤認模型分數已由真實資料計算。
+- internal raw market diagnostics 已輸出 mixed adapter preview，供開發期檢查 real raw data + mock score 的混合狀態。
 
 ## 下一次開工建議
 
@@ -98,7 +100,7 @@ D:\指數燈號
 2. 依 `docs/SUPABASE_EXECUTION_RUNBOOK.md` 建立 Supabase 專案並執行 bootstrap SQL。
 3. 建立 `.env.local` 後執行 `npm run db:validate`。
 4. 暫不切換 `NEXT_PUBLIC_DATA_SOURCE=supabase`。
-5. 下一步為 mock score / real raw data adapter 設計，不切換 `NEXT_PUBLIC_DATA_SOURCE=supabase`。
+5. 下一步為 CP1 follow-up 小檢討：是否允許建立非公開 preview page 或繼續強化 adapter，不切換 `NEXT_PUBLIC_DATA_SOURCE=supabase`。
 
 ## 環境狀態
 

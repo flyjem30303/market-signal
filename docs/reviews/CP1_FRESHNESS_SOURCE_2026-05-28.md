@@ -154,7 +154,9 @@ Implementation note:
   switching the public UI repository.
 - Completed: disabled-by-default internal diagnostics route for Next.js runtime
   validation.
-- Still pending: mock score / real raw data adapter design before any UI use.
+- Completed: mock score / real raw data adapter design.
+- Completed: internal diagnostics output for mixed adapter preview.
+- Still pending: CEO review before any non-public preview page or public UI use.
 
 Not approved yet:
 
