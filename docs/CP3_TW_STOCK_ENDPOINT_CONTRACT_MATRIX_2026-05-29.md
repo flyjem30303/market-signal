@@ -149,3 +149,9 @@ Legal and field contract review:
 ```text
 docs/reviews/CP3_TW_STOCK_LEGAL_FIELD_CONTRACT_REVIEW_2026-05-29.md
 ```
+
+TWSE individual stock historical endpoint research:
+
+```text
+docs/CP3_TWSE_STOCK_DAY_HISTORICAL_ENDPOINT_RESEARCH_2026-05-29.md
+```

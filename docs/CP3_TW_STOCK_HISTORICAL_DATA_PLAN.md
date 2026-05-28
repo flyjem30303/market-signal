@@ -152,6 +152,12 @@ Historical parameter probe plan:
 docs/CP3_TW_STOCK_HISTORICAL_PARAMETER_PROBE_PLAN_2026-05-29.md
 ```
 
+TWSE individual stock historical endpoint research:
+
+```text
+docs/CP3_TWSE_STOCK_DAY_HISTORICAL_ENDPOINT_RESEARCH_2026-05-29.md
+```
+
 ## Not Allowed
 
 ```text

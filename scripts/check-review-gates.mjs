@@ -73,6 +73,11 @@ const checks = [
     name: "cp3-tw-stock-historical-parameter-probe"
   },
   {
+    command: [node, "scripts/check-cp3-twse-stock-day-historical-endpoint-research.mjs"],
+    expectStatus: "ok",
+    name: "cp3-twse-stock-day-historical-endpoint-research"
+  },
+  {
     command: [node, "scripts/check-cp3-tw-stock-model-candidates.mjs"],
     expectStatus: "ok",
     name: "cp3-tw-stock-model"

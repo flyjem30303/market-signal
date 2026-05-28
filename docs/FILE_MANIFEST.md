@@ -106,6 +106,7 @@ scripts/check-cp3-tw-stock-historical-plan.mjs
 scripts/check-cp3-tw-stock-historical-source-research.mjs
 scripts/check-cp3-tw-stock-historical-parameter-probe-plan.mjs
 scripts/check-cp3-tw-stock-historical-parameter-probe.mjs
+scripts/check-cp3-twse-stock-day-historical-endpoint-research.mjs
 scripts/check-cp3-tw-stock-source-depth.mjs
 scripts/check-cp3-tw-stock-backtest-method.mjs
 scripts/check-cp3-tw-stock-dry-run-contract.mjs
@@ -183,6 +184,7 @@ docs/CP3_TW_STOCK_HISTORICAL_SOURCE_RESEARCH_2026-05-29.md
 docs/CP3_TW_STOCK_INPUT_READINESS.md
 docs/CP3_TW_STOCK_MODEL_CANDIDATES.md
 docs/CP3_TW_STOCK_SOURCE_DEPTH_VALIDATION.md
+docs/CP3_TWSE_STOCK_DAY_HISTORICAL_ENDPOINT_RESEARCH_2026-05-29.md
 docs/reviews/CP1_ETF_ENDPOINT_RESEARCH_2026-05-29.md
 docs/reviews/CP1_ETF_JSON_URL_DISCOVERY_2026-05-29.md
 docs/reviews/CP1_ETF_MIS_NAV_DISCLOSURE_2026-05-29.md
