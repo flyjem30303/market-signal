@@ -26,6 +26,7 @@ src/app/page.tsx
 src/app/globals.css
 src/app/briefing/page.tsx
 src/app/stocks/[symbol]/page.tsx
+src/app/internal/page.tsx
 src/app/internal/etf-source-readiness/page.tsx
 src/app/weekly/page.tsx
 src/app/methodology/page.tsx
@@ -121,6 +122,7 @@ docs/reviews/CP1_ETF_SOURCE_READINESS_SCORE_2026-05-29.md
 docs/reviews/CP1_ETF_SOURCE_DUE_DILIGENCE_2026-05-29.md
 docs/reviews/CP1_ETF_SOURCE_REPORTING_2026-05-29.md
 docs/reviews/CP1_ETF_SOURCE_INTERNAL_VIEW_2026-05-29.md
+docs/reviews/CP1_INTERNAL_DIAGNOSTICS_CONSOLE_2026-05-29.md
 docs/MIGRATION_CHECKLIST.md
 docs/FILE_MANIFEST.md
 docs/MVP_TASKS.md

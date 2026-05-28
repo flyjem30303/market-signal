@@ -272,6 +272,7 @@ docs/reviews/CP1_ETF_SOURCE_READINESS_SCORE_2026-05-29.md
 docs/reviews/CP1_ETF_SOURCE_DUE_DILIGENCE_2026-05-29.md
 docs/reviews/CP1_ETF_SOURCE_REPORTING_2026-05-29.md
 docs/reviews/CP1_ETF_SOURCE_INTERNAL_VIEW_2026-05-29.md
+docs/reviews/CP1_INTERNAL_DIAGNOSTICS_CONSOLE_2026-05-29.md
 ```
 
 CEO approved proceeding only to internal raw market preview and diagnostics.

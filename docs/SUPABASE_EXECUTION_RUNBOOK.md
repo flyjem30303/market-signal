@@ -274,6 +274,12 @@ Then request:
 /api/internal/raw-market?symbol=2330&token=your-local-token
 ```
 
+Browser console:
+
+```text
+/internal?token=your-local-token
+```
+
 Expected result:
 
 ```json
