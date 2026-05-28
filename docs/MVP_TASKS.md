@@ -42,6 +42,7 @@
 - [x] 新聞信心元件。
 - [x] 回測摘要元件。
 - [x] Repository 抽象層。
+- [x] Repository data source 明確切換，不允許 Supabase 未完成時 fallback 到 mock。
 - [x] 股票頁技術分析分頁。
 - [x] 股票頁成交量分頁。
 - [x] 股票頁股利 / 基本資料分頁。

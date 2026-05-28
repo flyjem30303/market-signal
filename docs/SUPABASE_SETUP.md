@@ -31,6 +31,20 @@ NEXT_PUBLIC_DATA_SOURCE=mock
 
 注意：`SUPABASE_SERVICE_ROLE_KEY` 不可以暴露到瀏覽器。
 
+目前 UI repository 尚未切到 Supabase，請先保持：
+
+```text
+NEXT_PUBLIC_DATA_SOURCE=mock
+```
+
+等 `src/lib/repositories/supabase-market-signal-repository.ts` 完成後，再改成：
+
+```text
+NEXT_PUBLIC_DATA_SOURCE=supabase
+```
+
+若提前切換，系統會明確報錯，避免把 mock data 誤認為真實資料。
+
 ## 建立資料表
 
 最簡單方式是在 Supabase SQL editor 執行單一 bootstrap 檔：
