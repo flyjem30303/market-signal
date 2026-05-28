@@ -33,6 +33,12 @@ NEXT_PUBLIC_DATA_SOURCE=mock
 
 注意：`SUPABASE_SERVICE_ROLE_KEY` 不可以暴露到瀏覽器。
 
+完整執行步驟請看：
+
+```text
+docs/SUPABASE_EXECUTION_RUNBOOK.md
+```
+
 目前 UI repository 尚未切到 Supabase，請先保持：
 
 ```text

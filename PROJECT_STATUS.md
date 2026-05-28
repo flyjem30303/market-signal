@@ -79,13 +79,15 @@ D:\指數燈號
 - 已執行 CP1 Data Trust Checkpoint；CEO 決策為 `REVISE`，可建立 Supabase 並驗證資料庫，但暫不允許 UI 切換到 Supabase。
 - 已建立 `data_runs` 匯入紀錄表與 bootstrap 驗證查詢，用於追蹤資料來源、筆數、狀態與資料日期。
 - 已建立本機 Supabase bootstrap 驗證腳本 `npm run db:validate`；需 `.env.local`，只驗證資料庫，不切換 UI。
+- 已建立 Supabase 執行 runbook，明確規定建立專案、執行 bootstrap、填 `.env.local`、驗證資料庫，以及 UI 繼續保持 mock。
 
 ## 下一次開工建議
 
 1. 依 CP1 結論新增 `data_runs` schema 與資料匯入驗證流程。
-2. 建立 Supabase 專案並執行 bootstrap SQL 僅作資料庫驗證。
-3. 暫不切換 `NEXT_PUBLIC_DATA_SOURCE=supabase`。
-4. 完成資料 freshness / source attribution / validation 後，再進入下一個 checkpoint。
+2. 依 `docs/SUPABASE_EXECUTION_RUNBOOK.md` 建立 Supabase 專案並執行 bootstrap SQL。
+3. 建立 `.env.local` 後執行 `npm run db:validate`。
+4. 暫不切換 `NEXT_PUBLIC_DATA_SOURCE=supabase`。
+5. 完成資料 freshness / source attribution / validation 後，再進入下一個 checkpoint。
 
 ## 環境狀態
 
