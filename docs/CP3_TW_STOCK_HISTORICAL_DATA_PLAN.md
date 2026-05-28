@@ -146,6 +146,12 @@ Legal and field contract review:
 docs/reviews/CP3_TW_STOCK_LEGAL_FIELD_CONTRACT_REVIEW_2026-05-29.md
 ```
 
+Historical parameter probe plan:
+
+```text
+docs/CP3_TW_STOCK_HISTORICAL_PARAMETER_PROBE_PLAN_2026-05-29.md
+```
+
 ## Not Allowed
 
 ```text

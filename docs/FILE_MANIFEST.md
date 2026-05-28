@@ -103,6 +103,7 @@ scripts/check-cp1-to-cp2.mjs
 scripts/check-cp3-model-credibility.mjs
 scripts/check-cp3-tw-stock-historical-plan.mjs
 scripts/check-cp3-tw-stock-historical-source-research.mjs
+scripts/check-cp3-tw-stock-historical-parameter-probe-plan.mjs
 scripts/check-cp3-tw-stock-source-depth.mjs
 scripts/check-cp3-tw-stock-backtest-method.mjs
 scripts/check-cp3-tw-stock-dry-run-contract.mjs
@@ -175,6 +176,7 @@ docs/CP3_TW_STOCK_BACKTEST_METHOD.md
 docs/CP3_TW_STOCK_DRY_RUN_CONTRACT.md
 docs/CP3_TW_STOCK_ENDPOINT_CONTRACT_MATRIX_2026-05-29.md
 docs/CP3_TW_STOCK_HISTORICAL_DATA_PLAN.md
+docs/CP3_TW_STOCK_HISTORICAL_PARAMETER_PROBE_PLAN_2026-05-29.md
 docs/CP3_TW_STOCK_HISTORICAL_SOURCE_RESEARCH_2026-05-29.md
 docs/CP3_TW_STOCK_INPUT_READINESS.md
 docs/CP3_TW_STOCK_MODEL_CANDIDATES.md

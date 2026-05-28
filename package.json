@@ -23,6 +23,7 @@
     "check:cp3-tw-stock-endpoint-contract-matrix": "node scripts/check-cp3-tw-stock-endpoint-contract-matrix.mjs",
     "check:cp3-tw-stock-endpoint-metadata-probe": "node scripts/check-cp3-tw-stock-endpoint-metadata-probe.mjs",
     "check:cp3-tw-stock-legal-field-contract": "node scripts/check-cp3-tw-stock-legal-field-contract-review.mjs",
+    "check:cp3-tw-stock-historical-parameter-probe-plan": "node scripts/check-cp3-tw-stock-historical-parameter-probe-plan.mjs",
     "check:cp3-tw-stock-source-depth": "node scripts/check-cp3-tw-stock-source-depth.mjs",
     "check:cp3-tw-stock-backtest": "node scripts/check-cp3-tw-stock-backtest-method.mjs",
     "check:cp3-tw-stock-dry-run": "node scripts/check-cp3-tw-stock-dry-run-contract.mjs",
