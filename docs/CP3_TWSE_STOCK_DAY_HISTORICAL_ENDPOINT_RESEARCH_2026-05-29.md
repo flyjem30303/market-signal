@@ -162,3 +162,9 @@ report confirms no raw rows were stored
 review-gates pass
 CP3 source-depth remains not_ready
 ```
+
+Metadata-only probe report:
+
+```text
+docs/reviews/CP3_TWSE_STOCK_DAY_METADATA_PROBE_2026-05-29.md
+```
