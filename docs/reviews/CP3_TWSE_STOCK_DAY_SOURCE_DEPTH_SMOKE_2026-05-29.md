@@ -2,7 +2,7 @@
 
 Status: source-depth metadata smoke recorded
 
-Generated at: 2026-05-28T19:00:15.039Z
+Generated at: 2026-05-28T19:04:36.986Z
 
 ## CEO Decision
 
@@ -19,9 +19,9 @@ and not approval for public scoring.
 ```text
 one TWSE listed symbol only: 2330
 one selected route only: exchangeReport/STOCK_DAY
-start_month: 2023-06-01
+start_month: 2023-03-01
 end_month: 2026-05-01
-maximum 36 month probes
+maximum 39 month probes
 minimum 800 ms delay between requests
 no parallel requests
 no raw market rows stored
@@ -37,14 +37,15 @@ Keep public data source mock
 ## Summary
 
 ```text
-month_count: 36
-total_row_count: 725
+month_count: 39
+total_row_count: 787
 target_row_count: 756
-unique_observed_month_count: 36
-first_observed_date: 112/06/01
+unique_observed_month_count: 39
+first_observed_date: 112/03/01
 last_observed_date: 115/05/28
-smoke_status: not_enough_rows
-HTTP status summary: 200:36
+zero_row_months: none
+smoke_status: technically_plausible
+HTTP status summary: 200:39
 schema fields: 日期, 成交股數, 成交金額, 開盤價, 最高價, 最低價, 收盤價, 漲跌價差, 成交筆數, 註記
 ```
 
@@ -52,6 +53,9 @@ schema fields: 日期, 成交股數, 成交金額, 開盤價, 最高價, 最低�
 
 | Month | HTTP | Row Count | First Observed Date | Last Observed Date | Body Bytes Read Then Discarded | Error |
 | --- | --- | --- | --- | --- | --- | --- |
+| 2023-03 | 200 | 23 | 112/03/01 | 112/03/31 | 3163 |  |
+| 2023-04 | 200 | 17 | 112/04/06 | 112/04/28 | 2561 |  |
+| 2023-05 | 200 | 22 | 112/05/02 | 112/05/31 | 3062 |  |
 | 2023-06 | 200 | 20 | 112/06/01 | 112/06/30 | 2865 |  |
 | 2023-07 | 200 | 21 | 112/07/03 | 112/07/31 | 2964 |  |
 | 2023-08 | 200 | 22 | 112/08/01 | 112/08/31 | 3061 |  |
@@ -107,6 +111,7 @@ license / terms reviewed by D
 rate-limit / fair-use policy documented
 route selected for approved collection
 field mapping reviewed by A and C
+zero-row month handling documented
 corporate-action handling documented
 inactive / delisted symbol handling documented
 fundamental / valuation history still unverified

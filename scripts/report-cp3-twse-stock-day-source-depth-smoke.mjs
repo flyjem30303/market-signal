@@ -5,10 +5,10 @@ const timeoutMs = 15000;
 const requestDelayMs = 800;
 const stockNo = "2330";
 const routeId = "TWSE-STOCK-DAY-EXCHANGE-REPORT";
-const startMonth = "2023-06-01";
+const startMonth = "2023-03-01";
 const endMonth = "2026-05-01";
 const targetTradingDates = 756;
-const months = buildMonths("2023-06", "2026-05");
+const months = buildMonths("2023-03", "2026-05");
 
 const generatedAt = new Date().toISOString();
 const results = [];
@@ -141,6 +141,7 @@ function renderReport(results, generatedAt) {
   const httpStatusSummary = summarizeStatuses(results);
   const schemaFields = firstNonEmptyFields(results);
   const status = totalRowCount >= targetTradingDates ? "technically_plausible" : "not_enough_rows";
+  const zeroRowMonths = results.filter((result) => result.httpStatus === 200 && result.rowCount === 0).map((result) => result.month);
 
   const rows = results.map((result) => {
     const error = result.error ? result.error.replace(/\|/g, "/") : "";
@@ -170,7 +171,7 @@ one TWSE listed symbol only: 2330
 one selected route only: exchangeReport/STOCK_DAY
 start_month: ${startMonth}
 end_month: ${endMonth}
-maximum 36 month probes
+maximum 39 month probes
 minimum 800 ms delay between requests
 no parallel requests
 no raw market rows stored
@@ -192,6 +193,7 @@ target_row_count: ${targetTradingDates}
 unique_observed_month_count: ${uniqueObservedMonthCount}
 first_observed_date: ${firstObservedDate}
 last_observed_date: ${lastObservedDate}
+zero_row_months: ${zeroRowMonths.length > 0 ? zeroRowMonths.join(", ") : "none"}
 smoke_status: ${status}
 HTTP status summary: ${httpStatusSummary}
 schema fields: ${schemaFields.join(", ")}
@@ -221,6 +223,7 @@ license / terms reviewed by D
 rate-limit / fair-use policy documented
 route selected for approved collection
 field mapping reviewed by A and C
+zero-row month handling documented
 corporate-action handling documented
 inactive / delisted symbol handling documented
 fundamental / valuation history still unverified

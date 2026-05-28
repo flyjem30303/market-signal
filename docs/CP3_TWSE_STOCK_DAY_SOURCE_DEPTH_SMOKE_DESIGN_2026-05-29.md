@@ -61,24 +61,24 @@ write docs/reviews report only
 Initial smoke window:
 
 ```text
-start_month: 2023-06-01
+start_month: 2023-03-01
 end_month: 2026-05-01
-expected_months: 36
+expected_months: 39
 expected_trading_dates_target: 756
 ```
 
 Rationale:
 
 ```text
-36 months is the minimum practical window for 756 trading dates.
-It is small enough for one-symbol metadata validation.
+36 months produced 725 observed rows, which was below the 756 target.
+39 months is the next conservative metadata-only window for one-symbol validation.
 It is not sufficient to approve production crawling or public scoring.
 ```
 
 ## Run Limits
 
 ```text
-maximum 36 month probes
+maximum 39 month probes
 minimum 800 ms delay between requests
 one symbol only
 one route only
@@ -111,13 +111,14 @@ Status: source-depth metadata smoke recorded
 REVISE
 one TWSE listed symbol only: 2330
 one selected route only: exchangeReport/STOCK_DAY
-start_month: 2023-06-01
+start_month: 2023-03-01
 end_month: 2026-05-01
 month_count
 total_row_count
 unique_observed_month_count
 first_observed_date
 last_observed_date
+zero_row_months
 schema fields
 HTTP status summary
 no raw market rows stored
@@ -130,7 +131,7 @@ source-depth gate remains not_ready unless CEO separately approves ingestion
 ## Acceptance Interpretation
 
 ```text
-If total_row_count is at least 756 and first_observed_date is 2023-06 or earlier,
+If total_row_count is at least 756 and first_observed_date is 2023-03 or earlier,
 then TWSE STOCK_DAY is technically plausible for price-history depth.
 ```
 

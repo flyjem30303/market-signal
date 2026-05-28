@@ -6,9 +6,9 @@ const requiredPhrases = [
   "REVISE",
   "one TWSE listed symbol only: 2330",
   "one selected route only: exchangeReport/STOCK_DAY",
-  "start_month: 2023-06-01",
+  "start_month: 2023-03-01",
   "end_month: 2026-05-01",
-  "maximum 36 month probes",
+  "maximum 39 month probes",
   "minimum 800 ms delay between requests",
   "no parallel requests",
   "no raw market rows stored",
@@ -24,9 +24,11 @@ const requiredPhrases = [
   "unique_observed_month_count:",
   "first_observed_date:",
   "last_observed_date:",
+  "zero_row_months:",
   "smoke_status:",
   "HTTP status summary:",
   "schema fields:",
+  "zero-row month handling documented",
   "CP3 source-depth production gate remains not_ready",
   "Keep public data source mock"
 ];
