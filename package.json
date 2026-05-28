@@ -83,6 +83,7 @@
     "check:cp3-ui-wiring-launch-blocker-implementation-plan": "node scripts/check-cp3-ui-wiring-launch-blocker-implementation-plan.mjs",
     "check:cp3-ui-wiring-launch-blocker-implementation-plan-role-review": "node scripts/check-cp3-ui-wiring-launch-blocker-implementation-plan-role-review.mjs",
     "check:cp3-ui-wiring-blocker-to-owner-gate-matrix": "node scripts/check-cp3-ui-wiring-blocker-to-owner-gate-matrix.mjs",
+    "check:cp3-ui-wiring-blocker-to-owner-gate-matrix-role-review": "node scripts/check-cp3-ui-wiring-blocker-to-owner-gate-matrix-role-review.mjs",
     "check:cp3-tw-stock-backtest": "node scripts/check-cp3-tw-stock-backtest-method.mjs",
     "check:cp3-tw-stock-dry-run": "node scripts/check-cp3-tw-stock-dry-run-contract.mjs",
     "check:cp3-tw-stock-dry-run-report": "node scripts/check-cp3-tw-stock-dry-run-report.mjs",
