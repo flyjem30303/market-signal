@@ -279,3 +279,8 @@ do not create staging tables yet
 do not commit raw market data
 ```
 
+Dry-run reporter design:
+
+```text
+docs/CP3_TWSE_STOCK_DAY_DRY_RUN_REPORTER_DESIGN_2026-05-29.md
+```
