@@ -193,6 +193,11 @@ const checks = [
     name: "cp3-twse-stock-day-staging-read-only-validation-script-design"
   },
   {
+    command: [node, "scripts/check-cp3-twse-stock-day-staging-read-only-validation-script-approval-gate.mjs"],
+    expectStatus: "ok",
+    name: "cp3-twse-stock-day-staging-read-only-validation-script-approval-gate"
+  },
+  {
     command: [node, "scripts/check-cp3-tw-stock-model-candidates.mjs"],
     expectStatus: "ok",
     name: "cp3-tw-stock-model"
