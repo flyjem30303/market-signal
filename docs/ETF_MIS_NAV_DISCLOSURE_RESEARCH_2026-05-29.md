@@ -125,3 +125,9 @@ REVISE
 
 Continue endpoint due diligence. Do not build ingestion until CP1 explicitly
 approves source usage and operational constraints.
+
+Follow-up validation plan:
+
+```text
+docs/ETF_MIS_VALIDATION_PLAN_2026-05-29.md
+```

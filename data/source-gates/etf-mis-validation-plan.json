@@ -1,0 +1,105 @@
+{
+  "asset_type": "etf",
+  "decision": "not_ready",
+  "source_surface": "TWSE MIS ETF NAV disclosure",
+  "candidate_endpoints": [
+    {
+      "id": "mis-all-etf",
+      "url": "https://mis.twse.com.tw/stock/data/all_etf.txt",
+      "purpose": "ETF NAV / premium-discount disclosure payload",
+      "status": "research"
+    },
+    {
+      "id": "mis-etf-category-otc",
+      "url": "https://mis.twse.com.tw/stock/api/getCategory.jsp?ex=otc&i=B0&lang=zh_tw",
+      "purpose": "OTC ETF category / instrument metadata",
+      "status": "research"
+    }
+  ],
+  "checks": [
+    {
+      "id": "endpoint-availability",
+      "owner_role": "A",
+      "status": "open",
+      "required_for": "adapter-design",
+      "description": "Confirm candidate MIS endpoints return HTTP 200 with parseable JSON across repeated checks.",
+      "evidence_required": [
+        "HTTP status samples",
+        "parse result",
+        "sample timestamp"
+      ]
+    },
+    {
+      "id": "field-contract",
+      "owner_role": "A",
+      "status": "open",
+      "required_for": "adapter-design",
+      "description": "Confirm required row fields and top-level fields remain present across samples.",
+      "evidence_required": [
+        "field list",
+        "missing-field report",
+        "type variance report"
+      ]
+    },
+    {
+      "id": "update-cache-behavior",
+      "owner_role": "A",
+      "status": "open",
+      "required_for": "adapter-design",
+      "description": "Confirm userDelay, cachedAlive, and timestamp behavior during and after market hours.",
+      "evidence_required": [
+        "during-market sample",
+        "after-market sample",
+        "cache behavior note"
+      ]
+    },
+    {
+      "id": "date-parameter-behavior",
+      "owner_role": "A",
+      "status": "open",
+      "required_for": "adapter-design",
+      "description": "Confirm whether the MIS disclosure surface supports historical dates or only latest data.",
+      "evidence_required": [
+        "tested URL variants",
+        "result comparison",
+        "latest-only conclusion if applicable"
+      ]
+    },
+    {
+      "id": "rate-limit-fair-use",
+      "owner_role": "D",
+      "status": "open",
+      "required_for": "adapter-design",
+      "description": "Confirm whether repeated internal validation calls are acceptable and define safe cadence.",
+      "evidence_required": [
+        "terms or fair-use note",
+        "recommended max cadence",
+        "backoff rule"
+      ]
+    },
+    {
+      "id": "license-redistribution",
+      "owner_role": "D",
+      "status": "open",
+      "required_for": "ingestion",
+      "description": "Confirm storage, analysis, public display, attribution, and redistribution permissions.",
+      "evidence_required": [
+        "terms URL",
+        "storage permission",
+        "public display permission",
+        "attribution requirement"
+      ]
+    },
+    {
+      "id": "no-ingestion-guard",
+      "owner_role": "E",
+      "status": "approved",
+      "required_for": "adapter-design",
+      "description": "Validation work must not write ETF MIS payloads into Supabase or product seed data.",
+      "evidence_required": [
+        "plan states non-ingesting",
+        "no database write path"
+      ]
+    }
+  ]
+}

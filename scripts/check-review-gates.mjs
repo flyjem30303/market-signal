@@ -38,6 +38,11 @@ const checks = [
     name: "etf-due-diligence"
   },
   {
+    command: [node, "scripts/check-etf-mis-validation-plan.mjs"],
+    expectStatus: "not_ready",
+    name: "etf-mis-validation"
+  },
+  {
     command: [node, "--disable-warning=MODULE_TYPELESS_PACKAGE_JSON", "--experimental-strip-types", "scripts/report-etf-source-readiness.mjs"],
     expectStatus: "report",
     name: "etf-source-report"
