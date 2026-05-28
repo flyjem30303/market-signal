@@ -39,6 +39,7 @@
     "check:cp3-twse-stock-day-staging-migration-review-checklist": "node scripts/check-cp3-twse-stock-day-staging-migration-review-checklist.mjs",
     "check:cp3-twse-stock-day-staging-migration-role-review": "node scripts/check-cp3-twse-stock-day-staging-migration-role-review.mjs",
     "check:cp3-twse-stock-day-staging-migration-implementation-plan": "node scripts/check-cp3-twse-stock-day-staging-migration-implementation-plan.mjs",
+    "check:cp3-twse-stock-day-staging-migration-implementation-plan-role-review": "node scripts/check-cp3-twse-stock-day-staging-migration-implementation-plan-role-review.mjs",
     "check:cp3-tw-stock-source-depth": "node scripts/check-cp3-tw-stock-source-depth.mjs",
     "check:cp3-tw-stock-backtest": "node scripts/check-cp3-tw-stock-backtest-method.mjs",
     "check:cp3-tw-stock-dry-run": "node scripts/check-cp3-tw-stock-dry-run-contract.mjs",
