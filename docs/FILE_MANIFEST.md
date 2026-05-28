@@ -89,6 +89,7 @@ scripts/check-asset-type-policy.mjs
 scripts/check-supabase-etf-schema.mjs
 scripts/check-etf-source-gate.mjs
 scripts/check-etf-due-diligence.mjs
+scripts/report-etf-source-readiness.mjs
 scripts/README.md
 ```
 
@@ -116,6 +117,7 @@ docs/reviews/CP1_ETF_SOURCE_SELECTION_GATE_2026-05-29.md
 docs/reviews/CP1_ETF_SOURCE_RESEARCH_2026-05-29.md
 docs/reviews/CP1_ETF_SOURCE_READINESS_SCORE_2026-05-29.md
 docs/reviews/CP1_ETF_SOURCE_DUE_DILIGENCE_2026-05-29.md
+docs/reviews/CP1_ETF_SOURCE_REPORTING_2026-05-29.md
 docs/MIGRATION_CHECKLIST.md
 docs/FILE_MANIFEST.md
 docs/MVP_TASKS.md

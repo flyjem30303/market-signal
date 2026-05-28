@@ -114,6 +114,12 @@ Validate it with:
 npm run check:etf-due-diligence
 ```
 
+Generate a CEO-readable report with:
+
+```bash
+npm run report:etf-source
+```
+
 Current expected status:
 
 ```text
