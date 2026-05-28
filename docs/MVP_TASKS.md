@@ -92,6 +92,7 @@
 - [x] 建立 Supabase validation preflight 指令。
 - [x] 建立 Supabase bootstrap SQL split 指令。
 - [x] 建立本機 `.env.local` 初始化指令。
+- [x] 完成 Supabase bootstrap 實體驗證。
 
 ## H. 投資模型可信度
 
