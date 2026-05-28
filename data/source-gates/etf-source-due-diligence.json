@@ -13,6 +13,8 @@
         "endpoint URLs",
         "sample response",
         "issuer fixed JSON URL discovery method",
+        "official centralized JSON URL index conclusion",
+        "TWSE downloadable basic-data schema inspection",
         "date parameter behavior",
         "rate-limit or access note"
       ]

@@ -279,6 +279,7 @@ docs/reviews/CP1_CHECKPOINT_SNAPSHOT_2026-05-29.md
 docs/reviews/CP1_TO_CP2_RELEASE_CHECKLIST_2026-05-29.md
 docs/reviews/CP1_REMOTE_ETF_SCHEMA_VALIDATION_2026-05-29.md
 docs/reviews/CP1_ETF_ENDPOINT_RESEARCH_2026-05-29.md
+docs/reviews/CP1_ETF_JSON_URL_DISCOVERY_2026-05-29.md
 ```
 
 CEO approved proceeding only to internal raw market preview and diagnostics.

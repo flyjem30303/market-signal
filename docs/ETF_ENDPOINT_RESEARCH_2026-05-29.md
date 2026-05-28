@@ -140,6 +140,12 @@ confirm storage and public display terms
 fill expense_ratio / tracking_difference / constituent_count / top_holdings gaps
 ```
 
+Follow-up discovery note:
+
+```text
+docs/ETF_JSON_URL_DISCOVERY_2026-05-29.md
+```
+
 ## CEO Current Decision
 
 ```text
