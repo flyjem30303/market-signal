@@ -76,12 +76,14 @@ D:\指數燈號
 - Repository data source 切換已改為明確模式：`mock` 可用，`supabase` 未完成前會報錯，不再靜默 fallback。
 - 已建立 `market_exchanges` 市場 metadata registry，TWSE 先啟用，TPEx / NASDAQ / NYSE 作為未來全球擴張 placeholder。
 - CEO 已要求建立專案 review checkpoint 制度；每到資料、模型、體驗、全球化、商業化或上線切點，A 暫停實作，由 A/B/C/D/E/F 深度討論，CEO 收斂後再推進。
+- 已執行 CP1 Data Trust Checkpoint；CEO 決策為 `REVISE`，可建立 Supabase 並驗證資料庫，但暫不允許 UI 切換到 Supabase。
 
 ## 下一次開工建議
 
-1. 先執行 CP1 Data Trust Checkpoint。
-2. 由 A/B/C/D/E/F 檢討目前 TWSE 主檔、最新行情 SQL、market metadata registry、Supabase bootstrap 是否足以進入真實資料庫階段。
-3. CEO 收斂 CP1 討論後，再決定是否建立 Supabase 專案、接 repository，或先補資料品質 / 模型揭露。
+1. 依 CP1 結論新增 `data_runs` schema 與資料匯入驗證流程。
+2. 建立 Supabase 專案並執行 bootstrap SQL 僅作資料庫驗證。
+3. 暫不切換 `NEXT_PUBLIC_DATA_SOURCE=supabase`。
+4. 完成資料 freshness / source attribution / validation 後，再進入下一個 checkpoint。
 
 ## 環境狀態
 
