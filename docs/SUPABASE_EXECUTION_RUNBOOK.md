@@ -134,7 +134,29 @@ latest_price_date: latest TWSE trading date in seed
 latest_fundamental_date: latest TWSE valuation date in seed
 ```
 
-## Step 6: Keep UI On Mock
+## Step 6: Check Freshness Snapshot
+
+Run:
+
+```bash
+npm run db:freshness
+```
+
+Expected result:
+
+```json
+{
+  "status": "ok",
+  "freshness": {
+    "state": "complete"
+  }
+}
+```
+
+This checks only the data freshness read path for `market_exchanges` and
+`data_runs`. It does not switch the UI to Supabase.
+
+## Step 7: Keep UI On Mock
 
 Do not change this yet:
 
@@ -188,6 +210,7 @@ This runbook is complete when:
 - `supabase/bootstrap.sql` runs successfully.
 - `.env.local` exists locally.
 - `npm run db:validate` returns `status: ok`.
+- `npm run db:freshness` returns `status: ok`.
 - `NEXT_PUBLIC_DATA_SOURCE` remains `mock`.
 
 After exit criteria are met, the next checkpoint is:

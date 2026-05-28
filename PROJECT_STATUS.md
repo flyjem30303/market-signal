@@ -84,6 +84,7 @@ D:\指數燈號
 - 已新增資料 freshness read model 與 UI strip，晨報與股票頁會明確顯示目前為模擬資料。
 - 已新增 Supabase `data_runs` freshness snapshot helper，未來可由真實資料庫紀錄生成資料狀態。
 - 已新增 Supabase freshness repository，可讀取 `market_exchanges` 與 `data_runs` 生成資料 freshness snapshot，但尚未接入前台 UI。
+- 已新增 `npm run db:freshness` smoke test，供 `.env.local` 完成後驗證 Supabase freshness 讀取路徑。
 
 ## 下一次開工建議
 

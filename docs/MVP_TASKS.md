@@ -75,6 +75,7 @@
 - [x] 在晨報與股票頁加入 mock 資料 freshness 顯示。
 - [x] 建立 Supabase data_runs freshness snapshot helper。
 - [x] 建立 Supabase freshness repository 讀取 `data_runs` / `market_exchanges`。
+- [x] 建立 Supabase freshness smoke test 指令。
 - [ ] 在晨報與股票頁加入 Supabase 資料 freshness 顯示。
 
 ## H. 投資模型可信度
