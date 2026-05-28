@@ -209,6 +209,37 @@ The UI must not switch to Supabase until a future checkpoint approves:
 - source attribution display.
 - legal and model caveat copy.
 
+## Optional: Internal Raw Market Diagnostics
+
+The internal diagnostics route is disabled by default:
+
+```text
+INTERNAL_DIAGNOSTICS_ENABLED=false
+```
+
+For local/server verification only, set:
+
+```text
+INTERNAL_DIAGNOSTICS_ENABLED=true
+INTERNAL_DIAGNOSTICS_TOKEN=your-local-token
+```
+
+Then request:
+
+```text
+/api/internal/raw-market?symbol=2330&token=your-local-token
+```
+
+Expected result:
+
+```json
+{
+  "status": "ok"
+}
+```
+
+Do not enable this route in a public environment without a private token.
+
 ## Troubleshooting
 
 ### Missing `.env.local`

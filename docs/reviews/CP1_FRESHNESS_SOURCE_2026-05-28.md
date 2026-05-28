@@ -152,7 +152,9 @@ Implementation note:
 - Completed: raw market smoke test command for a real Supabase project.
 - Completed: server loader that can exercise the contract inside Next.js without
   switching the public UI repository.
-- Still pending: internal diagnostics / adapter validation before any UI use.
+- Completed: disabled-by-default internal diagnostics route for Next.js runtime
+  validation.
+- Still pending: mock score / real raw data adapter design before any UI use.
 
 Not approved yet:
 

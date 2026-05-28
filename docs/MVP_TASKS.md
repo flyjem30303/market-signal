@@ -81,6 +81,7 @@
 - [x] 建立 Supabase raw market read model / repository contract。
 - [x] 建立 Supabase raw market smoke test 指令。
 - [x] 建立 Next.js server raw market loader。
+- [x] 建立預設關閉的 internal raw market diagnostics route。
 
 ## H. 投資模型可信度
 
