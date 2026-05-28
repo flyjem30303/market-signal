@@ -12,6 +12,7 @@
     "check:env": "node -e \"const fs=require('fs'); const s=fs.readFileSync('.env.example','utf8'); for (const k of ['NEXT_PUBLIC_SUPABASE_URL','NEXT_PUBLIC_SUPABASE_ANON_KEY','SUPABASE_SERVICE_ROLE_KEY','NEXT_PUBLIC_DATA_SOURCE','DATA_FRESHNESS_SOURCE','NEXT_PUBLIC_SITE_URL']) { if (!s.includes(k+'=')) throw new Error('Missing '+k); console.log(k+' ok'); }\"",
     "db:bootstrap": "node scripts/build-supabase-bootstrap.mjs",
     "db:freshness": "node --env-file=.env.local scripts/check-supabase-freshness.mjs",
+    "db:raw-market": "node --env-file=.env.local scripts/check-supabase-raw-market.mjs",
     "db:validate": "node --env-file=.env.local scripts/validate-supabase-bootstrap.mjs",
     "fetch:daily-market": "node scripts/fetch-twse-daily-market.mjs",
     "fetch:stocks": "node scripts/fetch-twse-stock-master.mjs",

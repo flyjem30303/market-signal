@@ -149,8 +149,9 @@ Define Supabase raw market read model and repository contract.
 Implementation note:
 
 - Completed: Supabase raw market read model and repository contract.
-- Still pending: smoke test / server loader that exercises the contract against
-  a real Supabase project.
+- Completed: raw market smoke test command for a real Supabase project.
+- Still pending: server loader that exercises the contract inside Next.js
+  without switching the public UI repository.
 
 Not approved yet:
 

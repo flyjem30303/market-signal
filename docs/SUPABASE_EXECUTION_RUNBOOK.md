@@ -158,7 +158,37 @@ Expected result:
 This checks only the data freshness read path for `market_exchanges` and
 `data_runs`. It does not switch the UI to Supabase.
 
-## Step 7: Keep UI On Mock
+## Step 7: Check Raw Market Read Path
+
+Run:
+
+```bash
+npm run db:raw-market
+```
+
+Expected result:
+
+```json
+{
+  "status": "ok",
+  "target": {
+    "country": "TW",
+    "exchange": "TWSE",
+    "symbol": "2330"
+  }
+}
+```
+
+This checks active market metadata, stock identity, latest daily price, and
+latest daily fundamentals. It does not switch the UI to Supabase.
+
+Optional target override:
+
+```bash
+RAW_MARKET_SYMBOL=2317 npm run db:raw-market
+```
+
+## Step 8: Keep UI On Mock
 
 Do not change this yet:
 
@@ -219,6 +249,7 @@ This runbook is complete when:
 - `.env.local` exists locally.
 - `npm run db:validate` returns `status: ok`.
 - `npm run db:freshness` returns `status: ok`.
+- `npm run db:raw-market` returns `status: ok`.
 - `NEXT_PUBLIC_DATA_SOURCE` remains `mock`.
 
 After exit criteria are met, the next checkpoint is:
