@@ -13,6 +13,7 @@ export function DataFreshnessStrip({ freshness }: DataFreshnessStripProps) {
       <span>市場：{freshness.market}</span>
       <span>幣別：{freshness.currency}</span>
       <span>時區：{freshness.timezone}</span>
+      <span className={`freshness-score-source ${freshness.scoreSource}`}>分數來源：{freshness.scoreSourceLabel}</span>
     </aside>
   );
 }

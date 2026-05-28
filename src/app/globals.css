@@ -173,6 +173,22 @@ select {
   color: var(--muted);
 }
 
+.freshness-strip .freshness-score-source.mock,
+.freshness-strip .freshness-score-source.mixed {
+  background: #fff5df;
+  color: var(--amber);
+}
+
+.freshness-strip .freshness-score-source.real {
+  background: #e8f5ef;
+  color: var(--green);
+}
+
+.freshness-strip .freshness-score-source.unavailable {
+  background: #fff1f1;
+  color: var(--red);
+}
+
 .freshness-strip.complete strong {
   background: #e8f5ef;
   color: var(--green);

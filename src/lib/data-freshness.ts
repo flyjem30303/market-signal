@@ -5,6 +5,8 @@ export type DataFreshnessSnapshot = {
   currency: string;
   isMock: boolean;
   market: string;
+  scoreSource: "mock" | "real" | "mixed" | "unavailable";
+  scoreSourceLabel: string;
   sourceName: string;
   state: DataFreshnessState;
   stateLabel: string;
@@ -39,6 +41,8 @@ export function buildMockDataFreshnessSnapshot(): DataFreshnessSnapshot {
     currency: "TWD",
     isMock: true,
     market: "TWSE",
+    scoreSource: "mock",
+    scoreSourceLabel: "模擬評分",
     sourceName: "Mock repository",
     state: "mock",
     stateLabel: stateLabels.mock,
@@ -63,6 +67,8 @@ export function buildSupabaseDataFreshnessSnapshot({
       currency: market.currency,
       isMock: false,
       market: market.exchange,
+      scoreSource: "mock",
+      scoreSourceLabel: "模擬評分",
       sourceName: "Supabase",
       state: "unavailable",
       stateLabel: stateLabels.unavailable,
@@ -81,6 +87,8 @@ export function buildSupabaseDataFreshnessSnapshot({
     currency: market.currency,
     isMock: false,
     market: market.exchange,
+    scoreSource: "mock",
+    scoreSourceLabel: "模擬評分",
     sourceName: sourceNames || "Supabase",
     state,
     stateLabel: stateLabels[state],

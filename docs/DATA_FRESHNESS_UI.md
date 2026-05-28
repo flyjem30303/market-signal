@@ -35,6 +35,7 @@ Recommended content:
 幣別：TWD
 時區：Asia/Taipei
 資料狀態：完整 / 部分 / 延遲
+分數來源：模擬評分 / 正式評分 / 混合評分
 ```
 
 For mock data, the UI must say:
@@ -152,6 +153,8 @@ Before `NEXT_PUBLIC_DATA_SOURCE=supabase` can be used:
 3. Ensure mock mode still displays "模擬資料".
 4. Ensure Supabase mode can display source and latest data date.
 5. Add legal disclaimer link near interpreted score areas.
+6. Keep score source visible while freshness metadata and model scoring mature at
+   different speeds.
 
 ## Deferred
 
