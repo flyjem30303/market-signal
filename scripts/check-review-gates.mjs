@@ -363,6 +363,11 @@ const checks = [
     name: "cp3-ui-wiring-launch-blocker-implementation-plan-role-review"
   },
   {
+    command: [node, "scripts/check-cp3-ui-wiring-blocker-to-owner-gate-matrix.mjs"],
+    expectStatus: "ok",
+    name: "cp3-ui-wiring-blocker-to-owner-gate-matrix"
+  },
+  {
     command: [node, "scripts/check-cp3-tw-stock-backtest-method.mjs"],
     expectStatus: "ok",
     name: "cp3-tw-stock-backtest"

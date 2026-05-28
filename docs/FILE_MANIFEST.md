@@ -169,6 +169,7 @@ scripts/check-cp3-ui-copy-tokens-draft-role-review.mjs
 scripts/check-cp3-ui-wiring-launch-blocker-checklist-gate.mjs
 scripts/check-cp3-ui-wiring-launch-blocker-implementation-plan.mjs
 scripts/check-cp3-ui-wiring-launch-blocker-implementation-plan-role-review.mjs
+scripts/check-cp3-ui-wiring-blocker-to-owner-gate-matrix.mjs
 scripts/check-cp3-tw-stock-backtest-method.mjs
 scripts/check-cp3-tw-stock-dry-run-contract.mjs
 scripts/check-cp3-tw-stock-dry-run-report.mjs
@@ -255,6 +256,7 @@ docs/reviews/CP3_UI_COPY_TOKENS_DRAFT_ROLE_REVIEW_2026-05-29.md
 docs/reviews/CP3_UI_WIRING_LAUNCH_BLOCKER_CHECKLIST_GATE_2026-05-29.md
 docs/CP3_UI_WIRING_LAUNCH_BLOCKER_IMPLEMENTATION_PLAN_2026-05-29.md
 docs/reviews/CP3_UI_WIRING_LAUNCH_BLOCKER_IMPLEMENTATION_PLAN_ROLE_REVIEW_2026-05-29.md
+docs/CP3_UI_WIRING_BLOCKER_TO_OWNER_GATE_MATRIX_2026-05-29.md
 docs/CP3_TW_STOCK_BACKTEST_METHOD.md
 docs/CP3_TW_STOCK_DRY_RUN_CONTRACT.md
 docs/CP3_TW_STOCK_ENDPOINT_CONTRACT_MATRIX_2026-05-29.md
