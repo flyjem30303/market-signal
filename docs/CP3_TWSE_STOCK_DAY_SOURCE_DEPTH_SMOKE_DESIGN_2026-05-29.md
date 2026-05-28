@@ -209,3 +209,9 @@ Source-depth smoke report:
 ```text
 docs/reviews/CP3_TWSE_STOCK_DAY_SOURCE_DEPTH_SMOKE_2026-05-29.md
 ```
+
+License, rate, and field checklist:
+
+```text
+docs/reviews/CP3_TWSE_STOCK_DAY_LICENSE_RATE_FIELD_CHECKLIST_2026-05-29.md
+```

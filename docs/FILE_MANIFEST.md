@@ -112,6 +112,7 @@ scripts/check-cp3-twse-stock-day-historical-endpoint-research.mjs
 scripts/check-cp3-twse-stock-day-metadata-probe.mjs
 scripts/check-cp3-twse-stock-day-source-depth-smoke-design.mjs
 scripts/check-cp3-twse-stock-day-source-depth-smoke.mjs
+scripts/check-cp3-twse-stock-day-license-rate-field-checklist.mjs
 scripts/check-cp3-tw-stock-source-depth.mjs
 scripts/check-cp3-tw-stock-backtest-method.mjs
 scripts/check-cp3-tw-stock-dry-run-contract.mjs
@@ -215,6 +216,7 @@ docs/reviews/CP3_TW_STOCK_LEGAL_FIELD_CONTRACT_REVIEW_2026-05-29.md
 docs/reviews/CP3_TW_STOCK_HISTORICAL_PARAMETER_PROBE_2026-05-29.md
 docs/reviews/CP3_TWSE_STOCK_DAY_METADATA_PROBE_2026-05-29.md
 docs/reviews/CP3_TWSE_STOCK_DAY_SOURCE_DEPTH_SMOKE_2026-05-29.md
+docs/reviews/CP3_TWSE_STOCK_DAY_LICENSE_RATE_FIELD_CHECKLIST_2026-05-29.md
 docs/CP1_TO_CP2_RELEASE_CHECKLIST.md
 docs/DATA_FRESHNESS_UI.md
 docs/DATA_SOURCES.md

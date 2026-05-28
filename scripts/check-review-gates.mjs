@@ -93,6 +93,11 @@ const checks = [
     name: "cp3-twse-stock-day-source-depth-smoke"
   },
   {
+    command: [node, "scripts/check-cp3-twse-stock-day-license-rate-field-checklist.mjs"],
+    expectStatus: "ok",
+    name: "cp3-twse-stock-day-license-rate-field"
+  },
+  {
     command: [node, "scripts/check-cp3-tw-stock-model-candidates.mjs"],
     expectStatus: "ok",
     name: "cp3-tw-stock-model"
