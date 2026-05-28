@@ -84,6 +84,7 @@ scripts/build-supabase-bootstrap.mjs
 scripts/validate-supabase-bootstrap.mjs
 scripts/review-supabase-market-trust.mjs
 scripts/check-asset-type-policy.mjs
+scripts/check-supabase-etf-schema.mjs
 scripts/README.md
 ```
 
@@ -106,6 +107,7 @@ docs/reviews/CP1_SUPABASE_MARKET_TRUST_REVIEW_2026-05-29.md
 docs/reviews/CP1_PUBLIC_RELEASE_GATE_2026-05-29.md
 docs/reviews/CP1_ETF_DATA_MODEL_2026-05-29.md
 docs/reviews/CP1_ETF_SCHEMA_2026-05-29.md
+docs/reviews/CP1_ETF_SCHEMA_ROLLOUT_GUARD_2026-05-29.md
 docs/MIGRATION_CHECKLIST.md
 docs/FILE_MANIFEST.md
 docs/MVP_TASKS.md

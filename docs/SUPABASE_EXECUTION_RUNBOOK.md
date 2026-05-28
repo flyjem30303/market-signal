@@ -284,6 +284,36 @@ Expected result:
 
 Do not enable this route in a public environment without a private token.
 
+## Optional: Apply ETF Schema Migration
+
+ETF support is internal preparation only. It does not approve public ETF
+interpretation or `NEXT_PUBLIC_DATA_SOURCE=supabase`.
+
+If the remote Supabase project was created before `0002_etf_data_model.sql`
+existed, run this migration manually in Supabase SQL Editor:
+
+```text
+supabase/migrations/0002_etf_data_model.sql
+```
+
+Then validate:
+
+```bash
+npm run db:etf-schema
+```
+
+Expected result after the migration is applied:
+
+```json
+{
+  "missing_tables": [],
+  "status": "ok"
+}
+```
+
+If it returns `blocked`, do not continue ETF ingestion. Apply the migration
+first and confirm `0050` / `006208` are still classified as ETFs.
+
 ## Troubleshooting
 
 ### Missing `.env.local`
