@@ -150,8 +150,9 @@ Implementation note:
 
 - Completed: Supabase raw market read model and repository contract.
 - Completed: raw market smoke test command for a real Supabase project.
-- Still pending: server loader that exercises the contract inside Next.js
-  without switching the public UI repository.
+- Completed: server loader that can exercise the contract inside Next.js without
+  switching the public UI repository.
+- Still pending: internal diagnostics / adapter validation before any UI use.
 
 Not approved yet:
 
