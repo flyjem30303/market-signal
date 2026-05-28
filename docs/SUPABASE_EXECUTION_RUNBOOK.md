@@ -99,6 +99,15 @@ Create a local-only file:
 .env.local
 ```
 
+Recommended helper:
+
+```bash
+npm run env:init-local
+```
+
+This creates `.env.local` from `.env.example` only when `.env.local` does not
+already exist. It will not overwrite local secrets.
+
 Use this format:
 
 ```text
@@ -283,7 +292,7 @@ Do not enable this route in a public environment without a private token.
 
 Fix:
 
-- Create `.env.local`.
+- Run `npm run env:init-local` or create `.env.local`.
 - Add Supabase URL and service role key.
 
 ### Permission Error

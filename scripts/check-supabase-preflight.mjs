@@ -44,10 +44,7 @@ const status = {
   files: fileStatus,
   missing_env: missingEnv,
   ready_for_db_validate: Boolean(fileStatus["supabase/bootstrap.sql"] && fileStatus[".env.local"] && missingEnv.length === 0),
-  recommended_next_commands:
-    fileStatus[".env.local"] && missingEnv.length === 0
-      ? ["npm run db:validate", "npm run db:freshness", "npm run db:raw-market"]
-      : ["create .env.local from docs/SUPABASE_EXECUTION_RUNBOOK.md"],
+  recommended_next_commands: recommendedNextCommands(),
   status: fileStatus["supabase/bootstrap.sql"] && fileStatus[".env.local"] && missingEnv.length === 0 ? "ok" : "blocked",
   warnings,
 };
@@ -56,4 +53,16 @@ console.log(JSON.stringify(status, null, 2));
 
 if (status.status !== "ok") {
   process.exitCode = 1;
+}
+
+function recommendedNextCommands() {
+  if (!fileStatus[".env.local"]) {
+    return ["npm run env:init-local"];
+  }
+
+  if (missingEnv.length > 0) {
+    return [`fill .env.local values: ${missingEnv.join(", ")}`];
+  }
+
+  return ["npm run db:validate", "npm run db:freshness", "npm run db:raw-market"];
 }

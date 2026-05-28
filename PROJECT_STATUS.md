@@ -100,6 +100,7 @@ D:\指數燈號
 - 已新增 internal-only mixed data quality score helper，會計算 internal quality score，但 `scoreCanBeShownPublicly` 仍固定為 false。
 - 已新增 `npm run db:preflight`，用於 Supabase 實際驗證前檢查 `.env.local`、bootstrap SQL 與資料源設定。
 - 已新增 `npm run db:split-bootstrap`，可將 Supabase bootstrap SQL 拆成較小的依序執行檔，降低 SQL Editor 操作風險。
+- 已新增 `npm run env:init-local`，可安全建立本機 `.env.local` 範本且不覆蓋既有金鑰。
 
 ## 下一次開工建議
 
@@ -107,7 +108,7 @@ D:\指數燈號
 2. 依 `docs/SUPABASE_EXECUTION_RUNBOOK.md` 建立 Supabase 專案並執行 bootstrap SQL。
 3. 建立 `.env.local` 後執行 `npm run db:validate`。
 4. 暫不切換 `NEXT_PUBLIC_DATA_SOURCE=supabase`。
-5. 下一步為建立 Supabase 專案、必要時執行 `db:split-bootstrap`，再建立 `.env.local` 後跑 `db:preflight` / `db:validate` / `db:freshness` / `db:raw-market`，不切換 `NEXT_PUBLIC_DATA_SOURCE=supabase`。
+5. 下一步為建立 Supabase 專案、執行 `env:init-local` 填入金鑰，必要時執行 `db:split-bootstrap`，再跑 `db:preflight` / `db:validate` / `db:freshness` / `db:raw-market`，不切換 `NEXT_PUBLIC_DATA_SOURCE=supabase`。
 
 ## 環境狀態
 

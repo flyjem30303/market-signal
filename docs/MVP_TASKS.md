@@ -91,6 +91,7 @@
 - [x] 建立 internal-only mixed data quality score helper。
 - [x] 建立 Supabase validation preflight 指令。
 - [x] 建立 Supabase bootstrap SQL split 指令。
+- [x] 建立本機 `.env.local` 初始化指令。
 
 ## H. 投資模型可信度
 
