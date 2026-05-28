@@ -143,3 +143,9 @@ Metadata probe report:
 ```text
 docs/reviews/CP3_TW_STOCK_ENDPOINT_METADATA_PROBE_2026-05-29.md
 ```
+
+Legal and field contract review:
+
+```text
+docs/reviews/CP3_TW_STOCK_LEGAL_FIELD_CONTRACT_REVIEW_2026-05-29.md
+```

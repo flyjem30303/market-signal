@@ -58,6 +58,11 @@ const checks = [
     name: "cp3-tw-stock-endpoint-metadata-probe"
   },
   {
+    command: [node, "scripts/check-cp3-tw-stock-legal-field-contract-review.mjs"],
+    expectStatus: "ok",
+    name: "cp3-tw-stock-legal-field-contract"
+  },
+  {
     command: [node, "scripts/check-cp3-tw-stock-model-candidates.mjs"],
     expectStatus: "ok",
     name: "cp3-tw-stock-model"
