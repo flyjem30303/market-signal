@@ -23,6 +23,7 @@ npm run check:review-gates
 package JSON
 asset-type policy
 internal route exposure
+CP1 checkpoint snapshot
 ETF source gate
 ETF due-diligence gate
 ETF source report

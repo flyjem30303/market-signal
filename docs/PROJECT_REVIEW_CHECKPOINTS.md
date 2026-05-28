@@ -275,7 +275,14 @@ docs/reviews/CP1_ETF_SOURCE_INTERNAL_VIEW_2026-05-29.md
 docs/reviews/CP1_INTERNAL_DIAGNOSTICS_CONSOLE_2026-05-29.md
 docs/reviews/CP1_INTERNAL_ROUTE_EXPOSURE_GUARD_2026-05-29.md
 docs/reviews/CP1_REVIEW_GATE_AGGREGATOR_2026-05-29.md
+docs/reviews/CP1_CHECKPOINT_SNAPSHOT_2026-05-29.md
 ```
 
 CEO approved proceeding only to internal raw market preview and diagnostics.
 Full UI repository switching remains unapproved.
+
+Current snapshot:
+
+```text
+docs/reviews/CP1_CHECKPOINT_SNAPSHOT_2026-05-29.md
+```

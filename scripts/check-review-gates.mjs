@@ -18,6 +18,11 @@ const checks = [
     name: "internal-route-exposure"
   },
   {
+    command: [node, "scripts/check-cp1-snapshot.mjs"],
+    expectStatus: "ok",
+    name: "cp1-snapshot"
+  },
+  {
     command: [node, "scripts/check-etf-source-gate.mjs"],
     expectStatus: "blocked",
     name: "etf-source-gate"
