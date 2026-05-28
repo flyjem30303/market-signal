@@ -15,6 +15,22 @@ supabase/bootstrap.sql
 Run that file in a new Supabase project's SQL editor to create the schema,
 stocks, latest prices, and latest fundamentals in one pass.
 
+## Validate Supabase Bootstrap
+
+```bash
+npm run db:validate
+```
+
+This requires `.env.local` with:
+
+```text
+NEXT_PUBLIC_SUPABASE_URL=
+SUPABASE_SERVICE_ROLE_KEY=
+```
+
+It checks row counts, latest trade dates, and `data_runs` statuses. It does not
+switch the UI to Supabase.
+
 ## Generate Market Exchange Seed SQL
 
 ```bash

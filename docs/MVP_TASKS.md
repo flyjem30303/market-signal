@@ -17,6 +17,7 @@
 - [x] 建立市場 / 交易所 metadata seed。
 - [x] 建立 data_runs 匯入紀錄表。
 - [x] 建立 Supabase bootstrap 驗證流程。
+- [x] 建立本機 Supabase bootstrap 驗證腳本。
 - [x] 建立 stocks 表草案。
 - [x] 將 stocks 唯一命名空間調整為 country + exchange + symbol。
 - [x] 產生完整上市股票主檔 seed。

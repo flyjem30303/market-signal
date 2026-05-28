@@ -73,6 +73,14 @@ latest_price_date 為最新 TWSE 交易日
 latest_fundamental_date 為最新 TWSE 估值日
 ```
 
+也可以在本機用 service role key 驗證：
+
+```bash
+npm run db:validate
+```
+
+此指令只讀取 Supabase 資料表，確認 bootstrap 是否成功，不會切換 UI 資料來源。
+
 若要分步執行，可依序執行：
 
 在 Supabase SQL editor 執行：

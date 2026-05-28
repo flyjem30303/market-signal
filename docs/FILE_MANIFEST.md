@@ -78,6 +78,7 @@ scripts/seed-data-runs-sql.mjs
 scripts/fetch-twse-stock-master.mjs
 scripts/fetch-twse-daily-market.mjs
 scripts/build-supabase-bootstrap.mjs
+scripts/validate-supabase-bootstrap.mjs
 scripts/README.md
 ```
 
