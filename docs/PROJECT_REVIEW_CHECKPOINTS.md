@@ -252,3 +252,12 @@ Reason:
 - It added latest market data SQL.
 - It added global-ready market metadata.
 - The next likely work is Supabase repository or live database setup.
+
+Latest follow-up:
+
+```text
+docs/reviews/CP1_FRESHNESS_SOURCE_2026-05-28.md
+```
+
+CEO approved proceeding only to a raw Supabase market read contract. Full UI
+repository switching remains unapproved.

@@ -13,6 +13,7 @@
 
 ## B. 資料庫
 
+- [x] 完成 CP1 freshness source follow-up review。
 - [x] 建立 market_exchanges 表草案。
 - [x] 建立市場 / 交易所 metadata seed。
 - [x] 建立 data_runs 匯入紀錄表。

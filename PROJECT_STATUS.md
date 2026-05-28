@@ -86,6 +86,7 @@ D:\指數燈號
 - 已新增 Supabase freshness repository，可讀取 `market_exchanges` 與 `data_runs` 生成資料 freshness snapshot，但尚未接入前台 UI。
 - 已新增 `npm run db:freshness` smoke test，供 `.env.local` 完成後驗證 Supabase freshness 讀取路徑。
 - 已新增 `DATA_FRESHNESS_SOURCE`，讓晨報與股票頁可獨立切換 freshness 來源；主資料源仍維持 `NEXT_PUBLIC_DATA_SOURCE=mock`。
+- 已完成 CP1 freshness source follow-up review；CEO 核准下一步只做 Supabase raw market read contract，不核准切換完整 UI repository。
 
 ## 下一次開工建議
 
@@ -93,7 +94,7 @@ D:\指數燈號
 2. 依 `docs/SUPABASE_EXECUTION_RUNBOOK.md` 建立 Supabase 專案並執行 bootstrap SQL。
 3. 建立 `.env.local` 後執行 `npm run db:validate`。
 4. 暫不切換 `NEXT_PUBLIC_DATA_SOURCE=supabase`。
-5. 完成資料 freshness / source attribution / validation 後，再進入下一個 checkpoint。
+5. 下一步只定義 Supabase raw market read model / repository contract，不切換 `NEXT_PUBLIC_DATA_SOURCE=supabase`。
 
 ## 環境狀態
 
