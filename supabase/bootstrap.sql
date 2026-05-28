@@ -1,5 +1,5 @@
 -- Taiwan Market Signal Supabase bootstrap SQL.
--- Generated at 2026-05-28T15:02:08.461Z.
+-- Generated at 2026-05-28T15:15:19.259Z.
 -- Run this in a new Supabase project's SQL editor.
 
 begin;
@@ -25,6 +25,24 @@ create table if not exists public.market_exchanges (
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
   primary key (country, exchange)
+);
+
+create table if not exists public.data_runs (
+  id uuid primary key default gen_random_uuid(),
+  run_key text not null unique,
+  source_name text not null,
+  source_url text,
+  target_table text not null,
+  status text not null check (status in ('success', 'partial', 'failed')),
+  row_count integer not null default 0,
+  data_start_date date,
+  data_end_date date,
+  started_at timestamptz not null,
+  finished_at timestamptz,
+  notes text,
+  error_message text,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
 );
 
 create table if not exists public.stocks (
@@ -154,6 +172,7 @@ create index if not exists news_items_published_at_idx on public.news_items(publ
 create index if not exists stocks_market_industry_idx on public.stocks(market, industry);
 create index if not exists stocks_country_exchange_symbol_idx on public.stocks(country, exchange, symbol);
 create index if not exists market_exchanges_active_idx on public.market_exchanges(is_active, country, exchange);
+create index if not exists data_runs_target_table_idx on public.data_runs(target_table, finished_at desc);
 
 -- ============================================================================
 -- Source: supabase/seed/000_seed_markets.sql
@@ -38211,12 +38230,96 @@ on conflict (stock_id, trade_date) do update set
   pb = excluded.pb,
   dividend_yield = excluded.dividend_yield;
 
+-- ============================================================================
+-- Source: supabase/seed/003_seed_data_runs.sql
+-- ============================================================================
+
+insert into public.data_runs (
+  run_key,
+  source_name,
+  source_url,
+  target_table,
+  status,
+  row_count,
+  data_start_date,
+  data_end_date,
+  started_at,
+  finished_at,
+  notes
+) values
+(
+  'bootstrap-market-exchanges',
+  'local seed',
+  'data/seeds/markets.seed.json',
+  'market_exchanges',
+  'success',
+  4,
+  null,
+  null,
+  '2026-05-28T15:15:11.065Z',
+  '2026-05-28T15:15:11.065Z',
+  'Seeded market metadata registry. Only TWSE is active.'
+),
+(
+  'bootstrap-stocks',
+  'TWSE OpenAPI',
+  'https://openapi.twse.com.tw/v1/opendata/t187ap03_L',
+  'stocks',
+  'success',
+  1086,
+  null,
+  null,
+  '2026-05-28T15:15:11.065Z',
+  '2026-05-28T15:15:11.065Z',
+  'Seeded manual index / ETF placeholders plus TWSE listed common stocks.'
+),
+(
+  'bootstrap-daily-prices',
+  'TWSE OpenAPI',
+  'https://openapi.twse.com.tw/v1/exchangeReport/STOCK_DAY_ALL',
+  'daily_prices',
+  'success',
+  1083,
+  '2026-05-27',
+  '2026-05-27',
+  '2026-05-28T15:15:11.065Z',
+  '2026-05-28T15:15:11.065Z',
+  'Latest available daily OHLCV snapshot for symbols known in stock seed.'
+),
+(
+  'bootstrap-daily-fundamentals',
+  'TWSE OpenAPI',
+  'https://openapi.twse.com.tw/v1/exchangeReport/BWIBBU_d',
+  'daily_fundamentals',
+  'success',
+  1077,
+  '2026-05-27',
+  '2026-05-27',
+  '2026-05-28T15:15:11.065Z',
+  '2026-05-28T15:15:11.065Z',
+  'Latest available PE, PB, and dividend yield snapshot for symbols known in stock seed.'
+)
+on conflict (run_key) do update set
+  source_name = excluded.source_name,
+  source_url = excluded.source_url,
+  target_table = excluded.target_table,
+  status = excluded.status,
+  row_count = excluded.row_count,
+  data_start_date = excluded.data_start_date,
+  data_end_date = excluded.data_end_date,
+  started_at = excluded.started_at,
+  finished_at = excluded.finished_at,
+  notes = excluded.notes,
+  updated_at = now();
+
 
 commit;
 
 -- Verification queries.
 select count(*) as stocks_count from public.stocks;
+select count(*) as market_exchanges_count from public.market_exchanges;
 select count(*) as daily_prices_count from public.daily_prices;
 select count(*) as daily_fundamentals_count from public.daily_fundamentals;
+select target_table, status, row_count, data_end_date from public.data_runs order by target_table;
 select max(trade_date) as latest_price_date from public.daily_prices;
 select max(trade_date) as latest_fundamental_date from public.daily_fundamentals;

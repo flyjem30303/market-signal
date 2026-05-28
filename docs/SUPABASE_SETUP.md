@@ -8,6 +8,7 @@
 - 市場 / 交易所 metadata seed SQL
 - 股票 seed SQL
 - 最新每日行情 / 估值 seed SQL
+- 匯入紀錄 seed SQL
 - 單檔 bootstrap SQL 產生器
 - Supabase client helper
 - `.env.example`
@@ -67,6 +68,7 @@ stocks_count 約 1086
 market_exchanges_count 約 4
 daily_prices_count 約 1083
 daily_fundamentals_count 約 1077
+data_runs 會列出各資料表的來源、狀態、筆數與資料日期
 latest_price_date 為最新 TWSE 交易日
 latest_fundamental_date 為最新 TWSE 估值日
 ```

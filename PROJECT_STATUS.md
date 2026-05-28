@@ -77,6 +77,7 @@ D:\指數燈號
 - 已建立 `market_exchanges` 市場 metadata registry，TWSE 先啟用，TPEx / NASDAQ / NYSE 作為未來全球擴張 placeholder。
 - CEO 已要求建立專案 review checkpoint 制度；每到資料、模型、體驗、全球化、商業化或上線切點，A 暫停實作，由 A/B/C/D/E/F 深度討論，CEO 收斂後再推進。
 - 已執行 CP1 Data Trust Checkpoint；CEO 決策為 `REVISE`，可建立 Supabase 並驗證資料庫，但暫不允許 UI 切換到 Supabase。
+- 已建立 `data_runs` 匯入紀錄表與 bootstrap 驗證查詢，用於追蹤資料來源、筆數、狀態與資料日期。
 
 ## 下一次開工建議
 

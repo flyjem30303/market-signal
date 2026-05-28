@@ -17,6 +17,24 @@ create table if not exists public.market_exchanges (
   primary key (country, exchange)
 );
 
+create table if not exists public.data_runs (
+  id uuid primary key default gen_random_uuid(),
+  run_key text not null unique,
+  source_name text not null,
+  source_url text,
+  target_table text not null,
+  status text not null check (status in ('success', 'partial', 'failed')),
+  row_count integer not null default 0,
+  data_start_date date,
+  data_end_date date,
+  started_at timestamptz not null,
+  finished_at timestamptz,
+  notes text,
+  error_message text,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
 create table if not exists public.stocks (
   id uuid primary key default gen_random_uuid(),
   symbol text not null,
@@ -144,3 +162,4 @@ create index if not exists news_items_published_at_idx on public.news_items(publ
 create index if not exists stocks_market_industry_idx on public.stocks(market, industry);
 create index if not exists stocks_country_exchange_symbol_idx on public.stocks(country, exchange, symbol);
 create index if not exists market_exchanges_active_idx on public.market_exchanges(is_active, country, exchange);
+create index if not exists data_runs_target_table_idx on public.data_runs(target_table, finished_at desc);

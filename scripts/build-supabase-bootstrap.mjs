@@ -6,6 +6,7 @@ const inputFiles = [
   "supabase/seed/000_seed_markets.sql",
   "supabase/seed/001_seed_stocks.sql",
   "supabase/seed/002_seed_latest_market_data.sql",
+  "supabase/seed/003_seed_data_runs.sql",
 ];
 
 function readSqlFile(path) {
@@ -39,8 +40,10 @@ commit;
 
 -- Verification queries.
 select count(*) as stocks_count from public.stocks;
+select count(*) as market_exchanges_count from public.market_exchanges;
 select count(*) as daily_prices_count from public.daily_prices;
 select count(*) as daily_fundamentals_count from public.daily_fundamentals;
+select target_table, status, row_count, data_end_date from public.data_runs order by target_table;
 select max(trade_date) as latest_price_date from public.daily_prices;
 select max(trade_date) as latest_fundamental_date from public.daily_fundamentals;
 `;

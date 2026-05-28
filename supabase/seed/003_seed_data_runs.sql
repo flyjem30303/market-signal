@@ -1,0 +1,77 @@
+insert into public.data_runs (
+  run_key,
+  source_name,
+  source_url,
+  target_table,
+  status,
+  row_count,
+  data_start_date,
+  data_end_date,
+  started_at,
+  finished_at,
+  notes
+) values
+(
+  'bootstrap-market-exchanges',
+  'local seed',
+  'data/seeds/markets.seed.json',
+  'market_exchanges',
+  'success',
+  4,
+  null,
+  null,
+  '2026-05-28T15:15:11.065Z',
+  '2026-05-28T15:15:11.065Z',
+  'Seeded market metadata registry. Only TWSE is active.'
+),
+(
+  'bootstrap-stocks',
+  'TWSE OpenAPI',
+  'https://openapi.twse.com.tw/v1/opendata/t187ap03_L',
+  'stocks',
+  'success',
+  1086,
+  null,
+  null,
+  '2026-05-28T15:15:11.065Z',
+  '2026-05-28T15:15:11.065Z',
+  'Seeded manual index / ETF placeholders plus TWSE listed common stocks.'
+),
+(
+  'bootstrap-daily-prices',
+  'TWSE OpenAPI',
+  'https://openapi.twse.com.tw/v1/exchangeReport/STOCK_DAY_ALL',
+  'daily_prices',
+  'success',
+  1083,
+  '2026-05-27',
+  '2026-05-27',
+  '2026-05-28T15:15:11.065Z',
+  '2026-05-28T15:15:11.065Z',
+  'Latest available daily OHLCV snapshot for symbols known in stock seed.'
+),
+(
+  'bootstrap-daily-fundamentals',
+  'TWSE OpenAPI',
+  'https://openapi.twse.com.tw/v1/exchangeReport/BWIBBU_d',
+  'daily_fundamentals',
+  'success',
+  1077,
+  '2026-05-27',
+  '2026-05-27',
+  '2026-05-28T15:15:11.065Z',
+  '2026-05-28T15:15:11.065Z',
+  'Latest available PE, PB, and dividend yield snapshot for symbols known in stock seed.'
+)
+on conflict (run_key) do update set
+  source_name = excluded.source_name,
+  source_url = excluded.source_url,
+  target_table = excluded.target_table,
+  status = excluded.status,
+  row_count = excluded.row_count,
+  data_start_date = excluded.data_start_date,
+  data_end_date = excluded.data_end_date,
+  started_at = excluded.started_at,
+  finished_at = excluded.finished_at,
+  notes = excluded.notes,
+  updated_at = now();

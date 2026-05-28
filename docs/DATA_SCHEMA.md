@@ -23,6 +23,28 @@
 primary key(country, exchange)
 ```
 
+## data_runs
+
+資料匯入紀錄。每次 bootstrap 或排程匯入都應記錄資料來源、目標表、狀態、筆數與資料日期範圍。
+
+| 欄位 | 型別 | 說明 |
+|---|---|---|
+| id | uuid | 主鍵 |
+| run_key | text | 匯入識別鍵，例如 bootstrap-daily-prices |
+| source_name | text | 資料來源名稱，例如 TWSE OpenAPI |
+| source_url | text | 資料來源 URL |
+| target_table | text | 寫入目標表 |
+| status | text | success / partial / failed |
+| row_count | integer | 匯入筆數 |
+| data_start_date | date | 資料起始日期 |
+| data_end_date | date | 資料結束日期 |
+| started_at | timestamp | 匯入開始時間 |
+| finished_at | timestamp | 匯入完成時間 |
+| notes | text | 備註 |
+| error_message | text | 錯誤訊息 |
+
+此表是資料品質與 freshness UI 的基礎。正式切 Supabase repository 前，必須能查詢此表判斷資料是否過期或缺漏。
+
 ## stocks
 
 股票主檔。

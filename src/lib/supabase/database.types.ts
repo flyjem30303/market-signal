@@ -3,6 +3,70 @@ export type Json = string | number | boolean | null | { [key: string]: Json | un
 export type Database = {
   public: {
     Tables: {
+      data_runs: {
+        Row: {
+          created_at: string;
+          data_end_date: string | null;
+          data_start_date: string | null;
+          error_message: string | null;
+          finished_at: string | null;
+          id: string;
+          notes: string | null;
+          row_count: number;
+          run_key: string;
+          source_name: string;
+          source_url: string | null;
+          started_at: string;
+          status: "success" | "partial" | "failed";
+          target_table: string;
+          updated_at: string;
+        };
+        Insert: {
+          created_at?: string;
+          data_end_date?: string | null;
+          data_start_date?: string | null;
+          error_message?: string | null;
+          finished_at?: string | null;
+          id?: string;
+          notes?: string | null;
+          row_count?: number;
+          run_key: string;
+          source_name: string;
+          source_url?: string | null;
+          started_at: string;
+          status: "success" | "partial" | "failed";
+          target_table: string;
+          updated_at?: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["data_runs"]["Insert"]>;
+      };
+      market_exchanges: {
+        Row: {
+          country: string;
+          created_at: string;
+          currency: string;
+          display_name: string;
+          exchange: string;
+          is_active: boolean;
+          locale: string;
+          name: string;
+          timezone: string;
+          updated_at: string;
+        };
+        Insert: {
+          country: string;
+          created_at?: string;
+          currency: string;
+          display_name: string;
+          exchange: string;
+          is_active?: boolean;
+          locale?: string;
+          name: string;
+          timezone: string;
+          updated_at?: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["market_exchanges"]["Insert"]>;
+      };
       stocks: {
         Row: {
           created_at: string;

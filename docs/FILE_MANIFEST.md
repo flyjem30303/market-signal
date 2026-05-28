@@ -71,8 +71,10 @@ supabase/bootstrap.sql
 supabase/seed/000_seed_markets.sql
 supabase/seed/001_seed_stocks.sql
 supabase/seed/002_seed_latest_market_data.sql
+supabase/seed/003_seed_data_runs.sql
 scripts/seed-stocks-sql.mjs
 scripts/seed-markets-sql.mjs
+scripts/seed-data-runs-sql.mjs
 scripts/fetch-twse-stock-master.mjs
 scripts/fetch-twse-daily-market.mjs
 scripts/build-supabase-bootstrap.mjs

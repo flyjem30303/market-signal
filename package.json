@@ -13,6 +13,7 @@
     "db:bootstrap": "node scripts/build-supabase-bootstrap.mjs",
     "fetch:daily-market": "node scripts/fetch-twse-daily-market.mjs",
     "fetch:stocks": "node scripts/fetch-twse-stock-master.mjs",
+    "seed:data-runs": "node scripts/seed-data-runs-sql.mjs",
     "seed:markets": "node scripts/seed-markets-sql.mjs",
     "seed:stocks": "node scripts/seed-stocks-sql.mjs"
   },

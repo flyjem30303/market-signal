@@ -99,3 +99,18 @@ supabase/seed/001_seed_stocks.sql
 ```
 
 The generated SQL can be run in Supabase SQL editor or included in a local seed workflow.
+
+## Generate Data Run Seed SQL
+
+```bash
+npm run seed:data-runs
+```
+
+This writes:
+
+```text
+supabase/seed/003_seed_data_runs.sql
+```
+
+It records bootstrap source attribution, row counts, and latest data dates for
+the current seed files.

@@ -153,6 +153,7 @@ generate weekly summary
 - 股票主檔已補全球化欄位：`country`、`exchange`、`currency`、`timezone`、`asset_type`。
 - TWSE 每日行情 SQL 已改用 `country + exchange + symbol` 對應 `stocks`，避免未來全球市場 symbol 碰撞。
 - 已建立 `market_exchanges` seed，TWSE 為 active，TPEx / NASDAQ / NYSE 暫列為 inactive future placeholders。
+- 已建立 `data_runs` 匯入紀錄設計，用來保存資料來源、目標表、匯入狀態、筆數與資料日期範圍。
 
 ## 模型 v1 資料需求
 
@@ -177,6 +178,7 @@ generate weekly summary
 ## 錯誤處理
 
 - 若某資料源失敗，不中斷整體更新。
+- 每次匯入必須寫入 `data_runs`，狀態為 success / partial / failed。
 - daily_scores 要記錄 model_version。
 - daily_scores 要記錄 data_quality_score、data_quality_grade、stale_data_flags、missing_module_flags、last_updated_at。
 - 缺資料時該模組降權或沿用最近有效值，但要標示資料品質。
