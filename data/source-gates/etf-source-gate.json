@@ -18,18 +18,64 @@
   "candidate_sources": [
     {
       "coverage": "TW",
+      "evidence_urls": [
+        "https://www.twse.com.tw/en/page/ETF/daily.html",
+        "https://www.twse.com.tw/en/ETFortune-institute/index",
+        "https://www.twse.com.tw/en/ETFortune-institute/etfInfo/009804"
+      ],
+      "field_coverage": [
+        "fund_category",
+        "tracking_index",
+        "issuer",
+        "aum",
+        "nav",
+        "premium_discount",
+        "distribution_frequency"
+      ],
+      "gaps": [
+        "expense_ratio",
+        "tracking_difference",
+        "constituent_count",
+        "top_holdings",
+        "license-review",
+        "automation-endpoint-confirmation"
+      ],
       "name": "TWSE official ETF disclosures",
       "status": "research",
       "notes": "Potential source for Taiwan ETF profile, NAV, holdings, and disclosure data. Requires endpoint/license confirmation before ingestion."
     },
     {
       "coverage": "US/global",
+      "evidence_urls": [
+        "https://www.twse.com.tw/staticFiles/news/news/tsecnews/8a8216d697fc438f01985f8efb9101ca.pdf",
+        "https://www.twse.com.tw/staticFiles/news/news/tsecnews/ff8080818d397607018dcfb38906016c.pdf"
+      ],
+      "field_coverage": [
+        "issuer",
+        "tracking_index",
+        "top_holdings"
+      ],
+      "gaps": [
+        "normalization",
+        "per-issuer-license-review",
+        "automation-reliability",
+        "global-coverage-consistency"
+      ],
       "name": "Issuer official ETF pages",
       "status": "research",
       "notes": "Potential source for issuer-level holdings and fund metadata. Requires per-issuer format and license review."
     },
     {
       "coverage": "US/global",
+      "evidence_urls": [],
+      "field_coverage": [],
+      "gaps": [
+        "vendor-selection",
+        "cost-review",
+        "redistribution-rights",
+        "global-coverage-validation",
+        "historical-depth-validation"
+      ],
       "name": "Paid market data vendor",
       "status": "research",
       "notes": "Potential long-term source for normalized ETF data. Requires cost, terms, redistribution, and reliability review."

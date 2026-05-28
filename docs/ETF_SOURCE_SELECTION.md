@@ -38,6 +38,15 @@ top_holdings
 Use for Taiwan ETF wedge if coverage, licensing, and update cadence are
 confirmed.
 
+Current research surfaces:
+
+```text
+TWSE ETF overview
+TWSE ETF daily trading data
+TWSE ETFortune market overview
+TWSE ETFortune ETF detail pages
+```
+
 Decision needs:
 
 ```text

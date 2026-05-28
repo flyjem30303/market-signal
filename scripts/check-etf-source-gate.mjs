@@ -20,10 +20,20 @@ function readJson(path) {
 }
 
 const gate = readJson(sourceGatePath);
-const missingFields = requiredFields.filter((field) => !gate.minimum_required_fields?.includes(field));
+const configuredMissingFields = requiredFields.filter((field) => !gate.minimum_required_fields?.includes(field));
+const coveredByCandidates = [
+  ...new Set((gate.candidate_sources ?? []).flatMap((source) => source.field_coverage ?? []).filter(Boolean))
+].sort();
+const candidateCoverageGaps = requiredFields.filter((field) => !coveredByCandidates.includes(field));
 const hasApprovedSource = Boolean(gate.approved_source);
 const hasCandidateSources = Array.isArray(gate.candidate_sources) && gate.candidate_sources.length > 0;
-const status = missingFields.length === 0 && hasCandidateSources && hasApprovedSource ? "ok" : "blocked";
+const status =
+  configuredMissingFields.length === 0 &&
+  candidateCoverageGaps.length === 0 &&
+  hasCandidateSources &&
+  hasApprovedSource
+    ? "ok"
+    : "blocked";
 
 console.log(
   JSON.stringify(
@@ -31,9 +41,11 @@ console.log(
       approved_source: gate.approved_source,
       blockers: gate.blockers ?? [],
       candidate_sources: gate.candidate_sources ?? [],
+      candidate_coverage_gaps: candidateCoverageGaps,
+      covered_by_candidates: coveredByCandidates,
       decision: gate.decision,
       has_candidate_sources: hasCandidateSources,
-      missing_fields: missingFields,
+      missing_fields: configuredMissingFields,
       status
     },
     null,
