@@ -223,9 +223,134 @@ const checks = [
     name: "cp3-twse-stock-day-staging-remote-read-only-validation-readiness-checklist"
   },
   {
+    command: [node, "scripts/check-cp3-twse-stock-day-staging-remote-read-only-validation-runbook-draft.mjs"],
+    expectStatus: "ok",
+    name: "cp3-twse-stock-day-staging-remote-read-only-validation-runbook-draft"
+  },
+  {
+    command: [node, "scripts/check-cp3-twse-stock-day-staging-remote-read-only-validation-runbook-role-review.mjs"],
+    expectStatus: "ok",
+    name: "cp3-twse-stock-day-staging-remote-read-only-validation-runbook-role-review"
+  },
+  {
+    command: [node, "scripts/check-cp3-twse-stock-day-staging-remote-read-only-validation-pre-execution-approval-packet.mjs"],
+    expectStatus: "ok",
+    name: "cp3-twse-stock-day-staging-remote-read-only-validation-pre-execution-approval-packet"
+  },
+  {
+    command: [node, "scripts/check-cp3-twse-stock-day-staging-remote-read-only-validation-pre-execution-approval-gate.mjs"],
+    expectStatus: "ok",
+    name: "cp3-twse-stock-day-staging-remote-read-only-validation-pre-execution-approval-gate"
+  },
+  {
+    command: [node, "scripts/check-cp3-local-only-decision-quality-worklist.mjs"],
+    expectStatus: "ok",
+    name: "cp3-local-only-decision-quality-worklist"
+  },
+  {
     command: [node, "scripts/check-cp3-tw-stock-model-candidates.mjs"],
     expectStatus: "ok",
     name: "cp3-tw-stock-model"
+  },
+  {
+    command: [node, "scripts/check-cp3-tw-stock-data-quality-downgrade-matrix.mjs"],
+    expectStatus: "ok",
+    name: "cp3-tw-stock-data-quality-downgrade-matrix"
+  },
+  {
+    command: [node, "scripts/check-cp3-tw-stock-data-quality-downgrade-matrix-role-review.mjs"],
+    expectStatus: "ok",
+    name: "cp3-tw-stock-data-quality-downgrade-matrix-role-review"
+  },
+  {
+    command: [node, "scripts/check-cp3-global-model-version-naming-rules.mjs"],
+    expectStatus: "ok",
+    name: "cp3-global-model-version-naming-rules"
+  },
+  {
+    command: [node, "scripts/check-cp3-global-model-version-naming-rules-role-review.mjs"],
+    expectStatus: "ok",
+    name: "cp3-global-model-version-naming-rules-role-review"
+  },
+  {
+    command: [node, "scripts/check-cp3-public-claim-approval-checklist.mjs"],
+    expectStatus: "ok",
+    name: "cp3-public-claim-approval-checklist"
+  },
+  {
+    command: [node, "scripts/check-cp3-public-claim-approval-checklist-role-review.mjs"],
+    expectStatus: "ok",
+    name: "cp3-public-claim-approval-checklist-role-review"
+  },
+  {
+    command: [node, "scripts/check-cp3-claim-to-runtime-state-mapping.mjs"],
+    expectStatus: "ok",
+    name: "cp3-claim-to-runtime-state-mapping"
+  },
+  {
+    command: [node, "scripts/check-cp3-claim-to-runtime-state-mapping-role-review.mjs"],
+    expectStatus: "ok",
+    name: "cp3-claim-to-runtime-state-mapping-role-review"
+  },
+  {
+    command: [node, "scripts/check-cp3-runtime-state-schema-draft.mjs"],
+    expectStatus: "ok",
+    name: "cp3-runtime-state-schema-draft"
+  },
+  {
+    command: [node, "scripts/check-cp3-runtime-state-schema-draft-role-review.mjs"],
+    expectStatus: "ok",
+    name: "cp3-runtime-state-schema-draft-role-review"
+  },
+  {
+    command: [node, "scripts/check-cp3-non-runtime-typescript-policy-draft-approval-gate.mjs"],
+    expectStatus: "ok",
+    name: "cp3-non-runtime-typescript-policy-draft-approval-gate"
+  },
+  {
+    command: [node, "scripts/check-cp3-runtime-policy-draft.mjs"],
+    expectStatus: "ok",
+    name: "cp3-runtime-policy-draft"
+  },
+  {
+    command: [node, "scripts/check-cp3-runtime-policy-draft-role-review.mjs"],
+    expectStatus: "ok",
+    name: "cp3-runtime-policy-draft-role-review"
+  },
+  {
+    command: [node, "scripts/check-cp3-runtime-policy-implementation-readiness-gate.mjs"],
+    expectStatus: "ok",
+    name: "cp3-runtime-policy-implementation-readiness-gate"
+  },
+  {
+    command: [node, "scripts/check-cp3-ui-state-disclosure-placement-plan.mjs"],
+    expectStatus: "ok",
+    name: "cp3-ui-state-disclosure-placement-plan"
+  },
+  {
+    command: [node, "scripts/check-cp3-ui-state-disclosure-placement-plan-role-review.mjs"],
+    expectStatus: "ok",
+    name: "cp3-ui-state-disclosure-placement-plan-role-review"
+  },
+  {
+    command: [node, "scripts/check-cp3-non-runtime-ui-copy-token-draft-approval-gate.mjs"],
+    expectStatus: "ok",
+    name: "cp3-non-runtime-ui-copy-token-draft-approval-gate"
+  },
+  {
+    command: [node, "scripts/check-cp3-ui-copy-tokens-draft.mjs"],
+    expectStatus: "ok",
+    name: "cp3-ui-copy-tokens-draft"
+  },
+  {
+    command: [node, "scripts/check-cp3-ui-copy-tokens-draft-role-review.mjs"],
+    expectStatus: "ok",
+    name: "cp3-ui-copy-tokens-draft-role-review"
+  },
+  {
+    command: [node, "scripts/check-cp3-ui-wiring-launch-blocker-checklist-gate.mjs"],
+    expectStatus: "ok",
+    name: "cp3-ui-wiring-launch-blocker-checklist-gate"
   },
   {
     command: [node, "scripts/check-cp3-tw-stock-backtest-method.mjs"],
