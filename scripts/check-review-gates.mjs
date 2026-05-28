@@ -113,6 +113,11 @@ const checks = [
     name: "cp3-twse-stock-day-controlled-dry-run"
   },
   {
+    command: [node, "scripts/check-cp3-twse-stock-day-dry-run-human-review.mjs"],
+    expectStatus: "ok",
+    name: "cp3-twse-stock-day-dry-run-human-review"
+  },
+  {
     command: [node, "scripts/check-cp3-tw-stock-model-candidates.mjs"],
     expectStatus: "ok",
     name: "cp3-tw-stock-model"
