@@ -298,6 +298,7 @@ docs/reviews/CP3_TW_STOCK_DRY_RUN_INTERNAL_VIEW_2026-05-29.md
 docs/reviews/CP3_TW_STOCK_SOURCE_DEPTH_2026-05-29.md
 docs/reviews/CP3_TW_STOCK_HISTORICAL_DATA_PLAN_2026-05-29.md
 docs/CP3_TW_STOCK_HISTORICAL_SOURCE_RESEARCH_2026-05-29.md
+docs/CP3_TW_STOCK_ENDPOINT_CONTRACT_MATRIX_2026-05-29.md
 ```
 
 CEO approved proceeding only to internal raw market preview and diagnostics.

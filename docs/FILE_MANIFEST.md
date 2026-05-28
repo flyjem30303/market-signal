@@ -106,6 +106,7 @@ scripts/check-cp3-tw-stock-source-depth.mjs
 scripts/check-cp3-tw-stock-backtest-method.mjs
 scripts/check-cp3-tw-stock-dry-run-contract.mjs
 scripts/check-cp3-tw-stock-dry-run-report.mjs
+scripts/check-cp3-tw-stock-endpoint-contract-matrix.mjs
 scripts/check-cp3-tw-stock-input-readiness.mjs
 scripts/check-cp3-tw-stock-model-candidates.mjs
 scripts/check-freshness-state-ui.mjs
@@ -169,6 +170,7 @@ docs/ETF_MIS_LEGAL_FAIR_USE_REVIEW_2026-05-29.md
 docs/CP3_MODEL_CREDIBILITY_PLAN.md
 docs/CP3_TW_STOCK_BACKTEST_METHOD.md
 docs/CP3_TW_STOCK_DRY_RUN_CONTRACT.md
+docs/CP3_TW_STOCK_ENDPOINT_CONTRACT_MATRIX_2026-05-29.md
 docs/CP3_TW_STOCK_HISTORICAL_DATA_PLAN.md
 docs/CP3_TW_STOCK_HISTORICAL_SOURCE_RESEARCH_2026-05-29.md
 docs/CP3_TW_STOCK_INPUT_READINESS.md

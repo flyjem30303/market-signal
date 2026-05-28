@@ -240,3 +240,8 @@ no public backtest claims
 no scoreSource=real
 ```
 
+Endpoint contract matrix:
+
+```text
+docs/CP3_TW_STOCK_ENDPOINT_CONTRACT_MATRIX_2026-05-29.md
+```

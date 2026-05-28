@@ -134,6 +134,12 @@ Source research record:
 docs/CP3_TW_STOCK_HISTORICAL_SOURCE_RESEARCH_2026-05-29.md
 ```
 
+Endpoint contract matrix:
+
+```text
+docs/CP3_TW_STOCK_ENDPOINT_CONTRACT_MATRIX_2026-05-29.md
+```
+
 ## Not Allowed
 
 ```text
