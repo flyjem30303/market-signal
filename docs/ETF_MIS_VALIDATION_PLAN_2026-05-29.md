@@ -69,6 +69,24 @@ legal blockers
 adapter readiness decision
 ```
 
+## Reporter
+
+Manual non-ingesting reporter:
+
+```text
+npm run report:etf-mis-smoke
+```
+
+Local direct command if npm cannot resolve `node` on Windows:
+
+```text
+"C:\Program Files\nodejs\node.exe" scripts/report-etf-mis-smoke.mjs
+```
+
+The reporter is intentionally not part of `check:review-gates` because it
+depends on external network availability. It emits a report only and must not
+write Supabase, seed data, fixtures, or public UI state.
+
 ## CEO Current Decision
 
 ```text

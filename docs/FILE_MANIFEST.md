@@ -93,6 +93,7 @@ scripts/check-supabase-etf-schema.mjs
 scripts/check-etf-source-gate.mjs
 scripts/check-etf-due-diligence.mjs
 scripts/report-etf-source-readiness.mjs
+scripts/report-etf-mis-smoke.mjs
 scripts/check-internal-route-exposure.mjs
 scripts/check-cp1-snapshot.mjs
 scripts/check-cp1-to-cp2.mjs
@@ -155,6 +156,7 @@ docs/reviews/CP1_ETF_ENDPOINT_RESEARCH_2026-05-29.md
 docs/reviews/CP1_ETF_JSON_URL_DISCOVERY_2026-05-29.md
 docs/reviews/CP1_ETF_MIS_NAV_DISCLOSURE_2026-05-29.md
 docs/reviews/CP1_ETF_MIS_VALIDATION_PLAN_2026-05-29.md
+docs/reviews/CP1_ETF_MIS_SMOKE_REPORTER_2026-05-29.md
 docs/CP1_TO_CP2_RELEASE_CHECKLIST.md
 docs/DATA_FRESHNESS_UI.md
 docs/DATA_SOURCES.md
