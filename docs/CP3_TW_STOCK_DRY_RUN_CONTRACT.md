@@ -147,3 +147,20 @@ REVISE
 
 The dry-run contract is approved for review, not implementation. Any future
 implementation must remain internal-only and public-ineligible.
+
+## Reporter
+
+Internal non-persistent reporter:
+
+```text
+npm run report:cp3-tw-stock-dry-run -- 2330
+```
+
+Guard:
+
+```text
+npm run check:cp3-tw-stock-dry-run-report
+```
+
+The reporter reads the latest seed SQL, writes nothing, and emits a report only.
+It remains public-ineligible and keeps `scoreSource: mock`.

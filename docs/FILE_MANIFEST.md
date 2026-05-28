@@ -94,12 +94,14 @@ scripts/check-etf-source-gate.mjs
 scripts/check-etf-due-diligence.mjs
 scripts/report-etf-source-readiness.mjs
 scripts/report-etf-mis-smoke.mjs
+scripts/report-cp3-tw-stock-dry-run.mjs
 scripts/check-internal-route-exposure.mjs
 scripts/check-cp1-snapshot.mjs
 scripts/check-cp1-to-cp2.mjs
 scripts/check-cp3-model-credibility.mjs
 scripts/check-cp3-tw-stock-backtest-method.mjs
 scripts/check-cp3-tw-stock-dry-run-contract.mjs
+scripts/check-cp3-tw-stock-dry-run-report.mjs
 scripts/check-cp3-tw-stock-input-readiness.mjs
 scripts/check-cp3-tw-stock-model-candidates.mjs
 scripts/check-freshness-state-ui.mjs
@@ -180,6 +182,7 @@ docs/reviews/CP3_TW_STOCK_MODEL_CANDIDATES_2026-05-29.md
 docs/reviews/CP3_TW_STOCK_BACKTEST_METHOD_2026-05-29.md
 docs/reviews/CP3_TW_STOCK_INPUT_READINESS_2026-05-29.md
 docs/reviews/CP3_TW_STOCK_DRY_RUN_CONTRACT_2026-05-29.md
+docs/reviews/CP3_TW_STOCK_DRY_RUN_REPORTER_2026-05-29.md
 docs/CP1_TO_CP2_RELEASE_CHECKLIST.md
 docs/DATA_FRESHNESS_UI.md
 docs/DATA_SOURCES.md

@@ -53,6 +53,11 @@ const checks = [
     name: "cp3-tw-stock-dry-run"
   },
   {
+    command: [node, "scripts/check-cp3-tw-stock-dry-run-report.mjs"],
+    expectStatus: "ok",
+    name: "cp3-tw-stock-dry-run-report"
+  },
+  {
     command: [node, "scripts/check-score-source-ui.mjs"],
     expectStatus: "ok",
     name: "score-source-ui"
