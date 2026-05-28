@@ -133,6 +133,7 @@ scripts/check-cp3-twse-stock-day-staging-migration-draft-role-review.mjs
 scripts/check-cp3-twse-stock-day-staging-migration-execution-approval-gate.mjs
 scripts/check-cp3-twse-stock-day-staging-migration-execution-readiness.mjs
 scripts/check-cp3-twse-stock-day-staging-post-migration-validation-rollback-plan.mjs
+scripts/check-cp3-twse-stock-day-staging-read-only-validation-script-design.mjs
 scripts/check-cp3-tw-stock-source-depth.mjs
 scripts/check-cp3-tw-stock-backtest-method.mjs
 scripts/check-cp3-tw-stock-dry-run-contract.mjs
@@ -229,6 +230,7 @@ docs/reviews/CP3_TWSE_STOCK_DAY_STAGING_MIGRATION_DRAFT_ROLE_REVIEW_2026-05-29.m
 docs/reviews/CP3_TWSE_STOCK_DAY_STAGING_MIGRATION_EXECUTION_APPROVAL_GATE_2026-05-29.md
 docs/reviews/CP3_TWSE_STOCK_DAY_STAGING_MIGRATION_EXECUTION_READINESS_2026-05-29.md
 docs/CP3_TWSE_STOCK_DAY_STAGING_POST_MIGRATION_VALIDATION_ROLLBACK_PLAN_2026-05-29.md
+docs/CP3_TWSE_STOCK_DAY_STAGING_READ_ONLY_VALIDATION_SCRIPT_DESIGN_2026-05-29.md
 docs/reviews/CP1_ETF_ENDPOINT_RESEARCH_2026-05-29.md
 docs/reviews/CP1_ETF_JSON_URL_DISCOVERY_2026-05-29.md
 docs/reviews/CP1_ETF_MIS_NAV_DISCLOSURE_2026-05-29.md
