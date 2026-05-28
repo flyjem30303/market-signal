@@ -28,6 +28,11 @@ const checks = [
     name: "cp1-to-cp2"
   },
   {
+    command: [node, "scripts/check-score-source-ui.mjs"],
+    expectStatus: "ok",
+    name: "score-source-ui"
+  },
+  {
     command: [node, "scripts/check-etf-source-gate.mjs"],
     expectStatus: "blocked",
     name: "etf-source-gate"
