@@ -1,0 +1,28372 @@
+-- Taiwan Market Signal Supabase bootstrap SQL.
+-- Generated at 2026-05-28T14:43:00.127Z.
+-- Run this in a new Supabase project's SQL editor.
+
+begin;
+
+-- ============================================================================
+-- Source: supabase/migrations/0001_initial_schema.sql
+-- ============================================================================
+
+-- Initial schema for Taiwan Market Signal.
+-- Target database: PostgreSQL / Supabase.
+
+create extension if not exists "pgcrypto";
+
+create table if not exists public.stocks (
+  id uuid primary key default gen_random_uuid(),
+  symbol text not null unique,
+  name text not null,
+  market text not null,
+  industry text,
+  listed_date date,
+  is_etf boolean not null default false,
+  is_active boolean not null default true,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create table if not exists public.daily_prices (
+  stock_id uuid not null references public.stocks(id) on delete cascade,
+  trade_date date not null,
+  open numeric,
+  high numeric,
+  low numeric,
+  close numeric,
+  volume numeric,
+  turnover numeric,
+  created_at timestamptz not null default now(),
+  primary key (stock_id, trade_date)
+);
+
+create table if not exists public.daily_fundamentals (
+  stock_id uuid not null references public.stocks(id) on delete cascade,
+  trade_date date not null,
+  pe numeric,
+  pb numeric,
+  dividend_yield numeric,
+  revenue_yoy numeric,
+  eps_ttm numeric,
+  created_at timestamptz not null default now(),
+  primary key (stock_id, trade_date)
+);
+
+create table if not exists public.daily_flows (
+  stock_id uuid not null references public.stocks(id) on delete cascade,
+  trade_date date not null,
+  foreign_net_buy numeric,
+  investment_trust_net_buy numeric,
+  dealer_net_buy numeric,
+  margin_balance numeric,
+  short_balance numeric,
+  day_trade_ratio numeric,
+  created_at timestamptz not null default now(),
+  primary key (stock_id, trade_date)
+);
+
+create table if not exists public.daily_scores (
+  stock_id uuid not null references public.stocks(id) on delete cascade,
+  trade_date date not null,
+  health_score integer not null check (health_score between 0 and 100),
+  risk_score integer not null check (risk_score between 0 and 100),
+  composite_score integer not null check (composite_score between 0 and 100),
+  data_quality_score integer not null default 0 check (data_quality_score between 0 and 100),
+  data_quality_grade text not null default 'D' check (data_quality_grade in ('A', 'B', 'C', 'D')),
+  stale_data_flags text[] not null default '{}',
+  missing_module_flags text[] not null default '{}',
+  signal text not null check (signal in ('green', 'yellow', 'orange', 'red', 'deep-red')),
+  model_version text not null,
+  last_updated_at timestamptz not null default now(),
+  created_at timestamptz not null default now(),
+  primary key (stock_id, trade_date, model_version)
+);
+
+create table if not exists public.score_modules (
+  stock_id uuid not null references public.stocks(id) on delete cascade,
+  trade_date date not null,
+  module_key text not null,
+  health integer not null check (health between 0 and 100),
+  risk integer not null check (risk between 0 and 100),
+  weight numeric not null,
+  model_version text not null,
+  created_at timestamptz not null default now(),
+  primary key (stock_id, trade_date, module_key, model_version)
+);
+
+create table if not exists public.news_items (
+  id uuid primary key default gen_random_uuid(),
+  published_at timestamptz not null,
+  source text not null,
+  title text not null,
+  summary text,
+  url text,
+  category text not null,
+  impact_score integer not null check (impact_score between -3 and 3),
+  created_at timestamptz not null default now()
+);
+
+create table if not exists public.stock_news (
+  stock_id uuid not null references public.stocks(id) on delete cascade,
+  news_id uuid not null references public.news_items(id) on delete cascade,
+  relevance_score numeric not null default 1,
+  primary key (stock_id, news_id)
+);
+
+create table if not exists public.profiles (
+  id uuid primary key,
+  email text unique,
+  plan text not null default 'free' check (plan in ('free', 'pro', 'admin')),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create table if not exists public.user_favorites (
+  user_id uuid not null references public.profiles(id) on delete cascade,
+  stock_id uuid not null references public.stocks(id) on delete cascade,
+  created_at timestamptz not null default now(),
+  primary key (user_id, stock_id)
+);
+
+create index if not exists daily_scores_trade_date_idx on public.daily_scores(trade_date desc);
+create index if not exists daily_prices_trade_date_idx on public.daily_prices(trade_date desc);
+create index if not exists news_items_published_at_idx on public.news_items(published_at desc);
+create index if not exists stocks_market_industry_idx on public.stocks(market, industry);
+
+-- ============================================================================
+-- Source: supabase/seed/001_seed_stocks.sql
+-- ============================================================================
+
+insert into public.stocks (
+  symbol,
+  name,
+  market,
+  industry,
+  listed_date,
+  is_etf,
+  is_active
+) values
+(
+  'TWII',
+  '台灣加權指數',
+  'INDEX',
+  '指數',
+  null,
+  false,
+  true
+),
+(
+  '0050',
+  '元大台灣50',
+  'TWSE',
+  'ETF',
+  '2003-06-30',
+  true,
+  true
+),
+(
+  '006208',
+  '富邦台50',
+  'TWSE',
+  'ETF',
+  '2012-07-17',
+  true,
+  true
+),
+(
+  '1101',
+  '台泥',
+  'TWSE',
+  '01',
+  '1962-02-09',
+  false,
+  true
+),
+(
+  '1102',
+  '亞泥',
+  'TWSE',
+  '01',
+  '1962-06-08',
+  false,
+  true
+),
+(
+  '1103',
+  '嘉泥',
+  'TWSE',
+  '01',
+  '1969-11-14',
+  false,
+  true
+),
+(
+  '1104',
+  '環泥',
+  'TWSE',
+  '01',
+  '1971-02-01',
+  false,
+  true
+),
+(
+  '1108',
+  '幸福',
+  'TWSE',
+  '01',
+  '1990-06-06',
+  false,
+  true
+),
+(
+  '1109',
+  '信大',
+  'TWSE',
+  '01',
+  '1991-12-05',
+  false,
+  true
+),
+(
+  '1110',
+  '東泥',
+  'TWSE',
+  '01',
+  '1994-10-22',
+  false,
+  true
+),
+(
+  '1201',
+  '味全',
+  'TWSE',
+  '02',
+  '1962-02-09',
+  false,
+  true
+),
+(
+  '1203',
+  '味王',
+  'TWSE',
+  '02',
+  '1964-08-24',
+  false,
+  true
+),
+(
+  '1210',
+  '大成',
+  'TWSE',
+  '02',
+  '1978-05-20',
+  false,
+  true
+),
+(
+  '1213',
+  '大飲',
+  'TWSE',
+  '02',
+  '1981-04-10',
+  false,
+  true
+),
+(
+  '1215',
+  '卜蜂',
+  'TWSE',
+  '02',
+  '1987-07-27',
+  false,
+  true
+),
+(
+  '1216',
+  '統一',
+  'TWSE',
+  '02',
+  '1987-12-28',
+  false,
+  true
+),
+(
+  '1217',
+  '愛之味',
+  'TWSE',
+  '02',
+  '1989-10-28',
+  false,
+  true
+),
+(
+  '1218',
+  '泰山',
+  'TWSE',
+  '02',
+  '1989-11-11',
+  false,
+  true
+),
+(
+  '1219',
+  '福壽',
+  'TWSE',
+  '02',
+  '1990-12-01',
+  false,
+  true
+),
+(
+  '1220',
+  '台榮',
+  'TWSE',
+  '02',
+  '1991-11-20',
+  false,
+  true
+),
+(
+  '1225',
+  '福懋油',
+  'TWSE',
+  '02',
+  '1993-09-27',
+  false,
+  true
+),
+(
+  '1227',
+  '佳格',
+  'TWSE',
+  '02',
+  '1994-04-09',
+  false,
+  true
+),
+(
+  '1229',
+  '聯華',
+  'TWSE',
+  '02',
+  '1976-07-19',
+  false,
+  true
+),
+(
+  '1231',
+  '聯華食',
+  'TWSE',
+  '02',
+  '1995-11-02',
+  false,
+  true
+),
+(
+  '1232',
+  '大統益',
+  'TWSE',
+  '02',
+  '1996-02-09',
+  false,
+  true
+),
+(
+  '1233',
+  '天仁',
+  'TWSE',
+  '02',
+  '1999-01-20',
+  false,
+  true
+),
+(
+  '1234',
+  '黑松',
+  'TWSE',
+  '02',
+  '1999-03-12',
+  false,
+  true
+),
+(
+  '1235',
+  '興泰',
+  'TWSE',
+  '02',
+  '2000-09-11',
+  false,
+  true
+),
+(
+  '1236',
+  '宏亞',
+  'TWSE',
+  '02',
+  '2001-09-17',
+  false,
+  true
+),
+(
+  '1256',
+  '鮮活果汁-KY',
+  'TWSE',
+  '02',
+  '2016-03-17',
+  false,
+  true
+),
+(
+  '1301',
+  '台塑',
+  'TWSE',
+  '03',
+  '1964-07-27',
+  false,
+  true
+),
+(
+  '1303',
+  '南亞',
+  'TWSE',
+  '03',
+  '1967-11-15',
+  false,
+  true
+),
+(
+  '1304',
+  '台聚',
+  'TWSE',
+  '03',
+  '1972-05-20',
+  false,
+  true
+),
+(
+  '1305',
+  '華夏',
+  'TWSE',
+  '03',
+  '1973-03-05',
+  false,
+  true
+),
+(
+  '1307',
+  '三芳',
+  'TWSE',
+  '03',
+  '1985-11-23',
+  false,
+  true
+),
+(
+  '1308',
+  '亞聚',
+  'TWSE',
+  '03',
+  '1986-06-20',
+  false,
+  true
+),
+(
+  '1309',
+  '台達化',
+  'TWSE',
+  '03',
+  '1986-06-27',
+  false,
+  true
+),
+(
+  '1310',
+  '台苯',
+  'TWSE',
+  '03',
+  '1987-08-06',
+  false,
+  true
+),
+(
+  '1312',
+  '國喬',
+  'TWSE',
+  '03',
+  '1988-12-21',
+  false,
+  true
+),
+(
+  '1313',
+  '聯成',
+  'TWSE',
+  '03',
+  '1989-03-27',
+  false,
+  true
+),
+(
+  '1314',
+  '中石化',
+  'TWSE',
+  '03',
+  '1991-07-12',
+  false,
+  true
+),
+(
+  '1315',
+  '達新',
+  'TWSE',
+  '03',
+  '1992-05-09',
+  false,
+  true
+),
+(
+  '1316',
+  '上曜',
+  'TWSE',
+  '14',
+  '1992-10-15',
+  false,
+  true
+),
+(
+  '1319',
+  '東陽',
+  'TWSE',
+  '12',
+  '1994-12-12',
+  false,
+  true
+),
+(
+  '1321',
+  '大洋',
+  'TWSE',
+  '03',
+  '1999-01-26',
+  false,
+  true
+),
+(
+  '1323',
+  '永裕',
+  'TWSE',
+  '03',
+  '2000-09-11',
+  false,
+  true
+),
+(
+  '1324',
+  '地球',
+  'TWSE',
+  '03',
+  '2000-09-11',
+  false,
+  true
+),
+(
+  '1325',
+  '恆大',
+  'TWSE',
+  '03',
+  '2000-09-11',
+  false,
+  true
+),
+(
+  '1326',
+  '台化',
+  'TWSE',
+  '03',
+  '1984-12-20',
+  false,
+  true
+),
+(
+  '1337',
+  '再生-KY',
+  'TWSE',
+  '03',
+  '2011-08-17',
+  false,
+  true
+),
+(
+  '1338',
+  '廣華-KY',
+  'TWSE',
+  '12',
+  '2012-12-19',
+  false,
+  true
+),
+(
+  '1339',
+  '昭輝',
+  'TWSE',
+  '12',
+  '2012-04-24',
+  false,
+  true
+),
+(
+  '1340',
+  '勝悅-KY',
+  'TWSE',
+  '03',
+  '2014-01-14',
+  false,
+  true
+),
+(
+  '1341',
+  '富林-KY',
+  'TWSE',
+  '03',
+  '2018-12-24',
+  false,
+  true
+),
+(
+  '1342',
+  '八貫',
+  'TWSE',
+  '20',
+  '2020-11-24',
+  false,
+  true
+),
+(
+  '1402',
+  '遠東新',
+  'TWSE',
+  '04',
+  '1967-04-14',
+  false,
+  true
+),
+(
+  '1409',
+  '新纖',
+  'TWSE',
+  '04',
+  '1973-08-31',
+  false,
+  true
+),
+(
+  '1410',
+  '南染',
+  'TWSE',
+  '04',
+  '1973-10-18',
+  false,
+  true
+),
+(
+  '1413',
+  '宏洲',
+  'TWSE',
+  '04',
+  '1975-12-23',
+  false,
+  true
+),
+(
+  '1414',
+  '東和',
+  'TWSE',
+  '04',
+  '1976-02-02',
+  false,
+  true
+),
+(
+  '1416',
+  '廣豐',
+  'TWSE',
+  '20',
+  '1976-04-20',
+  false,
+  true
+),
+(
+  '1417',
+  '嘉裕',
+  'TWSE',
+  '04',
+  '1976-12-28',
+  false,
+  true
+),
+(
+  '1418',
+  '東華',
+  'TWSE',
+  '04',
+  '1977-02-14',
+  false,
+  true
+),
+(
+  '1419',
+  '新紡',
+  'TWSE',
+  '04',
+  '1977-03-14',
+  false,
+  true
+),
+(
+  '1423',
+  '利華',
+  'TWSE',
+  '04',
+  '1979-04-02',
+  false,
+  true
+),
+(
+  '1432',
+  '大魯閣',
+  'TWSE',
+  '37',
+  '1982-07-26',
+  false,
+  true
+),
+(
+  '1434',
+  '福懋',
+  'TWSE',
+  '04',
+  '1985-12-24',
+  false,
+  true
+),
+(
+  '1435',
+  '中福',
+  'TWSE',
+  '20',
+  '1987-12-28',
+  false,
+  true
+),
+(
+  '1436',
+  '華友聯',
+  'TWSE',
+  '14',
+  '1988-04-11',
+  false,
+  true
+),
+(
+  '1437',
+  '勤益控',
+  'TWSE',
+  '20',
+  '1988-11-10',
+  false,
+  true
+),
+(
+  '1438',
+  '三地開發',
+  'TWSE',
+  '14',
+  '1988-12-15',
+  false,
+  true
+),
+(
+  '1439',
+  '雋揚',
+  'TWSE',
+  '14',
+  '1989-05-22',
+  false,
+  true
+),
+(
+  '1440',
+  '南紡',
+  'TWSE',
+  '04',
+  '1989-10-03',
+  false,
+  true
+),
+(
+  '1441',
+  '大東',
+  'TWSE',
+  '04',
+  '1989-10-27',
+  false,
+  true
+),
+(
+  '1442',
+  '名軒',
+  'TWSE',
+  '14',
+  '1989-11-16',
+  false,
+  true
+),
+(
+  '1443',
+  '立益物流',
+  'TWSE',
+  '20',
+  '1990-04-21',
+  false,
+  true
+),
+(
+  '1444',
+  '力麗',
+  'TWSE',
+  '04',
+  '1990-08-08',
+  false,
+  true
+),
+(
+  '1445',
+  '大宇',
+  'TWSE',
+  '04',
+  '1991-02-05',
+  false,
+  true
+),
+(
+  '1446',
+  '宏和',
+  'TWSE',
+  '04',
+  '1991-10-15',
+  false,
+  true
+),
+(
+  '1447',
+  '力鵬',
+  'TWSE',
+  '04',
+  '1992-01-28',
+  false,
+  true
+),
+(
+  '1449',
+  '佳和',
+  'TWSE',
+  '04',
+  '1992-05-06',
+  false,
+  true
+),
+(
+  '1451',
+  '年興',
+  'TWSE',
+  '04',
+  '1992-12-21',
+  false,
+  true
+),
+(
+  '1452',
+  '宏益',
+  'TWSE',
+  '04',
+  '1992-12-28',
+  false,
+  true
+),
+(
+  '1453',
+  '大將',
+  'TWSE',
+  '14',
+  '1993-04-19',
+  false,
+  true
+),
+(
+  '1454',
+  '台富',
+  'TWSE',
+  '04',
+  '1993-05-07',
+  false,
+  true
+),
+(
+  '1455',
+  '集盛',
+  'TWSE',
+  '04',
+  '1993-10-07',
+  false,
+  true
+),
+(
+  '1456',
+  '怡華',
+  'TWSE',
+  '14',
+  '1993-12-09',
+  false,
+  true
+),
+(
+  '1457',
+  '宜進',
+  'TWSE',
+  '04',
+  '1994-10-20',
+  false,
+  true
+),
+(
+  '1459',
+  '聯發',
+  'TWSE',
+  '04',
+  '1994-10-26',
+  false,
+  true
+),
+(
+  '1460',
+  '宏遠',
+  'TWSE',
+  '04',
+  '1995-04-28',
+  false,
+  true
+),
+(
+  '1463',
+  '強盛新',
+  'TWSE',
+  '04',
+  '1996-12-05',
+  false,
+  true
+),
+(
+  '1464',
+  '得力',
+  'TWSE',
+  '04',
+  '1997-01-18',
+  false,
+  true
+),
+(
+  '1465',
+  '偉全',
+  'TWSE',
+  '04',
+  '1997-09-08',
+  false,
+  true
+),
+(
+  '1466',
+  '聚隆',
+  'TWSE',
+  '04',
+  '1998-04-04',
+  false,
+  true
+),
+(
+  '1467',
+  '南緯',
+  'TWSE',
+  '04',
+  '1998-12-21',
+  false,
+  true
+),
+(
+  '1468',
+  '昶和',
+  'TWSE',
+  '04',
+  '1999-01-21',
+  false,
+  true
+),
+(
+  '1470',
+  '大統新創',
+  'TWSE',
+  '04',
+  '1999-05-21',
+  false,
+  true
+),
+(
+  '1471',
+  '首利',
+  'TWSE',
+  '28',
+  '2000-03-06',
+  false,
+  true
+),
+(
+  '1472',
+  '三洋實業',
+  'TWSE',
+  '14',
+  '2000-09-11',
+  false,
+  true
+),
+(
+  '1473',
+  '台南',
+  'TWSE',
+  '04',
+  '2000-09-11',
+  false,
+  true
+),
+(
+  '1474',
+  '弘裕',
+  'TWSE',
+  '04',
+  '2000-10-31',
+  false,
+  true
+),
+(
+  '1475',
+  '業旺',
+  'TWSE',
+  '04',
+  '2000-10-27',
+  false,
+  true
+),
+(
+  '1476',
+  '儒鴻',
+  'TWSE',
+  '04',
+  '2001-04-18',
+  false,
+  true
+),
+(
+  '1477',
+  '聚陽',
+  'TWSE',
+  '04',
+  '2003-01-21',
+  false,
+  true
+),
+(
+  '1503',
+  '士電',
+  'TWSE',
+  '05',
+  '1969-12-15',
+  false,
+  true
+),
+(
+  '1504',
+  '東元',
+  'TWSE',
+  '05',
+  '1973-11-05',
+  false,
+  true
+),
+(
+  '1506',
+  '正道',
+  'TWSE',
+  '05',
+  '1980-08-11',
+  false,
+  true
+),
+(
+  '1512',
+  '瑞利',
+  'TWSE',
+  '12',
+  '1994-01-28',
+  false,
+  true
+),
+(
+  '1513',
+  '中興電',
+  'TWSE',
+  '05',
+  '1994-03-08',
+  false,
+  true
+),
+(
+  '1514',
+  '亞力',
+  'TWSE',
+  '05',
+  '1994-03-26',
+  false,
+  true
+),
+(
+  '1515',
+  '力山',
+  'TWSE',
+  '05',
+  '1995-02-04',
+  false,
+  true
+),
+(
+  '1516',
+  '川飛',
+  'TWSE',
+  '20',
+  '1995-04-01',
+  false,
+  true
+),
+(
+  '1517',
+  '利奇',
+  'TWSE',
+  '05',
+  '1995-11-14',
+  false,
+  true
+),
+(
+  '1519',
+  '華城',
+  'TWSE',
+  '05',
+  '1997-04-16',
+  false,
+  true
+),
+(
+  '1521',
+  '大億',
+  'TWSE',
+  '12',
+  '1997-10-06',
+  false,
+  true
+),
+(
+  '1522',
+  '堤維西',
+  'TWSE',
+  '12',
+  '1997-10-06',
+  false,
+  true
+),
+(
+  '1524',
+  '耿鼎',
+  'TWSE',
+  '12',
+  '1998-10-30',
+  false,
+  true
+),
+(
+  '1525',
+  '江申',
+  'TWSE',
+  '12',
+  '1999-05-15',
+  false,
+  true
+),
+(
+  '1526',
+  '日馳',
+  'TWSE',
+  '05',
+  '2000-03-27',
+  false,
+  true
+),
+(
+  '1527',
+  '鑽全',
+  'TWSE',
+  '05',
+  '2000-06-21',
+  false,
+  true
+),
+(
+  '1528',
+  '恩德',
+  'TWSE',
+  '05',
+  '2000-09-11',
+  false,
+  true
+),
+(
+  '1529',
+  '樂事綠能',
+  'TWSE',
+  '05',
+  '2000-09-11',
+  false,
+  true
+),
+(
+  '1530',
+  '亞崴',
+  'TWSE',
+  '05',
+  '2000-09-11',
+  false,
+  true
+),
+(
+  '1531',
+  '高林股',
+  'TWSE',
+  '05',
+  '2000-09-11',
+  false,
+  true
+),
+(
+  '1532',
+  '勤美',
+  'TWSE',
+  '05',
+  '2000-09-11',
+  false,
+  true
+),
+(
+  '1533',
+  '車王電',
+  'TWSE',
+  '12',
+  '2001-04-06',
+  false,
+  true
+),
+(
+  '1535',
+  '中宇',
+  'TWSE',
+  '05',
+  '2001-09-17',
+  false,
+  true
+),
+(
+  '1536',
+  '和大',
+  'TWSE',
+  '12',
+  '2001-09-17',
+  false,
+  true
+),
+(
+  '1537',
+  '廣隆',
+  'TWSE',
+  '05',
+  '2002-01-22',
+  false,
+  true
+),
+(
+  '1538',
+  '正峰',
+  'TWSE',
+  '05',
+  '2002-08-26',
+  false,
+  true
+),
+(
+  '1539',
+  '巨庭',
+  'TWSE',
+  '05',
+  '2002-10-29',
+  false,
+  true
+),
+(
+  '1540',
+  '喬福',
+  'TWSE',
+  '05',
+  '2002-08-26',
+  false,
+  true
+),
+(
+  '1541',
+  '錩泰',
+  'TWSE',
+  '05',
+  '2003-03-19',
+  false,
+  true
+),
+(
+  '1558',
+  '伸興',
+  'TWSE',
+  '05',
+  '2014-12-23',
+  false,
+  true
+),
+(
+  '1560',
+  '中砂',
+  'TWSE',
+  '05',
+  '2005-01-31',
+  false,
+  true
+),
+(
+  '1563',
+  '巧新',
+  'TWSE',
+  '12',
+  '2024-05-13',
+  false,
+  true
+),
+(
+  '1568',
+  '倉佑',
+  'TWSE',
+  '12',
+  '2014-05-14',
+  false,
+  true
+),
+(
+  '1582',
+  '信錦',
+  'TWSE',
+  '28',
+  '2009-12-17',
+  false,
+  true
+),
+(
+  '1583',
+  '程泰',
+  'TWSE',
+  '05',
+  '2008-01-24',
+  false,
+  true
+),
+(
+  '1587',
+  '吉茂',
+  'TWSE',
+  '12',
+  '2018-04-16',
+  false,
+  true
+),
+(
+  '1589',
+  '永冠-KY',
+  'TWSE',
+  '05',
+  '2012-04-27',
+  false,
+  true
+),
+(
+  '1590',
+  '亞德客-KY',
+  'TWSE',
+  '05',
+  '2010-12-13',
+  false,
+  true
+),
+(
+  '1597',
+  '直得',
+  'TWSE',
+  '05',
+  '2020-12-23',
+  false,
+  true
+),
+(
+  '1598',
+  '岱宇',
+  'TWSE',
+  '37',
+  '2016-09-20',
+  false,
+  true
+),
+(
+  '1603',
+  '華電',
+  'TWSE',
+  '06',
+  '1968-06-03',
+  false,
+  true
+),
+(
+  '1604',
+  '聲寶',
+  'TWSE',
+  '06',
+  '1970-12-14',
+  false,
+  true
+),
+(
+  '1605',
+  '華新',
+  'TWSE',
+  '06',
+  '1972-11-03',
+  false,
+  true
+),
+(
+  '1608',
+  '華榮',
+  'TWSE',
+  '06',
+  '1988-07-11',
+  false,
+  true
+),
+(
+  '1609',
+  '大亞',
+  'TWSE',
+  '06',
+  '1988-12-12',
+  false,
+  true
+),
+(
+  '1611',
+  '中電',
+  'TWSE',
+  '06',
+  '1990-01-16',
+  false,
+  true
+),
+(
+  '1612',
+  '宏泰',
+  'TWSE',
+  '06',
+  '1993-05-08',
+  false,
+  true
+),
+(
+  '1614',
+  '三洋電',
+  'TWSE',
+  '06',
+  '1997-09-18',
+  false,
+  true
+),
+(
+  '1615',
+  '大山',
+  'TWSE',
+  '06',
+  '2000-03-30',
+  false,
+  true
+),
+(
+  '1616',
+  '億泰',
+  'TWSE',
+  '06',
+  '2000-09-11',
+  false,
+  true
+),
+(
+  '1617',
+  '榮星',
+  'TWSE',
+  '06',
+  '2000-09-11',
+  false,
+  true
+),
+(
+  '1618',
+  '合機',
+  'TWSE',
+  '06',
+  '2000-09-11',
+  false,
+  true
+),
+(
+  '1623',
+  '大東電',
+  'TWSE',
+  '06',
+  '2026-01-22',
+  false,
+  true
+),
+(
+  '1626',
+  '艾美特-KY',
+  'TWSE',
+  '06',
+  '2013-03-21',
+  false,
+  true
+),
+(
+  '1702',
+  '南僑',
+  'TWSE',
+  '02',
+  '1973-05-30',
+  false,
+  true
+),
+(
+  '1707',
+  '葡萄王',
+  'TWSE',
+  '22',
+  '1982-12-20',
+  false,
+  true
+),
+(
+  '1708',
+  '東鹼',
+  'TWSE',
+  '21',
+  '1986-06-16',
+  false,
+  true
+),
+(
+  '1709',
+  '和益',
+  'TWSE',
+  '21',
+  '1986-07-03',
+  false,
+  true
+),
+(
+  '1710',
+  '東聯',
+  'TWSE',
+  '21',
+  '1987-10-21',
+  false,
+  true
+),
+(
+  '1711',
+  '永光',
+  'TWSE',
+  '21',
+  '1988-12-27',
+  false,
+  true
+),
+(
+  '1712',
+  '興農',
+  'TWSE',
+  '21',
+  '1989-12-14',
+  false,
+  true
+),
+(
+  '1713',
+  '國化',
+  'TWSE',
+  '21',
+  '1990-01-31',
+  false,
+  true
+),
+(
+  '1714',
+  '和桐',
+  'TWSE',
+  '21',
+  '1991-08-30',
+  false,
+  true
+),
+(
+  '1717',
+  '長興',
+  'TWSE',
+  '21',
+  '1994-03-31',
+  false,
+  true
+),
+(
+  '1718',
+  '中纖',
+  'TWSE',
+  '21',
+  '1963-12-02',
+  false,
+  true
+),
+(
+  '1720',
+  '生達',
+  'TWSE',
+  '22',
+  '1995-12-12',
+  false,
+  true
+),
+(
+  '1721',
+  '三晃',
+  'TWSE',
+  '21',
+  '1996-05-16',
+  false,
+  true
+),
+(
+  '1722',
+  '台肥',
+  'TWSE',
+  '21',
+  '1998-03-24',
+  false,
+  true
+),
+(
+  '1723',
+  '中碳',
+  'TWSE',
+  '21',
+  '1998-11-27',
+  false,
+  true
+),
+(
+  '1725',
+  '元禎',
+  'TWSE',
+  '21',
+  '2000-09-11',
+  false,
+  true
+),
+(
+  '1726',
+  '永記',
+  'TWSE',
+  '21',
+  '2000-09-11',
+  false,
+  true
+),
+(
+  '1727',
+  '中華化',
+  'TWSE',
+  '21',
+  '2000-09-11',
+  false,
+  true
+),
+(
+  '1730',
+  '花仙子',
+  'TWSE',
+  '21',
+  '2001-09-17',
+  false,
+  true
+),
+(
+  '1731',
+  '美吾華',
+  'TWSE',
+  '22',
+  '2001-09-17',
+  false,
+  true
+),
+(
+  '1732',
+  '毛寶',
+  'TWSE',
+  '21',
+  '2001-09-17',
+  false,
+  true
+),
+(
+  '1733',
+  '五鼎',
+  'TWSE',
+  '22',
+  '2001-09-17',
+  false,
+  true
+),
+(
+  '1734',
+  '杏輝',
+  'TWSE',
+  '22',
+  '2002-08-26',
+  false,
+  true
+),
+(
+  '1735',
+  '日勝化',
+  'TWSE',
+  '21',
+  '2002-08-26',
+  false,
+  true
+),
+(
+  '1736',
+  '喬山',
+  'TWSE',
+  '37',
+  '2003-01-09',
+  false,
+  true
+),
+(
+  '1737',
+  '臺鹽',
+  'TWSE',
+  '02',
+  '2003-11-18',
+  false,
+  true
+),
+(
+  '1752',
+  '南光',
+  'TWSE',
+  '22',
+  '2022-01-19',
+  false,
+  true
+),
+(
+  '1760',
+  '寶齡富錦',
+  'TWSE',
+  '22',
+  '2018-01-23',
+  false,
+  true
+),
+(
+  '1762',
+  '中化生',
+  'TWSE',
+  '22',
+  '2010-12-20',
+  false,
+  true
+),
+(
+  '1773',
+  '勝一',
+  'TWSE',
+  '21',
+  '2009-02-27',
+  false,
+  true
+),
+(
+  '1776',
+  '展宇',
+  'TWSE',
+  '21',
+  '2016-05-09',
+  false,
+  true
+),
+(
+  '1783',
+  '和康生',
+  'TWSE',
+  '22',
+  '2013-12-20',
+  false,
+  true
+),
+(
+  '1786',
+  '科妍',
+  'TWSE',
+  '22',
+  '2013-11-12',
+  false,
+  true
+),
+(
+  '1789',
+  '神隆',
+  'TWSE',
+  '22',
+  '2011-09-29',
+  false,
+  true
+),
+(
+  '1795',
+  '美時',
+  'TWSE',
+  '22',
+  '2019-12-16',
+  false,
+  true
+),
+(
+  '1802',
+  '台玻',
+  'TWSE',
+  '08',
+  '1973-07-20',
+  false,
+  true
+),
+(
+  '1805',
+  '寶徠',
+  'TWSE',
+  '14',
+  '1989-10-20',
+  false,
+  true
+),
+(
+  '1806',
+  '冠軍',
+  'TWSE',
+  '08',
+  '1992-09-29',
+  false,
+  true
+),
+(
+  '1808',
+  '潤隆',
+  'TWSE',
+  '14',
+  '1994-10-26',
+  false,
+  true
+),
+(
+  '1809',
+  '中釉',
+  'TWSE',
+  '08',
+  '1996-04-30',
+  false,
+  true
+),
+(
+  '1810',
+  '和成',
+  'TWSE',
+  '08',
+  '1991-10-14',
+  false,
+  true
+),
+(
+  '1817',
+  '凱撒衛',
+  'TWSE',
+  '08',
+  '2013-10-24',
+  false,
+  true
+),
+(
+  '1903',
+  '士紙',
+  'TWSE',
+  '09',
+  '1963-12-09',
+  false,
+  true
+),
+(
+  '1904',
+  '正隆',
+  'TWSE',
+  '09',
+  '1971-09-10',
+  false,
+  true
+),
+(
+  '1905',
+  '華紙',
+  'TWSE',
+  '09',
+  '1975-02-07',
+  false,
+  true
+),
+(
+  '1906',
+  '寶隆',
+  'TWSE',
+  '09',
+  '1976-04-26',
+  false,
+  true
+),
+(
+  '1907',
+  '永豐餘',
+  'TWSE',
+  '09',
+  '1977-02-22',
+  false,
+  true
+),
+(
+  '1909',
+  '榮成',
+  'TWSE',
+  '09',
+  '1985-11-19',
+  false,
+  true
+),
+(
+  '2002',
+  '中鋼',
+  'TWSE',
+  '10',
+  '1974-12-26',
+  false,
+  true
+),
+(
+  '2006',
+  '東和鋼鐵',
+  'TWSE',
+  '10',
+  '1988-07-13',
+  false,
+  true
+),
+(
+  '2007',
+  '燁興',
+  'TWSE',
+  '10',
+  '1988-10-04',
+  false,
+  true
+),
+(
+  '2008',
+  '高興昌',
+  'TWSE',
+  '10',
+  '1988-12-28',
+  false,
+  true
+),
+(
+  '2009',
+  '第一銅',
+  'TWSE',
+  '10',
+  '1989-10-20',
+  false,
+  true
+),
+(
+  '2010',
+  '春源',
+  'TWSE',
+  '10',
+  '1989-12-22',
+  false,
+  true
+),
+(
+  '2012',
+  '春雨',
+  'TWSE',
+  '10',
+  '1991-10-17',
+  false,
+  true
+),
+(
+  '2013',
+  '中鋼構',
+  'TWSE',
+  '10',
+  '1992-01-21',
+  false,
+  true
+),
+(
+  '2014',
+  '中鴻',
+  'TWSE',
+  '10',
+  '1992-02-20',
+  false,
+  true
+),
+(
+  '2015',
+  '豐興',
+  'TWSE',
+  '10',
+  '1992-05-25',
+  false,
+  true
+),
+(
+  '2017',
+  '官田鋼',
+  'TWSE',
+  '10',
+  '1992-11-02',
+  false,
+  true
+),
+(
+  '2020',
+  '美亞',
+  'TWSE',
+  '10',
+  '1993-04-27',
+  false,
+  true
+),
+(
+  '2022',
+  '聚亨',
+  'TWSE',
+  '10',
+  '1995-03-27',
+  false,
+  true
+),
+(
+  '2023',
+  '燁輝',
+  'TWSE',
+  '10',
+  '1995-07-28',
+  false,
+  true
+),
+(
+  '2024',
+  '志聯',
+  'TWSE',
+  '10',
+  '1995-12-30',
+  false,
+  true
+),
+(
+  '2025',
+  '千興',
+  'TWSE',
+  '10',
+  '1996-02-08',
+  false,
+  true
+),
+(
+  '2027',
+  '大成鋼',
+  'TWSE',
+  '10',
+  '1996-10-24',
+  false,
+  true
+),
+(
+  '2028',
+  '威致',
+  'TWSE',
+  '10',
+  '1996-12-13',
+  false,
+  true
+),
+(
+  '2029',
+  '盛餘',
+  'TWSE',
+  '10',
+  '1997-01-11',
+  false,
+  true
+),
+(
+  '2030',
+  '彰源',
+  'TWSE',
+  '10',
+  '1998-12-24',
+  false,
+  true
+),
+(
+  '2031',
+  '新光鋼',
+  'TWSE',
+  '10',
+  '2000-09-11',
+  false,
+  true
+),
+(
+  '2032',
+  '新鋼',
+  'TWSE',
+  '10',
+  '2000-09-11',
+  false,
+  true
+),
+(
+  '2033',
+  '佳大',
+  'TWSE',
+  '10',
+  '2000-09-11',
+  false,
+  true
+),
+(
+  '2034',
+  '允強',
+  'TWSE',
+  '10',
+  '2001-09-17',
+  false,
+  true
+),
+(
+  '2038',
+  '海光',
+  'TWSE',
+  '10',
+  '2008-12-30',
+  false,
+  true
+),
+(
+  '2049',
+  '上銀',
+  'TWSE',
+  '05',
+  '2009-06-26',
+  false,
+  true
+),
+(
+  '2059',
+  '川湖',
+  'TWSE',
+  '28',
+  '2008-06-25',
+  false,
+  true
+),
+(
+  '2062',
+  '橋椿',
+  'TWSE',
+  '38',
+  '2007-11-16',
+  false,
+  true
+),
+(
+  '2069',
+  '運錩',
+  'TWSE',
+  '10',
+  '2016-03-22',
+  false,
+  true
+),
+(
+  '2072',
+  '世紀風電',
+  'TWSE',
+  '35',
+  '2026-03-26',
+  false,
+  true
+),
+(
+  '2101',
+  '南港',
+  'TWSE',
+  '11',
+  '1963-11-01',
+  false,
+  true
+),
+(
+  '2102',
+  '泰豐',
+  'TWSE',
+  '11',
+  '1979-07-16',
+  false,
+  true
+),
+(
+  '2103',
+  '台橡',
+  'TWSE',
+  '11',
+  '1982-09-25',
+  false,
+  true
+),
+(
+  '2104',
+  '國際中橡',
+  'TWSE',
+  '11',
+  '1986-07-15',
+  false,
+  true
+),
+(
+  '2105',
+  '正新',
+  'TWSE',
+  '11',
+  '1987-12-07',
+  false,
+  true
+),
+(
+  '2106',
+  '建大',
+  'TWSE',
+  '11',
+  '1990-12-20',
+  false,
+  true
+),
+(
+  '2107',
+  '厚生',
+  'TWSE',
+  '11',
+  '1992-03-03',
+  false,
+  true
+),
+(
+  '2108',
+  '南帝',
+  'TWSE',
+  '11',
+  '1992-10-27',
+  false,
+  true
+),
+(
+  '2109',
+  '華豐',
+  'TWSE',
+  '11',
+  '2000-05-08',
+  false,
+  true
+),
+(
+  '2114',
+  '鑫永銓',
+  'TWSE',
+  '11',
+  '2010-12-29',
+  false,
+  true
+),
+(
+  '2115',
+  '六暉-KY',
+  'TWSE',
+  '12',
+  '2013-12-25',
+  false,
+  true
+),
+(
+  '2201',
+  '裕隆',
+  'TWSE',
+  '12',
+  '1976-07-08',
+  false,
+  true
+),
+(
+  '2204',
+  '中華',
+  'TWSE',
+  '12',
+  '1991-03-12',
+  false,
+  true
+),
+(
+  '2206',
+  '三陽工業',
+  'TWSE',
+  '12',
+  '1996-07-29',
+  false,
+  true
+),
+(
+  '2207',
+  '和泰車',
+  'TWSE',
+  '12',
+  '1997-02-25',
+  false,
+  true
+),
+(
+  '2208',
+  '台船',
+  'TWSE',
+  '15',
+  '2008-12-22',
+  false,
+  true
+),
+(
+  '2211',
+  '長榮鋼',
+  'TWSE',
+  '10',
+  '2021-04-12',
+  false,
+  true
+),
+(
+  '2227',
+  '裕日車',
+  'TWSE',
+  '12',
+  '2004-12-21',
+  false,
+  true
+),
+(
+  '2228',
+  '劍麟',
+  'TWSE',
+  '12',
+  '2013-11-25',
+  false,
+  true
+),
+(
+  '2231',
+  '為升',
+  'TWSE',
+  '12',
+  '2010-11-19',
+  false,
+  true
+),
+(
+  '2233',
+  '宇隆',
+  'TWSE',
+  '12',
+  '2019-09-17',
+  false,
+  true
+),
+(
+  '2236',
+  '百達-KY',
+  'TWSE',
+  '12',
+  '2015-06-03',
+  false,
+  true
+),
+(
+  '2239',
+  '英利-KY',
+  'TWSE',
+  '12',
+  '2016-01-27',
+  false,
+  true
+),
+(
+  '2241',
+  '艾姆勒',
+  'TWSE',
+  '12',
+  '2020-08-26',
+  false,
+  true
+),
+(
+  '2243',
+  '宏旭-KY',
+  'TWSE',
+  '12',
+  '2017-09-27',
+  false,
+  true
+),
+(
+  '2247',
+  '汎德永業',
+  'TWSE',
+  '12',
+  '2020-10-12',
+  false,
+  true
+),
+(
+  '2248',
+  '華勝-KY',
+  'TWSE',
+  '12',
+  '2025-03-13',
+  false,
+  true
+),
+(
+  '2250',
+  'IKKA-KY',
+  'TWSE',
+  '12',
+  '2021-05-31',
+  false,
+  true
+),
+(
+  '2254',
+  '巨鎧精密-創',
+  'TWSE',
+  '12',
+  '2023-10-20',
+  false,
+  true
+),
+(
+  '2258',
+  '鴻華先進-創',
+  'TWSE',
+  '12',
+  '2023-11-20',
+  false,
+  true
+),
+(
+  '2301',
+  '光寶科',
+  'TWSE',
+  '25',
+  '1995-11-17',
+  false,
+  true
+),
+(
+  '2302',
+  '麗正',
+  'TWSE',
+  '24',
+  '1985-01-15',
+  false,
+  true
+),
+(
+  '2303',
+  '聯電',
+  'TWSE',
+  '24',
+  '1985-07-16',
+  false,
+  true
+),
+(
+  '2305',
+  '全友',
+  'TWSE',
+  '25',
+  '1988-10-21',
+  false,
+  true
+),
+(
+  '2308',
+  '台達電',
+  'TWSE',
+  '28',
+  '1988-12-19',
+  false,
+  true
+),
+(
+  '2312',
+  '金寶',
+  'TWSE',
+  '31',
+  '1989-11-07',
+  false,
+  true
+),
+(
+  '2313',
+  '華通',
+  'TWSE',
+  '28',
+  '1990-07-24',
+  false,
+  true
+),
+(
+  '2314',
+  '台揚',
+  'TWSE',
+  '27',
+  '1990-08-08',
+  false,
+  true
+),
+(
+  '2316',
+  '楠梓電',
+  'TWSE',
+  '28',
+  '1991-02-05',
+  false,
+  true
+),
+(
+  '2317',
+  '鴻海',
+  'TWSE',
+  '31',
+  '1991-06-18',
+  false,
+  true
+),
+(
+  '2321',
+  '東訊',
+  'TWSE',
+  '27',
+  '1991-11-08',
+  false,
+  true
+),
+(
+  '2323',
+  '中環',
+  'TWSE',
+  '26',
+  '1992-02-17',
+  false,
+  true
+),
+(
+  '2324',
+  '仁寶',
+  'TWSE',
+  '25',
+  '1992-02-18',
+  false,
+  true
+),
+(
+  '2327',
+  '國巨*',
+  'TWSE',
+  '28',
+  '1993-10-22',
+  false,
+  true
+),
+(
+  '2328',
+  '廣宇',
+  'TWSE',
+  '28',
+  '1993-11-09',
+  false,
+  true
+),
+(
+  '2329',
+  '華泰',
+  'TWSE',
+  '24',
+  '1994-04-20',
+  false,
+  true
+),
+(
+  '2330',
+  '台積電',
+  'TWSE',
+  '24',
+  '1994-09-05',
+  false,
+  true
+),
+(
+  '2331',
+  '精英',
+  'TWSE',
+  '25',
+  '1994-09-21',
+  false,
+  true
+),
+(
+  '2332',
+  '友訊',
+  'TWSE',
+  '27',
+  '1994-10-17',
+  false,
+  true
+),
+(
+  '2337',
+  '旺宏',
+  'TWSE',
+  '24',
+  '1995-03-15',
+  false,
+  true
+),
+(
+  '2338',
+  '光罩',
+  'TWSE',
+  '24',
+  '1995-04-17',
+  false,
+  true
+),
+(
+  '2340',
+  '台亞',
+  'TWSE',
+  '24',
+  '1995-05-02',
+  false,
+  true
+),
+(
+  '2342',
+  '茂矽',
+  'TWSE',
+  '24',
+  '1995-09-19',
+  false,
+  true
+),
+(
+  '2344',
+  '華邦電',
+  'TWSE',
+  '24',
+  '1995-10-18',
+  false,
+  true
+),
+(
+  '2345',
+  '智邦',
+  'TWSE',
+  '27',
+  '1995-11-15',
+  false,
+  true
+),
+(
+  '2347',
+  '聯強',
+  'TWSE',
+  '29',
+  '1995-12-13',
+  false,
+  true
+),
+(
+  '2348',
+  '海悅',
+  'TWSE',
+  '20',
+  '1996-01-05',
+  false,
+  true
+),
+(
+  '2349',
+  '錸德',
+  'TWSE',
+  '26',
+  '1996-04-23',
+  false,
+  true
+),
+(
+  '2351',
+  '順德',
+  'TWSE',
+  '24',
+  '1996-04-25',
+  false,
+  true
+),
+(
+  '2352',
+  '佳世達',
+  'TWSE',
+  '25',
+  '1996-07-22',
+  false,
+  true
+),
+(
+  '2353',
+  '宏碁',
+  'TWSE',
+  '25',
+  '1996-09-18',
+  false,
+  true
+),
+(
+  '2354',
+  '鴻準',
+  'TWSE',
+  '31',
+  '1996-10-08',
+  false,
+  true
+),
+(
+  '2355',
+  '敬鵬',
+  'TWSE',
+  '28',
+  '1996-10-14',
+  false,
+  true
+),
+(
+  '2356',
+  '英業達',
+  'TWSE',
+  '25',
+  '1996-11-13',
+  false,
+  true
+),
+(
+  '2357',
+  '華碩',
+  'TWSE',
+  '25',
+  '1996-11-14',
+  false,
+  true
+),
+(
+  '2359',
+  '所羅門',
+  'TWSE',
+  '31',
+  '1996-12-19',
+  false,
+  true
+),
+(
+  '2360',
+  '致茂',
+  'TWSE',
+  '31',
+  '1996-12-21',
+  false,
+  true
+),
+(
+  '2362',
+  '藍天',
+  'TWSE',
+  '25',
+  '1997-04-02',
+  false,
+  true
+),
+(
+  '2363',
+  '矽統',
+  'TWSE',
+  '24',
+  '1997-08-01',
+  false,
+  true
+),
+(
+  '2364',
+  '倫飛',
+  'TWSE',
+  '25',
+  '1997-08-11',
+  false,
+  true
+),
+(
+  '2365',
+  '昆盈',
+  'TWSE',
+  '25',
+  '1997-11-03',
+  false,
+  true
+),
+(
+  '2367',
+  '燿華',
+  'TWSE',
+  '28',
+  '1997-12-13',
+  false,
+  true
+),
+(
+  '2368',
+  '金像電',
+  'TWSE',
+  '28',
+  '1998-03-09',
+  false,
+  true
+),
+(
+  '2369',
+  '菱生',
+  'TWSE',
+  '24',
+  '1998-04-10',
+  false,
+  true
+),
+(
+  '2371',
+  '大同',
+  'TWSE',
+  '05',
+  '1962-02-09',
+  false,
+  true
+),
+(
+  '2373',
+  '震旦行',
+  'TWSE',
+  '31',
+  '1991-08-01',
+  false,
+  true
+),
+(
+  '2374',
+  '佳能',
+  'TWSE',
+  '26',
+  '1995-01-16',
+  false,
+  true
+),
+(
+  '2375',
+  '凱美',
+  'TWSE',
+  '28',
+  '1998-08-29',
+  false,
+  true
+),
+(
+  '2376',
+  '技嘉',
+  'TWSE',
+  '25',
+  '1998-09-24',
+  false,
+  true
+),
+(
+  '2377',
+  '微星',
+  'TWSE',
+  '25',
+  '1998-10-31',
+  false,
+  true
+),
+(
+  '2379',
+  '瑞昱',
+  'TWSE',
+  '24',
+  '1998-10-26',
+  false,
+  true
+),
+(
+  '2380',
+  '虹光',
+  'TWSE',
+  '25',
+  '1998-12-03',
+  false,
+  true
+),
+(
+  '2382',
+  '廣達',
+  'TWSE',
+  '25',
+  '1999-01-08',
+  false,
+  true
+),
+(
+  '2383',
+  '台光電',
+  'TWSE',
+  '28',
+  '1998-11-27',
+  false,
+  true
+),
+(
+  '2385',
+  '群光',
+  'TWSE',
+  '28',
+  '1999-01-05',
+  false,
+  true
+),
+(
+  '2387',
+  '精元',
+  'TWSE',
+  '25',
+  '1999-01-25',
+  false,
+  true
+),
+(
+  '2388',
+  '威盛',
+  'TWSE',
+  '24',
+  '1999-03-05',
+  false,
+  true
+),
+(
+  '2390',
+  '云辰',
+  'TWSE',
+  '31',
+  '1999-06-15',
+  false,
+  true
+),
+(
+  '2392',
+  '正崴',
+  'TWSE',
+  '28',
+  '1999-09-20',
+  false,
+  true
+),
+(
+  '2393',
+  '億光',
+  'TWSE',
+  '26',
+  '1999-11-04',
+  false,
+  true
+),
+(
+  '2395',
+  '研華',
+  'TWSE',
+  '25',
+  '1999-12-13',
+  false,
+  true
+),
+(
+  '2397',
+  '友通',
+  'TWSE',
+  '25',
+  '2000-01-15',
+  false,
+  true
+),
+(
+  '2399',
+  '映泰',
+  'TWSE',
+  '25',
+  '1999-12-16',
+  false,
+  true
+),
+(
+  '2401',
+  '凌陽',
+  'TWSE',
+  '24',
+  '2000-01-27',
+  false,
+  true
+),
+(
+  '2402',
+  '毅嘉',
+  'TWSE',
+  '28',
+  '2000-01-14',
+  false,
+  true
+),
+(
+  '2404',
+  '漢唐',
+  'TWSE',
+  '31',
+  '2000-03-14',
+  false,
+  true
+),
+(
+  '2405',
+  '輔信',
+  'TWSE',
+  '25',
+  '2000-03-17',
+  false,
+  true
+),
+(
+  '2406',
+  '國碩',
+  'TWSE',
+  '26',
+  '2000-04-29',
+  false,
+  true
+),
+(
+  '2408',
+  '南亞科',
+  'TWSE',
+  '24',
+  '2000-08-17',
+  false,
+  true
+),
+(
+  '2409',
+  '友達',
+  'TWSE',
+  '26',
+  '2000-09-08',
+  false,
+  true
+),
+(
+  '2412',
+  '中華電',
+  'TWSE',
+  '27',
+  '2000-10-27',
+  false,
+  true
+),
+(
+  '2413',
+  '環科',
+  'TWSE',
+  '28',
+  '2000-09-11',
+  false,
+  true
+),
+(
+  '2414',
+  '精技',
+  'TWSE',
+  '29',
+  '2000-09-11',
+  false,
+  true
+),
+(
+  '2415',
+  '錩新',
+  'TWSE',
+  '28',
+  '2000-09-11',
+  false,
+  true
+),
+(
+  '2417',
+  '圓剛',
+  'TWSE',
+  '25',
+  '2000-09-11',
+  false,
+  true
+),
+(
+  '2419',
+  '仲琦',
+  'TWSE',
+  '27',
+  '2000-09-11',
+  false,
+  true
+),
+(
+  '2420',
+  '新巨',
+  'TWSE',
+  '28',
+  '2000-09-11',
+  false,
+  true
+),
+(
+  '2421',
+  '建準',
+  'TWSE',
+  '28',
+  '2000-09-11',
+  false,
+  true
+),
+(
+  '2423',
+  '固緯',
+  'TWSE',
+  '31',
+  '2000-09-11',
+  false,
+  true
+),
+(
+  '2424',
+  '隴華',
+  'TWSE',
+  '27',
+  '2000-09-11',
+  false,
+  true
+),
+(
+  '2425',
+  '承啟',
+  'TWSE',
+  '25',
+  '2000-09-11',
+  false,
+  true
+),
+(
+  '2426',
+  '鼎元',
+  'TWSE',
+  '26',
+  '2000-09-11',
+  false,
+  true
+),
+(
+  '2427',
+  '三商電',
+  'TWSE',
+  '30',
+  '2000-09-11',
+  false,
+  true
+),
+(
+  '2428',
+  '興勤',
+  'TWSE',
+  '28',
+  '2000-09-11',
+  false,
+  true
+),
+(
+  '2429',
+  '銘旺科',
+  'TWSE',
+  '26',
+  '2000-09-11',
+  false,
+  true
+),
+(
+  '2430',
+  '燦坤',
+  'TWSE',
+  '29',
+  '2000-09-11',
+  false,
+  true
+),
+(
+  '2431',
+  '聯昌',
+  'TWSE',
+  '28',
+  '2000-09-11',
+  false,
+  true
+),
+(
+  '2432',
+  '倚天酷碁-創',
+  'TWSE',
+  '25',
+  '2023-05-31',
+  false,
+  true
+),
+(
+  '2433',
+  '互盛電',
+  'TWSE',
+  '31',
+  '2000-09-11',
+  false,
+  true
+),
+(
+  '2434',
+  '統懋',
+  'TWSE',
+  '24',
+  '2000-09-11',
+  false,
+  true
+),
+(
+  '2436',
+  '偉詮電',
+  'TWSE',
+  '24',
+  '2000-09-11',
+  false,
+  true
+),
+(
+  '2438',
+  '翔耀',
+  'TWSE',
+  '26',
+  '2000-09-11',
+  false,
+  true
+),
+(
+  '2439',
+  '美律',
+  'TWSE',
+  '27',
+  '2000-09-11',
+  false,
+  true
+),
+(
+  '2440',
+  '太空梭',
+  'TWSE',
+  '28',
+  '2000-11-10',
+  false,
+  true
+),
+(
+  '2441',
+  '超豐',
+  'TWSE',
+  '24',
+  '2000-10-26',
+  false,
+  true
+),
+(
+  '2442',
+  '新美齊',
+  'TWSE',
+  '14',
+  '2000-11-22',
+  false,
+  true
+),
+(
+  '2444',
+  '兆勁',
+  'TWSE',
+  '27',
+  '2000-12-08',
+  false,
+  true
+),
+(
+  '2449',
+  '京元電子',
+  'TWSE',
+  '24',
+  '2001-05-09',
+  false,
+  true
+),
+(
+  '2450',
+  '神腦',
+  'TWSE',
+  '27',
+  '2001-05-24',
+  false,
+  true
+),
+(
+  '2451',
+  '創見',
+  'TWSE',
+  '24',
+  '2001-05-03',
+  false,
+  true
+),
+(
+  '2453',
+  '凌群',
+  'TWSE',
+  '30',
+  '2001-05-22',
+  false,
+  true
+),
+(
+  '2454',
+  '聯發科',
+  'TWSE',
+  '24',
+  '2001-07-23',
+  false,
+  true
+),
+(
+  '2455',
+  '全新',
+  'TWSE',
+  '27',
+  '2002-01-24',
+  false,
+  true
+),
+(
+  '2457',
+  '飛宏',
+  'TWSE',
+  '28',
+  '2001-09-17',
+  false,
+  true
+),
+(
+  '2458',
+  '義隆',
+  'TWSE',
+  '24',
+  '2001-09-17',
+  false,
+  true
+),
+(
+  '2459',
+  '敦吉',
+  'TWSE',
+  '31',
+  '2001-09-17',
+  false,
+  true
+),
+(
+  '2460',
+  '建通',
+  'TWSE',
+  '28',
+  '2001-09-17',
+  false,
+  true
+),
+(
+  '2461',
+  '光群雷',
+  'TWSE',
+  '31',
+  '2001-09-17',
+  false,
+  true
+),
+(
+  '2462',
+  '良得電',
+  'TWSE',
+  '28',
+  '2001-09-17',
+  false,
+  true
+),
+(
+  '2464',
+  '盟立',
+  'TWSE',
+  '31',
+  '2001-09-17',
+  false,
+  true
+),
+(
+  '2465',
+  '麗臺',
+  'TWSE',
+  '25',
+  '2001-09-19',
+  false,
+  true
+),
+(
+  '2466',
+  '冠西電',
+  'TWSE',
+  '26',
+  '2001-09-17',
+  false,
+  true
+),
+(
+  '2467',
+  '志聖',
+  'TWSE',
+  '28',
+  '2001-09-17',
+  false,
+  true
+),
+(
+  '2468',
+  '華經',
+  'TWSE',
+  '30',
+  '2001-09-17',
+  false,
+  true
+),
+(
+  '2471',
+  '資通',
+  'TWSE',
+  '30',
+  '2001-09-17',
+  false,
+  true
+),
+(
+  '2472',
+  '立隆電',
+  'TWSE',
+  '28',
+  '2001-09-17',
+  false,
+  true
+),
+(
+  '2474',
+  '可成',
+  'TWSE',
+  '31',
+  '2001-09-17',
+  false,
+  true
+),
+(
+  '2476',
+  '鉅祥',
+  'TWSE',
+  '28',
+  '2001-09-17',
+  false,
+  true
+),
+(
+  '2477',
+  '美隆電',
+  'TWSE',
+  '31',
+  '2001-09-17',
+  false,
+  true
+),
+(
+  '2478',
+  '大毅',
+  'TWSE',
+  '28',
+  '2001-09-17',
+  false,
+  true
+),
+(
+  '2480',
+  '敦陽科',
+  'TWSE',
+  '30',
+  '2001-09-17',
+  false,
+  true
+),
+(
+  '2481',
+  '強茂',
+  'TWSE',
+  '24',
+  '2001-09-17',
+  false,
+  true
+),
+(
+  '2482',
+  '連宇',
+  'TWSE',
+  '31',
+  '2001-09-19',
+  false,
+  true
+),
+(
+  '2483',
+  '百容',
+  'TWSE',
+  '28',
+  '2001-09-17',
+  false,
+  true
+),
+(
+  '2484',
+  '希華',
+  'TWSE',
+  '28',
+  '2001-09-17',
+  false,
+  true
+),
+(
+  '2485',
+  '兆赫',
+  'TWSE',
+  '27',
+  '2001-09-17',
+  false,
+  true
+),
+(
+  '2486',
+  '一詮',
+  'TWSE',
+  '26',
+  '2001-09-19',
+  false,
+  true
+),
+(
+  '2488',
+  '漢平',
+  'TWSE',
+  '31',
+  '2001-09-17',
+  false,
+  true
+),
+(
+  '2489',
+  '瑞軒',
+  'TWSE',
+  '26',
+  '2001-09-17',
+  false,
+  true
+),
+(
+  '2491',
+  '吉祥全',
+  'TWSE',
+  '26',
+  '2001-09-19',
+  false,
+  true
+),
+(
+  '2492',
+  '華新科',
+  'TWSE',
+  '28',
+  '2001-09-17',
+  false,
+  true
+),
+(
+  '2493',
+  '揚博',
+  'TWSE',
+  '28',
+  '2002-01-23',
+  false,
+  true
+),
+(
+  '2495',
+  '普安',
+  'TWSE',
+  '25',
+  '2002-03-25',
+  false,
+  true
+),
+(
+  '2496',
+  '卓越',
+  'TWSE',
+  '20',
+  '2002-03-08',
+  false,
+  true
+),
+(
+  '2497',
+  '怡利電',
+  'TWSE',
+  '12',
+  '2002-02-04',
+  false,
+  true
+),
+(
+  '2498',
+  '宏達電',
+  'TWSE',
+  '27',
+  '2002-03-26',
+  false,
+  true
+),
+(
+  '2501',
+  '國建',
+  'TWSE',
+  '14',
+  '1967-10-28',
+  false,
+  true
+),
+(
+  '2504',
+  '國產',
+  'TWSE',
+  '14',
+  '1978-03-14',
+  false,
+  true
+),
+(
+  '2505',
+  '國揚',
+  'TWSE',
+  '14',
+  '1979-11-14',
+  false,
+  true
+),
+(
+  '2506',
+  '太設',
+  'TWSE',
+  '14',
+  '1980-02-02',
+  false,
+  true
+),
+(
+  '2509',
+  '全坤建',
+  'TWSE',
+  '14',
+  '1988-05-20',
+  false,
+  true
+),
+(
+  '2511',
+  '太子',
+  'TWSE',
+  '14',
+  '1991-04-24',
+  false,
+  true
+),
+(
+  '2514',
+  '龍邦',
+  'TWSE',
+  '20',
+  '1992-09-26',
+  false,
+  true
+),
+(
+  '2515',
+  '中工',
+  'TWSE',
+  '14',
+  '1993-03-02',
+  false,
+  true
+),
+(
+  '2516',
+  '新建',
+  'TWSE',
+  '14',
+  '1993-05-25',
+  false,
+  true
+),
+(
+  '2520',
+  '冠德',
+  'TWSE',
+  '14',
+  '1993-10-27',
+  false,
+  true
+),
+(
+  '2524',
+  '京城',
+  'TWSE',
+  '14',
+  '1994-10-18',
+  false,
+  true
+),
+(
+  '2527',
+  '宏璟',
+  'TWSE',
+  '14',
+  '1995-03-06',
+  false,
+  true
+),
+(
+  '2528',
+  '皇普',
+  'TWSE',
+  '14',
+  '1995-03-10',
+  false,
+  true
+),
+(
+  '2530',
+  '華建',
+  'TWSE',
+  '14',
+  '1995-10-12',
+  false,
+  true
+),
+(
+  '2534',
+  '宏盛',
+  'TWSE',
+  '14',
+  '1996-02-12',
+  false,
+  true
+),
+(
+  '2535',
+  '達欣工',
+  'TWSE',
+  '14',
+  '1996-03-11',
+  false,
+  true
+),
+(
+  '2536',
+  '宏普',
+  'TWSE',
+  '14',
+  '1996-03-14',
+  false,
+  true
+),
+(
+  '2537',
+  '聯上發',
+  'TWSE',
+  '14',
+  '1996-09-06',
+  false,
+  true
+),
+(
+  '2538',
+  '基泰',
+  'TWSE',
+  '14',
+  '1996-11-01',
+  false,
+  true
+),
+(
+  '2539',
+  '櫻花建',
+  'TWSE',
+  '14',
+  '1997-07-16',
+  false,
+  true
+),
+(
+  '2540',
+  '愛山林',
+  'TWSE',
+  '14',
+  '1989-12-26',
+  false,
+  true
+),
+(
+  '2542',
+  '興富發',
+  'TWSE',
+  '14',
+  '1999-05-03',
+  false,
+  true
+),
+(
+  '2543',
+  '皇昌',
+  'TWSE',
+  '14',
+  '1999-10-15',
+  false,
+  true
+),
+(
+  '2545',
+  '皇翔',
+  'TWSE',
+  '14',
+  '2000-09-11',
+  false,
+  true
+),
+(
+  '2546',
+  '根基',
+  'TWSE',
+  '14',
+  '2000-09-11',
+  false,
+  true
+),
+(
+  '2547',
+  '日勝生',
+  'TWSE',
+  '14',
+  '2000-12-22',
+  false,
+  true
+),
+(
+  '2548',
+  '華固',
+  'TWSE',
+  '14',
+  '2002-08-26',
+  false,
+  true
+),
+(
+  '2597',
+  '潤弘',
+  'TWSE',
+  '14',
+  '2010-03-26',
+  false,
+  true
+),
+(
+  '2601',
+  '益航',
+  'TWSE',
+  '18',
+  '1965-11-04',
+  false,
+  true
+),
+(
+  '2603',
+  '長榮',
+  'TWSE',
+  '15',
+  '1987-09-21',
+  false,
+  true
+),
+(
+  '2605',
+  '新興',
+  'TWSE',
+  '15',
+  '1989-12-08',
+  false,
+  true
+),
+(
+  '2606',
+  '裕民',
+  'TWSE',
+  '15',
+  '1990-12-08',
+  false,
+  true
+),
+(
+  '2607',
+  '榮運',
+  'TWSE',
+  '15',
+  '1990-12-14',
+  false,
+  true
+),
+(
+  '2608',
+  '嘉里大榮',
+  'TWSE',
+  '15',
+  '1990-12-20',
+  false,
+  true
+),
+(
+  '2609',
+  '陽明',
+  'TWSE',
+  '15',
+  '1992-04-20',
+  false,
+  true
+),
+(
+  '2610',
+  '華航',
+  'TWSE',
+  '15',
+  '1993-02-26',
+  false,
+  true
+),
+(
+  '2611',
+  '志信',
+  'TWSE',
+  '15',
+  '1993-10-28',
+  false,
+  true
+),
+(
+  '2612',
+  '中航',
+  'TWSE',
+  '15',
+  '1994-10-20',
+  false,
+  true
+),
+(
+  '2613',
+  '中櫃',
+  'TWSE',
+  '15',
+  '1995-01-20',
+  false,
+  true
+),
+(
+  '2614',
+  '東森',
+  'TWSE',
+  '20',
+  '1995-09-23',
+  false,
+  true
+),
+(
+  '2615',
+  '萬海',
+  'TWSE',
+  '15',
+  '1996-05-16',
+  false,
+  true
+),
+(
+  '2616',
+  '山隆',
+  'TWSE',
+  '23',
+  '1997-11-08',
+  false,
+  true
+),
+(
+  '2617',
+  '台航',
+  'TWSE',
+  '15',
+  '1998-06-24',
+  false,
+  true
+),
+(
+  '2618',
+  '長榮航',
+  'TWSE',
+  '15',
+  '2001-09-17',
+  false,
+  true
+),
+(
+  '2630',
+  '亞航',
+  'TWSE',
+  '15',
+  '2018-02-22',
+  false,
+  true
+),
+(
+  '2633',
+  '台灣高鐵',
+  'TWSE',
+  '15',
+  '2016-10-27',
+  false,
+  true
+),
+(
+  '2634',
+  '漢翔',
+  'TWSE',
+  '15',
+  '2014-08-25',
+  false,
+  true
+),
+(
+  '2636',
+  '台驊控股',
+  'TWSE',
+  '15',
+  '2016-12-22',
+  false,
+  true
+),
+(
+  '2637',
+  '慧洋-KY',
+  'TWSE',
+  '15',
+  '2010-12-01',
+  false,
+  true
+),
+(
+  '2642',
+  '宅配通',
+  'TWSE',
+  '15',
+  '2013-12-12',
+  false,
+  true
+),
+(
+  '2645',
+  '長榮航太',
+  'TWSE',
+  '15',
+  '2023-03-14',
+  false,
+  true
+),
+(
+  '2646',
+  '星宇航空',
+  'TWSE',
+  '15',
+  '2024-10-25',
+  false,
+  true
+),
+(
+  '2701',
+  '萬企',
+  'TWSE',
+  '16',
+  '1965-03-22',
+  false,
+  true
+),
+(
+  '2702',
+  '華園',
+  'TWSE',
+  '16',
+  '1965-02-14',
+  false,
+  true
+),
+(
+  '2704',
+  '國賓',
+  'TWSE',
+  '16',
+  '1982-11-10',
+  false,
+  true
+),
+(
+  '2705',
+  '六福',
+  'TWSE',
+  '16',
+  '1988-12-24',
+  false,
+  true
+),
+(
+  '2706',
+  '第一店',
+  'TWSE',
+  '16',
+  '1991-06-25',
+  false,
+  true
+),
+(
+  '2707',
+  '晶華',
+  'TWSE',
+  '16',
+  '1998-03-09',
+  false,
+  true
+),
+(
+  '2712',
+  '遠雄來',
+  'TWSE',
+  '16',
+  '2013-12-03',
+  false,
+  true
+),
+(
+  '2722',
+  '夏都',
+  'TWSE',
+  '16',
+  '2012-03-14',
+  false,
+  true
+),
+(
+  '2723',
+  '美食-KY',
+  'TWSE',
+  '16',
+  '2010-11-22',
+  false,
+  true
+),
+(
+  '2727',
+  '王品',
+  'TWSE',
+  '16',
+  '2012-03-06',
+  false,
+  true
+),
+(
+  '2731',
+  '雄獅',
+  'TWSE',
+  '16',
+  '2013-09-24',
+  false,
+  true
+),
+(
+  '2739',
+  '寒舍',
+  'TWSE',
+  '16',
+  '2016-05-19',
+  false,
+  true
+),
+(
+  '2748',
+  '雲品',
+  'TWSE',
+  '16',
+  '2016-11-23',
+  false,
+  true
+),
+(
+  '2753',
+  '八方雲集',
+  'TWSE',
+  '16',
+  '2021-09-09',
+  false,
+  true
+),
+(
+  '2762',
+  '世界健身-KY',
+  'TWSE',
+  '37',
+  '2024-01-24',
+  false,
+  true
+),
+(
+  '2801',
+  '彰銀',
+  'TWSE',
+  '17',
+  '1962-02-15',
+  false,
+  true
+),
+(
+  '2812',
+  '台中銀',
+  'TWSE',
+  '17',
+  '1984-05-15',
+  false,
+  true
+),
+(
+  '2816',
+  '旺旺保',
+  'TWSE',
+  '17',
+  '1992-05-05',
+  false,
+  true
+),
+(
+  '2820',
+  '華票',
+  'TWSE',
+  '17',
+  '1994-10-26',
+  false,
+  true
+),
+(
+  '2832',
+  '台產',
+  'TWSE',
+  '17',
+  '1997-09-30',
+  false,
+  true
+),
+(
+  '2834',
+  '臺企銀',
+  'TWSE',
+  '17',
+  '1998-01-03',
+  false,
+  true
+),
+(
+  '2836',
+  '高雄銀',
+  'TWSE',
+  '17',
+  '1998-05-18',
+  false,
+  true
+),
+(
+  '2838',
+  '聯邦銀',
+  'TWSE',
+  '17',
+  '1998-06-29',
+  false,
+  true
+),
+(
+  '2845',
+  '遠東銀',
+  'TWSE',
+  '17',
+  '1998-11-27',
+  false,
+  true
+),
+(
+  '2849',
+  '安泰銀',
+  'TWSE',
+  '17',
+  '1999-09-27',
+  false,
+  true
+),
+(
+  '2850',
+  '新產',
+  'TWSE',
+  '17',
+  '2000-05-22',
+  false,
+  true
+),
+(
+  '2851',
+  '中再保',
+  'TWSE',
+  '17',
+  '2000-07-06',
+  false,
+  true
+),
+(
+  '2852',
+  '第一保',
+  'TWSE',
+  '17',
+  '2000-11-28',
+  false,
+  true
+),
+(
+  '2855',
+  '統一證',
+  'TWSE',
+  '17',
+  '2002-09-16',
+  false,
+  true
+),
+(
+  '2867',
+  '三商壽',
+  'TWSE',
+  '17',
+  '2012-12-18',
+  false,
+  true
+),
+(
+  '2880',
+  '華南金',
+  'TWSE',
+  '17',
+  '2001-12-19',
+  false,
+  true
+),
+(
+  '2881',
+  '富邦金',
+  'TWSE',
+  '17',
+  '2001-12-19',
+  false,
+  true
+),
+(
+  '2882',
+  '國泰金',
+  'TWSE',
+  '17',
+  '2001-12-31',
+  false,
+  true
+),
+(
+  '2883',
+  '凱基金',
+  'TWSE',
+  '17',
+  '2001-12-28',
+  false,
+  true
+),
+(
+  '2884',
+  '玉山金',
+  'TWSE',
+  '17',
+  '2002-01-28',
+  false,
+  true
+),
+(
+  '2885',
+  '元大金',
+  'TWSE',
+  '17',
+  '2002-02-04',
+  false,
+  true
+),
+(
+  '2886',
+  '兆豐金',
+  'TWSE',
+  '17',
+  '2002-02-04',
+  false,
+  true
+),
+(
+  '2887',
+  '台新新光金',
+  'TWSE',
+  '17',
+  '2002-02-18',
+  false,
+  true
+),
+(
+  '2889',
+  '國票金',
+  'TWSE',
+  '17',
+  '2002-03-26',
+  false,
+  true
+),
+(
+  '2890',
+  '永豐金',
+  'TWSE',
+  '17',
+  '2002-05-09',
+  false,
+  true
+),
+(
+  '2891',
+  '中信金',
+  'TWSE',
+  '17',
+  '2002-05-17',
+  false,
+  true
+),
+(
+  '2892',
+  '第一金',
+  'TWSE',
+  '17',
+  '2003-01-02',
+  false,
+  true
+),
+(
+  '2897',
+  '王道銀行',
+  'TWSE',
+  '17',
+  '2017-05-05',
+  false,
+  true
+),
+(
+  '2901',
+  '欣欣',
+  'TWSE',
+  '18',
+  '1976-05-07',
+  false,
+  true
+),
+(
+  '2903',
+  '遠百',
+  'TWSE',
+  '18',
+  '1978-10-11',
+  false,
+  true
+),
+(
+  '2904',
+  '匯僑',
+  'TWSE',
+  '20',
+  '1983-01-05',
+  false,
+  true
+),
+(
+  '2905',
+  '三商',
+  'TWSE',
+  '18',
+  '1988-09-19',
+  false,
+  true
+),
+(
+  '2906',
+  '高林',
+  'TWSE',
+  '18',
+  '1989-12-26',
+  false,
+  true
+),
+(
+  '2908',
+  '特力',
+  'TWSE',
+  '18',
+  '1993-02-18',
+  false,
+  true
+),
+(
+  '2910',
+  '統領',
+  'TWSE',
+  '18',
+  '1996-12-30',
+  false,
+  true
+),
+(
+  '2911',
+  '麗嬰房',
+  'TWSE',
+  '18',
+  '1997-01-18',
+  false,
+  true
+),
+(
+  '2912',
+  '統一超',
+  'TWSE',
+  '18',
+  '1997-08-22',
+  false,
+  true
+),
+(
+  '2913',
+  '農林',
+  'TWSE',
+  '18',
+  '1962-02-09',
+  false,
+  true
+),
+(
+  '2915',
+  '潤泰全',
+  'TWSE',
+  '18',
+  '1977-07-20',
+  false,
+  true
+),
+(
+  '2923',
+  '鼎固-KY',
+  'TWSE',
+  '14',
+  '2012-12-07',
+  false,
+  true
+),
+(
+  '2929',
+  '淘帝-KY',
+  'TWSE',
+  '18',
+  '2013-12-30',
+  false,
+  true
+),
+(
+  '2939',
+  '永邑-KY',
+  'TWSE',
+  '18',
+  '2018-01-11',
+  false,
+  true
+),
+(
+  '2945',
+  '三商家購',
+  'TWSE',
+  '18',
+  '2021-11-30',
+  false,
+  true
+),
+(
+  '3002',
+  '歐格',
+  'TWSE',
+  '25',
+  '2002-01-23',
+  false,
+  true
+),
+(
+  '3003',
+  '健和興',
+  'TWSE',
+  '28',
+  '2002-02-19',
+  false,
+  true
+),
+(
+  '3004',
+  '豐達科',
+  'TWSE',
+  '10',
+  '2002-02-25',
+  false,
+  true
+),
+(
+  '3005',
+  '神基',
+  'TWSE',
+  '25',
+  '2002-02-25',
+  false,
+  true
+),
+(
+  '3006',
+  '晶豪科',
+  'TWSE',
+  '24',
+  '2002-03-04',
+  false,
+  true
+),
+(
+  '3008',
+  '大立光',
+  'TWSE',
+  '26',
+  '2002-03-11',
+  false,
+  true
+),
+(
+  '3010',
+  '華立',
+  'TWSE',
+  '29',
+  '2002-07-22',
+  false,
+  true
+),
+(
+  '3011',
+  '今皓',
+  'TWSE',
+  '28',
+  '2002-07-22',
+  false,
+  true
+),
+(
+  '3013',
+  '晟銘電',
+  'TWSE',
+  '25',
+  '2002-09-16',
+  false,
+  true
+),
+(
+  '3014',
+  '聯陽',
+  'TWSE',
+  '24',
+  '2002-10-29',
+  false,
+  true
+),
+(
+  '3015',
+  '全漢',
+  'TWSE',
+  '28',
+  '2002-10-16',
+  false,
+  true
+),
+(
+  '3016',
+  '嘉晶',
+  'TWSE',
+  '24',
+  '2002-12-24',
+  false,
+  true
+),
+(
+  '3017',
+  '奇鋐',
+  'TWSE',
+  '25',
+  '2002-09-27',
+  false,
+  true
+),
+(
+  '3018',
+  '隆銘綠能',
+  'TWSE',
+  '31',
+  '2002-08-26',
+  false,
+  true
+),
+(
+  '3019',
+  '亞光',
+  'TWSE',
+  '26',
+  '2002-08-26',
+  false,
+  true
+),
+(
+  '3021',
+  '鴻名',
+  'TWSE',
+  '28',
+  '2002-08-26',
+  false,
+  true
+),
+(
+  '3022',
+  '威強電',
+  'TWSE',
+  '25',
+  '2002-08-26',
+  false,
+  true
+),
+(
+  '3023',
+  '信邦',
+  'TWSE',
+  '28',
+  '2002-08-26',
+  false,
+  true
+),
+(
+  '3024',
+  '憶聲',
+  'TWSE',
+  '26',
+  '2002-08-26',
+  false,
+  true
+),
+(
+  '3025',
+  '星通',
+  'TWSE',
+  '27',
+  '2002-08-26',
+  false,
+  true
+),
+(
+  '3026',
+  '禾伸堂',
+  'TWSE',
+  '28',
+  '2002-08-26',
+  false,
+  true
+),
+(
+  '3027',
+  '盛達',
+  'TWSE',
+  '27',
+  '2002-08-26',
+  false,
+  true
+),
+(
+  '3028',
+  '增你強',
+  'TWSE',
+  '29',
+  '2002-08-26',
+  false,
+  true
+),
+(
+  '3029',
+  '零壹',
+  'TWSE',
+  '30',
+  '2002-08-26',
+  false,
+  true
+),
+(
+  '3030',
+  '德律',
+  'TWSE',
+  '31',
+  '2002-10-29',
+  false,
+  true
+),
+(
+  '3031',
+  '佰鴻',
+  'TWSE',
+  '26',
+  '2002-08-26',
+  false,
+  true
+),
+(
+  '3032',
+  '偉訓',
+  'TWSE',
+  '28',
+  '2002-08-26',
+  false,
+  true
+),
+(
+  '3033',
+  '威健',
+  'TWSE',
+  '29',
+  '2002-08-26',
+  false,
+  true
+),
+(
+  '3034',
+  '聯詠',
+  'TWSE',
+  '24',
+  '2002-08-26',
+  false,
+  true
+),
+(
+  '3035',
+  '智原',
+  'TWSE',
+  '24',
+  '2002-08-26',
+  false,
+  true
+),
+(
+  '3036',
+  '文曄',
+  'TWSE',
+  '29',
+  '2002-08-26',
+  false,
+  true
+),
+(
+  '3037',
+  '欣興',
+  'TWSE',
+  '28',
+  '2002-08-26',
+  false,
+  true
+),
+(
+  '3038',
+  '全台',
+  'TWSE',
+  '26',
+  '2002-08-26',
+  false,
+  true
+),
+(
+  '3040',
+  '遠見',
+  'TWSE',
+  '20',
+  '2002-08-26',
+  false,
+  true
+),
+(
+  '3041',
+  '揚智',
+  'TWSE',
+  '24',
+  '2002-08-26',
+  false,
+  true
+),
+(
+  '3042',
+  '晶技',
+  'TWSE',
+  '28',
+  '2002-08-26',
+  false,
+  true
+),
+(
+  '3043',
+  '科風',
+  'TWSE',
+  '31',
+  '2002-08-26',
+  false,
+  true
+),
+(
+  '3044',
+  '健鼎',
+  'TWSE',
+  '28',
+  '2002-08-26',
+  false,
+  true
+),
+(
+  '3045',
+  '台灣大',
+  'TWSE',
+  '27',
+  '2002-08-26',
+  false,
+  true
+),
+(
+  '3046',
+  '建碁',
+  'TWSE',
+  '25',
+  '2002-08-26',
+  false,
+  true
+),
+(
+  '3047',
+  '訊舟',
+  'TWSE',
+  '27',
+  '2002-08-26',
+  false,
+  true
+),
+(
+  '3048',
+  '益登',
+  'TWSE',
+  '29',
+  '2002-10-01',
+  false,
+  true
+),
+(
+  '3049',
+  '精金',
+  'TWSE',
+  '26',
+  '2002-09-27',
+  false,
+  true
+),
+(
+  '3050',
+  '鈺德',
+  'TWSE',
+  '26',
+  '2002-10-29',
+  false,
+  true
+),
+(
+  '3051',
+  '力特',
+  'TWSE',
+  '26',
+  '2002-10-28',
+  false,
+  true
+),
+(
+  '3052',
+  '夆典',
+  'TWSE',
+  '14',
+  '1995-11-25',
+  false,
+  true
+),
+(
+  '3054',
+  '立萬利',
+  'TWSE',
+  '02',
+  '2002-11-18',
+  false,
+  true
+),
+(
+  '3055',
+  '蔚華科',
+  'TWSE',
+  '29',
+  '2002-12-12',
+  false,
+  true
+),
+(
+  '3056',
+  '富華新',
+  'TWSE',
+  '14',
+  '2003-03-03',
+  false,
+  true
+),
+(
+  '3057',
+  '喬鼎',
+  'TWSE',
+  '25',
+  '2002-12-18',
+  false,
+  true
+),
+(
+  '3058',
+  '立德',
+  'TWSE',
+  '28',
+  '2002-12-09',
+  false,
+  true
+),
+(
+  '3059',
+  '華晶科',
+  'TWSE',
+  '26',
+  '2002-12-24',
+  false,
+  true
+),
+(
+  '3060',
+  '銘異',
+  'TWSE',
+  '25',
+  '2003-04-21',
+  false,
+  true
+),
+(
+  '3062',
+  '建漢',
+  'TWSE',
+  '27',
+  '2003-07-28',
+  false,
+  true
+),
+(
+  '3090',
+  '日電貿',
+  'TWSE',
+  '28',
+  '2007-12-31',
+  false,
+  true
+),
+(
+  '3092',
+  '鴻碩',
+  'TWSE',
+  '28',
+  '2021-05-13',
+  false,
+  true
+),
+(
+  '3094',
+  '聯傑',
+  'TWSE',
+  '24',
+  '2007-08-06',
+  false,
+  true
+),
+(
+  '3130',
+  '一零四',
+  'TWSE',
+  '36',
+  '2006-02-17',
+  false,
+  true
+),
+(
+  '3135',
+  '凌航',
+  'TWSE',
+  '24',
+  '2025-08-06',
+  false,
+  true
+),
+(
+  '3138',
+  '耀登',
+  'TWSE',
+  '27',
+  '2020-12-11',
+  false,
+  true
+),
+(
+  '3149',
+  '正達',
+  'TWSE',
+  '26',
+  '2011-11-23',
+  false,
+  true
+),
+(
+  '3150',
+  '鈺寶-創',
+  'TWSE',
+  '24',
+  '2024-06-27',
+  false,
+  true
+),
+(
+  '3164',
+  '景岳',
+  'TWSE',
+  '22',
+  '2010-03-22',
+  false,
+  true
+),
+(
+  '3167',
+  '大量',
+  'TWSE',
+  '05',
+  '2013-10-21',
+  false,
+  true
+),
+(
+  '3168',
+  '眾福科',
+  'TWSE',
+  '26',
+  '2024-03-26',
+  false,
+  true
+),
+(
+  '3189',
+  '景碩',
+  'TWSE',
+  '24',
+  '2004-11-01',
+  false,
+  true
+),
+(
+  '3209',
+  '全科',
+  'TWSE',
+  '29',
+  '2008-11-26',
+  false,
+  true
+),
+(
+  '3229',
+  '晟鈦',
+  'TWSE',
+  '28',
+  '2009-12-31',
+  false,
+  true
+),
+(
+  '3231',
+  '緯創',
+  'TWSE',
+  '25',
+  '2003-08-19',
+  false,
+  true
+),
+(
+  '3257',
+  '虹冠電',
+  'TWSE',
+  '24',
+  '2011-03-21',
+  false,
+  true
+),
+(
+  '3266',
+  '昇陽',
+  'TWSE',
+  '14',
+  '2014-12-24',
+  false,
+  true
+),
+(
+  '3296',
+  '勝德',
+  'TWSE',
+  '28',
+  '2007-12-31',
+  false,
+  true
+),
+(
+  '3305',
+  '昇貿',
+  'TWSE',
+  '31',
+  '2008-07-10',
+  false,
+  true
+),
+(
+  '3308',
+  '聯德',
+  'TWSE',
+  '28',
+  '2008-03-12',
+  false,
+  true
+),
+(
+  '3311',
+  '閎暉',
+  'TWSE',
+  '27',
+  '2004-03-08',
+  false,
+  true
+),
+(
+  '3312',
+  '弘憶股',
+  'TWSE',
+  '29',
+  '2010-12-29',
+  false,
+  true
+),
+(
+  '3321',
+  '同泰',
+  'TWSE',
+  '28',
+  '2015-12-15',
+  false,
+  true
+),
+(
+  '3338',
+  '泰碩',
+  'TWSE',
+  '28',
+  '2013-12-13',
+  false,
+  true
+),
+(
+  '3346',
+  '麗清',
+  'TWSE',
+  '12',
+  '2016-12-19',
+  false,
+  true
+),
+(
+  '3356',
+  '奇偶',
+  'TWSE',
+  '26',
+  '2005-03-28',
+  false,
+  true
+),
+(
+  '3376',
+  '新日興',
+  'TWSE',
+  '28',
+  '2007-12-31',
+  false,
+  true
+),
+(
+  '3380',
+  '明泰',
+  'TWSE',
+  '27',
+  '2004-12-20',
+  false,
+  true
+),
+(
+  '3406',
+  '玉晶光',
+  'TWSE',
+  '26',
+  '2005-12-20',
+  false,
+  true
+),
+(
+  '3413',
+  '京鼎',
+  'TWSE',
+  '24',
+  '2015-07-28',
+  false,
+  true
+),
+(
+  '3416',
+  '融程電',
+  'TWSE',
+  '25',
+  '2015-01-23',
+  false,
+  true
+),
+(
+  '3419',
+  '譁裕',
+  'TWSE',
+  '27',
+  '2008-01-21',
+  false,
+  true
+),
+(
+  '3432',
+  '台端',
+  'TWSE',
+  '28',
+  '2010-12-30',
+  false,
+  true
+),
+(
+  '3437',
+  '榮創',
+  'TWSE',
+  '26',
+  '2014-07-09',
+  false,
+  true
+),
+(
+  '3443',
+  '創意',
+  'TWSE',
+  '24',
+  '2006-11-03',
+  false,
+  true
+),
+(
+  '3447',
+  '展達',
+  'TWSE',
+  '27',
+  '2022-12-15',
+  false,
+  true
+),
+(
+  '3450',
+  '聯鈞',
+  'TWSE',
+  '24',
+  '2006-04-12',
+  false,
+  true
+),
+(
+  '3481',
+  '群創',
+  'TWSE',
+  '26',
+  '2006-10-24',
+  false,
+  true
+),
+(
+  '3494',
+  '誠研',
+  'TWSE',
+  '25',
+  '2007-12-13',
+  false,
+  true
+),
+(
+  '3501',
+  '維熹',
+  'TWSE',
+  '28',
+  '2007-09-20',
+  false,
+  true
+),
+(
+  '3504',
+  '揚明光',
+  'TWSE',
+  '26',
+  '2007-01-26',
+  false,
+  true
+),
+(
+  '3515',
+  '華擎',
+  'TWSE',
+  '25',
+  '2007-11-08',
+  false,
+  true
+),
+(
+  '3518',
+  '柏騰',
+  'TWSE',
+  '31',
+  '2007-11-28',
+  false,
+  true
+),
+(
+  '3528',
+  '安馳',
+  'TWSE',
+  '29',
+  '2016-05-18',
+  false,
+  true
+),
+(
+  '3530',
+  '晶相光',
+  'TWSE',
+  '24',
+  '2018-07-16',
+  false,
+  true
+),
+(
+  '3532',
+  '台勝科',
+  'TWSE',
+  '24',
+  '2007-12-10',
+  false,
+  true
+),
+(
+  '3533',
+  '嘉澤',
+  'TWSE',
+  '28',
+  '2007-12-10',
+  false,
+  true
+),
+(
+  '3535',
+  '晶彩科',
+  'TWSE',
+  '26',
+  '2008-01-31',
+  false,
+  true
+),
+(
+  '3543',
+  '州巧',
+  'TWSE',
+  '26',
+  '2020-04-15',
+  false,
+  true
+),
+(
+  '3545',
+  '敦泰',
+  'TWSE',
+  '24',
+  '2007-07-03',
+  false,
+  true
+),
+(
+  '3550',
+  '聯穎',
+  'TWSE',
+  '28',
+  '2010-11-10',
+  false,
+  true
+),
+(
+  '3557',
+  '嘉威',
+  'TWSE',
+  '38',
+  '2008-02-27',
+  false,
+  true
+),
+(
+  '3563',
+  '牧德',
+  'TWSE',
+  '26',
+  '2019-04-02',
+  false,
+  true
+),
+(
+  '3576',
+  '聯合再生',
+  'TWSE',
+  '26',
+  '2009-01-12',
+  false,
+  true
+),
+(
+  '3583',
+  '辛耘',
+  'TWSE',
+  '24',
+  '2013-03-12',
+  false,
+  true
+),
+(
+  '3588',
+  '通嘉',
+  'TWSE',
+  '24',
+  '2009-08-14',
+  false,
+  true
+),
+(
+  '3591',
+  '艾笛森',
+  'TWSE',
+  '26',
+  '2010-11-12',
+  false,
+  true
+),
+(
+  '3592',
+  '瑞鼎',
+  'TWSE',
+  '24',
+  '2022-01-07',
+  false,
+  true
+),
+(
+  '3593',
+  '力銘',
+  'TWSE',
+  '28',
+  '2009-03-16',
+  false,
+  true
+),
+(
+  '3596',
+  '智易',
+  'TWSE',
+  '27',
+  '2009-03-11',
+  false,
+  true
+),
+(
+  '3605',
+  '宏致',
+  'TWSE',
+  '28',
+  '2009-03-26',
+  false,
+  true
+),
+(
+  '3607',
+  '谷崧',
+  'TWSE',
+  '28',
+  '2009-10-28',
+  false,
+  true
+),
+(
+  '3617',
+  '碩天',
+  'TWSE',
+  '31',
+  '2009-12-23',
+  false,
+  true
+),
+(
+  '3622',
+  '洋華',
+  'TWSE',
+  '26',
+  '2009-03-25',
+  false,
+  true
+),
+(
+  '3645',
+  '達邁',
+  'TWSE',
+  '28',
+  '2011-10-05',
+  false,
+  true
+),
+(
+  '3652',
+  '精聯',
+  'TWSE',
+  '25',
+  '2022-09-21',
+  false,
+  true
+),
+(
+  '3653',
+  '健策',
+  'TWSE',
+  '28',
+  '2009-11-18',
+  false,
+  true
+),
+(
+  '3661',
+  '世芯-KY',
+  'TWSE',
+  '24',
+  '2014-10-28',
+  false,
+  true
+),
+(
+  '3665',
+  '貿聯-KY',
+  'TWSE',
+  '31',
+  '2011-04-21',
+  false,
+  true
+),
+(
+  '3669',
+  '圓展',
+  'TWSE',
+  '27',
+  '2011-08-25',
+  false,
+  true
+),
+(
+  '3673',
+  'TPK-KY',
+  'TWSE',
+  '26',
+  '2010-10-29',
+  false,
+  true
+),
+(
+  '3679',
+  '新至陞',
+  'TWSE',
+  '28',
+  '2011-10-05',
+  false,
+  true
+),
+(
+  '3686',
+  '達能',
+  'TWSE',
+  '24',
+  '2010-07-20',
+  false,
+  true
+),
+(
+  '3694',
+  '海華',
+  'TWSE',
+  '27',
+  '2011-05-03',
+  false,
+  true
+),
+(
+  '3701',
+  '大眾控',
+  'TWSE',
+  '25',
+  '2004-08-30',
+  false,
+  true
+),
+(
+  '3702',
+  '大聯大',
+  'TWSE',
+  '29',
+  '2005-11-09',
+  false,
+  true
+),
+(
+  '3703',
+  '欣陸',
+  'TWSE',
+  '14',
+  '2010-04-08',
+  false,
+  true
+),
+(
+  '3704',
+  '合勤控',
+  'TWSE',
+  '27',
+  '2010-08-16',
+  false,
+  true
+),
+(
+  '3705',
+  '永信',
+  'TWSE',
+  '22',
+  '2011-01-03',
+  false,
+  true
+),
+(
+  '3706',
+  '神達',
+  'TWSE',
+  '25',
+  '2013-09-12',
+  false,
+  true
+),
+(
+  '3708',
+  '上緯投控',
+  'TWSE',
+  '35',
+  '2016-08-31',
+  false,
+  true
+),
+(
+  '3711',
+  '日月光投控',
+  'TWSE',
+  '24',
+  '2018-04-30',
+  false,
+  true
+),
+(
+  '3712',
+  '永崴投控',
+  'TWSE',
+  '25',
+  '2018-10-01',
+  false,
+  true
+),
+(
+  '3714',
+  '富采',
+  'TWSE',
+  '26',
+  '2021-01-06',
+  false,
+  true
+),
+(
+  '3715',
+  '定穎投控',
+  'TWSE',
+  '28',
+  '2022-08-25',
+  false,
+  true
+),
+(
+  '3716',
+  '中化控股',
+  'TWSE',
+  '22',
+  '2024-09-02',
+  false,
+  true
+),
+(
+  '3717',
+  '聯嘉投控',
+  'TWSE',
+  '12',
+  '2025-08-15',
+  false,
+  true
+),
+(
+  '4104',
+  '佳醫',
+  'TWSE',
+  '22',
+  '2007-12-31',
+  false,
+  true
+),
+(
+  '4106',
+  '雃博',
+  'TWSE',
+  '22',
+  '2004-11-08',
+  false,
+  true
+),
+(
+  '4108',
+  '懷特',
+  'TWSE',
+  '22',
+  '2008-07-16',
+  false,
+  true
+),
+(
+  '4119',
+  '旭富',
+  'TWSE',
+  '22',
+  '2004-01-07',
+  false,
+  true
+),
+(
+  '4133',
+  '亞諾法',
+  'TWSE',
+  '22',
+  '2009-12-28',
+  false,
+  true
+),
+(
+  '4137',
+  '麗豐-KY',
+  'TWSE',
+  '22',
+  '2013-11-27',
+  false,
+  true
+),
+(
+  '4142',
+  '國光生',
+  'TWSE',
+  '22',
+  '2012-05-03',
+  false,
+  true
+),
+(
+  '4148',
+  '全宇生技-KY',
+  'TWSE',
+  '22',
+  '2017-06-08',
+  false,
+  true
+),
+(
+  '4155',
+  '訊映',
+  'TWSE',
+  '22',
+  '2017-12-05',
+  false,
+  true
+),
+(
+  '4164',
+  '承業醫',
+  'TWSE',
+  '22',
+  '2012-10-24',
+  false,
+  true
+),
+(
+  '4169',
+  '泰宗',
+  'TWSE',
+  '22',
+  '2026-04-08',
+  false,
+  true
+),
+(
+  '4178',
+  '永笙-KY',
+  'TWSE',
+  '22',
+  '2026-04-30',
+  false,
+  true
+),
+(
+  '4190',
+  '佐登-KY',
+  'TWSE',
+  '22',
+  '2015-10-21',
+  false,
+  true
+),
+(
+  '4195',
+  '基米-創',
+  'TWSE',
+  '22',
+  '2026-05-11',
+  false,
+  true
+),
+(
+  '4306',
+  '炎洲',
+  'TWSE',
+  '03',
+  '2008-01-21',
+  false,
+  true
+),
+(
+  '4414',
+  '如興',
+  'TWSE',
+  '04',
+  '2004-09-06',
+  false,
+  true
+),
+(
+  '4426',
+  '利勤',
+  'TWSE',
+  '04',
+  '2011-12-16',
+  false,
+  true
+),
+(
+  '4438',
+  '廣越',
+  'TWSE',
+  '04',
+  '2016-10-18',
+  false,
+  true
+),
+(
+  '4439',
+  '冠星-KY',
+  'TWSE',
+  '04',
+  '2019-12-05',
+  false,
+  true
+),
+(
+  '4440',
+  '宜新實業',
+  'TWSE',
+  '04',
+  '2021-10-25',
+  false,
+  true
+),
+(
+  '4441',
+  '振大環球',
+  'TWSE',
+  '04',
+  '2025-09-09',
+  false,
+  true
+),
+(
+  '4526',
+  '東台',
+  'TWSE',
+  '05',
+  '2003-09-15',
+  false,
+  true
+),
+(
+  '4532',
+  '瑞智',
+  'TWSE',
+  '05',
+  '2003-08-04',
+  false,
+  true
+),
+(
+  '4536',
+  '拓凱',
+  'TWSE',
+  '37',
+  '2013-10-09',
+  false,
+  true
+),
+(
+  '4540',
+  '全球傳動',
+  'TWSE',
+  '05',
+  '2018-08-15',
+  false,
+  true
+),
+(
+  '4545',
+  '銘鈺',
+  'TWSE',
+  '28',
+  '2016-01-06',
+  false,
+  true
+),
+(
+  '4551',
+  '智伸科',
+  'TWSE',
+  '12',
+  '2015-08-10',
+  false,
+  true
+),
+(
+  '4552',
+  '力達-KY',
+  'TWSE',
+  '05',
+  '2016-07-20',
+  false,
+  true
+),
+(
+  '4555',
+  '氣立',
+  'TWSE',
+  '05',
+  '2015-10-27',
+  false,
+  true
+),
+(
+  '4557',
+  '永新-KY',
+  'TWSE',
+  '12',
+  '2015-10-12',
+  false,
+  true
+),
+(
+  '4560',
+  '強信-KY',
+  'TWSE',
+  '05',
+  '2017-05-26',
+  false,
+  true
+),
+(
+  '4562',
+  '穎漢',
+  'TWSE',
+  '05',
+  '2017-08-21',
+  false,
+  true
+),
+(
+  '4564',
+  '元翎',
+  'TWSE',
+  '05',
+  '2019-03-07',
+  false,
+  true
+),
+(
+  '4566',
+  '時碩工業',
+  'TWSE',
+  '05',
+  '2018-02-05',
+  false,
+  true
+),
+(
+  '4569',
+  '六方科-KY',
+  'TWSE',
+  '12',
+  '2023-07-31',
+  false,
+  true
+),
+(
+  '4571',
+  '鈞興-KY',
+  'TWSE',
+  '05',
+  '2019-09-17',
+  false,
+  true
+),
+(
+  '4572',
+  '駐龍',
+  'TWSE',
+  '05',
+  '2019-09-10',
+  false,
+  true
+),
+(
+  '4576',
+  '大銀微系統',
+  'TWSE',
+  '05',
+  '2019-09-04',
+  false,
+  true
+),
+(
+  '4581',
+  '光隆精密-KY',
+  'TWSE',
+  '12',
+  '2020-03-09',
+  false,
+  true
+),
+(
+  '4582',
+  '聚恆-創',
+  'TWSE',
+  '35',
+  '2026-05-22',
+  false,
+  true
+),
+(
+  '4583',
+  '台灣精銳',
+  'TWSE',
+  '05',
+  '2022-05-09',
+  false,
+  true
+),
+(
+  '4585',
+  '達明',
+  'TWSE',
+  '31',
+  '2025-09-26',
+  false,
+  true
+),
+(
+  '4588',
+  '玖鼎電力',
+  'TWSE',
+  '31',
+  '2024-01-29',
+  false,
+  true
+),
+(
+  '4590',
+  '富田-創',
+  'TWSE',
+  '05',
+  '2026-01-29',
+  false,
+  true
+),
+(
+  '4720',
+  '德淵',
+  'TWSE',
+  '21',
+  '2015-06-24',
+  false,
+  true
+),
+(
+  '4722',
+  '國精化',
+  'TWSE',
+  '21',
+  '2012-08-15',
+  false,
+  true
+),
+(
+  '4736',
+  '泰博',
+  'TWSE',
+  '22',
+  '2023-12-22',
+  false,
+  true
+),
+(
+  '4737',
+  '華廣',
+  'TWSE',
+  '22',
+  '2010-12-23',
+  false,
+  true
+),
+(
+  '4739',
+  '康普',
+  'TWSE',
+  '21',
+  '2017-09-08',
+  false,
+  true
+),
+(
+  '4746',
+  '台耀',
+  'TWSE',
+  '22',
+  '2011-03-01',
+  false,
+  true
+),
+(
+  '4755',
+  '三福化',
+  'TWSE',
+  '21',
+  '2013-11-27',
+  false,
+  true
+),
+(
+  '4763',
+  '材料*-KY',
+  'TWSE',
+  '21',
+  '2015-11-09',
+  false,
+  true
+),
+(
+  '4764',
+  '雙鍵',
+  'TWSE',
+  '21',
+  '2018-01-04',
+  false,
+  true
+),
+(
+  '4766',
+  '南寶',
+  'TWSE',
+  '21',
+  '2018-11-28',
+  false,
+  true
+),
+(
+  '4770',
+  '上品',
+  'TWSE',
+  '21',
+  '2021-12-22',
+  false,
+  true
+),
+(
+  '4771',
+  '望隼',
+  'TWSE',
+  '22',
+  '2024-03-18',
+  false,
+  true
+),
+(
+  '4807',
+  '日成-KY',
+  'TWSE',
+  '18',
+  '2017-06-26',
+  false,
+  true
+),
+(
+  '4904',
+  '遠傳',
+  'TWSE',
+  '27',
+  '2005-08-24',
+  false,
+  true
+),
+(
+  '4906',
+  '正文',
+  'TWSE',
+  '27',
+  '2003-06-30',
+  false,
+  true
+),
+(
+  '4912',
+  '聯德控股-KY',
+  'TWSE',
+  '28',
+  '2015-05-21',
+  false,
+  true
+),
+(
+  '4915',
+  '致伸',
+  'TWSE',
+  '28',
+  '2012-10-05',
+  false,
+  true
+),
+(
+  '4916',
+  '事欣科',
+  'TWSE',
+  '25',
+  '2013-11-21',
+  false,
+  true
+),
+(
+  '4919',
+  '新唐',
+  'TWSE',
+  '24',
+  '2010-09-27',
+  false,
+  true
+),
+(
+  '4927',
+  '泰鼎-KY',
+  'TWSE',
+  '28',
+  '2015-09-08',
+  false,
+  true
+),
+(
+  '4930',
+  '燦星網',
+  'TWSE',
+  '06',
+  '2010-06-21',
+  false,
+  true
+),
+(
+  '4934',
+  '太極',
+  'TWSE',
+  '26',
+  '2011-08-16',
+  false,
+  true
+),
+(
+  '4935',
+  '茂林-KY',
+  'TWSE',
+  '26',
+  '2011-07-28',
+  false,
+  true
+),
+(
+  '4938',
+  '和碩',
+  'TWSE',
+  '25',
+  '2010-06-24',
+  false,
+  true
+),
+(
+  '4942',
+  '嘉彰',
+  'TWSE',
+  '26',
+  '2011-06-27',
+  false,
+  true
+),
+(
+  '4943',
+  '康控-KY',
+  'TWSE',
+  '28',
+  '2016-11-11',
+  false,
+  true
+),
+(
+  '4949',
+  '有成精密',
+  'TWSE',
+  '26',
+  '2024-05-09',
+  false,
+  true
+),
+(
+  '4952',
+  '凌通',
+  'TWSE',
+  '24',
+  '2011-11-01',
+  false,
+  true
+),
+(
+  '4956',
+  '光鋐',
+  'TWSE',
+  '26',
+  '2011-10-24',
+  false,
+  true
+),
+(
+  '4958',
+  '臻鼎-KY',
+  'TWSE',
+  '28',
+  '2011-12-26',
+  false,
+  true
+),
+(
+  '4960',
+  '誠美材',
+  'TWSE',
+  '26',
+  '2011-10-24',
+  false,
+  true
+),
+(
+  '4961',
+  '天鈺',
+  'TWSE',
+  '24',
+  '2018-10-17',
+  false,
+  true
+),
+(
+  '4967',
+  '十銓',
+  'TWSE',
+  '24',
+  '2019-01-14',
+  false,
+  true
+),
+(
+  '4968',
+  '立積',
+  'TWSE',
+  '24',
+  '2015-11-13',
+  false,
+  true
+),
+(
+  '4976',
+  '佳凌',
+  'TWSE',
+  '26',
+  '2012-11-20',
+  false,
+  true
+),
+(
+  '4977',
+  '眾達-KY',
+  'TWSE',
+  '27',
+  '2013-11-20',
+  false,
+  true
+),
+(
+  '4989',
+  '榮科',
+  'TWSE',
+  '28',
+  '2018-06-28',
+  false,
+  true
+),
+(
+  '4994',
+  '傳奇',
+  'TWSE',
+  '30',
+  '2013-12-25',
+  false,
+  true
+),
+(
+  '4999',
+  '鑫禾',
+  'TWSE',
+  '28',
+  '2013-06-03',
+  false,
+  true
+),
+(
+  '5007',
+  '三星',
+  'TWSE',
+  '10',
+  '2011-09-16',
+  false,
+  true
+),
+(
+  '5203',
+  '訊連',
+  'TWSE',
+  '30',
+  '2004-09-27',
+  false,
+  true
+),
+(
+  '5215',
+  '科嘉-KY',
+  'TWSE',
+  '25',
+  '2011-12-26',
+  false,
+  true
+),
+(
+  '5222',
+  '全訊',
+  'TWSE',
+  '24',
+  '2021-10-25',
+  false,
+  true
+),
+(
+  '5225',
+  '東科-KY',
+  'TWSE',
+  '31',
+  '2012-11-05',
+  false,
+  true
+),
+(
+  '5234',
+  '達興材料',
+  'TWSE',
+  '26',
+  '2012-07-16',
+  false,
+  true
+),
+(
+  '5243',
+  '乙盛-KY',
+  'TWSE',
+  '26',
+  '2013-11-25',
+  false,
+  true
+),
+(
+  '5244',
+  '弘凱',
+  'TWSE',
+  '26',
+  '2022-01-19',
+  false,
+  true
+),
+(
+  '5258',
+  '虹堡',
+  'TWSE',
+  '25',
+  '2016-12-30',
+  false,
+  true
+),
+(
+  '5269',
+  '祥碩',
+  'TWSE',
+  '24',
+  '2012-12-12',
+  false,
+  true
+),
+(
+  '5283',
+  '禾聯碩',
+  'TWSE',
+  '06',
+  '2019-05-24',
+  false,
+  true
+),
+(
+  '5284',
+  'jpp-KY',
+  'TWSE',
+  '20',
+  '2017-03-09',
+  false,
+  true
+),
+(
+  '5285',
+  '界霖',
+  'TWSE',
+  '24',
+  '2014-02-25',
+  false,
+  true
+),
+(
+  '5288',
+  '豐祥-KY',
+  'TWSE',
+  '05',
+  '2014-09-25',
+  false,
+  true
+),
+(
+  '5292',
+  '華懋',
+  'TWSE',
+  '35',
+  '2023-11-21',
+  false,
+  true
+),
+(
+  '5306',
+  '桂盟',
+  'TWSE',
+  '37',
+  '2022-03-08',
+  false,
+  true
+),
+(
+  '5388',
+  '中磊',
+  'TWSE',
+  '27',
+  '2007-12-03',
+  false,
+  true
+),
+(
+  '5434',
+  '崇越',
+  'TWSE',
+  '29',
+  '2003-08-25',
+  false,
+  true
+),
+(
+  '5469',
+  '瀚宇博',
+  'TWSE',
+  '28',
+  '2003-08-25',
+  false,
+  true
+),
+(
+  '5471',
+  '松翰',
+  'TWSE',
+  '24',
+  '2003-08-25',
+  false,
+  true
+),
+(
+  '5484',
+  '慧友',
+  'TWSE',
+  '26',
+  '2003-08-25',
+  false,
+  true
+),
+(
+  '5515',
+  '建國',
+  'TWSE',
+  '14',
+  '2003-10-06',
+  false,
+  true
+),
+(
+  '5519',
+  '隆大',
+  'TWSE',
+  '14',
+  '2014-02-10',
+  false,
+  true
+),
+(
+  '5521',
+  '工信',
+  'TWSE',
+  '14',
+  '2012-12-18',
+  false,
+  true
+),
+(
+  '5522',
+  '遠雄',
+  'TWSE',
+  '14',
+  '2007-08-06',
+  false,
+  true
+),
+(
+  '5525',
+  '順天',
+  'TWSE',
+  '14',
+  '2004-11-26',
+  false,
+  true
+),
+(
+  '5531',
+  '鄉林',
+  'TWSE',
+  '14',
+  '2005-01-31',
+  false,
+  true
+),
+(
+  '5533',
+  '皇鼎',
+  'TWSE',
+  '14',
+  '2008-04-30',
+  false,
+  true
+),
+(
+  '5534',
+  '長虹',
+  'TWSE',
+  '14',
+  '2004-05-24',
+  false,
+  true
+),
+(
+  '5538',
+  '東明-KY',
+  'TWSE',
+  '10',
+  '2013-12-16',
+  false,
+  true
+),
+(
+  '5546',
+  '永固-KY',
+  'TWSE',
+  '14',
+  '2020-05-20',
+  false,
+  true
+),
+(
+  '5607',
+  '遠雄港',
+  'TWSE',
+  '15',
+  '2004-12-02',
+  false,
+  true
+),
+(
+  '5608',
+  '四維航',
+  'TWSE',
+  '15',
+  '2003-08-25',
+  false,
+  true
+),
+(
+  '5706',
+  '鳳凰',
+  'TWSE',
+  '16',
+  '2011-10-21',
+  false,
+  true
+),
+(
+  '5871',
+  '中租-KY',
+  'TWSE',
+  '20',
+  '2011-12-13',
+  false,
+  true
+),
+(
+  '5876',
+  '上海商銀',
+  'TWSE',
+  '17',
+  '2018-10-19',
+  false,
+  true
+),
+(
+  '5880',
+  '合庫金',
+  'TWSE',
+  '17',
+  '2011-12-01',
+  false,
+  true
+),
+(
+  '5906',
+  '台南-KY',
+  'TWSE',
+  '18',
+  '2011-10-24',
+  false,
+  true
+),
+(
+  '5907',
+  '大洋-KY',
+  'TWSE',
+  '18',
+  '2012-06-06',
+  false,
+  true
+),
+(
+  '6005',
+  '群益證',
+  'TWSE',
+  '17',
+  '2005-11-21',
+  false,
+  true
+),
+(
+  '6024',
+  '群益期',
+  'TWSE',
+  '17',
+  '2017-10-16',
+  false,
+  true
+),
+(
+  '6108',
+  '競國',
+  'TWSE',
+  '28',
+  '2008-12-30',
+  false,
+  true
+),
+(
+  '6112',
+  '邁達特',
+  'TWSE',
+  '30',
+  '2003-08-04',
+  false,
+  true
+),
+(
+  '6115',
+  '鎰勝',
+  'TWSE',
+  '28',
+  '2004-07-19',
+  false,
+  true
+),
+(
+  '6116',
+  '彩晶',
+  'TWSE',
+  '26',
+  '2004-09-06',
+  false,
+  true
+),
+(
+  '6117',
+  '迎廣',
+  'TWSE',
+  '25',
+  '2003-08-25',
+  false,
+  true
+),
+(
+  '6120',
+  '達運',
+  'TWSE',
+  '26',
+  '2006-09-13',
+  false,
+  true
+),
+(
+  '6128',
+  '上福',
+  'TWSE',
+  '25',
+  '2003-06-16',
+  false,
+  true
+),
+(
+  '6133',
+  '金橋',
+  'TWSE',
+  '28',
+  '2003-08-15',
+  false,
+  true
+),
+(
+  '6136',
+  '富爾特',
+  'TWSE',
+  '27',
+  '2003-08-25',
+  false,
+  true
+),
+(
+  '6139',
+  '亞翔',
+  'TWSE',
+  '31',
+  '2003-08-25',
+  false,
+  true
+),
+(
+  '6141',
+  '柏承',
+  'TWSE',
+  '28',
+  '2003-10-22',
+  false,
+  true
+),
+(
+  '6142',
+  '友勁',
+  'TWSE',
+  '27',
+  '2003-08-04',
+  false,
+  true
+),
+(
+  '6152',
+  '百一',
+  'TWSE',
+  '27',
+  '2009-12-08',
+  false,
+  true
+),
+(
+  '6153',
+  '嘉聯益',
+  'TWSE',
+  '28',
+  '2008-01-21',
+  false,
+  true
+),
+(
+  '6155',
+  '鈞寶',
+  'TWSE',
+  '28',
+  '2006-08-18',
+  false,
+  true
+),
+(
+  '6164',
+  '華興',
+  'TWSE',
+  '26',
+  '2008-10-21',
+  false,
+  true
+),
+(
+  '6165',
+  '浪凡',
+  'TWSE',
+  '36',
+  '2003-08-04',
+  false,
+  true
+),
+(
+  '6166',
+  '凌華',
+  'TWSE',
+  '25',
+  '2004-11-08',
+  false,
+  true
+),
+(
+  '6168',
+  '宏齊',
+  'TWSE',
+  '26',
+  '2003-08-25',
+  false,
+  true
+),
+(
+  '6176',
+  '瑞儀',
+  'TWSE',
+  '26',
+  '2007-05-15',
+  false,
+  true
+),
+(
+  '6177',
+  '達麗',
+  'TWSE',
+  '14',
+  '2013-08-01',
+  false,
+  true
+),
+(
+  '6183',
+  '關貿',
+  'TWSE',
+  '30',
+  '2011-12-01',
+  false,
+  true
+),
+(
+  '6184',
+  '大豐電',
+  'TWSE',
+  '20',
+  '2005-02-15',
+  false,
+  true
+),
+(
+  '6189',
+  '豐藝',
+  'TWSE',
+  '29',
+  '2004-05-24',
+  false,
+  true
+),
+(
+  '6191',
+  '精成科',
+  'TWSE',
+  '28',
+  '2007-10-19',
+  false,
+  true
+),
+(
+  '6192',
+  '巨路',
+  'TWSE',
+  '31',
+  '2004-09-27',
+  false,
+  true
+),
+(
+  '6196',
+  '帆宣',
+  'TWSE',
+  '31',
+  '2004-05-24',
+  false,
+  true
+),
+(
+  '6197',
+  '佳必琪',
+  'TWSE',
+  '28',
+  '2004-11-08',
+  false,
+  true
+),
+(
+  '6201',
+  '亞弘電',
+  'TWSE',
+  '31',
+  '2004-09-27',
+  false,
+  true
+),
+(
+  '6202',
+  '盛群',
+  'TWSE',
+  '24',
+  '2004-09-27',
+  false,
+  true
+),
+(
+  '6205',
+  '詮欣',
+  'TWSE',
+  '28',
+  '2008-01-21',
+  false,
+  true
+),
+(
+  '6206',
+  '飛捷',
+  'TWSE',
+  '25',
+  '2004-08-03',
+  false,
+  true
+),
+(
+  '6209',
+  '今國光',
+  'TWSE',
+  '26',
+  '2004-11-08',
+  false,
+  true
+),
+(
+  '6213',
+  '聯茂',
+  'TWSE',
+  '28',
+  '2008-01-21',
+  false,
+  true
+),
+(
+  '6214',
+  '精誠',
+  'TWSE',
+  '30',
+  '2010-12-30',
+  false,
+  true
+),
+(
+  '6215',
+  '和椿',
+  'TWSE',
+  '31',
+  '2007-12-31',
+  false,
+  true
+),
+(
+  '6216',
+  '居易',
+  'TWSE',
+  '27',
+  '2004-09-27',
+  false,
+  true
+),
+(
+  '6224',
+  '聚鼎',
+  'TWSE',
+  '28',
+  '2009-09-17',
+  false,
+  true
+),
+(
+  '6225',
+  '天瀚',
+  'TWSE',
+  '26',
+  '2004-09-27',
+  false,
+  true
+),
+(
+  '6226',
+  '光鼎',
+  'TWSE',
+  '26',
+  '2008-11-10',
+  false,
+  true
+),
+(
+  '6230',
+  '尼得科超眾',
+  'TWSE',
+  '25',
+  '2010-09-16',
+  false,
+  true
+),
+(
+  '6235',
+  '華孚',
+  'TWSE',
+  '25',
+  '2004-08-23',
+  false,
+  true
+),
+(
+  '6239',
+  '力成',
+  'TWSE',
+  '24',
+  '2004-11-08',
+  false,
+  true
+),
+(
+  '6243',
+  '迅杰',
+  'TWSE',
+  '24',
+  '2009-12-17',
+  false,
+  true
+),
+(
+  '6257',
+  '矽格',
+  'TWSE',
+  '24',
+  '2003-08-25',
+  false,
+  true
+),
+(
+  '6269',
+  '台郡',
+  'TWSE',
+  '28',
+  '2003-09-23',
+  false,
+  true
+),
+(
+  '6271',
+  '同欣電',
+  'TWSE',
+  '24',
+  '2007-11-16',
+  false,
+  true
+),
+(
+  '6272',
+  '驊陞',
+  'TWSE',
+  '28',
+  '2025-12-22',
+  false,
+  true
+),
+(
+  '6277',
+  '宏正',
+  'TWSE',
+  '25',
+  '2003-10-30',
+  false,
+  true
+),
+(
+  '6278',
+  '台表科',
+  'TWSE',
+  '26',
+  '2010-08-24',
+  false,
+  true
+),
+(
+  '6281',
+  '全國電',
+  'TWSE',
+  '29',
+  '2005-12-08',
+  false,
+  true
+),
+(
+  '6282',
+  '康舒',
+  'TWSE',
+  '28',
+  '2003-09-08',
+  false,
+  true
+),
+(
+  '6283',
+  '淳安',
+  'TWSE',
+  '31',
+  '2008-01-21',
+  false,
+  true
+),
+(
+  '6285',
+  '啟碁',
+  'TWSE',
+  '27',
+  '2003-09-22',
+  false,
+  true
+),
+(
+  '6405',
+  '悅城',
+  'TWSE',
+  '26',
+  '2013-11-28',
+  false,
+  true
+),
+(
+  '6409',
+  '旭隼',
+  'TWSE',
+  '31',
+  '2014-03-31',
+  false,
+  true
+),
+(
+  '6412',
+  '群電',
+  'TWSE',
+  '28',
+  '2013-11-08',
+  false,
+  true
+),
+(
+  '6414',
+  '樺漢',
+  'TWSE',
+  '25',
+  '2014-03-28',
+  false,
+  true
+),
+(
+  '6415',
+  '矽力*-KY',
+  'TWSE',
+  '24',
+  '2013-12-12',
+  false,
+  true
+),
+(
+  '6416',
+  '瑞祺電通',
+  'TWSE',
+  '27',
+  '2018-04-16',
+  false,
+  true
+),
+(
+  '6426',
+  '統新',
+  'TWSE',
+  '27',
+  '2021-03-24',
+  false,
+  true
+),
+(
+  '6431',
+  '光麗-KY',
+  'TWSE',
+  '22',
+  '2014-12-04',
+  false,
+  true
+),
+(
+  '6438',
+  '迅得',
+  'TWSE',
+  '31',
+  '2021-01-19',
+  false,
+  true
+),
+(
+  '6442',
+  '光聖',
+  'TWSE',
+  '27',
+  '2015-07-14',
+  false,
+  true
+),
+(
+  '6443',
+  '元晶',
+  'TWSE',
+  '26',
+  '2015-10-01',
+  false,
+  true
+),
+(
+  '6446',
+  '藥華藥',
+  'TWSE',
+  '22',
+  '2024-01-25',
+  false,
+  true
+),
+(
+  '6449',
+  '鈺邦',
+  'TWSE',
+  '28',
+  '2014-12-09',
+  false,
+  true
+),
+(
+  '6451',
+  '訊芯-KY',
+  'TWSE',
+  '24',
+  '2015-01-26',
+  false,
+  true
+),
+(
+  '6456',
+  'GIS-KY',
+  'TWSE',
+  '26',
+  '2015-06-12',
+  false,
+  true
+),
+(
+  '6464',
+  '台數科',
+  'TWSE',
+  '20',
+  '2015-12-16',
+  false,
+  true
+),
+(
+  '6472',
+  '保瑞',
+  'TWSE',
+  '22',
+  '2023-12-19',
+  false,
+  true
+),
+(
+  '6477',
+  '安集',
+  'TWSE',
+  '26',
+  '2016-06-21',
+  false,
+  true
+),
+(
+  '6491',
+  '晶碩',
+  'TWSE',
+  '22',
+  '2019-10-07',
+  false,
+  true
+),
+(
+  '6504',
+  '南六',
+  'TWSE',
+  '20',
+  '2013-05-07',
+  false,
+  true
+),
+(
+  '6505',
+  '台塑化',
+  'TWSE',
+  '23',
+  '2003-12-26',
+  false,
+  true
+),
+(
+  '6515',
+  '穎崴',
+  'TWSE',
+  '24',
+  '2021-01-20',
+  false,
+  true
+),
+(
+  '6525',
+  '捷敏-KY',
+  'TWSE',
+  '24',
+  '2016-04-12',
+  false,
+  true
+),
+(
+  '6526',
+  '達發',
+  'TWSE',
+  '24',
+  '2023-10-19',
+  false,
+  true
+),
+(
+  '6531',
+  '愛普*',
+  'TWSE',
+  '24',
+  '2016-05-31',
+  false,
+  true
+),
+(
+  '6533',
+  '晶心科',
+  'TWSE',
+  '24',
+  '2017-03-14',
+  false,
+  true
+),
+(
+  '6534',
+  '正瀚-創',
+  'TWSE',
+  '22',
+  '2023-12-21',
+  false,
+  true
+),
+(
+  '6541',
+  '泰福-KY',
+  'TWSE',
+  '22',
+  '2017-10-26',
+  false,
+  true
+),
+(
+  '6550',
+  '北極星藥業-KY',
+  'TWSE',
+  '22',
+  '2022-06-06',
+  false,
+  true
+),
+(
+  '6552',
+  '易華電',
+  'TWSE',
+  '24',
+  '2017-01-10',
+  false,
+  true
+),
+(
+  '6558',
+  '興能高',
+  'TWSE',
+  '31',
+  '2018-12-05',
+  false,
+  true
+),
+(
+  '6573',
+  '虹揚-KY',
+  'TWSE',
+  '24',
+  '2017-09-26',
+  false,
+  true
+),
+(
+  '6579',
+  '研揚',
+  'TWSE',
+  '25',
+  '2017-08-21',
+  false,
+  true
+),
+(
+  '6581',
+  '鋼聯',
+  'TWSE',
+  '35',
+  '2018-01-30',
+  false,
+  true
+),
+(
+  '6582',
+  '申豐',
+  'TWSE',
+  '11',
+  '2017-06-14',
+  false,
+  true
+),
+(
+  '6585',
+  '鼎基',
+  'TWSE',
+  '20',
+  '2022-05-20',
+  false,
+  true
+),
+(
+  '6589',
+  '台康生技',
+  'TWSE',
+  '22',
+  '2025-07-21',
+  false,
+  true
+),
+(
+  '6591',
+  '動力-KY',
+  'TWSE',
+  '25',
+  '2017-12-28',
+  false,
+  true
+),
+(
+  '6592',
+  '和潤企業',
+  'TWSE',
+  '20',
+  '2019-12-09',
+  false,
+  true
+),
+(
+  '6598',
+  'ABC-KY',
+  'TWSE',
+  '22',
+  '2020-06-09',
+  false,
+  true
+),
+(
+  '6605',
+  '帝寶',
+  'TWSE',
+  '12',
+  '2004-03-17',
+  false,
+  true
+),
+(
+  '6606',
+  '建德工業',
+  'TWSE',
+  '05',
+  '2023-03-24',
+  false,
+  true
+),
+(
+  '6614',
+  '資拓宏宇',
+  'TWSE',
+  '36',
+  '2025-11-25',
+  false,
+  true
+),
+(
+  '6625',
+  '必應',
+  'TWSE',
+  '20',
+  '2018-02-07',
+  false,
+  true
+),
+(
+  '6641',
+  '基士德-KY',
+  'TWSE',
+  '35',
+  '2018-09-21',
+  false,
+  true
+),
+(
+  '6645',
+  '金萬林-創',
+  'TWSE',
+  '22',
+  '2023-12-21',
+  false,
+  true
+),
+(
+  '6655',
+  '科定',
+  'TWSE',
+  '20',
+  '2018-11-28',
+  false,
+  true
+),
+(
+  '6657',
+  '華安',
+  'TWSE',
+  '22',
+  '2023-06-12',
+  false,
+  true
+),
+(
+  '6658',
+  '聯策',
+  'TWSE',
+  '31',
+  '2023-11-02',
+  false,
+  true
+),
+(
+  '6666',
+  '羅麗芬-KY',
+  'TWSE',
+  '22',
+  '2018-11-19',
+  false,
+  true
+),
+(
+  '6668',
+  '中揚光',
+  'TWSE',
+  '26',
+  '2018-12-12',
+  false,
+  true
+),
+(
+  '6669',
+  '緯穎',
+  'TWSE',
+  '25',
+  '2019-03-27',
+  false,
+  true
+),
+(
+  '6670',
+  '復盛應用',
+  'TWSE',
+  '37',
+  '2018-12-18',
+  false,
+  true
+),
+(
+  '6671',
+  '三能-KY',
+  'TWSE',
+  '38',
+  '2018-12-11',
+  false,
+  true
+),
+(
+  '6672',
+  '騰輝電子-KY',
+  'TWSE',
+  '28',
+  '2019-04-17',
+  false,
+  true
+),
+(
+  '6674',
+  '鋐寶科技',
+  'TWSE',
+  '27',
+  '2018-11-28',
+  false,
+  true
+),
+(
+  '6689',
+  '伊雲谷',
+  'TWSE',
+  '36',
+  '2022-09-13',
+  false,
+  true
+),
+(
+  '6691',
+  '洋基工程',
+  'TWSE',
+  '31',
+  '2022-01-03',
+  false,
+  true
+),
+(
+  '6695',
+  '芯鼎',
+  'TWSE',
+  '24',
+  '2022-11-04',
+  false,
+  true
+),
+(
+  '6698',
+  '旭暉應材',
+  'TWSE',
+  '31',
+  '2019-11-25',
+  false,
+  true
+),
+(
+  '6706',
+  '惠特',
+  'TWSE',
+  '26',
+  '2019-12-19',
+  false,
+  true
+),
+(
+  '6715',
+  '嘉基',
+  'TWSE',
+  '28',
+  '2019-12-12',
+  false,
+  true
+),
+(
+  '6719',
+  '力智',
+  'TWSE',
+  '24',
+  '2022-01-13',
+  false,
+  true
+),
+(
+  '6722',
+  '輝創',
+  'TWSE',
+  '31',
+  '2026-01-16',
+  false,
+  true
+),
+(
+  '6742',
+  '澤米',
+  'TWSE',
+  '26',
+  '2023-12-05',
+  false,
+  true
+),
+(
+  '6743',
+  '安普新',
+  'TWSE',
+  '31',
+  '2020-12-14',
+  false,
+  true
+),
+(
+  '6753',
+  '龍德造船',
+  'TWSE',
+  '15',
+  '2023-03-10',
+  false,
+  true
+),
+(
+  '6754',
+  '匯僑設計',
+  'TWSE',
+  '38',
+  '2020-08-25',
+  false,
+  true
+),
+(
+  '6756',
+  '威鋒電子',
+  'TWSE',
+  '24',
+  '2020-12-24',
+  false,
+  true
+),
+(
+  '6757',
+  '台灣虎航',
+  'TWSE',
+  '15',
+  '2023-08-15',
+  false,
+  true
+),
+(
+  '6768',
+  '志強-KY',
+  'TWSE',
+  '37',
+  '2021-04-22',
+  false,
+  true
+),
+(
+  '6770',
+  '力積電',
+  'TWSE',
+  '24',
+  '2021-12-06',
+  false,
+  true
+),
+(
+  '6771',
+  '平和環保-創',
+  'TWSE',
+  '35',
+  '2024-05-17',
+  false,
+  true
+),
+(
+  '6776',
+  '展碁國際',
+  'TWSE',
+  '29',
+  '2021-03-31',
+  false,
+  true
+),
+(
+  '6781',
+  'AES-KY',
+  'TWSE',
+  '28',
+  '2021-03-22',
+  false,
+  true
+),
+(
+  '6782',
+  '視陽',
+  'TWSE',
+  '22',
+  '2022-11-28',
+  false,
+  true
+),
+(
+  '6789',
+  '采鈺',
+  'TWSE',
+  '24',
+  '2022-06-30',
+  false,
+  true
+),
+(
+  '6790',
+  '永豐實',
+  'TWSE',
+  '09',
+  '2021-09-29',
+  false,
+  true
+),
+(
+  '6792',
+  '詠業',
+  'TWSE',
+  '27',
+  '2021-12-08',
+  false,
+  true
+),
+(
+  '6794',
+  '向榮生技',
+  'TWSE',
+  '22',
+  '2024-05-21',
+  false,
+  true
+),
+(
+  '6796',
+  '晉弘',
+  'TWSE',
+  '22',
+  '2022-06-01',
+  false,
+  true
+),
+(
+  '6799',
+  '來頡',
+  'TWSE',
+  '24',
+  '2022-05-12',
+  false,
+  true
+),
+(
+  '6805',
+  '富世達',
+  'TWSE',
+  '28',
+  '2023-11-09',
+  false,
+  true
+),
+(
+  '6806',
+  '森崴能源',
+  'TWSE',
+  '35',
+  '2021-11-15',
+  false,
+  true
+),
+(
+  '6807',
+  '峰源-KY',
+  'TWSE',
+  '38',
+  '2022-04-25',
+  false,
+  true
+),
+(
+  '6830',
+  '汎銓',
+  'TWSE',
+  '31',
+  '2022-08-31',
+  false,
+  true
+),
+(
+  '6831',
+  '邁科',
+  'TWSE',
+  '25',
+  '2025-11-25',
+  false,
+  true
+),
+(
+  '6834',
+  '天二科技',
+  'TWSE',
+  '28',
+  '2022-09-01',
+  false,
+  true
+),
+(
+  '6835',
+  '圓裕',
+  'TWSE',
+  '28',
+  '2022-11-10',
+  false,
+  true
+),
+(
+  '6838',
+  '台新藥',
+  'TWSE',
+  '22',
+  '2024-08-13',
+  false,
+  true
+),
+(
+  '6854',
+  '錼創科技-KY創',
+  'TWSE',
+  '24',
+  '2022-08-18',
+  false,
+  true
+),
+(
+  '6861',
+  '睿生光電',
+  'TWSE',
+  '22',
+  '2023-03-27',
+  false,
+  true
+),
+(
+  '6862',
+  '三集瑞-KY',
+  'TWSE',
+  '28',
+  '2024-10-23',
+  false,
+  true
+),
+(
+  '6863',
+  '永道-KY',
+  'TWSE',
+  '27',
+  '2023-03-21',
+  false,
+  true
+),
+(
+  '6869',
+  '雲豹能源',
+  'TWSE',
+  '35',
+  '2023-03-14',
+  false,
+  true
+),
+(
+  '6873',
+  '泓德能源',
+  'TWSE',
+  '35',
+  '2024-09-26',
+  false,
+  true
+),
+(
+  '6885',
+  '全福生技',
+  'TWSE',
+  '22',
+  '2024-12-16',
+  false,
+  true
+),
+(
+  '6887',
+  '寶綠特-KY',
+  'TWSE',
+  '35',
+  '2025-03-10',
+  false,
+  true
+),
+(
+  '6890',
+  '來億-KY',
+  'TWSE',
+  '37',
+  '2024-06-12',
+  false,
+  true
+),
+(
+  '6901',
+  '鑽石投資',
+  'TWSE',
+  '20',
+  '2023-09-19',
+  false,
+  true
+),
+(
+  '6902',
+  'GOGOLOOK',
+  'TWSE',
+  '36',
+  '2023-07-13',
+  false,
+  true
+),
+(
+  '6906',
+  '現觀科',
+  'TWSE',
+  '36',
+  '2024-01-15',
+  false,
+  true
+),
+(
+  '6908',
+  '宏碁遊戲-創',
+  'TWSE',
+  '29',
+  '2026-03-25',
+  false,
+  true
+),
+(
+  '6909',
+  '創控',
+  'TWSE',
+  '24',
+  '2025-05-21',
+  false,
+  true
+),
+(
+  '6914',
+  '阜爾運通',
+  'TWSE',
+  '20',
+  '2024-05-03',
+  false,
+  true
+),
+(
+  '6916',
+  '華凌',
+  'TWSE',
+  '26',
+  '2023-12-05',
+  false,
+  true
+),
+(
+  '6918',
+  '愛派司',
+  'TWSE',
+  '22',
+  '2025-06-10',
+  false,
+  true
+),
+(
+  '6919',
+  '康霈*',
+  'TWSE',
+  '22',
+  '2024-10-02',
+  false,
+  true
+),
+(
+  '6921',
+  '嘉雨思-創',
+  'TWSE',
+  '24',
+  '2025-12-23',
+  false,
+  true
+),
+(
+  '6923',
+  '中台',
+  'TWSE',
+  '35',
+  '2024-09-25',
+  false,
+  true
+),
+(
+  '6924',
+  '榮惠-KY創',
+  'TWSE',
+  '28',
+  '2024-12-03',
+  false,
+  true
+),
+(
+  '6928',
+  '攸泰科技',
+  'TWSE',
+  '25',
+  '2024-05-16',
+  false,
+  true
+),
+(
+  '6931',
+  '青松健康',
+  'TWSE',
+  '22',
+  '2025-01-15',
+  false,
+  true
+),
+(
+  '6933',
+  'AMAX-KY',
+  'TWSE',
+  '25',
+  '2023-11-08',
+  false,
+  true
+),
+(
+  '6934',
+  '心誠鎂',
+  'TWSE',
+  '22',
+  '2026-02-02',
+  false,
+  true
+),
+(
+  '6936',
+  '永鴻生技',
+  'TWSE',
+  '22',
+  '2025-04-28',
+  false,
+  true
+),
+(
+  '6937',
+  '天虹',
+  'TWSE',
+  '24',
+  '2023-12-12',
+  false,
+  true
+),
+(
+  '6944',
+  '兆聯實業',
+  'TWSE',
+  '35',
+  '2025-05-28',
+  false,
+  true
+),
+(
+  '6949',
+  '沛爾生醫-創',
+  'TWSE',
+  '22',
+  '2024-03-08',
+  false,
+  true
+),
+(
+  '6951',
+  '青新-創',
+  'TWSE',
+  '35',
+  '2024-06-18',
+  false,
+  true
+),
+(
+  '6952',
+  '大武山',
+  'TWSE',
+  '20',
+  '2024-06-13',
+  false,
+  true
+),
+(
+  '6955',
+  '邦睿生技-創',
+  'TWSE',
+  '22',
+  '2024-12-06',
+  false,
+  true
+),
+(
+  '6957',
+  '裕慶-KY',
+  'TWSE',
+  '20',
+  '2024-06-25',
+  false,
+  true
+),
+(
+  '6958',
+  '日盛台駿',
+  'TWSE',
+  '20',
+  '2024-08-20',
+  false,
+  true
+),
+(
+  '6962',
+  '奕力-KY',
+  'TWSE',
+  '24',
+  '2024-11-26',
+  false,
+  true
+),
+(
+  '6965',
+  '中傑-KY',
+  'TWSE',
+  '37',
+  '2025-03-07',
+  false,
+  true
+),
+(
+  '6969',
+  '成信實業*-創',
+  'TWSE',
+  '35',
+  '2024-09-09',
+  false,
+  true
+),
+(
+  '6988',
+  '威力暘-創',
+  'TWSE',
+  '12',
+  '2024-10-23',
+  false,
+  true
+),
+(
+  '6994',
+  '富威電力',
+  'TWSE',
+  '35',
+  '2025-01-15',
+  false,
+  true
+),
+(
+  '7610',
+  '聯友金屬-創',
+  'TWSE',
+  '35',
+  '2025-09-09',
+  false,
+  true
+),
+(
+  '7631',
+  '聚賢研發-創',
+  'TWSE',
+  '31',
+  '2025-03-13',
+  false,
+  true
+),
+(
+  '7705',
+  '三商餐飲',
+  'TWSE',
+  '16',
+  '2024-11-26',
+  false,
+  true
+),
+(
+  '7711',
+  '永擎',
+  'TWSE',
+  '25',
+  '2025-11-19',
+  false,
+  true
+),
+(
+  '7721',
+  '微程式',
+  'TWSE',
+  '36',
+  '2025-07-29',
+  false,
+  true
+),
+(
+  '7722',
+  'LINEPAY',
+  'TWSE',
+  '36',
+  '2024-12-05',
+  false,
+  true
+),
+(
+  '7730',
+  '暉盛-創',
+  'TWSE',
+  '24',
+  '2025-11-04',
+  false,
+  true
+),
+(
+  '7732',
+  '金興精密',
+  'TWSE',
+  '12',
+  '2025-01-14',
+  false,
+  true
+),
+(
+  '7736',
+  '虎山',
+  'TWSE',
+  '12',
+  '2025-03-18',
+  false,
+  true
+),
+(
+  '7740',
+  '熙特爾-創',
+  'TWSE',
+  '35',
+  '2025-06-16',
+  false,
+  true
+),
+(
+  '7749',
+  '意騰-KY',
+  'TWSE',
+  '24',
+  '2025-06-13',
+  false,
+  true
+),
+(
+  '7750',
+  '新代',
+  'TWSE',
+  '05',
+  '2025-09-17',
+  false,
+  true
+),
+(
+  '7760',
+  '享溫馨',
+  'TWSE',
+  '16',
+  '2026-04-28',
+  false,
+  true
+),
+(
+  '7765',
+  '中華資安',
+  'TWSE',
+  '36',
+  '2025-09-08',
+  false,
+  true
+),
+(
+  '7768',
+  '頌勝科技',
+  'TWSE',
+  '24',
+  '2026-05-07',
+  false,
+  true
+),
+(
+  '7769',
+  '鴻勁',
+  'TWSE',
+  '24',
+  '2025-11-27',
+  false,
+  true
+),
+(
+  '7780',
+  '大研生醫*',
+  'TWSE',
+  '02',
+  '2025-09-09',
+  false,
+  true
+),
+(
+  '7786',
+  '東方風能',
+  'TWSE',
+  '35',
+  '2025-11-18',
+  false,
+  true
+),
+(
+  '7788',
+  '松川精密',
+  'TWSE',
+  '28',
+  '2025-10-16',
+  false,
+  true
+),
+(
+  '7791',
+  '皇家可口',
+  'TWSE',
+  '02',
+  '2025-10-28',
+  false,
+  true
+),
+(
+  '7795',
+  '長廣',
+  'TWSE',
+  '28',
+  '2026-01-16',
+  false,
+  true
+),
+(
+  '7799',
+  '禾榮科',
+  'TWSE',
+  '22',
+  '2025-09-15',
+  false,
+  true
+),
+(
+  '7803',
+  '雲象科技-創',
+  'TWSE',
+  '22',
+  '2026-05-20',
+  false,
+  true
+),
+(
+  '7818',
+  '溢泰實業',
+  'TWSE',
+  '35',
+  '2026-05-18',
+  false,
+  true
+),
+(
+  '7821',
+  '神數',
+  'TWSE',
+  '12',
+  '2026-04-20',
+  false,
+  true
+),
+(
+  '7822',
+  '倍利科',
+  'TWSE',
+  '24',
+  '2026-03-30',
+  false,
+  true
+),
+(
+  '7823',
+  '奧義賽博-KY創',
+  'TWSE',
+  '36',
+  '2026-02-05',
+  false,
+  true
+),
+(
+  '8011',
+  '台通',
+  'TWSE',
+  '27',
+  '2011-09-19',
+  false,
+  true
+),
+(
+  '8016',
+  '矽創',
+  'TWSE',
+  '24',
+  '2003-12-25',
+  false,
+  true
+),
+(
+  '8021',
+  '尖點',
+  'TWSE',
+  '31',
+  '2008-01-21',
+  false,
+  true
+),
+(
+  '8028',
+  '昇陽半導體',
+  'TWSE',
+  '24',
+  '2018-07-10',
+  false,
+  true
+),
+(
+  '8033',
+  '雷虎',
+  'TWSE',
+  '20',
+  '2007-06-21',
+  false,
+  true
+),
+(
+  '8039',
+  '台虹',
+  'TWSE',
+  '28',
+  '2009-12-17',
+  false,
+  true
+),
+(
+  '8045',
+  '達運光電',
+  'TWSE',
+  '27',
+  '2024-12-11',
+  false,
+  true
+),
+(
+  '8046',
+  '南電',
+  'TWSE',
+  '28',
+  '2006-04-07',
+  false,
+  true
+),
+(
+  '8070',
+  '長華*',
+  'TWSE',
+  '29',
+  '2007-12-31',
+  false,
+  true
+),
+(
+  '8072',
+  '陞泰',
+  'TWSE',
+  '29',
+  '2005-08-19',
+  false,
+  true
+),
+(
+  '8081',
+  '致新',
+  'TWSE',
+  '24',
+  '2008-12-30',
+  false,
+  true
+),
+(
+  '8101',
+  '華冠',
+  'TWSE',
+  '27',
+  '2004-07-01',
+  false,
+  true
+),
+(
+  '8103',
+  '瀚荃',
+  'TWSE',
+  '28',
+  '2009-09-29',
+  false,
+  true
+),
+(
+  '8104',
+  '錸寶',
+  'TWSE',
+  '26',
+  '2019-01-17',
+  false,
+  true
+),
+(
+  '8105',
+  '凌巨',
+  'TWSE',
+  '26',
+  '2006-12-27',
+  false,
+  true
+),
+(
+  '8110',
+  '華東',
+  'TWSE',
+  '24',
+  '2007-10-31',
+  false,
+  true
+),
+(
+  '8112',
+  '至上',
+  'TWSE',
+  '29',
+  '2007-12-31',
+  false,
+  true
+),
+(
+  '8114',
+  '振樺電',
+  'TWSE',
+  '25',
+  '2012-11-26',
+  false,
+  true
+),
+(
+  '8131',
+  '福懋科',
+  'TWSE',
+  '24',
+  '2007-11-29',
+  false,
+  true
+),
+(
+  '8150',
+  '南茂',
+  'TWSE',
+  '24',
+  '2014-04-11',
+  false,
+  true
+),
+(
+  '8162',
+  '微矽電子-創',
+  'TWSE',
+  '24',
+  '2024-03-07',
+  false,
+  true
+),
+(
+  '8163',
+  '達方',
+  'TWSE',
+  '25',
+  '2007-11-28',
+  false,
+  true
+),
+(
+  '8201',
+  '無敵',
+  'TWSE',
+  '31',
+  '2007-10-29',
+  false,
+  true
+),
+(
+  '8210',
+  '勤誠',
+  'TWSE',
+  '25',
+  '2011-12-01',
+  false,
+  true
+),
+(
+  '8213',
+  '志超',
+  'TWSE',
+  '28',
+  '2009-12-25',
+  false,
+  true
+),
+(
+  '8215',
+  '明基材',
+  'TWSE',
+  '26',
+  '2010-11-12',
+  false,
+  true
+),
+(
+  '8222',
+  '寶一',
+  'TWSE',
+  '05',
+  '2015-01-27',
+  false,
+  true
+),
+(
+  '8249',
+  '菱光',
+  'TWSE',
+  '28',
+  '2005-05-17',
+  false,
+  true
+),
+(
+  '8261',
+  '富鼎',
+  'TWSE',
+  '24',
+  '2009-12-11',
+  false,
+  true
+),
+(
+  '8271',
+  '宇瞻',
+  'TWSE',
+  '24',
+  '2010-12-29',
+  false,
+  true
+),
+(
+  '8341',
+  '日友',
+  'TWSE',
+  '35',
+  '2015-03-23',
+  false,
+  true
+),
+(
+  '8367',
+  '建新國際',
+  'TWSE',
+  '15',
+  '2018-09-12',
+  false,
+  true
+),
+(
+  '8374',
+  '羅昇',
+  'TWSE',
+  '05',
+  '2008-12-25',
+  false,
+  true
+),
+(
+  '8404',
+  '百和興業-KY',
+  'TWSE',
+  '20',
+  '2011-05-18',
+  false,
+  true
+),
+(
+  '8411',
+  '福貞-KY',
+  'TWSE',
+  '20',
+  '2011-11-01',
+  false,
+  true
+),
+(
+  '8422',
+  '可寧衛*',
+  'TWSE',
+  '35',
+  '2011-10-05',
+  false,
+  true
+),
+(
+  '8429',
+  '金麗-KY',
+  'TWSE',
+  '18',
+  '2012-12-20',
+  false,
+  true
+),
+(
+  '8438',
+  '昶昕',
+  'TWSE',
+  '35',
+  '2022-03-11',
+  false,
+  true
+),
+(
+  '8442',
+  '威宏-KY',
+  'TWSE',
+  '20',
+  '2016-11-08',
+  false,
+  true
+),
+(
+  '8443',
+  '阿瘦',
+  'TWSE',
+  '18',
+  '2014-09-15',
+  false,
+  true
+),
+(
+  '8454',
+  '富邦媒',
+  'TWSE',
+  '36',
+  '2014-12-19',
+  false,
+  true
+),
+(
+  '8462',
+  '柏文',
+  'TWSE',
+  '37',
+  '2019-03-15',
+  false,
+  true
+),
+(
+  '8463',
+  '潤泰材',
+  'TWSE',
+  '20',
+  '2015-07-13',
+  false,
+  true
+),
+(
+  '8464',
+  '億豐',
+  'TWSE',
+  '38',
+  '2015-12-22',
+  false,
+  true
+),
+(
+  '8466',
+  '美吉吉-KY',
+  'TWSE',
+  '20',
+  '2016-11-01',
+  false,
+  true
+),
+(
+  '8467',
+  '波力-KY',
+  'TWSE',
+  '37',
+  '2015-12-15',
+  false,
+  true
+),
+(
+  '8473',
+  '山林水',
+  'TWSE',
+  '35',
+  '2016-09-08',
+  false,
+  true
+),
+(
+  '8476',
+  '台境*',
+  'TWSE',
+  '35',
+  '2023-10-31',
+  false,
+  true
+),
+(
+  '8478',
+  '東哥遊艇',
+  'TWSE',
+  '37',
+  '2017-12-11',
+  false,
+  true
+),
+(
+  '8481',
+  '政伸',
+  'TWSE',
+  '20',
+  '2017-02-24',
+  false,
+  true
+),
+(
+  '8482',
+  '商億-KY',
+  'TWSE',
+  '38',
+  '2018-08-15',
+  false,
+  true
+),
+(
+  '8487',
+  '愛爾達-創',
+  'TWSE',
+  '36',
+  '2024-03-26',
+  false,
+  true
+),
+(
+  '8488',
+  '吉源-KY',
+  'TWSE',
+  '20',
+  '2016-12-13',
+  false,
+  true
+),
+(
+  '8499',
+  '鼎炫-KY',
+  'TWSE',
+  '31',
+  '2017-11-24',
+  false,
+  true
+),
+(
+  '8926',
+  '台汽電',
+  'TWSE',
+  '23',
+  '2003-08-25',
+  false,
+  true
+),
+(
+  '8940',
+  '新天地',
+  'TWSE',
+  '16',
+  '2009-05-15',
+  false,
+  true
+),
+(
+  '8996',
+  '高力',
+  'TWSE',
+  '05',
+  '2014-02-14',
+  false,
+  true
+),
+(
+  '9103',
+  '美德醫療-DR',
+  'TWSE',
+  '91',
+  '2002-12-13',
+  false,
+  true
+),
+(
+  '9105',
+  '泰金寶-DR',
+  'TWSE',
+  '91',
+  '2003-09-22',
+  false,
+  true
+),
+(
+  '9110',
+  '越南控-DR',
+  'TWSE',
+  '91',
+  '2009-12-03',
+  false,
+  true
+),
+(
+  '9136',
+  '巨騰-DR',
+  'TWSE',
+  '91',
+  '2009-05-25',
+  false,
+  true
+),
+(
+  '9802',
+  '鈺齊-KY',
+  'TWSE',
+  '37',
+  '2012-10-18',
+  false,
+  true
+),
+(
+  '9902',
+  '台火',
+  'TWSE',
+  '20',
+  '1964-07-14',
+  false,
+  true
+),
+(
+  '9904',
+  '寶成',
+  'TWSE',
+  '37',
+  '1990-01-19',
+  false,
+  true
+),
+(
+  '9905',
+  '大華',
+  'TWSE',
+  '20',
+  '1990-08-08',
+  false,
+  true
+),
+(
+  '9906',
+  '欣巴巴',
+  'TWSE',
+  '14',
+  '1990-12-15',
+  false,
+  true
+),
+(
+  '9907',
+  '統一實',
+  'TWSE',
+  '20',
+  '1991-01-29',
+  false,
+  true
+),
+(
+  '9908',
+  '大台北',
+  'TWSE',
+  '23',
+  '1991-02-06',
+  false,
+  true
+),
+(
+  '9910',
+  '豐泰',
+  'TWSE',
+  '37',
+  '1992-02-18',
+  false,
+  true
+),
+(
+  '9911',
+  '櫻花',
+  'TWSE',
+  '38',
+  '1992-07-16',
+  false,
+  true
+),
+(
+  '9912',
+  '偉聯',
+  'TWSE',
+  '25',
+  '1992-08-08',
+  false,
+  true
+),
+(
+  '9914',
+  '美利達',
+  'TWSE',
+  '37',
+  '1992-09-30',
+  false,
+  true
+),
+(
+  '9917',
+  '中保科',
+  'TWSE',
+  '20',
+  '1993-12-08',
+  false,
+  true
+),
+(
+  '9918',
+  '欣天然',
+  'TWSE',
+  '23',
+  '1994-04-26',
+  false,
+  true
+),
+(
+  '9919',
+  '康那香',
+  'TWSE',
+  '20',
+  '1994-11-04',
+  false,
+  true
+),
+(
+  '9921',
+  '巨大',
+  'TWSE',
+  '37',
+  '1994-12-29',
+  false,
+  true
+),
+(
+  '9924',
+  '福興',
+  'TWSE',
+  '38',
+  '1995-03-15',
+  false,
+  true
+),
+(
+  '9925',
+  '新保',
+  'TWSE',
+  '20',
+  '1995-12-09',
+  false,
+  true
+),
+(
+  '9926',
+  '新海',
+  'TWSE',
+  '23',
+  '1998-04-08',
+  false,
+  true
+),
+(
+  '9927',
+  '泰銘',
+  'TWSE',
+  '20',
+  '1999-03-12',
+  false,
+  true
+),
+(
+  '9928',
+  '中視',
+  'TWSE',
+  '20',
+  '1999-08-09',
+  false,
+  true
+),
+(
+  '9929',
+  '秋雨',
+  'TWSE',
+  '20',
+  '1999-06-28',
+  false,
+  true
+),
+(
+  '9930',
+  '中聯資源',
+  'TWSE',
+  '35',
+  '1999-11-22',
+  false,
+  true
+),
+(
+  '9931',
+  '欣高',
+  'TWSE',
+  '23',
+  '2000-03-21',
+  false,
+  true
+),
+(
+  '9933',
+  '中鼎',
+  'TWSE',
+  '20',
+  '1993-05-28',
+  false,
+  true
+),
+(
+  '9934',
+  '成霖',
+  'TWSE',
+  '38',
+  '2000-09-11',
+  false,
+  true
+),
+(
+  '9935',
+  '慶豐富',
+  'TWSE',
+  '38',
+  '2000-09-11',
+  false,
+  true
+),
+(
+  '9937',
+  '全國',
+  'TWSE',
+  '23',
+  '2000-09-11',
+  false,
+  true
+),
+(
+  '9938',
+  '百和',
+  'TWSE',
+  '20',
+  '2001-01-12',
+  false,
+  true
+),
+(
+  '9939',
+  '宏全',
+  'TWSE',
+  '20',
+  '2001-03-02',
+  false,
+  true
+),
+(
+  '9940',
+  '信義',
+  'TWSE',
+  '20',
+  '2001-09-17',
+  false,
+  true
+),
+(
+  '9941',
+  '裕融',
+  'TWSE',
+  '20',
+  '2001-09-17',
+  false,
+  true
+),
+(
+  '9942',
+  '茂順',
+  'TWSE',
+  '20',
+  '2002-01-28',
+  false,
+  true
+),
+(
+  '9943',
+  '好樂迪',
+  'TWSE',
+  '16',
+  '2002-08-26',
+  false,
+  true
+),
+(
+  '9944',
+  '新麗',
+  'TWSE',
+  '20',
+  '2002-08-26',
+  false,
+  true
+),
+(
+  '9945',
+  '潤泰新',
+  'TWSE',
+  '20',
+  '1992-04-30',
+  false,
+  true
+),
+(
+  '9946',
+  '三發地產',
+  'TWSE',
+  '14',
+  '2013-09-17',
+  false,
+  true
+),
+(
+  '9955',
+  '佳龍',
+  'TWSE',
+  '35',
+  '2008-01-21',
+  false,
+  true
+),
+(
+  '9958',
+  '世紀鋼',
+  'TWSE',
+  '10',
+  '2008-03-12',
+  false,
+  true
+)
+on conflict (symbol) do update set
+  name = excluded.name,
+  market = excluded.market,
+  industry = excluded.industry,
+  listed_date = excluded.listed_date,
+  is_etf = excluded.is_etf,
+  is_active = excluded.is_active,
+  updated_at = now();
+
+-- ============================================================================
+-- Source: supabase/seed/002_seed_latest_market_data.sql
+-- ============================================================================
+
+-- Latest TWSE daily market data.
+-- Generated at 2026-05-28T14:39:00.328Z.
+-- Sources:
+-- https://openapi.twse.com.tw/v1/exchangeReport/STOCK_DAY_ALL
+-- https://openapi.twse.com.tw/v1/exchangeReport/BWIBBU_d
+
+insert into public.daily_prices (
+  stock_id,
+  trade_date,
+  open,
+  high,
+  low,
+  close,
+  volume,
+  turnover
+)
+select
+  stocks.id,
+  incoming.trade_date::date,
+  incoming.open,
+  incoming.high,
+  incoming.low,
+  incoming.close,
+  incoming.volume,
+  incoming.turnover
+from (
+  values
+(
+  '0050',
+  '2026-05-27',
+  102.4,
+  103.9,
+  102,
+  102.55,
+  94959812,
+  9787482181
+),
+(
+  '006208',
+  '2026-05-27',
+  237.75,
+  240.2,
+  236.05,
+  237.6,
+  4846354,
+  1157236756
+),
+(
+  '1101',
+  '2026-05-27',
+  23.95,
+  24.05,
+  23.8,
+  23.85,
+  29819864,
+  711980482
+),
+(
+  '1102',
+  '2026-05-27',
+  33.1,
+  33.25,
+  32.85,
+  33,
+  17414813,
+  575632656
+),
+(
+  '1103',
+  '2026-05-27',
+  13.25,
+  13.25,
+  13.1,
+  13.2,
+  412829,
+  5433732
+),
+(
+  '1104',
+  '2026-05-27',
+  27.7,
+  27.7,
+  27.15,
+  27.2,
+  800299,
+  21834313
+),
+(
+  '1108',
+  '2026-05-27',
+  13.5,
+  13.55,
+  13.4,
+  13.5,
+  287934,
+  3882754
+),
+(
+  '1109',
+  '2026-05-27',
+  14.5,
+  14.5,
+  14.35,
+  14.45,
+  129336,
+  1864065
+),
+(
+  '1110',
+  '2026-05-27',
+  13.95,
+  14.15,
+  13.95,
+  14.1,
+  245168,
+  3435464
+),
+(
+  '1201',
+  '2026-05-27',
+  12.25,
+  12.3,
+  12.05,
+  12.1,
+  581475,
+  7032132
+),
+(
+  '1203',
+  '2026-05-27',
+  42.7,
+  42.7,
+  42.05,
+  42.7,
+  17327,
+  735217
+),
+(
+  '1210',
+  '2026-05-27',
+  52.3,
+  52.4,
+  51.6,
+  51.7,
+  2773905,
+  143814651
+),
+(
+  '1213',
+  '2026-05-27',
+  8.22,
+  8.29,
+  8,
+  8.29,
+  12449,
+  101316
+),
+(
+  '1215',
+  '2026-05-27',
+  132,
+  132,
+  125,
+  129.5,
+  6872033,
+  880730857
+),
+(
+  '1216',
+  '2026-05-27',
+  70.8,
+  71.2,
+  70,
+  70.2,
+  21423701,
+  1512094335
+),
+(
+  '1217',
+  '2026-05-27',
+  9.8,
+  9.9,
+  9.68,
+  9.7,
+  1111388,
+  10828726
+),
+(
+  '1218',
+  '2026-05-27',
+  18.5,
+  18.55,
+  18.4,
+  18.45,
+  444466,
+  8198555
+),
+(
+  '1219',
+  '2026-05-27',
+  12.5,
+  12.5,
+  12.35,
+  12.35,
+  538490,
+  6686419
+),
+(
+  '1220',
+  '2026-05-27',
+  11.85,
+  11.85,
+  11.75,
+  11.75,
+  80453,
+  950554
+),
+(
+  '1225',
+  '2026-05-27',
+  29.85,
+  29.85,
+  29.2,
+  29.25,
+  203641,
+  5998686
+),
+(
+  '1227',
+  '2026-05-27',
+  28.25,
+  28.25,
+  28,
+  28.1,
+  1730442,
+  48546147
+),
+(
+  '1229',
+  '2026-05-27',
+  39.85,
+  40.3,
+  39.15,
+  39.95,
+  4450542,
+  177083988
+),
+(
+  '1231',
+  '2026-05-27',
+  85.3,
+  86.1,
+  85,
+  85.6,
+  488937,
+  41826740
+),
+(
+  '1232',
+  '2026-05-27',
+  147.5,
+  149,
+  147.5,
+  148,
+  156286,
+  23135768
+),
+(
+  '1233',
+  '2026-05-27',
+  28.3,
+  28.3,
+  27.85,
+  27.85,
+  51815,
+  1455955
+),
+(
+  '1234',
+  '2026-05-27',
+  34.25,
+  34.35,
+  34.05,
+  34.25,
+  283471,
+  9709074
+),
+(
+  '1235',
+  '2026-05-27',
+  39.35,
+  39.35,
+  39.1,
+  39.1,
+  2371,
+  92173
+),
+(
+  '1236',
+  '2026-05-27',
+  24.05,
+  24.4,
+  24.05,
+  24.35,
+  20703,
+  502706
+),
+(
+  '1256',
+  '2026-05-27',
+  196,
+  196,
+  190,
+  192,
+  152314,
+  29319091
+),
+(
+  '1301',
+  '2026-05-27',
+  44.95,
+  46.1,
+  44.9,
+  45.45,
+  21747971,
+  991573591
+),
+(
+  '1303',
+  '2026-05-27',
+  93.6,
+  96.4,
+  92.3,
+  95.5,
+  123528848,
+  11709758389
+),
+(
+  '1304',
+  '2026-05-27',
+  12,
+  12.2,
+  11.9,
+  11.9,
+  3923235,
+  47141705
+),
+(
+  '1305',
+  '2026-05-27',
+  12.1,
+  12.25,
+  11.9,
+  12.1,
+  3549398,
+  42759673
+),
+(
+  '1307',
+  '2026-05-27',
+  31,
+  31.1,
+  30.6,
+  30.6,
+  1007746,
+  31080746
+),
+(
+  '1308',
+  '2026-05-27',
+  12.95,
+  13.1,
+  12.85,
+  12.85,
+  2106356,
+  27259992
+),
+(
+  '1309',
+  '2026-05-27',
+  15.2,
+  15.45,
+  14.75,
+  14.8,
+  3898504,
+  58546134
+),
+(
+  '1310',
+  '2026-05-27',
+  7.85,
+  7.91,
+  7.7,
+  7.7,
+  3829374,
+  29800326
+),
+(
+  '1312',
+  '2026-05-27',
+  10.15,
+  10.2,
+  9.98,
+  9.98,
+  7881704,
+  79360155
+),
+(
+  '1313',
+  '2026-05-27',
+  10.5,
+  10.55,
+  10.3,
+  10.3,
+  2322029,
+  24179970
+),
+(
+  '1314',
+  '2026-05-27',
+  6.97,
+  6.97,
+  6.85,
+  6.9,
+  17995034,
+  124139094
+),
+(
+  '1315',
+  '2026-05-27',
+  61,
+  62,
+  61,
+  62,
+  130171,
+  8032016
+),
+(
+  '1316',
+  '2026-05-27',
+  10.2,
+  10.2,
+  10,
+  10.15,
+  2616714,
+  26397183
+),
+(
+  '1319',
+  '2026-05-27',
+  80.6,
+  80.6,
+  78.6,
+  78.7,
+  2749301,
+  217854875
+),
+(
+  '1321',
+  '2026-05-27',
+  29.15,
+  29.2,
+  28.75,
+  29.05,
+  172871,
+  5002355
+),
+(
+  '1323',
+  '2026-05-27',
+  20.2,
+  20.2,
+  19.95,
+  20.2,
+  79604,
+  1599178
+),
+(
+  '1324',
+  '2026-05-27',
+  10.15,
+  10.3,
+  10.1,
+  10.2,
+  232843,
+  2373014
+),
+(
+  '1325',
+  '2026-05-27',
+  27.8,
+  27.8,
+  26.85,
+  26.9,
+  359440,
+  9763946
+),
+(
+  '1326',
+  '2026-05-27',
+  45,
+  45.85,
+  44.75,
+  45.45,
+  20351059,
+  922916190
+),
+(
+  '1337',
+  '2026-05-27',
+  4.77,
+  4.77,
+  4.68,
+  4.7,
+  521953,
+  2456829
+),
+(
+  '1338',
+  '2026-05-27',
+  15.7,
+  15.85,
+  15.6,
+  15.7,
+  236983,
+  3722480
+),
+(
+  '1339',
+  '2026-05-27',
+  40.75,
+  40.85,
+  40.6,
+  40.8,
+  65187,
+  2653540
+),
+(
+  '1340',
+  '2026-05-27',
+  5.3,
+  5.58,
+  5.16,
+  5.52,
+  1429103,
+  7732745
+),
+(
+  '1341',
+  '2026-05-27',
+  61,
+  61.8,
+  61,
+  61.8,
+  4244,
+  260298
+),
+(
+  '1342',
+  '2026-05-27',
+  92.9,
+  94,
+  91.5,
+  91.8,
+  398250,
+  36705372
+),
+(
+  '1402',
+  '2026-05-27',
+  25.9,
+  25.9,
+  23.45,
+  23.45,
+  162133319,
+  3934472987
+),
+(
+  '1409',
+  '2026-05-27',
+  18.2,
+  19.4,
+  18.2,
+  18.9,
+  57381079,
+  1092006856
+),
+(
+  '1410',
+  '2026-05-27',
+  26,
+  26.85,
+  26,
+  26.25,
+  21522,
+  565232
+),
+(
+  '1413',
+  '2026-05-27',
+  9.41,
+  9.41,
+  9.33,
+  9.4,
+  15311,
+  143341
+),
+(
+  '1414',
+  '2026-05-27',
+  14.45,
+  14.45,
+  13.85,
+  14.05,
+  257259,
+  3606139
+),
+(
+  '1416',
+  '2026-05-27',
+  11.1,
+  11.15,
+  11,
+  11.1,
+  361560,
+  4002797
+),
+(
+  '1417',
+  '2026-05-27',
+  8.23,
+  8.23,
+  8,
+  8.06,
+  254337,
+  2057779
+),
+(
+  '1418',
+  '2026-05-27',
+  17.35,
+  18.8,
+  17.3,
+  18.8,
+  139636,
+  2573002
+),
+(
+  '1419',
+  '2026-05-27',
+  66.9,
+  66.9,
+  63.5,
+  63.8,
+  334670,
+  21649243
+),
+(
+  '1423',
+  '2026-05-27',
+  41,
+  41.8,
+  41,
+  41.5,
+  43216,
+  1793558
+),
+(
+  '1432',
+  '2026-05-27',
+  16.45,
+  16.45,
+  16.05,
+  16.05,
+  511098,
+  8244425
+),
+(
+  '1434',
+  '2026-05-27',
+  15,
+  15.15,
+  14.9,
+  15,
+  2110131,
+  31716104
+),
+(
+  '1436',
+  '2026-05-27',
+  44.75,
+  44.9,
+  44.05,
+  44.05,
+  219854,
+  9745792
+),
+(
+  '1437',
+  '2026-05-27',
+  28.3,
+  28.3,
+  28.05,
+  28.25,
+  85826,
+  2418322
+),
+(
+  '1438',
+  '2026-05-27',
+  20.45,
+  20.45,
+  19.55,
+  20.1,
+  79584,
+  1595292
+),
+(
+  '1439',
+  '2026-05-27',
+  25.8,
+  25.95,
+  25.4,
+  25.4,
+  23010,
+  591804
+),
+(
+  '1440',
+  '2026-05-27',
+  11.9,
+  12.2,
+  11.7,
+  12.05,
+  3542040,
+  42196093
+),
+(
+  '1441',
+  '2026-05-27',
+  9.27,
+  9.29,
+  9.22,
+  9.23,
+  78716,
+  726568
+),
+(
+  '1442',
+  '2026-05-27',
+  25.6,
+  25.9,
+  25.6,
+  25.8,
+  354860,
+  9128634
+),
+(
+  '1443',
+  '2026-05-27',
+  25.35,
+  25.35,
+  24.5,
+  25.1,
+  31001,
+  773675
+),
+(
+  '1444',
+  '2026-05-27',
+  5.86,
+  5.86,
+  5.75,
+  5.79,
+  1167632,
+  6768774
+),
+(
+  '1445',
+  '2026-05-27',
+  11.55,
+  11.8,
+  11.55,
+  11.8,
+  168656,
+  1967595
+),
+(
+  '1446',
+  '2026-05-27',
+  15.75,
+  15.8,
+  15.6,
+  15.7,
+  203798,
+  3203624
+),
+(
+  '1447',
+  '2026-05-27',
+  5.39,
+  5.54,
+  5.36,
+  5.5,
+  2262795,
+  12354931
+),
+(
+  '1449',
+  '2026-05-27',
+  12.35,
+  12.35,
+  12.05,
+  12.1,
+  947823,
+  11486036
+),
+(
+  '1451',
+  '2026-05-27',
+  16.5,
+  16.55,
+  16.3,
+  16.4,
+  289046,
+  4738846
+),
+(
+  '1452',
+  '2026-05-27',
+  10.4,
+  10.5,
+  10.25,
+  10.3,
+  119054,
+  1229507
+),
+(
+  '1453',
+  '2026-05-27',
+  11.3,
+  11.5,
+  11.25,
+  11.3,
+  79050,
+  898442
+),
+(
+  '1454',
+  '2026-05-27',
+  12.55,
+  12.55,
+  12.4,
+  12.5,
+  42410,
+  530069
+),
+(
+  '1455',
+  '2026-05-27',
+  8,
+  8.13,
+  7.99,
+  8.12,
+  795118,
+  6387776
+),
+(
+  '1456',
+  '2026-05-27',
+  12.9,
+  13.1,
+  12.65,
+  13.05,
+  94370,
+  1212042
+),
+(
+  '1457',
+  '2026-05-27',
+  13.9,
+  14,
+  13.8,
+  13.95,
+  135580,
+  1880168
+),
+(
+  '1459',
+  '2026-05-27',
+  11.65,
+  11.75,
+  11.6,
+  11.6,
+  191414,
+  2230992
+),
+(
+  '1460',
+  '2026-05-27',
+  6.95,
+  7.08,
+  6.87,
+  6.87,
+  587854,
+  4075923
+),
+(
+  '1463',
+  '2026-05-27',
+  17.7,
+  17.85,
+  17.7,
+  17.7,
+  23846,
+  422971
+),
+(
+  '1464',
+  '2026-05-27',
+  10.15,
+  10.15,
+  10,
+  10.1,
+  619267,
+  6227918
+),
+(
+  '1465',
+  '2026-05-27',
+  12.2,
+  12.45,
+  12.05,
+  12.3,
+  87343,
+  1073308
+),
+(
+  '1466',
+  '2026-05-27',
+  14.45,
+  14.45,
+  13.7,
+  13.75,
+  243328,
+  3396023
+),
+(
+  '1467',
+  '2026-05-27',
+  6.95,
+  6.98,
+  6.88,
+  6.94,
+  495568,
+  3423522
+),
+(
+  '1468',
+  '2026-05-27',
+  11.95,
+  12.1,
+  11.75,
+  12.05,
+  41001,
+  487460
+),
+(
+  '1470',
+  '2026-05-27',
+  21.55,
+  22.15,
+  21.5,
+  22,
+  7032,
+  152505
+),
+(
+  '1471',
+  '2026-05-27',
+  10.55,
+  10.55,
+  10.1,
+  10.35,
+  797536,
+  8164526
+),
+(
+  '1472',
+  '2026-05-27',
+  89.9,
+  90,
+  89.5,
+  89.5,
+  9372,
+  842428
+),
+(
+  '1473',
+  '2026-05-27',
+  20.3,
+  20.3,
+  19.95,
+  20.05,
+  247762,
+  4962077
+),
+(
+  '1474',
+  '2026-05-27',
+  9.85,
+  9.86,
+  9.66,
+  9.67,
+  190998,
+  1857108
+),
+(
+  '1475',
+  '2026-05-27',
+  25,
+  25.2,
+  24.55,
+  25,
+  102060,
+  2529950
+),
+(
+  '1476',
+  '2026-05-27',
+  337,
+  340,
+  324.5,
+  331,
+  3134796,
+  1039381438
+),
+(
+  '1477',
+  '2026-05-27',
+  215,
+  220.5,
+  213,
+  215.5,
+  4095847,
+  881986620
+),
+(
+  '1503',
+  '2026-05-27',
+  209,
+  223,
+  209,
+  221,
+  20890394,
+  4593006709
+),
+(
+  '1504',
+  '2026-05-27',
+  73,
+  74.9,
+  70.8,
+  70.8,
+  24989267,
+  1812369942
+),
+(
+  '1506',
+  '2026-05-27',
+  10.35,
+  10.35,
+  10,
+  10.1,
+  466796,
+  4706830
+),
+(
+  '1512',
+  '2026-05-27',
+  6.94,
+  6.96,
+  6.81,
+  6.82,
+  97343,
+  668651
+),
+(
+  '1513',
+  '2026-05-27',
+  168.5,
+  175.5,
+  166.5,
+  169,
+  30847651,
+  5250500479
+),
+(
+  '1514',
+  '2026-05-27',
+  126,
+  132.5,
+  124,
+  125,
+  14329362,
+  1836287188
+),
+(
+  '1515',
+  '2026-05-27',
+  23,
+  23,
+  21.85,
+  21.95,
+  1064204,
+  23609951
+),
+(
+  '1516',
+  '2026-05-27',
+  21.3,
+  21.35,
+  20.6,
+  20.6,
+  36471,
+  759841
+),
+(
+  '1517',
+  '2026-05-27',
+  10.1,
+  10.1,
+  9.95,
+  9.95,
+  463308,
+  4628650
+),
+(
+  '1519',
+  '2026-05-27',
+  870,
+  912,
+  867,
+  878,
+  6244413,
+  5552894043
+),
+(
+  '1521',
+  '2026-05-27',
+  24.8,
+  24.8,
+  24.2,
+  24.5,
+  44183,
+  1077375
+),
+(
+  '1522',
+  '2026-05-27',
+  29.1,
+  29.1,
+  28.55,
+  28.6,
+  1649272,
+  47455747
+),
+(
+  '1524',
+  '2026-05-27',
+  29.3,
+  29.3,
+  28.7,
+  29,
+  987770,
+  28512520
+),
+(
+  '1525',
+  '2026-05-27',
+  72.5,
+  72.5,
+  68,
+  69.8,
+  140754,
+  9769352
+),
+(
+  '1526',
+  '2026-05-27',
+  14.55,
+  14.55,
+  14.2,
+  14.3,
+  141288,
+  2033395
+),
+(
+  '1527',
+  '2026-05-27',
+  33,
+  33.55,
+  32.4,
+  32.7,
+  820658,
+  27052234
+),
+(
+  '1528',
+  '2026-05-27',
+  26.2,
+  26.2,
+  24.7,
+  25.05,
+  5564813,
+  140434360
+),
+(
+  '1529',
+  '2026-05-27',
+  21.8,
+  23.1,
+  21.8,
+  22.45,
+  2037575,
+  45861424
+),
+(
+  '1530',
+  '2026-05-27',
+  34.5,
+  35.1,
+  32.1,
+  32.7,
+  2063286,
+  71052637
+),
+(
+  '1531',
+  '2026-05-27',
+  12.25,
+  12.3,
+  12,
+  12.05,
+  395138,
+  4771481
+),
+(
+  '1532',
+  '2026-05-27',
+  20.65,
+  20.85,
+  20.6,
+  20.8,
+  801405,
+  16617753
+),
+(
+  '1533',
+  '2026-05-27',
+  38.9,
+  39.6,
+  38.35,
+  38.65,
+  596514,
+  23293099
+),
+(
+  '1535',
+  '2026-05-27',
+  49.5,
+  49.6,
+  48.8,
+  49,
+  135441,
+  6689497
+),
+(
+  '1536',
+  '2026-05-27',
+  51,
+  51.1,
+  49.3,
+  49.7,
+  3088907,
+  154272747
+),
+(
+  '1537',
+  '2026-05-27',
+  125.5,
+  126,
+  124,
+  125.5,
+  118354,
+  14804198
+),
+(
+  '1538',
+  '2026-05-27',
+  11.75,
+  11.8,
+  11.15,
+  11.8,
+  20278,
+  231265
+),
+(
+  '1539',
+  '2026-05-27',
+  16.05,
+  16.05,
+  15.7,
+  15.8,
+  74440,
+  1180488
+),
+(
+  '1540',
+  '2026-05-27',
+  21.65,
+  21.65,
+  20.8,
+  20.85,
+  444471,
+  9355193
+),
+(
+  '1541',
+  '2026-05-27',
+  20.5,
+  21.15,
+  20.2,
+  20.55,
+  37641,
+  771097
+),
+(
+  '1558',
+  '2026-05-27',
+  91.5,
+  91.6,
+  90.5,
+  90.7,
+  103311,
+  9400160
+),
+(
+  '1560',
+  '2026-05-27',
+  750,
+  750,
+  723,
+  727,
+  2063773,
+  1510033475
+),
+(
+  '1563',
+  '2026-05-27',
+  55.6,
+  55.6,
+  55.6,
+  55.6,
+  1389402,
+  77250698
+),
+(
+  '1568',
+  '2026-05-27',
+  37.5,
+  37.5,
+  37.5,
+  37.5,
+  1409682,
+  52863049
+),
+(
+  '1582',
+  '2026-05-27',
+  113,
+  114.5,
+  109,
+  110,
+  7279926,
+  809322485
+),
+(
+  '1583',
+  '2026-05-27',
+  50.2,
+  54,
+  49.85,
+  53.8,
+  147241,
+  7589288
+),
+(
+  '1587',
+  '2026-05-27',
+  28.25,
+  30.15,
+  28,
+  29.2,
+  821642,
+  23881960
+),
+(
+  '1590',
+  '2026-05-27',
+  1495,
+  1500,
+  1430,
+  1435,
+  612964,
+  894545465
+),
+(
+  '1597',
+  '2026-05-27',
+  215,
+  215,
+  199,
+  199,
+  9347148,
+  1917853304
+),
+(
+  '1598',
+  '2026-05-27',
+  20.2,
+  20.2,
+  19.85,
+  20,
+  179398,
+  3586540
+),
+(
+  '1603',
+  '2026-05-27',
+  31.5,
+  31.5,
+  30.8,
+  31.15,
+  302920,
+  9413212
+),
+(
+  '1604',
+  '2026-05-27',
+  23.3,
+  23.35,
+  23.05,
+  23.35,
+  440966,
+  10249772
+),
+(
+  '1605',
+  '2026-05-27',
+  38,
+  38.2,
+  36.45,
+  37.5,
+  49093813,
+  1833548994
+),
+(
+  '1608',
+  '2026-05-27',
+  33.6,
+  34.25,
+  33.3,
+  33.65,
+  3219851,
+  108704874
+),
+(
+  '1609',
+  '2026-05-27',
+  36.4,
+  37.35,
+  36.3,
+  36.75,
+  10689675,
+  393112075
+),
+(
+  '1611',
+  '2026-05-27',
+  11.45,
+  11.65,
+  11.4,
+  11.5,
+  912648,
+  10513219
+),
+(
+  '1612',
+  '2026-05-27',
+  37.05,
+  37.35,
+  36.8,
+  36.9,
+  1570922,
+  58320965
+),
+(
+  '1614',
+  '2026-05-27',
+  30.95,
+  31.25,
+  30.8,
+  31,
+  121221,
+  3755055
+),
+(
+  '1615',
+  '2026-05-27',
+  44.05,
+  44.05,
+  42.9,
+  42.9,
+  279964,
+  12115422
+),
+(
+  '1616',
+  '2026-05-27',
+  21.7,
+  22.2,
+  21.2,
+  21.25,
+  750043,
+  16119189
+),
+(
+  '1617',
+  '2026-05-27',
+  14.8,
+  14.8,
+  14.65,
+  14.65,
+  154048,
+  2270239
+),
+(
+  '1618',
+  '2026-05-27',
+  43.6,
+  43.7,
+  41.05,
+  41.8,
+  2683124,
+  113620449
+),
+(
+  '1623',
+  '2026-05-27',
+  230,
+  245,
+  230,
+  238.5,
+  555880,
+  133137268
+),
+(
+  '1626',
+  '2026-05-27',
+  10.35,
+  10.35,
+  9.92,
+  10.05,
+  281046,
+  2819549
+),
+(
+  '1702',
+  '2026-05-27',
+  33.1,
+  33.1,
+  32.85,
+  32.9,
+  700496,
+  23078646
+),
+(
+  '1707',
+  '2026-05-27',
+  100.5,
+  101,
+  99.4,
+  99.6,
+  834634,
+  83469901
+),
+(
+  '1708',
+  '2026-05-27',
+  38.5,
+  38.75,
+  38.2,
+  38.45,
+  2433743,
+  93497206
+),
+(
+  '1709',
+  '2026-05-27',
+  19.25,
+  19.7,
+  19.15,
+  19.2,
+  2091120,
+  40630672
+),
+(
+  '1710',
+  '2026-05-27',
+  12.7,
+  13.05,
+  12.7,
+  12.95,
+  3206392,
+  41523241
+),
+(
+  '1711',
+  '2026-05-27',
+  51.3,
+  53.3,
+  50,
+  51,
+  18293080,
+  943830584
+),
+(
+  '1712',
+  '2026-05-27',
+  39.25,
+  39.6,
+  39.05,
+  39.55,
+  1035166,
+  40633492
+),
+(
+  '1713',
+  '2026-05-27',
+  48.45,
+  50,
+  48.35,
+  49.25,
+  479358,
+  23662114
+),
+(
+  '1714',
+  '2026-05-27',
+  9.6,
+  9.62,
+  9.37,
+  9.4,
+  4285104,
+  40452259
+),
+(
+  '1717',
+  '2026-05-27',
+  84.7,
+  89.9,
+  83.5,
+  84.5,
+  87021618,
+  7557873657
+),
+(
+  '1718',
+  '2026-05-27',
+  6.42,
+  6.46,
+  6.29,
+  6.31,
+  5049612,
+  32046081
+),
+(
+  '1720',
+  '2026-05-27',
+  61.2,
+  61.3,
+  60.8,
+  61.2,
+  396745,
+  24212629
+),
+(
+  '1721',
+  '2026-05-27',
+  29.9,
+  31,
+  29.1,
+  30.15,
+  7613323,
+  229243262
+),
+(
+  '1722',
+  '2026-05-27',
+  45.85,
+  45.95,
+  45.35,
+  45.65,
+  3501779,
+  159699327
+),
+(
+  '1723',
+  '2026-05-27',
+  82.2,
+  83.1,
+  80.8,
+  81,
+  715679,
+  58582457
+),
+(
+  '1725',
+  '2026-05-27',
+  31.2,
+  31.4,
+  30.8,
+  31,
+  138430,
+  4298995
+),
+(
+  '1726',
+  '2026-05-27',
+  77,
+  77,
+  76.6,
+  76.9,
+  46183,
+  3551083
+),
+(
+  '1727',
+  '2026-05-27',
+  97.3,
+  103,
+  95.2,
+  96.5,
+  11971351,
+  1179364955
+),
+(
+  '1730',
+  '2026-05-27',
+  52.5,
+  52.7,
+  52.4,
+  52.4,
+  50581,
+  2655280
+),
+(
+  '1731',
+  '2026-05-27',
+  21.5,
+  21.5,
+  21.2,
+  21.4,
+  414465,
+  8861807
+),
+(
+  '1732',
+  '2026-05-27',
+  26.75,
+  27,
+  26.35,
+  26.4,
+  231136,
+  6142634
+),
+(
+  '1733',
+  '2026-05-27',
+  30,
+  30.05,
+  29.5,
+  29.9,
+  141241,
+  4202461
+),
+(
+  '1734',
+  '2026-05-27',
+  30.5,
+  30.65,
+  30.35,
+  30.6,
+  324207,
+  9882944
+),
+(
+  '1735',
+  '2026-05-27',
+  26,
+  27.15,
+  25.7,
+  25.95,
+  753631,
+  19860568
+),
+(
+  '1736',
+  '2026-05-27',
+  119,
+  119,
+  115,
+  116.5,
+  644377,
+  75159857
+),
+(
+  '1737',
+  '2026-05-27',
+  31.5,
+  31.6,
+  31.5,
+  31.55,
+  104438,
+  3291968
+),
+(
+  '1752',
+  '2026-05-27',
+  32.5,
+  32.5,
+  32.2,
+  32.5,
+  74627,
+  2412896
+),
+(
+  '1760',
+  '2026-05-27',
+  61.1,
+  61.2,
+  60.5,
+  60.5,
+  185434,
+  11273726
+),
+(
+  '1762',
+  '2026-05-27',
+  39.95,
+  40.55,
+  39.15,
+  39.7,
+  544340,
+  21694039
+),
+(
+  '1773',
+  '2026-05-27',
+  190.5,
+  204,
+  188.5,
+  195,
+  3135246,
+  619788167
+),
+(
+  '1776',
+  '2026-05-27',
+  18.2,
+  18.6,
+  18.1,
+  18.15,
+  132727,
+  2412421
+),
+(
+  '1783',
+  '2026-05-27',
+  38.1,
+  38.25,
+  38,
+  38.2,
+  130216,
+  4958058
+),
+(
+  '1786',
+  '2026-05-27',
+  53.8,
+  54.2,
+  53,
+  53.3,
+  283503,
+  15126311
+),
+(
+  '1789',
+  '2026-05-27',
+  19.05,
+  19.15,
+  18.85,
+  19,
+  563038,
+  10659850
+),
+(
+  '1795',
+  '2026-05-27',
+  195,
+  195,
+  190.5,
+  191.5,
+  1855759,
+  357048036
+),
+(
+  '1802',
+  '2026-05-27',
+  73,
+  74.4,
+  70.2,
+  72.8,
+  154134122,
+  11183659823
+),
+(
+  '1805',
+  '2026-05-27',
+  10.3,
+  10.3,
+  9.89,
+  9.98,
+  164268,
+  1641064
+),
+(
+  '1806',
+  '2026-05-27',
+  8,
+  8.02,
+  7.94,
+  7.97,
+  518634,
+  4127325
+),
+(
+  '1808',
+  '2026-05-27',
+  28.85,
+  28.85,
+  28.4,
+  28.45,
+  1472275,
+  42064823
+),
+(
+  '1809',
+  '2026-05-27',
+  47.05,
+  48.5,
+  44.4,
+  44.4,
+  13175875,
+  602596139
+),
+(
+  '1810',
+  '2026-05-27',
+  18.85,
+  20.15,
+  18.6,
+  19.9,
+  11157795,
+  219274658
+),
+(
+  '1817',
+  '2026-05-27',
+  39.1,
+  39.35,
+  39.05,
+  39.2,
+  32947,
+  1289971
+),
+(
+  '1903',
+  '2026-05-27',
+  50,
+  50.5,
+  48.8,
+  49.25,
+  424995,
+  21084636
+),
+(
+  '1904',
+  '2026-05-27',
+  18.95,
+  19.2,
+  18.8,
+  18.9,
+  1481393,
+  28055566
+),
+(
+  '1905',
+  '2026-05-27',
+  12.05,
+  12.05,
+  11.8,
+  11.85,
+  3142575,
+  37390861
+),
+(
+  '1906',
+  '2026-05-27',
+  10.35,
+  10.35,
+  10,
+  10.05,
+  208062,
+  2102089
+),
+(
+  '1907',
+  '2026-05-27',
+  24.5,
+  24.5,
+  23.95,
+  24,
+  1790134,
+  43228515
+),
+(
+  '1909',
+  '2026-05-27',
+  8.91,
+  8.94,
+  8.81,
+  8.9,
+  3174355,
+  28150690
+),
+(
+  '2002',
+  '2026-05-27',
+  19.65,
+  19.7,
+  19,
+  19.1,
+  97154137,
+  1864563655
+),
+(
+  '2006',
+  '2026-05-27',
+  65.8,
+  66.9,
+  64.9,
+  66.9,
+  2374538,
+  156907954
+),
+(
+  '2007',
+  '2026-05-27',
+  7.51,
+  7.68,
+  7.42,
+  7.44,
+  581215,
+  4354260
+),
+(
+  '2008',
+  '2026-05-27',
+  28,
+  28.3,
+  27.75,
+  28.15,
+  26469,
+  739944
+),
+(
+  '2009',
+  '2026-05-27',
+  40,
+  40.3,
+  39.35,
+  39.7,
+  1730563,
+  68886614
+),
+(
+  '2010',
+  '2026-05-27',
+  22.85,
+  23,
+  22.75,
+  22.95,
+  1728544,
+  39573711
+),
+(
+  '2012',
+  '2026-05-27',
+  14.65,
+  14.75,
+  14.5,
+  14.5,
+  60346,
+  881226
+),
+(
+  '2013',
+  '2026-05-27',
+  42.5,
+  42.75,
+  42.3,
+  42.4,
+  125283,
+  5318509
+),
+(
+  '2014',
+  '2026-05-27',
+  18.35,
+  18.4,
+  17.8,
+  18,
+  8449780,
+  152542306
+),
+(
+  '2015',
+  '2026-05-27',
+  61.6,
+  62.2,
+  61.4,
+  62,
+  287472,
+  17775547
+),
+(
+  '2017',
+  '2026-05-27',
+  8.91,
+  8.95,
+  8.77,
+  8.91,
+  814431,
+  7238357
+),
+(
+  '2020',
+  '2026-05-27',
+  21.6,
+  21.6,
+  21.2,
+  21.25,
+  766222,
+  16343856
+),
+(
+  '2022',
+  '2026-05-27',
+  7.9,
+  7.9,
+  7.63,
+  7.63,
+  1294780,
+  9999629
+),
+(
+  '2023',
+  '2026-05-27',
+  13.7,
+  13.7,
+  13.5,
+  13.65,
+  2495783,
+  33945160
+),
+(
+  '2024',
+  '2026-05-27',
+  13.8,
+  13.8,
+  13.7,
+  13.8,
+  12212,
+  168161
+),
+(
+  '2025',
+  '2026-05-27',
+  12.4,
+  12.4,
+  12.1,
+  12.1,
+  355531,
+  4314965
+),
+(
+  '2027',
+  '2026-05-27',
+  41.5,
+  43.25,
+  41.05,
+  42.45,
+  27210094,
+  1152329687
+),
+(
+  '2028',
+  '2026-05-27',
+  17.7,
+  17.7,
+  16.9,
+  16.9,
+  242120,
+  4134272
+),
+(
+  '2029',
+  '2026-05-27',
+  20.55,
+  20.6,
+  20.4,
+  20.45,
+  293343,
+  6005227
+),
+(
+  '2030',
+  '2026-05-27',
+  17.95,
+  18.45,
+  17.65,
+  18,
+  1774657,
+  32025675
+),
+(
+  '2031',
+  '2026-05-27',
+  38.95,
+  39.1,
+  38.5,
+  38.85,
+  928986,
+  36065822
+),
+(
+  '2032',
+  '2026-05-27',
+  17.8,
+  18.6,
+  17.65,
+  18,
+  2391282,
+  43389739
+),
+(
+  '2033',
+  '2026-05-27',
+  15.45,
+  15.45,
+  15.1,
+  15.1,
+  185346,
+  2813793
+),
+(
+  '2034',
+  '2026-05-27',
+  20.2,
+  20.2,
+  19.95,
+  20.05,
+  1601264,
+  32070631
+),
+(
+  '2038',
+  '2026-05-27',
+  14.05,
+  14.1,
+  13.65,
+  13.75,
+  1092167,
+  15148938
+),
+(
+  '2049',
+  '2026-05-27',
+  415,
+  425,
+  402.5,
+  409,
+  7797803,
+  3225081209
+),
+(
+  '2059',
+  '2026-05-27',
+  5065,
+  5195,
+  4875,
+  4920,
+  562767,
+  2812272640
+),
+(
+  '2062',
+  '2026-05-27',
+  18.4,
+  18.45,
+  18.05,
+  18.2,
+  453948,
+  8278199
+),
+(
+  '2069',
+  '2026-05-27',
+  19.65,
+  19.7,
+  19.2,
+  19.2,
+  538922,
+  10452430
+),
+(
+  '2072',
+  '2026-05-27',
+  167,
+  170,
+  163.5,
+  165.5,
+  546642,
+  90639733
+),
+(
+  '2101',
+  '2026-05-27',
+  30.5,
+  30.5,
+  29.55,
+  29.75,
+  3224393,
+  96384719
+),
+(
+  '2102',
+  '2026-05-27',
+  18.1,
+  18.45,
+  18,
+  18.2,
+  298830,
+  5428398
+),
+(
+  '2103',
+  '2026-05-27',
+  19.4,
+  19.4,
+  18.7,
+  18.8,
+  7012270,
+  133147992
+),
+(
+  '2104',
+  '2026-05-27',
+  10.05,
+  10.1,
+  9.85,
+  9.86,
+  2361497,
+  23506277
+),
+(
+  '2105',
+  '2026-05-27',
+  31.55,
+  31.95,
+  31.5,
+  31.55,
+  9033724,
+  286495701
+),
+(
+  '2106',
+  '2026-05-27',
+  16.75,
+  16.8,
+  16.55,
+  16.65,
+  980002,
+  16368135
+),
+(
+  '2107',
+  '2026-05-27',
+  24.8,
+  24.8,
+  24.6,
+  24.75,
+  360266,
+  8904696
+),
+(
+  '2108',
+  '2026-05-27',
+  27.7,
+  28.15,
+  26.6,
+  27,
+  2378329,
+  65182364
+),
+(
+  '2109',
+  '2026-05-27',
+  14.1,
+  14.1,
+  13.9,
+  13.9,
+  205652,
+  2883759
+),
+(
+  '2114',
+  '2026-05-27',
+  91.6,
+  92,
+  91.4,
+  91.6,
+  91245,
+  8359004
+),
+(
+  '2115',
+  '2026-05-27',
+  20.7,
+  20.75,
+  20.45,
+  20.75,
+  218993,
+  4507808
+),
+(
+  '2201',
+  '2026-05-27',
+  27,
+  27,
+  26.45,
+  26.45,
+  2793558,
+  74295919
+),
+(
+  '2204',
+  '2026-05-27',
+  53.4,
+  53.4,
+  52.5,
+  52.6,
+  1695900,
+  89466409
+),
+(
+  '2206',
+  '2026-05-27',
+  59.5,
+  59.8,
+  59,
+  59.8,
+  1898401,
+  112997777
+),
+(
+  '2207',
+  '2026-05-27',
+  462.5,
+  466.5,
+  458,
+  466.5,
+  502085,
+  231703793
+),
+(
+  '2208',
+  '2026-05-27',
+  18.15,
+  18.3,
+  18.05,
+  18.1,
+  4181369,
+  75925837
+),
+(
+  '2211',
+  '2026-05-27',
+  92.7,
+  92.7,
+  91.5,
+  91.7,
+  827571,
+  76049545
+),
+(
+  '2227',
+  '2026-05-27',
+  48.35,
+  48.9,
+  48.35,
+  48.4,
+  84731,
+  4106668
+),
+(
+  '2228',
+  '2026-05-27',
+  82.7,
+  83.7,
+  81.8,
+  81.9,
+  249219,
+  20605391
+),
+(
+  '2231',
+  '2026-05-27',
+  107.5,
+  108,
+  104,
+  104.5,
+  526834,
+  55651448
+),
+(
+  '2233',
+  '2026-05-27',
+  380,
+  381.5,
+  362,
+  365,
+  2143533,
+  795380447
+),
+(
+  '2236',
+  '2026-05-27',
+  142.5,
+  144.5,
+  139.5,
+  141.5,
+  421572,
+  59508160
+),
+(
+  '2239',
+  '2026-05-27',
+  22.25,
+  22.85,
+  22.1,
+  22.3,
+  110351,
+  2472354
+),
+(
+  '2241',
+  '2026-05-27',
+  37.7,
+  38.8,
+  36.2,
+  36.35,
+  1706368,
+  63884921
+),
+(
+  '2243',
+  '2026-05-27',
+  23.9,
+  24.2,
+  23.5,
+  23.75,
+  493649,
+  11724294
+),
+(
+  '2247',
+  '2026-05-27',
+  205.5,
+  206,
+  204,
+  204.5,
+  69841,
+  14308633
+),
+(
+  '2248',
+  '2026-05-27',
+  54.1,
+  54.5,
+  53,
+  54.3,
+  37339,
+  2014145
+),
+(
+  '2250',
+  '2026-05-27',
+  61.8,
+  61.8,
+  60.7,
+  60.7,
+  119193,
+  7281766
+),
+(
+  '2254',
+  '2026-05-27',
+  59.2,
+  64.8,
+  59.2,
+  64.8,
+  43006,
+  2609059
+),
+(
+  '2258',
+  '2026-05-27',
+  29.05,
+  29.2,
+  28.4,
+  28.65,
+  863820,
+  24769531
+),
+(
+  '2301',
+  '2026-05-27',
+  250,
+  262,
+  242.5,
+  246,
+  57628178,
+  14493912668
+),
+(
+  '2302',
+  '2026-05-27',
+  36,
+  37.25,
+  32.35,
+  32.7,
+  15444025,
+  531833753
+),
+(
+  '2303',
+  '2026-05-27',
+  139.5,
+  143.5,
+  138.5,
+  143.5,
+  280261963,
+  40005385051
+),
+(
+  '2305',
+  '2026-05-27',
+  21.8,
+  22.85,
+  21.4,
+  22.85,
+  7961650,
+  180885275
+),
+(
+  '2308',
+  '2026-05-27',
+  2490,
+  2585,
+  2490,
+  2520,
+  13897689,
+  35478124000
+),
+(
+  '2312',
+  '2026-05-27',
+  38.85,
+  38.85,
+  36,
+  37.35,
+  165750495,
+  6165086872
+),
+(
+  '2313',
+  '2026-05-27',
+  289.5,
+  291,
+  277,
+  282,
+  80875520,
+  22916958378
+),
+(
+  '2314',
+  '2026-05-27',
+  16.4,
+  16.8,
+  15.6,
+  15.6,
+  734191,
+  11710700
+),
+(
+  '2316',
+  '2026-05-27',
+  174,
+  188,
+  166,
+  168,
+  11974745,
+  2099076188
+),
+(
+  '2317',
+  '2026-05-27',
+  263,
+  269,
+  261,
+  264,
+  78352856,
+  20785977986
+),
+(
+  '2321',
+  '2026-05-27',
+  14.3,
+  15.5,
+  14.25,
+  15,
+  52639,
+  782601
+),
+(
+  '2323',
+  '2026-05-27',
+  10.35,
+  10.45,
+  10.15,
+  10.3,
+  8330352,
+  85832302
+),
+(
+  '2324',
+  '2026-05-27',
+  33.9,
+  34.15,
+  32.55,
+  33.4,
+  116483415,
+  3884688465
+),
+(
+  '2327',
+  '2026-05-27',
+  683,
+  727,
+  683,
+  701,
+  24969369,
+  17741177104
+),
+(
+  '2328',
+  '2026-05-27',
+  55.2,
+  55.2,
+  52.8,
+  53.8,
+  9423952,
+  506868937
+),
+(
+  '2329',
+  '2026-05-27',
+  60.4,
+  61,
+  58.3,
+  58.5,
+  22890579,
+  1362725645
+),
+(
+  '2330',
+  '2026-05-27',
+  2310,
+  2330,
+  2290,
+  2300,
+  40272350,
+  93104987424
+),
+(
+  '2331',
+  '2026-05-27',
+  21.2,
+  21.6,
+  20.55,
+  20.55,
+  4018350,
+  83744165
+),
+(
+  '2332',
+  '2026-05-27',
+  15.7,
+  15.8,
+  15.3,
+  15.6,
+  6331872,
+  98575039
+),
+(
+  '2337',
+  '2026-05-27',
+  172,
+  175,
+  154,
+  155.5,
+  242819740,
+  39615087835
+),
+(
+  '2338',
+  '2026-05-27',
+  56.9,
+  57.4,
+  54.8,
+  56.2,
+  8529843,
+  478952313
+),
+(
+  '2340',
+  '2026-05-27',
+  39.5,
+  40.5,
+  38,
+  40.1,
+  14458404,
+  571453778
+),
+(
+  '2342',
+  '2026-05-27',
+  43.6,
+  44.8,
+  42,
+  44.05,
+  13295079,
+  580781175
+),
+(
+  '2344',
+  '2026-05-27',
+  155,
+  155,
+  146,
+  155,
+  439027902,
+  67328902619
+),
+(
+  '2345',
+  '2026-05-27',
+  2645,
+  2670,
+  2570,
+  2620,
+  3955442,
+  10383502215
+),
+(
+  '2347',
+  '2026-05-27',
+  85,
+  86.7,
+  84.3,
+  85.9,
+  5081126,
+  436653037
+),
+(
+  '2348',
+  '2026-05-27',
+  68,
+  68.4,
+  67.8,
+  67.9,
+  432858,
+  29453013
+),
+(
+  '2349',
+  '2026-05-27',
+  13.5,
+  14.2,
+  13.25,
+  13.85,
+  10567646,
+  144990164
+),
+(
+  '2351',
+  '2026-05-27',
+  227.5,
+  232,
+  215,
+  229,
+  12559335,
+  2832113191
+),
+(
+  '2352',
+  '2026-05-27',
+  28.2,
+  28.2,
+  27.3,
+  27.55,
+  8070582,
+  222983075
+),
+(
+  '2353',
+  '2026-05-27',
+  32.1,
+  32.4,
+  31.2,
+  31.4,
+  61791194,
+  1961987635
+),
+(
+  '2354',
+  '2026-05-27',
+  60.9,
+  61.3,
+  59.3,
+  59.7,
+  11087533,
+  666646943
+),
+(
+  '2355',
+  '2026-05-27',
+  65.8,
+  65.9,
+  61.8,
+  62.6,
+  29431687,
+  1864524544
+),
+(
+  '2356',
+  '2026-05-27',
+  63.7,
+  63.7,
+  60.8,
+  62,
+  79832135,
+  4961810023
+),
+(
+  '2357',
+  '2026-05-27',
+  700,
+  709,
+  694,
+  701,
+  4222844,
+  2965146666
+),
+(
+  '2359',
+  '2026-05-27',
+  147.5,
+  150,
+  142,
+  144.5,
+  10233217,
+  1495679299
+),
+(
+  '2360',
+  '2026-05-27',
+  2550,
+  2680,
+  2495,
+  2625,
+  2643485,
+  6917361130
+),
+(
+  '2362',
+  '2026-05-27',
+  42,
+  42.2,
+  40.95,
+  41.05,
+  1389962,
+  57707184
+),
+(
+  '2363',
+  '2026-05-27',
+  69,
+  71.8,
+  66.3,
+  66.8,
+  27101736,
+  1866756573
+),
+(
+  '2364',
+  '2026-05-27',
+  68.6,
+  68.6,
+  67.3,
+  67.3,
+  226155,
+  15331452
+),
+(
+  '2365',
+  '2026-05-27',
+  38.3,
+  39.75,
+  36.95,
+  37.35,
+  6148627,
+  234740219
+),
+(
+  '2367',
+  '2026-05-27',
+  67.6,
+  67.6,
+  64.9,
+  67.1,
+  40194516,
+  2658980918
+),
+(
+  '2368',
+  '2026-05-27',
+  1450,
+  1470,
+  1370,
+  1375,
+  5687897,
+  8012579530
+),
+(
+  '2369',
+  '2026-05-27',
+  38.85,
+  41,
+  36.95,
+  40.15,
+  90986427,
+  3589376519
+),
+(
+  '2371',
+  '2026-05-27',
+  30.05,
+  30.75,
+  29.4,
+  29.4,
+  18425018,
+  551572479
+),
+(
+  '2373',
+  '2026-05-27',
+  57.4,
+  58,
+  56.8,
+  58,
+  145072,
+  8348589
+),
+(
+  '2374',
+  '2026-05-27',
+  83.1,
+  83.5,
+  80,
+  80.8,
+  9658650,
+  788059914
+),
+(
+  '2375',
+  '2026-05-27',
+  137,
+  147,
+  133,
+  147,
+  33132173,
+  4735133832
+),
+(
+  '2376',
+  '2026-05-27',
+  341,
+  341,
+  331,
+  332.5,
+  9035273,
+  3029154295
+),
+(
+  '2377',
+  '2026-05-27',
+  127.5,
+  132,
+  125.5,
+  126.5,
+  31363755,
+  4029261672
+),
+(
+  '2379',
+  '2026-05-27',
+  595,
+  624,
+  595,
+  605,
+  6045678,
+  3690642480
+),
+(
+  '2380',
+  '2026-05-27',
+  5.74,
+  5.74,
+  5.5,
+  5.53,
+  435973,
+  2407326
+),
+(
+  '2382',
+  '2026-05-27',
+  322,
+  323.5,
+  312,
+  312,
+  43591575,
+  13793091700
+),
+(
+  '2383',
+  '2026-05-27',
+  5500,
+  5545,
+  5300,
+  5305,
+  2342327,
+  12711050610
+),
+(
+  '2385',
+  '2026-05-27',
+  133.5,
+  138,
+  132.5,
+  135.5,
+  6098922,
+  829158742
+),
+(
+  '2387',
+  '2026-05-27',
+  41.5,
+  41.5,
+  40.25,
+  40.35,
+  1017313,
+  41564734
+),
+(
+  '2388',
+  '2026-05-27',
+  78.7,
+  79.5,
+  75.6,
+  75.9,
+  12942255,
+  1001736626
+),
+(
+  '2390',
+  '2026-05-27',
+  10.55,
+  10.9,
+  10.45,
+  10.7,
+  1466490,
+  15703024
+),
+(
+  '2392',
+  '2026-05-27',
+  38.9,
+  38.9,
+  37.3,
+  37.6,
+  3203285,
+  121431525
+),
+(
+  '2393',
+  '2026-05-27',
+  64.5,
+  64.5,
+  62.5,
+  62.7,
+  3797700,
+  239837156
+),
+(
+  '2395',
+  '2026-05-27',
+  507,
+  530,
+  503,
+  509,
+  4521072,
+  2323157024
+),
+(
+  '2397',
+  '2026-05-27',
+  65,
+  65.5,
+  62.7,
+  62.9,
+  586185,
+  37489097
+),
+(
+  '2399',
+  '2026-05-27',
+  50.8,
+  50.8,
+  47.7,
+  48,
+  16424414,
+  806107548
+),
+(
+  '2401',
+  '2026-05-27',
+  30.35,
+  33,
+  30.35,
+  31.05,
+  30654029,
+  959102322
+),
+(
+  '2402',
+  '2026-05-27',
+  70.5,
+  70.5,
+  67.9,
+  68.7,
+  12508370,
+  863008268
+),
+(
+  '2404',
+  '2026-05-27',
+  1285,
+  1300,
+  1225,
+  1235,
+  5007289,
+  6296301630
+),
+(
+  '2405',
+  '2026-05-27',
+  16.95,
+  16.95,
+  16.35,
+  16.4,
+  2439447,
+  40373091
+),
+(
+  '2406',
+  '2026-05-27',
+  36,
+  36.2,
+  34.45,
+  34.9,
+  22652140,
+  798197334
+),
+(
+  '2408',
+  '2026-05-27',
+  333,
+  333.5,
+  306,
+  312,
+  206216639,
+  66247740234
+),
+(
+  '2409',
+  '2026-05-27',
+  22.15,
+  22.2,
+  20.5,
+  21.8,
+  566175271,
+  12131631799
+),
+(
+  '2412',
+  '2026-05-27',
+  137,
+  138,
+  136,
+  137,
+  15609678,
+  2140780201
+),
+(
+  '2413',
+  '2026-05-27',
+  51.7,
+  52,
+  49.45,
+  49.55,
+  2953112,
+  148148502
+),
+(
+  '2414',
+  '2026-05-27',
+  50.5,
+  51.3,
+  50.5,
+  51.2,
+  320065,
+  16320474
+),
+(
+  '2415',
+  '2026-05-27',
+  26.85,
+  26.85,
+  26.5,
+  26.65,
+  139683,
+  3717795
+),
+(
+  '2417',
+  '2026-05-27',
+  51.2,
+  51.5,
+  49.7,
+  50.2,
+  2495249,
+  125743954
+),
+(
+  '2419',
+  '2026-05-27',
+  31.3,
+  31.9,
+  30.3,
+  30.5,
+  1967491,
+  60945591
+),
+(
+  '2420',
+  '2026-05-27',
+  63,
+  64.2,
+  62.3,
+  62.5,
+  927025,
+  58620689
+),
+(
+  '2421',
+  '2026-05-27',
+  166,
+  166,
+  159,
+  162,
+  7155448,
+  1161749468
+),
+(
+  '2423',
+  '2026-05-27',
+  82.1,
+  86.5,
+  80.3,
+  82.6,
+  692133,
+  57745599
+),
+(
+  '2424',
+  '2026-05-27',
+  12.25,
+  13.55,
+  12.25,
+  13.55,
+  608366,
+  8184421
+),
+(
+  '2425',
+  '2026-05-27',
+  35.25,
+  37,
+  35,
+  36.5,
+  1837841,
+  66369192
+),
+(
+  '2426',
+  '2026-05-27',
+  79.9,
+  81.4,
+  73.5,
+  77.8,
+  19382889,
+  1511770235
+),
+(
+  '2427',
+  '2026-05-27',
+  20.55,
+  20.55,
+  20.2,
+  20.3,
+  723235,
+  14682589
+),
+(
+  '2428',
+  '2026-05-27',
+  260,
+  267.5,
+  255.5,
+  266,
+  2437937,
+  639683785
+),
+(
+  '2429',
+  '2026-05-27',
+  52.9,
+  53,
+  48.1,
+  48.25,
+  1340321,
+  66854375
+),
+(
+  '2430',
+  '2026-05-27',
+  18.8,
+  18.85,
+  18.5,
+  18.55,
+  203616,
+  3792704
+),
+(
+  '2431',
+  '2026-05-27',
+  10.5,
+  10.5,
+  10.3,
+  10.35,
+  375993,
+  3913674
+),
+(
+  '2432',
+  '2026-05-27',
+  26.1,
+  26.2,
+  26.1,
+  26.2,
+  7065,
+  184558
+),
+(
+  '2433',
+  '2026-05-27',
+  43.85,
+  43.85,
+  43.35,
+  43.4,
+  111660,
+  4865009
+),
+(
+  '2434',
+  '2026-05-27',
+  30.7,
+  33.2,
+  30.4,
+  33.2,
+  268767,
+  8847922
+),
+(
+  '2436',
+  '2026-05-27',
+  81.8,
+  82.5,
+  77.1,
+  78.1,
+  12170849,
+  968667899
+),
+(
+  '2438',
+  '2026-05-27',
+  23.5,
+  25.3,
+  23.5,
+  25.3,
+  1833017,
+  45836102
+),
+(
+  '2439',
+  '2026-05-27',
+  93.1,
+  93.1,
+  90.2,
+  90.7,
+  7069414,
+  644719712
+),
+(
+  '2440',
+  '2026-05-27',
+  17.85,
+  17.9,
+  17,
+  17.35,
+  970181,
+  16825323
+),
+(
+  '2441',
+  '2026-05-27',
+  139,
+  139,
+  132.5,
+  136,
+  19478323,
+  2646748910
+),
+(
+  '2442',
+  '2026-05-27',
+  18.6,
+  18.6,
+  18.25,
+  18.3,
+  1800493,
+  33125668
+),
+(
+  '2444',
+  '2026-05-27',
+  12.7,
+  12.7,
+  12.2,
+  12.3,
+  831034,
+  10202675
+),
+(
+  '2449',
+  '2026-05-27',
+  344.5,
+  345,
+  308.5,
+  315.5,
+  95192733,
+  30805625536
+),
+(
+  '2450',
+  '2026-05-27',
+  29.25,
+  29.45,
+  29.1,
+  29.35,
+  232555,
+  6798087
+),
+(
+  '2451',
+  '2026-05-27',
+  333,
+  344,
+  318.5,
+  321,
+  8864238,
+  2916115324
+),
+(
+  '2453',
+  '2026-05-27',
+  65.6,
+  65.6,
+  61.6,
+  62.5,
+  8958771,
+  572607980
+),
+(
+  '2454',
+  '2026-05-27',
+  4475,
+  4690,
+  4450,
+  4640,
+  18260840,
+  84883094150
+),
+(
+  '2455',
+  '2026-05-27',
+  411,
+  418.5,
+  402,
+  418.5,
+  3208598,
+  1317331633
+),
+(
+  '2457',
+  '2026-05-27',
+  26.15,
+  26.4,
+  25,
+  25.2,
+  3367331,
+  85740300
+),
+(
+  '2458',
+  '2026-05-27',
+  168.5,
+  170,
+  163,
+  164.5,
+  3325020,
+  553625671
+),
+(
+  '2459',
+  '2026-05-27',
+  66.5,
+  67.4,
+  66.5,
+  67,
+  299380,
+  20003975
+),
+(
+  '2460',
+  '2026-05-27',
+  32.8,
+  32.8,
+  31.55,
+  31.95,
+  804025,
+  25639747
+),
+(
+  '2461',
+  '2026-05-27',
+  16.1,
+  16.1,
+  15.65,
+  15.65,
+  907189,
+  14333989
+),
+(
+  '2462',
+  '2026-05-27',
+  20.9,
+  20.9,
+  20.2,
+  20.25,
+  396030,
+  8132155
+),
+(
+  '2464',
+  '2026-05-27',
+  177,
+  184,
+  173,
+  177,
+  32535439,
+  5794901577
+),
+(
+  '2465',
+  '2026-05-27',
+  88.6,
+  90.8,
+  84.5,
+  86,
+  3244164,
+  283400140
+),
+(
+  '2466',
+  '2026-05-27',
+  49.35,
+  50.5,
+  47.5,
+  47.7,
+  266971,
+  13047359
+),
+(
+  '2467',
+  '2026-05-27',
+  689,
+  692,
+  650,
+  657,
+  3140909,
+  2091207957
+),
+(
+  '2468',
+  '2026-05-27',
+  34.25,
+  34.3,
+  33.1,
+  33.1,
+  245035,
+  8202778
+),
+(
+  '2471',
+  '2026-05-27',
+  51.1,
+  51.4,
+  50.3,
+  50.6,
+  326101,
+  16532275
+),
+(
+  '2472',
+  '2026-05-27',
+  337,
+  337.5,
+  328.5,
+  337.5,
+  12343744,
+  4156952466
+),
+(
+  '2474',
+  '2026-05-27',
+  195,
+  214.5,
+  188,
+  208.5,
+  22629999,
+  4567115812
+),
+(
+  '2476',
+  '2026-05-27',
+  132,
+  135,
+  126.5,
+  129,
+  8050511,
+  1043850095
+),
+(
+  '2477',
+  '2026-05-27',
+  20.95,
+  20.95,
+  20.5,
+  20.55,
+  292818,
+  6068149
+),
+(
+  '2478',
+  '2026-05-27',
+  121,
+  123.5,
+  113.5,
+  120,
+  3718085,
+  443083108
+),
+(
+  '2480',
+  '2026-05-27',
+  149,
+  149,
+  146.5,
+  146.5,
+  523770,
+  77364409
+),
+(
+  '2481',
+  '2026-05-27',
+  157.5,
+  161.5,
+  143,
+  147.5,
+  72240943,
+  11077038144
+),
+(
+  '2482',
+  '2026-05-27',
+  16.8,
+  16.8,
+  16.3,
+  16.3,
+  174845,
+  2881066
+),
+(
+  '2483',
+  '2026-05-27',
+  26.2,
+  27.25,
+  25.2,
+  25.4,
+  1136095,
+  29597305
+),
+(
+  '2484',
+  '2026-05-27',
+  56.5,
+  56.5,
+  51.8,
+  52.6,
+  21896976,
+  1167932770
+),
+(
+  '2485',
+  '2026-05-27',
+  75.8,
+  76.2,
+  73,
+  74.1,
+  25057758,
+  1865323172
+),
+(
+  '2486',
+  '2026-05-27',
+  292,
+  299,
+  273,
+  276,
+  10120755,
+  2879247825
+),
+(
+  '2488',
+  '2026-05-27',
+  53.5,
+  53.5,
+  52.8,
+  53.1,
+  167930,
+  8911028
+),
+(
+  '2489',
+  '2026-05-27',
+  53.1,
+  53.2,
+  48.3,
+  50.7,
+  80204687,
+  4053819148
+),
+(
+  '2491',
+  '2026-05-27',
+  22.55,
+  23.65,
+  22.4,
+  22.55,
+  1290532,
+  29685919
+),
+(
+  '2492',
+  '2026-05-27',
+  345,
+  361,
+  345,
+  361,
+  5324682,
+  1904385745
+),
+(
+  '2493',
+  '2026-05-27',
+  171,
+  171.5,
+  151,
+  158,
+  10164240,
+  1615243852
+),
+(
+  '2495',
+  '2026-05-27',
+  47.7,
+  50.6,
+  47.5,
+  50.6,
+  27802643,
+  1386756175
+),
+(
+  '2496',
+  '2026-05-27',
+  65.2,
+  65.2,
+  64.3,
+  65,
+  23281,
+  1507085
+),
+(
+  '2497',
+  '2026-05-27',
+  59.5,
+  59.5,
+  57.9,
+  57.9,
+  358455,
+  20902166
+),
+(
+  '2498',
+  '2026-05-27',
+  44.55,
+  45.8,
+  44,
+  44.65,
+  13857095,
+  622685098
+),
+(
+  '2501',
+  '2026-05-27',
+  21.7,
+  21.85,
+  21.6,
+  21.85,
+  2375569,
+  51621848
+),
+(
+  '2504',
+  '2026-05-27',
+  35,
+  35,
+  34.65,
+  34.95,
+  1991527,
+  69254624
+),
+(
+  '2505',
+  '2026-05-27',
+  17.75,
+  17.75,
+  17.5,
+  17.55,
+  454002,
+  7970604
+),
+(
+  '2506',
+  '2026-05-27',
+  8.62,
+  8.66,
+  8.58,
+  8.65,
+  113880,
+  980235
+),
+(
+  '2509',
+  '2026-05-27',
+  12.4,
+  12.4,
+  12.1,
+  12.3,
+  228332,
+  2786339
+),
+(
+  '2511',
+  '2026-05-27',
+  7.62,
+  7.64,
+  7.58,
+  7.62,
+  1487093,
+  11306153
+),
+(
+  '2514',
+  '2026-05-27',
+  12.9,
+  12.9,
+  12.7,
+  12.8,
+  145572,
+  1867907
+),
+(
+  '2515',
+  '2026-05-27',
+  12.9,
+  12.9,
+  12.65,
+  12.85,
+  7979456,
+  102178363
+),
+(
+  '2516',
+  '2026-05-27',
+  12.8,
+  14.1,
+  12.8,
+  13.6,
+  1851079,
+  25570940
+),
+(
+  '2520',
+  '2026-05-27',
+  30.15,
+  30.3,
+  29.9,
+  30.05,
+  1341939,
+  40326038
+),
+(
+  '2524',
+  '2026-05-27',
+  32.75,
+  33.4,
+  32.6,
+  33.25,
+  55422,
+  1834727
+),
+(
+  '2527',
+  '2026-05-27',
+  35.45,
+  37.25,
+  35.45,
+  36.25,
+  933166,
+  33755879
+),
+(
+  '2528',
+  '2026-05-27',
+  22,
+  22,
+  21.4,
+  21.8,
+  1261472,
+  27344049
+),
+(
+  '2530',
+  '2026-05-27',
+  19,
+  19,
+  17.8,
+  18.1,
+  2969068,
+  53637921
+),
+(
+  '2534',
+  '2026-05-27',
+  17.7,
+  17.7,
+  17.4,
+  17.55,
+  1574018,
+  27550981
+),
+(
+  '2535',
+  '2026-05-27',
+  76.3,
+  78.8,
+  75.8,
+  78,
+  1469377,
+  114361522
+),
+(
+  '2536',
+  '2026-05-27',
+  19.7,
+  19.75,
+  19.05,
+  19.2,
+  632141,
+  12233099
+),
+(
+  '2537',
+  '2026-05-27',
+  9.58,
+  9.58,
+  9.39,
+  9.39,
+  1581260,
+  14909518
+),
+(
+  '2538',
+  '2026-05-27',
+  9.28,
+  9.38,
+  9.23,
+  9.37,
+  418662,
+  3902686
+),
+(
+  '2539',
+  '2026-05-27',
+  34.4,
+  34.45,
+  33.1,
+  33.2,
+  4919591,
+  165490533
+),
+(
+  '2540',
+  '2026-05-27',
+  54.2,
+  54.3,
+  53.5,
+  53.5,
+  446146,
+  23979991
+),
+(
+  '2542',
+  '2026-05-27',
+  42.15,
+  43.4,
+  42.1,
+  43.1,
+  15190373,
+  652304010
+),
+(
+  '2543',
+  '2026-05-27',
+  41.2,
+  41.8,
+  40.4,
+  41.5,
+  1972681,
+  81052646
+),
+(
+  '2545',
+  '2026-05-27',
+  36.35,
+  36.4,
+  35.6,
+  35.85,
+  620576,
+  22367392
+),
+(
+  '2546',
+  '2026-05-27',
+  87.8,
+  87.9,
+  86.2,
+  87.3,
+  185040,
+  16155431
+),
+(
+  '2547',
+  '2026-05-27',
+  9.99,
+  9.99,
+  9.86,
+  9.9,
+  2610700,
+  25871768
+),
+(
+  '2548',
+  '2026-05-27',
+  121,
+  123.5,
+  120.5,
+  121.5,
+  2299237,
+  280703744
+),
+(
+  '2597',
+  '2026-05-27',
+  157.5,
+  160,
+  156.5,
+  157.5,
+  614710,
+  97064595
+),
+(
+  '2601',
+  '2026-05-27',
+  5,
+  5.05,
+  4.98,
+  5,
+  2246857,
+  11240051
+),
+(
+  '2603',
+  '2026-05-27',
+  213,
+  216.5,
+  209,
+  211.5,
+  33951659,
+  7227802157
+),
+(
+  '2605',
+  '2026-05-27',
+  31.15,
+  31.45,
+  30.75,
+  31,
+  3391038,
+  105677378
+),
+(
+  '2606',
+  '2026-05-27',
+  70.2,
+  72.9,
+  68.3,
+  72.5,
+  13383558,
+  957605405
+),
+(
+  '2607',
+  '2026-05-27',
+  48.3,
+  48.3,
+  47.2,
+  47.3,
+  958151,
+  45517297
+),
+(
+  '2608',
+  '2026-05-27',
+  28.75,
+  28.75,
+  28.5,
+  28.6,
+  860144,
+  24565803
+),
+(
+  '2609',
+  '2026-05-27',
+  51.7,
+  53.8,
+  51.2,
+  52.6,
+  32824282,
+  1727807484
+),
+(
+  '2610',
+  '2026-05-27',
+  18.65,
+  18.75,
+  18.35,
+  18.45,
+  49752078,
+  918919965
+),
+(
+  '2611',
+  '2026-05-27',
+  12.9,
+  13,
+  12.65,
+  12.95,
+  694945,
+  8904544
+),
+(
+  '2612',
+  '2026-05-27',
+  57.2,
+  58.4,
+  56.6,
+  57.6,
+  1140095,
+  65720016
+),
+(
+  '2613',
+  '2026-05-27',
+  22,
+  22,
+  21.55,
+  21.65,
+  411091,
+  8902621
+),
+(
+  '2614',
+  '2026-05-27',
+  18.15,
+  18.35,
+  17.9,
+  18.15,
+  1460808,
+  26453537
+),
+(
+  '2615',
+  '2026-05-27',
+  81.8,
+  82.7,
+  80,
+  81.8,
+  9778040,
+  796669597
+),
+(
+  '2616',
+  '2026-05-27',
+  13.35,
+  13.35,
+  13.2,
+  13.3,
+  443773,
+  5883199
+),
+(
+  '2617',
+  '2026-05-27',
+  29.15,
+  29.15,
+  28.75,
+  28.8,
+  871573,
+  25151556
+),
+(
+  '2618',
+  '2026-05-27',
+  35.2,
+  35.45,
+  34.8,
+  34.8,
+  67319957,
+  2359104415
+),
+(
+  '2630',
+  '2026-05-27',
+  42.1,
+  42.25,
+  41.1,
+  41.25,
+  1272661,
+  52801570
+),
+(
+  '2633',
+  '2026-05-27',
+  25.1,
+  25.55,
+  24.8,
+  25.25,
+  16971023,
+  425978249
+),
+(
+  '2634',
+  '2026-05-27',
+  46,
+  46.05,
+  45.5,
+  45.5,
+  4552587,
+  207816267
+),
+(
+  '2636',
+  '2026-05-27',
+  67,
+  67.3,
+  66.6,
+  66.9,
+  351943,
+  23541210
+),
+(
+  '2637',
+  '2026-05-27',
+  74.9,
+  76.9,
+  73.5,
+  75.9,
+  5520396,
+  416975863
+),
+(
+  '2642',
+  '2026-05-27',
+  20.2,
+  20.2,
+  20.1,
+  20.1,
+  149355,
+  3010904
+),
+(
+  '2645',
+  '2026-05-27',
+  159,
+  163.5,
+  157.5,
+  161.5,
+  1853347,
+  297751162
+),
+(
+  '2646',
+  '2026-05-27',
+  20.2,
+  20.25,
+  20.05,
+  20.05,
+  7409416,
+  149049019
+),
+(
+  '2701',
+  '2026-05-27',
+  10.25,
+  10.3,
+  10.2,
+  10.2,
+  184189,
+  1881290
+),
+(
+  '2702',
+  '2026-05-27',
+  13.1,
+  13.1,
+  12.75,
+  12.75,
+  66539,
+  853289
+),
+(
+  '2704',
+  '2026-05-27',
+  42.1,
+  42.85,
+  42.1,
+  42.15,
+  227622,
+  9687178
+),
+(
+  '2705',
+  '2026-05-27',
+  15.05,
+  15.15,
+  14.95,
+  15,
+  220216,
+  3310171
+),
+(
+  '2706',
+  '2026-05-27',
+  11.95,
+  12,
+  11.85,
+  11.95,
+  262511,
+  3136764
+),
+(
+  '2707',
+  '2026-05-27',
+  172,
+  173,
+  172,
+  173,
+  174588,
+  30118019
+),
+(
+  '2712',
+  '2026-05-27',
+  14.9,
+  14.9,
+  14.75,
+  14.75,
+  16370,
+  242775
+),
+(
+  '2722',
+  '2026-05-27',
+  22.95,
+  22.95,
+  22.3,
+  22.6,
+  66423,
+  1495698
+),
+(
+  '2723',
+  '2026-05-27',
+  61.1,
+  61.1,
+  59.9,
+  60.2,
+  486567,
+  29369105
+),
+(
+  '2727',
+  '2026-05-27',
+  230,
+  234.5,
+  228,
+  234,
+  760569,
+  176667704
+),
+(
+  '2731',
+  '2026-05-27',
+  169,
+  169,
+  165.5,
+  166,
+  1287015,
+  214272948
+),
+(
+  '2739',
+  '2026-05-27',
+  34.6,
+  34.85,
+  34.45,
+  34.7,
+  92441,
+  3201096
+),
+(
+  '2748',
+  '2026-05-27',
+  39.1,
+  39.1,
+  38.9,
+  39,
+  183864,
+  7170556
+),
+(
+  '2753',
+  '2026-05-27',
+  175.5,
+  175.5,
+  173,
+  173,
+  324821,
+  56426036
+),
+(
+  '2762',
+  '2026-05-27',
+  80.8,
+  81.8,
+  80.5,
+  81.1,
+  52324,
+  4249492
+),
+(
+  '2801',
+  '2026-05-27',
+  20.3,
+  20.3,
+  20.15,
+  20.15,
+  25379301,
+  512566094
+),
+(
+  '2812',
+  '2026-05-27',
+  18.85,
+  18.9,
+  18.7,
+  18.8,
+  16571442,
+  311082957
+),
+(
+  '2816',
+  '2026-05-27',
+  31.7,
+  32.4,
+  31.7,
+  31.95,
+  306340,
+  9823028
+),
+(
+  '2820',
+  '2026-05-27',
+  16.8,
+  16.8,
+  16.7,
+  16.7,
+  933586,
+  15609759
+),
+(
+  '2832',
+  '2026-05-27',
+  53,
+  53.2,
+  52.9,
+  52.9,
+  197868,
+  10486070
+),
+(
+  '2834',
+  '2026-05-27',
+  16,
+  16.3,
+  15.95,
+  16.15,
+  32910582,
+  531169750
+),
+(
+  '2836',
+  '2026-05-27',
+  11.8,
+  11.85,
+  11.75,
+  11.8,
+  1346349,
+  15870087
+),
+(
+  '2838',
+  '2026-05-27',
+  20.25,
+  20.5,
+  20.1,
+  20.5,
+  1664653,
+  33926818
+),
+(
+  '2845',
+  '2026-05-27',
+  12,
+  12,
+  11.9,
+  11.9,
+  15116223,
+  180666341
+),
+(
+  '2849',
+  '2026-05-27',
+  13.45,
+  13.8,
+  13.4,
+  13.8,
+  175020,
+  2386129
+),
+(
+  '2850',
+  '2026-05-27',
+  137.5,
+  143,
+  137.5,
+  141.5,
+  610268,
+  86031533
+),
+(
+  '2851',
+  '2026-05-27',
+  35.2,
+  35.35,
+  34.8,
+  35,
+  3293630,
+  115350011
+),
+(
+  '2852',
+  '2026-05-27',
+  26.85,
+  26.85,
+  26.65,
+  26.85,
+  456309,
+  12221900
+),
+(
+  '2855',
+  '2026-05-27',
+  42.55,
+  44.95,
+  42.55,
+  44.9,
+  16294597,
+  720315263
+),
+(
+  '2867',
+  '2026-05-27',
+  7.58,
+  7.58,
+  7.5,
+  7.54,
+  8936484,
+  67294925
+),
+(
+  '2880',
+  '2026-05-27',
+  30.35,
+  30.55,
+  29.95,
+  29.95,
+  78460919,
+  2365747055
+),
+(
+  '2881',
+  '2026-05-27',
+  104.5,
+  110,
+  103,
+  110,
+  95547479,
+  10347893025
+),
+(
+  '2882',
+  '2026-05-27',
+  83.1,
+  86.4,
+  82.7,
+  85.4,
+  69944898,
+  5920801410
+),
+(
+  '2883',
+  '2026-05-27',
+  21.7,
+  22.8,
+  21.55,
+  22.3,
+  108756887,
+  2420146682
+),
+(
+  '2884',
+  '2026-05-27',
+  31.15,
+  31.25,
+  30.95,
+  31.15,
+  52347427,
+  1627515354
+),
+(
+  '2885',
+  '2026-05-27',
+  59.6,
+  59.8,
+  57.5,
+  59.5,
+  40035150,
+  2362175269
+),
+(
+  '2886',
+  '2026-05-27',
+  39.6,
+  39.95,
+  39.4,
+  39.45,
+  29286253,
+  1161289901
+),
+(
+  '2887',
+  '2026-05-27',
+  23.7,
+  23.8,
+  23.3,
+  23.3,
+  170451126,
+  4003973340
+),
+(
+  '2889',
+  '2026-05-27',
+  14.6,
+  14.7,
+  14.5,
+  14.55,
+  3074575,
+  44870627
+),
+(
+  '2890',
+  '2026-05-27',
+  29.8,
+  29.95,
+  29.3,
+  29.65,
+  28925478,
+  858185121
+),
+(
+  '2891',
+  '2026-05-27',
+  58.5,
+  60.2,
+  57.6,
+  59.2,
+  65196446,
+  3869157660
+),
+(
+  '2892',
+  '2026-05-27',
+  27.7,
+  27.8,
+  27.55,
+  27.6,
+  33694772,
+  931973339
+),
+(
+  '2897',
+  '2026-05-27',
+  10,
+  10.05,
+  9.93,
+  10,
+  3689643,
+  36808279
+),
+(
+  '2901',
+  '2026-05-27',
+  22.95,
+  23.55,
+  22.45,
+  22.45,
+  33591,
+  761254
+),
+(
+  '2903',
+  '2026-05-27',
+  22.15,
+  22.15,
+  21.9,
+  21.9,
+  2753585,
+  60527974
+),
+(
+  '2904',
+  '2026-05-27',
+  14.2,
+  14.2,
+  14,
+  14.15,
+  50810,
+  715434
+),
+(
+  '2905',
+  '2026-05-27',
+  13.65,
+  13.7,
+  13.4,
+  13.55,
+  559979,
+  7566279
+),
+(
+  '2906',
+  '2026-05-27',
+  12.35,
+  12.45,
+  12.3,
+  12.35,
+  124309,
+  1536212
+),
+(
+  '2908',
+  '2026-05-27',
+  21.3,
+  21.6,
+  21.1,
+  21.35,
+  741755,
+  15856381
+),
+(
+  '2910',
+  '2026-05-27',
+  21.65,
+  21.65,
+  20.75,
+  21.55,
+  18000,
+  377650
+),
+(
+  '2911',
+  '2026-05-27',
+  9.27,
+  9.69,
+  8.6,
+  9.25,
+  1944140,
+  17505825
+),
+(
+  '2912',
+  '2026-05-27',
+  210.5,
+  210.5,
+  206.5,
+  206.5,
+  13626146,
+  2828691463
+),
+(
+  '2913',
+  '2026-05-27',
+  10.85,
+  10.85,
+  10.65,
+  10.65,
+  1995556,
+  21405451
+),
+(
+  '2915',
+  '2026-05-27',
+  44.2,
+  44.2,
+  43.05,
+  43.55,
+  3419013,
+  148318870
+),
+(
+  '2923',
+  '2026-05-27',
+  23.1,
+  24.75,
+  22.4,
+  23.95,
+  97861,
+  2311302
+),
+(
+  '2929',
+  '2026-05-27',
+  6.6,
+  6.65,
+  6.37,
+  6.65,
+  1258487,
+  8325959
+),
+(
+  '2939',
+  '2026-05-27',
+  22.95,
+  22.95,
+  21.9,
+  22.65,
+  15071,
+  338244
+),
+(
+  '2945',
+  '2026-05-27',
+  40.5,
+  41.15,
+  40.15,
+  40.4,
+  12537,
+  507182
+),
+(
+  '3002',
+  '2026-05-27',
+  17.2,
+  17.25,
+  16.8,
+  16.9,
+  285990,
+  4861370
+),
+(
+  '3003',
+  '2026-05-27',
+  65.5,
+  66.7,
+  61.8,
+  62.9,
+  3753256,
+  238111411
+),
+(
+  '3004',
+  '2026-05-27',
+  134.5,
+  134.5,
+  124,
+  124,
+  2402674,
+  301348571
+),
+(
+  '3005',
+  '2026-05-27',
+  105,
+  105,
+  102.5,
+  103,
+  4400193,
+  454286836
+),
+(
+  '3006',
+  '2026-05-27',
+  252,
+  254.5,
+  238,
+  241,
+  30642864,
+  7588345936
+),
+(
+  '3008',
+  '2026-05-27',
+  3690,
+  3720,
+  3500,
+  3505,
+  1354119,
+  4883546555
+),
+(
+  '3010',
+  '2026-05-27',
+  142,
+  142,
+  138.5,
+  139,
+  1398977,
+  196402867
+),
+(
+  '3011',
+  '2026-05-27',
+  13.25,
+  13.25,
+  12.95,
+  13.15,
+  913585,
+  11946831
+),
+(
+  '3013',
+  '2026-05-27',
+  124,
+  125,
+  119,
+  119.5,
+  8185601,
+  996030726
+),
+(
+  '3014',
+  '2026-05-27',
+  152,
+  153.5,
+  149,
+  153,
+  3236990,
+  491483562
+),
+(
+  '3015',
+  '2026-05-27',
+  52.6,
+  53.3,
+  51.5,
+  51.6,
+  441606,
+  23072670
+),
+(
+  '3016',
+  '2026-05-27',
+  131,
+  138,
+  122,
+  126,
+  15299263,
+  1974035359
+),
+(
+  '3017',
+  '2026-05-27',
+  2800,
+  2835,
+  2695,
+  2700,
+  4384212,
+  12112986195
+),
+(
+  '3018',
+  '2026-05-27',
+  9.51,
+  9.6,
+  9.5,
+  9.6,
+  19511,
+  185762
+),
+(
+  '3019',
+  '2026-05-27',
+  155,
+  155,
+  148,
+  149.5,
+  7889881,
+  1190898549
+),
+(
+  '3021',
+  '2026-05-27',
+  24.95,
+  24.95,
+  24.95,
+  24.95,
+  500771,
+  12494213
+),
+(
+  '3022',
+  '2026-05-27',
+  75,
+  76,
+  73.3,
+  73.9,
+  1176124,
+  87828945
+),
+(
+  '3023',
+  '2026-05-27',
+  320,
+  320,
+  310.5,
+  312,
+  1242263,
+  389356660
+),
+(
+  '3024',
+  '2026-05-27',
+  16.2,
+  16.35,
+  15.65,
+  15.85,
+  2034013,
+  32408808
+),
+(
+  '3025',
+  '2026-05-27',
+  79.9,
+  79.9,
+  76.3,
+  77.2,
+  2305912,
+  179257029
+),
+(
+  '3026',
+  '2026-05-27',
+  599,
+  620,
+  596,
+  608,
+  1917131,
+  1165276596
+),
+(
+  '3027',
+  '2026-05-27',
+  19,
+  19.1,
+  18.55,
+  18.55,
+  515619,
+  9690957
+),
+(
+  '3028',
+  '2026-05-27',
+  84.2,
+  85.4,
+  80.3,
+  81.4,
+  4861113,
+  399549112
+),
+(
+  '3029',
+  '2026-05-27',
+  97,
+  97,
+  95.3,
+  95.3,
+  1124561,
+  107654978
+),
+(
+  '3030',
+  '2026-05-27',
+  415.5,
+  420,
+  395,
+  399.5,
+  5881676,
+  2384220759
+),
+(
+  '3031',
+  '2026-05-27',
+  32,
+  32.35,
+  30.7,
+  30.95,
+  2554703,
+  79712085
+),
+(
+  '3032',
+  '2026-05-27',
+  91.5,
+  92.5,
+  89.3,
+  90.6,
+  2768959,
+  251434641
+),
+(
+  '3033',
+  '2026-05-27',
+  51.4,
+  51.9,
+  49.55,
+  50.7,
+  17668494,
+  896408155
+),
+(
+  '3034',
+  '2026-05-27',
+  491,
+  495.5,
+  484,
+  485,
+  6970773,
+  3410955415
+),
+(
+  '3035',
+  '2026-05-27',
+  213.5,
+  216,
+  201,
+  202.5,
+  16772502,
+  3481455713
+),
+(
+  '3036',
+  '2026-05-27',
+  300,
+  304.5,
+  292.5,
+  296,
+  9274773,
+  2766165225
+),
+(
+  '3037',
+  '2026-05-27',
+  1105,
+  1110,
+  1045,
+  1080,
+  27365393,
+  29657618700
+),
+(
+  '3038',
+  '2026-05-27',
+  23.4,
+  23.6,
+  23.05,
+  23.25,
+  471988,
+  11019040
+),
+(
+  '3040',
+  '2026-05-27',
+  41.45,
+  41.45,
+  39.65,
+  39.65,
+  120575,
+  4838315
+),
+(
+  '3041',
+  '2026-05-27',
+  27,
+  27.2,
+  25.7,
+  25.9,
+  2479824,
+  65651780
+),
+(
+  '3042',
+  '2026-05-27',
+  220,
+  221.5,
+  192,
+  198,
+  28448686,
+  5744801887
+),
+(
+  '3043',
+  '2026-05-27',
+  20.85,
+  21.15,
+  20.55,
+  20.55,
+  152087,
+  3162667
+),
+(
+  '3044',
+  '2026-05-27',
+  520,
+  536,
+  511,
+  524,
+  5547855,
+  2918575376
+),
+(
+  '3045',
+  '2026-05-27',
+  111,
+  111.5,
+  110,
+  110,
+  15384142,
+  1700132768
+),
+(
+  '3046',
+  '2026-05-27',
+  54.1,
+  54.2,
+  53.3,
+  53.9,
+  323879,
+  17369419
+),
+(
+  '3047',
+  '2026-05-27',
+  15.2,
+  15.25,
+  14.8,
+  14.9,
+  1602962,
+  24015662
+),
+(
+  '3048',
+  '2026-05-27',
+  75,
+  75,
+  69.5,
+  70,
+  14262463,
+  1015673883
+),
+(
+  '3049',
+  '2026-05-27',
+  12.25,
+  12.3,
+  11.9,
+  12.2,
+  7476197,
+  90326199
+),
+(
+  '3050',
+  '2026-05-27',
+  12.4,
+  12.65,
+  12.05,
+  12.4,
+  1299753,
+  15956137
+),
+(
+  '3051',
+  '2026-05-27',
+  27.95,
+  28.1,
+  26.8,
+  27.25,
+  3692973,
+  100997212
+),
+(
+  '3052',
+  '2026-05-27',
+  10.45,
+  10.45,
+  10.3,
+  10.3,
+  926780,
+  9596847
+),
+(
+  '3054',
+  '2026-05-27',
+  69.7,
+  74.8,
+  67.5,
+  67.6,
+  446158,
+  31217398
+),
+(
+  '3055',
+  '2026-05-27',
+  122.5,
+  122.5,
+  111,
+  112.5,
+  4288094,
+  496567493
+),
+(
+  '3056',
+  '2026-05-27',
+  13.55,
+  13.55,
+  13.2,
+  13.3,
+  1352468,
+  18015504
+),
+(
+  '3057',
+  '2026-05-27',
+  20.2,
+  20.95,
+  20,
+  20.25,
+  353871,
+  7229028
+),
+(
+  '3058',
+  '2026-05-27',
+  8.2,
+  8.2,
+  8.08,
+  8.08,
+  856271,
+  6952128
+),
+(
+  '3059',
+  '2026-05-27',
+  42.65,
+  42.7,
+  41.45,
+  41.55,
+  4866570,
+  204183695
+),
+(
+  '3060',
+  '2026-05-27',
+  28.7,
+  30.5,
+  28.65,
+  29.8,
+  7140557,
+  211398616
+),
+(
+  '3062',
+  '2026-05-27',
+  30.5,
+  30.6,
+  28.85,
+  29.2,
+  8993802,
+  265569172
+),
+(
+  '3090',
+  '2026-05-27',
+  232,
+  241,
+  226,
+  231,
+  2434000,
+  564458867
+),
+(
+  '3092',
+  '2026-05-27',
+  30.5,
+  30.85,
+  29.4,
+  29.5,
+  607302,
+  18119375
+),
+(
+  '3094',
+  '2026-05-27',
+  34.95,
+  36.4,
+  34.9,
+  35.55,
+  4056399,
+  144960030
+),
+(
+  '3130',
+  '2026-05-27',
+  221,
+  221.5,
+  220.5,
+  221.5,
+  42741,
+  9432294
+),
+(
+  '3135',
+  '2026-05-27',
+  245,
+  245,
+  230,
+  242,
+  3745800,
+  895171734
+),
+(
+  '3138',
+  '2026-05-27',
+  175.5,
+  176,
+  164.5,
+  165.5,
+  1509067,
+  254291056
+),
+(
+  '3149',
+  '2026-05-27',
+  68.4,
+  69,
+  65,
+  65.4,
+  24000154,
+  1590487627
+),
+(
+  '3150',
+  '2026-05-27',
+  19.6,
+  19.6,
+  18.95,
+  19,
+  80162,
+  1552756
+),
+(
+  '3164',
+  '2026-05-27',
+  16.4,
+  16.5,
+  16.2,
+  16.25,
+  136464,
+  2226729
+),
+(
+  '3167',
+  '2026-05-27',
+  835,
+  835,
+  801,
+  820,
+  875130,
+  717219710
+),
+(
+  '3168',
+  '2026-05-27',
+  52,
+  52,
+  49.05,
+  49.2,
+  222935,
+  11248580
+),
+(
+  '3189',
+  '2026-05-27',
+  726,
+  764,
+  693,
+  702,
+  30662886,
+  22202080119
+),
+(
+  '3209',
+  '2026-05-27',
+  81.2,
+  83.7,
+  80.2,
+  81.4,
+  5756283,
+  468531043
+),
+(
+  '3229',
+  '2026-05-27',
+  49.2,
+  50.4,
+  45.7,
+  45.9,
+  2101745,
+  101595798
+),
+(
+  '3231',
+  '2026-05-27',
+  147.5,
+  148.5,
+  143.5,
+  145,
+  37563298,
+  5480979062
+),
+(
+  '3257',
+  '2026-05-27',
+  63.9,
+  65.7,
+  60.8,
+  61.1,
+  4795036,
+  307088355
+),
+(
+  '3266',
+  '2026-05-27',
+  12.8,
+  12.85,
+  12.5,
+  12.55,
+  141820,
+  1788096
+),
+(
+  '3296',
+  '2026-05-27',
+  19.75,
+  19.95,
+  19.4,
+  19.65,
+  129470,
+  2546995
+),
+(
+  '3305',
+  '2026-05-27',
+  168,
+  169.5,
+  158.5,
+  160,
+  11672203,
+  1897393602
+),
+(
+  '3308',
+  '2026-05-27',
+  20.6,
+  21,
+  19.35,
+  20.1,
+  290517,
+  5872526
+),
+(
+  '3311',
+  '2026-05-27',
+  36.9,
+  37.25,
+  34.05,
+  34.9,
+  1289529,
+  45893055
+),
+(
+  '3312',
+  '2026-05-27',
+  53,
+  53,
+  49.2,
+  49.9,
+  6016155,
+  305788388
+),
+(
+  '3321',
+  '2026-05-27',
+  18.45,
+  19.3,
+  17.85,
+  19.05,
+  2174519,
+  40761881
+),
+(
+  '3338',
+  '2026-05-27',
+  78.5,
+  78.8,
+  75.2,
+  75.6,
+  2512190,
+  193169332
+),
+(
+  '3346',
+  '2026-05-27',
+  16.25,
+  17.75,
+  16.1,
+  17.75,
+  1317035,
+  23008785
+),
+(
+  '3356',
+  '2026-05-27',
+  65.9,
+  65.9,
+  64,
+  64.4,
+  971257,
+  62754390
+),
+(
+  '3376',
+  '2026-05-27',
+  220,
+  220.5,
+  211.5,
+  212,
+  5506865,
+  1183935622
+),
+(
+  '3380',
+  '2026-05-27',
+  36,
+  36.7,
+  34.75,
+  35.5,
+  5336548,
+  190398549
+),
+(
+  '3406',
+  '2026-05-27',
+  597,
+  597,
+  578,
+  585,
+  1528732,
+  898090107
+),
+(
+  '3413',
+  '2026-05-27',
+  335,
+  335,
+  311.5,
+  314.5,
+  9327032,
+  2967434775
+),
+(
+  '3416',
+  '2026-05-27',
+  190,
+  193,
+  184.5,
+  185,
+  878096,
+  164528491
+),
+(
+  '3419',
+  '2026-05-27',
+  13.85,
+  13.9,
+  13.7,
+  13.7,
+  495114,
+  6830251
+),
+(
+  '3432',
+  '2026-05-27',
+  19.35,
+  19.35,
+  18.75,
+  18.85,
+  71965,
+  1360492
+),
+(
+  '3437',
+  '2026-05-27',
+  25.1,
+  25.1,
+  23.7,
+  23.8,
+  2228371,
+  53488599
+),
+(
+  '3443',
+  '2026-05-27',
+  5350,
+  5620,
+  5050,
+  5100,
+  2728891,
+  14423055640
+),
+(
+  '3447',
+  '2026-05-27',
+  37.3,
+  37.3,
+  36.05,
+  36.05,
+  201131,
+  7372278
+),
+(
+  '3450',
+  '2026-05-27',
+  533,
+  538,
+  496,
+  501,
+  17332125,
+  8901407729
+),
+(
+  '3481',
+  '2026-05-27',
+  47,
+  50.2,
+  44.45,
+  50.2,
+  1370411333,
+  65769751304
+),
+(
+  '3494',
+  '2026-05-27',
+  8.19,
+  8.19,
+  8.01,
+  8.11,
+  164061,
+  1321750
+),
+(
+  '3501',
+  '2026-05-27',
+  40.8,
+  40.8,
+  39.5,
+  39.55,
+  504806,
+  20138993
+),
+(
+  '3504',
+  '2026-05-27',
+  81,
+  81,
+  77.4,
+  77.6,
+  1853173,
+  145515951
+),
+(
+  '3515',
+  '2026-05-27',
+  245,
+  246,
+  239,
+  240,
+  722704,
+  174807458
+),
+(
+  '3518',
+  '2026-05-27',
+  36.65,
+  37.45,
+  35.2,
+  35.8,
+  1242207,
+  44950871
+),
+(
+  '3528',
+  '2026-05-27',
+  97.8,
+  103.5,
+  96.4,
+  103.5,
+  3687835,
+  374747011
+),
+(
+  '3530',
+  '2026-05-27',
+  71.5,
+  71.7,
+  67.9,
+  68.5,
+  383833,
+  26745505
+),
+(
+  '3532',
+  '2026-05-27',
+  299.5,
+  316.5,
+  280,
+  290.5,
+  10671282,
+  3171796321
+),
+(
+  '3533',
+  '2026-05-27',
+  2660,
+  2740,
+  2610,
+  2625,
+  1311565,
+  3504630220
+),
+(
+  '3535',
+  '2026-05-27',
+  128.5,
+  129,
+  123.5,
+  123.5,
+  2474184,
+  310781140
+),
+(
+  '3543',
+  '2026-05-27',
+  35.8,
+  36.15,
+  35.3,
+  35.35,
+  693213,
+  24604897
+),
+(
+  '3545',
+  '2026-05-27',
+  61.9,
+  61.9,
+  58.9,
+  59.3,
+  2660029,
+  159681890
+),
+(
+  '3550',
+  '2026-05-27',
+  20.8,
+  20.8,
+  19.95,
+  20.2,
+  2097288,
+  42342538
+),
+(
+  '3557',
+  '2026-05-27',
+  25.05,
+  25.6,
+  24.6,
+  24.65,
+  107095,
+  2671884
+),
+(
+  '3563',
+  '2026-05-27',
+  900,
+  900,
+  838,
+  842,
+  2887318,
+  2494008762
+),
+(
+  '3576',
+  '2026-05-27',
+  19.2,
+  19.5,
+  18.4,
+  19.1,
+  29166482,
+  552994095
+),
+(
+  '3583',
+  '2026-05-27',
+  917,
+  917,
+  873,
+  876,
+  2189557,
+  1952006964
+),
+(
+  '3588',
+  '2026-05-27',
+  66,
+  66.3,
+  62.9,
+  64.5,
+  1030226,
+  66332233
+),
+(
+  '3591',
+  '2026-05-27',
+  26.3,
+  26.3,
+  25.15,
+  25.5,
+  1767162,
+  45080852
+),
+(
+  '3592',
+  '2026-05-27',
+  285,
+  286,
+  279.5,
+  281,
+  1315646,
+  372420747
+),
+(
+  '3593',
+  '2026-05-27',
+  17.4,
+  17.4,
+  16.25,
+  17.3,
+  37921,
+  650611
+),
+(
+  '3596',
+  '2026-05-27',
+  194,
+  195,
+  187,
+  188.5,
+  1900059,
+  363729920
+),
+(
+  '3605',
+  '2026-05-27',
+  82.5,
+  82.5,
+  77.6,
+  78.3,
+  5057645,
+  403715873
+),
+(
+  '3607',
+  '2026-05-27',
+  15.3,
+  15.6,
+  15.15,
+  15.2,
+  629958,
+  9638186
+),
+(
+  '3617',
+  '2026-05-27',
+  208,
+  220,
+  207.5,
+  215,
+  1171537,
+  251431302
+),
+(
+  '3622',
+  '2026-05-27',
+  59,
+  59.6,
+  57.1,
+  57.1,
+  849896,
+  49515796
+),
+(
+  '3645',
+  '2026-05-27',
+  118.5,
+  120,
+  108.5,
+  110,
+  13159979,
+  1499618797
+),
+(
+  '3652',
+  '2026-05-27',
+  33.15,
+  33.65,
+  32.55,
+  32.8,
+  393246,
+  13019615
+),
+(
+  '3653',
+  '2026-05-27',
+  3795,
+  4015,
+  3650,
+  3670,
+  3139136,
+  12032455565
+),
+(
+  '3661',
+  '2026-05-27',
+  4785,
+  4845,
+  4460,
+  4500,
+  2528669,
+  11716485260
+),
+(
+  '3665',
+  '2026-05-27',
+  2310,
+  2335,
+  2115,
+  2115,
+  2487948,
+  5467620485
+),
+(
+  '3669',
+  '2026-05-27',
+  38.9,
+  39.55,
+  37.1,
+  39.3,
+  340825,
+  13049606
+),
+(
+  '3673',
+  '2026-05-27',
+  91.3,
+  93,
+  84.1,
+  87.9,
+  65003683,
+  5790315156
+),
+(
+  '3679',
+  '2026-05-27',
+  121.5,
+  123,
+  119.5,
+  120,
+  144700,
+  17512778
+),
+(
+  '3686',
+  '2026-05-27',
+  17.5,
+  17.7,
+  17.45,
+  17.55,
+  230486,
+  4054637
+),
+(
+  '3694',
+  '2026-05-27',
+  71.2,
+  71.5,
+  68,
+  68.5,
+  2997395,
+  207889642
+),
+(
+  '3701',
+  '2026-05-27',
+  58,
+  58,
+  55,
+  55.7,
+  1781638,
+  99909906
+),
+(
+  '3702',
+  '2026-05-27',
+  123,
+  124,
+  120,
+  120.5,
+  9296856,
+  1126430595
+),
+(
+  '3703',
+  '2026-05-27',
+  20.45,
+  20.45,
+  20,
+  20.1,
+  3816104,
+  76568191
+),
+(
+  '3704',
+  '2026-05-27',
+  45.65,
+  46.3,
+  44.7,
+  45.25,
+  7911189,
+  360584480
+),
+(
+  '3705',
+  '2026-05-27',
+  55.9,
+  56,
+  55.4,
+  55.5,
+  303632,
+  16887176
+),
+(
+  '3706',
+  '2026-05-27',
+  86.3,
+  87.2,
+  83.8,
+  84.2,
+  23319730,
+  1990945132
+),
+(
+  '3708',
+  '2026-05-27',
+  133,
+  140.5,
+  128.5,
+  131,
+  4430689,
+  599582878
+),
+(
+  '3711',
+  '2026-05-27',
+  641,
+  669,
+  626,
+  642,
+  30005707,
+  19409671301
+),
+(
+  '3712',
+  '2026-05-27',
+  16.3,
+  16.5,
+  15.85,
+  16.05,
+  1027593,
+  16525647
+),
+(
+  '3714',
+  '2026-05-27',
+  80,
+  80,
+  74,
+  74.3,
+  48544523,
+  3674848101
+),
+(
+  '3715',
+  '2026-05-27',
+  189,
+  191,
+  176.5,
+  179,
+  17196499,
+  3146909482
+),
+(
+  '3716',
+  '2026-05-27',
+  34.55,
+  34.6,
+  34.1,
+  34.25,
+  252598,
+  8673120
+),
+(
+  '3717',
+  '2026-05-27',
+  22.5,
+  22.65,
+  21.95,
+  22,
+  1744096,
+  38763246
+),
+(
+  '4104',
+  '2026-05-27',
+  70.3,
+  70.8,
+  70.1,
+  70.4,
+  396511,
+  27971134
+),
+(
+  '4106',
+  '2026-05-27',
+  23.35,
+  23.45,
+  23.3,
+  23.3,
+  72994,
+  1703189
+),
+(
+  '4108',
+  '2026-05-27',
+  12.45,
+  12.45,
+  12.2,
+  12.25,
+  287143,
+  3527606
+),
+(
+  '4119',
+  '2026-05-27',
+  41.5,
+  41.5,
+  40.7,
+  41,
+  220386,
+  9034424
+),
+(
+  '4133',
+  '2026-05-27',
+  20.85,
+  20.95,
+  20.6,
+  20.6,
+  144072,
+  2987124
+),
+(
+  '4137',
+  '2026-05-27',
+  103.5,
+  103.5,
+  102,
+  102,
+  257031,
+  26324929
+),
+(
+  '4142',
+  '2026-05-27',
+  17.1,
+  17.3,
+  17,
+  17,
+  1712660,
+  29257680
+),
+(
+  '4148',
+  '2026-05-27',
+  32.05,
+  32.35,
+  31.7,
+  31.8,
+  45219,
+  1443405
+),
+(
+  '4155',
+  '2026-05-27',
+  14.95,
+  15,
+  14.35,
+  14.8,
+  846403,
+  12371264
+),
+(
+  '4164',
+  '2026-05-27',
+  28.25,
+  28.25,
+  27.95,
+  28.2,
+  670026,
+  18812555
+),
+(
+  '4169',
+  '2026-05-27',
+  155,
+  155,
+  152,
+  152.5,
+  124556,
+  19043223
+),
+(
+  '4178',
+  '2026-05-27',
+  18.9,
+  18.9,
+  18.6,
+  18.85,
+  555989,
+  10391749
+),
+(
+  '4190',
+  '2026-05-27',
+  24.4,
+  24.6,
+  24.25,
+  24.3,
+  46134,
+  1127387
+),
+(
+  '4195',
+  '2026-05-27',
+  17.3,
+  17.55,
+  16.85,
+  16.85,
+  351007,
+  5970949
+),
+(
+  '4306',
+  '2026-05-27',
+  13.7,
+  13.85,
+  13.65,
+  13.8,
+  1302618,
+  17932771
+),
+(
+  '4414',
+  '2026-05-27',
+  7.91,
+  7.98,
+  7.62,
+  7.64,
+  550349,
+  4268464
+),
+(
+  '4426',
+  '2026-05-27',
+  7.55,
+  7.62,
+  7.54,
+  7.57,
+  192258,
+  1454412
+),
+(
+  '4438',
+  '2026-05-27',
+  59.4,
+  59.4,
+  58.2,
+  58.6,
+  92519,
+  5422071
+),
+(
+  '4439',
+  '2026-05-27',
+  90.2,
+  93,
+  90.2,
+  91.6,
+  13005,
+  1197664
+),
+(
+  '4440',
+  '2026-05-27',
+  18,
+  18,
+  17.6,
+  17.8,
+  71241,
+  1263337
+),
+(
+  '4441',
+  '2026-05-27',
+  204,
+  206,
+  201,
+  206,
+  122334,
+  24930776
+),
+(
+  '4526',
+  '2026-05-27',
+  45.8,
+  45.8,
+  39.95,
+  39.95,
+  26830922,
+  1107689522
+),
+(
+  '4532',
+  '2026-05-27',
+  23.75,
+  24,
+  23.4,
+  23.6,
+  1362043,
+  32237424
+),
+(
+  '4536',
+  '2026-05-27',
+  160,
+  160,
+  157,
+  157.5,
+  298550,
+  47070556
+),
+(
+  '4540',
+  '2026-05-27',
+  72.8,
+  72.8,
+  66.3,
+  67.2,
+  11779254,
+  806552511
+),
+(
+  '4545',
+  '2026-05-27',
+  33.35,
+  36.5,
+  33.35,
+  36.5,
+  720514,
+  25809389
+),
+(
+  '4551',
+  '2026-05-27',
+  157,
+  157,
+  150.5,
+  151.5,
+  749528,
+  114761285
+),
+(
+  '4552',
+  '2026-05-27',
+  19.9,
+  19.9,
+  19.6,
+  19.9,
+  180568,
+  3559275
+),
+(
+  '4555',
+  '2026-05-27',
+  56.2,
+  56.6,
+  53,
+  53.7,
+  1679885,
+  92028870
+),
+(
+  '4557',
+  '2026-05-27',
+  44.45,
+  45.45,
+  43.05,
+  43.05,
+  319000,
+  14045647
+),
+(
+  '4560',
+  '2026-05-27',
+  32.8,
+  33.05,
+  32.3,
+  32.65,
+  118139,
+  3859759
+),
+(
+  '4562',
+  '2026-05-27',
+  43.3,
+  43.3,
+  40.6,
+  41.2,
+  1586403,
+  66357430
+),
+(
+  '4564',
+  '2026-05-27',
+  15.65,
+  15.65,
+  15.2,
+  15.3,
+  1699117,
+  26009337
+),
+(
+  '4566',
+  '2026-05-27',
+  63.6,
+  63.9,
+  61,
+  61.1,
+  972687,
+  60348665
+),
+(
+  '4569',
+  '2026-05-27',
+  188,
+  189,
+  178,
+  180.5,
+  218547,
+  39692616
+),
+(
+  '4571',
+  '2026-05-27',
+  224,
+  227,
+  215.5,
+  218,
+  1705799,
+  374314708
+),
+(
+  '4572',
+  '2026-05-27',
+  144,
+  144,
+  142,
+  142.5,
+  39819,
+  5687184
+),
+(
+  '4576',
+  '2026-05-27',
+  288,
+  291,
+  271.5,
+  273,
+  5359708,
+  1510381414
+),
+(
+  '4581',
+  '2026-05-27',
+  49.95,
+  50,
+  49.8,
+  49.8,
+  26095,
+  1302458
+),
+(
+  '4582',
+  '2026-05-27',
+  22.8,
+  27,
+  22.8,
+  26.75,
+  1418069,
+  35935064
+),
+(
+  '4583',
+  '2026-05-27',
+  730,
+  732,
+  700,
+  713,
+  200878,
+  142898163
+),
+(
+  '4585',
+  '2026-05-27',
+  362,
+  365.5,
+  349.5,
+  349.5,
+  738082,
+  262169364
+),
+(
+  '4588',
+  '2026-05-27',
+  55.3,
+  58.5,
+  55.3,
+  56,
+  232748,
+  13268322
+),
+(
+  '4590',
+  '2026-05-27',
+  72.4,
+  72.8,
+  71.6,
+  71.7,
+  319991,
+  23033358
+),
+(
+  '4720',
+  '2026-05-27',
+  24.9,
+  27.25,
+  24.7,
+  26.9,
+  15310288,
+  413834443
+),
+(
+  '4722',
+  '2026-05-27',
+  275.5,
+  275.5,
+  270.5,
+  270.5,
+  999818,
+  271921546
+),
+(
+  '4736',
+  '2026-05-27',
+  122.5,
+  124,
+  121.5,
+  122,
+  228986,
+  28079808
+),
+(
+  '4737',
+  '2026-05-27',
+  57.9,
+  60,
+  56.7,
+  60,
+  188847,
+  10974028
+),
+(
+  '4739',
+  '2026-05-27',
+  106,
+  107.5,
+  100,
+  104,
+  5413060,
+  561475045
+),
+(
+  '4746',
+  '2026-05-27',
+  51.8,
+  51.8,
+  50.5,
+  50.8,
+  1088719,
+  55437454
+),
+(
+  '4755',
+  '2026-05-27',
+  156.5,
+  165,
+  156,
+  162.5,
+  2150031,
+  349258995
+),
+(
+  '4763',
+  '2026-05-27',
+  42.2,
+  42.2,
+  41.3,
+  41.4,
+  6289956,
+  261615792
+),
+(
+  '4764',
+  '2026-05-27',
+  349.5,
+  355,
+  319,
+  321,
+  3102816,
+  1042774984
+),
+(
+  '4766',
+  '2026-05-27',
+  378.5,
+  380,
+  365,
+  367,
+  998556,
+  370954129
+),
+(
+  '4770',
+  '2026-05-27',
+  275,
+  275.5,
+  261,
+  263.5,
+  2210860,
+  592232252
+),
+(
+  '4771',
+  '2026-05-27',
+  199.5,
+  204,
+  197,
+  200.5,
+  436734,
+  87751242
+),
+(
+  '4807',
+  '2026-05-27',
+  24,
+  25.65,
+  23.35,
+  25.05,
+  715904,
+  17713877
+),
+(
+  '4904',
+  '2026-05-27',
+  94.8,
+  94.8,
+  92.9,
+  92.9,
+  9343969,
+  874438344
+),
+(
+  '4906',
+  '2026-05-27',
+  43.15,
+  45.35,
+  42.25,
+  44.75,
+  37094886,
+  1632880046
+),
+(
+  '4912',
+  '2026-05-27',
+  108,
+  116,
+  104.5,
+  112.5,
+  2277595,
+  253676822
+),
+(
+  '4915',
+  '2026-05-27',
+  73,
+  73,
+  71.9,
+  72,
+  4327458,
+  312779662
+),
+(
+  '4916',
+  '2026-05-27',
+  102.5,
+  102.5,
+  98,
+  99.4,
+  3292175,
+  327748572
+),
+(
+  '4919',
+  '2026-05-27',
+  210,
+  229,
+  205,
+  206.5,
+  45269589,
+  9686354192
+),
+(
+  '4927',
+  '2026-05-27',
+  61.8,
+  63.4,
+  57.2,
+  58.6,
+  18786787,
+  1126995674
+),
+(
+  '4930',
+  '2026-05-27',
+  18.5,
+  18.5,
+  17.6,
+  17.65,
+  103501,
+  1848819
+),
+(
+  '4934',
+  '2026-05-27',
+  17.9,
+  17.9,
+  17.3,
+  17.4,
+  1183141,
+  20733260
+),
+(
+  '4935',
+  '2026-05-27',
+  37.25,
+  37.25,
+  36.5,
+  36.55,
+  105590,
+  3892312
+),
+(
+  '4938',
+  '2026-05-27',
+  81.8,
+  83.3,
+  81.4,
+  82.1,
+  13465420,
+  1109959940
+),
+(
+  '4942',
+  '2026-05-27',
+  38.6,
+  38.6,
+  37.45,
+  37.6,
+  115340,
+  4354468
+),
+(
+  '4943',
+  '2026-05-27',
+  9.19,
+  9.19,
+  8.83,
+  8.83,
+  30301,
+  269557
+),
+(
+  '4949',
+  '2026-05-27',
+  108,
+  108.5,
+  98.5,
+  102,
+  3922853,
+  404450653
+),
+(
+  '4952',
+  '2026-05-27',
+  55.8,
+  58.4,
+  54.7,
+  55.8,
+  6669911,
+  374949892
+),
+(
+  '4956',
+  '2026-05-27',
+  50.3,
+  50.4,
+  47.15,
+  47.75,
+  4799417,
+  230736128
+),
+(
+  '4958',
+  '2026-05-27',
+  550,
+  568,
+  522,
+  532,
+  43179085,
+  23457288000
+),
+(
+  '4960',
+  '2026-05-27',
+  35,
+  35,
+  32.8,
+  33.15,
+  9945718,
+  332474684
+),
+(
+  '4961',
+  '2026-05-27',
+  176.5,
+  178,
+  170.5,
+  171.5,
+  1113976,
+  193349397
+),
+(
+  '4967',
+  '2026-05-27',
+  281,
+  288,
+  266.5,
+  267,
+  10834115,
+  3000980790
+),
+(
+  '4968',
+  '2026-05-27',
+  121,
+  122.5,
+  116,
+  117,
+  1216319,
+  144407073
+),
+(
+  '4976',
+  '2026-05-27',
+  32.9,
+  32.9,
+  30.8,
+  30.9,
+  1200626,
+  37683573
+),
+(
+  '4977',
+  '2026-05-27',
+  243,
+  243.5,
+  218.5,
+  221,
+  6461765,
+  1480423718
+),
+(
+  '4989',
+  '2026-05-27',
+  102.5,
+  108,
+  101,
+  105.5,
+  20018607,
+  2097026294
+),
+(
+  '4994',
+  '2026-05-27',
+  91.9,
+  92.4,
+  89.1,
+  89.5,
+  19676,
+  1769957
+),
+(
+  '4999',
+  '2026-05-27',
+  19.65,
+  19.7,
+  19.5,
+  19.55,
+  147485,
+  2891509
+),
+(
+  '5007',
+  '2026-05-27',
+  57,
+  57.4,
+  56.5,
+  57.4,
+  95022,
+  5408887
+),
+(
+  '5203',
+  '2026-05-27',
+  65.9,
+  65.9,
+  64.9,
+  65,
+  252086,
+  16426258
+),
+(
+  '5215',
+  '2026-05-27',
+  48,
+  48.05,
+  46.35,
+  47.1,
+  310582,
+  14624169
+),
+(
+  '5222',
+  '2026-05-27',
+  125,
+  127,
+  124.5,
+  125,
+  541836,
+  68104218
+),
+(
+  '5225',
+  '2026-05-27',
+  71.5,
+  72.3,
+  69.8,
+  70.6,
+  525158,
+  37066039
+),
+(
+  '5234',
+  '2026-05-27',
+  445,
+  449,
+  423,
+  426,
+  762122,
+  333096607
+),
+(
+  '5243',
+  '2026-05-27',
+  134.5,
+  142,
+  124,
+  127,
+  9949135,
+  1288292388
+),
+(
+  '5244',
+  '2026-05-27',
+  40.3,
+  40.55,
+  38.85,
+  38.95,
+  496585,
+  19550784
+),
+(
+  '5258',
+  '2026-05-27',
+  57.3,
+  57.8,
+  51.6,
+  52,
+  3663026,
+  196674079
+),
+(
+  '5269',
+  '2026-05-27',
+  1565,
+  1575,
+  1485,
+  1495,
+  2429032,
+  3691436510
+),
+(
+  '5283',
+  '2026-05-27',
+  52.2,
+  52.2,
+  51.7,
+  52,
+  114158,
+  5923025
+),
+(
+  '5284',
+  '2026-05-27',
+  420,
+  442,
+  415,
+  442,
+  1626972,
+  709923124
+),
+(
+  '5285',
+  '2026-05-27',
+  92.6,
+  92.7,
+  87,
+  90,
+  9547782,
+  858238388
+),
+(
+  '5288',
+  '2026-05-27',
+  153.5,
+  155,
+  152,
+  153.5,
+  192134,
+  29462987
+),
+(
+  '5292',
+  '2026-05-27',
+  223,
+  227.5,
+  222,
+  225.5,
+  234098,
+  52713728
+),
+(
+  '5306',
+  '2026-05-27',
+  82.4,
+  82.6,
+  82.1,
+  82.3,
+  153510,
+  12639606
+),
+(
+  '5388',
+  '2026-05-27',
+  86,
+  86,
+  83,
+  83.3,
+  3902868,
+  328297945
+),
+(
+  '5434',
+  '2026-05-27',
+  481,
+  481,
+  468,
+  473.5,
+  1116667,
+  530654944
+),
+(
+  '5469',
+  '2026-05-27',
+  83.8,
+  89.9,
+  83.4,
+  87,
+  12693990,
+  1111965044
+),
+(
+  '5471',
+  '2026-05-27',
+  52.8,
+  55.8,
+  51.6,
+  55.8,
+  4231394,
+  226592094
+),
+(
+  '5484',
+  '2026-05-27',
+  51,
+  51,
+  48.3,
+  48.9,
+  2478252,
+  122997734
+),
+(
+  '5515',
+  '2026-05-27',
+  40.6,
+  41.05,
+  40.3,
+  40.6,
+  509873,
+  20773469
+),
+(
+  '5519',
+  '2026-05-27',
+  32.25,
+  32.4,
+  32.1,
+  32.1,
+  454864,
+  14629714
+),
+(
+  '5521',
+  '2026-05-27',
+  10.3,
+  10.45,
+  10.2,
+  10.3,
+  3331925,
+  34386209
+),
+(
+  '5522',
+  '2026-05-27',
+  71.2,
+  71.3,
+  70.3,
+  71.2,
+  531484,
+  37633346
+),
+(
+  '5525',
+  '2026-05-27',
+  21,
+  21.35,
+  20.55,
+  21,
+  459936,
+  9668465
+),
+(
+  '5531',
+  '2026-05-27',
+  7.7,
+  7.7,
+  7.56,
+  7.64,
+  600005,
+  4554792
+),
+(
+  '5533',
+  '2026-05-27',
+  13.8,
+  13.9,
+  13.8,
+  13.85,
+  232525,
+  3219414
+),
+(
+  '5534',
+  '2026-05-27',
+  75.5,
+  75.7,
+  74.5,
+  75.1,
+  1237082,
+  92688264
+),
+(
+  '5538',
+  '2026-05-27',
+  36.4,
+  36.4,
+  34.45,
+  34.85,
+  53284,
+  1857877
+),
+(
+  '5546',
+  '2026-05-27',
+  16.55,
+  16.65,
+  16.15,
+  16.3,
+  38083,
+  625264
+),
+(
+  '5607',
+  '2026-05-27',
+  50.9,
+  50.9,
+  49.95,
+  50.2,
+  622760,
+  31343662
+),
+(
+  '5608',
+  '2026-05-27',
+  14.65,
+  14.7,
+  14.35,
+  14.45,
+  1725022,
+  25013881
+),
+(
+  '5706',
+  '2026-05-27',
+  50.8,
+  50.8,
+  49.85,
+  49.9,
+  294153,
+  14707653
+),
+(
+  '5871',
+  '2026-05-27',
+  108,
+  109.5,
+  107,
+  107,
+  10109750,
+  1089081184
+),
+(
+  '5876',
+  '2026-05-27',
+  39.5,
+  39.6,
+  39.15,
+  39.45,
+  14835953,
+  584056464
+),
+(
+  '5880',
+  '2026-05-27',
+  22.7,
+  22.8,
+  22.65,
+  22.75,
+  16022020,
+  364103109
+),
+(
+  '5906',
+  '2026-05-27',
+  null,
+  null,
+  null,
+  null,
+  20,
+  902
+),
+(
+  '5907',
+  '2026-05-27',
+  5.02,
+  5.15,
+  5.01,
+  5.02,
+  329062,
+  1663412
+),
+(
+  '6005',
+  '2026-05-27',
+  33.35,
+  35.25,
+  33.25,
+  35,
+  21539861,
+  747809128
+),
+(
+  '6024',
+  '2026-05-27',
+  56.1,
+  57.1,
+  56.1,
+  56.8,
+  448337,
+  25427075
+),
+(
+  '6108',
+  '2026-05-27',
+  19.8,
+  20,
+  19.25,
+  19.65,
+  1763622,
+  34416498
+),
+(
+  '6112',
+  '2026-05-27',
+  42.4,
+  42.8,
+  42,
+  42.2,
+  506178,
+  21389936
+),
+(
+  '6115',
+  '2026-05-27',
+  47.3,
+  47.4,
+  47.1,
+  47.2,
+  162351,
+  7671643
+),
+(
+  '6116',
+  '2026-05-27',
+  13.9,
+  14.85,
+  12.9,
+  14.5,
+  293314056,
+  4065040541
+),
+(
+  '6117',
+  '2026-05-27',
+  95.5,
+  95.5,
+  85.5,
+  85.5,
+  4327883,
+  384323143
+),
+(
+  '6120',
+  '2026-05-27',
+  14.1,
+  14.3,
+  13.55,
+  13.9,
+  4557108,
+  63096084
+),
+(
+  '6128',
+  '2026-05-27',
+  18.7,
+  20.25,
+  18.7,
+  19.3,
+  314505,
+  6074792
+),
+(
+  '6133',
+  '2026-05-27',
+  23.85,
+  23.85,
+  23.15,
+  23.3,
+  1258121,
+  29466790
+),
+(
+  '6136',
+  '2026-05-27',
+  25.9,
+  26,
+  25.6,
+  25.7,
+  463041,
+  11916605
+),
+(
+  '6139',
+  '2026-05-27',
+  840,
+  840,
+  804,
+  811,
+  5330076,
+  4377951157
+),
+(
+  '6141',
+  '2026-05-27',
+  39.25,
+  39.3,
+  37.55,
+  39.3,
+  6924233,
+  270194233
+),
+(
+  '6142',
+  '2026-05-27',
+  8.05,
+  8.2,
+  7.99,
+  8,
+  693471,
+  5580545
+),
+(
+  '6152',
+  '2026-05-27',
+  15.3,
+  15.3,
+  14.9,
+  14.95,
+  1501058,
+  22525878
+),
+(
+  '6153',
+  '2026-05-27',
+  18.85,
+  19,
+  18,
+  18.25,
+  3969089,
+  72925647
+),
+(
+  '6155',
+  '2026-05-27',
+  59.4,
+  61.1,
+  57.7,
+  58.7,
+  6183054,
+  366393682
+),
+(
+  '6164',
+  '2026-05-27',
+  12.3,
+  12.35,
+  12,
+  12.1,
+  549279,
+  6654001
+),
+(
+  '6165',
+  '2026-05-27',
+  49.4,
+  49.4,
+  47.95,
+  48.1,
+  618965,
+  30062168
+),
+(
+  '6166',
+  '2026-05-27',
+  135.5,
+  138.5,
+  132,
+  136,
+  2753798,
+  371648981
+),
+(
+  '6168',
+  '2026-05-27',
+  28.75,
+  28.85,
+  27.8,
+  28,
+  4786191,
+  134361271
+),
+(
+  '6176',
+  '2026-05-27',
+  105,
+  105.5,
+  101.5,
+  101.5,
+  6731004,
+  694148127
+),
+(
+  '6177',
+  '2026-05-27',
+  42.2,
+  42.7,
+  41.8,
+  42.55,
+  2290797,
+  96677435
+),
+(
+  '6183',
+  '2026-05-27',
+  91.8,
+  91.8,
+  91.2,
+  91.3,
+  23326,
+  2135611
+),
+(
+  '6184',
+  '2026-05-27',
+  45.8,
+  46,
+  45.7,
+  45.8,
+  81612,
+  3738402
+),
+(
+  '6189',
+  '2026-05-27',
+  51.8,
+  52,
+  49.9,
+  50.1,
+  1585058,
+  79978023
+),
+(
+  '6191',
+  '2026-05-27',
+  96.3,
+  100.5,
+  96.2,
+  98,
+  14358326,
+  1422179876
+),
+(
+  '6192',
+  '2026-05-27',
+  132,
+  133,
+  126,
+  127.5,
+  610434,
+  78504054
+),
+(
+  '6196',
+  '2026-05-27',
+  523,
+  523,
+  491,
+  500,
+  3485959,
+  1762743560
+),
+(
+  '6197',
+  '2026-05-27',
+  279.5,
+  291,
+  277.5,
+  281.5,
+  5861480,
+  1663221661
+),
+(
+  '6201',
+  '2026-05-27',
+  51.1,
+  51.1,
+  47.7,
+  47.8,
+  100865,
+  4879732
+),
+(
+  '6202',
+  '2026-05-27',
+  62,
+  62.6,
+  59.8,
+  60.4,
+  5023479,
+  305749291
+),
+(
+  '6205',
+  '2026-05-27',
+  84.3,
+  84.4,
+  79.4,
+  81,
+  2445391,
+  199832605
+),
+(
+  '6206',
+  '2026-05-27',
+  141,
+  143.5,
+  138.5,
+  138.5,
+  2117347,
+  296979246
+),
+(
+  '6209',
+  '2026-05-27',
+  81.5,
+  82.6,
+  78,
+  81.9,
+  14859096,
+  1199865598
+),
+(
+  '6213',
+  '2026-05-27',
+  281,
+  285.5,
+  271,
+  276.5,
+  20941855,
+  5847450487
+),
+(
+  '6214',
+  '2026-05-27',
+  130,
+  130.5,
+  127,
+  129,
+  1384975,
+  178153251
+),
+(
+  '6215',
+  '2026-05-27',
+  136,
+  136,
+  129,
+  130.5,
+  3940311,
+  516677010
+),
+(
+  '6216',
+  '2026-05-27',
+  22.7,
+  22.7,
+  22.2,
+  22.2,
+  319070,
+  7132737
+),
+(
+  '6224',
+  '2026-05-27',
+  82.7,
+  82.7,
+  80.1,
+  80.7,
+  1052009,
+  85334323
+),
+(
+  '6225',
+  '2026-05-27',
+  26.15,
+  26.15,
+  26.15,
+  26.15,
+  3279,
+  85575
+),
+(
+  '6226',
+  '2026-05-27',
+  13.45,
+  13.7,
+  13.1,
+  13.4,
+  2148848,
+  28787816
+),
+(
+  '6230',
+  '2026-05-27',
+  145.5,
+  145.5,
+  136.5,
+  137,
+  146160,
+  20410005
+),
+(
+  '6235',
+  '2026-05-27',
+  41,
+  41,
+  39.8,
+  39.9,
+  1193515,
+  47855562
+),
+(
+  '6239',
+  '2026-05-27',
+  343,
+  353.5,
+  332,
+  340.5,
+  76518930,
+  26273398362
+),
+(
+  '6243',
+  '2026-05-27',
+  35.5,
+  35.65,
+  34.4,
+  34.55,
+  349921,
+  12157326
+),
+(
+  '6257',
+  '2026-05-27',
+  242,
+  242,
+  230.5,
+  233.5,
+  12315942,
+  2903906759
+),
+(
+  '6269',
+  '2026-05-27',
+  64.3,
+  65,
+  62.2,
+  62.8,
+  3455027,
+  219229252
+),
+(
+  '6271',
+  '2026-05-27',
+  262,
+  268.5,
+  247.5,
+  254.5,
+  17972095,
+  4611505595
+),
+(
+  '6272',
+  '2026-05-27',
+  33.5,
+  34.2,
+  33.3,
+  34.2,
+  342409,
+  11530347
+),
+(
+  '6277',
+  '2026-05-27',
+  78,
+  78,
+  75.2,
+  75.8,
+  449550,
+  34318208
+),
+(
+  '6278',
+  '2026-05-27',
+  246.5,
+  252.5,
+  231.5,
+  235.5,
+  22431342,
+  5426901440
+),
+(
+  '6281',
+  '2026-05-27',
+  50.5,
+  50.8,
+  50.2,
+  50.4,
+  84759,
+  4282772
+),
+(
+  '6282',
+  '2026-05-27',
+  64.8,
+  65.1,
+  58.5,
+  59.4,
+  83823820,
+  5065243288
+),
+(
+  '6283',
+  '2026-05-27',
+  24.55,
+  24.55,
+  23.3,
+  23.35,
+  546206,
+  12934985
+),
+(
+  '6285',
+  '2026-05-27',
+  309,
+  320,
+  305,
+  311.5,
+  29309069,
+  9143550657
+),
+(
+  '6405',
+  '2026-05-27',
+  83.3,
+  83.4,
+  78,
+  81,
+  6789536,
+  554412703
+),
+(
+  '6409',
+  '2026-05-27',
+  703,
+  732,
+  699,
+  707,
+  1335763,
+  955458847
+),
+(
+  '6412',
+  '2026-05-27',
+  102,
+  105,
+  99.2,
+  100,
+  2578450,
+  262016271
+),
+(
+  '6414',
+  '2026-05-27',
+  358.5,
+  363.5,
+  354,
+  360,
+  1634263,
+  585039143
+),
+(
+  '6415',
+  '2026-05-27',
+  640,
+  693,
+  636,
+  665,
+  10171412,
+  6827946426
+),
+(
+  '6416',
+  '2026-05-27',
+  91.4,
+  92.5,
+  90.4,
+  92.5,
+  378418,
+  34586311
+),
+(
+  '6426',
+  '2026-05-27',
+  290,
+  291,
+  273,
+  280.5,
+  3264037,
+  913996204
+),
+(
+  '6431',
+  '2026-05-27',
+  19.5,
+  20.1,
+  19.3,
+  19.35,
+  110505,
+  2164816
+),
+(
+  '6438',
+  '2026-05-27',
+  176,
+  176.5,
+  170.5,
+  171.5,
+  998540,
+  172703746
+),
+(
+  '6442',
+  '2026-05-27',
+  2280,
+  2305,
+  2040,
+  2040,
+  6267822,
+  13638778765
+),
+(
+  '6443',
+  '2026-05-27',
+  43,
+  43.1,
+  40.8,
+  41.05,
+  17215214,
+  715536556
+),
+(
+  '6446',
+  '2026-05-27',
+  891,
+  916,
+  874,
+  877,
+  3144955,
+  2811789091
+),
+(
+  '6449',
+  '2026-05-27',
+  382.5,
+  382.5,
+  355,
+  370,
+  478571,
+  177976560
+),
+(
+  '6451',
+  '2026-05-27',
+  634,
+  653,
+  583,
+  602,
+  7794709,
+  4806449245
+),
+(
+  '6456',
+  '2026-05-27',
+  80.7,
+  85.9,
+  77.4,
+  79,
+  32121753,
+  2600557240
+),
+(
+  '6464',
+  '2026-05-27',
+  77.6,
+  78.3,
+  77.6,
+  77.6,
+  19537,
+  1516920
+),
+(
+  '6472',
+  '2026-05-27',
+  356.5,
+  358.5,
+  339,
+  346.5,
+  1690666,
+  585657104
+),
+(
+  '6477',
+  '2026-05-27',
+  34.5,
+  34.75,
+  33.7,
+  33.9,
+  547844,
+  18612224
+),
+(
+  '6491',
+  '2026-05-27',
+  325,
+  327,
+  318,
+  325,
+  775508,
+  251037884
+),
+(
+  '6504',
+  '2026-05-27',
+  37.9,
+  38.15,
+  37.5,
+  37.5,
+  174757,
+  6588401
+),
+(
+  '6505',
+  '2026-05-27',
+  49.8,
+  50.3,
+  49.6,
+  50.1,
+  8193135,
+  409540136
+),
+(
+  '6515',
+  '2026-05-27',
+  9795,
+  9795,
+  9795,
+  9795,
+  232078,
+  2273204010
+),
+(
+  '6525',
+  '2026-05-27',
+  138,
+  138,
+  126,
+  129.5,
+  5300193,
+  702513468
+),
+(
+  '6526',
+  '2026-05-27',
+  690,
+  715,
+  680,
+  682,
+  1731600,
+  1202637890
+),
+(
+  '6531',
+  '2026-05-27',
+  1135,
+  1145,
+  1055,
+  1080,
+  6994229,
+  7688914030
+),
+(
+  '6533',
+  '2026-05-27',
+  238.5,
+  240,
+  226.5,
+  228,
+  840485,
+  196249491
+),
+(
+  '6534',
+  '2026-05-27',
+  94,
+  94.9,
+  93.3,
+  94.9,
+  202804,
+  19129777
+),
+(
+  '6541',
+  '2026-05-27',
+  38.45,
+  38.6,
+  37.65,
+  37.9,
+  485233,
+  18452033
+),
+(
+  '6550',
+  '2026-05-27',
+  13.7,
+  14.65,
+  13.7,
+  14.35,
+  9751164,
+  135499826
+),
+(
+  '6552',
+  '2026-05-27',
+  36.9,
+  38,
+  36.1,
+  36.55,
+  1527547,
+  56368318
+),
+(
+  '6558',
+  '2026-05-27',
+  32.8,
+  33.2,
+  31.7,
+  31.7,
+  1080774,
+  34899124
+),
+(
+  '6573',
+  '2026-05-27',
+  14.1,
+  14.3,
+  13.45,
+  13.5,
+  257096,
+  3521125
+),
+(
+  '6579',
+  '2026-05-27',
+  186,
+  189.5,
+  176,
+  177,
+  2962983,
+  538884349
+),
+(
+  '6581',
+  '2026-05-27',
+  107,
+  107,
+  106.5,
+  106.5,
+  8203,
+  876720
+),
+(
+  '6582',
+  '2026-05-27',
+  30.7,
+  30.8,
+  30.5,
+  30.5,
+  108290,
+  3319431
+),
+(
+  '6585',
+  '2026-05-27',
+  95.2,
+  95.6,
+  93.8,
+  94.4,
+  101523,
+  9619736
+),
+(
+  '6589',
+  '2026-05-27',
+  41.45,
+  41.45,
+  40.25,
+  40.85,
+  1800032,
+  72958257
+),
+(
+  '6591',
+  '2026-05-27',
+  55.4,
+  57.1,
+  54.8,
+  55.4,
+  581718,
+  32344013
+),
+(
+  '6592',
+  '2026-05-27',
+  61,
+  61,
+  60,
+  60.4,
+  670207,
+  40387870
+),
+(
+  '6598',
+  '2026-05-27',
+  25,
+  25.85,
+  24.7,
+  24.95,
+  293718,
+  7392175
+),
+(
+  '6605',
+  '2026-05-27',
+  129,
+  129.5,
+  127.5,
+  128,
+  407490,
+  52291446
+),
+(
+  '6606',
+  '2026-05-27',
+  25.3,
+  25.8,
+  25.1,
+  25.75,
+  385217,
+  9823755
+),
+(
+  '6614',
+  '2026-05-27',
+  38.9,
+  38.9,
+  38.35,
+  38.35,
+  90127,
+  3468192
+),
+(
+  '6625',
+  '2026-05-27',
+  72.7,
+  73,
+  72.3,
+  72.3,
+  134685,
+  9775432
+),
+(
+  '6641',
+  '2026-05-27',
+  18.35,
+  18.45,
+  17.7,
+  18.1,
+  106084,
+  1924325
+),
+(
+  '6645',
+  '2026-05-27',
+  11.85,
+  11.95,
+  11.8,
+  11.9,
+  38773,
+  459192
+),
+(
+  '6655',
+  '2026-05-27',
+  133.5,
+  133.5,
+  129.5,
+  131,
+  15101,
+  1971731
+),
+(
+  '6657',
+  '2026-05-27',
+  39,
+  39.25,
+  38.6,
+  38.6,
+  235431,
+  9126942
+),
+(
+  '6658',
+  '2026-05-27',
+  245,
+  247,
+  223,
+  230.5,
+  2655885,
+  619375300
+),
+(
+  '6666',
+  '2026-05-27',
+  40.15,
+  40.15,
+  39.6,
+  39.7,
+  6529,
+  259498
+),
+(
+  '6668',
+  '2026-05-27',
+  41.2,
+  41.2,
+  39.25,
+  39.8,
+  1074778,
+  43030834
+),
+(
+  '6669',
+  '2026-05-27',
+  5300,
+  5350,
+  5060,
+  5075,
+  1997850,
+  10350476525
+),
+(
+  '6670',
+  '2026-05-27',
+  255,
+  262,
+  252.5,
+  262,
+  713131,
+  183321839
+),
+(
+  '6671',
+  '2026-05-27',
+  27.5,
+  27.65,
+  26.75,
+  27.2,
+  587011,
+  15966869
+),
+(
+  '6672',
+  '2026-05-27',
+  218,
+  218,
+  210,
+  211.5,
+  7443315,
+  1588434419
+),
+(
+  '6674',
+  '2026-05-27',
+  18.45,
+  18.45,
+  17.95,
+  17.95,
+  25003,
+  454204
+),
+(
+  '6689',
+  '2026-05-27',
+  67.2,
+  67.2,
+  65,
+  65.2,
+  280706,
+  18540072
+),
+(
+  '6691',
+  '2026-05-27',
+  653,
+  677,
+  648,
+  674,
+  1062910,
+  706894191
+),
+(
+  '6695',
+  '2026-05-27',
+  65.1,
+  65.3,
+  60.2,
+  60.9,
+  4852967,
+  302753091
+),
+(
+  '6698',
+  '2026-05-27',
+  34.3,
+  37.8,
+  33.6,
+  36.55,
+  2472486,
+  89888429
+),
+(
+  '6706',
+  '2026-05-27',
+  204.5,
+  216.5,
+  204.5,
+  216.5,
+  12845565,
+  2738690101
+),
+(
+  '6715',
+  '2026-05-27',
+  485,
+  485,
+  463,
+  467,
+  464653,
+  218190557
+),
+(
+  '6719',
+  '2026-05-27',
+  281.5,
+  286,
+  250.5,
+  255,
+  9524835,
+  2549850455
+),
+(
+  '6722',
+  '2026-05-27',
+  38.5,
+  38.6,
+  38.25,
+  38.5,
+  94466,
+  3634148
+),
+(
+  '6742',
+  '2026-05-27',
+  60.5,
+  60.5,
+  57.3,
+  57.3,
+  892823,
+  51859921
+),
+(
+  '6743',
+  '2026-05-27',
+  29.5,
+  29.65,
+  28.9,
+  28.9,
+  478031,
+  13942641
+),
+(
+  '6753',
+  '2026-05-27',
+  123,
+  127,
+  122,
+  124,
+  988021,
+  122945559
+),
+(
+  '6754',
+  '2026-05-27',
+  44.85,
+  44.85,
+  43.5,
+  43.5,
+  30472,
+  1335431
+),
+(
+  '6756',
+  '2026-05-27',
+  109,
+  109,
+  103,
+  105,
+  489625,
+  51772030
+),
+(
+  '6757',
+  '2026-05-27',
+  55.1,
+  55.5,
+  54.4,
+  54.5,
+  1195151,
+  65509474
+),
+(
+  '6768',
+  '2026-05-27',
+  84.5,
+  84.8,
+  83,
+  83,
+  297630,
+  24866558
+),
+(
+  '6770',
+  '2026-05-27',
+  75.9,
+  77,
+  72.6,
+  74.8,
+  414941224,
+  31098396635
+),
+(
+  '6771',
+  '2026-05-27',
+  41.45,
+  42.15,
+  41.45,
+  42,
+  12111,
+  507723
+),
+(
+  '6776',
+  '2026-05-27',
+  59.9,
+  59.9,
+  57.8,
+  58.2,
+  444351,
+  26066899
+),
+(
+  '6781',
+  '2026-05-27',
+  1265,
+  1300,
+  1195,
+  1205,
+  1704374,
+  2120138180
+),
+(
+  '6782',
+  '2026-05-27',
+  195,
+  196.5,
+  192.5,
+  192.5,
+  373327,
+  72580213
+),
+(
+  '6789',
+  '2026-05-27',
+  566,
+  569,
+  543,
+  543,
+  3427603,
+  1900477479
+),
+(
+  '6790',
+  '2026-05-27',
+  39.15,
+  39.25,
+  39.05,
+  39.15,
+  210198,
+  8226913
+),
+(
+  '6792',
+  '2026-05-27',
+  67.9,
+  70.5,
+  67.9,
+  69.6,
+  244240,
+  16890787
+),
+(
+  '6794',
+  '2026-05-27',
+  78.2,
+  80,
+  78.1,
+  79,
+  81211,
+  6440830
+),
+(
+  '6796',
+  '2026-05-27',
+  61.8,
+  62.9,
+  60.5,
+  62,
+  76993,
+  4747318
+),
+(
+  '6799',
+  '2026-05-27',
+  115,
+  118,
+  107,
+  109.5,
+  3924460,
+  440584919
+),
+(
+  '6805',
+  '2026-05-27',
+  1805,
+  1840,
+  1720,
+  1740,
+  1613118,
+  2861086795
+),
+(
+  '6806',
+  '2026-05-27',
+  6.77,
+  6.77,
+  6.77,
+  6.77,
+  497239,
+  3366192
+),
+(
+  '6807',
+  '2026-05-27',
+  32.1,
+  33,
+  32.1,
+  33,
+  21184,
+  687952
+),
+(
+  '6830',
+  '2026-05-27',
+  788,
+  800,
+  710,
+  720,
+  2806394,
+  2109050263
+),
+(
+  '6831',
+  '2026-05-27',
+  850,
+  850,
+  797,
+  820,
+  610668,
+  504590953
+),
+(
+  '6834',
+  '2026-05-27',
+  81,
+  85,
+  76,
+  77.7,
+  2394909,
+  195395963
+),
+(
+  '6835',
+  '2026-05-27',
+  38.25,
+  38.8,
+  37.8,
+  38.75,
+  205646,
+  7883197
+),
+(
+  '6838',
+  '2026-05-27',
+  25.35,
+  25.7,
+  25.1,
+  25.2,
+  288016,
+  7261212
+),
+(
+  '6854',
+  '2026-05-27',
+  161.5,
+  165,
+  151.5,
+  155.5,
+  1119282,
+  175719032
+),
+(
+  '6861',
+  '2026-05-27',
+  457,
+  483,
+  445,
+  462,
+  2757493,
+  1268479079
+),
+(
+  '6862',
+  '2026-05-27',
+  187.5,
+  191.5,
+  182.5,
+  186,
+  1115296,
+  208410517
+),
+(
+  '6863',
+  '2026-05-27',
+  113,
+  113.5,
+  110,
+  113,
+  140227,
+  15712219
+),
+(
+  '6869',
+  '2026-05-27',
+  84.9,
+  88.9,
+  83.9,
+  84.1,
+  1669714,
+  144090435
+),
+(
+  '6873',
+  '2026-05-27',
+  91.5,
+  95.2,
+  90.6,
+  91.8,
+  897533,
+  83294733
+),
+(
+  '6885',
+  '2026-05-27',
+  21.55,
+  22.05,
+  21.2,
+  21.2,
+  543365,
+  11722090
+),
+(
+  '6887',
+  '2026-05-27',
+  31.8,
+  32.6,
+  31.8,
+  32.6,
+  73026,
+  2342306
+),
+(
+  '6890',
+  '2026-05-27',
+  171.5,
+  173,
+  168.5,
+  170.5,
+  386391,
+  65860124
+),
+(
+  '6901',
+  '2026-05-27',
+  12.8,
+  12.9,
+  12.05,
+  12.25,
+  3427567,
+  42353064
+),
+(
+  '6902',
+  '2026-05-27',
+  141.5,
+  143,
+  135,
+  135.5,
+  454912,
+  62986008
+),
+(
+  '6906',
+  '2026-05-27',
+  100,
+  106.5,
+  99.6,
+  103,
+  935400,
+  96134303
+),
+(
+  '6908',
+  '2026-05-27',
+  38.8,
+  38.95,
+  38.8,
+  38.9,
+  10267,
+  398955
+),
+(
+  '6909',
+  '2026-05-27',
+  55.8,
+  56.5,
+  53,
+  53,
+  949319,
+  51281419
+),
+(
+  '6914',
+  '2026-05-27',
+  143,
+  143,
+  139.5,
+  140,
+  198056,
+  27836054
+),
+(
+  '6916',
+  '2026-05-27',
+  18.5,
+  18.5,
+  17.7,
+  18,
+  24009,
+  431298
+),
+(
+  '6918',
+  '2026-05-27',
+  73,
+  73.4,
+  73,
+  73.1,
+  59855,
+  4376948
+),
+(
+  '6919',
+  '2026-05-27',
+  102,
+  102.5,
+  98.5,
+  98.5,
+  6061949,
+  603768005
+),
+(
+  '6921',
+  '2026-05-27',
+  77,
+  78.1,
+  75,
+  76.1,
+  84323,
+  6422745
+),
+(
+  '6923',
+  '2026-05-27',
+  79.9,
+  79.9,
+  78.4,
+  78.5,
+  228200,
+  18020499
+),
+(
+  '6924',
+  '2026-05-27',
+  163.5,
+  164.5,
+  158.5,
+  164,
+  64857,
+  10450704
+),
+(
+  '6928',
+  '2026-05-27',
+  47.55,
+  47.55,
+  46.25,
+  46.85,
+  122210,
+  5691248
+),
+(
+  '6931',
+  '2026-05-27',
+  39.85,
+  40.35,
+  39.6,
+  39.95,
+  106432,
+  4247091
+),
+(
+  '6933',
+  '2026-05-27',
+  170,
+  170,
+  163,
+  164,
+  235791,
+  39112680
+),
+(
+  '6934',
+  '2026-05-27',
+  73.2,
+  75,
+  73,
+  73.5,
+  44611,
+  3276546
+),
+(
+  '6936',
+  '2026-05-27',
+  33,
+  33.15,
+  32.85,
+  32.95,
+  56384,
+  1858938
+),
+(
+  '6937',
+  '2026-05-27',
+  347,
+  347,
+  317.5,
+  319,
+  1090906,
+  358327453
+),
+(
+  '6944',
+  '2026-05-27',
+  967,
+  967,
+  926,
+  936,
+  681509,
+  643488035
+),
+(
+  '6949',
+  '2026-05-27',
+  704,
+  717,
+  680,
+  714,
+  248961,
+  175224315
+),
+(
+  '6951',
+  '2026-05-27',
+  81.8,
+  81.8,
+  80.6,
+  80.7,
+  29619,
+  2398424
+),
+(
+  '6952',
+  '2026-05-27',
+  37,
+  37,
+  36.8,
+  36.8,
+  5299,
+  195547
+),
+(
+  '6955',
+  '2026-05-27',
+  151.5,
+  151.5,
+  149.5,
+  149.5,
+  15001,
+  2256652
+),
+(
+  '6957',
+  '2026-05-27',
+  160,
+  169,
+  159.5,
+  169,
+  186788,
+  30599201
+),
+(
+  '6958',
+  '2026-05-27',
+  17.1,
+  17.15,
+  16.85,
+  17,
+  43353,
+  736182
+),
+(
+  '6962',
+  '2026-05-27',
+  39.2,
+  39.7,
+  37.8,
+  37.85,
+  5957466,
+  229866967
+),
+(
+  '6965',
+  '2026-05-27',
+  76,
+  76.1,
+  75.3,
+  76,
+  33121,
+  2508806
+),
+(
+  '6969',
+  '2026-05-27',
+  28.05,
+  28.05,
+  27.8,
+  28,
+  56005,
+  1564489
+),
+(
+  '6988',
+  '2026-05-27',
+  17.3,
+  17.3,
+  16.45,
+  16.45,
+  123070,
+  2067521
+),
+(
+  '6994',
+  '2026-05-27',
+  57.4,
+  62,
+  57,
+  60.4,
+  1166298,
+  71164638
+),
+(
+  '7610',
+  '2026-05-27',
+  1280,
+  1290,
+  1220,
+  1230,
+  229649,
+  286244155
+),
+(
+  '7631',
+  '2026-05-27',
+  126,
+  127,
+  125.5,
+  126,
+  51565,
+  6503311
+),
+(
+  '7705',
+  '2026-05-27',
+  31.2,
+  31.2,
+  30.35,
+  30.6,
+  94856,
+  2905961
+),
+(
+  '7711',
+  '2026-05-27',
+  400,
+  414,
+  379.5,
+  384,
+  960061,
+  379660006
+),
+(
+  '7721',
+  '2026-05-27',
+  78.8,
+  78.9,
+  74,
+  75.1,
+  599904,
+  45605846
+),
+(
+  '7722',
+  '2026-05-27',
+  262.5,
+  265.5,
+  257.5,
+  260.5,
+  104783,
+  27314630
+),
+(
+  '7730',
+  '2026-05-27',
+  212,
+  214.5,
+  209,
+  212,
+  155242,
+  32833919
+),
+(
+  '7732',
+  '2026-05-27',
+  35.7,
+  35.7,
+  35.5,
+  35.7,
+  26000,
+  926000
+),
+(
+  '7736',
+  '2026-05-27',
+  72,
+  73.1,
+  71.1,
+  71.1,
+  15327,
+  1103313
+),
+(
+  '7740',
+  '2026-05-27',
+  178,
+  178,
+  164,
+  165.5,
+  403831,
+  67399400
+),
+(
+  '7749',
+  '2026-05-27',
+  525,
+  532,
+  498,
+  499.5,
+  928369,
+  474313926
+),
+(
+  '7750',
+  '2026-05-27',
+  2655,
+  2665,
+  2460,
+  2510,
+  510575,
+  1304854865
+),
+(
+  '7760',
+  '2026-05-27',
+  33,
+  33,
+  32.7,
+  32.75,
+  245314,
+  8049527
+),
+(
+  '7765',
+  '2026-05-27',
+  242,
+  244.5,
+  240,
+  244.5,
+  112818,
+  27367855
+),
+(
+  '7768',
+  '2026-05-27',
+  385,
+  388.5,
+  370,
+  381.5,
+  351493,
+  133511772
+),
+(
+  '7769',
+  '2026-05-27',
+  7855,
+  7980,
+  7800,
+  7800,
+  328372,
+  2585614570
+),
+(
+  '7780',
+  '2026-05-27',
+  17.9,
+  18.05,
+  17.65,
+  17.75,
+  1859753,
+  32989952
+),
+(
+  '7786',
+  '2026-05-27',
+  118,
+  123,
+  117,
+  117,
+  182957,
+  21726895
+),
+(
+  '7788',
+  '2026-05-27',
+  196,
+  197,
+  185,
+  188.5,
+  743218,
+  142501713
+),
+(
+  '7791',
+  '2026-05-27',
+  64.5,
+  66.3,
+  64.5,
+  66,
+  94988,
+  6226001
+),
+(
+  '7795',
+  '2026-05-27',
+  420.5,
+  425,
+  405,
+  407,
+  440942,
+  182916441
+),
+(
+  '7799',
+  '2026-05-27',
+  329.5,
+  336.5,
+  322,
+  322,
+  260488,
+  85748348
+),
+(
+  '7803',
+  '2026-05-27',
+  24.35,
+  24.5,
+  22.95,
+  23.3,
+  387085,
+  9090901
+),
+(
+  '7818',
+  '2026-05-27',
+  67.6,
+  67.9,
+  66.2,
+  66.3,
+  770261,
+  51595959
+),
+(
+  '7821',
+  '2026-05-27',
+  44.5,
+  44.5,
+  43.35,
+  43.35,
+  320496,
+  14034221
+),
+(
+  '7822',
+  '2026-05-27',
+  1180,
+  1180,
+  1125,
+  1145,
+  459778,
+  530598170
+),
+(
+  '7823',
+  '2026-05-27',
+  100,
+  100,
+  94,
+  98.9,
+  52703,
+  5167086
+),
+(
+  '8011',
+  '2026-05-27',
+  17.9,
+  17.9,
+  17.55,
+  17.55,
+  1011103,
+  17918566
+),
+(
+  '8016',
+  '2026-05-27',
+  292,
+  305,
+  290,
+  301,
+  4534481,
+  1361009416
+),
+(
+  '8021',
+  '2026-05-27',
+  468,
+  468,
+  436,
+  436,
+  1348115,
+  599855087
+),
+(
+  '8028',
+  '2026-05-27',
+  318,
+  318,
+  301.5,
+  308,
+  7556258,
+  2346656642
+),
+(
+  '8033',
+  '2026-05-27',
+  137.5,
+  138,
+  134.5,
+  135,
+  2951461,
+  400918786
+),
+(
+  '8039',
+  '2026-05-27',
+  158,
+  166.5,
+  153,
+  160,
+  26875884,
+  4311697282
+),
+(
+  '8045',
+  '2026-05-27',
+  68.2,
+  68.3,
+  64.5,
+  65,
+  586413,
+  38463874
+),
+(
+  '8046',
+  '2026-05-27',
+  939,
+  966,
+  897,
+  905,
+  22754033,
+  21108481350
+),
+(
+  '8070',
+  '2026-05-27',
+  50.8,
+  51.3,
+  49.4,
+  50.3,
+  11450333,
+  579622182
+),
+(
+  '8072',
+  '2026-05-27',
+  27.9,
+  27.95,
+  27.45,
+  27.65,
+  277708,
+  7693028
+),
+(
+  '8081',
+  '2026-05-27',
+  295,
+  301.5,
+  284,
+  288,
+  2001593,
+  585687757
+),
+(
+  '8101',
+  '2026-05-27',
+  12.95,
+  13.7,
+  12.95,
+  13.7,
+  11291,
+  146900
+),
+(
+  '8103',
+  '2026-05-27',
+  109.5,
+  111,
+  106,
+  106,
+  2118989,
+  228860222
+),
+(
+  '8104',
+  '2026-05-27',
+  35.3,
+  38.25,
+  34.35,
+  37.25,
+  3914622,
+  144830264
+),
+(
+  '8105',
+  '2026-05-27',
+  16.95,
+  16.95,
+  15.95,
+  16.8,
+  5527599,
+  91063960
+),
+(
+  '8110',
+  '2026-05-27',
+  60,
+  60.6,
+  57.1,
+  60.6,
+  68790601,
+  4094089974
+),
+(
+  '8112',
+  '2026-05-27',
+  85.4,
+  86.7,
+  84.3,
+  86,
+  37232718,
+  3180558570
+),
+(
+  '8114',
+  '2026-05-27',
+  255,
+  275,
+  246,
+  267,
+  1396319,
+  367642013
+),
+(
+  '8131',
+  '2026-05-27',
+  70.1,
+  71.7,
+  67.3,
+  68.9,
+  14737339,
+  1026432320
+),
+(
+  '8150',
+  '2026-05-27',
+  89.7,
+  93.9,
+  86,
+  93.9,
+  90891826,
+  8296704213
+),
+(
+  '8162',
+  '2026-05-27',
+  75.3,
+  76,
+  70.5,
+  71,
+  1890926,
+  138420576
+),
+(
+  '8163',
+  '2026-05-27',
+  37.1,
+  37.1,
+  35.45,
+  36,
+  3551927,
+  127926980
+),
+(
+  '8201',
+  '2026-05-27',
+  13.5,
+  13.7,
+  13,
+  13.05,
+  142422,
+  1882298
+),
+(
+  '8210',
+  '2026-05-27',
+  1470,
+  1470,
+  1385,
+  1395,
+  1433207,
+  2048715935
+),
+(
+  '8213',
+  '2026-05-27',
+  39.4,
+  41.85,
+  39.4,
+  40.65,
+  3044794,
+  123858567
+),
+(
+  '8215',
+  '2026-05-27',
+  29.4,
+  29.45,
+  28.15,
+  29.2,
+  3822812,
+  109948530
+),
+(
+  '8222',
+  '2026-05-27',
+  35.35,
+  35.35,
+  34.35,
+  34.4,
+  518544,
+  18028381
+),
+(
+  '8249',
+  '2026-05-27',
+  58.8,
+  58.8,
+  55.7,
+  56.5,
+  6028188,
+  346495359
+),
+(
+  '8261',
+  '2026-05-27',
+  212.5,
+  212.5,
+  188,
+  195,
+  19502762,
+  3918998827
+),
+(
+  '8271',
+  '2026-05-27',
+  245,
+  249,
+  228,
+  232.5,
+  5662870,
+  1343568188
+),
+(
+  '8341',
+  '2026-05-27',
+  75.7,
+  75.7,
+  75.2,
+  75.4,
+  187946,
+  14172853
+),
+(
+  '8367',
+  '2026-05-27',
+  40.6,
+  41.45,
+  40.5,
+  40.55,
+  33580,
+  1365113
+),
+(
+  '8374',
+  '2026-05-27',
+  112.5,
+  113.5,
+  106.5,
+  108,
+  2683351,
+  294160803
+),
+(
+  '8404',
+  '2026-05-27',
+  16.45,
+  16.7,
+  16.1,
+  16.2,
+  713449,
+  11610951
+),
+(
+  '8411',
+  '2026-05-27',
+  12,
+  12.05,
+  11.85,
+  12.05,
+  179494,
+  2136846
+),
+(
+  '8422',
+  '2026-05-27',
+  27.5,
+  27.6,
+  27.1,
+  27.3,
+  6946127,
+  189727924
+),
+(
+  '8429',
+  '2026-05-27',
+  6.31,
+  6.69,
+  6.31,
+  6.31,
+  738852,
+  4762806
+),
+(
+  '8438',
+  '2026-05-27',
+  93.3,
+  93.3,
+  87.8,
+  88.5,
+  494485,
+  44672019
+),
+(
+  '8442',
+  '2026-05-27',
+  40,
+  40,
+  39.4,
+  39.8,
+  131930,
+  5239183
+),
+(
+  '8443',
+  '2026-05-27',
+  11.15,
+  11.3,
+  11.15,
+  11.25,
+  16985,
+  190958
+),
+(
+  '8454',
+  '2026-05-27',
+  190,
+  191,
+  186.5,
+  191,
+  603006,
+  114248710
+),
+(
+  '8462',
+  '2026-05-27',
+  136.5,
+  137.5,
+  135,
+  137.5,
+  100964,
+  13787049
+),
+(
+  '8463',
+  '2026-05-27',
+  21.9,
+  21.9,
+  21.55,
+  21.6,
+  74569,
+  1618518
+),
+(
+  '8464',
+  '2026-05-27',
+  316.5,
+  316.5,
+  306,
+  306,
+  824231,
+  254096848
+),
+(
+  '8466',
+  '2026-05-27',
+  16.85,
+  17.3,
+  16.15,
+  16.5,
+  952009,
+  16067120
+),
+(
+  '8467',
+  '2026-05-27',
+  131.5,
+  131.5,
+  130,
+  130.5,
+  24349,
+  3184533
+),
+(
+  '8473',
+  '2026-05-27',
+  42.25,
+  43.3,
+  41.75,
+  42.85,
+  2053236,
+  87613924
+),
+(
+  '8476',
+  '2026-05-27',
+  15.45,
+  15.45,
+  15.1,
+  15.15,
+  508162,
+  7722568
+),
+(
+  '8478',
+  '2026-05-27',
+  151.5,
+  154,
+  150,
+  150,
+  366161,
+  55703504
+),
+(
+  '8481',
+  '2026-05-27',
+  40.55,
+  40.9,
+  40.5,
+  40.8,
+  47066,
+  1917777
+),
+(
+  '8482',
+  '2026-05-27',
+  48,
+  49.1,
+  48,
+  48.05,
+  5007,
+  242436
+),
+(
+  '8487',
+  '2026-05-27',
+  81.7,
+  82.8,
+  81.6,
+  81.6,
+  89250,
+  7335633
+),
+(
+  '8488',
+  '2026-05-27',
+  9.93,
+  9.93,
+  9.69,
+  9.76,
+  4001,
+  39149
+),
+(
+  '8499',
+  '2026-05-27',
+  336,
+  336.5,
+  312.5,
+  313.5,
+  310641,
+  100803390
+),
+(
+  '8926',
+  '2026-05-27',
+  69,
+  72.5,
+  68.8,
+  72.3,
+  27210810,
+  1924787634
+),
+(
+  '8940',
+  '2026-05-27',
+  16.75,
+  16.85,
+  16.6,
+  16.7,
+  47189,
+  788217
+),
+(
+  '8996',
+  '2026-05-27',
+  1260,
+  1260,
+  1175,
+  1215,
+  4104752,
+  4993863075
+),
+(
+  '9103',
+  '2026-05-27',
+  5.36,
+  5.48,
+  5.27,
+  5.43,
+  2860424,
+  15492968
+),
+(
+  '9105',
+  '2026-05-27',
+  8.97,
+  8.97,
+  7.95,
+  8.56,
+  339888622,
+  2929160872
+),
+(
+  '9110',
+  '2026-05-27',
+  2.5,
+  2.7,
+  2.5,
+  2.69,
+  47000,
+  120080
+),
+(
+  '9136',
+  '2026-05-27',
+  11,
+  11.65,
+  10.9,
+  11.45,
+  1741000,
+  19702900
+),
+(
+  '9802',
+  '2026-05-27',
+  74.5,
+  74.5,
+  72.9,
+  73.4,
+  866111,
+  63638495
+),
+(
+  '9902',
+  '2026-05-27',
+  13.8,
+  14,
+  13.7,
+  13.7,
+  194980,
+  2703478
+),
+(
+  '9904',
+  '2026-05-27',
+  25.6,
+  25.6,
+  25.35,
+  25.35,
+  16984480,
+  432129764
+),
+(
+  '9905',
+  '2026-05-27',
+  20.7,
+  20.75,
+  20.55,
+  20.65,
+  99835,
+  2062586
+),
+(
+  '9906',
+  '2026-05-27',
+  33.2,
+  33.8,
+  32.1,
+  33.4,
+  211590,
+  6950918
+),
+(
+  '9907',
+  '2026-05-27',
+  15.95,
+  16,
+  15.8,
+  15.85,
+  3163955,
+  50241376
+),
+(
+  '9908',
+  '2026-05-27',
+  29.1,
+  29.15,
+  29.05,
+  29.15,
+  282758,
+  8228139
+),
+(
+  '9910',
+  '2026-05-27',
+  67.5,
+  67.8,
+  66.4,
+  67.2,
+  3259714,
+  218059887
+),
+(
+  '9911',
+  '2026-05-27',
+  82.2,
+  82.5,
+  81.8,
+  82,
+  413906,
+  33933931
+),
+(
+  '9912',
+  '2026-05-27',
+  12.45,
+  12.55,
+  12.4,
+  12.45,
+  43840,
+  545495
+),
+(
+  '9914',
+  '2026-05-27',
+  67.4,
+  67.4,
+  64.7,
+  64.9,
+  2068266,
+  135663377
+),
+(
+  '9917',
+  '2026-05-27',
+  113,
+  114,
+  113,
+  114,
+  434166,
+  49235598
+),
+(
+  '9918',
+  '2026-05-27',
+  43.2,
+  43.6,
+  43.15,
+  43.6,
+  95019,
+  4123252
+),
+(
+  '9919',
+  '2026-05-27',
+  14.25,
+  14.3,
+  14.1,
+  14.15,
+  445519,
+  6312059
+),
+(
+  '9921',
+  '2026-05-27',
+  68.3,
+  68.3,
+  66.1,
+  66.2,
+  2335964,
+  156017415
+),
+(
+  '9924',
+  '2026-05-27',
+  41.9,
+  41.9,
+  41.6,
+  41.7,
+  274094,
+  11424317
+),
+(
+  '9925',
+  '2026-05-27',
+  40.1,
+  40.2,
+  40.1,
+  40.2,
+  222486,
+  8928836
+),
+(
+  '9926',
+  '2026-05-27',
+  48.95,
+  49.2,
+  48.95,
+  48.95,
+  18772,
+  920268
+),
+(
+  '9927',
+  '2026-05-27',
+  67.3,
+  67.7,
+  67.2,
+  67.5,
+  77234,
+  5211759
+),
+(
+  '9928',
+  '2026-05-27',
+  17.95,
+  17.95,
+  17.6,
+  17.8,
+  43816,
+  778098
+),
+(
+  '9929',
+  '2026-05-27',
+  11.7,
+  11.85,
+  11.35,
+  11.35,
+  8039,
+  93090
+),
+(
+  '9930',
+  '2026-05-27',
+  68.1,
+  68.7,
+  68,
+  68.3,
+  99156,
+  6762852
+),
+(
+  '9931',
+  '2026-05-27',
+  33.9,
+  33.95,
+  33.65,
+  33.8,
+  88231,
+  2981990
+),
+(
+  '9933',
+  '2026-05-27',
+  40.7,
+  40.85,
+  38.95,
+  39.35,
+  6678136,
+  265039511
+),
+(
+  '9934',
+  '2026-05-27',
+  9.6,
+  9.6,
+  9.51,
+  9.54,
+  377494,
+  3601994
+),
+(
+  '9935',
+  '2026-05-27',
+  18.65,
+  18.65,
+  18.15,
+  18.5,
+  423475,
+  7795551
+),
+(
+  '9937',
+  '2026-05-27',
+  55.7,
+  55.7,
+  54.9,
+  55.4,
+  49795,
+  2746058
+),
+(
+  '9938',
+  '2026-05-27',
+  42.8,
+  42.9,
+  42.25,
+  42.35,
+  2054912,
+  87094688
+),
+(
+  '9939',
+  '2026-05-27',
+  122.5,
+  124,
+  122,
+  122.5,
+  845565,
+  104073191
+),
+(
+  '9940',
+  '2026-05-27',
+  18.7,
+  18.7,
+  18.5,
+  18.6,
+  487706,
+  9049556
+),
+(
+  '9941',
+  '2026-05-27',
+  72.8,
+  73.1,
+  72,
+  72,
+  2498987,
+  181248349
+),
+(
+  '9942',
+  '2026-05-27',
+  118,
+  118,
+  117,
+  117,
+  75692,
+  8896703
+),
+(
+  '9943',
+  '2026-05-27',
+  55.8,
+  55.8,
+  55.2,
+  55.2,
+  73738,
+  4082017
+),
+(
+  '9944',
+  '2026-05-27',
+  16.95,
+  17,
+  16.75,
+  16.85,
+  120442,
+  2039243
+),
+(
+  '9945',
+  '2026-05-27',
+  23.8,
+  23.8,
+  23.1,
+  23.25,
+  7578838,
+  176351101
+),
+(
+  '9946',
+  '2026-05-27',
+  16.35,
+  16.35,
+  16.1,
+  16.2,
+  500512,
+  8088968
+),
+(
+  '9955',
+  '2026-05-27',
+  28.4,
+  28.4,
+  27.7,
+  27.75,
+  390491,
+  10880599
+),
+(
+  '9958',
+  '2026-05-27',
+  106,
+  106,
+  101,
+  102,
+  2412247,
+  247669661
+)
+) as incoming(symbol, trade_date, open, high, low, close, volume, turnover)
+join public.stocks on stocks.symbol = incoming.symbol
+on conflict (stock_id, trade_date) do update set
+  open = excluded.open,
+  high = excluded.high,
+  low = excluded.low,
+  close = excluded.close,
+  volume = excluded.volume,
+  turnover = excluded.turnover;
+
+
+insert into public.daily_fundamentals (
+  stock_id,
+  trade_date,
+  pe,
+  pb,
+  dividend_yield
+)
+select
+  stocks.id,
+  incoming.trade_date::date,
+  incoming.pe,
+  incoming.pb,
+  incoming.dividend_yield
+from (
+  values
+(
+  '1101',
+  '2026-05-27',
+  null,
+  0.76,
+  3.35
+),
+(
+  '1102',
+  '2026-05-27',
+  11.07,
+  0.66,
+  6.97
+),
+(
+  '1103',
+  '2026-05-27',
+  16.5,
+  0.48,
+  4.17
+),
+(
+  '1104',
+  '2026-05-27',
+  10.63,
+  0.75,
+  6.8
+),
+(
+  '1108',
+  '2026-05-27',
+  6.68,
+  1.01,
+  7.41
+),
+(
+  '1109',
+  '2026-05-27',
+  18.29,
+  0.58,
+  6.23
+),
+(
+  '1110',
+  '2026-05-27',
+  44.06,
+  0.85,
+  2.13
+),
+(
+  '1201',
+  '2026-05-27',
+  31.84,
+  0.79,
+  1.74
+),
+(
+  '1203',
+  '2026-05-27',
+  24.83,
+  1.56,
+  2.34
+),
+(
+  '1210',
+  '2026-05-27',
+  12.25,
+  1.72,
+  5.8
+),
+(
+  '1213',
+  '2026-05-27',
+  null,
+  0.74,
+  4.22
+),
+(
+  '1215',
+  '2026-05-27',
+  13.95,
+  3.6,
+  5.41
+),
+(
+  '1216',
+  '2026-05-27',
+  18.97,
+  2.76,
+  4.27
+),
+(
+  '1217',
+  '2026-05-27',
+  20.21,
+  0.65,
+  2.58
+),
+(
+  '1218',
+  '2026-05-27',
+  11.98,
+  0.72,
+  7.15
+),
+(
+  '1219',
+  '2026-05-27',
+  26.28,
+  0.91,
+  4.05
+),
+(
+  '1220',
+  '2026-05-27',
+  587.5,
+  0.9,
+  1.7
+),
+(
+  '1225',
+  '2026-05-27',
+  17.11,
+  1.76,
+  3.42
+),
+(
+  '1227',
+  '2026-05-27',
+  19.25,
+  1.34,
+  4.77
+),
+(
+  '1229',
+  '2026-05-27',
+  15.37,
+  1.28,
+  5.01
+),
+(
+  '1231',
+  '2026-05-27',
+  19.45,
+  3.38,
+  2.92
+),
+(
+  '1232',
+  '2026-05-27',
+  17.11,
+  3.77,
+  4.86
+),
+(
+  '1233',
+  '2026-05-27',
+  33.96,
+  1.81,
+  0.72
+),
+(
+  '1234',
+  '2026-05-27',
+  20.51,
+  0.75,
+  4.82
+),
+(
+  '1235',
+  '2026-05-27',
+  null,
+  0.62,
+  2.56
+),
+(
+  '1236',
+  '2026-05-27',
+  null,
+  0.86,
+  6.78
+),
+(
+  '1256',
+  '2026-05-27',
+  14.5,
+  1.64,
+  3.44
+),
+(
+  '1301',
+  '2026-05-27',
+  null,
+  0.74,
+  1.1
+),
+(
+  '1303',
+  '2026-05-27',
+  41.34,
+  1.97,
+  0.84
+),
+(
+  '1304',
+  '2026-05-27',
+  null,
+  0.73,
+  1.26
+),
+(
+  '1305',
+  '2026-05-27',
+  null,
+  0.92,
+  0.83
+),
+(
+  '1307',
+  '2026-05-27',
+  11.17,
+  1.25,
+  7.19
+),
+(
+  '1308',
+  '2026-05-27',
+  null,
+  0.69,
+  1.56
+),
+(
+  '1309',
+  '2026-05-27',
+  null,
+  1.02,
+  1.01
+),
+(
+  '1310',
+  '2026-05-27',
+  null,
+  0.55,
+  null
+),
+(
+  '1312',
+  '2026-05-27',
+  null,
+  0.39,
+  null
+),
+(
+  '1313',
+  '2026-05-27',
+  null,
+  0.48,
+  0.97
+),
+(
+  '1314',
+  '2026-05-27',
+  null,
+  0.34,
+  null
+),
+(
+  '1315',
+  '2026-05-27',
+  40.26,
+  0.58,
+  7.26
+),
+(
+  '1316',
+  '2026-05-27',
+  null,
+  0.82,
+  null
+),
+(
+  '1319',
+  '2026-05-27',
+  14.13,
+  1.6,
+  6.35
+),
+(
+  '1321',
+  '2026-05-27',
+  null,
+  1.11,
+  1.31
+),
+(
+  '1323',
+  '2026-05-27',
+  36.07,
+  0.72,
+  4.46
+),
+(
+  '1324',
+  '2026-05-27',
+  null,
+  0.86,
+  1.96
+),
+(
+  '1325',
+  '2026-05-27',
+  null,
+  0.89,
+  1.12
+),
+(
+  '1326',
+  '2026-05-27',
+  303,
+  0.71,
+  1.32
+),
+(
+  '1337',
+  '2026-05-27',
+  null,
+  0.35,
+  null
+),
+(
+  '1338',
+  '2026-05-27',
+  null,
+  0.22,
+  1.91
+),
+(
+  '1339',
+  '2026-05-27',
+  9.65,
+  0.74,
+  6.13
+),
+(
+  '1340',
+  '2026-05-27',
+  null,
+  0.32,
+  null
+),
+(
+  '1341',
+  '2026-05-27',
+  15.15,
+  2.75,
+  6.47
+),
+(
+  '1342',
+  '2026-05-27',
+  15.43,
+  3.42,
+  6.54
+),
+(
+  '1402',
+  '2026-05-27',
+  14.57,
+  0.53,
+  5.33
+),
+(
+  '1409',
+  '2026-05-27',
+  14,
+  0.73,
+  4.76
+),
+(
+  '1410',
+  '2026-05-27',
+  48.61,
+  1.56,
+  0.76
+),
+(
+  '1413',
+  '2026-05-27',
+  22.38,
+  1.11,
+  null
+),
+(
+  '1414',
+  '2026-05-27',
+  48.45,
+  0.97,
+  1.42
+),
+(
+  '1416',
+  '2026-05-27',
+  12.91,
+  0.46,
+  5.14
+),
+(
+  '1417',
+  '2026-05-27',
+  17.91,
+  0.65,
+  3.1
+),
+(
+  '1418',
+  '2026-05-27',
+  null,
+  0.86,
+  null
+),
+(
+  '1419',
+  '2026-05-27',
+  4.85,
+  0.93,
+  2.82
+),
+(
+  '1423',
+  '2026-05-27',
+  11.01,
+  1.12,
+  8.67
+),
+(
+  '1432',
+  '2026-05-27',
+  2.94,
+  1.08,
+  12.46
+),
+(
+  '1434',
+  '2026-05-27',
+  25,
+  0.56,
+  3.33
+),
+(
+  '1436',
+  '2026-05-27',
+  10.24,
+  1.57,
+  11.46
+),
+(
+  '1437',
+  '2026-05-27',
+  10.2,
+  0.69,
+  3.4
+),
+(
+  '1438',
+  '2026-05-27',
+  7.28,
+  0.7,
+  1
+),
+(
+  '1439',
+  '2026-05-27',
+  8.25,
+  0.79,
+  1.97
+),
+(
+  '1440',
+  '2026-05-27',
+  null,
+  0.72,
+  2.49
+),
+(
+  '1441',
+  '2026-05-27',
+  null,
+  1.56,
+  null
+),
+(
+  '1442',
+  '2026-05-27',
+  13.16,
+  1.17,
+  9.3
+),
+(
+  '1443',
+  '2026-05-27',
+  22.82,
+  1.49,
+  null
+),
+(
+  '1444',
+  '2026-05-27',
+  null,
+  0.59,
+  null
+),
+(
+  '1445',
+  '2026-05-27',
+  null,
+  0.74,
+  4.24
+),
+(
+  '1446',
+  '2026-05-27',
+  9.24,
+  0.76,
+  9.55
+),
+(
+  '1447',
+  '2026-05-27',
+  null,
+  0.61,
+  null
+),
+(
+  '1449',
+  '2026-05-27',
+  null,
+  0.67,
+  null
+),
+(
+  '1451',
+  '2026-05-27',
+  18.43,
+  0.44,
+  6.1
+),
+(
+  '1452',
+  '2026-05-27',
+  null,
+  0.52,
+  1.94
+),
+(
+  '1453',
+  '2026-05-27',
+  102.73,
+  0.89,
+  2.65
+),
+(
+  '1454',
+  '2026-05-27',
+  null,
+  1.14,
+  0.8
+),
+(
+  '1455',
+  '2026-05-27',
+  null,
+  0.75,
+  1.97
+),
+(
+  '1456',
+  '2026-05-27',
+  3.78,
+  0.65,
+  null
+),
+(
+  '1457',
+  '2026-05-27',
+  15.33,
+  0.63,
+  7.17
+),
+(
+  '1459',
+  '2026-05-27',
+  7.48,
+  1.04,
+  1.72
+),
+(
+  '1460',
+  '2026-05-27',
+  null,
+  0.81,
+  null
+),
+(
+  '1463',
+  '2026-05-27',
+  null,
+  1.16,
+  0.73
+),
+(
+  '1464',
+  '2026-05-27',
+  27.3,
+  0.78,
+  2.48
+),
+(
+  '1465',
+  '2026-05-27',
+  null,
+  0.81,
+  2.44
+),
+(
+  '1466',
+  '2026-05-27',
+  null,
+  0.98,
+  1.45
+),
+(
+  '1467',
+  '2026-05-27',
+  null,
+  0.56,
+  null
+),
+(
+  '1468',
+  '2026-05-27',
+  100.42,
+  1.33,
+  null
+),
+(
+  '1470',
+  '2026-05-27',
+  25.29,
+  1.92,
+  2.95
+),
+(
+  '1471',
+  '2026-05-27',
+  null,
+  1.08,
+  null
+),
+(
+  '1472',
+  '2026-05-27',
+  13.92,
+  1.98,
+  6.7
+),
+(
+  '1473',
+  '2026-05-27',
+  null,
+  0.74,
+  2.49
+),
+(
+  '1474',
+  '2026-05-27',
+  40.29,
+  0.57,
+  2.59
+),
+(
+  '1475',
+  '2026-05-27',
+  9.8,
+  1.09,
+  6
+),
+(
+  '1476',
+  '2026-05-27',
+  16.01,
+  3.3,
+  4.53
+),
+(
+  '1477',
+  '2026-05-27',
+  15.56,
+  4.09,
+  6.96
+),
+(
+  '1503',
+  '2026-05-27',
+  32.94,
+  3.03,
+  2.26
+),
+(
+  '1504',
+  '2026-05-27',
+  31.47,
+  1.97,
+  2.82
+),
+(
+  '1506',
+  '2026-05-27',
+  144.29,
+  1.08,
+  null
+),
+(
+  '1512',
+  '2026-05-27',
+  25.26,
+  1,
+  null
+),
+(
+  '1513',
+  '2026-05-27',
+  20.53,
+  3.88,
+  3.55
+),
+(
+  '1514',
+  '2026-05-27',
+  36.44,
+  5.18,
+  1.76
+),
+(
+  '1515',
+  '2026-05-27',
+  22.4,
+  1.03,
+  2.73
+),
+(
+  '1516',
+  '2026-05-27',
+  1030,
+  4.03,
+  null
+),
+(
+  '1517',
+  '2026-05-27',
+  null,
+  0.64,
+  2.01
+),
+(
+  '1519',
+  '2026-05-27',
+  60.34,
+  33.67,
+  1.37
+),
+(
+  '1521',
+  '2026-05-27',
+  34.51,
+  1.01,
+  3.06
+),
+(
+  '1522',
+  '2026-05-27',
+  92.26,
+  0.97,
+  4.2
+),
+(
+  '1524',
+  '2026-05-27',
+  19.33,
+  1.66,
+  4.83
+),
+(
+  '1525',
+  '2026-05-27',
+  43.63,
+  1.01,
+  4.01
+),
+(
+  '1526',
+  '2026-05-27',
+  null,
+  0.64,
+  null
+),
+(
+  '1527',
+  '2026-05-27',
+  35.93,
+  0.93,
+  4.59
+),
+(
+  '1528',
+  '2026-05-27',
+  null,
+  2.23,
+  null
+),
+(
+  '1529',
+  '2026-05-27',
+  19.69,
+  1.89,
+  4.45
+),
+(
+  '1530',
+  '2026-05-27',
+  28.43,
+  0.96,
+  3.06
+),
+(
+  '1531',
+  '2026-05-27',
+  null,
+  0.6,
+  8.3
+),
+(
+  '1532',
+  '2026-05-27',
+  17.78,
+  0.58,
+  3.85
+),
+(
+  '1533',
+  '2026-05-27',
+  23.71,
+  1.58,
+  null
+),
+(
+  '1535',
+  '2026-05-27',
+  12.6,
+  1.53,
+  6.12
+),
+(
+  '1536',
+  '2026-05-27',
+  null,
+  1.84,
+  1.61
+),
+(
+  '1537',
+  '2026-05-27',
+  16.51,
+  2.23,
+  5.74
+),
+(
+  '1538',
+  '2026-05-27',
+  null,
+  3.03,
+  null
+),
+(
+  '1539',
+  '2026-05-27',
+  395,
+  0.64,
+  5.38
+),
+(
+  '1540',
+  '2026-05-27',
+  22.42,
+  1.18,
+  4.8
+),
+(
+  '1541',
+  '2026-05-27',
+  9.05,
+  0.75,
+  2.43
+),
+(
+  '1558',
+  '2026-05-27',
+  16.14,
+  1.1,
+  5.51
+),
+(
+  '1560',
+  '2026-05-27',
+  71.7,
+  13.14,
+  0.69
+),
+(
+  '1563',
+  '2026-05-27',
+  126.36,
+  1.47,
+  3.6
+),
+(
+  '1568',
+  '2026-05-27',
+  27.99,
+  2.09,
+  2.67
+),
+(
+  '1582',
+  '2026-05-27',
+  40,
+  2.11,
+  2.73
+),
+(
+  '1583',
+  '2026-05-27',
+  19.28,
+  1.03,
+  1.86
+),
+(
+  '1587',
+  '2026-05-27',
+  71.22,
+  1.45,
+  1.71
+),
+(
+  '1590',
+  '2026-05-27',
+  31.41,
+  5.64,
+  2.03
+),
+(
+  '1597',
+  '2026-05-27',
+  167.23,
+  7.25,
+  0.35
+),
+(
+  '1598',
+  '2026-05-27',
+  null,
+  0.79,
+  2.5
+),
+(
+  '1603',
+  '2026-05-27',
+  11.58,
+  0.65,
+  6.42
+),
+(
+  '1604',
+  '2026-05-27',
+  14.15,
+  1,
+  6.42
+),
+(
+  '1605',
+  '2026-05-27',
+  27.37,
+  1.01,
+  1.33
+),
+(
+  '1608',
+  '2026-05-27',
+  6.11,
+  1.47,
+  5.94
+),
+(
+  '1609',
+  '2026-05-27',
+  15.38,
+  1.65,
+  1.9
+),
+(
+  '1611',
+  '2026-05-27',
+  287.5,
+  0.94,
+  6.96
+),
+(
+  '1612',
+  '2026-05-27',
+  12.3,
+  1.43,
+  6.78
+),
+(
+  '1614',
+  '2026-05-27',
+  23.48,
+  1.44,
+  3.13
+),
+(
+  '1615',
+  '2026-05-27',
+  9.05,
+  1.73,
+  6.06
+),
+(
+  '1616',
+  '2026-05-27',
+  17.28,
+  1.77,
+  6.4
+),
+(
+  '1617',
+  '2026-05-27',
+  16.65,
+  1.09,
+  4.1
+),
+(
+  '1618',
+  '2026-05-27',
+  9.19,
+  1.25,
+  4.07
+),
+(
+  '1623',
+  '2026-05-27',
+  19.26,
+  3.94,
+  3.35
+),
+(
+  '1626',
+  '2026-05-27',
+  null,
+  0.55,
+  null
+),
+(
+  '1702',
+  '2026-05-27',
+  45.69,
+  0.69,
+  4.86
+),
+(
+  '1707',
+  '2026-05-27',
+  12.45,
+  1.48,
+  6.02
+),
+(
+  '1708',
+  '2026-05-27',
+  11.41,
+  1.29,
+  4.16
+),
+(
+  '1709',
+  '2026-05-27',
+  13.81,
+  1.05,
+  5.21
+),
+(
+  '1710',
+  '2026-05-27',
+  null,
+  1.03,
+  null
+),
+(
+  '1711',
+  '2026-05-27',
+  null,
+  3.39,
+  0.59
+),
+(
+  '1712',
+  '2026-05-27',
+  15.95,
+  2.12,
+  6.32
+),
+(
+  '1713',
+  '2026-05-27',
+  10.99,
+  1.84,
+  6.29
+),
+(
+  '1714',
+  '2026-05-27',
+  14.69,
+  0.72,
+  1.91
+),
+(
+  '1717',
+  '2026-05-27',
+  57.09,
+  3.44,
+  1.18
+),
+(
+  '1718',
+  '2026-05-27',
+  26.29,
+  0.38,
+  null
+),
+(
+  '1720',
+  '2026-05-27',
+  11.33,
+  1.81,
+  4.9
+),
+(
+  '1721',
+  '2026-05-27',
+  null,
+  3.47,
+  null
+),
+(
+  '1722',
+  '2026-05-27',
+  43.89,
+  0.82,
+  4.38
+),
+(
+  '1723',
+  '2026-05-27',
+  32.66,
+  2.34,
+  2.28
+),
+(
+  '1725',
+  '2026-05-27',
+  19.14,
+  0.84,
+  3.45
+),
+(
+  '1726',
+  '2026-05-27',
+  12.97,
+  1.14,
+  4.81
+),
+(
+  '1727',
+  '2026-05-27',
+  260.81,
+  5.85,
+  0.16
+),
+(
+  '1730',
+  '2026-05-27',
+  11.32,
+  1.54,
+  5.73
+),
+(
+  '1731',
+  '2026-05-27',
+  15.29,
+  1.28,
+  5.7
+),
+(
+  '1732',
+  '2026-05-27',
+  29.33,
+  2.27,
+  2.27
+),
+(
+  '1733',
+  '2026-05-27',
+  16.43,
+  1.64,
+  4.35
+),
+(
+  '1734',
+  '2026-05-27',
+  17.79,
+  1.65,
+  5.23
+),
+(
+  '1735',
+  '2026-05-27',
+  32.04,
+  1.62,
+  2.5
+),
+(
+  '1736',
+  '2026-05-27',
+  14.16,
+  2.51,
+  3.86
+),
+(
+  '1737',
+  '2026-05-27',
+  15.85,
+  0.91,
+  4.44
+),
+(
+  '1752',
+  '2026-05-27',
+  16.01,
+  1.39,
+  4.92
+),
+(
+  '1760',
+  '2026-05-27',
+  24.3,
+  2.83,
+  3.31
+),
+(
+  '1762',
+  '2026-05-27',
+  null,
+  0.96,
+  0.48
+),
+(
+  '1773',
+  '2026-05-27',
+  26.9,
+  4.93,
+  2.05
+),
+(
+  '1776',
+  '2026-05-27',
+  37.04,
+  1.27,
+  3.31
+),
+(
+  '1783',
+  '2026-05-27',
+  12.65,
+  2.11,
+  5.24
+),
+(
+  '1786',
+  '2026-05-27',
+  31.35,
+  2.14,
+  3.58
+),
+(
+  '1789',
+  '2026-05-27',
+  135.71,
+  1.46,
+  1.53
+),
+(
+  '1795',
+  '2026-05-27',
+  13.06,
+  2.09,
+  1.4
+),
+(
+  '1802',
+  '2026-05-27',
+  560,
+  4.26,
+  null
+),
+(
+  '1805',
+  '2026-05-27',
+  76.77,
+  0.82,
+  null
+),
+(
+  '1806',
+  '2026-05-27',
+  56.93,
+  0.59,
+  1.88
+),
+(
+  '1808',
+  '2026-05-27',
+  10.62,
+  1.86,
+  5.27
+),
+(
+  '1809',
+  '2026-05-27',
+  233.68,
+  2.51,
+  0.56
+),
+(
+  '1810',
+  '2026-05-27',
+  5.26,
+  0.75,
+  1.01
+),
+(
+  '1817',
+  '2026-05-27',
+  9.36,
+  1.21,
+  5.61
+),
+(
+  '1903',
+  '2026-05-27',
+  38.18,
+  2.35,
+  null
+),
+(
+  '1904',
+  '2026-05-27',
+  15.49,
+  0.71,
+  2.38
+),
+(
+  '1905',
+  '2026-05-27',
+  null,
+  0.8,
+  null
+),
+(
+  '1906',
+  '2026-05-27',
+  null,
+  0.49,
+  1
+),
+(
+  '1907',
+  '2026-05-27',
+  17.14,
+  0.51,
+  4.17
+),
+(
+  '1909',
+  '2026-05-27',
+  null,
+  0.56,
+  null
+),
+(
+  '2002',
+  '2026-05-27',
+  null,
+  0.98,
+  0.79
+),
+(
+  '2006',
+  '2026-05-27',
+  10.09,
+  1.51,
+  6.43
+),
+(
+  '2007',
+  '2026-05-27',
+  null,
+  0.99,
+  null
+),
+(
+  '2008',
+  '2026-05-27',
+  37.53,
+  1.43,
+  3.55
+),
+(
+  '2009',
+  '2026-05-27',
+  69.65,
+  1.72,
+  1.01
+),
+(
+  '2010',
+  '2026-05-27',
+  9.85,
+  1.23,
+  8.71
+),
+(
+  '2012',
+  '2026-05-27',
+  null,
+  1.06,
+  2.07
+),
+(
+  '2013',
+  '2026-05-27',
+  13.13,
+  1.46,
+  5.66
+),
+(
+  '2014',
+  '2026-05-27',
+  null,
+  2.16,
+  null
+),
+(
+  '2015',
+  '2026-05-27',
+  15.62,
+  1.7,
+  5.32
+),
+(
+  '2017',
+  '2026-05-27',
+  null,
+  0.73,
+  null
+),
+(
+  '2020',
+  '2026-05-27',
+  10.95,
+  1.39,
+  8.47
+),
+(
+  '2022',
+  '2026-05-27',
+  null,
+  0.76,
+  null
+),
+(
+  '2023',
+  '2026-05-27',
+  null,
+  0.8,
+  null
+),
+(
+  '2024',
+  '2026-05-27',
+  197.14,
+  1.19,
+  null
+),
+(
+  '2025',
+  '2026-05-27',
+  75.63,
+  1.26,
+  null
+),
+(
+  '2027',
+  '2026-05-27',
+  12.41,
+  1.26,
+  3.53
+),
+(
+  '2028',
+  '2026-05-27',
+  48.29,
+  1.15,
+  1.18
+),
+(
+  '2029',
+  '2026-05-27',
+  32.98,
+  0.66,
+  2.93
+),
+(
+  '2030',
+  '2026-05-27',
+  27.27,
+  0.99,
+  2.78
+),
+(
+  '2031',
+  '2026-05-27',
+  8.5,
+  1.18,
+  6.44
+),
+(
+  '2032',
+  '2026-05-27',
+  20.93,
+  1.34,
+  2.78
+),
+(
+  '2033',
+  '2026-05-27',
+  45.76,
+  1.14,
+  1.32
+),
+(
+  '2034',
+  '2026-05-27',
+  null,
+  1.1,
+  4.99
+),
+(
+  '2038',
+  '2026-05-27',
+  null,
+  0.7,
+  1.45
+),
+(
+  '2049',
+  '2026-05-27',
+  89.11,
+  3.85,
+  0.49
+),
+(
+  '2059',
+  '2026-05-27',
+  43.37,
+  14.87,
+  1.04
+),
+(
+  '2062',
+  '2026-05-27',
+  86.67,
+  0.48,
+  5.49
+),
+(
+  '2069',
+  '2026-05-27',
+  10.43,
+  0.73,
+  5.21
+),
+(
+  '2072',
+  '2026-05-27',
+  12.66,
+  1.36,
+  4.28
+),
+(
+  '2101',
+  '2026-05-27',
+  9.6,
+  1.6,
+  2.35
+),
+(
+  '2102',
+  '2026-05-27',
+  2.81,
+  0.86,
+  null
+),
+(
+  '2103',
+  '2026-05-27',
+  28.06,
+  0.76,
+  1.44
+),
+(
+  '2104',
+  '2026-05-27',
+  null,
+  0.4,
+  null
+),
+(
+  '2105',
+  '2026-05-27',
+  19.48,
+  1.21,
+  5.71
+),
+(
+  '2106',
+  '2026-05-27',
+  97.94,
+  0.81,
+  3.9
+),
+(
+  '2107',
+  '2026-05-27',
+  17.19,
+  0.56,
+  5.66
+),
+(
+  '2108',
+  '2026-05-27',
+  31.03,
+  0.93,
+  3.7
+),
+(
+  '2109',
+  '2026-05-27',
+  11.58,
+  1.12,
+  7.19
+),
+(
+  '2114',
+  '2026-05-27',
+  15.93,
+  2.18,
+  5.46
+),
+(
+  '2115',
+  '2026-05-27',
+  16.34,
+  0.65,
+  5.78
+),
+(
+  '2201',
+  '2026-05-27',
+  31.12,
+  0.44,
+  2.12
+),
+(
+  '2204',
+  '2026-05-27',
+  9.7,
+  0.79,
+  6.84
+),
+(
+  '2206',
+  '2026-05-27',
+  10.55,
+  1.69,
+  5.02
+),
+(
+  '2207',
+  '2026-05-27',
+  13.66,
+  3.28,
+  4.29
+),
+(
+  '2208',
+  '2026-05-27',
+  null,
+  3.14,
+  null
+),
+(
+  '2211',
+  '2026-05-27',
+  11.21,
+  1.4,
+  7.09
+),
+(
+  '2227',
+  '2026-05-27',
+  52.04,
+  0.79,
+  1.74
+),
+(
+  '2228',
+  '2026-05-27',
+  19.18,
+  1.26,
+  5.49
+),
+(
+  '2231',
+  '2026-05-27',
+  null,
+  4.12,
+  0.48
+),
+(
+  '2233',
+  '2026-05-27',
+  58.21,
+  5.5,
+  1.1
+),
+(
+  '2236',
+  '2026-05-27',
+  null,
+  3.76,
+  0.46
+),
+(
+  '2239',
+  '2026-05-27',
+  null,
+  0.23,
+  null
+),
+(
+  '2241',
+  '2026-05-27',
+  null,
+  2.85,
+  null
+),
+(
+  '2243',
+  '2026-05-27',
+  9.54,
+  1.85,
+  null
+),
+(
+  '2247',
+  '2026-05-27',
+  12.88,
+  1.33,
+  7.09
+),
+(
+  '2248',
+  '2026-05-27',
+  9.17,
+  1.44,
+  5.67
+),
+(
+  '2250',
+  '2026-05-27',
+  18.01,
+  1.03,
+  4.94
+),
+(
+  '2254',
+  '2026-05-27',
+  null,
+  3.99,
+  null
+),
+(
+  '2258',
+  '2026-05-27',
+  null,
+  4.01,
+  null
+),
+(
+  '2301',
+  '2026-05-27',
+  36.18,
+  6.34,
+  2.03
+),
+(
+  '2302',
+  '2026-05-27',
+  41.39,
+  3.04,
+  1.07
+),
+(
+  '2303',
+  '2026-05-27',
+  36.06,
+  4.44,
+  1.81
+),
+(
+  '2305',
+  '2026-05-27',
+  84.63,
+  1.97,
+  null
+),
+(
+  '2308',
+  '2026-05-27',
+  92.92,
+  21.85,
+  0.46
+),
+(
+  '2312',
+  '2026-05-27',
+  35.91,
+  2.5,
+  1.61
+),
+(
+  '2313',
+  '2026-05-27',
+  49.74,
+  7.17,
+  0.99
+),
+(
+  '2314',
+  '2026-05-27',
+  null,
+  29.43,
+  null
+),
+(
+  '2316',
+  '2026-05-27',
+  10.88,
+  2.22,
+  1.19
+),
+(
+  '2317',
+  '2026-05-27',
+  18.75,
+  2.08,
+  2.73
+),
+(
+  '2321',
+  '2026-05-27',
+  null,
+  2.59,
+  null
+),
+(
+  '2323',
+  '2026-05-27',
+  4.72,
+  0.6,
+  1.94
+),
+(
+  '2324',
+  '2026-05-27',
+  25.11,
+  1.11,
+  3.29
+),
+(
+  '2327',
+  '2026-05-27',
+  55.2,
+  8.64,
+  0.86
+),
+(
+  '2328',
+  '2026-05-27',
+  54.9,
+  1.86,
+  1.67
+),
+(
+  '2329',
+  '2026-05-27',
+  26.47,
+  3.37,
+  1.71
+),
+(
+  '2330',
+  '2026-05-27',
+  30.92,
+  10.12,
+  0.96
+),
+(
+  '2331',
+  '2026-05-27',
+  41.1,
+  1.05,
+  1.02
+),
+(
+  '2332',
+  '2026-05-27',
+  null,
+  1.13,
+  0.64
+),
+(
+  '2337',
+  '2026-05-27',
+  null,
+  6.08,
+  null
+),
+(
+  '2338',
+  '2026-05-27',
+  null,
+  3.04,
+  null
+),
+(
+  '2340',
+  '2026-05-27',
+  null,
+  2.78,
+  null
+),
+(
+  '2342',
+  '2026-05-27',
+  null,
+  2.99,
+  0.68
+),
+(
+  '2344',
+  '2026-05-27',
+  45.99,
+  5.98,
+  0.32
+),
+(
+  '2345',
+  '2026-05-27',
+  49.55,
+  22.42,
+  0.57
+),
+(
+  '2347',
+  '2026-05-27',
+  14.94,
+  1.82,
+  4.89
+),
+(
+  '2348',
+  '2026-05-27',
+  16.36,
+  1.48,
+  8.1
+),
+(
+  '2349',
+  '2026-05-27',
+  null,
+  1.76,
+  null
+),
+(
+  '2351',
+  '2026-05-27',
+  101.33,
+  5.76,
+  0.48
+),
+(
+  '2352',
+  '2026-05-27',
+  44.44,
+  1.49,
+  3.63
+),
+(
+  '2353',
+  '2026-05-27',
+  23.79,
+  1.3,
+  4.14
+),
+(
+  '2354',
+  '2026-05-27',
+  28.29,
+  0.79,
+  2.51
+),
+(
+  '2355',
+  '2026-05-27',
+  37.04,
+  1.4,
+  1.6
+),
+(
+  '2356',
+  '2026-05-27',
+  23.57,
+  3.03,
+  3.23
+),
+(
+  '2357',
+  '2026-05-27',
+  12.53,
+  1.81,
+  5.99
+),
+(
+  '2359',
+  '2026-05-27',
+  74.48,
+  4.31,
+  0.69
+),
+(
+  '2360',
+  '2026-05-27',
+  82.78,
+  40.09,
+  0.74
+),
+(
+  '2362',
+  '2026-05-27',
+  18.33,
+  0.54,
+  4.87
+),
+(
+  '2363',
+  '2026-05-27',
+  39.29,
+  1.69,
+  0.9
+),
+(
+  '2364',
+  '2026-05-27',
+  17.21,
+  4.51,
+  4.46
+),
+(
+  '2365',
+  '2026-05-27',
+  95.77,
+  2.67,
+  0.8
+),
+(
+  '2367',
+  '2026-05-27',
+  null,
+  3.73,
+  0.3
+),
+(
+  '2368',
+  '2026-05-27',
+  62.08,
+  20.16,
+  0.73
+),
+(
+  '2369',
+  '2026-05-27',
+  null,
+  3.1,
+  0.75
+),
+(
+  '2371',
+  '2026-05-27',
+  null,
+  1.3,
+  10.58
+),
+(
+  '2373',
+  '2026-05-27',
+  14.87,
+  1.85,
+  6.38
+),
+(
+  '2374',
+  '2026-05-27',
+  29.06,
+  3.05,
+  2.48
+),
+(
+  '2375',
+  '2026-05-27',
+  44.68,
+  1.6,
+  0.82
+),
+(
+  '2376',
+  '2026-05-27',
+  15.53,
+  3.45,
+  3.61
+),
+(
+  '2377',
+  '2026-05-27',
+  13.22,
+  1.95,
+  3.32
+),
+(
+  '2379',
+  '2026-05-27',
+  21.78,
+  6.9,
+  4.13
+),
+(
+  '2380',
+  '2026-05-27',
+  5.27,
+  0.58,
+  null
+),
+(
+  '2382',
+  '2026-05-27',
+  15.69,
+  5.8,
+  5
+),
+(
+  '2383',
+  '2026-05-27',
+  115.08,
+  39.65,
+  0.47
+),
+(
+  '2385',
+  '2026-05-27',
+  15.29,
+  2.39,
+  5.31
+),
+(
+  '2387',
+  '2026-05-27',
+  14.16,
+  0.76,
+  9.91
+),
+(
+  '2388',
+  '2026-05-27',
+  421.67,
+  1.93,
+  0.07
+),
+(
+  '2390',
+  '2026-05-27',
+  null,
+  0.85,
+  null
+),
+(
+  '2392',
+  '2026-05-27',
+  null,
+  0.78,
+  2.66
+),
+(
+  '2393',
+  '2026-05-27',
+  14.96,
+  1.35,
+  7.18
+),
+(
+  '2395',
+  '2026-05-27',
+  39.49,
+  8.91,
+  2.2
+),
+(
+  '2397',
+  '2026-05-27',
+  27.11,
+  2.23,
+  3.9
+),
+(
+  '2399',
+  '2026-05-27',
+  30.77,
+  3.47,
+  null
+),
+(
+  '2401',
+  '2026-05-27',
+  null,
+  2.23,
+  null
+),
+(
+  '2402',
+  '2026-05-27',
+  35.23,
+  2.97,
+  2.91
+),
+(
+  '2404',
+  '2026-05-27',
+  22.96,
+  16.22,
+  3.24
+),
+(
+  '2405',
+  '2026-05-27',
+  null,
+  1.63,
+  0.61
+),
+(
+  '2406',
+  '2026-05-27',
+  null,
+  3.35,
+  null
+),
+(
+  '2408',
+  '2026-05-27',
+  27.93,
+  5.01,
+  0.48
+),
+(
+  '2409',
+  '2026-05-27',
+  68.13,
+  1.1,
+  1.83
+),
+(
+  '2412',
+  '2026-05-27',
+  27.24,
+  2.68,
+  3.8
+),
+(
+  '2413',
+  '2026-05-27',
+  64.35,
+  3.04,
+  1.01
+),
+(
+  '2414',
+  '2026-05-27',
+  14.5,
+  2.42,
+  5.86
+),
+(
+  '2415',
+  '2026-05-27',
+  13.88,
+  1.35,
+  5.97
+),
+(
+  '2417',
+  '2026-05-27',
+  193.08,
+  2.32,
+  0.5
+),
+(
+  '2419',
+  '2026-05-27',
+  null,
+  2.04,
+  null
+),
+(
+  '2420',
+  '2026-05-27',
+  15.86,
+  2.29,
+  4.8
+),
+(
+  '2421',
+  '2026-05-27',
+  19.78,
+  4.09,
+  3.23
+),
+(
+  '2423',
+  '2026-05-27',
+  23.2,
+  4.26,
+  3.03
+),
+(
+  '2424',
+  '2026-05-27',
+  null,
+  2.92,
+  null
+),
+(
+  '2425',
+  '2026-05-27',
+  null,
+  1.4,
+  0.27
+),
+(
+  '2426',
+  '2026-05-27',
+  null,
+  6.22,
+  0.13
+),
+(
+  '2427',
+  '2026-05-27',
+  15.86,
+  1.17,
+  3.45
+),
+(
+  '2428',
+  '2026-05-27',
+  24.18,
+  2.9,
+  2.22
+),
+(
+  '2429',
+  '2026-05-27',
+  null,
+  5.64,
+  null
+),
+(
+  '2430',
+  '2026-05-27',
+  38.65,
+  0.5,
+  4.31
+),
+(
+  '2431',
+  '2026-05-27',
+  null,
+  1.08,
+  null
+),
+(
+  '2432',
+  '2026-05-27',
+  13.65,
+  1.47,
+  6.49
+),
+(
+  '2433',
+  '2026-05-27',
+  14.23,
+  2.04,
+  6.22
+),
+(
+  '2434',
+  '2026-05-27',
+  null,
+  2.63,
+  null
+),
+(
+  '2436',
+  '2026-05-27',
+  23.18,
+  3.55,
+  2.56
+),
+(
+  '2438',
+  '2026-05-27',
+  null,
+  4.07,
+  null
+),
+(
+  '2439',
+  '2026-05-27',
+  18.43,
+  1.36,
+  4.41
+),
+(
+  '2440',
+  '2026-05-27',
+  null,
+  1.21,
+  null
+),
+(
+  '2441',
+  '2026-05-27',
+  29.12,
+  3.07,
+  2.21
+),
+(
+  '2442',
+  '2026-05-27',
+  3.49,
+  0.79,
+  14.75
+),
+(
+  '2444',
+  '2026-05-27',
+  null,
+  1.67,
+  null
+),
+(
+  '2449',
+  '2026-05-27',
+  42.81,
+  7.09,
+  0.48
+),
+(
+  '2450',
+  '2026-05-27',
+  19.18,
+  1.24,
+  5.28
+),
+(
+  '2451',
+  '2026-05-27',
+  10.38,
+  5.28,
+  3.68
+),
+(
+  '2453',
+  '2026-05-27',
+  19.9,
+  3.06,
+  4.48
+),
+(
+  '2454',
+  '2026-05-27',
+  73.94,
+  18.98,
+  1.15
+),
+(
+  '2455',
+  '2026-05-27',
+  132.02,
+  21.1,
+  0.63
+),
+(
+  '2457',
+  '2026-05-27',
+  null,
+  1.19,
+  null
+),
+(
+  '2458',
+  '2026-05-27',
+  18.12,
+  4.87,
+  4.3
+),
+(
+  '2459',
+  '2026-05-27',
+  12.81,
+  1.27,
+  6.27
+),
+(
+  '2460',
+  '2026-05-27',
+  null,
+  3.41,
+  null
+),
+(
+  '2461',
+  '2026-05-27',
+  null,
+  0.88,
+  6.45
+),
+(
+  '2462',
+  '2026-05-27',
+  289.29,
+  0.91,
+  0.99
+),
+(
+  '2464',
+  '2026-05-27',
+  null,
+  7.27,
+  0.28
+),
+(
+  '2465',
+  '2026-05-27',
+  65.15,
+  6.71,
+  null
+),
+(
+  '2466',
+  '2026-05-27',
+  64.46,
+  4.06,
+  null
+),
+(
+  '2467',
+  '2026-05-27',
+  87.37,
+  12.32,
+  0.84
+),
+(
+  '2468',
+  '2026-05-27',
+  25.86,
+  1.79,
+  3.02
+),
+(
+  '2471',
+  '2026-05-27',
+  13.21,
+  2.47,
+  6.54
+),
+(
+  '2472',
+  '2026-05-27',
+  39.02,
+  5.78,
+  1.04
+),
+(
+  '2474',
+  '2026-05-27',
+  19.97,
+  0.82,
+  4.87
+),
+(
+  '2476',
+  '2026-05-27',
+  29.52,
+  3.03,
+  2.33
+),
+(
+  '2477',
+  '2026-05-27',
+  12.69,
+  0.8,
+  6.81
+),
+(
+  '2478',
+  '2026-05-27',
+  32.35,
+  2.36,
+  1.67
+),
+(
+  '2480',
+  '2026-05-27',
+  17.46,
+  5.22,
+  5.32
+),
+(
+  '2481',
+  '2026-05-27',
+  46.83,
+  3.89,
+  1.22
+),
+(
+  '2482',
+  '2026-05-27',
+  null,
+  1.19,
+  0.61
+),
+(
+  '2483',
+  '2026-05-27',
+  27.61,
+  1.06,
+  1.18
+),
+(
+  '2484',
+  '2026-05-27',
+  71.08,
+  2.05,
+  1.33
+),
+(
+  '2485',
+  '2026-05-27',
+  1852.5,
+  4.46,
+  null
+),
+(
+  '2486',
+  '2026-05-27',
+  541.18,
+  12.24,
+  0.18
+),
+(
+  '2488',
+  '2026-05-27',
+  11.44,
+  1.46,
+  5.65
+),
+(
+  '2489',
+  '2026-05-27',
+  46.51,
+  2.39,
+  2.37
+),
+(
+  '2491',
+  '2026-05-27',
+  6.56,
+  1.85,
+  null
+),
+(
+  '2492',
+  '2026-05-27',
+  69.16,
+  3.27,
+  0.69
+),
+(
+  '2493',
+  '2026-05-27',
+  37.35,
+  6.9,
+  2.53
+),
+(
+  '2495',
+  '2026-05-27',
+  44.78,
+  2.96,
+  1.58
+),
+(
+  '2496',
+  '2026-05-27',
+  10.16,
+  1.44,
+  7.69
+),
+(
+  '2497',
+  '2026-05-27',
+  25.62,
+  2.45,
+  3.45
+),
+(
+  '2498',
+  '2026-05-27',
+  21.57,
+  1.38,
+  1.12
+),
+(
+  '2501',
+  '2026-05-27',
+  5.65,
+  0.8,
+  5.49
+),
+(
+  '2504',
+  '2026-05-27',
+  10.62,
+  1.47,
+  7.44
+),
+(
+  '2505',
+  '2026-05-27',
+  8.82,
+  0.63,
+  5.7
+),
+(
+  '2506',
+  '2026-05-27',
+  null,
+  0.4,
+  2.31
+),
+(
+  '2509',
+  '2026-05-27',
+  null,
+  0.71,
+  null
+),
+(
+  '2511',
+  '2026-05-27',
+  21.77,
+  0.48,
+  3.94
+),
+(
+  '2514',
+  '2026-05-27',
+  7.27,
+  0.36,
+  null
+),
+(
+  '2515',
+  '2026-05-27',
+  26.77,
+  0.9,
+  3.89
+),
+(
+  '2516',
+  '2026-05-27',
+  11.53,
+  1.45,
+  null
+),
+(
+  '2520',
+  '2026-05-27',
+  12.47,
+  0.74,
+  5.32
+),
+(
+  '2524',
+  '2026-05-27',
+  58.33,
+  0.58,
+  null
+),
+(
+  '2527',
+  '2026-05-27',
+  7.15,
+  0.44,
+  4.14
+),
+(
+  '2528',
+  '2026-05-27',
+  9.12,
+  1.32,
+  13.76
+),
+(
+  '2530',
+  '2026-05-27',
+  9.23,
+  1.51,
+  10.22
+),
+(
+  '2534',
+  '2026-05-27',
+  17.04,
+  0.55,
+  8.55
+),
+(
+  '2535',
+  '2026-05-27',
+  9.35,
+  2.05,
+  5.9
+),
+(
+  '2536',
+  '2026-05-27',
+  5.8,
+  0.5,
+  10.42
+),
+(
+  '2537',
+  '2026-05-27',
+  29.34,
+  0.62,
+  null
+),
+(
+  '2538',
+  '2026-05-27',
+  26.03,
+  0.73,
+  5.34
+),
+(
+  '2539',
+  '2026-05-27',
+  11.73,
+  2.12,
+  8.43
+),
+(
+  '2540',
+  '2026-05-27',
+  89.17,
+  3.08,
+  11.21
+),
+(
+  '2542',
+  '2026-05-27',
+  13.26,
+  1.65,
+  9.28
+),
+(
+  '2543',
+  '2026-05-27',
+  16.73,
+  2.18,
+  3.61
+),
+(
+  '2545',
+  '2026-05-27',
+  24.22,
+  0.91,
+  7.81
+),
+(
+  '2546',
+  '2026-05-27',
+  9.18,
+  1.84,
+  6.87
+),
+(
+  '2547',
+  '2026-05-27',
+  70.71,
+  0.71,
+  8.08
+),
+(
+  '2548',
+  '2026-05-27',
+  9.48,
+  1.89,
+  7
+),
+(
+  '2597',
+  '2026-05-27',
+  13.86,
+  5.26,
+  6.14
+),
+(
+  '2601',
+  '2026-05-27',
+  null,
+  0.55,
+  null
+),
+(
+  '2603',
+  '2026-05-27',
+  9.24,
+  0.79,
+  7.57
+),
+(
+  '2605',
+  '2026-05-27',
+  14.83,
+  1.03,
+  3.23
+),
+(
+  '2606',
+  '2026-05-27',
+  13.92,
+  1.51,
+  3.86
+),
+(
+  '2607',
+  '2026-05-27',
+  10,
+  0.8,
+  5.71
+),
+(
+  '2608',
+  '2026-05-27',
+  14.23,
+  1.05,
+  5.77
+),
+(
+  '2609',
+  '2026-05-27',
+  17.08,
+  0.56,
+  3.8
+),
+(
+  '2610',
+  '2026-05-27',
+  7.21,
+  1.1,
+  4.44
+),
+(
+  '2611',
+  '2026-05-27',
+  9.89,
+  0.92,
+  4.02
+),
+(
+  '2612',
+  '2026-05-27',
+  10.49,
+  0.84,
+  3.82
+),
+(
+  '2613',
+  '2026-05-27',
+  19.86,
+  0.94,
+  4.62
+),
+(
+  '2614',
+  '2026-05-27',
+  8.9,
+  1.38,
+  6.61
+),
+(
+  '2615',
+  '2026-05-27',
+  7.55,
+  0.8,
+  3.67
+),
+(
+  '2616',
+  '2026-05-27',
+  null,
+  0.7,
+  2.26
+),
+(
+  '2617',
+  '2026-05-27',
+  8.7,
+  0.66,
+  5.21
+),
+(
+  '2618',
+  '2026-05-27',
+  6.6,
+  1.39,
+  5.75
+),
+(
+  '2630',
+  '2026-05-27',
+  43.88,
+  2.56,
+  2.18
+),
+(
+  '2633',
+  '2026-05-27',
+  20.87,
+  1.9,
+  4.55
+),
+(
+  '2634',
+  '2026-05-27',
+  56.88,
+  2.36,
+  1.71
+),
+(
+  '2636',
+  '2026-05-27',
+  9.8,
+  0.97,
+  7.47
+),
+(
+  '2637',
+  '2026-05-27',
+  10.68,
+  1.12,
+  4.61
+),
+(
+  '2642',
+  '2026-05-27',
+  null,
+  1.06,
+  2.49
+),
+(
+  '2645',
+  '2026-05-27',
+  24.66,
+  4.78,
+  3.1
+),
+(
+  '2646',
+  '2026-05-27',
+  222.78,
+  1.89,
+  null
+),
+(
+  '2701',
+  '2026-05-27',
+  17.89,
+  0.55,
+  2.75
+),
+(
+  '2702',
+  '2026-05-27',
+  null,
+  0.61,
+  null
+),
+(
+  '2704',
+  '2026-05-27',
+  23.55,
+  0.59,
+  1.19
+),
+(
+  '2705',
+  '2026-05-27',
+  16.85,
+  0.58,
+  null
+),
+(
+  '2706',
+  '2026-05-27',
+  17.84,
+  0.59,
+  2.93
+),
+(
+  '2707',
+  '2026-05-27',
+  12.36,
+  6.23,
+  6.21
+),
+(
+  '2712',
+  '2026-05-27',
+  null,
+  1.53,
+  null
+),
+(
+  '2722',
+  '2026-05-27',
+  null,
+  1.35,
+  0.66
+),
+(
+  '2723',
+  '2026-05-27',
+  null,
+  1.04,
+  4.98
+),
+(
+  '2727',
+  '2026-05-27',
+  14.06,
+  5.06,
+  6.89
+),
+(
+  '2731',
+  '2026-05-27',
+  9.71,
+  2.9,
+  7.71
+),
+(
+  '2739',
+  '2026-05-27',
+  11.45,
+  2.12,
+  7.44
+),
+(
+  '2748',
+  '2026-05-27',
+  18.75,
+  1.4,
+  4.49
+),
+(
+  '2753',
+  '2026-05-27',
+  12.84,
+  3.25,
+  6.94
+),
+(
+  '2762',
+  '2026-05-27',
+  15.3,
+  3.32,
+  7.34
+),
+(
+  '2801',
+  '2026-05-27',
+  12.59,
+  1.05,
+  5.21
+),
+(
+  '2812',
+  '2026-05-27',
+  12.13,
+  1.21,
+  5.64
+),
+(
+  '2816',
+  '2026-05-27',
+  5.07,
+  0.84,
+  4.69
+),
+(
+  '2820',
+  '2026-05-27',
+  10.99,
+  0.8,
+  5.39
+),
+(
+  '2832',
+  '2026-05-27',
+  10.17,
+  1.1,
+  6.62
+),
+(
+  '2834',
+  '2026-05-27',
+  12.33,
+  1.05,
+  6.19
+),
+(
+  '2836',
+  '2026-05-27',
+  15.95,
+  0.82,
+  3.81
+),
+(
+  '2838',
+  '2026-05-27',
+  14.54,
+  1.11,
+  5.17
+),
+(
+  '2845',
+  '2026-05-27',
+  13.52,
+  0.81,
+  5.29
+),
+(
+  '2849',
+  '2026-05-27',
+  16.05,
+  0.74,
+  3.7
+),
+(
+  '2850',
+  '2026-05-27',
+  10.1,
+  2.05,
+  5.14
+),
+(
+  '2851',
+  '2026-05-27',
+  6.76,
+  1.19,
+  6.29
+),
+(
+  '2852',
+  '2026-05-27',
+  8.72,
+  0.86,
+  6.18
+),
+(
+  '2855',
+  '2026-05-27',
+  10.04,
+  1.72,
+  4.7
+),
+(
+  '2867',
+  '2026-05-27',
+  53.86,
+  0.57,
+  null
+),
+(
+  '2880',
+  '2026-05-27',
+  15.76,
+  1.76,
+  4.84
+),
+(
+  '2881',
+  '2026-05-27',
+  14.19,
+  1.75,
+  3.86
+),
+(
+  '2882',
+  '2026-05-27',
+  12.92,
+  1.49,
+  4.1
+),
+(
+  '2883',
+  '2026-05-27',
+  12.53,
+  1.12,
+  4.48
+),
+(
+  '2884',
+  '2026-05-27',
+  14.16,
+  1.77,
+  4.49
+),
+(
+  '2885',
+  '2026-05-27',
+  18.31,
+  2.21,
+  3.7
+),
+(
+  '2886',
+  '2026-05-27',
+  16.04,
+  1.46,
+  4.44
+),
+(
+  '2887',
+  '2026-05-27',
+  16.41,
+  1.26,
+  4.72
+),
+(
+  '2889',
+  '2026-05-27',
+  18.9,
+  1.14,
+  4.05
+),
+(
+  '2890',
+  '2026-05-27',
+  14.19,
+  1.62,
+  4.38
+),
+(
+  '2891',
+  '2026-05-27',
+  14.27,
+  2.12,
+  4.22
+),
+(
+  '2892',
+  '2026-05-27',
+  14.76,
+  1.36,
+  4.71
+),
+(
+  '2897',
+  '2026-05-27',
+  14.71,
+  0.68,
+  5.2
+),
+(
+  '2901',
+  '2026-05-27',
+  54.76,
+  1.84,
+  1.65
+),
+(
+  '2903',
+  '2026-05-27',
+  13.52,
+  0.99,
+  5.71
+),
+(
+  '2904',
+  '2026-05-27',
+  24.4,
+  0.89,
+  4.95
+),
+(
+  '2905',
+  '2026-05-27',
+  21.51,
+  0.48,
+  2.21
+),
+(
+  '2906',
+  '2026-05-27',
+  27.44,
+  0.77,
+  4.86
+),
+(
+  '2908',
+  '2026-05-27',
+  53.38,
+  1.58,
+  2.58
+),
+(
+  '2910',
+  '2026-05-27',
+  17.66,
+  1.43,
+  4.83
+),
+(
+  '2911',
+  '2026-05-27',
+  2.4,
+  0.67,
+  null
+),
+(
+  '2912',
+  '2026-05-27',
+  18.82,
+  4.62,
+  4.36
+),
+(
+  '2913',
+  '2026-05-27',
+  null,
+  0.68,
+  null
+),
+(
+  '2915',
+  '2026-05-27',
+  5.11,
+  0.4,
+  4.36
+),
+(
+  '2923',
+  '2026-05-27',
+  null,
+  0.91,
+  0.5
+),
+(
+  '2929',
+  '2026-05-27',
+  null,
+  0.26,
+  null
+),
+(
+  '2939',
+  '2026-05-27',
+  null,
+  1.87,
+  null
+),
+(
+  '2945',
+  '2026-05-27',
+  17.96,
+  1.42,
+  3.71
+),
+(
+  '3002',
+  '2026-05-27',
+  51.21,
+  1.35,
+  1.95
+),
+(
+  '3003',
+  '2026-05-27',
+  62.28,
+  1.52,
+  1.59
+),
+(
+  '3004',
+  '2026-05-27',
+  23.22,
+  2.19,
+  2.06
+),
+(
+  '3005',
+  '2026-05-27',
+  12.64,
+  2.74,
+  6.59
+),
+(
+  '3006',
+  '2026-05-27',
+  28.66,
+  5.25,
+  0.41
+),
+(
+  '3008',
+  '2026-05-27',
+  21.88,
+  2.48,
+  2.28
+),
+(
+  '3010',
+  '2026-05-27',
+  14.82,
+  1.52,
+  3.81
+),
+(
+  '3011',
+  '2026-05-27',
+  null,
+  1.27,
+  null
+),
+(
+  '3013',
+  '2026-05-27',
+  26.21,
+  4.46,
+  0.67
+),
+(
+  '3014',
+  '2026-05-27',
+  16.54,
+  4.09,
+  5.56
+),
+(
+  '3015',
+  '2026-05-27',
+  25.42,
+  0.82,
+  4.26
+),
+(
+  '3016',
+  '2026-05-27',
+  307.32,
+  7.42,
+  0.4
+),
+(
+  '3017',
+  '2026-05-27',
+  44.36,
+  23.47,
+  0.78
+),
+(
+  '3018',
+  '2026-05-27',
+  null,
+  1.42,
+  null
+),
+(
+  '3019',
+  '2026-05-27',
+  21.79,
+  2.92,
+  3.08
+),
+(
+  '3021',
+  '2026-05-27',
+  43.02,
+  1.51,
+  2.4
+),
+(
+  '3022',
+  '2026-05-27',
+  20.93,
+  1.14,
+  4.74
+),
+(
+  '3023',
+  '2026-05-27',
+  24.43,
+  4.28,
+  3.21
+),
+(
+  '3024',
+  '2026-05-27',
+  176.11,
+  1.45,
+  1.39
+),
+(
+  '3025',
+  '2026-05-27',
+  19.3,
+  4.76,
+  4.15
+),
+(
+  '3026',
+  '2026-05-27',
+  78.35,
+  10.41,
+  0.95
+),
+(
+  '3027',
+  '2026-05-27',
+  null,
+  1.11,
+  null
+),
+(
+  '3028',
+  '2026-05-27',
+  15.93,
+  3.03,
+  3.69
+),
+(
+  '3029',
+  '2026-05-27',
+  14.01,
+  3.14,
+  5.77
+),
+(
+  '3030',
+  '2026-05-27',
+  34.59,
+  9.02,
+  1.75
+),
+(
+  '3031',
+  '2026-05-27',
+  27.63,
+  1.88,
+  3.23
+),
+(
+  '3032',
+  '2026-05-27',
+  null,
+  3.65,
+  3.01
+),
+(
+  '3033',
+  '2026-05-27',
+  19.28,
+  2.3,
+  4.1
+),
+(
+  '3034',
+  '2026-05-27',
+  19.88,
+  4.1,
+  4.74
+),
+(
+  '3035',
+  '2026-05-27',
+  107.71,
+  3.86,
+  0.89
+),
+(
+  '3036',
+  '2026-05-27',
+  20.99,
+  3.32,
+  2.64
+),
+(
+  '3037',
+  '2026-05-27',
+  158.82,
+  15.13,
+  0.19
+),
+(
+  '3038',
+  '2026-05-27',
+  24.73,
+  1.44,
+  5.16
+),
+(
+  '3040',
+  '2026-05-27',
+  null,
+  1.76,
+  8.83
+),
+(
+  '3041',
+  '2026-05-27',
+  null,
+  2.57,
+  null
+),
+(
+  '3042',
+  '2026-05-27',
+  37.79,
+  4.45,
+  2.42
+),
+(
+  '3043',
+  '2026-05-27',
+  null,
+  1.1,
+  null
+),
+(
+  '3044',
+  '2026-05-27',
+  25.46,
+  4.72,
+  2.42
+),
+(
+  '3045',
+  '2026-05-27',
+  22.31,
+  3.66,
+  4.36
+),
+(
+  '3046',
+  '2026-05-27',
+  13.15,
+  2.74,
+  5.57
+),
+(
+  '3047',
+  '2026-05-27',
+  null,
+  1.34,
+  2.01
+),
+(
+  '3048',
+  '2026-05-27',
+  25.18,
+  3.24,
+  1.43
+),
+(
+  '3049',
+  '2026-05-27',
+  null,
+  1.39,
+  null
+),
+(
+  '3050',
+  '2026-05-27',
+  null,
+  0.8,
+  2.02
+),
+(
+  '3051',
+  '2026-05-27',
+  26.46,
+  1.76,
+  1.83
+),
+(
+  '3052',
+  '2026-05-27',
+  10.84,
+  0.59,
+  5.83
+),
+(
+  '3054',
+  '2026-05-27',
+  19.94,
+  4.06,
+  1.18
+),
+(
+  '3055',
+  '2026-05-27',
+  null,
+  7.81,
+  0.89
+),
+(
+  '3056',
+  '2026-05-27',
+  null,
+  0.75,
+  4.59
+),
+(
+  '3057',
+  '2026-05-27',
+  null,
+  2.1,
+  null
+),
+(
+  '3058',
+  '2026-05-27',
+  null,
+  1.05,
+  null
+),
+(
+  '3059',
+  '2026-05-27',
+  33.78,
+  1.28,
+  2.41
+),
+(
+  '3060',
+  '2026-05-27',
+  null,
+  1.5,
+  0.67
+),
+(
+  '3062',
+  '2026-05-27',
+  null,
+  2.32,
+  null
+),
+(
+  '3090',
+  '2026-05-27',
+  48.13,
+  3.77,
+  2.08
+),
+(
+  '3092',
+  '2026-05-27',
+  null,
+  2.33,
+  null
+),
+(
+  '3094',
+  '2026-05-27',
+  136.73,
+  2.92,
+  0.7
+),
+(
+  '3130',
+  '2026-05-27',
+  14.69,
+  4.03,
+  6.64
+),
+(
+  '3135',
+  '2026-05-27',
+  17.13,
+  6.66,
+  1.94
+),
+(
+  '3138',
+  '2026-05-27',
+  107.47,
+  3.46,
+  1.01
+),
+(
+  '3149',
+  '2026-05-27',
+  null,
+  5.97,
+  null
+),
+(
+  '3150',
+  '2026-05-27',
+  null,
+  1.44,
+  2.63
+),
+(
+  '3164',
+  '2026-05-27',
+  31.25,
+  1.09,
+  4.92
+),
+(
+  '3167',
+  '2026-05-27',
+  79.92,
+  20.28,
+  0.49
+),
+(
+  '3168',
+  '2026-05-27',
+  18.36,
+  2.3,
+  6.1
+),
+(
+  '3189',
+  '2026-05-27',
+  197.75,
+  8.57,
+  0.25
+),
+(
+  '3209',
+  '2026-05-27',
+  22.67,
+  3.66,
+  3.07
+),
+(
+  '3229',
+  '2026-05-27',
+  918,
+  4.65,
+  null
+),
+(
+  '3231',
+  '2026-05-27',
+  14.54,
+  2.42,
+  3.79
+),
+(
+  '3257',
+  '2026-05-27',
+  20.57,
+  3.09,
+  4.58
+),
+(
+  '3266',
+  '2026-05-27',
+  19.61,
+  0.69,
+  3.98
+),
+(
+  '3296',
+  '2026-05-27',
+  151.15,
+  1.51,
+  null
+),
+(
+  '3305',
+  '2026-05-27',
+  45.07,
+  3.71,
+  1.44
+),
+(
+  '3308',
+  '2026-05-27',
+  167.5,
+  1.07,
+  null
+),
+(
+  '3311',
+  '2026-05-27',
+  22.52,
+  0.94,
+  1.72
+),
+(
+  '3312',
+  '2026-05-27',
+  29.88,
+  2.21,
+  2.61
+),
+(
+  '3321',
+  '2026-05-27',
+  null,
+  2.44,
+  null
+),
+(
+  '3338',
+  '2026-05-27',
+  51.78,
+  3.22,
+  1.72
+),
+(
+  '3346',
+  '2026-05-27',
+  null,
+  0.6,
+  0.62
+),
+(
+  '3356',
+  '2026-05-27',
+  6.35,
+  1.93,
+  5.43
+),
+(
+  '3376',
+  '2026-05-27',
+  311.76,
+  2.39,
+  1.89
+),
+(
+  '3380',
+  '2026-05-27',
+  null,
+  2.12,
+  1.41
+),
+(
+  '3406',
+  '2026-05-27',
+  17.73,
+  2.53,
+  2.91
+),
+(
+  '3413',
+  '2026-05-27',
+  16.7,
+  2.19,
+  3.49
+),
+(
+  '3416',
+  '2026-05-27',
+  25.34,
+  4.59,
+  2.76
+),
+(
+  '3419',
+  '2026-05-27',
+  null,
+  1.76,
+  null
+),
+(
+  '3432',
+  '2026-05-27',
+  null,
+  2.65,
+  null
+),
+(
+  '3437',
+  '2026-05-27',
+  null,
+  1.59,
+  null
+),
+(
+  '3443',
+  '2026-05-27',
+  153.43,
+  46.86,
+  0.39
+),
+(
+  '3447',
+  '2026-05-27',
+  25.21,
+  2.28,
+  3.05
+),
+(
+  '3450',
+  '2026-05-27',
+  149.11,
+  13.99,
+  0.2
+),
+(
+  '3481',
+  '2026-05-27',
+  456.36,
+  1.77,
+  1.99
+),
+(
+  '3494',
+  '2026-05-27',
+  null,
+  1.4,
+  null
+),
+(
+  '3501',
+  '2026-05-27',
+  22.09,
+  0.68,
+  5.06
+),
+(
+  '3504',
+  '2026-05-27',
+  null,
+  3.13,
+  null
+),
+(
+  '3515',
+  '2026-05-27',
+  15.14,
+  2.63,
+  4.58
+),
+(
+  '3518',
+  '2026-05-27',
+  16.35,
+  2.16,
+  null
+),
+(
+  '3528',
+  '2026-05-27',
+  33.39,
+  3.3,
+  1.33
+),
+(
+  '3530',
+  '2026-05-27',
+  33.74,
+  2.13,
+  1.17
+),
+(
+  '3532',
+  '2026-05-27',
+  367.72,
+  4.65,
+  0.34
+),
+(
+  '3533',
+  '2026-05-27',
+  36.88,
+  7.03,
+  1.33
+),
+(
+  '3535',
+  '2026-05-27',
+  308.75,
+  8.77,
+  0.4
+),
+(
+  '3543',
+  '2026-05-27',
+  null,
+  1.24,
+  1.7
+),
+(
+  '3545',
+  '2026-05-27',
+  null,
+  1.47,
+  1.35
+),
+(
+  '3550',
+  '2026-05-27',
+  null,
+  1.3,
+  null
+),
+(
+  '3557',
+  '2026-05-27',
+  null,
+  0.81,
+  1.22
+),
+(
+  '3563',
+  '2026-05-27',
+  53.77,
+  10.34,
+  1.66
+),
+(
+  '3576',
+  '2026-05-27',
+  45.48,
+  2.38,
+  null
+),
+(
+  '3583',
+  '2026-05-27',
+  59.39,
+  9.22,
+  0.68
+),
+(
+  '3588',
+  '2026-05-27',
+  107.5,
+  2.23,
+  0.78
+),
+(
+  '3591',
+  '2026-05-27',
+  null,
+  1.26,
+  2.9
+),
+(
+  '3592',
+  '2026-05-27',
+  17.56,
+  1.98,
+  5.2
+),
+(
+  '3593',
+  '2026-05-27',
+  null,
+  4.18,
+  null
+),
+(
+  '3596',
+  '2026-05-27',
+  14.9,
+  2.64,
+  4.77
+),
+(
+  '3605',
+  '2026-05-27',
+  22.63,
+  1.61,
+  2.15
+),
+(
+  '3607',
+  '2026-05-27',
+  38.97,
+  1.09,
+  5.26
+),
+(
+  '3617',
+  '2026-05-27',
+  15.23,
+  2.22,
+  4.65
+),
+(
+  '3622',
+  '2026-05-27',
+  9.78,
+  1.19,
+  5.6
+),
+(
+  '3645',
+  '2026-05-27',
+  57.89,
+  4.44,
+  1.09
+),
+(
+  '3652',
+  '2026-05-27',
+  23.43,
+  1.31,
+  3.66
+),
+(
+  '3653',
+  '2026-05-27',
+  101.52,
+  25.42,
+  0.6
+),
+(
+  '3661',
+  '2026-05-27',
+  65.95,
+  8.5,
+  0.76
+),
+(
+  '3665',
+  '2026-05-27',
+  42.68,
+  8.85,
+  0.71
+),
+(
+  '3669',
+  '2026-05-27',
+  21.59,
+  1.13,
+  2.54
+),
+(
+  '3673',
+  '2026-05-27',
+  24.15,
+  0.88,
+  2.05
+),
+(
+  '3679',
+  '2026-05-27',
+  14.13,
+  1.61,
+  7.5
+),
+(
+  '3686',
+  '2026-05-27',
+  null,
+  2.01,
+  null
+),
+(
+  '3694',
+  '2026-05-27',
+  16.23,
+  2.72,
+  3.36
+),
+(
+  '3701',
+  '2026-05-27',
+  null,
+  2.71,
+  0.36
+),
+(
+  '3702',
+  '2026-05-27',
+  14.71,
+  2.25,
+  3.15
+),
+(
+  '3703',
+  '2026-05-27',
+  9.66,
+  0.61,
+  5.22
+),
+(
+  '3704',
+  '2026-05-27',
+  39.35,
+  1.56,
+  0.88
+),
+(
+  '3705',
+  '2026-05-27',
+  18.69,
+  1.94,
+  5.41
+),
+(
+  '3706',
+  '2026-05-27',
+  16.07,
+  1.68,
+  4.75
+),
+(
+  '3708',
+  '2026-05-27',
+  3.2,
+  0.69,
+  4.58
+),
+(
+  '3711',
+  '2026-05-27',
+  59.61,
+  8.04,
+  1.03
+),
+(
+  '3712',
+  '2026-05-27',
+  null,
+  1.33,
+  18.69
+),
+(
+  '3714',
+  '2026-05-27',
+  null,
+  1.31,
+  1.21
+),
+(
+  '3715',
+  '2026-05-27',
+  184.54,
+  4.72,
+  0.6
+),
+(
+  '3716',
+  '2026-05-27',
+  13.22,
+  0.64,
+  2.92
+),
+(
+  '3717',
+  '2026-05-27',
+  275,
+  1.36,
+  0.91
+),
+(
+  '4104',
+  '2026-05-27',
+  16.26,
+  1.38,
+  6.11
+),
+(
+  '4106',
+  '2026-05-27',
+  16.29,
+  0.95,
+  4.29
+),
+(
+  '4108',
+  '2026-05-27',
+  null,
+  1.33,
+  null
+),
+(
+  '4119',
+  '2026-05-27',
+  51.25,
+  0.91,
+  1.83
+),
+(
+  '4133',
+  '2026-05-27',
+  686.67,
+  0.98,
+  0.53
+),
+(
+  '4137',
+  '2026-05-27',
+  12.98,
+  1.51,
+  9.8
+),
+(
+  '4142',
+  '2026-05-27',
+  null,
+  1.51,
+  null
+),
+(
+  '4148',
+  '2026-05-27',
+  14.72,
+  0.78,
+  3.14
+),
+(
+  '4155',
+  '2026-05-27',
+  18.97,
+  0.85,
+  2.03
+),
+(
+  '4164',
+  '2026-05-27',
+  27.12,
+  0.74,
+  3.9
+),
+(
+  '4169',
+  '2026-05-27',
+  476.56,
+  8.21,
+  0.24
+),
+(
+  '4178',
+  '2026-05-27',
+  null,
+  2.17,
+  null
+),
+(
+  '4190',
+  '2026-05-27',
+  null,
+  0.9,
+  2.06
+),
+(
+  '4195',
+  '2026-05-27',
+  null,
+  2.59,
+  null
+),
+(
+  '4306',
+  '2026-05-27',
+  36.32,
+  0.72,
+  5.07
+),
+(
+  '4414',
+  '2026-05-27',
+  null,
+  0.5,
+  1.44
+),
+(
+  '4426',
+  '2026-05-27',
+  null,
+  0.71,
+  null
+),
+(
+  '4438',
+  '2026-05-27',
+  14.84,
+  0.77,
+  3.92
+),
+(
+  '4439',
+  '2026-05-27',
+  11.06,
+  0.99,
+  4.37
+),
+(
+  '4440',
+  '2026-05-27',
+  10.41,
+  0.93,
+  5.62
+),
+(
+  '4441',
+  '2026-05-27',
+  14.45,
+  2.13,
+  5.24
+),
+(
+  '4526',
+  '2026-05-27',
+  38.41,
+  2.11,
+  2.5
+),
+(
+  '4532',
+  '2026-05-27',
+  12.9,
+  1.12,
+  6.36
+),
+(
+  '4536',
+  '2026-05-27',
+  11.74,
+  1.56,
+  5.08
+),
+(
+  '4540',
+  '2026-05-27',
+  null,
+  2.25,
+  null
+),
+(
+  '4545',
+  '2026-05-27',
+  null,
+  1.45,
+  0.36
+),
+(
+  '4551',
+  '2026-05-27',
+  22.71,
+  1.95,
+  2.77
+),
+(
+  '4552',
+  '2026-05-27',
+  12.92,
+  0.36,
+  3.02
+),
+(
+  '4555',
+  '2026-05-27',
+  233.48,
+  1.3,
+  0.93
+),
+(
+  '4557',
+  '2026-05-27',
+  null,
+  0.8,
+  4.65
+),
+(
+  '4560',
+  '2026-05-27',
+  11.42,
+  1.06,
+  4.59
+),
+(
+  '4562',
+  '2026-05-27',
+  null,
+  3.92,
+  null
+),
+(
+  '4564',
+  '2026-05-27',
+  null,
+  0.88,
+  null
+),
+(
+  '4566',
+  '2026-05-27',
+  66.41,
+  1.35,
+  1.11
+),
+(
+  '4569',
+  '2026-05-27',
+  37.22,
+  2.01,
+  1.8
+),
+(
+  '4571',
+  '2026-05-27',
+  24.2,
+  3.36,
+  2.43
+),
+(
+  '4572',
+  '2026-05-27',
+  53.77,
+  3.06,
+  3.51
+),
+(
+  '4576',
+  '2026-05-27',
+  107.48,
+  7.9,
+  0.29
+),
+(
+  '4581',
+  '2026-05-27',
+  11.91,
+  1.31,
+  6.02
+),
+(
+  '4582',
+  '2026-05-27',
+  17.37,
+  1.44,
+  3.36
+),
+(
+  '4583',
+  '2026-05-27',
+  62.54,
+  5.91,
+  1.4
+),
+(
+  '4585',
+  '2026-05-27',
+  264.77,
+  5.32,
+  0.29
+),
+(
+  '4588',
+  '2026-05-27',
+  15.73,
+  2.52,
+  5.36
+),
+(
+  '4590',
+  '2026-05-27',
+  28.23,
+  1.11,
+  3.21
+),
+(
+  '4720',
+  '2026-05-27',
+  44.1,
+  1.9,
+  1.49
+),
+(
+  '4722',
+  '2026-05-27',
+  160.06,
+  8.86,
+  0.44
+),
+(
+  '4736',
+  '2026-05-27',
+  6.68,
+  1.21,
+  4.1
+),
+(
+  '4737',
+  '2026-05-27',
+  null,
+  2.11,
+  null
+),
+(
+  '4739',
+  '2026-05-27',
+  32.4,
+  2.09,
+  0.96
+),
+(
+  '4746',
+  '2026-05-27',
+  18.01,
+  0.79,
+  5.91
+),
+(
+  '4755',
+  '2026-05-27',
+  45.01,
+  2.94,
+  2.28
+),
+(
+  '4763',
+  '2026-05-27',
+  8.01,
+  1.9,
+  7.37
+),
+(
+  '4764',
+  '2026-05-27',
+  170.74,
+  11.34,
+  0.31
+),
+(
+  '4766',
+  '2026-05-27',
+  17.68,
+  3.39,
+  4.9
+),
+(
+  '4770',
+  '2026-05-27',
+  26.04,
+  2.61,
+  2.28
+),
+(
+  '4771',
+  '2026-05-27',
+  15.43,
+  2.77,
+  3.49
+),
+(
+  '4807',
+  '2026-05-27',
+  18.28,
+  1.26,
+  null
+),
+(
+  '4904',
+  '2026-05-27',
+  23.58,
+  3.5,
+  4.1
+),
+(
+  '4906',
+  '2026-05-27',
+  null,
+  1.77,
+  1.12
+),
+(
+  '4912',
+  '2026-05-27',
+  51.37,
+  1.83,
+  0.83
+),
+(
+  '4915',
+  '2026-05-27',
+  13.66,
+  1.56,
+  6.35
+),
+(
+  '4916',
+  '2026-05-27',
+  17.72,
+  3.36,
+  0.5
+),
+(
+  '4919',
+  '2026-05-27',
+  null,
+  6.56,
+  0.19
+),
+(
+  '4927',
+  '2026-05-27',
+  null,
+  3.16,
+  null
+),
+(
+  '4930',
+  '2026-05-27',
+  null,
+  0.44,
+  3.4
+),
+(
+  '4934',
+  '2026-05-27',
+  null,
+  2.56,
+  null
+),
+(
+  '4935',
+  '2026-05-27',
+  26.68,
+  0.58,
+  2.74
+),
+(
+  '4938',
+  '2026-05-27',
+  18.87,
+  1.08,
+  4.87
+),
+(
+  '4942',
+  '2026-05-27',
+  12.7,
+  0.59,
+  5.32
+),
+(
+  '4943',
+  '2026-05-27',
+  null,
+  6.4,
+  null
+),
+(
+  '4949',
+  '2026-05-27',
+  37.92,
+  4.18,
+  1.37
+),
+(
+  '4952',
+  '2026-05-27',
+  50.27,
+  2.78,
+  1.79
+),
+(
+  '4956',
+  '2026-05-27',
+  null,
+  2.9,
+  null
+),
+(
+  '4958',
+  '2026-05-27',
+  75.04,
+  4.53,
+  0.64
+),
+(
+  '4960',
+  '2026-05-27',
+  null,
+  2.59,
+  null
+),
+(
+  '4961',
+  '2026-05-27',
+  20.56,
+  1.17,
+  4.5
+),
+(
+  '4967',
+  '2026-05-27',
+  6.83,
+  3.2,
+  3.75
+),
+(
+  '4968',
+  '2026-05-27',
+  39.53,
+  3.84,
+  1.37
+),
+(
+  '4976',
+  '2026-05-27',
+  null,
+  1.99,
+  null
+),
+(
+  '4977',
+  '2026-05-27',
+  49,
+  4.56,
+  1.02
+),
+(
+  '4989',
+  '2026-05-27',
+  null,
+  9.8,
+  null
+),
+(
+  '4994',
+  '2026-05-27',
+  57.37,
+  5.65,
+  3.35
+),
+(
+  '4999',
+  '2026-05-27',
+  null,
+  0.45,
+  1.28
+),
+(
+  '5007',
+  '2026-05-27',
+  18.88,
+  2.57,
+  5.23
+),
+(
+  '5203',
+  '2026-05-27',
+  17.76,
+  1.08,
+  5.54
+),
+(
+  '5215',
+  '2026-05-27',
+  19.22,
+  0.85,
+  4.25
+),
+(
+  '5222',
+  '2026-05-27',
+  66.84,
+  4.73,
+  2
+),
+(
+  '5225',
+  '2026-05-27',
+  7.63,
+  1.77,
+  10.21
+),
+(
+  '5234',
+  '2026-05-27',
+  55.32,
+  14.18,
+  1.53
+),
+(
+  '5243',
+  '2026-05-27',
+  26.08,
+  2.47,
+  1.73
+),
+(
+  '5244',
+  '2026-05-27',
+  null,
+  1.49,
+  1.03
+),
+(
+  '5258',
+  '2026-05-27',
+  15.52,
+  1.31,
+  1.92
+),
+(
+  '5269',
+  '2026-05-27',
+  18.35,
+  3,
+  3.01
+),
+(
+  '5283',
+  '2026-05-27',
+  8.8,
+  0.95,
+  3.85
+),
+(
+  '5284',
+  '2026-05-27',
+  32.99,
+  6.11,
+  1.13
+),
+(
+  '5285',
+  '2026-05-27',
+  42.86,
+  3.09,
+  1.67
+),
+(
+  '5288',
+  '2026-05-27',
+  12.76,
+  1.75,
+  4.23
+),
+(
+  '5292',
+  '2026-05-27',
+  22.3,
+  5.26,
+  2.88
+),
+(
+  '5306',
+  '2026-05-27',
+  12.98,
+  1.12,
+  4.56
+),
+(
+  '5388',
+  '2026-05-27',
+  20.83,
+  1.59,
+  3
+),
+(
+  '5434',
+  '2026-05-27',
+  20.09,
+  4.77,
+  2.85
+),
+(
+  '5469',
+  '2026-05-27',
+  15.18,
+  1.12,
+  2.9
+),
+(
+  '5471',
+  '2026-05-27',
+  57.53,
+  2.64,
+  1.43
+),
+(
+  '5484',
+  '2026-05-27',
+  132.16,
+  6.33,
+  null
+),
+(
+  '5515',
+  '2026-05-27',
+  6.8,
+  1.44,
+  8.13
+),
+(
+  '5519',
+  '2026-05-27',
+  6.43,
+  1.25,
+  11.84
+),
+(
+  '5521',
+  '2026-05-27',
+  15.61,
+  0.89,
+  1.46
+),
+(
+  '5522',
+  '2026-05-27',
+  7.53,
+  1.17,
+  7.72
+),
+(
+  '5525',
+  '2026-05-27',
+  8.37,
+  1.1,
+  5.71
+),
+(
+  '5531',
+  '2026-05-27',
+  152.8,
+  0.74,
+  null
+),
+(
+  '5533',
+  '2026-05-27',
+  23.08,
+  0.42,
+  4.33
+),
+(
+  '5534',
+  '2026-05-27',
+  15.33,
+  1.05,
+  7.32
+),
+(
+  '5538',
+  '2026-05-27',
+  10.1,
+  0.89,
+  4.3
+),
+(
+  '5546',
+  '2026-05-27',
+  null,
+  0.7,
+  6.13
+),
+(
+  '5607',
+  '2026-05-27',
+  15.45,
+  1.63,
+  3.59
+),
+(
+  '5608',
+  '2026-05-27',
+  62.83,
+  0.58,
+  null
+),
+(
+  '5706',
+  '2026-05-27',
+  14.02,
+  2.19,
+  9.02
+),
+(
+  '5871',
+  '2026-05-27',
+  10.02,
+  1.05,
+  5.61
+),
+(
+  '5876',
+  '2026-05-27',
+  12.52,
+  0.92,
+  4.56
+),
+(
+  '5880',
+  '2026-05-27',
+  16.25,
+  1.26,
+  4.62
+),
+(
+  '5906',
+  '2026-05-27',
+  62.43,
+  2.76,
+  1.56
+),
+(
+  '5907',
+  '2026-05-27',
+  null,
+  0.26,
+  null
+),
+(
+  '6005',
+  '2026-05-27',
+  9.78,
+  1.58,
+  4.89
+),
+(
+  '6024',
+  '2026-05-27',
+  9.51,
+  1.3,
+  6.11
+),
+(
+  '6108',
+  '2026-05-27',
+  null,
+  0.96,
+  5.09
+),
+(
+  '6112',
+  '2026-05-27',
+  24.82,
+  1.98,
+  3.91
+),
+(
+  '6115',
+  '2026-05-27',
+  16.62,
+  1.59,
+  5.93
+),
+(
+  '6116',
+  '2026-05-27',
+  null,
+  1.23,
+  null
+),
+(
+  '6117',
+  '2026-05-27',
+  18.59,
+  3.35,
+  2.34
+),
+(
+  '6120',
+  '2026-05-27',
+  null,
+  0.93,
+  1.8
+),
+(
+  '6128',
+  '2026-05-27',
+  null,
+  0.89,
+  2.59
+),
+(
+  '6133',
+  '2026-05-27',
+  31.92,
+  1.7,
+  4.29
+),
+(
+  '6136',
+  '2026-05-27',
+  30.6,
+  0.75,
+  4.51
+),
+(
+  '6139',
+  '2026-05-27',
+  22.51,
+  8.73,
+  2.84
+),
+(
+  '6141',
+  '2026-05-27',
+  null,
+  7.51,
+  null
+),
+(
+  '6142',
+  '2026-05-27',
+  null,
+  0.93,
+  null
+),
+(
+  '6152',
+  '2026-05-27',
+  null,
+  2.03,
+  null
+),
+(
+  '6153',
+  '2026-05-27',
+  null,
+  1.36,
+  null
+),
+(
+  '6155',
+  '2026-05-27',
+  117.4,
+  3.22,
+  1.36
+),
+(
+  '6164',
+  '2026-05-27',
+  605,
+  1.03,
+  4.13
+),
+(
+  '6165',
+  '2026-05-27',
+  11.53,
+  2.87,
+  10.4
+),
+(
+  '6166',
+  '2026-05-27',
+  37.67,
+  5.12,
+  0.88
+),
+(
+  '6168',
+  '2026-05-27',
+  400,
+  1.87,
+  null
+),
+(
+  '6176',
+  '2026-05-27',
+  10.83,
+  1.29,
+  3.45
+),
+(
+  '6177',
+  '2026-05-27',
+  5.7,
+  1.58,
+  7.05
+),
+(
+  '6183',
+  '2026-05-27',
+  22.54,
+  4.57,
+  3.89
+),
+(
+  '6184',
+  '2026-05-27',
+  19.32,
+  1.51,
+  6.55
+),
+(
+  '6189',
+  '2026-05-27',
+  19.05,
+  2.04,
+  5.39
+),
+(
+  '6191',
+  '2026-05-27',
+  15.26,
+  1.77,
+  2.65
+),
+(
+  '6192',
+  '2026-05-27',
+  13.05,
+  1.69,
+  4.55
+),
+(
+  '6196',
+  '2026-05-27',
+  31.85,
+  6.31,
+  1.3
+),
+(
+  '6197',
+  '2026-05-27',
+  27.46,
+  7.53,
+  2.49
+),
+(
+  '6201',
+  '2026-05-27',
+  14.53,
+  1.63,
+  6.49
+),
+(
+  '6202',
+  '2026-05-27',
+  91.52,
+  3.45,
+  1.13
+),
+(
+  '6205',
+  '2026-05-27',
+  48.21,
+  2.58,
+  1.85
+),
+(
+  '6206',
+  '2026-05-27',
+  19.42,
+  3.57,
+  3.97
+),
+(
+  '6209',
+  '2026-05-27',
+  47.34,
+  4.18,
+  0.61
+),
+(
+  '6213',
+  '2026-05-27',
+  67.6,
+  4.77,
+  1.08
+),
+(
+  '6214',
+  '2026-05-27',
+  13.52,
+  1.85,
+  4.65
+),
+(
+  '6215',
+  '2026-05-27',
+  45.79,
+  6.66,
+  0.77
+),
+(
+  '6216',
+  '2026-05-27',
+  370,
+  1.31,
+  4.64
+),
+(
+  '6224',
+  '2026-05-27',
+  92.76,
+  3.14,
+  1.55
+),
+(
+  '6225',
+  '2026-05-27',
+  null,
+  8.72,
+  null
+),
+(
+  '6226',
+  '2026-05-27',
+  null,
+  1.29,
+  null
+),
+(
+  '6230',
+  '2026-05-27',
+  null,
+  2.04,
+  0.16
+),
+(
+  '6235',
+  '2026-05-27',
+  15.41,
+  1.61,
+  3.01
+),
+(
+  '6239',
+  '2026-05-27',
+  40.54,
+  4.31,
+  1.32
+),
+(
+  '6243',
+  '2026-05-27',
+  null,
+  2.03,
+  3.47
+),
+(
+  '6257',
+  '2026-05-27',
+  34.9,
+  5.17,
+  1.8
+),
+(
+  '6269',
+  '2026-05-27',
+  null,
+  0.96,
+  null
+),
+(
+  '6271',
+  '2026-05-27',
+  37.76,
+  2.01,
+  1.18
+),
+(
+  '6272',
+  '2026-05-27',
+  14.13,
+  1.51,
+  5.85
+),
+(
+  '6277',
+  '2026-05-27',
+  23.32,
+  1.95,
+  4.62
+),
+(
+  '6278',
+  '2026-05-27',
+  26.88,
+  3.06,
+  2.34
+),
+(
+  '6281',
+  '2026-05-27',
+  13.51,
+  1.87,
+  6.55
+),
+(
+  '6282',
+  '2026-05-27',
+  118.8,
+  2.26,
+  1.35
+),
+(
+  '6283',
+  '2026-05-27',
+  null,
+  2.02,
+  null
+),
+(
+  '6285',
+  '2026-05-27',
+  45.94,
+  4.31,
+  1.38
+),
+(
+  '6405',
+  '2026-05-27',
+  null,
+  1.9,
+  0.12
+),
+(
+  '6409',
+  '2026-05-27',
+  20.25,
+  6,
+  5.23
+),
+(
+  '6412',
+  '2026-05-27',
+  19.23,
+  2.77,
+  3.7
+),
+(
+  '6414',
+  '2026-05-27',
+  16.73,
+  1.99,
+  3.89
+),
+(
+  '6415',
+  '2026-05-27',
+  89.38,
+  6.77,
+  0.38
+),
+(
+  '6416',
+  '2026-05-27',
+  20.33,
+  1.94,
+  3.03
+),
+(
+  '6426',
+  '2026-05-27',
+  539.42,
+  11.58,
+  0.18
+),
+(
+  '6431',
+  '2026-05-27',
+  null,
+  3.41,
+  null
+),
+(
+  '6438',
+  '2026-05-27',
+  31.41,
+  2.5,
+  2.92
+),
+(
+  '6442',
+  '2026-05-27',
+  76.95,
+  22.54,
+  0.58
+),
+(
+  '6443',
+  '2026-05-27',
+  null,
+  5.94,
+  null
+),
+(
+  '6446',
+  '2026-05-27',
+  54.98,
+  9.47,
+  0.3
+),
+(
+  '6449',
+  '2026-05-27',
+  48.11,
+  5.92,
+  1.14
+),
+(
+  '6451',
+  '2026-05-27',
+  null,
+  9.12,
+  0.04
+),
+(
+  '6456',
+  '2026-05-27',
+  null,
+  0.88,
+  null
+),
+(
+  '6464',
+  '2026-05-27',
+  19.07,
+  1.2,
+  2.23
+),
+(
+  '6472',
+  '2026-05-27',
+  27.46,
+  3.03,
+  2.89
+),
+(
+  '6477',
+  '2026-05-27',
+  376.67,
+  1.34,
+  1.03
+),
+(
+  '6491',
+  '2026-05-27',
+  15.63,
+  2.25,
+  3.08
+),
+(
+  '6504',
+  '2026-05-27',
+  null,
+  0.77,
+  2.67
+),
+(
+  '6505',
+  '2026-05-27',
+  17.96,
+  1.27,
+  2.4
+),
+(
+  '6515',
+  '2026-05-27',
+  200.72,
+  54.33,
+  0.51
+),
+(
+  '6525',
+  '2026-05-27',
+  21.33,
+  3.81,
+  3.86
+),
+(
+  '6526',
+  '2026-05-27',
+  39.15,
+  6.37,
+  1.98
+),
+(
+  '6531',
+  '2026-05-27',
+  109.76,
+  14.89,
+  0.65
+),
+(
+  '6533',
+  '2026-05-27',
+  null,
+  2.65,
+  null
+),
+(
+  '6534',
+  '2026-05-27',
+  19.85,
+  3.64,
+  5.06
+),
+(
+  '6541',
+  '2026-05-27',
+  null,
+  1.87,
+  null
+),
+(
+  '6550',
+  '2026-05-27',
+  null,
+  2.57,
+  null
+),
+(
+  '6552',
+  '2026-05-27',
+  null,
+  1.81,
+  0.55
+),
+(
+  '6558',
+  '2026-05-27',
+  null,
+  2.18,
+  0.95
+),
+(
+  '6573',
+  '2026-05-27',
+  10.31,
+  1.8,
+  null
+),
+(
+  '6579',
+  '2026-05-27',
+  32.48,
+  2.87,
+  2.12
+),
+(
+  '6581',
+  '2026-05-27',
+  17.57,
+  2.94,
+  4.98
+),
+(
+  '6582',
+  '2026-05-27',
+  null,
+  0.5,
+  3.28
+),
+(
+  '6585',
+  '2026-05-27',
+  19.27,
+  1.84,
+  4.77
+),
+(
+  '6589',
+  '2026-05-27',
+  null,
+  1.51,
+  null
+),
+(
+  '6591',
+  '2026-05-27',
+  12.91,
+  1.06,
+  7.22
+),
+(
+  '6592',
+  '2026-05-27',
+  12.28,
+  1.17,
+  5.46
+),
+(
+  '6598',
+  '2026-05-27',
+  null,
+  3.8,
+  null
+),
+(
+  '6605',
+  '2026-05-27',
+  9.6,
+  1.03,
+  5.08
+),
+(
+  '6606',
+  '2026-05-27',
+  23.62,
+  1.8,
+  4
+),
+(
+  '6614',
+  '2026-05-27',
+  15.4,
+  2.07,
+  4.3
+),
+(
+  '6625',
+  '2026-05-27',
+  7.21,
+  2.47,
+  6.92
+),
+(
+  '6641',
+  '2026-05-27',
+  37.71,
+  0.44,
+  2.21
+),
+(
+  '6645',
+  '2026-05-27',
+  null,
+  1.61,
+  null
+),
+(
+  '6655',
+  '2026-05-27',
+  32.27,
+  3.82,
+  4.58
+),
+(
+  '6657',
+  '2026-05-27',
+  null,
+  4,
+  null
+),
+(
+  '6658',
+  '2026-05-27',
+  88.31,
+  6.08,
+  0.52
+),
+(
+  '6666',
+  '2026-05-27',
+  18.38,
+  1.07,
+  5.04
+),
+(
+  '6668',
+  '2026-05-27',
+  null,
+  1.99,
+  null
+),
+(
+  '6669',
+  '2026-05-27',
+  17.01,
+  6.73,
+  3.25
+),
+(
+  '6670',
+  '2026-05-27',
+  12.71,
+  2.17,
+  6.11
+),
+(
+  '6671',
+  '2026-05-27',
+  12.04,
+  0.95,
+  4.41
+),
+(
+  '6672',
+  '2026-05-27',
+  38.25,
+  4.07,
+  1.58
+),
+(
+  '6674',
+  '2026-05-27',
+  null,
+  1.46,
+  null
+),
+(
+  '6689',
+  '2026-05-27',
+  28.85,
+  1.46,
+  3.07
+),
+(
+  '6691',
+  '2026-05-27',
+  24.97,
+  13.65,
+  3.26
+),
+(
+  '6695',
+  '2026-05-27',
+  null,
+  3.93,
+  null
+),
+(
+  '6698',
+  '2026-05-27',
+  null,
+  2.24,
+  1.37
+),
+(
+  '6706',
+  '2026-05-27',
+  null,
+  4.52,
+  null
+),
+(
+  '6715',
+  '2026-05-27',
+  221.33,
+  8.57,
+  0.43
+),
+(
+  '6719',
+  '2026-05-27',
+  35.52,
+  1.88,
+  1.8
+),
+(
+  '6722',
+  '2026-05-27',
+  15.59,
+  1.27,
+  5.19
+),
+(
+  '6742',
+  '2026-05-27',
+  null,
+  3.26,
+  0.52
+),
+(
+  '6743',
+  '2026-05-27',
+  35.24,
+  1.59,
+  10.38
+),
+(
+  '6753',
+  '2026-05-27',
+  17.44,
+  2.9,
+  1.01
+),
+(
+  '6754',
+  '2026-05-27',
+  13.43,
+  1.35,
+  8.05
+),
+(
+  '6756',
+  '2026-05-27',
+  69.08,
+  2.51,
+  0.86
+),
+(
+  '6757',
+  '2026-05-27',
+  8.76,
+  3.32,
+  4.44
+),
+(
+  '6768',
+  '2026-05-27',
+  15.72,
+  1.07,
+  6.22
+),
+(
+  '6770',
+  '2026-05-27',
+  42.26,
+  3.29,
+  null
+),
+(
+  '6771',
+  '2026-05-27',
+  14.09,
+  1.45,
+  7.62
+),
+(
+  '6776',
+  '2026-05-27',
+  14.48,
+  2.02,
+  5.15
+),
+(
+  '6781',
+  '2026-05-27',
+  30.79,
+  5.69,
+  1.59
+),
+(
+  '6782',
+  '2026-05-27',
+  12.99,
+  2.88,
+  4.36
+),
+(
+  '6789',
+  '2026-05-27',
+  116.77,
+  9.13,
+  0.55
+),
+(
+  '6790',
+  '2026-05-27',
+  12.75,
+  1.72,
+  6.77
+),
+(
+  '6792',
+  '2026-05-27',
+  30.93,
+  2.29,
+  3.59
+),
+(
+  '6794',
+  '2026-05-27',
+  null,
+  5.96,
+  null
+),
+(
+  '6796',
+  '2026-05-27',
+  null,
+  2.86,
+  0.4
+),
+(
+  '6799',
+  '2026-05-27',
+  30.17,
+  2.99,
+  2.28
+),
+(
+  '6805',
+  '2026-05-27',
+  44.41,
+  16.07,
+  0.72
+),
+(
+  '6806',
+  '2026-05-27',
+  null,
+  10.26,
+  18.17
+),
+(
+  '6807',
+  '2026-05-27',
+  9.68,
+  0.71,
+  7.58
+),
+(
+  '6830',
+  '2026-05-27',
+  null,
+  11.91,
+  0.14
+),
+(
+  '6831',
+  '2026-05-27',
+  166.67,
+  20.69,
+  0.37
+),
+(
+  '6834',
+  '2026-05-27',
+  127.38,
+  4.71,
+  0.51
+),
+(
+  '6835',
+  '2026-05-27',
+  298.08,
+  1.43,
+  2.58
+),
+(
+  '6838',
+  '2026-05-27',
+  null,
+  2.64,
+  null
+),
+(
+  '6854',
+  '2026-05-27',
+  null,
+  5.01,
+  null
+),
+(
+  '6861',
+  '2026-05-27',
+  93.9,
+  12.41,
+  0.43
+),
+(
+  '6862',
+  '2026-05-27',
+  30.49,
+  2.97,
+  2.69
+),
+(
+  '6863',
+  '2026-05-27',
+  103.67,
+  1.37,
+  1.33
+),
+(
+  '6869',
+  '2026-05-27',
+  null,
+  2.55,
+  2.38
+),
+(
+  '6873',
+  '2026-05-27',
+  28.6,
+  1.21,
+  2.72
+),
+(
+  '6885',
+  '2026-05-27',
+  null,
+  1.77,
+  null
+),
+(
+  '6887',
+  '2026-05-27',
+  13.76,
+  0.82,
+  7.42
+),
+(
+  '6890',
+  '2026-05-27',
+  16.86,
+  1.72,
+  5.28
+),
+(
+  '6901',
+  '2026-05-27',
+  null,
+  1.18,
+  null
+),
+(
+  '6902',
+  '2026-05-27',
+  46.25,
+  6.33,
+  null
+),
+(
+  '6906',
+  '2026-05-27',
+  52.02,
+  4.44,
+  1.75
+),
+(
+  '6908',
+  '2026-05-27',
+  28.6,
+  1.14,
+  3.19
+),
+(
+  '6909',
+  '2026-05-27',
+  65.43,
+  3.52,
+  1.89
+),
+(
+  '6914',
+  '2026-05-27',
+  14.31,
+  2.69,
+  5.71
+),
+(
+  '6916',
+  '2026-05-27',
+  null,
+  1.18,
+  1.56
+),
+(
+  '6918',
+  '2026-05-27',
+  14.39,
+  2.18,
+  6.84
+),
+(
+  '6919',
+  '2026-05-27',
+  null,
+  16.36,
+  null
+),
+(
+  '6921',
+  '2026-05-27',
+  223.82,
+  8.66,
+  null
+),
+(
+  '6923',
+  '2026-05-27',
+  25.57,
+  2.65,
+  3.82
+),
+(
+  '6924',
+  '2026-05-27',
+  24.59,
+  6.51,
+  3.05
+),
+(
+  '6928',
+  '2026-05-27',
+  null,
+  1.98,
+  1.07
+),
+(
+  '6931',
+  '2026-05-27',
+  20.7,
+  2.28,
+  1.2
+),
+(
+  '6933',
+  '2026-05-27',
+  27.52,
+  2.91,
+  1.52
+),
+(
+  '6934',
+  '2026-05-27',
+  null,
+  4.63,
+  null
+),
+(
+  '6936',
+  '2026-05-27',
+  17.43,
+  1.72,
+  4.58
+),
+(
+  '6937',
+  '2026-05-27',
+  98.46,
+  6.27,
+  0.44
+),
+(
+  '6944',
+  '2026-05-27',
+  26.34,
+  8.1,
+  2.14
+),
+(
+  '6949',
+  '2026-05-27',
+  null,
+  17.59,
+  null
+),
+(
+  '6951',
+  '2026-05-27',
+  14.03,
+  3.59,
+  6.57
+),
+(
+  '6952',
+  '2026-05-27',
+  47.79,
+  1.71,
+  5.43
+),
+(
+  '6955',
+  '2026-05-27',
+  36.2,
+  5.9,
+  2.01
+),
+(
+  '6957',
+  '2026-05-27',
+  16,
+  4.07,
+  5.33
+),
+(
+  '6958',
+  '2026-05-27',
+  null,
+  0.72,
+  null
+),
+(
+  '6962',
+  '2026-05-27',
+  25.92,
+  0.92,
+  2.64
+),
+(
+  '6965',
+  '2026-05-27',
+  47.2,
+  0.97,
+  6.58
+),
+(
+  '6969',
+  '2026-05-27',
+  null,
+  2.53,
+  null
+),
+(
+  '6988',
+  '2026-05-27',
+  null,
+  1.07,
+  2.74
+),
+(
+  '6994',
+  '2026-05-27',
+  9.63,
+  1.85,
+  4.97
+),
+(
+  '7610',
+  '2026-05-27',
+  76.16,
+  28.15,
+  0.2
+),
+(
+  '7631',
+  '2026-05-27',
+  17.48,
+  2.98,
+  2.97
+),
+(
+  '7705',
+  '2026-05-27',
+  13.72,
+  1.29,
+  5.23
+),
+(
+  '7711',
+  '2026-05-27',
+  34.29,
+  5.8,
+  2.34
+),
+(
+  '7721',
+  '2026-05-27',
+  127.29,
+  3.3,
+  1.33
+),
+(
+  '7722',
+  '2026-05-27',
+  36.95,
+  1.63,
+  0.77
+),
+(
+  '7730',
+  '2026-05-27',
+  109.84,
+  8.05,
+  0.71
+),
+(
+  '7732',
+  '2026-05-27',
+  20.64,
+  1.29,
+  4.2
+),
+(
+  '7736',
+  '2026-05-27',
+  15.56,
+  1.57,
+  5.34
+),
+(
+  '7740',
+  '2026-05-27',
+  23.18,
+  6.07,
+  2.01
+),
+(
+  '7749',
+  '2026-05-27',
+  40.09,
+  5.9,
+  1.8
+),
+(
+  '7750',
+  '2026-05-27',
+  62.62,
+  15.77,
+  0.64
+),
+(
+  '7760',
+  '2026-05-27',
+  55.51,
+  1.02,
+  6.72
+),
+(
+  '7765',
+  '2026-05-27',
+  22.05,
+  4.53,
+  3.96
+),
+(
+  '7768',
+  '2026-05-27',
+  124.27,
+  12.2,
+  1.03
+),
+(
+  '7769',
+  '2026-05-27',
+  97.33,
+  22.37,
+  0.83
+),
+(
+  '7780',
+  '2026-05-27',
+  42.26,
+  2.61,
+  3.94
+),
+(
+  '7786',
+  '2026-05-27',
+  11.95,
+  2.05,
+  4.79
+),
+(
+  '7788',
+  '2026-05-27',
+  49.87,
+  2.52,
+  1.06
+),
+(
+  '7791',
+  '2026-05-27',
+  14.41,
+  1.44,
+  5.77
+),
+(
+  '7795',
+  '2026-05-27',
+  145.88,
+  11.41,
+  0.53
+),
+(
+  '7799',
+  '2026-05-27',
+  null,
+  4.47,
+  null
+),
+(
+  '7803',
+  '2026-05-27',
+  null,
+  3.84,
+  null
+),
+(
+  '7818',
+  '2026-05-27',
+  11.73,
+  1.22,
+  3.38
+),
+(
+  '7821',
+  '2026-05-27',
+  14.5,
+  2.3,
+  4.61
+),
+(
+  '7822',
+  '2026-05-27',
+  89.66,
+  8.58,
+  0.61
+),
+(
+  '7823',
+  '2026-05-27',
+  null,
+  6.04,
+  null
+),
+(
+  '8011',
+  '2026-05-27',
+  20.65,
+  0.89,
+  3.99
+),
+(
+  '8016',
+  '2026-05-27',
+  18.91,
+  3.09,
+  3.82
+),
+(
+  '8021',
+  '2026-05-27',
+  124.93,
+  11.75,
+  0.46
+),
+(
+  '8028',
+  '2026-05-27',
+  68.14,
+  10.18,
+  0.91
+),
+(
+  '8033',
+  '2026-05-27',
+  201.49,
+  10.68,
+  null
+),
+(
+  '8039',
+  '2026-05-27',
+  67.51,
+  3.98,
+  1.25
+),
+(
+  '8045',
+  '2026-05-27',
+  92.86,
+  3.2,
+  1.54
+),
+(
+  '8046',
+  '2026-05-27',
+  191.74,
+  12.52,
+  0.22
+),
+(
+  '8070',
+  '2026-05-27',
+  47.45,
+  2,
+  5.39
+),
+(
+  '8072',
+  '2026-05-27',
+  27.11,
+  0.99,
+  3.62
+),
+(
+  '8081',
+  '2026-05-27',
+  16.39,
+  3.41,
+  5.56
+),
+(
+  '8101',
+  '2026-05-27',
+  null,
+  2.88,
+  null
+),
+(
+  '8103',
+  '2026-05-27',
+  22.84,
+  2.15,
+  2.64
+),
+(
+  '8104',
+  '2026-05-27',
+  null,
+  1.38,
+  0.54
+),
+(
+  '8105',
+  '2026-05-27',
+  560,
+  0.92,
+  null
+),
+(
+  '8110',
+  '2026-05-27',
+  22.2,
+  2.47,
+  2.48
+),
+(
+  '8112',
+  '2026-05-27',
+  10.36,
+  2.45,
+  4.42
+),
+(
+  '8114',
+  '2026-05-27',
+  17.8,
+  2.68,
+  4.3
+),
+(
+  '8131',
+  '2026-05-27',
+  34.8,
+  2.42,
+  1.45
+),
+(
+  '8150',
+  '2026-05-27',
+  79.58,
+  2.67,
+  1.31
+),
+(
+  '8162',
+  '2026-05-27',
+  51.45,
+  3.51,
+  2.11
+),
+(
+  '8163',
+  '2026-05-27',
+  70.59,
+  0.98,
+  1.39
+),
+(
+  '8201',
+  '2026-05-27',
+  null,
+  1.81,
+  null
+),
+(
+  '8210',
+  '2026-05-27',
+  41.36,
+  13.86,
+  1
+),
+(
+  '8213',
+  '2026-05-27',
+  21.06,
+  0.67,
+  2.8
+),
+(
+  '8215',
+  '2026-05-27',
+  null,
+  1.91,
+  1.03
+),
+(
+  '8222',
+  '2026-05-27',
+  56.39,
+  2.55,
+  1.02
+),
+(
+  '8249',
+  '2026-05-27',
+  21.08,
+  1.23,
+  3.72
+),
+(
+  '8261',
+  '2026-05-27',
+  33.39,
+  3.79,
+  2.56
+),
+(
+  '8271',
+  '2026-05-27',
+  11.33,
+  4.72,
+  1.94
+),
+(
+  '8341',
+  '2026-05-27',
+  16.04,
+  1.92,
+  5.31
+),
+(
+  '8367',
+  '2026-05-27',
+  11.52,
+  1.15,
+  7.03
+),
+(
+  '8374',
+  '2026-05-27',
+  null,
+  6,
+  0.19
+),
+(
+  '8404',
+  '2026-05-27',
+  14.86,
+  0.94,
+  3.09
+),
+(
+  '8411',
+  '2026-05-27',
+  120.5,
+  0.43,
+  0.83
+),
+(
+  '8422',
+  '2026-05-27',
+  25.28,
+  2.87,
+  4.4
+),
+(
+  '8429',
+  '2026-05-27',
+  57.36,
+  0.18,
+  null
+),
+(
+  '8438',
+  '2026-05-27',
+  33.65,
+  3.09,
+  1.47
+),
+(
+  '8442',
+  '2026-05-27',
+  22.23,
+  0.77,
+  7.54
+),
+(
+  '8443',
+  '2026-05-27',
+  null,
+  1.17,
+  1.78
+),
+(
+  '8454',
+  '2026-05-27',
+  18.23,
+  4.89,
+  5.24
+),
+(
+  '8462',
+  '2026-05-27',
+  14.82,
+  4.02,
+  5.37
+),
+(
+  '8463',
+  '2026-05-27',
+  10.19,
+  1.31,
+  3.7
+),
+(
+  '8464',
+  '2026-05-27',
+  13.86,
+  3.29,
+  5.23
+),
+(
+  '8466',
+  '2026-05-27',
+  null,
+  0.43,
+  1.82
+),
+(
+  '8467',
+  '2026-05-27',
+  15.16,
+  2.47,
+  5.41
+),
+(
+  '8473',
+  '2026-05-27',
+  15.04,
+  1.1,
+  4.39
+),
+(
+  '8476',
+  '2026-05-27',
+  36.07,
+  1.32,
+  1.32
+),
+(
+  '8478',
+  '2026-05-27',
+  9.14,
+  1.47,
+  4.33
+),
+(
+  '8481',
+  '2026-05-27',
+  13.38,
+  1.66,
+  6.74
+),
+(
+  '8482',
+  '2026-05-27',
+  20.36,
+  1.57,
+  4.08
+),
+(
+  '8487',
+  '2026-05-27',
+  14.57,
+  2.93,
+  5.89
+),
+(
+  '8488',
+  '2026-05-27',
+  null,
+  0.3,
+  null
+),
+(
+  '8499',
+  '2026-05-27',
+  31.41,
+  1.51,
+  2.55
+),
+(
+  '8926',
+  '2026-05-27',
+  17.72,
+  3.03,
+  3.33
+),
+(
+  '8940',
+  '2026-05-27',
+  26.51,
+  1.32,
+  null
+),
+(
+  '8996',
+  '2026-05-27',
+  86.66,
+  24.33,
+  0.38
+),
+(
+  '9802',
+  '2026-05-27',
+  12.95,
+  1.09,
+  6.95
+),
+(
+  '9902',
+  '2026-05-27',
+  null,
+  1.1,
+  2.19
+),
+(
+  '9904',
+  '2026-05-27',
+  6.98,
+  0.49,
+  5.13
+),
+(
+  '9905',
+  '2026-05-27',
+  14.65,
+  0.74,
+  5.33
+),
+(
+  '9906',
+  '2026-05-27',
+  12.56,
+  2.03,
+  0.24
+),
+(
+  '9907',
+  '2026-05-27',
+  14.28,
+  1.12,
+  7.44
+),
+(
+  '9908',
+  '2026-05-27',
+  16.47,
+  0.99,
+  4.12
+),
+(
+  '9910',
+  '2026-05-27',
+  14.55,
+  2.48,
+  6.1
+),
+(
+  '9911',
+  '2026-05-27',
+  12.89,
+  2.89,
+  6.1
+),
+(
+  '9912',
+  '2026-05-27',
+  null,
+  1.83,
+  null
+),
+(
+  '9914',
+  '2026-05-27',
+  17.54,
+  0.97,
+  4.31
+),
+(
+  '9917',
+  '2026-05-27',
+  16.81,
+  3.53,
+  5.44
+),
+(
+  '9918',
+  '2026-05-27',
+  25.8,
+  2.46,
+  3.44
+),
+(
+  '9919',
+  '2026-05-27',
+  null,
+  1.37,
+  1.41
+),
+(
+  '9921',
+  '2026-05-27',
+  165.5,
+  0.76,
+  2.72
+),
+(
+  '9924',
+  '2026-05-27',
+  15.11,
+  0.93,
+  6
+),
+(
+  '9925',
+  '2026-05-27',
+  16.68,
+  1.14,
+  4.98
+),
+(
+  '9926',
+  '2026-05-27',
+  17.93,
+  1.97,
+  4.29
+),
+(
+  '9927',
+  '2026-05-27',
+  13.78,
+  1.56,
+  7.41
+),
+(
+  '9928',
+  '2026-05-27',
+  null,
+  0.6,
+  null
+),
+(
+  '9929',
+  '2026-05-27',
+  42.04,
+  1.39,
+  null
+),
+(
+  '9930',
+  '2026-05-27',
+  14.44,
+  2.46,
+  5.86
+),
+(
+  '9931',
+  '2026-05-27',
+  14.2,
+  1.18,
+  5.33
+),
+(
+  '9933',
+  '2026-05-27',
+  9.3,
+  1.7,
+  2.54
+),
+(
+  '9934',
+  '2026-05-27',
+  null,
+  0.62,
+  1.05
+),
+(
+  '9935',
+  '2026-05-27',
+  11.28,
+  1.26,
+  6.49
+),
+(
+  '9937',
+  '2026-05-27',
+  22.25,
+  2.85,
+  3.97
+),
+(
+  '9938',
+  '2026-05-27',
+  12.31,
+  0.98,
+  7.08
+),
+(
+  '9939',
+  '2026-05-27',
+  13.58,
+  1.91,
+  5.06
+),
+(
+  '9940',
+  '2026-05-27',
+  50.27,
+  1.03,
+  3.23
+),
+(
+  '9941',
+  '2026-05-27',
+  10.54,
+  1.16,
+  6.36
+),
+(
+  '9942',
+  '2026-05-27',
+  14.25,
+  2.15,
+  5.98
+),
+(
+  '9943',
+  '2026-05-27',
+  15.33,
+  1.89,
+  6.34
+),
+(
+  '9944',
+  '2026-05-27',
+  337,
+  0.52,
+  1.78
+),
+(
+  '9945',
+  '2026-05-27',
+  6.53,
+  0.58,
+  4.73
+),
+(
+  '9946',
+  '2026-05-27',
+  3.89,
+  0.74,
+  8.46
+),
+(
+  '9955',
+  '2026-05-27',
+  39.08,
+  2.33,
+  null
+),
+(
+  '9958',
+  '2026-05-27',
+  13.01,
+  2.2,
+  4.41
+)
+) as incoming(symbol, trade_date, pe, pb, dividend_yield)
+join public.stocks on stocks.symbol = incoming.symbol
+on conflict (stock_id, trade_date) do update set
+  pe = excluded.pe,
+  pb = excluded.pb,
+  dividend_yield = excluded.dividend_yield;
+
+
+commit;
+
+-- Verification queries.
+select count(*) as stocks_count from public.stocks;
+select count(*) as daily_prices_count from public.daily_prices;
+select count(*) as daily_fundamentals_count from public.daily_fundamentals;
+select max(trade_date) as latest_price_date from public.daily_prices;
+select max(trade_date) as latest_fundamental_date from public.daily_fundamentals;

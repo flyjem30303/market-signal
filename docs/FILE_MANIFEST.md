@@ -66,11 +66,13 @@ src/lib/supabase/database.types.ts
 ```text
 data/seeds/stocks.seed.json
 supabase/migrations/0001_initial_schema.sql
+supabase/bootstrap.sql
 supabase/seed/001_seed_stocks.sql
 supabase/seed/002_seed_latest_market_data.sql
 scripts/seed-stocks-sql.mjs
 scripts/fetch-twse-stock-master.mjs
 scripts/fetch-twse-daily-market.mjs
+scripts/build-supabase-bootstrap.mjs
 scripts/README.md
 ```
 

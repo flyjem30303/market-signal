@@ -14,6 +14,7 @@
 
 - [x] 建立 stocks 表草案。
 - [x] 產生完整上市股票主檔 seed。
+- [x] 建立 Supabase bootstrap SQL 產生器。
 - [ ] 匯入完整上市股票主檔到 Supabase。
 - [x] 建立 daily_prices 表草案。
 - [x] 建立 daily_scores 表草案。

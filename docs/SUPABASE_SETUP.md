@@ -6,6 +6,8 @@
 
 - Supabase migration SQL
 - 股票 seed SQL
+- 最新每日行情 / 估值 seed SQL
+- 單檔 bootstrap SQL 產生器
 - Supabase client helper
 - `.env.example`
 - database types 草案
@@ -31,6 +33,30 @@ NEXT_PUBLIC_DATA_SOURCE=mock
 
 ## 建立資料表
 
+最簡單方式是在 Supabase SQL editor 執行單一 bootstrap 檔：
+
+```bash
+npm run db:bootstrap
+```
+
+然後複製以下檔案內容到 Supabase SQL editor 執行：
+
+```text
+supabase/bootstrap.sql
+```
+
+執行完成後，檔案底部會跑驗證查詢，應看到：
+
+```text
+stocks_count 約 1086
+daily_prices_count 約 1083
+daily_fundamentals_count 約 1077
+latest_price_date 為最新 TWSE 交易日
+latest_fundamental_date 為最新 TWSE 估值日
+```
+
+若要分步執行，可依序執行：
+
 在 Supabase SQL editor 執行：
 
 ```text
@@ -49,6 +75,13 @@ supabase/seed/001_seed_stocks.sql
 
 ```bash
 npm run seed:stocks
+```
+
+如果更新最新行情 / 估值，可重新產生：
+
+```bash
+npm run fetch:daily-market
+npm run db:bootstrap
 ```
 
 ## 切換資料來源
@@ -70,4 +103,3 @@ src/lib/repositories/market-signal-repository.ts
 3. 再接 `daily_scores`。
 4. 再接 `score_modules`。
 5. 最後接新聞與會員收藏。
-

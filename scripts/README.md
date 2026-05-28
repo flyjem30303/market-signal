@@ -1,5 +1,20 @@
 # Scripts
 
+## Build Supabase Bootstrap SQL
+
+```bash
+npm run db:bootstrap
+```
+
+This combines the schema migration and seed SQL files into:
+
+```text
+supabase/bootstrap.sql
+```
+
+Run that file in a new Supabase project's SQL editor to create the schema,
+stocks, latest prices, and latest fundamentals in one pass.
+
 ## Fetch TWSE Stock Master
 
 ```bash

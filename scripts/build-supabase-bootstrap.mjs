@@ -1,0 +1,48 @@
+import fs from "node:fs";
+
+const outputPath = "supabase/bootstrap.sql";
+const inputFiles = [
+  "supabase/migrations/0001_initial_schema.sql",
+  "supabase/seed/001_seed_stocks.sql",
+  "supabase/seed/002_seed_latest_market_data.sql",
+];
+
+function readSqlFile(path) {
+  if (!fs.existsSync(path)) {
+    throw new Error(`Missing SQL input: ${path}`);
+  }
+
+  return fs.readFileSync(path, "utf8").trim();
+}
+
+const generatedAt = new Date().toISOString();
+const sections = inputFiles.map((path) => {
+  const sql = readSqlFile(path);
+  return `-- ============================================================================
+-- Source: ${path}
+-- ============================================================================
+
+${sql}
+`;
+});
+
+const bootstrapSql = `-- Taiwan Market Signal Supabase bootstrap SQL.
+-- Generated at ${generatedAt}.
+-- Run this in a new Supabase project's SQL editor.
+
+begin;
+
+${sections.join("\n")}
+
+commit;
+
+-- Verification queries.
+select count(*) as stocks_count from public.stocks;
+select count(*) as daily_prices_count from public.daily_prices;
+select count(*) as daily_fundamentals_count from public.daily_fundamentals;
+select max(trade_date) as latest_price_date from public.daily_prices;
+select max(trade_date) as latest_fundamental_date from public.daily_fundamentals;
+`;
+
+fs.writeFileSync(outputPath, bootstrapSql);
+console.log(`Generated ${outputPath}`);
