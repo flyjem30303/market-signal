@@ -118,6 +118,7 @@ scripts/check-cp3-twse-stock-day-controlled-ingestion-design.mjs
 scripts/check-cp3-twse-stock-day-dry-run-reporter-design.mjs
 scripts/check-cp3-twse-stock-day-controlled-dry-run.mjs
 scripts/check-cp3-twse-stock-day-dry-run-human-review.mjs
+scripts/check-cp3-twse-stock-day-staging-boundary-design.mjs
 scripts/check-cp3-tw-stock-source-depth.mjs
 scripts/check-cp3-tw-stock-backtest-method.mjs
 scripts/check-cp3-tw-stock-dry-run-contract.mjs
@@ -201,6 +202,7 @@ docs/CP3_TWSE_STOCK_DAY_CONTROLLED_INGESTION_DESIGN_2026-05-29.md
 docs/CP3_TWSE_STOCK_DAY_DRY_RUN_REPORTER_DESIGN_2026-05-29.md
 docs/reviews/CP3_TWSE_STOCK_DAY_CONTROLLED_DRY_RUN_2026-05-29.md
 docs/reviews/CP3_TWSE_STOCK_DAY_DRY_RUN_HUMAN_REVIEW_2026-05-29.md
+docs/CP3_TWSE_STOCK_DAY_STAGING_BOUNDARY_DESIGN_2026-05-29.md
 docs/reviews/CP1_ETF_ENDPOINT_RESEARCH_2026-05-29.md
 docs/reviews/CP1_ETF_JSON_URL_DISCOVERY_2026-05-29.md
 docs/reviews/CP1_ETF_MIS_NAV_DISCLOSURE_2026-05-29.md
