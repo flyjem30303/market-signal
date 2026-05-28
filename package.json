@@ -10,6 +10,7 @@
     "lint": "next lint",
     "check:json": "node -e \"const fs=require('fs'); for (const f of ['package.json','tsconfig.json','data/seeds/stocks.seed.json']) { JSON.parse(fs.readFileSync(f,'utf8')); console.log(f+' ok'); }\"",
     "check:env": "node -e \"const fs=require('fs'); const s=fs.readFileSync('.env.example','utf8'); for (const k of ['NEXT_PUBLIC_SUPABASE_URL','NEXT_PUBLIC_SUPABASE_ANON_KEY','SUPABASE_SERVICE_ROLE_KEY','NEXT_PUBLIC_DATA_SOURCE','NEXT_PUBLIC_SITE_URL']) { if (!s.includes(k+'=')) throw new Error('Missing '+k); console.log(k+' ok'); }\"",
+    "fetch:stocks": "node scripts/fetch-twse-stock-master.mjs",
     "seed:stocks": "node scripts/seed-stocks-sql.mjs"
   },
   "dependencies": {

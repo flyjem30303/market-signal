@@ -27,29 +27,2405 @@
     "is_active": true
   },
   {
-    "symbol": "2330",
-    "name": "台積電",
+    "symbol": "1101",
+    "name": "台泥",
     "market": "TWSE",
-    "industry": "半導體",
-    "listed_date": "1994-09-05",
+    "industry": "01",
+    "listed_date": "1962-02-09",
     "is_etf": false,
     "is_active": true
   },
   {
-    "symbol": "2454",
-    "name": "聯發科",
+    "symbol": "1102",
+    "name": "亞泥",
     "market": "TWSE",
-    "industry": "IC 設計",
-    "listed_date": "2001-07-23",
+    "industry": "01",
+    "listed_date": "1962-06-08",
     "is_etf": false,
     "is_active": true
   },
   {
-    "symbol": "2317",
-    "name": "鴻海",
+    "symbol": "1103",
+    "name": "嘉泥",
     "market": "TWSE",
-    "industry": "電子代工",
-    "listed_date": "1991-06-18",
+    "industry": "01",
+    "listed_date": "1969-11-14",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1104",
+    "name": "環泥",
+    "market": "TWSE",
+    "industry": "01",
+    "listed_date": "1971-02-01",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1108",
+    "name": "幸福",
+    "market": "TWSE",
+    "industry": "01",
+    "listed_date": "1990-06-06",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1109",
+    "name": "信大",
+    "market": "TWSE",
+    "industry": "01",
+    "listed_date": "1991-12-05",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1110",
+    "name": "東泥",
+    "market": "TWSE",
+    "industry": "01",
+    "listed_date": "1994-10-22",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1201",
+    "name": "味全",
+    "market": "TWSE",
+    "industry": "02",
+    "listed_date": "1962-02-09",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1203",
+    "name": "味王",
+    "market": "TWSE",
+    "industry": "02",
+    "listed_date": "1964-08-24",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1210",
+    "name": "大成",
+    "market": "TWSE",
+    "industry": "02",
+    "listed_date": "1978-05-20",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1213",
+    "name": "大飲",
+    "market": "TWSE",
+    "industry": "02",
+    "listed_date": "1981-04-10",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1215",
+    "name": "卜蜂",
+    "market": "TWSE",
+    "industry": "02",
+    "listed_date": "1987-07-27",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1216",
+    "name": "統一",
+    "market": "TWSE",
+    "industry": "02",
+    "listed_date": "1987-12-28",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1217",
+    "name": "愛之味",
+    "market": "TWSE",
+    "industry": "02",
+    "listed_date": "1989-10-28",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1218",
+    "name": "泰山",
+    "market": "TWSE",
+    "industry": "02",
+    "listed_date": "1989-11-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1219",
+    "name": "福壽",
+    "market": "TWSE",
+    "industry": "02",
+    "listed_date": "1990-12-01",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1220",
+    "name": "台榮",
+    "market": "TWSE",
+    "industry": "02",
+    "listed_date": "1991-11-20",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1225",
+    "name": "福懋油",
+    "market": "TWSE",
+    "industry": "02",
+    "listed_date": "1993-09-27",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1227",
+    "name": "佳格",
+    "market": "TWSE",
+    "industry": "02",
+    "listed_date": "1994-04-09",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1229",
+    "name": "聯華",
+    "market": "TWSE",
+    "industry": "02",
+    "listed_date": "1976-07-19",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1231",
+    "name": "聯華食",
+    "market": "TWSE",
+    "industry": "02",
+    "listed_date": "1995-11-02",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1232",
+    "name": "大統益",
+    "market": "TWSE",
+    "industry": "02",
+    "listed_date": "1996-02-09",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1233",
+    "name": "天仁",
+    "market": "TWSE",
+    "industry": "02",
+    "listed_date": "1999-01-20",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1234",
+    "name": "黑松",
+    "market": "TWSE",
+    "industry": "02",
+    "listed_date": "1999-03-12",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1235",
+    "name": "興泰",
+    "market": "TWSE",
+    "industry": "02",
+    "listed_date": "2000-09-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1236",
+    "name": "宏亞",
+    "market": "TWSE",
+    "industry": "02",
+    "listed_date": "2001-09-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1256",
+    "name": "鮮活果汁-KY",
+    "market": "TWSE",
+    "industry": "02",
+    "listed_date": "2016-03-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1301",
+    "name": "台塑",
+    "market": "TWSE",
+    "industry": "03",
+    "listed_date": "1964-07-27",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1303",
+    "name": "南亞",
+    "market": "TWSE",
+    "industry": "03",
+    "listed_date": "1967-11-15",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1304",
+    "name": "台聚",
+    "market": "TWSE",
+    "industry": "03",
+    "listed_date": "1972-05-20",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1305",
+    "name": "華夏",
+    "market": "TWSE",
+    "industry": "03",
+    "listed_date": "1973-03-05",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1307",
+    "name": "三芳",
+    "market": "TWSE",
+    "industry": "03",
+    "listed_date": "1985-11-23",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1308",
+    "name": "亞聚",
+    "market": "TWSE",
+    "industry": "03",
+    "listed_date": "1986-06-20",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1309",
+    "name": "台達化",
+    "market": "TWSE",
+    "industry": "03",
+    "listed_date": "1986-06-27",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1310",
+    "name": "台苯",
+    "market": "TWSE",
+    "industry": "03",
+    "listed_date": "1987-08-06",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1312",
+    "name": "國喬",
+    "market": "TWSE",
+    "industry": "03",
+    "listed_date": "1988-12-21",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1313",
+    "name": "聯成",
+    "market": "TWSE",
+    "industry": "03",
+    "listed_date": "1989-03-27",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1314",
+    "name": "中石化",
+    "market": "TWSE",
+    "industry": "03",
+    "listed_date": "1991-07-12",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1315",
+    "name": "達新",
+    "market": "TWSE",
+    "industry": "03",
+    "listed_date": "1992-05-09",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1316",
+    "name": "上曜",
+    "market": "TWSE",
+    "industry": "14",
+    "listed_date": "1992-10-15",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1319",
+    "name": "東陽",
+    "market": "TWSE",
+    "industry": "12",
+    "listed_date": "1994-12-12",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1321",
+    "name": "大洋",
+    "market": "TWSE",
+    "industry": "03",
+    "listed_date": "1999-01-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1323",
+    "name": "永裕",
+    "market": "TWSE",
+    "industry": "03",
+    "listed_date": "2000-09-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1324",
+    "name": "地球",
+    "market": "TWSE",
+    "industry": "03",
+    "listed_date": "2000-09-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1325",
+    "name": "恆大",
+    "market": "TWSE",
+    "industry": "03",
+    "listed_date": "2000-09-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1326",
+    "name": "台化",
+    "market": "TWSE",
+    "industry": "03",
+    "listed_date": "1984-12-20",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1337",
+    "name": "再生-KY",
+    "market": "TWSE",
+    "industry": "03",
+    "listed_date": "2011-08-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1338",
+    "name": "廣華-KY",
+    "market": "TWSE",
+    "industry": "12",
+    "listed_date": "2012-12-19",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1339",
+    "name": "昭輝",
+    "market": "TWSE",
+    "industry": "12",
+    "listed_date": "2012-04-24",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1340",
+    "name": "勝悅-KY",
+    "market": "TWSE",
+    "industry": "03",
+    "listed_date": "2014-01-14",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1341",
+    "name": "富林-KY",
+    "market": "TWSE",
+    "industry": "03",
+    "listed_date": "2018-12-24",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1342",
+    "name": "八貫",
+    "market": "TWSE",
+    "industry": "20",
+    "listed_date": "2020-11-24",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1402",
+    "name": "遠東新",
+    "market": "TWSE",
+    "industry": "04",
+    "listed_date": "1967-04-14",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1409",
+    "name": "新纖",
+    "market": "TWSE",
+    "industry": "04",
+    "listed_date": "1973-08-31",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1410",
+    "name": "南染",
+    "market": "TWSE",
+    "industry": "04",
+    "listed_date": "1973-10-18",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1413",
+    "name": "宏洲",
+    "market": "TWSE",
+    "industry": "04",
+    "listed_date": "1975-12-23",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1414",
+    "name": "東和",
+    "market": "TWSE",
+    "industry": "04",
+    "listed_date": "1976-02-02",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1416",
+    "name": "廣豐",
+    "market": "TWSE",
+    "industry": "20",
+    "listed_date": "1976-04-20",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1417",
+    "name": "嘉裕",
+    "market": "TWSE",
+    "industry": "04",
+    "listed_date": "1976-12-28",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1418",
+    "name": "東華",
+    "market": "TWSE",
+    "industry": "04",
+    "listed_date": "1977-02-14",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1419",
+    "name": "新紡",
+    "market": "TWSE",
+    "industry": "04",
+    "listed_date": "1977-03-14",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1423",
+    "name": "利華",
+    "market": "TWSE",
+    "industry": "04",
+    "listed_date": "1979-04-02",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1432",
+    "name": "大魯閣",
+    "market": "TWSE",
+    "industry": "37",
+    "listed_date": "1982-07-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1434",
+    "name": "福懋",
+    "market": "TWSE",
+    "industry": "04",
+    "listed_date": "1985-12-24",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1435",
+    "name": "中福",
+    "market": "TWSE",
+    "industry": "20",
+    "listed_date": "1987-12-28",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1436",
+    "name": "華友聯",
+    "market": "TWSE",
+    "industry": "14",
+    "listed_date": "1988-04-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1437",
+    "name": "勤益控",
+    "market": "TWSE",
+    "industry": "20",
+    "listed_date": "1988-11-10",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1438",
+    "name": "三地開發",
+    "market": "TWSE",
+    "industry": "14",
+    "listed_date": "1988-12-15",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1439",
+    "name": "雋揚",
+    "market": "TWSE",
+    "industry": "14",
+    "listed_date": "1989-05-22",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1440",
+    "name": "南紡",
+    "market": "TWSE",
+    "industry": "04",
+    "listed_date": "1989-10-03",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1441",
+    "name": "大東",
+    "market": "TWSE",
+    "industry": "04",
+    "listed_date": "1989-10-27",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1442",
+    "name": "名軒",
+    "market": "TWSE",
+    "industry": "14",
+    "listed_date": "1989-11-16",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1443",
+    "name": "立益物流",
+    "market": "TWSE",
+    "industry": "20",
+    "listed_date": "1990-04-21",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1444",
+    "name": "力麗",
+    "market": "TWSE",
+    "industry": "04",
+    "listed_date": "1990-08-08",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1445",
+    "name": "大宇",
+    "market": "TWSE",
+    "industry": "04",
+    "listed_date": "1991-02-05",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1446",
+    "name": "宏和",
+    "market": "TWSE",
+    "industry": "04",
+    "listed_date": "1991-10-15",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1447",
+    "name": "力鵬",
+    "market": "TWSE",
+    "industry": "04",
+    "listed_date": "1992-01-28",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1449",
+    "name": "佳和",
+    "market": "TWSE",
+    "industry": "04",
+    "listed_date": "1992-05-06",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1451",
+    "name": "年興",
+    "market": "TWSE",
+    "industry": "04",
+    "listed_date": "1992-12-21",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1452",
+    "name": "宏益",
+    "market": "TWSE",
+    "industry": "04",
+    "listed_date": "1992-12-28",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1453",
+    "name": "大將",
+    "market": "TWSE",
+    "industry": "14",
+    "listed_date": "1993-04-19",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1454",
+    "name": "台富",
+    "market": "TWSE",
+    "industry": "04",
+    "listed_date": "1993-05-07",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1455",
+    "name": "集盛",
+    "market": "TWSE",
+    "industry": "04",
+    "listed_date": "1993-10-07",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1456",
+    "name": "怡華",
+    "market": "TWSE",
+    "industry": "14",
+    "listed_date": "1993-12-09",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1457",
+    "name": "宜進",
+    "market": "TWSE",
+    "industry": "04",
+    "listed_date": "1994-10-20",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1459",
+    "name": "聯發",
+    "market": "TWSE",
+    "industry": "04",
+    "listed_date": "1994-10-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1460",
+    "name": "宏遠",
+    "market": "TWSE",
+    "industry": "04",
+    "listed_date": "1995-04-28",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1463",
+    "name": "強盛新",
+    "market": "TWSE",
+    "industry": "04",
+    "listed_date": "1996-12-05",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1464",
+    "name": "得力",
+    "market": "TWSE",
+    "industry": "04",
+    "listed_date": "1997-01-18",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1465",
+    "name": "偉全",
+    "market": "TWSE",
+    "industry": "04",
+    "listed_date": "1997-09-08",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1466",
+    "name": "聚隆",
+    "market": "TWSE",
+    "industry": "04",
+    "listed_date": "1998-04-04",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1467",
+    "name": "南緯",
+    "market": "TWSE",
+    "industry": "04",
+    "listed_date": "1998-12-21",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1468",
+    "name": "昶和",
+    "market": "TWSE",
+    "industry": "04",
+    "listed_date": "1999-01-21",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1470",
+    "name": "大統新創",
+    "market": "TWSE",
+    "industry": "04",
+    "listed_date": "1999-05-21",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1471",
+    "name": "首利",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2000-03-06",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1472",
+    "name": "三洋實業",
+    "market": "TWSE",
+    "industry": "14",
+    "listed_date": "2000-09-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1473",
+    "name": "台南",
+    "market": "TWSE",
+    "industry": "04",
+    "listed_date": "2000-09-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1474",
+    "name": "弘裕",
+    "market": "TWSE",
+    "industry": "04",
+    "listed_date": "2000-10-31",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1475",
+    "name": "業旺",
+    "market": "TWSE",
+    "industry": "04",
+    "listed_date": "2000-10-27",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1476",
+    "name": "儒鴻",
+    "market": "TWSE",
+    "industry": "04",
+    "listed_date": "2001-04-18",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1477",
+    "name": "聚陽",
+    "market": "TWSE",
+    "industry": "04",
+    "listed_date": "2003-01-21",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1503",
+    "name": "士電",
+    "market": "TWSE",
+    "industry": "05",
+    "listed_date": "1969-12-15",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1504",
+    "name": "東元",
+    "market": "TWSE",
+    "industry": "05",
+    "listed_date": "1973-11-05",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1506",
+    "name": "正道",
+    "market": "TWSE",
+    "industry": "05",
+    "listed_date": "1980-08-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1512",
+    "name": "瑞利",
+    "market": "TWSE",
+    "industry": "12",
+    "listed_date": "1994-01-28",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1513",
+    "name": "中興電",
+    "market": "TWSE",
+    "industry": "05",
+    "listed_date": "1994-03-08",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1514",
+    "name": "亞力",
+    "market": "TWSE",
+    "industry": "05",
+    "listed_date": "1994-03-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1515",
+    "name": "力山",
+    "market": "TWSE",
+    "industry": "05",
+    "listed_date": "1995-02-04",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1516",
+    "name": "川飛",
+    "market": "TWSE",
+    "industry": "20",
+    "listed_date": "1995-04-01",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1517",
+    "name": "利奇",
+    "market": "TWSE",
+    "industry": "05",
+    "listed_date": "1995-11-14",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1519",
+    "name": "華城",
+    "market": "TWSE",
+    "industry": "05",
+    "listed_date": "1997-04-16",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1521",
+    "name": "大億",
+    "market": "TWSE",
+    "industry": "12",
+    "listed_date": "1997-10-06",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1522",
+    "name": "堤維西",
+    "market": "TWSE",
+    "industry": "12",
+    "listed_date": "1997-10-06",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1524",
+    "name": "耿鼎",
+    "market": "TWSE",
+    "industry": "12",
+    "listed_date": "1998-10-30",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1525",
+    "name": "江申",
+    "market": "TWSE",
+    "industry": "12",
+    "listed_date": "1999-05-15",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1526",
+    "name": "日馳",
+    "market": "TWSE",
+    "industry": "05",
+    "listed_date": "2000-03-27",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1527",
+    "name": "鑽全",
+    "market": "TWSE",
+    "industry": "05",
+    "listed_date": "2000-06-21",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1528",
+    "name": "恩德",
+    "market": "TWSE",
+    "industry": "05",
+    "listed_date": "2000-09-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1529",
+    "name": "樂事綠能",
+    "market": "TWSE",
+    "industry": "05",
+    "listed_date": "2000-09-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1530",
+    "name": "亞崴",
+    "market": "TWSE",
+    "industry": "05",
+    "listed_date": "2000-09-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1531",
+    "name": "高林股",
+    "market": "TWSE",
+    "industry": "05",
+    "listed_date": "2000-09-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1532",
+    "name": "勤美",
+    "market": "TWSE",
+    "industry": "05",
+    "listed_date": "2000-09-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1533",
+    "name": "車王電",
+    "market": "TWSE",
+    "industry": "12",
+    "listed_date": "2001-04-06",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1535",
+    "name": "中宇",
+    "market": "TWSE",
+    "industry": "05",
+    "listed_date": "2001-09-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1536",
+    "name": "和大",
+    "market": "TWSE",
+    "industry": "12",
+    "listed_date": "2001-09-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1537",
+    "name": "廣隆",
+    "market": "TWSE",
+    "industry": "05",
+    "listed_date": "2002-01-22",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1538",
+    "name": "正峰",
+    "market": "TWSE",
+    "industry": "05",
+    "listed_date": "2002-08-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1539",
+    "name": "巨庭",
+    "market": "TWSE",
+    "industry": "05",
+    "listed_date": "2002-10-29",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1540",
+    "name": "喬福",
+    "market": "TWSE",
+    "industry": "05",
+    "listed_date": "2002-08-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1541",
+    "name": "錩泰",
+    "market": "TWSE",
+    "industry": "05",
+    "listed_date": "2003-03-19",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1558",
+    "name": "伸興",
+    "market": "TWSE",
+    "industry": "05",
+    "listed_date": "2014-12-23",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1560",
+    "name": "中砂",
+    "market": "TWSE",
+    "industry": "05",
+    "listed_date": "2005-01-31",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1563",
+    "name": "巧新",
+    "market": "TWSE",
+    "industry": "12",
+    "listed_date": "2024-05-13",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1568",
+    "name": "倉佑",
+    "market": "TWSE",
+    "industry": "12",
+    "listed_date": "2014-05-14",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1582",
+    "name": "信錦",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2009-12-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1583",
+    "name": "程泰",
+    "market": "TWSE",
+    "industry": "05",
+    "listed_date": "2008-01-24",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1587",
+    "name": "吉茂",
+    "market": "TWSE",
+    "industry": "12",
+    "listed_date": "2018-04-16",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1589",
+    "name": "永冠-KY",
+    "market": "TWSE",
+    "industry": "05",
+    "listed_date": "2012-04-27",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1590",
+    "name": "亞德客-KY",
+    "market": "TWSE",
+    "industry": "05",
+    "listed_date": "2010-12-13",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1597",
+    "name": "直得",
+    "market": "TWSE",
+    "industry": "05",
+    "listed_date": "2020-12-23",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1598",
+    "name": "岱宇",
+    "market": "TWSE",
+    "industry": "37",
+    "listed_date": "2016-09-20",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1603",
+    "name": "華電",
+    "market": "TWSE",
+    "industry": "06",
+    "listed_date": "1968-06-03",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1604",
+    "name": "聲寶",
+    "market": "TWSE",
+    "industry": "06",
+    "listed_date": "1970-12-14",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1605",
+    "name": "華新",
+    "market": "TWSE",
+    "industry": "06",
+    "listed_date": "1972-11-03",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1608",
+    "name": "華榮",
+    "market": "TWSE",
+    "industry": "06",
+    "listed_date": "1988-07-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1609",
+    "name": "大亞",
+    "market": "TWSE",
+    "industry": "06",
+    "listed_date": "1988-12-12",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1611",
+    "name": "中電",
+    "market": "TWSE",
+    "industry": "06",
+    "listed_date": "1990-01-16",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1612",
+    "name": "宏泰",
+    "market": "TWSE",
+    "industry": "06",
+    "listed_date": "1993-05-08",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1614",
+    "name": "三洋電",
+    "market": "TWSE",
+    "industry": "06",
+    "listed_date": "1997-09-18",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1615",
+    "name": "大山",
+    "market": "TWSE",
+    "industry": "06",
+    "listed_date": "2000-03-30",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1616",
+    "name": "億泰",
+    "market": "TWSE",
+    "industry": "06",
+    "listed_date": "2000-09-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1617",
+    "name": "榮星",
+    "market": "TWSE",
+    "industry": "06",
+    "listed_date": "2000-09-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1618",
+    "name": "合機",
+    "market": "TWSE",
+    "industry": "06",
+    "listed_date": "2000-09-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1623",
+    "name": "大東電",
+    "market": "TWSE",
+    "industry": "06",
+    "listed_date": "2026-01-22",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1626",
+    "name": "艾美特-KY",
+    "market": "TWSE",
+    "industry": "06",
+    "listed_date": "2013-03-21",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1702",
+    "name": "南僑",
+    "market": "TWSE",
+    "industry": "02",
+    "listed_date": "1973-05-30",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1707",
+    "name": "葡萄王",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "1982-12-20",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1708",
+    "name": "東鹼",
+    "market": "TWSE",
+    "industry": "21",
+    "listed_date": "1986-06-16",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1709",
+    "name": "和益",
+    "market": "TWSE",
+    "industry": "21",
+    "listed_date": "1986-07-03",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1710",
+    "name": "東聯",
+    "market": "TWSE",
+    "industry": "21",
+    "listed_date": "1987-10-21",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1711",
+    "name": "永光",
+    "market": "TWSE",
+    "industry": "21",
+    "listed_date": "1988-12-27",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1712",
+    "name": "興農",
+    "market": "TWSE",
+    "industry": "21",
+    "listed_date": "1989-12-14",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1713",
+    "name": "國化",
+    "market": "TWSE",
+    "industry": "21",
+    "listed_date": "1990-01-31",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1714",
+    "name": "和桐",
+    "market": "TWSE",
+    "industry": "21",
+    "listed_date": "1991-08-30",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1717",
+    "name": "長興",
+    "market": "TWSE",
+    "industry": "21",
+    "listed_date": "1994-03-31",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1718",
+    "name": "中纖",
+    "market": "TWSE",
+    "industry": "21",
+    "listed_date": "1963-12-02",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1720",
+    "name": "生達",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "1995-12-12",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1721",
+    "name": "三晃",
+    "market": "TWSE",
+    "industry": "21",
+    "listed_date": "1996-05-16",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1722",
+    "name": "台肥",
+    "market": "TWSE",
+    "industry": "21",
+    "listed_date": "1998-03-24",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1723",
+    "name": "中碳",
+    "market": "TWSE",
+    "industry": "21",
+    "listed_date": "1998-11-27",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1725",
+    "name": "元禎",
+    "market": "TWSE",
+    "industry": "21",
+    "listed_date": "2000-09-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1726",
+    "name": "永記",
+    "market": "TWSE",
+    "industry": "21",
+    "listed_date": "2000-09-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1727",
+    "name": "中華化",
+    "market": "TWSE",
+    "industry": "21",
+    "listed_date": "2000-09-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1730",
+    "name": "花仙子",
+    "market": "TWSE",
+    "industry": "21",
+    "listed_date": "2001-09-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1731",
+    "name": "美吾華",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "2001-09-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1732",
+    "name": "毛寶",
+    "market": "TWSE",
+    "industry": "21",
+    "listed_date": "2001-09-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1733",
+    "name": "五鼎",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "2001-09-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1734",
+    "name": "杏輝",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "2002-08-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1735",
+    "name": "日勝化",
+    "market": "TWSE",
+    "industry": "21",
+    "listed_date": "2002-08-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1736",
+    "name": "喬山",
+    "market": "TWSE",
+    "industry": "37",
+    "listed_date": "2003-01-09",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1737",
+    "name": "臺鹽",
+    "market": "TWSE",
+    "industry": "02",
+    "listed_date": "2003-11-18",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1752",
+    "name": "南光",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "2022-01-19",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1760",
+    "name": "寶齡富錦",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "2018-01-23",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1762",
+    "name": "中化生",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "2010-12-20",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1773",
+    "name": "勝一",
+    "market": "TWSE",
+    "industry": "21",
+    "listed_date": "2009-02-27",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1776",
+    "name": "展宇",
+    "market": "TWSE",
+    "industry": "21",
+    "listed_date": "2016-05-09",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1783",
+    "name": "和康生",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "2013-12-20",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1786",
+    "name": "科妍",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "2013-11-12",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1789",
+    "name": "神隆",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "2011-09-29",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1795",
+    "name": "美時",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "2019-12-16",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1802",
+    "name": "台玻",
+    "market": "TWSE",
+    "industry": "08",
+    "listed_date": "1973-07-20",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1805",
+    "name": "寶徠",
+    "market": "TWSE",
+    "industry": "14",
+    "listed_date": "1989-10-20",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1806",
+    "name": "冠軍",
+    "market": "TWSE",
+    "industry": "08",
+    "listed_date": "1992-09-29",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1808",
+    "name": "潤隆",
+    "market": "TWSE",
+    "industry": "14",
+    "listed_date": "1994-10-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1809",
+    "name": "中釉",
+    "market": "TWSE",
+    "industry": "08",
+    "listed_date": "1996-04-30",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1810",
+    "name": "和成",
+    "market": "TWSE",
+    "industry": "08",
+    "listed_date": "1991-10-14",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1817",
+    "name": "凱撒衛",
+    "market": "TWSE",
+    "industry": "08",
+    "listed_date": "2013-10-24",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1903",
+    "name": "士紙",
+    "market": "TWSE",
+    "industry": "09",
+    "listed_date": "1963-12-09",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1904",
+    "name": "正隆",
+    "market": "TWSE",
+    "industry": "09",
+    "listed_date": "1971-09-10",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1905",
+    "name": "華紙",
+    "market": "TWSE",
+    "industry": "09",
+    "listed_date": "1975-02-07",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1906",
+    "name": "寶隆",
+    "market": "TWSE",
+    "industry": "09",
+    "listed_date": "1976-04-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1907",
+    "name": "永豐餘",
+    "market": "TWSE",
+    "industry": "09",
+    "listed_date": "1977-02-22",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "1909",
+    "name": "榮成",
+    "market": "TWSE",
+    "industry": "09",
+    "listed_date": "1985-11-19",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2002",
+    "name": "中鋼",
+    "market": "TWSE",
+    "industry": "10",
+    "listed_date": "1974-12-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2006",
+    "name": "東和鋼鐵",
+    "market": "TWSE",
+    "industry": "10",
+    "listed_date": "1988-07-13",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2007",
+    "name": "燁興",
+    "market": "TWSE",
+    "industry": "10",
+    "listed_date": "1988-10-04",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2008",
+    "name": "高興昌",
+    "market": "TWSE",
+    "industry": "10",
+    "listed_date": "1988-12-28",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2009",
+    "name": "第一銅",
+    "market": "TWSE",
+    "industry": "10",
+    "listed_date": "1989-10-20",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2010",
+    "name": "春源",
+    "market": "TWSE",
+    "industry": "10",
+    "listed_date": "1989-12-22",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2012",
+    "name": "春雨",
+    "market": "TWSE",
+    "industry": "10",
+    "listed_date": "1991-10-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2013",
+    "name": "中鋼構",
+    "market": "TWSE",
+    "industry": "10",
+    "listed_date": "1992-01-21",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2014",
+    "name": "中鴻",
+    "market": "TWSE",
+    "industry": "10",
+    "listed_date": "1992-02-20",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2015",
+    "name": "豐興",
+    "market": "TWSE",
+    "industry": "10",
+    "listed_date": "1992-05-25",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2017",
+    "name": "官田鋼",
+    "market": "TWSE",
+    "industry": "10",
+    "listed_date": "1992-11-02",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2020",
+    "name": "美亞",
+    "market": "TWSE",
+    "industry": "10",
+    "listed_date": "1993-04-27",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2022",
+    "name": "聚亨",
+    "market": "TWSE",
+    "industry": "10",
+    "listed_date": "1995-03-27",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2023",
+    "name": "燁輝",
+    "market": "TWSE",
+    "industry": "10",
+    "listed_date": "1995-07-28",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2024",
+    "name": "志聯",
+    "market": "TWSE",
+    "industry": "10",
+    "listed_date": "1995-12-30",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2025",
+    "name": "千興",
+    "market": "TWSE",
+    "industry": "10",
+    "listed_date": "1996-02-08",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2027",
+    "name": "大成鋼",
+    "market": "TWSE",
+    "industry": "10",
+    "listed_date": "1996-10-24",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2028",
+    "name": "威致",
+    "market": "TWSE",
+    "industry": "10",
+    "listed_date": "1996-12-13",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2029",
+    "name": "盛餘",
+    "market": "TWSE",
+    "industry": "10",
+    "listed_date": "1997-01-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2030",
+    "name": "彰源",
+    "market": "TWSE",
+    "industry": "10",
+    "listed_date": "1998-12-24",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2031",
+    "name": "新光鋼",
+    "market": "TWSE",
+    "industry": "10",
+    "listed_date": "2000-09-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2032",
+    "name": "新鋼",
+    "market": "TWSE",
+    "industry": "10",
+    "listed_date": "2000-09-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2033",
+    "name": "佳大",
+    "market": "TWSE",
+    "industry": "10",
+    "listed_date": "2000-09-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2034",
+    "name": "允強",
+    "market": "TWSE",
+    "industry": "10",
+    "listed_date": "2001-09-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2038",
+    "name": "海光",
+    "market": "TWSE",
+    "industry": "10",
+    "listed_date": "2008-12-30",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2049",
+    "name": "上銀",
+    "market": "TWSE",
+    "industry": "05",
+    "listed_date": "2009-06-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2059",
+    "name": "川湖",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2008-06-25",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2062",
+    "name": "橋椿",
+    "market": "TWSE",
+    "industry": "38",
+    "listed_date": "2007-11-16",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2069",
+    "name": "運錩",
+    "market": "TWSE",
+    "industry": "10",
+    "listed_date": "2016-03-22",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2072",
+    "name": "世紀風電",
+    "market": "TWSE",
+    "industry": "35",
+    "listed_date": "2026-03-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2101",
+    "name": "南港",
+    "market": "TWSE",
+    "industry": "11",
+    "listed_date": "1963-11-01",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2102",
+    "name": "泰豐",
+    "market": "TWSE",
+    "industry": "11",
+    "listed_date": "1979-07-16",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2103",
+    "name": "台橡",
+    "market": "TWSE",
+    "industry": "11",
+    "listed_date": "1982-09-25",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2104",
+    "name": "國際中橡",
+    "market": "TWSE",
+    "industry": "11",
+    "listed_date": "1986-07-15",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2105",
+    "name": "正新",
+    "market": "TWSE",
+    "industry": "11",
+    "listed_date": "1987-12-07",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2106",
+    "name": "建大",
+    "market": "TWSE",
+    "industry": "11",
+    "listed_date": "1990-12-20",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2107",
+    "name": "厚生",
+    "market": "TWSE",
+    "industry": "11",
+    "listed_date": "1992-03-03",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2108",
+    "name": "南帝",
+    "market": "TWSE",
+    "industry": "11",
+    "listed_date": "1992-10-27",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2109",
+    "name": "華豐",
+    "market": "TWSE",
+    "industry": "11",
+    "listed_date": "2000-05-08",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2114",
+    "name": "鑫永銓",
+    "market": "TWSE",
+    "industry": "11",
+    "listed_date": "2010-12-29",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2115",
+    "name": "六暉-KY",
+    "market": "TWSE",
+    "industry": "12",
+    "listed_date": "2013-12-25",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2201",
+    "name": "裕隆",
+    "market": "TWSE",
+    "industry": "12",
+    "listed_date": "1976-07-08",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2204",
+    "name": "中華",
+    "market": "TWSE",
+    "industry": "12",
+    "listed_date": "1991-03-12",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2206",
+    "name": "三陽工業",
+    "market": "TWSE",
+    "industry": "12",
+    "listed_date": "1996-07-29",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2207",
+    "name": "和泰車",
+    "market": "TWSE",
+    "industry": "12",
+    "listed_date": "1997-02-25",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2208",
+    "name": "台船",
+    "market": "TWSE",
+    "industry": "15",
+    "listed_date": "2008-12-22",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2211",
+    "name": "長榮鋼",
+    "market": "TWSE",
+    "industry": "10",
+    "listed_date": "2021-04-12",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2227",
+    "name": "裕日車",
+    "market": "TWSE",
+    "industry": "12",
+    "listed_date": "2004-12-21",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2228",
+    "name": "劍麟",
+    "market": "TWSE",
+    "industry": "12",
+    "listed_date": "2013-11-25",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2231",
+    "name": "為升",
+    "market": "TWSE",
+    "industry": "12",
+    "listed_date": "2010-11-19",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2233",
+    "name": "宇隆",
+    "market": "TWSE",
+    "industry": "12",
+    "listed_date": "2019-09-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2236",
+    "name": "百達-KY",
+    "market": "TWSE",
+    "industry": "12",
+    "listed_date": "2015-06-03",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2239",
+    "name": "英利-KY",
+    "market": "TWSE",
+    "industry": "12",
+    "listed_date": "2016-01-27",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2241",
+    "name": "艾姆勒",
+    "market": "TWSE",
+    "industry": "12",
+    "listed_date": "2020-08-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2243",
+    "name": "宏旭-KY",
+    "market": "TWSE",
+    "industry": "12",
+    "listed_date": "2017-09-27",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2247",
+    "name": "汎德永業",
+    "market": "TWSE",
+    "industry": "12",
+    "listed_date": "2020-10-12",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2248",
+    "name": "華勝-KY",
+    "market": "TWSE",
+    "industry": "12",
+    "listed_date": "2025-03-13",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2250",
+    "name": "IKKA-KY",
+    "market": "TWSE",
+    "industry": "12",
+    "listed_date": "2021-05-31",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2254",
+    "name": "巨鎧精密-創",
+    "market": "TWSE",
+    "industry": "12",
+    "listed_date": "2023-10-20",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2258",
+    "name": "鴻華先進-創",
+    "market": "TWSE",
+    "industry": "12",
+    "listed_date": "2023-11-20",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2301",
+    "name": "光寶科",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "1995-11-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2302",
+    "name": "麗正",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "1985-01-15",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2303",
+    "name": "聯電",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "1985-07-16",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2305",
+    "name": "全友",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "1988-10-21",
     "is_etf": false,
     "is_active": true
   },
@@ -57,8 +2433,431 @@
     "symbol": "2308",
     "name": "台達電",
     "market": "TWSE",
-    "industry": "電源/工控",
+    "industry": "28",
     "listed_date": "1988-12-19",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2312",
+    "name": "金寶",
+    "market": "TWSE",
+    "industry": "31",
+    "listed_date": "1989-11-07",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2313",
+    "name": "華通",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "1990-07-24",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2314",
+    "name": "台揚",
+    "market": "TWSE",
+    "industry": "27",
+    "listed_date": "1990-08-08",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2316",
+    "name": "楠梓電",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "1991-02-05",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2317",
+    "name": "鴻海",
+    "market": "TWSE",
+    "industry": "31",
+    "listed_date": "1991-06-18",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2321",
+    "name": "東訊",
+    "market": "TWSE",
+    "industry": "27",
+    "listed_date": "1991-11-08",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2323",
+    "name": "中環",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "1992-02-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2324",
+    "name": "仁寶",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "1992-02-18",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2327",
+    "name": "國巨*",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "1993-10-22",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2328",
+    "name": "廣宇",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "1993-11-09",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2329",
+    "name": "華泰",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "1994-04-20",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2330",
+    "name": "台積電",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "1994-09-05",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2331",
+    "name": "精英",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "1994-09-21",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2332",
+    "name": "友訊",
+    "market": "TWSE",
+    "industry": "27",
+    "listed_date": "1994-10-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2337",
+    "name": "旺宏",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "1995-03-15",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2338",
+    "name": "光罩",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "1995-04-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2340",
+    "name": "台亞",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "1995-05-02",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2342",
+    "name": "茂矽",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "1995-09-19",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2344",
+    "name": "華邦電",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "1995-10-18",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2345",
+    "name": "智邦",
+    "market": "TWSE",
+    "industry": "27",
+    "listed_date": "1995-11-15",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2347",
+    "name": "聯強",
+    "market": "TWSE",
+    "industry": "29",
+    "listed_date": "1995-12-13",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2348",
+    "name": "海悅",
+    "market": "TWSE",
+    "industry": "20",
+    "listed_date": "1996-01-05",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2349",
+    "name": "錸德",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "1996-04-23",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2351",
+    "name": "順德",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "1996-04-25",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2352",
+    "name": "佳世達",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "1996-07-22",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2353",
+    "name": "宏碁",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "1996-09-18",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2354",
+    "name": "鴻準",
+    "market": "TWSE",
+    "industry": "31",
+    "listed_date": "1996-10-08",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2355",
+    "name": "敬鵬",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "1996-10-14",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2356",
+    "name": "英業達",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "1996-11-13",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2357",
+    "name": "華碩",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "1996-11-14",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2359",
+    "name": "所羅門",
+    "market": "TWSE",
+    "industry": "31",
+    "listed_date": "1996-12-19",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2360",
+    "name": "致茂",
+    "market": "TWSE",
+    "industry": "31",
+    "listed_date": "1996-12-21",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2362",
+    "name": "藍天",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "1997-04-02",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2363",
+    "name": "矽統",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "1997-08-01",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2364",
+    "name": "倫飛",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "1997-08-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2365",
+    "name": "昆盈",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "1997-11-03",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2367",
+    "name": "燿華",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "1997-12-13",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2368",
+    "name": "金像電",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "1998-03-09",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2369",
+    "name": "菱生",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "1998-04-10",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2371",
+    "name": "大同",
+    "market": "TWSE",
+    "industry": "05",
+    "listed_date": "1962-02-09",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2373",
+    "name": "震旦行",
+    "market": "TWSE",
+    "industry": "31",
+    "listed_date": "1991-08-01",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2374",
+    "name": "佳能",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "1995-01-16",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2375",
+    "name": "凱美",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "1998-08-29",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2376",
+    "name": "技嘉",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "1998-09-24",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2377",
+    "name": "微星",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "1998-10-31",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2379",
+    "name": "瑞昱",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "1998-10-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2380",
+    "name": "虹光",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "1998-12-03",
     "is_etf": false,
     "is_active": true
   },
@@ -66,8 +2865,161 @@
     "symbol": "2382",
     "name": "廣達",
     "market": "TWSE",
-    "industry": "AI 伺服器",
+    "industry": "25",
     "listed_date": "1999-01-08",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2383",
+    "name": "台光電",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "1998-11-27",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2385",
+    "name": "群光",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "1999-01-05",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2387",
+    "name": "精元",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "1999-01-25",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2388",
+    "name": "威盛",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "1999-03-05",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2390",
+    "name": "云辰",
+    "market": "TWSE",
+    "industry": "31",
+    "listed_date": "1999-06-15",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2392",
+    "name": "正崴",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "1999-09-20",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2393",
+    "name": "億光",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "1999-11-04",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2395",
+    "name": "研華",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "1999-12-13",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2397",
+    "name": "友通",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "2000-01-15",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2399",
+    "name": "映泰",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "1999-12-16",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2401",
+    "name": "凌陽",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2000-01-27",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2402",
+    "name": "毅嘉",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2000-01-14",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2404",
+    "name": "漢唐",
+    "market": "TWSE",
+    "industry": "31",
+    "listed_date": "2000-03-14",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2405",
+    "name": "輔信",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "2000-03-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2406",
+    "name": "國碩",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2000-04-29",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2408",
+    "name": "南亞科",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2000-08-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2409",
+    "name": "友達",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2000-09-08",
     "is_etf": false,
     "is_active": true
   },
@@ -75,8 +3027,1349 @@
     "symbol": "2412",
     "name": "中華電",
     "market": "TWSE",
-    "industry": "電信",
+    "industry": "27",
     "listed_date": "2000-10-27",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2413",
+    "name": "環科",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2000-09-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2414",
+    "name": "精技",
+    "market": "TWSE",
+    "industry": "29",
+    "listed_date": "2000-09-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2415",
+    "name": "錩新",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2000-09-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2417",
+    "name": "圓剛",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "2000-09-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2419",
+    "name": "仲琦",
+    "market": "TWSE",
+    "industry": "27",
+    "listed_date": "2000-09-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2420",
+    "name": "新巨",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2000-09-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2421",
+    "name": "建準",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2000-09-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2423",
+    "name": "固緯",
+    "market": "TWSE",
+    "industry": "31",
+    "listed_date": "2000-09-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2424",
+    "name": "隴華",
+    "market": "TWSE",
+    "industry": "27",
+    "listed_date": "2000-09-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2425",
+    "name": "承啟",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "2000-09-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2426",
+    "name": "鼎元",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2000-09-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2427",
+    "name": "三商電",
+    "market": "TWSE",
+    "industry": "30",
+    "listed_date": "2000-09-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2428",
+    "name": "興勤",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2000-09-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2429",
+    "name": "銘旺科",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2000-09-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2430",
+    "name": "燦坤",
+    "market": "TWSE",
+    "industry": "29",
+    "listed_date": "2000-09-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2431",
+    "name": "聯昌",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2000-09-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2432",
+    "name": "倚天酷碁-創",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "2023-05-31",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2433",
+    "name": "互盛電",
+    "market": "TWSE",
+    "industry": "31",
+    "listed_date": "2000-09-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2434",
+    "name": "統懋",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2000-09-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2436",
+    "name": "偉詮電",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2000-09-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2438",
+    "name": "翔耀",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2000-09-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2439",
+    "name": "美律",
+    "market": "TWSE",
+    "industry": "27",
+    "listed_date": "2000-09-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2440",
+    "name": "太空梭",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2000-11-10",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2441",
+    "name": "超豐",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2000-10-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2442",
+    "name": "新美齊",
+    "market": "TWSE",
+    "industry": "14",
+    "listed_date": "2000-11-22",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2444",
+    "name": "兆勁",
+    "market": "TWSE",
+    "industry": "27",
+    "listed_date": "2000-12-08",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2449",
+    "name": "京元電子",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2001-05-09",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2450",
+    "name": "神腦",
+    "market": "TWSE",
+    "industry": "27",
+    "listed_date": "2001-05-24",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2451",
+    "name": "創見",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2001-05-03",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2453",
+    "name": "凌群",
+    "market": "TWSE",
+    "industry": "30",
+    "listed_date": "2001-05-22",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2454",
+    "name": "聯發科",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2001-07-23",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2455",
+    "name": "全新",
+    "market": "TWSE",
+    "industry": "27",
+    "listed_date": "2002-01-24",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2457",
+    "name": "飛宏",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2001-09-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2458",
+    "name": "義隆",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2001-09-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2459",
+    "name": "敦吉",
+    "market": "TWSE",
+    "industry": "31",
+    "listed_date": "2001-09-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2460",
+    "name": "建通",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2001-09-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2461",
+    "name": "光群雷",
+    "market": "TWSE",
+    "industry": "31",
+    "listed_date": "2001-09-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2462",
+    "name": "良得電",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2001-09-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2464",
+    "name": "盟立",
+    "market": "TWSE",
+    "industry": "31",
+    "listed_date": "2001-09-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2465",
+    "name": "麗臺",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "2001-09-19",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2466",
+    "name": "冠西電",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2001-09-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2467",
+    "name": "志聖",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2001-09-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2468",
+    "name": "華經",
+    "market": "TWSE",
+    "industry": "30",
+    "listed_date": "2001-09-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2471",
+    "name": "資通",
+    "market": "TWSE",
+    "industry": "30",
+    "listed_date": "2001-09-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2472",
+    "name": "立隆電",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2001-09-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2474",
+    "name": "可成",
+    "market": "TWSE",
+    "industry": "31",
+    "listed_date": "2001-09-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2476",
+    "name": "鉅祥",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2001-09-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2477",
+    "name": "美隆電",
+    "market": "TWSE",
+    "industry": "31",
+    "listed_date": "2001-09-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2478",
+    "name": "大毅",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2001-09-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2480",
+    "name": "敦陽科",
+    "market": "TWSE",
+    "industry": "30",
+    "listed_date": "2001-09-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2481",
+    "name": "強茂",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2001-09-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2482",
+    "name": "連宇",
+    "market": "TWSE",
+    "industry": "31",
+    "listed_date": "2001-09-19",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2483",
+    "name": "百容",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2001-09-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2484",
+    "name": "希華",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2001-09-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2485",
+    "name": "兆赫",
+    "market": "TWSE",
+    "industry": "27",
+    "listed_date": "2001-09-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2486",
+    "name": "一詮",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2001-09-19",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2488",
+    "name": "漢平",
+    "market": "TWSE",
+    "industry": "31",
+    "listed_date": "2001-09-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2489",
+    "name": "瑞軒",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2001-09-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2491",
+    "name": "吉祥全",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2001-09-19",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2492",
+    "name": "華新科",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2001-09-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2493",
+    "name": "揚博",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2002-01-23",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2495",
+    "name": "普安",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "2002-03-25",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2496",
+    "name": "卓越",
+    "market": "TWSE",
+    "industry": "20",
+    "listed_date": "2002-03-08",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2497",
+    "name": "怡利電",
+    "market": "TWSE",
+    "industry": "12",
+    "listed_date": "2002-02-04",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2498",
+    "name": "宏達電",
+    "market": "TWSE",
+    "industry": "27",
+    "listed_date": "2002-03-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2501",
+    "name": "國建",
+    "market": "TWSE",
+    "industry": "14",
+    "listed_date": "1967-10-28",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2504",
+    "name": "國產",
+    "market": "TWSE",
+    "industry": "14",
+    "listed_date": "1978-03-14",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2505",
+    "name": "國揚",
+    "market": "TWSE",
+    "industry": "14",
+    "listed_date": "1979-11-14",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2506",
+    "name": "太設",
+    "market": "TWSE",
+    "industry": "14",
+    "listed_date": "1980-02-02",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2509",
+    "name": "全坤建",
+    "market": "TWSE",
+    "industry": "14",
+    "listed_date": "1988-05-20",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2511",
+    "name": "太子",
+    "market": "TWSE",
+    "industry": "14",
+    "listed_date": "1991-04-24",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2514",
+    "name": "龍邦",
+    "market": "TWSE",
+    "industry": "20",
+    "listed_date": "1992-09-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2515",
+    "name": "中工",
+    "market": "TWSE",
+    "industry": "14",
+    "listed_date": "1993-03-02",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2516",
+    "name": "新建",
+    "market": "TWSE",
+    "industry": "14",
+    "listed_date": "1993-05-25",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2520",
+    "name": "冠德",
+    "market": "TWSE",
+    "industry": "14",
+    "listed_date": "1993-10-27",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2524",
+    "name": "京城",
+    "market": "TWSE",
+    "industry": "14",
+    "listed_date": "1994-10-18",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2527",
+    "name": "宏璟",
+    "market": "TWSE",
+    "industry": "14",
+    "listed_date": "1995-03-06",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2528",
+    "name": "皇普",
+    "market": "TWSE",
+    "industry": "14",
+    "listed_date": "1995-03-10",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2530",
+    "name": "華建",
+    "market": "TWSE",
+    "industry": "14",
+    "listed_date": "1995-10-12",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2534",
+    "name": "宏盛",
+    "market": "TWSE",
+    "industry": "14",
+    "listed_date": "1996-02-12",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2535",
+    "name": "達欣工",
+    "market": "TWSE",
+    "industry": "14",
+    "listed_date": "1996-03-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2536",
+    "name": "宏普",
+    "market": "TWSE",
+    "industry": "14",
+    "listed_date": "1996-03-14",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2537",
+    "name": "聯上發",
+    "market": "TWSE",
+    "industry": "14",
+    "listed_date": "1996-09-06",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2538",
+    "name": "基泰",
+    "market": "TWSE",
+    "industry": "14",
+    "listed_date": "1996-11-01",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2539",
+    "name": "櫻花建",
+    "market": "TWSE",
+    "industry": "14",
+    "listed_date": "1997-07-16",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2540",
+    "name": "愛山林",
+    "market": "TWSE",
+    "industry": "14",
+    "listed_date": "1989-12-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2542",
+    "name": "興富發",
+    "market": "TWSE",
+    "industry": "14",
+    "listed_date": "1999-05-03",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2543",
+    "name": "皇昌",
+    "market": "TWSE",
+    "industry": "14",
+    "listed_date": "1999-10-15",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2545",
+    "name": "皇翔",
+    "market": "TWSE",
+    "industry": "14",
+    "listed_date": "2000-09-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2546",
+    "name": "根基",
+    "market": "TWSE",
+    "industry": "14",
+    "listed_date": "2000-09-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2547",
+    "name": "日勝生",
+    "market": "TWSE",
+    "industry": "14",
+    "listed_date": "2000-12-22",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2548",
+    "name": "華固",
+    "market": "TWSE",
+    "industry": "14",
+    "listed_date": "2002-08-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2597",
+    "name": "潤弘",
+    "market": "TWSE",
+    "industry": "14",
+    "listed_date": "2010-03-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2601",
+    "name": "益航",
+    "market": "TWSE",
+    "industry": "18",
+    "listed_date": "1965-11-04",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2603",
+    "name": "長榮",
+    "market": "TWSE",
+    "industry": "15",
+    "listed_date": "1987-09-21",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2605",
+    "name": "新興",
+    "market": "TWSE",
+    "industry": "15",
+    "listed_date": "1989-12-08",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2606",
+    "name": "裕民",
+    "market": "TWSE",
+    "industry": "15",
+    "listed_date": "1990-12-08",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2607",
+    "name": "榮運",
+    "market": "TWSE",
+    "industry": "15",
+    "listed_date": "1990-12-14",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2608",
+    "name": "嘉里大榮",
+    "market": "TWSE",
+    "industry": "15",
+    "listed_date": "1990-12-20",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2609",
+    "name": "陽明",
+    "market": "TWSE",
+    "industry": "15",
+    "listed_date": "1992-04-20",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2610",
+    "name": "華航",
+    "market": "TWSE",
+    "industry": "15",
+    "listed_date": "1993-02-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2611",
+    "name": "志信",
+    "market": "TWSE",
+    "industry": "15",
+    "listed_date": "1993-10-28",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2612",
+    "name": "中航",
+    "market": "TWSE",
+    "industry": "15",
+    "listed_date": "1994-10-20",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2613",
+    "name": "中櫃",
+    "market": "TWSE",
+    "industry": "15",
+    "listed_date": "1995-01-20",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2614",
+    "name": "東森",
+    "market": "TWSE",
+    "industry": "20",
+    "listed_date": "1995-09-23",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2615",
+    "name": "萬海",
+    "market": "TWSE",
+    "industry": "15",
+    "listed_date": "1996-05-16",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2616",
+    "name": "山隆",
+    "market": "TWSE",
+    "industry": "23",
+    "listed_date": "1997-11-08",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2617",
+    "name": "台航",
+    "market": "TWSE",
+    "industry": "15",
+    "listed_date": "1998-06-24",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2618",
+    "name": "長榮航",
+    "market": "TWSE",
+    "industry": "15",
+    "listed_date": "2001-09-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2630",
+    "name": "亞航",
+    "market": "TWSE",
+    "industry": "15",
+    "listed_date": "2018-02-22",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2633",
+    "name": "台灣高鐵",
+    "market": "TWSE",
+    "industry": "15",
+    "listed_date": "2016-10-27",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2634",
+    "name": "漢翔",
+    "market": "TWSE",
+    "industry": "15",
+    "listed_date": "2014-08-25",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2636",
+    "name": "台驊控股",
+    "market": "TWSE",
+    "industry": "15",
+    "listed_date": "2016-12-22",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2637",
+    "name": "慧洋-KY",
+    "market": "TWSE",
+    "industry": "15",
+    "listed_date": "2010-12-01",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2642",
+    "name": "宅配通",
+    "market": "TWSE",
+    "industry": "15",
+    "listed_date": "2013-12-12",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2645",
+    "name": "長榮航太",
+    "market": "TWSE",
+    "industry": "15",
+    "listed_date": "2023-03-14",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2646",
+    "name": "星宇航空",
+    "market": "TWSE",
+    "industry": "15",
+    "listed_date": "2024-10-25",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2701",
+    "name": "萬企",
+    "market": "TWSE",
+    "industry": "16",
+    "listed_date": "1965-03-22",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2702",
+    "name": "華園",
+    "market": "TWSE",
+    "industry": "16",
+    "listed_date": "1965-02-14",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2704",
+    "name": "國賓",
+    "market": "TWSE",
+    "industry": "16",
+    "listed_date": "1982-11-10",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2705",
+    "name": "六福",
+    "market": "TWSE",
+    "industry": "16",
+    "listed_date": "1988-12-24",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2706",
+    "name": "第一店",
+    "market": "TWSE",
+    "industry": "16",
+    "listed_date": "1991-06-25",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2707",
+    "name": "晶華",
+    "market": "TWSE",
+    "industry": "16",
+    "listed_date": "1998-03-09",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2712",
+    "name": "遠雄來",
+    "market": "TWSE",
+    "industry": "16",
+    "listed_date": "2013-12-03",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2722",
+    "name": "夏都",
+    "market": "TWSE",
+    "industry": "16",
+    "listed_date": "2012-03-14",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2723",
+    "name": "美食-KY",
+    "market": "TWSE",
+    "industry": "16",
+    "listed_date": "2010-11-22",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2727",
+    "name": "王品",
+    "market": "TWSE",
+    "industry": "16",
+    "listed_date": "2012-03-06",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2731",
+    "name": "雄獅",
+    "market": "TWSE",
+    "industry": "16",
+    "listed_date": "2013-09-24",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2739",
+    "name": "寒舍",
+    "market": "TWSE",
+    "industry": "16",
+    "listed_date": "2016-05-19",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2748",
+    "name": "雲品",
+    "market": "TWSE",
+    "industry": "16",
+    "listed_date": "2016-11-23",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2753",
+    "name": "八方雲集",
+    "market": "TWSE",
+    "industry": "16",
+    "listed_date": "2021-09-09",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2762",
+    "name": "世界健身-KY",
+    "market": "TWSE",
+    "industry": "37",
+    "listed_date": "2024-01-24",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2801",
+    "name": "彰銀",
+    "market": "TWSE",
+    "industry": "17",
+    "listed_date": "1962-02-15",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2812",
+    "name": "台中銀",
+    "market": "TWSE",
+    "industry": "17",
+    "listed_date": "1984-05-15",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2816",
+    "name": "旺旺保",
+    "market": "TWSE",
+    "industry": "17",
+    "listed_date": "1992-05-05",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2820",
+    "name": "華票",
+    "market": "TWSE",
+    "industry": "17",
+    "listed_date": "1994-10-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2832",
+    "name": "台產",
+    "market": "TWSE",
+    "industry": "17",
+    "listed_date": "1997-09-30",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2834",
+    "name": "臺企銀",
+    "market": "TWSE",
+    "industry": "17",
+    "listed_date": "1998-01-03",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2836",
+    "name": "高雄銀",
+    "market": "TWSE",
+    "industry": "17",
+    "listed_date": "1998-05-18",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2838",
+    "name": "聯邦銀",
+    "market": "TWSE",
+    "industry": "17",
+    "listed_date": "1998-06-29",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2845",
+    "name": "遠東銀",
+    "market": "TWSE",
+    "industry": "17",
+    "listed_date": "1998-11-27",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2849",
+    "name": "安泰銀",
+    "market": "TWSE",
+    "industry": "17",
+    "listed_date": "1999-09-27",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2850",
+    "name": "新產",
+    "market": "TWSE",
+    "industry": "17",
+    "listed_date": "2000-05-22",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2851",
+    "name": "中再保",
+    "market": "TWSE",
+    "industry": "17",
+    "listed_date": "2000-07-06",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2852",
+    "name": "第一保",
+    "market": "TWSE",
+    "industry": "17",
+    "listed_date": "2000-11-28",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2855",
+    "name": "統一證",
+    "market": "TWSE",
+    "industry": "17",
+    "listed_date": "2002-09-16",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2867",
+    "name": "三商壽",
+    "market": "TWSE",
+    "industry": "17",
+    "listed_date": "2012-12-18",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2880",
+    "name": "華南金",
+    "market": "TWSE",
+    "industry": "17",
+    "listed_date": "2001-12-19",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2881",
+    "name": "富邦金",
+    "market": "TWSE",
+    "industry": "17",
+    "listed_date": "2001-12-19",
     "is_etf": false,
     "is_active": true
   },
@@ -84,10 +4377,5400 @@
     "symbol": "2882",
     "name": "國泰金",
     "market": "TWSE",
-    "industry": "金融",
+    "industry": "17",
     "listed_date": "2001-12-31",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2883",
+    "name": "凱基金",
+    "market": "TWSE",
+    "industry": "17",
+    "listed_date": "2001-12-28",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2884",
+    "name": "玉山金",
+    "market": "TWSE",
+    "industry": "17",
+    "listed_date": "2002-01-28",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2885",
+    "name": "元大金",
+    "market": "TWSE",
+    "industry": "17",
+    "listed_date": "2002-02-04",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2886",
+    "name": "兆豐金",
+    "market": "TWSE",
+    "industry": "17",
+    "listed_date": "2002-02-04",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2887",
+    "name": "台新新光金",
+    "market": "TWSE",
+    "industry": "17",
+    "listed_date": "2002-02-18",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2889",
+    "name": "國票金",
+    "market": "TWSE",
+    "industry": "17",
+    "listed_date": "2002-03-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2890",
+    "name": "永豐金",
+    "market": "TWSE",
+    "industry": "17",
+    "listed_date": "2002-05-09",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2891",
+    "name": "中信金",
+    "market": "TWSE",
+    "industry": "17",
+    "listed_date": "2002-05-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2892",
+    "name": "第一金",
+    "market": "TWSE",
+    "industry": "17",
+    "listed_date": "2003-01-02",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2897",
+    "name": "王道銀行",
+    "market": "TWSE",
+    "industry": "17",
+    "listed_date": "2017-05-05",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2901",
+    "name": "欣欣",
+    "market": "TWSE",
+    "industry": "18",
+    "listed_date": "1976-05-07",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2903",
+    "name": "遠百",
+    "market": "TWSE",
+    "industry": "18",
+    "listed_date": "1978-10-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2904",
+    "name": "匯僑",
+    "market": "TWSE",
+    "industry": "20",
+    "listed_date": "1983-01-05",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2905",
+    "name": "三商",
+    "market": "TWSE",
+    "industry": "18",
+    "listed_date": "1988-09-19",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2906",
+    "name": "高林",
+    "market": "TWSE",
+    "industry": "18",
+    "listed_date": "1989-12-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2908",
+    "name": "特力",
+    "market": "TWSE",
+    "industry": "18",
+    "listed_date": "1993-02-18",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2910",
+    "name": "統領",
+    "market": "TWSE",
+    "industry": "18",
+    "listed_date": "1996-12-30",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2911",
+    "name": "麗嬰房",
+    "market": "TWSE",
+    "industry": "18",
+    "listed_date": "1997-01-18",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2912",
+    "name": "統一超",
+    "market": "TWSE",
+    "industry": "18",
+    "listed_date": "1997-08-22",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2913",
+    "name": "農林",
+    "market": "TWSE",
+    "industry": "18",
+    "listed_date": "1962-02-09",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2915",
+    "name": "潤泰全",
+    "market": "TWSE",
+    "industry": "18",
+    "listed_date": "1977-07-20",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2923",
+    "name": "鼎固-KY",
+    "market": "TWSE",
+    "industry": "14",
+    "listed_date": "2012-12-07",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2929",
+    "name": "淘帝-KY",
+    "market": "TWSE",
+    "industry": "18",
+    "listed_date": "2013-12-30",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2939",
+    "name": "永邑-KY",
+    "market": "TWSE",
+    "industry": "18",
+    "listed_date": "2018-01-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "2945",
+    "name": "三商家購",
+    "market": "TWSE",
+    "industry": "18",
+    "listed_date": "2021-11-30",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3002",
+    "name": "歐格",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "2002-01-23",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3003",
+    "name": "健和興",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2002-02-19",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3004",
+    "name": "豐達科",
+    "market": "TWSE",
+    "industry": "10",
+    "listed_date": "2002-02-25",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3005",
+    "name": "神基",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "2002-02-25",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3006",
+    "name": "晶豪科",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2002-03-04",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3008",
+    "name": "大立光",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2002-03-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3010",
+    "name": "華立",
+    "market": "TWSE",
+    "industry": "29",
+    "listed_date": "2002-07-22",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3011",
+    "name": "今皓",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2002-07-22",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3013",
+    "name": "晟銘電",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "2002-09-16",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3014",
+    "name": "聯陽",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2002-10-29",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3015",
+    "name": "全漢",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2002-10-16",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3016",
+    "name": "嘉晶",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2002-12-24",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3017",
+    "name": "奇鋐",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "2002-09-27",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3018",
+    "name": "隆銘綠能",
+    "market": "TWSE",
+    "industry": "31",
+    "listed_date": "2002-08-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3019",
+    "name": "亞光",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2002-08-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3021",
+    "name": "鴻名",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2002-08-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3022",
+    "name": "威強電",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "2002-08-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3023",
+    "name": "信邦",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2002-08-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3024",
+    "name": "憶聲",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2002-08-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3025",
+    "name": "星通",
+    "market": "TWSE",
+    "industry": "27",
+    "listed_date": "2002-08-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3026",
+    "name": "禾伸堂",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2002-08-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3027",
+    "name": "盛達",
+    "market": "TWSE",
+    "industry": "27",
+    "listed_date": "2002-08-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3028",
+    "name": "增你強",
+    "market": "TWSE",
+    "industry": "29",
+    "listed_date": "2002-08-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3029",
+    "name": "零壹",
+    "market": "TWSE",
+    "industry": "30",
+    "listed_date": "2002-08-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3030",
+    "name": "德律",
+    "market": "TWSE",
+    "industry": "31",
+    "listed_date": "2002-10-29",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3031",
+    "name": "佰鴻",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2002-08-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3032",
+    "name": "偉訓",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2002-08-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3033",
+    "name": "威健",
+    "market": "TWSE",
+    "industry": "29",
+    "listed_date": "2002-08-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3034",
+    "name": "聯詠",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2002-08-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3035",
+    "name": "智原",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2002-08-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3036",
+    "name": "文曄",
+    "market": "TWSE",
+    "industry": "29",
+    "listed_date": "2002-08-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3037",
+    "name": "欣興",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2002-08-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3038",
+    "name": "全台",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2002-08-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3040",
+    "name": "遠見",
+    "market": "TWSE",
+    "industry": "20",
+    "listed_date": "2002-08-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3041",
+    "name": "揚智",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2002-08-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3042",
+    "name": "晶技",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2002-08-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3043",
+    "name": "科風",
+    "market": "TWSE",
+    "industry": "31",
+    "listed_date": "2002-08-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3044",
+    "name": "健鼎",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2002-08-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3045",
+    "name": "台灣大",
+    "market": "TWSE",
+    "industry": "27",
+    "listed_date": "2002-08-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3046",
+    "name": "建碁",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "2002-08-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3047",
+    "name": "訊舟",
+    "market": "TWSE",
+    "industry": "27",
+    "listed_date": "2002-08-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3048",
+    "name": "益登",
+    "market": "TWSE",
+    "industry": "29",
+    "listed_date": "2002-10-01",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3049",
+    "name": "精金",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2002-09-27",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3050",
+    "name": "鈺德",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2002-10-29",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3051",
+    "name": "力特",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2002-10-28",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3052",
+    "name": "夆典",
+    "market": "TWSE",
+    "industry": "14",
+    "listed_date": "1995-11-25",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3054",
+    "name": "立萬利",
+    "market": "TWSE",
+    "industry": "02",
+    "listed_date": "2002-11-18",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3055",
+    "name": "蔚華科",
+    "market": "TWSE",
+    "industry": "29",
+    "listed_date": "2002-12-12",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3056",
+    "name": "富華新",
+    "market": "TWSE",
+    "industry": "14",
+    "listed_date": "2003-03-03",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3057",
+    "name": "喬鼎",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "2002-12-18",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3058",
+    "name": "立德",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2002-12-09",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3059",
+    "name": "華晶科",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2002-12-24",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3060",
+    "name": "銘異",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "2003-04-21",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3062",
+    "name": "建漢",
+    "market": "TWSE",
+    "industry": "27",
+    "listed_date": "2003-07-28",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3090",
+    "name": "日電貿",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2007-12-31",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3092",
+    "name": "鴻碩",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2021-05-13",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3094",
+    "name": "聯傑",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2007-08-06",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3130",
+    "name": "一零四",
+    "market": "TWSE",
+    "industry": "36",
+    "listed_date": "2006-02-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3135",
+    "name": "凌航",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2025-08-06",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3138",
+    "name": "耀登",
+    "market": "TWSE",
+    "industry": "27",
+    "listed_date": "2020-12-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3149",
+    "name": "正達",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2011-11-23",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3150",
+    "name": "鈺寶-創",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2024-06-27",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3164",
+    "name": "景岳",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "2010-03-22",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3167",
+    "name": "大量",
+    "market": "TWSE",
+    "industry": "05",
+    "listed_date": "2013-10-21",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3168",
+    "name": "眾福科",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2024-03-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3189",
+    "name": "景碩",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2004-11-01",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3209",
+    "name": "全科",
+    "market": "TWSE",
+    "industry": "29",
+    "listed_date": "2008-11-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3229",
+    "name": "晟鈦",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2009-12-31",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3231",
+    "name": "緯創",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "2003-08-19",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3257",
+    "name": "虹冠電",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2011-03-21",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3266",
+    "name": "昇陽",
+    "market": "TWSE",
+    "industry": "14",
+    "listed_date": "2014-12-24",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3296",
+    "name": "勝德",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2007-12-31",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3305",
+    "name": "昇貿",
+    "market": "TWSE",
+    "industry": "31",
+    "listed_date": "2008-07-10",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3308",
+    "name": "聯德",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2008-03-12",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3311",
+    "name": "閎暉",
+    "market": "TWSE",
+    "industry": "27",
+    "listed_date": "2004-03-08",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3312",
+    "name": "弘憶股",
+    "market": "TWSE",
+    "industry": "29",
+    "listed_date": "2010-12-29",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3321",
+    "name": "同泰",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2015-12-15",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3338",
+    "name": "泰碩",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2013-12-13",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3346",
+    "name": "麗清",
+    "market": "TWSE",
+    "industry": "12",
+    "listed_date": "2016-12-19",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3356",
+    "name": "奇偶",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2005-03-28",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3376",
+    "name": "新日興",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2007-12-31",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3380",
+    "name": "明泰",
+    "market": "TWSE",
+    "industry": "27",
+    "listed_date": "2004-12-20",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3406",
+    "name": "玉晶光",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2005-12-20",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3413",
+    "name": "京鼎",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2015-07-28",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3416",
+    "name": "融程電",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "2015-01-23",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3419",
+    "name": "譁裕",
+    "market": "TWSE",
+    "industry": "27",
+    "listed_date": "2008-01-21",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3432",
+    "name": "台端",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2010-12-30",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3437",
+    "name": "榮創",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2014-07-09",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3443",
+    "name": "創意",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2006-11-03",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3447",
+    "name": "展達",
+    "market": "TWSE",
+    "industry": "27",
+    "listed_date": "2022-12-15",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3450",
+    "name": "聯鈞",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2006-04-12",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3481",
+    "name": "群創",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2006-10-24",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3494",
+    "name": "誠研",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "2007-12-13",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3501",
+    "name": "維熹",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2007-09-20",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3504",
+    "name": "揚明光",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2007-01-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3515",
+    "name": "華擎",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "2007-11-08",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3518",
+    "name": "柏騰",
+    "market": "TWSE",
+    "industry": "31",
+    "listed_date": "2007-11-28",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3528",
+    "name": "安馳",
+    "market": "TWSE",
+    "industry": "29",
+    "listed_date": "2016-05-18",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3530",
+    "name": "晶相光",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2018-07-16",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3532",
+    "name": "台勝科",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2007-12-10",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3533",
+    "name": "嘉澤",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2007-12-10",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3535",
+    "name": "晶彩科",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2008-01-31",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3543",
+    "name": "州巧",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2020-04-15",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3545",
+    "name": "敦泰",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2007-07-03",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3550",
+    "name": "聯穎",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2010-11-10",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3557",
+    "name": "嘉威",
+    "market": "TWSE",
+    "industry": "38",
+    "listed_date": "2008-02-27",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3563",
+    "name": "牧德",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2019-04-02",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3576",
+    "name": "聯合再生",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2009-01-12",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3583",
+    "name": "辛耘",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2013-03-12",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3588",
+    "name": "通嘉",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2009-08-14",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3591",
+    "name": "艾笛森",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2010-11-12",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3592",
+    "name": "瑞鼎",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2022-01-07",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3593",
+    "name": "力銘",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2009-03-16",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3596",
+    "name": "智易",
+    "market": "TWSE",
+    "industry": "27",
+    "listed_date": "2009-03-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3605",
+    "name": "宏致",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2009-03-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3607",
+    "name": "谷崧",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2009-10-28",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3617",
+    "name": "碩天",
+    "market": "TWSE",
+    "industry": "31",
+    "listed_date": "2009-12-23",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3622",
+    "name": "洋華",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2009-03-25",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3645",
+    "name": "達邁",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2011-10-05",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3652",
+    "name": "精聯",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "2022-09-21",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3653",
+    "name": "健策",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2009-11-18",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3661",
+    "name": "世芯-KY",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2014-10-28",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3665",
+    "name": "貿聯-KY",
+    "market": "TWSE",
+    "industry": "31",
+    "listed_date": "2011-04-21",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3669",
+    "name": "圓展",
+    "market": "TWSE",
+    "industry": "27",
+    "listed_date": "2011-08-25",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3673",
+    "name": "TPK-KY",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2010-10-29",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3679",
+    "name": "新至陞",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2011-10-05",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3686",
+    "name": "達能",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2010-07-20",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3694",
+    "name": "海華",
+    "market": "TWSE",
+    "industry": "27",
+    "listed_date": "2011-05-03",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3701",
+    "name": "大眾控",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "2004-08-30",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3702",
+    "name": "大聯大",
+    "market": "TWSE",
+    "industry": "29",
+    "listed_date": "2005-11-09",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3703",
+    "name": "欣陸",
+    "market": "TWSE",
+    "industry": "14",
+    "listed_date": "2010-04-08",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3704",
+    "name": "合勤控",
+    "market": "TWSE",
+    "industry": "27",
+    "listed_date": "2010-08-16",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3705",
+    "name": "永信",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "2011-01-03",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3706",
+    "name": "神達",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "2013-09-12",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3708",
+    "name": "上緯投控",
+    "market": "TWSE",
+    "industry": "35",
+    "listed_date": "2016-08-31",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3711",
+    "name": "日月光投控",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2018-04-30",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3712",
+    "name": "永崴投控",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "2018-10-01",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3714",
+    "name": "富采",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2021-01-06",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3715",
+    "name": "定穎投控",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2022-08-25",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3716",
+    "name": "中化控股",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "2024-09-02",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "3717",
+    "name": "聯嘉投控",
+    "market": "TWSE",
+    "industry": "12",
+    "listed_date": "2025-08-15",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4104",
+    "name": "佳醫",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "2007-12-31",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4106",
+    "name": "雃博",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "2004-11-08",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4108",
+    "name": "懷特",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "2008-07-16",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4119",
+    "name": "旭富",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "2004-01-07",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4133",
+    "name": "亞諾法",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "2009-12-28",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4137",
+    "name": "麗豐-KY",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "2013-11-27",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4142",
+    "name": "國光生",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "2012-05-03",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4148",
+    "name": "全宇生技-KY",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "2017-06-08",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4155",
+    "name": "訊映",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "2017-12-05",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4164",
+    "name": "承業醫",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "2012-10-24",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4169",
+    "name": "泰宗",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "2026-04-08",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4178",
+    "name": "永笙-KY",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "2026-04-30",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4190",
+    "name": "佐登-KY",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "2015-10-21",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4195",
+    "name": "基米-創",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "2026-05-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4306",
+    "name": "炎洲",
+    "market": "TWSE",
+    "industry": "03",
+    "listed_date": "2008-01-21",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4414",
+    "name": "如興",
+    "market": "TWSE",
+    "industry": "04",
+    "listed_date": "2004-09-06",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4426",
+    "name": "利勤",
+    "market": "TWSE",
+    "industry": "04",
+    "listed_date": "2011-12-16",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4438",
+    "name": "廣越",
+    "market": "TWSE",
+    "industry": "04",
+    "listed_date": "2016-10-18",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4439",
+    "name": "冠星-KY",
+    "market": "TWSE",
+    "industry": "04",
+    "listed_date": "2019-12-05",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4440",
+    "name": "宜新實業",
+    "market": "TWSE",
+    "industry": "04",
+    "listed_date": "2021-10-25",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4441",
+    "name": "振大環球",
+    "market": "TWSE",
+    "industry": "04",
+    "listed_date": "2025-09-09",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4526",
+    "name": "東台",
+    "market": "TWSE",
+    "industry": "05",
+    "listed_date": "2003-09-15",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4532",
+    "name": "瑞智",
+    "market": "TWSE",
+    "industry": "05",
+    "listed_date": "2003-08-04",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4536",
+    "name": "拓凱",
+    "market": "TWSE",
+    "industry": "37",
+    "listed_date": "2013-10-09",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4540",
+    "name": "全球傳動",
+    "market": "TWSE",
+    "industry": "05",
+    "listed_date": "2018-08-15",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4545",
+    "name": "銘鈺",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2016-01-06",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4551",
+    "name": "智伸科",
+    "market": "TWSE",
+    "industry": "12",
+    "listed_date": "2015-08-10",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4552",
+    "name": "力達-KY",
+    "market": "TWSE",
+    "industry": "05",
+    "listed_date": "2016-07-20",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4555",
+    "name": "氣立",
+    "market": "TWSE",
+    "industry": "05",
+    "listed_date": "2015-10-27",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4557",
+    "name": "永新-KY",
+    "market": "TWSE",
+    "industry": "12",
+    "listed_date": "2015-10-12",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4560",
+    "name": "強信-KY",
+    "market": "TWSE",
+    "industry": "05",
+    "listed_date": "2017-05-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4562",
+    "name": "穎漢",
+    "market": "TWSE",
+    "industry": "05",
+    "listed_date": "2017-08-21",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4564",
+    "name": "元翎",
+    "market": "TWSE",
+    "industry": "05",
+    "listed_date": "2019-03-07",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4566",
+    "name": "時碩工業",
+    "market": "TWSE",
+    "industry": "05",
+    "listed_date": "2018-02-05",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4569",
+    "name": "六方科-KY",
+    "market": "TWSE",
+    "industry": "12",
+    "listed_date": "2023-07-31",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4571",
+    "name": "鈞興-KY",
+    "market": "TWSE",
+    "industry": "05",
+    "listed_date": "2019-09-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4572",
+    "name": "駐龍",
+    "market": "TWSE",
+    "industry": "05",
+    "listed_date": "2019-09-10",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4576",
+    "name": "大銀微系統",
+    "market": "TWSE",
+    "industry": "05",
+    "listed_date": "2019-09-04",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4581",
+    "name": "光隆精密-KY",
+    "market": "TWSE",
+    "industry": "12",
+    "listed_date": "2020-03-09",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4582",
+    "name": "聚恆-創",
+    "market": "TWSE",
+    "industry": "35",
+    "listed_date": "2026-05-22",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4583",
+    "name": "台灣精銳",
+    "market": "TWSE",
+    "industry": "05",
+    "listed_date": "2022-05-09",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4585",
+    "name": "達明",
+    "market": "TWSE",
+    "industry": "31",
+    "listed_date": "2025-09-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4588",
+    "name": "玖鼎電力",
+    "market": "TWSE",
+    "industry": "31",
+    "listed_date": "2024-01-29",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4590",
+    "name": "富田-創",
+    "market": "TWSE",
+    "industry": "05",
+    "listed_date": "2026-01-29",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4720",
+    "name": "德淵",
+    "market": "TWSE",
+    "industry": "21",
+    "listed_date": "2015-06-24",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4722",
+    "name": "國精化",
+    "market": "TWSE",
+    "industry": "21",
+    "listed_date": "2012-08-15",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4736",
+    "name": "泰博",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "2023-12-22",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4737",
+    "name": "華廣",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "2010-12-23",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4739",
+    "name": "康普",
+    "market": "TWSE",
+    "industry": "21",
+    "listed_date": "2017-09-08",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4746",
+    "name": "台耀",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "2011-03-01",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4755",
+    "name": "三福化",
+    "market": "TWSE",
+    "industry": "21",
+    "listed_date": "2013-11-27",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4763",
+    "name": "材料*-KY",
+    "market": "TWSE",
+    "industry": "21",
+    "listed_date": "2015-11-09",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4764",
+    "name": "雙鍵",
+    "market": "TWSE",
+    "industry": "21",
+    "listed_date": "2018-01-04",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4766",
+    "name": "南寶",
+    "market": "TWSE",
+    "industry": "21",
+    "listed_date": "2018-11-28",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4770",
+    "name": "上品",
+    "market": "TWSE",
+    "industry": "21",
+    "listed_date": "2021-12-22",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4771",
+    "name": "望隼",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "2024-03-18",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4807",
+    "name": "日成-KY",
+    "market": "TWSE",
+    "industry": "18",
+    "listed_date": "2017-06-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4904",
+    "name": "遠傳",
+    "market": "TWSE",
+    "industry": "27",
+    "listed_date": "2005-08-24",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4906",
+    "name": "正文",
+    "market": "TWSE",
+    "industry": "27",
+    "listed_date": "2003-06-30",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4912",
+    "name": "聯德控股-KY",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2015-05-21",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4915",
+    "name": "致伸",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2012-10-05",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4916",
+    "name": "事欣科",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "2013-11-21",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4919",
+    "name": "新唐",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2010-09-27",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4927",
+    "name": "泰鼎-KY",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2015-09-08",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4930",
+    "name": "燦星網",
+    "market": "TWSE",
+    "industry": "06",
+    "listed_date": "2010-06-21",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4934",
+    "name": "太極",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2011-08-16",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4935",
+    "name": "茂林-KY",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2011-07-28",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4938",
+    "name": "和碩",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "2010-06-24",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4942",
+    "name": "嘉彰",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2011-06-27",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4943",
+    "name": "康控-KY",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2016-11-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4949",
+    "name": "有成精密",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2024-05-09",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4952",
+    "name": "凌通",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2011-11-01",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4956",
+    "name": "光鋐",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2011-10-24",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4958",
+    "name": "臻鼎-KY",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2011-12-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4960",
+    "name": "誠美材",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2011-10-24",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4961",
+    "name": "天鈺",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2018-10-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4967",
+    "name": "十銓",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2019-01-14",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4968",
+    "name": "立積",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2015-11-13",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4976",
+    "name": "佳凌",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2012-11-20",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4977",
+    "name": "眾達-KY",
+    "market": "TWSE",
+    "industry": "27",
+    "listed_date": "2013-11-20",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4989",
+    "name": "榮科",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2018-06-28",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4994",
+    "name": "傳奇",
+    "market": "TWSE",
+    "industry": "30",
+    "listed_date": "2013-12-25",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "4999",
+    "name": "鑫禾",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2013-06-03",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "5007",
+    "name": "三星",
+    "market": "TWSE",
+    "industry": "10",
+    "listed_date": "2011-09-16",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "5203",
+    "name": "訊連",
+    "market": "TWSE",
+    "industry": "30",
+    "listed_date": "2004-09-27",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "5215",
+    "name": "科嘉-KY",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "2011-12-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "5222",
+    "name": "全訊",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2021-10-25",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "5225",
+    "name": "東科-KY",
+    "market": "TWSE",
+    "industry": "31",
+    "listed_date": "2012-11-05",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "5234",
+    "name": "達興材料",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2012-07-16",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "5243",
+    "name": "乙盛-KY",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2013-11-25",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "5244",
+    "name": "弘凱",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2022-01-19",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "5258",
+    "name": "虹堡",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "2016-12-30",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "5269",
+    "name": "祥碩",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2012-12-12",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "5283",
+    "name": "禾聯碩",
+    "market": "TWSE",
+    "industry": "06",
+    "listed_date": "2019-05-24",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "5284",
+    "name": "jpp-KY",
+    "market": "TWSE",
+    "industry": "20",
+    "listed_date": "2017-03-09",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "5285",
+    "name": "界霖",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2014-02-25",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "5288",
+    "name": "豐祥-KY",
+    "market": "TWSE",
+    "industry": "05",
+    "listed_date": "2014-09-25",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "5292",
+    "name": "華懋",
+    "market": "TWSE",
+    "industry": "35",
+    "listed_date": "2023-11-21",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "5306",
+    "name": "桂盟",
+    "market": "TWSE",
+    "industry": "37",
+    "listed_date": "2022-03-08",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "5388",
+    "name": "中磊",
+    "market": "TWSE",
+    "industry": "27",
+    "listed_date": "2007-12-03",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "5434",
+    "name": "崇越",
+    "market": "TWSE",
+    "industry": "29",
+    "listed_date": "2003-08-25",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "5469",
+    "name": "瀚宇博",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2003-08-25",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "5471",
+    "name": "松翰",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2003-08-25",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "5484",
+    "name": "慧友",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2003-08-25",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "5515",
+    "name": "建國",
+    "market": "TWSE",
+    "industry": "14",
+    "listed_date": "2003-10-06",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "5519",
+    "name": "隆大",
+    "market": "TWSE",
+    "industry": "14",
+    "listed_date": "2014-02-10",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "5521",
+    "name": "工信",
+    "market": "TWSE",
+    "industry": "14",
+    "listed_date": "2012-12-18",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "5522",
+    "name": "遠雄",
+    "market": "TWSE",
+    "industry": "14",
+    "listed_date": "2007-08-06",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "5525",
+    "name": "順天",
+    "market": "TWSE",
+    "industry": "14",
+    "listed_date": "2004-11-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "5531",
+    "name": "鄉林",
+    "market": "TWSE",
+    "industry": "14",
+    "listed_date": "2005-01-31",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "5533",
+    "name": "皇鼎",
+    "market": "TWSE",
+    "industry": "14",
+    "listed_date": "2008-04-30",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "5534",
+    "name": "長虹",
+    "market": "TWSE",
+    "industry": "14",
+    "listed_date": "2004-05-24",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "5538",
+    "name": "東明-KY",
+    "market": "TWSE",
+    "industry": "10",
+    "listed_date": "2013-12-16",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "5546",
+    "name": "永固-KY",
+    "market": "TWSE",
+    "industry": "14",
+    "listed_date": "2020-05-20",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "5607",
+    "name": "遠雄港",
+    "market": "TWSE",
+    "industry": "15",
+    "listed_date": "2004-12-02",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "5608",
+    "name": "四維航",
+    "market": "TWSE",
+    "industry": "15",
+    "listed_date": "2003-08-25",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "5706",
+    "name": "鳳凰",
+    "market": "TWSE",
+    "industry": "16",
+    "listed_date": "2011-10-21",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "5871",
+    "name": "中租-KY",
+    "market": "TWSE",
+    "industry": "20",
+    "listed_date": "2011-12-13",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "5876",
+    "name": "上海商銀",
+    "market": "TWSE",
+    "industry": "17",
+    "listed_date": "2018-10-19",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "5880",
+    "name": "合庫金",
+    "market": "TWSE",
+    "industry": "17",
+    "listed_date": "2011-12-01",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "5906",
+    "name": "台南-KY",
+    "market": "TWSE",
+    "industry": "18",
+    "listed_date": "2011-10-24",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "5907",
+    "name": "大洋-KY",
+    "market": "TWSE",
+    "industry": "18",
+    "listed_date": "2012-06-06",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6005",
+    "name": "群益證",
+    "market": "TWSE",
+    "industry": "17",
+    "listed_date": "2005-11-21",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6024",
+    "name": "群益期",
+    "market": "TWSE",
+    "industry": "17",
+    "listed_date": "2017-10-16",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6108",
+    "name": "競國",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2008-12-30",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6112",
+    "name": "邁達特",
+    "market": "TWSE",
+    "industry": "30",
+    "listed_date": "2003-08-04",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6115",
+    "name": "鎰勝",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2004-07-19",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6116",
+    "name": "彩晶",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2004-09-06",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6117",
+    "name": "迎廣",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "2003-08-25",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6120",
+    "name": "達運",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2006-09-13",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6128",
+    "name": "上福",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "2003-06-16",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6133",
+    "name": "金橋",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2003-08-15",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6136",
+    "name": "富爾特",
+    "market": "TWSE",
+    "industry": "27",
+    "listed_date": "2003-08-25",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6139",
+    "name": "亞翔",
+    "market": "TWSE",
+    "industry": "31",
+    "listed_date": "2003-08-25",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6141",
+    "name": "柏承",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2003-10-22",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6142",
+    "name": "友勁",
+    "market": "TWSE",
+    "industry": "27",
+    "listed_date": "2003-08-04",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6152",
+    "name": "百一",
+    "market": "TWSE",
+    "industry": "27",
+    "listed_date": "2009-12-08",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6153",
+    "name": "嘉聯益",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2008-01-21",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6155",
+    "name": "鈞寶",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2006-08-18",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6164",
+    "name": "華興",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2008-10-21",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6165",
+    "name": "浪凡",
+    "market": "TWSE",
+    "industry": "36",
+    "listed_date": "2003-08-04",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6166",
+    "name": "凌華",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "2004-11-08",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6168",
+    "name": "宏齊",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2003-08-25",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6176",
+    "name": "瑞儀",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2007-05-15",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6177",
+    "name": "達麗",
+    "market": "TWSE",
+    "industry": "14",
+    "listed_date": "2013-08-01",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6183",
+    "name": "關貿",
+    "market": "TWSE",
+    "industry": "30",
+    "listed_date": "2011-12-01",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6184",
+    "name": "大豐電",
+    "market": "TWSE",
+    "industry": "20",
+    "listed_date": "2005-02-15",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6189",
+    "name": "豐藝",
+    "market": "TWSE",
+    "industry": "29",
+    "listed_date": "2004-05-24",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6191",
+    "name": "精成科",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2007-10-19",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6192",
+    "name": "巨路",
+    "market": "TWSE",
+    "industry": "31",
+    "listed_date": "2004-09-27",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6196",
+    "name": "帆宣",
+    "market": "TWSE",
+    "industry": "31",
+    "listed_date": "2004-05-24",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6197",
+    "name": "佳必琪",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2004-11-08",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6201",
+    "name": "亞弘電",
+    "market": "TWSE",
+    "industry": "31",
+    "listed_date": "2004-09-27",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6202",
+    "name": "盛群",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2004-09-27",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6205",
+    "name": "詮欣",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2008-01-21",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6206",
+    "name": "飛捷",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "2004-08-03",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6209",
+    "name": "今國光",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2004-11-08",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6213",
+    "name": "聯茂",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2008-01-21",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6214",
+    "name": "精誠",
+    "market": "TWSE",
+    "industry": "30",
+    "listed_date": "2010-12-30",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6215",
+    "name": "和椿",
+    "market": "TWSE",
+    "industry": "31",
+    "listed_date": "2007-12-31",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6216",
+    "name": "居易",
+    "market": "TWSE",
+    "industry": "27",
+    "listed_date": "2004-09-27",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6224",
+    "name": "聚鼎",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2009-09-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6225",
+    "name": "天瀚",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2004-09-27",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6226",
+    "name": "光鼎",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2008-11-10",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6230",
+    "name": "尼得科超眾",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "2010-09-16",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6235",
+    "name": "華孚",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "2004-08-23",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6239",
+    "name": "力成",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2004-11-08",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6243",
+    "name": "迅杰",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2009-12-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6257",
+    "name": "矽格",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2003-08-25",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6269",
+    "name": "台郡",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2003-09-23",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6271",
+    "name": "同欣電",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2007-11-16",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6272",
+    "name": "驊陞",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2025-12-22",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6277",
+    "name": "宏正",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "2003-10-30",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6278",
+    "name": "台表科",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2010-08-24",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6281",
+    "name": "全國電",
+    "market": "TWSE",
+    "industry": "29",
+    "listed_date": "2005-12-08",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6282",
+    "name": "康舒",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2003-09-08",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6283",
+    "name": "淳安",
+    "market": "TWSE",
+    "industry": "31",
+    "listed_date": "2008-01-21",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6285",
+    "name": "啟碁",
+    "market": "TWSE",
+    "industry": "27",
+    "listed_date": "2003-09-22",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6405",
+    "name": "悅城",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2013-11-28",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6409",
+    "name": "旭隼",
+    "market": "TWSE",
+    "industry": "31",
+    "listed_date": "2014-03-31",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6412",
+    "name": "群電",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2013-11-08",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6414",
+    "name": "樺漢",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "2014-03-28",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6415",
+    "name": "矽力*-KY",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2013-12-12",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6416",
+    "name": "瑞祺電通",
+    "market": "TWSE",
+    "industry": "27",
+    "listed_date": "2018-04-16",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6426",
+    "name": "統新",
+    "market": "TWSE",
+    "industry": "27",
+    "listed_date": "2021-03-24",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6431",
+    "name": "光麗-KY",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "2014-12-04",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6438",
+    "name": "迅得",
+    "market": "TWSE",
+    "industry": "31",
+    "listed_date": "2021-01-19",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6442",
+    "name": "光聖",
+    "market": "TWSE",
+    "industry": "27",
+    "listed_date": "2015-07-14",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6443",
+    "name": "元晶",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2015-10-01",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6446",
+    "name": "藥華藥",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "2024-01-25",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6449",
+    "name": "鈺邦",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2014-12-09",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6451",
+    "name": "訊芯-KY",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2015-01-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6456",
+    "name": "GIS-KY",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2015-06-12",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6464",
+    "name": "台數科",
+    "market": "TWSE",
+    "industry": "20",
+    "listed_date": "2015-12-16",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6472",
+    "name": "保瑞",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "2023-12-19",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6477",
+    "name": "安集",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2016-06-21",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6491",
+    "name": "晶碩",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "2019-10-07",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6504",
+    "name": "南六",
+    "market": "TWSE",
+    "industry": "20",
+    "listed_date": "2013-05-07",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6505",
+    "name": "台塑化",
+    "market": "TWSE",
+    "industry": "23",
+    "listed_date": "2003-12-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6515",
+    "name": "穎崴",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2021-01-20",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6525",
+    "name": "捷敏-KY",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2016-04-12",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6526",
+    "name": "達發",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2023-10-19",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6531",
+    "name": "愛普*",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2016-05-31",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6533",
+    "name": "晶心科",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2017-03-14",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6534",
+    "name": "正瀚-創",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "2023-12-21",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6541",
+    "name": "泰福-KY",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "2017-10-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6550",
+    "name": "北極星藥業-KY",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "2022-06-06",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6552",
+    "name": "易華電",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2017-01-10",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6558",
+    "name": "興能高",
+    "market": "TWSE",
+    "industry": "31",
+    "listed_date": "2018-12-05",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6573",
+    "name": "虹揚-KY",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2017-09-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6579",
+    "name": "研揚",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "2017-08-21",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6581",
+    "name": "鋼聯",
+    "market": "TWSE",
+    "industry": "35",
+    "listed_date": "2018-01-30",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6582",
+    "name": "申豐",
+    "market": "TWSE",
+    "industry": "11",
+    "listed_date": "2017-06-14",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6585",
+    "name": "鼎基",
+    "market": "TWSE",
+    "industry": "20",
+    "listed_date": "2022-05-20",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6589",
+    "name": "台康生技",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "2025-07-21",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6591",
+    "name": "動力-KY",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "2017-12-28",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6592",
+    "name": "和潤企業",
+    "market": "TWSE",
+    "industry": "20",
+    "listed_date": "2019-12-09",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6598",
+    "name": "ABC-KY",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "2020-06-09",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6605",
+    "name": "帝寶",
+    "market": "TWSE",
+    "industry": "12",
+    "listed_date": "2004-03-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6606",
+    "name": "建德工業",
+    "market": "TWSE",
+    "industry": "05",
+    "listed_date": "2023-03-24",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6614",
+    "name": "資拓宏宇",
+    "market": "TWSE",
+    "industry": "36",
+    "listed_date": "2025-11-25",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6625",
+    "name": "必應",
+    "market": "TWSE",
+    "industry": "20",
+    "listed_date": "2018-02-07",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6641",
+    "name": "基士德-KY",
+    "market": "TWSE",
+    "industry": "35",
+    "listed_date": "2018-09-21",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6645",
+    "name": "金萬林-創",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "2023-12-21",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6655",
+    "name": "科定",
+    "market": "TWSE",
+    "industry": "20",
+    "listed_date": "2018-11-28",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6657",
+    "name": "華安",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "2023-06-12",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6658",
+    "name": "聯策",
+    "market": "TWSE",
+    "industry": "31",
+    "listed_date": "2023-11-02",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6666",
+    "name": "羅麗芬-KY",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "2018-11-19",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6668",
+    "name": "中揚光",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2018-12-12",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6669",
+    "name": "緯穎",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "2019-03-27",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6670",
+    "name": "復盛應用",
+    "market": "TWSE",
+    "industry": "37",
+    "listed_date": "2018-12-18",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6671",
+    "name": "三能-KY",
+    "market": "TWSE",
+    "industry": "38",
+    "listed_date": "2018-12-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6672",
+    "name": "騰輝電子-KY",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2019-04-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6674",
+    "name": "鋐寶科技",
+    "market": "TWSE",
+    "industry": "27",
+    "listed_date": "2018-11-28",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6689",
+    "name": "伊雲谷",
+    "market": "TWSE",
+    "industry": "36",
+    "listed_date": "2022-09-13",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6691",
+    "name": "洋基工程",
+    "market": "TWSE",
+    "industry": "31",
+    "listed_date": "2022-01-03",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6695",
+    "name": "芯鼎",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2022-11-04",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6698",
+    "name": "旭暉應材",
+    "market": "TWSE",
+    "industry": "31",
+    "listed_date": "2019-11-25",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6706",
+    "name": "惠特",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2019-12-19",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6715",
+    "name": "嘉基",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2019-12-12",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6719",
+    "name": "力智",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2022-01-13",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6722",
+    "name": "輝創",
+    "market": "TWSE",
+    "industry": "31",
+    "listed_date": "2026-01-16",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6742",
+    "name": "澤米",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2023-12-05",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6743",
+    "name": "安普新",
+    "market": "TWSE",
+    "industry": "31",
+    "listed_date": "2020-12-14",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6753",
+    "name": "龍德造船",
+    "market": "TWSE",
+    "industry": "15",
+    "listed_date": "2023-03-10",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6754",
+    "name": "匯僑設計",
+    "market": "TWSE",
+    "industry": "38",
+    "listed_date": "2020-08-25",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6756",
+    "name": "威鋒電子",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2020-12-24",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6757",
+    "name": "台灣虎航",
+    "market": "TWSE",
+    "industry": "15",
+    "listed_date": "2023-08-15",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6768",
+    "name": "志強-KY",
+    "market": "TWSE",
+    "industry": "37",
+    "listed_date": "2021-04-22",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6770",
+    "name": "力積電",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2021-12-06",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6771",
+    "name": "平和環保-創",
+    "market": "TWSE",
+    "industry": "35",
+    "listed_date": "2024-05-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6776",
+    "name": "展碁國際",
+    "market": "TWSE",
+    "industry": "29",
+    "listed_date": "2021-03-31",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6781",
+    "name": "AES-KY",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2021-03-22",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6782",
+    "name": "視陽",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "2022-11-28",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6789",
+    "name": "采鈺",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2022-06-30",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6790",
+    "name": "永豐實",
+    "market": "TWSE",
+    "industry": "09",
+    "listed_date": "2021-09-29",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6792",
+    "name": "詠業",
+    "market": "TWSE",
+    "industry": "27",
+    "listed_date": "2021-12-08",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6794",
+    "name": "向榮生技",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "2024-05-21",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6796",
+    "name": "晉弘",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "2022-06-01",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6799",
+    "name": "來頡",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2022-05-12",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6805",
+    "name": "富世達",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2023-11-09",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6806",
+    "name": "森崴能源",
+    "market": "TWSE",
+    "industry": "35",
+    "listed_date": "2021-11-15",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6807",
+    "name": "峰源-KY",
+    "market": "TWSE",
+    "industry": "38",
+    "listed_date": "2022-04-25",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6830",
+    "name": "汎銓",
+    "market": "TWSE",
+    "industry": "31",
+    "listed_date": "2022-08-31",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6831",
+    "name": "邁科",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "2025-11-25",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6834",
+    "name": "天二科技",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2022-09-01",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6835",
+    "name": "圓裕",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2022-11-10",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6838",
+    "name": "台新藥",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "2024-08-13",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6854",
+    "name": "錼創科技-KY創",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2022-08-18",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6861",
+    "name": "睿生光電",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "2023-03-27",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6862",
+    "name": "三集瑞-KY",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2024-10-23",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6863",
+    "name": "永道-KY",
+    "market": "TWSE",
+    "industry": "27",
+    "listed_date": "2023-03-21",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6869",
+    "name": "雲豹能源",
+    "market": "TWSE",
+    "industry": "35",
+    "listed_date": "2023-03-14",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6873",
+    "name": "泓德能源",
+    "market": "TWSE",
+    "industry": "35",
+    "listed_date": "2024-09-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6885",
+    "name": "全福生技",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "2024-12-16",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6887",
+    "name": "寶綠特-KY",
+    "market": "TWSE",
+    "industry": "35",
+    "listed_date": "2025-03-10",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6890",
+    "name": "來億-KY",
+    "market": "TWSE",
+    "industry": "37",
+    "listed_date": "2024-06-12",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6901",
+    "name": "鑽石投資",
+    "market": "TWSE",
+    "industry": "20",
+    "listed_date": "2023-09-19",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6902",
+    "name": "GOGOLOOK",
+    "market": "TWSE",
+    "industry": "36",
+    "listed_date": "2023-07-13",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6906",
+    "name": "現觀科",
+    "market": "TWSE",
+    "industry": "36",
+    "listed_date": "2024-01-15",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6908",
+    "name": "宏碁遊戲-創",
+    "market": "TWSE",
+    "industry": "29",
+    "listed_date": "2026-03-25",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6909",
+    "name": "創控",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2025-05-21",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6914",
+    "name": "阜爾運通",
+    "market": "TWSE",
+    "industry": "20",
+    "listed_date": "2024-05-03",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6916",
+    "name": "華凌",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2023-12-05",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6918",
+    "name": "愛派司",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "2025-06-10",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6919",
+    "name": "康霈*",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "2024-10-02",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6921",
+    "name": "嘉雨思-創",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2025-12-23",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6923",
+    "name": "中台",
+    "market": "TWSE",
+    "industry": "35",
+    "listed_date": "2024-09-25",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6924",
+    "name": "榮惠-KY創",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2024-12-03",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6928",
+    "name": "攸泰科技",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "2024-05-16",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6931",
+    "name": "青松健康",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "2025-01-15",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6933",
+    "name": "AMAX-KY",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "2023-11-08",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6934",
+    "name": "心誠鎂",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "2026-02-02",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6936",
+    "name": "永鴻生技",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "2025-04-28",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6937",
+    "name": "天虹",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2023-12-12",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6944",
+    "name": "兆聯實業",
+    "market": "TWSE",
+    "industry": "35",
+    "listed_date": "2025-05-28",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6949",
+    "name": "沛爾生醫-創",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "2024-03-08",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6951",
+    "name": "青新-創",
+    "market": "TWSE",
+    "industry": "35",
+    "listed_date": "2024-06-18",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6952",
+    "name": "大武山",
+    "market": "TWSE",
+    "industry": "20",
+    "listed_date": "2024-06-13",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6955",
+    "name": "邦睿生技-創",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "2024-12-06",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6957",
+    "name": "裕慶-KY",
+    "market": "TWSE",
+    "industry": "20",
+    "listed_date": "2024-06-25",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6958",
+    "name": "日盛台駿",
+    "market": "TWSE",
+    "industry": "20",
+    "listed_date": "2024-08-20",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6962",
+    "name": "奕力-KY",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2024-11-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6965",
+    "name": "中傑-KY",
+    "market": "TWSE",
+    "industry": "37",
+    "listed_date": "2025-03-07",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6969",
+    "name": "成信實業*-創",
+    "market": "TWSE",
+    "industry": "35",
+    "listed_date": "2024-09-09",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6988",
+    "name": "威力暘-創",
+    "market": "TWSE",
+    "industry": "12",
+    "listed_date": "2024-10-23",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "6994",
+    "name": "富威電力",
+    "market": "TWSE",
+    "industry": "35",
+    "listed_date": "2025-01-15",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "7610",
+    "name": "聯友金屬-創",
+    "market": "TWSE",
+    "industry": "35",
+    "listed_date": "2025-09-09",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "7631",
+    "name": "聚賢研發-創",
+    "market": "TWSE",
+    "industry": "31",
+    "listed_date": "2025-03-13",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "7705",
+    "name": "三商餐飲",
+    "market": "TWSE",
+    "industry": "16",
+    "listed_date": "2024-11-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "7711",
+    "name": "永擎",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "2025-11-19",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "7721",
+    "name": "微程式",
+    "market": "TWSE",
+    "industry": "36",
+    "listed_date": "2025-07-29",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "7722",
+    "name": "LINEPAY",
+    "market": "TWSE",
+    "industry": "36",
+    "listed_date": "2024-12-05",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "7730",
+    "name": "暉盛-創",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2025-11-04",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "7732",
+    "name": "金興精密",
+    "market": "TWSE",
+    "industry": "12",
+    "listed_date": "2025-01-14",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "7736",
+    "name": "虎山",
+    "market": "TWSE",
+    "industry": "12",
+    "listed_date": "2025-03-18",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "7740",
+    "name": "熙特爾-創",
+    "market": "TWSE",
+    "industry": "35",
+    "listed_date": "2025-06-16",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "7749",
+    "name": "意騰-KY",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2025-06-13",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "7750",
+    "name": "新代",
+    "market": "TWSE",
+    "industry": "05",
+    "listed_date": "2025-09-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "7760",
+    "name": "享溫馨",
+    "market": "TWSE",
+    "industry": "16",
+    "listed_date": "2026-04-28",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "7765",
+    "name": "中華資安",
+    "market": "TWSE",
+    "industry": "36",
+    "listed_date": "2025-09-08",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "7768",
+    "name": "頌勝科技",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2026-05-07",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "7769",
+    "name": "鴻勁",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2025-11-27",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "7780",
+    "name": "大研生醫*",
+    "market": "TWSE",
+    "industry": "02",
+    "listed_date": "2025-09-09",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "7786",
+    "name": "東方風能",
+    "market": "TWSE",
+    "industry": "35",
+    "listed_date": "2025-11-18",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "7788",
+    "name": "松川精密",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2025-10-16",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "7791",
+    "name": "皇家可口",
+    "market": "TWSE",
+    "industry": "02",
+    "listed_date": "2025-10-28",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "7795",
+    "name": "長廣",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2026-01-16",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "7799",
+    "name": "禾榮科",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "2025-09-15",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "7803",
+    "name": "雲象科技-創",
+    "market": "TWSE",
+    "industry": "22",
+    "listed_date": "2026-05-20",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "7818",
+    "name": "溢泰實業",
+    "market": "TWSE",
+    "industry": "35",
+    "listed_date": "2026-05-18",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "7821",
+    "name": "神數",
+    "market": "TWSE",
+    "industry": "12",
+    "listed_date": "2026-04-20",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "7822",
+    "name": "倍利科",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2026-03-30",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "7823",
+    "name": "奧義賽博-KY創",
+    "market": "TWSE",
+    "industry": "36",
+    "listed_date": "2026-02-05",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "8011",
+    "name": "台通",
+    "market": "TWSE",
+    "industry": "27",
+    "listed_date": "2011-09-19",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "8016",
+    "name": "矽創",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2003-12-25",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "8021",
+    "name": "尖點",
+    "market": "TWSE",
+    "industry": "31",
+    "listed_date": "2008-01-21",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "8028",
+    "name": "昇陽半導體",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2018-07-10",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "8033",
+    "name": "雷虎",
+    "market": "TWSE",
+    "industry": "20",
+    "listed_date": "2007-06-21",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "8039",
+    "name": "台虹",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2009-12-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "8045",
+    "name": "達運光電",
+    "market": "TWSE",
+    "industry": "27",
+    "listed_date": "2024-12-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "8046",
+    "name": "南電",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2006-04-07",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "8070",
+    "name": "長華*",
+    "market": "TWSE",
+    "industry": "29",
+    "listed_date": "2007-12-31",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "8072",
+    "name": "陞泰",
+    "market": "TWSE",
+    "industry": "29",
+    "listed_date": "2005-08-19",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "8081",
+    "name": "致新",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2008-12-30",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "8101",
+    "name": "華冠",
+    "market": "TWSE",
+    "industry": "27",
+    "listed_date": "2004-07-01",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "8103",
+    "name": "瀚荃",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2009-09-29",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "8104",
+    "name": "錸寶",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2019-01-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "8105",
+    "name": "凌巨",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2006-12-27",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "8110",
+    "name": "華東",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2007-10-31",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "8112",
+    "name": "至上",
+    "market": "TWSE",
+    "industry": "29",
+    "listed_date": "2007-12-31",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "8114",
+    "name": "振樺電",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "2012-11-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "8131",
+    "name": "福懋科",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2007-11-29",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "8150",
+    "name": "南茂",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2014-04-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "8162",
+    "name": "微矽電子-創",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2024-03-07",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "8163",
+    "name": "達方",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "2007-11-28",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "8201",
+    "name": "無敵",
+    "market": "TWSE",
+    "industry": "31",
+    "listed_date": "2007-10-29",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "8210",
+    "name": "勤誠",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "2011-12-01",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "8213",
+    "name": "志超",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2009-12-25",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "8215",
+    "name": "明基材",
+    "market": "TWSE",
+    "industry": "26",
+    "listed_date": "2010-11-12",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "8222",
+    "name": "寶一",
+    "market": "TWSE",
+    "industry": "05",
+    "listed_date": "2015-01-27",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "8249",
+    "name": "菱光",
+    "market": "TWSE",
+    "industry": "28",
+    "listed_date": "2005-05-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "8261",
+    "name": "富鼎",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2009-12-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "8271",
+    "name": "宇瞻",
+    "market": "TWSE",
+    "industry": "24",
+    "listed_date": "2010-12-29",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "8341",
+    "name": "日友",
+    "market": "TWSE",
+    "industry": "35",
+    "listed_date": "2015-03-23",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "8367",
+    "name": "建新國際",
+    "market": "TWSE",
+    "industry": "15",
+    "listed_date": "2018-09-12",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "8374",
+    "name": "羅昇",
+    "market": "TWSE",
+    "industry": "05",
+    "listed_date": "2008-12-25",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "8404",
+    "name": "百和興業-KY",
+    "market": "TWSE",
+    "industry": "20",
+    "listed_date": "2011-05-18",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "8411",
+    "name": "福貞-KY",
+    "market": "TWSE",
+    "industry": "20",
+    "listed_date": "2011-11-01",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "8422",
+    "name": "可寧衛*",
+    "market": "TWSE",
+    "industry": "35",
+    "listed_date": "2011-10-05",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "8429",
+    "name": "金麗-KY",
+    "market": "TWSE",
+    "industry": "18",
+    "listed_date": "2012-12-20",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "8438",
+    "name": "昶昕",
+    "market": "TWSE",
+    "industry": "35",
+    "listed_date": "2022-03-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "8442",
+    "name": "威宏-KY",
+    "market": "TWSE",
+    "industry": "20",
+    "listed_date": "2016-11-08",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "8443",
+    "name": "阿瘦",
+    "market": "TWSE",
+    "industry": "18",
+    "listed_date": "2014-09-15",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "8454",
+    "name": "富邦媒",
+    "market": "TWSE",
+    "industry": "36",
+    "listed_date": "2014-12-19",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "8462",
+    "name": "柏文",
+    "market": "TWSE",
+    "industry": "37",
+    "listed_date": "2019-03-15",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "8463",
+    "name": "潤泰材",
+    "market": "TWSE",
+    "industry": "20",
+    "listed_date": "2015-07-13",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "8464",
+    "name": "億豐",
+    "market": "TWSE",
+    "industry": "38",
+    "listed_date": "2015-12-22",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "8466",
+    "name": "美吉吉-KY",
+    "market": "TWSE",
+    "industry": "20",
+    "listed_date": "2016-11-01",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "8467",
+    "name": "波力-KY",
+    "market": "TWSE",
+    "industry": "37",
+    "listed_date": "2015-12-15",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "8473",
+    "name": "山林水",
+    "market": "TWSE",
+    "industry": "35",
+    "listed_date": "2016-09-08",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "8476",
+    "name": "台境*",
+    "market": "TWSE",
+    "industry": "35",
+    "listed_date": "2023-10-31",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "8478",
+    "name": "東哥遊艇",
+    "market": "TWSE",
+    "industry": "37",
+    "listed_date": "2017-12-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "8481",
+    "name": "政伸",
+    "market": "TWSE",
+    "industry": "20",
+    "listed_date": "2017-02-24",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "8482",
+    "name": "商億-KY",
+    "market": "TWSE",
+    "industry": "38",
+    "listed_date": "2018-08-15",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "8487",
+    "name": "愛爾達-創",
+    "market": "TWSE",
+    "industry": "36",
+    "listed_date": "2024-03-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "8488",
+    "name": "吉源-KY",
+    "market": "TWSE",
+    "industry": "20",
+    "listed_date": "2016-12-13",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "8499",
+    "name": "鼎炫-KY",
+    "market": "TWSE",
+    "industry": "31",
+    "listed_date": "2017-11-24",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "8926",
+    "name": "台汽電",
+    "market": "TWSE",
+    "industry": "23",
+    "listed_date": "2003-08-25",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "8940",
+    "name": "新天地",
+    "market": "TWSE",
+    "industry": "16",
+    "listed_date": "2009-05-15",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "8996",
+    "name": "高力",
+    "market": "TWSE",
+    "industry": "05",
+    "listed_date": "2014-02-14",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "9103",
+    "name": "美德醫療-DR",
+    "market": "TWSE",
+    "industry": "91",
+    "listed_date": "2002-12-13",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "9105",
+    "name": "泰金寶-DR",
+    "market": "TWSE",
+    "industry": "91",
+    "listed_date": "2003-09-22",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "9110",
+    "name": "越南控-DR",
+    "market": "TWSE",
+    "industry": "91",
+    "listed_date": "2009-12-03",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "9136",
+    "name": "巨騰-DR",
+    "market": "TWSE",
+    "industry": "91",
+    "listed_date": "2009-05-25",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "9802",
+    "name": "鈺齊-KY",
+    "market": "TWSE",
+    "industry": "37",
+    "listed_date": "2012-10-18",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "9902",
+    "name": "台火",
+    "market": "TWSE",
+    "industry": "20",
+    "listed_date": "1964-07-14",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "9904",
+    "name": "寶成",
+    "market": "TWSE",
+    "industry": "37",
+    "listed_date": "1990-01-19",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "9905",
+    "name": "大華",
+    "market": "TWSE",
+    "industry": "20",
+    "listed_date": "1990-08-08",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "9906",
+    "name": "欣巴巴",
+    "market": "TWSE",
+    "industry": "14",
+    "listed_date": "1990-12-15",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "9907",
+    "name": "統一實",
+    "market": "TWSE",
+    "industry": "20",
+    "listed_date": "1991-01-29",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "9908",
+    "name": "大台北",
+    "market": "TWSE",
+    "industry": "23",
+    "listed_date": "1991-02-06",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "9910",
+    "name": "豐泰",
+    "market": "TWSE",
+    "industry": "37",
+    "listed_date": "1992-02-18",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "9911",
+    "name": "櫻花",
+    "market": "TWSE",
+    "industry": "38",
+    "listed_date": "1992-07-16",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "9912",
+    "name": "偉聯",
+    "market": "TWSE",
+    "industry": "25",
+    "listed_date": "1992-08-08",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "9914",
+    "name": "美利達",
+    "market": "TWSE",
+    "industry": "37",
+    "listed_date": "1992-09-30",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "9917",
+    "name": "中保科",
+    "market": "TWSE",
+    "industry": "20",
+    "listed_date": "1993-12-08",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "9918",
+    "name": "欣天然",
+    "market": "TWSE",
+    "industry": "23",
+    "listed_date": "1994-04-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "9919",
+    "name": "康那香",
+    "market": "TWSE",
+    "industry": "20",
+    "listed_date": "1994-11-04",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "9921",
+    "name": "巨大",
+    "market": "TWSE",
+    "industry": "37",
+    "listed_date": "1994-12-29",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "9924",
+    "name": "福興",
+    "market": "TWSE",
+    "industry": "38",
+    "listed_date": "1995-03-15",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "9925",
+    "name": "新保",
+    "market": "TWSE",
+    "industry": "20",
+    "listed_date": "1995-12-09",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "9926",
+    "name": "新海",
+    "market": "TWSE",
+    "industry": "23",
+    "listed_date": "1998-04-08",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "9927",
+    "name": "泰銘",
+    "market": "TWSE",
+    "industry": "20",
+    "listed_date": "1999-03-12",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "9928",
+    "name": "中視",
+    "market": "TWSE",
+    "industry": "20",
+    "listed_date": "1999-08-09",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "9929",
+    "name": "秋雨",
+    "market": "TWSE",
+    "industry": "20",
+    "listed_date": "1999-06-28",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "9930",
+    "name": "中聯資源",
+    "market": "TWSE",
+    "industry": "35",
+    "listed_date": "1999-11-22",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "9931",
+    "name": "欣高",
+    "market": "TWSE",
+    "industry": "23",
+    "listed_date": "2000-03-21",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "9933",
+    "name": "中鼎",
+    "market": "TWSE",
+    "industry": "20",
+    "listed_date": "1993-05-28",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "9934",
+    "name": "成霖",
+    "market": "TWSE",
+    "industry": "38",
+    "listed_date": "2000-09-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "9935",
+    "name": "慶豐富",
+    "market": "TWSE",
+    "industry": "38",
+    "listed_date": "2000-09-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "9937",
+    "name": "全國",
+    "market": "TWSE",
+    "industry": "23",
+    "listed_date": "2000-09-11",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "9938",
+    "name": "百和",
+    "market": "TWSE",
+    "industry": "20",
+    "listed_date": "2001-01-12",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "9939",
+    "name": "宏全",
+    "market": "TWSE",
+    "industry": "20",
+    "listed_date": "2001-03-02",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "9940",
+    "name": "信義",
+    "market": "TWSE",
+    "industry": "20",
+    "listed_date": "2001-09-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "9941",
+    "name": "裕融",
+    "market": "TWSE",
+    "industry": "20",
+    "listed_date": "2001-09-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "9942",
+    "name": "茂順",
+    "market": "TWSE",
+    "industry": "20",
+    "listed_date": "2002-01-28",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "9943",
+    "name": "好樂迪",
+    "market": "TWSE",
+    "industry": "16",
+    "listed_date": "2002-08-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "9944",
+    "name": "新麗",
+    "market": "TWSE",
+    "industry": "20",
+    "listed_date": "2002-08-26",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "9945",
+    "name": "潤泰新",
+    "market": "TWSE",
+    "industry": "20",
+    "listed_date": "1992-04-30",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "9946",
+    "name": "三發地產",
+    "market": "TWSE",
+    "industry": "14",
+    "listed_date": "2013-09-17",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "9955",
+    "name": "佳龍",
+    "market": "TWSE",
+    "industry": "35",
+    "listed_date": "2008-01-21",
+    "is_etf": false,
+    "is_active": true
+  },
+  {
+    "symbol": "9958",
+    "name": "世紀鋼",
+    "market": "TWSE",
+    "industry": "10",
+    "listed_date": "2008-03-12",
     "is_etf": false,
     "is_active": true
   }
 ]
-

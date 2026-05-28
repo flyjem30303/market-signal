@@ -143,6 +143,12 @@ calculate scores
 generate weekly summary
 ```
 
+## 目前進度
+
+- 已建立 TWSE 官方 OpenAPI 股票主檔抓取腳本：`npm run fetch:stocks`。
+- 目前股票主檔 seed 來源包含手動保留的指數 / ETF，以及 TWSE 上市普通股資料。
+- TWSE `產業別` 目前保留官方代碼，後續再建立產業代碼對照表，不在匯入腳本中硬轉換。
+
 ## 模型 v1 資料需求
 
 | 模組 | 必要資料 |
