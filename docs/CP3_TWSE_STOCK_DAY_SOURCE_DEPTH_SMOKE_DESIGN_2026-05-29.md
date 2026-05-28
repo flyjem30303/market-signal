@@ -202,3 +202,9 @@ guardrail check passes
 review-gates pass
 CP3 source-depth production gate remains not_ready
 ```
+
+Source-depth smoke report:
+
+```text
+docs/reviews/CP3_TWSE_STOCK_DAY_SOURCE_DEPTH_SMOKE_2026-05-29.md
+```
