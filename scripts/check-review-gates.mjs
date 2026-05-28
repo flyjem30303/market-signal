@@ -23,6 +23,11 @@ const checks = [
     name: "cp1-snapshot"
   },
   {
+    command: [node, "scripts/check-cp1-to-cp2.mjs"],
+    expectStatus: "not_ready",
+    name: "cp1-to-cp2"
+  },
+  {
     command: [node, "scripts/check-etf-source-gate.mjs"],
     expectStatus: "blocked",
     name: "etf-source-gate"

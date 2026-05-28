@@ -24,6 +24,7 @@ package JSON
 asset-type policy
 internal route exposure
 CP1 checkpoint snapshot
+CP1 to CP2 release checklist
 ETF source gate
 ETF due-diligence gate
 ETF source report
@@ -35,6 +36,7 @@ Expected current state:
 ```text
 ETF source gate: blocked
 ETF due-diligence gate: blocked
+CP1 to CP2: not_ready
 overall: ok
 ```
 

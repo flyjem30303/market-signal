@@ -95,6 +95,7 @@ scripts/check-etf-due-diligence.mjs
 scripts/report-etf-source-readiness.mjs
 scripts/check-internal-route-exposure.mjs
 scripts/check-cp1-snapshot.mjs
+scripts/check-cp1-to-cp2.mjs
 scripts/check-review-gates.mjs
 scripts/README.md
 ```
@@ -129,6 +130,7 @@ docs/reviews/CP1_INTERNAL_DIAGNOSTICS_CONSOLE_2026-05-29.md
 docs/reviews/CP1_INTERNAL_ROUTE_EXPOSURE_GUARD_2026-05-29.md
 docs/reviews/CP1_REVIEW_GATE_AGGREGATOR_2026-05-29.md
 docs/reviews/CP1_CHECKPOINT_SNAPSHOT_2026-05-29.md
+docs/reviews/CP1_TO_CP2_RELEASE_CHECKLIST_2026-05-29.md
 docs/MIGRATION_CHECKLIST.md
 docs/FILE_MANIFEST.md
 docs/MVP_TASKS.md
@@ -144,6 +146,7 @@ docs/ETF_DATA_MODEL.md
 docs/ETF_SCHEMA.md
 docs/ETF_SOURCE_SELECTION.md
 docs/ETF_SOURCE_RESEARCH_2026-05-29.md
+docs/CP1_TO_CP2_RELEASE_CHECKLIST.md
 docs/DATA_FRESHNESS_UI.md
 docs/DATA_SOURCES.md
 docs/INGESTION_PLAN.md
