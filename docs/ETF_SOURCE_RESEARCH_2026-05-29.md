@@ -88,3 +88,18 @@ REVISE
 ```
 
 Research may continue. Ingestion remains blocked until a source is approved.
+
+## Readiness Scoring
+
+Candidate source readiness is now scored by:
+
+```text
+field coverage: up to 55
+source trust: up to 15
+evidence URLs: up to 10
+automation status: up to 10
+license status: up to 10
+```
+
+Current expected winner is TWSE official ETF disclosures, but it remains blocked
+until automation endpoint and legal/license review are complete.

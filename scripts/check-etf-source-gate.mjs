@@ -21,6 +21,7 @@ function readJson(path) {
 
 const gate = readJson(sourceGatePath);
 const configuredMissingFields = requiredFields.filter((field) => !gate.minimum_required_fields?.includes(field));
+const candidateScores = (gate.candidate_sources ?? []).map(scoreCandidate).sort((a, b) => b.readiness_score - a.readiness_score);
 const coveredByCandidates = [
   ...new Set((gate.candidate_sources ?? []).flatMap((source) => source.field_coverage ?? []).filter(Boolean))
 ].sort();
@@ -41,6 +42,7 @@ console.log(
       approved_source: gate.approved_source,
       blockers: gate.blockers ?? [],
       candidate_sources: gate.candidate_sources ?? [],
+      candidate_scores: candidateScores,
       candidate_coverage_gaps: candidateCoverageGaps,
       covered_by_candidates: coveredByCandidates,
       decision: gate.decision,
@@ -55,4 +57,27 @@ console.log(
 
 if (status !== "ok") {
   process.exitCode = 1;
+}
+
+function scoreCandidate(source) {
+  const fieldCoverage = requiredFields.filter((field) => source.field_coverage?.includes(field));
+  const fieldScore = Math.round((fieldCoverage.length / requiredFields.length) * 55);
+  const trustScore = source.source_type === "official" ? 15 : source.source_type === "vendor" ? 10 : 8;
+  const evidenceScore = Math.min(10, (source.evidence_urls?.length ?? 0) * 3);
+  const automationScore = source.automation_status === "confirmed" ? 10 : source.automation_status === "unknown" ? 2 : 0;
+  const legalScore = source.license_status === "approved" ? 10 : source.license_status === "unknown" ? 0 : -10;
+  const readinessScore = Math.max(0, Math.min(100, fieldScore + trustScore + evidenceScore + automationScore + legalScore));
+
+  return {
+    automation_status: source.automation_status ?? "unknown",
+    coverage: source.coverage,
+    covered_fields: fieldCoverage,
+    field_coverage_ratio: `${fieldCoverage.length}/${requiredFields.length}`,
+    gaps: source.gaps ?? [],
+    license_status: source.license_status ?? "unknown",
+    name: source.name,
+    readiness_score: readinessScore,
+    source_type: source.source_type ?? "unknown",
+    status: source.status
+  };
 }

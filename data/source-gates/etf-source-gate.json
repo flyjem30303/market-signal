@@ -17,6 +17,7 @@
   "approved_source": null,
   "candidate_sources": [
     {
+      "automation_status": "unknown",
       "coverage": "TW",
       "evidence_urls": [
         "https://www.twse.com.tw/en/page/ETF/daily.html",
@@ -40,11 +41,14 @@
         "license-review",
         "automation-endpoint-confirmation"
       ],
+      "license_status": "unknown",
       "name": "TWSE official ETF disclosures",
+      "source_type": "official",
       "status": "research",
       "notes": "Potential source for Taiwan ETF profile, NAV, holdings, and disclosure data. Requires endpoint/license confirmation before ingestion."
     },
     {
+      "automation_status": "unknown",
       "coverage": "US/global",
       "evidence_urls": [
         "https://www.twse.com.tw/staticFiles/news/news/tsecnews/8a8216d697fc438f01985f8efb9101ca.pdf",
@@ -61,11 +65,14 @@
         "automation-reliability",
         "global-coverage-consistency"
       ],
+      "license_status": "unknown",
       "name": "Issuer official ETF pages",
+      "source_type": "issuer",
       "status": "research",
       "notes": "Potential source for issuer-level holdings and fund metadata. Requires per-issuer format and license review."
     },
     {
+      "automation_status": "unknown",
       "coverage": "US/global",
       "evidence_urls": [],
       "field_coverage": [],
@@ -76,7 +83,9 @@
         "global-coverage-validation",
         "historical-depth-validation"
       ],
+      "license_status": "unknown",
       "name": "Paid market data vendor",
+      "source_type": "vendor",
       "status": "research",
       "notes": "Potential long-term source for normalized ETF data. Requires cost, terms, redistribution, and reliability review."
     }
