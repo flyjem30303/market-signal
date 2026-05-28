@@ -102,6 +102,24 @@ Important:
 
 ## Step 5: Validate Bootstrap
 
+Before validating the live Supabase database, run:
+
+```bash
+npm run db:preflight
+```
+
+Expected result when local setup is ready:
+
+```json
+{
+  "status": "ok",
+  "ready_for_db_validate": true
+}
+```
+
+If `.env.local` is missing or incomplete, this command reports the missing
+fields without contacting Supabase.
+
 Run:
 
 ```bash
@@ -278,6 +296,7 @@ This runbook is complete when:
 - Supabase project exists.
 - `supabase/bootstrap.sql` runs successfully.
 - `.env.local` exists locally.
+- `npm run db:preflight` returns `status: ok`.
 - `npm run db:validate` returns `status: ok`.
 - `npm run db:freshness` returns `status: ok`.
 - `npm run db:raw-market` returns `status: ok`.

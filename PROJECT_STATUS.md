@@ -98,6 +98,7 @@ D:\指數燈號
 - 已新增 mixed data quality summary / caveat copy，將 adapter warnings 轉成 severity、label、legal caveat。
 - 已完成 CP1 data-quality scoring review；CEO 核准先做 internal-only 的純資料品質分數 helper，不核准公開顯示。
 - 已新增 internal-only mixed data quality score helper，會計算 internal quality score，但 `scoreCanBeShownPublicly` 仍固定為 false。
+- 已新增 `npm run db:preflight`，用於 Supabase 實際驗證前檢查 `.env.local`、bootstrap SQL 與資料源設定。
 
 ## 下一次開工建議
 
@@ -105,7 +106,7 @@ D:\指數燈號
 2. 依 `docs/SUPABASE_EXECUTION_RUNBOOK.md` 建立 Supabase 專案並執行 bootstrap SQL。
 3. 建立 `.env.local` 後執行 `npm run db:validate`。
 4. 暫不切換 `NEXT_PUBLIC_DATA_SOURCE=supabase`。
-5. 下一步為 Supabase 實際建立與 `db:validate` / `db:freshness` / `db:raw-market` 驗證，不切換 `NEXT_PUBLIC_DATA_SOURCE=supabase`。
+5. 下一步為建立 `.env.local` 與 Supabase 專案後執行 `db:preflight` / `db:validate` / `db:freshness` / `db:raw-market`，不切換 `NEXT_PUBLIC_DATA_SOURCE=supabase`。
 
 ## 環境狀態
 

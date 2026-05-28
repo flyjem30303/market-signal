@@ -89,6 +89,7 @@
 - [x] 建立 mixed data quality summary / caveat copy。
 - [x] 完成 CP1 data-quality scoring review。
 - [x] 建立 internal-only mixed data quality score helper。
+- [x] 建立 Supabase validation preflight 指令。
 
 ## H. 投資模型可信度
 
