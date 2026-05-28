@@ -94,6 +94,7 @@ scripts/check-asset-type-policy.mjs
 scripts/check-supabase-etf-schema.mjs
 scripts/check-etf-source-gate.mjs
 scripts/check-etf-due-diligence.mjs
+scripts/check-ceo-delegated-autonomy-policy.mjs
 scripts/report-etf-source-readiness.mjs
 scripts/report-etf-mis-smoke.mjs
 scripts/report-cp3-tw-stock-dry-run.mjs
@@ -176,6 +177,7 @@ docs/reviews/CP1_REVIEW_GATE_AGGREGATOR_2026-05-29.md
 docs/reviews/CP1_CHECKPOINT_SNAPSHOT_2026-05-29.md
 docs/reviews/CP1_TO_CP2_RELEASE_CHECKLIST_2026-05-29.md
 docs/reviews/CP1_REMOTE_ETF_SCHEMA_VALIDATION_2026-05-29.md
+docs/reviews/CEO_DELEGATED_AUTONOMY_POLICY_2026-05-29.md
 docs/MIGRATION_CHECKLIST.md
 docs/FILE_MANIFEST.md
 docs/MVP_TASKS.md

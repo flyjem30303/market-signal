@@ -13,6 +13,11 @@ const checks = [
     name: "asset-policy"
   },
   {
+    command: [node, "scripts/check-ceo-delegated-autonomy-policy.mjs"],
+    expectStatus: "ok",
+    name: "ceo-delegated-autonomy"
+  },
+  {
     command: [node, "scripts/check-internal-route-exposure.mjs"],
     expectStatus: "ok",
     name: "internal-route-exposure"
