@@ -78,8 +78,8 @@ Future schema changes should support:
 - source attribution per data record
 - model version per market
 
-Current `market` values such as `TWSE` are acceptable for the Taiwan MVP, but
-future work should avoid assuming all symbols are Taiwan symbols.
+Current `market` values such as `TWSE` remain useful as grouping labels, but
+`stocks` should use `country + exchange + symbol` as the global-safe namespace.
 
 ### URLs
 

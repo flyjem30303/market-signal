@@ -12,6 +12,11 @@ export type Database = {
           is_etf: boolean;
           listed_date: string | null;
           market: string;
+          country: string;
+          exchange: string;
+          currency: string;
+          timezone: string;
+          asset_type: string;
           name: string;
           symbol: string;
           updated_at: string;
@@ -24,6 +29,11 @@ export type Database = {
           is_etf?: boolean;
           listed_date?: string | null;
           market: string;
+          country?: string;
+          exchange?: string;
+          currency?: string;
+          timezone?: string;
+          asset_type?: string;
           name: string;
           symbol: string;
           updated_at?: string;

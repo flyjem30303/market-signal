@@ -1,5 +1,5 @@
 -- Taiwan Market Signal Supabase bootstrap SQL.
--- Generated at 2026-05-28T14:43:00.127Z.
+-- Generated at 2026-05-28T14:54:15.640Z.
 -- Run this in a new Supabase project's SQL editor.
 
 begin;
@@ -15,15 +15,21 @@ create extension if not exists "pgcrypto";
 
 create table if not exists public.stocks (
   id uuid primary key default gen_random_uuid(),
-  symbol text not null unique,
+  symbol text not null,
   name text not null,
   market text not null,
+  country text not null default 'TW',
+  exchange text not null default 'TWSE',
+  currency text not null default 'TWD',
+  timezone text not null default 'Asia/Taipei',
+  asset_type text not null default 'stock',
   industry text,
   listed_date date,
   is_etf boolean not null default false,
   is_active boolean not null default true,
   created_at timestamptz not null default now(),
-  updated_at timestamptz not null default now()
+  updated_at timestamptz not null default now(),
+  unique (country, exchange, symbol)
 );
 
 create table if not exists public.daily_prices (
@@ -131,6 +137,7 @@ create index if not exists daily_scores_trade_date_idx on public.daily_scores(tr
 create index if not exists daily_prices_trade_date_idx on public.daily_prices(trade_date desc);
 create index if not exists news_items_published_at_idx on public.news_items(published_at desc);
 create index if not exists stocks_market_industry_idx on public.stocks(market, industry);
+create index if not exists stocks_country_exchange_symbol_idx on public.stocks(country, exchange, symbol);
 
 -- ============================================================================
 -- Source: supabase/seed/001_seed_stocks.sql
@@ -140,6 +147,11 @@ insert into public.stocks (
   symbol,
   name,
   market,
+  country,
+  exchange,
+  currency,
+  timezone,
+  asset_type,
   industry,
   listed_date,
   is_etf,
@@ -149,6 +161,11 @@ insert into public.stocks (
   'TWII',
   '台灣加權指數',
   'INDEX',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'index',
   '指數',
   null,
   false,
@@ -158,6 +175,11 @@ insert into public.stocks (
   '0050',
   '元大台灣50',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'etf',
   'ETF',
   '2003-06-30',
   true,
@@ -167,6 +189,11 @@ insert into public.stocks (
   '006208',
   '富邦台50',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'etf',
   'ETF',
   '2012-07-17',
   true,
@@ -176,6 +203,11 @@ insert into public.stocks (
   '1101',
   '台泥',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '01',
   '1962-02-09',
   false,
@@ -185,6 +217,11 @@ insert into public.stocks (
   '1102',
   '亞泥',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '01',
   '1962-06-08',
   false,
@@ -194,6 +231,11 @@ insert into public.stocks (
   '1103',
   '嘉泥',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '01',
   '1969-11-14',
   false,
@@ -203,6 +245,11 @@ insert into public.stocks (
   '1104',
   '環泥',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '01',
   '1971-02-01',
   false,
@@ -212,6 +259,11 @@ insert into public.stocks (
   '1108',
   '幸福',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '01',
   '1990-06-06',
   false,
@@ -221,6 +273,11 @@ insert into public.stocks (
   '1109',
   '信大',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '01',
   '1991-12-05',
   false,
@@ -230,6 +287,11 @@ insert into public.stocks (
   '1110',
   '東泥',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '01',
   '1994-10-22',
   false,
@@ -239,6 +301,11 @@ insert into public.stocks (
   '1201',
   '味全',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '02',
   '1962-02-09',
   false,
@@ -248,6 +315,11 @@ insert into public.stocks (
   '1203',
   '味王',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '02',
   '1964-08-24',
   false,
@@ -257,6 +329,11 @@ insert into public.stocks (
   '1210',
   '大成',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '02',
   '1978-05-20',
   false,
@@ -266,6 +343,11 @@ insert into public.stocks (
   '1213',
   '大飲',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '02',
   '1981-04-10',
   false,
@@ -275,6 +357,11 @@ insert into public.stocks (
   '1215',
   '卜蜂',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '02',
   '1987-07-27',
   false,
@@ -284,6 +371,11 @@ insert into public.stocks (
   '1216',
   '統一',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '02',
   '1987-12-28',
   false,
@@ -293,6 +385,11 @@ insert into public.stocks (
   '1217',
   '愛之味',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '02',
   '1989-10-28',
   false,
@@ -302,6 +399,11 @@ insert into public.stocks (
   '1218',
   '泰山',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '02',
   '1989-11-11',
   false,
@@ -311,6 +413,11 @@ insert into public.stocks (
   '1219',
   '福壽',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '02',
   '1990-12-01',
   false,
@@ -320,6 +427,11 @@ insert into public.stocks (
   '1220',
   '台榮',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '02',
   '1991-11-20',
   false,
@@ -329,6 +441,11 @@ insert into public.stocks (
   '1225',
   '福懋油',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '02',
   '1993-09-27',
   false,
@@ -338,6 +455,11 @@ insert into public.stocks (
   '1227',
   '佳格',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '02',
   '1994-04-09',
   false,
@@ -347,6 +469,11 @@ insert into public.stocks (
   '1229',
   '聯華',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '02',
   '1976-07-19',
   false,
@@ -356,6 +483,11 @@ insert into public.stocks (
   '1231',
   '聯華食',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '02',
   '1995-11-02',
   false,
@@ -365,6 +497,11 @@ insert into public.stocks (
   '1232',
   '大統益',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '02',
   '1996-02-09',
   false,
@@ -374,6 +511,11 @@ insert into public.stocks (
   '1233',
   '天仁',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '02',
   '1999-01-20',
   false,
@@ -383,6 +525,11 @@ insert into public.stocks (
   '1234',
   '黑松',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '02',
   '1999-03-12',
   false,
@@ -392,6 +539,11 @@ insert into public.stocks (
   '1235',
   '興泰',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '02',
   '2000-09-11',
   false,
@@ -401,6 +553,11 @@ insert into public.stocks (
   '1236',
   '宏亞',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '02',
   '2001-09-17',
   false,
@@ -410,6 +567,11 @@ insert into public.stocks (
   '1256',
   '鮮活果汁-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '02',
   '2016-03-17',
   false,
@@ -419,6 +581,11 @@ insert into public.stocks (
   '1301',
   '台塑',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '03',
   '1964-07-27',
   false,
@@ -428,6 +595,11 @@ insert into public.stocks (
   '1303',
   '南亞',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '03',
   '1967-11-15',
   false,
@@ -437,6 +609,11 @@ insert into public.stocks (
   '1304',
   '台聚',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '03',
   '1972-05-20',
   false,
@@ -446,6 +623,11 @@ insert into public.stocks (
   '1305',
   '華夏',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '03',
   '1973-03-05',
   false,
@@ -455,6 +637,11 @@ insert into public.stocks (
   '1307',
   '三芳',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '03',
   '1985-11-23',
   false,
@@ -464,6 +651,11 @@ insert into public.stocks (
   '1308',
   '亞聚',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '03',
   '1986-06-20',
   false,
@@ -473,6 +665,11 @@ insert into public.stocks (
   '1309',
   '台達化',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '03',
   '1986-06-27',
   false,
@@ -482,6 +679,11 @@ insert into public.stocks (
   '1310',
   '台苯',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '03',
   '1987-08-06',
   false,
@@ -491,6 +693,11 @@ insert into public.stocks (
   '1312',
   '國喬',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '03',
   '1988-12-21',
   false,
@@ -500,6 +707,11 @@ insert into public.stocks (
   '1313',
   '聯成',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '03',
   '1989-03-27',
   false,
@@ -509,6 +721,11 @@ insert into public.stocks (
   '1314',
   '中石化',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '03',
   '1991-07-12',
   false,
@@ -518,6 +735,11 @@ insert into public.stocks (
   '1315',
   '達新',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '03',
   '1992-05-09',
   false,
@@ -527,6 +749,11 @@ insert into public.stocks (
   '1316',
   '上曜',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '14',
   '1992-10-15',
   false,
@@ -536,6 +763,11 @@ insert into public.stocks (
   '1319',
   '東陽',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '12',
   '1994-12-12',
   false,
@@ -545,6 +777,11 @@ insert into public.stocks (
   '1321',
   '大洋',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '03',
   '1999-01-26',
   false,
@@ -554,6 +791,11 @@ insert into public.stocks (
   '1323',
   '永裕',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '03',
   '2000-09-11',
   false,
@@ -563,6 +805,11 @@ insert into public.stocks (
   '1324',
   '地球',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '03',
   '2000-09-11',
   false,
@@ -572,6 +819,11 @@ insert into public.stocks (
   '1325',
   '恆大',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '03',
   '2000-09-11',
   false,
@@ -581,6 +833,11 @@ insert into public.stocks (
   '1326',
   '台化',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '03',
   '1984-12-20',
   false,
@@ -590,6 +847,11 @@ insert into public.stocks (
   '1337',
   '再生-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '03',
   '2011-08-17',
   false,
@@ -599,6 +861,11 @@ insert into public.stocks (
   '1338',
   '廣華-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '12',
   '2012-12-19',
   false,
@@ -608,6 +875,11 @@ insert into public.stocks (
   '1339',
   '昭輝',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '12',
   '2012-04-24',
   false,
@@ -617,6 +889,11 @@ insert into public.stocks (
   '1340',
   '勝悅-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '03',
   '2014-01-14',
   false,
@@ -626,6 +903,11 @@ insert into public.stocks (
   '1341',
   '富林-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '03',
   '2018-12-24',
   false,
@@ -635,6 +917,11 @@ insert into public.stocks (
   '1342',
   '八貫',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '20',
   '2020-11-24',
   false,
@@ -644,6 +931,11 @@ insert into public.stocks (
   '1402',
   '遠東新',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '04',
   '1967-04-14',
   false,
@@ -653,6 +945,11 @@ insert into public.stocks (
   '1409',
   '新纖',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '04',
   '1973-08-31',
   false,
@@ -662,6 +959,11 @@ insert into public.stocks (
   '1410',
   '南染',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '04',
   '1973-10-18',
   false,
@@ -671,6 +973,11 @@ insert into public.stocks (
   '1413',
   '宏洲',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '04',
   '1975-12-23',
   false,
@@ -680,6 +987,11 @@ insert into public.stocks (
   '1414',
   '東和',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '04',
   '1976-02-02',
   false,
@@ -689,6 +1001,11 @@ insert into public.stocks (
   '1416',
   '廣豐',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '20',
   '1976-04-20',
   false,
@@ -698,6 +1015,11 @@ insert into public.stocks (
   '1417',
   '嘉裕',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '04',
   '1976-12-28',
   false,
@@ -707,6 +1029,11 @@ insert into public.stocks (
   '1418',
   '東華',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '04',
   '1977-02-14',
   false,
@@ -716,6 +1043,11 @@ insert into public.stocks (
   '1419',
   '新紡',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '04',
   '1977-03-14',
   false,
@@ -725,6 +1057,11 @@ insert into public.stocks (
   '1423',
   '利華',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '04',
   '1979-04-02',
   false,
@@ -734,6 +1071,11 @@ insert into public.stocks (
   '1432',
   '大魯閣',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '37',
   '1982-07-26',
   false,
@@ -743,6 +1085,11 @@ insert into public.stocks (
   '1434',
   '福懋',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '04',
   '1985-12-24',
   false,
@@ -752,6 +1099,11 @@ insert into public.stocks (
   '1435',
   '中福',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '20',
   '1987-12-28',
   false,
@@ -761,6 +1113,11 @@ insert into public.stocks (
   '1436',
   '華友聯',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '14',
   '1988-04-11',
   false,
@@ -770,6 +1127,11 @@ insert into public.stocks (
   '1437',
   '勤益控',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '20',
   '1988-11-10',
   false,
@@ -779,6 +1141,11 @@ insert into public.stocks (
   '1438',
   '三地開發',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '14',
   '1988-12-15',
   false,
@@ -788,6 +1155,11 @@ insert into public.stocks (
   '1439',
   '雋揚',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '14',
   '1989-05-22',
   false,
@@ -797,6 +1169,11 @@ insert into public.stocks (
   '1440',
   '南紡',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '04',
   '1989-10-03',
   false,
@@ -806,6 +1183,11 @@ insert into public.stocks (
   '1441',
   '大東',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '04',
   '1989-10-27',
   false,
@@ -815,6 +1197,11 @@ insert into public.stocks (
   '1442',
   '名軒',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '14',
   '1989-11-16',
   false,
@@ -824,6 +1211,11 @@ insert into public.stocks (
   '1443',
   '立益物流',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '20',
   '1990-04-21',
   false,
@@ -833,6 +1225,11 @@ insert into public.stocks (
   '1444',
   '力麗',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '04',
   '1990-08-08',
   false,
@@ -842,6 +1239,11 @@ insert into public.stocks (
   '1445',
   '大宇',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '04',
   '1991-02-05',
   false,
@@ -851,6 +1253,11 @@ insert into public.stocks (
   '1446',
   '宏和',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '04',
   '1991-10-15',
   false,
@@ -860,6 +1267,11 @@ insert into public.stocks (
   '1447',
   '力鵬',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '04',
   '1992-01-28',
   false,
@@ -869,6 +1281,11 @@ insert into public.stocks (
   '1449',
   '佳和',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '04',
   '1992-05-06',
   false,
@@ -878,6 +1295,11 @@ insert into public.stocks (
   '1451',
   '年興',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '04',
   '1992-12-21',
   false,
@@ -887,6 +1309,11 @@ insert into public.stocks (
   '1452',
   '宏益',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '04',
   '1992-12-28',
   false,
@@ -896,6 +1323,11 @@ insert into public.stocks (
   '1453',
   '大將',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '14',
   '1993-04-19',
   false,
@@ -905,6 +1337,11 @@ insert into public.stocks (
   '1454',
   '台富',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '04',
   '1993-05-07',
   false,
@@ -914,6 +1351,11 @@ insert into public.stocks (
   '1455',
   '集盛',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '04',
   '1993-10-07',
   false,
@@ -923,6 +1365,11 @@ insert into public.stocks (
   '1456',
   '怡華',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '14',
   '1993-12-09',
   false,
@@ -932,6 +1379,11 @@ insert into public.stocks (
   '1457',
   '宜進',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '04',
   '1994-10-20',
   false,
@@ -941,6 +1393,11 @@ insert into public.stocks (
   '1459',
   '聯發',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '04',
   '1994-10-26',
   false,
@@ -950,6 +1407,11 @@ insert into public.stocks (
   '1460',
   '宏遠',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '04',
   '1995-04-28',
   false,
@@ -959,6 +1421,11 @@ insert into public.stocks (
   '1463',
   '強盛新',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '04',
   '1996-12-05',
   false,
@@ -968,6 +1435,11 @@ insert into public.stocks (
   '1464',
   '得力',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '04',
   '1997-01-18',
   false,
@@ -977,6 +1449,11 @@ insert into public.stocks (
   '1465',
   '偉全',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '04',
   '1997-09-08',
   false,
@@ -986,6 +1463,11 @@ insert into public.stocks (
   '1466',
   '聚隆',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '04',
   '1998-04-04',
   false,
@@ -995,6 +1477,11 @@ insert into public.stocks (
   '1467',
   '南緯',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '04',
   '1998-12-21',
   false,
@@ -1004,6 +1491,11 @@ insert into public.stocks (
   '1468',
   '昶和',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '04',
   '1999-01-21',
   false,
@@ -1013,6 +1505,11 @@ insert into public.stocks (
   '1470',
   '大統新創',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '04',
   '1999-05-21',
   false,
@@ -1022,6 +1519,11 @@ insert into public.stocks (
   '1471',
   '首利',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2000-03-06',
   false,
@@ -1031,6 +1533,11 @@ insert into public.stocks (
   '1472',
   '三洋實業',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '14',
   '2000-09-11',
   false,
@@ -1040,6 +1547,11 @@ insert into public.stocks (
   '1473',
   '台南',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '04',
   '2000-09-11',
   false,
@@ -1049,6 +1561,11 @@ insert into public.stocks (
   '1474',
   '弘裕',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '04',
   '2000-10-31',
   false,
@@ -1058,6 +1575,11 @@ insert into public.stocks (
   '1475',
   '業旺',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '04',
   '2000-10-27',
   false,
@@ -1067,6 +1589,11 @@ insert into public.stocks (
   '1476',
   '儒鴻',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '04',
   '2001-04-18',
   false,
@@ -1076,6 +1603,11 @@ insert into public.stocks (
   '1477',
   '聚陽',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '04',
   '2003-01-21',
   false,
@@ -1085,6 +1617,11 @@ insert into public.stocks (
   '1503',
   '士電',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '05',
   '1969-12-15',
   false,
@@ -1094,6 +1631,11 @@ insert into public.stocks (
   '1504',
   '東元',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '05',
   '1973-11-05',
   false,
@@ -1103,6 +1645,11 @@ insert into public.stocks (
   '1506',
   '正道',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '05',
   '1980-08-11',
   false,
@@ -1112,6 +1659,11 @@ insert into public.stocks (
   '1512',
   '瑞利',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '12',
   '1994-01-28',
   false,
@@ -1121,6 +1673,11 @@ insert into public.stocks (
   '1513',
   '中興電',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '05',
   '1994-03-08',
   false,
@@ -1130,6 +1687,11 @@ insert into public.stocks (
   '1514',
   '亞力',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '05',
   '1994-03-26',
   false,
@@ -1139,6 +1701,11 @@ insert into public.stocks (
   '1515',
   '力山',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '05',
   '1995-02-04',
   false,
@@ -1148,6 +1715,11 @@ insert into public.stocks (
   '1516',
   '川飛',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '20',
   '1995-04-01',
   false,
@@ -1157,6 +1729,11 @@ insert into public.stocks (
   '1517',
   '利奇',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '05',
   '1995-11-14',
   false,
@@ -1166,6 +1743,11 @@ insert into public.stocks (
   '1519',
   '華城',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '05',
   '1997-04-16',
   false,
@@ -1175,6 +1757,11 @@ insert into public.stocks (
   '1521',
   '大億',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '12',
   '1997-10-06',
   false,
@@ -1184,6 +1771,11 @@ insert into public.stocks (
   '1522',
   '堤維西',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '12',
   '1997-10-06',
   false,
@@ -1193,6 +1785,11 @@ insert into public.stocks (
   '1524',
   '耿鼎',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '12',
   '1998-10-30',
   false,
@@ -1202,6 +1799,11 @@ insert into public.stocks (
   '1525',
   '江申',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '12',
   '1999-05-15',
   false,
@@ -1211,6 +1813,11 @@ insert into public.stocks (
   '1526',
   '日馳',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '05',
   '2000-03-27',
   false,
@@ -1220,6 +1827,11 @@ insert into public.stocks (
   '1527',
   '鑽全',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '05',
   '2000-06-21',
   false,
@@ -1229,6 +1841,11 @@ insert into public.stocks (
   '1528',
   '恩德',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '05',
   '2000-09-11',
   false,
@@ -1238,6 +1855,11 @@ insert into public.stocks (
   '1529',
   '樂事綠能',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '05',
   '2000-09-11',
   false,
@@ -1247,6 +1869,11 @@ insert into public.stocks (
   '1530',
   '亞崴',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '05',
   '2000-09-11',
   false,
@@ -1256,6 +1883,11 @@ insert into public.stocks (
   '1531',
   '高林股',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '05',
   '2000-09-11',
   false,
@@ -1265,6 +1897,11 @@ insert into public.stocks (
   '1532',
   '勤美',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '05',
   '2000-09-11',
   false,
@@ -1274,6 +1911,11 @@ insert into public.stocks (
   '1533',
   '車王電',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '12',
   '2001-04-06',
   false,
@@ -1283,6 +1925,11 @@ insert into public.stocks (
   '1535',
   '中宇',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '05',
   '2001-09-17',
   false,
@@ -1292,6 +1939,11 @@ insert into public.stocks (
   '1536',
   '和大',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '12',
   '2001-09-17',
   false,
@@ -1301,6 +1953,11 @@ insert into public.stocks (
   '1537',
   '廣隆',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '05',
   '2002-01-22',
   false,
@@ -1310,6 +1967,11 @@ insert into public.stocks (
   '1538',
   '正峰',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '05',
   '2002-08-26',
   false,
@@ -1319,6 +1981,11 @@ insert into public.stocks (
   '1539',
   '巨庭',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '05',
   '2002-10-29',
   false,
@@ -1328,6 +1995,11 @@ insert into public.stocks (
   '1540',
   '喬福',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '05',
   '2002-08-26',
   false,
@@ -1337,6 +2009,11 @@ insert into public.stocks (
   '1541',
   '錩泰',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '05',
   '2003-03-19',
   false,
@@ -1346,6 +2023,11 @@ insert into public.stocks (
   '1558',
   '伸興',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '05',
   '2014-12-23',
   false,
@@ -1355,6 +2037,11 @@ insert into public.stocks (
   '1560',
   '中砂',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '05',
   '2005-01-31',
   false,
@@ -1364,6 +2051,11 @@ insert into public.stocks (
   '1563',
   '巧新',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '12',
   '2024-05-13',
   false,
@@ -1373,6 +2065,11 @@ insert into public.stocks (
   '1568',
   '倉佑',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '12',
   '2014-05-14',
   false,
@@ -1382,6 +2079,11 @@ insert into public.stocks (
   '1582',
   '信錦',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2009-12-17',
   false,
@@ -1391,6 +2093,11 @@ insert into public.stocks (
   '1583',
   '程泰',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '05',
   '2008-01-24',
   false,
@@ -1400,6 +2107,11 @@ insert into public.stocks (
   '1587',
   '吉茂',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '12',
   '2018-04-16',
   false,
@@ -1409,6 +2121,11 @@ insert into public.stocks (
   '1589',
   '永冠-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '05',
   '2012-04-27',
   false,
@@ -1418,6 +2135,11 @@ insert into public.stocks (
   '1590',
   '亞德客-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '05',
   '2010-12-13',
   false,
@@ -1427,6 +2149,11 @@ insert into public.stocks (
   '1597',
   '直得',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '05',
   '2020-12-23',
   false,
@@ -1436,6 +2163,11 @@ insert into public.stocks (
   '1598',
   '岱宇',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '37',
   '2016-09-20',
   false,
@@ -1445,6 +2177,11 @@ insert into public.stocks (
   '1603',
   '華電',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '06',
   '1968-06-03',
   false,
@@ -1454,6 +2191,11 @@ insert into public.stocks (
   '1604',
   '聲寶',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '06',
   '1970-12-14',
   false,
@@ -1463,6 +2205,11 @@ insert into public.stocks (
   '1605',
   '華新',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '06',
   '1972-11-03',
   false,
@@ -1472,6 +2219,11 @@ insert into public.stocks (
   '1608',
   '華榮',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '06',
   '1988-07-11',
   false,
@@ -1481,6 +2233,11 @@ insert into public.stocks (
   '1609',
   '大亞',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '06',
   '1988-12-12',
   false,
@@ -1490,6 +2247,11 @@ insert into public.stocks (
   '1611',
   '中電',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '06',
   '1990-01-16',
   false,
@@ -1499,6 +2261,11 @@ insert into public.stocks (
   '1612',
   '宏泰',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '06',
   '1993-05-08',
   false,
@@ -1508,6 +2275,11 @@ insert into public.stocks (
   '1614',
   '三洋電',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '06',
   '1997-09-18',
   false,
@@ -1517,6 +2289,11 @@ insert into public.stocks (
   '1615',
   '大山',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '06',
   '2000-03-30',
   false,
@@ -1526,6 +2303,11 @@ insert into public.stocks (
   '1616',
   '億泰',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '06',
   '2000-09-11',
   false,
@@ -1535,6 +2317,11 @@ insert into public.stocks (
   '1617',
   '榮星',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '06',
   '2000-09-11',
   false,
@@ -1544,6 +2331,11 @@ insert into public.stocks (
   '1618',
   '合機',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '06',
   '2000-09-11',
   false,
@@ -1553,6 +2345,11 @@ insert into public.stocks (
   '1623',
   '大東電',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '06',
   '2026-01-22',
   false,
@@ -1562,6 +2359,11 @@ insert into public.stocks (
   '1626',
   '艾美特-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '06',
   '2013-03-21',
   false,
@@ -1571,6 +2373,11 @@ insert into public.stocks (
   '1702',
   '南僑',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '02',
   '1973-05-30',
   false,
@@ -1580,6 +2387,11 @@ insert into public.stocks (
   '1707',
   '葡萄王',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '1982-12-20',
   false,
@@ -1589,6 +2401,11 @@ insert into public.stocks (
   '1708',
   '東鹼',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '21',
   '1986-06-16',
   false,
@@ -1598,6 +2415,11 @@ insert into public.stocks (
   '1709',
   '和益',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '21',
   '1986-07-03',
   false,
@@ -1607,6 +2429,11 @@ insert into public.stocks (
   '1710',
   '東聯',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '21',
   '1987-10-21',
   false,
@@ -1616,6 +2443,11 @@ insert into public.stocks (
   '1711',
   '永光',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '21',
   '1988-12-27',
   false,
@@ -1625,6 +2457,11 @@ insert into public.stocks (
   '1712',
   '興農',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '21',
   '1989-12-14',
   false,
@@ -1634,6 +2471,11 @@ insert into public.stocks (
   '1713',
   '國化',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '21',
   '1990-01-31',
   false,
@@ -1643,6 +2485,11 @@ insert into public.stocks (
   '1714',
   '和桐',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '21',
   '1991-08-30',
   false,
@@ -1652,6 +2499,11 @@ insert into public.stocks (
   '1717',
   '長興',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '21',
   '1994-03-31',
   false,
@@ -1661,6 +2513,11 @@ insert into public.stocks (
   '1718',
   '中纖',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '21',
   '1963-12-02',
   false,
@@ -1670,6 +2527,11 @@ insert into public.stocks (
   '1720',
   '生達',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '1995-12-12',
   false,
@@ -1679,6 +2541,11 @@ insert into public.stocks (
   '1721',
   '三晃',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '21',
   '1996-05-16',
   false,
@@ -1688,6 +2555,11 @@ insert into public.stocks (
   '1722',
   '台肥',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '21',
   '1998-03-24',
   false,
@@ -1697,6 +2569,11 @@ insert into public.stocks (
   '1723',
   '中碳',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '21',
   '1998-11-27',
   false,
@@ -1706,6 +2583,11 @@ insert into public.stocks (
   '1725',
   '元禎',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '21',
   '2000-09-11',
   false,
@@ -1715,6 +2597,11 @@ insert into public.stocks (
   '1726',
   '永記',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '21',
   '2000-09-11',
   false,
@@ -1724,6 +2611,11 @@ insert into public.stocks (
   '1727',
   '中華化',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '21',
   '2000-09-11',
   false,
@@ -1733,6 +2625,11 @@ insert into public.stocks (
   '1730',
   '花仙子',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '21',
   '2001-09-17',
   false,
@@ -1742,6 +2639,11 @@ insert into public.stocks (
   '1731',
   '美吾華',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '2001-09-17',
   false,
@@ -1751,6 +2653,11 @@ insert into public.stocks (
   '1732',
   '毛寶',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '21',
   '2001-09-17',
   false,
@@ -1760,6 +2667,11 @@ insert into public.stocks (
   '1733',
   '五鼎',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '2001-09-17',
   false,
@@ -1769,6 +2681,11 @@ insert into public.stocks (
   '1734',
   '杏輝',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '2002-08-26',
   false,
@@ -1778,6 +2695,11 @@ insert into public.stocks (
   '1735',
   '日勝化',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '21',
   '2002-08-26',
   false,
@@ -1787,6 +2709,11 @@ insert into public.stocks (
   '1736',
   '喬山',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '37',
   '2003-01-09',
   false,
@@ -1796,6 +2723,11 @@ insert into public.stocks (
   '1737',
   '臺鹽',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '02',
   '2003-11-18',
   false,
@@ -1805,6 +2737,11 @@ insert into public.stocks (
   '1752',
   '南光',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '2022-01-19',
   false,
@@ -1814,6 +2751,11 @@ insert into public.stocks (
   '1760',
   '寶齡富錦',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '2018-01-23',
   false,
@@ -1823,6 +2765,11 @@ insert into public.stocks (
   '1762',
   '中化生',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '2010-12-20',
   false,
@@ -1832,6 +2779,11 @@ insert into public.stocks (
   '1773',
   '勝一',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '21',
   '2009-02-27',
   false,
@@ -1841,6 +2793,11 @@ insert into public.stocks (
   '1776',
   '展宇',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '21',
   '2016-05-09',
   false,
@@ -1850,6 +2807,11 @@ insert into public.stocks (
   '1783',
   '和康生',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '2013-12-20',
   false,
@@ -1859,6 +2821,11 @@ insert into public.stocks (
   '1786',
   '科妍',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '2013-11-12',
   false,
@@ -1868,6 +2835,11 @@ insert into public.stocks (
   '1789',
   '神隆',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '2011-09-29',
   false,
@@ -1877,6 +2849,11 @@ insert into public.stocks (
   '1795',
   '美時',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '2019-12-16',
   false,
@@ -1886,6 +2863,11 @@ insert into public.stocks (
   '1802',
   '台玻',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '08',
   '1973-07-20',
   false,
@@ -1895,6 +2877,11 @@ insert into public.stocks (
   '1805',
   '寶徠',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '14',
   '1989-10-20',
   false,
@@ -1904,6 +2891,11 @@ insert into public.stocks (
   '1806',
   '冠軍',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '08',
   '1992-09-29',
   false,
@@ -1913,6 +2905,11 @@ insert into public.stocks (
   '1808',
   '潤隆',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '14',
   '1994-10-26',
   false,
@@ -1922,6 +2919,11 @@ insert into public.stocks (
   '1809',
   '中釉',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '08',
   '1996-04-30',
   false,
@@ -1931,6 +2933,11 @@ insert into public.stocks (
   '1810',
   '和成',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '08',
   '1991-10-14',
   false,
@@ -1940,6 +2947,11 @@ insert into public.stocks (
   '1817',
   '凱撒衛',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '08',
   '2013-10-24',
   false,
@@ -1949,6 +2961,11 @@ insert into public.stocks (
   '1903',
   '士紙',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '09',
   '1963-12-09',
   false,
@@ -1958,6 +2975,11 @@ insert into public.stocks (
   '1904',
   '正隆',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '09',
   '1971-09-10',
   false,
@@ -1967,6 +2989,11 @@ insert into public.stocks (
   '1905',
   '華紙',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '09',
   '1975-02-07',
   false,
@@ -1976,6 +3003,11 @@ insert into public.stocks (
   '1906',
   '寶隆',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '09',
   '1976-04-26',
   false,
@@ -1985,6 +3017,11 @@ insert into public.stocks (
   '1907',
   '永豐餘',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '09',
   '1977-02-22',
   false,
@@ -1994,6 +3031,11 @@ insert into public.stocks (
   '1909',
   '榮成',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '09',
   '1985-11-19',
   false,
@@ -2003,6 +3045,11 @@ insert into public.stocks (
   '2002',
   '中鋼',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '10',
   '1974-12-26',
   false,
@@ -2012,6 +3059,11 @@ insert into public.stocks (
   '2006',
   '東和鋼鐵',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '10',
   '1988-07-13',
   false,
@@ -2021,6 +3073,11 @@ insert into public.stocks (
   '2007',
   '燁興',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '10',
   '1988-10-04',
   false,
@@ -2030,6 +3087,11 @@ insert into public.stocks (
   '2008',
   '高興昌',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '10',
   '1988-12-28',
   false,
@@ -2039,6 +3101,11 @@ insert into public.stocks (
   '2009',
   '第一銅',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '10',
   '1989-10-20',
   false,
@@ -2048,6 +3115,11 @@ insert into public.stocks (
   '2010',
   '春源',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '10',
   '1989-12-22',
   false,
@@ -2057,6 +3129,11 @@ insert into public.stocks (
   '2012',
   '春雨',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '10',
   '1991-10-17',
   false,
@@ -2066,6 +3143,11 @@ insert into public.stocks (
   '2013',
   '中鋼構',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '10',
   '1992-01-21',
   false,
@@ -2075,6 +3157,11 @@ insert into public.stocks (
   '2014',
   '中鴻',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '10',
   '1992-02-20',
   false,
@@ -2084,6 +3171,11 @@ insert into public.stocks (
   '2015',
   '豐興',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '10',
   '1992-05-25',
   false,
@@ -2093,6 +3185,11 @@ insert into public.stocks (
   '2017',
   '官田鋼',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '10',
   '1992-11-02',
   false,
@@ -2102,6 +3199,11 @@ insert into public.stocks (
   '2020',
   '美亞',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '10',
   '1993-04-27',
   false,
@@ -2111,6 +3213,11 @@ insert into public.stocks (
   '2022',
   '聚亨',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '10',
   '1995-03-27',
   false,
@@ -2120,6 +3227,11 @@ insert into public.stocks (
   '2023',
   '燁輝',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '10',
   '1995-07-28',
   false,
@@ -2129,6 +3241,11 @@ insert into public.stocks (
   '2024',
   '志聯',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '10',
   '1995-12-30',
   false,
@@ -2138,6 +3255,11 @@ insert into public.stocks (
   '2025',
   '千興',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '10',
   '1996-02-08',
   false,
@@ -2147,6 +3269,11 @@ insert into public.stocks (
   '2027',
   '大成鋼',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '10',
   '1996-10-24',
   false,
@@ -2156,6 +3283,11 @@ insert into public.stocks (
   '2028',
   '威致',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '10',
   '1996-12-13',
   false,
@@ -2165,6 +3297,11 @@ insert into public.stocks (
   '2029',
   '盛餘',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '10',
   '1997-01-11',
   false,
@@ -2174,6 +3311,11 @@ insert into public.stocks (
   '2030',
   '彰源',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '10',
   '1998-12-24',
   false,
@@ -2183,6 +3325,11 @@ insert into public.stocks (
   '2031',
   '新光鋼',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '10',
   '2000-09-11',
   false,
@@ -2192,6 +3339,11 @@ insert into public.stocks (
   '2032',
   '新鋼',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '10',
   '2000-09-11',
   false,
@@ -2201,6 +3353,11 @@ insert into public.stocks (
   '2033',
   '佳大',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '10',
   '2000-09-11',
   false,
@@ -2210,6 +3367,11 @@ insert into public.stocks (
   '2034',
   '允強',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '10',
   '2001-09-17',
   false,
@@ -2219,6 +3381,11 @@ insert into public.stocks (
   '2038',
   '海光',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '10',
   '2008-12-30',
   false,
@@ -2228,6 +3395,11 @@ insert into public.stocks (
   '2049',
   '上銀',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '05',
   '2009-06-26',
   false,
@@ -2237,6 +3409,11 @@ insert into public.stocks (
   '2059',
   '川湖',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2008-06-25',
   false,
@@ -2246,6 +3423,11 @@ insert into public.stocks (
   '2062',
   '橋椿',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '38',
   '2007-11-16',
   false,
@@ -2255,6 +3437,11 @@ insert into public.stocks (
   '2069',
   '運錩',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '10',
   '2016-03-22',
   false,
@@ -2264,6 +3451,11 @@ insert into public.stocks (
   '2072',
   '世紀風電',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '35',
   '2026-03-26',
   false,
@@ -2273,6 +3465,11 @@ insert into public.stocks (
   '2101',
   '南港',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '11',
   '1963-11-01',
   false,
@@ -2282,6 +3479,11 @@ insert into public.stocks (
   '2102',
   '泰豐',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '11',
   '1979-07-16',
   false,
@@ -2291,6 +3493,11 @@ insert into public.stocks (
   '2103',
   '台橡',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '11',
   '1982-09-25',
   false,
@@ -2300,6 +3507,11 @@ insert into public.stocks (
   '2104',
   '國際中橡',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '11',
   '1986-07-15',
   false,
@@ -2309,6 +3521,11 @@ insert into public.stocks (
   '2105',
   '正新',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '11',
   '1987-12-07',
   false,
@@ -2318,6 +3535,11 @@ insert into public.stocks (
   '2106',
   '建大',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '11',
   '1990-12-20',
   false,
@@ -2327,6 +3549,11 @@ insert into public.stocks (
   '2107',
   '厚生',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '11',
   '1992-03-03',
   false,
@@ -2336,6 +3563,11 @@ insert into public.stocks (
   '2108',
   '南帝',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '11',
   '1992-10-27',
   false,
@@ -2345,6 +3577,11 @@ insert into public.stocks (
   '2109',
   '華豐',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '11',
   '2000-05-08',
   false,
@@ -2354,6 +3591,11 @@ insert into public.stocks (
   '2114',
   '鑫永銓',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '11',
   '2010-12-29',
   false,
@@ -2363,6 +3605,11 @@ insert into public.stocks (
   '2115',
   '六暉-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '12',
   '2013-12-25',
   false,
@@ -2372,6 +3619,11 @@ insert into public.stocks (
   '2201',
   '裕隆',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '12',
   '1976-07-08',
   false,
@@ -2381,6 +3633,11 @@ insert into public.stocks (
   '2204',
   '中華',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '12',
   '1991-03-12',
   false,
@@ -2390,6 +3647,11 @@ insert into public.stocks (
   '2206',
   '三陽工業',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '12',
   '1996-07-29',
   false,
@@ -2399,6 +3661,11 @@ insert into public.stocks (
   '2207',
   '和泰車',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '12',
   '1997-02-25',
   false,
@@ -2408,6 +3675,11 @@ insert into public.stocks (
   '2208',
   '台船',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '15',
   '2008-12-22',
   false,
@@ -2417,6 +3689,11 @@ insert into public.stocks (
   '2211',
   '長榮鋼',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '10',
   '2021-04-12',
   false,
@@ -2426,6 +3703,11 @@ insert into public.stocks (
   '2227',
   '裕日車',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '12',
   '2004-12-21',
   false,
@@ -2435,6 +3717,11 @@ insert into public.stocks (
   '2228',
   '劍麟',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '12',
   '2013-11-25',
   false,
@@ -2444,6 +3731,11 @@ insert into public.stocks (
   '2231',
   '為升',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '12',
   '2010-11-19',
   false,
@@ -2453,6 +3745,11 @@ insert into public.stocks (
   '2233',
   '宇隆',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '12',
   '2019-09-17',
   false,
@@ -2462,6 +3759,11 @@ insert into public.stocks (
   '2236',
   '百達-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '12',
   '2015-06-03',
   false,
@@ -2471,6 +3773,11 @@ insert into public.stocks (
   '2239',
   '英利-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '12',
   '2016-01-27',
   false,
@@ -2480,6 +3787,11 @@ insert into public.stocks (
   '2241',
   '艾姆勒',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '12',
   '2020-08-26',
   false,
@@ -2489,6 +3801,11 @@ insert into public.stocks (
   '2243',
   '宏旭-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '12',
   '2017-09-27',
   false,
@@ -2498,6 +3815,11 @@ insert into public.stocks (
   '2247',
   '汎德永業',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '12',
   '2020-10-12',
   false,
@@ -2507,6 +3829,11 @@ insert into public.stocks (
   '2248',
   '華勝-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '12',
   '2025-03-13',
   false,
@@ -2516,6 +3843,11 @@ insert into public.stocks (
   '2250',
   'IKKA-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '12',
   '2021-05-31',
   false,
@@ -2525,6 +3857,11 @@ insert into public.stocks (
   '2254',
   '巨鎧精密-創',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '12',
   '2023-10-20',
   false,
@@ -2534,6 +3871,11 @@ insert into public.stocks (
   '2258',
   '鴻華先進-創',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '12',
   '2023-11-20',
   false,
@@ -2543,6 +3885,11 @@ insert into public.stocks (
   '2301',
   '光寶科',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '1995-11-17',
   false,
@@ -2552,6 +3899,11 @@ insert into public.stocks (
   '2302',
   '麗正',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '1985-01-15',
   false,
@@ -2561,6 +3913,11 @@ insert into public.stocks (
   '2303',
   '聯電',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '1985-07-16',
   false,
@@ -2570,6 +3927,11 @@ insert into public.stocks (
   '2305',
   '全友',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '1988-10-21',
   false,
@@ -2579,6 +3941,11 @@ insert into public.stocks (
   '2308',
   '台達電',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '1988-12-19',
   false,
@@ -2588,6 +3955,11 @@ insert into public.stocks (
   '2312',
   '金寶',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '31',
   '1989-11-07',
   false,
@@ -2597,6 +3969,11 @@ insert into public.stocks (
   '2313',
   '華通',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '1990-07-24',
   false,
@@ -2606,6 +3983,11 @@ insert into public.stocks (
   '2314',
   '台揚',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '27',
   '1990-08-08',
   false,
@@ -2615,6 +3997,11 @@ insert into public.stocks (
   '2316',
   '楠梓電',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '1991-02-05',
   false,
@@ -2624,6 +4011,11 @@ insert into public.stocks (
   '2317',
   '鴻海',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '31',
   '1991-06-18',
   false,
@@ -2633,6 +4025,11 @@ insert into public.stocks (
   '2321',
   '東訊',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '27',
   '1991-11-08',
   false,
@@ -2642,6 +4039,11 @@ insert into public.stocks (
   '2323',
   '中環',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '1992-02-17',
   false,
@@ -2651,6 +4053,11 @@ insert into public.stocks (
   '2324',
   '仁寶',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '1992-02-18',
   false,
@@ -2660,6 +4067,11 @@ insert into public.stocks (
   '2327',
   '國巨*',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '1993-10-22',
   false,
@@ -2669,6 +4081,11 @@ insert into public.stocks (
   '2328',
   '廣宇',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '1993-11-09',
   false,
@@ -2678,6 +4095,11 @@ insert into public.stocks (
   '2329',
   '華泰',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '1994-04-20',
   false,
@@ -2687,6 +4109,11 @@ insert into public.stocks (
   '2330',
   '台積電',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '1994-09-05',
   false,
@@ -2696,6 +4123,11 @@ insert into public.stocks (
   '2331',
   '精英',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '1994-09-21',
   false,
@@ -2705,6 +4137,11 @@ insert into public.stocks (
   '2332',
   '友訊',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '27',
   '1994-10-17',
   false,
@@ -2714,6 +4151,11 @@ insert into public.stocks (
   '2337',
   '旺宏',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '1995-03-15',
   false,
@@ -2723,6 +4165,11 @@ insert into public.stocks (
   '2338',
   '光罩',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '1995-04-17',
   false,
@@ -2732,6 +4179,11 @@ insert into public.stocks (
   '2340',
   '台亞',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '1995-05-02',
   false,
@@ -2741,6 +4193,11 @@ insert into public.stocks (
   '2342',
   '茂矽',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '1995-09-19',
   false,
@@ -2750,6 +4207,11 @@ insert into public.stocks (
   '2344',
   '華邦電',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '1995-10-18',
   false,
@@ -2759,6 +4221,11 @@ insert into public.stocks (
   '2345',
   '智邦',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '27',
   '1995-11-15',
   false,
@@ -2768,6 +4235,11 @@ insert into public.stocks (
   '2347',
   '聯強',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '29',
   '1995-12-13',
   false,
@@ -2777,6 +4249,11 @@ insert into public.stocks (
   '2348',
   '海悅',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '20',
   '1996-01-05',
   false,
@@ -2786,6 +4263,11 @@ insert into public.stocks (
   '2349',
   '錸德',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '1996-04-23',
   false,
@@ -2795,6 +4277,11 @@ insert into public.stocks (
   '2351',
   '順德',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '1996-04-25',
   false,
@@ -2804,6 +4291,11 @@ insert into public.stocks (
   '2352',
   '佳世達',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '1996-07-22',
   false,
@@ -2813,6 +4305,11 @@ insert into public.stocks (
   '2353',
   '宏碁',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '1996-09-18',
   false,
@@ -2822,6 +4319,11 @@ insert into public.stocks (
   '2354',
   '鴻準',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '31',
   '1996-10-08',
   false,
@@ -2831,6 +4333,11 @@ insert into public.stocks (
   '2355',
   '敬鵬',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '1996-10-14',
   false,
@@ -2840,6 +4347,11 @@ insert into public.stocks (
   '2356',
   '英業達',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '1996-11-13',
   false,
@@ -2849,6 +4361,11 @@ insert into public.stocks (
   '2357',
   '華碩',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '1996-11-14',
   false,
@@ -2858,6 +4375,11 @@ insert into public.stocks (
   '2359',
   '所羅門',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '31',
   '1996-12-19',
   false,
@@ -2867,6 +4389,11 @@ insert into public.stocks (
   '2360',
   '致茂',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '31',
   '1996-12-21',
   false,
@@ -2876,6 +4403,11 @@ insert into public.stocks (
   '2362',
   '藍天',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '1997-04-02',
   false,
@@ -2885,6 +4417,11 @@ insert into public.stocks (
   '2363',
   '矽統',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '1997-08-01',
   false,
@@ -2894,6 +4431,11 @@ insert into public.stocks (
   '2364',
   '倫飛',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '1997-08-11',
   false,
@@ -2903,6 +4445,11 @@ insert into public.stocks (
   '2365',
   '昆盈',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '1997-11-03',
   false,
@@ -2912,6 +4459,11 @@ insert into public.stocks (
   '2367',
   '燿華',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '1997-12-13',
   false,
@@ -2921,6 +4473,11 @@ insert into public.stocks (
   '2368',
   '金像電',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '1998-03-09',
   false,
@@ -2930,6 +4487,11 @@ insert into public.stocks (
   '2369',
   '菱生',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '1998-04-10',
   false,
@@ -2939,6 +4501,11 @@ insert into public.stocks (
   '2371',
   '大同',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '05',
   '1962-02-09',
   false,
@@ -2948,6 +4515,11 @@ insert into public.stocks (
   '2373',
   '震旦行',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '31',
   '1991-08-01',
   false,
@@ -2957,6 +4529,11 @@ insert into public.stocks (
   '2374',
   '佳能',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '1995-01-16',
   false,
@@ -2966,6 +4543,11 @@ insert into public.stocks (
   '2375',
   '凱美',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '1998-08-29',
   false,
@@ -2975,6 +4557,11 @@ insert into public.stocks (
   '2376',
   '技嘉',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '1998-09-24',
   false,
@@ -2984,6 +4571,11 @@ insert into public.stocks (
   '2377',
   '微星',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '1998-10-31',
   false,
@@ -2993,6 +4585,11 @@ insert into public.stocks (
   '2379',
   '瑞昱',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '1998-10-26',
   false,
@@ -3002,6 +4599,11 @@ insert into public.stocks (
   '2380',
   '虹光',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '1998-12-03',
   false,
@@ -3011,6 +4613,11 @@ insert into public.stocks (
   '2382',
   '廣達',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '1999-01-08',
   false,
@@ -3020,6 +4627,11 @@ insert into public.stocks (
   '2383',
   '台光電',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '1998-11-27',
   false,
@@ -3029,6 +4641,11 @@ insert into public.stocks (
   '2385',
   '群光',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '1999-01-05',
   false,
@@ -3038,6 +4655,11 @@ insert into public.stocks (
   '2387',
   '精元',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '1999-01-25',
   false,
@@ -3047,6 +4669,11 @@ insert into public.stocks (
   '2388',
   '威盛',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '1999-03-05',
   false,
@@ -3056,6 +4683,11 @@ insert into public.stocks (
   '2390',
   '云辰',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '31',
   '1999-06-15',
   false,
@@ -3065,6 +4697,11 @@ insert into public.stocks (
   '2392',
   '正崴',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '1999-09-20',
   false,
@@ -3074,6 +4711,11 @@ insert into public.stocks (
   '2393',
   '億光',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '1999-11-04',
   false,
@@ -3083,6 +4725,11 @@ insert into public.stocks (
   '2395',
   '研華',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '1999-12-13',
   false,
@@ -3092,6 +4739,11 @@ insert into public.stocks (
   '2397',
   '友通',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '2000-01-15',
   false,
@@ -3101,6 +4753,11 @@ insert into public.stocks (
   '2399',
   '映泰',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '1999-12-16',
   false,
@@ -3110,6 +4767,11 @@ insert into public.stocks (
   '2401',
   '凌陽',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2000-01-27',
   false,
@@ -3119,6 +4781,11 @@ insert into public.stocks (
   '2402',
   '毅嘉',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2000-01-14',
   false,
@@ -3128,6 +4795,11 @@ insert into public.stocks (
   '2404',
   '漢唐',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '31',
   '2000-03-14',
   false,
@@ -3137,6 +4809,11 @@ insert into public.stocks (
   '2405',
   '輔信',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '2000-03-17',
   false,
@@ -3146,6 +4823,11 @@ insert into public.stocks (
   '2406',
   '國碩',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2000-04-29',
   false,
@@ -3155,6 +4837,11 @@ insert into public.stocks (
   '2408',
   '南亞科',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2000-08-17',
   false,
@@ -3164,6 +4851,11 @@ insert into public.stocks (
   '2409',
   '友達',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2000-09-08',
   false,
@@ -3173,6 +4865,11 @@ insert into public.stocks (
   '2412',
   '中華電',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '27',
   '2000-10-27',
   false,
@@ -3182,6 +4879,11 @@ insert into public.stocks (
   '2413',
   '環科',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2000-09-11',
   false,
@@ -3191,6 +4893,11 @@ insert into public.stocks (
   '2414',
   '精技',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '29',
   '2000-09-11',
   false,
@@ -3200,6 +4907,11 @@ insert into public.stocks (
   '2415',
   '錩新',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2000-09-11',
   false,
@@ -3209,6 +4921,11 @@ insert into public.stocks (
   '2417',
   '圓剛',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '2000-09-11',
   false,
@@ -3218,6 +4935,11 @@ insert into public.stocks (
   '2419',
   '仲琦',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '27',
   '2000-09-11',
   false,
@@ -3227,6 +4949,11 @@ insert into public.stocks (
   '2420',
   '新巨',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2000-09-11',
   false,
@@ -3236,6 +4963,11 @@ insert into public.stocks (
   '2421',
   '建準',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2000-09-11',
   false,
@@ -3245,6 +4977,11 @@ insert into public.stocks (
   '2423',
   '固緯',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '31',
   '2000-09-11',
   false,
@@ -3254,6 +4991,11 @@ insert into public.stocks (
   '2424',
   '隴華',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '27',
   '2000-09-11',
   false,
@@ -3263,6 +5005,11 @@ insert into public.stocks (
   '2425',
   '承啟',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '2000-09-11',
   false,
@@ -3272,6 +5019,11 @@ insert into public.stocks (
   '2426',
   '鼎元',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2000-09-11',
   false,
@@ -3281,6 +5033,11 @@ insert into public.stocks (
   '2427',
   '三商電',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '30',
   '2000-09-11',
   false,
@@ -3290,6 +5047,11 @@ insert into public.stocks (
   '2428',
   '興勤',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2000-09-11',
   false,
@@ -3299,6 +5061,11 @@ insert into public.stocks (
   '2429',
   '銘旺科',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2000-09-11',
   false,
@@ -3308,6 +5075,11 @@ insert into public.stocks (
   '2430',
   '燦坤',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '29',
   '2000-09-11',
   false,
@@ -3317,6 +5089,11 @@ insert into public.stocks (
   '2431',
   '聯昌',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2000-09-11',
   false,
@@ -3326,6 +5103,11 @@ insert into public.stocks (
   '2432',
   '倚天酷碁-創',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '2023-05-31',
   false,
@@ -3335,6 +5117,11 @@ insert into public.stocks (
   '2433',
   '互盛電',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '31',
   '2000-09-11',
   false,
@@ -3344,6 +5131,11 @@ insert into public.stocks (
   '2434',
   '統懋',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2000-09-11',
   false,
@@ -3353,6 +5145,11 @@ insert into public.stocks (
   '2436',
   '偉詮電',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2000-09-11',
   false,
@@ -3362,6 +5159,11 @@ insert into public.stocks (
   '2438',
   '翔耀',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2000-09-11',
   false,
@@ -3371,6 +5173,11 @@ insert into public.stocks (
   '2439',
   '美律',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '27',
   '2000-09-11',
   false,
@@ -3380,6 +5187,11 @@ insert into public.stocks (
   '2440',
   '太空梭',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2000-11-10',
   false,
@@ -3389,6 +5201,11 @@ insert into public.stocks (
   '2441',
   '超豐',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2000-10-26',
   false,
@@ -3398,6 +5215,11 @@ insert into public.stocks (
   '2442',
   '新美齊',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '14',
   '2000-11-22',
   false,
@@ -3407,6 +5229,11 @@ insert into public.stocks (
   '2444',
   '兆勁',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '27',
   '2000-12-08',
   false,
@@ -3416,6 +5243,11 @@ insert into public.stocks (
   '2449',
   '京元電子',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2001-05-09',
   false,
@@ -3425,6 +5257,11 @@ insert into public.stocks (
   '2450',
   '神腦',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '27',
   '2001-05-24',
   false,
@@ -3434,6 +5271,11 @@ insert into public.stocks (
   '2451',
   '創見',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2001-05-03',
   false,
@@ -3443,6 +5285,11 @@ insert into public.stocks (
   '2453',
   '凌群',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '30',
   '2001-05-22',
   false,
@@ -3452,6 +5299,11 @@ insert into public.stocks (
   '2454',
   '聯發科',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2001-07-23',
   false,
@@ -3461,6 +5313,11 @@ insert into public.stocks (
   '2455',
   '全新',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '27',
   '2002-01-24',
   false,
@@ -3470,6 +5327,11 @@ insert into public.stocks (
   '2457',
   '飛宏',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2001-09-17',
   false,
@@ -3479,6 +5341,11 @@ insert into public.stocks (
   '2458',
   '義隆',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2001-09-17',
   false,
@@ -3488,6 +5355,11 @@ insert into public.stocks (
   '2459',
   '敦吉',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '31',
   '2001-09-17',
   false,
@@ -3497,6 +5369,11 @@ insert into public.stocks (
   '2460',
   '建通',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2001-09-17',
   false,
@@ -3506,6 +5383,11 @@ insert into public.stocks (
   '2461',
   '光群雷',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '31',
   '2001-09-17',
   false,
@@ -3515,6 +5397,11 @@ insert into public.stocks (
   '2462',
   '良得電',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2001-09-17',
   false,
@@ -3524,6 +5411,11 @@ insert into public.stocks (
   '2464',
   '盟立',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '31',
   '2001-09-17',
   false,
@@ -3533,6 +5425,11 @@ insert into public.stocks (
   '2465',
   '麗臺',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '2001-09-19',
   false,
@@ -3542,6 +5439,11 @@ insert into public.stocks (
   '2466',
   '冠西電',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2001-09-17',
   false,
@@ -3551,6 +5453,11 @@ insert into public.stocks (
   '2467',
   '志聖',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2001-09-17',
   false,
@@ -3560,6 +5467,11 @@ insert into public.stocks (
   '2468',
   '華經',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '30',
   '2001-09-17',
   false,
@@ -3569,6 +5481,11 @@ insert into public.stocks (
   '2471',
   '資通',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '30',
   '2001-09-17',
   false,
@@ -3578,6 +5495,11 @@ insert into public.stocks (
   '2472',
   '立隆電',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2001-09-17',
   false,
@@ -3587,6 +5509,11 @@ insert into public.stocks (
   '2474',
   '可成',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '31',
   '2001-09-17',
   false,
@@ -3596,6 +5523,11 @@ insert into public.stocks (
   '2476',
   '鉅祥',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2001-09-17',
   false,
@@ -3605,6 +5537,11 @@ insert into public.stocks (
   '2477',
   '美隆電',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '31',
   '2001-09-17',
   false,
@@ -3614,6 +5551,11 @@ insert into public.stocks (
   '2478',
   '大毅',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2001-09-17',
   false,
@@ -3623,6 +5565,11 @@ insert into public.stocks (
   '2480',
   '敦陽科',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '30',
   '2001-09-17',
   false,
@@ -3632,6 +5579,11 @@ insert into public.stocks (
   '2481',
   '強茂',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2001-09-17',
   false,
@@ -3641,6 +5593,11 @@ insert into public.stocks (
   '2482',
   '連宇',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '31',
   '2001-09-19',
   false,
@@ -3650,6 +5607,11 @@ insert into public.stocks (
   '2483',
   '百容',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2001-09-17',
   false,
@@ -3659,6 +5621,11 @@ insert into public.stocks (
   '2484',
   '希華',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2001-09-17',
   false,
@@ -3668,6 +5635,11 @@ insert into public.stocks (
   '2485',
   '兆赫',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '27',
   '2001-09-17',
   false,
@@ -3677,6 +5649,11 @@ insert into public.stocks (
   '2486',
   '一詮',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2001-09-19',
   false,
@@ -3686,6 +5663,11 @@ insert into public.stocks (
   '2488',
   '漢平',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '31',
   '2001-09-17',
   false,
@@ -3695,6 +5677,11 @@ insert into public.stocks (
   '2489',
   '瑞軒',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2001-09-17',
   false,
@@ -3704,6 +5691,11 @@ insert into public.stocks (
   '2491',
   '吉祥全',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2001-09-19',
   false,
@@ -3713,6 +5705,11 @@ insert into public.stocks (
   '2492',
   '華新科',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2001-09-17',
   false,
@@ -3722,6 +5719,11 @@ insert into public.stocks (
   '2493',
   '揚博',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2002-01-23',
   false,
@@ -3731,6 +5733,11 @@ insert into public.stocks (
   '2495',
   '普安',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '2002-03-25',
   false,
@@ -3740,6 +5747,11 @@ insert into public.stocks (
   '2496',
   '卓越',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '20',
   '2002-03-08',
   false,
@@ -3749,6 +5761,11 @@ insert into public.stocks (
   '2497',
   '怡利電',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '12',
   '2002-02-04',
   false,
@@ -3758,6 +5775,11 @@ insert into public.stocks (
   '2498',
   '宏達電',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '27',
   '2002-03-26',
   false,
@@ -3767,6 +5789,11 @@ insert into public.stocks (
   '2501',
   '國建',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '14',
   '1967-10-28',
   false,
@@ -3776,6 +5803,11 @@ insert into public.stocks (
   '2504',
   '國產',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '14',
   '1978-03-14',
   false,
@@ -3785,6 +5817,11 @@ insert into public.stocks (
   '2505',
   '國揚',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '14',
   '1979-11-14',
   false,
@@ -3794,6 +5831,11 @@ insert into public.stocks (
   '2506',
   '太設',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '14',
   '1980-02-02',
   false,
@@ -3803,6 +5845,11 @@ insert into public.stocks (
   '2509',
   '全坤建',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '14',
   '1988-05-20',
   false,
@@ -3812,6 +5859,11 @@ insert into public.stocks (
   '2511',
   '太子',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '14',
   '1991-04-24',
   false,
@@ -3821,6 +5873,11 @@ insert into public.stocks (
   '2514',
   '龍邦',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '20',
   '1992-09-26',
   false,
@@ -3830,6 +5887,11 @@ insert into public.stocks (
   '2515',
   '中工',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '14',
   '1993-03-02',
   false,
@@ -3839,6 +5901,11 @@ insert into public.stocks (
   '2516',
   '新建',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '14',
   '1993-05-25',
   false,
@@ -3848,6 +5915,11 @@ insert into public.stocks (
   '2520',
   '冠德',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '14',
   '1993-10-27',
   false,
@@ -3857,6 +5929,11 @@ insert into public.stocks (
   '2524',
   '京城',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '14',
   '1994-10-18',
   false,
@@ -3866,6 +5943,11 @@ insert into public.stocks (
   '2527',
   '宏璟',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '14',
   '1995-03-06',
   false,
@@ -3875,6 +5957,11 @@ insert into public.stocks (
   '2528',
   '皇普',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '14',
   '1995-03-10',
   false,
@@ -3884,6 +5971,11 @@ insert into public.stocks (
   '2530',
   '華建',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '14',
   '1995-10-12',
   false,
@@ -3893,6 +5985,11 @@ insert into public.stocks (
   '2534',
   '宏盛',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '14',
   '1996-02-12',
   false,
@@ -3902,6 +5999,11 @@ insert into public.stocks (
   '2535',
   '達欣工',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '14',
   '1996-03-11',
   false,
@@ -3911,6 +6013,11 @@ insert into public.stocks (
   '2536',
   '宏普',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '14',
   '1996-03-14',
   false,
@@ -3920,6 +6027,11 @@ insert into public.stocks (
   '2537',
   '聯上發',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '14',
   '1996-09-06',
   false,
@@ -3929,6 +6041,11 @@ insert into public.stocks (
   '2538',
   '基泰',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '14',
   '1996-11-01',
   false,
@@ -3938,6 +6055,11 @@ insert into public.stocks (
   '2539',
   '櫻花建',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '14',
   '1997-07-16',
   false,
@@ -3947,6 +6069,11 @@ insert into public.stocks (
   '2540',
   '愛山林',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '14',
   '1989-12-26',
   false,
@@ -3956,6 +6083,11 @@ insert into public.stocks (
   '2542',
   '興富發',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '14',
   '1999-05-03',
   false,
@@ -3965,6 +6097,11 @@ insert into public.stocks (
   '2543',
   '皇昌',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '14',
   '1999-10-15',
   false,
@@ -3974,6 +6111,11 @@ insert into public.stocks (
   '2545',
   '皇翔',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '14',
   '2000-09-11',
   false,
@@ -3983,6 +6125,11 @@ insert into public.stocks (
   '2546',
   '根基',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '14',
   '2000-09-11',
   false,
@@ -3992,6 +6139,11 @@ insert into public.stocks (
   '2547',
   '日勝生',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '14',
   '2000-12-22',
   false,
@@ -4001,6 +6153,11 @@ insert into public.stocks (
   '2548',
   '華固',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '14',
   '2002-08-26',
   false,
@@ -4010,6 +6167,11 @@ insert into public.stocks (
   '2597',
   '潤弘',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '14',
   '2010-03-26',
   false,
@@ -4019,6 +6181,11 @@ insert into public.stocks (
   '2601',
   '益航',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '18',
   '1965-11-04',
   false,
@@ -4028,6 +6195,11 @@ insert into public.stocks (
   '2603',
   '長榮',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '15',
   '1987-09-21',
   false,
@@ -4037,6 +6209,11 @@ insert into public.stocks (
   '2605',
   '新興',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '15',
   '1989-12-08',
   false,
@@ -4046,6 +6223,11 @@ insert into public.stocks (
   '2606',
   '裕民',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '15',
   '1990-12-08',
   false,
@@ -4055,6 +6237,11 @@ insert into public.stocks (
   '2607',
   '榮運',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '15',
   '1990-12-14',
   false,
@@ -4064,6 +6251,11 @@ insert into public.stocks (
   '2608',
   '嘉里大榮',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '15',
   '1990-12-20',
   false,
@@ -4073,6 +6265,11 @@ insert into public.stocks (
   '2609',
   '陽明',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '15',
   '1992-04-20',
   false,
@@ -4082,6 +6279,11 @@ insert into public.stocks (
   '2610',
   '華航',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '15',
   '1993-02-26',
   false,
@@ -4091,6 +6293,11 @@ insert into public.stocks (
   '2611',
   '志信',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '15',
   '1993-10-28',
   false,
@@ -4100,6 +6307,11 @@ insert into public.stocks (
   '2612',
   '中航',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '15',
   '1994-10-20',
   false,
@@ -4109,6 +6321,11 @@ insert into public.stocks (
   '2613',
   '中櫃',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '15',
   '1995-01-20',
   false,
@@ -4118,6 +6335,11 @@ insert into public.stocks (
   '2614',
   '東森',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '20',
   '1995-09-23',
   false,
@@ -4127,6 +6349,11 @@ insert into public.stocks (
   '2615',
   '萬海',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '15',
   '1996-05-16',
   false,
@@ -4136,6 +6363,11 @@ insert into public.stocks (
   '2616',
   '山隆',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '23',
   '1997-11-08',
   false,
@@ -4145,6 +6377,11 @@ insert into public.stocks (
   '2617',
   '台航',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '15',
   '1998-06-24',
   false,
@@ -4154,6 +6391,11 @@ insert into public.stocks (
   '2618',
   '長榮航',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '15',
   '2001-09-17',
   false,
@@ -4163,6 +6405,11 @@ insert into public.stocks (
   '2630',
   '亞航',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '15',
   '2018-02-22',
   false,
@@ -4172,6 +6419,11 @@ insert into public.stocks (
   '2633',
   '台灣高鐵',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '15',
   '2016-10-27',
   false,
@@ -4181,6 +6433,11 @@ insert into public.stocks (
   '2634',
   '漢翔',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '15',
   '2014-08-25',
   false,
@@ -4190,6 +6447,11 @@ insert into public.stocks (
   '2636',
   '台驊控股',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '15',
   '2016-12-22',
   false,
@@ -4199,6 +6461,11 @@ insert into public.stocks (
   '2637',
   '慧洋-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '15',
   '2010-12-01',
   false,
@@ -4208,6 +6475,11 @@ insert into public.stocks (
   '2642',
   '宅配通',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '15',
   '2013-12-12',
   false,
@@ -4217,6 +6489,11 @@ insert into public.stocks (
   '2645',
   '長榮航太',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '15',
   '2023-03-14',
   false,
@@ -4226,6 +6503,11 @@ insert into public.stocks (
   '2646',
   '星宇航空',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '15',
   '2024-10-25',
   false,
@@ -4235,6 +6517,11 @@ insert into public.stocks (
   '2701',
   '萬企',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '16',
   '1965-03-22',
   false,
@@ -4244,6 +6531,11 @@ insert into public.stocks (
   '2702',
   '華園',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '16',
   '1965-02-14',
   false,
@@ -4253,6 +6545,11 @@ insert into public.stocks (
   '2704',
   '國賓',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '16',
   '1982-11-10',
   false,
@@ -4262,6 +6559,11 @@ insert into public.stocks (
   '2705',
   '六福',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '16',
   '1988-12-24',
   false,
@@ -4271,6 +6573,11 @@ insert into public.stocks (
   '2706',
   '第一店',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '16',
   '1991-06-25',
   false,
@@ -4280,6 +6587,11 @@ insert into public.stocks (
   '2707',
   '晶華',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '16',
   '1998-03-09',
   false,
@@ -4289,6 +6601,11 @@ insert into public.stocks (
   '2712',
   '遠雄來',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '16',
   '2013-12-03',
   false,
@@ -4298,6 +6615,11 @@ insert into public.stocks (
   '2722',
   '夏都',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '16',
   '2012-03-14',
   false,
@@ -4307,6 +6629,11 @@ insert into public.stocks (
   '2723',
   '美食-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '16',
   '2010-11-22',
   false,
@@ -4316,6 +6643,11 @@ insert into public.stocks (
   '2727',
   '王品',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '16',
   '2012-03-06',
   false,
@@ -4325,6 +6657,11 @@ insert into public.stocks (
   '2731',
   '雄獅',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '16',
   '2013-09-24',
   false,
@@ -4334,6 +6671,11 @@ insert into public.stocks (
   '2739',
   '寒舍',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '16',
   '2016-05-19',
   false,
@@ -4343,6 +6685,11 @@ insert into public.stocks (
   '2748',
   '雲品',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '16',
   '2016-11-23',
   false,
@@ -4352,6 +6699,11 @@ insert into public.stocks (
   '2753',
   '八方雲集',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '16',
   '2021-09-09',
   false,
@@ -4361,6 +6713,11 @@ insert into public.stocks (
   '2762',
   '世界健身-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '37',
   '2024-01-24',
   false,
@@ -4370,6 +6727,11 @@ insert into public.stocks (
   '2801',
   '彰銀',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '17',
   '1962-02-15',
   false,
@@ -4379,6 +6741,11 @@ insert into public.stocks (
   '2812',
   '台中銀',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '17',
   '1984-05-15',
   false,
@@ -4388,6 +6755,11 @@ insert into public.stocks (
   '2816',
   '旺旺保',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '17',
   '1992-05-05',
   false,
@@ -4397,6 +6769,11 @@ insert into public.stocks (
   '2820',
   '華票',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '17',
   '1994-10-26',
   false,
@@ -4406,6 +6783,11 @@ insert into public.stocks (
   '2832',
   '台產',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '17',
   '1997-09-30',
   false,
@@ -4415,6 +6797,11 @@ insert into public.stocks (
   '2834',
   '臺企銀',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '17',
   '1998-01-03',
   false,
@@ -4424,6 +6811,11 @@ insert into public.stocks (
   '2836',
   '高雄銀',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '17',
   '1998-05-18',
   false,
@@ -4433,6 +6825,11 @@ insert into public.stocks (
   '2838',
   '聯邦銀',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '17',
   '1998-06-29',
   false,
@@ -4442,6 +6839,11 @@ insert into public.stocks (
   '2845',
   '遠東銀',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '17',
   '1998-11-27',
   false,
@@ -4451,6 +6853,11 @@ insert into public.stocks (
   '2849',
   '安泰銀',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '17',
   '1999-09-27',
   false,
@@ -4460,6 +6867,11 @@ insert into public.stocks (
   '2850',
   '新產',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '17',
   '2000-05-22',
   false,
@@ -4469,6 +6881,11 @@ insert into public.stocks (
   '2851',
   '中再保',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '17',
   '2000-07-06',
   false,
@@ -4478,6 +6895,11 @@ insert into public.stocks (
   '2852',
   '第一保',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '17',
   '2000-11-28',
   false,
@@ -4487,6 +6909,11 @@ insert into public.stocks (
   '2855',
   '統一證',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '17',
   '2002-09-16',
   false,
@@ -4496,6 +6923,11 @@ insert into public.stocks (
   '2867',
   '三商壽',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '17',
   '2012-12-18',
   false,
@@ -4505,6 +6937,11 @@ insert into public.stocks (
   '2880',
   '華南金',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '17',
   '2001-12-19',
   false,
@@ -4514,6 +6951,11 @@ insert into public.stocks (
   '2881',
   '富邦金',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '17',
   '2001-12-19',
   false,
@@ -4523,6 +6965,11 @@ insert into public.stocks (
   '2882',
   '國泰金',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '17',
   '2001-12-31',
   false,
@@ -4532,6 +6979,11 @@ insert into public.stocks (
   '2883',
   '凱基金',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '17',
   '2001-12-28',
   false,
@@ -4541,6 +6993,11 @@ insert into public.stocks (
   '2884',
   '玉山金',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '17',
   '2002-01-28',
   false,
@@ -4550,6 +7007,11 @@ insert into public.stocks (
   '2885',
   '元大金',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '17',
   '2002-02-04',
   false,
@@ -4559,6 +7021,11 @@ insert into public.stocks (
   '2886',
   '兆豐金',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '17',
   '2002-02-04',
   false,
@@ -4568,6 +7035,11 @@ insert into public.stocks (
   '2887',
   '台新新光金',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '17',
   '2002-02-18',
   false,
@@ -4577,6 +7049,11 @@ insert into public.stocks (
   '2889',
   '國票金',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '17',
   '2002-03-26',
   false,
@@ -4586,6 +7063,11 @@ insert into public.stocks (
   '2890',
   '永豐金',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '17',
   '2002-05-09',
   false,
@@ -4595,6 +7077,11 @@ insert into public.stocks (
   '2891',
   '中信金',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '17',
   '2002-05-17',
   false,
@@ -4604,6 +7091,11 @@ insert into public.stocks (
   '2892',
   '第一金',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '17',
   '2003-01-02',
   false,
@@ -4613,6 +7105,11 @@ insert into public.stocks (
   '2897',
   '王道銀行',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '17',
   '2017-05-05',
   false,
@@ -4622,6 +7119,11 @@ insert into public.stocks (
   '2901',
   '欣欣',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '18',
   '1976-05-07',
   false,
@@ -4631,6 +7133,11 @@ insert into public.stocks (
   '2903',
   '遠百',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '18',
   '1978-10-11',
   false,
@@ -4640,6 +7147,11 @@ insert into public.stocks (
   '2904',
   '匯僑',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '20',
   '1983-01-05',
   false,
@@ -4649,6 +7161,11 @@ insert into public.stocks (
   '2905',
   '三商',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '18',
   '1988-09-19',
   false,
@@ -4658,6 +7175,11 @@ insert into public.stocks (
   '2906',
   '高林',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '18',
   '1989-12-26',
   false,
@@ -4667,6 +7189,11 @@ insert into public.stocks (
   '2908',
   '特力',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '18',
   '1993-02-18',
   false,
@@ -4676,6 +7203,11 @@ insert into public.stocks (
   '2910',
   '統領',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '18',
   '1996-12-30',
   false,
@@ -4685,6 +7217,11 @@ insert into public.stocks (
   '2911',
   '麗嬰房',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '18',
   '1997-01-18',
   false,
@@ -4694,6 +7231,11 @@ insert into public.stocks (
   '2912',
   '統一超',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '18',
   '1997-08-22',
   false,
@@ -4703,6 +7245,11 @@ insert into public.stocks (
   '2913',
   '農林',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '18',
   '1962-02-09',
   false,
@@ -4712,6 +7259,11 @@ insert into public.stocks (
   '2915',
   '潤泰全',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '18',
   '1977-07-20',
   false,
@@ -4721,6 +7273,11 @@ insert into public.stocks (
   '2923',
   '鼎固-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '14',
   '2012-12-07',
   false,
@@ -4730,6 +7287,11 @@ insert into public.stocks (
   '2929',
   '淘帝-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '18',
   '2013-12-30',
   false,
@@ -4739,6 +7301,11 @@ insert into public.stocks (
   '2939',
   '永邑-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '18',
   '2018-01-11',
   false,
@@ -4748,6 +7315,11 @@ insert into public.stocks (
   '2945',
   '三商家購',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '18',
   '2021-11-30',
   false,
@@ -4757,6 +7329,11 @@ insert into public.stocks (
   '3002',
   '歐格',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '2002-01-23',
   false,
@@ -4766,6 +7343,11 @@ insert into public.stocks (
   '3003',
   '健和興',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2002-02-19',
   false,
@@ -4775,6 +7357,11 @@ insert into public.stocks (
   '3004',
   '豐達科',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '10',
   '2002-02-25',
   false,
@@ -4784,6 +7371,11 @@ insert into public.stocks (
   '3005',
   '神基',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '2002-02-25',
   false,
@@ -4793,6 +7385,11 @@ insert into public.stocks (
   '3006',
   '晶豪科',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2002-03-04',
   false,
@@ -4802,6 +7399,11 @@ insert into public.stocks (
   '3008',
   '大立光',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2002-03-11',
   false,
@@ -4811,6 +7413,11 @@ insert into public.stocks (
   '3010',
   '華立',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '29',
   '2002-07-22',
   false,
@@ -4820,6 +7427,11 @@ insert into public.stocks (
   '3011',
   '今皓',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2002-07-22',
   false,
@@ -4829,6 +7441,11 @@ insert into public.stocks (
   '3013',
   '晟銘電',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '2002-09-16',
   false,
@@ -4838,6 +7455,11 @@ insert into public.stocks (
   '3014',
   '聯陽',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2002-10-29',
   false,
@@ -4847,6 +7469,11 @@ insert into public.stocks (
   '3015',
   '全漢',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2002-10-16',
   false,
@@ -4856,6 +7483,11 @@ insert into public.stocks (
   '3016',
   '嘉晶',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2002-12-24',
   false,
@@ -4865,6 +7497,11 @@ insert into public.stocks (
   '3017',
   '奇鋐',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '2002-09-27',
   false,
@@ -4874,6 +7511,11 @@ insert into public.stocks (
   '3018',
   '隆銘綠能',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '31',
   '2002-08-26',
   false,
@@ -4883,6 +7525,11 @@ insert into public.stocks (
   '3019',
   '亞光',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2002-08-26',
   false,
@@ -4892,6 +7539,11 @@ insert into public.stocks (
   '3021',
   '鴻名',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2002-08-26',
   false,
@@ -4901,6 +7553,11 @@ insert into public.stocks (
   '3022',
   '威強電',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '2002-08-26',
   false,
@@ -4910,6 +7567,11 @@ insert into public.stocks (
   '3023',
   '信邦',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2002-08-26',
   false,
@@ -4919,6 +7581,11 @@ insert into public.stocks (
   '3024',
   '憶聲',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2002-08-26',
   false,
@@ -4928,6 +7595,11 @@ insert into public.stocks (
   '3025',
   '星通',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '27',
   '2002-08-26',
   false,
@@ -4937,6 +7609,11 @@ insert into public.stocks (
   '3026',
   '禾伸堂',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2002-08-26',
   false,
@@ -4946,6 +7623,11 @@ insert into public.stocks (
   '3027',
   '盛達',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '27',
   '2002-08-26',
   false,
@@ -4955,6 +7637,11 @@ insert into public.stocks (
   '3028',
   '增你強',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '29',
   '2002-08-26',
   false,
@@ -4964,6 +7651,11 @@ insert into public.stocks (
   '3029',
   '零壹',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '30',
   '2002-08-26',
   false,
@@ -4973,6 +7665,11 @@ insert into public.stocks (
   '3030',
   '德律',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '31',
   '2002-10-29',
   false,
@@ -4982,6 +7679,11 @@ insert into public.stocks (
   '3031',
   '佰鴻',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2002-08-26',
   false,
@@ -4991,6 +7693,11 @@ insert into public.stocks (
   '3032',
   '偉訓',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2002-08-26',
   false,
@@ -5000,6 +7707,11 @@ insert into public.stocks (
   '3033',
   '威健',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '29',
   '2002-08-26',
   false,
@@ -5009,6 +7721,11 @@ insert into public.stocks (
   '3034',
   '聯詠',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2002-08-26',
   false,
@@ -5018,6 +7735,11 @@ insert into public.stocks (
   '3035',
   '智原',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2002-08-26',
   false,
@@ -5027,6 +7749,11 @@ insert into public.stocks (
   '3036',
   '文曄',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '29',
   '2002-08-26',
   false,
@@ -5036,6 +7763,11 @@ insert into public.stocks (
   '3037',
   '欣興',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2002-08-26',
   false,
@@ -5045,6 +7777,11 @@ insert into public.stocks (
   '3038',
   '全台',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2002-08-26',
   false,
@@ -5054,6 +7791,11 @@ insert into public.stocks (
   '3040',
   '遠見',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '20',
   '2002-08-26',
   false,
@@ -5063,6 +7805,11 @@ insert into public.stocks (
   '3041',
   '揚智',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2002-08-26',
   false,
@@ -5072,6 +7819,11 @@ insert into public.stocks (
   '3042',
   '晶技',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2002-08-26',
   false,
@@ -5081,6 +7833,11 @@ insert into public.stocks (
   '3043',
   '科風',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '31',
   '2002-08-26',
   false,
@@ -5090,6 +7847,11 @@ insert into public.stocks (
   '3044',
   '健鼎',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2002-08-26',
   false,
@@ -5099,6 +7861,11 @@ insert into public.stocks (
   '3045',
   '台灣大',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '27',
   '2002-08-26',
   false,
@@ -5108,6 +7875,11 @@ insert into public.stocks (
   '3046',
   '建碁',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '2002-08-26',
   false,
@@ -5117,6 +7889,11 @@ insert into public.stocks (
   '3047',
   '訊舟',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '27',
   '2002-08-26',
   false,
@@ -5126,6 +7903,11 @@ insert into public.stocks (
   '3048',
   '益登',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '29',
   '2002-10-01',
   false,
@@ -5135,6 +7917,11 @@ insert into public.stocks (
   '3049',
   '精金',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2002-09-27',
   false,
@@ -5144,6 +7931,11 @@ insert into public.stocks (
   '3050',
   '鈺德',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2002-10-29',
   false,
@@ -5153,6 +7945,11 @@ insert into public.stocks (
   '3051',
   '力特',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2002-10-28',
   false,
@@ -5162,6 +7959,11 @@ insert into public.stocks (
   '3052',
   '夆典',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '14',
   '1995-11-25',
   false,
@@ -5171,6 +7973,11 @@ insert into public.stocks (
   '3054',
   '立萬利',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '02',
   '2002-11-18',
   false,
@@ -5180,6 +7987,11 @@ insert into public.stocks (
   '3055',
   '蔚華科',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '29',
   '2002-12-12',
   false,
@@ -5189,6 +8001,11 @@ insert into public.stocks (
   '3056',
   '富華新',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '14',
   '2003-03-03',
   false,
@@ -5198,6 +8015,11 @@ insert into public.stocks (
   '3057',
   '喬鼎',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '2002-12-18',
   false,
@@ -5207,6 +8029,11 @@ insert into public.stocks (
   '3058',
   '立德',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2002-12-09',
   false,
@@ -5216,6 +8043,11 @@ insert into public.stocks (
   '3059',
   '華晶科',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2002-12-24',
   false,
@@ -5225,6 +8057,11 @@ insert into public.stocks (
   '3060',
   '銘異',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '2003-04-21',
   false,
@@ -5234,6 +8071,11 @@ insert into public.stocks (
   '3062',
   '建漢',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '27',
   '2003-07-28',
   false,
@@ -5243,6 +8085,11 @@ insert into public.stocks (
   '3090',
   '日電貿',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2007-12-31',
   false,
@@ -5252,6 +8099,11 @@ insert into public.stocks (
   '3092',
   '鴻碩',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2021-05-13',
   false,
@@ -5261,6 +8113,11 @@ insert into public.stocks (
   '3094',
   '聯傑',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2007-08-06',
   false,
@@ -5270,6 +8127,11 @@ insert into public.stocks (
   '3130',
   '一零四',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '36',
   '2006-02-17',
   false,
@@ -5279,6 +8141,11 @@ insert into public.stocks (
   '3135',
   '凌航',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2025-08-06',
   false,
@@ -5288,6 +8155,11 @@ insert into public.stocks (
   '3138',
   '耀登',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '27',
   '2020-12-11',
   false,
@@ -5297,6 +8169,11 @@ insert into public.stocks (
   '3149',
   '正達',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2011-11-23',
   false,
@@ -5306,6 +8183,11 @@ insert into public.stocks (
   '3150',
   '鈺寶-創',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2024-06-27',
   false,
@@ -5315,6 +8197,11 @@ insert into public.stocks (
   '3164',
   '景岳',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '2010-03-22',
   false,
@@ -5324,6 +8211,11 @@ insert into public.stocks (
   '3167',
   '大量',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '05',
   '2013-10-21',
   false,
@@ -5333,6 +8225,11 @@ insert into public.stocks (
   '3168',
   '眾福科',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2024-03-26',
   false,
@@ -5342,6 +8239,11 @@ insert into public.stocks (
   '3189',
   '景碩',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2004-11-01',
   false,
@@ -5351,6 +8253,11 @@ insert into public.stocks (
   '3209',
   '全科',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '29',
   '2008-11-26',
   false,
@@ -5360,6 +8267,11 @@ insert into public.stocks (
   '3229',
   '晟鈦',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2009-12-31',
   false,
@@ -5369,6 +8281,11 @@ insert into public.stocks (
   '3231',
   '緯創',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '2003-08-19',
   false,
@@ -5378,6 +8295,11 @@ insert into public.stocks (
   '3257',
   '虹冠電',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2011-03-21',
   false,
@@ -5387,6 +8309,11 @@ insert into public.stocks (
   '3266',
   '昇陽',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '14',
   '2014-12-24',
   false,
@@ -5396,6 +8323,11 @@ insert into public.stocks (
   '3296',
   '勝德',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2007-12-31',
   false,
@@ -5405,6 +8337,11 @@ insert into public.stocks (
   '3305',
   '昇貿',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '31',
   '2008-07-10',
   false,
@@ -5414,6 +8351,11 @@ insert into public.stocks (
   '3308',
   '聯德',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2008-03-12',
   false,
@@ -5423,6 +8365,11 @@ insert into public.stocks (
   '3311',
   '閎暉',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '27',
   '2004-03-08',
   false,
@@ -5432,6 +8379,11 @@ insert into public.stocks (
   '3312',
   '弘憶股',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '29',
   '2010-12-29',
   false,
@@ -5441,6 +8393,11 @@ insert into public.stocks (
   '3321',
   '同泰',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2015-12-15',
   false,
@@ -5450,6 +8407,11 @@ insert into public.stocks (
   '3338',
   '泰碩',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2013-12-13',
   false,
@@ -5459,6 +8421,11 @@ insert into public.stocks (
   '3346',
   '麗清',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '12',
   '2016-12-19',
   false,
@@ -5468,6 +8435,11 @@ insert into public.stocks (
   '3356',
   '奇偶',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2005-03-28',
   false,
@@ -5477,6 +8449,11 @@ insert into public.stocks (
   '3376',
   '新日興',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2007-12-31',
   false,
@@ -5486,6 +8463,11 @@ insert into public.stocks (
   '3380',
   '明泰',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '27',
   '2004-12-20',
   false,
@@ -5495,6 +8477,11 @@ insert into public.stocks (
   '3406',
   '玉晶光',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2005-12-20',
   false,
@@ -5504,6 +8491,11 @@ insert into public.stocks (
   '3413',
   '京鼎',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2015-07-28',
   false,
@@ -5513,6 +8505,11 @@ insert into public.stocks (
   '3416',
   '融程電',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '2015-01-23',
   false,
@@ -5522,6 +8519,11 @@ insert into public.stocks (
   '3419',
   '譁裕',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '27',
   '2008-01-21',
   false,
@@ -5531,6 +8533,11 @@ insert into public.stocks (
   '3432',
   '台端',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2010-12-30',
   false,
@@ -5540,6 +8547,11 @@ insert into public.stocks (
   '3437',
   '榮創',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2014-07-09',
   false,
@@ -5549,6 +8561,11 @@ insert into public.stocks (
   '3443',
   '創意',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2006-11-03',
   false,
@@ -5558,6 +8575,11 @@ insert into public.stocks (
   '3447',
   '展達',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '27',
   '2022-12-15',
   false,
@@ -5567,6 +8589,11 @@ insert into public.stocks (
   '3450',
   '聯鈞',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2006-04-12',
   false,
@@ -5576,6 +8603,11 @@ insert into public.stocks (
   '3481',
   '群創',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2006-10-24',
   false,
@@ -5585,6 +8617,11 @@ insert into public.stocks (
   '3494',
   '誠研',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '2007-12-13',
   false,
@@ -5594,6 +8631,11 @@ insert into public.stocks (
   '3501',
   '維熹',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2007-09-20',
   false,
@@ -5603,6 +8645,11 @@ insert into public.stocks (
   '3504',
   '揚明光',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2007-01-26',
   false,
@@ -5612,6 +8659,11 @@ insert into public.stocks (
   '3515',
   '華擎',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '2007-11-08',
   false,
@@ -5621,6 +8673,11 @@ insert into public.stocks (
   '3518',
   '柏騰',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '31',
   '2007-11-28',
   false,
@@ -5630,6 +8687,11 @@ insert into public.stocks (
   '3528',
   '安馳',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '29',
   '2016-05-18',
   false,
@@ -5639,6 +8701,11 @@ insert into public.stocks (
   '3530',
   '晶相光',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2018-07-16',
   false,
@@ -5648,6 +8715,11 @@ insert into public.stocks (
   '3532',
   '台勝科',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2007-12-10',
   false,
@@ -5657,6 +8729,11 @@ insert into public.stocks (
   '3533',
   '嘉澤',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2007-12-10',
   false,
@@ -5666,6 +8743,11 @@ insert into public.stocks (
   '3535',
   '晶彩科',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2008-01-31',
   false,
@@ -5675,6 +8757,11 @@ insert into public.stocks (
   '3543',
   '州巧',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2020-04-15',
   false,
@@ -5684,6 +8771,11 @@ insert into public.stocks (
   '3545',
   '敦泰',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2007-07-03',
   false,
@@ -5693,6 +8785,11 @@ insert into public.stocks (
   '3550',
   '聯穎',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2010-11-10',
   false,
@@ -5702,6 +8799,11 @@ insert into public.stocks (
   '3557',
   '嘉威',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '38',
   '2008-02-27',
   false,
@@ -5711,6 +8813,11 @@ insert into public.stocks (
   '3563',
   '牧德',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2019-04-02',
   false,
@@ -5720,6 +8827,11 @@ insert into public.stocks (
   '3576',
   '聯合再生',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2009-01-12',
   false,
@@ -5729,6 +8841,11 @@ insert into public.stocks (
   '3583',
   '辛耘',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2013-03-12',
   false,
@@ -5738,6 +8855,11 @@ insert into public.stocks (
   '3588',
   '通嘉',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2009-08-14',
   false,
@@ -5747,6 +8869,11 @@ insert into public.stocks (
   '3591',
   '艾笛森',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2010-11-12',
   false,
@@ -5756,6 +8883,11 @@ insert into public.stocks (
   '3592',
   '瑞鼎',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2022-01-07',
   false,
@@ -5765,6 +8897,11 @@ insert into public.stocks (
   '3593',
   '力銘',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2009-03-16',
   false,
@@ -5774,6 +8911,11 @@ insert into public.stocks (
   '3596',
   '智易',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '27',
   '2009-03-11',
   false,
@@ -5783,6 +8925,11 @@ insert into public.stocks (
   '3605',
   '宏致',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2009-03-26',
   false,
@@ -5792,6 +8939,11 @@ insert into public.stocks (
   '3607',
   '谷崧',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2009-10-28',
   false,
@@ -5801,6 +8953,11 @@ insert into public.stocks (
   '3617',
   '碩天',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '31',
   '2009-12-23',
   false,
@@ -5810,6 +8967,11 @@ insert into public.stocks (
   '3622',
   '洋華',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2009-03-25',
   false,
@@ -5819,6 +8981,11 @@ insert into public.stocks (
   '3645',
   '達邁',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2011-10-05',
   false,
@@ -5828,6 +8995,11 @@ insert into public.stocks (
   '3652',
   '精聯',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '2022-09-21',
   false,
@@ -5837,6 +9009,11 @@ insert into public.stocks (
   '3653',
   '健策',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2009-11-18',
   false,
@@ -5846,6 +9023,11 @@ insert into public.stocks (
   '3661',
   '世芯-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2014-10-28',
   false,
@@ -5855,6 +9037,11 @@ insert into public.stocks (
   '3665',
   '貿聯-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '31',
   '2011-04-21',
   false,
@@ -5864,6 +9051,11 @@ insert into public.stocks (
   '3669',
   '圓展',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '27',
   '2011-08-25',
   false,
@@ -5873,6 +9065,11 @@ insert into public.stocks (
   '3673',
   'TPK-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2010-10-29',
   false,
@@ -5882,6 +9079,11 @@ insert into public.stocks (
   '3679',
   '新至陞',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2011-10-05',
   false,
@@ -5891,6 +9093,11 @@ insert into public.stocks (
   '3686',
   '達能',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2010-07-20',
   false,
@@ -5900,6 +9107,11 @@ insert into public.stocks (
   '3694',
   '海華',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '27',
   '2011-05-03',
   false,
@@ -5909,6 +9121,11 @@ insert into public.stocks (
   '3701',
   '大眾控',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '2004-08-30',
   false,
@@ -5918,6 +9135,11 @@ insert into public.stocks (
   '3702',
   '大聯大',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '29',
   '2005-11-09',
   false,
@@ -5927,6 +9149,11 @@ insert into public.stocks (
   '3703',
   '欣陸',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '14',
   '2010-04-08',
   false,
@@ -5936,6 +9163,11 @@ insert into public.stocks (
   '3704',
   '合勤控',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '27',
   '2010-08-16',
   false,
@@ -5945,6 +9177,11 @@ insert into public.stocks (
   '3705',
   '永信',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '2011-01-03',
   false,
@@ -5954,6 +9191,11 @@ insert into public.stocks (
   '3706',
   '神達',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '2013-09-12',
   false,
@@ -5963,6 +9205,11 @@ insert into public.stocks (
   '3708',
   '上緯投控',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '35',
   '2016-08-31',
   false,
@@ -5972,6 +9219,11 @@ insert into public.stocks (
   '3711',
   '日月光投控',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2018-04-30',
   false,
@@ -5981,6 +9233,11 @@ insert into public.stocks (
   '3712',
   '永崴投控',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '2018-10-01',
   false,
@@ -5990,6 +9247,11 @@ insert into public.stocks (
   '3714',
   '富采',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2021-01-06',
   false,
@@ -5999,6 +9261,11 @@ insert into public.stocks (
   '3715',
   '定穎投控',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2022-08-25',
   false,
@@ -6008,6 +9275,11 @@ insert into public.stocks (
   '3716',
   '中化控股',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '2024-09-02',
   false,
@@ -6017,6 +9289,11 @@ insert into public.stocks (
   '3717',
   '聯嘉投控',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '12',
   '2025-08-15',
   false,
@@ -6026,6 +9303,11 @@ insert into public.stocks (
   '4104',
   '佳醫',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '2007-12-31',
   false,
@@ -6035,6 +9317,11 @@ insert into public.stocks (
   '4106',
   '雃博',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '2004-11-08',
   false,
@@ -6044,6 +9331,11 @@ insert into public.stocks (
   '4108',
   '懷特',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '2008-07-16',
   false,
@@ -6053,6 +9345,11 @@ insert into public.stocks (
   '4119',
   '旭富',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '2004-01-07',
   false,
@@ -6062,6 +9359,11 @@ insert into public.stocks (
   '4133',
   '亞諾法',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '2009-12-28',
   false,
@@ -6071,6 +9373,11 @@ insert into public.stocks (
   '4137',
   '麗豐-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '2013-11-27',
   false,
@@ -6080,6 +9387,11 @@ insert into public.stocks (
   '4142',
   '國光生',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '2012-05-03',
   false,
@@ -6089,6 +9401,11 @@ insert into public.stocks (
   '4148',
   '全宇生技-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '2017-06-08',
   false,
@@ -6098,6 +9415,11 @@ insert into public.stocks (
   '4155',
   '訊映',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '2017-12-05',
   false,
@@ -6107,6 +9429,11 @@ insert into public.stocks (
   '4164',
   '承業醫',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '2012-10-24',
   false,
@@ -6116,6 +9443,11 @@ insert into public.stocks (
   '4169',
   '泰宗',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '2026-04-08',
   false,
@@ -6125,6 +9457,11 @@ insert into public.stocks (
   '4178',
   '永笙-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '2026-04-30',
   false,
@@ -6134,6 +9471,11 @@ insert into public.stocks (
   '4190',
   '佐登-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '2015-10-21',
   false,
@@ -6143,6 +9485,11 @@ insert into public.stocks (
   '4195',
   '基米-創',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '2026-05-11',
   false,
@@ -6152,6 +9499,11 @@ insert into public.stocks (
   '4306',
   '炎洲',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '03',
   '2008-01-21',
   false,
@@ -6161,6 +9513,11 @@ insert into public.stocks (
   '4414',
   '如興',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '04',
   '2004-09-06',
   false,
@@ -6170,6 +9527,11 @@ insert into public.stocks (
   '4426',
   '利勤',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '04',
   '2011-12-16',
   false,
@@ -6179,6 +9541,11 @@ insert into public.stocks (
   '4438',
   '廣越',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '04',
   '2016-10-18',
   false,
@@ -6188,6 +9555,11 @@ insert into public.stocks (
   '4439',
   '冠星-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '04',
   '2019-12-05',
   false,
@@ -6197,6 +9569,11 @@ insert into public.stocks (
   '4440',
   '宜新實業',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '04',
   '2021-10-25',
   false,
@@ -6206,6 +9583,11 @@ insert into public.stocks (
   '4441',
   '振大環球',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '04',
   '2025-09-09',
   false,
@@ -6215,6 +9597,11 @@ insert into public.stocks (
   '4526',
   '東台',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '05',
   '2003-09-15',
   false,
@@ -6224,6 +9611,11 @@ insert into public.stocks (
   '4532',
   '瑞智',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '05',
   '2003-08-04',
   false,
@@ -6233,6 +9625,11 @@ insert into public.stocks (
   '4536',
   '拓凱',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '37',
   '2013-10-09',
   false,
@@ -6242,6 +9639,11 @@ insert into public.stocks (
   '4540',
   '全球傳動',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '05',
   '2018-08-15',
   false,
@@ -6251,6 +9653,11 @@ insert into public.stocks (
   '4545',
   '銘鈺',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2016-01-06',
   false,
@@ -6260,6 +9667,11 @@ insert into public.stocks (
   '4551',
   '智伸科',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '12',
   '2015-08-10',
   false,
@@ -6269,6 +9681,11 @@ insert into public.stocks (
   '4552',
   '力達-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '05',
   '2016-07-20',
   false,
@@ -6278,6 +9695,11 @@ insert into public.stocks (
   '4555',
   '氣立',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '05',
   '2015-10-27',
   false,
@@ -6287,6 +9709,11 @@ insert into public.stocks (
   '4557',
   '永新-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '12',
   '2015-10-12',
   false,
@@ -6296,6 +9723,11 @@ insert into public.stocks (
   '4560',
   '強信-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '05',
   '2017-05-26',
   false,
@@ -6305,6 +9737,11 @@ insert into public.stocks (
   '4562',
   '穎漢',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '05',
   '2017-08-21',
   false,
@@ -6314,6 +9751,11 @@ insert into public.stocks (
   '4564',
   '元翎',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '05',
   '2019-03-07',
   false,
@@ -6323,6 +9765,11 @@ insert into public.stocks (
   '4566',
   '時碩工業',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '05',
   '2018-02-05',
   false,
@@ -6332,6 +9779,11 @@ insert into public.stocks (
   '4569',
   '六方科-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '12',
   '2023-07-31',
   false,
@@ -6341,6 +9793,11 @@ insert into public.stocks (
   '4571',
   '鈞興-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '05',
   '2019-09-17',
   false,
@@ -6350,6 +9807,11 @@ insert into public.stocks (
   '4572',
   '駐龍',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '05',
   '2019-09-10',
   false,
@@ -6359,6 +9821,11 @@ insert into public.stocks (
   '4576',
   '大銀微系統',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '05',
   '2019-09-04',
   false,
@@ -6368,6 +9835,11 @@ insert into public.stocks (
   '4581',
   '光隆精密-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '12',
   '2020-03-09',
   false,
@@ -6377,6 +9849,11 @@ insert into public.stocks (
   '4582',
   '聚恆-創',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '35',
   '2026-05-22',
   false,
@@ -6386,6 +9863,11 @@ insert into public.stocks (
   '4583',
   '台灣精銳',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '05',
   '2022-05-09',
   false,
@@ -6395,6 +9877,11 @@ insert into public.stocks (
   '4585',
   '達明',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '31',
   '2025-09-26',
   false,
@@ -6404,6 +9891,11 @@ insert into public.stocks (
   '4588',
   '玖鼎電力',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '31',
   '2024-01-29',
   false,
@@ -6413,6 +9905,11 @@ insert into public.stocks (
   '4590',
   '富田-創',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '05',
   '2026-01-29',
   false,
@@ -6422,6 +9919,11 @@ insert into public.stocks (
   '4720',
   '德淵',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '21',
   '2015-06-24',
   false,
@@ -6431,6 +9933,11 @@ insert into public.stocks (
   '4722',
   '國精化',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '21',
   '2012-08-15',
   false,
@@ -6440,6 +9947,11 @@ insert into public.stocks (
   '4736',
   '泰博',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '2023-12-22',
   false,
@@ -6449,6 +9961,11 @@ insert into public.stocks (
   '4737',
   '華廣',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '2010-12-23',
   false,
@@ -6458,6 +9975,11 @@ insert into public.stocks (
   '4739',
   '康普',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '21',
   '2017-09-08',
   false,
@@ -6467,6 +9989,11 @@ insert into public.stocks (
   '4746',
   '台耀',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '2011-03-01',
   false,
@@ -6476,6 +10003,11 @@ insert into public.stocks (
   '4755',
   '三福化',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '21',
   '2013-11-27',
   false,
@@ -6485,6 +10017,11 @@ insert into public.stocks (
   '4763',
   '材料*-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '21',
   '2015-11-09',
   false,
@@ -6494,6 +10031,11 @@ insert into public.stocks (
   '4764',
   '雙鍵',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '21',
   '2018-01-04',
   false,
@@ -6503,6 +10045,11 @@ insert into public.stocks (
   '4766',
   '南寶',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '21',
   '2018-11-28',
   false,
@@ -6512,6 +10059,11 @@ insert into public.stocks (
   '4770',
   '上品',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '21',
   '2021-12-22',
   false,
@@ -6521,6 +10073,11 @@ insert into public.stocks (
   '4771',
   '望隼',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '2024-03-18',
   false,
@@ -6530,6 +10087,11 @@ insert into public.stocks (
   '4807',
   '日成-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '18',
   '2017-06-26',
   false,
@@ -6539,6 +10101,11 @@ insert into public.stocks (
   '4904',
   '遠傳',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '27',
   '2005-08-24',
   false,
@@ -6548,6 +10115,11 @@ insert into public.stocks (
   '4906',
   '正文',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '27',
   '2003-06-30',
   false,
@@ -6557,6 +10129,11 @@ insert into public.stocks (
   '4912',
   '聯德控股-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2015-05-21',
   false,
@@ -6566,6 +10143,11 @@ insert into public.stocks (
   '4915',
   '致伸',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2012-10-05',
   false,
@@ -6575,6 +10157,11 @@ insert into public.stocks (
   '4916',
   '事欣科',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '2013-11-21',
   false,
@@ -6584,6 +10171,11 @@ insert into public.stocks (
   '4919',
   '新唐',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2010-09-27',
   false,
@@ -6593,6 +10185,11 @@ insert into public.stocks (
   '4927',
   '泰鼎-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2015-09-08',
   false,
@@ -6602,6 +10199,11 @@ insert into public.stocks (
   '4930',
   '燦星網',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '06',
   '2010-06-21',
   false,
@@ -6611,6 +10213,11 @@ insert into public.stocks (
   '4934',
   '太極',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2011-08-16',
   false,
@@ -6620,6 +10227,11 @@ insert into public.stocks (
   '4935',
   '茂林-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2011-07-28',
   false,
@@ -6629,6 +10241,11 @@ insert into public.stocks (
   '4938',
   '和碩',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '2010-06-24',
   false,
@@ -6638,6 +10255,11 @@ insert into public.stocks (
   '4942',
   '嘉彰',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2011-06-27',
   false,
@@ -6647,6 +10269,11 @@ insert into public.stocks (
   '4943',
   '康控-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2016-11-11',
   false,
@@ -6656,6 +10283,11 @@ insert into public.stocks (
   '4949',
   '有成精密',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2024-05-09',
   false,
@@ -6665,6 +10297,11 @@ insert into public.stocks (
   '4952',
   '凌通',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2011-11-01',
   false,
@@ -6674,6 +10311,11 @@ insert into public.stocks (
   '4956',
   '光鋐',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2011-10-24',
   false,
@@ -6683,6 +10325,11 @@ insert into public.stocks (
   '4958',
   '臻鼎-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2011-12-26',
   false,
@@ -6692,6 +10339,11 @@ insert into public.stocks (
   '4960',
   '誠美材',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2011-10-24',
   false,
@@ -6701,6 +10353,11 @@ insert into public.stocks (
   '4961',
   '天鈺',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2018-10-17',
   false,
@@ -6710,6 +10367,11 @@ insert into public.stocks (
   '4967',
   '十銓',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2019-01-14',
   false,
@@ -6719,6 +10381,11 @@ insert into public.stocks (
   '4968',
   '立積',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2015-11-13',
   false,
@@ -6728,6 +10395,11 @@ insert into public.stocks (
   '4976',
   '佳凌',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2012-11-20',
   false,
@@ -6737,6 +10409,11 @@ insert into public.stocks (
   '4977',
   '眾達-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '27',
   '2013-11-20',
   false,
@@ -6746,6 +10423,11 @@ insert into public.stocks (
   '4989',
   '榮科',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2018-06-28',
   false,
@@ -6755,6 +10437,11 @@ insert into public.stocks (
   '4994',
   '傳奇',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '30',
   '2013-12-25',
   false,
@@ -6764,6 +10451,11 @@ insert into public.stocks (
   '4999',
   '鑫禾',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2013-06-03',
   false,
@@ -6773,6 +10465,11 @@ insert into public.stocks (
   '5007',
   '三星',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '10',
   '2011-09-16',
   false,
@@ -6782,6 +10479,11 @@ insert into public.stocks (
   '5203',
   '訊連',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '30',
   '2004-09-27',
   false,
@@ -6791,6 +10493,11 @@ insert into public.stocks (
   '5215',
   '科嘉-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '2011-12-26',
   false,
@@ -6800,6 +10507,11 @@ insert into public.stocks (
   '5222',
   '全訊',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2021-10-25',
   false,
@@ -6809,6 +10521,11 @@ insert into public.stocks (
   '5225',
   '東科-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '31',
   '2012-11-05',
   false,
@@ -6818,6 +10535,11 @@ insert into public.stocks (
   '5234',
   '達興材料',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2012-07-16',
   false,
@@ -6827,6 +10549,11 @@ insert into public.stocks (
   '5243',
   '乙盛-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2013-11-25',
   false,
@@ -6836,6 +10563,11 @@ insert into public.stocks (
   '5244',
   '弘凱',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2022-01-19',
   false,
@@ -6845,6 +10577,11 @@ insert into public.stocks (
   '5258',
   '虹堡',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '2016-12-30',
   false,
@@ -6854,6 +10591,11 @@ insert into public.stocks (
   '5269',
   '祥碩',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2012-12-12',
   false,
@@ -6863,6 +10605,11 @@ insert into public.stocks (
   '5283',
   '禾聯碩',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '06',
   '2019-05-24',
   false,
@@ -6872,6 +10619,11 @@ insert into public.stocks (
   '5284',
   'jpp-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '20',
   '2017-03-09',
   false,
@@ -6881,6 +10633,11 @@ insert into public.stocks (
   '5285',
   '界霖',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2014-02-25',
   false,
@@ -6890,6 +10647,11 @@ insert into public.stocks (
   '5288',
   '豐祥-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '05',
   '2014-09-25',
   false,
@@ -6899,6 +10661,11 @@ insert into public.stocks (
   '5292',
   '華懋',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '35',
   '2023-11-21',
   false,
@@ -6908,6 +10675,11 @@ insert into public.stocks (
   '5306',
   '桂盟',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '37',
   '2022-03-08',
   false,
@@ -6917,6 +10689,11 @@ insert into public.stocks (
   '5388',
   '中磊',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '27',
   '2007-12-03',
   false,
@@ -6926,6 +10703,11 @@ insert into public.stocks (
   '5434',
   '崇越',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '29',
   '2003-08-25',
   false,
@@ -6935,6 +10717,11 @@ insert into public.stocks (
   '5469',
   '瀚宇博',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2003-08-25',
   false,
@@ -6944,6 +10731,11 @@ insert into public.stocks (
   '5471',
   '松翰',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2003-08-25',
   false,
@@ -6953,6 +10745,11 @@ insert into public.stocks (
   '5484',
   '慧友',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2003-08-25',
   false,
@@ -6962,6 +10759,11 @@ insert into public.stocks (
   '5515',
   '建國',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '14',
   '2003-10-06',
   false,
@@ -6971,6 +10773,11 @@ insert into public.stocks (
   '5519',
   '隆大',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '14',
   '2014-02-10',
   false,
@@ -6980,6 +10787,11 @@ insert into public.stocks (
   '5521',
   '工信',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '14',
   '2012-12-18',
   false,
@@ -6989,6 +10801,11 @@ insert into public.stocks (
   '5522',
   '遠雄',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '14',
   '2007-08-06',
   false,
@@ -6998,6 +10815,11 @@ insert into public.stocks (
   '5525',
   '順天',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '14',
   '2004-11-26',
   false,
@@ -7007,6 +10829,11 @@ insert into public.stocks (
   '5531',
   '鄉林',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '14',
   '2005-01-31',
   false,
@@ -7016,6 +10843,11 @@ insert into public.stocks (
   '5533',
   '皇鼎',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '14',
   '2008-04-30',
   false,
@@ -7025,6 +10857,11 @@ insert into public.stocks (
   '5534',
   '長虹',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '14',
   '2004-05-24',
   false,
@@ -7034,6 +10871,11 @@ insert into public.stocks (
   '5538',
   '東明-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '10',
   '2013-12-16',
   false,
@@ -7043,6 +10885,11 @@ insert into public.stocks (
   '5546',
   '永固-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '14',
   '2020-05-20',
   false,
@@ -7052,6 +10899,11 @@ insert into public.stocks (
   '5607',
   '遠雄港',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '15',
   '2004-12-02',
   false,
@@ -7061,6 +10913,11 @@ insert into public.stocks (
   '5608',
   '四維航',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '15',
   '2003-08-25',
   false,
@@ -7070,6 +10927,11 @@ insert into public.stocks (
   '5706',
   '鳳凰',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '16',
   '2011-10-21',
   false,
@@ -7079,6 +10941,11 @@ insert into public.stocks (
   '5871',
   '中租-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '20',
   '2011-12-13',
   false,
@@ -7088,6 +10955,11 @@ insert into public.stocks (
   '5876',
   '上海商銀',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '17',
   '2018-10-19',
   false,
@@ -7097,6 +10969,11 @@ insert into public.stocks (
   '5880',
   '合庫金',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '17',
   '2011-12-01',
   false,
@@ -7106,6 +10983,11 @@ insert into public.stocks (
   '5906',
   '台南-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '18',
   '2011-10-24',
   false,
@@ -7115,6 +10997,11 @@ insert into public.stocks (
   '5907',
   '大洋-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '18',
   '2012-06-06',
   false,
@@ -7124,6 +11011,11 @@ insert into public.stocks (
   '6005',
   '群益證',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '17',
   '2005-11-21',
   false,
@@ -7133,6 +11025,11 @@ insert into public.stocks (
   '6024',
   '群益期',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '17',
   '2017-10-16',
   false,
@@ -7142,6 +11039,11 @@ insert into public.stocks (
   '6108',
   '競國',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2008-12-30',
   false,
@@ -7151,6 +11053,11 @@ insert into public.stocks (
   '6112',
   '邁達特',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '30',
   '2003-08-04',
   false,
@@ -7160,6 +11067,11 @@ insert into public.stocks (
   '6115',
   '鎰勝',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2004-07-19',
   false,
@@ -7169,6 +11081,11 @@ insert into public.stocks (
   '6116',
   '彩晶',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2004-09-06',
   false,
@@ -7178,6 +11095,11 @@ insert into public.stocks (
   '6117',
   '迎廣',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '2003-08-25',
   false,
@@ -7187,6 +11109,11 @@ insert into public.stocks (
   '6120',
   '達運',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2006-09-13',
   false,
@@ -7196,6 +11123,11 @@ insert into public.stocks (
   '6128',
   '上福',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '2003-06-16',
   false,
@@ -7205,6 +11137,11 @@ insert into public.stocks (
   '6133',
   '金橋',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2003-08-15',
   false,
@@ -7214,6 +11151,11 @@ insert into public.stocks (
   '6136',
   '富爾特',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '27',
   '2003-08-25',
   false,
@@ -7223,6 +11165,11 @@ insert into public.stocks (
   '6139',
   '亞翔',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '31',
   '2003-08-25',
   false,
@@ -7232,6 +11179,11 @@ insert into public.stocks (
   '6141',
   '柏承',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2003-10-22',
   false,
@@ -7241,6 +11193,11 @@ insert into public.stocks (
   '6142',
   '友勁',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '27',
   '2003-08-04',
   false,
@@ -7250,6 +11207,11 @@ insert into public.stocks (
   '6152',
   '百一',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '27',
   '2009-12-08',
   false,
@@ -7259,6 +11221,11 @@ insert into public.stocks (
   '6153',
   '嘉聯益',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2008-01-21',
   false,
@@ -7268,6 +11235,11 @@ insert into public.stocks (
   '6155',
   '鈞寶',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2006-08-18',
   false,
@@ -7277,6 +11249,11 @@ insert into public.stocks (
   '6164',
   '華興',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2008-10-21',
   false,
@@ -7286,6 +11263,11 @@ insert into public.stocks (
   '6165',
   '浪凡',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '36',
   '2003-08-04',
   false,
@@ -7295,6 +11277,11 @@ insert into public.stocks (
   '6166',
   '凌華',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '2004-11-08',
   false,
@@ -7304,6 +11291,11 @@ insert into public.stocks (
   '6168',
   '宏齊',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2003-08-25',
   false,
@@ -7313,6 +11305,11 @@ insert into public.stocks (
   '6176',
   '瑞儀',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2007-05-15',
   false,
@@ -7322,6 +11319,11 @@ insert into public.stocks (
   '6177',
   '達麗',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '14',
   '2013-08-01',
   false,
@@ -7331,6 +11333,11 @@ insert into public.stocks (
   '6183',
   '關貿',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '30',
   '2011-12-01',
   false,
@@ -7340,6 +11347,11 @@ insert into public.stocks (
   '6184',
   '大豐電',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '20',
   '2005-02-15',
   false,
@@ -7349,6 +11361,11 @@ insert into public.stocks (
   '6189',
   '豐藝',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '29',
   '2004-05-24',
   false,
@@ -7358,6 +11375,11 @@ insert into public.stocks (
   '6191',
   '精成科',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2007-10-19',
   false,
@@ -7367,6 +11389,11 @@ insert into public.stocks (
   '6192',
   '巨路',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '31',
   '2004-09-27',
   false,
@@ -7376,6 +11403,11 @@ insert into public.stocks (
   '6196',
   '帆宣',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '31',
   '2004-05-24',
   false,
@@ -7385,6 +11417,11 @@ insert into public.stocks (
   '6197',
   '佳必琪',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2004-11-08',
   false,
@@ -7394,6 +11431,11 @@ insert into public.stocks (
   '6201',
   '亞弘電',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '31',
   '2004-09-27',
   false,
@@ -7403,6 +11445,11 @@ insert into public.stocks (
   '6202',
   '盛群',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2004-09-27',
   false,
@@ -7412,6 +11459,11 @@ insert into public.stocks (
   '6205',
   '詮欣',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2008-01-21',
   false,
@@ -7421,6 +11473,11 @@ insert into public.stocks (
   '6206',
   '飛捷',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '2004-08-03',
   false,
@@ -7430,6 +11487,11 @@ insert into public.stocks (
   '6209',
   '今國光',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2004-11-08',
   false,
@@ -7439,6 +11501,11 @@ insert into public.stocks (
   '6213',
   '聯茂',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2008-01-21',
   false,
@@ -7448,6 +11515,11 @@ insert into public.stocks (
   '6214',
   '精誠',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '30',
   '2010-12-30',
   false,
@@ -7457,6 +11529,11 @@ insert into public.stocks (
   '6215',
   '和椿',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '31',
   '2007-12-31',
   false,
@@ -7466,6 +11543,11 @@ insert into public.stocks (
   '6216',
   '居易',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '27',
   '2004-09-27',
   false,
@@ -7475,6 +11557,11 @@ insert into public.stocks (
   '6224',
   '聚鼎',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2009-09-17',
   false,
@@ -7484,6 +11571,11 @@ insert into public.stocks (
   '6225',
   '天瀚',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2004-09-27',
   false,
@@ -7493,6 +11585,11 @@ insert into public.stocks (
   '6226',
   '光鼎',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2008-11-10',
   false,
@@ -7502,6 +11599,11 @@ insert into public.stocks (
   '6230',
   '尼得科超眾',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '2010-09-16',
   false,
@@ -7511,6 +11613,11 @@ insert into public.stocks (
   '6235',
   '華孚',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '2004-08-23',
   false,
@@ -7520,6 +11627,11 @@ insert into public.stocks (
   '6239',
   '力成',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2004-11-08',
   false,
@@ -7529,6 +11641,11 @@ insert into public.stocks (
   '6243',
   '迅杰',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2009-12-17',
   false,
@@ -7538,6 +11655,11 @@ insert into public.stocks (
   '6257',
   '矽格',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2003-08-25',
   false,
@@ -7547,6 +11669,11 @@ insert into public.stocks (
   '6269',
   '台郡',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2003-09-23',
   false,
@@ -7556,6 +11683,11 @@ insert into public.stocks (
   '6271',
   '同欣電',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2007-11-16',
   false,
@@ -7565,6 +11697,11 @@ insert into public.stocks (
   '6272',
   '驊陞',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2025-12-22',
   false,
@@ -7574,6 +11711,11 @@ insert into public.stocks (
   '6277',
   '宏正',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '2003-10-30',
   false,
@@ -7583,6 +11725,11 @@ insert into public.stocks (
   '6278',
   '台表科',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2010-08-24',
   false,
@@ -7592,6 +11739,11 @@ insert into public.stocks (
   '6281',
   '全國電',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '29',
   '2005-12-08',
   false,
@@ -7601,6 +11753,11 @@ insert into public.stocks (
   '6282',
   '康舒',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2003-09-08',
   false,
@@ -7610,6 +11767,11 @@ insert into public.stocks (
   '6283',
   '淳安',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '31',
   '2008-01-21',
   false,
@@ -7619,6 +11781,11 @@ insert into public.stocks (
   '6285',
   '啟碁',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '27',
   '2003-09-22',
   false,
@@ -7628,6 +11795,11 @@ insert into public.stocks (
   '6405',
   '悅城',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2013-11-28',
   false,
@@ -7637,6 +11809,11 @@ insert into public.stocks (
   '6409',
   '旭隼',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '31',
   '2014-03-31',
   false,
@@ -7646,6 +11823,11 @@ insert into public.stocks (
   '6412',
   '群電',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2013-11-08',
   false,
@@ -7655,6 +11837,11 @@ insert into public.stocks (
   '6414',
   '樺漢',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '2014-03-28',
   false,
@@ -7664,6 +11851,11 @@ insert into public.stocks (
   '6415',
   '矽力*-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2013-12-12',
   false,
@@ -7673,6 +11865,11 @@ insert into public.stocks (
   '6416',
   '瑞祺電通',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '27',
   '2018-04-16',
   false,
@@ -7682,6 +11879,11 @@ insert into public.stocks (
   '6426',
   '統新',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '27',
   '2021-03-24',
   false,
@@ -7691,6 +11893,11 @@ insert into public.stocks (
   '6431',
   '光麗-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '2014-12-04',
   false,
@@ -7700,6 +11907,11 @@ insert into public.stocks (
   '6438',
   '迅得',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '31',
   '2021-01-19',
   false,
@@ -7709,6 +11921,11 @@ insert into public.stocks (
   '6442',
   '光聖',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '27',
   '2015-07-14',
   false,
@@ -7718,6 +11935,11 @@ insert into public.stocks (
   '6443',
   '元晶',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2015-10-01',
   false,
@@ -7727,6 +11949,11 @@ insert into public.stocks (
   '6446',
   '藥華藥',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '2024-01-25',
   false,
@@ -7736,6 +11963,11 @@ insert into public.stocks (
   '6449',
   '鈺邦',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2014-12-09',
   false,
@@ -7745,6 +11977,11 @@ insert into public.stocks (
   '6451',
   '訊芯-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2015-01-26',
   false,
@@ -7754,6 +11991,11 @@ insert into public.stocks (
   '6456',
   'GIS-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2015-06-12',
   false,
@@ -7763,6 +12005,11 @@ insert into public.stocks (
   '6464',
   '台數科',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '20',
   '2015-12-16',
   false,
@@ -7772,6 +12019,11 @@ insert into public.stocks (
   '6472',
   '保瑞',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '2023-12-19',
   false,
@@ -7781,6 +12033,11 @@ insert into public.stocks (
   '6477',
   '安集',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2016-06-21',
   false,
@@ -7790,6 +12047,11 @@ insert into public.stocks (
   '6491',
   '晶碩',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '2019-10-07',
   false,
@@ -7799,6 +12061,11 @@ insert into public.stocks (
   '6504',
   '南六',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '20',
   '2013-05-07',
   false,
@@ -7808,6 +12075,11 @@ insert into public.stocks (
   '6505',
   '台塑化',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '23',
   '2003-12-26',
   false,
@@ -7817,6 +12089,11 @@ insert into public.stocks (
   '6515',
   '穎崴',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2021-01-20',
   false,
@@ -7826,6 +12103,11 @@ insert into public.stocks (
   '6525',
   '捷敏-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2016-04-12',
   false,
@@ -7835,6 +12117,11 @@ insert into public.stocks (
   '6526',
   '達發',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2023-10-19',
   false,
@@ -7844,6 +12131,11 @@ insert into public.stocks (
   '6531',
   '愛普*',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2016-05-31',
   false,
@@ -7853,6 +12145,11 @@ insert into public.stocks (
   '6533',
   '晶心科',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2017-03-14',
   false,
@@ -7862,6 +12159,11 @@ insert into public.stocks (
   '6534',
   '正瀚-創',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '2023-12-21',
   false,
@@ -7871,6 +12173,11 @@ insert into public.stocks (
   '6541',
   '泰福-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '2017-10-26',
   false,
@@ -7880,6 +12187,11 @@ insert into public.stocks (
   '6550',
   '北極星藥業-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '2022-06-06',
   false,
@@ -7889,6 +12201,11 @@ insert into public.stocks (
   '6552',
   '易華電',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2017-01-10',
   false,
@@ -7898,6 +12215,11 @@ insert into public.stocks (
   '6558',
   '興能高',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '31',
   '2018-12-05',
   false,
@@ -7907,6 +12229,11 @@ insert into public.stocks (
   '6573',
   '虹揚-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2017-09-26',
   false,
@@ -7916,6 +12243,11 @@ insert into public.stocks (
   '6579',
   '研揚',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '2017-08-21',
   false,
@@ -7925,6 +12257,11 @@ insert into public.stocks (
   '6581',
   '鋼聯',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '35',
   '2018-01-30',
   false,
@@ -7934,6 +12271,11 @@ insert into public.stocks (
   '6582',
   '申豐',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '11',
   '2017-06-14',
   false,
@@ -7943,6 +12285,11 @@ insert into public.stocks (
   '6585',
   '鼎基',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '20',
   '2022-05-20',
   false,
@@ -7952,6 +12299,11 @@ insert into public.stocks (
   '6589',
   '台康生技',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '2025-07-21',
   false,
@@ -7961,6 +12313,11 @@ insert into public.stocks (
   '6591',
   '動力-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '2017-12-28',
   false,
@@ -7970,6 +12327,11 @@ insert into public.stocks (
   '6592',
   '和潤企業',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '20',
   '2019-12-09',
   false,
@@ -7979,6 +12341,11 @@ insert into public.stocks (
   '6598',
   'ABC-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '2020-06-09',
   false,
@@ -7988,6 +12355,11 @@ insert into public.stocks (
   '6605',
   '帝寶',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '12',
   '2004-03-17',
   false,
@@ -7997,6 +12369,11 @@ insert into public.stocks (
   '6606',
   '建德工業',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '05',
   '2023-03-24',
   false,
@@ -8006,6 +12383,11 @@ insert into public.stocks (
   '6614',
   '資拓宏宇',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '36',
   '2025-11-25',
   false,
@@ -8015,6 +12397,11 @@ insert into public.stocks (
   '6625',
   '必應',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '20',
   '2018-02-07',
   false,
@@ -8024,6 +12411,11 @@ insert into public.stocks (
   '6641',
   '基士德-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '35',
   '2018-09-21',
   false,
@@ -8033,6 +12425,11 @@ insert into public.stocks (
   '6645',
   '金萬林-創',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '2023-12-21',
   false,
@@ -8042,6 +12439,11 @@ insert into public.stocks (
   '6655',
   '科定',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '20',
   '2018-11-28',
   false,
@@ -8051,6 +12453,11 @@ insert into public.stocks (
   '6657',
   '華安',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '2023-06-12',
   false,
@@ -8060,6 +12467,11 @@ insert into public.stocks (
   '6658',
   '聯策',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '31',
   '2023-11-02',
   false,
@@ -8069,6 +12481,11 @@ insert into public.stocks (
   '6666',
   '羅麗芬-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '2018-11-19',
   false,
@@ -8078,6 +12495,11 @@ insert into public.stocks (
   '6668',
   '中揚光',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2018-12-12',
   false,
@@ -8087,6 +12509,11 @@ insert into public.stocks (
   '6669',
   '緯穎',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '2019-03-27',
   false,
@@ -8096,6 +12523,11 @@ insert into public.stocks (
   '6670',
   '復盛應用',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '37',
   '2018-12-18',
   false,
@@ -8105,6 +12537,11 @@ insert into public.stocks (
   '6671',
   '三能-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '38',
   '2018-12-11',
   false,
@@ -8114,6 +12551,11 @@ insert into public.stocks (
   '6672',
   '騰輝電子-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2019-04-17',
   false,
@@ -8123,6 +12565,11 @@ insert into public.stocks (
   '6674',
   '鋐寶科技',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '27',
   '2018-11-28',
   false,
@@ -8132,6 +12579,11 @@ insert into public.stocks (
   '6689',
   '伊雲谷',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '36',
   '2022-09-13',
   false,
@@ -8141,6 +12593,11 @@ insert into public.stocks (
   '6691',
   '洋基工程',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '31',
   '2022-01-03',
   false,
@@ -8150,6 +12607,11 @@ insert into public.stocks (
   '6695',
   '芯鼎',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2022-11-04',
   false,
@@ -8159,6 +12621,11 @@ insert into public.stocks (
   '6698',
   '旭暉應材',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '31',
   '2019-11-25',
   false,
@@ -8168,6 +12635,11 @@ insert into public.stocks (
   '6706',
   '惠特',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2019-12-19',
   false,
@@ -8177,6 +12649,11 @@ insert into public.stocks (
   '6715',
   '嘉基',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2019-12-12',
   false,
@@ -8186,6 +12663,11 @@ insert into public.stocks (
   '6719',
   '力智',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2022-01-13',
   false,
@@ -8195,6 +12677,11 @@ insert into public.stocks (
   '6722',
   '輝創',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '31',
   '2026-01-16',
   false,
@@ -8204,6 +12691,11 @@ insert into public.stocks (
   '6742',
   '澤米',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2023-12-05',
   false,
@@ -8213,6 +12705,11 @@ insert into public.stocks (
   '6743',
   '安普新',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '31',
   '2020-12-14',
   false,
@@ -8222,6 +12719,11 @@ insert into public.stocks (
   '6753',
   '龍德造船',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '15',
   '2023-03-10',
   false,
@@ -8231,6 +12733,11 @@ insert into public.stocks (
   '6754',
   '匯僑設計',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '38',
   '2020-08-25',
   false,
@@ -8240,6 +12747,11 @@ insert into public.stocks (
   '6756',
   '威鋒電子',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2020-12-24',
   false,
@@ -8249,6 +12761,11 @@ insert into public.stocks (
   '6757',
   '台灣虎航',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '15',
   '2023-08-15',
   false,
@@ -8258,6 +12775,11 @@ insert into public.stocks (
   '6768',
   '志強-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '37',
   '2021-04-22',
   false,
@@ -8267,6 +12789,11 @@ insert into public.stocks (
   '6770',
   '力積電',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2021-12-06',
   false,
@@ -8276,6 +12803,11 @@ insert into public.stocks (
   '6771',
   '平和環保-創',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '35',
   '2024-05-17',
   false,
@@ -8285,6 +12817,11 @@ insert into public.stocks (
   '6776',
   '展碁國際',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '29',
   '2021-03-31',
   false,
@@ -8294,6 +12831,11 @@ insert into public.stocks (
   '6781',
   'AES-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2021-03-22',
   false,
@@ -8303,6 +12845,11 @@ insert into public.stocks (
   '6782',
   '視陽',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '2022-11-28',
   false,
@@ -8312,6 +12859,11 @@ insert into public.stocks (
   '6789',
   '采鈺',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2022-06-30',
   false,
@@ -8321,6 +12873,11 @@ insert into public.stocks (
   '6790',
   '永豐實',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '09',
   '2021-09-29',
   false,
@@ -8330,6 +12887,11 @@ insert into public.stocks (
   '6792',
   '詠業',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '27',
   '2021-12-08',
   false,
@@ -8339,6 +12901,11 @@ insert into public.stocks (
   '6794',
   '向榮生技',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '2024-05-21',
   false,
@@ -8348,6 +12915,11 @@ insert into public.stocks (
   '6796',
   '晉弘',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '2022-06-01',
   false,
@@ -8357,6 +12929,11 @@ insert into public.stocks (
   '6799',
   '來頡',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2022-05-12',
   false,
@@ -8366,6 +12943,11 @@ insert into public.stocks (
   '6805',
   '富世達',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2023-11-09',
   false,
@@ -8375,6 +12957,11 @@ insert into public.stocks (
   '6806',
   '森崴能源',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '35',
   '2021-11-15',
   false,
@@ -8384,6 +12971,11 @@ insert into public.stocks (
   '6807',
   '峰源-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '38',
   '2022-04-25',
   false,
@@ -8393,6 +12985,11 @@ insert into public.stocks (
   '6830',
   '汎銓',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '31',
   '2022-08-31',
   false,
@@ -8402,6 +12999,11 @@ insert into public.stocks (
   '6831',
   '邁科',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '2025-11-25',
   false,
@@ -8411,6 +13013,11 @@ insert into public.stocks (
   '6834',
   '天二科技',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2022-09-01',
   false,
@@ -8420,6 +13027,11 @@ insert into public.stocks (
   '6835',
   '圓裕',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2022-11-10',
   false,
@@ -8429,6 +13041,11 @@ insert into public.stocks (
   '6838',
   '台新藥',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '2024-08-13',
   false,
@@ -8438,6 +13055,11 @@ insert into public.stocks (
   '6854',
   '錼創科技-KY創',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2022-08-18',
   false,
@@ -8447,6 +13069,11 @@ insert into public.stocks (
   '6861',
   '睿生光電',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '2023-03-27',
   false,
@@ -8456,6 +13083,11 @@ insert into public.stocks (
   '6862',
   '三集瑞-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2024-10-23',
   false,
@@ -8465,6 +13097,11 @@ insert into public.stocks (
   '6863',
   '永道-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '27',
   '2023-03-21',
   false,
@@ -8474,6 +13111,11 @@ insert into public.stocks (
   '6869',
   '雲豹能源',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '35',
   '2023-03-14',
   false,
@@ -8483,6 +13125,11 @@ insert into public.stocks (
   '6873',
   '泓德能源',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '35',
   '2024-09-26',
   false,
@@ -8492,6 +13139,11 @@ insert into public.stocks (
   '6885',
   '全福生技',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '2024-12-16',
   false,
@@ -8501,6 +13153,11 @@ insert into public.stocks (
   '6887',
   '寶綠特-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '35',
   '2025-03-10',
   false,
@@ -8510,6 +13167,11 @@ insert into public.stocks (
   '6890',
   '來億-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '37',
   '2024-06-12',
   false,
@@ -8519,6 +13181,11 @@ insert into public.stocks (
   '6901',
   '鑽石投資',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '20',
   '2023-09-19',
   false,
@@ -8528,6 +13195,11 @@ insert into public.stocks (
   '6902',
   'GOGOLOOK',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '36',
   '2023-07-13',
   false,
@@ -8537,6 +13209,11 @@ insert into public.stocks (
   '6906',
   '現觀科',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '36',
   '2024-01-15',
   false,
@@ -8546,6 +13223,11 @@ insert into public.stocks (
   '6908',
   '宏碁遊戲-創',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '29',
   '2026-03-25',
   false,
@@ -8555,6 +13237,11 @@ insert into public.stocks (
   '6909',
   '創控',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2025-05-21',
   false,
@@ -8564,6 +13251,11 @@ insert into public.stocks (
   '6914',
   '阜爾運通',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '20',
   '2024-05-03',
   false,
@@ -8573,6 +13265,11 @@ insert into public.stocks (
   '6916',
   '華凌',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2023-12-05',
   false,
@@ -8582,6 +13279,11 @@ insert into public.stocks (
   '6918',
   '愛派司',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '2025-06-10',
   false,
@@ -8591,6 +13293,11 @@ insert into public.stocks (
   '6919',
   '康霈*',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '2024-10-02',
   false,
@@ -8600,6 +13307,11 @@ insert into public.stocks (
   '6921',
   '嘉雨思-創',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2025-12-23',
   false,
@@ -8609,6 +13321,11 @@ insert into public.stocks (
   '6923',
   '中台',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '35',
   '2024-09-25',
   false,
@@ -8618,6 +13335,11 @@ insert into public.stocks (
   '6924',
   '榮惠-KY創',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2024-12-03',
   false,
@@ -8627,6 +13349,11 @@ insert into public.stocks (
   '6928',
   '攸泰科技',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '2024-05-16',
   false,
@@ -8636,6 +13363,11 @@ insert into public.stocks (
   '6931',
   '青松健康',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '2025-01-15',
   false,
@@ -8645,6 +13377,11 @@ insert into public.stocks (
   '6933',
   'AMAX-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '2023-11-08',
   false,
@@ -8654,6 +13391,11 @@ insert into public.stocks (
   '6934',
   '心誠鎂',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '2026-02-02',
   false,
@@ -8663,6 +13405,11 @@ insert into public.stocks (
   '6936',
   '永鴻生技',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '2025-04-28',
   false,
@@ -8672,6 +13419,11 @@ insert into public.stocks (
   '6937',
   '天虹',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2023-12-12',
   false,
@@ -8681,6 +13433,11 @@ insert into public.stocks (
   '6944',
   '兆聯實業',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '35',
   '2025-05-28',
   false,
@@ -8690,6 +13447,11 @@ insert into public.stocks (
   '6949',
   '沛爾生醫-創',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '2024-03-08',
   false,
@@ -8699,6 +13461,11 @@ insert into public.stocks (
   '6951',
   '青新-創',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '35',
   '2024-06-18',
   false,
@@ -8708,6 +13475,11 @@ insert into public.stocks (
   '6952',
   '大武山',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '20',
   '2024-06-13',
   false,
@@ -8717,6 +13489,11 @@ insert into public.stocks (
   '6955',
   '邦睿生技-創',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '2024-12-06',
   false,
@@ -8726,6 +13503,11 @@ insert into public.stocks (
   '6957',
   '裕慶-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '20',
   '2024-06-25',
   false,
@@ -8735,6 +13517,11 @@ insert into public.stocks (
   '6958',
   '日盛台駿',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '20',
   '2024-08-20',
   false,
@@ -8744,6 +13531,11 @@ insert into public.stocks (
   '6962',
   '奕力-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2024-11-26',
   false,
@@ -8753,6 +13545,11 @@ insert into public.stocks (
   '6965',
   '中傑-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '37',
   '2025-03-07',
   false,
@@ -8762,6 +13559,11 @@ insert into public.stocks (
   '6969',
   '成信實業*-創',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '35',
   '2024-09-09',
   false,
@@ -8771,6 +13573,11 @@ insert into public.stocks (
   '6988',
   '威力暘-創',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '12',
   '2024-10-23',
   false,
@@ -8780,6 +13587,11 @@ insert into public.stocks (
   '6994',
   '富威電力',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '35',
   '2025-01-15',
   false,
@@ -8789,6 +13601,11 @@ insert into public.stocks (
   '7610',
   '聯友金屬-創',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '35',
   '2025-09-09',
   false,
@@ -8798,6 +13615,11 @@ insert into public.stocks (
   '7631',
   '聚賢研發-創',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '31',
   '2025-03-13',
   false,
@@ -8807,6 +13629,11 @@ insert into public.stocks (
   '7705',
   '三商餐飲',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '16',
   '2024-11-26',
   false,
@@ -8816,6 +13643,11 @@ insert into public.stocks (
   '7711',
   '永擎',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '2025-11-19',
   false,
@@ -8825,6 +13657,11 @@ insert into public.stocks (
   '7721',
   '微程式',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '36',
   '2025-07-29',
   false,
@@ -8834,6 +13671,11 @@ insert into public.stocks (
   '7722',
   'LINEPAY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '36',
   '2024-12-05',
   false,
@@ -8843,6 +13685,11 @@ insert into public.stocks (
   '7730',
   '暉盛-創',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2025-11-04',
   false,
@@ -8852,6 +13699,11 @@ insert into public.stocks (
   '7732',
   '金興精密',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '12',
   '2025-01-14',
   false,
@@ -8861,6 +13713,11 @@ insert into public.stocks (
   '7736',
   '虎山',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '12',
   '2025-03-18',
   false,
@@ -8870,6 +13727,11 @@ insert into public.stocks (
   '7740',
   '熙特爾-創',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '35',
   '2025-06-16',
   false,
@@ -8879,6 +13741,11 @@ insert into public.stocks (
   '7749',
   '意騰-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2025-06-13',
   false,
@@ -8888,6 +13755,11 @@ insert into public.stocks (
   '7750',
   '新代',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '05',
   '2025-09-17',
   false,
@@ -8897,6 +13769,11 @@ insert into public.stocks (
   '7760',
   '享溫馨',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '16',
   '2026-04-28',
   false,
@@ -8906,6 +13783,11 @@ insert into public.stocks (
   '7765',
   '中華資安',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '36',
   '2025-09-08',
   false,
@@ -8915,6 +13797,11 @@ insert into public.stocks (
   '7768',
   '頌勝科技',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2026-05-07',
   false,
@@ -8924,6 +13811,11 @@ insert into public.stocks (
   '7769',
   '鴻勁',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2025-11-27',
   false,
@@ -8933,6 +13825,11 @@ insert into public.stocks (
   '7780',
   '大研生醫*',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '02',
   '2025-09-09',
   false,
@@ -8942,6 +13839,11 @@ insert into public.stocks (
   '7786',
   '東方風能',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '35',
   '2025-11-18',
   false,
@@ -8951,6 +13853,11 @@ insert into public.stocks (
   '7788',
   '松川精密',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2025-10-16',
   false,
@@ -8960,6 +13867,11 @@ insert into public.stocks (
   '7791',
   '皇家可口',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '02',
   '2025-10-28',
   false,
@@ -8969,6 +13881,11 @@ insert into public.stocks (
   '7795',
   '長廣',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2026-01-16',
   false,
@@ -8978,6 +13895,11 @@ insert into public.stocks (
   '7799',
   '禾榮科',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '2025-09-15',
   false,
@@ -8987,6 +13909,11 @@ insert into public.stocks (
   '7803',
   '雲象科技-創',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '22',
   '2026-05-20',
   false,
@@ -8996,6 +13923,11 @@ insert into public.stocks (
   '7818',
   '溢泰實業',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '35',
   '2026-05-18',
   false,
@@ -9005,6 +13937,11 @@ insert into public.stocks (
   '7821',
   '神數',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '12',
   '2026-04-20',
   false,
@@ -9014,6 +13951,11 @@ insert into public.stocks (
   '7822',
   '倍利科',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2026-03-30',
   false,
@@ -9023,6 +13965,11 @@ insert into public.stocks (
   '7823',
   '奧義賽博-KY創',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '36',
   '2026-02-05',
   false,
@@ -9032,6 +13979,11 @@ insert into public.stocks (
   '8011',
   '台通',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '27',
   '2011-09-19',
   false,
@@ -9041,6 +13993,11 @@ insert into public.stocks (
   '8016',
   '矽創',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2003-12-25',
   false,
@@ -9050,6 +14007,11 @@ insert into public.stocks (
   '8021',
   '尖點',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '31',
   '2008-01-21',
   false,
@@ -9059,6 +14021,11 @@ insert into public.stocks (
   '8028',
   '昇陽半導體',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2018-07-10',
   false,
@@ -9068,6 +14035,11 @@ insert into public.stocks (
   '8033',
   '雷虎',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '20',
   '2007-06-21',
   false,
@@ -9077,6 +14049,11 @@ insert into public.stocks (
   '8039',
   '台虹',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2009-12-17',
   false,
@@ -9086,6 +14063,11 @@ insert into public.stocks (
   '8045',
   '達運光電',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '27',
   '2024-12-11',
   false,
@@ -9095,6 +14077,11 @@ insert into public.stocks (
   '8046',
   '南電',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2006-04-07',
   false,
@@ -9104,6 +14091,11 @@ insert into public.stocks (
   '8070',
   '長華*',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '29',
   '2007-12-31',
   false,
@@ -9113,6 +14105,11 @@ insert into public.stocks (
   '8072',
   '陞泰',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '29',
   '2005-08-19',
   false,
@@ -9122,6 +14119,11 @@ insert into public.stocks (
   '8081',
   '致新',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2008-12-30',
   false,
@@ -9131,6 +14133,11 @@ insert into public.stocks (
   '8101',
   '華冠',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '27',
   '2004-07-01',
   false,
@@ -9140,6 +14147,11 @@ insert into public.stocks (
   '8103',
   '瀚荃',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2009-09-29',
   false,
@@ -9149,6 +14161,11 @@ insert into public.stocks (
   '8104',
   '錸寶',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2019-01-17',
   false,
@@ -9158,6 +14175,11 @@ insert into public.stocks (
   '8105',
   '凌巨',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2006-12-27',
   false,
@@ -9167,6 +14189,11 @@ insert into public.stocks (
   '8110',
   '華東',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2007-10-31',
   false,
@@ -9176,6 +14203,11 @@ insert into public.stocks (
   '8112',
   '至上',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '29',
   '2007-12-31',
   false,
@@ -9185,6 +14217,11 @@ insert into public.stocks (
   '8114',
   '振樺電',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '2012-11-26',
   false,
@@ -9194,6 +14231,11 @@ insert into public.stocks (
   '8131',
   '福懋科',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2007-11-29',
   false,
@@ -9203,6 +14245,11 @@ insert into public.stocks (
   '8150',
   '南茂',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2014-04-11',
   false,
@@ -9212,6 +14259,11 @@ insert into public.stocks (
   '8162',
   '微矽電子-創',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2024-03-07',
   false,
@@ -9221,6 +14273,11 @@ insert into public.stocks (
   '8163',
   '達方',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '2007-11-28',
   false,
@@ -9230,6 +14287,11 @@ insert into public.stocks (
   '8201',
   '無敵',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '31',
   '2007-10-29',
   false,
@@ -9239,6 +14301,11 @@ insert into public.stocks (
   '8210',
   '勤誠',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '2011-12-01',
   false,
@@ -9248,6 +14315,11 @@ insert into public.stocks (
   '8213',
   '志超',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2009-12-25',
   false,
@@ -9257,6 +14329,11 @@ insert into public.stocks (
   '8215',
   '明基材',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '26',
   '2010-11-12',
   false,
@@ -9266,6 +14343,11 @@ insert into public.stocks (
   '8222',
   '寶一',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '05',
   '2015-01-27',
   false,
@@ -9275,6 +14357,11 @@ insert into public.stocks (
   '8249',
   '菱光',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '28',
   '2005-05-17',
   false,
@@ -9284,6 +14371,11 @@ insert into public.stocks (
   '8261',
   '富鼎',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2009-12-11',
   false,
@@ -9293,6 +14385,11 @@ insert into public.stocks (
   '8271',
   '宇瞻',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '24',
   '2010-12-29',
   false,
@@ -9302,6 +14399,11 @@ insert into public.stocks (
   '8341',
   '日友',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '35',
   '2015-03-23',
   false,
@@ -9311,6 +14413,11 @@ insert into public.stocks (
   '8367',
   '建新國際',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '15',
   '2018-09-12',
   false,
@@ -9320,6 +14427,11 @@ insert into public.stocks (
   '8374',
   '羅昇',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '05',
   '2008-12-25',
   false,
@@ -9329,6 +14441,11 @@ insert into public.stocks (
   '8404',
   '百和興業-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '20',
   '2011-05-18',
   false,
@@ -9338,6 +14455,11 @@ insert into public.stocks (
   '8411',
   '福貞-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '20',
   '2011-11-01',
   false,
@@ -9347,6 +14469,11 @@ insert into public.stocks (
   '8422',
   '可寧衛*',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '35',
   '2011-10-05',
   false,
@@ -9356,6 +14483,11 @@ insert into public.stocks (
   '8429',
   '金麗-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '18',
   '2012-12-20',
   false,
@@ -9365,6 +14497,11 @@ insert into public.stocks (
   '8438',
   '昶昕',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '35',
   '2022-03-11',
   false,
@@ -9374,6 +14511,11 @@ insert into public.stocks (
   '8442',
   '威宏-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '20',
   '2016-11-08',
   false,
@@ -9383,6 +14525,11 @@ insert into public.stocks (
   '8443',
   '阿瘦',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '18',
   '2014-09-15',
   false,
@@ -9392,6 +14539,11 @@ insert into public.stocks (
   '8454',
   '富邦媒',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '36',
   '2014-12-19',
   false,
@@ -9401,6 +14553,11 @@ insert into public.stocks (
   '8462',
   '柏文',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '37',
   '2019-03-15',
   false,
@@ -9410,6 +14567,11 @@ insert into public.stocks (
   '8463',
   '潤泰材',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '20',
   '2015-07-13',
   false,
@@ -9419,6 +14581,11 @@ insert into public.stocks (
   '8464',
   '億豐',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '38',
   '2015-12-22',
   false,
@@ -9428,6 +14595,11 @@ insert into public.stocks (
   '8466',
   '美吉吉-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '20',
   '2016-11-01',
   false,
@@ -9437,6 +14609,11 @@ insert into public.stocks (
   '8467',
   '波力-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '37',
   '2015-12-15',
   false,
@@ -9446,6 +14623,11 @@ insert into public.stocks (
   '8473',
   '山林水',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '35',
   '2016-09-08',
   false,
@@ -9455,6 +14637,11 @@ insert into public.stocks (
   '8476',
   '台境*',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '35',
   '2023-10-31',
   false,
@@ -9464,6 +14651,11 @@ insert into public.stocks (
   '8478',
   '東哥遊艇',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '37',
   '2017-12-11',
   false,
@@ -9473,6 +14665,11 @@ insert into public.stocks (
   '8481',
   '政伸',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '20',
   '2017-02-24',
   false,
@@ -9482,6 +14679,11 @@ insert into public.stocks (
   '8482',
   '商億-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '38',
   '2018-08-15',
   false,
@@ -9491,6 +14693,11 @@ insert into public.stocks (
   '8487',
   '愛爾達-創',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '36',
   '2024-03-26',
   false,
@@ -9500,6 +14707,11 @@ insert into public.stocks (
   '8488',
   '吉源-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '20',
   '2016-12-13',
   false,
@@ -9509,6 +14721,11 @@ insert into public.stocks (
   '8499',
   '鼎炫-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '31',
   '2017-11-24',
   false,
@@ -9518,6 +14735,11 @@ insert into public.stocks (
   '8926',
   '台汽電',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '23',
   '2003-08-25',
   false,
@@ -9527,6 +14749,11 @@ insert into public.stocks (
   '8940',
   '新天地',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '16',
   '2009-05-15',
   false,
@@ -9536,6 +14763,11 @@ insert into public.stocks (
   '8996',
   '高力',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '05',
   '2014-02-14',
   false,
@@ -9545,6 +14777,11 @@ insert into public.stocks (
   '9103',
   '美德醫療-DR',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '91',
   '2002-12-13',
   false,
@@ -9554,6 +14791,11 @@ insert into public.stocks (
   '9105',
   '泰金寶-DR',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '91',
   '2003-09-22',
   false,
@@ -9563,6 +14805,11 @@ insert into public.stocks (
   '9110',
   '越南控-DR',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '91',
   '2009-12-03',
   false,
@@ -9572,6 +14819,11 @@ insert into public.stocks (
   '9136',
   '巨騰-DR',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '91',
   '2009-05-25',
   false,
@@ -9581,6 +14833,11 @@ insert into public.stocks (
   '9802',
   '鈺齊-KY',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '37',
   '2012-10-18',
   false,
@@ -9590,6 +14847,11 @@ insert into public.stocks (
   '9902',
   '台火',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '20',
   '1964-07-14',
   false,
@@ -9599,6 +14861,11 @@ insert into public.stocks (
   '9904',
   '寶成',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '37',
   '1990-01-19',
   false,
@@ -9608,6 +14875,11 @@ insert into public.stocks (
   '9905',
   '大華',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '20',
   '1990-08-08',
   false,
@@ -9617,6 +14889,11 @@ insert into public.stocks (
   '9906',
   '欣巴巴',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '14',
   '1990-12-15',
   false,
@@ -9626,6 +14903,11 @@ insert into public.stocks (
   '9907',
   '統一實',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '20',
   '1991-01-29',
   false,
@@ -9635,6 +14917,11 @@ insert into public.stocks (
   '9908',
   '大台北',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '23',
   '1991-02-06',
   false,
@@ -9644,6 +14931,11 @@ insert into public.stocks (
   '9910',
   '豐泰',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '37',
   '1992-02-18',
   false,
@@ -9653,6 +14945,11 @@ insert into public.stocks (
   '9911',
   '櫻花',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '38',
   '1992-07-16',
   false,
@@ -9662,6 +14959,11 @@ insert into public.stocks (
   '9912',
   '偉聯',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '25',
   '1992-08-08',
   false,
@@ -9671,6 +14973,11 @@ insert into public.stocks (
   '9914',
   '美利達',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '37',
   '1992-09-30',
   false,
@@ -9680,6 +14987,11 @@ insert into public.stocks (
   '9917',
   '中保科',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '20',
   '1993-12-08',
   false,
@@ -9689,6 +15001,11 @@ insert into public.stocks (
   '9918',
   '欣天然',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '23',
   '1994-04-26',
   false,
@@ -9698,6 +15015,11 @@ insert into public.stocks (
   '9919',
   '康那香',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '20',
   '1994-11-04',
   false,
@@ -9707,6 +15029,11 @@ insert into public.stocks (
   '9921',
   '巨大',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '37',
   '1994-12-29',
   false,
@@ -9716,6 +15043,11 @@ insert into public.stocks (
   '9924',
   '福興',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '38',
   '1995-03-15',
   false,
@@ -9725,6 +15057,11 @@ insert into public.stocks (
   '9925',
   '新保',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '20',
   '1995-12-09',
   false,
@@ -9734,6 +15071,11 @@ insert into public.stocks (
   '9926',
   '新海',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '23',
   '1998-04-08',
   false,
@@ -9743,6 +15085,11 @@ insert into public.stocks (
   '9927',
   '泰銘',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '20',
   '1999-03-12',
   false,
@@ -9752,6 +15099,11 @@ insert into public.stocks (
   '9928',
   '中視',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '20',
   '1999-08-09',
   false,
@@ -9761,6 +15113,11 @@ insert into public.stocks (
   '9929',
   '秋雨',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '20',
   '1999-06-28',
   false,
@@ -9770,6 +15127,11 @@ insert into public.stocks (
   '9930',
   '中聯資源',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '35',
   '1999-11-22',
   false,
@@ -9779,6 +15141,11 @@ insert into public.stocks (
   '9931',
   '欣高',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '23',
   '2000-03-21',
   false,
@@ -9788,6 +15155,11 @@ insert into public.stocks (
   '9933',
   '中鼎',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '20',
   '1993-05-28',
   false,
@@ -9797,6 +15169,11 @@ insert into public.stocks (
   '9934',
   '成霖',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '38',
   '2000-09-11',
   false,
@@ -9806,6 +15183,11 @@ insert into public.stocks (
   '9935',
   '慶豐富',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '38',
   '2000-09-11',
   false,
@@ -9815,6 +15197,11 @@ insert into public.stocks (
   '9937',
   '全國',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '23',
   '2000-09-11',
   false,
@@ -9824,6 +15211,11 @@ insert into public.stocks (
   '9938',
   '百和',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '20',
   '2001-01-12',
   false,
@@ -9833,6 +15225,11 @@ insert into public.stocks (
   '9939',
   '宏全',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '20',
   '2001-03-02',
   false,
@@ -9842,6 +15239,11 @@ insert into public.stocks (
   '9940',
   '信義',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '20',
   '2001-09-17',
   false,
@@ -9851,6 +15253,11 @@ insert into public.stocks (
   '9941',
   '裕融',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '20',
   '2001-09-17',
   false,
@@ -9860,6 +15267,11 @@ insert into public.stocks (
   '9942',
   '茂順',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '20',
   '2002-01-28',
   false,
@@ -9869,6 +15281,11 @@ insert into public.stocks (
   '9943',
   '好樂迪',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '16',
   '2002-08-26',
   false,
@@ -9878,6 +15295,11 @@ insert into public.stocks (
   '9944',
   '新麗',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '20',
   '2002-08-26',
   false,
@@ -9887,6 +15309,11 @@ insert into public.stocks (
   '9945',
   '潤泰新',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '20',
   '1992-04-30',
   false,
@@ -9896,6 +15323,11 @@ insert into public.stocks (
   '9946',
   '三發地產',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '14',
   '2013-09-17',
   false,
@@ -9905,6 +15337,11 @@ insert into public.stocks (
   '9955',
   '佳龍',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '35',
   '2008-01-21',
   false,
@@ -9914,14 +15351,22 @@ insert into public.stocks (
   '9958',
   '世紀鋼',
   'TWSE',
+  'TW',
+  'TWSE',
+  'TWD',
+  'Asia/Taipei',
+  'stock',
   '10',
   '2008-03-12',
   false,
   true
 )
-on conflict (symbol) do update set
+on conflict (country, exchange, symbol) do update set
   name = excluded.name,
   market = excluded.market,
+  currency = excluded.currency,
+  timezone = excluded.timezone,
+  asset_type = excluded.asset_type,
   industry = excluded.industry,
   listed_date = excluded.listed_date,
   is_etf = excluded.is_etf,
@@ -9933,7 +15378,7 @@ on conflict (symbol) do update set
 -- ============================================================================
 
 -- Latest TWSE daily market data.
--- Generated at 2026-05-28T14:39:00.328Z.
+-- Generated at 2026-05-28T14:54:09.835Z.
 -- Sources:
 -- https://openapi.twse.com.tw/v1/exchangeReport/STOCK_DAY_ALL
 -- https://openapi.twse.com.tw/v1/exchangeReport/BWIBBU_d
@@ -9960,6 +15405,8 @@ select
 from (
   values
 (
+  'TW',
+  'TWSE',
   '0050',
   '2026-05-27',
   102.4,
@@ -9970,6 +15417,8 @@ from (
   9787482181
 ),
 (
+  'TW',
+  'TWSE',
   '006208',
   '2026-05-27',
   237.75,
@@ -9980,6 +15429,8 @@ from (
   1157236756
 ),
 (
+  'TW',
+  'TWSE',
   '1101',
   '2026-05-27',
   23.95,
@@ -9990,6 +15441,8 @@ from (
   711980482
 ),
 (
+  'TW',
+  'TWSE',
   '1102',
   '2026-05-27',
   33.1,
@@ -10000,6 +15453,8 @@ from (
   575632656
 ),
 (
+  'TW',
+  'TWSE',
   '1103',
   '2026-05-27',
   13.25,
@@ -10010,6 +15465,8 @@ from (
   5433732
 ),
 (
+  'TW',
+  'TWSE',
   '1104',
   '2026-05-27',
   27.7,
@@ -10020,6 +15477,8 @@ from (
   21834313
 ),
 (
+  'TW',
+  'TWSE',
   '1108',
   '2026-05-27',
   13.5,
@@ -10030,6 +15489,8 @@ from (
   3882754
 ),
 (
+  'TW',
+  'TWSE',
   '1109',
   '2026-05-27',
   14.5,
@@ -10040,6 +15501,8 @@ from (
   1864065
 ),
 (
+  'TW',
+  'TWSE',
   '1110',
   '2026-05-27',
   13.95,
@@ -10050,6 +15513,8 @@ from (
   3435464
 ),
 (
+  'TW',
+  'TWSE',
   '1201',
   '2026-05-27',
   12.25,
@@ -10060,6 +15525,8 @@ from (
   7032132
 ),
 (
+  'TW',
+  'TWSE',
   '1203',
   '2026-05-27',
   42.7,
@@ -10070,6 +15537,8 @@ from (
   735217
 ),
 (
+  'TW',
+  'TWSE',
   '1210',
   '2026-05-27',
   52.3,
@@ -10080,6 +15549,8 @@ from (
   143814651
 ),
 (
+  'TW',
+  'TWSE',
   '1213',
   '2026-05-27',
   8.22,
@@ -10090,6 +15561,8 @@ from (
   101316
 ),
 (
+  'TW',
+  'TWSE',
   '1215',
   '2026-05-27',
   132,
@@ -10100,6 +15573,8 @@ from (
   880730857
 ),
 (
+  'TW',
+  'TWSE',
   '1216',
   '2026-05-27',
   70.8,
@@ -10110,6 +15585,8 @@ from (
   1512094335
 ),
 (
+  'TW',
+  'TWSE',
   '1217',
   '2026-05-27',
   9.8,
@@ -10120,6 +15597,8 @@ from (
   10828726
 ),
 (
+  'TW',
+  'TWSE',
   '1218',
   '2026-05-27',
   18.5,
@@ -10130,6 +15609,8 @@ from (
   8198555
 ),
 (
+  'TW',
+  'TWSE',
   '1219',
   '2026-05-27',
   12.5,
@@ -10140,6 +15621,8 @@ from (
   6686419
 ),
 (
+  'TW',
+  'TWSE',
   '1220',
   '2026-05-27',
   11.85,
@@ -10150,6 +15633,8 @@ from (
   950554
 ),
 (
+  'TW',
+  'TWSE',
   '1225',
   '2026-05-27',
   29.85,
@@ -10160,6 +15645,8 @@ from (
   5998686
 ),
 (
+  'TW',
+  'TWSE',
   '1227',
   '2026-05-27',
   28.25,
@@ -10170,6 +15657,8 @@ from (
   48546147
 ),
 (
+  'TW',
+  'TWSE',
   '1229',
   '2026-05-27',
   39.85,
@@ -10180,6 +15669,8 @@ from (
   177083988
 ),
 (
+  'TW',
+  'TWSE',
   '1231',
   '2026-05-27',
   85.3,
@@ -10190,6 +15681,8 @@ from (
   41826740
 ),
 (
+  'TW',
+  'TWSE',
   '1232',
   '2026-05-27',
   147.5,
@@ -10200,6 +15693,8 @@ from (
   23135768
 ),
 (
+  'TW',
+  'TWSE',
   '1233',
   '2026-05-27',
   28.3,
@@ -10210,6 +15705,8 @@ from (
   1455955
 ),
 (
+  'TW',
+  'TWSE',
   '1234',
   '2026-05-27',
   34.25,
@@ -10220,6 +15717,8 @@ from (
   9709074
 ),
 (
+  'TW',
+  'TWSE',
   '1235',
   '2026-05-27',
   39.35,
@@ -10230,6 +15729,8 @@ from (
   92173
 ),
 (
+  'TW',
+  'TWSE',
   '1236',
   '2026-05-27',
   24.05,
@@ -10240,6 +15741,8 @@ from (
   502706
 ),
 (
+  'TW',
+  'TWSE',
   '1256',
   '2026-05-27',
   196,
@@ -10250,6 +15753,8 @@ from (
   29319091
 ),
 (
+  'TW',
+  'TWSE',
   '1301',
   '2026-05-27',
   44.95,
@@ -10260,6 +15765,8 @@ from (
   991573591
 ),
 (
+  'TW',
+  'TWSE',
   '1303',
   '2026-05-27',
   93.6,
@@ -10270,6 +15777,8 @@ from (
   11709758389
 ),
 (
+  'TW',
+  'TWSE',
   '1304',
   '2026-05-27',
   12,
@@ -10280,6 +15789,8 @@ from (
   47141705
 ),
 (
+  'TW',
+  'TWSE',
   '1305',
   '2026-05-27',
   12.1,
@@ -10290,6 +15801,8 @@ from (
   42759673
 ),
 (
+  'TW',
+  'TWSE',
   '1307',
   '2026-05-27',
   31,
@@ -10300,6 +15813,8 @@ from (
   31080746
 ),
 (
+  'TW',
+  'TWSE',
   '1308',
   '2026-05-27',
   12.95,
@@ -10310,6 +15825,8 @@ from (
   27259992
 ),
 (
+  'TW',
+  'TWSE',
   '1309',
   '2026-05-27',
   15.2,
@@ -10320,6 +15837,8 @@ from (
   58546134
 ),
 (
+  'TW',
+  'TWSE',
   '1310',
   '2026-05-27',
   7.85,
@@ -10330,6 +15849,8 @@ from (
   29800326
 ),
 (
+  'TW',
+  'TWSE',
   '1312',
   '2026-05-27',
   10.15,
@@ -10340,6 +15861,8 @@ from (
   79360155
 ),
 (
+  'TW',
+  'TWSE',
   '1313',
   '2026-05-27',
   10.5,
@@ -10350,6 +15873,8 @@ from (
   24179970
 ),
 (
+  'TW',
+  'TWSE',
   '1314',
   '2026-05-27',
   6.97,
@@ -10360,6 +15885,8 @@ from (
   124139094
 ),
 (
+  'TW',
+  'TWSE',
   '1315',
   '2026-05-27',
   61,
@@ -10370,6 +15897,8 @@ from (
   8032016
 ),
 (
+  'TW',
+  'TWSE',
   '1316',
   '2026-05-27',
   10.2,
@@ -10380,6 +15909,8 @@ from (
   26397183
 ),
 (
+  'TW',
+  'TWSE',
   '1319',
   '2026-05-27',
   80.6,
@@ -10390,6 +15921,8 @@ from (
   217854875
 ),
 (
+  'TW',
+  'TWSE',
   '1321',
   '2026-05-27',
   29.15,
@@ -10400,6 +15933,8 @@ from (
   5002355
 ),
 (
+  'TW',
+  'TWSE',
   '1323',
   '2026-05-27',
   20.2,
@@ -10410,6 +15945,8 @@ from (
   1599178
 ),
 (
+  'TW',
+  'TWSE',
   '1324',
   '2026-05-27',
   10.15,
@@ -10420,6 +15957,8 @@ from (
   2373014
 ),
 (
+  'TW',
+  'TWSE',
   '1325',
   '2026-05-27',
   27.8,
@@ -10430,6 +15969,8 @@ from (
   9763946
 ),
 (
+  'TW',
+  'TWSE',
   '1326',
   '2026-05-27',
   45,
@@ -10440,6 +15981,8 @@ from (
   922916190
 ),
 (
+  'TW',
+  'TWSE',
   '1337',
   '2026-05-27',
   4.77,
@@ -10450,6 +15993,8 @@ from (
   2456829
 ),
 (
+  'TW',
+  'TWSE',
   '1338',
   '2026-05-27',
   15.7,
@@ -10460,6 +16005,8 @@ from (
   3722480
 ),
 (
+  'TW',
+  'TWSE',
   '1339',
   '2026-05-27',
   40.75,
@@ -10470,6 +16017,8 @@ from (
   2653540
 ),
 (
+  'TW',
+  'TWSE',
   '1340',
   '2026-05-27',
   5.3,
@@ -10480,6 +16029,8 @@ from (
   7732745
 ),
 (
+  'TW',
+  'TWSE',
   '1341',
   '2026-05-27',
   61,
@@ -10490,6 +16041,8 @@ from (
   260298
 ),
 (
+  'TW',
+  'TWSE',
   '1342',
   '2026-05-27',
   92.9,
@@ -10500,6 +16053,8 @@ from (
   36705372
 ),
 (
+  'TW',
+  'TWSE',
   '1402',
   '2026-05-27',
   25.9,
@@ -10510,6 +16065,8 @@ from (
   3934472987
 ),
 (
+  'TW',
+  'TWSE',
   '1409',
   '2026-05-27',
   18.2,
@@ -10520,6 +16077,8 @@ from (
   1092006856
 ),
 (
+  'TW',
+  'TWSE',
   '1410',
   '2026-05-27',
   26,
@@ -10530,6 +16089,8 @@ from (
   565232
 ),
 (
+  'TW',
+  'TWSE',
   '1413',
   '2026-05-27',
   9.41,
@@ -10540,6 +16101,8 @@ from (
   143341
 ),
 (
+  'TW',
+  'TWSE',
   '1414',
   '2026-05-27',
   14.45,
@@ -10550,6 +16113,8 @@ from (
   3606139
 ),
 (
+  'TW',
+  'TWSE',
   '1416',
   '2026-05-27',
   11.1,
@@ -10560,6 +16125,8 @@ from (
   4002797
 ),
 (
+  'TW',
+  'TWSE',
   '1417',
   '2026-05-27',
   8.23,
@@ -10570,6 +16137,8 @@ from (
   2057779
 ),
 (
+  'TW',
+  'TWSE',
   '1418',
   '2026-05-27',
   17.35,
@@ -10580,6 +16149,8 @@ from (
   2573002
 ),
 (
+  'TW',
+  'TWSE',
   '1419',
   '2026-05-27',
   66.9,
@@ -10590,6 +16161,8 @@ from (
   21649243
 ),
 (
+  'TW',
+  'TWSE',
   '1423',
   '2026-05-27',
   41,
@@ -10600,6 +16173,8 @@ from (
   1793558
 ),
 (
+  'TW',
+  'TWSE',
   '1432',
   '2026-05-27',
   16.45,
@@ -10610,6 +16185,8 @@ from (
   8244425
 ),
 (
+  'TW',
+  'TWSE',
   '1434',
   '2026-05-27',
   15,
@@ -10620,6 +16197,8 @@ from (
   31716104
 ),
 (
+  'TW',
+  'TWSE',
   '1436',
   '2026-05-27',
   44.75,
@@ -10630,6 +16209,8 @@ from (
   9745792
 ),
 (
+  'TW',
+  'TWSE',
   '1437',
   '2026-05-27',
   28.3,
@@ -10640,6 +16221,8 @@ from (
   2418322
 ),
 (
+  'TW',
+  'TWSE',
   '1438',
   '2026-05-27',
   20.45,
@@ -10650,6 +16233,8 @@ from (
   1595292
 ),
 (
+  'TW',
+  'TWSE',
   '1439',
   '2026-05-27',
   25.8,
@@ -10660,6 +16245,8 @@ from (
   591804
 ),
 (
+  'TW',
+  'TWSE',
   '1440',
   '2026-05-27',
   11.9,
@@ -10670,6 +16257,8 @@ from (
   42196093
 ),
 (
+  'TW',
+  'TWSE',
   '1441',
   '2026-05-27',
   9.27,
@@ -10680,6 +16269,8 @@ from (
   726568
 ),
 (
+  'TW',
+  'TWSE',
   '1442',
   '2026-05-27',
   25.6,
@@ -10690,6 +16281,8 @@ from (
   9128634
 ),
 (
+  'TW',
+  'TWSE',
   '1443',
   '2026-05-27',
   25.35,
@@ -10700,6 +16293,8 @@ from (
   773675
 ),
 (
+  'TW',
+  'TWSE',
   '1444',
   '2026-05-27',
   5.86,
@@ -10710,6 +16305,8 @@ from (
   6768774
 ),
 (
+  'TW',
+  'TWSE',
   '1445',
   '2026-05-27',
   11.55,
@@ -10720,6 +16317,8 @@ from (
   1967595
 ),
 (
+  'TW',
+  'TWSE',
   '1446',
   '2026-05-27',
   15.75,
@@ -10730,6 +16329,8 @@ from (
   3203624
 ),
 (
+  'TW',
+  'TWSE',
   '1447',
   '2026-05-27',
   5.39,
@@ -10740,6 +16341,8 @@ from (
   12354931
 ),
 (
+  'TW',
+  'TWSE',
   '1449',
   '2026-05-27',
   12.35,
@@ -10750,6 +16353,8 @@ from (
   11486036
 ),
 (
+  'TW',
+  'TWSE',
   '1451',
   '2026-05-27',
   16.5,
@@ -10760,6 +16365,8 @@ from (
   4738846
 ),
 (
+  'TW',
+  'TWSE',
   '1452',
   '2026-05-27',
   10.4,
@@ -10770,6 +16377,8 @@ from (
   1229507
 ),
 (
+  'TW',
+  'TWSE',
   '1453',
   '2026-05-27',
   11.3,
@@ -10780,6 +16389,8 @@ from (
   898442
 ),
 (
+  'TW',
+  'TWSE',
   '1454',
   '2026-05-27',
   12.55,
@@ -10790,6 +16401,8 @@ from (
   530069
 ),
 (
+  'TW',
+  'TWSE',
   '1455',
   '2026-05-27',
   8,
@@ -10800,6 +16413,8 @@ from (
   6387776
 ),
 (
+  'TW',
+  'TWSE',
   '1456',
   '2026-05-27',
   12.9,
@@ -10810,6 +16425,8 @@ from (
   1212042
 ),
 (
+  'TW',
+  'TWSE',
   '1457',
   '2026-05-27',
   13.9,
@@ -10820,6 +16437,8 @@ from (
   1880168
 ),
 (
+  'TW',
+  'TWSE',
   '1459',
   '2026-05-27',
   11.65,
@@ -10830,6 +16449,8 @@ from (
   2230992
 ),
 (
+  'TW',
+  'TWSE',
   '1460',
   '2026-05-27',
   6.95,
@@ -10840,6 +16461,8 @@ from (
   4075923
 ),
 (
+  'TW',
+  'TWSE',
   '1463',
   '2026-05-27',
   17.7,
@@ -10850,6 +16473,8 @@ from (
   422971
 ),
 (
+  'TW',
+  'TWSE',
   '1464',
   '2026-05-27',
   10.15,
@@ -10860,6 +16485,8 @@ from (
   6227918
 ),
 (
+  'TW',
+  'TWSE',
   '1465',
   '2026-05-27',
   12.2,
@@ -10870,6 +16497,8 @@ from (
   1073308
 ),
 (
+  'TW',
+  'TWSE',
   '1466',
   '2026-05-27',
   14.45,
@@ -10880,6 +16509,8 @@ from (
   3396023
 ),
 (
+  'TW',
+  'TWSE',
   '1467',
   '2026-05-27',
   6.95,
@@ -10890,6 +16521,8 @@ from (
   3423522
 ),
 (
+  'TW',
+  'TWSE',
   '1468',
   '2026-05-27',
   11.95,
@@ -10900,6 +16533,8 @@ from (
   487460
 ),
 (
+  'TW',
+  'TWSE',
   '1470',
   '2026-05-27',
   21.55,
@@ -10910,6 +16545,8 @@ from (
   152505
 ),
 (
+  'TW',
+  'TWSE',
   '1471',
   '2026-05-27',
   10.55,
@@ -10920,6 +16557,8 @@ from (
   8164526
 ),
 (
+  'TW',
+  'TWSE',
   '1472',
   '2026-05-27',
   89.9,
@@ -10930,6 +16569,8 @@ from (
   842428
 ),
 (
+  'TW',
+  'TWSE',
   '1473',
   '2026-05-27',
   20.3,
@@ -10940,6 +16581,8 @@ from (
   4962077
 ),
 (
+  'TW',
+  'TWSE',
   '1474',
   '2026-05-27',
   9.85,
@@ -10950,6 +16593,8 @@ from (
   1857108
 ),
 (
+  'TW',
+  'TWSE',
   '1475',
   '2026-05-27',
   25,
@@ -10960,6 +16605,8 @@ from (
   2529950
 ),
 (
+  'TW',
+  'TWSE',
   '1476',
   '2026-05-27',
   337,
@@ -10970,6 +16617,8 @@ from (
   1039381438
 ),
 (
+  'TW',
+  'TWSE',
   '1477',
   '2026-05-27',
   215,
@@ -10980,6 +16629,8 @@ from (
   881986620
 ),
 (
+  'TW',
+  'TWSE',
   '1503',
   '2026-05-27',
   209,
@@ -10990,6 +16641,8 @@ from (
   4593006709
 ),
 (
+  'TW',
+  'TWSE',
   '1504',
   '2026-05-27',
   73,
@@ -11000,6 +16653,8 @@ from (
   1812369942
 ),
 (
+  'TW',
+  'TWSE',
   '1506',
   '2026-05-27',
   10.35,
@@ -11010,6 +16665,8 @@ from (
   4706830
 ),
 (
+  'TW',
+  'TWSE',
   '1512',
   '2026-05-27',
   6.94,
@@ -11020,6 +16677,8 @@ from (
   668651
 ),
 (
+  'TW',
+  'TWSE',
   '1513',
   '2026-05-27',
   168.5,
@@ -11030,6 +16689,8 @@ from (
   5250500479
 ),
 (
+  'TW',
+  'TWSE',
   '1514',
   '2026-05-27',
   126,
@@ -11040,6 +16701,8 @@ from (
   1836287188
 ),
 (
+  'TW',
+  'TWSE',
   '1515',
   '2026-05-27',
   23,
@@ -11050,6 +16713,8 @@ from (
   23609951
 ),
 (
+  'TW',
+  'TWSE',
   '1516',
   '2026-05-27',
   21.3,
@@ -11060,6 +16725,8 @@ from (
   759841
 ),
 (
+  'TW',
+  'TWSE',
   '1517',
   '2026-05-27',
   10.1,
@@ -11070,6 +16737,8 @@ from (
   4628650
 ),
 (
+  'TW',
+  'TWSE',
   '1519',
   '2026-05-27',
   870,
@@ -11080,6 +16749,8 @@ from (
   5552894043
 ),
 (
+  'TW',
+  'TWSE',
   '1521',
   '2026-05-27',
   24.8,
@@ -11090,6 +16761,8 @@ from (
   1077375
 ),
 (
+  'TW',
+  'TWSE',
   '1522',
   '2026-05-27',
   29.1,
@@ -11100,6 +16773,8 @@ from (
   47455747
 ),
 (
+  'TW',
+  'TWSE',
   '1524',
   '2026-05-27',
   29.3,
@@ -11110,6 +16785,8 @@ from (
   28512520
 ),
 (
+  'TW',
+  'TWSE',
   '1525',
   '2026-05-27',
   72.5,
@@ -11120,6 +16797,8 @@ from (
   9769352
 ),
 (
+  'TW',
+  'TWSE',
   '1526',
   '2026-05-27',
   14.55,
@@ -11130,6 +16809,8 @@ from (
   2033395
 ),
 (
+  'TW',
+  'TWSE',
   '1527',
   '2026-05-27',
   33,
@@ -11140,6 +16821,8 @@ from (
   27052234
 ),
 (
+  'TW',
+  'TWSE',
   '1528',
   '2026-05-27',
   26.2,
@@ -11150,6 +16833,8 @@ from (
   140434360
 ),
 (
+  'TW',
+  'TWSE',
   '1529',
   '2026-05-27',
   21.8,
@@ -11160,6 +16845,8 @@ from (
   45861424
 ),
 (
+  'TW',
+  'TWSE',
   '1530',
   '2026-05-27',
   34.5,
@@ -11170,6 +16857,8 @@ from (
   71052637
 ),
 (
+  'TW',
+  'TWSE',
   '1531',
   '2026-05-27',
   12.25,
@@ -11180,6 +16869,8 @@ from (
   4771481
 ),
 (
+  'TW',
+  'TWSE',
   '1532',
   '2026-05-27',
   20.65,
@@ -11190,6 +16881,8 @@ from (
   16617753
 ),
 (
+  'TW',
+  'TWSE',
   '1533',
   '2026-05-27',
   38.9,
@@ -11200,6 +16893,8 @@ from (
   23293099
 ),
 (
+  'TW',
+  'TWSE',
   '1535',
   '2026-05-27',
   49.5,
@@ -11210,6 +16905,8 @@ from (
   6689497
 ),
 (
+  'TW',
+  'TWSE',
   '1536',
   '2026-05-27',
   51,
@@ -11220,6 +16917,8 @@ from (
   154272747
 ),
 (
+  'TW',
+  'TWSE',
   '1537',
   '2026-05-27',
   125.5,
@@ -11230,6 +16929,8 @@ from (
   14804198
 ),
 (
+  'TW',
+  'TWSE',
   '1538',
   '2026-05-27',
   11.75,
@@ -11240,6 +16941,8 @@ from (
   231265
 ),
 (
+  'TW',
+  'TWSE',
   '1539',
   '2026-05-27',
   16.05,
@@ -11250,6 +16953,8 @@ from (
   1180488
 ),
 (
+  'TW',
+  'TWSE',
   '1540',
   '2026-05-27',
   21.65,
@@ -11260,6 +16965,8 @@ from (
   9355193
 ),
 (
+  'TW',
+  'TWSE',
   '1541',
   '2026-05-27',
   20.5,
@@ -11270,6 +16977,8 @@ from (
   771097
 ),
 (
+  'TW',
+  'TWSE',
   '1558',
   '2026-05-27',
   91.5,
@@ -11280,6 +16989,8 @@ from (
   9400160
 ),
 (
+  'TW',
+  'TWSE',
   '1560',
   '2026-05-27',
   750,
@@ -11290,6 +17001,8 @@ from (
   1510033475
 ),
 (
+  'TW',
+  'TWSE',
   '1563',
   '2026-05-27',
   55.6,
@@ -11300,6 +17013,8 @@ from (
   77250698
 ),
 (
+  'TW',
+  'TWSE',
   '1568',
   '2026-05-27',
   37.5,
@@ -11310,6 +17025,8 @@ from (
   52863049
 ),
 (
+  'TW',
+  'TWSE',
   '1582',
   '2026-05-27',
   113,
@@ -11320,6 +17037,8 @@ from (
   809322485
 ),
 (
+  'TW',
+  'TWSE',
   '1583',
   '2026-05-27',
   50.2,
@@ -11330,6 +17049,8 @@ from (
   7589288
 ),
 (
+  'TW',
+  'TWSE',
   '1587',
   '2026-05-27',
   28.25,
@@ -11340,6 +17061,8 @@ from (
   23881960
 ),
 (
+  'TW',
+  'TWSE',
   '1590',
   '2026-05-27',
   1495,
@@ -11350,6 +17073,8 @@ from (
   894545465
 ),
 (
+  'TW',
+  'TWSE',
   '1597',
   '2026-05-27',
   215,
@@ -11360,6 +17085,8 @@ from (
   1917853304
 ),
 (
+  'TW',
+  'TWSE',
   '1598',
   '2026-05-27',
   20.2,
@@ -11370,6 +17097,8 @@ from (
   3586540
 ),
 (
+  'TW',
+  'TWSE',
   '1603',
   '2026-05-27',
   31.5,
@@ -11380,6 +17109,8 @@ from (
   9413212
 ),
 (
+  'TW',
+  'TWSE',
   '1604',
   '2026-05-27',
   23.3,
@@ -11390,6 +17121,8 @@ from (
   10249772
 ),
 (
+  'TW',
+  'TWSE',
   '1605',
   '2026-05-27',
   38,
@@ -11400,6 +17133,8 @@ from (
   1833548994
 ),
 (
+  'TW',
+  'TWSE',
   '1608',
   '2026-05-27',
   33.6,
@@ -11410,6 +17145,8 @@ from (
   108704874
 ),
 (
+  'TW',
+  'TWSE',
   '1609',
   '2026-05-27',
   36.4,
@@ -11420,6 +17157,8 @@ from (
   393112075
 ),
 (
+  'TW',
+  'TWSE',
   '1611',
   '2026-05-27',
   11.45,
@@ -11430,6 +17169,8 @@ from (
   10513219
 ),
 (
+  'TW',
+  'TWSE',
   '1612',
   '2026-05-27',
   37.05,
@@ -11440,6 +17181,8 @@ from (
   58320965
 ),
 (
+  'TW',
+  'TWSE',
   '1614',
   '2026-05-27',
   30.95,
@@ -11450,6 +17193,8 @@ from (
   3755055
 ),
 (
+  'TW',
+  'TWSE',
   '1615',
   '2026-05-27',
   44.05,
@@ -11460,6 +17205,8 @@ from (
   12115422
 ),
 (
+  'TW',
+  'TWSE',
   '1616',
   '2026-05-27',
   21.7,
@@ -11470,6 +17217,8 @@ from (
   16119189
 ),
 (
+  'TW',
+  'TWSE',
   '1617',
   '2026-05-27',
   14.8,
@@ -11480,6 +17229,8 @@ from (
   2270239
 ),
 (
+  'TW',
+  'TWSE',
   '1618',
   '2026-05-27',
   43.6,
@@ -11490,6 +17241,8 @@ from (
   113620449
 ),
 (
+  'TW',
+  'TWSE',
   '1623',
   '2026-05-27',
   230,
@@ -11500,6 +17253,8 @@ from (
   133137268
 ),
 (
+  'TW',
+  'TWSE',
   '1626',
   '2026-05-27',
   10.35,
@@ -11510,6 +17265,8 @@ from (
   2819549
 ),
 (
+  'TW',
+  'TWSE',
   '1702',
   '2026-05-27',
   33.1,
@@ -11520,6 +17277,8 @@ from (
   23078646
 ),
 (
+  'TW',
+  'TWSE',
   '1707',
   '2026-05-27',
   100.5,
@@ -11530,6 +17289,8 @@ from (
   83469901
 ),
 (
+  'TW',
+  'TWSE',
   '1708',
   '2026-05-27',
   38.5,
@@ -11540,6 +17301,8 @@ from (
   93497206
 ),
 (
+  'TW',
+  'TWSE',
   '1709',
   '2026-05-27',
   19.25,
@@ -11550,6 +17313,8 @@ from (
   40630672
 ),
 (
+  'TW',
+  'TWSE',
   '1710',
   '2026-05-27',
   12.7,
@@ -11560,6 +17325,8 @@ from (
   41523241
 ),
 (
+  'TW',
+  'TWSE',
   '1711',
   '2026-05-27',
   51.3,
@@ -11570,6 +17337,8 @@ from (
   943830584
 ),
 (
+  'TW',
+  'TWSE',
   '1712',
   '2026-05-27',
   39.25,
@@ -11580,6 +17349,8 @@ from (
   40633492
 ),
 (
+  'TW',
+  'TWSE',
   '1713',
   '2026-05-27',
   48.45,
@@ -11590,6 +17361,8 @@ from (
   23662114
 ),
 (
+  'TW',
+  'TWSE',
   '1714',
   '2026-05-27',
   9.6,
@@ -11600,6 +17373,8 @@ from (
   40452259
 ),
 (
+  'TW',
+  'TWSE',
   '1717',
   '2026-05-27',
   84.7,
@@ -11610,6 +17385,8 @@ from (
   7557873657
 ),
 (
+  'TW',
+  'TWSE',
   '1718',
   '2026-05-27',
   6.42,
@@ -11620,6 +17397,8 @@ from (
   32046081
 ),
 (
+  'TW',
+  'TWSE',
   '1720',
   '2026-05-27',
   61.2,
@@ -11630,6 +17409,8 @@ from (
   24212629
 ),
 (
+  'TW',
+  'TWSE',
   '1721',
   '2026-05-27',
   29.9,
@@ -11640,6 +17421,8 @@ from (
   229243262
 ),
 (
+  'TW',
+  'TWSE',
   '1722',
   '2026-05-27',
   45.85,
@@ -11650,6 +17433,8 @@ from (
   159699327
 ),
 (
+  'TW',
+  'TWSE',
   '1723',
   '2026-05-27',
   82.2,
@@ -11660,6 +17445,8 @@ from (
   58582457
 ),
 (
+  'TW',
+  'TWSE',
   '1725',
   '2026-05-27',
   31.2,
@@ -11670,6 +17457,8 @@ from (
   4298995
 ),
 (
+  'TW',
+  'TWSE',
   '1726',
   '2026-05-27',
   77,
@@ -11680,6 +17469,8 @@ from (
   3551083
 ),
 (
+  'TW',
+  'TWSE',
   '1727',
   '2026-05-27',
   97.3,
@@ -11690,6 +17481,8 @@ from (
   1179364955
 ),
 (
+  'TW',
+  'TWSE',
   '1730',
   '2026-05-27',
   52.5,
@@ -11700,6 +17493,8 @@ from (
   2655280
 ),
 (
+  'TW',
+  'TWSE',
   '1731',
   '2026-05-27',
   21.5,
@@ -11710,6 +17505,8 @@ from (
   8861807
 ),
 (
+  'TW',
+  'TWSE',
   '1732',
   '2026-05-27',
   26.75,
@@ -11720,6 +17517,8 @@ from (
   6142634
 ),
 (
+  'TW',
+  'TWSE',
   '1733',
   '2026-05-27',
   30,
@@ -11730,6 +17529,8 @@ from (
   4202461
 ),
 (
+  'TW',
+  'TWSE',
   '1734',
   '2026-05-27',
   30.5,
@@ -11740,6 +17541,8 @@ from (
   9882944
 ),
 (
+  'TW',
+  'TWSE',
   '1735',
   '2026-05-27',
   26,
@@ -11750,6 +17553,8 @@ from (
   19860568
 ),
 (
+  'TW',
+  'TWSE',
   '1736',
   '2026-05-27',
   119,
@@ -11760,6 +17565,8 @@ from (
   75159857
 ),
 (
+  'TW',
+  'TWSE',
   '1737',
   '2026-05-27',
   31.5,
@@ -11770,6 +17577,8 @@ from (
   3291968
 ),
 (
+  'TW',
+  'TWSE',
   '1752',
   '2026-05-27',
   32.5,
@@ -11780,6 +17589,8 @@ from (
   2412896
 ),
 (
+  'TW',
+  'TWSE',
   '1760',
   '2026-05-27',
   61.1,
@@ -11790,6 +17601,8 @@ from (
   11273726
 ),
 (
+  'TW',
+  'TWSE',
   '1762',
   '2026-05-27',
   39.95,
@@ -11800,6 +17613,8 @@ from (
   21694039
 ),
 (
+  'TW',
+  'TWSE',
   '1773',
   '2026-05-27',
   190.5,
@@ -11810,6 +17625,8 @@ from (
   619788167
 ),
 (
+  'TW',
+  'TWSE',
   '1776',
   '2026-05-27',
   18.2,
@@ -11820,6 +17637,8 @@ from (
   2412421
 ),
 (
+  'TW',
+  'TWSE',
   '1783',
   '2026-05-27',
   38.1,
@@ -11830,6 +17649,8 @@ from (
   4958058
 ),
 (
+  'TW',
+  'TWSE',
   '1786',
   '2026-05-27',
   53.8,
@@ -11840,6 +17661,8 @@ from (
   15126311
 ),
 (
+  'TW',
+  'TWSE',
   '1789',
   '2026-05-27',
   19.05,
@@ -11850,6 +17673,8 @@ from (
   10659850
 ),
 (
+  'TW',
+  'TWSE',
   '1795',
   '2026-05-27',
   195,
@@ -11860,6 +17685,8 @@ from (
   357048036
 ),
 (
+  'TW',
+  'TWSE',
   '1802',
   '2026-05-27',
   73,
@@ -11870,6 +17697,8 @@ from (
   11183659823
 ),
 (
+  'TW',
+  'TWSE',
   '1805',
   '2026-05-27',
   10.3,
@@ -11880,6 +17709,8 @@ from (
   1641064
 ),
 (
+  'TW',
+  'TWSE',
   '1806',
   '2026-05-27',
   8,
@@ -11890,6 +17721,8 @@ from (
   4127325
 ),
 (
+  'TW',
+  'TWSE',
   '1808',
   '2026-05-27',
   28.85,
@@ -11900,6 +17733,8 @@ from (
   42064823
 ),
 (
+  'TW',
+  'TWSE',
   '1809',
   '2026-05-27',
   47.05,
@@ -11910,6 +17745,8 @@ from (
   602596139
 ),
 (
+  'TW',
+  'TWSE',
   '1810',
   '2026-05-27',
   18.85,
@@ -11920,6 +17757,8 @@ from (
   219274658
 ),
 (
+  'TW',
+  'TWSE',
   '1817',
   '2026-05-27',
   39.1,
@@ -11930,6 +17769,8 @@ from (
   1289971
 ),
 (
+  'TW',
+  'TWSE',
   '1903',
   '2026-05-27',
   50,
@@ -11940,6 +17781,8 @@ from (
   21084636
 ),
 (
+  'TW',
+  'TWSE',
   '1904',
   '2026-05-27',
   18.95,
@@ -11950,6 +17793,8 @@ from (
   28055566
 ),
 (
+  'TW',
+  'TWSE',
   '1905',
   '2026-05-27',
   12.05,
@@ -11960,6 +17805,8 @@ from (
   37390861
 ),
 (
+  'TW',
+  'TWSE',
   '1906',
   '2026-05-27',
   10.35,
@@ -11970,6 +17817,8 @@ from (
   2102089
 ),
 (
+  'TW',
+  'TWSE',
   '1907',
   '2026-05-27',
   24.5,
@@ -11980,6 +17829,8 @@ from (
   43228515
 ),
 (
+  'TW',
+  'TWSE',
   '1909',
   '2026-05-27',
   8.91,
@@ -11990,6 +17841,8 @@ from (
   28150690
 ),
 (
+  'TW',
+  'TWSE',
   '2002',
   '2026-05-27',
   19.65,
@@ -12000,6 +17853,8 @@ from (
   1864563655
 ),
 (
+  'TW',
+  'TWSE',
   '2006',
   '2026-05-27',
   65.8,
@@ -12010,6 +17865,8 @@ from (
   156907954
 ),
 (
+  'TW',
+  'TWSE',
   '2007',
   '2026-05-27',
   7.51,
@@ -12020,6 +17877,8 @@ from (
   4354260
 ),
 (
+  'TW',
+  'TWSE',
   '2008',
   '2026-05-27',
   28,
@@ -12030,6 +17889,8 @@ from (
   739944
 ),
 (
+  'TW',
+  'TWSE',
   '2009',
   '2026-05-27',
   40,
@@ -12040,6 +17901,8 @@ from (
   68886614
 ),
 (
+  'TW',
+  'TWSE',
   '2010',
   '2026-05-27',
   22.85,
@@ -12050,6 +17913,8 @@ from (
   39573711
 ),
 (
+  'TW',
+  'TWSE',
   '2012',
   '2026-05-27',
   14.65,
@@ -12060,6 +17925,8 @@ from (
   881226
 ),
 (
+  'TW',
+  'TWSE',
   '2013',
   '2026-05-27',
   42.5,
@@ -12070,6 +17937,8 @@ from (
   5318509
 ),
 (
+  'TW',
+  'TWSE',
   '2014',
   '2026-05-27',
   18.35,
@@ -12080,6 +17949,8 @@ from (
   152542306
 ),
 (
+  'TW',
+  'TWSE',
   '2015',
   '2026-05-27',
   61.6,
@@ -12090,6 +17961,8 @@ from (
   17775547
 ),
 (
+  'TW',
+  'TWSE',
   '2017',
   '2026-05-27',
   8.91,
@@ -12100,6 +17973,8 @@ from (
   7238357
 ),
 (
+  'TW',
+  'TWSE',
   '2020',
   '2026-05-27',
   21.6,
@@ -12110,6 +17985,8 @@ from (
   16343856
 ),
 (
+  'TW',
+  'TWSE',
   '2022',
   '2026-05-27',
   7.9,
@@ -12120,6 +17997,8 @@ from (
   9999629
 ),
 (
+  'TW',
+  'TWSE',
   '2023',
   '2026-05-27',
   13.7,
@@ -12130,6 +18009,8 @@ from (
   33945160
 ),
 (
+  'TW',
+  'TWSE',
   '2024',
   '2026-05-27',
   13.8,
@@ -12140,6 +18021,8 @@ from (
   168161
 ),
 (
+  'TW',
+  'TWSE',
   '2025',
   '2026-05-27',
   12.4,
@@ -12150,6 +18033,8 @@ from (
   4314965
 ),
 (
+  'TW',
+  'TWSE',
   '2027',
   '2026-05-27',
   41.5,
@@ -12160,6 +18045,8 @@ from (
   1152329687
 ),
 (
+  'TW',
+  'TWSE',
   '2028',
   '2026-05-27',
   17.7,
@@ -12170,6 +18057,8 @@ from (
   4134272
 ),
 (
+  'TW',
+  'TWSE',
   '2029',
   '2026-05-27',
   20.55,
@@ -12180,6 +18069,8 @@ from (
   6005227
 ),
 (
+  'TW',
+  'TWSE',
   '2030',
   '2026-05-27',
   17.95,
@@ -12190,6 +18081,8 @@ from (
   32025675
 ),
 (
+  'TW',
+  'TWSE',
   '2031',
   '2026-05-27',
   38.95,
@@ -12200,6 +18093,8 @@ from (
   36065822
 ),
 (
+  'TW',
+  'TWSE',
   '2032',
   '2026-05-27',
   17.8,
@@ -12210,6 +18105,8 @@ from (
   43389739
 ),
 (
+  'TW',
+  'TWSE',
   '2033',
   '2026-05-27',
   15.45,
@@ -12220,6 +18117,8 @@ from (
   2813793
 ),
 (
+  'TW',
+  'TWSE',
   '2034',
   '2026-05-27',
   20.2,
@@ -12230,6 +18129,8 @@ from (
   32070631
 ),
 (
+  'TW',
+  'TWSE',
   '2038',
   '2026-05-27',
   14.05,
@@ -12240,6 +18141,8 @@ from (
   15148938
 ),
 (
+  'TW',
+  'TWSE',
   '2049',
   '2026-05-27',
   415,
@@ -12250,6 +18153,8 @@ from (
   3225081209
 ),
 (
+  'TW',
+  'TWSE',
   '2059',
   '2026-05-27',
   5065,
@@ -12260,6 +18165,8 @@ from (
   2812272640
 ),
 (
+  'TW',
+  'TWSE',
   '2062',
   '2026-05-27',
   18.4,
@@ -12270,6 +18177,8 @@ from (
   8278199
 ),
 (
+  'TW',
+  'TWSE',
   '2069',
   '2026-05-27',
   19.65,
@@ -12280,6 +18189,8 @@ from (
   10452430
 ),
 (
+  'TW',
+  'TWSE',
   '2072',
   '2026-05-27',
   167,
@@ -12290,6 +18201,8 @@ from (
   90639733
 ),
 (
+  'TW',
+  'TWSE',
   '2101',
   '2026-05-27',
   30.5,
@@ -12300,6 +18213,8 @@ from (
   96384719
 ),
 (
+  'TW',
+  'TWSE',
   '2102',
   '2026-05-27',
   18.1,
@@ -12310,6 +18225,8 @@ from (
   5428398
 ),
 (
+  'TW',
+  'TWSE',
   '2103',
   '2026-05-27',
   19.4,
@@ -12320,6 +18237,8 @@ from (
   133147992
 ),
 (
+  'TW',
+  'TWSE',
   '2104',
   '2026-05-27',
   10.05,
@@ -12330,6 +18249,8 @@ from (
   23506277
 ),
 (
+  'TW',
+  'TWSE',
   '2105',
   '2026-05-27',
   31.55,
@@ -12340,6 +18261,8 @@ from (
   286495701
 ),
 (
+  'TW',
+  'TWSE',
   '2106',
   '2026-05-27',
   16.75,
@@ -12350,6 +18273,8 @@ from (
   16368135
 ),
 (
+  'TW',
+  'TWSE',
   '2107',
   '2026-05-27',
   24.8,
@@ -12360,6 +18285,8 @@ from (
   8904696
 ),
 (
+  'TW',
+  'TWSE',
   '2108',
   '2026-05-27',
   27.7,
@@ -12370,6 +18297,8 @@ from (
   65182364
 ),
 (
+  'TW',
+  'TWSE',
   '2109',
   '2026-05-27',
   14.1,
@@ -12380,6 +18309,8 @@ from (
   2883759
 ),
 (
+  'TW',
+  'TWSE',
   '2114',
   '2026-05-27',
   91.6,
@@ -12390,6 +18321,8 @@ from (
   8359004
 ),
 (
+  'TW',
+  'TWSE',
   '2115',
   '2026-05-27',
   20.7,
@@ -12400,6 +18333,8 @@ from (
   4507808
 ),
 (
+  'TW',
+  'TWSE',
   '2201',
   '2026-05-27',
   27,
@@ -12410,6 +18345,8 @@ from (
   74295919
 ),
 (
+  'TW',
+  'TWSE',
   '2204',
   '2026-05-27',
   53.4,
@@ -12420,6 +18357,8 @@ from (
   89466409
 ),
 (
+  'TW',
+  'TWSE',
   '2206',
   '2026-05-27',
   59.5,
@@ -12430,6 +18369,8 @@ from (
   112997777
 ),
 (
+  'TW',
+  'TWSE',
   '2207',
   '2026-05-27',
   462.5,
@@ -12440,6 +18381,8 @@ from (
   231703793
 ),
 (
+  'TW',
+  'TWSE',
   '2208',
   '2026-05-27',
   18.15,
@@ -12450,6 +18393,8 @@ from (
   75925837
 ),
 (
+  'TW',
+  'TWSE',
   '2211',
   '2026-05-27',
   92.7,
@@ -12460,6 +18405,8 @@ from (
   76049545
 ),
 (
+  'TW',
+  'TWSE',
   '2227',
   '2026-05-27',
   48.35,
@@ -12470,6 +18417,8 @@ from (
   4106668
 ),
 (
+  'TW',
+  'TWSE',
   '2228',
   '2026-05-27',
   82.7,
@@ -12480,6 +18429,8 @@ from (
   20605391
 ),
 (
+  'TW',
+  'TWSE',
   '2231',
   '2026-05-27',
   107.5,
@@ -12490,6 +18441,8 @@ from (
   55651448
 ),
 (
+  'TW',
+  'TWSE',
   '2233',
   '2026-05-27',
   380,
@@ -12500,6 +18453,8 @@ from (
   795380447
 ),
 (
+  'TW',
+  'TWSE',
   '2236',
   '2026-05-27',
   142.5,
@@ -12510,6 +18465,8 @@ from (
   59508160
 ),
 (
+  'TW',
+  'TWSE',
   '2239',
   '2026-05-27',
   22.25,
@@ -12520,6 +18477,8 @@ from (
   2472354
 ),
 (
+  'TW',
+  'TWSE',
   '2241',
   '2026-05-27',
   37.7,
@@ -12530,6 +18489,8 @@ from (
   63884921
 ),
 (
+  'TW',
+  'TWSE',
   '2243',
   '2026-05-27',
   23.9,
@@ -12540,6 +18501,8 @@ from (
   11724294
 ),
 (
+  'TW',
+  'TWSE',
   '2247',
   '2026-05-27',
   205.5,
@@ -12550,6 +18513,8 @@ from (
   14308633
 ),
 (
+  'TW',
+  'TWSE',
   '2248',
   '2026-05-27',
   54.1,
@@ -12560,6 +18525,8 @@ from (
   2014145
 ),
 (
+  'TW',
+  'TWSE',
   '2250',
   '2026-05-27',
   61.8,
@@ -12570,6 +18537,8 @@ from (
   7281766
 ),
 (
+  'TW',
+  'TWSE',
   '2254',
   '2026-05-27',
   59.2,
@@ -12580,6 +18549,8 @@ from (
   2609059
 ),
 (
+  'TW',
+  'TWSE',
   '2258',
   '2026-05-27',
   29.05,
@@ -12590,6 +18561,8 @@ from (
   24769531
 ),
 (
+  'TW',
+  'TWSE',
   '2301',
   '2026-05-27',
   250,
@@ -12600,6 +18573,8 @@ from (
   14493912668
 ),
 (
+  'TW',
+  'TWSE',
   '2302',
   '2026-05-27',
   36,
@@ -12610,6 +18585,8 @@ from (
   531833753
 ),
 (
+  'TW',
+  'TWSE',
   '2303',
   '2026-05-27',
   139.5,
@@ -12620,6 +18597,8 @@ from (
   40005385051
 ),
 (
+  'TW',
+  'TWSE',
   '2305',
   '2026-05-27',
   21.8,
@@ -12630,6 +18609,8 @@ from (
   180885275
 ),
 (
+  'TW',
+  'TWSE',
   '2308',
   '2026-05-27',
   2490,
@@ -12640,6 +18621,8 @@ from (
   35478124000
 ),
 (
+  'TW',
+  'TWSE',
   '2312',
   '2026-05-27',
   38.85,
@@ -12650,6 +18633,8 @@ from (
   6165086872
 ),
 (
+  'TW',
+  'TWSE',
   '2313',
   '2026-05-27',
   289.5,
@@ -12660,6 +18645,8 @@ from (
   22916958378
 ),
 (
+  'TW',
+  'TWSE',
   '2314',
   '2026-05-27',
   16.4,
@@ -12670,6 +18657,8 @@ from (
   11710700
 ),
 (
+  'TW',
+  'TWSE',
   '2316',
   '2026-05-27',
   174,
@@ -12680,6 +18669,8 @@ from (
   2099076188
 ),
 (
+  'TW',
+  'TWSE',
   '2317',
   '2026-05-27',
   263,
@@ -12690,6 +18681,8 @@ from (
   20785977986
 ),
 (
+  'TW',
+  'TWSE',
   '2321',
   '2026-05-27',
   14.3,
@@ -12700,6 +18693,8 @@ from (
   782601
 ),
 (
+  'TW',
+  'TWSE',
   '2323',
   '2026-05-27',
   10.35,
@@ -12710,6 +18705,8 @@ from (
   85832302
 ),
 (
+  'TW',
+  'TWSE',
   '2324',
   '2026-05-27',
   33.9,
@@ -12720,6 +18717,8 @@ from (
   3884688465
 ),
 (
+  'TW',
+  'TWSE',
   '2327',
   '2026-05-27',
   683,
@@ -12730,6 +18729,8 @@ from (
   17741177104
 ),
 (
+  'TW',
+  'TWSE',
   '2328',
   '2026-05-27',
   55.2,
@@ -12740,6 +18741,8 @@ from (
   506868937
 ),
 (
+  'TW',
+  'TWSE',
   '2329',
   '2026-05-27',
   60.4,
@@ -12750,6 +18753,8 @@ from (
   1362725645
 ),
 (
+  'TW',
+  'TWSE',
   '2330',
   '2026-05-27',
   2310,
@@ -12760,6 +18765,8 @@ from (
   93104987424
 ),
 (
+  'TW',
+  'TWSE',
   '2331',
   '2026-05-27',
   21.2,
@@ -12770,6 +18777,8 @@ from (
   83744165
 ),
 (
+  'TW',
+  'TWSE',
   '2332',
   '2026-05-27',
   15.7,
@@ -12780,6 +18789,8 @@ from (
   98575039
 ),
 (
+  'TW',
+  'TWSE',
   '2337',
   '2026-05-27',
   172,
@@ -12790,6 +18801,8 @@ from (
   39615087835
 ),
 (
+  'TW',
+  'TWSE',
   '2338',
   '2026-05-27',
   56.9,
@@ -12800,6 +18813,8 @@ from (
   478952313
 ),
 (
+  'TW',
+  'TWSE',
   '2340',
   '2026-05-27',
   39.5,
@@ -12810,6 +18825,8 @@ from (
   571453778
 ),
 (
+  'TW',
+  'TWSE',
   '2342',
   '2026-05-27',
   43.6,
@@ -12820,6 +18837,8 @@ from (
   580781175
 ),
 (
+  'TW',
+  'TWSE',
   '2344',
   '2026-05-27',
   155,
@@ -12830,6 +18849,8 @@ from (
   67328902619
 ),
 (
+  'TW',
+  'TWSE',
   '2345',
   '2026-05-27',
   2645,
@@ -12840,6 +18861,8 @@ from (
   10383502215
 ),
 (
+  'TW',
+  'TWSE',
   '2347',
   '2026-05-27',
   85,
@@ -12850,6 +18873,8 @@ from (
   436653037
 ),
 (
+  'TW',
+  'TWSE',
   '2348',
   '2026-05-27',
   68,
@@ -12860,6 +18885,8 @@ from (
   29453013
 ),
 (
+  'TW',
+  'TWSE',
   '2349',
   '2026-05-27',
   13.5,
@@ -12870,6 +18897,8 @@ from (
   144990164
 ),
 (
+  'TW',
+  'TWSE',
   '2351',
   '2026-05-27',
   227.5,
@@ -12880,6 +18909,8 @@ from (
   2832113191
 ),
 (
+  'TW',
+  'TWSE',
   '2352',
   '2026-05-27',
   28.2,
@@ -12890,6 +18921,8 @@ from (
   222983075
 ),
 (
+  'TW',
+  'TWSE',
   '2353',
   '2026-05-27',
   32.1,
@@ -12900,6 +18933,8 @@ from (
   1961987635
 ),
 (
+  'TW',
+  'TWSE',
   '2354',
   '2026-05-27',
   60.9,
@@ -12910,6 +18945,8 @@ from (
   666646943
 ),
 (
+  'TW',
+  'TWSE',
   '2355',
   '2026-05-27',
   65.8,
@@ -12920,6 +18957,8 @@ from (
   1864524544
 ),
 (
+  'TW',
+  'TWSE',
   '2356',
   '2026-05-27',
   63.7,
@@ -12930,6 +18969,8 @@ from (
   4961810023
 ),
 (
+  'TW',
+  'TWSE',
   '2357',
   '2026-05-27',
   700,
@@ -12940,6 +18981,8 @@ from (
   2965146666
 ),
 (
+  'TW',
+  'TWSE',
   '2359',
   '2026-05-27',
   147.5,
@@ -12950,6 +18993,8 @@ from (
   1495679299
 ),
 (
+  'TW',
+  'TWSE',
   '2360',
   '2026-05-27',
   2550,
@@ -12960,6 +19005,8 @@ from (
   6917361130
 ),
 (
+  'TW',
+  'TWSE',
   '2362',
   '2026-05-27',
   42,
@@ -12970,6 +19017,8 @@ from (
   57707184
 ),
 (
+  'TW',
+  'TWSE',
   '2363',
   '2026-05-27',
   69,
@@ -12980,6 +19029,8 @@ from (
   1866756573
 ),
 (
+  'TW',
+  'TWSE',
   '2364',
   '2026-05-27',
   68.6,
@@ -12990,6 +19041,8 @@ from (
   15331452
 ),
 (
+  'TW',
+  'TWSE',
   '2365',
   '2026-05-27',
   38.3,
@@ -13000,6 +19053,8 @@ from (
   234740219
 ),
 (
+  'TW',
+  'TWSE',
   '2367',
   '2026-05-27',
   67.6,
@@ -13010,6 +19065,8 @@ from (
   2658980918
 ),
 (
+  'TW',
+  'TWSE',
   '2368',
   '2026-05-27',
   1450,
@@ -13020,6 +19077,8 @@ from (
   8012579530
 ),
 (
+  'TW',
+  'TWSE',
   '2369',
   '2026-05-27',
   38.85,
@@ -13030,6 +19089,8 @@ from (
   3589376519
 ),
 (
+  'TW',
+  'TWSE',
   '2371',
   '2026-05-27',
   30.05,
@@ -13040,6 +19101,8 @@ from (
   551572479
 ),
 (
+  'TW',
+  'TWSE',
   '2373',
   '2026-05-27',
   57.4,
@@ -13050,6 +19113,8 @@ from (
   8348589
 ),
 (
+  'TW',
+  'TWSE',
   '2374',
   '2026-05-27',
   83.1,
@@ -13060,6 +19125,8 @@ from (
   788059914
 ),
 (
+  'TW',
+  'TWSE',
   '2375',
   '2026-05-27',
   137,
@@ -13070,6 +19137,8 @@ from (
   4735133832
 ),
 (
+  'TW',
+  'TWSE',
   '2376',
   '2026-05-27',
   341,
@@ -13080,6 +19149,8 @@ from (
   3029154295
 ),
 (
+  'TW',
+  'TWSE',
   '2377',
   '2026-05-27',
   127.5,
@@ -13090,6 +19161,8 @@ from (
   4029261672
 ),
 (
+  'TW',
+  'TWSE',
   '2379',
   '2026-05-27',
   595,
@@ -13100,6 +19173,8 @@ from (
   3690642480
 ),
 (
+  'TW',
+  'TWSE',
   '2380',
   '2026-05-27',
   5.74,
@@ -13110,6 +19185,8 @@ from (
   2407326
 ),
 (
+  'TW',
+  'TWSE',
   '2382',
   '2026-05-27',
   322,
@@ -13120,6 +19197,8 @@ from (
   13793091700
 ),
 (
+  'TW',
+  'TWSE',
   '2383',
   '2026-05-27',
   5500,
@@ -13130,6 +19209,8 @@ from (
   12711050610
 ),
 (
+  'TW',
+  'TWSE',
   '2385',
   '2026-05-27',
   133.5,
@@ -13140,6 +19221,8 @@ from (
   829158742
 ),
 (
+  'TW',
+  'TWSE',
   '2387',
   '2026-05-27',
   41.5,
@@ -13150,6 +19233,8 @@ from (
   41564734
 ),
 (
+  'TW',
+  'TWSE',
   '2388',
   '2026-05-27',
   78.7,
@@ -13160,6 +19245,8 @@ from (
   1001736626
 ),
 (
+  'TW',
+  'TWSE',
   '2390',
   '2026-05-27',
   10.55,
@@ -13170,6 +19257,8 @@ from (
   15703024
 ),
 (
+  'TW',
+  'TWSE',
   '2392',
   '2026-05-27',
   38.9,
@@ -13180,6 +19269,8 @@ from (
   121431525
 ),
 (
+  'TW',
+  'TWSE',
   '2393',
   '2026-05-27',
   64.5,
@@ -13190,6 +19281,8 @@ from (
   239837156
 ),
 (
+  'TW',
+  'TWSE',
   '2395',
   '2026-05-27',
   507,
@@ -13200,6 +19293,8 @@ from (
   2323157024
 ),
 (
+  'TW',
+  'TWSE',
   '2397',
   '2026-05-27',
   65,
@@ -13210,6 +19305,8 @@ from (
   37489097
 ),
 (
+  'TW',
+  'TWSE',
   '2399',
   '2026-05-27',
   50.8,
@@ -13220,6 +19317,8 @@ from (
   806107548
 ),
 (
+  'TW',
+  'TWSE',
   '2401',
   '2026-05-27',
   30.35,
@@ -13230,6 +19329,8 @@ from (
   959102322
 ),
 (
+  'TW',
+  'TWSE',
   '2402',
   '2026-05-27',
   70.5,
@@ -13240,6 +19341,8 @@ from (
   863008268
 ),
 (
+  'TW',
+  'TWSE',
   '2404',
   '2026-05-27',
   1285,
@@ -13250,6 +19353,8 @@ from (
   6296301630
 ),
 (
+  'TW',
+  'TWSE',
   '2405',
   '2026-05-27',
   16.95,
@@ -13260,6 +19365,8 @@ from (
   40373091
 ),
 (
+  'TW',
+  'TWSE',
   '2406',
   '2026-05-27',
   36,
@@ -13270,6 +19377,8 @@ from (
   798197334
 ),
 (
+  'TW',
+  'TWSE',
   '2408',
   '2026-05-27',
   333,
@@ -13280,6 +19389,8 @@ from (
   66247740234
 ),
 (
+  'TW',
+  'TWSE',
   '2409',
   '2026-05-27',
   22.15,
@@ -13290,6 +19401,8 @@ from (
   12131631799
 ),
 (
+  'TW',
+  'TWSE',
   '2412',
   '2026-05-27',
   137,
@@ -13300,6 +19413,8 @@ from (
   2140780201
 ),
 (
+  'TW',
+  'TWSE',
   '2413',
   '2026-05-27',
   51.7,
@@ -13310,6 +19425,8 @@ from (
   148148502
 ),
 (
+  'TW',
+  'TWSE',
   '2414',
   '2026-05-27',
   50.5,
@@ -13320,6 +19437,8 @@ from (
   16320474
 ),
 (
+  'TW',
+  'TWSE',
   '2415',
   '2026-05-27',
   26.85,
@@ -13330,6 +19449,8 @@ from (
   3717795
 ),
 (
+  'TW',
+  'TWSE',
   '2417',
   '2026-05-27',
   51.2,
@@ -13340,6 +19461,8 @@ from (
   125743954
 ),
 (
+  'TW',
+  'TWSE',
   '2419',
   '2026-05-27',
   31.3,
@@ -13350,6 +19473,8 @@ from (
   60945591
 ),
 (
+  'TW',
+  'TWSE',
   '2420',
   '2026-05-27',
   63,
@@ -13360,6 +19485,8 @@ from (
   58620689
 ),
 (
+  'TW',
+  'TWSE',
   '2421',
   '2026-05-27',
   166,
@@ -13370,6 +19497,8 @@ from (
   1161749468
 ),
 (
+  'TW',
+  'TWSE',
   '2423',
   '2026-05-27',
   82.1,
@@ -13380,6 +19509,8 @@ from (
   57745599
 ),
 (
+  'TW',
+  'TWSE',
   '2424',
   '2026-05-27',
   12.25,
@@ -13390,6 +19521,8 @@ from (
   8184421
 ),
 (
+  'TW',
+  'TWSE',
   '2425',
   '2026-05-27',
   35.25,
@@ -13400,6 +19533,8 @@ from (
   66369192
 ),
 (
+  'TW',
+  'TWSE',
   '2426',
   '2026-05-27',
   79.9,
@@ -13410,6 +19545,8 @@ from (
   1511770235
 ),
 (
+  'TW',
+  'TWSE',
   '2427',
   '2026-05-27',
   20.55,
@@ -13420,6 +19557,8 @@ from (
   14682589
 ),
 (
+  'TW',
+  'TWSE',
   '2428',
   '2026-05-27',
   260,
@@ -13430,6 +19569,8 @@ from (
   639683785
 ),
 (
+  'TW',
+  'TWSE',
   '2429',
   '2026-05-27',
   52.9,
@@ -13440,6 +19581,8 @@ from (
   66854375
 ),
 (
+  'TW',
+  'TWSE',
   '2430',
   '2026-05-27',
   18.8,
@@ -13450,6 +19593,8 @@ from (
   3792704
 ),
 (
+  'TW',
+  'TWSE',
   '2431',
   '2026-05-27',
   10.5,
@@ -13460,6 +19605,8 @@ from (
   3913674
 ),
 (
+  'TW',
+  'TWSE',
   '2432',
   '2026-05-27',
   26.1,
@@ -13470,6 +19617,8 @@ from (
   184558
 ),
 (
+  'TW',
+  'TWSE',
   '2433',
   '2026-05-27',
   43.85,
@@ -13480,6 +19629,8 @@ from (
   4865009
 ),
 (
+  'TW',
+  'TWSE',
   '2434',
   '2026-05-27',
   30.7,
@@ -13490,6 +19641,8 @@ from (
   8847922
 ),
 (
+  'TW',
+  'TWSE',
   '2436',
   '2026-05-27',
   81.8,
@@ -13500,6 +19653,8 @@ from (
   968667899
 ),
 (
+  'TW',
+  'TWSE',
   '2438',
   '2026-05-27',
   23.5,
@@ -13510,6 +19665,8 @@ from (
   45836102
 ),
 (
+  'TW',
+  'TWSE',
   '2439',
   '2026-05-27',
   93.1,
@@ -13520,6 +19677,8 @@ from (
   644719712
 ),
 (
+  'TW',
+  'TWSE',
   '2440',
   '2026-05-27',
   17.85,
@@ -13530,6 +19689,8 @@ from (
   16825323
 ),
 (
+  'TW',
+  'TWSE',
   '2441',
   '2026-05-27',
   139,
@@ -13540,6 +19701,8 @@ from (
   2646748910
 ),
 (
+  'TW',
+  'TWSE',
   '2442',
   '2026-05-27',
   18.6,
@@ -13550,6 +19713,8 @@ from (
   33125668
 ),
 (
+  'TW',
+  'TWSE',
   '2444',
   '2026-05-27',
   12.7,
@@ -13560,6 +19725,8 @@ from (
   10202675
 ),
 (
+  'TW',
+  'TWSE',
   '2449',
   '2026-05-27',
   344.5,
@@ -13570,6 +19737,8 @@ from (
   30805625536
 ),
 (
+  'TW',
+  'TWSE',
   '2450',
   '2026-05-27',
   29.25,
@@ -13580,6 +19749,8 @@ from (
   6798087
 ),
 (
+  'TW',
+  'TWSE',
   '2451',
   '2026-05-27',
   333,
@@ -13590,6 +19761,8 @@ from (
   2916115324
 ),
 (
+  'TW',
+  'TWSE',
   '2453',
   '2026-05-27',
   65.6,
@@ -13600,6 +19773,8 @@ from (
   572607980
 ),
 (
+  'TW',
+  'TWSE',
   '2454',
   '2026-05-27',
   4475,
@@ -13610,6 +19785,8 @@ from (
   84883094150
 ),
 (
+  'TW',
+  'TWSE',
   '2455',
   '2026-05-27',
   411,
@@ -13620,6 +19797,8 @@ from (
   1317331633
 ),
 (
+  'TW',
+  'TWSE',
   '2457',
   '2026-05-27',
   26.15,
@@ -13630,6 +19809,8 @@ from (
   85740300
 ),
 (
+  'TW',
+  'TWSE',
   '2458',
   '2026-05-27',
   168.5,
@@ -13640,6 +19821,8 @@ from (
   553625671
 ),
 (
+  'TW',
+  'TWSE',
   '2459',
   '2026-05-27',
   66.5,
@@ -13650,6 +19833,8 @@ from (
   20003975
 ),
 (
+  'TW',
+  'TWSE',
   '2460',
   '2026-05-27',
   32.8,
@@ -13660,6 +19845,8 @@ from (
   25639747
 ),
 (
+  'TW',
+  'TWSE',
   '2461',
   '2026-05-27',
   16.1,
@@ -13670,6 +19857,8 @@ from (
   14333989
 ),
 (
+  'TW',
+  'TWSE',
   '2462',
   '2026-05-27',
   20.9,
@@ -13680,6 +19869,8 @@ from (
   8132155
 ),
 (
+  'TW',
+  'TWSE',
   '2464',
   '2026-05-27',
   177,
@@ -13690,6 +19881,8 @@ from (
   5794901577
 ),
 (
+  'TW',
+  'TWSE',
   '2465',
   '2026-05-27',
   88.6,
@@ -13700,6 +19893,8 @@ from (
   283400140
 ),
 (
+  'TW',
+  'TWSE',
   '2466',
   '2026-05-27',
   49.35,
@@ -13710,6 +19905,8 @@ from (
   13047359
 ),
 (
+  'TW',
+  'TWSE',
   '2467',
   '2026-05-27',
   689,
@@ -13720,6 +19917,8 @@ from (
   2091207957
 ),
 (
+  'TW',
+  'TWSE',
   '2468',
   '2026-05-27',
   34.25,
@@ -13730,6 +19929,8 @@ from (
   8202778
 ),
 (
+  'TW',
+  'TWSE',
   '2471',
   '2026-05-27',
   51.1,
@@ -13740,6 +19941,8 @@ from (
   16532275
 ),
 (
+  'TW',
+  'TWSE',
   '2472',
   '2026-05-27',
   337,
@@ -13750,6 +19953,8 @@ from (
   4156952466
 ),
 (
+  'TW',
+  'TWSE',
   '2474',
   '2026-05-27',
   195,
@@ -13760,6 +19965,8 @@ from (
   4567115812
 ),
 (
+  'TW',
+  'TWSE',
   '2476',
   '2026-05-27',
   132,
@@ -13770,6 +19977,8 @@ from (
   1043850095
 ),
 (
+  'TW',
+  'TWSE',
   '2477',
   '2026-05-27',
   20.95,
@@ -13780,6 +19989,8 @@ from (
   6068149
 ),
 (
+  'TW',
+  'TWSE',
   '2478',
   '2026-05-27',
   121,
@@ -13790,6 +20001,8 @@ from (
   443083108
 ),
 (
+  'TW',
+  'TWSE',
   '2480',
   '2026-05-27',
   149,
@@ -13800,6 +20013,8 @@ from (
   77364409
 ),
 (
+  'TW',
+  'TWSE',
   '2481',
   '2026-05-27',
   157.5,
@@ -13810,6 +20025,8 @@ from (
   11077038144
 ),
 (
+  'TW',
+  'TWSE',
   '2482',
   '2026-05-27',
   16.8,
@@ -13820,6 +20037,8 @@ from (
   2881066
 ),
 (
+  'TW',
+  'TWSE',
   '2483',
   '2026-05-27',
   26.2,
@@ -13830,6 +20049,8 @@ from (
   29597305
 ),
 (
+  'TW',
+  'TWSE',
   '2484',
   '2026-05-27',
   56.5,
@@ -13840,6 +20061,8 @@ from (
   1167932770
 ),
 (
+  'TW',
+  'TWSE',
   '2485',
   '2026-05-27',
   75.8,
@@ -13850,6 +20073,8 @@ from (
   1865323172
 ),
 (
+  'TW',
+  'TWSE',
   '2486',
   '2026-05-27',
   292,
@@ -13860,6 +20085,8 @@ from (
   2879247825
 ),
 (
+  'TW',
+  'TWSE',
   '2488',
   '2026-05-27',
   53.5,
@@ -13870,6 +20097,8 @@ from (
   8911028
 ),
 (
+  'TW',
+  'TWSE',
   '2489',
   '2026-05-27',
   53.1,
@@ -13880,6 +20109,8 @@ from (
   4053819148
 ),
 (
+  'TW',
+  'TWSE',
   '2491',
   '2026-05-27',
   22.55,
@@ -13890,6 +20121,8 @@ from (
   29685919
 ),
 (
+  'TW',
+  'TWSE',
   '2492',
   '2026-05-27',
   345,
@@ -13900,6 +20133,8 @@ from (
   1904385745
 ),
 (
+  'TW',
+  'TWSE',
   '2493',
   '2026-05-27',
   171,
@@ -13910,6 +20145,8 @@ from (
   1615243852
 ),
 (
+  'TW',
+  'TWSE',
   '2495',
   '2026-05-27',
   47.7,
@@ -13920,6 +20157,8 @@ from (
   1386756175
 ),
 (
+  'TW',
+  'TWSE',
   '2496',
   '2026-05-27',
   65.2,
@@ -13930,6 +20169,8 @@ from (
   1507085
 ),
 (
+  'TW',
+  'TWSE',
   '2497',
   '2026-05-27',
   59.5,
@@ -13940,6 +20181,8 @@ from (
   20902166
 ),
 (
+  'TW',
+  'TWSE',
   '2498',
   '2026-05-27',
   44.55,
@@ -13950,6 +20193,8 @@ from (
   622685098
 ),
 (
+  'TW',
+  'TWSE',
   '2501',
   '2026-05-27',
   21.7,
@@ -13960,6 +20205,8 @@ from (
   51621848
 ),
 (
+  'TW',
+  'TWSE',
   '2504',
   '2026-05-27',
   35,
@@ -13970,6 +20217,8 @@ from (
   69254624
 ),
 (
+  'TW',
+  'TWSE',
   '2505',
   '2026-05-27',
   17.75,
@@ -13980,6 +20229,8 @@ from (
   7970604
 ),
 (
+  'TW',
+  'TWSE',
   '2506',
   '2026-05-27',
   8.62,
@@ -13990,6 +20241,8 @@ from (
   980235
 ),
 (
+  'TW',
+  'TWSE',
   '2509',
   '2026-05-27',
   12.4,
@@ -14000,6 +20253,8 @@ from (
   2786339
 ),
 (
+  'TW',
+  'TWSE',
   '2511',
   '2026-05-27',
   7.62,
@@ -14010,6 +20265,8 @@ from (
   11306153
 ),
 (
+  'TW',
+  'TWSE',
   '2514',
   '2026-05-27',
   12.9,
@@ -14020,6 +20277,8 @@ from (
   1867907
 ),
 (
+  'TW',
+  'TWSE',
   '2515',
   '2026-05-27',
   12.9,
@@ -14030,6 +20289,8 @@ from (
   102178363
 ),
 (
+  'TW',
+  'TWSE',
   '2516',
   '2026-05-27',
   12.8,
@@ -14040,6 +20301,8 @@ from (
   25570940
 ),
 (
+  'TW',
+  'TWSE',
   '2520',
   '2026-05-27',
   30.15,
@@ -14050,6 +20313,8 @@ from (
   40326038
 ),
 (
+  'TW',
+  'TWSE',
   '2524',
   '2026-05-27',
   32.75,
@@ -14060,6 +20325,8 @@ from (
   1834727
 ),
 (
+  'TW',
+  'TWSE',
   '2527',
   '2026-05-27',
   35.45,
@@ -14070,6 +20337,8 @@ from (
   33755879
 ),
 (
+  'TW',
+  'TWSE',
   '2528',
   '2026-05-27',
   22,
@@ -14080,6 +20349,8 @@ from (
   27344049
 ),
 (
+  'TW',
+  'TWSE',
   '2530',
   '2026-05-27',
   19,
@@ -14090,6 +20361,8 @@ from (
   53637921
 ),
 (
+  'TW',
+  'TWSE',
   '2534',
   '2026-05-27',
   17.7,
@@ -14100,6 +20373,8 @@ from (
   27550981
 ),
 (
+  'TW',
+  'TWSE',
   '2535',
   '2026-05-27',
   76.3,
@@ -14110,6 +20385,8 @@ from (
   114361522
 ),
 (
+  'TW',
+  'TWSE',
   '2536',
   '2026-05-27',
   19.7,
@@ -14120,6 +20397,8 @@ from (
   12233099
 ),
 (
+  'TW',
+  'TWSE',
   '2537',
   '2026-05-27',
   9.58,
@@ -14130,6 +20409,8 @@ from (
   14909518
 ),
 (
+  'TW',
+  'TWSE',
   '2538',
   '2026-05-27',
   9.28,
@@ -14140,6 +20421,8 @@ from (
   3902686
 ),
 (
+  'TW',
+  'TWSE',
   '2539',
   '2026-05-27',
   34.4,
@@ -14150,6 +20433,8 @@ from (
   165490533
 ),
 (
+  'TW',
+  'TWSE',
   '2540',
   '2026-05-27',
   54.2,
@@ -14160,6 +20445,8 @@ from (
   23979991
 ),
 (
+  'TW',
+  'TWSE',
   '2542',
   '2026-05-27',
   42.15,
@@ -14170,6 +20457,8 @@ from (
   652304010
 ),
 (
+  'TW',
+  'TWSE',
   '2543',
   '2026-05-27',
   41.2,
@@ -14180,6 +20469,8 @@ from (
   81052646
 ),
 (
+  'TW',
+  'TWSE',
   '2545',
   '2026-05-27',
   36.35,
@@ -14190,6 +20481,8 @@ from (
   22367392
 ),
 (
+  'TW',
+  'TWSE',
   '2546',
   '2026-05-27',
   87.8,
@@ -14200,6 +20493,8 @@ from (
   16155431
 ),
 (
+  'TW',
+  'TWSE',
   '2547',
   '2026-05-27',
   9.99,
@@ -14210,6 +20505,8 @@ from (
   25871768
 ),
 (
+  'TW',
+  'TWSE',
   '2548',
   '2026-05-27',
   121,
@@ -14220,6 +20517,8 @@ from (
   280703744
 ),
 (
+  'TW',
+  'TWSE',
   '2597',
   '2026-05-27',
   157.5,
@@ -14230,6 +20529,8 @@ from (
   97064595
 ),
 (
+  'TW',
+  'TWSE',
   '2601',
   '2026-05-27',
   5,
@@ -14240,6 +20541,8 @@ from (
   11240051
 ),
 (
+  'TW',
+  'TWSE',
   '2603',
   '2026-05-27',
   213,
@@ -14250,6 +20553,8 @@ from (
   7227802157
 ),
 (
+  'TW',
+  'TWSE',
   '2605',
   '2026-05-27',
   31.15,
@@ -14260,6 +20565,8 @@ from (
   105677378
 ),
 (
+  'TW',
+  'TWSE',
   '2606',
   '2026-05-27',
   70.2,
@@ -14270,6 +20577,8 @@ from (
   957605405
 ),
 (
+  'TW',
+  'TWSE',
   '2607',
   '2026-05-27',
   48.3,
@@ -14280,6 +20589,8 @@ from (
   45517297
 ),
 (
+  'TW',
+  'TWSE',
   '2608',
   '2026-05-27',
   28.75,
@@ -14290,6 +20601,8 @@ from (
   24565803
 ),
 (
+  'TW',
+  'TWSE',
   '2609',
   '2026-05-27',
   51.7,
@@ -14300,6 +20613,8 @@ from (
   1727807484
 ),
 (
+  'TW',
+  'TWSE',
   '2610',
   '2026-05-27',
   18.65,
@@ -14310,6 +20625,8 @@ from (
   918919965
 ),
 (
+  'TW',
+  'TWSE',
   '2611',
   '2026-05-27',
   12.9,
@@ -14320,6 +20637,8 @@ from (
   8904544
 ),
 (
+  'TW',
+  'TWSE',
   '2612',
   '2026-05-27',
   57.2,
@@ -14330,6 +20649,8 @@ from (
   65720016
 ),
 (
+  'TW',
+  'TWSE',
   '2613',
   '2026-05-27',
   22,
@@ -14340,6 +20661,8 @@ from (
   8902621
 ),
 (
+  'TW',
+  'TWSE',
   '2614',
   '2026-05-27',
   18.15,
@@ -14350,6 +20673,8 @@ from (
   26453537
 ),
 (
+  'TW',
+  'TWSE',
   '2615',
   '2026-05-27',
   81.8,
@@ -14360,6 +20685,8 @@ from (
   796669597
 ),
 (
+  'TW',
+  'TWSE',
   '2616',
   '2026-05-27',
   13.35,
@@ -14370,6 +20697,8 @@ from (
   5883199
 ),
 (
+  'TW',
+  'TWSE',
   '2617',
   '2026-05-27',
   29.15,
@@ -14380,6 +20709,8 @@ from (
   25151556
 ),
 (
+  'TW',
+  'TWSE',
   '2618',
   '2026-05-27',
   35.2,
@@ -14390,6 +20721,8 @@ from (
   2359104415
 ),
 (
+  'TW',
+  'TWSE',
   '2630',
   '2026-05-27',
   42.1,
@@ -14400,6 +20733,8 @@ from (
   52801570
 ),
 (
+  'TW',
+  'TWSE',
   '2633',
   '2026-05-27',
   25.1,
@@ -14410,6 +20745,8 @@ from (
   425978249
 ),
 (
+  'TW',
+  'TWSE',
   '2634',
   '2026-05-27',
   46,
@@ -14420,6 +20757,8 @@ from (
   207816267
 ),
 (
+  'TW',
+  'TWSE',
   '2636',
   '2026-05-27',
   67,
@@ -14430,6 +20769,8 @@ from (
   23541210
 ),
 (
+  'TW',
+  'TWSE',
   '2637',
   '2026-05-27',
   74.9,
@@ -14440,6 +20781,8 @@ from (
   416975863
 ),
 (
+  'TW',
+  'TWSE',
   '2642',
   '2026-05-27',
   20.2,
@@ -14450,6 +20793,8 @@ from (
   3010904
 ),
 (
+  'TW',
+  'TWSE',
   '2645',
   '2026-05-27',
   159,
@@ -14460,6 +20805,8 @@ from (
   297751162
 ),
 (
+  'TW',
+  'TWSE',
   '2646',
   '2026-05-27',
   20.2,
@@ -14470,6 +20817,8 @@ from (
   149049019
 ),
 (
+  'TW',
+  'TWSE',
   '2701',
   '2026-05-27',
   10.25,
@@ -14480,6 +20829,8 @@ from (
   1881290
 ),
 (
+  'TW',
+  'TWSE',
   '2702',
   '2026-05-27',
   13.1,
@@ -14490,6 +20841,8 @@ from (
   853289
 ),
 (
+  'TW',
+  'TWSE',
   '2704',
   '2026-05-27',
   42.1,
@@ -14500,6 +20853,8 @@ from (
   9687178
 ),
 (
+  'TW',
+  'TWSE',
   '2705',
   '2026-05-27',
   15.05,
@@ -14510,6 +20865,8 @@ from (
   3310171
 ),
 (
+  'TW',
+  'TWSE',
   '2706',
   '2026-05-27',
   11.95,
@@ -14520,6 +20877,8 @@ from (
   3136764
 ),
 (
+  'TW',
+  'TWSE',
   '2707',
   '2026-05-27',
   172,
@@ -14530,6 +20889,8 @@ from (
   30118019
 ),
 (
+  'TW',
+  'TWSE',
   '2712',
   '2026-05-27',
   14.9,
@@ -14540,6 +20901,8 @@ from (
   242775
 ),
 (
+  'TW',
+  'TWSE',
   '2722',
   '2026-05-27',
   22.95,
@@ -14550,6 +20913,8 @@ from (
   1495698
 ),
 (
+  'TW',
+  'TWSE',
   '2723',
   '2026-05-27',
   61.1,
@@ -14560,6 +20925,8 @@ from (
   29369105
 ),
 (
+  'TW',
+  'TWSE',
   '2727',
   '2026-05-27',
   230,
@@ -14570,6 +20937,8 @@ from (
   176667704
 ),
 (
+  'TW',
+  'TWSE',
   '2731',
   '2026-05-27',
   169,
@@ -14580,6 +20949,8 @@ from (
   214272948
 ),
 (
+  'TW',
+  'TWSE',
   '2739',
   '2026-05-27',
   34.6,
@@ -14590,6 +20961,8 @@ from (
   3201096
 ),
 (
+  'TW',
+  'TWSE',
   '2748',
   '2026-05-27',
   39.1,
@@ -14600,6 +20973,8 @@ from (
   7170556
 ),
 (
+  'TW',
+  'TWSE',
   '2753',
   '2026-05-27',
   175.5,
@@ -14610,6 +20985,8 @@ from (
   56426036
 ),
 (
+  'TW',
+  'TWSE',
   '2762',
   '2026-05-27',
   80.8,
@@ -14620,6 +20997,8 @@ from (
   4249492
 ),
 (
+  'TW',
+  'TWSE',
   '2801',
   '2026-05-27',
   20.3,
@@ -14630,6 +21009,8 @@ from (
   512566094
 ),
 (
+  'TW',
+  'TWSE',
   '2812',
   '2026-05-27',
   18.85,
@@ -14640,6 +21021,8 @@ from (
   311082957
 ),
 (
+  'TW',
+  'TWSE',
   '2816',
   '2026-05-27',
   31.7,
@@ -14650,6 +21033,8 @@ from (
   9823028
 ),
 (
+  'TW',
+  'TWSE',
   '2820',
   '2026-05-27',
   16.8,
@@ -14660,6 +21045,8 @@ from (
   15609759
 ),
 (
+  'TW',
+  'TWSE',
   '2832',
   '2026-05-27',
   53,
@@ -14670,6 +21057,8 @@ from (
   10486070
 ),
 (
+  'TW',
+  'TWSE',
   '2834',
   '2026-05-27',
   16,
@@ -14680,6 +21069,8 @@ from (
   531169750
 ),
 (
+  'TW',
+  'TWSE',
   '2836',
   '2026-05-27',
   11.8,
@@ -14690,6 +21081,8 @@ from (
   15870087
 ),
 (
+  'TW',
+  'TWSE',
   '2838',
   '2026-05-27',
   20.25,
@@ -14700,6 +21093,8 @@ from (
   33926818
 ),
 (
+  'TW',
+  'TWSE',
   '2845',
   '2026-05-27',
   12,
@@ -14710,6 +21105,8 @@ from (
   180666341
 ),
 (
+  'TW',
+  'TWSE',
   '2849',
   '2026-05-27',
   13.45,
@@ -14720,6 +21117,8 @@ from (
   2386129
 ),
 (
+  'TW',
+  'TWSE',
   '2850',
   '2026-05-27',
   137.5,
@@ -14730,6 +21129,8 @@ from (
   86031533
 ),
 (
+  'TW',
+  'TWSE',
   '2851',
   '2026-05-27',
   35.2,
@@ -14740,6 +21141,8 @@ from (
   115350011
 ),
 (
+  'TW',
+  'TWSE',
   '2852',
   '2026-05-27',
   26.85,
@@ -14750,6 +21153,8 @@ from (
   12221900
 ),
 (
+  'TW',
+  'TWSE',
   '2855',
   '2026-05-27',
   42.55,
@@ -14760,6 +21165,8 @@ from (
   720315263
 ),
 (
+  'TW',
+  'TWSE',
   '2867',
   '2026-05-27',
   7.58,
@@ -14770,6 +21177,8 @@ from (
   67294925
 ),
 (
+  'TW',
+  'TWSE',
   '2880',
   '2026-05-27',
   30.35,
@@ -14780,6 +21189,8 @@ from (
   2365747055
 ),
 (
+  'TW',
+  'TWSE',
   '2881',
   '2026-05-27',
   104.5,
@@ -14790,6 +21201,8 @@ from (
   10347893025
 ),
 (
+  'TW',
+  'TWSE',
   '2882',
   '2026-05-27',
   83.1,
@@ -14800,6 +21213,8 @@ from (
   5920801410
 ),
 (
+  'TW',
+  'TWSE',
   '2883',
   '2026-05-27',
   21.7,
@@ -14810,6 +21225,8 @@ from (
   2420146682
 ),
 (
+  'TW',
+  'TWSE',
   '2884',
   '2026-05-27',
   31.15,
@@ -14820,6 +21237,8 @@ from (
   1627515354
 ),
 (
+  'TW',
+  'TWSE',
   '2885',
   '2026-05-27',
   59.6,
@@ -14830,6 +21249,8 @@ from (
   2362175269
 ),
 (
+  'TW',
+  'TWSE',
   '2886',
   '2026-05-27',
   39.6,
@@ -14840,6 +21261,8 @@ from (
   1161289901
 ),
 (
+  'TW',
+  'TWSE',
   '2887',
   '2026-05-27',
   23.7,
@@ -14850,6 +21273,8 @@ from (
   4003973340
 ),
 (
+  'TW',
+  'TWSE',
   '2889',
   '2026-05-27',
   14.6,
@@ -14860,6 +21285,8 @@ from (
   44870627
 ),
 (
+  'TW',
+  'TWSE',
   '2890',
   '2026-05-27',
   29.8,
@@ -14870,6 +21297,8 @@ from (
   858185121
 ),
 (
+  'TW',
+  'TWSE',
   '2891',
   '2026-05-27',
   58.5,
@@ -14880,6 +21309,8 @@ from (
   3869157660
 ),
 (
+  'TW',
+  'TWSE',
   '2892',
   '2026-05-27',
   27.7,
@@ -14890,6 +21321,8 @@ from (
   931973339
 ),
 (
+  'TW',
+  'TWSE',
   '2897',
   '2026-05-27',
   10,
@@ -14900,6 +21333,8 @@ from (
   36808279
 ),
 (
+  'TW',
+  'TWSE',
   '2901',
   '2026-05-27',
   22.95,
@@ -14910,6 +21345,8 @@ from (
   761254
 ),
 (
+  'TW',
+  'TWSE',
   '2903',
   '2026-05-27',
   22.15,
@@ -14920,6 +21357,8 @@ from (
   60527974
 ),
 (
+  'TW',
+  'TWSE',
   '2904',
   '2026-05-27',
   14.2,
@@ -14930,6 +21369,8 @@ from (
   715434
 ),
 (
+  'TW',
+  'TWSE',
   '2905',
   '2026-05-27',
   13.65,
@@ -14940,6 +21381,8 @@ from (
   7566279
 ),
 (
+  'TW',
+  'TWSE',
   '2906',
   '2026-05-27',
   12.35,
@@ -14950,6 +21393,8 @@ from (
   1536212
 ),
 (
+  'TW',
+  'TWSE',
   '2908',
   '2026-05-27',
   21.3,
@@ -14960,6 +21405,8 @@ from (
   15856381
 ),
 (
+  'TW',
+  'TWSE',
   '2910',
   '2026-05-27',
   21.65,
@@ -14970,6 +21417,8 @@ from (
   377650
 ),
 (
+  'TW',
+  'TWSE',
   '2911',
   '2026-05-27',
   9.27,
@@ -14980,6 +21429,8 @@ from (
   17505825
 ),
 (
+  'TW',
+  'TWSE',
   '2912',
   '2026-05-27',
   210.5,
@@ -14990,6 +21441,8 @@ from (
   2828691463
 ),
 (
+  'TW',
+  'TWSE',
   '2913',
   '2026-05-27',
   10.85,
@@ -15000,6 +21453,8 @@ from (
   21405451
 ),
 (
+  'TW',
+  'TWSE',
   '2915',
   '2026-05-27',
   44.2,
@@ -15010,6 +21465,8 @@ from (
   148318870
 ),
 (
+  'TW',
+  'TWSE',
   '2923',
   '2026-05-27',
   23.1,
@@ -15020,6 +21477,8 @@ from (
   2311302
 ),
 (
+  'TW',
+  'TWSE',
   '2929',
   '2026-05-27',
   6.6,
@@ -15030,6 +21489,8 @@ from (
   8325959
 ),
 (
+  'TW',
+  'TWSE',
   '2939',
   '2026-05-27',
   22.95,
@@ -15040,6 +21501,8 @@ from (
   338244
 ),
 (
+  'TW',
+  'TWSE',
   '2945',
   '2026-05-27',
   40.5,
@@ -15050,6 +21513,8 @@ from (
   507182
 ),
 (
+  'TW',
+  'TWSE',
   '3002',
   '2026-05-27',
   17.2,
@@ -15060,6 +21525,8 @@ from (
   4861370
 ),
 (
+  'TW',
+  'TWSE',
   '3003',
   '2026-05-27',
   65.5,
@@ -15070,6 +21537,8 @@ from (
   238111411
 ),
 (
+  'TW',
+  'TWSE',
   '3004',
   '2026-05-27',
   134.5,
@@ -15080,6 +21549,8 @@ from (
   301348571
 ),
 (
+  'TW',
+  'TWSE',
   '3005',
   '2026-05-27',
   105,
@@ -15090,6 +21561,8 @@ from (
   454286836
 ),
 (
+  'TW',
+  'TWSE',
   '3006',
   '2026-05-27',
   252,
@@ -15100,6 +21573,8 @@ from (
   7588345936
 ),
 (
+  'TW',
+  'TWSE',
   '3008',
   '2026-05-27',
   3690,
@@ -15110,6 +21585,8 @@ from (
   4883546555
 ),
 (
+  'TW',
+  'TWSE',
   '3010',
   '2026-05-27',
   142,
@@ -15120,6 +21597,8 @@ from (
   196402867
 ),
 (
+  'TW',
+  'TWSE',
   '3011',
   '2026-05-27',
   13.25,
@@ -15130,6 +21609,8 @@ from (
   11946831
 ),
 (
+  'TW',
+  'TWSE',
   '3013',
   '2026-05-27',
   124,
@@ -15140,6 +21621,8 @@ from (
   996030726
 ),
 (
+  'TW',
+  'TWSE',
   '3014',
   '2026-05-27',
   152,
@@ -15150,6 +21633,8 @@ from (
   491483562
 ),
 (
+  'TW',
+  'TWSE',
   '3015',
   '2026-05-27',
   52.6,
@@ -15160,6 +21645,8 @@ from (
   23072670
 ),
 (
+  'TW',
+  'TWSE',
   '3016',
   '2026-05-27',
   131,
@@ -15170,6 +21657,8 @@ from (
   1974035359
 ),
 (
+  'TW',
+  'TWSE',
   '3017',
   '2026-05-27',
   2800,
@@ -15180,6 +21669,8 @@ from (
   12112986195
 ),
 (
+  'TW',
+  'TWSE',
   '3018',
   '2026-05-27',
   9.51,
@@ -15190,6 +21681,8 @@ from (
   185762
 ),
 (
+  'TW',
+  'TWSE',
   '3019',
   '2026-05-27',
   155,
@@ -15200,6 +21693,8 @@ from (
   1190898549
 ),
 (
+  'TW',
+  'TWSE',
   '3021',
   '2026-05-27',
   24.95,
@@ -15210,6 +21705,8 @@ from (
   12494213
 ),
 (
+  'TW',
+  'TWSE',
   '3022',
   '2026-05-27',
   75,
@@ -15220,6 +21717,8 @@ from (
   87828945
 ),
 (
+  'TW',
+  'TWSE',
   '3023',
   '2026-05-27',
   320,
@@ -15230,6 +21729,8 @@ from (
   389356660
 ),
 (
+  'TW',
+  'TWSE',
   '3024',
   '2026-05-27',
   16.2,
@@ -15240,6 +21741,8 @@ from (
   32408808
 ),
 (
+  'TW',
+  'TWSE',
   '3025',
   '2026-05-27',
   79.9,
@@ -15250,6 +21753,8 @@ from (
   179257029
 ),
 (
+  'TW',
+  'TWSE',
   '3026',
   '2026-05-27',
   599,
@@ -15260,6 +21765,8 @@ from (
   1165276596
 ),
 (
+  'TW',
+  'TWSE',
   '3027',
   '2026-05-27',
   19,
@@ -15270,6 +21777,8 @@ from (
   9690957
 ),
 (
+  'TW',
+  'TWSE',
   '3028',
   '2026-05-27',
   84.2,
@@ -15280,6 +21789,8 @@ from (
   399549112
 ),
 (
+  'TW',
+  'TWSE',
   '3029',
   '2026-05-27',
   97,
@@ -15290,6 +21801,8 @@ from (
   107654978
 ),
 (
+  'TW',
+  'TWSE',
   '3030',
   '2026-05-27',
   415.5,
@@ -15300,6 +21813,8 @@ from (
   2384220759
 ),
 (
+  'TW',
+  'TWSE',
   '3031',
   '2026-05-27',
   32,
@@ -15310,6 +21825,8 @@ from (
   79712085
 ),
 (
+  'TW',
+  'TWSE',
   '3032',
   '2026-05-27',
   91.5,
@@ -15320,6 +21837,8 @@ from (
   251434641
 ),
 (
+  'TW',
+  'TWSE',
   '3033',
   '2026-05-27',
   51.4,
@@ -15330,6 +21849,8 @@ from (
   896408155
 ),
 (
+  'TW',
+  'TWSE',
   '3034',
   '2026-05-27',
   491,
@@ -15340,6 +21861,8 @@ from (
   3410955415
 ),
 (
+  'TW',
+  'TWSE',
   '3035',
   '2026-05-27',
   213.5,
@@ -15350,6 +21873,8 @@ from (
   3481455713
 ),
 (
+  'TW',
+  'TWSE',
   '3036',
   '2026-05-27',
   300,
@@ -15360,6 +21885,8 @@ from (
   2766165225
 ),
 (
+  'TW',
+  'TWSE',
   '3037',
   '2026-05-27',
   1105,
@@ -15370,6 +21897,8 @@ from (
   29657618700
 ),
 (
+  'TW',
+  'TWSE',
   '3038',
   '2026-05-27',
   23.4,
@@ -15380,6 +21909,8 @@ from (
   11019040
 ),
 (
+  'TW',
+  'TWSE',
   '3040',
   '2026-05-27',
   41.45,
@@ -15390,6 +21921,8 @@ from (
   4838315
 ),
 (
+  'TW',
+  'TWSE',
   '3041',
   '2026-05-27',
   27,
@@ -15400,6 +21933,8 @@ from (
   65651780
 ),
 (
+  'TW',
+  'TWSE',
   '3042',
   '2026-05-27',
   220,
@@ -15410,6 +21945,8 @@ from (
   5744801887
 ),
 (
+  'TW',
+  'TWSE',
   '3043',
   '2026-05-27',
   20.85,
@@ -15420,6 +21957,8 @@ from (
   3162667
 ),
 (
+  'TW',
+  'TWSE',
   '3044',
   '2026-05-27',
   520,
@@ -15430,6 +21969,8 @@ from (
   2918575376
 ),
 (
+  'TW',
+  'TWSE',
   '3045',
   '2026-05-27',
   111,
@@ -15440,6 +21981,8 @@ from (
   1700132768
 ),
 (
+  'TW',
+  'TWSE',
   '3046',
   '2026-05-27',
   54.1,
@@ -15450,6 +21993,8 @@ from (
   17369419
 ),
 (
+  'TW',
+  'TWSE',
   '3047',
   '2026-05-27',
   15.2,
@@ -15460,6 +22005,8 @@ from (
   24015662
 ),
 (
+  'TW',
+  'TWSE',
   '3048',
   '2026-05-27',
   75,
@@ -15470,6 +22017,8 @@ from (
   1015673883
 ),
 (
+  'TW',
+  'TWSE',
   '3049',
   '2026-05-27',
   12.25,
@@ -15480,6 +22029,8 @@ from (
   90326199
 ),
 (
+  'TW',
+  'TWSE',
   '3050',
   '2026-05-27',
   12.4,
@@ -15490,6 +22041,8 @@ from (
   15956137
 ),
 (
+  'TW',
+  'TWSE',
   '3051',
   '2026-05-27',
   27.95,
@@ -15500,6 +22053,8 @@ from (
   100997212
 ),
 (
+  'TW',
+  'TWSE',
   '3052',
   '2026-05-27',
   10.45,
@@ -15510,6 +22065,8 @@ from (
   9596847
 ),
 (
+  'TW',
+  'TWSE',
   '3054',
   '2026-05-27',
   69.7,
@@ -15520,6 +22077,8 @@ from (
   31217398
 ),
 (
+  'TW',
+  'TWSE',
   '3055',
   '2026-05-27',
   122.5,
@@ -15530,6 +22089,8 @@ from (
   496567493
 ),
 (
+  'TW',
+  'TWSE',
   '3056',
   '2026-05-27',
   13.55,
@@ -15540,6 +22101,8 @@ from (
   18015504
 ),
 (
+  'TW',
+  'TWSE',
   '3057',
   '2026-05-27',
   20.2,
@@ -15550,6 +22113,8 @@ from (
   7229028
 ),
 (
+  'TW',
+  'TWSE',
   '3058',
   '2026-05-27',
   8.2,
@@ -15560,6 +22125,8 @@ from (
   6952128
 ),
 (
+  'TW',
+  'TWSE',
   '3059',
   '2026-05-27',
   42.65,
@@ -15570,6 +22137,8 @@ from (
   204183695
 ),
 (
+  'TW',
+  'TWSE',
   '3060',
   '2026-05-27',
   28.7,
@@ -15580,6 +22149,8 @@ from (
   211398616
 ),
 (
+  'TW',
+  'TWSE',
   '3062',
   '2026-05-27',
   30.5,
@@ -15590,6 +22161,8 @@ from (
   265569172
 ),
 (
+  'TW',
+  'TWSE',
   '3090',
   '2026-05-27',
   232,
@@ -15600,6 +22173,8 @@ from (
   564458867
 ),
 (
+  'TW',
+  'TWSE',
   '3092',
   '2026-05-27',
   30.5,
@@ -15610,6 +22185,8 @@ from (
   18119375
 ),
 (
+  'TW',
+  'TWSE',
   '3094',
   '2026-05-27',
   34.95,
@@ -15620,6 +22197,8 @@ from (
   144960030
 ),
 (
+  'TW',
+  'TWSE',
   '3130',
   '2026-05-27',
   221,
@@ -15630,6 +22209,8 @@ from (
   9432294
 ),
 (
+  'TW',
+  'TWSE',
   '3135',
   '2026-05-27',
   245,
@@ -15640,6 +22221,8 @@ from (
   895171734
 ),
 (
+  'TW',
+  'TWSE',
   '3138',
   '2026-05-27',
   175.5,
@@ -15650,6 +22233,8 @@ from (
   254291056
 ),
 (
+  'TW',
+  'TWSE',
   '3149',
   '2026-05-27',
   68.4,
@@ -15660,6 +22245,8 @@ from (
   1590487627
 ),
 (
+  'TW',
+  'TWSE',
   '3150',
   '2026-05-27',
   19.6,
@@ -15670,6 +22257,8 @@ from (
   1552756
 ),
 (
+  'TW',
+  'TWSE',
   '3164',
   '2026-05-27',
   16.4,
@@ -15680,6 +22269,8 @@ from (
   2226729
 ),
 (
+  'TW',
+  'TWSE',
   '3167',
   '2026-05-27',
   835,
@@ -15690,6 +22281,8 @@ from (
   717219710
 ),
 (
+  'TW',
+  'TWSE',
   '3168',
   '2026-05-27',
   52,
@@ -15700,6 +22293,8 @@ from (
   11248580
 ),
 (
+  'TW',
+  'TWSE',
   '3189',
   '2026-05-27',
   726,
@@ -15710,6 +22305,8 @@ from (
   22202080119
 ),
 (
+  'TW',
+  'TWSE',
   '3209',
   '2026-05-27',
   81.2,
@@ -15720,6 +22317,8 @@ from (
   468531043
 ),
 (
+  'TW',
+  'TWSE',
   '3229',
   '2026-05-27',
   49.2,
@@ -15730,6 +22329,8 @@ from (
   101595798
 ),
 (
+  'TW',
+  'TWSE',
   '3231',
   '2026-05-27',
   147.5,
@@ -15740,6 +22341,8 @@ from (
   5480979062
 ),
 (
+  'TW',
+  'TWSE',
   '3257',
   '2026-05-27',
   63.9,
@@ -15750,6 +22353,8 @@ from (
   307088355
 ),
 (
+  'TW',
+  'TWSE',
   '3266',
   '2026-05-27',
   12.8,
@@ -15760,6 +22365,8 @@ from (
   1788096
 ),
 (
+  'TW',
+  'TWSE',
   '3296',
   '2026-05-27',
   19.75,
@@ -15770,6 +22377,8 @@ from (
   2546995
 ),
 (
+  'TW',
+  'TWSE',
   '3305',
   '2026-05-27',
   168,
@@ -15780,6 +22389,8 @@ from (
   1897393602
 ),
 (
+  'TW',
+  'TWSE',
   '3308',
   '2026-05-27',
   20.6,
@@ -15790,6 +22401,8 @@ from (
   5872526
 ),
 (
+  'TW',
+  'TWSE',
   '3311',
   '2026-05-27',
   36.9,
@@ -15800,6 +22413,8 @@ from (
   45893055
 ),
 (
+  'TW',
+  'TWSE',
   '3312',
   '2026-05-27',
   53,
@@ -15810,6 +22425,8 @@ from (
   305788388
 ),
 (
+  'TW',
+  'TWSE',
   '3321',
   '2026-05-27',
   18.45,
@@ -15820,6 +22437,8 @@ from (
   40761881
 ),
 (
+  'TW',
+  'TWSE',
   '3338',
   '2026-05-27',
   78.5,
@@ -15830,6 +22449,8 @@ from (
   193169332
 ),
 (
+  'TW',
+  'TWSE',
   '3346',
   '2026-05-27',
   16.25,
@@ -15840,6 +22461,8 @@ from (
   23008785
 ),
 (
+  'TW',
+  'TWSE',
   '3356',
   '2026-05-27',
   65.9,
@@ -15850,6 +22473,8 @@ from (
   62754390
 ),
 (
+  'TW',
+  'TWSE',
   '3376',
   '2026-05-27',
   220,
@@ -15860,6 +22485,8 @@ from (
   1183935622
 ),
 (
+  'TW',
+  'TWSE',
   '3380',
   '2026-05-27',
   36,
@@ -15870,6 +22497,8 @@ from (
   190398549
 ),
 (
+  'TW',
+  'TWSE',
   '3406',
   '2026-05-27',
   597,
@@ -15880,6 +22509,8 @@ from (
   898090107
 ),
 (
+  'TW',
+  'TWSE',
   '3413',
   '2026-05-27',
   335,
@@ -15890,6 +22521,8 @@ from (
   2967434775
 ),
 (
+  'TW',
+  'TWSE',
   '3416',
   '2026-05-27',
   190,
@@ -15900,6 +22533,8 @@ from (
   164528491
 ),
 (
+  'TW',
+  'TWSE',
   '3419',
   '2026-05-27',
   13.85,
@@ -15910,6 +22545,8 @@ from (
   6830251
 ),
 (
+  'TW',
+  'TWSE',
   '3432',
   '2026-05-27',
   19.35,
@@ -15920,6 +22557,8 @@ from (
   1360492
 ),
 (
+  'TW',
+  'TWSE',
   '3437',
   '2026-05-27',
   25.1,
@@ -15930,6 +22569,8 @@ from (
   53488599
 ),
 (
+  'TW',
+  'TWSE',
   '3443',
   '2026-05-27',
   5350,
@@ -15940,6 +22581,8 @@ from (
   14423055640
 ),
 (
+  'TW',
+  'TWSE',
   '3447',
   '2026-05-27',
   37.3,
@@ -15950,6 +22593,8 @@ from (
   7372278
 ),
 (
+  'TW',
+  'TWSE',
   '3450',
   '2026-05-27',
   533,
@@ -15960,6 +22605,8 @@ from (
   8901407729
 ),
 (
+  'TW',
+  'TWSE',
   '3481',
   '2026-05-27',
   47,
@@ -15970,6 +22617,8 @@ from (
   65769751304
 ),
 (
+  'TW',
+  'TWSE',
   '3494',
   '2026-05-27',
   8.19,
@@ -15980,6 +22629,8 @@ from (
   1321750
 ),
 (
+  'TW',
+  'TWSE',
   '3501',
   '2026-05-27',
   40.8,
@@ -15990,6 +22641,8 @@ from (
   20138993
 ),
 (
+  'TW',
+  'TWSE',
   '3504',
   '2026-05-27',
   81,
@@ -16000,6 +22653,8 @@ from (
   145515951
 ),
 (
+  'TW',
+  'TWSE',
   '3515',
   '2026-05-27',
   245,
@@ -16010,6 +22665,8 @@ from (
   174807458
 ),
 (
+  'TW',
+  'TWSE',
   '3518',
   '2026-05-27',
   36.65,
@@ -16020,6 +22677,8 @@ from (
   44950871
 ),
 (
+  'TW',
+  'TWSE',
   '3528',
   '2026-05-27',
   97.8,
@@ -16030,6 +22689,8 @@ from (
   374747011
 ),
 (
+  'TW',
+  'TWSE',
   '3530',
   '2026-05-27',
   71.5,
@@ -16040,6 +22701,8 @@ from (
   26745505
 ),
 (
+  'TW',
+  'TWSE',
   '3532',
   '2026-05-27',
   299.5,
@@ -16050,6 +22713,8 @@ from (
   3171796321
 ),
 (
+  'TW',
+  'TWSE',
   '3533',
   '2026-05-27',
   2660,
@@ -16060,6 +22725,8 @@ from (
   3504630220
 ),
 (
+  'TW',
+  'TWSE',
   '3535',
   '2026-05-27',
   128.5,
@@ -16070,6 +22737,8 @@ from (
   310781140
 ),
 (
+  'TW',
+  'TWSE',
   '3543',
   '2026-05-27',
   35.8,
@@ -16080,6 +22749,8 @@ from (
   24604897
 ),
 (
+  'TW',
+  'TWSE',
   '3545',
   '2026-05-27',
   61.9,
@@ -16090,6 +22761,8 @@ from (
   159681890
 ),
 (
+  'TW',
+  'TWSE',
   '3550',
   '2026-05-27',
   20.8,
@@ -16100,6 +22773,8 @@ from (
   42342538
 ),
 (
+  'TW',
+  'TWSE',
   '3557',
   '2026-05-27',
   25.05,
@@ -16110,6 +22785,8 @@ from (
   2671884
 ),
 (
+  'TW',
+  'TWSE',
   '3563',
   '2026-05-27',
   900,
@@ -16120,6 +22797,8 @@ from (
   2494008762
 ),
 (
+  'TW',
+  'TWSE',
   '3576',
   '2026-05-27',
   19.2,
@@ -16130,6 +22809,8 @@ from (
   552994095
 ),
 (
+  'TW',
+  'TWSE',
   '3583',
   '2026-05-27',
   917,
@@ -16140,6 +22821,8 @@ from (
   1952006964
 ),
 (
+  'TW',
+  'TWSE',
   '3588',
   '2026-05-27',
   66,
@@ -16150,6 +22833,8 @@ from (
   66332233
 ),
 (
+  'TW',
+  'TWSE',
   '3591',
   '2026-05-27',
   26.3,
@@ -16160,6 +22845,8 @@ from (
   45080852
 ),
 (
+  'TW',
+  'TWSE',
   '3592',
   '2026-05-27',
   285,
@@ -16170,6 +22857,8 @@ from (
   372420747
 ),
 (
+  'TW',
+  'TWSE',
   '3593',
   '2026-05-27',
   17.4,
@@ -16180,6 +22869,8 @@ from (
   650611
 ),
 (
+  'TW',
+  'TWSE',
   '3596',
   '2026-05-27',
   194,
@@ -16190,6 +22881,8 @@ from (
   363729920
 ),
 (
+  'TW',
+  'TWSE',
   '3605',
   '2026-05-27',
   82.5,
@@ -16200,6 +22893,8 @@ from (
   403715873
 ),
 (
+  'TW',
+  'TWSE',
   '3607',
   '2026-05-27',
   15.3,
@@ -16210,6 +22905,8 @@ from (
   9638186
 ),
 (
+  'TW',
+  'TWSE',
   '3617',
   '2026-05-27',
   208,
@@ -16220,6 +22917,8 @@ from (
   251431302
 ),
 (
+  'TW',
+  'TWSE',
   '3622',
   '2026-05-27',
   59,
@@ -16230,6 +22929,8 @@ from (
   49515796
 ),
 (
+  'TW',
+  'TWSE',
   '3645',
   '2026-05-27',
   118.5,
@@ -16240,6 +22941,8 @@ from (
   1499618797
 ),
 (
+  'TW',
+  'TWSE',
   '3652',
   '2026-05-27',
   33.15,
@@ -16250,6 +22953,8 @@ from (
   13019615
 ),
 (
+  'TW',
+  'TWSE',
   '3653',
   '2026-05-27',
   3795,
@@ -16260,6 +22965,8 @@ from (
   12032455565
 ),
 (
+  'TW',
+  'TWSE',
   '3661',
   '2026-05-27',
   4785,
@@ -16270,6 +22977,8 @@ from (
   11716485260
 ),
 (
+  'TW',
+  'TWSE',
   '3665',
   '2026-05-27',
   2310,
@@ -16280,6 +22989,8 @@ from (
   5467620485
 ),
 (
+  'TW',
+  'TWSE',
   '3669',
   '2026-05-27',
   38.9,
@@ -16290,6 +23001,8 @@ from (
   13049606
 ),
 (
+  'TW',
+  'TWSE',
   '3673',
   '2026-05-27',
   91.3,
@@ -16300,6 +23013,8 @@ from (
   5790315156
 ),
 (
+  'TW',
+  'TWSE',
   '3679',
   '2026-05-27',
   121.5,
@@ -16310,6 +23025,8 @@ from (
   17512778
 ),
 (
+  'TW',
+  'TWSE',
   '3686',
   '2026-05-27',
   17.5,
@@ -16320,6 +23037,8 @@ from (
   4054637
 ),
 (
+  'TW',
+  'TWSE',
   '3694',
   '2026-05-27',
   71.2,
@@ -16330,6 +23049,8 @@ from (
   207889642
 ),
 (
+  'TW',
+  'TWSE',
   '3701',
   '2026-05-27',
   58,
@@ -16340,6 +23061,8 @@ from (
   99909906
 ),
 (
+  'TW',
+  'TWSE',
   '3702',
   '2026-05-27',
   123,
@@ -16350,6 +23073,8 @@ from (
   1126430595
 ),
 (
+  'TW',
+  'TWSE',
   '3703',
   '2026-05-27',
   20.45,
@@ -16360,6 +23085,8 @@ from (
   76568191
 ),
 (
+  'TW',
+  'TWSE',
   '3704',
   '2026-05-27',
   45.65,
@@ -16370,6 +23097,8 @@ from (
   360584480
 ),
 (
+  'TW',
+  'TWSE',
   '3705',
   '2026-05-27',
   55.9,
@@ -16380,6 +23109,8 @@ from (
   16887176
 ),
 (
+  'TW',
+  'TWSE',
   '3706',
   '2026-05-27',
   86.3,
@@ -16390,6 +23121,8 @@ from (
   1990945132
 ),
 (
+  'TW',
+  'TWSE',
   '3708',
   '2026-05-27',
   133,
@@ -16400,6 +23133,8 @@ from (
   599582878
 ),
 (
+  'TW',
+  'TWSE',
   '3711',
   '2026-05-27',
   641,
@@ -16410,6 +23145,8 @@ from (
   19409671301
 ),
 (
+  'TW',
+  'TWSE',
   '3712',
   '2026-05-27',
   16.3,
@@ -16420,6 +23157,8 @@ from (
   16525647
 ),
 (
+  'TW',
+  'TWSE',
   '3714',
   '2026-05-27',
   80,
@@ -16430,6 +23169,8 @@ from (
   3674848101
 ),
 (
+  'TW',
+  'TWSE',
   '3715',
   '2026-05-27',
   189,
@@ -16440,6 +23181,8 @@ from (
   3146909482
 ),
 (
+  'TW',
+  'TWSE',
   '3716',
   '2026-05-27',
   34.55,
@@ -16450,6 +23193,8 @@ from (
   8673120
 ),
 (
+  'TW',
+  'TWSE',
   '3717',
   '2026-05-27',
   22.5,
@@ -16460,6 +23205,8 @@ from (
   38763246
 ),
 (
+  'TW',
+  'TWSE',
   '4104',
   '2026-05-27',
   70.3,
@@ -16470,6 +23217,8 @@ from (
   27971134
 ),
 (
+  'TW',
+  'TWSE',
   '4106',
   '2026-05-27',
   23.35,
@@ -16480,6 +23229,8 @@ from (
   1703189
 ),
 (
+  'TW',
+  'TWSE',
   '4108',
   '2026-05-27',
   12.45,
@@ -16490,6 +23241,8 @@ from (
   3527606
 ),
 (
+  'TW',
+  'TWSE',
   '4119',
   '2026-05-27',
   41.5,
@@ -16500,6 +23253,8 @@ from (
   9034424
 ),
 (
+  'TW',
+  'TWSE',
   '4133',
   '2026-05-27',
   20.85,
@@ -16510,6 +23265,8 @@ from (
   2987124
 ),
 (
+  'TW',
+  'TWSE',
   '4137',
   '2026-05-27',
   103.5,
@@ -16520,6 +23277,8 @@ from (
   26324929
 ),
 (
+  'TW',
+  'TWSE',
   '4142',
   '2026-05-27',
   17.1,
@@ -16530,6 +23289,8 @@ from (
   29257680
 ),
 (
+  'TW',
+  'TWSE',
   '4148',
   '2026-05-27',
   32.05,
@@ -16540,6 +23301,8 @@ from (
   1443405
 ),
 (
+  'TW',
+  'TWSE',
   '4155',
   '2026-05-27',
   14.95,
@@ -16550,6 +23313,8 @@ from (
   12371264
 ),
 (
+  'TW',
+  'TWSE',
   '4164',
   '2026-05-27',
   28.25,
@@ -16560,6 +23325,8 @@ from (
   18812555
 ),
 (
+  'TW',
+  'TWSE',
   '4169',
   '2026-05-27',
   155,
@@ -16570,6 +23337,8 @@ from (
   19043223
 ),
 (
+  'TW',
+  'TWSE',
   '4178',
   '2026-05-27',
   18.9,
@@ -16580,6 +23349,8 @@ from (
   10391749
 ),
 (
+  'TW',
+  'TWSE',
   '4190',
   '2026-05-27',
   24.4,
@@ -16590,6 +23361,8 @@ from (
   1127387
 ),
 (
+  'TW',
+  'TWSE',
   '4195',
   '2026-05-27',
   17.3,
@@ -16600,6 +23373,8 @@ from (
   5970949
 ),
 (
+  'TW',
+  'TWSE',
   '4306',
   '2026-05-27',
   13.7,
@@ -16610,6 +23385,8 @@ from (
   17932771
 ),
 (
+  'TW',
+  'TWSE',
   '4414',
   '2026-05-27',
   7.91,
@@ -16620,6 +23397,8 @@ from (
   4268464
 ),
 (
+  'TW',
+  'TWSE',
   '4426',
   '2026-05-27',
   7.55,
@@ -16630,6 +23409,8 @@ from (
   1454412
 ),
 (
+  'TW',
+  'TWSE',
   '4438',
   '2026-05-27',
   59.4,
@@ -16640,6 +23421,8 @@ from (
   5422071
 ),
 (
+  'TW',
+  'TWSE',
   '4439',
   '2026-05-27',
   90.2,
@@ -16650,6 +23433,8 @@ from (
   1197664
 ),
 (
+  'TW',
+  'TWSE',
   '4440',
   '2026-05-27',
   18,
@@ -16660,6 +23445,8 @@ from (
   1263337
 ),
 (
+  'TW',
+  'TWSE',
   '4441',
   '2026-05-27',
   204,
@@ -16670,6 +23457,8 @@ from (
   24930776
 ),
 (
+  'TW',
+  'TWSE',
   '4526',
   '2026-05-27',
   45.8,
@@ -16680,6 +23469,8 @@ from (
   1107689522
 ),
 (
+  'TW',
+  'TWSE',
   '4532',
   '2026-05-27',
   23.75,
@@ -16690,6 +23481,8 @@ from (
   32237424
 ),
 (
+  'TW',
+  'TWSE',
   '4536',
   '2026-05-27',
   160,
@@ -16700,6 +23493,8 @@ from (
   47070556
 ),
 (
+  'TW',
+  'TWSE',
   '4540',
   '2026-05-27',
   72.8,
@@ -16710,6 +23505,8 @@ from (
   806552511
 ),
 (
+  'TW',
+  'TWSE',
   '4545',
   '2026-05-27',
   33.35,
@@ -16720,6 +23517,8 @@ from (
   25809389
 ),
 (
+  'TW',
+  'TWSE',
   '4551',
   '2026-05-27',
   157,
@@ -16730,6 +23529,8 @@ from (
   114761285
 ),
 (
+  'TW',
+  'TWSE',
   '4552',
   '2026-05-27',
   19.9,
@@ -16740,6 +23541,8 @@ from (
   3559275
 ),
 (
+  'TW',
+  'TWSE',
   '4555',
   '2026-05-27',
   56.2,
@@ -16750,6 +23553,8 @@ from (
   92028870
 ),
 (
+  'TW',
+  'TWSE',
   '4557',
   '2026-05-27',
   44.45,
@@ -16760,6 +23565,8 @@ from (
   14045647
 ),
 (
+  'TW',
+  'TWSE',
   '4560',
   '2026-05-27',
   32.8,
@@ -16770,6 +23577,8 @@ from (
   3859759
 ),
 (
+  'TW',
+  'TWSE',
   '4562',
   '2026-05-27',
   43.3,
@@ -16780,6 +23589,8 @@ from (
   66357430
 ),
 (
+  'TW',
+  'TWSE',
   '4564',
   '2026-05-27',
   15.65,
@@ -16790,6 +23601,8 @@ from (
   26009337
 ),
 (
+  'TW',
+  'TWSE',
   '4566',
   '2026-05-27',
   63.6,
@@ -16800,6 +23613,8 @@ from (
   60348665
 ),
 (
+  'TW',
+  'TWSE',
   '4569',
   '2026-05-27',
   188,
@@ -16810,6 +23625,8 @@ from (
   39692616
 ),
 (
+  'TW',
+  'TWSE',
   '4571',
   '2026-05-27',
   224,
@@ -16820,6 +23637,8 @@ from (
   374314708
 ),
 (
+  'TW',
+  'TWSE',
   '4572',
   '2026-05-27',
   144,
@@ -16830,6 +23649,8 @@ from (
   5687184
 ),
 (
+  'TW',
+  'TWSE',
   '4576',
   '2026-05-27',
   288,
@@ -16840,6 +23661,8 @@ from (
   1510381414
 ),
 (
+  'TW',
+  'TWSE',
   '4581',
   '2026-05-27',
   49.95,
@@ -16850,6 +23673,8 @@ from (
   1302458
 ),
 (
+  'TW',
+  'TWSE',
   '4582',
   '2026-05-27',
   22.8,
@@ -16860,6 +23685,8 @@ from (
   35935064
 ),
 (
+  'TW',
+  'TWSE',
   '4583',
   '2026-05-27',
   730,
@@ -16870,6 +23697,8 @@ from (
   142898163
 ),
 (
+  'TW',
+  'TWSE',
   '4585',
   '2026-05-27',
   362,
@@ -16880,6 +23709,8 @@ from (
   262169364
 ),
 (
+  'TW',
+  'TWSE',
   '4588',
   '2026-05-27',
   55.3,
@@ -16890,6 +23721,8 @@ from (
   13268322
 ),
 (
+  'TW',
+  'TWSE',
   '4590',
   '2026-05-27',
   72.4,
@@ -16900,6 +23733,8 @@ from (
   23033358
 ),
 (
+  'TW',
+  'TWSE',
   '4720',
   '2026-05-27',
   24.9,
@@ -16910,6 +23745,8 @@ from (
   413834443
 ),
 (
+  'TW',
+  'TWSE',
   '4722',
   '2026-05-27',
   275.5,
@@ -16920,6 +23757,8 @@ from (
   271921546
 ),
 (
+  'TW',
+  'TWSE',
   '4736',
   '2026-05-27',
   122.5,
@@ -16930,6 +23769,8 @@ from (
   28079808
 ),
 (
+  'TW',
+  'TWSE',
   '4737',
   '2026-05-27',
   57.9,
@@ -16940,6 +23781,8 @@ from (
   10974028
 ),
 (
+  'TW',
+  'TWSE',
   '4739',
   '2026-05-27',
   106,
@@ -16950,6 +23793,8 @@ from (
   561475045
 ),
 (
+  'TW',
+  'TWSE',
   '4746',
   '2026-05-27',
   51.8,
@@ -16960,6 +23805,8 @@ from (
   55437454
 ),
 (
+  'TW',
+  'TWSE',
   '4755',
   '2026-05-27',
   156.5,
@@ -16970,6 +23817,8 @@ from (
   349258995
 ),
 (
+  'TW',
+  'TWSE',
   '4763',
   '2026-05-27',
   42.2,
@@ -16980,6 +23829,8 @@ from (
   261615792
 ),
 (
+  'TW',
+  'TWSE',
   '4764',
   '2026-05-27',
   349.5,
@@ -16990,6 +23841,8 @@ from (
   1042774984
 ),
 (
+  'TW',
+  'TWSE',
   '4766',
   '2026-05-27',
   378.5,
@@ -17000,6 +23853,8 @@ from (
   370954129
 ),
 (
+  'TW',
+  'TWSE',
   '4770',
   '2026-05-27',
   275,
@@ -17010,6 +23865,8 @@ from (
   592232252
 ),
 (
+  'TW',
+  'TWSE',
   '4771',
   '2026-05-27',
   199.5,
@@ -17020,6 +23877,8 @@ from (
   87751242
 ),
 (
+  'TW',
+  'TWSE',
   '4807',
   '2026-05-27',
   24,
@@ -17030,6 +23889,8 @@ from (
   17713877
 ),
 (
+  'TW',
+  'TWSE',
   '4904',
   '2026-05-27',
   94.8,
@@ -17040,6 +23901,8 @@ from (
   874438344
 ),
 (
+  'TW',
+  'TWSE',
   '4906',
   '2026-05-27',
   43.15,
@@ -17050,6 +23913,8 @@ from (
   1632880046
 ),
 (
+  'TW',
+  'TWSE',
   '4912',
   '2026-05-27',
   108,
@@ -17060,6 +23925,8 @@ from (
   253676822
 ),
 (
+  'TW',
+  'TWSE',
   '4915',
   '2026-05-27',
   73,
@@ -17070,6 +23937,8 @@ from (
   312779662
 ),
 (
+  'TW',
+  'TWSE',
   '4916',
   '2026-05-27',
   102.5,
@@ -17080,6 +23949,8 @@ from (
   327748572
 ),
 (
+  'TW',
+  'TWSE',
   '4919',
   '2026-05-27',
   210,
@@ -17090,6 +23961,8 @@ from (
   9686354192
 ),
 (
+  'TW',
+  'TWSE',
   '4927',
   '2026-05-27',
   61.8,
@@ -17100,6 +23973,8 @@ from (
   1126995674
 ),
 (
+  'TW',
+  'TWSE',
   '4930',
   '2026-05-27',
   18.5,
@@ -17110,6 +23985,8 @@ from (
   1848819
 ),
 (
+  'TW',
+  'TWSE',
   '4934',
   '2026-05-27',
   17.9,
@@ -17120,6 +23997,8 @@ from (
   20733260
 ),
 (
+  'TW',
+  'TWSE',
   '4935',
   '2026-05-27',
   37.25,
@@ -17130,6 +24009,8 @@ from (
   3892312
 ),
 (
+  'TW',
+  'TWSE',
   '4938',
   '2026-05-27',
   81.8,
@@ -17140,6 +24021,8 @@ from (
   1109959940
 ),
 (
+  'TW',
+  'TWSE',
   '4942',
   '2026-05-27',
   38.6,
@@ -17150,6 +24033,8 @@ from (
   4354468
 ),
 (
+  'TW',
+  'TWSE',
   '4943',
   '2026-05-27',
   9.19,
@@ -17160,6 +24045,8 @@ from (
   269557
 ),
 (
+  'TW',
+  'TWSE',
   '4949',
   '2026-05-27',
   108,
@@ -17170,6 +24057,8 @@ from (
   404450653
 ),
 (
+  'TW',
+  'TWSE',
   '4952',
   '2026-05-27',
   55.8,
@@ -17180,6 +24069,8 @@ from (
   374949892
 ),
 (
+  'TW',
+  'TWSE',
   '4956',
   '2026-05-27',
   50.3,
@@ -17190,6 +24081,8 @@ from (
   230736128
 ),
 (
+  'TW',
+  'TWSE',
   '4958',
   '2026-05-27',
   550,
@@ -17200,6 +24093,8 @@ from (
   23457288000
 ),
 (
+  'TW',
+  'TWSE',
   '4960',
   '2026-05-27',
   35,
@@ -17210,6 +24105,8 @@ from (
   332474684
 ),
 (
+  'TW',
+  'TWSE',
   '4961',
   '2026-05-27',
   176.5,
@@ -17220,6 +24117,8 @@ from (
   193349397
 ),
 (
+  'TW',
+  'TWSE',
   '4967',
   '2026-05-27',
   281,
@@ -17230,6 +24129,8 @@ from (
   3000980790
 ),
 (
+  'TW',
+  'TWSE',
   '4968',
   '2026-05-27',
   121,
@@ -17240,6 +24141,8 @@ from (
   144407073
 ),
 (
+  'TW',
+  'TWSE',
   '4976',
   '2026-05-27',
   32.9,
@@ -17250,6 +24153,8 @@ from (
   37683573
 ),
 (
+  'TW',
+  'TWSE',
   '4977',
   '2026-05-27',
   243,
@@ -17260,6 +24165,8 @@ from (
   1480423718
 ),
 (
+  'TW',
+  'TWSE',
   '4989',
   '2026-05-27',
   102.5,
@@ -17270,6 +24177,8 @@ from (
   2097026294
 ),
 (
+  'TW',
+  'TWSE',
   '4994',
   '2026-05-27',
   91.9,
@@ -17280,6 +24189,8 @@ from (
   1769957
 ),
 (
+  'TW',
+  'TWSE',
   '4999',
   '2026-05-27',
   19.65,
@@ -17290,6 +24201,8 @@ from (
   2891509
 ),
 (
+  'TW',
+  'TWSE',
   '5007',
   '2026-05-27',
   57,
@@ -17300,6 +24213,8 @@ from (
   5408887
 ),
 (
+  'TW',
+  'TWSE',
   '5203',
   '2026-05-27',
   65.9,
@@ -17310,6 +24225,8 @@ from (
   16426258
 ),
 (
+  'TW',
+  'TWSE',
   '5215',
   '2026-05-27',
   48,
@@ -17320,6 +24237,8 @@ from (
   14624169
 ),
 (
+  'TW',
+  'TWSE',
   '5222',
   '2026-05-27',
   125,
@@ -17330,6 +24249,8 @@ from (
   68104218
 ),
 (
+  'TW',
+  'TWSE',
   '5225',
   '2026-05-27',
   71.5,
@@ -17340,6 +24261,8 @@ from (
   37066039
 ),
 (
+  'TW',
+  'TWSE',
   '5234',
   '2026-05-27',
   445,
@@ -17350,6 +24273,8 @@ from (
   333096607
 ),
 (
+  'TW',
+  'TWSE',
   '5243',
   '2026-05-27',
   134.5,
@@ -17360,6 +24285,8 @@ from (
   1288292388
 ),
 (
+  'TW',
+  'TWSE',
   '5244',
   '2026-05-27',
   40.3,
@@ -17370,6 +24297,8 @@ from (
   19550784
 ),
 (
+  'TW',
+  'TWSE',
   '5258',
   '2026-05-27',
   57.3,
@@ -17380,6 +24309,8 @@ from (
   196674079
 ),
 (
+  'TW',
+  'TWSE',
   '5269',
   '2026-05-27',
   1565,
@@ -17390,6 +24321,8 @@ from (
   3691436510
 ),
 (
+  'TW',
+  'TWSE',
   '5283',
   '2026-05-27',
   52.2,
@@ -17400,6 +24333,8 @@ from (
   5923025
 ),
 (
+  'TW',
+  'TWSE',
   '5284',
   '2026-05-27',
   420,
@@ -17410,6 +24345,8 @@ from (
   709923124
 ),
 (
+  'TW',
+  'TWSE',
   '5285',
   '2026-05-27',
   92.6,
@@ -17420,6 +24357,8 @@ from (
   858238388
 ),
 (
+  'TW',
+  'TWSE',
   '5288',
   '2026-05-27',
   153.5,
@@ -17430,6 +24369,8 @@ from (
   29462987
 ),
 (
+  'TW',
+  'TWSE',
   '5292',
   '2026-05-27',
   223,
@@ -17440,6 +24381,8 @@ from (
   52713728
 ),
 (
+  'TW',
+  'TWSE',
   '5306',
   '2026-05-27',
   82.4,
@@ -17450,6 +24393,8 @@ from (
   12639606
 ),
 (
+  'TW',
+  'TWSE',
   '5388',
   '2026-05-27',
   86,
@@ -17460,6 +24405,8 @@ from (
   328297945
 ),
 (
+  'TW',
+  'TWSE',
   '5434',
   '2026-05-27',
   481,
@@ -17470,6 +24417,8 @@ from (
   530654944
 ),
 (
+  'TW',
+  'TWSE',
   '5469',
   '2026-05-27',
   83.8,
@@ -17480,6 +24429,8 @@ from (
   1111965044
 ),
 (
+  'TW',
+  'TWSE',
   '5471',
   '2026-05-27',
   52.8,
@@ -17490,6 +24441,8 @@ from (
   226592094
 ),
 (
+  'TW',
+  'TWSE',
   '5484',
   '2026-05-27',
   51,
@@ -17500,6 +24453,8 @@ from (
   122997734
 ),
 (
+  'TW',
+  'TWSE',
   '5515',
   '2026-05-27',
   40.6,
@@ -17510,6 +24465,8 @@ from (
   20773469
 ),
 (
+  'TW',
+  'TWSE',
   '5519',
   '2026-05-27',
   32.25,
@@ -17520,6 +24477,8 @@ from (
   14629714
 ),
 (
+  'TW',
+  'TWSE',
   '5521',
   '2026-05-27',
   10.3,
@@ -17530,6 +24489,8 @@ from (
   34386209
 ),
 (
+  'TW',
+  'TWSE',
   '5522',
   '2026-05-27',
   71.2,
@@ -17540,6 +24501,8 @@ from (
   37633346
 ),
 (
+  'TW',
+  'TWSE',
   '5525',
   '2026-05-27',
   21,
@@ -17550,6 +24513,8 @@ from (
   9668465
 ),
 (
+  'TW',
+  'TWSE',
   '5531',
   '2026-05-27',
   7.7,
@@ -17560,6 +24525,8 @@ from (
   4554792
 ),
 (
+  'TW',
+  'TWSE',
   '5533',
   '2026-05-27',
   13.8,
@@ -17570,6 +24537,8 @@ from (
   3219414
 ),
 (
+  'TW',
+  'TWSE',
   '5534',
   '2026-05-27',
   75.5,
@@ -17580,6 +24549,8 @@ from (
   92688264
 ),
 (
+  'TW',
+  'TWSE',
   '5538',
   '2026-05-27',
   36.4,
@@ -17590,6 +24561,8 @@ from (
   1857877
 ),
 (
+  'TW',
+  'TWSE',
   '5546',
   '2026-05-27',
   16.55,
@@ -17600,6 +24573,8 @@ from (
   625264
 ),
 (
+  'TW',
+  'TWSE',
   '5607',
   '2026-05-27',
   50.9,
@@ -17610,6 +24585,8 @@ from (
   31343662
 ),
 (
+  'TW',
+  'TWSE',
   '5608',
   '2026-05-27',
   14.65,
@@ -17620,6 +24597,8 @@ from (
   25013881
 ),
 (
+  'TW',
+  'TWSE',
   '5706',
   '2026-05-27',
   50.8,
@@ -17630,6 +24609,8 @@ from (
   14707653
 ),
 (
+  'TW',
+  'TWSE',
   '5871',
   '2026-05-27',
   108,
@@ -17640,6 +24621,8 @@ from (
   1089081184
 ),
 (
+  'TW',
+  'TWSE',
   '5876',
   '2026-05-27',
   39.5,
@@ -17650,6 +24633,8 @@ from (
   584056464
 ),
 (
+  'TW',
+  'TWSE',
   '5880',
   '2026-05-27',
   22.7,
@@ -17660,6 +24645,8 @@ from (
   364103109
 ),
 (
+  'TW',
+  'TWSE',
   '5906',
   '2026-05-27',
   null,
@@ -17670,6 +24657,8 @@ from (
   902
 ),
 (
+  'TW',
+  'TWSE',
   '5907',
   '2026-05-27',
   5.02,
@@ -17680,6 +24669,8 @@ from (
   1663412
 ),
 (
+  'TW',
+  'TWSE',
   '6005',
   '2026-05-27',
   33.35,
@@ -17690,6 +24681,8 @@ from (
   747809128
 ),
 (
+  'TW',
+  'TWSE',
   '6024',
   '2026-05-27',
   56.1,
@@ -17700,6 +24693,8 @@ from (
   25427075
 ),
 (
+  'TW',
+  'TWSE',
   '6108',
   '2026-05-27',
   19.8,
@@ -17710,6 +24705,8 @@ from (
   34416498
 ),
 (
+  'TW',
+  'TWSE',
   '6112',
   '2026-05-27',
   42.4,
@@ -17720,6 +24717,8 @@ from (
   21389936
 ),
 (
+  'TW',
+  'TWSE',
   '6115',
   '2026-05-27',
   47.3,
@@ -17730,6 +24729,8 @@ from (
   7671643
 ),
 (
+  'TW',
+  'TWSE',
   '6116',
   '2026-05-27',
   13.9,
@@ -17740,6 +24741,8 @@ from (
   4065040541
 ),
 (
+  'TW',
+  'TWSE',
   '6117',
   '2026-05-27',
   95.5,
@@ -17750,6 +24753,8 @@ from (
   384323143
 ),
 (
+  'TW',
+  'TWSE',
   '6120',
   '2026-05-27',
   14.1,
@@ -17760,6 +24765,8 @@ from (
   63096084
 ),
 (
+  'TW',
+  'TWSE',
   '6128',
   '2026-05-27',
   18.7,
@@ -17770,6 +24777,8 @@ from (
   6074792
 ),
 (
+  'TW',
+  'TWSE',
   '6133',
   '2026-05-27',
   23.85,
@@ -17780,6 +24789,8 @@ from (
   29466790
 ),
 (
+  'TW',
+  'TWSE',
   '6136',
   '2026-05-27',
   25.9,
@@ -17790,6 +24801,8 @@ from (
   11916605
 ),
 (
+  'TW',
+  'TWSE',
   '6139',
   '2026-05-27',
   840,
@@ -17800,6 +24813,8 @@ from (
   4377951157
 ),
 (
+  'TW',
+  'TWSE',
   '6141',
   '2026-05-27',
   39.25,
@@ -17810,6 +24825,8 @@ from (
   270194233
 ),
 (
+  'TW',
+  'TWSE',
   '6142',
   '2026-05-27',
   8.05,
@@ -17820,6 +24837,8 @@ from (
   5580545
 ),
 (
+  'TW',
+  'TWSE',
   '6152',
   '2026-05-27',
   15.3,
@@ -17830,6 +24849,8 @@ from (
   22525878
 ),
 (
+  'TW',
+  'TWSE',
   '6153',
   '2026-05-27',
   18.85,
@@ -17840,6 +24861,8 @@ from (
   72925647
 ),
 (
+  'TW',
+  'TWSE',
   '6155',
   '2026-05-27',
   59.4,
@@ -17850,6 +24873,8 @@ from (
   366393682
 ),
 (
+  'TW',
+  'TWSE',
   '6164',
   '2026-05-27',
   12.3,
@@ -17860,6 +24885,8 @@ from (
   6654001
 ),
 (
+  'TW',
+  'TWSE',
   '6165',
   '2026-05-27',
   49.4,
@@ -17870,6 +24897,8 @@ from (
   30062168
 ),
 (
+  'TW',
+  'TWSE',
   '6166',
   '2026-05-27',
   135.5,
@@ -17880,6 +24909,8 @@ from (
   371648981
 ),
 (
+  'TW',
+  'TWSE',
   '6168',
   '2026-05-27',
   28.75,
@@ -17890,6 +24921,8 @@ from (
   134361271
 ),
 (
+  'TW',
+  'TWSE',
   '6176',
   '2026-05-27',
   105,
@@ -17900,6 +24933,8 @@ from (
   694148127
 ),
 (
+  'TW',
+  'TWSE',
   '6177',
   '2026-05-27',
   42.2,
@@ -17910,6 +24945,8 @@ from (
   96677435
 ),
 (
+  'TW',
+  'TWSE',
   '6183',
   '2026-05-27',
   91.8,
@@ -17920,6 +24957,8 @@ from (
   2135611
 ),
 (
+  'TW',
+  'TWSE',
   '6184',
   '2026-05-27',
   45.8,
@@ -17930,6 +24969,8 @@ from (
   3738402
 ),
 (
+  'TW',
+  'TWSE',
   '6189',
   '2026-05-27',
   51.8,
@@ -17940,6 +24981,8 @@ from (
   79978023
 ),
 (
+  'TW',
+  'TWSE',
   '6191',
   '2026-05-27',
   96.3,
@@ -17950,6 +24993,8 @@ from (
   1422179876
 ),
 (
+  'TW',
+  'TWSE',
   '6192',
   '2026-05-27',
   132,
@@ -17960,6 +25005,8 @@ from (
   78504054
 ),
 (
+  'TW',
+  'TWSE',
   '6196',
   '2026-05-27',
   523,
@@ -17970,6 +25017,8 @@ from (
   1762743560
 ),
 (
+  'TW',
+  'TWSE',
   '6197',
   '2026-05-27',
   279.5,
@@ -17980,6 +25029,8 @@ from (
   1663221661
 ),
 (
+  'TW',
+  'TWSE',
   '6201',
   '2026-05-27',
   51.1,
@@ -17990,6 +25041,8 @@ from (
   4879732
 ),
 (
+  'TW',
+  'TWSE',
   '6202',
   '2026-05-27',
   62,
@@ -18000,6 +25053,8 @@ from (
   305749291
 ),
 (
+  'TW',
+  'TWSE',
   '6205',
   '2026-05-27',
   84.3,
@@ -18010,6 +25065,8 @@ from (
   199832605
 ),
 (
+  'TW',
+  'TWSE',
   '6206',
   '2026-05-27',
   141,
@@ -18020,6 +25077,8 @@ from (
   296979246
 ),
 (
+  'TW',
+  'TWSE',
   '6209',
   '2026-05-27',
   81.5,
@@ -18030,6 +25089,8 @@ from (
   1199865598
 ),
 (
+  'TW',
+  'TWSE',
   '6213',
   '2026-05-27',
   281,
@@ -18040,6 +25101,8 @@ from (
   5847450487
 ),
 (
+  'TW',
+  'TWSE',
   '6214',
   '2026-05-27',
   130,
@@ -18050,6 +25113,8 @@ from (
   178153251
 ),
 (
+  'TW',
+  'TWSE',
   '6215',
   '2026-05-27',
   136,
@@ -18060,6 +25125,8 @@ from (
   516677010
 ),
 (
+  'TW',
+  'TWSE',
   '6216',
   '2026-05-27',
   22.7,
@@ -18070,6 +25137,8 @@ from (
   7132737
 ),
 (
+  'TW',
+  'TWSE',
   '6224',
   '2026-05-27',
   82.7,
@@ -18080,6 +25149,8 @@ from (
   85334323
 ),
 (
+  'TW',
+  'TWSE',
   '6225',
   '2026-05-27',
   26.15,
@@ -18090,6 +25161,8 @@ from (
   85575
 ),
 (
+  'TW',
+  'TWSE',
   '6226',
   '2026-05-27',
   13.45,
@@ -18100,6 +25173,8 @@ from (
   28787816
 ),
 (
+  'TW',
+  'TWSE',
   '6230',
   '2026-05-27',
   145.5,
@@ -18110,6 +25185,8 @@ from (
   20410005
 ),
 (
+  'TW',
+  'TWSE',
   '6235',
   '2026-05-27',
   41,
@@ -18120,6 +25197,8 @@ from (
   47855562
 ),
 (
+  'TW',
+  'TWSE',
   '6239',
   '2026-05-27',
   343,
@@ -18130,6 +25209,8 @@ from (
   26273398362
 ),
 (
+  'TW',
+  'TWSE',
   '6243',
   '2026-05-27',
   35.5,
@@ -18140,6 +25221,8 @@ from (
   12157326
 ),
 (
+  'TW',
+  'TWSE',
   '6257',
   '2026-05-27',
   242,
@@ -18150,6 +25233,8 @@ from (
   2903906759
 ),
 (
+  'TW',
+  'TWSE',
   '6269',
   '2026-05-27',
   64.3,
@@ -18160,6 +25245,8 @@ from (
   219229252
 ),
 (
+  'TW',
+  'TWSE',
   '6271',
   '2026-05-27',
   262,
@@ -18170,6 +25257,8 @@ from (
   4611505595
 ),
 (
+  'TW',
+  'TWSE',
   '6272',
   '2026-05-27',
   33.5,
@@ -18180,6 +25269,8 @@ from (
   11530347
 ),
 (
+  'TW',
+  'TWSE',
   '6277',
   '2026-05-27',
   78,
@@ -18190,6 +25281,8 @@ from (
   34318208
 ),
 (
+  'TW',
+  'TWSE',
   '6278',
   '2026-05-27',
   246.5,
@@ -18200,6 +25293,8 @@ from (
   5426901440
 ),
 (
+  'TW',
+  'TWSE',
   '6281',
   '2026-05-27',
   50.5,
@@ -18210,6 +25305,8 @@ from (
   4282772
 ),
 (
+  'TW',
+  'TWSE',
   '6282',
   '2026-05-27',
   64.8,
@@ -18220,6 +25317,8 @@ from (
   5065243288
 ),
 (
+  'TW',
+  'TWSE',
   '6283',
   '2026-05-27',
   24.55,
@@ -18230,6 +25329,8 @@ from (
   12934985
 ),
 (
+  'TW',
+  'TWSE',
   '6285',
   '2026-05-27',
   309,
@@ -18240,6 +25341,8 @@ from (
   9143550657
 ),
 (
+  'TW',
+  'TWSE',
   '6405',
   '2026-05-27',
   83.3,
@@ -18250,6 +25353,8 @@ from (
   554412703
 ),
 (
+  'TW',
+  'TWSE',
   '6409',
   '2026-05-27',
   703,
@@ -18260,6 +25365,8 @@ from (
   955458847
 ),
 (
+  'TW',
+  'TWSE',
   '6412',
   '2026-05-27',
   102,
@@ -18270,6 +25377,8 @@ from (
   262016271
 ),
 (
+  'TW',
+  'TWSE',
   '6414',
   '2026-05-27',
   358.5,
@@ -18280,6 +25389,8 @@ from (
   585039143
 ),
 (
+  'TW',
+  'TWSE',
   '6415',
   '2026-05-27',
   640,
@@ -18290,6 +25401,8 @@ from (
   6827946426
 ),
 (
+  'TW',
+  'TWSE',
   '6416',
   '2026-05-27',
   91.4,
@@ -18300,6 +25413,8 @@ from (
   34586311
 ),
 (
+  'TW',
+  'TWSE',
   '6426',
   '2026-05-27',
   290,
@@ -18310,6 +25425,8 @@ from (
   913996204
 ),
 (
+  'TW',
+  'TWSE',
   '6431',
   '2026-05-27',
   19.5,
@@ -18320,6 +25437,8 @@ from (
   2164816
 ),
 (
+  'TW',
+  'TWSE',
   '6438',
   '2026-05-27',
   176,
@@ -18330,6 +25449,8 @@ from (
   172703746
 ),
 (
+  'TW',
+  'TWSE',
   '6442',
   '2026-05-27',
   2280,
@@ -18340,6 +25461,8 @@ from (
   13638778765
 ),
 (
+  'TW',
+  'TWSE',
   '6443',
   '2026-05-27',
   43,
@@ -18350,6 +25473,8 @@ from (
   715536556
 ),
 (
+  'TW',
+  'TWSE',
   '6446',
   '2026-05-27',
   891,
@@ -18360,6 +25485,8 @@ from (
   2811789091
 ),
 (
+  'TW',
+  'TWSE',
   '6449',
   '2026-05-27',
   382.5,
@@ -18370,6 +25497,8 @@ from (
   177976560
 ),
 (
+  'TW',
+  'TWSE',
   '6451',
   '2026-05-27',
   634,
@@ -18380,6 +25509,8 @@ from (
   4806449245
 ),
 (
+  'TW',
+  'TWSE',
   '6456',
   '2026-05-27',
   80.7,
@@ -18390,6 +25521,8 @@ from (
   2600557240
 ),
 (
+  'TW',
+  'TWSE',
   '6464',
   '2026-05-27',
   77.6,
@@ -18400,6 +25533,8 @@ from (
   1516920
 ),
 (
+  'TW',
+  'TWSE',
   '6472',
   '2026-05-27',
   356.5,
@@ -18410,6 +25545,8 @@ from (
   585657104
 ),
 (
+  'TW',
+  'TWSE',
   '6477',
   '2026-05-27',
   34.5,
@@ -18420,6 +25557,8 @@ from (
   18612224
 ),
 (
+  'TW',
+  'TWSE',
   '6491',
   '2026-05-27',
   325,
@@ -18430,6 +25569,8 @@ from (
   251037884
 ),
 (
+  'TW',
+  'TWSE',
   '6504',
   '2026-05-27',
   37.9,
@@ -18440,6 +25581,8 @@ from (
   6588401
 ),
 (
+  'TW',
+  'TWSE',
   '6505',
   '2026-05-27',
   49.8,
@@ -18450,6 +25593,8 @@ from (
   409540136
 ),
 (
+  'TW',
+  'TWSE',
   '6515',
   '2026-05-27',
   9795,
@@ -18460,6 +25605,8 @@ from (
   2273204010
 ),
 (
+  'TW',
+  'TWSE',
   '6525',
   '2026-05-27',
   138,
@@ -18470,6 +25617,8 @@ from (
   702513468
 ),
 (
+  'TW',
+  'TWSE',
   '6526',
   '2026-05-27',
   690,
@@ -18480,6 +25629,8 @@ from (
   1202637890
 ),
 (
+  'TW',
+  'TWSE',
   '6531',
   '2026-05-27',
   1135,
@@ -18490,6 +25641,8 @@ from (
   7688914030
 ),
 (
+  'TW',
+  'TWSE',
   '6533',
   '2026-05-27',
   238.5,
@@ -18500,6 +25653,8 @@ from (
   196249491
 ),
 (
+  'TW',
+  'TWSE',
   '6534',
   '2026-05-27',
   94,
@@ -18510,6 +25665,8 @@ from (
   19129777
 ),
 (
+  'TW',
+  'TWSE',
   '6541',
   '2026-05-27',
   38.45,
@@ -18520,6 +25677,8 @@ from (
   18452033
 ),
 (
+  'TW',
+  'TWSE',
   '6550',
   '2026-05-27',
   13.7,
@@ -18530,6 +25689,8 @@ from (
   135499826
 ),
 (
+  'TW',
+  'TWSE',
   '6552',
   '2026-05-27',
   36.9,
@@ -18540,6 +25701,8 @@ from (
   56368318
 ),
 (
+  'TW',
+  'TWSE',
   '6558',
   '2026-05-27',
   32.8,
@@ -18550,6 +25713,8 @@ from (
   34899124
 ),
 (
+  'TW',
+  'TWSE',
   '6573',
   '2026-05-27',
   14.1,
@@ -18560,6 +25725,8 @@ from (
   3521125
 ),
 (
+  'TW',
+  'TWSE',
   '6579',
   '2026-05-27',
   186,
@@ -18570,6 +25737,8 @@ from (
   538884349
 ),
 (
+  'TW',
+  'TWSE',
   '6581',
   '2026-05-27',
   107,
@@ -18580,6 +25749,8 @@ from (
   876720
 ),
 (
+  'TW',
+  'TWSE',
   '6582',
   '2026-05-27',
   30.7,
@@ -18590,6 +25761,8 @@ from (
   3319431
 ),
 (
+  'TW',
+  'TWSE',
   '6585',
   '2026-05-27',
   95.2,
@@ -18600,6 +25773,8 @@ from (
   9619736
 ),
 (
+  'TW',
+  'TWSE',
   '6589',
   '2026-05-27',
   41.45,
@@ -18610,6 +25785,8 @@ from (
   72958257
 ),
 (
+  'TW',
+  'TWSE',
   '6591',
   '2026-05-27',
   55.4,
@@ -18620,6 +25797,8 @@ from (
   32344013
 ),
 (
+  'TW',
+  'TWSE',
   '6592',
   '2026-05-27',
   61,
@@ -18630,6 +25809,8 @@ from (
   40387870
 ),
 (
+  'TW',
+  'TWSE',
   '6598',
   '2026-05-27',
   25,
@@ -18640,6 +25821,8 @@ from (
   7392175
 ),
 (
+  'TW',
+  'TWSE',
   '6605',
   '2026-05-27',
   129,
@@ -18650,6 +25833,8 @@ from (
   52291446
 ),
 (
+  'TW',
+  'TWSE',
   '6606',
   '2026-05-27',
   25.3,
@@ -18660,6 +25845,8 @@ from (
   9823755
 ),
 (
+  'TW',
+  'TWSE',
   '6614',
   '2026-05-27',
   38.9,
@@ -18670,6 +25857,8 @@ from (
   3468192
 ),
 (
+  'TW',
+  'TWSE',
   '6625',
   '2026-05-27',
   72.7,
@@ -18680,6 +25869,8 @@ from (
   9775432
 ),
 (
+  'TW',
+  'TWSE',
   '6641',
   '2026-05-27',
   18.35,
@@ -18690,6 +25881,8 @@ from (
   1924325
 ),
 (
+  'TW',
+  'TWSE',
   '6645',
   '2026-05-27',
   11.85,
@@ -18700,6 +25893,8 @@ from (
   459192
 ),
 (
+  'TW',
+  'TWSE',
   '6655',
   '2026-05-27',
   133.5,
@@ -18710,6 +25905,8 @@ from (
   1971731
 ),
 (
+  'TW',
+  'TWSE',
   '6657',
   '2026-05-27',
   39,
@@ -18720,6 +25917,8 @@ from (
   9126942
 ),
 (
+  'TW',
+  'TWSE',
   '6658',
   '2026-05-27',
   245,
@@ -18730,6 +25929,8 @@ from (
   619375300
 ),
 (
+  'TW',
+  'TWSE',
   '6666',
   '2026-05-27',
   40.15,
@@ -18740,6 +25941,8 @@ from (
   259498
 ),
 (
+  'TW',
+  'TWSE',
   '6668',
   '2026-05-27',
   41.2,
@@ -18750,6 +25953,8 @@ from (
   43030834
 ),
 (
+  'TW',
+  'TWSE',
   '6669',
   '2026-05-27',
   5300,
@@ -18760,6 +25965,8 @@ from (
   10350476525
 ),
 (
+  'TW',
+  'TWSE',
   '6670',
   '2026-05-27',
   255,
@@ -18770,6 +25977,8 @@ from (
   183321839
 ),
 (
+  'TW',
+  'TWSE',
   '6671',
   '2026-05-27',
   27.5,
@@ -18780,6 +25989,8 @@ from (
   15966869
 ),
 (
+  'TW',
+  'TWSE',
   '6672',
   '2026-05-27',
   218,
@@ -18790,6 +26001,8 @@ from (
   1588434419
 ),
 (
+  'TW',
+  'TWSE',
   '6674',
   '2026-05-27',
   18.45,
@@ -18800,6 +26013,8 @@ from (
   454204
 ),
 (
+  'TW',
+  'TWSE',
   '6689',
   '2026-05-27',
   67.2,
@@ -18810,6 +26025,8 @@ from (
   18540072
 ),
 (
+  'TW',
+  'TWSE',
   '6691',
   '2026-05-27',
   653,
@@ -18820,6 +26037,8 @@ from (
   706894191
 ),
 (
+  'TW',
+  'TWSE',
   '6695',
   '2026-05-27',
   65.1,
@@ -18830,6 +26049,8 @@ from (
   302753091
 ),
 (
+  'TW',
+  'TWSE',
   '6698',
   '2026-05-27',
   34.3,
@@ -18840,6 +26061,8 @@ from (
   89888429
 ),
 (
+  'TW',
+  'TWSE',
   '6706',
   '2026-05-27',
   204.5,
@@ -18850,6 +26073,8 @@ from (
   2738690101
 ),
 (
+  'TW',
+  'TWSE',
   '6715',
   '2026-05-27',
   485,
@@ -18860,6 +26085,8 @@ from (
   218190557
 ),
 (
+  'TW',
+  'TWSE',
   '6719',
   '2026-05-27',
   281.5,
@@ -18870,6 +26097,8 @@ from (
   2549850455
 ),
 (
+  'TW',
+  'TWSE',
   '6722',
   '2026-05-27',
   38.5,
@@ -18880,6 +26109,8 @@ from (
   3634148
 ),
 (
+  'TW',
+  'TWSE',
   '6742',
   '2026-05-27',
   60.5,
@@ -18890,6 +26121,8 @@ from (
   51859921
 ),
 (
+  'TW',
+  'TWSE',
   '6743',
   '2026-05-27',
   29.5,
@@ -18900,6 +26133,8 @@ from (
   13942641
 ),
 (
+  'TW',
+  'TWSE',
   '6753',
   '2026-05-27',
   123,
@@ -18910,6 +26145,8 @@ from (
   122945559
 ),
 (
+  'TW',
+  'TWSE',
   '6754',
   '2026-05-27',
   44.85,
@@ -18920,6 +26157,8 @@ from (
   1335431
 ),
 (
+  'TW',
+  'TWSE',
   '6756',
   '2026-05-27',
   109,
@@ -18930,6 +26169,8 @@ from (
   51772030
 ),
 (
+  'TW',
+  'TWSE',
   '6757',
   '2026-05-27',
   55.1,
@@ -18940,6 +26181,8 @@ from (
   65509474
 ),
 (
+  'TW',
+  'TWSE',
   '6768',
   '2026-05-27',
   84.5,
@@ -18950,6 +26193,8 @@ from (
   24866558
 ),
 (
+  'TW',
+  'TWSE',
   '6770',
   '2026-05-27',
   75.9,
@@ -18960,6 +26205,8 @@ from (
   31098396635
 ),
 (
+  'TW',
+  'TWSE',
   '6771',
   '2026-05-27',
   41.45,
@@ -18970,6 +26217,8 @@ from (
   507723
 ),
 (
+  'TW',
+  'TWSE',
   '6776',
   '2026-05-27',
   59.9,
@@ -18980,6 +26229,8 @@ from (
   26066899
 ),
 (
+  'TW',
+  'TWSE',
   '6781',
   '2026-05-27',
   1265,
@@ -18990,6 +26241,8 @@ from (
   2120138180
 ),
 (
+  'TW',
+  'TWSE',
   '6782',
   '2026-05-27',
   195,
@@ -19000,6 +26253,8 @@ from (
   72580213
 ),
 (
+  'TW',
+  'TWSE',
   '6789',
   '2026-05-27',
   566,
@@ -19010,6 +26265,8 @@ from (
   1900477479
 ),
 (
+  'TW',
+  'TWSE',
   '6790',
   '2026-05-27',
   39.15,
@@ -19020,6 +26277,8 @@ from (
   8226913
 ),
 (
+  'TW',
+  'TWSE',
   '6792',
   '2026-05-27',
   67.9,
@@ -19030,6 +26289,8 @@ from (
   16890787
 ),
 (
+  'TW',
+  'TWSE',
   '6794',
   '2026-05-27',
   78.2,
@@ -19040,6 +26301,8 @@ from (
   6440830
 ),
 (
+  'TW',
+  'TWSE',
   '6796',
   '2026-05-27',
   61.8,
@@ -19050,6 +26313,8 @@ from (
   4747318
 ),
 (
+  'TW',
+  'TWSE',
   '6799',
   '2026-05-27',
   115,
@@ -19060,6 +26325,8 @@ from (
   440584919
 ),
 (
+  'TW',
+  'TWSE',
   '6805',
   '2026-05-27',
   1805,
@@ -19070,6 +26337,8 @@ from (
   2861086795
 ),
 (
+  'TW',
+  'TWSE',
   '6806',
   '2026-05-27',
   6.77,
@@ -19080,6 +26349,8 @@ from (
   3366192
 ),
 (
+  'TW',
+  'TWSE',
   '6807',
   '2026-05-27',
   32.1,
@@ -19090,6 +26361,8 @@ from (
   687952
 ),
 (
+  'TW',
+  'TWSE',
   '6830',
   '2026-05-27',
   788,
@@ -19100,6 +26373,8 @@ from (
   2109050263
 ),
 (
+  'TW',
+  'TWSE',
   '6831',
   '2026-05-27',
   850,
@@ -19110,6 +26385,8 @@ from (
   504590953
 ),
 (
+  'TW',
+  'TWSE',
   '6834',
   '2026-05-27',
   81,
@@ -19120,6 +26397,8 @@ from (
   195395963
 ),
 (
+  'TW',
+  'TWSE',
   '6835',
   '2026-05-27',
   38.25,
@@ -19130,6 +26409,8 @@ from (
   7883197
 ),
 (
+  'TW',
+  'TWSE',
   '6838',
   '2026-05-27',
   25.35,
@@ -19140,6 +26421,8 @@ from (
   7261212
 ),
 (
+  'TW',
+  'TWSE',
   '6854',
   '2026-05-27',
   161.5,
@@ -19150,6 +26433,8 @@ from (
   175719032
 ),
 (
+  'TW',
+  'TWSE',
   '6861',
   '2026-05-27',
   457,
@@ -19160,6 +26445,8 @@ from (
   1268479079
 ),
 (
+  'TW',
+  'TWSE',
   '6862',
   '2026-05-27',
   187.5,
@@ -19170,6 +26457,8 @@ from (
   208410517
 ),
 (
+  'TW',
+  'TWSE',
   '6863',
   '2026-05-27',
   113,
@@ -19180,6 +26469,8 @@ from (
   15712219
 ),
 (
+  'TW',
+  'TWSE',
   '6869',
   '2026-05-27',
   84.9,
@@ -19190,6 +26481,8 @@ from (
   144090435
 ),
 (
+  'TW',
+  'TWSE',
   '6873',
   '2026-05-27',
   91.5,
@@ -19200,6 +26493,8 @@ from (
   83294733
 ),
 (
+  'TW',
+  'TWSE',
   '6885',
   '2026-05-27',
   21.55,
@@ -19210,6 +26505,8 @@ from (
   11722090
 ),
 (
+  'TW',
+  'TWSE',
   '6887',
   '2026-05-27',
   31.8,
@@ -19220,6 +26517,8 @@ from (
   2342306
 ),
 (
+  'TW',
+  'TWSE',
   '6890',
   '2026-05-27',
   171.5,
@@ -19230,6 +26529,8 @@ from (
   65860124
 ),
 (
+  'TW',
+  'TWSE',
   '6901',
   '2026-05-27',
   12.8,
@@ -19240,6 +26541,8 @@ from (
   42353064
 ),
 (
+  'TW',
+  'TWSE',
   '6902',
   '2026-05-27',
   141.5,
@@ -19250,6 +26553,8 @@ from (
   62986008
 ),
 (
+  'TW',
+  'TWSE',
   '6906',
   '2026-05-27',
   100,
@@ -19260,6 +26565,8 @@ from (
   96134303
 ),
 (
+  'TW',
+  'TWSE',
   '6908',
   '2026-05-27',
   38.8,
@@ -19270,6 +26577,8 @@ from (
   398955
 ),
 (
+  'TW',
+  'TWSE',
   '6909',
   '2026-05-27',
   55.8,
@@ -19280,6 +26589,8 @@ from (
   51281419
 ),
 (
+  'TW',
+  'TWSE',
   '6914',
   '2026-05-27',
   143,
@@ -19290,6 +26601,8 @@ from (
   27836054
 ),
 (
+  'TW',
+  'TWSE',
   '6916',
   '2026-05-27',
   18.5,
@@ -19300,6 +26613,8 @@ from (
   431298
 ),
 (
+  'TW',
+  'TWSE',
   '6918',
   '2026-05-27',
   73,
@@ -19310,6 +26625,8 @@ from (
   4376948
 ),
 (
+  'TW',
+  'TWSE',
   '6919',
   '2026-05-27',
   102,
@@ -19320,6 +26637,8 @@ from (
   603768005
 ),
 (
+  'TW',
+  'TWSE',
   '6921',
   '2026-05-27',
   77,
@@ -19330,6 +26649,8 @@ from (
   6422745
 ),
 (
+  'TW',
+  'TWSE',
   '6923',
   '2026-05-27',
   79.9,
@@ -19340,6 +26661,8 @@ from (
   18020499
 ),
 (
+  'TW',
+  'TWSE',
   '6924',
   '2026-05-27',
   163.5,
@@ -19350,6 +26673,8 @@ from (
   10450704
 ),
 (
+  'TW',
+  'TWSE',
   '6928',
   '2026-05-27',
   47.55,
@@ -19360,6 +26685,8 @@ from (
   5691248
 ),
 (
+  'TW',
+  'TWSE',
   '6931',
   '2026-05-27',
   39.85,
@@ -19370,6 +26697,8 @@ from (
   4247091
 ),
 (
+  'TW',
+  'TWSE',
   '6933',
   '2026-05-27',
   170,
@@ -19380,6 +26709,8 @@ from (
   39112680
 ),
 (
+  'TW',
+  'TWSE',
   '6934',
   '2026-05-27',
   73.2,
@@ -19390,6 +26721,8 @@ from (
   3276546
 ),
 (
+  'TW',
+  'TWSE',
   '6936',
   '2026-05-27',
   33,
@@ -19400,6 +26733,8 @@ from (
   1858938
 ),
 (
+  'TW',
+  'TWSE',
   '6937',
   '2026-05-27',
   347,
@@ -19410,6 +26745,8 @@ from (
   358327453
 ),
 (
+  'TW',
+  'TWSE',
   '6944',
   '2026-05-27',
   967,
@@ -19420,6 +26757,8 @@ from (
   643488035
 ),
 (
+  'TW',
+  'TWSE',
   '6949',
   '2026-05-27',
   704,
@@ -19430,6 +26769,8 @@ from (
   175224315
 ),
 (
+  'TW',
+  'TWSE',
   '6951',
   '2026-05-27',
   81.8,
@@ -19440,6 +26781,8 @@ from (
   2398424
 ),
 (
+  'TW',
+  'TWSE',
   '6952',
   '2026-05-27',
   37,
@@ -19450,6 +26793,8 @@ from (
   195547
 ),
 (
+  'TW',
+  'TWSE',
   '6955',
   '2026-05-27',
   151.5,
@@ -19460,6 +26805,8 @@ from (
   2256652
 ),
 (
+  'TW',
+  'TWSE',
   '6957',
   '2026-05-27',
   160,
@@ -19470,6 +26817,8 @@ from (
   30599201
 ),
 (
+  'TW',
+  'TWSE',
   '6958',
   '2026-05-27',
   17.1,
@@ -19480,6 +26829,8 @@ from (
   736182
 ),
 (
+  'TW',
+  'TWSE',
   '6962',
   '2026-05-27',
   39.2,
@@ -19490,6 +26841,8 @@ from (
   229866967
 ),
 (
+  'TW',
+  'TWSE',
   '6965',
   '2026-05-27',
   76,
@@ -19500,6 +26853,8 @@ from (
   2508806
 ),
 (
+  'TW',
+  'TWSE',
   '6969',
   '2026-05-27',
   28.05,
@@ -19510,6 +26865,8 @@ from (
   1564489
 ),
 (
+  'TW',
+  'TWSE',
   '6988',
   '2026-05-27',
   17.3,
@@ -19520,6 +26877,8 @@ from (
   2067521
 ),
 (
+  'TW',
+  'TWSE',
   '6994',
   '2026-05-27',
   57.4,
@@ -19530,6 +26889,8 @@ from (
   71164638
 ),
 (
+  'TW',
+  'TWSE',
   '7610',
   '2026-05-27',
   1280,
@@ -19540,6 +26901,8 @@ from (
   286244155
 ),
 (
+  'TW',
+  'TWSE',
   '7631',
   '2026-05-27',
   126,
@@ -19550,6 +26913,8 @@ from (
   6503311
 ),
 (
+  'TW',
+  'TWSE',
   '7705',
   '2026-05-27',
   31.2,
@@ -19560,6 +26925,8 @@ from (
   2905961
 ),
 (
+  'TW',
+  'TWSE',
   '7711',
   '2026-05-27',
   400,
@@ -19570,6 +26937,8 @@ from (
   379660006
 ),
 (
+  'TW',
+  'TWSE',
   '7721',
   '2026-05-27',
   78.8,
@@ -19580,6 +26949,8 @@ from (
   45605846
 ),
 (
+  'TW',
+  'TWSE',
   '7722',
   '2026-05-27',
   262.5,
@@ -19590,6 +26961,8 @@ from (
   27314630
 ),
 (
+  'TW',
+  'TWSE',
   '7730',
   '2026-05-27',
   212,
@@ -19600,6 +26973,8 @@ from (
   32833919
 ),
 (
+  'TW',
+  'TWSE',
   '7732',
   '2026-05-27',
   35.7,
@@ -19610,6 +26985,8 @@ from (
   926000
 ),
 (
+  'TW',
+  'TWSE',
   '7736',
   '2026-05-27',
   72,
@@ -19620,6 +26997,8 @@ from (
   1103313
 ),
 (
+  'TW',
+  'TWSE',
   '7740',
   '2026-05-27',
   178,
@@ -19630,6 +27009,8 @@ from (
   67399400
 ),
 (
+  'TW',
+  'TWSE',
   '7749',
   '2026-05-27',
   525,
@@ -19640,6 +27021,8 @@ from (
   474313926
 ),
 (
+  'TW',
+  'TWSE',
   '7750',
   '2026-05-27',
   2655,
@@ -19650,6 +27033,8 @@ from (
   1304854865
 ),
 (
+  'TW',
+  'TWSE',
   '7760',
   '2026-05-27',
   33,
@@ -19660,6 +27045,8 @@ from (
   8049527
 ),
 (
+  'TW',
+  'TWSE',
   '7765',
   '2026-05-27',
   242,
@@ -19670,6 +27057,8 @@ from (
   27367855
 ),
 (
+  'TW',
+  'TWSE',
   '7768',
   '2026-05-27',
   385,
@@ -19680,6 +27069,8 @@ from (
   133511772
 ),
 (
+  'TW',
+  'TWSE',
   '7769',
   '2026-05-27',
   7855,
@@ -19690,6 +27081,8 @@ from (
   2585614570
 ),
 (
+  'TW',
+  'TWSE',
   '7780',
   '2026-05-27',
   17.9,
@@ -19700,6 +27093,8 @@ from (
   32989952
 ),
 (
+  'TW',
+  'TWSE',
   '7786',
   '2026-05-27',
   118,
@@ -19710,6 +27105,8 @@ from (
   21726895
 ),
 (
+  'TW',
+  'TWSE',
   '7788',
   '2026-05-27',
   196,
@@ -19720,6 +27117,8 @@ from (
   142501713
 ),
 (
+  'TW',
+  'TWSE',
   '7791',
   '2026-05-27',
   64.5,
@@ -19730,6 +27129,8 @@ from (
   6226001
 ),
 (
+  'TW',
+  'TWSE',
   '7795',
   '2026-05-27',
   420.5,
@@ -19740,6 +27141,8 @@ from (
   182916441
 ),
 (
+  'TW',
+  'TWSE',
   '7799',
   '2026-05-27',
   329.5,
@@ -19750,6 +27153,8 @@ from (
   85748348
 ),
 (
+  'TW',
+  'TWSE',
   '7803',
   '2026-05-27',
   24.35,
@@ -19760,6 +27165,8 @@ from (
   9090901
 ),
 (
+  'TW',
+  'TWSE',
   '7818',
   '2026-05-27',
   67.6,
@@ -19770,6 +27177,8 @@ from (
   51595959
 ),
 (
+  'TW',
+  'TWSE',
   '7821',
   '2026-05-27',
   44.5,
@@ -19780,6 +27189,8 @@ from (
   14034221
 ),
 (
+  'TW',
+  'TWSE',
   '7822',
   '2026-05-27',
   1180,
@@ -19790,6 +27201,8 @@ from (
   530598170
 ),
 (
+  'TW',
+  'TWSE',
   '7823',
   '2026-05-27',
   100,
@@ -19800,6 +27213,8 @@ from (
   5167086
 ),
 (
+  'TW',
+  'TWSE',
   '8011',
   '2026-05-27',
   17.9,
@@ -19810,6 +27225,8 @@ from (
   17918566
 ),
 (
+  'TW',
+  'TWSE',
   '8016',
   '2026-05-27',
   292,
@@ -19820,6 +27237,8 @@ from (
   1361009416
 ),
 (
+  'TW',
+  'TWSE',
   '8021',
   '2026-05-27',
   468,
@@ -19830,6 +27249,8 @@ from (
   599855087
 ),
 (
+  'TW',
+  'TWSE',
   '8028',
   '2026-05-27',
   318,
@@ -19840,6 +27261,8 @@ from (
   2346656642
 ),
 (
+  'TW',
+  'TWSE',
   '8033',
   '2026-05-27',
   137.5,
@@ -19850,6 +27273,8 @@ from (
   400918786
 ),
 (
+  'TW',
+  'TWSE',
   '8039',
   '2026-05-27',
   158,
@@ -19860,6 +27285,8 @@ from (
   4311697282
 ),
 (
+  'TW',
+  'TWSE',
   '8045',
   '2026-05-27',
   68.2,
@@ -19870,6 +27297,8 @@ from (
   38463874
 ),
 (
+  'TW',
+  'TWSE',
   '8046',
   '2026-05-27',
   939,
@@ -19880,6 +27309,8 @@ from (
   21108481350
 ),
 (
+  'TW',
+  'TWSE',
   '8070',
   '2026-05-27',
   50.8,
@@ -19890,6 +27321,8 @@ from (
   579622182
 ),
 (
+  'TW',
+  'TWSE',
   '8072',
   '2026-05-27',
   27.9,
@@ -19900,6 +27333,8 @@ from (
   7693028
 ),
 (
+  'TW',
+  'TWSE',
   '8081',
   '2026-05-27',
   295,
@@ -19910,6 +27345,8 @@ from (
   585687757
 ),
 (
+  'TW',
+  'TWSE',
   '8101',
   '2026-05-27',
   12.95,
@@ -19920,6 +27357,8 @@ from (
   146900
 ),
 (
+  'TW',
+  'TWSE',
   '8103',
   '2026-05-27',
   109.5,
@@ -19930,6 +27369,8 @@ from (
   228860222
 ),
 (
+  'TW',
+  'TWSE',
   '8104',
   '2026-05-27',
   35.3,
@@ -19940,6 +27381,8 @@ from (
   144830264
 ),
 (
+  'TW',
+  'TWSE',
   '8105',
   '2026-05-27',
   16.95,
@@ -19950,6 +27393,8 @@ from (
   91063960
 ),
 (
+  'TW',
+  'TWSE',
   '8110',
   '2026-05-27',
   60,
@@ -19960,6 +27405,8 @@ from (
   4094089974
 ),
 (
+  'TW',
+  'TWSE',
   '8112',
   '2026-05-27',
   85.4,
@@ -19970,6 +27417,8 @@ from (
   3180558570
 ),
 (
+  'TW',
+  'TWSE',
   '8114',
   '2026-05-27',
   255,
@@ -19980,6 +27429,8 @@ from (
   367642013
 ),
 (
+  'TW',
+  'TWSE',
   '8131',
   '2026-05-27',
   70.1,
@@ -19990,6 +27441,8 @@ from (
   1026432320
 ),
 (
+  'TW',
+  'TWSE',
   '8150',
   '2026-05-27',
   89.7,
@@ -20000,6 +27453,8 @@ from (
   8296704213
 ),
 (
+  'TW',
+  'TWSE',
   '8162',
   '2026-05-27',
   75.3,
@@ -20010,6 +27465,8 @@ from (
   138420576
 ),
 (
+  'TW',
+  'TWSE',
   '8163',
   '2026-05-27',
   37.1,
@@ -20020,6 +27477,8 @@ from (
   127926980
 ),
 (
+  'TW',
+  'TWSE',
   '8201',
   '2026-05-27',
   13.5,
@@ -20030,6 +27489,8 @@ from (
   1882298
 ),
 (
+  'TW',
+  'TWSE',
   '8210',
   '2026-05-27',
   1470,
@@ -20040,6 +27501,8 @@ from (
   2048715935
 ),
 (
+  'TW',
+  'TWSE',
   '8213',
   '2026-05-27',
   39.4,
@@ -20050,6 +27513,8 @@ from (
   123858567
 ),
 (
+  'TW',
+  'TWSE',
   '8215',
   '2026-05-27',
   29.4,
@@ -20060,6 +27525,8 @@ from (
   109948530
 ),
 (
+  'TW',
+  'TWSE',
   '8222',
   '2026-05-27',
   35.35,
@@ -20070,6 +27537,8 @@ from (
   18028381
 ),
 (
+  'TW',
+  'TWSE',
   '8249',
   '2026-05-27',
   58.8,
@@ -20080,6 +27549,8 @@ from (
   346495359
 ),
 (
+  'TW',
+  'TWSE',
   '8261',
   '2026-05-27',
   212.5,
@@ -20090,6 +27561,8 @@ from (
   3918998827
 ),
 (
+  'TW',
+  'TWSE',
   '8271',
   '2026-05-27',
   245,
@@ -20100,6 +27573,8 @@ from (
   1343568188
 ),
 (
+  'TW',
+  'TWSE',
   '8341',
   '2026-05-27',
   75.7,
@@ -20110,6 +27585,8 @@ from (
   14172853
 ),
 (
+  'TW',
+  'TWSE',
   '8367',
   '2026-05-27',
   40.6,
@@ -20120,6 +27597,8 @@ from (
   1365113
 ),
 (
+  'TW',
+  'TWSE',
   '8374',
   '2026-05-27',
   112.5,
@@ -20130,6 +27609,8 @@ from (
   294160803
 ),
 (
+  'TW',
+  'TWSE',
   '8404',
   '2026-05-27',
   16.45,
@@ -20140,6 +27621,8 @@ from (
   11610951
 ),
 (
+  'TW',
+  'TWSE',
   '8411',
   '2026-05-27',
   12,
@@ -20150,6 +27633,8 @@ from (
   2136846
 ),
 (
+  'TW',
+  'TWSE',
   '8422',
   '2026-05-27',
   27.5,
@@ -20160,6 +27645,8 @@ from (
   189727924
 ),
 (
+  'TW',
+  'TWSE',
   '8429',
   '2026-05-27',
   6.31,
@@ -20170,6 +27657,8 @@ from (
   4762806
 ),
 (
+  'TW',
+  'TWSE',
   '8438',
   '2026-05-27',
   93.3,
@@ -20180,6 +27669,8 @@ from (
   44672019
 ),
 (
+  'TW',
+  'TWSE',
   '8442',
   '2026-05-27',
   40,
@@ -20190,6 +27681,8 @@ from (
   5239183
 ),
 (
+  'TW',
+  'TWSE',
   '8443',
   '2026-05-27',
   11.15,
@@ -20200,6 +27693,8 @@ from (
   190958
 ),
 (
+  'TW',
+  'TWSE',
   '8454',
   '2026-05-27',
   190,
@@ -20210,6 +27705,8 @@ from (
   114248710
 ),
 (
+  'TW',
+  'TWSE',
   '8462',
   '2026-05-27',
   136.5,
@@ -20220,6 +27717,8 @@ from (
   13787049
 ),
 (
+  'TW',
+  'TWSE',
   '8463',
   '2026-05-27',
   21.9,
@@ -20230,6 +27729,8 @@ from (
   1618518
 ),
 (
+  'TW',
+  'TWSE',
   '8464',
   '2026-05-27',
   316.5,
@@ -20240,6 +27741,8 @@ from (
   254096848
 ),
 (
+  'TW',
+  'TWSE',
   '8466',
   '2026-05-27',
   16.85,
@@ -20250,6 +27753,8 @@ from (
   16067120
 ),
 (
+  'TW',
+  'TWSE',
   '8467',
   '2026-05-27',
   131.5,
@@ -20260,6 +27765,8 @@ from (
   3184533
 ),
 (
+  'TW',
+  'TWSE',
   '8473',
   '2026-05-27',
   42.25,
@@ -20270,6 +27777,8 @@ from (
   87613924
 ),
 (
+  'TW',
+  'TWSE',
   '8476',
   '2026-05-27',
   15.45,
@@ -20280,6 +27789,8 @@ from (
   7722568
 ),
 (
+  'TW',
+  'TWSE',
   '8478',
   '2026-05-27',
   151.5,
@@ -20290,6 +27801,8 @@ from (
   55703504
 ),
 (
+  'TW',
+  'TWSE',
   '8481',
   '2026-05-27',
   40.55,
@@ -20300,6 +27813,8 @@ from (
   1917777
 ),
 (
+  'TW',
+  'TWSE',
   '8482',
   '2026-05-27',
   48,
@@ -20310,6 +27825,8 @@ from (
   242436
 ),
 (
+  'TW',
+  'TWSE',
   '8487',
   '2026-05-27',
   81.7,
@@ -20320,6 +27837,8 @@ from (
   7335633
 ),
 (
+  'TW',
+  'TWSE',
   '8488',
   '2026-05-27',
   9.93,
@@ -20330,6 +27849,8 @@ from (
   39149
 ),
 (
+  'TW',
+  'TWSE',
   '8499',
   '2026-05-27',
   336,
@@ -20340,6 +27861,8 @@ from (
   100803390
 ),
 (
+  'TW',
+  'TWSE',
   '8926',
   '2026-05-27',
   69,
@@ -20350,6 +27873,8 @@ from (
   1924787634
 ),
 (
+  'TW',
+  'TWSE',
   '8940',
   '2026-05-27',
   16.75,
@@ -20360,6 +27885,8 @@ from (
   788217
 ),
 (
+  'TW',
+  'TWSE',
   '8996',
   '2026-05-27',
   1260,
@@ -20370,6 +27897,8 @@ from (
   4993863075
 ),
 (
+  'TW',
+  'TWSE',
   '9103',
   '2026-05-27',
   5.36,
@@ -20380,6 +27909,8 @@ from (
   15492968
 ),
 (
+  'TW',
+  'TWSE',
   '9105',
   '2026-05-27',
   8.97,
@@ -20390,6 +27921,8 @@ from (
   2929160872
 ),
 (
+  'TW',
+  'TWSE',
   '9110',
   '2026-05-27',
   2.5,
@@ -20400,6 +27933,8 @@ from (
   120080
 ),
 (
+  'TW',
+  'TWSE',
   '9136',
   '2026-05-27',
   11,
@@ -20410,6 +27945,8 @@ from (
   19702900
 ),
 (
+  'TW',
+  'TWSE',
   '9802',
   '2026-05-27',
   74.5,
@@ -20420,6 +27957,8 @@ from (
   63638495
 ),
 (
+  'TW',
+  'TWSE',
   '9902',
   '2026-05-27',
   13.8,
@@ -20430,6 +27969,8 @@ from (
   2703478
 ),
 (
+  'TW',
+  'TWSE',
   '9904',
   '2026-05-27',
   25.6,
@@ -20440,6 +27981,8 @@ from (
   432129764
 ),
 (
+  'TW',
+  'TWSE',
   '9905',
   '2026-05-27',
   20.7,
@@ -20450,6 +27993,8 @@ from (
   2062586
 ),
 (
+  'TW',
+  'TWSE',
   '9906',
   '2026-05-27',
   33.2,
@@ -20460,6 +28005,8 @@ from (
   6950918
 ),
 (
+  'TW',
+  'TWSE',
   '9907',
   '2026-05-27',
   15.95,
@@ -20470,6 +28017,8 @@ from (
   50241376
 ),
 (
+  'TW',
+  'TWSE',
   '9908',
   '2026-05-27',
   29.1,
@@ -20480,6 +28029,8 @@ from (
   8228139
 ),
 (
+  'TW',
+  'TWSE',
   '9910',
   '2026-05-27',
   67.5,
@@ -20490,6 +28041,8 @@ from (
   218059887
 ),
 (
+  'TW',
+  'TWSE',
   '9911',
   '2026-05-27',
   82.2,
@@ -20500,6 +28053,8 @@ from (
   33933931
 ),
 (
+  'TW',
+  'TWSE',
   '9912',
   '2026-05-27',
   12.45,
@@ -20510,6 +28065,8 @@ from (
   545495
 ),
 (
+  'TW',
+  'TWSE',
   '9914',
   '2026-05-27',
   67.4,
@@ -20520,6 +28077,8 @@ from (
   135663377
 ),
 (
+  'TW',
+  'TWSE',
   '9917',
   '2026-05-27',
   113,
@@ -20530,6 +28089,8 @@ from (
   49235598
 ),
 (
+  'TW',
+  'TWSE',
   '9918',
   '2026-05-27',
   43.2,
@@ -20540,6 +28101,8 @@ from (
   4123252
 ),
 (
+  'TW',
+  'TWSE',
   '9919',
   '2026-05-27',
   14.25,
@@ -20550,6 +28113,8 @@ from (
   6312059
 ),
 (
+  'TW',
+  'TWSE',
   '9921',
   '2026-05-27',
   68.3,
@@ -20560,6 +28125,8 @@ from (
   156017415
 ),
 (
+  'TW',
+  'TWSE',
   '9924',
   '2026-05-27',
   41.9,
@@ -20570,6 +28137,8 @@ from (
   11424317
 ),
 (
+  'TW',
+  'TWSE',
   '9925',
   '2026-05-27',
   40.1,
@@ -20580,6 +28149,8 @@ from (
   8928836
 ),
 (
+  'TW',
+  'TWSE',
   '9926',
   '2026-05-27',
   48.95,
@@ -20590,6 +28161,8 @@ from (
   920268
 ),
 (
+  'TW',
+  'TWSE',
   '9927',
   '2026-05-27',
   67.3,
@@ -20600,6 +28173,8 @@ from (
   5211759
 ),
 (
+  'TW',
+  'TWSE',
   '9928',
   '2026-05-27',
   17.95,
@@ -20610,6 +28185,8 @@ from (
   778098
 ),
 (
+  'TW',
+  'TWSE',
   '9929',
   '2026-05-27',
   11.7,
@@ -20620,6 +28197,8 @@ from (
   93090
 ),
 (
+  'TW',
+  'TWSE',
   '9930',
   '2026-05-27',
   68.1,
@@ -20630,6 +28209,8 @@ from (
   6762852
 ),
 (
+  'TW',
+  'TWSE',
   '9931',
   '2026-05-27',
   33.9,
@@ -20640,6 +28221,8 @@ from (
   2981990
 ),
 (
+  'TW',
+  'TWSE',
   '9933',
   '2026-05-27',
   40.7,
@@ -20650,6 +28233,8 @@ from (
   265039511
 ),
 (
+  'TW',
+  'TWSE',
   '9934',
   '2026-05-27',
   9.6,
@@ -20660,6 +28245,8 @@ from (
   3601994
 ),
 (
+  'TW',
+  'TWSE',
   '9935',
   '2026-05-27',
   18.65,
@@ -20670,6 +28257,8 @@ from (
   7795551
 ),
 (
+  'TW',
+  'TWSE',
   '9937',
   '2026-05-27',
   55.7,
@@ -20680,6 +28269,8 @@ from (
   2746058
 ),
 (
+  'TW',
+  'TWSE',
   '9938',
   '2026-05-27',
   42.8,
@@ -20690,6 +28281,8 @@ from (
   87094688
 ),
 (
+  'TW',
+  'TWSE',
   '9939',
   '2026-05-27',
   122.5,
@@ -20700,6 +28293,8 @@ from (
   104073191
 ),
 (
+  'TW',
+  'TWSE',
   '9940',
   '2026-05-27',
   18.7,
@@ -20710,6 +28305,8 @@ from (
   9049556
 ),
 (
+  'TW',
+  'TWSE',
   '9941',
   '2026-05-27',
   72.8,
@@ -20720,6 +28317,8 @@ from (
   181248349
 ),
 (
+  'TW',
+  'TWSE',
   '9942',
   '2026-05-27',
   118,
@@ -20730,6 +28329,8 @@ from (
   8896703
 ),
 (
+  'TW',
+  'TWSE',
   '9943',
   '2026-05-27',
   55.8,
@@ -20740,6 +28341,8 @@ from (
   4082017
 ),
 (
+  'TW',
+  'TWSE',
   '9944',
   '2026-05-27',
   16.95,
@@ -20750,6 +28353,8 @@ from (
   2039243
 ),
 (
+  'TW',
+  'TWSE',
   '9945',
   '2026-05-27',
   23.8,
@@ -20760,6 +28365,8 @@ from (
   176351101
 ),
 (
+  'TW',
+  'TWSE',
   '9946',
   '2026-05-27',
   16.35,
@@ -20770,6 +28377,8 @@ from (
   8088968
 ),
 (
+  'TW',
+  'TWSE',
   '9955',
   '2026-05-27',
   28.4,
@@ -20780,6 +28389,8 @@ from (
   10880599
 ),
 (
+  'TW',
+  'TWSE',
   '9958',
   '2026-05-27',
   106,
@@ -20789,8 +28400,11 @@ from (
   2412247,
   247669661
 )
-) as incoming(symbol, trade_date, open, high, low, close, volume, turnover)
-join public.stocks on stocks.symbol = incoming.symbol
+) as incoming(country, exchange, symbol, trade_date, open, high, low, close, volume, turnover)
+join public.stocks
+  on stocks.country = incoming.country
+  and stocks.exchange = incoming.exchange
+  and stocks.symbol = incoming.symbol
 on conflict (stock_id, trade_date) do update set
   open = excluded.open,
   high = excluded.high,
@@ -20816,6 +28430,8 @@ select
 from (
   values
 (
+  'TW',
+  'TWSE',
   '1101',
   '2026-05-27',
   null,
@@ -20823,6 +28439,8 @@ from (
   3.35
 ),
 (
+  'TW',
+  'TWSE',
   '1102',
   '2026-05-27',
   11.07,
@@ -20830,6 +28448,8 @@ from (
   6.97
 ),
 (
+  'TW',
+  'TWSE',
   '1103',
   '2026-05-27',
   16.5,
@@ -20837,6 +28457,8 @@ from (
   4.17
 ),
 (
+  'TW',
+  'TWSE',
   '1104',
   '2026-05-27',
   10.63,
@@ -20844,6 +28466,8 @@ from (
   6.8
 ),
 (
+  'TW',
+  'TWSE',
   '1108',
   '2026-05-27',
   6.68,
@@ -20851,6 +28475,8 @@ from (
   7.41
 ),
 (
+  'TW',
+  'TWSE',
   '1109',
   '2026-05-27',
   18.29,
@@ -20858,6 +28484,8 @@ from (
   6.23
 ),
 (
+  'TW',
+  'TWSE',
   '1110',
   '2026-05-27',
   44.06,
@@ -20865,6 +28493,8 @@ from (
   2.13
 ),
 (
+  'TW',
+  'TWSE',
   '1201',
   '2026-05-27',
   31.84,
@@ -20872,6 +28502,8 @@ from (
   1.74
 ),
 (
+  'TW',
+  'TWSE',
   '1203',
   '2026-05-27',
   24.83,
@@ -20879,6 +28511,8 @@ from (
   2.34
 ),
 (
+  'TW',
+  'TWSE',
   '1210',
   '2026-05-27',
   12.25,
@@ -20886,6 +28520,8 @@ from (
   5.8
 ),
 (
+  'TW',
+  'TWSE',
   '1213',
   '2026-05-27',
   null,
@@ -20893,6 +28529,8 @@ from (
   4.22
 ),
 (
+  'TW',
+  'TWSE',
   '1215',
   '2026-05-27',
   13.95,
@@ -20900,6 +28538,8 @@ from (
   5.41
 ),
 (
+  'TW',
+  'TWSE',
   '1216',
   '2026-05-27',
   18.97,
@@ -20907,6 +28547,8 @@ from (
   4.27
 ),
 (
+  'TW',
+  'TWSE',
   '1217',
   '2026-05-27',
   20.21,
@@ -20914,6 +28556,8 @@ from (
   2.58
 ),
 (
+  'TW',
+  'TWSE',
   '1218',
   '2026-05-27',
   11.98,
@@ -20921,6 +28565,8 @@ from (
   7.15
 ),
 (
+  'TW',
+  'TWSE',
   '1219',
   '2026-05-27',
   26.28,
@@ -20928,6 +28574,8 @@ from (
   4.05
 ),
 (
+  'TW',
+  'TWSE',
   '1220',
   '2026-05-27',
   587.5,
@@ -20935,6 +28583,8 @@ from (
   1.7
 ),
 (
+  'TW',
+  'TWSE',
   '1225',
   '2026-05-27',
   17.11,
@@ -20942,6 +28592,8 @@ from (
   3.42
 ),
 (
+  'TW',
+  'TWSE',
   '1227',
   '2026-05-27',
   19.25,
@@ -20949,6 +28601,8 @@ from (
   4.77
 ),
 (
+  'TW',
+  'TWSE',
   '1229',
   '2026-05-27',
   15.37,
@@ -20956,6 +28610,8 @@ from (
   5.01
 ),
 (
+  'TW',
+  'TWSE',
   '1231',
   '2026-05-27',
   19.45,
@@ -20963,6 +28619,8 @@ from (
   2.92
 ),
 (
+  'TW',
+  'TWSE',
   '1232',
   '2026-05-27',
   17.11,
@@ -20970,6 +28628,8 @@ from (
   4.86
 ),
 (
+  'TW',
+  'TWSE',
   '1233',
   '2026-05-27',
   33.96,
@@ -20977,6 +28637,8 @@ from (
   0.72
 ),
 (
+  'TW',
+  'TWSE',
   '1234',
   '2026-05-27',
   20.51,
@@ -20984,6 +28646,8 @@ from (
   4.82
 ),
 (
+  'TW',
+  'TWSE',
   '1235',
   '2026-05-27',
   null,
@@ -20991,6 +28655,8 @@ from (
   2.56
 ),
 (
+  'TW',
+  'TWSE',
   '1236',
   '2026-05-27',
   null,
@@ -20998,6 +28664,8 @@ from (
   6.78
 ),
 (
+  'TW',
+  'TWSE',
   '1256',
   '2026-05-27',
   14.5,
@@ -21005,6 +28673,8 @@ from (
   3.44
 ),
 (
+  'TW',
+  'TWSE',
   '1301',
   '2026-05-27',
   null,
@@ -21012,6 +28682,8 @@ from (
   1.1
 ),
 (
+  'TW',
+  'TWSE',
   '1303',
   '2026-05-27',
   41.34,
@@ -21019,6 +28691,8 @@ from (
   0.84
 ),
 (
+  'TW',
+  'TWSE',
   '1304',
   '2026-05-27',
   null,
@@ -21026,6 +28700,8 @@ from (
   1.26
 ),
 (
+  'TW',
+  'TWSE',
   '1305',
   '2026-05-27',
   null,
@@ -21033,6 +28709,8 @@ from (
   0.83
 ),
 (
+  'TW',
+  'TWSE',
   '1307',
   '2026-05-27',
   11.17,
@@ -21040,6 +28718,8 @@ from (
   7.19
 ),
 (
+  'TW',
+  'TWSE',
   '1308',
   '2026-05-27',
   null,
@@ -21047,6 +28727,8 @@ from (
   1.56
 ),
 (
+  'TW',
+  'TWSE',
   '1309',
   '2026-05-27',
   null,
@@ -21054,6 +28736,8 @@ from (
   1.01
 ),
 (
+  'TW',
+  'TWSE',
   '1310',
   '2026-05-27',
   null,
@@ -21061,6 +28745,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '1312',
   '2026-05-27',
   null,
@@ -21068,6 +28754,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '1313',
   '2026-05-27',
   null,
@@ -21075,6 +28763,8 @@ from (
   0.97
 ),
 (
+  'TW',
+  'TWSE',
   '1314',
   '2026-05-27',
   null,
@@ -21082,6 +28772,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '1315',
   '2026-05-27',
   40.26,
@@ -21089,6 +28781,8 @@ from (
   7.26
 ),
 (
+  'TW',
+  'TWSE',
   '1316',
   '2026-05-27',
   null,
@@ -21096,6 +28790,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '1319',
   '2026-05-27',
   14.13,
@@ -21103,6 +28799,8 @@ from (
   6.35
 ),
 (
+  'TW',
+  'TWSE',
   '1321',
   '2026-05-27',
   null,
@@ -21110,6 +28808,8 @@ from (
   1.31
 ),
 (
+  'TW',
+  'TWSE',
   '1323',
   '2026-05-27',
   36.07,
@@ -21117,6 +28817,8 @@ from (
   4.46
 ),
 (
+  'TW',
+  'TWSE',
   '1324',
   '2026-05-27',
   null,
@@ -21124,6 +28826,8 @@ from (
   1.96
 ),
 (
+  'TW',
+  'TWSE',
   '1325',
   '2026-05-27',
   null,
@@ -21131,6 +28835,8 @@ from (
   1.12
 ),
 (
+  'TW',
+  'TWSE',
   '1326',
   '2026-05-27',
   303,
@@ -21138,6 +28844,8 @@ from (
   1.32
 ),
 (
+  'TW',
+  'TWSE',
   '1337',
   '2026-05-27',
   null,
@@ -21145,6 +28853,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '1338',
   '2026-05-27',
   null,
@@ -21152,6 +28862,8 @@ from (
   1.91
 ),
 (
+  'TW',
+  'TWSE',
   '1339',
   '2026-05-27',
   9.65,
@@ -21159,6 +28871,8 @@ from (
   6.13
 ),
 (
+  'TW',
+  'TWSE',
   '1340',
   '2026-05-27',
   null,
@@ -21166,6 +28880,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '1341',
   '2026-05-27',
   15.15,
@@ -21173,6 +28889,8 @@ from (
   6.47
 ),
 (
+  'TW',
+  'TWSE',
   '1342',
   '2026-05-27',
   15.43,
@@ -21180,6 +28898,8 @@ from (
   6.54
 ),
 (
+  'TW',
+  'TWSE',
   '1402',
   '2026-05-27',
   14.57,
@@ -21187,6 +28907,8 @@ from (
   5.33
 ),
 (
+  'TW',
+  'TWSE',
   '1409',
   '2026-05-27',
   14,
@@ -21194,6 +28916,8 @@ from (
   4.76
 ),
 (
+  'TW',
+  'TWSE',
   '1410',
   '2026-05-27',
   48.61,
@@ -21201,6 +28925,8 @@ from (
   0.76
 ),
 (
+  'TW',
+  'TWSE',
   '1413',
   '2026-05-27',
   22.38,
@@ -21208,6 +28934,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '1414',
   '2026-05-27',
   48.45,
@@ -21215,6 +28943,8 @@ from (
   1.42
 ),
 (
+  'TW',
+  'TWSE',
   '1416',
   '2026-05-27',
   12.91,
@@ -21222,6 +28952,8 @@ from (
   5.14
 ),
 (
+  'TW',
+  'TWSE',
   '1417',
   '2026-05-27',
   17.91,
@@ -21229,6 +28961,8 @@ from (
   3.1
 ),
 (
+  'TW',
+  'TWSE',
   '1418',
   '2026-05-27',
   null,
@@ -21236,6 +28970,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '1419',
   '2026-05-27',
   4.85,
@@ -21243,6 +28979,8 @@ from (
   2.82
 ),
 (
+  'TW',
+  'TWSE',
   '1423',
   '2026-05-27',
   11.01,
@@ -21250,6 +28988,8 @@ from (
   8.67
 ),
 (
+  'TW',
+  'TWSE',
   '1432',
   '2026-05-27',
   2.94,
@@ -21257,6 +28997,8 @@ from (
   12.46
 ),
 (
+  'TW',
+  'TWSE',
   '1434',
   '2026-05-27',
   25,
@@ -21264,6 +29006,8 @@ from (
   3.33
 ),
 (
+  'TW',
+  'TWSE',
   '1436',
   '2026-05-27',
   10.24,
@@ -21271,6 +29015,8 @@ from (
   11.46
 ),
 (
+  'TW',
+  'TWSE',
   '1437',
   '2026-05-27',
   10.2,
@@ -21278,6 +29024,8 @@ from (
   3.4
 ),
 (
+  'TW',
+  'TWSE',
   '1438',
   '2026-05-27',
   7.28,
@@ -21285,6 +29033,8 @@ from (
   1
 ),
 (
+  'TW',
+  'TWSE',
   '1439',
   '2026-05-27',
   8.25,
@@ -21292,6 +29042,8 @@ from (
   1.97
 ),
 (
+  'TW',
+  'TWSE',
   '1440',
   '2026-05-27',
   null,
@@ -21299,6 +29051,8 @@ from (
   2.49
 ),
 (
+  'TW',
+  'TWSE',
   '1441',
   '2026-05-27',
   null,
@@ -21306,6 +29060,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '1442',
   '2026-05-27',
   13.16,
@@ -21313,6 +29069,8 @@ from (
   9.3
 ),
 (
+  'TW',
+  'TWSE',
   '1443',
   '2026-05-27',
   22.82,
@@ -21320,6 +29078,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '1444',
   '2026-05-27',
   null,
@@ -21327,6 +29087,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '1445',
   '2026-05-27',
   null,
@@ -21334,6 +29096,8 @@ from (
   4.24
 ),
 (
+  'TW',
+  'TWSE',
   '1446',
   '2026-05-27',
   9.24,
@@ -21341,6 +29105,8 @@ from (
   9.55
 ),
 (
+  'TW',
+  'TWSE',
   '1447',
   '2026-05-27',
   null,
@@ -21348,6 +29114,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '1449',
   '2026-05-27',
   null,
@@ -21355,6 +29123,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '1451',
   '2026-05-27',
   18.43,
@@ -21362,6 +29132,8 @@ from (
   6.1
 ),
 (
+  'TW',
+  'TWSE',
   '1452',
   '2026-05-27',
   null,
@@ -21369,6 +29141,8 @@ from (
   1.94
 ),
 (
+  'TW',
+  'TWSE',
   '1453',
   '2026-05-27',
   102.73,
@@ -21376,6 +29150,8 @@ from (
   2.65
 ),
 (
+  'TW',
+  'TWSE',
   '1454',
   '2026-05-27',
   null,
@@ -21383,6 +29159,8 @@ from (
   0.8
 ),
 (
+  'TW',
+  'TWSE',
   '1455',
   '2026-05-27',
   null,
@@ -21390,6 +29168,8 @@ from (
   1.97
 ),
 (
+  'TW',
+  'TWSE',
   '1456',
   '2026-05-27',
   3.78,
@@ -21397,6 +29177,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '1457',
   '2026-05-27',
   15.33,
@@ -21404,6 +29186,8 @@ from (
   7.17
 ),
 (
+  'TW',
+  'TWSE',
   '1459',
   '2026-05-27',
   7.48,
@@ -21411,6 +29195,8 @@ from (
   1.72
 ),
 (
+  'TW',
+  'TWSE',
   '1460',
   '2026-05-27',
   null,
@@ -21418,6 +29204,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '1463',
   '2026-05-27',
   null,
@@ -21425,6 +29213,8 @@ from (
   0.73
 ),
 (
+  'TW',
+  'TWSE',
   '1464',
   '2026-05-27',
   27.3,
@@ -21432,6 +29222,8 @@ from (
   2.48
 ),
 (
+  'TW',
+  'TWSE',
   '1465',
   '2026-05-27',
   null,
@@ -21439,6 +29231,8 @@ from (
   2.44
 ),
 (
+  'TW',
+  'TWSE',
   '1466',
   '2026-05-27',
   null,
@@ -21446,6 +29240,8 @@ from (
   1.45
 ),
 (
+  'TW',
+  'TWSE',
   '1467',
   '2026-05-27',
   null,
@@ -21453,6 +29249,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '1468',
   '2026-05-27',
   100.42,
@@ -21460,6 +29258,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '1470',
   '2026-05-27',
   25.29,
@@ -21467,6 +29267,8 @@ from (
   2.95
 ),
 (
+  'TW',
+  'TWSE',
   '1471',
   '2026-05-27',
   null,
@@ -21474,6 +29276,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '1472',
   '2026-05-27',
   13.92,
@@ -21481,6 +29285,8 @@ from (
   6.7
 ),
 (
+  'TW',
+  'TWSE',
   '1473',
   '2026-05-27',
   null,
@@ -21488,6 +29294,8 @@ from (
   2.49
 ),
 (
+  'TW',
+  'TWSE',
   '1474',
   '2026-05-27',
   40.29,
@@ -21495,6 +29303,8 @@ from (
   2.59
 ),
 (
+  'TW',
+  'TWSE',
   '1475',
   '2026-05-27',
   9.8,
@@ -21502,6 +29312,8 @@ from (
   6
 ),
 (
+  'TW',
+  'TWSE',
   '1476',
   '2026-05-27',
   16.01,
@@ -21509,6 +29321,8 @@ from (
   4.53
 ),
 (
+  'TW',
+  'TWSE',
   '1477',
   '2026-05-27',
   15.56,
@@ -21516,6 +29330,8 @@ from (
   6.96
 ),
 (
+  'TW',
+  'TWSE',
   '1503',
   '2026-05-27',
   32.94,
@@ -21523,6 +29339,8 @@ from (
   2.26
 ),
 (
+  'TW',
+  'TWSE',
   '1504',
   '2026-05-27',
   31.47,
@@ -21530,6 +29348,8 @@ from (
   2.82
 ),
 (
+  'TW',
+  'TWSE',
   '1506',
   '2026-05-27',
   144.29,
@@ -21537,6 +29357,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '1512',
   '2026-05-27',
   25.26,
@@ -21544,6 +29366,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '1513',
   '2026-05-27',
   20.53,
@@ -21551,6 +29375,8 @@ from (
   3.55
 ),
 (
+  'TW',
+  'TWSE',
   '1514',
   '2026-05-27',
   36.44,
@@ -21558,6 +29384,8 @@ from (
   1.76
 ),
 (
+  'TW',
+  'TWSE',
   '1515',
   '2026-05-27',
   22.4,
@@ -21565,6 +29393,8 @@ from (
   2.73
 ),
 (
+  'TW',
+  'TWSE',
   '1516',
   '2026-05-27',
   1030,
@@ -21572,6 +29402,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '1517',
   '2026-05-27',
   null,
@@ -21579,6 +29411,8 @@ from (
   2.01
 ),
 (
+  'TW',
+  'TWSE',
   '1519',
   '2026-05-27',
   60.34,
@@ -21586,6 +29420,8 @@ from (
   1.37
 ),
 (
+  'TW',
+  'TWSE',
   '1521',
   '2026-05-27',
   34.51,
@@ -21593,6 +29429,8 @@ from (
   3.06
 ),
 (
+  'TW',
+  'TWSE',
   '1522',
   '2026-05-27',
   92.26,
@@ -21600,6 +29438,8 @@ from (
   4.2
 ),
 (
+  'TW',
+  'TWSE',
   '1524',
   '2026-05-27',
   19.33,
@@ -21607,6 +29447,8 @@ from (
   4.83
 ),
 (
+  'TW',
+  'TWSE',
   '1525',
   '2026-05-27',
   43.63,
@@ -21614,6 +29456,8 @@ from (
   4.01
 ),
 (
+  'TW',
+  'TWSE',
   '1526',
   '2026-05-27',
   null,
@@ -21621,6 +29465,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '1527',
   '2026-05-27',
   35.93,
@@ -21628,6 +29474,8 @@ from (
   4.59
 ),
 (
+  'TW',
+  'TWSE',
   '1528',
   '2026-05-27',
   null,
@@ -21635,6 +29483,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '1529',
   '2026-05-27',
   19.69,
@@ -21642,6 +29492,8 @@ from (
   4.45
 ),
 (
+  'TW',
+  'TWSE',
   '1530',
   '2026-05-27',
   28.43,
@@ -21649,6 +29501,8 @@ from (
   3.06
 ),
 (
+  'TW',
+  'TWSE',
   '1531',
   '2026-05-27',
   null,
@@ -21656,6 +29510,8 @@ from (
   8.3
 ),
 (
+  'TW',
+  'TWSE',
   '1532',
   '2026-05-27',
   17.78,
@@ -21663,6 +29519,8 @@ from (
   3.85
 ),
 (
+  'TW',
+  'TWSE',
   '1533',
   '2026-05-27',
   23.71,
@@ -21670,6 +29528,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '1535',
   '2026-05-27',
   12.6,
@@ -21677,6 +29537,8 @@ from (
   6.12
 ),
 (
+  'TW',
+  'TWSE',
   '1536',
   '2026-05-27',
   null,
@@ -21684,6 +29546,8 @@ from (
   1.61
 ),
 (
+  'TW',
+  'TWSE',
   '1537',
   '2026-05-27',
   16.51,
@@ -21691,6 +29555,8 @@ from (
   5.74
 ),
 (
+  'TW',
+  'TWSE',
   '1538',
   '2026-05-27',
   null,
@@ -21698,6 +29564,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '1539',
   '2026-05-27',
   395,
@@ -21705,6 +29573,8 @@ from (
   5.38
 ),
 (
+  'TW',
+  'TWSE',
   '1540',
   '2026-05-27',
   22.42,
@@ -21712,6 +29582,8 @@ from (
   4.8
 ),
 (
+  'TW',
+  'TWSE',
   '1541',
   '2026-05-27',
   9.05,
@@ -21719,6 +29591,8 @@ from (
   2.43
 ),
 (
+  'TW',
+  'TWSE',
   '1558',
   '2026-05-27',
   16.14,
@@ -21726,6 +29600,8 @@ from (
   5.51
 ),
 (
+  'TW',
+  'TWSE',
   '1560',
   '2026-05-27',
   71.7,
@@ -21733,6 +29609,8 @@ from (
   0.69
 ),
 (
+  'TW',
+  'TWSE',
   '1563',
   '2026-05-27',
   126.36,
@@ -21740,6 +29618,8 @@ from (
   3.6
 ),
 (
+  'TW',
+  'TWSE',
   '1568',
   '2026-05-27',
   27.99,
@@ -21747,6 +29627,8 @@ from (
   2.67
 ),
 (
+  'TW',
+  'TWSE',
   '1582',
   '2026-05-27',
   40,
@@ -21754,6 +29636,8 @@ from (
   2.73
 ),
 (
+  'TW',
+  'TWSE',
   '1583',
   '2026-05-27',
   19.28,
@@ -21761,6 +29645,8 @@ from (
   1.86
 ),
 (
+  'TW',
+  'TWSE',
   '1587',
   '2026-05-27',
   71.22,
@@ -21768,6 +29654,8 @@ from (
   1.71
 ),
 (
+  'TW',
+  'TWSE',
   '1590',
   '2026-05-27',
   31.41,
@@ -21775,6 +29663,8 @@ from (
   2.03
 ),
 (
+  'TW',
+  'TWSE',
   '1597',
   '2026-05-27',
   167.23,
@@ -21782,6 +29672,8 @@ from (
   0.35
 ),
 (
+  'TW',
+  'TWSE',
   '1598',
   '2026-05-27',
   null,
@@ -21789,6 +29681,8 @@ from (
   2.5
 ),
 (
+  'TW',
+  'TWSE',
   '1603',
   '2026-05-27',
   11.58,
@@ -21796,6 +29690,8 @@ from (
   6.42
 ),
 (
+  'TW',
+  'TWSE',
   '1604',
   '2026-05-27',
   14.15,
@@ -21803,6 +29699,8 @@ from (
   6.42
 ),
 (
+  'TW',
+  'TWSE',
   '1605',
   '2026-05-27',
   27.37,
@@ -21810,6 +29708,8 @@ from (
   1.33
 ),
 (
+  'TW',
+  'TWSE',
   '1608',
   '2026-05-27',
   6.11,
@@ -21817,6 +29717,8 @@ from (
   5.94
 ),
 (
+  'TW',
+  'TWSE',
   '1609',
   '2026-05-27',
   15.38,
@@ -21824,6 +29726,8 @@ from (
   1.9
 ),
 (
+  'TW',
+  'TWSE',
   '1611',
   '2026-05-27',
   287.5,
@@ -21831,6 +29735,8 @@ from (
   6.96
 ),
 (
+  'TW',
+  'TWSE',
   '1612',
   '2026-05-27',
   12.3,
@@ -21838,6 +29744,8 @@ from (
   6.78
 ),
 (
+  'TW',
+  'TWSE',
   '1614',
   '2026-05-27',
   23.48,
@@ -21845,6 +29753,8 @@ from (
   3.13
 ),
 (
+  'TW',
+  'TWSE',
   '1615',
   '2026-05-27',
   9.05,
@@ -21852,6 +29762,8 @@ from (
   6.06
 ),
 (
+  'TW',
+  'TWSE',
   '1616',
   '2026-05-27',
   17.28,
@@ -21859,6 +29771,8 @@ from (
   6.4
 ),
 (
+  'TW',
+  'TWSE',
   '1617',
   '2026-05-27',
   16.65,
@@ -21866,6 +29780,8 @@ from (
   4.1
 ),
 (
+  'TW',
+  'TWSE',
   '1618',
   '2026-05-27',
   9.19,
@@ -21873,6 +29789,8 @@ from (
   4.07
 ),
 (
+  'TW',
+  'TWSE',
   '1623',
   '2026-05-27',
   19.26,
@@ -21880,6 +29798,8 @@ from (
   3.35
 ),
 (
+  'TW',
+  'TWSE',
   '1626',
   '2026-05-27',
   null,
@@ -21887,6 +29807,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '1702',
   '2026-05-27',
   45.69,
@@ -21894,6 +29816,8 @@ from (
   4.86
 ),
 (
+  'TW',
+  'TWSE',
   '1707',
   '2026-05-27',
   12.45,
@@ -21901,6 +29825,8 @@ from (
   6.02
 ),
 (
+  'TW',
+  'TWSE',
   '1708',
   '2026-05-27',
   11.41,
@@ -21908,6 +29834,8 @@ from (
   4.16
 ),
 (
+  'TW',
+  'TWSE',
   '1709',
   '2026-05-27',
   13.81,
@@ -21915,6 +29843,8 @@ from (
   5.21
 ),
 (
+  'TW',
+  'TWSE',
   '1710',
   '2026-05-27',
   null,
@@ -21922,6 +29852,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '1711',
   '2026-05-27',
   null,
@@ -21929,6 +29861,8 @@ from (
   0.59
 ),
 (
+  'TW',
+  'TWSE',
   '1712',
   '2026-05-27',
   15.95,
@@ -21936,6 +29870,8 @@ from (
   6.32
 ),
 (
+  'TW',
+  'TWSE',
   '1713',
   '2026-05-27',
   10.99,
@@ -21943,6 +29879,8 @@ from (
   6.29
 ),
 (
+  'TW',
+  'TWSE',
   '1714',
   '2026-05-27',
   14.69,
@@ -21950,6 +29888,8 @@ from (
   1.91
 ),
 (
+  'TW',
+  'TWSE',
   '1717',
   '2026-05-27',
   57.09,
@@ -21957,6 +29897,8 @@ from (
   1.18
 ),
 (
+  'TW',
+  'TWSE',
   '1718',
   '2026-05-27',
   26.29,
@@ -21964,6 +29906,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '1720',
   '2026-05-27',
   11.33,
@@ -21971,6 +29915,8 @@ from (
   4.9
 ),
 (
+  'TW',
+  'TWSE',
   '1721',
   '2026-05-27',
   null,
@@ -21978,6 +29924,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '1722',
   '2026-05-27',
   43.89,
@@ -21985,6 +29933,8 @@ from (
   4.38
 ),
 (
+  'TW',
+  'TWSE',
   '1723',
   '2026-05-27',
   32.66,
@@ -21992,6 +29942,8 @@ from (
   2.28
 ),
 (
+  'TW',
+  'TWSE',
   '1725',
   '2026-05-27',
   19.14,
@@ -21999,6 +29951,8 @@ from (
   3.45
 ),
 (
+  'TW',
+  'TWSE',
   '1726',
   '2026-05-27',
   12.97,
@@ -22006,6 +29960,8 @@ from (
   4.81
 ),
 (
+  'TW',
+  'TWSE',
   '1727',
   '2026-05-27',
   260.81,
@@ -22013,6 +29969,8 @@ from (
   0.16
 ),
 (
+  'TW',
+  'TWSE',
   '1730',
   '2026-05-27',
   11.32,
@@ -22020,6 +29978,8 @@ from (
   5.73
 ),
 (
+  'TW',
+  'TWSE',
   '1731',
   '2026-05-27',
   15.29,
@@ -22027,6 +29987,8 @@ from (
   5.7
 ),
 (
+  'TW',
+  'TWSE',
   '1732',
   '2026-05-27',
   29.33,
@@ -22034,6 +29996,8 @@ from (
   2.27
 ),
 (
+  'TW',
+  'TWSE',
   '1733',
   '2026-05-27',
   16.43,
@@ -22041,6 +30005,8 @@ from (
   4.35
 ),
 (
+  'TW',
+  'TWSE',
   '1734',
   '2026-05-27',
   17.79,
@@ -22048,6 +30014,8 @@ from (
   5.23
 ),
 (
+  'TW',
+  'TWSE',
   '1735',
   '2026-05-27',
   32.04,
@@ -22055,6 +30023,8 @@ from (
   2.5
 ),
 (
+  'TW',
+  'TWSE',
   '1736',
   '2026-05-27',
   14.16,
@@ -22062,6 +30032,8 @@ from (
   3.86
 ),
 (
+  'TW',
+  'TWSE',
   '1737',
   '2026-05-27',
   15.85,
@@ -22069,6 +30041,8 @@ from (
   4.44
 ),
 (
+  'TW',
+  'TWSE',
   '1752',
   '2026-05-27',
   16.01,
@@ -22076,6 +30050,8 @@ from (
   4.92
 ),
 (
+  'TW',
+  'TWSE',
   '1760',
   '2026-05-27',
   24.3,
@@ -22083,6 +30059,8 @@ from (
   3.31
 ),
 (
+  'TW',
+  'TWSE',
   '1762',
   '2026-05-27',
   null,
@@ -22090,6 +30068,8 @@ from (
   0.48
 ),
 (
+  'TW',
+  'TWSE',
   '1773',
   '2026-05-27',
   26.9,
@@ -22097,6 +30077,8 @@ from (
   2.05
 ),
 (
+  'TW',
+  'TWSE',
   '1776',
   '2026-05-27',
   37.04,
@@ -22104,6 +30086,8 @@ from (
   3.31
 ),
 (
+  'TW',
+  'TWSE',
   '1783',
   '2026-05-27',
   12.65,
@@ -22111,6 +30095,8 @@ from (
   5.24
 ),
 (
+  'TW',
+  'TWSE',
   '1786',
   '2026-05-27',
   31.35,
@@ -22118,6 +30104,8 @@ from (
   3.58
 ),
 (
+  'TW',
+  'TWSE',
   '1789',
   '2026-05-27',
   135.71,
@@ -22125,6 +30113,8 @@ from (
   1.53
 ),
 (
+  'TW',
+  'TWSE',
   '1795',
   '2026-05-27',
   13.06,
@@ -22132,6 +30122,8 @@ from (
   1.4
 ),
 (
+  'TW',
+  'TWSE',
   '1802',
   '2026-05-27',
   560,
@@ -22139,6 +30131,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '1805',
   '2026-05-27',
   76.77,
@@ -22146,6 +30140,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '1806',
   '2026-05-27',
   56.93,
@@ -22153,6 +30149,8 @@ from (
   1.88
 ),
 (
+  'TW',
+  'TWSE',
   '1808',
   '2026-05-27',
   10.62,
@@ -22160,6 +30158,8 @@ from (
   5.27
 ),
 (
+  'TW',
+  'TWSE',
   '1809',
   '2026-05-27',
   233.68,
@@ -22167,6 +30167,8 @@ from (
   0.56
 ),
 (
+  'TW',
+  'TWSE',
   '1810',
   '2026-05-27',
   5.26,
@@ -22174,6 +30176,8 @@ from (
   1.01
 ),
 (
+  'TW',
+  'TWSE',
   '1817',
   '2026-05-27',
   9.36,
@@ -22181,6 +30185,8 @@ from (
   5.61
 ),
 (
+  'TW',
+  'TWSE',
   '1903',
   '2026-05-27',
   38.18,
@@ -22188,6 +30194,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '1904',
   '2026-05-27',
   15.49,
@@ -22195,6 +30203,8 @@ from (
   2.38
 ),
 (
+  'TW',
+  'TWSE',
   '1905',
   '2026-05-27',
   null,
@@ -22202,6 +30212,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '1906',
   '2026-05-27',
   null,
@@ -22209,6 +30221,8 @@ from (
   1
 ),
 (
+  'TW',
+  'TWSE',
   '1907',
   '2026-05-27',
   17.14,
@@ -22216,6 +30230,8 @@ from (
   4.17
 ),
 (
+  'TW',
+  'TWSE',
   '1909',
   '2026-05-27',
   null,
@@ -22223,6 +30239,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '2002',
   '2026-05-27',
   null,
@@ -22230,6 +30248,8 @@ from (
   0.79
 ),
 (
+  'TW',
+  'TWSE',
   '2006',
   '2026-05-27',
   10.09,
@@ -22237,6 +30257,8 @@ from (
   6.43
 ),
 (
+  'TW',
+  'TWSE',
   '2007',
   '2026-05-27',
   null,
@@ -22244,6 +30266,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '2008',
   '2026-05-27',
   37.53,
@@ -22251,6 +30275,8 @@ from (
   3.55
 ),
 (
+  'TW',
+  'TWSE',
   '2009',
   '2026-05-27',
   69.65,
@@ -22258,6 +30284,8 @@ from (
   1.01
 ),
 (
+  'TW',
+  'TWSE',
   '2010',
   '2026-05-27',
   9.85,
@@ -22265,6 +30293,8 @@ from (
   8.71
 ),
 (
+  'TW',
+  'TWSE',
   '2012',
   '2026-05-27',
   null,
@@ -22272,6 +30302,8 @@ from (
   2.07
 ),
 (
+  'TW',
+  'TWSE',
   '2013',
   '2026-05-27',
   13.13,
@@ -22279,6 +30311,8 @@ from (
   5.66
 ),
 (
+  'TW',
+  'TWSE',
   '2014',
   '2026-05-27',
   null,
@@ -22286,6 +30320,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '2015',
   '2026-05-27',
   15.62,
@@ -22293,6 +30329,8 @@ from (
   5.32
 ),
 (
+  'TW',
+  'TWSE',
   '2017',
   '2026-05-27',
   null,
@@ -22300,6 +30338,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '2020',
   '2026-05-27',
   10.95,
@@ -22307,6 +30347,8 @@ from (
   8.47
 ),
 (
+  'TW',
+  'TWSE',
   '2022',
   '2026-05-27',
   null,
@@ -22314,6 +30356,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '2023',
   '2026-05-27',
   null,
@@ -22321,6 +30365,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '2024',
   '2026-05-27',
   197.14,
@@ -22328,6 +30374,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '2025',
   '2026-05-27',
   75.63,
@@ -22335,6 +30383,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '2027',
   '2026-05-27',
   12.41,
@@ -22342,6 +30392,8 @@ from (
   3.53
 ),
 (
+  'TW',
+  'TWSE',
   '2028',
   '2026-05-27',
   48.29,
@@ -22349,6 +30401,8 @@ from (
   1.18
 ),
 (
+  'TW',
+  'TWSE',
   '2029',
   '2026-05-27',
   32.98,
@@ -22356,6 +30410,8 @@ from (
   2.93
 ),
 (
+  'TW',
+  'TWSE',
   '2030',
   '2026-05-27',
   27.27,
@@ -22363,6 +30419,8 @@ from (
   2.78
 ),
 (
+  'TW',
+  'TWSE',
   '2031',
   '2026-05-27',
   8.5,
@@ -22370,6 +30428,8 @@ from (
   6.44
 ),
 (
+  'TW',
+  'TWSE',
   '2032',
   '2026-05-27',
   20.93,
@@ -22377,6 +30437,8 @@ from (
   2.78
 ),
 (
+  'TW',
+  'TWSE',
   '2033',
   '2026-05-27',
   45.76,
@@ -22384,6 +30446,8 @@ from (
   1.32
 ),
 (
+  'TW',
+  'TWSE',
   '2034',
   '2026-05-27',
   null,
@@ -22391,6 +30455,8 @@ from (
   4.99
 ),
 (
+  'TW',
+  'TWSE',
   '2038',
   '2026-05-27',
   null,
@@ -22398,6 +30464,8 @@ from (
   1.45
 ),
 (
+  'TW',
+  'TWSE',
   '2049',
   '2026-05-27',
   89.11,
@@ -22405,6 +30473,8 @@ from (
   0.49
 ),
 (
+  'TW',
+  'TWSE',
   '2059',
   '2026-05-27',
   43.37,
@@ -22412,6 +30482,8 @@ from (
   1.04
 ),
 (
+  'TW',
+  'TWSE',
   '2062',
   '2026-05-27',
   86.67,
@@ -22419,6 +30491,8 @@ from (
   5.49
 ),
 (
+  'TW',
+  'TWSE',
   '2069',
   '2026-05-27',
   10.43,
@@ -22426,6 +30500,8 @@ from (
   5.21
 ),
 (
+  'TW',
+  'TWSE',
   '2072',
   '2026-05-27',
   12.66,
@@ -22433,6 +30509,8 @@ from (
   4.28
 ),
 (
+  'TW',
+  'TWSE',
   '2101',
   '2026-05-27',
   9.6,
@@ -22440,6 +30518,8 @@ from (
   2.35
 ),
 (
+  'TW',
+  'TWSE',
   '2102',
   '2026-05-27',
   2.81,
@@ -22447,6 +30527,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '2103',
   '2026-05-27',
   28.06,
@@ -22454,6 +30536,8 @@ from (
   1.44
 ),
 (
+  'TW',
+  'TWSE',
   '2104',
   '2026-05-27',
   null,
@@ -22461,6 +30545,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '2105',
   '2026-05-27',
   19.48,
@@ -22468,6 +30554,8 @@ from (
   5.71
 ),
 (
+  'TW',
+  'TWSE',
   '2106',
   '2026-05-27',
   97.94,
@@ -22475,6 +30563,8 @@ from (
   3.9
 ),
 (
+  'TW',
+  'TWSE',
   '2107',
   '2026-05-27',
   17.19,
@@ -22482,6 +30572,8 @@ from (
   5.66
 ),
 (
+  'TW',
+  'TWSE',
   '2108',
   '2026-05-27',
   31.03,
@@ -22489,6 +30581,8 @@ from (
   3.7
 ),
 (
+  'TW',
+  'TWSE',
   '2109',
   '2026-05-27',
   11.58,
@@ -22496,6 +30590,8 @@ from (
   7.19
 ),
 (
+  'TW',
+  'TWSE',
   '2114',
   '2026-05-27',
   15.93,
@@ -22503,6 +30599,8 @@ from (
   5.46
 ),
 (
+  'TW',
+  'TWSE',
   '2115',
   '2026-05-27',
   16.34,
@@ -22510,6 +30608,8 @@ from (
   5.78
 ),
 (
+  'TW',
+  'TWSE',
   '2201',
   '2026-05-27',
   31.12,
@@ -22517,6 +30617,8 @@ from (
   2.12
 ),
 (
+  'TW',
+  'TWSE',
   '2204',
   '2026-05-27',
   9.7,
@@ -22524,6 +30626,8 @@ from (
   6.84
 ),
 (
+  'TW',
+  'TWSE',
   '2206',
   '2026-05-27',
   10.55,
@@ -22531,6 +30635,8 @@ from (
   5.02
 ),
 (
+  'TW',
+  'TWSE',
   '2207',
   '2026-05-27',
   13.66,
@@ -22538,6 +30644,8 @@ from (
   4.29
 ),
 (
+  'TW',
+  'TWSE',
   '2208',
   '2026-05-27',
   null,
@@ -22545,6 +30653,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '2211',
   '2026-05-27',
   11.21,
@@ -22552,6 +30662,8 @@ from (
   7.09
 ),
 (
+  'TW',
+  'TWSE',
   '2227',
   '2026-05-27',
   52.04,
@@ -22559,6 +30671,8 @@ from (
   1.74
 ),
 (
+  'TW',
+  'TWSE',
   '2228',
   '2026-05-27',
   19.18,
@@ -22566,6 +30680,8 @@ from (
   5.49
 ),
 (
+  'TW',
+  'TWSE',
   '2231',
   '2026-05-27',
   null,
@@ -22573,6 +30689,8 @@ from (
   0.48
 ),
 (
+  'TW',
+  'TWSE',
   '2233',
   '2026-05-27',
   58.21,
@@ -22580,6 +30698,8 @@ from (
   1.1
 ),
 (
+  'TW',
+  'TWSE',
   '2236',
   '2026-05-27',
   null,
@@ -22587,6 +30707,8 @@ from (
   0.46
 ),
 (
+  'TW',
+  'TWSE',
   '2239',
   '2026-05-27',
   null,
@@ -22594,6 +30716,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '2241',
   '2026-05-27',
   null,
@@ -22601,6 +30725,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '2243',
   '2026-05-27',
   9.54,
@@ -22608,6 +30734,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '2247',
   '2026-05-27',
   12.88,
@@ -22615,6 +30743,8 @@ from (
   7.09
 ),
 (
+  'TW',
+  'TWSE',
   '2248',
   '2026-05-27',
   9.17,
@@ -22622,6 +30752,8 @@ from (
   5.67
 ),
 (
+  'TW',
+  'TWSE',
   '2250',
   '2026-05-27',
   18.01,
@@ -22629,6 +30761,8 @@ from (
   4.94
 ),
 (
+  'TW',
+  'TWSE',
   '2254',
   '2026-05-27',
   null,
@@ -22636,6 +30770,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '2258',
   '2026-05-27',
   null,
@@ -22643,6 +30779,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '2301',
   '2026-05-27',
   36.18,
@@ -22650,6 +30788,8 @@ from (
   2.03
 ),
 (
+  'TW',
+  'TWSE',
   '2302',
   '2026-05-27',
   41.39,
@@ -22657,6 +30797,8 @@ from (
   1.07
 ),
 (
+  'TW',
+  'TWSE',
   '2303',
   '2026-05-27',
   36.06,
@@ -22664,6 +30806,8 @@ from (
   1.81
 ),
 (
+  'TW',
+  'TWSE',
   '2305',
   '2026-05-27',
   84.63,
@@ -22671,6 +30815,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '2308',
   '2026-05-27',
   92.92,
@@ -22678,6 +30824,8 @@ from (
   0.46
 ),
 (
+  'TW',
+  'TWSE',
   '2312',
   '2026-05-27',
   35.91,
@@ -22685,6 +30833,8 @@ from (
   1.61
 ),
 (
+  'TW',
+  'TWSE',
   '2313',
   '2026-05-27',
   49.74,
@@ -22692,6 +30842,8 @@ from (
   0.99
 ),
 (
+  'TW',
+  'TWSE',
   '2314',
   '2026-05-27',
   null,
@@ -22699,6 +30851,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '2316',
   '2026-05-27',
   10.88,
@@ -22706,6 +30860,8 @@ from (
   1.19
 ),
 (
+  'TW',
+  'TWSE',
   '2317',
   '2026-05-27',
   18.75,
@@ -22713,6 +30869,8 @@ from (
   2.73
 ),
 (
+  'TW',
+  'TWSE',
   '2321',
   '2026-05-27',
   null,
@@ -22720,6 +30878,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '2323',
   '2026-05-27',
   4.72,
@@ -22727,6 +30887,8 @@ from (
   1.94
 ),
 (
+  'TW',
+  'TWSE',
   '2324',
   '2026-05-27',
   25.11,
@@ -22734,6 +30896,8 @@ from (
   3.29
 ),
 (
+  'TW',
+  'TWSE',
   '2327',
   '2026-05-27',
   55.2,
@@ -22741,6 +30905,8 @@ from (
   0.86
 ),
 (
+  'TW',
+  'TWSE',
   '2328',
   '2026-05-27',
   54.9,
@@ -22748,6 +30914,8 @@ from (
   1.67
 ),
 (
+  'TW',
+  'TWSE',
   '2329',
   '2026-05-27',
   26.47,
@@ -22755,6 +30923,8 @@ from (
   1.71
 ),
 (
+  'TW',
+  'TWSE',
   '2330',
   '2026-05-27',
   30.92,
@@ -22762,6 +30932,8 @@ from (
   0.96
 ),
 (
+  'TW',
+  'TWSE',
   '2331',
   '2026-05-27',
   41.1,
@@ -22769,6 +30941,8 @@ from (
   1.02
 ),
 (
+  'TW',
+  'TWSE',
   '2332',
   '2026-05-27',
   null,
@@ -22776,6 +30950,8 @@ from (
   0.64
 ),
 (
+  'TW',
+  'TWSE',
   '2337',
   '2026-05-27',
   null,
@@ -22783,6 +30959,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '2338',
   '2026-05-27',
   null,
@@ -22790,6 +30968,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '2340',
   '2026-05-27',
   null,
@@ -22797,6 +30977,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '2342',
   '2026-05-27',
   null,
@@ -22804,6 +30986,8 @@ from (
   0.68
 ),
 (
+  'TW',
+  'TWSE',
   '2344',
   '2026-05-27',
   45.99,
@@ -22811,6 +30995,8 @@ from (
   0.32
 ),
 (
+  'TW',
+  'TWSE',
   '2345',
   '2026-05-27',
   49.55,
@@ -22818,6 +31004,8 @@ from (
   0.57
 ),
 (
+  'TW',
+  'TWSE',
   '2347',
   '2026-05-27',
   14.94,
@@ -22825,6 +31013,8 @@ from (
   4.89
 ),
 (
+  'TW',
+  'TWSE',
   '2348',
   '2026-05-27',
   16.36,
@@ -22832,6 +31022,8 @@ from (
   8.1
 ),
 (
+  'TW',
+  'TWSE',
   '2349',
   '2026-05-27',
   null,
@@ -22839,6 +31031,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '2351',
   '2026-05-27',
   101.33,
@@ -22846,6 +31040,8 @@ from (
   0.48
 ),
 (
+  'TW',
+  'TWSE',
   '2352',
   '2026-05-27',
   44.44,
@@ -22853,6 +31049,8 @@ from (
   3.63
 ),
 (
+  'TW',
+  'TWSE',
   '2353',
   '2026-05-27',
   23.79,
@@ -22860,6 +31058,8 @@ from (
   4.14
 ),
 (
+  'TW',
+  'TWSE',
   '2354',
   '2026-05-27',
   28.29,
@@ -22867,6 +31067,8 @@ from (
   2.51
 ),
 (
+  'TW',
+  'TWSE',
   '2355',
   '2026-05-27',
   37.04,
@@ -22874,6 +31076,8 @@ from (
   1.6
 ),
 (
+  'TW',
+  'TWSE',
   '2356',
   '2026-05-27',
   23.57,
@@ -22881,6 +31085,8 @@ from (
   3.23
 ),
 (
+  'TW',
+  'TWSE',
   '2357',
   '2026-05-27',
   12.53,
@@ -22888,6 +31094,8 @@ from (
   5.99
 ),
 (
+  'TW',
+  'TWSE',
   '2359',
   '2026-05-27',
   74.48,
@@ -22895,6 +31103,8 @@ from (
   0.69
 ),
 (
+  'TW',
+  'TWSE',
   '2360',
   '2026-05-27',
   82.78,
@@ -22902,6 +31112,8 @@ from (
   0.74
 ),
 (
+  'TW',
+  'TWSE',
   '2362',
   '2026-05-27',
   18.33,
@@ -22909,6 +31121,8 @@ from (
   4.87
 ),
 (
+  'TW',
+  'TWSE',
   '2363',
   '2026-05-27',
   39.29,
@@ -22916,6 +31130,8 @@ from (
   0.9
 ),
 (
+  'TW',
+  'TWSE',
   '2364',
   '2026-05-27',
   17.21,
@@ -22923,6 +31139,8 @@ from (
   4.46
 ),
 (
+  'TW',
+  'TWSE',
   '2365',
   '2026-05-27',
   95.77,
@@ -22930,6 +31148,8 @@ from (
   0.8
 ),
 (
+  'TW',
+  'TWSE',
   '2367',
   '2026-05-27',
   null,
@@ -22937,6 +31157,8 @@ from (
   0.3
 ),
 (
+  'TW',
+  'TWSE',
   '2368',
   '2026-05-27',
   62.08,
@@ -22944,6 +31166,8 @@ from (
   0.73
 ),
 (
+  'TW',
+  'TWSE',
   '2369',
   '2026-05-27',
   null,
@@ -22951,6 +31175,8 @@ from (
   0.75
 ),
 (
+  'TW',
+  'TWSE',
   '2371',
   '2026-05-27',
   null,
@@ -22958,6 +31184,8 @@ from (
   10.58
 ),
 (
+  'TW',
+  'TWSE',
   '2373',
   '2026-05-27',
   14.87,
@@ -22965,6 +31193,8 @@ from (
   6.38
 ),
 (
+  'TW',
+  'TWSE',
   '2374',
   '2026-05-27',
   29.06,
@@ -22972,6 +31202,8 @@ from (
   2.48
 ),
 (
+  'TW',
+  'TWSE',
   '2375',
   '2026-05-27',
   44.68,
@@ -22979,6 +31211,8 @@ from (
   0.82
 ),
 (
+  'TW',
+  'TWSE',
   '2376',
   '2026-05-27',
   15.53,
@@ -22986,6 +31220,8 @@ from (
   3.61
 ),
 (
+  'TW',
+  'TWSE',
   '2377',
   '2026-05-27',
   13.22,
@@ -22993,6 +31229,8 @@ from (
   3.32
 ),
 (
+  'TW',
+  'TWSE',
   '2379',
   '2026-05-27',
   21.78,
@@ -23000,6 +31238,8 @@ from (
   4.13
 ),
 (
+  'TW',
+  'TWSE',
   '2380',
   '2026-05-27',
   5.27,
@@ -23007,6 +31247,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '2382',
   '2026-05-27',
   15.69,
@@ -23014,6 +31256,8 @@ from (
   5
 ),
 (
+  'TW',
+  'TWSE',
   '2383',
   '2026-05-27',
   115.08,
@@ -23021,6 +31265,8 @@ from (
   0.47
 ),
 (
+  'TW',
+  'TWSE',
   '2385',
   '2026-05-27',
   15.29,
@@ -23028,6 +31274,8 @@ from (
   5.31
 ),
 (
+  'TW',
+  'TWSE',
   '2387',
   '2026-05-27',
   14.16,
@@ -23035,6 +31283,8 @@ from (
   9.91
 ),
 (
+  'TW',
+  'TWSE',
   '2388',
   '2026-05-27',
   421.67,
@@ -23042,6 +31292,8 @@ from (
   0.07
 ),
 (
+  'TW',
+  'TWSE',
   '2390',
   '2026-05-27',
   null,
@@ -23049,6 +31301,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '2392',
   '2026-05-27',
   null,
@@ -23056,6 +31310,8 @@ from (
   2.66
 ),
 (
+  'TW',
+  'TWSE',
   '2393',
   '2026-05-27',
   14.96,
@@ -23063,6 +31319,8 @@ from (
   7.18
 ),
 (
+  'TW',
+  'TWSE',
   '2395',
   '2026-05-27',
   39.49,
@@ -23070,6 +31328,8 @@ from (
   2.2
 ),
 (
+  'TW',
+  'TWSE',
   '2397',
   '2026-05-27',
   27.11,
@@ -23077,6 +31337,8 @@ from (
   3.9
 ),
 (
+  'TW',
+  'TWSE',
   '2399',
   '2026-05-27',
   30.77,
@@ -23084,6 +31346,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '2401',
   '2026-05-27',
   null,
@@ -23091,6 +31355,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '2402',
   '2026-05-27',
   35.23,
@@ -23098,6 +31364,8 @@ from (
   2.91
 ),
 (
+  'TW',
+  'TWSE',
   '2404',
   '2026-05-27',
   22.96,
@@ -23105,6 +31373,8 @@ from (
   3.24
 ),
 (
+  'TW',
+  'TWSE',
   '2405',
   '2026-05-27',
   null,
@@ -23112,6 +31382,8 @@ from (
   0.61
 ),
 (
+  'TW',
+  'TWSE',
   '2406',
   '2026-05-27',
   null,
@@ -23119,6 +31391,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '2408',
   '2026-05-27',
   27.93,
@@ -23126,6 +31400,8 @@ from (
   0.48
 ),
 (
+  'TW',
+  'TWSE',
   '2409',
   '2026-05-27',
   68.13,
@@ -23133,6 +31409,8 @@ from (
   1.83
 ),
 (
+  'TW',
+  'TWSE',
   '2412',
   '2026-05-27',
   27.24,
@@ -23140,6 +31418,8 @@ from (
   3.8
 ),
 (
+  'TW',
+  'TWSE',
   '2413',
   '2026-05-27',
   64.35,
@@ -23147,6 +31427,8 @@ from (
   1.01
 ),
 (
+  'TW',
+  'TWSE',
   '2414',
   '2026-05-27',
   14.5,
@@ -23154,6 +31436,8 @@ from (
   5.86
 ),
 (
+  'TW',
+  'TWSE',
   '2415',
   '2026-05-27',
   13.88,
@@ -23161,6 +31445,8 @@ from (
   5.97
 ),
 (
+  'TW',
+  'TWSE',
   '2417',
   '2026-05-27',
   193.08,
@@ -23168,6 +31454,8 @@ from (
   0.5
 ),
 (
+  'TW',
+  'TWSE',
   '2419',
   '2026-05-27',
   null,
@@ -23175,6 +31463,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '2420',
   '2026-05-27',
   15.86,
@@ -23182,6 +31472,8 @@ from (
   4.8
 ),
 (
+  'TW',
+  'TWSE',
   '2421',
   '2026-05-27',
   19.78,
@@ -23189,6 +31481,8 @@ from (
   3.23
 ),
 (
+  'TW',
+  'TWSE',
   '2423',
   '2026-05-27',
   23.2,
@@ -23196,6 +31490,8 @@ from (
   3.03
 ),
 (
+  'TW',
+  'TWSE',
   '2424',
   '2026-05-27',
   null,
@@ -23203,6 +31499,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '2425',
   '2026-05-27',
   null,
@@ -23210,6 +31508,8 @@ from (
   0.27
 ),
 (
+  'TW',
+  'TWSE',
   '2426',
   '2026-05-27',
   null,
@@ -23217,6 +31517,8 @@ from (
   0.13
 ),
 (
+  'TW',
+  'TWSE',
   '2427',
   '2026-05-27',
   15.86,
@@ -23224,6 +31526,8 @@ from (
   3.45
 ),
 (
+  'TW',
+  'TWSE',
   '2428',
   '2026-05-27',
   24.18,
@@ -23231,6 +31535,8 @@ from (
   2.22
 ),
 (
+  'TW',
+  'TWSE',
   '2429',
   '2026-05-27',
   null,
@@ -23238,6 +31544,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '2430',
   '2026-05-27',
   38.65,
@@ -23245,6 +31553,8 @@ from (
   4.31
 ),
 (
+  'TW',
+  'TWSE',
   '2431',
   '2026-05-27',
   null,
@@ -23252,6 +31562,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '2432',
   '2026-05-27',
   13.65,
@@ -23259,6 +31571,8 @@ from (
   6.49
 ),
 (
+  'TW',
+  'TWSE',
   '2433',
   '2026-05-27',
   14.23,
@@ -23266,6 +31580,8 @@ from (
   6.22
 ),
 (
+  'TW',
+  'TWSE',
   '2434',
   '2026-05-27',
   null,
@@ -23273,6 +31589,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '2436',
   '2026-05-27',
   23.18,
@@ -23280,6 +31598,8 @@ from (
   2.56
 ),
 (
+  'TW',
+  'TWSE',
   '2438',
   '2026-05-27',
   null,
@@ -23287,6 +31607,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '2439',
   '2026-05-27',
   18.43,
@@ -23294,6 +31616,8 @@ from (
   4.41
 ),
 (
+  'TW',
+  'TWSE',
   '2440',
   '2026-05-27',
   null,
@@ -23301,6 +31625,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '2441',
   '2026-05-27',
   29.12,
@@ -23308,6 +31634,8 @@ from (
   2.21
 ),
 (
+  'TW',
+  'TWSE',
   '2442',
   '2026-05-27',
   3.49,
@@ -23315,6 +31643,8 @@ from (
   14.75
 ),
 (
+  'TW',
+  'TWSE',
   '2444',
   '2026-05-27',
   null,
@@ -23322,6 +31652,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '2449',
   '2026-05-27',
   42.81,
@@ -23329,6 +31661,8 @@ from (
   0.48
 ),
 (
+  'TW',
+  'TWSE',
   '2450',
   '2026-05-27',
   19.18,
@@ -23336,6 +31670,8 @@ from (
   5.28
 ),
 (
+  'TW',
+  'TWSE',
   '2451',
   '2026-05-27',
   10.38,
@@ -23343,6 +31679,8 @@ from (
   3.68
 ),
 (
+  'TW',
+  'TWSE',
   '2453',
   '2026-05-27',
   19.9,
@@ -23350,6 +31688,8 @@ from (
   4.48
 ),
 (
+  'TW',
+  'TWSE',
   '2454',
   '2026-05-27',
   73.94,
@@ -23357,6 +31697,8 @@ from (
   1.15
 ),
 (
+  'TW',
+  'TWSE',
   '2455',
   '2026-05-27',
   132.02,
@@ -23364,6 +31706,8 @@ from (
   0.63
 ),
 (
+  'TW',
+  'TWSE',
   '2457',
   '2026-05-27',
   null,
@@ -23371,6 +31715,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '2458',
   '2026-05-27',
   18.12,
@@ -23378,6 +31724,8 @@ from (
   4.3
 ),
 (
+  'TW',
+  'TWSE',
   '2459',
   '2026-05-27',
   12.81,
@@ -23385,6 +31733,8 @@ from (
   6.27
 ),
 (
+  'TW',
+  'TWSE',
   '2460',
   '2026-05-27',
   null,
@@ -23392,6 +31742,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '2461',
   '2026-05-27',
   null,
@@ -23399,6 +31751,8 @@ from (
   6.45
 ),
 (
+  'TW',
+  'TWSE',
   '2462',
   '2026-05-27',
   289.29,
@@ -23406,6 +31760,8 @@ from (
   0.99
 ),
 (
+  'TW',
+  'TWSE',
   '2464',
   '2026-05-27',
   null,
@@ -23413,6 +31769,8 @@ from (
   0.28
 ),
 (
+  'TW',
+  'TWSE',
   '2465',
   '2026-05-27',
   65.15,
@@ -23420,6 +31778,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '2466',
   '2026-05-27',
   64.46,
@@ -23427,6 +31787,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '2467',
   '2026-05-27',
   87.37,
@@ -23434,6 +31796,8 @@ from (
   0.84
 ),
 (
+  'TW',
+  'TWSE',
   '2468',
   '2026-05-27',
   25.86,
@@ -23441,6 +31805,8 @@ from (
   3.02
 ),
 (
+  'TW',
+  'TWSE',
   '2471',
   '2026-05-27',
   13.21,
@@ -23448,6 +31814,8 @@ from (
   6.54
 ),
 (
+  'TW',
+  'TWSE',
   '2472',
   '2026-05-27',
   39.02,
@@ -23455,6 +31823,8 @@ from (
   1.04
 ),
 (
+  'TW',
+  'TWSE',
   '2474',
   '2026-05-27',
   19.97,
@@ -23462,6 +31832,8 @@ from (
   4.87
 ),
 (
+  'TW',
+  'TWSE',
   '2476',
   '2026-05-27',
   29.52,
@@ -23469,6 +31841,8 @@ from (
   2.33
 ),
 (
+  'TW',
+  'TWSE',
   '2477',
   '2026-05-27',
   12.69,
@@ -23476,6 +31850,8 @@ from (
   6.81
 ),
 (
+  'TW',
+  'TWSE',
   '2478',
   '2026-05-27',
   32.35,
@@ -23483,6 +31859,8 @@ from (
   1.67
 ),
 (
+  'TW',
+  'TWSE',
   '2480',
   '2026-05-27',
   17.46,
@@ -23490,6 +31868,8 @@ from (
   5.32
 ),
 (
+  'TW',
+  'TWSE',
   '2481',
   '2026-05-27',
   46.83,
@@ -23497,6 +31877,8 @@ from (
   1.22
 ),
 (
+  'TW',
+  'TWSE',
   '2482',
   '2026-05-27',
   null,
@@ -23504,6 +31886,8 @@ from (
   0.61
 ),
 (
+  'TW',
+  'TWSE',
   '2483',
   '2026-05-27',
   27.61,
@@ -23511,6 +31895,8 @@ from (
   1.18
 ),
 (
+  'TW',
+  'TWSE',
   '2484',
   '2026-05-27',
   71.08,
@@ -23518,6 +31904,8 @@ from (
   1.33
 ),
 (
+  'TW',
+  'TWSE',
   '2485',
   '2026-05-27',
   1852.5,
@@ -23525,6 +31913,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '2486',
   '2026-05-27',
   541.18,
@@ -23532,6 +31922,8 @@ from (
   0.18
 ),
 (
+  'TW',
+  'TWSE',
   '2488',
   '2026-05-27',
   11.44,
@@ -23539,6 +31931,8 @@ from (
   5.65
 ),
 (
+  'TW',
+  'TWSE',
   '2489',
   '2026-05-27',
   46.51,
@@ -23546,6 +31940,8 @@ from (
   2.37
 ),
 (
+  'TW',
+  'TWSE',
   '2491',
   '2026-05-27',
   6.56,
@@ -23553,6 +31949,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '2492',
   '2026-05-27',
   69.16,
@@ -23560,6 +31958,8 @@ from (
   0.69
 ),
 (
+  'TW',
+  'TWSE',
   '2493',
   '2026-05-27',
   37.35,
@@ -23567,6 +31967,8 @@ from (
   2.53
 ),
 (
+  'TW',
+  'TWSE',
   '2495',
   '2026-05-27',
   44.78,
@@ -23574,6 +31976,8 @@ from (
   1.58
 ),
 (
+  'TW',
+  'TWSE',
   '2496',
   '2026-05-27',
   10.16,
@@ -23581,6 +31985,8 @@ from (
   7.69
 ),
 (
+  'TW',
+  'TWSE',
   '2497',
   '2026-05-27',
   25.62,
@@ -23588,6 +31994,8 @@ from (
   3.45
 ),
 (
+  'TW',
+  'TWSE',
   '2498',
   '2026-05-27',
   21.57,
@@ -23595,6 +32003,8 @@ from (
   1.12
 ),
 (
+  'TW',
+  'TWSE',
   '2501',
   '2026-05-27',
   5.65,
@@ -23602,6 +32012,8 @@ from (
   5.49
 ),
 (
+  'TW',
+  'TWSE',
   '2504',
   '2026-05-27',
   10.62,
@@ -23609,6 +32021,8 @@ from (
   7.44
 ),
 (
+  'TW',
+  'TWSE',
   '2505',
   '2026-05-27',
   8.82,
@@ -23616,6 +32030,8 @@ from (
   5.7
 ),
 (
+  'TW',
+  'TWSE',
   '2506',
   '2026-05-27',
   null,
@@ -23623,6 +32039,8 @@ from (
   2.31
 ),
 (
+  'TW',
+  'TWSE',
   '2509',
   '2026-05-27',
   null,
@@ -23630,6 +32048,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '2511',
   '2026-05-27',
   21.77,
@@ -23637,6 +32057,8 @@ from (
   3.94
 ),
 (
+  'TW',
+  'TWSE',
   '2514',
   '2026-05-27',
   7.27,
@@ -23644,6 +32066,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '2515',
   '2026-05-27',
   26.77,
@@ -23651,6 +32075,8 @@ from (
   3.89
 ),
 (
+  'TW',
+  'TWSE',
   '2516',
   '2026-05-27',
   11.53,
@@ -23658,6 +32084,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '2520',
   '2026-05-27',
   12.47,
@@ -23665,6 +32093,8 @@ from (
   5.32
 ),
 (
+  'TW',
+  'TWSE',
   '2524',
   '2026-05-27',
   58.33,
@@ -23672,6 +32102,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '2527',
   '2026-05-27',
   7.15,
@@ -23679,6 +32111,8 @@ from (
   4.14
 ),
 (
+  'TW',
+  'TWSE',
   '2528',
   '2026-05-27',
   9.12,
@@ -23686,6 +32120,8 @@ from (
   13.76
 ),
 (
+  'TW',
+  'TWSE',
   '2530',
   '2026-05-27',
   9.23,
@@ -23693,6 +32129,8 @@ from (
   10.22
 ),
 (
+  'TW',
+  'TWSE',
   '2534',
   '2026-05-27',
   17.04,
@@ -23700,6 +32138,8 @@ from (
   8.55
 ),
 (
+  'TW',
+  'TWSE',
   '2535',
   '2026-05-27',
   9.35,
@@ -23707,6 +32147,8 @@ from (
   5.9
 ),
 (
+  'TW',
+  'TWSE',
   '2536',
   '2026-05-27',
   5.8,
@@ -23714,6 +32156,8 @@ from (
   10.42
 ),
 (
+  'TW',
+  'TWSE',
   '2537',
   '2026-05-27',
   29.34,
@@ -23721,6 +32165,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '2538',
   '2026-05-27',
   26.03,
@@ -23728,6 +32174,8 @@ from (
   5.34
 ),
 (
+  'TW',
+  'TWSE',
   '2539',
   '2026-05-27',
   11.73,
@@ -23735,6 +32183,8 @@ from (
   8.43
 ),
 (
+  'TW',
+  'TWSE',
   '2540',
   '2026-05-27',
   89.17,
@@ -23742,6 +32192,8 @@ from (
   11.21
 ),
 (
+  'TW',
+  'TWSE',
   '2542',
   '2026-05-27',
   13.26,
@@ -23749,6 +32201,8 @@ from (
   9.28
 ),
 (
+  'TW',
+  'TWSE',
   '2543',
   '2026-05-27',
   16.73,
@@ -23756,6 +32210,8 @@ from (
   3.61
 ),
 (
+  'TW',
+  'TWSE',
   '2545',
   '2026-05-27',
   24.22,
@@ -23763,6 +32219,8 @@ from (
   7.81
 ),
 (
+  'TW',
+  'TWSE',
   '2546',
   '2026-05-27',
   9.18,
@@ -23770,6 +32228,8 @@ from (
   6.87
 ),
 (
+  'TW',
+  'TWSE',
   '2547',
   '2026-05-27',
   70.71,
@@ -23777,6 +32237,8 @@ from (
   8.08
 ),
 (
+  'TW',
+  'TWSE',
   '2548',
   '2026-05-27',
   9.48,
@@ -23784,6 +32246,8 @@ from (
   7
 ),
 (
+  'TW',
+  'TWSE',
   '2597',
   '2026-05-27',
   13.86,
@@ -23791,6 +32255,8 @@ from (
   6.14
 ),
 (
+  'TW',
+  'TWSE',
   '2601',
   '2026-05-27',
   null,
@@ -23798,6 +32264,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '2603',
   '2026-05-27',
   9.24,
@@ -23805,6 +32273,8 @@ from (
   7.57
 ),
 (
+  'TW',
+  'TWSE',
   '2605',
   '2026-05-27',
   14.83,
@@ -23812,6 +32282,8 @@ from (
   3.23
 ),
 (
+  'TW',
+  'TWSE',
   '2606',
   '2026-05-27',
   13.92,
@@ -23819,6 +32291,8 @@ from (
   3.86
 ),
 (
+  'TW',
+  'TWSE',
   '2607',
   '2026-05-27',
   10,
@@ -23826,6 +32300,8 @@ from (
   5.71
 ),
 (
+  'TW',
+  'TWSE',
   '2608',
   '2026-05-27',
   14.23,
@@ -23833,6 +32309,8 @@ from (
   5.77
 ),
 (
+  'TW',
+  'TWSE',
   '2609',
   '2026-05-27',
   17.08,
@@ -23840,6 +32318,8 @@ from (
   3.8
 ),
 (
+  'TW',
+  'TWSE',
   '2610',
   '2026-05-27',
   7.21,
@@ -23847,6 +32327,8 @@ from (
   4.44
 ),
 (
+  'TW',
+  'TWSE',
   '2611',
   '2026-05-27',
   9.89,
@@ -23854,6 +32336,8 @@ from (
   4.02
 ),
 (
+  'TW',
+  'TWSE',
   '2612',
   '2026-05-27',
   10.49,
@@ -23861,6 +32345,8 @@ from (
   3.82
 ),
 (
+  'TW',
+  'TWSE',
   '2613',
   '2026-05-27',
   19.86,
@@ -23868,6 +32354,8 @@ from (
   4.62
 ),
 (
+  'TW',
+  'TWSE',
   '2614',
   '2026-05-27',
   8.9,
@@ -23875,6 +32363,8 @@ from (
   6.61
 ),
 (
+  'TW',
+  'TWSE',
   '2615',
   '2026-05-27',
   7.55,
@@ -23882,6 +32372,8 @@ from (
   3.67
 ),
 (
+  'TW',
+  'TWSE',
   '2616',
   '2026-05-27',
   null,
@@ -23889,6 +32381,8 @@ from (
   2.26
 ),
 (
+  'TW',
+  'TWSE',
   '2617',
   '2026-05-27',
   8.7,
@@ -23896,6 +32390,8 @@ from (
   5.21
 ),
 (
+  'TW',
+  'TWSE',
   '2618',
   '2026-05-27',
   6.6,
@@ -23903,6 +32399,8 @@ from (
   5.75
 ),
 (
+  'TW',
+  'TWSE',
   '2630',
   '2026-05-27',
   43.88,
@@ -23910,6 +32408,8 @@ from (
   2.18
 ),
 (
+  'TW',
+  'TWSE',
   '2633',
   '2026-05-27',
   20.87,
@@ -23917,6 +32417,8 @@ from (
   4.55
 ),
 (
+  'TW',
+  'TWSE',
   '2634',
   '2026-05-27',
   56.88,
@@ -23924,6 +32426,8 @@ from (
   1.71
 ),
 (
+  'TW',
+  'TWSE',
   '2636',
   '2026-05-27',
   9.8,
@@ -23931,6 +32435,8 @@ from (
   7.47
 ),
 (
+  'TW',
+  'TWSE',
   '2637',
   '2026-05-27',
   10.68,
@@ -23938,6 +32444,8 @@ from (
   4.61
 ),
 (
+  'TW',
+  'TWSE',
   '2642',
   '2026-05-27',
   null,
@@ -23945,6 +32453,8 @@ from (
   2.49
 ),
 (
+  'TW',
+  'TWSE',
   '2645',
   '2026-05-27',
   24.66,
@@ -23952,6 +32462,8 @@ from (
   3.1
 ),
 (
+  'TW',
+  'TWSE',
   '2646',
   '2026-05-27',
   222.78,
@@ -23959,6 +32471,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '2701',
   '2026-05-27',
   17.89,
@@ -23966,6 +32480,8 @@ from (
   2.75
 ),
 (
+  'TW',
+  'TWSE',
   '2702',
   '2026-05-27',
   null,
@@ -23973,6 +32489,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '2704',
   '2026-05-27',
   23.55,
@@ -23980,6 +32498,8 @@ from (
   1.19
 ),
 (
+  'TW',
+  'TWSE',
   '2705',
   '2026-05-27',
   16.85,
@@ -23987,6 +32507,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '2706',
   '2026-05-27',
   17.84,
@@ -23994,6 +32516,8 @@ from (
   2.93
 ),
 (
+  'TW',
+  'TWSE',
   '2707',
   '2026-05-27',
   12.36,
@@ -24001,6 +32525,8 @@ from (
   6.21
 ),
 (
+  'TW',
+  'TWSE',
   '2712',
   '2026-05-27',
   null,
@@ -24008,6 +32534,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '2722',
   '2026-05-27',
   null,
@@ -24015,6 +32543,8 @@ from (
   0.66
 ),
 (
+  'TW',
+  'TWSE',
   '2723',
   '2026-05-27',
   null,
@@ -24022,6 +32552,8 @@ from (
   4.98
 ),
 (
+  'TW',
+  'TWSE',
   '2727',
   '2026-05-27',
   14.06,
@@ -24029,6 +32561,8 @@ from (
   6.89
 ),
 (
+  'TW',
+  'TWSE',
   '2731',
   '2026-05-27',
   9.71,
@@ -24036,6 +32570,8 @@ from (
   7.71
 ),
 (
+  'TW',
+  'TWSE',
   '2739',
   '2026-05-27',
   11.45,
@@ -24043,6 +32579,8 @@ from (
   7.44
 ),
 (
+  'TW',
+  'TWSE',
   '2748',
   '2026-05-27',
   18.75,
@@ -24050,6 +32588,8 @@ from (
   4.49
 ),
 (
+  'TW',
+  'TWSE',
   '2753',
   '2026-05-27',
   12.84,
@@ -24057,6 +32597,8 @@ from (
   6.94
 ),
 (
+  'TW',
+  'TWSE',
   '2762',
   '2026-05-27',
   15.3,
@@ -24064,6 +32606,8 @@ from (
   7.34
 ),
 (
+  'TW',
+  'TWSE',
   '2801',
   '2026-05-27',
   12.59,
@@ -24071,6 +32615,8 @@ from (
   5.21
 ),
 (
+  'TW',
+  'TWSE',
   '2812',
   '2026-05-27',
   12.13,
@@ -24078,6 +32624,8 @@ from (
   5.64
 ),
 (
+  'TW',
+  'TWSE',
   '2816',
   '2026-05-27',
   5.07,
@@ -24085,6 +32633,8 @@ from (
   4.69
 ),
 (
+  'TW',
+  'TWSE',
   '2820',
   '2026-05-27',
   10.99,
@@ -24092,6 +32642,8 @@ from (
   5.39
 ),
 (
+  'TW',
+  'TWSE',
   '2832',
   '2026-05-27',
   10.17,
@@ -24099,6 +32651,8 @@ from (
   6.62
 ),
 (
+  'TW',
+  'TWSE',
   '2834',
   '2026-05-27',
   12.33,
@@ -24106,6 +32660,8 @@ from (
   6.19
 ),
 (
+  'TW',
+  'TWSE',
   '2836',
   '2026-05-27',
   15.95,
@@ -24113,6 +32669,8 @@ from (
   3.81
 ),
 (
+  'TW',
+  'TWSE',
   '2838',
   '2026-05-27',
   14.54,
@@ -24120,6 +32678,8 @@ from (
   5.17
 ),
 (
+  'TW',
+  'TWSE',
   '2845',
   '2026-05-27',
   13.52,
@@ -24127,6 +32687,8 @@ from (
   5.29
 ),
 (
+  'TW',
+  'TWSE',
   '2849',
   '2026-05-27',
   16.05,
@@ -24134,6 +32696,8 @@ from (
   3.7
 ),
 (
+  'TW',
+  'TWSE',
   '2850',
   '2026-05-27',
   10.1,
@@ -24141,6 +32705,8 @@ from (
   5.14
 ),
 (
+  'TW',
+  'TWSE',
   '2851',
   '2026-05-27',
   6.76,
@@ -24148,6 +32714,8 @@ from (
   6.29
 ),
 (
+  'TW',
+  'TWSE',
   '2852',
   '2026-05-27',
   8.72,
@@ -24155,6 +32723,8 @@ from (
   6.18
 ),
 (
+  'TW',
+  'TWSE',
   '2855',
   '2026-05-27',
   10.04,
@@ -24162,6 +32732,8 @@ from (
   4.7
 ),
 (
+  'TW',
+  'TWSE',
   '2867',
   '2026-05-27',
   53.86,
@@ -24169,6 +32741,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '2880',
   '2026-05-27',
   15.76,
@@ -24176,6 +32750,8 @@ from (
   4.84
 ),
 (
+  'TW',
+  'TWSE',
   '2881',
   '2026-05-27',
   14.19,
@@ -24183,6 +32759,8 @@ from (
   3.86
 ),
 (
+  'TW',
+  'TWSE',
   '2882',
   '2026-05-27',
   12.92,
@@ -24190,6 +32768,8 @@ from (
   4.1
 ),
 (
+  'TW',
+  'TWSE',
   '2883',
   '2026-05-27',
   12.53,
@@ -24197,6 +32777,8 @@ from (
   4.48
 ),
 (
+  'TW',
+  'TWSE',
   '2884',
   '2026-05-27',
   14.16,
@@ -24204,6 +32786,8 @@ from (
   4.49
 ),
 (
+  'TW',
+  'TWSE',
   '2885',
   '2026-05-27',
   18.31,
@@ -24211,6 +32795,8 @@ from (
   3.7
 ),
 (
+  'TW',
+  'TWSE',
   '2886',
   '2026-05-27',
   16.04,
@@ -24218,6 +32804,8 @@ from (
   4.44
 ),
 (
+  'TW',
+  'TWSE',
   '2887',
   '2026-05-27',
   16.41,
@@ -24225,6 +32813,8 @@ from (
   4.72
 ),
 (
+  'TW',
+  'TWSE',
   '2889',
   '2026-05-27',
   18.9,
@@ -24232,6 +32822,8 @@ from (
   4.05
 ),
 (
+  'TW',
+  'TWSE',
   '2890',
   '2026-05-27',
   14.19,
@@ -24239,6 +32831,8 @@ from (
   4.38
 ),
 (
+  'TW',
+  'TWSE',
   '2891',
   '2026-05-27',
   14.27,
@@ -24246,6 +32840,8 @@ from (
   4.22
 ),
 (
+  'TW',
+  'TWSE',
   '2892',
   '2026-05-27',
   14.76,
@@ -24253,6 +32849,8 @@ from (
   4.71
 ),
 (
+  'TW',
+  'TWSE',
   '2897',
   '2026-05-27',
   14.71,
@@ -24260,6 +32858,8 @@ from (
   5.2
 ),
 (
+  'TW',
+  'TWSE',
   '2901',
   '2026-05-27',
   54.76,
@@ -24267,6 +32867,8 @@ from (
   1.65
 ),
 (
+  'TW',
+  'TWSE',
   '2903',
   '2026-05-27',
   13.52,
@@ -24274,6 +32876,8 @@ from (
   5.71
 ),
 (
+  'TW',
+  'TWSE',
   '2904',
   '2026-05-27',
   24.4,
@@ -24281,6 +32885,8 @@ from (
   4.95
 ),
 (
+  'TW',
+  'TWSE',
   '2905',
   '2026-05-27',
   21.51,
@@ -24288,6 +32894,8 @@ from (
   2.21
 ),
 (
+  'TW',
+  'TWSE',
   '2906',
   '2026-05-27',
   27.44,
@@ -24295,6 +32903,8 @@ from (
   4.86
 ),
 (
+  'TW',
+  'TWSE',
   '2908',
   '2026-05-27',
   53.38,
@@ -24302,6 +32912,8 @@ from (
   2.58
 ),
 (
+  'TW',
+  'TWSE',
   '2910',
   '2026-05-27',
   17.66,
@@ -24309,6 +32921,8 @@ from (
   4.83
 ),
 (
+  'TW',
+  'TWSE',
   '2911',
   '2026-05-27',
   2.4,
@@ -24316,6 +32930,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '2912',
   '2026-05-27',
   18.82,
@@ -24323,6 +32939,8 @@ from (
   4.36
 ),
 (
+  'TW',
+  'TWSE',
   '2913',
   '2026-05-27',
   null,
@@ -24330,6 +32948,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '2915',
   '2026-05-27',
   5.11,
@@ -24337,6 +32957,8 @@ from (
   4.36
 ),
 (
+  'TW',
+  'TWSE',
   '2923',
   '2026-05-27',
   null,
@@ -24344,6 +32966,8 @@ from (
   0.5
 ),
 (
+  'TW',
+  'TWSE',
   '2929',
   '2026-05-27',
   null,
@@ -24351,6 +32975,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '2939',
   '2026-05-27',
   null,
@@ -24358,6 +32984,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '2945',
   '2026-05-27',
   17.96,
@@ -24365,6 +32993,8 @@ from (
   3.71
 ),
 (
+  'TW',
+  'TWSE',
   '3002',
   '2026-05-27',
   51.21,
@@ -24372,6 +33002,8 @@ from (
   1.95
 ),
 (
+  'TW',
+  'TWSE',
   '3003',
   '2026-05-27',
   62.28,
@@ -24379,6 +33011,8 @@ from (
   1.59
 ),
 (
+  'TW',
+  'TWSE',
   '3004',
   '2026-05-27',
   23.22,
@@ -24386,6 +33020,8 @@ from (
   2.06
 ),
 (
+  'TW',
+  'TWSE',
   '3005',
   '2026-05-27',
   12.64,
@@ -24393,6 +33029,8 @@ from (
   6.59
 ),
 (
+  'TW',
+  'TWSE',
   '3006',
   '2026-05-27',
   28.66,
@@ -24400,6 +33038,8 @@ from (
   0.41
 ),
 (
+  'TW',
+  'TWSE',
   '3008',
   '2026-05-27',
   21.88,
@@ -24407,6 +33047,8 @@ from (
   2.28
 ),
 (
+  'TW',
+  'TWSE',
   '3010',
   '2026-05-27',
   14.82,
@@ -24414,6 +33056,8 @@ from (
   3.81
 ),
 (
+  'TW',
+  'TWSE',
   '3011',
   '2026-05-27',
   null,
@@ -24421,6 +33065,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '3013',
   '2026-05-27',
   26.21,
@@ -24428,6 +33074,8 @@ from (
   0.67
 ),
 (
+  'TW',
+  'TWSE',
   '3014',
   '2026-05-27',
   16.54,
@@ -24435,6 +33083,8 @@ from (
   5.56
 ),
 (
+  'TW',
+  'TWSE',
   '3015',
   '2026-05-27',
   25.42,
@@ -24442,6 +33092,8 @@ from (
   4.26
 ),
 (
+  'TW',
+  'TWSE',
   '3016',
   '2026-05-27',
   307.32,
@@ -24449,6 +33101,8 @@ from (
   0.4
 ),
 (
+  'TW',
+  'TWSE',
   '3017',
   '2026-05-27',
   44.36,
@@ -24456,6 +33110,8 @@ from (
   0.78
 ),
 (
+  'TW',
+  'TWSE',
   '3018',
   '2026-05-27',
   null,
@@ -24463,6 +33119,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '3019',
   '2026-05-27',
   21.79,
@@ -24470,6 +33128,8 @@ from (
   3.08
 ),
 (
+  'TW',
+  'TWSE',
   '3021',
   '2026-05-27',
   43.02,
@@ -24477,6 +33137,8 @@ from (
   2.4
 ),
 (
+  'TW',
+  'TWSE',
   '3022',
   '2026-05-27',
   20.93,
@@ -24484,6 +33146,8 @@ from (
   4.74
 ),
 (
+  'TW',
+  'TWSE',
   '3023',
   '2026-05-27',
   24.43,
@@ -24491,6 +33155,8 @@ from (
   3.21
 ),
 (
+  'TW',
+  'TWSE',
   '3024',
   '2026-05-27',
   176.11,
@@ -24498,6 +33164,8 @@ from (
   1.39
 ),
 (
+  'TW',
+  'TWSE',
   '3025',
   '2026-05-27',
   19.3,
@@ -24505,6 +33173,8 @@ from (
   4.15
 ),
 (
+  'TW',
+  'TWSE',
   '3026',
   '2026-05-27',
   78.35,
@@ -24512,6 +33182,8 @@ from (
   0.95
 ),
 (
+  'TW',
+  'TWSE',
   '3027',
   '2026-05-27',
   null,
@@ -24519,6 +33191,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '3028',
   '2026-05-27',
   15.93,
@@ -24526,6 +33200,8 @@ from (
   3.69
 ),
 (
+  'TW',
+  'TWSE',
   '3029',
   '2026-05-27',
   14.01,
@@ -24533,6 +33209,8 @@ from (
   5.77
 ),
 (
+  'TW',
+  'TWSE',
   '3030',
   '2026-05-27',
   34.59,
@@ -24540,6 +33218,8 @@ from (
   1.75
 ),
 (
+  'TW',
+  'TWSE',
   '3031',
   '2026-05-27',
   27.63,
@@ -24547,6 +33227,8 @@ from (
   3.23
 ),
 (
+  'TW',
+  'TWSE',
   '3032',
   '2026-05-27',
   null,
@@ -24554,6 +33236,8 @@ from (
   3.01
 ),
 (
+  'TW',
+  'TWSE',
   '3033',
   '2026-05-27',
   19.28,
@@ -24561,6 +33245,8 @@ from (
   4.1
 ),
 (
+  'TW',
+  'TWSE',
   '3034',
   '2026-05-27',
   19.88,
@@ -24568,6 +33254,8 @@ from (
   4.74
 ),
 (
+  'TW',
+  'TWSE',
   '3035',
   '2026-05-27',
   107.71,
@@ -24575,6 +33263,8 @@ from (
   0.89
 ),
 (
+  'TW',
+  'TWSE',
   '3036',
   '2026-05-27',
   20.99,
@@ -24582,6 +33272,8 @@ from (
   2.64
 ),
 (
+  'TW',
+  'TWSE',
   '3037',
   '2026-05-27',
   158.82,
@@ -24589,6 +33281,8 @@ from (
   0.19
 ),
 (
+  'TW',
+  'TWSE',
   '3038',
   '2026-05-27',
   24.73,
@@ -24596,6 +33290,8 @@ from (
   5.16
 ),
 (
+  'TW',
+  'TWSE',
   '3040',
   '2026-05-27',
   null,
@@ -24603,6 +33299,8 @@ from (
   8.83
 ),
 (
+  'TW',
+  'TWSE',
   '3041',
   '2026-05-27',
   null,
@@ -24610,6 +33308,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '3042',
   '2026-05-27',
   37.79,
@@ -24617,6 +33317,8 @@ from (
   2.42
 ),
 (
+  'TW',
+  'TWSE',
   '3043',
   '2026-05-27',
   null,
@@ -24624,6 +33326,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '3044',
   '2026-05-27',
   25.46,
@@ -24631,6 +33335,8 @@ from (
   2.42
 ),
 (
+  'TW',
+  'TWSE',
   '3045',
   '2026-05-27',
   22.31,
@@ -24638,6 +33344,8 @@ from (
   4.36
 ),
 (
+  'TW',
+  'TWSE',
   '3046',
   '2026-05-27',
   13.15,
@@ -24645,6 +33353,8 @@ from (
   5.57
 ),
 (
+  'TW',
+  'TWSE',
   '3047',
   '2026-05-27',
   null,
@@ -24652,6 +33362,8 @@ from (
   2.01
 ),
 (
+  'TW',
+  'TWSE',
   '3048',
   '2026-05-27',
   25.18,
@@ -24659,6 +33371,8 @@ from (
   1.43
 ),
 (
+  'TW',
+  'TWSE',
   '3049',
   '2026-05-27',
   null,
@@ -24666,6 +33380,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '3050',
   '2026-05-27',
   null,
@@ -24673,6 +33389,8 @@ from (
   2.02
 ),
 (
+  'TW',
+  'TWSE',
   '3051',
   '2026-05-27',
   26.46,
@@ -24680,6 +33398,8 @@ from (
   1.83
 ),
 (
+  'TW',
+  'TWSE',
   '3052',
   '2026-05-27',
   10.84,
@@ -24687,6 +33407,8 @@ from (
   5.83
 ),
 (
+  'TW',
+  'TWSE',
   '3054',
   '2026-05-27',
   19.94,
@@ -24694,6 +33416,8 @@ from (
   1.18
 ),
 (
+  'TW',
+  'TWSE',
   '3055',
   '2026-05-27',
   null,
@@ -24701,6 +33425,8 @@ from (
   0.89
 ),
 (
+  'TW',
+  'TWSE',
   '3056',
   '2026-05-27',
   null,
@@ -24708,6 +33434,8 @@ from (
   4.59
 ),
 (
+  'TW',
+  'TWSE',
   '3057',
   '2026-05-27',
   null,
@@ -24715,6 +33443,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '3058',
   '2026-05-27',
   null,
@@ -24722,6 +33452,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '3059',
   '2026-05-27',
   33.78,
@@ -24729,6 +33461,8 @@ from (
   2.41
 ),
 (
+  'TW',
+  'TWSE',
   '3060',
   '2026-05-27',
   null,
@@ -24736,6 +33470,8 @@ from (
   0.67
 ),
 (
+  'TW',
+  'TWSE',
   '3062',
   '2026-05-27',
   null,
@@ -24743,6 +33479,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '3090',
   '2026-05-27',
   48.13,
@@ -24750,6 +33488,8 @@ from (
   2.08
 ),
 (
+  'TW',
+  'TWSE',
   '3092',
   '2026-05-27',
   null,
@@ -24757,6 +33497,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '3094',
   '2026-05-27',
   136.73,
@@ -24764,6 +33506,8 @@ from (
   0.7
 ),
 (
+  'TW',
+  'TWSE',
   '3130',
   '2026-05-27',
   14.69,
@@ -24771,6 +33515,8 @@ from (
   6.64
 ),
 (
+  'TW',
+  'TWSE',
   '3135',
   '2026-05-27',
   17.13,
@@ -24778,6 +33524,8 @@ from (
   1.94
 ),
 (
+  'TW',
+  'TWSE',
   '3138',
   '2026-05-27',
   107.47,
@@ -24785,6 +33533,8 @@ from (
   1.01
 ),
 (
+  'TW',
+  'TWSE',
   '3149',
   '2026-05-27',
   null,
@@ -24792,6 +33542,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '3150',
   '2026-05-27',
   null,
@@ -24799,6 +33551,8 @@ from (
   2.63
 ),
 (
+  'TW',
+  'TWSE',
   '3164',
   '2026-05-27',
   31.25,
@@ -24806,6 +33560,8 @@ from (
   4.92
 ),
 (
+  'TW',
+  'TWSE',
   '3167',
   '2026-05-27',
   79.92,
@@ -24813,6 +33569,8 @@ from (
   0.49
 ),
 (
+  'TW',
+  'TWSE',
   '3168',
   '2026-05-27',
   18.36,
@@ -24820,6 +33578,8 @@ from (
   6.1
 ),
 (
+  'TW',
+  'TWSE',
   '3189',
   '2026-05-27',
   197.75,
@@ -24827,6 +33587,8 @@ from (
   0.25
 ),
 (
+  'TW',
+  'TWSE',
   '3209',
   '2026-05-27',
   22.67,
@@ -24834,6 +33596,8 @@ from (
   3.07
 ),
 (
+  'TW',
+  'TWSE',
   '3229',
   '2026-05-27',
   918,
@@ -24841,6 +33605,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '3231',
   '2026-05-27',
   14.54,
@@ -24848,6 +33614,8 @@ from (
   3.79
 ),
 (
+  'TW',
+  'TWSE',
   '3257',
   '2026-05-27',
   20.57,
@@ -24855,6 +33623,8 @@ from (
   4.58
 ),
 (
+  'TW',
+  'TWSE',
   '3266',
   '2026-05-27',
   19.61,
@@ -24862,6 +33632,8 @@ from (
   3.98
 ),
 (
+  'TW',
+  'TWSE',
   '3296',
   '2026-05-27',
   151.15,
@@ -24869,6 +33641,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '3305',
   '2026-05-27',
   45.07,
@@ -24876,6 +33650,8 @@ from (
   1.44
 ),
 (
+  'TW',
+  'TWSE',
   '3308',
   '2026-05-27',
   167.5,
@@ -24883,6 +33659,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '3311',
   '2026-05-27',
   22.52,
@@ -24890,6 +33668,8 @@ from (
   1.72
 ),
 (
+  'TW',
+  'TWSE',
   '3312',
   '2026-05-27',
   29.88,
@@ -24897,6 +33677,8 @@ from (
   2.61
 ),
 (
+  'TW',
+  'TWSE',
   '3321',
   '2026-05-27',
   null,
@@ -24904,6 +33686,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '3338',
   '2026-05-27',
   51.78,
@@ -24911,6 +33695,8 @@ from (
   1.72
 ),
 (
+  'TW',
+  'TWSE',
   '3346',
   '2026-05-27',
   null,
@@ -24918,6 +33704,8 @@ from (
   0.62
 ),
 (
+  'TW',
+  'TWSE',
   '3356',
   '2026-05-27',
   6.35,
@@ -24925,6 +33713,8 @@ from (
   5.43
 ),
 (
+  'TW',
+  'TWSE',
   '3376',
   '2026-05-27',
   311.76,
@@ -24932,6 +33722,8 @@ from (
   1.89
 ),
 (
+  'TW',
+  'TWSE',
   '3380',
   '2026-05-27',
   null,
@@ -24939,6 +33731,8 @@ from (
   1.41
 ),
 (
+  'TW',
+  'TWSE',
   '3406',
   '2026-05-27',
   17.73,
@@ -24946,6 +33740,8 @@ from (
   2.91
 ),
 (
+  'TW',
+  'TWSE',
   '3413',
   '2026-05-27',
   16.7,
@@ -24953,6 +33749,8 @@ from (
   3.49
 ),
 (
+  'TW',
+  'TWSE',
   '3416',
   '2026-05-27',
   25.34,
@@ -24960,6 +33758,8 @@ from (
   2.76
 ),
 (
+  'TW',
+  'TWSE',
   '3419',
   '2026-05-27',
   null,
@@ -24967,6 +33767,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '3432',
   '2026-05-27',
   null,
@@ -24974,6 +33776,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '3437',
   '2026-05-27',
   null,
@@ -24981,6 +33785,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '3443',
   '2026-05-27',
   153.43,
@@ -24988,6 +33794,8 @@ from (
   0.39
 ),
 (
+  'TW',
+  'TWSE',
   '3447',
   '2026-05-27',
   25.21,
@@ -24995,6 +33803,8 @@ from (
   3.05
 ),
 (
+  'TW',
+  'TWSE',
   '3450',
   '2026-05-27',
   149.11,
@@ -25002,6 +33812,8 @@ from (
   0.2
 ),
 (
+  'TW',
+  'TWSE',
   '3481',
   '2026-05-27',
   456.36,
@@ -25009,6 +33821,8 @@ from (
   1.99
 ),
 (
+  'TW',
+  'TWSE',
   '3494',
   '2026-05-27',
   null,
@@ -25016,6 +33830,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '3501',
   '2026-05-27',
   22.09,
@@ -25023,6 +33839,8 @@ from (
   5.06
 ),
 (
+  'TW',
+  'TWSE',
   '3504',
   '2026-05-27',
   null,
@@ -25030,6 +33848,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '3515',
   '2026-05-27',
   15.14,
@@ -25037,6 +33857,8 @@ from (
   4.58
 ),
 (
+  'TW',
+  'TWSE',
   '3518',
   '2026-05-27',
   16.35,
@@ -25044,6 +33866,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '3528',
   '2026-05-27',
   33.39,
@@ -25051,6 +33875,8 @@ from (
   1.33
 ),
 (
+  'TW',
+  'TWSE',
   '3530',
   '2026-05-27',
   33.74,
@@ -25058,6 +33884,8 @@ from (
   1.17
 ),
 (
+  'TW',
+  'TWSE',
   '3532',
   '2026-05-27',
   367.72,
@@ -25065,6 +33893,8 @@ from (
   0.34
 ),
 (
+  'TW',
+  'TWSE',
   '3533',
   '2026-05-27',
   36.88,
@@ -25072,6 +33902,8 @@ from (
   1.33
 ),
 (
+  'TW',
+  'TWSE',
   '3535',
   '2026-05-27',
   308.75,
@@ -25079,6 +33911,8 @@ from (
   0.4
 ),
 (
+  'TW',
+  'TWSE',
   '3543',
   '2026-05-27',
   null,
@@ -25086,6 +33920,8 @@ from (
   1.7
 ),
 (
+  'TW',
+  'TWSE',
   '3545',
   '2026-05-27',
   null,
@@ -25093,6 +33929,8 @@ from (
   1.35
 ),
 (
+  'TW',
+  'TWSE',
   '3550',
   '2026-05-27',
   null,
@@ -25100,6 +33938,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '3557',
   '2026-05-27',
   null,
@@ -25107,6 +33947,8 @@ from (
   1.22
 ),
 (
+  'TW',
+  'TWSE',
   '3563',
   '2026-05-27',
   53.77,
@@ -25114,6 +33956,8 @@ from (
   1.66
 ),
 (
+  'TW',
+  'TWSE',
   '3576',
   '2026-05-27',
   45.48,
@@ -25121,6 +33965,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '3583',
   '2026-05-27',
   59.39,
@@ -25128,6 +33974,8 @@ from (
   0.68
 ),
 (
+  'TW',
+  'TWSE',
   '3588',
   '2026-05-27',
   107.5,
@@ -25135,6 +33983,8 @@ from (
   0.78
 ),
 (
+  'TW',
+  'TWSE',
   '3591',
   '2026-05-27',
   null,
@@ -25142,6 +33992,8 @@ from (
   2.9
 ),
 (
+  'TW',
+  'TWSE',
   '3592',
   '2026-05-27',
   17.56,
@@ -25149,6 +34001,8 @@ from (
   5.2
 ),
 (
+  'TW',
+  'TWSE',
   '3593',
   '2026-05-27',
   null,
@@ -25156,6 +34010,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '3596',
   '2026-05-27',
   14.9,
@@ -25163,6 +34019,8 @@ from (
   4.77
 ),
 (
+  'TW',
+  'TWSE',
   '3605',
   '2026-05-27',
   22.63,
@@ -25170,6 +34028,8 @@ from (
   2.15
 ),
 (
+  'TW',
+  'TWSE',
   '3607',
   '2026-05-27',
   38.97,
@@ -25177,6 +34037,8 @@ from (
   5.26
 ),
 (
+  'TW',
+  'TWSE',
   '3617',
   '2026-05-27',
   15.23,
@@ -25184,6 +34046,8 @@ from (
   4.65
 ),
 (
+  'TW',
+  'TWSE',
   '3622',
   '2026-05-27',
   9.78,
@@ -25191,6 +34055,8 @@ from (
   5.6
 ),
 (
+  'TW',
+  'TWSE',
   '3645',
   '2026-05-27',
   57.89,
@@ -25198,6 +34064,8 @@ from (
   1.09
 ),
 (
+  'TW',
+  'TWSE',
   '3652',
   '2026-05-27',
   23.43,
@@ -25205,6 +34073,8 @@ from (
   3.66
 ),
 (
+  'TW',
+  'TWSE',
   '3653',
   '2026-05-27',
   101.52,
@@ -25212,6 +34082,8 @@ from (
   0.6
 ),
 (
+  'TW',
+  'TWSE',
   '3661',
   '2026-05-27',
   65.95,
@@ -25219,6 +34091,8 @@ from (
   0.76
 ),
 (
+  'TW',
+  'TWSE',
   '3665',
   '2026-05-27',
   42.68,
@@ -25226,6 +34100,8 @@ from (
   0.71
 ),
 (
+  'TW',
+  'TWSE',
   '3669',
   '2026-05-27',
   21.59,
@@ -25233,6 +34109,8 @@ from (
   2.54
 ),
 (
+  'TW',
+  'TWSE',
   '3673',
   '2026-05-27',
   24.15,
@@ -25240,6 +34118,8 @@ from (
   2.05
 ),
 (
+  'TW',
+  'TWSE',
   '3679',
   '2026-05-27',
   14.13,
@@ -25247,6 +34127,8 @@ from (
   7.5
 ),
 (
+  'TW',
+  'TWSE',
   '3686',
   '2026-05-27',
   null,
@@ -25254,6 +34136,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '3694',
   '2026-05-27',
   16.23,
@@ -25261,6 +34145,8 @@ from (
   3.36
 ),
 (
+  'TW',
+  'TWSE',
   '3701',
   '2026-05-27',
   null,
@@ -25268,6 +34154,8 @@ from (
   0.36
 ),
 (
+  'TW',
+  'TWSE',
   '3702',
   '2026-05-27',
   14.71,
@@ -25275,6 +34163,8 @@ from (
   3.15
 ),
 (
+  'TW',
+  'TWSE',
   '3703',
   '2026-05-27',
   9.66,
@@ -25282,6 +34172,8 @@ from (
   5.22
 ),
 (
+  'TW',
+  'TWSE',
   '3704',
   '2026-05-27',
   39.35,
@@ -25289,6 +34181,8 @@ from (
   0.88
 ),
 (
+  'TW',
+  'TWSE',
   '3705',
   '2026-05-27',
   18.69,
@@ -25296,6 +34190,8 @@ from (
   5.41
 ),
 (
+  'TW',
+  'TWSE',
   '3706',
   '2026-05-27',
   16.07,
@@ -25303,6 +34199,8 @@ from (
   4.75
 ),
 (
+  'TW',
+  'TWSE',
   '3708',
   '2026-05-27',
   3.2,
@@ -25310,6 +34208,8 @@ from (
   4.58
 ),
 (
+  'TW',
+  'TWSE',
   '3711',
   '2026-05-27',
   59.61,
@@ -25317,6 +34217,8 @@ from (
   1.03
 ),
 (
+  'TW',
+  'TWSE',
   '3712',
   '2026-05-27',
   null,
@@ -25324,6 +34226,8 @@ from (
   18.69
 ),
 (
+  'TW',
+  'TWSE',
   '3714',
   '2026-05-27',
   null,
@@ -25331,6 +34235,8 @@ from (
   1.21
 ),
 (
+  'TW',
+  'TWSE',
   '3715',
   '2026-05-27',
   184.54,
@@ -25338,6 +34244,8 @@ from (
   0.6
 ),
 (
+  'TW',
+  'TWSE',
   '3716',
   '2026-05-27',
   13.22,
@@ -25345,6 +34253,8 @@ from (
   2.92
 ),
 (
+  'TW',
+  'TWSE',
   '3717',
   '2026-05-27',
   275,
@@ -25352,6 +34262,8 @@ from (
   0.91
 ),
 (
+  'TW',
+  'TWSE',
   '4104',
   '2026-05-27',
   16.26,
@@ -25359,6 +34271,8 @@ from (
   6.11
 ),
 (
+  'TW',
+  'TWSE',
   '4106',
   '2026-05-27',
   16.29,
@@ -25366,6 +34280,8 @@ from (
   4.29
 ),
 (
+  'TW',
+  'TWSE',
   '4108',
   '2026-05-27',
   null,
@@ -25373,6 +34289,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '4119',
   '2026-05-27',
   51.25,
@@ -25380,6 +34298,8 @@ from (
   1.83
 ),
 (
+  'TW',
+  'TWSE',
   '4133',
   '2026-05-27',
   686.67,
@@ -25387,6 +34307,8 @@ from (
   0.53
 ),
 (
+  'TW',
+  'TWSE',
   '4137',
   '2026-05-27',
   12.98,
@@ -25394,6 +34316,8 @@ from (
   9.8
 ),
 (
+  'TW',
+  'TWSE',
   '4142',
   '2026-05-27',
   null,
@@ -25401,6 +34325,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '4148',
   '2026-05-27',
   14.72,
@@ -25408,6 +34334,8 @@ from (
   3.14
 ),
 (
+  'TW',
+  'TWSE',
   '4155',
   '2026-05-27',
   18.97,
@@ -25415,6 +34343,8 @@ from (
   2.03
 ),
 (
+  'TW',
+  'TWSE',
   '4164',
   '2026-05-27',
   27.12,
@@ -25422,6 +34352,8 @@ from (
   3.9
 ),
 (
+  'TW',
+  'TWSE',
   '4169',
   '2026-05-27',
   476.56,
@@ -25429,6 +34361,8 @@ from (
   0.24
 ),
 (
+  'TW',
+  'TWSE',
   '4178',
   '2026-05-27',
   null,
@@ -25436,6 +34370,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '4190',
   '2026-05-27',
   null,
@@ -25443,6 +34379,8 @@ from (
   2.06
 ),
 (
+  'TW',
+  'TWSE',
   '4195',
   '2026-05-27',
   null,
@@ -25450,6 +34388,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '4306',
   '2026-05-27',
   36.32,
@@ -25457,6 +34397,8 @@ from (
   5.07
 ),
 (
+  'TW',
+  'TWSE',
   '4414',
   '2026-05-27',
   null,
@@ -25464,6 +34406,8 @@ from (
   1.44
 ),
 (
+  'TW',
+  'TWSE',
   '4426',
   '2026-05-27',
   null,
@@ -25471,6 +34415,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '4438',
   '2026-05-27',
   14.84,
@@ -25478,6 +34424,8 @@ from (
   3.92
 ),
 (
+  'TW',
+  'TWSE',
   '4439',
   '2026-05-27',
   11.06,
@@ -25485,6 +34433,8 @@ from (
   4.37
 ),
 (
+  'TW',
+  'TWSE',
   '4440',
   '2026-05-27',
   10.41,
@@ -25492,6 +34442,8 @@ from (
   5.62
 ),
 (
+  'TW',
+  'TWSE',
   '4441',
   '2026-05-27',
   14.45,
@@ -25499,6 +34451,8 @@ from (
   5.24
 ),
 (
+  'TW',
+  'TWSE',
   '4526',
   '2026-05-27',
   38.41,
@@ -25506,6 +34460,8 @@ from (
   2.5
 ),
 (
+  'TW',
+  'TWSE',
   '4532',
   '2026-05-27',
   12.9,
@@ -25513,6 +34469,8 @@ from (
   6.36
 ),
 (
+  'TW',
+  'TWSE',
   '4536',
   '2026-05-27',
   11.74,
@@ -25520,6 +34478,8 @@ from (
   5.08
 ),
 (
+  'TW',
+  'TWSE',
   '4540',
   '2026-05-27',
   null,
@@ -25527,6 +34487,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '4545',
   '2026-05-27',
   null,
@@ -25534,6 +34496,8 @@ from (
   0.36
 ),
 (
+  'TW',
+  'TWSE',
   '4551',
   '2026-05-27',
   22.71,
@@ -25541,6 +34505,8 @@ from (
   2.77
 ),
 (
+  'TW',
+  'TWSE',
   '4552',
   '2026-05-27',
   12.92,
@@ -25548,6 +34514,8 @@ from (
   3.02
 ),
 (
+  'TW',
+  'TWSE',
   '4555',
   '2026-05-27',
   233.48,
@@ -25555,6 +34523,8 @@ from (
   0.93
 ),
 (
+  'TW',
+  'TWSE',
   '4557',
   '2026-05-27',
   null,
@@ -25562,6 +34532,8 @@ from (
   4.65
 ),
 (
+  'TW',
+  'TWSE',
   '4560',
   '2026-05-27',
   11.42,
@@ -25569,6 +34541,8 @@ from (
   4.59
 ),
 (
+  'TW',
+  'TWSE',
   '4562',
   '2026-05-27',
   null,
@@ -25576,6 +34550,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '4564',
   '2026-05-27',
   null,
@@ -25583,6 +34559,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '4566',
   '2026-05-27',
   66.41,
@@ -25590,6 +34568,8 @@ from (
   1.11
 ),
 (
+  'TW',
+  'TWSE',
   '4569',
   '2026-05-27',
   37.22,
@@ -25597,6 +34577,8 @@ from (
   1.8
 ),
 (
+  'TW',
+  'TWSE',
   '4571',
   '2026-05-27',
   24.2,
@@ -25604,6 +34586,8 @@ from (
   2.43
 ),
 (
+  'TW',
+  'TWSE',
   '4572',
   '2026-05-27',
   53.77,
@@ -25611,6 +34595,8 @@ from (
   3.51
 ),
 (
+  'TW',
+  'TWSE',
   '4576',
   '2026-05-27',
   107.48,
@@ -25618,6 +34604,8 @@ from (
   0.29
 ),
 (
+  'TW',
+  'TWSE',
   '4581',
   '2026-05-27',
   11.91,
@@ -25625,6 +34613,8 @@ from (
   6.02
 ),
 (
+  'TW',
+  'TWSE',
   '4582',
   '2026-05-27',
   17.37,
@@ -25632,6 +34622,8 @@ from (
   3.36
 ),
 (
+  'TW',
+  'TWSE',
   '4583',
   '2026-05-27',
   62.54,
@@ -25639,6 +34631,8 @@ from (
   1.4
 ),
 (
+  'TW',
+  'TWSE',
   '4585',
   '2026-05-27',
   264.77,
@@ -25646,6 +34640,8 @@ from (
   0.29
 ),
 (
+  'TW',
+  'TWSE',
   '4588',
   '2026-05-27',
   15.73,
@@ -25653,6 +34649,8 @@ from (
   5.36
 ),
 (
+  'TW',
+  'TWSE',
   '4590',
   '2026-05-27',
   28.23,
@@ -25660,6 +34658,8 @@ from (
   3.21
 ),
 (
+  'TW',
+  'TWSE',
   '4720',
   '2026-05-27',
   44.1,
@@ -25667,6 +34667,8 @@ from (
   1.49
 ),
 (
+  'TW',
+  'TWSE',
   '4722',
   '2026-05-27',
   160.06,
@@ -25674,6 +34676,8 @@ from (
   0.44
 ),
 (
+  'TW',
+  'TWSE',
   '4736',
   '2026-05-27',
   6.68,
@@ -25681,6 +34685,8 @@ from (
   4.1
 ),
 (
+  'TW',
+  'TWSE',
   '4737',
   '2026-05-27',
   null,
@@ -25688,6 +34694,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '4739',
   '2026-05-27',
   32.4,
@@ -25695,6 +34703,8 @@ from (
   0.96
 ),
 (
+  'TW',
+  'TWSE',
   '4746',
   '2026-05-27',
   18.01,
@@ -25702,6 +34712,8 @@ from (
   5.91
 ),
 (
+  'TW',
+  'TWSE',
   '4755',
   '2026-05-27',
   45.01,
@@ -25709,6 +34721,8 @@ from (
   2.28
 ),
 (
+  'TW',
+  'TWSE',
   '4763',
   '2026-05-27',
   8.01,
@@ -25716,6 +34730,8 @@ from (
   7.37
 ),
 (
+  'TW',
+  'TWSE',
   '4764',
   '2026-05-27',
   170.74,
@@ -25723,6 +34739,8 @@ from (
   0.31
 ),
 (
+  'TW',
+  'TWSE',
   '4766',
   '2026-05-27',
   17.68,
@@ -25730,6 +34748,8 @@ from (
   4.9
 ),
 (
+  'TW',
+  'TWSE',
   '4770',
   '2026-05-27',
   26.04,
@@ -25737,6 +34757,8 @@ from (
   2.28
 ),
 (
+  'TW',
+  'TWSE',
   '4771',
   '2026-05-27',
   15.43,
@@ -25744,6 +34766,8 @@ from (
   3.49
 ),
 (
+  'TW',
+  'TWSE',
   '4807',
   '2026-05-27',
   18.28,
@@ -25751,6 +34775,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '4904',
   '2026-05-27',
   23.58,
@@ -25758,6 +34784,8 @@ from (
   4.1
 ),
 (
+  'TW',
+  'TWSE',
   '4906',
   '2026-05-27',
   null,
@@ -25765,6 +34793,8 @@ from (
   1.12
 ),
 (
+  'TW',
+  'TWSE',
   '4912',
   '2026-05-27',
   51.37,
@@ -25772,6 +34802,8 @@ from (
   0.83
 ),
 (
+  'TW',
+  'TWSE',
   '4915',
   '2026-05-27',
   13.66,
@@ -25779,6 +34811,8 @@ from (
   6.35
 ),
 (
+  'TW',
+  'TWSE',
   '4916',
   '2026-05-27',
   17.72,
@@ -25786,6 +34820,8 @@ from (
   0.5
 ),
 (
+  'TW',
+  'TWSE',
   '4919',
   '2026-05-27',
   null,
@@ -25793,6 +34829,8 @@ from (
   0.19
 ),
 (
+  'TW',
+  'TWSE',
   '4927',
   '2026-05-27',
   null,
@@ -25800,6 +34838,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '4930',
   '2026-05-27',
   null,
@@ -25807,6 +34847,8 @@ from (
   3.4
 ),
 (
+  'TW',
+  'TWSE',
   '4934',
   '2026-05-27',
   null,
@@ -25814,6 +34856,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '4935',
   '2026-05-27',
   26.68,
@@ -25821,6 +34865,8 @@ from (
   2.74
 ),
 (
+  'TW',
+  'TWSE',
   '4938',
   '2026-05-27',
   18.87,
@@ -25828,6 +34874,8 @@ from (
   4.87
 ),
 (
+  'TW',
+  'TWSE',
   '4942',
   '2026-05-27',
   12.7,
@@ -25835,6 +34883,8 @@ from (
   5.32
 ),
 (
+  'TW',
+  'TWSE',
   '4943',
   '2026-05-27',
   null,
@@ -25842,6 +34892,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '4949',
   '2026-05-27',
   37.92,
@@ -25849,6 +34901,8 @@ from (
   1.37
 ),
 (
+  'TW',
+  'TWSE',
   '4952',
   '2026-05-27',
   50.27,
@@ -25856,6 +34910,8 @@ from (
   1.79
 ),
 (
+  'TW',
+  'TWSE',
   '4956',
   '2026-05-27',
   null,
@@ -25863,6 +34919,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '4958',
   '2026-05-27',
   75.04,
@@ -25870,6 +34928,8 @@ from (
   0.64
 ),
 (
+  'TW',
+  'TWSE',
   '4960',
   '2026-05-27',
   null,
@@ -25877,6 +34937,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '4961',
   '2026-05-27',
   20.56,
@@ -25884,6 +34946,8 @@ from (
   4.5
 ),
 (
+  'TW',
+  'TWSE',
   '4967',
   '2026-05-27',
   6.83,
@@ -25891,6 +34955,8 @@ from (
   3.75
 ),
 (
+  'TW',
+  'TWSE',
   '4968',
   '2026-05-27',
   39.53,
@@ -25898,6 +34964,8 @@ from (
   1.37
 ),
 (
+  'TW',
+  'TWSE',
   '4976',
   '2026-05-27',
   null,
@@ -25905,6 +34973,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '4977',
   '2026-05-27',
   49,
@@ -25912,6 +34982,8 @@ from (
   1.02
 ),
 (
+  'TW',
+  'TWSE',
   '4989',
   '2026-05-27',
   null,
@@ -25919,6 +34991,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '4994',
   '2026-05-27',
   57.37,
@@ -25926,6 +35000,8 @@ from (
   3.35
 ),
 (
+  'TW',
+  'TWSE',
   '4999',
   '2026-05-27',
   null,
@@ -25933,6 +35009,8 @@ from (
   1.28
 ),
 (
+  'TW',
+  'TWSE',
   '5007',
   '2026-05-27',
   18.88,
@@ -25940,6 +35018,8 @@ from (
   5.23
 ),
 (
+  'TW',
+  'TWSE',
   '5203',
   '2026-05-27',
   17.76,
@@ -25947,6 +35027,8 @@ from (
   5.54
 ),
 (
+  'TW',
+  'TWSE',
   '5215',
   '2026-05-27',
   19.22,
@@ -25954,6 +35036,8 @@ from (
   4.25
 ),
 (
+  'TW',
+  'TWSE',
   '5222',
   '2026-05-27',
   66.84,
@@ -25961,6 +35045,8 @@ from (
   2
 ),
 (
+  'TW',
+  'TWSE',
   '5225',
   '2026-05-27',
   7.63,
@@ -25968,6 +35054,8 @@ from (
   10.21
 ),
 (
+  'TW',
+  'TWSE',
   '5234',
   '2026-05-27',
   55.32,
@@ -25975,6 +35063,8 @@ from (
   1.53
 ),
 (
+  'TW',
+  'TWSE',
   '5243',
   '2026-05-27',
   26.08,
@@ -25982,6 +35072,8 @@ from (
   1.73
 ),
 (
+  'TW',
+  'TWSE',
   '5244',
   '2026-05-27',
   null,
@@ -25989,6 +35081,8 @@ from (
   1.03
 ),
 (
+  'TW',
+  'TWSE',
   '5258',
   '2026-05-27',
   15.52,
@@ -25996,6 +35090,8 @@ from (
   1.92
 ),
 (
+  'TW',
+  'TWSE',
   '5269',
   '2026-05-27',
   18.35,
@@ -26003,6 +35099,8 @@ from (
   3.01
 ),
 (
+  'TW',
+  'TWSE',
   '5283',
   '2026-05-27',
   8.8,
@@ -26010,6 +35108,8 @@ from (
   3.85
 ),
 (
+  'TW',
+  'TWSE',
   '5284',
   '2026-05-27',
   32.99,
@@ -26017,6 +35117,8 @@ from (
   1.13
 ),
 (
+  'TW',
+  'TWSE',
   '5285',
   '2026-05-27',
   42.86,
@@ -26024,6 +35126,8 @@ from (
   1.67
 ),
 (
+  'TW',
+  'TWSE',
   '5288',
   '2026-05-27',
   12.76,
@@ -26031,6 +35135,8 @@ from (
   4.23
 ),
 (
+  'TW',
+  'TWSE',
   '5292',
   '2026-05-27',
   22.3,
@@ -26038,6 +35144,8 @@ from (
   2.88
 ),
 (
+  'TW',
+  'TWSE',
   '5306',
   '2026-05-27',
   12.98,
@@ -26045,6 +35153,8 @@ from (
   4.56
 ),
 (
+  'TW',
+  'TWSE',
   '5388',
   '2026-05-27',
   20.83,
@@ -26052,6 +35162,8 @@ from (
   3
 ),
 (
+  'TW',
+  'TWSE',
   '5434',
   '2026-05-27',
   20.09,
@@ -26059,6 +35171,8 @@ from (
   2.85
 ),
 (
+  'TW',
+  'TWSE',
   '5469',
   '2026-05-27',
   15.18,
@@ -26066,6 +35180,8 @@ from (
   2.9
 ),
 (
+  'TW',
+  'TWSE',
   '5471',
   '2026-05-27',
   57.53,
@@ -26073,6 +35189,8 @@ from (
   1.43
 ),
 (
+  'TW',
+  'TWSE',
   '5484',
   '2026-05-27',
   132.16,
@@ -26080,6 +35198,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '5515',
   '2026-05-27',
   6.8,
@@ -26087,6 +35207,8 @@ from (
   8.13
 ),
 (
+  'TW',
+  'TWSE',
   '5519',
   '2026-05-27',
   6.43,
@@ -26094,6 +35216,8 @@ from (
   11.84
 ),
 (
+  'TW',
+  'TWSE',
   '5521',
   '2026-05-27',
   15.61,
@@ -26101,6 +35225,8 @@ from (
   1.46
 ),
 (
+  'TW',
+  'TWSE',
   '5522',
   '2026-05-27',
   7.53,
@@ -26108,6 +35234,8 @@ from (
   7.72
 ),
 (
+  'TW',
+  'TWSE',
   '5525',
   '2026-05-27',
   8.37,
@@ -26115,6 +35243,8 @@ from (
   5.71
 ),
 (
+  'TW',
+  'TWSE',
   '5531',
   '2026-05-27',
   152.8,
@@ -26122,6 +35252,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '5533',
   '2026-05-27',
   23.08,
@@ -26129,6 +35261,8 @@ from (
   4.33
 ),
 (
+  'TW',
+  'TWSE',
   '5534',
   '2026-05-27',
   15.33,
@@ -26136,6 +35270,8 @@ from (
   7.32
 ),
 (
+  'TW',
+  'TWSE',
   '5538',
   '2026-05-27',
   10.1,
@@ -26143,6 +35279,8 @@ from (
   4.3
 ),
 (
+  'TW',
+  'TWSE',
   '5546',
   '2026-05-27',
   null,
@@ -26150,6 +35288,8 @@ from (
   6.13
 ),
 (
+  'TW',
+  'TWSE',
   '5607',
   '2026-05-27',
   15.45,
@@ -26157,6 +35297,8 @@ from (
   3.59
 ),
 (
+  'TW',
+  'TWSE',
   '5608',
   '2026-05-27',
   62.83,
@@ -26164,6 +35306,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '5706',
   '2026-05-27',
   14.02,
@@ -26171,6 +35315,8 @@ from (
   9.02
 ),
 (
+  'TW',
+  'TWSE',
   '5871',
   '2026-05-27',
   10.02,
@@ -26178,6 +35324,8 @@ from (
   5.61
 ),
 (
+  'TW',
+  'TWSE',
   '5876',
   '2026-05-27',
   12.52,
@@ -26185,6 +35333,8 @@ from (
   4.56
 ),
 (
+  'TW',
+  'TWSE',
   '5880',
   '2026-05-27',
   16.25,
@@ -26192,6 +35342,8 @@ from (
   4.62
 ),
 (
+  'TW',
+  'TWSE',
   '5906',
   '2026-05-27',
   62.43,
@@ -26199,6 +35351,8 @@ from (
   1.56
 ),
 (
+  'TW',
+  'TWSE',
   '5907',
   '2026-05-27',
   null,
@@ -26206,6 +35360,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '6005',
   '2026-05-27',
   9.78,
@@ -26213,6 +35369,8 @@ from (
   4.89
 ),
 (
+  'TW',
+  'TWSE',
   '6024',
   '2026-05-27',
   9.51,
@@ -26220,6 +35378,8 @@ from (
   6.11
 ),
 (
+  'TW',
+  'TWSE',
   '6108',
   '2026-05-27',
   null,
@@ -26227,6 +35387,8 @@ from (
   5.09
 ),
 (
+  'TW',
+  'TWSE',
   '6112',
   '2026-05-27',
   24.82,
@@ -26234,6 +35396,8 @@ from (
   3.91
 ),
 (
+  'TW',
+  'TWSE',
   '6115',
   '2026-05-27',
   16.62,
@@ -26241,6 +35405,8 @@ from (
   5.93
 ),
 (
+  'TW',
+  'TWSE',
   '6116',
   '2026-05-27',
   null,
@@ -26248,6 +35414,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '6117',
   '2026-05-27',
   18.59,
@@ -26255,6 +35423,8 @@ from (
   2.34
 ),
 (
+  'TW',
+  'TWSE',
   '6120',
   '2026-05-27',
   null,
@@ -26262,6 +35432,8 @@ from (
   1.8
 ),
 (
+  'TW',
+  'TWSE',
   '6128',
   '2026-05-27',
   null,
@@ -26269,6 +35441,8 @@ from (
   2.59
 ),
 (
+  'TW',
+  'TWSE',
   '6133',
   '2026-05-27',
   31.92,
@@ -26276,6 +35450,8 @@ from (
   4.29
 ),
 (
+  'TW',
+  'TWSE',
   '6136',
   '2026-05-27',
   30.6,
@@ -26283,6 +35459,8 @@ from (
   4.51
 ),
 (
+  'TW',
+  'TWSE',
   '6139',
   '2026-05-27',
   22.51,
@@ -26290,6 +35468,8 @@ from (
   2.84
 ),
 (
+  'TW',
+  'TWSE',
   '6141',
   '2026-05-27',
   null,
@@ -26297,6 +35477,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '6142',
   '2026-05-27',
   null,
@@ -26304,6 +35486,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '6152',
   '2026-05-27',
   null,
@@ -26311,6 +35495,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '6153',
   '2026-05-27',
   null,
@@ -26318,6 +35504,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '6155',
   '2026-05-27',
   117.4,
@@ -26325,6 +35513,8 @@ from (
   1.36
 ),
 (
+  'TW',
+  'TWSE',
   '6164',
   '2026-05-27',
   605,
@@ -26332,6 +35522,8 @@ from (
   4.13
 ),
 (
+  'TW',
+  'TWSE',
   '6165',
   '2026-05-27',
   11.53,
@@ -26339,6 +35531,8 @@ from (
   10.4
 ),
 (
+  'TW',
+  'TWSE',
   '6166',
   '2026-05-27',
   37.67,
@@ -26346,6 +35540,8 @@ from (
   0.88
 ),
 (
+  'TW',
+  'TWSE',
   '6168',
   '2026-05-27',
   400,
@@ -26353,6 +35549,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '6176',
   '2026-05-27',
   10.83,
@@ -26360,6 +35558,8 @@ from (
   3.45
 ),
 (
+  'TW',
+  'TWSE',
   '6177',
   '2026-05-27',
   5.7,
@@ -26367,6 +35567,8 @@ from (
   7.05
 ),
 (
+  'TW',
+  'TWSE',
   '6183',
   '2026-05-27',
   22.54,
@@ -26374,6 +35576,8 @@ from (
   3.89
 ),
 (
+  'TW',
+  'TWSE',
   '6184',
   '2026-05-27',
   19.32,
@@ -26381,6 +35585,8 @@ from (
   6.55
 ),
 (
+  'TW',
+  'TWSE',
   '6189',
   '2026-05-27',
   19.05,
@@ -26388,6 +35594,8 @@ from (
   5.39
 ),
 (
+  'TW',
+  'TWSE',
   '6191',
   '2026-05-27',
   15.26,
@@ -26395,6 +35603,8 @@ from (
   2.65
 ),
 (
+  'TW',
+  'TWSE',
   '6192',
   '2026-05-27',
   13.05,
@@ -26402,6 +35612,8 @@ from (
   4.55
 ),
 (
+  'TW',
+  'TWSE',
   '6196',
   '2026-05-27',
   31.85,
@@ -26409,6 +35621,8 @@ from (
   1.3
 ),
 (
+  'TW',
+  'TWSE',
   '6197',
   '2026-05-27',
   27.46,
@@ -26416,6 +35630,8 @@ from (
   2.49
 ),
 (
+  'TW',
+  'TWSE',
   '6201',
   '2026-05-27',
   14.53,
@@ -26423,6 +35639,8 @@ from (
   6.49
 ),
 (
+  'TW',
+  'TWSE',
   '6202',
   '2026-05-27',
   91.52,
@@ -26430,6 +35648,8 @@ from (
   1.13
 ),
 (
+  'TW',
+  'TWSE',
   '6205',
   '2026-05-27',
   48.21,
@@ -26437,6 +35657,8 @@ from (
   1.85
 ),
 (
+  'TW',
+  'TWSE',
   '6206',
   '2026-05-27',
   19.42,
@@ -26444,6 +35666,8 @@ from (
   3.97
 ),
 (
+  'TW',
+  'TWSE',
   '6209',
   '2026-05-27',
   47.34,
@@ -26451,6 +35675,8 @@ from (
   0.61
 ),
 (
+  'TW',
+  'TWSE',
   '6213',
   '2026-05-27',
   67.6,
@@ -26458,6 +35684,8 @@ from (
   1.08
 ),
 (
+  'TW',
+  'TWSE',
   '6214',
   '2026-05-27',
   13.52,
@@ -26465,6 +35693,8 @@ from (
   4.65
 ),
 (
+  'TW',
+  'TWSE',
   '6215',
   '2026-05-27',
   45.79,
@@ -26472,6 +35702,8 @@ from (
   0.77
 ),
 (
+  'TW',
+  'TWSE',
   '6216',
   '2026-05-27',
   370,
@@ -26479,6 +35711,8 @@ from (
   4.64
 ),
 (
+  'TW',
+  'TWSE',
   '6224',
   '2026-05-27',
   92.76,
@@ -26486,6 +35720,8 @@ from (
   1.55
 ),
 (
+  'TW',
+  'TWSE',
   '6225',
   '2026-05-27',
   null,
@@ -26493,6 +35729,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '6226',
   '2026-05-27',
   null,
@@ -26500,6 +35738,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '6230',
   '2026-05-27',
   null,
@@ -26507,6 +35747,8 @@ from (
   0.16
 ),
 (
+  'TW',
+  'TWSE',
   '6235',
   '2026-05-27',
   15.41,
@@ -26514,6 +35756,8 @@ from (
   3.01
 ),
 (
+  'TW',
+  'TWSE',
   '6239',
   '2026-05-27',
   40.54,
@@ -26521,6 +35765,8 @@ from (
   1.32
 ),
 (
+  'TW',
+  'TWSE',
   '6243',
   '2026-05-27',
   null,
@@ -26528,6 +35774,8 @@ from (
   3.47
 ),
 (
+  'TW',
+  'TWSE',
   '6257',
   '2026-05-27',
   34.9,
@@ -26535,6 +35783,8 @@ from (
   1.8
 ),
 (
+  'TW',
+  'TWSE',
   '6269',
   '2026-05-27',
   null,
@@ -26542,6 +35792,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '6271',
   '2026-05-27',
   37.76,
@@ -26549,6 +35801,8 @@ from (
   1.18
 ),
 (
+  'TW',
+  'TWSE',
   '6272',
   '2026-05-27',
   14.13,
@@ -26556,6 +35810,8 @@ from (
   5.85
 ),
 (
+  'TW',
+  'TWSE',
   '6277',
   '2026-05-27',
   23.32,
@@ -26563,6 +35819,8 @@ from (
   4.62
 ),
 (
+  'TW',
+  'TWSE',
   '6278',
   '2026-05-27',
   26.88,
@@ -26570,6 +35828,8 @@ from (
   2.34
 ),
 (
+  'TW',
+  'TWSE',
   '6281',
   '2026-05-27',
   13.51,
@@ -26577,6 +35837,8 @@ from (
   6.55
 ),
 (
+  'TW',
+  'TWSE',
   '6282',
   '2026-05-27',
   118.8,
@@ -26584,6 +35846,8 @@ from (
   1.35
 ),
 (
+  'TW',
+  'TWSE',
   '6283',
   '2026-05-27',
   null,
@@ -26591,6 +35855,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '6285',
   '2026-05-27',
   45.94,
@@ -26598,6 +35864,8 @@ from (
   1.38
 ),
 (
+  'TW',
+  'TWSE',
   '6405',
   '2026-05-27',
   null,
@@ -26605,6 +35873,8 @@ from (
   0.12
 ),
 (
+  'TW',
+  'TWSE',
   '6409',
   '2026-05-27',
   20.25,
@@ -26612,6 +35882,8 @@ from (
   5.23
 ),
 (
+  'TW',
+  'TWSE',
   '6412',
   '2026-05-27',
   19.23,
@@ -26619,6 +35891,8 @@ from (
   3.7
 ),
 (
+  'TW',
+  'TWSE',
   '6414',
   '2026-05-27',
   16.73,
@@ -26626,6 +35900,8 @@ from (
   3.89
 ),
 (
+  'TW',
+  'TWSE',
   '6415',
   '2026-05-27',
   89.38,
@@ -26633,6 +35909,8 @@ from (
   0.38
 ),
 (
+  'TW',
+  'TWSE',
   '6416',
   '2026-05-27',
   20.33,
@@ -26640,6 +35918,8 @@ from (
   3.03
 ),
 (
+  'TW',
+  'TWSE',
   '6426',
   '2026-05-27',
   539.42,
@@ -26647,6 +35927,8 @@ from (
   0.18
 ),
 (
+  'TW',
+  'TWSE',
   '6431',
   '2026-05-27',
   null,
@@ -26654,6 +35936,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '6438',
   '2026-05-27',
   31.41,
@@ -26661,6 +35945,8 @@ from (
   2.92
 ),
 (
+  'TW',
+  'TWSE',
   '6442',
   '2026-05-27',
   76.95,
@@ -26668,6 +35954,8 @@ from (
   0.58
 ),
 (
+  'TW',
+  'TWSE',
   '6443',
   '2026-05-27',
   null,
@@ -26675,6 +35963,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '6446',
   '2026-05-27',
   54.98,
@@ -26682,6 +35972,8 @@ from (
   0.3
 ),
 (
+  'TW',
+  'TWSE',
   '6449',
   '2026-05-27',
   48.11,
@@ -26689,6 +35981,8 @@ from (
   1.14
 ),
 (
+  'TW',
+  'TWSE',
   '6451',
   '2026-05-27',
   null,
@@ -26696,6 +35990,8 @@ from (
   0.04
 ),
 (
+  'TW',
+  'TWSE',
   '6456',
   '2026-05-27',
   null,
@@ -26703,6 +35999,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '6464',
   '2026-05-27',
   19.07,
@@ -26710,6 +36008,8 @@ from (
   2.23
 ),
 (
+  'TW',
+  'TWSE',
   '6472',
   '2026-05-27',
   27.46,
@@ -26717,6 +36017,8 @@ from (
   2.89
 ),
 (
+  'TW',
+  'TWSE',
   '6477',
   '2026-05-27',
   376.67,
@@ -26724,6 +36026,8 @@ from (
   1.03
 ),
 (
+  'TW',
+  'TWSE',
   '6491',
   '2026-05-27',
   15.63,
@@ -26731,6 +36035,8 @@ from (
   3.08
 ),
 (
+  'TW',
+  'TWSE',
   '6504',
   '2026-05-27',
   null,
@@ -26738,6 +36044,8 @@ from (
   2.67
 ),
 (
+  'TW',
+  'TWSE',
   '6505',
   '2026-05-27',
   17.96,
@@ -26745,6 +36053,8 @@ from (
   2.4
 ),
 (
+  'TW',
+  'TWSE',
   '6515',
   '2026-05-27',
   200.72,
@@ -26752,6 +36062,8 @@ from (
   0.51
 ),
 (
+  'TW',
+  'TWSE',
   '6525',
   '2026-05-27',
   21.33,
@@ -26759,6 +36071,8 @@ from (
   3.86
 ),
 (
+  'TW',
+  'TWSE',
   '6526',
   '2026-05-27',
   39.15,
@@ -26766,6 +36080,8 @@ from (
   1.98
 ),
 (
+  'TW',
+  'TWSE',
   '6531',
   '2026-05-27',
   109.76,
@@ -26773,6 +36089,8 @@ from (
   0.65
 ),
 (
+  'TW',
+  'TWSE',
   '6533',
   '2026-05-27',
   null,
@@ -26780,6 +36098,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '6534',
   '2026-05-27',
   19.85,
@@ -26787,6 +36107,8 @@ from (
   5.06
 ),
 (
+  'TW',
+  'TWSE',
   '6541',
   '2026-05-27',
   null,
@@ -26794,6 +36116,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '6550',
   '2026-05-27',
   null,
@@ -26801,6 +36125,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '6552',
   '2026-05-27',
   null,
@@ -26808,6 +36134,8 @@ from (
   0.55
 ),
 (
+  'TW',
+  'TWSE',
   '6558',
   '2026-05-27',
   null,
@@ -26815,6 +36143,8 @@ from (
   0.95
 ),
 (
+  'TW',
+  'TWSE',
   '6573',
   '2026-05-27',
   10.31,
@@ -26822,6 +36152,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '6579',
   '2026-05-27',
   32.48,
@@ -26829,6 +36161,8 @@ from (
   2.12
 ),
 (
+  'TW',
+  'TWSE',
   '6581',
   '2026-05-27',
   17.57,
@@ -26836,6 +36170,8 @@ from (
   4.98
 ),
 (
+  'TW',
+  'TWSE',
   '6582',
   '2026-05-27',
   null,
@@ -26843,6 +36179,8 @@ from (
   3.28
 ),
 (
+  'TW',
+  'TWSE',
   '6585',
   '2026-05-27',
   19.27,
@@ -26850,6 +36188,8 @@ from (
   4.77
 ),
 (
+  'TW',
+  'TWSE',
   '6589',
   '2026-05-27',
   null,
@@ -26857,6 +36197,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '6591',
   '2026-05-27',
   12.91,
@@ -26864,6 +36206,8 @@ from (
   7.22
 ),
 (
+  'TW',
+  'TWSE',
   '6592',
   '2026-05-27',
   12.28,
@@ -26871,6 +36215,8 @@ from (
   5.46
 ),
 (
+  'TW',
+  'TWSE',
   '6598',
   '2026-05-27',
   null,
@@ -26878,6 +36224,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '6605',
   '2026-05-27',
   9.6,
@@ -26885,6 +36233,8 @@ from (
   5.08
 ),
 (
+  'TW',
+  'TWSE',
   '6606',
   '2026-05-27',
   23.62,
@@ -26892,6 +36242,8 @@ from (
   4
 ),
 (
+  'TW',
+  'TWSE',
   '6614',
   '2026-05-27',
   15.4,
@@ -26899,6 +36251,8 @@ from (
   4.3
 ),
 (
+  'TW',
+  'TWSE',
   '6625',
   '2026-05-27',
   7.21,
@@ -26906,6 +36260,8 @@ from (
   6.92
 ),
 (
+  'TW',
+  'TWSE',
   '6641',
   '2026-05-27',
   37.71,
@@ -26913,6 +36269,8 @@ from (
   2.21
 ),
 (
+  'TW',
+  'TWSE',
   '6645',
   '2026-05-27',
   null,
@@ -26920,6 +36278,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '6655',
   '2026-05-27',
   32.27,
@@ -26927,6 +36287,8 @@ from (
   4.58
 ),
 (
+  'TW',
+  'TWSE',
   '6657',
   '2026-05-27',
   null,
@@ -26934,6 +36296,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '6658',
   '2026-05-27',
   88.31,
@@ -26941,6 +36305,8 @@ from (
   0.52
 ),
 (
+  'TW',
+  'TWSE',
   '6666',
   '2026-05-27',
   18.38,
@@ -26948,6 +36314,8 @@ from (
   5.04
 ),
 (
+  'TW',
+  'TWSE',
   '6668',
   '2026-05-27',
   null,
@@ -26955,6 +36323,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '6669',
   '2026-05-27',
   17.01,
@@ -26962,6 +36332,8 @@ from (
   3.25
 ),
 (
+  'TW',
+  'TWSE',
   '6670',
   '2026-05-27',
   12.71,
@@ -26969,6 +36341,8 @@ from (
   6.11
 ),
 (
+  'TW',
+  'TWSE',
   '6671',
   '2026-05-27',
   12.04,
@@ -26976,6 +36350,8 @@ from (
   4.41
 ),
 (
+  'TW',
+  'TWSE',
   '6672',
   '2026-05-27',
   38.25,
@@ -26983,6 +36359,8 @@ from (
   1.58
 ),
 (
+  'TW',
+  'TWSE',
   '6674',
   '2026-05-27',
   null,
@@ -26990,6 +36368,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '6689',
   '2026-05-27',
   28.85,
@@ -26997,6 +36377,8 @@ from (
   3.07
 ),
 (
+  'TW',
+  'TWSE',
   '6691',
   '2026-05-27',
   24.97,
@@ -27004,6 +36386,8 @@ from (
   3.26
 ),
 (
+  'TW',
+  'TWSE',
   '6695',
   '2026-05-27',
   null,
@@ -27011,6 +36395,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '6698',
   '2026-05-27',
   null,
@@ -27018,6 +36404,8 @@ from (
   1.37
 ),
 (
+  'TW',
+  'TWSE',
   '6706',
   '2026-05-27',
   null,
@@ -27025,6 +36413,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '6715',
   '2026-05-27',
   221.33,
@@ -27032,6 +36422,8 @@ from (
   0.43
 ),
 (
+  'TW',
+  'TWSE',
   '6719',
   '2026-05-27',
   35.52,
@@ -27039,6 +36431,8 @@ from (
   1.8
 ),
 (
+  'TW',
+  'TWSE',
   '6722',
   '2026-05-27',
   15.59,
@@ -27046,6 +36440,8 @@ from (
   5.19
 ),
 (
+  'TW',
+  'TWSE',
   '6742',
   '2026-05-27',
   null,
@@ -27053,6 +36449,8 @@ from (
   0.52
 ),
 (
+  'TW',
+  'TWSE',
   '6743',
   '2026-05-27',
   35.24,
@@ -27060,6 +36458,8 @@ from (
   10.38
 ),
 (
+  'TW',
+  'TWSE',
   '6753',
   '2026-05-27',
   17.44,
@@ -27067,6 +36467,8 @@ from (
   1.01
 ),
 (
+  'TW',
+  'TWSE',
   '6754',
   '2026-05-27',
   13.43,
@@ -27074,6 +36476,8 @@ from (
   8.05
 ),
 (
+  'TW',
+  'TWSE',
   '6756',
   '2026-05-27',
   69.08,
@@ -27081,6 +36485,8 @@ from (
   0.86
 ),
 (
+  'TW',
+  'TWSE',
   '6757',
   '2026-05-27',
   8.76,
@@ -27088,6 +36494,8 @@ from (
   4.44
 ),
 (
+  'TW',
+  'TWSE',
   '6768',
   '2026-05-27',
   15.72,
@@ -27095,6 +36503,8 @@ from (
   6.22
 ),
 (
+  'TW',
+  'TWSE',
   '6770',
   '2026-05-27',
   42.26,
@@ -27102,6 +36512,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '6771',
   '2026-05-27',
   14.09,
@@ -27109,6 +36521,8 @@ from (
   7.62
 ),
 (
+  'TW',
+  'TWSE',
   '6776',
   '2026-05-27',
   14.48,
@@ -27116,6 +36530,8 @@ from (
   5.15
 ),
 (
+  'TW',
+  'TWSE',
   '6781',
   '2026-05-27',
   30.79,
@@ -27123,6 +36539,8 @@ from (
   1.59
 ),
 (
+  'TW',
+  'TWSE',
   '6782',
   '2026-05-27',
   12.99,
@@ -27130,6 +36548,8 @@ from (
   4.36
 ),
 (
+  'TW',
+  'TWSE',
   '6789',
   '2026-05-27',
   116.77,
@@ -27137,6 +36557,8 @@ from (
   0.55
 ),
 (
+  'TW',
+  'TWSE',
   '6790',
   '2026-05-27',
   12.75,
@@ -27144,6 +36566,8 @@ from (
   6.77
 ),
 (
+  'TW',
+  'TWSE',
   '6792',
   '2026-05-27',
   30.93,
@@ -27151,6 +36575,8 @@ from (
   3.59
 ),
 (
+  'TW',
+  'TWSE',
   '6794',
   '2026-05-27',
   null,
@@ -27158,6 +36584,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '6796',
   '2026-05-27',
   null,
@@ -27165,6 +36593,8 @@ from (
   0.4
 ),
 (
+  'TW',
+  'TWSE',
   '6799',
   '2026-05-27',
   30.17,
@@ -27172,6 +36602,8 @@ from (
   2.28
 ),
 (
+  'TW',
+  'TWSE',
   '6805',
   '2026-05-27',
   44.41,
@@ -27179,6 +36611,8 @@ from (
   0.72
 ),
 (
+  'TW',
+  'TWSE',
   '6806',
   '2026-05-27',
   null,
@@ -27186,6 +36620,8 @@ from (
   18.17
 ),
 (
+  'TW',
+  'TWSE',
   '6807',
   '2026-05-27',
   9.68,
@@ -27193,6 +36629,8 @@ from (
   7.58
 ),
 (
+  'TW',
+  'TWSE',
   '6830',
   '2026-05-27',
   null,
@@ -27200,6 +36638,8 @@ from (
   0.14
 ),
 (
+  'TW',
+  'TWSE',
   '6831',
   '2026-05-27',
   166.67,
@@ -27207,6 +36647,8 @@ from (
   0.37
 ),
 (
+  'TW',
+  'TWSE',
   '6834',
   '2026-05-27',
   127.38,
@@ -27214,6 +36656,8 @@ from (
   0.51
 ),
 (
+  'TW',
+  'TWSE',
   '6835',
   '2026-05-27',
   298.08,
@@ -27221,6 +36665,8 @@ from (
   2.58
 ),
 (
+  'TW',
+  'TWSE',
   '6838',
   '2026-05-27',
   null,
@@ -27228,6 +36674,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '6854',
   '2026-05-27',
   null,
@@ -27235,6 +36683,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '6861',
   '2026-05-27',
   93.9,
@@ -27242,6 +36692,8 @@ from (
   0.43
 ),
 (
+  'TW',
+  'TWSE',
   '6862',
   '2026-05-27',
   30.49,
@@ -27249,6 +36701,8 @@ from (
   2.69
 ),
 (
+  'TW',
+  'TWSE',
   '6863',
   '2026-05-27',
   103.67,
@@ -27256,6 +36710,8 @@ from (
   1.33
 ),
 (
+  'TW',
+  'TWSE',
   '6869',
   '2026-05-27',
   null,
@@ -27263,6 +36719,8 @@ from (
   2.38
 ),
 (
+  'TW',
+  'TWSE',
   '6873',
   '2026-05-27',
   28.6,
@@ -27270,6 +36728,8 @@ from (
   2.72
 ),
 (
+  'TW',
+  'TWSE',
   '6885',
   '2026-05-27',
   null,
@@ -27277,6 +36737,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '6887',
   '2026-05-27',
   13.76,
@@ -27284,6 +36746,8 @@ from (
   7.42
 ),
 (
+  'TW',
+  'TWSE',
   '6890',
   '2026-05-27',
   16.86,
@@ -27291,6 +36755,8 @@ from (
   5.28
 ),
 (
+  'TW',
+  'TWSE',
   '6901',
   '2026-05-27',
   null,
@@ -27298,6 +36764,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '6902',
   '2026-05-27',
   46.25,
@@ -27305,6 +36773,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '6906',
   '2026-05-27',
   52.02,
@@ -27312,6 +36782,8 @@ from (
   1.75
 ),
 (
+  'TW',
+  'TWSE',
   '6908',
   '2026-05-27',
   28.6,
@@ -27319,6 +36791,8 @@ from (
   3.19
 ),
 (
+  'TW',
+  'TWSE',
   '6909',
   '2026-05-27',
   65.43,
@@ -27326,6 +36800,8 @@ from (
   1.89
 ),
 (
+  'TW',
+  'TWSE',
   '6914',
   '2026-05-27',
   14.31,
@@ -27333,6 +36809,8 @@ from (
   5.71
 ),
 (
+  'TW',
+  'TWSE',
   '6916',
   '2026-05-27',
   null,
@@ -27340,6 +36818,8 @@ from (
   1.56
 ),
 (
+  'TW',
+  'TWSE',
   '6918',
   '2026-05-27',
   14.39,
@@ -27347,6 +36827,8 @@ from (
   6.84
 ),
 (
+  'TW',
+  'TWSE',
   '6919',
   '2026-05-27',
   null,
@@ -27354,6 +36836,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '6921',
   '2026-05-27',
   223.82,
@@ -27361,6 +36845,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '6923',
   '2026-05-27',
   25.57,
@@ -27368,6 +36854,8 @@ from (
   3.82
 ),
 (
+  'TW',
+  'TWSE',
   '6924',
   '2026-05-27',
   24.59,
@@ -27375,6 +36863,8 @@ from (
   3.05
 ),
 (
+  'TW',
+  'TWSE',
   '6928',
   '2026-05-27',
   null,
@@ -27382,6 +36872,8 @@ from (
   1.07
 ),
 (
+  'TW',
+  'TWSE',
   '6931',
   '2026-05-27',
   20.7,
@@ -27389,6 +36881,8 @@ from (
   1.2
 ),
 (
+  'TW',
+  'TWSE',
   '6933',
   '2026-05-27',
   27.52,
@@ -27396,6 +36890,8 @@ from (
   1.52
 ),
 (
+  'TW',
+  'TWSE',
   '6934',
   '2026-05-27',
   null,
@@ -27403,6 +36899,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '6936',
   '2026-05-27',
   17.43,
@@ -27410,6 +36908,8 @@ from (
   4.58
 ),
 (
+  'TW',
+  'TWSE',
   '6937',
   '2026-05-27',
   98.46,
@@ -27417,6 +36917,8 @@ from (
   0.44
 ),
 (
+  'TW',
+  'TWSE',
   '6944',
   '2026-05-27',
   26.34,
@@ -27424,6 +36926,8 @@ from (
   2.14
 ),
 (
+  'TW',
+  'TWSE',
   '6949',
   '2026-05-27',
   null,
@@ -27431,6 +36935,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '6951',
   '2026-05-27',
   14.03,
@@ -27438,6 +36944,8 @@ from (
   6.57
 ),
 (
+  'TW',
+  'TWSE',
   '6952',
   '2026-05-27',
   47.79,
@@ -27445,6 +36953,8 @@ from (
   5.43
 ),
 (
+  'TW',
+  'TWSE',
   '6955',
   '2026-05-27',
   36.2,
@@ -27452,6 +36962,8 @@ from (
   2.01
 ),
 (
+  'TW',
+  'TWSE',
   '6957',
   '2026-05-27',
   16,
@@ -27459,6 +36971,8 @@ from (
   5.33
 ),
 (
+  'TW',
+  'TWSE',
   '6958',
   '2026-05-27',
   null,
@@ -27466,6 +36980,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '6962',
   '2026-05-27',
   25.92,
@@ -27473,6 +36989,8 @@ from (
   2.64
 ),
 (
+  'TW',
+  'TWSE',
   '6965',
   '2026-05-27',
   47.2,
@@ -27480,6 +36998,8 @@ from (
   6.58
 ),
 (
+  'TW',
+  'TWSE',
   '6969',
   '2026-05-27',
   null,
@@ -27487,6 +37007,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '6988',
   '2026-05-27',
   null,
@@ -27494,6 +37016,8 @@ from (
   2.74
 ),
 (
+  'TW',
+  'TWSE',
   '6994',
   '2026-05-27',
   9.63,
@@ -27501,6 +37025,8 @@ from (
   4.97
 ),
 (
+  'TW',
+  'TWSE',
   '7610',
   '2026-05-27',
   76.16,
@@ -27508,6 +37034,8 @@ from (
   0.2
 ),
 (
+  'TW',
+  'TWSE',
   '7631',
   '2026-05-27',
   17.48,
@@ -27515,6 +37043,8 @@ from (
   2.97
 ),
 (
+  'TW',
+  'TWSE',
   '7705',
   '2026-05-27',
   13.72,
@@ -27522,6 +37052,8 @@ from (
   5.23
 ),
 (
+  'TW',
+  'TWSE',
   '7711',
   '2026-05-27',
   34.29,
@@ -27529,6 +37061,8 @@ from (
   2.34
 ),
 (
+  'TW',
+  'TWSE',
   '7721',
   '2026-05-27',
   127.29,
@@ -27536,6 +37070,8 @@ from (
   1.33
 ),
 (
+  'TW',
+  'TWSE',
   '7722',
   '2026-05-27',
   36.95,
@@ -27543,6 +37079,8 @@ from (
   0.77
 ),
 (
+  'TW',
+  'TWSE',
   '7730',
   '2026-05-27',
   109.84,
@@ -27550,6 +37088,8 @@ from (
   0.71
 ),
 (
+  'TW',
+  'TWSE',
   '7732',
   '2026-05-27',
   20.64,
@@ -27557,6 +37097,8 @@ from (
   4.2
 ),
 (
+  'TW',
+  'TWSE',
   '7736',
   '2026-05-27',
   15.56,
@@ -27564,6 +37106,8 @@ from (
   5.34
 ),
 (
+  'TW',
+  'TWSE',
   '7740',
   '2026-05-27',
   23.18,
@@ -27571,6 +37115,8 @@ from (
   2.01
 ),
 (
+  'TW',
+  'TWSE',
   '7749',
   '2026-05-27',
   40.09,
@@ -27578,6 +37124,8 @@ from (
   1.8
 ),
 (
+  'TW',
+  'TWSE',
   '7750',
   '2026-05-27',
   62.62,
@@ -27585,6 +37133,8 @@ from (
   0.64
 ),
 (
+  'TW',
+  'TWSE',
   '7760',
   '2026-05-27',
   55.51,
@@ -27592,6 +37142,8 @@ from (
   6.72
 ),
 (
+  'TW',
+  'TWSE',
   '7765',
   '2026-05-27',
   22.05,
@@ -27599,6 +37151,8 @@ from (
   3.96
 ),
 (
+  'TW',
+  'TWSE',
   '7768',
   '2026-05-27',
   124.27,
@@ -27606,6 +37160,8 @@ from (
   1.03
 ),
 (
+  'TW',
+  'TWSE',
   '7769',
   '2026-05-27',
   97.33,
@@ -27613,6 +37169,8 @@ from (
   0.83
 ),
 (
+  'TW',
+  'TWSE',
   '7780',
   '2026-05-27',
   42.26,
@@ -27620,6 +37178,8 @@ from (
   3.94
 ),
 (
+  'TW',
+  'TWSE',
   '7786',
   '2026-05-27',
   11.95,
@@ -27627,6 +37187,8 @@ from (
   4.79
 ),
 (
+  'TW',
+  'TWSE',
   '7788',
   '2026-05-27',
   49.87,
@@ -27634,6 +37196,8 @@ from (
   1.06
 ),
 (
+  'TW',
+  'TWSE',
   '7791',
   '2026-05-27',
   14.41,
@@ -27641,6 +37205,8 @@ from (
   5.77
 ),
 (
+  'TW',
+  'TWSE',
   '7795',
   '2026-05-27',
   145.88,
@@ -27648,6 +37214,8 @@ from (
   0.53
 ),
 (
+  'TW',
+  'TWSE',
   '7799',
   '2026-05-27',
   null,
@@ -27655,6 +37223,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '7803',
   '2026-05-27',
   null,
@@ -27662,6 +37232,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '7818',
   '2026-05-27',
   11.73,
@@ -27669,6 +37241,8 @@ from (
   3.38
 ),
 (
+  'TW',
+  'TWSE',
   '7821',
   '2026-05-27',
   14.5,
@@ -27676,6 +37250,8 @@ from (
   4.61
 ),
 (
+  'TW',
+  'TWSE',
   '7822',
   '2026-05-27',
   89.66,
@@ -27683,6 +37259,8 @@ from (
   0.61
 ),
 (
+  'TW',
+  'TWSE',
   '7823',
   '2026-05-27',
   null,
@@ -27690,6 +37268,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '8011',
   '2026-05-27',
   20.65,
@@ -27697,6 +37277,8 @@ from (
   3.99
 ),
 (
+  'TW',
+  'TWSE',
   '8016',
   '2026-05-27',
   18.91,
@@ -27704,6 +37286,8 @@ from (
   3.82
 ),
 (
+  'TW',
+  'TWSE',
   '8021',
   '2026-05-27',
   124.93,
@@ -27711,6 +37295,8 @@ from (
   0.46
 ),
 (
+  'TW',
+  'TWSE',
   '8028',
   '2026-05-27',
   68.14,
@@ -27718,6 +37304,8 @@ from (
   0.91
 ),
 (
+  'TW',
+  'TWSE',
   '8033',
   '2026-05-27',
   201.49,
@@ -27725,6 +37313,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '8039',
   '2026-05-27',
   67.51,
@@ -27732,6 +37322,8 @@ from (
   1.25
 ),
 (
+  'TW',
+  'TWSE',
   '8045',
   '2026-05-27',
   92.86,
@@ -27739,6 +37331,8 @@ from (
   1.54
 ),
 (
+  'TW',
+  'TWSE',
   '8046',
   '2026-05-27',
   191.74,
@@ -27746,6 +37340,8 @@ from (
   0.22
 ),
 (
+  'TW',
+  'TWSE',
   '8070',
   '2026-05-27',
   47.45,
@@ -27753,6 +37349,8 @@ from (
   5.39
 ),
 (
+  'TW',
+  'TWSE',
   '8072',
   '2026-05-27',
   27.11,
@@ -27760,6 +37358,8 @@ from (
   3.62
 ),
 (
+  'TW',
+  'TWSE',
   '8081',
   '2026-05-27',
   16.39,
@@ -27767,6 +37367,8 @@ from (
   5.56
 ),
 (
+  'TW',
+  'TWSE',
   '8101',
   '2026-05-27',
   null,
@@ -27774,6 +37376,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '8103',
   '2026-05-27',
   22.84,
@@ -27781,6 +37385,8 @@ from (
   2.64
 ),
 (
+  'TW',
+  'TWSE',
   '8104',
   '2026-05-27',
   null,
@@ -27788,6 +37394,8 @@ from (
   0.54
 ),
 (
+  'TW',
+  'TWSE',
   '8105',
   '2026-05-27',
   560,
@@ -27795,6 +37403,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '8110',
   '2026-05-27',
   22.2,
@@ -27802,6 +37412,8 @@ from (
   2.48
 ),
 (
+  'TW',
+  'TWSE',
   '8112',
   '2026-05-27',
   10.36,
@@ -27809,6 +37421,8 @@ from (
   4.42
 ),
 (
+  'TW',
+  'TWSE',
   '8114',
   '2026-05-27',
   17.8,
@@ -27816,6 +37430,8 @@ from (
   4.3
 ),
 (
+  'TW',
+  'TWSE',
   '8131',
   '2026-05-27',
   34.8,
@@ -27823,6 +37439,8 @@ from (
   1.45
 ),
 (
+  'TW',
+  'TWSE',
   '8150',
   '2026-05-27',
   79.58,
@@ -27830,6 +37448,8 @@ from (
   1.31
 ),
 (
+  'TW',
+  'TWSE',
   '8162',
   '2026-05-27',
   51.45,
@@ -27837,6 +37457,8 @@ from (
   2.11
 ),
 (
+  'TW',
+  'TWSE',
   '8163',
   '2026-05-27',
   70.59,
@@ -27844,6 +37466,8 @@ from (
   1.39
 ),
 (
+  'TW',
+  'TWSE',
   '8201',
   '2026-05-27',
   null,
@@ -27851,6 +37475,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '8210',
   '2026-05-27',
   41.36,
@@ -27858,6 +37484,8 @@ from (
   1
 ),
 (
+  'TW',
+  'TWSE',
   '8213',
   '2026-05-27',
   21.06,
@@ -27865,6 +37493,8 @@ from (
   2.8
 ),
 (
+  'TW',
+  'TWSE',
   '8215',
   '2026-05-27',
   null,
@@ -27872,6 +37502,8 @@ from (
   1.03
 ),
 (
+  'TW',
+  'TWSE',
   '8222',
   '2026-05-27',
   56.39,
@@ -27879,6 +37511,8 @@ from (
   1.02
 ),
 (
+  'TW',
+  'TWSE',
   '8249',
   '2026-05-27',
   21.08,
@@ -27886,6 +37520,8 @@ from (
   3.72
 ),
 (
+  'TW',
+  'TWSE',
   '8261',
   '2026-05-27',
   33.39,
@@ -27893,6 +37529,8 @@ from (
   2.56
 ),
 (
+  'TW',
+  'TWSE',
   '8271',
   '2026-05-27',
   11.33,
@@ -27900,6 +37538,8 @@ from (
   1.94
 ),
 (
+  'TW',
+  'TWSE',
   '8341',
   '2026-05-27',
   16.04,
@@ -27907,6 +37547,8 @@ from (
   5.31
 ),
 (
+  'TW',
+  'TWSE',
   '8367',
   '2026-05-27',
   11.52,
@@ -27914,6 +37556,8 @@ from (
   7.03
 ),
 (
+  'TW',
+  'TWSE',
   '8374',
   '2026-05-27',
   null,
@@ -27921,6 +37565,8 @@ from (
   0.19
 ),
 (
+  'TW',
+  'TWSE',
   '8404',
   '2026-05-27',
   14.86,
@@ -27928,6 +37574,8 @@ from (
   3.09
 ),
 (
+  'TW',
+  'TWSE',
   '8411',
   '2026-05-27',
   120.5,
@@ -27935,6 +37583,8 @@ from (
   0.83
 ),
 (
+  'TW',
+  'TWSE',
   '8422',
   '2026-05-27',
   25.28,
@@ -27942,6 +37592,8 @@ from (
   4.4
 ),
 (
+  'TW',
+  'TWSE',
   '8429',
   '2026-05-27',
   57.36,
@@ -27949,6 +37601,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '8438',
   '2026-05-27',
   33.65,
@@ -27956,6 +37610,8 @@ from (
   1.47
 ),
 (
+  'TW',
+  'TWSE',
   '8442',
   '2026-05-27',
   22.23,
@@ -27963,6 +37619,8 @@ from (
   7.54
 ),
 (
+  'TW',
+  'TWSE',
   '8443',
   '2026-05-27',
   null,
@@ -27970,6 +37628,8 @@ from (
   1.78
 ),
 (
+  'TW',
+  'TWSE',
   '8454',
   '2026-05-27',
   18.23,
@@ -27977,6 +37637,8 @@ from (
   5.24
 ),
 (
+  'TW',
+  'TWSE',
   '8462',
   '2026-05-27',
   14.82,
@@ -27984,6 +37646,8 @@ from (
   5.37
 ),
 (
+  'TW',
+  'TWSE',
   '8463',
   '2026-05-27',
   10.19,
@@ -27991,6 +37655,8 @@ from (
   3.7
 ),
 (
+  'TW',
+  'TWSE',
   '8464',
   '2026-05-27',
   13.86,
@@ -27998,6 +37664,8 @@ from (
   5.23
 ),
 (
+  'TW',
+  'TWSE',
   '8466',
   '2026-05-27',
   null,
@@ -28005,6 +37673,8 @@ from (
   1.82
 ),
 (
+  'TW',
+  'TWSE',
   '8467',
   '2026-05-27',
   15.16,
@@ -28012,6 +37682,8 @@ from (
   5.41
 ),
 (
+  'TW',
+  'TWSE',
   '8473',
   '2026-05-27',
   15.04,
@@ -28019,6 +37691,8 @@ from (
   4.39
 ),
 (
+  'TW',
+  'TWSE',
   '8476',
   '2026-05-27',
   36.07,
@@ -28026,6 +37700,8 @@ from (
   1.32
 ),
 (
+  'TW',
+  'TWSE',
   '8478',
   '2026-05-27',
   9.14,
@@ -28033,6 +37709,8 @@ from (
   4.33
 ),
 (
+  'TW',
+  'TWSE',
   '8481',
   '2026-05-27',
   13.38,
@@ -28040,6 +37718,8 @@ from (
   6.74
 ),
 (
+  'TW',
+  'TWSE',
   '8482',
   '2026-05-27',
   20.36,
@@ -28047,6 +37727,8 @@ from (
   4.08
 ),
 (
+  'TW',
+  'TWSE',
   '8487',
   '2026-05-27',
   14.57,
@@ -28054,6 +37736,8 @@ from (
   5.89
 ),
 (
+  'TW',
+  'TWSE',
   '8488',
   '2026-05-27',
   null,
@@ -28061,6 +37745,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '8499',
   '2026-05-27',
   31.41,
@@ -28068,6 +37754,8 @@ from (
   2.55
 ),
 (
+  'TW',
+  'TWSE',
   '8926',
   '2026-05-27',
   17.72,
@@ -28075,6 +37763,8 @@ from (
   3.33
 ),
 (
+  'TW',
+  'TWSE',
   '8940',
   '2026-05-27',
   26.51,
@@ -28082,6 +37772,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '8996',
   '2026-05-27',
   86.66,
@@ -28089,6 +37781,8 @@ from (
   0.38
 ),
 (
+  'TW',
+  'TWSE',
   '9802',
   '2026-05-27',
   12.95,
@@ -28096,6 +37790,8 @@ from (
   6.95
 ),
 (
+  'TW',
+  'TWSE',
   '9902',
   '2026-05-27',
   null,
@@ -28103,6 +37799,8 @@ from (
   2.19
 ),
 (
+  'TW',
+  'TWSE',
   '9904',
   '2026-05-27',
   6.98,
@@ -28110,6 +37808,8 @@ from (
   5.13
 ),
 (
+  'TW',
+  'TWSE',
   '9905',
   '2026-05-27',
   14.65,
@@ -28117,6 +37817,8 @@ from (
   5.33
 ),
 (
+  'TW',
+  'TWSE',
   '9906',
   '2026-05-27',
   12.56,
@@ -28124,6 +37826,8 @@ from (
   0.24
 ),
 (
+  'TW',
+  'TWSE',
   '9907',
   '2026-05-27',
   14.28,
@@ -28131,6 +37835,8 @@ from (
   7.44
 ),
 (
+  'TW',
+  'TWSE',
   '9908',
   '2026-05-27',
   16.47,
@@ -28138,6 +37844,8 @@ from (
   4.12
 ),
 (
+  'TW',
+  'TWSE',
   '9910',
   '2026-05-27',
   14.55,
@@ -28145,6 +37853,8 @@ from (
   6.1
 ),
 (
+  'TW',
+  'TWSE',
   '9911',
   '2026-05-27',
   12.89,
@@ -28152,6 +37862,8 @@ from (
   6.1
 ),
 (
+  'TW',
+  'TWSE',
   '9912',
   '2026-05-27',
   null,
@@ -28159,6 +37871,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '9914',
   '2026-05-27',
   17.54,
@@ -28166,6 +37880,8 @@ from (
   4.31
 ),
 (
+  'TW',
+  'TWSE',
   '9917',
   '2026-05-27',
   16.81,
@@ -28173,6 +37889,8 @@ from (
   5.44
 ),
 (
+  'TW',
+  'TWSE',
   '9918',
   '2026-05-27',
   25.8,
@@ -28180,6 +37898,8 @@ from (
   3.44
 ),
 (
+  'TW',
+  'TWSE',
   '9919',
   '2026-05-27',
   null,
@@ -28187,6 +37907,8 @@ from (
   1.41
 ),
 (
+  'TW',
+  'TWSE',
   '9921',
   '2026-05-27',
   165.5,
@@ -28194,6 +37916,8 @@ from (
   2.72
 ),
 (
+  'TW',
+  'TWSE',
   '9924',
   '2026-05-27',
   15.11,
@@ -28201,6 +37925,8 @@ from (
   6
 ),
 (
+  'TW',
+  'TWSE',
   '9925',
   '2026-05-27',
   16.68,
@@ -28208,6 +37934,8 @@ from (
   4.98
 ),
 (
+  'TW',
+  'TWSE',
   '9926',
   '2026-05-27',
   17.93,
@@ -28215,6 +37943,8 @@ from (
   4.29
 ),
 (
+  'TW',
+  'TWSE',
   '9927',
   '2026-05-27',
   13.78,
@@ -28222,6 +37952,8 @@ from (
   7.41
 ),
 (
+  'TW',
+  'TWSE',
   '9928',
   '2026-05-27',
   null,
@@ -28229,6 +37961,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '9929',
   '2026-05-27',
   42.04,
@@ -28236,6 +37970,8 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '9930',
   '2026-05-27',
   14.44,
@@ -28243,6 +37979,8 @@ from (
   5.86
 ),
 (
+  'TW',
+  'TWSE',
   '9931',
   '2026-05-27',
   14.2,
@@ -28250,6 +37988,8 @@ from (
   5.33
 ),
 (
+  'TW',
+  'TWSE',
   '9933',
   '2026-05-27',
   9.3,
@@ -28257,6 +37997,8 @@ from (
   2.54
 ),
 (
+  'TW',
+  'TWSE',
   '9934',
   '2026-05-27',
   null,
@@ -28264,6 +38006,8 @@ from (
   1.05
 ),
 (
+  'TW',
+  'TWSE',
   '9935',
   '2026-05-27',
   11.28,
@@ -28271,6 +38015,8 @@ from (
   6.49
 ),
 (
+  'TW',
+  'TWSE',
   '9937',
   '2026-05-27',
   22.25,
@@ -28278,6 +38024,8 @@ from (
   3.97
 ),
 (
+  'TW',
+  'TWSE',
   '9938',
   '2026-05-27',
   12.31,
@@ -28285,6 +38033,8 @@ from (
   7.08
 ),
 (
+  'TW',
+  'TWSE',
   '9939',
   '2026-05-27',
   13.58,
@@ -28292,6 +38042,8 @@ from (
   5.06
 ),
 (
+  'TW',
+  'TWSE',
   '9940',
   '2026-05-27',
   50.27,
@@ -28299,6 +38051,8 @@ from (
   3.23
 ),
 (
+  'TW',
+  'TWSE',
   '9941',
   '2026-05-27',
   10.54,
@@ -28306,6 +38060,8 @@ from (
   6.36
 ),
 (
+  'TW',
+  'TWSE',
   '9942',
   '2026-05-27',
   14.25,
@@ -28313,6 +38069,8 @@ from (
   5.98
 ),
 (
+  'TW',
+  'TWSE',
   '9943',
   '2026-05-27',
   15.33,
@@ -28320,6 +38078,8 @@ from (
   6.34
 ),
 (
+  'TW',
+  'TWSE',
   '9944',
   '2026-05-27',
   337,
@@ -28327,6 +38087,8 @@ from (
   1.78
 ),
 (
+  'TW',
+  'TWSE',
   '9945',
   '2026-05-27',
   6.53,
@@ -28334,6 +38096,8 @@ from (
   4.73
 ),
 (
+  'TW',
+  'TWSE',
   '9946',
   '2026-05-27',
   3.89,
@@ -28341,6 +38105,8 @@ from (
   8.46
 ),
 (
+  'TW',
+  'TWSE',
   '9955',
   '2026-05-27',
   39.08,
@@ -28348,14 +38114,19 @@ from (
   null
 ),
 (
+  'TW',
+  'TWSE',
   '9958',
   '2026-05-27',
   13.01,
   2.2,
   4.41
 )
-) as incoming(symbol, trade_date, pe, pb, dividend_yield)
-join public.stocks on stocks.symbol = incoming.symbol
+) as incoming(country, exchange, symbol, trade_date, pe, pb, dividend_yield)
+join public.stocks
+  on stocks.country = incoming.country
+  and stocks.exchange = incoming.exchange
+  and stocks.symbol = incoming.symbol
 on conflict (stock_id, trade_date) do update set
   pe = excluded.pe,
   pb = excluded.pb,

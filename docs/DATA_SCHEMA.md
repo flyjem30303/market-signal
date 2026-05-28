@@ -11,7 +11,12 @@
 | id | uuid | 主鍵 |
 | symbol | text | 股票代號，例如 2330 |
 | name | text | 股票名稱 |
-| market | text | TWSE / TPEx / ETF |
+| market | text | 市場分組，例如 TWSE / TPEx / INDEX |
+| country | text | 國家 / 地區代碼，例如 TW / US |
+| exchange | text | 交易所，例如 TWSE / TPEx / NASDAQ / NYSE |
+| currency | text | 交易幣別，例如 TWD / USD |
+| timezone | text | 交易所時區，例如 Asia/Taipei / America/New_York |
+| asset_type | text | stock / etf / index |
 | industry | text | 產業 |
 | listed_date | date | 上市日 |
 | is_etf | boolean | 是否 ETF |
@@ -37,8 +42,10 @@
 建議索引：
 
 ```sql
-unique(stock_id, trade_date)
+unique(country, exchange, symbol)
 ```
+
+注意：`symbol` 不可視為全球唯一鍵。台股 MVP 可繼續使用 `/stocks/2330`，但資料層必須以 `country + exchange + symbol` 作為全球擴張命名空間。
 
 ## daily_fundamentals
 

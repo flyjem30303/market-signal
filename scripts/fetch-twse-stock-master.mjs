@@ -57,7 +57,8 @@ function mergeStocks(existingStocks, fetchedStocks) {
   }
 
   return [...bySymbol.values()].sort((a, b) => {
-    if (a.market !== b.market) return a.market.localeCompare(b.market);
+    if (a.country !== b.country) return a.country.localeCompare(b.country);
+    if (a.exchange !== b.exchange) return a.exchange.localeCompare(b.exchange);
     return a.symbol.localeCompare(b.symbol);
   });
 }
@@ -92,6 +93,11 @@ async function fetchTwseListedCompanies() {
         symbol,
         name,
         market: "TWSE",
+        country: "TW",
+        exchange: "TWSE",
+        currency: "TWD",
+        timezone: "Asia/Taipei",
+        asset_type: "stock",
         industry,
         listed_date: listedDate,
         is_etf: false,

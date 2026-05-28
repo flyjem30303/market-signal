@@ -5,15 +5,21 @@ create extension if not exists "pgcrypto";
 
 create table if not exists public.stocks (
   id uuid primary key default gen_random_uuid(),
-  symbol text not null unique,
+  symbol text not null,
   name text not null,
   market text not null,
+  country text not null default 'TW',
+  exchange text not null default 'TWSE',
+  currency text not null default 'TWD',
+  timezone text not null default 'Asia/Taipei',
+  asset_type text not null default 'stock',
   industry text,
   listed_date date,
   is_etf boolean not null default false,
   is_active boolean not null default true,
   created_at timestamptz not null default now(),
-  updated_at timestamptz not null default now()
+  updated_at timestamptz not null default now(),
+  unique (country, exchange, symbol)
 );
 
 create table if not exists public.daily_prices (
@@ -121,3 +127,4 @@ create index if not exists daily_scores_trade_date_idx on public.daily_scores(tr
 create index if not exists daily_prices_trade_date_idx on public.daily_prices(trade_date desc);
 create index if not exists news_items_published_at_idx on public.news_items(published_at desc);
 create index if not exists stocks_market_industry_idx on public.stocks(market, industry);
+create index if not exists stocks_country_exchange_symbol_idx on public.stocks(country, exchange, symbol);

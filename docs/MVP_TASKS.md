@@ -9,11 +9,12 @@
 - [ ] 設定 ESLint / Prettier。
 - [ ] 建立 Vercel 專案。
 - [ ] 建立 Supabase 專案。
-- [ ] 補全球化資料模型欄位規格：country / exchange / currency / timezone / asset_type。
+- [x] 補全球化資料模型欄位規格：country / exchange / currency / timezone / asset_type。
 
 ## B. 資料庫
 
 - [x] 建立 stocks 表草案。
+- [x] 將 stocks 唯一命名空間調整為 country + exchange + symbol。
 - [x] 產生完整上市股票主檔 seed。
 - [x] 建立 Supabase bootstrap SQL 產生器。
 - [ ] 匯入完整上市股票主檔到 Supabase。

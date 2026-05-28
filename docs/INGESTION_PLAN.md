@@ -150,6 +150,8 @@ generate weekly summary
 - TWSE `產業別` 目前保留官方代碼，後續再建立產業代碼對照表，不在匯入腳本中硬轉換。
 - 已建立 TWSE 官方 OpenAPI 最新每日行情 / 估值 SQL 產生腳本：`npm run fetch:daily-market`。
 - 最新每日行情腳本會產生 `supabase/seed/002_seed_latest_market_data.sql`，只包含股票主檔已存在的代號。
+- 股票主檔已補全球化欄位：`country`、`exchange`、`currency`、`timezone`、`asset_type`。
+- TWSE 每日行情 SQL 已改用 `country + exchange + symbol` 對應 `stocks`，避免未來全球市場 symbol 碰撞。
 
 ## 模型 v1 資料需求
 

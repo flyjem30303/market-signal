@@ -74,6 +74,8 @@ function normalizeDailyPrice(record, knownSymbols) {
 
   return {
     symbol,
+    country: "TW",
+    exchange: "TWSE",
     trade_date: tradeDate,
     open: record.OpeningPrice,
     high: record.HighestPrice,
@@ -92,6 +94,8 @@ function normalizeDailyFundamental(record, knownSymbols) {
 
   return {
     symbol,
+    country: "TW",
+    exchange: "TWSE",
     trade_date: tradeDate,
     pe: record.PEratio,
     pb: record.PBratio,
@@ -103,6 +107,8 @@ function buildDailyPricesSql(rows) {
   if (rows.length === 0) return "";
 
   const values = rows.map((row) => `(
+  ${sqlString(row.country)},
+  ${sqlString(row.exchange)},
   ${sqlString(row.symbol)},
   ${sqlString(row.trade_date)},
   ${sqlNumber(row.open)},
@@ -135,8 +141,11 @@ select
 from (
   values
 ${values.join(",\n")}
-) as incoming(symbol, trade_date, open, high, low, close, volume, turnover)
-join public.stocks on stocks.symbol = incoming.symbol
+) as incoming(country, exchange, symbol, trade_date, open, high, low, close, volume, turnover)
+join public.stocks
+  on stocks.country = incoming.country
+  and stocks.exchange = incoming.exchange
+  and stocks.symbol = incoming.symbol
 on conflict (stock_id, trade_date) do update set
   open = excluded.open,
   high = excluded.high,
@@ -151,6 +160,8 @@ function buildDailyFundamentalsSql(rows) {
   if (rows.length === 0) return "";
 
   const values = rows.map((row) => `(
+  ${sqlString(row.country)},
+  ${sqlString(row.exchange)},
   ${sqlString(row.symbol)},
   ${sqlString(row.trade_date)},
   ${sqlNumber(row.pe)},
@@ -174,8 +185,11 @@ select
 from (
   values
 ${values.join(",\n")}
-) as incoming(symbol, trade_date, pe, pb, dividend_yield)
-join public.stocks on stocks.symbol = incoming.symbol
+) as incoming(country, exchange, symbol, trade_date, pe, pb, dividend_yield)
+join public.stocks
+  on stocks.country = incoming.country
+  and stocks.exchange = incoming.exchange
+  and stocks.symbol = incoming.symbol
 on conflict (stock_id, trade_date) do update set
   pe = excluded.pe,
   pb = excluded.pb,
