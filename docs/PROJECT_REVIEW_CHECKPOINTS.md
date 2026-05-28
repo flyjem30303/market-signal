@@ -290,6 +290,7 @@ docs/reviews/CP1_SCORE_SOURCE_UI_GUARD_2026-05-29.md
 docs/reviews/CP1_FRESHNESS_STATE_COPY_2026-05-29.md
 docs/reviews/CP3_MODEL_CREDIBILITY_PATH_2026-05-29.md
 docs/reviews/CP3_TW_STOCK_MODEL_CANDIDATES_2026-05-29.md
+docs/reviews/CP3_TW_STOCK_BACKTEST_METHOD_2026-05-29.md
 ```
 
 CEO approved proceeding only to internal raw market preview and diagnostics.

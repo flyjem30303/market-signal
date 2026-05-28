@@ -38,6 +38,11 @@ const checks = [
     name: "cp3-tw-stock-model"
   },
   {
+    command: [node, "scripts/check-cp3-tw-stock-backtest-method.mjs"],
+    expectStatus: "ok",
+    name: "cp3-tw-stock-backtest"
+  },
+  {
     command: [node, "scripts/check-score-source-ui.mjs"],
     expectStatus: "ok",
     name: "score-source-ui"

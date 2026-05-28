@@ -76,6 +76,7 @@ Current candidate documents:
 
 ```text
 docs/CP3_TW_STOCK_MODEL_CANDIDATES.md
+docs/CP3_TW_STOCK_BACKTEST_METHOD.md
 ```
 
 Not allowed:
