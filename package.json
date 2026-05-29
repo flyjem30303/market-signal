@@ -245,6 +245,7 @@
     "check:cp3-source-depth-local-only-chairman-review-handoff-packet-boundary-map-role-review": "node scripts/check-cp3-source-depth-local-only-chairman-review-handoff-packet-boundary-map-role-review.mjs",
     "check:cp3-source-depth-local-only-chairman-review-handoff-packet-rejection-gate-design": "node scripts/check-cp3-source-depth-local-only-chairman-review-handoff-packet-rejection-gate-design.mjs",
     "check:cp3-source-depth-local-only-chairman-review-handoff-packet-rejection-gate-design-role-review": "node scripts/check-cp3-source-depth-local-only-chairman-review-handoff-packet-rejection-gate-design-role-review.mjs",
+    "check:cp3-source-depth-local-only-chairman-review-handoff-packet-rejection-gate-checkpoint-summary": "node scripts/check-cp3-source-depth-local-only-chairman-review-handoff-packet-rejection-gate-checkpoint-summary.mjs",
     "check:cp3-tw-stock-data-quality-downgrade-matrix": "node scripts/check-cp3-tw-stock-data-quality-downgrade-matrix.mjs",
     "check:cp3-tw-stock-data-quality-downgrade-matrix-role-review": "node scripts/check-cp3-tw-stock-data-quality-downgrade-matrix-role-review.mjs",
     "check:cp3-global-model-version-naming-rules": "node scripts/check-cp3-global-model-version-naming-rules.mjs",
