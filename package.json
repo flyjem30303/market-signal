@@ -80,6 +80,7 @@
     "check:cp3-source-depth-evidence-artifact-approval-gate-plan-role-review": "node scripts/check-cp3-source-depth-evidence-artifact-approval-gate-plan-role-review.mjs",
     "check:cp3-source-depth-template-copy-approval-packet-design": "node scripts/check-cp3-source-depth-template-copy-approval-packet-design.mjs",
     "check:cp3-source-depth-template-copy-approval-packet-design-role-review": "node scripts/check-cp3-source-depth-template-copy-approval-packet-design-role-review.mjs",
+    "check:cp3-source-depth-template-copy-approval-packet-blank-template-design": "node scripts/check-cp3-source-depth-template-copy-approval-packet-blank-template-design.mjs",
     "check:cp3-tw-stock-data-quality-downgrade-matrix": "node scripts/check-cp3-tw-stock-data-quality-downgrade-matrix.mjs",
     "check:cp3-tw-stock-data-quality-downgrade-matrix-role-review": "node scripts/check-cp3-tw-stock-data-quality-downgrade-matrix-role-review.mjs",
     "check:cp3-global-model-version-naming-rules": "node scripts/check-cp3-global-model-version-naming-rules.mjs",
