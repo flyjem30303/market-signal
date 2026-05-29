@@ -86,6 +86,7 @@
     "check:cp3-source-depth-template-copy-approval-packet-template": "node scripts/check-cp3-source-depth-template-copy-approval-packet-template.mjs",
     "check:cp3-source-depth-template-copy-approval-packet-template-role-review": "node scripts/check-cp3-source-depth-template-copy-approval-packet-template-role-review.mjs",
     "check:cp3-source-depth-template-copy-approval-packet-usage-runbook": "node scripts/check-cp3-source-depth-template-copy-approval-packet-usage-runbook.mjs",
+    "check:cp3-source-depth-template-copy-approval-packet-usage-runbook-role-review": "node scripts/check-cp3-source-depth-template-copy-approval-packet-usage-runbook-role-review.mjs",
     "check:cp3-tw-stock-data-quality-downgrade-matrix": "node scripts/check-cp3-tw-stock-data-quality-downgrade-matrix.mjs",
     "check:cp3-tw-stock-data-quality-downgrade-matrix-role-review": "node scripts/check-cp3-tw-stock-data-quality-downgrade-matrix-role-review.mjs",
     "check:cp3-global-model-version-naming-rules": "node scripts/check-cp3-global-model-version-naming-rules.mjs",
