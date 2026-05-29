@@ -172,6 +172,7 @@
     "check:cp3-source-depth-local-only-authorization-transition-blocker-owner-matrix-role-review": "node scripts/check-cp3-source-depth-local-only-authorization-transition-blocker-owner-matrix-role-review.mjs",
     "check:cp3-source-depth-local-only-authorization-transition-blocker-checkpoint-summary": "node scripts/check-cp3-source-depth-local-only-authorization-transition-blocker-checkpoint-summary.mjs",
     "check:cp3-source-depth-local-only-authorization-transition-blocker-checkpoint-summary-role-review": "node scripts/check-cp3-source-depth-local-only-authorization-transition-blocker-checkpoint-summary-role-review.mjs",
+    "check:cp3-source-depth-local-only-authorization-transition-blocker-post-checkpoint-options-map": "node scripts/check-cp3-source-depth-local-only-authorization-transition-blocker-post-checkpoint-options-map.mjs",
     "check:cp3-tw-stock-data-quality-downgrade-matrix": "node scripts/check-cp3-tw-stock-data-quality-downgrade-matrix.mjs",
     "check:cp3-tw-stock-data-quality-downgrade-matrix-role-review": "node scripts/check-cp3-tw-stock-data-quality-downgrade-matrix-role-review.mjs",
     "check:cp3-global-model-version-naming-rules": "node scripts/check-cp3-global-model-version-naming-rules.mjs",
