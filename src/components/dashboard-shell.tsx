@@ -145,6 +145,7 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
           <StockReviewQueue snapshot={snapshot} onTab={changeTab} />
           <StockRoleResponsibilityMap onTab={changeTab} />
           <StockEscalationReadiness snapshot={snapshot} onTab={changeTab} />
+          <StockCeoSynthesis snapshot={snapshot} onTab={changeTab} />
         </>
       )}
 
@@ -720,6 +721,39 @@ function StockEscalationReadiness({ snapshot, onTab }: { snapshot: SignalSnapsho
             </button>
           </article>
         ))}
+      </div>
+    </section>
+  );
+}
+
+function StockCeoSynthesis({ snapshot, onTab }: { snapshot: SignalSnapshot; onTab: (tab: TabKey) => void }) {
+  const dataWarningCount = snapshot.missingModuleFlags.length + snapshot.staleDataFlags.length;
+  const nextFocus = dataWarningCount > 0 ? "先補資料缺口與來源說明" : "先檢查模型與風險揭露";
+
+  return (
+    <section className="stock-ceo-synthesis" aria-label="Stock CEO Synthesis">
+      <div>
+        <p className="eyebrow">CEO Synthesis</p>
+        <h2>CEO 收斂結論</h2>
+        <p>
+          目前不升級為正式討論。理由是資料旗標、mock 模型與公開宣稱邊界仍未解除；下一步維持
+          local-only，優先做「{nextFocus}」。
+        </p>
+      </div>
+      <div className="ceo-synthesis-actions">
+        <article>
+          <span>目前狀態</span>
+          <strong>維持產品驗證</strong>
+          <p>不排會、不授權、不建立 packet，也不切換真實分數。</p>
+        </article>
+        <article>
+          <span>下一步</span>
+          <strong>{nextFocus}</strong>
+          <p>先把可見風險與閱讀流程做清楚，再回頭判斷是否需要正式會議候選題。</p>
+        </article>
+        <button onClick={() => onTab(dataWarningCount > 0 ? "today" : "backtest")} type="button">
+          查看下一步依據
+        </button>
       </div>
     </section>
   );

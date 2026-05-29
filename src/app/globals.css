@@ -913,6 +913,72 @@ select {
   color: var(--blue);
 }
 
+.stock-ceo-synthesis {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+  display: grid;
+  grid-template-columns: minmax(260px, 0.72fr) minmax(0, 1.48fr);
+  gap: 16px;
+  margin: 0 0 16px;
+  padding: 16px;
+}
+
+.stock-ceo-synthesis h2 {
+  margin: 0 0 8px;
+}
+
+.stock-ceo-synthesis p {
+  color: var(--muted);
+  line-height: 1.75;
+  margin: 0;
+}
+
+.ceo-synthesis-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) minmax(150px, 0.5fr);
+  gap: 10px;
+  align-items: stretch;
+}
+
+.ceo-synthesis-actions article {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel-muted);
+  min-height: 148px;
+  padding: 12px;
+}
+
+.ceo-synthesis-actions span {
+  color: var(--blue);
+  display: block;
+  font-size: 12px;
+  font-weight: 850;
+  margin-bottom: 8px;
+}
+
+.ceo-synthesis-actions strong {
+  color: var(--ink);
+  display: block;
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.ceo-synthesis-actions button {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+  font-weight: 800;
+  padding: 10px 12px;
+}
+
+.ceo-synthesis-actions button:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+}
+
 .quote-main {
   display: grid;
   gap: 18px;
@@ -2284,6 +2350,8 @@ input[type="date"] {
   .role-map-grid,
   .stock-escalation-readiness,
   .escalation-readiness-grid,
+  .stock-ceo-synthesis,
+  .ceo-synthesis-actions,
   .quote-stat-grid,
   .internal-status-grid,
   .score-grid,

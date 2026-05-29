@@ -29,6 +29,8 @@ const requiredComponentPhrases = [
   "Stock Role Responsibility Map",
   "StockEscalationReadiness",
   "Stock Escalation Readiness",
+  "StockCeoSynthesis",
+  "Stock CEO Synthesis",
   "scoreSourceLabel",
   "snapshot.riskScore",
   "snapshot.healthScore",
@@ -43,6 +45,12 @@ const requiredComponentPhrases = [
   "下一輪覆核問題",
   "角色責任分工",
   "升級討論準備度",
+  "CEO 收斂結論",
+  "目前不升級為正式討論",
+  "下一步維持",
+  "優先做",
+  "維持產品驗證",
+  "查看下一步依據",
   "先維持 local-only 產品驗證",
   "不建立正式 packet",
   "不進入授權流程",
@@ -100,7 +108,10 @@ const requiredCssPhrases = [
   ".stock-escalation-readiness",
   ".escalation-readiness-grid",
   ".escalation-readiness-grid article.blocked",
-  ".escalation-readiness-grid button:hover"
+  ".escalation-readiness-grid button:hover",
+  ".stock-ceo-synthesis",
+  ".ceo-synthesis-actions",
+  ".ceo-synthesis-actions button:hover"
 ];
 
 const forbiddenPhrases = [
