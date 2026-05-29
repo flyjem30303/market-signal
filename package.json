@@ -230,6 +230,7 @@
     "check:cp3-source-depth-local-only-authorization-transition-human-decision-meeting-chairman-briefing-handoff-role-review": "node scripts/check-cp3-source-depth-local-only-authorization-transition-human-decision-meeting-chairman-briefing-handoff-role-review.mjs",
     "check:cp3-source-depth-local-only-chairman-review-readiness-trigger-criteria-map": "node scripts/check-cp3-source-depth-local-only-chairman-review-readiness-trigger-criteria-map.mjs",
     "check:cp3-source-depth-local-only-chairman-review-readiness-trigger-criteria-role-review": "node scripts/check-cp3-source-depth-local-only-chairman-review-readiness-trigger-criteria-role-review.mjs",
+    "check:cp3-source-depth-local-only-chairman-review-submission-readiness-checklist": "node scripts/check-cp3-source-depth-local-only-chairman-review-submission-readiness-checklist.mjs",
     "check:cp3-tw-stock-data-quality-downgrade-matrix": "node scripts/check-cp3-tw-stock-data-quality-downgrade-matrix.mjs",
     "check:cp3-tw-stock-data-quality-downgrade-matrix-role-review": "node scripts/check-cp3-tw-stock-data-quality-downgrade-matrix-role-review.mjs",
     "check:cp3-global-model-version-naming-rules": "node scripts/check-cp3-global-model-version-naming-rules.mjs",
