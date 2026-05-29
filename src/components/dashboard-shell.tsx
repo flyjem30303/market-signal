@@ -161,6 +161,7 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
           <StockChairmanNarrowQuestions onTab={changeTab} />
           <StockChairmanAnswerCriteria onTab={changeTab} />
           <StockChairmanAnswerRouting onTab={changeTab} />
+          <StockPreAuthorizationStopLines onTab={changeTab} />
         </>
       )}
 
@@ -1399,6 +1400,47 @@ function StockChairmanAnswerRouting({ onTab }: { onTab: (tab: TabKey) => void })
             <p>{item.text}</p>
             <button onClick={item.action} type="button">
               查看分流依據
+            </button>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function StockPreAuthorizationStopLines({ onTab }: { onTab: (tab: TabKey) => void }) {
+  const stopLines: Array<{ action: () => void; label: string; text: string }> = [
+    {
+      action: () => onTab("today"),
+      label: "範圍未定",
+      text: "沒有明確市場、股票池、資料欄位與輸出用途時，CEO 不得把討論轉成執行工作。"
+    },
+    {
+      action: () => onTab("technical"),
+      label: "停止條件未定",
+      text: "沒有錯誤門檻、回復方式與暫停條件時，不得安排外部系統、資料庫或真實來源動作。"
+    },
+    {
+      action: () => onTab("backtest"),
+      label: "回報節奏未定",
+      text: "沒有回報頻率、驗收格式與董事長再審點時，只能繼續本地文件與 UI 準備。"
+    }
+  ];
+
+  return (
+    <section className="stock-pre-authorization-stop-lines" aria-label="Stock Pre Authorization Stop Lines">
+      <div>
+        <p className="eyebrow">Pre-Authorization Stop Lines</p>
+        <h2>授權前停止線</h2>
+        <p>CEO 只有在範圍、停止條件與回報節奏都清楚時，才會把下一步整理成可審核的受控切片。</p>
+      </div>
+      <div className="pre-authorization-stop-grid">
+        {stopLines.map((item) => (
+          <article key={item.label}>
+            <span>{item.label}</span>
+            <p>{item.text}</p>
+            <button onClick={item.action} type="button">
+              回到停止線
             </button>
           </article>
         ))}

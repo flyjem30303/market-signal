@@ -61,6 +61,14 @@ const requiredComponentPhrases = [
   "Stock Chairman Answer Criteria",
   "StockChairmanAnswerRouting",
   "Stock Chairman Answer Routing",
+  "StockPreAuthorizationStopLines",
+  "Stock Pre Authorization Stop Lines",
+  "授權前停止線",
+  "CEO 只有在範圍、停止條件與回報節奏都清楚時",
+  "範圍未定",
+  "停止條件未定",
+  "回報節奏未定",
+  "回到停止線",
   "董事長回答分流",
   "CEO 會先把回答分流成安全路徑",
   "繼續本地準備",
@@ -287,7 +295,10 @@ const requiredCssPhrases = [
   ".chairman-answer-grid button:hover",
   ".stock-chairman-answer-routing",
   ".chairman-routing-grid",
-  ".chairman-routing-grid button:hover"
+  ".chairman-routing-grid button:hover",
+  ".stock-pre-authorization-stop-lines",
+  ".pre-authorization-stop-grid",
+  ".pre-authorization-stop-grid button:hover"
 ];
 
 const forbiddenPhrases = [
