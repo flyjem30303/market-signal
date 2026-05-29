@@ -583,6 +583,11 @@ const checks = [
     name: "cp3-source-depth-local-only-authorization-transition-readiness-blocker-index-role-review"
   },
   {
+    command: [node, "scripts/check-cp3-source-depth-local-only-authorization-transition-blocker-owner-matrix.mjs"],
+    expectStatus: "ok",
+    name: "cp3-source-depth-local-only-authorization-transition-blocker-owner-matrix"
+  },
+  {
     command: [node, "scripts/check-cp3-tw-stock-historical-plan.mjs"],
     expectStatus: "ok",
     name: "cp3-tw-stock-historical-plan"
