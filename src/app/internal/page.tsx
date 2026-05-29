@@ -20,6 +20,39 @@ export const metadata: Metadata = {
 export default function InternalDiagnosticsHome({ searchParams }: InternalDiagnosticsHomeProps) {
   assertInternalDiagnosticsAccess(searchParams.token);
 
+  const cp3Status = [
+    {
+      detail: "維持 mock score，不建立 real score 宣稱。",
+      label: "Score source",
+      tone: "hold",
+      value: "mock"
+    },
+    {
+      detail: "歷史深度不足，不能進入 production model。",
+      label: "Source depth",
+      tone: "blocked",
+      value: "not_ready"
+    },
+    {
+      detail: "只做本地決策品質與內部工具，不排會、不授權。",
+      label: "Active route",
+      tone: "active",
+      value: "Option A"
+    },
+    {
+      detail: "公開頁仍不可宣稱真實模型或真實資料訊號。",
+      label: "Public claim",
+      tone: "blocked",
+      value: "blocked"
+    }
+  ];
+
+  const nextActions = [
+    "優先推進可見的內部工具與狀態呈現",
+    "只在碰到 Supabase / SQL / 真資料 / 公開宣稱時啟動重治理",
+    "保持 scoreSource=mock 與 public-ineligible，直到正式授權"
+  ];
+
   const tools = [
     {
       description: "Inspect real raw market data beside mock score output and public release blockers.",
@@ -47,6 +80,34 @@ export default function InternalDiagnosticsHome({ searchParams }: InternalDiagno
         <p className="eyebrow">Internal Diagnostics</p>
         <h1>Review Console</h1>
         <p>Protected internal review tools. Public data source switching, ETF ingestion, and real score claims remain blocked.</p>
+      </section>
+
+      <section className="panel internal-status-panel">
+        <div>
+          <p className="eyebrow">CP3 Operating State</p>
+          <h2>目前採低治理、高產出密度推進</h2>
+          <p>
+            Option A remains active for local-only product and review tooling. Full role review is reserved for new risk
+            boundaries such as Supabase, SQL, real market data, authorization packets, or public claims.
+          </p>
+        </div>
+        <div className="internal-status-grid">
+          {cp3Status.map((item) => (
+            <article className={`internal-status-card ${item.tone}`} key={item.label}>
+              <span>{item.label}</span>
+              <strong>{item.value}</strong>
+              <p>{item.detail}</p>
+            </article>
+          ))}
+        </div>
+        <div className="internal-next-actions">
+          <p className="panel-label">Next CEO Actions</p>
+          <ul>
+            {nextActions.map((action) => (
+              <li key={action}>{action}</li>
+            ))}
+          </ul>
+        </div>
       </section>
 
       <section className="content-grid">

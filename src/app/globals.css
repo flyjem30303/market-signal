@@ -638,6 +638,85 @@ input[type="search"] {
   text-decoration: none;
 }
 
+.internal-status-panel {
+  display: grid;
+  gap: 18px;
+  margin-bottom: 16px;
+}
+
+.internal-status-panel h2 {
+  margin: 0 0 8px;
+}
+
+.internal-status-panel > div > p:not(.eyebrow):not(.panel-label) {
+  color: var(--muted);
+  line-height: 1.75;
+  margin: 0;
+}
+
+.internal-status-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.internal-status-card {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  padding: 14px;
+}
+
+.internal-status-card span {
+  color: var(--muted);
+  display: block;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.internal-status-card strong {
+  display: block;
+  font-size: 22px;
+  margin-top: 6px;
+}
+
+.internal-status-card p {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.65;
+  margin: 8px 0 0;
+}
+
+.internal-status-card.active {
+  border-color: rgba(37, 111, 168, 0.36);
+}
+
+.internal-status-card.hold {
+  border-color: rgba(109, 93, 37, 0.34);
+}
+
+.internal-status-card.blocked {
+  border-color: rgba(151, 57, 57, 0.34);
+}
+
+.internal-next-actions {
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+}
+
+.internal-next-actions ul {
+  display: grid;
+  gap: 8px;
+  margin: 8px 0 0;
+  padding-left: 20px;
+}
+
+.internal-next-actions li {
+  color: var(--text);
+  line-height: 1.65;
+}
+
 .rank-list {
   display: grid;
   gap: 8px;
@@ -1254,6 +1333,7 @@ input[type="date"] {
   .asset-grid,
   .quote-panel,
   .quote-stat-grid,
+  .internal-status-grid,
   .score-grid,
   .content-grid,
   .news-layout,
