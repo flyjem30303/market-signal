@@ -23,6 +23,8 @@ const requiredComponentPhrases = [
   "Stock Next Step Guide",
   "StockDecisionBoundary",
   "Stock Decision Boundary",
+  "StockReviewQueue",
+  "Stock Review Queue",
   "scoreSourceLabel",
   "snapshot.riskScore",
   "snapshot.healthScore",
@@ -34,6 +36,11 @@ const requiredComponentPhrases = [
   "資料缺口清單",
   "看完燈號後怎麼做",
   "目前能做與不能做",
+  "下一輪覆核問題",
+  "資料覆核",
+  "模型覆核",
+  "風險覆核",
+  "不代表已排會或已授權",
   "可以做",
   "不能做",
   "宣稱真實訊號",
@@ -70,7 +77,10 @@ const requiredCssPhrases = [
   ".next-step-grid button:hover",
   ".stock-decision-boundary",
   ".decision-boundary-grid",
-  ".decision-boundary-grid article.blocked"
+  ".decision-boundary-grid article.blocked",
+  ".stock-review-queue",
+  ".review-queue-grid",
+  ".review-queue-grid button:hover"
 ];
 
 const forbiddenPhrases = [

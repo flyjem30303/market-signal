@@ -142,6 +142,7 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
           <StockRiskChecklist snapshot={snapshot} onTab={changeTab} />
           <StockNextStepGuide snapshot={snapshot} onTab={changeTab} />
           <StockDecisionBoundary onTab={changeTab} />
+          <StockReviewQueue snapshot={snapshot} onTab={changeTab} />
         </>
       )}
 
@@ -570,6 +571,51 @@ function StockDecisionBoundary({ onTab }: { onTab: (tab: TabKey) => void }) {
             回到摘要
           </button>
         </article>
+      </div>
+    </section>
+  );
+}
+
+function StockReviewQueue({ snapshot, onTab }: { snapshot: SignalSnapshot; onTab: (tab: TabKey) => void }) {
+  const questions = [
+    {
+      action: () => onTab("today"),
+      label: "資料覆核",
+      text: `目前仍有 ${snapshot.missingModuleFlags.length + snapshot.staleDataFlags.length} 個資料旗標，需先確認缺口是否影響解讀。`,
+      title: "資料是否足以支持閱讀"
+    },
+    {
+      action: () => onTab("backtest"),
+      label: "模型覆核",
+      text: `模型版本 ${snapshot.modelVersion} 仍屬 mock 階段，不能用來聲稱真實績效。`,
+      title: "模型是否可被公開說明"
+    },
+    {
+      action: () => onTab("technical"),
+      label: "風險覆核",
+      text: `風險分數 ${snapshot.riskScore}/100，需確認波動來源與停損邏輯。`,
+      title: "風險是否已被拆解"
+    }
+  ];
+
+  return (
+    <section className="stock-review-queue" aria-label="Stock Review Queue">
+      <div>
+        <p className="eyebrow">Review Queue</p>
+        <h2>下一輪覆核問題</h2>
+        <p>這些問題幫助 PM、投資、資料與法遵角色在進入正式會議前先對齊，不代表已排會或已授權。</p>
+      </div>
+      <div className="review-queue-grid">
+        {questions.map((item) => (
+          <article key={item.label}>
+            <span>{item.label}</span>
+            <strong>{item.title}</strong>
+            <p>{item.text}</p>
+            <button onClick={item.action} type="button">
+              前往檢查
+            </button>
+          </article>
+        ))}
       </div>
     </section>
   );
