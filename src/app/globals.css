@@ -317,6 +317,62 @@ select {
   line-height: 1.45;
 }
 
+.stock-module-highlights {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 0 0 16px;
+}
+
+.stock-module-highlights article {
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--green);
+  border-radius: 8px;
+  background: #fff;
+  min-height: 168px;
+  padding: 14px;
+}
+
+.stock-module-highlights article.risk {
+  border-left-color: var(--red);
+}
+
+.stock-module-highlights article.gap {
+  border-left-color: #d99a00;
+}
+
+.stock-module-highlights span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.stock-module-highlights strong {
+  display: block;
+  font-size: 20px;
+  margin: 8px 0;
+}
+
+.stock-module-highlights p {
+  color: var(--muted);
+  line-height: 1.7;
+  margin: 0 0 12px;
+}
+
+.stock-module-highlights button {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel-muted);
+  cursor: pointer;
+  font-weight: 800;
+  padding: 8px 10px;
+}
+
+.stock-module-highlights button:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+}
+
 .quote-main {
   display: grid;
   gap: 18px;
@@ -1672,6 +1728,7 @@ input[type="date"] {
   .quote-panel,
   .stock-decision-compass,
   .stock-page-compass,
+  .stock-module-highlights,
   .quote-stat-grid,
   .internal-status-grid,
   .score-grid,

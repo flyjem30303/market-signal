@@ -136,6 +136,7 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
           <StockDecisionCompass scoreSourceLabel={freshness.scoreSourceLabel} snapshot={snapshot} />
           <QuoteSummary asset={selected} isFavorite={isFavorite} quote={quote} snapshot={snapshot} onFavorite={toggleFavorite} />
           <StockPageCompass activeTab={activeTab} onTab={changeTab} />
+          <StockModuleHighlights snapshot={snapshot} onTab={changeTab} />
         </>
       )}
 
@@ -342,6 +343,35 @@ function StockPageCompass({ activeTab, onTab }: { activeTab: TabKey; onTab: (tab
         </button>
       ))}
     </nav>
+  );
+}
+
+function StockModuleHighlights({ snapshot, onTab }: { snapshot: SignalSnapshot; onTab: (tab: TabKey) => void }) {
+  const strongestModule = snapshot.modules.slice().sort((a, b) => b.health - a.health)[0];
+  const hottestRisk = snapshot.modules.slice().sort((a, b) => b.risk - a.risk)[0];
+  const gapCount = snapshot.missingModuleFlags.length + snapshot.staleDataFlags.length;
+
+  return (
+    <section className="stock-module-highlights" aria-label="Stock Module Highlights">
+      <article>
+        <span>健康支撐</span>
+        <strong>{strongestModule.name}</strong>
+        <p>健康度 {strongestModule.health}/100，先確認這個優勢是否也反映在趨勢與基本面。</p>
+        <button onClick={() => onTab("fundamentals")} type="button">看基本面</button>
+      </article>
+      <article className="risk">
+        <span>風險來源</span>
+        <strong>{hottestRisk.name}</strong>
+        <p>風險度 {hottestRisk.risk}/100，若追價前沒有釐清來源，容易把燈號誤讀成指令。</p>
+        <button onClick={() => onTab("technical")} type="button">看技術面</button>
+      </article>
+      <article className="gap">
+        <span>資料缺口</span>
+        <strong>{gapCount}</strong>
+        <p>仍有 mock 或缺漏旗標，正式判讀前必須保留模型邊界與資料品質折扣。</p>
+        <button onClick={() => onTab("today")} type="button">看今日狀態</button>
+      </article>
+    </section>
   );
 }
 

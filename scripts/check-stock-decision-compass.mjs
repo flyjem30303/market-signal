@@ -20,7 +20,13 @@ const requiredComponentPhrases = [
   "Stock Page Compass",
   "分數與模型狀態",
   "長期分數路徑",
-  "歷史模擬表現"
+  "歷史模擬表現",
+  "StockModuleHighlights",
+  "Stock Module Highlights",
+  "健康支撐",
+  "風險來源",
+  "資料缺口",
+  "正式判讀前必須保留模型邊界"
 ];
 
 const requiredCssPhrases = [
@@ -29,7 +35,10 @@ const requiredCssPhrases = [
   ".stock-decision-compass article.hold",
   ".stock-decision-compass article.blocked",
   ".stock-page-compass",
-  ".stock-page-compass button.active"
+  ".stock-page-compass button.active",
+  ".stock-module-highlights",
+  ".stock-module-highlights article.risk",
+  ".stock-module-highlights article.gap"
 ];
 
 const forbiddenPhrases = [
