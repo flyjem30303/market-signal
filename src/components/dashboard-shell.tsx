@@ -160,6 +160,7 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
           <StockChairmanReviewReadiness onTab={changeTab} />
           <StockChairmanNarrowQuestions onTab={changeTab} />
           <StockChairmanAnswerCriteria onTab={changeTab} />
+          <StockChairmanAnswerRouting onTab={changeTab} />
         </>
       )}
 
@@ -1357,6 +1358,47 @@ function StockChairmanAnswerCriteria({ onTab }: { onTab: (tab: TabKey) => void }
             <p>{item.text}</p>
             <button onClick={item.action} type="button">
               對照執行邊界
+            </button>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function StockChairmanAnswerRouting({ onTab }: { onTab: (tab: TabKey) => void }) {
+  const routes: Array<{ action: () => void; label: string; text: string }> = [
+    {
+      action: () => onTab("today"),
+      label: "繼續本地準備",
+      text: "回答若沒有完整邊界，CEO 只整理缺口、更新頁面說明與本地檢查，不進入外部系統。"
+    },
+    {
+      action: () => onTab("technical"),
+      label: "補證據後再審",
+      text: "若回答要求補來源、法遵或角色覆核，團隊回到證據清單，不建立資料流程。"
+    },
+    {
+      action: () => onTab("backtest"),
+      label: "等待正式授權",
+      text: "即使回答方向可行，也必須等明確授權範圍與停止條件，才能規劃下一個受控切片。"
+    }
+  ];
+
+  return (
+    <section className="stock-chairman-answer-routing" aria-label="Stock Chairman Answer Routing">
+      <div>
+        <p className="eyebrow">Answer Routing</p>
+        <h2>董事長回答分流</h2>
+        <p>CEO 會先把回答分流成安全路徑；分流完成前，不把任何回答視為資料、SQL 或真實分數授權。</p>
+      </div>
+      <div className="chairman-routing-grid">
+        {routes.map((item) => (
+          <article key={item.label}>
+            <span>{item.label}</span>
+            <p>{item.text}</p>
+            <button onClick={item.action} type="button">
+              查看分流依據
             </button>
           </article>
         ))}
