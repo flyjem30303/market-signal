@@ -162,6 +162,7 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
           <StockChairmanAnswerCriteria onTab={changeTab} />
           <StockChairmanAnswerRouting onTab={changeTab} />
           <StockPreAuthorizationStopLines onTab={changeTab} />
+          <StockCeoOptionConvergence onTab={changeTab} />
         </>
       )}
 
@@ -1441,6 +1442,56 @@ function StockPreAuthorizationStopLines({ onTab }: { onTab: (tab: TabKey) => voi
             <p>{item.text}</p>
             <button onClick={item.action} type="button">
               回到停止線
+            </button>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function StockCeoOptionConvergence({ onTab }: { onTab: (tab: TabKey) => void }) {
+  const options: Array<{ action: () => void; label: string; state: "active" | "guard" | "support" | "paused"; text: string }> = [
+    {
+      action: () => onTab("today"),
+      label: "Option D 主線",
+      state: "active",
+      text: "準備董事長授權邊界與可審核問題，但不視為已授權。"
+    },
+    {
+      action: () => onTab("technical"),
+      label: "Option E 護欄",
+      state: "guard",
+      text: "持續拒絕 Supabase、SQL、真實資料、真實分數與 public claim。"
+    },
+    {
+      action: () => onTab("backtest"),
+      label: "Option B 支援",
+      state: "support",
+      text: "只在 D 主線需要 readiness checklist 或依賴圖時使用，不建立正式 packet。"
+    },
+    {
+      action: () => onTab("news"),
+      label: "Option A / C 暫緩",
+      state: "paused",
+      text: "A 避免過度文件化，C 只在 mock 揭露退化時修補。"
+    }
+  ];
+
+  return (
+    <section className="stock-ceo-option-convergence" aria-label="Stock CEO Option Convergence">
+      <div>
+        <p className="eyebrow">CEO Route</p>
+        <h2>CEO 目前主導路線</h2>
+        <p>專案已從 A/B/C/D/E 平行探索，收斂為 D 主線、E 護欄、B 支援、A/C 暫緩。</p>
+      </div>
+      <div className="ceo-option-grid">
+        {options.map((item) => (
+          <article className={item.state} key={item.label}>
+            <span>{item.label}</span>
+            <p>{item.text}</p>
+            <button onClick={item.action} type="button">
+              查看路線依據
             </button>
           </article>
         ))}

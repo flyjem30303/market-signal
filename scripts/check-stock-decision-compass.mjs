@@ -63,6 +63,15 @@ const requiredComponentPhrases = [
   "Stock Chairman Answer Routing",
   "StockPreAuthorizationStopLines",
   "Stock Pre Authorization Stop Lines",
+  "StockCeoOptionConvergence",
+  "Stock CEO Option Convergence",
+  "CEO 目前主導路線",
+  "專案已從 A/B/C/D/E 平行探索，收斂為 D 主線、E 護欄、B 支援、A/C 暫緩",
+  "Option D 主線",
+  "Option E 護欄",
+  "Option B 支援",
+  "Option A / C 暫緩",
+  "查看路線依據",
   "授權前停止線",
   "CEO 只有在範圍、停止條件與回報節奏都清楚時",
   "範圍未定",
@@ -298,7 +307,14 @@ const requiredCssPhrases = [
   ".chairman-routing-grid button:hover",
   ".stock-pre-authorization-stop-lines",
   ".pre-authorization-stop-grid",
-  ".pre-authorization-stop-grid button:hover"
+  ".pre-authorization-stop-grid button:hover",
+  ".stock-ceo-option-convergence",
+  ".ceo-option-grid",
+  ".ceo-option-grid article.active",
+  ".ceo-option-grid article.guard",
+  ".ceo-option-grid article.support",
+  ".ceo-option-grid article.paused",
+  ".ceo-option-grid button:hover"
 ];
 
 const forbiddenPhrases = [

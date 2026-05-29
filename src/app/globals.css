@@ -2002,6 +2002,90 @@ select {
   color: #b42318;
 }
 
+.stock-ceo-option-convergence {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+  display: grid;
+  grid-template-columns: minmax(260px, 0.72fr) minmax(0, 1.48fr);
+  gap: 16px;
+  margin: 0 0 16px;
+  padding: 16px;
+}
+
+.stock-ceo-option-convergence h2 {
+  margin: 0 0 8px;
+}
+
+.stock-ceo-option-convergence p {
+  color: var(--muted);
+  line-height: 1.75;
+  margin: 0;
+}
+
+.ceo-option-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.ceo-option-grid article {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel-muted);
+  display: flex;
+  flex-direction: column;
+  min-height: 180px;
+  padding: 12px;
+}
+
+.ceo-option-grid article.active {
+  border-color: #9fd3bd;
+  background: #f1fbf6;
+}
+
+.ceo-option-grid article.guard {
+  border-color: #f2b8b5;
+  background: #fff5f5;
+}
+
+.ceo-option-grid article.support {
+  border-color: #b9c7e6;
+  background: #f6f8fd;
+}
+
+.ceo-option-grid article.paused {
+  border-color: #d8d2c0;
+  background: #faf8f1;
+}
+
+.ceo-option-grid span {
+  color: var(--blue);
+  font-size: 12px;
+  font-weight: 850;
+  margin-bottom: 8px;
+}
+
+.ceo-option-grid article.guard span {
+  color: #b42318;
+}
+
+.ceo-option-grid button {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+  font-weight: 800;
+  margin-top: auto;
+  padding: 8px 10px;
+}
+
+.ceo-option-grid button:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+}
+
 .quote-main {
   display: grid;
   gap: 18px;
@@ -3407,6 +3491,8 @@ input[type="date"] {
   .chairman-routing-grid,
   .stock-pre-authorization-stop-lines,
   .pre-authorization-stop-grid,
+  .stock-ceo-option-convergence,
+  .ceo-option-grid,
   .quote-stat-grid,
   .internal-status-grid,
   .score-grid,
