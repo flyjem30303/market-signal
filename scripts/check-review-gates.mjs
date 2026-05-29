@@ -373,6 +373,11 @@ const checks = [
     name: "cp3-source-depth-local-only-readiness-rejection-decision-dependency-map-role-review"
   },
   {
+    command: [node, "scripts/check-cp3-source-depth-local-only-readiness-rejection-dependency-checkpoint-summary.mjs"],
+    expectStatus: "ok",
+    name: "cp3-source-depth-local-only-readiness-rejection-dependency-checkpoint-summary"
+  },
+  {
     command: [node, "scripts/check-cp3-tw-stock-historical-plan.mjs"],
     expectStatus: "ok",
     name: "cp3-tw-stock-historical-plan"
