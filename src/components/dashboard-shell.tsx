@@ -155,6 +155,7 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
           <StockSafeReadingFlow onTab={changeTab} />
           <StockStopReadingConditions onTab={changeTab} />
           <StockExplanationPriority onTab={changeTab} />
+          <StockRoleReviewTriggers onTab={changeTab} />
         </>
       )}
 
@@ -1144,6 +1145,47 @@ function StockExplanationPriority({ onTab }: { onTab: (tab: TabKey) => void }) {
             <p>{item.text}</p>
             <button onClick={item.action} type="button">
               查看補強位置
+            </button>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function StockRoleReviewTriggers({ onTab }: { onTab: (tab: TabKey) => void }) {
+  const triggers: Array<{ action: () => void; label: string; text: string }> = [
+    {
+      action: () => onTab("today"),
+      label: "資料可審核",
+      text: "來源、更新時間、缺口影響與降級規則都能被同一套文字說清楚。"
+    },
+    {
+      action: () => onTab("backtest"),
+      label: "模型可審核",
+      text: "mock 範圍、回測限制與不可公開主張都已在使用者可見位置對齊。"
+    },
+    {
+      action: () => onTab("technical"),
+      label: "風險可審核",
+      text: "風險分數能連回波動來源、資料品質折扣與非買賣建議邊界。"
+    }
+  ];
+
+  return (
+    <section className="stock-role-review-triggers" aria-label="Stock Role Review Triggers">
+      <div>
+        <p className="eyebrow">Role Review Triggers</p>
+        <h2>角色覆核觸發條件</h2>
+        <p>這些條件同時成立時，CEO 才重新評估是否啟動角色覆核；目前仍不是正式排會或授權。</p>
+      </div>
+      <div className="role-review-trigger-grid">
+        {triggers.map((item) => (
+          <article key={item.label}>
+            <span>{item.label}</span>
+            <p>{item.text}</p>
+            <button onClick={item.action} type="button">
+              檢查觸發依據
             </button>
           </article>
         ))}

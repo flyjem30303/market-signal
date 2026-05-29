@@ -49,7 +49,16 @@ const requiredComponentPhrases = [
   "Stock Stop Reading Conditions",
   "StockExplanationPriority",
   "Stock Explanation Priority",
+  "StockRoleReviewTriggers",
+  "Stock Role Review Triggers",
   "來源決策阻擋點",
+  "角色覆核觸發條件",
+  "CEO 才重新評估是否啟動角色覆核",
+  "目前仍不是正式排會或授權",
+  "資料可審核",
+  "模型可審核",
+  "風險可審核",
+  "檢查觸發依據",
   "說明補強優先序",
   "CEO 下一步仍不排會",
   "完成後才重新評估是否需要角色覆核",
@@ -216,7 +225,10 @@ const requiredCssPhrases = [
   ".stock-explanation-priority",
   ".explanation-priority-grid",
   ".explanation-priority-grid strong",
-  ".explanation-priority-grid button:hover"
+  ".explanation-priority-grid button:hover",
+  ".stock-role-review-triggers",
+  ".role-review-trigger-grid",
+  ".role-review-trigger-grid button:hover"
 ];
 
 const forbiddenPhrases = [
