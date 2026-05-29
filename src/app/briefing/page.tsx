@@ -47,6 +47,12 @@ export default async function BriefingPage() {
       </section>
       <DataFreshnessStrip freshness={freshness} />
 
+      <section aria-label="CEO Decision Strip" className="briefing-decision-strip">
+        <DecisionPill label="可推進" text="閱讀節奏與 mock 體驗" tone="active" />
+        <DecisionPill label="暫緩" text="真實資料切換與公開宣稱" tone="hold" />
+        <DecisionPill label="封鎖" text="投資建議與 real score" tone="blocked" />
+      </section>
+
       <section className="panel briefing-boundary">
         <div>
           <p className="eyebrow">Model Boundary</p>
@@ -233,6 +239,15 @@ function BoundaryItem({ label, value }: { label: string; value: string }) {
     <article>
       <span>{label}</span>
       <strong>{value}</strong>
+    </article>
+  );
+}
+
+function DecisionPill({ label, text, tone }: { label: string; text: string; tone: string }) {
+  return (
+    <article className={`decision-pill ${tone}`}>
+      <strong>{label}</strong>
+      <span>{text}</span>
     </article>
   );
 }
