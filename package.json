@@ -76,6 +76,7 @@
     "check:cp3-source-depth-evidence-blank-template-role-review": "node scripts/check-cp3-source-depth-evidence-blank-template-role-review.mjs",
     "check:cp3-source-depth-evidence-template-usage-guide": "node scripts/check-cp3-source-depth-evidence-template-usage-guide.mjs",
     "check:cp3-source-depth-evidence-template-usage-guide-role-review": "node scripts/check-cp3-source-depth-evidence-template-usage-guide-role-review.mjs",
+    "check:cp3-source-depth-evidence-artifact-approval-gate-plan": "node scripts/check-cp3-source-depth-evidence-artifact-approval-gate-plan.mjs",
     "check:cp3-tw-stock-data-quality-downgrade-matrix": "node scripts/check-cp3-tw-stock-data-quality-downgrade-matrix.mjs",
     "check:cp3-tw-stock-data-quality-downgrade-matrix-role-review": "node scripts/check-cp3-tw-stock-data-quality-downgrade-matrix-role-review.mjs",
     "check:cp3-global-model-version-naming-rules": "node scripts/check-cp3-global-model-version-naming-rules.mjs",

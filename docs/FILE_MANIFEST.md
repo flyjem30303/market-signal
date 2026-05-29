@@ -152,6 +152,7 @@ scripts/check-cp3-source-depth-evidence-gate-role-review.mjs
 scripts/check-cp3-source-depth-evidence-matrix.mjs
 scripts/check-cp3-source-depth-evidence-template-usage-guide.mjs
 scripts/check-cp3-source-depth-evidence-template-usage-guide-role-review.mjs
+scripts/check-cp3-source-depth-evidence-artifact-approval-gate-plan.mjs
 scripts/check-cp3-tw-stock-data-quality-downgrade-matrix.mjs
 scripts/check-cp3-tw-stock-data-quality-downgrade-matrix-role-review.mjs
 scripts/check-cp3-global-model-version-naming-rules.mjs
@@ -302,6 +303,7 @@ docs/evidence/CP3_SOURCE_DEPTH_CATEGORY_EVIDENCE_TEMPLATE.md
 docs/reviews/CP3_SOURCE_DEPTH_EVIDENCE_BLANK_TEMPLATE_ROLE_REVIEW_2026-05-29.md
 docs/CP3_SOURCE_DEPTH_EVIDENCE_TEMPLATE_USAGE_GUIDE_2026-05-29.md
 docs/reviews/CP3_SOURCE_DEPTH_EVIDENCE_TEMPLATE_USAGE_GUIDE_ROLE_REVIEW_2026-05-29.md
+docs/CP3_SOURCE_DEPTH_EVIDENCE_ARTIFACT_APPROVAL_GATE_PLAN_2026-05-29.md
 docs/CP3_TWSE_STOCK_DAY_HISTORICAL_ENDPOINT_RESEARCH_2026-05-29.md
 docs/CP3_TWSE_STOCK_DAY_SOURCE_DEPTH_SMOKE_DESIGN_2026-05-29.md
 docs/CP3_TWSE_STOCK_DAY_CONTROLLED_INGESTION_DESIGN_2026-05-29.md
