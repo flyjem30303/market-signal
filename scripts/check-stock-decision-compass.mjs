@@ -57,6 +57,14 @@ const requiredComponentPhrases = [
   "Stock Chairman Review Readiness",
   "StockChairmanNarrowQuestions",
   "Stock Chairman Narrow Questions",
+  "StockChairmanAnswerCriteria",
+  "Stock Chairman Answer Criteria",
+  "董事長答案接受條件",
+  "CEO 只把可落地、可驗證、可停止的回答轉成行動",
+  "可執行回答",
+  "不可執行回答",
+  "保留回答",
+  "對照執行邊界",
   "董事長窄問題候選",
   "CEO 送審前要先把大議題拆成可回答問題",
   "是否允許進入下一階段",
@@ -265,7 +273,10 @@ const requiredCssPhrases = [
   ".chairman-readiness-grid button:hover",
   ".stock-chairman-questions",
   ".chairman-question-grid",
-  ".chairman-question-grid button:hover"
+  ".chairman-question-grid button:hover",
+  ".stock-chairman-answer-criteria",
+  ".chairman-answer-grid",
+  ".chairman-answer-grid button:hover"
 ];
 
 const forbiddenPhrases = [

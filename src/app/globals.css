@@ -1822,6 +1822,66 @@ select {
   color: #2f5597;
 }
 
+.stock-chairman-answer-criteria {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+  display: grid;
+  grid-template-columns: minmax(260px, 0.72fr) minmax(0, 1.48fr);
+  gap: 16px;
+  margin: 0 0 16px;
+  padding: 16px;
+}
+
+.stock-chairman-answer-criteria h2 {
+  margin: 0 0 8px;
+}
+
+.stock-chairman-answer-criteria p {
+  color: var(--muted);
+  line-height: 1.75;
+  margin: 0;
+}
+
+.chairman-answer-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.chairman-answer-grid article {
+  border: 1px solid #c7c0aa;
+  border-radius: 8px;
+  background: #faf8f1;
+  display: flex;
+  flex-direction: column;
+  min-height: 170px;
+  padding: 12px;
+}
+
+.chairman-answer-grid span {
+  color: #6f5f24;
+  font-size: 12px;
+  font-weight: 850;
+  margin-bottom: 8px;
+}
+
+.chairman-answer-grid button {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+  font-weight: 800;
+  margin-top: auto;
+  padding: 8px 10px;
+}
+
+.chairman-answer-grid button:hover {
+  border-color: #6f5f24;
+  color: #6f5f24;
+}
+
 .quote-main {
   display: grid;
   gap: 18px;
@@ -3221,6 +3281,8 @@ input[type="date"] {
   .chairman-readiness-grid,
   .stock-chairman-questions,
   .chairman-question-grid,
+  .stock-chairman-answer-criteria,
+  .chairman-answer-grid,
   .quote-stat-grid,
   .internal-status-grid,
   .score-grid,

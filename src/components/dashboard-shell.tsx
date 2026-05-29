@@ -159,6 +159,7 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
           <StockPreReviewForbiddenActions onTab={changeTab} />
           <StockChairmanReviewReadiness onTab={changeTab} />
           <StockChairmanNarrowQuestions onTab={changeTab} />
+          <StockChairmanAnswerCriteria onTab={changeTab} />
         </>
       )}
 
@@ -1315,6 +1316,47 @@ function StockChairmanNarrowQuestions({ onTab }: { onTab: (tab: TabKey) => void 
             <p>{item.text}</p>
             <button onClick={item.action} type="button">
               回看相關條件
+            </button>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function StockChairmanAnswerCriteria({ onTab }: { onTab: (tab: TabKey) => void }) {
+  const criteria: Array<{ action: () => void; label: string; text: string }> = [
+    {
+      action: () => onTab("today"),
+      label: "可執行回答",
+      text: "必須包含明確範圍、允許事項、禁止事項、到期點與回報方式，CEO 才能轉成下一個安全切片。"
+    },
+    {
+      action: () => onTab("technical"),
+      label: "不可執行回答",
+      text: "若回答只說繼續、同意或先做看看，沒有邊界與停止條件，就只能視為繼續本地準備。"
+    },
+    {
+      action: () => onTab("backtest"),
+      label: "保留回答",
+      text: "若董事長要求補證據，CEO 需回到資料源、法遵與角色覆核缺口，不得跳到真實資料流程。"
+    }
+  ];
+
+  return (
+    <section className="stock-chairman-answer-criteria" aria-label="Stock Chairman Answer Criteria">
+      <div>
+        <p className="eyebrow">Answer Criteria</p>
+        <h2>董事長答案接受條件</h2>
+        <p>CEO 只把可落地、可驗證、可停止的回答轉成行動；模糊回答一律留在 local-only 準備區。</p>
+      </div>
+      <div className="chairman-answer-grid">
+        {criteria.map((item) => (
+          <article key={item.label}>
+            <span>{item.label}</span>
+            <p>{item.text}</p>
+            <button onClick={item.action} type="button">
+              對照執行邊界
             </button>
           </article>
         ))}
