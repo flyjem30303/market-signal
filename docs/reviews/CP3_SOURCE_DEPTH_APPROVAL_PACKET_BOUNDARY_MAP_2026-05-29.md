@@ -1,0 +1,221 @@
+# CP3 Source-Depth Approval-Packet Boundary Map
+
+Checkpoint: CP3 Model Credibility
+Date: 2026-05-29
+Trigger: CP3 source-depth Tier 1 local work queue role review recorded
+
+Status: CP3 source-depth approval-packet boundary map recorded
+
+## CEO Decision
+
+```text
+REVISE
+```
+
+This boundary map defines what a future approval packet may request and what it
+must not imply. It does not approve template copy, does not create a real
+request packet, does not create real evidence artifact files, does not fill
+template values, does not create the future evidence checker, does not fetch
+market data, does not parse market rows, does not connect to Supabase, does not
+run SQL, does not write Supabase, does not write staging rows, does not write
+daily_prices, does not create seed SQL, does not set scoreSource=real, does not
+clear source-depth not_ready, and does not make public claims.
+
+```text
+boundary map only
+does not approve template copy
+does not create a real request packet
+does not create real evidence artifact files
+does not fill template values
+does not create the future evidence checker
+does not clear source-depth not_ready
+```
+
+## Allowed Future Approval Packet Request Types
+
+```text
+request permission to copy a blank template
+request permission to create a real request packet
+request permission to fill request metadata
+request permission to create real evidence artifact files
+request permission to create a future evidence checker
+request permission to run remote read-only validation
+request permission to execute staging migration
+request permission to wire public UI
+request permission to transition source-depth production gate
+request permission to set scoreSource=real
+request permission to make public claims
+```
+
+Allowed request types are labels only in this map. They are not approvals.
+
+```text
+request type label is not approval
+request type label is not execution
+request type label is not evidence
+request type label is not runtime wiring
+request type label is not public claim permission
+```
+
+## Required Future Packet Fields
+
+```text
+Packet ID
+Request Date
+Requested Decision
+Requested Scope
+Requested Non-Scope
+Owner Map
+Evidence References
+Risk Statement
+Rollback Statement
+Public-Claim Boundary
+Source-Rights Boundary
+Data-Execution Boundary
+Supabase Boundary
+SQL Boundary
+scoreSource Boundary
+CEO Decision Slot
+Approval Status
+```
+
+## Disallowed Implicit Approvals
+
+```text
+green checker implies approval
+role review implies approval
+handoff summary implies approval
+template file existence implies approval
+existing .env.local implies approval
+local SQL file existence implies approval
+installed dependency implies approval
+prior discussion implies approval
+user said continue implies approval
+```
+
+## Required Rejection Conditions
+
+```text
+reject if packet includes raw market rows
+reject if packet includes CSV market data
+reject if packet includes JSON market data
+reject if packet includes Supabase read output
+reject if packet includes SQL execution output
+reject if packet asks to set scoreSource=real without CEO approval
+reject if packet asks to clear source-depth not_ready without CEO approval
+reject if packet asks to make public claims without public-claim approval
+reject if packet asks to execute SQL without explicit SQL authorization
+reject if packet asks to connect to Supabase without explicit authorization
+```
+
+## Required Escalation Conditions
+
+```text
+escalate to CEO for template-copy approval
+escalate to CEO for real request packet creation
+escalate to CEO for real evidence artifact creation
+escalate to CEO for future evidence checker creation
+escalate to CEO for remote read-only validation
+escalate to CEO for staging migration execution
+escalate to CEO for source-depth production transition
+escalate to CEO for scoreSource=real transition
+escalate to CEO and Marketing for public claims
+escalate to Legal for source-rights approval
+```
+
+## Required Local Checks
+
+```text
+scripts/check-cp3-source-depth-approval-packet-boundary-map.mjs passes
+scripts/check-cp3-source-depth-tier1-local-work-queue-role-review.mjs passes
+scripts/check-cp3-source-depth-tier1-local-work-queue.mjs passes
+scripts/check-cp3-tw-stock-source-depth.mjs remains not_ready as expected
+scripts/check-review-gates.mjs passes
+TypeScript noEmit passes
+```
+
+## CEO Synthesis
+
+```text
+The approval-packet boundary map is accepted as local-only boundary guidance
+only after role review. It can guide future packet drafting, but it must not
+approve template copy, create a real request packet, create evidence, create the
+future evidence checker, connect to Supabase, run SQL, fetch market data, wire
+runtime code, set scoreSource=real, make public claims, or make
+source_depth_state reviewable.
+```
+
+```text
+local-only boundary guidance
+guide future packet drafting
+must not approve template copy
+must not create a real request packet
+must not create evidence
+must not create the future evidence checker
+must not connect to Supabase
+must not run SQL
+must not fetch market data
+must not wire runtime code
+must not set scoreSource=real
+must not make public claims
+must not make source_depth_state reviewable
+```
+
+## Non-Negotiable Guardrails
+
+```text
+boundary map only
+do not approve template copy
+do not create a real request packet
+do not create real evidence artifact files
+do not fill template values
+do not create future evidence checker
+do not add example market data
+do not add sample rows
+do not add sample JSON
+do not add sample CSV
+do not add Supabase output
+do not add SQL output
+do not fetch market data
+do not parse market rows
+do not run source-depth validator against Supabase
+do not import copy tokens into public pages
+do not import copy tokens into public components
+do not import policy into public pages
+do not import policy into public components
+do not wire policy into data fetching
+do not implement runtime repository
+do not read remote data
+do not run validator
+do not connect to Supabase
+do not run SQL
+do not write Supabase
+do not write staging rows
+do not write daily_prices
+do not create seed SQL
+do not store raw market rows
+do not commit CSV / JSON market data files
+do not set scoreSource=real
+do not make public backtest claims
+do not clear source-depth not_ready
+CP3 source-depth production gate remains not_ready
+Keep public data source mock
+```
+
+## Next Implementation Slice
+
+```text
+record CP3 source-depth approval-packet boundary map role review
+do not approve template copy
+do not create a real request packet
+do not create real evidence artifact files
+do not fill template values
+do not create future evidence checker
+do not run validator
+do not connect to Supabase
+do not run SQL
+do not write Supabase
+do not create seed SQL
+do not commit raw market data
+keep public data source mock
+```

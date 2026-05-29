@@ -218,6 +218,11 @@ const checks = [
     name: "cp3-source-depth-tier1-local-work-queue-role-review"
   },
   {
+    command: [node, "scripts/check-cp3-source-depth-approval-packet-boundary-map.mjs"],
+    expectStatus: "ok",
+    name: "cp3-source-depth-approval-packet-boundary-map"
+  },
+  {
     command: [node, "scripts/check-cp3-tw-stock-historical-plan.mjs"],
     expectStatus: "ok",
     name: "cp3-tw-stock-historical-plan"
