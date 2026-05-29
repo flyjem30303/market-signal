@@ -1108,6 +1108,11 @@ const checks = [
     name: "cp3-source-depth-local-only-chairman-review-handoff-packet-rejection-transition-route-dependency-decision-request-narrow-question-candidate-readiness-gate"
   },
   {
+    command: [node, "scripts/check-cp3-source-depth-local-only-chairman-review-handoff-packet-rejection-transition-route-dependency-decision-request-narrow-question-candidate-readiness-gate-role-review.mjs"],
+    expectStatus: "ok",
+    name: "cp3-source-depth-local-only-chairman-review-handoff-packet-rejection-transition-route-dependency-decision-request-narrow-question-candidate-readiness-gate-role-review"
+  },
+  {
     command: [node, "scripts/check-cp3-tw-stock-historical-plan.mjs"],
     expectStatus: "ok",
     name: "cp3-tw-stock-historical-plan"
