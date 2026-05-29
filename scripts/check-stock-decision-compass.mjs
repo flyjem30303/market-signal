@@ -33,6 +33,8 @@ const requiredComponentPhrases = [
   "Stock CEO Synthesis",
   "StockSourceExplanationBacklog",
   "Stock Source Explanation Backlog",
+  "StockSourceAcceptanceCriteria",
+  "Stock Source Acceptance Criteria",
   "scoreSourceLabel",
   "snapshot.riskScore",
   "snapshot.healthScore",
@@ -49,6 +51,10 @@ const requiredComponentPhrases = [
   "升級討論準備度",
   "CEO 收斂結論",
   "來源說明待補清單",
+  "來源說明完成判準",
+  "local-only 說明品質要求",
+  "正式討論候選題",
+  "對照頁籤",
   "下一個 local-only 工作清單",
   "不新增資料、不連接 Supabase、不產生真實訊號",
   "查看相關依據",
@@ -120,7 +126,10 @@ const requiredCssPhrases = [
   ".ceo-synthesis-actions button:hover",
   ".stock-source-backlog",
   ".source-backlog-grid",
-  ".source-backlog-grid button:hover"
+  ".source-backlog-grid button:hover",
+  ".stock-source-criteria",
+  ".source-criteria-grid",
+  ".source-criteria-grid button:hover"
 ];
 
 const forbiddenPhrases = [

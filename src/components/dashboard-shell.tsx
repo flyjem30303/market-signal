@@ -147,6 +147,7 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
           <StockEscalationReadiness snapshot={snapshot} onTab={changeTab} />
           <StockCeoSynthesis snapshot={snapshot} onTab={changeTab} />
           <StockSourceExplanationBacklog snapshot={snapshot} onTab={changeTab} />
+          <StockSourceAcceptanceCriteria onTab={changeTab} />
         </>
       )}
 
@@ -793,6 +794,47 @@ function StockSourceExplanationBacklog({ snapshot, onTab }: { snapshot: SignalSn
             <p>{item.text}</p>
             <button onClick={item.action} type="button">
               查看相關依據
+            </button>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function StockSourceAcceptanceCriteria({ onTab }: { onTab: (tab: TabKey) => void }) {
+  const criteria: Array<{ action: () => void; label: string; text: string }> = [
+    {
+      action: () => onTab("today"),
+      label: "資料說明",
+      text: "每個旗標都要能說明來源、缺口影響、降級規則與目前不可宣稱的範圍。"
+    },
+    {
+      action: () => onTab("backtest"),
+      label: "模型說明",
+      text: "模型版本、mock 範圍、回測限制與不可公開主張需同時出現在使用者可見位置。"
+    },
+    {
+      action: () => onTab("technical"),
+      label: "風險說明",
+      text: "風險欄位需能連回波動來源、停損假設與非買賣建議邊界。"
+    }
+  ];
+
+  return (
+    <section className="stock-source-criteria" aria-label="Stock Source Acceptance Criteria">
+      <div>
+        <p className="eyebrow">Acceptance Criteria</p>
+        <h2>來源說明完成判準</h2>
+        <p>只有完成這些 local-only 說明品質要求，CEO 才會重新評估是否提出正式討論候選題。</p>
+      </div>
+      <div className="source-criteria-grid">
+        {criteria.map((item) => (
+          <article key={item.label}>
+            <span>{item.label}</span>
+            <p>{item.text}</p>
+            <button onClick={item.action} type="button">
+              對照頁籤
             </button>
           </article>
         ))}
