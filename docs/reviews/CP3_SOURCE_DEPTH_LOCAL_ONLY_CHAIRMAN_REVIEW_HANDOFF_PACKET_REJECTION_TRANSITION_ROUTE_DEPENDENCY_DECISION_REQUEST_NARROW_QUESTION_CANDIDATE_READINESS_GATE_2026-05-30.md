@@ -1,0 +1,258 @@
+# CP3 Source-Depth Local-Only Chairman Review Handoff Packet Rejection Transition Route Dependency Decision Request Narrow Question Candidate Readiness Gate
+
+Checkpoint: CP3 Model Credibility
+Date: 2026-05-30
+Trigger: CP3 source-depth local-only chairman review handoff packet rejection transition route dependency decision request post-checkpoint options map role review recorded
+
+Status: CP3 source-depth local-only chairman review handoff packet rejection transition route dependency decision request narrow question candidate readiness gate recorded
+
+## CEO Decision
+
+```text
+REVISE
+```
+
+This narrow question candidate readiness gate defines when CEO may prepare a
+future Option B or Option C question candidate. It does not create the question
+candidate, does not present any question to the user, does not create chairman
+review handoff packet, does not submit chairman review, does not schedule
+meeting, does not request chairman approval, does not answer unresolved
+decisions, does not start approval workflow, does not create authorization
+packet, does not create request packet, does not fill template values, does
+not create evidence artifacts, does not create future evidence checker, does
+not connect to Supabase, does not run SQL, does not write Supabase, does not
+write staging rows, does not write daily_prices, does not create seed SQL,
+does not fetch market data, does not parse market rows, does not set
+scoreSource=real, does not make public claims, and does not clear source-depth
+not_ready.
+
+```text
+narrow question candidate readiness gate only
+defines when CEO may prepare a future Option B or Option C question candidate
+does not create the question candidate
+does not present any question to the user
+does not create chairman review handoff packet
+does not submit chairman review
+does not schedule meeting
+does not request chairman approval
+does not answer unresolved decisions
+does not start approval workflow
+does not clear source-depth not_ready
+```
+
+## Reviewed Inputs
+
+```text
+docs/reviews/CP3_SOURCE_DEPTH_LOCAL_ONLY_CHAIRMAN_REVIEW_HANDOFF_PACKET_REJECTION_TRANSITION_ROUTE_DEPENDENCY_DECISION_REQUEST_POST_CHECKPOINT_OPTIONS_MAP_2026-05-30.md
+docs/reviews/CP3_SOURCE_DEPTH_LOCAL_ONLY_CHAIRMAN_REVIEW_HANDOFF_PACKET_REJECTION_TRANSITION_ROUTE_DEPENDENCY_DECISION_REQUEST_POST_CHECKPOINT_OPTIONS_MAP_ROLE_REVIEW_2026-05-30.md
+scripts/check-cp3-source-depth-local-only-chairman-review-handoff-packet-rejection-transition-route-dependency-decision-request-post-checkpoint-options-map.mjs
+scripts/check-cp3-source-depth-local-only-chairman-review-handoff-packet-rejection-transition-route-dependency-decision-request-post-checkpoint-options-map-role-review.mjs
+scripts/check-cp3-tw-stock-source-depth.mjs remains not_ready as expected
+```
+
+## Candidate Shape Requirements
+
+```text
+candidate must be exactly one question
+candidate must choose Option B or Option C but not both
+candidate must be narrow enough to fit one decision
+candidate must not contain multiple approvals
+candidate must not contain implementation work
+candidate must not contain execution permission
+candidate must not contain handoff packet creation
+candidate must not contain chairman review submission
+candidate must not contain meeting scheduling
+candidate must not contain chairman approval request
+candidate must not answer unresolved decisions
+candidate must not include Supabase, SQL, market data, runtime, or public claim work
+candidate must say source-depth remains not_ready
+candidate must say public data source remains mock
+candidate must say scoreSource=real remains blocked
+```
+
+## Option B Candidate Readiness Gate
+
+```text
+Option B candidate may be prepared only as a drafting-readiness question candidate
+Option B candidate must ask whether CEO may later present one drafting-readiness question
+Option B candidate must state that drafting-readiness is not packet creation
+Option B candidate must state that drafting-readiness is not submission
+Option B candidate must state that drafting-readiness is not approval
+Option B candidate must state that drafting-readiness is not executable
+Option B candidate must state that unresolved decisions remain unresolved
+Option B candidate must state that no chairman approval is requested
+Option B candidate must state that no approval workflow is started
+Option B candidate must not ask for permission to create a chairman review handoff packet
+Option B candidate must not ask for permission to submit chairman review
+Option B candidate must not ask for permission to schedule meeting
+Option B candidate must not include Supabase, SQL, market data, runtime, or public claim work
+Option B candidate is not ready if its scope cannot be stated in one narrow drafting-readiness question
+```
+
+## Option C Candidate Readiness Gate
+
+```text
+Option C candidate may be prepared only as a timing-readiness question candidate
+Option C candidate must ask whether CEO may later present one timing-readiness question
+Option C candidate must state that timing-readiness is not meeting scheduling
+Option C candidate must state that timing-readiness is not authorization
+Option C candidate must state that timing-readiness is not chairman review submission
+Option C candidate must state that unresolved decisions remain unresolved
+Option C candidate must state that no chairman review handoff packet is created
+Option C candidate must state that no chairman approval is requested
+Option C candidate must state that no approval workflow is started
+Option C candidate must not ask for permission to schedule meeting
+Option C candidate must not ask for permission to request chairman approval
+Option C candidate must not include Supabase, SQL, market data, runtime, or public claim work
+Option C candidate is not ready if its scope cannot be stated in one narrow timing-readiness question
+```
+
+## Return To Option A Rule
+
+```text
+return to Option A if candidate is not exactly one question
+return to Option A if candidate bundles Option B and Option C
+return to Option A if candidate wording is broad
+return to Option A if candidate decision impact is unclear
+return to Option A if candidate could be mistaken for approval
+return to Option A if candidate could be mistaken for execution
+return to Option A if candidate could be mistaken for handoff packet creation
+return to Option A if candidate could be mistaken for meeting scheduling
+return to Option A if candidate could be mistaken for authorization
+return to Option A if candidate could answer unresolved decisions
+return to Option A if candidate could touch Supabase, SQL, market data, runtime, or public claims
+return to Option A if source-depth not_ready is treated as cleared
+```
+
+## Blocked Routes
+
+```text
+Option D remains blocked pending future chairman plus Legal authorization
+Supabase connection remains blocked
+SQL execution remains blocked
+Supabase write remains blocked
+staging row write remains blocked
+daily_prices write remains blocked
+seed SQL creation remains blocked
+market data fetch remains blocked
+market row parsing remains blocked
+Option E remains blocked pending future chairman plus Investment authorization
+runtime wiring remains blocked
+source-depth production transition remains pending not approved
+scoreSource=real transition remains pending not approved
+source_depth_state reviewable transition remains pending not approved
+public data source real transition remains pending not approved
+Option F remains blocked pending future chairman plus Marketing plus Legal authorization
+public claims remain pending not approved
+public copy remains pending not approved
+launch claims remain pending not approved
+investment recommendation claims remain pending not approved
+```
+
+## CEO Recommendation
+
+```text
+CEO recommends using this gate before drafting any Option B or Option C question candidate
+CEO recommends continuing Option A until exactly one narrow candidate passes this gate
+CEO must not ask for broad approval
+CEO must not ask for mixed-scope approval
+CEO must not ask for execution permission through this gate
+CEO must not bundle Option B and Option C with Option D, Option E, or Option F
+CEO may later prepare a single narrow Option B question candidate if it passes this gate
+CEO may later prepare a single narrow Option C question candidate if it passes this gate
+```
+
+## Required Stop Conditions
+
+```text
+stop if narrow question candidate readiness gate is treated as approval
+stop if narrow question candidate readiness gate is treated as executable task
+stop if narrow question candidate readiness gate is used to create the question candidate
+stop if narrow question candidate readiness gate is used to present any question to the user
+stop if narrow question candidate readiness gate is used to create chairman review handoff packet
+stop if narrow question candidate readiness gate is used to submit chairman review
+stop if narrow question candidate readiness gate is used to schedule meeting
+stop if narrow question candidate readiness gate is used to request chairman approval
+stop if narrow question candidate readiness gate is used to answer unresolved decisions
+stop if narrow question candidate readiness gate is used to start approval workflow
+stop if narrow question candidate readiness gate is used to create authorization packet
+stop if narrow question candidate readiness gate is used to connect to Supabase
+stop if narrow question candidate readiness gate is used to run SQL
+stop if narrow question candidate readiness gate is used to fetch market data
+stop if narrow question candidate readiness gate is used to set scoreSource=real
+stop if narrow question candidate readiness gate is used to clear source-depth not_ready
+stop if narrow question candidate readiness gate is used to make public claims
+```
+
+## Required Local Checks
+
+```text
+scripts/check-cp3-source-depth-local-only-chairman-review-handoff-packet-rejection-transition-route-dependency-decision-request-narrow-question-candidate-readiness-gate.mjs passes
+scripts/check-cp3-source-depth-local-only-chairman-review-handoff-packet-rejection-transition-route-dependency-decision-request-post-checkpoint-options-map-role-review.mjs passes
+scripts/check-cp3-source-depth-local-only-chairman-review-handoff-packet-rejection-transition-route-dependency-decision-request-post-checkpoint-options-map.mjs passes
+scripts/check-cp3-tw-stock-source-depth.mjs remains not_ready as expected
+scripts/check-review-gates.mjs passes
+TypeScript noEmit passes
+```
+
+## Non-Negotiable Guardrails
+
+```text
+chairman review handoff packet rejection transition route dependency decision request narrow question candidate readiness gate only
+do not create the question candidate
+do not present any question to the user
+do not create chairman review handoff packet
+do not submit chairman review
+do not schedule meeting
+do not request chairman approval
+do not answer unresolved decisions
+do not start approval workflow
+do not create authorization packet
+do not create request packet
+do not fill template values
+do not create evidence artifacts
+do not create future evidence checker
+do not add example market data
+do not add sample rows
+do not add sample JSON
+do not add sample CSV
+do not add Supabase output
+do not add SQL output
+do not fetch market data
+do not parse market rows
+do not run source-depth validator against Supabase
+do not connect to Supabase
+do not run SQL
+do not write Supabase
+do not write staging rows
+do not write daily_prices
+do not create seed SQL
+do not store raw market rows
+do not commit CSV / JSON market data files
+do not set scoreSource=real
+do not make public backtest claims
+do not clear source-depth not_ready
+CP3 source-depth production gate remains not_ready
+Keep public data source mock
+```
+
+## Next Implementation Slice
+
+```text
+record CP3 source-depth local-only chairman review handoff packet rejection transition route dependency decision request narrow question candidate readiness gate role review
+do not create the question candidate
+do not present any question to the user
+do not create chairman review handoff packet
+do not submit chairman review
+do not schedule meeting
+do not request chairman approval
+do not answer unresolved decisions
+do not start approval workflow
+do not run validator against Supabase
+do not connect to Supabase
+do not run SQL
+do not write Supabase
+do not create seed SQL
+do not commit raw market data
+keep public data source mock
+```
