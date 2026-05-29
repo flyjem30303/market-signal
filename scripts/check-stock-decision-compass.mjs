@@ -35,6 +35,14 @@ const requiredComponentPhrases = [
   "Stock Source Explanation Backlog",
   "StockSourceAcceptanceCriteria",
   "Stock Source Acceptance Criteria",
+  "StockSourceDecisionBlockers",
+  "Stock Source Decision Blockers",
+  "來源決策阻擋點",
+  "CEO 目前不建議排正式會議",
+  "回到佐證頁籤",
+  "不能暗示已完成真實訊號或績效驗證",
+  "來源證據、欄位缺口、資料降級與更新頻率",
+  "風險分數仍需連回波動來源",
   "scoreSourceLabel",
   "snapshot.riskScore",
   "snapshot.healthScore",
@@ -129,7 +137,11 @@ const requiredCssPhrases = [
   ".source-backlog-grid button:hover",
   ".stock-source-criteria",
   ".source-criteria-grid",
-  ".source-criteria-grid button:hover"
+  ".source-criteria-grid button:hover",
+  ".stock-source-blockers",
+  ".source-blocker-grid",
+  ".source-blocker-grid article",
+  ".source-blocker-grid button:hover"
 ];
 
 const forbiddenPhrases = [

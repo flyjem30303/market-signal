@@ -1099,6 +1099,73 @@ select {
   color: var(--blue);
 }
 
+.stock-source-blockers {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+  display: grid;
+  grid-template-columns: minmax(260px, 0.72fr) minmax(0, 1.48fr);
+  gap: 16px;
+  margin: 0 0 16px;
+  padding: 16px;
+}
+
+.stock-source-blockers h2 {
+  margin: 0 0 8px;
+}
+
+.stock-source-blockers p {
+  color: var(--muted);
+  line-height: 1.75;
+  margin: 0;
+}
+
+.source-blocker-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.source-blocker-grid article {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff8ed;
+  display: flex;
+  flex-direction: column;
+  min-height: 174px;
+  padding: 12px;
+}
+
+.source-blocker-grid span {
+  color: #b45309;
+  font-size: 12px;
+  font-weight: 850;
+  margin-bottom: 8px;
+}
+
+.source-blocker-grid strong {
+  color: var(--ink);
+  display: block;
+  font-size: 17px;
+  margin-bottom: 8px;
+}
+
+.source-blocker-grid button {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+  font-weight: 800;
+  margin-top: auto;
+  padding: 8px 10px;
+}
+
+.source-blocker-grid button:hover {
+  border-color: #b45309;
+  color: #b45309;
+}
+
 .quote-main {
   display: grid;
   gap: 18px;
@@ -2476,6 +2543,8 @@ input[type="date"] {
   .source-backlog-grid,
   .stock-source-criteria,
   .source-criteria-grid,
+  .stock-source-blockers,
+  .source-blocker-grid,
   .quote-stat-grid,
   .internal-status-grid,
   .score-grid,

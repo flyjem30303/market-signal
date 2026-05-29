@@ -148,6 +148,7 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
           <StockCeoSynthesis snapshot={snapshot} onTab={changeTab} />
           <StockSourceExplanationBacklog snapshot={snapshot} onTab={changeTab} />
           <StockSourceAcceptanceCriteria onTab={changeTab} />
+          <StockSourceDecisionBlockers onTab={changeTab} />
         </>
       )}
 
@@ -835,6 +836,51 @@ function StockSourceAcceptanceCriteria({ onTab }: { onTab: (tab: TabKey) => void
             <p>{item.text}</p>
             <button onClick={item.action} type="button">
               對照頁籤
+            </button>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function StockSourceDecisionBlockers({ onTab }: { onTab: (tab: TabKey) => void }) {
+  const blockers: Array<{ action: () => void; label: string; owner: string; text: string }> = [
+    {
+      action: () => onTab("today"),
+      label: "Evidence",
+      owner: "Data",
+      text: "來源證據、欄位缺口、資料降級與更新頻率仍需整理成可審核脈絡。"
+    },
+    {
+      action: () => onTab("backtest"),
+      label: "Claims",
+      owner: "Legal",
+      text: "公開文字仍只能描述 mock 研究體驗，不能暗示已完成真實訊號或績效驗證。"
+    },
+    {
+      action: () => onTab("technical"),
+      label: "Risk",
+      owner: "Investment",
+      text: "風險分數仍需連回波動來源、停損假設與使用者不應直接下單的邊界。"
+    }
+  ];
+
+  return (
+    <section className="stock-source-blockers" aria-label="Stock Source Decision Blockers">
+      <div>
+        <p className="eyebrow">Decision Blockers</p>
+        <h2>來源決策阻擋點</h2>
+        <p>CEO 目前不建議排正式會議；先把這三個阻擋點降到可審核，才重新評估是否提出候選題。</p>
+      </div>
+      <div className="source-blocker-grid">
+        {blockers.map((item) => (
+          <article key={item.label}>
+            <span>{item.label}</span>
+            <strong>{item.owner}</strong>
+            <p>{item.text}</p>
+            <button onClick={item.action} type="button">
+              回到佐證頁籤
             </button>
           </article>
         ))}
