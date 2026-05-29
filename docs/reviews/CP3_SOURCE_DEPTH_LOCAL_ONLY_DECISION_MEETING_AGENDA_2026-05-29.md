@@ -1,0 +1,197 @@
+# CP3 Source-Depth Local-Only Decision-Meeting Agenda
+
+Checkpoint: CP3 Model Credibility
+Date: 2026-05-29
+Trigger: CP3 source-depth local-only pending-decision ledger role review recorded
+
+Status: CP3 source-depth local-only decision-meeting agenda recorded
+
+## CEO Decision
+
+```text
+REVISE
+```
+
+This decision-meeting agenda organizes how future CEO decisions should be
+discussed. It does not approve template copy, does not create a real request
+packet, does not create real evidence artifact files, does not fill template
+values, does not create the future evidence checker, does not fetch market
+data, does not parse market rows, does not connect to Supabase, does not run
+SQL, does not write Supabase, does not write staging rows, does not write
+daily_prices, does not create seed SQL, does not set scoreSource=real, does not
+clear source-depth not_ready, and does not make public claims.
+
+```text
+local-only decision-meeting agenda
+does not approve template copy
+does not create a real request packet
+does not create real evidence artifact files
+does not fill template values
+does not create the future evidence checker
+does not clear source-depth not_ready
+```
+
+## Agenda Inputs
+
+```text
+docs/reviews/CP3_SOURCE_DEPTH_LOCAL_ONLY_PENDING_DECISION_LEDGER_2026-05-29.md
+docs/reviews/CP3_SOURCE_DEPTH_LOCAL_ONLY_PENDING_DECISION_LEDGER_ROLE_REVIEW_2026-05-29.md
+docs/reviews/CP3_SOURCE_DEPTH_LOCAL_ONLY_CEO_HANDOFF_INDEX_2026-05-29.md
+docs/reviews/CP3_SOURCE_DEPTH_APPROVAL_PACKET_BOUNDARY_MAP_ROLE_REVIEW_2026-05-29.md
+scripts/check-cp3-tw-stock-source-depth.mjs remains not_ready as expected
+```
+
+## Agenda Items
+
+```text
+AGENDA-CP3-SD-001 confirm pending-decision ledger scope
+AGENDA-CP3-SD-002 review template-copy approval risk
+AGENDA-CP3-SD-003 review real request packet creation risk
+AGENDA-CP3-SD-004 review evidence artifact creation risk
+AGENDA-CP3-SD-005 review future evidence checker creation risk
+AGENDA-CP3-SD-006 review remote read-only validation risk
+AGENDA-CP3-SD-007 review staging migration execution risk
+AGENDA-CP3-SD-008 review source-depth production transition risk
+AGENDA-CP3-SD-009 review scoreSource=real transition risk
+AGENDA-CP3-SD-010 review public claims risk
+AGENDA-CP3-SD-011 confirm next local-only slice
+```
+
+## Required Role Attendance
+
+```text
+CEO attends all agenda items
+PM attends all agenda items
+Engineering attends all agenda items
+Investment attends production transition and scoreSource=real items
+Legal attends source-rights Supabase SQL validation and migration items
+Marketing attends public claims and public wording items
+Design attends public UI wording and disclosure placement items
+QA attends checker gate and regression-risk items
+```
+
+## Permitted Meeting Outputs
+
+```text
+meeting may output recommendation only
+meeting may output risk summary only
+meeting may output owner map only
+meeting may output revised pending-decision ledger only
+meeting may output next local-only slice only
+meeting may output explicit stop condition only
+```
+
+## Forbidden Meeting Outputs
+
+```text
+meeting must not output approval
+meeting must not output executable task
+meeting must not output real request packet
+meeting must not output evidence artifact file
+meeting must not output filled template values
+meeting must not output future evidence checker
+meeting must not output Supabase result
+meeting must not output SQL result
+meeting must not output market data
+meeting must not output public claim copy
+meeting must not output scoreSource=real transition
+meeting must not output source-depth production transition
+```
+
+## Required Local Checks
+
+```text
+scripts/check-cp3-source-depth-local-only-decision-meeting-agenda.mjs passes
+scripts/check-cp3-source-depth-local-only-pending-decision-ledger-role-review.mjs passes
+scripts/check-cp3-source-depth-local-only-pending-decision-ledger.mjs passes
+scripts/check-cp3-tw-stock-source-depth.mjs remains not_ready as expected
+scripts/check-review-gates.mjs passes
+TypeScript noEmit passes
+```
+
+## CEO Synthesis
+
+```text
+The decision-meeting agenda is accepted as local-only meeting preparation. It
+can structure a future decision discussion, but it must not approve pending
+items, convert pending items into work, create request packets, create evidence
+files, create future checkers, connect to Supabase, run SQL, fetch market data,
+wire runtime code, set scoreSource=real, clear source-depth not_ready, or make
+public claims.
+```
+
+```text
+local-only meeting preparation
+structure a future decision discussion
+must not approve pending items
+must not convert pending items into work
+must not create request packets
+must not create evidence files
+must not create future checkers
+must not connect to Supabase
+must not run SQL
+must not fetch market data
+must not wire runtime code
+must not set scoreSource=real
+must not clear source-depth not_ready
+must not make public claims
+```
+
+## Non-Negotiable Guardrails
+
+```text
+decision-meeting agenda only
+do not approve template copy
+do not create a real request packet
+do not create real evidence artifact files
+do not fill template values
+do not create future evidence checker
+do not add example market data
+do not add sample rows
+do not add sample JSON
+do not add sample CSV
+do not add Supabase output
+do not add SQL output
+do not fetch market data
+do not parse market rows
+do not run source-depth validator against Supabase
+do not import copy tokens into public pages
+do not import copy tokens into public components
+do not import policy into public pages
+do not import policy into public components
+do not wire policy into data fetching
+do not implement runtime repository
+do not read remote data
+do not run validator
+do not connect to Supabase
+do not run SQL
+do not write Supabase
+do not write staging rows
+do not write daily_prices
+do not create seed SQL
+do not store raw market rows
+do not commit CSV / JSON market data files
+do not set scoreSource=real
+do not make public backtest claims
+do not clear source-depth not_ready
+CP3 source-depth production gate remains not_ready
+Keep public data source mock
+```
+
+## Next Implementation Slice
+
+```text
+record CP3 source-depth local-only decision-meeting agenda role review
+do not approve template copy
+do not create a real request packet
+do not create real evidence artifact files
+do not fill template values
+do not create future evidence checker
+do not run validator
+do not connect to Supabase
+do not run SQL
+do not write Supabase
+do not create seed SQL
+do not commit raw market data
+keep public data source mock
+```
