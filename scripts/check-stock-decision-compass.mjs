@@ -41,7 +41,15 @@ const requiredComponentPhrases = [
   "Stock Source Checkpoint Path",
   "StockSourceEscalationSignal",
   "Stock Source Escalation Signal",
+  "StockMockBoundaryLegend",
+  "Stock Mock Boundary Legend",
   "來源決策阻擋點",
+  "Mock 邊界圖例",
+  "產品安全線，不是技術裝飾",
+  "不能被解讀為真實市場訊號",
+  "不能升級為正式決策素材",
+  "不連線、不寫入資料庫、不產生真實資料",
+  "查看頁面脈絡",
   "下一個檢討節點",
   "CEO 升級訊號",
   "目前 CEO 判斷：不升級、不排正式會議、不建立授權 packet",
@@ -167,7 +175,11 @@ const requiredCssPhrases = [
   ".source-escalation-grid",
   ".source-escalation-grid article.blocked",
   ".source-escalation-grid article.watch",
-  ".source-escalation-grid button:hover"
+  ".source-escalation-grid button:hover",
+  ".stock-mock-boundary",
+  ".mock-boundary-grid",
+  ".mock-boundary-grid span",
+  ".mock-boundary-grid button:hover"
 ];
 
 const forbiddenPhrases = [

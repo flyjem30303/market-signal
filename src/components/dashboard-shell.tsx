@@ -151,6 +151,7 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
           <StockSourceDecisionBlockers onTab={changeTab} />
           <StockSourceCheckpointPath onTab={changeTab} />
           <StockSourceEscalationSignal onTab={changeTab} />
+          <StockMockBoundaryLegend onTab={changeTab} />
         </>
       )}
 
@@ -972,6 +973,47 @@ function StockSourceEscalationSignal({ onTab }: { onTab: (tab: TabKey) => void }
             <p>{item.text}</p>
             <button onClick={item.action} type="button">
               檢查對應內容
+            </button>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function StockMockBoundaryLegend({ onTab }: { onTab: (tab: TabKey) => void }) {
+  const legends: Array<{ action: () => void; label: string; text: string }> = [
+    {
+      action: () => onTab("today"),
+      label: "mock",
+      text: "代表目前分數只用於產品體驗與閱讀流程驗證，不能被解讀為真實市場訊號。"
+    },
+    {
+      action: () => onTab("backtest"),
+      label: "not_ready",
+      text: "代表來源深度、模型或公開宣稱仍未完成審核，因此不能升級為正式決策素材。"
+    },
+    {
+      action: () => onTab("technical"),
+      label: "local-only",
+      text: "代表此階段只允許本機產品與文件整理，不連線、不寫入資料庫、不產生真實資料。"
+    }
+  ];
+
+  return (
+    <section className="stock-mock-boundary" aria-label="Stock Mock Boundary Legend">
+      <div>
+        <p className="eyebrow">Boundary Legend</p>
+        <h2>Mock 邊界圖例</h2>
+        <p>這些標籤是產品安全線，不是技術裝飾；使用者看到分數前，必須先理解目前不能做什麼。</p>
+      </div>
+      <div className="mock-boundary-grid">
+        {legends.map((item) => (
+          <article key={item.label}>
+            <span>{item.label}</span>
+            <p>{item.text}</p>
+            <button onClick={item.action} type="button">
+              查看頁面脈絡
             </button>
           </article>
         ))}
