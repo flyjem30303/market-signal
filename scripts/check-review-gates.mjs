@@ -938,6 +938,11 @@ const checks = [
     name: "cp3-source-depth-local-only-chairman-review-readiness-summary-role-review"
   },
   {
+    command: [node, "scripts/check-cp3-source-depth-local-only-chairman-review-readiness-checkpoint-summary.mjs"],
+    expectStatus: "ok",
+    name: "cp3-source-depth-local-only-chairman-review-readiness-checkpoint-summary"
+  },
+  {
     command: [node, "scripts/check-cp3-tw-stock-historical-plan.mjs"],
     expectStatus: "ok",
     name: "cp3-tw-stock-historical-plan"
