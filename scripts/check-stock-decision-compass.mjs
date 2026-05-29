@@ -25,6 +25,8 @@ const requiredComponentPhrases = [
   "Stock Decision Boundary",
   "StockReviewQueue",
   "Stock Review Queue",
+  "StockRoleResponsibilityMap",
+  "Stock Role Responsibility Map",
   "scoreSourceLabel",
   "snapshot.riskScore",
   "snapshot.healthScore",
@@ -37,9 +39,12 @@ const requiredComponentPhrases = [
   "看完燈號後怎麼做",
   "目前能做與不能做",
   "下一輪覆核問題",
-  "資料覆核",
-  "模型覆核",
-  "風險覆核",
+  "角色責任分工",
+  "資料角色",
+  "投資角色",
+  "法遵角色",
+  "CEO / PM",
+  "不排會、不授權",
   "不代表已排會或已授權",
   "可以做",
   "不能做",
@@ -80,7 +85,10 @@ const requiredCssPhrases = [
   ".decision-boundary-grid article.blocked",
   ".stock-review-queue",
   ".review-queue-grid",
-  ".review-queue-grid button:hover"
+  ".review-queue-grid button:hover",
+  ".stock-role-map",
+  ".role-map-grid",
+  ".role-map-grid button:hover"
 ];
 
 const forbiddenPhrases = [

@@ -143,6 +143,7 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
           <StockNextStepGuide snapshot={snapshot} onTab={changeTab} />
           <StockDecisionBoundary onTab={changeTab} />
           <StockReviewQueue snapshot={snapshot} onTab={changeTab} />
+          <StockRoleResponsibilityMap onTab={changeTab} />
         </>
       )}
 
@@ -613,6 +614,57 @@ function StockReviewQueue({ snapshot, onTab }: { snapshot: SignalSnapshot; onTab
             <p>{item.text}</p>
             <button onClick={item.action} type="button">
               前往檢查
+            </button>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function StockRoleResponsibilityMap({ onTab }: { onTab: (tab: TabKey) => void }) {
+  const roles: Array<{ action: () => void; focus: string; name: string; owner: string }> = [
+    {
+      action: () => onTab("today"),
+      focus: "確認資料旗標與 mock 邊界是否清楚揭露。",
+      name: "資料角色",
+      owner: "Data"
+    },
+    {
+      action: () => onTab("technical"),
+      focus: "確認風險分數、波動來源與停損邏輯是否被拆解。",
+      name: "投資角色",
+      owner: "Investment"
+    },
+    {
+      action: () => onTab("backtest"),
+      focus: "確認回測限制、模型版本與公開宣稱是否仍維持不核准。",
+      name: "法遵角色",
+      owner: "Legal"
+    },
+    {
+      action: () => onTab("trend"),
+      focus: "彙整角色意見，決定是否形成下一個正式會議候選題。",
+      name: "CEO / PM",
+      owner: "CEO"
+    }
+  ];
+
+  return (
+    <section className="stock-role-map" aria-label="Stock Role Responsibility Map">
+      <div>
+        <p className="eyebrow">Role Map</p>
+        <h2>角色責任分工</h2>
+        <p>這是下一輪討論前的責任提示，不排會、不授權，也不改變目前 mock 與 not_ready 狀態。</p>
+      </div>
+      <div className="role-map-grid">
+        {roles.map((role) => (
+          <article key={role.owner}>
+            <span>{role.owner}</span>
+            <strong>{role.name}</strong>
+            <p>{role.focus}</p>
+            <button onClick={role.action} type="button">
+              查看相關頁籤
             </button>
           </article>
         ))}
