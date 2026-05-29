@@ -137,6 +137,7 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
           <QuoteSummary asset={selected} isFavorite={isFavorite} quote={quote} snapshot={snapshot} onFavorite={toggleFavorite} />
           <StockPageCompass activeTab={activeTab} onTab={changeTab} />
           <StockModuleHighlights snapshot={snapshot} onTab={changeTab} />
+          <StockRiskChecklist snapshot={snapshot} onTab={changeTab} />
         </>
       )}
 
@@ -371,6 +372,54 @@ function StockModuleHighlights({ snapshot, onTab }: { snapshot: SignalSnapshot; 
         <p>仍有 mock 或缺漏旗標，正式判讀前必須保留模型邊界與資料品質折扣。</p>
         <button onClick={() => onTab("today")} type="button">看今日狀態</button>
       </article>
+    </section>
+  );
+}
+
+function StockRiskChecklist({ snapshot, onTab }: { snapshot: SignalSnapshot; onTab: (tab: TabKey) => void }) {
+  const checklist = [
+    {
+      action: () => onTab("trend"),
+      button: "看趨勢",
+      status: snapshot.healthScore >= 65 ? "pass" : "watch",
+      text: snapshot.healthScore >= 65 ? "健康度足以支撐觀察，但仍需確認分數是否連續。" : "健康度不足，先不要只因單日燈號做判斷。",
+      title: "趨勢是否連續"
+    },
+    {
+      action: () => onTab("technical"),
+      button: "看技術",
+      status: snapshot.riskScore >= 60 ? "watch" : "pass",
+      text: snapshot.riskScore >= 60 ? "風險分數偏高，追價前要先確認波動來源。" : "風險分數尚可，但仍要保留停損與部位控管。",
+      title: "風險是否升溫"
+    },
+    {
+      action: () => onTab("today"),
+      button: "看資料",
+      status: snapshot.missingModuleFlags.length || snapshot.staleDataFlags.length ? "watch" : "pass",
+      text: "目前仍有 mock 或資料旗標，所有解讀都應降級為研究體驗。",
+      title: "資料是否可靠"
+    }
+  ];
+
+  return (
+    <section className="stock-risk-checklist" aria-label="Stock Risk Checklist">
+      <div>
+        <p className="eyebrow">Risk Checklist</p>
+        <h2>進場前風險檢查</h2>
+        <p>這些檢查只協助閱讀 mock 模型，不構成買賣建議。</p>
+      </div>
+      <div className="risk-check-grid">
+        {checklist.map((item) => (
+          <article className={item.status} key={item.title}>
+            <span>{item.status === "pass" ? "可觀察" : "需確認"}</span>
+            <strong>{item.title}</strong>
+            <p>{item.text}</p>
+            <button onClick={item.action} type="button">
+              {item.button}
+            </button>
+          </article>
+        ))}
+      </div>
     </section>
   );
 }

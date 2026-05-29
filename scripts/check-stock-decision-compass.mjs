@@ -26,7 +26,14 @@ const requiredComponentPhrases = [
   "健康支撐",
   "風險來源",
   "資料缺口",
-  "正式判讀前必須保留模型邊界"
+  "正式判讀前必須保留模型邊界",
+  "StockRiskChecklist",
+  "Stock Risk Checklist",
+  "進場前風險檢查",
+  "趨勢是否連續",
+  "風險是否升溫",
+  "資料是否可靠",
+  "不構成買賣建議"
 ];
 
 const requiredCssPhrases = [
@@ -38,7 +45,10 @@ const requiredCssPhrases = [
   ".stock-page-compass button.active",
   ".stock-module-highlights",
   ".stock-module-highlights article.risk",
-  ".stock-module-highlights article.gap"
+  ".stock-module-highlights article.gap",
+  ".stock-risk-checklist",
+  ".risk-check-grid",
+  ".risk-check-grid article.watch"
 ];
 
 const forbiddenPhrases = [

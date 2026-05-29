@@ -373,6 +373,78 @@ select {
   color: var(--blue);
 }
 
+.stock-risk-checklist {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.75fr) minmax(0, 1.45fr);
+  gap: 16px;
+  align-items: stretch;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+  margin: 0 0 16px;
+  padding: 16px;
+}
+
+.stock-risk-checklist h2 {
+  margin: 0 0 8px;
+}
+
+.stock-risk-checklist p {
+  color: var(--muted);
+  line-height: 1.75;
+  margin: 0;
+}
+
+.risk-check-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.risk-check-grid article {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel-muted);
+  min-height: 156px;
+  padding: 12px;
+}
+
+.risk-check-grid article.pass {
+  border-color: color-mix(in srgb, var(--green) 34%, var(--line));
+}
+
+.risk-check-grid article.watch {
+  border-color: color-mix(in srgb, #d99a00 46%, var(--line));
+}
+
+.risk-check-grid span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.risk-check-grid strong {
+  display: block;
+  font-size: 18px;
+  margin: 8px 0;
+}
+
+.risk-check-grid button {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+  font-weight: 800;
+  margin-top: 12px;
+  padding: 8px 10px;
+}
+
+.risk-check-grid button:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+}
+
 .quote-main {
   display: grid;
   gap: 18px;
@@ -1729,6 +1801,8 @@ input[type="date"] {
   .stock-decision-compass,
   .stock-page-compass,
   .stock-module-highlights,
+  .stock-risk-checklist,
+  .risk-check-grid,
   .quote-stat-grid,
   .internal-status-grid,
   .score-grid,
