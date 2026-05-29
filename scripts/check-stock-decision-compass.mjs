@@ -45,7 +45,16 @@ const requiredComponentPhrases = [
   "Stock Mock Boundary Legend",
   "StockSafeReadingFlow",
   "Stock Safe Reading Flow",
+  "StockStopReadingConditions",
+  "Stock Stop Reading Conditions",
   "來源決策阻擋點",
+  "停止解讀條件",
+  "頁面只能回到檢查與說明",
+  "不應繼續產生投資語氣或正式結論",
+  "來源不足",
+  "宣稱越界",
+  "風險未拆解",
+  "回到檢查",
   "安全解讀流程",
   "使用者應先理解限制，再閱讀資料，最後才看分數",
   "產品體驗，不是投資決策流程",
@@ -191,7 +200,10 @@ const requiredCssPhrases = [
   ".mock-boundary-grid button:hover",
   ".stock-safe-reading",
   ".safe-reading-grid",
-  ".safe-reading-grid button:hover"
+  ".safe-reading-grid button:hover",
+  ".stock-stop-reading",
+  ".stop-reading-grid",
+  ".stop-reading-grid button:hover"
 ];
 
 const forbiddenPhrases = [

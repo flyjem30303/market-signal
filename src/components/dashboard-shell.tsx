@@ -153,6 +153,7 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
           <StockSourceEscalationSignal onTab={changeTab} />
           <StockMockBoundaryLegend onTab={changeTab} />
           <StockSafeReadingFlow onTab={changeTab} />
+          <StockStopReadingConditions onTab={changeTab} />
         </>
       )}
 
@@ -1056,6 +1057,47 @@ function StockSafeReadingFlow({ onTab }: { onTab: (tab: TabKey) => void }) {
             <p>{item.text}</p>
             <button onClick={item.action} type="button">
               依序檢查
+            </button>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function StockStopReadingConditions({ onTab }: { onTab: (tab: TabKey) => void }) {
+  const stops: Array<{ action: () => void; label: string; text: string }> = [
+    {
+      action: () => onTab("today"),
+      label: "來源不足",
+      text: "如果來源、更新時間或資料缺口無法說清楚，就停止用分數推論標的狀態。"
+    },
+    {
+      action: () => onTab("backtest"),
+      label: "宣稱越界",
+      text: "如果文字開始暗示真實績效、真實訊號或買賣建議，就退回 mock 研究體驗。"
+    },
+    {
+      action: () => onTab("technical"),
+      label: "風險未拆解",
+      text: "如果無法說明風險分數來自波動、趨勢或資料品質，就不能進一步形成結論。"
+    }
+  ];
+
+  return (
+    <section className="stock-stop-reading" aria-label="Stock Stop Reading Conditions">
+      <div>
+        <p className="eyebrow">Stop Conditions</p>
+        <h2>停止解讀條件</h2>
+        <p>這些條件一旦成立，頁面只能回到檢查與說明，不應繼續產生投資語氣或正式結論。</p>
+      </div>
+      <div className="stop-reading-grid">
+        {stops.map((item) => (
+          <article key={item.label}>
+            <span>{item.label}</span>
+            <p>{item.text}</p>
+            <button onClick={item.action} type="button">
+              回到檢查
             </button>
           </article>
         ))}
