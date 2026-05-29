@@ -138,6 +138,7 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
           <StockPageCompass activeTab={activeTab} onTab={changeTab} />
           <StockModuleHighlights snapshot={snapshot} onTab={changeTab} />
           <StockRiskChecklist snapshot={snapshot} onTab={changeTab} />
+          <StockNextStepGuide snapshot={snapshot} onTab={changeTab} />
         </>
       )}
 
@@ -416,6 +417,58 @@ function StockRiskChecklist({ snapshot, onTab }: { snapshot: SignalSnapshot; onT
             <p>{item.text}</p>
             <button onClick={item.action} type="button">
               {item.button}
+            </button>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function StockNextStepGuide({ snapshot, onTab }: { snapshot: SignalSnapshot; onTab: (tab: TabKey) => void }) {
+  const hasDataWarnings = snapshot.missingModuleFlags.length > 0 || snapshot.staleDataFlags.length > 0;
+  const primaryTab: TabKey = hasDataWarnings ? "today" : snapshot.riskScore >= 60 ? "technical" : "trend";
+  const secondaryTab: TabKey = snapshot.riskScore >= 60 ? "trend" : "technical";
+  const guide = [
+    {
+      label: "第一步",
+      tab: primaryTab,
+      text: hasDataWarnings
+        ? "先確認資料旗標，mock 或缺漏資料存在時，所有分數都只當研究體驗。"
+        : snapshot.riskScore >= 60
+          ? "先看技術與波動，風險升溫時不要直接把燈號當成行動指令。"
+          : "先看趨勢是否連續，單日分數不足以支持穩定判斷。",
+      title: hasDataWarnings ? "先確認資料可靠度" : snapshot.riskScore >= 60 ? "先拆解風險來源" : "先檢查趨勢連續性"
+    },
+    {
+      label: "第二步",
+      tab: secondaryTab,
+      text: "交叉檢查另一個模組，避免只用單一分數解讀整個標的。",
+      title: snapshot.riskScore >= 60 ? "再回看趨勢" : "再確認技術風險"
+    },
+    {
+      label: "停止點",
+      tab: "backtest" as TabKey,
+      text: "若資料來源、模型版本或回測說明無法支持結論，就停止推論並保留觀察。",
+      title: "不足時先不下結論"
+    }
+  ];
+
+  return (
+    <section className="stock-next-step-guide" aria-label="Stock Next Step Guide">
+      <div className="next-step-head">
+        <p className="eyebrow">Next Step</p>
+        <h2>看完燈號後怎麼做</h2>
+        <p>這裡只整理閱讀順序，不提供買賣建議，也不把 mock 分數包裝成真實訊號。</p>
+      </div>
+      <div className="next-step-grid">
+        {guide.map((item) => (
+          <article key={item.label}>
+            <span>{item.label}</span>
+            <strong>{item.title}</strong>
+            <p>{item.text}</p>
+            <button onClick={() => onTab(item.tab)} type="button">
+              前往查看
             </button>
           </article>
         ))}

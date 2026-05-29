@@ -445,6 +445,72 @@ select {
   color: var(--blue);
 }
 
+.stock-next-step-guide {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+  display: grid;
+  grid-template-columns: minmax(260px, 0.72fr) minmax(0, 1.48fr);
+  gap: 16px;
+  margin: 0 0 16px;
+  padding: 16px;
+}
+
+.next-step-head h2 {
+  margin: 0 0 8px;
+}
+
+.next-step-head p,
+.next-step-grid p {
+  color: var(--muted);
+  line-height: 1.75;
+  margin: 0;
+}
+
+.next-step-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.next-step-grid article {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel-muted);
+  display: flex;
+  flex-direction: column;
+  min-height: 166px;
+  padding: 12px;
+}
+
+.next-step-grid span {
+  color: var(--blue);
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.next-step-grid strong {
+  display: block;
+  font-size: 18px;
+  margin: 8px 0;
+}
+
+.next-step-grid button {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+  font-weight: 800;
+  margin-top: auto;
+  padding: 8px 10px;
+}
+
+.next-step-grid button:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+}
+
 .quote-main {
   display: grid;
   gap: 18px;
@@ -1803,6 +1869,8 @@ input[type="date"] {
   .stock-module-highlights,
   .stock-risk-checklist,
   .risk-check-grid,
+  .stock-next-step-guide,
+  .next-step-grid,
   .quote-stat-grid,
   .internal-status-grid,
   .score-grid,
