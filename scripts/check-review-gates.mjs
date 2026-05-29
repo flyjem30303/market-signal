@@ -948,6 +948,11 @@ const checks = [
     name: "cp3-source-depth-local-only-chairman-review-readiness-checkpoint-summary-role-review"
   },
   {
+    command: [node, "scripts/check-cp3-source-depth-local-only-chairman-review-handoff-packet-boundary-map.mjs"],
+    expectStatus: "ok",
+    name: "cp3-source-depth-local-only-chairman-review-handoff-packet-boundary-map"
+  },
+  {
     command: [node, "scripts/check-cp3-tw-stock-historical-plan.mjs"],
     expectStatus: "ok",
     name: "cp3-tw-stock-historical-plan"
