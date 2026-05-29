@@ -105,6 +105,7 @@
     "check:cp3-source-depth-local-only-decision-meeting-agenda-role-review": "node scripts/check-cp3-source-depth-local-only-decision-meeting-agenda-role-review.mjs",
     "check:cp3-source-depth-local-only-meeting-readiness-checklist": "node scripts/check-cp3-source-depth-local-only-meeting-readiness-checklist.mjs",
     "check:cp3-source-depth-local-only-meeting-readiness-checklist-role-review": "node scripts/check-cp3-source-depth-local-only-meeting-readiness-checklist-role-review.mjs",
+    "check:cp3-source-depth-local-only-meeting-decision-packet-outline": "node scripts/check-cp3-source-depth-local-only-meeting-decision-packet-outline.mjs",
     "check:cp3-tw-stock-data-quality-downgrade-matrix": "node scripts/check-cp3-tw-stock-data-quality-downgrade-matrix.mjs",
     "check:cp3-tw-stock-data-quality-downgrade-matrix-role-review": "node scripts/check-cp3-tw-stock-data-quality-downgrade-matrix-role-review.mjs",
     "check:cp3-global-model-version-naming-rules": "node scripts/check-cp3-global-model-version-naming-rules.mjs",
