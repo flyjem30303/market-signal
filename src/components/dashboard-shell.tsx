@@ -154,6 +154,7 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
           <StockMockBoundaryLegend onTab={changeTab} />
           <StockSafeReadingFlow onTab={changeTab} />
           <StockStopReadingConditions onTab={changeTab} />
+          <StockExplanationPriority onTab={changeTab} />
         </>
       )}
 
@@ -1098,6 +1099,51 @@ function StockStopReadingConditions({ onTab }: { onTab: (tab: TabKey) => void })
             <p>{item.text}</p>
             <button onClick={item.action} type="button">
               回到檢查
+            </button>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function StockExplanationPriority({ onTab }: { onTab: (tab: TabKey) => void }) {
+  const priorities: Array<{ action: () => void; label: string; rank: string; text: string }> = [
+    {
+      action: () => onTab("today"),
+      label: "來源說明",
+      rank: "P1",
+      text: "先補來源、更新時間、缺口影響與資料品質折扣，避免使用者把缺資料看成模型判斷。"
+    },
+    {
+      action: () => onTab("backtest"),
+      label: "模型限制",
+      rank: "P2",
+      text: "再補 mock 範圍、回測限制與不可公開主張，避免把產品驗證包裝成績效。"
+    },
+    {
+      action: () => onTab("technical"),
+      label: "風險解釋",
+      rank: "P3",
+      text: "最後補風險分數來源、波動情境與使用限制，避免分數被轉成行動指令。"
+    }
+  ];
+
+  return (
+    <section className="stock-explanation-priority" aria-label="Stock Explanation Priority">
+      <div>
+        <p className="eyebrow">Explanation Priority</p>
+        <h2>說明補強優先序</h2>
+        <p>CEO 下一步仍不排會，先依照這個順序補強頁面說明；完成後才重新評估是否需要角色覆核。</p>
+      </div>
+      <div className="explanation-priority-grid">
+        {priorities.map((item) => (
+          <article key={item.rank}>
+            <span>{item.rank}</span>
+            <strong>{item.label}</strong>
+            <p>{item.text}</p>
+            <button onClick={item.action} type="button">
+              查看補強位置
             </button>
           </article>
         ))}

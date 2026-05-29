@@ -47,7 +47,16 @@ const requiredComponentPhrases = [
   "Stock Safe Reading Flow",
   "StockStopReadingConditions",
   "Stock Stop Reading Conditions",
+  "StockExplanationPriority",
+  "Stock Explanation Priority",
   "來源決策阻擋點",
+  "說明補強優先序",
+  "CEO 下一步仍不排會",
+  "完成後才重新評估是否需要角色覆核",
+  "來源說明",
+  "模型限制",
+  "風險解釋",
+  "查看補強位置",
   "停止解讀條件",
   "頁面只能回到檢查與說明",
   "不應繼續產生投資語氣或正式結論",
@@ -203,7 +212,11 @@ const requiredCssPhrases = [
   ".safe-reading-grid button:hover",
   ".stock-stop-reading",
   ".stop-reading-grid",
-  ".stop-reading-grid button:hover"
+  ".stop-reading-grid button:hover",
+  ".stock-explanation-priority",
+  ".explanation-priority-grid",
+  ".explanation-priority-grid strong",
+  ".explanation-priority-grid button:hover"
 ];
 
 const forbiddenPhrases = [
