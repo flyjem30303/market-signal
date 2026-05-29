@@ -234,6 +234,58 @@ select {
   padding: 20px;
 }
 
+.stock-evidence-snapshot {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+  display: grid;
+  grid-template-columns: minmax(260px, 0.72fr) minmax(0, 1.48fr);
+  gap: 16px;
+  margin: 0 0 16px;
+  padding: 16px;
+}
+
+.stock-evidence-snapshot h2 {
+  margin: 0 0 8px;
+}
+
+.stock-evidence-snapshot p {
+  color: var(--muted);
+  line-height: 1.75;
+  margin: 0;
+}
+
+.evidence-snapshot-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.evidence-snapshot-grid article {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel-muted);
+  min-height: 82px;
+  padding: 12px;
+}
+
+.evidence-snapshot-grid span {
+  color: var(--muted);
+  display: block;
+  font-size: 12px;
+  font-weight: 850;
+  margin-bottom: 8px;
+}
+
+.evidence-snapshot-grid strong {
+  color: var(--ink);
+  display: block;
+  font-size: 16px;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
 .stock-decision-compass {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1864,6 +1916,8 @@ input[type="date"] {
   .asset-toolbar,
   .asset-grid,
   .quote-panel,
+  .stock-evidence-snapshot,
+  .evidence-snapshot-grid,
   .stock-decision-compass,
   .stock-page-compass,
   .stock-module-highlights,

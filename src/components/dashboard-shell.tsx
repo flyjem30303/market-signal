@@ -133,6 +133,7 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
       {includeSeoContent && (
         <>
           <DataFreshnessStrip freshness={freshness} />
+          <StockEvidenceSnapshot snapshot={snapshot} />
           <StockDecisionCompass scoreSourceLabel={freshness.scoreSourceLabel} snapshot={snapshot} />
           <QuoteSummary asset={selected} isFavorite={isFavorite} quote={quote} snapshot={snapshot} onFavorite={toggleFavorite} />
           <StockPageCompass activeTab={activeTab} onTab={changeTab} />
@@ -287,6 +288,34 @@ function QuoteStat({ label, value, tone }: { label: string; value: string; tone?
       <span>{label}</span>
       <strong style={tone ? { color: tone } : undefined}>{value}</strong>
     </div>
+  );
+}
+
+function StockEvidenceSnapshot({ snapshot }: { snapshot: SignalSnapshot }) {
+  const warningCount = snapshot.missingModuleFlags.length + snapshot.staleDataFlags.length;
+  const items = [
+    { label: "模型版本", value: snapshot.modelVersion },
+    { label: "資料品質", value: `${snapshot.dataQualityGrade} / ${snapshot.dataQualityScore}` },
+    { label: "更新時間", value: snapshot.lastUpdatedAt },
+    { label: "資料旗標", value: `${warningCount} 項需確認` }
+  ];
+
+  return (
+    <section className="stock-evidence-snapshot" aria-label="Stock Evidence Snapshot">
+      <div>
+        <p className="eyebrow">Evidence Snapshot</p>
+        <h2>目前證據狀態</h2>
+        <p>這是 mock 模型的資料狀態摘要；正式決策前仍需通過來源深度與公開宣稱審核。</p>
+      </div>
+      <div className="evidence-snapshot-grid">
+        {items.map((item) => (
+          <article key={item.label}>
+            <span>{item.label}</span>
+            <strong>{item.value}</strong>
+          </article>
+        ))}
+      </div>
+    </section>
   );
 }
 
