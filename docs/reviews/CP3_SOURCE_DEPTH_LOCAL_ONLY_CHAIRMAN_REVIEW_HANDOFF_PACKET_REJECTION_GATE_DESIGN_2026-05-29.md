@@ -1,0 +1,309 @@
+# CP3 Source-Depth Local-Only Chairman Review Handoff Packet Rejection Gate Design
+
+Checkpoint: CP3 Model Credibility
+Date: 2026-05-29
+Trigger: CP3 source-depth local-only chairman review handoff packet boundary map role review recorded
+
+Status: CP3 source-depth local-only chairman review handoff packet rejection gate design recorded
+
+## CEO Decision
+
+```text
+REVISE
+```
+
+This local-only chairman review handoff packet rejection gate design defines
+design criteria for rejecting a future chairman-review handoff packet before
+human review. It is rejection-gate design only, not a handoff packet, not a
+submission packet, not a runtime checker, not execution-readiness evidence,
+and not authorization evidence. It does not create chairman review handoff
+packet, does not submit chairman review, does not schedule the meeting, does
+not request chairman approval, does not answer unresolved decisions, does not
+approve authorization, does not start an approval workflow, does not create an
+authorization packet, does not create a real request packet, does not create
+real evidence artifact files, does not fill template values, does not create
+the future evidence checker, does not connect to Supabase, does not run SQL,
+does not write Supabase, does not write staging rows, does not write
+daily_prices, does not create seed SQL, does not set scoreSource=real, does
+not clear source-depth not_ready, and does not make public claims.
+
+```text
+local-only chairman review handoff packet rejection gate design
+future chairman-review handoff packet rejection criteria
+rejection-gate design only
+not a handoff packet
+not a submission packet
+not a runtime checker
+not execution-readiness evidence
+not authorization evidence
+does not create chairman review handoff packet
+does not submit chairman review
+does not schedule the meeting
+does not request chairman approval
+does not answer unresolved decisions
+does not approve authorization
+does not start an approval workflow
+does not create an authorization packet
+does not create a real request packet
+does not create real evidence artifact files
+does not fill template values
+does not create the future evidence checker
+does not clear source-depth not_ready
+```
+
+## Evidence Reviewed
+
+```text
+docs/reviews/CP3_SOURCE_DEPTH_LOCAL_ONLY_CHAIRMAN_REVIEW_HANDOFF_PACKET_BOUNDARY_MAP_ROLE_REVIEW_2026-05-29.md reviewed
+docs/reviews/CP3_SOURCE_DEPTH_LOCAL_ONLY_CHAIRMAN_REVIEW_HANDOFF_PACKET_BOUNDARY_MAP_2026-05-29.md reviewed
+docs/reviews/CP3_SOURCE_DEPTH_LOCAL_ONLY_CHAIRMAN_REVIEW_READINESS_CHECKPOINT_SUMMARY_ROLE_REVIEW_2026-05-29.md reviewed
+scripts/check-cp3-tw-stock-source-depth.mjs remains not_ready as expected
+```
+
+## Gate Purpose
+
+```text
+rejection gate design prepares future chairman-review handoff packet review
+rejection gate design prevents discussion materials from becoming approval pressure
+rejection gate design prevents boundary references from becoming submission evidence
+rejection gate design is not a handoff packet
+rejection gate design is not a submission packet
+rejection gate design is not approval
+rejection gate design is not execution
+rejection gate design is not evidence
+rejection gate design is not a future evidence checker
+source-depth production gate remains not_ready
+public data source remains mock
+```
+
+## Gate Inputs
+
+Gate inputs are future handoff packet fields only. This design does not create
+or fill those fields.
+
+```text
+Gate Input: packet purpose statement
+Gate Input: explicit non-submission statement
+Gate Input: explicit non-authorization statement
+Gate Input: explicit non-execution statement
+Gate Input: discussion-only statement
+Gate Input: included reference list
+Gate Input: excluded content list
+Gate Input: unresolved decision list
+Gate Input: owner and reviewer list
+Gate Input: source-depth state statement
+Gate Input: public-claim boundary statement
+Gate Input: external-system boundary statement
+Gate Input: pre-chairman wording scan
+```
+
+## Hard Reject Conditions
+
+```text
+Hard Reject: missing packet purpose statement
+Hard Reject: missing explicit non-submission statement
+Hard Reject: missing explicit non-authorization statement
+Hard Reject: missing explicit non-execution statement
+Hard Reject: missing discussion-only statement
+Hard Reject: missing included reference list
+Hard Reject: missing excluded content list
+Hard Reject: missing unresolved decision list
+Hard Reject: missing owner and reviewer list
+Hard Reject: missing source-depth state statement
+Hard Reject: missing public-claim boundary statement
+Hard Reject: missing external-system boundary statement
+Hard Reject: approval-like wording before chairman decision
+Hard Reject: submission-like wording before chairman decision
+Hard Reject: meeting schedule wording before chairman decision
+Hard Reject: user said continue treated as approval
+```
+
+## Forbidden Content Reject Conditions
+
+```text
+Reject forbidden content: chairman approval wording
+Reject forbidden content: submitted-review wording
+Reject forbidden content: scheduled-meeting wording
+Reject forbidden content: answered-decision wording
+Reject forbidden content: approved-authorization wording
+Reject forbidden content: started-workflow wording
+Reject forbidden content: created-authorization-packet wording
+Reject forbidden content: real request packet wording
+Reject forbidden content: real evidence artifact wording
+Reject forbidden content: filled template values
+Reject forbidden content: future evidence checker output
+Reject forbidden content: raw market rows
+Reject forbidden content: CSV market data
+Reject forbidden content: JSON market data
+Reject forbidden content: sample market rows
+Reject forbidden content: Supabase read output
+Reject forbidden content: SQL execution output
+Reject forbidden content: runtime wiring instructions
+Reject forbidden content: public claim copy
+Reject forbidden content: scoreSource=real activation language
+Reject forbidden content: source-depth not_ready clearance language
+```
+
+## Gate Output States
+
+```text
+Gate Output: reject_missing_purpose
+Gate Output: reject_missing_non_submission
+Gate Output: reject_missing_non_authorization
+Gate Output: reject_missing_non_execution
+Gate Output: reject_missing_discussion_only
+Gate Output: reject_missing_references
+Gate Output: reject_missing_exclusions
+Gate Output: reject_missing_unresolved_decisions
+Gate Output: reject_missing_owners
+Gate Output: reject_forbidden_approval_wording
+Gate Output: reject_forbidden_submission_wording
+Gate Output: reject_forbidden_schedule_wording
+Gate Output: reject_forbidden_market_data
+Gate Output: reject_forbidden_external_output
+Gate Output: reject_forbidden_runtime_claims
+Gate Output: ready_for_chairman_review_discussion
+```
+
+The `ready_for_chairman_review_discussion` output is not approval.
+
+```text
+ready_for_chairman_review_discussion is not approval
+ready_for_chairman_review_discussion is not submission
+ready_for_chairman_review_discussion is not execution
+ready_for_chairman_review_discussion is not authorization
+ready_for_chairman_review_discussion is not evidence
+ready_for_chairman_review_discussion does not clear source-depth not_ready
+ready_for_chairman_review_discussion does not set scoreSource=real
+ready_for_chairman_review_discussion does not make public claims
+```
+
+## Gate Non-Responsibilities
+
+```text
+gate does not create chairman review handoff packet
+gate does not submit chairman review
+gate does not schedule the meeting
+gate does not request chairman approval
+gate does not answer unresolved decisions
+gate does not approve authorization
+gate does not start an approval workflow
+gate does not create authorization packet
+gate does not create a real request packet
+gate does not create evidence files
+gate does not fill template values
+gate does not create the future evidence checker
+gate does not connect to Supabase
+gate does not run SQL
+gate does not fetch market data
+gate does not parse market rows
+gate does not wire runtime code
+gate does not set scoreSource=real
+gate does not clear source-depth not_ready
+gate does not make public claims
+```
+
+## CEO Recommendation
+
+```text
+CEO recommendation: use this rejection gate design as the guard before any future chairman-review handoff packet discussion
+Reason: rejection-first design prevents preparation artifacts from becoming submission or approval pressure
+Next safe slice: record CP3 source-depth local-only chairman review handoff packet rejection gate design role review
+The next safe slice must remain local-only
+The next safe slice must not create chairman review handoff packet
+The next safe slice must not submit chairman review
+The next safe slice must not schedule the meeting
+The next safe slice must not request chairman approval
+The next safe slice must not approve authorization
+The next safe slice must not start an approval workflow
+The next safe slice must not create authorization packet
+The next safe slice must not create a real request packet
+The next safe slice must not create evidence files
+The next safe slice must not fill template values
+The next safe slice must not create the future evidence checker
+The next safe slice must not connect to Supabase
+The next safe slice must not run SQL
+The next safe slice must not fetch market data
+The next safe slice must not parse market rows
+The next safe slice must not wire runtime code
+The next safe slice must not set scoreSource=real
+The next safe slice must not clear source-depth not_ready
+The next safe slice must not make public claims
+```
+
+## Required Local Checks
+
+```text
+scripts/check-cp3-source-depth-local-only-chairman-review-handoff-packet-rejection-gate-design.mjs passes
+scripts/check-cp3-source-depth-local-only-chairman-review-handoff-packet-boundary-map-role-review.mjs passes
+scripts/check-cp3-source-depth-local-only-chairman-review-handoff-packet-boundary-map.mjs passes
+scripts/check-cp3-tw-stock-source-depth.mjs remains not_ready as expected
+scripts/check-review-gates.mjs passes
+TypeScript noEmit passes
+```
+
+## Non-Negotiable Guardrails
+
+```text
+chairman review handoff packet rejection gate design only
+do not create chairman review handoff packet
+do not submit chairman review
+do not schedule the meeting
+do not request chairman approval
+do not answer unresolved decisions
+do not approve authorization
+do not start an approval workflow
+do not create authorization packet
+do not approve template copy
+do not create a real request packet
+do not create real evidence artifact files
+do not fill template values
+do not create future evidence checker
+do not add example market data
+do not add sample rows
+do not add sample JSON
+do not add sample CSV
+do not add Supabase output
+do not add SQL output
+do not fetch market data
+do not parse market rows
+do not run source-depth validator against Supabase
+do not connect to Supabase
+do not run SQL
+do not write Supabase
+do not write staging rows
+do not write daily_prices
+do not create seed SQL
+do not store raw market rows
+do not commit CSV / JSON market data files
+do not set scoreSource=real
+do not make public backtest claims
+do not clear source-depth not_ready
+CP3 source-depth production gate remains not_ready
+Keep public data source mock
+```
+
+## Next Implementation Slice
+
+```text
+record CP3 source-depth local-only chairman review handoff packet rejection gate design role review
+do not create chairman review handoff packet
+do not submit chairman review
+do not schedule the meeting
+do not request chairman approval
+do not approve authorization
+do not answer unresolved decisions
+do not start an approval workflow
+do not create authorization packet
+do not create a real request packet
+do not create real evidence artifact files
+do not fill template values
+do not create future evidence checker
+do not run validator against Supabase
+do not connect to Supabase
+do not run SQL
+do not write Supabase
+do not create seed SQL
+do not commit raw market data
+keep public data source mock
+```
