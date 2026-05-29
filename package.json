@@ -70,6 +70,7 @@
     "check:cp3-source-depth-evidence-artifact-checklist-plan-role-review": "node scripts/check-cp3-source-depth-evidence-artifact-checklist-plan-role-review.mjs",
     "check:cp3-source-depth-evidence-empty-template-design": "node scripts/check-cp3-source-depth-evidence-empty-template-design.mjs",
     "check:cp3-source-depth-evidence-empty-template-design-role-review": "node scripts/check-cp3-source-depth-evidence-empty-template-design-role-review.mjs",
+    "check:cp3-source-depth-evidence-template-creation-approval-gate": "node scripts/check-cp3-source-depth-evidence-template-creation-approval-gate.mjs",
     "check:cp3-tw-stock-data-quality-downgrade-matrix": "node scripts/check-cp3-tw-stock-data-quality-downgrade-matrix.mjs",
     "check:cp3-tw-stock-data-quality-downgrade-matrix-role-review": "node scripts/check-cp3-tw-stock-data-quality-downgrade-matrix-role-review.mjs",
     "check:cp3-global-model-version-naming-rules": "node scripts/check-cp3-global-model-version-naming-rules.mjs",

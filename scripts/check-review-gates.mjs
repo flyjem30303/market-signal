@@ -93,6 +93,11 @@ const checks = [
     name: "cp3-source-depth-evidence-empty-template-design-role-review"
   },
   {
+    command: [node, "scripts/check-cp3-source-depth-evidence-template-creation-approval-gate.mjs"],
+    expectStatus: "ok",
+    name: "cp3-source-depth-evidence-template-creation-approval-gate"
+  },
+  {
     command: [node, "scripts/check-cp3-tw-stock-historical-plan.mjs"],
     expectStatus: "ok",
     name: "cp3-tw-stock-historical-plan"
