@@ -141,6 +141,7 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
           <StockModuleHighlights snapshot={snapshot} onTab={changeTab} />
           <StockRiskChecklist snapshot={snapshot} onTab={changeTab} />
           <StockNextStepGuide snapshot={snapshot} onTab={changeTab} />
+          <StockDecisionBoundary onTab={changeTab} />
         </>
       )}
 
@@ -530,6 +531,45 @@ function StockNextStepGuide({ snapshot, onTab }: { snapshot: SignalSnapshot; onT
             </button>
           </article>
         ))}
+      </div>
+    </section>
+  );
+}
+
+function StockDecisionBoundary({ onTab }: { onTab: (tab: TabKey) => void }) {
+  const allowed = ["比較模組分數", "檢查資料缺口", "閱讀回測限制"];
+  const blocked = ["宣稱真實訊號", "直接產生買賣建議", "忽略資料來源審核"];
+
+  return (
+    <section className="stock-decision-boundary" aria-label="Stock Decision Boundary">
+      <div>
+        <p className="eyebrow">Decision Boundary</p>
+        <h2>目前能做與不能做</h2>
+        <p>這個頁面目前只支援研究體驗與產品驗證；正式投資用途要等資料、模型、法遵與公開宣稱審核完成。</p>
+      </div>
+      <div className="decision-boundary-grid">
+        <article className="allowed">
+          <span>可以做</span>
+          <ul>
+            {allowed.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+          <button onClick={() => onTab("backtest")} type="button">
+            查看回測
+          </button>
+        </article>
+        <article className="blocked">
+          <span>不能做</span>
+          <ul>
+            {blocked.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+          <button onClick={() => onTab("today")} type="button">
+            回到摘要
+          </button>
+        </article>
       </div>
     </section>
   );

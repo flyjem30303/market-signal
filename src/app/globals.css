@@ -630,6 +630,82 @@ select {
   color: var(--blue);
 }
 
+.stock-decision-boundary {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+  display: grid;
+  grid-template-columns: minmax(260px, 0.72fr) minmax(0, 1.48fr);
+  gap: 16px;
+  margin: 0 0 16px;
+  padding: 16px;
+}
+
+.stock-decision-boundary h2 {
+  margin: 0 0 8px;
+}
+
+.stock-decision-boundary p {
+  color: var(--muted);
+  line-height: 1.75;
+  margin: 0;
+}
+
+.decision-boundary-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.decision-boundary-grid article {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel-muted);
+  display: flex;
+  flex-direction: column;
+  min-height: 182px;
+  padding: 12px;
+}
+
+.decision-boundary-grid article.allowed {
+  border-left: 4px solid var(--green);
+}
+
+.decision-boundary-grid article.blocked {
+  border-left: 4px solid var(--red);
+}
+
+.decision-boundary-grid span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.decision-boundary-grid ul {
+  color: var(--ink);
+  display: grid;
+  gap: 8px;
+  line-height: 1.55;
+  margin: 10px 0 14px;
+  padding-left: 18px;
+}
+
+.decision-boundary-grid button {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+  font-weight: 800;
+  margin-top: auto;
+  padding: 8px 10px;
+}
+
+.decision-boundary-grid button:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+}
+
 .quote-main {
   display: grid;
   gap: 18px;
@@ -1993,6 +2069,8 @@ input[type="date"] {
   .risk-check-grid,
   .stock-next-step-guide,
   .next-step-grid,
+  .stock-decision-boundary,
+  .decision-boundary-grid,
   .quote-stat-grid,
   .internal-status-grid,
   .score-grid,
