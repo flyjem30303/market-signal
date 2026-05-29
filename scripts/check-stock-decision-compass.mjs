@@ -37,7 +37,16 @@ const requiredComponentPhrases = [
   "Stock Source Acceptance Criteria",
   "StockSourceDecisionBlockers",
   "Stock Source Decision Blockers",
+  "StockSourceCheckpointPath",
+  "Stock Source Checkpoint Path",
   "來源決策阻擋點",
+  "下一個檢討節點",
+  "這不是授權流程，也不建立 packet",
+  "避免團隊在文件裡迷路",
+  "1. 說明補強",
+  "2. 角色覆核",
+  "3. CEO 檢討",
+  "查看相關頁籤",
   "CEO 目前不建議排正式會議",
   "回到佐證頁籤",
   "不能暗示已完成真實訊號或績效驗證",
@@ -141,7 +150,11 @@ const requiredCssPhrases = [
   ".stock-source-blockers",
   ".source-blocker-grid",
   ".source-blocker-grid article",
-  ".source-blocker-grid button:hover"
+  ".source-blocker-grid button:hover",
+  ".stock-source-checkpoint",
+  ".source-checkpoint-grid",
+  ".source-checkpoint-grid article.active",
+  ".source-checkpoint-grid button:hover"
 ];
 
 const forbiddenPhrases = [

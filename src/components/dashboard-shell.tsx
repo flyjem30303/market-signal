@@ -149,6 +149,7 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
           <StockSourceExplanationBacklog snapshot={snapshot} onTab={changeTab} />
           <StockSourceAcceptanceCriteria onTab={changeTab} />
           <StockSourceDecisionBlockers onTab={changeTab} />
+          <StockSourceCheckpointPath onTab={changeTab} />
         </>
       )}
 
@@ -881,6 +882,50 @@ function StockSourceDecisionBlockers({ onTab }: { onTab: (tab: TabKey) => void }
             <p>{item.text}</p>
             <button onClick={item.action} type="button">
               回到佐證頁籤
+            </button>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function StockSourceCheckpointPath({ onTab }: { onTab: (tab: TabKey) => void }) {
+  const steps: Array<{ action: () => void; label: string; state: "active" | "waiting"; text: string }> = [
+    {
+      action: () => onTab("today"),
+      label: "1. 說明補強",
+      state: "active",
+      text: "先補齊來源、資料缺口、mock 邊界與降級文字，讓使用者能理解目前只屬研究體驗。"
+    },
+    {
+      action: () => onTab("backtest"),
+      label: "2. 角色覆核",
+      state: "waiting",
+      text: "資料、投資與法遵角色確認文字沒有越界，CEO 才能整理成下一個候選議題。"
+    },
+    {
+      action: () => onTab("technical"),
+      label: "3. CEO 檢討",
+      state: "waiting",
+      text: "若阻擋點下降且公開宣稱仍受控，CEO 再決定是否向董事長提出正式排會建議。"
+    }
+  ];
+
+  return (
+    <section className="stock-source-checkpoint" aria-label="Stock Source Checkpoint Path">
+      <div>
+        <p className="eyebrow">Checkpoint Path</p>
+        <h2>下一個檢討節點</h2>
+        <p>這不是授權流程，也不建立 packet；只是把接下來的 local-only 推進順序固定，避免團隊在文件裡迷路。</p>
+      </div>
+      <div className="source-checkpoint-grid">
+        {steps.map((item) => (
+          <article className={item.state} key={item.label}>
+            <span>{item.label}</span>
+            <p>{item.text}</p>
+            <button onClick={item.action} type="button">
+              查看相關頁籤
             </button>
           </article>
         ))}
