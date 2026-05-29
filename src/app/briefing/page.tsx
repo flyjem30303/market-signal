@@ -21,6 +21,7 @@ export default async function BriefingPage() {
   const market = snapshots.find((item) => item.asset.symbol === "TWII") ?? snapshots[0];
   const strongest = snapshots.slice().sort((a, b) => b.compositeScore - a.compositeScore).slice(0, 4);
   const heated = snapshots.slice().sort((a, b) => b.riskScore - a.riskScore).slice(0, 4);
+  const breadth = buildMarketBreadth(snapshots);
   const etfs = snapshots.filter((item) => item.asset.group === "ETF").sort((a, b) => b.healthScore - a.healthScore);
   const aiSemis = snapshots
     .filter((item) => ["半導體", "IC 設計", "AI 伺服器", "電子代工"].includes(item.asset.group))
@@ -59,6 +60,27 @@ export default async function BriefingPage() {
           <BoundaryItem label="資料深度" value="not_ready" />
           <BoundaryItem label="公開宣稱" value="blocked" />
         </div>
+      </section>
+
+      <section aria-label="Market Breadth" className="briefing-breadth">
+        <BreadthCard
+          label="強勢"
+          text="綠燈與黃燈標的"
+          tone="positive"
+          value={String(breadth.constructive)}
+        />
+        <BreadthCard
+          label="觀察"
+          text="橘燈標的"
+          tone="watch"
+          value={String(breadth.watch)}
+        />
+        <BreadthCard
+          label="風險升溫"
+          text="紅燈與深紅標的"
+          tone="risk"
+          value={String(breadth.defensive)}
+        />
       </section>
 
       <section className="briefing-summary">
@@ -212,5 +234,32 @@ function BoundaryItem({ label, value }: { label: string; value: string }) {
       <span>{label}</span>
       <strong>{value}</strong>
     </article>
+  );
+}
+
+function BreadthCard({ label, text, tone, value }: { label: string; text: string; tone: string; value: string }) {
+  return (
+    <article className={`panel breadth-card ${tone}`}>
+      <span>{label}</span>
+      <strong>{value}</strong>
+      <p>{text}</p>
+    </article>
+  );
+}
+
+function buildMarketBreadth(snapshots: SignalSnapshot[]) {
+  return snapshots.reduce(
+    (summary, snapshot) => {
+      if (snapshot.signal.key === "green" || snapshot.signal.key === "yellow") {
+        summary.constructive += 1;
+      } else if (snapshot.signal.key === "orange") {
+        summary.watch += 1;
+      } else {
+        summary.defensive += 1;
+      }
+
+      return summary;
+    },
+    { constructive: 0, defensive: 0, watch: 0 }
   );
 }

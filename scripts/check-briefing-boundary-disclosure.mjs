@@ -17,12 +17,19 @@ const requiredPagePhrases = [
   "not_ready",
   "公開宣稱",
   "blocked",
-  "BoundaryItem"
+  "BoundaryItem",
+  "Market Breadth",
+  "強勢",
+  "風險升溫",
+  "buildMarketBreadth",
+  "BreadthCard"
 ];
 
 const requiredCssPhrases = [
   ".briefing-boundary",
   ".briefing-boundary-grid",
+  ".briefing-breadth",
+  ".breadth-card",
   "grid-template-columns: minmax(0, 1.4fr) minmax(320px, 0.9fr)",
   ".briefing-boundary-grid article"
 ];

@@ -825,6 +825,47 @@ input[type="search"] {
   margin-top: 6px;
 }
 
+.briefing-breadth {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.breadth-card {
+  border-top: 4px solid var(--line);
+}
+
+.breadth-card.positive {
+  border-top-color: var(--green);
+}
+
+.breadth-card.watch {
+  border-top-color: #d99a00;
+}
+
+.breadth-card.risk {
+  border-top-color: var(--red);
+}
+
+.breadth-card span {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.breadth-card strong {
+  display: block;
+  font-size: 34px;
+  margin-top: 6px;
+}
+
+.breadth-card p {
+  color: var(--muted);
+  line-height: 1.65;
+  margin: 6px 0 0;
+}
+
 .market-card-head,
 .market-score-row {
   display: flex;
@@ -1381,6 +1422,7 @@ input[type="date"] {
   .content-grid,
   .news-layout,
   .weekly-grid,
+  .briefing-breadth,
   .briefing-summary,
   .briefing-boundary,
   .briefing-boundary-grid,
