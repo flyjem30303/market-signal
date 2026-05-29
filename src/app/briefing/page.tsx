@@ -49,13 +49,20 @@ export default async function BriefingPage() {
       </section>
       <DataFreshnessStrip freshness={freshness} />
 
+      <nav aria-label="Briefing Compass" className="briefing-compass">
+        <a href="#model-boundary">模型邊界</a>
+        <a href="#market-structure">市場結構</a>
+        <a href="#briefing-playbook">行動框架</a>
+        <a href="#watchlists">觀察名單</a>
+      </nav>
+
       <section aria-label="CEO Decision Strip" className="briefing-decision-strip">
         <DecisionPill label="可推進" text="閱讀節奏與 mock 體驗" tone="active" />
         <DecisionPill label="暫緩" text="真實資料切換與公開宣稱" tone="hold" />
         <DecisionPill label="封鎖" text="投資建議與 real score" tone="blocked" />
       </section>
 
-      <section className="panel briefing-boundary">
+      <section className="panel briefing-boundary" id="model-boundary">
         <div>
           <p className="eyebrow">Model Boundary</p>
           <h2>目前為 mock 訊號體驗</h2>
@@ -70,7 +77,7 @@ export default async function BriefingPage() {
         </div>
       </section>
 
-      <section aria-label="Market Breadth" className="briefing-breadth">
+      <section aria-label="Market Breadth" className="briefing-breadth" id="market-structure">
         <BreadthCard
           label="強勢"
           text="綠燈與黃燈標的"
@@ -93,7 +100,7 @@ export default async function BriefingPage() {
 
       <ConcentrationPanel concentration={concentration} />
 
-      <section className="panel briefing-playbook" aria-label="Briefing Playbook">
+      <section className="panel briefing-playbook" aria-label="Briefing Playbook" id="briefing-playbook">
         <p className="eyebrow">Briefing Playbook</p>
         <h2>今日行動框架</h2>
         <div className="playbook-grid">
@@ -134,7 +141,7 @@ export default async function BriefingPage() {
         <MetricPanel label="今日重點" value="分批與觀察" text="避免把單日燈號視為交易指令" />
       </section>
 
-      <section className="weekly-grid">
+      <section className="weekly-grid" id="watchlists">
         <BriefingList title="健康度較強" description="可作為今日觀察名單，但仍需搭配估值與籌碼風險。" items={strongest} valueKey="composite" />
         <BriefingList title="風險升溫" description="風險分數較高，代表追價節奏需要更保守。" items={heated} valueKey="risk" />
       </section>
