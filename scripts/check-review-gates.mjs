@@ -108,6 +108,11 @@ const checks = [
     name: "cp3-source-depth-evidence-blank-template"
   },
   {
+    command: [node, "scripts/check-cp3-source-depth-evidence-blank-template-role-review.mjs"],
+    expectStatus: "ok",
+    name: "cp3-source-depth-evidence-blank-template-role-review"
+  },
+  {
     command: [node, "scripts/check-cp3-tw-stock-historical-plan.mjs"],
     expectStatus: "ok",
     name: "cp3-tw-stock-historical-plan"
