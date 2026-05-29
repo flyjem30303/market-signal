@@ -53,6 +53,14 @@ const requiredComponentPhrases = [
   "Stock Role Review Triggers",
   "StockPreReviewForbiddenActions",
   "Stock Pre Review Forbidden Actions",
+  "StockChairmanReviewReadiness",
+  "Stock Chairman Review Readiness",
+  "董事長審核準備度",
+  "CEO 會把送審時點控制在決策真的需要你判斷時",
+  "可審核範圍",
+  "需要董事長判斷",
+  "尚未可送審",
+  "查看判斷依據",
   "來源決策阻擋點",
   "覆核前禁止事項",
   "角色覆核之前，只能補強本機頁面說明與本地檢查",
@@ -240,7 +248,13 @@ const requiredCssPhrases = [
   ".role-review-trigger-grid button:hover",
   ".stock-pre-review-forbidden",
   ".pre-review-forbidden-grid",
-  ".pre-review-forbidden-grid button:hover"
+  ".pre-review-forbidden-grid button:hover",
+  ".stock-chairman-readiness",
+  ".chairman-readiness-grid",
+  ".chairman-readiness-grid article.ready",
+  ".chairman-readiness-grid article.watch",
+  ".chairman-readiness-grid article.blocked",
+  ".chairman-readiness-grid button:hover"
 ];
 
 const forbiddenPhrases = [

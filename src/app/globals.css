@@ -1683,6 +1683,85 @@ select {
   color: #b42318;
 }
 
+.stock-chairman-readiness {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+  display: grid;
+  grid-template-columns: minmax(260px, 0.72fr) minmax(0, 1.48fr);
+  gap: 16px;
+  margin: 0 0 16px;
+  padding: 16px;
+}
+
+.stock-chairman-readiness h2 {
+  margin: 0 0 8px;
+}
+
+.stock-chairman-readiness p {
+  color: var(--muted);
+  line-height: 1.75;
+  margin: 0;
+}
+
+.chairman-readiness-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.chairman-readiness-grid article {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel-muted);
+  display: flex;
+  flex-direction: column;
+  min-height: 170px;
+  padding: 12px;
+}
+
+.chairman-readiness-grid article.ready {
+  border-color: #9fd3bd;
+  background: #f1fbf6;
+}
+
+.chairman-readiness-grid article.watch {
+  border-color: #f5d68a;
+  background: #fff9e8;
+}
+
+.chairman-readiness-grid article.blocked {
+  border-color: #f2b8b5;
+  background: #fff5f5;
+}
+
+.chairman-readiness-grid span {
+  color: var(--blue);
+  font-size: 12px;
+  font-weight: 850;
+  margin-bottom: 8px;
+}
+
+.chairman-readiness-grid article.blocked span {
+  color: #b42318;
+}
+
+.chairman-readiness-grid button {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+  font-weight: 800;
+  margin-top: auto;
+  padding: 8px 10px;
+}
+
+.chairman-readiness-grid button:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+}
+
 .quote-main {
   display: grid;
   gap: 18px;
@@ -3078,6 +3157,8 @@ input[type="date"] {
   .role-review-trigger-grid,
   .stock-pre-review-forbidden,
   .pre-review-forbidden-grid,
+  .stock-chairman-readiness,
+  .chairman-readiness-grid,
   .quote-stat-grid,
   .internal-status-grid,
   .score-grid,

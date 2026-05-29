@@ -157,6 +157,7 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
           <StockExplanationPriority onTab={changeTab} />
           <StockRoleReviewTriggers onTab={changeTab} />
           <StockPreReviewForbiddenActions onTab={changeTab} />
+          <StockChairmanReviewReadiness onTab={changeTab} />
         </>
       )}
 
@@ -1228,6 +1229,50 @@ function StockPreReviewForbiddenActions({ onTab }: { onTab: (tab: TabKey) => voi
             <p>{item.text}</p>
             <button onClick={item.action} type="button">
               回到邊界說明
+            </button>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function StockChairmanReviewReadiness({ onTab }: { onTab: (tab: TabKey) => void }) {
+  const readiness: Array<{ action: () => void; label: string; state: "ready" | "watch" | "blocked"; text: string }> = [
+    {
+      action: () => onTab("today"),
+      label: "可審核範圍",
+      state: "ready",
+      text: "只審核 local-only 說明、角色邊界、未決事項與是否需要正式授權，不審核真實分數。"
+    },
+    {
+      action: () => onTab("backtest"),
+      label: "需要董事長判斷",
+      state: "watch",
+      text: "當 CEO 要跨出本地文件與 mock UI，進入資料源、授權 packet 或正式會議前，才提請董事長審核。"
+    },
+    {
+      action: () => onTab("technical"),
+      label: "尚未可送審",
+      state: "blocked",
+      text: "若資料來源、法遵揭露、角色覆核或停止條件任一項不完整，就只能繼續本地補強。"
+    }
+  ];
+
+  return (
+    <section className="stock-chairman-readiness" aria-label="Stock Chairman Review Readiness">
+      <div>
+        <p className="eyebrow">Chairman Review Readiness</p>
+        <h2>董事長審核準備度</h2>
+        <p>CEO 會把送審時點控制在決策真的需要你判斷時；在那之前，團隊只做本地風險收斂。</p>
+      </div>
+      <div className="chairman-readiness-grid">
+        {readiness.map((item) => (
+          <article className={item.state} key={item.label}>
+            <span>{item.label}</span>
+            <p>{item.text}</p>
+            <button onClick={item.action} type="button">
+              查看判斷依據
             </button>
           </article>
         ))}
