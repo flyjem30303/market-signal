@@ -1,0 +1,245 @@
+# CP3 Source-Depth Local-Only Approval Packet Scope Map
+
+Checkpoint: CP3 Model Credibility
+Date: 2026-05-29
+Trigger: CP3 source-depth local-only post-checkpoint options map recorded
+
+Status: CP3 source-depth local-only approval packet scope map recorded
+
+## CEO Decision
+
+```text
+REVISE
+```
+
+This approval packet scope map defines the possible scope of a future human
+approval request. It does not approve template copy, does not create a real
+request packet, does not create real evidence artifact files, does not fill
+template values, does not create the future evidence checker, does not fetch
+market data, does not parse market rows, does not connect to Supabase, does not
+run SQL, does not write Supabase, does not write staging rows, does not write
+daily_prices, does not create seed SQL, does not set scoreSource=real, does not
+clear source-depth not_ready, and does not make public claims.
+
+```text
+local-only approval packet scope map
+future human approval request scope
+does not approve template copy
+does not create a real request packet
+does not create real evidence artifact files
+does not fill template values
+does not create the future evidence checker
+does not clear source-depth not_ready
+```
+
+## Scope Map Purpose
+
+```text
+scope map prepares future CEO review
+scope map reduces ambiguity before a packet exists
+scope map is not the packet
+scope map is not approval
+scope map is not execution
+scope map is not evidence
+source-depth production gate remains not_ready
+public data source remains mock
+```
+
+## Future Approval Scope Candidates
+
+```text
+Candidate Scope 1: authorize blank template copy
+Candidate Scope 2: authorize real request packet creation
+Candidate Scope 3: authorize request metadata filling
+Candidate Scope 4: authorize real evidence artifact file creation
+Candidate Scope 5: authorize future evidence checker creation
+Candidate Scope 6: authorize remote read-only validation
+Candidate Scope 7: authorize staging migration execution
+Candidate Scope 8: authorize source-depth production transition
+Candidate Scope 9: authorize scoreSource=real transition
+Candidate Scope 10: authorize public claims
+```
+
+Candidate scopes are possible future request labels only.
+
+```text
+candidate scope label is not approval
+candidate scope label is not permission
+candidate scope label is not implementation
+candidate scope label is not remote access
+candidate scope label is not public claim clearance
+```
+
+## Required Non-Scope For Any Future Packet
+
+```text
+raw market rows must remain non-scope
+CSV market data must remain non-scope
+JSON market data must remain non-scope
+sample market rows must remain non-scope
+Supabase read output must remain non-scope
+SQL execution output must remain non-scope
+unreviewed source-rights claims must remain non-scope
+unapproved public backtest claims must remain non-scope
+automatic scoreSource=real transition must remain non-scope
+automatic source-depth not_ready clearance must remain non-scope
+```
+
+## Minimum Owner Signoff Map
+
+```text
+CEO owns final decision
+PM owns request clarity and sequencing
+Engineering owns implementation feasibility and rollback clarity
+Marketing owns public-claim boundary
+Investment owns model credibility and scoreSource boundary
+Legal owns source-rights and external-system boundary
+Design owns user-facing disclosure boundary
+QA owns gate coverage and rejection conditions
+```
+
+## Required Packet Scope Sections
+
+```text
+Requested Scope
+Explicit Non-Scope
+Decision Owner
+Required Role Signoffs
+Data Boundary
+External-System Boundary
+Source-Rights Boundary
+Public-Claim Boundary
+Runtime-Wiring Boundary
+Rollback Boundary
+Gate Impact
+Stop Conditions
+```
+
+## Scope Rejection Rules
+
+```text
+reject scope if it bundles template copy and scoreSource=real
+reject scope if it bundles SQL execution and public claims
+reject scope if it includes raw market rows
+reject scope if it includes Supabase output
+reject scope if it includes SQL output
+reject scope if it omits Legal signoff for source-rights
+reject scope if it omits Marketing signoff for public claims
+reject scope if it omits Investment signoff for scoreSource=real
+reject scope if it omits QA gate-impact review
+reject scope if it treats user said continue as approval
+```
+
+## Recommended Future Scope Split
+
+```text
+Scope Split 1: blank template copy only
+Scope Split 2: real request packet creation only
+Scope Split 3: evidence artifact creation only
+Scope Split 4: future evidence checker creation only
+Scope Split 5: remote read-only validation only
+Scope Split 6: staging migration execution only
+Scope Split 7: source-depth production transition only
+Scope Split 8: scoreSource=real transition only
+Scope Split 9: public claims only
+```
+
+```text
+small scope reduces accidental approval
+separate scope preserves role accountability
+separate scope keeps rollback review clear
+separate scope keeps public claims blocked until explicitly approved
+separate scope keeps source-depth not_ready protected until explicitly approved
+```
+
+## CEO Recommendation
+
+```text
+CEO recommendation: keep future approval packets single-scope
+Reason: single-scope approval packets reduce bundled-risk ambiguity
+Next safe slice: record CP3 source-depth local-only approval packet scope map role review
+The next safe slice must remain local-only
+The next safe slice must not approve template copy
+The next safe slice must not create a real request packet
+The next safe slice must not create evidence files
+The next safe slice must not fill template values
+The next safe slice must not create the future evidence checker
+The next safe slice must not connect to Supabase
+The next safe slice must not run SQL
+The next safe slice must not fetch market data
+The next safe slice must not parse market rows
+The next safe slice must not wire runtime code
+The next safe slice must not set scoreSource=real
+The next safe slice must not clear source-depth not_ready
+The next safe slice must not make public claims
+```
+
+## Required Local Checks
+
+```text
+scripts/check-cp3-source-depth-local-only-approval-packet-scope-map.mjs passes
+scripts/check-cp3-source-depth-local-only-post-checkpoint-options-map.mjs passes
+scripts/check-cp3-source-depth-local-only-decision-governance-checkpoint-summary-role-review.mjs passes
+scripts/check-cp3-tw-stock-source-depth.mjs remains not_ready as expected
+scripts/check-review-gates.mjs passes
+TypeScript noEmit passes
+```
+
+## Non-Negotiable Guardrails
+
+```text
+approval packet scope map only
+do not approve template copy
+do not create a real request packet
+do not create real evidence artifact files
+do not fill template values
+do not create future evidence checker
+do not add example market data
+do not add sample rows
+do not add sample JSON
+do not add sample CSV
+do not add Supabase output
+do not add SQL output
+do not fetch market data
+do not parse market rows
+do not run source-depth validator against Supabase
+do not import copy tokens into public pages
+do not import copy tokens into public components
+do not import policy into public pages
+do not import policy into public components
+do not wire policy into data fetching
+do not implement runtime repository
+do not read remote data
+do not run validator
+do not connect to Supabase
+do not run SQL
+do not write Supabase
+do not write staging rows
+do not write daily_prices
+do not create seed SQL
+do not store raw market rows
+do not commit CSV / JSON market data files
+do not set scoreSource=real
+do not make public backtest claims
+do not clear source-depth not_ready
+CP3 source-depth production gate remains not_ready
+Keep public data source mock
+```
+
+## Next Implementation Slice
+
+```text
+record CP3 source-depth local-only approval packet scope map role review
+do not approve template copy
+do not create a real request packet
+do not create real evidence artifact files
+do not fill template values
+do not create future evidence checker
+do not run validator
+do not connect to Supabase
+do not run SQL
+do not write Supabase
+do not create seed SQL
+do not commit raw market data
+keep public data source mock
+```
