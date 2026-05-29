@@ -23,6 +23,11 @@ const checks = [
     name: "internal-route-exposure"
   },
   {
+    command: [node, "scripts/check-briefing-boundary-disclosure.mjs"],
+    expectStatus: "ok",
+    name: "briefing-boundary-disclosure"
+  },
+  {
     command: [node, "scripts/check-cp1-snapshot.mjs"],
     expectStatus: "ok",
     name: "cp1-snapshot"

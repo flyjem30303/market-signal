@@ -782,6 +782,49 @@ input[type="search"] {
   box-shadow: 0 18px 38px rgba(22, 33, 29, 0.1);
 }
 
+.briefing-boundary {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(320px, 0.9fr);
+  gap: 18px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.briefing-boundary h2 {
+  margin: 0 0 8px;
+}
+
+.briefing-boundary p {
+  color: var(--muted);
+  line-height: 1.8;
+  margin: 0;
+}
+
+.briefing-boundary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.briefing-boundary-grid article {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  padding: 12px;
+}
+
+.briefing-boundary-grid span {
+  color: var(--muted);
+  display: block;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.briefing-boundary-grid strong {
+  display: block;
+  margin-top: 6px;
+}
+
 .market-card-head,
 .market-score-row {
   display: flex;
@@ -1339,6 +1382,8 @@ input[type="date"] {
   .news-layout,
   .weekly-grid,
   .briefing-summary,
+  .briefing-boundary,
+  .briefing-boundary-grid,
   .briefing-actions,
   .method-grid,
   .quality-grid,

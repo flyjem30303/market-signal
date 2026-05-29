@@ -46,6 +46,21 @@ export default async function BriefingPage() {
       </section>
       <DataFreshnessStrip freshness={freshness} />
 
+      <section className="panel briefing-boundary">
+        <div>
+          <p className="eyebrow">Model Boundary</p>
+          <h2>目前為 mock 訊號體驗</h2>
+          <p>
+            晨報頁用來驗證閱讀節奏與資訊架構；分數仍是模擬評分，不代表真實模型、真實資料驗證或投資建議。
+          </p>
+        </div>
+        <div className="briefing-boundary-grid">
+          <BoundaryItem label="分數來源" value="mock" />
+          <BoundaryItem label="資料深度" value="not_ready" />
+          <BoundaryItem label="公開宣稱" value="blocked" />
+        </div>
+      </section>
+
       <section className="briefing-summary">
         <article className="panel briefing-market-card" style={{ ["--signal" as string]: signalColor(market.signal.key) }}>
           <div className="market-card-head">
@@ -187,6 +202,15 @@ function ActionCard({ title, text }: { title: string; text: string }) {
     <article className="action-card">
       <h3>{title}</h3>
       <p>{text}</p>
+    </article>
+  );
+}
+
+function BoundaryItem({ label, value }: { label: string; value: string }) {
+  return (
+    <article>
+      <span>{label}</span>
+      <strong>{value}</strong>
     </article>
   );
 }
