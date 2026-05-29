@@ -152,6 +152,7 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
           <StockSourceCheckpointPath onTab={changeTab} />
           <StockSourceEscalationSignal onTab={changeTab} />
           <StockMockBoundaryLegend onTab={changeTab} />
+          <StockSafeReadingFlow onTab={changeTab} />
         </>
       )}
 
@@ -1014,6 +1015,47 @@ function StockMockBoundaryLegend({ onTab }: { onTab: (tab: TabKey) => void }) {
             <p>{item.text}</p>
             <button onClick={item.action} type="button">
               查看頁面脈絡
+            </button>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function StockSafeReadingFlow({ onTab }: { onTab: (tab: TabKey) => void }) {
+  const flow: Array<{ action: () => void; label: string; text: string }> = [
+    {
+      action: () => onTab("today"),
+      label: "先看邊界",
+      text: "確認目前仍是 mock 與 local-only 狀態，分數只能當成產品閱讀練習。"
+    },
+    {
+      action: () => onTab("today"),
+      label: "再看缺口",
+      text: "檢查資料旗標、更新狀態與不可宣稱範圍，先決定資訊是否足以支持解讀。"
+    },
+    {
+      action: () => onTab("technical"),
+      label: "最後看分數",
+      text: "健康度與風險度只能用來比較模組狀態，不能轉成買賣建議或正式訊號。"
+    }
+  ];
+
+  return (
+    <section className="stock-safe-reading" aria-label="Stock Safe Reading Flow">
+      <div>
+        <p className="eyebrow">Safe Reading Flow</p>
+        <h2>安全解讀流程</h2>
+        <p>使用者應先理解限制，再閱讀資料，最後才看分數；這是產品體驗，不是投資決策流程。</p>
+      </div>
+      <div className="safe-reading-grid">
+        {flow.map((item) => (
+          <article key={item.label}>
+            <span>{item.label}</span>
+            <p>{item.text}</p>
+            <button onClick={item.action} type="button">
+              依序檢查
             </button>
           </article>
         ))}

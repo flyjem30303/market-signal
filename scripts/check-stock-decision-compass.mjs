@@ -43,7 +43,16 @@ const requiredComponentPhrases = [
   "Stock Source Escalation Signal",
   "StockMockBoundaryLegend",
   "Stock Mock Boundary Legend",
+  "StockSafeReadingFlow",
+  "Stock Safe Reading Flow",
   "來源決策阻擋點",
+  "安全解讀流程",
+  "使用者應先理解限制，再閱讀資料，最後才看分數",
+  "產品體驗，不是投資決策流程",
+  "先看邊界",
+  "再看缺口",
+  "最後看分數",
+  "依序檢查",
   "Mock 邊界圖例",
   "產品安全線，不是技術裝飾",
   "不能被解讀為真實市場訊號",
@@ -179,7 +188,10 @@ const requiredCssPhrases = [
   ".stock-mock-boundary",
   ".mock-boundary-grid",
   ".mock-boundary-grid span",
-  ".mock-boundary-grid button:hover"
+  ".mock-boundary-grid button:hover",
+  ".stock-safe-reading",
+  ".safe-reading-grid",
+  ".safe-reading-grid button:hover"
 ];
 
 const forbiddenPhrases = [

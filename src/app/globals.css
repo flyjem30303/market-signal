@@ -1376,6 +1376,66 @@ select {
   color: var(--blue);
 }
 
+.stock-safe-reading {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+  display: grid;
+  grid-template-columns: minmax(260px, 0.72fr) minmax(0, 1.48fr);
+  gap: 16px;
+  margin: 0 0 16px;
+  padding: 16px;
+}
+
+.stock-safe-reading h2 {
+  margin: 0 0 8px;
+}
+
+.stock-safe-reading p {
+  color: var(--muted);
+  line-height: 1.75;
+  margin: 0;
+}
+
+.safe-reading-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.safe-reading-grid article {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel-muted);
+  display: flex;
+  flex-direction: column;
+  min-height: 166px;
+  padding: 12px;
+}
+
+.safe-reading-grid span {
+  color: var(--blue);
+  font-size: 12px;
+  font-weight: 850;
+  margin-bottom: 8px;
+}
+
+.safe-reading-grid button {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+  font-weight: 800;
+  margin-top: auto;
+  padding: 8px 10px;
+}
+
+.safe-reading-grid button:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+}
+
 .quote-main {
   display: grid;
   gap: 18px;
@@ -2761,6 +2821,8 @@ input[type="date"] {
   .source-escalation-grid,
   .stock-mock-boundary,
   .mock-boundary-grid,
+  .stock-safe-reading,
+  .safe-reading-grid,
   .quote-stat-grid,
   .internal-status-grid,
   .score-grid,
