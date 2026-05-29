@@ -156,6 +156,7 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
           <StockStopReadingConditions onTab={changeTab} />
           <StockExplanationPriority onTab={changeTab} />
           <StockRoleReviewTriggers onTab={changeTab} />
+          <StockPreReviewForbiddenActions onTab={changeTab} />
         </>
       )}
 
@@ -1186,6 +1187,47 @@ function StockRoleReviewTriggers({ onTab }: { onTab: (tab: TabKey) => void }) {
             <p>{item.text}</p>
             <button onClick={item.action} type="button">
               檢查觸發依據
+            </button>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function StockPreReviewForbiddenActions({ onTab }: { onTab: (tab: TabKey) => void }) {
+  const forbidden: Array<{ action: () => void; label: string; text: string }> = [
+    {
+      action: () => onTab("today"),
+      label: "不排正式會議",
+      text: "角色覆核觸發條件尚未全數成立前，CEO 只維持 local-only 補強，不排正式會議。"
+    },
+    {
+      action: () => onTab("backtest"),
+      label: "不建立授權 packet",
+      text: "頁面說明完成不等於授權完成，不能建立或提交任何授權 packet。"
+    },
+    {
+      action: () => onTab("technical"),
+      label: "不碰真實資料",
+      text: "不連 Supabase、不跑 SQL、不寫資料庫、不切換真實分數來源。"
+    }
+  ];
+
+  return (
+    <section className="stock-pre-review-forbidden" aria-label="Stock Pre Review Forbidden Actions">
+      <div>
+        <p className="eyebrow">Forbidden Before Review</p>
+        <h2>覆核前禁止事項</h2>
+        <p>這些是 CEO 的硬邊界：角色覆核之前，只能補強本機頁面說明與本地檢查，不做正式執行。</p>
+      </div>
+      <div className="pre-review-forbidden-grid">
+        {forbidden.map((item) => (
+          <article key={item.label}>
+            <span>{item.label}</span>
+            <p>{item.text}</p>
+            <button onClick={item.action} type="button">
+              回到邊界說明
             </button>
           </article>
         ))}

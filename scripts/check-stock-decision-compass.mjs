@@ -51,7 +51,16 @@ const requiredComponentPhrases = [
   "Stock Explanation Priority",
   "StockRoleReviewTriggers",
   "Stock Role Review Triggers",
+  "StockPreReviewForbiddenActions",
+  "Stock Pre Review Forbidden Actions",
   "來源決策阻擋點",
+  "覆核前禁止事項",
+  "角色覆核之前，只能補強本機頁面說明與本地檢查",
+  "不排正式會議",
+  "不建立授權 packet",
+  "不碰真實資料",
+  "不連 Supabase、不跑 SQL、不寫資料庫、不切換真實分數來源",
+  "回到邊界說明",
   "角色覆核觸發條件",
   "CEO 才重新評估是否啟動角色覆核",
   "目前仍不是正式排會或授權",
@@ -228,7 +237,10 @@ const requiredCssPhrases = [
   ".explanation-priority-grid button:hover",
   ".stock-role-review-triggers",
   ".role-review-trigger-grid",
-  ".role-review-trigger-grid button:hover"
+  ".role-review-trigger-grid button:hover",
+  ".stock-pre-review-forbidden",
+  ".pre-review-forbidden-grid",
+  ".pre-review-forbidden-grid button:hover"
 ];
 
 const forbiddenPhrases = [
