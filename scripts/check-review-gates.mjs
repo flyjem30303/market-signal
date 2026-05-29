@@ -128,6 +128,11 @@ const checks = [
     name: "cp3-source-depth-evidence-artifact-approval-gate-plan"
   },
   {
+    command: [node, "scripts/check-cp3-source-depth-evidence-artifact-approval-gate-plan-role-review.mjs"],
+    expectStatus: "ok",
+    name: "cp3-source-depth-evidence-artifact-approval-gate-plan-role-review"
+  },
+  {
     command: [node, "scripts/check-cp3-tw-stock-historical-plan.mjs"],
     expectStatus: "ok",
     name: "cp3-tw-stock-historical-plan"
