@@ -63,6 +63,7 @@
     "check:cp3-source-depth-evidence-gate-draft": "node scripts/check-cp3-source-depth-evidence-gate-draft.mjs",
     "check:cp3-source-depth-evidence-gate-role-review": "node scripts/check-cp3-source-depth-evidence-gate-role-review.mjs",
     "check:cp3-source-depth-evidence-matrix": "node scripts/check-cp3-source-depth-evidence-matrix.mjs",
+    "check:cp3-source-depth-evidence-matrix-role-review": "node scripts/check-cp3-source-depth-evidence-matrix-role-review.mjs",
     "check:cp3-tw-stock-data-quality-downgrade-matrix": "node scripts/check-cp3-tw-stock-data-quality-downgrade-matrix.mjs",
     "check:cp3-tw-stock-data-quality-downgrade-matrix-role-review": "node scripts/check-cp3-tw-stock-data-quality-downgrade-matrix-role-review.mjs",
     "check:cp3-global-model-version-naming-rules": "node scripts/check-cp3-global-model-version-naming-rules.mjs",
