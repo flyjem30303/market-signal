@@ -1168,6 +1168,11 @@ const checks = [
     name: "cp3-source-depth-local-only-chairman-review-handoff-packet-rejection-transition-route-dependency-decision-request-narrow-question-candidate-post-review-option-a-local-only-decision-context-refinement"
   },
   {
+    command: [node, "scripts/check-cp3-ceo-option-status-convergence.mjs"],
+    expectStatus: "ok",
+    name: "cp3-ceo-option-status-convergence"
+  },
+  {
     command: [node, "scripts/check-cp3-tw-stock-historical-plan.mjs"],
     expectStatus: "ok",
     name: "cp3-tw-stock-historical-plan"
