@@ -188,6 +188,11 @@ const checks = [
     name: "cp3-source-depth-template-copy-approval-packet-role-review-gate-checker-role-review"
   },
   {
+    command: [node, "scripts/check-cp3-source-depth-template-copy-approval-packet-governance-checkpoint-summary.mjs"],
+    expectStatus: "ok",
+    name: "cp3-source-depth-template-copy-approval-packet-governance-checkpoint-summary"
+  },
+  {
     command: [node, "scripts/check-cp3-tw-stock-historical-plan.mjs"],
     expectStatus: "ok",
     name: "cp3-tw-stock-historical-plan"
