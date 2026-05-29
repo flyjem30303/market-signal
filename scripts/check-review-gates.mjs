@@ -1553,6 +1553,11 @@ const checks = [
     name: "score-source-ui"
   },
   {
+    command: [node, "scripts/check-stock-decision-compass.mjs"],
+    expectStatus: "ok",
+    name: "stock-decision-compass"
+  },
+  {
     command: [node, "scripts/check-freshness-state-ui.mjs"],
     expectStatus: "ok",
     name: "freshness-state-ui"

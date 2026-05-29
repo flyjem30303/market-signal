@@ -133,6 +133,7 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
       {includeSeoContent && (
         <>
           <DataFreshnessStrip freshness={freshness} />
+          <StockDecisionCompass scoreSourceLabel={freshness.scoreSourceLabel} snapshot={snapshot} />
           <QuoteSummary asset={selected} isFavorite={isFavorite} quote={quote} snapshot={snapshot} onFavorite={toggleFavorite} />
         </>
       )}
@@ -282,6 +283,36 @@ function QuoteStat({ label, value, tone }: { label: string; value: string; tone?
       <span>{label}</span>
       <strong style={tone ? { color: tone } : undefined}>{value}</strong>
     </div>
+  );
+}
+
+function StockDecisionCompass({
+  scoreSourceLabel,
+  snapshot
+}: {
+  scoreSourceLabel: string;
+  snapshot: SignalSnapshot;
+}) {
+  const riskTone = snapshot.riskScore >= 70 ? "blocked" : snapshot.riskScore >= 55 ? "hold" : "active";
+
+  return (
+    <section className="stock-decision-compass" aria-label="Stock Decision Compass">
+      <article className="active">
+        <span>模型狀態</span>
+        <strong>{scoreSourceLabel}</strong>
+        <p>目前仍是 mock 閱讀體驗，先看結構，不把分數當成交易訊號。</p>
+      </article>
+      <article className={riskTone}>
+        <span>風險溫度</span>
+        <strong>{snapshot.riskScore}/100</strong>
+        <p>{snapshot.riskScore >= 55 ? "先檢查風險來源，再看健康度是否足以抵銷。" : "風險尚未升溫，仍需搭配族群與估值檢查。"}</p>
+      </article>
+      <article className="hold">
+        <span>閱讀順序</span>
+        <strong>先總後細</strong>
+        <p>先看今日分數與資料狀態，再切換趨勢、技術、籌碼、基本面與回測。</p>
+      </article>
+    </section>
   );
 }
 

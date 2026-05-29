@@ -234,6 +234,52 @@ select {
   padding: 20px;
 }
 
+.stock-decision-compass {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 0 0 16px;
+}
+
+.stock-decision-compass article {
+  border: 1px solid var(--line);
+  border-top: 4px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  min-height: 134px;
+  padding: 14px;
+}
+
+.stock-decision-compass article.active {
+  border-top-color: var(--green);
+}
+
+.stock-decision-compass article.hold {
+  border-top-color: #d99a00;
+}
+
+.stock-decision-compass article.blocked {
+  border-top-color: var(--red);
+}
+
+.stock-decision-compass span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.stock-decision-compass strong {
+  display: block;
+  font-size: 20px;
+  margin: 8px 0;
+}
+
+.stock-decision-compass p {
+  color: var(--muted);
+  line-height: 1.7;
+  margin: 0;
+}
+
 .quote-main {
   display: grid;
   gap: 18px;
@@ -1587,6 +1633,7 @@ input[type="date"] {
   .asset-toolbar,
   .asset-grid,
   .quote-panel,
+  .stock-decision-compass,
   .quote-stat-grid,
   .internal-status-grid,
   .score-grid,
