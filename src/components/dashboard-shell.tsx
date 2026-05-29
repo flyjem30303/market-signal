@@ -144,6 +144,7 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
           <StockDecisionBoundary onTab={changeTab} />
           <StockReviewQueue snapshot={snapshot} onTab={changeTab} />
           <StockRoleResponsibilityMap onTab={changeTab} />
+          <StockEscalationReadiness snapshot={snapshot} onTab={changeTab} />
         </>
       )}
 
@@ -665,6 +666,57 @@ function StockRoleResponsibilityMap({ onTab }: { onTab: (tab: TabKey) => void })
             <p>{role.focus}</p>
             <button onClick={role.action} type="button">
               查看相關頁籤
+            </button>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function StockEscalationReadiness({ snapshot, onTab }: { snapshot: SignalSnapshot; onTab: (tab: TabKey) => void }) {
+  const dataWarningCount = snapshot.missingModuleFlags.length + snapshot.staleDataFlags.length;
+  const blockers = [
+    {
+      action: () => onTab("today"),
+      label: "資料",
+      state: dataWarningCount > 0 ? "blocked" : "watch",
+      text: dataWarningCount > 0 ? `${dataWarningCount} 個資料旗標仍需處理。` : "資料旗標暫時清空，但仍需來源深度審核。"
+    },
+    {
+      action: () => onTab("technical"),
+      label: "風險",
+      state: snapshot.riskScore >= 60 ? "blocked" : "watch",
+      text: snapshot.riskScore >= 60 ? `風險分數 ${snapshot.riskScore}/100，需先拆解波動來源。` : "風險尚可觀察，但不能取代停損與部位控管。"
+    },
+    {
+      action: () => onTab("backtest"),
+      label: "模型",
+      state: "blocked",
+      text: `模型版本 ${snapshot.modelVersion} 仍是 mock，不能進入公開宣稱。`
+    }
+  ];
+
+  const blockedCount = blockers.filter((item) => item.state === "blocked").length;
+
+  return (
+    <section className="stock-escalation-readiness" aria-label="Stock Escalation Readiness">
+      <div>
+        <p className="eyebrow">Escalation Readiness</p>
+        <h2>升級討論準備度</h2>
+        <p>
+          CEO 判斷：目前仍有 {blockedCount} 個阻塞點，先維持 local-only 產品驗證，不建立正式 packet，
+          不進入授權流程。
+        </p>
+      </div>
+      <div className="escalation-readiness-grid">
+        {blockers.map((item) => (
+          <article className={item.state} key={item.label}>
+            <span>{item.label}</span>
+            <strong>{item.state === "blocked" ? "未準備好" : "持續觀察"}</strong>
+            <p>{item.text}</p>
+            <button onClick={item.action} type="button">
+              查看依據
             </button>
           </article>
         ))}

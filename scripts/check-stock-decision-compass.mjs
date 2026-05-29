@@ -27,6 +27,8 @@ const requiredComponentPhrases = [
   "Stock Review Queue",
   "StockRoleResponsibilityMap",
   "Stock Role Responsibility Map",
+  "StockEscalationReadiness",
+  "Stock Escalation Readiness",
   "scoreSourceLabel",
   "snapshot.riskScore",
   "snapshot.healthScore",
@@ -40,6 +42,12 @@ const requiredComponentPhrases = [
   "目前能做與不能做",
   "下一輪覆核問題",
   "角色責任分工",
+  "升級討論準備度",
+  "先維持 local-only 產品驗證",
+  "不建立正式 packet",
+  "不進入授權流程",
+  "未準備好",
+  "查看依據",
   "資料角色",
   "投資角色",
   "法遵角色",
@@ -88,7 +96,11 @@ const requiredCssPhrases = [
   ".review-queue-grid button:hover",
   ".stock-role-map",
   ".role-map-grid",
-  ".role-map-grid button:hover"
+  ".role-map-grid button:hover",
+  ".stock-escalation-readiness",
+  ".escalation-readiness-grid",
+  ".escalation-readiness-grid article.blocked",
+  ".escalation-readiness-grid button:hover"
 ];
 
 const forbiddenPhrases = [
