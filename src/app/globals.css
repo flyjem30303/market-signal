@@ -286,6 +286,73 @@ select {
   overflow-wrap: anywhere;
 }
 
+.stock-data-gap-panel {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+  display: grid;
+  grid-template-columns: minmax(260px, 0.72fr) minmax(0, 1.48fr);
+  gap: 16px;
+  margin: 0 0 16px;
+  padding: 16px;
+}
+
+.stock-data-gap-panel h2 {
+  margin: 0 0 8px;
+}
+
+.stock-data-gap-panel p {
+  color: var(--muted);
+  line-height: 1.75;
+  margin: 0;
+}
+
+.data-gap-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-content: start;
+}
+
+.data-gap-list article {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel-muted);
+  min-width: 156px;
+  padding: 10px 12px;
+}
+
+.data-gap-list span {
+  color: #9a6a00;
+  display: block;
+  font-size: 12px;
+  font-weight: 850;
+  margin-bottom: 6px;
+}
+
+.data-gap-list strong {
+  color: var(--ink);
+  display: block;
+  font-size: 15px;
+  overflow-wrap: anywhere;
+}
+
+.data-gap-list button {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+  font-weight: 800;
+  min-height: 58px;
+  padding: 10px 12px;
+}
+
+.data-gap-list button:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+}
+
 .stock-decision-compass {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1918,6 +1985,7 @@ input[type="date"] {
   .quote-panel,
   .stock-evidence-snapshot,
   .evidence-snapshot-grid,
+  .stock-data-gap-panel,
   .stock-decision-compass,
   .stock-page-compass,
   .stock-module-highlights,

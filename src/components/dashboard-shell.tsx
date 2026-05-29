@@ -134,6 +134,7 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
         <>
           <DataFreshnessStrip freshness={freshness} />
           <StockEvidenceSnapshot snapshot={snapshot} />
+          <StockDataGapPanel snapshot={snapshot} onTab={changeTab} />
           <StockDecisionCompass scoreSourceLabel={freshness.scoreSourceLabel} snapshot={snapshot} />
           <QuoteSummary asset={selected} isFavorite={isFavorite} quote={quote} snapshot={snapshot} onFavorite={toggleFavorite} />
           <StockPageCompass activeTab={activeTab} onTab={changeTab} />
@@ -314,6 +315,34 @@ function StockEvidenceSnapshot({ snapshot }: { snapshot: SignalSnapshot }) {
             <strong>{item.value}</strong>
           </article>
         ))}
+      </div>
+    </section>
+  );
+}
+
+function StockDataGapPanel({ snapshot, onTab }: { snapshot: SignalSnapshot; onTab: (tab: TabKey) => void }) {
+  const gaps = [
+    ...snapshot.staleDataFlags.map((flag) => ({ kind: "待更新", value: flag })),
+    ...snapshot.missingModuleFlags.map((flag) => ({ kind: "待補齊", value: flag }))
+  ];
+
+  return (
+    <section className="stock-data-gap-panel" aria-label="Stock Data Gap Panel">
+      <div>
+        <p className="eyebrow">Data Gaps</p>
+        <h2>資料缺口清單</h2>
+        <p>缺口未解除前，燈號只能用來練習閱讀流程，不能升級為正式投資判斷。</p>
+      </div>
+      <div className="data-gap-list">
+        {gaps.map((gap) => (
+          <article key={`${gap.kind}-${gap.value}`}>
+            <span>{gap.kind}</span>
+            <strong>{gap.value}</strong>
+          </article>
+        ))}
+        <button onClick={() => onTab("today")} type="button">
+          查看今日摘要
+        </button>
       </div>
     </section>
   );
