@@ -158,6 +158,7 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
           <StockRoleReviewTriggers onTab={changeTab} />
           <StockPreReviewForbiddenActions onTab={changeTab} />
           <StockChairmanReviewReadiness onTab={changeTab} />
+          <StockChairmanNarrowQuestions onTab={changeTab} />
         </>
       )}
 
@@ -1273,6 +1274,47 @@ function StockChairmanReviewReadiness({ onTab }: { onTab: (tab: TabKey) => void 
             <p>{item.text}</p>
             <button onClick={item.action} type="button">
               查看判斷依據
+            </button>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function StockChairmanNarrowQuestions({ onTab }: { onTab: (tab: TabKey) => void }) {
+  const questions: Array<{ action: () => void; label: string; text: string }> = [
+    {
+      action: () => onTab("today"),
+      label: "是否允許進入下一階段",
+      text: "問題只問是否能從 local-only 補強前進到受控準備，不包含資料庫寫入或真實分數啟用。"
+    },
+    {
+      action: () => onTab("technical"),
+      label: "授權邊界到哪裡",
+      text: "若董事長同意推進，CEO 仍需限定範圍、輸出物、停止條件與回報頻率。"
+    },
+    {
+      action: () => onTab("backtest"),
+      label: "哪些證據還缺口",
+      text: "尚未補齊資料來源、法遵揭露與角色覆核前，送審問題只能停在候選清單。"
+    }
+  ];
+
+  return (
+    <section className="stock-chairman-questions" aria-label="Stock Chairman Narrow Questions">
+      <div>
+        <p className="eyebrow">Narrow Questions</p>
+        <h2>董事長窄問題候選</h2>
+        <p>CEO 送審前要先把大議題拆成可回答問題，讓你只審決策，不替團隊補做準備工作。</p>
+      </div>
+      <div className="chairman-question-grid">
+        {questions.map((item) => (
+          <article key={item.label}>
+            <span>{item.label}</span>
+            <p>{item.text}</p>
+            <button onClick={item.action} type="button">
+              回看相關條件
             </button>
           </article>
         ))}

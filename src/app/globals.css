@@ -1762,6 +1762,66 @@ select {
   color: var(--blue);
 }
 
+.stock-chairman-questions {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+  display: grid;
+  grid-template-columns: minmax(260px, 0.72fr) minmax(0, 1.48fr);
+  gap: 16px;
+  margin: 0 0 16px;
+  padding: 16px;
+}
+
+.stock-chairman-questions h2 {
+  margin: 0 0 8px;
+}
+
+.stock-chairman-questions p {
+  color: var(--muted);
+  line-height: 1.75;
+  margin: 0;
+}
+
+.chairman-question-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.chairman-question-grid article {
+  border: 1px solid #b9c7e6;
+  border-radius: 8px;
+  background: #f6f8fd;
+  display: flex;
+  flex-direction: column;
+  min-height: 170px;
+  padding: 12px;
+}
+
+.chairman-question-grid span {
+  color: #2f5597;
+  font-size: 12px;
+  font-weight: 850;
+  margin-bottom: 8px;
+}
+
+.chairman-question-grid button {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+  font-weight: 800;
+  margin-top: auto;
+  padding: 8px 10px;
+}
+
+.chairman-question-grid button:hover {
+  border-color: #2f5597;
+  color: #2f5597;
+}
+
 .quote-main {
   display: grid;
   gap: 18px;
@@ -3159,6 +3219,8 @@ input[type="date"] {
   .pre-review-forbidden-grid,
   .stock-chairman-readiness,
   .chairman-readiness-grid,
+  .stock-chairman-questions,
+  .chairman-question-grid,
   .quote-stat-grid,
   .internal-status-grid,
   .score-grid,

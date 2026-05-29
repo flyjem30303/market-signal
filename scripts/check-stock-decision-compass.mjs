@@ -55,6 +55,14 @@ const requiredComponentPhrases = [
   "Stock Pre Review Forbidden Actions",
   "StockChairmanReviewReadiness",
   "Stock Chairman Review Readiness",
+  "StockChairmanNarrowQuestions",
+  "Stock Chairman Narrow Questions",
+  "董事長窄問題候選",
+  "CEO 送審前要先把大議題拆成可回答問題",
+  "是否允許進入下一階段",
+  "授權邊界到哪裡",
+  "哪些證據還缺口",
+  "回看相關條件",
   "董事長審核準備度",
   "CEO 會把送審時點控制在決策真的需要你判斷時",
   "可審核範圍",
@@ -254,7 +262,10 @@ const requiredCssPhrases = [
   ".chairman-readiness-grid article.ready",
   ".chairman-readiness-grid article.watch",
   ".chairman-readiness-grid article.blocked",
-  ".chairman-readiness-grid button:hover"
+  ".chairman-readiness-grid button:hover",
+  ".stock-chairman-questions",
+  ".chairman-question-grid",
+  ".chairman-question-grid button:hover"
 ];
 
 const forbiddenPhrases = [
