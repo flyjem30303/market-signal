@@ -31,6 +31,8 @@ const requiredComponentPhrases = [
   "Stock Escalation Readiness",
   "StockCeoSynthesis",
   "Stock CEO Synthesis",
+  "StockSourceExplanationBacklog",
+  "Stock Source Explanation Backlog",
   "scoreSourceLabel",
   "snapshot.riskScore",
   "snapshot.healthScore",
@@ -46,6 +48,10 @@ const requiredComponentPhrases = [
   "角色責任分工",
   "升級討論準備度",
   "CEO 收斂結論",
+  "來源說明待補清單",
+  "下一個 local-only 工作清單",
+  "不新增資料、不連接 Supabase、不產生真實訊號",
+  "查看相關依據",
   "目前不升級為正式討論",
   "下一步維持",
   "優先做",
@@ -111,7 +117,10 @@ const requiredCssPhrases = [
   ".escalation-readiness-grid button:hover",
   ".stock-ceo-synthesis",
   ".ceo-synthesis-actions",
-  ".ceo-synthesis-actions button:hover"
+  ".ceo-synthesis-actions button:hover",
+  ".stock-source-backlog",
+  ".source-backlog-grid",
+  ".source-backlog-grid button:hover"
 ];
 
 const forbiddenPhrases = [

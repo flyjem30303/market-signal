@@ -146,6 +146,7 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
           <StockRoleResponsibilityMap onTab={changeTab} />
           <StockEscalationReadiness snapshot={snapshot} onTab={changeTab} />
           <StockCeoSynthesis snapshot={snapshot} onTab={changeTab} />
+          <StockSourceExplanationBacklog snapshot={snapshot} onTab={changeTab} />
         </>
       )}
 
@@ -754,6 +755,47 @@ function StockCeoSynthesis({ snapshot, onTab }: { snapshot: SignalSnapshot; onTa
         <button onClick={() => onTab(dataWarningCount > 0 ? "today" : "backtest")} type="button">
           查看下一步依據
         </button>
+      </div>
+    </section>
+  );
+}
+
+function StockSourceExplanationBacklog({ snapshot, onTab }: { snapshot: SignalSnapshot; onTab: (tab: TabKey) => void }) {
+  const backlog = [
+    {
+      action: () => onTab("today"),
+      label: "資料缺口",
+      text: `${snapshot.missingModuleFlags.length + snapshot.staleDataFlags.length} 個旗標需要補來源說明與降級規則。`
+    },
+    {
+      action: () => onTab("backtest"),
+      label: "模型限制",
+      text: `模型版本 ${snapshot.modelVersion} 需補 mock 範圍、不可宣稱項目與回測限制。`
+    },
+    {
+      action: () => onTab("technical"),
+      label: "風險欄位",
+      text: `風險分數 ${snapshot.riskScore}/100 需補欄位定義、波動來源與使用限制。`
+    }
+  ];
+
+  return (
+    <section className="stock-source-backlog" aria-label="Stock Source Explanation Backlog">
+      <div>
+        <p className="eyebrow">Source Backlog</p>
+        <h2>來源說明待補清單</h2>
+        <p>這是下一個 local-only 工作清單，只整理要補的說明，不新增資料、不連接 Supabase、不產生真實訊號。</p>
+      </div>
+      <div className="source-backlog-grid">
+        {backlog.map((item) => (
+          <article key={item.label}>
+            <span>{item.label}</span>
+            <p>{item.text}</p>
+            <button onClick={item.action} type="button">
+              查看相關依據
+            </button>
+          </article>
+        ))}
       </div>
     </section>
   );
