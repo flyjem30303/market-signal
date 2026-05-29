@@ -868,6 +868,11 @@ const checks = [
     name: "cp3-source-depth-local-only-authorization-transition-human-decision-meeting-readiness-checkpoint-summary"
   },
   {
+    command: [node, "scripts/check-cp3-source-depth-local-only-authorization-transition-human-decision-meeting-readiness-checkpoint-summary-role-review.mjs"],
+    expectStatus: "ok",
+    name: "cp3-source-depth-local-only-authorization-transition-human-decision-meeting-readiness-checkpoint-summary-role-review"
+  },
+  {
     command: [node, "scripts/check-cp3-tw-stock-historical-plan.mjs"],
     expectStatus: "ok",
     name: "cp3-tw-stock-historical-plan"
