@@ -27,7 +27,13 @@ const requiredPagePhrases = [
   "強勢",
   "風險升溫",
   "buildMarketBreadth",
-  "BreadthCard"
+  "BreadthCard",
+  "Concentration Check",
+  "族群集中度檢查",
+  "主導族群",
+  "強勢占比",
+  "buildConcentrationSignal",
+  "ConcentrationPanel"
 ];
 
 const requiredCssPhrases = [
@@ -37,6 +43,8 @@ const requiredCssPhrases = [
   ".decision-pill",
   ".briefing-breadth",
   ".breadth-card",
+  ".briefing-concentration",
+  ".concentration-metrics",
   "grid-template-columns: minmax(0, 1.4fr) minmax(320px, 0.9fr)",
   ".briefing-boundary-grid article"
 ];

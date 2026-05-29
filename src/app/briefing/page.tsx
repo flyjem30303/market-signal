@@ -22,6 +22,7 @@ export default async function BriefingPage() {
   const strongest = snapshots.slice().sort((a, b) => b.compositeScore - a.compositeScore).slice(0, 4);
   const heated = snapshots.slice().sort((a, b) => b.riskScore - a.riskScore).slice(0, 4);
   const breadth = buildMarketBreadth(snapshots);
+  const concentration = buildConcentrationSignal(snapshots);
   const etfs = snapshots.filter((item) => item.asset.group === "ETF").sort((a, b) => b.healthScore - a.healthScore);
   const aiSemis = snapshots
     .filter((item) => ["半導體", "IC 設計", "AI 伺服器", "電子代工"].includes(item.asset.group))
@@ -88,6 +89,8 @@ export default async function BriefingPage() {
           value={String(breadth.defensive)}
         />
       </section>
+
+      <ConcentrationPanel concentration={concentration} />
 
       <section className="briefing-summary">
         <article className="panel briefing-market-card" style={{ ["--signal" as string]: signalColor(market.signal.key) }}>
@@ -252,6 +255,34 @@ function DecisionPill({ label, text, tone }: { label: string; text: string; tone
   );
 }
 
+function ConcentrationPanel({
+  concentration
+}: {
+  concentration: { leadingGroup: string; leadingScore: number; constructiveShare: number; tone: string; message: string };
+}) {
+  return (
+    <section className="panel briefing-concentration" aria-label="Concentration Check">
+      <div>
+        <p className="eyebrow">Concentration Check</p>
+        <h2>族群集中度檢查</h2>
+        <p>{concentration.message}</p>
+      </div>
+      <div className="concentration-metrics">
+        <article>
+          <span>主導族群</span>
+          <strong>{concentration.leadingGroup}</strong>
+          <b>{concentration.leadingScore}</b>
+        </article>
+        <article className={concentration.tone}>
+          <span>強勢占比</span>
+          <strong>{concentration.constructiveShare}%</strong>
+          <b>{concentration.tone === "balanced" ? "較均衡" : "偏集中"}</b>
+        </article>
+      </div>
+    </section>
+  );
+}
+
 function BreadthCard({ label, text, tone, value }: { label: string; text: string; tone: string; value: string }) {
   return (
     <article className={`panel breadth-card ${tone}`}>
@@ -260,6 +291,33 @@ function BreadthCard({ label, text, tone, value }: { label: string; text: string
       <p>{text}</p>
     </article>
   );
+}
+
+function buildConcentrationSignal(snapshots: SignalSnapshot[]) {
+  const stockSnapshots = snapshots.filter((snapshot) => snapshot.asset.group !== "指數" && snapshot.asset.group !== "ETF");
+  const constructive = stockSnapshots.filter(
+    (snapshot) => snapshot.signal.key === "green" || snapshot.signal.key === "yellow"
+  ).length;
+  const constructiveShare = stockSnapshots.length ? Math.round((constructive / stockSnapshots.length) * 100) : 0;
+  const groupScores = stockSnapshots.reduce<Record<string, { score: number; count: number }>>((summary, snapshot) => {
+    const current = summary[snapshot.asset.group] ?? { score: 0, count: 0 };
+    current.score += snapshot.compositeScore;
+    current.count += 1;
+    summary[snapshot.asset.group] = current;
+
+    return summary;
+  }, {});
+  const [leadingGroup, leading] =
+    Object.entries(groupScores)
+      .map(([group, value]) => [group, Math.round(value.score / value.count)] as const)
+      .sort((a, b) => b[1] - a[1])[0] ?? ["未分類", 0];
+  const tone = constructiveShare >= 60 ? "balanced" : "concentrated";
+  const message =
+    tone === "balanced"
+      ? "強勢標的分布較均衡，仍需確認是否由單一權值族群主導。"
+      : "強勢標的偏少，應優先檢查指數上漲是否集中在少數族群。";
+
+  return { constructiveShare, leadingGroup, leadingScore: leading, message, tone };
 }
 
 function buildMarketBreadth(snapshots: SignalSnapshot[]) {

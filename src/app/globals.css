@@ -907,6 +907,60 @@ input[type="search"] {
   margin: 6px 0 0;
 }
 
+.briefing-concentration {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.9fr);
+  gap: 18px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.briefing-concentration h2 {
+  margin: 0 0 8px;
+}
+
+.briefing-concentration p {
+  color: var(--muted);
+  line-height: 1.8;
+  margin: 0;
+}
+
+.concentration-metrics {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.concentration-metrics article {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  min-height: 104px;
+  padding: 12px;
+}
+
+.concentration-metrics article.balanced {
+  border-color: color-mix(in srgb, var(--green) 36%, var(--line));
+}
+
+.concentration-metrics article.concentrated {
+  border-color: color-mix(in srgb, #d99a00 42%, var(--line));
+}
+
+.concentration-metrics span,
+.concentration-metrics b {
+  color: var(--muted);
+  display: block;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.concentration-metrics strong {
+  display: block;
+  font-size: 24px;
+  margin: 8px 0;
+}
+
 .market-card-head,
 .market-score-row {
   display: flex;
@@ -1466,6 +1520,7 @@ input[type="date"] {
   .briefing-decision-strip,
   .briefing-breadth,
   .briefing-summary,
+  .briefing-concentration,
   .briefing-boundary,
   .briefing-boundary-grid,
   .briefing-actions,
