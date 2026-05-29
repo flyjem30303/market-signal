@@ -23,6 +23,7 @@ export default async function BriefingPage() {
   const heated = snapshots.slice().sort((a, b) => b.riskScore - a.riskScore).slice(0, 4);
   const breadth = buildMarketBreadth(snapshots);
   const concentration = buildConcentrationSignal(snapshots);
+  const playbook = buildBriefingPlaybook(market, breadth, concentration);
   const etfs = snapshots.filter((item) => item.asset.group === "ETF").sort((a, b) => b.healthScore - a.healthScore);
   const aiSemis = snapshots
     .filter((item) => ["半導體", "IC 設計", "AI 伺服器", "電子代工"].includes(item.asset.group))
@@ -91,6 +92,20 @@ export default async function BriefingPage() {
       </section>
 
       <ConcentrationPanel concentration={concentration} />
+
+      <section className="panel briefing-playbook" aria-label="Briefing Playbook">
+        <p className="eyebrow">Briefing Playbook</p>
+        <h2>今日行動框架</h2>
+        <div className="playbook-grid">
+          {playbook.map((item) => (
+            <article className={`playbook-card ${item.tone}`} key={item.label}>
+              <span>{item.label}</span>
+              <strong>{item.title}</strong>
+              <p>{item.text}</p>
+            </article>
+          ))}
+        </div>
+      </section>
 
       <section className="briefing-summary">
         <article className="panel briefing-market-card" style={{ ["--signal" as string]: signalColor(market.signal.key) }}>
@@ -318,6 +333,55 @@ function buildConcentrationSignal(snapshots: SignalSnapshot[]) {
       : "強勢標的偏少，應優先檢查指數上漲是否集中在少數族群。";
 
   return { constructiveShare, leadingGroup, leadingScore: leading, message, tone };
+}
+
+function buildBriefingPlaybook(
+  market: SignalSnapshot,
+  breadth: { constructive: number; defensive: number; watch: number },
+  concentration: { constructiveShare: number; leadingGroup: string; leadingScore: number; tone: string; message: string }
+) {
+  const posture =
+    market.signal.key === "green" || market.signal.key === "yellow"
+      ? {
+          title: "分批觀察",
+          text: `大盤為${market.signal.title}，先確認強勢是否延伸到更多族群，再看個股頁細節。`,
+          tone: "active"
+        }
+      : {
+          title: "防守優先",
+          text: `大盤為${market.signal.title}，先降低追價衝動，優先檢查風險升溫名單。`,
+          tone: "blocked"
+        };
+  const focus =
+    concentration.tone === "balanced"
+      ? {
+          title: "確認廣度",
+          text: `強勢占比 ${concentration.constructiveShare}%，主導族群為 ${concentration.leadingGroup}，可觀察是否延續。`,
+          tone: "active"
+        }
+      : {
+          title: "檢查集中",
+          text: `強勢占比 ${concentration.constructiveShare}%，主導族群為 ${concentration.leadingGroup}，避免只看指數表面。`,
+          tone: "hold"
+        };
+  const guardrail =
+    breadth.defensive > breadth.constructive
+      ? {
+          title: "不要追高",
+          text: "風險升溫數量高於強勢數量，先等結構改善，不把單日反彈當成趨勢確認。",
+          tone: "blocked"
+        }
+      : {
+          title: "不要放大宣稱",
+          text: "目前仍是 mock 模型摘要，只能作為閱讀節奏驗證，不作為買賣依據。",
+          tone: "hold"
+        };
+
+  return [
+    { label: "今日姿態", ...posture },
+    { label: "觀察焦點", ...focus },
+    { label: "避免事項", ...guardrail }
+  ];
 }
 
 function buildMarketBreadth(snapshots: SignalSnapshot[]) {

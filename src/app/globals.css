@@ -961,6 +961,59 @@ input[type="search"] {
   margin: 8px 0;
 }
 
+.briefing-playbook {
+  margin-bottom: 16px;
+}
+
+.briefing-playbook h2 {
+  margin: 0 0 14px;
+}
+
+.playbook-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.playbook-card {
+  border: 1px solid var(--line);
+  border-top: 4px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel-muted);
+  min-height: 154px;
+  padding: 14px;
+}
+
+.playbook-card.active {
+  border-top-color: var(--green);
+}
+
+.playbook-card.hold {
+  border-top-color: #d99a00;
+}
+
+.playbook-card.blocked {
+  border-top-color: var(--red);
+}
+
+.playbook-card span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.playbook-card strong {
+  display: block;
+  font-size: 20px;
+  margin: 8px 0;
+}
+
+.playbook-card p {
+  color: var(--muted);
+  line-height: 1.75;
+  margin: 0;
+}
+
 .market-card-head,
 .market-score-row {
   display: flex;
@@ -1521,6 +1574,7 @@ input[type="date"] {
   .briefing-breadth,
   .briefing-summary,
   .briefing-concentration,
+  .playbook-grid,
   .briefing-boundary,
   .briefing-boundary-grid,
   .briefing-actions,

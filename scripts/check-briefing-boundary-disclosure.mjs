@@ -33,7 +33,13 @@ const requiredPagePhrases = [
   "主導族群",
   "強勢占比",
   "buildConcentrationSignal",
-  "ConcentrationPanel"
+  "ConcentrationPanel",
+  "Briefing Playbook",
+  "今日行動框架",
+  "今日姿態",
+  "觀察焦點",
+  "避免事項",
+  "buildBriefingPlaybook"
 ];
 
 const requiredCssPhrases = [
@@ -45,6 +51,9 @@ const requiredCssPhrases = [
   ".breadth-card",
   ".briefing-concentration",
   ".concentration-metrics",
+  ".briefing-playbook",
+  ".playbook-grid",
+  ".playbook-card",
   "grid-template-columns: minmax(0, 1.4fr) minmax(320px, 0.9fr)",
   ".briefing-boundary-grid article"
 ];
