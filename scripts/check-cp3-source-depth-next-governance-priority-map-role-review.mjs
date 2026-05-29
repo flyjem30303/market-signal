@@ -1,0 +1,116 @@
+import fs from "node:fs";
+
+const reportPath = "docs/reviews/CP3_SOURCE_DEPTH_NEXT_GOVERNANCE_PRIORITY_MAP_ROLE_REVIEW_2026-05-29.md";
+
+const requiredPhrases = [
+  "Status: CP3 source-depth next governance priority map role review recorded",
+  "REVISE",
+  "accepted as local-only planning guidance",
+  "does not approve template copy",
+  "does not create a real request packet",
+  "does not create real evidence artifact files",
+  "does not fill template values",
+  "does not create the future evidence checker",
+  "does not clear source-depth not_ready",
+  "docs/reviews/CP3_SOURCE_DEPTH_NEXT_GOVERNANCE_PRIORITY_MAP_2026-05-29.md",
+  "scripts/check-cp3-source-depth-next-governance-priority-map.mjs",
+  "docs/reviews/CP3_SOURCE_DEPTH_TEMPLATE_COPY_APPROVAL_PACKET_GOVERNANCE_CHECKPOINT_SUMMARY_ROLE_REVIEW_2026-05-29.md",
+  "scripts/check-cp3-tw-stock-source-depth.mjs remains not_ready as expected",
+  "scripts/check-cp3-source-depth-next-governance-priority-map.mjs passes",
+  "scripts/check-cp3-source-depth-template-copy-approval-packet-governance-checkpoint-summary-role-review.mjs passes",
+  "scripts/check-cp3-source-depth-template-copy-approval-packet-governance-checkpoint-summary.mjs passes",
+  "scripts/check-cp3-runtime-policy-draft.mjs passes",
+  "scripts/check-cp3-ui-copy-tokens-draft.mjs passes",
+  "TypeScript noEmit passes via node node_modules/typescript/bin/tsc --noEmit",
+  "review gates pass",
+  "Tier 1 local-only work is clearly separated",
+  "Tier 2 approval work is clearly separated",
+  "Tier 3 external-precondition work is clearly separated",
+  "static checker maintenance remains Tier 1",
+  "review-gate maintenance remains Tier 1",
+  "approve public UI wiring",
+  "approve scoreSource=real transition",
+  "approve public backtest claims",
+  "checker passing is not approval",
+  "public claims remain unapproved",
+  "approve source-depth production gate transition",
+  "not ready for real data collection",
+  "data-source rights review completed",
+  "data quality downgrade policy accepted",
+  "do not infer authorization from green review gates",
+  "Supabase schema readiness confirmed",
+  "remote read-only validation approved",
+  "staging migration approved",
+  "do not infer authorization from existing .env.local",
+  "do not infer authorization from local SQL files",
+  "Proceed with local-only Tier 1 work",
+  "create an approval packet draft only",
+  "stop unless explicit authorization is present",
+  "preserves autonomy",
+  "without silently crossing into data",
+  "without silently crossing into Supabase",
+  "without silently crossing into SQL",
+  "without silently crossing into scoreSource=real",
+  "without silently crossing into public UI",
+  "without silently crossing into public claim execution",
+  "runtime-state wording maps",
+  "public UI wiring is Tier 2 approval work",
+  "no public badge copy approved",
+  "no user-facing claim language approved",
+  "CEO selects local-only Tier 1 continuation with Tier 2 and Tier 3 stop rules",
+  "local-only planning guidance",
+  "CEO may continue Tier 1 work autonomously",
+  "Tier 2 requires explicit approval packet handling",
+  "Tier 3 requires external preconditions or explicit authorization",
+  "does not create evidence",
+  "does not make source_depth_state reviewable",
+  "does not change the public mock data posture",
+  "role review only",
+  "do not approve template copy",
+  "do not create a real request packet",
+  "do not create real evidence artifact files",
+  "do not fill template values",
+  "do not create future evidence checker",
+  "do not add example market data",
+  "do not add sample rows",
+  "do not add sample JSON",
+  "do not add sample CSV",
+  "do not add Supabase output",
+  "do not add SQL output",
+  "do not fetch market data",
+  "do not parse market rows",
+  "do not run source-depth validator against Supabase",
+  "do not connect to Supabase",
+  "do not run SQL",
+  "do not write Supabase",
+  "do not write staging rows",
+  "do not write daily_prices",
+  "do not create seed SQL",
+  "do not store raw market rows",
+  "do not commit CSV / JSON market data files",
+  "do not set scoreSource=real",
+  "do not make public backtest claims",
+  "do not clear source-depth not_ready",
+  "CP3 source-depth production gate remains not_ready",
+  "Keep public data source mock",
+  "draft CP3 source-depth Tier 1 local work queue"
+];
+
+const report = fs.existsSync(reportPath) ? fs.readFileSync(reportPath, "utf8") : "";
+const missing = requiredPhrases.filter((phrase) => !report.includes(phrase));
+
+console.log(
+  JSON.stringify(
+    {
+      missing,
+      report: reportPath,
+      status: missing.length === 0 ? "ok" : "blocked"
+    },
+    null,
+    2
+  )
+);
+
+if (missing.length > 0) {
+  process.exitCode = 1;
+}
