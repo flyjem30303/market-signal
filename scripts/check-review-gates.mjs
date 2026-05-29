@@ -1068,6 +1068,11 @@ const checks = [
     name: "cp3-source-depth-local-only-chairman-review-handoff-packet-rejection-transition-route-dependency-post-checkpoint-options-map"
   },
   {
+    command: [node, "scripts/check-cp3-source-depth-local-only-chairman-review-handoff-packet-rejection-transition-route-dependency-post-checkpoint-options-map-role-review.mjs"],
+    expectStatus: "ok",
+    name: "cp3-source-depth-local-only-chairman-review-handoff-packet-rejection-transition-route-dependency-post-checkpoint-options-map-role-review"
+  },
+  {
     command: [node, "scripts/check-cp3-tw-stock-historical-plan.mjs"],
     expectStatus: "ok",
     name: "cp3-tw-stock-historical-plan"
