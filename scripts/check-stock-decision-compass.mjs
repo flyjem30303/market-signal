@@ -15,14 +15,21 @@ const requiredComponentPhrases = [
   "目前仍是 mock 閱讀體驗",
   "不把分數當成交易訊號",
   "scoreSourceLabel",
-  "snapshot.riskScore"
+  "snapshot.riskScore",
+  "StockPageCompass",
+  "Stock Page Compass",
+  "分數與模型狀態",
+  "長期分數路徑",
+  "歷史模擬表現"
 ];
 
 const requiredCssPhrases = [
   ".stock-decision-compass",
   ".stock-decision-compass article.active",
   ".stock-decision-compass article.hold",
-  ".stock-decision-compass article.blocked"
+  ".stock-decision-compass article.blocked",
+  ".stock-page-compass",
+  ".stock-page-compass button.active"
 ];
 
 const forbiddenPhrases = [

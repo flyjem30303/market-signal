@@ -135,6 +135,7 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
           <DataFreshnessStrip freshness={freshness} />
           <StockDecisionCompass scoreSourceLabel={freshness.scoreSourceLabel} snapshot={snapshot} />
           <QuoteSummary asset={selected} isFavorite={isFavorite} quote={quote} snapshot={snapshot} onFavorite={toggleFavorite} />
+          <StockPageCompass activeTab={activeTab} onTab={changeTab} />
         </>
       )}
 
@@ -313,6 +314,34 @@ function StockDecisionCompass({
         <p>先看今日分數與資料狀態，再切換趨勢、技術、籌碼、基本面與回測。</p>
       </article>
     </section>
+  );
+}
+
+function StockPageCompass({ activeTab, onTab }: { activeTab: TabKey; onTab: (tab: TabKey) => void }) {
+  const items: Array<{ key: TabKey; label: string; text: string }> = [
+    { key: "today", label: "今日", text: "分數與模型狀態" },
+    { key: "trend", label: "趨勢", text: "長期分數路徑" },
+    { key: "technical", label: "技術", text: "價格與動能" },
+    { key: "volume", label: "籌碼", text: "成交與資金" },
+    { key: "fundamentals", label: "基本面", text: "估值與品質" },
+    { key: "news", label: "新聞", text: "事件脈絡" },
+    { key: "backtest", label: "回測", text: "歷史模擬表現" }
+  ];
+
+  return (
+    <nav className="stock-page-compass" aria-label="Stock Page Compass">
+      {items.map((item) => (
+        <button
+          className={activeTab === item.key ? "active" : undefined}
+          key={item.key}
+          onClick={() => onTab(item.key)}
+          type="button"
+        >
+          <strong>{item.label}</strong>
+          <span>{item.text}</span>
+        </button>
+      ))}
+    </nav>
   );
 }
 
