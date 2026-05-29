@@ -98,6 +98,7 @@
     "check:cp3-source-depth-approval-packet-boundary-map": "node scripts/check-cp3-source-depth-approval-packet-boundary-map.mjs",
     "check:cp3-source-depth-approval-packet-boundary-map-role-review": "node scripts/check-cp3-source-depth-approval-packet-boundary-map-role-review.mjs",
     "check:cp3-source-depth-local-only-ceo-handoff-index": "node scripts/check-cp3-source-depth-local-only-ceo-handoff-index.mjs",
+    "check:cp3-source-depth-local-only-ceo-handoff-index-role-review": "node scripts/check-cp3-source-depth-local-only-ceo-handoff-index-role-review.mjs",
     "check:cp3-tw-stock-data-quality-downgrade-matrix": "node scripts/check-cp3-tw-stock-data-quality-downgrade-matrix.mjs",
     "check:cp3-tw-stock-data-quality-downgrade-matrix-role-review": "node scripts/check-cp3-tw-stock-data-quality-downgrade-matrix-role-review.mjs",
     "check:cp3-global-model-version-naming-rules": "node scripts/check-cp3-global-model-version-naming-rules.mjs",
