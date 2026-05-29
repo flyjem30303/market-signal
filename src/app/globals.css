@@ -1235,6 +1235,86 @@ select {
   color: var(--blue);
 }
 
+.stock-source-escalation {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+  display: grid;
+  grid-template-columns: minmax(260px, 0.72fr) minmax(0, 1.48fr);
+  gap: 16px;
+  margin: 0 0 16px;
+  padding: 16px;
+}
+
+.stock-source-escalation h2 {
+  margin: 0 0 8px;
+}
+
+.stock-source-escalation p {
+  color: var(--muted);
+  line-height: 1.75;
+  margin: 0;
+}
+
+.source-escalation-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.source-escalation-grid article {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  min-height: 172px;
+  padding: 12px;
+}
+
+.source-escalation-grid article.blocked {
+  border-color: #f2b8b5;
+  background: #fff5f5;
+}
+
+.source-escalation-grid article.watch {
+  border-color: #d7dde8;
+  background: var(--panel-muted);
+}
+
+.source-escalation-grid span {
+  color: #b42318;
+  font-size: 12px;
+  font-weight: 850;
+  margin-bottom: 8px;
+}
+
+.source-escalation-grid article.watch span {
+  color: var(--blue);
+}
+
+.source-escalation-grid strong {
+  color: var(--ink);
+  display: block;
+  font-size: 17px;
+  margin-bottom: 8px;
+}
+
+.source-escalation-grid button {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+  font-weight: 800;
+  margin-top: auto;
+  padding: 8px 10px;
+}
+
+.source-escalation-grid button:hover {
+  border-color: #b42318;
+  color: #b42318;
+}
+
 .quote-main {
   display: grid;
   gap: 18px;
@@ -2616,6 +2696,8 @@ input[type="date"] {
   .source-blocker-grid,
   .stock-source-checkpoint,
   .source-checkpoint-grid,
+  .stock-source-escalation,
+  .source-escalation-grid,
   .quote-stat-grid,
   .internal-status-grid,
   .score-grid,

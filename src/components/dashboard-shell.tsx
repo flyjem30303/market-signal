@@ -150,6 +150,7 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
           <StockSourceAcceptanceCriteria onTab={changeTab} />
           <StockSourceDecisionBlockers onTab={changeTab} />
           <StockSourceCheckpointPath onTab={changeTab} />
+          <StockSourceEscalationSignal onTab={changeTab} />
         </>
       )}
 
@@ -926,6 +927,51 @@ function StockSourceCheckpointPath({ onTab }: { onTab: (tab: TabKey) => void }) 
             <p>{item.text}</p>
             <button onClick={item.action} type="button">
               查看相關頁籤
+            </button>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function StockSourceEscalationSignal({ onTab }: { onTab: (tab: TabKey) => void }) {
+  const signals: Array<{ action: () => void; label: string; state: "blocked" | "watch"; text: string }> = [
+    {
+      action: () => onTab("today"),
+      label: "來源證據",
+      state: "blocked",
+      text: "尚未形成可審核證據鏈，因此不能宣稱資料來源已足以支撐正式決策。"
+    },
+    {
+      action: () => onTab("backtest"),
+      label: "公開宣稱",
+      state: "blocked",
+      text: "mock 與 not_ready 邊界仍存在，所有績效、訊號與建議文字都必須維持降級。"
+    },
+    {
+      action: () => onTab("technical"),
+      label: "風險揭露",
+      state: "watch",
+      text: "風險欄位可繼續補強，但目前只能支援研究閱讀，不能支援下單行為。"
+    }
+  ];
+
+  return (
+    <section className="stock-source-escalation" aria-label="Stock Source Escalation Signal">
+      <div>
+        <p className="eyebrow">Escalation Signal</p>
+        <h2>CEO 升級訊號</h2>
+        <p>目前 CEO 判斷：不升級、不排正式會議、不建立授權 packet。下一步仍是 local-only 產品說明補強。</p>
+      </div>
+      <div className="source-escalation-grid">
+        {signals.map((item) => (
+          <article className={item.state} key={item.label}>
+            <span>{item.state === "blocked" ? "Blocked" : "Watch"}</span>
+            <strong>{item.label}</strong>
+            <p>{item.text}</p>
+            <button onClick={item.action} type="button">
+              檢查對應內容
             </button>
           </article>
         ))}

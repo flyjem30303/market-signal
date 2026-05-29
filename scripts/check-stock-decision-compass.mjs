@@ -39,8 +39,16 @@ const requiredComponentPhrases = [
   "Stock Source Decision Blockers",
   "StockSourceCheckpointPath",
   "Stock Source Checkpoint Path",
+  "StockSourceEscalationSignal",
+  "Stock Source Escalation Signal",
   "來源決策阻擋點",
   "下一個檢討節點",
+  "CEO 升級訊號",
+  "目前 CEO 判斷：不升級、不排正式會議、不建立授權 packet",
+  "local-only 產品說明補強",
+  "尚未形成可審核證據鏈",
+  "mock 與 not_ready 邊界仍存在",
+  "檢查對應內容",
   "這不是授權流程，也不建立 packet",
   "避免團隊在文件裡迷路",
   "1. 說明補強",
@@ -154,7 +162,12 @@ const requiredCssPhrases = [
   ".stock-source-checkpoint",
   ".source-checkpoint-grid",
   ".source-checkpoint-grid article.active",
-  ".source-checkpoint-grid button:hover"
+  ".source-checkpoint-grid button:hover",
+  ".stock-source-escalation",
+  ".source-escalation-grid",
+  ".source-escalation-grid article.blocked",
+  ".source-escalation-grid article.watch",
+  ".source-escalation-grid button:hover"
 ];
 
 const forbiddenPhrases = [
