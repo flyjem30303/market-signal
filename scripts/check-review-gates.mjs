@@ -238,6 +238,11 @@ const checks = [
     name: "cp3-source-depth-local-only-ceo-handoff-index-role-review"
   },
   {
+    command: [node, "scripts/check-cp3-source-depth-local-only-pending-decision-ledger.mjs"],
+    expectStatus: "ok",
+    name: "cp3-source-depth-local-only-pending-decision-ledger"
+  },
+  {
     command: [node, "scripts/check-cp3-tw-stock-historical-plan.mjs"],
     expectStatus: "ok",
     name: "cp3-tw-stock-historical-plan"
