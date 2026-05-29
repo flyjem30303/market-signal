@@ -157,6 +157,7 @@ scripts/check-cp3-source-depth-evidence-artifact-approval-gate-plan-role-review.
 scripts/check-cp3-source-depth-template-copy-approval-packet-design.mjs
 scripts/check-cp3-source-depth-template-copy-approval-packet-design-role-review.mjs
 scripts/check-cp3-source-depth-template-copy-approval-packet-blank-template-design.mjs
+scripts/check-cp3-source-depth-template-copy-approval-packet-blank-template-design-role-review.mjs
 scripts/check-cp3-tw-stock-data-quality-downgrade-matrix.mjs
 scripts/check-cp3-tw-stock-data-quality-downgrade-matrix-role-review.mjs
 scripts/check-cp3-global-model-version-naming-rules.mjs
@@ -312,6 +313,7 @@ docs/reviews/CP3_SOURCE_DEPTH_EVIDENCE_ARTIFACT_APPROVAL_GATE_PLAN_ROLE_REVIEW_2
 docs/CP3_SOURCE_DEPTH_TEMPLATE_COPY_APPROVAL_PACKET_DESIGN_2026-05-29.md
 docs/reviews/CP3_SOURCE_DEPTH_TEMPLATE_COPY_APPROVAL_PACKET_DESIGN_ROLE_REVIEW_2026-05-29.md
 docs/CP3_SOURCE_DEPTH_TEMPLATE_COPY_APPROVAL_PACKET_BLANK_TEMPLATE_DESIGN_2026-05-29.md
+docs/reviews/CP3_SOURCE_DEPTH_TEMPLATE_COPY_APPROVAL_PACKET_BLANK_TEMPLATE_DESIGN_ROLE_REVIEW_2026-05-29.md
 docs/CP3_TWSE_STOCK_DAY_HISTORICAL_ENDPOINT_RESEARCH_2026-05-29.md
 docs/CP3_TWSE_STOCK_DAY_SOURCE_DEPTH_SMOKE_DESIGN_2026-05-29.md
 docs/CP3_TWSE_STOCK_DAY_CONTROLLED_INGESTION_DESIGN_2026-05-29.md

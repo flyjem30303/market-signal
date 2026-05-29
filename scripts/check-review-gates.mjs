@@ -148,6 +148,11 @@ const checks = [
     name: "cp3-source-depth-template-copy-approval-packet-blank-template-design"
   },
   {
+    command: [node, "scripts/check-cp3-source-depth-template-copy-approval-packet-blank-template-design-role-review.mjs"],
+    expectStatus: "ok",
+    name: "cp3-source-depth-template-copy-approval-packet-blank-template-design-role-review"
+  },
+  {
     command: [node, "scripts/check-cp3-tw-stock-historical-plan.mjs"],
     expectStatus: "ok",
     name: "cp3-tw-stock-historical-plan"
