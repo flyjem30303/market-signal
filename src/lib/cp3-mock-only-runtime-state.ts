@@ -8,6 +8,7 @@ export type Cp3MockOnlyRuntimeState = {
   assetType: "stock" | "etf" | "index";
   backtestApprovalState: Cp3MockOnlyApprovalState;
   claimApprovalState: Cp3MockOnlyApprovalState;
+  contractState: "local_contract_only";
   dataQualityScore: number;
   dataQualityState: Cp3MockOnlyDataQualityState;
   disclosureApprovalState: Cp3MockOnlyApprovalState;
@@ -32,28 +33,28 @@ export type Cp3MockOnlyUiCopyToken = {
 
 export const cp3MockOnlyUiCopyTokens: Record<Cp3MockOnlyDisplayState, Cp3MockOnlyUiCopyToken> = {
   mock: {
-    claimLimit: "此狀態不能作為投資建議、官方資料品質聲明或真實分數宣稱。",
-    disclosure: "目前分數來源是 mock，僅用於本地 runtime 介面驗證；真實資料、來源深度與公開宣稱仍未開放。",
-    label: "模擬資料燈號",
-    shortDescription: "這個區塊只顯示本地 mock runtime 狀態，用來確認頁面如何揭露資料限制。"
+    claimLimit: "目前只可作為產品體驗與閱讀流程示範，不能作為投資判斷、建議或績效保證。",
+    disclosure: "分數來源仍是 mock；runtime 只使用本地雙層契約概念，不連外部資料庫、不讀取真實市場資料，也不表示來源深度已完成。",
+    label: "Mock runtime",
+    shortDescription: "這是 mock-only runtime 狀態，協助使用者理解畫面與資料邊界，尚未進入正式資料或公開宣稱階段。"
   },
   partial: {
-    claimLimit: "部分資料仍未達公開使用條件，不能宣稱完整、即時或可用於正式決策。",
-    disclosure: "目前只允許呈現局部 mock 狀態；來源深度、來源權利與公開宣稱都維持 not_ready。",
-    label: "局部資料燈號",
-    shortDescription: "資料品質顯示為 partial，代表介面可展示限制，但不能升級為真實分數。"
+    claimLimit: "部分資料條件尚未完整，所有解讀都必須保留折扣，不能升級為正式模型結論。",
+    disclosure: "目前仍是 mock-only 狀態；資料品質為 partial，來源深度、權利與公開宣稱仍維持 not_ready。",
+    label: "資料部分就緒",
+    shortDescription: "部分欄位或驗證條件仍未齊備，畫面可用來檢查流程，但不能把分數視為可信訊號。"
   },
   stale: {
-    claimLimit: "資料時效不足，不能宣稱最新、即時、可交易或具備正式可信度。",
-    disclosure: "目前資料被標示為 stale；頁面必須保留 mock-only 與 not_ready 邊界。",
-    label: "資料過期燈號",
-    shortDescription: "資料 freshness 顯示過期，因此 runtime 只能呈現警示與限制。"
+    claimLimit: "新鮮度未滿足前，不可把畫面解讀成即時、正式或可交易的資訊。",
+    disclosure: "目前資料新鮮度為 stale；即使畫面可瀏覽，仍維持 mock-only 與 not_ready 邊界。",
+    label: "資料新鮮度不足",
+    shortDescription: "資料時間狀態需要更新或重新驗證，runtime 只能呈現保守提醒。"
   },
   unavailable: {
-    claimLimit: "資料不可用時，頁面只能呈現限制說明，不能輸出實質市場判斷。",
-    disclosure: "目前資料狀態不可用；所有真實資料、來源權利與公開宣稱 gate 都維持未開放。",
-    label: "資料不可用",
-    shortDescription: "runtime 狀態缺少可展示的資料品質，只能保留 mock-only disclosure。"
+    claimLimit: "必要資料狀態不可用時，頁面不得暗示模型可信、資料完整或已完成審核。",
+    disclosure: "目前缺少必要 runtime 狀態來源；畫面必須維持 mock-only disclosure，並等待後續 gate 補齊。",
+    label: "資料狀態不可用",
+    shortDescription: "runtime 缺少足夠資訊可安全分類，因此只能顯示不可用與待審核狀態。"
   }
 };
 

@@ -15,6 +15,7 @@ type Cp3RuntimeStatePanelProps = {
 
 const runtimeValueLabels: Record<string, string> = {
   candidate: "候選模型",
+  local_contract_only: "本地契約",
   mock: "mock",
   not_ready: "not_ready",
   partial: "partial",
@@ -32,16 +33,16 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
   return (
     <section className={`cp3-runtime-state-panel ${displayState}`} aria-label="CP3 Runtime State">
       <div>
-        <p className="eyebrow">Runtime Disclosure</p>
+        <p className="eyebrow">Runtime Boundary</p>
         <h2>{copy.label}</h2>
         <p>{copy.shortDescription}</p>
       </div>
       <div className="cp3-runtime-state-grid">
         <RuntimeStateItem label="顯示狀態" value={displayState} />
         <RuntimeStateItem label="分數來源" value={runtimeState.scoreSource} />
+        <RuntimeStateItem label="資料契約" value={runtimeState.contractState} />
         <RuntimeStateItem label="來源深度" value={runtimeState.sourceDepthState} />
         <RuntimeStateItem label="公開宣稱" value={runtimeState.claimApprovalState} />
-        <RuntimeStateItem label="模型狀態" value={runtimeState.modelApprovalState} />
         <RuntimeStateItem label="資料品質" value={runtimeState.dataQualityState} />
       </div>
       <div className="cp3-runtime-state-disclosure">
@@ -65,6 +66,7 @@ export function buildMockOnlyRuntimeState({
     assetType: inferRuntimeAssetType(snapshot),
     backtestApprovalState: "not_ready",
     claimApprovalState: "not_ready",
+    contractState: "local_contract_only",
     dataQualityScore: snapshot.dataQualityScore,
     dataQualityState: toRuntimeDataQualityState(freshness),
     disclosureApprovalState: "not_ready",
@@ -97,7 +99,8 @@ function RuntimeStateItem({ label, value }: { label: string; value: string | num
 
 function buildRuntimeBlockers(state: Cp3MockOnlyRuntimeState) {
   return [
-    state.scoreSource === "mock" ? "真實分數未開放" : null,
+    state.scoreSource === "mock" ? "分數仍為 mock" : null,
+    `資料契約 ${state.contractState}`,
     `來源深度 ${state.sourceDepthState}`,
     `來源權利 ${state.sourceRightsState}`,
     `公開宣稱 ${state.claimApprovalState}`,

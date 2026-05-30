@@ -17,6 +17,7 @@ const requiredComponentPhrases = [
   "getMockOnlyPublicDisplayState",
   "cp3MockOnlyUiCopyTokens",
   "scoreSource: \"mock\"",
+  "contractState: \"local_contract_only\"",
   "sourceDepthState: \"not_ready\"",
   "sourceRightsState: \"not_ready\"",
   "backtestApprovalState: \"not_ready\"",
@@ -24,14 +25,15 @@ const requiredComponentPhrases = [
   "claimApprovalState: \"not_ready\"",
   "modelApprovalState: \"candidate\"",
   "inferRuntimeAssetType",
-  "Runtime Disclosure",
+  "Runtime Boundary",
   "顯示狀態",
   "分數來源",
+  "資料契約",
   "來源深度",
   "公開宣稱",
-  "模型狀態",
   "資料品質",
-  "真實分數未開放",
+  "分數仍為 mock",
+  "資料契約 ${state.contractState}",
   "來源深度 ${state.sourceDepthState}",
   "公開宣稱 ${state.claimApprovalState}",
   "toRuntimeDataQualityState",
@@ -42,6 +44,7 @@ const requiredRuntimePhrases = [
   "export type Cp3MockOnlyRuntimeState",
   "export type Cp3MockOnlyApprovalState = \"not_ready\"",
   "scoreSource: \"mock\"",
+  "contractState: \"local_contract_only\"",
   "sourceDepthState: Cp3MockOnlyApprovalState",
   "sourceRightsState: Cp3MockOnlyApprovalState",
   "claimApprovalState: Cp3MockOnlyApprovalState",
@@ -49,10 +52,12 @@ const requiredRuntimePhrases = [
   "export const cp3MockOnlyUiCopyTokens",
   "getMockOnlyPublicDisplayState",
   "return \"mock\"",
-  "目前分數來源是 mock",
-  "真實資料、來源深度與公開宣稱仍未開放",
-  "此狀態不能作為投資建議",
-  "不能升級為真實分數"
+  "分數來源仍是 mock",
+  "runtime 只使用本地雙層契約概念",
+  "不能作為投資判斷、建議或績效保證",
+  "資料品質為 partial",
+  "資料新鮮度為 stale",
+  "資料狀態不可用"
 ];
 
 const requiredDashboardPhrases = [
@@ -72,6 +77,8 @@ const forbiddenComponentPhrases = [
   "scoreSource: \"real\"",
   "scoreSource === \"real\"",
   "scoreSource=real",
+  "twse_stock_day_staging",
+  "staging_twse_stock_day",
   "real_candidate",
   "sourceDepthState: \"approved\"",
   "sourceRightsState: \"approved\"",
@@ -89,7 +96,6 @@ const forbiddenComponentPhrases = [
   "getSupabaseDataFreshnessSnapshot",
   "fetch(",
   "daily_prices",
-  "staging",
   "seed SQL",
   "public claims approved"
 ];
@@ -98,6 +104,8 @@ const forbiddenRuntimePhrases = [
   "scoreSource: \"real\"",
   "scoreSource === \"real\"",
   "scoreSource=real",
+  "twse_stock_day_staging",
+  "staging_twse_stock_day",
   "real_candidate",
   "\"approved\"",
   "\"ready\"",
@@ -105,7 +113,6 @@ const forbiddenRuntimePhrases = [
   "getSupabaseDataFreshnessSnapshot",
   "fetch(",
   "daily_prices",
-  "staging",
   "seed SQL",
   "public claims approved"
 ];
