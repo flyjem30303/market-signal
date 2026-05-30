@@ -29,6 +29,7 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
   const displayState = getMockOnlyPublicDisplayState(runtimeState);
   const copy = cp3MockOnlyUiCopyTokens[displayState];
   const blockers = buildRuntimeBlockers(runtimeState);
+  const decisionSummary = buildRuntimeDecisionSummary(runtimeState);
   const stopLines = buildRuntimeStopLines();
 
   return (
@@ -49,6 +50,10 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
       <div className="cp3-runtime-state-disclosure">
         <strong>{copy.disclosure}</strong>
         <span>{copy.claimLimit}</span>
+      </div>
+      <div className="cp3-runtime-decision-summary" aria-label="Runtime decision summary">
+        <strong>CEO runtime 判定</strong>
+        <span>{decisionSummary}</span>
       </div>
       <div className="cp3-runtime-state-blockers" aria-label="Runtime blockers">
         {blockers.map((blocker) => (
@@ -116,6 +121,14 @@ function buildRuntimeBlockers(state: Cp3MockOnlyRuntimeState) {
     `公開宣稱 ${formatRuntimeValue(state.claimApprovalState)}`,
     `回測審核 ${formatRuntimeValue(state.backtestApprovalState)}`
   ].filter((item): item is string => Boolean(item));
+}
+
+function buildRuntimeDecisionSummary(state: Cp3MockOnlyRuntimeState) {
+  if (state.scoreSource === "mock" && state.sourceDepthState === "not_ready") {
+    return "維持 mock-only；CP3 不可進入真實資料、正式分數或公開投資宣稱。";
+  }
+
+  return "維持人工覆核；CP3 不可自動升級為正式 runtime。";
 }
 
 function buildRuntimeStopLines() {

@@ -322,6 +322,25 @@ select {
   color: var(--muted);
 }
 
+.cp3-runtime-decision-summary {
+  background: #f8fbff;
+  border: 1px solid #cddff2;
+  border-radius: 8px;
+  display: grid;
+  gap: 4px;
+  grid-column: 1 / -1;
+  padding: 12px;
+}
+
+.cp3-runtime-decision-summary strong {
+  color: #17324d;
+}
+
+.cp3-runtime-decision-summary span {
+  color: #3f5872;
+  line-height: 1.6;
+}
+
 .cp3-runtime-state-blockers {
   display: flex;
   flex-wrap: wrap;
@@ -3603,6 +3622,7 @@ input[type="date"] {
   .evidence-snapshot-grid,
   .cp3-runtime-state-panel,
   .cp3-runtime-state-grid,
+  .cp3-runtime-decision-summary,
   .cp3-runtime-stop-lines,
   .stock-data-gap-panel,
   .stock-decision-compass,
