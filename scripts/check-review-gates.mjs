@@ -1658,6 +1658,11 @@ const checks = [
     name: "cp3-supabase-schema-shape-read-only-evidence-plan"
   },
   {
+    command: [node, "scripts/check-cp3-supabase-schema-shape-read-only-evidence-plan-role-review.mjs"],
+    expectStatus: "ok",
+    name: "cp3-supabase-schema-shape-read-only-evidence-plan-role-review"
+  },
+  {
     command: [node, "scripts/check-cp3-tw-stock-model-candidates.mjs"],
     expectStatus: "ok",
     name: "cp3-tw-stock-model"
