@@ -1583,6 +1583,11 @@ const checks = [
     name: "cp3-supabase-read-only-remote-capable-validator-implementation-gate-draft-role-review"
   },
   {
+    command: [node, "scripts/check-cp3-supabase-read-only-guarded-validator-implementation-review.mjs"],
+    expectStatus: "ok",
+    name: "cp3-supabase-read-only-guarded-validator-implementation-review"
+  },
+  {
     command: [node, "scripts/check-cp3-tw-stock-model-candidates.mjs"],
     expectStatus: "ok",
     name: "cp3-tw-stock-model"
