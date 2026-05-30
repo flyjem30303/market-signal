@@ -241,6 +241,65 @@ select {
   padding: 20px;
 }
 
+.home-product-overview {
+  display: grid;
+  grid-template-columns: minmax(320px, 1.1fr) minmax(0, 1.4fr);
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.home-primary-card,
+.home-overview-grid article {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+  padding: 18px;
+}
+
+.home-primary-card h2 {
+  margin: 0 0 10px;
+  font-size: 24px;
+  line-height: 1.28;
+}
+
+.home-primary-card p,
+.home-overview-grid p {
+  color: var(--muted);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.home-action-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.home-overview-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.home-overview-grid article {
+  display: grid;
+  gap: 8px;
+  min-height: 160px;
+}
+
+.home-overview-grid span {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 850;
+}
+
+.home-overview-grid strong {
+  font-size: 26px;
+  line-height: 1.1;
+}
+
 .stock-evidence-snapshot {
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -4606,6 +4665,8 @@ input[type="date"] {
 @media (max-width: 900px) {
   .asset-toolbar,
   .asset-grid,
+  .home-product-overview,
+  .home-overview-grid,
   .quote-panel,
   .stock-evidence-snapshot,
   .evidence-snapshot-grid,

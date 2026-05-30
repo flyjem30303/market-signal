@@ -131,6 +131,15 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
         onSelect={selectAsset}
       />
 
+      {!includeSeoContent && (
+        <HomeProductOverview
+          scoreSourceLabel={freshness.scoreSourceLabel}
+          selected={selected}
+          snapshot={snapshot}
+          onTab={changeTab}
+        />
+      )}
+
       {includeSeoContent && (
         <>
           <DataFreshnessStrip freshness={freshness} />
@@ -243,6 +252,67 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
         </>
       )}
     </main>
+  );
+}
+
+function HomeProductOverview({
+  scoreSourceLabel,
+  selected,
+  snapshot,
+  onTab
+}: {
+  scoreSourceLabel: string;
+  selected: Asset;
+  snapshot: SignalSnapshot;
+  onTab: (tab: TabKey) => void;
+}) {
+  const riskState = snapshot.riskScore >= 70 ? "高風險" : snapshot.riskScore >= 55 ? "需觀察" : "相對穩定";
+  const gapCount = snapshot.missingModuleFlags.length + snapshot.staleDataFlags.length;
+
+  return (
+    <section className="home-product-overview" aria-label="首頁快速摘要">
+      <article className="home-primary-card">
+        <p className="eyebrow">Quick Start</p>
+        <h2>
+          先用 {selected.symbol} {selected.name} 建立今日閱讀節奏
+        </h2>
+        <p>
+          目前分數來源為 {scoreSourceLabel}。這個首頁先協助你理解標的狀態、風險溫度與資料限制，
+          不把 mock 分數包裝成正式投資訊號。
+        </p>
+        <div className="home-action-row">
+          <a className="solid-button" href={`/stocks/${selected.symbol}`}>
+            前往股票頁
+          </a>
+          <a className="outline-button" href="/briefing">
+            查看晨報
+          </a>
+          <button className="outline-button" onClick={() => onTab("trend")} type="button">
+            看趨勢
+          </button>
+        </div>
+      </article>
+
+      <div className="home-overview-grid">
+        <article>
+          <span>今日燈號</span>
+          <strong style={{ color: signalColor(snapshot.signal.key) }}>{snapshot.signal.title}</strong>
+          <p>{snapshot.signal.text}</p>
+        </article>
+        <article>
+          <span>健康 / 風險</span>
+          <strong>
+            {snapshot.healthScore} / {snapshot.riskScore}
+          </strong>
+          <p>風險狀態：{riskState}。先看趨勢與資料旗標，再形成判讀。</p>
+        </article>
+        <article>
+          <span>資料限制</span>
+          <strong>{gapCount} 項旗標</strong>
+          <p>正式資料來源與公開宣稱仍未完成前，所有分數只支援產品體驗。</p>
+        </article>
+      </div>
+    </section>
   );
 }
 
