@@ -1958,6 +1958,11 @@ const checks = [
     name: "freshness-runtime-read-activation-gate-role-review"
   },
   {
+    command: [node, "scripts/check-freshness-runtime-read-execution-packet-draft.mjs"],
+    expectStatus: "ok",
+    name: "freshness-runtime-read-execution-packet-draft"
+  },
+  {
     command: [node, "scripts/check-etf-source-gate.mjs"],
     expectStatus: "blocked",
     name: "etf-source-gate"
