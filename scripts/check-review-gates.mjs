@@ -1723,6 +1723,11 @@ const checks = [
     name: "cp3-supabase-schema-shape-final-one-attempt-execution-gate-review"
   },
   {
+    command: [node, "scripts/check-cp3-supabase-schema-shape-one-attempt-post-run-review.mjs"],
+    expectStatus: "ok",
+    name: "cp3-supabase-schema-shape-one-attempt-post-run-review"
+  },
+  {
     command: [node, "scripts/check-cp3-tw-stock-model-candidates.mjs"],
     expectStatus: "ok",
     name: "cp3-tw-stock-model"
