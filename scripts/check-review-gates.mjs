@@ -1528,6 +1528,11 @@ const checks = [
     name: "cp3-mock-only-runtime-panel"
   },
   {
+    command: [node, "scripts/check-cp3-mock-only-runtime-implementation-review-checkpoint.mjs"],
+    expectStatus: "ok",
+    name: "cp3-mock-only-runtime-implementation-review-checkpoint"
+  },
+  {
     command: [node, "scripts/check-cp3-tw-stock-model-candidates.mjs"],
     expectStatus: "ok",
     name: "cp3-tw-stock-model"
