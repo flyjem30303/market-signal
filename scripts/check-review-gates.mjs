@@ -1413,6 +1413,11 @@ const checks = [
     name: "cp3-current-state-briefing-copy-alignment-checkpoint-summary"
   },
   {
+    command: [node, "scripts/check-cp3-local-only-open-decision-ledger-refresh.mjs"],
+    expectStatus: "ok",
+    name: "cp3-local-only-open-decision-ledger-refresh"
+  },
+  {
     command: [node, "scripts/check-cp3-tw-stock-model-candidates.mjs"],
     expectStatus: "ok",
     name: "cp3-tw-stock-model"
