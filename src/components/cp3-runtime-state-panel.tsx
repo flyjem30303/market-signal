@@ -16,8 +16,8 @@ type Cp3RuntimeStatePanelProps = {
 const runtimeValueLabels: Record<string, string> = {
   candidate: "候選模型",
   local_contract_only: "本地契約",
-  mock: "mock",
-  not_ready: "not_ready",
+  mock: "模擬分數",
+  not_ready: "尚未就緒",
   partial: "部分就緒",
   stale: "新鮮度不足",
   unavailable: "不可用",
