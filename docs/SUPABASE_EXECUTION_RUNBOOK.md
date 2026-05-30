@@ -116,6 +116,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
 SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
 NEXT_PUBLIC_DATA_SOURCE=mock
 DATA_FRESHNESS_SOURCE=mock
+DATA_FRESHNESS_SUPABASE_READS=disabled
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
 ```
 
@@ -124,6 +125,7 @@ Important:
 - `.env.local` must not be committed.
 - Keep `NEXT_PUBLIC_DATA_SOURCE=mock`.
 - Keep `DATA_FRESHNESS_SOURCE=mock` until `npm run db:freshness` passes.
+- Keep `DATA_FRESHNESS_SUPABASE_READS=disabled` unless CEO explicitly opens a bounded runtime-read checkpoint.
 - The service role key is only for server-side scripts such as validation.
 
 ## Step 5: Validate Bootstrap
@@ -244,6 +246,7 @@ The freshness source should also remain mock until the smoke test passes:
 
 ```text
 DATA_FRESHNESS_SOURCE=mock
+DATA_FRESHNESS_SUPABASE_READS=disabled
 ```
 
 The UI must not switch to Supabase until a future checkpoint approves:
@@ -252,6 +255,11 @@ The UI must not switch to Supabase until a future checkpoint approves:
 - data freshness UI.
 - source attribution display.
 - legal and model caveat copy.
+
+If `DATA_FRESHNESS_SOURCE=supabase` is used later, runtime pages still fall
+back to mock unless `DATA_FRESHNESS_SUPABASE_READS=enabled` is also set. Remote
+freshness read failures must degrade to mock freshness rather than failing
+public pages.
 
 ## Optional: Internal Raw Market Diagnostics
 
