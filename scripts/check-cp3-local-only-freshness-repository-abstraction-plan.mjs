@@ -76,8 +76,9 @@ const requiredReportPhrases = [
 ];
 
 const requiredCodePhrases = [
-  { content: source, phrase: "process.env.DATA_FRESHNESS_SOURCE ?? \"mock\"" },
-  { content: source, phrase: "process.env.DATA_FRESHNESS_SUPABASE_READS === \"enabled\" ? \"enabled\" : \"disabled\"" },
+  { content: source, phrase: "env.DATA_FRESHNESS_SOURCE ?? \"mock\"" },
+  { content: source, phrase: "env.DATA_FRESHNESS_SUPABASE_READS === \"enabled\" ? \"enabled\" : \"disabled\"" },
+  { content: source, phrase: "env = process.env" },
   { content: source, phrase: "createFreshnessRepository({" },
   { content: factory, phrase: "return buildMockDataFreshnessSnapshot();" },
   { content: factory, phrase: "source !== \"supabase\" || supabaseRuntimeReads !== \"enabled\"" },

@@ -4,8 +4,9 @@ const requirements = [
   {
     file: "src/lib/data-freshness-source.ts",
     phrases: [
-      "process.env.DATA_FRESHNESS_SOURCE ?? \"mock\"",
-      "process.env.DATA_FRESHNESS_SUPABASE_READS === \"enabled\" ? \"enabled\" : \"disabled\"",
+      "env.DATA_FRESHNESS_SOURCE ?? \"mock\"",
+      "env.DATA_FRESHNESS_SUPABASE_READS === \"enabled\" ? \"enabled\" : \"disabled\"",
+      "env = process.env",
       "createFreshnessRepository({",
       "return repository.getSnapshot();"
     ]

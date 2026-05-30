@@ -15,12 +15,13 @@ const mvpTasks = fs.readFileSync(mvpTasksPath, "utf8");
 
 const requiredPhrases = [
   "type FreshnessSource",
-  "process.env.DATA_FRESHNESS_SOURCE ?? \"mock\"",
+  "env.DATA_FRESHNESS_SOURCE ?? \"mock\"",
   "DATA_FRESHNESS_SUPABASE_READS",
   "getSupabaseRuntimeReads",
-  "process.env.DATA_FRESHNESS_SUPABASE_READS === \"enabled\" ? \"enabled\" : \"disabled\"",
+  "env.DATA_FRESHNESS_SUPABASE_READS === \"enabled\" ? \"enabled\" : \"disabled\"",
+  "env = process.env",
   "createFreshnessRepository({",
-  "createSupabaseClient: () => createServerSupabaseClient() as unknown as SupabaseDataFreshnessClient",
+  "createSupabaseClient = () => createServerSupabaseClient() as unknown as SupabaseDataFreshnessClient",
   "return repository.getSnapshot();"
 ];
 

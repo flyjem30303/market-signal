@@ -27,12 +27,13 @@ const requiredFactoryPhrases = [
 const requiredSourcePhrases = [
   "type FreshnessSource",
   "type SupabaseRuntimeReads",
-  "process.env.DATA_FRESHNESS_SOURCE ?? \"mock\"",
-  "process.env.DATA_FRESHNESS_SUPABASE_READS === \"enabled\" ? \"enabled\" : \"disabled\"",
+  "env.DATA_FRESHNESS_SOURCE ?? \"mock\"",
+  "env.DATA_FRESHNESS_SUPABASE_READS === \"enabled\" ? \"enabled\" : \"disabled\"",
+  "env = process.env",
   "createFreshnessRepository({",
-  "createSupabaseClient: () => createServerSupabaseClient() as unknown as SupabaseDataFreshnessClient",
-  "source: getFreshnessSource()",
-  "supabaseRuntimeReads: getSupabaseRuntimeReads()",
+  "createSupabaseClient = () => createServerSupabaseClient() as unknown as SupabaseDataFreshnessClient",
+  "source: getFreshnessSource(env)",
+  "supabaseRuntimeReads: getSupabaseRuntimeReads(env)",
   "return repository.getSnapshot();"
 ];
 

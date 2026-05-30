@@ -7,12 +7,23 @@ import {
 import type { SupabaseDataFreshnessClient } from "@/lib/repositories/supabase-data-freshness-repository";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 
-function getSupabaseRuntimeReads(): SupabaseRuntimeReads {
-  return process.env.DATA_FRESHNESS_SUPABASE_READS === "enabled" ? "enabled" : "disabled";
+type FreshnessEnvironment = {
+  [key: string]: string | undefined;
+  DATA_FRESHNESS_SOURCE?: string;
+  DATA_FRESHNESS_SUPABASE_READS?: string;
+};
+
+export type DataFreshnessSnapshotGetterOptions = {
+  createSupabaseClient?: () => SupabaseDataFreshnessClient;
+  env?: FreshnessEnvironment;
+};
+
+function getSupabaseRuntimeReads(env: FreshnessEnvironment): SupabaseRuntimeReads {
+  return env.DATA_FRESHNESS_SUPABASE_READS === "enabled" ? "enabled" : "disabled";
 }
 
-function getFreshnessSource(): FreshnessSource {
-  const source = process.env.DATA_FRESHNESS_SOURCE ?? "mock";
+function getFreshnessSource(env: FreshnessEnvironment): FreshnessSource {
+  const source = env.DATA_FRESHNESS_SOURCE ?? "mock";
 
   if (source === "mock" || source === "supabase") {
     return source;
@@ -21,12 +32,19 @@ function getFreshnessSource(): FreshnessSource {
   throw new Error(`Unsupported DATA_FRESHNESS_SOURCE: ${source}`);
 }
 
-export async function getDataFreshnessSnapshot(): Promise<DataFreshnessSnapshot> {
-  const repository = createFreshnessRepository({
-    createSupabaseClient: () => createServerSupabaseClient() as unknown as SupabaseDataFreshnessClient,
-    source: getFreshnessSource(),
-    supabaseRuntimeReads: getSupabaseRuntimeReads()
-  });
+export function createDataFreshnessSnapshotGetter({
+  createSupabaseClient = () => createServerSupabaseClient() as unknown as SupabaseDataFreshnessClient,
+  env = process.env
+}: DataFreshnessSnapshotGetterOptions = {}) {
+  return async function getDataFreshnessSnapshotFromSource(): Promise<DataFreshnessSnapshot> {
+    const repository = createFreshnessRepository({
+      createSupabaseClient,
+      source: getFreshnessSource(env),
+      supabaseRuntimeReads: getSupabaseRuntimeReads(env)
+    });
 
-  return repository.getSnapshot();
+    return repository.getSnapshot();
+  };
 }
+
+export const getDataFreshnessSnapshot = createDataFreshnessSnapshotGetter();
