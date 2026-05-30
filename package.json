@@ -350,6 +350,7 @@
     "db:freshness": "node --env-file=.env.local scripts/check-supabase-freshness.mjs",
     "db:preflight": "node scripts/check-supabase-preflight.mjs",
     "db:raw-market": "node --env-file=.env.local scripts/check-supabase-raw-market.mjs",
+    "db:readonly-validate": "node scripts/validate-supabase-readonly.mjs",
     "db:twse-stock-day-staging-schema": "node scripts/check-supabase-twse-stock-day-staging-schema.mjs",
     "db:split-bootstrap": "node scripts/split-supabase-bootstrap.mjs",
     "db:trust-review": "node --env-file=.env.local scripts/review-supabase-market-trust.mjs",
