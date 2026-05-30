@@ -355,6 +355,15 @@ select {
   color: #17324d;
 }
 
+.cp3-runtime-upgrade-requirements mark {
+  background: #edf5ff;
+  border: 1px solid #cddff2;
+  border-radius: 8px;
+  color: #17324d;
+  font-weight: 850;
+  padding: 8px 10px;
+}
+
 .cp3-runtime-upgrade-requirements p {
   background: #fff4e5;
   border: 1px solid #f0c36d;

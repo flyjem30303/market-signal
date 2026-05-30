@@ -2,6 +2,7 @@ import type { DataFreshnessSnapshot } from "@/lib/data-freshness";
 import {
   cp3MockOnlyUiCopyTokens,
   getMockOnlyPublicDisplayState,
+  getMockOnlyRuntimeUpgradeProgress,
   getMockOnlyRuntimeUpgradeRequirements,
   getMockOnlyRuntimeUpgradeVerdict,
   type Cp3MockOnlyDataQualityState,
@@ -33,6 +34,7 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
   const blockers = buildRuntimeBlockers(runtimeState);
   const decisionSummary = buildRuntimeDecisionSummary(runtimeState);
   const upgradeRequirements = getMockOnlyRuntimeUpgradeRequirements(runtimeState);
+  const upgradeProgress = getMockOnlyRuntimeUpgradeProgress(runtimeState);
   const upgradeVerdict = getMockOnlyRuntimeUpgradeVerdict(runtimeState);
   const stopLines = buildRuntimeStopLines();
 
@@ -61,6 +63,7 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
       </div>
       <div className="cp3-runtime-upgrade-requirements" aria-label="Runtime upgrade requirements">
         <strong>升級前置條件</strong>
+        <mark>{upgradeProgress.label}</mark>
         <p>
           {upgradeVerdict.label}: {upgradeVerdict.reason}
         </p>
