@@ -2003,6 +2003,11 @@ const checks = [
     name: "freshness-runtime-read-one-checkpoint-post-run-review"
   },
   {
+    command: [node, "scripts/check-cp3-remote-only-object-contract-plan.mjs"],
+    expectStatus: "ok",
+    name: "cp3-remote-only-object-contract-plan"
+  },
+  {
     command: [node, "scripts/check-etf-source-gate.mjs"],
     expectStatus: "blocked",
     name: "etf-source-gate"
