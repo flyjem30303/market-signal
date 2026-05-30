@@ -345,6 +345,7 @@
     "check:cp3-freshness-readonly-runtime-activation-readiness-packet": "node scripts/check-cp3-freshness-readonly-runtime-activation-readiness-packet.mjs",
     "check:cp3-freshness-exact-one-attempt-readonly-activation-command-map": "node scripts/check-cp3-freshness-exact-one-attempt-readonly-activation-command-map.mjs",
     "check:cp3-freshness-runtime-read-once-guarded-runner": "node scripts/check-cp3-freshness-runtime-read-once-guarded-runner.mjs",
+    "check:cp3-freshness-final-one-attempt-runtime-execution-decision-gate": "node scripts/check-cp3-freshness-final-one-attempt-runtime-execution-decision-gate.mjs",
     "check:cp3-non-runtime-typescript-policy-draft-approval-gate": "node scripts/check-cp3-non-runtime-typescript-policy-draft-approval-gate.mjs",
     "check:cp3-runtime-policy-draft": "node scripts/check-cp3-runtime-policy-draft.mjs",
     "check:cp3-runtime-policy-draft-role-review": "node scripts/check-cp3-runtime-policy-draft-role-review.mjs",
