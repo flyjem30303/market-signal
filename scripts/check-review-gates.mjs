@@ -1433,6 +1433,11 @@ const checks = [
     name: "cp3-non-runtime-readiness-gap-owner-action-matrix"
   },
   {
+    command: [node, "scripts/check-cp3-source-depth-evidence-owner-action-acceptance-criteria.mjs"],
+    expectStatus: "ok",
+    name: "cp3-source-depth-evidence-owner-action-acceptance-criteria"
+  },
+  {
     command: [node, "scripts/check-cp3-tw-stock-model-candidates.mjs"],
     expectStatus: "ok",
     name: "cp3-tw-stock-model"
