@@ -2048,6 +2048,11 @@ const checks = [
     name: "cp3-freshness-readonly-runtime-activation-readiness-packet"
   },
   {
+    command: [node, "scripts/check-cp3-freshness-exact-one-attempt-readonly-activation-command-map.mjs"],
+    expectStatus: "ok",
+    name: "cp3-freshness-exact-one-attempt-readonly-activation-command-map"
+  },
+  {
     command: [node, "scripts/check-etf-source-gate.mjs"],
     expectStatus: "blocked",
     name: "etf-source-gate"
