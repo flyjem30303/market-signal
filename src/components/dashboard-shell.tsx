@@ -59,6 +59,21 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
   const favoriteAssets = favorites
     .map((item) => repository.getAssetBySymbol(item))
     .filter((asset): asset is NonNullable<typeof asset> => Boolean(asset));
+  const peerSnapshots = useMemo(
+    () => {
+      const candidateAssets =
+        selected.symbol === "TWII"
+          ? availableAssets.filter((asset) => asset.symbol !== selected.symbol)
+          : availableAssets.filter((asset) => asset.symbol !== selected.symbol && asset.group === selected.group);
+      const fallbackAssets = availableAssets.filter((asset) => asset.symbol !== selected.symbol);
+
+      return (candidateAssets.length ? candidateAssets : fallbackAssets)
+        .map((asset) => repository.getSnapshot(asset.symbol, today))
+        .filter((item): item is SignalSnapshot => Boolean(item))
+        .slice(0, 4);
+    },
+    [availableAssets, repository, selected.group, selected.symbol]
+  );
 
   useEffect(() => {
     setStartIndex(0);
@@ -156,6 +171,7 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
           <StockDataGapPanel snapshot={snapshot} onTab={changeTab} />
           <StockDecisionCompass scoreSourceLabel={freshness.scoreSourceLabel} snapshot={snapshot} />
           <QuoteSummary asset={selected} isFavorite={isFavorite} quote={quote} snapshot={snapshot} onFavorite={toggleFavorite} />
+          <StockPeerNavigator peers={peerSnapshots} selected={selected} />
           <StockPageCompass activeTab={activeTab} onTab={changeTab} />
           <StockModuleHighlights snapshot={snapshot} onTab={changeTab} />
           <StockRiskChecklist snapshot={snapshot} onTab={changeTab} />
@@ -507,6 +523,37 @@ function QuoteStat({ label, value, tone }: { label: string; value: string; tone?
       <span>{label}</span>
       <strong style={tone ? { color: tone } : undefined}>{value}</strong>
     </div>
+  );
+}
+
+function StockPeerNavigator({ peers, selected }: { peers: SignalSnapshot[]; selected: Asset }) {
+  if (!peers.length) return null;
+  const hasSameGroupPeers = peers.some((peer) => peer.asset.group === selected.group);
+
+  return (
+    <section className="stock-peer-navigator" aria-label="Related Stock Navigation">
+      <div>
+        <p className="eyebrow">Related Signals</p>
+        <h2>
+          {selected.symbol === "TWII"
+            ? "從大盤延伸看代表標的"
+            : hasSameGroupPeers
+              ? `同類標的：${selected.group}`
+              : "延伸閱讀代表標的"}
+        </h2>
+        <p>這裡只提供 mock 清單中的延伸閱讀，不代表完整市場覆蓋，也不構成推薦排序。</p>
+      </div>
+      <div className="peer-link-grid">
+        {peers.map((peer) => (
+          <a href={`/stocks/${peer.asset.symbol}`} key={peer.asset.symbol}>
+            <span>{peer.asset.symbol}</span>
+            <strong>{peer.asset.name}</strong>
+            <small>{peer.asset.group}</small>
+            <b style={{ color: signalColor(peer.signal.key) }}>{peer.signal.title}</b>
+          </a>
+        ))}
+      </div>
+    </section>
   );
 }
 

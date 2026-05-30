@@ -3673,6 +3673,69 @@ select {
   grid-column: 2;
 }
 
+.stock-peer-navigator {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+  display: grid;
+  grid-template-columns: minmax(260px, 0.7fr) minmax(0, 1.3fr);
+  gap: 16px;
+  margin: 0 0 16px;
+  padding: 16px;
+}
+
+.stock-peer-navigator h2 {
+  margin: 0 0 8px;
+}
+
+.stock-peer-navigator p {
+  color: var(--muted);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.peer-link-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.peer-link-grid a {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--text);
+  display: grid;
+  gap: 5px;
+  min-height: 128px;
+  padding: 12px;
+  text-decoration: none;
+}
+
+.peer-link-grid a:hover {
+  border-color: var(--blue);
+  background: #f8fbff;
+}
+
+.peer-link-grid span {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 850;
+}
+
+.peer-link-grid strong {
+  font-size: 18px;
+  line-height: 1.25;
+}
+
+.peer-link-grid small {
+  color: var(--muted);
+}
+
+.peer-link-grid b {
+  margin-top: auto;
+}
+
 .quote-stat {
   border-left: 1px solid var(--line);
   padding: 8px 0 8px 16px;
@@ -5088,6 +5151,8 @@ input[type="date"] {
   .quote-panel,
   .stock-evidence-snapshot,
   .evidence-snapshot-grid,
+  .stock-peer-navigator,
+  .peer-link-grid,
   .cp3-runtime-state-panel,
   .cp3-runtime-state-grid,
   .cp3-runtime-decision-summary,
