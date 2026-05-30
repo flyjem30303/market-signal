@@ -343,6 +343,7 @@
     "check:cp3-tw-stock-inputs": "node scripts/check-cp3-tw-stock-input-readiness.mjs",
     "check:cp3-tw-stock-model": "node scripts/check-cp3-tw-stock-model-candidates.mjs",
     "check:review-gates": "node scripts/check-review-gates.mjs",
+    "check:data-freshness-source-fallback": "node scripts/check-data-freshness-source-fallback.mjs",
     "check:freshness-state-ui": "node scripts/check-freshness-state-ui.mjs",
     "check:score-source-ui": "node scripts/check-score-source-ui.mjs",
     "check:stock-decision-compass": "node scripts/check-stock-decision-compass.mjs",

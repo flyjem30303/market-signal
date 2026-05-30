@@ -1943,6 +1943,11 @@ const checks = [
     name: "freshness-state-ui"
   },
   {
+    command: [node, "scripts/check-data-freshness-source-fallback.mjs"],
+    expectStatus: "ok",
+    name: "data-freshness-source-fallback"
+  },
+  {
     command: [node, "scripts/check-etf-source-gate.mjs"],
     expectStatus: "blocked",
     name: "etf-source-gate"
