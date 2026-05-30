@@ -1448,6 +1448,11 @@ const checks = [
     name: "cp3-source-depth-evidence-local-only-filled-example-design"
   },
   {
+    command: [node, "scripts/check-cp3-runtime-state-naming-acceptance-criteria.mjs"],
+    expectStatus: "ok",
+    name: "cp3-runtime-state-naming-acceptance-criteria"
+  },
+  {
     command: [node, "scripts/check-cp3-tw-stock-model-candidates.mjs"],
     expectStatus: "ok",
     name: "cp3-tw-stock-model"

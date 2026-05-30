@@ -1,0 +1,159 @@
+# CP3 Runtime State Naming Acceptance Criteria
+
+Checkpoint: CP3 Model Credibility
+Date: 2026-05-30
+Trigger: CP3 source-depth evidence local-only filled-example design recorded
+
+Status: CP3 runtime state naming acceptance criteria recorded
+
+## CEO Decision
+
+```text
+PROCEED
+```
+
+This document defines local-only acceptance criteria for future runtime state
+naming. It prepares the project to distinguish mock, internal review, blocked,
+partial, stale, unavailable, and future approved states without implementing
+runtime data state naming, wiring UI, reading remote data, connecting to
+Supabase, running SQL, changing scoreSource, clearing source-depth not_ready, or
+making public claims.
+
+This document does not approve authorization, does not schedule a formal
+meeting, does not create an authorization packet, does not create a real request
+packet, does not create real evidence artifact files, does not connect to
+Supabase, does not run SQL, does not fetch market data, does not parse market
+rows, does not write Supabase, does not write staging rows, does not write
+daily_prices, does not create seed SQL, does not wire runtime code, does not
+implement runtime state naming, does not set scoreSource=real, does not clear
+source-depth not_ready, and does not make public claims.
+
+## Allowed State Names
+
+```text
+STATE-NAME-001 mock means demonstration or placeholder content only
+STATE-NAME-002 internal_review means non-public candidate review only
+STATE-NAME-003 blocked means a required approval, evidence, rights, or data condition is absent
+STATE-NAME-004 partial means some required non-runtime criteria are known to be incomplete
+STATE-NAME-005 stale means freshness expectations are not satisfied or not yet verified
+STATE-NAME-006 unavailable means the public page must not present the state as trustworthy
+STATE-NAME-007 approved means every required approval state is approved and scoreSource=real is separately authorized
+STATE-NAME-008 unknown means the state source lacks enough information to classify safely
+```
+
+## Naming Acceptance Criteria
+
+```text
+AC-RUNTIME-STATE-NAMING-001 every state name must describe trust status, not investment quality
+AC-RUNTIME-STATE-NAMING-002 every state name must preserve separation between mock and real data
+AC-RUNTIME-STATE-NAMING-003 approved must never be used unless scoreSource=real is separately authorized
+AC-RUNTIME-STATE-NAMING-004 approved must never be used while source-depth not_ready remains uncleared
+AC-RUNTIME-STATE-NAMING-005 internal_review must never be shown as a public reliability claim
+AC-RUNTIME-STATE-NAMING-006 blocked must be used when legal, source-depth, authorization, or claim approval is missing
+AC-RUNTIME-STATE-NAMING-007 stale must be used when freshness is unknown or outside accepted cadence
+AC-RUNTIME-STATE-NAMING-008 partial must be used when coverage, fields, validation, or criteria are incomplete
+AC-RUNTIME-STATE-NAMING-009 unavailable must be the fallback for missing required state source fields
+AC-RUNTIME-STATE-NAMING-010 unknown must not be upgraded by UI copy into trusted wording
+AC-RUNTIME-STATE-NAMING-011 state naming must not imply personalized advice, prediction, recommendation, or performance assurance
+AC-RUNTIME-STATE-NAMING-012 state naming must remain local-only until a separate runtime implementation approval exists
+```
+
+## Rejected State Names
+
+```text
+REJECT-STATE-NAME-001 real_ready is rejected because it implies execution readiness
+REJECT-STATE-NAME-002 production_ready is rejected because it implies launch approval
+REJECT-STATE-NAME-003 verified is rejected unless the exact verification authority and approval scope are defined
+REJECT-STATE-NAME-004 trusted is rejected because it reads like a public reliability claim
+REJECT-STATE-NAME-005 official is rejected unless Legal, Investment, and CEO approve public wording
+REJECT-STATE-NAME-006 live is rejected because it implies real-time or production data
+REJECT-STATE-NAME-007 accurate is rejected because it implies public data assurance
+REJECT-STATE-NAME-008 complete is rejected unless all required criteria are separately approved
+REJECT-STATE-NAME-009 safe is rejected because it can imply investment safety
+REJECT-STATE-NAME-010 recommended is rejected because it can imply investment recommendation
+```
+
+## Role Responsibilities
+
+```text
+ROLE-RUNTIME-STATE-001 CEO owns state naming approval sequence and boundary containment
+ROLE-RUNTIME-STATE-002 PM converts state naming criteria into local-only implementation prerequisites
+ROLE-RUNTIME-STATE-003 Engineering rejects any request to wire these names into runtime without approval
+ROLE-RUNTIME-STATE-004 QA defines static checks for allowed and rejected state names
+ROLE-RUNTIME-STATE-005 Legal reviews any naming that could imply officialness, reliability, advice, or public assurance
+ROLE-RUNTIME-STATE-006 Investment reviews any naming that could imply model credibility, coverage, or data sufficiency
+ROLE-RUNTIME-STATE-007 Design reviews public copy only after CEO approves a non-runtime copy slice
+ROLE-RUNTIME-STATE-008 Chairman and CEO approval remains required before external-system or real-data transitions
+```
+
+## Stop Conditions
+
+```text
+STOP-RUNTIME-STATE-001 stop before implementing runtime data state naming
+STOP-RUNTIME-STATE-002 stop before importing state names into public UI
+STOP-RUNTIME-STATE-003 stop before wiring state names into data fetching
+STOP-RUNTIME-STATE-004 stop before connecting to Supabase
+STOP-RUNTIME-STATE-005 stop before running SQL
+STOP-RUNTIME-STATE-006 stop before fetching market data
+STOP-RUNTIME-STATE-007 stop before parsing market rows
+STOP-RUNTIME-STATE-008 stop before setting scoreSource=real
+STOP-RUNTIME-STATE-009 stop before clearing source-depth not_ready
+STOP-RUNTIME-STATE-010 stop before making public claims
+STOP-RUNTIME-STATE-011 stop before implying approved state can exist without all approval states
+STOP-RUNTIME-STATE-012 stop before scheduling authorization or creating approval packets
+```
+
+## Runtime Source Contract Alignment
+
+```text
+SOURCE-CONTRACT-ALIGNMENT-001 aligns with scoreSource separation
+SOURCE-CONTRACT-ALIGNMENT-002 aligns with model_approval_state
+SOURCE-CONTRACT-ALIGNMENT-003 aligns with data_quality_state
+SOURCE-CONTRACT-ALIGNMENT-004 aligns with freshness_state
+SOURCE-CONTRACT-ALIGNMENT-005 aligns with source_depth_state
+SOURCE-CONTRACT-ALIGNMENT-006 aligns with source_rights_state
+SOURCE-CONTRACT-ALIGNMENT-007 aligns with disclosure_approval_state
+SOURCE-CONTRACT-ALIGNMENT-008 aligns with claim_approval_state
+SOURCE-CONTRACT-ALIGNMENT-009 aligns with fallback_display_state
+SOURCE-CONTRACT-ALIGNMENT-010 does not replace the existing runtime state source gate draft
+```
+
+## CEO Pace Assessment
+
+```text
+CEO pace assessment: this is the right next slice because source-depth template work is now usable and runtime state wording is the next major ambiguity
+CEO pace assessment: continue fast-lane one document plus one checker
+CEO pace assessment: do not add role review unless naming changes create a new public or runtime boundary
+CEO pace assessment: defer runtime implementation until separate approval
+```
+
+## Next Safe Slice Recommendation
+
+```text
+Next safe slice: prepare CP3 runtime state naming local-only checker design
+Alternative next safe slice: prepare CP3 runtime state naming role review only if CEO wants extra legal/design scrutiny
+CEO recommendation: prepare CP3 runtime state naming local-only checker design
+The next safe slice must remain local-only
+The next safe slice must not implement runtime data state naming
+The next safe slice must not wire UI
+The next safe slice must not connect to Supabase
+The next safe slice must not run SQL
+The next safe slice must not fetch market data
+The next safe slice must not parse market rows
+The next safe slice must not set scoreSource=real
+The next safe slice must not clear source-depth not_ready
+The next safe slice must not make public claims
+```
+
+## Verification Expectations
+
+```text
+scripts/check-cp3-runtime-state-naming-acceptance-criteria.mjs passes
+scripts/check-cp3-source-depth-evidence-local-only-filled-example-design.mjs passes
+scripts/check-review-gates.mjs passes
+TypeScript noEmit passes
+public data source remains mock
+CP3 source-depth production gate remains not_ready
+scoreSource=real remains blocked
+Supabase and SQL execution remain blocked
+```
