@@ -1178,6 +1178,11 @@ const checks = [
     name: "cp3-chairman-authorization-scope-readiness-summary"
   },
   {
+    command: [node, "scripts/check-cp3-chairman-authorization-scope-readiness-summary-role-review.mjs"],
+    expectStatus: "ok",
+    name: "cp3-chairman-authorization-scope-readiness-summary-role-review"
+  },
+  {
     command: [node, "scripts/check-cp3-tw-stock-historical-plan.mjs"],
     expectStatus: "ok",
     name: "cp3-tw-stock-historical-plan"
