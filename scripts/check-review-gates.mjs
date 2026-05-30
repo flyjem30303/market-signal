@@ -1458,6 +1458,11 @@ const checks = [
     name: "cp3-runtime-state-naming-local-only-checker-design"
   },
   {
+    command: [node, "scripts/check-cp3-runtime-state-naming-pre-implementation-boundary-checklist.mjs"],
+    expectStatus: "ok",
+    name: "cp3-runtime-state-naming-pre-implementation-boundary-checklist"
+  },
+  {
     command: [node, "scripts/check-cp3-tw-stock-model-candidates.mjs"],
     expectStatus: "ok",
     name: "cp3-tw-stock-model"
