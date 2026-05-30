@@ -281,9 +281,28 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
             snapshot={snapshot}
           />
           <CommercialSlot context="stock" />
+          <StockPageFollowUpLinks selected={selected} />
         </>
       )}
     </main>
+  );
+}
+
+function StockPageFollowUpLinks({ selected }: { selected: Asset }) {
+  return (
+    <section className="panel stock-follow-up-links" aria-label="Stock Page Follow Up Links">
+      <div>
+        <p className="eyebrow">After Reading</p>
+        <h2>看完 {selected.symbol} 後</h2>
+        <p>回到市場層級交叉檢查，避免只用單一標的或單日 mock 分數形成判斷。</p>
+      </div>
+      <nav>
+        <a className="text-link" href="/briefing">看每日晨報</a>
+        <a className="text-link" href="/weekly">看本週週報</a>
+        <a className="text-link" href="/">回首頁看覆蓋地圖</a>
+        <a className="text-link" href="/methodology">確認方法論</a>
+      </nav>
+    </section>
   );
 }
 

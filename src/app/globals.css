@@ -4693,6 +4693,31 @@ input[type="search"] {
   margin: 0;
 }
 
+.stock-follow-up-links {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.72fr) minmax(0, 1.28fr);
+  gap: 16px;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.stock-follow-up-links h2 {
+  margin: 0 0 8px;
+}
+
+.stock-follow-up-links p {
+  color: var(--muted);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.stock-follow-up-links nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
 .method-section,
 .legal-section {
   margin-bottom: 16px;
@@ -5323,6 +5348,7 @@ input[type="date"] {
   .ceo-option-grid,
   .stock-authorization-readiness,
   .authorization-readiness-grid,
+  .stock-follow-up-links,
   .quote-stat-grid,
   .internal-status-grid,
   .score-grid,
