@@ -804,6 +804,12 @@ select {
   grid-template-columns: minmax(112px, 0.45fr) repeat(2, minmax(0, 1fr));
 }
 
+.cp3-runtime-command-center section {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
 .cp3-runtime-command-center span {
   background: #f8fbff;
   border: 1px solid #dbe4f0;
@@ -4448,6 +4454,7 @@ input[type="date"] {
   .cp3-runtime-authorization-snapshot,
   .cp3-runtime-authorization-snapshot div,
   .cp3-runtime-command-center,
+  .cp3-runtime-command-center section,
   .cp3-runtime-command-center div,
   .cp3-runtime-fast-follow-gates,
   .cp3-runtime-fast-follow-gates div,

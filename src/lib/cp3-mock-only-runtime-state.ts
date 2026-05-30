@@ -199,6 +199,9 @@ export type Cp3MockOnlyRuntimeAuthorizationSnapshot = {
 
 export type Cp3MockOnlyRuntimeCommandCenter = {
   blockedLaneLabel: string;
+  doNext: string;
+  doNotDo: string;
+  doNow: string;
   localLaneLabel: string;
   nextGateLabel: string;
   nextWorkLabel: string;
@@ -782,6 +785,9 @@ export function getMockOnlyRuntimeCommandCenter(state: Cp3MockOnlyRuntimeState):
 
   return {
     blockedLaneLabel: `${authorizationSnapshot.blockedCount} gates blocked: Supabase / SQL / market data / formal score / public claims`,
+    doNext: "Prepare the source-depth and read-only validation gates, but keep them as approval work only.",
+    doNotDo: "Do not connect remote services, run SQL, fetch market rows, switch formal score, or publish public claims.",
+    doNow: "Continue local mock-only runtime UI refinement and static guard hardening.",
     localLaneLabel: `${authorizationSnapshot.allowedCount} local lanes allowed: mock runtime UI and static guards`,
     nextGateLabel: `${nextGate.owner}: ${nextGate.label}`,
     nextWorkLabel: `${nextWork.owner}: ${nextWork.label}`,

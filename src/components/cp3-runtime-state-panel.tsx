@@ -228,6 +228,20 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
       <div className="cp3-runtime-command-center" aria-label="Runtime command center">
         <strong>CEO / PM command center</strong>
         <p>{commandCenter.summary}</p>
+        <section>
+          <span>
+            <b>Do now</b>
+            <i>{commandCenter.doNow}</i>
+          </span>
+          <span>
+            <b>Prepare next</b>
+            <i>{commandCenter.doNext}</i>
+          </span>
+          <span>
+            <b>Do not do</b>
+            <i>{commandCenter.doNotDo}</i>
+          </span>
+        </section>
         <div>
           <span>
             <b>Mode</b>
