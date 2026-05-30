@@ -13,16 +13,25 @@ const requiredPhrases = [
   "NEXT_PUBLIC_SUPABASE_URL",
   "NEXT_PUBLIC_SUPABASE_ANON_KEY",
   "SUPABASE_SERVICE_ROLE_KEY",
+  "SUPABASE_READONLY_VALIDATE_CONFIRMATION",
+  "CP3_SUPABASE_READONLY_REMOTE_VALIDATE",
   "daily_prices",
   "twse_stock_day_staging",
   "market_assets",
   "model_runs",
   "data_freshness",
+  "await import(\"@supabase/supabase-js\")",
+  "createClient",
+  "persistSession: false",
   "mode: \"read_only_remote_validation\"",
   "connection: \"not_run\"",
+  "connection: blocked ? \"blocked\" : \"ok\"",
+  ".from(name)",
+  ".select(\"*\", { count: \"exact\", head: true })",
+  ".limit(rowLimit)",
   "reachable: \"not_run\"",
   "countStatus: \"not_run\"",
-  "rowLimit: 5",
+  "const rowLimit = 5",
   "mutations: false",
   "sqlExecuted: false",
   "rpcCalled: false",
@@ -34,15 +43,13 @@ const requiredPhrases = [
   "publicClaimsChanged: false",
   "missing_required_environment",
   "remote_execution_not_approved",
+  "read_only_validation_blocked",
+  "read_only_validation_ok",
   "status: \"blocked\"",
   "process.exitCode = 1"
 ];
 
 const forbiddenPhrases = [
-  "@supabase/supabase-js",
-  "createclient",
-  ".from(",
-  ".select(",
   ".insert(",
   ".upsert(",
   ".update(",
@@ -75,13 +82,17 @@ const forbiddenSecretOutput = forbiddenSecretOutputPatterns
 const packageScript = packageJson.scripts?.["db:readonly-validate"];
 const packageScriptOk = packageScript === "node scripts/validate-supabase-readonly.mjs";
 const aggregateDoesNotRunValidator = !reviewGate.includes("scripts/validate-supabase-readonly.mjs");
+const supabaseImportOk = (validator.match(/@supabase\/supabase-js/g) ?? []).length === 1;
+const rowLimitOk = !/const\s+rowLimit\s*=\s*(?:[6-9]|\d{2,})/.test(validator);
 
 const failures = [
   ...missing.map((phrase) => `missing:${phrase}`),
   ...forbidden.map((phrase) => `forbidden:${phrase}`),
   ...forbiddenSecretOutput.map((pattern) => `forbiddenSecretOutput:${pattern}`),
   ...(packageScriptOk ? [] : [`packageScript:${packageScript ?? "missing"}`]),
-  ...(aggregateDoesNotRunValidator ? [] : ["aggregateGateRunsValidator"])
+  ...(aggregateDoesNotRunValidator ? [] : ["aggregateGateRunsValidator"]),
+  ...(supabaseImportOk ? [] : ["supabaseImportCount"]),
+  ...(rowLimitOk ? [] : ["rowLimitAboveFive"])
 ];
 
 console.log(
