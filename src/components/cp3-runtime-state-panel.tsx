@@ -1,6 +1,7 @@
 import type { DataFreshnessSnapshot } from "@/lib/data-freshness";
 import {
   cp3MockOnlyUiCopyTokens,
+  getMockOnlyFastFollowGates,
   getMockOnlyPublicDisplayState,
   getMockOnlySourceDepthEvidenceItems,
   getMockOnlySourceDepthEvidenceProgress,
@@ -40,6 +41,7 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
   const upgradeVerdict = getMockOnlyRuntimeUpgradeVerdict(runtimeState);
   const sourceDepthEvidenceItems = getMockOnlySourceDepthEvidenceItems();
   const sourceDepthEvidenceProgress = getMockOnlySourceDepthEvidenceProgress();
+  const fastFollowGates = getMockOnlyFastFollowGates();
   const stopLines = buildRuntimeStopLines();
 
   return (
@@ -105,6 +107,20 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
         {blockers.map((blocker) => (
           <span key={blocker}>{blocker}</span>
         ))}
+      </div>
+      <div className="cp3-runtime-fast-follow-gates" aria-label="Runtime fast-follow gates">
+        <strong>Fast-follow gates</strong>
+        <p>以下項目只能作為下一步審核路線；完成 gate 前不得切換正式資料或公開宣稱。</p>
+        <div>
+          {fastFollowGates.map((gate) => (
+            <span key={gate.gate}>
+              <b>{gate.label}</b>
+              <small>{gate.owner}</small>
+              <i>{gate.reason}</i>
+              <em>{formatRuntimeValue(gate.state)}</em>
+            </span>
+          ))}
+        </div>
       </div>
       <div className="cp3-runtime-stop-lines" aria-label="Runtime stop lines">
         {stopLines.map((line) => (

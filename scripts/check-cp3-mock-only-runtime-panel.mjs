@@ -14,6 +14,7 @@ const runtime = fs.readFileSync(runtimePath, "utf8");
 const requiredComponentPhrases = [
   "Cp3RuntimeStatePanel",
   "buildMockOnlyRuntimeState",
+  "getMockOnlyFastFollowGates",
   "getMockOnlyPublicDisplayState",
   "getMockOnlySourceDepthEvidenceItems",
   "getMockOnlySourceDepthEvidenceProgress",
@@ -68,6 +69,10 @@ const requiredComponentPhrases = [
   "Source depth evidence focus",
   "來源深度解除條件",
   "sourceDepthEvidenceProgress.label",
+  "cp3-runtime-fast-follow-gates",
+  "Runtime fast-follow gates",
+  "fastFollowGates.map",
+  "gate.reason",
   "sourceDepthEvidenceProgress.nextFocus",
   "Data 必須先補齊以下證據；完成前來源深度維持尚未就緒。",
   "buildRuntimeStopLines",
@@ -95,6 +100,13 @@ const requiredRuntimePhrases = [
   "export type Cp3MockOnlyUpgradeVerdict",
   "export type Cp3MockOnlySourceDepthEvidenceItem",
   "export type Cp3MockOnlySourceDepthEvidenceProgress",
+  "export type Cp3MockOnlyFastFollowGate",
+  "getMockOnlyFastFollowGates",
+  "source-depth-evidence",
+  "source-rights-review",
+  "supabase-readonly-validation",
+  "score-source-transition",
+  "public-claim-release",
   "acceptance: string",
   "export const cp3MockOnlyUiCopyTokens",
   "getMockOnlyPublicDisplayState",
@@ -167,6 +179,9 @@ const requiredCssPhrases = [
   ".cp3-runtime-source-depth-focus mark",
   ".cp3-runtime-source-depth-focus i",
   ".cp3-runtime-state-blockers",
+  ".cp3-runtime-fast-follow-gates",
+  ".cp3-runtime-fast-follow-gates div",
+  ".cp3-runtime-fast-follow-gates i",
   ".cp3-runtime-stop-lines"
 ];
 

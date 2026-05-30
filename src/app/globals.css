@@ -510,6 +510,71 @@ select {
   padding: 6px 10px;
 }
 
+.cp3-runtime-fast-follow-gates {
+  background: #fff;
+  border: 1px solid #dbe4f0;
+  border-radius: 8px;
+  display: grid;
+  gap: 8px;
+  grid-column: 1 / -1;
+  padding: 12px;
+}
+
+.cp3-runtime-fast-follow-gates strong {
+  color: #17324d;
+}
+
+.cp3-runtime-fast-follow-gates p {
+  color: #52697f;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.cp3-runtime-fast-follow-gates div {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.cp3-runtime-fast-follow-gates span {
+  background: #f7f9fc;
+  border: 1px solid #dbe4f0;
+  border-radius: 8px;
+  color: #3f5872;
+  display: grid;
+  font-size: 13px;
+  font-weight: 800;
+  gap: 4px;
+  padding: 8px;
+  text-align: center;
+}
+
+.cp3-runtime-fast-follow-gates b,
+.cp3-runtime-fast-follow-gates em,
+.cp3-runtime-fast-follow-gates i,
+.cp3-runtime-fast-follow-gates small {
+  display: block;
+  font-style: normal;
+}
+
+.cp3-runtime-fast-follow-gates i {
+  color: #52697f;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.cp3-runtime-fast-follow-gates small {
+  color: #6b7f95;
+  font-size: 11px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.cp3-runtime-fast-follow-gates em {
+  color: #17324d;
+}
+
 .cp3-runtime-stop-lines {
   background: #fff;
   border: 1px dashed #d7a64b;
@@ -3780,6 +3845,8 @@ input[type="date"] {
   .cp3-runtime-upgrade-requirements div,
   .cp3-runtime-source-depth-focus,
   .cp3-runtime-source-depth-focus div,
+  .cp3-runtime-fast-follow-gates,
+  .cp3-runtime-fast-follow-gates div,
   .cp3-runtime-stop-lines,
   .stock-data-gap-panel,
   .stock-decision-compass,

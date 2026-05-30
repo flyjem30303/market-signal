@@ -69,6 +69,14 @@ export type Cp3MockOnlySourceDepthEvidenceProgress = {
   totalCount: number;
 };
 
+export type Cp3MockOnlyFastFollowGate = {
+  gate: string;
+  label: string;
+  owner: "CEO" | "Data" | "Engineering" | "Investment" | "Legal";
+  reason: string;
+  state: "blocked";
+};
+
 export const cp3MockOnlyUiCopyTokens: Record<Cp3MockOnlyDisplayState, Cp3MockOnlyUiCopyToken> = {
   mock: {
     claimLimit: "目前只可作為產品體驗與閱讀流程示範，不能作為投資判斷、建議或績效保證。",
@@ -243,4 +251,44 @@ export function getMockOnlySourceDepthEvidenceProgress(): Cp3MockOnlySourceDepth
     readyCount,
     totalCount: evidenceItems.length
   };
+}
+
+export function getMockOnlyFastFollowGates(): Cp3MockOnlyFastFollowGate[] {
+  return [
+    {
+      gate: "source-depth-evidence",
+      label: "來源深度證據",
+      owner: "Data",
+      reason: "需補齊覆蓋率、期間、欄位血緣、新鮮度與異常處理證據",
+      state: "blocked"
+    },
+    {
+      gate: "source-rights-review",
+      label: "來源權利審核",
+      owner: "Legal",
+      reason: "需確認資料保存、再散布、公開揭露與商用限制",
+      state: "blocked"
+    },
+    {
+      gate: "supabase-readonly-validation",
+      label: "Supabase 唯讀驗證",
+      owner: "Engineering",
+      reason: "需 CEO 開啟單次唯讀驗證窗口，且不得寫入資料列",
+      state: "blocked"
+    },
+    {
+      gate: "score-source-transition",
+      label: "正式分數切換",
+      owner: "Investment",
+      reason: "需完成真實資料、模型、回測、法務與投資宣稱審核",
+      state: "blocked"
+    },
+    {
+      gate: "public-claim-release",
+      label: "公開宣稱發布",
+      owner: "CEO",
+      reason: "需完成角色覆核與董事長授權邊界確認",
+      state: "blocked"
+    }
+  ];
 }
