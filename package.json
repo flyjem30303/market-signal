@@ -18,6 +18,7 @@
     "check:freshness-runtime-read-gate-role-review": "node scripts/check-freshness-runtime-read-activation-gate-role-review.mjs",
     "check:freshness-runtime-read-execution-packet": "node scripts/check-freshness-runtime-read-execution-packet-draft.mjs",
     "check:freshness-runtime-read-execution-packet-role-review": "node scripts/check-freshness-runtime-read-execution-packet-role-review.mjs",
+    "check:freshness-runtime-read-open-decision-gate": "node scripts/check-freshness-runtime-read-open-decision-gate.mjs",
     "check:ceo-delegated-autonomy": "node scripts/check-ceo-delegated-autonomy-policy.mjs",
     "check:internal-routes": "node scripts/check-internal-route-exposure.mjs",
     "check:briefing-boundary-disclosure": "node scripts/check-briefing-boundary-disclosure.mjs",
