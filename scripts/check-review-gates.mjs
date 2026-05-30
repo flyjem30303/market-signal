@@ -1428,6 +1428,11 @@ const checks = [
     name: "cp3-non-runtime-readiness-gap-summary"
   },
   {
+    command: [node, "scripts/check-cp3-non-runtime-readiness-gap-owner-action-matrix.mjs"],
+    expectStatus: "ok",
+    name: "cp3-non-runtime-readiness-gap-owner-action-matrix"
+  },
+  {
     command: [node, "scripts/check-cp3-tw-stock-model-candidates.mjs"],
     expectStatus: "ok",
     name: "cp3-tw-stock-model"
