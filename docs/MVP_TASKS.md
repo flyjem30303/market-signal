@@ -96,6 +96,7 @@
 - [x] 完成 CP1 Supabase readiness review。
 - [x] 本機啟用 Supabase freshness 並驗證 briefing / stock page。
 - [x] 建立 `DATA_FRESHNESS_SUPABASE_READS` runtime 雙開關與 mock fallback gate。
+- [x] Add freshness runtime-read activation gate requiring `DATA_FRESHNESS_SUPABASE_READS=enabled` to remain bounded and fallback to mock.
 
 ## H. 投資模型可信度
 

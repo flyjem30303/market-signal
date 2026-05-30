@@ -261,6 +261,30 @@ back to mock unless `DATA_FRESHNESS_SUPABASE_READS=enabled` is also set. Remote
 freshness read failures must degrade to mock freshness rather than failing
 public pages.
 
+## Runtime Freshness Read Activation Gate
+
+This gate is the last local checklist before any future runtime page reads
+Supabase freshness data.
+
+CEO may open one bounded runtime-read checkpoint only when all conditions are
+true:
+
+- `NEXT_PUBLIC_DATA_SOURCE=mock` remains unchanged.
+- `DATA_FRESHNESS_SOURCE=supabase` is limited to the freshness snapshot path.
+- `DATA_FRESHNESS_SUPABASE_READS=enabled` is used only for the bounded check.
+- Remote read failure, missing rows, or malformed freshness state must fallback to mock freshness.
+- The checkpoint output records whether the page stayed available and whether
+  the UI still discloses mock score source.
+- No SQL, write operation, ingestion job, staging row, `daily_prices` write, or
+  `scoreSource=real` setting is included in this checkpoint.
+
+Before opening the checkpoint, run:
+
+```bash
+npm run check:freshness-runtime-read-gate
+npm run check:data-freshness-source-fallback
+```
+
 ## Optional: Internal Raw Market Diagnostics
 
 The internal diagnostics route is disabled by default:

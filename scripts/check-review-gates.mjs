@@ -1948,6 +1948,11 @@ const checks = [
     name: "data-freshness-source-fallback"
   },
   {
+    command: [node, "scripts/check-freshness-runtime-read-activation-gate.mjs"],
+    expectStatus: "ok",
+    name: "freshness-runtime-read-activation-gate"
+  },
+  {
     command: [node, "scripts/check-etf-source-gate.mjs"],
     expectStatus: "blocked",
     name: "etf-source-gate"
