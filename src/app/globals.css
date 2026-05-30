@@ -3635,6 +3635,34 @@ select {
   font-size: 13px;
 }
 
+.asset-search-status {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel-muted);
+  margin-bottom: 14px;
+  padding: 10px 12px;
+}
+
+.asset-search-status span {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.asset-search-status button,
+.asset-empty-state button {
+  border: 0;
+  background: transparent;
+  color: var(--teal);
+  cursor: pointer;
+  font-weight: 850;
+  padding: 0;
+}
+
 select {
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -3697,6 +3725,26 @@ input[type="search"] {
   display: grid;
   gap: 4px;
   text-align: left;
+}
+
+.asset-empty-state {
+  grid-column: 1 / -1;
+  border: 1px dashed var(--line);
+  border-radius: 8px;
+  background: var(--panel-muted);
+  padding: 18px;
+}
+
+.asset-empty-state strong {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.asset-empty-state p {
+  max-width: 640px;
+  margin: 0 0 12px;
+  color: var(--muted);
+  line-height: 1.7;
 }
 
 .asset-card.active {

@@ -1727,6 +1727,9 @@ function AssetSelector({
   onQuery: (query: string) => void;
   onSelect: (symbol: string) => void;
 }) {
+  const searchTerm = query.trim();
+  const resultLabel = searchTerm ? `${filteredAssets.length} 個符合「${searchTerm}」的標的` : `共 ${assets.length} 個可瀏覽標的`;
+
   return (
     <section className="panel asset-panel">
       <div className="asset-toolbar">
@@ -1757,6 +1760,14 @@ function AssetSelector({
           {isFavorite ? "♥ 已加入愛心" : "♡ 加入愛心"}
         </button>
       </div>
+      <div className="asset-search-status">
+        <span>{resultLabel}</span>
+        {searchTerm ? (
+          <button onClick={() => onQuery("")} type="button">
+            清除搜尋
+          </button>
+        ) : null}
+      </div>
       <div className="favorite-row">
         {favorites.length ? (
           favorites.map((asset) => (
@@ -1769,18 +1780,28 @@ function AssetSelector({
         )}
       </div>
       <div className="asset-grid">
-        {filteredAssets.map((asset) => (
-          <button
-            className={asset.symbol === selectedSymbol ? "asset-card active" : "asset-card"}
-            key={asset.id}
-            onClick={() => onSelect(asset.symbol)}
-            type="button"
-          >
-            <strong>{asset.symbol}</strong>
-            <span>{asset.name}</span>
-            <small>{asset.group}</small>
-          </button>
-        ))}
+        {filteredAssets.length ? (
+          filteredAssets.map((asset) => (
+            <button
+              className={asset.symbol === selectedSymbol ? "asset-card active" : "asset-card"}
+              key={asset.id}
+              onClick={() => onSelect(asset.symbol)}
+              type="button"
+            >
+              <strong>{asset.symbol}</strong>
+              <span>{asset.name}</span>
+              <small>{asset.group}</small>
+            </button>
+          ))
+        ) : (
+          <div className="asset-empty-state">
+            <strong>找不到符合的標的</strong>
+            <p>請改用股票代號、名稱或產業關鍵字搜尋；目前仍是 mock 清單，不代表完整市場覆蓋。</p>
+            <button onClick={() => onQuery("")} type="button">
+              清除搜尋
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );
