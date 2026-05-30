@@ -1508,6 +1508,11 @@ const checks = [
     name: "cp3-chairman-oral-review-delegation"
   },
   {
+    command: [node, "scripts/check-cp3-bounded-mock-only-runtime-entry-request-draft.mjs"],
+    expectStatus: "ok",
+    name: "cp3-bounded-mock-only-runtime-entry-request-draft"
+  },
+  {
     command: [node, "scripts/check-cp3-mock-only-runtime-panel.mjs"],
     expectStatus: "ok",
     name: "cp3-mock-only-runtime-panel"
