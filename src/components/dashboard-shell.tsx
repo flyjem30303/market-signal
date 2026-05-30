@@ -143,29 +143,32 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
           <StockModuleHighlights snapshot={snapshot} onTab={changeTab} />
           <StockRiskChecklist snapshot={snapshot} onTab={changeTab} />
           <StockNextStepGuide snapshot={snapshot} onTab={changeTab} />
-          <StockDecisionBoundary onTab={changeTab} />
-          <StockReviewQueue snapshot={snapshot} onTab={changeTab} />
-          <StockRoleResponsibilityMap onTab={changeTab} />
-          <StockEscalationReadiness snapshot={snapshot} onTab={changeTab} />
-          <StockCeoSynthesis snapshot={snapshot} onTab={changeTab} />
-          <StockSourceExplanationBacklog snapshot={snapshot} onTab={changeTab} />
-          <StockSourceAcceptanceCriteria onTab={changeTab} />
-          <StockSourceDecisionBlockers onTab={changeTab} />
-          <StockSourceCheckpointPath onTab={changeTab} />
-          <StockSourceEscalationSignal onTab={changeTab} />
-          <StockMockBoundaryLegend onTab={changeTab} />
-          <StockSafeReadingFlow onTab={changeTab} />
-          <StockStopReadingConditions onTab={changeTab} />
-          <StockExplanationPriority onTab={changeTab} />
-          <StockRoleReviewTriggers onTab={changeTab} />
-          <StockPreReviewForbiddenActions onTab={changeTab} />
-          <StockChairmanReviewReadiness onTab={changeTab} />
-          <StockChairmanNarrowQuestions onTab={changeTab} />
-          <StockChairmanAnswerCriteria onTab={changeTab} />
-          <StockChairmanAnswerRouting onTab={changeTab} />
-          <StockPreAuthorizationStopLines onTab={changeTab} />
-          <StockCeoOptionConvergence onTab={changeTab} />
-          <StockAuthorizationScopeReadiness onTab={changeTab} />
+          <details className="stock-governance-details">
+            <summary>治理、角色與授權細節</summary>
+            <StockDecisionBoundary onTab={changeTab} />
+            <StockReviewQueue snapshot={snapshot} onTab={changeTab} />
+            <StockRoleResponsibilityMap onTab={changeTab} />
+            <StockEscalationReadiness snapshot={snapshot} onTab={changeTab} />
+            <StockCeoSynthesis snapshot={snapshot} onTab={changeTab} />
+            <StockSourceExplanationBacklog snapshot={snapshot} onTab={changeTab} />
+            <StockSourceAcceptanceCriteria onTab={changeTab} />
+            <StockSourceDecisionBlockers onTab={changeTab} />
+            <StockSourceCheckpointPath onTab={changeTab} />
+            <StockSourceEscalationSignal onTab={changeTab} />
+            <StockMockBoundaryLegend onTab={changeTab} />
+            <StockSafeReadingFlow onTab={changeTab} />
+            <StockStopReadingConditions onTab={changeTab} />
+            <StockExplanationPriority onTab={changeTab} />
+            <StockRoleReviewTriggers onTab={changeTab} />
+            <StockPreReviewForbiddenActions onTab={changeTab} />
+            <StockChairmanReviewReadiness onTab={changeTab} />
+            <StockChairmanNarrowQuestions onTab={changeTab} />
+            <StockChairmanAnswerCriteria onTab={changeTab} />
+            <StockChairmanAnswerRouting onTab={changeTab} />
+            <StockPreAuthorizationStopLines onTab={changeTab} />
+            <StockCeoOptionConvergence onTab={changeTab} />
+            <StockAuthorizationScopeReadiness onTab={changeTab} />
+          </details>
         </>
       )}
 
