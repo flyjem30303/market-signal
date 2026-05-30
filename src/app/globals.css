@@ -453,6 +453,70 @@ select {
   font-size: 18px;
 }
 
+.home-group-overview {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+  display: grid;
+  grid-template-columns: minmax(260px, 0.72fr) minmax(0, 1.48fr);
+  gap: 16px;
+  margin-bottom: 16px;
+  padding: 16px;
+}
+
+.home-group-overview-head h2 {
+  margin: 0 0 8px;
+  font-size: 22px;
+}
+
+.home-group-overview-head p {
+  color: var(--muted);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.home-group-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.home-group-grid a {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--text);
+  display: grid;
+  gap: 6px;
+  min-height: 142px;
+  padding: 12px;
+  text-decoration: none;
+}
+
+.home-group-grid a:hover {
+  border-color: var(--blue);
+  background: #f8fbff;
+}
+
+.home-group-grid span,
+.home-group-grid small {
+  color: var(--muted);
+}
+
+.home-group-grid span {
+  font-size: 13px;
+  font-weight: 850;
+}
+
+.home-group-grid strong {
+  font-size: 17px;
+  line-height: 1.3;
+}
+
+.home-group-grid b {
+  margin-top: auto;
+}
+
 .home-watchlists {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -5172,6 +5236,8 @@ input[type="date"] {
   .home-overview-grid,
   .home-reading-route,
   .home-market-breadth,
+  .home-group-overview,
+  .home-group-grid,
   .home-watchlists,
   .quote-panel,
   .stock-evidence-snapshot,

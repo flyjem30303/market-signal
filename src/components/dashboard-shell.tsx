@@ -307,6 +307,7 @@ function HomeProductOverview({
   const marketSnapshot = snapshots.find((item) => item.asset.symbol === "TWII") ?? snapshot;
   const strongestSnapshot = strongest[0] ?? snapshot;
   const riskiestSnapshot = riskiest[0] ?? snapshot;
+  const groupSummaries = buildHomeGroupSummaries(snapshots);
   const breadth = snapshots.reduce(
     (summary, item) => {
       if (item.signal.key === "green" || item.signal.key === "yellow") {
@@ -415,11 +416,77 @@ function HomeProductOverview({
         </article>
       </section>
 
+      <HomeGroupOverview groups={groupSummaries} />
+
       <section className="home-watchlists" aria-label="首頁市場觀察清單">
         <HomeWatchlist title="今日強勢觀察" description="綜合分數較高的標的，適合先看趨勢是否連續。" items={strongest} valueKey="composite" />
         <HomeWatchlist title="風險升溫觀察" description="風險分數較高的標的，追價前應先拆解風險來源。" items={riskiest} valueKey="risk" />
       </section>
     </>
+  );
+}
+
+function buildHomeGroupSummaries(snapshots: SignalSnapshot[]) {
+  return Object.values(
+    snapshots.reduce<
+      Record<
+        string,
+        {
+          count: number;
+          group: string;
+          leading: SignalSnapshot;
+          riskTotal: number;
+        }
+      >
+    >((summary, item) => {
+      const current = summary[item.asset.group] ?? {
+        count: 0,
+        group: item.asset.group,
+        leading: item,
+        riskTotal: 0
+      };
+      current.count += 1;
+      current.riskTotal += item.riskScore;
+      if (item.compositeScore > current.leading.compositeScore) {
+        current.leading = item;
+      }
+      summary[item.asset.group] = current;
+
+      return summary;
+    }, {})
+  )
+    .map((item) => ({
+      averageRisk: Math.round(item.riskTotal / item.count),
+      count: item.count,
+      group: item.group,
+      leading: item.leading
+    }))
+    .sort((a, b) => b.leading.compositeScore - a.leading.compositeScore);
+}
+
+function HomeGroupOverview({
+  groups
+}: {
+  groups: Array<{ averageRisk: number; count: number; group: string; leading: SignalSnapshot }>;
+}) {
+  return (
+    <section className="home-group-overview" aria-label="首頁群組覆蓋摘要">
+      <div className="home-group-overview-head">
+        <p className="eyebrow">Coverage Map</p>
+        <h2>目前 mock 清單覆蓋</h2>
+        <p>這裡只顯示目前產品驗證清單中的群組，協助快速探索，不代表完整台股市場覆蓋。</p>
+      </div>
+      <div className="home-group-grid">
+        {groups.map((item) => (
+          <a href={`/stocks/${item.leading.asset.symbol}`} key={item.group}>
+            <span>{item.group}</span>
+            <strong>{item.leading.asset.symbol} {item.leading.asset.name}</strong>
+            <small>{item.count} 檔 mock 標的 · 平均風險 {item.averageRisk}/100</small>
+            <b style={{ color: signalColor(item.leading.signal.key) }}>{item.leading.signal.title}</b>
+          </a>
+        ))}
+      </div>
+    </section>
   );
 }
 
