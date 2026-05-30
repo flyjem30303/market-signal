@@ -49,6 +49,7 @@ export type Cp3MockOnlyUpgradeVerdict = {
 export type Cp3MockOnlyUpgradeProgress = {
   blockedCount: number;
   label: string;
+  nextFocus: string;
   readyCount: number;
   totalCount: number;
 };
@@ -160,6 +161,9 @@ export function getMockOnlyRuntimeUpgradeVerdict(state: Cp3MockOnlyRuntimeState)
 
 export function getMockOnlyRuntimeUpgradeProgress(state: Cp3MockOnlyRuntimeState): Cp3MockOnlyUpgradeProgress {
   const requirements = getMockOnlyRuntimeUpgradeRequirements(state);
+  const nextBlockedRequirement = requirements.find(
+    (requirement) => requirement.state === "mock" || requirement.state === "not_ready"
+  );
   const blockedCount = requirements.filter(
     (requirement) => requirement.state === "mock" || requirement.state === "not_ready"
   ).length;
@@ -168,6 +172,9 @@ export function getMockOnlyRuntimeUpgradeProgress(state: Cp3MockOnlyRuntimeState
   return {
     blockedCount,
     label: `已就緒 ${readyCount} / ${requirements.length}；待解除 ${blockedCount}`,
+    nextFocus: nextBlockedRequirement
+      ? `下一個解除重點：${nextBlockedRequirement.owner} / ${nextBlockedRequirement.label}`
+      : "下一個解除重點：等待 CEO 最終核准",
     readyCount,
     totalCount: requirements.length
   };

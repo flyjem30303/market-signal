@@ -64,6 +64,7 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
       <div className="cp3-runtime-upgrade-requirements" aria-label="Runtime upgrade requirements">
         <strong>升級前置條件</strong>
         <mark>{upgradeProgress.label}</mark>
+        <mark>{upgradeProgress.nextFocus}</mark>
         <p>
           {upgradeVerdict.label}: {upgradeVerdict.reason}
         </p>
