@@ -197,6 +197,12 @@ export type Cp3MockOnlyRuntimeAuthorizationSnapshot = {
   totalCount: number;
 };
 
+export type Cp3MockOnlyRuntimeRoleAction = {
+  action: string;
+  owner: "CEO" | "Data" | "Engineering" | "Investment" | "Legal" | "PM";
+  state: Cp3MockOnlyRuntimeAuthorizationStatus;
+};
+
 export type Cp3MockOnlyRuntimeCommandCenter = {
   blockedLaneLabel: string;
   doNext: string;
@@ -208,6 +214,7 @@ export type Cp3MockOnlyRuntimeCommandCenter = {
   nextWorkLabel: string;
   operatingMode: "local_mock_only";
   reviewCadence: string;
+  roleActions: Cp3MockOnlyRuntimeRoleAction[];
   stopCondition: string;
   summary: string;
 };
@@ -797,6 +804,38 @@ export function getMockOnlyRuntimeCommandCenter(state: Cp3MockOnlyRuntimeState):
     nextWorkLabel: `${nextWork.owner}: ${nextWork.label}`,
     operatingMode: "local_mock_only",
     reviewCadence: "Review after each committed local runtime slice or before any external-data gate.",
+    roleActions: [
+      {
+        action: "Refine local runtime readability and keep public copy mock-only.",
+        owner: "PM",
+        state: "allowed"
+      },
+      {
+        action: "Harden static guards and keep runtime free of external data dependencies.",
+        owner: "Engineering",
+        state: "allowed"
+      },
+      {
+        action: "Prepare source-depth evidence without market rows or remote validation.",
+        owner: "Data",
+        state: "blocked"
+      },
+      {
+        action: "Prepare source-rights questions before any data usage expansion.",
+        owner: "Legal",
+        state: "blocked"
+      },
+      {
+        action: "Prepare formal-score review criteria without switching score source.",
+        owner: "Investment",
+        state: "blocked"
+      },
+      {
+        action: "Decide when to open a separate gate for external-data work.",
+        owner: "CEO",
+        state: "blocked"
+      }
+    ],
     stopCondition: "Stop before remote access, SQL, market-row ingestion, formal-score transition, or public-claim release.",
     summary:
       "CEO keeps execution in local mock-only mode. PM should refine runtime readability and guards; any external data, SQL, formal-score, or public-claim step needs a separate gate."

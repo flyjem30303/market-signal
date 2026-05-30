@@ -277,6 +277,15 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
             <i>{commandCenter.stopCondition}</i>
           </span>
         </div>
+        <ul>
+          {commandCenter.roleActions.map((item) => (
+            <li key={`${item.owner}-${item.action}`}>
+              <b>{item.owner}</b>
+              <i>{item.action}</i>
+              <em>{formatRuntimeValue(item.state)}</em>
+            </li>
+          ))}
+        </ul>
       </div>
       <div className="cp3-runtime-decision-summary" aria-label="Runtime decision summary">
         <strong>CEO runtime 判定</strong>

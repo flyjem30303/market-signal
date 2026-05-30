@@ -819,7 +819,26 @@ select {
   padding: 10px;
 }
 
+.cp3-runtime-command-center ul {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.cp3-runtime-command-center li {
+  background: #fff;
+  border: 1px solid #dbe4f0;
+  border-radius: 8px;
+  display: grid;
+  gap: 5px;
+  padding: 10px;
+}
+
 .cp3-runtime-command-center b,
+.cp3-runtime-command-center em,
 .cp3-runtime-command-center i {
   display: block;
   font-style: normal;
@@ -834,6 +853,11 @@ select {
 .cp3-runtime-command-center i {
   color: #3f5872;
   line-height: 1.5;
+}
+
+.cp3-runtime-command-center em {
+  color: #7a4a00;
+  font-weight: 850;
 }
 
 .cp3-runtime-route-decision {
@@ -4456,6 +4480,7 @@ input[type="date"] {
   .cp3-runtime-command-center,
   .cp3-runtime-command-center section,
   .cp3-runtime-command-center div,
+  .cp3-runtime-command-center ul,
   .cp3-runtime-fast-follow-gates,
   .cp3-runtime-fast-follow-gates div,
   .cp3-runtime-route-work-queue,
