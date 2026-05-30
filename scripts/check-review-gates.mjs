@@ -1543,6 +1543,11 @@ const checks = [
     name: "cp3-supabase-read-only-validation-design"
   },
   {
+    command: [node, "scripts/check-cp3-supabase-read-only-validation-pre-execution-gate.mjs"],
+    expectStatus: "ok",
+    name: "cp3-supabase-read-only-validation-pre-execution-gate"
+  },
+  {
     command: [node, "scripts/check-cp3-tw-stock-model-candidates.mjs"],
     expectStatus: "ok",
     name: "cp3-tw-stock-model"
