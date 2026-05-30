@@ -120,6 +120,12 @@ export type Cp3MockOnlyRuntimeSchemaShapeDisclosure = {
   state: Cp3MockOnlySchemaShapeState;
 };
 
+export type Cp3MockOnlyRuntimeDataQualityDisclosure = {
+  label: string;
+  note: string;
+  state: Cp3MockOnlyDataQualityState;
+};
+
 export const cp3MockOnlyUiCopyTokens: Record<Cp3MockOnlyDisplayState, Cp3MockOnlyUiCopyToken> = {
   mock: {
     claimLimit: "目前只可作為產品體驗與閱讀流程示範，不能作為投資判斷、建議或績效保證。",
@@ -453,5 +459,31 @@ export function getMockOnlyRuntimeSchemaShapeDisclosure(
     label: "Schema shape 僅本地契約",
     note: "目前只可依本地 contract 呈現 UI；未形成遠端 schema shape 依賴。",
     state: state.schemaShapeState
+  };
+}
+
+export function getMockOnlyRuntimeDataQualityDisclosure(
+  state: Cp3MockOnlyRuntimeState
+): Cp3MockOnlyRuntimeDataQualityDisclosure {
+  if (state.dataQualityState === "partial") {
+    return {
+      label: "資料品質折扣：partial",
+      note: "部分資料條件缺口仍需降級解讀；不得把 UI 分數或模組文字視為正式模型結論。",
+      state: state.dataQualityState
+    };
+  }
+
+  if (state.dataQualityState === "stale") {
+    return {
+      label: "資料品質折扣：stale",
+      note: "資料時間狀態不足，所有呈現只能作為延遲或待更新提醒，不可暗示即時可用。",
+      state: state.dataQualityState
+    };
+  }
+
+  return {
+    label: "資料品質折扣：unavailable",
+    note: "必要資料品質條件不可用；runtime 必須維持 mock-only，且不得形成正式分數或公開宣稱。",
+    state: state.dataQualityState
   };
 }

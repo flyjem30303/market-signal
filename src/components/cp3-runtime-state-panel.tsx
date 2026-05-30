@@ -8,6 +8,7 @@ import {
   getMockOnlyRuntimeRouteWorkQueue,
   getMockOnlyRuntimeMetadataDisclosure,
   getMockOnlyRuntimeSchemaShapeDisclosure,
+  getMockOnlyRuntimeDataQualityDisclosure,
   getMockOnlySourceDepthEvidenceItems,
   getMockOnlySourceDepthEvidenceProgress,
   getMockOnlyRuntimeUpgradeProgress,
@@ -56,6 +57,7 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
   const routeWorkProgress = getMockOnlyRuntimeRouteWorkProgress();
   const metadataDisclosure = getMockOnlyRuntimeMetadataDisclosure(runtimeState);
   const schemaShapeDisclosure = getMockOnlyRuntimeSchemaShapeDisclosure(runtimeState);
+  const dataQualityDisclosure = getMockOnlyRuntimeDataQualityDisclosure(runtimeState);
   const stopLines = buildRuntimeStopLines();
 
   return (
@@ -86,6 +88,10 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
       <div className="cp3-runtime-schema-shape-disclosure" aria-label="Runtime schema shape disclosure">
         <strong>{schemaShapeDisclosure.label}</strong>
         <span>{schemaShapeDisclosure.note}</span>
+      </div>
+      <div className="cp3-runtime-data-quality-disclosure" aria-label="Runtime data quality disclosure">
+        <strong>{dataQualityDisclosure.label}</strong>
+        <span>{dataQualityDisclosure.note}</span>
       </div>
       <div className="cp3-runtime-decision-summary" aria-label="Runtime decision summary">
         <strong>CEO runtime 判定</strong>
@@ -231,6 +237,7 @@ function buildRuntimeBlockers(state: Cp3MockOnlyRuntimeState) {
     state.schemaShapeState === "schema_shape_checked_not_quality"
       ? "Schema shape 窄證據不代表 row completeness"
       : "schema shape 仍為本地契約",
+    `資料品質折扣 ${formatRuntimeValue(state.dataQualityState)}`,
     `資料契約 ${formatRuntimeValue(state.contractState)}`,
     `來源深度 ${formatRuntimeValue(state.sourceDepthState)}`,
     `來源權利 ${formatRuntimeValue(state.sourceRightsState)}`,
@@ -252,6 +259,7 @@ function buildRuntimeStopLines() {
     "不可轉正式分數",
     "不可把 metadata 可達視為資料品質核准",
     "不可把 schema shape 視為資料完整或權利核准",
+    "不可把資料品質折扣視為正式模型資格",
     "不可連接真實資料或寫入市場資料",
     "不可作為投資結論",
     "不可發布公開宣稱"

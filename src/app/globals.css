@@ -386,6 +386,25 @@ select {
   line-height: 1.6;
 }
 
+.cp3-runtime-data-quality-disclosure {
+  background: #fff4f0;
+  border: 1px solid #e6b4a5;
+  border-radius: 8px;
+  display: grid;
+  gap: 4px;
+  grid-column: 1 / -1;
+  padding: 12px;
+}
+
+.cp3-runtime-data-quality-disclosure strong {
+  color: #7a2f1f;
+}
+
+.cp3-runtime-data-quality-disclosure span {
+  color: #7a493c;
+  line-height: 1.6;
+}
+
 .cp3-runtime-route-decision {
   background: #fff;
   border: 1px solid #cddff2;
