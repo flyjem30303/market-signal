@@ -631,6 +631,15 @@ select {
   margin: 0;
 }
 
+.cp3-runtime-route-work-queue mark {
+  background: #edf5ff;
+  border: 1px solid #cddff2;
+  border-radius: 8px;
+  color: #17324d;
+  font-weight: 850;
+  padding: 8px 10px;
+}
+
 .cp3-runtime-route-work-queue div {
   display: grid;
   gap: 8px;

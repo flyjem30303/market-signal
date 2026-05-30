@@ -7,6 +7,10 @@ import { createServerSupabaseClient } from "@/lib/supabase/server";
 
 type FreshnessSource = "mock" | "supabase";
 
+function isSupabaseRuntimeReadEnabled() {
+  return process.env.DATA_FRESHNESS_SUPABASE_READS === "enabled";
+}
+
 function getFreshnessSource(): FreshnessSource {
   const source = process.env.DATA_FRESHNESS_SOURCE ?? "mock";
 
@@ -21,8 +25,17 @@ export async function getDataFreshnessSnapshot(): Promise<DataFreshnessSnapshot>
   const source = getFreshnessSource();
 
   if (source === "supabase") {
+    if (!isSupabaseRuntimeReadEnabled()) {
+      return buildMockDataFreshnessSnapshot();
+    }
+
     const client = createServerSupabaseClient() as unknown as SupabaseDataFreshnessClient;
-    return getSupabaseDataFreshnessSnapshot(client);
+
+    try {
+      return await getSupabaseDataFreshnessSnapshot(client);
+    } catch {
+      return buildMockDataFreshnessSnapshot();
+    }
   }
 
   return buildMockDataFreshnessSnapshot();

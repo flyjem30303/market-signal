@@ -86,11 +86,20 @@ export type Cp3MockOnlyRuntimeRouteDecision = {
 };
 
 export type Cp3MockOnlyRuntimeRouteWorkItem = {
+  acceptance: string;
   id: string;
   label: string;
   nextAction: string;
   owner: "CEO" | "Data" | "Engineering" | "Investment" | "Legal" | "PM";
   state: "blocked";
+};
+
+export type Cp3MockOnlyRuntimeRouteWorkProgress = {
+  blockedCount: number;
+  completeCount: number;
+  label: string;
+  nextFocus: string;
+  totalCount: number;
 };
 
 export const cp3MockOnlyUiCopyTokens: Record<Cp3MockOnlyDisplayState, Cp3MockOnlyUiCopyToken> = {
@@ -334,6 +343,7 @@ export function getMockOnlyRuntimeRouteDecision(
 export function getMockOnlyRuntimeRouteWorkQueue(): Cp3MockOnlyRuntimeRouteWorkItem[] {
   return [
     {
+      acceptance: "畫面、copy 與靜態 gate 都保留 mock-only / not_ready / blocked 語意",
       id: "local-runtime-copy-review",
       label: "本地 runtime 文案確認",
       nextAction: "確認 mock-only、not_ready、gated fast-follow 文案一致",
@@ -341,6 +351,7 @@ export function getMockOnlyRuntimeRouteWorkQueue(): Cp3MockOnlyRuntimeRouteWorkI
       state: "blocked"
     },
     {
+      acceptance: "五項來源深度證據只建立草稿與缺口，不貼入真實市場資料",
       id: "source-depth-evidence-prep",
       label: "來源深度證據準備",
       nextAction: "補齊五項來源深度驗收證據草稿，仍不接真實資料",
@@ -348,6 +359,7 @@ export function getMockOnlyRuntimeRouteWorkQueue(): Cp3MockOnlyRuntimeRouteWorkI
       state: "blocked"
     },
     {
+      acceptance: "唯讀驗證指令、環境與停止條件整理完成，但不連線執行",
       id: "readonly-validation-window",
       label: "唯讀驗證窗口準備",
       nextAction: "準備單次唯讀驗證前置檢查，尚不執行遠端連線",
@@ -355,6 +367,7 @@ export function getMockOnlyRuntimeRouteWorkQueue(): Cp3MockOnlyRuntimeRouteWorkI
       state: "blocked"
     },
     {
+      acceptance: "授權、保存、再散布與公開揭露問題已整理成董事長可口頭審核項目",
       id: "rights-review-question",
       label: "來源權利問題整理",
       nextAction: "整理授權、保存、再散布與公開揭露待答問題",
@@ -362,6 +375,7 @@ export function getMockOnlyRuntimeRouteWorkQueue(): Cp3MockOnlyRuntimeRouteWorkI
       state: "blocked"
     },
     {
+      acceptance: "公開宣稱仍停在 mock-only，不含正式分數、投資建議或績效暗示",
       id: "claim-boundary-review",
       label: "宣稱邊界覆核",
       nextAction: "確認公開文案仍不得使用正式分數或投資宣稱",
@@ -369,4 +383,21 @@ export function getMockOnlyRuntimeRouteWorkQueue(): Cp3MockOnlyRuntimeRouteWorkI
       state: "blocked"
     }
   ];
+}
+
+export function getMockOnlyRuntimeRouteWorkProgress(): Cp3MockOnlyRuntimeRouteWorkProgress {
+  const workItems = getMockOnlyRuntimeRouteWorkQueue();
+  const blockedCount = workItems.filter((item) => item.state === "blocked").length;
+  const completeCount = workItems.length - blockedCount;
+  const nextBlockedItem = workItems.find((item) => item.state === "blocked");
+
+  return {
+    blockedCount,
+    completeCount,
+    label: `PM route work ${completeCount} / ${workItems.length} complete; blocked ${blockedCount}`,
+    nextFocus: nextBlockedItem
+      ? `下一個本地工作：${nextBlockedItem.owner} / ${nextBlockedItem.label}`
+      : "PM route work 全部完成後仍需 CEO 另行開 gate",
+    totalCount: workItems.length
+  };
 }

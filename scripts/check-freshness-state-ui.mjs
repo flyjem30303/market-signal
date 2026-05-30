@@ -6,6 +6,15 @@ const requirements = [
     patterns: ["description: string", "stateDescriptions", "partial:", "stale:", "unavailable:"]
   },
   {
+    file: "src/lib/data-freshness-source.ts",
+    patterns: [
+      "DATA_FRESHNESS_SUPABASE_READS",
+      "isSupabaseRuntimeReadEnabled",
+      "return buildMockDataFreshnessSnapshot();",
+      "catch"
+    ]
+  },
+  {
     file: "src/components/data-freshness-strip.tsx",
     patterns: ["freshness.description", "freshness-description"]
   },
