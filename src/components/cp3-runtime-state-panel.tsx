@@ -39,6 +39,7 @@ const runtimeValueLabels: Record<string, string> = {
   blocked: "封鎖",
   candidate: "候選模型",
   done: "完成",
+  draft: "草案",
   local_contract_only: "本地契約",
   local_mock_only: "本地 mock-only",
   mock_local_only: "mock / local only",
@@ -346,6 +347,19 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
             </span>
           ))}
         </footer>
+        <menu aria-label="Gate proposal queue">
+          <b>{commandCenter.gateProposalQueueLabel}</b>
+          {commandCenter.gateProposalQueue.map((item) => (
+            <span key={item.label}>
+              <strong>
+                {item.sequence}. {item.label}
+              </strong>
+              <small>{item.owner}</small>
+              <i>{item.boundary}</i>
+              <em>{formatRuntimeValue(item.state)}</em>
+            </span>
+          ))}
+        </menu>
       </div>
       <div className="cp3-runtime-decision-summary" aria-label="Runtime decision summary">
         <strong>CEO runtime 判定</strong>

@@ -230,6 +230,14 @@ export type Cp3MockOnlyExternalReadinessCheck = {
   state: "blocked";
 };
 
+export type Cp3MockOnlyGateProposalItem = {
+  boundary: string;
+  label: string;
+  owner: "CEO" | "Data" | "Engineering" | "Investment" | "Legal" | "PM";
+  sequence: number;
+  state: "draft";
+};
+
 export type Cp3MockOnlyRuntimeCommandCenter = {
   blockedLaneLabel: string;
   doNext: string;
@@ -239,6 +247,8 @@ export type Cp3MockOnlyRuntimeCommandCenter = {
   executionState: "active_local_only";
   executionLanes: Cp3MockOnlyRuntimeExecutionLane[];
   externalReadinessChecks: Cp3MockOnlyExternalReadinessCheck[];
+  gateProposalQueue: Cp3MockOnlyGateProposalItem[];
+  gateProposalQueueLabel: string;
   handoffChecks: Cp3MockOnlyRuntimeHandoffCheck[];
   localLaneLabel: string;
   milestones: Cp3MockOnlyRuntimeMilestone[];
@@ -916,6 +926,51 @@ export function getMockOnlyRuntimeCommandCenter(state: Cp3MockOnlyRuntimeState):
         state: "blocked"
       }
     ],
+    gateProposalQueue: [
+      {
+        boundary: "One exact read-only command, one run, no writes, no data mutation.",
+        label: "Supabase read-only evidence run",
+        owner: "Engineering",
+        sequence: 1,
+        state: "draft"
+      },
+      {
+        boundary: "Compare contract shape only; do not infer data quality or public claim fitness.",
+        label: "Schema contract comparison",
+        owner: "Engineering",
+        sequence: 2,
+        state: "draft"
+      },
+      {
+        boundary: "Evidence criteria only; no market-row ingestion or persisted market dataset.",
+        label: "Source-depth evidence packet",
+        owner: "Data",
+        sequence: 3,
+        state: "draft"
+      },
+      {
+        boundary: "Rights questions only; no data usage expansion or public redistribution claim.",
+        label: "Source-rights review packet",
+        owner: "Legal",
+        sequence: 4,
+        state: "draft"
+      },
+      {
+        boundary: "Model criteria only; do not change score source or public wording.",
+        label: "Formal score transition packet",
+        owner: "Investment",
+        sequence: 5,
+        state: "draft"
+      },
+      {
+        boundary: "CEO decision only after the earlier proposal items have evidence.",
+        label: "External execution decision",
+        owner: "CEO",
+        sequence: 6,
+        state: "draft"
+      }
+    ],
+    gateProposalQueueLabel: "Gate proposal queue",
     handoffChecks: [
       { label: "Mock-only runtime state remains explicit.", state: "recorded" },
       { label: "Static guard covers command center fields.", state: "recorded" },
