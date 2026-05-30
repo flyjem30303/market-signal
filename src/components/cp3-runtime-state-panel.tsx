@@ -12,6 +12,7 @@ import {
   getMockOnlyRuntimeSchemaShapeDisclosure,
   getMockOnlyRuntimeDataQualityDisclosure,
   getMockOnlyRuntimeAuthorizationSnapshot,
+  getMockOnlyRuntimeCommandCenter,
   getMockOnlyRuntimeReadinessTriad,
   getMockOnlyRuntimeNextGates,
   getMockOnlySchemaContractGuard,
@@ -36,6 +37,7 @@ const runtimeValueLabels: Record<string, string> = {
   blocked: "封鎖",
   candidate: "候選模型",
   local_contract_only: "本地契約",
+  local_mock_only: "本地 mock-only",
   mock_metadata: "模擬 metadata",
   mock: "模擬分數",
   not_ready: "尚未就緒",
@@ -67,6 +69,7 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
   const schemaShapeDisclosure = getMockOnlyRuntimeSchemaShapeDisclosure(runtimeState);
   const dataQualityDisclosure = getMockOnlyRuntimeDataQualityDisclosure(runtimeState);
   const authorizationSnapshot = getMockOnlyRuntimeAuthorizationSnapshot();
+  const commandCenter = getMockOnlyRuntimeCommandCenter(runtimeState);
   const readinessTriad = getMockOnlyRuntimeReadinessTriad(runtimeState);
   const dataQualityRoleReviewGuard = getMockOnlyDataQualityRoleReviewGuard(runtimeState);
   const metadataQualityGuard = getMockOnlyMetadataQualitySeparationGuard(runtimeState);
@@ -220,6 +223,32 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
               <em>{formatRuntimeValue(item.status)}</em>
             </span>
           ))}
+        </div>
+      </div>
+      <div className="cp3-runtime-command-center" aria-label="Runtime command center">
+        <strong>CEO / PM command center</strong>
+        <p>{commandCenter.summary}</p>
+        <div>
+          <span>
+            <b>Mode</b>
+            <i>{formatRuntimeValue(commandCenter.operatingMode)}</i>
+          </span>
+          <span>
+            <b>Allowed lane</b>
+            <i>{commandCenter.localLaneLabel}</i>
+          </span>
+          <span>
+            <b>Blocked lane</b>
+            <i>{commandCenter.blockedLaneLabel}</i>
+          </span>
+          <span>
+            <b>Next gate</b>
+            <i>{commandCenter.nextGateLabel}</i>
+          </span>
+          <span>
+            <b>Next PM work</b>
+            <i>{commandCenter.nextWorkLabel}</i>
+          </span>
         </div>
       </div>
       <div className="cp3-runtime-decision-summary" aria-label="Runtime decision summary">

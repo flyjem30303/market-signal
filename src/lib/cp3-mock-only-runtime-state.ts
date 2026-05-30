@@ -197,6 +197,15 @@ export type Cp3MockOnlyRuntimeAuthorizationSnapshot = {
   totalCount: number;
 };
 
+export type Cp3MockOnlyRuntimeCommandCenter = {
+  blockedLaneLabel: string;
+  localLaneLabel: string;
+  nextGateLabel: string;
+  nextWorkLabel: string;
+  operatingMode: "local_mock_only";
+  summary: string;
+};
+
 export const cp3MockOnlyUiCopyTokens: Record<Cp3MockOnlyDisplayState, Cp3MockOnlyUiCopyToken> = {
   mock: {
     claimLimit: "目前只可作為產品體驗與閱讀流程示範，不能作為投資判斷、建議或績效保證。",
@@ -762,5 +771,22 @@ export function getMockOnlyRuntimeAuthorizationSnapshot(): Cp3MockOnlyRuntimeAut
     label: `Runtime authorization ${allowedCount} allowed / ${blockedCount} blocked`,
     nextAction: "PM 繼續本地 mock-only runtime 實作；CEO 另行決定何時開 Supabase、SQL、真實資料與正式分數 gate。",
     totalCount: items.length
+  };
+}
+
+export function getMockOnlyRuntimeCommandCenter(state: Cp3MockOnlyRuntimeState): Cp3MockOnlyRuntimeCommandCenter {
+  const authorizationSnapshot = getMockOnlyRuntimeAuthorizationSnapshot();
+  const nextGate = getMockOnlyRuntimeNextGates(state)[0];
+  const routeWorkQueue = getMockOnlyRuntimeRouteWorkQueue();
+  const nextWork = routeWorkQueue[0];
+
+  return {
+    blockedLaneLabel: `${authorizationSnapshot.blockedCount} gates blocked: Supabase / SQL / market data / formal score / public claims`,
+    localLaneLabel: `${authorizationSnapshot.allowedCount} local lanes allowed: mock runtime UI and static guards`,
+    nextGateLabel: `${nextGate.owner}: ${nextGate.label}`,
+    nextWorkLabel: `${nextWork.owner}: ${nextWork.label}`,
+    operatingMode: "local_mock_only",
+    summary:
+      "CEO keeps execution in local mock-only mode. PM should refine runtime readability and guards; any external data, SQL, formal-score, or public-claim step needs a separate gate."
   };
 }
