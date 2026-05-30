@@ -2033,6 +2033,11 @@ const checks = [
     name: "cp3-freshness-repository-factory-implementation"
   },
   {
+    command: [node, "scripts/check-cp3-freshness-repository-source-selection.mjs"],
+    expectStatus: "ok",
+    name: "cp3-freshness-repository-source-selection"
+  },
+  {
     command: [node, "scripts/check-etf-source-gate.mjs"],
     expectStatus: "blocked",
     name: "etf-source-gate"
