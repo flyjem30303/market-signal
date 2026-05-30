@@ -1518,6 +1518,11 @@ const checks = [
     name: "cp3-bounded-mock-only-runtime-entry-request-draft-role-review"
   },
   {
+    command: [node, "scripts/check-cp3-bounded-mock-only-runtime-implementation-approval-gate.mjs"],
+    expectStatus: "ok",
+    name: "cp3-bounded-mock-only-runtime-implementation-approval-gate"
+  },
+  {
     command: [node, "scripts/check-cp3-mock-only-runtime-panel.mjs"],
     expectStatus: "ok",
     name: "cp3-mock-only-runtime-panel"
