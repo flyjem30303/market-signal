@@ -36,6 +36,7 @@ export type Cp3MockOnlyUpgradeRequirement = {
   label: string;
   nextAction: string;
   owner: "CEO" | "Data" | "Engineering" | "Investment" | "Legal";
+  sequence: number;
   state: Cp3MockOnlyApprovalState | "mock";
 };
 
@@ -83,12 +84,13 @@ export function getMockOnlyPublicDisplayState(state: Cp3MockOnlyRuntimeState): C
 export function getMockOnlyRuntimeUpgradeRequirements(
   state: Cp3MockOnlyRuntimeState
 ): Cp3MockOnlyUpgradeRequirement[] {
-  return [
+  const requirements: Cp3MockOnlyUpgradeRequirement[] = [
     {
       id: "score-source",
       label: "正式分數來源",
       nextAction: "完成真實分數口徑與投資宣稱審核",
       owner: "Investment",
+      sequence: 4,
       state: state.scoreSource
     },
     {
@@ -96,6 +98,7 @@ export function getMockOnlyRuntimeUpgradeRequirements(
       label: "來源深度",
       nextAction: "補齊來源深度證據與資料覆蓋率",
       owner: "Data",
+      sequence: 1,
       state: state.sourceDepthState
     },
     {
@@ -103,6 +106,7 @@ export function getMockOnlyRuntimeUpgradeRequirements(
       label: "來源權利",
       nextAction: "確認資料授權、保存目的與公開揭露限制",
       owner: "Legal",
+      sequence: 2,
       state: state.sourceRightsState
     },
     {
@@ -110,6 +114,7 @@ export function getMockOnlyRuntimeUpgradeRequirements(
       label: "回測審核",
       nextAction: "完成回測方法、品質降級與可重跑證據",
       owner: "Engineering",
+      sequence: 3,
       state: state.backtestApprovalState
     },
     {
@@ -117,9 +122,12 @@ export function getMockOnlyRuntimeUpgradeRequirements(
       label: "公開宣稱",
       nextAction: "彙整角色意見並核准是否可公開表述",
       owner: "CEO",
+      sequence: 5,
       state: state.claimApprovalState
     }
   ];
+
+  return requirements.sort((a, b) => a.sequence - b.sequence);
 }
 
 export function getMockOnlyRuntimeUpgradeVerdict(state: Cp3MockOnlyRuntimeState): Cp3MockOnlyUpgradeVerdict {

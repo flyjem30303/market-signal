@@ -67,7 +67,9 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
         <div>
           {upgradeRequirements.map((requirement) => (
             <span key={requirement.id}>
-              <b>{requirement.label}</b>
+              <b>
+                {requirement.sequence}. {requirement.label}
+              </b>
               <small>{requirement.owner}</small>
               <i>{requirement.nextAction}</i>
               <em>{formatRuntimeValue(requirement.state)}</em>
