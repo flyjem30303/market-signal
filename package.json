@@ -24,6 +24,7 @@
     "check:freshness-runtime-read-local-preflight": "node scripts/check-freshness-runtime-read-local-preflight-runner.mjs",
     "check:freshness-runtime-read-dry-run-command-map": "node scripts/check-freshness-runtime-read-dry-run-command-map.mjs",
     "check:freshness-runtime-read-readiness-decision": "node scripts/check-freshness-runtime-read-dry-run-command-map-role-review-and-readiness-decision.mjs",
+    "check:freshness-runtime-read-post-run": "node scripts/check-freshness-runtime-read-one-checkpoint-post-run-review.mjs",
     "check:ceo-delegated-autonomy": "node scripts/check-ceo-delegated-autonomy-policy.mjs",
     "check:internal-routes": "node scripts/check-internal-route-exposure.mjs",
     "check:briefing-boundary-disclosure": "node scripts/check-briefing-boundary-disclosure.mjs",

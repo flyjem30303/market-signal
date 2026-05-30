@@ -1998,6 +1998,11 @@ const checks = [
     name: "freshness-runtime-read-dry-run-command-map-role-review-and-readiness-decision"
   },
   {
+    command: [node, "scripts/check-freshness-runtime-read-one-checkpoint-post-run-review.mjs"],
+    expectStatus: "ok",
+    name: "freshness-runtime-read-one-checkpoint-post-run-review"
+  },
+  {
     command: [node, "scripts/check-etf-source-gate.mjs"],
     expectStatus: "blocked",
     name: "etf-source-gate"
