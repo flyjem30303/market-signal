@@ -24,6 +24,7 @@
     "check:cp3-ceo-option-status-convergence": "node scripts/check-cp3-ceo-option-status-convergence.mjs",
     "check:cp3-chairman-authorization-scope-readiness-summary": "node scripts/check-cp3-chairman-authorization-scope-readiness-summary.mjs",
     "check:cp3-chairman-authorization-scope-readiness-summary-role-review": "node scripts/check-cp3-chairman-authorization-scope-readiness-summary-role-review.mjs",
+    "check:cp3-chairman-authorization-scope-readiness-checkpoint-summary": "node scripts/check-cp3-chairman-authorization-scope-readiness-checkpoint-summary.mjs",
     "check:cp3-tw-stock-historical-plan": "node scripts/check-cp3-tw-stock-historical-plan.mjs",
     "check:cp3-tw-stock-historical-source-research": "node scripts/check-cp3-tw-stock-historical-source-research.mjs",
     "check:cp3-tw-stock-endpoint-contract-matrix": "node scripts/check-cp3-tw-stock-endpoint-contract-matrix.mjs",
