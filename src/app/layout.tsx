@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import { SiteNav } from "@/components/site-nav";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -23,14 +24,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               <small>Market Signal</small>
             </span>
           </a>
-          <nav aria-label="主要導覽">
-            <a href="/briefing">晨報</a>
-            <a href="/weekly">週報</a>
-            <a href="/methodology">方法論</a>
-            <a href="/privacy">隱私權</a>
-            <a href="/terms">使用條款</a>
-            <a href="/disclaimer">免責聲明</a>
-          </nav>
+          <SiteNav />
         </header>
         {children}
         <footer className="site-footer">

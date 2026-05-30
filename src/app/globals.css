@@ -103,6 +103,12 @@ select {
   color: var(--text);
 }
 
+.site-header nav a.active {
+  border-color: rgba(15, 118, 110, 0.24);
+  background: #e8f4ef;
+  color: var(--teal);
+}
+
 .site-footer {
   display: flex;
   justify-content: space-between;

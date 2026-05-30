@@ -1,0 +1,30 @@
+"use client";
+
+import { usePathname } from "next/navigation";
+
+const navItems = [
+  { href: "/briefing", label: "晨報" },
+  { href: "/weekly", label: "週報" },
+  { href: "/methodology", label: "方法論" },
+  { href: "/privacy", label: "隱私權" },
+  { href: "/terms", label: "使用條款" },
+  { href: "/disclaimer", label: "免責聲明" }
+];
+
+export function SiteNav() {
+  const pathname = usePathname();
+
+  return (
+    <nav aria-label="主要導覽">
+      {navItems.map((item) => {
+        const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
+
+        return (
+          <a aria-current={isActive ? "page" : undefined} className={isActive ? "active" : undefined} href={item.href} key={item.href}>
+            {item.label}
+          </a>
+        );
+      })}
+    </nav>
+  );
+}
