@@ -16,6 +16,24 @@ export default function PrivacyPage() {
         </p>
       </section>
 
+      <section className="legal-quick-read" aria-label="隱私權快速摘要">
+        <article>
+          <span>目前狀態</span>
+          <strong>上線前草案</strong>
+          <p>目前先界定追蹤事件、會員、Email 週報與廣告可能用到的資料範圍。</p>
+        </article>
+        <article>
+          <span>資料用途</span>
+          <strong>改善產品體驗</strong>
+          <p>互動事件主要用於理解使用流程、熱門標的與內容效果，不用來保證投資結果。</p>
+        </article>
+        <article>
+          <span>使用者權利</span>
+          <strong>需補流程</strong>
+          <p>會員功能上線前，需補齊查詢、更正、刪除、停用與聯絡窗口。</p>
+        </article>
+      </section>
+
       <section className="panel legal-section">
         <h2>可能蒐集的資料</h2>
         <p>
