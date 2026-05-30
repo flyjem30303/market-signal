@@ -103,6 +103,50 @@ select {
   color: var(--text);
 }
 
+.site-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto;
+  border-top: 1px solid var(--line);
+  padding: 26px 0 32px;
+  color: var(--muted);
+}
+
+.site-footer strong {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--text);
+  font-size: 16px;
+}
+
+.site-footer p {
+  max-width: 560px;
+  margin: 0;
+  line-height: 1.7;
+}
+
+.site-footer nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  justify-content: flex-end;
+  align-content: flex-start;
+  min-width: 280px;
+}
+
+.site-footer a {
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 750;
+  text-decoration: none;
+}
+
+.site-footer a:hover {
+  color: var(--text);
+}
+
 .page-shell {
   width: min(1180px, calc(100% - 32px));
   margin: 0 auto;
@@ -4971,6 +5015,7 @@ input[type="date"] {
   .briefing-hero,
   .market-card-head,
   .market-score-row,
+  .site-footer,
   .site-header {
     align-items: stretch;
     flex-direction: column;
@@ -4987,6 +5032,11 @@ input[type="date"] {
 
   .site-header nav {
     justify-content: flex-start;
+  }
+
+  .site-footer nav {
+    justify-content: flex-start;
+    min-width: 0;
   }
 
   .quote-stat-grid.compact {

@@ -33,6 +33,20 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           </nav>
         </header>
         {children}
+        <footer className="site-footer">
+          <div>
+            <strong>台股燈號</strong>
+            <p>目前為 mock 研究體驗，用來驗證市場健康度、風險提示與閱讀流程，不構成投資建議。</p>
+          </div>
+          <nav aria-label="頁尾導覽">
+            <a href="/briefing">每日晨報</a>
+            <a href="/weekly">週報</a>
+            <a href="/methodology">方法論</a>
+            <a href="/privacy">隱私權</a>
+            <a href="/terms">使用條款</a>
+            <a href="/disclaimer">免責聲明</a>
+          </nav>
+        </footer>
       </body>
     </html>
   );
