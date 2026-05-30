@@ -5,8 +5,15 @@ const requirements = [
     file: "src/lib/data-freshness-source.ts",
     phrases: [
       "process.env.DATA_FRESHNESS_SOURCE ?? \"mock\"",
-      "process.env.DATA_FRESHNESS_SUPABASE_READS === \"enabled\"",
-      "if (!isSupabaseRuntimeReadEnabled())",
+      "process.env.DATA_FRESHNESS_SUPABASE_READS === \"enabled\" ? \"enabled\" : \"disabled\"",
+      "createFreshnessRepository({",
+      "return repository.getSnapshot();"
+    ]
+  },
+  {
+    file: "src/lib/repositories/freshness-repository.ts",
+    phrases: [
+      "source !== \"supabase\" || supabaseRuntimeReads !== \"enabled\"",
       "return buildMockDataFreshnessSnapshot();",
       "} catch {"
     ]
@@ -42,7 +49,7 @@ const requirements = [
 
 const forbidden = [
   {
-    file: "src/lib/data-freshness-source.ts",
+    file: "src/lib/repositories/freshness-repository.ts",
     phrases: ["scoreSource: \"real\"", "scoreSource=real", "throw error;"]
   },
   {

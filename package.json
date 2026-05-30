@@ -339,6 +339,7 @@
     "check:cp3-data-freshness-to-data-runs-relationship-note": "node scripts/check-cp3-data-freshness-to-data-runs-relationship-note.mjs",
     "check:cp3-local-only-freshness-repository-abstraction-plan": "node scripts/check-cp3-local-only-freshness-repository-abstraction-plan.mjs",
     "check:cp3-freshness-repository-draft-contract": "node scripts/check-cp3-freshness-repository-draft-contract.mjs",
+    "check:cp3-freshness-repository-factory-implementation": "node scripts/check-cp3-freshness-repository-factory-implementation.mjs",
     "check:cp3-non-runtime-typescript-policy-draft-approval-gate": "node scripts/check-cp3-non-runtime-typescript-policy-draft-approval-gate.mjs",
     "check:cp3-runtime-policy-draft": "node scripts/check-cp3-runtime-policy-draft.mjs",
     "check:cp3-runtime-policy-draft-role-review": "node scripts/check-cp3-runtime-policy-draft-role-review.mjs",

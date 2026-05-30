@@ -9,9 +9,17 @@ const requirements = [
     file: "src/lib/data-freshness-source.ts",
     patterns: [
       "DATA_FRESHNESS_SUPABASE_READS",
-      "isSupabaseRuntimeReadEnabled",
+      "getSupabaseRuntimeReads",
+      "createFreshnessRepository",
+      "return repository.getSnapshot();"
+    ]
+  },
+  {
+    file: "src/lib/repositories/freshness-repository.ts",
+    patterns: [
       "return buildMockDataFreshnessSnapshot();",
-      "catch"
+      "catch",
+      "source !== \"supabase\" || supabaseRuntimeReads !== \"enabled\""
     ]
   },
   {

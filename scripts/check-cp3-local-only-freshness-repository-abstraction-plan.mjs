@@ -2,11 +2,13 @@ import fs from "node:fs";
 
 const reportPath = "docs/reviews/CP3_LOCAL_ONLY_FRESHNESS_REPOSITORY_ABSTRACTION_PLAN_2026-05-30.md";
 const sourcePath = "src/lib/data-freshness-source.ts";
+const factoryPath = "src/lib/repositories/freshness-repository.ts";
 const repositoryPath = "src/lib/repositories/supabase-data-freshness-repository.ts";
 const dataFreshnessPath = "src/lib/data-freshness.ts";
 
 const report = fs.readFileSync(reportPath, "utf8");
 const source = fs.readFileSync(sourcePath, "utf8");
+const factory = fs.readFileSync(factoryPath, "utf8");
 const repository = fs.readFileSync(repositoryPath, "utf8");
 const dataFreshness = fs.readFileSync(dataFreshnessPath, "utf8");
 
@@ -75,8 +77,10 @@ const requiredReportPhrases = [
 
 const requiredCodePhrases = [
   { content: source, phrase: "process.env.DATA_FRESHNESS_SOURCE ?? \"mock\"" },
-  { content: source, phrase: "process.env.DATA_FRESHNESS_SUPABASE_READS === \"enabled\"" },
-  { content: source, phrase: "return buildMockDataFreshnessSnapshot();" },
+  { content: source, phrase: "process.env.DATA_FRESHNESS_SUPABASE_READS === \"enabled\" ? \"enabled\" : \"disabled\"" },
+  { content: source, phrase: "createFreshnessRepository({" },
+  { content: factory, phrase: "return buildMockDataFreshnessSnapshot();" },
+  { content: factory, phrase: "source !== \"supabase\" || supabaseRuntimeReads !== \"enabled\"" },
   { content: repository, phrase: "from(table: \"data_runs\")" },
   { content: repository, phrase: ".from(\"data_runs\")" },
   { content: dataFreshness, phrase: "export type DataFreshnessSnapshot" }

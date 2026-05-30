@@ -1,28 +1,38 @@
 import fs from "node:fs";
 
 const sourcePath = "src/lib/data-freshness-source.ts";
+const factoryPath = "src/lib/repositories/freshness-repository.ts";
 const envExamplePath = ".env.example";
 const projectStatusPath = "PROJECT_STATUS.md";
 const runbookPath = "docs/SUPABASE_EXECUTION_RUNBOOK.md";
 const mvpTasksPath = "docs/MVP_TASKS.md";
 const source = fs.readFileSync(sourcePath, "utf8");
+const factory = fs.readFileSync(factoryPath, "utf8");
 const envExample = fs.readFileSync(envExamplePath, "utf8");
 const projectStatus = fs.readFileSync(projectStatusPath, "utf8");
 const runbook = fs.readFileSync(runbookPath, "utf8");
 const mvpTasks = fs.readFileSync(mvpTasksPath, "utf8");
 
 const requiredPhrases = [
-  "type FreshnessSource = \"mock\" | \"supabase\"",
+  "type FreshnessSource",
   "process.env.DATA_FRESHNESS_SOURCE ?? \"mock\"",
   "DATA_FRESHNESS_SUPABASE_READS",
-  "isSupabaseRuntimeReadEnabled",
-  "process.env.DATA_FRESHNESS_SUPABASE_READS === \"enabled\"",
-  "if (!isSupabaseRuntimeReadEnabled())",
+  "getSupabaseRuntimeReads",
+  "process.env.DATA_FRESHNESS_SUPABASE_READS === \"enabled\" ? \"enabled\" : \"disabled\"",
+  "createFreshnessRepository({",
+  "createSupabaseClient: () => createServerSupabaseClient() as unknown as SupabaseDataFreshnessClient",
+  "return repository.getSnapshot();"
+];
+
+const requiredFactoryPhrases = [
+  "createMockFreshnessRepository",
   "return buildMockDataFreshnessSnapshot();",
-  "createServerSupabaseClient()",
+  "createDataRunsFreshnessRepository",
   "try {",
   "return await getSupabaseDataFreshnessSnapshot(client);",
-  "} catch {"
+  "} catch {",
+  "source !== \"supabase\" || supabaseRuntimeReads !== \"enabled\"",
+  "return createMockFreshnessRepository();"
 ];
 
 const forbiddenPhrases = [
@@ -75,6 +85,10 @@ const missing = requiredPhrases
   .filter((phrase) => !source.includes(phrase))
   .map((phrase) => ({ file: sourcePath, phrase }));
 
+const missingFactory = requiredFactoryPhrases
+  .filter((phrase) => !factory.includes(phrase))
+  .map((phrase) => ({ file: factoryPath, phrase }));
+
 const missingDocs = requiredDocPhrases.flatMap((requirement) =>
   requirement.phrases
     .filter((phrase) => !requirement.content.includes(phrase))
@@ -85,26 +99,27 @@ const forbidden = forbiddenPhrases
   .filter((phrase) => source.includes(phrase))
   .map((phrase) => ({ file: sourcePath, phrase }));
 
-const readGuardIndex = source.indexOf("if (!isSupabaseRuntimeReadEnabled())");
-const clientIndex = source.indexOf("createServerSupabaseClient()");
+const readGuardIndex = factory.indexOf("source !== \"supabase\" || supabaseRuntimeReads !== \"enabled\"");
+const clientIndex = factory.indexOf("createSupabaseClient()");
 const orderProblems =
   readGuardIndex === -1 || clientIndex === -1 || readGuardIndex > clientIndex
     ? [
         {
-          file: sourcePath,
-          phrase: "createServerSupabaseClient() must remain after DATA_FRESHNESS_SUPABASE_READS gate"
+          file: factoryPath,
+          phrase: "createSupabaseClient() must remain after DATA_FRESHNESS_SUPABASE_READS gate"
         }
       ]
     : [];
 
-const problems = [...missing, ...missingDocs, ...forbidden, ...orderProblems];
+const problems = [...missing, ...missingFactory, ...missingDocs, ...forbidden, ...orderProblems];
 
 console.log(
   JSON.stringify(
     {
-      checked_files: [sourcePath, envExamplePath, projectStatusPath, runbookPath, mvpTasksPath],
+      checked_files: [sourcePath, factoryPath, envExamplePath, projectStatusPath, runbookPath, mvpTasksPath],
       forbidden,
       missing,
+      missingFactory,
       missingDocs,
       orderProblems,
       status: problems.length === 0 ? "ok" : "blocked"

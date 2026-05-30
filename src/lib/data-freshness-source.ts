@@ -1,14 +1,14 @@
-import { buildMockDataFreshnessSnapshot, type DataFreshnessSnapshot } from "@/lib/data-freshness";
+import type { DataFreshnessSnapshot } from "@/lib/data-freshness";
 import {
-  getSupabaseDataFreshnessSnapshot,
-  type SupabaseDataFreshnessClient
-} from "@/lib/repositories/supabase-data-freshness-repository";
+  createFreshnessRepository,
+  type FreshnessSource,
+  type SupabaseRuntimeReads
+} from "@/lib/repositories/freshness-repository";
+import type { SupabaseDataFreshnessClient } from "@/lib/repositories/supabase-data-freshness-repository";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 
-type FreshnessSource = "mock" | "supabase";
-
-function isSupabaseRuntimeReadEnabled() {
-  return process.env.DATA_FRESHNESS_SUPABASE_READS === "enabled";
+function getSupabaseRuntimeReads(): SupabaseRuntimeReads {
+  return process.env.DATA_FRESHNESS_SUPABASE_READS === "enabled" ? "enabled" : "disabled";
 }
 
 function getFreshnessSource(): FreshnessSource {
@@ -22,21 +22,11 @@ function getFreshnessSource(): FreshnessSource {
 }
 
 export async function getDataFreshnessSnapshot(): Promise<DataFreshnessSnapshot> {
-  const source = getFreshnessSource();
+  const repository = createFreshnessRepository({
+    createSupabaseClient: () => createServerSupabaseClient() as unknown as SupabaseDataFreshnessClient,
+    source: getFreshnessSource(),
+    supabaseRuntimeReads: getSupabaseRuntimeReads()
+  });
 
-  if (source === "supabase") {
-    if (!isSupabaseRuntimeReadEnabled()) {
-      return buildMockDataFreshnessSnapshot();
-    }
-
-    const client = createServerSupabaseClient() as unknown as SupabaseDataFreshnessClient;
-
-    try {
-      return await getSupabaseDataFreshnessSnapshot(client);
-    } catch {
-      return buildMockDataFreshnessSnapshot();
-    }
-  }
-
-  return buildMockDataFreshnessSnapshot();
+  return repository.getSnapshot();
 }
