@@ -3809,6 +3809,31 @@ select {
   text-decoration: none;
 }
 
+.asset-group-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 14px;
+}
+
+.asset-group-filter button {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 850;
+  padding: 8px 11px;
+}
+
+.asset-group-filter button:hover,
+.asset-group-filter button.active {
+  border-color: rgba(15, 118, 110, 0.28);
+  background: #e8f4ef;
+  color: var(--teal);
+}
+
 select {
   border: 1px solid var(--line);
   border-radius: 8px;

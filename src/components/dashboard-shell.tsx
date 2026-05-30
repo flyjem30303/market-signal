@@ -31,6 +31,7 @@ const today = "2026-05-28";
 export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoContent = false }: DashboardShellProps) {
   const [symbol, setSymbol] = useState(initialSymbol);
   const [query, setQuery] = useState("");
+  const [activeGroup, setActiveGroup] = useState("全部");
   const [favorites, setFavorites] = useState<string[]>([]);
   const [activeTab, setActiveTab] = useState<TabKey>("today");
   const [chartMode, setChartMode] = useState<ChartMode>("health");
@@ -44,6 +45,7 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
   const snapshot = useMemo(() => repository.getSnapshot(selected.symbol, today)!, [repository, selected.symbol]);
   const quote = useMemo(() => buildQuoteSnapshot(selected, snapshot), [selected, snapshot]);
   const series = useMemo(() => repository.getSeries(selected.symbol), [repository, selected.symbol]);
+  const assetGroups = useMemo(() => ["全部", ...Array.from(new Set(availableAssets.map((asset) => asset.group)))], [availableAssets]);
   const homeSnapshots = useMemo(
     () =>
       availableAssets
@@ -53,9 +55,12 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
   );
   const realEndIndex = endIndex || series.length - 1;
   const isFavorite = favorites.includes(selected.symbol);
-  const filteredAssets = availableAssets.filter((asset) =>
-    `${asset.symbol} ${asset.name} ${asset.group}`.toLowerCase().includes(query.trim().toLowerCase())
-  );
+  const filteredAssets = availableAssets.filter((asset) => {
+    const matchesQuery = `${asset.symbol} ${asset.name} ${asset.group}`.toLowerCase().includes(query.trim().toLowerCase());
+    const matchesGroup = activeGroup === "全部" || asset.group === activeGroup;
+
+    return matchesQuery && matchesGroup;
+  });
   const favoriteAssets = favorites
     .map((item) => repository.getAssetBySymbol(item))
     .filter((asset): asset is NonNullable<typeof asset> => Boolean(asset));
@@ -143,12 +148,15 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
 
       <AssetSelector
         assets={availableAssets}
+        activeGroup={activeGroup}
         favorites={favoriteAssets}
         filteredAssets={filteredAssets}
+        groups={assetGroups}
         isFavorite={isFavorite}
         query={query}
         selectedSymbol={selected.symbol}
         onFavorite={toggleFavorite}
+        onGroup={setActiveGroup}
         onQuery={setQuery}
         onSelect={selectAsset}
       />
@@ -1790,28 +1798,37 @@ function StockAuthorizationScopeReadiness({ onTab }: { onTab: (tab: TabKey) => v
 }
 
 function AssetSelector({
+  activeGroup,
   assets,
   favorites,
   filteredAssets,
+  groups,
   isFavorite,
   query,
   selectedSymbol,
   onFavorite,
+  onGroup,
   onQuery,
   onSelect
 }: {
+  activeGroup: string;
   assets: Asset[];
   favorites: Asset[];
   filteredAssets: Asset[];
+  groups: string[];
   isFavorite: boolean;
   query: string;
   selectedSymbol: string;
   onFavorite: (symbol: string) => void;
+  onGroup: (group: string) => void;
   onQuery: (query: string) => void;
   onSelect: (symbol: string) => void;
 }) {
   const searchTerm = query.trim();
-  const resultLabel = searchTerm ? `${filteredAssets.length} 個符合「${searchTerm}」的標的` : `共 ${assets.length} 個可瀏覽標的`;
+  const groupLabel = activeGroup === "全部" ? "全部群組" : activeGroup;
+  const resultLabel = searchTerm
+    ? `${groupLabel}中 ${filteredAssets.length} 個符合「${searchTerm}」的標的`
+    : `${groupLabel}共 ${filteredAssets.length} / ${assets.length} 個可瀏覽標的`;
 
   return (
     <section className="panel asset-panel">
@@ -1853,6 +1870,13 @@ function AssetSelector({
           ) : null}
           <a href={`/stocks/${selectedSymbol}`}>開啟個股頁</a>
         </div>
+      </div>
+      <div className="asset-group-filter" aria-label="標的群組篩選">
+        {groups.map((group) => (
+          <button className={activeGroup === group ? "active" : undefined} key={group} onClick={() => onGroup(group)} type="button">
+            {group}
+          </button>
+        ))}
       </div>
       <div className="favorite-row">
         {favorites.length ? (
