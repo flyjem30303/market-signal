@@ -2018,6 +2018,11 @@ const checks = [
     name: "cp3-data-freshness-to-data-runs-relationship-note"
   },
   {
+    command: [node, "scripts/check-cp3-local-only-freshness-repository-abstraction-plan.mjs"],
+    expectStatus: "ok",
+    name: "cp3-local-only-freshness-repository-abstraction-plan"
+  },
+  {
     command: [node, "scripts/check-etf-source-gate.mjs"],
     expectStatus: "blocked",
     name: "etf-source-gate"
