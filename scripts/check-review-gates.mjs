@@ -2023,6 +2023,11 @@ const checks = [
     name: "cp3-local-only-freshness-repository-abstraction-plan"
   },
   {
+    command: [node, "scripts/check-cp3-freshness-repository-draft-contract.mjs"],
+    expectStatus: "ok",
+    name: "cp3-freshness-repository-draft-contract"
+  },
+  {
     command: [node, "scripts/check-etf-source-gate.mjs"],
     expectStatus: "blocked",
     name: "etf-source-gate"
