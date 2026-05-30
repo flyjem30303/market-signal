@@ -9,6 +9,7 @@ import {
   getMockOnlyRuntimeMetadataDisclosure,
   getMockOnlyRuntimeSchemaShapeDisclosure,
   getMockOnlyRuntimeDataQualityDisclosure,
+  getMockOnlyRuntimeReadinessTriad,
   getMockOnlySourceDepthEvidenceItems,
   getMockOnlySourceDepthEvidenceProgress,
   getMockOnlyRuntimeUpgradeProgress,
@@ -58,6 +59,7 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
   const metadataDisclosure = getMockOnlyRuntimeMetadataDisclosure(runtimeState);
   const schemaShapeDisclosure = getMockOnlyRuntimeSchemaShapeDisclosure(runtimeState);
   const dataQualityDisclosure = getMockOnlyRuntimeDataQualityDisclosure(runtimeState);
+  const readinessTriad = getMockOnlyRuntimeReadinessTriad(runtimeState);
   const stopLines = buildRuntimeStopLines();
 
   return (
@@ -92,6 +94,20 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
       <div className="cp3-runtime-data-quality-disclosure" aria-label="Runtime data quality disclosure">
         <strong>{dataQualityDisclosure.label}</strong>
         <span>{dataQualityDisclosure.note}</span>
+      </div>
+      <div className="cp3-runtime-readiness-triad" aria-label="Runtime readiness triad">
+        <strong>CEO runtime triad</strong>
+        <p>三條線分開判讀；任何一條可讀或有窄證據，都不能自動升級成正式資料或正式分數。</p>
+        <div>
+          {readinessTriad.map((item) => (
+            <span key={item.id}>
+              <b>{item.label}</b>
+              <i>{item.interpretation}</i>
+              <small>{item.nextGate}</small>
+              <em>{formatRuntimeValue(item.state)}</em>
+            </span>
+          ))}
+        </div>
       </div>
       <div className="cp3-runtime-decision-summary" aria-label="Runtime decision summary">
         <strong>CEO runtime 判定</strong>

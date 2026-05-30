@@ -126,6 +126,14 @@ export type Cp3MockOnlyRuntimeDataQualityDisclosure = {
   state: Cp3MockOnlyDataQualityState;
 };
 
+export type Cp3MockOnlyRuntimeReadinessTriadItem = {
+  id: "metadata" | "schema_shape" | "data_quality";
+  interpretation: string;
+  label: string;
+  nextGate: string;
+  state: "blocked";
+};
+
 export const cp3MockOnlyUiCopyTokens: Record<Cp3MockOnlyDisplayState, Cp3MockOnlyUiCopyToken> = {
   mock: {
     claimLimit: "目前只可作為產品體驗與閱讀流程示範，不能作為投資判斷、建議或績效保證。",
@@ -486,4 +494,36 @@ export function getMockOnlyRuntimeDataQualityDisclosure(
     note: "必要資料品質條件不可用；runtime 必須維持 mock-only，且不得形成正式分數或公開宣稱。",
     state: state.dataQualityState
   };
+}
+
+export function getMockOnlyRuntimeReadinessTriad(state: Cp3MockOnlyRuntimeState): Cp3MockOnlyRuntimeReadinessTriadItem[] {
+  return [
+    {
+      id: "metadata",
+      interpretation:
+        state.metadataReachabilityState === "supabase_metadata_reachable"
+          ? "metadata 可讀，但不能推論市場資料品質或正式分數"
+          : "metadata 仍使用 mock，僅能展示流程",
+      label: "Metadata reachability",
+      nextGate: "維持 freshness metadata 與資料品質 gate 分離",
+      state: "blocked"
+    },
+    {
+      id: "schema_shape",
+      interpretation:
+        state.schemaShapeState === "schema_shape_checked_not_quality"
+          ? "schema shape 有窄證據，但不能推論 row completeness 或 source rights"
+          : "schema shape 仍依本地契約呈現",
+      label: "Schema shape",
+      nextGate: "完成遠端物件 contract 對齊後仍需資料品質與權利覆核",
+      state: "blocked"
+    },
+    {
+      id: "data_quality",
+      interpretation: `資料品質目前是 ${state.dataQualityState}；所有分數仍需折扣解讀`,
+      label: "Data quality downgrade",
+      nextGate: "完成資料品質矩陣、來源深度、回測與投資宣稱覆核",
+      state: "blocked"
+    }
+  ];
 }
