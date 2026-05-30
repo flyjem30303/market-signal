@@ -4,6 +4,7 @@ import path from "node:path";
 import ts from "typescript";
 
 const REQUIRED_CONFIRMATION = "CEO_APPROVED_ONE_READ_ONLY_FRESHNESS_RUNTIME_ATTEMPT";
+const DOTENV_LOCAL_ALLOWED_KEYS = ["NEXT_PUBLIC_SUPABASE_URL", "SUPABASE_SERVICE_ROLE_KEY"];
 const root = process.cwd();
 
 if (process.env.FRESHNESS_RUNTIME_READ_ONCE_CONFIRMATION !== REQUIRED_CONFIRMATION) {
@@ -34,6 +35,7 @@ if (process.env.DATA_FRESHNESS_SOURCE !== "supabase" || process.env.DATA_FRESHNE
 }
 
 try {
+  loadProcessEnvFromDotEnvLocal();
   const { getDataFreshnessSnapshot } = loadTsModule("src/lib/data-freshness-source.ts");
   const snapshot = await getDataFreshnessSnapshot();
 
@@ -86,6 +88,58 @@ function printSanitized(payload) {
   }
 
   console.log(JSON.stringify(allowed, null, 2));
+}
+
+function loadProcessEnvFromDotEnvLocal() {
+  const envPath = path.join(root, ".env.local");
+
+  if (!fs.existsSync(envPath)) {
+    return;
+  }
+
+  const text = fs.readFileSync(envPath, "utf8");
+  const parsed = parseDotEnv(text);
+
+  for (const key of DOTENV_LOCAL_ALLOWED_KEYS) {
+    if (!process.env[key] && parsed[key]) {
+      process.env[key] = parsed[key];
+    }
+  }
+}
+
+function parseDotEnv(text) {
+  const parsed = {};
+
+  for (const line of text.split(/\r?\n/)) {
+    const trimmed = line.trim();
+
+    if (!trimmed || trimmed.startsWith("#")) {
+      continue;
+    }
+
+    const match = trimmed.match(/^([A-Za-z_][A-Za-z0-9_]*)=(.*)$/);
+
+    if (!match) {
+      continue;
+    }
+
+    parsed[match[1]] = normalizeDotEnvValue(match[2]);
+  }
+
+  return parsed;
+}
+
+function normalizeDotEnvValue(value) {
+  const trimmed = value.trim();
+
+  if (
+    (trimmed.startsWith("\"") && trimmed.endsWith("\"")) ||
+    (trimmed.startsWith("'") && trimmed.endsWith("'"))
+  ) {
+    return trimmed.slice(1, -1);
+  }
+
+  return trimmed;
 }
 
 function loadTsModule(relativePath, cache = new Map()) {

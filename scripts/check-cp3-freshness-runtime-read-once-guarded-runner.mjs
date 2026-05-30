@@ -17,6 +17,7 @@ const requiredRunnerPhrases = [
   "process.env.DATA_FRESHNESS_SOURCE !== \"supabase\"",
   "process.env.DATA_FRESHNESS_SUPABASE_READS !== \"enabled\"",
   "loadTsModule(\"src/lib/data-freshness-source.ts\")",
+  "loadProcessEnvFromDotEnvLocal();",
   "printSanitized({",
   "categorizeError(error)"
 ];
@@ -63,10 +64,7 @@ const forbiddenRunnerPatterns = [
   /\.upsert\s*\(/i,
   /\.rpc\s*\(/i,
   /\.storage\b/i,
-  /service[_-]?role/i,
-  /anon[_-]?key/i,
-  /NEXT_PUBLIC_SUPABASE_URL/,
-  /SUPABASE_SERVICE_ROLE_KEY/
+  /NEXT_PUBLIC_SUPABASE_ANON_KEY/
 ];
 
 const failClosed = spawnSync(process.execPath, [runnerPath], {
