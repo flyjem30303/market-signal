@@ -37,6 +37,12 @@ export type Cp3MockOnlyUpgradeRequirement = {
   state: Cp3MockOnlyApprovalState | "mock";
 };
 
+export type Cp3MockOnlyUpgradeVerdict = {
+  label: string;
+  reason: string;
+  state: "blocked";
+};
+
 export const cp3MockOnlyUiCopyTokens: Record<Cp3MockOnlyDisplayState, Cp3MockOnlyUiCopyToken> = {
   mock: {
     claimLimit: "目前只可作為產品體驗與閱讀流程示範，不能作為投資判斷、建議或績效保證。",
@@ -102,4 +108,25 @@ export function getMockOnlyRuntimeUpgradeRequirements(
       state: state.claimApprovalState
     }
   ];
+}
+
+export function getMockOnlyRuntimeUpgradeVerdict(state: Cp3MockOnlyRuntimeState): Cp3MockOnlyUpgradeVerdict {
+  const requirements = getMockOnlyRuntimeUpgradeRequirements(state);
+  const unexpectedRequirementCount = requirements.filter(
+    (requirement) => requirement.state !== "mock" && requirement.state !== "not_ready"
+  ).length;
+
+  if (unexpectedRequirementCount > 0) {
+    return {
+      label: "禁止自動升級",
+      reason: "仍存在非正式 runtime 狀態，必須回到 CEO/PM gate 重新檢查。",
+      state: "blocked"
+    };
+  }
+
+  return {
+    label: "禁止自動升級",
+    reason: "所有升級前置條件仍是 mock 或 not_ready；CP3 必須維持 mock-only。",
+    state: "blocked"
+  };
 }

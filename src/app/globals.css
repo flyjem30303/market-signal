@@ -355,6 +355,17 @@ select {
   color: #17324d;
 }
 
+.cp3-runtime-upgrade-requirements p {
+  background: #fff4e5;
+  border: 1px solid #f0c36d;
+  border-radius: 8px;
+  color: #7a4a00;
+  font-weight: 850;
+  line-height: 1.6;
+  margin: 0;
+  padding: 8px 10px;
+}
+
 .cp3-runtime-upgrade-requirements div {
   display: grid;
   gap: 8px;

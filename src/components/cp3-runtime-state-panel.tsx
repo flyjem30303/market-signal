@@ -3,6 +3,7 @@ import {
   cp3MockOnlyUiCopyTokens,
   getMockOnlyPublicDisplayState,
   getMockOnlyRuntimeUpgradeRequirements,
+  getMockOnlyRuntimeUpgradeVerdict,
   type Cp3MockOnlyDataQualityState,
   type Cp3MockOnlyFreshnessState,
   type Cp3MockOnlyRuntimeState
@@ -32,6 +33,7 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
   const blockers = buildRuntimeBlockers(runtimeState);
   const decisionSummary = buildRuntimeDecisionSummary(runtimeState);
   const upgradeRequirements = getMockOnlyRuntimeUpgradeRequirements(runtimeState);
+  const upgradeVerdict = getMockOnlyRuntimeUpgradeVerdict(runtimeState);
   const stopLines = buildRuntimeStopLines();
 
   return (
@@ -59,6 +61,9 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
       </div>
       <div className="cp3-runtime-upgrade-requirements" aria-label="Runtime upgrade requirements">
         <strong>升級前置條件</strong>
+        <p>
+          {upgradeVerdict.label}: {upgradeVerdict.reason}
+        </p>
         <div>
           {upgradeRequirements.map((requirement) => (
             <span key={requirement.id}>
