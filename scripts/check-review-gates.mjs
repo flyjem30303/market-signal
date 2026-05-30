@@ -1718,6 +1718,11 @@ const checks = [
     name: "cp3-supabase-schema-shape-guarded-validator-implementation-review"
   },
   {
+    command: [node, "scripts/check-cp3-supabase-schema-shape-final-one-attempt-execution-gate-review.mjs"],
+    expectStatus: "ok",
+    name: "cp3-supabase-schema-shape-final-one-attempt-execution-gate-review"
+  },
+  {
     command: [node, "scripts/check-cp3-tw-stock-model-candidates.mjs"],
     expectStatus: "ok",
     name: "cp3-tw-stock-model"
