@@ -1403,6 +1403,11 @@ const checks = [
     name: "cp3-local-only-documentation-index-update"
   },
   {
+    command: [node, "scripts/check-cp3-current-state-briefing-copy-alignment.mjs"],
+    expectStatus: "ok",
+    name: "cp3-current-state-briefing-copy-alignment"
+  },
+  {
     command: [node, "scripts/check-cp3-tw-stock-model-candidates.mjs"],
     expectStatus: "ok",
     name: "cp3-tw-stock-model"
