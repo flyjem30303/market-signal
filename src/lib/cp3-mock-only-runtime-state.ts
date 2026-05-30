@@ -238,6 +238,14 @@ export type Cp3MockOnlyGateProposalItem = {
   state: "draft";
 };
 
+export type Cp3MockOnlyGateProposalProgress = {
+  blockedExecutionLabel: string;
+  draftCount: number;
+  label: string;
+  nextDraftLabel: string;
+  totalCount: number;
+};
+
 export type Cp3MockOnlyRuntimeCommandCenter = {
   blockedLaneLabel: string;
   doNext: string;
@@ -247,6 +255,7 @@ export type Cp3MockOnlyRuntimeCommandCenter = {
   executionState: "active_local_only";
   executionLanes: Cp3MockOnlyRuntimeExecutionLane[];
   externalReadinessChecks: Cp3MockOnlyExternalReadinessCheck[];
+  gateProposalProgress: Cp3MockOnlyGateProposalProgress;
   gateProposalQueue: Cp3MockOnlyGateProposalItem[];
   gateProposalQueueLabel: string;
   handoffChecks: Cp3MockOnlyRuntimeHandoffCheck[];
@@ -836,6 +845,52 @@ export function getMockOnlyRuntimeCommandCenter(state: Cp3MockOnlyRuntimeState):
   const nextGate = getMockOnlyRuntimeNextGates(state)[0];
   const routeWorkQueue = getMockOnlyRuntimeRouteWorkQueue();
   const nextWork = routeWorkQueue[0];
+  const gateProposalQueue: Cp3MockOnlyGateProposalItem[] = [
+    {
+      boundary: "One exact read-only command, one run, no writes, no data mutation.",
+      label: "Supabase read-only evidence run",
+      owner: "Engineering",
+      sequence: 1,
+      state: "draft"
+    },
+    {
+      boundary: "Compare contract shape only; do not infer data quality or public claim fitness.",
+      label: "Schema contract comparison",
+      owner: "Engineering",
+      sequence: 2,
+      state: "draft"
+    },
+    {
+      boundary: "Evidence criteria only; no market-row ingestion or persisted market dataset.",
+      label: "Source-depth evidence packet",
+      owner: "Data",
+      sequence: 3,
+      state: "draft"
+    },
+    {
+      boundary: "Rights questions only; no data usage expansion or public redistribution claim.",
+      label: "Source-rights review packet",
+      owner: "Legal",
+      sequence: 4,
+      state: "draft"
+    },
+    {
+      boundary: "Model criteria only; do not change score source or public wording.",
+      label: "Formal score transition packet",
+      owner: "Investment",
+      sequence: 5,
+      state: "draft"
+    },
+    {
+      boundary: "CEO decision only after the earlier proposal items have evidence.",
+      label: "External execution decision",
+      owner: "CEO",
+      sequence: 6,
+      state: "draft"
+    }
+  ];
+  const draftCount = gateProposalQueue.filter((item) => item.state === "draft").length;
+  const nextDraft = gateProposalQueue[0];
 
   return {
     blockedLaneLabel: `${authorizationSnapshot.blockedCount} gates blocked: Supabase / SQL / market data / formal score / public claims`,
@@ -926,50 +981,14 @@ export function getMockOnlyRuntimeCommandCenter(state: Cp3MockOnlyRuntimeState):
         state: "blocked"
       }
     ],
-    gateProposalQueue: [
-      {
-        boundary: "One exact read-only command, one run, no writes, no data mutation.",
-        label: "Supabase read-only evidence run",
-        owner: "Engineering",
-        sequence: 1,
-        state: "draft"
-      },
-      {
-        boundary: "Compare contract shape only; do not infer data quality or public claim fitness.",
-        label: "Schema contract comparison",
-        owner: "Engineering",
-        sequence: 2,
-        state: "draft"
-      },
-      {
-        boundary: "Evidence criteria only; no market-row ingestion or persisted market dataset.",
-        label: "Source-depth evidence packet",
-        owner: "Data",
-        sequence: 3,
-        state: "draft"
-      },
-      {
-        boundary: "Rights questions only; no data usage expansion or public redistribution claim.",
-        label: "Source-rights review packet",
-        owner: "Legal",
-        sequence: 4,
-        state: "draft"
-      },
-      {
-        boundary: "Model criteria only; do not change score source or public wording.",
-        label: "Formal score transition packet",
-        owner: "Investment",
-        sequence: 5,
-        state: "draft"
-      },
-      {
-        boundary: "CEO decision only after the earlier proposal items have evidence.",
-        label: "External execution decision",
-        owner: "CEO",
-        sequence: 6,
-        state: "draft"
-      }
-    ],
+    gateProposalProgress: {
+      blockedExecutionLabel: "External execution remains blocked until CEO opens a separate gate.",
+      draftCount,
+      label: `Gate proposals ${draftCount} draft / ${gateProposalQueue.length} total`,
+      nextDraftLabel: `${nextDraft.owner}: ${nextDraft.label}`,
+      totalCount: gateProposalQueue.length
+    },
+    gateProposalQueue,
     gateProposalQueueLabel: "Gate proposal queue",
     handoffChecks: [
       { label: "Mock-only runtime state remains explicit.", state: "recorded" },

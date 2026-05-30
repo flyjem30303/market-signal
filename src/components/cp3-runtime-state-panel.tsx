@@ -349,6 +349,9 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
         </footer>
         <menu aria-label="Gate proposal queue">
           <b>{commandCenter.gateProposalQueueLabel}</b>
+          <mark>{commandCenter.gateProposalProgress.label}</mark>
+          <mark>{commandCenter.gateProposalProgress.nextDraftLabel}</mark>
+          <mark>{commandCenter.gateProposalProgress.blockedExecutionLabel}</mark>
           {commandCenter.gateProposalQueue.map((item) => (
             <span key={item.label}>
               <strong>

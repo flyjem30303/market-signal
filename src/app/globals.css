@@ -920,6 +920,16 @@ select {
   grid-column: 1 / -1;
 }
 
+.cp3-runtime-command-center menu mark {
+  background: #eef6ff;
+  border: 1px solid #d7e4f4;
+  border-radius: 8px;
+  color: #17324d;
+  font-weight: 700;
+  grid-column: span 1;
+  padding: 8px 10px;
+}
+
 .cp3-runtime-command-center menu span {
   background: #f8fbff;
   border: 1px solid #d7e4f4;
