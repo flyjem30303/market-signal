@@ -1653,6 +1653,11 @@ const checks = [
     name: "cp3-post-reachability-next-prerequisite-options-map"
   },
   {
+    command: [node, "scripts/check-cp3-supabase-schema-shape-read-only-evidence-plan.mjs"],
+    expectStatus: "ok",
+    name: "cp3-supabase-schema-shape-read-only-evidence-plan"
+  },
+  {
     command: [node, "scripts/check-cp3-tw-stock-model-candidates.mjs"],
     expectStatus: "ok",
     name: "cp3-tw-stock-model"
