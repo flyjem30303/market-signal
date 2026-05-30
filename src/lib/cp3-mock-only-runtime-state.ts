@@ -31,6 +31,12 @@ export type Cp3MockOnlyUiCopyToken = {
   shortDescription: string;
 };
 
+export type Cp3MockOnlyUpgradeRequirement = {
+  id: string;
+  label: string;
+  state: Cp3MockOnlyApprovalState | "mock";
+};
+
 export const cp3MockOnlyUiCopyTokens: Record<Cp3MockOnlyDisplayState, Cp3MockOnlyUiCopyToken> = {
   mock: {
     claimLimit: "目前只可作為產品體驗與閱讀流程示範，不能作為投資判斷、建議或績效保證。",
@@ -64,4 +70,36 @@ export function getMockOnlyPublicDisplayState(state: Cp3MockOnlyRuntimeState): C
   if (state.dataQualityState === "partial" && state.freshnessState === "unknown") return "partial";
 
   return "mock";
+}
+
+export function getMockOnlyRuntimeUpgradeRequirements(
+  state: Cp3MockOnlyRuntimeState
+): Cp3MockOnlyUpgradeRequirement[] {
+  return [
+    {
+      id: "score-source",
+      label: "正式分數來源",
+      state: state.scoreSource
+    },
+    {
+      id: "source-depth",
+      label: "來源深度",
+      state: state.sourceDepthState
+    },
+    {
+      id: "source-rights",
+      label: "來源權利",
+      state: state.sourceRightsState
+    },
+    {
+      id: "backtest",
+      label: "回測審核",
+      state: state.backtestApprovalState
+    },
+    {
+      id: "public-claim",
+      label: "公開宣稱",
+      state: state.claimApprovalState
+    }
+  ];
 }
