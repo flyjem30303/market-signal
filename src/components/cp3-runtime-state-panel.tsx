@@ -39,6 +39,7 @@ const runtimeValueLabels: Record<string, string> = {
   candidate: "候選模型",
   local_contract_only: "本地契約",
   local_mock_only: "本地 mock-only",
+  mock_local_only: "mock / local only",
   mock_metadata: "模擬 metadata",
   mock: "模擬分數",
   not_ready: "尚未就緒",
@@ -243,6 +244,20 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
             <i>{commandCenter.doNotDo}</i>
           </span>
         </section>
+        <aside>
+          <span>
+            <b>Priority</b>
+            <i>{commandCenter.priorityLabel}</i>
+          </span>
+          <span>
+            <b>Risk</b>
+            <i>{commandCenter.riskLabel}</i>
+          </span>
+          <span>
+            <b>Evidence</b>
+            <i>{formatRuntimeValue(commandCenter.evidenceLevel)}</i>
+          </span>
+        </aside>
         <div>
           <span>
             <b>Mode</b>

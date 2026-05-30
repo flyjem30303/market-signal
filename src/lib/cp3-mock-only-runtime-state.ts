@@ -208,12 +208,15 @@ export type Cp3MockOnlyRuntimeCommandCenter = {
   doNext: string;
   doNotDo: string;
   doNow: string;
+  evidenceLevel: "mock_local_only";
   executionState: "active_local_only";
   localLaneLabel: string;
   nextGateLabel: string;
   nextWorkLabel: string;
   operatingMode: "local_mock_only";
+  priorityLabel: string;
   reviewCadence: string;
+  riskLabel: string;
   roleActions: Cp3MockOnlyRuntimeRoleAction[];
   stopCondition: string;
   summary: string;
@@ -798,12 +801,15 @@ export function getMockOnlyRuntimeCommandCenter(state: Cp3MockOnlyRuntimeState):
     doNext: "Prepare the source-depth and read-only validation gates, but keep them as approval work only.",
     doNotDo: "Do not connect remote services, run SQL, fetch market rows, switch formal score, or publish public claims.",
     doNow: "Continue local mock-only runtime UI refinement and static guard hardening.",
+    evidenceLevel: "mock_local_only",
     executionState: "active_local_only",
     localLaneLabel: `${authorizationSnapshot.allowedCount} local lanes allowed: mock runtime UI and static guards`,
     nextGateLabel: `${nextGate.owner}: ${nextGate.label}`,
     nextWorkLabel: `${nextWork.owner}: ${nextWork.label}`,
     operatingMode: "local_mock_only",
+    priorityLabel: "Priority: improve local runtime decision clarity before opening any external-data gate.",
     reviewCadence: "Review after each committed local runtime slice or before any external-data gate.",
+    riskLabel: "Main risk: mistaking metadata, schema shape, or UI readiness for production data readiness.",
     roleActions: [
       {
         action: "Refine local runtime readability and keep public copy mock-only.",
