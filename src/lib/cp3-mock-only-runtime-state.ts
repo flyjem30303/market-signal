@@ -215,6 +215,14 @@ export type Cp3MockOnlyRuntimeMilestone = {
   state: "active" | "blocked" | "done";
 };
 
+export type Cp3MockOnlyRuntimeExecutionLane = {
+  boundary: string;
+  label: string;
+  owner: "CEO" | "Data" | "Engineering" | "Investment" | "Legal" | "PM";
+  state: "active" | "blocked";
+  work: string;
+};
+
 export type Cp3MockOnlyRuntimeCommandCenter = {
   blockedLaneLabel: string;
   doNext: string;
@@ -222,6 +230,7 @@ export type Cp3MockOnlyRuntimeCommandCenter = {
   doNow: string;
   evidenceLevel: "mock_local_only";
   executionState: "active_local_only";
+  executionLanes: Cp3MockOnlyRuntimeExecutionLane[];
   handoffChecks: Cp3MockOnlyRuntimeHandoffCheck[];
   localLaneLabel: string;
   milestones: Cp3MockOnlyRuntimeMilestone[];
@@ -817,6 +826,50 @@ export function getMockOnlyRuntimeCommandCenter(state: Cp3MockOnlyRuntimeState):
     doNow: "Continue local mock-only runtime UI refinement and static guard hardening.",
     evidenceLevel: "mock_local_only",
     executionState: "active_local_only",
+    executionLanes: [
+      {
+        boundary: "Local UI and static guards only.",
+        label: "Local Runtime UI",
+        owner: "PM",
+        state: "active",
+        work: "Improve command-center readability and decision hierarchy."
+      },
+      {
+        boundary: "Local checks only; no remote service dependency.",
+        label: "Guard Hardening",
+        owner: "Engineering",
+        state: "active",
+        work: "Keep forbidden transitions blocked by static review."
+      },
+      {
+        boundary: "Question and evidence planning only; no market rows.",
+        label: "Source Evidence Prep",
+        owner: "Data",
+        state: "blocked",
+        work: "Prepare source-depth evidence criteria before any ingestion work."
+      },
+      {
+        boundary: "Decision criteria only; no formal score transition.",
+        label: "Formal Score Review",
+        owner: "Investment",
+        state: "blocked",
+        work: "Define evidence needed before changing score source."
+      },
+      {
+        boundary: "Review questions only; no data usage expansion.",
+        label: "Rights Review",
+        owner: "Legal",
+        state: "blocked",
+        work: "Clarify redistribution and public-claim limits."
+      },
+      {
+        boundary: "Separate gate required before external-data work.",
+        label: "External Gate",
+        owner: "CEO",
+        state: "blocked",
+        work: "Decide when to open Supabase, SQL, market-data, or public-claim work."
+      }
+    ],
     handoffChecks: [
       { label: "Mock-only runtime state remains explicit.", state: "recorded" },
       { label: "Static guard covers command center fields.", state: "recorded" },

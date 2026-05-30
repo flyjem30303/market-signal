@@ -323,6 +323,18 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
             </span>
           ))}
         </article>
+        <nav aria-label="Runtime execution lanes">
+          <b>Execution lanes</b>
+          {commandCenter.executionLanes.map((item) => (
+            <span key={item.label}>
+              <strong>{item.label}</strong>
+              <small>{item.owner}</small>
+              <i>{item.work}</i>
+              <i>{item.boundary}</i>
+              <em>{formatRuntimeValue(item.state)}</em>
+            </span>
+          ))}
+        </nav>
       </div>
       <div className="cp3-runtime-decision-summary" aria-label="Runtime decision summary">
         <strong>CEO runtime 判定</strong>
