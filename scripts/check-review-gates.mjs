@@ -1698,6 +1698,11 @@ const checks = [
     name: "cp3-supabase-schema-shape-remote-execution-packet-draft-role-review"
   },
   {
+    command: [node, "scripts/check-cp3-supabase-schema-shape-one-attempt-execution-decision-gate.mjs"],
+    expectStatus: "ok",
+    name: "cp3-supabase-schema-shape-one-attempt-execution-decision-gate"
+  },
+  {
     command: [node, "scripts/check-cp3-tw-stock-model-candidates.mjs"],
     expectStatus: "ok",
     name: "cp3-tw-stock-model"
