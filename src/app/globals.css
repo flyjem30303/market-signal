@@ -4316,6 +4316,42 @@ input[type="search"] {
   margin-bottom: 16px;
 }
 
+.legal-quick-read {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.legal-quick-read article {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+  min-height: 150px;
+  padding: 16px;
+}
+
+.legal-quick-read span {
+  color: var(--muted);
+  display: block;
+  font-size: 13px;
+  font-weight: 850;
+}
+
+.legal-quick-read strong {
+  display: block;
+  font-size: 22px;
+  line-height: 1.2;
+  margin: 8px 0;
+}
+
+.legal-quick-read p {
+  color: var(--muted);
+  line-height: 1.7;
+  margin: 0;
+}
+
 .method-quick-read,
 .method-guardrail-grid {
   display: grid;
@@ -4914,6 +4950,7 @@ input[type="date"] {
   .briefing-boundary,
   .briefing-boundary-grid,
   .briefing-actions,
+  .legal-quick-read,
   .method-quick-read,
   .method-guardrail-grid,
   .method-grid,

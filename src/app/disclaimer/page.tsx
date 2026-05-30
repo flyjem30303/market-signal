@@ -16,6 +16,24 @@ export default function DisclaimerPage() {
         </p>
       </section>
 
+      <section className="legal-quick-read" aria-label="免責聲明快速摘要">
+        <article>
+          <span>服務定位</span>
+          <strong>一般資訊服務</strong>
+          <p>燈號、排行、週報與評論只用於研究與閱讀輔助，不是個人化建議。</p>
+        </article>
+        <article>
+          <span>投資責任</span>
+          <strong>使用者自行承擔</strong>
+          <p>任何投資決策都應依個人財務狀況、風險承受度與專業諮詢判斷。</p>
+        </article>
+        <article>
+          <span>目前資料</span>
+          <strong>模型仍未正式化</strong>
+          <p>正式資料、回測、公開宣稱與廣告合作流程完成前，不應視為真實績效承諾。</p>
+        </article>
+      </section>
+
       <section className="panel legal-section">
         <h2>資訊服務定位</h2>
         <p>

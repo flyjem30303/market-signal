@@ -14,6 +14,24 @@ export default function TermsPage() {
         <p>本頁為正式上線前的使用條款草案，用來先界定網站服務範圍與使用者責任。</p>
       </section>
 
+      <section className="legal-quick-read" aria-label="使用條款快速摘要">
+        <article>
+          <span>目前版本</span>
+          <strong>正式上線前草案</strong>
+          <p>條款先界定產品方向與使用限制，實際商業化前仍需法務與營運覆核。</p>
+        </article>
+        <article>
+          <span>使用限制</span>
+          <strong>不可當交易指令</strong>
+          <p>健康度、風險度、新聞信心與週報都不能被直接解讀為買賣推薦。</p>
+        </article>
+        <article>
+          <span>未來功能</span>
+          <strong>會員與訂閱待定</strong>
+          <p>付費、Email、會員收藏與廣告合作上線前，需補完整範圍與取消方式。</p>
+        </article>
+      </section>
+
       <section className="panel legal-section">
         <h2>服務定位</h2>
         <p>
