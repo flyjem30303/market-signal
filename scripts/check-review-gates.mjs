@@ -1688,6 +1688,11 @@ const checks = [
     name: "cp3-supabase-schema-shape-readonly-validator-skeleton-role-review"
   },
   {
+    command: [node, "scripts/check-cp3-supabase-schema-shape-remote-execution-packet-draft.mjs"],
+    expectStatus: "ok",
+    name: "cp3-supabase-schema-shape-remote-execution-packet-draft"
+  },
+  {
     command: [node, "scripts/check-cp3-tw-stock-model-candidates.mjs"],
     expectStatus: "ok",
     name: "cp3-tw-stock-model"
