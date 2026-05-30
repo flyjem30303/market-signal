@@ -335,6 +335,7 @@
     "check:cp3-runtime-state-sample-packet-validation-gate": "node scripts/check-cp3-runtime-state-sample-packet-validation-gate.mjs",
     "check:cp3-runtime-state-sample-packet-validation-gate-role-review": "node scripts/check-cp3-runtime-state-sample-packet-validation-gate-role-review.mjs",
     "check:cp3-remote-only-object-contract-plan": "node scripts/check-cp3-remote-only-object-contract-plan.mjs",
+    "check:cp3-remote-only-object-draft-types": "node scripts/check-cp3-remote-only-object-draft-types.mjs",
     "check:cp3-non-runtime-typescript-policy-draft-approval-gate": "node scripts/check-cp3-non-runtime-typescript-policy-draft-approval-gate.mjs",
     "check:cp3-runtime-policy-draft": "node scripts/check-cp3-runtime-policy-draft.mjs",
     "check:cp3-runtime-policy-draft-role-review": "node scripts/check-cp3-runtime-policy-draft-role-review.mjs",
