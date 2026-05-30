@@ -34,6 +34,7 @@ type Cp3RuntimeStatePanelProps = {
 
 const runtimeValueLabels: Record<string, string> = {
   allowed: "可執行",
+  active_local_only: "本地執行中",
   blocked: "封鎖",
   candidate: "候選模型",
   local_contract_only: "本地契約",
@@ -248,6 +249,10 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
             <i>{formatRuntimeValue(commandCenter.operatingMode)}</i>
           </span>
           <span>
+            <b>Execution</b>
+            <i>{formatRuntimeValue(commandCenter.executionState)}</i>
+          </span>
+          <span>
             <b>Allowed lane</b>
             <i>{commandCenter.localLaneLabel}</i>
           </span>
@@ -262,6 +267,14 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
           <span>
             <b>Next PM work</b>
             <i>{commandCenter.nextWorkLabel}</i>
+          </span>
+          <span>
+            <b>Review cadence</b>
+            <i>{commandCenter.reviewCadence}</i>
+          </span>
+          <span>
+            <b>Stop condition</b>
+            <i>{commandCenter.stopCondition}</i>
           </span>
         </div>
       </div>

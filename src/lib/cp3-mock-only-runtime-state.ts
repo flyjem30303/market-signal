@@ -202,10 +202,13 @@ export type Cp3MockOnlyRuntimeCommandCenter = {
   doNext: string;
   doNotDo: string;
   doNow: string;
+  executionState: "active_local_only";
   localLaneLabel: string;
   nextGateLabel: string;
   nextWorkLabel: string;
   operatingMode: "local_mock_only";
+  reviewCadence: string;
+  stopCondition: string;
   summary: string;
 };
 
@@ -788,10 +791,13 @@ export function getMockOnlyRuntimeCommandCenter(state: Cp3MockOnlyRuntimeState):
     doNext: "Prepare the source-depth and read-only validation gates, but keep them as approval work only.",
     doNotDo: "Do not connect remote services, run SQL, fetch market rows, switch formal score, or publish public claims.",
     doNow: "Continue local mock-only runtime UI refinement and static guard hardening.",
+    executionState: "active_local_only",
     localLaneLabel: `${authorizationSnapshot.allowedCount} local lanes allowed: mock runtime UI and static guards`,
     nextGateLabel: `${nextGate.owner}: ${nextGate.label}`,
     nextWorkLabel: `${nextWork.owner}: ${nextWork.label}`,
     operatingMode: "local_mock_only",
+    reviewCadence: "Review after each committed local runtime slice or before any external-data gate.",
+    stopCondition: "Stop before remote access, SQL, market-row ingestion, formal-score transition, or public-claim release.",
     summary:
       "CEO keeps execution in local mock-only mode. PM should refine runtime readability and guards; any external data, SQL, formal-score, or public-claim step needs a separate gate."
   };
