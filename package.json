@@ -349,6 +349,7 @@
     "check:cp3-freshness-runtime-read-once-execution-post-run-review": "node scripts/check-cp3-freshness-runtime-read-once-execution-post-run-review.mjs",
     "check:cp3-freshness-credential-loading-command-revision": "node scripts/check-cp3-freshness-credential-loading-command-revision.mjs",
     "check:cp3-freshness-revised-runner-second-one-attempt-execution-decision-gate": "node scripts/check-cp3-freshness-revised-runner-second-one-attempt-execution-decision-gate.mjs",
+    "check:cp3-freshness-revised-runner-second-attempt-post-run-review": "node scripts/check-cp3-freshness-revised-runner-second-attempt-post-run-review.mjs",
     "check:cp3-non-runtime-typescript-policy-draft-approval-gate": "node scripts/check-cp3-non-runtime-typescript-policy-draft-approval-gate.mjs",
     "check:cp3-runtime-policy-draft": "node scripts/check-cp3-runtime-policy-draft.mjs",
     "check:cp3-runtime-policy-draft-role-review": "node scripts/check-cp3-runtime-policy-draft-role-review.mjs",
