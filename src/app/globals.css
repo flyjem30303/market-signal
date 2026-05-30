@@ -584,7 +584,7 @@ select {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  align-content: start;
+  align-content: flex-start;
 }
 
 .data-gap-list article {
@@ -2427,7 +2427,7 @@ select {
   display: flex;
   justify-content: space-between;
   gap: 16px;
-  align-items: start;
+  align-items: flex-start;
 }
 
 .quote-name-line {
@@ -2563,7 +2563,7 @@ select {
   display: grid;
   grid-template-columns: minmax(220px, 1fr) minmax(220px, 1fr) auto;
   gap: 12px;
-  align-items: end;
+  align-items: flex-end;
   margin-bottom: 14px;
 }
 
@@ -2934,7 +2934,7 @@ input[type="search"] {
   display: flex;
   justify-content: space-between;
   gap: 18px;
-  align-items: end;
+  align-items: flex-end;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--surface);
@@ -3242,7 +3242,7 @@ input[type="search"] {
 }
 
 .market-score-row {
-  align-items: end;
+  align-items: flex-end;
   margin-top: 20px;
 }
 
@@ -3349,7 +3349,7 @@ input[type="search"] {
   display: grid;
   grid-template-columns: minmax(120px, 0.8fr) 80px minmax(220px, 1.2fr) minmax(240px, 1.4fr);
   gap: 12px;
-  align-items: start;
+  align-items: flex-start;
   border: 1px solid var(--line);
   border-radius: 8px;
   padding: 12px;
@@ -3380,7 +3380,7 @@ input[type="search"] {
   display: flex;
   justify-content: space-between;
   gap: 16px;
-  align-items: start;
+  align-items: flex-start;
   margin-bottom: 14px;
 }
 
@@ -3524,7 +3524,7 @@ input[type="date"] {
 }
 
 .status-pill {
-  align-self: start;
+  align-self: flex-start;
   border-radius: 999px;
   background: #e8f5ef;
   color: var(--green);
@@ -3540,7 +3540,7 @@ input[type="date"] {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   gap: 8px;
-  align-items: end;
+  align-items: flex-end;
   min-height: 190px;
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -3554,7 +3554,7 @@ input[type="date"] {
   grid-template-rows: 1fr auto;
   gap: 8px;
   height: 156px;
-  align-items: end;
+  align-items: flex-end;
 }
 
 .volume-bars i {
@@ -3597,7 +3597,7 @@ input[type="date"] {
   display: flex;
   justify-content: space-between;
   gap: 16px;
-  align-items: end;
+  align-items: flex-end;
   margin-bottom: 16px;
 }
 
