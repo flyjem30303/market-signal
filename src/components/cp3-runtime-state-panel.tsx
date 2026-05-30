@@ -13,6 +13,16 @@ type Cp3RuntimeStatePanelProps = {
   snapshot: SignalSnapshot;
 };
 
+const runtimeValueLabels: Record<string, string> = {
+  candidate: "候選模型",
+  mock: "mock",
+  not_ready: "not_ready",
+  partial: "partial",
+  stale: "stale",
+  unavailable: "unavailable",
+  unknown: "unknown"
+};
+
 export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePanelProps) {
   const runtimeState = buildMockOnlyRuntimeState({ freshness, snapshot });
   const displayState = getMockOnlyPublicDisplayState(runtimeState);
@@ -22,7 +32,7 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
   return (
     <section className={`cp3-runtime-state-panel ${displayState}`} aria-label="CP3 Runtime State">
       <div>
-        <p className="eyebrow">模型狀態</p>
+        <p className="eyebrow">Runtime Disclosure</p>
         <h2>{copy.label}</h2>
         <p>{copy.shortDescription}</p>
       </div>
@@ -31,12 +41,14 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
         <RuntimeStateItem label="分數來源" value={runtimeState.scoreSource} />
         <RuntimeStateItem label="來源深度" value={runtimeState.sourceDepthState} />
         <RuntimeStateItem label="公開宣稱" value={runtimeState.claimApprovalState} />
+        <RuntimeStateItem label="模型狀態" value={runtimeState.modelApprovalState} />
+        <RuntimeStateItem label="資料品質" value={runtimeState.dataQualityState} />
       </div>
       <div className="cp3-runtime-state-disclosure">
         <strong>{copy.disclosure}</strong>
         <span>{copy.claimLimit}</span>
       </div>
-      <div className="cp3-runtime-state-blockers">
+      <div className="cp3-runtime-state-blockers" aria-label="Runtime blockers">
         {blockers.map((blocker) => (
           <span key={blocker}>{blocker}</span>
         ))}
@@ -78,7 +90,7 @@ function RuntimeStateItem({ label, value }: { label: string; value: string | num
   return (
     <article>
       <span>{label}</span>
-      <strong>{value}</strong>
+      <strong>{runtimeValueLabels[String(value)] ?? value}</strong>
     </article>
   );
 }
@@ -88,7 +100,8 @@ function buildRuntimeBlockers(state: Cp3MockOnlyRuntimeState) {
     state.scoreSource === "mock" ? "真實分數未開放" : null,
     `來源深度 ${state.sourceDepthState}`,
     `來源權利 ${state.sourceRightsState}`,
-    `公開宣稱 ${state.claimApprovalState}`
+    `公開宣稱 ${state.claimApprovalState}`,
+    `回測審核 ${state.backtestApprovalState}`
   ].filter((item): item is string => Boolean(item));
 }
 
