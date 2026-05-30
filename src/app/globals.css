@@ -329,6 +329,28 @@ select {
   color: var(--muted);
 }
 
+.cp3-runtime-detail-group,
+.cp3-runtime-command-details {
+  border: 1px solid #dbe4f0;
+  border-radius: 8px;
+  display: grid;
+  gap: 12px;
+  grid-column: 1 / -1;
+  padding: 12px;
+}
+
+.cp3-runtime-detail-group summary,
+.cp3-runtime-command-details summary {
+  color: #17324d;
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.cp3-runtime-detail-group[open],
+.cp3-runtime-command-details[open] {
+  background: #fbfcfe;
+}
+
 .cp3-runtime-decision-summary {
   background: #f8fbff;
   border: 1px solid #cddff2;

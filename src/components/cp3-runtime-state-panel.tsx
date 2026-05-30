@@ -104,6 +104,8 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
         <strong>{copy.disclosure}</strong>
         <span>{copy.claimLimit}</span>
       </div>
+      <details className="cp3-runtime-detail-group">
+        <summary>資料判讀與授權細節</summary>
       <div className="cp3-runtime-metadata-disclosure" aria-label="Runtime metadata disclosure">
         <strong>{metadataDisclosure.label}</strong>
         <span>{metadataDisclosure.note}</span>
@@ -231,6 +233,7 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
           ))}
         </div>
       </div>
+      </details>
       <div className="cp3-runtime-command-center" aria-label="Runtime command center">
         <strong>CEO / PM command center</strong>
         <p>{commandCenter.summary}</p>
@@ -262,6 +265,8 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
             <i>{formatRuntimeValue(commandCenter.evidenceLevel)}</i>
           </span>
         </aside>
+        <details className="cp3-runtime-command-details">
+          <summary>角色、handoff、external gate 提案細節</summary>
         <div>
           <span>
             <b>Mode</b>
@@ -363,6 +368,7 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
             </span>
           ))}
         </menu>
+        </details>
       </div>
       <div className="cp3-runtime-decision-summary" aria-label="Runtime decision summary">
         <strong>CEO runtime 判定</strong>
@@ -373,6 +379,8 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
         <span>{routeDecision.reason}</span>
         <em>{routeDecision.nextAction}</em>
       </div>
+      <details className="cp3-runtime-detail-group">
+        <summary>後續 gate 與工作隊列細節</summary>
       <div className="cp3-runtime-upgrade-requirements" aria-label="Runtime upgrade requirements">
         <strong>升級前置條件</strong>
         <mark>{upgradeProgress.label}</mark>
@@ -450,6 +458,7 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
           <span key={line}>{line}</span>
         ))}
       </div>
+      </details>
     </section>
   );
 }
