@@ -1398,6 +1398,11 @@ const checks = [
     name: "cp3-local-only-decision-quality-acceleration-plan"
   },
   {
+    command: [node, "scripts/check-cp3-local-only-documentation-index-update.mjs"],
+    expectStatus: "ok",
+    name: "cp3-local-only-documentation-index-update"
+  },
+  {
     command: [node, "scripts/check-cp3-tw-stock-model-candidates.mjs"],
     expectStatus: "ok",
     name: "cp3-tw-stock-model"
