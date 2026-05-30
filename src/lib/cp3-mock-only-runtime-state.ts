@@ -152,6 +152,15 @@ export type Cp3MockOnlySchemaContractGuard = {
   state: "blocked";
 };
 
+export type Cp3MockOnlyDataQualityRoleReviewGuard = {
+  allowedClaims: string[];
+  blockedClaims: string[];
+  label: string;
+  nextGate: string;
+  owner: "Data" | "Investment";
+  state: "blocked";
+};
+
 export type Cp3MockOnlyRuntimeNextGate = {
   acceptance: string;
   id: "metadata-quality-separation" | "schema-contract-alignment" | "data-quality-role-review";
@@ -600,6 +609,29 @@ export function getMockOnlySchemaContractGuard(state: Cp3MockOnlyRuntimeState): 
     label: "Schema contract guard",
     nextGate: "Engineering 維持 schema shape 與 row/data/source gates 分離；Data 與 Legal 另行補證據。",
     owner: "Engineering",
+    state: "blocked"
+  };
+}
+
+export function getMockOnlyDataQualityRoleReviewGuard(
+  state: Cp3MockOnlyRuntimeState
+): Cp3MockOnlyDataQualityRoleReviewGuard {
+  const owner = state.dataQualityState === "unavailable" ? "Data" : "Investment";
+
+  return {
+    allowedClaims: [
+      `可說資料品質目前是 ${state.dataQualityState}，且所有分數必須折扣解讀`,
+      "可說 Data 需補齊資料品質矩陣、來源深度、缺口處理與新鮮度證據",
+      "可說 Investment 需確認折扣後的模型文字不得形成正式投資結論"
+    ],
+    blockedClaims: [
+      "不可說 partial、stale 或 unavailable 仍可支援正式分數",
+      "不可說資料品質折扣代表模型可信、回測成立或公開宣稱可發布",
+      "不可說資料品質角色覆核可取代來源權利、schema、回測或董事長授權"
+    ],
+    label: "Data quality role review guard",
+    nextGate: "Data 與 Investment 需共同確認折扣規則；完成前 runtime 只可顯示保守解讀。",
+    owner,
     state: "blocked"
   };
 }

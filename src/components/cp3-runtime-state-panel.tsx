@@ -1,6 +1,7 @@
 import type { DataFreshnessSnapshot } from "@/lib/data-freshness";
 import {
   cp3MockOnlyUiCopyTokens,
+  getMockOnlyDataQualityRoleReviewGuard,
   getMockOnlyFastFollowGates,
   getMockOnlyMetadataQualitySeparationGuard,
   getMockOnlyPublicDisplayState,
@@ -63,6 +64,7 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
   const schemaShapeDisclosure = getMockOnlyRuntimeSchemaShapeDisclosure(runtimeState);
   const dataQualityDisclosure = getMockOnlyRuntimeDataQualityDisclosure(runtimeState);
   const readinessTriad = getMockOnlyRuntimeReadinessTriad(runtimeState);
+  const dataQualityRoleReviewGuard = getMockOnlyDataQualityRoleReviewGuard(runtimeState);
   const metadataQualityGuard = getMockOnlyMetadataQualitySeparationGuard(runtimeState);
   const schemaContractGuard = getMockOnlySchemaContractGuard(runtimeState);
   const nextGates = getMockOnlyRuntimeNextGates(runtimeState);
@@ -144,6 +146,29 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
             <b>Owner</b>
             <i>{schemaContractGuard.owner}</i>
             <em>{formatRuntimeValue(schemaContractGuard.state)}</em>
+          </span>
+        </div>
+      </div>
+      <div className="cp3-runtime-data-quality-role-guard" aria-label="Data quality role review guard">
+        <strong>{dataQualityRoleReviewGuard.label}</strong>
+        <p>{dataQualityRoleReviewGuard.nextGate}</p>
+        <div>
+          <span>
+            <b>可表述</b>
+            {dataQualityRoleReviewGuard.allowedClaims.map((claim) => (
+              <i key={claim}>{claim}</i>
+            ))}
+          </span>
+          <span>
+            <b>不可表述</b>
+            {dataQualityRoleReviewGuard.blockedClaims.map((claim) => (
+              <i key={claim}>{claim}</i>
+            ))}
+          </span>
+          <span>
+            <b>Owner</b>
+            <i>{dataQualityRoleReviewGuard.owner}</i>
+            <em>{formatRuntimeValue(dataQualityRoleReviewGuard.state)}</em>
           </span>
         </div>
       </div>
