@@ -1453,6 +1453,11 @@ const checks = [
     name: "cp3-runtime-state-naming-acceptance-criteria"
   },
   {
+    command: [node, "scripts/check-cp3-runtime-state-naming-local-only-checker-design.mjs"],
+    expectStatus: "ok",
+    name: "cp3-runtime-state-naming-local-only-checker-design"
+  },
+  {
     command: [node, "scripts/check-cp3-tw-stock-model-candidates.mjs"],
     expectStatus: "ok",
     name: "cp3-tw-stock-model"
