@@ -2073,6 +2073,11 @@ const checks = [
     name: "cp3-freshness-credential-loading-command-revision"
   },
   {
+    command: [node, "scripts/check-cp3-freshness-revised-runner-second-one-attempt-execution-decision-gate.mjs"],
+    expectStatus: "ok",
+    name: "cp3-freshness-revised-runner-second-one-attempt-execution-decision-gate"
+  },
+  {
     command: [node, "scripts/check-etf-source-gate.mjs"],
     expectStatus: "blocked",
     name: "etf-source-gate"
