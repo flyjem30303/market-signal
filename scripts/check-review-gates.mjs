@@ -1478,6 +1478,11 @@ const checks = [
     name: "cp3-pre-runtime-authorization-boundary-table"
   },
   {
+    command: [node, "scripts/check-cp3-pre-runtime-authorization-boundary-table-role-review.mjs"],
+    expectStatus: "ok",
+    name: "cp3-pre-runtime-authorization-boundary-table-role-review"
+  },
+  {
     command: [node, "scripts/check-cp3-mock-only-runtime-panel.mjs"],
     expectStatus: "ok",
     name: "cp3-mock-only-runtime-panel"
