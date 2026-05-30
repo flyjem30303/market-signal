@@ -223,6 +223,13 @@ export type Cp3MockOnlyRuntimeExecutionLane = {
   work: string;
 };
 
+export type Cp3MockOnlyExternalReadinessCheck = {
+  criterion: string;
+  label: string;
+  owner: "CEO" | "Data" | "Engineering" | "Investment" | "Legal";
+  state: "blocked";
+};
+
 export type Cp3MockOnlyRuntimeCommandCenter = {
   blockedLaneLabel: string;
   doNext: string;
@@ -231,6 +238,7 @@ export type Cp3MockOnlyRuntimeCommandCenter = {
   evidenceLevel: "mock_local_only";
   executionState: "active_local_only";
   executionLanes: Cp3MockOnlyRuntimeExecutionLane[];
+  externalReadinessChecks: Cp3MockOnlyExternalReadinessCheck[];
   handoffChecks: Cp3MockOnlyRuntimeHandoffCheck[];
   localLaneLabel: string;
   milestones: Cp3MockOnlyRuntimeMilestone[];
@@ -868,6 +876,44 @@ export function getMockOnlyRuntimeCommandCenter(state: Cp3MockOnlyRuntimeState):
         owner: "CEO",
         state: "blocked",
         work: "Decide when to open Supabase, SQL, market-data, or public-claim work."
+      }
+    ],
+    externalReadinessChecks: [
+      {
+        criterion: "Checklist label for local display only; it does not authorize external-data execution.",
+        label: "External readiness checks",
+        owner: "CEO",
+        state: "blocked"
+      },
+      {
+        criterion: "A separate CEO gate must authorize the exact read-only remote command before any Supabase access.",
+        label: "Supabase read-only command gate",
+        owner: "CEO",
+        state: "blocked"
+      },
+      {
+        criterion: "Engineering must confirm schema-shape assumptions without writing tables or creating database seed scripts.",
+        label: "Schema-shape confirmation",
+        owner: "Engineering",
+        state: "blocked"
+      },
+      {
+        criterion: "Data must document source depth, freshness limits, and downgrade rules before market-row ingestion.",
+        label: "Market data evidence",
+        owner: "Data",
+        state: "blocked"
+      },
+      {
+        criterion: "Legal must confirm public display and redistribution boundaries before source expansion.",
+        label: "Source rights boundary",
+        owner: "Legal",
+        state: "blocked"
+      },
+      {
+        criterion: "Investment must approve model and backtest evidence before any formal score-source transition.",
+        label: "Formal score transition",
+        owner: "Investment",
+        state: "blocked"
       }
     ],
     handoffChecks: [

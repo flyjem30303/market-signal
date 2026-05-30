@@ -335,6 +335,17 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
             </span>
           ))}
         </nav>
+        <footer aria-label="External readiness checks">
+          <b>External readiness checks</b>
+          {commandCenter.externalReadinessChecks.map((item) => (
+            <span key={item.label}>
+              <strong>{item.label}</strong>
+              <small>{item.owner}</small>
+              <i>{item.criterion}</i>
+              <em>{formatRuntimeValue(item.state)}</em>
+            </span>
+          ))}
+        </footer>
       </div>
       <div className="cp3-runtime-decision-summary" aria-label="Runtime decision summary">
         <strong>CEO runtime 判定</strong>
