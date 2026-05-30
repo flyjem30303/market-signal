@@ -6,6 +6,7 @@ import {
   getMockOnlyRuntimeRouteDecision,
   getMockOnlyRuntimeRouteWorkProgress,
   getMockOnlyRuntimeRouteWorkQueue,
+  getMockOnlyRuntimeMetadataDisclosure,
   getMockOnlySourceDepthEvidenceItems,
   getMockOnlySourceDepthEvidenceProgress,
   getMockOnlyRuntimeUpgradeProgress,
@@ -25,10 +26,12 @@ type Cp3RuntimeStatePanelProps = {
 const runtimeValueLabels: Record<string, string> = {
   candidate: "候選模型",
   local_contract_only: "本地契約",
+  mock_metadata: "模擬 metadata",
   mock: "模擬分數",
   not_ready: "尚未就緒",
   partial: "部分就緒",
   stale: "新鮮度不足",
+  supabase_metadata_reachable: "Supabase metadata 可達",
   unavailable: "不可用",
   unknown: "未知"
 };
@@ -48,6 +51,7 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
   const routeDecision = getMockOnlyRuntimeRouteDecision(runtimeState);
   const routeWorkQueue = getMockOnlyRuntimeRouteWorkQueue();
   const routeWorkProgress = getMockOnlyRuntimeRouteWorkProgress();
+  const metadataDisclosure = getMockOnlyRuntimeMetadataDisclosure(runtimeState);
   const stopLines = buildRuntimeStopLines();
 
   return (
@@ -64,10 +68,15 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
         <RuntimeStateItem label="來源深度" value={runtimeState.sourceDepthState} />
         <RuntimeStateItem label="公開宣稱" value={runtimeState.claimApprovalState} />
         <RuntimeStateItem label="資料品質" value={runtimeState.dataQualityState} />
+        <RuntimeStateItem label="metadata 可達性" value={runtimeState.metadataReachabilityState} />
       </div>
       <div className="cp3-runtime-state-disclosure">
         <strong>{copy.disclosure}</strong>
         <span>{copy.claimLimit}</span>
+      </div>
+      <div className="cp3-runtime-metadata-disclosure" aria-label="Runtime metadata disclosure">
+        <strong>{metadataDisclosure.label}</strong>
+        <span>{metadataDisclosure.note}</span>
       </div>
       <div className="cp3-runtime-decision-summary" aria-label="Runtime decision summary">
         <strong>CEO runtime 判定</strong>
@@ -174,6 +183,7 @@ export function buildMockOnlyRuntimeState({
     freshnessState: toRuntimeFreshnessState(freshness),
     locale: "zh-TW",
     market: "tw",
+    metadataReachabilityState: freshness.isMock ? "mock_metadata" : "supabase_metadata_reachable",
     modelApprovalState: "candidate",
     modelVersion: snapshot.modelVersion,
     scoreSource: "mock",
@@ -205,6 +215,9 @@ function formatRuntimeValue(value: string | number) {
 function buildRuntimeBlockers(state: Cp3MockOnlyRuntimeState) {
   return [
     state.scoreSource === "mock" ? "分數仍為 mock" : null,
+    state.metadataReachabilityState === "supabase_metadata_reachable"
+      ? "Freshness metadata 可達但不代表資料品質核准"
+      : "metadata 仍為 mock",
     `資料契約 ${formatRuntimeValue(state.contractState)}`,
     `來源深度 ${formatRuntimeValue(state.sourceDepthState)}`,
     `來源權利 ${formatRuntimeValue(state.sourceRightsState)}`,
@@ -222,7 +235,13 @@ function buildRuntimeDecisionSummary(state: Cp3MockOnlyRuntimeState) {
 }
 
 function buildRuntimeStopLines() {
-  return ["不可轉正式分數", "不可連接真實資料", "不可作為投資結論", "不可發布公開宣稱"];
+  return [
+    "不可轉正式分數",
+    "不可把 metadata 可達視為資料品質核准",
+    "不可連接真實資料或寫入市場資料",
+    "不可作為投資結論",
+    "不可發布公開宣稱"
+  ];
 }
 
 function toRuntimeDataQualityState(freshness: DataFreshnessSnapshot): Cp3MockOnlyDataQualityState {

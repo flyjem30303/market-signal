@@ -4,6 +4,8 @@ export type Cp3MockOnlyDataQualityState = "partial" | "stale" | "unavailable";
 
 export type Cp3MockOnlyFreshnessState = "stale" | "unknown";
 
+export type Cp3MockOnlyMetadataReachabilityState = "mock_metadata" | "supabase_metadata_reachable";
+
 export type Cp3MockOnlyRuntimeState = {
   assetType: "stock" | "etf" | "index";
   backtestApprovalState: Cp3MockOnlyApprovalState;
@@ -15,6 +17,7 @@ export type Cp3MockOnlyRuntimeState = {
   freshnessState: Cp3MockOnlyFreshnessState;
   locale: "zh-TW";
   market: "tw";
+  metadataReachabilityState: Cp3MockOnlyMetadataReachabilityState;
   modelApprovalState: "candidate";
   modelVersion: string;
   scoreSource: "mock";
@@ -100,6 +103,12 @@ export type Cp3MockOnlyRuntimeRouteWorkProgress = {
   label: string;
   nextFocus: string;
   totalCount: number;
+};
+
+export type Cp3MockOnlyRuntimeMetadataDisclosure = {
+  label: string;
+  note: string;
+  state: Cp3MockOnlyMetadataReachabilityState;
 };
 
 export const cp3MockOnlyUiCopyTokens: Record<Cp3MockOnlyDisplayState, Cp3MockOnlyUiCopyToken> = {
@@ -399,5 +408,23 @@ export function getMockOnlyRuntimeRouteWorkProgress(): Cp3MockOnlyRuntimeRouteWo
       ? `下一個本地工作：${nextBlockedItem.owner} / ${nextBlockedItem.label}`
       : "PM route work 全部完成後仍需 CEO 另行開 gate",
     totalCount: workItems.length
+  };
+}
+
+export function getMockOnlyRuntimeMetadataDisclosure(
+  state: Cp3MockOnlyRuntimeState
+): Cp3MockOnlyRuntimeMetadataDisclosure {
+  if (state.metadataReachabilityState === "supabase_metadata_reachable") {
+    return {
+      label: "Supabase metadata 可達",
+      note: "這只代表 freshness metadata 可讀；不代表資料品質已核准、來源深度已完成或正式分數切換已通過。",
+      state: state.metadataReachabilityState
+    };
+  }
+
+  return {
+    label: "模擬 metadata",
+    note: "目前仍使用本地 mock freshness；runtime 只能呈現產品流程與邊界。",
+    state: state.metadataReachabilityState
   };
 }

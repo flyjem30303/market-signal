@@ -348,6 +348,25 @@ select {
   line-height: 1.6;
 }
 
+.cp3-runtime-metadata-disclosure {
+  background: #f4fbf7;
+  border: 1px solid #b8dcc6;
+  border-radius: 8px;
+  display: grid;
+  gap: 4px;
+  grid-column: 1 / -1;
+  padding: 12px;
+}
+
+.cp3-runtime-metadata-disclosure strong {
+  color: #155c35;
+}
+
+.cp3-runtime-metadata-disclosure span {
+  color: #2f6848;
+  line-height: 1.6;
+}
+
 .cp3-runtime-route-decision {
   background: #fff;
   border: 1px solid #cddff2;
