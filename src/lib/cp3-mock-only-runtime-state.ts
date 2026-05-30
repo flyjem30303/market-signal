@@ -55,6 +55,7 @@ export type Cp3MockOnlyUpgradeProgress = {
 };
 
 export type Cp3MockOnlySourceDepthEvidenceItem = {
+  acceptance: string;
   label: string;
   owner: "Data";
   state: Cp3MockOnlyApprovalState;
@@ -189,26 +190,31 @@ export function getMockOnlyRuntimeUpgradeProgress(state: Cp3MockOnlyRuntimeState
 export function getMockOnlySourceDepthEvidenceItems(): Cp3MockOnlySourceDepthEvidenceItem[] {
   return [
     {
+      acceptance: "列出目標市場、資產類型、資料頻率與缺漏比例",
       label: "來源覆蓋率",
       owner: "Data",
       state: "not_ready"
     },
     {
+      acceptance: "標明可用起訖日、交易日缺口與補洞策略",
       label: "歷史期間完整度",
       owner: "Data",
       state: "not_ready"
     },
     {
+      acceptance: "定義每個欄位來源、轉換規則與不可轉換欄位",
       label: "欄位血緣與轉換規則",
       owner: "Data",
       state: "not_ready"
     },
     {
+      acceptance: "證明連續更新規則、延遲容忍與 stale 判斷",
       label: "新鮮度連續性",
       owner: "Data",
       state: "not_ready"
     },
     {
+      acceptance: "定義異常值、停牌、缺價與重跑後處理規則",
       label: "異常與缺口處理規則",
       owner: "Data",
       state: "not_ready"

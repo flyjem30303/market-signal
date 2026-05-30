@@ -62,6 +62,7 @@ const requiredComponentPhrases = [
   "requirement.sequence",
   "requirement.owner",
   "requirement.nextAction",
+  "item.acceptance",
   "cp3-runtime-source-depth-focus",
   "Source depth evidence focus",
   "來源深度解除條件",
@@ -90,6 +91,7 @@ const requiredRuntimePhrases = [
   "export type Cp3MockOnlyUpgradeProgress",
   "export type Cp3MockOnlyUpgradeVerdict",
   "export type Cp3MockOnlySourceDepthEvidenceItem",
+  "acceptance: string",
   "export const cp3MockOnlyUiCopyTokens",
   "getMockOnlyPublicDisplayState",
   "getMockOnlySourceDepthEvidenceItems",
@@ -156,6 +158,7 @@ const requiredCssPhrases = [
   ".cp3-runtime-upgrade-requirements",
   ".cp3-runtime-upgrade-requirements mark",
   ".cp3-runtime-source-depth-focus",
+  ".cp3-runtime-source-depth-focus i",
   ".cp3-runtime-state-blockers",
   ".cp3-runtime-stop-lines"
 ];

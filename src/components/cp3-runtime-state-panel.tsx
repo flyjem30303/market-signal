@@ -91,6 +91,7 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
             <span key={item.label}>
               <b>{item.label}</b>
               <small>{item.owner}</small>
+              <i>{item.acceptance}</i>
               <em>{formatRuntimeValue(item.state)}</em>
             </span>
           ))}
