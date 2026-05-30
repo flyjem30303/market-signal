@@ -77,6 +77,14 @@ export type Cp3MockOnlyFastFollowGate = {
   state: "blocked";
 };
 
+export type Cp3MockOnlyRuntimeRouteDecision = {
+  label: string;
+  nextAction: string;
+  reason: string;
+  route: "local_mock_only_refinement";
+  state: "blocked";
+};
+
 export const cp3MockOnlyUiCopyTokens: Record<Cp3MockOnlyDisplayState, Cp3MockOnlyUiCopyToken> = {
   mock: {
     claimLimit: "目前只可作為產品體驗與閱讀流程示範，不能作為投資判斷、建議或績效保證。",
@@ -291,4 +299,26 @@ export function getMockOnlyFastFollowGates(): Cp3MockOnlyFastFollowGate[] {
       state: "blocked"
     }
   ];
+}
+
+export function getMockOnlyRuntimeRouteDecision(
+  state: Cp3MockOnlyRuntimeState
+): Cp3MockOnlyRuntimeRouteDecision {
+  if (state.scoreSource === "mock" && state.sourceDepthState === "not_ready") {
+    return {
+      label: "下一步：本地 mock-only refinement",
+      nextAction: "優先強化本地 runtime 顯示、靜態 guard 與審核路線；外部資料動作維持 gated。",
+      reason: "來源深度、來源權利、回測、公開宣稱與正式分數切換條件尚未解除。",
+      route: "local_mock_only_refinement",
+      state: "blocked"
+    };
+  }
+
+  return {
+    label: "下一步：本地 mock-only refinement",
+    nextAction: "停止升級並交回 CEO/PM gate 重新判斷。",
+    reason: "runtime 狀態出現非預期組合，不能自動升級。",
+    route: "local_mock_only_refinement",
+    state: "blocked"
+  };
 }

@@ -341,6 +341,42 @@ select {
   line-height: 1.6;
 }
 
+.cp3-runtime-route-decision {
+  background: #fff;
+  border: 1px solid #cddff2;
+  border-radius: 8px;
+  display: grid;
+  gap: 6px;
+  grid-column: 1 / -1;
+  padding: 12px;
+}
+
+.cp3-runtime-route-decision strong,
+.cp3-runtime-route-decision em,
+.cp3-runtime-route-decision span {
+  display: block;
+  font-style: normal;
+}
+
+.cp3-runtime-route-decision strong {
+  color: #17324d;
+}
+
+.cp3-runtime-route-decision span {
+  color: #3f5872;
+  line-height: 1.6;
+}
+
+.cp3-runtime-route-decision em {
+  background: #edf5ff;
+  border: 1px solid #cddff2;
+  border-radius: 8px;
+  color: #17324d;
+  font-weight: 850;
+  line-height: 1.55;
+  padding: 8px 10px;
+}
+
 .cp3-runtime-upgrade-requirements {
   background: #fff;
   border: 1px solid #dbe4f0;
@@ -3841,6 +3877,7 @@ input[type="date"] {
   .cp3-runtime-state-panel,
   .cp3-runtime-state-grid,
   .cp3-runtime-decision-summary,
+  .cp3-runtime-route-decision,
   .cp3-runtime-upgrade-requirements,
   .cp3-runtime-upgrade-requirements div,
   .cp3-runtime-source-depth-focus,

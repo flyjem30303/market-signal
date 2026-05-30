@@ -3,6 +3,7 @@ import {
   cp3MockOnlyUiCopyTokens,
   getMockOnlyFastFollowGates,
   getMockOnlyPublicDisplayState,
+  getMockOnlyRuntimeRouteDecision,
   getMockOnlySourceDepthEvidenceItems,
   getMockOnlySourceDepthEvidenceProgress,
   getMockOnlyRuntimeUpgradeProgress,
@@ -42,6 +43,7 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
   const sourceDepthEvidenceItems = getMockOnlySourceDepthEvidenceItems();
   const sourceDepthEvidenceProgress = getMockOnlySourceDepthEvidenceProgress();
   const fastFollowGates = getMockOnlyFastFollowGates();
+  const routeDecision = getMockOnlyRuntimeRouteDecision(runtimeState);
   const stopLines = buildRuntimeStopLines();
 
   return (
@@ -66,6 +68,11 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
       <div className="cp3-runtime-decision-summary" aria-label="Runtime decision summary">
         <strong>CEO runtime 判定</strong>
         <span>{decisionSummary}</span>
+      </div>
+      <div className="cp3-runtime-route-decision" aria-label="Runtime route decision">
+        <strong>{routeDecision.label}</strong>
+        <span>{routeDecision.reason}</span>
+        <em>{routeDecision.nextAction}</em>
       </div>
       <div className="cp3-runtime-upgrade-requirements" aria-label="Runtime upgrade requirements">
         <strong>升級前置條件</strong>
