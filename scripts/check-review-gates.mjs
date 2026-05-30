@@ -1423,6 +1423,11 @@ const checks = [
     name: "cp3-local-only-open-decision-ledger-refresh-checkpoint-summary"
   },
   {
+    command: [node, "scripts/check-cp3-non-runtime-readiness-gap-summary.mjs"],
+    expectStatus: "ok",
+    name: "cp3-non-runtime-readiness-gap-summary"
+  },
+  {
     command: [node, "scripts/check-cp3-tw-stock-model-candidates.mjs"],
     expectStatus: "ok",
     name: "cp3-tw-stock-model"
