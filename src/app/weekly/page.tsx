@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { CommercialSlot } from "@/components/commercial-slot";
+import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { PageViewTracker } from "@/components/page-view-tracker";
+import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
 import { getMarketSignalRepository } from "@/lib/repositories/market-signal-repository";
 import type { SignalSnapshot } from "@/lib/signal-model";
 
@@ -10,8 +12,9 @@ export const metadata: Metadata = {
     "每週整理台股多頭健康度、回檔風險、ETF 加碼節奏、AI 與半導體觀察，協助投資人追蹤市場信心。"
 };
 
-export default function WeeklyPage() {
+export default async function WeeklyPage() {
   const repository = getMarketSignalRepository();
+  const freshness = await getDataFreshnessSnapshot();
   const snapshots = repository
     .getAssets()
     .map((asset) => repository.getSnapshot(asset.symbol, "2026-05-28"))
@@ -23,6 +26,8 @@ export default function WeeklyPage() {
   const aiSemis = snapshots
     .filter((item) => ["半導體", "IC 設計", "AI 伺服器", "電子代工"].includes(item.asset.group))
     .sort((a, b) => b.healthScore - a.healthScore);
+  const breadth = buildWeeklyBreadth(snapshots);
+  const topRisk = riskHeating[0];
 
   return (
     <main className="page-shell">
@@ -34,6 +39,25 @@ export default function WeeklyPage() {
           本週追蹤多頭健康度、回檔風險與投資信心變化。現階段使用模型資料產生週報模板，
           後續可接入真實行情、新聞與法人籌碼資料。
         </p>
+      </section>
+      <DataFreshnessStrip freshness={freshness} />
+
+      <section className="weekly-quick-read" aria-label="週報快速閱讀">
+        <article>
+          <span>市場廣度</span>
+          <strong>{breadth.constructive} 個強勢</strong>
+          <p>先確認強勢是否擴散到 ETF、權值股與 AI 半導體，不只看指數表面。</p>
+        </article>
+        <article>
+          <span>風險溫度</span>
+          <strong>{topRisk.asset.symbol} 風險 {topRisk.riskScore}</strong>
+          <p>風險升溫排行用來提醒追價節奏，仍不是賣出或放空訊號。</p>
+        </article>
+        <article>
+          <span>資料邊界</span>
+          <strong>{freshness.scoreSourceLabel}</strong>
+          <p>目前週報支援產品體驗與閱讀流程驗證，不代表真實資料或正式模型已核准。</p>
+        </article>
       </section>
 
       <article className="panel weekly-article">
@@ -103,6 +127,23 @@ export default function WeeklyPage() {
 
       <CommercialSlot context="weekly" />
     </main>
+  );
+}
+
+function buildWeeklyBreadth(snapshots: SignalSnapshot[]) {
+  return snapshots.reduce(
+    (summary, snapshot) => {
+      if (snapshot.signal.key === "green" || snapshot.signal.key === "yellow") {
+        summary.constructive += 1;
+      } else if (snapshot.signal.key === "orange") {
+        summary.watch += 1;
+      } else {
+        summary.defensive += 1;
+      }
+
+      return summary;
+    },
+    { constructive: 0, defensive: 0, watch: 0 }
   );
 }
 
