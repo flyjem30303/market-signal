@@ -2,6 +2,7 @@ import type { DataFreshnessSnapshot } from "@/lib/data-freshness";
 import {
   cp3MockOnlyUiCopyTokens,
   getMockOnlyFastFollowGates,
+  getMockOnlyMetadataQualitySeparationGuard,
   getMockOnlyPublicDisplayState,
   getMockOnlyRuntimeRouteDecision,
   getMockOnlyRuntimeRouteWorkProgress,
@@ -61,6 +62,7 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
   const schemaShapeDisclosure = getMockOnlyRuntimeSchemaShapeDisclosure(runtimeState);
   const dataQualityDisclosure = getMockOnlyRuntimeDataQualityDisclosure(runtimeState);
   const readinessTriad = getMockOnlyRuntimeReadinessTriad(runtimeState);
+  const metadataQualityGuard = getMockOnlyMetadataQualitySeparationGuard(runtimeState);
   const nextGates = getMockOnlyRuntimeNextGates(runtimeState);
   const stopLines = buildRuntimeStopLines();
 
@@ -96,6 +98,29 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
       <div className="cp3-runtime-data-quality-disclosure" aria-label="Runtime data quality disclosure">
         <strong>{dataQualityDisclosure.label}</strong>
         <span>{dataQualityDisclosure.note}</span>
+      </div>
+      <div className="cp3-runtime-metadata-quality-guard" aria-label="Metadata quality separation guard">
+        <strong>{metadataQualityGuard.label}</strong>
+        <p>{metadataQualityGuard.nextGate}</p>
+        <div>
+          <span>
+            <b>可表述</b>
+            {metadataQualityGuard.allowedClaims.map((claim) => (
+              <i key={claim}>{claim}</i>
+            ))}
+          </span>
+          <span>
+            <b>不可表述</b>
+            {metadataQualityGuard.blockedClaims.map((claim) => (
+              <i key={claim}>{claim}</i>
+            ))}
+          </span>
+          <span>
+            <b>Owner</b>
+            <i>{metadataQualityGuard.owner}</i>
+            <em>{formatRuntimeValue(metadataQualityGuard.state)}</em>
+          </span>
+        </div>
       </div>
       <div className="cp3-runtime-readiness-triad" aria-label="Runtime readiness triad">
         <strong>CEO runtime triad</strong>

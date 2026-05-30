@@ -134,6 +134,15 @@ export type Cp3MockOnlyRuntimeReadinessTriadItem = {
   state: "blocked";
 };
 
+export type Cp3MockOnlyMetadataQualitySeparationGuard = {
+  allowedClaims: string[];
+  blockedClaims: string[];
+  label: string;
+  nextGate: string;
+  owner: "PM";
+  state: "blocked";
+};
+
 export type Cp3MockOnlyRuntimeNextGate = {
   acceptance: string;
   id: "metadata-quality-separation" | "schema-contract-alignment" | "data-quality-role-review";
@@ -536,6 +545,31 @@ export function getMockOnlyRuntimeReadinessTriad(state: Cp3MockOnlyRuntimeState)
       state: "blocked"
     }
   ];
+}
+
+export function getMockOnlyMetadataQualitySeparationGuard(
+  state: Cp3MockOnlyRuntimeState
+): Cp3MockOnlyMetadataQualitySeparationGuard {
+  const isMetadataReachable = state.metadataReachabilityState === "supabase_metadata_reachable";
+
+  return {
+    allowedClaims: [
+      isMetadataReachable
+        ? "可說 freshness metadata 已由既有唯讀 runtime path 讀到"
+        : "可說 freshness metadata 目前仍由 mock fallback 呈現",
+      "可說資料品質仍需另走資料品質矩陣、來源深度與角色覆核",
+      "可說分數、模型文字與公開宣稱仍維持折扣解讀"
+    ],
+    blockedClaims: [
+      "不可說 metadata 可讀代表市場資料正確、完整或即時",
+      "不可說 metadata 可讀代表資料品質核准、來源權利完成或回測成立",
+      "不可說 metadata 可讀代表正式分數或投資宣稱可切換"
+    ],
+    label: "Metadata / quality guard",
+    nextGate: "PM 維持 UI copy、guard 與角色語言一致；Data 另行補資料品質證據。",
+    owner: "PM",
+    state: "blocked"
+  };
 }
 
 export function getMockOnlyRuntimeNextGates(state: Cp3MockOnlyRuntimeState): Cp3MockOnlyRuntimeNextGate[] {
