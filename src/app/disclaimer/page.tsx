@@ -73,6 +73,14 @@ export default function DisclaimerPage() {
           若內容涉及錯誤、授權或權利問題，後續正式上線前需建立聯絡與下架流程。
         </p>
       </section>
+
+      <section className="panel legal-links">
+        <h2>讀完免責聲明後</h2>
+        <a className="text-link" href="/methodology">了解評分方法論</a>
+        <a className="text-link" href="/">回首頁看市場概況</a>
+        <a className="text-link" href="/terms">查看服務條款</a>
+        <a className="text-link" href="/privacy">查看隱私權政策</a>
+      </section>
     </main>
   );
 }

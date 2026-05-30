@@ -4679,7 +4679,9 @@ input[type="search"] {
 }
 
 .briefing-links,
-.weekly-links {
+.weekly-links,
+.method-links,
+.legal-links {
   display: flex;
   flex-wrap: wrap;
   gap: 14px;
@@ -4688,7 +4690,9 @@ input[type="search"] {
 }
 
 .briefing-links h2,
-.weekly-links h2 {
+.weekly-links h2,
+.method-links h2,
+.legal-links h2 {
   width: 100%;
   margin: 0;
 }

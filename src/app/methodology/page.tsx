@@ -146,6 +146,14 @@ export default async function MethodologyPage() {
           <p>需完成真實資料來源、權利、資料品質、回測、法遵、投資與 CEO/董事長授權 gate。</p>
         </article>
       </section>
+
+      <section className="panel method-links">
+        <h2>理解方法後</h2>
+        <a className="text-link" href="/">回首頁看 mock 覆蓋地圖</a>
+        <a className="text-link" href="/briefing">看每日晨報</a>
+        <a className="text-link" href="/weekly">看本週週報</a>
+        <a className="text-link" href="/disclaimer">確認免責聲明</a>
+      </section>
     </main>
   );
 }
