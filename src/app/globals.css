@@ -3653,14 +3653,23 @@ select {
   font-weight: 800;
 }
 
+.asset-search-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
 .asset-search-status button,
-.asset-empty-state button {
+.asset-empty-state button,
+.asset-search-actions a {
   border: 0;
   background: transparent;
   color: var(--teal);
   cursor: pointer;
   font-weight: 850;
   padding: 0;
+  text-decoration: none;
 }
 
 select {

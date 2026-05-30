@@ -1762,11 +1762,14 @@ function AssetSelector({
       </div>
       <div className="asset-search-status">
         <span>{resultLabel}</span>
-        {searchTerm ? (
-          <button onClick={() => onQuery("")} type="button">
-            清除搜尋
-          </button>
-        ) : null}
+        <div className="asset-search-actions">
+          {searchTerm ? (
+            <button onClick={() => onQuery("")} type="button">
+              清除搜尋
+            </button>
+          ) : null}
+          <a href={`/stocks/${selectedSymbol}`}>開啟個股頁</a>
+        </div>
       </div>
       <div className="favorite-row">
         {favorites.length ? (
