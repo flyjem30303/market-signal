@@ -1468,6 +1468,11 @@ const checks = [
     name: "cp3-mock-only-runtime-state-implementation-planning"
   },
   {
+    command: [node, "scripts/check-cp3-mock-only-runtime-implementation-stop-gate.mjs"],
+    expectStatus: "ok",
+    name: "cp3-mock-only-runtime-implementation-stop-gate"
+  },
+  {
     command: [node, "scripts/check-cp3-tw-stock-model-candidates.mjs"],
     expectStatus: "ok",
     name: "cp3-tw-stock-model"
