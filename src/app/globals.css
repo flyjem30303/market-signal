@@ -387,9 +387,17 @@ select {
 
 .cp3-runtime-upgrade-requirements b,
 .cp3-runtime-upgrade-requirements em,
+.cp3-runtime-upgrade-requirements i,
 .cp3-runtime-upgrade-requirements small {
   display: block;
   font-style: normal;
+}
+
+.cp3-runtime-upgrade-requirements i {
+  color: #52697f;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.5;
 }
 
 .cp3-runtime-upgrade-requirements small {

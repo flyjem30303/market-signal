@@ -34,6 +34,7 @@ export type Cp3MockOnlyUiCopyToken = {
 export type Cp3MockOnlyUpgradeRequirement = {
   id: string;
   label: string;
+  nextAction: string;
   owner: "CEO" | "Data" | "Engineering" | "Investment" | "Legal";
   state: Cp3MockOnlyApprovalState | "mock";
 };
@@ -86,30 +87,35 @@ export function getMockOnlyRuntimeUpgradeRequirements(
     {
       id: "score-source",
       label: "正式分數來源",
+      nextAction: "完成真實分數口徑與投資宣稱審核",
       owner: "Investment",
       state: state.scoreSource
     },
     {
       id: "source-depth",
       label: "來源深度",
+      nextAction: "補齊來源深度證據與資料覆蓋率",
       owner: "Data",
       state: state.sourceDepthState
     },
     {
       id: "source-rights",
       label: "來源權利",
+      nextAction: "確認資料授權、保存目的與公開揭露限制",
       owner: "Legal",
       state: state.sourceRightsState
     },
     {
       id: "backtest",
       label: "回測審核",
+      nextAction: "完成回測方法、品質降級與可重跑證據",
       owner: "Engineering",
       state: state.backtestApprovalState
     },
     {
       id: "public-claim",
       label: "公開宣稱",
+      nextAction: "彙整角色意見並核准是否可公開表述",
       owner: "CEO",
       state: state.claimApprovalState
     }
