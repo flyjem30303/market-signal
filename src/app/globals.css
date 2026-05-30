@@ -558,6 +558,51 @@ select {
   font-weight: 850;
 }
 
+.cp3-runtime-metadata-quality-guard,
+.cp3-runtime-schema-contract-guard,
+.cp3-runtime-data-quality-role-guard {
+  align-items: start;
+  gap: 6px;
+  grid-template-columns: minmax(180px, 0.45fr) minmax(0, 1fr);
+  padding: 10px;
+}
+
+.cp3-runtime-metadata-quality-guard > strong,
+.cp3-runtime-schema-contract-guard > strong,
+.cp3-runtime-data-quality-role-guard > strong {
+  font-size: 14px;
+  grid-column: 1;
+}
+
+.cp3-runtime-metadata-quality-guard > p,
+.cp3-runtime-schema-contract-guard > p,
+.cp3-runtime-data-quality-role-guard > p {
+  font-size: 13px;
+  grid-column: 2;
+  line-height: 1.5;
+}
+
+.cp3-runtime-metadata-quality-guard > div,
+.cp3-runtime-schema-contract-guard > div,
+.cp3-runtime-data-quality-role-guard > div {
+  grid-column: 1 / -1;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(96px, 0.24fr);
+}
+
+.cp3-runtime-metadata-quality-guard span,
+.cp3-runtime-schema-contract-guard span,
+.cp3-runtime-data-quality-role-guard span {
+  font-size: 12px;
+  gap: 4px;
+  padding: 8px;
+}
+
+.cp3-runtime-metadata-quality-guard i,
+.cp3-runtime-schema-contract-guard i,
+.cp3-runtime-data-quality-role-guard i {
+  line-height: 1.45;
+}
+
 .cp3-runtime-readiness-triad {
   background: #fff;
   border: 1px solid #dbe4f0;
