@@ -1743,6 +1743,11 @@ const checks = [
     name: "cp3-twse-stock-day-staging-local-reference-audit"
   },
   {
+    command: [node, "scripts/check-cp3-twse-stock-day-staging-canonical-naming-rule-decision-ledger.mjs"],
+    expectStatus: "ok",
+    name: "cp3-twse-stock-day-staging-canonical-naming-rule-decision-ledger"
+  },
+  {
     command: [node, "scripts/check-cp3-tw-stock-model-candidates.mjs"],
     expectStatus: "ok",
     name: "cp3-tw-stock-model"
