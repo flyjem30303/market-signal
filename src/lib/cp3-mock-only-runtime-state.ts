@@ -61,6 +61,14 @@ export type Cp3MockOnlySourceDepthEvidenceItem = {
   state: Cp3MockOnlyApprovalState;
 };
 
+export type Cp3MockOnlySourceDepthEvidenceProgress = {
+  blockedCount: number;
+  label: string;
+  nextFocus: string;
+  readyCount: number;
+  totalCount: number;
+};
+
 export const cp3MockOnlyUiCopyTokens: Record<Cp3MockOnlyDisplayState, Cp3MockOnlyUiCopyToken> = {
   mock: {
     claimLimit: "目前只可作為產品體驗與閱讀流程示範，不能作為投資判斷、建議或績效保證。",
@@ -220,4 +228,19 @@ export function getMockOnlySourceDepthEvidenceItems(): Cp3MockOnlySourceDepthEvi
       state: "not_ready"
     }
   ];
+}
+
+export function getMockOnlySourceDepthEvidenceProgress(): Cp3MockOnlySourceDepthEvidenceProgress {
+  const evidenceItems = getMockOnlySourceDepthEvidenceItems();
+  const blockedCount = evidenceItems.filter((item) => item.state === "not_ready").length;
+  const readyCount = evidenceItems.length - blockedCount;
+  const nextBlockedItem = evidenceItems.find((item) => item.state === "not_ready");
+
+  return {
+    blockedCount,
+    label: `來源深度驗收 ${readyCount} / ${evidenceItems.length}；待補 ${blockedCount}`,
+    nextFocus: nextBlockedItem ? `下一個待補：${nextBlockedItem.label}` : "來源深度驗收項目已可進入人工審核",
+    readyCount,
+    totalCount: evidenceItems.length
+  };
 }

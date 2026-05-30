@@ -434,6 +434,15 @@ select {
   color: #17324d;
 }
 
+.cp3-runtime-source-depth-focus mark {
+  background: #edf5ff;
+  border: 1px solid #cddff2;
+  border-radius: 8px;
+  color: #17324d;
+  font-weight: 850;
+  padding: 8px 10px;
+}
+
 .cp3-runtime-source-depth-focus p {
   color: #52697f;
   line-height: 1.6;

@@ -3,6 +3,7 @@ import {
   cp3MockOnlyUiCopyTokens,
   getMockOnlyPublicDisplayState,
   getMockOnlySourceDepthEvidenceItems,
+  getMockOnlySourceDepthEvidenceProgress,
   getMockOnlyRuntimeUpgradeProgress,
   getMockOnlyRuntimeUpgradeRequirements,
   getMockOnlyRuntimeUpgradeVerdict,
@@ -38,6 +39,7 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
   const upgradeProgress = getMockOnlyRuntimeUpgradeProgress(runtimeState);
   const upgradeVerdict = getMockOnlyRuntimeUpgradeVerdict(runtimeState);
   const sourceDepthEvidenceItems = getMockOnlySourceDepthEvidenceItems();
+  const sourceDepthEvidenceProgress = getMockOnlySourceDepthEvidenceProgress();
   const stopLines = buildRuntimeStopLines();
 
   return (
@@ -85,6 +87,8 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
       </div>
       <div className="cp3-runtime-source-depth-focus" aria-label="Source depth evidence focus">
         <strong>來源深度解除條件</strong>
+        <mark>{sourceDepthEvidenceProgress.label}</mark>
+        <mark>{sourceDepthEvidenceProgress.nextFocus}</mark>
         <p>Data 必須先補齊以下證據；完成前來源深度維持尚未就緒。</p>
         <div>
           {sourceDepthEvidenceItems.map((item) => (
