@@ -2043,6 +2043,11 @@ const checks = [
     name: "cp3-freshness-runtime-wrapper-local-smoke"
   },
   {
+    command: [node, "scripts/check-cp3-freshness-readonly-runtime-activation-readiness-packet.mjs"],
+    expectStatus: "ok",
+    name: "cp3-freshness-readonly-runtime-activation-readiness-packet"
+  },
+  {
     command: [node, "scripts/check-etf-source-gate.mjs"],
     expectStatus: "blocked",
     name: "etf-source-gate"
