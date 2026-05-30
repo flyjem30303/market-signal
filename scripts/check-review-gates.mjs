@@ -1738,6 +1738,11 @@ const checks = [
     name: "cp3-twse-stock-day-staging-reconciliation-plan"
   },
   {
+    command: [node, "scripts/check-cp3-twse-stock-day-staging-local-reference-audit.mjs"],
+    expectStatus: "ok",
+    name: "cp3-twse-stock-day-staging-local-reference-audit"
+  },
+  {
     command: [node, "scripts/check-cp3-tw-stock-model-candidates.mjs"],
     expectStatus: "ok",
     name: "cp3-tw-stock-model"
