@@ -163,6 +163,7 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
           <StockChairmanAnswerRouting onTab={changeTab} />
           <StockPreAuthorizationStopLines onTab={changeTab} />
           <StockCeoOptionConvergence onTab={changeTab} />
+          <StockAuthorizationScopeReadiness onTab={changeTab} />
         </>
       )}
 
@@ -1492,6 +1493,52 @@ function StockCeoOptionConvergence({ onTab }: { onTab: (tab: TabKey) => void }) 
             <p>{item.text}</p>
             <button onClick={item.action} type="button">
               查看路線依據
+            </button>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function StockAuthorizationScopeReadiness({ onTab }: { onTab: (tab: TabKey) => void }) {
+  const scopeItems: Array<{ action: () => void; label: string; text: string }> = [
+    {
+      action: () => onTab("today"),
+      label: "候選範圍",
+      text: "先定義市場、股票池、來源類型與輸出用途；尚未定義前，不提出執行請求。"
+    },
+    {
+      action: () => onTab("technical"),
+      label: "董事長輸入",
+      text: "需要你確認審核範圍、最大執行深度、是否需要正式會議與回到審核的時間點。"
+    },
+    {
+      action: () => onTab("backtest"),
+      label: "角色提醒",
+      text: "PM 只整理可檢查任務，工程不連外部系統，法遵與投資角色維持 not_ready。"
+    },
+    {
+      action: () => onTab("news"),
+      label: "停止線",
+      text: "任何把摘要當成授權、packet、SQL、真實資料或真實分數的解讀都必須停止。"
+    }
+  ];
+
+  return (
+    <section className="stock-authorization-readiness" aria-label="Stock Authorization Scope Readiness">
+      <div>
+        <p className="eyebrow">Authorization Scope</p>
+        <h2>授權範圍準備摘要</h2>
+        <p>這是 Option D 的下一步可視化：只整理未來送審前的範圍與停止線，不代表已授權。</p>
+      </div>
+      <div className="authorization-readiness-grid">
+        {scopeItems.map((item) => (
+          <article key={item.label}>
+            <span>{item.label}</span>
+            <p>{item.text}</p>
+            <button onClick={item.action} type="button">
+              查看摘要依據
             </button>
           </article>
         ))}

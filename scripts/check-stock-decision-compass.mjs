@@ -65,6 +65,15 @@ const requiredComponentPhrases = [
   "Stock Pre Authorization Stop Lines",
   "StockCeoOptionConvergence",
   "Stock CEO Option Convergence",
+  "StockAuthorizationScopeReadiness",
+  "Stock Authorization Scope Readiness",
+  "授權範圍準備摘要",
+  "這是 Option D 的下一步可視化",
+  "候選範圍",
+  "董事長輸入",
+  "角色提醒",
+  "停止線",
+  "查看摘要依據",
   "CEO 目前主導路線",
   "專案已從 A/B/C/D/E 平行探索，收斂為 D 主線、E 護欄、B 支援、A/C 暫緩",
   "Option D 主線",
@@ -314,7 +323,10 @@ const requiredCssPhrases = [
   ".ceo-option-grid article.guard",
   ".ceo-option-grid article.support",
   ".ceo-option-grid article.paused",
-  ".ceo-option-grid button:hover"
+  ".ceo-option-grid button:hover",
+  ".stock-authorization-readiness",
+  ".authorization-readiness-grid",
+  ".authorization-readiness-grid button:hover"
 ];
 
 const forbiddenPhrases = [
