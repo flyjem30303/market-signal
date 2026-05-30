@@ -22,15 +22,15 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
   return (
     <section className={`cp3-runtime-state-panel ${displayState}`} aria-label="CP3 Runtime State">
       <div>
-        <p className="eyebrow">CP3 Runtime State</p>
+        <p className="eyebrow">模型狀態</p>
         <h2>{copy.label}</h2>
         <p>{copy.shortDescription}</p>
       </div>
       <div className="cp3-runtime-state-grid">
-        <RuntimeStateItem label="Display state" value={displayState} />
-        <RuntimeStateItem label="Score source" value={runtimeState.scoreSource} />
-        <RuntimeStateItem label="Source depth" value={runtimeState.sourceDepthState} />
-        <RuntimeStateItem label="Claim gate" value={runtimeState.claimApprovalState} />
+        <RuntimeStateItem label="顯示狀態" value={displayState} />
+        <RuntimeStateItem label="分數來源" value={runtimeState.scoreSource} />
+        <RuntimeStateItem label="來源深度" value={runtimeState.sourceDepthState} />
+        <RuntimeStateItem label="公開宣稱" value={runtimeState.claimApprovalState} />
       </div>
       <div className="cp3-runtime-state-disclosure">
         <strong>{copy.disclosure}</strong>
@@ -85,10 +85,10 @@ function RuntimeStateItem({ label, value }: { label: string; value: string | num
 
 function buildRuntimeBlockers(state: Cp3MockOnlyRuntimeState) {
   return [
-    state.scoreSource === "mock" ? "real score blocked" : null,
-    `source depth ${state.sourceDepthState}`,
-    `source rights ${state.sourceRightsState}`,
-    `public claims ${state.claimApprovalState}`
+    state.scoreSource === "mock" ? "真實分數未開放" : null,
+    `來源深度 ${state.sourceDepthState}`,
+    `來源權利 ${state.sourceRightsState}`,
+    `公開宣稱 ${state.claimApprovalState}`
   ].filter((item): item is string => Boolean(item));
 }
 

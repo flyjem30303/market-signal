@@ -32,28 +32,28 @@ export type Cp3MockOnlyUiCopyToken = {
 
 export const cp3MockOnlyUiCopyTokens: Record<Cp3MockOnlyDisplayState, Cp3MockOnlyUiCopyToken> = {
   mock: {
-    claimLimit: "Do not describe as real, validated, or source-backed.",
-    disclosure: "This is not a real model score and is not investment advice.",
-    label: "Sample signal",
-    shortDescription: "This score is a mock-only runtime state for product review."
+    claimLimit: "不得描述為真實、已驗證、可交易或可作為投資建議。",
+    disclosure: "分數來源仍是 mock，尚未通過來源深度、法遵與公開宣稱審核。",
+    label: "目前仍是模擬分數",
+    shortDescription: "這個狀態只用來確認產品流程，不能視為真實模型或投資訊號。"
   },
   partial: {
-    claimLimit: "Do not describe as validated or complete.",
-    disclosure: "Partial data can change the score context and is not investment advice.",
-    label: "Partial data",
-    shortDescription: "Some required data is missing or not yet approved."
+    claimLimit: "不得描述為完整、已驗證或可交易。",
+    disclosure: "部分資料仍缺漏，分數脈絡可能改變，不能作為投資建議。",
+    label: "資料仍不完整",
+    shortDescription: "必要資料尚未齊備，僅能用於內部產品檢視。"
   },
   stale: {
-    claimLimit: "Do not claim daily updated real model output.",
-    disclosure: "Freshness is not confirmed; treat this as context only, not investment advice.",
-    label: "Stale data",
-    shortDescription: "Some market data may be outdated."
+    claimLimit: "不得宣稱為每日更新的真實模型輸出。",
+    disclosure: "資料新鮮度尚未確認，只能作為背景脈絡，不能作為投資建議。",
+    label: "資料可能過期",
+    shortDescription: "部分市場資料可能不是最新狀態。"
   },
   unavailable: {
-    claimLimit: "Do not make score, validation, or coverage claims.",
-    disclosure: "The score is unavailable because required data or approvals are missing.",
-    label: "Unavailable",
-    shortDescription: "A score cannot be shown with the current approval state."
+    claimLimit: "不得宣稱分數、驗證結果或覆蓋範圍。",
+    disclosure: "必要資料或審核尚未齊備，因此不能顯示可公開使用的分數。",
+    label: "分數尚不可用",
+    shortDescription: "目前狀態不足以顯示可公開使用的分數。"
   }
 };
 

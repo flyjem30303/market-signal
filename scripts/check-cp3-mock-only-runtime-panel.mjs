@@ -24,9 +24,14 @@ const requiredComponentPhrases = [
   "claimApprovalState: \"not_ready\"",
   "modelApprovalState: \"candidate\"",
   "inferRuntimeAssetType",
-  "real score blocked",
-  "source depth ${state.sourceDepthState}",
-  "public claims ${state.claimApprovalState}",
+  "模型狀態",
+  "顯示狀態",
+  "分數來源",
+  "來源深度",
+  "公開宣稱",
+  "真實分數未開放",
+  "來源深度 ${state.sourceDepthState}",
+  "公開宣稱 ${state.claimApprovalState}",
   "toRuntimeDataQualityState",
   "toRuntimeFreshnessState"
 ];
@@ -42,8 +47,8 @@ const requiredRuntimePhrases = [
   "export const cp3MockOnlyUiCopyTokens",
   "getMockOnlyPublicDisplayState",
   "if (state.scoreSource === \"mock\") return \"mock\"",
-  "not investment advice",
-  "Do not describe as real, validated, or source-backed."
+  "分數來源仍是 mock",
+  "不得描述為真實、已驗證、可交易或可作為投資建議。"
 ];
 
 const requiredDashboardPhrases = [
