@@ -1618,6 +1618,11 @@ const checks = [
     name: "cp3-supabase-read-only-narrow-remote-retry-readiness-gate"
   },
   {
+    command: [node, "scripts/check-cp3-supabase-read-only-narrow-remote-retry-readiness-gate-role-review.mjs"],
+    expectStatus: "ok",
+    name: "cp3-supabase-read-only-narrow-remote-retry-readiness-gate-role-review"
+  },
+  {
     command: [node, "scripts/check-cp3-tw-stock-model-candidates.mjs"],
     expectStatus: "ok",
     name: "cp3-tw-stock-model"
