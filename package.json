@@ -21,6 +21,7 @@
     "check:freshness-runtime-read-open-decision-gate": "node scripts/check-freshness-runtime-read-open-decision-gate.mjs",
     "check:freshness-runtime-read-post-run-template": "node scripts/check-freshness-runtime-read-post-run-review-template.mjs",
     "check:freshness-runtime-read-post-run-template-role-review": "node scripts/check-freshness-runtime-read-post-run-review-template-role-review.mjs",
+    "check:freshness-runtime-read-local-preflight": "node scripts/check-freshness-runtime-read-local-preflight-runner.mjs",
     "check:ceo-delegated-autonomy": "node scripts/check-ceo-delegated-autonomy-policy.mjs",
     "check:internal-routes": "node scripts/check-internal-route-exposure.mjs",
     "check:briefing-boundary-disclosure": "node scripts/check-briefing-boundary-disclosure.mjs",

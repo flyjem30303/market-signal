@@ -1983,6 +1983,11 @@ const checks = [
     name: "freshness-runtime-read-post-run-review-template-role-review"
   },
   {
+    command: [node, "scripts/check-freshness-runtime-read-local-preflight-runner.mjs"],
+    expectStatus: "ok",
+    name: "freshness-runtime-read-local-preflight-runner"
+  },
+  {
     command: [node, "scripts/check-etf-source-gate.mjs"],
     expectStatus: "blocked",
     name: "etf-source-gate"
