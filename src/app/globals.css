@@ -707,6 +707,78 @@ select {
   font-weight: 850;
 }
 
+.cp3-runtime-authorization-snapshot {
+  background: #f8fbff;
+  border: 1px solid #cddff2;
+  border-radius: 8px;
+  display: grid;
+  gap: 8px;
+  grid-column: 1 / -1;
+  padding: 12px;
+}
+
+.cp3-runtime-authorization-snapshot strong {
+  color: #17324d;
+}
+
+.cp3-runtime-authorization-snapshot p {
+  color: #3f5872;
+  line-height: 1.6;
+}
+
+.cp3-runtime-authorization-snapshot mark {
+  background: #ebf5ff;
+  border-radius: 999px;
+  color: #17324d;
+  font-size: 12px;
+  font-weight: 850;
+  justify-self: start;
+  padding: 5px 9px;
+}
+
+.cp3-runtime-authorization-snapshot div {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.cp3-runtime-authorization-snapshot span {
+  background: #fff;
+  border: 1px solid #dbe4f0;
+  border-radius: 8px;
+  display: grid;
+  gap: 5px;
+  padding: 10px;
+}
+
+.cp3-runtime-authorization-snapshot b,
+.cp3-runtime-authorization-snapshot em,
+.cp3-runtime-authorization-snapshot i,
+.cp3-runtime-authorization-snapshot small {
+  display: block;
+  font-style: normal;
+}
+
+.cp3-runtime-authorization-snapshot b {
+  color: #17324d;
+}
+
+.cp3-runtime-authorization-snapshot i,
+.cp3-runtime-authorization-snapshot small {
+  color: #3f5872;
+  line-height: 1.5;
+}
+
+.cp3-runtime-authorization-snapshot em {
+  background: #f7f9fc;
+  border-radius: 999px;
+  color: #17324d;
+  font-size: 12px;
+  font-weight: 850;
+  justify-self: start;
+  padding: 4px 8px;
+}
+
 .cp3-runtime-route-decision {
   background: #fff;
   border: 1px solid #cddff2;
@@ -4322,6 +4394,8 @@ input[type="date"] {
   .cp3-runtime-upgrade-requirements div,
   .cp3-runtime-source-depth-focus,
   .cp3-runtime-source-depth-focus div,
+  .cp3-runtime-authorization-snapshot,
+  .cp3-runtime-authorization-snapshot div,
   .cp3-runtime-fast-follow-gates,
   .cp3-runtime-fast-follow-gates div,
   .cp3-runtime-route-work-queue,

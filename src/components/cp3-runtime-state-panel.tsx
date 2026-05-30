@@ -11,6 +11,7 @@ import {
   getMockOnlyRuntimeMetadataDisclosure,
   getMockOnlyRuntimeSchemaShapeDisclosure,
   getMockOnlyRuntimeDataQualityDisclosure,
+  getMockOnlyRuntimeAuthorizationSnapshot,
   getMockOnlyRuntimeReadinessTriad,
   getMockOnlyRuntimeNextGates,
   getMockOnlySchemaContractGuard,
@@ -31,6 +32,8 @@ type Cp3RuntimeStatePanelProps = {
 };
 
 const runtimeValueLabels: Record<string, string> = {
+  allowed: "可執行",
+  blocked: "封鎖",
   candidate: "候選模型",
   local_contract_only: "本地契約",
   mock_metadata: "模擬 metadata",
@@ -63,6 +66,7 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
   const metadataDisclosure = getMockOnlyRuntimeMetadataDisclosure(runtimeState);
   const schemaShapeDisclosure = getMockOnlyRuntimeSchemaShapeDisclosure(runtimeState);
   const dataQualityDisclosure = getMockOnlyRuntimeDataQualityDisclosure(runtimeState);
+  const authorizationSnapshot = getMockOnlyRuntimeAuthorizationSnapshot();
   const readinessTriad = getMockOnlyRuntimeReadinessTriad(runtimeState);
   const dataQualityRoleReviewGuard = getMockOnlyDataQualityRoleReviewGuard(runtimeState);
   const metadataQualityGuard = getMockOnlyMetadataQualitySeparationGuard(runtimeState);
@@ -199,6 +203,21 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
               <i>{gate.reason}</i>
               <i>{gate.acceptance}</i>
               <em>{formatRuntimeValue(gate.state)}</em>
+            </span>
+          ))}
+        </div>
+      </div>
+      <div className="cp3-runtime-authorization-snapshot" aria-label="Runtime authorization snapshot">
+        <strong>CEO authorization snapshot</strong>
+        <p>{authorizationSnapshot.nextAction}</p>
+        <mark>{authorizationSnapshot.label}</mark>
+        <div>
+          {authorizationSnapshot.items.map((item) => (
+            <span key={item.id}>
+              <b>{item.label}</b>
+              <small>{item.owner}</small>
+              <i>{item.reason}</i>
+              <em>{formatRuntimeValue(item.status)}</em>
             </span>
           ))}
         </div>

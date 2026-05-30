@@ -171,6 +171,32 @@ export type Cp3MockOnlyRuntimeNextGate = {
   state: "blocked";
 };
 
+export type Cp3MockOnlyRuntimeAuthorizationStatus = "allowed" | "blocked";
+
+export type Cp3MockOnlyRuntimeAuthorizationItem = {
+  id:
+    | "local-mock-runtime-ui"
+    | "local-static-guards"
+    | "supabase-readonly"
+    | "sql-execution"
+    | "market-data"
+    | "formal-score-transition"
+    | "public-claims";
+  label: string;
+  owner: "CEO" | "Data" | "Engineering" | "Investment" | "Legal" | "PM";
+  reason: string;
+  status: Cp3MockOnlyRuntimeAuthorizationStatus;
+};
+
+export type Cp3MockOnlyRuntimeAuthorizationSnapshot = {
+  allowedCount: number;
+  blockedCount: number;
+  items: Cp3MockOnlyRuntimeAuthorizationItem[];
+  label: string;
+  nextAction: string;
+  totalCount: number;
+};
+
 export const cp3MockOnlyUiCopyTokens: Record<Cp3MockOnlyDisplayState, Cp3MockOnlyUiCopyToken> = {
   mock: {
     claimLimit: "目前只可作為產品體驗與閱讀流程示範，不能作為投資判斷、建議或績效保證。",
@@ -672,4 +698,69 @@ export function getMockOnlyRuntimeNextGates(state: Cp3MockOnlyRuntimeState): Cp3
       state: "blocked"
     }
   ];
+}
+
+export function getMockOnlyRuntimeAuthorizationSnapshot(): Cp3MockOnlyRuntimeAuthorizationSnapshot {
+  const items: Cp3MockOnlyRuntimeAuthorizationItem[] = [
+    {
+      id: "local-mock-runtime-ui",
+      label: "本地 mock runtime UI",
+      owner: "PM",
+      reason: "可繼續整理本地 runtime 顯示、資訊階層與 mock-only 邊界揭露。",
+      status: "allowed"
+    },
+    {
+      id: "local-static-guards",
+      label: "本地靜態 guard",
+      owner: "Engineering",
+      reason: "可繼續強化靜態檢查，確保 public runtime 不引入外部資料或正式分數。",
+      status: "allowed"
+    },
+    {
+      id: "supabase-readonly",
+      label: "Supabase 唯讀驗證",
+      owner: "Engineering",
+      reason: "需另開單次唯讀驗證窗口；本切片不連線、不驗證遠端。",
+      status: "blocked"
+    },
+    {
+      id: "sql-execution",
+      label: "SQL 執行",
+      owner: "Engineering",
+      reason: "需在唯讀驗證與停止條件完成後另行開 gate。",
+      status: "blocked"
+    },
+    {
+      id: "market-data",
+      label: "真實市場資料",
+      owner: "Data",
+      reason: "需來源深度、權利、品質與重跑規則完成後才可進入資料動作。",
+      status: "blocked"
+    },
+    {
+      id: "formal-score-transition",
+      label: "正式分數切換",
+      owner: "Investment",
+      reason: "需真實資料、回測、模型、法務與投資宣稱覆核全部完成。",
+      status: "blocked"
+    },
+    {
+      id: "public-claims",
+      label: "公開宣稱",
+      owner: "CEO",
+      reason: "需董事長授權邊界、法務、投資與 QA 結論收斂後才可發布。",
+      status: "blocked"
+    }
+  ];
+  const allowedCount = items.filter((item) => item.status === "allowed").length;
+  const blockedCount = items.length - allowedCount;
+
+  return {
+    allowedCount,
+    blockedCount,
+    items,
+    label: `Runtime authorization ${allowedCount} allowed / ${blockedCount} blocked`,
+    nextAction: "PM 繼續本地 mock-only runtime 實作；CEO 另行決定何時開 Supabase、SQL、真實資料與正式分數 gate。",
+    totalCount: items.length
+  };
 }
