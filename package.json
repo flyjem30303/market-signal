@@ -13,7 +13,7 @@
     "check:etf-due-diligence": "node scripts/check-etf-due-diligence.mjs",
     "check:etf-mis-validation": "node scripts/check-etf-mis-validation-plan.mjs",
     "check:etf-source-gate": "node scripts/check-etf-source-gate.mjs",
-    "check:env": "node -e \"const fs=require('fs'); const s=fs.readFileSync('.env.example','utf8'); for (const k of ['NEXT_PUBLIC_SUPABASE_URL','NEXT_PUBLIC_SUPABASE_ANON_KEY','SUPABASE_SERVICE_ROLE_KEY','NEXT_PUBLIC_DATA_SOURCE','DATA_FRESHNESS_SOURCE','INTERNAL_DIAGNOSTICS_ENABLED','INTERNAL_DIAGNOSTICS_TOKEN','NEXT_PUBLIC_SITE_URL']) { if (!s.includes(k+'=')) throw new Error('Missing '+k); console.log(k+' ok'); }\"",
+    "check:env": "node -e \"const fs=require('fs'); const s=fs.readFileSync('.env.example','utf8'); for (const k of ['NEXT_PUBLIC_SUPABASE_URL','NEXT_PUBLIC_SUPABASE_ANON_KEY','SUPABASE_SERVICE_ROLE_KEY','NEXT_PUBLIC_DATA_SOURCE','DATA_FRESHNESS_SOURCE','DATA_FRESHNESS_SUPABASE_READS','INTERNAL_DIAGNOSTICS_ENABLED','INTERNAL_DIAGNOSTICS_TOKEN','NEXT_PUBLIC_SITE_URL']) { if (!s.includes(k+'=')) throw new Error('Missing '+k); console.log(k+' ok'); }\"",
     "check:ceo-delegated-autonomy": "node scripts/check-ceo-delegated-autonomy-policy.mjs",
     "check:internal-routes": "node scripts/check-internal-route-exposure.mjs",
     "check:briefing-boundary-disclosure": "node scripts/check-briefing-boundary-disclosure.mjs",

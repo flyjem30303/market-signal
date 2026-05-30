@@ -19,7 +19,8 @@ console.log(
   JSON.stringify(
     {
       file: targetPath,
-      next_step: "Fill Supabase URL, anon key, and service role key. Keep NEXT_PUBLIC_DATA_SOURCE=mock.",
+      next_step:
+        "Fill Supabase URL, anon key, and service role key. Keep NEXT_PUBLIC_DATA_SOURCE=mock and DATA_FRESHNESS_SUPABASE_READS=disabled.",
       overwritten: false,
       status: "created"
     },

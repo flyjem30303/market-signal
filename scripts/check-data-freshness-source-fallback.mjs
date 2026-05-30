@@ -1,10 +1,12 @@
 import fs from "node:fs";
 
 const sourcePath = "src/lib/data-freshness-source.ts";
+const envExamplePath = ".env.example";
 const projectStatusPath = "PROJECT_STATUS.md";
 const runbookPath = "docs/SUPABASE_EXECUTION_RUNBOOK.md";
 const mvpTasksPath = "docs/MVP_TASKS.md";
 const source = fs.readFileSync(sourcePath, "utf8");
+const envExample = fs.readFileSync(envExamplePath, "utf8");
 const projectStatus = fs.readFileSync(projectStatusPath, "utf8");
 const runbook = fs.readFileSync(runbookPath, "utf8");
 const mvpTasks = fs.readFileSync(mvpTasksPath, "utf8");
@@ -33,6 +35,15 @@ const forbiddenPhrases = [
 ];
 
 const requiredDocPhrases = [
+  {
+    content: envExample,
+    file: envExamplePath,
+    phrases: [
+      "DATA_FRESHNESS_SOURCE=mock",
+      "DATA_FRESHNESS_SUPABASE_READS=disabled",
+      "bounded runtime-read checkpoint"
+    ]
+  },
   {
     content: projectStatus,
     file: projectStatusPath,
@@ -91,7 +102,7 @@ const problems = [...missing, ...missingDocs, ...forbidden, ...orderProblems];
 console.log(
   JSON.stringify(
     {
-      checked_files: [sourcePath, projectStatusPath, runbookPath, mvpTasksPath],
+      checked_files: [sourcePath, envExamplePath, projectStatusPath, runbookPath, mvpTasksPath],
       forbidden,
       missing,
       missingDocs,
