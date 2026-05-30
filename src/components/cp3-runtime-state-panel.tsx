@@ -34,9 +34,11 @@ type Cp3RuntimeStatePanelProps = {
 
 const runtimeValueLabels: Record<string, string> = {
   allowed: "可執行",
+  active: "進行中",
   active_local_only: "本地執行中",
   blocked: "封鎖",
   candidate: "候選模型",
+  done: "完成",
   local_contract_only: "本地契約",
   local_mock_only: "本地 mock-only",
   mock_local_only: "mock / local only",
@@ -310,6 +312,17 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
             </li>
           ))}
         </ol>
+        <article>
+          <b>Runtime milestones</b>
+          {commandCenter.milestones.map((item) => (
+            <span key={item.label}>
+              <strong>{item.label}</strong>
+              <small>{item.owner}</small>
+              <i>{item.note}</i>
+              <em>{formatRuntimeValue(item.state)}</em>
+            </span>
+          ))}
+        </article>
       </div>
       <div className="cp3-runtime-decision-summary" aria-label="Runtime decision summary">
         <strong>CEO runtime 判定</strong>

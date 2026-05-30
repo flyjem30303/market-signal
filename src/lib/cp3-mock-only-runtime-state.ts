@@ -208,6 +208,13 @@ export type Cp3MockOnlyRuntimeHandoffCheck = {
   state: "recorded";
 };
 
+export type Cp3MockOnlyRuntimeMilestone = {
+  label: string;
+  note: string;
+  owner: "CEO" | "Engineering" | "PM";
+  state: "active" | "blocked" | "done";
+};
+
 export type Cp3MockOnlyRuntimeCommandCenter = {
   blockedLaneLabel: string;
   doNext: string;
@@ -217,6 +224,7 @@ export type Cp3MockOnlyRuntimeCommandCenter = {
   executionState: "active_local_only";
   handoffChecks: Cp3MockOnlyRuntimeHandoffCheck[];
   localLaneLabel: string;
+  milestones: Cp3MockOnlyRuntimeMilestone[];
   nextGateLabel: string;
   nextWorkLabel: string;
   operatingMode: "local_mock_only";
@@ -816,6 +824,26 @@ export function getMockOnlyRuntimeCommandCenter(state: Cp3MockOnlyRuntimeState):
       { label: "Review cadence and stop condition are visible.", state: "recorded" }
     ],
     localLaneLabel: `${authorizationSnapshot.allowedCount} local lanes allowed: mock runtime UI and static guards`,
+    milestones: [
+      {
+        label: "Local runtime shell committed",
+        note: "Panel, command center, handoff checks, and static guard are in the local app.",
+        owner: "Engineering",
+        state: "done"
+      },
+      {
+        label: "Decision clarity pass",
+        note: "CEO and PM keep improving local readability before any external-data gate.",
+        owner: "PM",
+        state: "active"
+      },
+      {
+        label: "External-data transition",
+        note: "Supabase, SQL, market rows, formal score, and public claims remain blocked.",
+        owner: "CEO",
+        state: "blocked"
+      }
+    ],
     nextGateLabel: `${nextGate.owner}: ${nextGate.label}`,
     nextWorkLabel: `${nextWork.owner}: ${nextWork.label}`,
     operatingMode: "local_mock_only",

@@ -856,6 +856,22 @@ select {
   background: #f8fbff;
 }
 
+.cp3-runtime-command-center article {
+  background: #fff;
+  border: 1px solid #dbe4f0;
+  border-radius: 8px;
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+}
+
+.cp3-runtime-command-center article span {
+  border-top: 1px solid #e8eef6;
+  display: grid;
+  gap: 4px;
+  padding-top: 8px;
+}
+
 .cp3-runtime-command-center b,
 .cp3-runtime-command-center em,
 .cp3-runtime-command-center i {
@@ -4502,6 +4518,7 @@ input[type="date"] {
   .cp3-runtime-command-center div,
   .cp3-runtime-command-center ul,
   .cp3-runtime-command-center ol,
+  .cp3-runtime-command-center article,
   .cp3-runtime-fast-follow-gates,
   .cp3-runtime-fast-follow-gates div,
   .cp3-runtime-route-work-queue,
