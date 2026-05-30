@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 const navItems = [
   { href: "/briefing", label: "晨報" },
   { href: "/weekly", label: "週報" },
+  { activePrefix: "/stocks", href: "/stocks/2330", label: "個股" },
   { href: "/methodology", label: "方法論" },
   { href: "/privacy", label: "隱私權" },
   { href: "/terms", label: "使用條款" },
@@ -17,7 +18,8 @@ export function SiteNav() {
   return (
     <nav aria-label="主要導覽">
       {navItems.map((item) => {
-        const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
+        const activePath = item.activePrefix ?? item.href;
+        const isActive = pathname === activePath || pathname.startsWith(`${activePath}/`);
 
         return (
           <a aria-current={isActive ? "page" : undefined} className={isActive ? "active" : undefined} href={item.href} key={item.href}>

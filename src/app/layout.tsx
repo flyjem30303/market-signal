@@ -35,6 +35,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <nav aria-label="頁尾導覽">
             <a href="/briefing">每日晨報</a>
             <a href="/weekly">週報</a>
+            <a href="/stocks/2330">個股</a>
             <a href="/methodology">方法論</a>
             <a href="/privacy">隱私權</a>
             <a href="/terms">使用條款</a>
