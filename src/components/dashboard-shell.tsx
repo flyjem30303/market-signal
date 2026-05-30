@@ -392,7 +392,11 @@ function HomeWatchlist({
               <strong>{item.asset.symbol}</strong>
               <small>{item.asset.name}</small>
             </span>
-            <b>{valueKey === "risk" ? item.riskScore : item.compositeScore}</b>
+            <em>{item.signal.title}</em>
+            <b>
+              <small>{valueKey === "risk" ? "風險" : "綜合"}</small>
+              {valueKey === "risk" ? item.riskScore : item.compositeScore}
+            </b>
           </a>
         ))}
       </div>
