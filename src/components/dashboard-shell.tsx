@@ -280,6 +280,20 @@ function HomeProductOverview({
   const gapCount = snapshot.missingModuleFlags.length + snapshot.staleDataFlags.length;
   const strongest = snapshots.slice().sort((a, b) => b.compositeScore - a.compositeScore).slice(0, 4);
   const riskiest = snapshots.slice().sort((a, b) => b.riskScore - a.riskScore).slice(0, 4);
+  const breadth = snapshots.reduce(
+    (summary, item) => {
+      if (item.signal.key === "green" || item.signal.key === "yellow") {
+        summary.constructive += 1;
+      } else if (item.signal.key === "orange") {
+        summary.watch += 1;
+      } else {
+        summary.defensive += 1;
+      }
+
+      return summary;
+    },
+    { constructive: 0, defensive: 0, watch: 0 }
+  );
 
   return (
     <>
@@ -325,6 +339,24 @@ function HomeProductOverview({
             <p>正式資料來源與公開宣稱仍未完成前，所有分數只支援產品體驗。</p>
           </article>
         </div>
+      </section>
+
+      <section className="home-market-breadth" aria-label="首頁市場廣度摘要">
+        <article className="positive">
+          <span>強勢延伸</span>
+          <strong>{breadth.constructive}</strong>
+          <p>綠燈與黃燈標的數量。數量越多，代表 mock 訊號中的多頭結構較廣。</p>
+        </article>
+        <article className="watch">
+          <span>需要觀察</span>
+          <strong>{breadth.watch}</strong>
+          <p>橘燈標的數量。這些標的適合先拆解風險來源，不急著放大解讀。</p>
+        </article>
+        <article className="risk">
+          <span>防守優先</span>
+          <strong>{breadth.defensive}</strong>
+          <p>紅燈與深紅標的數量。若升高，首頁閱讀順序應先看風險清單。</p>
+        </article>
       </section>
 
       <section className="home-watchlists" aria-label="首頁市場觀察清單">

@@ -344,6 +344,53 @@ select {
   line-height: 1.1;
 }
 
+.home-market-breadth {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.home-market-breadth article {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+  padding: 16px;
+}
+
+.home-market-breadth span {
+  display: block;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 850;
+}
+
+.home-market-breadth strong {
+  display: block;
+  margin: 8px 0;
+  font-size: 34px;
+  line-height: 1;
+}
+
+.home-market-breadth p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.home-market-breadth .positive strong {
+  color: var(--green);
+}
+
+.home-market-breadth .watch strong {
+  color: var(--amber);
+}
+
+.home-market-breadth .risk strong {
+  color: var(--red);
+}
+
 .home-watchlists {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -4896,6 +4943,7 @@ input[type="date"] {
   .asset-grid,
   .home-product-overview,
   .home-overview-grid,
+  .home-market-breadth,
   .home-watchlists,
   .quote-panel,
   .stock-evidence-snapshot,
