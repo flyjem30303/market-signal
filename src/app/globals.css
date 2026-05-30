@@ -377,10 +377,30 @@ select {
   border: 1px solid #dbe4f0;
   border-radius: 8px;
   color: #3f5872;
+  display: grid;
   font-size: 13px;
   font-weight: 800;
+  gap: 4px;
   padding: 8px;
   text-align: center;
+}
+
+.cp3-runtime-upgrade-requirements b,
+.cp3-runtime-upgrade-requirements em,
+.cp3-runtime-upgrade-requirements small {
+  display: block;
+  font-style: normal;
+}
+
+.cp3-runtime-upgrade-requirements small {
+  color: #6b7f95;
+  font-size: 11px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.cp3-runtime-upgrade-requirements em {
+  color: #17324d;
 }
 
 .cp3-runtime-state-blockers {
