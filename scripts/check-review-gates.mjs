@@ -1498,6 +1498,11 @@ const checks = [
     name: "cp3-chairman-narrow-question-submit-readiness-checkpoint"
   },
   {
+    command: [node, "scripts/check-cp3-chairman-narrow-question-submission-record.mjs"],
+    expectStatus: "ok",
+    name: "cp3-chairman-narrow-question-submission-record"
+  },
+  {
     command: [node, "scripts/check-cp3-mock-only-runtime-panel.mjs"],
     expectStatus: "ok",
     name: "cp3-mock-only-runtime-panel"
