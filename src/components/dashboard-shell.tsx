@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import type { Asset } from "@/lib/assets";
 import { StockSeoContent } from "@/components/stock-seo-content";
 import { CommercialSlot } from "@/components/commercial-slot";
+import { Cp3RuntimeStatePanel } from "@/components/cp3-runtime-state-panel";
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import {
   signalColor,
@@ -133,6 +134,7 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
       {includeSeoContent && (
         <>
           <DataFreshnessStrip freshness={freshness} />
+          <Cp3RuntimeStatePanel freshness={freshness} snapshot={snapshot} />
           <StockEvidenceSnapshot snapshot={snapshot} />
           <StockDataGapPanel snapshot={snapshot} onTab={changeTab} />
           <StockDecisionCompass scoreSourceLabel={freshness.scoreSourceLabel} snapshot={snapshot} />
