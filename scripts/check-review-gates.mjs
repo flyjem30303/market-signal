@@ -2013,6 +2013,11 @@ const checks = [
     name: "cp3-remote-only-object-draft-types"
   },
   {
+    command: [node, "scripts/check-cp3-data-freshness-to-data-runs-relationship-note.mjs"],
+    expectStatus: "ok",
+    name: "cp3-data-freshness-to-data-runs-relationship-note"
+  },
+  {
     command: [node, "scripts/check-etf-source-gate.mjs"],
     expectStatus: "blocked",
     name: "etf-source-gate"
