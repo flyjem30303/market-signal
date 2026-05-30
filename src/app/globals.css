@@ -338,6 +338,24 @@ select {
   padding: 6px 10px;
 }
 
+.cp3-runtime-stop-lines {
+  background: #fff;
+  border: 1px dashed #d7a64b;
+  border-radius: 8px;
+  display: grid;
+  gap: 8px;
+  grid-column: 1 / -1;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  padding: 10px;
+}
+
+.cp3-runtime-stop-lines span {
+  color: #6f4700;
+  font-size: 13px;
+  font-weight: 850;
+  text-align: center;
+}
+
 .evidence-snapshot-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -3585,6 +3603,7 @@ input[type="date"] {
   .evidence-snapshot-grid,
   .cp3-runtime-state-panel,
   .cp3-runtime-state-grid,
+  .cp3-runtime-stop-lines,
   .stock-data-gap-panel,
   .stock-decision-compass,
   .stock-page-compass,

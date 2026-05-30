@@ -29,6 +29,7 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
   const displayState = getMockOnlyPublicDisplayState(runtimeState);
   const copy = cp3MockOnlyUiCopyTokens[displayState];
   const blockers = buildRuntimeBlockers(runtimeState);
+  const stopLines = buildRuntimeStopLines();
 
   return (
     <section className={`cp3-runtime-state-panel ${displayState}`} aria-label="CP3 Runtime State">
@@ -52,6 +53,11 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
       <div className="cp3-runtime-state-blockers" aria-label="Runtime blockers">
         {blockers.map((blocker) => (
           <span key={blocker}>{blocker}</span>
+        ))}
+      </div>
+      <div className="cp3-runtime-stop-lines" aria-label="Runtime stop lines">
+        {stopLines.map((line) => (
+          <span key={line}>{line}</span>
         ))}
       </div>
     </section>
@@ -110,6 +116,10 @@ function buildRuntimeBlockers(state: Cp3MockOnlyRuntimeState) {
     `公開宣稱 ${formatRuntimeValue(state.claimApprovalState)}`,
     `回測審核 ${formatRuntimeValue(state.backtestApprovalState)}`
   ].filter((item): item is string => Boolean(item));
+}
+
+function buildRuntimeStopLines() {
+  return ["不可轉正式分數", "不可連接真實資料", "不可作為投資結論", "不可發布公開宣稱"];
 }
 
 function toRuntimeDataQualityState(freshness: DataFreshnessSnapshot): Cp3MockOnlyDataQualityState {

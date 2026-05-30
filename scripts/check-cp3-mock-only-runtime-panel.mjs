@@ -43,6 +43,13 @@ const requiredComponentPhrases = [
   "資料契約 ${formatRuntimeValue(state.contractState)}",
   "來源深度 ${formatRuntimeValue(state.sourceDepthState)}",
   "公開宣稱 ${formatRuntimeValue(state.claimApprovalState)}",
+  "buildRuntimeStopLines",
+  "cp3-runtime-stop-lines",
+  "Runtime stop lines",
+  "不可轉正式分數",
+  "不可連接真實資料",
+  "不可作為投資結論",
+  "不可發布公開宣稱",
   "toRuntimeDataQualityState",
   "toRuntimeFreshnessState"
 ];
@@ -77,7 +84,8 @@ const requiredCssPhrases = [
   ".cp3-runtime-state-panel.mock",
   ".cp3-runtime-state-grid",
   ".cp3-runtime-state-disclosure",
-  ".cp3-runtime-state-blockers"
+  ".cp3-runtime-state-blockers",
+  ".cp3-runtime-stop-lines"
 ];
 
 const forbiddenComponentPhrases = [
