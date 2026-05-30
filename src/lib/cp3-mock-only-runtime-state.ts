@@ -54,6 +54,12 @@ export type Cp3MockOnlyUpgradeProgress = {
   totalCount: number;
 };
 
+export type Cp3MockOnlySourceDepthEvidenceItem = {
+  label: string;
+  owner: "Data";
+  state: Cp3MockOnlyApprovalState;
+};
+
 export const cp3MockOnlyUiCopyTokens: Record<Cp3MockOnlyDisplayState, Cp3MockOnlyUiCopyToken> = {
   mock: {
     claimLimit: "目前只可作為產品體驗與閱讀流程示範，不能作為投資判斷、建議或績效保證。",
@@ -178,4 +184,34 @@ export function getMockOnlyRuntimeUpgradeProgress(state: Cp3MockOnlyRuntimeState
     readyCount,
     totalCount: requirements.length
   };
+}
+
+export function getMockOnlySourceDepthEvidenceItems(): Cp3MockOnlySourceDepthEvidenceItem[] {
+  return [
+    {
+      label: "來源覆蓋率",
+      owner: "Data",
+      state: "not_ready"
+    },
+    {
+      label: "歷史期間完整度",
+      owner: "Data",
+      state: "not_ready"
+    },
+    {
+      label: "欄位血緣與轉換規則",
+      owner: "Data",
+      state: "not_ready"
+    },
+    {
+      label: "新鮮度連續性",
+      owner: "Data",
+      state: "not_ready"
+    },
+    {
+      label: "異常與缺口處理規則",
+      owner: "Data",
+      state: "not_ready"
+    }
+  ];
 }

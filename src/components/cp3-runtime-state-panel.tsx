@@ -2,6 +2,7 @@ import type { DataFreshnessSnapshot } from "@/lib/data-freshness";
 import {
   cp3MockOnlyUiCopyTokens,
   getMockOnlyPublicDisplayState,
+  getMockOnlySourceDepthEvidenceItems,
   getMockOnlyRuntimeUpgradeProgress,
   getMockOnlyRuntimeUpgradeRequirements,
   getMockOnlyRuntimeUpgradeVerdict,
@@ -36,6 +37,7 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
   const upgradeRequirements = getMockOnlyRuntimeUpgradeRequirements(runtimeState);
   const upgradeProgress = getMockOnlyRuntimeUpgradeProgress(runtimeState);
   const upgradeVerdict = getMockOnlyRuntimeUpgradeVerdict(runtimeState);
+  const sourceDepthEvidenceItems = getMockOnlySourceDepthEvidenceItems();
   const stopLines = buildRuntimeStopLines();
 
   return (
@@ -77,6 +79,19 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
               <small>{requirement.owner}</small>
               <i>{requirement.nextAction}</i>
               <em>{formatRuntimeValue(requirement.state)}</em>
+            </span>
+          ))}
+        </div>
+      </div>
+      <div className="cp3-runtime-source-depth-focus" aria-label="Source depth evidence focus">
+        <strong>來源深度解除條件</strong>
+        <p>Data 必須先補齊以下證據；完成前來源深度維持尚未就緒。</p>
+        <div>
+          {sourceDepthEvidenceItems.map((item) => (
+            <span key={item.label}>
+              <b>{item.label}</b>
+              <small>{item.owner}</small>
+              <em>{formatRuntimeValue(item.state)}</em>
             </span>
           ))}
         </div>
