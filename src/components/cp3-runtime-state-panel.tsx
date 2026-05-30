@@ -44,6 +44,7 @@ const runtimeValueLabels: Record<string, string> = {
   mock: "模擬分數",
   not_ready: "尚未就緒",
   partial: "部分就緒",
+  recorded: "已記錄",
   schema_shape_checked_not_quality: "schema shape 窄證據",
   schema_shape_local_only: "schema shape 本地契約",
   stale: "新鮮度不足",
@@ -301,6 +302,14 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
             </li>
           ))}
         </ul>
+        <ol>
+          {commandCenter.handoffChecks.map((item) => (
+            <li key={item.label}>
+              <b>{item.label}</b>
+              <em>{formatRuntimeValue(item.state)}</em>
+            </li>
+          ))}
+        </ol>
       </div>
       <div className="cp3-runtime-decision-summary" aria-label="Runtime decision summary">
         <strong>CEO runtime 判定</strong>

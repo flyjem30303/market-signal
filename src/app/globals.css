@@ -843,6 +843,19 @@ select {
   padding: 10px;
 }
 
+.cp3-runtime-command-center ol {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.cp3-runtime-command-center ol li {
+  background: #f8fbff;
+}
+
 .cp3-runtime-command-center b,
 .cp3-runtime-command-center em,
 .cp3-runtime-command-center i {
@@ -4488,6 +4501,7 @@ input[type="date"] {
   .cp3-runtime-command-center aside,
   .cp3-runtime-command-center div,
   .cp3-runtime-command-center ul,
+  .cp3-runtime-command-center ol,
   .cp3-runtime-fast-follow-gates,
   .cp3-runtime-fast-follow-gates div,
   .cp3-runtime-route-work-queue,

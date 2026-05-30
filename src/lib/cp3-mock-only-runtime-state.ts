@@ -203,6 +203,11 @@ export type Cp3MockOnlyRuntimeRoleAction = {
   state: Cp3MockOnlyRuntimeAuthorizationStatus;
 };
 
+export type Cp3MockOnlyRuntimeHandoffCheck = {
+  label: string;
+  state: "recorded";
+};
+
 export type Cp3MockOnlyRuntimeCommandCenter = {
   blockedLaneLabel: string;
   doNext: string;
@@ -210,6 +215,7 @@ export type Cp3MockOnlyRuntimeCommandCenter = {
   doNow: string;
   evidenceLevel: "mock_local_only";
   executionState: "active_local_only";
+  handoffChecks: Cp3MockOnlyRuntimeHandoffCheck[];
   localLaneLabel: string;
   nextGateLabel: string;
   nextWorkLabel: string;
@@ -803,6 +809,12 @@ export function getMockOnlyRuntimeCommandCenter(state: Cp3MockOnlyRuntimeState):
     doNow: "Continue local mock-only runtime UI refinement and static guard hardening.",
     evidenceLevel: "mock_local_only",
     executionState: "active_local_only",
+    handoffChecks: [
+      { label: "Mock-only runtime state remains explicit.", state: "recorded" },
+      { label: "Static guard covers command center fields.", state: "recorded" },
+      { label: "No external-data gate is opened by this UI.", state: "recorded" },
+      { label: "Review cadence and stop condition are visible.", state: "recorded" }
+    ],
     localLaneLabel: `${authorizationSnapshot.allowedCount} local lanes allowed: mock runtime UI and static guards`,
     nextGateLabel: `${nextGate.owner}: ${nextGate.label}`,
     nextWorkLabel: `${nextWork.owner}: ${nextWork.label}`,
