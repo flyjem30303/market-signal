@@ -32,10 +32,14 @@ const requiredComponentPhrases = [
   "來源深度",
   "公開宣稱",
   "資料品質",
+  "部分就緒",
+  "新鮮度不足",
+  "不可用",
+  "formatRuntimeValue",
   "分數仍為 mock",
-  "資料契約 ${state.contractState}",
-  "來源深度 ${state.sourceDepthState}",
-  "公開宣稱 ${state.claimApprovalState}",
+  "資料契約 ${formatRuntimeValue(state.contractState)}",
+  "來源深度 ${formatRuntimeValue(state.sourceDepthState)}",
+  "公開宣稱 ${formatRuntimeValue(state.claimApprovalState)}",
   "toRuntimeDataQualityState",
   "toRuntimeFreshnessState"
 ];
@@ -124,6 +128,17 @@ const forbiddenDashboardPhrases = [
   "scoreSource: \"real\""
 ];
 
+const forbiddenMojibakePhrases = [
+  "�",
+  "?",
+  "?桀",
+  "鞈",
+  "靘",
+  "摰?迂",
+  "甇斤",
+  "嚗"
+];
+
 function walkFiles(root) {
   if (!fs.existsSync(root)) return [];
   const out = [];
@@ -162,6 +177,9 @@ const forbidden = [
   ...forbiddenComponentPhrases.filter((phrase) => component.includes(phrase)).map((phrase) => `${componentPath}: ${phrase}`),
   ...forbiddenRuntimePhrases.filter((phrase) => runtime.includes(phrase)).map((phrase) => `${runtimePath}: ${phrase}`),
   ...forbiddenDashboardPhrases.filter((phrase) => dashboard.includes(phrase)).map((phrase) => `${dashboardPath}: ${phrase}`),
+  ...forbiddenMojibakePhrases
+    .filter((phrase) => component.includes(phrase) || runtime.includes(phrase))
+    .map((phrase) => `runtime mojibake: ${phrase}`),
   ...forbiddenDraftImports.map((file) => `draft import in public runtime: ${file}`)
 ];
 

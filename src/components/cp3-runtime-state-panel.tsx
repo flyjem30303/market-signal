@@ -18,10 +18,10 @@ const runtimeValueLabels: Record<string, string> = {
   local_contract_only: "本地契約",
   mock: "mock",
   not_ready: "not_ready",
-  partial: "partial",
-  stale: "stale",
-  unavailable: "unavailable",
-  unknown: "unknown"
+  partial: "部分就緒",
+  stale: "新鮮度不足",
+  unavailable: "不可用",
+  unknown: "未知"
 };
 
 export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePanelProps) {
@@ -92,19 +92,23 @@ function RuntimeStateItem({ label, value }: { label: string; value: string | num
   return (
     <article>
       <span>{label}</span>
-      <strong>{runtimeValueLabels[String(value)] ?? value}</strong>
+      <strong>{formatRuntimeValue(value)}</strong>
     </article>
   );
+}
+
+function formatRuntimeValue(value: string | number) {
+  return runtimeValueLabels[String(value)] ?? value;
 }
 
 function buildRuntimeBlockers(state: Cp3MockOnlyRuntimeState) {
   return [
     state.scoreSource === "mock" ? "分數仍為 mock" : null,
-    `資料契約 ${state.contractState}`,
-    `來源深度 ${state.sourceDepthState}`,
-    `來源權利 ${state.sourceRightsState}`,
-    `公開宣稱 ${state.claimApprovalState}`,
-    `回測審核 ${state.backtestApprovalState}`
+    `資料契約 ${formatRuntimeValue(state.contractState)}`,
+    `來源深度 ${formatRuntimeValue(state.sourceDepthState)}`,
+    `來源權利 ${formatRuntimeValue(state.sourceRightsState)}`,
+    `公開宣稱 ${formatRuntimeValue(state.claimApprovalState)}`,
+    `回測審核 ${formatRuntimeValue(state.backtestApprovalState)}`
   ].filter((item): item is string => Boolean(item));
 }
 
