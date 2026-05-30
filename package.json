@@ -75,6 +75,7 @@
     "check:cp3-non-runtime-readiness-gap-owner-action-matrix": "node scripts/check-cp3-non-runtime-readiness-gap-owner-action-matrix.mjs",
     "check:cp3-source-depth-evidence-owner-action-acceptance-criteria": "node scripts/check-cp3-source-depth-evidence-owner-action-acceptance-criteria.mjs",
     "check:cp3-source-depth-evidence-local-only-question-template": "node scripts/check-cp3-source-depth-evidence-local-only-question-template.mjs",
+    "check:cp3-source-depth-evidence-local-only-filled-example-design": "node scripts/check-cp3-source-depth-evidence-local-only-filled-example-design.mjs",
     "check:cp3-tw-stock-source-depth": "node scripts/check-cp3-tw-stock-source-depth.mjs",
     "check:cp3-source-depth-evidence-gate-draft": "node scripts/check-cp3-source-depth-evidence-gate-draft.mjs",
     "check:cp3-source-depth-evidence-gate-role-review": "node scripts/check-cp3-source-depth-evidence-gate-role-review.mjs",

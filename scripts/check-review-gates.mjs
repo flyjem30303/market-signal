@@ -1443,6 +1443,11 @@ const checks = [
     name: "cp3-source-depth-evidence-local-only-question-template"
   },
   {
+    command: [node, "scripts/check-cp3-source-depth-evidence-local-only-filled-example-design.mjs"],
+    expectStatus: "ok",
+    name: "cp3-source-depth-evidence-local-only-filled-example-design"
+  },
+  {
     command: [node, "scripts/check-cp3-tw-stock-model-candidates.mjs"],
     expectStatus: "ok",
     name: "cp3-tw-stock-model"
