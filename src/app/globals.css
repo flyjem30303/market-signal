@@ -4470,7 +4470,8 @@ input[type="search"] {
   margin: 0 0 8px;
 }
 
-.briefing-links {
+.briefing-links,
+.weekly-links {
   display: flex;
   flex-wrap: wrap;
   gap: 14px;
@@ -4478,7 +4479,8 @@ input[type="search"] {
   margin-bottom: 16px;
 }
 
-.briefing-links h2 {
+.briefing-links h2,
+.weekly-links h2 {
   width: 100%;
   margin: 0;
 }

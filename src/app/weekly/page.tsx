@@ -118,6 +118,22 @@ export default async function WeeklyPage() {
         </p>
       </section>
 
+      <section className="panel weekly-links">
+        <h2>讀完週報後</h2>
+        <a className="text-link" href="/">
+          回首頁看市場廣度
+        </a>
+        <a className="text-link" href="/briefing">
+          看每日晨報
+        </a>
+        <a className="text-link" href="/stocks/TWII">
+          查看台指狀態
+        </a>
+        <a className="text-link" href="/methodology">
+          了解評分方法
+        </a>
+      </section>
+
       <article className="disclaimer">
         <h2>投資免責聲明</h2>
         <p>
