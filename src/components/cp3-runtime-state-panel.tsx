@@ -4,6 +4,7 @@ import {
   getMockOnlyFastFollowGates,
   getMockOnlyPublicDisplayState,
   getMockOnlyRuntimeRouteDecision,
+  getMockOnlyRuntimeRouteWorkQueue,
   getMockOnlySourceDepthEvidenceItems,
   getMockOnlySourceDepthEvidenceProgress,
   getMockOnlyRuntimeUpgradeProgress,
@@ -44,6 +45,7 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
   const sourceDepthEvidenceProgress = getMockOnlySourceDepthEvidenceProgress();
   const fastFollowGates = getMockOnlyFastFollowGates();
   const routeDecision = getMockOnlyRuntimeRouteDecision(runtimeState);
+  const routeWorkQueue = getMockOnlyRuntimeRouteWorkQueue();
   const stopLines = buildRuntimeStopLines();
 
   return (
@@ -125,6 +127,20 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
               <small>{gate.owner}</small>
               <i>{gate.reason}</i>
               <em>{formatRuntimeValue(gate.state)}</em>
+            </span>
+          ))}
+        </div>
+      </div>
+      <div className="cp3-runtime-route-work-queue" aria-label="Runtime route work queue">
+        <strong>PM route work queue</strong>
+        <p>僅列本地準備工作；不代表外部資料、SQL 或正式分數已授權。</p>
+        <div>
+          {routeWorkQueue.map((item) => (
+            <span key={item.id}>
+              <b>{item.label}</b>
+              <small>{item.owner}</small>
+              <i>{item.nextAction}</i>
+              <em>{formatRuntimeValue(item.state)}</em>
             </span>
           ))}
         </div>

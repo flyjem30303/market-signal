@@ -85,6 +85,14 @@ export type Cp3MockOnlyRuntimeRouteDecision = {
   state: "blocked";
 };
 
+export type Cp3MockOnlyRuntimeRouteWorkItem = {
+  id: string;
+  label: string;
+  nextAction: string;
+  owner: "CEO" | "Data" | "Engineering" | "Investment" | "Legal" | "PM";
+  state: "blocked";
+};
+
 export const cp3MockOnlyUiCopyTokens: Record<Cp3MockOnlyDisplayState, Cp3MockOnlyUiCopyToken> = {
   mock: {
     claimLimit: "目前只可作為產品體驗與閱讀流程示範，不能作為投資判斷、建議或績效保證。",
@@ -321,4 +329,44 @@ export function getMockOnlyRuntimeRouteDecision(
     route: "local_mock_only_refinement",
     state: "blocked"
   };
+}
+
+export function getMockOnlyRuntimeRouteWorkQueue(): Cp3MockOnlyRuntimeRouteWorkItem[] {
+  return [
+    {
+      id: "local-runtime-copy-review",
+      label: "本地 runtime 文案確認",
+      nextAction: "確認 mock-only、not_ready、gated fast-follow 文案一致",
+      owner: "PM",
+      state: "blocked"
+    },
+    {
+      id: "source-depth-evidence-prep",
+      label: "來源深度證據準備",
+      nextAction: "補齊五項來源深度驗收證據草稿，仍不接真實資料",
+      owner: "Data",
+      state: "blocked"
+    },
+    {
+      id: "readonly-validation-window",
+      label: "唯讀驗證窗口準備",
+      nextAction: "準備單次唯讀驗證前置檢查，尚不執行遠端連線",
+      owner: "Engineering",
+      state: "blocked"
+    },
+    {
+      id: "rights-review-question",
+      label: "來源權利問題整理",
+      nextAction: "整理授權、保存、再散布與公開揭露待答問題",
+      owner: "Legal",
+      state: "blocked"
+    },
+    {
+      id: "claim-boundary-review",
+      label: "宣稱邊界覆核",
+      nextAction: "確認公開文案仍不得使用正式分數或投資宣稱",
+      owner: "CEO",
+      state: "blocked"
+    }
+  ];
 }

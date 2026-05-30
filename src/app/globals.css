@@ -611,6 +611,71 @@ select {
   color: #17324d;
 }
 
+.cp3-runtime-route-work-queue {
+  background: #fff;
+  border: 1px solid #dbe4f0;
+  border-radius: 8px;
+  display: grid;
+  gap: 8px;
+  grid-column: 1 / -1;
+  padding: 12px;
+}
+
+.cp3-runtime-route-work-queue strong {
+  color: #17324d;
+}
+
+.cp3-runtime-route-work-queue p {
+  color: #52697f;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.cp3-runtime-route-work-queue div {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.cp3-runtime-route-work-queue span {
+  background: #f7f9fc;
+  border: 1px solid #dbe4f0;
+  border-radius: 8px;
+  color: #3f5872;
+  display: grid;
+  font-size: 13px;
+  font-weight: 800;
+  gap: 4px;
+  padding: 8px;
+  text-align: center;
+}
+
+.cp3-runtime-route-work-queue b,
+.cp3-runtime-route-work-queue em,
+.cp3-runtime-route-work-queue i,
+.cp3-runtime-route-work-queue small {
+  display: block;
+  font-style: normal;
+}
+
+.cp3-runtime-route-work-queue i {
+  color: #52697f;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.cp3-runtime-route-work-queue small {
+  color: #6b7f95;
+  font-size: 11px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.cp3-runtime-route-work-queue em {
+  color: #17324d;
+}
+
 .cp3-runtime-stop-lines {
   background: #fff;
   border: 1px dashed #d7a64b;
@@ -3884,6 +3949,8 @@ input[type="date"] {
   .cp3-runtime-source-depth-focus div,
   .cp3-runtime-fast-follow-gates,
   .cp3-runtime-fast-follow-gates div,
+  .cp3-runtime-route-work-queue,
+  .cp3-runtime-route-work-queue div,
   .cp3-runtime-stop-lines,
   .stock-data-gap-panel,
   .stock-decision-compass,
