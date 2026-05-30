@@ -7,6 +7,7 @@ import {
   getMockOnlyRuntimeRouteWorkProgress,
   getMockOnlyRuntimeRouteWorkQueue,
   getMockOnlyRuntimeMetadataDisclosure,
+  getMockOnlyRuntimeSchemaShapeDisclosure,
   getMockOnlySourceDepthEvidenceItems,
   getMockOnlySourceDepthEvidenceProgress,
   getMockOnlyRuntimeUpgradeProgress,
@@ -30,6 +31,8 @@ const runtimeValueLabels: Record<string, string> = {
   mock: "模擬分數",
   not_ready: "尚未就緒",
   partial: "部分就緒",
+  schema_shape_checked_not_quality: "schema shape 窄證據",
+  schema_shape_local_only: "schema shape 本地契約",
   stale: "新鮮度不足",
   supabase_metadata_reachable: "Supabase metadata 可達",
   unavailable: "不可用",
@@ -52,6 +55,7 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
   const routeWorkQueue = getMockOnlyRuntimeRouteWorkQueue();
   const routeWorkProgress = getMockOnlyRuntimeRouteWorkProgress();
   const metadataDisclosure = getMockOnlyRuntimeMetadataDisclosure(runtimeState);
+  const schemaShapeDisclosure = getMockOnlyRuntimeSchemaShapeDisclosure(runtimeState);
   const stopLines = buildRuntimeStopLines();
 
   return (
@@ -69,6 +73,7 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
         <RuntimeStateItem label="公開宣稱" value={runtimeState.claimApprovalState} />
         <RuntimeStateItem label="資料品質" value={runtimeState.dataQualityState} />
         <RuntimeStateItem label="metadata 可達性" value={runtimeState.metadataReachabilityState} />
+        <RuntimeStateItem label="schema shape" value={runtimeState.schemaShapeState} />
       </div>
       <div className="cp3-runtime-state-disclosure">
         <strong>{copy.disclosure}</strong>
@@ -77,6 +82,10 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
       <div className="cp3-runtime-metadata-disclosure" aria-label="Runtime metadata disclosure">
         <strong>{metadataDisclosure.label}</strong>
         <span>{metadataDisclosure.note}</span>
+      </div>
+      <div className="cp3-runtime-schema-shape-disclosure" aria-label="Runtime schema shape disclosure">
+        <strong>{schemaShapeDisclosure.label}</strong>
+        <span>{schemaShapeDisclosure.note}</span>
       </div>
       <div className="cp3-runtime-decision-summary" aria-label="Runtime decision summary">
         <strong>CEO runtime 判定</strong>
@@ -186,6 +195,7 @@ export function buildMockOnlyRuntimeState({
     metadataReachabilityState: freshness.isMock ? "mock_metadata" : "supabase_metadata_reachable",
     modelApprovalState: "candidate",
     modelVersion: snapshot.modelVersion,
+    schemaShapeState: freshness.isMock ? "schema_shape_local_only" : "schema_shape_checked_not_quality",
     scoreSource: "mock",
     sourceDepthState: "not_ready",
     sourceRightsState: "not_ready"
@@ -218,6 +228,9 @@ function buildRuntimeBlockers(state: Cp3MockOnlyRuntimeState) {
     state.metadataReachabilityState === "supabase_metadata_reachable"
       ? "Freshness metadata 可達但不代表資料品質核准"
       : "metadata 仍為 mock",
+    state.schemaShapeState === "schema_shape_checked_not_quality"
+      ? "Schema shape 窄證據不代表 row completeness"
+      : "schema shape 仍為本地契約",
     `資料契約 ${formatRuntimeValue(state.contractState)}`,
     `來源深度 ${formatRuntimeValue(state.sourceDepthState)}`,
     `來源權利 ${formatRuntimeValue(state.sourceRightsState)}`,
@@ -238,6 +251,7 @@ function buildRuntimeStopLines() {
   return [
     "不可轉正式分數",
     "不可把 metadata 可達視為資料品質核准",
+    "不可把 schema shape 視為資料完整或權利核准",
     "不可連接真實資料或寫入市場資料",
     "不可作為投資結論",
     "不可發布公開宣稱"

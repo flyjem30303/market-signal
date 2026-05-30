@@ -367,6 +367,25 @@ select {
   line-height: 1.6;
 }
 
+.cp3-runtime-schema-shape-disclosure {
+  background: #fff8e8;
+  border: 1px solid #ecc46a;
+  border-radius: 8px;
+  display: grid;
+  gap: 4px;
+  grid-column: 1 / -1;
+  padding: 12px;
+}
+
+.cp3-runtime-schema-shape-disclosure strong {
+  color: #714a00;
+}
+
+.cp3-runtime-schema-shape-disclosure span {
+  color: #7a5b18;
+  line-height: 1.6;
+}
+
 .cp3-runtime-route-decision {
   background: #fff;
   border: 1px solid #cddff2;

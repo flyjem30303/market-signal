@@ -6,6 +6,8 @@ export type Cp3MockOnlyFreshnessState = "stale" | "unknown";
 
 export type Cp3MockOnlyMetadataReachabilityState = "mock_metadata" | "supabase_metadata_reachable";
 
+export type Cp3MockOnlySchemaShapeState = "schema_shape_local_only" | "schema_shape_checked_not_quality";
+
 export type Cp3MockOnlyRuntimeState = {
   assetType: "stock" | "etf" | "index";
   backtestApprovalState: Cp3MockOnlyApprovalState;
@@ -20,6 +22,7 @@ export type Cp3MockOnlyRuntimeState = {
   metadataReachabilityState: Cp3MockOnlyMetadataReachabilityState;
   modelApprovalState: "candidate";
   modelVersion: string;
+  schemaShapeState: Cp3MockOnlySchemaShapeState;
   scoreSource: "mock";
   sourceDepthState: Cp3MockOnlyApprovalState;
   sourceRightsState: Cp3MockOnlyApprovalState;
@@ -109,6 +112,12 @@ export type Cp3MockOnlyRuntimeMetadataDisclosure = {
   label: string;
   note: string;
   state: Cp3MockOnlyMetadataReachabilityState;
+};
+
+export type Cp3MockOnlyRuntimeSchemaShapeDisclosure = {
+  label: string;
+  note: string;
+  state: Cp3MockOnlySchemaShapeState;
 };
 
 export const cp3MockOnlyUiCopyTokens: Record<Cp3MockOnlyDisplayState, Cp3MockOnlyUiCopyToken> = {
@@ -426,5 +435,23 @@ export function getMockOnlyRuntimeMetadataDisclosure(
     label: "模擬 metadata",
     note: "目前仍使用本地 mock freshness；runtime 只能呈現產品流程與邊界。",
     state: state.metadataReachabilityState
+  };
+}
+
+export function getMockOnlyRuntimeSchemaShapeDisclosure(
+  state: Cp3MockOnlyRuntimeState
+): Cp3MockOnlyRuntimeSchemaShapeDisclosure {
+  if (state.schemaShapeState === "schema_shape_checked_not_quality") {
+    return {
+      label: "Schema shape 已有窄證據",
+      note: "這只代表物件與欄位形狀已有窄範圍證據；不代表 row completeness、historical depth、source rights、資料品質或正式分數可使用。",
+      state: state.schemaShapeState
+    };
+  }
+
+  return {
+    label: "Schema shape 僅本地契約",
+    note: "目前只可依本地 contract 呈現 UI；未形成遠端 schema shape 依賴。",
+    state: state.schemaShapeState
   };
 }
