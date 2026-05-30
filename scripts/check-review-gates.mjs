@@ -1633,6 +1633,11 @@ const checks = [
     name: "cp3-supabase-read-only-exact-direct-node-retry-command-gate-role-review"
   },
   {
+    command: [node, "scripts/check-cp3-supabase-read-only-one-attempt-direct-node-execution-decision-gate.mjs"],
+    expectStatus: "ok",
+    name: "cp3-supabase-read-only-one-attempt-direct-node-execution-decision-gate"
+  },
+  {
     command: [node, "scripts/check-cp3-tw-stock-model-candidates.mjs"],
     expectStatus: "ok",
     name: "cp3-tw-stock-model"
