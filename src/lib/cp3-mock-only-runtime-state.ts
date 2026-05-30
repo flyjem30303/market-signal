@@ -134,6 +134,16 @@ export type Cp3MockOnlyRuntimeReadinessTriadItem = {
   state: "blocked";
 };
 
+export type Cp3MockOnlyRuntimeNextGate = {
+  acceptance: string;
+  id: "metadata-quality-separation" | "schema-contract-alignment" | "data-quality-role-review";
+  label: string;
+  owner: "Data" | "Engineering" | "Investment" | "PM";
+  reason: string;
+  sequence: number;
+  state: "blocked";
+};
+
 export const cp3MockOnlyUiCopyTokens: Record<Cp3MockOnlyDisplayState, Cp3MockOnlyUiCopyToken> = {
   mock: {
     claimLimit: "目前只可作為產品體驗與閱讀流程示範，不能作為投資判斷、建議或績效保證。",
@@ -523,6 +533,44 @@ export function getMockOnlyRuntimeReadinessTriad(state: Cp3MockOnlyRuntimeState)
       interpretation: `資料品質目前是 ${state.dataQualityState}；所有分數仍需折扣解讀`,
       label: "Data quality downgrade",
       nextGate: "完成資料品質矩陣、來源深度、回測與投資宣稱覆核",
+      state: "blocked"
+    }
+  ];
+}
+
+export function getMockOnlyRuntimeNextGates(state: Cp3MockOnlyRuntimeState): Cp3MockOnlyRuntimeNextGate[] {
+  return [
+    {
+      acceptance:
+        state.metadataReachabilityState === "supabase_metadata_reachable"
+          ? "UI 與 guard 持續宣告 freshness metadata 可讀不等於資料品質核准"
+          : "mock metadata 仍不得被描述成遠端可讀",
+      id: "metadata-quality-separation",
+      label: "Metadata / quality 分離",
+      owner: "PM",
+      reason: "先固定使用者與角色如何解讀 metadata reachability，避免後續被誤當成資料品質證據。",
+      sequence: 1,
+      state: "blocked"
+    },
+    {
+      acceptance:
+        state.schemaShapeState === "schema_shape_checked_not_quality"
+          ? "遠端物件 contract 對齊後仍保留 no row completeness / no rights approval 邊界"
+          : "本地 schema contract 不得被描述成遠端 shape 已驗證",
+      id: "schema-contract-alignment",
+      label: "Schema contract 對齊",
+      owner: "Engineering",
+      reason: "schema shape 窄證據必須轉成明確 contract，且不能自動推論資料完整或權利。",
+      sequence: 2,
+      state: "blocked"
+    },
+    {
+      acceptance: "資料品質矩陣完成角色覆核前，所有分數與模組文字都維持折扣解讀",
+      id: "data-quality-role-review",
+      label: "資料品質角色覆核",
+      owner: state.dataQualityState === "unavailable" ? "Data" : "Investment",
+      reason: "資料品質降級規則要由 Data 與 Investment 能共同解釋，才能進一步討論正式分數。",
+      sequence: 3,
       state: "blocked"
     }
   ];

@@ -457,6 +457,58 @@ select {
   font-weight: 850;
 }
 
+.cp3-runtime-next-gates {
+  background: #f8fbff;
+  border: 1px solid #cddff2;
+  border-radius: 8px;
+  display: grid;
+  gap: 8px;
+  grid-column: 1 / -1;
+  padding: 12px;
+}
+
+.cp3-runtime-next-gates strong {
+  color: #17324d;
+}
+
+.cp3-runtime-next-gates p {
+  color: #3f5872;
+  line-height: 1.6;
+}
+
+.cp3-runtime-next-gates div {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.cp3-runtime-next-gates span {
+  background: #fff;
+  border: 1px solid #dbe4f0;
+  border-radius: 8px;
+  color: #3f5872;
+  display: grid;
+  gap: 5px;
+  padding: 10px;
+}
+
+.cp3-runtime-next-gates b,
+.cp3-runtime-next-gates em,
+.cp3-runtime-next-gates i,
+.cp3-runtime-next-gates small {
+  display: block;
+  font-style: normal;
+}
+
+.cp3-runtime-next-gates b {
+  color: #17324d;
+}
+
+.cp3-runtime-next-gates em {
+  color: #7a4a00;
+  font-weight: 850;
+}
+
 .cp3-runtime-route-decision {
   background: #fff;
   border: 1px solid #cddff2;

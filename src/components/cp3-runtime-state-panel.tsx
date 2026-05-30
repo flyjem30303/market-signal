@@ -10,6 +10,7 @@ import {
   getMockOnlyRuntimeSchemaShapeDisclosure,
   getMockOnlyRuntimeDataQualityDisclosure,
   getMockOnlyRuntimeReadinessTriad,
+  getMockOnlyRuntimeNextGates,
   getMockOnlySourceDepthEvidenceItems,
   getMockOnlySourceDepthEvidenceProgress,
   getMockOnlyRuntimeUpgradeProgress,
@@ -60,6 +61,7 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
   const schemaShapeDisclosure = getMockOnlyRuntimeSchemaShapeDisclosure(runtimeState);
   const dataQualityDisclosure = getMockOnlyRuntimeDataQualityDisclosure(runtimeState);
   const readinessTriad = getMockOnlyRuntimeReadinessTriad(runtimeState);
+  const nextGates = getMockOnlyRuntimeNextGates(runtimeState);
   const stopLines = buildRuntimeStopLines();
 
   return (
@@ -105,6 +107,23 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
               <i>{item.interpretation}</i>
               <small>{item.nextGate}</small>
               <em>{formatRuntimeValue(item.state)}</em>
+            </span>
+          ))}
+        </div>
+      </div>
+      <div className="cp3-runtime-next-gates" aria-label="Runtime next gates">
+        <strong>CEO next gate ladder</strong>
+        <p>下一步只做本地 gate 對齊；不得用這個 ladder 啟動 Supabase 寫入、SQL、市場資料抓取或正式分數切換。</p>
+        <div>
+          {nextGates.map((gate) => (
+            <span key={gate.id}>
+              <b>
+                {gate.sequence}. {gate.label}
+              </b>
+              <small>{gate.owner}</small>
+              <i>{gate.reason}</i>
+              <i>{gate.acceptance}</i>
+              <em>{formatRuntimeValue(gate.state)}</em>
             </span>
           ))}
         </div>
