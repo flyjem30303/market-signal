@@ -143,6 +143,15 @@ export type Cp3MockOnlyMetadataQualitySeparationGuard = {
   state: "blocked";
 };
 
+export type Cp3MockOnlySchemaContractGuard = {
+  allowedClaims: string[];
+  blockedClaims: string[];
+  label: string;
+  nextGate: string;
+  owner: "Engineering";
+  state: "blocked";
+};
+
 export type Cp3MockOnlyRuntimeNextGate = {
   acceptance: string;
   id: "metadata-quality-separation" | "schema-contract-alignment" | "data-quality-role-review";
@@ -568,6 +577,29 @@ export function getMockOnlyMetadataQualitySeparationGuard(
     label: "Metadata / quality guard",
     nextGate: "PM 維持 UI copy、guard 與角色語言一致；Data 另行補資料品質證據。",
     owner: "PM",
+    state: "blocked"
+  };
+}
+
+export function getMockOnlySchemaContractGuard(state: Cp3MockOnlyRuntimeState): Cp3MockOnlySchemaContractGuard {
+  const isSchemaShapeChecked = state.schemaShapeState === "schema_shape_checked_not_quality";
+
+  return {
+    allowedClaims: [
+      isSchemaShapeChecked
+        ? "可說 schema shape 已有窄範圍物件與欄位形狀證據"
+        : "可說 schema shape 目前仍只依本地 contract 呈現",
+      "可說 schema contract 只支援 UI 邊界揭露與未來 validator 對齊",
+      "可說資料品質、來源權利、歷史深度與模型可信度仍需獨立 gate"
+    ],
+    blockedClaims: [
+      "不可說 schema shape 代表 row completeness、historical depth 或連續更新已成立",
+      "不可說 schema shape 代表 source rights、redistribution 或公開揭露限制已完成",
+      "不可說 schema shape 代表資料品質、正式分數或投資宣稱可切換"
+    ],
+    label: "Schema contract guard",
+    nextGate: "Engineering 維持 schema shape 與 row/data/source gates 分離；Data 與 Legal 另行補證據。",
+    owner: "Engineering",
     state: "blocked"
   };
 }

@@ -12,6 +12,7 @@ import {
   getMockOnlyRuntimeDataQualityDisclosure,
   getMockOnlyRuntimeReadinessTriad,
   getMockOnlyRuntimeNextGates,
+  getMockOnlySchemaContractGuard,
   getMockOnlySourceDepthEvidenceItems,
   getMockOnlySourceDepthEvidenceProgress,
   getMockOnlyRuntimeUpgradeProgress,
@@ -63,6 +64,7 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
   const dataQualityDisclosure = getMockOnlyRuntimeDataQualityDisclosure(runtimeState);
   const readinessTriad = getMockOnlyRuntimeReadinessTriad(runtimeState);
   const metadataQualityGuard = getMockOnlyMetadataQualitySeparationGuard(runtimeState);
+  const schemaContractGuard = getMockOnlySchemaContractGuard(runtimeState);
   const nextGates = getMockOnlyRuntimeNextGates(runtimeState);
   const stopLines = buildRuntimeStopLines();
 
@@ -119,6 +121,29 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
             <b>Owner</b>
             <i>{metadataQualityGuard.owner}</i>
             <em>{formatRuntimeValue(metadataQualityGuard.state)}</em>
+          </span>
+        </div>
+      </div>
+      <div className="cp3-runtime-schema-contract-guard" aria-label="Schema contract guard">
+        <strong>{schemaContractGuard.label}</strong>
+        <p>{schemaContractGuard.nextGate}</p>
+        <div>
+          <span>
+            <b>可表述</b>
+            {schemaContractGuard.allowedClaims.map((claim) => (
+              <i key={claim}>{claim}</i>
+            ))}
+          </span>
+          <span>
+            <b>不可表述</b>
+            {schemaContractGuard.blockedClaims.map((claim) => (
+              <i key={claim}>{claim}</i>
+            ))}
+          </span>
+          <span>
+            <b>Owner</b>
+            <i>{schemaContractGuard.owner}</i>
+            <em>{formatRuntimeValue(schemaContractGuard.state)}</em>
           </span>
         </div>
       </div>
