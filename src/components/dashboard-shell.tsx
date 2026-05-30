@@ -280,6 +280,9 @@ function HomeProductOverview({
   const gapCount = snapshot.missingModuleFlags.length + snapshot.staleDataFlags.length;
   const strongest = snapshots.slice().sort((a, b) => b.compositeScore - a.compositeScore).slice(0, 4);
   const riskiest = snapshots.slice().sort((a, b) => b.riskScore - a.riskScore).slice(0, 4);
+  const marketSnapshot = snapshots.find((item) => item.asset.symbol === "TWII") ?? snapshot;
+  const strongestSnapshot = strongest[0] ?? snapshot;
+  const riskiestSnapshot = riskiest[0] ?? snapshot;
   const breadth = snapshots.reduce(
     (summary, item) => {
       if (item.signal.key === "green" || item.signal.key === "yellow") {
@@ -339,6 +342,35 @@ function HomeProductOverview({
             <p>正式資料來源與公開宣稱仍未完成前，所有分數只支援產品體驗。</p>
           </article>
         </div>
+      </section>
+
+      <section className="home-reading-route" aria-label="三分鐘閱讀路線">
+        <div className="home-reading-route-head">
+          <p className="eyebrow">Reading Route</p>
+          <h2>三分鐘先看這三件事</h2>
+          <p>首頁先幫新使用者建立閱讀順序：市場、指數、個別標的。每一步仍維持 mock 邊界，不提供買賣建議。</p>
+        </div>
+        <a href="/briefing">
+          <span>1</span>
+          <strong>先看市場晨報</strong>
+          <p>用市場廣度與風險清單判斷今天該偏進攻、觀察或防守。</p>
+        </a>
+        <a href={`/stocks/${marketSnapshot.asset.symbol}`}>
+          <span>2</span>
+          <strong>再看台指狀態</strong>
+          <p>
+            {marketSnapshot.asset.symbol} {marketSnapshot.signal.title}，確認大盤健康度與資料品質。
+          </p>
+        </a>
+        <a href={`/stocks/${snapshot.riskScore >= 60 ? riskiestSnapshot.asset.symbol : strongestSnapshot.asset.symbol}`}>
+          <span>3</span>
+          <strong>{snapshot.riskScore >= 60 ? "最後拆風險來源" : "最後找強勢延伸"}</strong>
+          <p>
+            {snapshot.riskScore >= 60
+              ? `${riskiestSnapshot.asset.symbol} 風險 ${riskiestSnapshot.riskScore}/100，先確認波動與資料旗標。`
+              : `${strongestSnapshot.asset.symbol} 綜合 ${strongestSnapshot.compositeScore}/100，先看趨勢是否連續。`}
+          </p>
+        </a>
       </section>
 
       <section className="home-market-breadth" aria-label="首頁市場廣度摘要">

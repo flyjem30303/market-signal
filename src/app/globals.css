@@ -397,6 +397,62 @@ select {
   color: var(--red);
 }
 
+.home-reading-route {
+  display: grid;
+  grid-template-columns: minmax(280px, 1.1fr) repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.home-reading-route-head,
+.home-reading-route a {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+  padding: 16px;
+}
+
+.home-reading-route-head h2 {
+  margin: 0 0 8px;
+  font-size: 22px;
+}
+
+.home-reading-route-head p,
+.home-reading-route a p {
+  color: var(--muted);
+  line-height: 1.65;
+  margin: 0;
+}
+
+.home-reading-route a {
+  color: var(--text);
+  display: grid;
+  gap: 8px;
+  text-decoration: none;
+}
+
+.home-reading-route a:hover {
+  border-color: var(--blue);
+  background: #f8fbff;
+}
+
+.home-reading-route a span {
+  display: inline-grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  background: #e8f4ef;
+  color: var(--teal);
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.home-reading-route a strong {
+  font-size: 18px;
+}
+
 .home-watchlists {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -5026,6 +5082,7 @@ input[type="date"] {
   .asset-grid,
   .home-product-overview,
   .home-overview-grid,
+  .home-reading-route,
   .home-market-breadth,
   .home-watchlists,
   .quote-panel,
