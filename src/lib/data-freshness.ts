@@ -37,9 +37,9 @@ const stateLabels: Record<DataFreshnessState, string> = {
 };
 
 const stateDescriptions: Record<DataFreshnessState, string> = {
-  complete: "資料完整，可作為頁面狀態參考。",
-  partial: "部分資料缺漏，分數與解讀需保守看待。",
-  stale: "資料可能延遲，請避免當成即時狀態。",
+  complete: "Freshness metadata 已可讀取；僅代表資料狀態可達，不代表真實評分或資料品質已核准。",
+  partial: "Freshness metadata 顯示部分資料缺漏；分數與解讀需保守看待。",
+  stale: "Freshness metadata 顯示資料可能延遲；請避免當成即時狀態。",
   mock: "目前為模擬資料，用於產品體驗驗證。",
   unavailable: "資料暫時無法取得，請勿依此做投資判斷。"
 };

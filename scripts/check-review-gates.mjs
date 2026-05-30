@@ -2088,6 +2088,11 @@ const checks = [
     name: "cp3-freshness-reachability-to-action-gate"
   },
   {
+    command: [node, "scripts/check-cp3-freshness-ui-runtime-disclosure.mjs"],
+    expectStatus: "ok",
+    name: "cp3-freshness-ui-runtime-disclosure"
+  },
+  {
     command: [node, "scripts/check-etf-source-gate.mjs"],
     expectStatus: "blocked",
     name: "etf-source-gate"

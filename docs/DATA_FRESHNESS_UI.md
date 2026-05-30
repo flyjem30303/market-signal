@@ -36,6 +36,7 @@ Recommended content:
 時區：Asia/Taipei
 資料狀態：完整 / 部分 / 延遲
 分數來源：模擬評分 / 正式評分 / 混合評分
+Freshness metadata 不等於真實評分或資料品質核准
 ```
 
 For mock data, the UI must say:
@@ -47,8 +48,14 @@ For mock data, the UI must say:
 The strip should also include a short state description, for example:
 
 ```text
-狀態說明：資料完整，可作為頁面狀態參考。
+狀態說明：Freshness metadata 已可讀取；僅代表資料狀態可達，不代表真實評分或資料品質已核准。
 ```
+
+When the guarded runtime freshness read returns `isMock=false`, the UI may show
+`Supabase metadata 可達`. This wording is intentionally narrow: it means only
+that freshness metadata was reachable through the approved read-only runtime
+path. It must not be used as a market-data quality claim, source-depth approval,
+or `scoreSource=real` approval.
 
 ## Status Labels
 

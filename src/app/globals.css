@@ -181,9 +181,16 @@ select {
 }
 
 .freshness-strip .freshness-score-source.mock,
-.freshness-strip .freshness-score-source.mixed {
+.freshness-strip .freshness-score-source.mixed,
+.freshness-strip .freshness-runtime-source.mock,
+.freshness-strip .freshness-boundary {
   background: #fff5df;
   color: var(--amber);
+}
+
+.freshness-strip .freshness-runtime-source.reachable {
+  background: #e8f5ef;
+  color: var(--green);
 }
 
 .freshness-strip .freshness-score-source.real {
