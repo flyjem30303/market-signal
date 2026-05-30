@@ -1668,6 +1668,11 @@ const checks = [
     name: "cp3-supabase-local-schema-contract-alignment"
   },
   {
+    command: [node, "scripts/check-cp3-supabase-schema-shape-validator-design-gate.mjs"],
+    expectStatus: "ok",
+    name: "cp3-supabase-schema-shape-validator-design-gate"
+  },
+  {
     command: [node, "scripts/check-cp3-tw-stock-model-candidates.mjs"],
     expectStatus: "ok",
     name: "cp3-tw-stock-model"
