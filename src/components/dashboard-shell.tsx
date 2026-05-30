@@ -44,6 +44,13 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
   const snapshot = useMemo(() => repository.getSnapshot(selected.symbol, today)!, [repository, selected.symbol]);
   const quote = useMemo(() => buildQuoteSnapshot(selected, snapshot), [selected, snapshot]);
   const series = useMemo(() => repository.getSeries(selected.symbol), [repository, selected.symbol]);
+  const homeSnapshots = useMemo(
+    () =>
+      availableAssets
+        .map((asset) => repository.getSnapshot(asset.symbol, today))
+        .filter((item): item is SignalSnapshot => Boolean(item)),
+    [availableAssets, repository]
+  );
   const realEndIndex = endIndex || series.length - 1;
   const isFavorite = favorites.includes(selected.symbol);
   const filteredAssets = availableAssets.filter((asset) =>
@@ -135,6 +142,7 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
         <HomeProductOverview
           scoreSourceLabel={freshness.scoreSourceLabel}
           selected={selected}
+          snapshots={homeSnapshots}
           snapshot={snapshot}
           onTab={changeTab}
         />
@@ -258,61 +266,105 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
 function HomeProductOverview({
   scoreSourceLabel,
   selected,
+  snapshots,
   snapshot,
   onTab
 }: {
   scoreSourceLabel: string;
   selected: Asset;
+  snapshots: SignalSnapshot[];
   snapshot: SignalSnapshot;
   onTab: (tab: TabKey) => void;
 }) {
   const riskState = snapshot.riskScore >= 70 ? "高風險" : snapshot.riskScore >= 55 ? "需觀察" : "相對穩定";
   const gapCount = snapshot.missingModuleFlags.length + snapshot.staleDataFlags.length;
+  const strongest = snapshots.slice().sort((a, b) => b.compositeScore - a.compositeScore).slice(0, 4);
+  const riskiest = snapshots.slice().sort((a, b) => b.riskScore - a.riskScore).slice(0, 4);
 
   return (
-    <section className="home-product-overview" aria-label="首頁快速摘要">
-      <article className="home-primary-card">
-        <p className="eyebrow">Quick Start</p>
-        <h2>
-          先用 {selected.symbol} {selected.name} 建立今日閱讀節奏
-        </h2>
-        <p>
-          目前分數來源為 {scoreSourceLabel}。這個首頁先協助你理解標的狀態、風險溫度與資料限制，
-          不把 mock 分數包裝成正式投資訊號。
-        </p>
-        <div className="home-action-row">
-          <a className="solid-button" href={`/stocks/${selected.symbol}`}>
-            前往股票頁
-          </a>
-          <a className="outline-button" href="/briefing">
-            查看晨報
-          </a>
-          <button className="outline-button" onClick={() => onTab("trend")} type="button">
-            看趨勢
-          </button>
-        </div>
-      </article>
+    <>
+      <section className="home-product-overview" aria-label="首頁快速摘要">
+        <article className="home-primary-card">
+          <p className="eyebrow">Quick Start</p>
+          <h2>
+            先用 {selected.symbol} {selected.name} 建立今日閱讀節奏
+          </h2>
+          <p>
+            目前分數來源為 {scoreSourceLabel}。這個首頁先協助你理解標的狀態、風險溫度與資料限制，
+            不把 mock 分數包裝成正式投資訊號。
+          </p>
+          <div className="home-action-row">
+            <a className="solid-button" href={`/stocks/${selected.symbol}`}>
+              前往股票頁
+            </a>
+            <a className="outline-button" href="/briefing">
+              查看晨報
+            </a>
+            <button className="outline-button" onClick={() => onTab("trend")} type="button">
+              看趨勢
+            </button>
+          </div>
+        </article>
 
-      <div className="home-overview-grid">
-        <article>
-          <span>今日燈號</span>
-          <strong style={{ color: signalColor(snapshot.signal.key) }}>{snapshot.signal.title}</strong>
-          <p>{snapshot.signal.text}</p>
-        </article>
-        <article>
-          <span>健康 / 風險</span>
-          <strong>
-            {snapshot.healthScore} / {snapshot.riskScore}
-          </strong>
-          <p>風險狀態：{riskState}。先看趨勢與資料旗標，再形成判讀。</p>
-        </article>
-        <article>
-          <span>資料限制</span>
-          <strong>{gapCount} 項旗標</strong>
-          <p>正式資料來源與公開宣稱仍未完成前，所有分數只支援產品體驗。</p>
-        </article>
+        <div className="home-overview-grid">
+          <article>
+            <span>今日燈號</span>
+            <strong style={{ color: signalColor(snapshot.signal.key) }}>{snapshot.signal.title}</strong>
+            <p>{snapshot.signal.text}</p>
+          </article>
+          <article>
+            <span>健康 / 風險</span>
+            <strong>
+              {snapshot.healthScore} / {snapshot.riskScore}
+            </strong>
+            <p>風險狀態：{riskState}。先看趨勢與資料旗標，再形成判讀。</p>
+          </article>
+          <article>
+            <span>資料限制</span>
+            <strong>{gapCount} 項旗標</strong>
+            <p>正式資料來源與公開宣稱仍未完成前，所有分數只支援產品體驗。</p>
+          </article>
+        </div>
+      </section>
+
+      <section className="home-watchlists" aria-label="首頁市場觀察清單">
+        <HomeWatchlist title="今日強勢觀察" description="綜合分數較高的標的，適合先看趨勢是否連續。" items={strongest} valueKey="composite" />
+        <HomeWatchlist title="風險升溫觀察" description="風險分數較高的標的，追價前應先拆解風險來源。" items={riskiest} valueKey="risk" />
+      </section>
+    </>
+  );
+}
+
+function HomeWatchlist({
+  title,
+  description,
+  items,
+  valueKey
+}: {
+  title: string;
+  description: string;
+  items: SignalSnapshot[];
+  valueKey: "composite" | "risk";
+}) {
+  return (
+    <article className="home-watchlist-card">
+      <div>
+        <p className="eyebrow">Watchlist</p>
+        <h2>{title}</h2>
+        <p>{description}</p>
       </div>
-    </section>
+      <div className="home-watchlist-rows">
+        {items.map((item) => (
+          <a href={`/stocks/${item.asset.symbol}`} key={`${title}-${item.asset.symbol}`}>
+            <span>
+              <strong>{item.asset.symbol}</strong>
+              <small>{item.asset.name}</small>
+            </span>
+            <b>{valueKey === "risk" ? item.riskScore : item.compositeScore}</b>
+          </a>
+        ))}
+      </div>
+    </article>
   );
 }
 

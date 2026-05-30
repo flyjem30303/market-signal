@@ -300,6 +300,75 @@ select {
   line-height: 1.1;
 }
 
+.home-watchlists {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.home-watchlist-card {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+}
+
+.home-watchlist-card h2 {
+  margin: 0 0 8px;
+  font-size: 22px;
+}
+
+.home-watchlist-card p {
+  color: var(--muted);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.home-watchlist-rows {
+  display: grid;
+  gap: 8px;
+}
+
+.home-watchlist-rows a {
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--text);
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+  text-decoration: none;
+}
+
+.home-watchlist-rows a:hover {
+  border-color: var(--blue);
+  background: #f8fbff;
+}
+
+.home-watchlist-rows span,
+.home-watchlist-rows small {
+  display: block;
+}
+
+.home-watchlist-rows small {
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.home-watchlist-rows b {
+  border-radius: 999px;
+  background: var(--panel-muted);
+  color: var(--blue);
+  min-width: 46px;
+  padding: 6px 9px;
+  text-align: center;
+}
+
 .stock-evidence-snapshot {
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -4667,6 +4736,7 @@ input[type="date"] {
   .asset-grid,
   .home-product-overview,
   .home-overview-grid,
+  .home-watchlists,
   .quote-panel,
   .stock-evidence-snapshot,
   .evidence-snapshot-grid,
