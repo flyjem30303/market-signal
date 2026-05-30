@@ -1,0 +1,129 @@
+# CP3 Chairman Narrow Question Draft Gate Role Review
+
+Checkpoint: CP3 Model Credibility
+Date: 2026-05-30
+Trigger: CP3 chairman narrow question draft gate recorded
+
+Status: CP3 chairman narrow question draft gate role review recorded
+
+## Review Scope
+
+```text
+reviewed docs/reviews/CP3_CHAIRMAN_NARROW_QUESTION_DRAFT_GATE_2026-05-30.md
+reviewed scripts/check-cp3-chairman-narrow-question-draft-gate.mjs
+role review only
+does not submit the question
+does not approve the question
+does not request authorization
+does not approve authorization
+does not schedule a formal meeting
+does not create an authorization packet
+does not create a real request packet
+does not enter runtime implementation
+does not approve runtime implementation
+does not connect to Supabase
+does not run SQL
+does not fetch market data
+does not parse market rows
+does not write Supabase
+does not write staging rows
+does not write daily_prices
+does not create seed SQL
+does not wire runtime code
+does not set scoreSource=real
+does not clear source-depth not_ready
+does not make public claims
+```
+
+## Role Findings
+
+```text
+CEO confirms the narrow question is acceptable as draft-only and not yet submitted
+PM confirms the answer space is limited to yes draft, no continue, or revise boundary
+Engineering confirms a yes answer would only permit future file-scope naming, not file edits
+QA confirms a yes answer would only permit future local-check naming, not test execution changes
+Legal confirms the question does not ask for authorization, meeting scheduling, packet creation, advice, officialness, reliability, or real-data readiness
+Investment confirms the question preserves scoreSource=mock and source-depth not_ready
+Design confirms visible UI polish remains deferred
+Data confirms Supabase, SQL, staging, daily_prices, seed SQL, raw market data, and scoreSource=real remain blocked
+```
+
+## Accepted Interpretation
+
+```text
+accepted as chairman-facing draft candidate wording
+accepted as local-only question preparation
+accepted as bounded mock-only runtime-entry request preparation only
+accepted as no runtime implementation
+accepted as no authorization request
+accepted as no authorization packet
+accepted as no formal meeting schedule
+accepted as no Supabase access
+accepted as no SQL execution
+accepted as no market-data action
+accepted as no public claims
+not accepted as submitted question
+not accepted as approved question
+not accepted as runtime entry approval
+not accepted as runtime implementation approval
+not accepted as authorization approval
+not accepted as production readiness
+```
+
+## Risk Notes
+
+```text
+RISK-001 a yes answer could be misread as runtime approval unless the request draft repeats all stop lines
+RISK-002 the phrase runtime-entry request must remain paired with mock-only and no external systems
+RISK-003 source-depth not_ready must remain visible in any future chairman-facing wording
+RISK-004 scoreSource=real must remain blocked in any future chairman-facing wording
+RISK-005 visual polish must not distract from boundary clarity before chairman acceptance
+```
+
+## CEO Resolution
+
+```text
+CEO resolves that the draft gate is role-reviewed but still not submitted
+CEO resolves that the next safe slice is a submit-readiness checkpoint, not submission
+CEO resolves that any future submission needs explicit user/chairman direction
+CEO resolves that PM may prepare only local-only submit-readiness checks
+```
+
+## Next Safe Slice
+
+```text
+CEO recommendation: create a chairman narrow-question submit-readiness checkpoint
+The next safe slice must remain local-only
+The next safe slice must not submit the question
+The next safe slice must not approve the question
+The next safe slice must not request authorization
+The next safe slice must not approve authorization
+The next safe slice must not schedule a formal meeting
+The next safe slice must not create an authorization packet
+The next safe slice must not create a real request packet
+The next safe slice must not enter runtime implementation
+The next safe slice must not connect to Supabase
+The next safe slice must not run SQL
+The next safe slice must not fetch market data
+The next safe slice must not parse market rows
+The next safe slice must not write staging rows
+The next safe slice must not write daily_prices
+The next safe slice must not create seed SQL
+The next safe slice must not wire runtime code
+The next safe slice must not set scoreSource=real
+The next safe slice must not clear source-depth not_ready
+The next safe slice must not make public claims
+```
+
+## Verification Expectations
+
+```text
+scripts/check-cp3-chairman-narrow-question-draft-gate-role-review.mjs passes
+scripts/check-cp3-chairman-narrow-question-draft-gate.mjs passes
+scripts/check-review-gates.mjs passes
+TypeScript noEmit passes
+scoreSource=real remains blocked
+CP3 source-depth production gate remains not_ready
+Supabase and SQL execution remain blocked
+public claims remain blocked
+```
