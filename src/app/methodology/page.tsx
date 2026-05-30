@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { DataFreshnessStrip } from "@/components/data-freshness-strip";
+import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
 
 export const metadata: Metadata = {
   title: "評分方法論",
@@ -21,7 +23,9 @@ const qualityLevels = [
   ["D", "資料不足，不應產生正式燈號，只能顯示資料不足。"]
 ];
 
-export default function MethodologyPage() {
+export default async function MethodologyPage() {
+  const freshness = await getDataFreshnessSnapshot();
+
   return (
     <main className="page-shell">
       <section className="hero">
@@ -31,6 +35,25 @@ export default function MethodologyPage() {
           台股燈號的定位是市場狀態儀表，協助投資人觀察多頭健康度與回檔風險。
           分數不是買賣建議，也不是收益保證。
         </p>
+      </section>
+      <DataFreshnessStrip freshness={freshness} />
+
+      <section className="method-quick-read" aria-label="方法論快速摘要">
+        <article>
+          <span>目前定位</span>
+          <strong>市場狀態儀表</strong>
+          <p>協助使用者理解健康度、風險度與資料限制，不直接輸出買賣指令。</p>
+        </article>
+        <article>
+          <span>目前資料</span>
+          <strong>{freshness.scoreSourceLabel}</strong>
+          <p>現階段仍用來驗證產品體驗；正式模型需完成真實資料、回測與角色審核。</p>
+        </article>
+        <article>
+          <span>公開宣稱</span>
+          <strong>尚未開放</strong>
+          <p>不能宣稱真實績效、真實訊號或投資建議，直到公開宣稱 gate 完成。</p>
+        </article>
       </section>
 
       <section className="panel method-section">
@@ -108,6 +131,21 @@ export default function MethodologyPage() {
           正式上線前必須接入真實資料、記錄模型版本，並完成回測揭露。
         </p>
       </article>
+
+      <section className="method-guardrail-grid" aria-label="方法論使用邊界">
+        <article>
+          <h2>可以怎麼用</h2>
+          <p>用來比較標的狀態、檢查風險是否升溫、安排閱讀順序與觀察清單。</p>
+        </article>
+        <article>
+          <h2>不可以怎麼用</h2>
+          <p>不能把燈號直接視為買進、賣出、加碼、減碼或任何形式的投資建議。</p>
+        </article>
+        <article>
+          <h2>何時能升級</h2>
+          <p>需完成真實資料來源、權利、資料品質、回測、法遵、投資與 CEO/董事長授權 gate。</p>
+        </article>
+      </section>
     </main>
   );
 }

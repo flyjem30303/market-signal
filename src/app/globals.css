@@ -4316,6 +4316,50 @@ input[type="search"] {
   margin-bottom: 16px;
 }
 
+.method-quick-read,
+.method-guardrail-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.method-quick-read article,
+.method-guardrail-grid article {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+  min-height: 150px;
+  padding: 16px;
+}
+
+.method-quick-read span {
+  color: var(--muted);
+  display: block;
+  font-size: 13px;
+  font-weight: 850;
+}
+
+.method-quick-read strong {
+  display: block;
+  font-size: 22px;
+  line-height: 1.2;
+  margin: 8px 0;
+}
+
+.method-quick-read p,
+.method-guardrail-grid p {
+  color: var(--muted);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.method-guardrail-grid h2 {
+  font-size: 20px;
+  margin: 0 0 8px;
+}
+
 .method-section p,
 .legal-section p {
   color: var(--muted);
@@ -4870,6 +4914,8 @@ input[type="date"] {
   .briefing-boundary,
   .briefing-boundary-grid,
   .briefing-actions,
+  .method-quick-read,
+  .method-guardrail-grid,
   .method-grid,
   .quality-grid,
   .method-row,
