@@ -1988,6 +1988,11 @@ const checks = [
     name: "freshness-runtime-read-local-preflight-runner"
   },
   {
+    command: [node, "scripts/check-freshness-runtime-read-dry-run-command-map.mjs"],
+    expectStatus: "ok",
+    name: "freshness-runtime-read-dry-run-command-map"
+  },
+  {
     command: [node, "scripts/check-etf-source-gate.mjs"],
     expectStatus: "blocked",
     name: "etf-source-gate"
