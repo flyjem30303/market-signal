@@ -2063,6 +2063,11 @@ const checks = [
     name: "cp3-freshness-final-one-attempt-runtime-execution-decision-gate"
   },
   {
+    command: [node, "scripts/check-cp3-freshness-runtime-read-once-execution-post-run-review.mjs"],
+    expectStatus: "ok",
+    name: "cp3-freshness-runtime-read-once-execution-post-run-review"
+  },
+  {
     command: [node, "scripts/check-etf-source-gate.mjs"],
     expectStatus: "blocked",
     name: "etf-source-gate"
