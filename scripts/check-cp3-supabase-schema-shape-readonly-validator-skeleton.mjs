@@ -13,9 +13,18 @@ const requiredPhrases = [
   "SUPABASE_SERVICE_ROLE_KEY",
   "SUPABASE_SCHEMA_SHAPE_READONLY_CONFIRMATION",
   "CP3_SUPABASE_SCHEMA_SHAPE_READONLY_REMOTE_VALIDATE",
-  "mode: \"schema_shape_readonly_skeleton\"",
+  "const rowLimit = 0",
+  "await import(\"@supabase/supabase-js\")",
+  "createClient",
+  "persistSession: false",
+  "schema_shape_readonly_skeleton",
+  "schema_shape_readonly_remote_validation",
+  ".from(object.name)",
+  ".select(object.projection, { count: \"exact\", head: true })",
+  ".limit(rowLimit)",
   "connection: \"not_run\"",
-  "rowLimit: 0",
+  "connection: blocked ? \"blocked\" : \"ok\"",
+  "rowLimit",
   "daily_prices",
   "twse_stock_day_staging",
   "market_assets",
@@ -25,16 +34,25 @@ const requiredPhrases = [
   "contractStatus: \"needs-reconciliation\"",
   "contractStatus: \"remote-only-pending-contract\"",
   "fieldNamesPresent: \"not_run\"",
+  "fieldNamesPresent: \"blocked\"",
+  "sanitized_categories_only",
   "missingExpectedFields: \"not_run\"",
+  "missingExpectedFields: \"blocked\"",
+  "not_applicable_remote_contract_pending",
   "objectKind: \"not_run\"",
+  "objectKind: \"blocked\"",
+  "objectKind: \"unknown\"",
   "reachable: \"not_run\"",
+  "reachable: \"blocked\"",
+  "reachable: \"ok\"",
   "shapeStatus: \"not_run\"",
+  "shapeStatus: \"blocked\"",
   "relationshipToLocalBaseline",
   "unexpectedRuntimeBlockers",
   "missing_schema_shape_execution_confirmation",
   "missing_required_environment",
-  "remote_schema_shape_execution_not_implemented",
-  "confirmation: confirmation === requiredConfirmation ? \"present\" : \"missing_or_invalid\"",
+  "schema_shape_validation_blocked",
+  "schema_shape_validation_ok",
   "filesWritten: false",
   "mutations: false",
   "sqlExecuted: false",
@@ -46,14 +64,10 @@ const requiredPhrases = [
   "sourceDepthReadyChanged: false",
   "publicClaimsChanged: false",
   "status: \"blocked\"",
-  "process.exitCode = 1"
+  "process.exitCode = status === \"ok\" ? 0 : 1"
 ];
 
 const forbiddenPhrases = [
-  "@supabase/supabase-js",
-  "createClient",
-  ".from(",
-  ".select(",
   ".insert(",
   ".upsert(",
   ".update(",
@@ -88,20 +102,41 @@ const forbiddenSecretOutput = forbiddenSecretOutputPatterns
   .filter((pattern) => pattern.test(validator))
   .map((pattern) => pattern.toString());
 const aggregateDoesNotRunValidator = !reviewGate.includes("scripts/validate-supabase-schema-shape-readonly.mjs");
+const supabaseImportCount = (validator.match(/@supabase\/supabase-js/g) ?? []).length;
+const createClientCount = (validator.match(/\bcreateClient\b/g) ?? []).length;
+const rowLimitZero = /const\s+rowLimit\s*=\s*0\b/.test(validator);
+const rowLimitPositive = /const\s+rowLimit\s*=\s*[1-9]/.test(validator);
+const rawSelectWithoutHead = /\.select\([^)]*\)(?!\s*\.limit\(rowLimit\))/s.test(validator)
+  && !validator.includes(".select(object.projection, { count: \"exact\", head: true })");
+const confirmationGuardsClient =
+  validator.indexOf("confirmation !== requiredConfirmation") < validator.indexOf("await import(\"@supabase/supabase-js\")");
+const missingEnvGuardsClient =
+  validator.indexOf("missingEnv.length > 0") < validator.indexOf("await import(\"@supabase/supabase-js\")");
 
 const failures = [
   ...missing.map((phrase) => `missing:${phrase}`),
   ...forbidden.map((phrase) => `forbidden:${phrase}`),
   ...forbiddenSecretOutput.map((pattern) => `forbiddenSecretOutput:${pattern}`),
-  ...(aggregateDoesNotRunValidator ? [] : ["aggregateGateRunsValidator"])
+  ...(aggregateDoesNotRunValidator ? [] : ["aggregateGateRunsValidator"]),
+  ...(supabaseImportCount === 1 ? [] : [`supabaseImportCount:${supabaseImportCount}`]),
+  ...(createClientCount === 2 ? [] : [`createClientCount:${createClientCount}`]),
+  ...(rowLimitZero ? [] : ["rowLimitNotZero"]),
+  ...(rowLimitPositive ? ["rowLimitPositive"] : []),
+  ...(rawSelectWithoutHead ? ["rawSelectWithoutHeadLimitContract"] : []),
+  ...(confirmationGuardsClient ? [] : ["confirmationDoesNotGuardClient"]),
+  ...(missingEnvGuardsClient ? [] : ["missingEnvDoesNotGuardClient"])
 ];
 
 console.log(
   JSON.stringify(
     {
       aggregateDoesNotRunValidator,
+      confirmationGuardsClient,
       failures,
+      missingEnvGuardsClient,
+      rowLimitZero,
       status: failures.length === 0 ? "ok" : "blocked",
+      supabaseImportCount,
       validator: validatorPath
     },
     null,
