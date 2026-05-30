@@ -1648,6 +1648,11 @@ const checks = [
     name: "cp3-supabase-read-only-one-attempt-direct-node-execution-post-run-review-role-review"
   },
   {
+    command: [node, "scripts/check-cp3-post-reachability-next-prerequisite-options-map.mjs"],
+    expectStatus: "ok",
+    name: "cp3-post-reachability-next-prerequisite-options-map"
+  },
+  {
     command: [node, "scripts/check-cp3-tw-stock-model-candidates.mjs"],
     expectStatus: "ok",
     name: "cp3-tw-stock-model"
