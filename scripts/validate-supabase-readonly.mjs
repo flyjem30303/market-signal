@@ -26,6 +26,7 @@ const env = Object.fromEntries(
 const missingEnv = Object.entries(env)
   .filter(([, state]) => state === "missing")
   .map(([name]) => name);
+const confirmationStatus = confirmation === requiredConfirmation ? "present" : "missing_or_invalid";
 
 if (missingEnv.length > 0) {
   block("missing_required_environment");
@@ -93,6 +94,7 @@ function block(reason) {
 
 function finish({ connection, objects, reason, status }) {
   const result = {
+    confirmation: confirmationStatus,
     connection,
     env,
     filesWritten: false,
