@@ -221,6 +221,126 @@ select {
   padding: 18px;
 }
 
+.project-progress-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(220px, 0.45fr);
+  gap: 16px;
+  margin: 18px 0;
+  border: 1px solid rgba(15, 118, 110, 0.2);
+  border-radius: 8px;
+  background: #fff;
+  padding: 18px;
+  box-shadow: var(--shadow-soft);
+}
+
+.project-progress-summary h2 {
+  margin: 0 0 8px;
+  font-size: 24px;
+}
+
+.project-progress-summary p {
+  max-width: 760px;
+  margin: 0 0 10px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.project-progress-summary strong {
+  display: block;
+  color: var(--teal);
+  line-height: 1.6;
+}
+
+.project-progress-meter {
+  display: grid;
+  align-content: center;
+  gap: 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel-muted);
+  padding: 14px;
+}
+
+.project-progress-meter span,
+.project-progress-lanes i {
+  display: block;
+  overflow: hidden;
+  height: 10px;
+  border-radius: 999px;
+  background: #dfe7e1;
+}
+
+.project-progress-meter span::before,
+.project-progress-lanes i::before {
+  display: block;
+  width: var(--progress);
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--teal), var(--blue));
+  content: "";
+}
+
+.project-progress-meter b {
+  color: var(--text);
+  font-size: 34px;
+  line-height: 1;
+}
+
+.project-progress-meter small {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.project-progress-lanes {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.project-progress-lanes article {
+  display: grid;
+  gap: 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  padding: 12px;
+}
+
+.project-progress-lanes article div,
+.project-progress-lanes footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+}
+
+.project-progress-lanes span,
+.project-progress-lanes small {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.project-progress-lanes strong {
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.project-progress-lanes b {
+  color: var(--teal);
+}
+
+.project-progress-lanes p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
 .freshness-strip {
   display: flex;
   flex-wrap: wrap;
@@ -5988,6 +6108,8 @@ input[type="date"] {
   .home-group-overview,
   .home-group-grid,
   .home-watchlists,
+  .project-progress-panel,
+  .project-progress-lanes,
   .quote-panel,
   .stock-evidence-snapshot,
   .evidence-snapshot-grid,

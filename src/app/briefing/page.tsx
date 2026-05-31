@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { CommercialSlot } from "@/components/commercial-slot";
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { PageViewTracker } from "@/components/page-view-tracker";
+import { ProjectProgressPanel } from "@/components/project-progress-panel";
 import { TrackedLink } from "@/components/tracked-link";
 import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
 import {
@@ -58,6 +59,8 @@ export default async function BriefingPage() {
         </div>
       </section>
       <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
+
+      <ProjectProgressPanel />
 
       <nav aria-label="Briefing Compass" className="briefing-compass">
         <a href="#model-boundary">模型邊界</a>

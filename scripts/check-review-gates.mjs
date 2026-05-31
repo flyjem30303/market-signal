@@ -1538,6 +1538,11 @@ const checks = [
     name: "cp3-mock-only-runtime-panel"
   },
   {
+    command: [node, "scripts/check-project-progress-score.mjs"],
+    expectStatus: "ok",
+    name: "project-progress-score"
+  },
+  {
     command: [node, "scripts/check-cp3-5pm-runtime-readiness-checkpoint.mjs"],
     expectStatus: "ok",
     name: "cp3-5pm-runtime-readiness-checkpoint"
