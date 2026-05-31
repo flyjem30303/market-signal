@@ -5,6 +5,7 @@ import { getSupabaseReadonlyDecision } from "@/lib/supabase-readonly-decision";
 import { getSupabaseReadonlyExecutionPreview } from "@/lib/supabase-readonly-execution-preview";
 import { getSupabaseReadonlyLocalPreflight } from "@/lib/supabase-readonly-local-preflight";
 import { buildFreshnessReadonlySmokeReport } from "@/lib/freshness-readonly-smoke-report";
+import { getFreshnessReadonlyLatestEvidenceSummary } from "@/lib/freshness-readonly-latest-evidence";
 
 export function RuntimeReadinessPanel() {
   const readiness = getRuntimeReadinessSummary();
@@ -13,6 +14,7 @@ export function RuntimeReadinessPanel() {
   const executionPreview = getSupabaseReadonlyExecutionPreview(decision);
   const freshnessActivation = getFreshnessRuntimeActivationSummary();
   const readonlySmokeReport = buildFreshnessReadonlySmokeReport();
+  const freshnessLatestEvidence = getFreshnessReadonlyLatestEvidenceSummary();
   const readonlyEvidence = getSupabaseReadonlyEvidenceSummary();
 
   return (
@@ -72,6 +74,20 @@ export function RuntimeReadinessPanel() {
           </p>
           <p>{freshnessActivation.decision}</p>
           <p>{freshnessActivation.stopLine}</p>
+        </article>
+        <article
+          aria-label={`Freshness readonly latest evidence ${freshnessLatestEvidence.evidenceStatus}`}
+          className="active"
+        >
+          <span>Freshness latest evidence</span>
+          <strong>{freshnessLatestEvidence.evidenceStatus}</strong>
+          <p>
+            {freshnessLatestEvidence.market} / {freshnessLatestEvidence.asOfDate} /{" "}
+            {freshnessLatestEvidence.sourceName}; scoreSource {freshnessLatestEvidence.scoreSource}; public{" "}
+            {freshnessLatestEvidence.publicDataSource}.
+          </p>
+          <p>{freshnessLatestEvidence.acceptedScope}</p>
+          <p>{freshnessLatestEvidence.stopLine}</p>
         </article>
         <article
           aria-label={`Freshness readonly smoke report ${readonlySmokeReport.outcome}`}

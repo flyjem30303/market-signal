@@ -6,13 +6,14 @@ const decisionPath = "src/lib/supabase-readonly-decision.ts";
 const executionPreviewPath = "src/lib/supabase-readonly-execution-preview.ts";
 const evidencePath = "src/lib/supabase-readonly-evidence.ts";
 const readonlySmokePath = "src/lib/freshness-readonly-smoke-report.ts";
+const freshnessLatestEvidencePath = "src/lib/freshness-readonly-latest-evidence.ts";
 const preflightPath = "src/lib/supabase-readonly-local-preflight.ts";
 const componentPath = "src/components/runtime-readiness-panel.tsx";
 const briefingPath = "src/app/briefing/page.tsx";
 const cssPath = "src/app/globals.css";
 
 const files = new Map(
-  [summaryPath, activationPath, decisionPath, executionPreviewPath, evidencePath, readonlySmokePath, preflightPath, componentPath, briefingPath, cssPath].map(
+  [summaryPath, activationPath, decisionPath, executionPreviewPath, evidencePath, readonlySmokePath, freshnessLatestEvidencePath, preflightPath, componentPath, briefingPath, cssPath].map(
     (file) => [file, fs.readFileSync(file, "utf8")]
   )
 );
@@ -44,6 +45,17 @@ const required = [
   [readonlySmokePath, "scoreSourceRealEnabled"],
   [readonlySmokePath, "rowPayloadsPrinted: false"],
   [readonlySmokePath, "secretsPrinted: false"],
+  [freshnessLatestEvidencePath, "getFreshnessReadonlyLatestEvidenceSummary"],
+  [freshnessLatestEvidencePath, "freshness_readonly_metadata_accepted"],
+  [freshnessLatestEvidencePath, "asOfDate: \"2026-05-27\""],
+  [freshnessLatestEvidencePath, "market: \"TWSE\""],
+  [freshnessLatestEvidencePath, "sourceName: \"TWSE OpenAPI\""],
+  [freshnessLatestEvidencePath, "scoreSource: \"mock\""],
+  [freshnessLatestEvidencePath, "publicDataSource: \"mock\""],
+  [freshnessLatestEvidencePath, "sqlExecuted: false"],
+  [freshnessLatestEvidencePath, "writesEnabled: false"],
+  [freshnessLatestEvidencePath, "ingestionStarted: false"],
+  [freshnessLatestEvidencePath, "scoreSourceRealChanged: false"],
   [preflightPath, "getSupabaseReadonlyLocalPreflight"],
   [preflightPath, "connectionAttempted: false"],
   [preflightPath, "secretsPrinted: false"],
@@ -68,6 +80,9 @@ const required = [
   [componentPath, "Freshness runtime activation"],
   [componentPath, "freshnessActivation.state"],
   [componentPath, "buildFreshnessReadonlySmokeReport"],
+  [componentPath, "getFreshnessReadonlyLatestEvidenceSummary"],
+  [componentPath, "Freshness latest evidence"],
+  [componentPath, "freshnessLatestEvidence.evidenceStatus"],
   [componentPath, "readonlySmokeReport.outcome"],
   [componentPath, "Freshness readonly smoke"],
   [componentPath, "Readonly evidence"],
@@ -109,6 +124,17 @@ const forbidden = [
   [readonlySmokePath, "sqlExecuted: true"],
   [readonlySmokePath, "writesEnabled: true"],
   [readonlySmokePath, "scoreSourceRealEnabled: true"],
+  [freshnessLatestEvidencePath, "@supabase/supabase-js"],
+  [freshnessLatestEvidencePath, "createClient"],
+  [freshnessLatestEvidencePath, "fetch("],
+  [freshnessLatestEvidencePath, ".from("],
+  [freshnessLatestEvidencePath, ".insert("],
+  [freshnessLatestEvidencePath, ".update("],
+  [freshnessLatestEvidencePath, ".delete("],
+  [freshnessLatestEvidencePath, "sqlExecuted: true"],
+  [freshnessLatestEvidencePath, "writesEnabled: true"],
+  [freshnessLatestEvidencePath, "ingestionStarted: true"],
+  [freshnessLatestEvidencePath, "scoreSourceRealChanged: true"],
   [preflightPath, "@supabase/supabase-js"],
   [preflightPath, "createClient"],
   [preflightPath, "fetch("],
