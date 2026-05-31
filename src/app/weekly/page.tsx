@@ -4,7 +4,10 @@ import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { PageViewTracker } from "@/components/page-view-tracker";
 import { TrackedLink } from "@/components/tracked-link";
 import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
-import { getMarketSignalRepository } from "@/lib/repositories/market-signal-repository";
+import {
+  getMarketSignalRepository,
+  getMarketSignalSourceStatus
+} from "@/lib/repositories/market-signal-repository";
 import type { SignalSnapshot } from "@/lib/signal-model";
 
 export const metadata: Metadata = {
@@ -16,6 +19,7 @@ export const metadata: Metadata = {
 export default async function WeeklyPage() {
   const repository = getMarketSignalRepository();
   const freshness = await getDataFreshnessSnapshot();
+  const marketSignalSourceStatus = getMarketSignalSourceStatus();
   const snapshots = repository
     .getAssets()
     .map((asset) => repository.getSnapshot(asset.symbol, "2026-05-28"))
@@ -44,7 +48,7 @@ export default async function WeeklyPage() {
           後續可接入真實行情、新聞與法人籌碼資料。
         </p>
       </section>
-      <DataFreshnessStrip freshness={freshness} />
+      <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
 
       <section className="weekly-quick-read" aria-label="週報快速閱讀">
         <article>

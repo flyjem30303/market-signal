@@ -272,6 +272,7 @@ select {
 
 .freshness-strip .freshness-score-source.mock,
 .freshness-strip .freshness-score-source.mixed,
+.freshness-strip .freshness-market-signal-source.mock,
 .freshness-strip .freshness-runtime-source.mock,
 .freshness-strip .freshness-boundary {
   background: #fff5df;

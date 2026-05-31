@@ -4,7 +4,10 @@ import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { PageViewTracker } from "@/components/page-view-tracker";
 import { TrackedLink } from "@/components/tracked-link";
 import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
-import { getMarketSignalRepository } from "@/lib/repositories/market-signal-repository";
+import {
+  getMarketSignalRepository,
+  getMarketSignalSourceStatus
+} from "@/lib/repositories/market-signal-repository";
 import type { SignalSnapshot } from "@/lib/signal-model";
 import { signalColor } from "@/lib/signal-model";
 
@@ -16,6 +19,7 @@ export const metadata: Metadata = {
 export default async function BriefingPage() {
   const repository = getMarketSignalRepository();
   const freshness = await getDataFreshnessSnapshot();
+  const marketSignalSourceStatus = getMarketSignalSourceStatus();
   const snapshots = repository
     .getAssets()
     .map((asset) => repository.getSnapshot(asset.symbol, "2026-05-28"))
@@ -53,7 +57,7 @@ export default async function BriefingPage() {
           <span>{market.modelVersion}</span>
         </div>
       </section>
-      <DataFreshnessStrip freshness={freshness} />
+      <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
 
       <nav aria-label="Briefing Compass" className="briefing-compass">
         <a href="#model-boundary">模型邊界</a>

@@ -1,11 +1,13 @@
 import type { DataFreshnessSnapshot } from "@/lib/data-freshness";
+import type { MarketSignalSourceStatus } from "@/lib/repositories/market-signal-repository";
 import { TrackedLink } from "@/components/tracked-link";
 
 type DataFreshnessStripProps = {
   freshness: DataFreshnessSnapshot;
+  marketSignalSourceStatus?: MarketSignalSourceStatus;
 };
 
-export function DataFreshnessStrip({ freshness }: DataFreshnessStripProps) {
+export function DataFreshnessStrip({ freshness, marketSignalSourceStatus }: DataFreshnessStripProps) {
   const reachabilityLabel = freshness.isMock ? "模擬 metadata" : "Supabase metadata 可達";
 
   return (
@@ -20,7 +22,14 @@ export function DataFreshnessStrip({ freshness }: DataFreshnessStripProps) {
       <span>幣別：{freshness.currency}</span>
       <span>時區：{freshness.timezone}</span>
       <span className={`freshness-score-source ${freshness.scoreSource}`}>分數來源：{freshness.scoreSourceLabel}</span>
+      {marketSignalSourceStatus && (
+        <span className={`freshness-market-signal-source ${marketSignalSourceStatus.resolvedSource}`}>
+          市場訊號：{marketSignalSourceStatus.resolvedSource} / requested {marketSignalSourceStatus.requestedSource} / reads{" "}
+          {marketSignalSourceStatus.supabaseRuntimeReads}
+        </span>
+      )}
       <span className="freshness-boundary">Freshness metadata 不等於真實評分或資料品質核准</span>
+      {marketSignalSourceStatus && <span className="freshness-boundary">{marketSignalSourceStatus.reason}</span>}
       <span className="freshness-description">{freshness.description}</span>
       <TrackedLink
         className="freshness-link"

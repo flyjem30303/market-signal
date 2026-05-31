@@ -16,13 +16,17 @@ import {
 } from "@/lib/signal-model";
 import { buildQuoteSnapshot, type QuoteSnapshot } from "@/lib/market-data";
 import { buildMockDataFreshnessSnapshot, type DataFreshnessSnapshot } from "@/lib/data-freshness";
-import { getMarketSignalRepository } from "@/lib/repositories/market-signal-repository";
+import {
+  getMarketSignalRepository,
+  type MarketSignalSourceStatus
+} from "@/lib/repositories/market-signal-repository";
 import { trackEvent } from "@/lib/tracking";
 
 type DashboardShellProps = {
   freshnessSnapshot?: DataFreshnessSnapshot;
   initialSymbol: string;
   includeSeoContent?: boolean;
+  marketSignalSourceStatus?: MarketSignalSourceStatus;
 };
 
 type TabKey = "today" | "trend" | "technical" | "volume" | "fundamentals" | "news" | "backtest";
@@ -30,7 +34,12 @@ type ChartMode = "health" | "risk" | "composite";
 
 const today = "2026-05-28";
 
-export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoContent = false }: DashboardShellProps) {
+export function DashboardShell({
+  freshnessSnapshot,
+  initialSymbol,
+  includeSeoContent = false,
+  marketSignalSourceStatus
+}: DashboardShellProps) {
   const router = useRouter();
   const [symbol, setSymbol] = useState(initialSymbol);
   const [query, setQuery] = useState("");
@@ -232,7 +241,7 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
         onSelect={selectAsset}
       />
 
-      {!includeSeoContent && <DataFreshnessStrip freshness={freshness} />}
+      {!includeSeoContent && <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />}
 
       {!includeSeoContent && (
         <HomeProductOverview
@@ -246,7 +255,7 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
 
       {includeSeoContent && (
         <>
-          <DataFreshnessStrip freshness={freshness} />
+          <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
           <Cp3RuntimeStatePanel freshness={freshness} snapshot={snapshot} />
           <StockEvidenceSnapshot snapshot={snapshot} />
           <StockDataGapPanel snapshot={snapshot} onTab={changeTab} />

@@ -3,6 +3,7 @@ import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { PageViewTracker } from "@/components/page-view-tracker";
 import { TrackedLink } from "@/components/tracked-link";
 import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
+import { getMarketSignalSourceStatus } from "@/lib/repositories/market-signal-repository";
 
 export const metadata: Metadata = {
   title: "評分方法論",
@@ -27,6 +28,7 @@ const qualityLevels = [
 
 export default async function MethodologyPage() {
   const freshness = await getDataFreshnessSnapshot();
+  const marketSignalSourceStatus = getMarketSignalSourceStatus();
 
   return (
     <main className="page-shell">
@@ -39,7 +41,7 @@ export default async function MethodologyPage() {
           分數不是買賣建議，也不是收益保證。
         </p>
       </section>
-      <DataFreshnessStrip freshness={freshness} />
+      <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
 
       <section className="method-quick-read" aria-label="方法論快速摘要">
         <article>

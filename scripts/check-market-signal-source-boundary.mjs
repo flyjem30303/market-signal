@@ -1,8 +1,22 @@
 import fs from "node:fs";
 
 const repositoryPath = "src/lib/repositories/market-signal-repository.ts";
+const stripPath = "src/components/data-freshness-strip.tsx";
+const dashboardPath = "src/components/dashboard-shell.tsx";
+const homePath = "src/app/page.tsx";
+const stockPagePath = "src/app/stocks/[symbol]/page.tsx";
+const briefingPath = "src/app/briefing/page.tsx";
+const weeklyPath = "src/app/weekly/page.tsx";
+const methodologyPath = "src/app/methodology/page.tsx";
 const envExamplePath = ".env.example";
 const repository = fs.readFileSync(repositoryPath, "utf8");
+const strip = fs.readFileSync(stripPath, "utf8");
+const dashboard = fs.readFileSync(dashboardPath, "utf8");
+const home = fs.readFileSync(homePath, "utf8");
+const stockPage = fs.readFileSync(stockPagePath, "utf8");
+const briefing = fs.readFileSync(briefingPath, "utf8");
+const weekly = fs.readFileSync(weeklyPath, "utf8");
+const methodology = fs.readFileSync(methodologyPath, "utf8");
 const envExample = fs.readFileSync(envExamplePath, "utf8");
 
 const requiredRepositoryPhrases = [
@@ -24,6 +38,53 @@ const requiredEnvPhrases = [
   "bounded market-signal runtime-read checkpoint"
 ];
 
+const requiredUiPhrases = [
+  {
+    content: strip,
+    file: stripPath,
+    phrases: [
+      "marketSignalSourceStatus?: MarketSignalSourceStatus",
+      "市場訊號：{marketSignalSourceStatus.resolvedSource}",
+      "requested {marketSignalSourceStatus.requestedSource}",
+      "{marketSignalSourceStatus.supabaseRuntimeReads}",
+      "{marketSignalSourceStatus.reason}"
+    ]
+  },
+  {
+    content: dashboard,
+    file: dashboardPath,
+    phrases: [
+      "marketSignalSourceStatus?: MarketSignalSourceStatus",
+      "marketSignalSourceStatus={marketSignalSourceStatus}"
+    ]
+  },
+  {
+    content: home,
+    file: homePath,
+    phrases: ["getMarketSignalSourceStatus", "marketSignalSourceStatus={marketSignalSourceStatus}"]
+  },
+  {
+    content: stockPage,
+    file: stockPagePath,
+    phrases: ["getMarketSignalSourceStatus", "marketSignalSourceStatus={marketSignalSourceStatus}"]
+  },
+  {
+    content: briefing,
+    file: briefingPath,
+    phrases: ["getMarketSignalSourceStatus", "marketSignalSourceStatus={marketSignalSourceStatus}"]
+  },
+  {
+    content: weekly,
+    file: weeklyPath,
+    phrases: ["getMarketSignalSourceStatus", "marketSignalSourceStatus={marketSignalSourceStatus}"]
+  },
+  {
+    content: methodology,
+    file: methodologyPath,
+    phrases: ["getMarketSignalSourceStatus", "marketSignalSourceStatus={marketSignalSourceStatus}"]
+  }
+];
+
 const forbiddenRepositoryPhrases = [
   "createSupabaseMarketSignalRepository(",
   "createServerSupabaseClient()",
@@ -42,19 +103,36 @@ const missingEnv = requiredEnvPhrases
   .filter((phrase) => !envExample.includes(phrase))
   .map((phrase) => ({ file: envExamplePath, phrase }));
 
+const missingUi = requiredUiPhrases.flatMap((requirement) =>
+  requirement.phrases
+    .filter((phrase) => !requirement.content.includes(phrase))
+    .map((phrase) => ({ file: requirement.file, phrase }))
+);
+
 const forbidden = forbiddenRepositoryPhrases
   .filter((phrase) => repository.includes(phrase))
   .map((phrase) => ({ file: repositoryPath, phrase }));
 
-const problems = [...missingRepository, ...missingEnv, ...forbidden];
+const problems = [...missingRepository, ...missingEnv, ...missingUi, ...forbidden];
 
 console.log(
   JSON.stringify(
     {
-      checked_files: [repositoryPath, envExamplePath],
+      checked_files: [
+        repositoryPath,
+        stripPath,
+        dashboardPath,
+        homePath,
+        stockPagePath,
+        briefingPath,
+        weeklyPath,
+        methodologyPath,
+        envExamplePath
+      ],
       forbidden,
       missingEnv,
       missingRepository,
+      missingUi,
       status: problems.length === 0 ? "ok" : "blocked"
     },
     null,

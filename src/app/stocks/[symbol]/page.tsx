@@ -2,7 +2,10 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { DashboardShell } from "@/components/dashboard-shell";
 import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
-import { getMarketSignalRepository } from "@/lib/repositories/market-signal-repository";
+import {
+  getMarketSignalRepository,
+  getMarketSignalSourceStatus
+} from "@/lib/repositories/market-signal-repository";
 import { absoluteUrl, siteConfig } from "@/lib/site";
 
 type StockPageProps = {
@@ -46,6 +49,7 @@ export default async function StockPage({ params }: StockPageProps) {
   const asset = repository.getAssetBySymbol(params.symbol);
   if (!asset) notFound();
   const freshness = await getDataFreshnessSnapshot();
+  const marketSignalSourceStatus = getMarketSignalSourceStatus();
   const snapshot = repository.getSnapshot(asset.symbol, "2026-05-28");
   const jsonLd = {
     "@context": "https://schema.org",
@@ -90,7 +94,12 @@ export default async function StockPage({ params }: StockPageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
       />
-      <DashboardShell freshnessSnapshot={freshness} initialSymbol={asset.symbol} includeSeoContent />
+      <DashboardShell
+        freshnessSnapshot={freshness}
+        initialSymbol={asset.symbol}
+        includeSeoContent
+        marketSignalSourceStatus={marketSignalSourceStatus}
+      />
     </>
   );
 }
