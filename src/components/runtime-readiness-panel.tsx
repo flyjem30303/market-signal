@@ -34,6 +34,18 @@ export function RuntimeReadinessPanel() {
         </article>
       </div>
       <div className="runtime-preflight-status">
+        <article className="readying" aria-label="CEO next runtime move">
+          <span>CEO next move</span>
+          <strong>
+            Runtime {decision.recommendedWorkMix.runtime}% / Supabase readonly{" "}
+            {decision.recommendedWorkMix.supabaseReadonly}%
+          </strong>
+          <p>
+            {decision.requiredHumanStep}. Manual approval{" "}
+            {executionPreview.manualApprovalRequired ? "required" : "not required"}; automated remote run{" "}
+            {executionPreview.safety.automatedRemoteRun ? "enabled" : "disabled"}.
+          </p>
+        </article>
         <article
           aria-label={`Runtime ${decision.recommendedWorkMix.runtime}% / Supabase readonly ${decision.recommendedWorkMix.supabaseReadonly}%`}
           className={decision.status === "blocked" ? "blocked" : "readying"}

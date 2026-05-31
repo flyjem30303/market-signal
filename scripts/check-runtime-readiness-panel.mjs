@@ -73,6 +73,8 @@ const required = [
   [componentPath, "Runtime readiness"],
   [componentPath, "runtime-readiness-command"],
   [componentPath, "runtime-preflight-status"],
+  [componentPath, "CEO next move"],
+  [componentPath, "automated remote run"],
   [componentPath, "CEO decision packet"],
   [componentPath, "decision.recommendedWorkMix"],
   [componentPath, "decision.warningCount"],
