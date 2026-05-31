@@ -146,8 +146,8 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
     });
   }
 
-  function selectAsset(nextSymbol: string) {
-    trackEvent("asset_selected", { symbol: nextSymbol });
+  function selectAsset(nextSymbol: string, source = "asset_selector") {
+    trackEvent("asset_selected", { source, symbol: nextSymbol });
     setSymbol(nextSymbol);
     setQuery("");
     if (includeSeoContent && nextSymbol !== selected.symbol) {
@@ -2211,7 +2211,7 @@ function AssetSelector({
   onGroup: (group: string) => void;
   onQuery: (query: string) => void;
   onQueryClear: (source: string) => void;
-  onSelect: (symbol: string) => void;
+  onSelect: (symbol: string, source?: string) => void;
 }) {
   const searchTerm = query.trim();
   const groupLabel = activeGroup === "全部" ? "全部群組" : activeGroup;
@@ -2233,7 +2233,7 @@ function AssetSelector({
         </label>
         <label>
           <span>快速切換</span>
-          <select value={selectedSymbol} onChange={(event) => onSelect(event.target.value)}>
+          <select value={selectedSymbol} onChange={(event) => onSelect(event.target.value, "quick_switch")}>
             {assets.map((asset) => (
               <option key={asset.id} value={asset.symbol}>
                 {asset.symbol} {asset.name}
@@ -2272,7 +2272,7 @@ function AssetSelector({
       <div className="favorite-row">
         {favorites.length ? (
           favorites.map((asset) => (
-            <button className="favorite-chip" key={asset.id} onClick={() => onSelect(asset.symbol)} type="button">
+            <button className="favorite-chip" key={asset.id} onClick={() => onSelect(asset.symbol, "favorite_chip")} type="button">
               ♥ {asset.symbol}
             </button>
           ))
@@ -2286,7 +2286,7 @@ function AssetSelector({
             <button
               className={asset.symbol === selectedSymbol ? "asset-card active" : "asset-card"}
               key={asset.id}
-              onClick={() => onSelect(asset.symbol)}
+              onClick={() => onSelect(asset.symbol, "asset_card")}
               type="button"
             >
               <strong>{asset.symbol}</strong>
