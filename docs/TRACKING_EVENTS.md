@@ -12,7 +12,7 @@
 | `asset_group_changed` | 使用者切換標的群組篩選 | `group`, `symbol` |
 | `favorite_added` | 加入愛心標的 | `symbol` |
 | `favorite_removed` | 移除愛心標的 | `symbol` |
-| `tab_changed` | 切換四大頁籤 | `symbol`, `tab` |
+| `tab_changed` | 切換四大頁籤 | `source`, `symbol`, `tab` |
 | `chart_mode_changed` | 切換趨勢圖分數模式 | `symbol`, `mode` |
 | `home_page_viewed` | 進入首頁 | `page` |
 | `home_cta_clicked` | 點擊首頁 Quick Start 行動 | `action`, `href`, `symbol` |

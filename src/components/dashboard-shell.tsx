@@ -155,8 +155,8 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
     }
   }
 
-  function changeTab(nextTab: TabKey) {
-    trackEvent("tab_changed", { symbol: selected.symbol, tab: nextTab });
+  function changeTab(nextTab: TabKey, source = "content_button") {
+    trackEvent("tab_changed", { source, symbol: selected.symbol, tab: nextTab });
     setActiveTab(nextTab);
   }
 
@@ -315,7 +315,7 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
           <button
             className={activeTab === key ? "tab-button active" : "tab-button"}
             key={key}
-            onClick={() => changeTab(key as TabKey)}
+            onClick={() => changeTab(key as TabKey, "top_tabs")}
             type="button"
           >
             {label}
@@ -411,7 +411,7 @@ function HomeProductOverview({
   selected: Asset;
   snapshots: SignalSnapshot[];
   snapshot: SignalSnapshot;
-  onTab: (tab: TabKey) => void;
+  onTab: (tab: TabKey, source?: string) => void;
 }) {
   const riskState = snapshot.riskScore >= 70 ? "高風險" : snapshot.riskScore >= 55 ? "需觀察" : "相對穩定";
   const gapCount = snapshot.missingModuleFlags.length + snapshot.staleDataFlags.length;
@@ -495,7 +495,7 @@ function HomeProductOverview({
               className="outline-button"
               onClick={() => {
                 trackEvent("home_cta_clicked", { action: "trend_tab", href: "#trend", symbol: selected.symbol });
-                onTab("trend");
+                onTab("trend", "home_quick_start");
               }}
               type="button"
             >
@@ -1038,7 +1038,7 @@ function ContextMetric({
   );
 }
 
-function StockPageCompass({ activeTab, onTab }: { activeTab: TabKey; onTab: (tab: TabKey) => void }) {
+function StockPageCompass({ activeTab, onTab }: { activeTab: TabKey; onTab: (tab: TabKey, source?: string) => void }) {
   const items: Array<{ key: TabKey; label: string; text: string }> = [
     { key: "today", label: "今日", text: "分數與模型狀態" },
     { key: "trend", label: "趨勢", text: "長期分數路徑" },
@@ -1055,7 +1055,7 @@ function StockPageCompass({ activeTab, onTab }: { activeTab: TabKey; onTab: (tab
         <button
           className={activeTab === item.key ? "active" : undefined}
           key={item.key}
-          onClick={() => onTab(item.key)}
+          onClick={() => onTab(item.key, "stock_page_compass")}
           type="button"
         >
           <strong>{item.label}</strong>
