@@ -1593,6 +1593,11 @@ const checks = [
     name: "row-coverage-readonly-local-preflight"
   },
   {
+    command: [node, "scripts/check-row-coverage-readonly-guarded-runner.mjs"],
+    expectStatus: "ok",
+    name: "row-coverage-readonly-guarded-runner"
+  },
+  {
     command: [node, "scripts/check-freshness-runtime-activation-state.mjs"],
     expectStatus: "ok",
     name: "freshness-runtime-activation-state"

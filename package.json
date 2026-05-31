@@ -121,6 +121,7 @@
     "check:row-coverage-contract": "node scripts/check-row-coverage-contract.mjs",
     "check:row-coverage-readonly-validation-contract": "node scripts/check-row-coverage-readonly-validation-contract.mjs",
     "check:row-coverage-readonly-local-preflight": "node scripts/check-row-coverage-readonly-local-preflight.mjs",
+    "check:row-coverage-readonly-guarded-runner": "node scripts/check-row-coverage-readonly-guarded-runner.mjs",
     "check:freshness-runtime-activation-state": "node scripts/check-freshness-runtime-activation-state.mjs",
     "check:freshness-runtime-activation-behavior": "node scripts/check-freshness-runtime-activation-behavior.mjs",
     "check:freshness-readonly-smoke-report": "node scripts/check-freshness-readonly-smoke-report.mjs",
@@ -451,6 +452,7 @@
     "report:supabase-readonly-final-prep": "node scripts/report-supabase-readonly-final-prep.mjs",
     "report:etf-source": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/report-etf-source-readiness.mjs",
     "report:etf-mis-smoke": "node scripts/report-etf-mis-smoke.mjs",
+    "run:row-coverage-readonly": "node scripts/run-row-coverage-readonly-once.mjs",
     "seed:data-runs": "node scripts/seed-data-runs-sql.mjs",
     "seed:markets": "node scripts/seed-markets-sql.mjs",
     "seed:stocks": "node scripts/seed-stocks-sql.mjs"
