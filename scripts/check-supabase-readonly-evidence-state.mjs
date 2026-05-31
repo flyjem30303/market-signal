@@ -26,8 +26,8 @@ const required = [
   [runtimePath, "Readonly evidence"],
   [runtimePath, "Objects reachable:"],
   [progressPath, "Supabase object reachability"],
-  [progressPath, "schema shape"],
   [progressPath, "freshness interpretation"],
+  [progressPath, "資料品質降級規則"],
   [sourceDepthPath, "Supabase object reachability"]
 ];
 

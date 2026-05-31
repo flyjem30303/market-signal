@@ -1563,6 +1563,11 @@ const checks = [
     name: "freshness-interpretation-state"
   },
   {
+    command: [node, "scripts/check-data-quality-downgrade-state.mjs"],
+    expectStatus: "ok",
+    name: "data-quality-downgrade-state"
+  },
+  {
     command: [node, "scripts/check-cp3-5pm-runtime-readiness-checkpoint.mjs"],
     expectStatus: "ok",
     name: "cp3-5pm-runtime-readiness-checkpoint"

@@ -1,4 +1,5 @@
 import type { DataFreshnessSnapshot } from "@/lib/data-freshness";
+import { getDataQualityDowngradeSummary } from "@/lib/data-quality-downgrade";
 import { getFreshnessInterpretationSummary } from "@/lib/freshness-interpretation";
 import type { MarketSignalSourceStatus } from "@/lib/repositories/market-signal-repository";
 import { TrackedLink } from "@/components/tracked-link";
@@ -10,6 +11,7 @@ type DataFreshnessStripProps = {
 
 export function DataFreshnessStrip({ freshness, marketSignalSourceStatus }: DataFreshnessStripProps) {
   const reachabilityLabel = freshness.isMock ? "模擬 metadata" : "Supabase metadata 可達";
+  const dataQuality = getDataQualityDowngradeSummary(freshness);
   const interpretation = getFreshnessInterpretationSummary();
 
   return (
@@ -36,6 +38,10 @@ export function DataFreshnessStrip({ freshness, marketSignalSourceStatus }: Data
         {interpretation.dataFreshnessObjectRole}
       </span>
       <span className="freshness-boundary">{interpretation.stopLine}</span>
+      <span className="freshness-boundary">
+        Data quality gate: {dataQuality.displayLabel} / {dataQuality.downgradeState}
+      </span>
+      <span className="freshness-boundary">{dataQuality.stopLine}</span>
       {marketSignalSourceStatus && <span className="freshness-boundary">{marketSignalSourceStatus.reason}</span>}
       <span className="freshness-description">{freshness.description}</span>
       <TrackedLink

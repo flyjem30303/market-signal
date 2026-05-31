@@ -18,6 +18,7 @@ const required = [
   [progressPath, "freshness interpretation"],
   [progressPath, "data_runs baseline"],
   [progressPath, "data_freshness candidate"],
+  [progressPath, "資料品質降級規則"],
   [progressPath, "scoreSource=real"],
   [progressPath, "owner: \"CEO\""],
   [progressPath, "owner: \"Data\""],

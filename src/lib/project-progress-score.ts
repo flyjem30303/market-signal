@@ -45,9 +45,9 @@ export const projectProgressLanes: ProjectProgressLane[] = [
     weight: 15
   },
   {
-    current: 32,
+    current: 36,
     label: "真實市場資料與來源深度",
-    note: "freshness interpretation 已切開 data_runs baseline 與 data_freshness candidate；來源權利、欄位覆蓋、資料品質與 ingestion 仍未正式開啟。",
+    note: "freshness interpretation 已切開 data_runs baseline 與 data_freshness candidate；資料品質降級規則已進 runtime disclosure，但來源權利、欄位覆蓋與 ingestion 仍未正式開啟。",
     owner: "Data",
     weight: 15
   },
@@ -82,7 +82,7 @@ export function getProjectProgressSummary(): ProjectProgressSummary {
     adjustedScore,
     headline: `PM 估算目前整體開發進度 ${adjustedScore}%`,
     lanes: projectProgressLanes,
-    nextLift: "下一個最能拉高分數的工作，是把 schema shape 與 freshness interpretation 延伸成資料品質降級規則。",
+    nextLift: "下一個最能拉高分數的工作，是把資料品質降級規則接到 Supabase readonly runtime activation 的單次開關評估。",
     rawScore: Number(rawScore.toFixed(2)),
     stage: "Mock MVP 與 runtime guard 已進入可操作階段；Supabase object reachability 已完成，真實市場資料與 scoreSource=real 尚未開啟。"
   };
