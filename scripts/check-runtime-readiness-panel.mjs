@@ -1,13 +1,17 @@
 import fs from "node:fs";
 
 const summaryPath = "src/lib/runtime-readiness-score.ts";
+const decisionPath = "src/lib/supabase-readonly-decision.ts";
 const preflightPath = "src/lib/supabase-readonly-local-preflight.ts";
 const componentPath = "src/components/runtime-readiness-panel.tsx";
 const briefingPath = "src/app/briefing/page.tsx";
 const cssPath = "src/app/globals.css";
 
 const files = new Map(
-  [summaryPath, preflightPath, componentPath, briefingPath, cssPath].map((file) => [file, fs.readFileSync(file, "utf8")])
+  [summaryPath, decisionPath, preflightPath, componentPath, briefingPath, cssPath].map((file) => [
+    file,
+    fs.readFileSync(file, "utf8")
+  ])
 );
 
 const required = [
@@ -25,11 +29,21 @@ const required = [
   [preflightPath, "sqlExecuted: false"],
   [preflightPath, "mutations: false"],
   [preflightPath, "ready_for_guarded_readonly_decision"],
+  [decisionPath, "getSupabaseReadonlyDecision"],
+  [decisionPath, "supabase_readonly_decision_packet"],
+  [decisionPath, "proceed_to_ceo_review"],
+  [decisionPath, "ready_for_ceo_decision"],
+  [decisionPath, "scoreSourceRealEnabled: false"],
+  [decisionPath, "connectionAttempted: false"],
+  [decisionPath, "sqlExecuted: false"],
+  [decisionPath, "mutations: false"],
   [componentPath, "RuntimeReadinessPanel"],
   [componentPath, "Runtime Readiness"],
   [componentPath, "Runtime readiness"],
   [componentPath, "runtime-readiness-command"],
   [componentPath, "runtime-preflight-status"],
+  [componentPath, "CEO decision packet"],
+  [componentPath, "decision.recommendedWorkMix"],
   [componentPath, "Local preflight status"],
   [componentPath, "ready for guarded decision"],
   [componentPath, "目前不在自動 review gate 內執行"],
@@ -53,6 +67,13 @@ const forbidden = [
   [preflightPath, ".insert("],
   [preflightPath, ".update("],
   [preflightPath, ".delete("],
+  [decisionPath, "@supabase/supabase-js"],
+  [decisionPath, "createClient"],
+  [decisionPath, "fetch("],
+  [decisionPath, ".from("],
+  [decisionPath, ".insert("],
+  [decisionPath, ".update("],
+  [decisionPath, ".delete("],
   [componentPath, "fetch("],
   [componentPath, "createClient"],
   [componentPath, "process.env"]

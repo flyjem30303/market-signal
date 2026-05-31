@@ -1,9 +1,11 @@
 import { getRuntimeReadinessSummary } from "@/lib/runtime-readiness-score";
+import { getSupabaseReadonlyDecision } from "@/lib/supabase-readonly-decision";
 import { getSupabaseReadonlyLocalPreflight } from "@/lib/supabase-readonly-local-preflight";
 
 export function RuntimeReadinessPanel() {
   const readiness = getRuntimeReadinessSummary();
   const preflight = getSupabaseReadonlyLocalPreflight();
+  const decision = getSupabaseReadonlyDecision(preflight);
 
   return (
     <section className={`runtime-readiness-panel ${readiness.status}`} aria-label="Runtime readiness">
@@ -30,6 +32,17 @@ export function RuntimeReadinessPanel() {
         </article>
       </div>
       <div className="runtime-preflight-status">
+        <article
+          aria-label={`Runtime ${decision.recommendedWorkMix.runtime}% / Supabase readonly ${decision.recommendedWorkMix.supabaseReadonly}%`}
+          className={decision.status === "blocked" ? "blocked" : "readying"}
+        >
+          <span>CEO decision packet</span>
+          <strong>{decision.decision}</strong>
+          <p>
+            Runtime {decision.recommendedWorkMix.runtime}% / Supabase readonly{" "}
+            {decision.recommendedWorkMix.supabaseReadonly}%. {decision.requiredHumanStep}.
+          </p>
+        </article>
         <article className={preflight.status === "blocked" ? "blocked" : "readying"}>
           <span>Local preflight status</span>
           <strong>{preflight.status === "blocked" ? "blocked" : "ready for guarded decision"}</strong>
