@@ -8,6 +8,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "check:localhost-health": "node scripts/check-localhost-health.mjs",
+    "dev:recover": "powershell -ExecutionPolicy Bypass -File scripts/recover-next-dev-server.ps1",
     "check:json": "node -e \"const fs=require('fs'); for (const f of ['package.json','tsconfig.json','data/seeds/markets.seed.json','data/seeds/stocks.seed.json']) { JSON.parse(fs.readFileSync(f,'utf8')); console.log(f+' ok'); }\"",
     "check:asset-policy": "node --experimental-strip-types scripts/check-asset-type-policy.mjs",
     "check:etf-due-diligence": "node scripts/check-etf-due-diligence.mjs",
