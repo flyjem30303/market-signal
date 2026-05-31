@@ -11,6 +11,7 @@
 | `favorite_removed` | 移除愛心標的 | `symbol` |
 | `tab_changed` | 切換四大頁籤 | `symbol`, `tab` |
 | `stock_page_viewed` | 進入股票頁 | `symbol`, `name`, `signal` |
+| `briefing_page_viewed` | 進入晨報頁 | `page` |
 | `weekly_page_viewed` | 進入週報頁 | `page` |
 | `news_date_changed` | 調整新聞日期 | `symbol`, `date` |
 
@@ -18,7 +19,7 @@
 
 - Helper：`src/lib/tracking.ts`
 - 股票頁與儀表板互動：`src/components/dashboard-shell.tsx`
-- 週報頁瀏覽：`src/components/page-view-tracker.tsx`
+- 晨報與週報頁瀏覽：`src/components/page-view-tracker.tsx`
 
 ## 後續接正式分析工具
 
