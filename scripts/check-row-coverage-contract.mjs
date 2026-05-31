@@ -49,6 +49,23 @@ if (contract.expectedRowPolicy.expectedTotalRows !== 360) {
 if (contract.expectedRowPolicy.provesCoverage !== false) {
   problems.push("expected row policy must not prove coverage");
 }
+if (contract.missingRowTolerancePolicy.policyStatus !== "defined_local_only") {
+  problems.push(`expected missing-row tolerance policy defined_local_only, got ${contract.missingRowTolerancePolicy.policyStatus}`);
+}
+if (contract.missingRowTolerancePolicy.maxMissingRowsForCoverage !== 0) {
+  problems.push(`expected zero missing rows for coverage, got ${contract.missingRowTolerancePolicy.maxMissingRowsForCoverage}`);
+}
+if (contract.missingRowTolerancePolicy.maxMissingRowsForScoreSourceReal !== 0) {
+  problems.push(
+    `expected zero missing rows for scoreSource real, got ${contract.missingRowTolerancePolicy.maxMissingRowsForScoreSourceReal}`
+  );
+}
+if (contract.missingRowTolerancePolicy.actionWhenMissingRowsDetected !== "block real-score evidence") {
+  problems.push("missing rows must block real-score evidence");
+}
+if (contract.missingRowTolerancePolicy.requiresOwnerReviewWhenMissingRowsDetected !== true) {
+  problems.push("missing rows must require owner review");
+}
 if (!contract.requirements.some((requirement) => requirement.code === "symbol-universe-defined" && requirement.state === "complete")) {
   problems.push("symbol universe requirement must be complete");
 }
@@ -58,9 +75,11 @@ if (!contract.requirements.some((requirement) => requirement.code === "coverage-
 if (!contract.requirements.some((requirement) => requirement.code === "expected-row-policy-defined" && requirement.state === "complete")) {
   problems.push("expected row policy requirement must be complete");
 }
+if (!contract.requirements.some((requirement) => requirement.code === "missing-row-tolerance-defined" && requirement.state === "complete")) {
+  problems.push("missing-row tolerance requirement must be complete");
+}
 
 for (const code of [
-  "missing-row-tolerance-defined",
   "market-calendar-treatment-defined"
 ]) {
   if (!contract.requirements.some((requirement) => requirement.code === code && requirement.state === "missing")) {
@@ -80,6 +99,7 @@ const required = [
   "universePolicy",
   "coverageWindowPolicy",
   "expectedRowPolicy",
+  "missingRowTolerancePolicy",
   "defined_local_only",
   "Taiwan MVP watchlist universe",
   "MVP rolling 60 trading sessions",
@@ -93,6 +113,11 @@ const required = [
   "symbol count x required trading sessions",
   "provesCoverage: false",
   "one row per symbol per trading session",
+  "maxMissingRowsForCoverage: 0",
+  "maxMissingRowsForScoreSourceReal: 0",
+  "block real-score evidence",
+  "requiresOwnerReviewWhenMissingRowsDetected: true",
+  "zero missing rows before real-score evidence",
   "TWII",
   "0050",
   "006208",
@@ -104,7 +129,7 @@ const required = [
   "expected-row-policy-defined",
   "missing-row-tolerance-defined",
   "market-calendar-treatment-defined",
-  "Row coverage universe, window, and expected-row policies are local-only",
+  "Row coverage universe, window, expected-row, and missing-row tolerance policies are local-only",
   "do not fetch market data, run SQL, write Supabase, claim coverage, or set scoreSource=real"
 ];
 const forbidden = [
@@ -137,6 +162,7 @@ console.log(
         coverageWindowSessions: contract.coverageWindowPolicy.requiredTradingSessions,
         expectedTotalRows: contract.expectedRowPolicy.expectedTotalRows,
         maxPoints: contract.maxPoints,
+        maxMissingRowsForCoverage: contract.missingRowTolerancePolicy.maxMissingRowsForCoverage,
         symbolCount: contract.universePolicy.symbols.length,
         requirementCount: contract.requirements.length,
         status: contract.status

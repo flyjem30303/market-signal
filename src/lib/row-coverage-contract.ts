@@ -32,11 +32,21 @@ export type RowCoverageExpectedRowPolicy = {
   rowGranularity: "one row per symbol per trading session";
 };
 
+export type RowCoverageMissingRowTolerancePolicy = {
+  actionWhenMissingRowsDetected: "block real-score evidence";
+  maxMissingRowsForCoverage: 0;
+  maxMissingRowsForScoreSourceReal: 0;
+  policyStatus: "defined_local_only";
+  requiresOwnerReviewWhenMissingRowsDetected: true;
+  toleranceLabel: "zero missing rows before real-score evidence";
+};
+
 export type RowCoverageContract = {
   awardedPoints: 0;
   coverageWindowPolicy: RowCoverageWindowPolicy;
   expectedRowPolicy: RowCoverageExpectedRowPolicy;
   maxPoints: 20;
+  missingRowTolerancePolicy: RowCoverageMissingRowTolerancePolicy;
   nextAction: string;
   publicDataSource: "mock";
   requirements: RowCoverageRequirement[];
@@ -71,14 +81,23 @@ export function buildRowCoverageContract(): RowCoverageContract {
     provesCoverage: false,
     rowGranularity: "one row per symbol per trading session"
   };
+  const missingRowTolerancePolicy: RowCoverageMissingRowTolerancePolicy = {
+    actionWhenMissingRowsDetected: "block real-score evidence",
+    maxMissingRowsForCoverage: 0,
+    maxMissingRowsForScoreSourceReal: 0,
+    policyStatus: "defined_local_only",
+    requiresOwnerReviewWhenMissingRowsDetected: true,
+    toleranceLabel: "zero missing rows before real-score evidence"
+  };
 
   return {
     awardedPoints: 0,
     coverageWindowPolicy,
     expectedRowPolicy,
     maxPoints: 20,
+    missingRowTolerancePolicy,
     nextAction:
-      "Define missing-row tolerance and market-calendar treatment before awarding row coverage points.",
+      "Define market-calendar treatment before awarding row coverage points.",
     publicDataSource: "mock",
     requirements: [
       {
@@ -103,7 +122,7 @@ export function buildRowCoverageContract(): RowCoverageContract {
         code: "missing-row-tolerance-defined",
         label: "Missing-row tolerance is defined",
         owner: "Engineering",
-        state: "missing"
+        state: "complete"
       },
       {
         code: "market-calendar-treatment-defined",
@@ -115,7 +134,7 @@ export function buildRowCoverageContract(): RowCoverageContract {
     scoreSource: "mock",
     status: "not_ready",
     stopLine:
-      "Row coverage universe, window, and expected-row policies are local-only; do not fetch market data, run SQL, write Supabase, claim coverage, or set scoreSource=real.",
+      "Row coverage universe, window, expected-row, and missing-row tolerance policies are local-only; do not fetch market data, run SQL, write Supabase, claim coverage, or set scoreSource=real.",
     universePolicy
   };
 }

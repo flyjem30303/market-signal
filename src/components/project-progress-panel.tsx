@@ -38,7 +38,8 @@ export function ProjectProgressPanel() {
           {progress.dataQualityScoreContract.rowCoverage.requirements.filter((item) => item.state === "missing").length};
           universe {progress.dataQualityScoreContract.rowCoverage.universePolicy.symbols.length} local-only symbols; window{" "}
           {progress.dataQualityScoreContract.rowCoverage.coverageWindowPolicy.requiredTradingSessions} trading sessions; expected{" "}
-          {progress.dataQualityScoreContract.rowCoverage.expectedRowPolicy.expectedTotalRows} rows.
+          {progress.dataQualityScoreContract.rowCoverage.expectedRowPolicy.expectedTotalRows} rows; tolerance{" "}
+          {progress.dataQualityScoreContract.rowCoverage.missingRowTolerancePolicy.maxMissingRowsForCoverage} missing rows.
         </p>
         <ul>
           {progress.dataQualityEvidenceGate.missingActions.slice(0, 4).map((action) => (
