@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { PageViewTracker } from "@/components/page-view-tracker";
 import { TrackedLink } from "@/components/tracked-link";
+import { TrustRuntimeBoundaryNotice } from "@/components/trust-runtime-boundary-notice";
 
 export const metadata: Metadata = {
   title: "投資免責聲明",
@@ -18,6 +19,7 @@ export default function DisclaimerPage() {
           本網站提供研究模型、資料整理與市場觀察，不提供個人化投資建議，也不保證任何投資成果。
         </p>
       </section>
+      <TrustRuntimeBoundaryNotice context="disclaimer" />
 
       <section className="legal-quick-read" aria-label="免責聲明快速摘要">
         <article>

@@ -1,0 +1,52 @@
+import { getRuntimeReadinessSummary } from "@/lib/runtime-readiness-score";
+import { getSourceDepthBlockerSummary } from "@/lib/source-depth-blockers";
+
+type TrustRuntimeBoundaryNoticeProps = {
+  context: "disclaimer" | "methodology";
+};
+
+const contextCopy = {
+  disclaimer: {
+    eyebrow: "Legal Runtime Boundary",
+    title: "免責聲明：目前不是正式投資訊號",
+    summary:
+      "本網站目前仍以 mock-only runtime 呈現，內容只供產品驗證與研究參考，不構成投資建議、交易建議或正式資料保證。"
+  },
+  methodology: {
+    eyebrow: "Method Runtime Boundary",
+    title: "方法論目前仍停在 mock-only 驗證階段",
+    summary:
+      "方法論頁說明模型設計與閱讀方式，但目前尚未完成來源深度、權利、回測與真實資料接軌，因此不能把分數視為正式市場訊號。"
+  }
+} as const;
+
+export function TrustRuntimeBoundaryNotice({ context }: TrustRuntimeBoundaryNoticeProps) {
+  const copy = contextCopy[context];
+  const readiness = getRuntimeReadinessSummary();
+  const sourceDepth = getSourceDepthBlockerSummary();
+
+  return (
+    <section className="trust-runtime-boundary-notice" aria-label={`${copy.eyebrow} notice`}>
+      <div>
+        <p className="eyebrow">{copy.eyebrow}</p>
+        <h2>{copy.title}</h2>
+        <p>{copy.summary}</p>
+      </div>
+      <article className="readying">
+        <span>Runtime readiness</span>
+        <strong>{readiness.score}%</strong>
+        <p>{readiness.status}</p>
+      </article>
+      <article className="blocked">
+        <span>Source depth</span>
+        <strong>{sourceDepth.sourceDepthState}</strong>
+        <p>scoreSource: {sourceDepth.scoreSource}</p>
+      </article>
+      <article className="blocked">
+        <span>Stop line</span>
+        <strong>no real score</strong>
+        <p>{sourceDepth.stopLine}</p>
+      </article>
+    </section>
+  );
+}

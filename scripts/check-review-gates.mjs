@@ -2063,6 +2063,11 @@ const checks = [
     name: "stock-runtime-at-a-glance"
   },
   {
+    command: [node, "scripts/check-trust-runtime-boundary-notice.mjs"],
+    expectStatus: "ok",
+    name: "trust-runtime-boundary-notice"
+  },
+  {
     command: [node, "scripts/check-stock-decision-compass.mjs"],
     expectStatus: "ok",
     name: "stock-decision-compass"
