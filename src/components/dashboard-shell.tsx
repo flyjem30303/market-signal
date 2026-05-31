@@ -81,6 +81,31 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
     },
     [availableAssets, repository, selected.group, selected.symbol]
   );
+  const marketContext = useMemo(() => {
+    const market = homeSnapshots.find((item) => item.asset.symbol === "TWII") ?? snapshot;
+    const groupItems = homeSnapshots.filter((item) => item.asset.group === selected.group);
+    const comparisonItems = groupItems.length ? groupItems : homeSnapshots;
+    const groupAverage = comparisonItems.reduce(
+      (summary, item) => {
+        summary.compositeScore += item.compositeScore;
+        summary.healthScore += item.healthScore;
+        summary.riskScore += item.riskScore;
+        return summary;
+      },
+      { compositeScore: 0, healthScore: 0, riskScore: 0 }
+    );
+    const count = comparisonItems.length || 1;
+
+    return {
+      groupAverage: {
+        compositeScore: Math.round(groupAverage.compositeScore / count),
+        healthScore: Math.round(groupAverage.healthScore / count),
+        riskScore: Math.round(groupAverage.riskScore / count)
+      },
+      groupCount: comparisonItems.length,
+      market
+    };
+  }, [homeSnapshots, selected.group, snapshot]);
 
   useEffect(() => {
     setSymbol(initialSymbol);
@@ -189,6 +214,13 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
           <StockEvidenceSnapshot snapshot={snapshot} />
           <StockDataGapPanel snapshot={snapshot} onTab={changeTab} />
           <StockDecisionCompass scoreSourceLabel={freshness.scoreSourceLabel} snapshot={snapshot} />
+          <StockMarketContextPanel
+            groupAverage={marketContext.groupAverage}
+            groupCount={marketContext.groupCount}
+            market={marketContext.market}
+            selected={selected}
+            snapshot={snapshot}
+          />
           <QuoteSummary asset={selected} isFavorite={isFavorite} quote={quote} snapshot={snapshot} onFavorite={toggleFavorite} />
           <StockPeerNavigator peers={peerSnapshots} selected={selected} />
           <StockPageCompass activeTab={activeTab} onTab={changeTab} />
@@ -745,6 +777,77 @@ function StockDecisionCompass({
         <p>先看今日分數與資料狀態，再切換趨勢、技術、籌碼、基本面與回測。</p>
       </article>
     </section>
+  );
+}
+
+function StockMarketContextPanel({
+  groupAverage,
+  groupCount,
+  market,
+  selected,
+  snapshot
+}: {
+  groupAverage: { compositeScore: number; healthScore: number; riskScore: number };
+  groupCount: number;
+  market: SignalSnapshot;
+  selected: Asset;
+  snapshot: SignalSnapshot;
+}) {
+  const compositeGap = snapshot.compositeScore - groupAverage.compositeScore;
+  const marketGap = snapshot.compositeScore - market.compositeScore;
+  const riskGap = snapshot.riskScore - groupAverage.riskScore;
+  const groupLabel = selected.group === "指數" ? "全市場 mock 清單" : selected.group;
+
+  return (
+    <section className="stock-market-context" aria-label="Stock Market Context">
+      <div>
+        <p className="eyebrow">Market Context</p>
+        <h2>放回市場脈絡看 {selected.symbol}</h2>
+        <p>
+          這裡用 mock 清單做相對位置檢查，協助判斷單檔燈號是跟著市場走，還是明顯偏離同群組節奏。
+        </p>
+      </div>
+      <div className="market-context-grid">
+        <ContextMetric
+          label="相對台指"
+          tone={marketGap >= 0 ? "positive" : "watch"}
+          value={formatSigned(marketGap)}
+          text={`${market.asset.symbol} 綜合 ${market.compositeScore}/100`}
+        />
+        <ContextMetric
+          label={`相對${groupLabel}`}
+          tone={compositeGap >= 0 ? "positive" : "watch"}
+          value={formatSigned(compositeGap)}
+          text={`${groupCount} 檔平均綜合 ${groupAverage.compositeScore}/100`}
+        />
+        <ContextMetric
+          label="風險差距"
+          tone={riskGap <= 0 ? "positive" : "risk"}
+          value={formatSigned(riskGap)}
+          text={`群組平均風險 ${groupAverage.riskScore}/100`}
+        />
+      </div>
+    </section>
+  );
+}
+
+function ContextMetric({
+  label,
+  text,
+  tone,
+  value
+}: {
+  label: string;
+  text: string;
+  tone: "positive" | "risk" | "watch";
+  value: string;
+}) {
+  return (
+    <article className={tone}>
+      <span>{label}</span>
+      <strong>{value}</strong>
+      <p>{text}</p>
+    </article>
   );
 }
 

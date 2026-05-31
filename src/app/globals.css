@@ -1863,6 +1863,80 @@ select {
   margin: 0;
 }
 
+.stock-market-context {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+  display: grid;
+  grid-template-columns: minmax(260px, 0.72fr) minmax(0, 1.48fr);
+  gap: 16px;
+  margin: 0 0 16px;
+  padding: 16px;
+}
+
+.stock-market-context h2 {
+  margin: 0 0 8px;
+}
+
+.stock-market-context p {
+  color: var(--muted);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.market-context-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.market-context-grid article {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel-muted);
+  min-height: 138px;
+  padding: 12px;
+}
+
+.market-context-grid article.positive {
+  border-color: color-mix(in srgb, var(--green) 34%, var(--line));
+}
+
+.market-context-grid article.watch {
+  border-color: color-mix(in srgb, var(--amber) 42%, var(--line));
+}
+
+.market-context-grid article.risk {
+  border-color: color-mix(in srgb, var(--red) 34%, var(--line));
+}
+
+.market-context-grid span {
+  color: var(--muted);
+  display: block;
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.market-context-grid strong {
+  display: block;
+  font-size: 30px;
+  line-height: 1;
+  margin: 10px 0;
+}
+
+.market-context-grid article.positive strong {
+  color: var(--green);
+}
+
+.market-context-grid article.watch strong {
+  color: var(--amber);
+}
+
+.market-context-grid article.risk strong {
+  color: var(--red);
+}
+
 .stock-page-compass {
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
@@ -5393,6 +5467,8 @@ input[type="date"] {
   .cp3-runtime-stop-lines,
   .stock-data-gap-panel,
   .stock-decision-compass,
+  .stock-market-context,
+  .market-context-grid,
   .stock-page-compass,
   .stock-module-highlights,
   .stock-risk-checklist,
