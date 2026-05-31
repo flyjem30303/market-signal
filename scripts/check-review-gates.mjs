@@ -1968,6 +1968,16 @@ const checks = [
     name: "data-freshness-source-fallback"
   },
   {
+    command: [
+      node,
+      "--disable-warning=MODULE_TYPELESS_PACKAGE_JSON",
+      "--experimental-strip-types",
+      "scripts/check-data-freshness-snapshot-behavior.mjs"
+    ],
+    expectStatus: "ok",
+    name: "data-freshness-snapshot-behavior"
+  },
+  {
     command: [node, "scripts/check-freshness-runtime-read-activation-gate.mjs"],
     expectStatus: "ok",
     name: "freshness-runtime-read-activation-gate"
