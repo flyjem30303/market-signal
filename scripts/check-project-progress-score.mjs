@@ -50,6 +50,7 @@ const required = [
   [componentPath, "progress.dataQualityScoreContract.rowCoverage.coverageWindowPolicy.requiredTradingSessions"],
   [componentPath, "progress.dataQualityScoreContract.rowCoverage.expectedRowPolicy.expectedTotalRows"],
   [componentPath, "progress.dataQualityScoreContract.rowCoverage.missingRowTolerancePolicy.maxMissingRowsForCoverage"],
+  [componentPath, "progress.dataQualityScoreContract.rowCoverage.marketCalendarPolicy.calendarScope"],
   [componentPath, "progress.dataQualityEvidenceGate.missingEvidence.length"],
   [componentPath, "progress.dataQualityEvidenceGate.missingActions.slice(0, 4).map"],
   [componentPath, "action.owner"],

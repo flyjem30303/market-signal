@@ -66,6 +66,25 @@ if (contract.missingRowTolerancePolicy.actionWhenMissingRowsDetected !== "block 
 if (contract.missingRowTolerancePolicy.requiresOwnerReviewWhenMissingRowsDetected !== true) {
   problems.push("missing rows must require owner review");
 }
+if (contract.marketCalendarPolicy.policyStatus !== "defined_local_only") {
+  problems.push(`expected market-calendar policy defined_local_only, got ${contract.marketCalendarPolicy.policyStatus}`);
+}
+if (contract.marketCalendarPolicy.calendarScope !== "TW exchange trading sessions") {
+  problems.push(`expected TW exchange trading sessions, got ${contract.marketCalendarPolicy.calendarScope}`);
+}
+if (contract.marketCalendarPolicy.excludesWeekends !== true) problems.push("market calendar must exclude weekends");
+if (contract.marketCalendarPolicy.excludesExchangeHolidays !== true) {
+  problems.push("market calendar must exclude exchange holidays");
+}
+if (contract.marketCalendarPolicy.excludesAdHocClosures !== true) {
+  problems.push("market calendar must exclude ad hoc closures");
+}
+if (contract.marketCalendarPolicy.usesSyntheticRows !== false) {
+  problems.push("market calendar must not allow synthetic rows");
+}
+if (contract.marketCalendarPolicy.unresolvedCalendarAction !== "block real-score evidence") {
+  problems.push("unresolved market calendar must block real-score evidence");
+}
 if (!contract.requirements.some((requirement) => requirement.code === "symbol-universe-defined" && requirement.state === "complete")) {
   problems.push("symbol universe requirement must be complete");
 }
@@ -78,13 +97,11 @@ if (!contract.requirements.some((requirement) => requirement.code === "expected-
 if (!contract.requirements.some((requirement) => requirement.code === "missing-row-tolerance-defined" && requirement.state === "complete")) {
   problems.push("missing-row tolerance requirement must be complete");
 }
-
-for (const code of [
-  "market-calendar-treatment-defined"
-]) {
-  if (!contract.requirements.some((requirement) => requirement.code === code && requirement.state === "missing")) {
-    problems.push(`missing requirement not tracked: ${code}`);
-  }
+if (!contract.requirements.some((requirement) => requirement.code === "market-calendar-treatment-defined" && requirement.state === "complete")) {
+  problems.push("market-calendar treatment requirement must be complete");
+}
+if (contract.requirements.some((requirement) => requirement.state === "missing")) {
+  problems.push("all row coverage policy requirements must be complete before read-only validation");
 }
 
 const source = fs.readFileSync(contractPath, "utf8");
@@ -100,6 +117,7 @@ const required = [
   "coverageWindowPolicy",
   "expectedRowPolicy",
   "missingRowTolerancePolicy",
+  "marketCalendarPolicy",
   "defined_local_only",
   "Taiwan MVP watchlist universe",
   "MVP rolling 60 trading sessions",
@@ -118,6 +136,12 @@ const required = [
   "block real-score evidence",
   "requiresOwnerReviewWhenMissingRowsDetected: true",
   "zero missing rows before real-score evidence",
+  "TW exchange trading sessions",
+  "excludesWeekends: true",
+  "excludesExchangeHolidays: true",
+  "excludesAdHocClosures: true",
+  "usesSyntheticRows: false",
+  "unresolvedCalendarAction: \"block real-score evidence\"",
   "TWII",
   "0050",
   "006208",
@@ -129,7 +153,7 @@ const required = [
   "expected-row-policy-defined",
   "missing-row-tolerance-defined",
   "market-calendar-treatment-defined",
-  "Row coverage universe, window, expected-row, and missing-row tolerance policies are local-only",
+  "Row coverage policies are complete but local-only",
   "do not fetch market data, run SQL, write Supabase, claim coverage, or set scoreSource=real"
 ];
 const forbidden = [
@@ -161,6 +185,7 @@ console.log(
         awardedPoints: contract.awardedPoints,
         coverageWindowSessions: contract.coverageWindowPolicy.requiredTradingSessions,
         expectedTotalRows: contract.expectedRowPolicy.expectedTotalRows,
+        marketCalendarScope: contract.marketCalendarPolicy.calendarScope,
         maxPoints: contract.maxPoints,
         maxMissingRowsForCoverage: contract.missingRowTolerancePolicy.maxMissingRowsForCoverage,
         symbolCount: contract.universePolicy.symbols.length,

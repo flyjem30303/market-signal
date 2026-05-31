@@ -41,10 +41,21 @@ export type RowCoverageMissingRowTolerancePolicy = {
   toleranceLabel: "zero missing rows before real-score evidence";
 };
 
+export type RowCoverageMarketCalendarPolicy = {
+  calendarScope: "TW exchange trading sessions";
+  excludesAdHocClosures: true;
+  excludesExchangeHolidays: true;
+  excludesWeekends: true;
+  policyStatus: "defined_local_only";
+  unresolvedCalendarAction: "block real-score evidence";
+  usesSyntheticRows: false;
+};
+
 export type RowCoverageContract = {
   awardedPoints: 0;
   coverageWindowPolicy: RowCoverageWindowPolicy;
   expectedRowPolicy: RowCoverageExpectedRowPolicy;
+  marketCalendarPolicy: RowCoverageMarketCalendarPolicy;
   maxPoints: 20;
   missingRowTolerancePolicy: RowCoverageMissingRowTolerancePolicy;
   nextAction: string;
@@ -89,15 +100,25 @@ export function buildRowCoverageContract(): RowCoverageContract {
     requiresOwnerReviewWhenMissingRowsDetected: true,
     toleranceLabel: "zero missing rows before real-score evidence"
   };
+  const marketCalendarPolicy: RowCoverageMarketCalendarPolicy = {
+    calendarScope: "TW exchange trading sessions",
+    excludesAdHocClosures: true,
+    excludesExchangeHolidays: true,
+    excludesWeekends: true,
+    policyStatus: "defined_local_only",
+    unresolvedCalendarAction: "block real-score evidence",
+    usesSyntheticRows: false
+  };
 
   return {
     awardedPoints: 0,
     coverageWindowPolicy,
     expectedRowPolicy,
+    marketCalendarPolicy,
     maxPoints: 20,
     missingRowTolerancePolicy,
     nextAction:
-      "Define market-calendar treatment before awarding row coverage points.",
+      "Run read-only row coverage validation before awarding row coverage points.",
     publicDataSource: "mock",
     requirements: [
       {
@@ -128,13 +149,13 @@ export function buildRowCoverageContract(): RowCoverageContract {
         code: "market-calendar-treatment-defined",
         label: "Market-calendar treatment is defined",
         owner: "Data",
-        state: "missing"
+        state: "complete"
       }
     ],
     scoreSource: "mock",
     status: "not_ready",
     stopLine:
-      "Row coverage universe, window, expected-row, and missing-row tolerance policies are local-only; do not fetch market data, run SQL, write Supabase, claim coverage, or set scoreSource=real.",
+      "Row coverage policies are complete but local-only; do not fetch market data, run SQL, write Supabase, claim coverage, or set scoreSource=real.",
     universePolicy
   };
 }

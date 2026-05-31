@@ -37,6 +37,9 @@ if (contract.rowCoverage.expectedRowPolicy.policyStatus !== "defined_local_only"
 if (contract.rowCoverage.missingRowTolerancePolicy.policyStatus !== "defined_local_only") {
   problems.push("row coverage missing-row tolerance policy must be locally defined");
 }
+if (contract.rowCoverage.marketCalendarPolicy.policyStatus !== "defined_local_only") {
+  problems.push("row coverage market-calendar policy must be locally defined");
+}
 if (!contract.rowCoverage.requirements.some((requirement) => requirement.code === "symbol-universe-defined" && requirement.state === "complete")) {
   problems.push("data quality contract must see symbol universe as complete");
 }
@@ -48,6 +51,12 @@ if (!contract.rowCoverage.requirements.some((requirement) => requirement.code ==
 }
 if (!contract.rowCoverage.requirements.some((requirement) => requirement.code === "missing-row-tolerance-defined" && requirement.state === "complete")) {
   problems.push("data quality contract must see missing-row tolerance as complete");
+}
+if (!contract.rowCoverage.requirements.some((requirement) => requirement.code === "market-calendar-treatment-defined" && requirement.state === "complete")) {
+  problems.push("data quality contract must see market-calendar treatment as complete");
+}
+if (contract.rowCoverage.requirements.some((requirement) => requirement.state === "missing")) {
+  problems.push("data quality contract must see row coverage policy requirements as complete");
 }
 for (const code of ["row-coverage", "field-validity", "downgrade-rules", "source-rights", "public-disclosure"]) {
   if (!contract.factors.some((factor) => factor.code === code && factor.state === "missing" && factor.points === 0)) {
@@ -65,6 +74,7 @@ const required = [
   "coverageWindowPolicy",
   "expectedRowPolicy",
   "missingRowTolerancePolicy",
+  "marketCalendarPolicy",
   "canCountAsRealScoreEvidence: false",
   "passThreshold: 80",
   "publicDataSource: \"mock\"",
