@@ -1,6 +1,7 @@
 import { spawnSync } from "node:child_process";
 
 const preflight = runPreflight();
+const warningCount = preflight.boundaries?.filter((boundary) => boundary.status === "warning").length ?? 0;
 const blocked =
   preflight.status !== "ready_for_guarded_readonly_decision" ||
   preflight.connectionAttempted !== false ||
@@ -8,7 +9,7 @@ const blocked =
   preflight.mutations !== false ||
   preflight.secretsPrinted !== false ||
   preflight.rowPayloadsPrinted !== false ||
-  preflight.boundaries?.some((boundary) => boundary.status === "blocked");
+  preflight.boundaries?.some((boundary) => boundary.status !== "ok");
 
 const decision = blocked ? "hold" : "proceed_to_ceo_review";
 const recommendedWorkMix = blocked
@@ -39,7 +40,8 @@ console.log(
         "Supabase read switch is enabled without a one-run gate",
         "any request to write Supabase, run SQL, ingest market rows, or set scoreSource=real"
       ],
-      status: blocked ? "blocked" : "ready_for_ceo_decision"
+      status: blocked ? "blocked" : "ready_for_ceo_decision",
+      warningCount
     },
     null,
     2

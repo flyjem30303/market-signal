@@ -8,8 +8,12 @@ const requiredEnv = [
   "NEXT_PUBLIC_DATA_SOURCE",
   "DATA_FRESHNESS_SOURCE"
 ];
+const defaultDisabledEnvNames = ["DATA_FRESHNESS_SUPABASE_READS", "MARKET_SIGNAL_SUPABASE_READS"];
 
-const env = readEnvFile(envPath);
+const env = {
+  ...readEnvFile(envPath),
+  ...readRuntimeEnv([...requiredEnv, ...defaultDisabledEnvNames])
+};
 const defaultedEnv = {
   DATA_FRESHNESS_SUPABASE_READS: envValue("DATA_FRESHNESS_SUPABASE_READS", "disabled"),
   MARKET_SIGNAL_SUPABASE_READS: envValue("MARKET_SIGNAL_SUPABASE_READS", "disabled")
@@ -95,6 +99,14 @@ function readEnvFile(path) {
         const index = line.indexOf("=");
         return index === -1 ? [line, ""] : [line.slice(0, index), line.slice(index + 1)];
       })
+  );
+}
+
+function readRuntimeEnv(names) {
+  return Object.fromEntries(
+    names
+      .filter((name) => process.env[name] && process.env[name].trim().length > 0)
+      .map((name) => [name, process.env[name]])
   );
 }
 

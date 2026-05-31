@@ -29,11 +29,13 @@ export type SupabaseReadonlyDecisionPacket = {
   };
   status: SupabaseReadonlyDecisionStatus;
   stopConditions: string[];
+  warningCount: number;
 };
 
 export function getSupabaseReadonlyDecision(
   preflight: SupabaseReadonlyLocalPreflight = getSupabaseReadonlyLocalPreflight()
 ): SupabaseReadonlyDecisionPacket {
+  const warningCount = preflight.boundaries.filter((boundary) => boundary.status === "warning").length;
   const blocked =
     preflight.status !== "ready_for_guarded_readonly_decision" ||
     preflight.connectionAttempted !== false ||
@@ -41,7 +43,7 @@ export function getSupabaseReadonlyDecision(
     preflight.mutations !== false ||
     preflight.secretsPrinted !== false ||
     preflight.rowPayloadsPrinted !== false ||
-    preflight.boundaries.some((boundary) => boundary.status === "blocked");
+    preflight.boundaries.some((boundary) => boundary.status !== "ok");
 
   return {
     decision: blocked ? "hold" : "proceed_to_ceo_review",
@@ -67,6 +69,7 @@ export function getSupabaseReadonlyDecision(
       "NEXT_PUBLIC_DATA_SOURCE is not mock",
       "Supabase read switch is enabled without a one-run gate",
       "any request to write Supabase, run SQL, ingest market rows, or set scoreSource=real"
-    ]
+    ],
+    warningCount
   };
 }

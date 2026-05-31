@@ -24,6 +24,7 @@ const required = [
   "rowPayloadsPrinted: false",
   "filesWritten: false",
   "publicClaimsChanged: false",
+  "readRuntimeEnv",
   "nextRemoteCommand: blocked ? null : \"npm run db:readonly-validate\""
 ];
 

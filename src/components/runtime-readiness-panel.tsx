@@ -42,7 +42,8 @@ export function RuntimeReadinessPanel() {
           <strong>{decision.decision}</strong>
           <p>
             Runtime {decision.recommendedWorkMix.runtime}% / Supabase readonly{" "}
-            {decision.recommendedWorkMix.supabaseReadonly}%. {decision.requiredHumanStep}.
+            {decision.recommendedWorkMix.supabaseReadonly}%. Warnings {decision.warningCount}.{" "}
+            {decision.requiredHumanStep}.
           </p>
         </article>
         <article className={preflight.status === "blocked" ? "blocked" : "readying"}>

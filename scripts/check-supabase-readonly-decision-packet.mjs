@@ -15,6 +15,8 @@ const required = [
   "runPreflight",
   "scripts/report-supabase-readonly-local-preflight.mjs",
   "nextRemoteCommand: blocked ? null : preflight.nextRemoteCommand",
+  "warningCount",
+  "boundary.status !== \"ok\"",
   "scoreSourceRealEnabled: false",
   "connectionAttempted: false",
   "sqlExecuted: false",
