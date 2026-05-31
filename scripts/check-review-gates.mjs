@@ -1588,6 +1588,11 @@ const checks = [
     name: "row-coverage-readonly-validation-contract"
   },
   {
+    command: [node, "scripts/check-row-coverage-readonly-local-preflight.mjs"],
+    expectStatus: "ok",
+    name: "row-coverage-readonly-local-preflight"
+  },
+  {
     command: [node, "scripts/check-freshness-runtime-activation-state.mjs"],
     expectStatus: "ok",
     name: "freshness-runtime-activation-state"
