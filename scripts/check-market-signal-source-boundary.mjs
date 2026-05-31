@@ -1,6 +1,7 @@
 import fs from "node:fs";
 
 const repositoryPath = "src/lib/repositories/market-signal-repository.ts";
+const sourceStatusPath = "src/lib/repositories/market-signal-source-status.ts";
 const stripPath = "src/components/data-freshness-strip.tsx";
 const dashboardPath = "src/components/dashboard-shell.tsx";
 const homePath = "src/app/page.tsx";
@@ -10,6 +11,7 @@ const weeklyPath = "src/app/weekly/page.tsx";
 const methodologyPath = "src/app/methodology/page.tsx";
 const envExamplePath = ".env.example";
 const repository = fs.readFileSync(repositoryPath, "utf8");
+const sourceStatus = fs.readFileSync(sourceStatusPath, "utf8");
 const strip = fs.readFileSync(stripPath, "utf8");
 const dashboard = fs.readFileSync(dashboardPath, "utf8");
 const home = fs.readFileSync(homePath, "utf8");
@@ -20,6 +22,12 @@ const methodology = fs.readFileSync(methodologyPath, "utf8");
 const envExample = fs.readFileSync(envExamplePath, "utf8");
 
 const requiredRepositoryPhrases = [
+  "export { getMarketSignalSourceStatus, type MarketSignalSourceStatus };",
+  "getMarketSignalSourceStatus({ env });",
+  "return mockMarketSignalRepository;"
+];
+
+const requiredSourceStatusPhrases = [
   "export type MarketSignalDataSource = \"mock\" | \"supabase\";",
   "export type MarketSignalSupabaseReads = \"disabled\" | \"enabled\";",
   "MARKET_SIGNAL_SUPABASE_READS?: string;",
@@ -28,8 +36,7 @@ const requiredRepositoryPhrases = [
   "publicScoreSource: \"mock\"",
   "resolvedSource: \"mock\"",
   "Supabase market-signal reads are not enabled",
-  "public score repository still resolves to mock",
-  "return mockMarketSignalRepository;"
+  "public score repository still resolves to mock"
 ];
 
 const requiredEnvPhrases = [
@@ -99,6 +106,10 @@ const missingRepository = requiredRepositoryPhrases
   .filter((phrase) => !repository.includes(phrase))
   .map((phrase) => ({ file: repositoryPath, phrase }));
 
+const missingSourceStatus = requiredSourceStatusPhrases
+  .filter((phrase) => !sourceStatus.includes(phrase))
+  .map((phrase) => ({ file: sourceStatusPath, phrase }));
+
 const missingEnv = requiredEnvPhrases
   .filter((phrase) => !envExample.includes(phrase))
   .map((phrase) => ({ file: envExamplePath, phrase }));
@@ -110,16 +121,23 @@ const missingUi = requiredUiPhrases.flatMap((requirement) =>
 );
 
 const forbidden = forbiddenRepositoryPhrases
-  .filter((phrase) => repository.includes(phrase))
-  .map((phrase) => ({ file: repositoryPath, phrase }));
+  .flatMap((phrase) =>
+    [
+      { content: repository, file: repositoryPath },
+      { content: sourceStatus, file: sourceStatusPath }
+    ]
+      .filter((target) => target.content.includes(phrase))
+      .map((target) => ({ file: target.file, phrase }))
+  );
 
-const problems = [...missingRepository, ...missingEnv, ...missingUi, ...forbidden];
+const problems = [...missingRepository, ...missingSourceStatus, ...missingEnv, ...missingUi, ...forbidden];
 
 console.log(
   JSON.stringify(
     {
       checked_files: [
         repositoryPath,
+        sourceStatusPath,
         stripPath,
         dashboardPath,
         homePath,
@@ -132,6 +150,7 @@ console.log(
       forbidden,
       missingEnv,
       missingRepository,
+      missingSourceStatus,
       missingUi,
       status: problems.length === 0 ? "ok" : "blocked"
     },

@@ -1938,6 +1938,16 @@ const checks = [
     name: "market-signal-source-boundary"
   },
   {
+    command: [
+      node,
+      "--disable-warning=MODULE_TYPELESS_PACKAGE_JSON",
+      "--experimental-strip-types",
+      "scripts/check-market-signal-source-status.mjs"
+    ],
+    expectStatus: "ok",
+    name: "market-signal-source-status"
+  },
+  {
     command: [node, "scripts/check-stock-decision-compass.mjs"],
     expectStatus: "ok",
     name: "stock-decision-compass"
