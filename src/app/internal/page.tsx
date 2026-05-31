@@ -47,9 +47,28 @@ export default function InternalDiagnosticsHome({ searchParams }: InternalDiagno
     }
   ];
 
+  const executionMix = [
+    {
+      detail: "優先改善首頁、晨報、週報、個股頁、資料狀態與閱讀路徑，讓 mock 階段也能像完整產品。",
+      label: "Runtime / UX",
+      owner: "PM",
+      share: 70,
+      state: "active"
+    },
+    {
+      detail: "只做 read-only 前置、schema 契約、環境檢查與授權清單；不連線、不跑 SQL、不寫入市場資料。",
+      label: "Supabase / SQL readiness",
+      owner: "Engineering",
+      share: 30,
+      state: "prep"
+    }
+  ];
+
   const nextActions = [
     "優先推進可見的內部工具與狀態呈現",
-    "只在碰到 Supabase / SQL / 真資料 / 公開宣稱時啟動重治理",
+    "每個切片前由 CEO/PM 重新判斷 Runtime 與資料準備線比例",
+    "預設 Runtime 70%、Supabase/SQL readiness 30%，但可依風險與卡點調整",
+    "只在進入遠端連線、SQL、真實市場資料、正式分數切換或公開宣稱時啟動重治理",
     "保持 scoreSource=mock 與 public-ineligible，直到正式授權"
   ];
 
@@ -100,6 +119,28 @@ export default function InternalDiagnosticsHome({ searchParams }: InternalDiagno
             </article>
           ))}
         </div>
+        <section className="internal-execution-mix" aria-label="Dynamic Execution Mix">
+          <div>
+            <p className="panel-label">Dynamic Execution Mix</p>
+            <h3>目前採雙線並行，比例可滾動調整</h3>
+            <p>
+              CEO 不再固定單一路線；PM 以產品可見進展為主，Engineering 保持資料真實化準備線，但所有外部資料動作仍需獨立 gate。
+            </p>
+          </div>
+          <div className="internal-execution-bars">
+            {executionMix.map((lane) => (
+              <article className={`internal-execution-lane ${lane.state}`} key={lane.label}>
+                <div>
+                  <span>{lane.label}</span>
+                  <strong>{lane.share}%</strong>
+                </div>
+                <i style={{ ["--share" as string]: `${lane.share}%` }} />
+                <p>{lane.detail}</p>
+                <b>{lane.owner}</b>
+              </article>
+            ))}
+          </div>
+        </section>
         <div className="internal-next-actions">
           <p className="panel-label">Next CEO Actions</p>
           <ul>
