@@ -1948,6 +1948,11 @@ const checks = [
     name: "market-signal-source-status"
   },
   {
+    command: [node, "scripts/check-supabase-market-signal-repository-blocked.mjs"],
+    expectStatus: "ok",
+    name: "supabase-market-signal-repository-blocked"
+  },
+  {
     command: [node, "scripts/check-stock-decision-compass.mjs"],
     expectStatus: "ok",
     name: "stock-decision-compass"
