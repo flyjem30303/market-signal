@@ -24,6 +24,7 @@
     "check:freshness-runtime-read-post-run-template": "node scripts/check-freshness-runtime-read-post-run-review-template.mjs",
     "check:freshness-runtime-read-post-run-template-role-review": "node scripts/check-freshness-runtime-read-post-run-review-template-role-review.mjs",
     "check:freshness-runtime-read-local-preflight": "node scripts/check-freshness-runtime-read-local-preflight-runner.mjs",
+    "check:freshness-runtime-read-once-pre-remote": "node scripts/check-freshness-runtime-read-once-pre-remote-behavior.mjs",
     "check:freshness-runtime-read-dry-run-command-map": "node scripts/check-freshness-runtime-read-dry-run-command-map.mjs",
     "check:freshness-runtime-read-readiness-decision": "node scripts/check-freshness-runtime-read-dry-run-command-map-role-review-and-readiness-decision.mjs",
     "check:freshness-runtime-read-post-run": "node scripts/check-freshness-runtime-read-one-checkpoint-post-run-review.mjs",

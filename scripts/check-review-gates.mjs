@@ -2078,6 +2078,11 @@ const checks = [
     name: "cp3-freshness-runtime-read-once-guarded-runner"
   },
   {
+    command: [node, "scripts/check-freshness-runtime-read-once-pre-remote-behavior.mjs"],
+    expectStatus: "ok",
+    name: "freshness-runtime-read-once-pre-remote-behavior"
+  },
+  {
     command: [node, "scripts/check-cp3-freshness-final-one-attempt-runtime-execution-decision-gate.mjs"],
     expectStatus: "ok",
     name: "cp3-freshness-final-one-attempt-runtime-execution-decision-gate"
