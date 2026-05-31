@@ -1953,6 +1953,11 @@ const checks = [
     name: "supabase-market-signal-repository-blocked"
   },
   {
+    command: [node, "scripts/check-raw-market-runtime-boundary.mjs"],
+    expectStatus: "ok",
+    name: "raw-market-runtime-boundary"
+  },
+  {
     command: [node, "scripts/check-supabase-raw-market-repository-behavior.mjs"],
     expectStatus: "ok",
     name: "supabase-raw-market-repository-behavior"
