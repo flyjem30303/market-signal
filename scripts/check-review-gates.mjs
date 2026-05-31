@@ -1548,6 +1548,11 @@ const checks = [
     name: "project-progress-score"
   },
   {
+    command: [node, "scripts/check-runtime-readiness-panel.mjs"],
+    expectStatus: "ok",
+    name: "runtime-readiness-panel"
+  },
+  {
     command: [node, "scripts/check-cp3-5pm-runtime-readiness-checkpoint.mjs"],
     expectStatus: "ok",
     name: "cp3-5pm-runtime-readiness-checkpoint"

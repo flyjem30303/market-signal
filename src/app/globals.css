@@ -341,6 +341,121 @@ select {
   line-height: 1.55;
 }
 
+.runtime-readiness-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(210px, 0.35fr);
+  gap: 14px;
+  margin: 18px 0;
+  border: 1px solid rgba(40, 94, 203, 0.18);
+  border-radius: 8px;
+  background: #fff;
+  padding: 18px;
+  box-shadow: var(--shadow-soft);
+}
+
+.runtime-readiness-summary h2 {
+  margin: 0 0 8px;
+  font-size: 22px;
+}
+
+.runtime-readiness-summary p {
+  max-width: 760px;
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.runtime-readiness-score {
+  display: grid;
+  align-content: center;
+  gap: 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel-muted);
+  padding: 14px;
+}
+
+.runtime-readiness-score span,
+.runtime-readiness-lanes i {
+  display: block;
+  overflow: hidden;
+  height: 10px;
+  border-radius: 999px;
+  background: #dfe7e1;
+}
+
+.runtime-readiness-score span::before,
+.runtime-readiness-lanes i::before {
+  display: block;
+  width: var(--progress);
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--teal), var(--blue));
+  content: "";
+}
+
+.runtime-readiness-score b {
+  font-size: 32px;
+  line-height: 1;
+}
+
+.runtime-readiness-score small,
+.runtime-readiness-lanes span {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.runtime-readiness-lanes {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.runtime-readiness-lanes article {
+  display: grid;
+  gap: 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  padding: 12px;
+}
+
+.runtime-readiness-lanes article.readying {
+  border-color: rgba(183, 121, 31, 0.28);
+  background: #fffaf0;
+}
+
+.runtime-readiness-lanes article.blocked {
+  border-color: rgba(199, 54, 59, 0.18);
+  background: #fff7f7;
+}
+
+.runtime-readiness-lanes header {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  align-items: center;
+}
+
+.runtime-readiness-lanes b {
+  color: var(--teal);
+}
+
+.runtime-readiness-lanes strong {
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.runtime-readiness-lanes p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
 .briefing-executive-summary {
   display: grid;
   grid-template-columns: minmax(0, 1.15fr) minmax(260px, 0.75fr);
@@ -6191,6 +6306,8 @@ input[type="date"] {
   .home-watchlists,
   .project-progress-panel,
   .project-progress-lanes,
+  .runtime-readiness-panel,
+  .runtime-readiness-lanes,
   .briefing-executive-summary,
   .briefing-executive-summary nav,
   .quote-panel,
