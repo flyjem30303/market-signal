@@ -23,6 +23,11 @@ const checks = [
     name: "internal-route-exposure"
   },
   {
+    command: [node, "scripts/check-internal-diagnostics-access-behavior.mjs"],
+    expectStatus: "ok",
+    name: "internal-diagnostics-access-behavior"
+  },
+  {
     command: [node, "scripts/check-briefing-boundary-disclosure.mjs"],
     expectStatus: "ok",
     name: "briefing-boundary-disclosure"

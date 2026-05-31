@@ -35,6 +35,7 @@
     "check:freshness-runtime-read-post-run": "node scripts/check-freshness-runtime-read-one-checkpoint-post-run-review.mjs",
     "check:ceo-delegated-autonomy": "node scripts/check-ceo-delegated-autonomy-policy.mjs",
     "check:internal-routes": "node scripts/check-internal-route-exposure.mjs",
+    "check:internal-diagnostics-access-behavior": "node scripts/check-internal-diagnostics-access-behavior.mjs",
     "check:briefing-boundary-disclosure": "node scripts/check-briefing-boundary-disclosure.mjs",
     "check:cp1-snapshot": "node scripts/check-cp1-snapshot.mjs",
     "check:cp1-to-cp2": "node scripts/check-cp1-to-cp2.mjs",
