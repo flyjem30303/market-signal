@@ -2,7 +2,7 @@ import { getRuntimeReadinessSummary } from "@/lib/runtime-readiness-score";
 import { getSourceDepthBlockerSummary } from "@/lib/source-depth-blockers";
 
 type TrustRuntimeBoundaryNoticeProps = {
-  context: "disclaimer" | "methodology";
+  context: "disclaimer" | "methodology" | "weekly";
 };
 
 const contextCopy = {
@@ -17,6 +17,12 @@ const contextCopy = {
     title: "方法論目前仍停在 mock-only 驗證階段",
     summary:
       "方法論頁說明模型設計與閱讀方式，但目前尚未完成來源深度、權利、回測與真實資料接軌，因此不能把分數視為正式市場訊號。"
+  },
+  weekly: {
+    eyebrow: "Weekly Runtime Boundary",
+    title: "週報目前仍是 mock-only 閱讀摘要",
+    summary:
+      "週報可以協助整理本週觀察與風險方向，但目前尚未完成真實資料接軌、來源深度與 scoreSource=real 核准，不能視為正式投資報告。"
   }
 } as const;
 
