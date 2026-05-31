@@ -2,7 +2,15 @@ export type RowCoverageRequirement = {
   code: string;
   label: string;
   owner: "Data" | "Engineering";
-  state: "missing";
+  state: "complete" | "missing";
+};
+
+export type RowCoverageUniversePolicy = {
+  assetTypes: Array<"index" | "etf" | "stock">;
+  market: "TW";
+  policyStatus: "defined_local_only";
+  symbols: string[];
+  universeLabel: string;
 };
 
 export type RowCoverageContract = {
@@ -14,21 +22,30 @@ export type RowCoverageContract = {
   scoreSource: "mock";
   status: "not_ready";
   stopLine: string;
+  universePolicy: RowCoverageUniversePolicy;
 };
 
 export function buildRowCoverageContract(): RowCoverageContract {
+  const universePolicy: RowCoverageUniversePolicy = {
+    assetTypes: ["index", "etf", "stock"],
+    market: "TW",
+    policyStatus: "defined_local_only",
+    symbols: ["TWII", "0050", "006208", "2330", "2382", "2308"],
+    universeLabel: "Taiwan MVP watchlist universe"
+  };
+
   return {
     awardedPoints: 0,
     maxPoints: 20,
     nextAction:
-      "Define symbol universe, required trading-date window, expected row count policy, missing-row tolerance, and market-calendar treatment before awarding row coverage points.",
+      "Define required trading-date window, expected row count policy, missing-row tolerance, and market-calendar treatment before awarding row coverage points.",
     publicDataSource: "mock",
     requirements: [
       {
         code: "symbol-universe-defined",
         label: "Symbol universe is defined",
         owner: "Data",
-        state: "missing"
+        state: "complete"
       },
       {
         code: "coverage-window-defined",
@@ -58,6 +75,7 @@ export function buildRowCoverageContract(): RowCoverageContract {
     scoreSource: "mock",
     status: "not_ready",
     stopLine:
-      "Row coverage contract is local-only; do not fetch market data, run SQL, write Supabase, claim coverage, or set scoreSource=real."
+      "Row coverage universe policy is local-only; do not fetch market data, run SQL, write Supabase, claim coverage, or set scoreSource=real.",
+    universePolicy
   };
 }

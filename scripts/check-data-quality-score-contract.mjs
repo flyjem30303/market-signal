@@ -25,6 +25,12 @@ if (contract.rowCoverage.status !== "not_ready" || contract.rowCoverage.awardedP
 if (contract.rowCoverage.requirements.length !== 5) {
   problems.push(`expected 5 row coverage requirements, got ${contract.rowCoverage.requirements.length}`);
 }
+if (contract.rowCoverage.universePolicy.policyStatus !== "defined_local_only") {
+  problems.push("row coverage universe policy must be locally defined");
+}
+if (!contract.rowCoverage.requirements.some((requirement) => requirement.code === "symbol-universe-defined" && requirement.state === "complete")) {
+  problems.push("data quality contract must see symbol universe as complete");
+}
 for (const code of ["row-coverage", "field-validity", "downgrade-rules", "source-rights", "public-disclosure"]) {
   if (!contract.factors.some((factor) => factor.code === code && factor.state === "missing" && factor.points === 0)) {
     problems.push(`missing factor not blocked: ${code}`);
@@ -37,6 +43,7 @@ const required = [
   "DataQualityScoreContract",
   "buildRowCoverageContract",
   "rowCoverage",
+  "universePolicy",
   "canCountAsRealScoreEvidence: false",
   "passThreshold: 80",
   "publicDataSource: \"mock\"",

@@ -15,9 +15,18 @@ if (contract.awardedPoints !== 0) problems.push(`expected awarded points 0, got 
 if (contract.scoreSource !== "mock" || contract.publicDataSource !== "mock") {
   problems.push("row coverage contract must keep scoreSource and public source mock");
 }
+if (contract.universePolicy.policyStatus !== "defined_local_only") {
+  problems.push(`expected universe policy defined_local_only, got ${contract.universePolicy.policyStatus}`);
+}
+if (contract.universePolicy.market !== "TW") problems.push(`expected universe market TW, got ${contract.universePolicy.market}`);
+for (const symbol of ["TWII", "0050", "006208", "2330", "2382", "2308"]) {
+  if (!contract.universePolicy.symbols.includes(symbol)) problems.push(`missing universe symbol: ${symbol}`);
+}
+if (!contract.requirements.some((requirement) => requirement.code === "symbol-universe-defined" && requirement.state === "complete")) {
+  problems.push("symbol universe requirement must be complete");
+}
 
 for (const code of [
-  "symbol-universe-defined",
   "coverage-window-defined",
   "expected-row-policy-defined",
   "missing-row-tolerance-defined",
@@ -37,11 +46,21 @@ const required = [
   "status: \"not_ready\"",
   "publicDataSource: \"mock\"",
   "scoreSource: \"mock\"",
+  "universePolicy",
+  "defined_local_only",
+  "Taiwan MVP watchlist universe",
+  "TWII",
+  "0050",
+  "006208",
+  "2330",
+  "2382",
+  "2308",
   "symbol-universe-defined",
   "coverage-window-defined",
   "expected-row-policy-defined",
   "missing-row-tolerance-defined",
   "market-calendar-treatment-defined",
+  "Row coverage universe policy is local-only",
   "do not fetch market data, run SQL, write Supabase, claim coverage, or set scoreSource=real"
 ];
 const forbidden = [
@@ -72,6 +91,7 @@ console.log(
       contract: {
         awardedPoints: contract.awardedPoints,
         maxPoints: contract.maxPoints,
+        symbolCount: contract.universePolicy.symbols.length,
         requirementCount: contract.requirements.length,
         status: contract.status
       },

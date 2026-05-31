@@ -35,7 +35,8 @@ export function ProjectProgressPanel() {
         </p>
         <p>
           Row coverage: {progress.dataQualityScoreContract.rowCoverage.status}; missing requirements{" "}
-          {progress.dataQualityScoreContract.rowCoverage.requirements.length}.
+          {progress.dataQualityScoreContract.rowCoverage.requirements.filter((item) => item.state === "missing").length};
+          universe {progress.dataQualityScoreContract.rowCoverage.universePolicy.symbols.length} local-only symbols.
         </p>
         <ul>
           {progress.dataQualityEvidenceGate.missingActions.slice(0, 4).map((action) => (
