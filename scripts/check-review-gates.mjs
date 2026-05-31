@@ -1978,6 +1978,11 @@ const checks = [
     name: "data-freshness-snapshot-behavior"
   },
   {
+    command: [node, "scripts/check-supabase-data-freshness-repository-behavior.mjs"],
+    expectStatus: "ok",
+    name: "supabase-data-freshness-repository-behavior"
+  },
+  {
     command: [node, "scripts/check-freshness-runtime-read-activation-gate.mjs"],
     expectStatus: "ok",
     name: "freshness-runtime-read-activation-gate"
