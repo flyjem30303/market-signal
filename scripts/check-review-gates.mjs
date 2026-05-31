@@ -1993,6 +1993,11 @@ const checks = [
     name: "public-release-gate-behavior"
   },
   {
+    command: [node, "scripts/check-public-release-gate-runtime-wiring.mjs"],
+    expectStatus: "ok",
+    name: "public-release-gate-runtime-wiring"
+  },
+  {
     command: [node, "scripts/check-supabase-raw-market-repository-behavior.mjs"],
     expectStatus: "ok",
     name: "supabase-raw-market-repository-behavior"
