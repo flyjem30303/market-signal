@@ -10,16 +10,22 @@ const files = new Map(
 );
 
 const required = [
-  [summaryPath, "Runtime 進入可加速前置，但仍維持 mock-only"],
+  [summaryPath, "Runtime 前置可加速，主系統仍維持 mock-only"],
   [summaryPath, "Supabase 唯讀 preflight"],
-  [summaryPath, "不切主資料源、不寫資料"],
+  [summaryPath, "本地 preflight 可安全執行"],
+  [summaryPath, "npm run report:supabase-readonly-preflight"],
+  [summaryPath, "npm run db:readonly-validate"],
+  [summaryPath, "主資料源不切換、不寫資料"],
   [summaryPath, "正式分數來源"],
   [componentPath, "RuntimeReadinessPanel"],
   [componentPath, "Runtime Readiness"],
   [componentPath, "Runtime readiness"],
+  [componentPath, "runtime-readiness-command"],
+  [componentPath, "目前不在自動 review gate 內執行"],
   [briefingPath, "import { RuntimeReadinessPanel }"],
   [briefingPath, "<RuntimeReadinessPanel />"],
   [cssPath, ".runtime-readiness-panel"],
+  [cssPath, ".runtime-readiness-command"],
   [cssPath, ".runtime-readiness-lanes"],
   [cssPath, ".runtime-readiness-score"]
 ];

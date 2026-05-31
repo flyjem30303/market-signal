@@ -414,6 +414,48 @@ select {
   gap: 10px;
 }
 
+.runtime-readiness-command {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.runtime-readiness-command article {
+  display: grid;
+  gap: 8px;
+  border: 1px solid rgba(40, 94, 203, 0.16);
+  border-radius: 8px;
+  background: #f7fbf9;
+  padding: 12px;
+}
+
+.runtime-readiness-command span {
+  color: var(--teal);
+  font-size: 11px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.runtime-readiness-command code {
+  display: block;
+  overflow-wrap: anywhere;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--text);
+  font-family: "Cascadia Code", "Consolas", monospace;
+  font-size: 13px;
+  padding: 8px;
+}
+
+.runtime-readiness-command p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
 .runtime-readiness-lanes article {
   display: grid;
   gap: 8px;
@@ -6307,6 +6349,7 @@ input[type="date"] {
   .project-progress-panel,
   .project-progress-lanes,
   .runtime-readiness-panel,
+  .runtime-readiness-command,
   .runtime-readiness-lanes,
   .briefing-executive-summary,
   .briefing-executive-summary nav,

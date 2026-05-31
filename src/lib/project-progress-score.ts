@@ -31,21 +31,21 @@ export const projectProgressLanes: ProjectProgressLane[] = [
     weight: 15
   },
   {
-    current: 68,
+    current: 70,
     label: "Runtime 狀態與風險揭露",
-    note: "mock-only、not_ready、blocked 等狀態已在頁面與 gate 中逐步固定。",
+    note: "mock-only、not_ready、blocked 與下一步命令邊界已在頁面與 gate 中固定。",
     owner: "Engineering",
     weight: 15
   },
   {
-    current: 45,
+    current: 50,
     label: "Supabase schema / repository 準備",
-    note: "schema、repository、validator 有本地設計與防護，尚未進入正式連線。",
+    note: "schema、repository、validator 與本地唯讀 preflight 已具備；遠端唯讀仍需 CEO 開 gate。",
     owner: "Engineering",
     weight: 15
   },
   {
-    current: 15,
+    current: 16,
     label: "真實市場資料來源深度",
     note: "來源、授權、欄位、更新頻率與品質證據仍在前置評估，尚未 ingestion。",
     owner: "Data",
@@ -59,16 +59,16 @@ export const projectProgressLanes: ProjectProgressLane[] = [
     weight: 10
   },
   {
-    current: 25,
+    current: 28,
     label: "治理與授權節奏",
-    note: "董事長授權已讓 CEO 可推進，但正式資料與公開宣稱仍需切點覆核。",
+    note: "CEO 已加速切片並收斂治理粒度；正式資料與公開宣稱仍需切點覆核。",
     owner: "CEO",
     weight: 10
   },
   {
-    current: 58,
+    current: 60,
     label: "DevOps / health / recovery",
-    note: "localhost health、build、recovery 與 review gates 已形成基本節奏。",
+    note: "localhost health、build、recovery、review gates 與本地 preflight 已形成基本節奏。",
     owner: "Engineering",
     weight: 5
   }
@@ -80,10 +80,10 @@ export function getProjectProgressSummary(): ProjectProgressSummary {
 
   return {
     adjustedScore,
-    headline: "PM 估算目前進度約 42%",
+    headline: "PM 估算目前進度約 44%",
     lanes: projectProgressLanes,
-    nextLift: "下一個最能拉高分數的工作是 Supabase 唯讀 gate 與真實資料來源深度證據。",
+    nextLift: "下一個最能拉高分數的工作是受控 Supabase 唯讀遠端驗證與真實資料來源深度證據。",
     rawScore: Number(rawScore.toFixed(2)),
-    stage: "Mock MVP 與 runtime 邊界進入中段；尚未進入正式真實資料與正式分數來源。"
+    stage: "Mock MVP 與 runtime 邊界進入中段；Supabase 已有本地 preflight，尚未進入正式真實資料與正式分數來源。"
   };
 }

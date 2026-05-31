@@ -15,6 +15,18 @@ export function RuntimeReadinessPanel() {
         <b>{readiness.score}%</b>
         <small>bounded readiness</small>
       </div>
+      <div className="runtime-readiness-command">
+        <article>
+          <span>Local preflight</span>
+          <code>{readiness.localPreflightCommand}</code>
+          <p>{readiness.localPreflightState}</p>
+        </article>
+        <article>
+          <span>Next guarded decision</span>
+          <code>{readiness.nextRemoteCommand}</code>
+          <p>只有 CEO 開 gate 後才可執行；目前不在自動 review gate 內執行。</p>
+        </article>
+      </div>
       <div className="runtime-readiness-lanes">
         {readiness.lanes.map((lane) => (
           <article className={lane.state} key={lane.label}>
