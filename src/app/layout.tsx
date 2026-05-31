@@ -33,6 +33,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             <p>目前為 mock 研究體驗，用來驗證市場健康度、風險提示與閱讀流程，不構成投資建議。</p>
           </div>
           <nav aria-label="頁尾導覽">
+            <a href="/">首頁</a>
             <a href="/briefing">每日晨報</a>
             <a href="/weekly">週報</a>
             <a href="/stocks/2330">個股</a>

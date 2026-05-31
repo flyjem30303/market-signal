@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation";
 
 const navItems = [
+  { href: "/", label: "首頁" },
   { href: "/briefing", label: "晨報" },
   { href: "/weekly", label: "週報" },
   { activePrefix: "/stocks", href: "/stocks/2330", label: "個股" },
