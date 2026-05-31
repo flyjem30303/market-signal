@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import type { Asset } from "@/lib/assets";
 import { StockSeoContent } from "@/components/stock-seo-content";
 import { CommercialSlot } from "@/components/commercial-slot";
@@ -29,6 +30,7 @@ type ChartMode = "health" | "risk" | "composite";
 const today = "2026-05-28";
 
 export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoContent = false }: DashboardShellProps) {
+  const router = useRouter();
   const [symbol, setSymbol] = useState(initialSymbol);
   const [query, setQuery] = useState("");
   const [activeGroup, setActiveGroup] = useState("全部");
@@ -81,6 +83,10 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
   );
 
   useEffect(() => {
+    setSymbol(initialSymbol);
+  }, [initialSymbol]);
+
+  useEffect(() => {
     setStartIndex(0);
     setEndIndex(series.length - 1);
     setNewsDate(today);
@@ -118,6 +124,9 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
     trackEvent("asset_selected", { symbol: nextSymbol });
     setSymbol(nextSymbol);
     setQuery("");
+    if (includeSeoContent && nextSymbol !== selected.symbol) {
+      router.push(`/stocks/${nextSymbol}`);
+    }
   }
 
   function changeTab(nextTab: TabKey) {
