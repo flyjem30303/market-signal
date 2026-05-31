@@ -39,6 +39,16 @@ for (const file of publicFiles) {
   if (!fs.existsSync(file)) continue;
   const content = read(file);
 
+  if (file === "src/app/robots.ts") {
+    if (!content.includes('disallow: ["/internal", "/api/internal"]')) {
+      findings.push({
+        file,
+        issue: "robots must explicitly disallow internal routes"
+      });
+    }
+    continue;
+  }
+
   for (const forbidden of forbiddenPublicReferences) {
     if (content.includes(forbidden)) {
       findings.push({

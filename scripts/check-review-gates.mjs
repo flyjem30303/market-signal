@@ -23,6 +23,11 @@ const checks = [
     name: "internal-route-exposure"
   },
   {
+    command: [node, "scripts/check-internal-diagnostics-runtime-policy.mjs"],
+    expectStatus: "ok",
+    name: "internal-diagnostics-runtime-policy"
+  },
+  {
     command: [node, "scripts/check-internal-diagnostics-access-behavior.mjs"],
     expectStatus: "ok",
     name: "internal-diagnostics-access-behavior"
