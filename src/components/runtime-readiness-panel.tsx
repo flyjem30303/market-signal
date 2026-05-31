@@ -71,6 +71,10 @@ export function RuntimeReadinessPanel() {
             {executionPreview.manualRunPrerequisites[0]}.
           </p>
           <p>
+            Post-run target: {executionPreview.postRunReviewTarget}. Outcome categories:{" "}
+            {executionPreview.postRunAcceptedOutcomeCategories.length}.
+          </p>
+          <p>
             Automated remote run: {executionPreview.safety.automatedRemoteRun ? "true" : "false"}.
             Command preview: {executionPreview.nextRemoteCommand ?? "blocked"}.
           </p>

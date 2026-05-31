@@ -20,6 +20,14 @@ console.log(
       ],
       mode: "supabase_readonly_execution_preview",
       nextRemoteCommand: ready ? decision.nextRemoteCommand : null,
+      postRunAcceptedOutcomeCategories: [
+        "ok_object_reachability_only",
+        "blocked_access_denied",
+        "blocked_missing_credentials",
+        "blocked_malformed_output",
+        "blocked_sensitive_output"
+      ],
+      postRunReviewTarget: "scripts/check-cp3-supabase-read-only-one-attempt-direct-node-execution-post-run-review.mjs",
       preflightStatus: decision.preflightStatus,
       requiredConfirmation: "CP3_SUPABASE_READONLY_REMOTE_VALIDATE",
       safety: {
