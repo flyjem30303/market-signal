@@ -456,6 +456,59 @@ select {
   line-height: 1.55;
 }
 
+.runtime-preflight-status {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.runtime-preflight-status article {
+  display: grid;
+  gap: 7px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  padding: 12px;
+}
+
+.runtime-preflight-status article.readying,
+.runtime-preflight-status article.ok {
+  border-color: rgba(20, 122, 77, 0.2);
+  background: #f2faf6;
+}
+
+.runtime-preflight-status article.warning {
+  border-color: rgba(183, 121, 31, 0.28);
+  background: #fffaf0;
+}
+
+.runtime-preflight-status article.blocked {
+  border-color: rgba(199, 54, 59, 0.18);
+  background: #fff7f7;
+}
+
+.runtime-preflight-status span {
+  overflow-wrap: anywhere;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.runtime-preflight-status strong {
+  overflow-wrap: anywhere;
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.runtime-preflight-status p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
 .runtime-readiness-lanes article {
   display: grid;
   gap: 8px;
@@ -6350,6 +6403,7 @@ input[type="date"] {
   .project-progress-lanes,
   .runtime-readiness-panel,
   .runtime-readiness-command,
+  .runtime-preflight-status,
   .runtime-readiness-lanes,
   .briefing-executive-summary,
   .briefing-executive-summary nav,

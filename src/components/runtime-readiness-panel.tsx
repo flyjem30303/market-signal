@@ -1,7 +1,9 @@
 import { getRuntimeReadinessSummary } from "@/lib/runtime-readiness-score";
+import { getSupabaseReadonlyLocalPreflight } from "@/lib/supabase-readonly-local-preflight";
 
 export function RuntimeReadinessPanel() {
   const readiness = getRuntimeReadinessSummary();
+  const preflight = getSupabaseReadonlyLocalPreflight();
 
   return (
     <section className={`runtime-readiness-panel ${readiness.status}`} aria-label="Runtime readiness">
@@ -26,6 +28,24 @@ export function RuntimeReadinessPanel() {
           <code>{readiness.nextRemoteCommand}</code>
           <p>只有 CEO 開 gate 後才可執行；目前不在自動 review gate 內執行。</p>
         </article>
+      </div>
+      <div className="runtime-preflight-status">
+        <article className={preflight.status === "blocked" ? "blocked" : "readying"}>
+          <span>Local preflight status</span>
+          <strong>{preflight.status === "blocked" ? "blocked" : "ready for guarded decision"}</strong>
+          <p>
+            {preflight.status === "blocked"
+              ? `缺少 ${preflight.missingEnv.length} 個必要設定，遠端唯讀驗證仍不可開。`
+              : "必要設定存在，安全開關維持 disabled；CEO 可另開一次受控唯讀遠端驗證。"}
+          </p>
+        </article>
+        {preflight.boundaries.map((boundary) => (
+          <article className={boundary.status} key={boundary.name}>
+            <span>{boundary.name}</span>
+            <strong>{boundary.observed}</strong>
+            <p>expected: {boundary.expected}</p>
+          </article>
+        ))}
       </div>
       <div className="runtime-readiness-lanes">
         {readiness.lanes.map((lane) => (
