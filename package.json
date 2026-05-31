@@ -123,6 +123,7 @@
     "check:row-coverage-readonly-local-preflight": "node scripts/check-row-coverage-readonly-local-preflight.mjs",
     "check:row-coverage-readonly-guarded-runner": "node scripts/check-row-coverage-readonly-guarded-runner.mjs",
     "check:row-coverage-final-one-attempt-readonly-execution-decision-gate": "node scripts/check-row-coverage-final-one-attempt-readonly-execution-decision-gate.mjs",
+    "check:row-coverage-readonly-one-attempt-post-run-review": "node scripts/check-row-coverage-readonly-one-attempt-post-run-review.mjs",
     "check:freshness-runtime-activation-state": "node scripts/check-freshness-runtime-activation-state.mjs",
     "check:freshness-runtime-activation-behavior": "node scripts/check-freshness-runtime-activation-behavior.mjs",
     "check:freshness-readonly-smoke-report": "node scripts/check-freshness-readonly-smoke-report.mjs",
