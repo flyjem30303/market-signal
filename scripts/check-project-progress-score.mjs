@@ -19,6 +19,7 @@ const required = [
   [progressPath, "data_runs baseline"],
   [progressPath, "data_freshness candidate"],
   [progressPath, "資料品質降級規則"],
+  [progressPath, "Supabase readonly runtime activation"],
   [progressPath, "scoreSource=real"],
   [progressPath, "owner: \"CEO\""],
   [progressPath, "owner: \"Data\""],

@@ -1568,6 +1568,11 @@ const checks = [
     name: "data-quality-downgrade-state"
   },
   {
+    command: [node, "scripts/check-freshness-runtime-activation-state.mjs"],
+    expectStatus: "ok",
+    name: "freshness-runtime-activation-state"
+  },
+  {
     command: [node, "scripts/check-cp3-5pm-runtime-readiness-checkpoint.mjs"],
     expectStatus: "ok",
     name: "cp3-5pm-runtime-readiness-checkpoint"

@@ -1,4 +1,5 @@
 import { getRuntimeReadinessSummary } from "@/lib/runtime-readiness-score";
+import { getFreshnessRuntimeActivationSummary } from "@/lib/freshness-runtime-activation";
 import { getSupabaseReadonlyEvidenceSummary } from "@/lib/supabase-readonly-evidence";
 import { getSupabaseReadonlyDecision } from "@/lib/supabase-readonly-decision";
 import { getSupabaseReadonlyExecutionPreview } from "@/lib/supabase-readonly-execution-preview";
@@ -9,6 +10,7 @@ export function RuntimeReadinessPanel() {
   const preflight = getSupabaseReadonlyLocalPreflight();
   const decision = getSupabaseReadonlyDecision(preflight);
   const executionPreview = getSupabaseReadonlyExecutionPreview(decision);
+  const freshnessActivation = getFreshnessRuntimeActivationSummary();
   const readonlyEvidence = getSupabaseReadonlyEvidenceSummary();
 
   return (
@@ -55,6 +57,19 @@ export function RuntimeReadinessPanel() {
             {executionPreview.safety.automatedRemoteRun ? "enabled" : "disabled"}.
           </p>
           <p>Stop first: {executionPreview.stopConditions[0]}.</p>
+        </article>
+        <article
+          aria-label={`Freshness runtime activation ${freshnessActivation.state}`}
+          className={freshnessActivation.state === "blocked" ? "blocked" : "readying"}
+        >
+          <span>Freshness runtime activation</span>
+          <strong>{freshnessActivation.state}</strong>
+          <p>
+            DATA_FRESHNESS_SOURCE={freshnessActivation.dataFreshnessSource} / reads{" "}
+            {freshnessActivation.supabaseRuntimeReads} / public {freshnessActivation.publicDataSource}.
+          </p>
+          <p>{freshnessActivation.decision}</p>
+          <p>{freshnessActivation.stopLine}</p>
         </article>
         <article
           aria-label={`Runtime ${decision.recommendedWorkMix.runtime}% / Supabase readonly ${decision.recommendedWorkMix.supabaseReadonly}%`}
