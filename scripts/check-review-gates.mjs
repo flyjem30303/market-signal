@@ -1598,6 +1598,11 @@ const checks = [
     name: "row-coverage-readonly-guarded-runner"
   },
   {
+    command: [node, "scripts/check-row-coverage-final-one-attempt-readonly-execution-decision-gate.mjs"],
+    expectStatus: "ok",
+    name: "row-coverage-final-one-attempt-readonly-execution-decision-gate"
+  },
+  {
     command: [node, "scripts/check-freshness-runtime-activation-state.mjs"],
     expectStatus: "ok",
     name: "freshness-runtime-activation-state"
