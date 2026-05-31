@@ -190,6 +190,7 @@ export default async function MethodologyPage() {
         <a className="text-link" href="/briefing">看每日晨報</a>
         <a className="text-link" href="/weekly">看本週週報</a>
         <a className="text-link" href="/disclaimer">確認免責聲明</a>
+        <a className="text-link" href="/terms">查看使用條款</a>
       </section>
     </main>
   );
