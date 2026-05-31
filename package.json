@@ -25,6 +25,7 @@
     "check:public-release-gate-behavior": "node scripts/check-public-release-gate-behavior.mjs",
     "check:public-release-gate-runtime-wiring": "node scripts/check-public-release-gate-runtime-wiring.mjs",
     "check:supabase-raw-market-repository-behavior": "node scripts/check-supabase-raw-market-repository-behavior.mjs",
+    "check:supabase-remote-validator-execution-boundary": "node scripts/check-supabase-remote-validator-execution-boundary.mjs",
     "check:freshness-runtime-read-gate": "node scripts/check-freshness-runtime-read-activation-gate.mjs",
     "check:freshness-runtime-read-gate-role-review": "node scripts/check-freshness-runtime-read-activation-gate-role-review.mjs",
     "check:freshness-runtime-read-execution-packet": "node scripts/check-freshness-runtime-read-execution-packet-draft.mjs",

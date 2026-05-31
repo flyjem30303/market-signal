@@ -2008,6 +2008,11 @@ const checks = [
     name: "supabase-raw-market-repository-behavior"
   },
   {
+    command: [node, "scripts/check-supabase-remote-validator-execution-boundary.mjs"],
+    expectStatus: "ok",
+    name: "supabase-remote-validator-execution-boundary"
+  },
+  {
     command: [node, "scripts/check-stock-decision-compass.mjs"],
     expectStatus: "ok",
     name: "stock-decision-compass"

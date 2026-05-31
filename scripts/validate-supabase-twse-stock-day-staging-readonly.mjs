@@ -1,5 +1,4 @@
 import fs from "node:fs";
-import { createClient } from "@supabase/supabase-js";
 
 const reportPath = "docs/reviews/CP3_TWSE_STOCK_DAY_STAGING_READ_ONLY_VALIDATION_DRAFT_OUTPUT.md";
 const requiredConfirmation = "TWSE_STOCK_DAY_STAGING_READONLY";
@@ -15,6 +14,7 @@ if (!supabaseUrl || !serviceRoleKey) {
   failClosed("missing_supabase_environment");
 }
 
+const { createClient } = await import("@supabase/supabase-js");
 const supabase = createClient(supabaseUrl, serviceRoleKey, {
   auth: {
     persistSession: false
