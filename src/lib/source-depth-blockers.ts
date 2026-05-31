@@ -47,13 +47,20 @@ export function getSourceDepthBlockerSummary(): SourceDepthBlockerSummary {
       owner: "Engineering",
       reason: "Supabase object reachability 已被接受為窄前提，但仍不等於資料完整、正確或可公開使用。",
       state: "not_ready"
+    },
+    {
+      id: "freshness-metadata-evidence",
+      label: "Freshness metadata 已可讀但仍待來源深度覆核",
+      owner: "Data",
+      reason: "一次 Supabase freshness read-only metadata run 已確認 TWSE / 2026-05-27 / TWSE OpenAPI / complete，但只能作 runtime 狀態揭露，不能作真實市場資料、資料品質或 scoreSource=real 依據。",
+      state: "not_ready"
     }
   ];
 
   return {
     blockers,
     headline: "來源深度仍是 scoreSource=real 前的主要阻塞",
-    nextAction: "下一步應把 schema shape、freshness interpretation、來源權利與資料品質降級規則整理成可覆核證據，再討論真實資料與正式分數。",
+    nextAction: "下一步應把 schema shape、freshness metadata evidence、freshness interpretation、來源權利與資料品質降級規則整理成可覆核證據，再討論真實資料與正式分數。",
     readinessLabel: "not_ready",
     scoreSource: "mock",
     sourceDepthState: "not_ready",
