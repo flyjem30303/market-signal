@@ -79,8 +79,9 @@ export function buildDataQualityScoreContract(): DataQualityScoreContract {
     canCountAsRealScoreEvidence: false,
     factors,
     nextLift:
-      rowCoverage.universePolicy.policyStatus === "defined_local_only"
-        ? "Prove row coverage window, row count policy, missing-row tolerance, market-calendar treatment, and field validity before any score can approach the 80-point real-score evidence threshold."
+      rowCoverage.universePolicy.policyStatus === "defined_local_only" &&
+      rowCoverage.coverageWindowPolicy.policyStatus === "defined_local_only"
+        ? "Prove expected row count policy, missing-row tolerance, market-calendar treatment, and field validity before any score can approach the 80-point real-score evidence threshold."
         : "Define row coverage universe policy before any score can approach the 80-point real-score evidence threshold.",
     passThreshold: 80,
     publicDataSource: "mock",

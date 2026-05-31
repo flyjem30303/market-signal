@@ -22,12 +22,29 @@ if (contract.universePolicy.market !== "TW") problems.push(`expected universe ma
 for (const symbol of ["TWII", "0050", "006208", "2330", "2382", "2308"]) {
   if (!contract.universePolicy.symbols.includes(symbol)) problems.push(`missing universe symbol: ${symbol}`);
 }
+if (contract.coverageWindowPolicy.policyStatus !== "defined_local_only") {
+  problems.push(`expected window policy defined_local_only, got ${contract.coverageWindowPolicy.policyStatus}`);
+}
+if (contract.coverageWindowPolicy.requiredTradingSessions !== 60) {
+  problems.push(`expected 60 required trading sessions, got ${contract.coverageWindowPolicy.requiredTradingSessions}`);
+}
+if (contract.coverageWindowPolicy.timezone !== "Asia/Taipei") {
+  problems.push(`expected Asia/Taipei timezone, got ${contract.coverageWindowPolicy.timezone}`);
+}
+if (contract.coverageWindowPolicy.excludesNonTradingDays !== true) {
+  problems.push("coverage window must exclude non-trading days");
+}
+if (contract.coverageWindowPolicy.doesNotValidateRowCount !== true) {
+  problems.push("coverage window policy must not validate row count");
+}
 if (!contract.requirements.some((requirement) => requirement.code === "symbol-universe-defined" && requirement.state === "complete")) {
   problems.push("symbol universe requirement must be complete");
 }
+if (!contract.requirements.some((requirement) => requirement.code === "coverage-window-defined" && requirement.state === "complete")) {
+  problems.push("coverage window requirement must be complete");
+}
 
 for (const code of [
-  "coverage-window-defined",
   "expected-row-policy-defined",
   "missing-row-tolerance-defined",
   "market-calendar-treatment-defined"
@@ -47,8 +64,15 @@ const required = [
   "publicDataSource: \"mock\"",
   "scoreSource: \"mock\"",
   "universePolicy",
+  "coverageWindowPolicy",
   "defined_local_only",
   "Taiwan MVP watchlist universe",
+  "MVP rolling 60 trading sessions",
+  "latest approved freshness metadata date",
+  "requiredTradingSessions: 60",
+  "timezone: \"Asia/Taipei\"",
+  "excludesNonTradingDays: true",
+  "doesNotValidateRowCount: true",
   "TWII",
   "0050",
   "006208",
@@ -60,7 +84,7 @@ const required = [
   "expected-row-policy-defined",
   "missing-row-tolerance-defined",
   "market-calendar-treatment-defined",
-  "Row coverage universe policy is local-only",
+  "Row coverage universe and window policies are local-only",
   "do not fetch market data, run SQL, write Supabase, claim coverage, or set scoreSource=real"
 ];
 const forbidden = [
@@ -90,6 +114,7 @@ console.log(
     {
       contract: {
         awardedPoints: contract.awardedPoints,
+        coverageWindowSessions: contract.coverageWindowPolicy.requiredTradingSessions,
         maxPoints: contract.maxPoints,
         symbolCount: contract.universePolicy.symbols.length,
         requirementCount: contract.requirements.length,

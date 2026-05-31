@@ -47,6 +47,7 @@ const required = [
   [componentPath, "progress.dataQualityScoreContract.rowCoverage.status"],
   [componentPath, "progress.dataQualityScoreContract.rowCoverage.requirements.filter"],
   [componentPath, "progress.dataQualityScoreContract.rowCoverage.universePolicy.symbols.length"],
+  [componentPath, "progress.dataQualityScoreContract.rowCoverage.coverageWindowPolicy.requiredTradingSessions"],
   [componentPath, "progress.dataQualityEvidenceGate.missingEvidence.length"],
   [componentPath, "progress.dataQualityEvidenceGate.missingActions.slice(0, 4).map"],
   [componentPath, "action.owner"],

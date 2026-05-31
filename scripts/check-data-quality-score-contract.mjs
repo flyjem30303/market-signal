@@ -28,8 +28,14 @@ if (contract.rowCoverage.requirements.length !== 5) {
 if (contract.rowCoverage.universePolicy.policyStatus !== "defined_local_only") {
   problems.push("row coverage universe policy must be locally defined");
 }
+if (contract.rowCoverage.coverageWindowPolicy.policyStatus !== "defined_local_only") {
+  problems.push("row coverage window policy must be locally defined");
+}
 if (!contract.rowCoverage.requirements.some((requirement) => requirement.code === "symbol-universe-defined" && requirement.state === "complete")) {
   problems.push("data quality contract must see symbol universe as complete");
+}
+if (!contract.rowCoverage.requirements.some((requirement) => requirement.code === "coverage-window-defined" && requirement.state === "complete")) {
+  problems.push("data quality contract must see coverage window as complete");
 }
 for (const code of ["row-coverage", "field-validity", "downgrade-rules", "source-rights", "public-disclosure"]) {
   if (!contract.factors.some((factor) => factor.code === code && factor.state === "missing" && factor.points === 0)) {
@@ -44,6 +50,7 @@ const required = [
   "buildRowCoverageContract",
   "rowCoverage",
   "universePolicy",
+  "coverageWindowPolicy",
   "canCountAsRealScoreEvidence: false",
   "passThreshold: 80",
   "publicDataSource: \"mock\"",

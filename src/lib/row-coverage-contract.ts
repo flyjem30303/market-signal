@@ -13,8 +13,19 @@ export type RowCoverageUniversePolicy = {
   universeLabel: string;
 };
 
+export type RowCoverageWindowPolicy = {
+  anchor: "latest approved freshness metadata date";
+  doesNotValidateRowCount: true;
+  excludesNonTradingDays: true;
+  policyStatus: "defined_local_only";
+  requiredTradingSessions: 60;
+  timezone: "Asia/Taipei";
+  windowLabel: "MVP rolling 60 trading sessions";
+};
+
 export type RowCoverageContract = {
   awardedPoints: 0;
+  coverageWindowPolicy: RowCoverageWindowPolicy;
   maxPoints: 20;
   nextAction: string;
   publicDataSource: "mock";
@@ -33,12 +44,22 @@ export function buildRowCoverageContract(): RowCoverageContract {
     symbols: ["TWII", "0050", "006208", "2330", "2382", "2308"],
     universeLabel: "Taiwan MVP watchlist universe"
   };
+  const coverageWindowPolicy: RowCoverageWindowPolicy = {
+    anchor: "latest approved freshness metadata date",
+    doesNotValidateRowCount: true,
+    excludesNonTradingDays: true,
+    policyStatus: "defined_local_only",
+    requiredTradingSessions: 60,
+    timezone: "Asia/Taipei",
+    windowLabel: "MVP rolling 60 trading sessions"
+  };
 
   return {
     awardedPoints: 0,
+    coverageWindowPolicy,
     maxPoints: 20,
     nextAction:
-      "Define required trading-date window, expected row count policy, missing-row tolerance, and market-calendar treatment before awarding row coverage points.",
+      "Define expected row count policy, missing-row tolerance, and market-calendar treatment before awarding row coverage points.",
     publicDataSource: "mock",
     requirements: [
       {
@@ -51,7 +72,7 @@ export function buildRowCoverageContract(): RowCoverageContract {
         code: "coverage-window-defined",
         label: "Coverage date window is defined",
         owner: "Data",
-        state: "missing"
+        state: "complete"
       },
       {
         code: "expected-row-policy-defined",
@@ -75,7 +96,7 @@ export function buildRowCoverageContract(): RowCoverageContract {
     scoreSource: "mock",
     status: "not_ready",
     stopLine:
-      "Row coverage universe policy is local-only; do not fetch market data, run SQL, write Supabase, claim coverage, or set scoreSource=real.",
+      "Row coverage universe and window policies are local-only; do not fetch market data, run SQL, write Supabase, claim coverage, or set scoreSource=real.",
     universePolicy
   };
 }
