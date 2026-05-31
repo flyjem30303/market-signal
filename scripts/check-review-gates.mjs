@@ -1953,6 +1953,16 @@ const checks = [
     name: "market-signal-source-status"
   },
   {
+    command: [
+      node,
+      "--disable-warning=MODULE_TYPELESS_PACKAGE_JSON",
+      "--experimental-strip-types",
+      "scripts/check-public-market-signal-runtime-boundary.mjs"
+    ],
+    expectStatus: "ok",
+    name: "public-market-signal-runtime-boundary"
+  },
+  {
     command: [node, "scripts/check-supabase-market-signal-repository-blocked.mjs"],
     expectStatus: "ok",
     name: "supabase-market-signal-repository-blocked"
