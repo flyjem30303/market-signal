@@ -7,6 +7,13 @@ console.log(
   JSON.stringify(
     {
       approvalStatus: ready ? "ready_for_manual_ceo_run" : "hold",
+      blockedPromotions: [
+        "cp3_readiness",
+        "public_data_source",
+        "source_depth_production_ready",
+        "public_claims",
+        "scoreSource=real"
+      ],
       exactCommandPreview: ready
         ? "$env:SUPABASE_READONLY_VALIDATE_CONFIRMATION='CP3_SUPABASE_READONLY_REMOTE_VALIDATE'; npm run db:readonly-validate"
         : null,
@@ -29,6 +36,7 @@ console.log(
       ],
       postRunReviewTarget: "scripts/check-cp3-supabase-read-only-one-attempt-direct-node-execution-post-run-review.mjs",
       preflightStatus: decision.preflightStatus,
+      readinessPromotionBlocked: true,
       requiredConfirmation: "CP3_SUPABASE_READONLY_REMOTE_VALIDATE",
       safety: {
         automatedRemoteRun: false,

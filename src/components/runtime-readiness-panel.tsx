@@ -75,6 +75,10 @@ export function RuntimeReadinessPanel() {
             {executionPreview.postRunAcceptedOutcomeCategories.length}.
           </p>
           <p>
+            Readiness promotion: {executionPreview.readinessPromotionBlocked ? "blocked" : "open"}.
+            Blocked promotions: {executionPreview.blockedPromotions.length}.
+          </p>
+          <p>
             Automated remote run: {executionPreview.safety.automatedRemoteRun ? "true" : "false"}.
             Command preview: {executionPreview.nextRemoteCommand ?? "blocked"}.
           </p>
