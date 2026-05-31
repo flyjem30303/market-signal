@@ -22,6 +22,7 @@ export type SupabaseReadonlyExecutionPreview = {
     sqlExecuted: false;
   };
   status: SupabaseReadonlyExecutionPreviewStatus;
+  stopConditions: string[];
   willRunRemoteValidator: false;
 };
 
@@ -49,6 +50,12 @@ export function getSupabaseReadonlyExecutionPreview(
       sqlExecuted: false
     },
     status: ready ? "ready_for_manual_ceo_run" : "blocked",
+    stopConditions: [
+      "do not run this preview as approval",
+      "do not run if the command differs from npm run db:readonly-validate",
+      "do not run if confirmation is not process-scoped",
+      "do not run if any write, SQL, ingestion, or scoreSource=real request is bundled"
+    ],
     willRunRemoteValidator: false
   };
 }

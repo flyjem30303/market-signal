@@ -55,7 +55,9 @@ export function RuntimeReadinessPanel() {
           </p>
         </article>
         <article
-          aria-label={`Execution preview automated remote run ${executionPreview.safety.automatedRemoteRun ? "true" : "false"}`}
+          aria-label={`Execution preview automated remote run ${
+            executionPreview.safety.automatedRemoteRun ? "true" : "false"
+          }; Stop conditions ${executionPreview.stopConditions.length} active`}
           className={executionPreview.status === "blocked" ? "blocked" : "readying"}
         >
           <span>Execution preview</span>
@@ -63,6 +65,10 @@ export function RuntimeReadinessPanel() {
           <p>
             Automated remote run: {executionPreview.safety.automatedRemoteRun ? "true" : "false"}.
             Command preview: {executionPreview.nextRemoteCommand ?? "blocked"}.
+          </p>
+          <p>
+            Stop conditions: {executionPreview.stopConditions.length} active. First:{" "}
+            {executionPreview.stopConditions[0]}.
           </p>
         </article>
         {preflight.boundaries.map((boundary) => (
