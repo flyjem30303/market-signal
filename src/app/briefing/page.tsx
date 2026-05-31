@@ -396,11 +396,18 @@ function BriefingList({
       <p>{description}</p>
       <div className="rank-list">
         {items.map((item) => (
-          <a className="rank-row" href={`/stocks/${item.asset.symbol}`} key={item.asset.id}>
+          <TrackedLink
+            className="rank-row"
+            eventName="briefing_link_clicked"
+            href={`/stocks/${item.asset.symbol}`}
+            key={item.asset.id}
+            label={`${item.asset.symbol} ${item.asset.name}`}
+            payload={{ area: "watchlist", symbol: item.asset.symbol }}
+          >
             <strong>{item.asset.symbol}</strong>
             <span>{item.asset.name}</span>
             <b>{valueKey === "risk" ? `險 ${item.riskScore}` : item.compositeScore}</b>
-          </a>
+          </TrackedLink>
         ))}
       </div>
     </section>

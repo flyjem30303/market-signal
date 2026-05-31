@@ -187,21 +187,27 @@ export default async function WeeklyPage() {
 
       <section className="panel weekly-links">
         <h2>讀完週報後</h2>
-        <a className="text-link" href="/">
+        <TrackedLink className="text-link" eventName="weekly_link_clicked" href="/" label="回首頁看市場廣度" payload={{ area: "next_steps" }}>
           回首頁看市場廣度
-        </a>
-        <a className="text-link" href="/briefing">
+        </TrackedLink>
+        <TrackedLink className="text-link" eventName="weekly_link_clicked" href="/briefing" label="看每日晨報" payload={{ area: "next_steps" }}>
           看每日晨報
-        </a>
-        <a className="text-link" href="/stocks/TWII">
+        </TrackedLink>
+        <TrackedLink
+          className="text-link"
+          eventName="weekly_link_clicked"
+          href="/stocks/TWII"
+          label="查看台指狀態"
+          payload={{ area: "next_steps", symbol: "TWII" }}
+        >
           查看台指狀態
-        </a>
-        <a className="text-link" href="/methodology">
+        </TrackedLink>
+        <TrackedLink className="text-link" eventName="weekly_link_clicked" href="/methodology" label="了解評分方法" payload={{ area: "next_steps" }}>
           了解評分方法
-        </a>
-        <a className="text-link" href="/disclaimer">
+        </TrackedLink>
+        <TrackedLink className="text-link" eventName="weekly_link_clicked" href="/disclaimer" label="確認免責聲明" payload={{ area: "next_steps" }}>
           確認免責聲明
-        </a>
+        </TrackedLink>
       </section>
 
       <article className="disclaimer">
