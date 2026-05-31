@@ -1958,6 +1958,11 @@ const checks = [
     name: "raw-market-runtime-boundary"
   },
   {
+    command: [node, "scripts/check-public-release-gate-behavior.mjs"],
+    expectStatus: "ok",
+    name: "public-release-gate-behavior"
+  },
+  {
     command: [node, "scripts/check-supabase-raw-market-repository-behavior.mjs"],
     expectStatus: "ok",
     name: "supabase-raw-market-repository-behavior"
