@@ -2053,6 +2053,11 @@ const checks = [
     name: "source-depth-blocker-panel"
   },
   {
+    command: [node, "scripts/check-home-runtime-status-panel.mjs"],
+    expectStatus: "ok",
+    name: "home-runtime-status-panel"
+  },
+  {
     command: [node, "scripts/check-stock-decision-compass.mjs"],
     expectStatus: "ok",
     name: "stock-decision-compass"

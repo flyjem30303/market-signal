@@ -7,6 +7,7 @@ import { StockSeoContent } from "@/components/stock-seo-content";
 import { CommercialSlot } from "@/components/commercial-slot";
 import { Cp3RuntimeStatePanel } from "@/components/cp3-runtime-state-panel";
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
+import { HomeRuntimeStatusPanel } from "@/components/home-runtime-status-panel";
 import { TrackedLink } from "@/components/tracked-link";
 import {
   signalColor,
@@ -252,6 +253,8 @@ export function DashboardShell({
           onTab={changeTab}
         />
       )}
+
+      {!includeSeoContent && <HomeRuntimeStatusPanel selectedSymbol={selected.symbol} />}
 
       {includeSeoContent && (
         <>
