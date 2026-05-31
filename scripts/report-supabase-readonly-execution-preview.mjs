@@ -12,6 +12,12 @@ console.log(
         : null,
       manualApprovalRequired: true,
       manualApprovalState: ready ? "pending_ceo_confirmation" : "blocked",
+      manualRunPrerequisites: [
+        "CEO confirms exactly one manual readonly attempt",
+        "command remains process-scoped and unchanged",
+        "post-run review captures status without secrets or row payloads",
+        "stop immediately if writes, SQL, ingestion, or scoreSource=real appear"
+      ],
       mode: "supabase_readonly_execution_preview",
       nextRemoteCommand: ready ? decision.nextRemoteCommand : null,
       preflightStatus: decision.preflightStatus,

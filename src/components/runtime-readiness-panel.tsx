@@ -67,6 +67,10 @@ export function RuntimeReadinessPanel() {
             {executionPreview.manualApprovalState}.
           </p>
           <p>
+            Manual prerequisites: {executionPreview.manualRunPrerequisites.length} active. First:{" "}
+            {executionPreview.manualRunPrerequisites[0]}.
+          </p>
+          <p>
             Automated remote run: {executionPreview.safety.automatedRemoteRun ? "true" : "false"}.
             Command preview: {executionPreview.nextRemoteCommand ?? "blocked"}.
           </p>
