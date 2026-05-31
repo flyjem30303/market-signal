@@ -3,6 +3,7 @@ export type TrackingEventName =
   | "favorite_added"
   | "favorite_removed"
   | "tab_changed"
+  | "chart_mode_changed"
   | "home_page_viewed"
   | "home_cta_clicked"
   | "nav_link_clicked"

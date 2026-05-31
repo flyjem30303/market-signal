@@ -165,6 +165,11 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
     setNewsDate(nextDate);
   }
 
+  function changeChartMode(nextMode: ChartMode) {
+    trackEvent("chart_mode_changed", { symbol: selected.symbol, mode: nextMode });
+    setChartMode(nextMode);
+  }
+
   return (
     <main className="page-shell">
       <section className="hero">
@@ -296,7 +301,7 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
           endIndex={realEndIndex}
           series={series}
           startIndex={startIndex}
-          onChartMode={setChartMode}
+          onChartMode={changeChartMode}
           onEndIndex={setEndIndex}
           onStartIndex={setStartIndex}
         />
