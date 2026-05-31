@@ -1938,6 +1938,11 @@ const checks = [
     name: "stock-decision-compass"
   },
   {
+    command: [node, "scripts/check-tracking-events.mjs"],
+    expectStatus: "ok",
+    name: "tracking-events"
+  },
+  {
     command: [node, "scripts/check-freshness-state-ui.mjs"],
     expectStatus: "ok",
     name: "freshness-state-ui"
