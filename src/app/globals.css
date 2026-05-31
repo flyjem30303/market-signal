@@ -133,6 +133,35 @@ select {
   line-height: 1.7;
 }
 
+.site-footer-trust {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.site-footer-trust span,
+.site-footer-trust a {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 750;
+  padding: 6px 9px;
+  text-decoration: none;
+}
+
+.site-footer-trust span {
+  background: #fff5df;
+  color: var(--amber);
+}
+
+.site-footer-trust a:hover {
+  border-color: var(--teal);
+  color: var(--teal);
+}
+
 .site-footer nav {
   display: flex;
   flex-wrap: wrap;

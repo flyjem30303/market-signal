@@ -31,6 +31,13 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <div>
             <strong>台股燈號</strong>
             <p>目前為 mock 研究體驗，用來驗證市場健康度、風險提示與閱讀流程，不構成投資建議。</p>
+            <div className="site-footer-trust" aria-label="全站資料與責任邊界">
+              <span>資料狀態：mock</span>
+              <span>分數來源：模擬評分</span>
+              <a href="/methodology">方法論</a>
+              <a href="/disclaimer">免責聲明</a>
+              <a href="/terms">使用條款</a>
+            </div>
           </div>
           <nav aria-label="頁尾導覽">
             <a href="/">首頁</a>
