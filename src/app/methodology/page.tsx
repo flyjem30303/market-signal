@@ -70,6 +70,29 @@ export default async function MethodologyPage() {
         </nav>
       </section>
 
+      <section className="method-runtime-map" aria-label="方法論 runtime 對照">
+        <div>
+          <p className="eyebrow">Runtime Map</p>
+          <h2>分數進頁面後怎麼讀</h2>
+          <p>方法論不是獨立文件，它要回到首頁、晨報、週報與個股頁，形成一致的 mock 閱讀流程。</p>
+        </div>
+        <article>
+          <span>第一步</span>
+          <strong>先看狀態</strong>
+          <p>確認資料狀態、分數來源與燈號，只判斷目前可讀取程度，不直接推導投資動作。</p>
+        </article>
+        <article>
+          <span>第二步</span>
+          <strong>再拆模組</strong>
+          <p>把健康度、風險度、趨勢、技術、籌碼、基本面與新聞信心分開交叉檢查。</p>
+        </article>
+        <article>
+          <span>第三步</span>
+          <strong>確認停止線</strong>
+          <p>資料來源、回測或公開宣稱不足時，停止升級結論，只保留觀察與產品驗證。</p>
+        </article>
+      </section>
+
       <section className="panel method-section">
         <h2>健康度、風險度與綜合燈號</h2>
         <div className="method-grid">
