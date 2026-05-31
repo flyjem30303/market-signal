@@ -1,3 +1,7 @@
+"use client";
+
+import { trackEvent } from "@/lib/tracking";
+
 type CommercialSlotProps = {
   context: "briefing" | "stock" | "weekly";
 };
@@ -17,9 +21,24 @@ export function CommercialSlot({ context }: CommercialSlotProps) {
       <p>{copy}</p>
       <p>若使用者透過合作連結註冊、購買或開戶，本網站可能取得廣告收入或佣金。</p>
       <nav aria-label="商業合作相關說明">
-        <a href="/disclaimer">查看免責聲明</a>
-        <a href="/terms">查看使用條款</a>
-        <a href="/privacy">查看隱私權政策</a>
+        <a
+          href="/disclaimer"
+          onClick={() => trackEvent("commercial_disclosure_link_clicked", { context, href: "/disclaimer", label: "disclaimer" })}
+        >
+          查看免責聲明
+        </a>
+        <a
+          href="/terms"
+          onClick={() => trackEvent("commercial_disclosure_link_clicked", { context, href: "/terms", label: "terms" })}
+        >
+          查看使用條款
+        </a>
+        <a
+          href="/privacy"
+          onClick={() => trackEvent("commercial_disclosure_link_clicked", { context, href: "/privacy", label: "privacy" })}
+        >
+          查看隱私權政策
+        </a>
       </nav>
     </aside>
   );

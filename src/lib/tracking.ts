@@ -6,6 +6,7 @@ export type TrackingEventName =
   | "home_page_viewed"
   | "home_cta_clicked"
   | "nav_link_clicked"
+  | "commercial_disclosure_link_clicked"
   | "stock_page_viewed"
   | "briefing_page_viewed"
   | "disclaimer_page_viewed"

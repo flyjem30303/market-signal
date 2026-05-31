@@ -13,6 +13,7 @@
 | `home_page_viewed` | 進入首頁 | `page` |
 | `home_cta_clicked` | 點擊首頁 Quick Start 行動 | `action`, `href`, `symbol` |
 | `nav_link_clicked` | 點擊主導覽連結 | `from`, `href`, `label` |
+| `commercial_disclosure_link_clicked` | 點擊商業揭露區信任連結 | `context`, `href`, `label` |
 | `stock_page_viewed` | 進入股票頁 | `symbol`, `name`, `signal` |
 | `briefing_page_viewed` | 進入晨報頁 | `page` |
 | `disclaimer_page_viewed` | 進入免責聲明頁 | `page` |
@@ -26,6 +27,7 @@
 
 - Helper：`src/lib/tracking.ts`
 - 主導覽點擊：`src/components/site-nav.tsx`
+- 商業揭露區信任連結：`src/components/commercial-slot.tsx`
 - 股票頁與儀表板互動：`src/components/dashboard-shell.tsx`
 - 首頁、晨報、週報、方法論與信任頁瀏覽：`src/components/page-view-tracker.tsx`
 
