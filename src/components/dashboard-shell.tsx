@@ -384,6 +384,27 @@ function HomeProductOverview({
     },
     { constructive: 0, defensive: 0, watch: 0 }
   );
+  const decision =
+    snapshot.riskScore >= 60
+      ? {
+          action: "先拆風險來源",
+          href: `/stocks/${riskiestSnapshot.asset.symbol}`,
+          label: `${riskiestSnapshot.asset.symbol} 風險 ${riskiestSnapshot.riskScore}/100`,
+          reason: "目前選取標的風險偏高，先確認風險模組與資料旗標，再閱讀趨勢。"
+        }
+      : breadth.defensive > breadth.constructive
+        ? {
+            action: "先看防守清單",
+            href: "/briefing#watchlists",
+            label: `${breadth.defensive} 檔防守優先`,
+            reason: "防守標的多於強勢標的，今天先用晨報確認市場廣度是否轉弱。"
+          }
+        : {
+            action: "先看強勢延伸",
+            href: `/stocks/${strongestSnapshot.asset.symbol}`,
+            label: `${strongestSnapshot.asset.symbol} 綜合 ${strongestSnapshot.compositeScore}/100`,
+            reason: "市場廣度尚可，先從強勢標的確認趨勢是否連續，但仍維持 mock 邊界。"
+          };
 
   return (
     <>
@@ -429,6 +450,26 @@ function HomeProductOverview({
             <p>正式資料來源與公開宣稱仍未完成前，所有分數只支援產品體驗。</p>
           </article>
         </div>
+      </section>
+
+      <section className="home-decision-strip" aria-label="首頁下一步決策列">
+        <div>
+          <p className="eyebrow">Next Move</p>
+          <h2>{decision.action}</h2>
+          <p>{decision.reason}</p>
+        </div>
+        <a href={decision.href}>
+          <span>建議入口</span>
+          <strong>{decision.label}</strong>
+        </a>
+        <a href={`/stocks/${marketSnapshot.asset.symbol}`}>
+          <span>市場基準</span>
+          <strong>{marketSnapshot.asset.symbol} {marketSnapshot.signal.title}</strong>
+        </a>
+        <a href="/methodology">
+          <span>判讀邊界</span>
+          <strong>{scoreSourceLabel}</strong>
+        </a>
       </section>
 
       <section className="home-reading-route" aria-label="三分鐘閱讀路線">

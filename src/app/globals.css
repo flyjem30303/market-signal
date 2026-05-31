@@ -390,6 +390,60 @@ select {
   line-height: 1.1;
 }
 
+.home-decision-strip {
+  display: grid;
+  grid-template-columns: minmax(280px, 1.4fr) repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  align-items: stretch;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+  margin-bottom: 16px;
+  padding: 16px;
+}
+
+.home-decision-strip h2 {
+  margin: 0 0 8px;
+  font-size: 22px;
+  line-height: 1.25;
+}
+
+.home-decision-strip p {
+  color: var(--muted);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.home-decision-strip a {
+  display: grid;
+  gap: 8px;
+  align-content: center;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #f8fbff;
+  color: var(--text);
+  min-height: 112px;
+  padding: 14px;
+  text-decoration: none;
+}
+
+.home-decision-strip a:hover {
+  border-color: var(--teal);
+  background: #f4fbf8;
+}
+
+.home-decision-strip a span {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 850;
+}
+
+.home-decision-strip a strong {
+  font-size: 18px;
+  line-height: 1.25;
+}
+
 .home-market-breadth {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -5627,6 +5681,7 @@ input[type="date"] {
   .asset-grid,
   .home-product-overview,
   .home-overview-grid,
+  .home-decision-strip,
   .home-reading-route,
   .home-market-breadth,
   .home-group-overview,
