@@ -36,6 +36,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               <span>分數來源：模擬評分</span>
               <a href="/methodology">方法論</a>
               <a href="/disclaimer">免責聲明</a>
+              <a href="/privacy">隱私權</a>
               <a href="/terms">使用條款</a>
             </div>
           </div>
