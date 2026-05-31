@@ -2033,6 +2033,11 @@ const checks = [
     name: "supabase-readonly-local-preflight"
   },
   {
+    command: [node, "scripts/check-supabase-readonly-decision-packet.mjs"],
+    expectStatus: "ok",
+    name: "supabase-readonly-decision-packet"
+  },
+  {
     command: [node, "scripts/check-stock-decision-compass.mjs"],
     expectStatus: "ok",
     name: "stock-decision-compass"
