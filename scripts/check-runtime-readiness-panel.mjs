@@ -5,13 +5,14 @@ const activationPath = "src/lib/freshness-runtime-activation.ts";
 const decisionPath = "src/lib/supabase-readonly-decision.ts";
 const executionPreviewPath = "src/lib/supabase-readonly-execution-preview.ts";
 const evidencePath = "src/lib/supabase-readonly-evidence.ts";
+const readonlySmokePath = "src/lib/freshness-readonly-smoke-report.ts";
 const preflightPath = "src/lib/supabase-readonly-local-preflight.ts";
 const componentPath = "src/components/runtime-readiness-panel.tsx";
 const briefingPath = "src/app/briefing/page.tsx";
 const cssPath = "src/app/globals.css";
 
 const files = new Map(
-  [summaryPath, activationPath, decisionPath, executionPreviewPath, evidencePath, preflightPath, componentPath, briefingPath, cssPath].map(
+  [summaryPath, activationPath, decisionPath, executionPreviewPath, evidencePath, readonlySmokePath, preflightPath, componentPath, briefingPath, cssPath].map(
     (file) => [file, fs.readFileSync(file, "utf8")]
   )
 );
@@ -36,6 +37,13 @@ const required = [
   [evidencePath, "mutations: false"],
   [evidencePath, "sqlExecuted: false"],
   [evidencePath, "scoreSourceRealChanged: false"],
+  [readonlySmokePath, "buildFreshnessReadonlySmokeReport"],
+  [readonlySmokePath, "connectionAttempted"],
+  [readonlySmokePath, "sqlExecuted"],
+  [readonlySmokePath, "writesEnabled"],
+  [readonlySmokePath, "scoreSourceRealEnabled"],
+  [readonlySmokePath, "rowPayloadsPrinted: false"],
+  [readonlySmokePath, "secretsPrinted: false"],
   [preflightPath, "getSupabaseReadonlyLocalPreflight"],
   [preflightPath, "connectionAttempted: false"],
   [preflightPath, "secretsPrinted: false"],
@@ -59,6 +67,9 @@ const required = [
   [componentPath, "Runtime Readiness"],
   [componentPath, "Freshness runtime activation"],
   [componentPath, "freshnessActivation.state"],
+  [componentPath, "buildFreshnessReadonlySmokeReport"],
+  [componentPath, "readonlySmokeReport.outcome"],
+  [componentPath, "Freshness readonly smoke"],
   [componentPath, "Readonly evidence"],
   [componentPath, "Execution preview"],
   [componentPath, "Local preflight status"],
@@ -87,6 +98,17 @@ const forbidden = [
   [activationPath, "writesEnabled: true"],
   [activationPath, "scoreSourceRealEnabled: true"],
   [activationPath, "nextPublicDataSource: \"supabase\""],
+  [readonlySmokePath, "@supabase/supabase-js"],
+  [readonlySmokePath, "createClient"],
+  [readonlySmokePath, "fetch("],
+  [readonlySmokePath, ".from("],
+  [readonlySmokePath, ".insert("],
+  [readonlySmokePath, ".update("],
+  [readonlySmokePath, ".delete("],
+  [readonlySmokePath, "connectionAttempted: true"],
+  [readonlySmokePath, "sqlExecuted: true"],
+  [readonlySmokePath, "writesEnabled: true"],
+  [readonlySmokePath, "scoreSourceRealEnabled: true"],
   [preflightPath, "@supabase/supabase-js"],
   [preflightPath, "createClient"],
   [preflightPath, "fetch("],

@@ -4,6 +4,7 @@ import { getSupabaseReadonlyEvidenceSummary } from "@/lib/supabase-readonly-evid
 import { getSupabaseReadonlyDecision } from "@/lib/supabase-readonly-decision";
 import { getSupabaseReadonlyExecutionPreview } from "@/lib/supabase-readonly-execution-preview";
 import { getSupabaseReadonlyLocalPreflight } from "@/lib/supabase-readonly-local-preflight";
+import { buildFreshnessReadonlySmokeReport } from "@/lib/freshness-readonly-smoke-report";
 
 export function RuntimeReadinessPanel() {
   const readiness = getRuntimeReadinessSummary();
@@ -11,6 +12,7 @@ export function RuntimeReadinessPanel() {
   const decision = getSupabaseReadonlyDecision(preflight);
   const executionPreview = getSupabaseReadonlyExecutionPreview(decision);
   const freshnessActivation = getFreshnessRuntimeActivationSummary();
+  const readonlySmokeReport = buildFreshnessReadonlySmokeReport();
   const readonlyEvidence = getSupabaseReadonlyEvidenceSummary();
 
   return (
@@ -70,6 +72,23 @@ export function RuntimeReadinessPanel() {
           </p>
           <p>{freshnessActivation.decision}</p>
           <p>{freshnessActivation.stopLine}</p>
+        </article>
+        <article
+          aria-label={`Freshness readonly smoke report ${readonlySmokeReport.outcome}`}
+          className={readonlySmokeReport.outcome === "blocked" ? "blocked" : "readying"}
+        >
+          <span>Freshness readonly smoke</span>
+          <strong>{readonlySmokeReport.outcome}</strong>
+          <p>
+            Activation {readonlySmokeReport.activation.state}; connection{" "}
+            {readonlySmokeReport.activation.connectionAttempted ? "attempted" : "not attempted"}; SQL{" "}
+            {readonlySmokeReport.activation.sqlExecuted ? "executed" : "not executed"}.
+          </p>
+          <p>
+            Secrets printed: {readonlySmokeReport.safety.secretsPrinted ? "true" : "false"} / row payloads printed:{" "}
+            {readonlySmokeReport.safety.rowPayloadsPrinted ? "true" : "false"}.
+          </p>
+          <p>{readonlySmokeReport.stopLine}</p>
         </article>
         <article
           aria-label={`Runtime ${decision.recommendedWorkMix.runtime}% / Supabase readonly ${decision.recommendedWorkMix.supabaseReadonly}%`}
