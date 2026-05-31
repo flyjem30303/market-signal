@@ -289,6 +289,18 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
             </li>
           ))}
         </ol>
+        <article aria-label={commandCenter.localContractConceptsLabel}>
+          <b>{commandCenter.localContractConceptsLabel}</b>
+          {commandCenter.localContractConcepts.map((item) => (
+            <span key={item.id}>
+              <strong>{item.label}</strong>
+              <small>{item.owner}</small>
+              <i>{item.runtimeUse}</i>
+              <i>{item.evidenceUse}</i>
+              <em>{formatRuntimeValue(item.state)}</em>
+            </span>
+          ))}
+        </article>
         <article>
           <b>Runtime milestones</b>
           {commandCenter.milestones.map((item) => (

@@ -240,6 +240,15 @@ export type Cp3MockOnlyGateProposalProgress = {
   totalCount: number;
 };
 
+export type Cp3MockOnlyRuntimeContractConcept = {
+  evidenceUse: string;
+  id: string;
+  label: string;
+  owner: "Engineering" | "Data";
+  runtimeUse: string;
+  state: "approved_local_concept" | "evidence_only";
+};
+
 export type Cp3MockOnlyRuntimeCommandCenter = {
   blockedLaneLabel: string;
   doNext: string;
@@ -253,6 +262,8 @@ export type Cp3MockOnlyRuntimeCommandCenter = {
   gateProposalQueue: Cp3MockOnlyGateProposalItem[];
   gateProposalQueueLabel: string;
   handoffChecks: Cp3MockOnlyRuntimeHandoffCheck[];
+  localContractConcepts: Cp3MockOnlyRuntimeContractConcept[];
+  localContractConceptsLabel: string;
   localLaneLabel: string;
   milestones: Cp3MockOnlyRuntimeMilestone[];
   nextGateLabel: string;
@@ -715,10 +726,48 @@ export function getMockOnlyRuntimeAuthorizationSnapshot(): Cp3MockOnlyRuntimeAut
   };
 }
 
+export function getMockOnlyRuntimeContractConcepts(): Cp3MockOnlyRuntimeContractConcept[] {
+  return [
+    {
+      evidenceUse: "Schema-shape checked. It remains a structure checkpoint, not a freshness or quality claim.",
+      id: "canonical-price-history",
+      label: "daily_prices",
+      owner: "Engineering",
+      runtimeUse: "Allowed as the local-baselined price-history concept for future mock-only runtime planning.",
+      state: "approved_local_concept"
+    },
+    {
+      evidenceUse: "Local migration baseline defines the run metadata side of the two-part staging contract.",
+      id: "canonical-staging-runs",
+      label: "staging_twse_stock_day_runs",
+      owner: "Engineering",
+      runtimeUse: "Allowed as a canonical local staging concept only; no writes or runtime ingestion are approved.",
+      state: "approved_local_concept"
+    },
+    {
+      evidenceUse: "Local migration baseline defines the candidate price-row side of the two-part staging contract.",
+      id: "canonical-staging-prices",
+      label: "staging_twse_stock_day_prices",
+      owner: "Engineering",
+      runtimeUse: "Allowed as a canonical local staging concept only; no writes or runtime ingestion are approved.",
+      state: "approved_local_concept"
+    },
+    {
+      evidenceUse: "Reachable in sanitized read-only evidence, but still a naming mismatch pending remote contract.",
+      id: "remote-staging-evidence-name",
+      label: "twse_stock_day_staging",
+      owner: "Data",
+      runtimeUse: "Evidence-only. Runtime code must not query, import, or depend on this name.",
+      state: "evidence_only"
+    }
+  ];
+}
+
 export function getMockOnlyRuntimeCommandCenter(state: Cp3MockOnlyRuntimeState): Cp3MockOnlyRuntimeCommandCenter {
   const authorizationSnapshot = getMockOnlyRuntimeAuthorizationSnapshot();
   const nextGate = getMockOnlyRuntimeNextGates(state)[0];
   const nextWork = getMockOnlyRuntimeRouteWorkQueue()[0];
+  const localContractConcepts = getMockOnlyRuntimeContractConcepts();
   const gateProposalQueue: Cp3MockOnlyGateProposalItem[] = [
     {
       boundary: "One exact read-only command, one run, no writes, no data mutation.",
@@ -827,6 +876,8 @@ export function getMockOnlyRuntimeCommandCenter(state: Cp3MockOnlyRuntimeState):
       { label: "Static guard covers command center fields.", state: "recorded" },
       { label: "No external-data gate is opened by this UI.", state: "recorded" }
     ],
+    localContractConcepts,
+    localContractConceptsLabel: "Approved local contract concepts",
     localLaneLabel: `${authorizationSnapshot.allowedCount} local lanes allowed: mock runtime UI and static guards`,
     milestones: [
       {
