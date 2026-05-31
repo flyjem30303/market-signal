@@ -1,6 +1,6 @@
 # Tracking Events
 
-目前先以 `console.info` 記錄事件，並暫存在 `window.__marketSignalEvents` 方便開發驗證。未來可改接 GA4、Vercel Analytics、Supabase events 或自建資料表。
+目前先以 `console.info` 記錄事件，並暫存在 `window.__marketSignalEvents` 方便開發驗證。每次事件也會 dispatch `market-signal:tracking` CustomEvent，讓未來可用單一 listener 改接 GA4、Vercel Analytics、Supabase events 或自建資料表。
 
 ## 事件清單
 
@@ -43,4 +43,4 @@
 
 ## 後續接正式分析工具
 
-保持 `trackEvent(name, payload)` 介面不變，只替換內部實作即可。正式上線前需同步補上隱私權政策與 Cookie / analytics 告知。
+保持 `trackEvent(name, payload)` 介面不變，優先用 `market-signal:tracking` listener 或替換 helper 內部實作接正式分析工具。Payload 會移除 `undefined`，但保留 `null` 以表示明確未知值。正式上線前需同步補上隱私權政策與 Cookie / analytics 告知。

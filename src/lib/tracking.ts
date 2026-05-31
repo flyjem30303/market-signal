@@ -27,11 +27,14 @@ export type TrackingEventName =
 
 export type TrackingPayload = Record<string, string | number | boolean | null | undefined>;
 
-type TrackingEventRecord = {
+export type TrackingEventRecord = {
   name: TrackingEventName;
   payload: TrackingPayload;
   timestamp: string;
 };
+
+export const trackingEventBufferLimit = 100;
+export const trackingEventDomEventName = "market-signal:tracking";
 
 declare global {
   interface Window {
@@ -44,10 +47,21 @@ export function trackEvent(name: TrackingEventName, payload: TrackingPayload = {
 
   const event = {
     name,
-    payload,
+    payload: cleanTrackingPayload(payload),
     timestamp: new Date().toISOString()
   };
 
-  window.__marketSignalEvents = [...(window.__marketSignalEvents ?? []), event].slice(-50);
+  window.__marketSignalEvents = [...(window.__marketSignalEvents ?? []), event].slice(-trackingEventBufferLimit);
+
+  try {
+    window.dispatchEvent(new CustomEvent<TrackingEventRecord>(trackingEventDomEventName, { detail: event }));
+  } catch {
+    // Tracking must never break the user flow.
+  }
+
   console.info("[tracking]", event);
+}
+
+function cleanTrackingPayload(payload: TrackingPayload): TrackingPayload {
+  return Object.fromEntries(Object.entries(payload).filter(([, value]) => value !== undefined)) as TrackingPayload;
 }
