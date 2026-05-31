@@ -1,3 +1,5 @@
+import { buildRowCoverageContract, type RowCoverageContract } from "@/lib/row-coverage-contract";
+
 export type DataQualityScoreFactor = {
   code: string;
   label: string;
@@ -13,12 +15,14 @@ export type DataQualityScoreContract = {
   nextLift: string;
   passThreshold: 80;
   publicDataSource: "mock";
+  rowCoverage: RowCoverageContract;
   score: number;
   scoreSource: "mock";
   stopLine: string;
 };
 
 export function buildDataQualityScoreContract(): DataQualityScoreContract {
+  const rowCoverage = buildRowCoverageContract();
   const factors: DataQualityScoreFactor[] = [
     {
       code: "freshness-metadata",
@@ -33,8 +37,8 @@ export function buildDataQualityScoreContract(): DataQualityScoreContract {
       label: "Row coverage proven",
       maxPoints: 20,
       owner: "Data",
-      points: 0,
-      state: "missing"
+      points: rowCoverage.awardedPoints,
+      state: rowCoverage.status === "not_ready" ? "missing" : "missing"
     },
     {
       code: "field-validity",
@@ -77,6 +81,7 @@ export function buildDataQualityScoreContract(): DataQualityScoreContract {
     nextLift: "Prove row coverage and field validity before any score can approach the 80-point real-score evidence threshold.",
     passThreshold: 80,
     publicDataSource: "mock",
+    rowCoverage,
     score,
     scoreSource: "mock",
     stopLine:

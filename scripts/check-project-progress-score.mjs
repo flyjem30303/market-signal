@@ -44,6 +44,8 @@ const required = [
   [componentPath, "progress.dataQualityEvidenceGate.evidenceProgressPercent"],
   [componentPath, "progress.dataQualityScoreContract.score"],
   [componentPath, "progress.dataQualityScoreContract.passThreshold"],
+  [componentPath, "progress.dataQualityScoreContract.rowCoverage.status"],
+  [componentPath, "progress.dataQualityScoreContract.rowCoverage.requirements.length"],
   [componentPath, "progress.dataQualityEvidenceGate.missingEvidence.length"],
   [componentPath, "progress.dataQualityEvidenceGate.missingActions.slice(0, 4).map"],
   [componentPath, "action.owner"],

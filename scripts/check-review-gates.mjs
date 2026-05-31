@@ -1578,6 +1578,11 @@ const checks = [
     name: "data-quality-score-contract"
   },
   {
+    command: [node, "scripts/check-row-coverage-contract.mjs"],
+    expectStatus: "ok",
+    name: "row-coverage-contract"
+  },
+  {
     command: [node, "scripts/check-freshness-runtime-activation-state.mjs"],
     expectStatus: "ok",
     name: "freshness-runtime-activation-state"

@@ -4,50 +4,45 @@ import path from "node:path";
 import ts from "typescript";
 
 const root = process.cwd();
-const contractPath = "src/lib/data-quality-score-contract.ts";
-const { buildDataQualityScoreContract } = loadTsModule(contractPath);
-const contract = buildDataQualityScoreContract();
-
+const contractPath = "src/lib/row-coverage-contract.ts";
+const { buildRowCoverageContract } = loadTsModule(contractPath);
+const contract = buildRowCoverageContract();
 const problems = [];
 
-if (contract.score !== 25) problems.push(`expected local score 25, got ${contract.score}`);
-if (contract.passThreshold !== 80) problems.push(`expected pass threshold 80, got ${contract.passThreshold}`);
-if (contract.canCountAsRealScoreEvidence !== false) problems.push("contract must not count as real-score evidence");
+if (contract.status !== "not_ready") problems.push(`expected status not_ready, got ${contract.status}`);
+if (contract.maxPoints !== 20) problems.push(`expected max points 20, got ${contract.maxPoints}`);
+if (contract.awardedPoints !== 0) problems.push(`expected awarded points 0, got ${contract.awardedPoints}`);
 if (contract.scoreSource !== "mock" || contract.publicDataSource !== "mock") {
-  problems.push("contract must keep scoreSource and public source mock");
+  problems.push("row coverage contract must keep scoreSource and public source mock");
 }
-if (!contract.factors.some((factor) => factor.code === "freshness-metadata" && factor.state === "complete")) {
-  problems.push("freshness metadata factor must be complete");
-}
-if (contract.rowCoverage.status !== "not_ready" || contract.rowCoverage.awardedPoints !== 0) {
-  problems.push("row coverage must remain not_ready with zero awarded points");
-}
-if (contract.rowCoverage.requirements.length !== 5) {
-  problems.push(`expected 5 row coverage requirements, got ${contract.rowCoverage.requirements.length}`);
-}
-for (const code of ["row-coverage", "field-validity", "downgrade-rules", "source-rights", "public-disclosure"]) {
-  if (!contract.factors.some((factor) => factor.code === code && factor.state === "missing" && factor.points === 0)) {
-    problems.push(`missing factor not blocked: ${code}`);
+
+for (const code of [
+  "symbol-universe-defined",
+  "coverage-window-defined",
+  "expected-row-policy-defined",
+  "missing-row-tolerance-defined",
+  "market-calendar-treatment-defined"
+]) {
+  if (!contract.requirements.some((requirement) => requirement.code === code && requirement.state === "missing")) {
+    problems.push(`missing requirement not tracked: ${code}`);
   }
 }
 
 const source = fs.readFileSync(contractPath, "utf8");
 const required = [
-  "buildDataQualityScoreContract",
-  "DataQualityScoreContract",
   "buildRowCoverageContract",
-  "rowCoverage",
-  "canCountAsRealScoreEvidence: false",
-  "passThreshold: 80",
+  "RowCoverageContract",
+  "awardedPoints: 0",
+  "maxPoints: 20",
+  "status: \"not_ready\"",
   "publicDataSource: \"mock\"",
   "scoreSource: \"mock\"",
-  "freshness-metadata",
-  "row-coverage",
-  "field-validity",
-  "downgrade-rules",
-  "source-rights",
-  "public-disclosure",
-  "do not run SQL, write Supabase, ingest market data, change public source, or set scoreSource=real"
+  "symbol-universe-defined",
+  "coverage-window-defined",
+  "expected-row-policy-defined",
+  "missing-row-tolerance-defined",
+  "market-calendar-treatment-defined",
+  "do not fetch market data, run SQL, write Supabase, claim coverage, or set scoreSource=real"
 ];
 const forbidden = [
   "@supabase/supabase-js",
@@ -58,7 +53,8 @@ const forbidden = [
   ".update(",
   ".delete(",
   "writeFileSync",
-  "canCountAsRealScoreEvidence: true",
+  "awardedPoints: 20",
+  "status: \"approved\"",
   "publicDataSource: \"supabase\"",
   "scoreSource: \"real\""
 ];
@@ -74,13 +70,10 @@ console.log(
   JSON.stringify(
     {
       contract: {
-        canCountAsRealScoreEvidence: contract.canCountAsRealScoreEvidence,
-        factorCount: contract.factors.length,
-        passThreshold: contract.passThreshold,
-        publicDataSource: contract.publicDataSource,
-        rowCoverageStatus: contract.rowCoverage.status,
-        score: contract.score,
-        scoreSource: contract.scoreSource
+        awardedPoints: contract.awardedPoints,
+        maxPoints: contract.maxPoints,
+        requirementCount: contract.requirements.length,
+        status: contract.status
       },
       problems,
       status: problems.length === 0 ? "ok" : "blocked"

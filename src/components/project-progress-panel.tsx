@@ -33,6 +33,10 @@ export function ProjectProgressPanel() {
           Quality score contract: {progress.dataQualityScoreContract.score}/
           {progress.dataQualityScoreContract.passThreshold}; next {progress.dataQualityScoreContract.nextLift}
         </p>
+        <p>
+          Row coverage: {progress.dataQualityScoreContract.rowCoverage.status}; missing requirements{" "}
+          {progress.dataQualityScoreContract.rowCoverage.requirements.length}.
+        </p>
         <ul>
           {progress.dataQualityEvidenceGate.missingActions.slice(0, 4).map((action) => (
             <li key={action.code}>
