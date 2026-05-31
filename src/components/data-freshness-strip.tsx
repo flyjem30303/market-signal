@@ -1,6 +1,7 @@
 import type { DataFreshnessSnapshot } from "@/lib/data-freshness";
 import { getDataQualityDowngradeSummary } from "@/lib/data-quality-downgrade";
 import { getFreshnessInterpretationSummary } from "@/lib/freshness-interpretation";
+import { getFreshnessMetadataBoundarySummary } from "@/lib/freshness-metadata-boundary";
 import type { MarketSignalSourceStatus } from "@/lib/repositories/market-signal-repository";
 import { TrackedLink } from "@/components/tracked-link";
 
@@ -13,6 +14,7 @@ export function DataFreshnessStrip({ freshness, marketSignalSourceStatus }: Data
   const reachabilityLabel = freshness.isMock ? "模擬 metadata" : "Supabase metadata 可達";
   const dataQuality = getDataQualityDowngradeSummary(freshness);
   const interpretation = getFreshnessInterpretationSummary();
+  const metadataBoundary = getFreshnessMetadataBoundarySummary(freshness);
 
   return (
     <aside className={`freshness-strip ${freshness.state}`} aria-label="資料狀態">
@@ -42,6 +44,12 @@ export function DataFreshnessStrip({ freshness, marketSignalSourceStatus }: Data
         Data quality gate: {dataQuality.displayLabel} / {dataQuality.downgradeState}
       </span>
       <span className="freshness-boundary">{dataQuality.stopLine}</span>
+      <span className={`freshness-boundary freshness-metadata-boundary ${metadataBoundary.state}`}>
+        Metadata boundary: {metadataBoundary.state} / display{" "}
+        {metadataBoundary.canDisplayFreshnessMetadata ? "allowed" : "blocked"}
+      </span>
+      <span className="freshness-boundary">{metadataBoundary.allowedPublicClaim}</span>
+      <span className="freshness-boundary">{metadataBoundary.stopLine}</span>
       {marketSignalSourceStatus && <span className="freshness-boundary">{marketSignalSourceStatus.reason}</span>}
       <span className="freshness-description">{freshness.description}</span>
       <TrackedLink

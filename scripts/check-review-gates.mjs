@@ -1583,6 +1583,11 @@ const checks = [
     name: "freshness-readonly-smoke-report"
   },
   {
+    command: [node, "scripts/check-freshness-metadata-boundary.mjs"],
+    expectStatus: "ok",
+    name: "freshness-metadata-boundary"
+  },
+  {
     command: [node, "scripts/check-cp3-5pm-runtime-readiness-checkpoint.mjs"],
     expectStatus: "ok",
     name: "cp3-5pm-runtime-readiness-checkpoint"
