@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { CommercialSlot } from "@/components/commercial-slot";
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { PageViewTracker } from "@/components/page-view-tracker";
 import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
@@ -207,6 +208,8 @@ export default async function BriefingPage() {
           本晨報為模型摘要與資訊整理，不構成投資建議、買賣推薦或收益保證。所有分數仍需搭配個人風險承受度判斷。
         </p>
       </article>
+
+      <CommercialSlot context="briefing" />
     </main>
   );
 }

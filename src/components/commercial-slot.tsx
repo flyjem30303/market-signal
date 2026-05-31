@@ -1,12 +1,14 @@
 type CommercialSlotProps = {
-  context: "stock" | "weekly";
+  context: "briefing" | "stock" | "weekly";
 };
 
 export function CommercialSlot({ context }: CommercialSlotProps) {
   const copy =
     context === "stock"
       ? "未來此區可放置券商開戶、投資工具或資料服務合作，但不得影響本頁模型分數。"
-      : "未來此區可放置週報贊助、投資工具或理財書籍合作，但需清楚標示商業合作。";
+      : context === "briefing"
+        ? "未來此區可放置晨報贊助、投資工具或資料服務合作，但不得被包裝成今日買賣指令。"
+        : "未來此區可放置週報贊助、投資工具或理財書籍合作，但需清楚標示商業合作。";
 
   return (
     <aside className="commercial-slot" aria-label="商業合作揭露">
