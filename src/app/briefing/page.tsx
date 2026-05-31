@@ -33,6 +33,7 @@ export default async function BriefingPage() {
   const topEtf = etfs[0];
   const leadingAiSemi = aiSemis[0];
   const topRisk = heated[0];
+  const runtimePlan = buildBriefingRuntimePlan(market, breadth, concentration, topRisk);
 
   return (
     <main className="page-shell">
@@ -64,6 +65,21 @@ export default async function BriefingPage() {
         <DecisionPill label="可推進" text="閱讀節奏與 mock 體驗" tone="active" />
         <DecisionPill label="暫緩" text="真實資料切換與公開宣稱" tone="hold" />
         <DecisionPill label="封鎖" text="投資建議與 real score" tone="blocked" />
+      </section>
+
+      <section className="briefing-runtime-plan" aria-label="晨報執行順序">
+        <div>
+          <p className="eyebrow">Runtime Plan</p>
+          <h2>今天照這個順序讀</h2>
+          <p>把晨報壓縮成三個可執行閱讀動作：先判斷市場，再拆風險，最後才進個股或週報脈絡。</p>
+        </div>
+        {runtimePlan.map((item) => (
+          <a className={item.tone} href={item.href} key={item.label}>
+            <span>{item.label}</span>
+            <strong>{item.title}</strong>
+            <p>{item.text}</p>
+          </a>
+        ))}
       </section>
 
       <section className="briefing-reading-bridge" aria-label="晨報讀後路徑">
@@ -269,6 +285,47 @@ function BriefingBridgeLink({
       <p>{text}</p>
     </a>
   );
+}
+
+function buildBriefingRuntimePlan(
+  market: SignalSnapshot,
+  breadth: ReturnType<typeof buildMarketBreadth>,
+  concentration: ReturnType<typeof buildConcentrationSignal>,
+  topRisk: SignalSnapshot
+) {
+  const marketTone = market.riskScore >= 60 || breadth.defensive > breadth.constructive ? "hold" : "active";
+  const riskTone = topRisk.riskScore >= 70 ? "blocked" : "hold";
+  const concentrationTone = concentration.tone === "concentrated" ? "hold" : "active";
+
+  return [
+    {
+      href: `/stocks/${market.asset.symbol}`,
+      label: "第一步",
+      text:
+        marketTone === "active"
+          ? `市場綜合 ${market.compositeScore}/100，先確認多頭健康度是否支撐今日閱讀。`
+          : `市場風險 ${market.riskScore}/100，先確認大盤是否需要降速觀察。`,
+      title: marketTone === "active" ? "先看市場基準" : "先降速看市場",
+      tone: marketTone
+    },
+    {
+      href: `/stocks/${topRisk.asset.symbol}`,
+      label: "第二步",
+      text: `${topRisk.asset.symbol} 風險 ${topRisk.riskScore}/100，確認風險升溫是否集中在單一族群。`,
+      title: riskTone === "blocked" ? "優先拆高風險" : "再看風險清單",
+      tone: riskTone
+    },
+    {
+      href: concentrationTone === "hold" ? "#market-structure" : "/weekly",
+      label: "第三步",
+      text:
+        concentrationTone === "hold"
+          ? "強勢集中度偏高時，先回到市場結構，避免把少數標的當成整體市場。"
+          : "市場廣度尚可時，再進週報，把今天的訊號放到一週脈絡。",
+      title: concentrationTone === "hold" ? "確認集中度" : "接到週報脈絡",
+      tone: concentrationTone
+    }
+  ];
 }
 
 function MetricPanel({ label, value, text }: { label: string; value: string; text: string }) {

@@ -4764,6 +4764,72 @@ input[type="search"] {
   line-height: 1.55;
 }
 
+.briefing-runtime-plan {
+  display: grid;
+  grid-template-columns: minmax(280px, 1.15fr) repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+  margin: 0 0 16px;
+  padding: 16px;
+}
+
+.briefing-runtime-plan h2 {
+  margin: 0 0 8px;
+  font-size: 22px;
+  line-height: 1.25;
+}
+
+.briefing-runtime-plan p {
+  color: var(--muted);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.briefing-runtime-plan a {
+  display: grid;
+  gap: 8px;
+  align-content: start;
+  border: 1px solid var(--line);
+  border-top: 4px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel-muted);
+  color: var(--text);
+  min-height: 160px;
+  padding: 12px;
+  text-decoration: none;
+}
+
+.briefing-runtime-plan a.active {
+  border-top-color: var(--green);
+}
+
+.briefing-runtime-plan a.hold {
+  border-top-color: #d99a00;
+}
+
+.briefing-runtime-plan a.blocked {
+  border-top-color: var(--red);
+}
+
+.briefing-runtime-plan a:hover {
+  border-color: var(--blue);
+  background: #f8fbff;
+}
+
+.briefing-runtime-plan span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.briefing-runtime-plan strong {
+  font-size: 18px;
+  line-height: 1.28;
+}
+
 .briefing-reading-bridge {
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -5845,6 +5911,7 @@ input[type="date"] {
   .method-application-bridge,
   .method-application-bridge nav,
   .weekly-quick-read,
+  .briefing-runtime-plan,
   .weekly-reading-bridge,
   .weekly-reading-bridge nav,
   .weekly-grid,
