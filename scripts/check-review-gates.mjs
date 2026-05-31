@@ -1648,6 +1648,11 @@ const checks = [
     name: "row-coverage-remote-capable-runner-one-attempt-execution-decision-gate"
   },
   {
+    command: [node, "scripts/check-row-coverage-remote-capable-runner-one-attempt-post-run-review.mjs"],
+    expectStatus: "ok",
+    name: "row-coverage-remote-capable-runner-one-attempt-post-run-review"
+  },
+  {
     command: [node, "scripts/check-freshness-runtime-activation-state.mjs"],
     expectStatus: "ok",
     name: "freshness-runtime-activation-state"
