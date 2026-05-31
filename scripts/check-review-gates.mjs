@@ -1608,6 +1608,46 @@ const checks = [
     name: "row-coverage-readonly-one-attempt-post-run-review"
   },
   {
+    command: [node, "scripts/check-row-coverage-credential-loading-command-revision.mjs"],
+    expectStatus: "ok",
+    name: "row-coverage-credential-loading-command-revision"
+  },
+  {
+    command: [node, "scripts/check-row-coverage-revised-runner-second-one-attempt-execution-decision-gate.mjs"],
+    expectStatus: "ok",
+    name: "row-coverage-revised-runner-second-one-attempt-execution-decision-gate"
+  },
+  {
+    command: [node, "scripts/check-row-coverage-revised-runner-second-attempt-post-run-review.mjs"],
+    expectStatus: "ok",
+    name: "row-coverage-revised-runner-second-attempt-post-run-review"
+  },
+  {
+    command: [node, "scripts/check-row-coverage-remote-capable-runner-design-gate.mjs"],
+    expectStatus: "ok",
+    name: "row-coverage-remote-capable-runner-design-gate"
+  },
+  {
+    command: [node, "scripts/check-row-coverage-remote-capable-runner-design-gate-role-review.mjs"],
+    expectStatus: "ok",
+    name: "row-coverage-remote-capable-runner-design-gate-role-review"
+  },
+  {
+    command: [node, "scripts/check-row-coverage-remote-capable-runner-implementation-prep-safety-gate.mjs"],
+    expectStatus: "ok",
+    name: "row-coverage-remote-capable-runner-implementation-prep-safety-gate"
+  },
+  {
+    command: [node, "scripts/check-row-coverage-remote-capable-runner-local-implementation-review.mjs"],
+    expectStatus: "ok",
+    name: "row-coverage-remote-capable-runner-local-implementation-review"
+  },
+  {
+    command: [node, "scripts/check-row-coverage-remote-capable-runner-one-attempt-execution-decision-gate.mjs"],
+    expectStatus: "ok",
+    name: "row-coverage-remote-capable-runner-one-attempt-execution-decision-gate"
+  },
+  {
     command: [node, "scripts/check-freshness-runtime-activation-state.mjs"],
     expectStatus: "ok",
     name: "freshness-runtime-activation-state"

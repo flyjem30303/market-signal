@@ -51,14 +51,43 @@ if (failClosedJson) {
 }
 
 const requiredPhrases = [
+  "import { createClient } from \"@supabase/supabase-js\"",
   "const REQUIRED_CONFIRMATION = \"CP3_ROW_COVERAGE_READONLY_VALIDATE\"",
+  "const ALLOWED_SYMBOLS = [\"TWII\", \"0050\", \"006208\", \"2330\", \"2382\", \"2308\"]",
+  "const DOTENV_LOCAL_ALLOWED_KEYS = [",
+  "\"NEXT_PUBLIC_SUPABASE_URL\"",
+  "\"NEXT_PUBLIC_SUPABASE_ANON_KEY\"",
+  "\"SUPABASE_SERVICE_ROLE_KEY\"",
+  "\"NEXT_PUBLIC_DATA_SOURCE\"",
+  "const EXPECTED_SYMBOL_COUNT = 6",
+  "const REQUIRED_TRADING_SESSIONS = 60",
+  "const EXPECTED_TOTAL_ROWS = EXPECTED_SYMBOL_COUNT * REQUIRED_TRADING_SESSIONS",
   "process.env.ROW_COVERAGE_READONLY_VALIDATE_CONFIRMATION !== REQUIRED_CONFIRMATION",
+  "loadProcessEnvFromDotEnvLocal();",
+  "function loadProcessEnvFromDotEnvLocal()",
+  "path.join(root, \".env.local\")",
+  "fs.existsSync(envPath)",
+  "fs.readFileSync(envPath, \"utf8\")",
+  "if (!process.env[key] && parsed[key])",
+  "process.env[key] = parsed[key]",
+  "function parseDotEnv(text)",
+  "function normalizeDotEnvValue(value)",
   "reason: \"missing_confirmation\"",
   "remoteAttempted: false",
   "loadTsModule(\"src/lib/row-coverage-readonly-local-preflight.ts\")",
   "getRowCoverageReadonlyLocalPreflight(process.env)",
   "reason: \"preflight_blocked\"",
-  "reason: \"runner_skeleton_no_remote_execution\"",
+  "const remoteResult = await validateRemoteRowCoverage(preflight)",
+  "async function validateRemoteRowCoverage(preflight)",
+  "createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY",
+  "persistSession: false",
+  ".from(\"daily_prices\")",
+  ".select(\"symbol\", { count: \"exact\", head: true })",
+  ".eq(\"symbol\", symbol)",
+  "mode: \"row_coverage_readonly_remote_validation\"",
+  "calendarStatus: \"not_run\"",
+  "symbolsChecked: counts.map((item) => ({",
+  "remoteAttempted: true",
   "printSanitized({",
   "canAwardRowCoveragePoints: false",
   "canClaimCoverage: false",
@@ -72,16 +101,13 @@ const requiredPhrases = [
   "filesWritten: false"
 ];
 const forbiddenPatterns = [
-  /@supabase\/supabase-js/i,
-  /createClient/i,
   /fetch\s*\(/i,
-  /\.from\s*\(/i,
-  /\.select\s*\(/i,
   /\.insert\s*\(/i,
   /\.update\s*\(/i,
   /\.delete\s*\(/i,
   /\.upsert\s*\(/i,
   /\.rpc\s*\(/i,
+  /\.storage\b/i,
   /insert\s+into/i,
   /delete\s+from/i,
   /update\s+public\./i,
@@ -89,8 +115,11 @@ const forbiddenPatterns = [
   /drop\s+table/i,
   /alter\s+table/i,
   /create\s+table/i,
-  /NEXT_PUBLIC_SUPABASE_ANON_KEY/,
-  /SUPABASE_SERVICE_ROLE_KEY/
+  /console\.(log|error|warn)\([^)]*process\.env/i,
+  /writeFileSync/i,
+  /appendFileSync/i,
+  /slice\s*\(\s*0\s*,\s*\d+\s*\)/i,
+  /\.length\b.*(KEY|TOKEN|SECRET|SUPABASE)/i
 ];
 
 for (const phrase of requiredPhrases) {
@@ -98,6 +127,18 @@ for (const phrase of requiredPhrases) {
 }
 for (const pattern of forbiddenPatterns) {
   if (pattern.test(runner)) problems.push(`forbidden:${pattern}`);
+}
+
+const supabaseImportCount = (runner.match(/@supabase\/supabase-js/g) ?? []).length;
+const createClientCount = (runner.match(/\bcreateClient\b/g) ?? []).length;
+const targetRelationCount = (runner.match(/"daily_prices"/g) ?? []).length;
+if (supabaseImportCount !== 1) problems.push(`expected one approved Supabase import, got ${supabaseImportCount}`);
+if (createClientCount !== 2) problems.push(`expected createClient import and call only, got ${createClientCount}`);
+if (!runner.includes("persistSession: false")) problems.push("Supabase client must disable persistSession");
+if (targetRelationCount !== 1) problems.push(`expected one daily_prices target relation, got ${targetRelationCount}`);
+if (!runner.includes("head: true")) problems.push("row coverage query must remain head-only");
+if (runner.includes("runner_skeleton_no_remote_execution")) {
+  problems.push("runner skeleton reason must be removed after remote-capable implementation");
 }
 
 const packageRunScript = packageJson.scripts?.["run:row-coverage-readonly"];
