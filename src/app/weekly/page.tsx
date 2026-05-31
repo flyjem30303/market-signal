@@ -184,6 +184,9 @@ export default async function WeeklyPage() {
         <a className="text-link" href="/methodology">
           了解評分方法
         </a>
+        <a className="text-link" href="/disclaimer">
+          確認免責聲明
+        </a>
       </section>
 
       <article className="disclaimer">

@@ -253,6 +253,7 @@ export default async function BriefingPage() {
         <a className="text-link" href="/weekly">看本週週報</a>
         <a className="text-link" href="/methodology">了解評分方法論</a>
         <a className="text-link" href="/stocks/2330">查看 2330 台積電</a>
+        <a className="text-link" href="/disclaimer">確認免責聲明</a>
       </section>
 
       <article className="disclaimer">
