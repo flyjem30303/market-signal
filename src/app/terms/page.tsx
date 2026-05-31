@@ -32,6 +32,29 @@ export default function TermsPage() {
         </article>
       </section>
 
+      <section className="legal-runtime-boundary" aria-label="使用條款 runtime 使用規則">
+        <div>
+          <p className="eyebrow">Runtime Rules</p>
+          <h2>使用網站時先確認這三件事</h2>
+          <p>這些規則界定目前 mock 研究體驗的使用方式，正式商業化、會員與真實資料功能會另行補條款。</p>
+        </div>
+        <article className="allowed">
+          <span>可使用</span>
+          <strong>閱讀與比較</strong>
+          <p>可以瀏覽首頁、晨報、週報、方法論與個股頁，並用分數安排研究順序。</p>
+        </article>
+        <article className="caution">
+          <span>需自行判斷</span>
+          <strong>風險與部位</strong>
+          <p>任何標的、分數與內容都必須搭配個人財務狀況與風險承受度判斷。</p>
+        </article>
+        <article className="blocked">
+          <span>不可使用</span>
+          <strong>自動交易依據</strong>
+          <p>不得將網站內容直接作為交易指令、保證收益、代操依據或公開轉售宣稱。</p>
+        </article>
+      </section>
+
       <section className="panel legal-section">
         <h2>服務定位</h2>
         <p>
