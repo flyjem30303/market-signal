@@ -1,4 +1,5 @@
 import type { DataFreshnessSnapshot } from "@/lib/data-freshness";
+import { getFreshnessInterpretationSummary } from "@/lib/freshness-interpretation";
 import type { MarketSignalSourceStatus } from "@/lib/repositories/market-signal-repository";
 import { TrackedLink } from "@/components/tracked-link";
 
@@ -9,6 +10,7 @@ type DataFreshnessStripProps = {
 
 export function DataFreshnessStrip({ freshness, marketSignalSourceStatus }: DataFreshnessStripProps) {
   const reachabilityLabel = freshness.isMock ? "模擬 metadata" : "Supabase metadata 可達";
+  const interpretation = getFreshnessInterpretationSummary();
 
   return (
     <aside className={`freshness-strip ${freshness.state}`} aria-label="資料狀態">
@@ -29,6 +31,11 @@ export function DataFreshnessStrip({ freshness, marketSignalSourceStatus }: Data
         </span>
       )}
       <span className="freshness-boundary">Freshness metadata 不等於真實評分或資料品質核准</span>
+      <span className="freshness-boundary">
+        Freshness baseline: {interpretation.baselineObject} / data_freshness:{" "}
+        {interpretation.dataFreshnessObjectRole}
+      </span>
+      <span className="freshness-boundary">{interpretation.stopLine}</span>
       {marketSignalSourceStatus && <span className="freshness-boundary">{marketSignalSourceStatus.reason}</span>}
       <span className="freshness-description">{freshness.description}</span>
       <TrackedLink

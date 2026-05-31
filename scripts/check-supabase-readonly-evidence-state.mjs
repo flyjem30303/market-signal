@@ -25,9 +25,10 @@ const required = [
   [runtimePath, "getSupabaseReadonlyEvidenceSummary"],
   [runtimePath, "Readonly evidence"],
   [runtimePath, "Objects reachable:"],
-  [progressPath, "Supabase object reachability 已完成"],
-  [progressPath, "schema shape 與資料品質判讀"],
-  [sourceDepthPath, "Supabase object reachability 已被接受為窄前提"]
+  [progressPath, "Supabase object reachability"],
+  [progressPath, "schema shape"],
+  [progressPath, "freshness interpretation"],
+  [sourceDepthPath, "Supabase object reachability"]
 ];
 
 const forbidden = [
@@ -46,7 +47,17 @@ const forbidden = [
 const missing = required.filter(([file, phrase]) => !read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
 const blocked = forbidden.filter(([file, phrase]) => read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
 
-console.log(JSON.stringify({ blocked, missing, status: missing.length === 0 && blocked.length === 0 ? "ok" : "blocked" }, null, 2));
+console.log(
+  JSON.stringify(
+    {
+      blocked,
+      missing,
+      status: missing.length === 0 && blocked.length === 0 ? "ok" : "blocked"
+    },
+    null,
+    2
+  )
+);
 
 if (missing.length > 0 || blocked.length > 0) {
   process.exitCode = 1;

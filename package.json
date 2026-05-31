@@ -114,6 +114,7 @@
     "check:project-progress-score": "node scripts/check-project-progress-score.mjs",
     "check:runtime-readiness-panel": "node scripts/check-runtime-readiness-panel.mjs",
     "check:supabase-readonly-evidence-state": "node scripts/check-supabase-readonly-evidence-state.mjs",
+    "check:freshness-interpretation-state": "node scripts/check-freshness-interpretation-state.mjs",
     "check:home-runtime-status-panel": "node scripts/check-home-runtime-status-panel.mjs",
     "check:stock-runtime-at-a-glance": "node scripts/check-stock-runtime-at-a-glance.mjs",
     "check:trust-runtime-boundary-notice": "node scripts/check-trust-runtime-boundary-notice.mjs",

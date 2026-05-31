@@ -1558,6 +1558,11 @@ const checks = [
     name: "supabase-readonly-evidence-state"
   },
   {
+    command: [node, "scripts/check-freshness-interpretation-state.mjs"],
+    expectStatus: "ok",
+    name: "freshness-interpretation-state"
+  },
+  {
     command: [node, "scripts/check-cp3-5pm-runtime-readiness-checkpoint.mjs"],
     expectStatus: "ok",
     name: "cp3-5pm-runtime-readiness-checkpoint"

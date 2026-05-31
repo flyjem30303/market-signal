@@ -66,7 +66,7 @@ export function getRuntimeReadinessSummary(): RuntimeReadinessSummary {
     localPreflightCommand: "npm run report:supabase-readonly-preflight",
     localPreflightState: "本地 preflight 只檢查環境與安全開關，不連線、不印 secrets、不跑 SQL。",
     nextDecision:
-      "CEO 下一步改推 schema shape、freshness interpretation 與 UI state wiring；主資料源不切換、不寫資料、不升級公開宣稱。",
+      "CEO 下一步改推 schema shape、freshness interpretation 與 UI state wiring；freshness baseline 維持 data_runs，public source 維持 mock。",
     nextRemoteCommand: "npm run db:readonly-validate",
     score,
     status: "readying"
