@@ -2048,6 +2048,11 @@ const checks = [
     name: "supabase-readonly-validator-output-contract"
   },
   {
+    command: [node, "scripts/check-source-depth-blocker-panel.mjs"],
+    expectStatus: "ok",
+    name: "source-depth-blocker-panel"
+  },
+  {
     command: [node, "scripts/check-stock-decision-compass.mjs"],
     expectStatus: "ok",
     name: "stock-decision-compass"

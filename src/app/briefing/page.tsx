@@ -4,6 +4,7 @@ import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { PageViewTracker } from "@/components/page-view-tracker";
 import { ProjectProgressPanel } from "@/components/project-progress-panel";
 import { RuntimeReadinessPanel } from "@/components/runtime-readiness-panel";
+import { SourceDepthBlockerPanel } from "@/components/source-depth-blocker-panel";
 import { TrackedLink } from "@/components/tracked-link";
 import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
 import {
@@ -64,6 +65,7 @@ export default async function BriefingPage() {
 
       <ProjectProgressPanel />
       <RuntimeReadinessPanel />
+      <SourceDepthBlockerPanel />
 
       <nav aria-label="Briefing Compass" className="briefing-compass">
         <a href="#model-boundary">模型邊界</a>

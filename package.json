@@ -399,6 +399,7 @@
     "check:supabase-data-freshness-repository-behavior": "node scripts/check-supabase-data-freshness-repository-behavior.mjs",
     "check:freshness-state-ui": "node scripts/check-freshness-state-ui.mjs",
     "check:score-source-ui": "node scripts/check-score-source-ui.mjs",
+    "check:source-depth-blocker-panel": "node scripts/check-source-depth-blocker-panel.mjs",
     "check:stock-decision-compass": "node scripts/check-stock-decision-compass.mjs",
     "check:supabase-readonly-validator-output-contract": "node scripts/check-supabase-readonly-validator-output-contract.mjs",
     "check:tracking-events": "node scripts/check-tracking-events.mjs",
