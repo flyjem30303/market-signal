@@ -45,6 +45,7 @@ export function RuntimeReadinessPanel() {
             {executionPreview.manualApprovalRequired ? "required" : "not required"}; automated remote run{" "}
             {executionPreview.safety.automatedRemoteRun ? "enabled" : "disabled"}.
           </p>
+          <p>Stop first: {executionPreview.stopConditions[0]}.</p>
         </article>
         <article
           aria-label={`Runtime ${decision.recommendedWorkMix.runtime}% / Supabase readonly ${decision.recommendedWorkMix.supabaseReadonly}%`}

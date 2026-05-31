@@ -75,6 +75,8 @@ const required = [
   [componentPath, "runtime-preflight-status"],
   [componentPath, "CEO next move"],
   [componentPath, "automated remote run"],
+  [componentPath, "Stop first:"],
+  [componentPath, "executionPreview.stopConditions[0]"],
   [componentPath, "CEO decision packet"],
   [componentPath, "decision.recommendedWorkMix"],
   [componentPath, "decision.warningCount"],
