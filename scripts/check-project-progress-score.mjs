@@ -13,10 +13,11 @@ const required = [
   [progressPath, "export type ProjectProgressLane"],
   [progressPath, "getProjectProgressSummary"],
   [progressPath, "adjustedScore"],
-  [progressPath, "PM 估算目前進度約 44%"],
-  [progressPath, "受控 Supabase 唯讀遠端驗證與真實資料來源深度證據"],
-  [progressPath, "本地唯讀 preflight"],
-  [progressPath, "正式分數來源與模型可信度"],
+  [progressPath, "PM 估算目前整體開發進度"],
+  [progressPath, "受控 Supabase 唯讀遠端驗證後的來源深度證據"],
+  [progressPath, "本地唯讀 preflight 與輸出契約"],
+  [progressPath, "模型可信度與回測證據"],
+  [progressPath, "真實市場資料與 scoreSource=real 尚未開啟"],
   [componentPath, "ProjectProgressPanel"],
   [componentPath, "PM Progress Score"],
   [componentPath, "Project progress"],
@@ -29,7 +30,7 @@ const required = [
 
 const forbidden = [
   [progressPath, "adjustedScore: 100"],
-  [progressPath, "scoreSource=real 已完成"],
+  [progressPath, "scoreSource=real approved"],
   [componentPath, "connect Supabase"],
   [componentPath, "run SQL"],
   [componentPath, "fetch("]

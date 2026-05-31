@@ -16,13 +16,13 @@ const files = new Map(
 );
 
 const required = [
-  [summaryPath, "Runtime 前置可加速，主系統仍維持 mock-only"],
+  [summaryPath, "Runtime 正在進入受控實作前段，但仍維持 mock-only"],
   [summaryPath, "Supabase 唯讀 preflight"],
-  [summaryPath, "本地 preflight 可安全執行"],
+  [summaryPath, "本地 preflight 只檢查環境與安全開關"],
+  [summaryPath, "不連線、不印 secrets、不跑 SQL"],
   [summaryPath, "npm run report:supabase-readonly-preflight"],
   [summaryPath, "npm run db:readonly-validate"],
-  [summaryPath, "主資料源不切換、不寫資料"],
-  [summaryPath, "正式分數來源"],
+  [summaryPath, "模型與回測證據"],
   [preflightPath, "getSupabaseReadonlyLocalPreflight"],
   [preflightPath, "connectionAttempted: false"],
   [preflightPath, "secretsPrinted: false"],
@@ -93,7 +93,9 @@ const required = [
   [componentPath, "executionPreview.stopConditions.length"],
   [componentPath, "Local preflight status"],
   [componentPath, "ready for guarded decision"],
-  [componentPath, "目前不在自動 review gate 內執行"],
+  [componentPath, "不得由 UI 或 review gate 自動執行"],
+  [componentPath, "遠端唯讀驗證維持 blocked"],
+  [componentPath, "CEO 單次手動 gate"],
   [briefingPath, "import { RuntimeReadinessPanel }"],
   [briefingPath, "<RuntimeReadinessPanel />"],
   [cssPath, ".runtime-readiness-panel"],
@@ -104,7 +106,7 @@ const required = [
 ];
 
 const forbidden = [
-  [summaryPath, "scoreSource=real"],
+  [summaryPath, "scoreSource=real approved"],
   [summaryPath, "NEXT_PUBLIC_DATA_SOURCE=supabase"],
   [summaryPath, "DATA_FRESHNESS_SUPABASE_READS=enabled"],
   [preflightPath, "@supabase/supabase-js"],

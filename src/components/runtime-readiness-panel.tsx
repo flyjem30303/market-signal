@@ -30,7 +30,7 @@ export function RuntimeReadinessPanel() {
         <article>
           <span>Next guarded decision</span>
           <code>{readiness.nextRemoteCommand}</code>
-          <p>只有 CEO 開 gate 後才可執行；目前不在自動 review gate 內執行。</p>
+          <p>只作為 CEO 手動 gate 的命令提示；不得由 UI 或 review gate 自動執行。</p>
         </article>
       </div>
       <div className="runtime-preflight-status">
@@ -51,8 +51,8 @@ export function RuntimeReadinessPanel() {
           <strong>{preflight.status === "blocked" ? "blocked" : "ready for guarded decision"}</strong>
           <p>
             {preflight.status === "blocked"
-              ? `缺少 ${preflight.missingEnv.length} 個必要設定，遠端唯讀驗證仍不可開。`
-              : "必要設定存在，安全開關維持 disabled；CEO 可另開一次受控唯讀遠端驗證。"}
+              ? `缺少 ${preflight.missingEnv.length} 個必要環境值，遠端唯讀驗證維持 blocked。`
+              : "本地檢查已具備條件；安全開關仍預設 disabled，需 CEO 單次手動 gate。"}
           </p>
         </article>
         <article
