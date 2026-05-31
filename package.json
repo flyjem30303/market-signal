@@ -17,6 +17,7 @@
     "check:market-signal-source-boundary": "node scripts/check-market-signal-source-boundary.mjs",
     "check:market-signal-source-status": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/check-market-signal-source-status.mjs",
     "check:supabase-market-signal-repository-blocked": "node scripts/check-supabase-market-signal-repository-blocked.mjs",
+    "check:server-supabase-client-behavior": "node scripts/check-server-supabase-client-behavior.mjs",
     "check:raw-market-runtime-boundary": "node scripts/check-raw-market-runtime-boundary.mjs",
     "check:raw-market-loader-behavior": "node scripts/check-raw-market-loader-behavior.mjs",
     "check:internal-raw-market-api-behavior": "node scripts/check-internal-raw-market-api-behavior.mjs",

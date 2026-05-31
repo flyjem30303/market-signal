@@ -1958,6 +1958,11 @@ const checks = [
     name: "supabase-market-signal-repository-blocked"
   },
   {
+    command: [node, "scripts/check-server-supabase-client-behavior.mjs"],
+    expectStatus: "ok",
+    name: "server-supabase-client-behavior"
+  },
+  {
     command: [node, "scripts/check-raw-market-runtime-boundary.mjs"],
     expectStatus: "ok",
     name: "raw-market-runtime-boundary"
