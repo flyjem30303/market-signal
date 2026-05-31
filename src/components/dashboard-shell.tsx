@@ -426,6 +426,9 @@ function HomeProductOverview({
             <a className="outline-button" href="/briefing">
               查看晨報
             </a>
+            <a className="outline-button" href="/weekly">
+              看週報
+            </a>
             <button className="outline-button" onClick={() => onTab("trend")} type="button">
               看趨勢
             </button>
