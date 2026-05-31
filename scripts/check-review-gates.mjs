@@ -2028,6 +2028,11 @@ const checks = [
     name: "supabase-remote-validator-execution-boundary"
   },
   {
+    command: [node, "scripts/check-supabase-readonly-local-preflight.mjs"],
+    expectStatus: "ok",
+    name: "supabase-readonly-local-preflight"
+  },
+  {
     command: [node, "scripts/check-stock-decision-compass.mjs"],
     expectStatus: "ok",
     name: "stock-decision-compass"

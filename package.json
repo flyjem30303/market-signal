@@ -420,6 +420,7 @@
     "report:cp3-twse-stock-day-metadata": "node scripts/report-cp3-twse-stock-day-metadata-probe.mjs",
     "report:cp3-twse-stock-day-source-depth": "node scripts/report-cp3-twse-stock-day-source-depth-smoke.mjs",
     "report:cp3-twse-stock-day-controlled-dry-run": "node scripts/report-cp3-twse-stock-day-controlled-dry-run.mjs",
+    "report:supabase-readonly-preflight": "node scripts/report-supabase-readonly-local-preflight.mjs",
     "report:etf-source": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/report-etf-source-readiness.mjs",
     "report:etf-mis-smoke": "node scripts/report-etf-mis-smoke.mjs",
     "seed:data-runs": "node scripts/seed-data-runs-sql.mjs",
