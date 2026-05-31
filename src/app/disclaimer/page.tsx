@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { PageViewTracker } from "@/components/page-view-tracker";
 
 export const metadata: Metadata = {
   title: "投資免責聲明",
@@ -8,6 +9,7 @@ export const metadata: Metadata = {
 export default function DisclaimerPage() {
   return (
     <main className="page-shell">
+      <PageViewTracker eventName="disclaimer_page_viewed" payload={{ page: "disclaimer" }} />
       <section className="hero">
         <p className="eyebrow">Disclaimer</p>
         <h1>投資免責聲明</h1>

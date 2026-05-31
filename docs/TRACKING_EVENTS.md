@@ -12,7 +12,10 @@
 | `tab_changed` | 切換四大頁籤 | `symbol`, `tab` |
 | `stock_page_viewed` | 進入股票頁 | `symbol`, `name`, `signal` |
 | `briefing_page_viewed` | 進入晨報頁 | `page` |
+| `disclaimer_page_viewed` | 進入免責聲明頁 | `page` |
 | `methodology_page_viewed` | 進入方法論頁 | `page` |
+| `privacy_page_viewed` | 進入隱私權政策頁 | `page` |
+| `terms_page_viewed` | 進入使用條款頁 | `page` |
 | `weekly_page_viewed` | 進入週報頁 | `page` |
 | `news_date_changed` | 調整新聞日期 | `symbol`, `date` |
 
@@ -20,7 +23,7 @@
 
 - Helper：`src/lib/tracking.ts`
 - 股票頁與儀表板互動：`src/components/dashboard-shell.tsx`
-- 晨報、週報與方法論頁瀏覽：`src/components/page-view-tracker.tsx`
+- 晨報、週報、方法論與信任頁瀏覽：`src/components/page-view-tracker.tsx`
 
 ## 後續接正式分析工具
 

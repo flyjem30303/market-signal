@@ -5,7 +5,10 @@ export type TrackingEventName =
   | "tab_changed"
   | "stock_page_viewed"
   | "briefing_page_viewed"
+  | "disclaimer_page_viewed"
   | "methodology_page_viewed"
+  | "privacy_page_viewed"
+  | "terms_page_viewed"
   | "weekly_page_viewed"
   | "news_date_changed";
 
