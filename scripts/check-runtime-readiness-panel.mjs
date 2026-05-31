@@ -2,13 +2,14 @@ import fs from "node:fs";
 
 const summaryPath = "src/lib/runtime-readiness-score.ts";
 const decisionPath = "src/lib/supabase-readonly-decision.ts";
+const executionPreviewPath = "src/lib/supabase-readonly-execution-preview.ts";
 const preflightPath = "src/lib/supabase-readonly-local-preflight.ts";
 const componentPath = "src/components/runtime-readiness-panel.tsx";
 const briefingPath = "src/app/briefing/page.tsx";
 const cssPath = "src/app/globals.css";
 
 const files = new Map(
-  [summaryPath, decisionPath, preflightPath, componentPath, briefingPath, cssPath].map((file) => [
+  [summaryPath, decisionPath, executionPreviewPath, preflightPath, componentPath, briefingPath, cssPath].map((file) => [
     file,
     fs.readFileSync(file, "utf8")
   ])
@@ -37,6 +38,16 @@ const required = [
   [decisionPath, "connectionAttempted: false"],
   [decisionPath, "sqlExecuted: false"],
   [decisionPath, "mutations: false"],
+  [executionPreviewPath, "getSupabaseReadonlyExecutionPreview"],
+  [executionPreviewPath, "supabase_readonly_execution_preview"],
+  [executionPreviewPath, "ready_for_manual_ceo_run"],
+  [executionPreviewPath, "willRunRemoteValidator: false"],
+  [executionPreviewPath, "automatedRemoteRun: false"],
+  [executionPreviewPath, "scoreSourceRealEnabled: false"],
+  [executionPreviewPath, "connectionAttempted: false"],
+  [executionPreviewPath, "sqlExecuted: false"],
+  [executionPreviewPath, "mutations: false"],
+  [executionPreviewPath, "npm run db:readonly-validate"],
   [componentPath, "RuntimeReadinessPanel"],
   [componentPath, "Runtime Readiness"],
   [componentPath, "Runtime readiness"],
@@ -44,6 +55,9 @@ const required = [
   [componentPath, "runtime-preflight-status"],
   [componentPath, "CEO decision packet"],
   [componentPath, "decision.recommendedWorkMix"],
+  [componentPath, "Execution preview"],
+  [componentPath, "executionPreview.safety.automatedRemoteRun"],
+  [componentPath, "executionPreview.nextRemoteCommand"],
   [componentPath, "Local preflight status"],
   [componentPath, "ready for guarded decision"],
   [componentPath, "目前不在自動 review gate 內執行"],
@@ -74,6 +88,13 @@ const forbidden = [
   [decisionPath, ".insert("],
   [decisionPath, ".update("],
   [decisionPath, ".delete("],
+  [executionPreviewPath, "@supabase/supabase-js"],
+  [executionPreviewPath, "createClient"],
+  [executionPreviewPath, "fetch("],
+  [executionPreviewPath, ".from("],
+  [executionPreviewPath, ".insert("],
+  [executionPreviewPath, ".update("],
+  [executionPreviewPath, ".delete("],
   [componentPath, "fetch("],
   [componentPath, "createClient"],
   [componentPath, "process.env"]

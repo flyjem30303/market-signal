@@ -1,11 +1,13 @@
 import { getRuntimeReadinessSummary } from "@/lib/runtime-readiness-score";
 import { getSupabaseReadonlyDecision } from "@/lib/supabase-readonly-decision";
+import { getSupabaseReadonlyExecutionPreview } from "@/lib/supabase-readonly-execution-preview";
 import { getSupabaseReadonlyLocalPreflight } from "@/lib/supabase-readonly-local-preflight";
 
 export function RuntimeReadinessPanel() {
   const readiness = getRuntimeReadinessSummary();
   const preflight = getSupabaseReadonlyLocalPreflight();
   const decision = getSupabaseReadonlyDecision(preflight);
+  const executionPreview = getSupabaseReadonlyExecutionPreview(decision);
 
   return (
     <section className={`runtime-readiness-panel ${readiness.status}`} aria-label="Runtime readiness">
@@ -50,6 +52,17 @@ export function RuntimeReadinessPanel() {
             {preflight.status === "blocked"
               ? `缺少 ${preflight.missingEnv.length} 個必要設定，遠端唯讀驗證仍不可開。`
               : "必要設定存在，安全開關維持 disabled；CEO 可另開一次受控唯讀遠端驗證。"}
+          </p>
+        </article>
+        <article
+          aria-label={`Execution preview automated remote run ${executionPreview.safety.automatedRemoteRun ? "true" : "false"}`}
+          className={executionPreview.status === "blocked" ? "blocked" : "readying"}
+        >
+          <span>Execution preview</span>
+          <strong>{executionPreview.approvalStatus}</strong>
+          <p>
+            Automated remote run: {executionPreview.safety.automatedRemoteRun ? "true" : "false"}.
+            Command preview: {executionPreview.nextRemoteCommand ?? "blocked"}.
           </p>
         </article>
         {preflight.boundaries.map((boundary) => (
