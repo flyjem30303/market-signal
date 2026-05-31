@@ -67,13 +67,7 @@ export type Cp3MockOnlySourceDepthEvidenceItem = {
   state: Cp3MockOnlyApprovalState;
 };
 
-export type Cp3MockOnlySourceDepthEvidenceProgress = {
-  blockedCount: number;
-  label: string;
-  nextFocus: string;
-  readyCount: number;
-  totalCount: number;
-};
+export type Cp3MockOnlySourceDepthEvidenceProgress = Cp3MockOnlyUpgradeProgress;
 
 export type Cp3MockOnlyFastFollowGate = {
   gate: string;
@@ -274,35 +268,35 @@ export type Cp3MockOnlyRuntimeCommandCenter = {
 
 export const cp3MockOnlyUiCopyTokens: Record<Cp3MockOnlyDisplayState, Cp3MockOnlyUiCopyToken> = {
   mock: {
-    claimLimit: "目前只可作為產品體驗與閱讀流程示範，不能作為投資判斷、建議或績效保證。",
-    disclosure: "分數來源仍是 mock；runtime 只使用本地雙層契約概念，不連外部資料庫、不讀取真實市場資料，也不表示來源深度已完成。",
+    claimLimit: "只能說明目前是 mock 訊號體驗，不能宣稱正式分數、投資建議或真實市場資料已完成。",
+    disclosure: "目前前台仍使用 mock 訊號。即使部分 freshness metadata 可讀，也不代表資料品質、來源深度或模型分數已正式核准。",
     label: "Mock runtime",
-    shortDescription: "這是 mock-only runtime 狀態，協助使用者理解畫面與資料邊界，尚未進入正式資料或公開宣稱階段。"
+    shortDescription: "本區塊只顯示本地 mock-only runtime 狀態，協助 CEO/PM 看清楚哪些路徑可做、哪些仍需另外授權。"
   },
   partial: {
-    claimLimit: "部分資料條件尚未完整，所有解讀都必須保留折扣，不能升級為正式模型結論。",
-    disclosure: "目前仍是 mock-only 狀態；資料品質為 partial，來源深度、權利與公開宣稱仍維持 not_ready。",
-    label: "資料部分就緒",
-    shortDescription: "部分欄位或驗證條件仍未齊備，畫面可用來檢查流程，但不能把分數視為可信訊號。"
+    claimLimit: "可以呈現資料不完整狀態，但不能把 partial 解讀為可投資或可發布的正式訊號。",
+    disclosure: "資料狀態為 partial。這只是 runtime 降級標記，來源深度、權利、回測與公開宣稱仍是 not_ready。",
+    label: "資料部分可用",
+    shortDescription: "有些 metadata 或本地資料可用，但仍不足以支撐真實分數或公開市場判斷。"
   },
   stale: {
-    claimLimit: "新鮮度未滿足前，不可把畫面解讀成即時、正式或可交易的資訊。",
-    disclosure: "目前資料新鮮度為 stale；即使畫面可瀏覽，仍維持 mock-only 與 not_ready 邊界。",
-    label: "資料新鮮度不足",
-    shortDescription: "資料時間狀態需要更新或重新驗證，runtime 只能呈現保守提醒。"
+    claimLimit: "可以提醒資料過期，但不能用 stale 資料支撐正式訊號、回測結論或公開建議。",
+    disclosure: "資料狀態為 stale。系統必須降級顯示並維持 mock-only 邊界。",
+    label: "資料過期",
+    shortDescription: "runtime 偵測到資料時間落後，所有正式資料與分數轉換仍需停在 gate 前。"
   },
   unavailable: {
-    claimLimit: "必要資料狀態不可用時，頁面不得暗示模型可信、資料完整或已完成審核。",
-    disclosure: "目前缺少必要 runtime 狀態來源；畫面必須維持 mock-only disclosure，並等待後續 gate 補齊。",
-    label: "資料狀態不可用",
-    shortDescription: "runtime 缺少足夠資訊可安全分類，因此只能顯示不可用與待審核狀態。"
+    claimLimit: "不能展示正式資料推論，僅能顯示 mock-only 與不可用狀態。",
+    disclosure: "資料狀態不可用。前台必須維持 mock-only 說明，並避免使用者誤認為正式市場訊號。",
+    label: "資料不可用",
+    shortDescription: "runtime 沒有足夠資料可支撐正式解讀，必須停在本地 mock-only 模式。"
   }
 };
 
 export function getMockOnlyPublicDisplayState(state: Cp3MockOnlyRuntimeState): Cp3MockOnlyDisplayState {
   if (state.dataQualityState === "unavailable") return "unavailable";
   if (state.dataQualityState === "stale") return "stale";
-  if (state.dataQualityState === "partial" && state.freshnessState === "unknown") return "partial";
+  if (state.dataQualityState === "partial") return "partial";
 
   return "mock";
 }
@@ -310,19 +304,11 @@ export function getMockOnlyPublicDisplayState(state: Cp3MockOnlyRuntimeState): C
 export function getMockOnlyRuntimeUpgradeRequirements(
   state: Cp3MockOnlyRuntimeState
 ): Cp3MockOnlyUpgradeRequirement[] {
-  const requirements: Cp3MockOnlyUpgradeRequirement[] = [
-    {
-      id: "score-source",
-      label: "正式分數來源",
-      nextAction: "完成真實分數口徑與投資宣稱審核",
-      owner: "Investment",
-      sequence: 4,
-      state: state.scoreSource
-    },
+  return [
     {
       id: "source-depth",
       label: "來源深度",
-      nextAction: "補齊來源深度證據與資料覆蓋率",
+      nextAction: "補齊資料來源、欄位、更新頻率、缺漏與降級規則。",
       owner: "Data",
       sequence: 1,
       state: state.sourceDepthState
@@ -330,70 +316,58 @@ export function getMockOnlyRuntimeUpgradeRequirements(
     {
       id: "source-rights",
       label: "來源權利",
-      nextAction: "確認資料授權、保存目的與公開揭露限制",
+      nextAction: "確認資料使用、公開展示、再散布與商用限制。",
       owner: "Legal",
       sequence: 2,
       state: state.sourceRightsState
     },
     {
       id: "backtest",
-      label: "回測審核",
-      nextAction: "完成回測方法、品質降級與可重跑證據",
+      label: "回測可信度",
+      nextAction: "建立可重跑、可解釋、可降級的回測檢查。",
       owner: "Engineering",
       sequence: 3,
       state: state.backtestApprovalState
     },
     {
+      id: "score-source",
+      label: "分數來源",
+      nextAction: "投資角色確認模型證據前，scoreSource 必須維持 mock。",
+      owner: "Investment",
+      sequence: 4,
+      state: state.scoreSource
+    },
+    {
       id: "public-claim",
       label: "公開宣稱",
-      nextAction: "彙整角色意見並核准是否可公開表述",
+      nextAction: "CEO 只在資料、法務、回測、模型都通過後核准公開宣稱。",
       owner: "CEO",
       sequence: 5,
       state: state.claimApprovalState
     }
   ];
-
-  return requirements.sort((a, b) => a.sequence - b.sequence);
 }
 
-export function getMockOnlyRuntimeUpgradeVerdict(state: Cp3MockOnlyRuntimeState): Cp3MockOnlyUpgradeVerdict {
-  const requirements = getMockOnlyRuntimeUpgradeRequirements(state);
-  const unexpectedRequirementCount = requirements.filter(
-    (requirement) => requirement.state !== "mock" && requirement.state !== "not_ready"
-  ).length;
-
-  if (unexpectedRequirementCount > 0) {
-    return {
-      label: "禁止自動升級",
-      reason: "仍存在非正式 runtime 狀態，必須回到 CEO/PM gate 重新檢查。",
-      state: "blocked"
-    };
-  }
-
+export function getMockOnlyRuntimeUpgradeVerdict(): Cp3MockOnlyUpgradeVerdict {
   return {
-    label: "禁止自動升級",
-    reason: "所有升級前置條件仍是 mock 或 not_ready；CP3 必須維持 mock-only。",
+    label: "升級結論",
+    reason: "所有正式化條件仍未完成，因此 runtime 只能保持 mock-only。",
     state: "blocked"
   };
 }
 
 export function getMockOnlyRuntimeUpgradeProgress(state: Cp3MockOnlyRuntimeState): Cp3MockOnlyUpgradeProgress {
   const requirements = getMockOnlyRuntimeUpgradeRequirements(state);
-  const nextBlockedRequirement = requirements.find(
-    (requirement) => requirement.state === "mock" || requirement.state === "not_ready"
-  );
-  const blockedCount = requirements.filter(
-    (requirement) => requirement.state === "mock" || requirement.state === "not_ready"
-  ).length;
-  const readyCount = requirements.length - blockedCount;
+  const blockedCount = requirements.filter((requirement) => requirement.state === "mock" || requirement.state === "not_ready").length;
+  const nextBlockedRequirement = requirements.find((requirement) => requirement.state === "mock" || requirement.state === "not_ready");
 
   return {
     blockedCount,
-    label: `已就緒 ${readyCount} / ${requirements.length}；待解除 ${blockedCount}`,
+    label: `升級條件 ${requirements.length - blockedCount} / ${requirements.length} 完成，${blockedCount} 項仍阻擋`,
     nextFocus: nextBlockedRequirement
-      ? `下一個解除重點：${nextBlockedRequirement.owner} / ${nextBlockedRequirement.label}`
-      : "下一個解除重點：等待 CEO 最終核准",
-    readyCount,
+      ? `下一個焦點：${nextBlockedRequirement.owner} / ${nextBlockedRequirement.label}`
+      : "等待 CEO 開啟下一個外部資料 gate",
+    readyCount: requirements.length - blockedCount,
     totalCount: requirements.length
   };
 }
@@ -401,32 +375,20 @@ export function getMockOnlyRuntimeUpgradeProgress(state: Cp3MockOnlyRuntimeState
 export function getMockOnlySourceDepthEvidenceItems(): Cp3MockOnlySourceDepthEvidenceItem[] {
   return [
     {
-      acceptance: "列出目標市場、資產類型、資料頻率與缺漏比例",
-      label: "來源覆蓋率",
+      acceptance: "列出資料來源、官方文件或可驗證欄位，不使用實際市場列資料。",
+      label: "來源清單",
       owner: "Data",
       state: "not_ready"
     },
     {
-      acceptance: "標明可用起訖日、交易日缺口與補洞策略",
-      label: "歷史期間完整度",
+      acceptance: "描述欄位意義、時間範圍與缺值處理，先停在本地文件與檢查器。",
+      label: "欄位契約",
       owner: "Data",
       state: "not_ready"
     },
     {
-      acceptance: "定義每個欄位來源、轉換規則與不可轉換欄位",
-      label: "欄位血緣與轉換規則",
-      owner: "Data",
-      state: "not_ready"
-    },
-    {
-      acceptance: "證明連續更新規則、延遲容忍與 stale 判斷",
-      label: "新鮮度連續性",
-      owner: "Data",
-      state: "not_ready"
-    },
-    {
-      acceptance: "定義異常值、停牌、缺價與重跑後處理規則",
-      label: "異常與缺口處理規則",
+      acceptance: "定義 partial、stale、unavailable 的降級條件。",
+      label: "資料品質降級",
       owner: "Data",
       state: "not_ready"
     }
@@ -434,17 +396,14 @@ export function getMockOnlySourceDepthEvidenceItems(): Cp3MockOnlySourceDepthEvi
 }
 
 export function getMockOnlySourceDepthEvidenceProgress(): Cp3MockOnlySourceDepthEvidenceProgress {
-  const evidenceItems = getMockOnlySourceDepthEvidenceItems();
-  const blockedCount = evidenceItems.filter((item) => item.state === "not_ready").length;
-  const readyCount = evidenceItems.length - blockedCount;
-  const nextBlockedItem = evidenceItems.find((item) => item.state === "not_ready");
+  const items = getMockOnlySourceDepthEvidenceItems();
 
   return {
-    blockedCount,
-    label: `來源深度驗收 ${readyCount} / ${evidenceItems.length}；待補 ${blockedCount}`,
-    nextFocus: nextBlockedItem ? `下一個待補：${nextBlockedItem.label}` : "來源深度驗收項目已可進入人工審核",
-    readyCount,
-    totalCount: evidenceItems.length
+    blockedCount: items.length,
+    label: `來源深度證據 0 / ${items.length} 完成`,
+    nextFocus: `下一個焦點：${items[0].label}`,
+    readyCount: 0,
+    totalCount: items.length
   };
 }
 
@@ -454,57 +413,45 @@ export function getMockOnlyFastFollowGates(): Cp3MockOnlyFastFollowGate[] {
       gate: "source-depth-evidence",
       label: "來源深度證據",
       owner: "Data",
-      reason: "需補齊覆蓋率、期間、欄位血緣、新鮮度與異常處理證據",
+      reason: "真實資料前必須先知道來源、欄位、頻率與缺漏處理。",
       state: "blocked"
     },
     {
       gate: "source-rights-review",
-      label: "來源權利審核",
+      label: "來源權利覆核",
       owner: "Legal",
-      reason: "需確認資料保存、再散布、公開揭露與商用限制",
+      reason: "公開展示與商用限制未確認前，不擴大資料使用。",
       state: "blocked"
     },
     {
       gate: "supabase-readonly-validation",
       label: "Supabase 唯讀驗證",
       owner: "Engineering",
-      reason: "需 CEO 開啟單次唯讀驗證窗口，且不得寫入資料列",
+      reason: "需要 CEO 另外開啟精準的一次性唯讀驗證 gate。",
       state: "blocked"
     },
     {
       gate: "score-source-transition",
-      label: "正式分數切換",
+      label: "scoreSource 轉換",
       owner: "Investment",
-      reason: "需完成真實資料、模型、回測、法務與投資宣稱審核",
+      reason: "模型、回測與來源證據未完成前，不能設定 scoreSource=real。",
       state: "blocked"
     },
     {
       gate: "public-claim-release",
       label: "公開宣稱發布",
       owner: "CEO",
-      reason: "需完成角色覆核與董事長授權邊界確認",
+      reason: "公開文案必須與 runtime 狀態一致，不能超前宣稱正式能力。",
       state: "blocked"
     }
   ];
 }
 
-export function getMockOnlyRuntimeRouteDecision(
-  state: Cp3MockOnlyRuntimeState
-): Cp3MockOnlyRuntimeRouteDecision {
-  if (state.scoreSource === "mock" && state.sourceDepthState === "not_ready") {
-    return {
-      label: "下一步：本地 mock-only refinement",
-      nextAction: "優先強化本地 runtime 顯示、靜態 guard 與審核路線；外部資料動作維持 gated。",
-      reason: "來源深度、來源權利、回測、公開宣稱與正式分數切換條件尚未解除。",
-      route: "local_mock_only_refinement",
-      state: "blocked"
-    };
-  }
-
+export function getMockOnlyRuntimeRouteDecision(): Cp3MockOnlyRuntimeRouteDecision {
   return {
-    label: "下一步：本地 mock-only refinement",
-    nextAction: "停止升級並交回 CEO/PM gate 重新判斷。",
-    reason: "runtime 狀態出現非預期組合，不能自動升級。",
+    label: "目前路線：local mock-only refinement",
+    nextAction: "先強化本地 runtime 顯示、靜態檢查與降級規則，再由 CEO 決定是否開外部資料 gate。",
+    reason: "Supabase、SQL、真實市場資料與正式分數仍需單獨授權。",
     route: "local_mock_only_refinement",
     state: "blocked"
   };
@@ -513,42 +460,26 @@ export function getMockOnlyRuntimeRouteDecision(
 export function getMockOnlyRuntimeRouteWorkQueue(): Cp3MockOnlyRuntimeRouteWorkItem[] {
   return [
     {
-      acceptance: "畫面、copy 與靜態 gate 都保留 mock-only / not_ready / blocked 語意",
+      acceptance: "前台能清楚顯示 mock-only、not_ready、blocked，不再出現亂碼或誤導字眼。",
       id: "local-runtime-copy-review",
-      label: "本地 runtime 文案確認",
-      nextAction: "確認 mock-only、not_ready、gated fast-follow 文案一致",
+      label: "Runtime 文案清理",
+      nextAction: "PM 先把可見 runtime 文案修到可讀、可決策。",
       owner: "PM",
       state: "blocked"
     },
     {
-      acceptance: "五項來源深度證據只建立草稿與缺口，不貼入真實市場資料",
-      id: "source-depth-evidence-prep",
-      label: "來源深度證據準備",
-      nextAction: "補齊五項來源深度驗收證據草稿，仍不接真實資料",
-      owner: "Data",
-      state: "blocked"
-    },
-    {
-      acceptance: "唯讀驗證指令、環境與停止條件整理完成，但不連線執行",
-      id: "readonly-validation-window",
-      label: "唯讀驗證窗口準備",
-      nextAction: "準備單次唯讀驗證前置檢查，尚不執行遠端連線",
+      acceptance: "檢查器能阻擋 scoreSource=real、Supabase runtime import、SQL 或市場資料寫入暗門。",
+      id: "local-static-guard",
+      label: "本地靜態防線",
+      nextAction: "Engineering 收斂 guard，不再新增低價值治理切片。",
       owner: "Engineering",
       state: "blocked"
     },
     {
-      acceptance: "授權、保存、再散布與公開揭露問題已整理成董事長可口頭審核項目",
-      id: "rights-review-question",
-      label: "來源權利問題整理",
-      nextAction: "整理授權、保存、再散布與公開揭露待答問題",
-      owner: "Legal",
-      state: "blocked"
-    },
-    {
-      acceptance: "公開宣稱仍停在 mock-only，不含正式分數、投資建議或績效暗示",
-      id: "claim-boundary-review",
-      label: "宣稱邊界覆核",
-      nextAction: "確認公開文案仍不得使用正式分數或投資宣稱",
+      acceptance: "下一個外部資料 gate 只允許一個精準命令、一個目的、一個回報格式。",
+      id: "external-gate-prep",
+      label: "外部資料 gate 準備",
+      nextAction: "CEO 決定何時開 Supabase 唯讀或來源深度工作。",
       owner: "CEO",
       state: "blocked"
     }
@@ -556,80 +487,61 @@ export function getMockOnlyRuntimeRouteWorkQueue(): Cp3MockOnlyRuntimeRouteWorkI
 }
 
 export function getMockOnlyRuntimeRouteWorkProgress(): Cp3MockOnlyRuntimeRouteWorkProgress {
-  const workItems = getMockOnlyRuntimeRouteWorkQueue();
-  const blockedCount = workItems.filter((item) => item.state === "blocked").length;
-  const completeCount = workItems.length - blockedCount;
-  const nextBlockedItem = workItems.find((item) => item.state === "blocked");
+  const queue = getMockOnlyRuntimeRouteWorkQueue();
 
   return {
-    blockedCount,
-    completeCount,
-    label: `PM route work ${completeCount} / ${workItems.length} complete; blocked ${blockedCount}`,
-    nextFocus: nextBlockedItem
-      ? `下一個本地工作：${nextBlockedItem.owner} / ${nextBlockedItem.label}`
-      : "PM route work 全部完成後仍需 CEO 另行開 gate",
-    totalCount: workItems.length
+    blockedCount: queue.length,
+    completeCount: 0,
+    label: `PM route work 0 / ${queue.length} complete`,
+    nextFocus: `${queue[0].owner}: ${queue[0].label}`,
+    totalCount: queue.length
   };
 }
 
 export function getMockOnlyRuntimeMetadataDisclosure(
   state: Cp3MockOnlyRuntimeState
 ): Cp3MockOnlyRuntimeMetadataDisclosure {
-  if (state.metadataReachabilityState === "supabase_metadata_reachable") {
-    return {
-      label: "Supabase metadata 可達",
-      note: "這只代表 freshness metadata 可讀；不代表資料品質已核准、來源深度已完成或正式分數切換已通過。",
-      state: state.metadataReachabilityState
-    };
-  }
-
-  return {
-    label: "模擬 metadata",
-    note: "目前仍使用本地 mock freshness；runtime 只能呈現產品流程與邊界。",
-    state: state.metadataReachabilityState
-  };
+  return state.metadataReachabilityState === "supabase_metadata_reachable"
+    ? {
+        label: "Supabase metadata 可讀",
+        note: "這只代表 freshness metadata 有機會被讀到，不代表市場資料完整、正確或可公開宣稱。",
+        state: state.metadataReachabilityState
+      }
+    : {
+        label: "Mock metadata",
+        note: "目前顯示 mock freshness metadata，前台不可暗示真實資料已接上。",
+        state: state.metadataReachabilityState
+      };
 }
 
 export function getMockOnlyRuntimeSchemaShapeDisclosure(
   state: Cp3MockOnlyRuntimeState
 ): Cp3MockOnlyRuntimeSchemaShapeDisclosure {
-  if (state.schemaShapeState === "schema_shape_checked_not_quality") {
-    return {
-      label: "Schema shape 已有窄證據",
-      note: "這只代表物件與欄位形狀已有窄範圍證據；不代表 row completeness、historical depth、source rights、資料品質或正式分數可使用。",
-      state: state.schemaShapeState
-    };
-  }
-
-  return {
-    label: "Schema shape 僅本地契約",
-    note: "目前只可依本地 contract 呈現 UI；未形成遠端 schema shape 依賴。",
-    state: state.schemaShapeState
-  };
+  return state.schemaShapeState === "schema_shape_checked_not_quality"
+    ? {
+        label: "Schema shape 已檢查",
+        note: "schema shape 只代表欄位形狀可比對，不代表 row completeness、來源權利或資料品質。",
+        state: state.schemaShapeState
+      }
+    : {
+        label: "Schema shape 本地契約",
+        note: "目前只使用本地契約，尚未作為正式資料品質依據。",
+        state: state.schemaShapeState
+      };
 }
 
 export function getMockOnlyRuntimeDataQualityDisclosure(
   state: Cp3MockOnlyRuntimeState
 ): Cp3MockOnlyRuntimeDataQualityDisclosure {
-  if (state.dataQualityState === "partial") {
-    return {
-      label: "資料品質折扣：partial",
-      note: "部分資料條件缺口仍需降級解讀；不得把 UI 分數或模組文字視為正式模型結論。",
-      state: state.dataQualityState
-    };
-  }
-
-  if (state.dataQualityState === "stale") {
-    return {
-      label: "資料品質折扣：stale",
-      note: "資料時間狀態不足，所有呈現只能作為延遲或待更新提醒，不可暗示即時可用。",
-      state: state.dataQualityState
-    };
-  }
+  const notes: Record<Cp3MockOnlyDataQualityState, string> = {
+    partial: "部分資料可用，但不足以支撐正式訊號或投資判斷。",
+    stale: "資料時間落後，必須降級顯示並停止正式解讀。",
+    unavailable: "資料不可用，只能顯示 mock-only runtime 邊界。"
+  };
 
   return {
-    label: "資料品質折扣：unavailable",
-    note: "必要資料品質條件不可用；runtime 必須維持 mock-only，且不得形成正式分數或公開宣稱。",
+    label: `資料品質：${state.dataQualityState}`,
+    note: notes[state.dataQualityState],
     state: state.dataQualityState
   };
 }
@@ -640,27 +552,27 @@ export function getMockOnlyRuntimeReadinessTriad(state: Cp3MockOnlyRuntimeState)
       id: "metadata",
       interpretation:
         state.metadataReachabilityState === "supabase_metadata_reachable"
-          ? "metadata 可讀，但不能推論市場資料品質或正式分數"
-          : "metadata 仍使用 mock，僅能展示流程",
+          ? "metadata 可讀，但不能推論資料品質。"
+          : "metadata 仍是 mock。不能宣稱已接真實資料。",
       label: "Metadata reachability",
-      nextGate: "維持 freshness metadata 與資料品質 gate 分離",
+      nextGate: "metadata / quality separation",
       state: "blocked"
     },
     {
       id: "schema_shape",
       interpretation:
         state.schemaShapeState === "schema_shape_checked_not_quality"
-          ? "schema shape 有窄證據，但不能推論 row completeness 或 source rights"
-          : "schema shape 仍依本地契約呈現",
+          ? "schema shape 可比對，但不能推論完整性或權利。"
+          : "schema shape 仍停在本地契約。",
       label: "Schema shape",
-      nextGate: "完成遠端物件 contract 對齊後仍需資料品質與權利覆核",
+      nextGate: "schema contract alignment",
       state: "blocked"
     },
     {
       id: "data_quality",
-      interpretation: `資料品質目前是 ${state.dataQualityState}；所有分數仍需折扣解讀`,
+      interpretation: `目前資料品質狀態是 ${state.dataQualityState}。`,
       label: "Data quality downgrade",
-      nextGate: "完成資料品質矩陣、來源深度、回測與投資宣稱覆核",
+      nextGate: "data quality role review",
       state: "blocked"
     }
   ];
@@ -669,46 +581,26 @@ export function getMockOnlyRuntimeReadinessTriad(state: Cp3MockOnlyRuntimeState)
 export function getMockOnlyMetadataQualitySeparationGuard(
   state: Cp3MockOnlyRuntimeState
 ): Cp3MockOnlyMetadataQualitySeparationGuard {
-  const isMetadataReachable = state.metadataReachabilityState === "supabase_metadata_reachable";
-
   return {
     allowedClaims: [
-      isMetadataReachable
-        ? "可說 freshness metadata 已由既有唯讀 runtime path 讀到"
-        : "可說 freshness metadata 目前仍由 mock fallback 呈現",
-      "可說資料品質仍需另走資料品質矩陣、來源深度與角色覆核",
-      "可說分數、模型文字與公開宣稱仍維持折扣解讀"
+      state.metadataReachabilityState === "supabase_metadata_reachable" ? "可以說 metadata 可讀。" : "可以說 metadata 仍是 mock。",
+      "可以說資料品質仍需 Data / Investment 覆核。",
+      "可以說 scoreSource 仍是 mock。"
     ],
-    blockedClaims: [
-      "不可說 metadata 可讀代表市場資料正確、完整或即時",
-      "不可說 metadata 可讀代表資料品質核准、來源權利完成或回測成立",
-      "不可說 metadata 可讀代表正式分數或投資宣稱可切換"
-    ],
+    blockedClaims: ["不能說 metadata 可讀等於資料可用。", "不能說已完成正式資料接軌。", "不能說可公開投資建議。"],
     label: "Metadata / quality guard",
-    nextGate: "PM 維持 UI copy、guard 與角色語言一致；Data 另行補資料品質證據。",
+    nextGate: "PM 需保持 metadata 與資料品質分離顯示。",
     owner: "PM",
     state: "blocked"
   };
 }
 
-export function getMockOnlySchemaContractGuard(state: Cp3MockOnlyRuntimeState): Cp3MockOnlySchemaContractGuard {
-  const isSchemaShapeChecked = state.schemaShapeState === "schema_shape_checked_not_quality";
-
+export function getMockOnlySchemaContractGuard(): Cp3MockOnlySchemaContractGuard {
   return {
-    allowedClaims: [
-      isSchemaShapeChecked
-        ? "可說 schema shape 已有窄範圍物件與欄位形狀證據"
-        : "可說 schema shape 目前仍只依本地 contract 呈現",
-      "可說 schema contract 只支援 UI 邊界揭露與未來 validator 對齊",
-      "可說資料品質、來源權利、歷史深度與模型可信度仍需獨立 gate"
-    ],
-    blockedClaims: [
-      "不可說 schema shape 代表 row completeness、historical depth 或連續更新已成立",
-      "不可說 schema shape 代表 source rights、redistribution 或公開揭露限制已完成",
-      "不可說 schema shape 代表資料品質、正式分數或投資宣稱可切換"
-    ],
+    allowedClaims: ["可以說 schema contract 可本地檢查。", "可以說 schema shape 不是資料品質證明。"],
+    blockedClaims: ["不能說 schema shape 等於 row completeness。", "不能說 schema shape 等於來源權利核准。"],
     label: "Schema contract guard",
-    nextGate: "Engineering 維持 schema shape 與 row/data/source gates 分離；Data 與 Legal 另行補證據。",
+    nextGate: "Engineering 需維持 schema、資料品質與權利的邊界。",
     owner: "Engineering",
     state: "blocked"
   };
@@ -717,22 +609,12 @@ export function getMockOnlySchemaContractGuard(state: Cp3MockOnlyRuntimeState): 
 export function getMockOnlyDataQualityRoleReviewGuard(
   state: Cp3MockOnlyRuntimeState
 ): Cp3MockOnlyDataQualityRoleReviewGuard {
-  const owner = state.dataQualityState === "unavailable" ? "Data" : "Investment";
-
   return {
-    allowedClaims: [
-      `可說資料品質目前是 ${state.dataQualityState}，且所有分數必須折扣解讀`,
-      "可說 Data 需補齊資料品質矩陣、來源深度、缺口處理與新鮮度證據",
-      "可說 Investment 需確認折扣後的模型文字不得形成正式投資結論"
-    ],
-    blockedClaims: [
-      "不可說 partial、stale 或 unavailable 仍可支援正式分數",
-      "不可說資料品質折扣代表模型可信、回測成立或公開宣稱可發布",
-      "不可說資料品質角色覆核可取代來源權利、schema、回測或董事長授權"
-    ],
+    allowedClaims: [`可以說目前資料品質狀態是 ${state.dataQualityState}。`, "可以說仍需 Data / Investment 覆核。"],
+    blockedClaims: ["不能把 partial、stale 或 unavailable 解讀為正式分數。", "不能跳過來源深度與回測。"],
     label: "Data quality role review guard",
-    nextGate: "Data 與 Investment 需共同確認折扣規則；完成前 runtime 只可顯示保守解讀。",
-    owner,
+    nextGate: "Data 與 Investment 需共同定義資料品質能支撐哪些模型結論。",
+    owner: state.dataQualityState === "unavailable" ? "Data" : "Investment",
     state: "blocked"
   };
 }
@@ -740,35 +622,29 @@ export function getMockOnlyDataQualityRoleReviewGuard(
 export function getMockOnlyRuntimeNextGates(state: Cp3MockOnlyRuntimeState): Cp3MockOnlyRuntimeNextGate[] {
   return [
     {
-      acceptance:
-        state.metadataReachabilityState === "supabase_metadata_reachable"
-          ? "UI 與 guard 持續宣告 freshness metadata 可讀不等於資料品質核准"
-          : "mock metadata 仍不得被描述成遠端可讀",
+      acceptance: "UI 文案必須清楚區分 metadata 可讀與資料品質可用。",
       id: "metadata-quality-separation",
       label: "Metadata / quality 分離",
       owner: "PM",
-      reason: "先固定使用者與角色如何解讀 metadata reachability，避免後續被誤當成資料品質證據。",
+      reason: "避免使用者把可讀 metadata 誤解成正式資料。",
       sequence: 1,
       state: "blocked"
     },
     {
-      acceptance:
-        state.schemaShapeState === "schema_shape_checked_not_quality"
-          ? "遠端物件 contract 對齊後仍保留 no row completeness / no rights approval 邊界"
-          : "本地 schema contract 不得被描述成遠端 shape 已驗證",
+      acceptance: "schema 只能證明形狀，不可證明完整性、權利或模型品質。",
       id: "schema-contract-alignment",
       label: "Schema contract 對齊",
       owner: "Engineering",
-      reason: "schema shape 窄證據必須轉成明確 contract，且不能自動推論資料完整或權利。",
+      reason: "讓未來 Supabase 接軌時不把 schema 檢查過度解讀。",
       sequence: 2,
       state: "blocked"
     },
     {
-      acceptance: "資料品質矩陣完成角色覆核前，所有分數與模組文字都維持折扣解讀",
+      acceptance: `資料品質 ${state.dataQualityState} 必須對應明確降級規則。`,
       id: "data-quality-role-review",
       label: "資料品質角色覆核",
       owner: state.dataQualityState === "unavailable" ? "Data" : "Investment",
-      reason: "資料品質降級規則要由 Data 與 Investment 能共同解釋，才能進一步討論正式分數。",
+      reason: "資料品質決定前台能說什麼，也決定模型能否升級。",
       sequence: 3,
       state: "blocked"
     }
@@ -781,61 +657,60 @@ export function getMockOnlyRuntimeAuthorizationSnapshot(): Cp3MockOnlyRuntimeAut
       id: "local-mock-runtime-ui",
       label: "本地 mock runtime UI",
       owner: "PM",
-      reason: "可繼續整理本地 runtime 顯示、資訊階層與 mock-only 邊界揭露。",
+      reason: "可改善可讀性與決策階層。",
       status: "allowed"
     },
     {
       id: "local-static-guards",
-      label: "本地靜態 guard",
+      label: "本地靜態 guards",
       owner: "Engineering",
-      reason: "可繼續強化靜態檢查，確保 public runtime 不引入外部資料或正式分數。",
+      reason: "可阻擋未授權的 real / Supabase / SQL 轉換。",
       status: "allowed"
     },
     {
       id: "supabase-readonly",
       label: "Supabase 唯讀驗證",
       owner: "Engineering",
-      reason: "需另開單次唯讀驗證窗口；本切片不連線、不驗證遠端。",
+      reason: "需要 CEO 另開一次性唯讀 gate。",
       status: "blocked"
     },
     {
       id: "sql-execution",
       label: "SQL 執行",
       owner: "Engineering",
-      reason: "需在唯讀驗證與停止條件完成後另行開 gate。",
+      reason: "仍需獨立授權與回滾方案。",
       status: "blocked"
     },
     {
       id: "market-data",
       label: "真實市場資料",
       owner: "Data",
-      reason: "需來源深度、權利、品質與重跑規則完成後才可進入資料動作。",
+      reason: "來源深度、權利與品質尚未完成。",
       status: "blocked"
     },
     {
       id: "formal-score-transition",
-      label: "正式分數切換",
+      label: "scoreSource=real",
       owner: "Investment",
-      reason: "需真實資料、回測、模型、法務與投資宣稱覆核全部完成。",
+      reason: "模型、回測與公開宣稱尚未核准。",
       status: "blocked"
     },
     {
       id: "public-claims",
       label: "公開宣稱",
       owner: "CEO",
-      reason: "需董事長授權邊界、法務、投資與 QA 結論收斂後才可發布。",
+      reason: "必須等 runtime 狀態與證據全部一致。",
       status: "blocked"
     }
   ];
   const allowedCount = items.filter((item) => item.status === "allowed").length;
-  const blockedCount = items.length - allowedCount;
 
   return {
     allowedCount,
-    blockedCount,
+    blockedCount: items.length - allowedCount,
     items,
-    label: `Runtime authorization ${allowedCount} allowed / ${blockedCount} blocked`,
-    nextAction: "PM 繼續本地 mock-only runtime 實作；CEO 另行決定何時開 Supabase、SQL、真實資料與正式分數 gate。",
+    label: `Runtime authorization: ${allowedCount} allowed / ${items.length - allowedCount} blocked`,
+    nextAction: "PM / Engineering 可做本地 mock runtime 與 guard；Supabase、SQL、真實資料、scoreSource=real 仍需 CEO 另行開 gate。",
     totalCount: items.length
   };
 }
@@ -843,8 +718,7 @@ export function getMockOnlyRuntimeAuthorizationSnapshot(): Cp3MockOnlyRuntimeAut
 export function getMockOnlyRuntimeCommandCenter(state: Cp3MockOnlyRuntimeState): Cp3MockOnlyRuntimeCommandCenter {
   const authorizationSnapshot = getMockOnlyRuntimeAuthorizationSnapshot();
   const nextGate = getMockOnlyRuntimeNextGates(state)[0];
-  const routeWorkQueue = getMockOnlyRuntimeRouteWorkQueue();
-  const nextWork = routeWorkQueue[0];
+  const nextWork = getMockOnlyRuntimeRouteWorkQueue()[0];
   const gateProposalQueue: Cp3MockOnlyGateProposalItem[] = [
     {
       boundary: "One exact read-only command, one run, no writes, no data mutation.",
@@ -880,23 +754,14 @@ export function getMockOnlyRuntimeCommandCenter(state: Cp3MockOnlyRuntimeState):
       owner: "Investment",
       sequence: 5,
       state: "draft"
-    },
-    {
-      boundary: "CEO decision only after the earlier proposal items have evidence.",
-      label: "External execution decision",
-      owner: "CEO",
-      sequence: 6,
-      state: "draft"
     }
   ];
-  const draftCount = gateProposalQueue.filter((item) => item.state === "draft").length;
-  const nextDraft = gateProposalQueue[0];
 
   return {
-    blockedLaneLabel: `${authorizationSnapshot.blockedCount} gates blocked: Supabase / SQL / market data / formal score / public claims`,
-    doNext: "Prepare the source-depth and read-only validation gates, but keep them as approval work only.",
-    doNotDo: "Do not connect remote services, run SQL, fetch market rows, switch formal score, or publish public claims.",
-    doNow: "Continue local mock-only runtime UI refinement and static guard hardening.",
+    blockedLaneLabel: `${authorizationSnapshot.blockedCount} gates blocked: Supabase / SQL / market data / scoreSource=real / public claims`,
+    doNext: "準備來源深度與唯讀驗證 gate，但先不執行外部連線。",
+    doNotDo: "不要連 Supabase、不要跑 SQL、不要抓真實市場資料、不要設定 scoreSource=real。",
+    doNow: "修正本地 runtime 可讀性，並加強靜態 guard。",
     evidenceLevel: "mock_local_only",
     executionState: "active_local_only",
     executionLanes: [
@@ -905,77 +770,44 @@ export function getMockOnlyRuntimeCommandCenter(state: Cp3MockOnlyRuntimeState):
         label: "Local Runtime UI",
         owner: "PM",
         state: "active",
-        work: "Improve command-center readability and decision hierarchy."
+        work: "改善 runtime 決策階層與可讀中文。"
       },
       {
         boundary: "Local checks only; no remote service dependency.",
         label: "Guard Hardening",
         owner: "Engineering",
         state: "active",
-        work: "Keep forbidden transitions blocked by static review."
-      },
-      {
-        boundary: "Question and evidence planning only; no market rows.",
-        label: "Source Evidence Prep",
-        owner: "Data",
-        state: "blocked",
-        work: "Prepare source-depth evidence criteria before any ingestion work."
-      },
-      {
-        boundary: "Decision criteria only; no formal score transition.",
-        label: "Formal Score Review",
-        owner: "Investment",
-        state: "blocked",
-        work: "Define evidence needed before changing score source."
-      },
-      {
-        boundary: "Review questions only; no data usage expansion.",
-        label: "Rights Review",
-        owner: "Legal",
-        state: "blocked",
-        work: "Clarify redistribution and public-claim limits."
+        work: "讓檢查器阻擋未授權 real / Supabase / SQL 路徑。"
       },
       {
         boundary: "Separate gate required before external-data work.",
         label: "External Gate",
         owner: "CEO",
         state: "blocked",
-        work: "Decide when to open Supabase, SQL, market-data, or public-claim work."
+        work: "決定何時開啟外部資料與 formal score 工作。"
       }
     ],
     externalReadinessChecks: [
       {
-        criterion: "Checklist label for local display only; it does not authorize external-data execution.",
-        label: "External readiness checks",
-        owner: "CEO",
-        state: "blocked"
-      },
-      {
-        criterion: "A separate CEO gate must authorize the exact read-only remote command before any Supabase access.",
+        criterion: "CEO 必須另行核准精準命令與回報格式。",
         label: "Supabase read-only command gate",
         owner: "CEO",
         state: "blocked"
       },
       {
-        criterion: "Engineering must confirm schema-shape assumptions without writing tables or creating database seed scripts.",
-        label: "Schema-shape confirmation",
-        owner: "Engineering",
-        state: "blocked"
-      },
-      {
-        criterion: "Data must document source depth, freshness limits, and downgrade rules before market-row ingestion.",
+        criterion: "Data 必須先完成來源深度、缺漏與降級準則。",
         label: "Market data evidence",
         owner: "Data",
         state: "blocked"
       },
       {
-        criterion: "Legal must confirm public display and redistribution boundaries before source expansion.",
+        criterion: "Legal 必須確認公開展示與資料權利。",
         label: "Source rights boundary",
         owner: "Legal",
         state: "blocked"
       },
       {
-        criterion: "Investment must approve model and backtest evidence before any formal score-source transition.",
+        criterion: "Investment 必須核准模型與回測證據。",
         label: "Formal score transition",
         owner: "Investment",
         state: "blocked"
@@ -983,9 +815,9 @@ export function getMockOnlyRuntimeCommandCenter(state: Cp3MockOnlyRuntimeState):
     ],
     gateProposalProgress: {
       blockedExecutionLabel: "External execution remains blocked until CEO opens a separate gate.",
-      draftCount,
-      label: `Gate proposals ${draftCount} draft / ${gateProposalQueue.length} total`,
-      nextDraftLabel: `${nextDraft.owner}: ${nextDraft.label}`,
+      draftCount: gateProposalQueue.length,
+      label: `Gate proposals ${gateProposalQueue.length} draft / ${gateProposalQueue.length} total`,
+      nextDraftLabel: `${gateProposalQueue[0].owner}: ${gateProposalQueue[0].label}`,
       totalCount: gateProposalQueue.length
     },
     gateProposalQueue,
@@ -993,26 +825,25 @@ export function getMockOnlyRuntimeCommandCenter(state: Cp3MockOnlyRuntimeState):
     handoffChecks: [
       { label: "Mock-only runtime state remains explicit.", state: "recorded" },
       { label: "Static guard covers command center fields.", state: "recorded" },
-      { label: "No external-data gate is opened by this UI.", state: "recorded" },
-      { label: "Review cadence and stop condition are visible.", state: "recorded" }
+      { label: "No external-data gate is opened by this UI.", state: "recorded" }
     ],
     localLaneLabel: `${authorizationSnapshot.allowedCount} local lanes allowed: mock runtime UI and static guards`,
     milestones: [
       {
         label: "Local runtime shell committed",
-        note: "Panel, command center, handoff checks, and static guard are in the local app.",
+        note: "Panel, command center and static guard are local-only.",
         owner: "Engineering",
         state: "done"
       },
       {
         label: "Decision clarity pass",
-        note: "CEO and PM keep improving local readability before any external-data gate.",
+        note: "PM keeps readability higher priority than extra governance detail.",
         owner: "PM",
         state: "active"
       },
       {
         label: "External-data transition",
-        note: "Supabase, SQL, market rows, formal score, and public claims remain blocked.",
+        note: "Supabase, SQL, market data, formal score and public claims remain blocked.",
         owner: "CEO",
         state: "blocked"
       }
@@ -1020,9 +851,9 @@ export function getMockOnlyRuntimeCommandCenter(state: Cp3MockOnlyRuntimeState):
     nextGateLabel: `${nextGate.owner}: ${nextGate.label}`,
     nextWorkLabel: `${nextWork.owner}: ${nextWork.label}`,
     operatingMode: "local_mock_only",
-    priorityLabel: "Priority: improve local runtime decision clarity before opening any external-data gate.",
+    priorityLabel: "Priority: readable local runtime, then one narrow external-data gate.",
     reviewCadence: "Review after each committed local runtime slice or before any external-data gate.",
-    riskLabel: "Main risk: mistaking metadata, schema shape, or UI readiness for production data readiness.",
+    riskLabel: "Main risk: mistaking metadata or UI readiness for production data readiness.",
     roleActions: [
       {
         action: "Refine local runtime readability and keep public copy mock-only.",
@@ -1055,8 +886,7 @@ export function getMockOnlyRuntimeCommandCenter(state: Cp3MockOnlyRuntimeState):
         state: "blocked"
       }
     ],
-    stopCondition: "Stop before remote access, SQL, market-row ingestion, formal-score transition, or public-claim release.",
-    summary:
-      "CEO keeps execution in local mock-only mode. PM should refine runtime readability and guards; any external data, SQL, formal-score, or public-claim step needs a separate gate."
+    stopCondition: "Stop before remote access, SQL, market-row ingestion, scoreSource=real, or public-claim release.",
+    summary: "CEO keeps execution in local mock-only mode. PM should improve readability; Engineering should keep forbidden external-data transitions blocked."
   };
 }
