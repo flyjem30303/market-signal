@@ -161,6 +161,8 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
         onSelect={selectAsset}
       />
 
+      {!includeSeoContent && <DataFreshnessStrip freshness={freshness} />}
+
       {!includeSeoContent && (
         <HomeProductOverview
           scoreSourceLabel={freshness.scoreSourceLabel}
