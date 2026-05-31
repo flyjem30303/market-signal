@@ -421,16 +421,35 @@ function HomeProductOverview({
             不把 mock 分數包裝成正式投資訊號。
           </p>
           <div className="home-action-row">
-            <a className="solid-button" href={`/stocks/${selected.symbol}`}>
+            <a
+              className="solid-button"
+              href={`/stocks/${selected.symbol}`}
+              onClick={() => trackEvent("home_cta_clicked", { action: "stock", href: `/stocks/${selected.symbol}`, symbol: selected.symbol })}
+            >
               前往股票頁
             </a>
-            <a className="outline-button" href="/briefing">
+            <a
+              className="outline-button"
+              href="/briefing"
+              onClick={() => trackEvent("home_cta_clicked", { action: "briefing", href: "/briefing", symbol: selected.symbol })}
+            >
               查看晨報
             </a>
-            <a className="outline-button" href="/weekly">
+            <a
+              className="outline-button"
+              href="/weekly"
+              onClick={() => trackEvent("home_cta_clicked", { action: "weekly", href: "/weekly", symbol: selected.symbol })}
+            >
               看週報
             </a>
-            <button className="outline-button" onClick={() => onTab("trend")} type="button">
+            <button
+              className="outline-button"
+              onClick={() => {
+                trackEvent("home_cta_clicked", { action: "trend_tab", href: "#trend", symbol: selected.symbol });
+                onTab("trend");
+              }}
+              type="button"
+            >
               看趨勢
             </button>
           </div>
