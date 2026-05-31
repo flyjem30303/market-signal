@@ -345,6 +345,7 @@ function StockPageFollowUpLinks({ selected }: { selected: Asset }) {
         <a className="text-link" href="/weekly">看本週週報</a>
         <a className="text-link" href="/">回首頁看覆蓋地圖</a>
         <a className="text-link" href="/methodology">確認方法論</a>
+        <a className="text-link" href="/disclaimer">確認免責聲明</a>
       </nav>
     </section>
   );
