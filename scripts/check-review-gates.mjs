@@ -1963,6 +1963,11 @@ const checks = [
     name: "raw-market-runtime-boundary"
   },
   {
+    command: [node, "scripts/check-raw-market-loader-behavior.mjs"],
+    expectStatus: "ok",
+    name: "raw-market-loader-behavior"
+  },
+  {
     command: [node, "scripts/check-internal-raw-market-api-behavior.mjs"],
     expectStatus: "ok",
     name: "internal-raw-market-api-behavior"
