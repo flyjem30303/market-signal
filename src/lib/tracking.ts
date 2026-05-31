@@ -1,5 +1,8 @@
 export type TrackingEventName =
   | "asset_selected"
+  | "asset_search_changed"
+  | "asset_search_cleared"
+  | "asset_group_changed"
   | "favorite_added"
   | "favorite_removed"
   | "tab_changed"

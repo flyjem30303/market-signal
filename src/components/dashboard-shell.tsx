@@ -170,6 +170,36 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
     setChartMode(nextMode);
   }
 
+  function changeQuery(nextQuery: string) {
+    const normalized = nextQuery.trim();
+    const nextResultCount = availableAssets.filter((asset) => {
+      const matchesQuery = `${asset.symbol} ${asset.name} ${asset.group}`.toLowerCase().includes(normalized.toLowerCase());
+      const matchesGroup = activeGroup === "全部" || asset.group === activeGroup;
+
+      return matchesQuery && matchesGroup;
+    }).length;
+
+    if (!normalized || normalized.length >= 2) {
+      trackEvent("asset_search_changed", {
+        activeGroup,
+        queryLength: normalized.length,
+        resultCount: nextResultCount,
+        symbol: selected.symbol
+      });
+    }
+    setQuery(nextQuery);
+  }
+
+  function changeGroup(nextGroup: string) {
+    trackEvent("asset_group_changed", { group: nextGroup, symbol: selected.symbol });
+    setActiveGroup(nextGroup);
+  }
+
+  function clearQuery(source: string) {
+    trackEvent("asset_search_cleared", { activeGroup, source, symbol: selected.symbol });
+    setQuery("");
+  }
+
   return (
     <main className="page-shell">
       <section className="hero">
@@ -196,8 +226,9 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
         query={query}
         selectedSymbol={selected.symbol}
         onFavorite={toggleFavorite}
-        onGroup={setActiveGroup}
-        onQuery={setQuery}
+        onGroup={changeGroup}
+        onQuery={changeQuery}
+        onQueryClear={clearQuery}
         onSelect={selectAsset}
       />
 
@@ -2165,6 +2196,7 @@ function AssetSelector({
   onFavorite,
   onGroup,
   onQuery,
+  onQueryClear,
   onSelect
 }: {
   activeGroup: string;
@@ -2178,6 +2210,7 @@ function AssetSelector({
   onFavorite: (symbol: string) => void;
   onGroup: (group: string) => void;
   onQuery: (query: string) => void;
+  onQueryClear: (source: string) => void;
   onSelect: (symbol: string) => void;
 }) {
   const searchTerm = query.trim();
@@ -2220,7 +2253,7 @@ function AssetSelector({
         <span>{resultLabel}</span>
         <div className="asset-search-actions">
           {searchTerm ? (
-            <button onClick={() => onQuery("")} type="button">
+            <button onClick={() => onQueryClear("search_actions")} type="button">
               清除搜尋
             </button>
           ) : null}
@@ -2265,7 +2298,7 @@ function AssetSelector({
           <div className="asset-empty-state">
             <strong>找不到符合的標的</strong>
             <p>請改用股票代號、名稱或產業關鍵字搜尋；目前仍是 mock 清單，不代表完整市場覆蓋。</p>
-            <button onClick={() => onQuery("")} type="button">
+            <button onClick={() => onQueryClear("empty_state")} type="button">
               清除搜尋
             </button>
           </div>
