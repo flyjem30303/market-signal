@@ -10,6 +10,8 @@ const normalized = source.toLowerCase();
 const required = [
   "mode: \"supabase_readonly_execution_preview\"",
   "ready_for_manual_ceo_run",
+  "manualApprovalRequired: true",
+  "pending_ceo_confirmation",
   "willRunRemoteValidator: false",
   "automatedRemoteRun: false",
   "connectionAttempted: false",

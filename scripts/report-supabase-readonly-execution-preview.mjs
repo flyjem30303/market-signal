@@ -10,6 +10,8 @@ console.log(
       exactCommandPreview: ready
         ? "$env:SUPABASE_READONLY_VALIDATE_CONFIRMATION='CP3_SUPABASE_READONLY_REMOTE_VALIDATE'; npm run db:readonly-validate"
         : null,
+      manualApprovalRequired: true,
+      manualApprovalState: ready ? "pending_ceo_confirmation" : "blocked",
       mode: "supabase_readonly_execution_preview",
       nextRemoteCommand: ready ? decision.nextRemoteCommand : null,
       preflightStatus: decision.preflightStatus,
