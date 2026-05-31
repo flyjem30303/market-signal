@@ -4619,6 +4619,62 @@ input[type="search"] {
   line-height: 1.55;
 }
 
+.briefing-reading-bridge {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+  display: grid;
+  grid-template-columns: minmax(260px, 0.72fr) minmax(0, 1.48fr);
+  gap: 16px;
+  margin-bottom: 16px;
+  padding: 16px;
+}
+
+.briefing-reading-bridge h2 {
+  margin: 0 0 8px;
+}
+
+.briefing-reading-bridge p {
+  color: var(--muted);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.briefing-reading-bridge nav {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.briefing-reading-bridge a {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--text);
+  display: grid;
+  gap: 8px;
+  min-height: 150px;
+  padding: 12px;
+  text-decoration: none;
+}
+
+.briefing-reading-bridge a:hover {
+  border-color: var(--blue);
+  background: #f8fbff;
+  box-shadow: var(--shadow-soft);
+}
+
+.briefing-reading-bridge span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.briefing-reading-bridge strong {
+  font-size: 17px;
+  line-height: 1.28;
+}
+
 .briefing-boundary {
   display: grid;
   grid-template-columns: minmax(0, 1.4fr) minmax(320px, 0.9fr);
@@ -5588,6 +5644,8 @@ input[type="date"] {
   .weekly-reading-bridge nav,
   .weekly-grid,
   .briefing-decision-strip,
+  .briefing-reading-bridge,
+  .briefing-reading-bridge nav,
   .briefing-breadth,
   .briefing-summary,
   .briefing-concentration,

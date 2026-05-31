@@ -30,6 +30,9 @@ export default async function BriefingPage() {
     .filter((item) => ["半導體", "IC 設計", "AI 伺服器", "電子代工"].includes(item.asset.group))
     .sort((a, b) => b.compositeScore - a.compositeScore)
     .slice(0, 4);
+  const topEtf = etfs[0];
+  const leadingAiSemi = aiSemis[0];
+  const topRisk = heated[0];
 
   return (
     <main className="page-shell">
@@ -61,6 +64,40 @@ export default async function BriefingPage() {
         <DecisionPill label="可推進" text="閱讀節奏與 mock 體驗" tone="active" />
         <DecisionPill label="暫緩" text="真實資料切換與公開宣稱" tone="hold" />
         <DecisionPill label="封鎖" text="投資建議與 real score" tone="blocked" />
+      </section>
+
+      <section className="briefing-reading-bridge" aria-label="晨報讀後路徑">
+        <div>
+          <p className="eyebrow">Reading Bridge</p>
+          <h2>今天先點哪裡</h2>
+          <p>晨報先給方向，下一步回到可檢查的標的頁：大盤、ETF、主線族群與風險升溫清單。</p>
+        </div>
+        <nav>
+          <BriefingBridgeLink
+            href={`/stocks/${market.asset.symbol}`}
+            label="先看大盤"
+            title={`${market.asset.symbol} ${market.asset.name}`}
+            text={`綜合 ${market.compositeScore}/100，確認今天市場基準。`}
+          />
+          <BriefingBridgeLink
+            href={`/stocks/${topEtf.asset.symbol}`}
+            label="再看 ETF"
+            title={`${topEtf.asset.symbol} ${topEtf.asset.name}`}
+            text={`健康 ${topEtf.healthScore}/100，檢查核心部位節奏。`}
+          />
+          <BriefingBridgeLink
+            href={`/stocks/${leadingAiSemi.asset.symbol}`}
+            label="主線族群"
+            title={`${leadingAiSemi.asset.symbol} ${leadingAiSemi.asset.name}`}
+            text={`綜合 ${leadingAiSemi.compositeScore}/100，觀察 AI / 半導體延續性。`}
+          />
+          <BriefingBridgeLink
+            href={`/stocks/${topRisk.asset.symbol}`}
+            label="風險升溫"
+            title={`${topRisk.asset.symbol} ${topRisk.asset.name}`}
+            text={`風險 ${topRisk.riskScore}/100，先拆解追價風險。`}
+          />
+        </nav>
       </section>
 
       <section className="panel briefing-boundary" id="model-boundary">
@@ -211,6 +248,26 @@ export default async function BriefingPage() {
 
       <CommercialSlot context="briefing" />
     </main>
+  );
+}
+
+function BriefingBridgeLink({
+  href,
+  label,
+  text,
+  title
+}: {
+  href: string;
+  label: string;
+  text: string;
+  title: string;
+}) {
+  return (
+    <a href={href}>
+      <span>{label}</span>
+      <strong>{title}</strong>
+      <p>{text}</p>
+    </a>
   );
 }
 
