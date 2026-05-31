@@ -1,4 +1,5 @@
 import { buildDataQualityEvidenceGate, type DataQualityEvidenceGate } from "@/lib/data-quality-evidence-gate";
+import { buildDataQualityScoreContract, type DataQualityScoreContract } from "@/lib/data-quality-score-contract";
 
 export type ProjectProgressLane = {
   current: number;
@@ -11,6 +12,7 @@ export type ProjectProgressLane = {
 export type ProjectProgressSummary = {
   adjustedScore: number;
   dataQualityEvidenceGate: DataQualityEvidenceGate;
+  dataQualityScoreContract: DataQualityScoreContract;
   headline: string;
   lanes: ProjectProgressLane[];
   nextLift: string;
@@ -78,7 +80,9 @@ export const projectProgressLanes: ProjectProgressLane[] = [
 ];
 
 export function getProjectProgressSummary(): ProjectProgressSummary {
+  const dataQualityScoreContract = buildDataQualityScoreContract();
   const dataQualityEvidenceGate = buildDataQualityEvidenceGate({
+    dataQualityScore: dataQualityScoreContract.score,
     freshnessState: "complete"
   });
   const rawScore = projectProgressLanes.reduce((sum, lane) => sum + (lane.current * lane.weight) / 100, 0);
@@ -87,6 +91,7 @@ export function getProjectProgressSummary(): ProjectProgressSummary {
   return {
     adjustedScore,
     dataQualityEvidenceGate,
+    dataQualityScoreContract,
     headline: `PM 估算目前整體開發進度 ${adjustedScore}%`,
     lanes: projectProgressLanes,
     nextLift: "下一個最能拉高分數的工作，是把 freshness read-only metadata evidence 轉成更清楚的 runtime 狀態揭露與來源深度待辦，仍不升級 public source 或 scoreSource=real。",

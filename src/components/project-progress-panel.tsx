@@ -29,6 +29,10 @@ export function ProjectProgressPanel() {
           {progress.dataQualityEvidenceGate.publicDataSource}.
         </p>
         <p>Evidence progress: {progress.dataQualityEvidenceGate.evidenceProgressPercent}%.</p>
+        <p>
+          Quality score contract: {progress.dataQualityScoreContract.score}/
+          {progress.dataQualityScoreContract.passThreshold}; next {progress.dataQualityScoreContract.nextLift}
+        </p>
         <ul>
           {progress.dataQualityEvidenceGate.missingActions.slice(0, 4).map((action) => (
             <li key={action.code}>
