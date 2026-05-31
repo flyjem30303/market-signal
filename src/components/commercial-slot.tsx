@@ -19,6 +19,7 @@ export function CommercialSlot({ context }: CommercialSlotProps) {
       <nav aria-label="商業合作相關說明">
         <a href="/disclaimer">查看免責聲明</a>
         <a href="/terms">查看使用條款</a>
+        <a href="/privacy">查看隱私權政策</a>
       </nav>
     </aside>
   );
