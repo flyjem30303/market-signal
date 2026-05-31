@@ -8,6 +8,7 @@ import { CommercialSlot } from "@/components/commercial-slot";
 import { Cp3RuntimeStatePanel } from "@/components/cp3-runtime-state-panel";
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { HomeRuntimeStatusPanel } from "@/components/home-runtime-status-panel";
+import { StockRuntimeAtAGlance } from "@/components/stock-runtime-at-a-glance";
 import { TrackedLink } from "@/components/tracked-link";
 import {
   signalColor,
@@ -260,6 +261,7 @@ export function DashboardShell({
         <>
           <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
           <Cp3RuntimeStatePanel freshness={freshness} snapshot={snapshot} />
+          <StockRuntimeAtAGlance scoreSourceLabel={freshness.scoreSourceLabel} snapshot={snapshot} />
           <StockEvidenceSnapshot snapshot={snapshot} />
           <StockDataGapPanel snapshot={snapshot} onTab={changeTab} />
           <StockDecisionCompass scoreSourceLabel={freshness.scoreSourceLabel} snapshot={snapshot} />

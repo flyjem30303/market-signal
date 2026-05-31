@@ -2058,6 +2058,11 @@ const checks = [
     name: "home-runtime-status-panel"
   },
   {
+    command: [node, "scripts/check-stock-runtime-at-a-glance.mjs"],
+    expectStatus: "ok",
+    name: "stock-runtime-at-a-glance"
+  },
+  {
     command: [node, "scripts/check-stock-decision-compass.mjs"],
     expectStatus: "ok",
     name: "stock-decision-compass"

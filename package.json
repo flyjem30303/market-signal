@@ -114,6 +114,7 @@
     "check:project-progress-score": "node scripts/check-project-progress-score.mjs",
     "check:runtime-readiness-panel": "node scripts/check-runtime-readiness-panel.mjs",
     "check:home-runtime-status-panel": "node scripts/check-home-runtime-status-panel.mjs",
+    "check:stock-runtime-at-a-glance": "node scripts/check-stock-runtime-at-a-glance.mjs",
     "check:cp3-5pm-runtime-readiness-checkpoint": "node scripts/check-cp3-5pm-runtime-readiness-checkpoint.mjs",
     "check:cp3-tw-stock-source-depth": "node scripts/check-cp3-tw-stock-source-depth.mjs",
     "check:cp3-source-depth-evidence-gate-draft": "node scripts/check-cp3-source-depth-evidence-gate-draft.mjs",
