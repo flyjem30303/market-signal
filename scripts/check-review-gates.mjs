@@ -1568,6 +1568,11 @@ const checks = [
     name: "data-quality-downgrade-state"
   },
   {
+    command: [node, "scripts/check-data-quality-evidence-gate.mjs"],
+    expectStatus: "ok",
+    name: "data-quality-evidence-gate"
+  },
+  {
     command: [node, "scripts/check-freshness-runtime-activation-state.mjs"],
     expectStatus: "ok",
     name: "freshness-runtime-activation-state"
