@@ -9,11 +9,13 @@ export type TrackingEventName =
   | "commercial_disclosure_link_clicked"
   | "stock_page_viewed"
   | "briefing_page_viewed"
+  | "briefing_link_clicked"
   | "disclaimer_page_viewed"
   | "methodology_page_viewed"
   | "privacy_page_viewed"
   | "terms_page_viewed"
   | "weekly_page_viewed"
+  | "weekly_link_clicked"
   | "news_date_changed";
 
 export type TrackingPayload = Record<string, string | number | boolean | null | undefined>;

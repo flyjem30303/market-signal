@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { CommercialSlot } from "@/components/commercial-slot";
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { PageViewTracker } from "@/components/page-view-tracker";
+import { TrackedLink } from "@/components/tracked-link";
 import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
 import { getMarketSignalRepository } from "@/lib/repositories/market-signal-repository";
 import type { SignalSnapshot } from "@/lib/signal-model";
@@ -74,11 +75,18 @@ export default async function BriefingPage() {
           <p>把晨報壓縮成三個可執行閱讀動作：先判斷市場，再拆風險，最後才進個股或週報脈絡。</p>
         </div>
         {runtimePlan.map((item) => (
-          <a className={item.tone} href={item.href} key={item.label}>
+          <TrackedLink
+            className={item.tone}
+            eventName="briefing_link_clicked"
+            href={item.href}
+            key={item.label}
+            label={item.title}
+            payload={{ area: "runtime_plan", symbol: item.symbol }}
+          >
             <span>{item.label}</span>
             <strong>{item.title}</strong>
             <p>{item.text}</p>
-          </a>
+          </TrackedLink>
         ))}
       </section>
 
@@ -210,11 +218,18 @@ export default async function BriefingPage() {
           </p>
           <div className="rank-list">
             {etfs.map((item) => (
-              <a className="rank-row" href={`/stocks/${item.asset.symbol}`} key={item.asset.id}>
+              <TrackedLink
+                className="rank-row"
+                eventName="briefing_link_clicked"
+                href={`/stocks/${item.asset.symbol}`}
+                key={item.asset.id}
+                label={`${item.asset.symbol} ${item.asset.name}`}
+                payload={{ area: "etf_watch", symbol: item.asset.symbol }}
+              >
                 <strong>{item.asset.symbol}</strong>
                 <span>{item.asset.name}</span>
                 <b>健 {item.healthScore}</b>
-              </a>
+              </TrackedLink>
             ))}
           </div>
         </article>
@@ -228,11 +243,18 @@ export default async function BriefingPage() {
           </p>
           <div className="rank-list">
             {aiSemis.map((item) => (
-              <a className="rank-row" href={`/stocks/${item.asset.symbol}`} key={item.asset.id}>
+              <TrackedLink
+                className="rank-row"
+                eventName="briefing_link_clicked"
+                href={`/stocks/${item.asset.symbol}`}
+                key={item.asset.id}
+                label={`${item.asset.symbol} ${item.asset.name}`}
+                payload={{ area: "ai_semiconductor", symbol: item.asset.symbol }}
+              >
                 <strong>{item.asset.symbol}</strong>
                 <span>{item.asset.name}</span>
                 <b>{item.compositeScore}</b>
-              </a>
+              </TrackedLink>
             ))}
           </div>
         </article>
@@ -250,10 +272,24 @@ export default async function BriefingPage() {
 
       <section className="panel briefing-links">
         <h2>下一步</h2>
-        <a className="text-link" href="/weekly">看本週週報</a>
-        <a className="text-link" href="/methodology">了解評分方法論</a>
-        <a className="text-link" href="/stocks/2330">查看 2330 台積電</a>
-        <a className="text-link" href="/disclaimer">確認免責聲明</a>
+        <TrackedLink className="text-link" eventName="briefing_link_clicked" href="/weekly" label="看本週週報" payload={{ area: "next_steps" }}>
+          看本週週報
+        </TrackedLink>
+        <TrackedLink className="text-link" eventName="briefing_link_clicked" href="/methodology" label="了解評分方法論" payload={{ area: "next_steps" }}>
+          了解評分方法論
+        </TrackedLink>
+        <TrackedLink
+          className="text-link"
+          eventName="briefing_link_clicked"
+          href="/stocks/2330"
+          label="查看 2330 台積電"
+          payload={{ area: "next_steps", symbol: "2330" }}
+        >
+          查看 2330 台積電
+        </TrackedLink>
+        <TrackedLink className="text-link" eventName="briefing_link_clicked" href="/disclaimer" label="確認免責聲明" payload={{ area: "next_steps" }}>
+          確認免責聲明
+        </TrackedLink>
       </section>
 
       <article className="disclaimer">
@@ -280,11 +316,11 @@ function BriefingBridgeLink({
   title: string;
 }) {
   return (
-    <a href={href}>
+    <TrackedLink eventName="briefing_link_clicked" href={href} label={title} payload={{ area: "reading_bridge", symbol: href.split("/").pop() }}>
       <span>{label}</span>
       <strong>{title}</strong>
       <p>{text}</p>
-    </a>
+    </TrackedLink>
   );
 }
 
@@ -302,6 +338,7 @@ function buildBriefingRuntimePlan(
     {
       href: `/stocks/${market.asset.symbol}`,
       label: "第一步",
+      symbol: market.asset.symbol,
       text:
         marketTone === "active"
           ? `市場綜合 ${market.compositeScore}/100，先確認多頭健康度是否支撐今日閱讀。`
@@ -312,6 +349,7 @@ function buildBriefingRuntimePlan(
     {
       href: `/stocks/${topRisk.asset.symbol}`,
       label: "第二步",
+      symbol: topRisk.asset.symbol,
       text: `${topRisk.asset.symbol} 風險 ${topRisk.riskScore}/100，確認風險升溫是否集中在單一族群。`,
       title: riskTone === "blocked" ? "優先拆高風險" : "再看風險清單",
       tone: riskTone
@@ -319,6 +357,7 @@ function buildBriefingRuntimePlan(
     {
       href: concentrationTone === "hold" ? "#market-structure" : "/weekly",
       label: "第三步",
+      symbol: concentrationTone === "hold" ? "market-structure" : "weekly",
       text:
         concentrationTone === "hold"
           ? "強勢集中度偏高時，先回到市場結構，避免把少數標的當成整體市場。"

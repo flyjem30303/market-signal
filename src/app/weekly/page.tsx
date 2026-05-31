@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { CommercialSlot } from "@/components/commercial-slot";
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { PageViewTracker } from "@/components/page-view-tracker";
+import { TrackedLink } from "@/components/tracked-link";
 import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
 import { getMarketSignalRepository } from "@/lib/repositories/market-signal-repository";
 import type { SignalSnapshot } from "@/lib/signal-model";
@@ -70,11 +71,18 @@ export default async function WeeklyPage() {
           <p>週報不追求單日反應，而是把市場、ETF、風險與每日晨報串成一個較慢的觀察節奏。</p>
         </div>
         {cadence.map((item) => (
-          <a className={item.tone} href={item.href} key={item.label}>
+          <TrackedLink
+            className={item.tone}
+            eventName="weekly_link_clicked"
+            href={item.href}
+            key={item.label}
+            label={item.title}
+            payload={{ area: "runtime_cadence", symbol: item.symbol }}
+          >
             <span>{item.label}</span>
             <strong>{item.title}</strong>
             <p>{item.text}</p>
-          </a>
+          </TrackedLink>
         ))}
       </section>
 
@@ -140,11 +148,18 @@ export default async function WeeklyPage() {
         </p>
         <div className="rank-list">
           {etfs.map((item) => (
-            <a className="rank-row" href={`/stocks/${item.asset.symbol}`} key={item.asset.id}>
+            <TrackedLink
+              className="rank-row"
+              eventName="weekly_link_clicked"
+              href={`/stocks/${item.asset.symbol}`}
+              key={item.asset.id}
+              label={`${item.asset.symbol} ${item.asset.name}`}
+              payload={{ area: "etf_allocation", symbol: item.asset.symbol }}
+            >
               <strong>{item.asset.symbol}</strong>
               <span>{item.asset.name}</span>
               <b>健 {item.healthScore}</b>
-            </a>
+            </TrackedLink>
           ))}
         </div>
       </section>
@@ -213,11 +228,11 @@ function WeeklyBridgeLink({
   title: string;
 }) {
   return (
-    <a href={href}>
+    <TrackedLink eventName="weekly_link_clicked" href={href} label={title} payload={{ area: "reading_bridge", symbol: href.split("/").pop() }}>
       <span>{label}</span>
       <strong>{title}</strong>
       <p>{text}</p>
-    </a>
+    </TrackedLink>
   );
 }
 
@@ -253,6 +268,7 @@ function buildWeeklyRuntimeCadence(
     {
       href: `/stocks/${market.asset.symbol}`,
       label: "週初",
+      symbol: market.asset.symbol,
       text: marketIsConstructive
         ? `大盤為${market.signal.title}，先確認健康度是否由更多標的支撐。`
         : `大盤為${market.signal.title}，先降低速度，確認週報假設是否仍成立。`,
@@ -262,6 +278,7 @@ function buildWeeklyRuntimeCadence(
     {
       href: `/stocks/${topEtf.asset.symbol}`,
       label: "週中",
+      symbol: topEtf.asset.symbol,
       text: `${topEtf.asset.symbol} 健康 ${topEtf.healthScore}/100，檢查核心 ETF 是否支撐分批節奏。`,
       title: etfTone === "active" ? "再看 ETF 節奏" : "ETF 先保守觀察",
       tone: etfTone
@@ -269,6 +286,7 @@ function buildWeeklyRuntimeCadence(
     {
       href: `/stocks/${topRisk.asset.symbol}`,
       label: "週末前",
+      symbol: topRisk.asset.symbol,
       text: `${topRisk.asset.symbol} 風險 ${topRisk.riskScore}/100，若風險未降溫，下週先維持觀察。`,
       title: riskTone === "blocked" ? "優先拆高風險" : "最後檢查風險",
       tone: riskTone
@@ -276,6 +294,7 @@ function buildWeeklyRuntimeCadence(
     {
       href: "/briefing",
       label: "每日校準",
+      symbol: "briefing",
       text: "每天回到晨報確認風險是否擴散，避免週報結論被單日波動誤導。",
       title: "用晨報校準",
       tone: "active"
@@ -301,11 +320,18 @@ function WeeklyRanking({
       <p>{description}</p>
       <div className="rank-list">
         {items.map((item) => (
-          <a className="rank-row" href={`/stocks/${item.asset.symbol}`} key={item.asset.id}>
+          <TrackedLink
+            className="rank-row"
+            eventName="weekly_link_clicked"
+            href={`/stocks/${item.asset.symbol}`}
+            key={item.asset.id}
+            label={`${item.asset.symbol} ${item.asset.name}`}
+            payload={{ area: "ranking", symbol: item.asset.symbol }}
+          >
             <strong>{item.asset.symbol}</strong>
             <span>{item.asset.name}</span>
             <b>{scoreKey === "risk" ? `險 ${item.riskScore}` : item.compositeScore}</b>
-          </a>
+          </TrackedLink>
         ))}
       </div>
     </section>
