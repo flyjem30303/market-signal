@@ -5,6 +5,7 @@ export type TrackingEventName =
   | "tab_changed"
   | "stock_page_viewed"
   | "briefing_page_viewed"
+  | "methodology_page_viewed"
   | "weekly_page_viewed"
   | "news_date_changed";
 

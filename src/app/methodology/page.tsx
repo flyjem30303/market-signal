@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
+import { PageViewTracker } from "@/components/page-view-tracker";
 import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
 
 export const metadata: Metadata = {
@@ -28,6 +29,7 @@ export default async function MethodologyPage() {
 
   return (
     <main className="page-shell">
+      <PageViewTracker eventName="methodology_page_viewed" payload={{ page: "methodology" }} />
       <section className="hero">
         <p className="eyebrow">Methodology</p>
         <h1>評分方法論</h1>
