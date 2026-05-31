@@ -27,6 +27,13 @@ export function ProjectProgressPanel() {
           {progress.dataQualityEvidenceGate.scoreSource}; public source{" "}
           {progress.dataQualityEvidenceGate.publicDataSource}.
         </p>
+        <ul>
+          {progress.dataQualityEvidenceGate.missingActions.slice(0, 4).map((action) => (
+            <li key={action.code}>
+              <b>{action.owner}</b> / {action.gate}: {action.nextAction}
+            </li>
+          ))}
+        </ul>
         <p>{progress.dataQualityEvidenceGate.stopLine}</p>
       </div>
       <div className="project-progress-lanes">

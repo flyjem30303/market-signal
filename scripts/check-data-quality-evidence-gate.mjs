@@ -80,9 +80,20 @@ function runCase({ expectedMissing, expectedStatus, input, name }) {
     problems.push("gate must keep scoreSource real and public data source blocked");
   }
 
+  if (gate.missingActions.length !== gate.missingEvidence.length) {
+    problems.push("missing actions must match missing evidence count");
+  }
+
+  for (const action of gate.missingActions) {
+    if (!action.owner || !action.gate || !action.nextAction) {
+      problems.push(`missing action details for ${action.code}`);
+    }
+  }
+
   return {
     gate: {
       canSetScoreSourceReal: gate.canSetScoreSourceReal,
+      missingActions: gate.missingActions,
       missingEvidence: gate.missingEvidence,
       publicDataSource: gate.publicDataSource,
       scoreSource: gate.scoreSource,
@@ -98,6 +109,8 @@ function scanSource() {
   const source = fs.readFileSync(path.join(root, gatePath), "utf8");
   const required = [
     "buildDataQualityEvidenceGate",
+    "DataQualityEvidenceAction",
+    "evidenceActions",
     "minimumQualityScore = 80",
     "freshness_state_complete",
     "data_quality_score_at_least_80",
@@ -107,6 +120,13 @@ function scanSource() {
     "model_approved",
     "disclosure_approved",
     "claim_approved",
+    "owner: \"Data\"",
+    "owner: \"Engineering\"",
+    "owner: \"Investment\"",
+    "owner: \"Legal\"",
+    "owner: \"PM\"",
+    "source-depth",
+    "legal-rights",
     "canSetScoreSourceReal: false",
     'publicDataSource: "mock"',
     'scoreSource: "mock"',

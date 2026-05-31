@@ -420,6 +420,23 @@ select {
   line-height: 1.55;
 }
 
+.project-progress-evidence ul {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding-left: 18px;
+}
+
+.project-progress-evidence li {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.project-progress-evidence li b {
+  color: #7c2d12;
+}
+
 .project-progress-lanes {
   display: grid;
   grid-column: 1 / -1;

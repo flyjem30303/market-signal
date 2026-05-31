@@ -33,12 +33,17 @@ const required = [
   [componentPath, "Project progress"],
   [componentPath, "Data quality evidence gate"],
   [componentPath, "progress.dataQualityEvidenceGate.missingEvidence.length"],
+  [componentPath, "progress.dataQualityEvidenceGate.missingActions.slice(0, 4).map"],
+  [componentPath, "action.owner"],
+  [componentPath, "action.nextAction"],
   [componentPath, "progress.dataQualityEvidenceGate.stopLine"],
   [briefingPath, "import { ProjectProgressPanel }"],
   [briefingPath, "<ProjectProgressPanel />"],
   [cssPath, ".project-progress-panel"],
   [cssPath, ".project-progress-meter"],
   [cssPath, ".project-progress-evidence"],
+  [cssPath, ".project-progress-evidence ul"],
+  [cssPath, ".project-progress-evidence li"],
   [cssPath, ".project-progress-lanes"]
 ];
 
