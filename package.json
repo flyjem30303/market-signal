@@ -118,6 +118,7 @@
     "check:data-quality-downgrade-state": "node scripts/check-data-quality-downgrade-state.mjs",
     "check:freshness-runtime-activation-state": "node scripts/check-freshness-runtime-activation-state.mjs",
     "check:freshness-runtime-activation-behavior": "node scripts/check-freshness-runtime-activation-behavior.mjs",
+    "check:freshness-readonly-smoke-report": "node scripts/check-freshness-readonly-smoke-report.mjs",
     "check:home-runtime-status-panel": "node scripts/check-home-runtime-status-panel.mjs",
     "check:stock-runtime-at-a-glance": "node scripts/check-stock-runtime-at-a-glance.mjs",
     "check:trust-runtime-boundary-notice": "node scripts/check-trust-runtime-boundary-notice.mjs",

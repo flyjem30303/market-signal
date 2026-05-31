@@ -1578,6 +1578,11 @@ const checks = [
     name: "freshness-runtime-activation-behavior"
   },
   {
+    command: [node, "scripts/check-freshness-readonly-smoke-report.mjs"],
+    expectStatus: "ok",
+    name: "freshness-readonly-smoke-report"
+  },
+  {
     command: [node, "scripts/check-cp3-5pm-runtime-readiness-checkpoint.mjs"],
     expectStatus: "ok",
     name: "cp3-5pm-runtime-readiness-checkpoint"
