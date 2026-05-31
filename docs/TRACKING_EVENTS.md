@@ -11,6 +11,7 @@
 | `favorite_removed` | 移除愛心標的 | `symbol` |
 | `tab_changed` | 切換四大頁籤 | `symbol`, `tab` |
 | `home_page_viewed` | 進入首頁 | `page` |
+| `nav_link_clicked` | 點擊主導覽連結 | `from`, `href`, `label` |
 | `stock_page_viewed` | 進入股票頁 | `symbol`, `name`, `signal` |
 | `briefing_page_viewed` | 進入晨報頁 | `page` |
 | `disclaimer_page_viewed` | 進入免責聲明頁 | `page` |
@@ -23,6 +24,7 @@
 ## 實作位置
 
 - Helper：`src/lib/tracking.ts`
+- 主導覽點擊：`src/components/site-nav.tsx`
 - 股票頁與儀表板互動：`src/components/dashboard-shell.tsx`
 - 首頁、晨報、週報、方法論與信任頁瀏覽：`src/components/page-view-tracker.tsx`
 

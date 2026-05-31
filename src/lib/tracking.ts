@@ -4,6 +4,7 @@ export type TrackingEventName =
   | "favorite_removed"
   | "tab_changed"
   | "home_page_viewed"
+  | "nav_link_clicked"
   | "stock_page_viewed"
   | "briefing_page_viewed"
   | "disclaimer_page_viewed"
