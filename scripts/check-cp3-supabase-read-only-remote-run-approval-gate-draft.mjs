@@ -21,7 +21,7 @@ const requiredPhrases = [
   "CEO-CONFIRM-009 A later remote-capable implementation gate is required before any Supabase client is added.",
   "CEO-CONFIRM-010 A later execution gate is required before npm run db:readonly-validate may connect to Supabase.",
   "COMMAND-001 exact command: npm run db:readonly-validate",
-  "COMMAND-002 current implementation: node scripts/validate-supabase-readonly.mjs",
+  "COMMAND-002 current implementation: node --env-file=.env.local scripts/validate-supabase-readonly.mjs",
   "COMMAND-003 current implementation remains fail-closed",
   "COMMAND-004 current implementation remains connection not_run",
   "COMMAND-005 current implementation remains status blocked",

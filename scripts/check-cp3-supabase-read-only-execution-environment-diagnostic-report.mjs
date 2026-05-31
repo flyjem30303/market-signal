@@ -15,7 +15,7 @@ const requiredPhrases = [
   "DIAGNOSTIC-004 scripts/validate-supabase-readonly.mjs file metadata was readable",
   "DIAGNOSTIC-005 .env.local key names were listed without values",
   "DIAGNOSTIC-006 required Supabase environment names loaded as present without printing values",
-  "DIAGNOSTIC-007 package.json db:readonly-validate script points to node scripts/validate-supabase-readonly.mjs",
+  "DIAGNOSTIC-007 package.json db:readonly-validate script points to node --env-file=.env.local scripts/validate-supabase-readonly.mjs",
   "DIAGNOSTIC-008 validator source inspection found guarded confirmation, createClient, and head true count exact select checks",
   "DIAGNOSTIC-010 env-loaded validator without confirmation returned remote_execution_not_approved redacted JSON",
   "DIAGNOSTIC-011 Access is denied was not reproduced by local no-confirmation diagnostics",

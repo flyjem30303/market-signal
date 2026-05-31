@@ -83,7 +83,7 @@ const forbiddenSecretOutput = forbiddenSecretOutputPatterns
   .map((pattern) => pattern.toString());
 
 const packageScript = packageJson.scripts?.["db:readonly-validate"];
-const packageScriptOk = packageScript === "node scripts/validate-supabase-readonly.mjs";
+const packageScriptOk = packageScript === "node --env-file=.env.local scripts/validate-supabase-readonly.mjs";
 const aggregateDoesNotRunValidator = !reviewGate.includes("scripts/validate-supabase-readonly.mjs");
 const supabaseImportOk = (validator.match(/@supabase\/supabase-js/g) ?? []).length === 1;
 const rowLimitOk = !/const\s+rowLimit\s*=\s*(?:[6-9]|\d{2,})/.test(validator);

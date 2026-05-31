@@ -20,7 +20,7 @@ not run `npm run db:readonly-validate`.
 
 ```text
 COMMAND-001 exact command under review: npm run db:readonly-validate
-COMMAND-002 command currently resolves to node scripts/validate-supabase-readonly.mjs
+COMMAND-002 command currently resolves to node --env-file=.env.local scripts/validate-supabase-readonly.mjs
 COMMAND-003 current command output is fail-closed blocked by default
 COMMAND-004 current command does not instantiate a Supabase client
 COMMAND-005 current command does not query Supabase
