@@ -2013,6 +2013,11 @@ const checks = [
     name: "data-freshness-source-behavior"
   },
   {
+    command: [node, "scripts/check-public-freshness-runtime-boundary.mjs"],
+    expectStatus: "ok",
+    name: "public-freshness-runtime-boundary"
+  },
+  {
     command: [
       node,
       "--disable-warning=MODULE_TYPELESS_PACKAGE_JSON",

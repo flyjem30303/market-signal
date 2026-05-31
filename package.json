@@ -385,6 +385,7 @@
     "check:review-gates": "node scripts/check-review-gates.mjs",
     "check:data-freshness-source-fallback": "node scripts/check-data-freshness-source-fallback.mjs",
     "check:data-freshness-source-behavior": "node scripts/check-data-freshness-source-behavior.mjs",
+    "check:public-freshness-runtime-boundary": "node scripts/check-public-freshness-runtime-boundary.mjs",
     "check:data-freshness-snapshot-behavior": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/check-data-freshness-snapshot-behavior.mjs",
     "check:supabase-data-freshness-repository-behavior": "node scripts/check-supabase-data-freshness-repository-behavior.mjs",
     "check:freshness-state-ui": "node scripts/check-freshness-state-ui.mjs",
