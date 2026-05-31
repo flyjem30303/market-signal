@@ -400,6 +400,7 @@
     "check:freshness-state-ui": "node scripts/check-freshness-state-ui.mjs",
     "check:score-source-ui": "node scripts/check-score-source-ui.mjs",
     "check:stock-decision-compass": "node scripts/check-stock-decision-compass.mjs",
+    "check:supabase-readonly-validator-output-contract": "node scripts/check-supabase-readonly-validator-output-contract.mjs",
     "check:tracking-events": "node scripts/check-tracking-events.mjs",
     "db:bootstrap": "node scripts/build-supabase-bootstrap.mjs",
     "db:etf-schema": "node --env-file=.env.local scripts/check-supabase-etf-schema.mjs",
