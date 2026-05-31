@@ -10,8 +10,8 @@
 | `asset_search_changed` | 使用者搜尋標的 | `activeGroup`, `queryLength`, `resultCount`, `symbol` |
 | `asset_search_cleared` | 使用者清除標的搜尋 | `activeGroup`, `source`, `symbol` |
 | `asset_group_changed` | 使用者切換標的群組篩選 | `group`, `symbol` |
-| `favorite_added` | 加入愛心標的 | `symbol` |
-| `favorite_removed` | 移除愛心標的 | `symbol` |
+| `favorite_added` | 加入愛心標的 | `source`, `symbol` |
+| `favorite_removed` | 移除愛心標的 | `source`, `symbol` |
 | `tab_changed` | 切換四大頁籤 | `source`, `symbol`, `tab` |
 | `chart_mode_changed` | 切換趨勢圖分數模式 | `symbol`, `mode` |
 | `home_page_viewed` | 進入首頁 | `page` |

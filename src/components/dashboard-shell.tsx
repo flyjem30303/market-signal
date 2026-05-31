@@ -137,10 +137,10 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
     }
   }, []);
 
-  function toggleFavorite(target: string) {
+  function toggleFavorite(target: string, source = "favorite_button") {
     setFavorites((current) => {
       const next = current.includes(target) ? current.filter((item) => item !== target) : [...current, target];
-      trackEvent(current.includes(target) ? "favorite_removed" : "favorite_added", { symbol: target });
+      trackEvent(current.includes(target) ? "favorite_removed" : "favorite_added", { source, symbol: target });
       window.localStorage.setItem("marketSignalFavorites", JSON.stringify(next));
       return next;
     });
@@ -734,7 +734,7 @@ function QuoteSummary({
   isFavorite: boolean;
   quote: QuoteSnapshot;
   snapshot: SignalSnapshot;
-  onFavorite: (symbol: string) => void;
+  onFavorite: (symbol: string, source?: string) => void;
 }) {
   const isUp = quote.change >= 0;
 
@@ -757,7 +757,7 @@ function QuoteSummary({
             <TrackedLink className="outline-button" eventName="trust_link_clicked" href="/methodology" label="比較模型" payload={{ area: "quote_actions", symbol: asset.symbol }}>
               比較模型
             </TrackedLink>
-            <button className={isFavorite ? "solid-button active" : "solid-button"} onClick={() => onFavorite(asset.symbol)} type="button">
+            <button className={isFavorite ? "solid-button active" : "solid-button"} onClick={() => onFavorite(asset.symbol, "quote_actions")} type="button">
               {isFavorite ? "已加入自選股" : "加入自選股"}
             </button>
           </div>
@@ -2207,7 +2207,7 @@ function AssetSelector({
   isFavorite: boolean;
   query: string;
   selectedSymbol: string;
-  onFavorite: (symbol: string) => void;
+  onFavorite: (symbol: string, source?: string) => void;
   onGroup: (group: string) => void;
   onQuery: (query: string) => void;
   onQueryClear: (source: string) => void;
@@ -2243,7 +2243,7 @@ function AssetSelector({
         </label>
         <button
           className={isFavorite ? "favorite active" : "favorite"}
-          onClick={() => onFavorite(selectedSymbol)}
+          onClick={() => onFavorite(selectedSymbol, "asset_toolbar")}
           type="button"
         >
           {isFavorite ? "♥ 已加入愛心" : "♡ 加入愛心"}
