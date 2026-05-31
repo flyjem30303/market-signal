@@ -34,6 +34,29 @@ export default function PrivacyPage() {
         </article>
       </section>
 
+      <section className="legal-runtime-boundary" aria-label="隱私權 runtime 資料規則">
+        <div>
+          <p className="eyebrow">Runtime Data Rules</p>
+          <h2>目前 mock 階段的資料處理方式</h2>
+          <p>正式會員、付費、Email 與廣告功能尚未啟用前，使用者應先知道哪些資料可能存在、哪些還不會啟動。</p>
+        </div>
+        <article className="allowed">
+          <span>目前可用</span>
+          <strong>匿名瀏覽體驗</strong>
+          <p>可以瀏覽 mock 市場頁、個股頁與方法論；目前頁面重點是產品體驗與資訊架構驗證。</p>
+        </article>
+        <article className="caution">
+          <span>未來需揭露</span>
+          <strong>分析與會員資料</strong>
+          <p>若啟用 GA4、會員、收藏、訂閱或 Email，需補上實際工具、用途、保存期間與刪除流程。</p>
+        </article>
+        <article className="blocked">
+          <span>尚未啟用</span>
+          <strong>交易與個人化建議</strong>
+          <p>目前不以個人資料產生投資建議、交易指令、授信判斷或自動化金融決策。</p>
+        </article>
+      </section>
+
       <section className="panel legal-section">
         <h2>可能蒐集的資料</h2>
         <p>
