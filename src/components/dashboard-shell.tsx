@@ -626,12 +626,18 @@ function HomeGroupOverview({
       </div>
       <div className="home-group-grid">
         {groups.map((item) => (
-          <a href={`/stocks/${item.leading.asset.symbol}`} key={item.group}>
+          <TrackedLink
+            eventName="stock_link_clicked"
+            href={`/stocks/${item.leading.asset.symbol}`}
+            key={item.group}
+            label={`${item.group} ${item.leading.asset.symbol}`}
+            payload={{ area: "home_group_overview", group: item.group, symbol: item.leading.asset.symbol }}
+          >
             <span>{item.group}</span>
             <strong>{item.leading.asset.symbol} {item.leading.asset.name}</strong>
             <small>{item.count} 檔 mock 標的 · 平均風險 {item.averageRisk}/100</small>
             <b style={{ color: signalColor(item.leading.signal.key) }}>{item.leading.signal.title}</b>
-          </a>
+          </TrackedLink>
         ))}
       </div>
     </section>
@@ -658,7 +664,13 @@ function HomeWatchlist({
       </div>
       <div className="home-watchlist-rows">
         {items.map((item) => (
-          <a href={`/stocks/${item.asset.symbol}`} key={`${title}-${item.asset.symbol}`}>
+          <TrackedLink
+            eventName="stock_link_clicked"
+            href={`/stocks/${item.asset.symbol}`}
+            key={`${title}-${item.asset.symbol}`}
+            label={`${title} ${item.asset.symbol}`}
+            payload={{ area: "home_watchlist", list: title, metric: valueKey, symbol: item.asset.symbol }}
+          >
             <span>
               <strong>{item.asset.symbol}</strong>
               <small>{item.asset.name}</small>
@@ -668,7 +680,7 @@ function HomeWatchlist({
               <small>{valueKey === "risk" ? "風險" : "綜合"}</small>
               {valueKey === "risk" ? item.riskScore : item.compositeScore}
             </b>
-          </a>
+          </TrackedLink>
         ))}
       </div>
     </article>
