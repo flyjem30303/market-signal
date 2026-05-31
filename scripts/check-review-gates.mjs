@@ -2098,6 +2098,11 @@ const checks = [
     name: "cp3-supabase-readonly-latest-sanitized-run"
   },
   {
+    command: [node, "scripts/check-cp3-supabase-schema-shape-latest-sanitized-run.mjs"],
+    expectStatus: "ok",
+    name: "cp3-supabase-schema-shape-latest-sanitized-run"
+  },
+  {
     command: [node, "scripts/check-source-depth-blocker-panel.mjs"],
     expectStatus: "ok",
     name: "source-depth-blocker-panel"
