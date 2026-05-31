@@ -2008,6 +2008,11 @@ const checks = [
     name: "data-freshness-source-fallback"
   },
   {
+    command: [node, "scripts/check-data-freshness-source-behavior.mjs"],
+    expectStatus: "ok",
+    name: "data-freshness-source-behavior"
+  },
+  {
     command: [
       node,
       "--disable-warning=MODULE_TYPELESS_PACKAGE_JSON",
