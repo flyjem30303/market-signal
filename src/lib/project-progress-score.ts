@@ -78,7 +78,9 @@ export const projectProgressLanes: ProjectProgressLane[] = [
 ];
 
 export function getProjectProgressSummary(): ProjectProgressSummary {
-  const dataQualityEvidenceGate = buildDataQualityEvidenceGate();
+  const dataQualityEvidenceGate = buildDataQualityEvidenceGate({
+    freshnessState: "complete"
+  });
   const rawScore = projectProgressLanes.reduce((sum, lane) => sum + (lane.current * lane.weight) / 100, 0);
   const adjustedScore = Math.floor(rawScore - 2);
 

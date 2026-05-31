@@ -21,6 +21,8 @@ export type DataQualityEvidenceMissingCode =
   | "source_depth_approved"
   | "source_rights_approved";
 
+export type DataQualityEvidenceCompletedCode = "freshness_state_complete";
+
 export type DataQualityEvidenceAction = {
   code: DataQualityEvidenceMissingCode;
   gate: string;
@@ -30,6 +32,7 @@ export type DataQualityEvidenceAction = {
 
 export type DataQualityEvidenceGate = {
   canSetScoreSourceReal: false;
+  completedEvidence: DataQualityEvidenceCompletedCode[];
   missingActions: DataQualityEvidenceAction[];
   missingEvidence: string[];
   mode: "data_quality_evidence_gate";
@@ -84,6 +87,8 @@ const evidenceActions: Record<DataQualityEvidenceMissingCode, Omit<DataQualityEv
 };
 
 export function buildDataQualityEvidenceGate(input: DataQualityEvidenceInput = {}): DataQualityEvidenceGate {
+  const completedEvidence: DataQualityEvidenceCompletedCode[] =
+    input.freshnessState === "complete" ? ["freshness_state_complete"] : [];
   const missingEvidence = [
     input.freshnessState === "complete" ? null : "freshness_state_complete",
     Number.isFinite(input.dataQualityScore) && Number(input.dataQualityScore) >= minimumQualityScore
@@ -103,6 +108,7 @@ export function buildDataQualityEvidenceGate(input: DataQualityEvidenceInput = {
 
   return {
     canSetScoreSourceReal: false,
+    completedEvidence,
     missingActions,
     missingEvidence,
     mode: "data_quality_evidence_gate",

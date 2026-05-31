@@ -23,7 +23,8 @@ export function ProjectProgressPanel() {
         <span>Data quality evidence gate</span>
         <strong>{progress.dataQualityEvidenceGate.status}</strong>
         <p>
-          Missing evidence: {progress.dataQualityEvidenceGate.missingEvidence.length}. scoreSource{" "}
+          Completed evidence: {progress.dataQualityEvidenceGate.completedEvidence.length}. Missing evidence:{" "}
+          {progress.dataQualityEvidenceGate.missingEvidence.length}. scoreSource{" "}
           {progress.dataQualityEvidenceGate.scoreSource}; public source{" "}
           {progress.dataQualityEvidenceGate.publicDataSource}.
         </p>

@@ -20,6 +20,7 @@ const approvedInput = {
 
 const cases = [
   runCase({
+    expectedCompleted: [],
     expectedMissing: [
       "freshness_state_complete",
       "data_quality_score_at_least_80",
@@ -35,12 +36,14 @@ const cases = [
     name: "empty evidence stays blocked"
   }),
   runCase({
+    expectedCompleted: ["freshness_state_complete"],
     expectedMissing: ["data_quality_score_at_least_80"],
     expectedStatus: "blocked",
     input: { ...approvedInput, dataQualityScore: 79 },
     name: "quality score below threshold stays blocked"
   }),
   runCase({
+    expectedCompleted: ["freshness_state_complete"],
     expectedMissing: [],
     expectedStatus: "candidate",
     input: approvedInput,
@@ -58,7 +61,7 @@ if (status !== "ok") {
   process.exit(1);
 }
 
-function runCase({ expectedMissing, expectedStatus, input, name }) {
+function runCase({ expectedCompleted, expectedMissing, expectedStatus, input, name }) {
   const gate = buildDataQualityEvidenceGate(input);
   const problems = [];
 
@@ -69,6 +72,22 @@ function runCase({ expectedMissing, expectedStatus, input, name }) {
   for (const item of expectedMissing) {
     if (!gate.missingEvidence.includes(item)) {
       problems.push(`missing evidence item not reported: ${item}`);
+    }
+  }
+
+  for (const item of expectedCompleted) {
+    if (!gate.completedEvidence.includes(item)) {
+      problems.push(`completed evidence item not reported: ${item}`);
+    }
+  }
+
+  if (gate.completedEvidence.length !== expectedCompleted.length) {
+    problems.push(`expected ${expectedCompleted.length} completed evidence items, got ${gate.completedEvidence.length}`);
+  }
+
+  for (const item of gate.completedEvidence) {
+    if (gate.missingEvidence.includes(item)) {
+      problems.push(`completed evidence must not remain missing: ${item}`);
     }
   }
 
@@ -93,6 +112,7 @@ function runCase({ expectedMissing, expectedStatus, input, name }) {
   return {
     gate: {
       canSetScoreSourceReal: gate.canSetScoreSourceReal,
+      completedEvidence: gate.completedEvidence,
       missingActions: gate.missingActions,
       missingEvidence: gate.missingEvidence,
       publicDataSource: gate.publicDataSource,
@@ -110,6 +130,8 @@ function scanSource() {
   const required = [
     "buildDataQualityEvidenceGate",
     "DataQualityEvidenceAction",
+    "DataQualityEvidenceCompletedCode",
+    "completedEvidence",
     "evidenceActions",
     "minimumQualityScore = 80",
     "freshness_state_complete",
