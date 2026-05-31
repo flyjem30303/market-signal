@@ -1583,6 +1583,11 @@ const checks = [
     name: "row-coverage-contract"
   },
   {
+    command: [node, "scripts/check-row-coverage-readonly-validation-contract.mjs"],
+    expectStatus: "ok",
+    name: "row-coverage-readonly-validation-contract"
+  },
+  {
     command: [node, "scripts/check-freshness-runtime-activation-state.mjs"],
     expectStatus: "ok",
     name: "freshness-runtime-activation-state"

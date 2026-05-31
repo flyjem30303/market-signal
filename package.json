@@ -119,6 +119,7 @@
     "check:data-quality-evidence-gate": "node scripts/check-data-quality-evidence-gate.mjs",
     "check:data-quality-score-contract": "node scripts/check-data-quality-score-contract.mjs",
     "check:row-coverage-contract": "node scripts/check-row-coverage-contract.mjs",
+    "check:row-coverage-readonly-validation-contract": "node scripts/check-row-coverage-readonly-validation-contract.mjs",
     "check:freshness-runtime-activation-state": "node scripts/check-freshness-runtime-activation-state.mjs",
     "check:freshness-runtime-activation-behavior": "node scripts/check-freshness-runtime-activation-behavior.mjs",
     "check:freshness-readonly-smoke-report": "node scripts/check-freshness-readonly-smoke-report.mjs",
