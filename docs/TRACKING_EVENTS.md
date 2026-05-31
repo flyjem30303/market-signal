@@ -13,6 +13,7 @@
 | `home_page_viewed` | 進入首頁 | `page` |
 | `home_cta_clicked` | 點擊首頁 Quick Start 行動 | `action`, `href`, `symbol` |
 | `nav_link_clicked` | 點擊主導覽連結 | `from`, `href`, `label` |
+| `site_chrome_link_clicked` | 點擊全站固定區塊連結 | `area`, `href`, `label` |
 | `commercial_disclosure_link_clicked` | 點擊商業揭露區信任連結 | `context`, `href`, `label` |
 | `stock_page_viewed` | 進入股票頁 | `symbol`, `name`, `signal` |
 | `briefing_page_viewed` | 進入晨報頁 | `page` |
