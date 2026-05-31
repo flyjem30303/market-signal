@@ -67,6 +67,14 @@ export default function TermsPage() {
           本網站可能提供廣告、聯盟連結或商業合作內容。相關內容不得視為投資建議，且不應影響模型分數或燈號。
         </p>
       </section>
+
+      <section className="panel legal-links">
+        <h2>讀完使用條款後</h2>
+        <a className="text-link" href="/disclaimer">查看投資免責聲明</a>
+        <a className="text-link" href="/privacy">查看隱私權政策</a>
+        <a className="text-link" href="/methodology">了解評分方法論</a>
+        <a className="text-link" href="/">回首頁看市場概況</a>
+      </section>
     </main>
   );
 }

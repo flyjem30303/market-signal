@@ -72,6 +72,14 @@ export default function PrivacyPage() {
           會員功能上線後，使用者應可要求查詢、更正、刪除或停止使用個人資料。正式版本會補上聯絡方式與資料刪除流程。
         </p>
       </section>
+
+      <section className="panel legal-links">
+        <h2>讀完隱私權政策後</h2>
+        <a className="text-link" href="/terms">查看使用條款</a>
+        <a className="text-link" href="/disclaimer">查看投資免責聲明</a>
+        <a className="text-link" href="/methodology">了解評分方法論</a>
+        <a className="text-link" href="/">回首頁看市場概況</a>
+      </section>
     </main>
   );
 }
