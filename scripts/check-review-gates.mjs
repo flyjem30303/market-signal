@@ -1553,6 +1553,11 @@ const checks = [
     name: "runtime-readiness-panel"
   },
   {
+    command: [node, "scripts/check-supabase-readonly-evidence-state.mjs"],
+    expectStatus: "ok",
+    name: "supabase-readonly-evidence-state"
+  },
+  {
     command: [node, "scripts/check-cp3-5pm-runtime-readiness-checkpoint.mjs"],
     expectStatus: "ok",
     name: "cp3-5pm-runtime-readiness-checkpoint"

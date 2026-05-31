@@ -1,4 +1,5 @@
 import { getRuntimeReadinessSummary } from "@/lib/runtime-readiness-score";
+import { getSupabaseReadonlyEvidenceSummary } from "@/lib/supabase-readonly-evidence";
 import { getSupabaseReadonlyDecision } from "@/lib/supabase-readonly-decision";
 import { getSupabaseReadonlyExecutionPreview } from "@/lib/supabase-readonly-execution-preview";
 import { getSupabaseReadonlyLocalPreflight } from "@/lib/supabase-readonly-local-preflight";
@@ -8,6 +9,7 @@ export function RuntimeReadinessPanel() {
   const preflight = getSupabaseReadonlyLocalPreflight();
   const decision = getSupabaseReadonlyDecision(preflight);
   const executionPreview = getSupabaseReadonlyExecutionPreview(decision);
+  const readonlyEvidence = getSupabaseReadonlyEvidenceSummary();
 
   return (
     <section className={`runtime-readiness-panel ${readiness.status}`} aria-label="Runtime readiness">
@@ -34,6 +36,13 @@ export function RuntimeReadinessPanel() {
         </article>
       </div>
       <div className="runtime-preflight-status">
+        <article className="active" aria-label="Supabase readonly evidence accepted">
+          <span>Readonly evidence</span>
+          <strong>{readonlyEvidence.evidenceStatus}</strong>
+          <p>{readonlyEvidence.acceptedScope}</p>
+          <p>Objects reachable: {readonlyEvidence.objects.length}. Next: {readonlyEvidence.nextRuntimeGate}.</p>
+          <p>{readonlyEvidence.stopLine}</p>
+        </article>
         <article className="readying" aria-label="CEO next runtime move">
           <span>CEO next move</span>
           <strong>

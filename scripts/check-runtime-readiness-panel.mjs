@@ -3,26 +3,35 @@ import fs from "node:fs";
 const summaryPath = "src/lib/runtime-readiness-score.ts";
 const decisionPath = "src/lib/supabase-readonly-decision.ts";
 const executionPreviewPath = "src/lib/supabase-readonly-execution-preview.ts";
+const evidencePath = "src/lib/supabase-readonly-evidence.ts";
 const preflightPath = "src/lib/supabase-readonly-local-preflight.ts";
 const componentPath = "src/components/runtime-readiness-panel.tsx";
 const briefingPath = "src/app/briefing/page.tsx";
 const cssPath = "src/app/globals.css";
 
 const files = new Map(
-  [summaryPath, decisionPath, executionPreviewPath, preflightPath, componentPath, briefingPath, cssPath].map((file) => [
+  [summaryPath, decisionPath, executionPreviewPath, evidencePath, preflightPath, componentPath, briefingPath, cssPath].map((file) => [
     file,
     fs.readFileSync(file, "utf8")
   ])
 );
 
 const required = [
-  [summaryPath, "Runtime 正在進入受控實作前段，但仍維持 mock-only"],
-  [summaryPath, "Supabase 唯讀 preflight"],
+  [summaryPath, "Runtime 已通過 Supabase object reachability，但仍維持 mock-only"],
+  [summaryPath, "Supabase 唯讀 object reachability"],
   [summaryPath, "本地 preflight 只檢查環境與安全開關"],
   [summaryPath, "不連線、不印 secrets、不跑 SQL"],
   [summaryPath, "npm run report:supabase-readonly-preflight"],
   [summaryPath, "npm run db:readonly-validate"],
   [summaryPath, "模型與回測證據"],
+  [summaryPath, "schema shape、freshness interpretation 與 UI state wiring"],
+  [evidencePath, "getSupabaseReadonlyEvidenceSummary"],
+  [evidencePath, "object_reachability_accepted"],
+  [evidencePath, "Do not convert object reachability into SQL, writes, ingestion, public claims, or scoreSource=real."],
+  [evidencePath, "filesWritten: false"],
+  [evidencePath, "mutations: false"],
+  [evidencePath, "sqlExecuted: false"],
+  [evidencePath, "scoreSourceRealChanged: false"],
   [preflightPath, "getSupabaseReadonlyLocalPreflight"],
   [preflightPath, "connectionAttempted: false"],
   [preflightPath, "secretsPrinted: false"],
@@ -71,6 +80,8 @@ const required = [
   [componentPath, "RuntimeReadinessPanel"],
   [componentPath, "Runtime Readiness"],
   [componentPath, "Runtime readiness"],
+  [componentPath, "Readonly evidence"],
+  [componentPath, "readonlyEvidence.objects.length"],
   [componentPath, "runtime-readiness-command"],
   [componentPath, "runtime-preflight-status"],
   [componentPath, "CEO next move"],

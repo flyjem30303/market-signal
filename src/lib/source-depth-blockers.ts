@@ -43,17 +43,17 @@ export function getSourceDepthBlockerSummary(): SourceDepthBlockerSummary {
     },
     {
       id: "remote-read-evidence",
-      label: "遠端唯讀證據未轉成品質證據",
+      label: "遠端唯讀證據已通過但未轉成品質證據",
       owner: "Engineering",
-      reason: "Supabase reachability 只能證明物件可讀，不等於資料完整、正確或可公開使用。",
-      state: "blocked"
+      reason: "Supabase object reachability 已被接受為窄前提，但仍不等於資料完整、正確或可公開使用。",
+      state: "not_ready"
     }
   ];
 
   return {
     blockers,
     headline: "來源深度仍是 scoreSource=real 前的主要阻塞",
-    nextAction: "下一步應先把來源深度、來源權利與資料品質降級規則整理成可覆核證據，再討論真實資料與正式分數。",
+    nextAction: "下一步應把 schema shape、freshness interpretation、來源權利與資料品質降級規則整理成可覆核證據，再討論真實資料與正式分數。",
     readinessLabel: "not_ready",
     scoreSource: "mock",
     sourceDepthState: "not_ready",

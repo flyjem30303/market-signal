@@ -17,7 +17,7 @@ const files = new Map(
 const required = [
   [helperPath, "getSourceDepthBlockerSummary"],
   [helperPath, "來源深度仍是 scoreSource=real 前的主要阻塞"],
-  [helperPath, "Supabase reachability 只能證明物件可讀"],
+  [helperPath, "Supabase object reachability 已被接受為窄前提"],
   [helperPath, "sourceDepthState: \"not_ready\""],
   [helperPath, "scoreSource: \"mock\""],
   [helperPath, "不得因 UI、metadata reachability、schema shape 或 Supabase object reachability 而升級公開宣稱"],
