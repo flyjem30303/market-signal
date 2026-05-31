@@ -44,6 +44,7 @@
     "check:internal-routes": "node scripts/check-internal-route-exposure.mjs",
     "check:internal-diagnostics-runtime-policy": "node scripts/check-internal-diagnostics-runtime-policy.mjs",
     "check:internal-diagnostics-access-behavior": "node scripts/check-internal-diagnostics-access-behavior.mjs",
+    "check:briefing-executive-summary": "node scripts/check-briefing-executive-summary.mjs",
     "check:briefing-boundary-disclosure": "node scripts/check-briefing-boundary-disclosure.mjs",
     "check:cp1-snapshot": "node scripts/check-cp1-snapshot.mjs",
     "check:cp1-to-cp2": "node scripts/check-cp1-to-cp2.mjs",

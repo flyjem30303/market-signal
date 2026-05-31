@@ -44,6 +44,7 @@ export default async function BriefingPage() {
   return (
     <main className="page-shell">
       <PageViewTracker eventName="briefing_page_viewed" payload={{ page: "briefing" }} />
+      <BriefingExecutiveSummary market={market} topRisk={topRisk} />
       <section className="hero briefing-hero">
         <div>
           <p className="eyebrow">Daily Briefing</p>
@@ -328,6 +329,58 @@ function BriefingBridgeLink({
       <strong>{title}</strong>
       <p>{text}</p>
     </TrackedLink>
+  );
+}
+
+function BriefingExecutiveSummary({ market, topRisk }: { market: SignalSnapshot; topRisk: SignalSnapshot }) {
+  return (
+    <section className="briefing-executive-summary" aria-label="董事長與 CEO 晨報摘要">
+      <div>
+        <p className="eyebrow">CEO Briefing</p>
+        <h1>每日市場晨報</h1>
+        <p>
+          這一頁先用 mock 訊號整理市場狀態、風險熱點與下一步閱讀路徑。目前仍不是正式真實資料模型，也不是投資建議。
+        </p>
+      </div>
+      <aside>
+        <span>
+          <b>目前可做</b>
+          <i>改善 mock 體驗、頁面可讀性與 runtime guard</i>
+        </span>
+        <span>
+          <b>準備中</b>
+          <i>Supabase 唯讀 gate 與來源深度證據</i>
+        </span>
+        <span>
+          <b>仍阻擋</b>
+          <i>SQL、真實市場資料寫入、正式分數來源切換</i>
+        </span>
+      </aside>
+      <nav>
+        <TrackedLink
+          eventName="briefing_link_clicked"
+          href={`/stocks/${market.asset.symbol}`}
+          label="市場總覽"
+          payload={{ area: "executive_summary", symbol: market.asset.symbol }}
+        >
+          <span>市場總覽</span>
+          <strong>{market.asset.name}</strong>
+          <small>綜合分數 {market.compositeScore}/100</small>
+        </TrackedLink>
+        <TrackedLink
+          eventName="briefing_link_clicked"
+          href={`/stocks/${topRisk.asset.symbol}`}
+          label="風險優先檢查"
+          payload={{ area: "executive_summary", symbol: topRisk.asset.symbol }}
+        >
+          <span>風險優先檢查</span>
+          <strong>
+            {topRisk.asset.symbol} {topRisk.asset.name}
+          </strong>
+          <small>風險分數 {topRisk.riskScore}/100</small>
+        </TrackedLink>
+      </nav>
+    </section>
   );
 }
 

@@ -33,6 +33,11 @@ const checks = [
     name: "internal-diagnostics-access-behavior"
   },
   {
+    command: [node, "scripts/check-briefing-executive-summary.mjs"],
+    expectStatus: "ok",
+    name: "briefing-executive-summary"
+  },
+  {
     command: [node, "scripts/check-briefing-boundary-disclosure.mjs"],
     expectStatus: "ok",
     name: "briefing-boundary-disclosure"
