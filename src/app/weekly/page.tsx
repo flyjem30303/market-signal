@@ -28,6 +28,8 @@ export default async function WeeklyPage() {
     .sort((a, b) => b.healthScore - a.healthScore);
   const breadth = buildWeeklyBreadth(snapshots);
   const topRisk = riskHeating[0];
+  const topEtf = etfs[0];
+  const leadingAiSemi = aiSemis[0];
 
   return (
     <main className="page-shell">
@@ -58,6 +60,40 @@ export default async function WeeklyPage() {
           <strong>{freshness.scoreSourceLabel}</strong>
           <p>目前週報支援產品體驗與閱讀流程驗證，不代表真實資料或正式模型已核准。</p>
         </article>
+      </section>
+
+      <section className="weekly-reading-bridge" aria-label="週報讀後路徑">
+        <div>
+          <p className="eyebrow">Reading Bridge</p>
+          <h2>讀完週報後先看哪裡</h2>
+          <p>把週報結論接回可瀏覽頁面：先確認大盤，再看 ETF、主線族群與風險升溫標的。</p>
+        </div>
+        <nav>
+          <WeeklyBridgeLink
+            href={`/stocks/${market.asset.symbol}`}
+            label="市場基準"
+            title={`${market.asset.symbol} ${market.asset.name}`}
+            text={`綜合 ${market.compositeScore}/100，先確認大盤是否支撐週報判讀。`}
+          />
+          <WeeklyBridgeLink
+            href={`/stocks/${topEtf.asset.symbol}`}
+            label="ETF 節奏"
+            title={`${topEtf.asset.symbol} ${topEtf.asset.name}`}
+            text={`健康 ${topEtf.healthScore}/100，用來觀察核心部位是否仍穩。`}
+          />
+          <WeeklyBridgeLink
+            href={`/stocks/${leadingAiSemi.asset.symbol}`}
+            label="主線族群"
+            title={`${leadingAiSemi.asset.symbol} ${leadingAiSemi.asset.name}`}
+            text={`健康 ${leadingAiSemi.healthScore}/100，檢查 AI / 半導體主線是否延續。`}
+          />
+          <WeeklyBridgeLink
+            href={`/stocks/${topRisk.asset.symbol}`}
+            label="風險檢查"
+            title={`${topRisk.asset.symbol} ${topRisk.asset.name}`}
+            text={`風險 ${topRisk.riskScore}/100，追價前先拆解風險來源。`}
+          />
+        </nav>
       </section>
 
       <article className="panel weekly-article">
@@ -143,6 +179,26 @@ export default async function WeeklyPage() {
 
       <CommercialSlot context="weekly" />
     </main>
+  );
+}
+
+function WeeklyBridgeLink({
+  href,
+  label,
+  text,
+  title
+}: {
+  href: string;
+  label: string;
+  text: string;
+  title: string;
+}) {
+  return (
+    <a href={href}>
+      <span>{label}</span>
+      <strong>{title}</strong>
+      <p>{text}</p>
+    </a>
   );
 }
 
