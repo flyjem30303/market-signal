@@ -2068,6 +2068,11 @@ const checks = [
     name: "trust-runtime-boundary-notice"
   },
   {
+    command: [node, "scripts/check-public-runtime-boundary-coverage.mjs"],
+    expectStatus: "ok",
+    name: "public-runtime-boundary-coverage"
+  },
+  {
     command: [node, "scripts/check-stock-decision-compass.mjs"],
     expectStatus: "ok",
     name: "stock-decision-compass"
