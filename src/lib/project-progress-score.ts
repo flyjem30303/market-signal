@@ -1,3 +1,5 @@
+import { buildDataQualityEvidenceGate, type DataQualityEvidenceGate } from "@/lib/data-quality-evidence-gate";
+
 export type ProjectProgressLane = {
   current: number;
   label: string;
@@ -8,6 +10,7 @@ export type ProjectProgressLane = {
 
 export type ProjectProgressSummary = {
   adjustedScore: number;
+  dataQualityEvidenceGate: DataQualityEvidenceGate;
   headline: string;
   lanes: ProjectProgressLane[];
   nextLift: string;
@@ -75,11 +78,13 @@ export const projectProgressLanes: ProjectProgressLane[] = [
 ];
 
 export function getProjectProgressSummary(): ProjectProgressSummary {
+  const dataQualityEvidenceGate = buildDataQualityEvidenceGate();
   const rawScore = projectProgressLanes.reduce((sum, lane) => sum + (lane.current * lane.weight) / 100, 0);
   const adjustedScore = Math.floor(rawScore - 2);
 
   return {
     adjustedScore,
+    dataQualityEvidenceGate,
     headline: `PM 估算目前整體開發進度 ${adjustedScore}%`,
     lanes: projectProgressLanes,
     nextLift: "下一個最能拉高分數的工作，是把 Supabase readonly runtime activation 接成一次性受控 metadata read smoke，仍不升級 public source 或 scoreSource=real。",

@@ -16,6 +16,19 @@ export function ProjectProgressPanel() {
         <b>{progress.adjustedScore}%</b>
         <small>raw {progress.rawScore}%</small>
       </div>
+      <div
+        className={`project-progress-evidence ${progress.dataQualityEvidenceGate.status}`}
+        aria-label={`Data quality evidence gate ${progress.dataQualityEvidenceGate.status}`}
+      >
+        <span>Data quality evidence gate</span>
+        <strong>{progress.dataQualityEvidenceGate.status}</strong>
+        <p>
+          Missing evidence: {progress.dataQualityEvidenceGate.missingEvidence.length}. scoreSource{" "}
+          {progress.dataQualityEvidenceGate.scoreSource}; public source{" "}
+          {progress.dataQualityEvidenceGate.publicDataSource}.
+        </p>
+        <p>{progress.dataQualityEvidenceGate.stopLine}</p>
+      </div>
       <div className="project-progress-lanes">
         {progress.lanes.map((lane) => (
           <article key={lane.label}>

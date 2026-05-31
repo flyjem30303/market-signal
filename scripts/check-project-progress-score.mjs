@@ -12,6 +12,8 @@ const files = new Map(
 const required = [
   [progressPath, "export type ProjectProgressLane"],
   [progressPath, "getProjectProgressSummary"],
+  [progressPath, "buildDataQualityEvidenceGate"],
+  [progressPath, "dataQualityEvidenceGate"],
   [progressPath, "adjustedScore"],
   [progressPath, "Supabase schema / repository readiness"],
   [progressPath, "Supabase object reachability"],
@@ -29,16 +31,21 @@ const required = [
   [componentPath, "ProjectProgressPanel"],
   [componentPath, "PM Progress Score"],
   [componentPath, "Project progress"],
+  [componentPath, "Data quality evidence gate"],
+  [componentPath, "progress.dataQualityEvidenceGate.missingEvidence.length"],
+  [componentPath, "progress.dataQualityEvidenceGate.stopLine"],
   [briefingPath, "import { ProjectProgressPanel }"],
   [briefingPath, "<ProjectProgressPanel />"],
   [cssPath, ".project-progress-panel"],
   [cssPath, ".project-progress-meter"],
+  [cssPath, ".project-progress-evidence"],
   [cssPath, ".project-progress-lanes"]
 ];
 
 const forbidden = [
   [progressPath, "adjustedScore: 100"],
   [progressPath, "scoreSource=real approved"],
+  [progressPath, "canSetScoreSourceReal: true"],
   [progressPath, "currentPublicSource: \"supabase\""],
   [componentPath, "connect Supabase"],
   [componentPath, "run SQL"],

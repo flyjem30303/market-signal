@@ -391,6 +391,35 @@ select {
   text-transform: uppercase;
 }
 
+.project-progress-evidence {
+  display: grid;
+  gap: 8px;
+  grid-column: 1 / -1;
+  border: 1px solid rgba(180, 83, 9, 0.24);
+  border-radius: 8px;
+  background: #fff7ed;
+  padding: 12px;
+}
+
+.project-progress-evidence span {
+  color: #9a3412;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.project-progress-evidence strong {
+  color: #7c2d12;
+  font-size: 15px;
+}
+
+.project-progress-evidence p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
 .project-progress-lanes {
   display: grid;
   grid-column: 1 / -1;
