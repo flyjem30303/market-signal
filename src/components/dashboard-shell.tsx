@@ -214,6 +214,7 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
           <StockEvidenceSnapshot snapshot={snapshot} />
           <StockDataGapPanel snapshot={snapshot} onTab={changeTab} />
           <StockDecisionCompass scoreSourceLabel={freshness.scoreSourceLabel} snapshot={snapshot} />
+          <StockRuntimeBrief scoreSourceLabel={freshness.scoreSourceLabel} snapshot={snapshot} onTab={changeTab} />
           <StockMarketContextPanel
             groupAverage={marketContext.groupAverage}
             groupCount={marketContext.groupCount}
@@ -817,6 +818,53 @@ function StockDecisionCompass({
         <strong>先總後細</strong>
         <p>先看今日分數與資料狀態，再切換趨勢、技術、籌碼、基本面與回測。</p>
       </article>
+    </section>
+  );
+}
+
+function StockRuntimeBrief({
+  scoreSourceLabel,
+  snapshot,
+  onTab
+}: {
+  scoreSourceLabel: string;
+  snapshot: SignalSnapshot;
+  onTab: (tab: TabKey) => void;
+}) {
+  const hasDataWarnings = snapshot.missingModuleFlags.length > 0 || snapshot.staleDataFlags.length > 0;
+  const primaryTab: TabKey = hasDataWarnings ? "today" : snapshot.riskScore >= 60 ? "technical" : "trend";
+  const primaryAction = hasDataWarnings
+    ? "先補資料判讀"
+    : snapshot.riskScore >= 60
+      ? "先拆風險"
+      : "先看趨勢";
+  const readiness = hasDataWarnings ? "資料待確認" : snapshot.riskScore >= 60 ? "風險升溫" : "可做 mock 閱讀";
+
+  return (
+    <section className="stock-runtime-brief" aria-label="Stock Runtime Brief">
+      <div>
+        <p className="eyebrow">Runtime Brief</p>
+        <h2>{snapshot.asset.symbol} 目前怎麼讀</h2>
+        <p>這是公開頁面可用的閱讀摘要，維持 {scoreSourceLabel} 與 mock 邊界，只協助排序，不產生買賣建議。</p>
+      </div>
+      <article>
+        <span>目前狀態</span>
+        <strong>{readiness}</strong>
+        <p>{hasDataWarnings ? "資料旗標未清前，先不要放大解讀分數。" : "可用既有 mock 模組檢查趨勢、風險與相對位置。"}</p>
+      </article>
+      <article>
+        <span>主行動</span>
+        <strong>{primaryAction}</strong>
+        <p>{snapshot.riskScore >= 60 ? "風險分數偏高，優先看波動與技術風險。" : "先確認分數路徑是否連續，再看其他模組。"}</p>
+      </article>
+      <article>
+        <span>停止線</span>
+        <strong>不升級結論</strong>
+        <p>來源深度、真實資料與正式分數未核准前，只保留觀察與產品驗證。</p>
+      </article>
+      <button onClick={() => onTab(primaryTab)} type="button">
+        前往{primaryTab === "technical" ? "技術風險" : primaryTab === "trend" ? "趨勢" : "今日摘要"}
+      </button>
     </section>
   );
 }
