@@ -206,7 +206,8 @@ select {
 }
 
 .freshness-strip strong,
-.freshness-strip span {
+.freshness-strip span,
+.freshness-strip a {
   border-radius: 999px;
   font-size: 13px;
   font-weight: 750;
@@ -221,6 +222,16 @@ select {
 .freshness-strip span {
   background: var(--panel-muted);
   color: var(--muted);
+}
+
+.freshness-strip a {
+  background: #eef7fb;
+  color: var(--teal);
+  text-decoration: none;
+}
+
+.freshness-strip a:hover {
+  background: #dff0f7;
 }
 
 .freshness-strip .freshness-description {

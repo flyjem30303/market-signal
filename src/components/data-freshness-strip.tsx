@@ -21,6 +21,8 @@ export function DataFreshnessStrip({ freshness }: DataFreshnessStripProps) {
       <span className={`freshness-score-source ${freshness.scoreSource}`}>分數來源：{freshness.scoreSourceLabel}</span>
       <span className="freshness-boundary">Freshness metadata 不等於真實評分或資料品質核准</span>
       <span className="freshness-description">{freshness.description}</span>
+      <a className="freshness-link" href="/methodology">看方法論</a>
+      <a className="freshness-link" href="/disclaimer">看免責聲明</a>
     </aside>
   );
 }
