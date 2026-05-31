@@ -30,6 +30,7 @@ export default async function WeeklyPage() {
   const topRisk = riskHeating[0];
   const topEtf = etfs[0];
   const leadingAiSemi = aiSemis[0];
+  const cadence = buildWeeklyRuntimeCadence(market, breadth, topRisk, topEtf);
 
   return (
     <main className="page-shell">
@@ -60,6 +61,21 @@ export default async function WeeklyPage() {
           <strong>{freshness.scoreSourceLabel}</strong>
           <p>目前週報支援產品體驗與閱讀流程驗證，不代表真實資料或正式模型已核准。</p>
         </article>
+      </section>
+
+      <section className="weekly-runtime-cadence" aria-label="週報執行節奏">
+        <div>
+          <p className="eyebrow">Runtime Cadence</p>
+          <h2>本週照這個節奏讀</h2>
+          <p>週報不追求單日反應，而是把市場、ETF、風險與每日晨報串成一個較慢的觀察節奏。</p>
+        </div>
+        {cadence.map((item) => (
+          <a className={item.tone} href={item.href} key={item.label}>
+            <span>{item.label}</span>
+            <strong>{item.title}</strong>
+            <p>{item.text}</p>
+          </a>
+        ))}
       </section>
 
       <section className="weekly-reading-bridge" aria-label="週報讀後路徑">
@@ -217,6 +233,51 @@ function buildWeeklyBreadth(snapshots: SignalSnapshot[]) {
     },
     { constructive: 0, defensive: 0, watch: 0 }
   );
+}
+
+function buildWeeklyRuntimeCadence(
+  market: SignalSnapshot,
+  breadth: ReturnType<typeof buildWeeklyBreadth>,
+  topRisk: SignalSnapshot,
+  topEtf: SignalSnapshot
+) {
+  const marketIsConstructive = market.signal.key === "green" || market.signal.key === "yellow";
+  const breadthTone = breadth.defensive > breadth.constructive ? "hold" : "active";
+  const riskTone = topRisk.riskScore >= 70 ? "blocked" : "hold";
+  const etfTone = topEtf.riskScore >= 60 ? "hold" : "active";
+
+  return [
+    {
+      href: `/stocks/${market.asset.symbol}`,
+      label: "週初",
+      text: marketIsConstructive
+        ? `大盤為${market.signal.title}，先確認健康度是否由更多標的支撐。`
+        : `大盤為${market.signal.title}，先降低速度，確認週報假設是否仍成立。`,
+      title: breadthTone === "active" ? "先確認市場廣度" : "先降速看結構",
+      tone: breadthTone
+    },
+    {
+      href: `/stocks/${topEtf.asset.symbol}`,
+      label: "週中",
+      text: `${topEtf.asset.symbol} 健康 ${topEtf.healthScore}/100，檢查核心 ETF 是否支撐分批節奏。`,
+      title: etfTone === "active" ? "再看 ETF 節奏" : "ETF 先保守觀察",
+      tone: etfTone
+    },
+    {
+      href: `/stocks/${topRisk.asset.symbol}`,
+      label: "週末前",
+      text: `${topRisk.asset.symbol} 風險 ${topRisk.riskScore}/100，若風險未降溫，下週先維持觀察。`,
+      title: riskTone === "blocked" ? "優先拆高風險" : "最後檢查風險",
+      tone: riskTone
+    },
+    {
+      href: "/briefing",
+      label: "每日校準",
+      text: "每天回到晨報確認風險是否擴散，避免週報結論被單日波動誤導。",
+      title: "用晨報校準",
+      tone: "active"
+    }
+  ];
 }
 
 function WeeklyRanking({

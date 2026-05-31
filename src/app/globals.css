@@ -4591,6 +4591,72 @@ input[type="search"] {
   margin: 0;
 }
 
+.weekly-runtime-cadence {
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+  margin-bottom: 16px;
+  padding: 16px;
+}
+
+.weekly-runtime-cadence h2 {
+  margin: 0 0 8px;
+  font-size: 22px;
+  line-height: 1.25;
+}
+
+.weekly-runtime-cadence p {
+  color: var(--muted);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.weekly-runtime-cadence a {
+  display: grid;
+  gap: 8px;
+  align-content: start;
+  border: 1px solid var(--line);
+  border-top: 4px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel-muted);
+  color: var(--text);
+  min-height: 162px;
+  padding: 12px;
+  text-decoration: none;
+}
+
+.weekly-runtime-cadence a.active {
+  border-top-color: var(--green);
+}
+
+.weekly-runtime-cadence a.hold {
+  border-top-color: #d99a00;
+}
+
+.weekly-runtime-cadence a.blocked {
+  border-top-color: var(--red);
+}
+
+.weekly-runtime-cadence a:hover {
+  border-color: var(--blue);
+  background: #f8fbff;
+}
+
+.weekly-runtime-cadence span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.weekly-runtime-cadence strong {
+  font-size: 17px;
+  line-height: 1.28;
+}
+
 .weekly-reading-bridge {
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -5930,6 +5996,7 @@ input[type="date"] {
   .method-guardrail-grid,
   .method-grid,
   .quality-grid,
+  .weekly-runtime-cadence,
   .method-row,
   .seo-grid,
   .slider-grid,
