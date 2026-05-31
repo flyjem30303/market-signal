@@ -5305,6 +5305,65 @@ input[type="search"] {
   margin: 0;
 }
 
+.legal-runtime-boundary {
+  display: grid;
+  grid-template-columns: minmax(260px, 1.05fr) repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+  margin-bottom: 16px;
+  padding: 16px;
+}
+
+.legal-runtime-boundary h2 {
+  margin: 0 0 8px;
+  font-size: 22px;
+  line-height: 1.25;
+}
+
+.legal-runtime-boundary p {
+  color: var(--muted);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.legal-runtime-boundary article {
+  border: 1px solid var(--line);
+  border-top: 4px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel-muted);
+  min-height: 156px;
+  padding: 12px;
+}
+
+.legal-runtime-boundary article.allowed {
+  border-top-color: var(--green);
+}
+
+.legal-runtime-boundary article.caution {
+  border-top-color: #d99a00;
+}
+
+.legal-runtime-boundary article.blocked {
+  border-top-color: var(--red);
+}
+
+.legal-runtime-boundary span {
+  color: var(--muted);
+  display: block;
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.legal-runtime-boundary strong {
+  display: block;
+  font-size: 18px;
+  line-height: 1.25;
+  margin: 8px 0;
+}
+
 .method-quick-read,
 .method-guardrail-grid {
   display: grid;
@@ -6041,6 +6100,7 @@ input[type="date"] {
   .briefing-actions,
   .legal-quick-read,
   .method-quick-read,
+  .legal-runtime-boundary,
   .method-guardrail-grid,
   .method-grid,
   .quality-grid,

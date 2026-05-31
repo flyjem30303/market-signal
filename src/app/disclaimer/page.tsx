@@ -34,6 +34,29 @@ export default function DisclaimerPage() {
         </article>
       </section>
 
+      <section className="legal-runtime-boundary" aria-label="免責聲明 runtime 邊界">
+        <div>
+          <p className="eyebrow">Runtime Boundary</p>
+          <h2>看到分數時先套這三條</h2>
+          <p>這些規則對首頁、晨報、週報與個股頁都適用，用來避免把研究體驗誤讀成投資指令。</p>
+        </div>
+        <article className="allowed">
+          <span>可以</span>
+          <strong>排序閱讀</strong>
+          <p>用燈號、風險與資料狀態安排先看大盤、ETF、個股或方法論。</p>
+        </article>
+        <article className="caution">
+          <span>需要保留</span>
+          <strong>只做觀察</strong>
+          <p>分數可以協助比較狀態，但不能替代個人財務、部位與風險承受度判斷。</p>
+        </article>
+        <article className="blocked">
+          <span>不可</span>
+          <strong>升級成建議</strong>
+          <p>不得把任何分數、週報、排行或頁面文案視為買賣、加減碼或收益承諾。</p>
+        </article>
+      </section>
+
       <section className="panel legal-section">
         <h2>資訊服務定位</h2>
         <p>
