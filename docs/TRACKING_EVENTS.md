@@ -17,6 +17,7 @@
 | `trust_link_clicked` | 點擊方法論、資料狀態或法務信任導流連結 | `area`, `href`, `label` |
 | `commercial_disclosure_link_clicked` | 點擊商業揭露區信任連結 | `context`, `href`, `label` |
 | `stock_page_viewed` | 進入股票頁 | `symbol`, `name`, `signal` |
+| `stock_link_clicked` | 點擊股票頁與首頁股票導流連結 | `area`, `href`, `label`, `symbol` |
 | `briefing_page_viewed` | 進入晨報頁 | `page` |
 | `briefing_link_clicked` | 點擊晨報頁導流連結 | `area`, `href`, `label`, `symbol` |
 | `disclaimer_page_viewed` | 進入免責聲明頁 | `page` |

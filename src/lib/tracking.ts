@@ -10,6 +10,7 @@ export type TrackingEventName =
   | "trust_link_clicked"
   | "commercial_disclosure_link_clicked"
   | "stock_page_viewed"
+  | "stock_link_clicked"
   | "briefing_page_viewed"
   | "briefing_link_clicked"
   | "disclaimer_page_viewed"

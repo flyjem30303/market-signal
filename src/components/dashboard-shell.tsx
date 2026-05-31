@@ -7,6 +7,7 @@ import { StockSeoContent } from "@/components/stock-seo-content";
 import { CommercialSlot } from "@/components/commercial-slot";
 import { Cp3RuntimeStatePanel } from "@/components/cp3-runtime-state-panel";
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
+import { TrackedLink } from "@/components/tracked-link";
 import {
   signalColor,
   type BacktestBucket,
@@ -333,6 +334,8 @@ export function DashboardShell({ freshnessSnapshot, initialSymbol, includeSeoCon
 }
 
 function StockPageFollowUpLinks({ selected }: { selected: Asset }) {
+  const linkPayload = { area: "stock_follow_up", symbol: selected.symbol };
+
   return (
     <section className="panel stock-follow-up-links" aria-label="Stock Page Follow Up Links">
       <div>
@@ -341,11 +344,21 @@ function StockPageFollowUpLinks({ selected }: { selected: Asset }) {
         <p>回到市場層級交叉檢查，避免只用單一標的或單日 mock 分數形成判斷。</p>
       </div>
       <nav>
-        <a className="text-link" href="/briefing">看每日晨報</a>
-        <a className="text-link" href="/weekly">看本週週報</a>
-        <a className="text-link" href="/">回首頁看覆蓋地圖</a>
-        <a className="text-link" href="/methodology">確認方法論</a>
-        <a className="text-link" href="/disclaimer">確認免責聲明</a>
+        <TrackedLink className="text-link" eventName="stock_link_clicked" href="/briefing" label="看每日晨報" payload={linkPayload}>
+          看每日晨報
+        </TrackedLink>
+        <TrackedLink className="text-link" eventName="stock_link_clicked" href="/weekly" label="看本週週報" payload={linkPayload}>
+          看本週週報
+        </TrackedLink>
+        <TrackedLink className="text-link" eventName="stock_link_clicked" href="/" label="回首頁看覆蓋地圖" payload={linkPayload}>
+          回首頁看覆蓋地圖
+        </TrackedLink>
+        <TrackedLink className="text-link" eventName="trust_link_clicked" href="/methodology" label="確認方法論" payload={linkPayload}>
+          確認方法論
+        </TrackedLink>
+        <TrackedLink className="text-link" eventName="trust_link_clicked" href="/disclaimer" label="確認免責聲明" payload={linkPayload}>
+          確認免責聲明
+        </TrackedLink>
       </nav>
     </section>
   );
@@ -482,18 +495,18 @@ function HomeProductOverview({
           <h2>{decision.action}</h2>
           <p>{decision.reason}</p>
         </div>
-        <a href={decision.href}>
+        <TrackedLink eventName="home_cta_clicked" href={decision.href} label={decision.label} payload={{ action: "decision_strip", symbol: selected.symbol }}>
           <span>建議入口</span>
           <strong>{decision.label}</strong>
-        </a>
-        <a href={`/stocks/${marketSnapshot.asset.symbol}`}>
+        </TrackedLink>
+        <TrackedLink eventName="home_cta_clicked" href={`/stocks/${marketSnapshot.asset.symbol}`} label={`${marketSnapshot.asset.symbol} ${marketSnapshot.signal.title}`} payload={{ action: "market_benchmark", symbol: marketSnapshot.asset.symbol }}>
           <span>市場基準</span>
           <strong>{marketSnapshot.asset.symbol} {marketSnapshot.signal.title}</strong>
-        </a>
-        <a href="/methodology">
+        </TrackedLink>
+        <TrackedLink eventName="trust_link_clicked" href="/methodology" label={scoreSourceLabel} payload={{ area: "home_decision_strip", symbol: selected.symbol }}>
           <span>判讀邊界</span>
           <strong>{scoreSourceLabel}</strong>
-        </a>
+        </TrackedLink>
       </section>
 
       <section className="home-reading-route" aria-label="三分鐘閱讀路線">
@@ -502,19 +515,27 @@ function HomeProductOverview({
           <h2>三分鐘先看這三件事</h2>
           <p>首頁先幫新使用者建立閱讀順序：市場、指數、個別標的。每一步仍維持 mock 邊界，不提供買賣建議。</p>
         </div>
-        <a href="/briefing">
+        <TrackedLink eventName="home_cta_clicked" href="/briefing" label="先看市場晨報" payload={{ action: "reading_route_briefing", symbol: selected.symbol }}>
           <span>1</span>
           <strong>先看市場晨報</strong>
           <p>用市場廣度與風險清單判斷今天該偏進攻、觀察或防守。</p>
-        </a>
-        <a href={`/stocks/${marketSnapshot.asset.symbol}`}>
+        </TrackedLink>
+        <TrackedLink eventName="home_cta_clicked" href={`/stocks/${marketSnapshot.asset.symbol}`} label="再看台指狀態" payload={{ action: "reading_route_market", symbol: marketSnapshot.asset.symbol }}>
           <span>2</span>
           <strong>再看台指狀態</strong>
           <p>
             {marketSnapshot.asset.symbol} {marketSnapshot.signal.title}，確認大盤健康度與資料品質。
           </p>
-        </a>
-        <a href={`/stocks/${snapshot.riskScore >= 60 ? riskiestSnapshot.asset.symbol : strongestSnapshot.asset.symbol}`}>
+        </TrackedLink>
+        <TrackedLink
+          eventName="home_cta_clicked"
+          href={`/stocks/${snapshot.riskScore >= 60 ? riskiestSnapshot.asset.symbol : strongestSnapshot.asset.symbol}`}
+          label={snapshot.riskScore >= 60 ? "最後拆風險來源" : "最後找強勢延伸"}
+          payload={{
+            action: snapshot.riskScore >= 60 ? "reading_route_risk" : "reading_route_strength",
+            symbol: snapshot.riskScore >= 60 ? riskiestSnapshot.asset.symbol : strongestSnapshot.asset.symbol
+          }}
+        >
           <span>3</span>
           <strong>{snapshot.riskScore >= 60 ? "最後拆風險來源" : "最後找強勢延伸"}</strong>
           <p>
@@ -522,7 +543,7 @@ function HomeProductOverview({
               ? `${riskiestSnapshot.asset.symbol} 風險 ${riskiestSnapshot.riskScore}/100，先確認波動與資料旗標。`
               : `${strongestSnapshot.asset.symbol} 綜合 ${strongestSnapshot.compositeScore}/100，先看趨勢是否連續。`}
           </p>
-        </a>
+        </TrackedLink>
       </section>
 
       <section className="home-market-breadth" aria-label="首頁市場廣度摘要">
@@ -685,9 +706,9 @@ function QuoteSummary({
             </p>
           </div>
           <div className="quote-actions">
-            <a className="outline-button" href="/methodology">
+            <TrackedLink className="outline-button" eventName="trust_link_clicked" href="/methodology" label="比較模型" payload={{ area: "quote_actions", symbol: asset.symbol }}>
               比較模型
-            </a>
+            </TrackedLink>
             <button className={isFavorite ? "solid-button active" : "solid-button"} onClick={() => onFavorite(asset.symbol)} type="button">
               {isFavorite ? "已加入自選股" : "加入自選股"}
             </button>
@@ -747,12 +768,18 @@ function StockPeerNavigator({ peers, selected }: { peers: SignalSnapshot[]; sele
       </div>
       <div className="peer-link-grid">
         {peers.map((peer) => (
-          <a href={`/stocks/${peer.asset.symbol}`} key={peer.asset.symbol}>
+          <TrackedLink
+            eventName="stock_link_clicked"
+            href={`/stocks/${peer.asset.symbol}`}
+            key={peer.asset.symbol}
+            label={`${peer.asset.symbol} ${peer.asset.name}`}
+            payload={{ area: "stock_peer_navigator", fromSymbol: selected.symbol, symbol: peer.asset.symbol }}
+          >
             <span>{peer.asset.symbol}</span>
             <strong>{peer.asset.name}</strong>
             <small>{peer.asset.group}</small>
             <b style={{ color: signalColor(peer.signal.key) }}>{peer.signal.title}</b>
-          </a>
+          </TrackedLink>
         ))}
       </div>
     </section>
@@ -2180,7 +2207,9 @@ function AssetSelector({
               清除搜尋
             </button>
           ) : null}
-          <a href={`/stocks/${selectedSymbol}`}>開啟個股頁</a>
+          <TrackedLink eventName="stock_link_clicked" href={`/stocks/${selectedSymbol}`} label="開啟個股頁" payload={{ area: "asset_search_actions", symbol: selectedSymbol }}>
+            開啟個股頁
+          </TrackedLink>
         </div>
       </div>
       <div className="asset-group-filter" aria-label="標的群組篩選">
@@ -2260,8 +2289,12 @@ function TodayTab({
       <aside className="score-source-note" aria-label="模型狀態">
         <strong>目前分數來源：{scoreSourceLabel}</strong>
         <span>正式上線前，分數仍用於產品體驗驗證，不代表已完成真實投資模型校準。</span>
-        <a href="/methodology">方法論</a>
-        <a href="/disclaimer">免責聲明</a>
+        <TrackedLink eventName="trust_link_clicked" href="/methodology" label="方法論" payload={{ area: "score_source_note", symbol: selectedSymbol }}>
+          方法論
+        </TrackedLink>
+        <TrackedLink eventName="trust_link_clicked" href="/disclaimer" label="免責聲明" payload={{ area: "score_source_note", symbol: selectedSymbol }}>
+          免責聲明
+        </TrackedLink>
       </aside>
 
       <section className="content-grid">
@@ -2289,9 +2322,9 @@ function TodayTab({
             未來每檔股票頁會包含今日燈號、分數趨勢、新聞信心、回測摘要與同產業比較，並輸出
             SEO metadata。
           </p>
-          <a className="text-link" href={`/stocks/${selectedSymbol}`}>
+          <TrackedLink className="text-link" eventName="stock_link_clicked" href={`/stocks/${selectedSymbol}`} label={`前往 ${selectedSymbol} 股票頁`} payload={{ area: "seo_preview", symbol: selectedSymbol }}>
             前往 {selectedSymbol} 股票頁
-          </a>
+          </TrackedLink>
         </aside>
       </section>
     </>
