@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { PageViewTracker } from "@/components/page-view-tracker";
+import { TrackedLink } from "@/components/tracked-link";
 
 export const metadata: Metadata = {
   title: "使用條款",
@@ -95,11 +96,19 @@ export default function TermsPage() {
 
       <section className="panel legal-links">
         <h2>讀完使用條款後</h2>
-        <a className="text-link" href="/disclaimer">查看投資免責聲明</a>
-        <a className="text-link" href="/privacy">查看隱私權政策</a>
-        <a className="text-link" href="/methodology">了解評分方法論</a>
-        <a className="text-link" href="/">回首頁看市場概況</a>
+        <TermsTrustLink href="/disclaimer" label="查看投資免責聲明" />
+        <TermsTrustLink href="/privacy" label="查看隱私權政策" />
+        <TermsTrustLink href="/methodology" label="了解評分方法論" />
+        <TermsTrustLink href="/" label="回首頁看市場概況" />
       </section>
     </main>
+  );
+}
+
+function TermsTrustLink({ href, label }: { href: string; label: string }) {
+  return (
+    <TrackedLink className="text-link" eventName="trust_link_clicked" href={href} label={label} payload={{ area: "terms_next_links" }}>
+      {label}
+    </TrackedLink>
   );
 }

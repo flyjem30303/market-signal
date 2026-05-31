@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { PageViewTracker } from "@/components/page-view-tracker";
+import { TrackedLink } from "@/components/tracked-link";
 import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
 
 export const metadata: Metadata = {
@@ -188,11 +189,11 @@ export default async function MethodologyPage() {
 
       <section className="panel method-links">
         <h2>理解方法後</h2>
-        <a className="text-link" href="/">回首頁看 mock 覆蓋地圖</a>
-        <a className="text-link" href="/briefing">看每日晨報</a>
-        <a className="text-link" href="/weekly">看本週週報</a>
-        <a className="text-link" href="/disclaimer">確認免責聲明</a>
-        <a className="text-link" href="/terms">查看使用條款</a>
+        <TrustTextLink href="/" label="回首頁看 mock 覆蓋地圖" />
+        <TrustTextLink href="/briefing" label="看每日晨報" />
+        <TrustTextLink href="/weekly" label="看本週週報" />
+        <TrustTextLink href="/disclaimer" label="確認免責聲明" />
+        <TrustTextLink href="/terms" label="查看使用條款" />
       </section>
     </main>
   );
@@ -210,10 +211,18 @@ function MethodBridgeLink({
   title: string;
 }) {
   return (
-    <a href={href}>
+    <TrackedLink eventName="trust_link_clicked" href={href} label={title} payload={{ area: "methodology_application_bridge" }}>
       <span>{label}</span>
       <strong>{title}</strong>
       <p>{text}</p>
-    </a>
+    </TrackedLink>
+  );
+}
+
+function TrustTextLink({ href, label }: { href: string; label: string }) {
+  return (
+    <TrackedLink className="text-link" eventName="trust_link_clicked" href={href} label={label} payload={{ area: "methodology_next_links" }}>
+      {label}
+    </TrackedLink>
   );
 }

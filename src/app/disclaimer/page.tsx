@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { PageViewTracker } from "@/components/page-view-tracker";
+import { TrackedLink } from "@/components/tracked-link";
 
 export const metadata: Metadata = {
   title: "投資免責聲明",
@@ -101,11 +102,19 @@ export default function DisclaimerPage() {
 
       <section className="panel legal-links">
         <h2>讀完免責聲明後</h2>
-        <a className="text-link" href="/methodology">了解評分方法論</a>
-        <a className="text-link" href="/">回首頁看市場概況</a>
-        <a className="text-link" href="/terms">查看服務條款</a>
-        <a className="text-link" href="/privacy">查看隱私權政策</a>
+        <LegalTrustLink href="/methodology" label="了解評分方法論" />
+        <LegalTrustLink href="/" label="回首頁看市場概況" />
+        <LegalTrustLink href="/terms" label="查看服務條款" />
+        <LegalTrustLink href="/privacy" label="查看隱私權政策" />
       </section>
     </main>
+  );
+}
+
+function LegalTrustLink({ href, label }: { href: string; label: string }) {
+  return (
+    <TrackedLink className="text-link" eventName="trust_link_clicked" href={href} label={label} payload={{ area: "disclaimer_next_links" }}>
+      {label}
+    </TrackedLink>
   );
 }

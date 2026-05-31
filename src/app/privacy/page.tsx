@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { PageViewTracker } from "@/components/page-view-tracker";
+import { TrackedLink } from "@/components/tracked-link";
 
 export const metadata: Metadata = {
   title: "隱私權政策",
@@ -100,11 +101,19 @@ export default function PrivacyPage() {
 
       <section className="panel legal-links">
         <h2>讀完隱私權政策後</h2>
-        <a className="text-link" href="/terms">查看使用條款</a>
-        <a className="text-link" href="/disclaimer">查看投資免責聲明</a>
-        <a className="text-link" href="/methodology">了解評分方法論</a>
-        <a className="text-link" href="/">回首頁看市場概況</a>
+        <PrivacyTrustLink href="/terms" label="查看使用條款" />
+        <PrivacyTrustLink href="/disclaimer" label="查看投資免責聲明" />
+        <PrivacyTrustLink href="/methodology" label="了解評分方法論" />
+        <PrivacyTrustLink href="/" label="回首頁看市場概況" />
       </section>
     </main>
+  );
+}
+
+function PrivacyTrustLink({ href, label }: { href: string; label: string }) {
+  return (
+    <TrackedLink className="text-link" eventName="trust_link_clicked" href={href} label={label} payload={{ area: "privacy_next_links" }}>
+      {label}
+    </TrackedLink>
   );
 }

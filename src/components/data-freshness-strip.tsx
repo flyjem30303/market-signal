@@ -1,4 +1,5 @@
 import type { DataFreshnessSnapshot } from "@/lib/data-freshness";
+import { TrackedLink } from "@/components/tracked-link";
 
 type DataFreshnessStripProps = {
   freshness: DataFreshnessSnapshot;
@@ -21,8 +22,24 @@ export function DataFreshnessStrip({ freshness }: DataFreshnessStripProps) {
       <span className={`freshness-score-source ${freshness.scoreSource}`}>分數來源：{freshness.scoreSourceLabel}</span>
       <span className="freshness-boundary">Freshness metadata 不等於真實評分或資料品質核准</span>
       <span className="freshness-description">{freshness.description}</span>
-      <a className="freshness-link" href="/methodology">看方法論</a>
-      <a className="freshness-link" href="/disclaimer">看免責聲明</a>
+      <TrackedLink
+        className="freshness-link"
+        eventName="trust_link_clicked"
+        href="/methodology"
+        label="看方法論"
+        payload={{ area: "data_freshness_strip" }}
+      >
+        看方法論
+      </TrackedLink>
+      <TrackedLink
+        className="freshness-link"
+        eventName="trust_link_clicked"
+        href="/disclaimer"
+        label="看免責聲明"
+        payload={{ area: "data_freshness_strip" }}
+      >
+        看免責聲明
+      </TrackedLink>
     </aside>
   );
 }
