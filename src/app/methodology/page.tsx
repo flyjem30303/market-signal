@@ -56,6 +56,20 @@ export default async function MethodologyPage() {
         </article>
       </section>
 
+      <section className="method-application-bridge" aria-label="方法論應用路徑">
+        <div>
+          <p className="eyebrow">Apply The Method</p>
+          <h2>把方法拿去對照頁面</h2>
+          <p>先理解評分邏輯，再回到實際頁面檢查市場、週期、單一標的與資料邊界。</p>
+        </div>
+        <nav>
+          <MethodBridgeLink href="/briefing" label="每日節奏" title="看晨報" text="用市場廣度、風險升溫與主線族群練習每日判讀。" />
+          <MethodBridgeLink href="/weekly" label="週期觀察" title="看週報" text="把健康度、風險度與 ETF 節奏放到一週脈絡中看。" />
+          <MethodBridgeLink href="/stocks/TWII" label="市場基準" title="看台指" text="用指數頁對照大盤健康度、風險度與資料品質。" />
+          <MethodBridgeLink href="/stocks/2330" label="個股拆解" title="看 2330" text="進入個股頁檢查模組、趨勢、新聞信心與回測摘要。" />
+        </nav>
+      </section>
+
       <section className="panel method-section">
         <h2>健康度、風險度與綜合燈號</h2>
         <div className="method-grid">
@@ -155,5 +169,25 @@ export default async function MethodologyPage() {
         <a className="text-link" href="/disclaimer">確認免責聲明</a>
       </section>
     </main>
+  );
+}
+
+function MethodBridgeLink({
+  href,
+  label,
+  text,
+  title
+}: {
+  href: string;
+  label: string;
+  text: string;
+  title: string;
+}) {
+  return (
+    <a href={href}>
+      <span>{label}</span>
+      <strong>{title}</strong>
+      <p>{text}</p>
+    </a>
   );
 }
