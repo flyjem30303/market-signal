@@ -1933,6 +1933,11 @@ const checks = [
     name: "score-source-ui"
   },
   {
+    command: [node, "scripts/check-market-signal-source-boundary.mjs"],
+    expectStatus: "ok",
+    name: "market-signal-source-boundary"
+  },
+  {
     command: [node, "scripts/check-stock-decision-compass.mjs"],
     expectStatus: "ok",
     name: "stock-decision-compass"
