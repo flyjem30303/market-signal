@@ -16,6 +16,10 @@ export function CommercialSlot({ context }: CommercialSlotProps) {
       <h2>商業合作預留區</h2>
       <p>{copy}</p>
       <p>若使用者透過合作連結註冊、購買或開戶，本網站可能取得廣告收入或佣金。</p>
+      <nav aria-label="商業合作相關說明">
+        <a href="/disclaimer">查看免責聲明</a>
+        <a href="/terms">查看使用條款</a>
+      </nav>
     </aside>
   );
 }

@@ -5327,6 +5327,20 @@ input[type="date"] {
   line-height: 1.75;
 }
 
+.commercial-slot nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.commercial-slot a {
+  color: var(--teal);
+  font-size: 13px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
 .disclaimer h2 {
   margin: 0 0 8px;
   font-size: 18px;
