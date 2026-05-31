@@ -2038,6 +2038,11 @@ const checks = [
     name: "supabase-readonly-decision-packet"
   },
   {
+    command: [node, "scripts/check-supabase-readonly-execution-preview.mjs"],
+    expectStatus: "ok",
+    name: "supabase-readonly-execution-preview"
+  },
+  {
     command: [node, "scripts/check-stock-decision-compass.mjs"],
     expectStatus: "ok",
     name: "stock-decision-compass"
