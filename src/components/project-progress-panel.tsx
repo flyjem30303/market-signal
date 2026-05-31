@@ -28,6 +28,7 @@ export function ProjectProgressPanel() {
           {progress.dataQualityEvidenceGate.scoreSource}; public source{" "}
           {progress.dataQualityEvidenceGate.publicDataSource}.
         </p>
+        <p>Evidence progress: {progress.dataQualityEvidenceGate.evidenceProgressPercent}%.</p>
         <ul>
           {progress.dataQualityEvidenceGate.missingActions.slice(0, 4).map((action) => (
             <li key={action.code}>

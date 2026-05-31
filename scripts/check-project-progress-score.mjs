@@ -38,6 +38,7 @@ const required = [
   [componentPath, "Project progress"],
   [componentPath, "Data quality evidence gate"],
   [componentPath, "progress.dataQualityEvidenceGate.completedEvidence.length"],
+  [componentPath, "progress.dataQualityEvidenceGate.evidenceProgressPercent"],
   [componentPath, "progress.dataQualityEvidenceGate.missingEvidence.length"],
   [componentPath, "progress.dataQualityEvidenceGate.missingActions.slice(0, 4).map"],
   [componentPath, "action.owner"],

@@ -33,6 +33,7 @@ export type DataQualityEvidenceAction = {
 export type DataQualityEvidenceGate = {
   canSetScoreSourceReal: false;
   completedEvidence: DataQualityEvidenceCompletedCode[];
+  evidenceProgressPercent: number;
   missingActions: DataQualityEvidenceAction[];
   missingEvidence: string[];
   mode: "data_quality_evidence_gate";
@@ -109,6 +110,7 @@ export function buildDataQualityEvidenceGate(input: DataQualityEvidenceInput = {
   return {
     canSetScoreSourceReal: false,
     completedEvidence,
+    evidenceProgressPercent: Math.round((completedEvidence.length / 8) * 100),
     missingActions,
     missingEvidence,
     mode: "data_quality_evidence_gate",

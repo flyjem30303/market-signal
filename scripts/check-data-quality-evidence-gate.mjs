@@ -21,6 +21,7 @@ const approvedInput = {
 const cases = [
   runCase({
     expectedCompleted: [],
+    expectedProgress: 0,
     expectedMissing: [
       "freshness_state_complete",
       "data_quality_score_at_least_80",
@@ -37,6 +38,7 @@ const cases = [
   }),
   runCase({
     expectedCompleted: ["freshness_state_complete"],
+    expectedProgress: 13,
     expectedMissing: ["data_quality_score_at_least_80"],
     expectedStatus: "blocked",
     input: { ...approvedInput, dataQualityScore: 79 },
@@ -44,6 +46,7 @@ const cases = [
   }),
   runCase({
     expectedCompleted: ["freshness_state_complete"],
+    expectedProgress: 13,
     expectedMissing: [],
     expectedStatus: "candidate",
     input: approvedInput,
@@ -61,7 +64,7 @@ if (status !== "ok") {
   process.exit(1);
 }
 
-function runCase({ expectedCompleted, expectedMissing, expectedStatus, input, name }) {
+function runCase({ expectedCompleted, expectedMissing, expectedProgress, expectedStatus, input, name }) {
   const gate = buildDataQualityEvidenceGate(input);
   const problems = [];
 
@@ -83,6 +86,10 @@ function runCase({ expectedCompleted, expectedMissing, expectedStatus, input, na
 
   if (gate.completedEvidence.length !== expectedCompleted.length) {
     problems.push(`expected ${expectedCompleted.length} completed evidence items, got ${gate.completedEvidence.length}`);
+  }
+
+  if (gate.evidenceProgressPercent !== expectedProgress) {
+    problems.push(`expected evidence progress ${expectedProgress}, got ${gate.evidenceProgressPercent}`);
   }
 
   for (const item of gate.completedEvidence) {
@@ -113,6 +120,7 @@ function runCase({ expectedCompleted, expectedMissing, expectedStatus, input, na
     gate: {
       canSetScoreSourceReal: gate.canSetScoreSourceReal,
       completedEvidence: gate.completedEvidence,
+      evidenceProgressPercent: gate.evidenceProgressPercent,
       missingActions: gate.missingActions,
       missingEvidence: gate.missingEvidence,
       publicDataSource: gate.publicDataSource,
@@ -132,6 +140,7 @@ function scanSource() {
     "DataQualityEvidenceAction",
     "DataQualityEvidenceCompletedCode",
     "completedEvidence",
+    "evidenceProgressPercent",
     "evidenceActions",
     "minimumQualityScore = 80",
     "freshness_state_complete",
