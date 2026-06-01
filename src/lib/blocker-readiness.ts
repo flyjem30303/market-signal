@@ -9,8 +9,17 @@ export type BlockerReadinessLane = {
   nextAction: string;
 };
 
+export type BlockerPriorityMove = {
+  command: string;
+  id: BlockerReadinessLane["blockerId"];
+  owner: BlockerReadinessLane["owner"];
+  targetSections: string[];
+};
+
 export type BlockerReadinessSummary = {
+  firstMove: BlockerPriorityMove & { reason: string };
   lanes: BlockerReadinessLane[];
+  parallelMoves: BlockerPriorityMove[];
   publicDataSource: "mock";
   scoreSource: "mock";
   status: "local_checklists_ready_remote_paused";
@@ -23,6 +32,14 @@ export function getBlockerReadinessSummary(): BlockerReadinessSummary {
   return {
     ceoRecommendation:
       "Move Data, Legal, and Investment in parallel locally. Keep row coverage readonly remote execution paused until explicitly requested.",
+    firstMove: {
+      command: "npm run report:source-rights-disclosure-local-review",
+      id: "source-rights-and-disclosure",
+      owner: "Legal",
+      reason:
+        "Data field-validity is locally specified and QA-reviewed; source rights are now the highest-value blocker that can still move without a remote run.",
+      targetSections: ["source-attribution", "redistribution-display-limits", "delay-incompleteness-disclosure"]
+    },
     headline: "Three blocker checklists are ready for local review",
     lanes: [
       {
@@ -54,6 +71,20 @@ export function getBlockerReadinessSummary(): BlockerReadinessSummary {
         readiness: "local_checklist_ready",
         status: "blocked_until_review",
         weight: 25
+      }
+    ],
+    parallelMoves: [
+      {
+        command: "npm run report:model-credibility-local-review",
+        id: "model-credibility",
+        owner: "Investment",
+        targetSections: ["score-purpose", "interpretation-downgrade-policy"]
+      },
+      {
+        command: "npm run report:data-quality-field-validity-qa-review",
+        id: "data-quality-evidence",
+        owner: "Data",
+        targetSections: ["field-validity-rules", "downgrade-behavior", "readonly-evidence-paused"]
       }
     ],
     publicDataSource: "mock",

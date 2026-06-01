@@ -384,6 +384,22 @@ select {
   gap: 10px;
 }
 
+.blocker-priority-strip {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: minmax(0, 1.25fr) repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.blocker-priority-strip article {
+  display: grid;
+  gap: 8px;
+  border: 1px solid rgba(15, 118, 110, 0.18);
+  border-radius: 8px;
+  background: #f5fbf8;
+  padding: 12px;
+}
+
 .blocker-readiness-grid article {
   display: grid;
   gap: 8px;
@@ -404,11 +420,13 @@ select {
   color: var(--teal);
 }
 
+.blocker-priority-strip strong,
 .blocker-readiness-grid strong {
   font-size: 15px;
   line-height: 1.35;
 }
 
+.blocker-priority-strip p,
 .blocker-readiness-grid p {
   margin: 0;
   color: var(--muted);
@@ -416,8 +434,21 @@ select {
   line-height: 1.55;
 }
 
+.blocker-priority-strip span,
+.blocker-priority-strip code,
 .blocker-readiness-grid code {
   overflow-wrap: anywhere;
+}
+
+.blocker-priority-strip span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.blocker-priority-strip code,
+.blocker-readiness-grid code {
   border: 1px solid var(--line);
   border-radius: 6px;
   background: #fff;
@@ -7047,6 +7078,7 @@ input[type="date"] {
   .source-depth-blocker-panel,
   .source-depth-blocker-grid,
   .blocker-readiness-panel,
+  .blocker-priority-strip,
   .blocker-readiness-grid,
   .narrow-approval-outcome-panel,
   .narrow-approval-outcome-grid,
