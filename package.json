@@ -166,6 +166,7 @@
     "check:data-coverage-backfill-plan": "node scripts/check-data-coverage-backfill-plan.mjs",
     "check:data-source-readiness-packet": "node scripts/check-data-source-readiness-packet.mjs",
     "check:twii-source-selection-packet": "node scripts/check-twii-source-selection-packet.mjs",
+    "check:twii-source-selection-acceptance-gate": "node scripts/check-twii-source-selection-acceptance-gate.mjs",
     "check:etf-source-rights-review-packet": "node scripts/check-etf-source-rights-review-packet.mjs",
     "check:equity-dry-run-packet-readiness": "node scripts/check-equity-dry-run-packet-readiness.mjs",
     "check:source-readiness-checkpoint-summary": "node scripts/check-source-readiness-checkpoint-summary.mjs",

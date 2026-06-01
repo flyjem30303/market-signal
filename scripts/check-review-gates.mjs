@@ -1733,6 +1733,11 @@ const checks = [
     name: "twii-source-selection-packet"
   },
   {
+    command: [node, "scripts/check-twii-source-selection-acceptance-gate.mjs"],
+    expectStatus: "ok",
+    name: "twii-source-selection-acceptance-gate"
+  },
+  {
     command: [node, "scripts/check-etf-source-rights-review-packet.mjs"],
     expectStatus: "ok",
     name: "etf-source-rights-review-packet"
