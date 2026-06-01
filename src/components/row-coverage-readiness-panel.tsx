@@ -44,6 +44,18 @@ export function RowCoverageReadinessPanel({
         <p>{rowCoverage.commandMap.postRunReview}</p>
       </article>
       <article className="blocked">
+        <span>Latest attempt</span>
+        <strong>{rowCoverage.latestAttempt.reason}</strong>
+        <p>
+          Observed {rowCoverage.latestAttempt.observedTotalRows} / expected{" "}
+          {rowCoverage.latestAttempt.expectedTotalRows}; missing {rowCoverage.latestAttempt.missingRows}.
+        </p>
+        <p>
+          Remote attempted: {rowCoverage.latestAttempt.remoteAttempted ? "true" : "false"}; coverage{" "}
+          {rowCoverage.latestAttempt.coverageStatus}.
+        </p>
+      </article>
+      <article className="blocked">
         <span>Public state</span>
         <strong>
           {rowCoverage.publicDataSource} / {rowCoverage.scoreSource}

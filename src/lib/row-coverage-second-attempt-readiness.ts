@@ -12,6 +12,14 @@ export type RowCoverageSecondAttemptReadiness = {
     decisionRequired: string;
   };
   headline: string;
+  latestAttempt: {
+    coverageStatus: "blocked";
+    expectedTotalRows: 360;
+    missingRows: 355;
+    observedTotalRows: 5;
+    reason: "aggregate_count_incomplete";
+    remoteAttempted: true;
+  };
   nextDecision: string;
   publicDataSource: "mock";
   readiness: "local_ready_remote_paused";
@@ -47,6 +55,14 @@ export function getRowCoverageSecondAttemptReadiness(): RowCoverageSecondAttempt
       ]
     },
     headline: "Row coverage readonly gate ready",
+    latestAttempt: {
+      coverageStatus: "blocked",
+      expectedTotalRows: 360,
+      missingRows: 355,
+      observedTotalRows: 5,
+      reason: "aggregate_count_incomplete",
+      remoteAttempted: true
+    },
     nextDecision: "等待明確授權後，只執行一次 Supabase readonly attempt",
     publicDataSource: "mock",
     readiness: "local_ready_remote_paused",

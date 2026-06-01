@@ -1608,6 +1608,11 @@ const checks = [
     name: "row-coverage-evidence-acceptance"
   },
   {
+    command: [node, "scripts/check-row-coverage-bounded-readonly-attempt-post-run-review.mjs"],
+    expectStatus: "ok",
+    name: "row-coverage-bounded-readonly-attempt-post-run-review"
+  },
+  {
     command: [node, "scripts/check-bounded-row-coverage-readonly-attempt-decision.mjs"],
     expectStatus: "ok",
     name: "bounded-row-coverage-readonly-attempt-decision"

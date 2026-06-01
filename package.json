@@ -129,6 +129,7 @@
     "check:post-readonly-evidence-action-gate": "node scripts/check-post-readonly-evidence-action-gate.mjs",
     "report:row-coverage-evidence-acceptance": "node scripts/report-row-coverage-evidence-acceptance.mjs",
     "check:row-coverage-evidence-acceptance": "node scripts/check-row-coverage-evidence-acceptance.mjs",
+    "check:row-coverage-bounded-readonly-attempt-post-run-review": "node scripts/check-row-coverage-bounded-readonly-attempt-post-run-review.mjs",
     "report:bounded-row-coverage-readonly-attempt-decision": "node scripts/report-bounded-row-coverage-readonly-attempt-decision.mjs",
     "check:bounded-row-coverage-readonly-attempt-decision": "node scripts/check-bounded-row-coverage-readonly-attempt-decision.mjs",
     "report:mock-runtime-hardening-priority": "node scripts/report-mock-runtime-hardening-priority.mjs",
