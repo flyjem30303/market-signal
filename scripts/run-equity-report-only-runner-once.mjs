@@ -78,6 +78,8 @@ async function runReportOnly() {
   const parserFlagCount = symbolSummaries.reduce((total, item) => total + item.parserFlagCount, 0);
   const zeroRowMonthCount = symbolSummaries.reduce((total, item) => total + item.zeroRowMonthCount, 0);
   const duplicateTradeDateCount = symbolSummaries.reduce((total, item) => total + item.duplicateTradeDateCount, 0);
+  const failedMonthKeys = symbolSummaries.flatMap((item) => item.failedMonthKeys);
+  const zeroRowMonthKeys = symbolSummaries.flatMap((item) => item.zeroRowMonthKeys);
   const status =
     failedMonthCount === 0 && parserFlagCount === 0 && zeroRowMonthCount === 0 && duplicateTradeDateCount === 0
       ? "ready_for_review"
@@ -86,12 +88,14 @@ async function runReportOnly() {
   return {
     duplicateTradeDateCount,
     expectedMonths: EXPECTED_MONTHS,
+    failedMonthKeys,
     failedMonthCount,
     parserFlagCount,
     sourceId: SOURCE_ID,
     status,
     symbolSummaries,
     totalParsedRowCount,
+    zeroRowMonthKeys,
     zeroRowMonthCount
   };
 }
@@ -118,6 +122,7 @@ async function fetchMonthSummary({ month, symbol }) {
     return {
       bytes,
       duplicateTradeDateCount: aggregate.duplicateTradeDateCount,
+      errorCategory: response.status === 200 ? "" : `http_${response.status}`,
       firstTradeDate: aggregate.firstTradeDate,
       lastTradeDate: aggregate.lastTradeDate,
       month,
@@ -177,15 +182,20 @@ function summarizeSymbol(symbol, monthly) {
   const httpStatusSummary = {};
   const observedFirstDates = [];
   const observedLastDates = [];
+  const failedMonthKeys = [];
+  const zeroRowMonthKeys = [];
 
   for (const item of monthly) {
     httpStatusSummary[item.status] = (httpStatusSummary[item.status] ?? 0) + 1;
     if (item.firstTradeDate) observedFirstDates.push(item.firstTradeDate);
     if (item.lastTradeDate) observedLastDates.push(item.lastTradeDate);
+    if (item.status !== 200) failedMonthKeys.push(toSanitizedMonthKey(item));
+    if (item.parsedRowCount === 0) zeroRowMonthKeys.push(toSanitizedMonthKey(item));
   }
 
   return {
     duplicateTradeDateCount: monthly.reduce((total, item) => total + item.duplicateTradeDateCount, 0),
+    failedMonthKeys,
     failedMonthCount: monthly.filter((item) => item.status !== 200).length,
     firstObservedTradeDate: observedFirstDates.sort()[0] ?? "",
     httpStatusSummary,
@@ -193,6 +203,7 @@ function summarizeSymbol(symbol, monthly) {
     parsedRowCount: monthly.reduce((total, item) => total + item.parsedRowCount, 0),
     parserFlagCount: monthly.reduce((total, item) => total + item.parserFlagCount, 0),
     symbol,
+    zeroRowMonthKeys,
     zeroRowMonthCount: monthly.filter((item) => item.parsedRowCount === 0).length
   };
 }
@@ -203,6 +214,7 @@ function printSanitized(payload) {
       {
         duplicateTradeDateCount: payload.duplicateTradeDateCount,
         expectedMonths: payload.expectedMonths,
+        failedMonthKeys: payload.failedMonthKeys ?? [],
         failedMonthCount: payload.failedMonthCount,
         finishedAt: payload.finishedAt,
         implementationApproved: payload.implementationApproved,
@@ -223,6 +235,7 @@ function printSanitized(payload) {
         symbolSummaries: payload.symbolSummaries,
         totalParsedRowCount: payload.totalParsedRowCount,
         writesAttempted: false,
+        zeroRowMonthKeys: payload.zeroRowMonthKeys ?? [],
         zeroRowMonthCount: payload.zeroRowMonthCount
       },
       null,
@@ -252,6 +265,16 @@ function isNumericCell(value) {
     .replaceAll(",", "")
     .replace(/^X/i, "");
   return normalized !== "" && normalized !== "--" && Number.isFinite(Number(normalized));
+}
+
+function toSanitizedMonthKey(item) {
+  return {
+    errorCategory: item.errorCategory || (item.parsedRowCount === 0 ? "zero_rows" : "unknown"),
+    httpStatus: Number.isInteger(item.status) ? item.status : null,
+    month: item.month,
+    parsedRowCount: item.parsedRowCount,
+    symbol: item.symbol
+  };
 }
 
 function categorizeError(error) {

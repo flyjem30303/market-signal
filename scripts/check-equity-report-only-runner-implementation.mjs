@@ -30,6 +30,11 @@ for (const phrase of [
   "function validateSourceRows",
   "function summarizeSymbol",
   "function printSanitized",
+  "failedMonthKeys",
+  "zeroRowMonthKeys",
+  "function toSanitizedMonthKey",
+  "errorCategory: item.errorCategory || (item.parsedRowCount === 0 ? \"zero_rows\" : \"unknown\")",
+  "httpStatus: Number.isInteger(item.status) ? item.status : null",
   "rowPayloadsPrinted: false",
   "secretsPrinted: false",
   "sqlExecuted: false",
@@ -115,6 +120,12 @@ if (failClosedJson) {
   }
   if (failClosedJson.publicDataSource !== "mock" || failClosedJson.scoreSource !== "mock") {
     blocked.push("fail-closed output must keep publicDataSource and scoreSource mock");
+  }
+  if (!Array.isArray(failClosedJson.failedMonthKeys) || failClosedJson.failedMonthKeys.length !== 0) {
+    blocked.push("fail-closed output must include empty failedMonthKeys");
+  }
+  if (!Array.isArray(failClosedJson.zeroRowMonthKeys) || failClosedJson.zeroRowMonthKeys.length !== 0) {
+    blocked.push("fail-closed output must include empty zeroRowMonthKeys");
   }
   if (JSON.stringify(failClosedJson).includes("open_price") || JSON.stringify(failClosedJson).includes("close_price")) {
     blocked.push("fail-closed output must not include row payload fields");
