@@ -799,6 +799,46 @@ select {
   padding: 9px;
 }
 
+.project-progress-backfill-plan {
+  display: grid;
+  gap: 9px;
+  border: 1px solid rgba(56, 72, 93, 0.16);
+  border-radius: 8px;
+  background: #fbfcfd;
+  padding: 10px;
+}
+
+.project-progress-backfill-plan > span,
+.project-progress-backfill-plan article span {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.project-progress-backfill-plan > strong,
+.project-progress-backfill-plan article strong {
+  overflow-wrap: anywhere;
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.project-progress-backfill-plan > div {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.project-progress-backfill-plan article {
+  display: grid;
+  gap: 7px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  padding: 9px;
+}
+
 .project-progress-lanes {
   display: grid;
   grid-column: 1 / -1;
@@ -7192,6 +7232,7 @@ input[type="date"] {
   .project-progress-lanes,
   .project-progress-route-decision > div,
   .project-progress-design-gate > div,
+  .project-progress-backfill-plan > div,
   .source-depth-blocker-panel,
   .source-depth-blocker-grid,
   .blocker-readiness-panel,

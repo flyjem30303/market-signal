@@ -16,8 +16,11 @@ const files = new Map(
 
 const required = [
   [libPath, "getBackfillIngestionDesignGate"],
+  [libPath, "getDataCoverageBackfillPlan"],
   [libPath, "getDataCoverageRouteDecision"],
   [libPath, "aggregate_count_incomplete"],
+  [libPath, "backfillPlan: DataCoverageBackfillPlan"],
+  [libPath, "backfillPlan: getDataCoverageBackfillPlan()"],
   [libPath, "designGate: BackfillIngestionDesignGate"],
   [libPath, "designGate: getBackfillIngestionDesignGate()"],
   [libPath, "expectedRows: 360"],
@@ -33,12 +36,15 @@ const required = [
   [progressPath, "dataCoverageRouteDecision"],
   [componentPath, "Data coverage route"],
   [componentPath, "project-progress-design-gate"],
+  [componentPath, "project-progress-backfill-plan"],
   [componentPath, "progress.dataCoverageRouteDecision.recommendation"],
   [componentPath, "progress.dataCoverageRouteDecision.options.map"],
+  [componentPath, "progress.dataCoverageRouteDecision.backfillPlan.lanes.map"],
   [componentPath, "progress.dataCoverageRouteDecision.designGate.requirements.map"],
   [componentPath, "progress.dataCoverageRouteDecision.stopLine"],
   [cssPath, ".project-progress-route-decision"],
   [cssPath, ".project-progress-design-gate"],
+  [cssPath, ".project-progress-backfill-plan"],
   [packagePath, "\"check:data-coverage-route-decision\": \"node scripts/check-data-coverage-route-decision.mjs\""],
   [reviewGatePath, "scripts/check-data-coverage-route-decision.mjs"]
 ];

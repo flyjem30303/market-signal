@@ -92,6 +92,30 @@ export function ProjectProgressPanel() {
           </div>
           <p>{progress.dataCoverageRouteDecision.designGate.stopLine}</p>
         </section>
+        <section className="project-progress-backfill-plan">
+          <span>{progress.dataCoverageRouteDecision.backfillPlan.status}</span>
+          <strong>Source lanes before row coverage can move</strong>
+          <p>
+            Observed {progress.dataCoverageRouteDecision.backfillPlan.observedRows} / expected{" "}
+            {progress.dataCoverageRouteDecision.backfillPlan.expectedRows}; missing{" "}
+            {progress.dataCoverageRouteDecision.backfillPlan.missingRows}; public source{" "}
+            {progress.dataCoverageRouteDecision.backfillPlan.publicDataSource}; score source{" "}
+            {progress.dataCoverageRouteDecision.backfillPlan.scoreSource}.
+          </p>
+          <div>
+            {progress.dataCoverageRouteDecision.backfillPlan.lanes.map((lane) => (
+              <article key={lane.id}>
+                <span>{lane.owner}</span>
+                <strong>{lane.coverageTarget}</strong>
+                <p>
+                  {lane.symbols.join(", ")} / {lane.readiness}
+                </p>
+                <p>{lane.reportOnlyNextStep}</p>
+              </article>
+            ))}
+          </div>
+          <p>{progress.dataCoverageRouteDecision.backfillPlan.stopLine}</p>
+        </section>
         <p>{progress.dataCoverageRouteDecision.stopLine}</p>
       </div>
       <div className="project-progress-lanes">

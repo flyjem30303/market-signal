@@ -159,6 +159,7 @@
     "check:data-quality-field-validity": "node scripts/check-data-quality-field-validity.mjs",
     "check:data-coverage-route-decision": "node scripts/check-data-coverage-route-decision.mjs",
     "check:backfill-ingestion-design-gate": "node scripts/check-backfill-ingestion-design-gate.mjs",
+    "check:data-coverage-backfill-plan": "node scripts/check-data-coverage-backfill-plan.mjs",
     "report:data-quality-field-validity-qa-review": "node scripts/report-data-quality-field-validity-qa-review.mjs",
     "check:data-quality-field-validity-qa-review": "node scripts/check-data-quality-field-validity-qa-review.mjs",
     "report:model-credibility-checklist": "node scripts/report-model-credibility-checklist.mjs",

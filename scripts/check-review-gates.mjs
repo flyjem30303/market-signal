@@ -1698,6 +1698,11 @@ const checks = [
     name: "backfill-ingestion-design-gate"
   },
   {
+    command: [node, "scripts/check-data-coverage-backfill-plan.mjs"],
+    expectStatus: "ok",
+    name: "data-coverage-backfill-plan"
+  },
+  {
     command: [node, "scripts/check-model-credibility-checklist.mjs"],
     expectStatus: "ok",
     name: "model-credibility-checklist"
