@@ -11,9 +11,10 @@ Date: 2026-06-01
 ## Decision State
 
 ```text
-decision_state: ready_for_explicit_one_attempt_action
-execution_approved_by_this_packet: false
-required_next_user_action: accept_one_bounded_row_coverage_readonly_attempt
+decision_state: accepted_for_exactly_one_bounded_readonly_attempt
+execution_approved_by_this_packet: true
+approved_by: Chairman
+approved_at: 2026-06-01T23:08:00+08:00
 attempt_limit: 1
 ```
 
@@ -74,9 +75,9 @@ canSetScoreSourceReal: false
 
 ## Stop Lines
 
-- This packet does not execute the runner.
-- This packet does not approve execution by itself.
-- Do not run more than one bounded readonly attempt from a future acceptance.
+- This packet approves exactly one bounded readonly attempt.
+- Do not run more than one bounded readonly attempt from this acceptance.
+- Do not reuse this packet after the approved attempt has been executed.
 - Do not run SQL.
 - Do not write Supabase.
 - Do not create staging rows.
@@ -94,7 +95,7 @@ canSetScoreSourceReal: false
 ## CEO/PM Recommendation
 
 ```text
-REQUEST_EXPLICIT_ACCEPTANCE_FOR_ONE_BOUNDED_READONLY_ATTEMPT
+ACCEPTED_FOR_EXACTLY_ONE_BOUNDED_READONLY_ATTEMPT
 ```
 
-CEO recommends one bounded row coverage readonly attempt as the next named action, because local evidence and query-contract hardening are ready. The attempt should be followed immediately by a post-run review before any readiness or runtime state change.
+Chairman accepted one bounded row coverage readonly attempt as the next named action, because local evidence and query-contract hardening are ready. The attempt must be followed immediately by a post-run review before any readiness or runtime state change.
