@@ -36,6 +36,13 @@ export function RowCoverageReadinessPanel({
         <p>Go: {rowCoverage.goNoGo.go.join("; ")}</p>
         <p>No-go: {rowCoverage.goNoGo.noGo.join("; ")}</p>
       </article>
+      <article className="readying">
+        <span>Command map</span>
+        <strong>{rowCoverage.commandMap.packageCommand}</strong>
+        <p>Token: {rowCoverage.commandMap.approvalToken}</p>
+        <code>{rowCoverage.commandMap.powershellCommand}</code>
+        <p>{rowCoverage.commandMap.postRunReview}</p>
+      </article>
       <article className="blocked">
         <span>Public state</span>
         <strong>

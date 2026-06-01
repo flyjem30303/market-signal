@@ -1,5 +1,11 @@
 export type RowCoverageSecondAttemptReadiness = {
   attemptState: "remote_paused";
+  commandMap: {
+    approvalToken: "CP3_ROW_COVERAGE_READONLY_VALIDATE";
+    packageCommand: "npm run run:row-coverage-readonly";
+    powershellCommand: "$env:ROW_COVERAGE_READONLY_VALIDATE_CONFIRMATION=\"CP3_ROW_COVERAGE_READONLY_VALIDATE\"; & 'C:\\Program Files\\nodejs\\node.exe' scripts\\run-row-coverage-readonly-once.mjs";
+    postRunReview: "create sanitized post-run review before any readiness change";
+  };
   goNoGo: {
     go: string[];
     noGo: string[];
@@ -18,6 +24,13 @@ export type RowCoverageSecondAttemptReadiness = {
 export function getRowCoverageSecondAttemptReadiness(): RowCoverageSecondAttemptReadiness {
   return {
     attemptState: "remote_paused",
+    commandMap: {
+      approvalToken: "CP3_ROW_COVERAGE_READONLY_VALIDATE",
+      packageCommand: "npm run run:row-coverage-readonly",
+      postRunReview: "create sanitized post-run review before any readiness change",
+      powershellCommand:
+        "$env:ROW_COVERAGE_READONLY_VALIDATE_CONFIRMATION=\"CP3_ROW_COVERAGE_READONLY_VALIDATE\"; & 'C:\\Program Files\\nodejs\\node.exe' scripts\\run-row-coverage-readonly-once.mjs"
+    },
     goNoGo: {
       decisionRequired: "CEO must explicitly name exactly one bounded Supabase readonly row coverage attempt before any remote read.",
       go: [
