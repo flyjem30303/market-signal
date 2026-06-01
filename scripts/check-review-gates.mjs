@@ -1753,6 +1753,11 @@ const checks = [
     name: "twii-report-only-probe-decision-packet"
   },
   {
+    command: [node, "scripts/check-twii-report-only-probe-acceptance-gate.mjs"],
+    expectStatus: "ok",
+    name: "twii-report-only-probe-acceptance-gate"
+  },
+  {
     command: [node, "scripts/check-etf-source-rights-review-packet.mjs"],
     expectStatus: "ok",
     name: "etf-source-rights-review-packet"
