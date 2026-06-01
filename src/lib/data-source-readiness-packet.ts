@@ -1,3 +1,5 @@
+import { getTwiiSourceSelectionPacket, type TwiiSourceSelectionPacket } from "@/lib/twii-source-selection-packet";
+
 export type DataSourceReadinessLane = {
   id: "twii-source-selection" | "etf-source-rights" | "equity-dry-run-packet";
   lane: "TWII" | "ETF" | "Equity";
@@ -15,6 +17,7 @@ export type DataSourceReadinessPacket = {
   publicDataSource: "mock";
   scoreSource: "mock";
   stopLine: string;
+  twiiSourceSelectionPacket: TwiiSourceSelectionPacket;
 };
 
 export function getDataSourceReadinessPacket(): DataSourceReadinessPacket {
@@ -59,6 +62,7 @@ export function getDataSourceReadinessPacket(): DataSourceReadinessPacket {
     scoreSource: "mock",
     status: "source_readiness_packet_prepared",
     stopLine:
-      "This packet does not run SQL, connect to Supabase, write Supabase, fetch or ingest market data, create staging rows, modify daily_prices, print secrets, print row payloads, promote publicDataSource=supabase, award row coverage points, or set scoreSource=real."
+      "This packet does not run SQL, connect to Supabase, write Supabase, fetch or ingest market data, create staging rows, modify daily_prices, print secrets, print row payloads, promote publicDataSource=supabase, award row coverage points, or set scoreSource=real.",
+    twiiSourceSelectionPacket: getTwiiSourceSelectionPacket()
   };
 }

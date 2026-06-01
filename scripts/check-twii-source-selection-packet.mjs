@@ -1,40 +1,34 @@
 import fs from "node:fs";
 
-const packetPath = "src/lib/data-source-readiness-packet.ts";
-const routePath = "src/lib/data-coverage-route-decision.ts";
+const packetPath = "src/lib/twii-source-selection-packet.ts";
+const readinessPath = "src/lib/data-source-readiness-packet.ts";
 const componentPath = "src/components/project-progress-panel.tsx";
 const cssPath = "src/app/globals.css";
 const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 
 const files = new Map(
-  [packetPath, routePath, componentPath, cssPath, packagePath, reviewGatePath].map((file) => [
+  [packetPath, readinessPath, componentPath, cssPath, packagePath, reviewGatePath].map((file) => [
     file,
     fs.readFileSync(file, "utf8")
   ])
 );
 
 const required = [
-  [packetPath, "getDataSourceReadinessPacket"],
   [packetPath, "getTwiiSourceSelectionPacket"],
-  [packetPath, "source_readiness_packet_prepared"],
-  [packetPath, "twiiSourceSelectionPacket: TwiiSourceSelectionPacket"],
-  [packetPath, "twiiSourceSelectionPacket: getTwiiSourceSelectionPacket()"],
-  [packetPath, "twii-source-selection"],
-  [packetPath, "etf-source-rights"],
-  [packetPath, "equity-dry-run-packet"],
-  [packetPath, "blocked_needs_source_decision"],
-  [packetPath, "blocked_needs_rights_review"],
-  [packetPath, "ready_for_report_only_packet"],
-  [packetPath, "priorityOrder: [\"TWII\", \"ETF\", \"Equity\"]"],
+  [packetPath, "twii_source_selection_packet_prepared"],
+  [packetPath, "targetSymbol: \"TWII\""],
+  [packetPath, "priority: \"highest_row_coverage_gap\""],
+  [packetPath, "observedRows: 0"],
+  [packetPath, "official-exchange-index"],
+  [packetPath, "licensed-market-data-vendor"],
+  [packetPath, "internal-approved-feed"],
+  [packetPath, "candidate_unverified"],
+  [packetPath, "Source authority and license terms are documented"],
+  [packetPath, "No row coverage credit is awarded"],
+  [packetPath, "License does not allow storage or derived use"],
   [packetPath, "publicDataSource: \"mock\""],
   [packetPath, "scoreSource: \"mock\""],
-  [packetPath, "TWII"],
-  [packetPath, "0050"],
-  [packetPath, "006208"],
-  [packetPath, "2330"],
-  [packetPath, "2382"],
-  [packetPath, "2308"],
   [packetPath, "does not run SQL"],
   [packetPath, "connect to Supabase"],
   [packetPath, "write Supabase"],
@@ -46,18 +40,16 @@ const required = [
   [packetPath, "promote publicDataSource=supabase"],
   [packetPath, "award row coverage points"],
   [packetPath, "set scoreSource=real"],
-  [routePath, "getDataSourceReadinessPacket"],
-  [routePath, "sourceReadinessPacket: DataSourceReadinessPacket"],
-  [routePath, "sourceReadinessPacket: getDataSourceReadinessPacket()"],
-  [componentPath, "project-progress-source-readiness"],
+  [readinessPath, "getTwiiSourceSelectionPacket"],
+  [readinessPath, "twiiSourceSelectionPacket: TwiiSourceSelectionPacket"],
+  [readinessPath, "twiiSourceSelectionPacket: getTwiiSourceSelectionPacket()"],
   [componentPath, "project-progress-twii-source-selection"],
-  [componentPath, "progress.dataCoverageRouteDecision.sourceReadinessPacket.lanes.map"],
-  [componentPath, "progress.dataCoverageRouteDecision.sourceReadinessPacket.twiiSourceSelectionPacket.candidates.map"],
-  [componentPath, "progress.dataCoverageRouteDecision.sourceReadinessPacket.stopLine"],
-  [cssPath, ".project-progress-source-readiness"],
+  [componentPath, "twiiSourceSelectionPacket.candidates.map"],
+  [componentPath, "twiiSourceSelectionPacket.nextSafeAction"],
+  [componentPath, "twiiSourceSelectionPacket.stopLine"],
   [cssPath, ".project-progress-twii-source-selection"],
-  [packagePath, "\"check:data-source-readiness-packet\": \"node scripts/check-data-source-readiness-packet.mjs\""],
-  [reviewGatePath, "scripts/check-data-source-readiness-packet.mjs"]
+  [packagePath, "\"check:twii-source-selection-packet\": \"node scripts/check-twii-source-selection-packet.mjs\""],
+  [reviewGatePath, "scripts/check-twii-source-selection-packet.mjs"]
 ];
 
 const forbidden = [

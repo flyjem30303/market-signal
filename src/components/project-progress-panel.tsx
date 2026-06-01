@@ -139,6 +139,32 @@ export function ProjectProgressPanel() {
               </article>
             ))}
           </div>
+          <section className="project-progress-twii-source-selection">
+            <span>{progress.dataCoverageRouteDecision.sourceReadinessPacket.twiiSourceSelectionPacket.status}</span>
+            <strong>
+              {progress.dataCoverageRouteDecision.sourceReadinessPacket.twiiSourceSelectionPacket.targetSymbol} source
+              selection / {progress.dataCoverageRouteDecision.sourceReadinessPacket.twiiSourceSelectionPacket.priority}
+            </strong>
+            <p>
+              Observed rows{" "}
+              {progress.dataCoverageRouteDecision.sourceReadinessPacket.twiiSourceSelectionPacket.observedRows}; public
+              source {progress.dataCoverageRouteDecision.sourceReadinessPacket.twiiSourceSelectionPacket.publicDataSource};
+              score source {progress.dataCoverageRouteDecision.sourceReadinessPacket.twiiSourceSelectionPacket.scoreSource}.
+            </p>
+            <div>
+              {progress.dataCoverageRouteDecision.sourceReadinessPacket.twiiSourceSelectionPacket.candidates.map(
+                (candidate) => (
+                  <article key={candidate.id}>
+                    <span>{candidate.status}</span>
+                    <strong>{candidate.label}</strong>
+                    <p>{candidate.requiredReview.join(", ")}</p>
+                  </article>
+                )
+              )}
+            </div>
+            <p>{progress.dataCoverageRouteDecision.sourceReadinessPacket.twiiSourceSelectionPacket.nextSafeAction}</p>
+            <p>{progress.dataCoverageRouteDecision.sourceReadinessPacket.twiiSourceSelectionPacket.stopLine}</p>
+          </section>
           <p>{progress.dataCoverageRouteDecision.sourceReadinessPacket.stopLine}</p>
         </section>
         <p>{progress.dataCoverageRouteDecision.stopLine}</p>

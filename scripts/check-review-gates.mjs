@@ -1708,6 +1708,11 @@ const checks = [
     name: "data-source-readiness-packet"
   },
   {
+    command: [node, "scripts/check-twii-source-selection-packet.mjs"],
+    expectStatus: "ok",
+    name: "twii-source-selection-packet"
+  },
+  {
     command: [node, "scripts/check-model-credibility-checklist.mjs"],
     expectStatus: "ok",
     name: "model-credibility-checklist"
