@@ -1758,6 +1758,11 @@ const checks = [
     name: "record-runner-approval-decision-outcome"
   },
   {
+    command: [node, "scripts/check-equity-report-only-runner-implementation.mjs"],
+    expectStatus: "ok",
+    name: "equity-report-only-runner-implementation"
+  },
+  {
     command: [node, "scripts/check-model-credibility-checklist.mjs"],
     expectStatus: "ok",
     name: "model-credibility-checklist"

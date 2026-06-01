@@ -173,6 +173,8 @@
     "check:runner-approval-decision-outcome-ledger": "node scripts/check-runner-approval-decision-outcome-ledger.mjs",
     "record:runner-approval-decision-outcome": "node scripts/record-runner-approval-decision-outcome.mjs",
     "check:record-runner-approval-decision-outcome": "node scripts/check-record-runner-approval-decision-outcome.mjs",
+    "run:equity-report-only-runner": "node scripts/run-equity-report-only-runner-once.mjs",
+    "check:equity-report-only-runner-implementation": "node scripts/check-equity-report-only-runner-implementation.mjs",
     "report:data-quality-field-validity-qa-review": "node scripts/report-data-quality-field-validity-qa-review.mjs",
     "check:data-quality-field-validity-qa-review": "node scripts/check-data-quality-field-validity-qa-review.mjs",
     "report:model-credibility-checklist": "node scripts/report-model-credibility-checklist.mjs",
