@@ -2,10 +2,10 @@
   "outcomes": [
     {
       "id": "report-only-runner-implementation-slice",
-      "outcome": "pending",
-      "recordedBy": "not_recorded",
-      "recordedAt": null,
-      "decisionNote": "Awaiting CEO or chairman oral review outcome for exactly one bounded report-only runner implementation slice."
+      "outcome": "accepted",
+      "recordedBy": "Chairman",
+      "recordedAt": "2026-06-01T14:11:11.233Z",
+      "decisionNote": "Chairman orally accepted CEO recommendation to allow exactly one bounded report-only runner implementation slice; execution, SQL, Supabase access, market data fetch, ingestion, row coverage credit, publicDataSource=supabase, and scoreSource=real remain unauthorized."
     }
   ]
 }
