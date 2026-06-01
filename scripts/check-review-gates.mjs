@@ -1738,6 +1738,11 @@ const checks = [
     name: "equity-packet-role-review-gate"
   },
   {
+    command: [node, "scripts/check-equity-runner-implementation-approval-gate.mjs"],
+    expectStatus: "ok",
+    name: "equity-runner-implementation-approval-gate"
+  },
+  {
     command: [node, "scripts/check-model-credibility-checklist.mjs"],
     expectStatus: "ok",
     name: "model-credibility-checklist"

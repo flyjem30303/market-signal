@@ -297,6 +297,57 @@ export function ProjectProgressPanel() {
             </p>
             <p>{progress.dataCoverageRouteDecision.sourceReadinessPacket.equityPacketRoleReviewGate.stopLine}</p>
           </section>
+          <section className="project-progress-equity-runner-approval">
+            <span>
+              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityRunnerImplementationApprovalGate.status}
+            </span>
+            <strong>
+              Runner approval /{" "}
+              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityRunnerImplementationApprovalGate.approvalState}
+            </strong>
+            <p>
+              Request{" "}
+              {
+                progress.dataCoverageRouteDecision.sourceReadinessPacket.equityRunnerImplementationApprovalGate
+                  .requestedNextMove
+              }
+              ; source{" "}
+              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityRunnerImplementationApprovalGate.scope.sourceId};
+              mode{" "}
+              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityRunnerImplementationApprovalGate.scope.runMode};
+              symbols{" "}
+              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityRunnerImplementationApprovalGate.scope.targetSymbols.join(
+                ", "
+              )}
+              .
+            </p>
+            <div>
+              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityRunnerImplementationApprovalGate.requirements.map(
+                (requirement) => (
+                  <article key={requirement.id}>
+                    <span>{requirement.owner}</span>
+                    <strong>{requirement.id}</strong>
+                    <p>{requirement.requirement}</p>
+                  </article>
+                )
+              )}
+            </div>
+            <p>
+              Forbidden until approved:{" "}
+              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityRunnerImplementationApprovalGate.forbiddenUntilApproved.join(
+                ", "
+              )}
+            </p>
+            <p>
+              Public source{" "}
+              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityRunnerImplementationApprovalGate.publicDataSource};
+              score source{" "}
+              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityRunnerImplementationApprovalGate.scoreSource}.
+            </p>
+            <p>
+              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityRunnerImplementationApprovalGate.stopLine}
+            </p>
+          </section>
           <section className="project-progress-source-checkpoint">
             <span>{progress.dataCoverageRouteDecision.sourceReadinessPacket.sourceReadinessCheckpointSummary.status}</span>
             <strong>

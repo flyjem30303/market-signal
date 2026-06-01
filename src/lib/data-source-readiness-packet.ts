@@ -6,6 +6,10 @@ import {
   type EquityReportOnlyDryRunPacket
 } from "@/lib/equity-report-only-dry-run-packet";
 import {
+  getEquityRunnerImplementationApprovalGate,
+  type EquityRunnerImplementationApprovalGate
+} from "@/lib/equity-runner-implementation-approval-gate";
+import {
   getSourceReadinessCheckpointSummary,
   type SourceReadinessCheckpointSummary
 } from "@/lib/source-readiness-checkpoint-summary";
@@ -33,6 +37,7 @@ export type DataSourceReadinessPacket = {
   equityDryRunPacketReadiness: EquityDryRunPacketReadiness;
   equityPacketRoleReviewGate: EquityPacketRoleReviewGate;
   equityReportOnlyDryRunPacket: EquityReportOnlyDryRunPacket;
+  equityRunnerImplementationApprovalGate: EquityRunnerImplementationApprovalGate;
   twiiSourceSelectionPacket: TwiiSourceSelectionPacket;
 };
 
@@ -77,6 +82,7 @@ export function getDataSourceReadinessPacket(): DataSourceReadinessPacket {
     equityDryRunPacketReadiness: getEquityDryRunPacketReadiness(),
     equityPacketRoleReviewGate: getEquityPacketRoleReviewGate(),
     equityReportOnlyDryRunPacket: getEquityReportOnlyDryRunPacket(),
+    equityRunnerImplementationApprovalGate: getEquityRunnerImplementationApprovalGate(),
     priorityOrder: ["TWII", "ETF", "Equity"],
     publicDataSource: "mock",
     scoreSource: "mock",
