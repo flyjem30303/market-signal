@@ -221,6 +221,50 @@ export function ProjectProgressPanel() {
             <p>{progress.dataCoverageRouteDecision.sourceReadinessPacket.equityDryRunPacketReadiness.nextSafeAction}</p>
             <p>{progress.dataCoverageRouteDecision.sourceReadinessPacket.equityDryRunPacketReadiness.stopLine}</p>
           </section>
+          <section className="project-progress-equity-dry-run-packet">
+            <span>{progress.dataCoverageRouteDecision.sourceReadinessPacket.equityReportOnlyDryRunPacket.status}</span>
+            <strong>
+              Equity report-only packet /{" "}
+              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityReportOnlyDryRunPacket.sourceId}
+            </strong>
+            <p>
+              Symbols{" "}
+              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityReportOnlyDryRunPacket.targetSymbols.join(
+                ", "
+              )}; window{" "}
+              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityReportOnlyDryRunPacket.firstApprovedWindow.startMonth}
+              {" -> "}
+              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityReportOnlyDryRunPacket.firstApprovedWindow.endMonth}
+              ; public source{" "}
+              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityReportOnlyDryRunPacket.publicDataSource};
+              score source {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityReportOnlyDryRunPacket.scoreSource}.
+            </p>
+            <div>
+              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityReportOnlyDryRunPacket.sections.map(
+                (section) => (
+                  <article key={section.id}>
+                    <span>{section.owner}</span>
+                    <strong>{section.id}</strong>
+                    <p>{section.summary}</p>
+                  </article>
+                )
+              )}
+            </div>
+            <p>
+              Allowed:{" "}
+              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityReportOnlyDryRunPacket.allowedOutput.join(
+                ", "
+              )}
+            </p>
+            <p>
+              Forbidden:{" "}
+              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityReportOnlyDryRunPacket.forbiddenOutput.join(
+                ", "
+              )}
+            </p>
+            <p>{progress.dataCoverageRouteDecision.sourceReadinessPacket.equityReportOnlyDryRunPacket.nextSafeAction}</p>
+            <p>{progress.dataCoverageRouteDecision.sourceReadinessPacket.equityReportOnlyDryRunPacket.stopLine}</p>
+          </section>
           <section className="project-progress-source-checkpoint">
             <span>{progress.dataCoverageRouteDecision.sourceReadinessPacket.sourceReadinessCheckpointSummary.status}</span>
             <strong>
