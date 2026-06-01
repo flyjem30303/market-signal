@@ -12,30 +12,30 @@ if (process.env.TWII_REPORT_ONLY_PROBE_CONFIRMATION !== REQUIRED_CONFIRMATION) {
     remoteAttempted: false,
     status: "blocked"
   });
-  process.exit(1);
-}
-
-if (process.env.NEXT_PUBLIC_DATA_SOURCE !== "mock") {
+  process.exitCode = 1;
+} else if (process.env.NEXT_PUBLIC_DATA_SOURCE !== "mock") {
   printSanitized({
     connectionAttempted: false,
     failureClass: "public_data_source_not_mock",
     remoteAttempted: false,
     status: "blocked"
   });
-  process.exit(1);
+  process.exitCode = 1;
+} else {
+  const startedAt = new Date();
+  const result = await runProbe();
+  const finishedAt = new Date();
+
+  printSanitized({
+    ...result,
+    finishedAt: finishedAt.toISOString(),
+    remoteAttempted: true,
+    startedAt: startedAt.toISOString()
+  });
+  process.exitCode = result.status === "ready_for_review" ? 0 : 1;
 }
 
-const startedAt = new Date();
-const result = await runProbe();
-const finishedAt = new Date();
-
-printSanitized({
-  ...result,
-  finishedAt: finishedAt.toISOString(),
-  remoteAttempted: true,
-  startedAt: startedAt.toISOString()
-});
-process.exit(result.status === "ready_for_review" ? 0 : 1);
+await settleBeforeExit();
 
 async function runProbe() {
   const controller = new AbortController();
@@ -188,4 +188,8 @@ function categorizeError(error) {
   if (/json/i.test(message)) return "json_parse_failed";
   if (/network|fetch|connection|dns|getaddrinfo/i.test(message)) return "connection_error";
   return "runtime_error";
+}
+
+function settleBeforeExit() {
+  return new Promise((resolve) => setImmediate(resolve));
 }
