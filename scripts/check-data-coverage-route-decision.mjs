@@ -15,8 +15,11 @@ const files = new Map(
 );
 
 const required = [
+  [libPath, "getBackfillIngestionDesignGate"],
   [libPath, "getDataCoverageRouteDecision"],
   [libPath, "aggregate_count_incomplete"],
+  [libPath, "designGate: BackfillIngestionDesignGate"],
+  [libPath, "designGate: getBackfillIngestionDesignGate()"],
   [libPath, "expectedRows: 360"],
   [libPath, "observedRows: 5"],
   [libPath, "missingRows: 355"],
@@ -29,10 +32,13 @@ const required = [
   [progressPath, "getDataCoverageRouteDecision"],
   [progressPath, "dataCoverageRouteDecision"],
   [componentPath, "Data coverage route"],
+  [componentPath, "project-progress-design-gate"],
   [componentPath, "progress.dataCoverageRouteDecision.recommendation"],
   [componentPath, "progress.dataCoverageRouteDecision.options.map"],
+  [componentPath, "progress.dataCoverageRouteDecision.designGate.requirements.map"],
   [componentPath, "progress.dataCoverageRouteDecision.stopLine"],
   [cssPath, ".project-progress-route-decision"],
+  [cssPath, ".project-progress-design-gate"],
   [packagePath, "\"check:data-coverage-route-decision\": \"node scripts/check-data-coverage-route-decision.mjs\""],
   [reviewGatePath, "scripts/check-data-coverage-route-decision.mjs"]
 ];

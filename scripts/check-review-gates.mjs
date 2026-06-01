@@ -1693,6 +1693,11 @@ const checks = [
     name: "data-coverage-route-decision"
   },
   {
+    command: [node, "scripts/check-backfill-ingestion-design-gate.mjs"],
+    expectStatus: "ok",
+    name: "backfill-ingestion-design-gate"
+  },
+  {
     command: [node, "scripts/check-model-credibility-checklist.mjs"],
     expectStatus: "ok",
     name: "model-credibility-checklist"

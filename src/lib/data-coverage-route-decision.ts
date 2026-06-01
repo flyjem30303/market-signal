@@ -1,3 +1,5 @@
+import { getBackfillIngestionDesignGate, type BackfillIngestionDesignGate } from "@/lib/backfill-ingestion-design-gate";
+
 export type DataCoverageRouteOption = {
   id: "backfill-ingestion-design-gate" | "mock-runtime-hardening";
   label: string;
@@ -9,6 +11,7 @@ export type DataCoverageRouteOption = {
 
 export type DataCoverageRouteDecision = {
   blockedReason: "aggregate_count_incomplete";
+  designGate: BackfillIngestionDesignGate;
   expectedRows: 360;
   observedRows: 5;
   missingRows: 355;
@@ -23,6 +26,7 @@ export type DataCoverageRouteDecision = {
 export function getDataCoverageRouteDecision(): DataCoverageRouteDecision {
   return {
     blockedReason: "aggregate_count_incomplete",
+    designGate: getBackfillIngestionDesignGate(),
     expectedRows: 360,
     missingRows: 355,
     observedRows: 5,

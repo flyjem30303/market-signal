@@ -72,6 +72,26 @@ export function ProjectProgressPanel() {
             </article>
           ))}
         </div>
+        <section className="project-progress-design-gate">
+          <span>{progress.dataCoverageRouteDecision.designGate.gateStatus}</span>
+          <strong>{progress.dataCoverageRouteDecision.designGate.title}</strong>
+          <p>
+            Target {progress.dataCoverageRouteDecision.designGate.targetRelation}; missing rows{" "}
+            {progress.dataCoverageRouteDecision.designGate.missingRows}; public source{" "}
+            {progress.dataCoverageRouteDecision.designGate.publicDataSource}; score source{" "}
+            {progress.dataCoverageRouteDecision.designGate.scoreSource}.
+          </p>
+          <div>
+            {progress.dataCoverageRouteDecision.designGate.requirements.map((requirement) => (
+              <article key={requirement.id}>
+                <span>{requirement.owner}</span>
+                <strong>{requirement.id}</strong>
+                <p>{requirement.requirement}</p>
+              </article>
+            ))}
+          </div>
+          <p>{progress.dataCoverageRouteDecision.designGate.stopLine}</p>
+        </section>
         <p>{progress.dataCoverageRouteDecision.stopLine}</p>
       </div>
       <div className="project-progress-lanes">
