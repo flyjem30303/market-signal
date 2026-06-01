@@ -10,6 +10,11 @@ before treating it as a source-code or permission failure. Stop parallel checks,
 clear `.next`, rerun `npm run build`, then run `npm run dev:recover` and
 `npm run check:localhost-full-health`.
 
+If `http://localhost:3000/` is unreachable, first treat it as a
+dev server availability issue. Confirm whether port 3000 has a listener, then run
+`npm run dev:recover`. A successful recovery should make the home page return
+HTTP 200 before any product or runtime debugging continues.
+
 ## Required Order
 
 1. Run `npm run check:localhost-full-health` when the dev server is already up.
@@ -21,6 +26,20 @@ clear `.next`, rerun `npm run build`, then run `npm run dev:recover` and
 7. Run `npm run build` only after review gates finish.
 8. Run `npm run dev:recover` after build.
 9. Run `npm run check:localhost-full-health` again after recovery.
+
+## Localhost Recovery
+
+Use this sequence when the browser shows connection refused:
+
+1. Confirm the page is a connection failure, not an application error.
+2. Check whether port 3000 is listening.
+3. Run `npm run dev:recover`.
+4. Confirm `http://localhost:3000/` returns HTTP 200.
+5. Continue review gates or runtime work only after localhost is reachable.
+
+This recovery starts only the local Next.js dev server. It does not connect to
+Supabase, run SQL, write data, ingest market data, or change the public source
+or score source.
 
 `npm run report:project-progress-snapshot` is local-only. It must keep
 `publicDataSource=mock`, `scoreSource=mock`, `sqlExecuted=false`,
