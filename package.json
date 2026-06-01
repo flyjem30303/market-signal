@@ -176,6 +176,7 @@
     "check:twii-report-only-probe-command-map": "node scripts/check-twii-report-only-probe-command-map.mjs",
     "check:twii-report-only-probe-post-run-template": "node scripts/check-twii-report-only-probe-post-run-template.mjs",
     "check:twii-report-only-probe-one-attempt-execution-decision-gate": "node scripts/check-twii-report-only-probe-one-attempt-execution-decision-gate.mjs",
+    "check:twii-report-only-probe-one-attempt-post-run-review": "node scripts/check-twii-report-only-probe-one-attempt-post-run-review.mjs",
     "check:etf-source-rights-review-packet": "node scripts/check-etf-source-rights-review-packet.mjs",
     "check:equity-dry-run-packet-readiness": "node scripts/check-equity-dry-run-packet-readiness.mjs",
     "check:source-readiness-checkpoint-summary": "node scripts/check-source-readiness-checkpoint-summary.mjs",

@@ -1778,6 +1778,11 @@ const checks = [
     name: "twii-report-only-probe-one-attempt-execution-decision-gate"
   },
   {
+    command: [node, "scripts/check-twii-report-only-probe-one-attempt-post-run-review.mjs"],
+    expectStatus: "ok",
+    name: "twii-report-only-probe-one-attempt-post-run-review"
+  },
+  {
     command: [node, "scripts/check-etf-source-rights-review-packet.mjs"],
     expectStatus: "ok",
     name: "etf-source-rights-review-packet"
