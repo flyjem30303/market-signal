@@ -11,7 +11,9 @@ export type EquityRunnerExecutionPrecheck = {
 
 export type EquityRunnerExecutionApprovalGate = {
   status: "equity_runner_execution_approval_required";
-  approvalState: "not_approved";
+  approvalState: "approved";
+  approvedBy: "Chairman";
+  approvedAt: "2026-06-01T14:22:00+08:00";
   executionQuestion: "approve_exactly_one_equity_report_only_runner_attempt";
   exactCommand: "EQUITY_REPORT_ONLY_RUNNER_CONFIRMATION=CEO_APPROVED_EQUITY_REPORT_ONLY_RUNNER_EXECUTION NEXT_PUBLIC_DATA_SOURCE=mock node scripts/run-equity-report-only-runner-once.mjs";
   confirmationEnv: "EQUITY_REPORT_ONLY_RUNNER_CONFIRMATION";
@@ -29,7 +31,9 @@ export type EquityRunnerExecutionApprovalGate = {
 
 export function getEquityRunnerExecutionApprovalGate(): EquityRunnerExecutionApprovalGate {
   return {
-    approvalState: "not_approved",
+    approvalState: "approved",
+    approvedAt: "2026-06-01T14:22:00+08:00",
+    approvedBy: "Chairman",
     attemptLimit: 1,
     confirmationEnv: "EQUITY_REPORT_ONLY_RUNNER_CONFIRMATION",
     confirmationValue: "CEO_APPROVED_EQUITY_REPORT_ONLY_RUNNER_EXECUTION",
@@ -82,7 +86,7 @@ export function getEquityRunnerExecutionApprovalGate(): EquityRunnerExecutionApp
     sourceId: "twse-stock-day",
     status: "equity_runner_execution_approval_required",
     stopLine:
-      "This execution gate does not approve execution yet, does not set EQUITY_REPORT_ONLY_RUNNER_CONFIRMATION, does not run the runner, does not fetch or ingest market data, does not run SQL, does not connect to Supabase, does not write Supabase, does not create staging rows, does not modify daily_prices, does not print secrets, does not print row payloads, does not commit raw market data, does not award row coverage points, does not promote publicDataSource=supabase, and does not set scoreSource=real.",
+      "This execution gate approves exactly one future report-only runner attempt, but this slice does not set EQUITY_REPORT_ONLY_RUNNER_CONFIRMATION, does not run the runner, does not fetch or ingest market data, does not run SQL, does not connect to Supabase, does not write Supabase, does not create staging rows, does not modify daily_prices, does not print secrets, does not print row payloads, does not commit raw market data, does not award row coverage points, does not promote publicDataSource=supabase, and does not set scoreSource=real.",
     targetSymbols: ["2330", "2382", "2308"]
   };
 }
