@@ -22,6 +22,18 @@ if (!contract.factors.some((factor) => factor.code === "freshness-metadata" && f
 if (contract.rowCoverage.status !== "not_ready" || contract.rowCoverage.awardedPoints !== 0) {
   problems.push("row coverage must remain not_ready with zero awarded points");
 }
+if (contract.fieldValidity.approvalState !== "local_spec_defined_not_approved") {
+  problems.push(`field validity approval state must remain local spec only, got ${contract.fieldValidity.approvalState}`);
+}
+if (contract.fieldValidity.canAwardDataQualityPoints !== false) {
+  problems.push("field validity must not award data-quality points");
+}
+if (contract.fieldValidity.fieldRules.length < 6 || contract.fieldValidity.downgradeRules.length < 4) {
+  problems.push("field validity must expose field rules and downgrade rules");
+}
+if (contract.fieldValidity.publicDataSource !== "mock" || contract.fieldValidity.scoreSource !== "mock") {
+  problems.push("field validity must keep source state mock");
+}
 if (contract.rowCoverage.requirements.length !== 5) {
   problems.push(`expected 5 row coverage requirements, got ${contract.rowCoverage.requirements.length}`);
 }
@@ -69,6 +81,10 @@ const required = [
   "buildDataQualityScoreContract",
   "DataQualityScoreContract",
   "buildRowCoverageContract",
+  "buildDataQualityFieldValidityContract",
+  "fieldValidity",
+  "local_spec_defined_not_approved",
+  "canAwardDataQualityPoints",
   "rowCoverage",
   "universePolicy",
   "coverageWindowPolicy",

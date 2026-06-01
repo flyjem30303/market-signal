@@ -1,0 +1,18 @@
+{
+  "outcomes": [
+    {
+      "id": "legal-source-terms-review",
+      "outcome": "accepted",
+      "recordedBy": "CEO",
+      "recordedAt": "2026-06-01T07:50:26.323Z",
+      "decisionNote": "CEO accepted Legal source terms and disclosure wording for local planning only; this does not authorize Supabase reads, writes, ingestion, or publicDataSource=supabase."
+    },
+    {
+      "id": "investment-non-advisory-interpretation-review",
+      "outcome": "accepted",
+      "recordedBy": "CEO",
+      "recordedAt": "2026-06-01T07:50:05.018Z",
+      "decisionNote": "CEO accepted Investment non-advisory interpretation wording for local planning only; this does not authorize scoreSource=real, advice, ranking claims, or recommendations."
+    }
+  ]
+}

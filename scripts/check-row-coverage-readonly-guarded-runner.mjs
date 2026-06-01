@@ -81,9 +81,16 @@ const requiredPhrases = [
   "async function validateRemoteRowCoverage(preflight)",
   "createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY",
   "persistSession: false",
+  ".from(\"stocks\")",
+  ".select(\"id, symbol\")",
+  ".in(\"symbol\", ALLOWED_SYMBOLS)",
+  "const stockIdBySymbol = new Map()",
+  "stockIdBySymbol.set(stock.symbol, stock.id)",
+  "stock_mapping_unavailable",
+  "stock_mapping_missing",
   ".from(\"daily_prices\")",
-  ".select(\"symbol\", { count: \"exact\", head: true })",
-  ".eq(\"symbol\", symbol)",
+  ".select(\"stock_id\", { count: \"exact\", head: true })",
+  ".eq(\"stock_id\", stockId)",
   "mode: \"row_coverage_readonly_remote_validation\"",
   "calendarStatus: \"not_run\"",
   "symbolsChecked: counts.map((item) => ({",
@@ -137,6 +144,15 @@ if (createClientCount !== 2) problems.push(`expected createClient import and cal
 if (!runner.includes("persistSession: false")) problems.push("Supabase client must disable persistSession");
 if (targetRelationCount !== 1) problems.push(`expected one daily_prices target relation, got ${targetRelationCount}`);
 if (!runner.includes("head: true")) problems.push("row coverage query must remain head-only");
+if (runner.includes(".select(\"symbol\", { count: \"exact\", head: true })")) {
+  problems.push("runner must not count daily_prices by symbol");
+}
+if (runner.includes(".eq(\"symbol\", symbol)")) {
+  problems.push("runner must not filter daily_prices by symbol");
+}
+if (!runner.includes(".eq(\"stock_id\", stockId)")) {
+  problems.push("runner must count daily_prices by stock_id");
+}
 if (runner.includes("runner_skeleton_no_remote_execution")) {
   problems.push("runner skeleton reason must be removed after remote-capable implementation");
 }

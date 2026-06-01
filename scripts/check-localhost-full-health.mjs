@@ -1,0 +1,210 @@
+import fs from "node:fs";
+import { spawn, spawnSync } from "node:child_process";
+
+const node = process.execPath;
+const baseUrl = process.env.LOCALHOST_HEALTH_BASE_URL ?? "http://localhost:3000";
+const shouldManageServer = process.env.LOCALHOST_HEALTH_MANAGE_SERVER !== "false";
+const checks = [
+  {
+    command: [node, "scripts/check-localhost-health-config.mjs"],
+    name: "localhost-health-config"
+  },
+  {
+    command: [node, "scripts/check-localhost-health.mjs"],
+    name: "localhost-health"
+  },
+  {
+    command: [node, "scripts/check-localhost-content-health.mjs"],
+    name: "localhost-content-health"
+  },
+  {
+    command: [node, "scripts/check-row-coverage-health-route-alignment.mjs"],
+    name: "row-coverage-health-route-alignment"
+  },
+  {
+    command: [node, "scripts/check-project-progress-snapshot.mjs"],
+    name: "project-progress-snapshot"
+  },
+  {
+    command: [node, "scripts/check-ceo-progress-brief.mjs"],
+    name: "ceo-progress-brief"
+  },
+  {
+    command: [node, "scripts/check-narrow-approval-packet.mjs"],
+    name: "narrow-approval-packet"
+  },
+  {
+    command: [node, "scripts/check-narrow-approval-post-review-gate.mjs"],
+    name: "narrow-approval-post-review-gate"
+  },
+  {
+    command: [node, "scripts/check-narrow-approval-outcome-ledger.mjs"],
+    name: "narrow-approval-outcome-ledger"
+  },
+  {
+    command: [node, "scripts/check-narrow-approval-outcome-panel.mjs"],
+    name: "narrow-approval-outcome-panel"
+  },
+  {
+    command: [node, "scripts/check-record-narrow-approval-outcome.mjs"],
+    name: "record-narrow-approval-outcome"
+  },
+  {
+    command: [node, "scripts/check-blocker-resolution-plan.mjs"],
+    name: "blocker-resolution-plan"
+  },
+  {
+    command: [node, "scripts/check-blocker-execution-queue.mjs"],
+    name: "blocker-execution-queue"
+  },
+  {
+    command: [node, "scripts/check-blocker-action-priorities.mjs"],
+    name: "blocker-action-priorities"
+  },
+  {
+    command: [node, "scripts/check-data-quality-evidence-checklist.mjs"],
+    name: "data-quality-evidence-checklist"
+  },
+  {
+    command: [node, "scripts/check-data-quality-field-validity.mjs"],
+    name: "data-quality-field-validity"
+  },
+  {
+    command: [node, "scripts/check-data-quality-field-validity-qa-review.mjs"],
+    name: "data-quality-field-validity-qa-review"
+  },
+  {
+    command: [node, "scripts/check-source-rights-disclosure-checklist.mjs"],
+    name: "source-rights-disclosure-checklist"
+  },
+  {
+    command: [node, "scripts/check-source-rights-disclosure-local-review.mjs"],
+    name: "source-rights-disclosure-local-review"
+  },
+  {
+    command: [node, "scripts/check-model-credibility-checklist.mjs"],
+    name: "model-credibility-checklist"
+  },
+  {
+    command: [node, "scripts/check-model-credibility-local-review.mjs"],
+    name: "model-credibility-local-review"
+  },
+  {
+    command: [node, "scripts/check-blocker-readiness-panel.mjs"],
+    name: "blocker-readiness-panel"
+  },
+  {
+    command: [node, "scripts/check-next-dev-recovery-tools.mjs"],
+    name: "next-dev-recovery-tools"
+  }
+];
+
+const managedServer = shouldManageServer && !(await canFetchRoot()) ? await startTemporaryServer() : null;
+
+try {
+  const results = checks.map((check) => {
+    const result = spawnSync(check.command[0], check.command.slice(1), {
+      cwd: process.cwd(),
+      encoding: "utf8"
+    });
+
+    return {
+      name: check.name,
+      ok: result.status === 0,
+      statusCode: result.status,
+      stderr: result.stderr.trim(),
+      stdout: result.stdout.trim()
+    };
+  });
+
+  const failed = results.filter((result) => !result.ok);
+
+  console.log(
+    JSON.stringify(
+      {
+        managedServer: managedServer
+          ? {
+              command: managedServer.commandLabel,
+              started: true
+            }
+          : {
+              started: false
+            },
+        results: results.map((result) => ({
+          name: result.name,
+          ok: result.ok,
+          statusCode: result.statusCode
+        })),
+        status: failed.length === 0 ? "ok" : "blocked"
+      },
+      null,
+      2
+    )
+  );
+
+  if (failed.length > 0) {
+    for (const result of failed) {
+      console.error(`\n[${result.name}] stdout\n${result.stdout}`);
+      console.error(`\n[${result.name}] stderr\n${result.stderr}`);
+    }
+    process.exitCode = 1;
+  }
+} finally {
+  if (managedServer) {
+    managedServer.child.kill();
+  }
+}
+
+async function startTemporaryServer() {
+  const hasProductionBuild = fs.existsSync(".next/BUILD_ID");
+  const args = hasProductionBuild
+    ? ["node_modules/next/dist/bin/next", "start", "--hostname", "localhost", "--port", "3000"]
+    : ["node_modules/next/dist/bin/next", "dev", "--hostname", "localhost", "--port", "3000"];
+  const child = spawn(node, args, {
+    cwd: process.cwd(),
+    env: normalizeEnv(process.env),
+    stdio: "ignore",
+    windowsHide: true
+  });
+
+  const ready = await waitForRoot();
+  if (!ready) {
+    child.kill();
+    throw new Error("temporary localhost server did not become ready");
+  }
+
+  return {
+    child,
+    commandLabel: hasProductionBuild ? "next start" : "next dev"
+  };
+}
+
+async function waitForRoot() {
+  for (let attempt = 1; attempt <= 30; attempt += 1) {
+    if (await canFetchRoot()) return true;
+    await delay(1000);
+  }
+
+  return false;
+}
+
+async function canFetchRoot() {
+  try {
+    const response = await fetch(new URL("/", baseUrl), { cache: "no-store" });
+    return response.status === 200;
+  } catch {
+    return false;
+  }
+}
+
+function normalizeEnv(env) {
+  const next = { ...env };
+  if (next.Path && next.PATH) {
+    delete next.PATH;
+  }
+  return next;
+}
+
+function delay(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}

@@ -58,12 +58,50 @@ async function validateRemoteRowCoverage(preflight) {
   });
   const counts = [];
   const problems = [];
+  const stockIdBySymbol = new Map();
+
+  const { data: stocks, error: stockLookupError } = await client
+    .from("stocks")
+    .select("id, symbol")
+    .in("symbol", ALLOWED_SYMBOLS);
+
+  if (stockLookupError) {
+    return {
+      calendarStatus: "not_run",
+      coverageStatus: "blocked",
+      expectedSymbolCount: EXPECTED_SYMBOL_COUNT,
+      expectedTotalRows: EXPECTED_TOTAL_ROWS,
+      mode: "row_coverage_readonly_remote_validation",
+      missingRows: EXPECTED_TOTAL_ROWS,
+      observedTotalRows: 0,
+      preflightStatus: preflight.status,
+      problems: ALLOWED_SYMBOLS.map((symbol) => `${symbol}: stock_mapping_unavailable`),
+      reason: "stock_mapping_unavailable",
+      remoteAttempted: true,
+      requiredTradingSessions: REQUIRED_TRADING_SESSIONS,
+      status: "blocked",
+      symbolsChecked: [],
+      targetRelation: preflight.targetRelation
+    };
+  }
+
+  for (const stock of stocks ?? []) {
+    if (typeof stock?.symbol === "string" && typeof stock?.id === "string" && ALLOWED_SYMBOLS.includes(stock.symbol)) {
+      stockIdBySymbol.set(stock.symbol, stock.id);
+    }
+  }
 
   for (const symbol of ALLOWED_SYMBOLS) {
+    const stockId = stockIdBySymbol.get(symbol);
+    if (!stockId) {
+      problems.push(`${symbol}: stock_mapping_missing`);
+      continue;
+    }
+
     const { count, error } = await client
       .from("daily_prices")
-      .select("symbol", { count: "exact", head: true })
-      .eq("symbol", symbol);
+      .select("stock_id", { count: "exact", head: true })
+      .eq("stock_id", stockId);
 
     if (error) {
       problems.push(`${symbol}: count_unavailable`);

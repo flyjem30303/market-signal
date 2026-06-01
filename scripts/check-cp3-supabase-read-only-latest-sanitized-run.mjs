@@ -1,11 +1,11 @@
 import { readFileSync } from "node:fs";
 
-const target = "docs/reviews/CP3_SUPABASE_READ_ONLY_LATEST_SANITIZED_RUN_2026-05-31.md";
+const target = "docs/reviews/CP3_SUPABASE_READ_ONLY_LATEST_SANITIZED_RUN_2026-06-01.md";
 const content = readFileSync(target, "utf8");
 
 const requiredPhrases = [
   "CP3 Supabase Read-Only Latest Sanitized Run",
-  "Date: 2026-05-31",
+  "Date: 2026-06-01",
   "CP3 Supabase read-only latest sanitized run recorded",
   "ACCEPT_OBJECT_REACHABILITY_AS_LATEST_SANITIZED_EVIDENCE",
   "one process-scoped Supabase read-only validator attempt",

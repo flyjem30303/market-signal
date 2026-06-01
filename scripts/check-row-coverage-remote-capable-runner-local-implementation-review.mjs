@@ -35,11 +35,11 @@ const requiredPhrases = [
   "IMPLEMENTED-002 scripts/run-row-coverage-readonly-once.mjs keeps exact confirmation CP3_ROW_COVERAGE_READONLY_VALIDATE",
   "IMPLEMENTED-006 scripts/run-row-coverage-readonly-once.mjs creates Supabase client only after confirmation and ready preflight",
   "IMPLEMENTED-007 scripts/run-row-coverage-readonly-once.mjs uses persistSession false",
-  "IMPLEMENTED-008 scripts/run-row-coverage-readonly-once.mjs targets daily_prices only",
+  "IMPLEMENTED-008 scripts/run-row-coverage-readonly-once.mjs resolves stocks.symbol to stocks.id before daily_prices counts",
   "IMPLEMENTED-009 scripts/run-row-coverage-readonly-once.mjs keeps allowed symbols TWII, 0050, 006208, 2330, 2382, 2308",
   "IMPLEMENTED-010 scripts/run-row-coverage-readonly-once.mjs keeps requiredTradingSessions 60",
   "IMPLEMENTED-011 scripts/run-row-coverage-readonly-once.mjs computes expectedTotalRows 360",
-  "IMPLEMENTED-012 scripts/run-row-coverage-readonly-once.mjs uses head/count aggregate reads only",
+  "IMPLEMENTED-012 scripts/run-row-coverage-readonly-once.mjs uses head/count aggregate reads only for daily_prices.stock_id",
   "IMPLEMENTED-013 scripts/run-row-coverage-readonly-once.mjs returns sanitized symbol identifiers and aggregate counts only",
   "IMPLEMENTED-014 scripts/check-row-coverage-readonly-guarded-runner.mjs allows only the approved Supabase SDK path",
   "IMPLEMENTED-015 scripts/check-row-coverage-readonly-guarded-runner.mjs verifies fail-closed behavior without confirmation",
@@ -98,7 +98,32 @@ const evidencePhrases = [
   {
     content: runner,
     file: runnerPath,
-    phrase: ".select(\"symbol\", { count: \"exact\", head: true })"
+    phrase: ".from(\"stocks\")"
+  },
+  {
+    content: runner,
+    file: runnerPath,
+    phrase: ".select(\"id, symbol\")"
+  },
+  {
+    content: runner,
+    file: runnerPath,
+    phrase: ".in(\"symbol\", ALLOWED_SYMBOLS)"
+  },
+  {
+    content: runner,
+    file: runnerPath,
+    phrase: ".from(\"daily_prices\")"
+  },
+  {
+    content: runner,
+    file: runnerPath,
+    phrase: ".select(\"stock_id\", { count: \"exact\", head: true })"
+  },
+  {
+    content: runner,
+    file: runnerPath,
+    phrase: ".eq(\"stock_id\", stockId)"
   },
   {
     content: runner,
@@ -154,6 +179,14 @@ const forbiddenRunnerPatterns = [
   /appendFileSync/i,
   /console\.(log|error|warn)\([^)]*process\.env/i
 ];
+
+if (runner.includes(".select(\"symbol\", { count: \"exact\", head: true })")) {
+  forbiddenPhrases.push("runner still uses old daily_prices.symbol count path");
+}
+
+if (runner.includes(".eq(\"symbol\", symbol)")) {
+  forbiddenPhrases.push("runner still filters daily_prices by symbol");
+}
 
 const missing = [
   ...requiredPhrases.filter((phrase) => !content.includes(phrase)).map((phrase) => `${target}: ${phrase}`),

@@ -20,11 +20,11 @@ IMPLEMENTED-004 scripts/run-row-coverage-readonly-once.mjs loads only allowliste
 IMPLEMENTED-005 scripts/run-row-coverage-readonly-once.mjs keeps NEXT_PUBLIC_DATA_SOURCE mock preflight
 IMPLEMENTED-006 scripts/run-row-coverage-readonly-once.mjs creates Supabase client only after confirmation and ready preflight
 IMPLEMENTED-007 scripts/run-row-coverage-readonly-once.mjs uses persistSession false
-IMPLEMENTED-008 scripts/run-row-coverage-readonly-once.mjs targets daily_prices only
+IMPLEMENTED-008 scripts/run-row-coverage-readonly-once.mjs resolves stocks.symbol to stocks.id before daily_prices counts
 IMPLEMENTED-009 scripts/run-row-coverage-readonly-once.mjs keeps allowed symbols TWII, 0050, 006208, 2330, 2382, 2308
 IMPLEMENTED-010 scripts/run-row-coverage-readonly-once.mjs keeps requiredTradingSessions 60
 IMPLEMENTED-011 scripts/run-row-coverage-readonly-once.mjs computes expectedTotalRows 360
-IMPLEMENTED-012 scripts/run-row-coverage-readonly-once.mjs uses head/count aggregate reads only
+IMPLEMENTED-012 scripts/run-row-coverage-readonly-once.mjs uses head/count aggregate reads only for daily_prices.stock_id
 IMPLEMENTED-013 scripts/run-row-coverage-readonly-once.mjs returns sanitized symbol identifiers and aggregate counts only
 IMPLEMENTED-014 scripts/check-row-coverage-readonly-guarded-runner.mjs allows only the approved Supabase SDK path
 IMPLEMENTED-015 scripts/check-row-coverage-readonly-guarded-runner.mjs verifies fail-closed behavior without confirmation

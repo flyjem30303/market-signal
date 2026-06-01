@@ -68,6 +68,7 @@ OUTPUT-003 targetRelation daily_prices
 OUTPUT-004 expectedSymbolCount 6
 OUTPUT-005 requiredTradingSessions 60
 OUTPUT-006 expectedTotalRows 360
+OUTPUT-006A queryContract resolve stocks.symbol to stocks.id, then count daily_prices.stock_id
 OUTPUT-007 observedTotalRows number
 OUTPUT-008 missingRows number
 OUTPUT-009 symbolsChecked sanitized symbol identifiers and aggregate observedRows only

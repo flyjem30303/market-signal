@@ -54,6 +54,7 @@ const requiredPhrases = [
   "OUTPUT-004 expectedSymbolCount 6",
   "OUTPUT-005 requiredTradingSessions 60",
   "OUTPUT-006 expectedTotalRows 360",
+  "OUTPUT-006A queryContract resolve stocks.symbol to stocks.id, then count daily_prices.stock_id",
   "OUTPUT-009 symbolsChecked sanitized symbol identifiers and aggregate observedRows only",
   "OUTPUT-014 filesWritten false",
   "OUTPUT-015 mutations false",
@@ -109,7 +110,32 @@ const evidencePhrases = [
   {
     content: runner,
     file: runnerPath,
-    phrase: ".select(\"symbol\", { count: \"exact\", head: true })"
+    phrase: ".from(\"stocks\")"
+  },
+  {
+    content: runner,
+    file: runnerPath,
+    phrase: ".select(\"id, symbol\")"
+  },
+  {
+    content: runner,
+    file: runnerPath,
+    phrase: ".in(\"symbol\", ALLOWED_SYMBOLS)"
+  },
+  {
+    content: runner,
+    file: runnerPath,
+    phrase: ".from(\"daily_prices\")"
+  },
+  {
+    content: runner,
+    file: runnerPath,
+    phrase: ".select(\"stock_id\", { count: \"exact\", head: true })"
+  },
+  {
+    content: runner,
+    file: runnerPath,
+    phrase: ".eq(\"stock_id\", stockId)"
   },
   {
     content: guardedChecker,

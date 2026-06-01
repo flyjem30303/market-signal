@@ -1,4 +1,8 @@
 import { buildRowCoverageContract, type RowCoverageContract } from "@/lib/row-coverage-contract";
+import {
+  buildDataQualityFieldValidityContract,
+  type DataQualityFieldValidityContract
+} from "@/lib/data-quality-field-validity";
 
 export type DataQualityScoreFactor = {
   code: string;
@@ -12,6 +16,7 @@ export type DataQualityScoreFactor = {
 export type DataQualityScoreContract = {
   canCountAsRealScoreEvidence: false;
   factors: DataQualityScoreFactor[];
+  fieldValidity: DataQualityFieldValidityContract;
   nextLift: string;
   passThreshold: 80;
   publicDataSource: "mock";
@@ -23,6 +28,7 @@ export type DataQualityScoreContract = {
 
 export function buildDataQualityScoreContract(): DataQualityScoreContract {
   const rowCoverage = buildRowCoverageContract();
+  const fieldValidity = buildDataQualityFieldValidityContract();
   const factors: DataQualityScoreFactor[] = [
     {
       code: "freshness-metadata",
@@ -46,7 +52,11 @@ export function buildDataQualityScoreContract(): DataQualityScoreContract {
       maxPoints: 15,
       owner: "Data",
       points: 0,
-      state: "missing"
+      state:
+        fieldValidity.approvalState === "local_spec_defined_not_approved" &&
+        fieldValidity.canAwardDataQualityPoints === false
+          ? "missing"
+          : "missing"
     },
     {
       code: "downgrade-rules",
@@ -78,13 +88,14 @@ export function buildDataQualityScoreContract(): DataQualityScoreContract {
   return {
     canCountAsRealScoreEvidence: false,
     factors,
+    fieldValidity,
     nextLift:
       rowCoverage.universePolicy.policyStatus === "defined_local_only" &&
       rowCoverage.coverageWindowPolicy.policyStatus === "defined_local_only" &&
       rowCoverage.expectedRowPolicy.policyStatus === "defined_local_only" &&
       rowCoverage.missingRowTolerancePolicy.policyStatus === "defined_local_only" &&
       rowCoverage.marketCalendarPolicy.policyStatus === "defined_local_only"
-        ? "Run read-only row coverage validation and define field validity before any score can approach the 80-point real-score evidence threshold."
+        ? "Run read-only row coverage validation and review locally defined field validity before any score can approach the 80-point real-score evidence threshold."
         : "Define row coverage universe policy before any score can approach the 80-point real-score evidence threshold.",
     passThreshold: 80,
     publicDataSource: "mock",

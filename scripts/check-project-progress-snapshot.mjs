@@ -1,0 +1,242 @@
+import { spawnSync } from "node:child_process";
+import fs from "node:fs";
+
+const reportPath = "scripts/report-project-progress-snapshot.mjs";
+const packagePath = "package.json";
+const reviewGatePath = "scripts/check-review-gates.mjs";
+
+const reportSource = fs.readFileSync(reportPath, "utf8");
+const packageJson = JSON.parse(fs.readFileSync(packagePath, "utf8"));
+const reviewGate = fs.readFileSync(reviewGatePath, "utf8");
+
+const requiredSourcePhrases = [
+  "mode: \"local_project_progress_snapshot\"",
+  "status: \"local_ready_remote_paused\"",
+  "getProjectProgressSummary",
+  "getRuntimeReadinessSummary",
+  "getRowCoverageSecondAttemptReadiness",
+  "getFreshnessRuntimeActivationSummary",
+  "getFreshnessReadonlyLatestEvidenceSummary",
+  "automatedRemoteRun: false",
+  "connectionAttempted: false",
+  "ingestionStarted: false",
+  "publicDataSource: \"mock\"",
+  "rowPayloadsPrinted: false",
+  "scoreSource: \"mock\"",
+  "scoreSourceRealEnabled: false",
+  "secretsPrinted: false",
+  "sqlExecuted: false",
+  "supabaseWritesEnabled: false",
+  "blockerExecutionQueue",
+  "bounded_row_coverage_decision_ready",
+  "Data 45 / Engineering 35 / Legal-Investment 20",
+  "npm run report:source-rights-disclosure-local-review",
+  "npm run report:model-credibility-local-review",
+  "npm run report:data-quality-field-validity-qa-review",
+  "bounded readonly decision 35 / runtime hardening 45 / blocker closure 20",
+  "separately named bounded row coverage readonly attempt or mock runtime hardening",
+  "decisionNodes",
+  "id: \"local-verification\"",
+  "id: \"row-coverage-readonly\"",
+  "id: \"data-quality-evidence\"",
+  "id: \"runtime-public-state\"",
+  "id: \"source-rights-and-disclosure\"",
+  "id: \"model-credibility\"",
+  "bounded_decision_ready_waiting_explicit_remote_execution_request",
+  "mock_public_runtime",
+  "publicDataSource and scoreSource remain mock"
+];
+
+const forbiddenSourcePatterns = [
+  /@supabase\/supabase-js/,
+  /createClient/,
+  /fetch\(/,
+  /\.from\(/,
+  /\.insert\(/,
+  /\.update\(/,
+  /\.delete\(/,
+  /automatedRemoteRun:\s*true/,
+  /connectionAttempted:\s*true/,
+  /ingestionStarted:\s*true/,
+  /rowPayloadsPrinted:\s*true/,
+  /scoreSourceRealEnabled:\s*true/,
+  /secretsPrinted:\s*true/,
+  /sqlExecuted:\s*true/,
+  /supabaseWritesEnabled:\s*true/,
+  /scoreSource:\s*"real"/,
+  /publicDataSource:\s*"supabase"/
+];
+
+const forbiddenOutputPatterns = [
+  /NEXT_PUBLIC_SUPABASE_URL/,
+  /NEXT_PUBLIC_SUPABASE_ANON_KEY/,
+  /SUPABASE_SERVICE_ROLE_KEY/,
+  /https:\/\/[a-z0-9-]+\.supabase\.co/i,
+  /\bsb_(publishable|secret|anon|service_role)_[a-z0-9_-]+/i,
+  /\bservice[_ -]?role\b/i,
+  /\banon[_ -]?key\b/i,
+  /\btoken\s*[:=]\s*["']?[^"',\s}]+/i,
+  /\bkeyPrefix\b/i,
+  /\bkeySuffix\b/i,
+  /\bkeyLength\b/i,
+  /\bstock_id\b/,
+  /\bstockId\b/,
+  /\brawRows\b/,
+  /\browPayload\b/i,
+  /\brows\s*:\s*\[/,
+  /\bselect\s+\*\s+from\b/i,
+  /\binsert\s+into\b/i,
+  /\bupdate\s+[a-z_]+\s+set\b/i,
+  /\bdelete\s+from\b/i,
+  /\braw market data\b/i
+];
+
+const missing = requiredSourcePhrases
+  .filter((phrase) => !reportSource.includes(phrase))
+  .map((phrase) => `${reportPath}: ${phrase}`);
+const blocked = forbiddenSourcePatterns
+  .filter((pattern) => pattern.test(reportSource))
+  .map((pattern) => `${reportPath}: ${String(pattern)}`);
+
+if (packageJson.scripts?.["report:project-progress-snapshot"] !== "node scripts/report-project-progress-snapshot.mjs") {
+  missing.push(`${packagePath}: report:project-progress-snapshot`);
+}
+
+if (packageJson.scripts?.["check:project-progress-snapshot"] !== "node scripts/check-project-progress-snapshot.mjs") {
+  missing.push(`${packagePath}: check:project-progress-snapshot`);
+}
+
+if (!reviewGate.includes("scripts/check-project-progress-snapshot.mjs")) {
+  missing.push(`${reviewGatePath}: scripts/check-project-progress-snapshot.mjs`);
+}
+
+const run = spawnSync(process.execPath, [reportPath], {
+  cwd: process.cwd(),
+  encoding: "utf8",
+  shell: false
+});
+
+let output = null;
+if (run.status !== 0) {
+  blocked.push(`${reportPath}: reporter exited ${String(run.status)} ${run.stderr.trim()}`);
+} else {
+  for (const pattern of forbiddenOutputPatterns) {
+    if (pattern.test(run.stdout)) {
+      blocked.push(`${reportPath}: forbidden output pattern ${String(pattern)}`);
+    }
+  }
+
+  try {
+    output = JSON.parse(run.stdout);
+  } catch (error) {
+    blocked.push(`${reportPath}: reporter did not emit JSON ${error instanceof Error ? error.message : String(error)}`);
+  }
+}
+
+if (output) {
+  const expectedFalseFlags = [
+    "automatedRemoteRun",
+    "connectionAttempted",
+    "ingestionStarted",
+    "rowPayloadsPrinted",
+    "scoreSourceRealEnabled",
+    "secretsPrinted",
+    "sqlExecuted",
+    "supabaseWritesEnabled"
+  ];
+
+  if (output.mode !== "local_project_progress_snapshot") {
+    blocked.push(`output.mode: ${String(output.mode)}`);
+  }
+
+  if (output.status !== "local_ready_remote_paused") {
+    blocked.push(`output.status: ${String(output.status)}`);
+  }
+
+  if (output.safety?.publicDataSource !== "mock") {
+    blocked.push(`output.safety.publicDataSource: ${String(output.safety?.publicDataSource)}`);
+  }
+
+  if (output.safety?.scoreSource !== "mock") {
+    blocked.push(`output.safety.scoreSource: ${String(output.safety?.scoreSource)}`);
+  }
+
+  for (const flag of expectedFalseFlags) {
+    if (output.safety?.[flag] !== false) {
+      blocked.push(`output.safety.${flag}: ${String(output.safety?.[flag])}`);
+    }
+  }
+
+  if (typeof output.project?.adjustedScore !== "number" || output.project.adjustedScore <= 0 || output.project.adjustedScore >= 100) {
+    blocked.push(`output.project.adjustedScore: ${String(output.project?.adjustedScore)}`);
+  }
+
+  if (output.runtime?.nextRemoteCommand !== "npm run db:readonly-validate") {
+    blocked.push(`output.runtime.nextRemoteCommand: ${String(output.runtime?.nextRemoteCommand)}`);
+  }
+
+  if (output.rowCoverage?.readiness !== "local_ready_remote_paused") {
+    blocked.push(`output.rowCoverage.readiness: ${String(output.rowCoverage?.readiness)}`);
+  }
+
+  if (output.freshness?.nextPublicDataSource !== "mock") {
+    blocked.push(`output.freshness.nextPublicDataSource: ${String(output.freshness?.nextPublicDataSource)}`);
+  }
+
+  if (output.blockerExecutionQueue?.status !== "bounded_row_coverage_decision_ready") {
+    blocked.push(`output.blockerExecutionQueue.status: ${String(output.blockerExecutionQueue?.status)}`);
+  }
+
+  if (output.blockerExecutionQueue?.ceoLaneRatio !== "Data 45 / Engineering 35 / Legal-Investment 20") {
+    blocked.push(`output.blockerExecutionQueue.ceoLaneRatio: ${String(output.blockerExecutionQueue?.ceoLaneRatio)}`);
+  }
+
+  const queueIds = new Set((output.blockerExecutionQueue?.items ?? []).map((item) => item.id));
+  for (const id of ["data-quality-evidence", "source-rights-and-disclosure", "model-credibility"]) {
+    if (!queueIds.has(id)) {
+      blocked.push(`output.blockerExecutionQueue.items missing ${id}`);
+    }
+  }
+
+  if (!Array.isArray(output.decisionNodes) || output.decisionNodes.length < 6) {
+    blocked.push(`output.decisionNodes: expected at least 6 nodes, got ${String(output.decisionNodes?.length)}`);
+  } else {
+    const requiredNodeIds = [
+      "local-verification",
+      "row-coverage-readonly",
+      "data-quality-evidence",
+      "runtime-public-state",
+      "source-rights-and-disclosure",
+      "model-credibility"
+    ];
+    const observedNodeIds = new Set(output.decisionNodes.map((node) => node.id));
+
+    for (const id of requiredNodeIds) {
+      if (!observedNodeIds.has(id)) {
+        blocked.push(`output.decisionNodes missing ${id}`);
+      }
+    }
+
+    for (const node of output.decisionNodes) {
+      if (node.approvedRemoteExecution === true || node.publicDataSource === "supabase" || node.scoreSource === "real") {
+        blocked.push(`output.decisionNodes.${String(node.id)} has forbidden approval/source state`);
+      }
+    }
+  }
+}
+
+console.log(
+  JSON.stringify(
+    {
+      blocked,
+      missing,
+      status: missing.length === 0 && blocked.length === 0 ? "ok" : "blocked"
+    },
+    null,
+    2
+  )
+);
+
+if (missing.length > 0 || blocked.length > 0) {
+  process.exitCode = 1;
+}

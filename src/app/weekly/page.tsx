@@ -4,6 +4,7 @@ import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { PageViewTracker } from "@/components/page-view-tracker";
 import { TrackedLink } from "@/components/tracked-link";
 import { TrustRuntimeBoundaryNotice } from "@/components/trust-runtime-boundary-notice";
+import { WeeklyRowCoverageStatus } from "@/components/weekly-row-coverage-status";
 import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
 import {
   getMarketSignalRepository,
@@ -51,6 +52,7 @@ export default async function WeeklyPage() {
       </section>
       <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
       <TrustRuntimeBoundaryNotice context="weekly" />
+      <WeeklyRowCoverageStatus />
 
       <section className="weekly-quick-read" aria-label="週報快速閱讀">
         <article>

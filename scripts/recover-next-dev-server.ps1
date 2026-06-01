@@ -24,11 +24,16 @@ foreach ($listener in $portListeners) {
   }
 }
 
-$nextProcesses = Get-CimInstance Win32_Process -Filter "name = 'node.exe'" |
-  Where-Object {
-    $_.CommandLine -match $escapedRoot -and
-    $_.CommandLine -match "node_modules\\next\\dist\\bin\\next"
-  }
+$nextProcesses = @()
+try {
+  $nextProcesses = Get-CimInstance Win32_Process -Filter "name = 'node.exe'" -ErrorAction Stop |
+    Where-Object {
+      $_.CommandLine -match $escapedRoot -and
+      $_.CommandLine -match "node_modules\\next\\dist\\bin\\next"
+    }
+} catch {
+  $nextProcesses = @()
+}
 
 foreach ($process in $nextProcesses) {
   Stop-Process -Id $process.ProcessId -Force
@@ -37,6 +42,12 @@ foreach ($process in $nextProcesses) {
 $resolvedCache = Resolve-Path -LiteralPath $nextCache -ErrorAction SilentlyContinue
 if ($resolvedCache -and $resolvedCache.Path.StartsWith($projectRoot.Path)) {
   Remove-Item -LiteralPath $resolvedCache.Path -Recurse -Force
+}
+
+# The Codex desktop shell can expose both Path and PATH in the process
+# environment. Windows Start-Process treats them as duplicate keys and exits.
+if ([System.Environment]::GetEnvironmentVariable("Path", "Process") -and [System.Environment]::GetEnvironmentVariable("PATH", "Process")) {
+  [System.Environment]::SetEnvironmentVariable("PATH", $null, "Process")
 }
 
 Start-Process `

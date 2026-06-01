@@ -106,12 +106,12 @@ const evidencePhrases = [
   {
     content: runner,
     file: runnerPath,
-    phrase: ".select(\"symbol\", { count: \"exact\", head: true })"
+    phrase: ".select(\"stock_id\", { count: \"exact\", head: true })"
   },
   {
     content: runner,
     file: runnerPath,
-    phrase: ".eq(\"symbol\", symbol)"
+    phrase: ".eq(\"stock_id\", stockId)"
   },
   {
     content: reviewGate,
