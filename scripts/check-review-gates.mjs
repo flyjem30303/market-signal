@@ -8,6 +8,26 @@ const checks = [
     name: "package-json"
   },
   {
+    command: [node, "scripts/check-localhost-health-config.mjs"],
+    expectStatus: "ok",
+    name: "localhost-health-config"
+  },
+  {
+    command: [node, "scripts/check-localhost-content-health.mjs"],
+    expectStatus: "ok",
+    name: "localhost-content-health"
+  },
+  {
+    command: [node, "scripts/check-localhost-full-health.mjs"],
+    expectStatus: "ok",
+    name: "localhost-full-health"
+  },
+  {
+    command: [node, "scripts/check-local-verification-runbook.mjs"],
+    expectStatus: "ok",
+    name: "local-verification-runbook"
+  },
+  {
     command: [node, "--experimental-strip-types", "scripts/check-asset-type-policy.mjs"],
     expectStatus: "ok",
     name: "asset-policy"
@@ -41,6 +61,11 @@ const checks = [
     command: [node, "scripts/check-briefing-boundary-disclosure.mjs"],
     expectStatus: "ok",
     name: "briefing-boundary-disclosure"
+  },
+  {
+    command: [node, "scripts/check-briefing-row-coverage-status.mjs"],
+    expectStatus: "ok",
+    name: "briefing-row-coverage-status"
   },
   {
     command: [node, "scripts/check-cp1-snapshot.mjs"],
@@ -1548,6 +1573,131 @@ const checks = [
     name: "project-progress-score"
   },
   {
+    command: [node, "scripts/check-project-progress-snapshot.mjs"],
+    expectStatus: "ok",
+    name: "project-progress-snapshot"
+  },
+  {
+    command: [node, "scripts/check-ceo-progress-brief.mjs"],
+    expectStatus: "ok",
+    name: "ceo-progress-brief"
+  },
+  {
+    command: [node, "scripts/check-runtime-unblock-acceleration.mjs"],
+    expectStatus: "ok",
+    name: "runtime-unblock-acceleration"
+  },
+  {
+    command: [node, "scripts/check-runtime-interpretation-state.mjs"],
+    expectStatus: "ok",
+    name: "runtime-interpretation-state"
+  },
+  {
+    command: [node, "scripts/check-runtime-hardening-exit-criteria.mjs"],
+    expectStatus: "ok",
+    name: "runtime-hardening-exit-criteria"
+  },
+  {
+    command: [node, "scripts/check-post-readonly-evidence-action-gate.mjs"],
+    expectStatus: "ok",
+    name: "post-readonly-evidence-action-gate"
+  },
+  {
+    command: [node, "scripts/check-row-coverage-evidence-acceptance.mjs"],
+    expectStatus: "ok",
+    name: "row-coverage-evidence-acceptance"
+  },
+  {
+    command: [node, "scripts/check-bounded-row-coverage-readonly-attempt-decision.mjs"],
+    expectStatus: "ok",
+    name: "bounded-row-coverage-readonly-attempt-decision"
+  },
+  {
+    command: [node, "scripts/check-mock-runtime-hardening-priority.mjs"],
+    expectStatus: "ok",
+    name: "mock-runtime-hardening-priority"
+  },
+  {
+    command: [node, "scripts/check-narrow-approval-packet.mjs"],
+    expectStatus: "ok",
+    name: "narrow-approval-packet"
+  },
+  {
+    command: [node, "scripts/check-narrow-approval-post-review-gate.mjs"],
+    expectStatus: "ok",
+    name: "narrow-approval-post-review-gate"
+  },
+  {
+    command: [node, "scripts/check-narrow-approval-outcome-ledger.mjs"],
+    expectStatus: "ok",
+    name: "narrow-approval-outcome-ledger"
+  },
+  {
+    command: [node, "scripts/check-narrow-approval-outcome-panel.mjs"],
+    expectStatus: "ok",
+    name: "narrow-approval-outcome-panel"
+  },
+  {
+    command: [node, "scripts/check-record-narrow-approval-outcome.mjs"],
+    expectStatus: "ok",
+    name: "record-narrow-approval-outcome"
+  },
+  {
+    command: [node, "scripts/check-blocker-resolution-plan.mjs"],
+    expectStatus: "ok",
+    name: "blocker-resolution-plan"
+  },
+  {
+    command: [node, "scripts/check-blocker-execution-queue.mjs"],
+    expectStatus: "ok",
+    name: "blocker-execution-queue"
+  },
+  {
+    command: [node, "scripts/check-blocker-action-priorities.mjs"],
+    expectStatus: "ok",
+    name: "blocker-action-priorities"
+  },
+  {
+    command: [node, "scripts/check-source-rights-disclosure-checklist.mjs"],
+    expectStatus: "ok",
+    name: "source-rights-disclosure-checklist"
+  },
+  {
+    command: [node, "scripts/check-source-rights-disclosure-local-review.mjs"],
+    expectStatus: "ok",
+    name: "source-rights-disclosure-local-review"
+  },
+  {
+    command: [node, "scripts/check-data-quality-evidence-checklist.mjs"],
+    expectStatus: "ok",
+    name: "data-quality-evidence-checklist"
+  },
+  {
+    command: [node, "scripts/check-data-quality-field-validity.mjs"],
+    expectStatus: "ok",
+    name: "data-quality-field-validity"
+  },
+  {
+    command: [node, "scripts/check-data-quality-field-validity-qa-review.mjs"],
+    expectStatus: "ok",
+    name: "data-quality-field-validity-qa-review"
+  },
+  {
+    command: [node, "scripts/check-model-credibility-checklist.mjs"],
+    expectStatus: "ok",
+    name: "model-credibility-checklist"
+  },
+  {
+    command: [node, "scripts/check-model-credibility-local-review.mjs"],
+    expectStatus: "ok",
+    name: "model-credibility-local-review"
+  },
+  {
+    command: [node, "scripts/check-blocker-readiness-panel.mjs"],
+    expectStatus: "ok",
+    name: "blocker-readiness-panel"
+  },
+  {
     command: [node, "scripts/check-runtime-readiness-panel.mjs"],
     expectStatus: "ok",
     name: "runtime-readiness-panel"
@@ -1581,6 +1731,11 @@ const checks = [
     command: [node, "scripts/check-row-coverage-contract.mjs"],
     expectStatus: "ok",
     name: "row-coverage-contract"
+  },
+  {
+    command: [node, "scripts/check-row-coverage-health-route-alignment.mjs"],
+    expectStatus: "ok",
+    name: "row-coverage-health-route-alignment"
   },
   {
     command: [node, "scripts/check-row-coverage-readonly-validation-contract.mjs"],
@@ -1656,6 +1811,46 @@ const checks = [
     command: [node, "scripts/check-row-coverage-count-unavailable-local-diagnostic-plan.mjs"],
     expectStatus: "ok",
     name: "row-coverage-count-unavailable-local-diagnostic-plan"
+  },
+  {
+    command: [node, "scripts/check-row-coverage-query-contract-revision-implementation-review.mjs"],
+    expectStatus: "ok",
+    name: "row-coverage-query-contract-revision-implementation-review"
+  },
+  {
+    command: [node, "scripts/check-row-coverage-second-attempt-final-local-preflight.mjs"],
+    expectStatus: "ok",
+    name: "row-coverage-second-attempt-final-local-preflight"
+  },
+  {
+    command: [node, "scripts/check-row-coverage-second-attempt-sanitized-output-contract.mjs"],
+    expectStatus: "ok",
+    name: "row-coverage-second-attempt-sanitized-output-contract"
+  },
+  {
+    command: [node, "scripts/check-row-coverage-second-attempt-output-sample-validation.mjs"],
+    expectStatus: "ok",
+    name: "row-coverage-second-attempt-output-sample-validation"
+  },
+  {
+    command: [node, "scripts/check-row-coverage-second-attempt-readiness-summary.mjs"],
+    expectStatus: "ok",
+    name: "row-coverage-second-attempt-readiness-summary"
+  },
+  {
+    command: [node, "scripts/check-row-coverage-second-attempt-post-run-acceptance-gate.mjs"],
+    expectStatus: "ok",
+    name: "row-coverage-second-attempt-post-run-acceptance-gate"
+  },
+  {
+    command: [node, "scripts/check-row-coverage-readiness-ui-wiring.mjs"],
+    expectStatus: "ok",
+    name: "row-coverage-readiness-ui-wiring"
+  },
+  {
+    command: [node, "scripts/check-row-coverage-readiness-panel-contract.mjs"],
+    expectStatus: "ok",
+    name: "row-coverage-readiness-panel-contract"
   },
   {
     command: [node, "scripts/check-freshness-runtime-activation-state.mjs"],
@@ -2221,6 +2416,11 @@ const checks = [
     command: [node, "scripts/check-tracking-events.mjs"],
     expectStatus: "ok",
     name: "tracking-events"
+  },
+  {
+    command: [node, "scripts/check-weekly-row-coverage-status.mjs"],
+    expectStatus: "ok",
+    name: "weekly-row-coverage-status"
   },
   {
     command: [node, "scripts/check-freshness-state-ui.mjs"],

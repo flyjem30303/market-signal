@@ -1,5 +1,6 @@
 import { getRuntimeReadinessSummary } from "@/lib/runtime-readiness-score";
 import { getFreshnessRuntimeActivationSummary } from "@/lib/freshness-runtime-activation";
+import { getRuntimeHardeningExitCriteria } from "@/lib/runtime-hardening-exit-criteria";
 import { getSupabaseReadonlyEvidenceSummary } from "@/lib/supabase-readonly-evidence";
 import { getSupabaseReadonlyDecision } from "@/lib/supabase-readonly-decision";
 import { getSupabaseReadonlyExecutionPreview } from "@/lib/supabase-readonly-execution-preview";
@@ -13,6 +14,7 @@ export function RuntimeReadinessPanel() {
   const decision = getSupabaseReadonlyDecision(preflight);
   const executionPreview = getSupabaseReadonlyExecutionPreview(decision);
   const freshnessActivation = getFreshnessRuntimeActivationSummary();
+  const runtimeHardeningExit = getRuntimeHardeningExitCriteria();
   const readonlySmokeReport = buildFreshnessReadonlySmokeReport();
   const freshnessLatestEvidence = getFreshnessReadonlyLatestEvidenceSummary();
   const readonlyEvidence = getSupabaseReadonlyEvidenceSummary();
@@ -42,6 +44,19 @@ export function RuntimeReadinessPanel() {
         </article>
       </div>
       <div className="runtime-preflight-status">
+        <article
+          aria-label={`Runtime hardening exit ${runtimeHardeningExit.status}`}
+          className="readying"
+        >
+          <span>Runtime hardening exit</span>
+          <strong>{runtimeHardeningExit.stage}</strong>
+          <p>
+            Accepted {runtimeHardeningExit.acceptedCount}; blocked {runtimeHardeningExit.blockedCount}.{" "}
+            Public {runtimeHardeningExit.publicDataSource}; score {runtimeHardeningExit.scoreSource}.
+          </p>
+          <p>{runtimeHardeningExit.nextAction}</p>
+          <p>{runtimeHardeningExit.stopLine}</p>
+        </article>
         <article className="active" aria-label="Supabase readonly evidence accepted">
           <span>Readonly evidence</span>
           <strong>{readonlyEvidence.evidenceStatus}</strong>

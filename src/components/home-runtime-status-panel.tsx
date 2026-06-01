@@ -1,4 +1,7 @@
 import { getRuntimeReadinessSummary } from "@/lib/runtime-readiness-score";
+import { getBlockerReadinessSummary } from "@/lib/blocker-readiness";
+import { getRowCoverageSecondAttemptReadiness } from "@/lib/row-coverage-second-attempt-readiness";
+import { getRuntimeInterpretationSummary } from "@/lib/runtime-interpretation";
 import { getSourceDepthBlockerSummary } from "@/lib/source-depth-blockers";
 
 type HomeRuntimeStatusPanelProps = {
@@ -7,16 +10,19 @@ type HomeRuntimeStatusPanelProps = {
 
 export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPanelProps) {
   const readiness = getRuntimeReadinessSummary();
+  const blockerReadiness = getBlockerReadinessSummary();
+  const rowCoverage = getRowCoverageSecondAttemptReadiness();
+  const runtimeInterpretation = getRuntimeInterpretationSummary();
   const sourceDepth = getSourceDepthBlockerSummary();
 
   return (
-    <section className="home-runtime-status-panel" aria-label="首頁 runtime 狀態摘要">
+    <section className="home-runtime-status-panel" aria-label="Runtime status">
       <div>
         <p className="eyebrow">Runtime Status</p>
-        <h2>目前仍以 mock-only runtime 推進</h2>
+        <h2>目前仍是 mock-only runtime</h2>
         <p>
-          首頁先給使用者可瀏覽的產品入口，同時明確揭露目前沒有啟用 Supabase 真實讀取、
-          沒有 SQL 動作，也沒有將 scoreSource 升級為 real。
+          公開頁面只展示 mock 訊號與本地 gate 狀態。Supabase readonly row coverage 已完成本地準備，
+          但尚未執行第二次遠端 attempt，也不能宣稱真實分數或切換 scoreSource=real。
         </p>
       </div>
       <article className="readying">
@@ -29,9 +35,29 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
         <strong>{sourceDepth.sourceDepthState}</strong>
         <p>scoreSource: {sourceDepth.scoreSource}</p>
       </article>
+      <article className="readying">
+        <span>Row coverage</span>
+        <strong>{rowCoverage.readiness}</strong>
+        <p>
+          {rowCoverage.publicDataSource} / {rowCoverage.scoreSource}. {rowCoverage.stopLine}
+        </p>
+      </article>
+      <article className="readying">
+        <span>CEO track</span>
+        <strong>{runtimeInterpretation.decision}</strong>
+        <p>
+          Runtime {runtimeInterpretation.laneRatio.mockRuntimeHardening}% / readonly prep{" "}
+          {runtimeInterpretation.laneRatio.supabaseReadonlyPreparation}%. {runtimeInterpretation.blockers[0]}.
+        </p>
+      </article>
+      <article className="blocked">
+        <span>Blocker readiness</span>
+        <strong>{blockerReadiness.status}</strong>
+        <p>Data / Legal / Investment checklists are local-ready. {runtimeInterpretation.stopLine}</p>
+      </article>
       <nav>
         <a href={`/stocks/${selectedSymbol}`}>查看目前標的</a>
-        <a href="/briefing">查看 CEO/PM 摘要</a>
+        <a href="/briefing">查看 CEO/PM briefing</a>
       </nav>
     </section>
   );

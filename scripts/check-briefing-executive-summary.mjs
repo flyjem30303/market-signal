@@ -8,6 +8,9 @@ const css = fs.readFileSync(cssPath, "utf8");
 
 const required = [
   [pagePath, "BriefingExecutiveSummary"],
+  [pagePath, "getRuntimeInterpretationSummary"],
+  [pagePath, "runtimeInterpretation.decision"],
+  [pagePath, "runtimeInterpretation.laneRatio.mockRuntimeHardening"],
   [pagePath, "董事長與 CEO 晨報摘要"],
   [pagePath, "每日市場晨報"],
   [pagePath, "mock 訊號整理市場狀態"],

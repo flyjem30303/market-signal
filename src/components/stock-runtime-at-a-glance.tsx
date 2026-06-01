@@ -1,4 +1,7 @@
 import { getRuntimeReadinessSummary } from "@/lib/runtime-readiness-score";
+import { getBlockerReadinessSummary } from "@/lib/blocker-readiness";
+import { getRowCoverageSecondAttemptReadiness } from "@/lib/row-coverage-second-attempt-readiness";
+import { getRuntimeInterpretationSummary } from "@/lib/runtime-interpretation";
 import { getSourceDepthBlockerSummary } from "@/lib/source-depth-blockers";
 import type { SignalSnapshot } from "@/lib/signal-model";
 
@@ -9,34 +12,56 @@ type StockRuntimeAtAGlanceProps = {
 
 export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRuntimeAtAGlanceProps) {
   const readiness = getRuntimeReadinessSummary();
+  const blockerReadiness = getBlockerReadinessSummary();
+  const rowCoverage = getRowCoverageSecondAttemptReadiness();
+  const runtimeInterpretation = getRuntimeInterpretationSummary();
   const sourceDepth = getSourceDepthBlockerSummary();
 
   return (
-    <section className="stock-runtime-at-a-glance" aria-label="股票頁 runtime 摘要">
+    <section className="stock-runtime-at-a-glance" aria-label="Stock runtime status">
       <div>
         <p className="eyebrow">Runtime At A Glance</p>
-        <h2>
-          {snapshot.asset.symbol} 目前仍是 mock-only 解讀
-        </h2>
+        <h2>{snapshot.asset.symbol} 目前仍是 mock-only 狀態</h2>
         <p>
-          這個頁面可以用來閱讀訊號結構與缺口，但正式資料接軌、來源深度、權利審核與
+          這個頁面的分數與訊號仍是展示用 mock。row coverage readonly gate 已本地就緒，但尚未執行第二次
+          Supabase readonly attempt；在 post-run review 之前，不能宣稱真實資料覆蓋，也不能切換 scoreSource=real。
           scoreSource=real 仍未完成。
         </p>
       </div>
       <article className="active">
-        <span>目前可用</span>
+        <span>Score source</span>
         <strong>{scoreSourceLabel}</strong>
-        <p>可瀏覽 mock 訊號、風險提示、資料缺口與 runtime 邊界。</p>
+        <p>公開分數仍由 mock runtime 提供，尚未進入真實市場資料計分，scoreSource=real 仍未完成。</p>
       </article>
       <article className="blocked">
-        <span>目前封鎖</span>
+        <span>Source depth</span>
         <strong>{sourceDepth.sourceDepthState}</strong>
         <p>{sourceDepth.stopLine}</p>
       </article>
       <article className="readying">
-        <span>下一步</span>
+        <span>Row coverage</span>
+        <strong>{rowCoverage.readiness}</strong>
+        <p>
+          {rowCoverage.publicDataSource} / {rowCoverage.scoreSource}. {rowCoverage.stopLine}
+        </p>
+      </article>
+      <article className="readying">
+        <span>Next runtime gate</span>
         <strong>{readiness.score}% readiness</strong>
-        <p>先補齊本地 runtime 可讀性與 guard，再由 CEO 另開外部系統 gate。</p>
+        <p>{rowCoverage.nextDecision}</p>
+      </article>
+      <article className="readying compact-runtime-blocker">
+        <span>CEO track</span>
+        <strong>{runtimeInterpretation.decision}</strong>
+        <p>
+          Runtime {runtimeInterpretation.laneRatio.mockRuntimeHardening}% / readonly prep{" "}
+          {runtimeInterpretation.laneRatio.supabaseReadonlyPreparation}%. {runtimeInterpretation.blockers[0]}.
+        </p>
+      </article>
+      <article className="blocked compact-runtime-blocker">
+        <span>Blocker readiness</span>
+        <strong>{blockerReadiness.status}</strong>
+        <p>Data / Legal / Investment checklists are local-ready. {runtimeInterpretation.stopLine}</p>
       </article>
     </section>
   );

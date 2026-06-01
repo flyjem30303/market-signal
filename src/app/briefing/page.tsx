@@ -1,12 +1,16 @@
 import type { Metadata } from "next";
+import { BlockerReadinessPanel } from "@/components/blocker-readiness-panel";
 import { CommercialSlot } from "@/components/commercial-slot";
+import { BriefingRowCoverageStatus } from "@/components/briefing-row-coverage-status";
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
+import { NarrowApprovalOutcomePanel } from "@/components/narrow-approval-outcome-panel";
 import { PageViewTracker } from "@/components/page-view-tracker";
 import { ProjectProgressPanel } from "@/components/project-progress-panel";
 import { RuntimeReadinessPanel } from "@/components/runtime-readiness-panel";
 import { SourceDepthBlockerPanel } from "@/components/source-depth-blocker-panel";
 import { TrackedLink } from "@/components/tracked-link";
 import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
+import { getRuntimeInterpretationSummary } from "@/lib/runtime-interpretation";
 import {
   getMarketSignalRepository,
   getMarketSignalSourceStatus
@@ -65,7 +69,10 @@ export default async function BriefingPage() {
 
       <ProjectProgressPanel />
       <RuntimeReadinessPanel />
+      <BriefingRowCoverageStatus />
       <SourceDepthBlockerPanel />
+      <BlockerReadinessPanel />
+      <NarrowApprovalOutcomePanel />
 
       <nav aria-label="Briefing Compass" className="briefing-compass">
         <a href="#model-boundary">模型邊界</a>
@@ -337,6 +344,8 @@ function BriefingBridgeLink({
 }
 
 function BriefingExecutiveSummary({ market, topRisk }: { market: SignalSnapshot; topRisk: SignalSnapshot }) {
+  const runtimeInterpretation = getRuntimeInterpretationSummary();
+
   return (
     <section className="briefing-executive-summary" aria-label="董事長與 CEO 晨報摘要">
       <div>
@@ -358,6 +367,13 @@ function BriefingExecutiveSummary({ market, topRisk }: { market: SignalSnapshot;
         <span>
           <b>仍阻擋</b>
           <i>SQL、真實市場資料寫入、正式分數來源切換</i>
+        </span>
+        <span>
+          <b>CEO track</b>
+          <i>
+            {runtimeInterpretation.decision}: runtime {runtimeInterpretation.laneRatio.mockRuntimeHardening}% /
+            readonly prep {runtimeInterpretation.laneRatio.supabaseReadonlyPreparation}%
+          </i>
         </span>
       </aside>
       <nav>

@@ -1,4 +1,5 @@
 import { getRuntimeReadinessSummary } from "@/lib/runtime-readiness-score";
+import { getRuntimeInterpretationSummary } from "@/lib/runtime-interpretation";
 import { getSourceDepthBlockerSummary } from "@/lib/source-depth-blockers";
 
 type TrustRuntimeBoundaryNoticeProps = {
@@ -29,6 +30,7 @@ const contextCopy = {
 export function TrustRuntimeBoundaryNotice({ context }: TrustRuntimeBoundaryNoticeProps) {
   const copy = contextCopy[context];
   const readiness = getRuntimeReadinessSummary();
+  const runtimeInterpretation = getRuntimeInterpretationSummary();
   const sourceDepth = getSourceDepthBlockerSummary();
 
   return (
@@ -51,7 +53,15 @@ export function TrustRuntimeBoundaryNotice({ context }: TrustRuntimeBoundaryNoti
       <article className="blocked">
         <span>Stop line</span>
         <strong>no real score</strong>
-        <p>{sourceDepth.stopLine}</p>
+        <p>{runtimeInterpretation.stopLine}</p>
+      </article>
+      <article className="readying">
+        <span>CEO track</span>
+        <strong>{runtimeInterpretation.decision}</strong>
+        <p>
+          Runtime {runtimeInterpretation.laneRatio.mockRuntimeHardening}% / readonly prep{" "}
+          {runtimeInterpretation.laneRatio.supabaseReadonlyPreparation}%. {runtimeInterpretation.blockers[0]}.
+        </p>
       </article>
     </section>
   );
