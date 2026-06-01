@@ -1738,6 +1738,11 @@ const checks = [
     name: "twii-source-selection-acceptance-gate"
   },
   {
+    command: [node, "scripts/check-twii-source-rights-field-contract-review-packet.mjs"],
+    expectStatus: "ok",
+    name: "twii-source-rights-field-contract-review-packet"
+  },
+  {
     command: [node, "scripts/check-etf-source-rights-review-packet.mjs"],
     expectStatus: "ok",
     name: "etf-source-rights-review-packet"
