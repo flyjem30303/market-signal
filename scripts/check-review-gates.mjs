@@ -1758,6 +1758,21 @@ const checks = [
     name: "twii-report-only-probe-acceptance-gate"
   },
   {
+    command: [node, "scripts/check-twii-report-only-probe-guarded-runner.mjs"],
+    expectStatus: "ok",
+    name: "twii-report-only-probe-guarded-runner"
+  },
+  {
+    command: [node, "scripts/check-twii-report-only-probe-command-map.mjs"],
+    expectStatus: "ok",
+    name: "twii-report-only-probe-command-map"
+  },
+  {
+    command: [node, "scripts/check-twii-report-only-probe-post-run-template.mjs"],
+    expectStatus: "ok",
+    name: "twii-report-only-probe-post-run-template"
+  },
+  {
     command: [node, "scripts/check-etf-source-rights-review-packet.mjs"],
     expectStatus: "ok",
     name: "etf-source-rights-review-packet"
