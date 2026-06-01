@@ -1768,6 +1768,11 @@ const checks = [
     name: "equity-runner-execution-approval-gate"
   },
   {
+    command: [node, "scripts/check-equity-report-only-runner-one-attempt-post-run-review.mjs"],
+    expectStatus: "ok",
+    name: "equity-report-only-runner-one-attempt-post-run-review"
+  },
+  {
     command: [node, "scripts/check-model-credibility-checklist.mjs"],
     expectStatus: "ok",
     name: "model-credibility-checklist"
