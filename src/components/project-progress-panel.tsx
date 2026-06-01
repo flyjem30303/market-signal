@@ -51,6 +51,29 @@ export function ProjectProgressPanel() {
         </ul>
         <p>{progress.dataQualityEvidenceGate.stopLine}</p>
       </div>
+      <div
+        className="project-progress-route-decision"
+        aria-label={`Data coverage route decision ${progress.dataCoverageRouteDecision.status}`}
+      >
+        <span>Data coverage route</span>
+        <strong>{progress.dataCoverageRouteDecision.recommendation}</strong>
+        <p>
+          Latest readonly result: {progress.dataCoverageRouteDecision.blockedReason}; observed{" "}
+          {progress.dataCoverageRouteDecision.observedRows} / expected {progress.dataCoverageRouteDecision.expectedRows};
+          missing {progress.dataCoverageRouteDecision.missingRows}.
+        </p>
+        <div>
+          {progress.dataCoverageRouteDecision.options.map((option) => (
+            <article className={option.priority} key={option.id}>
+              <span>{option.owner}</span>
+              <strong>{option.label}</strong>
+              <p>{option.rationale}</p>
+              <p>{option.nextAction}</p>
+            </article>
+          ))}
+        </div>
+        <p>{progress.dataCoverageRouteDecision.stopLine}</p>
+      </div>
       <div className="project-progress-lanes">
         {progress.lanes.map((lane) => (
           <article key={lane.label}>

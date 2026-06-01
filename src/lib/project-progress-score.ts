@@ -1,5 +1,6 @@
 import { buildDataQualityEvidenceGate, type DataQualityEvidenceGate } from "@/lib/data-quality-evidence-gate";
 import { buildDataQualityScoreContract, type DataQualityScoreContract } from "@/lib/data-quality-score-contract";
+import { getDataCoverageRouteDecision, type DataCoverageRouteDecision } from "@/lib/data-coverage-route-decision";
 
 export type ProjectProgressLane = {
   current: number;
@@ -11,6 +12,7 @@ export type ProjectProgressLane = {
 
 export type ProjectProgressSummary = {
   adjustedScore: number;
+  dataCoverageRouteDecision: DataCoverageRouteDecision;
   dataQualityEvidenceGate: DataQualityEvidenceGate;
   dataQualityScoreContract: DataQualityScoreContract;
   headline: string;
@@ -81,6 +83,7 @@ export const projectProgressLanes: ProjectProgressLane[] = [
 
 export function getProjectProgressSummary(): ProjectProgressSummary {
   const dataQualityScoreContract = buildDataQualityScoreContract();
+  const dataCoverageRouteDecision = getDataCoverageRouteDecision();
   const dataQualityEvidenceGate = buildDataQualityEvidenceGate({
     dataQualityScore: dataQualityScoreContract.score,
     freshnessState: "complete"
@@ -90,6 +93,7 @@ export function getProjectProgressSummary(): ProjectProgressSummary {
 
   return {
     adjustedScore,
+    dataCoverageRouteDecision,
     dataQualityEvidenceGate,
     dataQualityScoreContract,
     headline: `PM 估算目前整體開發進度 ${adjustedScore}%`,

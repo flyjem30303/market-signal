@@ -1688,6 +1688,11 @@ const checks = [
     name: "data-quality-field-validity-qa-review"
   },
   {
+    command: [node, "scripts/check-data-coverage-route-decision.mjs"],
+    expectStatus: "ok",
+    name: "data-coverage-route-decision"
+  },
+  {
     command: [node, "scripts/check-model-credibility-checklist.mjs"],
     expectStatus: "ok",
     name: "model-credibility-checklist"

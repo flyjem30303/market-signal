@@ -11,6 +11,8 @@ const files = new Map(
 
 const required = [
   [progressPath, "export type ProjectProgressLane"],
+  [progressPath, "getDataCoverageRouteDecision"],
+  [progressPath, "dataCoverageRouteDecision"],
   [progressPath, "getProjectProgressSummary"],
   [progressPath, "buildDataQualityEvidenceGate"],
   [progressPath, "buildDataQualityScoreContract"],
@@ -40,6 +42,12 @@ const required = [
   [componentPath, "PM Progress Score"],
   [componentPath, "Project progress"],
   [componentPath, "Data quality evidence gate"],
+  [componentPath, "Data coverage route"],
+  [componentPath, "progress.dataCoverageRouteDecision.status"],
+  [componentPath, "progress.dataCoverageRouteDecision.recommendation"],
+  [componentPath, "progress.dataCoverageRouteDecision.blockedReason"],
+  [componentPath, "progress.dataCoverageRouteDecision.options.map"],
+  [componentPath, "progress.dataCoverageRouteDecision.stopLine"],
   [componentPath, "progress.dataQualityEvidenceGate.completedEvidence.length"],
   [componentPath, "progress.dataQualityEvidenceGate.evidenceProgressPercent"],
   [componentPath, "progress.dataQualityScoreContract.score"],
@@ -61,6 +69,7 @@ const required = [
   [cssPath, ".project-progress-panel"],
   [cssPath, ".project-progress-meter"],
   [cssPath, ".project-progress-evidence"],
+  [cssPath, ".project-progress-route-decision"],
   [cssPath, ".project-progress-evidence ul"],
   [cssPath, ".project-progress-evidence li"],
   [cssPath, ".project-progress-lanes"]
