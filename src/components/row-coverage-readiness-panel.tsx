@@ -29,6 +29,13 @@ export function RowCoverageReadinessPanel({
         <strong>{rowCoverage.readiness}</strong>
         <p>{rowCoverage.nextDecision}</p>
       </article>
+      <article className="readying">
+        <span>Go / no-go</span>
+        <strong>one bounded readonly attempt</strong>
+        <p>{rowCoverage.goNoGo.decisionRequired}</p>
+        <p>Go: {rowCoverage.goNoGo.go.join("; ")}</p>
+        <p>No-go: {rowCoverage.goNoGo.noGo.join("; ")}</p>
+      </article>
       <article className="blocked">
         <span>Public state</span>
         <strong>

@@ -1,5 +1,10 @@
 export type RowCoverageSecondAttemptReadiness = {
   attemptState: "remote_paused";
+  goNoGo: {
+    go: string[];
+    noGo: string[];
+    decisionRequired: string;
+  };
   headline: string;
   nextDecision: string;
   publicDataSource: "mock";
@@ -13,6 +18,21 @@ export type RowCoverageSecondAttemptReadiness = {
 export function getRowCoverageSecondAttemptReadiness(): RowCoverageSecondAttemptReadiness {
   return {
     attemptState: "remote_paused",
+    goNoGo: {
+      decisionRequired: "CEO must explicitly name exactly one bounded Supabase readonly row coverage attempt before any remote read.",
+      go: [
+        "local prerequisite checks are ok",
+        "sanitized output contract is defined",
+        "post-run review is required immediately after the attempt"
+      ],
+      noGo: [
+        "no SQL execution",
+        "no Supabase writes",
+        "no raw market data ingestion",
+        "no publicDataSource=supabase",
+        "no scoreSource=real"
+      ]
+    },
     headline: "Row coverage readonly gate ready",
     nextDecision: "等待明確授權後，只執行一次 Supabase readonly attempt",
     publicDataSource: "mock",
