@@ -134,6 +134,7 @@
     "check:bounded-row-coverage-readonly-attempt-decision": "node scripts/check-bounded-row-coverage-readonly-attempt-decision.mjs",
     "check:post-equity-row-coverage-readonly-attempt-decision-packet": "node scripts/check-post-equity-row-coverage-readonly-attempt-decision-packet.mjs",
     "check:post-equity-row-coverage-readonly-attempt-post-run-review": "node scripts/check-post-equity-row-coverage-readonly-attempt-post-run-review.mjs",
+    "check:post-readonly-data-population-decision-map": "node scripts/check-post-readonly-data-population-decision-map.mjs",
     "report:mock-runtime-hardening-priority": "node scripts/report-mock-runtime-hardening-priority.mjs",
     "check:mock-runtime-hardening-priority": "node scripts/check-mock-runtime-hardening-priority.mjs",
     "report:narrow-approval-packet": "node scripts/report-narrow-approval-packet.mjs",

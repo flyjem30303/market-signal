@@ -1628,6 +1628,11 @@ const checks = [
     name: "post-equity-row-coverage-readonly-attempt-post-run-review"
   },
   {
+    command: [node, "scripts/check-post-readonly-data-population-decision-map.mjs"],
+    expectStatus: "ok",
+    name: "post-readonly-data-population-decision-map"
+  },
+  {
     command: [node, "scripts/check-mock-runtime-hardening-priority.mjs"],
     expectStatus: "ok",
     name: "mock-runtime-hardening-priority"
