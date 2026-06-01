@@ -1743,6 +1743,11 @@ const checks = [
     name: "twii-source-rights-field-contract-review-packet"
   },
   {
+    command: [node, "scripts/check-twii-rights-field-review-role-findings.mjs"],
+    expectStatus: "ok",
+    name: "twii-rights-field-review-role-findings"
+  },
+  {
     command: [node, "scripts/check-etf-source-rights-review-packet.mjs"],
     expectStatus: "ok",
     name: "etf-source-rights-review-packet"
