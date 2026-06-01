@@ -20,6 +20,11 @@ const evidenceChecks = [
     id: "row-coverage-second-attempt-readiness-summary",
     command: ["scripts/check-row-coverage-second-attempt-readiness-summary.mjs"],
     acceptance: "accepted_as_local_ready_remote_paused"
+  },
+  {
+    id: "equity-row-coverage-evidence-acceptance-gate",
+    command: ["scripts/check-equity-row-coverage-evidence-acceptance-gate.mjs"],
+    acceptance: "accepted_as_clean_equity_report_only_sample"
   }
 ];
 
@@ -66,6 +71,7 @@ const report = {
       "classification rules for sanitized row coverage output",
       "blocked diagnostic outputs as diagnostic evidence only",
       "ok aggregate output as candidate row coverage evidence only after post-run review",
+      "clean equity report-only sample as local decision-quality evidence only",
       "local-ready remote-paused state"
     ],
     rejectedScope: [

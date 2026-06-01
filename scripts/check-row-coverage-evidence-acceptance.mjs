@@ -55,7 +55,9 @@ if (output) {
     "accepted_as_classification_rules",
     "accepted_as_sanitized_output_examples",
     "accepted_as_local_ready_remote_paused",
+    "accepted_as_clean_equity_report_only_sample",
     "row coverage evidence is accepted as local decision-quality material, not as runtime readiness",
+    "clean equity report-only sample as local decision-quality evidence only",
     "bounded-row-coverage-readonly-attempt-decision",
     "publicDataSource=supabase",
     "scoreSource=real",
@@ -80,7 +82,13 @@ for (const [file, content, phrase] of [
     packageJson,
     "\"check:row-coverage-evidence-acceptance\": \"node scripts/check-row-coverage-evidence-acceptance.mjs\""
   ],
-  [reviewGatePath, reviewGate, "scripts/check-row-coverage-evidence-acceptance.mjs"]
+  [
+    packagePath,
+    packageJson,
+    "\"check:equity-row-coverage-evidence-acceptance-gate\": \"node scripts/check-equity-row-coverage-evidence-acceptance-gate.mjs\""
+  ],
+  [reviewGatePath, reviewGate, "scripts/check-row-coverage-evidence-acceptance.mjs"],
+  [reviewGatePath, reviewGate, "scripts/check-equity-row-coverage-evidence-acceptance-gate.mjs"]
 ]) {
   if (!content.includes(phrase)) missing.push(`${file}: ${phrase}`);
 }

@@ -180,6 +180,7 @@
     "check:equity-2330-single-failed-month-local-diagnostic-plan": "node scripts/check-equity-2330-single-failed-month-local-diagnostic-plan.mjs",
     "check:equity-report-only-runner-second-one-attempt-execution-decision-gate": "node scripts/check-equity-report-only-runner-second-one-attempt-execution-decision-gate.mjs",
     "check:equity-report-only-runner-second-attempt-post-run-review": "node scripts/check-equity-report-only-runner-second-attempt-post-run-review.mjs",
+    "check:equity-row-coverage-evidence-acceptance-gate": "node scripts/check-equity-row-coverage-evidence-acceptance-gate.mjs",
     "report:data-quality-field-validity-qa-review": "node scripts/report-data-quality-field-validity-qa-review.mjs",
     "check:data-quality-field-validity-qa-review": "node scripts/check-data-quality-field-validity-qa-review.mjs",
     "report:model-credibility-checklist": "node scripts/report-model-credibility-checklist.mjs",
