@@ -348,6 +348,69 @@ export function ProjectProgressPanel() {
               {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityRunnerImplementationApprovalGate.stopLine}
             </p>
           </section>
+          <section className="project-progress-runner-decision-request">
+            <span>
+              {progress.dataCoverageRouteDecision.sourceReadinessPacket.runnerApprovalDecisionRequestSummary.status}
+            </span>
+            <strong>
+              Runner decision /{" "}
+              {
+                progress.dataCoverageRouteDecision.sourceReadinessPacket.runnerApprovalDecisionRequestSummary
+                  .currentRecommendation
+              }
+            </strong>
+            <p>
+              Question{" "}
+              {
+                progress.dataCoverageRouteDecision.sourceReadinessPacket.runnerApprovalDecisionRequestSummary
+                  .decisionQuestion
+              }
+              ; approval{" "}
+              {progress.dataCoverageRouteDecision.sourceReadinessPacket.runnerApprovalDecisionRequestSummary.approvalState};
+              chair review{" "}
+              {progress.dataCoverageRouteDecision.sourceReadinessPacket.runnerApprovalDecisionRequestSummary
+                .chairReviewRequired
+                ? "required"
+                : "not required"}
+              .
+            </p>
+            <p>
+              Scope{" "}
+              {
+                progress.dataCoverageRouteDecision.sourceReadinessPacket.runnerApprovalDecisionRequestSummary.requestedScope
+                  .sourceId
+              }
+              ; mode{" "}
+              {
+                progress.dataCoverageRouteDecision.sourceReadinessPacket.runnerApprovalDecisionRequestSummary.requestedScope
+                  .runMode
+              }
+              ; symbols{" "}
+              {progress.dataCoverageRouteDecision.sourceReadinessPacket.runnerApprovalDecisionRequestSummary.requestedScope.targetSymbols.join(
+                ", "
+              )}
+              .
+            </p>
+            <div>
+              {progress.dataCoverageRouteDecision.sourceReadinessPacket.runnerApprovalDecisionRequestSummary.options.map(
+                (option) => (
+                  <article className={option.recommendation} key={option.id}>
+                    <span>{option.recommendation}</span>
+                    <strong>{option.id}</strong>
+                    <p>{option.outcome}</p>
+                    <p>{option.risk}</p>
+                  </article>
+                )
+              )}
+            </div>
+            <p>
+              Public source{" "}
+              {progress.dataCoverageRouteDecision.sourceReadinessPacket.runnerApprovalDecisionRequestSummary.publicDataSource};
+              score source{" "}
+              {progress.dataCoverageRouteDecision.sourceReadinessPacket.runnerApprovalDecisionRequestSummary.scoreSource}.
+            </p>
+            <p>{progress.dataCoverageRouteDecision.sourceReadinessPacket.runnerApprovalDecisionRequestSummary.stopLine}</p>
+          </section>
           <section className="project-progress-source-checkpoint">
             <span>{progress.dataCoverageRouteDecision.sourceReadinessPacket.sourceReadinessCheckpointSummary.status}</span>
             <strong>

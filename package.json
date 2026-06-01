@@ -168,6 +168,7 @@
     "check:equity-report-only-dry-run-packet": "node scripts/check-equity-report-only-dry-run-packet.mjs",
     "check:equity-packet-role-review-gate": "node scripts/check-equity-packet-role-review-gate.mjs",
     "check:equity-runner-implementation-approval-gate": "node scripts/check-equity-runner-implementation-approval-gate.mjs",
+    "check:runner-approval-decision-request-summary": "node scripts/check-runner-approval-decision-request-summary.mjs",
     "report:data-quality-field-validity-qa-review": "node scripts/report-data-quality-field-validity-qa-review.mjs",
     "check:data-quality-field-validity-qa-review": "node scripts/check-data-quality-field-validity-qa-review.mjs",
     "report:model-credibility-checklist": "node scripts/report-model-credibility-checklist.mjs",

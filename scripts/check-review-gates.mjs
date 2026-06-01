@@ -1743,6 +1743,11 @@ const checks = [
     name: "equity-runner-implementation-approval-gate"
   },
   {
+    command: [node, "scripts/check-runner-approval-decision-request-summary.mjs"],
+    expectStatus: "ok",
+    name: "runner-approval-decision-request-summary"
+  },
+  {
     command: [node, "scripts/check-model-credibility-checklist.mjs"],
     expectStatus: "ok",
     name: "model-credibility-checklist"

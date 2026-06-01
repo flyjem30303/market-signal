@@ -1119,6 +1119,51 @@ select {
   padding: 9px;
 }
 
+.project-progress-runner-decision-request {
+  display: grid;
+  gap: 9px;
+  border: 1px solid rgba(183, 121, 31, 0.22);
+  border-radius: 8px;
+  background: #fffaf0;
+  padding: 10px;
+}
+
+.project-progress-runner-decision-request > span,
+.project-progress-runner-decision-request article span {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.project-progress-runner-decision-request > strong,
+.project-progress-runner-decision-request article strong {
+  overflow-wrap: anywhere;
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.project-progress-runner-decision-request > div {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.project-progress-runner-decision-request article {
+  display: grid;
+  gap: 7px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  padding: 9px;
+}
+
+.project-progress-runner-decision-request article.primary {
+  border-color: rgba(15, 118, 110, 0.24);
+  background: #eff9f5;
+}
+
 .project-progress-source-checkpoint {
   display: grid;
   gap: 9px;
@@ -7560,6 +7605,7 @@ input[type="date"] {
   .project-progress-equity-dry-run-packet > div,
   .project-progress-equity-role-review > div,
   .project-progress-equity-runner-approval > div,
+  .project-progress-runner-decision-request > div,
   .project-progress-source-checkpoint > div,
   .source-depth-blocker-panel,
   .source-depth-blocker-grid,
