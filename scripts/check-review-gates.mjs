@@ -1623,6 +1623,11 @@ const checks = [
     name: "post-equity-row-coverage-readonly-attempt-decision-packet"
   },
   {
+    command: [node, "scripts/check-post-equity-row-coverage-readonly-attempt-post-run-review.mjs"],
+    expectStatus: "ok",
+    name: "post-equity-row-coverage-readonly-attempt-post-run-review"
+  },
+  {
     command: [node, "scripts/check-mock-runtime-hardening-priority.mjs"],
     expectStatus: "ok",
     name: "mock-runtime-hardening-priority"
