@@ -116,6 +116,31 @@ export function ProjectProgressPanel() {
           </div>
           <p>{progress.dataCoverageRouteDecision.backfillPlan.stopLine}</p>
         </section>
+        <section className="project-progress-source-readiness">
+          <span>{progress.dataCoverageRouteDecision.sourceReadinessPacket.status}</span>
+          <strong>
+            Source readiness priority: {progress.dataCoverageRouteDecision.sourceReadinessPacket.priorityOrder.join(" -> ")}
+          </strong>
+          <p>
+            Public source {progress.dataCoverageRouteDecision.sourceReadinessPacket.publicDataSource}; score source{" "}
+            {progress.dataCoverageRouteDecision.sourceReadinessPacket.scoreSource}.
+          </p>
+          <div>
+            {progress.dataCoverageRouteDecision.sourceReadinessPacket.lanes.map((lane) => (
+              <article key={lane.id}>
+                <span>
+                  {lane.owner} / {lane.status}
+                </span>
+                <strong>
+                  {lane.lane}: {lane.symbols.join(", ")}
+                </strong>
+                <p>{lane.decisionNeeded}</p>
+                <p>{lane.nextSafeAction}</p>
+              </article>
+            ))}
+          </div>
+          <p>{progress.dataCoverageRouteDecision.sourceReadinessPacket.stopLine}</p>
+        </section>
         <p>{progress.dataCoverageRouteDecision.stopLine}</p>
       </div>
       <div className="project-progress-lanes">

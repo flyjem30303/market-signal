@@ -46,9 +46,12 @@ const required = [
   [routePath, "backfillPlan: DataCoverageBackfillPlan"],
   [routePath, "backfillPlan: getDataCoverageBackfillPlan()"],
   [componentPath, "project-progress-backfill-plan"],
+  [componentPath, "project-progress-source-readiness"],
   [componentPath, "progress.dataCoverageRouteDecision.backfillPlan.lanes.map"],
+  [componentPath, "progress.dataCoverageRouteDecision.sourceReadinessPacket.lanes.map"],
   [componentPath, "progress.dataCoverageRouteDecision.backfillPlan.stopLine"],
   [cssPath, ".project-progress-backfill-plan"],
+  [cssPath, ".project-progress-source-readiness"],
   [packagePath, "\"check:data-coverage-backfill-plan\": \"node scripts/check-data-coverage-backfill-plan.mjs\""],
   [reviewGatePath, "scripts/check-data-coverage-backfill-plan.mjs"]
 ];

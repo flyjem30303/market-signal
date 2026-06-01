@@ -1,5 +1,6 @@
 import { getBackfillIngestionDesignGate, type BackfillIngestionDesignGate } from "@/lib/backfill-ingestion-design-gate";
 import { getDataCoverageBackfillPlan, type DataCoverageBackfillPlan } from "@/lib/data-coverage-backfill-plan";
+import { getDataSourceReadinessPacket, type DataSourceReadinessPacket } from "@/lib/data-source-readiness-packet";
 
 export type DataCoverageRouteOption = {
   id: "backfill-ingestion-design-gate" | "mock-runtime-hardening";
@@ -14,6 +15,7 @@ export type DataCoverageRouteDecision = {
   blockedReason: "aggregate_count_incomplete";
   backfillPlan: DataCoverageBackfillPlan;
   designGate: BackfillIngestionDesignGate;
+  sourceReadinessPacket: DataSourceReadinessPacket;
   expectedRows: 360;
   observedRows: 5;
   missingRows: 355;
@@ -58,6 +60,7 @@ export function getDataCoverageRouteDecision(): DataCoverageRouteDecision {
     publicDataSource: "mock",
     recommendation: "prepare_backfill_ingestion_design_gate",
     scoreSource: "mock",
+    sourceReadinessPacket: getDataSourceReadinessPacket(),
     status: "coverage_route_decision_required",
     stopLine:
       "Do not run SQL, write Supabase, ingest market data, promote publicDataSource=supabase, award row coverage points, or set scoreSource=real from this route decision."

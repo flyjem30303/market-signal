@@ -1703,6 +1703,11 @@ const checks = [
     name: "data-coverage-backfill-plan"
   },
   {
+    command: [node, "scripts/check-data-source-readiness-packet.mjs"],
+    expectStatus: "ok",
+    name: "data-source-readiness-packet"
+  },
+  {
     command: [node, "scripts/check-model-credibility-checklist.mjs"],
     expectStatus: "ok",
     name: "model-credibility-checklist"
