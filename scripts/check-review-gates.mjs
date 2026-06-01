@@ -1723,6 +1723,11 @@ const checks = [
     name: "equity-dry-run-packet-readiness"
   },
   {
+    command: [node, "scripts/check-source-readiness-checkpoint-summary.mjs"],
+    expectStatus: "ok",
+    name: "source-readiness-checkpoint-summary"
+  },
+  {
     command: [node, "scripts/check-model-credibility-checklist.mjs"],
     expectStatus: "ok",
     name: "model-credibility-checklist"

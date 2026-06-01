@@ -1,5 +1,9 @@
 import { getEtfSourceRightsReviewPacket, type EtfSourceRightsReviewPacket } from "@/lib/etf-source-rights-review-packet";
 import { getEquityDryRunPacketReadiness, type EquityDryRunPacketReadiness } from "@/lib/equity-dry-run-packet-readiness";
+import {
+  getSourceReadinessCheckpointSummary,
+  type SourceReadinessCheckpointSummary
+} from "@/lib/source-readiness-checkpoint-summary";
 import { getTwiiSourceSelectionPacket, type TwiiSourceSelectionPacket } from "@/lib/twii-source-selection-packet";
 
 export type DataSourceReadinessLane = {
@@ -18,6 +22,7 @@ export type DataSourceReadinessPacket = {
   lanes: DataSourceReadinessLane[];
   publicDataSource: "mock";
   scoreSource: "mock";
+  sourceReadinessCheckpointSummary: SourceReadinessCheckpointSummary;
   stopLine: string;
   etfSourceRightsReviewPacket: EtfSourceRightsReviewPacket;
   equityDryRunPacketReadiness: EquityDryRunPacketReadiness;
@@ -66,6 +71,7 @@ export function getDataSourceReadinessPacket(): DataSourceReadinessPacket {
     priorityOrder: ["TWII", "ETF", "Equity"],
     publicDataSource: "mock",
     scoreSource: "mock",
+    sourceReadinessCheckpointSummary: getSourceReadinessCheckpointSummary(),
     status: "source_readiness_packet_prepared",
     stopLine:
       "This packet does not run SQL, connect to Supabase, write Supabase, fetch or ingest market data, create staging rows, modify daily_prices, print secrets, print row payloads, promote publicDataSource=supabase, award row coverage points, or set scoreSource=real.",
