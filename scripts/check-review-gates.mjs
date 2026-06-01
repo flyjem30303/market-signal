@@ -1633,6 +1633,11 @@ const checks = [
     name: "post-readonly-data-population-decision-map"
   },
   {
+    command: [node, "scripts/check-source-specific-backfill-design-packet.mjs"],
+    expectStatus: "ok",
+    name: "source-specific-backfill-design-packet"
+  },
+  {
     command: [node, "scripts/check-mock-runtime-hardening-priority.mjs"],
     expectStatus: "ok",
     name: "mock-runtime-hardening-priority"
