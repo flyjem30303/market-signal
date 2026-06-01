@@ -1653,6 +1653,11 @@ const checks = [
     name: "row-coverage-remote-capable-runner-one-attempt-post-run-review"
   },
   {
+    command: [node, "scripts/check-row-coverage-count-unavailable-local-diagnostic-plan.mjs"],
+    expectStatus: "ok",
+    name: "row-coverage-count-unavailable-local-diagnostic-plan"
+  },
+  {
     command: [node, "scripts/check-freshness-runtime-activation-state.mjs"],
     expectStatus: "ok",
     name: "freshness-runtime-activation-state"

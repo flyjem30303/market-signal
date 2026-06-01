@@ -133,6 +133,7 @@
     "check:row-coverage-remote-capable-runner-local-implementation-review": "node scripts/check-row-coverage-remote-capable-runner-local-implementation-review.mjs",
     "check:row-coverage-remote-capable-runner-one-attempt-execution-decision-gate": "node scripts/check-row-coverage-remote-capable-runner-one-attempt-execution-decision-gate.mjs",
     "check:row-coverage-remote-capable-runner-one-attempt-post-run-review": "node scripts/check-row-coverage-remote-capable-runner-one-attempt-post-run-review.mjs",
+    "check:row-coverage-count-unavailable-local-diagnostic-plan": "node scripts/check-row-coverage-count-unavailable-local-diagnostic-plan.mjs",
     "check:freshness-runtime-activation-state": "node scripts/check-freshness-runtime-activation-state.mjs",
     "check:freshness-runtime-activation-behavior": "node scripts/check-freshness-runtime-activation-behavior.mjs",
     "check:freshness-readonly-smoke-report": "node scripts/check-freshness-readonly-smoke-report.mjs",
