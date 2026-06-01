@@ -460,6 +460,58 @@ export function ProjectProgressPanel() {
               )}
             </p>
           </section>
+          <section className="project-progress-runner-execution-gate">
+            <span>
+              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityRunnerExecutionApprovalGate.status}
+            </span>
+            <strong>
+              Execution gate /{" "}
+              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityRunnerExecutionApprovalGate.approvalState}
+            </strong>
+            <p>
+              Question{" "}
+              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityRunnerExecutionApprovalGate.executionQuestion};
+              attempts{" "}
+              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityRunnerExecutionApprovalGate.attemptLimit};
+              source{" "}
+              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityRunnerExecutionApprovalGate.sourceId};
+              symbols{" "}
+              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityRunnerExecutionApprovalGate.targetSymbols.join(
+                ", "
+              )}
+              .
+            </p>
+            <p>
+              Confirmation{" "}
+              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityRunnerExecutionApprovalGate.confirmationEnv}
+              ={
+                progress.dataCoverageRouteDecision.sourceReadinessPacket.equityRunnerExecutionApprovalGate
+                  .confirmationValue
+              }
+            </p>
+            <p>
+              Command{" "}
+              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityRunnerExecutionApprovalGate.exactCommand}
+            </p>
+            <div>
+              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityRunnerExecutionApprovalGate.prechecks.map(
+                (precheck) => (
+                  <article key={precheck.id}>
+                    <span>{precheck.id}</span>
+                    <strong>{precheck.command}</strong>
+                    <p>Required before execution: {precheck.requiredBeforeExecution ? "yes" : "no"}</p>
+                  </article>
+                )
+              )}
+            </div>
+            <p>
+              Forbidden until approved:{" "}
+              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityRunnerExecutionApprovalGate.forbiddenUntilApproved.join(
+                ", "
+              )}
+            </p>
+            <p>{progress.dataCoverageRouteDecision.sourceReadinessPacket.equityRunnerExecutionApprovalGate.stopLine}</p>
+          </section>
           <section className="project-progress-source-checkpoint">
             <span>{progress.dataCoverageRouteDecision.sourceReadinessPacket.sourceReadinessCheckpointSummary.status}</span>
             <strong>

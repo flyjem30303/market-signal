@@ -20,6 +20,7 @@ const required = [
   [packetPath, "getEquityDryRunPacketReadiness"],
   [packetPath, "getEquityPacketRoleReviewGate"],
   [packetPath, "getEquityReportOnlyDryRunPacket"],
+  [packetPath, "getEquityRunnerExecutionApprovalGate"],
   [packetPath, "getEquityRunnerImplementationApprovalGate"],
   [packetPath, "getRunnerApprovalDecisionOutcomeLedger"],
   [packetPath, "getRunnerApprovalDecisionRequestSummary"],
@@ -34,6 +35,8 @@ const required = [
   [packetPath, "equityPacketRoleReviewGate: getEquityPacketRoleReviewGate()"],
   [packetPath, "equityReportOnlyDryRunPacket: EquityReportOnlyDryRunPacket"],
   [packetPath, "equityReportOnlyDryRunPacket: getEquityReportOnlyDryRunPacket()"],
+  [packetPath, "equityRunnerExecutionApprovalGate: EquityRunnerExecutionApprovalGate"],
+  [packetPath, "equityRunnerExecutionApprovalGate: getEquityRunnerExecutionApprovalGate()"],
   [packetPath, "equityRunnerImplementationApprovalGate: EquityRunnerImplementationApprovalGate"],
   [packetPath, "equityRunnerImplementationApprovalGate: getEquityRunnerImplementationApprovalGate()"],
   [packetPath, "runnerApprovalDecisionOutcomeLedger: RunnerApprovalDecisionOutcomeLedger"],
@@ -81,6 +84,7 @@ const required = [
   [componentPath, "project-progress-equity-runner-approval"],
   [componentPath, "project-progress-runner-decision-request"],
   [componentPath, "project-progress-runner-outcome-ledger"],
+  [componentPath, "project-progress-runner-execution-gate"],
   [componentPath, "project-progress-source-checkpoint"],
   [componentPath, "project-progress-twii-source-selection"],
   [componentPath, "progress.dataCoverageRouteDecision.sourceReadinessPacket.etfSourceRightsReviewPacket.candidates.map"],
@@ -99,6 +103,10 @@ const required = [
     componentPath,
     "progress.dataCoverageRouteDecision.sourceReadinessPacket.runnerApprovalDecisionOutcomeLedger.outcomes.map"
   ],
+  [
+    componentPath,
+    "progress.dataCoverageRouteDecision.sourceReadinessPacket.equityRunnerExecutionApprovalGate.prechecks.map"
+  ],
   [componentPath, "progress.dataCoverageRouteDecision.sourceReadinessPacket.lanes.map"],
   [componentPath, "progress.dataCoverageRouteDecision.sourceReadinessPacket.sourceReadinessCheckpointSummary.lanes.map"],
   [componentPath, "progress.dataCoverageRouteDecision.sourceReadinessPacket.twiiSourceSelectionPacket.candidates.map"],
@@ -111,6 +119,7 @@ const required = [
   [cssPath, ".project-progress-equity-runner-approval"],
   [cssPath, ".project-progress-runner-decision-request"],
   [cssPath, ".project-progress-runner-outcome-ledger"],
+  [cssPath, ".project-progress-runner-execution-gate"],
   [cssPath, ".project-progress-source-checkpoint"],
   [cssPath, ".project-progress-twii-source-selection"],
   [packagePath, "\"check:data-source-readiness-packet\": \"node scripts/check-data-source-readiness-packet.mjs\""],

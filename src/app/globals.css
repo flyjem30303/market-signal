@@ -1220,6 +1220,46 @@ select {
   background: #fffaf0;
 }
 
+.project-progress-runner-execution-gate {
+  display: grid;
+  gap: 9px;
+  border: 1px solid rgba(199, 54, 59, 0.2);
+  border-radius: 8px;
+  background: #fff7f7;
+  padding: 10px;
+}
+
+.project-progress-runner-execution-gate > span,
+.project-progress-runner-execution-gate article span {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.project-progress-runner-execution-gate > strong,
+.project-progress-runner-execution-gate article strong {
+  overflow-wrap: anywhere;
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.project-progress-runner-execution-gate > div {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.project-progress-runner-execution-gate article {
+  display: grid;
+  gap: 7px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  padding: 9px;
+}
+
 .project-progress-source-checkpoint {
   display: grid;
   gap: 9px;
@@ -7663,6 +7703,7 @@ input[type="date"] {
   .project-progress-equity-runner-approval > div,
   .project-progress-runner-decision-request > div,
   .project-progress-runner-outcome-ledger > div,
+  .project-progress-runner-execution-gate > div,
   .project-progress-source-checkpoint > div,
   .source-depth-blocker-panel,
   .source-depth-blocker-grid,
