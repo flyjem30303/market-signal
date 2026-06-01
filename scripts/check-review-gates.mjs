@@ -1778,6 +1778,11 @@ const checks = [
     name: "equity-2330-single-failed-month-local-diagnostic-plan"
   },
   {
+    command: [node, "scripts/check-equity-report-only-runner-second-one-attempt-execution-decision-gate.mjs"],
+    expectStatus: "ok",
+    name: "equity-report-only-runner-second-one-attempt-execution-decision-gate"
+  },
+  {
     command: [node, "scripts/check-model-credibility-checklist.mjs"],
     expectStatus: "ok",
     name: "model-credibility-checklist"
