@@ -193,6 +193,34 @@ export function ProjectProgressPanel() {
             <p>{progress.dataCoverageRouteDecision.sourceReadinessPacket.etfSourceRightsReviewPacket.nextSafeAction}</p>
             <p>{progress.dataCoverageRouteDecision.sourceReadinessPacket.etfSourceRightsReviewPacket.stopLine}</p>
           </section>
+          <section className="project-progress-equity-dry-run">
+            <span>{progress.dataCoverageRouteDecision.sourceReadinessPacket.equityDryRunPacketReadiness.status}</span>
+            <strong>
+              Equity dry-run packet /{" "}
+              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityDryRunPacketReadiness.sourceId}
+            </strong>
+            <p>
+              Symbols{" "}
+              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityDryRunPacketReadiness.targetSymbols.join(
+                ", "
+              )}; public source{" "}
+              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityDryRunPacketReadiness.publicDataSource};
+              score source {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityDryRunPacketReadiness.scoreSource}.
+            </p>
+            <div>
+              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityDryRunPacketReadiness.requirements.map(
+                (requirement) => (
+                  <article key={requirement.id}>
+                    <span>{requirement.status}</span>
+                    <strong>{requirement.id}</strong>
+                    <p>{requirement.requirement}</p>
+                  </article>
+                )
+              )}
+            </div>
+            <p>{progress.dataCoverageRouteDecision.sourceReadinessPacket.equityDryRunPacketReadiness.nextSafeAction}</p>
+            <p>{progress.dataCoverageRouteDecision.sourceReadinessPacket.equityDryRunPacketReadiness.stopLine}</p>
+          </section>
           <p>{progress.dataCoverageRouteDecision.sourceReadinessPacket.stopLine}</p>
         </section>
         <p>{progress.dataCoverageRouteDecision.stopLine}</p>

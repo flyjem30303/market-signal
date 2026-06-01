@@ -1718,6 +1718,11 @@ const checks = [
     name: "etf-source-rights-review-packet"
   },
   {
+    command: [node, "scripts/check-equity-dry-run-packet-readiness.mjs"],
+    expectStatus: "ok",
+    name: "equity-dry-run-packet-readiness"
+  },
+  {
     command: [node, "scripts/check-model-credibility-checklist.mjs"],
     expectStatus: "ok",
     name: "model-credibility-checklist"
