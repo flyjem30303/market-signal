@@ -411,6 +411,55 @@ export function ProjectProgressPanel() {
             </p>
             <p>{progress.dataCoverageRouteDecision.sourceReadinessPacket.runnerApprovalDecisionRequestSummary.stopLine}</p>
           </section>
+          <section className="project-progress-runner-outcome-ledger">
+            <span>
+              {progress.dataCoverageRouteDecision.sourceReadinessPacket.runnerApprovalDecisionOutcomeLedger.status}
+            </span>
+            <strong>
+              Runner approval outcome /{" "}
+              {progress.dataCoverageRouteDecision.sourceReadinessPacket.runnerApprovalDecisionOutcomeLedger.mode}
+            </strong>
+            <p>
+              Implementation approved{" "}
+              {progress.dataCoverageRouteDecision.sourceReadinessPacket.runnerApprovalDecisionOutcomeLedger
+                .implementationApproved
+                ? "yes"
+                : "no"}
+              ; public source{" "}
+              {progress.dataCoverageRouteDecision.sourceReadinessPacket.runnerApprovalDecisionOutcomeLedger.safety
+                .publicDataSource}
+              ; score source{" "}
+              {progress.dataCoverageRouteDecision.sourceReadinessPacket.runnerApprovalDecisionOutcomeLedger.safety
+                .scoreSource}
+              .
+            </p>
+            <div>
+              {progress.dataCoverageRouteDecision.sourceReadinessPacket.runnerApprovalDecisionOutcomeLedger.outcomes.map(
+                (outcome) => (
+                  <article className={outcome.outcome} key={outcome.id}>
+                    <span>
+                      {outcome.owner} / {outcome.recordedBy}
+                    </span>
+                    <strong>{outcome.outcome}</strong>
+                    <p>{outcome.decisionNote}</p>
+                    <p>{outcome.acceptedMeaning}</p>
+                    <p>{outcome.rejectedMeaning}</p>
+                    <p>{outcome.deferredMeaning}</p>
+                  </article>
+                )
+              )}
+            </div>
+            <p>
+              Next decision{" "}
+              {progress.dataCoverageRouteDecision.sourceReadinessPacket.runnerApprovalDecisionOutcomeLedger.nextAllowedDecision}
+            </p>
+            <p>
+              Still blocked:{" "}
+              {progress.dataCoverageRouteDecision.sourceReadinessPacket.runnerApprovalDecisionOutcomeLedger.stillBlocked.join(
+                ", "
+              )}
+            </p>
+          </section>
           <section className="project-progress-source-checkpoint">
             <span>{progress.dataCoverageRouteDecision.sourceReadinessPacket.sourceReadinessCheckpointSummary.status}</span>
             <strong>

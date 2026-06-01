@@ -1748,6 +1748,16 @@ const checks = [
     name: "runner-approval-decision-request-summary"
   },
   {
+    command: [node, "scripts/check-runner-approval-decision-outcome-ledger.mjs"],
+    expectStatus: "ok",
+    name: "runner-approval-decision-outcome-ledger"
+  },
+  {
+    command: [node, "scripts/check-record-runner-approval-decision-outcome.mjs"],
+    expectStatus: "ok",
+    name: "record-runner-approval-decision-outcome"
+  },
+  {
     command: [node, "scripts/check-model-credibility-checklist.mjs"],
     expectStatus: "ok",
     name: "model-credibility-checklist"

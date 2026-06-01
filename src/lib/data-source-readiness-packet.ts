@@ -10,6 +10,10 @@ import {
   type EquityRunnerImplementationApprovalGate
 } from "@/lib/equity-runner-implementation-approval-gate";
 import {
+  getRunnerApprovalDecisionOutcomeLedger,
+  type RunnerApprovalDecisionOutcomeLedger
+} from "@/lib/runner-approval-decision-outcome-ledger";
+import {
   getRunnerApprovalDecisionRequestSummary,
   type RunnerApprovalDecisionRequestSummary
 } from "@/lib/runner-approval-decision-request-summary";
@@ -42,6 +46,7 @@ export type DataSourceReadinessPacket = {
   equityPacketRoleReviewGate: EquityPacketRoleReviewGate;
   equityReportOnlyDryRunPacket: EquityReportOnlyDryRunPacket;
   equityRunnerImplementationApprovalGate: EquityRunnerImplementationApprovalGate;
+  runnerApprovalDecisionOutcomeLedger: RunnerApprovalDecisionOutcomeLedger;
   runnerApprovalDecisionRequestSummary: RunnerApprovalDecisionRequestSummary;
   twiiSourceSelectionPacket: TwiiSourceSelectionPacket;
 };
@@ -90,6 +95,7 @@ export function getDataSourceReadinessPacket(): DataSourceReadinessPacket {
     equityRunnerImplementationApprovalGate: getEquityRunnerImplementationApprovalGate(),
     priorityOrder: ["TWII", "ETF", "Equity"],
     publicDataSource: "mock",
+    runnerApprovalDecisionOutcomeLedger: getRunnerApprovalDecisionOutcomeLedger(),
     runnerApprovalDecisionRequestSummary: getRunnerApprovalDecisionRequestSummary(),
     scoreSource: "mock",
     sourceReadinessCheckpointSummary: getSourceReadinessCheckpointSummary(),
