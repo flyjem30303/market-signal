@@ -53,6 +53,7 @@ if (output) {
   const prerequisiteIds = new Set((output.prerequisites ?? []).map((item) => item.id));
   for (const id of [
     "row-coverage-evidence-acceptance",
+    "equity-row-coverage-evidence-acceptance-gate",
     "row-coverage-second-attempt-final-local-preflight",
     "row-coverage-second-attempt-sanitized-output-contract",
     "row-coverage-second-attempt-output-sample-validation",
@@ -64,6 +65,7 @@ if (output) {
   const serialized = JSON.stringify(output);
   for (const phrase of [
     "ready_for_explicit_one_attempt_decision",
+    "accepted clean equity report-only sample as local decision-quality evidence",
     "stillRequiresExplicitExecutionRequest",
     "run exactly one Supabase readonly row coverage attempt",
     "execute remote readonly attempt only as a separately named action",

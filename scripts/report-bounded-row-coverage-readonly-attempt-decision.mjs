@@ -7,6 +7,11 @@ const prerequisiteChecks = [
     requiredStatus: "ok"
   },
   {
+    id: "equity-row-coverage-evidence-acceptance-gate",
+    command: ["scripts/check-equity-row-coverage-evidence-acceptance-gate.mjs"],
+    requiredStatus: "ok"
+  },
+  {
     id: "row-coverage-second-attempt-final-local-preflight",
     command: ["scripts/check-row-coverage-second-attempt-final-local-preflight.mjs"],
     requiredStatus: "ok"
@@ -63,6 +68,7 @@ const report = {
   decisionBoundary: {
     allowedByThisGate: [
       "local readiness classification for one bounded readonly attempt",
+      "accepted clean equity report-only sample as local decision-quality evidence",
       "sanitized output contract validation",
       "post-run review requirement confirmation",
       "CEO/PM decision packaging"
