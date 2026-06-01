@@ -1,3 +1,4 @@
+import { getEtfSourceRightsReviewPacket, type EtfSourceRightsReviewPacket } from "@/lib/etf-source-rights-review-packet";
 import { getTwiiSourceSelectionPacket, type TwiiSourceSelectionPacket } from "@/lib/twii-source-selection-packet";
 
 export type DataSourceReadinessLane = {
@@ -17,6 +18,7 @@ export type DataSourceReadinessPacket = {
   publicDataSource: "mock";
   scoreSource: "mock";
   stopLine: string;
+  etfSourceRightsReviewPacket: EtfSourceRightsReviewPacket;
   twiiSourceSelectionPacket: TwiiSourceSelectionPacket;
 };
 
@@ -57,6 +59,7 @@ export function getDataSourceReadinessPacket(): DataSourceReadinessPacket {
         symbols: ["2330", "2382", "2308"]
       }
     ],
+    etfSourceRightsReviewPacket: getEtfSourceRightsReviewPacket(),
     priorityOrder: ["TWII", "ETF", "Equity"],
     publicDataSource: "mock",
     scoreSource: "mock",

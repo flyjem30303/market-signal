@@ -16,8 +16,11 @@ const files = new Map(
 
 const required = [
   [packetPath, "getDataSourceReadinessPacket"],
+  [packetPath, "getEtfSourceRightsReviewPacket"],
   [packetPath, "getTwiiSourceSelectionPacket"],
   [packetPath, "source_readiness_packet_prepared"],
+  [packetPath, "etfSourceRightsReviewPacket: EtfSourceRightsReviewPacket"],
+  [packetPath, "etfSourceRightsReviewPacket: getEtfSourceRightsReviewPacket()"],
   [packetPath, "twiiSourceSelectionPacket: TwiiSourceSelectionPacket"],
   [packetPath, "twiiSourceSelectionPacket: getTwiiSourceSelectionPacket()"],
   [packetPath, "twii-source-selection"],
@@ -50,11 +53,14 @@ const required = [
   [routePath, "sourceReadinessPacket: DataSourceReadinessPacket"],
   [routePath, "sourceReadinessPacket: getDataSourceReadinessPacket()"],
   [componentPath, "project-progress-source-readiness"],
+  [componentPath, "project-progress-etf-rights-review"],
   [componentPath, "project-progress-twii-source-selection"],
+  [componentPath, "progress.dataCoverageRouteDecision.sourceReadinessPacket.etfSourceRightsReviewPacket.candidates.map"],
   [componentPath, "progress.dataCoverageRouteDecision.sourceReadinessPacket.lanes.map"],
   [componentPath, "progress.dataCoverageRouteDecision.sourceReadinessPacket.twiiSourceSelectionPacket.candidates.map"],
   [componentPath, "progress.dataCoverageRouteDecision.sourceReadinessPacket.stopLine"],
   [cssPath, ".project-progress-source-readiness"],
+  [cssPath, ".project-progress-etf-rights-review"],
   [cssPath, ".project-progress-twii-source-selection"],
   [packagePath, "\"check:data-source-readiness-packet\": \"node scripts/check-data-source-readiness-packet.mjs\""],
   [reviewGatePath, "scripts/check-data-source-readiness-packet.mjs"]

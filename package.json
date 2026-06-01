@@ -162,6 +162,7 @@
     "check:data-coverage-backfill-plan": "node scripts/check-data-coverage-backfill-plan.mjs",
     "check:data-source-readiness-packet": "node scripts/check-data-source-readiness-packet.mjs",
     "check:twii-source-selection-packet": "node scripts/check-twii-source-selection-packet.mjs",
+    "check:etf-source-rights-review-packet": "node scripts/check-etf-source-rights-review-packet.mjs",
     "report:data-quality-field-validity-qa-review": "node scripts/report-data-quality-field-validity-qa-review.mjs",
     "check:data-quality-field-validity-qa-review": "node scripts/check-data-quality-field-validity-qa-review.mjs",
     "report:model-credibility-checklist": "node scripts/report-model-credibility-checklist.mjs",
