@@ -1773,6 +1773,11 @@ const checks = [
     name: "equity-report-only-runner-one-attempt-post-run-review"
   },
   {
+    command: [node, "scripts/check-equity-2330-single-failed-month-local-diagnostic-plan.mjs"],
+    expectStatus: "ok",
+    name: "equity-2330-single-failed-month-local-diagnostic-plan"
+  },
+  {
     command: [node, "scripts/check-model-credibility-checklist.mjs"],
     expectStatus: "ok",
     name: "model-credibility-checklist"
