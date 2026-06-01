@@ -19,10 +19,11 @@ approve_exactly_one_second_equity_report_only_runner_attempt_after_month_key_out
 ## Current Decision State
 
 ```text
-approval_state: pending
-approved_by: none
+approval_state: accepted
+approved_by: Chairman
+approved_at: 2026-06-01T15:05:00+08:00
 attempt_limit: 1
-remote_execution_allowed_now: false
+remote_execution_allowed_now: true
 ```
 
 ## Exact Future Command If Approved
@@ -51,10 +52,9 @@ These arrays are for diagnostic routing only. They do not create row coverage ev
 
 ## Stop Lines
 
-- This gate does not approve execution yet.
-- Do not set `EQUITY_REPORT_ONLY_RUNNER_CONFIRMATION` from this gate.
-- Do not run `scripts/run-equity-report-only-runner-once.mjs` from this gate.
-- Do not fetch TWSE from this gate.
+- This gate approves exactly one second report-only runner attempt.
+- Do not run more than one second attempt from this gate.
+- Do not use this gate after one second attempt has been executed.
 - Do not run SQL.
 - Do not connect to Supabase.
 - Do not write Supabase.
@@ -70,7 +70,7 @@ These arrays are for diagnostic routing only. They do not create row coverage ev
 ## CEO/PM Recommendation
 
 ```text
-READY_FOR_CHAIRMAN_ACCEPT_OR_REJECT
+ACCEPTED_FOR_EXACTLY_ONE_SECOND_ATTEMPT
 ```
 
-CEO recommendation is to accept one bounded second attempt only after the above prechecks pass. The goal is not data ingestion; the goal is to identify the exact failed 2330 month through sanitized month-key metadata.
+Chairman accepted one bounded second attempt after the above prechecks pass. The goal is not data ingestion; the goal is to identify the exact failed 2330 month through sanitized month-key metadata.
