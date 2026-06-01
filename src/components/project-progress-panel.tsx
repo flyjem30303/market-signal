@@ -265,6 +265,38 @@ export function ProjectProgressPanel() {
             <p>{progress.dataCoverageRouteDecision.sourceReadinessPacket.equityReportOnlyDryRunPacket.nextSafeAction}</p>
             <p>{progress.dataCoverageRouteDecision.sourceReadinessPacket.equityReportOnlyDryRunPacket.stopLine}</p>
           </section>
+          <section className="project-progress-equity-role-review">
+            <span>{progress.dataCoverageRouteDecision.sourceReadinessPacket.equityPacketRoleReviewGate.status}</span>
+            <strong>
+              Equity role review /{" "}
+              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityPacketRoleReviewGate.nextDecision}
+            </strong>
+            <p>
+              Packet{" "}
+              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityPacketRoleReviewGate.packetStatus}; public
+              source {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityPacketRoleReviewGate.publicDataSource};
+              score source {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityPacketRoleReviewGate.scoreSource}.
+            </p>
+            <div>
+              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityPacketRoleReviewGate.reviews.map(
+                (review) => (
+                  <article key={review.role}>
+                    <span>{review.status}</span>
+                    <strong>{review.role}</strong>
+                    <p>{review.finding}</p>
+                    <p>{review.requiredBeforeExecution}</p>
+                  </article>
+                )
+              )}
+            </div>
+            <p>
+              Execution blockers:{" "}
+              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityPacketRoleReviewGate.executionBlockers.join(
+                ", "
+              )}
+            </p>
+            <p>{progress.dataCoverageRouteDecision.sourceReadinessPacket.equityPacketRoleReviewGate.stopLine}</p>
+          </section>
           <section className="project-progress-source-checkpoint">
             <span>{progress.dataCoverageRouteDecision.sourceReadinessPacket.sourceReadinessCheckpointSummary.status}</span>
             <strong>

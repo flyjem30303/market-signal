@@ -1733,6 +1733,11 @@ const checks = [
     name: "equity-report-only-dry-run-packet"
   },
   {
+    command: [node, "scripts/check-equity-packet-role-review-gate.mjs"],
+    expectStatus: "ok",
+    name: "equity-packet-role-review-gate"
+  },
+  {
     command: [node, "scripts/check-model-credibility-checklist.mjs"],
     expectStatus: "ok",
     name: "model-credibility-checklist"

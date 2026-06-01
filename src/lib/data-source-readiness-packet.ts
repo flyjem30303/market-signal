@@ -1,5 +1,6 @@
 import { getEtfSourceRightsReviewPacket, type EtfSourceRightsReviewPacket } from "@/lib/etf-source-rights-review-packet";
 import { getEquityDryRunPacketReadiness, type EquityDryRunPacketReadiness } from "@/lib/equity-dry-run-packet-readiness";
+import { getEquityPacketRoleReviewGate, type EquityPacketRoleReviewGate } from "@/lib/equity-packet-role-review-gate";
 import {
   getEquityReportOnlyDryRunPacket,
   type EquityReportOnlyDryRunPacket
@@ -30,6 +31,7 @@ export type DataSourceReadinessPacket = {
   stopLine: string;
   etfSourceRightsReviewPacket: EtfSourceRightsReviewPacket;
   equityDryRunPacketReadiness: EquityDryRunPacketReadiness;
+  equityPacketRoleReviewGate: EquityPacketRoleReviewGate;
   equityReportOnlyDryRunPacket: EquityReportOnlyDryRunPacket;
   twiiSourceSelectionPacket: TwiiSourceSelectionPacket;
 };
@@ -73,6 +75,7 @@ export function getDataSourceReadinessPacket(): DataSourceReadinessPacket {
     ],
     etfSourceRightsReviewPacket: getEtfSourceRightsReviewPacket(),
     equityDryRunPacketReadiness: getEquityDryRunPacketReadiness(),
+    equityPacketRoleReviewGate: getEquityPacketRoleReviewGate(),
     equityReportOnlyDryRunPacket: getEquityReportOnlyDryRunPacket(),
     priorityOrder: ["TWII", "ETF", "Equity"],
     publicDataSource: "mock",

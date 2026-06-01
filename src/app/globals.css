@@ -1039,6 +1039,46 @@ select {
   padding: 9px;
 }
 
+.project-progress-equity-role-review {
+  display: grid;
+  gap: 9px;
+  border: 1px solid rgba(12, 74, 110, 0.18);
+  border-radius: 8px;
+  background: #f8fbff;
+  padding: 10px;
+}
+
+.project-progress-equity-role-review > span,
+.project-progress-equity-role-review article span {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.project-progress-equity-role-review > strong,
+.project-progress-equity-role-review article strong {
+  overflow-wrap: anywhere;
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.project-progress-equity-role-review > div {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.project-progress-equity-role-review article {
+  display: grid;
+  gap: 7px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  padding: 9px;
+}
+
 .project-progress-source-checkpoint {
   display: grid;
   gap: 9px;
@@ -7478,6 +7518,7 @@ input[type="date"] {
   .project-progress-etf-rights-review > div,
   .project-progress-equity-dry-run > div,
   .project-progress-equity-dry-run-packet > div,
+  .project-progress-equity-role-review > div,
   .project-progress-source-checkpoint > div,
   .source-depth-blocker-panel,
   .source-depth-blocker-grid,
