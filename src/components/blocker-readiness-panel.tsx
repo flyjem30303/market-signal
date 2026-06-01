@@ -46,6 +46,9 @@ export function BlockerReadinessPanel() {
               <b>{lane.weight}%</b>
             </header>
             <strong>{lane.label}</strong>
+            <em>{lane.localReviewState}</em>
+            <p>{lane.approvedScope}</p>
+            <p>{lane.remainingDecision}</p>
             <p>{lane.nextAction}</p>
             <code>{lane.checklistCommand}</code>
           </article>

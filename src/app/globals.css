@@ -420,6 +420,15 @@ select {
   color: var(--teal);
 }
 
+.blocker-readiness-grid em {
+  overflow-wrap: anywhere;
+  color: var(--blue);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 850;
+  line-height: 1.35;
+}
+
 .blocker-priority-strip strong,
 .blocker-readiness-grid strong {
   font-size: 15px;

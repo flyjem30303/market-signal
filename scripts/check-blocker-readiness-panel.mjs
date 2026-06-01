@@ -19,6 +19,11 @@ const blocked = [];
 for (const [file, phrase] of [
   [helperPath, "getBlockerReadinessSummary"],
   [helperPath, "local_checklists_ready_remote_paused"],
+  [helperPath, "local_review_recorded_external_rights_unverified"],
+  [helperPath, "local_review_recorded_model_not_approved_for_real_scoring"],
+  [helperPath, "qa_review_recorded_no_points_awarded"],
+  [helperPath, "approvedScope"],
+  [helperPath, "remainingDecision"],
   [helperPath, "data-quality-evidence"],
   [helperPath, "source-rights-and-disclosure"],
   [helperPath, "model-credibility"],
@@ -39,11 +44,15 @@ for (const [file, phrase] of [
   [componentPath, "summary.firstMove"],
   [componentPath, "summary.parallelMoves.map"],
   [componentPath, "summary.lanes.map"],
+  [componentPath, "lane.localReviewState"],
+  [componentPath, "lane.approvedScope"],
+  [componentPath, "lane.remainingDecision"],
   [briefingPath, "import { BlockerReadinessPanel }"],
   [briefingPath, "<BlockerReadinessPanel />"],
   [cssPath, ".blocker-readiness-panel"],
   [cssPath, ".blocker-priority-strip"],
   [cssPath, ".blocker-readiness-grid"],
+  [cssPath, ".blocker-readiness-grid em"],
   [packagePath, "\"check:blocker-readiness-panel\": \"node scripts/check-blocker-readiness-panel.mjs\""],
   [reviewGatePath, "scripts/check-blocker-readiness-panel.mjs"]
 ]) {
