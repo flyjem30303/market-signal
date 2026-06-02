@@ -277,6 +277,24 @@ export type Cp3MockOnlyRuntimeCommandCenter = {
   summary: string;
 };
 
+export type Cp3MockOnlyPreRuntimeClosurePacket = {
+  acceptedPackets: Array<{
+    id: "data-quality-evidence" | "source-rights-and-disclosure" | "model-credibility";
+    label: string;
+    owner: "Data" | "Legal" | "Investment";
+    state: "accepted_local_packet_only";
+  }>;
+  defaultNextDecision: "mock-runtime-hardening";
+  label: string;
+  nextDecisionOptions: Array<{
+    id: "mock-runtime-hardening" | "bounded-row-coverage-readonly";
+    label: string;
+    state: "default" | "separately_named_action_only";
+  }>;
+  stillBlocked: string[];
+  summary: string;
+};
+
 export const cp3MockOnlyUiCopyTokens: Record<Cp3MockOnlyDisplayState, Cp3MockOnlyUiCopyToken> = {
   mock: {
     claimLimit: "只能說明目前是 mock 訊號體驗，不能宣稱正式分數、投資建議或真實市場資料已完成。",
@@ -939,5 +957,54 @@ export function getMockOnlyRuntimeCommandCenter(state: Cp3MockOnlyRuntimeState):
     ],
     stopCondition: "Stop before remote access, SQL, market-row ingestion, scoreSource=real, or public-claim release.",
     summary: "CEO keeps execution in local mock-only mode. PM should improve readability; Engineering should keep forbidden external-data transitions blocked."
+  };
+}
+
+export function getMockOnlyPreRuntimeClosurePacket(): Cp3MockOnlyPreRuntimeClosurePacket {
+  return {
+    acceptedPackets: [
+      {
+        id: "data-quality-evidence",
+        label: "Data field-validity and downgrade packet",
+        owner: "Data",
+        state: "accepted_local_packet_only"
+      },
+      {
+        id: "source-rights-and-disclosure",
+        label: "Source-rights and disclosure packet",
+        owner: "Legal",
+        state: "accepted_local_packet_only"
+      },
+      {
+        id: "model-credibility",
+        label: "Model-credibility packet",
+        owner: "Investment",
+        state: "accepted_local_packet_only"
+      }
+    ],
+    defaultNextDecision: "mock-runtime-hardening",
+    label: "Pre-runtime closure",
+    nextDecisionOptions: [
+      {
+        id: "mock-runtime-hardening",
+        label: "Default: harden mock runtime status and disclosure",
+        state: "default"
+      },
+      {
+        id: "bounded-row-coverage-readonly",
+        label: "Optional: one bounded readonly attempt only if CEO names it",
+        state: "separately_named_action_only"
+      }
+    ],
+    stillBlocked: [
+      "Supabase readonly execution until separately named",
+      "SQL execution",
+      "Supabase writes",
+      "market-data ingestion",
+      "publicDataSource=supabase",
+      "scoreSource=real"
+    ],
+    summary:
+      "Three local packets are accepted for runtime next-decision context only. Runtime remains mock-only; the safest next move is mock runtime hardening."
   };
 }

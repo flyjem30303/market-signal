@@ -4,6 +4,7 @@ import {
   getMockOnlyDataQualityRoleReviewGuard,
   getMockOnlyFastFollowGates,
   getMockOnlyMetadataQualitySeparationGuard,
+  getMockOnlyPreRuntimeClosurePacket,
   getMockOnlyPublicDisplayState,
   getMockOnlyRuntimeAuthorizationSnapshot,
   getMockOnlyRuntimeCommandCenter,
@@ -76,6 +77,7 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
   const dataQualityDisclosure = getMockOnlyRuntimeDataQualityDisclosure(runtimeState);
   const authorizationSnapshot = getMockOnlyRuntimeAuthorizationSnapshot();
   const commandCenter = getMockOnlyRuntimeCommandCenter(runtimeState);
+  const preRuntimeClosurePacket = getMockOnlyPreRuntimeClosurePacket();
   const readinessTriad = getMockOnlyRuntimeReadinessTriad(runtimeState);
   const dataQualityRoleReviewGuard = getMockOnlyDataQualityRoleReviewGuard(runtimeState);
   const metadataQualityGuard = getMockOnlyMetadataQualitySeparationGuard(runtimeState);
@@ -145,6 +147,33 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
             <i>{formatRuntimeValue(commandCenter.evidenceLevel)}</i>
           </span>
         </aside>
+      </div>
+
+      <div className="cp3-runtime-pre-runtime-closure" aria-label="Pre-runtime closure packet">
+        <strong>{preRuntimeClosurePacket.label}</strong>
+        <p>{preRuntimeClosurePacket.summary}</p>
+        <section>
+          {preRuntimeClosurePacket.acceptedPackets.map((packet) => (
+            <span key={packet.id}>
+              <b>{packet.owner}</b>
+              <i>{packet.label}</i>
+              <em>{formatRuntimeValue(packet.state)}</em>
+            </span>
+          ))}
+        </section>
+        <aside>
+          {preRuntimeClosurePacket.nextDecisionOptions.map((option) => (
+            <span key={option.id}>
+              <b>{option.label}</b>
+              <em>{formatRuntimeValue(option.state)}</em>
+            </span>
+          ))}
+        </aside>
+        <footer>
+          {preRuntimeClosurePacket.stillBlocked.map((item) => (
+            <span key={item}>{item}</span>
+          ))}
+        </footer>
       </div>
 
       <div className="cp3-runtime-decision-summary" aria-label="Runtime decision summary">

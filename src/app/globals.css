@@ -3074,6 +3074,76 @@ select {
   font-weight: 850;
 }
 
+.cp3-runtime-pre-runtime-closure {
+  display: grid;
+  gap: 10px;
+  border: 1px solid rgba(15, 118, 110, 0.2);
+  border-radius: 8px;
+  background: #f5fbf8;
+  padding: 14px;
+}
+
+.cp3-runtime-pre-runtime-closure strong {
+  color: var(--teal);
+  font-size: 18px;
+}
+
+.cp3-runtime-pre-runtime-closure p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.cp3-runtime-pre-runtime-closure section,
+.cp3-runtime-pre-runtime-closure aside,
+.cp3-runtime-pre-runtime-closure footer {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.cp3-runtime-pre-runtime-closure span {
+  display: grid;
+  gap: 5px;
+  border: 1px solid rgba(22, 33, 29, 0.08);
+  border-radius: 8px;
+  background: #fff;
+  padding: 10px;
+}
+
+.cp3-runtime-pre-runtime-closure footer span {
+  border-color: rgba(199, 54, 59, 0.16);
+  background: #fff7f7;
+  color: #8f1f25;
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.cp3-runtime-pre-runtime-closure b,
+.cp3-runtime-pre-runtime-closure i,
+.cp3-runtime-pre-runtime-closure em {
+  display: block;
+  overflow-wrap: anywhere;
+  font-style: normal;
+}
+
+.cp3-runtime-pre-runtime-closure b {
+  color: var(--text);
+  font-size: 13px;
+}
+
+.cp3-runtime-pre-runtime-closure i {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.cp3-runtime-pre-runtime-closure em {
+  color: var(--blue);
+  font-size: 12px;
+  font-weight: 850;
+}
+
 .cp3-runtime-route-decision {
   background: #fff;
   border: 1px solid #cddff2;
@@ -7811,6 +7881,10 @@ input[type="date"] {
   .cp3-runtime-command-center nav,
   .cp3-runtime-command-center footer,
   .cp3-runtime-command-center menu,
+  .cp3-runtime-pre-runtime-closure,
+  .cp3-runtime-pre-runtime-closure section,
+  .cp3-runtime-pre-runtime-closure aside,
+  .cp3-runtime-pre-runtime-closure footer,
   .cp3-runtime-fast-follow-gates,
   .cp3-runtime-fast-follow-gates div,
   .cp3-runtime-route-work-queue,
