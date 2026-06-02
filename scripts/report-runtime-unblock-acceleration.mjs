@@ -19,7 +19,7 @@ const pendingOutcomes = postReview.outcomeSlots
 
 const currentBlockers = [
   ...pendingOutcomes.map((slot) => `${slot.owner} outcome is ${slot.outcome}`),
-  "latest Supabase readonly attempt is blocked and needs root-cause isolation before another repeat attempt",
+  "latest Supabase network diagnostic is blocked at TCP 443 before TLS and REST root",
   "data-quality-evidence cannot be lifted until readonly row coverage evidence is accepted",
   "publicDataSource=supabase and scoreSource=real remain blocked until later gates"
 ];
@@ -71,17 +71,17 @@ const accelerationPlan = {
     {
       step: 4,
       owner: "CEO",
-      action: "Classify the latest blocked readonly attempt before approving another remote attempt.",
-      command: "npm run check:cp3-supabase-readonly-latest-sanitized-run && npm run report:post-readonly-evidence-action-gate",
+      action: "Resolve local TCP 443 / firewall / proxy access before approving another Supabase table-level readonly attempt.",
+      command: "npm run check:supabase-network-layer-diagnostic && npm run check:supabase-readonly-blank-error-root-cause",
       canRunNow: pendingOutcomes.length === 0 && postReadonlyEvidence?.status === "ready_for_acceptance_review",
       stillDoesNotAuthorize: ["Supabase writes", "market data ingestion", "public source promotion", "real scoring"]
     }
   ],
-  recommendedWorkMix: pendingOutcomes.length > 0 ? "blocker execution 70 / runtime hardening 20 / readonly readiness 10" : "root-cause isolation 60 / runtime hardening 30 / governance 10",
+  recommendedWorkMix: pendingOutcomes.length > 0 ? "blocker execution 70 / runtime hardening 20 / readonly readiness 10" : "network root-cause isolation 60 / runtime hardening 30 / governance 10",
   ceoRecommendation:
     pendingOutcomes.length > 0
       ? "Stop expanding governance. The fastest safe move is to record the two real oral outcomes, then reopen the bounded readonly decision."
-      : "Stop repeating generic readonly attempts. Classify the blocked Supabase read path first, keep public runtime mock and real scoring blocked, and continue runtime hardening in parallel."
+      : "Stop repeating generic readonly attempts. Resolve TCP 443 / firewall / proxy access to Supabase first, keep public runtime mock and real scoring blocked, and continue runtime hardening in parallel."
 };
 
 console.log(JSON.stringify(accelerationPlan, null, 2));

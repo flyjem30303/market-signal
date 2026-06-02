@@ -67,7 +67,7 @@ if (output) {
     if (!JSON.stringify(output).includes(phrase)) missing.push(`output boundary: ${phrase}`);
   }
 
-  for (const phrase of ["root-cause isolation", "latest Supabase readonly attempt is blocked", "Stop repeating generic readonly attempts"]) {
+  for (const phrase of ["network root-cause isolation", "TCP 443", "firewall / proxy", "Stop repeating generic readonly attempts"]) {
     if (!JSON.stringify(output).includes(phrase)) missing.push(`output acceleration: ${phrase}`);
   }
 }

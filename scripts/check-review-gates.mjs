@@ -2688,6 +2688,11 @@ const checks = [
     name: "supabase-readonly-blank-error-root-cause"
   },
   {
+    command: [node, "scripts/check-supabase-network-layer-diagnostic.mjs"],
+    expectStatus: "ok",
+    name: "supabase-network-layer-diagnostic"
+  },
+  {
     command: [node, "scripts/check-supabase-readonly-final-prep.mjs"],
     expectStatus: "ok",
     name: "supabase-readonly-final-prep"
