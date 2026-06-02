@@ -2806,15 +2806,24 @@ select {
 
 .home-decision-strip {
   display: grid;
-  grid-template-columns: minmax(280px, 1.4fr) repeat(3, minmax(0, 1fr));
+  grid-template-columns: minmax(280px, 1.25fr) minmax(220px, 1.05fr) repeat(2, minmax(0, 0.82fr));
   gap: 12px;
   align-items: stretch;
-  border: 1px solid var(--line);
+  border: 1px solid rgba(15, 118, 110, 0.22);
   border-radius: 8px;
-  background: #fff;
+  background: #fbfdfb;
   box-shadow: var(--shadow-soft);
   margin-bottom: 16px;
   padding: 16px;
+}
+
+.home-decision-strip > div {
+  display: grid;
+  align-content: center;
+  gap: 6px;
+  min-width: 0;
+  border-right: 1px solid rgba(15, 118, 110, 0.14);
+  padding-right: 14px;
 }
 
 .home-decision-strip h2 {
@@ -2833,13 +2842,19 @@ select {
   display: grid;
   gap: 8px;
   align-content: center;
-  border: 1px solid var(--line);
+  min-width: 0;
+  border: 1px solid rgba(40, 94, 203, 0.12);
   border-radius: 8px;
-  background: #f8fbff;
+  background: #fff;
   color: var(--text);
   min-height: 112px;
   padding: 14px;
   text-decoration: none;
+}
+
+.home-decision-strip a:first-of-type {
+  border-color: rgba(15, 118, 110, 0.28);
+  background: #eff9f5;
 }
 
 .home-decision-strip a:hover {
@@ -2854,6 +2869,7 @@ select {
 }
 
 .home-decision-strip a strong {
+  overflow-wrap: anywhere;
   font-size: 18px;
   line-height: 1.25;
 }
@@ -2914,10 +2930,9 @@ select {
 
 .home-reading-route-head,
 .home-reading-route a {
-  border: 1px solid var(--line);
+  border: 1px solid rgba(22, 33, 29, 0.08);
   border-radius: 8px;
-  background: #fff;
-  box-shadow: var(--shadow-soft);
+  background: #fcfcfb;
   padding: 16px;
 }
 
@@ -2941,8 +2956,8 @@ select {
 }
 
 .home-reading-route a:hover {
-  border-color: var(--blue);
-  background: #f8fbff;
+  border-color: rgba(40, 94, 203, 0.22);
+  background: #f7faff;
 }
 
 .home-reading-route a span {
@@ -2958,6 +2973,7 @@ select {
 }
 
 .home-reading-route a strong {
+  overflow-wrap: anywhere;
   font-size: 18px;
 }
 
