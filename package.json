@@ -153,6 +153,8 @@
     "check:blocker-execution-queue": "node scripts/check-blocker-execution-queue.mjs",
     "report:blocker-action-priorities": "node scripts/report-blocker-action-priorities.mjs",
     "check:blocker-action-priorities": "node scripts/check-blocker-action-priorities.mjs",
+    "report:pre-runtime-blocker-closure-packet": "node scripts/report-pre-runtime-blocker-closure-packet.mjs",
+    "check:pre-runtime-blocker-closure-packet": "node scripts/check-pre-runtime-blocker-closure-packet.mjs",
     "report:source-rights-disclosure-checklist": "node scripts/report-source-rights-disclosure-checklist.mjs",
     "check:source-rights-disclosure-checklist": "node scripts/check-source-rights-disclosure-checklist.mjs",
     "report:source-rights-disclosure-local-review": "node scripts/report-source-rights-disclosure-local-review.mjs",

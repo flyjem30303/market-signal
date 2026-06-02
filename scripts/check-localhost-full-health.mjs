@@ -62,6 +62,10 @@ const checks = [
     name: "blocker-action-priorities"
   },
   {
+    command: [node, "scripts/check-pre-runtime-blocker-closure-packet.mjs"],
+    name: "pre-runtime-blocker-closure-packet"
+  },
+  {
     command: [node, "scripts/check-data-quality-evidence-checklist.mjs"],
     name: "data-quality-evidence-checklist"
   },

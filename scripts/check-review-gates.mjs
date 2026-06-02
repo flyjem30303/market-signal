@@ -1683,6 +1683,11 @@ const checks = [
     name: "blocker-action-priorities"
   },
   {
+    command: [node, "scripts/check-pre-runtime-blocker-closure-packet.mjs"],
+    expectStatus: "ok",
+    name: "pre-runtime-blocker-closure-packet"
+  },
+  {
     command: [node, "scripts/check-source-rights-disclosure-checklist.mjs"],
     expectStatus: "ok",
     name: "source-rights-disclosure-checklist"
