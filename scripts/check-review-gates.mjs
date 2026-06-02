@@ -2838,6 +2838,11 @@ const checks = [
     name: "stock-investor-action-summary"
   },
   {
+    command: [node, "scripts/check-market-action-summary-coverage.mjs"],
+    expectStatus: "ok",
+    name: "market-action-summary-coverage"
+  },
+  {
     command: [node, "scripts/check-tracking-events.mjs"],
     expectStatus: "ok",
     name: "tracking-events"
