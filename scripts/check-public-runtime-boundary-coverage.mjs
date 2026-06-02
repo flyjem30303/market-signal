@@ -46,9 +46,9 @@ const surfaces = [
       "getRuntimeDeliveryCadence",
       "runtime-delivery-cadence",
       "runtime-remote-guard-details",
-      "遠端唯讀嘗試守門",
+      "Remote guard details: CEO-named one-attempt only",
       "runtime-evidence-details",
-      "Evidence details / work lanes（PM / 工程）",
+      "Evidence details / PM and technical work lanes",
       "runtimeDeliveryCadence.mandatoryCutpoints",
       "runtime-fail-closed-card"
     ]

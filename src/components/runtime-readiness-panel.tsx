@@ -224,8 +224,8 @@ export function RuntimeReadinessPanel() {
         </article>
       </div>
       <details className="runtime-remote-guard-details">
-        <summary>遠端唯讀嘗試守門（需 CEO 另行點名）</summary>
-        <p>這裡保留單次 readonly attempt 的命令預覽、停止條件與 post-run review；目前不會自動連線或執行 SQL。</p>
+        <summary>Remote guard details: CEO-named one-attempt only</summary>
+        <p>Readonly execution requires one CEO-named bounded action; sanitized post-run review must happen before readiness changes, and writes, SQL, row payloads, and scoreSource=real remain blocked.</p>
         <RuntimeSectionLabel
           title="One-attempt guard"
           text="Manual readonly attempt preview, stop rules, and required post-run review."
@@ -282,8 +282,8 @@ export function RuntimeReadinessPanel() {
         </div>
       </details>
       <details className="runtime-evidence-details">
-        <summary>Evidence details / work lanes（PM / 工程）</summary>
-        <p>本區保留 local preflight、readonly evidence、freshness evidence 與 owner lane，避免 briefing 第一屏過度治理化。</p>
+        <summary>Evidence details / PM and technical work lanes</summary>
+        <p>This section keeps local preflight, readonly evidence, freshness evidence, and owner lanes available for PM review without changing the public runtime source.</p>
         <RuntimeSectionLabel
           title="Evidence details"
           text="Local preflight, readonly evidence, freshness status, and execution preview."
@@ -297,7 +297,7 @@ export function RuntimeReadinessPanel() {
           <article>
             <span>Next guarded decision</span>
             <code>{readiness.nextRemoteCommand}</code>
-            <p>只作為 CEO 手動 gate 的命令提示；不得由 UI 或 review gate 自動執行。</p>
+            <p>This command remains a preview until CEO names one bounded readonly attempt. It is not executed by the UI or by the review gate.</p>
           </article>
         </div>
         <div className="runtime-preflight-status">
@@ -414,8 +414,8 @@ export function RuntimeReadinessPanel() {
             <strong>{preflight.status === "blocked" ? "blocked" : "ready for guarded decision"}</strong>
             <p>
               {preflight.status === "blocked"
-                ? `缺少 ${preflight.missingEnv.length} 個必要環境值，遠端唯讀驗證維持 blocked。`
-                : "本地檢查已具備條件；安全開關仍預設 disabled，需 CEO 單次手動 gate。"}
+                ? `Missing ${preflight.missingEnv.length} required local environment values; guarded readonly execution remains blocked.`
+                : "Local preflight is ready for a guarded decision. Remote execution remains disabled until CEO names one bounded attempt."}
             </p>
           </article>
           <article

@@ -131,6 +131,13 @@ const required = [
   [componentPath, "readonlyDecisionCard.requiredCeoWording"],
   [componentPath, "readonlyDecisionCard.postRunReviewRequirement"],
   [componentPath, "runtime-readonly-decision-card"],
+  [componentPath, "Remote guard details: CEO-named one-attempt only"],
+  [componentPath, "Readonly execution requires one CEO-named bounded action"],
+  [componentPath, "Evidence details / PM and technical work lanes"],
+  [componentPath, "without changing the public runtime source"],
+  [componentPath, "This command remains a preview until CEO names one bounded readonly attempt"],
+  [componentPath, "Missing ${preflight.missingEnv.length} required local environment values"],
+  [componentPath, "Remote execution remains disabled until CEO names one bounded attempt"],
   [briefingPath, "import { RuntimeReadinessPanel }"],
   [briefingPath, "<RuntimeReadinessPanel />"],
   [cssPath, ".runtime-readiness-panel"],
@@ -240,7 +247,18 @@ const forbidden = [
   [executionPreviewPath, ".delete("],
   [componentPath, "fetch("],
   [componentPath, "createClient"],
-  [componentPath, "process.env"]
+  [componentPath, "process.env"],
+  [componentPath, "嚗"],
+  [componentPath, "蝻"],
+  [componentPath, "撌"],
+  [componentPath, "靽"],
+  [componentPath, "銝"],
+  [componentPath, "鞈"],
+  [componentPath, "蝬"],
+  [componentPath, "璅"],
+  [componentPath, "?"],
+  [componentPath, "?砍"],
+  [componentPath, "?芯"]
 ];
 
 const missing = required.filter(([file, phrase]) => !read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
