@@ -2738,6 +2738,11 @@ const checks = [
     name: "stock-core-tabs-readability"
   },
   {
+    command: [node, "scripts/check-stock-governance-details-readability.mjs"],
+    expectStatus: "ok",
+    name: "stock-governance-details-readability"
+  },
+  {
     command: [node, "scripts/check-runtime-state-consistency.mjs"],
     expectStatus: "ok",
     name: "runtime-state-consistency"
