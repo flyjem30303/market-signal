@@ -1499,6 +1499,69 @@ select {
   line-height: 1.5;
 }
 
+.runtime-single-attempt-card {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr) minmax(0, 1fr);
+  gap: 10px;
+}
+
+.runtime-single-attempt-card article {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  border: 1px solid rgba(183, 121, 31, 0.24);
+  border-radius: 8px;
+  background: #fffaf0;
+  padding: 12px;
+}
+
+.runtime-single-attempt-card article.blocked {
+  border-color: rgba(199, 54, 59, 0.16);
+  background: #fff7f7;
+}
+
+.runtime-single-attempt-card span {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.runtime-single-attempt-card strong {
+  overflow-wrap: anywhere;
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.35;
+}
+
+.runtime-single-attempt-card code {
+  display: block;
+  overflow-wrap: anywhere;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--text);
+  font-family: "Cascadia Code", "Consolas", monospace;
+  font-size: 12px;
+  padding: 8px;
+}
+
+.runtime-single-attempt-card ul {
+  display: grid;
+  gap: 5px;
+  margin: 0;
+  padding-left: 18px;
+}
+
+.runtime-single-attempt-card li,
+.runtime-single-attempt-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
 .runtime-readiness-command {
   display: grid;
   grid-column: 1 / -1;
@@ -7993,6 +8056,7 @@ input[type="date"] {
   .runtime-readiness-panel,
   .runtime-state-strip,
   .runtime-decision-snapshot,
+  .runtime-single-attempt-card,
   .runtime-readiness-command,
   .runtime-preflight-status,
   .runtime-readiness-lanes,

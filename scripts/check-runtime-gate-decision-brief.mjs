@@ -41,7 +41,14 @@ for (const phrase of [
   "Runtime decision snapshot",
   "runtimeGateBrief.allowedNow",
   "runtimeGateBrief.pmNextStep",
-  "separate authorization"
+  "separate authorization",
+  "Single-attempt authorization command card",
+  "Single-attempt command card",
+  "executionPreview.requiredConfirmation",
+  "executionPreview.exactCommandPreview",
+  "executionPreview.manualRunPrerequisites",
+  "executionPreview.stopConditions",
+  "Automated remote run remains"
 ]) {
   if (!panel.includes(phrase)) missing.push(`${panelPath}: ${phrase}`);
 }
@@ -52,7 +59,9 @@ for (const phrase of [
   ".runtime-state-strip",
   ".runtime-state-pill",
   ".runtime-decision-snapshot",
-  ".runtime-decision-snapshot article.blocked"
+  ".runtime-decision-snapshot article.blocked",
+  ".runtime-single-attempt-card",
+  ".runtime-single-attempt-card article.blocked"
 ]) {
   if (!css.includes(phrase)) missing.push(`src/app/globals.css: ${phrase}`);
 }

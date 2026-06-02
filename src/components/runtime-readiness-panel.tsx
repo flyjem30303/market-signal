@@ -70,6 +70,33 @@ export function RuntimeReadinessPanel() {
           <p>{runtimeGateBrief.requiredAuthorization}.</p>
         </article>
       </div>
+      <div className="runtime-single-attempt-card" aria-label="Single-attempt authorization command card">
+        <article>
+          <span>Single-attempt command card</span>
+          <strong>{executionPreview.approvalStatus}</strong>
+          <p>
+            Required confirmation: {executionPreview.requiredConfirmation}. Automated remote run remains{" "}
+            {executionPreview.safety.automatedRemoteRun ? "enabled" : "disabled"}.
+          </p>
+          <code>{executionPreview.exactCommandPreview ?? "blocked until CEO names one bounded readonly attempt"}</code>
+        </article>
+        <article>
+          <span>Prerequisites</span>
+          <ul>
+            {executionPreview.manualRunPrerequisites.slice(0, 4).map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </article>
+        <article className="blocked">
+          <span>Stop conditions</span>
+          <ul>
+            {executionPreview.stopConditions.slice(0, 4).map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </article>
+      </div>
       <div className="runtime-readiness-command">
         <article>
           <span>Local preflight</span>
