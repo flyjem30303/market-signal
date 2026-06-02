@@ -4,12 +4,13 @@ import { spawnSync } from "node:child_process";
 const consistencyPath = "src/lib/runtime-state-consistency.ts";
 const homePath = "src/components/home-runtime-status-panel.tsx";
 const stockPath = "src/components/stock-runtime-at-a-glance.tsx";
+const readinessPanelPath = "src/components/runtime-readiness-panel.tsx";
 const cssPath = "src/app/globals.css";
 const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 
 const files = new Map(
-  [consistencyPath, homePath, stockPath, cssPath, packagePath, reviewGatePath].map((file) => [
+  [consistencyPath, homePath, stockPath, readinessPanelPath, cssPath, packagePath, reviewGatePath].map((file) => [
     file,
     fs.readFileSync(file, "utf8")
   ])
@@ -39,6 +40,10 @@ const required = [
   [stockPath, "runtimeStateConsistency.consistencyState"],
   [stockPath, "runtimeStateConsistency.statusLine"],
   [stockPath, "runtime-consistency-card"],
+  [readinessPanelPath, "getRuntimeStateConsistencySummary"],
+  [readinessPanelPath, "runtimeStateConsistency.consistencyState"],
+  [readinessPanelPath, "runtimeStateConsistency.statusLine"],
+  [readinessPanelPath, "runtime-consistency-card"],
   [cssPath, ".runtime-consistency-card"],
   [packagePath, "\"check:runtime-state-consistency\": \"node scripts/check-runtime-state-consistency.mjs\""],
   [reviewGatePath, "scripts/check-runtime-state-consistency.mjs"]
@@ -54,7 +59,8 @@ const forbidden = [
   [consistencyPath, "scoreSource: \"real\""],
   [consistencyPath, "publicDataSource: \"supabase\""],
   [homePath, "project-progress-score"],
-  [stockPath, "project-progress-score"]
+  [stockPath, "project-progress-score"],
+  [readinessPanelPath, "project-progress-score"]
 ];
 
 const missing = required.filter(([file, phrase]) => !read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);

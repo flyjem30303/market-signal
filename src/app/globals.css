@@ -1632,7 +1632,7 @@ select {
 .runtime-state-strip {
   display: grid;
   grid-column: 1 / -1;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 10px;
 }
 
@@ -1668,6 +1668,14 @@ select {
   color: var(--text);
   font-size: 15px;
   line-height: 1.35;
+}
+
+.runtime-state-pill p {
+  margin: 0;
+  overflow-wrap: anywhere;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
 }
 
 .runtime-decision-snapshot {

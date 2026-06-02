@@ -8,12 +8,13 @@ const evidencePath = "src/lib/supabase-readonly-evidence.ts";
 const readonlySmokePath = "src/lib/freshness-readonly-smoke-report.ts";
 const freshnessLatestEvidencePath = "src/lib/freshness-readonly-latest-evidence.ts";
 const preflightPath = "src/lib/supabase-readonly-local-preflight.ts";
+const consistencyPath = "src/lib/runtime-state-consistency.ts";
 const componentPath = "src/components/runtime-readiness-panel.tsx";
 const briefingPath = "src/app/briefing/page.tsx";
 const cssPath = "src/app/globals.css";
 
 const files = new Map(
-  [summaryPath, activationPath, decisionPath, executionPreviewPath, evidencePath, readonlySmokePath, freshnessLatestEvidencePath, preflightPath, componentPath, briefingPath, cssPath].map(
+  [summaryPath, activationPath, decisionPath, executionPreviewPath, evidencePath, readonlySmokePath, freshnessLatestEvidencePath, preflightPath, consistencyPath, componentPath, briefingPath, cssPath].map(
     (file) => [file, fs.readFileSync(file, "utf8")]
   )
 );
@@ -62,6 +63,11 @@ const required = [
   [preflightPath, "rowPayloadsPrinted: false"],
   [preflightPath, "sqlExecuted: false"],
   [preflightPath, "mutations: false"],
+  [consistencyPath, "RuntimeStateConsistencySummary"],
+  [consistencyPath, "getRuntimeStateConsistencySummary"],
+  [consistencyPath, "consistencyState: \"mock_consistent\""],
+  [consistencyPath, "publicDataSource: \"mock\""],
+  [consistencyPath, "scoreSource: \"mock\""],
   [decisionPath, "getSupabaseReadonlyDecision"],
   [decisionPath, "scoreSourceRealEnabled: false"],
   [decisionPath, "connectionAttempted: false"],
@@ -99,12 +105,18 @@ const required = [
   [componentPath, "executionPreview.postRunAcceptedOutcomeCategories.length"],
   [componentPath, "executionPreview.blockedPromotions.length"],
   [componentPath, "Record one sanitized attempt outcome"],
+  [componentPath, "getRuntimeStateConsistencySummary"],
+  [componentPath, "runtimeStateConsistency.consistencyState"],
+  [componentPath, "runtimeStateConsistency.statusLine"],
+  [componentPath, "runtime-consistency-card"],
   [briefingPath, "import { RuntimeReadinessPanel }"],
   [briefingPath, "<RuntimeReadinessPanel />"],
   [cssPath, ".runtime-readiness-panel"],
   [cssPath, ".runtime-readiness-command"],
   [cssPath, ".runtime-final-prep-card"],
   [cssPath, ".runtime-post-run-prep-card"],
+  [cssPath, "grid-template-columns: repeat(4, minmax(0, 1fr))"],
+  [cssPath, ".runtime-state-pill p"],
   [cssPath, ".runtime-preflight-status"],
   [cssPath, ".runtime-readiness-lanes"],
   [cssPath, ".runtime-readiness-score"]
@@ -155,6 +167,17 @@ const forbidden = [
   [preflightPath, ".insert("],
   [preflightPath, ".update("],
   [preflightPath, ".delete("],
+  [consistencyPath, "@supabase/supabase-js"],
+  [consistencyPath, "createClient"],
+  [consistencyPath, "fetch("],
+  [consistencyPath, ".from("],
+  [consistencyPath, ".insert("],
+  [consistencyPath, ".update("],
+  [consistencyPath, ".delete("],
+  [consistencyPath, "process.env"],
+  [consistencyPath, "node:fs"],
+  [consistencyPath, "scoreSource: \"real\""],
+  [consistencyPath, "publicDataSource: \"supabase\""],
   [decisionPath, "@supabase/supabase-js"],
   [decisionPath, "createClient"],
   [decisionPath, "fetch("],

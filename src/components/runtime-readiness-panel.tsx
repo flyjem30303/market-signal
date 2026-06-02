@@ -9,6 +9,7 @@ import { buildFreshnessReadonlySmokeReport } from "@/lib/freshness-readonly-smok
 import { getFreshnessReadonlyLatestEvidenceSummary } from "@/lib/freshness-readonly-latest-evidence";
 import { getRuntimeGateDecisionBrief } from "@/lib/runtime-gate-decision-brief";
 import { getRuntimeDeliveryCadence } from "@/lib/runtime-delivery-cadence";
+import { getRuntimeStateConsistencySummary } from "@/lib/runtime-state-consistency";
 
 export function RuntimeReadinessPanel() {
   const readiness = getRuntimeReadinessSummary();
@@ -22,6 +23,7 @@ export function RuntimeReadinessPanel() {
   const readonlyEvidence = getSupabaseReadonlyEvidenceSummary();
   const runtimeGateBrief = getRuntimeGateDecisionBrief();
   const runtimeDeliveryCadence = getRuntimeDeliveryCadence();
+  const runtimeStateConsistency = getRuntimeStateConsistencySummary();
   const readonlyFinalPrepReady =
     preflight.status === "ready_for_guarded_readonly_decision" &&
     decision.status === "ready_for_ceo_decision" &&
@@ -92,6 +94,11 @@ export function RuntimeReadinessPanel() {
         <article className="runtime-state-pill hold">
           <span>Remote action</span>
           <strong>separate authorization</strong>
+        </article>
+        <article className="runtime-state-pill ready runtime-consistency-card">
+          <span>State consistency</span>
+          <strong>{runtimeStateConsistency.consistencyState}</strong>
+          <p>{runtimeStateConsistency.statusLine}</p>
         </article>
       </div>
       <div className="runtime-decision-snapshot" aria-label="Runtime decision snapshot">
