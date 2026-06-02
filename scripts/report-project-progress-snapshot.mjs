@@ -7,15 +7,31 @@ const root = process.cwd();
 
 const { getProjectProgressSummary } = loadTsModule("src/lib/project-progress-score.ts");
 const { getRuntimeReadinessSummary } = loadTsModule("src/lib/runtime-readiness-score.ts");
+const { getRuntimeGateDecisionBrief } = loadTsModule("src/lib/runtime-gate-decision-brief.ts");
 const { getRowCoverageSecondAttemptReadiness } = loadTsModule("src/lib/row-coverage-second-attempt-readiness.ts");
 const { getFreshnessRuntimeActivationSummary } = loadTsModule("src/lib/freshness-runtime-activation.ts");
 const { getFreshnessReadonlyLatestEvidenceSummary } = loadTsModule("src/lib/freshness-readonly-latest-evidence.ts");
 
+const expectedRuntimeRoute = {
+  defaultRoute: "mock_runtime_hardening",
+  optionalStatus: "requires_separate_ceo_named_action",
+  separateRemoteTrigger: "CEO explicitly names one bounded Supabase readonly attempt"
+};
+
 const progress = getProjectProgressSummary();
 const runtime = getRuntimeReadinessSummary();
+const runtimeGateBrief = getRuntimeGateDecisionBrief();
 const rowCoverage = getRowCoverageSecondAttemptReadiness();
 const freshnessActivation = getFreshnessRuntimeActivationSummary();
 const freshnessLatestEvidence = getFreshnessReadonlyLatestEvidenceSummary();
+
+if (
+  runtimeGateBrief.currentDefaultRoute !== expectedRuntimeRoute.defaultRoute ||
+  runtimeGateBrief.separateRemoteTrigger !== expectedRuntimeRoute.separateRemoteTrigger ||
+  !runtimeGateBrief.routeOptions.some((item) => item.status === expectedRuntimeRoute.optionalStatus)
+) {
+  throw new Error("Runtime route boundary does not match the local progress snapshot contract");
+}
 
 const snapshot = {
   mode: "local_project_progress_snapshot",
@@ -52,6 +68,19 @@ const snapshot = {
     nextRemoteCommand: runtime.nextRemoteCommand,
     score: runtime.score,
     status: runtime.status
+  },
+  runtimeRoute: {
+    currentDefaultRoute: runtimeGateBrief.currentDefaultRoute,
+    decisionPoint: runtimeGateBrief.decisionPoint,
+    routeOptions: runtimeGateBrief.routeOptions.map(({ id, nextStep, reason, status, title }) => ({
+      id,
+      nextStep,
+      reason,
+      status,
+      title
+    })),
+    separateRemoteTrigger: runtimeGateBrief.separateRemoteTrigger,
+    status: runtimeGateBrief.status
   },
   rowCoverage: {
     attemptState: rowCoverage.attemptState,
@@ -144,7 +173,10 @@ const snapshot = {
     currentLaneRatio: "bounded readonly decision 35 / runtime hardening 45 / blocker closure 20",
     nextMeaningfulGate: "separately named bounded row coverage readonly attempt or mock runtime hardening",
     recommendation:
-      "bounded row coverage decision gate is ready; CEO can either name one readonly attempt explicitly or continue mock runtime hardening without waiting"
+      "bounded row coverage decision gate is ready; CEO can either name one readonly attempt explicitly or continue mock runtime hardening without waiting",
+    runtimeDefaultRoute: runtimeGateBrief.currentDefaultRoute,
+    runtimeRouteDecisionPoint: runtimeGateBrief.decisionPoint,
+    runtimeSeparateRemoteTrigger: runtimeGateBrief.separateRemoteTrigger
   }
 };
 

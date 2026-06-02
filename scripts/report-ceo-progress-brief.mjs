@@ -11,6 +11,12 @@ if (snapshotRun.status !== 0) {
 }
 
 const snapshot = JSON.parse(snapshotRun.stdout);
+const expectedRuntimeDefaultRoute = "mock_runtime_hardening";
+
+if (snapshot.runtimeRoute?.currentDefaultRoute !== expectedRuntimeDefaultRoute) {
+  throw new Error("CEO progress brief runtime route boundary mismatch");
+}
+
 const blockedNodes = snapshot.decisionNodes.filter((node) => node.status === "blocked");
 const waitingNodes = snapshot.decisionNodes.filter((node) => node.status === "waiting_explicit_remote_approval");
 const readyNodes = snapshot.decisionNodes.filter((node) => node.status === "passed" || node.readiness === "ready");
@@ -43,6 +49,9 @@ const lines = [
   `Status: ${snapshot.status}`,
   `Lane ratio: ${snapshot.ceoDecision.currentLaneRatio}`,
   `Runtime: ${snapshot.runtime.score}% / ${snapshot.runtime.status}`,
+  `Runtime route: ${snapshot.runtimeRoute.currentDefaultRoute} / ${snapshot.runtimeRoute.status}`,
+  `Remote trigger: ${snapshot.runtimeRoute.separateRemoteTrigger}`,
+  `Route options: ${snapshot.runtimeRoute.routeOptions.map((item) => `${item.id}:${item.status}`).join(", ")}`,
   `Row coverage: ${snapshot.rowCoverage.readiness}`,
   `Freshness evidence: ${snapshot.freshness.latestEvidenceStatus}`,
   `Blocker queue: ${snapshot.blockerExecutionQueue.status} / ${snapshot.blockerExecutionQueue.ceoLaneRatio}`,

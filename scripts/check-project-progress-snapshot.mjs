@@ -14,6 +14,7 @@ const requiredSourcePhrases = [
   "status: \"local_ready_remote_paused\"",
   "getProjectProgressSummary",
   "getRuntimeReadinessSummary",
+  "getRuntimeGateDecisionBrief",
   "getRowCoverageSecondAttemptReadiness",
   "getFreshnessRuntimeActivationSummary",
   "getFreshnessReadonlyLatestEvidenceSummary",
@@ -27,6 +28,14 @@ const requiredSourcePhrases = [
   "secretsPrinted: false",
   "sqlExecuted: false",
   "supabaseWritesEnabled: false",
+  "runtimeRoute",
+  "currentDefaultRoute",
+  "separateRemoteTrigger",
+  "runtimeDefaultRoute",
+  "runtimeSeparateRemoteTrigger",
+  "mock_runtime_hardening",
+  "requires_separate_ceo_named_action",
+  "CEO explicitly names one bounded Supabase readonly attempt",
   "blockerExecutionQueue",
   "bounded_row_coverage_decision_ready",
   "Data 45 / Engineering 35 / Legal-Investment 20",
@@ -173,6 +182,35 @@ if (output) {
 
   if (output.runtime?.nextRemoteCommand !== "npm run db:readonly-validate") {
     blocked.push(`output.runtime.nextRemoteCommand: ${String(output.runtime?.nextRemoteCommand)}`);
+  }
+
+  if (output.runtimeRoute?.status !== "local_ready_remote_requires_separate_authorization") {
+    blocked.push(`output.runtimeRoute.status: ${String(output.runtimeRoute?.status)}`);
+  }
+
+  if (output.runtimeRoute?.currentDefaultRoute !== "mock_runtime_hardening") {
+    blocked.push(`output.runtimeRoute.currentDefaultRoute: ${String(output.runtimeRoute?.currentDefaultRoute)}`);
+  }
+
+  if (output.runtimeRoute?.separateRemoteTrigger !== "CEO explicitly names one bounded Supabase readonly attempt") {
+    blocked.push(`output.runtimeRoute.separateRemoteTrigger: ${String(output.runtimeRoute?.separateRemoteTrigger)}`);
+  }
+
+  const routeOptionIds = new Set((output.runtimeRoute?.routeOptions ?? []).map((item) => item.id));
+  for (const id of ["mock_runtime_hardening", "bounded_readonly_attempt"]) {
+    if (!routeOptionIds.has(id)) {
+      blocked.push(`output.runtimeRoute.routeOptions missing ${id}`);
+    }
+  }
+
+  for (const routeOption of output.runtimeRoute?.routeOptions ?? []) {
+    if (
+      routeOption.approvedRemoteExecution === true ||
+      routeOption.publicDataSource === "supabase" ||
+      routeOption.scoreSource === "real"
+    ) {
+      blocked.push(`output.runtimeRoute.routeOptions.${String(routeOption.id)} has forbidden approval/source state`);
+    }
   }
 
   if (output.rowCoverage?.readiness !== "local_ready_remote_paused") {
