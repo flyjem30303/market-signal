@@ -114,252 +114,260 @@ export function RuntimeReadinessPanel() {
           <p>Remote trigger: {runtimeGateBrief.separateRemoteTrigger}.</p>
         </article>
       </div>
-      <RuntimeSectionLabel
-        title="One-attempt guard"
-        text="Manual readonly attempt preview, stop rules, and required post-run review."
-      />
-      <div className="runtime-single-attempt-card" aria-label="Single-attempt authorization command card">
-        <article>
-          <span>Single-attempt command card</span>
-          <strong>{executionPreview.approvalStatus}</strong>
-          <p>
-            Required confirmation: {executionPreview.requiredConfirmation}. Automated remote run remains{" "}
-            {executionPreview.safety.automatedRemoteRun ? "enabled" : "disabled"}.
-          </p>
-          <code>{executionPreview.exactCommandPreview ?? "blocked until CEO names one bounded readonly attempt"}</code>
-        </article>
-        <article>
-          <span>Prerequisites</span>
-          <ul>
-            {executionPreview.manualRunPrerequisites.slice(0, 4).map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
-        </article>
-        <article className="blocked">
-          <span>Stop conditions</span>
-          <ul>
-            {executionPreview.stopConditions.slice(0, 4).map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
-        </article>
-      </div>
-      <div className="runtime-post-run-review-card" aria-label="Post-run review readiness card">
-        <article>
-          <span>Post-run review target</span>
-          <strong>{executionPreview.postRunReviewTarget}</strong>
-          <p>Readiness promotion remains {executionPreview.readinessPromotionBlocked ? "blocked" : "open"}.</p>
-        </article>
-        <article>
-          <span>Accepted outcomes</span>
-          <ul>
-            {executionPreview.postRunAcceptedOutcomeCategories.slice(0, 5).map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
-        </article>
-        <article className="blocked">
-          <span>Blocked promotions</span>
-          <ul>
-            {executionPreview.blockedPromotions.slice(0, 5).map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
-        </article>
-      </div>
-      <RuntimeSectionLabel
-        title="Evidence details"
-        text="Local preflight, readonly evidence, freshness status, and execution preview."
-      />
-      <div className="runtime-readiness-command">
-        <article>
-          <span>Local preflight</span>
-          <code>{readiness.localPreflightCommand}</code>
-          <p>{readiness.localPreflightState}</p>
-        </article>
-        <article>
-          <span>Next guarded decision</span>
-          <code>{readiness.nextRemoteCommand}</code>
-          <p>只作為 CEO 手動 gate 的命令提示；不得由 UI 或 review gate 自動執行。</p>
-        </article>
-      </div>
-      <div className="runtime-preflight-status">
-        <article
-          aria-label={`Runtime hardening exit ${runtimeHardeningExit.status}`}
-          className="readying"
-        >
-          <span>Runtime hardening exit</span>
-          <strong>{runtimeHardeningExit.stage}</strong>
-          <p>
-            Accepted {runtimeHardeningExit.acceptedCount}; blocked {runtimeHardeningExit.blockedCount}.{" "}
-            Public {runtimeHardeningExit.publicDataSource}; score {runtimeHardeningExit.scoreSource}.
-          </p>
-          <p>{runtimeHardeningExit.nextAction}</p>
-          <p>{runtimeHardeningExit.stopLine}</p>
-          <div className="runtime-public-boundary-summary" aria-label={runtimeHardeningExit.publicBoundaryLabel}>
-            {runtimeHardeningExit.publicBoundaryItems.map((item) => (
-              <span className={item.state} key={item.label}>
-                <b>{item.label}</b>
-                <i>{item.publicMessage}</i>
-              </span>
-            ))}
-          </div>
-        </article>
-        <article className="active" aria-label="Supabase readonly evidence accepted">
-          <span>Readonly evidence</span>
-          <strong>{readonlyEvidence.evidenceStatus}</strong>
-          <p>{readonlyEvidence.acceptedScope}</p>
-          <p>Objects reachable: {readonlyEvidence.objects.length}. Next: {readonlyEvidence.nextRuntimeGate}.</p>
-          <p>{readonlyEvidence.stopLine}</p>
-        </article>
-        <article className="readying" aria-label="CEO next runtime move">
-          <span>CEO next move</span>
-          <strong>
-            Runtime {decision.recommendedWorkMix.runtime}% / Supabase readonly{" "}
-            {decision.recommendedWorkMix.supabaseReadonly}%
-          </strong>
-          <p>
-            {decision.requiredHumanStep}. Manual approval{" "}
-            {executionPreview.manualApprovalRequired ? "required" : "not required"}; automated remote run{" "}
-            {executionPreview.safety.automatedRemoteRun ? "enabled" : "disabled"}.
-          </p>
-          <p>Stop first: {executionPreview.stopConditions[0]}.</p>
-        </article>
-        <article className="readying runtime-gate-decision-brief" aria-label={`Runtime gate decision ${runtimeGateBrief.status}`}>
-          <span>Runtime gate decision</span>
-          <strong>{runtimeGateBrief.status}</strong>
-          <p>
-            Public {runtimeGateBrief.publicDataSource}; score {runtimeGateBrief.scoreSource}.{" "}
-            {runtimeGateBrief.requiredAuthorization}.
-          </p>
-          <p>{runtimeGateBrief.ceoRecommendation}</p>
-          <p>Blocked: {runtimeGateBrief.blockedNow.slice(0, 5).join(", ")}.</p>
-          <p>Post-run: {runtimeGateBrief.postRunReview.slice(0, 2).join("; ")}.</p>
-        </article>
-        <article
-          aria-label={`Freshness runtime activation ${freshnessActivation.state}`}
-          className={freshnessActivation.state === "blocked" ? "blocked" : "readying"}
-        >
-          <span>Freshness runtime activation</span>
-          <strong>{freshnessActivation.state}</strong>
-          <p>
-            DATA_FRESHNESS_SOURCE={freshnessActivation.dataFreshnessSource} / reads{" "}
-            {freshnessActivation.supabaseRuntimeReads} / public {freshnessActivation.publicDataSource}.
-          </p>
-          <p>{freshnessActivation.decision}</p>
-          <p>{freshnessActivation.stopLine}</p>
-        </article>
-        <article
-          aria-label={`Freshness readonly latest evidence ${freshnessLatestEvidence.evidenceStatus}`}
-          className="active"
-        >
-          <span>Freshness latest evidence</span>
-          <strong>{freshnessLatestEvidence.evidenceStatus}</strong>
-          <p>
-            {freshnessLatestEvidence.market} / {freshnessLatestEvidence.asOfDate} /{" "}
-            {freshnessLatestEvidence.sourceName}; scoreSource {freshnessLatestEvidence.scoreSource}; public{" "}
-            {freshnessLatestEvidence.publicDataSource}.
-          </p>
-          <p>{freshnessLatestEvidence.acceptedScope}</p>
-          <p>{freshnessLatestEvidence.stopLine}</p>
-        </article>
-        <article
-          aria-label={`Freshness readonly smoke report ${readonlySmokeReport.outcome}`}
-          className={readonlySmokeReport.outcome === "blocked" ? "blocked" : "readying"}
-        >
-          <span>Freshness readonly smoke</span>
-          <strong>{readonlySmokeReport.outcome}</strong>
-          <p>
-            Activation {readonlySmokeReport.activation.state}; connection{" "}
-            {readonlySmokeReport.activation.connectionAttempted ? "attempted" : "not attempted"}; SQL{" "}
-            {readonlySmokeReport.activation.sqlExecuted ? "executed" : "not executed"}.
-          </p>
-          <p>
-            Secrets printed: {readonlySmokeReport.safety.secretsPrinted ? "true" : "false"} / row payloads printed:{" "}
-            {readonlySmokeReport.safety.rowPayloadsPrinted ? "true" : "false"}.
-          </p>
-          <p>{readonlySmokeReport.stopLine}</p>
-        </article>
-        <article
-          aria-label={`Runtime ${decision.recommendedWorkMix.runtime}% / Supabase readonly ${decision.recommendedWorkMix.supabaseReadonly}%`}
-          className={decision.status === "blocked" ? "blocked" : "readying"}
-        >
-          <span>CEO decision packet</span>
-          <strong>{decision.decision}</strong>
-          <p>
-            Runtime {decision.recommendedWorkMix.runtime}% / Supabase readonly{" "}
-            {decision.recommendedWorkMix.supabaseReadonly}%. Warnings {decision.warningCount}.{" "}
-            {decision.requiredHumanStep}.
-          </p>
-        </article>
-        <article className={preflight.status === "blocked" ? "blocked" : "readying"}>
-          <span>Local preflight status</span>
-          <strong>{preflight.status === "blocked" ? "blocked" : "ready for guarded decision"}</strong>
-          <p>
-            {preflight.status === "blocked"
-              ? `缺少 ${preflight.missingEnv.length} 個必要環境值，遠端唯讀驗證維持 blocked。`
-              : "本地檢查已具備條件；安全開關仍預設 disabled，需 CEO 單次手動 gate。"}
-          </p>
-        </article>
-        <article
-          aria-label={`Execution preview automated remote run ${
-            executionPreview.safety.automatedRemoteRun ? "true" : "false"
-          }; Stop conditions ${executionPreview.stopConditions.length} active`}
-          className={executionPreview.status === "blocked" ? "blocked" : "readying"}
-        >
-          <span>Execution preview</span>
-          <strong>{executionPreview.approvalStatus}</strong>
-          <p>
-            Manual approval: {executionPreview.manualApprovalRequired ? "required" : "not required"} /{" "}
-            {executionPreview.manualApprovalState}.
-          </p>
-          <p>
-            Manual prerequisites: {executionPreview.manualRunPrerequisites.length} active. First:{" "}
-            {executionPreview.manualRunPrerequisites[0]}.
-          </p>
-          <p>
-            Post-run target: {executionPreview.postRunReviewTarget}. Outcome categories:{" "}
-            {executionPreview.postRunAcceptedOutcomeCategories.length}.
-          </p>
-          <p>
-            Readiness promotion: {executionPreview.readinessPromotionBlocked ? "blocked" : "open"}.
-            Blocked promotions: {executionPreview.blockedPromotions.length}.
-          </p>
-          <p>
-            Automated remote run: {executionPreview.safety.automatedRemoteRun ? "true" : "false"}.
-            Command preview: {executionPreview.nextRemoteCommand ?? "blocked"}.
-          </p>
-          <p>
-            Stop conditions: {executionPreview.stopConditions.length} active. First:{" "}
-            {executionPreview.stopConditions[0]}.
-          </p>
-        </article>
-        {preflight.boundaries.map((boundary) => (
-          <article className={boundary.status} key={boundary.name}>
-            <span>{boundary.name}</span>
-            <strong>{boundary.observed}</strong>
-            <p>expected: {boundary.expected}</p>
+      <details className="runtime-remote-guard-details">
+        <summary>遠端唯讀嘗試守門（需 CEO 另行點名）</summary>
+        <p>這裡保留單次 readonly attempt 的命令預覽、停止條件與 post-run review；目前不會自動連線或執行 SQL。</p>
+        <RuntimeSectionLabel
+          title="One-attempt guard"
+          text="Manual readonly attempt preview, stop rules, and required post-run review."
+        />
+        <div className="runtime-single-attempt-card" aria-label="Single-attempt authorization command card">
+          <article>
+            <span>Single-attempt command card</span>
+            <strong>{executionPreview.approvalStatus}</strong>
+            <p>
+              Required confirmation: {executionPreview.requiredConfirmation}. Automated remote run remains{" "}
+              {executionPreview.safety.automatedRemoteRun ? "enabled" : "disabled"}.
+            </p>
+            <code>{executionPreview.exactCommandPreview ?? "blocked until CEO names one bounded readonly attempt"}</code>
           </article>
-        ))}
-      </div>
-      <RuntimeSectionLabel
-        title="Work lanes"
-        text="Owner-level runtime lanes and remaining local progress."
-      />
-      <div className="runtime-readiness-lanes">
-        {readiness.lanes.map((lane) => (
-          <article className={lane.state} key={lane.label}>
-            <header>
-              <span>{lane.owner}</span>
-              <b>{lane.current}%</b>
-            </header>
-            <strong>{lane.label}</strong>
-            <i style={{ ["--progress" as string]: `${lane.current}%` }} />
-            <p>{lane.nextAction}</p>
+          <article>
+            <span>Prerequisites</span>
+            <ul>
+              {executionPreview.manualRunPrerequisites.slice(0, 4).map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
           </article>
-        ))}
-      </div>
+          <article className="blocked">
+            <span>Stop conditions</span>
+            <ul>
+              {executionPreview.stopConditions.slice(0, 4).map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </article>
+        </div>
+        <div className="runtime-post-run-review-card" aria-label="Post-run review readiness card">
+          <article>
+            <span>Post-run review target</span>
+            <strong>{executionPreview.postRunReviewTarget}</strong>
+            <p>Readiness promotion remains {executionPreview.readinessPromotionBlocked ? "blocked" : "open"}.</p>
+          </article>
+          <article>
+            <span>Accepted outcomes</span>
+            <ul>
+              {executionPreview.postRunAcceptedOutcomeCategories.slice(0, 5).map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </article>
+          <article className="blocked">
+            <span>Blocked promotions</span>
+            <ul>
+              {executionPreview.blockedPromotions.slice(0, 5).map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </article>
+        </div>
+      </details>
+      <details className="runtime-evidence-details">
+        <summary>Evidence details / work lanes（PM / 工程）</summary>
+        <p>本區保留 local preflight、readonly evidence、freshness evidence 與 owner lane，避免 briefing 第一屏過度治理化。</p>
+        <RuntimeSectionLabel
+          title="Evidence details"
+          text="Local preflight, readonly evidence, freshness status, and execution preview."
+        />
+        <div className="runtime-readiness-command">
+          <article>
+            <span>Local preflight</span>
+            <code>{readiness.localPreflightCommand}</code>
+            <p>{readiness.localPreflightState}</p>
+          </article>
+          <article>
+            <span>Next guarded decision</span>
+            <code>{readiness.nextRemoteCommand}</code>
+            <p>只作為 CEO 手動 gate 的命令提示；不得由 UI 或 review gate 自動執行。</p>
+          </article>
+        </div>
+        <div className="runtime-preflight-status">
+          <article
+            aria-label={`Runtime hardening exit ${runtimeHardeningExit.status}`}
+            className="readying"
+          >
+            <span>Runtime hardening exit</span>
+            <strong>{runtimeHardeningExit.stage}</strong>
+            <p>
+              Accepted {runtimeHardeningExit.acceptedCount}; blocked {runtimeHardeningExit.blockedCount}.{" "}
+              Public {runtimeHardeningExit.publicDataSource}; score {runtimeHardeningExit.scoreSource}.
+            </p>
+            <p>{runtimeHardeningExit.nextAction}</p>
+            <p>{runtimeHardeningExit.stopLine}</p>
+            <div className="runtime-public-boundary-summary" aria-label={runtimeHardeningExit.publicBoundaryLabel}>
+              {runtimeHardeningExit.publicBoundaryItems.map((item) => (
+                <span className={item.state} key={item.label}>
+                  <b>{item.label}</b>
+                  <i>{item.publicMessage}</i>
+                </span>
+              ))}
+            </div>
+          </article>
+          <article className="active" aria-label="Supabase readonly evidence accepted">
+            <span>Readonly evidence</span>
+            <strong>{readonlyEvidence.evidenceStatus}</strong>
+            <p>{readonlyEvidence.acceptedScope}</p>
+            <p>Objects reachable: {readonlyEvidence.objects.length}. Next: {readonlyEvidence.nextRuntimeGate}.</p>
+            <p>{readonlyEvidence.stopLine}</p>
+          </article>
+          <article className="readying" aria-label="CEO next runtime move">
+            <span>CEO next move</span>
+            <strong>
+              Runtime {decision.recommendedWorkMix.runtime}% / Supabase readonly{" "}
+              {decision.recommendedWorkMix.supabaseReadonly}%
+            </strong>
+            <p>
+              {decision.requiredHumanStep}. Manual approval{" "}
+              {executionPreview.manualApprovalRequired ? "required" : "not required"}; automated remote run{" "}
+              {executionPreview.safety.automatedRemoteRun ? "enabled" : "disabled"}.
+            </p>
+            <p>Stop first: {executionPreview.stopConditions[0]}.</p>
+          </article>
+          <article className="readying runtime-gate-decision-brief" aria-label={`Runtime gate decision ${runtimeGateBrief.status}`}>
+            <span>Runtime gate decision</span>
+            <strong>{runtimeGateBrief.status}</strong>
+            <p>
+              Public {runtimeGateBrief.publicDataSource}; score {runtimeGateBrief.scoreSource}.{" "}
+              {runtimeGateBrief.requiredAuthorization}.
+            </p>
+            <p>{runtimeGateBrief.ceoRecommendation}</p>
+            <p>Blocked: {runtimeGateBrief.blockedNow.slice(0, 5).join(", ")}.</p>
+            <p>Post-run: {runtimeGateBrief.postRunReview.slice(0, 2).join("; ")}.</p>
+          </article>
+          <article
+            aria-label={`Freshness runtime activation ${freshnessActivation.state}`}
+            className={freshnessActivation.state === "blocked" ? "blocked" : "readying"}
+          >
+            <span>Freshness runtime activation</span>
+            <strong>{freshnessActivation.state}</strong>
+            <p>
+              DATA_FRESHNESS_SOURCE={freshnessActivation.dataFreshnessSource} / reads{" "}
+              {freshnessActivation.supabaseRuntimeReads} / public {freshnessActivation.publicDataSource}.
+            </p>
+            <p>{freshnessActivation.decision}</p>
+            <p>{freshnessActivation.stopLine}</p>
+          </article>
+          <article
+            aria-label={`Freshness readonly latest evidence ${freshnessLatestEvidence.evidenceStatus}`}
+            className="active"
+          >
+            <span>Freshness latest evidence</span>
+            <strong>{freshnessLatestEvidence.evidenceStatus}</strong>
+            <p>
+              {freshnessLatestEvidence.market} / {freshnessLatestEvidence.asOfDate} /{" "}
+              {freshnessLatestEvidence.sourceName}; scoreSource {freshnessLatestEvidence.scoreSource}; public{" "}
+              {freshnessLatestEvidence.publicDataSource}.
+            </p>
+            <p>{freshnessLatestEvidence.acceptedScope}</p>
+            <p>{freshnessLatestEvidence.stopLine}</p>
+          </article>
+          <article
+            aria-label={`Freshness readonly smoke report ${readonlySmokeReport.outcome}`}
+            className={readonlySmokeReport.outcome === "blocked" ? "blocked" : "readying"}
+          >
+            <span>Freshness readonly smoke</span>
+            <strong>{readonlySmokeReport.outcome}</strong>
+            <p>
+              Activation {readonlySmokeReport.activation.state}; connection{" "}
+              {readonlySmokeReport.activation.connectionAttempted ? "attempted" : "not attempted"}; SQL{" "}
+              {readonlySmokeReport.activation.sqlExecuted ? "executed" : "not executed"}.
+            </p>
+            <p>
+              Secrets printed: {readonlySmokeReport.safety.secretsPrinted ? "true" : "false"} / row payloads printed:{" "}
+              {readonlySmokeReport.safety.rowPayloadsPrinted ? "true" : "false"}.
+            </p>
+            <p>{readonlySmokeReport.stopLine}</p>
+          </article>
+          <article
+            aria-label={`Runtime ${decision.recommendedWorkMix.runtime}% / Supabase readonly ${decision.recommendedWorkMix.supabaseReadonly}%`}
+            className={decision.status === "blocked" ? "blocked" : "readying"}
+          >
+            <span>CEO decision packet</span>
+            <strong>{decision.decision}</strong>
+            <p>
+              Runtime {decision.recommendedWorkMix.runtime}% / Supabase readonly{" "}
+              {decision.recommendedWorkMix.supabaseReadonly}%. Warnings {decision.warningCount}.{" "}
+              {decision.requiredHumanStep}.
+            </p>
+          </article>
+          <article className={preflight.status === "blocked" ? "blocked" : "readying"}>
+            <span>Local preflight status</span>
+            <strong>{preflight.status === "blocked" ? "blocked" : "ready for guarded decision"}</strong>
+            <p>
+              {preflight.status === "blocked"
+                ? `缺少 ${preflight.missingEnv.length} 個必要環境值，遠端唯讀驗證維持 blocked。`
+                : "本地檢查已具備條件；安全開關仍預設 disabled，需 CEO 單次手動 gate。"}
+            </p>
+          </article>
+          <article
+            aria-label={`Execution preview automated remote run ${
+              executionPreview.safety.automatedRemoteRun ? "true" : "false"
+            }; Stop conditions ${executionPreview.stopConditions.length} active`}
+            className={executionPreview.status === "blocked" ? "blocked" : "readying"}
+          >
+            <span>Execution preview</span>
+            <strong>{executionPreview.approvalStatus}</strong>
+            <p>
+              Manual approval: {executionPreview.manualApprovalRequired ? "required" : "not required"} /{" "}
+              {executionPreview.manualApprovalState}.
+            </p>
+            <p>
+              Manual prerequisites: {executionPreview.manualRunPrerequisites.length} active. First:{" "}
+              {executionPreview.manualRunPrerequisites[0]}.
+            </p>
+            <p>
+              Post-run target: {executionPreview.postRunReviewTarget}. Outcome categories:{" "}
+              {executionPreview.postRunAcceptedOutcomeCategories.length}.
+            </p>
+            <p>
+              Readiness promotion: {executionPreview.readinessPromotionBlocked ? "blocked" : "open"}.
+              Blocked promotions: {executionPreview.blockedPromotions.length}.
+            </p>
+            <p>
+              Automated remote run: {executionPreview.safety.automatedRemoteRun ? "true" : "false"}.
+              Command preview: {executionPreview.nextRemoteCommand ?? "blocked"}.
+            </p>
+            <p>
+              Stop conditions: {executionPreview.stopConditions.length} active. First:{" "}
+              {executionPreview.stopConditions[0]}.
+            </p>
+          </article>
+          {preflight.boundaries.map((boundary) => (
+            <article className={boundary.status} key={boundary.name}>
+              <span>{boundary.name}</span>
+              <strong>{boundary.observed}</strong>
+              <p>expected: {boundary.expected}</p>
+            </article>
+          ))}
+        </div>
+        <RuntimeSectionLabel
+          title="Work lanes"
+          text="Owner-level runtime lanes and remaining local progress."
+        />
+        <div className="runtime-readiness-lanes">
+          {readiness.lanes.map((lane) => (
+            <article className={lane.state} key={lane.label}>
+              <header>
+                <span>{lane.owner}</span>
+                <b>{lane.current}%</b>
+              </header>
+              <strong>{lane.label}</strong>
+              <i style={{ ["--progress" as string]: `${lane.current}%` }} />
+              <p>{lane.nextAction}</p>
+            </article>
+          ))}
+        </div>
+      </details>
     </section>
   );
 }
