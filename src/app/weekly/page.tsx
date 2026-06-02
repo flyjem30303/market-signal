@@ -7,6 +7,7 @@ import { TrustRuntimeBoundaryNotice } from "@/components/trust-runtime-boundary-
 import { WeeklyRowCoverageStatus } from "@/components/weekly-row-coverage-status";
 import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
 import { getHomeRuntimeActionSummary } from "@/lib/home-runtime-action-summary";
+import { buildWeeklyMarketActionSummary } from "@/lib/weekly-market-action-summary";
 import {
   getMarketSignalRepository,
   getMarketSignalSourceStatus
@@ -40,6 +41,7 @@ export default async function WeeklyPage() {
   const leadingAiSemi = aiSemis[0];
   const cadence = buildWeeklyRuntimeCadence(market, breadth, topRisk, topEtf);
   const actionSummary = getHomeRuntimeActionSummary();
+  const marketActionSummary = buildWeeklyMarketActionSummary(market, topRisk, topEtf, breadth);
 
   return (
     <main className="page-shell">
@@ -71,6 +73,36 @@ export default async function WeeklyPage() {
         </TrackedLink>
       </nav>
       <TrustRuntimeBoundaryNotice context="weekly" />
+      <section className="weekly-market-action-summary" aria-label="週報市場行動摘要">
+        <div>
+          <p className="eyebrow">Market Action Summary</p>
+          <h2>{marketActionSummary.headline}</h2>
+          <p>{marketActionSummary.weeklyLine}</p>
+          <p>{marketActionSummary.stopLine}</p>
+        </div>
+        <TrackedLink
+          className={marketActionSummary.primary.tone}
+          eventName="weekly_link_clicked"
+          href={marketActionSummary.primary.href}
+          label={marketActionSummary.primary.title}
+          payload={{ area: "weekly_market_action_primary", symbol: marketActionSummary.primary.symbol }}
+        >
+          <span>{marketActionSummary.primary.label}</span>
+          <strong>{marketActionSummary.primary.title}</strong>
+          <p>{marketActionSummary.primary.body}</p>
+        </TrackedLink>
+        <TrackedLink
+          className={marketActionSummary.secondary.tone}
+          eventName="weekly_link_clicked"
+          href={marketActionSummary.secondary.href}
+          label={marketActionSummary.secondary.title}
+          payload={{ area: "weekly_market_action_secondary", symbol: marketActionSummary.secondary.symbol }}
+        >
+          <span>{marketActionSummary.secondary.label}</span>
+          <strong>{marketActionSummary.secondary.title}</strong>
+          <p>{marketActionSummary.secondary.body}</p>
+        </TrackedLink>
+      </section>
       <WeeklyRowCoverageStatus />
       <section className="weekly-runtime-action-summary" aria-label="Weekly CEO next runtime action summary">
         <div>

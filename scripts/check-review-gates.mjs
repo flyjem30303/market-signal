@@ -2843,6 +2843,11 @@ const checks = [
     name: "tracking-events"
   },
   {
+    command: [node, "scripts/check-weekly-market-action-summary.mjs"],
+    expectStatus: "ok",
+    name: "weekly-market-action-summary"
+  },
+  {
     command: [node, "scripts/check-weekly-row-coverage-status.mjs"],
     expectStatus: "ok",
     name: "weekly-row-coverage-status"
