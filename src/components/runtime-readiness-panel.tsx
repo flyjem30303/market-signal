@@ -7,6 +7,7 @@ import { getSupabaseReadonlyExecutionPreview } from "@/lib/supabase-readonly-exe
 import { getSupabaseReadonlyLocalPreflight } from "@/lib/supabase-readonly-local-preflight";
 import { buildFreshnessReadonlySmokeReport } from "@/lib/freshness-readonly-smoke-report";
 import { getFreshnessReadonlyLatestEvidenceSummary } from "@/lib/freshness-readonly-latest-evidence";
+import { getRuntimeGateDecisionBrief } from "@/lib/runtime-gate-decision-brief";
 
 export function RuntimeReadinessPanel() {
   const readiness = getRuntimeReadinessSummary();
@@ -18,6 +19,7 @@ export function RuntimeReadinessPanel() {
   const readonlySmokeReport = buildFreshnessReadonlySmokeReport();
   const freshnessLatestEvidence = getFreshnessReadonlyLatestEvidenceSummary();
   const readonlyEvidence = getSupabaseReadonlyEvidenceSummary();
+  const runtimeGateBrief = getRuntimeGateDecisionBrief();
 
   return (
     <section className={`runtime-readiness-panel ${readiness.status}`} aria-label="Runtime readiness">
@@ -84,6 +86,17 @@ export function RuntimeReadinessPanel() {
             {executionPreview.safety.automatedRemoteRun ? "enabled" : "disabled"}.
           </p>
           <p>Stop first: {executionPreview.stopConditions[0]}.</p>
+        </article>
+        <article className="readying runtime-gate-decision-brief" aria-label={`Runtime gate decision ${runtimeGateBrief.status}`}>
+          <span>Runtime gate decision</span>
+          <strong>{runtimeGateBrief.status}</strong>
+          <p>
+            Public {runtimeGateBrief.publicDataSource}; score {runtimeGateBrief.scoreSource}.{" "}
+            {runtimeGateBrief.requiredAuthorization}.
+          </p>
+          <p>{runtimeGateBrief.ceoRecommendation}</p>
+          <p>Blocked: {runtimeGateBrief.blockedNow.slice(0, 5).join(", ")}.</p>
+          <p>Post-run: {runtimeGateBrief.postRunReview.slice(0, 2).join("; ")}.</p>
         </article>
         <article
           aria-label={`Freshness runtime activation ${freshnessActivation.state}`}
