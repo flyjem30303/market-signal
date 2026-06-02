@@ -4,6 +4,16 @@ import { getFreshnessInterpretationSummary } from "@/lib/freshness-interpretatio
 import { getSupabaseReadonlyEvidenceSummary } from "@/lib/supabase-readonly-evidence";
 
 export type FreshnessRuntimeOperationDecisionSummary = {
+  attemptCandidate: {
+    headline: string;
+    items: Array<{
+      body: string;
+      label: string;
+      state: "ready" | "hold" | "blocked";
+      value: string;
+    }>;
+    stopLine: string;
+  };
   headline: string;
   decisions: Array<{
     body: string;
@@ -28,6 +38,33 @@ export function getFreshnessRuntimeOperationDecisionSummary(
     interpretation.dataQualityApproval === "not_approved";
 
   return {
+    attemptCandidate: {
+      headline: canPrepareReadonlyAttempt
+        ? "Readonly attempt candidate is locally discussable"
+        : "Readonly attempt candidate remains on hold",
+      items: [
+        {
+          body: readonlyEvidence.acceptedScope,
+          label: "Evidence basis",
+          state: canPrepareReadonlyAttempt ? "ready" : "hold",
+          value: readonlyEvidence.evidenceStatus
+        },
+        {
+          body: "A separate CEO-named action and confirmation token are still required before any remote command.",
+          label: "Execution trigger",
+          state: "hold",
+          value: "separate_ceo_named_action_required"
+        },
+        {
+          body: "A sanitized post-run review must be recorded before any readiness, public-state, or scoring change.",
+          label: "Post-run review",
+          state: "blocked",
+          value: "required_before_promotion"
+        }
+      ],
+      stopLine:
+        "This candidate card does not connect remotely, does not inspect rows, does not mutate data, and does not promote scoreSource=real."
+    },
     headline: "Runtime operation decision",
     decisions: [
       {

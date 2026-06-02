@@ -40,6 +40,21 @@ export function FreshnessEvidenceBoundary({ freshness }: FreshnessEvidenceBounda
         ))}
         <p className="freshness-operation-stop-line">{operationDecision.stopLine}</p>
       </div>
+      <div className="freshness-readonly-candidate-card" aria-label="Freshness readonly attempt candidate preflight">
+        <div>
+          <span>Readonly candidate</span>
+          <strong>{operationDecision.attemptCandidate.headline}</strong>
+          <p>Preflight summary only. It cannot execute remote reads or change runtime source mode.</p>
+        </div>
+        {operationDecision.attemptCandidate.items.map((item) => (
+          <article className={item.state} key={item.label}>
+            <span>{item.label}</span>
+            <strong>{item.value}</strong>
+            <p>{item.body}</p>
+          </article>
+        ))}
+        <p className="freshness-readonly-candidate-stop-line">{operationDecision.attemptCandidate.stopLine}</p>
+      </div>
     </section>
   );
 }
