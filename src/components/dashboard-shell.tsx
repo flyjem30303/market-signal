@@ -2460,7 +2460,7 @@ function TrendTab({
           {[
             ["health", "健康度"],
             ["risk", "風險度"],
-            ["composite", "綜合分"]
+            ["composite", "綜合分數"]
           ].map(([key, label]) => (
             <button
               className={chartMode === key ? "chart-mode active" : "chart-mode"}

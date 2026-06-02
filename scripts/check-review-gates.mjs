@@ -2723,6 +2723,11 @@ const checks = [
     name: "stock-first-screen-readability"
   },
   {
+    command: [node, "scripts/check-stock-trend-tab-readability.mjs"],
+    expectStatus: "ok",
+    name: "stock-trend-tab-readability"
+  },
+  {
     command: [node, "scripts/check-runtime-state-consistency.mjs"],
     expectStatus: "ok",
     name: "runtime-state-consistency"
