@@ -4,6 +4,7 @@ import { getRowCoverageSecondAttemptReadiness } from "@/lib/row-coverage-second-
 import { getRuntimeInterpretationSummary } from "@/lib/runtime-interpretation";
 import { getSourceDepthBlockerSummary } from "@/lib/source-depth-blockers";
 import { getPublicRuntimeBoundaryCopy } from "@/lib/public-runtime-boundary-copy";
+import { getRuntimeDeliveryCadence } from "@/lib/runtime-delivery-cadence";
 
 type HomeRuntimeStatusPanelProps = {
   selectedSymbol: string;
@@ -16,6 +17,7 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
   const runtimeInterpretation = getRuntimeInterpretationSummary();
   const sourceDepth = getSourceDepthBlockerSummary();
   const boundaryCopy = getPublicRuntimeBoundaryCopy("home");
+  const runtimeDeliveryCadence = getRuntimeDeliveryCadence();
 
   return (
     <section className="home-runtime-status-panel" aria-label="Runtime status">
@@ -23,10 +25,16 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
         <p className="eyebrow">Runtime Status</p>
         <h2>目前仍是 mock-only runtime</h2>
         <p>
-          公開頁面只展示 mock 訊號與本地 gate 狀態。Supabase readonly row coverage 已完成本地準備，
-          但尚未執行第二次遠端 attempt，也不能宣稱真實分數或切換 scoreSource=real。
+          {selectedSymbol} 目前可以瀏覽與比較 mock 訊號，但公開資料來源與分數來源仍維持 mock。
+          CEO 已把推進節奏調整為較大的 runtime product slice，先提升可讀性與本地 guard，再另外開啟遠端 gate；
+          scoreSource=real 仍未啟用。
         </p>
       </div>
+      <article className="active runtime-delivery-card">
+        <span>Delivery cadence</span>
+        <strong>{runtimeDeliveryCadence.nextExecutionRatio}</strong>
+        <p>{runtimeDeliveryCadence.targetSliceSize}</p>
+      </article>
       <article className="active runtime-boundary-copy-card">
         <span>Visible now</span>
         <strong>{boundaryCopy.headline}</strong>
@@ -64,13 +72,18 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
           {runtimeInterpretation.laneRatio.supabaseReadonlyPreparation}%. {runtimeInterpretation.blockers[0]}.
         </p>
       </article>
+      <article className="readying runtime-cutpoint-card">
+        <span>Mandatory cutpoints</span>
+        <strong>necessary gates remain</strong>
+        <p>{runtimeDeliveryCadence.mandatoryCutpoints.slice(0, 3).join("; ")}.</p>
+      </article>
       <article className="blocked">
         <span>Blocker readiness</span>
         <strong>{blockerReadiness.status}</strong>
         <p>Data / Legal / Investment checklists are local-ready. {runtimeInterpretation.stopLine}</p>
       </article>
       <nav>
-        <a href={`/stocks/${selectedSymbol}`}>查看目前標的</a>
+        <a href={`/stocks/${selectedSymbol}`}>查看個股頁</a>
         <a href="/briefing">查看 CEO/PM briefing</a>
       </nav>
     </section>

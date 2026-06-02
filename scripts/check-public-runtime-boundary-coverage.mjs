@@ -7,12 +7,24 @@ const surfaces = [
   {
     name: "home",
     files: ["src/components/dashboard-shell.tsx", "src/components/home-runtime-status-panel.tsx"],
-    required: ["HomeRuntimeStatusPanel", "getPublicRuntimeBoundaryCopy", "boundaryCopy.currentState"]
+    required: [
+      "HomeRuntimeStatusPanel",
+      "getPublicRuntimeBoundaryCopy",
+      "boundaryCopy.currentState",
+      "getRuntimeDeliveryCadence",
+      "runtime-delivery-card"
+    ]
   },
   {
     name: "stock",
     files: ["src/components/dashboard-shell.tsx", "src/components/stock-runtime-at-a-glance.tsx"],
-    required: ["StockRuntimeAtAGlance", "getPublicRuntimeBoundaryCopy", "boundaryCopy.blockedState"]
+    required: [
+      "StockRuntimeAtAGlance",
+      "getPublicRuntimeBoundaryCopy",
+      "boundaryCopy.blockedState",
+      "getRuntimeDeliveryCadence",
+      "runtime-cutpoint-card"
+    ]
   },
   {
     name: "briefing",

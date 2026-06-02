@@ -2155,11 +2155,28 @@ select {
   min-width: 0;
 }
 
+.runtime-delivery-card,
+.runtime-cutpoint-card {
+  min-width: 0;
+}
+
 .runtime-boundary-copy-card strong {
   font-size: 16px;
 }
 
+.runtime-delivery-card strong,
+.runtime-cutpoint-card strong {
+  font-size: 16px;
+}
+
 .runtime-boundary-copy-card p {
+  overflow-wrap: anywhere;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.runtime-delivery-card p,
+.runtime-cutpoint-card p {
   overflow-wrap: anywhere;
   font-size: 12px;
   line-height: 1.5;

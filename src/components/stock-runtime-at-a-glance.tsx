@@ -4,6 +4,7 @@ import { getRowCoverageSecondAttemptReadiness } from "@/lib/row-coverage-second-
 import { getRuntimeInterpretationSummary } from "@/lib/runtime-interpretation";
 import { getSourceDepthBlockerSummary } from "@/lib/source-depth-blockers";
 import { getPublicRuntimeBoundaryCopy } from "@/lib/public-runtime-boundary-copy";
+import { getRuntimeDeliveryCadence } from "@/lib/runtime-delivery-cadence";
 import type { SignalSnapshot } from "@/lib/signal-model";
 
 type StockRuntimeAtAGlanceProps = {
@@ -18,18 +19,23 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
   const runtimeInterpretation = getRuntimeInterpretationSummary();
   const sourceDepth = getSourceDepthBlockerSummary();
   const boundaryCopy = getPublicRuntimeBoundaryCopy("stock");
+  const runtimeDeliveryCadence = getRuntimeDeliveryCadence();
 
   return (
     <section className="stock-runtime-at-a-glance" aria-label="Stock runtime status">
       <div>
         <p className="eyebrow">Runtime At A Glance</p>
-        <h2>{snapshot.asset.symbol} 目前仍是 mock-only 狀態</h2>
+        <h2>{snapshot.asset.symbol} 仍是 mock-only runtime</h2>
         <p>
-          這個頁面的分數與訊號仍是展示用 mock。row coverage readonly gate 已本地就緒，但尚未執行第二次
-          Supabase readonly attempt；在 post-run review 之前，不能宣稱真實資料覆蓋，也不能切換 scoreSource=real。
-          scoreSource=real 仍未完成。
+          這個個股頁可以協助閱讀 mock 訊號與缺口，但尚未完成真實市場資料接軌。
+          在 post-run review 與必要 gate 通過前，不能宣稱真實資料覆蓋，也不能切換 scoreSource=real。
         </p>
       </div>
+      <article className="active runtime-delivery-card">
+        <span>Delivery cadence</span>
+        <strong>{runtimeDeliveryCadence.nextExecutionRatio}</strong>
+        <p>{runtimeDeliveryCadence.targetSliceSize}</p>
+      </article>
       <article className="active runtime-boundary-copy-card">
         <span>Score source</span>
         <strong>{scoreSourceLabel}</strong>
@@ -71,6 +77,11 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
           Runtime {runtimeInterpretation.laneRatio.mockRuntimeHardening}% / readonly prep{" "}
           {runtimeInterpretation.laneRatio.supabaseReadonlyPreparation}%. {runtimeInterpretation.blockers[0]}.
         </p>
+      </article>
+      <article className="readying compact-runtime-blocker runtime-cutpoint-card">
+        <span>Mandatory cutpoints</span>
+        <strong>necessary gates remain</strong>
+        <p>{runtimeDeliveryCadence.mandatoryCutpoints.slice(0, 3).join("; ")}.</p>
       </article>
       <article className="blocked compact-runtime-blocker">
         <span>Blocker readiness</span>
