@@ -1988,6 +1988,11 @@ const checks = [
     name: "model-credibility-local-review"
   },
   {
+    command: [node, "scripts/check-model-credibility-acceptance-gate.mjs"],
+    expectStatus: "ok",
+    name: "model-credibility-acceptance-gate"
+  },
+  {
     command: [node, "scripts/check-blocker-readiness-panel.mjs"],
     expectStatus: "ok",
     name: "blocker-readiness-panel"

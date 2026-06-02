@@ -98,6 +98,10 @@ const checks = [
     name: "model-credibility-local-review"
   },
   {
+    command: [node, "scripts/check-model-credibility-acceptance-gate.mjs"],
+    name: "model-credibility-acceptance-gate"
+  },
+  {
     command: [node, "scripts/check-blocker-readiness-panel.mjs"],
     name: "blocker-readiness-panel"
   },
