@@ -31,8 +31,9 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
         <p className="eyebrow">Runtime At A Glance</p>
         <h2>{snapshot.asset.symbol} 仍是 mock-only runtime</h2>
         <p>
-          這個個股頁可以協助閱讀 mock 訊號與缺口，但尚未完成真實市場資料接軌。
-          在 post-run review 與必要 gate 通過前，不能宣稱真實資料覆蓋，也不能切換 scoreSource=real。
+          這個頁面目前只顯示 mock interpretation、local readiness 與 blocked runtime gates。真實市場資料、
+          Supabase-backed public data、正式投資解讀與 scoreSource=real 都要等 post-run review 與後續 gate
+          通過後才能開啟；在此之前不能宣稱真實資料覆蓋。
         </p>
       </div>
       <article className="active runtime-delivery-card">
@@ -43,7 +44,7 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
       <article className="active runtime-boundary-copy-card">
         <span>Score source</span>
         <strong>{scoreSourceLabel}</strong>
-        <p>公開分數仍由 mock runtime 提供，尚未進入真實市場資料計分，scoreSource=real 仍未完成。</p>
+        <p>目前分數來源維持 mock runtime；尚未接入真實市場資料，也沒有啟用 scoreSource=real。</p>
       </article>
       <article className="active">
         <span>Visible now</span>

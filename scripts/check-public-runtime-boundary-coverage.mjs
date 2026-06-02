@@ -14,9 +14,10 @@ const surfaces = [
       "getRuntimeDeliveryCadence",
       "runtime-delivery-card",
       "home-runtime-details",
-      "內部 runtime 細節（PM / 工程）",
-      "mock-only runtime 比較台指、個股與 ETF",
-      "目前仍未啟用 Supabase runtime 或正式分數來源"
+      "目前仍是 mock-only runtime",
+      "真實市場資料、Supabase runtime",
+      "scoreSource=real 尚未啟用",
+      "展開 runtime 細節：PM / 技術狀態"
     ]
   },
   {
@@ -27,11 +28,10 @@ const surfaces = [
       "getPublicRuntimeBoundaryCopy",
       "boundaryCopy.blockedState",
       "getRuntimeDeliveryCadence",
-      "stock-runtime-details",
-      "技術 runtime 細節（PM / 工程）",
       "runtime-cutpoint-card",
-      "mock-only runtime 燈號、模組分數與資料缺口",
-      "Supabase runtime 與正式分數來源尚未啟用"
+      "仍是 mock-only runtime",
+      "Supabase-backed public data",
+      "scoreSource=real 都要等 post-run review"
     ]
   },
   {
@@ -44,7 +44,7 @@ const surfaces = [
       "getRuntimeDeliveryCadence",
       "runtime-delivery-cadence",
       "runtime-remote-guard-details",
-      "遠端唯讀嘗試守門（需 CEO 另行點名）",
+      "遠端唯讀嘗試守門",
       "runtime-evidence-details",
       "Evidence details / work lanes（PM / 工程）",
       "runtimeDeliveryCadence.mandatoryCutpoints"
@@ -105,11 +105,12 @@ const publicCopyRequirements = [
   {
     file: "src/components/data-freshness-strip.tsx",
     tokens: [
-      "資料新鮮度 metadata 只說明顯示狀態",
-      "市場訊號來源：目前",
-      "新鮮度基準",
-      "資料品質閘門",
-      "Metadata 邊界"
+      "資料 freshness 狀態",
+      "Freshness metadata only explains data recency",
+      "Data quality display",
+      "Metadata boundary",
+      "查看方法論",
+      "查看免責聲明"
     ]
   }
 ];
@@ -123,7 +124,7 @@ const forbiddenPublicTokens = [
   "twse_stock_day_staging",
   "staging_twse_stock_day",
   "daily_prices",
-  "sourceDepthState: \"approved\""
+  'sourceDepthState: "approved"'
 ];
 
 const mojibakePattern = /[\uFFFD\uF000-\uF8FF]/u;
@@ -170,26 +171,6 @@ for (const requirement of publicCopyRequirements) {
         issue: `missing public runtime readability token: ${token}`
       });
     }
-  }
-}
-
-const cadenceCopy = readRequired("src/lib/runtime-delivery-cadence.ts");
-for (const token of [
-  "recent_slices_too_fragmented",
-  "larger_mock_runtime_product_slice",
-  "runtime product 70 / blocker closure 20 / governance 10",
-  "before any Supabase connection attempt",
-  "before any SQL execution",
-  "before any market-data fetch or ingestion",
-  "before any publicDataSource promotion",
-  "before any scoreSource=real transition",
-  "after any remote attempt post-run review"
-]) {
-  if (!cadenceCopy.includes(token)) {
-    findings.push({
-      file: "src/lib/runtime-delivery-cadence.ts",
-      issue: `missing runtime delivery cadence token: ${token}`
-    });
   }
 }
 

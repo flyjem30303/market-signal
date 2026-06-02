@@ -11,15 +11,15 @@ type DataFreshnessStripProps = {
 };
 
 export function DataFreshnessStrip({ freshness, marketSignalSourceStatus }: DataFreshnessStripProps) {
-  const reachabilityLabel = freshness.isMock ? "目前使用模擬 metadata" : "Supabase metadata 已可讀";
+  const reachabilityLabel = freshness.isMock ? "目前使用 mock freshness metadata" : "Supabase metadata 已可讀";
   const dataQuality = getDataQualityDowngradeSummary(freshness);
   const interpretation = getFreshnessInterpretationSummary();
   const metadataBoundary = getFreshnessMetadataBoundarySummary(freshness);
-  const metadataDisplayLabel = metadataBoundary.canDisplayFreshnessMetadata ? "可顯示狀態" : "不可顯示狀態";
+  const metadataDisplayLabel = metadataBoundary.canDisplayFreshnessMetadata ? "可顯示 freshness metadata" : "不可顯示公開 freshness metadata";
 
   return (
-    <aside className={`freshness-strip ${freshness.state}`} aria-label="資料狀態">
-      <strong>{freshness.isMock ? "目前為模擬資料" : `資料狀態：${freshness.stateLabel}`}</strong>
+    <aside className={`freshness-strip ${freshness.state}`} aria-label="資料 freshness 狀態">
+      <strong>{freshness.isMock ? "目前為 mock freshness" : `資料 freshness：${freshness.stateLabel}`}</strong>
       <span className={freshness.isMock ? "freshness-runtime-source mock" : "freshness-runtime-source reachable"}>
         {reachabilityLabel}
       </span>
@@ -31,22 +31,26 @@ export function DataFreshnessStrip({ freshness, marketSignalSourceStatus }: Data
       <span className={`freshness-score-source ${freshness.scoreSource}`}>分數來源：{freshness.scoreSourceLabel}</span>
       {marketSignalSourceStatus && (
         <span className={`freshness-market-signal-source ${marketSignalSourceStatus.resolvedSource}`}>
-          市場訊號來源：目前 {marketSignalSourceStatus.resolvedSource}；要求來源 {marketSignalSourceStatus.requestedSource}；Supabase 讀取{" "}
-          {marketSignalSourceStatus.supabaseRuntimeReads}
+          市場訊號來源：目前 {marketSignalSourceStatus.resolvedSource}；要求來源 {marketSignalSourceStatus.requestedSource}
+          ；Supabase 讀取 {marketSignalSourceStatus.supabaseRuntimeReads}
         </span>
       )}
-      <span className="freshness-boundary">資料新鮮度 metadata 只說明顯示狀態，不等於真實評分或資料品質核准</span>
       <span className="freshness-boundary">
-        新鮮度基準：{interpretation.baselineObject}；data_freshness 角色：{" "}
+        新鮮度基準：資料新鮮度 metadata 只說明顯示狀態；Freshness metadata only explains data recency and does
+        not approve live scoring or real-data quality.
+      </span>
+      <span className="freshness-boundary">
+        Interpretation baseline: {interpretation.baselineObject}; data_freshness role:{" "}
         {interpretation.dataFreshnessObjectRole}
       </span>
       <span className="freshness-boundary">{interpretation.stopLine}</span>
       <span className="freshness-boundary">
-        資料品質閘門：{dataQuality.displayLabel}；降級狀態：{dataQuality.downgradeState}
+        資料品質閘門：Data quality display {dataQuality.displayLabel}; downgrade state:{" "}
+        {dataQuality.downgradeState}
       </span>
       <span className="freshness-boundary">{dataQuality.stopLine}</span>
       <span className={`freshness-boundary freshness-metadata-boundary ${metadataBoundary.state}`}>
-        Metadata 邊界：{metadataBoundary.state}；前台顯示：{metadataDisplayLabel}
+        Metadata boundary / Metadata 邊界：{metadataBoundary.state}; {metadataDisplayLabel}
       </span>
       <span className="freshness-boundary">{metadataBoundary.allowedPublicClaim}</span>
       <span className="freshness-boundary">{metadataBoundary.stopLine}</span>
@@ -56,19 +60,19 @@ export function DataFreshnessStrip({ freshness, marketSignalSourceStatus }: Data
         className="freshness-link"
         eventName="trust_link_clicked"
         href="/methodology"
-        label="看方法論"
+        label="查看方法論"
         payload={{ area: "data_freshness_strip" }}
       >
-        看方法論
+        查看方法論
       </TrackedLink>
       <TrackedLink
         className="freshness-link"
         eventName="trust_link_clicked"
         href="/disclaimer"
-        label="看免責聲明"
+        label="查看免責聲明"
         payload={{ area: "data_freshness_strip" }}
       >
-        看免責聲明
+        查看免責聲明
       </TrackedLink>
     </aside>
   );

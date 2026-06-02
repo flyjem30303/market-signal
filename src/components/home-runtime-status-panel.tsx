@@ -29,9 +29,9 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
         <p className="eyebrow">Runtime Status</p>
         <h2>目前仍是 mock-only runtime</h2>
         <p>
-          {selectedSymbol} 目前可以瀏覽與比較 mock 訊號，但公開資料來源與分數來源仍維持 mock。
-          CEO 已把推進節奏調整為較大的 runtime product slice，先提升可讀性與本地 guard，再另外開啟遠端 gate；
-          scoreSource=real 仍未啟用。
+          {selectedSymbol} 目前只呈現 mock 分數與本機 readiness 狀態；真實市場資料、Supabase runtime
+          讀取與 scoreSource=real 尚未啟用。CEO 目前把推進重心放在 runtime product slice、fail-closed
+          guard，以及下一個可控 gate。CEO 已把推進節奏調整為較大的 runtime product slice。
         </p>
       </div>
       <article className="active runtime-delivery-card">
@@ -69,12 +69,15 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
         </article>
       </div>
       <nav>
-        <a href={`/stocks/${selectedSymbol}`}>查看個股頁</a>
+        <a href={`/stocks/${selectedSymbol}`}>前往個股頁</a>
         <a href="/briefing">查看 CEO/PM briefing</a>
       </nav>
       <details className="home-runtime-details">
-        <summary>內部 runtime 細節（PM / 工程）</summary>
-        <p>首頁先保留公開可讀結論；readiness、row coverage、source depth 與必要切點仍在這裡供內部檢查。</p>
+        <summary>展開 runtime 細節：PM / 技術狀態</summary>
+        <p>
+          這裡集中顯示目前可公開呈現的 readiness、row coverage、source depth 與 CEO track；所有真實資料與
+          scoreSource=real 轉換仍維持 fail-closed。
+        </p>
         <div>
           <article className="readying">
             <span>Runtime readiness</span>
