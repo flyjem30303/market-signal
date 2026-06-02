@@ -145,6 +145,23 @@ export function RuntimeReadinessPanel() {
           <p>Still blocked: {executionPreview.blockedPromotions.slice(0, 3).join(", ")}.</p>
         </article>
       </div>
+      <div className="runtime-post-run-prep-card" aria-label="Post-run review preparation summary">
+        <article>
+          <span>Accepted result classes</span>
+          <strong>{executionPreview.postRunAcceptedOutcomeCategories.length} categories</strong>
+          <p>{executionPreview.postRunAcceptedOutcomeCategories.slice(0, 3).join(", ")}.</p>
+        </article>
+        <article className="blocked">
+          <span>Cannot promote after run</span>
+          <strong>{executionPreview.blockedPromotions.length} promotions blocked</strong>
+          <p>{executionPreview.blockedPromotions.join(", ")}.</p>
+        </article>
+        <article className="hold">
+          <span>Immediate next review</span>
+          <strong>post-run review first</strong>
+          <p>Record one sanitized attempt outcome, no secrets, no row payloads, then keep readiness promotion blocked.</p>
+        </article>
+      </div>
       <details className="runtime-remote-guard-details">
         <summary>遠端唯讀嘗試守門（需 CEO 另行點名）</summary>
         <p>這裡保留單次 readonly attempt 的命令預覽、停止條件與 post-run review；目前不會自動連線或執行 SQL。</p>
