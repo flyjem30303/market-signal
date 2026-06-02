@@ -10,6 +10,8 @@ Decision: `ACCEPT_OBJECT_REACHABILITY_AS_LATEST_SANITIZED_EVIDENCE`
 
 This record captures the sanitized result of one process-scoped Supabase read-only validator attempt run on 2026-06-02. It records only status categories and expected object names. It does not record secrets, key prefixes, key suffixes, key lengths, row payloads, row counts, raw validator output, or raw market data.
 
+This update records the CEO-approved Option A bounded readonly attempt from the current session. The validator returned sanitized `ok` status for the expected object reachability path, with all mutation, SQL, row payload, secret, public-claim, source-depth, and score-source promotion flags remaining `false`.
+
 ## Execution Summary
 
 - Execution count: one guarded read-only attempt.
