@@ -6,6 +6,7 @@ import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { NarrowApprovalOutcomePanel } from "@/components/narrow-approval-outcome-panel";
 import { PageViewTracker } from "@/components/page-view-tracker";
 import { ProjectProgressPanel } from "@/components/project-progress-panel";
+import { PublicRuntimeStateStrip } from "@/components/public-runtime-state-strip";
 import { RuntimeReadinessPanel } from "@/components/runtime-readiness-panel";
 import { SourceDepthBlockerPanel } from "@/components/source-depth-blocker-panel";
 import { TrackedLink } from "@/components/tracked-link";
@@ -85,6 +86,8 @@ export default async function BriefingPage() {
           延伸到本週週報
         </TrackedLink>
       </nav>
+
+      <PublicRuntimeStateStrip context="briefing" />
 
       <ProjectProgressPanel />
       <RuntimeReadinessPanel />

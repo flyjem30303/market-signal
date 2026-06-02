@@ -2718,6 +2718,11 @@ const checks = [
     name: "runtime-transition-rail"
   },
   {
+    command: [node, "scripts/check-public-runtime-state-strip.mjs"],
+    expectStatus: "ok",
+    name: "public-runtime-state-strip"
+  },
+  {
     command: [node, "scripts/check-runtime-mock-disclosure-readability.mjs"],
     expectStatus: "ok",
     name: "runtime-mock-disclosure-readability"

@@ -2,6 +2,7 @@ import { getRuntimeReadinessSummary } from "@/lib/runtime-readiness-score";
 import { getRuntimeInterpretationSummary } from "@/lib/runtime-interpretation";
 import { getSourceDepthBlockerSummary } from "@/lib/source-depth-blockers";
 import { getPublicRuntimeBoundaryCopy } from "@/lib/public-runtime-boundary-copy";
+import { PublicRuntimeStateStrip } from "@/components/public-runtime-state-strip";
 
 type TrustRuntimeBoundaryNoticeProps = {
   context: "disclaimer" | "methodology" | "weekly";
@@ -42,6 +43,7 @@ export function TrustRuntimeBoundaryNotice({ context }: TrustRuntimeBoundaryNoti
         <h2>{copy.title}</h2>
         <p>{copy.summary}</p>
       </div>
+      <PublicRuntimeStateStrip context={context === "weekly" ? "weekly" : "trust"} />
       <article className="active runtime-boundary-copy-card">
         <span>Visible now</span>
         <strong>{boundaryCopy.headline}</strong>

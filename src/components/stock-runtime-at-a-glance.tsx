@@ -12,6 +12,7 @@ import { getPostReadonlyRuntimeState } from "@/lib/post-readonly-runtime-state";
 import { getRuntimeProductSummary } from "@/lib/runtime-product-summary";
 import type { SignalSnapshot } from "@/lib/signal-model";
 import { RuntimeTransitionRail } from "@/components/runtime-transition-rail";
+import { PublicRuntimeStateStrip } from "@/components/public-runtime-state-strip";
 
 type StockRuntimeAtAGlanceProps = {
   scoreSourceLabel: string;
@@ -61,6 +62,7 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
         </article>
       </div>
       <RuntimeTransitionRail symbol={snapshot.asset.symbol} />
+      <PublicRuntimeStateStrip context="stock" />
       <article className="active runtime-boundary-copy-card">
         <span>Score source</span>
         <strong>{scoreSourceLabel}</strong>
