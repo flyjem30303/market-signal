@@ -1414,6 +1414,29 @@ select {
   text-transform: uppercase;
 }
 
+.runtime-section-label {
+  display: flex;
+  grid-column: 1 / -1;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-top: 1px solid rgba(40, 94, 203, 0.12);
+  padding-top: 4px;
+}
+
+.runtime-section-label strong {
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.runtime-section-label span {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.45;
+  text-align: right;
+}
+
 .runtime-readiness-lanes {
   display: grid;
   grid-column: 1 / -1;
@@ -8109,6 +8132,7 @@ input[type="date"] {
   .runtime-decision-snapshot,
   .runtime-single-attempt-card,
   .runtime-post-run-review-card,
+  .runtime-section-label,
   .runtime-readiness-command,
   .runtime-preflight-status,
   .runtime-readiness-lanes,

@@ -33,6 +33,10 @@ export function RuntimeReadinessPanel() {
         <b>{readiness.score}%</b>
         <small>bounded readiness</small>
       </div>
+      <RuntimeSectionLabel
+        title="Top decision"
+        text="Current public state, blocked actions, and CEO/PM next step."
+      />
       <div className="runtime-state-strip" aria-label="Runtime state summary">
         <article className="runtime-state-pill ready">
           <span>Public source</span>
@@ -70,6 +74,10 @@ export function RuntimeReadinessPanel() {
           <p>{runtimeGateBrief.requiredAuthorization}.</p>
         </article>
       </div>
+      <RuntimeSectionLabel
+        title="One-attempt guard"
+        text="Manual readonly attempt preview, stop rules, and required post-run review."
+      />
       <div className="runtime-single-attempt-card" aria-label="Single-attempt authorization command card">
         <article>
           <span>Single-attempt command card</span>
@@ -120,6 +128,10 @@ export function RuntimeReadinessPanel() {
           </ul>
         </article>
       </div>
+      <RuntimeSectionLabel
+        title="Evidence details"
+        text="Local preflight, readonly evidence, freshness status, and execution preview."
+      />
       <div className="runtime-readiness-command">
         <article>
           <span>Local preflight</span>
@@ -291,6 +303,10 @@ export function RuntimeReadinessPanel() {
           </article>
         ))}
       </div>
+      <RuntimeSectionLabel
+        title="Work lanes"
+        text="Owner-level runtime lanes and remaining local progress."
+      />
       <div className="runtime-readiness-lanes">
         {readiness.lanes.map((lane) => (
           <article className={lane.state} key={lane.label}>
@@ -305,5 +321,14 @@ export function RuntimeReadinessPanel() {
         ))}
       </div>
     </section>
+  );
+}
+
+function RuntimeSectionLabel({ text, title }: { text: string; title: string }) {
+  return (
+    <div className="runtime-section-label" aria-label={`Runtime section ${title}`}>
+      <strong>{title}</strong>
+      <span>{text}</span>
+    </div>
   );
 }

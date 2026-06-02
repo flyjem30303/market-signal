@@ -53,7 +53,12 @@ for (const phrase of [
   "executionPreview.postRunReviewTarget",
   "executionPreview.postRunAcceptedOutcomeCategories",
   "executionPreview.readinessPromotionBlocked",
-  "executionPreview.blockedPromotions"
+  "executionPreview.blockedPromotions",
+  "RuntimeSectionLabel",
+  "Top decision",
+  "One-attempt guard",
+  "Evidence details",
+  "Work lanes"
 ]) {
   if (!panel.includes(phrase)) missing.push(`${panelPath}: ${phrase}`);
 }
@@ -68,7 +73,8 @@ for (const phrase of [
   ".runtime-single-attempt-card",
   ".runtime-single-attempt-card article.blocked",
   ".runtime-post-run-review-card",
-  ".runtime-post-run-review-card article.blocked"
+  ".runtime-post-run-review-card article.blocked",
+  ".runtime-section-label"
 ]) {
   if (!css.includes(phrase)) missing.push(`src/app/globals.css: ${phrase}`);
 }
