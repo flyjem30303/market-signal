@@ -278,6 +278,7 @@
     "check:stock-page-readable-boundary-copy": "node scripts/check-stock-page-readable-boundary-copy.mjs",
     "check:stock-first-screen-readability": "node scripts/check-stock-first-screen-readability.mjs",
     "check:stock-trend-tab-readability": "node scripts/check-stock-trend-tab-readability.mjs",
+    "check:stock-core-tabs-readability": "node scripts/check-stock-core-tabs-readability.mjs",
     "check:trust-runtime-boundary-notice": "node scripts/check-trust-runtime-boundary-notice.mjs",
     "check:public-runtime-boundary-coverage": "node scripts/check-public-runtime-boundary-coverage.mjs",
     "check:cp3-5pm-runtime-readiness-checkpoint": "node scripts/check-cp3-5pm-runtime-readiness-checkpoint.mjs",

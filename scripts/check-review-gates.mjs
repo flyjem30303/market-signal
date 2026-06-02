@@ -2733,6 +2733,11 @@ const checks = [
     name: "stock-trend-tab-readability"
   },
   {
+    command: [node, "scripts/check-stock-core-tabs-readability.mjs"],
+    expectStatus: "ok",
+    name: "stock-core-tabs-readability"
+  },
+  {
     command: [node, "scripts/check-runtime-state-consistency.mjs"],
     expectStatus: "ok",
     name: "runtime-state-consistency"
