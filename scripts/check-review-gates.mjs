@@ -1618,6 +1618,11 @@ const checks = [
     name: "bounded-row-coverage-readonly-attempt-decision"
   },
   {
+    command: [node, "scripts/check-bounded-readonly-readiness-recheck.mjs"],
+    expectStatus: "ok",
+    name: "bounded-readonly-readiness-recheck"
+  },
+  {
     command: [node, "scripts/check-post-equity-row-coverage-readonly-attempt-decision-packet.mjs"],
     expectStatus: "ok",
     name: "post-equity-row-coverage-readonly-attempt-decision-packet"
