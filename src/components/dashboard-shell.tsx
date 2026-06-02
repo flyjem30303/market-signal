@@ -236,13 +236,13 @@ export function DashboardShell({
         <p className="eyebrow">Market Signal Dashboard</p>
         <h1>
           {includeSeoContent
-            ? `${selected.symbol} ${selected.name} 今日燈號：${snapshot.signal.title}`
-            : "多標的健康度與回檔風險燈號"}
+            ? `${selected.symbol} ${selected.name} 台股燈號：${snapshot.signal.title}`
+            : "台股與 ETF 指數燈號儀表板"}
         </h1>
         <p>
           {includeSeoContent
-            ? `追蹤 ${selected.symbol} 的 mock-only runtime 燈號、模組分數與資料缺口；Supabase runtime 與正式分數來源尚未啟用。`
-            : "先用 mock-only runtime 比較台指、個股與 ETF 的燈號、風險與資料缺口；目前仍未啟用 Supabase runtime 或正式分數來源。"}
+            ? `目前 ${selected.symbol} 使用 mock-only runtime 呈現訊號、風險與資料揭露；Supabase runtime 與 real score-source 仍需獨立審核。`
+            : "用 mock-only runtime 先閱讀台股、ETF 與市場指數的健康度、風險與資料缺口；Supabase runtime 與 real score-source 尚未啟用。"}
         </p>
       </section>
 
@@ -288,8 +288,8 @@ export function DashboardShell({
             />
           )}
           <details className="stock-runtime-details">
-            <summary>技術 runtime 細節（PM / 工程）</summary>
-            <p>公開頁面先顯示可讀摘要；這裡保留內部 runtime gate、停止線與 next gate 給 PM / Engineering 檢查。</p>
+            <summary>Runtime 狀態細節：PM / Engineering review</summary>
+            <p>這裡保留 runtime gate、狀態樣本與下一步工程檢查；第一屏則優先給使用者閱讀產品狀態。</p>
             <Cp3RuntimeStatePanel freshness={freshness} snapshot={snapshot} />
           </details>
           <StockEvidenceSnapshot snapshot={snapshot} />
@@ -309,7 +309,7 @@ export function DashboardShell({
           <StockRiskChecklist snapshot={snapshot} onTab={changeTab} />
           <StockNextStepGuide snapshot={snapshot} onTab={changeTab} />
           <details className="stock-governance-details">
-            <summary>治理、角色與授權細節</summary>
+            <summary>治理與審核細節</summary>
             <StockDecisionBoundary onTab={changeTab} />
             <StockReviewQueue snapshot={snapshot} onTab={changeTab} />
             <StockRoleResponsibilityMap onTab={changeTab} />
@@ -337,22 +337,22 @@ export function DashboardShell({
         </>
       )}
 
-      <nav className="tabs" aria-label="儀表板頁籤">
+      <nav className="tabs" aria-label="股票內容分頁">
         {(includeSeoContent
           ? [
-              ["today", "總覽"],
-              ["trend", "走勢"],
+              ["today", "今日"],
+              ["trend", "趨勢"],
               ["technical", "技術"],
-              ["volume", "成交量"],
-              ["fundamentals", "股利 / 基本"],
+              ["volume", "量能"],
+              ["fundamentals", "基本面 / 籌碼"],
               ["news", "新聞"],
-              ["backtest", "燈號模型"]
+              ["backtest", "回測"],
             ]
           : [
               ["today", "今日燈號"],
-              ["trend", "區間變化"],
-              ["news", "新聞信心"],
-              ["backtest", "回測驗證"]
+              ["trend", "市場趨勢"],
+              ["news", "新聞摘要"],
+              ["backtest", "回測摘要"]
             ]
         ).map(([key, label]) => (
           <button

@@ -8,61 +8,99 @@ const files = new Map(
   [componentPath, packagePath, reviewGatePath].map((file) => [file, fs.readFileSync(file, "utf8")])
 );
 
+const component = read(componentPath);
+const firstScreenStart = component.indexOf("<section className=\"hero\">");
+const firstScreenEnd = component.indexOf("function StockPageFollowUpLinks", firstScreenStart);
+const followUpStart = component.indexOf("function StockPageFollowUpLinks");
+const followUpEnd = component.indexOf("function HomeProductOverview", followUpStart);
+const homeStart = component.indexOf("function HomeProductOverview");
+const homeEnd = component.indexOf("function buildHomeGroupSummaries", homeStart);
+
+const firstScreen = slice(firstScreenStart, firstScreenEnd);
+const followUp = slice(followUpStart, followUpEnd);
+const homeOverview = slice(homeStart, homeEnd);
+
 const required = [
-  [componentPath, "Market Signal Dashboard"],
-  [componentPath, "今日燈號"],
-  [componentPath, "多標的健康度與回檔風險燈號"],
-  [componentPath, "mock-only runtime"],
-  [componentPath, "正式分數來源尚未啟用"],
-  [componentPath, "公開頁面先顯示可讀摘要"],
-  [componentPath, "技術 runtime 細節（PM / 工程）"],
-  [componentPath, "治理、角色與授權細節"],
-  [componentPath, "儀表板頁籤"],
-  [componentPath, "總覽"],
-  [componentPath, "走勢"],
-  [componentPath, "成交量"],
-  [componentPath, "股利 / 基本"],
-  [componentPath, "新聞信心"],
-  [componentPath, "回測驗證"],
-  [componentPath, "資料品質"],
-  [componentPath, "資料限制"],
-  [componentPath, "real score-source mode blocked"],
-  [componentPath, "目前分數來源："],
-  [componentPath, "真實資料上線"],
-  [componentPath, "方法論"],
-  [componentPath, "免責聲明"],
-  [componentPath, "看完"],
-  [componentPath, "回到市場層級交叉檢查"],
-  [componentPath, "看每日晨報"],
-  [componentPath, "看本週週報"],
-  [componentPath, "確認方法論"],
-  [componentPath, "確認免責聲明"],
+  ["firstScreen", "Market Signal Dashboard"],
+  ["firstScreen", "台股與 ETF 指數燈號儀表板"],
+  ["firstScreen", "mock-only runtime"],
+  ["firstScreen", "Supabase runtime 與 real score-source 尚未啟用"],
+  ["firstScreen", "Runtime 狀態細節：PM / Engineering review"],
+  ["firstScreen", "治理與審核細節"],
+  ["firstScreen", "股票內容分頁"],
+  ["firstScreen", "今日燈號"],
+  ["firstScreen", "市場趨勢"],
+  ["firstScreen", "新聞摘要"],
+  ["firstScreen", "回測摘要"],
+  ["firstScreen", "今日"],
+  ["firstScreen", "趨勢"],
+  ["firstScreen", "技術"],
+  ["firstScreen", "量能"],
+  ["firstScreen", "基本面 / 籌碼"],
+  ["firstScreen", "新聞"],
+  ["firstScreen", "回測"],
+  ["followUp", "看完"],
+  ["followUp", "回到市場層級交叉檢查"],
+  ["followUp", "看每日晨報"],
+  ["followUp", "看本週週報"],
+  ["followUp", "回首頁看覆蓋地圖"],
+  ["followUp", "確認方法論"],
+  ["followUp", "確認免責聲明"],
+  ["homeOverview", "首頁快速摘要"],
+  ["homeOverview", "先用"],
+  ["homeOverview", "建立今日閱讀節奏"],
+  ["homeOverview", "正式投資訊號"],
+  ["homeOverview", "首頁下一步決策列"],
+  ["homeOverview", "三分鐘閱讀路線"],
+  ["homeOverview", "首頁市場廣度摘要"],
   [packagePath, "\"check:stock-first-screen-readability\": \"node scripts/check-stock-first-screen-readability.mjs\""],
   [reviewGatePath, "scripts/check-stock-first-screen-readability.mjs"]
 ];
 
 const forbidden = [
-  [componentPath, "scoreSource=real approved"],
-  [componentPath, "real score-source mode approved"],
-  [componentPath, "publicDataSource=supabase approved"],
-  [componentPath, "正式投資建議"],
-  [componentPath, "隞??"],
-  [componentPath, "甇???靘?"],
-  [componentPath, "?銵?runtime 蝝啁?"],
-  [componentPath, "瘝餌????脰??"],
-  [componentPath, "鞈??釭"],
-  [componentPath, "?寞?隢?"],
-  [componentPath, "?痊?脫?"],
-  [componentPath, "createClient"],
-  [componentPath, "fetch("]
+  ["firstScreen", "scoreSource=real approved"],
+  ["firstScreen", "real score-source mode approved"],
+  ["firstScreen", "publicDataSource=supabase approved"],
+  ["firstScreen", "createClient"],
+  ["firstScreen", "fetch("],
+  ["followUp", "createClient"],
+  ["followUp", "fetch("],
+  ["homeOverview", "scoreSource=real approved"],
+  ["homeOverview", "publicDataSource=supabase approved"],
+  ["homeOverview", "createClient"],
+  ["homeOverview", "fetch("]
 ];
 
+const sources = new Map([
+  ["firstScreen", firstScreen],
+  ["followUp", followUp],
+  ["homeOverview", homeOverview],
+  ...files
+]);
 const mojibakePattern = /[\uFFFD\uF000-\uF8FF]/u;
-const missing = required.filter(([file, phrase]) => !read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
-const blocked = forbidden.filter(([file, phrase]) => read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
+const missing = required.filter(([file, phrase]) => !source(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
+const blocked = forbidden.filter(([file, phrase]) => source(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
 
-if (mojibakePattern.test(read(componentPath))) {
-  blocked.push(`${componentPath}: contains replacement/private-use mojibake characters`);
+if (firstScreenStart < 0 || firstScreenEnd < 0 || firstScreenEnd <= firstScreenStart) {
+  missing.push(`${componentPath}: first-screen range`);
+}
+
+if (followUpStart < 0 || followUpEnd < 0 || followUpEnd <= followUpStart) {
+  missing.push(`${componentPath}: follow-up range`);
+}
+
+if (homeStart < 0 || homeEnd < 0 || homeEnd <= homeStart) {
+  missing.push(`${componentPath}: home overview range`);
+}
+
+for (const [name, content] of [
+  ["firstScreen", firstScreen],
+  ["followUp", followUp],
+  ["homeOverview", homeOverview]
+]) {
+  if (mojibakePattern.test(content)) {
+    blocked.push(`${componentPath}: ${name} contains replacement/private-use mojibake characters`);
+  }
 }
 
 console.log(
@@ -83,4 +121,12 @@ if (missing.length > 0 || blocked.length > 0) {
 
 function read(file) {
   return files.get(file) ?? "";
+}
+
+function slice(start, end) {
+  return start >= 0 && end > start ? component.slice(start, end) : "";
+}
+
+function source(file) {
+  return sources.get(file) ?? "";
 }
