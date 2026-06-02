@@ -23,20 +23,20 @@ export function getRuntimeProductSummary(symbol: string): RuntimeProductSummary 
 
   return {
     nextGate: {
-      body: `已確認 ${postReadonly.objectsReachable} 個 Supabase 物件可讀，但還需要 schema、freshness 與 UI 狀態被正式接受，才可以談真實資料呈現。`,
+      body: `Readonly evidence has ${postReadonly.objectsReachable} Supabase objects reachable, but the next gate is still a bounded CEO-named review for schema shape, freshness, row coverage, and public wording.`,
       label: "Next gate",
-      title: "真實資料前先完成證據審核"
+      title: "Review readiness before runtime activation"
     },
     notLiveYet: {
       body:
-        "目前尚未啟用真實市場資料、Supabase 公開資料、publicDataSource=supabase 或 scoreSource=real。",
+        "Real market data, Supabase-backed public data, SQL scoring, publicDataSource=supabase, and scoreSource=real remain blocked until separate accepted gates.",
       label: "Not live yet",
-      title: "真實資料模式尚未開放"
+      title: "Real-data claims are not live"
     },
     useNow: {
-      body: `${symbol} 目前可作為 mock-only 燈號與產品流程驗證使用，不能視為投資證據或真實市場判讀。`,
+      body: `${symbol} can be used now for mock-only signal reading, risk sorting, and product-flow validation. It does not provide investment advice or real market-data evidence.`,
       label: "Use now",
-      title: "可檢視 mock 燈號與準備狀態"
+      title: "Use mock signals for reading only"
     }
   };
 }
