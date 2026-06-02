@@ -4,22 +4,22 @@ Date: 2026-06-02
 
 Status: `CP3 Supabase read-only latest sanitized run recorded`
 
-Decision: `ACCEPT_OBJECT_REACHABILITY_AS_LATEST_SANITIZED_EVIDENCE`
+Decision: `ACCEPT_BLOCKED_READ_ONLY_ATTEMPT_AS_LATEST_SANITIZED_EVIDENCE`
 
 ## Scope
 
 This record captures the sanitized result of one process-scoped Supabase read-only validator attempt run on 2026-06-02. It records only status categories and expected object names. It does not record secrets, key prefixes, key suffixes, key lengths, row payloads, row counts, raw validator output, or raw market data.
 
-This update records the CEO-approved Option A bounded readonly attempt from the current session. The validator returned sanitized `ok` status for the expected object reachability path, with all mutation, SQL, row payload, secret, public-claim, source-depth, and score-source promotion flags remaining `false`.
+This update records the CEO-approved bounded readonly attempt from the current session. The validator returned sanitized `blocked` status for the expected object reachability path, with all mutation, SQL, row payload, secret, public-claim, source-depth, and score-source promotion flags remaining `false`.
 
 ## Execution Summary
 
 - Execution count: one guarded read-only attempt.
 - Command path: `npm run db:readonly-validate` with process-scoped confirmation.
-- Exit code: `0`.
-- Validator status: `ok`.
-- Validator reason: `read_only_validation_ok`.
-- Connection status: `ok`.
+- Exit code: `1`.
+- Validator status: `blocked`.
+- Validator reason: `read_only_validation_blocked`.
+- Connection status: `blocked`.
 - Required environment variables: present, values not recorded.
 - Files written: `false`.
 - Mutations: `false`.
@@ -33,7 +33,7 @@ This update records the CEO-approved Option A bounded readonly attempt from the 
 
 ## Object Reachability Evidence
 
-The validator reported object reachability for:
+The validator reported blocked object reachability for:
 
 - `daily_prices`
 - `twse_stock_day_staging`
@@ -41,7 +41,7 @@ The validator reported object reachability for:
 - `model_runs`
 - `data_freshness`
 
-This is object-reachability evidence only. It is not evidence of schema sufficiency, row freshness, data completeness, data quality, model credibility, production source-depth readiness, public claim readiness, or `scoreSource=real` readiness.
+This is blocked object-reachability evidence only. It is not evidence of schema sufficiency, row freshness, data completeness, data quality, model credibility, production source-depth readiness, public claim readiness, or `scoreSource=real` readiness.
 
 ## Still Blocked
 
@@ -59,7 +59,7 @@ This is object-reachability evidence only. It is not evidence of schema sufficie
 
 ## CEO Synthesis
 
-Supabase object reachability is no longer unknown for the expected objects in the latest 2026-06-02 bounded attempt. The next high-value work should move to bounded schema-shape evidence, row-coverage acceptance, and runtime wiring that still keeps public data source as mock and keeps `scoreSource=real` blocked.
+Supabase object reachability is currently blocked for the expected objects in the latest 2026-06-02 bounded attempt. The next high-value work should shift from more governance to root-cause isolation: confirm whether the block is credential scope, table/RLS policy, object existence, project URL, or environment loading, while runtime wiring still keeps public data source as mock and keeps `scoreSource=real` blocked.
 
 ## Verification Expectations
 

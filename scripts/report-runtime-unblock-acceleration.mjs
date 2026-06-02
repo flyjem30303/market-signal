@@ -3,6 +3,7 @@ import { spawnSync } from "node:child_process";
 const ceoBrief = runText(["scripts/report-ceo-progress-brief.mjs"]);
 const postReview = runJson(["scripts/report-narrow-approval-post-review-gate.mjs"]);
 const readonlyPrep = runJson(["scripts/report-supabase-readonly-final-prep.mjs"]);
+const postReadonlyEvidence = runJson(["scripts/report-post-readonly-evidence-action-gate.mjs"]);
 
 const pendingOutcomes = postReview.outcomeSlots
   .filter((slot) => slot.outcome !== "accepted")
@@ -18,14 +19,14 @@ const pendingOutcomes = postReview.outcomeSlots
 
 const currentBlockers = [
   ...pendingOutcomes.map((slot) => `${slot.owner} outcome is ${slot.outcome}`),
-  "row-coverage-readonly is waiting for one explicit bounded remote approval",
+  "latest Supabase readonly attempt is blocked and needs root-cause isolation before another repeat attempt",
   "data-quality-evidence cannot be lifted until readonly row coverage evidence is accepted",
   "publicDataSource=supabase and scoreSource=real remain blocked until later gates"
 ];
 
 const accelerationPlan = {
   mode: "runtime_unblock_acceleration",
-  status: pendingOutcomes.length === 0 ? "ready_for_separate_readonly_decision" : "blocked_on_oral_outcomes",
+  status: pendingOutcomes.length === 0 ? "ready_for_root_cause_isolation" : "blocked_on_oral_outcomes",
   safety: {
     automatedRemoteRun: false,
     connectionAttempted: false,
@@ -70,17 +71,17 @@ const accelerationPlan = {
     {
       step: 4,
       owner: "CEO",
-      action: "If final prep remains ready, request exactly one bounded Supabase readonly attempt and immediately run post-run review.",
-      command: readonlyPrep?.decision?.nextRemoteCommand ?? "blocked_until_final_prep_is_ready",
-      canRunNow: pendingOutcomes.length === 0 && readonlyPrep?.decision?.status === "ready_for_ceo_oral_review",
+      action: "Classify the latest blocked readonly attempt before approving another remote attempt.",
+      command: "npm run check:cp3-supabase-readonly-latest-sanitized-run && npm run report:post-readonly-evidence-action-gate",
+      canRunNow: pendingOutcomes.length === 0 && postReadonlyEvidence?.status === "ready_for_acceptance_review",
       stillDoesNotAuthorize: ["Supabase writes", "market data ingestion", "public source promotion", "real scoring"]
     }
   ],
-  recommendedWorkMix: pendingOutcomes.length > 0 ? "blocker execution 70 / runtime hardening 20 / readonly readiness 10" : "readonly readiness 55 / runtime hardening 35 / blocker execution 10",
+  recommendedWorkMix: pendingOutcomes.length > 0 ? "blocker execution 70 / runtime hardening 20 / readonly readiness 10" : "root-cause isolation 60 / runtime hardening 30 / governance 10",
   ceoRecommendation:
     pendingOutcomes.length > 0
       ? "Stop expanding governance. The fastest safe move is to record the two real oral outcomes, then reopen the bounded readonly decision."
-      : "Move to one bounded Supabase readonly decision packet; keep public runtime mock and real scoring blocked."
+      : "Stop repeating generic readonly attempts. Classify the blocked Supabase read path first, keep public runtime mock and real scoring blocked, and continue runtime hardening in parallel."
 };
 
 console.log(JSON.stringify(accelerationPlan, null, 2));

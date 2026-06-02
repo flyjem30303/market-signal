@@ -28,7 +28,7 @@ if (output) {
   if (output.mode !== "runtime_unblock_acceleration") {
     blocked.push(`output.mode: ${String(output.mode)}`);
   }
-  if (!["blocked_on_oral_outcomes", "ready_for_separate_readonly_decision"].includes(output.status)) {
+  if (!["blocked_on_oral_outcomes", "ready_for_separate_readonly_decision", "ready_for_root_cause_isolation"].includes(output.status)) {
     blocked.push(`output.status: ${String(output.status)}`);
   }
 
@@ -65,6 +65,10 @@ if (output) {
 
   for (const phrase of ["scoreSource=real", "Supabase writes", "market data ingestion"]) {
     if (!JSON.stringify(output).includes(phrase)) missing.push(`output boundary: ${phrase}`);
+  }
+
+  for (const phrase of ["root-cause isolation", "latest Supabase readonly attempt is blocked", "Stop repeating generic readonly attempts"]) {
+    if (!JSON.stringify(output).includes(phrase)) missing.push(`output acceleration: ${phrase}`);
   }
 }
 

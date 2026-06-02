@@ -6,7 +6,7 @@ const checks = [
     id: "supabase-object-reachability",
     command: ["scripts/check-cp3-supabase-read-only-latest-sanitized-run.mjs"],
     evidence: "docs/reviews/CP3_SUPABASE_READ_ONLY_LATEST_SANITIZED_RUN_2026-06-02.md",
-    acceptedScope: "object reachability only"
+    acceptedScope: "latest blocked object-reachability evidence only"
   },
   {
     id: "supabase-schema-shape",
@@ -67,8 +67,8 @@ const report = {
   missingEvidence,
   decision: {
     ceoRecommendation:
-      "accept object reachability and schema-shape evidence as narrow prerequisites, keep row coverage as local-ready remote-paused, and move next work to row-coverage evidence acceptance without public source promotion",
-    pmNextStep: "prepare row coverage evidence acceptance or a separately authorized bounded readonly row-coverage attempt",
+      "accept the latest blocked object-reachability attempt as sanitized evidence, stop repeating generic readonly attempts, and move next work to root-cause isolation without public source promotion",
+    pmNextStep: "classify the blocked readonly result by credential scope, table/RLS policy, object existence, project URL, or environment loading before requesting another remote attempt",
     cannotPromote: [
       "publicDataSource=supabase",
       "scoreSource=real",
@@ -79,8 +79,8 @@ const report = {
   blockers: [
     {
       id: "row-coverage-readonly",
-      status: "local_ready_remote_paused",
-      action: "needs separate execution gate before any remote row coverage attempt"
+      status: "remote_blocked_latest_attempt",
+      action: "needs root-cause isolation before any repeat remote row coverage attempt"
     },
     {
       id: "data-quality-evidence",

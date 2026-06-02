@@ -51,9 +51,9 @@ if (output) {
 
   const serialized = JSON.stringify(output);
   for (const phrase of [
-    "object reachability only",
+    "latest blocked object-reachability evidence only",
     "schema shape only",
-    "remote execution still paused",
+    "root-cause isolation",
     "publicDataSource=supabase",
     "scoreSource=real",
     "row-coverage-readonly",

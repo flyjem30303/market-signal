@@ -49,6 +49,14 @@ for (const validator of remoteValidators) {
   requireToken(validator.file, source, "persistSession: false");
   requireToken(validator.file, source, "head: true");
 
+  if (validator.file === "scripts/validate-supabase-readonly.mjs") {
+    requireToken(validator.file, source, "errorCategory");
+    requireToken(validator.file, source, "errorCode");
+    requireToken(validator.file, source, "object_missing_or_schema_cache");
+    requireToken(validator.file, source, "access_policy_or_credential_scope");
+    requireToken(validator.file, source, "project_url_or_network");
+  }
+
   if (!(confirmationIndex >= 0 && missingEnvIndex >= 0 && supabaseImportIndex > confirmationIndex && supabaseImportIndex > missingEnvIndex)) {
     findings.push({
       file: validator.file,
@@ -82,6 +90,10 @@ for (const validator of remoteValidators) {
     if (secretPattern.test(source)) {
       findings.push({ file: validator.file, issue: `possible secret output: ${secretPattern}` });
     }
+  }
+
+  if (validator.file === "scripts/validate-supabase-readonly.mjs" && /message\s*:|details\s*:|hint\s*:/.test(source)) {
+    findings.push({ file: validator.file, issue: "readonly validator must not print raw error message, details, or hint" });
   }
 
   if (reviewGate.includes(validator.file)) {

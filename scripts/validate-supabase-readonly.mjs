@@ -67,6 +67,8 @@ async function countObject(supabase, name) {
   if (error) {
     return {
       countStatus: "blocked",
+      errorCategory: categorizeError(error),
+      errorCode: typeof error.code === "string" ? error.code : "unknown",
       name,
       reachable: "blocked"
     };
@@ -77,6 +79,17 @@ async function countObject(supabase, name) {
     name,
     reachable: "ok"
   };
+}
+
+function categorizeError(error) {
+  const code = typeof error.code === "string" ? error.code : "";
+
+  if (code === "42P01" || code === "PGRST205") return "object_missing_or_schema_cache";
+  if (code === "42501" || code === "PGRST301" || code === "PGRST302") return "access_policy_or_credential_scope";
+  if (code === "08006" || code === "PGRST000") return "project_url_or_network";
+  if (code === "") return "unknown";
+
+  return "other_sanitized_error_code";
 }
 
 function block(reason) {
