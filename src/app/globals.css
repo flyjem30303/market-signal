@@ -2346,6 +2346,28 @@ select {
   border-color: #c7d7ef;
 }
 
+.cp3-runtime-executive-summary {
+  background: #fff;
+  border: 1px solid #cfddec;
+  border-left: 4px solid #2f6fed;
+  border-radius: 8px;
+  display: grid;
+  gap: 7px;
+  grid-column: 1 / -1;
+  padding: 12px 14px;
+}
+
+.cp3-runtime-executive-summary strong {
+  color: var(--text);
+  font-size: 15px;
+}
+
+.cp3-runtime-executive-summary span {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
 .cp3-runtime-state-panel h2 {
   font-size: 18px;
   margin: 4px 0 8px;

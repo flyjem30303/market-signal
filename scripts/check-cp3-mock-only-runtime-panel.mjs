@@ -15,6 +15,10 @@ const requiredComponentPhrases = [
   "Cp3RuntimeStatePanel",
   "buildMockOnlyRuntimeState",
   "Runtime Boundary",
+  "CEO runtime 摘要",
+  "目前模式：本地 mock-only，可做 runtime UI 與靜態 guard。",
+  "下一步：先強化 fail-closed 顯示，再另開 Supabase readonly gate。",
+  "禁止事項：不執行 SQL、不寫入 Supabase、不匯入市場原始資料、不啟用 scoreSource=real。",
   "CEO / PM command center",
   "CEO runtime 結論",
   "資料狀態與 guard 明細",
@@ -63,6 +67,7 @@ const requiredDashboardPhrases = [
 
 const requiredCssPhrases = [
   ".cp3-runtime-state-panel",
+  ".cp3-runtime-executive-summary",
   ".cp3-runtime-state-grid",
   ".cp3-runtime-state-disclosure",
   ".cp3-runtime-command-center",

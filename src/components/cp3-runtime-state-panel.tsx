@@ -85,6 +85,13 @@ export function Cp3RuntimeStatePanel({ freshness, snapshot }: Cp3RuntimeStatePan
 
   return (
     <section className={`cp3-runtime-state-panel ${displayState}`} aria-label="CP3 Runtime State">
+      <div className="cp3-runtime-executive-summary" aria-label="CEO runtime executive summary">
+        <strong>CEO runtime 摘要</strong>
+        <span>目前模式：本地 mock-only，可做 runtime UI 與靜態 guard。</span>
+        <span>下一步：先強化 fail-closed 顯示，再另開 Supabase readonly gate。</span>
+        <span>禁止事項：不執行 SQL、不寫入 Supabase、不匯入市場原始資料、不啟用 scoreSource=real。</span>
+      </div>
+
       <div>
         <p className="eyebrow">Runtime Boundary</p>
         <h2>{copy.label}</h2>
