@@ -7,6 +7,7 @@ import { getPublicRuntimeBoundaryCopy } from "@/lib/public-runtime-boundary-copy
 import { getRuntimeDeliveryCadence } from "@/lib/runtime-delivery-cadence";
 import { getHomeRuntimeActionSummary } from "@/lib/home-runtime-action-summary";
 import { getRuntimeStateConsistencySummary } from "@/lib/runtime-state-consistency";
+import { getRuntimeFailClosedSummary } from "@/lib/runtime-fail-closed";
 import type { SignalSnapshot } from "@/lib/signal-model";
 
 type StockRuntimeAtAGlanceProps = {
@@ -24,16 +25,16 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
   const runtimeDeliveryCadence = getRuntimeDeliveryCadence();
   const actionSummary = getHomeRuntimeActionSummary();
   const runtimeStateConsistency = getRuntimeStateConsistencySummary();
+  const failClosed = getRuntimeFailClosedSummary();
 
   return (
     <section className="stock-runtime-at-a-glance" aria-label="Stock runtime status">
       <div>
         <p className="eyebrow">Runtime At A Glance</p>
-        <h2>{snapshot.asset.symbol} 仍是 mock-only runtime</h2>
+        <h2>{snapshot.asset.symbol} is mock-only runtime</h2>
         <p>
-          這個頁面目前只顯示 mock interpretation、local readiness 與 blocked runtime gates。真實市場資料、
-          Supabase-backed public data、正式投資解讀與 scoreSource=real 都要等 post-run review 與後續 gate
-          通過後才能開啟；在此之前不能宣稱真實資料覆蓋。
+          This page can show mock interpretation, local readiness, and blocked runtime gates only. Real market data,
+          Supabase-backed public data, and scoreSource=real require a separate accepted gate and post-run review.
         </p>
       </div>
       <article className="active runtime-delivery-card">
@@ -44,7 +45,7 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
       <article className="active runtime-boundary-copy-card">
         <span>Score source</span>
         <strong>{scoreSourceLabel}</strong>
-        <p>目前分數來源維持 mock runtime；尚未接入真實市場資料，也沒有啟用 scoreSource=real。</p>
+        <p>Current score source remains mock runtime; scoreSource=real is not enabled.</p>
       </article>
       <article className="active">
         <span>Visible now</span>
@@ -57,6 +58,12 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
         <strong>real data blocked</strong>
         <p>{boundaryCopy.blockedState}</p>
         <p>{boundaryCopy.stopLine}</p>
+      </article>
+      <article className="blocked runtime-fail-closed-card">
+        <span>Fail-closed guard</span>
+        <strong>{failClosed.failClosedState}</strong>
+        <p>{failClosed.statusLine}</p>
+        <p>{failClosed.blockedActions.slice(0, 4).join(", ")}.</p>
       </article>
       <article className="blocked">
         <span>Source depth</span>

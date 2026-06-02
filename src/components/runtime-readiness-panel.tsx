@@ -10,6 +10,7 @@ import { getFreshnessReadonlyLatestEvidenceSummary } from "@/lib/freshness-reado
 import { getRuntimeGateDecisionBrief } from "@/lib/runtime-gate-decision-brief";
 import { getRuntimeDeliveryCadence } from "@/lib/runtime-delivery-cadence";
 import { getRuntimeStateConsistencySummary } from "@/lib/runtime-state-consistency";
+import { getRuntimeFailClosedSummary } from "@/lib/runtime-fail-closed";
 
 export function RuntimeReadinessPanel() {
   const readiness = getRuntimeReadinessSummary();
@@ -24,6 +25,7 @@ export function RuntimeReadinessPanel() {
   const runtimeGateBrief = getRuntimeGateDecisionBrief();
   const runtimeDeliveryCadence = getRuntimeDeliveryCadence();
   const runtimeStateConsistency = getRuntimeStateConsistencySummary();
+  const failClosed = getRuntimeFailClosedSummary();
   const readonlyFinalPrepReady =
     preflight.status === "ready_for_guarded_readonly_decision" &&
     decision.status === "ready_for_ceo_decision" &&
@@ -99,6 +101,11 @@ export function RuntimeReadinessPanel() {
           <span>State consistency</span>
           <strong>{runtimeStateConsistency.consistencyState}</strong>
           <p>{runtimeStateConsistency.statusLine}</p>
+        </article>
+        <article className="runtime-state-pill hold runtime-fail-closed-card">
+          <span>Fail-closed guard</span>
+          <strong>{failClosed.failClosedState}</strong>
+          <p>{failClosed.stopLine}</p>
         </article>
       </div>
       <div className="runtime-decision-snapshot" aria-label="Runtime decision snapshot">

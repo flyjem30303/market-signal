@@ -4,12 +4,13 @@ const componentPath = "src/components/stock-runtime-at-a-glance.tsx";
 const dashboardPath = "src/components/dashboard-shell.tsx";
 const actionSummaryPath = "src/lib/home-runtime-action-summary.ts";
 const consistencyPath = "src/lib/runtime-state-consistency.ts";
+const failClosedPath = "src/lib/runtime-fail-closed.ts";
 const cssPath = "src/app/globals.css";
 const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 
 const files = new Map(
-  [componentPath, dashboardPath, actionSummaryPath, consistencyPath, cssPath, packagePath, reviewGatePath].map((file) => [
+  [componentPath, dashboardPath, actionSummaryPath, consistencyPath, failClosedPath, cssPath, packagePath, reviewGatePath].map((file) => [
     file,
     fs.readFileSync(file, "utf8")
   ])
@@ -26,6 +27,7 @@ const required = [
   [componentPath, "getRuntimeDeliveryCadence"],
   [componentPath, "getHomeRuntimeActionSummary"],
   [componentPath, "getRuntimeStateConsistencySummary"],
+  [componentPath, "getRuntimeFailClosedSummary"],
   [componentPath, "stock-runtime-action-strip"],
   [componentPath, "Stock CEO next runtime action summary"],
   [componentPath, "actionSummary.currentProgressPercent"],
@@ -40,12 +42,15 @@ const required = [
   [componentPath, "runtimeStateConsistency.consistencyState"],
   [componentPath, "runtimeStateConsistency.statusLine"],
   [componentPath, "runtime-consistency-card"],
+  [componentPath, "failClosed.failClosedState"],
+  [componentPath, "failClosed.blockedActions"],
+  [componentPath, "runtime-fail-closed-card"],
   [componentPath, "boundaryCopy.currentState"],
   [componentPath, "boundaryCopy.blockedState"],
-  [componentPath, "mock-only"],
-  [componentPath, "仍是 mock-only runtime"],
-  [componentPath, "不能宣稱真實資料覆蓋"],
-  [componentPath, "scoreSource=real"],
+  [componentPath, "is mock-only runtime"],
+  [componentPath, "Supabase-backed public data"],
+  [componentPath, "scoreSource=real require a separate accepted gate"],
+  [componentPath, "scoreSource=real is not enabled"],
   [componentPath, "Row coverage"],
   [componentPath, "sourceDepth.sourceDepthState"],
   [componentPath, "sourceDepth.stopLine"],
@@ -65,11 +70,15 @@ const required = [
   [consistencyPath, "RuntimeStateConsistencySummary"],
   [consistencyPath, "getRuntimeStateConsistencySummary"],
   [consistencyPath, "consistencyState: \"mock_consistent\""],
+  [failClosedPath, "RuntimeFailClosedSummary"],
+  [failClosedPath, "getRuntimeFailClosedSummary"],
+  [failClosedPath, "failClosedState: \"active\""],
   [dashboardPath, "import { StockRuntimeAtAGlance }"],
   [dashboardPath, "<StockRuntimeAtAGlance scoreSourceLabel={freshness.scoreSourceLabel} snapshot={snapshot} />"],
   [cssPath, ".stock-runtime-at-a-glance"],
   [cssPath, "repeat(auto-fit, minmax(150px"],
   [cssPath, ".runtime-boundary-copy-card"],
+  [cssPath, ".runtime-fail-closed-card"],
   [cssPath, ".compact-runtime-blocker"],
   [cssPath, ".stock-runtime-at-a-glance article.active"],
   [cssPath, ".stock-runtime-at-a-glance article.blocked"],
@@ -101,6 +110,14 @@ const forbidden = [
   [consistencyPath, "node:fs"],
   [consistencyPath, "from \"fs\""],
   [consistencyPath, "scoreSource: \"real\""],
+  [failClosedPath, "@supabase/supabase-js"],
+  [failClosedPath, "createClient"],
+  [failClosedPath, "fetch("],
+  [failClosedPath, "process.env"],
+  [failClosedPath, "node:fs"],
+  [failClosedPath, "from \"fs\""],
+  [failClosedPath, "scoreSource: \"real\""],
+  [failClosedPath, "publicDataSource: \"supabase\""],
   [dashboardPath, "scoreSource=\"real\""]
 ];
 

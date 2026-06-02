@@ -2718,6 +2718,11 @@ const checks = [
     name: "runtime-state-consistency"
   },
   {
+    command: [node, "scripts/check-runtime-fail-closed.mjs"],
+    expectStatus: "ok",
+    name: "runtime-fail-closed"
+  },
+  {
     command: [node, "scripts/check-trust-runtime-boundary-notice.mjs"],
     expectStatus: "ok",
     name: "trust-runtime-boundary-notice"

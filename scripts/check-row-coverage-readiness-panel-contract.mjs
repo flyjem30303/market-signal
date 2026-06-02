@@ -48,7 +48,7 @@ const required = [
   [readinessPath, "no scoreSource=real"],
   [readinessPath, "publicDataSource: \"mock\""],
   [readinessPath, "scoreSource: \"mock\""],
-  [readinessPath, "不跑 SQL、不寫 Supabase"],
+  [readinessPath, "Do not run SQL, write Supabase"],
   [packagePath, "\"check:row-coverage-readiness-panel-contract\": \"node scripts/check-row-coverage-readiness-panel-contract.mjs\""],
   [reviewGatePath, "scripts/check-row-coverage-readiness-panel-contract.mjs"]
 ];

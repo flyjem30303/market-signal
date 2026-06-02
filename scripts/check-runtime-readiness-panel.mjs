@@ -9,12 +9,13 @@ const readonlySmokePath = "src/lib/freshness-readonly-smoke-report.ts";
 const freshnessLatestEvidencePath = "src/lib/freshness-readonly-latest-evidence.ts";
 const preflightPath = "src/lib/supabase-readonly-local-preflight.ts";
 const consistencyPath = "src/lib/runtime-state-consistency.ts";
+const failClosedPath = "src/lib/runtime-fail-closed.ts";
 const componentPath = "src/components/runtime-readiness-panel.tsx";
 const briefingPath = "src/app/briefing/page.tsx";
 const cssPath = "src/app/globals.css";
 
 const files = new Map(
-  [summaryPath, activationPath, decisionPath, executionPreviewPath, evidencePath, readonlySmokePath, freshnessLatestEvidencePath, preflightPath, consistencyPath, componentPath, briefingPath, cssPath].map(
+  [summaryPath, activationPath, decisionPath, executionPreviewPath, evidencePath, readonlySmokePath, freshnessLatestEvidencePath, preflightPath, consistencyPath, failClosedPath, componentPath, briefingPath, cssPath].map(
     (file) => [file, fs.readFileSync(file, "utf8")]
   )
 );
@@ -68,6 +69,11 @@ const required = [
   [consistencyPath, "consistencyState: \"mock_consistent\""],
   [consistencyPath, "publicDataSource: \"mock\""],
   [consistencyPath, "scoreSource: \"mock\""],
+  [failClosedPath, "RuntimeFailClosedSummary"],
+  [failClosedPath, "getRuntimeFailClosedSummary"],
+  [failClosedPath, "failClosedState: \"active\""],
+  [failClosedPath, "publicDataSource: \"mock\""],
+  [failClosedPath, "scoreSource: \"mock\""],
   [decisionPath, "getSupabaseReadonlyDecision"],
   [decisionPath, "scoreSourceRealEnabled: false"],
   [decisionPath, "connectionAttempted: false"],
@@ -109,14 +115,18 @@ const required = [
   [componentPath, "runtimeStateConsistency.consistencyState"],
   [componentPath, "runtimeStateConsistency.statusLine"],
   [componentPath, "runtime-consistency-card"],
+  [componentPath, "getRuntimeFailClosedSummary"],
+  [componentPath, "failClosed.failClosedState"],
+  [componentPath, "runtime-fail-closed-card"],
   [briefingPath, "import { RuntimeReadinessPanel }"],
   [briefingPath, "<RuntimeReadinessPanel />"],
   [cssPath, ".runtime-readiness-panel"],
   [cssPath, ".runtime-readiness-command"],
   [cssPath, ".runtime-final-prep-card"],
   [cssPath, ".runtime-post-run-prep-card"],
-  [cssPath, "grid-template-columns: repeat(4, minmax(0, 1fr))"],
+  [cssPath, "grid-template-columns: repeat(5, minmax(0, 1fr))"],
   [cssPath, ".runtime-state-pill p"],
+  [cssPath, ".runtime-fail-closed-card"],
   [cssPath, ".runtime-preflight-status"],
   [cssPath, ".runtime-readiness-lanes"],
   [cssPath, ".runtime-readiness-score"]
@@ -178,6 +188,17 @@ const forbidden = [
   [consistencyPath, "node:fs"],
   [consistencyPath, "scoreSource: \"real\""],
   [consistencyPath, "publicDataSource: \"supabase\""],
+  [failClosedPath, "@supabase/supabase-js"],
+  [failClosedPath, "createClient"],
+  [failClosedPath, "fetch("],
+  [failClosedPath, ".from("],
+  [failClosedPath, ".insert("],
+  [failClosedPath, ".update("],
+  [failClosedPath, ".delete("],
+  [failClosedPath, "process.env"],
+  [failClosedPath, "node:fs"],
+  [failClosedPath, "scoreSource: \"real\""],
+  [failClosedPath, "publicDataSource: \"supabase\""],
   [decisionPath, "@supabase/supabase-js"],
   [decisionPath, "createClient"],
   [decisionPath, "fetch("],

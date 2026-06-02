@@ -14,10 +14,11 @@ const surfaces = [
       "getRuntimeDeliveryCadence",
       "runtime-delivery-card",
       "home-runtime-details",
-      "目前仍是 mock-only runtime",
-      "真實市場資料、Supabase runtime",
-      "scoreSource=real 尚未啟用",
-      "展開 runtime 細節：PM / 技術狀態"
+      "Mock-only runtime is active",
+      "shared fail-closed guard",
+      "scoreSource=real are blocked",
+      "Runtime details: PM / technical state",
+      "runtime-fail-closed-card"
     ]
   },
   {
@@ -29,9 +30,10 @@ const surfaces = [
       "boundaryCopy.blockedState",
       "getRuntimeDeliveryCadence",
       "runtime-cutpoint-card",
-      "仍是 mock-only runtime",
+      "is mock-only runtime",
       "Supabase-backed public data",
-      "scoreSource=real 都要等 post-run review"
+      "scoreSource=real require a separate accepted gate",
+      "runtime-fail-closed-card"
     ]
   },
   {
@@ -47,7 +49,8 @@ const surfaces = [
       "遠端唯讀嘗試守門",
       "runtime-evidence-details",
       "Evidence details / work lanes（PM / 工程）",
-      "runtimeDeliveryCadence.mandatoryCutpoints"
+      "runtimeDeliveryCadence.mandatoryCutpoints",
+      "runtime-fail-closed-card"
     ]
   },
   {

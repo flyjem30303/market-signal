@@ -7,7 +7,7 @@ export function WeeklyRowCoverageStatus() {
       className="weekly-row-coverage-status"
       eyebrow="Row Coverage Gate"
       openItemSuffix="unresolved"
-      summary="週報頁目前同步揭露 row coverage 的 runtime 狀態。第二次 Supabase readonly attempt 尚未執行，公開資料來源與分數來源仍維持 mock。"
+      summary="Weekly row coverage remains local-ready and remote-paused. A Supabase readonly attempt still requires a separate CEO-named gate; publicDataSource and scoreSource remain mock."
     />
   );
 }

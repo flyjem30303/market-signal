@@ -63,17 +63,18 @@ export function getRowCoverageSecondAttemptReadiness(): RowCoverageSecondAttempt
       reason: "aggregate_count_incomplete",
       remoteAttempted: true
     },
-    nextDecision: "等待明確授權後，只執行一次 Supabase readonly attempt",
+    nextDecision: "CEO must separately name one bounded Supabase readonly attempt before any remote row coverage read.",
     publicDataSource: "mock",
     readiness: "local_ready_remote_paused",
     scoreSource: "mock",
     stage: "row_coverage_second_attempt",
-    stopLine: "不跑 SQL、不寫 Supabase、不給 row coverage 分數、不切 scoreSource=real。",
+    stopLine:
+      "Do not run SQL, write Supabase, award row coverage points, promote publicDataSource=supabase, or set scoreSource=real from this state.",
     unresolved: [
-      "第二次 remote attempt 尚未執行",
-      "row coverage points 尚未給分",
-      "CP3 仍是 not_ready",
-      "Git 備份依董事長暫停指令延後"
+      "remote attempt still requires separate CEO naming",
+      "row coverage points remain blocked",
+      "CP3 remains not_ready",
+      "post-run review is required before any readiness change"
     ]
   };
 }

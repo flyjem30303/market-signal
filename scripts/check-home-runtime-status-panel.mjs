@@ -4,12 +4,13 @@ const componentPath = "src/components/home-runtime-status-panel.tsx";
 const dashboardPath = "src/components/dashboard-shell.tsx";
 const actionSummaryPath = "src/lib/home-runtime-action-summary.ts";
 const consistencyPath = "src/lib/runtime-state-consistency.ts";
+const failClosedPath = "src/lib/runtime-fail-closed.ts";
 const cssPath = "src/app/globals.css";
 const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 
 const files = new Map(
-  [componentPath, dashboardPath, actionSummaryPath, consistencyPath, cssPath, packagePath, reviewGatePath].map((file) => [
+  [componentPath, dashboardPath, actionSummaryPath, consistencyPath, failClosedPath, cssPath, packagePath, reviewGatePath].map((file) => [
     file,
     fs.readFileSync(file, "utf8")
   ])
@@ -25,6 +26,7 @@ const required = [
   [componentPath, "getRuntimeDeliveryCadence"],
   [componentPath, "getHomeRuntimeActionSummary"],
   [componentPath, "getRuntimeStateConsistencySummary"],
+  [componentPath, "getRuntimeFailClosedSummary"],
   [componentPath, "actionSummary.currentProgressPercent"],
   [componentPath, "actionSummary.stage"],
   [componentPath, "actionSummary.nextLift"],
@@ -39,11 +41,14 @@ const required = [
   [componentPath, "runtimeStateConsistency.consistencyState"],
   [componentPath, "runtimeStateConsistency.statusLine"],
   [componentPath, "runtime-consistency-card"],
+  [componentPath, "failClosed.failClosedState"],
+  [componentPath, "failClosed.blockedActions"],
+  [componentPath, "runtime-fail-closed-card"],
   [componentPath, "boundaryCopy.currentState"],
   [componentPath, "boundaryCopy.blockedState"],
-  [componentPath, "mock-only runtime"],
-  [componentPath, "目前仍是 mock-only runtime"],
-  [componentPath, "CEO 已把推進節奏調整為較大的 runtime product slice"],
+  [componentPath, "Mock-only runtime is active"],
+  [componentPath, "shared fail-closed guard"],
+  [componentPath, "CEO has shifted delivery toward a larger runtime product slice"],
   [componentPath, "Blocker readiness"],
   [componentPath, "blockerReadiness.status"],
   [componentPath, "Data / Legal / Investment checklists are local-ready"],
@@ -62,11 +67,15 @@ const required = [
   [consistencyPath, "RuntimeStateConsistencySummary"],
   [consistencyPath, "getRuntimeStateConsistencySummary"],
   [consistencyPath, "consistencyState: \"mock_consistent\""],
+  [failClosedPath, "RuntimeFailClosedSummary"],
+  [failClosedPath, "getRuntimeFailClosedSummary"],
+  [failClosedPath, "failClosedState: \"active\""],
   [dashboardPath, "import { HomeRuntimeStatusPanel }"],
   [dashboardPath, "<HomeRuntimeStatusPanel selectedSymbol={selected.symbol} />"],
   [cssPath, ".home-runtime-status-panel"],
   [cssPath, "repeat(auto-fit, minmax(150px"],
   [cssPath, ".runtime-boundary-copy-card"],
+  [cssPath, ".runtime-fail-closed-card"],
   [cssPath, ".home-runtime-status-panel article.readying"],
   [cssPath, ".home-runtime-status-panel article.blocked"],
   [cssPath, ".home-runtime-action-strip"],
@@ -96,6 +105,14 @@ const forbidden = [
   [consistencyPath, "node:fs"],
   [consistencyPath, "from \"fs\""],
   [consistencyPath, "scoreSource: \"real\""],
+  [failClosedPath, "@supabase/supabase-js"],
+  [failClosedPath, "createClient"],
+  [failClosedPath, "fetch("],
+  [failClosedPath, "process.env"],
+  [failClosedPath, "node:fs"],
+  [failClosedPath, "from \"fs\""],
+  [failClosedPath, "scoreSource: \"real\""],
+  [failClosedPath, "publicDataSource: \"supabase\""],
   [dashboardPath, "scoreSource=\"real\""]
 ];
 

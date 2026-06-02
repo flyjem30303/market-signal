@@ -1632,7 +1632,7 @@ select {
 .runtime-state-strip {
   display: grid;
   grid-column: 1 / -1;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 10px;
 }
 
@@ -2463,7 +2463,8 @@ select {
 
 .runtime-delivery-card,
 .runtime-cutpoint-card,
-.runtime-consistency-card {
+.runtime-consistency-card,
+.runtime-fail-closed-card {
   min-width: 0;
 }
 
@@ -2473,7 +2474,8 @@ select {
 
 .runtime-delivery-card strong,
 .runtime-cutpoint-card strong,
-.runtime-consistency-card strong {
+.runtime-consistency-card strong,
+.runtime-fail-closed-card strong {
   font-size: 16px;
 }
 
@@ -2485,7 +2487,8 @@ select {
 
 .runtime-delivery-card p,
 .runtime-cutpoint-card p,
-.runtime-consistency-card p {
+.runtime-consistency-card p,
+.runtime-fail-closed-card p {
   overflow-wrap: anywhere;
   font-size: 12px;
   line-height: 1.5;

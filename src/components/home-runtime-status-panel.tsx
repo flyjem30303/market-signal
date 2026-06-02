@@ -7,6 +7,7 @@ import { getPublicRuntimeBoundaryCopy } from "@/lib/public-runtime-boundary-copy
 import { getRuntimeDeliveryCadence } from "@/lib/runtime-delivery-cadence";
 import { getHomeRuntimeActionSummary } from "@/lib/home-runtime-action-summary";
 import { getRuntimeStateConsistencySummary } from "@/lib/runtime-state-consistency";
+import { getRuntimeFailClosedSummary } from "@/lib/runtime-fail-closed";
 
 type HomeRuntimeStatusPanelProps = {
   selectedSymbol: string;
@@ -22,16 +23,17 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
   const runtimeDeliveryCadence = getRuntimeDeliveryCadence();
   const actionSummary = getHomeRuntimeActionSummary();
   const runtimeStateConsistency = getRuntimeStateConsistencySummary();
+  const failClosed = getRuntimeFailClosedSummary();
 
   return (
     <section className="home-runtime-status-panel" aria-label="Runtime status">
       <div>
         <p className="eyebrow">Runtime Status</p>
-        <h2>目前仍是 mock-only runtime</h2>
+        <h2>Mock-only runtime is active</h2>
         <p>
-          {selectedSymbol} 目前只呈現 mock 分數與本機 readiness 狀態；真實市場資料、Supabase runtime
-          讀取與 scoreSource=real 尚未啟用。CEO 目前把推進重心放在 runtime product slice、fail-closed
-          guard，以及下一個可控 gate。CEO 已把推進節奏調整為較大的 runtime product slice。
+          {selectedSymbol} is currently limited to mock scoring and local readiness. Real market data,
+          Supabase-backed public data, and scoreSource=real are blocked by the shared fail-closed guard.
+          CEO has shifted delivery toward a larger runtime product slice.
         </p>
       </div>
       <article className="active runtime-delivery-card">
@@ -68,15 +70,21 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
           <p>{actionSummary.safetyStopLine}</p>
         </article>
       </div>
+      <article className="blocked runtime-fail-closed-card">
+        <span>Fail-closed guard</span>
+        <strong>{failClosed.failClosedState}</strong>
+        <p>{failClosed.statusLine}</p>
+        <p>{failClosed.stopLine}</p>
+      </article>
       <nav>
-        <a href={`/stocks/${selectedSymbol}`}>前往個股頁</a>
-        <a href="/briefing">查看 CEO/PM briefing</a>
+        <a href={`/stocks/${selectedSymbol}`}>Open stock page</a>
+        <a href="/briefing">View CEO/PM briefing</a>
       </nav>
       <details className="home-runtime-details">
-        <summary>展開 runtime 細節：PM / 技術狀態</summary>
+        <summary>Runtime details: PM / technical state</summary>
         <p>
-          這裡集中顯示目前可公開呈現的 readiness、row coverage、source depth 與 CEO track；所有真實資料與
-          scoreSource=real 轉換仍維持 fail-closed。
+          This section shows readiness, row coverage, source depth, and CEO track. The shared fail-closed guard keeps
+          scoreSource=real and publicDataSource=supabase blocked.
         </p>
         <div>
           <article className="readying">
@@ -113,6 +121,11 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
             <span>State consistency</span>
             <strong>{runtimeStateConsistency.consistencyState}</strong>
             <p>{runtimeStateConsistency.statusLine}</p>
+          </article>
+          <article className="blocked runtime-fail-closed-card">
+            <span>Fail-closed blocked actions</span>
+            <strong>{failClosed.allowedState}</strong>
+            <p>{failClosed.blockedActions.slice(0, 4).join(", ")}.</p>
           </article>
           <article className="blocked">
             <span>Blocker readiness</span>
