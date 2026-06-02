@@ -23,7 +23,7 @@ const required = [
   ["src/components/home-runtime-status-panel.tsx", "productSummary.useNow"],
   ["src/components/home-runtime-status-panel.tsx", "productSummary.notLiveYet"],
   ["src/components/home-runtime-status-panel.tsx", "productSummary.nextGate"],
-  ["src/components/home-runtime-status-panel.tsx", "scoreSource=real are blocked"],
+  ["src/components/home-runtime-status-panel.tsx", "scoreSource=real remain blocked"],
   ["src/components/stock-runtime-at-a-glance.tsx", "productSummary.useNow"],
   ["src/components/stock-runtime-at-a-glance.tsx", "productSummary.notLiveYet"],
   ["src/components/stock-runtime-at-a-glance.tsx", "productSummary.nextGate"],

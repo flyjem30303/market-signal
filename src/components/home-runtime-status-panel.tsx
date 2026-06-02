@@ -35,11 +35,11 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
     <section className="home-runtime-status-panel" aria-label="Runtime status">
       <div>
         <p className="eyebrow">Runtime Status</p>
-        <h2>Mock-only runtime is active</h2>
+        <h2>Mock signals are available for reading</h2>
         <p>
-          {selectedSymbol} is currently limited to mock scoring and local readiness. CEO has shifted the first screen
-          toward product-readable runtime status while the briefing keeps PM and technical detail. Real market data and
-          scoreSource=real are blocked.
+          {selectedSymbol} can be read as a mock-only signal today: useful for checking product flow, risk direction,
+          and disclosure clarity. Real market data, Supabase-backed public data, and scoreSource=real remain blocked
+          until separate accepted gates.
         </p>
       </div>
       <div className="runtime-product-summary" aria-label="Runtime product summary">
@@ -79,10 +79,10 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
         <a href="/briefing">View CEO/PM briefing</a>
       </nav>
       <details className="home-runtime-details">
-        <summary>Runtime details: PM / technical state</summary>
+        <summary>Runtime details: review state and blocked upgrades</summary>
         <p>
-          This section shows readiness, row coverage, source depth, and CEO track. The shared fail-closed guard keeps
-          scoreSource=real and publicDataSource=supabase blocked.
+          This section keeps readiness, row coverage, source depth, and fail-closed rules available for review while
+          the first screen stays focused on what users can safely read now.
         </p>
         <div>
           <article className="active runtime-delivery-card">

@@ -39,11 +39,10 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
     <section className="stock-runtime-at-a-glance" aria-label="Stock runtime status">
       <div>
         <p className="eyebrow">Runtime At A Glance</p>
-        <h2>{snapshot.asset.symbol} is mock-only runtime</h2>
+        <h2>{snapshot.asset.symbol} has a readable mock signal</h2>
         <p>
-          This page now prioritizes product-readable runtime status. Detailed readiness, source-depth, and blocker
-          context remain visible below for PM and CEO review. Supabase-backed public data remains blocked;
-          scoreSource=real require a separate accepted gate.
+          Use this page to understand the mock score, risk direction, and disclosure state. It is not live market-data
+          evidence, and Supabase-backed public data plus scoreSource=real still require separate accepted gates.
         </p>
       </div>
       <div className="stock-runtime-headline-summary" aria-label="Stock runtime headline summary">
@@ -99,11 +98,11 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
       </div>
       <div className="stock-runtime-governance-details" aria-label="Stock runtime governance details">
         <div>
-          <span>Governance details</span>
-          <strong>review depth stays below the product summary</strong>
+          <span>Review details</span>
+          <strong>upgrade blockers stay below the reading summary</strong>
           <p>
-            PM and CEO can still inspect blockers, delivery cadence, readonly state, and fail-closed rules without
-            turning the first screen into a gate checklist.
+            Blockers, delivery cadence, readonly state, and fail-closed rules remain available here without turning the
+            first screen into an internal checklist.
           </p>
         </div>
         <article className="active runtime-boundary-copy-card">

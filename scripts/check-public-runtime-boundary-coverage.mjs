@@ -14,10 +14,10 @@ const surfaces = [
       "getRuntimeDeliveryCadence",
       "runtime-delivery-card",
       "home-runtime-details",
-      "Mock-only runtime is active",
-      "shared fail-closed guard",
-      "scoreSource=real are blocked",
-      "Runtime details: PM / technical state",
+      "Mock signals are available for reading",
+      "fail-closed rules available for review",
+      "scoreSource=real remain blocked",
+      "Runtime details: review state and blocked upgrades",
       "runtime-fail-closed-card"
     ]
   },
@@ -30,9 +30,9 @@ const surfaces = [
       "boundaryCopy.blockedState",
       "getRuntimeDeliveryCadence",
       "runtime-cutpoint-card",
-      "is mock-only runtime",
+      "has a readable mock signal",
       "Supabase-backed public data",
-      "scoreSource=real require a separate accepted gate",
+      "scoreSource=real still require separate accepted gates",
       "runtime-fail-closed-card"
     ]
   },
