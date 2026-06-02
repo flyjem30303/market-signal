@@ -275,6 +275,7 @@
     "check:home-runtime-status-panel": "node scripts/check-home-runtime-status-panel.mjs",
     "check:stock-runtime-at-a-glance": "node scripts/check-stock-runtime-at-a-glance.mjs",
     "check:stock-page-readable-boundary-copy": "node scripts/check-stock-page-readable-boundary-copy.mjs",
+    "check:stock-first-screen-readability": "node scripts/check-stock-first-screen-readability.mjs",
     "check:trust-runtime-boundary-notice": "node scripts/check-trust-runtime-boundary-notice.mjs",
     "check:public-runtime-boundary-coverage": "node scripts/check-public-runtime-boundary-coverage.mjs",
     "check:cp3-5pm-runtime-readiness-checkpoint": "node scripts/check-cp3-5pm-runtime-readiness-checkpoint.mjs",

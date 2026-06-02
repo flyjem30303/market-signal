@@ -2374,14 +2374,15 @@ function TodayTab({
           <p className="panel-label">資料品質</p>
           <h2>{snapshot.dataQualityGrade} 級</h2>
           <p>
-            完整度 {snapshot.dataQualityScore}/100，目前版本為 {snapshot.modelVersion}，正式上線前會改接真實資料。
+            完整度 {snapshot.dataQualityScore}/100，目前版本為 {snapshot.modelVersion}。這裡仍是 mock-only runtime；
+            real score-source mode blocked，尚未接正式市場資料。
           </p>
         </article>
       </section>
 
       <aside className="score-source-note" aria-label="模型狀態">
         <strong>目前分數來源：{scoreSourceLabel}</strong>
-        <span>正式上線前，分數仍用於產品體驗驗證，不代表已完成真實投資模型校準。</span>
+        <span>正式上線前，分數仍用於產品體驗驗證，不代表已完成真實投資模型校準或真實資料上線。</span>
         <TrackedLink eventName="trust_link_clicked" href="/methodology" label="方法論" payload={{ area: "score_source_note", symbol: selectedSymbol }}>
           方法論
         </TrackedLink>

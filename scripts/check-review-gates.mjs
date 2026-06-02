@@ -2718,6 +2718,11 @@ const checks = [
     name: "stock-page-readable-boundary-copy"
   },
   {
+    command: [node, "scripts/check-stock-first-screen-readability.mjs"],
+    expectStatus: "ok",
+    name: "stock-first-screen-readability"
+  },
+  {
     command: [node, "scripts/check-runtime-state-consistency.mjs"],
     expectStatus: "ok",
     name: "runtime-state-consistency"
