@@ -19,6 +19,7 @@ const requiredContentTokensByPath = new Map([
     "/",
     [
       "Runtime Status",
+      "Market Action Summary",
       "local_ready_remote_paused",
       "mock-only runtime",
       "Blocker readiness",
@@ -29,16 +30,18 @@ const requiredContentTokensByPath = new Map([
     "/briefing",
     [
       "Row Coverage Readiness",
+      "Market Action Summary",
       "local_ready_remote_paused",
       "Supabase readonly attempt",
       "Blocker Readiness",
       "Three blocker checklists are ready for local review"
     ]
   ],
-  ["/weekly", ["Row Coverage Gate", "local_ready_remote_paused", "Supabase readonly attempt"]]
+  ["/weekly", ["Market Action Summary", "Row Coverage Gate", "local_ready_remote_paused", "Supabase readonly attempt"]]
 ]);
 const stockContentTokens = [
   "Runtime At A Glance",
+  "Investor Action Summary",
   "local_ready_remote_paused",
   "scoreSource=real",
   "Blocker readiness",

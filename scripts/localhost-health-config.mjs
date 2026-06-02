@@ -16,6 +16,7 @@ export const localhostContentHealthChecks = [
     path: "/",
     required: [
       "Runtime Status",
+      "Market Action Summary",
       "local_ready_remote_paused",
       "mock-only runtime",
       "Blocker readiness",
@@ -26,6 +27,7 @@ export const localhostContentHealthChecks = [
     path: "/stocks/2330",
     required: [
       "Runtime At A Glance",
+      "Investor Action Summary",
       "local_ready_remote_paused",
       "scoreSource=real",
       "Blocker readiness",
@@ -36,6 +38,7 @@ export const localhostContentHealthChecks = [
     path: "/stocks/TWII",
     required: [
       "Runtime At A Glance",
+      "Investor Action Summary",
       "local_ready_remote_paused",
       "scoreSource=real",
       "Blocker readiness",
@@ -46,6 +49,7 @@ export const localhostContentHealthChecks = [
     path: "/stocks/0050",
     required: [
       "Runtime At A Glance",
+      "Investor Action Summary",
       "local_ready_remote_paused",
       "scoreSource=real",
       "Blocker readiness",
@@ -56,6 +60,7 @@ export const localhostContentHealthChecks = [
     path: "/stocks/006208",
     required: [
       "Runtime At A Glance",
+      "Investor Action Summary",
       "local_ready_remote_paused",
       "scoreSource=real",
       "Blocker readiness",
@@ -66,6 +71,7 @@ export const localhostContentHealthChecks = [
     path: "/stocks/2382",
     required: [
       "Runtime At A Glance",
+      "Investor Action Summary",
       "local_ready_remote_paused",
       "scoreSource=real",
       "Blocker readiness",
@@ -76,6 +82,7 @@ export const localhostContentHealthChecks = [
     path: "/stocks/2308",
     required: [
       "Runtime At A Glance",
+      "Investor Action Summary",
       "local_ready_remote_paused",
       "scoreSource=real",
       "Blocker readiness",
@@ -86,6 +93,7 @@ export const localhostContentHealthChecks = [
     path: "/briefing",
     required: [
       "Row Coverage Readiness",
+      "Market Action Summary",
       "local_ready_remote_paused",
       "Supabase readonly attempt",
       "Blocker Readiness",
@@ -94,7 +102,7 @@ export const localhostContentHealthChecks = [
   },
   {
     path: "/weekly",
-    required: ["Row Coverage Gate", "local_ready_remote_paused", "Supabase readonly attempt"]
+    required: ["Market Action Summary", "Row Coverage Gate", "local_ready_remote_paused", "Supabase readonly attempt"]
   }
 ];
 
