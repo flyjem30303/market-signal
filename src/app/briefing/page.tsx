@@ -10,6 +10,7 @@ import { RuntimeReadinessPanel } from "@/components/runtime-readiness-panel";
 import { SourceDepthBlockerPanel } from "@/components/source-depth-blocker-panel";
 import { TrackedLink } from "@/components/tracked-link";
 import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
+import { getHomeRuntimeActionSummary } from "@/lib/home-runtime-action-summary";
 import { getRuntimeInterpretationSummary } from "@/lib/runtime-interpretation";
 import {
   getMarketSignalRepository,
@@ -345,6 +346,7 @@ function BriefingBridgeLink({
 
 function BriefingExecutiveSummary({ market, topRisk }: { market: SignalSnapshot; topRisk: SignalSnapshot }) {
   const runtimeInterpretation = getRuntimeInterpretationSummary();
+  const actionSummary = getHomeRuntimeActionSummary();
 
   return (
     <section className="briefing-executive-summary" aria-label="董事長與 CEO 晨報摘要">
@@ -376,6 +378,23 @@ function BriefingExecutiveSummary({ market, topRisk }: { market: SignalSnapshot;
           </i>
         </span>
       </aside>
+      <div className="briefing-runtime-action-strip" aria-label="Briefing CEO next runtime action summary">
+        <article className="active">
+          <span>Current progress</span>
+          <strong>{actionSummary.currentProgressPercent}%</strong>
+          <p>{actionSummary.stage}</p>
+        </article>
+        <article className="readying">
+          <span>CEO next action</span>
+          <strong>{actionSummary.nextAction}</strong>
+          <p>{actionSummary.nextLift}</p>
+        </article>
+        <article className="blocked">
+          <span>Still blocked</span>
+          <strong>{actionSummary.blockedTransition}</strong>
+          <p>{actionSummary.safetyStopLine}</p>
+        </article>
+      </div>
       <nav>
         <TrackedLink
           eventName="briefing_link_clicked"

@@ -2186,6 +2186,59 @@ select {
   line-height: 1.45;
 }
 
+.briefing-runtime-action-strip {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.briefing-runtime-action-strip article {
+  display: grid;
+  align-content: start;
+  min-width: 0;
+  gap: 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  padding: 12px;
+}
+
+.briefing-runtime-action-strip article.active {
+  border-color: rgba(15, 118, 110, 0.24);
+  background: #eff9f5;
+}
+
+.briefing-runtime-action-strip article.readying {
+  border-color: rgba(40, 94, 203, 0.2);
+  background: #f2f6ff;
+}
+
+.briefing-runtime-action-strip article.blocked {
+  border-color: rgba(199, 54, 59, 0.22);
+  background: #fff5f5;
+}
+
+.briefing-runtime-action-strip span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.briefing-runtime-action-strip strong {
+  overflow-wrap: anywhere;
+  color: var(--text);
+  font-size: 17px;
+  line-height: 1.3;
+}
+
+.briefing-runtime-action-strip p {
+  overflow-wrap: anywhere;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
 .briefing-executive-summary nav {
   display: grid;
   grid-column: 1 / -1;
