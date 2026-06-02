@@ -199,6 +199,11 @@ export function RuntimeReadinessPanel() {
           <strong>{postReadonlyRuntime.state}</strong>
           <p>{postReadonlyRuntime.userFacingSummary}</p>
           <p>
+            Row coverage {postReadonlyRuntime.rowCoverage.coverageStatus}:{" "}
+            {postReadonlyRuntime.rowCoverage.observedRows}/{postReadonlyRuntime.rowCoverage.expectedRows} rows,
+            missing {postReadonlyRuntime.rowCoverage.missingRows}. {postReadonlyRuntime.rowCoverage.reason}.
+          </p>
+          <p>
             Public {postReadonlyRuntime.publicDataSource}; score {postReadonlyRuntime.scoreSource}.
           </p>
         </article>

@@ -66,6 +66,11 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
         <strong>{postReadonlyRuntime.objectsReachable} objects reachable</strong>
         <p>{postReadonlyRuntime.headline}</p>
         <p>
+          Row coverage {postReadonlyRuntime.rowCoverage.coverageStatus}:{" "}
+          {postReadonlyRuntime.rowCoverage.observedRows}/{postReadonlyRuntime.rowCoverage.expectedRows} rows,
+          missing {postReadonlyRuntime.rowCoverage.missingRows}.
+        </p>
+        <p>
           Public {postReadonlyRuntime.publicDataSource}; score {postReadonlyRuntime.scoreSource}.
         </p>
       </article>
@@ -156,6 +161,7 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
           <article className="readying post-readonly-runtime-card">
             <span>Post-readonly next gate</span>
             <strong>{postReadonlyRuntime.state}</strong>
+            <p>{postReadonlyRuntime.rowCoverage.summary}</p>
             <p>{postReadonlyRuntime.nextGate}</p>
           </article>
           <article className="blocked">

@@ -115,6 +115,11 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
           <span>Readonly result</span>
           <strong>{postReadonlyRuntime.objectsReachable} objects reachable</strong>
           <p>{postReadonlyRuntime.userFacingSummary}</p>
+          <p>
+            Row coverage {postReadonlyRuntime.rowCoverage.coverageStatus}:{" "}
+            {postReadonlyRuntime.rowCoverage.observedRows}/{postReadonlyRuntime.rowCoverage.expectedRows} rows,
+            missing {postReadonlyRuntime.rowCoverage.missingRows}.
+          </p>
         </article>
         <article className="blocked">
           <span>Source depth</span>
@@ -177,6 +182,7 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
         <article className="readying compact-runtime-blocker post-readonly-runtime-card">
           <span>Post-readonly next gate</span>
           <strong>{postReadonlyRuntime.state}</strong>
+          <p>{postReadonlyRuntime.rowCoverage.summary}</p>
           <p>{postReadonlyRuntime.stopLine}</p>
         </article>
         <article className="blocked compact-runtime-blocker">
