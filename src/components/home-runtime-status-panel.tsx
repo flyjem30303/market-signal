@@ -10,6 +10,7 @@ import { getRuntimeStateConsistencySummary } from "@/lib/runtime-state-consisten
 import { getRuntimeFailClosedSummary } from "@/lib/runtime-fail-closed";
 import { getPostReadonlyRuntimeState } from "@/lib/post-readonly-runtime-state";
 import { getRuntimeProductSummary } from "@/lib/runtime-product-summary";
+import { RuntimeTransitionRail } from "@/components/runtime-transition-rail";
 
 type HomeRuntimeStatusPanelProps = {
   selectedSymbol: string;
@@ -57,6 +58,7 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
           <p>{productSummary.nextGate.body}</p>
         </article>
       </div>
+      <RuntimeTransitionRail symbol={selectedSymbol} />
       <article className="active post-readonly-runtime-card">
         <span>Readonly result</span>
         <strong>{postReadonlyRuntime.objectsReachable} objects reachable</strong>

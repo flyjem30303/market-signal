@@ -2503,6 +2503,48 @@ select {
   font-size: 17px;
 }
 
+.runtime-transition-rail {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  border: 1px solid rgba(40, 94, 203, 0.16);
+  border-radius: 8px;
+  background: #fff;
+  padding: 10px;
+}
+
+.runtime-transition-rail article {
+  min-width: 0;
+  align-content: start;
+  min-height: 116px;
+}
+
+.runtime-transition-rail article.active {
+  border-color: rgba(15, 118, 110, 0.26);
+  background: #eff9f5;
+}
+
+.runtime-transition-rail article.readying {
+  border-color: rgba(40, 94, 203, 0.2);
+  background: #f2f6ff;
+}
+
+.runtime-transition-rail article.blocked {
+  border-color: rgba(199, 54, 59, 0.22);
+  background: #fff5f5;
+}
+
+.runtime-transition-rail strong,
+.runtime-transition-rail p {
+  overflow-wrap: anywhere;
+}
+
+.runtime-transition-rail p {
+  font-size: 12px;
+  line-height: 1.55;
+}
+
 .post-readonly-runtime-card {
   min-width: 0;
 }

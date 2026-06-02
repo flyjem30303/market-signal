@@ -11,6 +11,7 @@ import { getRuntimeFailClosedSummary } from "@/lib/runtime-fail-closed";
 import { getPostReadonlyRuntimeState } from "@/lib/post-readonly-runtime-state";
 import { getRuntimeProductSummary } from "@/lib/runtime-product-summary";
 import type { SignalSnapshot } from "@/lib/signal-model";
+import { RuntimeTransitionRail } from "@/components/runtime-transition-rail";
 
 type StockRuntimeAtAGlanceProps = {
   scoreSourceLabel: string;
@@ -59,6 +60,7 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
           <p>{productSummary.nextGate.body}</p>
         </article>
       </div>
+      <RuntimeTransitionRail symbol={snapshot.asset.symbol} />
       <article className="active runtime-boundary-copy-card">
         <span>Score source</span>
         <strong>{scoreSourceLabel}</strong>
