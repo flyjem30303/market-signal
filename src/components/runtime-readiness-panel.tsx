@@ -56,6 +56,14 @@ export function RuntimeReadinessPanel() {
           </p>
           <p>{runtimeHardeningExit.nextAction}</p>
           <p>{runtimeHardeningExit.stopLine}</p>
+          <div className="runtime-public-boundary-summary" aria-label={runtimeHardeningExit.publicBoundaryLabel}>
+            {runtimeHardeningExit.publicBoundaryItems.map((item) => (
+              <span className={item.state} key={item.label}>
+                <b>{item.label}</b>
+                <i>{item.publicMessage}</i>
+              </span>
+            ))}
+          </div>
         </article>
         <article className="active" aria-label="Supabase readonly evidence accepted">
           <span>Readonly evidence</span>

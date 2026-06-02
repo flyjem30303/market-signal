@@ -6,6 +6,12 @@ export type RuntimeHardeningExitCriterion = {
   evidence: string;
 };
 
+export type RuntimeHardeningPublicBoundaryItem = {
+  label: string;
+  publicMessage: string;
+  state: "visible_mock" | "blocked_real" | "local_ready";
+};
+
 export type RuntimeHardeningExitCriteriaSummary = {
   acceptedCount: number;
   blockedCount: number;
@@ -13,6 +19,8 @@ export type RuntimeHardeningExitCriteriaSummary = {
   headline: string;
   nextAction: string;
   publicDataSource: "mock";
+  publicBoundaryItems: RuntimeHardeningPublicBoundaryItem[];
+  publicBoundaryLabel: string;
   scoreSource: "mock";
   stage: "mock_runtime_hardening_exit_review";
   status: "local_ready_blocked_by_external_gates";
@@ -69,6 +77,24 @@ export function getRuntimeHardeningExitCriteria(): RuntimeHardeningExitCriteriaS
     nextAction:
       "Keep runtime hardening as the lead lane, then prepare a separate Supabase readonly attempt only when CEO explicitly names it.",
     publicDataSource: "mock",
+    publicBoundaryItems: [
+      {
+        label: "What users can see now",
+        publicMessage: "The site can show mock-only runtime state, local readiness, and explicit blocked gates.",
+        state: "visible_mock"
+      },
+      {
+        label: "What is not live yet",
+        publicMessage: "Supabase-backed public data, SQL-backed scoring, and real market-data claims remain blocked.",
+        state: "blocked_real"
+      },
+      {
+        label: "What local checks support",
+        publicMessage: "Local health, TypeScript, and review gates support continued mock runtime hardening only.",
+        state: "local_ready"
+      }
+    ],
+    publicBoundaryLabel: "Public boundary summary",
     scoreSource: "mock",
     stage: "mock_runtime_hardening_exit_review",
     status: "local_ready_blocked_by_external_gates",

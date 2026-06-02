@@ -1516,6 +1516,49 @@ select {
   line-height: 1.55;
 }
 
+.runtime-public-boundary-summary {
+  display: grid;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.runtime-public-boundary-summary span {
+  display: grid;
+  gap: 5px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  padding: 10px;
+}
+
+.runtime-public-boundary-summary span.visible_mock {
+  border-color: rgba(183, 121, 31, 0.28);
+  background: #fffaf0;
+}
+
+.runtime-public-boundary-summary span.blocked_real {
+  border-color: rgba(199, 54, 59, 0.18);
+  background: #fff7f7;
+}
+
+.runtime-public-boundary-summary span.local_ready {
+  border-color: rgba(20, 122, 77, 0.2);
+  background: #f2faf6;
+}
+
+.runtime-public-boundary-summary b {
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.runtime-public-boundary-summary i {
+  color: var(--muted);
+  font-size: 12px;
+  font-style: normal;
+  line-height: 1.5;
+}
+
 .runtime-readiness-lanes article {
   display: grid;
   gap: 8px;
