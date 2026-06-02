@@ -85,6 +85,8 @@ const forbiddenPublicTokens = [
   "sourceDepthState: \"approved\""
 ];
 
+const mojibakePattern = /[\uFFFD\uF000-\uF8FF]/u;
+
 const findings = [];
 
 const sharedCopy = readRequired("src/lib/public-runtime-boundary-copy.ts");
@@ -140,6 +142,13 @@ for (const token of [
 for (const file of publicFiles) {
   if (!fs.existsSync(path.join(root, file))) continue;
   const source = readRequired(file);
+
+  if (mojibakePattern.test(source)) {
+    findings.push({
+      file,
+      issue: "public runtime UI file contains replacement/private-use mojibake characters"
+    });
+  }
 
   for (const token of forbiddenPublicTokens) {
     if (source.includes(token)) {
