@@ -22,6 +22,10 @@ export function RuntimeReadinessPanel() {
   const readonlyEvidence = getSupabaseReadonlyEvidenceSummary();
   const runtimeGateBrief = getRuntimeGateDecisionBrief();
   const runtimeDeliveryCadence = getRuntimeDeliveryCadence();
+  const readonlyFinalPrepReady =
+    preflight.status === "ready_for_guarded_readonly_decision" &&
+    decision.status === "ready_for_ceo_decision" &&
+    executionPreview.status === "ready_for_manual_ceo_run";
 
   return (
     <section className={`runtime-readiness-panel ${readiness.status}`} aria-label="Runtime readiness">
@@ -112,6 +116,33 @@ export function RuntimeReadinessPanel() {
           <p>{runtimeGateBrief.pmNextStep}</p>
           <p>{runtimeGateBrief.requiredAuthorization}.</p>
           <p>Remote trigger: {runtimeGateBrief.separateRemoteTrigger}.</p>
+        </article>
+      </div>
+      <div className="runtime-final-prep-card" aria-label="Supabase readonly final prep decision summary">
+        <article className={readonlyFinalPrepReady ? "ready" : "hold"}>
+          <span>Supabase readonly final prep</span>
+          <strong>{readonlyFinalPrepReady ? "ready_for_ceo_oral_review" : "hold"}</strong>
+          <p>
+            Preflight {preflight.status}; decision {decision.status}; execution preview {executionPreview.status}.
+          </p>
+          <p>
+            Next human step:{" "}
+            {readonlyFinalPrepReady
+              ? "CEO may orally summarize and separately name exactly one manual read-only attempt."
+              : "PM fixes local blockers before any manual read-only attempt is named."}
+          </p>
+        </article>
+        <article className="hold">
+          <span>Required confirmation</span>
+          <strong>{executionPreview.requiredConfirmation}</strong>
+          <p>Command preview: {executionPreview.exactCommandPreview ?? "blocked until final prep is ready"}.</p>
+          <p>Remote validator executed: false. Automated remote run: false.</p>
+        </article>
+        <article className="blocked">
+          <span>Post-run review</span>
+          <strong>{executionPreview.postRunReviewTarget}</strong>
+          <p>Readiness promotion remains {executionPreview.readinessPromotionBlocked ? "blocked" : "open"}.</p>
+          <p>Still blocked: {executionPreview.blockedPromotions.slice(0, 3).join(", ")}.</p>
         </article>
       </div>
       <details className="runtime-remote-guard-details">

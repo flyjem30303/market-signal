@@ -1707,6 +1707,59 @@ select {
   line-height: 1.5;
 }
 
+.runtime-final-prep-card {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr) minmax(0, 1fr);
+  gap: 10px;
+}
+
+.runtime-final-prep-card article {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  border: 1px solid rgba(40, 94, 203, 0.14);
+  border-radius: 8px;
+  background: #f8fbff;
+  padding: 12px;
+}
+
+.runtime-final-prep-card article.ready {
+  border-color: rgba(20, 122, 77, 0.24);
+  background: #eff9f5;
+}
+
+.runtime-final-prep-card article.hold {
+  border-color: rgba(183, 121, 31, 0.26);
+  background: #fffaf0;
+}
+
+.runtime-final-prep-card article.blocked {
+  border-color: rgba(199, 54, 59, 0.18);
+  background: #fff7f7;
+}
+
+.runtime-final-prep-card span {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.runtime-final-prep-card strong {
+  overflow-wrap: anywhere;
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.35;
+}
+
+.runtime-final-prep-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
 .runtime-single-attempt-card {
   display: grid;
   grid-column: 1 / -1;
