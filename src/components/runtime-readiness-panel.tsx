@@ -11,6 +11,7 @@ import { getRuntimeGateDecisionBrief } from "@/lib/runtime-gate-decision-brief";
 import { getRuntimeDeliveryCadence } from "@/lib/runtime-delivery-cadence";
 import { getRuntimeStateConsistencySummary } from "@/lib/runtime-state-consistency";
 import { getRuntimeFailClosedSummary } from "@/lib/runtime-fail-closed";
+import { getRuntimeReadonlyDecisionCard } from "@/lib/runtime-readonly-decision-card";
 
 export function RuntimeReadinessPanel() {
   const readiness = getRuntimeReadinessSummary();
@@ -26,6 +27,7 @@ export function RuntimeReadinessPanel() {
   const runtimeDeliveryCadence = getRuntimeDeliveryCadence();
   const runtimeStateConsistency = getRuntimeStateConsistencySummary();
   const failClosed = getRuntimeFailClosedSummary();
+  const readonlyDecisionCard = getRuntimeReadonlyDecisionCard(preflight, decision, executionPreview);
   const readonlyFinalPrepReady =
     preflight.status === "ready_for_guarded_readonly_decision" &&
     decision.status === "ready_for_ceo_decision" &&
@@ -157,6 +159,36 @@ export function RuntimeReadinessPanel() {
           <strong>{executionPreview.postRunReviewTarget}</strong>
           <p>Readiness promotion remains {executionPreview.readinessPromotionBlocked ? "blocked" : "open"}.</p>
           <p>Still blocked: {executionPreview.blockedPromotions.slice(0, 3).join(", ")}.</p>
+        </article>
+      </div>
+      <div className="runtime-readonly-decision-card" aria-label="Runtime readonly decision card">
+        <article className={readonlyDecisionCard.decisionState === "ready_for_ceo_oral_review" ? "ready" : "hold"}>
+          <span>Readonly decision</span>
+          <strong>{readonlyDecisionCard.decisionState}</strong>
+          <p>{readonlyDecisionCard.headline}</p>
+          <p>{readonlyDecisionCard.statusLine}</p>
+        </article>
+        <article className="ready">
+          <span>Allowed local checks</span>
+          <ul>
+            {readonlyDecisionCard.allowedLocalChecks.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </article>
+        <article className="blocked">
+          <span>Blocked remote actions</span>
+          <ul>
+            {readonlyDecisionCard.blockedRemoteActions.slice(0, 6).map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </article>
+        <article className="hold">
+          <span>CEO wording</span>
+          <p>{readonlyDecisionCard.requiredCeoWording}</p>
+          <p>{readonlyDecisionCard.postRunReviewRequirement}</p>
+          <p>Automated remote run: {readonlyDecisionCard.automatedRemoteRun ? "true" : "false"}.</p>
         </article>
       </div>
       <div className="runtime-post-run-prep-card" aria-label="Post-run review preparation summary">

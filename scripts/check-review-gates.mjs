@@ -2723,6 +2723,11 @@ const checks = [
     name: "runtime-fail-closed"
   },
   {
+    command: [node, "scripts/check-runtime-readonly-decision-card.mjs"],
+    expectStatus: "ok",
+    name: "runtime-readonly-decision-card"
+  },
+  {
     command: [node, "scripts/check-trust-runtime-boundary-notice.mjs"],
     expectStatus: "ok",
     name: "trust-runtime-boundary-notice"

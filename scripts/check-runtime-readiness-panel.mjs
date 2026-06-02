@@ -10,12 +10,13 @@ const freshnessLatestEvidencePath = "src/lib/freshness-readonly-latest-evidence.
 const preflightPath = "src/lib/supabase-readonly-local-preflight.ts";
 const consistencyPath = "src/lib/runtime-state-consistency.ts";
 const failClosedPath = "src/lib/runtime-fail-closed.ts";
+const readonlyDecisionCardPath = "src/lib/runtime-readonly-decision-card.ts";
 const componentPath = "src/components/runtime-readiness-panel.tsx";
 const briefingPath = "src/app/briefing/page.tsx";
 const cssPath = "src/app/globals.css";
 
 const files = new Map(
-  [summaryPath, activationPath, decisionPath, executionPreviewPath, evidencePath, readonlySmokePath, freshnessLatestEvidencePath, preflightPath, consistencyPath, failClosedPath, componentPath, briefingPath, cssPath].map(
+  [summaryPath, activationPath, decisionPath, executionPreviewPath, evidencePath, readonlySmokePath, freshnessLatestEvidencePath, preflightPath, consistencyPath, failClosedPath, readonlyDecisionCardPath, componentPath, briefingPath, cssPath].map(
     (file) => [file, fs.readFileSync(file, "utf8")]
   )
 );
@@ -74,6 +75,11 @@ const required = [
   [failClosedPath, "failClosedState: \"active\""],
   [failClosedPath, "publicDataSource: \"mock\""],
   [failClosedPath, "scoreSource: \"mock\""],
+  [readonlyDecisionCardPath, "RuntimeReadonlyDecisionCard"],
+  [readonlyDecisionCardPath, "getRuntimeReadonlyDecisionCard"],
+  [readonlyDecisionCardPath, "allowedLocalChecks"],
+  [readonlyDecisionCardPath, "blockedRemoteActions"],
+  [readonlyDecisionCardPath, "automatedRemoteRun: false"],
   [decisionPath, "getSupabaseReadonlyDecision"],
   [decisionPath, "scoreSourceRealEnabled: false"],
   [decisionPath, "connectionAttempted: false"],
@@ -118,6 +124,13 @@ const required = [
   [componentPath, "getRuntimeFailClosedSummary"],
   [componentPath, "failClosed.failClosedState"],
   [componentPath, "runtime-fail-closed-card"],
+  [componentPath, "getRuntimeReadonlyDecisionCard"],
+  [componentPath, "readonlyDecisionCard.decisionState"],
+  [componentPath, "readonlyDecisionCard.allowedLocalChecks"],
+  [componentPath, "readonlyDecisionCard.blockedRemoteActions"],
+  [componentPath, "readonlyDecisionCard.requiredCeoWording"],
+  [componentPath, "readonlyDecisionCard.postRunReviewRequirement"],
+  [componentPath, "runtime-readonly-decision-card"],
   [briefingPath, "import { RuntimeReadinessPanel }"],
   [briefingPath, "<RuntimeReadinessPanel />"],
   [cssPath, ".runtime-readiness-panel"],
@@ -127,6 +140,7 @@ const required = [
   [cssPath, "grid-template-columns: repeat(5, minmax(0, 1fr))"],
   [cssPath, ".runtime-state-pill p"],
   [cssPath, ".runtime-fail-closed-card"],
+  [cssPath, ".runtime-readonly-decision-card"],
   [cssPath, ".runtime-preflight-status"],
   [cssPath, ".runtime-readiness-lanes"],
   [cssPath, ".runtime-readiness-score"]
@@ -199,6 +213,17 @@ const forbidden = [
   [failClosedPath, "node:fs"],
   [failClosedPath, "scoreSource: \"real\""],
   [failClosedPath, "publicDataSource: \"supabase\""],
+  [readonlyDecisionCardPath, "@supabase/supabase-js"],
+  [readonlyDecisionCardPath, "createClient"],
+  [readonlyDecisionCardPath, "fetch("],
+  [readonlyDecisionCardPath, ".from("],
+  [readonlyDecisionCardPath, ".insert("],
+  [readonlyDecisionCardPath, ".update("],
+  [readonlyDecisionCardPath, ".delete("],
+  [readonlyDecisionCardPath, "process.env"],
+  [readonlyDecisionCardPath, "node:fs"],
+  [readonlyDecisionCardPath, "scoreSource: \"real\""],
+  [readonlyDecisionCardPath, "publicDataSource: \"supabase\""],
   [decisionPath, "@supabase/supabase-js"],
   [decisionPath, "createClient"],
   [decisionPath, "fetch("],
