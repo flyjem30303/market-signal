@@ -1562,6 +1562,57 @@ select {
   line-height: 1.5;
 }
 
+.runtime-post-run-review-card {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 1fr);
+  gap: 10px;
+}
+
+.runtime-post-run-review-card article {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  border: 1px solid rgba(40, 94, 203, 0.14);
+  border-radius: 8px;
+  background: #f8fbff;
+  padding: 12px;
+}
+
+.runtime-post-run-review-card article.blocked {
+  border-color: rgba(199, 54, 59, 0.16);
+  background: #fff7f7;
+}
+
+.runtime-post-run-review-card span {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.runtime-post-run-review-card strong {
+  overflow-wrap: anywhere;
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.runtime-post-run-review-card ul {
+  display: grid;
+  gap: 5px;
+  margin: 0;
+  padding-left: 18px;
+}
+
+.runtime-post-run-review-card li,
+.runtime-post-run-review-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
 .runtime-readiness-command {
   display: grid;
   grid-column: 1 / -1;
@@ -8057,6 +8108,7 @@ input[type="date"] {
   .runtime-state-strip,
   .runtime-decision-snapshot,
   .runtime-single-attempt-card,
+  .runtime-post-run-review-card,
   .runtime-readiness-command,
   .runtime-preflight-status,
   .runtime-readiness-lanes,

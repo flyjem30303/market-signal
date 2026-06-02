@@ -48,7 +48,12 @@ for (const phrase of [
   "executionPreview.exactCommandPreview",
   "executionPreview.manualRunPrerequisites",
   "executionPreview.stopConditions",
-  "Automated remote run remains"
+  "Automated remote run remains",
+  "Post-run review readiness card",
+  "executionPreview.postRunReviewTarget",
+  "executionPreview.postRunAcceptedOutcomeCategories",
+  "executionPreview.readinessPromotionBlocked",
+  "executionPreview.blockedPromotions"
 ]) {
   if (!panel.includes(phrase)) missing.push(`${panelPath}: ${phrase}`);
 }
@@ -61,7 +66,9 @@ for (const phrase of [
   ".runtime-decision-snapshot",
   ".runtime-decision-snapshot article.blocked",
   ".runtime-single-attempt-card",
-  ".runtime-single-attempt-card article.blocked"
+  ".runtime-single-attempt-card article.blocked",
+  ".runtime-post-run-review-card",
+  ".runtime-post-run-review-card article.blocked"
 ]) {
   if (!css.includes(phrase)) missing.push(`src/app/globals.css: ${phrase}`);
 }

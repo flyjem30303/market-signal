@@ -97,6 +97,29 @@ export function RuntimeReadinessPanel() {
           </ul>
         </article>
       </div>
+      <div className="runtime-post-run-review-card" aria-label="Post-run review readiness card">
+        <article>
+          <span>Post-run review target</span>
+          <strong>{executionPreview.postRunReviewTarget}</strong>
+          <p>Readiness promotion remains {executionPreview.readinessPromotionBlocked ? "blocked" : "open"}.</p>
+        </article>
+        <article>
+          <span>Accepted outcomes</span>
+          <ul>
+            {executionPreview.postRunAcceptedOutcomeCategories.slice(0, 5).map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </article>
+        <article className="blocked">
+          <span>Blocked promotions</span>
+          <ul>
+            {executionPreview.blockedPromotions.slice(0, 5).map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </article>
+      </div>
       <div className="runtime-readiness-command">
         <article>
           <span>Local preflight</span>
