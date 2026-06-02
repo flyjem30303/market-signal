@@ -774,6 +774,37 @@ select {
   padding: 12px;
 }
 
+.project-progress-network-blocker {
+  display: grid;
+  gap: 8px;
+  grid-column: 1 / -1;
+  border: 1px solid rgba(199, 54, 59, 0.2);
+  border-radius: 8px;
+  background: #fff7f7;
+  padding: 12px;
+}
+
+.project-progress-network-blocker span {
+  color: #9f1239;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.project-progress-network-blocker strong {
+  overflow-wrap: anywhere;
+  color: #7f1d1d;
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.project-progress-network-blocker p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
 .project-progress-evidence span {
   color: #9a3412;
   font-size: 11px;

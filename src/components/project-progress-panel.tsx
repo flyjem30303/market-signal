@@ -45,6 +45,20 @@ export function ProjectProgressPanel() {
           </strong>
           <p>{runtimeGate.blockedNow.slice(0, 4).join(", ")} remain blocked.</p>
         </article>
+        <article className="blocked">
+          <span>Network blocker</span>
+          <strong>{progress.networkBlocker.status}</strong>
+          <p>{progress.networkBlocker.currentFinding}</p>
+        </article>
+      </div>
+      <div
+        className={`project-progress-network-blocker ${progress.networkBlocker.status}`}
+        aria-label={`Supabase network blocker ${progress.networkBlocker.status}`}
+      >
+        <span>Supabase readonly blocker</span>
+        <strong>{progress.networkBlocker.currentFinding}</strong>
+        <p>{progress.networkBlocker.impact}</p>
+        <p>{progress.networkBlocker.nextAction}</p>
       </div>
       <div
         className={`project-progress-evidence ${progress.dataQualityEvidenceGate.status}`}
