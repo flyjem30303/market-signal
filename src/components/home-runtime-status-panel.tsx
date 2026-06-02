@@ -5,6 +5,7 @@ import { getRuntimeInterpretationSummary } from "@/lib/runtime-interpretation";
 import { getSourceDepthBlockerSummary } from "@/lib/source-depth-blockers";
 import { getPublicRuntimeBoundaryCopy } from "@/lib/public-runtime-boundary-copy";
 import { getRuntimeDeliveryCadence } from "@/lib/runtime-delivery-cadence";
+import { getHomeRuntimeActionSummary } from "@/lib/home-runtime-action-summary";
 
 type HomeRuntimeStatusPanelProps = {
   selectedSymbol: string;
@@ -18,6 +19,7 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
   const sourceDepth = getSourceDepthBlockerSummary();
   const boundaryCopy = getPublicRuntimeBoundaryCopy("home");
   const runtimeDeliveryCadence = getRuntimeDeliveryCadence();
+  const actionSummary = getHomeRuntimeActionSummary();
 
   return (
     <section className="home-runtime-status-panel" aria-label="Runtime status">
@@ -47,6 +49,23 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
         <p>{boundaryCopy.blockedState}</p>
         <p>{boundaryCopy.stopLine}</p>
       </article>
+      <div className="home-runtime-action-strip" aria-label="CEO next runtime action summary">
+        <article className="active">
+          <span>Current progress</span>
+          <strong>{actionSummary.currentProgressPercent}%</strong>
+          <p>{actionSummary.stage}</p>
+        </article>
+        <article className="readying">
+          <span>CEO next action</span>
+          <strong>{actionSummary.nextAction}</strong>
+          <p>{actionSummary.nextLift}</p>
+        </article>
+        <article className="blocked">
+          <span>Still blocked</span>
+          <strong>{actionSummary.blockedTransition}</strong>
+          <p>{actionSummary.safetyStopLine}</p>
+        </article>
+      </div>
       <nav>
         <a href={`/stocks/${selectedSymbol}`}>查看個股頁</a>
         <a href="/briefing">查看 CEO/PM briefing</a>

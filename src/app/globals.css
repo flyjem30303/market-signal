@@ -2427,6 +2427,29 @@ select {
   line-height: 1.5;
 }
 
+.home-runtime-action-strip {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.home-runtime-action-strip article {
+  min-width: 0;
+  align-content: start;
+}
+
+.home-runtime-action-strip strong {
+  overflow-wrap: anywhere;
+  font-size: 17px;
+}
+
+.home-runtime-action-strip p {
+  overflow-wrap: anywhere;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
 .home-runtime-status-panel a {
   display: inline-flex;
   align-items: center;
