@@ -22,7 +22,22 @@ export type BlockerPriorityMove = {
   targetSections: string[];
 };
 
+export type BlockerAccelerationStep = {
+  action: string;
+  canRunNow: boolean;
+  command: string;
+  owner: "CEO" | "PM";
+  step: number;
+  stillDoesNotAuthorize: string[];
+};
+
 export type BlockerReadinessSummary = {
+  accelerationPlan: {
+    currentBlockers: string[];
+    fastestSafePath: BlockerAccelerationStep[];
+    recommendedWorkMix: string;
+    status: "ready_for_separate_readonly_decision";
+  };
   firstMove: BlockerPriorityMove & { reason: string };
   lanes: BlockerReadinessLane[];
   parallelMoves: BlockerPriorityMove[];
@@ -36,8 +51,51 @@ export type BlockerReadinessSummary = {
 
 export function getBlockerReadinessSummary(): BlockerReadinessSummary {
   return {
+    accelerationPlan: {
+      currentBlockers: [
+        "row-coverage-readonly is waiting for one explicit bounded remote approval",
+        "data-quality-evidence cannot be lifted until readonly row coverage evidence is accepted",
+        "publicDataSource=supabase and scoreSource=real remain blocked until later gates"
+      ],
+      fastestSafePath: [
+        {
+          action: "Confirm Legal oral outcome is recorded before reopening source-rights decisions.",
+          canRunNow: false,
+          command: "npm run report:narrow-approval-post-review-gate",
+          owner: "CEO",
+          step: 1,
+          stillDoesNotAuthorize: ["Supabase reads", "Supabase writes", "market data ingestion"]
+        },
+        {
+          action: "Confirm Investment oral outcome is recorded before reopening model interpretation decisions.",
+          canRunNow: false,
+          command: "npm run report:narrow-approval-post-review-gate",
+          owner: "CEO",
+          step: 2,
+          stillDoesNotAuthorize: ["scoreSource=real", "buy sell hold advice", "public ranking claim"]
+        },
+        {
+          action: "Re-run post-review and readonly final-prep reports, then keep the result as a decision packet only.",
+          canRunNow: true,
+          command: "npm run check:narrow-approval-post-review-gate && npm run report:supabase-readonly-final-prep",
+          owner: "PM",
+          step: 3,
+          stillDoesNotAuthorize: ["SQL", "Supabase writes", "ingestion", "scoreSource=real"]
+        },
+        {
+          action: "If final prep remains ready, CEO may separately name exactly one bounded readonly attempt.",
+          canRunNow: false,
+          command: "npm run db:readonly-validate",
+          owner: "CEO",
+          step: 4,
+          stillDoesNotAuthorize: ["Supabase writes", "market data ingestion", "public source promotion", "real scoring"]
+        }
+      ],
+      recommendedWorkMix: "readonly readiness 55 / runtime hardening 35 / blocker execution 10",
+      status: "ready_for_separate_readonly_decision"
+    },
     ceoRecommendation:
-      "Move Data, Legal, and Investment in parallel locally. Keep row coverage readonly remote execution paused until explicitly requested.",
+      "Stop expanding governance. Keep blocker execution focused on the fastest safe path, then reopen one separately named readonly decision only if the packet remains ready.",
     firstMove: {
       command: "npm run report:source-rights-disclosure-local-review",
       id: "source-rights-and-disclosure",

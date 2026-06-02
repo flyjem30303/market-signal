@@ -18,6 +18,31 @@ export function BlockerReadinessPanel() {
           source: {summary.publicDataSource} / score: {summary.scoreSource}
         </small>
       </aside>
+      <div className="blocker-acceleration-strip" aria-label="Runtime unblock acceleration">
+        <article>
+          <span>Acceleration status</span>
+          <strong>{summary.accelerationPlan.status}</strong>
+          <p>{summary.accelerationPlan.recommendedWorkMix}</p>
+        </article>
+        <article className="blocked">
+          <span>Current blockers</span>
+          <strong>{summary.accelerationPlan.currentBlockers.length} active</strong>
+          <p>{summary.accelerationPlan.currentBlockers.slice(0, 2).join("; ")}.</p>
+        </article>
+      </div>
+      <div className="blocker-fastest-path" aria-label="Fastest safe unblock path">
+        {summary.accelerationPlan.fastestSafePath.map((step) => (
+          <article className={step.canRunNow ? "ready" : "hold"} key={step.step}>
+            <span>
+              Step {step.step} / {step.owner}
+            </span>
+            <strong>{step.canRunNow ? "can run locally" : "hold"}</strong>
+            <p>{step.action}</p>
+            <code>{step.command}</code>
+            <small>Still blocked: {step.stillDoesNotAuthorize.join(", ")}</small>
+          </article>
+        ))}
+      </div>
       <div className="blocker-priority-strip" aria-label="Blocker priority order">
         <article>
           <span>First move</span>
