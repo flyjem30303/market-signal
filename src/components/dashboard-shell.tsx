@@ -279,18 +279,22 @@ export function DashboardShell({
       {includeSeoContent && (
         <>
           <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
-          <Cp3RuntimeStatePanel freshness={freshness} snapshot={snapshot} />
           <StockRuntimeAtAGlance scoreSourceLabel={freshness.scoreSourceLabel} snapshot={snapshot} />
+          <StockRuntimeBrief scoreSourceLabel={freshness.scoreSourceLabel} snapshot={snapshot} onTab={changeTab} />
           {selected.symbol === "TWII" && (
             <TwiiMockDisclosureStatus
               disclosure={twiiMockDisclosure}
               label="TWII stock page mock disclosure status"
             />
           )}
+          <details className="stock-runtime-details">
+            <summary>技術 runtime 細節（PM / 工程）</summary>
+            <p>公開頁面先顯示可讀摘要；這裡保留內部 runtime gate、停止線與 next gate 給 PM / Engineering 檢查。</p>
+            <Cp3RuntimeStatePanel freshness={freshness} snapshot={snapshot} />
+          </details>
           <StockEvidenceSnapshot snapshot={snapshot} />
           <StockDataGapPanel snapshot={snapshot} onTab={changeTab} />
           <StockDecisionCompass scoreSourceLabel={freshness.scoreSourceLabel} snapshot={snapshot} />
-          <StockRuntimeBrief scoreSourceLabel={freshness.scoreSourceLabel} snapshot={snapshot} onTab={changeTab} />
           <StockMarketContextPanel
             groupAverage={marketContext.groupAverage}
             groupCount={marketContext.groupCount}

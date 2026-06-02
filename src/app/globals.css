@@ -4412,6 +4412,30 @@ select {
   background: #fbfcfe;
 }
 
+.stock-runtime-details {
+  background: #fff;
+  border: 1px solid #dbe4f0;
+  border-radius: 8px;
+  margin: 0 0 16px;
+  padding: 14px;
+}
+
+.stock-runtime-details summary {
+  color: #17324d;
+  cursor: pointer;
+  font-weight: 850;
+}
+
+.stock-runtime-details > p {
+  color: var(--muted);
+  line-height: 1.7;
+  margin: 8px 0 14px;
+}
+
+.stock-runtime-details[open] {
+  background: #fbfcfe;
+}
+
 .stock-decision-boundary h2 {
   margin: 0 0 8px;
 }

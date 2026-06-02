@@ -25,6 +25,8 @@ const surfaces = [
       "getPublicRuntimeBoundaryCopy",
       "boundaryCopy.blockedState",
       "getRuntimeDeliveryCadence",
+      "stock-runtime-details",
+      "技術 runtime 細節（PM / 工程）",
       "runtime-cutpoint-card",
       "mock-only runtime 燈號、模組分數與資料缺口",
       "Supabase runtime 與正式分數來源尚未啟用"
