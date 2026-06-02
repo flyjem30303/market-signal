@@ -9,6 +9,7 @@ import { getHomeRuntimeActionSummary } from "@/lib/home-runtime-action-summary";
 import { getRuntimeStateConsistencySummary } from "@/lib/runtime-state-consistency";
 import { getRuntimeFailClosedSummary } from "@/lib/runtime-fail-closed";
 import { getPostReadonlyRuntimeState } from "@/lib/post-readonly-runtime-state";
+import { getRuntimeProductSummary } from "@/lib/runtime-product-summary";
 
 type HomeRuntimeStatusPanelProps = {
   selectedSymbol: string;
@@ -26,6 +27,7 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
   const runtimeStateConsistency = getRuntimeStateConsistencySummary();
   const failClosed = getRuntimeFailClosedSummary();
   const postReadonlyRuntime = getPostReadonlyRuntimeState();
+  const productSummary = getRuntimeProductSummary(selectedSymbol);
 
   return (
     <section className="home-runtime-status-panel" aria-label="Runtime status">
@@ -33,51 +35,28 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
         <p className="eyebrow">Runtime Status</p>
         <h2>Mock-only runtime is active</h2>
         <p>
-          {selectedSymbol} is currently limited to mock scoring and local readiness. Real market data,
-          Supabase-backed public data, and scoreSource=real are blocked by the shared fail-closed guard.
-          CEO has shifted delivery toward a larger runtime product slice.
+          {selectedSymbol} is currently limited to mock scoring and local readiness. CEO has shifted the first screen
+          toward product-readable runtime status while the briefing keeps PM and technical detail. Real market data and
+          scoreSource=real are blocked.
         </p>
       </div>
-      <article className="active runtime-delivery-card">
-        <span>Delivery cadence</span>
-        <strong>{runtimeDeliveryCadence.nextExecutionRatio}</strong>
-        <p>{runtimeDeliveryCadence.targetSliceSize}</p>
-      </article>
-      <article className="active runtime-boundary-copy-card">
-        <span>Visible now</span>
-        <strong>{boundaryCopy.headline}</strong>
-        <p>{boundaryCopy.summary}</p>
-        <p>{boundaryCopy.currentState}</p>
-      </article>
-      <article className="blocked runtime-boundary-copy-card">
-        <span>Not live yet</span>
-        <strong>real data blocked</strong>
-        <p>{boundaryCopy.blockedState}</p>
-        <p>{boundaryCopy.stopLine}</p>
-      </article>
-      <div className="home-runtime-action-strip" aria-label="CEO next runtime action summary">
+      <div className="runtime-product-summary" aria-label="Runtime product summary">
         <article className="active">
-          <span>Current progress</span>
-          <strong>{actionSummary.currentProgressPercent}%</strong>
-          <p>{actionSummary.stage}</p>
-        </article>
-        <article className="readying">
-          <span>CEO next action</span>
-          <strong>{actionSummary.nextAction}</strong>
-          <p>{actionSummary.nextLift}</p>
+          <span>{productSummary.useNow.label}</span>
+          <strong>{productSummary.useNow.title}</strong>
+          <p>{productSummary.useNow.body}</p>
         </article>
         <article className="blocked">
-          <span>Still blocked</span>
-          <strong>{actionSummary.blockedTransition}</strong>
-          <p>{actionSummary.safetyStopLine}</p>
+          <span>{productSummary.notLiveYet.label}</span>
+          <strong>{productSummary.notLiveYet.title}</strong>
+          <p>{productSummary.notLiveYet.body}</p>
+        </article>
+        <article className="readying">
+          <span>{productSummary.nextGate.label}</span>
+          <strong>{productSummary.nextGate.title}</strong>
+          <p>{productSummary.nextGate.body}</p>
         </article>
       </div>
-      <article className="blocked runtime-fail-closed-card">
-        <span>Fail-closed guard</span>
-        <strong>{failClosed.failClosedState}</strong>
-        <p>{failClosed.statusLine}</p>
-        <p>{failClosed.stopLine}</p>
-      </article>
       <article className="active post-readonly-runtime-card">
         <span>Readonly result</span>
         <strong>{postReadonlyRuntime.objectsReachable} objects reachable</strong>
@@ -97,6 +76,38 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
           scoreSource=real and publicDataSource=supabase blocked.
         </p>
         <div>
+          <article className="active runtime-delivery-card">
+            <span>Delivery cadence</span>
+            <strong>{runtimeDeliveryCadence.nextExecutionRatio}</strong>
+            <p>{runtimeDeliveryCadence.targetSliceSize}</p>
+          </article>
+          <article className="active runtime-boundary-copy-card">
+            <span>Visible now</span>
+            <strong>{boundaryCopy.headline}</strong>
+            <p>{boundaryCopy.summary}</p>
+            <p>{boundaryCopy.currentState}</p>
+          </article>
+          <article className="blocked runtime-boundary-copy-card">
+            <span>Not live yet</span>
+            <strong>real data blocked</strong>
+            <p>{boundaryCopy.blockedState}</p>
+            <p>{boundaryCopy.stopLine}</p>
+          </article>
+          <article className="active">
+            <span>Current progress</span>
+            <strong>{actionSummary.currentProgressPercent}%</strong>
+            <p>{actionSummary.stage}</p>
+          </article>
+          <article className="readying">
+            <span>CEO next action</span>
+            <strong>{actionSummary.nextAction}</strong>
+            <p>{actionSummary.nextLift}</p>
+          </article>
+          <article className="blocked">
+            <span>Still blocked</span>
+            <strong>{actionSummary.blockedTransition}</strong>
+            <p>{actionSummary.safetyStopLine}</p>
+          </article>
           <article className="readying">
             <span>Runtime readiness</span>
             <strong>{readiness.score}%</strong>
@@ -134,8 +145,9 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
           </article>
           <article className="blocked runtime-fail-closed-card">
             <span>Fail-closed blocked actions</span>
-            <strong>{failClosed.allowedState}</strong>
+            <strong>{failClosed.failClosedState}</strong>
             <p>{failClosed.blockedActions.slice(0, 4).join(", ")}.</p>
+            <p>{failClosed.allowedState}</p>
           </article>
           <article className="readying post-readonly-runtime-card">
             <span>Post-readonly next gate</span>

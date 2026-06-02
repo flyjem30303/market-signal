@@ -2487,6 +2487,22 @@ select {
   min-width: 0;
 }
 
+.runtime-product-summary {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.runtime-product-summary article {
+  align-content: start;
+  min-height: 132px;
+}
+
+.runtime-product-summary strong {
+  font-size: 17px;
+}
+
 .post-readonly-runtime-card {
   min-width: 0;
 }

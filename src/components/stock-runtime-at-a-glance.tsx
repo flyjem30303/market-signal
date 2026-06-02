@@ -9,6 +9,7 @@ import { getHomeRuntimeActionSummary } from "@/lib/home-runtime-action-summary";
 import { getRuntimeStateConsistencySummary } from "@/lib/runtime-state-consistency";
 import { getRuntimeFailClosedSummary } from "@/lib/runtime-fail-closed";
 import { getPostReadonlyRuntimeState } from "@/lib/post-readonly-runtime-state";
+import { getRuntimeProductSummary } from "@/lib/runtime-product-summary";
 import type { SignalSnapshot } from "@/lib/signal-model";
 
 type StockRuntimeAtAGlanceProps = {
@@ -28,6 +29,7 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
   const runtimeStateConsistency = getRuntimeStateConsistencySummary();
   const failClosed = getRuntimeFailClosedSummary();
   const postReadonlyRuntime = getPostReadonlyRuntimeState();
+  const productSummary = getRuntimeProductSummary(snapshot.asset.symbol);
 
   return (
     <section className="stock-runtime-at-a-glance" aria-label="Stock runtime status">
@@ -35,19 +37,47 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
         <p className="eyebrow">Runtime At A Glance</p>
         <h2>{snapshot.asset.symbol} is mock-only runtime</h2>
         <p>
-          This page can show mock interpretation, local readiness, and blocked runtime gates only. Real market data,
-          Supabase-backed public data, and scoreSource=real require a separate accepted gate and post-run review.
+          This page now prioritizes product-readable runtime status. Detailed readiness, source-depth, and blocker
+          context remain visible below for PM and CEO review. Supabase-backed public data remains blocked;
+          scoreSource=real require a separate accepted gate.
         </p>
       </div>
-      <article className="active runtime-delivery-card">
-        <span>Delivery cadence</span>
-        <strong>{runtimeDeliveryCadence.nextExecutionRatio}</strong>
-        <p>{runtimeDeliveryCadence.targetSliceSize}</p>
-      </article>
+      <div className="runtime-product-summary" aria-label="Runtime product summary">
+        <article className="active">
+          <span>{productSummary.useNow.label}</span>
+          <strong>{productSummary.useNow.title}</strong>
+          <p>{productSummary.useNow.body}</p>
+        </article>
+        <article className="blocked">
+          <span>{productSummary.notLiveYet.label}</span>
+          <strong>{productSummary.notLiveYet.title}</strong>
+          <p>{productSummary.notLiveYet.body}</p>
+        </article>
+        <article className="readying">
+          <span>{productSummary.nextGate.label}</span>
+          <strong>{productSummary.nextGate.title}</strong>
+          <p>{productSummary.nextGate.body}</p>
+        </article>
+      </div>
       <article className="active runtime-boundary-copy-card">
         <span>Score source</span>
         <strong>{scoreSourceLabel}</strong>
         <p>Current score source remains mock runtime; scoreSource=real is not enabled.</p>
+      </article>
+      <article className="active post-readonly-runtime-card">
+        <span>Readonly result</span>
+        <strong>{postReadonlyRuntime.objectsReachable} objects reachable</strong>
+        <p>{postReadonlyRuntime.userFacingSummary}</p>
+      </article>
+      <article className="blocked">
+        <span>Source depth</span>
+        <strong>{sourceDepth.sourceDepthState}</strong>
+        <p>{sourceDepth.stopLine}</p>
+      </article>
+      <article className="active runtime-delivery-card">
+        <span>Delivery cadence</span>
+        <strong>{runtimeDeliveryCadence.nextExecutionRatio}</strong>
+        <p>{runtimeDeliveryCadence.targetSliceSize}</p>
       </article>
       <article className="active">
         <span>Visible now</span>
@@ -66,16 +96,6 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
         <strong>{failClosed.failClosedState}</strong>
         <p>{failClosed.statusLine}</p>
         <p>{failClosed.blockedActions.slice(0, 4).join(", ")}.</p>
-      </article>
-      <article className="active post-readonly-runtime-card">
-        <span>Readonly result</span>
-        <strong>{postReadonlyRuntime.objectsReachable} objects reachable</strong>
-        <p>{postReadonlyRuntime.userFacingSummary}</p>
-      </article>
-      <article className="blocked">
-        <span>Source depth</span>
-        <strong>{sourceDepth.sourceDepthState}</strong>
-        <p>{sourceDepth.stopLine}</p>
       </article>
       <div className="stock-runtime-action-strip" aria-label="Stock CEO next runtime action summary">
         <article className="active">

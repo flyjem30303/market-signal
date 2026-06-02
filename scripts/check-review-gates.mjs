@@ -2733,6 +2733,11 @@ const checks = [
     name: "post-readonly-runtime-state"
   },
   {
+    command: [node, "scripts/check-runtime-product-summary.mjs"],
+    expectStatus: "ok",
+    name: "runtime-product-summary"
+  },
+  {
     command: [node, "scripts/check-trust-runtime-boundary-notice.mjs"],
     expectStatus: "ok",
     name: "trust-runtime-boundary-notice"
