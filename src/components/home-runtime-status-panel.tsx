@@ -47,45 +47,51 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
         <p>{boundaryCopy.blockedState}</p>
         <p>{boundaryCopy.stopLine}</p>
       </article>
-      <article className="readying">
-        <span>Runtime readiness</span>
-        <strong>{readiness.score}%</strong>
-        <p>{readiness.status}</p>
-      </article>
-      <article className="blocked">
-        <span>Source depth</span>
-        <strong>{sourceDepth.sourceDepthState}</strong>
-        <p>scoreSource: {sourceDepth.scoreSource}</p>
-      </article>
-      <article className="readying">
-        <span>Row coverage</span>
-        <strong>{rowCoverage.readiness}</strong>
-        <p>
-          {rowCoverage.publicDataSource} / {rowCoverage.scoreSource}. {rowCoverage.stopLine}
-        </p>
-      </article>
-      <article className="readying">
-        <span>CEO track</span>
-        <strong>{runtimeInterpretation.decision}</strong>
-        <p>
-          Runtime {runtimeInterpretation.laneRatio.mockRuntimeHardening}% / readonly prep{" "}
-          {runtimeInterpretation.laneRatio.supabaseReadonlyPreparation}%. {runtimeInterpretation.blockers[0]}.
-        </p>
-      </article>
-      <article className="readying runtime-cutpoint-card">
-        <span>Mandatory cutpoints</span>
-        <strong>necessary gates remain</strong>
-        <p>{runtimeDeliveryCadence.mandatoryCutpoints.slice(0, 3).join("; ")}.</p>
-      </article>
-      <article className="blocked">
-        <span>Blocker readiness</span>
-        <strong>{blockerReadiness.status}</strong>
-        <p>Data / Legal / Investment checklists are local-ready. {runtimeInterpretation.stopLine}</p>
-      </article>
       <nav>
         <a href={`/stocks/${selectedSymbol}`}>查看個股頁</a>
         <a href="/briefing">查看 CEO/PM briefing</a>
       </nav>
+      <details className="home-runtime-details">
+        <summary>內部 runtime 細節（PM / 工程）</summary>
+        <p>首頁先保留公開可讀結論；readiness、row coverage、source depth 與必要切點仍在這裡供內部檢查。</p>
+        <div>
+          <article className="readying">
+            <span>Runtime readiness</span>
+            <strong>{readiness.score}%</strong>
+            <p>{readiness.status}</p>
+          </article>
+          <article className="blocked">
+            <span>Source depth</span>
+            <strong>{sourceDepth.sourceDepthState}</strong>
+            <p>scoreSource: {sourceDepth.scoreSource}</p>
+          </article>
+          <article className="readying">
+            <span>Row coverage</span>
+            <strong>{rowCoverage.readiness}</strong>
+            <p>
+              {rowCoverage.publicDataSource} / {rowCoverage.scoreSource}. {rowCoverage.stopLine}
+            </p>
+          </article>
+          <article className="readying">
+            <span>CEO track</span>
+            <strong>{runtimeInterpretation.decision}</strong>
+            <p>
+              Runtime {runtimeInterpretation.laneRatio.mockRuntimeHardening}% / readonly prep{" "}
+              {runtimeInterpretation.laneRatio.supabaseReadonlyPreparation}%. {runtimeInterpretation.blockers[0]}.
+            </p>
+          </article>
+          <article className="readying runtime-cutpoint-card">
+            <span>Mandatory cutpoints</span>
+            <strong>necessary gates remain</strong>
+            <p>{runtimeDeliveryCadence.mandatoryCutpoints.slice(0, 3).join("; ")}.</p>
+          </article>
+          <article className="blocked">
+            <span>Blocker readiness</span>
+            <strong>{blockerReadiness.status}</strong>
+            <p>Data / Legal / Investment checklists are local-ready. {runtimeInterpretation.stopLine}</p>
+          </article>
+        </div>
+      </details>
     </section>
   );
 }

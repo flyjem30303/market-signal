@@ -2202,6 +2202,36 @@ select {
   background: #e8f4ef;
 }
 
+.home-runtime-details {
+  display: grid;
+  grid-column: 1 / -1;
+  gap: 10px;
+  border: 1px solid #dbe4f0;
+  border-radius: 8px;
+  background: #fff;
+  padding: 12px;
+}
+
+.home-runtime-details summary {
+  color: #17324d;
+  cursor: pointer;
+  font-weight: 850;
+}
+
+.home-runtime-details > p {
+  margin: 2px 0 10px;
+}
+
+.home-runtime-details > div {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+}
+
+.home-runtime-details[open] {
+  background: #fbfcfe;
+}
+
 .stock-runtime-at-a-glance {
   display: grid;
   grid-template-columns: minmax(280px, 1.05fr) repeat(auto-fit, minmax(150px, 0.5fr));

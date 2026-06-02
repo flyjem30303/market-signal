@@ -13,6 +13,8 @@ const surfaces = [
       "boundaryCopy.currentState",
       "getRuntimeDeliveryCadence",
       "runtime-delivery-card",
+      "home-runtime-details",
+      "內部 runtime 細節（PM / 工程）",
       "mock-only runtime 比較台指、個股與 ETF",
       "目前仍未啟用 Supabase runtime 或正式分數來源"
     ]
