@@ -68,6 +68,24 @@ export default async function BriefingPage() {
       </section>
       <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
 
+      <nav aria-label="Experience Flow" className="experience-flow-nav">
+        <span>閱讀路徑</span>
+        <TrackedLink eventName="briefing_link_clicked" href="/" label="回首頁看市場總覽" payload={{ area: "experience_flow", target: "home" }}>
+          回首頁看市場總覽
+        </TrackedLink>
+        <TrackedLink
+          eventName="briefing_link_clicked"
+          href={`/stocks/${market.asset.symbol}`}
+          label="看台指狀態"
+          payload={{ area: "experience_flow", symbol: market.asset.symbol }}
+        >
+          看台指狀態
+        </TrackedLink>
+        <TrackedLink eventName="briefing_link_clicked" href="/weekly" label="延伸到本週週報" payload={{ area: "experience_flow", target: "weekly" }}>
+          延伸到本週週報
+        </TrackedLink>
+      </nav>
+
       <ProjectProgressPanel />
       <RuntimeReadinessPanel />
       <BriefingRowCoverageStatus />

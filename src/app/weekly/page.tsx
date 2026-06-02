@@ -53,6 +53,23 @@ export default async function WeeklyPage() {
         </p>
       </section>
       <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
+      <nav aria-label="Experience Flow" className="experience-flow-nav">
+        <span>閱讀路徑</span>
+        <TrackedLink eventName="weekly_link_clicked" href="/" label="回首頁看市場總覽" payload={{ area: "experience_flow", target: "home" }}>
+          回首頁看市場總覽
+        </TrackedLink>
+        <TrackedLink eventName="weekly_link_clicked" href="/briefing" label="回到每日晨報" payload={{ area: "experience_flow", target: "briefing" }}>
+          回到每日晨報
+        </TrackedLink>
+        <TrackedLink
+          eventName="weekly_link_clicked"
+          href={`/stocks/${market.asset.symbol}`}
+          label="看台指狀態"
+          payload={{ area: "experience_flow", symbol: market.asset.symbol }}
+        >
+          看台指狀態
+        </TrackedLink>
+      </nav>
       <TrustRuntimeBoundaryNotice context="weekly" />
       <WeeklyRowCoverageStatus />
       <section className="weekly-runtime-action-summary" aria-label="Weekly CEO next runtime action summary">

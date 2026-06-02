@@ -2753,6 +2753,11 @@ const checks = [
     name: "stock-visual-hierarchy"
   },
   {
+    command: [node, "scripts/check-experience-flow-navigation.mjs"],
+    expectStatus: "ok",
+    name: "experience-flow-navigation"
+  },
+  {
     command: [node, "scripts/check-runtime-state-consistency.mjs"],
     expectStatus: "ok",
     name: "runtime-state-consistency"

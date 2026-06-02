@@ -282,6 +282,7 @@
     "check:stock-governance-details-readability": "node scripts/check-stock-governance-details-readability.mjs",
     "check:home-visual-hierarchy": "node scripts/check-home-visual-hierarchy.mjs",
     "check:stock-visual-hierarchy": "node scripts/check-stock-visual-hierarchy.mjs",
+    "check:experience-flow-navigation": "node scripts/check-experience-flow-navigation.mjs",
     "check:trust-runtime-boundary-notice": "node scripts/check-trust-runtime-boundary-notice.mjs",
     "check:public-runtime-boundary-coverage": "node scripts/check-public-runtime-boundary-coverage.mjs",
     "check:cp3-5pm-runtime-readiness-checkpoint": "node scripts/check-cp3-5pm-runtime-readiness-checkpoint.mjs",
