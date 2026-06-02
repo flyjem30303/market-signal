@@ -1,5 +1,6 @@
 import type { DataFreshnessSnapshot } from "@/lib/data-freshness";
 import { getFreshnessEvidenceBoundarySummary } from "@/lib/freshness-evidence-boundary";
+import { getFreshnessRuntimeOperationDecisionSummary } from "@/lib/freshness-runtime-operation-decision";
 
 type FreshnessEvidenceBoundaryProps = {
   freshness: DataFreshnessSnapshot;
@@ -7,6 +8,7 @@ type FreshnessEvidenceBoundaryProps = {
 
 export function FreshnessEvidenceBoundary({ freshness }: FreshnessEvidenceBoundaryProps) {
   const boundary = getFreshnessEvidenceBoundarySummary(freshness);
+  const operationDecision = getFreshnessRuntimeOperationDecisionSummary(freshness);
 
   return (
     <section className="freshness-evidence-boundary" aria-label="Freshness evidence boundary">
@@ -23,6 +25,21 @@ export function FreshnessEvidenceBoundary({ freshness }: FreshnessEvidenceBounda
         </article>
       ))}
       <p className="freshness-evidence-stop-line">{boundary.stopLine}</p>
+      <div className="freshness-operation-decision" aria-label="Freshness runtime operation decision">
+        <div>
+          <span>Operation decision</span>
+          <strong>{operationDecision.headline}</strong>
+          <p>{operationDecision.nextAction}</p>
+        </div>
+        {operationDecision.decisions.map((decision) => (
+          <article className={decision.state} key={decision.label}>
+            <span>{decision.label}</span>
+            <strong>{decision.value}</strong>
+            <p>{decision.body}</p>
+          </article>
+        ))}
+        <p className="freshness-operation-stop-line">{operationDecision.stopLine}</p>
+      </div>
     </section>
   );
 }

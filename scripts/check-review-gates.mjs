@@ -2843,6 +2843,11 @@ const checks = [
     name: "freshness-evidence-boundary"
   },
   {
+    command: [node, "scripts/check-freshness-runtime-operation-decision.mjs"],
+    expectStatus: "ok",
+    name: "freshness-runtime-operation-decision"
+  },
+  {
     command: [
       node,
       "--disable-warning=MODULE_TYPELESS_PACKAGE_JSON",
