@@ -2825,7 +2825,7 @@ select {
 .runtime-product-summary {
   display: grid;
   grid-column: 1 / -1;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 10px;
 }
 
@@ -2836,6 +2836,18 @@ select {
 
 .runtime-product-summary strong {
   font-size: 17px;
+}
+
+.runtime-network-blocker-card {
+  display: grid;
+  gap: 8px;
+  grid-column: 1 / -1;
+  border-color: rgba(199, 54, 59, 0.22);
+  background: #fff5f5;
+}
+
+.runtime-network-blocker-card strong {
+  overflow-wrap: anywhere;
 }
 
 .stock-runtime-headline-summary {

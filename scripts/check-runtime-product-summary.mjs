@@ -1,6 +1,7 @@
 import fs from "node:fs";
 
 const helperPath = "src/lib/runtime-product-summary.ts";
+const networkBlockerPath = "src/lib/supabase-network-blocker.ts";
 const homePath = "src/components/home-runtime-status-panel.tsx";
 const stockPath = "src/components/stock-runtime-at-a-glance.tsx";
 const cssPath = "src/app/globals.css";
@@ -8,7 +9,7 @@ const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 
 const files = new Map(
-  [helperPath, homePath, stockPath, cssPath, packagePath, reviewGatePath].map((file) => [
+  [helperPath, networkBlockerPath, homePath, stockPath, cssPath, packagePath, reviewGatePath].map((file) => [
     file,
     fs.readFileSync(file, "utf8")
   ])
@@ -17,30 +18,48 @@ const files = new Map(
 const required = [
   [helperPath, "RuntimeProductSummary"],
   [helperPath, "getRuntimeProductSummary"],
+  [helperPath, "getSupabaseNetworkBlockerSummary"],
+  [helperPath, "networkBlocker"],
   [helperPath, "Use now"],
   [helperPath, "Not live yet"],
   [helperPath, "Next gate"],
   [helperPath, "Use mock signals for reading only"],
   [helperPath, "Real-data claims are not live"],
-  [helperPath, "Review readiness before runtime activation"],
+  [helperPath, "Resolve network reachability first"],
   [helperPath, "mock-only signal reading, risk sorting, and product-flow validation"],
   [helperPath, "It does not provide investment advice or real market-data evidence"],
   [helperPath, "Real market data, Supabase-backed public data, SQL scoring"],
   [helperPath, "publicDataSource=supabase"],
   [helperPath, "scoreSource=real remain blocked"],
-  [helperPath, "schema shape, freshness, row coverage, and public wording"],
+  [helperPath, "previous readonly evidence"],
+  [helperPath, "TCP 443 reachability"],
   [helperPath, "objectsReachable"],
+  [networkBlockerPath, "SupabaseNetworkBlockerSummary"],
+  [networkBlockerPath, "getSupabaseNetworkBlockerSummary"],
+  [networkBlockerPath, "DNS ok, TCP 443 blocked before TLS and REST"],
+  [networkBlockerPath, "local network reachability"],
+  [networkBlockerPath, "firewall, proxy, VPN, endpoint-security"],
+  [networkBlockerPath, "publicDataSource: \"mock\""],
+  [networkBlockerPath, "scoreSource: \"mock\""],
+  [networkBlockerPath, "status: \"tcp443_blocked\""],
+  [networkBlockerPath, "Do not retry generic Supabase readonly attempts"],
   [homePath, "getRuntimeProductSummary"],
   [homePath, "runtime-product-summary"],
   [homePath, "productSummary.useNow"],
   [homePath, "productSummary.notLiveYet"],
   [homePath, "productSummary.nextGate"],
+  [homePath, "productSummary.networkBlocker"],
+  [homePath, "runtime-network-blocker-card"],
   [stockPath, "getRuntimeProductSummary"],
   [stockPath, "runtime-product-summary"],
   [stockPath, "productSummary.useNow"],
   [stockPath, "productSummary.notLiveYet"],
   [stockPath, "productSummary.nextGate"],
+  [stockPath, "productSummary.networkBlocker"],
+  [stockPath, "runtime-network-blocker-card"],
   [cssPath, ".runtime-product-summary"],
+  [cssPath, "repeat(4, minmax(0, 1fr))"],
+  [cssPath, ".runtime-network-blocker-card"],
   [packagePath, "\"check:runtime-product-summary\": \"node scripts/check-runtime-product-summary.mjs\""],
   [reviewGatePath, "scripts/check-runtime-product-summary.mjs"]
 ];
@@ -57,16 +76,17 @@ const forbidden = [
   [helperPath, "node:fs"],
   [helperPath, "scoreSource: \"real\""],
   [helperPath, "publicDataSource: \"supabase\""],
-  [helperPath, "嚗"],
-  [helperPath, "蝻"],
-  [helperPath, "撌"],
-  [helperPath, "靽"],
-  [helperPath, "銝"],
-  [helperPath, "鞈"],
-  [helperPath, "蝬"],
-  [helperPath, "璅"],
-  [helperPath, "?"],
-  [helperPath, "?舀"],
+  [networkBlockerPath, "@supabase/supabase-js"],
+  [networkBlockerPath, "createClient"],
+  [networkBlockerPath, "fetch("],
+  [networkBlockerPath, ".from("],
+  [networkBlockerPath, ".insert("],
+  [networkBlockerPath, ".update("],
+  [networkBlockerPath, ".delete("],
+  [networkBlockerPath, "process.env"],
+  [networkBlockerPath, "node:fs"],
+  [networkBlockerPath, "scoreSource: \"real\""],
+  [networkBlockerPath, "publicDataSource: \"supabase\""],
   [homePath, "scoreSource: \"real\""],
   [stockPath, "scoreSource: \"real\""]
 ];

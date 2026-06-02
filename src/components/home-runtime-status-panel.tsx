@@ -58,7 +58,18 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
           <strong>{productSummary.nextGate.title}</strong>
           <p>{productSummary.nextGate.body}</p>
         </article>
+        <article className="blocked">
+          <span>Network blocker</span>
+          <strong>{productSummary.networkBlocker.status}</strong>
+          <p>{productSummary.networkBlocker.currentFinding}</p>
+        </article>
       </div>
+      <article className="blocked runtime-network-blocker-card">
+        <span>Supabase network blocker</span>
+        <strong>{productSummary.networkBlocker.currentFinding}</strong>
+        <p>{productSummary.networkBlocker.impact}</p>
+        <p>{productSummary.networkBlocker.nextAction}</p>
+      </article>
       <RuntimeTransitionRail symbol={selectedSymbol} />
       <PublicRuntimeStateStrip context="home" />
       <article className="active post-readonly-runtime-card">

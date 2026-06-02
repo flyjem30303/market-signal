@@ -1,6 +1,8 @@
 import { getPostReadonlyRuntimeState } from "@/lib/post-readonly-runtime-state";
+import { getSupabaseNetworkBlockerSummary, type SupabaseNetworkBlockerSummary } from "@/lib/supabase-network-blocker";
 
 export type RuntimeProductSummary = {
+  networkBlocker: SupabaseNetworkBlockerSummary;
   nextGate: {
     body: string;
     label: "Next gate";
@@ -20,10 +22,12 @@ export type RuntimeProductSummary = {
 
 export function getRuntimeProductSummary(symbol: string): RuntimeProductSummary {
   const postReadonly = getPostReadonlyRuntimeState();
+  const networkBlocker = getSupabaseNetworkBlockerSummary();
 
   return {
+    networkBlocker,
     nextGate: {
-      body: `Readonly evidence has ${postReadonly.objectsReachable} Supabase objects reachable, but the next gate is still a bounded CEO-named review for schema shape, freshness, row coverage, and public wording.`,
+      body: `Resolve network reachability first: previous readonly evidence had ${postReadonly.objectsReachable} Supabase objects reachable, but the latest blocker is ${networkBlocker.status}. Resolve TCP 443 reachability before another bounded CEO-named readonly gate.`,
       label: "Next gate",
       title: "Review readiness before runtime activation"
     },

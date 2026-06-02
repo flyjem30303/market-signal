@@ -76,7 +76,18 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
           <strong>{productSummary.nextGate.title}</strong>
           <p>{productSummary.nextGate.body}</p>
         </article>
+        <article className="blocked">
+          <span>Network blocker</span>
+          <strong>{productSummary.networkBlocker.status}</strong>
+          <p>{productSummary.networkBlocker.currentFinding}</p>
+        </article>
       </div>
+      <article className="blocked runtime-network-blocker-card">
+        <span>Supabase network blocker</span>
+        <strong>{productSummary.networkBlocker.currentFinding}</strong>
+        <p>{productSummary.networkBlocker.impact}</p>
+        <p>{productSummary.networkBlocker.nextAction}</p>
+      </article>
       <RuntimeTransitionRail symbol={snapshot.asset.symbol} />
       <PublicRuntimeStateStrip context="stock" />
       <div className="stock-runtime-action-strip" aria-label="Stock CEO next runtime action summary">
