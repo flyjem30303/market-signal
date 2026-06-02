@@ -26,7 +26,13 @@ for (const phrase of [
   "publicDataSource=supabase",
   "scoreSource=real",
   "record exactly one attempt",
-  "record sanitized aggregate only"
+  "record sanitized aggregate only",
+  "currentDefaultRoute: \"mock_runtime_hardening\"",
+  "Choose between continuing mock runtime hardening now",
+  "CEO explicitly names one bounded Supabase readonly attempt",
+  "Default route: mock runtime hardening",
+  "Optional route: bounded readonly attempt",
+  "requires_separate_ceo_named_action"
 ]) {
   if (!lib.includes(phrase)) missing.push(`${libPath}: ${phrase}`);
 }
@@ -58,7 +64,12 @@ for (const phrase of [
   "Top decision",
   "One-attempt guard",
   "Evidence details",
-  "Work lanes"
+  "Work lanes",
+  "Runtime route snapshot",
+  "runtimeGateBrief.currentDefaultRoute",
+  "runtimeGateBrief.decisionPoint",
+  "runtimeGateBrief.routeOptions",
+  "runtimeGateBrief.separateRemoteTrigger"
 ]) {
   if (!panel.includes(phrase)) missing.push(`${panelPath}: ${phrase}`);
 }
@@ -74,7 +85,8 @@ for (const phrase of [
   ".runtime-single-attempt-card article.blocked",
   ".runtime-post-run-review-card",
   ".runtime-post-run-review-card article.blocked",
-  ".runtime-section-label"
+  ".runtime-section-label",
+  ".runtime-route-snapshot"
 ]) {
   if (!css.includes(phrase)) missing.push(`src/app/globals.css: ${phrase}`);
 }

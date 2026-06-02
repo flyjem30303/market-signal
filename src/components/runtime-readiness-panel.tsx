@@ -37,6 +37,21 @@ export function RuntimeReadinessPanel() {
         title="Top decision"
         text="Current public state, blocked actions, and CEO/PM next step."
       />
+      <div className="runtime-route-snapshot" aria-label="Runtime route snapshot">
+        <article>
+          <span>Current default route</span>
+          <strong>{runtimeGateBrief.currentDefaultRoute}</strong>
+          <p>{runtimeGateBrief.decisionPoint}</p>
+        </article>
+        {runtimeGateBrief.routeOptions.map((option) => (
+          <article className={option.status === "default_now" ? "ready" : "hold"} key={option.id}>
+            <span>{option.status}</span>
+            <strong>{option.title}</strong>
+            <p>{option.reason}</p>
+            <p>{option.nextStep}</p>
+          </article>
+        ))}
+      </div>
       <div className="runtime-state-strip" aria-label="Runtime state summary">
         <article className="runtime-state-pill ready">
           <span>Public source</span>
@@ -72,6 +87,7 @@ export function RuntimeReadinessPanel() {
           <span>CEO/PM next step</span>
           <p>{runtimeGateBrief.pmNextStep}</p>
           <p>{runtimeGateBrief.requiredAuthorization}.</p>
+          <p>Remote trigger: {runtimeGateBrief.separateRemoteTrigger}.</p>
         </article>
       </div>
       <RuntimeSectionLabel
