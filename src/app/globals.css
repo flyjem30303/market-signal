@@ -2883,6 +2883,47 @@ select {
   font-weight: 750;
 }
 
+.stock-runtime-governance-details {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  border-radius: 8px;
+  background: #fafafa;
+  padding: 10px;
+}
+
+.stock-runtime-governance-details > div {
+  display: grid;
+  align-content: center;
+  gap: 6px;
+  grid-column: 1 / -1;
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  padding: 10px;
+}
+
+.stock-runtime-governance-details > div strong,
+.stock-runtime-governance-details > div p {
+  overflow-wrap: anywhere;
+}
+
+.stock-runtime-governance-details > div strong {
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.35;
+}
+
+.stock-runtime-governance-details > div p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
 .runtime-transition-rail {
   display: grid;
   grid-column: 1 / -1;

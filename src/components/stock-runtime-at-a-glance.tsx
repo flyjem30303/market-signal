@@ -80,44 +80,6 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
       </div>
       <RuntimeTransitionRail symbol={snapshot.asset.symbol} />
       <PublicRuntimeStateStrip context="stock" />
-      <article className="active runtime-boundary-copy-card">
-        <span>Score source</span>
-        <strong>{scoreSourceLabel}</strong>
-        <p>Current score source remains mock runtime; scoreSource=real is not enabled.</p>
-      </article>
-      <article className="active post-readonly-runtime-card">
-        <span>Readonly result</span>
-        <strong>{postReadonlyRuntime.objectsReachable} objects reachable</strong>
-        <p>{postReadonlyRuntime.userFacingSummary}</p>
-      </article>
-      <article className="blocked">
-        <span>Source depth</span>
-        <strong>{sourceDepth.sourceDepthState}</strong>
-        <p>{sourceDepth.stopLine}</p>
-      </article>
-      <article className="active runtime-delivery-card">
-        <span>Delivery cadence</span>
-        <strong>{runtimeDeliveryCadence.nextExecutionRatio}</strong>
-        <p>{runtimeDeliveryCadence.targetSliceSize}</p>
-      </article>
-      <article className="active">
-        <span>Visible now</span>
-        <strong>{boundaryCopy.headline}</strong>
-        <p>{boundaryCopy.summary}</p>
-        <p>{boundaryCopy.currentState}</p>
-      </article>
-      <article className="blocked runtime-boundary-copy-card">
-        <span>Not live yet</span>
-        <strong>real data blocked</strong>
-        <p>{boundaryCopy.blockedState}</p>
-        <p>{boundaryCopy.stopLine}</p>
-      </article>
-      <article className="blocked runtime-fail-closed-card">
-        <span>Fail-closed guard</span>
-        <strong>{failClosed.failClosedState}</strong>
-        <p>{failClosed.statusLine}</p>
-        <p>{failClosed.blockedActions.slice(0, 4).join(", ")}.</p>
-      </article>
       <div className="stock-runtime-action-strip" aria-label="Stock CEO next runtime action summary">
         <article className="active">
           <span>Current progress</span>
@@ -135,46 +97,94 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
           <p>{actionSummary.safetyStopLine}</p>
         </article>
       </div>
-      <article className="readying">
-        <span>Row coverage</span>
-        <strong>{rowCoverage.readiness}</strong>
-        <p>
-          {rowCoverage.publicDataSource} / {rowCoverage.scoreSource}. {rowCoverage.stopLine}
-        </p>
-      </article>
-      <article className="readying">
-        <span>Next runtime gate</span>
-        <strong>{readiness.score}% readiness</strong>
-        <p>{rowCoverage.nextDecision}</p>
-      </article>
-      <article className="readying compact-runtime-blocker">
-        <span>CEO track</span>
-        <strong>{runtimeInterpretation.decision}</strong>
-        <p>
-          Runtime {runtimeInterpretation.laneRatio.mockRuntimeHardening}% / readonly prep{" "}
-          {runtimeInterpretation.laneRatio.supabaseReadonlyPreparation}%. {runtimeInterpretation.blockers[0]}.
-        </p>
-      </article>
-      <article className="readying compact-runtime-blocker runtime-cutpoint-card">
-        <span>Mandatory cutpoints</span>
-        <strong>necessary gates remain</strong>
-        <p>{runtimeDeliveryCadence.mandatoryCutpoints.slice(0, 3).join("; ")}.</p>
-      </article>
-      <article className="readying compact-runtime-blocker runtime-consistency-card">
-        <span>State consistency</span>
-        <strong>{runtimeStateConsistency.consistencyState}</strong>
-        <p>{runtimeStateConsistency.statusLine}</p>
-      </article>
-      <article className="readying compact-runtime-blocker post-readonly-runtime-card">
-        <span>Post-readonly next gate</span>
-        <strong>{postReadonlyRuntime.state}</strong>
-        <p>{postReadonlyRuntime.stopLine}</p>
-      </article>
-      <article className="blocked compact-runtime-blocker">
-        <span>Blocker readiness</span>
-        <strong>{blockerReadiness.status}</strong>
-        <p>Data / Legal / Investment checklists are local-ready. {runtimeInterpretation.stopLine}</p>
-      </article>
+      <div className="stock-runtime-governance-details" aria-label="Stock runtime governance details">
+        <div>
+          <span>Governance details</span>
+          <strong>review depth stays below the product summary</strong>
+          <p>
+            PM and CEO can still inspect blockers, delivery cadence, readonly state, and fail-closed rules without
+            turning the first screen into a gate checklist.
+          </p>
+        </div>
+        <article className="active runtime-boundary-copy-card">
+          <span>Score source</span>
+          <strong>{scoreSourceLabel}</strong>
+          <p>Current score source remains mock runtime; scoreSource=real is not enabled.</p>
+        </article>
+        <article className="active post-readonly-runtime-card">
+          <span>Readonly result</span>
+          <strong>{postReadonlyRuntime.objectsReachable} objects reachable</strong>
+          <p>{postReadonlyRuntime.userFacingSummary}</p>
+        </article>
+        <article className="blocked">
+          <span>Source depth</span>
+          <strong>{sourceDepth.sourceDepthState}</strong>
+          <p>{sourceDepth.stopLine}</p>
+        </article>
+        <article className="active runtime-delivery-card">
+          <span>Delivery cadence</span>
+          <strong>{runtimeDeliveryCadence.nextExecutionRatio}</strong>
+          <p>{runtimeDeliveryCadence.targetSliceSize}</p>
+        </article>
+        <article className="active">
+          <span>Visible now</span>
+          <strong>{boundaryCopy.headline}</strong>
+          <p>{boundaryCopy.summary}</p>
+          <p>{boundaryCopy.currentState}</p>
+        </article>
+        <article className="blocked runtime-boundary-copy-card">
+          <span>Not live yet</span>
+          <strong>real data blocked</strong>
+          <p>{boundaryCopy.blockedState}</p>
+          <p>{boundaryCopy.stopLine}</p>
+        </article>
+        <article className="blocked runtime-fail-closed-card">
+          <span>Fail-closed guard</span>
+          <strong>{failClosed.failClosedState}</strong>
+          <p>{failClosed.statusLine}</p>
+          <p>{failClosed.blockedActions.slice(0, 4).join(", ")}.</p>
+        </article>
+        <article className="readying">
+          <span>Row coverage</span>
+          <strong>{rowCoverage.readiness}</strong>
+          <p>
+            {rowCoverage.publicDataSource} / {rowCoverage.scoreSource}. {rowCoverage.stopLine}
+          </p>
+        </article>
+        <article className="readying">
+          <span>Next runtime gate</span>
+          <strong>{readiness.score}% readiness</strong>
+          <p>{rowCoverage.nextDecision}</p>
+        </article>
+        <article className="readying compact-runtime-blocker">
+          <span>CEO track</span>
+          <strong>{runtimeInterpretation.decision}</strong>
+          <p>
+            Runtime {runtimeInterpretation.laneRatio.mockRuntimeHardening}% / readonly prep{" "}
+            {runtimeInterpretation.laneRatio.supabaseReadonlyPreparation}%. {runtimeInterpretation.blockers[0]}.
+          </p>
+        </article>
+        <article className="readying compact-runtime-blocker runtime-cutpoint-card">
+          <span>Mandatory cutpoints</span>
+          <strong>necessary gates remain</strong>
+          <p>{runtimeDeliveryCadence.mandatoryCutpoints.slice(0, 3).join("; ")}.</p>
+        </article>
+        <article className="readying compact-runtime-blocker runtime-consistency-card">
+          <span>State consistency</span>
+          <strong>{runtimeStateConsistency.consistencyState}</strong>
+          <p>{runtimeStateConsistency.statusLine}</p>
+        </article>
+        <article className="readying compact-runtime-blocker post-readonly-runtime-card">
+          <span>Post-readonly next gate</span>
+          <strong>{postReadonlyRuntime.state}</strong>
+          <p>{postReadonlyRuntime.stopLine}</p>
+        </article>
+        <article className="blocked compact-runtime-blocker">
+          <span>Blocker readiness</span>
+          <strong>{blockerReadiness.status}</strong>
+          <p>Data / Legal / Investment checklists are local-ready. {runtimeInterpretation.stopLine}</p>
+        </article>
+      </div>
     </section>
   );
 }
