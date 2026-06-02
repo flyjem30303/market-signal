@@ -3,6 +3,7 @@ import { getBlockerReadinessSummary } from "@/lib/blocker-readiness";
 import { getRowCoverageSecondAttemptReadiness } from "@/lib/row-coverage-second-attempt-readiness";
 import { getRuntimeInterpretationSummary } from "@/lib/runtime-interpretation";
 import { getSourceDepthBlockerSummary } from "@/lib/source-depth-blockers";
+import { getPublicRuntimeBoundaryCopy } from "@/lib/public-runtime-boundary-copy";
 import type { SignalSnapshot } from "@/lib/signal-model";
 
 type StockRuntimeAtAGlanceProps = {
@@ -16,6 +17,7 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
   const rowCoverage = getRowCoverageSecondAttemptReadiness();
   const runtimeInterpretation = getRuntimeInterpretationSummary();
   const sourceDepth = getSourceDepthBlockerSummary();
+  const boundaryCopy = getPublicRuntimeBoundaryCopy("stock");
 
   return (
     <section className="stock-runtime-at-a-glance" aria-label="Stock runtime status">
@@ -32,6 +34,18 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
         <span>Score source</span>
         <strong>{scoreSourceLabel}</strong>
         <p>公開分數仍由 mock runtime 提供，尚未進入真實市場資料計分，scoreSource=real 仍未完成。</p>
+      </article>
+      <article className="active">
+        <span>Visible now</span>
+        <strong>{boundaryCopy.headline}</strong>
+        <p>{boundaryCopy.summary}</p>
+        <p>{boundaryCopy.currentState}</p>
+      </article>
+      <article className="blocked">
+        <span>Not live yet</span>
+        <strong>real data blocked</strong>
+        <p>{boundaryCopy.blockedState}</p>
+        <p>{boundaryCopy.stopLine}</p>
       </article>
       <article className="blocked">
         <span>Source depth</span>

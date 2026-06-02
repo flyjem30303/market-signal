@@ -7,36 +7,37 @@ const surfaces = [
   {
     name: "home",
     files: ["src/components/dashboard-shell.tsx", "src/components/home-runtime-status-panel.tsx"],
-    required: ["HomeRuntimeStatusPanel", "mock-only runtime", "scoreSource"]
+    required: ["HomeRuntimeStatusPanel", "getPublicRuntimeBoundaryCopy", "boundaryCopy.currentState"]
   },
   {
     name: "stock",
     files: ["src/components/dashboard-shell.tsx", "src/components/stock-runtime-at-a-glance.tsx"],
-    required: ["StockRuntimeAtAGlance", "scoreSource=real 仍未完成", "readiness"]
+    required: ["StockRuntimeAtAGlance", "getPublicRuntimeBoundaryCopy", "boundaryCopy.blockedState"]
   },
   {
     name: "briefing",
-    files: ["src/app/briefing/page.tsx"],
-    required: ["RuntimeReadinessPanel", "SourceDepthBlockerPanel"]
+    files: ["src/app/briefing/page.tsx", "src/components/runtime-readiness-panel.tsx"],
+    required: ["RuntimeReadinessPanel", "runtimeHardeningExit.publicBoundaryLabel", "runtime-public-boundary-summary"]
   },
   {
     name: "weekly",
     files: ["src/app/weekly/page.tsx", "src/components/trust-runtime-boundary-notice.tsx"],
-    required: ["TrustRuntimeBoundaryNotice", 'context="weekly"', "mock-only"]
+    required: ["TrustRuntimeBoundaryNotice", 'context="weekly"', "boundaryCopy.summary"]
   },
   {
     name: "methodology",
-    files: ["src/app/methodology/page.tsx"],
-    required: ["TrustRuntimeBoundaryNotice", 'context="methodology"', "scoreSource"]
+    files: ["src/app/methodology/page.tsx", "src/components/trust-runtime-boundary-notice.tsx"],
+    required: ["TrustRuntimeBoundaryNotice", 'context="methodology"', "getPublicRuntimeBoundaryCopy"]
   },
   {
     name: "disclaimer",
-    files: ["src/app/disclaimer/page.tsx"],
-    required: ["TrustRuntimeBoundaryNotice", 'context="disclaimer"', "投資建議"]
+    files: ["src/app/disclaimer/page.tsx", "src/components/trust-runtime-boundary-notice.tsx"],
+    required: ["TrustRuntimeBoundaryNotice", 'context="disclaimer"', "boundaryCopy.currentState"]
   }
 ];
 
 const publicFiles = [
+  "src/lib/public-runtime-boundary-copy.ts",
   "src/app/page.tsx",
   "src/app/briefing/page.tsx",
   "src/app/weekly/page.tsx",
@@ -55,18 +56,33 @@ const publicFiles = [
 const forbiddenPublicTokens = [
   'scoreSource: "real"',
   'scoreSource="real"',
-  "scoreSource=real 已完成",
   "createServerSupabaseClient",
   "createSupabaseMarketSignalRepository",
   "validate-supabase",
   "twse_stock_day_staging",
   "staging_twse_stock_day",
   "daily_prices",
-  "seed SQL 已建立",
   "sourceDepthState: \"approved\""
 ];
 
 const findings = [];
+
+const sharedCopy = readRequired("src/lib/public-runtime-boundary-copy.ts");
+for (const token of [
+  "Mock-only runtime boundary",
+  "Stock page mock-only runtime boundary",
+  "Trust page mock-only runtime boundary",
+  "Public pages show mock runtime interpretation only.",
+  "Not live: Supabase-backed public data, SQL-backed scoring, market-data ingestion, and scoreSource=real.",
+  "Stop line: keep publicDataSource=mock and scoreSource=mock."
+]) {
+  if (!sharedCopy.includes(token)) {
+    findings.push({
+      file: "src/lib/public-runtime-boundary-copy.ts",
+      issue: `missing shared public runtime copy token: ${token}`
+    });
+  }
+}
 
 for (const surface of surfaces) {
   const combined = surface.files.map(readRequired).join("\n");

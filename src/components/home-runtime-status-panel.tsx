@@ -3,6 +3,7 @@ import { getBlockerReadinessSummary } from "@/lib/blocker-readiness";
 import { getRowCoverageSecondAttemptReadiness } from "@/lib/row-coverage-second-attempt-readiness";
 import { getRuntimeInterpretationSummary } from "@/lib/runtime-interpretation";
 import { getSourceDepthBlockerSummary } from "@/lib/source-depth-blockers";
+import { getPublicRuntimeBoundaryCopy } from "@/lib/public-runtime-boundary-copy";
 
 type HomeRuntimeStatusPanelProps = {
   selectedSymbol: string;
@@ -14,6 +15,7 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
   const rowCoverage = getRowCoverageSecondAttemptReadiness();
   const runtimeInterpretation = getRuntimeInterpretationSummary();
   const sourceDepth = getSourceDepthBlockerSummary();
+  const boundaryCopy = getPublicRuntimeBoundaryCopy("home");
 
   return (
     <section className="home-runtime-status-panel" aria-label="Runtime status">
@@ -25,6 +27,18 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
           但尚未執行第二次遠端 attempt，也不能宣稱真實分數或切換 scoreSource=real。
         </p>
       </div>
+      <article className="active">
+        <span>Visible now</span>
+        <strong>{boundaryCopy.headline}</strong>
+        <p>{boundaryCopy.summary}</p>
+        <p>{boundaryCopy.currentState}</p>
+      </article>
+      <article className="blocked">
+        <span>Not live yet</span>
+        <strong>real data blocked</strong>
+        <p>{boundaryCopy.blockedState}</p>
+        <p>{boundaryCopy.stopLine}</p>
+      </article>
       <article className="readying">
         <span>Runtime readiness</span>
         <strong>{readiness.score}%</strong>

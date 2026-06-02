@@ -1,6 +1,7 @@
 import { getRuntimeReadinessSummary } from "@/lib/runtime-readiness-score";
 import { getRuntimeInterpretationSummary } from "@/lib/runtime-interpretation";
 import { getSourceDepthBlockerSummary } from "@/lib/source-depth-blockers";
+import { getPublicRuntimeBoundaryCopy } from "@/lib/public-runtime-boundary-copy";
 
 type TrustRuntimeBoundaryNoticeProps = {
   context: "disclaimer" | "methodology" | "weekly";
@@ -32,6 +33,7 @@ export function TrustRuntimeBoundaryNotice({ context }: TrustRuntimeBoundaryNoti
   const readiness = getRuntimeReadinessSummary();
   const runtimeInterpretation = getRuntimeInterpretationSummary();
   const sourceDepth = getSourceDepthBlockerSummary();
+  const boundaryCopy = getPublicRuntimeBoundaryCopy("trust");
 
   return (
     <section className="trust-runtime-boundary-notice" aria-label={`${copy.eyebrow} notice`}>
@@ -40,6 +42,12 @@ export function TrustRuntimeBoundaryNotice({ context }: TrustRuntimeBoundaryNoti
         <h2>{copy.title}</h2>
         <p>{copy.summary}</p>
       </div>
+      <article className="active">
+        <span>Visible now</span>
+        <strong>{boundaryCopy.headline}</strong>
+        <p>{boundaryCopy.summary}</p>
+        <p>{boundaryCopy.currentState}</p>
+      </article>
       <article className="readying">
         <span>Runtime readiness</span>
         <strong>{readiness.score}%</strong>
