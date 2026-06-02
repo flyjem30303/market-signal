@@ -2683,6 +2683,11 @@ const checks = [
     name: "supabase-readonly-validator-output-contract"
   },
   {
+    command: [node, "scripts/check-supabase-readonly-blank-error-root-cause.mjs"],
+    expectStatus: "ok",
+    name: "supabase-readonly-blank-error-root-cause"
+  },
+  {
     command: [node, "scripts/check-supabase-readonly-final-prep.mjs"],
     expectStatus: "ok",
     name: "supabase-readonly-final-prep"
