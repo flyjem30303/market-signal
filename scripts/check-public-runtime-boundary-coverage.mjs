@@ -12,7 +12,9 @@ const surfaces = [
       "getPublicRuntimeBoundaryCopy",
       "boundaryCopy.currentState",
       "getRuntimeDeliveryCadence",
-      "runtime-delivery-card"
+      "runtime-delivery-card",
+      "mock-only runtime 比較台指、個股與 ETF",
+      "目前仍未啟用 Supabase runtime 或正式分數來源"
     ]
   },
   {
@@ -23,7 +25,9 @@ const surfaces = [
       "getPublicRuntimeBoundaryCopy",
       "boundaryCopy.blockedState",
       "getRuntimeDeliveryCadence",
-      "runtime-cutpoint-card"
+      "runtime-cutpoint-card",
+      "mock-only runtime 燈號、模組分數與資料缺口",
+      "Supabase runtime 與正式分數來源尚未啟用"
     ]
   },
   {

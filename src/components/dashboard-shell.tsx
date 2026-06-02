@@ -241,8 +241,8 @@ export function DashboardShell({
         </h1>
         <p>
           {includeSeoContent
-            ? `追蹤 ${selected.symbol} 的多頭健康度、回檔風險度、新聞信心與回測摘要。`
-            : "先選標的，再查看今日燈號、區間變化、新聞信心與回測摘要。"}
+            ? `追蹤 ${selected.symbol} 的 mock-only runtime 燈號、模組分數與資料缺口；Supabase runtime 與正式分數來源尚未啟用。`
+            : "先用 mock-only runtime 比較台指、個股與 ETF 的燈號、風險與資料缺口；目前仍未啟用 Supabase runtime 或正式分數來源。"}
         </p>
       </section>
 
