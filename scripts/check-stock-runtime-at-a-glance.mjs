@@ -5,15 +5,23 @@ const dashboardPath = "src/components/dashboard-shell.tsx";
 const actionSummaryPath = "src/lib/home-runtime-action-summary.ts";
 const consistencyPath = "src/lib/runtime-state-consistency.ts";
 const failClosedPath = "src/lib/runtime-fail-closed.ts";
+const productSummaryPath = "src/lib/runtime-product-summary.ts";
 const cssPath = "src/app/globals.css";
 const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 
 const files = new Map(
-  [componentPath, dashboardPath, actionSummaryPath, consistencyPath, failClosedPath, cssPath, packagePath, reviewGatePath].map((file) => [
-    file,
-    fs.readFileSync(file, "utf8")
-  ])
+  [
+    componentPath,
+    dashboardPath,
+    actionSummaryPath,
+    consistencyPath,
+    failClosedPath,
+    productSummaryPath,
+    cssPath,
+    packagePath,
+    reviewGatePath
+  ].map((file) => [file, fs.readFileSync(file, "utf8")])
 );
 
 const required = [
@@ -65,6 +73,11 @@ const required = [
   [componentPath, "runtimeInterpretation.decision"],
   [componentPath, "runtimeInterpretation.laneRatio.mockRuntimeHardening"],
   [componentPath, "runtimeInterpretation.stopLine"],
+  [productSummaryPath, "可檢視 mock 燈號與準備狀態"],
+  [productSummaryPath, "真實資料模式尚未開放"],
+  [productSummaryPath, "真實資料前先完成證據審核"],
+  [productSummaryPath, "不能視為投資證據或真實市場判讀"],
+  [productSummaryPath, "尚未啟用真實市場資料"],
   [actionSummaryPath, "HomeRuntimeActionSummary"],
   [actionSummaryPath, "getHomeRuntimeActionSummary"],
   [actionSummaryPath, "currentProgressPercent: 68"],

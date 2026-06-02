@@ -2713,6 +2713,11 @@ const checks = [
     name: "stock-runtime-at-a-glance"
   },
   {
+    command: [node, "scripts/check-runtime-mock-disclosure-readability.mjs"],
+    expectStatus: "ok",
+    name: "runtime-mock-disclosure-readability"
+  },
+  {
     command: [node, "scripts/check-stock-page-readable-boundary-copy.mjs"],
     expectStatus: "ok",
     name: "stock-page-readable-boundary-copy"
