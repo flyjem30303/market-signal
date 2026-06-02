@@ -5,7 +5,7 @@ const checks = [
   {
     id: "supabase-object-reachability",
     command: ["scripts/check-cp3-supabase-read-only-latest-sanitized-run.mjs"],
-    evidence: "docs/reviews/CP3_SUPABASE_READ_ONLY_LATEST_SANITIZED_RUN_2026-06-01.md",
+    evidence: "docs/reviews/CP3_SUPABASE_READ_ONLY_LATEST_SANITIZED_RUN_2026-06-02.md",
     acceptedScope: "object reachability only"
   },
   {
