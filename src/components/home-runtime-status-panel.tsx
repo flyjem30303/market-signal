@@ -27,13 +27,13 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
           但尚未執行第二次遠端 attempt，也不能宣稱真實分數或切換 scoreSource=real。
         </p>
       </div>
-      <article className="active">
+      <article className="active runtime-boundary-copy-card">
         <span>Visible now</span>
         <strong>{boundaryCopy.headline}</strong>
         <p>{boundaryCopy.summary}</p>
         <p>{boundaryCopy.currentState}</p>
       </article>
-      <article className="blocked">
+      <article className="blocked runtime-boundary-copy-card">
         <span>Not live yet</span>
         <strong>real data blocked</strong>
         <p>{boundaryCopy.blockedState}</p>

@@ -40,8 +40,8 @@ const required = [
   [trustPath, "runtimeInterpretation.decision"],
   [trustPath, "runtimeInterpretation.laneRatio.mockRuntimeHardening"],
   [trustPath, "runtimeInterpretation.stopLine"],
-  [cssPath, "repeat(6, minmax(130px"],
-  [cssPath, "repeat(4, minmax(0, 1fr))"],
+  [cssPath, "repeat(auto-fit, minmax(150px"],
+  [cssPath, ".runtime-boundary-copy-card"],
   [packagePath, "\"check:runtime-interpretation-state\": \"node scripts/check-runtime-interpretation-state.mjs\""],
   [reviewGatePath, "scripts/check-runtime-interpretation-state.mjs"]
 ];

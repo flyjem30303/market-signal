@@ -21,7 +21,7 @@ const required = [
   [libPath, "scoreSource: \"mock\""],
   [libPath, "remote_paused"],
   [libPath, "不跑 SQL、不寫 Supabase"],
-  [cssPath, "repeat(5, minmax(135px"],
+  [cssPath, "repeat(auto-fit, minmax(150px"],
   [packagePath, "\"check:row-coverage-readiness-ui-wiring\": \"node scripts/check-row-coverage-readiness-ui-wiring.mjs\""],
   [reviewGatePath, "scripts/check-row-coverage-readiness-ui-wiring.mjs"]
 ];

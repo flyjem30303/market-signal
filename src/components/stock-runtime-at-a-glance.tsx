@@ -30,7 +30,7 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
           scoreSource=real 仍未完成。
         </p>
       </div>
-      <article className="active">
+      <article className="active runtime-boundary-copy-card">
         <span>Score source</span>
         <strong>{scoreSourceLabel}</strong>
         <p>公開分數仍由 mock runtime 提供，尚未進入真實市場資料計分，scoreSource=real 仍未完成。</p>
@@ -41,7 +41,7 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
         <p>{boundaryCopy.summary}</p>
         <p>{boundaryCopy.currentState}</p>
       </article>
-      <article className="blocked">
+      <article className="blocked runtime-boundary-copy-card">
         <span>Not live yet</span>
         <strong>real data blocked</strong>
         <p>{boundaryCopy.blockedState}</p>

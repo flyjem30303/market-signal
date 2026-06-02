@@ -1802,7 +1802,7 @@ select {
 
 .home-runtime-status-panel {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) repeat(5, minmax(135px, 0.32fr)) minmax(170px, 0.42fr);
+  grid-template-columns: minmax(280px, 1.15fr) repeat(auto-fit, minmax(150px, 0.5fr));
   gap: 12px;
   align-items: stretch;
   margin: 0 0 18px;
@@ -1841,6 +1841,12 @@ select {
   background: #eff9f5;
 }
 
+.home-runtime-status-panel article.active,
+.trust-runtime-boundary-notice article.active {
+  border-color: rgba(15, 118, 110, 0.24);
+  background: #eff9f5;
+}
+
 .home-runtime-status-panel article.blocked {
   border-color: rgba(199, 54, 59, 0.22);
   background: #fff5f5;
@@ -1855,8 +1861,22 @@ select {
 
 .home-runtime-status-panel strong {
   color: var(--text);
-  font-size: 24px;
+  font-size: 20px;
   line-height: 1.2;
+}
+
+.runtime-boundary-copy-card {
+  min-width: 0;
+}
+
+.runtime-boundary-copy-card strong {
+  font-size: 16px;
+}
+
+.runtime-boundary-copy-card p {
+  overflow-wrap: anywhere;
+  font-size: 12px;
+  line-height: 1.5;
 }
 
 .home-runtime-status-panel a {
@@ -1881,7 +1901,7 @@ select {
 
 .stock-runtime-at-a-glance {
   display: grid;
-  grid-template-columns: minmax(0, 1.05fr) repeat(6, minmax(130px, 0.32fr));
+  grid-template-columns: minmax(280px, 1.05fr) repeat(auto-fit, minmax(150px, 0.5fr));
   gap: 12px;
   align-items: stretch;
   margin: 16px 0;
@@ -7131,7 +7151,7 @@ input[type="search"] {
 
 .trust-runtime-boundary-notice {
   display: grid;
-  grid-template-columns: minmax(260px, 1.15fr) repeat(4, minmax(0, 1fr));
+  grid-template-columns: minmax(260px, 1.15fr) repeat(auto-fit, minmax(150px, 0.5fr));
   gap: 12px;
   border: 1px solid rgba(40, 94, 203, 0.18);
   border-radius: 8px;

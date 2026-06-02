@@ -42,7 +42,7 @@ export function TrustRuntimeBoundaryNotice({ context }: TrustRuntimeBoundaryNoti
         <h2>{copy.title}</h2>
         <p>{copy.summary}</p>
       </div>
-      <article className="active">
+      <article className="active runtime-boundary-copy-card">
         <span>Visible now</span>
         <strong>{boundaryCopy.headline}</strong>
         <p>{boundaryCopy.summary}</p>
