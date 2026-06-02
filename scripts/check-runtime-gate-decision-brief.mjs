@@ -36,9 +36,25 @@ for (const phrase of [
   "runtimeGateBrief.status",
   "Runtime gate decision",
   "runtimeGateBrief.requiredAuthorization",
-  "runtimeGateBrief.blockedNow"
+  "runtimeGateBrief.blockedNow",
+  "Runtime state summary",
+  "Runtime decision snapshot",
+  "runtimeGateBrief.allowedNow",
+  "runtimeGateBrief.pmNextStep",
+  "separate authorization"
 ]) {
   if (!panel.includes(phrase)) missing.push(`${panelPath}: ${phrase}`);
+}
+
+const css = fs.readFileSync("src/app/globals.css", "utf8");
+
+for (const phrase of [
+  ".runtime-state-strip",
+  ".runtime-state-pill",
+  ".runtime-decision-snapshot",
+  ".runtime-decision-snapshot article.blocked"
+]) {
+  if (!css.includes(phrase)) missing.push(`src/app/globals.css: ${phrase}`);
 }
 
 for (const [file, content, phrase] of [

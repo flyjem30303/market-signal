@@ -1421,6 +1421,84 @@ select {
   gap: 10px;
 }
 
+.runtime-state-strip {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.runtime-state-pill {
+  display: grid;
+  gap: 6px;
+  border: 1px solid rgba(40, 94, 203, 0.16);
+  border-radius: 8px;
+  background: #f8fbff;
+  padding: 12px;
+}
+
+.runtime-state-pill.ready {
+  border-color: rgba(20, 122, 77, 0.22);
+  background: #f2faf6;
+}
+
+.runtime-state-pill.hold {
+  border-color: rgba(183, 121, 31, 0.26);
+  background: #fffaf0;
+}
+
+.runtime-state-pill span,
+.runtime-decision-snapshot span {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.runtime-state-pill strong {
+  overflow-wrap: anywhere;
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.35;
+}
+
+.runtime-decision-snapshot {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr) minmax(0, 1.2fr);
+  gap: 10px;
+}
+
+.runtime-decision-snapshot article {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  border: 1px solid rgba(20, 122, 77, 0.18);
+  border-radius: 8px;
+  background: #f7fbf9;
+  padding: 12px;
+}
+
+.runtime-decision-snapshot article.blocked {
+  border-color: rgba(199, 54, 59, 0.16);
+  background: #fff7f7;
+}
+
+.runtime-decision-snapshot ul {
+  display: grid;
+  gap: 5px;
+  margin: 0;
+  padding-left: 18px;
+}
+
+.runtime-decision-snapshot li,
+.runtime-decision-snapshot p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
 .runtime-readiness-command {
   display: grid;
   grid-column: 1 / -1;
@@ -7913,6 +7991,8 @@ input[type="date"] {
   .narrow-approval-outcome-panel,
   .narrow-approval-outcome-grid,
   .runtime-readiness-panel,
+  .runtime-state-strip,
+  .runtime-decision-snapshot,
   .runtime-readiness-command,
   .runtime-preflight-status,
   .runtime-readiness-lanes,

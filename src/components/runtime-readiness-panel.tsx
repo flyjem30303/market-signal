@@ -33,6 +33,43 @@ export function RuntimeReadinessPanel() {
         <b>{readiness.score}%</b>
         <small>bounded readiness</small>
       </div>
+      <div className="runtime-state-strip" aria-label="Runtime state summary">
+        <article className="runtime-state-pill ready">
+          <span>Public source</span>
+          <strong>{runtimeGateBrief.publicDataSource}</strong>
+        </article>
+        <article className="runtime-state-pill ready">
+          <span>Score source</span>
+          <strong>{runtimeGateBrief.scoreSource}</strong>
+        </article>
+        <article className="runtime-state-pill hold">
+          <span>Remote action</span>
+          <strong>separate authorization</strong>
+        </article>
+      </div>
+      <div className="runtime-decision-snapshot" aria-label="Runtime decision snapshot">
+        <article>
+          <span>Allowed now</span>
+          <ul>
+            {runtimeGateBrief.allowedNow.slice(0, 4).map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </article>
+        <article className="blocked">
+          <span>Still blocked</span>
+          <ul>
+            {runtimeGateBrief.blockedNow.slice(0, 6).map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </article>
+        <article>
+          <span>CEO/PM next step</span>
+          <p>{runtimeGateBrief.pmNextStep}</p>
+          <p>{runtimeGateBrief.requiredAuthorization}.</p>
+        </article>
+      </div>
       <div className="runtime-readiness-command">
         <article>
           <span>Local preflight</span>
