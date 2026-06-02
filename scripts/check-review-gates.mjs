@@ -1693,6 +1693,11 @@ const checks = [
     name: "source-rights-disclosure-local-review"
   },
   {
+    command: [node, "scripts/check-source-rights-disclosure-acceptance-gate.mjs"],
+    expectStatus: "ok",
+    name: "source-rights-disclosure-acceptance-gate"
+  },
+  {
     command: [node, "scripts/check-data-quality-evidence-checklist.mjs"],
     expectStatus: "ok",
     name: "data-quality-evidence-checklist"
