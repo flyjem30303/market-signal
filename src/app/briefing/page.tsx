@@ -11,6 +11,7 @@ import { RuntimeReadinessPanel } from "@/components/runtime-readiness-panel";
 import { SourceDepthBlockerPanel } from "@/components/source-depth-blocker-panel";
 import { TrackedLink } from "@/components/tracked-link";
 import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
+import { buildBriefingMarketActionSummary } from "@/lib/briefing-market-action-summary";
 import { getHomeRuntimeActionSummary } from "@/lib/home-runtime-action-summary";
 import { getRuntimeInterpretationSummary } from "@/lib/runtime-interpretation";
 import {
@@ -48,6 +49,7 @@ export default async function BriefingPage() {
   const leadingAiSemi = aiSemis[0];
   const topRisk = heated[0];
   const runtimePlan = buildBriefingRuntimePlan(market, breadth, concentration, topRisk);
+  const marketActionSummary = buildBriefingMarketActionSummary(market, topRisk, breadth);
 
   return (
     <main className="page-shell">
@@ -68,6 +70,37 @@ export default async function BriefingPage() {
         </div>
       </section>
       <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
+
+      <section className="briefing-market-action-summary" aria-label="晨報市場行動摘要">
+        <div>
+          <p className="eyebrow">Market Action Summary</p>
+          <h2>{marketActionSummary.headline}</h2>
+          <p>{marketActionSummary.marketLine}</p>
+          <p>{marketActionSummary.stopLine}</p>
+        </div>
+        <TrackedLink
+          className={marketActionSummary.primary.tone}
+          eventName="briefing_link_clicked"
+          href={marketActionSummary.primary.href}
+          label={marketActionSummary.primary.title}
+          payload={{ area: "briefing_market_action_primary", symbol: marketActionSummary.primary.symbol }}
+        >
+          <span>{marketActionSummary.primary.label}</span>
+          <strong>{marketActionSummary.primary.title}</strong>
+          <p>{marketActionSummary.primary.body}</p>
+        </TrackedLink>
+        <TrackedLink
+          className={marketActionSummary.secondary.tone}
+          eventName="briefing_link_clicked"
+          href={marketActionSummary.secondary.href}
+          label={marketActionSummary.secondary.title}
+          payload={{ area: "briefing_market_action_secondary", symbol: marketActionSummary.secondary.symbol }}
+        >
+          <span>{marketActionSummary.secondary.label}</span>
+          <strong>{marketActionSummary.secondary.title}</strong>
+          <p>{marketActionSummary.secondary.body}</p>
+        </TrackedLink>
+      </section>
 
       <nav aria-label="Experience Flow" className="experience-flow-nav">
         <span>閱讀路徑</span>

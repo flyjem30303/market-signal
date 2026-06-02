@@ -8290,6 +8290,73 @@ input[type="search"] {
   color: var(--blue);
 }
 
+.briefing-market-action-summary {
+  display: grid;
+  grid-template-columns: minmax(280px, 1.12fr) repeat(2, minmax(0, 0.82fr));
+  gap: 12px;
+  align-items: stretch;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+  margin: 0 0 16px;
+  padding: 16px;
+}
+
+.briefing-market-action-summary h2 {
+  font-size: 22px;
+  line-height: 1.25;
+  margin: 0 0 8px;
+}
+
+.briefing-market-action-summary p {
+  color: var(--muted);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.briefing-market-action-summary a {
+  border: 1px solid var(--line);
+  border-top: 4px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel-muted);
+  color: var(--text);
+  display: grid;
+  gap: 8px;
+  min-height: 142px;
+  padding: 12px;
+  text-decoration: none;
+}
+
+.briefing-market-action-summary a.active {
+  border-top-color: var(--green);
+}
+
+.briefing-market-action-summary a.hold {
+  border-top-color: #d99a00;
+}
+
+.briefing-market-action-summary a.blocked {
+  border-top-color: var(--red);
+}
+
+.briefing-market-action-summary a:hover {
+  border-color: var(--blue);
+  background: #f8fbff;
+}
+
+.briefing-market-action-summary span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.briefing-market-action-summary strong {
+  display: block;
+  font-size: 18px;
+  line-height: 1.25;
+}
+
 .briefing-decision-strip {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -9688,6 +9755,7 @@ input[type="date"] {
   .method-runtime-map,
   .weekly-quick-read,
   .briefing-runtime-plan,
+  .briefing-market-action-summary,
   .weekly-reading-bridge,
   .weekly-reading-bridge nav,
   .weekly-grid,

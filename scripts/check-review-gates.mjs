@@ -58,6 +58,11 @@ const checks = [
     name: "briefing-executive-summary"
   },
   {
+    command: [node, "scripts/check-briefing-market-action-summary.mjs"],
+    expectStatus: "ok",
+    name: "briefing-market-action-summary"
+  },
+  {
     command: [node, "scripts/check-briefing-boundary-disclosure.mjs"],
     expectStatus: "ok",
     name: "briefing-boundary-disclosure"
