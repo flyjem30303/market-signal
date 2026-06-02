@@ -6,6 +6,7 @@ import { getSourceDepthBlockerSummary } from "@/lib/source-depth-blockers";
 import { getPublicRuntimeBoundaryCopy } from "@/lib/public-runtime-boundary-copy";
 import { getRuntimeDeliveryCadence } from "@/lib/runtime-delivery-cadence";
 import { getHomeRuntimeActionSummary } from "@/lib/home-runtime-action-summary";
+import { getRuntimeStateConsistencySummary } from "@/lib/runtime-state-consistency";
 import type { SignalSnapshot } from "@/lib/signal-model";
 
 type StockRuntimeAtAGlanceProps = {
@@ -22,6 +23,7 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
   const boundaryCopy = getPublicRuntimeBoundaryCopy("stock");
   const runtimeDeliveryCadence = getRuntimeDeliveryCadence();
   const actionSummary = getHomeRuntimeActionSummary();
+  const runtimeStateConsistency = getRuntimeStateConsistencySummary();
 
   return (
     <section className="stock-runtime-at-a-glance" aria-label="Stock runtime status">
@@ -101,6 +103,11 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
         <span>Mandatory cutpoints</span>
         <strong>necessary gates remain</strong>
         <p>{runtimeDeliveryCadence.mandatoryCutpoints.slice(0, 3).join("; ")}.</p>
+      </article>
+      <article className="readying compact-runtime-blocker runtime-consistency-card">
+        <span>State consistency</span>
+        <strong>{runtimeStateConsistency.consistencyState}</strong>
+        <p>{runtimeStateConsistency.statusLine}</p>
       </article>
       <article className="blocked compact-runtime-blocker">
         <span>Blocker readiness</span>

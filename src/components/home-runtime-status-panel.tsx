@@ -6,6 +6,7 @@ import { getSourceDepthBlockerSummary } from "@/lib/source-depth-blockers";
 import { getPublicRuntimeBoundaryCopy } from "@/lib/public-runtime-boundary-copy";
 import { getRuntimeDeliveryCadence } from "@/lib/runtime-delivery-cadence";
 import { getHomeRuntimeActionSummary } from "@/lib/home-runtime-action-summary";
+import { getRuntimeStateConsistencySummary } from "@/lib/runtime-state-consistency";
 
 type HomeRuntimeStatusPanelProps = {
   selectedSymbol: string;
@@ -20,6 +21,7 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
   const boundaryCopy = getPublicRuntimeBoundaryCopy("home");
   const runtimeDeliveryCadence = getRuntimeDeliveryCadence();
   const actionSummary = getHomeRuntimeActionSummary();
+  const runtimeStateConsistency = getRuntimeStateConsistencySummary();
 
   return (
     <section className="home-runtime-status-panel" aria-label="Runtime status">
@@ -103,6 +105,11 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
             <span>Mandatory cutpoints</span>
             <strong>necessary gates remain</strong>
             <p>{runtimeDeliveryCadence.mandatoryCutpoints.slice(0, 3).join("; ")}.</p>
+          </article>
+          <article className="readying runtime-consistency-card">
+            <span>State consistency</span>
+            <strong>{runtimeStateConsistency.consistencyState}</strong>
+            <p>{runtimeStateConsistency.statusLine}</p>
           </article>
           <article className="blocked">
             <span>Blocker readiness</span>

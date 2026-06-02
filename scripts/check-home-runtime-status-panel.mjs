@@ -3,12 +3,13 @@ import fs from "node:fs";
 const componentPath = "src/components/home-runtime-status-panel.tsx";
 const dashboardPath = "src/components/dashboard-shell.tsx";
 const actionSummaryPath = "src/lib/home-runtime-action-summary.ts";
+const consistencyPath = "src/lib/runtime-state-consistency.ts";
 const cssPath = "src/app/globals.css";
 const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 
 const files = new Map(
-  [componentPath, dashboardPath, actionSummaryPath, cssPath, packagePath, reviewGatePath].map((file) => [
+  [componentPath, dashboardPath, actionSummaryPath, consistencyPath, cssPath, packagePath, reviewGatePath].map((file) => [
     file,
     fs.readFileSync(file, "utf8")
   ])
@@ -23,6 +24,7 @@ const required = [
   [componentPath, "getPublicRuntimeBoundaryCopy"],
   [componentPath, "getRuntimeDeliveryCadence"],
   [componentPath, "getHomeRuntimeActionSummary"],
+  [componentPath, "getRuntimeStateConsistencySummary"],
   [componentPath, "actionSummary.currentProgressPercent"],
   [componentPath, "actionSummary.stage"],
   [componentPath, "actionSummary.nextLift"],
@@ -34,6 +36,9 @@ const required = [
   [componentPath, "runtime-cutpoint-card"],
   [componentPath, "runtimeDeliveryCadence.nextExecutionRatio"],
   [componentPath, "runtimeDeliveryCadence.mandatoryCutpoints"],
+  [componentPath, "runtimeStateConsistency.consistencyState"],
+  [componentPath, "runtimeStateConsistency.statusLine"],
+  [componentPath, "runtime-consistency-card"],
   [componentPath, "boundaryCopy.currentState"],
   [componentPath, "boundaryCopy.blockedState"],
   [componentPath, "mock-only runtime"],
@@ -54,6 +59,9 @@ const required = [
   [actionSummaryPath, "nextAction: \"mock runtime hardening\""],
   [actionSummaryPath, "blockedTransition: \"real-score transition\""],
   [actionSummaryPath, "publicDataSource or scoreSource without a separate gate"],
+  [consistencyPath, "RuntimeStateConsistencySummary"],
+  [consistencyPath, "getRuntimeStateConsistencySummary"],
+  [consistencyPath, "consistencyState: \"mock_consistent\""],
   [dashboardPath, "import { HomeRuntimeStatusPanel }"],
   [dashboardPath, "<HomeRuntimeStatusPanel selectedSymbol={selected.symbol} />"],
   [cssPath, ".home-runtime-status-panel"],
@@ -81,6 +89,13 @@ const forbidden = [
   [actionSummaryPath, "node:fs"],
   [actionSummaryPath, "from \"fs\""],
   [actionSummaryPath, "scoreSource: \"real\""],
+  [consistencyPath, "@supabase/supabase-js"],
+  [consistencyPath, "createClient"],
+  [consistencyPath, "fetch("],
+  [consistencyPath, "process.env"],
+  [consistencyPath, "node:fs"],
+  [consistencyPath, "from \"fs\""],
+  [consistencyPath, "scoreSource: \"real\""],
   [dashboardPath, "scoreSource=\"real\""]
 ];
 

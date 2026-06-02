@@ -2454,7 +2454,8 @@ select {
 }
 
 .runtime-delivery-card,
-.runtime-cutpoint-card {
+.runtime-cutpoint-card,
+.runtime-consistency-card {
   min-width: 0;
 }
 
@@ -2463,7 +2464,8 @@ select {
 }
 
 .runtime-delivery-card strong,
-.runtime-cutpoint-card strong {
+.runtime-cutpoint-card strong,
+.runtime-consistency-card strong {
   font-size: 16px;
 }
 
@@ -2474,7 +2476,8 @@ select {
 }
 
 .runtime-delivery-card p,
-.runtime-cutpoint-card p {
+.runtime-cutpoint-card p,
+.runtime-consistency-card p {
   overflow-wrap: anywhere;
   font-size: 12px;
   line-height: 1.5;

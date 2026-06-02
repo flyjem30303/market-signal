@@ -135,6 +135,7 @@
     "report:bounded-readonly-readiness-recheck": "node scripts/report-bounded-readonly-readiness-recheck.mjs",
     "check:bounded-readonly-readiness-recheck": "node scripts/check-bounded-readonly-readiness-recheck.mjs",
     "check:runtime-gate-decision-brief": "node scripts/check-runtime-gate-decision-brief.mjs",
+    "check:runtime-state-consistency": "node scripts/check-runtime-state-consistency.mjs",
     "check:post-equity-row-coverage-readonly-attempt-decision-packet": "node scripts/check-post-equity-row-coverage-readonly-attempt-decision-packet.mjs",
     "check:post-equity-row-coverage-readonly-attempt-post-run-review": "node scripts/check-post-equity-row-coverage-readonly-attempt-post-run-review.mjs",
     "check:post-readonly-data-population-decision-map": "node scripts/check-post-readonly-data-population-decision-map.mjs",
