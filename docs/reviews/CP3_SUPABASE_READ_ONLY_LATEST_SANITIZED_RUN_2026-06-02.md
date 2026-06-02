@@ -35,11 +35,11 @@ This update records the CEO-approved bounded readonly attempt from the current s
 
 The validator reported blocked object reachability for:
 
-- `daily_prices`
-- `twse_stock_day_staging`
-- `market_assets`
-- `model_runs`
-- `data_freshness`
+- `daily_prices`: error category `unknown`, error code state `blank`.
+- `twse_stock_day_staging`: error category `unknown`, error code state `blank`.
+- `market_assets`: error category `unknown`, error code state `blank`.
+- `model_runs`: error category `unknown`, error code state `blank`.
+- `data_freshness`: error category `unknown`, error code state `blank`.
 
 This is blocked object-reachability evidence only. It is not evidence of schema sufficiency, row freshness, data completeness, data quality, model credibility, production source-depth readiness, public claim readiness, or `scoreSource=real` readiness.
 
@@ -59,7 +59,7 @@ This is blocked object-reachability evidence only. It is not evidence of schema 
 
 ## CEO Synthesis
 
-Supabase object reachability is currently blocked for the expected objects in the latest 2026-06-02 bounded attempt. The next high-value work should shift from more governance to root-cause isolation: confirm whether the block is credential scope, table/RLS policy, object existence, project URL, or environment loading, while runtime wiring still keeps public data source as mock and keeps `scoreSource=real` blocked.
+Supabase object reachability is currently blocked for the expected objects in the latest 2026-06-02 bounded attempt. The first classified attempt returned `unknown` with blank error codes for all expected objects, so root-cause isolation must first determine why the Supabase SDK result has no usable error code before choosing between credential scope, table/RLS policy, object existence, project URL, or environment loading. Runtime wiring still keeps public data source as mock and keeps `scoreSource=real` blocked.
 
 ## Verification Expectations
 

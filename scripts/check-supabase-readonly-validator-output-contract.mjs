@@ -83,6 +83,22 @@ if (parsed) {
   }
 }
 
+const validatorSource = fs.readFileSync(validatorPath, "utf8");
+for (const phrase of [
+  "errorCategory",
+  "errorCode",
+  "errorCodeState",
+  "object_missing_or_schema_cache",
+  "access_policy_or_credential_scope",
+  "project_url_or_network"
+]) {
+  if (!validatorSource.includes(phrase)) failures.push(`validator source missing sanitized classifier token: ${phrase}`);
+}
+
+for (const forbidden of ["message:", "details:", "hint:", "error.message", "error.details", "error.hint"]) {
+  if (validatorSource.includes(forbidden)) failures.push(`validator source must not expose raw error field: ${forbidden}`);
+}
+
 const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"));
 const reviewGate = fs.readFileSync(reviewGatePath, "utf8");
 const packageScript = packageJson.scripts?.["check:supabase-readonly-validator-output-contract"];

@@ -69,6 +69,7 @@ async function countObject(supabase, name) {
       countStatus: "blocked",
       errorCategory: categorizeError(error),
       errorCode: typeof error.code === "string" ? error.code : "unknown",
+      errorCodeState: typeof error.code === "string" && error.code.length > 0 ? "present" : "blank",
       name,
       reachable: "blocked"
     };
