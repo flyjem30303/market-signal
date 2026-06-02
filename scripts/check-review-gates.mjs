@@ -2748,6 +2748,11 @@ const checks = [
     name: "home-visual-hierarchy"
   },
   {
+    command: [node, "scripts/check-stock-visual-hierarchy.mjs"],
+    expectStatus: "ok",
+    name: "stock-visual-hierarchy"
+  },
+  {
     command: [node, "scripts/check-runtime-state-consistency.mjs"],
     expectStatus: "ok",
     name: "runtime-state-consistency"
