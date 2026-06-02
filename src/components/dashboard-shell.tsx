@@ -2363,10 +2363,10 @@ function TodayTab({
   return (
     <>
       <section className="score-grid">
-        <ScoreCard label="多頭健康度" score={snapshot.healthScore} tone="health" />
-        <ScoreCard label="回檔風險度" score={snapshot.riskScore} tone="risk" />
+        <ScoreCard label="健康分數" score={snapshot.healthScore} tone="health" />
+        <ScoreCard label="風險分數" score={snapshot.riskScore} tone="risk" />
         <article className="panel">
-          <p className="panel-label">綜合燈號</p>
+          <p className="panel-label">今日燈號</p>
           <h2 style={{ color: signalColor(snapshot.signal.key) }}>{snapshot.signal.title}</h2>
           <p>{snapshot.signal.text}</p>
         </article>
@@ -2374,15 +2374,15 @@ function TodayTab({
           <p className="panel-label">資料品質</p>
           <h2>{snapshot.dataQualityGrade} 級</h2>
           <p>
-            完整度 {snapshot.dataQualityScore}/100，目前版本為 {snapshot.modelVersion}。這裡仍是 mock-only runtime；
-            real score-source mode blocked，尚未接正式市場資料。
+            品質分數 {snapshot.dataQualityScore}/100，模型版本 {snapshot.modelVersion}。目前仍是 mock-only runtime；
+            real score-source mode blocked，尚未可作公開真實市場資料宣稱。
           </p>
         </article>
       </section>
 
-      <aside className="score-source-note" aria-label="模型狀態">
+      <aside className="score-source-note" aria-label="分數來源說明">
         <strong>目前分數來源：{scoreSourceLabel}</strong>
-        <span>正式上線前，分數仍用於產品體驗驗證，不代表已完成真實投資模型校準或真實資料上線。</span>
+        <span>這些分數只支援產品閱讀與流程驗證，尚未啟用 Supabase runtime、SQL scoring 或真實市場資料。</span>
         <TrackedLink eventName="trust_link_clicked" href="/methodology" label="方法論" payload={{ area: "score_source_note", symbol: selectedSymbol }}>
           方法論
         </TrackedLink>
@@ -2394,7 +2394,7 @@ function TodayTab({
       <section className="content-grid">
         <article className="panel">
           <p className="eyebrow">Research Modules</p>
-          <h2>{selectedSymbol} 六大研究模組</h2>
+          <h2>{selectedSymbol} 模組分數</h2>
           <div className="module-list">
             {snapshot.modules.map((module) => (
               <div className="module-card" key={module.id}>
@@ -2402,8 +2402,8 @@ function TodayTab({
                   <strong>{module.name}</strong>
                   <span>{module.note}</span>
                 </div>
-                <b>健 {module.health}</b>
-                <b>險 {module.risk}</b>
+                <b>健康 {module.health}</b>
+                <b>風險 {module.risk}</b>
               </div>
             ))}
           </div>
@@ -2411,10 +2411,9 @@ function TodayTab({
 
         <aside className="panel">
           <p className="eyebrow">SEO Preview</p>
-          <h2>股票頁內容方向</h2>
+          <h2>股票頁公開摘要</h2>
           <p>
-            未來每檔股票頁會包含今日燈號、分數趨勢、新聞信心、回測摘要與同產業比較，並輸出
-            SEO metadata。
+            這個區塊說明搜尋與公開頁可讀方向：先讓使用者理解目前燈號、分數來源與限制，再導向完整股票頁內容。
           </p>
           <TrackedLink className="text-link" eventName="stock_link_clicked" href={`/stocks/${selectedSymbol}`} label={`前往 ${selectedSymbol} 股票頁`} payload={{ area: "seo_preview", symbol: selectedSymbol }}>
             前往 {selectedSymbol} 股票頁
@@ -2454,12 +2453,12 @@ function TrendTab({
       <div className="section-head">
         <div>
           <p className="eyebrow">Score Timeline</p>
-          <h2>時間區間分數變化</h2>
+          <h2>分數時間線</h2>
         </div>
         <div className="chart-toggle">
           {[
-            ["health", "健康度"],
-            ["risk", "風險度"],
+            ["health", "健康分數"],
+            ["risk", "風險分數"],
             ["composite", "綜合分數"]
           ].map(([key, label]) => (
             <button
@@ -2502,7 +2501,7 @@ function TrendTab({
         <Metric label="區間最高" value={String(high)} />
         <Metric label="區間最低" value={String(low)} />
         <Metric label="區間平均" value={String(avg)} />
-        <Metric label="最新狀態" value={latest.signal.title} />
+        <Metric label="最新燈號" value={latest.signal.title} />
       </div>
     </section>
   );
@@ -2515,19 +2514,19 @@ function TechnicalTab({ quote, selected, snapshot }: { quote: QuoteSnapshot; sel
   const relativeStrength = Math.round(45 + selected.ai * 28 + selected.quality * 16 - selected.beta * 5);
   const technicalTone =
     snapshot.healthScore >= 75 && snapshot.riskScore < 68
-      ? "趨勢偏多，短線仍需留意估值與籌碼是否同步升溫。"
+      ? "趨勢健康度較強，仍需確認量能與資料品質是否同步支持。"
       : snapshot.riskScore >= 70
-        ? "趨勢雖未必轉弱，但風險分數偏高，追價節奏應更保守。"
-        : "技術結構中性偏穩，適合觀察均線與量能是否延續。";
+        ? "風險分數偏高，先拆解波動來源，再閱讀技術強弱。"
+        : "技術狀態介於觀察與延伸之間，適合搭配趨勢頁與風險分數一起看。";
 
   return (
     <section className="content-grid">
       <article className="panel technical-panel">
         <p className="eyebrow">Technical Snapshot</p>
-        <h2>{selected.symbol} 技術分析摘要</h2>
+        <h2>{selected.symbol} 技術快照</h2>
         <div className="technical-meter">
           <strong>{trendModule.health}</strong>
-          <span>價格趨勢健康度</span>
+          <span>趨勢模組健康分數</span>
         </div>
         <p>{technicalTone}</p>
         <div className="metric-grid compact-metrics">
@@ -2540,10 +2539,9 @@ function TechnicalTab({ quote, selected, snapshot }: { quote: QuoteSnapshot; sel
 
       <aside className="panel">
         <p className="eyebrow">Signal Reading</p>
-        <h2>技術面判讀</h2>
+        <h2>技術判讀邊界</h2>
         <p>
-          技術分頁會把均線、動能、相對強弱與趨勢風險整理成摘要。正式資料接上後，這裡會加入
-          MA、RSI、MACD 與波動區間，但仍以風險判讀為主，不做買賣指令。
+          目前用 mock 模組近似技術狀態，尚未接上 MA、RSI、MACD 或真實成交資料。這裡只做產品閱讀輔助，不能當作交易建議。
         </p>
       </aside>
     </section>
@@ -2571,19 +2569,19 @@ function VolumeTab({
       <div className="section-head">
         <div>
           <p className="eyebrow">Volume Profile</p>
-          <h2>{selected.symbol} 成交量與資金熱度</h2>
+          <h2>{selected.symbol} 量能輪廓</h2>
         </div>
         <strong className={volumeRatio >= 1.15 ? "status-pill warning" : "status-pill"}>
           量能 {volumeRatio.toFixed(2)} 倍
         </strong>
       </div>
       <div className="metric-grid">
-        <Metric label="今日成交量" value={formatInteger(quote.volume)} />
+        <Metric label="今日量能" value={formatInteger(quote.volume)} />
         <Metric label="20 日均量" value={formatInteger(avgVolume)} />
-        <Metric label="籌碼健康" value={`${flowModule.health}/100`} />
-        <Metric label="籌碼風險" value={`${flowModule.risk}/100`} />
+        <Metric label="資金流健康" value={`${flowModule.health}/100`} />
+        <Metric label="資金流風險" value={`${flowModule.risk}/100`} />
       </div>
-      <div className="volume-bars" aria-label="近 12 日量能示意">
+      <div className="volume-bars" aria-label="近 12 期量能示意">
         {recent.map((row) => {
           const height = 34 + Math.max(0, Math.min(78, row.riskScore - 25 + selected.flow * 22));
           return (
@@ -2595,8 +2593,7 @@ function VolumeTab({
         })}
       </div>
       <p>
-        成交量放大不一定是風險，但若同時伴隨風險分數升高，通常代表市場情緒變熱。正式版會接法人、
-        融資與當沖資料，讓量價解讀更接近真實交易環境。
+        量能放大不等於可交易訊號。這裡只呈現量能相對狀態與資金流模組風險，等待資料管線完成後再接上真實成交量來源。
       </p>
     </section>
   );
@@ -2611,28 +2608,26 @@ function FundamentalsTab({ quote, selected, snapshot }: { quote: QuoteSnapshot; 
     <section className="content-grid">
       <article className="panel">
         <p className="eyebrow">Fundamentals</p>
-        <h2>{selected.symbol} 股利 / 基本資料</h2>
+        <h2>{selected.symbol} 基本面 / 籌碼資料</h2>
         <div className="metric-grid compact-metrics">
           <Metric label="本益比" value={quote.pe ? String(quote.pe) : "-"} />
           <Metric label="股價淨值比" value={quote.pb ? String(quote.pb) : "-"} />
-          <Metric label="殖利率" value={quote.dividendYield ? `${(quote.dividendYield * 100).toFixed(2)}%` : "-"} />
+          <Metric label="現金殖利率" value={quote.dividendYield ? `${(quote.dividendYield * 100).toFixed(2)}%` : "-"} />
           <Metric label="EPS TTM" value={quote.epsTtm ? String(quote.epsTtm) : "-"} />
         </div>
         <div className="fundamental-note">
-          <strong>股利支撐分數 {payoutScore}/100</strong>
+          <strong>基本面參考分數 {payoutScore}/100</strong>
           <p>
-            基本面健康度 {earningsModule.health}/100，估值風險 {valuationModule.risk}/100。若殖利率提高但估值風險也升高，
-            代表需要同時檢查獲利是否能支撐配息。
+            盈餘模組健康 {earningsModule.health}/100，評價風險 {valuationModule.risk}/100。這些資料仍來自 mock runtime，僅用於閱讀流程與資訊階層驗證。
           </p>
         </div>
       </article>
 
       <aside className="panel">
         <p className="eyebrow">CEO Product Layer</p>
-        <h2>為什麼要做基本資料</h2>
+        <h2>產品判讀層</h2>
         <p>
-          使用者查股票時會期待看到估值與股利，這是信任基礎。我們的差異化不是表格比別人多，
-          而是把估值、股利與健康 / 風險分數一起解讀。
+          基本面區塊的任務是把估值、盈餘與配息放回健康 / 風險分數脈絡。等 Supabase readonly gate 通過後，再決定正式資料來源與揭露方式。
         </p>
       </aside>
     </section>
@@ -2654,34 +2649,34 @@ function NewsTab({
 }) {
   const current = nearestSnapshot(series, newsDate);
   const tone = related.reduce((sum, item) => sum + item.impact, 0);
-  const title = tone >= 3 ? "新聞面提高基本面信心" : tone <= -2 ? "新聞面提醒風險升溫" : "新聞面中性偏觀望";
+  const title = tone >= 3 ? "新聞情緒偏正向" : tone <= -2 ? "新聞情緒偏負向" : "新聞情緒中性觀察";
   const strongest = current.modules.slice().sort((a, b) => b.health - a.health)[0];
   const weakest = current.modules.slice().sort((a, b) => b.risk - a.risk)[0];
   const positiveCount = related.filter((item) => item.impact > 0).length;
   const negativeCount = related.filter((item) => item.impact < 0).length;
   const confidenceScore = Math.max(0, Math.min(100, current.healthScore - current.riskScore * 0.35 + 48 + tone * 4));
   const confidenceLabel =
-    confidenceScore >= 72 ? "信心偏強" : confidenceScore >= 56 ? "信心中性偏穩" : confidenceScore >= 42 ? "信心轉弱" : "信心偏低";
+    confidenceScore >= 72 ? "信心偏強" : confidenceScore >= 56 ? "信心中性偏穩" : confidenceScore >= 42 ? "信心觀察" : "信心偏弱";
   const confidenceTone = confidenceScore >= 72 ? "positive" : confidenceScore >= 56 ? "neutral" : "negative";
   const narrative =
     tone >= 3
-      ? "近期新聞偏向基本面或產業動能正向，若價格趨勢同步維持，較有利於延續觀察名單。"
+      ? "近期新聞對基本面或需求敘事偏正向，仍需搭配趨勢、量能與資料品質一起確認。"
       : tone <= -2
-        ? "近期新聞偏向宏觀、籌碼或集中度壓力，若風險分數同步升高，應降低追價速度。"
-        : "近期新聞沒有明顯單邊方向，分數判讀應回到趨勢、估值與籌碼是否同步。";
+        ? "近期新聞偏負向，先觀察是否影響風險分數與資金流模組，再決定是否升級風險提示。"
+        : "近期新聞訊號分歧，適合用信心分數、燈號與模組強弱做交叉閱讀。";
 
   return (
     <section className="news-layout">
       <article className="panel">
         <p className="eyebrow">Confidence Review</p>
-        <h2>{selected.symbol} 新聞信心儀表</h2>
+        <h2>{selected.symbol} 新聞信心檢查</h2>
         <div className="date-row">
           <label>
             <span>新聞日期</span>
             <input max={today} min="2000-01-01" type="date" value={newsDate} onChange={(event) => onNewsDate(event.target.value)} />
           </label>
           <strong className="confidence-pill" style={{ background: signalColor(current.signal.key) }}>
-            {current.compositeScore}/100 · {current.signal.title}
+            {current.compositeScore}/100 - {current.signal.title}
           </strong>
         </div>
         <div className={`news-confidence ${confidenceTone}`}>
@@ -2690,31 +2685,30 @@ function NewsTab({
             <span>/100</span>
           </div>
           <div>
-            <p className="panel-label">投資信心評論</p>
+            <p className="panel-label">新聞信心分數</p>
             <h2>{confidenceLabel}</h2>
             <p>{narrative}</p>
           </div>
         </div>
         <div className="news-metrics">
-          <Metric label="正向事件" value={`${positiveCount} 則`} />
-          <Metric label="負向事件" value={`${negativeCount} 則`} />
+          <Metric label="正向事件" value={`${positiveCount} 件`} />
+          <Metric label="負向事件" value={`${negativeCount} 件`} />
           <Metric label="新聞影響" value={tone > 0 ? `+${tone}` : String(tone)} />
           <Metric label="目前燈號" value={current.signal.title} />
         </div>
         <div className="commentary-box">
           <h3>{title}</h3>
           <p>
-            {selected.symbol} 在 {newsDate} 的多頭健康度為 {current.healthScore}/100，回檔風險度為{" "}
-            {current.riskScore}/100。最強支撐是 {strongest.name}，最大壓力是 {weakest.name}。此處把新聞視為
-            信心修正因子，而不是單獨的買賣依據。
+            {selected.symbol} 在 {newsDate} 的健康分數為 {current.healthScore}/100，風險分數為 {current.riskScore}/100。
+            最強模組是 {strongest.name}，主要風險來源是 {weakest.name}。新聞只做輔助脈絡，不能取代資料品質與方法論檢查。
           </p>
         </div>
       </article>
 
       <article className="panel">
         <p className="eyebrow">Related News</p>
-        <h2>相關新聞彙整</h2>
-        <p className="news-source-note">目前為 mock 重大事件資料。正式版會優先使用合法 API、RSS 或官方來源，並保留原文連結。</p>
+        <h2>相關新聞摘要</h2>
+        <p className="news-source-note">目前為 mock 關聯新聞資料，尚未串接新聞 API、RSS 或真實市場資料來源。</p>
         <div className="news-list">
           {related.map((item) => (
             <article className="news-card" key={`${item.date}-${item.title}`}>
@@ -2735,7 +2729,6 @@ function NewsTab({
     </section>
   );
 }
-
 function BacktestTab({ buckets, series, symbol }: { buckets: BacktestBucket[]; series: SignalSnapshot[]; symbol: string }) {
   const risky = series.slice(0, -20).filter((row) => row.compositeScore < 62);
 
