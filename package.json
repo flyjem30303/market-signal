@@ -140,6 +140,7 @@
     "check:runtime-readonly-decision-card": "node scripts/check-runtime-readonly-decision-card.mjs",
     "check:post-readonly-runtime-state": "node scripts/check-post-readonly-runtime-state.mjs",
     "check:runtime-product-summary": "node scripts/check-runtime-product-summary.mjs",
+    "check:investor-indicator-roadmap": "node scripts/check-investor-indicator-roadmap.mjs",
     "check:runtime-transition-rail": "node scripts/check-runtime-transition-rail.mjs",
     "check:public-runtime-state-strip": "node scripts/check-public-runtime-state-strip.mjs",
     "check:post-equity-row-coverage-readonly-attempt-decision-packet": "node scripts/check-post-equity-row-coverage-readonly-attempt-decision-packet.mjs",

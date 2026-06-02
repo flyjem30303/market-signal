@@ -2793,6 +2793,11 @@ const checks = [
     name: "runtime-product-summary"
   },
   {
+    command: [node, "scripts/check-investor-indicator-roadmap.mjs"],
+    expectStatus: "ok",
+    name: "investor-indicator-roadmap"
+  },
+  {
     command: [node, "scripts/check-trust-runtime-boundary-notice.mjs"],
     expectStatus: "ok",
     name: "trust-runtime-boundary-notice"
