@@ -17,7 +17,14 @@ const surfaces = [
   {
     name: "briefing",
     files: ["src/app/briefing/page.tsx", "src/components/runtime-readiness-panel.tsx"],
-    required: ["RuntimeReadinessPanel", "runtimeHardeningExit.publicBoundaryLabel", "runtime-public-boundary-summary"]
+    required: [
+      "RuntimeReadinessPanel",
+      "runtimeHardeningExit.publicBoundaryLabel",
+      "runtime-public-boundary-summary",
+      "getRuntimeDeliveryCadence",
+      "runtime-delivery-cadence",
+      "runtimeDeliveryCadence.mandatoryCutpoints"
+    ]
   },
   {
     name: "weekly",
@@ -38,6 +45,7 @@ const surfaces = [
 
 const publicFiles = [
   "src/lib/public-runtime-boundary-copy.ts",
+  "src/lib/runtime-delivery-cadence.ts",
   "src/app/page.tsx",
   "src/app/briefing/page.tsx",
   "src/app/weekly/page.tsx",
@@ -94,6 +102,26 @@ for (const surface of surfaces) {
         surface: surface.name
       });
     }
+  }
+}
+
+const cadenceCopy = readRequired("src/lib/runtime-delivery-cadence.ts");
+for (const token of [
+  "recent_slices_too_fragmented",
+  "larger_mock_runtime_product_slice",
+  "runtime product 70 / blocker closure 20 / governance 10",
+  "before any Supabase connection attempt",
+  "before any SQL execution",
+  "before any market-data fetch or ingestion",
+  "before any publicDataSource promotion",
+  "before any scoreSource=real transition",
+  "after any remote attempt post-run review"
+]) {
+  if (!cadenceCopy.includes(token)) {
+    findings.push({
+      file: "src/lib/runtime-delivery-cadence.ts",
+      issue: `missing runtime delivery cadence token: ${token}`
+    });
   }
 }
 

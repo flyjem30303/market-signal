@@ -2,10 +2,13 @@ import { spawnSync } from "node:child_process";
 import fs from "node:fs";
 
 const reportPath = "scripts/report-project-progress-snapshot.mjs";
+const cadencePath = "src/lib/runtime-delivery-cadence.ts";
 const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 
 const reportSource = fs.readFileSync(reportPath, "utf8");
+const cadenceSource = fs.readFileSync(cadencePath, "utf8");
+const requiredSource = `${reportSource}\n${cadenceSource}`;
 const packageJson = JSON.parse(fs.readFileSync(packagePath, "utf8"));
 const reviewGate = fs.readFileSync(reviewGatePath, "utf8");
 
@@ -15,6 +18,7 @@ const requiredSourcePhrases = [
   "getProjectProgressSummary",
   "getRuntimeReadinessSummary",
   "getRuntimeGateDecisionBrief",
+  "getRuntimeDeliveryCadence",
   "getRowCoverageSecondAttemptReadiness",
   "getFreshnessRuntimeActivationSummary",
   "getFreshnessReadonlyLatestEvidenceSummary",
@@ -112,7 +116,7 @@ const forbiddenOutputPatterns = [
 ];
 
 const missing = requiredSourcePhrases
-  .filter((phrase) => !reportSource.includes(phrase))
+  .filter((phrase) => !requiredSource.includes(phrase))
   .map((phrase) => `${reportPath}: ${phrase}`);
 const blocked = forbiddenSourcePatterns
   .filter((pattern) => pattern.test(reportSource))

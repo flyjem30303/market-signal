@@ -8,6 +8,7 @@ import { getSupabaseReadonlyLocalPreflight } from "@/lib/supabase-readonly-local
 import { buildFreshnessReadonlySmokeReport } from "@/lib/freshness-readonly-smoke-report";
 import { getFreshnessReadonlyLatestEvidenceSummary } from "@/lib/freshness-readonly-latest-evidence";
 import { getRuntimeGateDecisionBrief } from "@/lib/runtime-gate-decision-brief";
+import { getRuntimeDeliveryCadence } from "@/lib/runtime-delivery-cadence";
 
 export function RuntimeReadinessPanel() {
   const readiness = getRuntimeReadinessSummary();
@@ -20,6 +21,7 @@ export function RuntimeReadinessPanel() {
   const freshnessLatestEvidence = getFreshnessReadonlyLatestEvidenceSummary();
   const readonlyEvidence = getSupabaseReadonlyEvidenceSummary();
   const runtimeGateBrief = getRuntimeGateDecisionBrief();
+  const runtimeDeliveryCadence = getRuntimeDeliveryCadence();
 
   return (
     <section className={`runtime-readiness-panel ${readiness.status}`} aria-label="Runtime readiness">
@@ -37,6 +39,28 @@ export function RuntimeReadinessPanel() {
         title="Top decision"
         text="Current public state, blocked actions, and CEO/PM next step."
       />
+      <div className="runtime-delivery-cadence" aria-label="Runtime delivery cadence adjustment">
+        <article>
+          <span>Delivery cadence</span>
+          <strong>{runtimeDeliveryCadence.nextExecutionRatio}</strong>
+          <p>{runtimeDeliveryCadence.reason}</p>
+          <p>{runtimeDeliveryCadence.adjustment}</p>
+        </article>
+        <article className="ready">
+          <span>Next slice size</span>
+          <strong>{runtimeDeliveryCadence.targetSliceSize}</strong>
+          <p>Mode: {runtimeDeliveryCadence.nextExecutionMode}.</p>
+          <p>Verdict: {runtimeDeliveryCadence.verdict}.</p>
+        </article>
+        <article className="hold">
+          <span>Mandatory cutpoints remain</span>
+          <ul>
+            {runtimeDeliveryCadence.mandatoryCutpoints.slice(0, 4).map((cutpoint) => (
+              <li key={cutpoint}>{cutpoint}</li>
+            ))}
+          </ul>
+        </article>
+      </div>
       <div className="runtime-route-snapshot" aria-label="Runtime route snapshot">
         <article>
           <span>Current default route</span>

@@ -8,6 +8,7 @@ const root = process.cwd();
 const { getProjectProgressSummary } = loadTsModule("src/lib/project-progress-score.ts");
 const { getRuntimeReadinessSummary } = loadTsModule("src/lib/runtime-readiness-score.ts");
 const { getRuntimeGateDecisionBrief } = loadTsModule("src/lib/runtime-gate-decision-brief.ts");
+const { getRuntimeDeliveryCadence } = loadTsModule("src/lib/runtime-delivery-cadence.ts");
 const { getRowCoverageSecondAttemptReadiness } = loadTsModule("src/lib/row-coverage-second-attempt-readiness.ts");
 const { getFreshnessRuntimeActivationSummary } = loadTsModule("src/lib/freshness-runtime-activation.ts");
 const { getFreshnessReadonlyLatestEvidenceSummary } = loadTsModule("src/lib/freshness-readonly-latest-evidence.ts");
@@ -21,6 +22,7 @@ const expectedRuntimeRoute = {
 const progress = getProjectProgressSummary();
 const runtime = getRuntimeReadinessSummary();
 const runtimeGateBrief = getRuntimeGateDecisionBrief();
+const runtimeDeliveryCadence = getRuntimeDeliveryCadence();
 const rowCoverage = getRowCoverageSecondAttemptReadiness();
 const freshnessActivation = getFreshnessRuntimeActivationSummary();
 const freshnessLatestEvidence = getFreshnessReadonlyLatestEvidenceSummary();
@@ -125,30 +127,7 @@ const snapshot = {
       }
     ]
   },
-  cadenceAssessment: {
-    verdict: "recent_slices_too_fragmented",
-    reason:
-      "Recent runtime work improved safety and traceability, but too many small governance and UI-only commits created slow visible progress.",
-    adjustment:
-      "Keep mandatory gates, but consolidate future work into larger product-visible slices that combine UI, guard, report, and checker updates.",
-    targetSliceSize: "one coherent runtime product outcome per commit",
-    mandatoryCutpoints: [
-      "before any Supabase connection attempt",
-      "before any SQL execution",
-      "before any market-data fetch or ingestion",
-      "before any publicDataSource promotion",
-      "before any scoreSource=real transition",
-      "after any remote attempt post-run review"
-    ],
-    deEmphasizedCutpoints: [
-      "standalone wording-only governance notes",
-      "single-field report-only changes",
-      "duplicate role reviews that do not change an executable decision",
-      "visual micro-adjustments without runtime decision value"
-    ],
-    nextExecutionMode: "larger_mock_runtime_product_slice",
-    nextExecutionRatio: "runtime product 70 / blocker closure 20 / governance 10"
-  },
+  cadenceAssessment: runtimeDeliveryCadence,
   decisionNodes: [
     {
       id: "local-verification",
