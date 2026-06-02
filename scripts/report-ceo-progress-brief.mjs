@@ -48,6 +48,8 @@ const lines = [
   `Progress: ${snapshot.project.adjustedScore}%`,
   `Status: ${snapshot.status}`,
   `Lane ratio: ${snapshot.ceoDecision.currentLaneRatio}`,
+  `Cadence: ${snapshot.cadenceAssessment.verdict} -> ${snapshot.cadenceAssessment.nextExecutionMode}`,
+  `Slice size: ${snapshot.cadenceAssessment.targetSliceSize}`,
   `Runtime: ${snapshot.runtime.score}% / ${snapshot.runtime.status}`,
   `Runtime route: ${snapshot.runtimeRoute.currentDefaultRoute} / ${snapshot.runtimeRoute.status}`,
   `Remote trigger: ${snapshot.runtimeRoute.separateRemoteTrigger}`,
@@ -63,6 +65,7 @@ const lines = [
   `Ready nodes: ${readyNodes.map((node) => node.id).join(", ")}`,
   `Waiting nodes: ${waitingNodes.map((node) => node.id).join(", ")}`,
   `Blocked nodes: ${blockedNodes.map((node) => node.id).join(", ")}`,
+  `Cadence adjustment: ${snapshot.cadenceAssessment.adjustment}`,
   `CEO recommendation: ${snapshot.ceoDecision.recommendation}`
 ];
 

@@ -36,13 +36,24 @@ const requiredSourcePhrases = [
   "mock_runtime_hardening",
   "requires_separate_ceo_named_action",
   "CEO explicitly names one bounded Supabase readonly attempt",
+  "cadenceAssessment",
+  "recent_slices_too_fragmented",
+  "larger_mock_runtime_product_slice",
+  "runtime product 70 / blocker closure 20 / governance 10",
+  "Keep mandatory gates",
+  "before any Supabase connection attempt",
+  "before any SQL execution",
+  "before any market-data fetch or ingestion",
+  "before any publicDataSource promotion",
+  "before any scoreSource=real transition",
+  "after any remote attempt post-run review",
   "blockerExecutionQueue",
   "bounded_row_coverage_decision_ready",
   "Data 45 / Engineering 35 / Legal-Investment 20",
   "npm run report:source-rights-disclosure-local-review",
   "npm run report:model-credibility-local-review",
   "npm run report:data-quality-field-validity-qa-review",
-  "bounded readonly decision 35 / runtime hardening 45 / blocker closure 20",
+  "runtime product 70 / blocker closure 20 / governance 10",
   "separately named bounded row coverage readonly attempt or mock runtime hardening",
   "decisionNodes",
   "id: \"local-verification\"",
@@ -223,6 +234,32 @@ if (output) {
 
   if (output.blockerExecutionQueue?.status !== "bounded_row_coverage_decision_ready") {
     blocked.push(`output.blockerExecutionQueue.status: ${String(output.blockerExecutionQueue?.status)}`);
+  }
+
+  if (output.cadenceAssessment?.verdict !== "recent_slices_too_fragmented") {
+    blocked.push(`output.cadenceAssessment.verdict: ${String(output.cadenceAssessment?.verdict)}`);
+  }
+
+  if (output.cadenceAssessment?.nextExecutionMode !== "larger_mock_runtime_product_slice") {
+    blocked.push(`output.cadenceAssessment.nextExecutionMode: ${String(output.cadenceAssessment?.nextExecutionMode)}`);
+  }
+
+  if (output.cadenceAssessment?.nextExecutionRatio !== "runtime product 70 / blocker closure 20 / governance 10") {
+    blocked.push(`output.cadenceAssessment.nextExecutionRatio: ${String(output.cadenceAssessment?.nextExecutionRatio)}`);
+  }
+
+  const mandatoryCutpoints = new Set(output.cadenceAssessment?.mandatoryCutpoints ?? []);
+  for (const cutpoint of [
+    "before any Supabase connection attempt",
+    "before any SQL execution",
+    "before any market-data fetch or ingestion",
+    "before any publicDataSource promotion",
+    "before any scoreSource=real transition",
+    "after any remote attempt post-run review"
+  ]) {
+    if (!mandatoryCutpoints.has(cutpoint)) {
+      blocked.push(`output.cadenceAssessment.mandatoryCutpoints missing ${cutpoint}`);
+    }
   }
 
   if (output.blockerExecutionQueue?.ceoLaneRatio !== "Data 45 / Engineering 35 / Legal-Investment 20") {

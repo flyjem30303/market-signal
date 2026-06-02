@@ -18,6 +18,8 @@ for (const phrase of [
   "CEO Progress Brief",
   "Progress",
   "Lane ratio",
+  "Cadence",
+  "Slice size",
   "Runtime",
   "Runtime route",
   "Remote trigger",
@@ -41,6 +43,7 @@ for (const phrase of [
   "Ready nodes",
   "Waiting nodes",
   "Blocked nodes",
+  "Cadence adjustment",
   "CEO recommendation"
 ]) {
   if (!source.includes(phrase)) {
@@ -90,7 +93,9 @@ if (run.status !== 0) {
     "CEO Progress Brief",
     "Progress: 68%",
     "Status: local_ready_remote_paused",
-    "Lane ratio: bounded readonly decision 35 / runtime hardening 45 / blocker closure 20",
+    "Lane ratio: runtime product 70 / blocker closure 20 / governance 10",
+    "Cadence: recent_slices_too_fragmented -> larger_mock_runtime_product_slice",
+    "Slice size: one coherent runtime product outcome per commit",
     "Runtime: 50% / readying",
     "Runtime route: mock_runtime_hardening / local_ready_remote_requires_separate_authorization",
     "Remote trigger: CEO explicitly names one bounded Supabase readonly attempt",
@@ -107,7 +112,8 @@ if (run.status !== 0) {
     "connectionAttempted=false",
     "supabaseWritesEnabled=false",
     "Waiting nodes:",
-    "Blocked nodes: data-quality-evidence, source-rights-and-disclosure, model-credibility"
+    "Blocked nodes: data-quality-evidence, source-rights-and-disclosure, model-credibility",
+    "Cadence adjustment: Keep mandatory gates, but consolidate future work into larger product-visible slices"
   ]) {
     if (!run.stdout.includes(phrase)) {
       missing.push(`${briefPath} output: ${phrase}`);

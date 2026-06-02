@@ -125,6 +125,30 @@ const snapshot = {
       }
     ]
   },
+  cadenceAssessment: {
+    verdict: "recent_slices_too_fragmented",
+    reason:
+      "Recent runtime work improved safety and traceability, but too many small governance and UI-only commits created slow visible progress.",
+    adjustment:
+      "Keep mandatory gates, but consolidate future work into larger product-visible slices that combine UI, guard, report, and checker updates.",
+    targetSliceSize: "one coherent runtime product outcome per commit",
+    mandatoryCutpoints: [
+      "before any Supabase connection attempt",
+      "before any SQL execution",
+      "before any market-data fetch or ingestion",
+      "before any publicDataSource promotion",
+      "before any scoreSource=real transition",
+      "after any remote attempt post-run review"
+    ],
+    deEmphasizedCutpoints: [
+      "standalone wording-only governance notes",
+      "single-field report-only changes",
+      "duplicate role reviews that do not change an executable decision",
+      "visual micro-adjustments without runtime decision value"
+    ],
+    nextExecutionMode: "larger_mock_runtime_product_slice",
+    nextExecutionRatio: "runtime product 70 / blocker closure 20 / governance 10"
+  },
   decisionNodes: [
     {
       id: "local-verification",
@@ -170,10 +194,10 @@ const snapshot = {
     }
   ],
   ceoDecision: {
-    currentLaneRatio: "bounded readonly decision 35 / runtime hardening 45 / blocker closure 20",
+    currentLaneRatio: "runtime product 70 / blocker closure 20 / governance 10",
     nextMeaningfulGate: "separately named bounded row coverage readonly attempt or mock runtime hardening",
     recommendation:
-      "bounded row coverage decision gate is ready; CEO can either name one readonly attempt explicitly or continue mock runtime hardening without waiting",
+      "consolidate the next work into a larger mock runtime product slice; keep mandatory remote and real-data gates intact, but stop creating low-value micro governance slices",
     runtimeDefaultRoute: runtimeGateBrief.currentDefaultRoute,
     runtimeRouteDecisionPoint: runtimeGateBrief.decisionPoint,
     runtimeSeparateRemoteTrigger: runtimeGateBrief.separateRemoteTrigger
