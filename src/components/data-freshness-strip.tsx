@@ -3,6 +3,7 @@ import { getDataQualityDowngradeSummary } from "@/lib/data-quality-downgrade";
 import { getFreshnessInterpretationSummary } from "@/lib/freshness-interpretation";
 import { getFreshnessMetadataBoundarySummary } from "@/lib/freshness-metadata-boundary";
 import type { MarketSignalSourceStatus } from "@/lib/repositories/market-signal-repository";
+import { FreshnessEvidenceBoundary } from "@/components/freshness-evidence-boundary";
 import { TrackedLink } from "@/components/tracked-link";
 
 type DataFreshnessStripProps = {
@@ -54,6 +55,7 @@ export function DataFreshnessStrip({ freshness, marketSignalSourceStatus }: Data
       </span>
       <span className="freshness-boundary">{metadataBoundary.allowedPublicClaim}</span>
       <span className="freshness-boundary">{metadataBoundary.stopLine}</span>
+      <FreshnessEvidenceBoundary freshness={freshness} />
       {marketSignalSourceStatus && <span className="freshness-boundary">{marketSignalSourceStatus.reason}</span>}
       <span className="freshness-description">{freshness.description}</span>
       <TrackedLink

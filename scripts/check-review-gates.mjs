@@ -2838,6 +2838,11 @@ const checks = [
     name: "public-freshness-runtime-boundary"
   },
   {
+    command: [node, "scripts/check-freshness-evidence-boundary.mjs"],
+    expectStatus: "ok",
+    name: "freshness-evidence-boundary"
+  },
+  {
     command: [
       node,
       "--disable-warning=MODULE_TYPELESS_PACKAGE_JSON",
