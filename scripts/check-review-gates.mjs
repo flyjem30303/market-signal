@@ -2718,6 +2718,11 @@ const checks = [
     name: "home-runtime-status-panel"
   },
   {
+    command: [node, "scripts/check-home-market-action-summary.mjs"],
+    expectStatus: "ok",
+    name: "home-market-action-summary"
+  },
+  {
     command: [node, "scripts/check-stock-runtime-at-a-glance.mjs"],
     expectStatus: "ok",
     name: "stock-runtime-at-a-glance"

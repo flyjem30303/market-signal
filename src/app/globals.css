@@ -3474,6 +3474,80 @@ select {
   line-height: 1.25;
 }
 
+.home-market-action-summary {
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) repeat(2, minmax(0, 0.74fr));
+  gap: 12px;
+  align-items: stretch;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+  margin-bottom: 16px;
+  padding: 16px;
+}
+
+.home-market-action-summary h2 {
+  font-size: 22px;
+  line-height: 1.25;
+  margin: 0 0 8px;
+}
+
+.home-market-action-summary p {
+  color: var(--muted);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.home-market-action-summary > a {
+  color: inherit;
+  min-width: 0;
+  text-decoration: none;
+}
+
+.home-market-action-summary article {
+  border: 1px solid var(--line);
+  border-top: 4px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel-muted);
+  height: 100%;
+  min-height: 142px;
+  padding: 12px;
+  transition: border-color 0.18s ease, transform 0.18s ease;
+}
+
+.home-market-action-summary article.active {
+  border-top-color: var(--green);
+}
+
+.home-market-action-summary article.hold {
+  border-top-color: #d99a00;
+}
+
+.home-market-action-summary article.blocked {
+  border-top-color: var(--red);
+}
+
+.home-market-action-summary > a:hover article {
+  border-color: rgba(40, 94, 203, 0.42);
+  transform: translateY(-1px);
+}
+
+.home-market-action-summary span {
+  color: var(--muted);
+  display: block;
+  font-size: 12px;
+  font-weight: 850;
+  margin-bottom: 8px;
+}
+
+.home-market-action-summary strong {
+  display: block;
+  font-size: 18px;
+  line-height: 1.25;
+  margin-bottom: 8px;
+}
+
 .home-market-breadth {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -9472,6 +9546,7 @@ input[type="date"] {
   .home-group-overview,
   .home-group-grid,
   .home-watchlists,
+  .home-market-action-summary,
   .project-progress-panel,
   .project-progress-lanes,
   .project-progress-route-decision > div,

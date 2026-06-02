@@ -19,6 +19,7 @@ import {
 } from "@/lib/signal-model";
 import { buildQuoteSnapshot, type QuoteSnapshot } from "@/lib/market-data";
 import { buildMockDataFreshnessSnapshot, type DataFreshnessSnapshot } from "@/lib/data-freshness";
+import { buildHomeMarketActionSummary } from "@/lib/home-market-action-summary";
 import { buildInvestorActionSummary } from "@/lib/investor-action-summary";
 import { getTwiiLocalDisclosureConsumerOutput } from "@/lib/twii-local-disclosure-consumer";
 import {
@@ -466,6 +467,7 @@ function HomeProductOverview({
   const strongestSnapshot = strongest[0] ?? snapshot;
   const riskiestSnapshot = riskiest[0] ?? snapshot;
   const groupSummaries = buildHomeGroupSummaries(snapshots);
+  const actionSummary = buildHomeMarketActionSummary(snapshot, snapshots);
   const breadth = snapshots.reduce(
     (summary, item) => {
       if (item.signal.key === "green" || item.signal.key === "yellow") {
@@ -568,6 +570,39 @@ function HomeProductOverview({
             <p>正式資料來源與公開宣稱仍未完成前，所有分數只支援產品體驗。</p>
           </article>
         </div>
+      </section>
+
+      <section className="home-market-action-summary" aria-label="首頁市場行動摘要">
+        <div>
+          <p className="eyebrow">Market Action Summary</p>
+          <h2>{actionSummary.headline}</h2>
+          <p>{actionSummary.marketBreadthLine}</p>
+          <p>{actionSummary.stopLine}</p>
+        </div>
+        <TrackedLink
+          eventName="home_cta_clicked"
+          href={actionSummary.primaryAction.href}
+          label={actionSummary.primaryAction.label}
+          payload={{ action: "home_market_action_primary", symbol: selected.symbol }}
+        >
+          <article className={actionSummary.primaryAction.tone}>
+            <span>主入口</span>
+            <strong>{actionSummary.primaryAction.title}</strong>
+            <p>{actionSummary.primaryAction.body}</p>
+          </article>
+        </TrackedLink>
+        <TrackedLink
+          eventName="home_cta_clicked"
+          href={actionSummary.secondaryAction.href}
+          label={actionSummary.secondaryAction.label}
+          payload={{ action: "home_market_action_secondary", symbol: selected.symbol }}
+        >
+          <article className={actionSummary.secondaryAction.tone}>
+            <span>對照入口</span>
+            <strong>{actionSummary.secondaryAction.title}</strong>
+            <p>{actionSummary.secondaryAction.body}</p>
+          </article>
+        </TrackedLink>
       </section>
 
       <section className="home-decision-strip" aria-label="首頁下一步決策列">
