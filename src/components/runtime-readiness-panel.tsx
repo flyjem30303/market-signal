@@ -12,6 +12,7 @@ import { getRuntimeDeliveryCadence } from "@/lib/runtime-delivery-cadence";
 import { getRuntimeStateConsistencySummary } from "@/lib/runtime-state-consistency";
 import { getRuntimeFailClosedSummary } from "@/lib/runtime-fail-closed";
 import { getRuntimeReadonlyDecisionCard } from "@/lib/runtime-readonly-decision-card";
+import { getPostReadonlyRuntimeState } from "@/lib/post-readonly-runtime-state";
 
 export function RuntimeReadinessPanel() {
   const readiness = getRuntimeReadinessSummary();
@@ -28,6 +29,7 @@ export function RuntimeReadinessPanel() {
   const runtimeStateConsistency = getRuntimeStateConsistencySummary();
   const failClosed = getRuntimeFailClosedSummary();
   const readonlyDecisionCard = getRuntimeReadonlyDecisionCard(preflight, decision, executionPreview);
+  const postReadonlyRuntime = getPostReadonlyRuntimeState();
   const readonlyFinalPrepReady =
     preflight.status === "ready_for_guarded_readonly_decision" &&
     decision.status === "ready_for_ceo_decision" &&
@@ -192,6 +194,14 @@ export function RuntimeReadinessPanel() {
         </article>
       </div>
       <div className="runtime-post-run-prep-card" aria-label="Post-run review preparation summary">
+        <article className="ready">
+          <span>Post-readonly runtime</span>
+          <strong>{postReadonlyRuntime.state}</strong>
+          <p>{postReadonlyRuntime.userFacingSummary}</p>
+          <p>
+            Public {postReadonlyRuntime.publicDataSource}; score {postReadonlyRuntime.scoreSource}.
+          </p>
+        </article>
         <article>
           <span>Accepted result classes</span>
           <strong>{executionPreview.postRunAcceptedOutcomeCategories.length} categories</strong>

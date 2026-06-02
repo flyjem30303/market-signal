@@ -8,6 +8,7 @@ import { getRuntimeDeliveryCadence } from "@/lib/runtime-delivery-cadence";
 import { getHomeRuntimeActionSummary } from "@/lib/home-runtime-action-summary";
 import { getRuntimeStateConsistencySummary } from "@/lib/runtime-state-consistency";
 import { getRuntimeFailClosedSummary } from "@/lib/runtime-fail-closed";
+import { getPostReadonlyRuntimeState } from "@/lib/post-readonly-runtime-state";
 
 type HomeRuntimeStatusPanelProps = {
   selectedSymbol: string;
@@ -24,6 +25,7 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
   const actionSummary = getHomeRuntimeActionSummary();
   const runtimeStateConsistency = getRuntimeStateConsistencySummary();
   const failClosed = getRuntimeFailClosedSummary();
+  const postReadonlyRuntime = getPostReadonlyRuntimeState();
 
   return (
     <section className="home-runtime-status-panel" aria-label="Runtime status">
@@ -76,6 +78,14 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
         <p>{failClosed.statusLine}</p>
         <p>{failClosed.stopLine}</p>
       </article>
+      <article className="active post-readonly-runtime-card">
+        <span>Readonly result</span>
+        <strong>{postReadonlyRuntime.objectsReachable} objects reachable</strong>
+        <p>{postReadonlyRuntime.headline}</p>
+        <p>
+          Public {postReadonlyRuntime.publicDataSource}; score {postReadonlyRuntime.scoreSource}.
+        </p>
+      </article>
       <nav>
         <a href={`/stocks/${selectedSymbol}`}>Open stock page</a>
         <a href="/briefing">View CEO/PM briefing</a>
@@ -126,6 +136,11 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
             <span>Fail-closed blocked actions</span>
             <strong>{failClosed.allowedState}</strong>
             <p>{failClosed.blockedActions.slice(0, 4).join(", ")}.</p>
+          </article>
+          <article className="readying post-readonly-runtime-card">
+            <span>Post-readonly next gate</span>
+            <strong>{postReadonlyRuntime.state}</strong>
+            <p>{postReadonlyRuntime.nextGate}</p>
           </article>
           <article className="blocked">
             <span>Blocker readiness</span>

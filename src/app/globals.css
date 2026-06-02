@@ -1792,7 +1792,7 @@ select {
 .runtime-post-run-prep-card {
   display: grid;
   grid-column: 1 / -1;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
   gap: 10px;
 }
 
@@ -1809,6 +1809,11 @@ select {
 .runtime-post-run-prep-card article.hold {
   border-color: rgba(183, 121, 31, 0.26);
   background: #fffaf0;
+}
+
+.runtime-post-run-prep-card article.ready {
+  border-color: rgba(15, 118, 110, 0.24);
+  background: #eff9f5;
 }
 
 .runtime-post-run-prep-card article.blocked {
@@ -2480,6 +2485,14 @@ select {
 
 .runtime-boundary-copy-card {
   min-width: 0;
+}
+
+.post-readonly-runtime-card {
+  min-width: 0;
+}
+
+.post-readonly-runtime-card p {
+  overflow-wrap: anywhere;
 }
 
 .runtime-delivery-card,

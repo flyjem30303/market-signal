@@ -8,6 +8,7 @@ import { getRuntimeDeliveryCadence } from "@/lib/runtime-delivery-cadence";
 import { getHomeRuntimeActionSummary } from "@/lib/home-runtime-action-summary";
 import { getRuntimeStateConsistencySummary } from "@/lib/runtime-state-consistency";
 import { getRuntimeFailClosedSummary } from "@/lib/runtime-fail-closed";
+import { getPostReadonlyRuntimeState } from "@/lib/post-readonly-runtime-state";
 import type { SignalSnapshot } from "@/lib/signal-model";
 
 type StockRuntimeAtAGlanceProps = {
@@ -26,6 +27,7 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
   const actionSummary = getHomeRuntimeActionSummary();
   const runtimeStateConsistency = getRuntimeStateConsistencySummary();
   const failClosed = getRuntimeFailClosedSummary();
+  const postReadonlyRuntime = getPostReadonlyRuntimeState();
 
   return (
     <section className="stock-runtime-at-a-glance" aria-label="Stock runtime status">
@@ -64,6 +66,11 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
         <strong>{failClosed.failClosedState}</strong>
         <p>{failClosed.statusLine}</p>
         <p>{failClosed.blockedActions.slice(0, 4).join(", ")}.</p>
+      </article>
+      <article className="active post-readonly-runtime-card">
+        <span>Readonly result</span>
+        <strong>{postReadonlyRuntime.objectsReachable} objects reachable</strong>
+        <p>{postReadonlyRuntime.userFacingSummary}</p>
       </article>
       <article className="blocked">
         <span>Source depth</span>
@@ -116,6 +123,11 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
         <span>State consistency</span>
         <strong>{runtimeStateConsistency.consistencyState}</strong>
         <p>{runtimeStateConsistency.statusLine}</p>
+      </article>
+      <article className="readying compact-runtime-blocker post-readonly-runtime-card">
+        <span>Post-readonly next gate</span>
+        <strong>{postReadonlyRuntime.state}</strong>
+        <p>{postReadonlyRuntime.stopLine}</p>
       </article>
       <article className="blocked compact-runtime-blocker">
         <span>Blocker readiness</span>
