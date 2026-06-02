@@ -14,6 +14,17 @@ export type FreshnessRuntimeOperationDecisionSummary = {
     }>;
     stopLine: string;
   };
+  routeSummary: {
+    defaultRoute: string;
+    headline: string;
+    options: Array<{
+      body: string;
+      label: string;
+      state: "active" | "optional" | "blocked";
+      value: string;
+    }>;
+    stopLine: string;
+  };
   headline: string;
   decisions: Array<{
     body: string;
@@ -64,6 +75,32 @@ export function getFreshnessRuntimeOperationDecisionSummary(
       ],
       stopLine:
         "This candidate card does not connect remotely, does not inspect rows, does not mutate data, and does not promote scoreSource=real."
+    },
+    routeSummary: {
+      defaultRoute: "mock_runtime_hardening",
+      headline: "PM route choice summary",
+      options: [
+        {
+          body: "Continue improving runtime readability, disclosure, fail-closed behavior, and local checks while public source and score source stay mock.",
+          label: "Default route",
+          state: "active",
+          value: "mock_runtime_hardening"
+        },
+        {
+          body: "Use only when CEO separately names one bounded readonly attempt, with confirmation token and immediate sanitized post-run review.",
+          label: "Optional route",
+          state: canPrepareReadonlyAttempt ? "optional" : "blocked",
+          value: "bounded_readonly_attempt_candidate"
+        },
+        {
+          body: "Do not promote public data source, row coverage, data quality, model credibility, or real scoring from either route.",
+          label: "Promotion route",
+          state: "blocked",
+          value: "blocked"
+        }
+      ],
+      stopLine:
+        "Route selection is guidance only; it must not execute remote reads, SQL, writes, ingestion, or scoreSource=real."
     },
     headline: "Runtime operation decision",
     decisions: [

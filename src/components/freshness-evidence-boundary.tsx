@@ -55,6 +55,21 @@ export function FreshnessEvidenceBoundary({ freshness }: FreshnessEvidenceBounda
         ))}
         <p className="freshness-readonly-candidate-stop-line">{operationDecision.attemptCandidate.stopLine}</p>
       </div>
+      <div className="freshness-route-summary" aria-label="Freshness runtime route choice summary">
+        <div>
+          <span>Route choice</span>
+          <strong>{operationDecision.routeSummary.headline}</strong>
+          <p>Default: {operationDecision.routeSummary.defaultRoute}</p>
+        </div>
+        {operationDecision.routeSummary.options.map((option) => (
+          <article className={option.state} key={option.label}>
+            <span>{option.label}</span>
+            <strong>{option.value}</strong>
+            <p>{option.body}</p>
+          </article>
+        ))}
+        <p className="freshness-route-stop-line">{operationDecision.routeSummary.stopLine}</p>
+      </div>
     </section>
   );
 }
