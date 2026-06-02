@@ -1788,6 +1788,106 @@ const checks = [
     name: "twii-report-only-probe-runner-stability-fix"
   },
   {
+    command: [node, "scripts/check-twii-parser-design-preparation.mjs"],
+    expectStatus: "ok",
+    name: "twii-parser-design-preparation"
+  },
+  {
+    command: [node, "scripts/check-twii-parser-design-preparation-role-review.mjs"],
+    expectStatus: "ok",
+    name: "twii-parser-design-preparation-role-review"
+  },
+  {
+    command: [node, "--experimental-strip-types", "scripts/check-twii-local-parser-contract.mjs"],
+    expectStatus: "ok",
+    name: "twii-local-parser-contract"
+  },
+  {
+    command: [node, "scripts/check-twii-local-parser-contract-implementation-review.mjs"],
+    expectStatus: "ok",
+    name: "twii-local-parser-contract-implementation-review"
+  },
+  {
+    command: [node, "scripts/check-twii-parser-contract-consumer-planning.mjs"],
+    expectStatus: "ok",
+    name: "twii-parser-contract-consumer-planning"
+  },
+  {
+    command: [node, "scripts/check-twii-parser-contract-consumer-planning-role-review.mjs"],
+    expectStatus: "ok",
+    name: "twii-parser-contract-consumer-planning-role-review"
+  },
+  {
+    command: [node, "--experimental-strip-types", "scripts/check-twii-parser-consumer-state.mjs"],
+    expectStatus: "ok",
+    name: "twii-parser-consumer-state"
+  },
+  {
+    command: [node, "scripts/check-twii-parser-consumer-state-implementation-review.mjs"],
+    expectStatus: "ok",
+    name: "twii-parser-consumer-state-implementation-review"
+  },
+  {
+    command: [node, "scripts/check-twii-parser-consumer-adapter-planning.mjs"],
+    expectStatus: "ok",
+    name: "twii-parser-consumer-adapter-planning"
+  },
+  {
+    command: [node, "scripts/check-twii-parser-consumer-adapter-planning-role-review.mjs"],
+    expectStatus: "ok",
+    name: "twii-parser-consumer-adapter-planning-role-review"
+  },
+  {
+    command: [node, "--experimental-strip-types", "scripts/check-twii-parser-consumer-adapter.mjs"],
+    expectStatus: "ok",
+    name: "twii-parser-consumer-adapter"
+  },
+  {
+    command: [node, "scripts/check-twii-parser-consumer-adapter-implementation-review.mjs"],
+    expectStatus: "ok",
+    name: "twii-parser-consumer-adapter-implementation-review"
+  },
+  {
+    command: [node, "scripts/check-twii-adapter-local-integration-planning.mjs"],
+    expectStatus: "ok",
+    name: "twii-adapter-local-integration-planning"
+  },
+  {
+    command: [node, "--experimental-strip-types", "scripts/check-twii-local-disclosure-consumer.mjs"],
+    expectStatus: "ok",
+    name: "twii-local-disclosure-consumer"
+  },
+  {
+    command: [node, "scripts/check-twii-local-disclosure-consumer-implementation-review.mjs"],
+    expectStatus: "ok",
+    name: "twii-local-disclosure-consumer-implementation-review"
+  },
+  {
+    command: [node, "scripts/check-twii-mock-disclosure-ui-placement-planning.mjs"],
+    expectStatus: "ok",
+    name: "twii-mock-disclosure-ui-placement-planning"
+  },
+  {
+    command: [node, "scripts/check-twii-mock-disclosure-status-component.mjs"],
+    expectStatus: "ok",
+    name: "twii-mock-disclosure-status-component"
+  },
+  {
+    command: [node, "scripts/check-twii-mock-disclosure-status-component-implementation-review.mjs"],
+    expectStatus: "ok",
+    name: "twii-mock-disclosure-status-component-implementation-review"
+  },
+  {
+    command: [node, "scripts/check-twii-stock-page-mock-disclosure-placement.mjs"],
+    expectStatus: "ok",
+    name: "twii-stock-page-mock-disclosure-placement"
+  },
+  {
+    command: [node, "scripts/check-twii-stock-page-mock-disclosure-placement-implementation-review.mjs"],
+    expectStatus: "ok",
+    name: "twii-stock-page-mock-disclosure-placement-implementation-review"
+  },
+  {
     command: [node, "scripts/check-etf-source-rights-review-packet.mjs"],
     expectStatus: "ok",
     name: "etf-source-rights-review-packet"

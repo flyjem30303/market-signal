@@ -10,6 +10,7 @@ import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { HomeRuntimeStatusPanel } from "@/components/home-runtime-status-panel";
 import { StockRuntimeAtAGlance } from "@/components/stock-runtime-at-a-glance";
 import { TrackedLink } from "@/components/tracked-link";
+import { TwiiMockDisclosureStatus } from "@/components/twii-mock-disclosure-status";
 import {
   signalColor,
   type BacktestBucket,
@@ -18,6 +19,7 @@ import {
 } from "@/lib/signal-model";
 import { buildQuoteSnapshot, type QuoteSnapshot } from "@/lib/market-data";
 import { buildMockDataFreshnessSnapshot, type DataFreshnessSnapshot } from "@/lib/data-freshness";
+import { getTwiiLocalDisclosureConsumerOutput } from "@/lib/twii-local-disclosure-consumer";
 import {
   getMarketSignalRepository,
   type MarketSignalSourceStatus
@@ -59,6 +61,23 @@ export function DashboardShell({
   const snapshot = useMemo(() => repository.getSnapshot(selected.symbol, today)!, [repository, selected.symbol]);
   const quote = useMemo(() => buildQuoteSnapshot(selected, snapshot), [selected, snapshot]);
   const series = useMemo(() => repository.getSeries(selected.symbol), [repository, selected.symbol]);
+  const twiiMockDisclosure = useMemo(
+    () =>
+      getTwiiLocalDisclosureConsumerOutput({
+        adapterOutput: {
+          blockingReason: "rights_decision_required",
+          canAwardRowCoverageCredit: false,
+          canMapToDailyPrices: false,
+          canSetScoreSourceReal: false,
+          isRuntimeReady: false,
+          parsedRowCount: 0,
+          publicDataSource: "mock",
+          reviewState: "parser_contract_waiting_for_rights_decision",
+          scoreSource: "mock"
+        }
+      }),
+    []
+  );
   const assetGroups = useMemo(() => ["全部", ...Array.from(new Set(availableAssets.map((asset) => asset.group)))], [availableAssets]);
   const homeSnapshots = useMemo(
     () =>
@@ -262,6 +281,12 @@ export function DashboardShell({
           <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
           <Cp3RuntimeStatePanel freshness={freshness} snapshot={snapshot} />
           <StockRuntimeAtAGlance scoreSourceLabel={freshness.scoreSourceLabel} snapshot={snapshot} />
+          {selected.symbol === "TWII" && (
+            <TwiiMockDisclosureStatus
+              disclosure={twiiMockDisclosure}
+              label="TWII stock page mock disclosure status"
+            />
+          )}
           <StockEvidenceSnapshot snapshot={snapshot} />
           <StockDataGapPanel snapshot={snapshot} onTab={changeTab} />
           <StockDecisionCompass scoreSourceLabel={freshness.scoreSourceLabel} snapshot={snapshot} />

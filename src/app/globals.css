@@ -1904,6 +1904,51 @@ select {
   line-height: 1.25;
 }
 
+.twii-mock-disclosure-status {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) repeat(2, minmax(160px, 0.28fr));
+  gap: 12px;
+  border: 1px solid rgba(40, 94, 203, 0.2);
+  border-radius: 8px;
+  background: #f7faff;
+  padding: 16px;
+}
+
+.twii-mock-disclosure-status h2 {
+  margin: 0 0 8px;
+  font-size: 20px;
+  line-height: 1.3;
+}
+
+.twii-mock-disclosure-status p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.twii-mock-disclosure-status article {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  border: 1px solid rgba(199, 54, 59, 0.2);
+  border-radius: 8px;
+  background: #fff7f7;
+  padding: 12px;
+}
+
+.twii-mock-disclosure-status span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.twii-mock-disclosure-status strong {
+  color: var(--text);
+  font-size: 18px;
+  line-height: 1.25;
+}
+
 .home-primary-card,
 .home-overview-grid article {
   border: 1px solid var(--line);
