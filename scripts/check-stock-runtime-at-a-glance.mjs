@@ -5,6 +5,7 @@ const dashboardPath = "src/components/dashboard-shell.tsx";
 const actionSummaryPath = "src/lib/home-runtime-action-summary.ts";
 const consistencyPath = "src/lib/runtime-state-consistency.ts";
 const failClosedPath = "src/lib/runtime-fail-closed.ts";
+const headlineSummaryPath = "src/lib/stock-runtime-headline-summary.ts";
 const productSummaryPath = "src/lib/runtime-product-summary.ts";
 const cssPath = "src/app/globals.css";
 const packagePath = "package.json";
@@ -17,6 +18,7 @@ const files = new Map(
     actionSummaryPath,
     consistencyPath,
     failClosedPath,
+    headlineSummaryPath,
     productSummaryPath,
     cssPath,
     packagePath,
@@ -36,6 +38,17 @@ const required = [
   [componentPath, "getHomeRuntimeActionSummary"],
   [componentPath, "getRuntimeStateConsistencySummary"],
   [componentPath, "getRuntimeFailClosedSummary"],
+  [componentPath, "getStockRuntimeHeadlineSummary"],
+  [componentPath, "stock-runtime-headline-summary"],
+  [componentPath, "Stock runtime headline summary"],
+  [componentPath, "headlineSummary.items"],
+  [componentPath, "headlineSummary.stopLine"],
+  [headlineSummaryPath, "StockRuntimeHeadlineSummary"],
+  [headlineSummaryPath, "getStockRuntimeHeadlineSummary"],
+  [headlineSummaryPath, "mock_runtime_readable"],
+  [headlineSummaryPath, "real_data_blocked"],
+  [headlineSummaryPath, "mock_runtime_hardening"],
+  [headlineSummaryPath, "does not approve publicDataSource=supabase"],
   [componentPath, "stock-runtime-action-strip"],
   [componentPath, "Stock CEO next runtime action summary"],
   [componentPath, "actionSummary.currentProgressPercent"],
@@ -92,6 +105,11 @@ const required = [
   [dashboardPath, "import { StockRuntimeAtAGlance }"],
   [dashboardPath, "<StockRuntimeAtAGlance scoreSourceLabel={freshness.scoreSourceLabel} snapshot={snapshot} />"],
   [cssPath, ".stock-runtime-at-a-glance"],
+  [cssPath, ".stock-runtime-headline-summary"],
+  [cssPath, ".stock-runtime-headline-summary article.active"],
+  [cssPath, ".stock-runtime-headline-summary article.readying"],
+  [cssPath, ".stock-runtime-headline-summary article.blocked"],
+  [cssPath, ".stock-runtime-headline-stop-line"],
   [cssPath, "repeat(auto-fit, minmax(150px"],
   [cssPath, ".runtime-boundary-copy-card"],
   [cssPath, ".runtime-fail-closed-card"],
@@ -134,6 +152,14 @@ const forbidden = [
   [failClosedPath, "from \"fs\""],
   [failClosedPath, "scoreSource: \"real\""],
   [failClosedPath, "publicDataSource: \"supabase\""],
+  [headlineSummaryPath, "@supabase/supabase-js"],
+  [headlineSummaryPath, "createClient"],
+  [headlineSummaryPath, "fetch("],
+  [headlineSummaryPath, "process.env"],
+  [headlineSummaryPath, "node:fs"],
+  [headlineSummaryPath, "from \"fs\""],
+  [headlineSummaryPath, "scoreSource: \"real\""],
+  [headlineSummaryPath, "publicDataSource: \"supabase\""],
   [dashboardPath, "scoreSource=\"real\""]
 ];
 

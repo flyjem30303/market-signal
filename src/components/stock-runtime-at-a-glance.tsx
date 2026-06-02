@@ -10,6 +10,7 @@ import { getRuntimeStateConsistencySummary } from "@/lib/runtime-state-consisten
 import { getRuntimeFailClosedSummary } from "@/lib/runtime-fail-closed";
 import { getPostReadonlyRuntimeState } from "@/lib/post-readonly-runtime-state";
 import { getRuntimeProductSummary } from "@/lib/runtime-product-summary";
+import { getStockRuntimeHeadlineSummary } from "@/lib/stock-runtime-headline-summary";
 import type { SignalSnapshot } from "@/lib/signal-model";
 import { RuntimeTransitionRail } from "@/components/runtime-transition-rail";
 import { PublicRuntimeStateStrip } from "@/components/public-runtime-state-strip";
@@ -32,6 +33,7 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
   const failClosed = getRuntimeFailClosedSummary();
   const postReadonlyRuntime = getPostReadonlyRuntimeState();
   const productSummary = getRuntimeProductSummary(snapshot.asset.symbol);
+  const headlineSummary = getStockRuntimeHeadlineSummary(snapshot);
 
   return (
     <section className="stock-runtime-at-a-glance" aria-label="Stock runtime status">
@@ -43,6 +45,21 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
           context remain visible below for PM and CEO review. Supabase-backed public data remains blocked;
           scoreSource=real require a separate accepted gate.
         </p>
+      </div>
+      <div className="stock-runtime-headline-summary" aria-label="Stock runtime headline summary">
+        <div>
+          <span>First-screen runtime summary</span>
+          <strong>{headlineSummary.headline}</strong>
+          <p>{headlineSummary.subhead}</p>
+        </div>
+        {headlineSummary.items.map((item) => (
+          <article className={item.state} key={item.label}>
+            <span>{item.label}</span>
+            <strong>{item.value}</strong>
+            <p>{item.body}</p>
+          </article>
+        ))}
+        <p className="stock-runtime-headline-stop-line">{headlineSummary.stopLine}</p>
       </div>
       <div className="runtime-product-summary" aria-label="Runtime product summary">
         <article className="active">
