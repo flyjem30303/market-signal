@@ -1,7 +1,11 @@
 import { getProjectProgressSummary } from "@/lib/project-progress-score";
+import { getRuntimeGateDecisionBrief } from "@/lib/runtime-gate-decision-brief";
+import { getRuntimeReadinessSummary } from "@/lib/runtime-readiness-score";
 
 export function ProjectProgressPanel() {
   const progress = getProjectProgressSummary();
+  const runtime = getRuntimeReadinessSummary();
+  const runtimeGate = getRuntimeGateDecisionBrief();
 
   return (
     <section className="project-progress-panel" aria-label="PM project progress score">
@@ -15,6 +19,32 @@ export function ProjectProgressPanel() {
         <span style={{ ["--progress" as string]: `${progress.adjustedScore}%` }} />
         <b>{progress.adjustedScore}%</b>
         <small>raw {progress.rawScore}%</small>
+      </div>
+      <div className="project-progress-runtime-strip" aria-label="CEO PM runtime progress alignment">
+        <article>
+          <span>Runtime</span>
+          <strong>
+            {runtime.score}% / {runtime.status}
+          </strong>
+          <p>{runtime.nextDecision}</p>
+        </article>
+        <article className="active">
+          <span>Default route</span>
+          <strong>{runtimeGate.currentDefaultRoute}</strong>
+          <p>{runtimeGate.ceoRecommendation}</p>
+        </article>
+        <article className="hold">
+          <span>Remote trigger</span>
+          <strong>{runtimeGate.separateRemoteTrigger}</strong>
+          <p>{runtimeGate.requiredAuthorization}</p>
+        </article>
+        <article className="blocked">
+          <span>Source boundary</span>
+          <strong>
+            {runtimeGate.publicDataSource} / {runtimeGate.scoreSource}
+          </strong>
+          <p>{runtimeGate.blockedNow.slice(0, 4).join(", ")} remain blocked.</p>
+        </article>
       </div>
       <div
         className={`project-progress-evidence ${progress.dataQualityEvidenceGate.status}`}
@@ -51,10 +81,11 @@ export function ProjectProgressPanel() {
         </ul>
         <p>{progress.dataQualityEvidenceGate.stopLine}</p>
       </div>
-      <div
+      <details
         className="project-progress-route-decision"
         aria-label={`Data coverage route decision ${progress.dataCoverageRouteDecision.status}`}
       >
+        <summary>Data coverage route / source readiness details</summary>
         <span>Data coverage route</span>
         <strong>{progress.dataCoverageRouteDecision.recommendation}</strong>
         <p>
@@ -547,7 +578,7 @@ export function ProjectProgressPanel() {
           <p>{progress.dataCoverageRouteDecision.sourceReadinessPacket.stopLine}</p>
         </section>
         <p>{progress.dataCoverageRouteDecision.stopLine}</p>
-      </div>
+      </details>
       <div className="project-progress-lanes">
         {progress.lanes.map((lane) => (
           <article key={lane.label}>
