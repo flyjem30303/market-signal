@@ -2555,6 +2555,28 @@ select {
   overflow-wrap: anywhere;
 }
 
+.stock-runtime-action-strip {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.stock-runtime-action-strip article {
+  min-width: 0;
+}
+
+.stock-runtime-action-strip strong {
+  overflow-wrap: anywhere;
+  font-size: 17px;
+}
+
+.stock-runtime-action-strip p {
+  overflow-wrap: anywhere;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
 .stock-runtime-at-a-glance span {
   color: var(--muted);
   font-size: 12px;

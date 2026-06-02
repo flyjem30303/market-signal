@@ -5,6 +5,7 @@ import { getRuntimeInterpretationSummary } from "@/lib/runtime-interpretation";
 import { getSourceDepthBlockerSummary } from "@/lib/source-depth-blockers";
 import { getPublicRuntimeBoundaryCopy } from "@/lib/public-runtime-boundary-copy";
 import { getRuntimeDeliveryCadence } from "@/lib/runtime-delivery-cadence";
+import { getHomeRuntimeActionSummary } from "@/lib/home-runtime-action-summary";
 import type { SignalSnapshot } from "@/lib/signal-model";
 
 type StockRuntimeAtAGlanceProps = {
@@ -20,6 +21,7 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
   const sourceDepth = getSourceDepthBlockerSummary();
   const boundaryCopy = getPublicRuntimeBoundaryCopy("stock");
   const runtimeDeliveryCadence = getRuntimeDeliveryCadence();
+  const actionSummary = getHomeRuntimeActionSummary();
 
   return (
     <section className="stock-runtime-at-a-glance" aria-label="Stock runtime status">
@@ -58,6 +60,23 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
         <strong>{sourceDepth.sourceDepthState}</strong>
         <p>{sourceDepth.stopLine}</p>
       </article>
+      <div className="stock-runtime-action-strip" aria-label="Stock CEO next runtime action summary">
+        <article className="active">
+          <span>Current progress</span>
+          <strong>{actionSummary.currentProgressPercent}%</strong>
+          <p>{actionSummary.stage}</p>
+        </article>
+        <article className="readying">
+          <span>CEO next action</span>
+          <strong>{actionSummary.nextAction}</strong>
+          <p>{actionSummary.nextLift}</p>
+        </article>
+        <article className="blocked">
+          <span>Still blocked</span>
+          <strong>{actionSummary.blockedTransition}</strong>
+          <p>{actionSummary.safetyStopLine}</p>
+        </article>
+      </div>
       <article className="readying">
         <span>Row coverage</span>
         <strong>{rowCoverage.readiness}</strong>

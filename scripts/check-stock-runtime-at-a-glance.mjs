@@ -2,12 +2,13 @@ import fs from "node:fs";
 
 const componentPath = "src/components/stock-runtime-at-a-glance.tsx";
 const dashboardPath = "src/components/dashboard-shell.tsx";
+const actionSummaryPath = "src/lib/home-runtime-action-summary.ts";
 const cssPath = "src/app/globals.css";
 const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 
 const files = new Map(
-  [componentPath, dashboardPath, cssPath, packagePath, reviewGatePath].map((file) => [
+  [componentPath, dashboardPath, actionSummaryPath, cssPath, packagePath, reviewGatePath].map((file) => [
     file,
     fs.readFileSync(file, "utf8")
   ])
@@ -22,6 +23,13 @@ const required = [
   [componentPath, "getSourceDepthBlockerSummary"],
   [componentPath, "getPublicRuntimeBoundaryCopy"],
   [componentPath, "getRuntimeDeliveryCadence"],
+  [componentPath, "getHomeRuntimeActionSummary"],
+  [componentPath, "stock-runtime-action-strip"],
+  [componentPath, "Stock CEO next runtime action summary"],
+  [componentPath, "actionSummary.currentProgressPercent"],
+  [componentPath, "actionSummary.nextAction"],
+  [componentPath, "actionSummary.blockedTransition"],
+  [componentPath, "actionSummary.safetyStopLine"],
   [componentPath, "runtime-boundary-copy-card"],
   [componentPath, "runtime-delivery-card"],
   [componentPath, "runtime-cutpoint-card"],
@@ -44,6 +52,11 @@ const required = [
   [componentPath, "runtimeInterpretation.decision"],
   [componentPath, "runtimeInterpretation.laneRatio.mockRuntimeHardening"],
   [componentPath, "runtimeInterpretation.stopLine"],
+  [actionSummaryPath, "HomeRuntimeActionSummary"],
+  [actionSummaryPath, "getHomeRuntimeActionSummary"],
+  [actionSummaryPath, "currentProgressPercent: 68"],
+  [actionSummaryPath, "nextAction: \"mock runtime hardening\""],
+  [actionSummaryPath, "blockedTransition: \"real-score transition\""],
   [dashboardPath, "import { StockRuntimeAtAGlance }"],
   [dashboardPath, "<StockRuntimeAtAGlance scoreSourceLabel={freshness.scoreSourceLabel} snapshot={snapshot} />"],
   [cssPath, ".stock-runtime-at-a-glance"],
@@ -53,6 +66,7 @@ const required = [
   [cssPath, ".stock-runtime-at-a-glance article.active"],
   [cssPath, ".stock-runtime-at-a-glance article.blocked"],
   [cssPath, ".stock-runtime-at-a-glance article.readying"],
+  [cssPath, ".stock-runtime-action-strip"],
   [packagePath, "\"check:stock-runtime-at-a-glance\": \"node scripts/check-stock-runtime-at-a-glance.mjs\""],
   [reviewGatePath, "scripts/check-stock-runtime-at-a-glance.mjs"]
 ];
@@ -64,6 +78,14 @@ const forbidden = [
   [componentPath, ".from("],
   [componentPath, "process.env"],
   [componentPath, "scoreSource: \"real\""],
+  [componentPath, "project-progress-score"],
+  [actionSummaryPath, "@supabase/supabase-js"],
+  [actionSummaryPath, "createClient"],
+  [actionSummaryPath, "fetch("],
+  [actionSummaryPath, "process.env"],
+  [actionSummaryPath, "node:fs"],
+  [actionSummaryPath, "from \"fs\""],
+  [actionSummaryPath, "scoreSource: \"real\""],
   [dashboardPath, "scoreSource=\"real\""]
 ];
 
