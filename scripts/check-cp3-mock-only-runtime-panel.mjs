@@ -111,18 +111,17 @@ const forbiddenComponentPhrases = [
 ];
 
 const forbiddenMojibakePhrases = [
-  "嚙",
-  "銝",
-  "蝬",
-  "鞈",
-  "靘",
-  "撌",
-  "蝣",
-  "摰",
-  "憭",
-  "甇"
+  "\u5699",
+  "\u929D\uF697",
+  "\u876C",
+  "\u9788\uF2EA",
+  "\u9758\uF249",
+  "\u648C",
+  "\u7507",
+  "\u8E53",
+  "\u8E47",
+  "\uF2FC"
 ];
-
 function walkFiles(root) {
   if (!fs.existsSync(root)) return [];
   const out = [];

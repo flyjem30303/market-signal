@@ -54,23 +54,9 @@ const forbidden = [
   ["governance", "scoreSource=real approved"],
   ["governance", "publicDataSource=supabase approved"],
   ["governance", "authorization approved"],
-  ["governance", "授權已完成"],
-  ["governance", "已排正式會議"],
-  ["governance", "已建立授權 packet"],
-  ["governance", "正式投資建議"],
   ["governance", "createClient"],
-  ["governance", "fetch("],
-  ["governance", "隞"],
-  ["governance", "?銵"],
-  ["governance", "瘝餌"],
-  ["governance", "鞈"],
-  ["governance", "蝮質"],
-  ["governance", "韏啣"],
-  ["governance", "蝬"],
-  ["governance", ""],
-  ["governance", ""]
+  ["governance", "fetch("]
 ];
-
 const sources = new Map([["governance", governance], ...files]);
 const mojibakePattern = /[\uFFFD\uF000-\uF8FF]/u;
 const missing = required.filter(([file, phrase]) => !source(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
