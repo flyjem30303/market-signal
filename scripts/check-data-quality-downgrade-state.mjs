@@ -17,7 +17,7 @@ const required = [
   [downgradePath, "scoreSource: \"mock\""],
   [downgradePath, "Do not use complete freshness metadata as public score approval."],
   [stripPath, "getDataQualityDowngradeSummary"],
-  [stripPath, "Data quality gate:"],
+  [stripPath, "資料品質閘門"],
   [stripPath, "dataQuality.downgradeState"],
   [progressPath, "資料品質降級規則"]
 ];

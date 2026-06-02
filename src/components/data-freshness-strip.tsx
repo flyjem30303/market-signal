@@ -11,10 +11,11 @@ type DataFreshnessStripProps = {
 };
 
 export function DataFreshnessStrip({ freshness, marketSignalSourceStatus }: DataFreshnessStripProps) {
-  const reachabilityLabel = freshness.isMock ? "模擬 metadata" : "Supabase metadata 可達";
+  const reachabilityLabel = freshness.isMock ? "目前使用模擬 metadata" : "Supabase metadata 已可讀";
   const dataQuality = getDataQualityDowngradeSummary(freshness);
   const interpretation = getFreshnessInterpretationSummary();
   const metadataBoundary = getFreshnessMetadataBoundarySummary(freshness);
+  const metadataDisplayLabel = metadataBoundary.canDisplayFreshnessMetadata ? "可顯示狀態" : "不可顯示狀態";
 
   return (
     <aside className={`freshness-strip ${freshness.state}`} aria-label="資料狀態">
@@ -30,23 +31,22 @@ export function DataFreshnessStrip({ freshness, marketSignalSourceStatus }: Data
       <span className={`freshness-score-source ${freshness.scoreSource}`}>分數來源：{freshness.scoreSourceLabel}</span>
       {marketSignalSourceStatus && (
         <span className={`freshness-market-signal-source ${marketSignalSourceStatus.resolvedSource}`}>
-          市場訊號：{marketSignalSourceStatus.resolvedSource} / requested {marketSignalSourceStatus.requestedSource} / reads{" "}
+          市場訊號來源：目前 {marketSignalSourceStatus.resolvedSource}；要求來源 {marketSignalSourceStatus.requestedSource}；Supabase 讀取{" "}
           {marketSignalSourceStatus.supabaseRuntimeReads}
         </span>
       )}
-      <span className="freshness-boundary">Freshness metadata 不等於真實評分或資料品質核准</span>
+      <span className="freshness-boundary">資料新鮮度 metadata 只說明顯示狀態，不等於真實評分或資料品質核准</span>
       <span className="freshness-boundary">
-        Freshness baseline: {interpretation.baselineObject} / data_freshness:{" "}
+        新鮮度基準：{interpretation.baselineObject}；data_freshness 角色：{" "}
         {interpretation.dataFreshnessObjectRole}
       </span>
       <span className="freshness-boundary">{interpretation.stopLine}</span>
       <span className="freshness-boundary">
-        Data quality gate: {dataQuality.displayLabel} / {dataQuality.downgradeState}
+        資料品質閘門：{dataQuality.displayLabel}；降級狀態：{dataQuality.downgradeState}
       </span>
       <span className="freshness-boundary">{dataQuality.stopLine}</span>
       <span className={`freshness-boundary freshness-metadata-boundary ${metadataBoundary.state}`}>
-        Metadata boundary: {metadataBoundary.state} / display{" "}
-        {metadataBoundary.canDisplayFreshnessMetadata ? "allowed" : "blocked"}
+        Metadata 邊界：{metadataBoundary.state}；前台顯示：{metadataDisplayLabel}
       </span>
       <span className="freshness-boundary">{metadataBoundary.allowedPublicClaim}</span>
       <span className="freshness-boundary">{metadataBoundary.stopLine}</span>

@@ -118,7 +118,7 @@ function scanSource() {
     [modulePath, source, "canSwitchPublicDataSource: false"],
     [modulePath, source, "Freshness metadata may inform display state only"],
     [stripPath, strip, "getFreshnessMetadataBoundarySummary"],
-    [stripPath, strip, "Metadata boundary:"],
+    [stripPath, strip, "Metadata 邊界"],
     [stripPath, strip, "metadataBoundary.stopLine"]
   ];
   const forbidden = [

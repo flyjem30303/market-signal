@@ -77,6 +77,19 @@ const publicFiles = [
   "src/components/trust-runtime-boundary-notice.tsx"
 ];
 
+const publicCopyRequirements = [
+  {
+    file: "src/components/data-freshness-strip.tsx",
+    tokens: [
+      "資料新鮮度 metadata 只說明顯示狀態",
+      "市場訊號來源：目前",
+      "新鮮度基準",
+      "資料品質閘門",
+      "Metadata 邊界"
+    ]
+  }
+];
+
 const forbiddenPublicTokens = [
   'scoreSource: "real"',
   'scoreSource="real"',
@@ -118,6 +131,19 @@ for (const surface of surfaces) {
       findings.push({
         issue: `missing runtime boundary coverage token: ${token}`,
         surface: surface.name
+      });
+    }
+  }
+}
+
+for (const requirement of publicCopyRequirements) {
+  const source = readRequired(requirement.file);
+
+  for (const token of requirement.tokens) {
+    if (!source.includes(token)) {
+      findings.push({
+        file: requirement.file,
+        issue: `missing public runtime readability token: ${token}`
       });
     }
   }

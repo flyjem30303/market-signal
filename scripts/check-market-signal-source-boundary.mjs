@@ -51,8 +51,9 @@ const requiredUiPhrases = [
     file: stripPath,
     phrases: [
       "marketSignalSourceStatus?: MarketSignalSourceStatus",
-      "市場訊號：{marketSignalSourceStatus.resolvedSource}",
-      "requested {marketSignalSourceStatus.requestedSource}",
+      "市場訊號來源：目前 {marketSignalSourceStatus.resolvedSource}",
+      "要求來源 {marketSignalSourceStatus.requestedSource}",
+      "Supabase 讀取",
       "{marketSignalSourceStatus.supabaseRuntimeReads}",
       "{marketSignalSourceStatus.reason}"
     ]

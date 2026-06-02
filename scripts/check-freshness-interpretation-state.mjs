@@ -21,7 +21,7 @@ const required = [
     "Do not treat freshness metadata, data_freshness reachability, or schema shape as data-quality approval or scoreSource=real approval."
   ],
   [stripPath, "getFreshnessInterpretationSummary"],
-  [stripPath, "Freshness baseline:"],
+  [stripPath, "新鮮度基準"],
   [stripPath, "interpretation.dataFreshnessObjectRole"],
   [progressPath, "freshness interpretation"],
   [progressPath, "data_runs baseline"],
