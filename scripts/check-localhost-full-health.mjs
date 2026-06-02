@@ -74,6 +74,10 @@ const checks = [
     name: "data-quality-field-validity-qa-review"
   },
   {
+    command: [node, "scripts/check-data-quality-field-validity-acceptance-gate.mjs"],
+    name: "data-quality-field-validity-acceptance-gate"
+  },
+  {
     command: [node, "scripts/check-source-rights-disclosure-checklist.mjs"],
     name: "source-rights-disclosure-checklist"
   },

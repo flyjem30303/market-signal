@@ -1708,6 +1708,11 @@ const checks = [
     name: "data-quality-field-validity-qa-review"
   },
   {
+    command: [node, "scripts/check-data-quality-field-validity-acceptance-gate.mjs"],
+    expectStatus: "ok",
+    name: "data-quality-field-validity-acceptance-gate"
+  },
+  {
     command: [node, "scripts/check-data-coverage-route-decision.mjs"],
     expectStatus: "ok",
     name: "data-coverage-route-decision"
