@@ -52,8 +52,23 @@ const surfaces = [
   },
   {
     name: "weekly",
-    files: ["src/app/weekly/page.tsx", "src/components/trust-runtime-boundary-notice.tsx"],
-    required: ["TrustRuntimeBoundaryNotice", 'context="weekly"', "boundaryCopy.summary"]
+    files: [
+      "src/app/weekly/page.tsx",
+      "src/components/trust-runtime-boundary-notice.tsx",
+      "src/lib/home-runtime-action-summary.ts"
+    ],
+    required: [
+      "TrustRuntimeBoundaryNotice",
+      'context="weekly"',
+      "boundaryCopy.summary",
+      "getHomeRuntimeActionSummary",
+      "weekly-runtime-action-summary",
+      "Weekly CEO next runtime action summary",
+      "mock runtime hardening",
+      "real-score transition",
+      "actionSummary.currentProgressPercent",
+      "actionSummary.safetyStopLine"
+    ]
   },
   {
     name: "methodology",
@@ -78,6 +93,7 @@ const publicFiles = [
   "src/app/stocks/[symbol]/page.tsx",
   "src/components/dashboard-shell.tsx",
   "src/components/data-freshness-strip.tsx",
+  "src/lib/home-runtime-action-summary.ts",
   "src/components/home-runtime-status-panel.tsx",
   "src/components/runtime-readiness-panel.tsx",
   "src/components/source-depth-blocker-panel.tsx",

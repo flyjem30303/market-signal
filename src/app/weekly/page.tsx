@@ -6,6 +6,7 @@ import { TrackedLink } from "@/components/tracked-link";
 import { TrustRuntimeBoundaryNotice } from "@/components/trust-runtime-boundary-notice";
 import { WeeklyRowCoverageStatus } from "@/components/weekly-row-coverage-status";
 import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
+import { getHomeRuntimeActionSummary } from "@/lib/home-runtime-action-summary";
 import {
   getMarketSignalRepository,
   getMarketSignalSourceStatus
@@ -38,6 +39,7 @@ export default async function WeeklyPage() {
   const topEtf = etfs[0];
   const leadingAiSemi = aiSemis[0];
   const cadence = buildWeeklyRuntimeCadence(market, breadth, topRisk, topEtf);
+  const actionSummary = getHomeRuntimeActionSummary();
 
   return (
     <main className="page-shell">
@@ -53,6 +55,31 @@ export default async function WeeklyPage() {
       <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
       <TrustRuntimeBoundaryNotice context="weekly" />
       <WeeklyRowCoverageStatus />
+      <section className="weekly-runtime-action-summary" aria-label="Weekly CEO next runtime action summary">
+        <div>
+          <p className="eyebrow">CEO Next Action</p>
+          <h2>週報仍以 mock runtime hardening 推進</h2>
+          <p>
+            週報目前適合驗證閱讀節奏、風險排序與頁面引導；它不是正式真實行情週報，也不代表
+            正式分數來源已開啟。
+          </p>
+        </div>
+        <article className="active">
+          <span>Current progress</span>
+          <strong>{actionSummary.currentProgressPercent}%</strong>
+          <p>{actionSummary.stage}</p>
+        </article>
+        <article className="readying">
+          <span>CEO next action</span>
+          <strong>{actionSummary.nextAction}</strong>
+          <p>{actionSummary.nextLift}</p>
+        </article>
+        <article className="blocked">
+          <span>Still blocked</span>
+          <strong>{actionSummary.blockedTransition}</strong>
+          <p>{actionSummary.safetyStopLine}</p>
+        </article>
+      </section>
 
       <section className="weekly-quick-read" aria-label="週報快速閱讀">
         <article>
