@@ -19,6 +19,7 @@ import {
 } from "@/lib/signal-model";
 import { buildQuoteSnapshot, type QuoteSnapshot } from "@/lib/market-data";
 import { buildMockDataFreshnessSnapshot, type DataFreshnessSnapshot } from "@/lib/data-freshness";
+import { buildInvestorActionSummary } from "@/lib/investor-action-summary";
 import { getTwiiLocalDisclosureConsumerOutput } from "@/lib/twii-local-disclosure-consumer";
 import {
   getMarketSignalRepository,
@@ -295,6 +296,7 @@ export function DashboardShell({
           <StockEvidenceSnapshot snapshot={snapshot} />
           <StockDataGapPanel snapshot={snapshot} onTab={changeTab} />
           <StockDecisionCompass scoreSourceLabel={freshness.scoreSourceLabel} snapshot={snapshot} />
+          <StockInvestorActionSummary snapshot={snapshot} onTab={changeTab} />
           <StockMarketContextPanel
             groupAverage={marketContext.groupAverage}
             groupCount={marketContext.groupCount}
@@ -959,6 +961,39 @@ function StockDecisionCompass({
         <strong>先總後細</strong>
         <p>先看今日分數與資料狀態，再切換趨勢、技術、籌碼、基本面與回測。</p>
       </article>
+    </section>
+  );
+}
+
+function StockInvestorActionSummary({
+  snapshot,
+  onTab
+}: {
+  snapshot: SignalSnapshot;
+  onTab: (tab: TabKey) => void;
+}) {
+  const summary = buildInvestorActionSummary(snapshot);
+  const items = [summary.observationFocus, summary.primaryRisk, summary.stopCondition];
+
+  return (
+    <section className="stock-investor-action-summary" aria-label="Stock Investor Action Summary">
+      <div>
+        <p className="eyebrow">Investor Action Summary</p>
+        <h2>{summary.headline}</h2>
+        <p>{summary.safetyLine}</p>
+      </div>
+      <div className="investor-action-grid">
+        {items.map((item) => (
+          <article className={item.tone} key={item.label}>
+            <span>{item.label}</span>
+            <strong>{item.title}</strong>
+            <p>{item.body}</p>
+            <button onClick={() => onTab(item.tab)} type="button">
+              查看{item.tab === "today" ? "今日摘要" : item.tab === "technical" ? "技術風險" : item.tab === "trend" ? "趨勢" : item.tab === "fundamentals" ? "基本面" : "回測"}
+            </button>
+          </article>
+        ))}
+      </div>
     </section>
   );
 }

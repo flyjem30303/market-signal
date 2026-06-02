@@ -5068,6 +5068,88 @@ select {
   margin: 0;
 }
 
+.stock-investor-action-summary {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+  display: grid;
+  grid-template-columns: minmax(260px, 0.68fr) minmax(0, 1.52fr);
+  gap: 16px;
+  margin: 0 0 16px;
+  padding: 16px;
+}
+
+.stock-investor-action-summary h2 {
+  margin: 0 0 8px;
+}
+
+.stock-investor-action-summary p {
+  color: var(--muted);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.investor-action-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.investor-action-grid article {
+  border: 1px solid var(--line);
+  border-top: 4px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel-muted);
+  display: grid;
+  min-height: 176px;
+  padding: 12px;
+}
+
+.investor-action-grid article.active {
+  border-top-color: var(--green);
+}
+
+.investor-action-grid article.hold {
+  border-top-color: #d99a00;
+}
+
+.investor-action-grid article.blocked {
+  border-top-color: var(--red);
+}
+
+.investor-action-grid span {
+  color: var(--muted);
+  display: block;
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.investor-action-grid strong {
+  display: block;
+  font-size: 18px;
+  line-height: 1.25;
+  margin: 8px 0;
+}
+
+.investor-action-grid button {
+  align-self: end;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--blue);
+  cursor: pointer;
+  font-weight: 850;
+  margin-top: 12px;
+  min-height: 42px;
+  padding: 8px 10px;
+}
+
+.investor-action-grid button:hover {
+  border-color: var(--blue);
+  background: #f4f8ff;
+}
+
 .stock-runtime-brief {
   display: grid;
   grid-template-columns: minmax(260px, 1.2fr) repeat(3, minmax(0, 1fr)) minmax(132px, 0.7fr);
@@ -9463,6 +9545,8 @@ input[type="date"] {
   .cp3-runtime-stop-lines,
   .stock-data-gap-panel,
   .stock-decision-compass,
+  .stock-investor-action-summary,
+  .investor-action-grid,
   .stock-runtime-brief,
   .stock-market-context,
   .market-context-grid,

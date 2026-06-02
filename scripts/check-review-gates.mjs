@@ -2823,6 +2823,11 @@ const checks = [
     name: "stock-decision-compass"
   },
   {
+    command: [node, "scripts/check-stock-investor-action-summary.mjs"],
+    expectStatus: "ok",
+    name: "stock-investor-action-summary"
+  },
+  {
     command: [node, "scripts/check-tracking-events.mjs"],
     expectStatus: "ok",
     name: "tracking-events"
