@@ -14,26 +14,30 @@ type StockPageProps = {
   };
 };
 
+const snapshotDate = "2026-05-28";
+
 export function generateMetadata({ params }: StockPageProps): Metadata {
   const repository = getMarketSignalRepository();
   const asset = repository.getAssetBySymbol(params.symbol);
   if (!asset) return {};
-  const snapshot = repository.getSnapshot(asset.symbol, "2026-05-28");
-  const signal = snapshot?.signal.title ?? "燈號";
+
+  const snapshot = repository.getSnapshot(asset.symbol, snapshotDate);
+  const signal = snapshot?.signal.title ?? "Mock signal";
+  const description = `${asset.symbol} ${asset.name} is shown in mock-only runtime. Scores are product-flow signals, not real market data, investment advice, or real score-source evidence.`;
 
   return {
-    title: `${asset.symbol} ${asset.name} ${signal}`,
-    description: `${asset.symbol} ${asset.name} 目前${signal}，追蹤多頭健康度、回檔風險度、新聞信心與回測摘要。`,
     alternates: {
       canonical: absoluteUrl(`/stocks/${asset.symbol}`)
     },
+    description,
     openGraph: {
+      description,
+      siteName: siteConfig.name,
       title: `${asset.symbol} ${asset.name} ${signal}`,
-      description: `${asset.symbol} ${asset.name} 目前${signal}，追蹤多頭健康度、回檔風險度、新聞信心與回測摘要。`,
       type: "article",
-      url: absoluteUrl(`/stocks/${asset.symbol}`),
-      siteName: siteConfig.name
-    }
+      url: absoluteUrl(`/stocks/${asset.symbol}`)
+    },
+    title: `${asset.symbol} ${asset.name} ${signal}`
   };
 }
 
@@ -48,44 +52,45 @@ export default async function StockPage({ params }: StockPageProps) {
   const repository = getMarketSignalRepository();
   const asset = repository.getAssetBySymbol(params.symbol);
   if (!asset) notFound();
+
   const freshness = await getDataFreshnessSnapshot();
   const marketSignalSourceStatus = getMarketSignalSourceStatus();
-  const snapshot = repository.getSnapshot(asset.symbol, "2026-05-28");
+  const snapshot = repository.getSnapshot(asset.symbol, snapshotDate);
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "FinancialProduct",
-    name: `${asset.symbol} ${asset.name}`,
-    url: absoluteUrl(`/stocks/${asset.symbol}`),
+    additionalProperty: snapshot
+      ? [
+          {
+            "@type": "PropertyValue",
+            name: "Mock health score",
+            value: snapshot.healthScore
+          },
+          {
+            "@type": "PropertyValue",
+            name: "Mock pullback risk score",
+            value: snapshot.riskScore
+          },
+          {
+            "@type": "PropertyValue",
+            name: "Mock signal",
+            value: snapshot.signal.title
+          },
+          {
+            "@type": "PropertyValue",
+            name: "Data quality state",
+            value: `${snapshot.dataQualityGrade} / mock-only`
+          }
+        ]
+      : undefined,
     category: asset.group,
+    name: `${asset.symbol} ${asset.name}`,
     provider: {
       "@type": "Organization",
       name: siteConfig.name,
       url: siteConfig.url
     },
-    additionalProperty: snapshot
-      ? [
-          {
-            "@type": "PropertyValue",
-            name: "多頭健康度",
-            value: snapshot.healthScore
-          },
-          {
-            "@type": "PropertyValue",
-            name: "回檔風險度",
-            value: snapshot.riskScore
-          },
-          {
-            "@type": "PropertyValue",
-            name: "綜合燈號",
-            value: snapshot.signal.title
-          },
-          {
-            "@type": "PropertyValue",
-            name: "資料品質",
-            value: `${snapshot.dataQualityGrade} 級`
-          }
-        ]
-      : undefined
+    url: absoluteUrl(`/stocks/${asset.symbol}`)
   };
 
   return (
