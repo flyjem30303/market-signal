@@ -19,7 +19,10 @@ const required = [
   [stripPath, "getDataQualityDowngradeSummary"],
   [stripPath, "資料品質閘門"],
   [stripPath, "dataQuality.downgradeState"],
-  [progressPath, "資料品質降級規則"]
+  [progressPath, "Data freshness and quality evidence"],
+  [progressPath, "freshness interpretation"],
+  [progressPath, "data_freshness candidate"],
+  [progressPath, "scoreSource stays mock"]
 ];
 
 const forbidden = [

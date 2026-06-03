@@ -22,22 +22,26 @@ const required = [
   [progressPath, "dataQualityScoreContract"],
   [progressPath, "adjustedScore"],
   [progressPath, "networkBlocker"],
-  [progressPath, "PM 估算整體開發進度"],
-  [progressPath, "Mock MVP 體驗骨架"],
-  [progressPath, "Mock 訊號與資料揭露"],
-  [progressPath, "Runtime 狀態與 guard"],
+  [progressPath, "PM project progress:"],
+  [progressPath, "Mock MVP product surface"],
+  [progressPath, "Mock signal reading flow"],
+  [progressPath, "Runtime state guard"],
   [progressPath, "Supabase schema / repository readiness"],
+  [progressPath, "Data freshness and quality evidence"],
+  [progressPath, "Investment credibility evidence"],
+  [progressPath, "CEO execution focus"],
+  [progressPath, "DevOps / health / recovery"],
   [progressPath, "Supabase object reachability"],
   [progressPath, "freshness interpretation"],
   [progressPath, "data_runs baseline"],
   [progressPath, "data_freshness candidate"],
   [progressPath, "TCP 443 blocked"],
-  [progressPath, "firewall / proxy"],
-  [progressPath, "Supabase readonly runtime activation"],
+  [progressPath, "firewall, proxy, VPN"],
   [progressPath, "bounded readonly gate"],
-  [progressPath, "scoreSource mock"],
+  [progressPath, "scoreSource stays mock"],
   [progressPath, "runtime mock hardening"],
   [progressPath, "scoreSource=real"],
+  [progressPath, "publicDataSource=supabase"],
   [progressPath, "owner: \"CEO\""],
   [progressPath, "owner: \"Data\""],
   [progressPath, "owner: \"Engineering\""],
@@ -94,18 +98,17 @@ const required = [
   [cssPath, ".project-progress-lanes"]
 ];
 
+const mojibakeFragments = ["�", "銝", "嚗", "蝣", "摰", "璅", "鞈", "撣", "憸", "隞", "砍", "靘", "甇", "蝬", "脣", "蝺"];
+
 const forbidden = [
   [progressPath, "adjustedScore: 100"],
   [progressPath, "scoreSource=real approved"],
   [progressPath, "canSetScoreSourceReal: true"],
   [progressPath, "currentPublicSource: \"supabase\""],
-  [progressPath, "�"],
-  [progressPath, "鞈"],
-  [progressPath, "撌"],
-  [progressPath, "嚗"],
   [componentPath, "connect Supabase"],
   [componentPath, "run SQL"],
-  [componentPath, "fetch("]
+  [componentPath, "fetch("],
+  ...mojibakeFragments.map((fragment) => [progressPath, fragment])
 ];
 
 const missing = required.filter(([file, phrase]) => !read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);

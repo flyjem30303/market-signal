@@ -27,7 +27,9 @@ const required = [
   [runtimePath, "Objects reachable:"],
   [progressPath, "Supabase object reachability"],
   [progressPath, "freshness interpretation"],
-  [progressPath, "資料品質降級規則"],
+  [progressPath, "Data freshness and quality evidence"],
+  [progressPath, "data_freshness candidate"],
+  [progressPath, "scoreSource stays mock"],
   [sourceDepthPath, "Supabase object reachability"]
 ];
 
