@@ -13,10 +13,10 @@ export function getHomeRuntimeActionSummary(): HomeRuntimeActionSummary {
     currentProgressPercent: 68,
     nextAction: "mock runtime hardening",
     nextLift:
-      "把 freshness read-only metadata evidence 轉成更清楚的 runtime 狀態揭露與來源深度待辦，仍不升級 public source 或 scoreSource=real。",
+      "Use the accepted freshness readonly metadata only to improve runtime wording, source-state consistency, and blocked-state clarity; do not promote public source or scoreSource=real.",
     safetyStopLine:
       "Supabase readonly evidence can inform review, but cannot promote publicDataSource or scoreSource without a separate gate.",
     stage:
-      "Mock MVP 與 runtime guard 已進入可操作階段；Supabase object reachability 與 freshness read-only metadata run 已完成，真實市場資料 ingestion 與 scoreSource=real 尚未開啟。"
+      "Mock MVP runtime guard is active. Supabase object reachability and freshness readonly metadata are review evidence only; ingestion, SQL, publicDataSource=supabase, and scoreSource=real remain blocked."
   };
 }

@@ -2023,6 +2023,11 @@ const checks = [
     name: "runtime-readiness-panel"
   },
   {
+    command: [node, "scripts/check-runtime-readiness-language-quality.mjs"],
+    expectStatus: "ok",
+    name: "runtime-readiness-language-quality"
+  },
+  {
     command: [node, "scripts/check-supabase-readonly-evidence-state.mjs"],
     expectStatus: "ok",
     name: "supabase-readonly-evidence-state"

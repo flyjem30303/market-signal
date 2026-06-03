@@ -243,6 +243,7 @@
     "check:model-credibility-acceptance-gate": "node scripts/check-model-credibility-acceptance-gate.mjs",
     "check:blocker-readiness-panel": "node scripts/check-blocker-readiness-panel.mjs",
     "check:runtime-readiness-panel": "node scripts/check-runtime-readiness-panel.mjs",
+    "check:runtime-readiness-language-quality": "node scripts/check-runtime-readiness-language-quality.mjs",
     "check:supabase-readonly-evidence-state": "node scripts/check-supabase-readonly-evidence-state.mjs",
     "check:freshness-interpretation-state": "node scripts/check-freshness-interpretation-state.mjs",
     "check:data-quality-downgrade-state": "node scripts/check-data-quality-downgrade-state.mjs",
