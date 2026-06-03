@@ -2863,6 +2863,11 @@ const checks = [
     name: "remote-only-object-runtime-contract"
   },
   {
+    command: [node, "scripts/check-freshness-runtime-readiness-contract.mjs"],
+    expectStatus: "ok",
+    name: "freshness-runtime-readiness-contract"
+  },
+  {
     command: [node, "scripts/check-runtime-product-summary.mjs"],
     expectStatus: "ok",
     name: "runtime-product-summary"

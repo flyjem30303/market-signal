@@ -1823,7 +1823,8 @@ select {
 .runtime-post-run-prep-card,
 .runtime-next-gate-queue,
 .runtime-schema-shape-contract,
-.runtime-remote-only-object-contract {
+.runtime-remote-only-object-contract,
+.runtime-freshness-readiness-contract {
   display: grid;
   grid-column: 1 / -1;
   grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
@@ -1833,7 +1834,8 @@ select {
 .runtime-post-run-prep-card article,
 .runtime-next-gate-queue article,
 .runtime-schema-shape-contract article,
-.runtime-remote-only-object-contract article {
+.runtime-remote-only-object-contract article,
+.runtime-freshness-readiness-contract article {
   display: grid;
   align-content: start;
   gap: 8px;
@@ -1846,7 +1848,8 @@ select {
 .runtime-post-run-prep-card article.hold,
 .runtime-next-gate-queue article.hold,
 .runtime-schema-shape-contract article.hold,
-.runtime-remote-only-object-contract article.hold {
+.runtime-remote-only-object-contract article.hold,
+.runtime-freshness-readiness-contract article.hold {
   border-color: rgba(183, 121, 31, 0.26);
   background: #fffaf0;
 }
@@ -1854,7 +1857,8 @@ select {
 .runtime-post-run-prep-card article.ready,
 .runtime-next-gate-queue article.ready,
 .runtime-schema-shape-contract article.ready,
-.runtime-remote-only-object-contract article.ready {
+.runtime-remote-only-object-contract article.ready,
+.runtime-freshness-readiness-contract article.ready {
   border-color: rgba(15, 118, 110, 0.24);
   background: #eff9f5;
 }
@@ -1867,7 +1871,8 @@ select {
 .runtime-post-run-prep-card span,
 .runtime-next-gate-queue span,
 .runtime-schema-shape-contract span,
-.runtime-remote-only-object-contract span {
+.runtime-remote-only-object-contract span,
+.runtime-freshness-readiness-contract span {
   color: var(--muted);
   font-size: 11px;
   font-weight: 850;
@@ -1877,7 +1882,8 @@ select {
 .runtime-post-run-prep-card strong,
 .runtime-next-gate-queue strong,
 .runtime-schema-shape-contract strong,
-.runtime-remote-only-object-contract strong {
+.runtime-remote-only-object-contract strong,
+.runtime-freshness-readiness-contract strong {
   overflow-wrap: anywhere;
   color: var(--text);
   font-size: 15px;
@@ -1887,7 +1893,8 @@ select {
 .runtime-post-run-prep-card p,
 .runtime-next-gate-queue p,
 .runtime-schema-shape-contract p,
-.runtime-remote-only-object-contract p {
+.runtime-remote-only-object-contract p,
+.runtime-freshness-readiness-contract p {
   margin: 0;
   color: var(--muted);
   font-size: 13px;

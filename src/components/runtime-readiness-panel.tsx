@@ -16,6 +16,7 @@ import { getPostReadonlyRuntimeState } from "@/lib/post-readonly-runtime-state";
 import { getPostReadonlyNextGateQueue } from "@/lib/post-readonly-next-gate-queue";
 import { getSchemaShapeAcceptanceContract } from "@/lib/schema-shape-acceptance-contract";
 import { getRemoteOnlyObjectRuntimeContract } from "@/lib/remote-only-object-runtime-contract";
+import { getFreshnessRuntimeReadinessContract } from "@/lib/freshness-runtime-readiness-contract";
 
 export function RuntimeReadinessPanel() {
   const readiness = getRuntimeReadinessSummary();
@@ -36,6 +37,7 @@ export function RuntimeReadinessPanel() {
   const postReadonlyNextGateQueue = getPostReadonlyNextGateQueue();
   const schemaShapeContract = getSchemaShapeAcceptanceContract();
   const remoteOnlyObjectContract = getRemoteOnlyObjectRuntimeContract();
+  const freshnessRuntimeReadinessContract = getFreshnessRuntimeReadinessContract();
   const readonlyFinalPrepReady =
     preflight.status === "ready_for_guarded_readonly_decision" &&
     decision.status === "ready_for_ceo_decision" &&
@@ -294,6 +296,30 @@ export function RuntimeReadinessPanel() {
             <p>{object.relationshipToRuntime}</p>
             <p>{object.nextAction}</p>
             <p>Blocked promotion: {object.blockedPromotion}.</p>
+          </article>
+        ))}
+      </div>
+      <div className="runtime-freshness-readiness-contract" aria-label="Freshness runtime read readiness contract">
+        <article className="ready">
+          <span>Freshness runtime read contract</span>
+          <strong>{freshnessRuntimeReadinessContract.status}</strong>
+          <p>
+            Baseline: DATA_FRESHNESS_SOURCE={freshnessRuntimeReadinessContract.baselineEnvironment.dataFreshnessSource}; reads{" "}
+            {freshnessRuntimeReadinessContract.baselineEnvironment.supabaseRuntimeReads}; public{" "}
+            {freshnessRuntimeReadinessContract.publicDataSource}; score {freshnessRuntimeReadinessContract.scoreSource}.
+          </p>
+          <p>
+            Candidate: {freshnessRuntimeReadinessContract.dataRunsObject}; data_freshness{" "}
+            {freshnessRuntimeReadinessContract.dataFreshnessObject}; failure{" "}
+            {freshnessRuntimeReadinessContract.failureBehavior}.
+          </p>
+          <p>{freshnessRuntimeReadinessContract.stopLine}</p>
+        </article>
+        {freshnessRuntimeReadinessContract.prechecks.map((precheck) => (
+          <article className="hold" key={precheck.command}>
+            <span>Required precheck</span>
+            <strong>{precheck.command}</strong>
+            <p>{precheck.reason}</p>
           </article>
         ))}
       </div>
