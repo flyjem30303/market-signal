@@ -77,24 +77,24 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
       </div>
       <div className="runtime-product-summary" aria-label="Runtime product summary">
         <article className="active">
-          <span>{productSummary.useNow.label}</span>
-          <strong>{productSummary.useNow.title}</strong>
-          <p>{productSummary.useNow.body}</p>
+          <span>{productSummary.useNow.displayLabel}</span>
+          <strong>{productSummary.useNow.displayTitle}</strong>
+          <p>{productSummary.useNow.displayBody}</p>
         </article>
         <article className="blocked">
-          <span>{productSummary.notLiveYet.label}</span>
-          <strong>{productSummary.notLiveYet.title}</strong>
-          <p>{productSummary.notLiveYet.body}</p>
+          <span>{productSummary.notLiveYet.displayLabel}</span>
+          <strong>{productSummary.notLiveYet.displayTitle}</strong>
+          <p>{productSummary.notLiveYet.displayBody}</p>
         </article>
         <article className="readying">
-          <span>{productSummary.nextGate.label}</span>
-          <strong>{productSummary.nextGate.title}</strong>
-          <p>{productSummary.nextGate.body}</p>
+          <span>{productSummary.nextGate.displayLabel}</span>
+          <strong>{productSummary.nextGate.displayTitle}</strong>
+          <p>{productSummary.nextGate.displayBody}</p>
         </article>
         <article className="active">
-          <span>{productSummary.readonlyDecision.label}</span>
-          <strong>{productSummary.readonlyDecision.title}</strong>
-          <p>{productSummary.readonlyDecision.body}</p>
+          <span>{productSummary.readonlyDecision.displayLabel}</span>
+          <strong>{productSummary.readonlyDecision.displayTitle}</strong>
+          <p>{productSummary.readonlyDecision.displayBody}</p>
         </article>
       </div>
       <RuntimeTransitionRail symbol={snapshot.asset.symbol} />
