@@ -3,6 +3,7 @@ import { localhostContentHealthChecks, localhostStatusHealthPaths } from "./loca
 
 const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
+const checkerPath = "scripts/check-public-visible-language-quality.mjs";
 const baseUrl = process.env.LOCALHOST_BASE_URL ?? "http://localhost:3000";
 const coreRuntimeBoundaryRequired = [
   "Runtime",
@@ -118,6 +119,7 @@ for (const page of pages) {
 
 const packageJson = fs.readFileSync(packagePath, "utf8");
 const reviewGate = fs.readFileSync(reviewGatePath, "utf8");
+const checkerSource = fs.readFileSync(checkerPath, "utf8");
 const registration = [
   {
     file: packagePath,
@@ -132,10 +134,33 @@ const routeAlignment = expectedVisiblePaths.map((path) => ({
   pass: visiblePagePaths.includes(path),
   path
 }));
+const selfContract = [
+  {
+    check: "requires publicDataSource mock",
+    pass: checkerSource.includes('"publicDataSource=mock"')
+  },
+  {
+    check: "requires scoreSource mock",
+    pass: checkerSource.includes('"scoreSource=mock"')
+  },
+  {
+    check: "blocks approved scoreSource real claims",
+    pass: checkerSource.includes('"scoreSource=real approved"')
+  },
+  {
+    check: "blocks approved publicDataSource supabase claims",
+    pass: checkerSource.includes('"publicDataSource=supabase approved"')
+  },
+  {
+    check: "aligns with localhost health paths",
+    pass: checkerSource.includes("localhostStatusHealthPaths") && checkerSource.includes("localhostContentHealthChecks")
+  }
+];
 
 const failed = results.filter((result) => !result.pass);
 const registrationFailed = registration.filter((result) => !result.pass);
 const routeAlignmentFailed = routeAlignment.filter((result) => !result.pass);
+const selfContractFailed = selfContract.filter((result) => !result.pass);
 
 console.log(
   JSON.stringify(
@@ -143,14 +168,18 @@ console.log(
       registration,
       results,
       routeAlignment,
-      status: failed.length === 0 && registrationFailed.length === 0 && routeAlignmentFailed.length === 0 ? "ok" : "blocked"
+      selfContract,
+      status:
+        failed.length === 0 && registrationFailed.length === 0 && routeAlignmentFailed.length === 0 && selfContractFailed.length === 0
+          ? "ok"
+          : "blocked"
     },
     null,
     2
   )
 );
 
-if (failed.length > 0 || registrationFailed.length > 0 || routeAlignmentFailed.length > 0) {
+if (failed.length > 0 || registrationFailed.length > 0 || routeAlignmentFailed.length > 0 || selfContractFailed.length > 0) {
   process.exitCode = 1;
 }
 
