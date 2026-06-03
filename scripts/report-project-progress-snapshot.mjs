@@ -12,6 +12,7 @@ const { getRuntimeDeliveryCadence } = loadTsModule("src/lib/runtime-delivery-cad
 const { getRowCoverageSecondAttemptReadiness } = loadTsModule("src/lib/row-coverage-second-attempt-readiness.ts");
 const { getFreshnessRuntimeActivationSummary } = loadTsModule("src/lib/freshness-runtime-activation.ts");
 const { getFreshnessReadonlyLatestEvidenceSummary } = loadTsModule("src/lib/freshness-readonly-latest-evidence.ts");
+const { getA1EvidenceIntakeProtocol } = loadTsModule("src/lib/a1-evidence-intake-protocol.ts");
 
 const expectedRuntimeRoute = {
   defaultRoute: "post_readonly_runtime_decision",
@@ -26,6 +27,7 @@ const runtimeDeliveryCadence = getRuntimeDeliveryCadence();
 const rowCoverage = getRowCoverageSecondAttemptReadiness();
 const freshnessActivation = getFreshnessRuntimeActivationSummary();
 const freshnessLatestEvidence = getFreshnessReadonlyLatestEvidenceSummary();
+const a1EvidenceIntake = getA1EvidenceIntakeProtocol();
 
 if (
   runtimeGateBrief.currentDefaultRoute !== expectedRuntimeRoute.defaultRoute ||
@@ -133,6 +135,18 @@ const snapshot = {
         nextCommand: "npm run report:data-quality-field-validity-qa-review"
       }
     ]
+  },
+  a1EvidenceIntake: {
+    acceptanceDecision: a1EvidenceIntake.acceptanceDecision,
+    acceptedInput: a1EvidenceIntake.acceptedInput,
+    currentA1GateStatus: a1EvidenceIntake.currentA1GateStatus,
+    publicDataSource: a1EvidenceIntake.publicDataSource,
+    scoreSource: a1EvidenceIntake.scoreSource,
+    verificationOrder: a1EvidenceIntake.verificationOrder.map(({ id, order, runMode }) => ({
+      id,
+      order,
+      runMode
+    }))
   },
   cadenceAssessment: runtimeDeliveryCadence,
   decisionNodes: [

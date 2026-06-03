@@ -2893,6 +2893,16 @@ const checks = [
     name: "blocker-closure-readiness-gate"
   },
   {
+    command: [node, "scripts/check-promotion-prerequisites-gate.mjs"],
+    expectStatus: "ok",
+    name: "promotion-prerequisites-gate"
+  },
+  {
+    command: [node, "scripts/check-a1-evidence-intake-protocol.mjs"],
+    expectStatus: "ok",
+    name: "a1-evidence-intake-protocol"
+  },
+  {
     command: [node, "scripts/check-blocker-review-decision-outcome-ledger.mjs"],
     expectStatus: "ok",
     name: "blocker-review-decision-outcome-ledger"

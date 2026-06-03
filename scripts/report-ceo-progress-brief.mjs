@@ -58,6 +58,8 @@ const lines = [
   `Freshness evidence: ${snapshot.freshness.latestEvidenceStatus}`,
   `Blocker queue: ${snapshot.blockerExecutionQueue.status} / ${snapshot.blockerExecutionQueue.ceoLaneRatio}`,
   `Queue items: ${snapshot.blockerExecutionQueue.items.map((item) => item.id).join(", ")}`,
+  `A1 intake: ${snapshot.a1EvidenceIntake.acceptanceDecision} / ${snapshot.a1EvidenceIntake.currentA1GateStatus}`,
+  `A1 verification: ${snapshot.a1EvidenceIntake.verificationOrder.map((item) => `${item.order}:${item.id}`).join(", ")}`,
   `Unblock readiness: ${blockerResolution.unblockDecisionReadiness.status} / humanApproval=${String(blockerResolution.unblockDecisionReadiness.canRequestHumanApproval)}`,
   `Approval outcome: ${narrowPostReview.status}`,
   `Next meaningful gate: ${snapshot.ceoDecision.nextMeaningfulGate}`,
