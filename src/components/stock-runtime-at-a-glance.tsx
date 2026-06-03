@@ -137,10 +137,10 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
         <TrackedLink
           eventName="stock_link_clicked"
           href="/briefing"
-          label="查看 CEO/PM briefing"
+          label="查看市場簡報"
           payload={{ area: "stock_runtime_next_links", symbol: snapshot.asset.symbol }}
         >
-          查看 CEO/PM briefing
+          查看市場簡報
         </TrackedLink>
         <TrackedLink
           eventName="trust_link_clicked"

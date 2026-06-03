@@ -31,11 +31,13 @@ const required = [
   ["src/components/home-runtime-status-panel.tsx", "productSummary.nextGate"],
   ["src/components/home-runtime-status-panel.tsx", "scoreSource=real remain blocked"],
   ["src/components/home-runtime-status-panel.tsx", "查看個股頁"],
+  ["src/components/home-runtime-status-panel.tsx", "查看市場簡報"],
   ["src/components/home-runtime-status-panel.tsx", "了解 mock 方法"],
   ["src/components/stock-runtime-at-a-glance.tsx", "productSummary.useNow"],
   ["src/components/stock-runtime-at-a-glance.tsx", "productSummary.notLiveYet"],
   ["src/components/stock-runtime-at-a-glance.tsx", "productSummary.nextGate"],
   ["src/components/stock-runtime-at-a-glance.tsx", "scoreSource=real is not enabled"],
+  ["src/components/stock-runtime-at-a-glance.tsx", "查看市場簡報"],
   ["src/components/stock-runtime-at-a-glance.tsx", "回到首頁"],
   ["src/components/stock-runtime-at-a-glance.tsx", "了解 mock 方法"],
   ["src/lib/public-runtime-boundary-copy.ts", "Visible now: mock runtime"],
@@ -58,9 +60,9 @@ const forbidden = [
 ];
 
 const mojibakePatterns = [
-  /[�]/u,
-  /\?[^\n"'<>]{0,8}[航亦]/u,
-  /[銝蝡霈瘝嚗敺撌靘鞈璅鈭圾]/u
+  /[嚙稽]/u,
+  /\?[^\n"'<>]{0,8}[賹芯漲]/u,
+  /[哨霄]/u
 ];
 
 const missing = required.filter(([file, phrase]) => !read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);

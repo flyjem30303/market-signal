@@ -139,10 +139,10 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
         <TrackedLink
           eventName="home_cta_clicked"
           href="/briefing"
-          label="查看 CEO/PM briefing"
+          label="查看市場簡報"
           payload={{ action: "runtime_next_briefing", symbol: selectedSymbol }}
         >
-          查看 CEO/PM briefing
+          查看市場簡報
         </TrackedLink>
         <TrackedLink
           eventName="trust_link_clicked"

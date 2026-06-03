@@ -47,17 +47,17 @@ const required = [
   [helperPath, "真實資料宣稱仍 blocked"],
   [helperPath, "下一關"],
   [helperPath, "決定 post-readonly runtime 解讀"],
-  [helperPath, "唯讀結果"],
-  [helperPath, "Object reachability 已驗證"],
-  [helperPath, "公開資料源仍是"],
-  [helperPath, "分數來源仍是"],
+  [helperPath, "唯讀驗證"],
+  [helperPath, "Object reachability 已確認"],
+  [helperPath, "正式資料來源或正式評分"],
+  [helperPath, "不提供投資建議"],
   [homePath, "getRuntimeProductSummary"],
   [homePath, "TrackedLink"],
   [homePath, "runtime-product-summary"],
   [homePath, "runtime-next-links"],
   [homePath, "Runtime next steps"],
   [homePath, "查看個股頁"],
-  [homePath, "查看 CEO/PM briefing"],
+  [homePath, "查看市場簡報"],
   [homePath, "了解 mock 方法"],
   [homePath, "runtime_next_stock"],
   [homePath, "runtime_next_briefing"],
@@ -72,7 +72,7 @@ const required = [
   [stockPath, "runtime-product-summary"],
   [stockPath, "runtime-next-links"],
   [stockPath, "Stock runtime next steps"],
-  [stockPath, "查看 CEO/PM briefing"],
+  [stockPath, "查看市場簡報"],
   [stockPath, "了解 mock 方法"],
   [stockPath, "回到首頁"],
   [stockPath, "stock_runtime_next_links"],
@@ -108,9 +108,9 @@ const forbidden = [
 ];
 
 const mojibakePatterns = [
-  /[�]/u,
-  /\?[^\n"'<>]{0,8}[航亦]/u,
-  /[銝蝡霈瘝嚗敺撌靘鞈璅鈭圾]/u
+  /[嚙稽]/u,
+  /\?[^\n"'<>]{0,8}[賹芯漲]/u,
+  /[哨霄]/u
 ];
 
 const missing = required.filter(([file, phrase]) => !read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
