@@ -2708,6 +2708,11 @@ const checks = [
     name: "supabase-readonly-final-prep"
   },
   {
+    command: [node, "scripts/check-supabase-readonly-runtime-readiness-summary.mjs"],
+    expectStatus: "ok",
+    name: "supabase-readonly-runtime-readiness-summary"
+  },
+  {
     command: [node, "scripts/check-cp3-supabase-read-only-latest-sanitized-run.mjs"],
     expectStatus: "ok",
     name: "cp3-supabase-readonly-latest-sanitized-run"
