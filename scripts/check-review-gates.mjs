@@ -2858,6 +2858,11 @@ const checks = [
     name: "post-readonly-next-gate-queue"
   },
   {
+    command: [node, "scripts/check-data-readiness-decision-summary.mjs"],
+    expectStatus: "ok",
+    name: "data-readiness-decision-summary"
+  },
+  {
     command: [node, "scripts/check-schema-shape-acceptance-contract.mjs"],
     expectStatus: "ok",
     name: "schema-shape-acceptance-contract"

@@ -1,9 +1,11 @@
+import { getDataReadinessDecisionSummary } from "@/lib/data-readiness-decision-summary";
 import { getProjectProgressSummary } from "@/lib/project-progress-score";
 import { getRuntimeGateDecisionBrief } from "@/lib/runtime-gate-decision-brief";
 import { getRuntimeReadinessSummary } from "@/lib/runtime-readiness-score";
 
 export function ProjectProgressPanel() {
   const progress = getProjectProgressSummary();
+  const dataReadiness = getDataReadinessDecisionSummary();
   const runtime = getRuntimeReadinessSummary();
   const runtimeGate = getRuntimeGateDecisionBrief();
 
@@ -51,6 +53,39 @@ export function ProjectProgressPanel() {
           <p>{progress.networkBlocker.currentFinding}</p>
         </article>
       </div>
+      <section className="project-progress-data-readiness" aria-label="Post-readonly data readiness summary">
+        <div>
+          <span>Data Readiness</span>
+          <strong>{dataReadiness.headline}</strong>
+          <p>{dataReadiness.recommendation}</p>
+          <p>
+            Next gate: {dataReadiness.closestNextGate}; public source {dataReadiness.safety.publicDataSource}; score
+            source {dataReadiness.safety.scoreSource}.
+          </p>
+        </div>
+        <div className="project-progress-data-readiness-lanes">
+          {dataReadiness.lanes.map((lane) => (
+            <article className={lane.state} key={lane.id}>
+              <span>
+                {lane.owner} / {lane.state}
+              </span>
+              <strong>{lane.label}</strong>
+              <p>{lane.evidence}</p>
+              <p>{lane.nextAction}</p>
+            </article>
+          ))}
+        </div>
+        <article className="project-progress-data-readiness-attempt">
+          <span>{dataReadiness.boundedReadonlyAttempt.decision}</span>
+          <strong>{dataReadiness.boundedReadonlyAttempt.command}</strong>
+          <p>{dataReadiness.boundedReadonlyAttempt.reason}</p>
+          <p>
+            Separate CEO named action required:{" "}
+            {dataReadiness.boundedReadonlyAttempt.requiresSeparateCeoNamedAction ? "yes" : "no"}.
+          </p>
+        </article>
+        <p>{dataReadiness.stopLine}</p>
+      </section>
       <div
         className={`project-progress-network-blocker ${progress.networkBlocker.status}`}
         aria-label={`Supabase evidence gate ${progress.networkBlocker.status}`}

@@ -141,6 +141,7 @@
     "check:runtime-readonly-decision-card": "node scripts/check-runtime-readonly-decision-card.mjs",
     "check:post-readonly-runtime-state": "node scripts/check-post-readonly-runtime-state.mjs",
     "check:post-readonly-next-gate-queue": "node scripts/check-post-readonly-next-gate-queue.mjs",
+    "check:data-readiness-decision-summary": "node scripts/check-data-readiness-decision-summary.mjs",
     "check:schema-shape-acceptance-contract": "node scripts/check-schema-shape-acceptance-contract.mjs",
     "check:remote-only-object-runtime-contract": "node scripts/check-remote-only-object-runtime-contract.mjs",
     "check:freshness-runtime-readiness-contract": "node scripts/check-freshness-runtime-readiness-contract.mjs",

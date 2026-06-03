@@ -764,6 +764,79 @@ select {
   line-height: 1.55;
 }
 
+.project-progress-data-readiness {
+  display: grid;
+  gap: 12px;
+  grid-column: 1 / -1;
+  border: 1px solid rgba(15, 118, 110, 0.22);
+  border-radius: 8px;
+  background: #f8fbf8;
+  padding: 12px;
+}
+
+.project-progress-data-readiness > div:first-child {
+  display: grid;
+  gap: 6px;
+}
+
+.project-progress-data-readiness span,
+.project-progress-data-readiness-lanes article span,
+.project-progress-data-readiness-attempt span {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.project-progress-data-readiness strong,
+.project-progress-data-readiness-lanes article strong,
+.project-progress-data-readiness-attempt strong {
+  overflow-wrap: anywhere;
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.35;
+}
+
+.project-progress-data-readiness p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.project-progress-data-readiness-lanes {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.project-progress-data-readiness-lanes article,
+.project-progress-data-readiness-attempt {
+  display: grid;
+  align-content: start;
+  gap: 7px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  padding: 10px;
+}
+
+.project-progress-data-readiness-lanes article.accepted {
+  border-color: rgba(20, 122, 77, 0.25);
+  background: #f3fbf6;
+}
+
+.project-progress-data-readiness-lanes article.readying,
+.project-progress-data-readiness-attempt {
+  border-color: rgba(183, 121, 31, 0.25);
+  background: #fffaf0;
+}
+
+.project-progress-data-readiness-lanes article.blocked {
+  border-color: rgba(199, 54, 59, 0.2);
+  background: #fff7f7;
+}
+
 .project-progress-evidence {
   display: grid;
   gap: 8px;
@@ -9967,6 +10040,7 @@ input[type="date"] {
   .home-market-action-summary,
   .project-progress-panel,
   .project-progress-lanes,
+  .project-progress-data-readiness-lanes,
   .project-progress-route-decision > div,
   .project-progress-design-gate > div,
   .project-progress-backfill-plan > div,
