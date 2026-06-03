@@ -21,6 +21,7 @@ import { buildQuoteSnapshot, type QuoteSnapshot } from "@/lib/market-data";
 import { buildMockDataFreshnessSnapshot, type DataFreshnessSnapshot } from "@/lib/data-freshness";
 import { buildHomeMarketActionSummary } from "@/lib/home-market-action-summary";
 import { buildInvestorActionSummary } from "@/lib/investor-action-summary";
+import { getInvestorIndicatorRoadmap, type InvestorIndicatorStatus } from "@/lib/investor-indicator-roadmap";
 import { getTwiiLocalDisclosureConsumerOutput } from "@/lib/twii-local-disclosure-consumer";
 import {
   getMarketSignalRepository,
@@ -298,6 +299,7 @@ export function DashboardShell({
           <StockDataGapPanel snapshot={snapshot} onTab={changeTab} />
           <StockDecisionCompass scoreSourceLabel={freshness.scoreSourceLabel} snapshot={snapshot} />
           <StockInvestorActionSummary snapshot={snapshot} onTab={changeTab} />
+          <StockInvestorIndicatorRoadmap />
           <StockMarketContextPanel
             groupAverage={marketContext.groupAverage}
             groupCount={marketContext.groupCount}
@@ -1031,6 +1033,41 @@ function StockInvestorActionSummary({
       </div>
     </section>
   );
+}
+
+function StockInvestorIndicatorRoadmap() {
+  const roadmap = getInvestorIndicatorRoadmap();
+
+  return (
+    <section className="stock-investor-indicator-roadmap" aria-label="Investor Indicator Roadmap">
+      <div>
+        <p className="eyebrow">Indicator Roadmap</p>
+        <h2>未來專業指標路線</h2>
+        <p>{roadmap.boundary.statement}</p>
+        <strong>
+          Runtime/data foundation {roadmap.nextExecutionRatio.runtimeDataFoundation}% · Product wording{" "}
+          {roadmap.nextExecutionRatio.productReadabilityAndWording}% · Future notes{" "}
+          {roadmap.nextExecutionRatio.futureIndicatorDesignNotes}%
+        </strong>
+      </div>
+      <div className="indicator-roadmap-grid">
+        {roadmap.families.map((family) => (
+          <article className={family.status} key={family.id}>
+            <span>{getInvestorIndicatorStatusLabel(family.status)}</span>
+            <strong>{family.label}</strong>
+            <p>{family.productValue}</p>
+            <small>{family.currentUse}</small>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function getInvestorIndicatorStatusLabel(status: InvestorIndicatorStatus) {
+  if (status === "mock-readable") return "mock 可讀";
+  if (status === "design-only") return "設計保留";
+  return "等待真實資料";
 }
 
 function StockRuntimeBrief({

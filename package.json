@@ -583,6 +583,7 @@
     "check:source-depth-blocker-panel": "node scripts/check-source-depth-blocker-panel.mjs",
     "check:stock-decision-compass": "node scripts/check-stock-decision-compass.mjs",
     "check:stock-investor-action-summary": "node scripts/check-stock-investor-action-summary.mjs",
+    "check:stock-investor-indicator-roadmap-panel": "node scripts/check-stock-investor-indicator-roadmap-panel.mjs",
     "check:market-action-summary-coverage": "node scripts/check-market-action-summary-coverage.mjs",
     "check:action-summary-language-quality": "node scripts/check-action-summary-language-quality.mjs",
     "check:supabase-readonly-validator-output-contract": "node scripts/check-supabase-readonly-validator-output-contract.mjs",

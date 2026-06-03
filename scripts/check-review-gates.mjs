@@ -2843,6 +2843,11 @@ const checks = [
     name: "stock-investor-action-summary"
   },
   {
+    command: [node, "scripts/check-stock-investor-indicator-roadmap-panel.mjs"],
+    expectStatus: "ok",
+    name: "stock-investor-indicator-roadmap-panel"
+  },
+  {
     command: [node, "scripts/check-market-action-summary-coverage.mjs"],
     expectStatus: "ok",
     name: "market-action-summary-coverage"
