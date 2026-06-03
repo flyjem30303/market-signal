@@ -107,27 +107,27 @@ export default async function WeeklyPage() {
         </TrackedLink>
       </section>
       <WeeklyRowCoverageStatus />
-      <section className="weekly-runtime-action-summary" aria-label="Weekly CEO next runtime action summary">
+      <section className="weekly-runtime-action-summary" aria-label="週報下一步狀態摘要">
         <div>
-          <p className="eyebrow">CEO Next Action</p>
-          <h2>週報仍以 mock runtime hardening 推進</h2>
+          <p className="eyebrow">Next Reading Step</p>
+          <h2>週報仍以 mock 閱讀體驗推進</h2>
           <p>
             週報目前適合驗證閱讀節奏、風險排序與頁面引導；它不是正式真實行情週報，也不代表
             正式分數來源已開啟。
           </p>
         </div>
         <article className="active">
-          <span>Current progress</span>
+          <span>目前進度</span>
           <strong>{actionSummary.currentProgressPercent}%</strong>
           <p>{actionSummary.stage}</p>
         </article>
         <article className="readying">
-          <span>CEO next action</span>
+          <span>下一步</span>
           <strong>{actionSummary.nextAction}</strong>
           <p>{actionSummary.nextLift}</p>
         </article>
         <article className="blocked">
-          <span>Still blocked</span>
+          <span>尚未開放</span>
           <strong>{actionSummary.blockedTransition}</strong>
           <p>{actionSummary.safetyStopLine}</p>
         </article>
@@ -153,7 +153,7 @@ export default async function WeeklyPage() {
 
       <section className="weekly-runtime-cadence" aria-label="週報執行節奏">
         <div>
-          <p className="eyebrow">Runtime Cadence</p>
+          <p className="eyebrow">Weekly Cadence</p>
           <h2>本週照這個節奏讀</h2>
           <p>週報不追求單日反應，而是把市場、ETF、風險與每日晨報串成一個較慢的觀察節奏。</p>
         </div>
@@ -164,7 +164,7 @@ export default async function WeeklyPage() {
             href={item.href}
             key={item.label}
             label={item.title}
-            payload={{ area: "runtime_cadence", symbol: item.symbol }}
+            payload={{ area: "weekly_cadence", symbol: item.symbol }}
           >
             <span>{item.label}</span>
             <strong>{item.title}</strong>

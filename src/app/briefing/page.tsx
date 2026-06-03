@@ -139,15 +139,15 @@ export default async function BriefingPage() {
         <a href="#watchlists">觀察名單</a>
       </nav>
 
-      <section aria-label="CEO Decision Strip" className="briefing-decision-strip">
+      <section aria-label="晨報閱讀邊界" className="briefing-decision-strip">
         <DecisionPill label="可推進" text="閱讀節奏與 mock 體驗" tone="active" />
         <DecisionPill label="暫緩" text="真實資料切換與公開宣稱" tone="hold" />
-        <DecisionPill label="封鎖" text="投資建議與 real score" tone="blocked" />
+        <DecisionPill label="封鎖" text="投資建議與正式評分" tone="blocked" />
       </section>
 
       <section className="briefing-runtime-plan" aria-label="晨報執行順序">
         <div>
-          <p className="eyebrow">Runtime Plan</p>
+          <p className="eyebrow">Reading Plan</p>
           <h2>今天照這個順序讀</h2>
           <p>把晨報壓縮成三個可執行閱讀動作：先判斷市場，再拆風險，最後才進個股或週報脈絡。</p>
         </div>
@@ -158,7 +158,7 @@ export default async function BriefingPage() {
             href={item.href}
             key={item.label}
             label={item.title}
-            payload={{ area: "runtime_plan", symbol: item.symbol }}
+            payload={{ area: "reading_plan", symbol: item.symbol }}
           >
             <span>{item.label}</span>
             <strong>{item.title}</strong>
@@ -406,13 +406,13 @@ function BriefingExecutiveSummary({ market, topRisk }: { market: SignalSnapshot;
   const decisionSummary = getRuntimeDecisionSummary();
 
   return (
-    <section className="briefing-executive-summary" aria-label="CEO briefing executive summary">
+    <section className="briefing-executive-summary" aria-label="晨報重點摘要">
       <div>
-        <p className="eyebrow">CEO Briefing</p>
+        <p className="eyebrow">Market Briefing</p>
         <h1>市場訊號晨報</h1>
         <p>
           目前網站可用 mock 訊號閱讀市場方向、風險排序與產品流程。這不是即時市場資料，也不是投資建議；
-          真實資料、公開 Supabase 資料源與 real score source 都仍需通過後續 gate。
+          真實資料、公開資料源與正式評分都仍需完成後續核准。
         </p>
       </div>
       <aside>
@@ -425,30 +425,30 @@ function BriefingExecutiveSummary({ market, topRisk }: { market: SignalSnapshot;
           <i>{decisionSummary.subhead}</i>
         </span>
         <span>
-          <b>仍然 blocked</b>
+          <b>仍未開放</b>
           <i>{decisionSummary.safetyStopLine}</i>
         </span>
         <span>
-          <b>CEO track</b>
+          <b>推進比例</b>
           <i>
-            {runtimeInterpretation.decision}: runtime {runtimeInterpretation.laneRatio.mockRuntimeHardening}% /
-            readonly prep {runtimeInterpretation.laneRatio.supabaseReadonlyPreparation}%
+            {runtimeInterpretation.decision}: 閱讀體驗 {runtimeInterpretation.laneRatio.mockRuntimeHardening}% /
+            唯讀準備 {runtimeInterpretation.laneRatio.supabaseReadonlyPreparation}%
           </i>
         </span>
       </aside>
-      <div className="briefing-runtime-action-strip" aria-label="Briefing CEO next runtime action summary">
+      <div className="briefing-runtime-action-strip" aria-label="晨報下一步狀態摘要">
         <article className="active">
-          <span>Current progress</span>
+          <span>目前進度</span>
           <strong>{decisionSummary.currentProgressPercent}%</strong>
           <p>{decisionSummary.stage}</p>
         </article>
         <article className="readying">
-          <span>CEO next action</span>
+          <span>下一步</span>
           <strong>{decisionSummary.decisionLabel}</strong>
           <p>{decisionSummary.nextLift}</p>
         </article>
         <article className="blocked">
-          <span>Still blocked</span>
+          <span>尚未開放</span>
           <strong>{decisionSummary.blockedTransition}</strong>
           <p>{decisionSummary.safetyStopLine}</p>
         </article>

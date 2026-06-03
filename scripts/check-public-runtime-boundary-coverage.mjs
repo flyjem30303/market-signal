@@ -66,8 +66,8 @@ const surfaces = [
       "boundaryCopy.summary",
       "getHomeRuntimeActionSummary",
       "weekly-runtime-action-summary",
-      "Weekly CEO next runtime action summary",
-      "mock runtime hardening",
+      "週報下一步狀態摘要",
+      "mock 閱讀體驗",
       "real-score transition",
       "actionSummary.currentProgressPercent",
       "actionSummary.safetyStopLine"

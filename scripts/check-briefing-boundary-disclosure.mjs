@@ -27,7 +27,7 @@ const requiredPagePhrases = [
   "market-structure",
   "briefing-playbook",
   "watchlists",
-  "CEO Decision Strip",
+  "晨報閱讀邊界",
   "可推進",
   "暫緩",
   "封鎖",
