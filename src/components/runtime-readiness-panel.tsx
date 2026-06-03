@@ -53,8 +53,8 @@ export function RuntimeReadinessPanel() {
     <section className={`runtime-readiness-panel ${readiness.status}`} aria-label="Runtime readiness">
       <div className="runtime-readiness-summary">
         <p className="eyebrow">Runtime Readiness</p>
-        <h2>{readiness.headline}</h2>
-        <p>{readiness.nextDecision}</p>
+        <h2>{readiness.displayHeadline}</h2>
+        <p>{readiness.displayNextDecision}</p>
       </div>
       <div className="runtime-readiness-score" aria-label={`Runtime readiness ${readiness.score}%`}>
         <span style={{ ["--progress" as string]: `${readiness.score}%` }} />
@@ -660,9 +660,9 @@ export function RuntimeReadinessPanel() {
                 <span>{lane.owner}</span>
                 <b>{lane.current}%</b>
               </header>
-              <strong>{lane.label}</strong>
+              <strong>{lane.displayLabel}</strong>
               <i style={{ ["--progress" as string]: `${lane.current}%` }} />
-              <p>{lane.nextAction}</p>
+              <p>{lane.displayNextAction}</p>
             </article>
           ))}
         </div>
