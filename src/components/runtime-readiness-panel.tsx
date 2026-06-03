@@ -18,6 +18,7 @@ import { getSchemaShapeAcceptanceContract } from "@/lib/schema-shape-acceptance-
 import { getRemoteOnlyObjectRuntimeContract } from "@/lib/remote-only-object-runtime-contract";
 import { getFreshnessRuntimeReadinessContract } from "@/lib/freshness-runtime-readiness-contract";
 import { getFreshnessRuntimeOneAttemptDecision } from "@/lib/freshness-runtime-one-attempt-decision";
+import { getFreshnessRuntimePreRunBundle } from "@/lib/freshness-runtime-prerun-bundle";
 
 export function RuntimeReadinessPanel() {
   const readiness = getRuntimeReadinessSummary();
@@ -40,6 +41,7 @@ export function RuntimeReadinessPanel() {
   const remoteOnlyObjectContract = getRemoteOnlyObjectRuntimeContract();
   const freshnessRuntimeReadinessContract = getFreshnessRuntimeReadinessContract();
   const freshnessRuntimeOneAttemptDecision = getFreshnessRuntimeOneAttemptDecision();
+  const freshnessRuntimePreRunBundle = getFreshnessRuntimePreRunBundle();
   const readonlyFinalPrepReady =
     preflight.status === "ready_for_guarded_readonly_decision" &&
     decision.status === "ready_for_ceo_decision" &&
@@ -351,6 +353,35 @@ export function RuntimeReadinessPanel() {
           <span>Command held for explicit request</span>
           <strong>{freshnessRuntimeOneAttemptDecision.mode}</strong>
           <p>{freshnessRuntimeOneAttemptDecision.executionCommand}</p>
+        </article>
+      </div>
+      <div className="runtime-freshness-prerun-bundle" aria-label="Freshness runtime pre-run bundle">
+        <article className="ready">
+          <span>Freshness pre-run bundle</span>
+          <strong>{freshnessRuntimePreRunBundle.status}</strong>
+          <p>
+            One-attempt status: {freshnessRuntimePreRunBundle.oneAttemptStatus}; automatic remote execution{" "}
+            {freshnessRuntimePreRunBundle.automaticRemoteExecution ? "true" : "false"}.
+          </p>
+          <p>{freshnessRuntimePreRunBundle.nextAction}</p>
+          <p>{freshnessRuntimePreRunBundle.stopLine}</p>
+        </article>
+        <article className="hold">
+          <span>Immediate local checks</span>
+          <strong>{freshnessRuntimePreRunBundle.immediateLocalChecks.length} checks</strong>
+          <ul>
+            {freshnessRuntimePreRunBundle.immediateLocalChecks.map((check) => (
+              <li key={check}>{check}</li>
+            ))}
+          </ul>
+        </article>
+        <article className="hold">
+          <span>Final project gate</span>
+          <strong>{freshnessRuntimePreRunBundle.finalProjectGate}</strong>
+          <p>
+            Public {freshnessRuntimePreRunBundle.publicDataSource}; score{" "}
+            {freshnessRuntimePreRunBundle.scoreSource}.
+          </p>
         </article>
       </div>
       <details className="runtime-remote-guard-details">

@@ -1825,7 +1825,8 @@ select {
 .runtime-schema-shape-contract,
 .runtime-remote-only-object-contract,
 .runtime-freshness-readiness-contract,
-.runtime-freshness-one-attempt-decision {
+.runtime-freshness-one-attempt-decision,
+.runtime-freshness-prerun-bundle {
   display: grid;
   grid-column: 1 / -1;
   grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
@@ -1837,7 +1838,8 @@ select {
 .runtime-schema-shape-contract article,
 .runtime-remote-only-object-contract article,
 .runtime-freshness-readiness-contract article,
-.runtime-freshness-one-attempt-decision article {
+.runtime-freshness-one-attempt-decision article,
+.runtime-freshness-prerun-bundle article {
   display: grid;
   align-content: start;
   gap: 8px;
@@ -1852,7 +1854,8 @@ select {
 .runtime-schema-shape-contract article.hold,
 .runtime-remote-only-object-contract article.hold,
 .runtime-freshness-readiness-contract article.hold,
-.runtime-freshness-one-attempt-decision article.hold {
+.runtime-freshness-one-attempt-decision article.hold,
+.runtime-freshness-prerun-bundle article.hold {
   border-color: rgba(183, 121, 31, 0.26);
   background: #fffaf0;
 }
@@ -1862,7 +1865,8 @@ select {
 .runtime-schema-shape-contract article.ready,
 .runtime-remote-only-object-contract article.ready,
 .runtime-freshness-readiness-contract article.ready,
-.runtime-freshness-one-attempt-decision article.ready {
+.runtime-freshness-one-attempt-decision article.ready,
+.runtime-freshness-prerun-bundle article.ready {
   border-color: rgba(15, 118, 110, 0.24);
   background: #eff9f5;
 }
@@ -1877,7 +1881,8 @@ select {
 .runtime-schema-shape-contract span,
 .runtime-remote-only-object-contract span,
 .runtime-freshness-readiness-contract span,
-.runtime-freshness-one-attempt-decision span {
+.runtime-freshness-one-attempt-decision span,
+.runtime-freshness-prerun-bundle span {
   color: var(--muted);
   font-size: 11px;
   font-weight: 850;
@@ -1889,7 +1894,8 @@ select {
 .runtime-schema-shape-contract strong,
 .runtime-remote-only-object-contract strong,
 .runtime-freshness-readiness-contract strong,
-.runtime-freshness-one-attempt-decision strong {
+.runtime-freshness-one-attempt-decision strong,
+.runtime-freshness-prerun-bundle strong {
   overflow-wrap: anywhere;
   color: var(--text);
   font-size: 15px;
@@ -1901,7 +1907,9 @@ select {
 .runtime-schema-shape-contract p,
 .runtime-remote-only-object-contract p,
 .runtime-freshness-readiness-contract p,
-.runtime-freshness-one-attempt-decision p {
+.runtime-freshness-one-attempt-decision p,
+.runtime-freshness-prerun-bundle p,
+.runtime-freshness-prerun-bundle li {
   margin: 0;
   color: var(--muted);
   font-size: 13px;

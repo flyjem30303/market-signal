@@ -2873,6 +2873,11 @@ const checks = [
     name: "freshness-runtime-one-attempt-decision"
   },
   {
+    command: [node, "scripts/check-freshness-runtime-prerun-bundle.mjs"],
+    expectStatus: "ok",
+    name: "freshness-runtime-prerun-bundle"
+  },
+  {
     command: [node, "scripts/check-runtime-product-summary.mjs"],
     expectStatus: "ok",
     name: "runtime-product-summary"
