@@ -2798,6 +2798,11 @@ const checks = [
     name: "experience-flow-navigation"
   },
   {
+    command: [node, "scripts/check-public-visible-language-quality.mjs"],
+    expectStatus: "ok",
+    name: "public-visible-language-quality"
+  },
+  {
     command: [node, "scripts/check-runtime-state-consistency.mjs"],
     expectStatus: "ok",
     name: "runtime-state-consistency"
