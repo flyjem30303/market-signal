@@ -62,6 +62,19 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
         ))}
         <p className="stock-runtime-headline-stop-line">{headlineSummary.stopLine}</p>
       </div>
+      <div className="stock-decision-aid-groups" aria-label="Stock decision aid groups">
+        {headlineSummary.decisionAidGroups.map((group) => (
+          <article className={group.state} key={group.label}>
+            <span>{group.label}</span>
+            <strong>{group.title}</strong>
+            <ul>
+              {group.items.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </article>
+        ))}
+      </div>
       <div className="runtime-product-summary" aria-label="Runtime product summary">
         <article className="active">
           <span>{productSummary.useNow.label}</span>

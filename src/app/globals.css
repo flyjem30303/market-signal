@@ -2969,6 +2969,64 @@ select {
   font-weight: 750;
 }
 
+.stock-decision-aid-groups {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.stock-decision-aid-groups article {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  padding: 12px;
+}
+
+.stock-decision-aid-groups article.active {
+  border-color: rgba(20, 122, 77, 0.24);
+  background: #eff9f5;
+}
+
+.stock-decision-aid-groups article.readying {
+  border-color: rgba(40, 94, 203, 0.18);
+  background: #f2f6ff;
+}
+
+.stock-decision-aid-groups article.blocked {
+  border-color: rgba(199, 54, 59, 0.2);
+  background: #fff5f5;
+}
+
+.stock-decision-aid-groups span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.stock-decision-aid-groups strong {
+  overflow-wrap: anywhere;
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.3;
+}
+
+.stock-decision-aid-groups ul {
+  display: grid;
+  gap: 5px;
+  margin: 0;
+  padding-left: 18px;
+}
+
+.stock-decision-aid-groups li {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
 .stock-runtime-governance-details {
   display: grid;
   grid-column: 1 / -1;
@@ -9917,6 +9975,7 @@ input[type="date"] {
   .stock-evidence-snapshot,
   .stock-runtime-at-a-glance,
   .stock-runtime-headline-summary,
+  .stock-decision-aid-groups,
   .evidence-snapshot-grid,
   .stock-peer-navigator,
   .peer-link-grid,
