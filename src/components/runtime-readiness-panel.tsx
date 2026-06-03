@@ -15,6 +15,7 @@ import { getRuntimeReadonlyDecisionCard } from "@/lib/runtime-readonly-decision-
 import { getPostReadonlyRuntimeState } from "@/lib/post-readonly-runtime-state";
 import { getPostReadonlyNextGateQueue } from "@/lib/post-readonly-next-gate-queue";
 import { getSchemaShapeAcceptanceContract } from "@/lib/schema-shape-acceptance-contract";
+import { getRemoteOnlyObjectRuntimeContract } from "@/lib/remote-only-object-runtime-contract";
 
 export function RuntimeReadinessPanel() {
   const readiness = getRuntimeReadinessSummary();
@@ -34,6 +35,7 @@ export function RuntimeReadinessPanel() {
   const postReadonlyRuntime = getPostReadonlyRuntimeState();
   const postReadonlyNextGateQueue = getPostReadonlyNextGateQueue();
   const schemaShapeContract = getSchemaShapeAcceptanceContract();
+  const remoteOnlyObjectContract = getRemoteOnlyObjectRuntimeContract();
   const readonlyFinalPrepReady =
     preflight.status === "ready_for_guarded_readonly_decision" &&
     decision.status === "ready_for_ceo_decision" &&
@@ -264,6 +266,32 @@ export function RuntimeReadinessPanel() {
             </span>
             <strong>{object.name}</strong>
             <p>{object.gap}</p>
+            <p>{object.nextAction}</p>
+            <p>Blocked promotion: {object.blockedPromotion}.</p>
+          </article>
+        ))}
+      </div>
+      <div className="runtime-remote-only-object-contract" aria-label="Remote-only object runtime contract">
+        <article className="hold">
+          <span>Remote-only object contract</span>
+          <strong>{remoteOnlyObjectContract.mode}</strong>
+          <p>
+            Public {remoteOnlyObjectContract.publicDataSource}; score {remoteOnlyObjectContract.scoreSource}.
+          </p>
+          <p>
+            Freshness baseline: {remoteOnlyObjectContract.dataFreshnessRelationship.baselineObject}; candidate{" "}
+            {remoteOnlyObjectContract.dataFreshnessRelationship.candidateObject}; repository{" "}
+            {remoteOnlyObjectContract.dataFreshnessRelationship.runtimeRepositoryDependency}.
+          </p>
+          <p>{remoteOnlyObjectContract.stopLine}</p>
+        </article>
+        {remoteOnlyObjectContract.objects.map((object) => (
+          <article className="hold" key={object.name}>
+            <span>
+              {object.owner} / {object.status}
+            </span>
+            <strong>{object.name}</strong>
+            <p>{object.relationshipToRuntime}</p>
             <p>{object.nextAction}</p>
             <p>Blocked promotion: {object.blockedPromotion}.</p>
           </article>

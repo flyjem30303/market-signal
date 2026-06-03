@@ -2858,6 +2858,11 @@ const checks = [
     name: "schema-shape-acceptance-contract"
   },
   {
+    command: [node, "scripts/check-remote-only-object-runtime-contract.mjs"],
+    expectStatus: "ok",
+    name: "remote-only-object-runtime-contract"
+  },
+  {
     command: [node, "scripts/check-runtime-product-summary.mjs"],
     expectStatus: "ok",
     name: "runtime-product-summary"
