@@ -837,6 +837,75 @@ select {
   background: #fff7f7;
 }
 
+.project-progress-data-foundation {
+  display: grid;
+  gap: 12px;
+  grid-column: 1 / -1;
+  border: 1px solid rgba(20, 122, 77, 0.2);
+  border-radius: 8px;
+  background: #f7fcf9;
+  padding: 12px;
+}
+
+.project-progress-data-foundation > div:first-child {
+  display: grid;
+  gap: 6px;
+}
+
+.project-progress-data-foundation span,
+.project-progress-data-foundation-grid article span {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.project-progress-data-foundation strong,
+.project-progress-data-foundation-grid article strong {
+  overflow-wrap: anywhere;
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.35;
+}
+
+.project-progress-data-foundation p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.project-progress-data-foundation-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.project-progress-data-foundation-grid article {
+  display: grid;
+  align-content: start;
+  gap: 7px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  padding: 10px;
+}
+
+.project-progress-data-foundation-grid article.accepted {
+  border-color: rgba(20, 122, 77, 0.25);
+  background: #f3fbf6;
+}
+
+.project-progress-data-foundation-grid article.readying {
+  border-color: rgba(183, 121, 31, 0.25);
+  background: #fffaf0;
+}
+
+.project-progress-data-foundation-grid article.blocked {
+  border-color: rgba(199, 54, 59, 0.2);
+  background: #fff7f7;
+}
+
 .project-progress-evidence-ladder {
   display: grid;
   gap: 12px;
@@ -10313,6 +10382,7 @@ input[type="date"] {
   .project-progress-panel,
   .project-progress-lanes,
   .project-progress-data-readiness-lanes,
+  .project-progress-data-foundation-grid,
   .project-progress-evidence-ladder-stages,
   .project-progress-blocker-closure-grid,
   .runtime-action-status-strip,

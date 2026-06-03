@@ -3,6 +3,7 @@ import { getRowCoverageSecondAttemptReadiness } from "@/lib/row-coverage-second-
 import { getRuntimeReadinessSummary } from "@/lib/runtime-readiness-score";
 import { getSchemaShapeAcceptanceContract } from "@/lib/schema-shape-acceptance-contract";
 import { getSupabaseReadonlyEvidenceSummary } from "@/lib/supabase-readonly-evidence";
+import { getDataFoundationGate, type DataFoundationGate } from "@/lib/data-foundation-gate";
 
 export type DataReadinessDecisionLane = {
   evidence: string;
@@ -26,6 +27,7 @@ export type DataReadinessDecisionSummary = {
     requiresSeparateCeoNamedAction: true;
   };
   closestNextGate: "schema_shape_freshness_row_coverage_decision_gate";
+  dataFoundationGate: DataFoundationGate;
   headline: string;
   lanes: DataReadinessDecisionLane[];
   mode: "post_readonly_data_readiness_summary";
@@ -60,6 +62,7 @@ export function getDataReadinessDecisionSummary(): DataReadinessDecisionSummary 
       requiresSeparateCeoNamedAction: true
     },
     closestNextGate: "schema_shape_freshness_row_coverage_decision_gate",
+    dataFoundationGate: getDataFoundationGate(),
     headline: "Post-readonly data readiness is consolidated; runtime remains mock-only.",
     lanes: [
       {

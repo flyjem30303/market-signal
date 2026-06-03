@@ -54,18 +54,18 @@ export const projectProgressLanes: ProjectProgressLane[] = [
     weight: 15
   },
   {
-    current: 88,
+    current: 90,
     label: "Supabase schema / repository readiness",
     note:
-      "Schema, repository, validator, and readonly preflight scaffolding are prepared. Supabase object reachability is accepted, but schema shape and promotion evidence still need a separate gate.",
+      "Schema, repository, validator, readonly preflight scaffolding, object reachability, and the daily_prices runtime shape baseline are accepted for local foundation use; promotion evidence still needs separate gates.",
     owner: "Engineering",
     weight: 15
   },
   {
-    current: 55,
+    current: 61,
     label: "Data freshness and quality evidence",
     note:
-      "freshness interpretation, data_runs baseline, and data_freshness candidate handling are partially prepared. Supabase readonly runtime activation remains mock-only; readonly evidence can inform review only, scoreSource stays mock, and ingestion remains off.",
+      "Object reachability, daily_prices schema shape, freshness interpretation, data_runs baseline, data_freshness candidate handling, freshness metadata, and Supabase readonly runtime activation are consolidated in the local data foundation gate. Row coverage, data quality threshold, source rights, and source-depth still block promotion; scoreSource stays mock.",
     owner: "Data",
     weight: 15
   },
@@ -78,10 +78,10 @@ export const projectProgressLanes: ProjectProgressLane[] = [
     weight: 10
   },
   {
-    current: 73,
+    current: 75,
     label: "CEO execution focus",
     note:
-      "CEO has narrowed the work toward larger runtime product slices and the post-readonly evidence queue. Future remote attempts stay separately named and bounded.",
+      "CEO has shifted sequencing away from UI polish toward data/runtime foundation gates and the post-readonly evidence queue. Future remote attempts stay separately named and bounded.",
     owner: "CEO",
     weight: 10
   },

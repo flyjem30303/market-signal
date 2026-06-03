@@ -91,7 +91,7 @@ if (run.status !== 0) {
 } else {
   for (const phrase of [
     "CEO Progress Brief",
-    "Progress: 68%",
+    "Progress: 69%",
     "Status: local_ready_remote_paused",
     "Lane ratio: runtime product 70 / blocker closure 20 / governance 10",
     "Cadence: recent_slices_too_fragmented -> larger_mock_runtime_product_slice",

@@ -109,7 +109,34 @@ export function ProjectProgressPanel() {
             {dataReadiness.boundedReadonlyAttempt.requiresSeparateCeoNamedAction ? "yes" : "no"}.
           </p>
         </article>
-        <p>{dataReadiness.stopLine}</p>
+          <p>{dataReadiness.stopLine}</p>
+      </section>
+      <section className="project-progress-data-foundation" aria-label="Data foundation gate">
+        <div>
+          <span>{dataReadiness.dataFoundationGate.status}</span>
+          <strong>{dataReadiness.dataFoundationGate.headline}</strong>
+          <p>
+            Accepted {dataReadiness.dataFoundationGate.acceptedCount}/{dataReadiness.dataFoundationGate.totalCount};
+            foundation {dataReadiness.dataFoundationGate.foundationPercent}%; public source{" "}
+            {dataReadiness.dataFoundationGate.publicDataSource}; score source{" "}
+            {dataReadiness.dataFoundationGate.scoreSource}.
+          </p>
+          <p>{dataReadiness.dataFoundationGate.nextGate}</p>
+        </div>
+        <div className="project-progress-data-foundation-grid">
+          {dataReadiness.dataFoundationGate.items.map((item) => (
+            <article className={item.state} key={item.id}>
+              <span>
+                {item.owner} / {item.state}
+              </span>
+              <strong>{item.label}</strong>
+              <p>{item.evidence}</p>
+              <p>Blocked: {item.blocker}</p>
+              <p>Next: {item.nextAction}</p>
+            </article>
+          ))}
+        </div>
+        <p>{dataReadiness.dataFoundationGate.stopLine}</p>
       </section>
       <section className="project-progress-evidence-ladder" aria-label="Data evidence ladder">
         <div>

@@ -146,6 +146,7 @@
     "check:post-readonly-runtime-state": "node scripts/check-post-readonly-runtime-state.mjs",
     "check:post-readonly-next-gate-queue": "node scripts/check-post-readonly-next-gate-queue.mjs",
     "check:data-readiness-decision-summary": "node scripts/check-data-readiness-decision-summary.mjs",
+    "check:data-foundation-gate": "node scripts/check-data-foundation-gate.mjs",
     "check:data-evidence-ladder": "node scripts/check-data-evidence-ladder.mjs",
     "check:blocker-closure-map": "node scripts/check-blocker-closure-map.mjs",
     "report:blocker-review-decision-outcome-ledger": "node scripts/report-blocker-review-decision-outcome-ledger.mjs",

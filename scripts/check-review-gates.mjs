@@ -2873,6 +2873,11 @@ const checks = [
     name: "data-readiness-decision-summary"
   },
   {
+    command: [node, "scripts/check-data-foundation-gate.mjs"],
+    expectStatus: "ok",
+    name: "data-foundation-gate"
+  },
+  {
     command: [node, "scripts/check-data-evidence-ladder.mjs"],
     expectStatus: "ok",
     name: "data-evidence-ladder"
