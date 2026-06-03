@@ -25,6 +25,16 @@ const files = new Map(
 const required = [
   [libPath, "FreshnessRuntimeReadinessContract"],
   [libPath, "getFreshnessRuntimeReadinessContract"],
+  [libPath, "displayHeadline"],
+  [libPath, "displayStatus"],
+  [libPath, "displayBaseline"],
+  [libPath, "displayCandidate"],
+  [libPath, "displayNextDefaultAction"],
+  [libPath, "displayStopLine"],
+  [libPath, "新鮮度唯讀檢查可進入流程討論，但尚未執行"],
+  [libPath, "可做流程決策，尚未授權執行"],
+  [libPath, "目前仍使用模擬新鮮度狀態"],
+  [libPath, "下一個候選只限讀取 data_runs 的新鮮度摘要"],
   [libPath, "freshness_runtime_readiness_contract"],
   [libPath, "ready_for_process_only_decision"],
   [libPath, "dataRunsObject: \"only_runtime_read_candidate\""],
@@ -48,6 +58,11 @@ const required = [
   [panelPath, "freshnessRuntimeReadinessContract"],
   [panelPath, "runtime-freshness-readiness-contract"],
   [panelPath, "Freshness runtime read readiness contract"],
+  [panelPath, "freshnessRuntimeReadinessContract.displayStatus"],
+  [panelPath, "freshnessRuntimeReadinessContract.displayHeadline"],
+  [panelPath, "freshnessRuntimeReadinessContract.displayBaseline"],
+  [panelPath, "freshnessRuntimeReadinessContract.displayCandidate"],
+  [panelPath, "freshnessRuntimeReadinessContract.displayStopLine"],
   [panelPath, "freshnessRuntimeReadinessContract.prechecks.map"],
   [cssPath, ".runtime-freshness-readiness-contract"],
   [packagePath, "\"check:freshness-runtime-readiness-contract\": \"node scripts/check-freshness-runtime-readiness-contract.mjs\""],
@@ -80,8 +95,20 @@ const forbidden = [
   [supabaseRepositoryPath, "from(table: \"data_freshness\")"]
 ];
 
+const uiInternalWordingForbidden = [
+  [panelPath, ">{freshnessRuntimeReadinessContract.status}</strong>"],
+  [panelPath, "Baseline: DATA_FRESHNESS_SOURCE="],
+  [panelPath, "Candidate: {freshnessRuntimeReadinessContract.dataRunsObject}"],
+  [panelPath, ">{freshnessRuntimeReadinessContract.stopLine}</p>"]
+];
+
 const missing = required.filter(([file, phrase]) => !read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
-const blocked = forbidden.filter(([file, phrase]) => read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
+const blocked = [
+  ...forbidden.filter(([file, phrase]) => read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`),
+  ...uiInternalWordingForbidden
+    .filter(([file, phrase]) => read(file).includes(phrase))
+    .map(([file, phrase]) => `${file}: UI still renders internal freshness wording ${phrase}`)
+];
 
 console.log(
   JSON.stringify(

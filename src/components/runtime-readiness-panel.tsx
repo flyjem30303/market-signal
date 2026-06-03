@@ -180,14 +180,14 @@ export function RuntimeReadinessPanel() {
       <div className="runtime-readonly-decision-card" aria-label="Runtime readonly decision card">
         <article className={readonlyDecisionCard.decisionState === "ready_for_ceo_oral_review" ? "ready" : "hold"}>
           <span>Readonly decision</span>
-          <strong>{readonlyDecisionCard.decisionState}</strong>
-          <p>{readonlyDecisionCard.headline}</p>
+          <strong>{readonlyDecisionCard.displayDecisionState}</strong>
+          <p>{readonlyDecisionCard.displayHeadline}</p>
           <p>{readonlyDecisionCard.statusLine}</p>
         </article>
         <article className="ready">
           <span>Allowed local checks</span>
           <ul>
-            {readonlyDecisionCard.allowedLocalChecks.map((item) => (
+            {readonlyDecisionCard.displayLocalChecks.map((item) => (
               <li key={item}>{item}</li>
             ))}
           </ul>
@@ -195,15 +195,15 @@ export function RuntimeReadinessPanel() {
         <article className="blocked">
           <span>Blocked remote actions</span>
           <ul>
-            {readonlyDecisionCard.blockedRemoteActions.slice(0, 6).map((item) => (
+            {readonlyDecisionCard.displayBlockedRemoteActions.slice(0, 6).map((item) => (
               <li key={item}>{item}</li>
             ))}
           </ul>
         </article>
         <article className="hold">
           <span>CEO wording</span>
-          <p>{readonlyDecisionCard.requiredCeoWording}</p>
-          <p>{readonlyDecisionCard.postRunReviewRequirement}</p>
+          <p>{readonlyDecisionCard.displayRequiredCeoWording}</p>
+          <p>{readonlyDecisionCard.displayPostRunReviewRequirement}</p>
           <p>Automated remote run: {readonlyDecisionCard.automatedRemoteRun ? "true" : "false"}.</p>
         </article>
       </div>
@@ -335,18 +335,11 @@ export function RuntimeReadinessPanel() {
       <div className="runtime-freshness-readiness-contract" aria-label="Freshness runtime read readiness contract">
         <article className="ready">
           <span>Freshness runtime read contract</span>
-          <strong>{freshnessRuntimeReadinessContract.status}</strong>
-          <p>
-            Baseline: DATA_FRESHNESS_SOURCE={freshnessRuntimeReadinessContract.baselineEnvironment.dataFreshnessSource}; reads{" "}
-            {freshnessRuntimeReadinessContract.baselineEnvironment.supabaseRuntimeReads}; public{" "}
-            {freshnessRuntimeReadinessContract.publicDataSource}; score {freshnessRuntimeReadinessContract.scoreSource}.
-          </p>
-          <p>
-            Candidate: {freshnessRuntimeReadinessContract.dataRunsObject}; data_freshness{" "}
-            {freshnessRuntimeReadinessContract.dataFreshnessObject}; failure{" "}
-            {freshnessRuntimeReadinessContract.failureBehavior}.
-          </p>
-          <p>{freshnessRuntimeReadinessContract.stopLine}</p>
+          <strong>{freshnessRuntimeReadinessContract.displayStatus}</strong>
+          <p>{freshnessRuntimeReadinessContract.displayHeadline}</p>
+          <p>{freshnessRuntimeReadinessContract.displayBaseline}</p>
+          <p>{freshnessRuntimeReadinessContract.displayCandidate}</p>
+          <p>{freshnessRuntimeReadinessContract.displayStopLine}</p>
         </article>
         {freshnessRuntimeReadinessContract.prechecks.map((precheck) => (
           <article className="hold" key={precheck.command}>

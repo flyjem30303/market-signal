@@ -16,6 +16,12 @@ export type RuntimeReadonlyDecisionCard = {
   automatedRemoteRun: false;
   blockedRemoteActions: string[];
   decisionState: "hold" | "ready_for_ceo_oral_review";
+  displayBlockedRemoteActions: string[];
+  displayDecisionState: string;
+  displayHeadline: string;
+  displayLocalChecks: string[];
+  displayPostRunReviewRequirement: string;
+  displayRequiredCeoWording: string;
   exactCommandPreview: string | null;
   headline: string;
   postRunReviewRequirement: string;
@@ -52,6 +58,23 @@ export function getRuntimeReadonlyDecisionCard(
       "scoreSource=real"
     ],
     decisionState: ready ? "ready_for_ceo_oral_review" : "hold",
+    displayBlockedRemoteActions: [
+      "自動連線 Supabase",
+      "執行 SQL",
+      "寫入 Supabase",
+      "列印資料列內容",
+      "公開資料來源升級",
+      "真實評分來源"
+    ],
+    displayDecisionState: ready ? "可口頭審核，尚未執行" : "暫停，等待本機檢查完成",
+    displayHeadline: ready
+      ? "唯讀嘗試已在本機準備好，但仍需要 CEO 明確點名"
+      : "唯讀嘗試仍暫停，需先完成本機預檢",
+    displayLocalChecks: ["本機預檢", "唯讀執行預覽", "公開邊界檢查", "完整 review gate", "production build"],
+    displayPostRunReviewRequirement:
+      "若 CEO 之後明確點名一次唯讀嘗試，執行後必須先記錄去敏感化的回顧，才能討論任何狀態升級。",
+    displayRequiredCeoWording:
+      "CEO 必須明確說出只允許一次限定唯讀嘗試與確認代碼，才可以執行遠端命令。",
     exactCommandPreview: executionPreview.exactCommandPreview,
     headline: ready
       ? "Readonly attempt is locally prepared but still requires CEO oral naming"

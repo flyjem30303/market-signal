@@ -16,6 +16,15 @@ const files = new Map(
 const required = [
   [helperPath, "RuntimeReadonlyDecisionCard"],
   [helperPath, "getRuntimeReadonlyDecisionCard"],
+  [helperPath, "displayDecisionState"],
+  [helperPath, "displayHeadline"],
+  [helperPath, "displayLocalChecks"],
+  [helperPath, "displayBlockedRemoteActions"],
+  [helperPath, "displayRequiredCeoWording"],
+  [helperPath, "displayPostRunReviewRequirement"],
+  [helperPath, "可口頭審核，尚未執行"],
+  [helperPath, "唯讀嘗試已在本機準備好，但仍需要 CEO 明確點名"],
+  [helperPath, "自動連線 Supabase"],
   [helperPath, "allowedLocalChecks"],
   [helperPath, "blockedRemoteActions"],
   [helperPath, "requiredCeoWording"],
@@ -27,10 +36,12 @@ const required = [
   [helperPath, "does not promote scoreSource=real"],
   [componentPath, "getRuntimeReadonlyDecisionCard"],
   [componentPath, "readonlyDecisionCard.decisionState"],
-  [componentPath, "readonlyDecisionCard.allowedLocalChecks"],
-  [componentPath, "readonlyDecisionCard.blockedRemoteActions"],
-  [componentPath, "readonlyDecisionCard.requiredCeoWording"],
-  [componentPath, "readonlyDecisionCard.postRunReviewRequirement"],
+  [componentPath, "readonlyDecisionCard.displayDecisionState"],
+  [componentPath, "readonlyDecisionCard.displayHeadline"],
+  [componentPath, "readonlyDecisionCard.displayLocalChecks"],
+  [componentPath, "readonlyDecisionCard.displayBlockedRemoteActions"],
+  [componentPath, "readonlyDecisionCard.displayRequiredCeoWording"],
+  [componentPath, "readonlyDecisionCard.displayPostRunReviewRequirement"],
   [componentPath, "runtime-readonly-decision-card"],
   [cssPath, ".runtime-readonly-decision-card"],
   [packagePath, "\"check:runtime-readonly-decision-card\": \"node scripts/check-runtime-readonly-decision-card.mjs\""],
@@ -52,8 +63,22 @@ const forbidden = [
   [componentPath, "project-progress-score"]
 ];
 
+const uiInternalWordingForbidden = [
+  [componentPath, ">{readonlyDecisionCard.decisionState}</strong>"],
+  [componentPath, ">{readonlyDecisionCard.headline}</p>"],
+  [componentPath, "readonlyDecisionCard.allowedLocalChecks.map"],
+  [componentPath, "readonlyDecisionCard.blockedRemoteActions.slice"],
+  [componentPath, ">{readonlyDecisionCard.requiredCeoWording}</p>"],
+  [componentPath, ">{readonlyDecisionCard.postRunReviewRequirement}</p>"]
+];
+
 const missing = required.filter(([file, phrase]) => !read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
-const blocked = forbidden.filter(([file, phrase]) => read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
+const blocked = [
+  ...forbidden.filter(([file, phrase]) => read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`),
+  ...uiInternalWordingForbidden
+    .filter(([file, phrase]) => read(file).includes(phrase))
+    .map(([file, phrase]) => `${file}: UI still renders internal readonly wording ${phrase}`)
+];
 
 console.log(
   JSON.stringify(
