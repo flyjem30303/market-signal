@@ -1,4 +1,8 @@
 import { getDataEvidenceLadderSummary } from "@/lib/data-evidence-ladder";
+import {
+  getBlockerReviewDecisionOutcomeLedger,
+  type BlockerReviewDecisionOutcomeLedger
+} from "@/lib/blocker-review-decision-outcome-ledger";
 
 export type BlockerClosureId = "source-rights-and-disclosure" | "model-credibility" | "data-quality-evidence";
 
@@ -14,6 +18,7 @@ export type BlockerClosureItem = {
 };
 
 export type BlockerClosureMap = {
+  blockerReviewDecisionOutcomeLedger: BlockerReviewDecisionOutcomeLedger;
   headline: string;
   mode: "blocker_closure_map";
   nextCeoMove: string;
@@ -29,6 +34,7 @@ export function getBlockerClosureMap(): BlockerClosureMap {
   const dataQuality = evidenceLadder.stages.find((stage) => stage.id === "data-quality");
 
   return {
+    blockerReviewDecisionOutcomeLedger: getBlockerReviewDecisionOutcomeLedger(),
     headline: "Blocker closure is now sequenced across Legal, Investment, and Data.",
     mode: "blocker_closure_map",
     nextCeoMove:

@@ -15,6 +15,9 @@ const files = new Map(
 
 const required = [
   [helperPath, "BlockerClosureMap"],
+  [helperPath, "getBlockerReviewDecisionOutcomeLedger"],
+  [helperPath, "blockerReviewDecisionOutcomeLedger: BlockerReviewDecisionOutcomeLedger"],
+  [helperPath, "blockerReviewDecisionOutcomeLedger: getBlockerReviewDecisionOutcomeLedger()"],
   [helperPath, "getBlockerClosureMap"],
   [helperPath, "blocker_closure_map"],
   [helperPath, "source-rights-and-disclosure"],
@@ -33,6 +36,8 @@ const required = [
   [componentPath, "Blocker closure map"],
   [componentPath, "project-progress-blocker-closure"],
   [componentPath, "blockerClosure.sequence.map"],
+  [componentPath, "project-progress-blocker-outcome-ledger"],
+  [componentPath, "blockerClosure.blockerReviewDecisionOutcomeLedger.outcomes.map"],
   [componentPath, "item.nextCommand"],
   [componentPath, "item.nextDecision"],
   [componentPath, "item.blockedPromotion"],

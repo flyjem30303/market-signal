@@ -2883,6 +2883,16 @@ const checks = [
     name: "blocker-closure-map"
   },
   {
+    command: [node, "scripts/check-blocker-review-decision-outcome-ledger.mjs"],
+    expectStatus: "ok",
+    name: "blocker-review-decision-outcome-ledger"
+  },
+  {
+    command: [node, "scripts/check-record-blocker-review-decision-outcome.mjs"],
+    expectStatus: "ok",
+    name: "record-blocker-review-decision-outcome"
+  },
+  {
     command: [node, "scripts/check-runtime-execution-readiness-summary.mjs"],
     expectStatus: "ok",
     name: "runtime-execution-readiness-summary"

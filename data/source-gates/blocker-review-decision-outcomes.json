@@ -1,0 +1,25 @@
+{
+  "outcomes": [
+    {
+      "id": "source-rights-and-disclosure",
+      "outcome": "pending",
+      "recordedBy": "not_recorded",
+      "recordedAt": null,
+      "decisionNote": "Awaiting Legal blocker review outcome. Pending does not authorize source rights approval, redistribution, Supabase reads, SQL, writes, publicDataSource=supabase, or scoreSource=real."
+    },
+    {
+      "id": "model-credibility",
+      "outcome": "pending",
+      "recordedBy": "not_recorded",
+      "recordedAt": null,
+      "decisionNote": "Awaiting Investment blocker review outcome. Pending does not authorize model credibility promotion, investment-grade interpretation, advice claims, publicDataSource=supabase, or scoreSource=real."
+    },
+    {
+      "id": "data-quality-evidence",
+      "outcome": "pending",
+      "recordedBy": "not_recorded",
+      "recordedAt": null,
+      "decisionNote": "Awaiting Data blocker review outcome. Pending does not authorize row coverage credit, data-quality score lift, Supabase writes, daily_prices mutation, publicDataSource=supabase, or scoreSource=real."
+    }
+  ]
+}

@@ -160,6 +160,35 @@ export function ProjectProgressPanel() {
             </article>
           ))}
         </div>
+        <section className="project-progress-blocker-outcome-ledger">
+          <span>{blockerClosure.blockerReviewDecisionOutcomeLedger.status}</span>
+          <strong>
+            Blocker review outcome / {blockerClosure.blockerReviewDecisionOutcomeLedger.mode}
+          </strong>
+          <p>
+            All accepted{" "}
+            {blockerClosure.blockerReviewDecisionOutcomeLedger.allRequiredOutcomesAccepted ? "yes" : "no"}; public
+            source {blockerClosure.blockerReviewDecisionOutcomeLedger.safety.publicDataSource}; score source{" "}
+            {blockerClosure.blockerReviewDecisionOutcomeLedger.safety.scoreSource}.
+          </p>
+          <div>
+            {blockerClosure.blockerReviewDecisionOutcomeLedger.outcomes.map((outcome) => (
+              <article className={outcome.outcome} key={outcome.blockerId}>
+                <span>
+                  {outcome.owner} / {outcome.recordedBy}
+                </span>
+                <strong>{outcome.outcome}</strong>
+                <p>{outcome.decisionNote}</p>
+                <p>{outcome.acceptedMeaning}</p>
+                <p>{outcome.rejectedMeaning}</p>
+                <p>{outcome.deferredMeaning}</p>
+                <p>Record: {outcome.recordCommand}</p>
+              </article>
+            ))}
+          </div>
+          <p>Next decision {blockerClosure.blockerReviewDecisionOutcomeLedger.nextAllowedDecision}</p>
+          <p>Still blocked: {blockerClosure.blockerReviewDecisionOutcomeLedger.stillBlocked.join(", ")}</p>
+        </section>
         <p>{blockerClosure.stopLine}</p>
       </section>
       <div
