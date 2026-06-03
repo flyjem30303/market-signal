@@ -10,6 +10,7 @@ import { getRuntimeStateConsistencySummary } from "@/lib/runtime-state-consisten
 import { getRuntimeFailClosedSummary } from "@/lib/runtime-fail-closed";
 import { getPostReadonlyRuntimeState } from "@/lib/post-readonly-runtime-state";
 import { getRuntimeProductSummary } from "@/lib/runtime-product-summary";
+import { getFreshnessReadonlyLatestEvidenceSummary } from "@/lib/freshness-readonly-latest-evidence";
 import { RuntimeTransitionRail } from "@/components/runtime-transition-rail";
 import { PublicRuntimeStateStrip } from "@/components/public-runtime-state-strip";
 
@@ -30,6 +31,7 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
   const failClosed = getRuntimeFailClosedSummary();
   const postReadonlyRuntime = getPostReadonlyRuntimeState();
   const productSummary = getRuntimeProductSummary(selectedSymbol);
+  const freshnessLatestEvidence = getFreshnessReadonlyLatestEvidenceSummary();
 
   return (
     <section className="home-runtime-status-panel" aria-label="Runtime status">
@@ -77,6 +79,18 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
         </p>
         <p>
           Public {postReadonlyRuntime.publicDataSource}; score {postReadonlyRuntime.scoreSource}.
+        </p>
+      </article>
+      <article className="active post-readonly-runtime-card home-freshness-evidence-card">
+        <span>Freshness metadata</span>
+        <strong>{freshnessLatestEvidence.state}</strong>
+        <p>
+          {freshnessLatestEvidence.market} freshness is reachable as of {freshnessLatestEvidence.asOfDate} from{" "}
+          {freshnessLatestEvidence.sourceName}.
+        </p>
+        <p>
+          Public {freshnessLatestEvidence.publicDataSource}; score {freshnessLatestEvidence.scoreSource}. Metadata
+          only, not market-data quality or real-score approval.
         </p>
       </article>
       <nav>
@@ -168,6 +182,12 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
             <strong>{postReadonlyRuntime.state}</strong>
             <p>{postReadonlyRuntime.rowCoverage.summary}</p>
             <p>{postReadonlyRuntime.nextGate}</p>
+          </article>
+          <article className="readying post-readonly-runtime-card home-freshness-evidence-card">
+            <span>Freshness evidence boundary</span>
+            <strong>{freshnessLatestEvidence.evidenceStatus}</strong>
+            <p>{freshnessLatestEvidence.acceptedScope}</p>
+            <p>{freshnessLatestEvidence.stopLine}</p>
           </article>
           <article className="blocked">
             <span>Blocker readiness</span>

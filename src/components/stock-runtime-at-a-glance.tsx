@@ -11,6 +11,7 @@ import { getRuntimeFailClosedSummary } from "@/lib/runtime-fail-closed";
 import { getPostReadonlyRuntimeState } from "@/lib/post-readonly-runtime-state";
 import { getRuntimeProductSummary } from "@/lib/runtime-product-summary";
 import { getStockRuntimeHeadlineSummary } from "@/lib/stock-runtime-headline-summary";
+import { getFreshnessReadonlyLatestEvidenceSummary } from "@/lib/freshness-readonly-latest-evidence";
 import type { SignalSnapshot } from "@/lib/signal-model";
 import { RuntimeTransitionRail } from "@/components/runtime-transition-rail";
 import { PublicRuntimeStateStrip } from "@/components/public-runtime-state-strip";
@@ -34,6 +35,7 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
   const postReadonlyRuntime = getPostReadonlyRuntimeState();
   const productSummary = getRuntimeProductSummary(snapshot.asset.symbol);
   const headlineSummary = getStockRuntimeHeadlineSummary(snapshot);
+  const freshnessLatestEvidence = getFreshnessReadonlyLatestEvidenceSummary();
 
   return (
     <section className="stock-runtime-at-a-glance" aria-label="Stock runtime status">
@@ -123,6 +125,18 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
             Row coverage {postReadonlyRuntime.rowCoverage.coverageStatus}:{" "}
             {postReadonlyRuntime.rowCoverage.observedRows}/{postReadonlyRuntime.rowCoverage.expectedRows} rows,
             missing {postReadonlyRuntime.rowCoverage.missingRows}.
+          </p>
+        </article>
+        <article className="active post-readonly-runtime-card stock-freshness-evidence-card">
+          <span>Freshness metadata</span>
+          <strong>{freshnessLatestEvidence.state}</strong>
+          <p>
+            {freshnessLatestEvidence.market} freshness is reachable as of {freshnessLatestEvidence.asOfDate} from{" "}
+            {freshnessLatestEvidence.sourceName}.
+          </p>
+          <p>
+            Public {freshnessLatestEvidence.publicDataSource}; score {freshnessLatestEvidence.scoreSource}. Metadata
+            only, not market-data quality or scoreSource=real approval.
           </p>
         </article>
         <article className="blocked">
