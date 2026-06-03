@@ -153,6 +153,8 @@
     "report:promotion-prerequisites-gate": "node scripts/report-promotion-prerequisites-gate.mjs",
     "check:promotion-prerequisites-gate": "node scripts/check-promotion-prerequisites-gate.mjs",
     "check:a1-evidence-intake-protocol": "node scripts/check-a1-evidence-intake-protocol.mjs",
+    "report:mainline-readonly-packet-bridge": "node scripts/report-mainline-readonly-packet-bridge.mjs",
+    "check:mainline-readonly-packet-bridge": "node scripts/check-mainline-readonly-packet-bridge.mjs",
     "report:blocker-review-decision-outcome-ledger": "node scripts/report-blocker-review-decision-outcome-ledger.mjs",
     "check:blocker-review-decision-outcome-ledger": "node scripts/check-blocker-review-decision-outcome-ledger.mjs",
     "record:blocker-review-decision-outcome": "node scripts/record-blocker-review-decision-outcome.mjs",

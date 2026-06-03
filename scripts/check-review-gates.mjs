@@ -2903,6 +2903,11 @@ const checks = [
     name: "a1-evidence-intake-protocol"
   },
   {
+    command: [node, "scripts/check-mainline-readonly-packet-bridge.mjs"],
+    expectStatus: "ok",
+    name: "mainline-readonly-packet-bridge"
+  },
+  {
     command: [node, "scripts/check-blocker-review-decision-outcome-ledger.mjs"],
     expectStatus: "ok",
     name: "blocker-review-decision-outcome-ledger"

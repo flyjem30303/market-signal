@@ -42,6 +42,17 @@ if (narrowPostReviewRun.status !== 0) {
 }
 
 const narrowPostReview = JSON.parse(narrowPostReviewRun.stdout);
+const readonlyBridgeRun = spawnSync(process.execPath, ["scripts/report-mainline-readonly-packet-bridge.mjs"], {
+  cwd: process.cwd(),
+  encoding: "utf8",
+  shell: false
+});
+
+if (readonlyBridgeRun.status !== 0) {
+  throw new Error(`mainline readonly packet bridge failed: ${readonlyBridgeRun.stderr.trim()}`);
+}
+
+const readonlyBridge = JSON.parse(readonlyBridgeRun.stdout);
 
 const lines = [
   "CEO Progress Brief",
@@ -60,6 +71,7 @@ const lines = [
   `Queue items: ${snapshot.blockerExecutionQueue.items.map((item) => item.id).join(", ")}`,
   `A1 intake: ${snapshot.a1EvidenceIntake.acceptanceDecision} / ${snapshot.a1EvidenceIntake.currentA1GateStatus}`,
   `A1 verification: ${snapshot.a1EvidenceIntake.verificationOrder.map((item) => `${item.order}:${item.id}`).join(", ")}`,
+  `Readonly bridge: ${readonlyBridge.status} / ${readonlyBridge.a1Intake.decision}`,
   `Unblock readiness: ${blockerResolution.unblockDecisionReadiness.status} / humanApproval=${String(blockerResolution.unblockDecisionReadiness.canRequestHumanApproval)}`,
   `Approval outcome: ${narrowPostReview.status}`,
   `Next meaningful gate: ${snapshot.ceoDecision.nextMeaningfulGate}`,
