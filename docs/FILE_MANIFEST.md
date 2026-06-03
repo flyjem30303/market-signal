@@ -209,6 +209,7 @@ scripts/README.md
 
 ```text
 docs/AB_COLLABORATION.md
+docs/ROLE_WORKSTREAMS.md
 docs/B_REQUESTS_TO_A.md
 docs/C_REQUESTS_TO_A.md
 docs/D_LEGAL_REVIEW.md

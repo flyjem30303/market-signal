@@ -2918,6 +2918,11 @@ const checks = [
     name: "mainline-readonly-packet-bridge"
   },
   {
+    command: [node, "scripts/check-role-workstreams.mjs"],
+    expectStatus: "ok",
+    name: "role-workstreams"
+  },
+  {
     command: [node, "scripts/check-blocker-review-decision-outcome-ledger.mjs"],
     expectStatus: "ok",
     name: "blocker-review-decision-outcome-ledger"

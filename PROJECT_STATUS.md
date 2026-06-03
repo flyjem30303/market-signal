@@ -1,5 +1,7 @@
 # Project Status
 
+Current PM/A1/A2 role ownership and parallel workstream boundaries are tracked in `docs/ROLE_WORKSTREAMS.md`.
+
 更新日期：2026-05-28
 
 ## 目前版本

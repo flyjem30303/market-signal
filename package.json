@@ -158,6 +158,7 @@
     "check:a1-market-evidence-handoff-packet": "node scripts/check-a1-market-evidence-handoff-packet.mjs",
     "report:mainline-readonly-packet-bridge": "node scripts/report-mainline-readonly-packet-bridge.mjs",
     "check:mainline-readonly-packet-bridge": "node scripts/check-mainline-readonly-packet-bridge.mjs",
+    "check:role-workstreams": "node scripts/check-role-workstreams.mjs",
     "report:blocker-review-decision-outcome-ledger": "node scripts/report-blocker-review-decision-outcome-ledger.mjs",
     "check:blocker-review-decision-outcome-ledger": "node scripts/check-blocker-review-decision-outcome-ledger.mjs",
     "record:blocker-review-decision-outcome": "node scripts/record-blocker-review-decision-outcome.mjs",

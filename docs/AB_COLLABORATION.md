@@ -1,5 +1,7 @@
 # A/B/C/D/E/F Collaboration Model
 
+Current parallel role split is tracked in `docs/ROLE_WORKSTREAMS.md`.
+
 本專案分成六個工作角色。
 
 ## A：PM + 開發者
