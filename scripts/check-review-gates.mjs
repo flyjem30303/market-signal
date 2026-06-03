@@ -2828,6 +2828,11 @@ const checks = [
     name: "public-visible-language-quality"
   },
   {
+    command: [node, "scripts/check-public-language-gate-self-audit.mjs"],
+    expectStatus: "ok",
+    name: "public-language-gate-self-audit"
+  },
+  {
     command: [node, "scripts/check-runtime-state-consistency.mjs"],
     expectStatus: "ok",
     name: "runtime-state-consistency"

@@ -304,6 +304,7 @@
     "check:trust-runtime-boundary-notice": "node scripts/check-trust-runtime-boundary-notice.mjs",
     "check:public-runtime-boundary-coverage": "node scripts/check-public-runtime-boundary-coverage.mjs",
     "check:public-visible-language-quality": "node scripts/check-public-visible-language-quality.mjs",
+    "check:public-language-gate-self-audit": "node scripts/check-public-language-gate-self-audit.mjs",
     "check:cp3-5pm-runtime-readiness-checkpoint": "node scripts/check-cp3-5pm-runtime-readiness-checkpoint.mjs",
     "check:cp3-tw-stock-source-depth": "node scripts/check-cp3-tw-stock-source-depth.mjs",
     "check:cp3-source-depth-evidence-gate-draft": "node scripts/check-cp3-source-depth-evidence-gate-draft.mjs",
