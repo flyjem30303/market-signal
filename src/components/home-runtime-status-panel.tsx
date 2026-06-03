@@ -81,9 +81,14 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
         </div>
         {actionStatus.statuses.map((status) => (
           <article className={status.tone} key={status.id}>
-            <span>{status.id}</span>
+            <span>
+              {status.owner} / {status.id}
+            </span>
             <strong>{status.label}</strong>
             <p>{status.detail}</p>
+            <p>Allowed: {status.allowedAction}</p>
+            <p>Blocked: {status.blockedAction}</p>
+            <p>Next gate: {status.nextGate}</p>
           </article>
         ))}
       </section>
