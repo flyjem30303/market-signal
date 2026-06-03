@@ -14,7 +14,7 @@ const files = {
   validatorContract: "scripts/check-supabase-readonly-validator-output-contract.mjs",
   blankErrorRootCause: "scripts/check-supabase-readonly-blank-error-root-cause.mjs",
   latestSanitizedRun: "scripts/check-cp3-supabase-read-only-latest-sanitized-run.mjs",
-  latestSanitizedRunDoc: "docs/reviews/CP3_SUPABASE_READ_ONLY_LATEST_SANITIZED_RUN_2026-06-02.md",
+  latestSanitizedRunDoc: "docs/reviews/CP3_SUPABASE_READ_ONLY_LATEST_SANITIZED_RUN_2026-06-03.md",
   runtimeFailClosed: "scripts/check-runtime-fail-closed.mjs",
   runtimeFailClosedLib: "src/lib/runtime-fail-closed.ts",
   runtimeStateConsistency: "scripts/check-runtime-state-consistency.mjs",
@@ -66,8 +66,9 @@ const requiredEvidence = [
   [sources.finalPrepReport, "ready_for_ceo_oral_review", "CEO oral review state"],
   [sources.finalPrepReport, "automatedRemoteRun: false", "final prep blocks automated remote run"],
   [sources.finalPrepReport, "willRunRemoteValidator: false", "final prep blocks direct validator run"],
-  [sources.latestSanitizedRunDoc, "Validator status: `blocked`", "latest sanitized run remains blocked"],
-  [sources.latestSanitizedRunDoc, "Connection status: `blocked`", "latest connection status remains blocked"],
+  [sources.latestSanitizedRunDoc, "Validator status: `ok`", "latest sanitized run is ok"],
+  [sources.latestSanitizedRunDoc, "Connection status: `ok`", "latest connection status is ok"],
+  [sources.latestSanitizedRunDoc, "object-reachability evidence only", "latest run remains reachability-only evidence"],
   [sources.latestSanitizedRunDoc, "Additional remote attempts require a new explicit gate", "new attempt requires gate"],
   [sources.latestSanitizedRunDoc, "Public data source remains mock", "public data remains mock"],
   [sources.latestSanitizedRunDoc, "`scoreSource=real` remains blocked", "scoreSource real remains blocked"],
@@ -147,11 +148,11 @@ const forbiddenCode = forbiddenCodeTokens.filter((token) => normalizedScript.inc
 const failures = [...packageFailures, ...gateFailures, ...evidenceFailures, ...forbiddenEvidence, ...forbiddenCode];
 const summary = {
   status: failures.length === 0 ? "ok" : "blocked",
-  decision: failures.length === 0 ? "ready_for_ceo_review_before_bounded_readonly_attempt" : "not_ready",
-  nextActionBoundary: "manual bounded read-only attempt only after CEO/Chairman gate; no SQL, no writes, no raw market data, no scoreSource=real",
+  decision: failures.length === 0 ? "ready_for_post_readonly_runtime_decision" : "not_ready",
+  nextActionBoundary: "object reachability is accepted as backend evidence only; next gate must decide schema shape, freshness, row coverage, data quality, source-depth, and UI runtime interpretation without SQL, writes, raw market data, or scoreSource=real",
   laneState: {
     runtime: "mock_fail_closed_ready",
-    supabaseReadonly: "pre_attempt_summary_ready",
+    supabaseReadonly: "object_reachability_ok",
     publicDataSource: "mock",
     scoreSource: "mock"
   },
