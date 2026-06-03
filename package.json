@@ -149,6 +149,7 @@
     "check:data-foundation-gate": "node scripts/check-data-foundation-gate.mjs",
     "check:data-evidence-ladder": "node scripts/check-data-evidence-ladder.mjs",
     "check:blocker-closure-map": "node scripts/check-blocker-closure-map.mjs",
+    "check:blocker-closure-readiness-gate": "node scripts/check-blocker-closure-readiness-gate.mjs",
     "report:blocker-review-decision-outcome-ledger": "node scripts/report-blocker-review-decision-outcome-ledger.mjs",
     "check:blocker-review-decision-outcome-ledger": "node scripts/check-blocker-review-decision-outcome-ledger.mjs",
     "record:blocker-review-decision-outcome": "node scripts/record-blocker-review-decision-outcome.mjs",

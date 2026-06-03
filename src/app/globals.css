@@ -1701,6 +1701,64 @@ select {
   background: #fffaf0;
 }
 
+.project-progress-blocker-readiness-gate {
+  display: grid;
+  gap: 10px;
+  border: 1px solid rgba(44, 96, 151, 0.22);
+  border-radius: 8px;
+  background: #f6faff;
+  padding: 12px;
+}
+
+.project-progress-blocker-readiness-gate > span,
+.project-progress-blocker-readiness-gate article span {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.project-progress-blocker-readiness-gate > strong,
+.project-progress-blocker-readiness-gate article strong {
+  overflow-wrap: anywhere;
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.project-progress-blocker-readiness-gate p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.project-progress-blocker-readiness-gate > div {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.project-progress-blocker-readiness-gate article {
+  display: grid;
+  align-content: start;
+  gap: 7px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  padding: 10px;
+}
+
+.project-progress-blocker-readiness-gate article.local_ready_external_pending {
+  border-color: rgba(44, 96, 151, 0.24);
+  background: #f8fbff;
+}
+
+.project-progress-blocker-readiness-gate article.held_until_remote_evidence {
+  border-color: rgba(183, 121, 31, 0.25);
+  background: #fffaf0;
+}
+
 .project-progress-runner-execution-gate {
   display: grid;
   gap: 9px;
@@ -10385,6 +10443,7 @@ input[type="date"] {
   .project-progress-data-foundation-grid,
   .project-progress-evidence-ladder-stages,
   .project-progress-blocker-closure-grid,
+  .project-progress-blocker-readiness-gate > div,
   .runtime-action-status-strip,
   .project-progress-route-decision > div,
   .project-progress-design-gate > div,

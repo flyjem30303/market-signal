@@ -1,6 +1,10 @@
 import { getDataCoverageRouteDecision, type DataCoverageRouteDecision } from "@/lib/data-coverage-route-decision";
 import { buildDataQualityEvidenceGate, type DataQualityEvidenceGate } from "@/lib/data-quality-evidence-gate";
 import { buildDataQualityScoreContract, type DataQualityScoreContract } from "@/lib/data-quality-score-contract";
+import {
+  getBlockerClosureReadinessGate,
+  type BlockerClosureReadinessGate
+} from "@/lib/blocker-closure-readiness-gate";
 
 export type ProjectProgressLane = {
   current: number;
@@ -12,6 +16,7 @@ export type ProjectProgressLane = {
 
 export type ProjectProgressSummary = {
   adjustedScore: number;
+  blockerClosureReadinessGate: BlockerClosureReadinessGate;
   dataCoverageRouteDecision: DataCoverageRouteDecision;
   dataQualityEvidenceGate: DataQualityEvidenceGate;
   dataQualityScoreContract: DataQualityScoreContract;
@@ -62,10 +67,10 @@ export const projectProgressLanes: ProjectProgressLane[] = [
     weight: 15
   },
   {
-    current: 61,
+    current: 64,
     label: "Data freshness and quality evidence",
     note:
-      "Object reachability, daily_prices schema shape, freshness interpretation, data_runs baseline, data_freshness candidate handling, freshness metadata, and Supabase readonly runtime activation are consolidated in the local data foundation gate. Row coverage, data quality threshold, source rights, and source-depth still block promotion; scoreSource stays mock.",
+      "Object reachability, daily_prices schema shape, freshness interpretation, data_runs baseline, data_freshness candidate handling, freshness metadata, Supabase readonly runtime activation, local data foundation gate, and blocker closure readiness are consolidated locally. Row coverage, data quality threshold, source rights, and source-depth still block promotion; scoreSource stays mock.",
     owner: "Data",
     weight: 15
   },
@@ -78,10 +83,10 @@ export const projectProgressLanes: ProjectProgressLane[] = [
     weight: 10
   },
   {
-    current: 75,
+    current: 76,
     label: "CEO execution focus",
     note:
-      "CEO has shifted sequencing away from UI polish toward data/runtime foundation gates and the post-readonly evidence queue. Future remote attempts stay separately named and bounded.",
+      "CEO has shifted sequencing away from UI polish toward data/runtime foundation gates, closure readiness, and the post-readonly evidence queue. Future remote attempts stay separately named and bounded.",
     owner: "CEO",
     weight: 10
   },
@@ -98,6 +103,7 @@ export const projectProgressLanes: ProjectProgressLane[] = [
 export function getProjectProgressSummary(): ProjectProgressSummary {
   const dataQualityScoreContract = buildDataQualityScoreContract();
   const dataCoverageRouteDecision = getDataCoverageRouteDecision();
+  const blockerClosureReadinessGate = getBlockerClosureReadinessGate();
   const dataQualityEvidenceGate = buildDataQualityEvidenceGate({
     dataQualityScore: dataQualityScoreContract.score,
     freshnessState: "complete"
@@ -107,6 +113,7 @@ export function getProjectProgressSummary(): ProjectProgressSummary {
 
   return {
     adjustedScore,
+    blockerClosureReadinessGate,
     dataCoverageRouteDecision,
     dataQualityEvidenceGate,
     dataQualityScoreContract,

@@ -2888,6 +2888,11 @@ const checks = [
     name: "blocker-closure-map"
   },
   {
+    command: [node, "scripts/check-blocker-closure-readiness-gate.mjs"],
+    expectStatus: "ok",
+    name: "blocker-closure-readiness-gate"
+  },
+  {
     command: [node, "scripts/check-blocker-review-decision-outcome-ledger.mjs"],
     expectStatus: "ok",
     name: "blocker-review-decision-outcome-ledger"

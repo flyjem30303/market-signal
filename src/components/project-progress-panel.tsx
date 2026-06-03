@@ -216,6 +216,30 @@ export function ProjectProgressPanel() {
           <p>Next decision {blockerClosure.blockerReviewDecisionOutcomeLedger.nextAllowedDecision}</p>
           <p>Still blocked: {blockerClosure.blockerReviewDecisionOutcomeLedger.stillBlocked.join(", ")}</p>
         </section>
+        <section className="project-progress-blocker-readiness-gate">
+          <span>{progress.blockerClosureReadinessGate.status}</span>
+          <strong>{progress.blockerClosureReadinessGate.headline}</strong>
+          <p>
+            Closure readiness {progress.blockerClosureReadinessGate.closurePercent}%; public source{" "}
+            {progress.blockerClosureReadinessGate.publicDataSource}; score source{" "}
+            {progress.blockerClosureReadinessGate.scoreSource}.
+          </p>
+          <p>{progress.blockerClosureReadinessGate.nextCeoMove}</p>
+          <div>
+            {progress.blockerClosureReadinessGate.items.map((item) => (
+              <article className={item.closureState} key={item.blockerId}>
+                <span>
+                  {item.owner} / {item.closureState}
+                </span>
+                <strong>{item.blockerId}</strong>
+                <p>{item.evidence}</p>
+                <p>Next: {item.nextAction}</p>
+                <p>Blocked: {item.promotionBlocked}</p>
+              </article>
+            ))}
+          </div>
+          <p>{progress.blockerClosureReadinessGate.stopLine}</p>
+        </section>
         <p>{blockerClosure.stopLine}</p>
       </section>
       <div

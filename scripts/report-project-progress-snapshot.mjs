@@ -53,6 +53,13 @@ const snapshot = {
   },
   project: {
     adjustedScore: progress.adjustedScore,
+    blockerClosureReadiness: {
+      closurePercent: progress.blockerClosureReadinessGate.closurePercent,
+      itemCount: progress.blockerClosureReadinessGate.items.length,
+      publicDataSource: progress.blockerClosureReadinessGate.publicDataSource,
+      scoreSource: progress.blockerClosureReadinessGate.scoreSource,
+      status: progress.blockerClosureReadinessGate.status
+    },
     headline: progress.headline,
     lanes: progress.lanes.map(({ current, label, owner, weight }) => ({
       current,
