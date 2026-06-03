@@ -4,7 +4,10 @@ const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 const auditedCheckers = [
   "scripts/check-public-visible-language-quality.mjs",
-  "scripts/check-action-summary-language-quality.mjs"
+  "scripts/check-action-summary-language-quality.mjs",
+  "scripts/check-home-first-screen-action-summary.mjs",
+  "scripts/check-stock-first-screen-readability.mjs",
+  "scripts/check-stock-first-screen-action-summary.mjs"
 ];
 
 const highRiskFragments = [
@@ -31,6 +34,8 @@ const requiredGoodTokens = [
   "免責聲明",
   "使用條款",
   "隱私權政策",
+  "首頁快速摘要",
+  "股票內容分頁",
   "publicDataSource=mock",
   "scoreSource=mock"
 ];
@@ -50,7 +55,22 @@ for (const file of auditedCheckers) {
 }
 
 const publicVisibleSource = fs.readFileSync("scripts/check-public-visible-language-quality.mjs", "utf8");
-for (const token of requiredGoodTokens) {
+const homeFirstScreenSource = fs.readFileSync("scripts/check-home-first-screen-action-summary.mjs", "utf8");
+const stockFirstScreenSource = fs.readFileSync("scripts/check-stock-first-screen-readability.mjs", "utf8");
+for (const token of requiredGoodTokens.slice(0, 3)) {
+  if (!publicVisibleSource.includes(token)) {
+    missing.push(`scripts/check-public-visible-language-quality.mjs: ${token}`);
+  }
+}
+for (const token of ["首頁快速摘要", "mock-only runtime"]) {
+  if (!homeFirstScreenSource.includes(token) && !stockFirstScreenSource.includes(token)) {
+    missing.push(`first-screen language gates: ${token}`);
+  }
+}
+if (!stockFirstScreenSource.includes("股票內容分頁")) {
+  missing.push("scripts/check-stock-first-screen-readability.mjs: 股票內容分頁");
+}
+for (const token of ["publicDataSource=mock", "scoreSource=mock"]) {
   if (!publicVisibleSource.includes(token)) {
     missing.push(`scripts/check-public-visible-language-quality.mjs: ${token}`);
   }
