@@ -62,7 +62,7 @@ for (const token of requiredGoodTokens.slice(0, 3)) {
     missing.push(`scripts/check-public-visible-language-quality.mjs: ${token}`);
   }
 }
-for (const token of ["首頁快速摘要", "mock-only runtime"]) {
+for (const token of ["首頁快速摘要", "mock-only 閱讀模式"]) {
   if (!homeFirstScreenSource.includes(token) && !stockFirstScreenSource.includes(token)) {
     missing.push(`first-screen language gates: ${token}`);
   }

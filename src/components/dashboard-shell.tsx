@@ -244,8 +244,8 @@ export function DashboardShell({
         </h1>
         <p>
           {includeSeoContent
-            ? `目前 ${selected.symbol} 使用 mock-only runtime 呈現訊號、風險與資料揭露；Supabase runtime 與 real score-source 仍需獨立審核。`
-            : "用 mock-only runtime 先閱讀台股、ETF 與市場指數的健康度、風險與資料缺口；Supabase runtime 與 real score-source 尚未啟用。"}
+            ? `目前 ${selected.symbol} 使用 mock-only 閱讀模式呈現健康度、風險與資料限制；正式資料來源與正式評分仍未啟用。`
+            : "用 mock-only 閱讀模式先看台股、ETF 與市場指數的健康度、風險與資料缺口；正式資料來源與正式評分尚未啟用。"}
         </p>
       </section>
 
@@ -291,8 +291,8 @@ export function DashboardShell({
             />
           )}
           <details className="stock-runtime-details">
-            <summary>Runtime 狀態細節：PM / Engineering review</summary>
-            <p>這裡保留 runtime gate、狀態樣本與下一步工程檢查；第一屏則優先給使用者閱讀產品狀態。</p>
+            <summary>產品狀態細節：資料與評分邊界</summary>
+            <p>這裡保留目前頁面的狀態樣本、資料限制與下一步檢查；第一屏則優先給使用者閱讀產品狀態。</p>
             <Cp3RuntimeStatePanel freshness={freshness} snapshot={snapshot} />
           </details>
           <StockEvidenceSnapshot snapshot={snapshot} />
@@ -612,10 +612,10 @@ function HomeProductOverview({
       <section className="home-indicator-roadmap" aria-label="首頁未來專業指標路線">
         <div>
           <p className="eyebrow">Indicator Roadmap</p>
-          <h2>未來專業指標仍在 readiness 階段</h2>
+          <h2>未來專業指標仍在準備階段</h2>
           <p>{indicatorRoadmap.boundary.statement}</p>
           <strong>
-            Runtime/data foundation {indicatorRoadmap.nextExecutionRatio.runtimeDataFoundation}% · Product wording{" "}
+            資料基礎 {indicatorRoadmap.nextExecutionRatio.runtimeDataFoundation}% · 產品文字{" "}
             {indicatorRoadmap.nextExecutionRatio.productReadabilityAndWording}% · Future notes{" "}
             {indicatorRoadmap.nextExecutionRatio.futureIndicatorDesignNotes}%
           </strong>
@@ -634,12 +634,12 @@ function HomeProductOverview({
           <p className="eyebrow">Decision Compass</p>
           <h2>{decision.action}</h2>
           <p>{decision.reason}</p>
-          <p>先判斷市場節奏，再對照大盤，最後才進入 ETF 或個股拆解；目前仍是 mock-only runtime。</p>
+          <p>先判斷市場節奏，再對照大盤，最後才進入 ETF 或個股拆解；目前仍是 mock-only 閱讀模式。</p>
         </div>
         <TrackedLink eventName="home_cta_clicked" href="/briefing" label="先看市場晨報" payload={{ action: "decision_compass_briefing", symbol: selected.symbol }}>
           <span>1 · 市場節奏</span>
           <strong>先看市場晨報</strong>
-          <p>先用市場廣度、風險清單與 row coverage 判斷今天該偏觀察、進攻或防守。</p>
+          <p>先用市場廣度、風險清單與資料完整度判斷今天該偏觀察、進攻或防守。</p>
         </TrackedLink>
         <TrackedLink eventName="home_cta_clicked" href={`/stocks/${marketSnapshot.asset.symbol}`} label={`${marketSnapshot.asset.symbol} ${marketSnapshot.signal.title}`} payload={{ action: "decision_compass_market", symbol: marketSnapshot.asset.symbol }}>
           <span>2 · 大盤基準</span>

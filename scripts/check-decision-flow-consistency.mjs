@@ -55,7 +55,7 @@ const homeRequired = [
   "先看市場晨報",
   "大盤基準",
   "標的拆解",
-  "mock-only runtime"
+  "mock-only 閱讀模式"
 ];
 
 const stockRequired = [

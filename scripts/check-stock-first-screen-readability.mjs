@@ -23,9 +23,9 @@ const homeOverview = slice(homeStart, homeEnd);
 const required = [
   ["firstScreen", "Market Signal Dashboard"],
   ["firstScreen", "台股與 ETF 指數燈號儀表板"],
-  ["firstScreen", "mock-only runtime"],
-  ["firstScreen", "Supabase runtime 與 real score-source 尚未啟用"],
-  ["firstScreen", "Runtime 狀態細節：PM / Engineering review"],
+  ["firstScreen", "mock-only 閱讀模式"],
+  ["firstScreen", "正式資料來源與正式評分尚未啟用"],
+  ["firstScreen", "產品狀態細節：資料與評分邊界"],
   ["firstScreen", "治理與審核細節"],
   ["firstScreen", "股票內容分頁"],
   ["firstScreen", "今日燈號"],

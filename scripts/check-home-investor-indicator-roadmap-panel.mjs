@@ -17,7 +17,7 @@ const required = [
   [componentPath, "home-indicator-roadmap"],
   [componentPath, "首頁未來專業指標路線"],
   [componentPath, "Indicator Roadmap"],
-  [componentPath, "未來專業指標仍在 readiness 階段"],
+  [componentPath, "未來專業指標仍在準備階段"],
   [componentPath, "indicatorRoadmap.boundary.statement"],
   [componentPath, "visibleIndicatorFamilies.map"],
   [componentPath, "getInvestorIndicatorStatusLabel"],

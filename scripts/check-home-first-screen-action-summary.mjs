@@ -28,7 +28,7 @@ const required = [
   [home, "decision_compass_briefing", "briefing decision tracking"],
   [home, "decision_compass_market", "market decision tracking"],
   [home, "decision_compass_target", "target decision tracking"],
-  [home, "mock-only runtime", "mock-only runtime disclosure"],
+  [home, "mock-only 閱讀模式", "mock-only reading-mode disclosure"],
   [home, "scoreSourceLabel", "score source label"],
   [home, "gapCount", "data gap count"],
   [packageJson, '"check:home-first-screen-action-summary"', "package script"],
