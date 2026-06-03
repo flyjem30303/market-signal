@@ -21,6 +21,15 @@ const requiredComponentPhrases = [
   "Stock Risk Checklist",
   "StockNextStepGuide",
   "Stock Next Step Guide",
+  "Decision Guide",
+  "個股頁三步檢查",
+  "1 · Runtime 邊界",
+  "2 · 模組判讀",
+  "3 · 資料與停止點",
+  "publicDataSource=mock",
+  "scoreSource=mock",
+  "blocked gates",
+  "stock_next_step_guide",
   "StockDecisionBoundary",
   "Stock Decision Boundary",
   "StockReviewQueue",
@@ -180,7 +189,6 @@ const requiredComponentPhrases = [
   "snapshot.lastUpdatedAt",
   "目前證據狀態",
   "資料缺口清單",
-  "看完燈號後怎麼做",
   "目前能做與不能做",
   "下一輪覆核問題",
   "角色責任分工",
@@ -217,9 +225,7 @@ const requiredComponentPhrases = [
   "公開宣稱審核完成",
   "不提供買賣建議",
   "mock 分數",
-  "先確認資料可靠度",
   "先拆解風險來源",
-  "不足時先不下結論"
 ];
 
 const requiredCssPhrases = [

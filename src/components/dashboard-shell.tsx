@@ -1319,41 +1319,40 @@ function StockRiskChecklist({ snapshot, onTab }: { snapshot: SignalSnapshot; onT
   );
 }
 
-function StockNextStepGuide({ snapshot, onTab }: { snapshot: SignalSnapshot; onTab: (tab: TabKey) => void }) {
+function StockNextStepGuide({ snapshot, onTab }: { snapshot: SignalSnapshot; onTab: (tab: TabKey, source?: string) => void }) {
   const hasDataWarnings = snapshot.missingModuleFlags.length > 0 || snapshot.staleDataFlags.length > 0;
-  const primaryTab: TabKey = hasDataWarnings ? "today" : snapshot.riskScore >= 60 ? "technical" : "trend";
-  const secondaryTab: TabKey = snapshot.riskScore >= 60 ? "trend" : "technical";
+  const moduleTab: TabKey = snapshot.riskScore >= 60 ? "technical" : "trend";
   const guide = [
     {
-      label: "第一步",
-      tab: primaryTab,
-      text: hasDataWarnings
-        ? "先確認資料旗標，mock 或缺漏資料存在時，所有分數都只當研究體驗。"
-        : snapshot.riskScore >= 60
-          ? "先看技術與波動，風險升溫時不要直接把燈號當成行動指令。"
-          : "先看趨勢是否連續，單日分數不足以支持穩定判斷。",
-      title: hasDataWarnings ? "先確認資料可靠度" : snapshot.riskScore >= 60 ? "先拆解風險來源" : "先檢查趨勢連續性"
+      label: "1 · Runtime 邊界",
+      tab: "today" as TabKey,
+      text: "先確認這頁仍是 mock-only runtime：publicDataSource=mock、scoreSource=mock，不能把分數當真實投資訊號。",
+      title: "先確認 mock 邊界"
     },
     {
-      label: "第二步",
-      tab: secondaryTab,
-      text: "交叉檢查另一個模組，避免只用單一分數解讀整個標的。",
-      title: snapshot.riskScore >= 60 ? "再回看趨勢" : "再確認技術風險"
+      label: "2 · 模組判讀",
+      tab: moduleTab,
+      text: snapshot.riskScore >= 60
+        ? "風險分數偏高時，先看技術與波動模組，再回頭對照趨勢是否轉弱。"
+        : "風險未明顯升溫時，先看趨勢是否連續，再用技術模組交叉確認。",
+      title: snapshot.riskScore >= 60 ? "再拆風險與波動" : "再看趨勢連續性"
     },
     {
-      label: "停止點",
+      label: "3 · 資料與停止點",
       tab: "backtest" as TabKey,
-      text: "若資料來源、模型版本或回測說明無法支持結論，就停止推論並保留觀察。",
-      title: "不足時先不下結論"
+      text: hasDataWarnings
+        ? "資料旗標已出現，先看缺口、回測限制與 blocked gates，停止放大解讀。"
+        : "最後檢查模型版本、回測限制與 blocked gates；未通過前不升級成買賣建議。",
+      title: hasDataWarnings ? "最後處理資料缺口" : "最後檢查 blocked gates"
     }
   ];
 
   return (
     <section className="stock-next-step-guide" aria-label="Stock Next Step Guide">
       <div className="next-step-head">
-        <p className="eyebrow">Next Step</p>
-        <h2>看完燈號後怎麼做</h2>
-        <p>這裡只整理閱讀順序，不提供買賣建議，也不把 mock 分數包裝成真實訊號。</p>
+        <p className="eyebrow">Decision Guide</p>
+        <h2>個股頁三步檢查</h2>
+        <p>先守 runtime 邊界，再看健康、風險與趨勢模組，最後確認資料品質與 blocked gates。</p>
       </div>
       <div className="next-step-grid">
         {guide.map((item) => (
@@ -1361,7 +1360,7 @@ function StockNextStepGuide({ snapshot, onTab }: { snapshot: SignalSnapshot; onT
             <span>{item.label}</span>
             <strong>{item.title}</strong>
             <p>{item.text}</p>
-            <button onClick={() => onTab(item.tab)} type="button">
+            <button onClick={() => onTab(item.tab, "stock_next_step_guide")} type="button">
               前往查看
             </button>
           </article>
