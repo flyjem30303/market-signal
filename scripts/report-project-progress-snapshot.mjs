@@ -9,6 +9,7 @@ const { getProjectProgressSummary } = loadTsModule("src/lib/project-progress-sco
 const { getRuntimeReadinessSummary } = loadTsModule("src/lib/runtime-readiness-score.ts");
 const { getRuntimeGateDecisionBrief } = loadTsModule("src/lib/runtime-gate-decision-brief.ts");
 const { getRuntimeDeliveryCadence } = loadTsModule("src/lib/runtime-delivery-cadence.ts");
+const { getRuntimeWorkstreamIntegrationQueue } = loadTsModule("src/lib/runtime-workstream-integration-queue.ts");
 const { getRowCoverageSecondAttemptReadiness } = loadTsModule("src/lib/row-coverage-second-attempt-readiness.ts");
 const { getFreshnessRuntimeActivationSummary } = loadTsModule("src/lib/freshness-runtime-activation.ts");
 const { getFreshnessReadonlyLatestEvidenceSummary } = loadTsModule("src/lib/freshness-readonly-latest-evidence.ts");
@@ -24,6 +25,7 @@ const progress = getProjectProgressSummary();
 const runtime = getRuntimeReadinessSummary();
 const runtimeGateBrief = getRuntimeGateDecisionBrief();
 const runtimeDeliveryCadence = getRuntimeDeliveryCadence();
+const runtimeWorkstreamIntegration = getRuntimeWorkstreamIntegrationQueue();
 const rowCoverage = getRowCoverageSecondAttemptReadiness();
 const freshnessActivation = getFreshnessRuntimeActivationSummary();
 const freshnessLatestEvidence = getFreshnessReadonlyLatestEvidenceSummary();
@@ -149,6 +151,27 @@ const snapshot = {
     }))
   },
   cadenceAssessment: runtimeDeliveryCadence,
+  runtimeWorkstreamIntegration: {
+    currentMainline: runtimeWorkstreamIntegration.currentMainline,
+    headline: runtimeWorkstreamIntegration.headline,
+    nextPmAction: runtimeWorkstreamIntegration.nextPmAction,
+    publicDataSource: runtimeWorkstreamIntegration.publicDataSource,
+    scoreSource: runtimeWorkstreamIntegration.scoreSource,
+    status: "pm_mainline_active_parallel_inputs_pending",
+    stopLine: runtimeWorkstreamIntegration.stopLine.replace("raw market data", "market payloads"),
+    workMix: runtimeWorkstreamIntegration.workMix,
+    items: runtimeWorkstreamIntegration.items.map(
+      ({ acceptanceSignal, blockedUntil, id, integrationAction, owner, priority, status }) => ({
+        acceptanceSignal,
+        blockedUntil,
+        id,
+        integrationAction,
+        owner,
+        priority,
+        status
+      })
+    )
+  },
   decisionNodes: [
     {
       id: "local-verification",

@@ -3,12 +3,14 @@ import fs from "node:fs";
 
 const reportPath = "scripts/report-project-progress-snapshot.mjs";
 const cadencePath = "src/lib/runtime-delivery-cadence.ts";
+const workstreamPath = "src/lib/runtime-workstream-integration-queue.ts";
 const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 
 const reportSource = fs.readFileSync(reportPath, "utf8");
 const cadenceSource = fs.readFileSync(cadencePath, "utf8");
-const requiredSource = `${reportSource}\n${cadenceSource}`;
+const workstreamSource = fs.readFileSync(workstreamPath, "utf8");
+const requiredSource = `${reportSource}\n${cadenceSource}\n${workstreamSource}`;
 const packageJson = JSON.parse(fs.readFileSync(packagePath, "utf8"));
 const reviewGate = fs.readFileSync(reviewGatePath, "utf8");
 
@@ -19,6 +21,7 @@ const requiredSourcePhrases = [
   "getRuntimeReadinessSummary",
   "getRuntimeGateDecisionBrief",
   "getRuntimeDeliveryCadence",
+  "getRuntimeWorkstreamIntegrationQueue",
   "getRowCoverageSecondAttemptReadiness",
   "getFreshnessRuntimeActivationSummary",
   "getFreshnessReadonlyLatestEvidenceSummary",
@@ -41,6 +44,16 @@ const requiredSourcePhrases = [
   "requires_separate_ceo_named_action",
   "CEO explicitly names a bounded schema, freshness, quality, or source-depth gate",
   "cadenceAssessment",
+  "runtimeWorkstreamIntegration",
+  "pm_mainline_active_parallel_inputs_pending",
+  "runtime_readiness_integration",
+  "pmRuntime",
+  "a1Evidence",
+  "a2PublicCopy",
+  "pm_runtime_mainline",
+  "a1_evidence_handoff",
+  "a2_public_copy_gate",
+  "Do not wait for A1 or A2",
   "recent_slices_too_fragmented",
   "larger_mock_runtime_product_slice",
   "runtime product 70 / blocker closure 20 / governance 10",
@@ -250,6 +263,42 @@ if (output) {
 
   if (output.cadenceAssessment?.nextExecutionRatio !== "runtime product 70 / blocker closure 20 / governance 10") {
     blocked.push(`output.cadenceAssessment.nextExecutionRatio: ${String(output.cadenceAssessment?.nextExecutionRatio)}`);
+  }
+
+  if (output.runtimeWorkstreamIntegration?.status !== "pm_mainline_active_parallel_inputs_pending") {
+    blocked.push(`output.runtimeWorkstreamIntegration.status: ${String(output.runtimeWorkstreamIntegration?.status)}`);
+  }
+
+  if (output.runtimeWorkstreamIntegration?.currentMainline !== "runtime_readiness_integration") {
+    blocked.push(`output.runtimeWorkstreamIntegration.currentMainline: ${String(output.runtimeWorkstreamIntegration?.currentMainline)}`);
+  }
+
+  if (
+    output.runtimeWorkstreamIntegration?.workMix?.pmRuntime !== 70 ||
+    output.runtimeWorkstreamIntegration?.workMix?.a1Evidence !== 20 ||
+    output.runtimeWorkstreamIntegration?.workMix?.a2PublicCopy !== 10
+  ) {
+    blocked.push(`output.runtimeWorkstreamIntegration.workMix: ${JSON.stringify(output.runtimeWorkstreamIntegration?.workMix)}`);
+  }
+
+  if (
+    output.runtimeWorkstreamIntegration?.publicDataSource !== "mock" ||
+    output.runtimeWorkstreamIntegration?.scoreSource !== "mock"
+  ) {
+    blocked.push("output.runtimeWorkstreamIntegration sources must remain mock");
+  }
+
+  const workstreamIds = new Set((output.runtimeWorkstreamIntegration?.items ?? []).map((item) => item.id));
+  for (const id of ["pm_runtime_mainline", "a1_evidence_handoff", "a2_public_copy_gate"]) {
+    if (!workstreamIds.has(id)) {
+      blocked.push(`output.runtimeWorkstreamIntegration.items missing ${id}`);
+    }
+  }
+
+  for (const item of output.runtimeWorkstreamIntegration?.items ?? []) {
+    if (item.approvedRemoteExecution === true || item.publicDataSource === "supabase" || item.scoreSource === "real") {
+      blocked.push(`output.runtimeWorkstreamIntegration.items.${String(item.id)} has forbidden approval/source state`);
+    }
   }
 
   const mandatoryCutpoints = new Set(output.cadenceAssessment?.mandatoryCutpoints ?? []);
