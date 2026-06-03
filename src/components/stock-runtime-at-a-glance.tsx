@@ -15,6 +15,7 @@ import { getFreshnessReadonlyLatestEvidenceSummary } from "@/lib/freshness-reado
 import type { SignalSnapshot } from "@/lib/signal-model";
 import { RuntimeTransitionRail } from "@/components/runtime-transition-rail";
 import { PublicRuntimeStateStrip } from "@/components/public-runtime-state-strip";
+import { TrackedLink } from "@/components/tracked-link";
 
 type StockRuntimeAtAGlanceProps = {
   scoreSourceLabel: string;
@@ -99,6 +100,32 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
       </div>
       <RuntimeTransitionRail symbol={snapshot.asset.symbol} />
       <PublicRuntimeStateStrip context="stock" />
+      <nav className="runtime-next-links" aria-label="Stock runtime next steps">
+        <TrackedLink
+          eventName="stock_link_clicked"
+          href="/briefing"
+          label="看市場與專案推進狀態"
+          payload={{ area: "stock_runtime_next_links", symbol: snapshot.asset.symbol }}
+        >
+          看市場與專案推進狀態
+        </TrackedLink>
+        <TrackedLink
+          eventName="trust_link_clicked"
+          href="/methodology"
+          label="確認 mock 評分方法"
+          payload={{ area: "stock_runtime_next_links", symbol: snapshot.asset.symbol }}
+        >
+          確認 mock 評分方法
+        </TrackedLink>
+        <TrackedLink
+          eventName="stock_link_clicked"
+          href="/"
+          label="回首頁比較其他標的"
+          payload={{ area: "stock_runtime_next_links", symbol: snapshot.asset.symbol }}
+        >
+          回首頁比較其他標的
+        </TrackedLink>
+      </nav>
       <div className="stock-runtime-action-strip" aria-label="Stock CEO next runtime action summary">
         <article className="active">
           <span>Current progress</span>

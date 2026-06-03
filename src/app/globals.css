@@ -2881,6 +2881,35 @@ select {
   font-size: 17px;
 }
 
+.runtime-next-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  grid-column: 1 / -1;
+}
+
+.runtime-next-links a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  border: 1px solid rgba(15, 118, 110, 0.24);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--teal);
+  font-size: 13px;
+  font-weight: 850;
+  line-height: 1.25;
+  text-decoration: none;
+  padding: 9px 11px;
+}
+
+.runtime-next-links a:hover {
+  border-color: var(--teal);
+  background: #e8f4ef;
+  color: #0b5f58;
+}
+
 .runtime-network-blocker-card {
   display: grid;
   gap: 8px;

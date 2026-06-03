@@ -13,6 +13,7 @@ import { getRuntimeProductSummary } from "@/lib/runtime-product-summary";
 import { getFreshnessReadonlyLatestEvidenceSummary } from "@/lib/freshness-readonly-latest-evidence";
 import { RuntimeTransitionRail } from "@/components/runtime-transition-rail";
 import { PublicRuntimeStateStrip } from "@/components/public-runtime-state-strip";
+import { TrackedLink } from "@/components/tracked-link";
 
 type HomeRuntimeStatusPanelProps = {
   selectedSymbol: string;
@@ -93,9 +94,31 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
           only, not market-data quality or real-score approval.
         </p>
       </article>
-      <nav>
-        <a href={`/stocks/${selectedSymbol}`}>Open stock page</a>
-        <a href="/briefing">View CEO/PM briefing</a>
+      <nav className="runtime-next-links" aria-label="Runtime next steps">
+        <TrackedLink
+          eventName="home_cta_clicked"
+          href={`/stocks/${selectedSymbol}`}
+          label="查看目前選取標的"
+          payload={{ action: "runtime_next_stock", symbol: selectedSymbol }}
+        >
+          查看目前選取標的
+        </TrackedLink>
+        <TrackedLink
+          eventName="home_cta_clicked"
+          href="/briefing"
+          label="看 CEO/PM 推進狀態"
+          payload={{ action: "runtime_next_briefing", symbol: selectedSymbol }}
+        >
+          看 CEO/PM 推進狀態
+        </TrackedLink>
+        <TrackedLink
+          eventName="trust_link_clicked"
+          href="/methodology"
+          label="確認 mock 與真實資料邊界"
+          payload={{ area: "runtime_next_links", symbol: selectedSymbol }}
+        >
+          確認 mock 與真實資料邊界
+        </TrackedLink>
       </nav>
       <details className="home-runtime-details">
         <summary>Runtime details: review state and blocked upgrades</summary>
