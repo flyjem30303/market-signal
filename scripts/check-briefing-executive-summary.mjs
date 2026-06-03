@@ -1,34 +1,45 @@
 import fs from "node:fs";
 
 const pagePath = "src/app/briefing/page.tsx";
+const decisionSummaryPath = "src/lib/runtime-decision-summary.ts";
 const actionSummaryPath = "src/lib/home-runtime-action-summary.ts";
 const cssPath = "src/app/globals.css";
 
 const page = fs.readFileSync(pagePath, "utf8");
+const decisionSummary = fs.readFileSync(decisionSummaryPath, "utf8");
 const actionSummary = fs.readFileSync(actionSummaryPath, "utf8");
 const css = fs.readFileSync(cssPath, "utf8");
+const executiveStart = page.indexOf("function BriefingExecutiveSummary");
+const executiveSummary = executiveStart >= 0 ? page.slice(executiveStart) : page;
 
 const required = [
   [pagePath, "BriefingExecutiveSummary"],
-  [pagePath, "getHomeRuntimeActionSummary"],
+  [pagePath, "getRuntimeDecisionSummary"],
   [pagePath, "getRuntimeInterpretationSummary"],
   [pagePath, "runtimeInterpretation.decision"],
   [pagePath, "runtimeInterpretation.laneRatio.mockRuntimeHardening"],
   [pagePath, "briefing-runtime-action-strip"],
   [pagePath, "Briefing CEO next runtime action summary"],
-  [pagePath, "actionSummary.currentProgressPercent"],
-  [pagePath, "actionSummary.nextAction"],
-  [pagePath, "actionSummary.blockedTransition"],
-  [pagePath, "actionSummary.safetyStopLine"],
-  [pagePath, "董事長與 CEO 晨報摘要"],
-  [pagePath, "每日市場晨報"],
-  [pagePath, "mock 訊號整理市場狀態"],
-  [pagePath, "目前可做"],
-  [pagePath, "改善 mock 體驗、頁面可讀性與 runtime guard"],
-  [pagePath, "Supabase 唯讀 gate 與來源深度證據"],
-  [pagePath, "SQL、真實市場資料寫入、正式分數來源切換"],
-  [pagePath, "市場總覽"],
-  [pagePath, "風險優先檢查"],
+  [pagePath, "decisionSummary.currentProgressPercent"],
+  [pagePath, "decisionSummary.decisionLabel"],
+  [pagePath, "decisionSummary.blockedTransition"],
+  [pagePath, "decisionSummary.safetyStopLine"],
+  [pagePath, "市場訊號晨報"],
+  [pagePath, "目前網站可用 mock 訊號閱讀市場方向"],
+  [pagePath, "真實資料、公開 Supabase 資料源與 real score source 都仍需通過後續 gate"],
+  [pagePath, "現在可讀"],
+  [pagePath, "唯讀證據"],
+  [pagePath, "仍然 blocked"],
+  [pagePath, "查看市場頁"],
+  [pagePath, "查看高風險標的"],
+  [pagePath, "綜合分數"],
+  [pagePath, "風險分數"],
+  [decisionSummaryPath, "RuntimeDecisionSummary"],
+  [decisionSummaryPath, "getRuntimeDecisionSummary"],
+  [decisionSummaryPath, "runtime_decision_summary"],
+  [decisionSummaryPath, "post_readonly_runtime_decision"],
+  [decisionSummaryPath, "publicDataSource: \"mock\""],
+  [decisionSummaryPath, "scoreSource: \"mock\""],
   [actionSummaryPath, "HomeRuntimeActionSummary"],
   [actionSummaryPath, "getHomeRuntimeActionSummary"],
   [actionSummaryPath, "currentProgressPercent: 72"],
@@ -41,12 +52,17 @@ const required = [
 ];
 
 const forbidden = [
-  [pagePath, "正式真實資料模型，也不是投資建議。\""],
-  [pagePath, "scoreSource=real 已完成"],
-  [pagePath, "SQL 已核准"],
-  [pagePath, "真實市場資料已寫入"],
-  [pagePath, "公開投資建議"],
+  [pagePath, "getHomeRuntimeActionSummary"],
   [pagePath, "project-progress-score"],
+  [pagePath, "scoreSource: \"real\""],
+  [pagePath, "publicDataSource: \"supabase\""],
+  [decisionSummaryPath, "@supabase/supabase-js"],
+  [decisionSummaryPath, "createClient"],
+  [decisionSummaryPath, "fetch("],
+  [decisionSummaryPath, "process.env"],
+  [decisionSummaryPath, "node:fs"],
+  [decisionSummaryPath, "scoreSource: \"real\""],
+  [decisionSummaryPath, "publicDataSource: \"supabase\""],
   [actionSummaryPath, "@supabase/supabase-js"],
   [actionSummaryPath, "createClient"],
   [actionSummaryPath, "fetch("],
@@ -56,8 +72,20 @@ const forbidden = [
   [actionSummaryPath, "scoreSource: \"real\""]
 ];
 
+const mojibakePatterns = [
+  /[�]/u,
+  /\?[^\n"'<>]{0,8}[航亦]/u,
+  /[銝蝡霈瘝嚗敺撌靘鞈璅鈭圾]/u
+];
+
 const missing = required.filter(([file, phrase]) => !read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
 const blocked = forbidden.filter(([file, phrase]) => read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
+
+for (const pattern of mojibakePatterns) {
+  if (pattern.test(executiveSummary)) {
+    blocked.push(`${pagePath}: mojibake executive summary ${String(pattern)}`);
+  }
+}
 
 console.log(
   JSON.stringify(
@@ -77,6 +105,7 @@ if (missing.length > 0 || blocked.length > 0) {
 
 function read(file) {
   if (file === pagePath) return page;
+  if (file === decisionSummaryPath) return decisionSummary;
   if (file === actionSummaryPath) return actionSummary;
   return css;
 }

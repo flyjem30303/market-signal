@@ -140,6 +140,7 @@
     "report:row-coverage-readonly-execution-readiness-presenter": "node scripts/report-row-coverage-readonly-execution-readiness-presenter.mjs",
     "check:row-coverage-readonly-execution-readiness-presenter": "node scripts/check-row-coverage-readonly-execution-readiness-presenter.mjs",
     "check:runtime-gate-decision-brief": "node scripts/check-runtime-gate-decision-brief.mjs",
+    "check:runtime-decision-summary": "node scripts/check-runtime-decision-summary.mjs",
     "check:runtime-state-consistency": "node scripts/check-runtime-state-consistency.mjs",
     "check:runtime-fail-closed": "node scripts/check-runtime-fail-closed.mjs",
     "check:runtime-readonly-decision-card": "node scripts/check-runtime-readonly-decision-card.mjs",

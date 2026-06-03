@@ -1643,6 +1643,11 @@ const checks = [
     name: "runtime-gate-decision-brief"
   },
   {
+    command: [node, "scripts/check-runtime-decision-summary.mjs"],
+    expectStatus: "ok",
+    name: "runtime-decision-summary"
+  },
+  {
     command: [node, "scripts/check-post-equity-row-coverage-readonly-attempt-decision-packet.mjs"],
     expectStatus: "ok",
     name: "post-equity-row-coverage-readonly-attempt-decision-packet"

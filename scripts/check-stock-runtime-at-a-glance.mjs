@@ -3,6 +3,7 @@ import fs from "node:fs";
 const componentPath = "src/components/stock-runtime-at-a-glance.tsx";
 const dashboardPath = "src/components/dashboard-shell.tsx";
 const actionSummaryPath = "src/lib/home-runtime-action-summary.ts";
+const decisionSummaryPath = "src/lib/runtime-decision-summary.ts";
 const consistencyPath = "src/lib/runtime-state-consistency.ts";
 const failClosedPath = "src/lib/runtime-fail-closed.ts";
 const headlineSummaryPath = "src/lib/stock-runtime-headline-summary.ts";
@@ -16,6 +17,7 @@ const files = new Map(
     componentPath,
     dashboardPath,
     actionSummaryPath,
+    decisionSummaryPath,
     consistencyPath,
     failClosedPath,
     headlineSummaryPath,
@@ -35,7 +37,7 @@ const required = [
   [componentPath, "getSourceDepthBlockerSummary"],
   [componentPath, "getPublicRuntimeBoundaryCopy"],
   [componentPath, "getRuntimeDeliveryCadence"],
-  [componentPath, "getHomeRuntimeActionSummary"],
+  [componentPath, "getRuntimeDecisionSummary"],
   [componentPath, "getRuntimeStateConsistencySummary"],
   [componentPath, "getRuntimeFailClosedSummary"],
   [componentPath, "getStockRuntimeHeadlineSummary"],
@@ -69,10 +71,10 @@ const required = [
   [headlineSummaryPath, "does not approve publicDataSource=supabase"],
   [componentPath, "stock-runtime-action-strip"],
   [componentPath, "Stock CEO next runtime action summary"],
-  [componentPath, "actionSummary.currentProgressPercent"],
-  [componentPath, "actionSummary.nextAction"],
-  [componentPath, "actionSummary.blockedTransition"],
-  [componentPath, "actionSummary.safetyStopLine"],
+  [componentPath, "decisionSummary.currentProgressPercent"],
+  [componentPath, "decisionSummary.decisionLabel"],
+  [componentPath, "decisionSummary.blockedTransition"],
+  [componentPath, "decisionSummary.safetyStopLine"],
   [componentPath, "runtime-product-summary"],
   [componentPath, "productSummary.useNow"],
   [componentPath, "productSummary.notLiveYet"],
@@ -121,6 +123,12 @@ const required = [
   [actionSummaryPath, "currentProgressPercent: 72"],
   [actionSummaryPath, "nextAction: \"post-readonly runtime decision\""],
   [actionSummaryPath, "blockedTransition: \"real-score transition\""],
+  [decisionSummaryPath, "RuntimeDecisionSummary"],
+  [decisionSummaryPath, "getRuntimeDecisionSummary"],
+  [decisionSummaryPath, "runtime_decision_summary"],
+  [decisionSummaryPath, "post_readonly_runtime_decision"],
+  [decisionSummaryPath, "publicDataSource: \"mock\""],
+  [decisionSummaryPath, "scoreSource: \"mock\""],
   [consistencyPath, "RuntimeStateConsistencySummary"],
   [consistencyPath, "getRuntimeStateConsistencySummary"],
   [consistencyPath, "consistencyState: \"mock_consistent\""],
@@ -161,6 +169,7 @@ const forbidden = [
   [componentPath, "process.env"],
   [componentPath, "scoreSource: \"real\""],
   [componentPath, "project-progress-score"],
+  [componentPath, "getHomeRuntimeActionSummary"],
   [actionSummaryPath, "@supabase/supabase-js"],
   [actionSummaryPath, "createClient"],
   [actionSummaryPath, "fetch("],

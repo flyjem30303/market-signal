@@ -5,11 +5,11 @@ import { getRuntimeInterpretationSummary } from "@/lib/runtime-interpretation";
 import { getSourceDepthBlockerSummary } from "@/lib/source-depth-blockers";
 import { getPublicRuntimeBoundaryCopy } from "@/lib/public-runtime-boundary-copy";
 import { getRuntimeDeliveryCadence } from "@/lib/runtime-delivery-cadence";
-import { getHomeRuntimeActionSummary } from "@/lib/home-runtime-action-summary";
 import { getRuntimeStateConsistencySummary } from "@/lib/runtime-state-consistency";
 import { getRuntimeFailClosedSummary } from "@/lib/runtime-fail-closed";
 import { getPostReadonlyRuntimeState } from "@/lib/post-readonly-runtime-state";
 import { getRuntimeProductSummary } from "@/lib/runtime-product-summary";
+import { getRuntimeDecisionSummary } from "@/lib/runtime-decision-summary";
 import { getFreshnessReadonlyLatestEvidenceSummary } from "@/lib/freshness-readonly-latest-evidence";
 import { getRuntimeExecutionReadinessSummary } from "@/lib/runtime-execution-readiness-summary";
 import { getRuntimeActionStatusSummary } from "@/lib/runtime-action-status";
@@ -29,11 +29,11 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
   const sourceDepth = getSourceDepthBlockerSummary();
   const boundaryCopy = getPublicRuntimeBoundaryCopy("home");
   const runtimeDeliveryCadence = getRuntimeDeliveryCadence();
-  const actionSummary = getHomeRuntimeActionSummary();
   const runtimeStateConsistency = getRuntimeStateConsistencySummary();
   const failClosed = getRuntimeFailClosedSummary();
   const postReadonlyRuntime = getPostReadonlyRuntimeState();
   const productSummary = getRuntimeProductSummary(selectedSymbol);
+  const decisionSummary = getRuntimeDecisionSummary();
   const freshnessLatestEvidence = getFreshnessReadonlyLatestEvidenceSummary();
   const executionReadiness = getRuntimeExecutionReadinessSummary();
   const actionStatus = getRuntimeActionStatusSummary();
@@ -179,18 +179,18 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
           </article>
           <article className="active">
             <span>Current progress</span>
-            <strong>{actionSummary.currentProgressPercent}%</strong>
-            <p>{actionSummary.stage}</p>
+            <strong>{decisionSummary.currentProgressPercent}%</strong>
+            <p>{decisionSummary.stage}</p>
           </article>
           <article className="readying">
             <span>CEO next action</span>
-            <strong>{actionSummary.nextAction}</strong>
-            <p>{actionSummary.nextLift}</p>
+            <strong>{decisionSummary.decisionLabel}</strong>
+            <p>{decisionSummary.nextLift}</p>
           </article>
           <article className="blocked">
             <span>Still blocked</span>
-            <strong>{actionSummary.blockedTransition}</strong>
-            <p>{actionSummary.safetyStopLine}</p>
+            <strong>{decisionSummary.blockedTransition}</strong>
+            <p>{decisionSummary.safetyStopLine}</p>
           </article>
           <article className="readying">
             <span>Runtime readiness</span>

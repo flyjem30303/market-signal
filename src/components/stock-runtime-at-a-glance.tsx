@@ -5,11 +5,11 @@ import { getRuntimeInterpretationSummary } from "@/lib/runtime-interpretation";
 import { getSourceDepthBlockerSummary } from "@/lib/source-depth-blockers";
 import { getPublicRuntimeBoundaryCopy } from "@/lib/public-runtime-boundary-copy";
 import { getRuntimeDeliveryCadence } from "@/lib/runtime-delivery-cadence";
-import { getHomeRuntimeActionSummary } from "@/lib/home-runtime-action-summary";
 import { getRuntimeStateConsistencySummary } from "@/lib/runtime-state-consistency";
 import { getRuntimeFailClosedSummary } from "@/lib/runtime-fail-closed";
 import { getPostReadonlyRuntimeState } from "@/lib/post-readonly-runtime-state";
 import { getRuntimeProductSummary } from "@/lib/runtime-product-summary";
+import { getRuntimeDecisionSummary } from "@/lib/runtime-decision-summary";
 import { getStockRuntimeHeadlineSummary } from "@/lib/stock-runtime-headline-summary";
 import { getFreshnessReadonlyLatestEvidenceSummary } from "@/lib/freshness-readonly-latest-evidence";
 import { getRuntimeExecutionReadinessSummary } from "@/lib/runtime-execution-readiness-summary";
@@ -32,11 +32,11 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
   const sourceDepth = getSourceDepthBlockerSummary();
   const boundaryCopy = getPublicRuntimeBoundaryCopy("stock");
   const runtimeDeliveryCadence = getRuntimeDeliveryCadence();
-  const actionSummary = getHomeRuntimeActionSummary();
   const runtimeStateConsistency = getRuntimeStateConsistencySummary();
   const failClosed = getRuntimeFailClosedSummary();
   const postReadonlyRuntime = getPostReadonlyRuntimeState();
   const productSummary = getRuntimeProductSummary(snapshot.asset.symbol);
+  const decisionSummary = getRuntimeDecisionSummary();
   const headlineSummary = getStockRuntimeHeadlineSummary(snapshot);
   const freshnessLatestEvidence = getFreshnessReadonlyLatestEvidenceSummary();
   const executionReadiness = getRuntimeExecutionReadinessSummary();
@@ -162,18 +162,18 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
       <div className="stock-runtime-action-strip" aria-label="Stock CEO next runtime action summary">
         <article className="active">
           <span>Current progress</span>
-          <strong>{actionSummary.currentProgressPercent}%</strong>
-          <p>{actionSummary.stage}</p>
+          <strong>{decisionSummary.currentProgressPercent}%</strong>
+          <p>{decisionSummary.stage}</p>
         </article>
         <article className="readying">
           <span>CEO next action</span>
-          <strong>{actionSummary.nextAction}</strong>
-          <p>{actionSummary.nextLift}</p>
+          <strong>{decisionSummary.decisionLabel}</strong>
+          <p>{decisionSummary.nextLift}</p>
         </article>
         <article className="blocked">
           <span>Still blocked</span>
-          <strong>{actionSummary.blockedTransition}</strong>
-          <p>{actionSummary.safetyStopLine}</p>
+          <strong>{decisionSummary.blockedTransition}</strong>
+          <p>{decisionSummary.safetyStopLine}</p>
         </article>
       </div>
       <div className="stock-runtime-governance-details" aria-label="Stock runtime governance details">

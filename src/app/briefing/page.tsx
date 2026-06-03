@@ -12,7 +12,7 @@ import { SourceDepthBlockerPanel } from "@/components/source-depth-blocker-panel
 import { TrackedLink } from "@/components/tracked-link";
 import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
 import { buildBriefingMarketActionSummary } from "@/lib/briefing-market-action-summary";
-import { getHomeRuntimeActionSummary } from "@/lib/home-runtime-action-summary";
+import { getRuntimeDecisionSummary } from "@/lib/runtime-decision-summary";
 import { getRuntimeInterpretationSummary } from "@/lib/runtime-interpretation";
 import {
   getMarketSignalRepository,
@@ -400,29 +400,30 @@ function BriefingBridgeLink({
 
 function BriefingExecutiveSummary({ market, topRisk }: { market: SignalSnapshot; topRisk: SignalSnapshot }) {
   const runtimeInterpretation = getRuntimeInterpretationSummary();
-  const actionSummary = getHomeRuntimeActionSummary();
+  const decisionSummary = getRuntimeDecisionSummary();
 
   return (
-    <section className="briefing-executive-summary" aria-label="董事長與 CEO 晨報摘要">
+    <section className="briefing-executive-summary" aria-label="CEO briefing executive summary">
       <div>
         <p className="eyebrow">CEO Briefing</p>
-        <h1>每日市場晨報</h1>
+        <h1>市場訊號晨報</h1>
         <p>
-          這一頁先用 mock 訊號整理市場狀態、風險熱點與下一步閱讀路徑。目前仍不是正式真實資料模型，也不是投資建議。
+          目前網站可用 mock 訊號閱讀市場方向、風險排序與產品流程。這不是即時市場資料，也不是投資建議；
+          真實資料、公開 Supabase 資料源與 real score source 都仍需通過後續 gate。
         </p>
       </div>
       <aside>
         <span>
-          <b>目前可做</b>
-          <i>改善 mock 體驗、頁面可讀性與 runtime guard</i>
+          <b>現在可讀</b>
+          <i>{decisionSummary.userFacingNow}</i>
         </span>
         <span>
-          <b>準備中</b>
-          <i>Supabase 唯讀 gate 與來源深度證據</i>
+          <b>唯讀證據</b>
+          <i>{decisionSummary.subhead}</i>
         </span>
         <span>
-          <b>仍阻擋</b>
-          <i>SQL、真實市場資料寫入、正式分數來源切換</i>
+          <b>仍然 blocked</b>
+          <i>{decisionSummary.safetyStopLine}</i>
         </span>
         <span>
           <b>CEO track</b>
@@ -435,38 +436,38 @@ function BriefingExecutiveSummary({ market, topRisk }: { market: SignalSnapshot;
       <div className="briefing-runtime-action-strip" aria-label="Briefing CEO next runtime action summary">
         <article className="active">
           <span>Current progress</span>
-          <strong>{actionSummary.currentProgressPercent}%</strong>
-          <p>{actionSummary.stage}</p>
+          <strong>{decisionSummary.currentProgressPercent}%</strong>
+          <p>{decisionSummary.stage}</p>
         </article>
         <article className="readying">
           <span>CEO next action</span>
-          <strong>{actionSummary.nextAction}</strong>
-          <p>{actionSummary.nextLift}</p>
+          <strong>{decisionSummary.decisionLabel}</strong>
+          <p>{decisionSummary.nextLift}</p>
         </article>
         <article className="blocked">
           <span>Still blocked</span>
-          <strong>{actionSummary.blockedTransition}</strong>
-          <p>{actionSummary.safetyStopLine}</p>
+          <strong>{decisionSummary.blockedTransition}</strong>
+          <p>{decisionSummary.safetyStopLine}</p>
         </article>
       </div>
       <nav>
         <TrackedLink
           eventName="briefing_link_clicked"
           href={`/stocks/${market.asset.symbol}`}
-          label="市場總覽"
+          label="查看市場頁"
           payload={{ area: "executive_summary", symbol: market.asset.symbol }}
         >
-          <span>市場總覽</span>
+          <span>查看市場頁</span>
           <strong>{market.asset.name}</strong>
           <small>綜合分數 {market.compositeScore}/100</small>
         </TrackedLink>
         <TrackedLink
           eventName="briefing_link_clicked"
           href={`/stocks/${topRisk.asset.symbol}`}
-          label="風險優先檢查"
+          label="查看高風險標的"
           payload={{ area: "executive_summary", symbol: topRisk.asset.symbol }}
         >
-          <span>風險優先檢查</span>
+          <span>查看高風險標的</span>
           <strong>
             {topRisk.asset.symbol} {topRisk.asset.name}
           </strong>
