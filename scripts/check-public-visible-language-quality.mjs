@@ -1,4 +1,5 @@
 import fs from "node:fs";
+import { localhostContentHealthChecks, localhostStatusHealthPaths } from "./localhost-health-config.mjs";
 
 const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
@@ -54,6 +55,13 @@ const pages = [
   }
 ];
 
+const visiblePagePaths = pages.map((page) => page.path);
+const expectedVisiblePaths = unique([
+  ...localhostStatusHealthPaths.filter((path) => path !== "/robots.txt"),
+  ...localhostContentHealthChecks.map((check) => check.path),
+  "/methodology"
+]);
+
 const mojibakeFragments = [
   "\uFFFD",
   "\u929D",
@@ -107,23 +115,29 @@ const registration = [
     pass: reviewGate.includes("scripts/check-public-visible-language-quality.mjs")
   }
 ];
+const routeAlignment = expectedVisiblePaths.map((path) => ({
+  pass: visiblePagePaths.includes(path),
+  path
+}));
 
 const failed = results.filter((result) => !result.pass);
 const registrationFailed = registration.filter((result) => !result.pass);
+const routeAlignmentFailed = routeAlignment.filter((result) => !result.pass);
 
 console.log(
   JSON.stringify(
     {
       registration,
       results,
-      status: failed.length === 0 && registrationFailed.length === 0 ? "ok" : "blocked"
+      routeAlignment,
+      status: failed.length === 0 && registrationFailed.length === 0 && routeAlignmentFailed.length === 0 ? "ok" : "blocked"
     },
     null,
     2
   )
 );
 
-if (failed.length > 0 || registrationFailed.length > 0) {
+if (failed.length > 0 || registrationFailed.length > 0 || routeAlignmentFailed.length > 0) {
   process.exitCode = 1;
 }
 
@@ -140,4 +154,8 @@ function normalizeVisibleText(html) {
     .replace(/&quot;/g, '"')
     .replace(/\s+/g, " ")
     .trim();
+}
+
+function unique(values) {
+  return [...new Set(values)];
 }
