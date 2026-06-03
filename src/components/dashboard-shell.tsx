@@ -631,21 +631,25 @@ function HomeProductOverview({
 
       <section className="home-decision-strip" aria-label="首頁下一步決策列">
         <div>
-          <p className="eyebrow">Next Move</p>
+          <p className="eyebrow">Decision Compass</p>
           <h2>{decision.action}</h2>
           <p>{decision.reason}</p>
+          <p>先判斷市場節奏，再對照大盤，最後才進入 ETF 或個股拆解；目前仍是 mock-only runtime。</p>
         </div>
-        <TrackedLink eventName="home_cta_clicked" href={decision.href} label={decision.label} payload={{ action: "decision_strip", symbol: selected.symbol }}>
-          <span>建議入口</span>
-          <strong>{decision.label}</strong>
+        <TrackedLink eventName="home_cta_clicked" href="/briefing" label="先看市場晨報" payload={{ action: "decision_compass_briefing", symbol: selected.symbol }}>
+          <span>1 · 市場節奏</span>
+          <strong>先看市場晨報</strong>
+          <p>先用市場廣度、風險清單與 row coverage 判斷今天該偏觀察、進攻或防守。</p>
         </TrackedLink>
-        <TrackedLink eventName="home_cta_clicked" href={`/stocks/${marketSnapshot.asset.symbol}`} label={`${marketSnapshot.asset.symbol} ${marketSnapshot.signal.title}`} payload={{ action: "market_benchmark", symbol: marketSnapshot.asset.symbol }}>
-          <span>市場基準</span>
+        <TrackedLink eventName="home_cta_clicked" href={`/stocks/${marketSnapshot.asset.symbol}`} label={`${marketSnapshot.asset.symbol} ${marketSnapshot.signal.title}`} payload={{ action: "decision_compass_market", symbol: marketSnapshot.asset.symbol }}>
+          <span>2 · 大盤基準</span>
           <strong>{marketSnapshot.asset.symbol} {marketSnapshot.signal.title}</strong>
+          <p>用台指頁確認大盤健康、風險與 TWII mock disclosure，再決定要不要看個別標的。</p>
         </TrackedLink>
-        <TrackedLink eventName="trust_link_clicked" href="/methodology" label={scoreSourceLabel} payload={{ area: "home_decision_strip", symbol: selected.symbol }}>
-          <span>判讀邊界</span>
-          <strong>{scoreSourceLabel}</strong>
+        <TrackedLink eventName="home_cta_clicked" href={decision.href} label={decision.label} payload={{ action: "decision_compass_target", symbol: selected.symbol }}>
+          <span>3 · 標的拆解</span>
+          <strong>{decision.label}</strong>
+          <p>最後才進入 ETF 或個股頁，檢查模組、趨勢與 mock 分數邊界，不把它當買賣建議。</p>
         </TrackedLink>
       </section>
 

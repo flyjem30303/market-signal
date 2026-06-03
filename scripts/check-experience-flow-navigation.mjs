@@ -46,6 +46,11 @@ for (const [source, page] of [
 requireIncludes(briefing, 'href="/weekly"', "briefing to weekly link");
 requireIncludes(weekly, 'href="/briefing"', "weekly to briefing link");
 requireIncludes(dashboard, "home_cta_clicked", "home CTA tracking");
+requireIncludes(dashboard, "Decision Compass", "home decision compass label");
+requireIncludes(dashboard, "decision_compass_briefing", "home decision compass briefing tracking");
+requireIncludes(dashboard, "decision_compass_market", "home decision compass market tracking");
+requireIncludes(dashboard, "decision_compass_target", "home decision compass target tracking");
+requireIncludes(dashboard, "先判斷市場節奏，再對照大盤，最後才進入 ETF 或個股拆解", "home decision compass reading order");
 requireIncludes(dashboard, 'href="/briefing"', "home/stock briefing route");
 requireIncludes(dashboard, 'href="/weekly"', "home/stock weekly route");
 requireIncludes(dashboard, "stock_follow_up", "stock follow-up payload");
