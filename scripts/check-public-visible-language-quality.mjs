@@ -10,7 +10,34 @@ const pages = [
     required: ["Runtime", "mock", "Freshness metadata only explains data recency", "scoreSource", "Indicator Roadmap"]
   },
   {
+    path: "/stocks/TWII",
+    required: [
+      "Runtime",
+      "mock",
+      "Freshness metadata only explains data recency",
+      "scoreSource",
+      "Indicator Roadmap",
+      "TWII Mock Disclosure"
+    ]
+  },
+  {
     path: "/stocks/2330",
+    required: ["Runtime", "mock", "Freshness metadata only explains data recency", "scoreSource", "Indicator Roadmap"]
+  },
+  {
+    path: "/stocks/0050",
+    required: ["Runtime", "mock", "Freshness metadata only explains data recency", "scoreSource", "Indicator Roadmap"]
+  },
+  {
+    path: "/stocks/006208",
+    required: ["Runtime", "mock", "Freshness metadata only explains data recency", "scoreSource", "Indicator Roadmap"]
+  },
+  {
+    path: "/stocks/2382",
+    required: ["Runtime", "mock", "Freshness metadata only explains data recency", "scoreSource", "Indicator Roadmap"]
+  },
+  {
+    path: "/stocks/2308",
     required: ["Runtime", "mock", "Freshness metadata only explains data recency", "scoreSource", "Indicator Roadmap"]
   },
   {
@@ -27,7 +54,24 @@ const pages = [
   }
 ];
 
-const mojibakeFragments = ["�", "銝", "嚗", "蝣", "摰", "璅", "鞈", "撣", "憸", "隞", "砍", "靘", "甇", "蝬", "脣", "蝺"];
+const mojibakeFragments = [
+  "\uFFFD",
+  "\u929D",
+  "\u5697",
+  "\u8763",
+  "\u6460",
+  "\u7485",
+  "\u9788",
+  "\u64A3",
+  "\u61B8",
+  "\u969E",
+  "\u780D",
+  "\u9758",
+  "\u7507",
+  "\u876C",
+  "\u8123",
+  "\u877A"
+];
 const forbiddenText = ["Internal Server Error", "ERR_CONNECTION_REFUSED", "scoreSource=real approved"];
 
 const results = [];
