@@ -28,6 +28,9 @@ export const localhostContentHealthChecks = [
     required: [
       "Runtime At A Glance",
       "Investor Action Summary",
+      "Indicator Roadmap",
+      "未來專業指標路線",
+      "mock 可讀",
       "local_ready_remote_paused",
       "scoreSource=real",
       "Blocker readiness",
@@ -39,6 +42,9 @@ export const localhostContentHealthChecks = [
     required: [
       "Runtime At A Glance",
       "Investor Action Summary",
+      "Indicator Roadmap",
+      "未來專業指標路線",
+      "mock 可讀",
       "local_ready_remote_paused",
       "scoreSource=real",
       "Blocker readiness",
@@ -50,6 +56,9 @@ export const localhostContentHealthChecks = [
     required: [
       "Runtime At A Glance",
       "Investor Action Summary",
+      "Indicator Roadmap",
+      "未來專業指標路線",
+      "mock 可讀",
       "local_ready_remote_paused",
       "scoreSource=real",
       "Blocker readiness",
@@ -61,6 +70,9 @@ export const localhostContentHealthChecks = [
     required: [
       "Runtime At A Glance",
       "Investor Action Summary",
+      "Indicator Roadmap",
+      "未來專業指標路線",
+      "mock 可讀",
       "local_ready_remote_paused",
       "scoreSource=real",
       "Blocker readiness",
@@ -72,6 +84,9 @@ export const localhostContentHealthChecks = [
     required: [
       "Runtime At A Glance",
       "Investor Action Summary",
+      "Indicator Roadmap",
+      "未來專業指標路線",
+      "mock 可讀",
       "local_ready_remote_paused",
       "scoreSource=real",
       "Blocker readiness",
@@ -83,6 +98,9 @@ export const localhostContentHealthChecks = [
     required: [
       "Runtime At A Glance",
       "Investor Action Summary",
+      "Indicator Roadmap",
+      "未來專業指標路線",
+      "mock 可讀",
       "local_ready_remote_paused",
       "scoreSource=real",
       "Blocker readiness",
