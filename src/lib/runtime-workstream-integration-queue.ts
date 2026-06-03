@@ -1,11 +1,15 @@
 export type RuntimeWorkstreamIntegrationItem = {
   acceptanceSignal: string;
   blockedUntil: string;
-  id: "pm_runtime_mainline" | "a1_evidence_handoff" | "a2_public_copy_gate";
+  id:
+    | "pm_runtime_mainline"
+    | "a1_evidence_handoff"
+    | "a2_public_copy_gate"
+    | "i_launch_operations_guard";
   integrationAction: string;
-  owner: "PM" | "A1" | "A2";
-  priority: 1 | 2 | 3;
-  status: "active_mainline" | "parallel_input_pending" | "ready_when_report_passes";
+  owner: "PM" | "A1" | "A2" | "I";
+  priority: 1 | 2 | 3 | 4;
+  status: "active_mainline" | "guard_only" | "parallel_input_pending" | "ready_when_report_passes";
 };
 
 export type RuntimeWorkstreamIntegrationQueue = {
@@ -20,6 +24,7 @@ export type RuntimeWorkstreamIntegrationQueue = {
   workMix: {
     a1Evidence: 20;
     a2PublicCopy: 10;
+    iLaunchOps: 0;
     pmRuntime: 70;
   };
 };
@@ -28,7 +33,7 @@ export function getRuntimeWorkstreamIntegrationQueue(): RuntimeWorkstreamIntegra
   return {
     currentMainline: "runtime_readiness_integration",
     headline:
-      "PM keeps runtime moving while A1 and A2 prepare bounded inputs for later integration.",
+      "PM keeps runtime moving while A1 and A2 prepare bounded inputs and I guards launch risk.",
     items: [
       {
         acceptanceSignal:
@@ -65,18 +70,31 @@ export function getRuntimeWorkstreamIntegrationQueue(): RuntimeWorkstreamIntegra
         owner: "A2",
         priority: 3,
         status: "ready_when_report_passes"
+      },
+      {
+        acceptanceSignal:
+          "I is accepted as a launch-readiness guard, not an implementation lane or deployment trigger",
+        blockedUntil:
+          "PM moves from local mock runtime toward public launch, cloud settings, production source, DNS, secrets, or rollback-impacting changes",
+        id: "i_launch_operations_guard",
+        integrationAction:
+          "review launch, environment, credential, DNS, monitoring, rollback, and chairman-operated account steps before production-affecting moves",
+        owner: "I",
+        priority: 4,
+        status: "guard_only"
       }
     ],
     mode: "runtime_workstream_integration_queue",
     nextPmAction:
-      "Do not wait for A1 or A2; keep runtime readiness moving and integrate their outputs only after their local checks pass.",
+      "Do not wait for A1, A2, or I; keep runtime readiness moving, integrate A1/A2 only after local checks pass, and trigger I only for production-affecting moves.",
     publicDataSource: "mock",
     scoreSource: "mock",
     stopLine:
-      "This queue does not run SQL, write Supabase, create staging rows, modify daily_prices, fetch or ingest raw market data, promote publicDataSource=supabase, or set scoreSource=real.",
+      "This queue does not run SQL, write Supabase, create staging rows, modify daily_prices, fetch or ingest raw market data, deploy, change DNS, change cloud settings, enter secrets, promote publicDataSource=supabase, or set scoreSource=real.",
     workMix: {
       a1Evidence: 20,
       a2PublicCopy: 10,
+      iLaunchOps: 0,
       pmRuntime: 70
     }
   };

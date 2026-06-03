@@ -61,7 +61,7 @@ const lines = [
   `Lane ratio: ${snapshot.ceoDecision.currentLaneRatio}`,
   `Cadence: ${snapshot.cadenceAssessment.verdict} -> ${snapshot.cadenceAssessment.nextExecutionMode}`,
   `Slice size: ${snapshot.cadenceAssessment.targetSliceSize}`,
-  `Workstream mix: PM ${snapshot.runtimeWorkstreamIntegration.workMix.pmRuntime}% / A1 ${snapshot.runtimeWorkstreamIntegration.workMix.a1Evidence}% / A2 ${snapshot.runtimeWorkstreamIntegration.workMix.a2PublicCopy}%`,
+  `Workstream mix: PM ${snapshot.runtimeWorkstreamIntegration.workMix.pmRuntime}% / A1 ${snapshot.runtimeWorkstreamIntegration.workMix.a1Evidence}% / A2 ${snapshot.runtimeWorkstreamIntegration.workMix.a2PublicCopy}% / I ${snapshot.runtimeWorkstreamIntegration.workMix.iLaunchOps}%`,
   `Workstream status: ${snapshot.runtimeWorkstreamIntegration.status} / ${snapshot.runtimeWorkstreamIntegration.currentMainline}`,
   `Workstream queue: ${snapshot.runtimeWorkstreamIntegration.items.map((item) => `${item.id}:${item.status}`).join(", ")}`,
   `Runtime: ${snapshot.runtime.score}% / ${snapshot.runtime.status}`,

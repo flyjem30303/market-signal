@@ -50,10 +50,12 @@ const requiredSourcePhrases = [
   "pmRuntime",
   "a1Evidence",
   "a2PublicCopy",
+  "iLaunchOps",
   "pm_runtime_mainline",
   "a1_evidence_handoff",
   "a2_public_copy_gate",
-  "Do not wait for A1 or A2",
+  "i_launch_operations_guard",
+  "Do not wait for A1, A2, or I",
   "recent_slices_too_fragmented",
   "larger_mock_runtime_product_slice",
   "runtime product 70 / blocker closure 20 / governance 10",
@@ -276,7 +278,8 @@ if (output) {
   if (
     output.runtimeWorkstreamIntegration?.workMix?.pmRuntime !== 70 ||
     output.runtimeWorkstreamIntegration?.workMix?.a1Evidence !== 20 ||
-    output.runtimeWorkstreamIntegration?.workMix?.a2PublicCopy !== 10
+    output.runtimeWorkstreamIntegration?.workMix?.a2PublicCopy !== 10 ||
+    output.runtimeWorkstreamIntegration?.workMix?.iLaunchOps !== 0
   ) {
     blocked.push(`output.runtimeWorkstreamIntegration.workMix: ${JSON.stringify(output.runtimeWorkstreamIntegration?.workMix)}`);
   }
@@ -289,7 +292,7 @@ if (output) {
   }
 
   const workstreamIds = new Set((output.runtimeWorkstreamIntegration?.items ?? []).map((item) => item.id));
-  for (const id of ["pm_runtime_mainline", "a1_evidence_handoff", "a2_public_copy_gate"]) {
+  for (const id of ["pm_runtime_mainline", "a1_evidence_handoff", "a2_public_copy_gate", "i_launch_operations_guard"]) {
     if (!workstreamIds.has(id)) {
       blocked.push(`output.runtimeWorkstreamIntegration.items missing ${id}`);
     }

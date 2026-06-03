@@ -262,7 +262,8 @@ export function RuntimeReadinessPanel() {
           <strong>
             Runtime {runtimeWorkstreamIntegrationQueue.workMix.pmRuntime}% / A1{" "}
             {runtimeWorkstreamIntegrationQueue.workMix.a1Evidence}% / A2{" "}
-            {runtimeWorkstreamIntegrationQueue.workMix.a2PublicCopy}%
+            {runtimeWorkstreamIntegrationQueue.workMix.a2PublicCopy}% / I{" "}
+            {runtimeWorkstreamIntegrationQueue.workMix.iLaunchOps}%
           </strong>
           <p>{runtimeWorkstreamIntegrationQueue.headline}</p>
           <p>{runtimeWorkstreamIntegrationQueue.nextPmAction}</p>
