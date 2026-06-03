@@ -42,13 +42,13 @@ const required = [
   [helperPath, "source-depth"],
   [helperPath, "UI runtime interpretation"],
   [helperPath, "現在可用"],
-  [helperPath, "用 mock 訊號做閱讀"],
-  [helperPath, "尚未上線"],
-  [helperPath, "真實資料宣稱仍 blocked"],
-  [helperPath, "下一關"],
-  [helperPath, "決定 post-readonly runtime 解讀"],
-  [helperPath, "唯讀驗證"],
-  [helperPath, "Object reachability 已確認"],
+  [helperPath, "用模擬訊號做閱讀"],
+  [helperPath, "尚未開放"],
+  [helperPath, "真實資料尚未上線"],
+  [helperPath, "下一步"],
+  [helperPath, "確認資料能否升級"],
+  [helperPath, "唯讀檢查"],
+  [helperPath, "資料表可讀性已確認"],
   [helperPath, "正式資料來源或正式評分"],
   [helperPath, "不提供投資建議"],
   [homePath, "getRuntimeProductSummary"],
@@ -113,6 +113,14 @@ const mojibakePatterns = [
   /[哨霄]/u
 ];
 
+const displayOnlyForbidden = [
+  "displayBody:\n        \"目前只把 object reachability",
+  "displayTitle: \"決定 post-readonly runtime 解讀\"",
+  "displayTitle: \"Object reachability 已確認\"",
+  "displayTitle: \"真實資料宣稱仍 blocked\"",
+  "displayBody: `${symbol} 目前可用於 mock-only signal reading"
+];
+
 const missing = required.filter(([file, phrase]) => !read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
 const blocked = forbidden.filter(([file, phrase]) => read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
 
@@ -121,6 +129,12 @@ for (const file of [helperPath, homePath, stockPath]) {
     if (pattern.test(read(file))) {
       blocked.push(`${file}: mojibake runtime copy ${String(pattern)}`);
     }
+  }
+}
+
+for (const phrase of displayOnlyForbidden) {
+  if (read(helperPath).includes(phrase)) {
+    blocked.push(`${helperPath}: display copy still uses internal wording ${phrase}`);
   }
 }
 
