@@ -43,9 +43,9 @@ export function getRuntimeProductSummary(symbol: string): RuntimeProductSummary 
       body:
         "Use accepted object reachability as backend evidence only. The next gate must decide schema shape, data freshness, row coverage, data quality, source-depth, and UI runtime interpretation before any public source or score promotion.",
       displayBody:
-        "下一關先判斷資料表結構、更新時間、覆蓋率、資料品質與來源深度；通過前不會把公開資料源或分數來源升級。",
+        "下一關是把已驗證的後端可讀性，轉成 schema shape、data freshness、row coverage、data quality、source-depth 與 UI runtime interpretation 的正式判斷；還不能升級公開資料源或真實評分。",
       displayLabel: "下一關",
-      displayTitle: "先完成 runtime 解讀決策",
+      displayTitle: "決定 post-readonly runtime 解讀",
       label: "Next gate",
       title: "Decide post-readonly runtime interpretation"
     },
@@ -53,25 +53,25 @@ export function getRuntimeProductSummary(symbol: string): RuntimeProductSummary 
       body:
         "Real market data, Supabase-backed public data, SQL scoring, publicDataSource=supabase, and scoreSource=real remain blocked until separate accepted gates.",
       displayBody:
-        "真實市場資料、Supabase 公開資料、SQL 評分與 scoreSource=real 都還沒上線，必須等各自 gate accepted。",
+        "真實市場資料、Supabase 公開資料、SQL scoring、publicDataSource=supabase 與 scoreSource=real 都還沒有上線；必須等後續 gate 明確接受。",
       displayLabel: "尚未上線",
-      displayTitle: "真實資料與真實分數仍封鎖",
+      displayTitle: "真實資料宣稱仍封鎖",
       label: "Not live yet",
       title: "Real-data claims are not live"
     },
     readonlyDecision: {
       body: `${postReadonly.objectsReachable} Supabase objects are reachable in read-only validation. Public source remains ${postReadonly.publicDataSource}; score remains ${postReadonly.scoreSource}. ${postReadonly.stopLine}`,
-      displayBody: `唯讀驗證已確認 ${postReadonly.objectsReachable} 個 Supabase 物件可讀；公開資料源仍是 ${postReadonly.publicDataSource}，分數來源仍是 ${postReadonly.scoreSource}。${postReadonly.stopLine}`,
+      displayBody: `唯讀驗證已確認 ${postReadonly.objectsReachable} 個 Supabase objects 可達；公開資料源仍是 ${postReadonly.publicDataSource}，分數來源仍是 ${postReadonly.scoreSource}。${postReadonly.stopLine}`,
       displayLabel: "唯讀結果",
-      displayTitle: "後端可讀性已驗證",
+      displayTitle: "Object reachability 已驗證",
       label: "Readonly result",
       title: "Object reachability is verified"
     },
     useNow: {
       body: `${symbol} can be used now for mock-only signal reading, risk sorting, and product-flow validation. It does not provide investment advice or real market-data evidence.`,
-      displayBody: `${symbol} 現在可用來閱讀 mock 燈號、比較風險方向與驗證操作流程；它不是投資建議，也不是即時市場資料證據。`,
+      displayBody: `${symbol} 現在可用於 mock-only signal reading、risk sorting 與 product-flow validation；它不提供投資建議，也不代表真實市場資料證據。`,
       displayLabel: "現在可用",
-      displayTitle: "先用 mock 燈號理解產品流程",
+      displayTitle: "用 mock 訊號做閱讀與排序",
       label: "Use now",
       title: "Use mock signals for reading only"
     }

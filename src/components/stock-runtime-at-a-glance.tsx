@@ -137,26 +137,26 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
         <TrackedLink
           eventName="stock_link_clicked"
           href="/briefing"
-          label="看市場與專案推進狀態"
+          label="查看 CEO/PM briefing"
           payload={{ area: "stock_runtime_next_links", symbol: snapshot.asset.symbol }}
         >
-          看市場與專案推進狀態
+          查看 CEO/PM briefing
         </TrackedLink>
         <TrackedLink
           eventName="trust_link_clicked"
           href="/methodology"
-          label="確認 mock 評分方法"
+          label="了解 mock 評分方法"
           payload={{ area: "stock_runtime_next_links", symbol: snapshot.asset.symbol }}
         >
-          確認 mock 評分方法
+          了解 mock 評分方法
         </TrackedLink>
         <TrackedLink
           eventName="stock_link_clicked"
           href="/"
-          label="回首頁比較其他標的"
+          label="回到市場首頁"
           payload={{ area: "stock_runtime_next_links", symbol: snapshot.asset.symbol }}
         >
-          回首頁比較其他標的
+          回到市場首頁
         </TrackedLink>
       </nav>
       <div className="stock-runtime-action-strip" aria-label="Stock CEO next runtime action summary">

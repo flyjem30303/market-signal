@@ -14,7 +14,7 @@ const required = [
   [componentPath, "getRowCoverageSecondAttemptReadiness"],
   [componentPath, "Row coverage"],
   [componentPath, "scoreSource=real"],
-  [componentPath, "看 CEO/PM 推進狀態"],
+  [componentPath, "查看 CEO/PM briefing"],
   [componentPath, "runtime_next_briefing"],
   [libPath, "getRowCoverageSecondAttemptReadiness"],
   [libPath, "local_ready_remote_paused"],

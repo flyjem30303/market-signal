@@ -131,26 +131,26 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
         <TrackedLink
           eventName="home_cta_clicked"
           href={`/stocks/${selectedSymbol}`}
-          label="查看目前選取標的"
+          label="查看標的頁"
           payload={{ action: "runtime_next_stock", symbol: selectedSymbol }}
         >
-          查看目前選取標的
+          查看標的頁
         </TrackedLink>
         <TrackedLink
           eventName="home_cta_clicked"
           href="/briefing"
-          label="看 CEO/PM 推進狀態"
+          label="查看 CEO/PM briefing"
           payload={{ action: "runtime_next_briefing", symbol: selectedSymbol }}
         >
-          看 CEO/PM 推進狀態
+          查看 CEO/PM briefing
         </TrackedLink>
         <TrackedLink
           eventName="trust_link_clicked"
           href="/methodology"
-          label="確認 mock 與真實資料邊界"
+          label="了解 mock 訊號方法"
           payload={{ area: "runtime_next_links", symbol: selectedSymbol }}
         >
-          確認 mock 與真實資料邊界
+          了解 mock 訊號方法
         </TrackedLink>
       </nav>
       <details className="home-runtime-details">
