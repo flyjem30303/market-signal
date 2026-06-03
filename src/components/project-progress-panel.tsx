@@ -1,4 +1,5 @@
 import { getDataReadinessDecisionSummary } from "@/lib/data-readiness-decision-summary";
+import { getDataEvidenceLadderSummary } from "@/lib/data-evidence-ladder";
 import { getProjectProgressSummary } from "@/lib/project-progress-score";
 import { getRuntimeActionStatusSummary } from "@/lib/runtime-action-status";
 import { getRuntimeGateDecisionBrief } from "@/lib/runtime-gate-decision-brief";
@@ -7,6 +8,7 @@ import { getRuntimeReadinessSummary } from "@/lib/runtime-readiness-score";
 export function ProjectProgressPanel() {
   const progress = getProjectProgressSummary();
   const dataReadiness = getDataReadinessDecisionSummary();
+  const evidenceLadder = getDataEvidenceLadderSummary();
   const actionStatus = getRuntimeActionStatusSummary();
   const runtime = getRuntimeReadinessSummary();
   const runtimeGate = getRuntimeGateDecisionBrief();
@@ -106,6 +108,32 @@ export function ProjectProgressPanel() {
           </p>
         </article>
         <p>{dataReadiness.stopLine}</p>
+      </section>
+      <section className="project-progress-evidence-ladder" aria-label="Data evidence ladder">
+        <div>
+          <span>Evidence Ladder</span>
+          <strong>{evidenceLadder.headline}</strong>
+          <p>{evidenceLadder.nextDecision}</p>
+          <p>
+            Active stage: {evidenceLadder.activeStage}; public source {evidenceLadder.publicDataSource}; score source{" "}
+            {evidenceLadder.scoreSource}.
+          </p>
+        </div>
+        <div className="project-progress-evidence-ladder-stages">
+          {evidenceLadder.stages.map((stage) => (
+            <article className={stage.state} key={stage.id}>
+              <span>
+                {stage.owner} / {stage.state}
+              </span>
+              <strong>{stage.label}</strong>
+              <p>{stage.acceptedEvidence}</p>
+              <p>Exit: {stage.exitCriteria}</p>
+              <p>Blocked: {stage.blockedPromotion}</p>
+              <p>Next: {stage.nextAction}</p>
+            </article>
+          ))}
+        </div>
+        <p>{evidenceLadder.stopLine}</p>
       </section>
       <div
         className={`project-progress-network-blocker ${progress.networkBlocker.status}`}
