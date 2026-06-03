@@ -2843,6 +2843,11 @@ const checks = [
     name: "market-action-summary-coverage"
   },
   {
+    command: [node, "scripts/check-action-summary-language-quality.mjs"],
+    expectStatus: "ok",
+    name: "action-summary-language-quality"
+  },
+  {
     command: [node, "scripts/check-tracking-events.mjs"],
     expectStatus: "ok",
     name: "tracking-events"
