@@ -1628,6 +1628,11 @@ const checks = [
     name: "bounded-readonly-readiness-recheck"
   },
   {
+    command: [node, "scripts/check-row-coverage-readonly-preexecution-packet.mjs"],
+    expectStatus: "ok",
+    name: "row-coverage-readonly-preexecution-packet"
+  },
+  {
     command: [node, "scripts/check-runtime-gate-decision-brief.mjs"],
     expectStatus: "ok",
     name: "runtime-gate-decision-brief"

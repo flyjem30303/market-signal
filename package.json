@@ -135,6 +135,8 @@
     "check:bounded-row-coverage-readonly-attempt-decision": "node scripts/check-bounded-row-coverage-readonly-attempt-decision.mjs",
     "report:bounded-readonly-readiness-recheck": "node scripts/report-bounded-readonly-readiness-recheck.mjs",
     "check:bounded-readonly-readiness-recheck": "node scripts/check-bounded-readonly-readiness-recheck.mjs",
+    "report:row-coverage-readonly-preexecution-packet": "node scripts/report-row-coverage-readonly-preexecution-packet.mjs",
+    "check:row-coverage-readonly-preexecution-packet": "node scripts/check-row-coverage-readonly-preexecution-packet.mjs",
     "check:runtime-gate-decision-brief": "node scripts/check-runtime-gate-decision-brief.mjs",
     "check:runtime-state-consistency": "node scripts/check-runtime-state-consistency.mjs",
     "check:runtime-fail-closed": "node scripts/check-runtime-fail-closed.mjs",
