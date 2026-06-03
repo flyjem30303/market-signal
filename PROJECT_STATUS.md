@@ -1,6 +1,6 @@
 # Project Status
 
-Current PM/A1/A2 role ownership and parallel workstream boundaries are tracked in `docs/ROLE_WORKSTREAMS.md`.
+Current PM/A1/A2/I role ownership and parallel workstream boundaries are tracked in `docs/ROLE_WORKSTREAMS.md`.
 
 更新日期：2026-05-28
 
@@ -77,7 +77,7 @@ D:\指數燈號
 - 已將股票主檔 schema 與 seed 調整為全球化命名空間：`country + exchange + symbol`，並補 `currency`、`timezone`、`asset_type`。
 - Repository data source 切換已改為明確模式：`mock` 可用，`supabase` 未完成前會報錯，不再靜默 fallback。
 - 已建立 `market_exchanges` 市場 metadata registry，TWSE 先啟用，TPEx / NASDAQ / NYSE 作為未來全球擴張 placeholder。
-- CEO 已要求建立專案 review checkpoint 制度；每到資料、模型、體驗、全球化、商業化或上線切點，A 暫停實作，由 A/B/C/D/E/F 深度討論，CEO 收斂後再推進。
+- CEO 已要求建立專案 review checkpoint 制度；每到資料、模型、體驗、全球化、商業化或上線切點，A 暫停實作，由 A/B/C/D/E/F/I 深度討論，CEO 收斂後再推進。
 - 已執行 CP1 Data Trust Checkpoint；CEO 決策為 `REVISE`，可建立 Supabase 並驗證資料庫，但暫不允許 UI 切換到 Supabase。
 - 已建立 `data_runs` 匯入紀錄表與 bootstrap 驗證查詢，用於追蹤資料來源、筆數、狀態與資料日期。
 - 已建立本機 Supabase bootstrap 驗證腳本 `npm run db:validate`；需 `.env.local`，只驗證資料庫，不切換 UI。

@@ -9,8 +9,9 @@ This file is the project-level assignment map for parallel work. It exists so PM
 - Mainline PM: CEO / PM / Runtime Engineering
 - A1: Data / Supabase / Market Evidence
 - A2: Frontend / UX Readability / Public Copy QA
+- I: Cloud Deployment / DevOps / Launch Operations
 
-PM remains the only integration owner. A1 and A2 may prepare local-only packets, reports, checkers, and bounded patches, but PM decides what enters the mainline and when it is committed.
+PM remains the only integration owner. A1 and A2 may prepare local-only packets, reports, checkers, and bounded patches, but PM decides what enters the mainline and when it is committed. I is not a new implementation lane yet; I is a launch-readiness guard for deployment, environment, credential, DNS, monitoring, rollback, and operations risk.
 
 ## Mainline PM
 
@@ -28,6 +29,7 @@ Current next tasks:
 - Continue runtime foundation toward readonly gate readiness.
 - Keep publicDataSource=mock and scoreSource=mock until explicit release criteria are met.
 - Integrate A1/A2 packets only after local checks pass.
+- Ask I to review deployment, environment, credential, DNS, monitoring, and rollback impact before any public launch, production source, or cloud-environment change.
 
 ## A1: Data / Supabase / Market Evidence
 
@@ -64,6 +66,23 @@ Current next tasks:
 - Prioritize launch-blocking readability issues before cosmetic polish.
 - Keep visual micro-tuning behind runtime foundation work unless it blocks user comprehension.
 
+## I: Cloud Deployment / DevOps / Launch Operations
+
+Mission:
+- Prevent launch, environment, credential, DNS, monitoring, rollback, and cloud-cost risks from surprising the mainline.
+- Help PM turn cloud and launch requirements into checklists before production exposure.
+
+Owned work:
+- Deployment platform selection notes, environment separation, build command checks, health checks, environment variable inventory, secret-handling rules, DNS and SSL checklist, monitoring and rollback runbooks, launch-readiness checklist, and chairman-operated account/payment/verification step lists.
+
+Not owned:
+- Runtime feature implementation, data evidence scripts, Supabase writes, SQL execution, raw market data handling, final production toggles, independent commits, entering secrets, entering OTPs, payment-card entry, or account-identity verification on behalf of the chairman.
+
+Current next tasks:
+- Prepare launch-readiness and rollback criteria only when PM moves from local runtime toward cloud/public deployment.
+- Review Supabase, Vercel, DNS, and environment-variable changes before they become production-affecting.
+- Escalate any action requiring chairman-owned credentials, payment, OTP, identity verification, or account permission changes.
+
 ## Shared Safety Boundaries
 
 All roles must keep these boundaries until CEO/PM explicitly changes the stage:
@@ -75,20 +94,24 @@ All roles must keep these boundaries until CEO/PM explicitly changes the stage:
 - No secrets or raw payload printing.
 - Keep publicDataSource=mock.
 - Keep scoreSource=mock.
+- No chairman credentials, OTP, payment-card, or identity-verification input by any role other than the chairman.
 
 ## Conflict Rules
 
 - A1 must not edit A2-owned UI copy surfaces unless PM asks.
 - A2 must not edit A1-owned data evidence or Supabase readiness surfaces unless PM asks.
 - A1 and A2 do not commit independently; PM integrates and commits coherent passing slices.
+- I must not deploy, change DNS, change cloud settings, enter secrets, or change production environment variables without PM and chairman-directed authorization.
+- I may block a production-affecting move when rollback, monitoring, environment separation, or secret handling is incomplete.
 - If two roles need the same file, PM owns the merge and decides sequence.
 - If a task would trigger permission prompts while the user is away, the role must pause that action and report the pending item.
 
 ## CEO Guidance
 
-The current best structure is three roles, not more:
+The current best structure is three execution roles plus one launch guard:
 - PM mainline keeps CEO/runtime/integration velocity.
 - A1 removes data-readiness pressure from the mainline.
 - A2 removes visible-language and UX-readability pressure from the mainline.
+- I prevents deployment, environment, credential, DNS, monitoring, rollback, and launch-operations risk from reaching production unnoticed.
 
-A3 is not recommended yet. Add it only after A1 and A2 produce reusable output and the bottleneck becomes clearly independent.
+A3 is not recommended yet. Add it only after A1 and A2 produce reusable output and the bottleneck becomes clearly independent. I does not count as A3 because it is a readiness guard, not an additional implementation stream.
