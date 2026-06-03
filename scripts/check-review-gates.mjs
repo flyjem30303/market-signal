@@ -2873,6 +2873,11 @@ const checks = [
     name: "post-readonly-next-gate-queue"
   },
   {
+    command: [node, "scripts/check-runtime-workstream-integration-queue.mjs"],
+    expectStatus: "ok",
+    name: "runtime-workstream-integration-queue"
+  },
+  {
     command: [node, "scripts/check-data-readiness-decision-summary.mjs"],
     expectStatus: "ok",
     name: "data-readiness-decision-summary"
@@ -2913,6 +2918,11 @@ const checks = [
     name: "a1-market-evidence-handoff-packet"
   },
   {
+    command: [node, "scripts/check-a1-supabase-market-evidence-handoff-candidate.mjs"],
+    expectStatus: "ok",
+    name: "a1-supabase-market-evidence-handoff-candidate"
+  },
+  {
     command: [node, "scripts/check-mainline-readonly-packet-bridge.mjs"],
     expectStatus: "ok",
     name: "mainline-readonly-packet-bridge"
@@ -2921,6 +2931,11 @@ const checks = [
     command: [node, "scripts/check-role-workstreams.mjs"],
     expectStatus: "ok",
     name: "role-workstreams"
+  },
+  {
+    command: [node, "scripts/check-a2-public-copy-readability-candidates.mjs"],
+    expectStatus: "ok",
+    name: "a2-public-copy-readability-candidates"
   },
   {
     command: [node, "scripts/check-blocker-review-decision-outcome-ledger.mjs"],

@@ -19,6 +19,7 @@ import { getRemoteOnlyObjectRuntimeContract } from "@/lib/remote-only-object-run
 import { getFreshnessRuntimeReadinessContract } from "@/lib/freshness-runtime-readiness-contract";
 import { getFreshnessRuntimeOneAttemptDecision } from "@/lib/freshness-runtime-one-attempt-decision";
 import { getFreshnessRuntimePreRunBundle } from "@/lib/freshness-runtime-prerun-bundle";
+import { getRuntimeWorkstreamIntegrationQueue } from "@/lib/runtime-workstream-integration-queue";
 
 export function RuntimeReadinessPanel() {
   const readiness = getRuntimeReadinessSummary();
@@ -42,6 +43,7 @@ export function RuntimeReadinessPanel() {
   const freshnessRuntimeReadinessContract = getFreshnessRuntimeReadinessContract();
   const freshnessRuntimeOneAttemptDecision = getFreshnessRuntimeOneAttemptDecision();
   const freshnessRuntimePreRunBundle = getFreshnessRuntimePreRunBundle();
+  const runtimeWorkstreamIntegrationQueue = getRuntimeWorkstreamIntegrationQueue();
   const readonlyFinalPrepReady =
     preflight.status === "ready_for_guarded_readonly_decision" &&
     decision.status === "ready_for_ceo_decision" &&
@@ -251,6 +253,32 @@ export function RuntimeReadinessPanel() {
             <p>{item.nextAction}</p>
             <p>Acceptance: {item.acceptanceSignal}.</p>
             <p>Blocked promotion: {item.blockedPromotion}.</p>
+          </article>
+        ))}
+      </div>
+      <div className="runtime-workstream-integration-queue" aria-label="Runtime workstream integration queue">
+        <article className="ready">
+          <span>PM mainline mix</span>
+          <strong>
+            Runtime {runtimeWorkstreamIntegrationQueue.workMix.pmRuntime}% / A1{" "}
+            {runtimeWorkstreamIntegrationQueue.workMix.a1Evidence}% / A2{" "}
+            {runtimeWorkstreamIntegrationQueue.workMix.a2PublicCopy}%
+          </strong>
+          <p>{runtimeWorkstreamIntegrationQueue.headline}</p>
+          <p>{runtimeWorkstreamIntegrationQueue.nextPmAction}</p>
+        </article>
+        {runtimeWorkstreamIntegrationQueue.items.map((item) => (
+          <article
+            className={item.status === "active_mainline" ? "ready" : "hold"}
+            key={item.id}
+          >
+            <span>
+              {item.owner} / priority {item.priority}
+            </span>
+            <strong>{item.id}</strong>
+            <p>Acceptance: {item.acceptanceSignal}.</p>
+            <p>{item.integrationAction}</p>
+            <p>Blocked until: {item.blockedUntil}.</p>
           </article>
         ))}
       </div>

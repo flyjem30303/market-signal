@@ -2216,6 +2216,7 @@ select {
 
 .runtime-post-run-prep-card,
 .runtime-next-gate-queue,
+.runtime-workstream-integration-queue,
 .runtime-schema-shape-contract,
 .runtime-remote-only-object-contract,
 .runtime-freshness-readiness-contract,
@@ -2229,6 +2230,7 @@ select {
 
 .runtime-post-run-prep-card article,
 .runtime-next-gate-queue article,
+.runtime-workstream-integration-queue article,
 .runtime-schema-shape-contract article,
 .runtime-remote-only-object-contract article,
 .runtime-freshness-readiness-contract article,
@@ -2245,6 +2247,7 @@ select {
 
 .runtime-post-run-prep-card article.hold,
 .runtime-next-gate-queue article.hold,
+.runtime-workstream-integration-queue article.hold,
 .runtime-schema-shape-contract article.hold,
 .runtime-remote-only-object-contract article.hold,
 .runtime-freshness-readiness-contract article.hold,
@@ -2256,6 +2259,7 @@ select {
 
 .runtime-post-run-prep-card article.ready,
 .runtime-next-gate-queue article.ready,
+.runtime-workstream-integration-queue article.ready,
 .runtime-schema-shape-contract article.ready,
 .runtime-remote-only-object-contract article.ready,
 .runtime-freshness-readiness-contract article.ready,
@@ -2272,6 +2276,7 @@ select {
 
 .runtime-post-run-prep-card span,
 .runtime-next-gate-queue span,
+.runtime-workstream-integration-queue span,
 .runtime-schema-shape-contract span,
 .runtime-remote-only-object-contract span,
 .runtime-freshness-readiness-contract span,
@@ -2285,6 +2290,7 @@ select {
 
 .runtime-post-run-prep-card strong,
 .runtime-next-gate-queue strong,
+.runtime-workstream-integration-queue strong,
 .runtime-schema-shape-contract strong,
 .runtime-remote-only-object-contract strong,
 .runtime-freshness-readiness-contract strong,
@@ -2298,6 +2304,7 @@ select {
 
 .runtime-post-run-prep-card p,
 .runtime-next-gate-queue p,
+.runtime-workstream-integration-queue p,
 .runtime-schema-shape-contract p,
 .runtime-remote-only-object-contract p,
 .runtime-freshness-readiness-contract p,
