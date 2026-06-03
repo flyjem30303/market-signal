@@ -14,6 +14,7 @@ import { getRuntimeFailClosedSummary } from "@/lib/runtime-fail-closed";
 import { getRuntimeReadonlyDecisionCard } from "@/lib/runtime-readonly-decision-card";
 import { getPostReadonlyRuntimeState } from "@/lib/post-readonly-runtime-state";
 import { getPostReadonlyNextGateQueue } from "@/lib/post-readonly-next-gate-queue";
+import { getSchemaShapeAcceptanceContract } from "@/lib/schema-shape-acceptance-contract";
 
 export function RuntimeReadinessPanel() {
   const readiness = getRuntimeReadinessSummary();
@@ -32,6 +33,7 @@ export function RuntimeReadinessPanel() {
   const readonlyDecisionCard = getRuntimeReadonlyDecisionCard(preflight, decision, executionPreview);
   const postReadonlyRuntime = getPostReadonlyRuntimeState();
   const postReadonlyNextGateQueue = getPostReadonlyNextGateQueue();
+  const schemaShapeContract = getSchemaShapeAcceptanceContract();
   const readonlyFinalPrepReady =
     preflight.status === "ready_for_guarded_readonly_decision" &&
     decision.status === "ready_for_ceo_decision" &&
@@ -241,6 +243,29 @@ export function RuntimeReadinessPanel() {
             <p>{item.nextAction}</p>
             <p>Acceptance: {item.acceptanceSignal}.</p>
             <p>Blocked promotion: {item.blockedPromotion}.</p>
+          </article>
+        ))}
+      </div>
+      <div className="runtime-schema-shape-contract" aria-label="Schema shape acceptance contract">
+        <article className="ready">
+          <span>Schema shape contract</span>
+          <strong>{schemaShapeContract.mode}</strong>
+          <p>
+            Accepted runtime-shape objects: {schemaShapeContract.acceptedCount}. Public{" "}
+            {schemaShapeContract.publicDataSource}; score {schemaShapeContract.scoreSource}.
+          </p>
+          <p>{schemaShapeContract.nextDefaultAction}</p>
+          <p>{schemaShapeContract.stopLine}</p>
+        </article>
+        {schemaShapeContract.objects.map((object) => (
+          <article className={object.status === "accepted_for_runtime_shape" ? "ready" : "hold"} key={object.name}>
+            <span>
+              {object.owner} / {object.status}
+            </span>
+            <strong>{object.name}</strong>
+            <p>{object.gap}</p>
+            <p>{object.nextAction}</p>
+            <p>Blocked promotion: {object.blockedPromotion}.</p>
           </article>
         ))}
       </div>

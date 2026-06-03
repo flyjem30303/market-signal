@@ -2853,6 +2853,11 @@ const checks = [
     name: "post-readonly-next-gate-queue"
   },
   {
+    command: [node, "scripts/check-schema-shape-acceptance-contract.mjs"],
+    expectStatus: "ok",
+    name: "schema-shape-acceptance-contract"
+  },
+  {
     command: [node, "scripts/check-runtime-product-summary.mjs"],
     expectStatus: "ok",
     name: "runtime-product-summary"
