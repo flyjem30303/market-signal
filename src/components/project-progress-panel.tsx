@@ -1,11 +1,13 @@
 import { getDataReadinessDecisionSummary } from "@/lib/data-readiness-decision-summary";
 import { getProjectProgressSummary } from "@/lib/project-progress-score";
+import { getRuntimeActionStatusSummary } from "@/lib/runtime-action-status";
 import { getRuntimeGateDecisionBrief } from "@/lib/runtime-gate-decision-brief";
 import { getRuntimeReadinessSummary } from "@/lib/runtime-readiness-score";
 
 export function ProjectProgressPanel() {
   const progress = getProjectProgressSummary();
   const dataReadiness = getDataReadinessDecisionSummary();
+  const actionStatus = getRuntimeActionStatusSummary();
   const runtime = getRuntimeReadinessSummary();
   const runtimeGate = getRuntimeGateDecisionBrief();
 
@@ -53,6 +55,20 @@ export function ProjectProgressPanel() {
           <p>{progress.networkBlocker.currentFinding}</p>
         </article>
       </div>
+      <section className="runtime-action-status-strip" aria-label="Runtime action status normalization">
+        <div>
+          <span>Action status</span>
+          <strong>{actionStatus.headline}</strong>
+          <p>{actionStatus.nextAction}</p>
+        </div>
+        {actionStatus.statuses.map((status) => (
+          <article className={status.tone} key={status.id}>
+            <span>{status.id}</span>
+            <strong>{status.label}</strong>
+            <p>{status.detail}</p>
+          </article>
+        ))}
+      </section>
       <section className="project-progress-data-readiness" aria-label="Post-readonly data readiness summary">
         <div>
           <span>Data Readiness</span>

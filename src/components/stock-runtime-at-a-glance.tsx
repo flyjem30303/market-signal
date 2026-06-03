@@ -13,6 +13,7 @@ import { getRuntimeProductSummary } from "@/lib/runtime-product-summary";
 import { getStockRuntimeHeadlineSummary } from "@/lib/stock-runtime-headline-summary";
 import { getFreshnessReadonlyLatestEvidenceSummary } from "@/lib/freshness-readonly-latest-evidence";
 import { getRuntimeExecutionReadinessSummary } from "@/lib/runtime-execution-readiness-summary";
+import { getRuntimeActionStatusSummary } from "@/lib/runtime-action-status";
 import type { SignalSnapshot } from "@/lib/signal-model";
 import { RuntimeTransitionRail } from "@/components/runtime-transition-rail";
 import { PublicRuntimeStateStrip } from "@/components/public-runtime-state-strip";
@@ -39,6 +40,7 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
   const headlineSummary = getStockRuntimeHeadlineSummary(snapshot);
   const freshnessLatestEvidence = getFreshnessReadonlyLatestEvidenceSummary();
   const executionReadiness = getRuntimeExecutionReadinessSummary();
+  const actionStatus = getRuntimeActionStatusSummary();
 
   return (
     <section className="stock-runtime-at-a-glance" aria-label="Stock runtime status">
@@ -102,6 +104,20 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
       </div>
       <RuntimeTransitionRail symbol={snapshot.asset.symbol} />
       <PublicRuntimeStateStrip context="stock" />
+      <section className="runtime-action-status-strip" aria-label="Runtime action status normalization">
+        <div>
+          <span>Action status</span>
+          <strong>{actionStatus.headline}</strong>
+          <p>{actionStatus.nextAction}</p>
+        </div>
+        {actionStatus.statuses.map((status) => (
+          <article className={status.tone} key={status.id}>
+            <span>{status.id}</span>
+            <strong>{status.label}</strong>
+            <p>{status.detail}</p>
+          </article>
+        ))}
+      </section>
       <article className="readying runtime-execution-readiness-card">
         <span>Execution readiness</span>
         <strong>{executionReadiness.state}</strong>

@@ -2878,6 +2878,11 @@ const checks = [
     name: "runtime-execution-readiness-summary"
   },
   {
+    command: [node, "scripts/check-runtime-action-status-normalization.mjs"],
+    expectStatus: "ok",
+    name: "runtime-action-status-normalization"
+  },
+  {
     command: [node, "scripts/check-schema-shape-acceptance-contract.mjs"],
     expectStatus: "ok",
     name: "schema-shape-acceptance-contract"

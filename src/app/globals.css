@@ -3295,6 +3295,64 @@ select {
   font-weight: 750;
 }
 
+.runtime-action-status-strip {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: minmax(0, 1.3fr) repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.runtime-action-status-strip > div,
+.runtime-action-status-strip article {
+  display: grid;
+  align-content: start;
+  gap: 7px;
+  border: 1px solid rgba(40, 94, 203, 0.14);
+  border-radius: 8px;
+  background: #f8fbff;
+  padding: 10px;
+}
+
+.runtime-action-status-strip article.active {
+  border-color: rgba(15, 118, 110, 0.25);
+  background: #f3fbf6;
+}
+
+.runtime-action-status-strip article.readying {
+  border-color: rgba(183, 121, 31, 0.25);
+  background: #fffaf0;
+}
+
+.runtime-action-status-strip article.blocked {
+  border-color: rgba(199, 54, 59, 0.2);
+  background: #fff7f7;
+}
+
+.runtime-action-status-strip span {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.runtime-action-status-strip strong,
+.runtime-action-status-strip p {
+  overflow-wrap: anywhere;
+}
+
+.runtime-action-status-strip strong {
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.runtime-action-status-strip p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
 .post-readonly-runtime-card {
   min-width: 0;
 }
@@ -10061,6 +10119,7 @@ input[type="date"] {
   .project-progress-panel,
   .project-progress-lanes,
   .project-progress-data-readiness-lanes,
+  .runtime-action-status-strip,
   .project-progress-route-decision > div,
   .project-progress-design-gate > div,
   .project-progress-backfill-plan > div,

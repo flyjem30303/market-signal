@@ -12,6 +12,7 @@ import { getPostReadonlyRuntimeState } from "@/lib/post-readonly-runtime-state";
 import { getRuntimeProductSummary } from "@/lib/runtime-product-summary";
 import { getFreshnessReadonlyLatestEvidenceSummary } from "@/lib/freshness-readonly-latest-evidence";
 import { getRuntimeExecutionReadinessSummary } from "@/lib/runtime-execution-readiness-summary";
+import { getRuntimeActionStatusSummary } from "@/lib/runtime-action-status";
 import { RuntimeTransitionRail } from "@/components/runtime-transition-rail";
 import { PublicRuntimeStateStrip } from "@/components/public-runtime-state-strip";
 import { TrackedLink } from "@/components/tracked-link";
@@ -35,6 +36,7 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
   const productSummary = getRuntimeProductSummary(selectedSymbol);
   const freshnessLatestEvidence = getFreshnessReadonlyLatestEvidenceSummary();
   const executionReadiness = getRuntimeExecutionReadinessSummary();
+  const actionStatus = getRuntimeActionStatusSummary();
 
   return (
     <section className="home-runtime-status-panel" aria-label="Runtime status">
@@ -71,6 +73,20 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
       </div>
       <RuntimeTransitionRail symbol={selectedSymbol} />
       <PublicRuntimeStateStrip context="home" />
+      <section className="runtime-action-status-strip" aria-label="Runtime action status normalization">
+        <div>
+          <span>Action status</span>
+          <strong>{actionStatus.headline}</strong>
+          <p>{actionStatus.nextAction}</p>
+        </div>
+        {actionStatus.statuses.map((status) => (
+          <article className={status.tone} key={status.id}>
+            <span>{status.id}</span>
+            <strong>{status.label}</strong>
+            <p>{status.detail}</p>
+          </article>
+        ))}
+      </section>
       <article className="readying runtime-execution-readiness-card">
         <span>Execution readiness</span>
         <strong>{executionReadiness.state}</strong>
