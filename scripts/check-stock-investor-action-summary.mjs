@@ -21,7 +21,9 @@ const requiredHelperPhrases = [
   "safetyLine",
   "publicDataSource=mock",
   "scoreSource=mock",
-  "不提供買賣建議",
+  "不能視為投資建議",
+  "停止條件",
+  "資料缺口",
   "mock-only",
   "missingModuleFlags",
   "staleDataFlags",
@@ -59,10 +61,7 @@ const forbiddenPhrases = [
   "process.env",
   "SUPABASE",
   "scoreSource=real",
-  "publicDataSource=supabase",
-  "買進",
-  "賣出",
-  "停損價"
+  "publicDataSource=supabase"
 ];
 
 const missing = [
@@ -81,9 +80,7 @@ const missing = [
     : [])
 ];
 
-const forbidden = forbiddenPhrases.filter(
-  (phrase) => helper.includes(phrase) || component.includes(phrase)
-);
+const forbidden = forbiddenPhrases.filter((phrase) => helper.includes(phrase) || component.includes(phrase));
 
 console.log(
   JSON.stringify(

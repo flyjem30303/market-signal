@@ -27,8 +27,8 @@ export function buildInvestorActionSummary(snapshot: SignalSnapshot): InvestorAc
   const primaryRisk: InvestorActionItem = {
     body:
       snapshot.riskScore >= 60
-        ? `${riskiestModule.name}風險最高，先看風險來源與分數是否連續升溫。`
-        : `${riskiestModule.name}仍是主要觀察點，先確認它是否會拖累整體分數。`,
+        ? `${riskiestModule.name} 風險偏高，先確認風險來源、資料狀態與是否應停止閱讀。`
+        : `${riskiestModule.name} 是目前相對需要留意的模組，可作為第二層檢查，不宜單看總分。`,
     label: "主要風險",
     tab: "technical",
     title: `${riskiestModule.name} ${riskiestModule.risk}/100`,
@@ -36,11 +36,11 @@ export function buildInvestorActionSummary(snapshot: SignalSnapshot): InvestorAc
   };
   const stopCondition: InvestorActionItem = {
     body: hasDataWarnings
-      ? "資料缺口或過期旗標未清除前，停止把分數升級成投資判斷。"
-      : "真實資料、來源深度與正式模型未核准前，停止產生買賣結論。",
+      ? "資料缺口或過期旗標存在時，先停止投資解讀，只保留產品流程與揭露測試。"
+      : "若風險、回測或資料新鮮度互相衝突，應回到模組明細確認，不直接採用燈號。",
     label: "停止條件",
     tab: hasDataWarnings ? "today" : "backtest",
-    title: hasDataWarnings ? "先補資料旗標" : "不升級結論",
+    title: hasDataWarnings ? "資料不足" : "需要交叉驗證",
     tone: "blocked"
   };
 
@@ -48,63 +48,64 @@ export function buildInvestorActionSummary(snapshot: SignalSnapshot): InvestorAc
     headline: getHeadline(snapshot, hasDataWarnings),
     observationFocus,
     primaryRisk,
-    safetyLine: "目前仍是 mock-only 閱讀摘要，publicDataSource=mock、scoreSource=mock，不提供買賣建議。",
+    safetyLine:
+      "目前所有行動摘要皆為 mock-only 決策輔助；publicDataSource=mock，scoreSource=mock，不能視為投資建議。",
     stopCondition
   };
 }
 
 function getHeadline(snapshot: SignalSnapshot, hasDataWarnings: boolean) {
   if (hasDataWarnings) {
-    return `${snapshot.asset.symbol} 先確認資料可靠度，再看分數`;
+    return `${snapshot.asset.symbol} 先處理資料缺口，再閱讀燈號。`;
   }
 
   if (snapshot.riskScore >= 70) {
-    return `${snapshot.asset.symbol} 風險升溫，先拆解風險來源`;
+    return `${snapshot.asset.symbol} 風險偏高，先看風險模組與停用條件。`;
   }
 
   if (snapshot.healthScore >= 70) {
-    return `${snapshot.asset.symbol} 健康度較高，觀察趨勢能否延續`;
+    return `${snapshot.asset.symbol} 模組健康度較佳，可先看趨勢再回看風險。`;
   }
 
-  return `${snapshot.asset.symbol} 維持觀察，先看分數是否連續`;
+  return `${snapshot.asset.symbol} 訊號中性，建議用模組交叉檢查。`;
 }
 
 function getObservationFocus(snapshot: SignalSnapshot, hasDataWarnings: boolean): InvestorActionItem {
   if (hasDataWarnings) {
     return {
-      body: "資料旗標未清前，今日摘要比任何分數更優先。",
-      label: "觀察重點",
+      body: "資料品質尚未完整，先閱讀今日摘要中的缺口與過期旗標，再決定是否繼續看其他模組。",
+      label: "先看資料品質",
       tab: "today",
-      title: "資料可靠度",
+      title: "資料缺口檢查",
       tone: "blocked"
     };
   }
 
   if (snapshot.riskScore >= 60) {
     return {
-      body: "風險分數偏高，先看波動、技術與估值壓力是否同步升溫。",
-      label: "觀察重點",
+      body: "風險分數已經需要優先處理，先切到技術與風險模組，看壓力來源是否集中。",
+      label: "先看風險",
       tab: "technical",
-      title: "風險拆解",
+      title: "風險優先",
       tone: "hold"
     };
   }
 
   if (snapshot.healthScore >= 70) {
     return {
-      body: "健康度有支撐時，先看趨勢模組是否與相對位置一致。",
-      label: "觀察重點",
+      body: "健康度較佳時，先看趨勢延續性，再用成交量與回測確認訊號是否穩定。",
+      label: "先看趨勢",
       tab: "trend",
-      title: "趨勢延續",
+      title: "趨勢確認",
       tone: "active"
     };
   }
 
   return {
-    body: "分數沒有明顯優勢時，先看基本面與回測模組是否支持觀察。",
-    label: "觀察重點",
+    body: "分數沒有明顯方向時，先比較基本面、趨勢與回測，不用急著下結論。",
+    label: "先做交叉檢查",
     tab: "fundamentals",
-    title: "等待確認",
+    title: "中性觀察",
     tone: "hold"
   };
 }

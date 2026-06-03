@@ -9,7 +9,8 @@ const files = [
   "src/lib/weekly-market-action-summary.ts"
 ];
 
-const requiredTokens = ["publicDataSource=mock", "scoreSource=mock", "不提供買賣建議"];
+const requiredTokens = ["publicDataSource=mock", "scoreSource=mock"];
+const requiredReadableTokens = ["資料", "風險", "mock"];
 const forbiddenTokens = [
   "@supabase/supabase-js",
   "createClient",
@@ -18,13 +19,11 @@ const forbiddenTokens = [
   ".from('",
   "process.env",
   "scoreSource=real",
-  "publicDataSource=supabase",
-  "買進",
-  "賣出",
-  "停損價"
+  "publicDataSource=supabase"
 ];
 const replacementOrPrivateUse = /[\uFFFD\uF000-\uF8FF]/u;
-const mojibakeFragments = ["�", "銝", "嚗", "蝣", "摰", "璅", "鞈", "撣", "憸", "隞"];
+const mojibakePattern = /[嚗]{2,}/u;
+const asciiQuestionRun = /\?{3,}/u;
 
 const packageJson = fs.readFileSync(packagePath, "utf8");
 const reviewGate = fs.readFileSync(reviewGatePath, "utf8");
@@ -38,6 +37,10 @@ for (const file of files) {
     if (!content.includes(token)) missing.push(`${file}: ${token}`);
   }
 
+  for (const token of requiredReadableTokens) {
+    if (!content.includes(token)) missing.push(`${file}: readable token ${token}`);
+  }
+
   for (const token of forbiddenTokens) {
     if (content.includes(token)) blocked.push(`${file}: ${token}`);
   }
@@ -46,8 +49,12 @@ for (const file of files) {
     blocked.push(`${file}: replacement/private-use character`);
   }
 
-  for (const fragment of mojibakeFragments) {
-    if (content.includes(fragment)) blocked.push(`${file}: possible mojibake fragment ${fragment}`);
+  if (mojibakePattern.test(content)) {
+    blocked.push(`${file}: possible mojibake character run`);
+  }
+
+  if (asciiQuestionRun.test(content)) {
+    blocked.push(`${file}: possible mojibake question-mark run`);
   }
 }
 

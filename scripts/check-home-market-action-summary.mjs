@@ -20,7 +20,9 @@ const required = [
   [helperPath, "marketBreadthLine"],
   [helperPath, "publicDataSource=mock"],
   [helperPath, "scoreSource=mock"],
-  [helperPath, "不提供買賣建議"],
+  [helperPath, "不能作為真實投資決策"],
+  [helperPath, "資料缺口"],
+  [helperPath, "風險模組"],
   [helperPath, "missingModuleFlags"],
   [helperPath, "staleDataFlags"],
   [dashboardPath, "buildHomeMarketActionSummary"],
@@ -60,8 +62,12 @@ const files = new Map([
   [reviewGatePath, reviewGate]
 ]);
 
-const missing = required.filter(([file, phrase]) => !files.get(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
-const blocked = forbidden.filter(([file, phrase]) => files.get(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
+const missing = required
+  .filter(([file, phrase]) => !files.get(file).includes(phrase))
+  .map(([file, phrase]) => `${file}: ${phrase}`);
+const blocked = forbidden
+  .filter(([file, phrase]) => files.get(file).includes(phrase))
+  .map(([file, phrase]) => `${file}: ${phrase}`);
 
 console.log(
   JSON.stringify(
