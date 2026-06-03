@@ -2728,6 +2728,11 @@ const checks = [
     name: "home-market-action-summary"
   },
   {
+    command: [node, "scripts/check-home-investor-indicator-roadmap-panel.mjs"],
+    expectStatus: "ok",
+    name: "home-investor-indicator-roadmap-panel"
+  },
+  {
     command: [node, "scripts/check-stock-runtime-at-a-glance.mjs"],
     expectStatus: "ok",
     name: "stock-runtime-at-a-glance"

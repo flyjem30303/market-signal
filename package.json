@@ -279,6 +279,7 @@
     "check:freshness-metadata-boundary": "node scripts/check-freshness-metadata-boundary.mjs",
     "check:home-runtime-status-panel": "node scripts/check-home-runtime-status-panel.mjs",
     "check:home-market-action-summary": "node scripts/check-home-market-action-summary.mjs",
+    "check:home-investor-indicator-roadmap-panel": "node scripts/check-home-investor-indicator-roadmap-panel.mjs",
     "check:stock-runtime-at-a-glance": "node scripts/check-stock-runtime-at-a-glance.mjs",
     "check:runtime-mock-disclosure-readability": "node scripts/check-runtime-mock-disclosure-readability.mjs",
     "check:stock-page-readable-boundary-copy": "node scripts/check-stock-page-readable-boundary-copy.mjs",

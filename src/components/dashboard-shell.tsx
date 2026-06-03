@@ -470,6 +470,8 @@ function HomeProductOverview({
   const riskiestSnapshot = riskiest[0] ?? snapshot;
   const groupSummaries = buildHomeGroupSummaries(snapshots);
   const actionSummary = buildHomeMarketActionSummary(snapshot, snapshots);
+  const indicatorRoadmap = getInvestorIndicatorRoadmap();
+  const visibleIndicatorFamilies = indicatorRoadmap.families.slice(0, 3);
   const breadth = snapshots.reduce(
     (summary, item) => {
       if (item.signal.key === "green" || item.signal.key === "yellow") {
@@ -605,6 +607,26 @@ function HomeProductOverview({
             <p>{actionSummary.secondaryAction.body}</p>
           </article>
         </TrackedLink>
+      </section>
+
+      <section className="home-indicator-roadmap" aria-label="首頁未來專業指標路線">
+        <div>
+          <p className="eyebrow">Indicator Roadmap</p>
+          <h2>未來專業指標仍在 readiness 階段</h2>
+          <p>{indicatorRoadmap.boundary.statement}</p>
+          <strong>
+            Runtime/data foundation {indicatorRoadmap.nextExecutionRatio.runtimeDataFoundation}% · Product wording{" "}
+            {indicatorRoadmap.nextExecutionRatio.productReadabilityAndWording}% · Future notes{" "}
+            {indicatorRoadmap.nextExecutionRatio.futureIndicatorDesignNotes}%
+          </strong>
+        </div>
+        {visibleIndicatorFamilies.map((family) => (
+          <article className={family.status} key={family.id}>
+            <span>{getInvestorIndicatorStatusLabel(family.status)}</span>
+            <strong>{family.label}</strong>
+            <p>{family.productValue}</p>
+          </article>
+        ))}
       </section>
 
       <section className="home-decision-strip" aria-label="首頁下一步決策列">
