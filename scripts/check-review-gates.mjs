@@ -2773,6 +2773,11 @@ const checks = [
     name: "stock-first-screen-readability"
   },
   {
+    command: [node, "scripts/check-stock-first-screen-action-summary.mjs"],
+    expectStatus: "ok",
+    name: "stock-first-screen-action-summary"
+  },
+  {
     command: [node, "scripts/check-stock-trend-tab-readability.mjs"],
     expectStatus: "ok",
     name: "stock-trend-tab-readability"
