@@ -19,6 +19,17 @@ export type DataReadinessDecisionLane = {
   state: "accepted" | "blocked" | "readying";
 };
 
+export type DataReadinessIntegrationQueueItem = {
+  acceptanceSignal: string;
+  blockedUntil: string;
+  id: "mainline-runtime-bridge" | "a1-readonly-evidence" | "a2-public-copy-readiness";
+  integrationAction: string;
+  owner: "A1" | "A2" | "PM";
+  priority: 1 | 2 | 3;
+  source: string;
+  status: "active_mainline" | "accepted_for_mainline_review" | "monitor_only";
+};
+
 export type DataReadinessDecisionSummary = {
   boundedReadonlyAttempt: {
     command: string;
@@ -29,6 +40,7 @@ export type DataReadinessDecisionSummary = {
   closestNextGate: "schema_shape_freshness_row_coverage_decision_gate";
   dataFoundationGate: DataFoundationGate;
   headline: string;
+  integrationQueue: DataReadinessIntegrationQueueItem[];
   lanes: DataReadinessDecisionLane[];
   mode: "post_readonly_data_readiness_summary";
   recommendation: string;
@@ -64,6 +76,47 @@ export function getDataReadinessDecisionSummary(): DataReadinessDecisionSummary 
     closestNextGate: "schema_shape_freshness_row_coverage_decision_gate",
     dataFoundationGate: getDataFoundationGate(),
     headline: "Post-readonly data readiness is consolidated; runtime remains mock-only.",
+    integrationQueue: [
+      {
+        acceptanceSignal:
+          "Runtime and data readiness summaries agree that publicDataSource and scoreSource stay mock.",
+        blockedUntil:
+          "a separate CEO-named bounded readonly attempt is requested and immediate post-run review is recorded",
+        id: "mainline-runtime-bridge",
+        integrationAction:
+          "PM keeps integrating local runtime/data readiness into the home and progress surfaces without remote execution.",
+        owner: "PM",
+        priority: 1,
+        source: "src/lib/runtime-execution-readiness-summary.ts",
+        status: "active_mainline"
+      },
+      {
+        acceptanceSignal:
+          "A1 evidence can be used as sanitized aggregate readiness context, not as production-data proof.",
+        blockedUntil:
+          "row coverage, source-rights, and data-quality gates accept a bounded readonly outcome",
+        id: "a1-readonly-evidence",
+        integrationAction:
+          "PM may absorb A1 packet fields into readonly decision summaries while keeping SQL, writes, raw payloads, and market-data ingestion blocked.",
+        owner: "A1",
+        priority: 2,
+        source: "docs/ROLE_WORKSTREAMS.md",
+        status: "accepted_for_mainline_review"
+      },
+      {
+        acceptanceSignal:
+          "A2 public-copy checks report no boundary-insufficient files and no mojibake candidates.",
+        blockedUntil:
+          "runtime foundation needs public readability changes for comprehension, not cosmetic polish",
+        id: "a2-public-copy-readiness",
+        integrationAction:
+          "PM monitors A2 visible-language output and only pulls launch-blocking copy fixes ahead of runtime work.",
+        owner: "A2",
+        priority: 3,
+        source: "scripts/report-a2-public-copy-readability-candidates.mjs",
+        status: "monitor_only"
+      }
+    ],
     lanes: [
       {
         evidence: `${readonlyEvidence.objects.length} Supabase objects reachable; accepted scope is object reachability only.`,

@@ -109,7 +109,21 @@ export function ProjectProgressPanel() {
             {dataReadiness.boundedReadonlyAttempt.requiresSeparateCeoNamedAction ? "yes" : "no"}.
           </p>
         </article>
-          <p>{dataReadiness.stopLine}</p>
+        <div className="project-progress-data-readiness-integration">
+          {dataReadiness.integrationQueue.map((item) => (
+            <article className={item.status} key={item.id}>
+              <span>
+                {item.owner} / priority {item.priority}
+              </span>
+              <strong>{item.id}</strong>
+              <p>{item.acceptanceSignal}</p>
+              <p>{item.integrationAction}</p>
+              <p>Blocked until: {item.blockedUntil}.</p>
+              <p>Source: {item.source}.</p>
+            </article>
+          ))}
+        </div>
+        <p>{dataReadiness.stopLine}</p>
       </section>
       <section className="project-progress-data-foundation" aria-label="Data foundation gate">
         <div>
