@@ -13,6 +13,7 @@ import { getRuntimeStateConsistencySummary } from "@/lib/runtime-state-consisten
 import { getRuntimeFailClosedSummary } from "@/lib/runtime-fail-closed";
 import { getRuntimeReadonlyDecisionCard } from "@/lib/runtime-readonly-decision-card";
 import { getPostReadonlyRuntimeState } from "@/lib/post-readonly-runtime-state";
+import { getPostReadonlyNextGateQueue } from "@/lib/post-readonly-next-gate-queue";
 
 export function RuntimeReadinessPanel() {
   const readiness = getRuntimeReadinessSummary();
@@ -30,6 +31,7 @@ export function RuntimeReadinessPanel() {
   const failClosed = getRuntimeFailClosedSummary();
   const readonlyDecisionCard = getRuntimeReadonlyDecisionCard(preflight, decision, executionPreview);
   const postReadonlyRuntime = getPostReadonlyRuntimeState();
+  const postReadonlyNextGateQueue = getPostReadonlyNextGateQueue();
   const readonlyFinalPrepReady =
     preflight.status === "ready_for_guarded_readonly_decision" &&
     decision.status === "ready_for_ceo_decision" &&
@@ -222,6 +224,25 @@ export function RuntimeReadinessPanel() {
           <strong>post-run review first</strong>
           <p>Record one sanitized attempt outcome, no secrets, no row payloads, then keep readiness promotion blocked.</p>
         </article>
+      </div>
+      <div className="runtime-next-gate-queue" aria-label="Post-readonly next gate queue">
+        <article className="ready">
+          <span>Next gate queue</span>
+          <strong>{postReadonlyNextGateQueue.currentDefaultRoute}</strong>
+          <p>{postReadonlyNextGateQueue.headline}</p>
+          <p>{postReadonlyNextGateQueue.stopLine}</p>
+        </article>
+        {postReadonlyNextGateQueue.items.map((item) => (
+          <article className={item.status === "local_ready" ? "ready" : "hold"} key={item.id}>
+            <span>
+              {item.owner} / priority {item.priority}
+            </span>
+            <strong>{item.id}</strong>
+            <p>{item.nextAction}</p>
+            <p>Acceptance: {item.acceptanceSignal}.</p>
+            <p>Blocked promotion: {item.blockedPromotion}.</p>
+          </article>
+        ))}
       </div>
       <details className="runtime-remote-guard-details">
         <summary>Remote guard details: CEO-named one-attempt only</summary>

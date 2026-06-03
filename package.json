@@ -140,6 +140,7 @@
     "check:runtime-fail-closed": "node scripts/check-runtime-fail-closed.mjs",
     "check:runtime-readonly-decision-card": "node scripts/check-runtime-readonly-decision-card.mjs",
     "check:post-readonly-runtime-state": "node scripts/check-post-readonly-runtime-state.mjs",
+    "check:post-readonly-next-gate-queue": "node scripts/check-post-readonly-next-gate-queue.mjs",
     "check:runtime-product-summary": "node scripts/check-runtime-product-summary.mjs",
     "check:investor-indicator-roadmap": "node scripts/check-investor-indicator-roadmap.mjs",
     "check:investor-indicator-roadmap-contract": "node scripts/check-investor-indicator-roadmap-contract.mjs",

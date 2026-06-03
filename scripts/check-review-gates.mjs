@@ -2848,6 +2848,11 @@ const checks = [
     name: "post-readonly-runtime-state"
   },
   {
+    command: [node, "scripts/check-post-readonly-next-gate-queue.mjs"],
+    expectStatus: "ok",
+    name: "post-readonly-next-gate-queue"
+  },
+  {
     command: [node, "scripts/check-runtime-product-summary.mjs"],
     expectStatus: "ok",
     name: "runtime-product-summary"
