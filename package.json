@@ -294,6 +294,7 @@
     "check:stock-visual-hierarchy": "node scripts/check-stock-visual-hierarchy.mjs",
     "check:experience-flow-navigation": "node scripts/check-experience-flow-navigation.mjs",
     "check:decision-flow-consistency": "node scripts/check-decision-flow-consistency.mjs",
+    "check:public-route-loop": "node scripts/check-public-route-loop.mjs",
     "check:trust-runtime-boundary-notice": "node scripts/check-trust-runtime-boundary-notice.mjs",
     "check:public-runtime-boundary-coverage": "node scripts/check-public-runtime-boundary-coverage.mjs",
     "check:public-visible-language-quality": "node scripts/check-public-visible-language-quality.mjs",

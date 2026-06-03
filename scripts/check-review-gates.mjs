@@ -2813,6 +2813,11 @@ const checks = [
     name: "decision-flow-consistency"
   },
   {
+    command: [node, "scripts/check-public-route-loop.mjs"],
+    expectStatus: "ok",
+    name: "public-route-loop"
+  },
+  {
     command: [node, "scripts/check-public-visible-language-quality.mjs"],
     expectStatus: "ok",
     name: "public-visible-language-quality"
