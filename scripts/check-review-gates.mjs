@@ -3118,6 +3118,11 @@ const checks = [
     name: "cp3-freshness-runtime-read-once-latest-sanitized-run"
   },
   {
+    command: [node, "scripts/check-cp3-freshness-runtime-read-once-current-attempt-post-run-review.mjs"],
+    expectStatus: "ok",
+    name: "cp3-freshness-runtime-read-once-current-attempt-post-run-review"
+  },
+  {
     command: [node, "scripts/check-cp3-freshness-credential-loading-command-revision.mjs"],
     expectStatus: "ok",
     name: "cp3-freshness-credential-loading-command-revision"

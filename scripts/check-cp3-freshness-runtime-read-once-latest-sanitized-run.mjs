@@ -1,15 +1,15 @@
 import { readFileSync } from "node:fs";
 
-const target = "docs/reviews/CP3_FRESHNESS_RUNTIME_READ_ONCE_LATEST_SANITIZED_RUN_2026-05-31.md";
+const target = "docs/reviews/CP3_FRESHNESS_RUNTIME_READ_ONCE_LATEST_SANITIZED_RUN_2026-06-03.md";
 const content = readFileSync(target, "utf8");
 
 const requiredPhrases = [
   "CP3 Freshness Runtime Read-Once Latest Sanitized Run",
-  "Date: 2026-05-31",
+  "Date: 2026-06-03",
   "CP3 freshness runtime read-once latest sanitized run recorded",
   "ACCEPT_FRESHNESS_READ_ONLY_RUNTIME_EVIDENCE_WITHOUT_PUBLIC_SOURCE_PROMOTION",
   "one process-scoped freshness runtime read-only attempt",
-  "data_runs",
+  "existing freshness metadata only",
   "does not run SQL",
   "does not write Supabase",
   "does not create staging rows",
