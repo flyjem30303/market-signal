@@ -2878,6 +2878,11 @@ const checks = [
     name: "data-evidence-ladder"
   },
   {
+    command: [node, "scripts/check-blocker-closure-map.mjs"],
+    expectStatus: "ok",
+    name: "blocker-closure-map"
+  },
+  {
     command: [node, "scripts/check-runtime-execution-readiness-summary.mjs"],
     expectStatus: "ok",
     name: "runtime-execution-readiness-summary"

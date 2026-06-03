@@ -147,6 +147,7 @@
     "check:post-readonly-next-gate-queue": "node scripts/check-post-readonly-next-gate-queue.mjs",
     "check:data-readiness-decision-summary": "node scripts/check-data-readiness-decision-summary.mjs",
     "check:data-evidence-ladder": "node scripts/check-data-evidence-ladder.mjs",
+    "check:blocker-closure-map": "node scripts/check-blocker-closure-map.mjs",
     "check:runtime-execution-readiness-summary": "node scripts/check-runtime-execution-readiness-summary.mjs",
     "check:runtime-action-status-normalization": "node scripts/check-runtime-action-status-normalization.mjs",
     "check:schema-shape-acceptance-contract": "node scripts/check-schema-shape-acceptance-contract.mjs",

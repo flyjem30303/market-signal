@@ -1,5 +1,6 @@
 import { getDataReadinessDecisionSummary } from "@/lib/data-readiness-decision-summary";
 import { getDataEvidenceLadderSummary } from "@/lib/data-evidence-ladder";
+import { getBlockerClosureMap } from "@/lib/blocker-closure-map";
 import { getProjectProgressSummary } from "@/lib/project-progress-score";
 import { getRuntimeActionStatusSummary } from "@/lib/runtime-action-status";
 import { getRuntimeGateDecisionBrief } from "@/lib/runtime-gate-decision-brief";
@@ -9,6 +10,7 @@ export function ProjectProgressPanel() {
   const progress = getProjectProgressSummary();
   const dataReadiness = getDataReadinessDecisionSummary();
   const evidenceLadder = getDataEvidenceLadderSummary();
+  const blockerClosure = getBlockerClosureMap();
   const actionStatus = getRuntimeActionStatusSummary();
   const runtime = getRuntimeReadinessSummary();
   const runtimeGate = getRuntimeGateDecisionBrief();
@@ -134,6 +136,31 @@ export function ProjectProgressPanel() {
           ))}
         </div>
         <p>{evidenceLadder.stopLine}</p>
+      </section>
+      <section className="project-progress-blocker-closure" aria-label="Blocker closure map">
+        <div>
+          <span>Blocker Closure</span>
+          <strong>{blockerClosure.headline}</strong>
+          <p>{blockerClosure.nextCeoMove}</p>
+          <p>
+            Public source {blockerClosure.publicDataSource}; score source {blockerClosure.scoreSource}.
+          </p>
+        </div>
+        <div className="project-progress-blocker-closure-grid">
+          {blockerClosure.sequence.map((item) => (
+            <article className={item.lane} key={item.blockerId}>
+              <span>
+                {item.owner} / {item.status}
+              </span>
+              <strong>{item.blockerId}</strong>
+              <p>{item.acceptedLocalEvidence}</p>
+              <p>Next command: {item.nextCommand}</p>
+              <p>Decision: {item.nextDecision}</p>
+              <p>Blocked: {item.blockedPromotion}</p>
+            </article>
+          ))}
+        </div>
+        <p>{blockerClosure.stopLine}</p>
       </section>
       <div
         className={`project-progress-network-blocker ${progress.networkBlocker.status}`}
