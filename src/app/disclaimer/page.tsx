@@ -16,55 +16,65 @@ export default function DisclaimerPage() {
         <p className="eyebrow">Disclaimer</p>
         <h1>免責聲明</h1>
         <p>
-          指數燈號目前是投資決策輔助產品的展示與驗證版本。頁面上的分數、燈號、摘要與解讀都還在 mock-only runtime，不構成投資建議、買賣推薦或收益保證。
+          指數燈號目前是投資決策輔助產品的展示與驗證版本。頁面上的分數、燈號、摘要與解讀都還在
+          mock-only runtime，不構成投資建議、買賣推薦或收益保證。
         </p>
       </section>
 
       <TrustRuntimeBoundaryNotice context="disclaimer" />
 
-      <section className="legal-quick-read" aria-label="免責聲明快速閱讀">
+      <section className="legal-quick-read" aria-label="免責聲明重點">
         <article>
           <span>目前狀態</span>
           <strong>mock-only runtime</strong>
-          <p>公開頁只展示產品流程、資訊階層與決策輔助邏輯，尚未啟用真實行情、真實分數或 Supabase 作為公開資料來源。</p>
+          <p>
+            目前公開頁面只展示 mock 訊號與產品流程。publicDataSource=mock，scoreSource=mock，尚未啟用真實市場資料或真實評分。
+          </p>
         </article>
         <article>
-          <span>使用責任</span>
-          <strong>請自行判斷風險</strong>
-          <p>任何投資決策都應由使用者自行評估，並搭配合格投資顧問、券商資訊與個人風險承受度。</p>
+          <span>使用限制</span>
+          <strong>不提供買賣建議</strong>
+          <p>
+            本網站不提供個別證券、ETF、期貨或其他金融商品的買賣建議，也不承諾任何報酬、避險效果或交易結果。
+          </p>
         </article>
         <article>
           <span>資料限制</span>
-          <strong>不可視為即時資料</strong>
-          <p>目前畫面不保證即時、完整或正確反映市場，未來接入真實資料前會另行完成資料來源與品質審核。</p>
+          <strong>不可視為完整資料源</strong>
+          <p>
+            所有摘要都可能受到資料缺口、過期狀態、模型假設與尚未完成的審核影響。正式使用前仍需通過獨立 gate。
+          </p>
         </article>
       </section>
 
       <section className="panel legal-section">
         <h2>不是投資建議</h2>
         <p>
-          本網站提供的內容僅供產品研究、資訊整理與決策輔助展示使用。任何燈號、分數、標籤、風險提示或摘要，都不應被解讀為買進、賣出、持有或避險建議。
+          指數燈號提供的是產品驗證用的閱讀流程與風險提示，不是投資顧問服務。任何投資決策都應由使用者自行評估，
+          並在需要時諮詢合格專業人士。
         </p>
       </section>
 
       <section className="panel legal-section">
-        <h2>資料與模型仍在驗證</h2>
+        <h2>資料與模型邊界</h2>
         <p>
-          目前 `publicDataSource=mock`、`scoreSource=mock`。在正式切換真實資料前，仍需要完成來源授權、欄位品質、覆蓋率、模型可信度與 post-run review。
+          目前 `publicDataSource=mock`、`scoreSource=mock`。即使頁面顯示分數、燈號、趨勢或風險文字，也只代表 mock
+          runtime 的展示結果，不代表真實市場資料、正式模型或 Supabase-backed public data 已上線。
         </p>
       </section>
 
       <section className="panel legal-section">
-        <h2>可能發生的限制</h2>
+        <h2>使用者責任</h2>
         <p>
-          畫面可能因開發、測試、資料更新或部署調整而變更。即使未來接入真實資料，也可能受到延遲、來源中斷、欄位缺漏或解析錯誤影響。
+          使用者應理解本網站仍在建置與驗證階段。若將頁面內容用於任何投資、交易、風險控管或資產配置判斷，
+          相關風險與結果均由使用者自行承擔。
         </p>
       </section>
 
       <section className="panel legal-links">
-        <h2>延伸閱讀</h2>
-        <LegalTrustLink href="/methodology" label="了解評分方法論" />
-        <LegalTrustLink href="/" label="回首頁看市場概況" />
+        <h2>相關頁面</h2>
+        <LegalTrustLink href="/methodology" label="查看方法說明" />
+        <LegalTrustLink href="/" label="回到市場首頁" />
         <LegalTrustLink href="/terms" label="查看使用條款" />
         <LegalTrustLink href="/privacy" label="查看隱私權政策" />
       </section>

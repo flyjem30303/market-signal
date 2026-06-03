@@ -5,7 +5,7 @@ import { TrustRuntimeBoundaryNotice } from "@/components/trust-runtime-boundary-
 
 export const metadata: Metadata = {
   title: "隱私權政策",
-  description: "說明指數燈號目前的資料收集範圍、分析工具邊界與未來功能更新原則。"
+  description: "說明指數燈號目前的資料使用、追蹤事件、localStorage 與隱私邊界。"
 };
 
 export default function PrivacyPage() {
@@ -16,57 +16,59 @@ export default function PrivacyPage() {
         <p className="eyebrow">Privacy</p>
         <h1>隱私權政策</h1>
         <p>
-          指數燈號目前不要求登入，也不收集交易帳戶、持股明細或個人財務資料。若未來加入會員、通知或表單功能，會先更新本頁說明。
+          指數燈號目前以產品驗證為主。公開頁面不要求登入，也不需要使用者提供姓名、電話、身分證字號或金融帳戶資料。
         </p>
       </section>
 
       <TrustRuntimeBoundaryNotice context="privacy" />
 
-      <section className="legal-quick-read" aria-label="隱私權政策快速閱讀">
+      <section className="legal-quick-read" aria-label="隱私權政策重點">
         <article>
-          <span>目前不收集</span>
-          <strong>投資帳戶與部位資料</strong>
-          <p>網站目前沒有要求你輸入券商帳號、下單紀錄、持股、資產或風險屬性。</p>
+          <span>目前不蒐集</span>
+          <strong>敏感個資與金融帳戶</strong>
+          <p>公開頁面不要求提供身分證字號、銀行帳戶、券商帳號、信用卡或精確財務狀況。</p>
         </article>
         <article>
           <span>可能使用</span>
-          <strong>基本瀏覽分析</strong>
-          <p>為了改善產品體驗，未來可能使用去識別化瀏覽事件，例如頁面瀏覽、連結點擊與功能使用情境。</p>
+          <strong>產品互動事件</strong>
+          <p>頁面可能記錄頁面瀏覽、按鈕點擊、股票選取與功能互動，用於改善產品流程與可讀性。</p>
         </article>
         <article>
-          <span>未來變更</span>
-          <strong>先告知再擴大</strong>
-          <p>若加入聯絡表單、Email 通知或會員功能，會明確說明收集目的、保存方式與使用者選擇。</p>
+          <span>本機資料</span>
+          <strong>localStorage 偏好設定</strong>
+          <p>收藏標的等偏好可能儲存在你的瀏覽器 localStorage 中，可由你自行清除。</p>
         </article>
       </section>
 
       <section className="panel legal-section">
-        <h2>目前資料範圍</h2>
+        <h2>我們使用哪些資料</h2>
         <p>
-          目前公開頁主要使用 mock 市場資料與本機產品狀態。使用者瀏覽網站時，不需要提供姓名、電話、身分證字號、券商帳號或交易資訊。
+          目前主要使用匿名或低識別性的產品互動資料，例如頁面路徑、事件名稱、標的代碼、按鈕來源與基本瀏覽器狀態。
+          這些資料用於確認產品流程是否順暢，並不代表真實投資意圖或財務狀況。
         </p>
       </section>
 
       <section className="panel legal-section">
-        <h2>分析與追蹤</h2>
+        <h2>資料如何使用</h2>
         <p>
-          產品內有事件追蹤設計，用來理解使用者如何閱讀首頁、晨報、週報與個股頁。這些事件應以產品改善為目的，不應用於投資行為側寫。
+          互動事件用於改善資訊階層、修正錯誤、確認功能是否被理解，以及判斷 mock-only runtime 的揭露是否足夠清楚。
+          不會因為互動事件而產生個別投資建議。
         </p>
       </section>
 
       <section className="panel legal-section">
-        <h2>資料安全與第三方服務</h2>
+        <h2>資料保存與清除</h2>
         <p>
-          若未來導入第三方分析、雲端資料庫、通知服務或付款工具，會依功能需求揭露服務商、資料用途與必要的保護措施。
+          本機偏好資料可透過瀏覽器設定清除。若未來加入帳號、通知、付費或正式資料服務，會先補充相應的隱私說明與使用者控制方式。
         </p>
       </section>
 
       <section className="panel legal-links">
-        <h2>延伸閱讀</h2>
+        <h2>相關頁面</h2>
         <PrivacyTrustLink href="/terms" label="查看使用條款" />
         <PrivacyTrustLink href="/disclaimer" label="查看免責聲明" />
-        <PrivacyTrustLink href="/methodology" label="了解評分方法論" />
-        <PrivacyTrustLink href="/" label="回首頁看市場概況" />
+        <PrivacyTrustLink href="/methodology" label="查看方法說明" />
+        <PrivacyTrustLink href="/" label="回到市場首頁" />
       </section>
     </main>
   );

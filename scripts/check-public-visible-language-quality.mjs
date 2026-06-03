@@ -21,11 +21,7 @@ const pages = [
   },
   {
     path: "/stocks/TWII",
-    required: [
-      ...coreRuntimeBoundaryRequired,
-      "Indicator Roadmap",
-      "TWII Mock Disclosure"
-    ]
+    required: [...coreRuntimeBoundaryRequired, "Indicator Roadmap", "TWII Mock Disclosure"]
   },
   {
     path: "/stocks/2330",
@@ -61,15 +57,15 @@ const pages = [
   },
   {
     path: "/disclaimer",
-    required: [...coreRuntimeBoundaryRequired, "免責聲明", "不是投資建議"]
+    required: [...coreRuntimeBoundaryRequired, "免責聲明", "不是投資建議", "不提供買賣建議"]
   },
   {
     path: "/terms",
-    required: [...coreRuntimeBoundaryRequired, "使用條款", "服務內容"]
+    required: [...coreRuntimeBoundaryRequired, "使用條款", "不可作為交易依據", "不提供買賣建議"]
   },
   {
     path: "/privacy",
-    required: [...coreRuntimeBoundaryRequired, "隱私權政策", "目前資料範圍"]
+    required: [...coreRuntimeBoundaryRequired, "隱私權政策", "產品互動事件", "localStorage"]
   }
 ];
 
@@ -85,21 +81,22 @@ const expectedVisiblePaths = unique([
 
 const mojibakeFragments = [
   "\uFFFD",
-  "\u929D",
-  "\u5697",
-  "\u8763",
-  "\u6460",
-  "\u7485",
-  "\u9788",
-  "\u64A3",
-  "\u61B8",
-  "\u969E",
-  "\u780D",
-  "\u9758",
-  "\u7507",
-  "\u876C",
-  "\u8123",
-  "\u877A"
+  "?",
+  "?梁",
+  "?",
+  "?桀",
+  "?",
+  "?",
+  "蝣箄",
+  "撱箄",
+  "雿輻",
+  "璇",
+  "甈",
+  "銝",
+  "嚗",
+  "",
+  "",
+  ""
 ];
 const forbiddenText = [
   "Internal Server Error",
@@ -165,6 +162,13 @@ const selfContract = [
   {
     check: "blocks approved publicDataSource supabase claims",
     pass: checkerSource.includes('"publicDataSource=supabase approved"')
+  },
+  {
+    check: "requires readable legal pages",
+    pass:
+      checkerSource.includes('"免責聲明"') &&
+      checkerSource.includes('"使用條款"') &&
+      checkerSource.includes('"隱私權政策"')
   },
   {
     check: "aligns with localhost health paths",
