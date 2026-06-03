@@ -204,6 +204,13 @@ select {
   line-height: 1.7;
 }
 
+.hero .runtime-boundary-line {
+  margin-top: 10px;
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 700;
+}
+
 .eyebrow,
 .panel-label {
   margin: 0 0 6px;
