@@ -1633,6 +1633,11 @@ const checks = [
     name: "row-coverage-readonly-preexecution-packet"
   },
   {
+    command: [node, "scripts/check-row-coverage-readonly-execution-readiness-presenter.mjs"],
+    expectStatus: "ok",
+    name: "row-coverage-readonly-execution-readiness-presenter"
+  },
+  {
     command: [node, "scripts/check-runtime-gate-decision-brief.mjs"],
     expectStatus: "ok",
     name: "runtime-gate-decision-brief"
