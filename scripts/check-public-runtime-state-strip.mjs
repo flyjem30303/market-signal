@@ -44,10 +44,15 @@ for (const [token, label] of [
   ['publicDataSource: "mock"', "mock public source"],
   ['scoreSource: "mock"', "mock score source"],
   ['claimApprovalState: "not_approved"', "not approved claim state"],
-  ["Public runtime state: mock only", "headline"],
+  ["Runtime quick read: mock only", "headline"],
+  ["Visible now", "visible-now label"],
+  ["Not live yet", "not-live-yet label"],
+  ["Next gate", "next-gate label"],
   ["publicDataSource=mock", "public source display"],
   ["scoreSource=mock", "score source display"],
   ["claimApproval=not_approved", "claim approval display"],
+  ["Users can read mock signals", "readable user summary"],
+  ["CEO must separately name a bounded readonly gate", "next gate boundary"],
   ["Do not promote public source", "stop line"]
 ]) {
   requireIncludes(helper, token, label);

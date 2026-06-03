@@ -16,32 +16,32 @@ export type PublicClaimRuntimeState = {
 export function getPublicClaimRuntimeState(): PublicClaimRuntimeState {
   return {
     claimApprovalState: "not_approved",
-    headline: "Public runtime state: mock only",
+    headline: "Runtime quick read: mock only",
     publicDataSource: "mock",
     scoreSource: "mock",
     states: [
       {
-        body: "Public pages may show the mock research experience and local readiness only.",
-        label: "Public data",
+        body: "Users can read mock signals, product flow, and local readiness without treating them as live market evidence.",
+        label: "Visible now",
         tone: "active",
         value: "publicDataSource=mock"
       },
       {
-        body: "Scores are product-flow demonstrations, not real market-data evidence.",
-        label: "Score source",
-        tone: "active",
+        body: "Supabase-backed public data, SQL-backed scoring, real market ingestion, and investment-advice claims are blocked.",
+        label: "Not live yet",
+        tone: "blocked",
         value: "scoreSource=mock"
       },
       {
-        body: "Real-data, official ranking, and investment-advice claims remain blocked until separate accepted gates pass.",
-        label: "Claims",
-        tone: "blocked",
+        body: "CEO must separately name a bounded readonly gate before any runtime transition can be discussed.",
+        label: "Next gate",
+        tone: "readying",
         value: "claimApproval=not_approved"
       }
     ],
     stopLine:
       "Do not promote public source, real-score wording, market-data coverage, or investment-advice claims from this state.",
     summary:
-      "This strip aligns every public surface to the same runtime interpretation before any future Supabase or real-data transition."
+      "Every public page uses this same quick read before any future Supabase or real-data transition."
   };
 }
