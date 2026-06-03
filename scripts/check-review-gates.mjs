@@ -2868,6 +2868,11 @@ const checks = [
     name: "freshness-runtime-readiness-contract"
   },
   {
+    command: [node, "scripts/check-freshness-runtime-one-attempt-decision.mjs"],
+    expectStatus: "ok",
+    name: "freshness-runtime-one-attempt-decision"
+  },
+  {
     command: [node, "scripts/check-runtime-product-summary.mjs"],
     expectStatus: "ok",
     name: "runtime-product-summary"

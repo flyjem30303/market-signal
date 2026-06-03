@@ -17,6 +17,7 @@ import { getPostReadonlyNextGateQueue } from "@/lib/post-readonly-next-gate-queu
 import { getSchemaShapeAcceptanceContract } from "@/lib/schema-shape-acceptance-contract";
 import { getRemoteOnlyObjectRuntimeContract } from "@/lib/remote-only-object-runtime-contract";
 import { getFreshnessRuntimeReadinessContract } from "@/lib/freshness-runtime-readiness-contract";
+import { getFreshnessRuntimeOneAttemptDecision } from "@/lib/freshness-runtime-one-attempt-decision";
 
 export function RuntimeReadinessPanel() {
   const readiness = getRuntimeReadinessSummary();
@@ -38,6 +39,7 @@ export function RuntimeReadinessPanel() {
   const schemaShapeContract = getSchemaShapeAcceptanceContract();
   const remoteOnlyObjectContract = getRemoteOnlyObjectRuntimeContract();
   const freshnessRuntimeReadinessContract = getFreshnessRuntimeReadinessContract();
+  const freshnessRuntimeOneAttemptDecision = getFreshnessRuntimeOneAttemptDecision();
   const readonlyFinalPrepReady =
     preflight.status === "ready_for_guarded_readonly_decision" &&
     decision.status === "ready_for_ceo_decision" &&
@@ -322,6 +324,34 @@ export function RuntimeReadinessPanel() {
             <p>{precheck.reason}</p>
           </article>
         ))}
+      </div>
+      <div className="runtime-freshness-one-attempt-decision" aria-label="Freshness runtime one-attempt decision">
+        <article className="hold">
+          <span>Freshness one-attempt decision</span>
+          <strong>{freshnessRuntimeOneAttemptDecision.status}</strong>
+          <p>
+            Approval: {freshnessRuntimeOneAttemptDecision.approvalState}; automatic execution{" "}
+            {freshnessRuntimeOneAttemptDecision.canExecuteAutomatically ? "true" : "false"}.
+          </p>
+          <p>{freshnessRuntimeOneAttemptDecision.nextAction}</p>
+          <p>{freshnessRuntimeOneAttemptDecision.stopLine}</p>
+        </article>
+        <article className="ready">
+          <span>Rollback target</span>
+          <strong>
+            DATA_FRESHNESS_SOURCE={freshnessRuntimeOneAttemptDecision.rollbackTarget.dataFreshnessSource}
+          </strong>
+          <p>
+            Reads {freshnessRuntimeOneAttemptDecision.rollbackTarget.supabaseRuntimeReads}; public{" "}
+            {freshnessRuntimeOneAttemptDecision.rollbackTarget.nextPublicDataSource}; score{" "}
+            {freshnessRuntimeOneAttemptDecision.scoreSource}.
+          </p>
+        </article>
+        <article className="hold">
+          <span>Command held for explicit request</span>
+          <strong>{freshnessRuntimeOneAttemptDecision.mode}</strong>
+          <p>{freshnessRuntimeOneAttemptDecision.executionCommand}</p>
+        </article>
       </div>
       <details className="runtime-remote-guard-details">
         <summary>Remote guard details: CEO-named one-attempt only</summary>

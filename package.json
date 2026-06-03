@@ -144,6 +144,7 @@
     "check:schema-shape-acceptance-contract": "node scripts/check-schema-shape-acceptance-contract.mjs",
     "check:remote-only-object-runtime-contract": "node scripts/check-remote-only-object-runtime-contract.mjs",
     "check:freshness-runtime-readiness-contract": "node scripts/check-freshness-runtime-readiness-contract.mjs",
+    "check:freshness-runtime-one-attempt-decision": "node scripts/check-freshness-runtime-one-attempt-decision.mjs",
     "check:runtime-product-summary": "node scripts/check-runtime-product-summary.mjs",
     "check:investor-indicator-roadmap": "node scripts/check-investor-indicator-roadmap.mjs",
     "check:investor-indicator-roadmap-contract": "node scripts/check-investor-indicator-roadmap-contract.mjs",
