@@ -5,27 +5,39 @@ import { getPublicRuntimeBoundaryCopy } from "@/lib/public-runtime-boundary-copy
 import { PublicRuntimeStateStrip } from "@/components/public-runtime-state-strip";
 
 type TrustRuntimeBoundaryNoticeProps = {
-  context: "disclaimer" | "methodology" | "weekly";
+  context: "disclaimer" | "methodology" | "privacy" | "terms" | "weekly";
 };
 
 const contextCopy = {
   disclaimer: {
     eyebrow: "Legal Runtime Boundary",
-    title: "免責聲明：目前不是正式投資訊號",
+    title: "免責聲明：目前仍是 mock-only 判讀",
     summary:
-      "本網站目前仍以 mock-only runtime 呈現，內容只供產品驗證與研究參考，不構成投資建議、交易建議或正式資料保證。"
+      "本頁把投資責任、資料限制與 runtime 邊界說清楚。網站現在提供的是產品體驗與決策輔助展示，不是投資建議，也不是即時或完整市場資料。"
   },
   methodology: {
     eyebrow: "Method Runtime Boundary",
-    title: "方法論目前仍停在 mock-only 驗證階段",
+    title: "方法論目前用 mock 資料展示評分邏輯",
     summary:
-      "方法論頁說明模型設計與閱讀方式，但目前尚未完成來源深度、權利、回測與真實資料接軌，因此不能把分數視為正式市場訊號。"
+      "方法論頁說明指標設計、分數來源與未來資料切換原則。正式啟用真實分數前，仍必須通過資料來源、欄位品質與模型可信度檢查。"
+  },
+  privacy: {
+    eyebrow: "Privacy Runtime Boundary",
+    title: "隱私權頁目前只說明低風險資料使用",
+    summary:
+      "目前網站不要求登入，也不收集交易帳戶或個人投資部位。後續若加入分析工具、聯絡表單或會員功能，會先更新告知範圍與使用目的。"
+  },
+  terms: {
+    eyebrow: "Terms Runtime Boundary",
+    title: "使用條款目前鎖定展示型服務邊界",
+    summary:
+      "條款頁說明使用者可以如何閱讀、測試與分享本服務。正式接入真實資料或收費功能前，服務內容、責任範圍與使用限制都會再審核。"
   },
   weekly: {
     eyebrow: "Weekly Runtime Boundary",
-    title: "週報目前仍是 mock-only 閱讀摘要",
+    title: "週報目前仍是 mock-only 市場節奏展示",
     summary:
-      "週報可以協助整理本週觀察與風險方向，但目前尚未完成真實資料接軌、來源深度與 scoreSource=real 核准，不能視為正式投資報告。"
+      "週報用來展示市場健康度、風險升溫與族群節奏的閱讀方式。它不代表真實行情、即時訊號或可直接下單的投資建議。"
   }
 } as const;
 
@@ -59,6 +71,7 @@ export function TrustRuntimeBoundaryNotice({ context }: TrustRuntimeBoundaryNoti
         <span>Source depth</span>
         <strong>{sourceDepth.sourceDepthState}</strong>
         <p>scoreSource: {sourceDepth.scoreSource}</p>
+        <p>Freshness metadata only explains data recency; it does not make mock scores real.</p>
       </article>
       <article className="blocked">
         <span>Stop line</span>

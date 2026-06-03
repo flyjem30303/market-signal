@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { PageViewTracker } from "@/components/page-view-tracker";
 import { TrackedLink } from "@/components/tracked-link";
+import { TrustRuntimeBoundaryNotice } from "@/components/trust-runtime-boundary-notice";
 
 export const metadata: Metadata = {
   title: "使用條款",
-  description: "說明台股燈號網站的服務定位、使用限制、模型資料限制、會員、廣告與責任範圍。"
+  description: "說明指數燈號展示型服務的使用方式、責任邊界與目前 mock-only runtime 狀態。"
 };
 
 export default function TermsPage() {
@@ -14,89 +15,55 @@ export default function TermsPage() {
       <section className="hero">
         <p className="eyebrow">Terms</p>
         <h1>使用條款</h1>
-        <p>本頁為正式上線前的使用條款草案，用來先界定網站服務範圍與使用者責任。</p>
+        <p>
+          使用本網站代表你理解目前內容仍以產品展示、研究與流程驗證為主。正式資料、正式分數與商業功能上線前，服務條款會依實際範圍再更新。
+        </p>
       </section>
 
-      <section className="legal-quick-read" aria-label="使用條款快速摘要">
-        <article>
-          <span>目前版本</span>
-          <strong>正式上線前草案</strong>
-          <p>條款先界定產品方向與使用限制，實際商業化前仍需法務與營運覆核。</p>
-        </article>
-        <article>
-          <span>使用限制</span>
-          <strong>不可當交易指令</strong>
-          <p>健康度、風險度、新聞信心與週報都不能被直接解讀為買賣推薦。</p>
-        </article>
-        <article>
-          <span>未來功能</span>
-          <strong>會員與訂閱待定</strong>
-          <p>付費、Email、會員收藏與廣告合作上線前，需補完整範圍與取消方式。</p>
-        </article>
-      </section>
+      <TrustRuntimeBoundaryNotice context="terms" />
 
-      <section className="legal-runtime-boundary" aria-label="使用條款 runtime 使用規則">
-        <div>
-          <p className="eyebrow">Runtime Rules</p>
-          <h2>使用網站時先確認這三件事</h2>
-          <p>這些規則界定目前 mock 研究體驗的使用方式，正式商業化、會員與真實資料功能會另行補條款。</p>
-        </div>
-        <article className="allowed">
-          <span>可使用</span>
-          <strong>閱讀與比較</strong>
-          <p>可以瀏覽首頁、晨報、週報、方法論與個股頁，並用分數安排研究順序。</p>
+      <section className="legal-quick-read" aria-label="使用條款快速閱讀">
+        <article>
+          <span>可以使用</span>
+          <strong>瀏覽與測試公開頁</strong>
+          <p>你可以瀏覽首頁、晨報、週報、個股頁與方法論頁，理解產品想解決的投資閱讀問題。</p>
         </article>
-        <article className="caution">
-          <span>需自行判斷</span>
-          <strong>風險與部位</strong>
-          <p>任何標的、分數與內容都必須搭配個人財務狀況與風險承受度判斷。</p>
-        </article>
-        <article className="blocked">
+        <article>
           <span>不可使用</span>
-          <strong>自動交易依據</strong>
-          <p>不得將網站內容直接作為交易指令、保證收益、代操依據或公開轉售宣稱。</p>
+          <strong>不得當作正式投資服務</strong>
+          <p>目前內容不得作為交易依據，也不得轉述為真實市場訊號、正式研究報告或保證績效的工具。</p>
+        </article>
+        <article>
+          <span>服務狀態</span>
+          <strong>可能隨開發調整</strong>
+          <p>網站仍在快速開發，頁面、文案、指標與資料狀態可能隨切片調整。</p>
         </article>
       </section>
 
       <section className="panel legal-section">
-        <h2>服務定位</h2>
+        <h2>服務內容</h2>
         <p>
-          本網站提供台股健康度、回檔風險、新聞信心、週報與模型研究內容。所有內容皆為一般資訊服務，
-          不構成個人化投資建議、買賣推薦、招攬或收益保證。
+          指數燈號目前提供市場健康度、風險升溫、趨勢節奏與資料品質等概念展示。這些內容用來協助使用者理解未來產品方向，不代表正式服務承諾。
         </p>
       </section>
 
       <section className="panel legal-section">
-        <h2>使用者責任</h2>
+        <h2>使用限制</h2>
         <p>
-          使用者應自行判斷資訊是否適合自身財務狀況與風險承受度。任何投資決策與結果均由使用者自行承擔。
+          你不得以本網站目前 mock 內容作為真實投資建議、銷售素材、績效宣稱或第三方資料授權依據。若引用畫面，應清楚標示其仍是展示版本。
         </p>
       </section>
 
       <section className="panel legal-section">
-        <h2>資料與模型限制</h2>
+        <h2>變更與中斷</h2>
         <p>
-          本網站資料可能有延遲、缺漏、錯誤或計算假設差異。模型分數與回測結果可能因資料品質、市場結構變化與參數調整而改變。
-        </p>
-      </section>
-
-      <section className="panel legal-section">
-        <h2>會員與訂閱</h2>
-        <p>
-          未來若推出會員、Email 週報或付費功能，會另行標示功能範圍、付款方式、取消方式與資料保存規則。
-        </p>
-      </section>
-
-      <section className="panel legal-section">
-        <h2>廣告與聯盟內容</h2>
-        <p>
-          本網站可能提供廣告、聯盟連結或商業合作內容。相關內容不得視為投資建議，且不應影響模型分數或燈號。
+          因開發、測試、部署或資料流程調整，本網站可能暫停、變更或移除部分功能。正式上線前，服務可用性與資料完整性不作保證。
         </p>
       </section>
 
       <section className="panel legal-links">
-        <h2>讀完使用條款後</h2>
-        <TermsTrustLink href="/disclaimer" label="查看投資免責聲明" />
+        <h2>延伸閱讀</h2>
+        <TermsTrustLink href="/disclaimer" label="查看免責聲明" />
         <TermsTrustLink href="/privacy" label="查看隱私權政策" />
         <TermsTrustLink href="/methodology" label="了解評分方法論" />
         <TermsTrustLink href="/" label="回首頁看市場概況" />

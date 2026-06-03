@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { PageViewTracker } from "@/components/page-view-tracker";
 import { TrackedLink } from "@/components/tracked-link";
+import { TrustRuntimeBoundaryNotice } from "@/components/trust-runtime-boundary-notice";
 
 export const metadata: Metadata = {
   title: "隱私權政策",
-  description: "說明台股燈號網站可能蒐集的資料、使用目的、分析工具、會員資料與使用者權利。"
+  description: "說明指數燈號目前的資料收集範圍、分析工具邊界與未來功能更新原則。"
 };
 
 export default function PrivacyPage() {
@@ -15,94 +16,55 @@ export default function PrivacyPage() {
         <p className="eyebrow">Privacy</p>
         <h1>隱私權政策</h1>
         <p>
-          本頁為正式上線前的隱私權政策草案，用來先界定追蹤事件、會員功能、廣告與 Email 週報可能涉及的資料使用。
+          指數燈號目前不要求登入，也不收集交易帳戶、持股明細或個人財務資料。若未來加入會員、通知或表單功能，會先更新本頁說明。
         </p>
       </section>
 
-      <section className="legal-quick-read" aria-label="隱私權快速摘要">
+      <TrustRuntimeBoundaryNotice context="privacy" />
+
+      <section className="legal-quick-read" aria-label="隱私權政策快速閱讀">
         <article>
-          <span>目前狀態</span>
-          <strong>上線前草案</strong>
-          <p>目前先界定追蹤事件、會員、Email 週報與廣告可能用到的資料範圍。</p>
-        </article>
-        <article>
-          <span>資料用途</span>
-          <strong>改善產品體驗</strong>
-          <p>互動事件主要用於理解使用流程、熱門標的與內容效果，不用來保證投資結果。</p>
+          <span>目前不收集</span>
+          <strong>投資帳戶與部位資料</strong>
+          <p>網站目前沒有要求你輸入券商帳號、下單紀錄、持股、資產或風險屬性。</p>
         </article>
         <article>
-          <span>使用者權利</span>
-          <strong>需補流程</strong>
-          <p>會員功能上線前，需補齊查詢、更正、刪除、停用與聯絡窗口。</p>
+          <span>可能使用</span>
+          <strong>基本瀏覽分析</strong>
+          <p>為了改善產品體驗，未來可能使用去識別化瀏覽事件，例如頁面瀏覽、連結點擊與功能使用情境。</p>
         </article>
-      </section>
-
-      <section className="legal-runtime-boundary" aria-label="隱私權 runtime 資料規則">
-        <div>
-          <p className="eyebrow">Runtime Data Rules</p>
-          <h2>目前 mock 階段的資料處理方式</h2>
-          <p>正式會員、付費、Email 與廣告功能尚未啟用前，使用者應先知道哪些資料可能存在、哪些還不會啟動。</p>
-        </div>
-        <article className="allowed">
-          <span>目前可用</span>
-          <strong>匿名瀏覽體驗</strong>
-          <p>可以瀏覽 mock 市場頁、個股頁與方法論；目前頁面重點是產品體驗與資訊架構驗證。</p>
-        </article>
-        <article className="caution">
-          <span>未來需揭露</span>
-          <strong>分析與會員資料</strong>
-          <p>若啟用 GA4、會員、收藏、訂閱或 Email，需補上實際工具、用途、保存期間與刪除流程。</p>
-        </article>
-        <article className="blocked">
-          <span>尚未啟用</span>
-          <strong>交易與個人化建議</strong>
-          <p>目前不以個人資料產生投資建議、交易指令、授信判斷或自動化金融決策。</p>
+        <article>
+          <span>未來變更</span>
+          <strong>先告知再擴大</strong>
+          <p>若加入聯絡表單、Email 通知或會員功能，會明確說明收集目的、保存方式與使用者選擇。</p>
         </article>
       </section>
 
       <section className="panel legal-section">
-        <h2>可能蒐集的資料</h2>
+        <h2>目前資料範圍</h2>
         <p>
-          本網站目前可能記錄使用者瀏覽頁面、選擇標的、加入愛心、切換頁籤與調整日期等互動事件。
-          未來若開放會員功能，可能會蒐集 Email、登入識別、收藏清單、訂閱狀態與偏好設定。
+          目前公開頁主要使用 mock 市場資料與本機產品狀態。使用者瀏覽網站時，不需要提供姓名、電話、身分證字號、券商帳號或交易資訊。
         </p>
       </section>
 
       <section className="panel legal-section">
-        <h2>資料使用目的</h2>
+        <h2>分析與追蹤</h2>
         <p>
-          資料主要用於改善網站體驗、分析熱門標的、優化週報內容、提供會員收藏與通知功能、偵測異常使用，
-          以及評估廣告與聯盟行銷成效。
+          產品內有事件追蹤設計，用來理解使用者如何閱讀首頁、晨報、週報與個股頁。這些事件應以產品改善為目的，不應用於投資行為側寫。
         </p>
       </section>
 
       <section className="panel legal-section">
-        <h2>分析工具與 Cookie</h2>
+        <h2>資料安全與第三方服務</h2>
         <p>
-          正式上線後，本網站可能使用 GA4、Vercel Analytics 或其他網站分析工具。若使用 Cookie 或類似技術，
-          會用於統計流量、理解使用行為與維持登入狀態，不會用來保證任何投資結果。
-        </p>
-      </section>
-
-      <section className="panel legal-section">
-        <h2>第三方服務</h2>
-        <p>
-          本網站可能使用資料庫、主機代管、Email 寄送、廣告平台、聯盟行銷平台與新聞資料服務。
-          第三方服務會依其各自條款處理資料，正式上線前需補上實際服務商清單。
-        </p>
-      </section>
-
-      <section className="panel legal-section">
-        <h2>使用者權利</h2>
-        <p>
-          會員功能上線後，使用者應可要求查詢、更正、刪除或停止使用個人資料。正式版本會補上聯絡方式與資料刪除流程。
+          若未來導入第三方分析、雲端資料庫、通知服務或付款工具，會依功能需求揭露服務商、資料用途與必要的保護措施。
         </p>
       </section>
 
       <section className="panel legal-links">
-        <h2>讀完隱私權政策後</h2>
+        <h2>延伸閱讀</h2>
         <PrivacyTrustLink href="/terms" label="查看使用條款" />
-        <PrivacyTrustLink href="/disclaimer" label="查看投資免責聲明" />
+        <PrivacyTrustLink href="/disclaimer" label="查看免責聲明" />
         <PrivacyTrustLink href="/methodology" label="了解評分方法論" />
         <PrivacyTrustLink href="/" label="回首頁看市場概況" />
       </section>

@@ -58,6 +58,18 @@ const pages = [
   {
     path: "/methodology",
     required: coreRuntimeBoundaryRequired
+  },
+  {
+    path: "/disclaimer",
+    required: [...coreRuntimeBoundaryRequired, "免責聲明", "不是投資建議"]
+  },
+  {
+    path: "/terms",
+    required: [...coreRuntimeBoundaryRequired, "使用條款", "服務內容"]
+  },
+  {
+    path: "/privacy",
+    required: [...coreRuntimeBoundaryRequired, "隱私權政策", "目前資料範圍"]
   }
 ];
 
@@ -65,7 +77,10 @@ const visiblePagePaths = pages.map((page) => page.path);
 const expectedVisiblePaths = unique([
   ...localhostStatusHealthPaths.filter((path) => path !== "/robots.txt"),
   ...localhostContentHealthChecks.map((check) => check.path),
-  "/methodology"
+  "/methodology",
+  "/disclaimer",
+  "/terms",
+  "/privacy"
 ]);
 
 const mojibakeFragments = [

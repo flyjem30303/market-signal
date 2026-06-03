@@ -8,6 +8,8 @@ const files = {
   weekly: "src/app/weekly/page.tsx",
   methodology: "src/app/methodology/page.tsx",
   disclaimer: "src/app/disclaimer/page.tsx",
+  terms: "src/app/terms/page.tsx",
+  privacy: "src/app/privacy/page.tsx",
   packageJson: "package.json",
   reviewGate: "scripts/check-review-gates.mjs"
 };
@@ -100,6 +102,30 @@ const required = [
     ]
   },
   {
+    name: "terms-trust-loop",
+    source: sources.terms,
+    tokens: [
+      "TrustRuntimeBoundaryNotice context=\"terms\"",
+      "href=\"/disclaimer\"",
+      "href=\"/privacy\"",
+      "href=\"/methodology\"",
+      "href=\"/\"",
+      "terms_next_links"
+    ]
+  },
+  {
+    name: "privacy-trust-loop",
+    source: sources.privacy,
+    tokens: [
+      "TrustRuntimeBoundaryNotice context=\"privacy\"",
+      "href=\"/terms\"",
+      "href=\"/disclaimer\"",
+      "href=\"/methodology\"",
+      "href=\"/\"",
+      "privacy_next_links"
+    ]
+  },
+  {
     name: "stock-route-runtime-shell",
     source: sources.stock,
     tokens: ["DashboardShell", "includeSeoContent"]
@@ -138,7 +164,9 @@ const publicSources = [
   ["briefing", sources.briefing],
   ["weekly", sources.weekly],
   ["methodology", sources.methodology],
-  ["disclaimer", sources.disclaimer]
+  ["disclaimer", sources.disclaimer],
+  ["terms", sources.terms],
+  ["privacy", sources.privacy]
 ];
 
 const missing = [];
@@ -162,7 +190,7 @@ for (const [name, source] of publicSources) {
 const blocked = missing.length > 0 || forbidden.length > 0;
 const result = {
   status: blocked ? "blocked" : "ok",
-  checkedRoutes: ["/", "/briefing", "/weekly", "/stocks/[symbol]", "/methodology", "/disclaimer"],
+  checkedRoutes: ["/", "/briefing", "/weekly", "/stocks/[symbol]", "/methodology", "/disclaimer", "/terms", "/privacy"],
   missing,
   forbidden
 };
