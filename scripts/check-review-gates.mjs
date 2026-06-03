@@ -2873,6 +2873,11 @@ const checks = [
     name: "data-readiness-decision-summary"
   },
   {
+    command: [node, "scripts/check-runtime-execution-readiness-summary.mjs"],
+    expectStatus: "ok",
+    name: "runtime-execution-readiness-summary"
+  },
+  {
     command: [node, "scripts/check-schema-shape-acceptance-contract.mjs"],
     expectStatus: "ok",
     name: "schema-shape-acceptance-contract"

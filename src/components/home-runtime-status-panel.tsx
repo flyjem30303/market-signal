@@ -11,6 +11,7 @@ import { getRuntimeFailClosedSummary } from "@/lib/runtime-fail-closed";
 import { getPostReadonlyRuntimeState } from "@/lib/post-readonly-runtime-state";
 import { getRuntimeProductSummary } from "@/lib/runtime-product-summary";
 import { getFreshnessReadonlyLatestEvidenceSummary } from "@/lib/freshness-readonly-latest-evidence";
+import { getRuntimeExecutionReadinessSummary } from "@/lib/runtime-execution-readiness-summary";
 import { RuntimeTransitionRail } from "@/components/runtime-transition-rail";
 import { PublicRuntimeStateStrip } from "@/components/public-runtime-state-strip";
 import { TrackedLink } from "@/components/tracked-link";
@@ -33,6 +34,7 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
   const postReadonlyRuntime = getPostReadonlyRuntimeState();
   const productSummary = getRuntimeProductSummary(selectedSymbol);
   const freshnessLatestEvidence = getFreshnessReadonlyLatestEvidenceSummary();
+  const executionReadiness = getRuntimeExecutionReadinessSummary();
 
   return (
     <section className="home-runtime-status-panel" aria-label="Runtime status">
@@ -69,6 +71,16 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
       </div>
       <RuntimeTransitionRail symbol={selectedSymbol} />
       <PublicRuntimeStateStrip context="home" />
+      <article className="readying runtime-execution-readiness-card">
+        <span>Execution readiness</span>
+        <strong>{executionReadiness.state}</strong>
+        <p>{executionReadiness.chairBrief}</p>
+        <p>{executionReadiness.decisionQuestion}</p>
+        <p>
+          Command preview: {executionReadiness.commandLabel}. Public {executionReadiness.publicDataSource}; score{" "}
+          {executionReadiness.scoreSource}.
+        </p>
+      </article>
       <article className="active post-readonly-runtime-card">
         <span>Readonly result</span>
         <strong>{postReadonlyRuntime.objectsReachable} objects reachable</strong>

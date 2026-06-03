@@ -12,6 +12,7 @@ import { getPostReadonlyRuntimeState } from "@/lib/post-readonly-runtime-state";
 import { getRuntimeProductSummary } from "@/lib/runtime-product-summary";
 import { getStockRuntimeHeadlineSummary } from "@/lib/stock-runtime-headline-summary";
 import { getFreshnessReadonlyLatestEvidenceSummary } from "@/lib/freshness-readonly-latest-evidence";
+import { getRuntimeExecutionReadinessSummary } from "@/lib/runtime-execution-readiness-summary";
 import type { SignalSnapshot } from "@/lib/signal-model";
 import { RuntimeTransitionRail } from "@/components/runtime-transition-rail";
 import { PublicRuntimeStateStrip } from "@/components/public-runtime-state-strip";
@@ -37,6 +38,7 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
   const productSummary = getRuntimeProductSummary(snapshot.asset.symbol);
   const headlineSummary = getStockRuntimeHeadlineSummary(snapshot);
   const freshnessLatestEvidence = getFreshnessReadonlyLatestEvidenceSummary();
+  const executionReadiness = getRuntimeExecutionReadinessSummary();
 
   return (
     <section className="stock-runtime-at-a-glance" aria-label="Stock runtime status">
@@ -100,6 +102,16 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
       </div>
       <RuntimeTransitionRail symbol={snapshot.asset.symbol} />
       <PublicRuntimeStateStrip context="stock" />
+      <article className="readying runtime-execution-readiness-card">
+        <span>Execution readiness</span>
+        <strong>{executionReadiness.state}</strong>
+        <p>{executionReadiness.chairBrief}</p>
+        <p>{executionReadiness.decisionQuestion}</p>
+        <p>
+          Command preview: {executionReadiness.commandLabel}. Public {executionReadiness.publicDataSource}; score{" "}
+          {executionReadiness.scoreSource}.
+        </p>
+      </article>
       <nav className="runtime-next-links" aria-label="Stock runtime next steps">
         <TrackedLink
           eventName="stock_link_clicked"

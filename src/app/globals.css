@@ -3303,6 +3303,26 @@ select {
   overflow-wrap: anywhere;
 }
 
+.runtime-execution-readiness-card {
+  min-width: 0;
+  border-color: rgba(183, 121, 31, 0.25) !important;
+  background: #fffaf0 !important;
+}
+
+.runtime-execution-readiness-card strong,
+.runtime-execution-readiness-card p {
+  overflow-wrap: anywhere;
+}
+
+.runtime-execution-readiness-card strong {
+  font-size: 16px;
+}
+
+.runtime-execution-readiness-card p {
+  font-size: 12px;
+  line-height: 1.55;
+}
+
 .runtime-delivery-card,
 .runtime-cutpoint-card,
 .runtime-consistency-card,
