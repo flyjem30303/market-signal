@@ -43,7 +43,7 @@ export function getRuntimeProductSummary(symbol: string): RuntimeProductSummary 
       body:
         "Use accepted object reachability as backend evidence only. The next gate must decide schema shape, data freshness, row coverage, data quality, source-depth, and UI runtime interpretation before any public source or score promotion.",
       displayBody:
-        "下一關是把已驗證的後端可讀性，轉成 schema shape、data freshness、row coverage、data quality、source-depth 與 UI runtime interpretation 的正式判斷；還不能升級公開資料源或真實評分。",
+        "已接受的 object reachability 只能作為後端證據。下一關要先判定 schema shape、data freshness、row coverage、data quality、source-depth 與 UI runtime interpretation，才可以討論公開資料源或分數升級。",
       displayLabel: "下一關",
       displayTitle: "決定 post-readonly runtime 解讀",
       label: "Next gate",
@@ -53,9 +53,9 @@ export function getRuntimeProductSummary(symbol: string): RuntimeProductSummary 
       body:
         "Real market data, Supabase-backed public data, SQL scoring, publicDataSource=supabase, and scoreSource=real remain blocked until separate accepted gates.",
       displayBody:
-        "真實市場資料、Supabase 公開資料、SQL scoring、publicDataSource=supabase 與 scoreSource=real 都還沒有上線；必須等後續 gate 明確接受。",
+        "真實市場資料、Supabase-backed public data、SQL scoring、publicDataSource=supabase 與 scoreSource=real 都還沒有上線，必須等各自的 gate 被接受。",
       displayLabel: "尚未上線",
-      displayTitle: "真實資料宣稱仍封鎖",
+      displayTitle: "真實資料宣稱仍 blocked",
       label: "Not live yet",
       title: "Real-data claims are not live"
     },
@@ -71,7 +71,7 @@ export function getRuntimeProductSummary(symbol: string): RuntimeProductSummary 
       body: `${symbol} can be used now for mock-only signal reading, risk sorting, and product-flow validation. It does not provide investment advice or real market-data evidence.`,
       displayBody: `${symbol} 現在可用於 mock-only signal reading、risk sorting 與 product-flow validation；它不提供投資建議，也不代表真實市場資料證據。`,
       displayLabel: "現在可用",
-      displayTitle: "用 mock 訊號做閱讀與排序",
+      displayTitle: "用 mock 訊號做閱讀",
       label: "Use now",
       title: "Use mock signals for reading only"
     }

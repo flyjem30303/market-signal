@@ -153,6 +153,8 @@
     "report:promotion-prerequisites-gate": "node scripts/report-promotion-prerequisites-gate.mjs",
     "check:promotion-prerequisites-gate": "node scripts/check-promotion-prerequisites-gate.mjs",
     "check:a1-evidence-intake-protocol": "node scripts/check-a1-evidence-intake-protocol.mjs",
+    "report:a1-market-evidence-handoff-packet": "node scripts/report-a1-market-evidence-handoff-packet.mjs",
+    "check:a1-market-evidence-handoff-packet": "node scripts/check-a1-market-evidence-handoff-packet.mjs",
     "report:mainline-readonly-packet-bridge": "node scripts/report-mainline-readonly-packet-bridge.mjs",
     "check:mainline-readonly-packet-bridge": "node scripts/check-mainline-readonly-packet-bridge.mjs",
     "report:blocker-review-decision-outcome-ledger": "node scripts/report-blocker-review-decision-outcome-ledger.mjs",

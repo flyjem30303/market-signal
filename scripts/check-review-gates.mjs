@@ -2903,6 +2903,11 @@ const checks = [
     name: "a1-evidence-intake-protocol"
   },
   {
+    command: [node, "scripts/check-a1-market-evidence-handoff-packet.mjs"],
+    expectStatus: "ok",
+    name: "a1-market-evidence-handoff-packet"
+  },
+  {
     command: [node, "scripts/check-mainline-readonly-packet-bridge.mjs"],
     expectStatus: "ok",
     name: "mainline-readonly-packet-bridge"

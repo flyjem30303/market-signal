@@ -20,14 +20,24 @@ const required = [
   ["src/lib/runtime-product-summary.ts", "Real market data, Supabase-backed public data, SQL scoring"],
   ["src/lib/runtime-product-summary.ts", "publicDataSource=supabase"],
   ["src/lib/runtime-product-summary.ts", "scoreSource=real remain blocked"],
+  ["src/lib/runtime-product-summary.ts", "現在可用"],
+  ["src/lib/runtime-product-summary.ts", "用 mock 訊號做閱讀"],
+  ["src/lib/runtime-product-summary.ts", "尚未上線"],
+  ["src/lib/runtime-product-summary.ts", "真實資料宣稱仍 blocked"],
+  ["src/lib/runtime-product-summary.ts", "決定 post-readonly runtime 解讀"],
+  ["src/lib/runtime-product-summary.ts", "唯讀驗證已確認"],
   ["src/components/home-runtime-status-panel.tsx", "productSummary.useNow"],
   ["src/components/home-runtime-status-panel.tsx", "productSummary.notLiveYet"],
   ["src/components/home-runtime-status-panel.tsx", "productSummary.nextGate"],
   ["src/components/home-runtime-status-panel.tsx", "scoreSource=real remain blocked"],
+  ["src/components/home-runtime-status-panel.tsx", "查看個股頁"],
+  ["src/components/home-runtime-status-panel.tsx", "了解 mock 方法"],
   ["src/components/stock-runtime-at-a-glance.tsx", "productSummary.useNow"],
   ["src/components/stock-runtime-at-a-glance.tsx", "productSummary.notLiveYet"],
   ["src/components/stock-runtime-at-a-glance.tsx", "productSummary.nextGate"],
   ["src/components/stock-runtime-at-a-glance.tsx", "scoreSource=real is not enabled"],
+  ["src/components/stock-runtime-at-a-glance.tsx", "回到首頁"],
+  ["src/components/stock-runtime-at-a-glance.tsx", "了解 mock 方法"],
   ["src/lib/public-runtime-boundary-copy.ts", "Visible now: mock runtime"],
   ["src/lib/public-runtime-boundary-copy.ts", "Stop line: keep publicDataSource=mock and scoreSource=mock"],
   ["src/lib/post-readonly-runtime-state.ts", "publicDataSource: \"mock\""],
@@ -39,16 +49,6 @@ const required = [
 const forbidden = [
   ["src/lib/runtime-product-summary.ts", "scoreSource=real is enabled"],
   ["src/lib/runtime-product-summary.ts", "publicDataSource=supabase is enabled"],
-  ["src/lib/runtime-product-summary.ts", "嚗"],
-  ["src/lib/runtime-product-summary.ts", "蝻"],
-  ["src/lib/runtime-product-summary.ts", "撌"],
-  ["src/lib/runtime-product-summary.ts", "靽"],
-  ["src/lib/runtime-product-summary.ts", "銝"],
-  ["src/lib/runtime-product-summary.ts", "鞈"],
-  ["src/lib/runtime-product-summary.ts", "蝬"],
-  ["src/lib/runtime-product-summary.ts", "璅"],
-  ["src/lib/runtime-product-summary.ts", "?"],
-  ["src/lib/runtime-product-summary.ts", "?舀"],
   ["src/components/home-runtime-status-panel.tsx", "scoreSource: \"real\""],
   ["src/components/home-runtime-status-panel.tsx", "publicDataSource: \"supabase\""],
   ["src/components/stock-runtime-at-a-glance.tsx", "scoreSource: \"real\""],
@@ -57,8 +57,26 @@ const forbidden = [
   ["src/lib/post-readonly-runtime-state.ts", "publicDataSource: \"supabase\""]
 ];
 
+const mojibakePatterns = [
+  /[�]/u,
+  /\?[^\n"'<>]{0,8}[航亦]/u,
+  /[銝蝡霈瘝嚗敺撌靘鞈璅鈭圾]/u
+];
+
 const missing = required.filter(([file, phrase]) => !read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
 const blocked = forbidden.filter(([file, phrase]) => read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
+
+for (const file of [
+  "src/lib/runtime-product-summary.ts",
+  "src/components/home-runtime-status-panel.tsx",
+  "src/components/stock-runtime-at-a-glance.tsx"
+]) {
+  for (const pattern of mojibakePatterns) {
+    if (pattern.test(read(file))) {
+      blocked.push(`${file}: mojibake runtime disclosure ${String(pattern)}`);
+    }
+  }
+}
 
 console.log(
   JSON.stringify(

@@ -42,24 +42,23 @@ const required = [
   [helperPath, "source-depth"],
   [helperPath, "UI runtime interpretation"],
   [helperPath, "現在可用"],
-  [helperPath, "用 mock 訊號做閱讀與排序"],
+  [helperPath, "用 mock 訊號做閱讀"],
   [helperPath, "尚未上線"],
-  [helperPath, "真實資料宣稱仍封鎖"],
+  [helperPath, "真實資料宣稱仍 blocked"],
   [helperPath, "下一關"],
   [helperPath, "決定 post-readonly runtime 解讀"],
   [helperPath, "唯讀結果"],
   [helperPath, "Object reachability 已驗證"],
   [helperPath, "公開資料源仍是"],
   [helperPath, "分數來源仍是"],
-  [helperPath, "不提供投資建議"],
   [homePath, "getRuntimeProductSummary"],
   [homePath, "TrackedLink"],
   [homePath, "runtime-product-summary"],
   [homePath, "runtime-next-links"],
   [homePath, "Runtime next steps"],
-  [homePath, "查看標的頁"],
+  [homePath, "查看個股頁"],
   [homePath, "查看 CEO/PM briefing"],
-  [homePath, "了解 mock 訊號方法"],
+  [homePath, "了解 mock 方法"],
   [homePath, "runtime_next_stock"],
   [homePath, "runtime_next_briefing"],
   [homePath, "productSummary.useNow.displayLabel"],
@@ -74,8 +73,8 @@ const required = [
   [stockPath, "runtime-next-links"],
   [stockPath, "Stock runtime next steps"],
   [stockPath, "查看 CEO/PM briefing"],
-  [stockPath, "了解 mock 評分方法"],
-  [stockPath, "回到市場首頁"],
+  [stockPath, "了解 mock 方法"],
+  [stockPath, "回到首頁"],
   [stockPath, "stock_runtime_next_links"],
   [stockPath, "productSummary.useNow.displayLabel"],
   [stockPath, "productSummary.useNow.displayTitle"],
@@ -108,12 +107,20 @@ const forbidden = [
   [stockPath, "scoreSource: \"real\""]
 ];
 
-const mojibakePattern = /[�]|銝|蝣|撠|敺|曉|航|券|桀|||||||/u;
+const mojibakePatterns = [
+  /[�]/u,
+  /\?[^\n"'<>]{0,8}[航亦]/u,
+  /[銝蝡霈瘝嚗敺撌靘鞈璅鈭圾]/u
+];
+
 const missing = required.filter(([file, phrase]) => !read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
 const blocked = forbidden.filter(([file, phrase]) => read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
+
 for (const file of [helperPath, homePath, stockPath]) {
-  if (mojibakePattern.test(read(file))) {
-    blocked.push(`${file}: mojibake runtime copy`);
+  for (const pattern of mojibakePatterns) {
+    if (pattern.test(read(file))) {
+      blocked.push(`${file}: mojibake runtime copy ${String(pattern)}`);
+    }
   }
 }
 

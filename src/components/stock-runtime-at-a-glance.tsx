@@ -145,18 +145,18 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
         <TrackedLink
           eventName="trust_link_clicked"
           href="/methodology"
-          label="了解 mock 評分方法"
+          label="了解 mock 方法"
           payload={{ area: "stock_runtime_next_links", symbol: snapshot.asset.symbol }}
         >
-          了解 mock 評分方法
+          了解 mock 方法
         </TrackedLink>
         <TrackedLink
           eventName="stock_link_clicked"
           href="/"
-          label="回到市場首頁"
+          label="回到首頁"
           payload={{ area: "stock_runtime_next_links", symbol: snapshot.asset.symbol }}
         >
-          回到市場首頁
+          回到首頁
         </TrackedLink>
       </nav>
       <div className="stock-runtime-action-strip" aria-label="Stock CEO next runtime action summary">
@@ -196,8 +196,8 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
           <p>{postReadonlyRuntime.userFacingSummary}</p>
           <p>
             Row coverage {postReadonlyRuntime.rowCoverage.coverageStatus}:{" "}
-            {postReadonlyRuntime.rowCoverage.observedRows}/{postReadonlyRuntime.rowCoverage.expectedRows} rows,
-            missing {postReadonlyRuntime.rowCoverage.missingRows}.
+            {postReadonlyRuntime.rowCoverage.observedRows}/{postReadonlyRuntime.rowCoverage.expectedRows} rows, missing{" "}
+            {postReadonlyRuntime.rowCoverage.missingRows}.
           </p>
         </article>
         <article className="active post-readonly-runtime-card stock-freshness-evidence-card">

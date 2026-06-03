@@ -108,8 +108,8 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
         <p>{postReadonlyRuntime.headline}</p>
         <p>
           Row coverage {postReadonlyRuntime.rowCoverage.coverageStatus}:{" "}
-          {postReadonlyRuntime.rowCoverage.observedRows}/{postReadonlyRuntime.rowCoverage.expectedRows} rows,
-          missing {postReadonlyRuntime.rowCoverage.missingRows}.
+          {postReadonlyRuntime.rowCoverage.observedRows}/{postReadonlyRuntime.rowCoverage.expectedRows} rows, missing{" "}
+          {postReadonlyRuntime.rowCoverage.missingRows}.
         </p>
         <p>
           Public {postReadonlyRuntime.publicDataSource}; score {postReadonlyRuntime.scoreSource}.
@@ -131,10 +131,10 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
         <TrackedLink
           eventName="home_cta_clicked"
           href={`/stocks/${selectedSymbol}`}
-          label="查看標的頁"
+          label="查看個股頁"
           payload={{ action: "runtime_next_stock", symbol: selectedSymbol }}
         >
-          查看標的頁
+          查看個股頁
         </TrackedLink>
         <TrackedLink
           eventName="home_cta_clicked"
@@ -147,10 +147,10 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
         <TrackedLink
           eventName="trust_link_clicked"
           href="/methodology"
-          label="了解 mock 訊號方法"
+          label="了解 mock 方法"
           payload={{ area: "runtime_next_links", symbol: selectedSymbol }}
         >
-          了解 mock 訊號方法
+          了解 mock 方法
         </TrackedLink>
       </nav>
       <details className="home-runtime-details">
