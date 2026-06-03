@@ -4,54 +4,59 @@ import { localhostContentHealthChecks, localhostStatusHealthPaths } from "./loca
 const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 const baseUrl = process.env.LOCALHOST_BASE_URL ?? "http://localhost:3000";
+const coreRuntimeBoundaryRequired = [
+  "Runtime",
+  "mock",
+  "publicDataSource=mock",
+  "scoreSource=mock",
+  "Freshness metadata only explains data recency",
+  "scoreSource"
+];
 
 const pages = [
   {
     path: "/",
-    required: ["Runtime", "mock", "Freshness metadata only explains data recency", "scoreSource", "Indicator Roadmap"]
+    required: [...coreRuntimeBoundaryRequired, "Indicator Roadmap"]
   },
   {
     path: "/stocks/TWII",
     required: [
-      "Runtime",
-      "mock",
-      "Freshness metadata only explains data recency",
-      "scoreSource",
+      ...coreRuntimeBoundaryRequired,
       "Indicator Roadmap",
       "TWII Mock Disclosure"
     ]
   },
   {
     path: "/stocks/2330",
-    required: ["Runtime", "mock", "Freshness metadata only explains data recency", "scoreSource", "Indicator Roadmap"]
+    required: [...coreRuntimeBoundaryRequired, "Indicator Roadmap"]
   },
   {
     path: "/stocks/0050",
-    required: ["Runtime", "mock", "Freshness metadata only explains data recency", "scoreSource", "Indicator Roadmap"]
+    required: [...coreRuntimeBoundaryRequired, "Indicator Roadmap"]
   },
   {
     path: "/stocks/006208",
-    required: ["Runtime", "mock", "Freshness metadata only explains data recency", "scoreSource", "Indicator Roadmap"]
+    required: [...coreRuntimeBoundaryRequired, "Indicator Roadmap"]
   },
   {
     path: "/stocks/2382",
-    required: ["Runtime", "mock", "Freshness metadata only explains data recency", "scoreSource", "Indicator Roadmap"]
+    required: [...coreRuntimeBoundaryRequired, "Indicator Roadmap"]
   },
   {
     path: "/stocks/2308",
-    required: ["Runtime", "mock", "Freshness metadata only explains data recency", "scoreSource", "Indicator Roadmap"]
+    required: [...coreRuntimeBoundaryRequired, "Indicator Roadmap"]
   },
   {
     path: "/briefing",
-    required: ["PM project progress", "Runtime", "mock", "Freshness metadata only explains data recency", "scoreSource"]
+    required: ["PM project progress", ...coreRuntimeBoundaryRequired]
   },
   {
     path: "/weekly",
-    required: ["Runtime", "mock", "Freshness metadata only explains data recency", "scoreSource"]
+    required: coreRuntimeBoundaryRequired
   },
   {
     path: "/methodology",
-    required: ["Runtime", "mock", "Freshness metadata only explains data recency", "scoreSource"]
+    required: coreRuntimeBoundaryRequired
   }
 ];
 
@@ -80,7 +85,15 @@ const mojibakeFragments = [
   "\u8123",
   "\u877A"
 ];
-const forbiddenText = ["Internal Server Error", "ERR_CONNECTION_REFUSED", "scoreSource=real approved"];
+const forbiddenText = [
+  "Internal Server Error",
+  "ERR_CONNECTION_REFUSED",
+  "Visible now: real",
+  "Visible now: supabase",
+  "scoreSource=real approved",
+  "publicDataSource=supabase approved",
+  "claimApproval=approved"
+];
 
 const results = [];
 
