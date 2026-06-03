@@ -1,8 +1,6 @@
 import { getPostReadonlyRuntimeState } from "@/lib/post-readonly-runtime-state";
-import { getSupabaseNetworkBlockerSummary, type SupabaseNetworkBlockerSummary } from "@/lib/supabase-network-blocker";
 
 export type RuntimeProductSummary = {
-  networkBlocker: SupabaseNetworkBlockerSummary;
   nextGate: {
     body: string;
     label: "Next gate";
@@ -11,6 +9,11 @@ export type RuntimeProductSummary = {
   notLiveYet: {
     body: string;
     label: "Not live yet";
+    title: string;
+  };
+  readonlyDecision: {
+    body: string;
+    label: "Readonly result";
     title: string;
   };
   useNow: {
@@ -22,20 +25,24 @@ export type RuntimeProductSummary = {
 
 export function getRuntimeProductSummary(symbol: string): RuntimeProductSummary {
   const postReadonly = getPostReadonlyRuntimeState();
-  const networkBlocker = getSupabaseNetworkBlockerSummary();
 
   return {
-    networkBlocker,
     nextGate: {
-      body: `Resolve network reachability first: previous readonly evidence had ${postReadonly.objectsReachable} Supabase objects reachable, but the latest blocker is ${networkBlocker.status}. Resolve TCP 443 reachability before another bounded CEO-named readonly gate.`,
+      body:
+        "Use accepted object reachability as backend evidence only. The next gate must decide schema shape, data freshness, row coverage, data quality, source-depth, and UI runtime interpretation before any public source or score promotion.",
       label: "Next gate",
-      title: "Review readiness before runtime activation"
+      title: "Decide post-readonly runtime interpretation"
     },
     notLiveYet: {
       body:
         "Real market data, Supabase-backed public data, SQL scoring, publicDataSource=supabase, and scoreSource=real remain blocked until separate accepted gates.",
       label: "Not live yet",
       title: "Real-data claims are not live"
+    },
+    readonlyDecision: {
+      body: `${postReadonly.objectsReachable} Supabase objects are reachable in read-only validation. Public source remains ${postReadonly.publicDataSource}; score remains ${postReadonly.scoreSource}. ${postReadonly.stopLine}`,
+      label: "Readonly result",
+      title: "Object reachability is verified"
     },
     useNow: {
       body: `${symbol} can be used now for mock-only signal reading, risk sorting, and product-flow validation. It does not provide investment advice or real market-data evidence.`,

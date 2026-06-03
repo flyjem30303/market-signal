@@ -14,9 +14,9 @@ const { getFreshnessRuntimeActivationSummary } = loadTsModule("src/lib/freshness
 const { getFreshnessReadonlyLatestEvidenceSummary } = loadTsModule("src/lib/freshness-readonly-latest-evidence.ts");
 
 const expectedRuntimeRoute = {
-  defaultRoute: "mock_runtime_hardening",
+  defaultRoute: "post_readonly_runtime_decision",
   optionalStatus: "requires_separate_ceo_named_action",
-  separateRemoteTrigger: "CEO explicitly names one bounded Supabase readonly attempt"
+  separateRemoteTrigger: "CEO explicitly names a bounded schema, freshness, quality, or source-depth gate"
 };
 
 const progress = getProjectProgressSummary();
@@ -155,7 +155,7 @@ const snapshot = {
       owner: "Engineering",
       readiness: runtime.status,
       status: "mock_public_runtime",
-      nextAction: "Continue runtime hardening while publicDataSource and scoreSource remain mock."
+      nextAction: "Continue post-readonly runtime interpretation while publicDataSource and scoreSource remain mock."
     },
     {
       id: "source-rights-and-disclosure",
@@ -174,9 +174,9 @@ const snapshot = {
   ],
   ceoDecision: {
     currentLaneRatio: "runtime product 70 / blocker closure 20 / governance 10",
-    nextMeaningfulGate: "separately named bounded row coverage readonly attempt or mock runtime hardening",
+    nextMeaningfulGate: "post-readonly runtime decision, then schema/freshness/quality gate",
     recommendation:
-      "consolidate the next work into a larger mock runtime product slice; keep mandatory remote and real-data gates intact, but stop creating low-value micro governance slices",
+      "consolidate the next work into a larger post-readonly runtime product slice; keep mandatory remote and real-data gates intact, but stop creating low-value micro governance slices",
     runtimeDefaultRoute: runtimeGateBrief.currentDefaultRoute,
     runtimeRouteDecisionPoint: runtimeGateBrief.decisionPoint,
     runtimeSeparateRemoteTrigger: runtimeGateBrief.separateRemoteTrigger

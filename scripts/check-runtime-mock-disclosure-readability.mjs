@@ -15,7 +15,7 @@ const files = new Map(filesToRead.map((file) => [file, fs.readFileSync(file, "ut
 const required = [
   ["src/lib/runtime-product-summary.ts", "Use mock signals for reading only"],
   ["src/lib/runtime-product-summary.ts", "Real-data claims are not live"],
-  ["src/lib/runtime-product-summary.ts", "Review readiness before runtime activation"],
+  ["src/lib/runtime-product-summary.ts", "Decide post-readonly runtime interpretation"],
   ["src/lib/runtime-product-summary.ts", "mock-only signal reading, risk sorting, and product-flow validation"],
   ["src/lib/runtime-product-summary.ts", "Real market data, Supabase-backed public data, SQL scoring"],
   ["src/lib/runtime-product-summary.ts", "publicDataSource=supabase"],

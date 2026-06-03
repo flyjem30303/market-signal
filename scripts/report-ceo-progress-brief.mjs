@@ -11,7 +11,7 @@ if (snapshotRun.status !== 0) {
 }
 
 const snapshot = JSON.parse(snapshotRun.stdout);
-const expectedRuntimeDefaultRoute = "mock_runtime_hardening";
+const expectedRuntimeDefaultRoute = "post_readonly_runtime_decision";
 
 if (snapshot.runtimeRoute?.currentDefaultRoute !== expectedRuntimeDefaultRoute) {
   throw new Error("CEO progress brief runtime route boundary mismatch");

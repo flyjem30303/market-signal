@@ -37,9 +37,9 @@ const requiredSourcePhrases = [
   "separateRemoteTrigger",
   "runtimeDefaultRoute",
   "runtimeSeparateRemoteTrigger",
-  "mock_runtime_hardening",
+  "post_readonly_runtime_decision",
   "requires_separate_ceo_named_action",
-  "CEO explicitly names one bounded Supabase readonly attempt",
+  "CEO explicitly names a bounded schema, freshness, quality, or source-depth gate",
   "cadenceAssessment",
   "recent_slices_too_fragmented",
   "larger_mock_runtime_product_slice",
@@ -58,7 +58,7 @@ const requiredSourcePhrases = [
   "npm run report:model-credibility-local-review",
   "npm run report:data-quality-field-validity-qa-review",
   "runtime product 70 / blocker closure 20 / governance 10",
-  "separately named bounded row coverage readonly attempt or mock runtime hardening",
+  "post-readonly runtime decision, then schema/freshness/quality gate",
   "decisionNodes",
   "id: \"local-verification\"",
   "id: \"row-coverage-readonly\"",
@@ -203,16 +203,16 @@ if (output) {
     blocked.push(`output.runtimeRoute.status: ${String(output.runtimeRoute?.status)}`);
   }
 
-  if (output.runtimeRoute?.currentDefaultRoute !== "mock_runtime_hardening") {
+  if (output.runtimeRoute?.currentDefaultRoute !== "post_readonly_runtime_decision") {
     blocked.push(`output.runtimeRoute.currentDefaultRoute: ${String(output.runtimeRoute?.currentDefaultRoute)}`);
   }
 
-  if (output.runtimeRoute?.separateRemoteTrigger !== "CEO explicitly names one bounded Supabase readonly attempt") {
+  if (output.runtimeRoute?.separateRemoteTrigger !== "CEO explicitly names a bounded schema, freshness, quality, or source-depth gate") {
     blocked.push(`output.runtimeRoute.separateRemoteTrigger: ${String(output.runtimeRoute?.separateRemoteTrigger)}`);
   }
 
   const routeOptionIds = new Set((output.runtimeRoute?.routeOptions ?? []).map((item) => item.id));
-  for (const id of ["mock_runtime_hardening", "bounded_readonly_attempt"]) {
+  for (const id of ["post_readonly_runtime_decision", "schema_freshness_quality_gate"]) {
     if (!routeOptionIds.has(id)) {
       blocked.push(`output.runtimeRoute.routeOptions missing ${id}`);
     }
