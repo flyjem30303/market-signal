@@ -2733,6 +2733,11 @@ const checks = [
     name: "home-market-action-summary"
   },
   {
+    command: [node, "scripts/check-home-first-screen-action-summary.mjs"],
+    expectStatus: "ok",
+    name: "home-first-screen-action-summary"
+  },
+  {
     command: [node, "scripts/check-home-investor-indicator-roadmap-panel.mjs"],
     expectStatus: "ok",
     name: "home-investor-indicator-roadmap-panel"
