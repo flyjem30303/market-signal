@@ -61,7 +61,7 @@ for (const [token, label] of [
 for (const [token, label] of [
   ["PublicRuntimeStateStrip", "component export"],
   ["getPublicClaimRuntimeState", "helper import"],
-  ['aria-label={`${context} public runtime state`}', "aria label"],
+  ['aria-label={`${context} public system state`}', "aria label"],
   ['className="public-runtime-state-strip"', "strip class"],
   ["public-runtime-stop-line", "stop line class"]
 ]) {

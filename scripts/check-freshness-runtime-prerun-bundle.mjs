@@ -18,6 +18,16 @@ const files = new Map(
 const required = [
   [libPath, "FreshnessRuntimePreRunBundle"],
   [libPath, "getFreshnessRuntimePreRunBundle"],
+  [libPath, "displayStatus"],
+  [libPath, "displayHeadline"],
+  [libPath, "displayNextAction"],
+  [libPath, "displayStopLine"],
+  [libPath, "displayImmediateChecksLabel"],
+  [libPath, "displayFinalGate"],
+  [libPath, "displaySourceLine"],
+  [libPath, "本機預檢就緒，遠端執行尚未授權"],
+  [libPath, "新鮮度遠端讀取前，必須先完成同一批本機預檢"],
+  [libPath, "公開資料來源與評分來源都維持 mock"],
   [libPath, "freshness_runtime_prerun_bundle"],
   [libPath, "ready_for_same_slice_pre_run_checks"],
   [libPath, "automaticRemoteExecution: false"],
@@ -35,6 +45,13 @@ const required = [
   [panelPath, "freshnessRuntimePreRunBundle"],
   [panelPath, "runtime-freshness-prerun-bundle"],
   [panelPath, "Freshness runtime pre-run bundle"],
+  [panelPath, "freshnessRuntimePreRunBundle.displayStatus"],
+  [panelPath, "freshnessRuntimePreRunBundle.displayHeadline"],
+  [panelPath, "freshnessRuntimePreRunBundle.displayNextAction"],
+  [panelPath, "freshnessRuntimePreRunBundle.displayStopLine"],
+  [panelPath, "freshnessRuntimePreRunBundle.displayImmediateChecksLabel"],
+  [panelPath, "freshnessRuntimePreRunBundle.displayFinalGate"],
+  [panelPath, "freshnessRuntimePreRunBundle.displaySourceLine"],
   [cssPath, ".runtime-freshness-prerun-bundle"],
   [packagePath, "\"check:freshness-runtime-prerun-bundle\": \"node scripts/check-freshness-runtime-prerun-bundle.mjs\""],
   [reviewGatePath, "scripts/check-freshness-runtime-prerun-bundle.mjs"],
@@ -56,6 +73,16 @@ const forbidden = [
   [libPath, "scoreSource: \"real\""],
   [panelPath, "publicDataSource: \"supabase\""],
   [panelPath, "scoreSource: \"real\""]
+];
+
+const uiInternalWordingForbidden = [
+  [panelPath, ">{freshnessRuntimePreRunBundle.status}</strong>"],
+  [panelPath, "One-attempt status: {freshnessRuntimePreRunBundle.oneAttemptStatus}"],
+  [panelPath, ">{freshnessRuntimePreRunBundle.nextAction}</p>"],
+  [panelPath, ">{freshnessRuntimePreRunBundle.stopLine}</p>"],
+  [panelPath, "{freshnessRuntimePreRunBundle.immediateLocalChecks.length} checks"],
+  [panelPath, ">{freshnessRuntimePreRunBundle.finalProjectGate}</strong>"],
+  [panelPath, "Public {freshnessRuntimePreRunBundle.publicDataSource}; score"]
 ];
 
 const precheckScripts = [
@@ -81,7 +108,12 @@ const precheckResults = precheckScripts.map((script) => {
 });
 
 const missing = required.filter(([file, phrase]) => !read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
-const blocked = forbidden.filter(([file, phrase]) => read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
+const blocked = [
+  ...forbidden.filter(([file, phrase]) => read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`),
+  ...uiInternalWordingForbidden
+    .filter(([file, phrase]) => read(file).includes(phrase))
+    .map(([file, phrase]) => `${file}: UI still renders internal prerun wording ${phrase}`)
+];
 const failedPrechecks = precheckResults.filter((result) => !result.pass);
 
 console.log(

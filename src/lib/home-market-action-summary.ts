@@ -35,68 +35,69 @@ export function buildHomeMarketActionSummary(
   );
   const hasDataWarnings =
     selectedSnapshot.missingModuleFlags.length > 0 || selectedSnapshot.staleDataFlags.length > 0;
+  const breadthLine = `市場分布：${breadth.constructive} 個偏正向、${breadth.watch} 個觀察中、${breadth.defensive} 個偏防守。`;
 
   if (hasDataWarnings) {
     return {
-      headline: "先確認資料完整性，再閱讀燈號方向",
-      marketBreadthLine: `市場分布：${breadth.constructive} 個偏正向、${breadth.watch} 個觀察中、${breadth.defensive} 個偏防守；目前仍是 mock runtime。`,
+      headline: "資料仍是 mock 狀態，先看風險邊界再看分數",
+      marketBreadthLine: `${breadthLine} 目前公開 runtime 仍維持 mock-only。`,
       primaryAction: {
-        body: `${selectedSnapshot.asset.symbol} 有資料缺口或過期模組，先看股票頁的資料缺口與停用條件。`,
+        body: `${selectedSnapshot.asset.symbol} 有資料缺口或 stale flags，先查看資料品質與 mock 邊界，再解讀任何分數。`,
         href: `/stocks/${selectedSnapshot.asset.symbol}`,
-        label: `${selectedSnapshot.asset.symbol} 檢查資料缺口`,
+        label: `${selectedSnapshot.asset.symbol} 查看資料品質`,
         title: "資料品質優先",
         tone: "blocked"
       },
       secondaryAction: {
-        body: `${marketSnapshot.asset.symbol} 可作為大盤閱讀入口，確認市場風險是否放大個股判讀誤差。`,
+        body: `${marketSnapshot.asset.symbol} 可作為大盤狀態參考，但目前仍不能把 mock 分數視為正式市場訊號。`,
         href: `/stocks/${marketSnapshot.asset.symbol}`,
-        label: `${marketSnapshot.asset.symbol} 看大盤脈絡`,
-        title: "回到市場基準",
+        label: `${marketSnapshot.asset.symbol} 查看大盤狀態`,
+        title: "大盤背景",
         tone: "hold"
       },
-      stopLine: "資料缺口未消除前，不可把 mock 分數解讀為真實投資建議；publicDataSource=mock，scoreSource=mock。"
+      stopLine: "資料品質不足時只做觀察與產品驗證；publicDataSource=mock，scoreSource=mock，不提供買賣建議。"
     };
   }
 
   if (selectedSnapshot.riskScore >= 60 || riskiest.riskScore >= 70) {
     return {
-      headline: "市場仍可閱讀，但風險模組要先看",
-      marketBreadthLine: `市場分布：${breadth.constructive} 個偏正向、${breadth.watch} 個觀察中、${breadth.defensive} 個偏防守；最高風險是 ${riskiest.asset.symbol}。`,
+      headline: "市場風險升溫，先控管回撤再找機會",
+      marketBreadthLine: `${breadthLine} 目前最高風險標的是 ${riskiest.asset.symbol}。`,
       primaryAction: {
-        body: `${riskiest.asset.symbol} 風險 ${riskiest.riskScore}/100，先進股票頁看風險來源與停止閱讀條件。`,
+        body: `${riskiest.asset.symbol} 風險分數 ${riskiest.riskScore}/100，建議先查看風險來源與可能的回撤壓力。`,
         href: `/stocks/${riskiest.asset.symbol}`,
-        label: `${riskiest.asset.symbol} 檢查風險`,
-        title: "優先處理風險",
+        label: `${riskiest.asset.symbol} 查看風險`,
+        title: "優先檢查風險",
         tone: "blocked"
       },
       secondaryAction: {
-        body: `${marketSnapshot.asset.symbol} 可協助判斷大盤壓力是否正在影響個股與 ETF 訊號。`,
+        body: `${marketSnapshot.asset.symbol} 可用來判斷整體盤勢是否轉弱，ETF 與權值股仍需分開檢查。`,
         href: `/stocks/${marketSnapshot.asset.symbol}`,
-        label: `${marketSnapshot.asset.symbol} 看市場基準`,
-        title: "確認大盤脈絡",
+        label: `${marketSnapshot.asset.symbol} 查看盤勢`,
+        title: "市場背景",
         tone: "hold"
       },
-      stopLine: "風險卡只提供 mock-only 決策輔助，不代表買賣建議或真實風控結論。"
+      stopLine: "風險摘要仍是 mock runtime 輔助資訊；publicDataSource=mock，scoreSource=mock，不構成投資建議。"
     };
   }
 
   return {
-    headline: "市場偏可閱讀，先看強勢標的再回看風險",
-    marketBreadthLine: `市場分布：${breadth.constructive} 個偏正向、${breadth.watch} 個觀察中、${breadth.defensive} 個偏防守；mock 訊號可用於產品流程驗證。`,
+    headline: "市場偏穩，但仍以 mock 分數做觀察",
+    marketBreadthLine: `${breadthLine} 目前可以先看強勢標的與高風險標的的差距。`,
     primaryAction: {
-      body: `${strongest.asset.symbol} 綜合分數 ${strongest.compositeScore}/100，適合先看趨勢、模組健康與資料邊界。`,
+      body: `${strongest.asset.symbol} 綜合分數 ${strongest.compositeScore}/100，可先查看趨勢、基本面與風險模組是否一致。`,
       href: `/stocks/${strongest.asset.symbol}`,
-      label: `${strongest.asset.symbol} 看強勢標的`,
-      title: "先讀市場亮點",
+      label: `${strongest.asset.symbol} 查看強勢標的`,
+      title: "相對強勢",
       tone: "active"
     },
     secondaryAction: {
-      body: `${riskiest.asset.symbol} 風險 ${riskiest.riskScore}/100，作為第二步檢查，避免只看分數忽略風險。`,
+      body: `${riskiest.asset.symbol} 風險分數 ${riskiest.riskScore}/100，仍需要追蹤是否出現風險升溫。`,
       href: `/stocks/${riskiest.asset.symbol}`,
-      label: `${riskiest.asset.symbol} 檢查風險`,
-      title: "補看風險",
+      label: `${riskiest.asset.symbol} 查看風險`,
+      title: "同步檢查風險",
       tone: "hold"
     },
-    stopLine: "publicDataSource=mock；scoreSource=mock；目前只能輔助閱讀流程，不能作為真實投資決策。"
+    stopLine: "publicDataSource=mock，scoreSource=mock；目前只支援觀察與產品驗證，不提供正式資料或買賣建議。"
   };
 }

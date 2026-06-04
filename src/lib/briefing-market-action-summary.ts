@@ -24,51 +24,52 @@ export function buildBriefingMarketActionSummary(
 ): BriefingMarketActionSummary {
   const marketNeedsCaution = market.riskScore >= 60 || breadth.defensive > breadth.constructive;
   const topRiskIsHot = topRisk.riskScore >= 70;
+  const marketLine = `市場分布：${breadth.constructive} 個偏正向、${breadth.watch} 個觀察中、${breadth.defensive} 個偏防守。`;
 
   if (marketNeedsCaution || topRiskIsHot) {
     return {
-      headline: "CEO Briefing：先收斂市場風險，再看個股機會",
-      marketLine: `市場分布：${breadth.constructive} 個偏正向、${breadth.watch} 個觀察中、${breadth.defensive} 個偏防守；最高風險是 ${topRisk.asset.symbol}。`,
+      headline: "CEO Briefing：市場風險升溫，先守住 mock 邊界",
+      marketLine: `${marketLine} 目前最需要追蹤的風險標的是 ${topRisk.asset.symbol}。`,
       primary: {
-        body: `${market.asset.symbol} 是大盤基準，先確認市場壓力是否會放大個股與 ETF 的誤讀風險。`,
+        body: `${market.asset.symbol} 顯示大盤風險需要留意，先看市場廣度與風險分布，再決定是否進一步檢查 ETF 或權值股。`,
         href: `/stocks/${market.asset.symbol}`,
-        label: "看大盤基準",
+        label: "查看大盤狀態",
         symbol: market.asset.symbol,
-        title: `${market.asset.symbol} 市場脈絡`,
+        title: `${market.asset.symbol} 市場背景`,
         tone: "hold"
       },
       secondary: {
-        body: `${topRisk.asset.symbol} 風險 ${topRisk.riskScore}/100，需要先看風險模組與停止閱讀條件。`,
+        body: `${topRisk.asset.symbol} 風險分數 ${topRisk.riskScore}/100，建議先看風險來源與資料品質，不要直接推論正式訊號。`,
         href: `/stocks/${topRisk.asset.symbol}`,
-        label: "檢查最高風險",
+        label: "查看最高風險",
         symbol: topRisk.asset.symbol,
-        title: `${topRisk.asset.symbol} 風險偏高`,
+        title: `${topRisk.asset.symbol} 風險檢查`,
         tone: "blocked"
       },
       stopLine:
-        "Briefing 仍是 mock runtime 摘要；publicDataSource=mock，scoreSource=mock，不提供買賣建議，也不可升級為投資建議。"
+        "Briefing 仍是 mock runtime 摘要；publicDataSource=mock，scoreSource=mock，不提供買賣建議，也不可作為投資建議。"
     };
   }
 
   return {
-    headline: "CEO Briefing：市場可閱讀，但仍需保留 mock 邊界",
-    marketLine: `市場分布：${breadth.constructive} 個偏正向、${breadth.watch} 個觀察中、${breadth.defensive} 個偏防守；可用於產品流程驗證。`,
+    headline: "CEO Briefing：市場暫時偏穩，繼續用 mock 摘要觀察",
+    marketLine: `${marketLine} 目前可以先追蹤大盤與最高風險標的的差距。`,
     primary: {
-      body: `${market.asset.symbol} 綜合分數 ${market.compositeScore}/100，適合先看市場方向與資料揭露。`,
+      body: `${market.asset.symbol} 綜合分數 ${market.compositeScore}/100，可先看趨勢、廣度與資料品質是否一致。`,
       href: `/stocks/${market.asset.symbol}`,
-      label: "看市場方向",
+      label: "查看大盤趨勢",
       symbol: market.asset.symbol,
-      title: `${market.asset.symbol} 市場基準`,
+      title: `${market.asset.symbol} 市場狀態`,
       tone: "active"
     },
     secondary: {
-      body: `${topRisk.asset.symbol} 風險 ${topRisk.riskScore}/100，作為第二步風險檢查。`,
+      body: `${topRisk.asset.symbol} 風險分數 ${topRisk.riskScore}/100，仍需要保留風險觀察，不宜只看強勢分數。`,
       href: `/stocks/${topRisk.asset.symbol}`,
-      label: "補看風險",
+      label: "同步查看風險",
       symbol: topRisk.asset.symbol,
-      title: `${topRisk.asset.symbol} 風險觀察`,
+      title: `${topRisk.asset.symbol} 風險追蹤`,
       tone: "hold"
     },
-    stopLine: "目前只可作為 mock 決策輔助與產品驗證，不可視為真實市場結論。"
+    stopLine: "目前只能使用 mock runtime 解讀；publicDataSource=mock，scoreSource=mock，不能推論正式市場訊號。"
   };
 }

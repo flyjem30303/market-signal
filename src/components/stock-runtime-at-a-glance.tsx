@@ -52,6 +52,7 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
           evidence, and Supabase-backed public data plus scoreSource=real still require separate accepted gates.
         </p>
       </div>
+
       <div className="stock-runtime-headline-summary" aria-label="Stock runtime headline summary">
         <div>
           <span>First-screen runtime summary</span>
@@ -67,6 +68,7 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
         ))}
         <p className="stock-runtime-headline-stop-line">{headlineSummary.stopLine}</p>
       </div>
+
       <div className="stock-decision-aid-groups" aria-label="Stock decision aid groups">
         {headlineSummary.decisionAidGroups.map((group) => (
           <article className={group.state} key={group.label}>
@@ -80,6 +82,7 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
           </article>
         ))}
       </div>
+
       <div className="runtime-product-summary" aria-label="Runtime product summary">
         <article className="active">
           <span>{productSummary.useNow.displayLabel}</span>
@@ -102,8 +105,10 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
           <p>{productSummary.readonlyDecision.displayBody}</p>
         </article>
       </div>
+
       <RuntimeTransitionRail symbol={snapshot.asset.symbol} />
       <PublicRuntimeStateStrip context="stock" />
+
       <section className="runtime-action-status-strip" aria-label="Runtime action status normalization">
         <div>
           <span>Action status</span>
@@ -123,6 +128,7 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
           </article>
         ))}
       </section>
+
       <article className="readying runtime-execution-readiness-card">
         <span>Execution readiness</span>
         <strong>{executionReadiness.state}</strong>
@@ -133,22 +139,23 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
           {executionReadiness.scoreSource}.
         </p>
       </article>
+
       <nav className="runtime-next-links" aria-label="Stock runtime next steps">
         <TrackedLink
           eventName="stock_link_clicked"
           href="/briefing"
-          label="查看市場簡報"
+          label="查看晨報"
           payload={{ area: "stock_runtime_next_links", symbol: snapshot.asset.symbol }}
         >
-          查看市場簡報
+          查看晨報
         </TrackedLink>
         <TrackedLink
           eventName="trust_link_clicked"
           href="/methodology"
-          label="了解 mock 方法"
+          label="了解 mock 邊界"
           payload={{ area: "stock_runtime_next_links", symbol: snapshot.asset.symbol }}
         >
-          了解 mock 方法
+          了解 mock 邊界
         </TrackedLink>
         <TrackedLink
           eventName="stock_link_clicked"
@@ -159,30 +166,32 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
           回到首頁
         </TrackedLink>
       </nav>
-      <div className="stock-runtime-action-strip" aria-label="Stock CEO next runtime action summary">
+
+      <div className="stock-runtime-action-strip" aria-label="Stock next system action summary">
         <article className="active">
-          <span>Current progress</span>
+          <span>專案進度</span>
           <strong>{decisionSummary.currentProgressPercent}%</strong>
           <p>{decisionSummary.stage}</p>
         </article>
         <article className="readying">
-          <span>CEO next action</span>
+          <span>下一步</span>
           <strong>{decisionSummary.decisionLabel}</strong>
           <p>{decisionSummary.nextLift}</p>
         </article>
         <article className="blocked">
-          <span>Still blocked</span>
+          <span>被擋住的升級</span>
           <strong>{decisionSummary.blockedTransition}</strong>
           <p>{decisionSummary.safetyStopLine}</p>
         </article>
       </div>
-      <div className="stock-runtime-governance-details" aria-label="Stock runtime governance details">
+
+      <div className="stock-runtime-governance-details" aria-label="Stock system governance details">
         <div>
-          <span>Review details</span>
-          <strong>upgrade blockers stay below the reading summary</strong>
+          <span>治理摘要</span>
+          <strong>公開頁面仍停在 mock runtime</strong>
           <p>
-            Blockers, delivery cadence, readonly state, and fail-closed rules remain available here without turning the
-            first screen into an internal checklist.
+            這個標的頁可以用來閱讀 mock score、風險方向與資料邊界；它尚未宣稱真實市場資料、正式分數或
+            Supabase-backed public data。任何升級都要等獨立 gate 接受。
           </p>
         </div>
         <article className="active runtime-boundary-copy-card">
@@ -213,29 +222,29 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
           </p>
         </article>
         <article className="blocked">
-          <span>Source depth</span>
+          <span>來源深度</span>
           <strong>{sourceDepth.sourceDepthState}</strong>
           <p>{sourceDepth.stopLine}</p>
         </article>
         <article className="active runtime-delivery-card">
-          <span>Delivery cadence</span>
+          <span>推進節奏</span>
           <strong>{runtimeDeliveryCadence.nextExecutionRatio}</strong>
           <p>{runtimeDeliveryCadence.targetSliceSize}</p>
         </article>
         <article className="active">
-          <span>Visible now</span>
+          <span>可用狀態</span>
           <strong>{boundaryCopy.headline}</strong>
           <p>{boundaryCopy.summary}</p>
           <p>{boundaryCopy.currentState}</p>
         </article>
         <article className="blocked runtime-boundary-copy-card">
-          <span>Not live yet</span>
-          <strong>real data blocked</strong>
+          <span>尚未開放</span>
+          <strong>真實資料仍未開放</strong>
           <p>{boundaryCopy.blockedState}</p>
           <p>{boundaryCopy.stopLine}</p>
         </article>
         <article className="blocked runtime-fail-closed-card">
-          <span>Fail-closed guard</span>
+          <span>Fail-closed</span>
           <strong>{failClosed.failClosedState}</strong>
           <p>{failClosed.statusLine}</p>
           <p>{failClosed.blockedActions.slice(0, 4).join(", ")}.</p>
@@ -248,36 +257,36 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
           </p>
         </article>
         <article className="readying">
-          <span>Next runtime gate</span>
+          <span>下一個 runtime gate</span>
           <strong>{readiness.score}% readiness</strong>
           <p>{rowCoverage.nextDecision}</p>
         </article>
         <article className="readying compact-runtime-blocker">
-          <span>CEO track</span>
+          <span>Runtime 解讀</span>
           <strong>{runtimeInterpretation.decision}</strong>
           <p>
-            Runtime {runtimeInterpretation.laneRatio.mockRuntimeHardening}% / readonly prep{" "}
-            {runtimeInterpretation.laneRatio.supabaseReadonlyPreparation}%. {runtimeInterpretation.blockers[0]}.
+            mock runtime hardening {runtimeInterpretation.laneRatio.mockRuntimeHardening}% / Supabase readonly
+            preparation {runtimeInterpretation.laneRatio.supabaseReadonlyPreparation}%。{runtimeInterpretation.blockers[0]}
           </p>
         </article>
         <article className="readying compact-runtime-blocker runtime-cutpoint-card">
-          <span>Mandatory cutpoints</span>
-          <strong>necessary gates remain</strong>
+          <span>必要切點</span>
+          <strong>切點仍需保留</strong>
           <p>{runtimeDeliveryCadence.mandatoryCutpoints.slice(0, 3).join("; ")}.</p>
         </article>
         <article className="readying compact-runtime-blocker runtime-consistency-card">
-          <span>State consistency</span>
+          <span>狀態一致性</span>
           <strong>{runtimeStateConsistency.consistencyState}</strong>
           <p>{runtimeStateConsistency.statusLine}</p>
         </article>
         <article className="readying compact-runtime-blocker post-readonly-runtime-card">
-          <span>Post-readonly next gate</span>
+          <span>Readonly 證據</span>
           <strong>{postReadonlyRuntime.state}</strong>
           <p>{postReadonlyRuntime.rowCoverage.summary}</p>
           <p>{postReadonlyRuntime.stopLine}</p>
         </article>
         <article className="blocked compact-runtime-blocker">
-          <span>Blocker readiness</span>
+          <span>封鎖項目</span>
           <strong>{blockerReadiness.status}</strong>
           <p>Data / Legal / Investment checklists are local-ready. {runtimeInterpretation.stopLine}</p>
         </article>

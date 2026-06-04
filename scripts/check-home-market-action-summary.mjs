@@ -6,11 +6,9 @@ const cssPath = "src/app/globals.css";
 const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 
-const helper = fs.readFileSync(helperPath, "utf8");
-const dashboard = fs.readFileSync(dashboardPath, "utf8");
-const css = fs.readFileSync(cssPath, "utf8");
-const packageJson = fs.readFileSync(packagePath, "utf8");
-const reviewGate = fs.readFileSync(reviewGatePath, "utf8");
+const files = new Map(
+  [helperPath, dashboardPath, cssPath, packagePath, reviewGatePath].map((file) => [file, fs.readFileSync(file, "utf8")])
+);
 
 const required = [
   [helperPath, "buildHomeMarketActionSummary"],
@@ -20,9 +18,9 @@ const required = [
   [helperPath, "marketBreadthLine"],
   [helperPath, "publicDataSource=mock"],
   [helperPath, "scoreSource=mock"],
-  [helperPath, "不能作為真實投資決策"],
-  [helperPath, "資料缺口"],
-  [helperPath, "風險模組"],
+  [helperPath, "資料品質優先"],
+  [helperPath, "優先檢查風險"],
+  [helperPath, "相對強勢"],
   [helperPath, "missingModuleFlags"],
   [helperPath, "staleDataFlags"],
   [dashboardPath, "buildHomeMarketActionSummary"],
@@ -54,33 +52,13 @@ const forbidden = [
   [dashboardPath, "publicDataSource=\"supabase\""]
 ];
 
-const files = new Map([
-  [helperPath, helper],
-  [dashboardPath, dashboard],
-  [cssPath, css],
-  [packagePath, packageJson],
-  [reviewGatePath, reviewGate]
-]);
+const missing = required.filter(([file, phrase]) => !read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
+const blocked = forbidden.filter(([file, phrase]) => read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
 
-const missing = required
-  .filter(([file, phrase]) => !files.get(file).includes(phrase))
-  .map(([file, phrase]) => `${file}: ${phrase}`);
-const blocked = forbidden
-  .filter(([file, phrase]) => files.get(file).includes(phrase))
-  .map(([file, phrase]) => `${file}: ${phrase}`);
+console.log(JSON.stringify({ blocked, missing, status: missing.length === 0 && blocked.length === 0 ? "ok" : "blocked" }, null, 2));
 
-console.log(
-  JSON.stringify(
-    {
-      blocked,
-      missing,
-      status: missing.length === 0 && blocked.length === 0 ? "ok" : "blocked"
-    },
-    null,
-    2
-  )
-);
+if (missing.length > 0 || blocked.length > 0) process.exitCode = 1;
 
-if (missing.length > 0 || blocked.length > 0) {
-  process.exitCode = 1;
+function read(file) {
+  return files.get(file) ?? "";
 }

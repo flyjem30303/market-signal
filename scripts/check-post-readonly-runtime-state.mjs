@@ -34,7 +34,7 @@ const required = [
   [homePath, "postReadonlyRuntime.objectsReachable"],
   [homePath, "postReadonlyRuntime.rowCoverage.coverageStatus"],
   [homePath, "postReadonlyRuntime.rowCoverage.missingRows"],
-  [homePath, "Post-readonly next gate"],
+  [homePath, "唯讀後下一關"],
   [stockPath, "getPostReadonlyRuntimeState"],
   [stockPath, "postReadonlyRuntime.userFacingSummary"],
   [stockPath, "postReadonlyRuntime.rowCoverage.summary"],

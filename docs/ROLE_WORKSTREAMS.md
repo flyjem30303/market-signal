@@ -4,6 +4,19 @@ Updated: 2026-06-03
 
 This file is the project-level assignment map for parallel work. It exists so PM can move faster without losing ownership boundaries.
 
+## Why This Must Stay In Project Files
+
+CEO / PM operating rules, A1 / A2 workstream boundaries, and the current mainline next step must be recorded in project files because conversation history can be compacted, archived, or resumed from a summary. If these decisions live only in chat, the project can lose context about who owns which lane, which actions remain blocked, and what the next safe runtime slice is.
+
+This file is therefore the recovery anchor after any context loss:
+- PM can resume without re-asking the chairman for already settled role boundaries.
+- A1 and A2 can continue preparing work without crossing into each other's lane.
+- Runtime work can keep moving while Supabase, SQL, raw market data, and production-source promotions remain gated.
+- Future agents can distinguish current CEO direction from older checkpoint notes.
+- Git backup can be skipped when the chairman asks to avoid permission prompts, without losing the project decision trail.
+
+When chat context and this file disagree, PM must treat this file as the safer baseline, then update it after CEO/PM explicitly changes direction.
+
 ## Current Operating Model
 
 - Mainline PM: CEO / PM / Runtime Engineering
@@ -26,10 +39,11 @@ Owned work:
 - Stage percentage and next-slice selection.
 
 Current next tasks:
-- Continue runtime foundation toward readonly gate readiness.
+- Continue runtime foundation toward readonly gate readiness, with the next mainline slice focused on making remote guard and freshness-runtime states product-readable while keeping technical details folded or internal.
 - Keep publicDataSource=mock and scoreSource=mock until explicit release criteria are met.
 - Integrate A1/A2 packets only after local checks pass.
 - Ask I to review deployment, environment, credential, DNS, monitoring, and rollback impact before any public launch, production source, or cloud-environment change.
+- If the chairman is away and asks to avoid permission prompts, skip Git backup, staging, commits, remote execution, and any prompt-triggering action; continue local-only checks, UI/runtime readability hardening, and documentation updates.
 
 ## A1: Data / Supabase / Market Evidence
 

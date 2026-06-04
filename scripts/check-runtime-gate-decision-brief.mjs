@@ -1,14 +1,17 @@
 import fs from "node:fs";
 
 const libPath = "src/lib/runtime-gate-decision-brief.ts";
-const panelPath = "src/components/runtime-readiness-panel.tsx";
+const readinessPanelPath = "src/components/runtime-readiness-panel.tsx";
+const progressPanelPath = "src/components/project-progress-panel.tsx";
 const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 
 const lib = fs.readFileSync(libPath, "utf8");
-const panel = fs.readFileSync(panelPath, "utf8");
+const readinessPanel = fs.readFileSync(readinessPanelPath, "utf8");
+const progressPanel = fs.readFileSync(progressPanelPath, "utf8");
 const packageJson = fs.readFileSync(packagePath, "utf8");
 const reviewGate = fs.readFileSync(reviewGatePath, "utf8");
+const css = fs.readFileSync("src/app/globals.css", "utf8");
 
 const missing = [];
 const forbidden = [];
@@ -29,7 +32,23 @@ for (const phrase of [
   "record sanitized aggregate only",
   "currentDefaultRoute: \"post_readonly_runtime_decision\"",
   "Post-readonly decision: Supabase object reachability is accepted",
-  "CEO explicitly names a bounded schema, freshness, quality, or source-depth gate",
+  "displayStatus",
+  "displayDecisionPoint",
+  "displayRouteTitle",
+  "displaySourceBoundary",
+  "displayScoreSource",
+  "displayAllowedNowTitle",
+  "displayBlockedNowTitle",
+  "displayNextStep",
+  "displayRemoteTrigger",
+  "本地可整理，遠端需另行授權",
+  "公開資料來源：mock",
+  "分數來源：mock",
+  "現在可做",
+  "目前封鎖",
+  "目前預設",
+  "需另行授權",
+  "只有 CEO 另行命名 bounded gate",
   "Default route: post-readonly runtime decision",
   "Optional route: schema, freshness, and quality gate",
   "schema shape",
@@ -51,45 +70,42 @@ for (const phrase of [
   "Runtime state summary",
   "Runtime decision snapshot",
   "runtimeGateBrief.allowedNow",
-  "runtimeGateBrief.pmNextStep",
-  "separate authorization",
+  "runtimeGateBrief.displayStatus",
+  "runtimeGateBrief.displayDecisionPoint",
+  "runtimeGateBrief.displayRouteTitle",
+  "runtimeGateBrief.displaySourceBoundary",
+  "runtimeGateBrief.displayScoreSource",
+  "runtimeGateBrief.displayAllowedNowTitle",
+  "runtimeGateBrief.displayBlockedNowTitle",
+  "runtimeGateBrief.displayNextStep",
+  "runtimeGateBrief.displayRemoteTrigger",
   "Single-attempt authorization command card",
-  "Single-attempt command card",
-  "executionPreview.requiredConfirmation",
-  "executionPreview.exactCommandPreview",
-  "executionPreview.manualRunPrerequisites",
-  "executionPreview.stopConditions",
-  "Automated remote run remains",
   "Post-run review readiness card",
-  "executionPreview.postRunReviewTarget",
-  "executionPreview.postRunAcceptedOutcomeCategories",
-  "executionPreview.readinessPromotionBlocked",
-  "executionPreview.blockedPromotions",
-  "RuntimeSectionLabel",
-  "Top decision",
-  "One-attempt guard",
-  "Evidence details",
-  "Work lanes",
   "Runtime route snapshot",
-  "runtimeGateBrief.currentDefaultRoute",
-  "runtimeGateBrief.decisionPoint",
   "runtimeGateBrief.routeOptions",
-  "runtimeGateBrief.separateRemoteTrigger"
+  "option.displayStatus"
 ]) {
-  if (!panel.includes(phrase)) missing.push(`${panelPath}: ${phrase}`);
+  if (!readinessPanel.includes(phrase)) missing.push(`${readinessPanelPath}: ${phrase}`);
 }
 
-const css = fs.readFileSync("src/app/globals.css", "utf8");
+for (const phrase of [
+  "runtimeGate.displayRouteTitle",
+  "runtimeGate.displayDecisionPoint",
+  "runtimeGate.displayStatus",
+  "runtimeGate.displayRemoteTrigger",
+  "runtimeGate.displaySourceBoundary",
+  "runtimeGate.displayScoreSource",
+  "runtimeGate.displayBlockedNowTitle"
+]) {
+  if (!progressPanel.includes(phrase)) missing.push(`${progressPanelPath}: ${phrase}`);
+}
 
 for (const phrase of [
   ".runtime-state-strip",
   ".runtime-state-pill",
   ".runtime-decision-snapshot",
-  ".runtime-decision-snapshot article.blocked",
   ".runtime-single-attempt-card",
-  ".runtime-single-attempt-card article.blocked",
   ".runtime-post-run-review-card",
-  ".runtime-post-run-review-card article.blocked",
   ".runtime-section-label",
   ".runtime-route-snapshot"
 ]) {
@@ -105,7 +121,8 @@ for (const [file, content, phrase] of [
 
 for (const [file, content] of [
   [libPath, lib],
-  [panelPath, panel]
+  [readinessPanelPath, readinessPanel],
+  [progressPanelPath, progressPanel]
 ]) {
   for (const phrase of [
     "@supabase/supabase-js",
@@ -122,6 +139,27 @@ for (const [file, content] of [
   ]) {
     if (content.includes(phrase)) forbidden.push(`${file}: ${phrase}`);
   }
+}
+
+for (const phrase of [
+  ">{runtimeGateBrief.currentDefaultRoute}</strong>",
+  ">{runtimeGateBrief.publicDataSource}</strong>",
+  ">{runtimeGateBrief.scoreSource}</strong>",
+  ">separate authorization</strong>",
+  "Remote trigger: {runtimeGateBrief.separateRemoteTrigger}",
+  ">{runtimeGateBrief.pmNextStep}</p>",
+  ">{option.status}</span>",
+  ">{runtimeGate.currentDefaultRoute}</strong>",
+  "{runtimeGate.publicDataSource} / {runtimeGate.scoreSource}",
+  ">{runtimeGate.separateRemoteTrigger}</strong>"
+]) {
+  if (readinessPanel.includes(phrase) || progressPanel.includes(phrase)) {
+    forbidden.push(`runtime UI still renders internal runtime gate wording ${phrase}`);
+  }
+}
+
+for (const pattern of [/[\uE000-\uF8FF\uFFFD]/u, /[嚗餅銝蝡舫摰祇雿輻閮踹]{2,}/u, /\?{2,}/u]) {
+  if (pattern.test(lib)) forbidden.push(`${libPath}: mojibake runtime gate copy ${String(pattern)}`);
 }
 
 if (/command:\s*\[node,\s*"scripts\/run-row-coverage-readonly-once\.mjs"\]/.test(reviewGate)) {

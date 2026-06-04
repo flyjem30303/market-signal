@@ -25,51 +25,52 @@ export function buildWeeklyMarketActionSummary(
 ): WeeklyMarketActionSummary {
   const defensiveWeek = breadth.defensive > breadth.constructive || market.riskScore >= 60;
   const etfNeedsCaution = topEtf.riskScore >= 60;
+  const weeklyLine = `本週市場分布：${breadth.constructive} 個偏正向、${breadth.watch} 個觀察中、${breadth.defensive} 個偏防守。`;
 
   if (defensiveWeek) {
     return {
-      headline: "本週先看大盤壓力，再確認最高風險標的",
+      headline: "本週先採防守觀察，確認風險是否擴散",
       primary: {
-        body: `${market.asset.symbol} 是本週市場基準，先判斷防守訊號是否擴散到個股與 ETF。`,
+        body: `${market.asset.symbol} 顯示市場風險偏高，先看大盤、ETF 與高風險標的是否同步轉弱。`,
         href: `/stocks/${market.asset.symbol}`,
-        label: "進入大盤頁",
+        label: "查看大盤週狀態",
         symbol: market.asset.symbol,
-        title: `${market.asset.symbol} 市場壓力`,
+        title: `${market.asset.symbol} 市場風險`,
         tone: "hold"
       },
       secondary: {
-        body: `${topRisk.asset.symbol} 風險 ${topRisk.riskScore}/100，本週需要優先確認風險來源與資料狀態。`,
+        body: `${topRisk.asset.symbol} 風險分數 ${topRisk.riskScore}/100，本週應列為主要風險觀察對象。`,
         href: `/stocks/${topRisk.asset.symbol}`,
-        label: "檢查高風險",
+        label: "查看最高風險",
         symbol: topRisk.asset.symbol,
-        title: `${topRisk.asset.symbol} 風險檢查`,
+        title: `${topRisk.asset.symbol} 風險追蹤`,
         tone: topRisk.riskScore >= 70 ? "blocked" : "hold"
       },
       stopLine:
-        "週報仍是 mock runtime 摘要；publicDataSource=mock，scoreSource=mock，不提供買賣建議，也不可作為投資建議。",
-      weeklyLine: `市場分布：${breadth.constructive} 個偏正向、${breadth.watch} 個觀察中、${breadth.defensive} 個偏防守；本週先控風險。`
+        "週報仍是 mock runtime 摘要；資料來源維持 publicDataSource=mock，分數來源維持 scoreSource=mock，不提供買賣建議，也不可作為投資建議。",
+      weeklyLine: `${weeklyLine} 本週先確認防守壓力是否延續。`
     };
   }
 
   return {
-    headline: "本週可先看 ETF 與市場亮點，再補看風險",
+    headline: "本週市場暫時偏穩，ETF 與高風險標的同步觀察",
     primary: {
-      body: `${topEtf.asset.symbol} 健康度 ${topEtf.healthScore}/100，適合先看趨勢與模組一致性。`,
+      body: `${topEtf.asset.symbol} 健康度 ${topEtf.healthScore}/100，可先看 ETF 是否維持相對穩定。`,
       href: `/stocks/${topEtf.asset.symbol}`,
-      label: "進入 ETF 頁",
+      label: "查看 ETF 狀態",
       symbol: topEtf.asset.symbol,
-      title: etfNeedsCaution ? `${topEtf.asset.symbol} ETF 需留意風險` : `${topEtf.asset.symbol} ETF 亮點`,
+      title: etfNeedsCaution ? `${topEtf.asset.symbol} ETF 仍需留意風險` : `${topEtf.asset.symbol} ETF 相對穩定`,
       tone: etfNeedsCaution ? "hold" : "active"
     },
     secondary: {
-      body: `${topRisk.asset.symbol} 風險 ${topRisk.riskScore}/100，作為本週第二步檢查。`,
+      body: `${topRisk.asset.symbol} 風險分數 ${topRisk.riskScore}/100，仍要列入本週風險追蹤。`,
       href: `/stocks/${topRisk.asset.symbol}`,
-      label: "補看風險",
+      label: "同步查看風險",
       symbol: topRisk.asset.symbol,
-      title: `${topRisk.asset.symbol} 風險觀察`,
+      title: `${topRisk.asset.symbol} 風險追蹤`,
       tone: topRisk.riskScore >= 70 ? "blocked" : "hold"
     },
-    stopLine: "週報目前只支援 mock 決策輔助與產品驗證，不可視為真實市場結論。",
-    weeklyLine: `市場分布：${breadth.constructive} 個偏正向、${breadth.watch} 個觀察中、${breadth.defensive} 個偏防守；可用 ETF 入口檢查流程。`
+    stopLine: "週報目前仍使用 mock runtime；資料來源維持 publicDataSource=mock，分數來源維持 scoreSource=mock，不能推論正式市場訊號。",
+    weeklyLine: `${weeklyLine} 目前可先比較 ETF 穩定度與高風險標的。`
   };
 }

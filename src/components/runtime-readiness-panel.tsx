@@ -1,4 +1,4 @@
-import { getRuntimeReadinessSummary } from "@/lib/runtime-readiness-score";
+﻿import { getRuntimeReadinessSummary } from "@/lib/runtime-readiness-score";
 import { getFreshnessRuntimeActivationSummary } from "@/lib/freshness-runtime-activation";
 import { getRuntimeHardeningExitCriteria } from "@/lib/runtime-hardening-exit-criteria";
 import { getSupabaseReadonlyEvidenceSummary } from "@/lib/supabase-readonly-evidence";
@@ -89,13 +89,14 @@ export function RuntimeReadinessPanel() {
       </div>
       <div className="runtime-route-snapshot" aria-label="Runtime route snapshot">
         <article>
-          <span>Current default route</span>
-          <strong>{runtimeGateBrief.currentDefaultRoute}</strong>
-          <p>{runtimeGateBrief.decisionPoint}</p>
+          <span>Runtime guard summary</span>
+          <strong>{runtimeGateBrief.displayStatus}</strong>
+          <p>{runtimeGateBrief.displayDecisionPoint}</p>
+          <p>{runtimeGateBrief.displayRouteTitle}</p>
         </article>
         {runtimeGateBrief.routeOptions.map((option) => (
           <article className={option.status === "default_now" ? "ready" : "hold"} key={option.id}>
-            <span>{option.status}</span>
+            <span>{option.displayStatus}</span>
             <strong>{option.title}</strong>
             <p>{option.reason}</p>
             <p>{option.nextStep}</p>
@@ -105,15 +106,15 @@ export function RuntimeReadinessPanel() {
       <div className="runtime-state-strip" aria-label="Runtime state summary">
         <article className="runtime-state-pill ready">
           <span>Public source</span>
-          <strong>{runtimeGateBrief.publicDataSource}</strong>
+          <strong>{runtimeGateBrief.displaySourceBoundary}</strong>
         </article>
         <article className="runtime-state-pill ready">
           <span>Score source</span>
-          <strong>{runtimeGateBrief.scoreSource}</strong>
+          <strong>{runtimeGateBrief.displayScoreSource}</strong>
         </article>
         <article className="runtime-state-pill hold">
           <span>Remote action</span>
-          <strong>separate authorization</strong>
+          <strong>需 CEO 另行命名 bounded gate</strong>
         </article>
         <article className="runtime-state-pill ready runtime-consistency-card">
           <span>State consistency</span>
@@ -128,7 +129,7 @@ export function RuntimeReadinessPanel() {
       </div>
       <div className="runtime-decision-snapshot" aria-label="Runtime decision snapshot">
         <article>
-          <span>Allowed now</span>
+          <span>{runtimeGateBrief.displayAllowedNowTitle}</span>
           <ul>
             {runtimeGateBrief.allowedNow.slice(0, 4).map((item) => (
               <li key={item}>{item}</li>
@@ -136,7 +137,7 @@ export function RuntimeReadinessPanel() {
           </ul>
         </article>
         <article className="blocked">
-          <span>Still blocked</span>
+          <span>{runtimeGateBrief.displayBlockedNowTitle}</span>
           <ul>
             {runtimeGateBrief.blockedNow.slice(0, 6).map((item) => (
               <li key={item}>{item}</li>
@@ -145,9 +146,9 @@ export function RuntimeReadinessPanel() {
         </article>
         <article>
           <span>CEO/PM next step</span>
-          <p>{runtimeGateBrief.pmNextStep}</p>
+          <p>{runtimeGateBrief.displayNextStep}</p>
           <p>{runtimeGateBrief.requiredAuthorization}.</p>
-          <p>Remote trigger: {runtimeGateBrief.separateRemoteTrigger}.</p>
+          <p>{runtimeGateBrief.displayRemoteTrigger}</p>
         </article>
       </div>
       <div className="runtime-final-prep-card" aria-label="Supabase readonly final prep decision summary">
@@ -204,7 +205,7 @@ export function RuntimeReadinessPanel() {
           <span>CEO wording</span>
           <p>{readonlyDecisionCard.displayRequiredCeoWording}</p>
           <p>{readonlyDecisionCard.displayPostRunReviewRequirement}</p>
-          <p>Automated remote run: {readonlyDecisionCard.automatedRemoteRun ? "true" : "false"}.</p>
+          <p>{readonlyDecisionCard.displayAutomatedRunLine}</p>
         </article>
       </div>
       <div className="runtime-post-run-prep-card" aria-label="Post-run review preparation summary">
@@ -352,45 +353,33 @@ export function RuntimeReadinessPanel() {
       <div className="runtime-freshness-one-attempt-decision" aria-label="Freshness runtime one-attempt decision">
         <article className="hold">
           <span>Freshness one-attempt decision</span>
-          <strong>{freshnessRuntimeOneAttemptDecision.status}</strong>
-          <p>
-            Approval: {freshnessRuntimeOneAttemptDecision.approvalState}; automatic execution{" "}
-            {freshnessRuntimeOneAttemptDecision.canExecuteAutomatically ? "true" : "false"}.
-          </p>
-          <p>{freshnessRuntimeOneAttemptDecision.nextAction}</p>
-          <p>{freshnessRuntimeOneAttemptDecision.stopLine}</p>
+          <strong>{freshnessRuntimeOneAttemptDecision.displayStatus}</strong>
+          <p>{freshnessRuntimeOneAttemptDecision.displayHeadline}</p>
+          <p>{freshnessRuntimeOneAttemptDecision.displayNextAction}</p>
+          <p>{freshnessRuntimeOneAttemptDecision.displayStopLine}</p>
         </article>
         <article className="ready">
           <span>Rollback target</span>
-          <strong>
-            DATA_FRESHNESS_SOURCE={freshnessRuntimeOneAttemptDecision.rollbackTarget.dataFreshnessSource}
-          </strong>
-          <p>
-            Reads {freshnessRuntimeOneAttemptDecision.rollbackTarget.supabaseRuntimeReads}; public{" "}
-            {freshnessRuntimeOneAttemptDecision.rollbackTarget.nextPublicDataSource}; score{" "}
-            {freshnessRuntimeOneAttemptDecision.scoreSource}.
-          </p>
+          <strong>{freshnessRuntimeOneAttemptDecision.displayRollbackLabel}</strong>
+          <p>{freshnessRuntimeOneAttemptDecision.displayRollbackLine}</p>
         </article>
         <article className="hold">
           <span>Command held for explicit request</span>
-          <strong>{freshnessRuntimeOneAttemptDecision.mode}</strong>
+          <strong>{freshnessRuntimeOneAttemptDecision.displayCommandLabel}</strong>
           <p>{freshnessRuntimeOneAttemptDecision.executionCommand}</p>
         </article>
       </div>
       <div className="runtime-freshness-prerun-bundle" aria-label="Freshness runtime pre-run bundle">
         <article className="ready">
           <span>Freshness pre-run bundle</span>
-          <strong>{freshnessRuntimePreRunBundle.status}</strong>
-          <p>
-            One-attempt status: {freshnessRuntimePreRunBundle.oneAttemptStatus}; automatic remote execution{" "}
-            {freshnessRuntimePreRunBundle.automaticRemoteExecution ? "true" : "false"}.
-          </p>
-          <p>{freshnessRuntimePreRunBundle.nextAction}</p>
-          <p>{freshnessRuntimePreRunBundle.stopLine}</p>
+          <strong>{freshnessRuntimePreRunBundle.displayStatus}</strong>
+          <p>{freshnessRuntimePreRunBundle.displayHeadline}</p>
+          <p>{freshnessRuntimePreRunBundle.displayNextAction}</p>
+          <p>{freshnessRuntimePreRunBundle.displayStopLine}</p>
         </article>
         <article className="hold">
           <span>Immediate local checks</span>
-          <strong>{freshnessRuntimePreRunBundle.immediateLocalChecks.length} checks</strong>
+          <strong>{freshnessRuntimePreRunBundle.displayImmediateChecksLabel}</strong>
           <ul>
             {freshnessRuntimePreRunBundle.immediateLocalChecks.map((check) => (
               <li key={check}>{check}</li>
@@ -399,11 +388,8 @@ export function RuntimeReadinessPanel() {
         </article>
         <article className="hold">
           <span>Final project gate</span>
-          <strong>{freshnessRuntimePreRunBundle.finalProjectGate}</strong>
-          <p>
-            Public {freshnessRuntimePreRunBundle.publicDataSource}; score{" "}
-            {freshnessRuntimePreRunBundle.scoreSource}.
-          </p>
+          <strong>{freshnessRuntimePreRunBundle.displayFinalGate}</strong>
+          <p>{freshnessRuntimePreRunBundle.displaySourceLine}</p>
         </article>
       </div>
       <details className="runtime-remote-guard-details">
@@ -672,3 +658,4 @@ function RuntimeSectionLabel({ text, title }: { text: string; title: string }) {
     </div>
   );
 }
+

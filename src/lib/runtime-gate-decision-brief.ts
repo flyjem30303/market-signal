@@ -4,6 +4,15 @@ export type RuntimeGateDecisionBrief = {
   ceoRecommendation: string;
   currentDefaultRoute: "post_readonly_runtime_decision";
   decisionPoint: string;
+  displayAllowedNowTitle: string;
+  displayBlockedNowTitle: string;
+  displayDecisionPoint: string;
+  displayNextStep: string;
+  displayRemoteTrigger: string;
+  displayRouteTitle: string;
+  displayScoreSource: string;
+  displaySourceBoundary: string;
+  displayStatus: string;
   mode: "runtime_gate_decision_brief";
   pmNextStep: string;
   postRunReview: string[];
@@ -17,6 +26,7 @@ export type RuntimeGateDecisionBrief = {
 };
 
 export type RuntimeGateRouteOption = {
+  displayStatus: string;
   id: "post_readonly_runtime_decision" | "schema_freshness_quality_gate";
   nextStep: string;
   reason: string;
@@ -49,6 +59,16 @@ export function getRuntimeGateDecisionBrief(): RuntimeGateDecisionBrief {
     currentDefaultRoute: "post_readonly_runtime_decision",
     decisionPoint:
       "Post-readonly decision: Supabase object reachability is accepted, while the public runtime remains mock-only.",
+    displayAllowedNowTitle: "現在可做",
+    displayBlockedNowTitle: "目前封鎖",
+    displayDecisionPoint: "已接受 Supabase 物件可達性作為後端證據；公開 runtime 仍維持 mock-only。",
+    displayNextStep:
+      "PM 繼續整理 runtime guard summary，並把 schema、freshness、quality gate 的後續跨線動作維持為另行命名。",
+    displayRemoteTrigger: "只有 CEO 另行命名 bounded gate 時，才能進入單次人工 readonly 嘗試。",
+    displayRouteTitle: "目前預設路線：post-readonly runtime decision",
+    displayScoreSource: "分數來源：mock",
+    displaySourceBoundary: "公開資料來源：mock",
+    displayStatus: "本地可整理，遠端需另行授權",
     mode: "runtime_gate_decision_brief",
     pmNextStep:
       "Update runtime interpretation and prepare the next gate; do not execute remote work from this brief.",
@@ -71,6 +91,7 @@ export function getRuntimeGateDecisionBrief(): RuntimeGateDecisionBrief {
     ],
     routeOptions: [
       {
+        displayStatus: "目前預設",
         id: "post_readonly_runtime_decision",
         nextStep: "make the runtime say object reachability is verified while public source and scoring remain mock-only",
         reason: "it converts accepted backend evidence into clearer product state without remote execution or real-data promotion",
@@ -78,6 +99,7 @@ export function getRuntimeGateDecisionBrief(): RuntimeGateDecisionBrief {
         title: "Default route: post-readonly runtime decision"
       },
       {
+        displayStatus: "需另行授權",
         id: "schema_freshness_quality_gate",
         nextStep: "prepare a separate accepted gate for schema shape, freshness, row coverage, data quality, and source-depth",
         reason: "it is the next promotion prerequisite but must stay isolated from SQL, writes, ingestion, and real scoring",

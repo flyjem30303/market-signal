@@ -13,10 +13,10 @@ const requirements = [
   {
     file: "src/components/data-freshness-strip.tsx",
     patterns: [
-      "Supabase metadata 已可讀",
+      "後端資料新鮮度已可讀",
       "freshness-runtime-source",
       "freshness-boundary",
-      "資料新鮮度 metadata 只說明顯示狀態",
+      "資料時間狀態只說明顯示狀態",
       "freshness.scoreSourceLabel"
     ]
   },

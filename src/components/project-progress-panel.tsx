@@ -1,6 +1,6 @@
-import { getDataReadinessDecisionSummary } from "@/lib/data-readiness-decision-summary";
+﻿import { getBlockerClosureMap } from "@/lib/blocker-closure-map";
 import { getDataEvidenceLadderSummary } from "@/lib/data-evidence-ladder";
-import { getBlockerClosureMap } from "@/lib/blocker-closure-map";
+import { getDataReadinessDecisionSummary } from "@/lib/data-readiness-decision-summary";
 import { getProjectProgressSummary } from "@/lib/project-progress-score";
 import { getRuntimeActionStatusSummary } from "@/lib/runtime-action-status";
 import { getRuntimeGateDecisionBrief } from "@/lib/runtime-gate-decision-brief";
@@ -15,6 +15,8 @@ export function ProjectProgressPanel() {
   const runtime = getRuntimeReadinessSummary();
   const runtimeGate = getRuntimeGateDecisionBrief();
 
+  const sourcePacket = progress.dataCoverageRouteDecision.sourceReadinessPacket;
+
   return (
     <section className="project-progress-panel" aria-label="PM project progress score">
       <div className="project-progress-summary">
@@ -23,35 +25,39 @@ export function ProjectProgressPanel() {
         <p>{progress.stage}</p>
         <strong>{progress.nextLift}</strong>
       </div>
+
       <div className="project-progress-meter" aria-label={`Project progress ${progress.adjustedScore}%`}>
         <span style={{ ["--progress" as string]: `${progress.adjustedScore}%` }} />
         <b>{progress.adjustedScore}%</b>
         <small>raw {progress.rawScore}%</small>
       </div>
+
       <div className="project-progress-runtime-strip" aria-label="CEO PM runtime progress alignment">
         <article>
           <span>Runtime</span>
           <strong>
-            {runtime.score}% / {runtime.status}
+            {runtime.score}% / {runtime.displayHeadline}
           </strong>
-          <p>{runtime.nextDecision}</p>
+          <p>{runtime.displayNextDecision}</p>
         </article>
         <article className="active">
           <span>Default route</span>
-          <strong>{runtimeGate.currentDefaultRoute}</strong>
-          <p>{runtimeGate.ceoRecommendation}</p>
+          <strong>{runtimeGate.displayRouteTitle}</strong>
+          <p>{runtimeGate.displayDecisionPoint}</p>
         </article>
         <article className="hold">
           <span>Remote trigger</span>
-          <strong>{runtimeGate.separateRemoteTrigger}</strong>
-          <p>{runtimeGate.requiredAuthorization}</p>
+          <strong>{runtimeGate.displayStatus}</strong>
+          <p>{runtimeGate.displayRemoteTrigger}</p>
         </article>
         <article className="blocked">
           <span>Source boundary</span>
           <strong>
-            {runtimeGate.publicDataSource} / {runtimeGate.scoreSource}
+            {runtimeGate.displaySourceBoundary} / {runtimeGate.displayScoreSource}
           </strong>
-          <p>{runtimeGate.blockedNow.slice(0, 4).join(", ")} remain blocked.</p>
+          <p>
+            {runtimeGate.displayBlockedNowTitle}: {runtimeGate.blockedNow.slice(0, 4).join(", ")}.
+          </p>
         </article>
         <article className="blocked">
           <span>Evidence gate</span>
@@ -59,6 +65,7 @@ export function ProjectProgressPanel() {
           <p>{progress.networkBlocker.currentFinding}</p>
         </article>
       </div>
+
       <section className="runtime-action-status-strip" aria-label="Runtime action status normalization">
         <div>
           <span>Action status</span>
@@ -72,21 +79,20 @@ export function ProjectProgressPanel() {
             </span>
             <strong>{status.label}</strong>
             <p>{status.detail}</p>
-            <p>Allowed: {status.allowedAction}</p>
-            <p>Blocked: {status.blockedAction}</p>
-            <p>Next gate: {status.nextGate}</p>
+            <p>允許動作：{status.allowedAction}</p>
+            <p>封鎖動作：{status.blockedAction}</p>
+            <p>{formatNextGate(status.nextGate)}</p>
           </article>
         ))}
       </section>
+
       <section className="project-progress-data-readiness" aria-label="Post-readonly data readiness summary">
         <div>
           <span>Data Readiness</span>
           <strong>{dataReadiness.headline}</strong>
           <p>{dataReadiness.recommendation}</p>
-          <p>
-            Next gate: {dataReadiness.closestNextGate}; public source {dataReadiness.safety.publicDataSource}; score
-            source {dataReadiness.safety.scoreSource}.
-          </p>
+          <p>{formatNextGate(dataReadiness.closestNextGate)}</p>
+          <p>{formatBoundary(dataReadiness.safety.publicDataSource, dataReadiness.safety.scoreSource)}</p>
         </div>
         <div className="project-progress-data-readiness-lanes">
           {dataReadiness.lanes.map((lane) => (
@@ -105,8 +111,8 @@ export function ProjectProgressPanel() {
           <strong>{dataReadiness.boundedReadonlyAttempt.command}</strong>
           <p>{dataReadiness.boundedReadonlyAttempt.reason}</p>
           <p>
-            Separate CEO named action required:{" "}
-            {dataReadiness.boundedReadonlyAttempt.requiresSeparateCeoNamedAction ? "yes" : "no"}.
+            CEO 另行命名授權:{" "}
+            {formatBoolean(dataReadiness.boundedReadonlyAttempt.requiresSeparateCeoNamedAction)}
           </p>
         </article>
         <div className="project-progress-data-readiness-integration">
@@ -118,22 +124,27 @@ export function ProjectProgressPanel() {
               <strong>{item.id}</strong>
               <p>{item.acceptanceSignal}</p>
               <p>{item.integrationAction}</p>
-              <p>Blocked until: {item.blockedUntil}.</p>
-              <p>Source: {item.source}.</p>
+              <p>Blocked until: {item.blockedUntil}</p>
+              <p>Source: {item.source}</p>
             </article>
           ))}
         </div>
         <p>{dataReadiness.stopLine}</p>
       </section>
+
       <section className="project-progress-data-foundation" aria-label="Data foundation gate">
         <div>
           <span>{dataReadiness.dataFoundationGate.status}</span>
           <strong>{dataReadiness.dataFoundationGate.headline}</strong>
           <p>
             Accepted {dataReadiness.dataFoundationGate.acceptedCount}/{dataReadiness.dataFoundationGate.totalCount};
-            foundation {dataReadiness.dataFoundationGate.foundationPercent}%; public source{" "}
-            {dataReadiness.dataFoundationGate.publicDataSource}; score source{" "}
-            {dataReadiness.dataFoundationGate.scoreSource}.
+            foundation {dataReadiness.dataFoundationGate.foundationPercent}%.
+          </p>
+          <p>
+            {formatBoundary(
+              dataReadiness.dataFoundationGate.publicDataSource,
+              dataReadiness.dataFoundationGate.scoreSource
+            )}
           </p>
           <p>{dataReadiness.dataFoundationGate.nextGate}</p>
         </div>
@@ -145,22 +156,21 @@ export function ProjectProgressPanel() {
               </span>
               <strong>{item.label}</strong>
               <p>{item.evidence}</p>
-              <p>Blocked: {item.blocker}</p>
+              <p>Blocker: {item.blocker}</p>
               <p>Next: {item.nextAction}</p>
             </article>
           ))}
         </div>
         <p>{dataReadiness.dataFoundationGate.stopLine}</p>
       </section>
+
       <section className="project-progress-evidence-ladder" aria-label="Data evidence ladder">
         <div>
           <span>Evidence Ladder</span>
           <strong>{evidenceLadder.headline}</strong>
           <p>{evidenceLadder.nextDecision}</p>
-          <p>
-            Active stage: {evidenceLadder.activeStage}; public source {evidenceLadder.publicDataSource}; score source{" "}
-            {evidenceLadder.scoreSource}.
-          </p>
+          <p>Active stage: {evidenceLadder.activeStage}</p>
+          <p>{formatBoundary(evidenceLadder.publicDataSource, evidenceLadder.scoreSource)}</p>
         </div>
         <div className="project-progress-evidence-ladder-stages">
           {evidenceLadder.stages.map((stage) => (
@@ -171,21 +181,20 @@ export function ProjectProgressPanel() {
               <strong>{stage.label}</strong>
               <p>{stage.acceptedEvidence}</p>
               <p>Exit: {stage.exitCriteria}</p>
-              <p>Blocked: {stage.blockedPromotion}</p>
+              <p>Blocked promotion: {stage.blockedPromotion}</p>
               <p>Next: {stage.nextAction}</p>
             </article>
           ))}
         </div>
         <p>{evidenceLadder.stopLine}</p>
       </section>
+
       <section className="project-progress-blocker-closure" aria-label="Blocker closure map">
         <div>
           <span>Blocker Closure</span>
           <strong>{blockerClosure.headline}</strong>
           <p>{blockerClosure.nextCeoMove}</p>
-          <p>
-            Public source {blockerClosure.publicDataSource}; score source {blockerClosure.scoreSource}.
-          </p>
+          <p>{formatBoundary(blockerClosure.publicDataSource, blockerClosure.scoreSource)}</p>
         </div>
         <div className="project-progress-blocker-closure-grid">
           {blockerClosure.sequence.map((item) => (
@@ -197,20 +206,23 @@ export function ProjectProgressPanel() {
               <p>{item.acceptedLocalEvidence}</p>
               <p>Next command: {item.nextCommand}</p>
               <p>Decision: {item.nextDecision}</p>
-              <p>Blocked: {item.blockedPromotion}</p>
+              <p>Blocked promotion: {item.blockedPromotion}</p>
             </article>
           ))}
         </div>
+
         <section className="project-progress-blocker-outcome-ledger">
           <span>{blockerClosure.blockerReviewDecisionOutcomeLedger.status}</span>
-          <strong>
-            Blocker review outcome / {blockerClosure.blockerReviewDecisionOutcomeLedger.mode}
-          </strong>
+          <strong>Blocker review outcome / {blockerClosure.blockerReviewDecisionOutcomeLedger.mode}</strong>
           <p>
-            All accepted{" "}
-            {blockerClosure.blockerReviewDecisionOutcomeLedger.allRequiredOutcomesAccepted ? "yes" : "no"}; public
-            source {blockerClosure.blockerReviewDecisionOutcomeLedger.safety.publicDataSource}; score source{" "}
-            {blockerClosure.blockerReviewDecisionOutcomeLedger.safety.scoreSource}.
+            All required outcomes accepted:{" "}
+            {formatBoolean(blockerClosure.blockerReviewDecisionOutcomeLedger.allRequiredOutcomesAccepted)}
+          </p>
+          <p>
+            {formatBoundary(
+              blockerClosure.blockerReviewDecisionOutcomeLedger.safety.publicDataSource,
+              blockerClosure.blockerReviewDecisionOutcomeLedger.safety.scoreSource
+            )}
           </p>
           <div>
             {blockerClosure.blockerReviewDecisionOutcomeLedger.outcomes.map((outcome) => (
@@ -230,13 +242,16 @@ export function ProjectProgressPanel() {
           <p>Next decision {blockerClosure.blockerReviewDecisionOutcomeLedger.nextAllowedDecision}</p>
           <p>Still blocked: {blockerClosure.blockerReviewDecisionOutcomeLedger.stillBlocked.join(", ")}</p>
         </section>
+
         <section className="project-progress-blocker-readiness-gate">
           <span>{progress.blockerClosureReadinessGate.status}</span>
           <strong>{progress.blockerClosureReadinessGate.headline}</strong>
+          <p>Closure readiness {progress.blockerClosureReadinessGate.closurePercent}%.</p>
           <p>
-            Closure readiness {progress.blockerClosureReadinessGate.closurePercent}%; public source{" "}
-            {progress.blockerClosureReadinessGate.publicDataSource}; score source{" "}
-            {progress.blockerClosureReadinessGate.scoreSource}.
+            {formatBoundary(
+              progress.blockerClosureReadinessGate.publicDataSource,
+              progress.blockerClosureReadinessGate.scoreSource
+            )}
           </p>
           <p>{progress.blockerClosureReadinessGate.nextCeoMove}</p>
           <div>
@@ -247,8 +262,7 @@ export function ProjectProgressPanel() {
                 </span>
                 <strong>{item.blockerId}</strong>
                 <p>{item.evidence}</p>
-                <p>Next: {item.nextAction}</p>
-                <p>Blocked: {item.promotionBlocked}</p>
+                <p>Blocked promotion: {item.promotionBlocked}</p>
               </article>
             ))}
           </div>
@@ -256,6 +270,7 @@ export function ProjectProgressPanel() {
         </section>
         <p>{blockerClosure.stopLine}</p>
       </section>
+
       <div
         className={`project-progress-network-blocker ${progress.networkBlocker.status}`}
         aria-label={`Supabase evidence gate ${progress.networkBlocker.status}`}
@@ -265,17 +280,21 @@ export function ProjectProgressPanel() {
         <p>{progress.networkBlocker.impact}</p>
         <p>{progress.networkBlocker.nextAction}</p>
       </div>
+
       <div
         className={`project-progress-evidence ${progress.dataQualityEvidenceGate.status}`}
         aria-label={`Data quality evidence gate ${progress.dataQualityEvidenceGate.status}`}
       >
         <span>Data quality evidence gate</span>
-        <strong>{progress.dataQualityEvidenceGate.status}</strong>
         <p>
-          Completed evidence: {progress.dataQualityEvidenceGate.completedEvidence.length}. Missing evidence:{" "}
-          {progress.dataQualityEvidenceGate.missingEvidence.length}. scoreSource{" "}
-          {progress.dataQualityEvidenceGate.scoreSource}; public source{" "}
-          {progress.dataQualityEvidenceGate.publicDataSource}.
+          Completed evidence: {progress.dataQualityEvidenceGate.completedEvidence.length}; missing evidence:{" "}
+          {progress.dataQualityEvidenceGate.missingEvidence.length}.
+        </p>
+        <p>
+          {formatBoundary(
+            progress.dataQualityEvidenceGate.publicDataSource,
+            progress.dataQualityEvidenceGate.scoreSource
+          )}
         </p>
         <p>Evidence progress: {progress.dataQualityEvidenceGate.evidenceProgressPercent}%.</p>
         <p>
@@ -300,6 +319,7 @@ export function ProjectProgressPanel() {
         </ul>
         <p>{progress.dataQualityEvidenceGate.stopLine}</p>
       </div>
+
       <details
         className="project-progress-route-decision"
         aria-label={`Data coverage route decision ${progress.dataCoverageRouteDecision.status}`}
@@ -322,14 +342,19 @@ export function ProjectProgressPanel() {
             </article>
           ))}
         </div>
+
         <section className="project-progress-design-gate">
           <span>{progress.dataCoverageRouteDecision.designGate.gateStatus}</span>
           <strong>{progress.dataCoverageRouteDecision.designGate.title}</strong>
           <p>
             Target {progress.dataCoverageRouteDecision.designGate.targetRelation}; missing rows{" "}
-            {progress.dataCoverageRouteDecision.designGate.missingRows}; public source{" "}
-            {progress.dataCoverageRouteDecision.designGate.publicDataSource}; score source{" "}
-            {progress.dataCoverageRouteDecision.designGate.scoreSource}.
+            {progress.dataCoverageRouteDecision.designGate.missingRows}.
+          </p>
+          <p>
+            {formatBoundary(
+              progress.dataCoverageRouteDecision.designGate.publicDataSource,
+              progress.dataCoverageRouteDecision.designGate.scoreSource
+            )}
           </p>
           <div>
             {progress.dataCoverageRouteDecision.designGate.requirements.map((requirement) => (
@@ -342,15 +367,20 @@ export function ProjectProgressPanel() {
           </div>
           <p>{progress.dataCoverageRouteDecision.designGate.stopLine}</p>
         </section>
+
         <section className="project-progress-backfill-plan">
           <span>{progress.dataCoverageRouteDecision.backfillPlan.status}</span>
           <strong>Source lanes before row coverage can move</strong>
           <p>
             Observed {progress.dataCoverageRouteDecision.backfillPlan.observedRows} / expected{" "}
             {progress.dataCoverageRouteDecision.backfillPlan.expectedRows}; missing{" "}
-            {progress.dataCoverageRouteDecision.backfillPlan.missingRows}; public source{" "}
-            {progress.dataCoverageRouteDecision.backfillPlan.publicDataSource}; score source{" "}
-            {progress.dataCoverageRouteDecision.backfillPlan.scoreSource}.
+            {progress.dataCoverageRouteDecision.backfillPlan.missingRows}.
+          </p>
+          <p>
+            {formatBoundary(
+              progress.dataCoverageRouteDecision.backfillPlan.publicDataSource,
+              progress.dataCoverageRouteDecision.backfillPlan.scoreSource
+            )}
           </p>
           <div>
             {progress.dataCoverageRouteDecision.backfillPlan.lanes.map((lane) => (
@@ -366,17 +396,13 @@ export function ProjectProgressPanel() {
           </div>
           <p>{progress.dataCoverageRouteDecision.backfillPlan.stopLine}</p>
         </section>
+
         <section className="project-progress-source-readiness">
-          <span>{progress.dataCoverageRouteDecision.sourceReadinessPacket.status}</span>
-          <strong>
-            Source readiness priority: {progress.dataCoverageRouteDecision.sourceReadinessPacket.priorityOrder.join(" -> ")}
-          </strong>
-          <p>
-            Public source {progress.dataCoverageRouteDecision.sourceReadinessPacket.publicDataSource}; score source{" "}
-            {progress.dataCoverageRouteDecision.sourceReadinessPacket.scoreSource}.
-          </p>
+          <span>{sourcePacket.status}</span>
+          <strong>Source readiness priority: {sourcePacket.priorityOrder.join(" -> ")}</strong>
+          <p>{formatBoundary(sourcePacket.publicDataSource, sourcePacket.scoreSource)}</p>
           <div>
-            {progress.dataCoverageRouteDecision.sourceReadinessPacket.lanes.map((lane) => (
+            {sourcePacket.lanes.map((lane) => (
               <article key={lane.id}>
                 <span>
                   {lane.owner} / {lane.status}
@@ -389,415 +415,286 @@ export function ProjectProgressPanel() {
               </article>
             ))}
           </div>
+
           <section className="project-progress-twii-source-selection">
-            <span>{progress.dataCoverageRouteDecision.sourceReadinessPacket.twiiSourceSelectionPacket.status}</span>
+            <span>{sourcePacket.twiiSourceSelectionPacket.status}</span>
             <strong>
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.twiiSourceSelectionPacket.targetSymbol} source
-              selection / {progress.dataCoverageRouteDecision.sourceReadinessPacket.twiiSourceSelectionPacket.priority}
+              {sourcePacket.twiiSourceSelectionPacket.targetSymbol} source selection /{" "}
+              {sourcePacket.twiiSourceSelectionPacket.priority}
             </strong>
+            <p>Observed rows {sourcePacket.twiiSourceSelectionPacket.observedRows}.</p>
             <p>
-              Observed rows{" "}
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.twiiSourceSelectionPacket.observedRows}; public
-              source {progress.dataCoverageRouteDecision.sourceReadinessPacket.twiiSourceSelectionPacket.publicDataSource};
-              score source {progress.dataCoverageRouteDecision.sourceReadinessPacket.twiiSourceSelectionPacket.scoreSource}.
+              {formatBoundary(
+                sourcePacket.twiiSourceSelectionPacket.publicDataSource,
+                sourcePacket.twiiSourceSelectionPacket.scoreSource
+              )}
             </p>
             <div>
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.twiiSourceSelectionPacket.candidates.map(
-                (candidate) => (
-                  <article key={candidate.id}>
-                    <span>{candidate.status}</span>
-                    <strong>{candidate.label}</strong>
-                    <p>{candidate.requiredReview.join(", ")}</p>
-                  </article>
-                )
-              )}
+              {sourcePacket.twiiSourceSelectionPacket.candidates.map((candidate) => (
+                <article key={candidate.id}>
+                  <span>{candidate.status}</span>
+                  <strong>{candidate.label}</strong>
+                  <p>{candidate.requiredReview.join(", ")}</p>
+                </article>
+              ))}
             </div>
-            <p>{progress.dataCoverageRouteDecision.sourceReadinessPacket.twiiSourceSelectionPacket.nextSafeAction}</p>
-            <p>{progress.dataCoverageRouteDecision.sourceReadinessPacket.twiiSourceSelectionPacket.stopLine}</p>
+            <p>{sourcePacket.twiiSourceSelectionPacket.nextSafeAction}</p>
+            <p>{sourcePacket.twiiSourceSelectionPacket.stopLine}</p>
           </section>
+
           <section className="project-progress-etf-rights-review">
-            <span>{progress.dataCoverageRouteDecision.sourceReadinessPacket.etfSourceRightsReviewPacket.status}</span>
-            <strong>
-              ETF rights review /{" "}
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.etfSourceRightsReviewPacket.blocker}
-            </strong>
+            <span>{sourcePacket.etfSourceRightsReviewPacket.status}</span>
+            <strong>ETF rights review / {sourcePacket.etfSourceRightsReviewPacket.blocker}</strong>
+            <p>Symbols {sourcePacket.etfSourceRightsReviewPacket.targetSymbols.join(", ")}.</p>
             <p>
-              Symbols{" "}
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.etfSourceRightsReviewPacket.targetSymbols.join(
-                ", "
-              )}; public source{" "}
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.etfSourceRightsReviewPacket.publicDataSource};
-              score source {progress.dataCoverageRouteDecision.sourceReadinessPacket.etfSourceRightsReviewPacket.scoreSource}.
+              {formatBoundary(
+                sourcePacket.etfSourceRightsReviewPacket.publicDataSource,
+                sourcePacket.etfSourceRightsReviewPacket.scoreSource
+              )}
             </p>
             <div>
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.etfSourceRightsReviewPacket.candidates.map(
-                (candidate) => (
-                  <article key={candidate.id}>
-                    <span>{candidate.status}</span>
-                    <strong>{candidate.label}</strong>
-                    <p>{candidate.requiredReview.join(", ")}</p>
-                  </article>
-                )
-              )}
+              {sourcePacket.etfSourceRightsReviewPacket.candidates.map((candidate) => (
+                <article key={candidate.id}>
+                  <span>{candidate.status}</span>
+                  <strong>{candidate.label}</strong>
+                  <p>{candidate.requiredReview.join(", ")}</p>
+                </article>
+              ))}
             </div>
-            <p>{progress.dataCoverageRouteDecision.sourceReadinessPacket.etfSourceRightsReviewPacket.nextSafeAction}</p>
-            <p>{progress.dataCoverageRouteDecision.sourceReadinessPacket.etfSourceRightsReviewPacket.stopLine}</p>
+            <p>{sourcePacket.etfSourceRightsReviewPacket.nextSafeAction}</p>
+            <p>{sourcePacket.etfSourceRightsReviewPacket.stopLine}</p>
           </section>
+
           <section className="project-progress-equity-dry-run">
-            <span>{progress.dataCoverageRouteDecision.sourceReadinessPacket.equityDryRunPacketReadiness.status}</span>
-            <strong>
-              Equity dry-run packet /{" "}
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityDryRunPacketReadiness.sourceId}
-            </strong>
+            <span>{sourcePacket.equityDryRunPacketReadiness.status}</span>
+            <strong>Equity dry-run packet / {sourcePacket.equityDryRunPacketReadiness.sourceId}</strong>
+            <p>Symbols {sourcePacket.equityDryRunPacketReadiness.targetSymbols.join(", ")}.</p>
             <p>
-              Symbols{" "}
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityDryRunPacketReadiness.targetSymbols.join(
-                ", "
-              )}; public source{" "}
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityDryRunPacketReadiness.publicDataSource};
-              score source {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityDryRunPacketReadiness.scoreSource}.
+              {formatBoundary(
+                sourcePacket.equityDryRunPacketReadiness.publicDataSource,
+                sourcePacket.equityDryRunPacketReadiness.scoreSource
+              )}
             </p>
             <div>
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityDryRunPacketReadiness.requirements.map(
-                (requirement) => (
-                  <article key={requirement.id}>
-                    <span>{requirement.status}</span>
-                    <strong>{requirement.id}</strong>
-                    <p>{requirement.requirement}</p>
-                  </article>
-                )
-              )}
+              {sourcePacket.equityDryRunPacketReadiness.requirements.map((requirement) => (
+                <article key={requirement.id}>
+                  <span>{requirement.status}</span>
+                  <strong>{requirement.id}</strong>
+                  <p>{requirement.requirement}</p>
+                </article>
+              ))}
             </div>
-            <p>{progress.dataCoverageRouteDecision.sourceReadinessPacket.equityDryRunPacketReadiness.nextSafeAction}</p>
-            <p>{progress.dataCoverageRouteDecision.sourceReadinessPacket.equityDryRunPacketReadiness.stopLine}</p>
+            <p>{sourcePacket.equityDryRunPacketReadiness.nextSafeAction}</p>
+            <p>{sourcePacket.equityDryRunPacketReadiness.stopLine}</p>
           </section>
+
           <section className="project-progress-equity-dry-run-packet">
-            <span>{progress.dataCoverageRouteDecision.sourceReadinessPacket.equityReportOnlyDryRunPacket.status}</span>
-            <strong>
-              Equity report-only packet /{" "}
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityReportOnlyDryRunPacket.sourceId}
-            </strong>
+            <span>{sourcePacket.equityReportOnlyDryRunPacket.status}</span>
+            <strong>Equity report-only packet / {sourcePacket.equityReportOnlyDryRunPacket.sourceId}</strong>
             <p>
-              Symbols{" "}
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityReportOnlyDryRunPacket.targetSymbols.join(
-                ", "
-              )}; window{" "}
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityReportOnlyDryRunPacket.firstApprovedWindow.startMonth}
+              Symbols {sourcePacket.equityReportOnlyDryRunPacket.targetSymbols.join(", ")}; window{" "}
+              {sourcePacket.equityReportOnlyDryRunPacket.firstApprovedWindow.startMonth}
               {" -> "}
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityReportOnlyDryRunPacket.firstApprovedWindow.endMonth}
-              ; public source{" "}
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityReportOnlyDryRunPacket.publicDataSource};
-              score source {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityReportOnlyDryRunPacket.scoreSource}.
+              {sourcePacket.equityReportOnlyDryRunPacket.firstApprovedWindow.endMonth}.
+            </p>
+            <p>
+              {formatBoundary(
+                sourcePacket.equityReportOnlyDryRunPacket.publicDataSource,
+                sourcePacket.equityReportOnlyDryRunPacket.scoreSource
+              )}
             </p>
             <div>
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityReportOnlyDryRunPacket.sections.map(
-                (section) => (
-                  <article key={section.id}>
-                    <span>{section.owner}</span>
-                    <strong>{section.id}</strong>
-                    <p>{section.summary}</p>
-                  </article>
-                )
-              )}
+              {sourcePacket.equityReportOnlyDryRunPacket.sections.map((section) => (
+                <article key={section.id}>
+                  <span>{section.owner}</span>
+                  <strong>{section.id}</strong>
+                  <p>{section.summary}</p>
+                </article>
+              ))}
             </div>
-            <p>
-              Allowed:{" "}
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityReportOnlyDryRunPacket.allowedOutput.join(
-                ", "
-              )}
-            </p>
-            <p>
-              Forbidden:{" "}
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityReportOnlyDryRunPacket.forbiddenOutput.join(
-                ", "
-              )}
-            </p>
-            <p>{progress.dataCoverageRouteDecision.sourceReadinessPacket.equityReportOnlyDryRunPacket.nextSafeAction}</p>
-            <p>{progress.dataCoverageRouteDecision.sourceReadinessPacket.equityReportOnlyDryRunPacket.stopLine}</p>
+            <p>Allowed output: {sourcePacket.equityReportOnlyDryRunPacket.allowedOutput.join(", ")}</p>
+            <p>Forbidden output: {sourcePacket.equityReportOnlyDryRunPacket.forbiddenOutput.join(", ")}</p>
+            <p>{sourcePacket.equityReportOnlyDryRunPacket.nextSafeAction}</p>
+            <p>{sourcePacket.equityReportOnlyDryRunPacket.stopLine}</p>
           </section>
+
           <section className="project-progress-equity-role-review">
-            <span>{progress.dataCoverageRouteDecision.sourceReadinessPacket.equityPacketRoleReviewGate.status}</span>
-            <strong>
-              Equity role review /{" "}
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityPacketRoleReviewGate.nextDecision}
-            </strong>
+            <span>{sourcePacket.equityPacketRoleReviewGate.status}</span>
+            <strong>Equity role review / {sourcePacket.equityPacketRoleReviewGate.nextDecision}</strong>
+            <p>Packet {sourcePacket.equityPacketRoleReviewGate.packetStatus}.</p>
             <p>
-              Packet{" "}
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityPacketRoleReviewGate.packetStatus}; public
-              source {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityPacketRoleReviewGate.publicDataSource};
-              score source {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityPacketRoleReviewGate.scoreSource}.
+              {formatBoundary(
+                sourcePacket.equityPacketRoleReviewGate.publicDataSource,
+                sourcePacket.equityPacketRoleReviewGate.scoreSource
+              )}
             </p>
             <div>
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityPacketRoleReviewGate.reviews.map(
-                (review) => (
-                  <article key={review.role}>
-                    <span>{review.status}</span>
-                    <strong>{review.role}</strong>
-                    <p>{review.finding}</p>
-                    <p>{review.requiredBeforeExecution}</p>
-                  </article>
-                )
-              )}
+              {sourcePacket.equityPacketRoleReviewGate.reviews.map((review) => (
+                <article key={review.role}>
+                  <span>{review.status}</span>
+                  <strong>{review.role}</strong>
+                  <p>{review.finding}</p>
+                  <p>{review.requiredBeforeExecution}</p>
+                </article>
+              ))}
             </div>
-            <p>
-              Execution blockers:{" "}
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityPacketRoleReviewGate.executionBlockers.join(
-                ", "
-              )}
-            </p>
-            <p>{progress.dataCoverageRouteDecision.sourceReadinessPacket.equityPacketRoleReviewGate.stopLine}</p>
+            <p>Execution blockers: {sourcePacket.equityPacketRoleReviewGate.executionBlockers.join(", ")}</p>
+            <p>{sourcePacket.equityPacketRoleReviewGate.stopLine}</p>
           </section>
+
           <section className="project-progress-equity-runner-approval">
-            <span>
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityRunnerImplementationApprovalGate.status}
-            </span>
+            <span>{sourcePacket.equityRunnerImplementationApprovalGate.status}</span>
             <strong>
-              Runner approval /{" "}
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityRunnerImplementationApprovalGate.approvalState}
+              Runner approval / {sourcePacket.equityRunnerImplementationApprovalGate.approvalState}
             </strong>
             <p>
-              Request{" "}
-              {
-                progress.dataCoverageRouteDecision.sourceReadinessPacket.equityRunnerImplementationApprovalGate
-                  .requestedNextMove
-              }
-              ; source{" "}
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityRunnerImplementationApprovalGate.scope.sourceId};
-              mode{" "}
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityRunnerImplementationApprovalGate.scope.runMode};
-              symbols{" "}
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityRunnerImplementationApprovalGate.scope.targetSymbols.join(
-                ", "
-              )}
-              .
+              Request {sourcePacket.equityRunnerImplementationApprovalGate.requestedNextMove}; source{" "}
+              {sourcePacket.equityRunnerImplementationApprovalGate.scope.sourceId}; mode{" "}
+              {sourcePacket.equityRunnerImplementationApprovalGate.scope.runMode}; symbols{" "}
+              {sourcePacket.equityRunnerImplementationApprovalGate.scope.targetSymbols.join(", ")}.
             </p>
             <div>
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityRunnerImplementationApprovalGate.requirements.map(
-                (requirement) => (
-                  <article key={requirement.id}>
-                    <span>{requirement.owner}</span>
-                    <strong>{requirement.id}</strong>
-                    <p>{requirement.requirement}</p>
-                  </article>
-                )
-              )}
+              {sourcePacket.equityRunnerImplementationApprovalGate.requirements.map((requirement) => (
+                <article key={requirement.id}>
+                  <span>{requirement.owner}</span>
+                  <strong>{requirement.id}</strong>
+                  <p>{requirement.requirement}</p>
+                </article>
+              ))}
             </div>
             <p>
-              Forbidden until approved:{" "}
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityRunnerImplementationApprovalGate.forbiddenUntilApproved.join(
-                ", "
+              核准前禁止：{sourcePacket.equityRunnerImplementationApprovalGate.forbiddenUntilApproved.join(", ")}
+            </p>
+            <p>
+              {formatBoundary(
+                sourcePacket.equityRunnerImplementationApprovalGate.publicDataSource,
+                sourcePacket.equityRunnerImplementationApprovalGate.scoreSource
               )}
             </p>
-            <p>
-              Public source{" "}
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityRunnerImplementationApprovalGate.publicDataSource};
-              score source{" "}
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityRunnerImplementationApprovalGate.scoreSource}.
-            </p>
-            <p>
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityRunnerImplementationApprovalGate.stopLine}
-            </p>
+            <p>{sourcePacket.equityRunnerImplementationApprovalGate.stopLine}</p>
           </section>
+
           <section className="project-progress-runner-decision-request">
-            <span>
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.runnerApprovalDecisionRequestSummary.status}
-            </span>
+            <span>{sourcePacket.runnerApprovalDecisionRequestSummary.status}</span>
             <strong>
-              Runner decision /{" "}
-              {
-                progress.dataCoverageRouteDecision.sourceReadinessPacket.runnerApprovalDecisionRequestSummary
-                  .currentRecommendation
-              }
+              Runner decision / {sourcePacket.runnerApprovalDecisionRequestSummary.currentRecommendation}
             </strong>
             <p>
-              Question{" "}
-              {
-                progress.dataCoverageRouteDecision.sourceReadinessPacket.runnerApprovalDecisionRequestSummary
-                  .decisionQuestion
-              }
-              ; approval{" "}
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.runnerApprovalDecisionRequestSummary.approvalState};
-              chair review{" "}
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.runnerApprovalDecisionRequestSummary
-                .chairReviewRequired
-                ? "required"
-                : "not required"}
-              .
+              Question {sourcePacket.runnerApprovalDecisionRequestSummary.decisionQuestion}; approval{" "}
+              {sourcePacket.runnerApprovalDecisionRequestSummary.approvalState}; 董事長審核是否需要{" "}
+              {formatRequired(sourcePacket.runnerApprovalDecisionRequestSummary.chairReviewRequired)}.
             </p>
             <p>
-              Scope{" "}
-              {
-                progress.dataCoverageRouteDecision.sourceReadinessPacket.runnerApprovalDecisionRequestSummary.requestedScope
-                  .sourceId
-              }
-              ; mode{" "}
-              {
-                progress.dataCoverageRouteDecision.sourceReadinessPacket.runnerApprovalDecisionRequestSummary.requestedScope
-                  .runMode
-              }
-              ; symbols{" "}
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.runnerApprovalDecisionRequestSummary.requestedScope.targetSymbols.join(
-                ", "
-              )}
-              .
+              Scope {sourcePacket.runnerApprovalDecisionRequestSummary.requestedScope.sourceId}; mode{" "}
+              {sourcePacket.runnerApprovalDecisionRequestSummary.requestedScope.runMode}; symbols{" "}
+              {sourcePacket.runnerApprovalDecisionRequestSummary.requestedScope.targetSymbols.join(", ")}.
             </p>
             <div>
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.runnerApprovalDecisionRequestSummary.options.map(
-                (option) => (
-                  <article className={option.recommendation} key={option.id}>
-                    <span>{option.recommendation}</span>
-                    <strong>{option.id}</strong>
-                    <p>{option.outcome}</p>
-                    <p>{option.risk}</p>
-                  </article>
-                )
-              )}
+              {sourcePacket.runnerApprovalDecisionRequestSummary.options.map((option) => (
+                <article className={option.recommendation} key={option.id}>
+                  <span>{option.recommendation}</span>
+                  <strong>{option.id}</strong>
+                  <p>{option.outcome}</p>
+                  <p>{option.risk}</p>
+                </article>
+              ))}
             </div>
             <p>
-              Public source{" "}
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.runnerApprovalDecisionRequestSummary.publicDataSource};
-              score source{" "}
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.runnerApprovalDecisionRequestSummary.scoreSource}.
+              {formatBoundary(
+                sourcePacket.runnerApprovalDecisionRequestSummary.publicDataSource,
+                sourcePacket.runnerApprovalDecisionRequestSummary.scoreSource
+              )}
             </p>
-            <p>{progress.dataCoverageRouteDecision.sourceReadinessPacket.runnerApprovalDecisionRequestSummary.stopLine}</p>
+            <p>{sourcePacket.runnerApprovalDecisionRequestSummary.stopLine}</p>
           </section>
+
           <section className="project-progress-runner-outcome-ledger">
-            <span>
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.runnerApprovalDecisionOutcomeLedger.status}
-            </span>
-            <strong>
-              Runner approval outcome /{" "}
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.runnerApprovalDecisionOutcomeLedger.mode}
-            </strong>
+            <span>{sourcePacket.runnerApprovalDecisionOutcomeLedger.status}</span>
+            <strong>Runner approval outcome / {sourcePacket.runnerApprovalDecisionOutcomeLedger.mode}</strong>
             <p>
-              Implementation approved{" "}
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.runnerApprovalDecisionOutcomeLedger
-                .implementationApproved
-                ? "yes"
-                : "no"}
-              ; public source{" "}
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.runnerApprovalDecisionOutcomeLedger.safety
-                .publicDataSource}
-              ; score source{" "}
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.runnerApprovalDecisionOutcomeLedger.safety
-                .scoreSource}
-              .
+              Implementation approved:
+              {formatBoolean(sourcePacket.runnerApprovalDecisionOutcomeLedger.implementationApproved)}
+            </p>
+            <p>
+              {formatBoundary(
+                sourcePacket.runnerApprovalDecisionOutcomeLedger.safety.publicDataSource,
+                sourcePacket.runnerApprovalDecisionOutcomeLedger.safety.scoreSource
+              )}
             </p>
             <div>
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.runnerApprovalDecisionOutcomeLedger.outcomes.map(
-                (outcome) => (
-                  <article className={outcome.outcome} key={outcome.id}>
-                    <span>
-                      {outcome.owner} / {outcome.recordedBy}
-                    </span>
-                    <strong>{outcome.outcome}</strong>
-                    <p>{outcome.decisionNote}</p>
-                    <p>{outcome.acceptedMeaning}</p>
-                    <p>{outcome.rejectedMeaning}</p>
-                    <p>{outcome.deferredMeaning}</p>
-                  </article>
-                )
-              )}
+              {sourcePacket.runnerApprovalDecisionOutcomeLedger.outcomes.map((outcome) => (
+                <article className={outcome.outcome} key={outcome.id}>
+                  <span>
+                    {outcome.owner} / {outcome.recordedBy}
+                  </span>
+                  <strong>{outcome.outcome}</strong>
+                  <p>{outcome.decisionNote}</p>
+                  <p>{outcome.acceptedMeaning}</p>
+                  <p>{outcome.rejectedMeaning}</p>
+                  <p>{outcome.deferredMeaning}</p>
+                </article>
+              ))}
             </div>
-            <p>
-              Next decision{" "}
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.runnerApprovalDecisionOutcomeLedger.nextAllowedDecision}
-            </p>
-            <p>
-              Still blocked:{" "}
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.runnerApprovalDecisionOutcomeLedger.stillBlocked.join(
-                ", "
-              )}
-            </p>
+            <p>Next decision {sourcePacket.runnerApprovalDecisionOutcomeLedger.nextAllowedDecision}</p>
+            <p>Still blocked: {sourcePacket.runnerApprovalDecisionOutcomeLedger.stillBlocked.join(", ")}</p>
           </section>
+
           <section className="project-progress-runner-execution-gate">
-            <span>
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityRunnerExecutionApprovalGate.status}
-            </span>
-            <strong>
-              Execution gate /{" "}
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityRunnerExecutionApprovalGate.approvalState}
-            </strong>
+            <span>{sourcePacket.equityRunnerExecutionApprovalGate.status}</span>
+            <strong>Execution gate / {sourcePacket.equityRunnerExecutionApprovalGate.approvalState}</strong>
             <p>
-              Question{" "}
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityRunnerExecutionApprovalGate.executionQuestion};
-              attempts{" "}
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityRunnerExecutionApprovalGate.attemptLimit};
-              source{" "}
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityRunnerExecutionApprovalGate.sourceId};
-              symbols{" "}
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityRunnerExecutionApprovalGate.targetSymbols.join(
-                ", "
-              )}
-              .
+              Question {sourcePacket.equityRunnerExecutionApprovalGate.executionQuestion}; attempts{" "}
+              {sourcePacket.equityRunnerExecutionApprovalGate.attemptLimit}; source{" "}
+              {sourcePacket.equityRunnerExecutionApprovalGate.sourceId}; symbols{" "}
+              {sourcePacket.equityRunnerExecutionApprovalGate.targetSymbols.join(", ")}.
             </p>
             <p>
-              Confirmation{" "}
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityRunnerExecutionApprovalGate.confirmationEnv}
-              ={
-                progress.dataCoverageRouteDecision.sourceReadinessPacket.equityRunnerExecutionApprovalGate
-                  .confirmationValue
-              }
+              Confirmation {sourcePacket.equityRunnerExecutionApprovalGate.confirmationEnv}=
+              {sourcePacket.equityRunnerExecutionApprovalGate.confirmationValue}
             </p>
-            <p>
-              Command{" "}
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityRunnerExecutionApprovalGate.exactCommand}
-            </p>
+            <p>Command {sourcePacket.equityRunnerExecutionApprovalGate.exactCommand}</p>
             <div>
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityRunnerExecutionApprovalGate.prechecks.map(
-                (precheck) => (
-                  <article key={precheck.id}>
-                    <span>{precheck.id}</span>
-                    <strong>{precheck.command}</strong>
-                    <p>Required before execution: {precheck.requiredBeforeExecution ? "yes" : "no"}</p>
-                  </article>
-                )
-              )}
+              {sourcePacket.equityRunnerExecutionApprovalGate.prechecks.map((precheck) => (
+                <article key={precheck.id}>
+                  <span>{precheck.id}</span>
+                  <strong>{precheck.command}</strong>
+                  <p>執行前必須完成：{formatBoolean(precheck.requiredBeforeExecution)}</p>
+                </article>
+              ))}
             </div>
-            <p>
-              Forbidden until approved:{" "}
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.equityRunnerExecutionApprovalGate.forbiddenUntilApproved.join(
-                ", "
-              )}
-            </p>
-            <p>{progress.dataCoverageRouteDecision.sourceReadinessPacket.equityRunnerExecutionApprovalGate.stopLine}</p>
+            <p>核准前禁止：{sourcePacket.equityRunnerExecutionApprovalGate.forbiddenUntilApproved.join(", ")}</p>
+            <p>{sourcePacket.equityRunnerExecutionApprovalGate.stopLine}</p>
           </section>
+
           <section className="project-progress-source-checkpoint">
-            <span>{progress.dataCoverageRouteDecision.sourceReadinessPacket.sourceReadinessCheckpointSummary.status}</span>
-            <strong>
-              CEO next move:{" "}
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.sourceReadinessCheckpointSummary.primaryNextMove}
-            </strong>
+            <span>{sourcePacket.sourceReadinessCheckpointSummary.status}</span>
+            <strong>CEO next move: {sourcePacket.sourceReadinessCheckpointSummary.primaryNextMove}</strong>
             <p>
-              Public source{" "}
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.sourceReadinessCheckpointSummary.publicDataSource};
-              score source{" "}
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.sourceReadinessCheckpointSummary.scoreSource}.
+              {formatBoundary(
+                sourcePacket.sourceReadinessCheckpointSummary.publicDataSource,
+                sourcePacket.sourceReadinessCheckpointSummary.scoreSource
+              )}
             </p>
             <div>
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.sourceReadinessCheckpointSummary.lanes.map(
-                (lane) => (
-                  <article key={lane.lane}>
-                    <span>{lane.status}</span>
-                    <strong>{lane.lane}</strong>
-                    <p>{lane.ceoDecision}</p>
-                    <p>{lane.pmAction}</p>
-                  </article>
-                )
-              )}
+              {sourcePacket.sourceReadinessCheckpointSummary.lanes.map((lane) => (
+                <article key={lane.lane}>
+                  <span>{lane.status}</span>
+                  <strong>{lane.lane}</strong>
+                  <p>{lane.ceoDecision}</p>
+                  <p>{lane.pmAction}</p>
+                </article>
+              ))}
             </div>
             <p>
-              Blocked execution:{" "}
-              {progress.dataCoverageRouteDecision.sourceReadinessPacket.sourceReadinessCheckpointSummary.blockedFromExecution.join(
-                ", "
-              )}
+              執行前仍封鎖：{sourcePacket.sourceReadinessCheckpointSummary.blockedFromExecution.join(", ")}
             </p>
-            <p>{progress.dataCoverageRouteDecision.sourceReadinessPacket.sourceReadinessCheckpointSummary.stopLine}</p>
+            <p>{sourcePacket.sourceReadinessCheckpointSummary.stopLine}</p>
           </section>
-          <p>{progress.dataCoverageRouteDecision.sourceReadinessPacket.stopLine}</p>
+          <p>{sourcePacket.stopLine}</p>
         </section>
         <p>{progress.dataCoverageRouteDecision.stopLine}</p>
       </details>
+
       <div className="project-progress-lanes">
         {progress.lanes.map((lane) => (
           <article key={lane.label}>
@@ -816,4 +713,20 @@ export function ProjectProgressPanel() {
       </div>
     </section>
   );
+}
+
+function formatBoundary(publicDataSource: string, scoreSource: string) {
+  return `公開資料來源：${publicDataSource}；分數來源：${scoreSource}`;
+}
+
+function formatBoolean(value: boolean) {
+  return value ? "是" : "否";
+}
+
+function formatNextGate(nextGate: string) {
+  return `下一個 gate：${nextGate}`;
+}
+
+function formatRequired(value: boolean) {
+  return value ? "需要" : "不需要";
 }

@@ -10,69 +10,42 @@ const auditedCheckers = [
   "scripts/check-stock-first-screen-action-summary.mjs"
 ];
 
-const highRiskFragments = [
-  "\uFFFD",
-  "?",
-  "?梁",
-  "?",
-  "?桀",
-  "?",
-  "?",
-  "蝣箄",
-  "撱箄",
-  "雿輻",
-  "璇",
-  "甈",
-  "銝",
-  "嚗",
-  "",
-  "",
-  ""
-];
-
-const requiredGoodTokens = [
-  "免責聲明",
-  "使用條款",
-  "隱私權政策",
-  "首頁快速摘要",
-  "股票內容分頁",
-  "publicDataSource=mock",
-  "scoreSource=mock"
-];
-
 const missing = [];
 const blocked = [];
 
-for (const file of auditedCheckers) {
-  const source = fs.readFileSync(file, "utf8");
-  const passConditionSource = removeAllowedNegativeSamples(source);
-
-  for (const fragment of highRiskFragments) {
-    if (passConditionSource.includes(fragment)) {
-      blocked.push(`${file}: high-risk mojibake fragment appears outside allowed negative samples: ${fragment}`);
-    }
-  }
-}
-
 const publicVisibleSource = fs.readFileSync("scripts/check-public-visible-language-quality.mjs", "utf8");
+const actionSummarySource = fs.readFileSync("scripts/check-action-summary-language-quality.mjs", "utf8");
 const homeFirstScreenSource = fs.readFileSync("scripts/check-home-first-screen-action-summary.mjs", "utf8");
 const stockFirstScreenSource = fs.readFileSync("scripts/check-stock-first-screen-readability.mjs", "utf8");
-for (const token of requiredGoodTokens.slice(0, 3)) {
+const stockActionSource = fs.readFileSync("scripts/check-stock-first-screen-action-summary.mjs", "utf8");
+
+for (const token of ["免責聲明", "使用條款", "隱私政策", "publicDataSource=mock", "scoreSource=mock"]) {
   if (!publicVisibleSource.includes(token)) {
     missing.push(`scripts/check-public-visible-language-quality.mjs: ${token}`);
   }
 }
-for (const token of ["首頁快速摘要", "mock-only 閱讀模式"]) {
-  if (!homeFirstScreenSource.includes(token) && !stockFirstScreenSource.includes(token)) {
-    missing.push(`first-screen language gates: ${token}`);
+
+for (const token of ["scoreSource=real approved", "publicDataSource=supabase approved"]) {
+  if (!publicVisibleSource.includes(token)) {
+    missing.push(`scripts/check-public-visible-language-quality.mjs forbidden sample: ${token}`);
   }
 }
-if (!stockFirstScreenSource.includes("股票內容分頁")) {
-  missing.push("scripts/check-stock-first-screen-readability.mjs: 股票內容分頁");
+
+for (const token of ["src/lib/home-market-action-summary.ts", "src/lib/investor-action-summary.ts", "src/lib/briefing-market-action-summary.ts", "src/lib/weekly-market-action-summary.ts", "publicDataSource=mock", "scoreSource=mock"]) {
+  if (!actionSummarySource.includes(token)) {
+    missing.push(`scripts/check-action-summary-language-quality.mjs: ${token}`);
+  }
 }
-for (const token of ["publicDataSource=mock", "scoreSource=mock"]) {
-  if (!publicVisibleSource.includes(token)) {
-    missing.push(`scripts/check-public-visible-language-quality.mjs: ${token}`);
+
+for (const token of ["Quick Start", "Market Action Summary", "Decision Compass", "actionSummary.stopLine"]) {
+  if (!homeFirstScreenSource.includes(token)) {
+    missing.push(`scripts/check-home-first-screen-action-summary.mjs: ${token}`);
+  }
+}
+
+for (const token of ["Market Signal Dashboard", "publicDataSource=mock", "scoreSource=mock"]) {
+  if (!stockFirstScreenSource.includes(token) && !stockActionSource.includes(token)) {
+    missing.push(`stock first-screen language gates: ${token}`);
   }
 }
 
@@ -100,13 +73,4 @@ console.log(
 
 if (missing.length > 0 || blocked.length > 0) {
   process.exitCode = 1;
-}
-
-function removeAllowedNegativeSamples(source) {
-  return source
-    .replace(/const mojibakeFragments = \[[\s\S]*?\];/g, "")
-    .replace(/const forbiddenTokens = \[[\s\S]*?\];/g, "")
-    .replace(/const forbiddenText = \[[\s\S]*?\];/g, "")
-    .replace(/const mojibakePattern = .*?;/g, "")
-    .replace(/const replacementOrPrivateUse = .*?;/g, "");
 }

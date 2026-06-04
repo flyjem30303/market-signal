@@ -2928,9 +2928,24 @@ const checks = [
     name: "mainline-readonly-packet-bridge"
   },
   {
+    command: [node, "scripts/check-mainline-readonly-row-coverage-integration.mjs"],
+    expectStatus: "ok",
+    name: "mainline-readonly-row-coverage-integration"
+  },
+  {
     command: [node, "scripts/check-role-workstreams.mjs"],
     expectStatus: "ok",
     name: "role-workstreams"
+  },
+  {
+    command: [node, "scripts/check-runtime-autonomy-handoff.mjs"],
+    expectStatus: "ok",
+    name: "runtime-autonomy-handoff"
+  },
+  {
+    command: [node, "scripts/check-readable-current-status.mjs"],
+    expectStatus: "ok",
+    name: "readable-current-status"
   },
   {
     command: [node, "scripts/check-a2-public-copy-readability-candidates.mjs"],

@@ -25,7 +25,8 @@ const requiredSourceTokens = [
   "mojibakeOrPrivateUse",
   "internalTerms",
   "boundaryInsufficient",
-  "firstScreen"
+  "firstScreen",
+  "urgentFirstScreenCandidates"
 ];
 
 const missing = [];
@@ -72,6 +73,20 @@ if (report) {
 
   for (const section of ["mojibakeOrPrivateUse", "internalTerms", "boundaryInsufficient", "firstScreen"]) {
     if (!Array.isArray(report.candidates?.[section])) missing.push(`report.candidates.${section}`);
+  }
+
+  const urgentFirstScreenCandidates = (report.candidates?.firstScreen ?? []).filter(
+    (candidate) => candidate.priority === "P0" || candidate.priority === "P1"
+  );
+  if (report.summary?.urgentFirstScreenCandidates !== urgentFirstScreenCandidates.length) {
+    blocked.push("report.summary.urgentFirstScreenCandidates must match P0/P1 first-screen candidate count");
+  }
+  if (urgentFirstScreenCandidates.length > 0) {
+    blocked.push(
+      `report.candidates.firstScreen has urgent public-copy candidates: ${urgentFirstScreenCandidates
+        .map((candidate) => `${candidate.file}:${candidate.priority}`)
+        .join(", ")}`
+    );
   }
 
   if (!Array.isArray(report.worklist) || report.worklist.length === 0) {

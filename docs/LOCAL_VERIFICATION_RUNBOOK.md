@@ -15,6 +15,13 @@ dev server availability issue. Confirm whether port 3000 has a listener, then ru
 `npm run dev:recover`. A successful recovery should make the home page return
 HTTP 200 before any product or runtime debugging continues.
 
+On Windows, PowerShell may block `npm run build` by trying to load
+`C:\Program Files\nodejs\npm.ps1` when script execution is disabled. Treat this
+as a shell execution-policy issue, not a project failure. Run
+`cmd.exe /c npm run build` from the project root to execute the same local build
+without changing Supabase, SQL, market data, public source, or score source
+state.
+
 ## Required Order
 
 1. Run `npm run check:localhost-full-health` when the dev server is already up.
@@ -23,7 +30,7 @@ HTTP 200 before any product or runtime debugging continues.
 4. Run `npm run report:blocker-resolution-plan` when blocked or waiting decision nodes need an owner/action map.
 5. Run `npm run report:data-quality-evidence-checklist`, `npm run report:source-rights-disclosure-checklist`, and `npm run report:model-credibility-checklist` when the blocker owners need the concrete review inputs.
 6. Run `npm run check:review-gates`.
-7. Run `npm run build` only after review gates finish.
+7. Run `npm run build` only after review gates finish. If PowerShell blocks `npm.ps1`, run `cmd.exe /c npm run build`.
 8. Run `npm run dev:recover` after build.
 9. Run `npm run check:localhost-full-health` again after recovery.
 

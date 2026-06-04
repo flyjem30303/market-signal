@@ -18,6 +18,17 @@ const files = new Map(
 const required = [
   [libPath, "FreshnessRuntimeOneAttemptDecision"],
   [libPath, "getFreshnessRuntimeOneAttemptDecision"],
+  [libPath, "displayStatus"],
+  [libPath, "displayHeadline"],
+  [libPath, "displayNextAction"],
+  [libPath, "displayStopLine"],
+  [libPath, "displayRollbackLabel"],
+  [libPath, "displayRollbackLine"],
+  [libPath, "displayCommandLabel"],
+  [libPath, "等待一次性明確授權"],
+  [libPath, "必須由 CEO 明確點名一次"],
+  [libPath, "回復目標維持 mock / disabled"],
+  [libPath, "遠端唯讀命令已保留，尚未執行"],
   [libPath, "freshness_runtime_one_attempt_decision"],
   [libPath, "ready_for_explicit_one_attempt_request"],
   [libPath, "requires_explicit_ceo_named_attempt"],
@@ -37,6 +48,13 @@ const required = [
   [panelPath, "freshnessRuntimeOneAttemptDecision"],
   [panelPath, "runtime-freshness-one-attempt-decision"],
   [panelPath, "Freshness runtime one-attempt decision"],
+  [panelPath, "freshnessRuntimeOneAttemptDecision.displayStatus"],
+  [panelPath, "freshnessRuntimeOneAttemptDecision.displayHeadline"],
+  [panelPath, "freshnessRuntimeOneAttemptDecision.displayNextAction"],
+  [panelPath, "freshnessRuntimeOneAttemptDecision.displayStopLine"],
+  [panelPath, "freshnessRuntimeOneAttemptDecision.displayRollbackLabel"],
+  [panelPath, "freshnessRuntimeOneAttemptDecision.displayRollbackLine"],
+  [panelPath, "freshnessRuntimeOneAttemptDecision.displayCommandLabel"],
   [cssPath, ".runtime-freshness-one-attempt-decision"],
   [packagePath, "\"check:freshness-runtime-one-attempt-decision\": \"node scripts/check-freshness-runtime-one-attempt-decision.mjs\""],
   [reviewGatePath, "scripts/check-freshness-runtime-one-attempt-decision.mjs"],
@@ -64,8 +82,25 @@ const forbidden = [
   [panelPath, "scoreSource: \"real\""]
 ];
 
+const uiInternalWordingForbidden = [
+  [panelPath, ">{freshnessRuntimeOneAttemptDecision.status}</strong>"],
+  [panelPath, "Approval: {freshnessRuntimeOneAttemptDecision.approvalState}"],
+  [panelPath, "automatic execution"],
+  [panelPath, "freshnessRuntimeOneAttemptDecision.canExecuteAutomatically"],
+  [panelPath, ">{freshnessRuntimeOneAttemptDecision.nextAction}</p>"],
+  [panelPath, ">{freshnessRuntimeOneAttemptDecision.stopLine}</p>"],
+  [panelPath, "DATA_FRESHNESS_SOURCE={freshnessRuntimeOneAttemptDecision.rollbackTarget.dataFreshnessSource}"],
+  [panelPath, "Reads {freshnessRuntimeOneAttemptDecision.rollbackTarget.supabaseRuntimeReads}"],
+  [panelPath, ">{freshnessRuntimeOneAttemptDecision.mode}</strong>"]
+];
+
 const missing = required.filter(([file, phrase]) => !read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
-const blocked = forbidden.filter(([file, phrase]) => read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
+const blocked = [
+  ...forbidden.filter(([file, phrase]) => read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`),
+  ...uiInternalWordingForbidden
+    .filter(([file, phrase]) => read(file).includes(phrase))
+    .map(([file, phrase]) => `${file}: UI still renders internal one-attempt wording ${phrase}`)
+];
 
 console.log(
   JSON.stringify(

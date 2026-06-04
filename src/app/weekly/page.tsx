@@ -54,7 +54,7 @@ export default async function WeeklyPage() {
           後續可接入真實行情、新聞與法人籌碼資料。
         </p>
         <p className="runtime-boundary-line">
-          目前為 mock-only 閱讀版；publicDataSource=mock、scoreSource=mock。週報分數只用來驗證閱讀流程，不代表即時市場資料或投資建議。
+          目前為模擬資料閱讀版；週報分數只用來驗證閱讀流程，不代表即時市場資料或投資建議。
         </p>
       </section>
       <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />

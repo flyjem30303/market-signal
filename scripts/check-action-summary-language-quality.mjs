@@ -21,8 +21,8 @@ const forbiddenTokens = [
   "scoreSource=real",
   "publicDataSource=supabase"
 ];
-const replacementOrPrivateUse = /[\uFFFD\uF000-\uF8FF]/u;
-const mojibakePattern = /[嚗]{2,}/u;
+const replacementOrPrivateUse = /[\uFFFD\uE000-\uF8FF]/u;
+const mojibakePattern = /[\uF000-\uF8FF]{1,}|[嚙稽]{1,}/u;
 const asciiQuestionRun = /\?{3,}/u;
 
 const packageJson = fs.readFileSync(packagePath, "utf8");

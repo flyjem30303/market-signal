@@ -63,7 +63,7 @@ export default async function BriefingPage() {
             用一分鐘查看今天的市場健康度、風險升溫標的與觀察重點。這是研究模型摘要，不是買賣建議。
           </p>
           <p className="runtime-boundary-line">
-            目前為 mock-only 閱讀版；publicDataSource=mock、scoreSource=mock。頁面分數只用來驗證閱讀流程，不代表即時市場資料或投資建議。
+            目前為模擬資料閱讀版；頁面分數只用來驗證閱讀流程，不代表即時市場資料或投資建議。
           </p>
         </div>
         <div className="briefing-meta">

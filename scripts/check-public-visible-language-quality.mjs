@@ -10,7 +10,7 @@ const coreRuntimeBoundaryRequired = [
   "mock",
   "publicDataSource=mock",
   "scoreSource=mock",
-  "Freshness metadata only explains data recency",
+  "資料新鮮度",
   "scoreSource"
 ];
 
@@ -57,15 +57,15 @@ const pages = [
   },
   {
     path: "/disclaimer",
-    required: [...coreRuntimeBoundaryRequired, "免責聲明", "不是投資建議", "不提供買賣建議"]
+    required: [...coreRuntimeBoundaryRequired, "免責聲明", "不構成投資建議", "非投資建議"]
   },
   {
     path: "/terms",
-    required: [...coreRuntimeBoundaryRequired, "使用條款", "不可作為交易依據", "不提供買賣建議"]
+    required: [...coreRuntimeBoundaryRequired, "使用條款", "不得視為交易指示", "資料限制"]
   },
   {
     path: "/privacy",
-    required: [...coreRuntimeBoundaryRequired, "隱私權政策", "產品互動事件", "localStorage"]
+    required: [...coreRuntimeBoundaryRequired, "隱私政策", "不收集交易帳戶資料", "localStorage"]
   }
 ];
 
@@ -79,25 +79,14 @@ const expectedVisiblePaths = unique([
   "/privacy"
 ]);
 
-const mojibakeFragments = [
-  "\uFFFD",
-  "?",
-  "?梁",
-  "?",
-  "?桀",
-  "?",
-  "?",
-  "蝣箄",
-  "撱箄",
-  "雿輻",
-  "璇",
-  "甈",
-  "銝",
-  "嚗",
-  "",
-  "",
-  ""
+const mojibakePatterns = [
+  /\uFFFD/u,
+  /[嚙稽]/u,
+  /[]/u,
+  /[]/u,
+  /\?{2,}/u
 ];
+
 const forbiddenText = [
   "Internal Server Error",
   "ERR_CONNECTION_REFUSED",
@@ -115,7 +104,7 @@ for (const page of pages) {
   const response = await fetch(url);
   const html = await response.text();
   const text = normalizeVisibleText(html);
-  const markerHits = mojibakeFragments.filter((fragment) => text.includes(fragment));
+  const markerHits = mojibakePatterns.map(String).filter((_, index) => mojibakePatterns[index].test(text));
   const forbiddenHits = forbiddenText.filter((fragment) => text.includes(fragment));
   const missing = page.required.filter((phrase) => !text.includes(phrase));
 
@@ -168,7 +157,7 @@ const selfContract = [
     pass:
       checkerSource.includes('"免責聲明"') &&
       checkerSource.includes('"使用條款"') &&
-      checkerSource.includes('"隱私權政策"')
+      checkerSource.includes('"隱私政策"')
   },
   {
     check: "aligns with localhost health paths",

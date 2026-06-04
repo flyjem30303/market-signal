@@ -100,9 +100,19 @@ const run = spawnSync(process.execPath, [briefPath], {
 if (run.status !== 0) {
   blocked.push(`${briefPath}: exited ${String(run.status)} ${run.stderr.trim()}`);
 } else {
+  const snapshotRun = spawnSync(process.execPath, ["scripts/report-project-progress-snapshot.mjs"], {
+    cwd: process.cwd(),
+    encoding: "utf8",
+    shell: false
+  });
+  const expectedProgress = snapshotRun.status === 0 ? JSON.parse(snapshotRun.stdout).project.adjustedScore : null;
+  if (expectedProgress === null) {
+    blocked.push("scripts/report-project-progress-snapshot.mjs: unable to derive expected progress");
+  }
+
   for (const phrase of [
     "CEO Progress Brief",
-    "Progress: 70%",
+    `Progress: ${expectedProgress}%`,
     "Status: local_ready_remote_paused",
     "Lane ratio: runtime product 70 / blocker closure 20 / governance 10",
     "Cadence: recent_slices_too_fragmented -> larger_mock_runtime_product_slice",

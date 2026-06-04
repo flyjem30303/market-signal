@@ -1,4 +1,4 @@
-import fs from "node:fs";
+﻿import fs from "node:fs";
 import path from "node:path";
 
 const root = process.cwd();
@@ -54,15 +54,14 @@ const internalTermRules = [
 ];
 const boundaryTriggerTerms = [
   "投資",
-  "燈號",
-  "分數",
   "模型",
+  "分數",
   "訊號",
+  "資料來源",
   "score",
   "signal",
   "runtime",
   "Supabase",
-  "資料來源",
   "source"
 ];
 const boundaryRequiredAny = ["mock", "scoreSource=mock", "publicDataSource=mock", "模擬", "尚未接真實資料"];
@@ -80,6 +79,7 @@ const files = scanRoots.flatMap((directory) => findTsxFiles(path.join(root, dire
 
 const fileReports = files.map((file) => analyzeFile(file));
 const firstScreenCandidates = buildFirstScreenCandidates(fileReports);
+const urgentFirstScreenCandidates = firstScreenCandidates.filter((candidate) => candidate.priority !== "P2");
 const worklist = buildWorklist(fileReports, firstScreenCandidates);
 const report = {
   mode: "a2_public_copy_readability_candidates",
@@ -96,7 +96,8 @@ const report = {
     internalTermHits: fileReports.reduce((sum, item) => sum + item.internalTerms.length, 0),
     mojibakeCandidates: fileReports.reduce((sum, item) => sum + item.mojibake.length, 0),
     publicDataSource: "mock",
-    scoreSource: "mock"
+    scoreSource: "mock",
+    urgentFirstScreenCandidates: urgentFirstScreenCandidates.length
   },
   candidates: {
     mojibakeOrPrivateUse: fileReports.flatMap((item) => item.mojibake.map((hit) => ({ file: item.file, ...hit }))),

@@ -18,6 +18,8 @@ const required = [
   [helperPath, "marketLine"],
   [helperPath, "publicDataSource=mock"],
   [helperPath, "scoreSource=mock"],
+  [helperPath, "市場風險升溫"],
+  [helperPath, "市場暫時偏穩"],
   [helperPath, "不提供買賣建議"],
   [pagePath, "buildBriefingMarketActionSummary"],
   [pagePath, "marketActionSummary"],
@@ -47,21 +49,13 @@ const forbidden = [
   [pagePath, "publicDataSource=\"supabase\""]
 ];
 
-const missing = required.filter(([file, phrase]) => !files.get(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
-const blocked = forbidden.filter(([file, phrase]) => files.get(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
+const missing = required.filter(([file, phrase]) => !read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
+const blocked = forbidden.filter(([file, phrase]) => read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
 
-console.log(
-  JSON.stringify(
-    {
-      blocked,
-      missing,
-      status: missing.length === 0 && blocked.length === 0 ? "ok" : "blocked"
-    },
-    null,
-    2
-  )
-);
+console.log(JSON.stringify({ blocked, missing, status: missing.length === 0 && blocked.length === 0 ? "ok" : "blocked" }, null, 2));
 
-if (missing.length > 0 || blocked.length > 0) {
-  process.exitCode = 1;
+if (missing.length > 0 || blocked.length > 0) process.exitCode = 1;
+
+function read(file) {
+  return files.get(file) ?? "";
 }

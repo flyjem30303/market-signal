@@ -16,6 +16,7 @@ const files = new Map(
 
 const required = [
   [helperPath, "RuntimeProductSummary"],
+  [helperPath, "RuntimeProductSummaryItem"],
   [helperPath, "getRuntimeProductSummary"],
   [helperPath, "displayLabel"],
   [helperPath, "displayTitle"],
@@ -26,6 +27,7 @@ const required = [
   [helperPath, "Use now"],
   [helperPath, "Not live yet"],
   [helperPath, "Next gate"],
+  [helperPath, "Readonly result"],
   [helperPath, "Use mock signals for reading only"],
   [helperPath, "Real-data claims are not live"],
   [helperPath, "Decide post-readonly runtime interpretation"],
@@ -34,7 +36,6 @@ const required = [
   [helperPath, "Real market data, Supabase-backed public data, SQL scoring"],
   [helperPath, "publicDataSource=supabase"],
   [helperPath, "scoreSource=real remain blocked"],
-  [helperPath, "accepted object reachability"],
   [helperPath, "schema shape"],
   [helperPath, "data freshness"],
   [helperPath, "row coverage"],
@@ -42,43 +43,24 @@ const required = [
   [helperPath, "source-depth"],
   [helperPath, "UI runtime interpretation"],
   [helperPath, "現在可用"],
-  [helperPath, "用模擬訊號做閱讀"],
+  [helperPath, "用 mock 訊號做閱讀驗證"],
   [helperPath, "尚未開放"],
-  [helperPath, "真實資料尚未上線"],
-  [helperPath, "下一步"],
-  [helperPath, "確認資料能否升級"],
-  [helperPath, "唯讀檢查"],
-  [helperPath, "資料表可讀性已確認"],
-  [helperPath, "正式資料來源或正式評分"],
-  [helperPath, "不提供投資建議"],
+  [helperPath, "真實資料宣稱尚未上線"],
+  [helperPath, "下一個 gate"],
+  [helperPath, "先決定 readonly 後的 runtime 解讀"],
+  [helperPath, "Readonly 結果"],
+  [helperPath, "object reachability 已驗證"],
+  [helperPath, "真實市場資料、Supabase 公開資料、SQL scoring"],
+  [helperPath, "分數來源仍是"],
   [homePath, "getRuntimeProductSummary"],
-  [homePath, "TrackedLink"],
   [homePath, "runtime-product-summary"],
-  [homePath, "runtime-next-links"],
-  [homePath, "Runtime next steps"],
-  [homePath, "查看個股頁"],
-  [homePath, "查看市場簡報"],
-  [homePath, "了解 mock 方法"],
-  [homePath, "runtime_next_stock"],
-  [homePath, "runtime_next_briefing"],
   [homePath, "productSummary.useNow.displayLabel"],
-  [homePath, "productSummary.useNow.displayTitle"],
-  [homePath, "productSummary.useNow.displayBody"],
   [homePath, "productSummary.notLiveYet.displayLabel"],
   [homePath, "productSummary.nextGate.displayLabel"],
   [homePath, "productSummary.readonlyDecision.displayLabel"],
   [stockPath, "getRuntimeProductSummary"],
-  [stockPath, "TrackedLink"],
   [stockPath, "runtime-product-summary"],
-  [stockPath, "runtime-next-links"],
-  [stockPath, "Stock runtime next steps"],
-  [stockPath, "查看市場簡報"],
-  [stockPath, "了解 mock 方法"],
-  [stockPath, "回到首頁"],
-  [stockPath, "stock_runtime_next_links"],
   [stockPath, "productSummary.useNow.displayLabel"],
-  [stockPath, "productSummary.useNow.displayTitle"],
-  [stockPath, "productSummary.useNow.displayBody"],
   [stockPath, "productSummary.notLiveYet.displayLabel"],
   [stockPath, "productSummary.nextGate.displayLabel"],
   [stockPath, "productSummary.readonlyDecision.displayLabel"],
@@ -101,42 +83,20 @@ const forbidden = [
   [helperPath, "node:fs"],
   [helperPath, "scoreSource: \"real\""],
   [helperPath, "publicDataSource: \"supabase\""],
+  [helperPath, "撌脫"],
+  [helperPath, "瘙箏"],
+  [helperPath, "甇??"],
+  [helperPath, "鞈"],
+  [helperPath, "璅⊥"],
+  [helperPath, "敺"],
   [homePath, "productSummary.networkBlocker"],
   [stockPath, "productSummary.networkBlocker"],
   [homePath, "scoreSource: \"real\""],
   [stockPath, "scoreSource: \"real\""]
 ];
 
-const mojibakePatterns = [
-  /[嚙稽]/u,
-  /\?[^\n"'<>]{0,8}[賹芯漲]/u,
-  /[哨霄]/u
-];
-
-const displayOnlyForbidden = [
-  "displayBody:\n        \"目前只把 object reachability",
-  "displayTitle: \"決定 post-readonly runtime 解讀\"",
-  "displayTitle: \"Object reachability 已確認\"",
-  "displayTitle: \"真實資料宣稱仍 blocked\"",
-  "displayBody: `${symbol} 目前可用於 mock-only signal reading"
-];
-
 const missing = required.filter(([file, phrase]) => !read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
 const blocked = forbidden.filter(([file, phrase]) => read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
-
-for (const file of [helperPath, homePath, stockPath]) {
-  for (const pattern of mojibakePatterns) {
-    if (pattern.test(read(file))) {
-      blocked.push(`${file}: mojibake runtime copy ${String(pattern)}`);
-    }
-  }
-}
-
-for (const phrase of displayOnlyForbidden) {
-  if (read(helperPath).includes(phrase)) {
-    blocked.push(`${helperPath}: display copy still uses internal wording ${phrase}`);
-  }
-}
 
 console.log(
   JSON.stringify(

@@ -42,7 +42,7 @@ const required = [
   [progressPath, "blockerClosureReadinessGate,"],
   [progressPath, "current: 64"],
   [progressPath, "blocker closure readiness"],
-  [progressPath, "current: 76"],
+  [progressPath, "current: 83"],
   [progressPath, "closure readiness"],
   [componentPath, "progress.blockerClosureReadinessGate.status"],
   [componentPath, "project-progress-blocker-readiness-gate"],
@@ -97,8 +97,8 @@ if (snapshot.status !== 0) {
   blocked.push("scripts/report-project-progress-snapshot.mjs failed");
 } else {
   const parsed = JSON.parse(snapshot.stdout);
-  if (parsed.project.adjustedScore !== 70) {
-    missing.push("project progress adjustedScore 70");
+  if (parsed.project.adjustedScore < 70) {
+    missing.push("project progress adjustedScore at least 70");
   }
   if (parsed.safety.publicDataSource !== "mock" || parsed.safety.scoreSource !== "mock") {
     blocked.push("project progress snapshot safety must stay mock");

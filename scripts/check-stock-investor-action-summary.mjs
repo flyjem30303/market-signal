@@ -21,9 +21,9 @@ const requiredHelperPhrases = [
   "safetyLine",
   "publicDataSource=mock",
   "scoreSource=mock",
-  "不能視為投資建議",
-  "停止條件",
-  "資料缺口",
+  "不構成投資建議",
+  "停看條件",
+  "資料品質檢查",
   "mock-only",
   "missingModuleFlags",
   "staleDataFlags",
@@ -65,35 +65,15 @@ const forbiddenPhrases = [
 ];
 
 const missing = [
-  ...requiredHelperPhrases
-    .filter((phrase) => !helper.includes(phrase))
-    .map((phrase) => `${helperPath}: ${phrase}`),
-  ...requiredComponentPhrases
-    .filter((phrase) => !component.includes(phrase))
-    .map((phrase) => `${componentPath}: ${phrase}`),
+  ...requiredHelperPhrases.filter((phrase) => !helper.includes(phrase)).map((phrase) => `${helperPath}: ${phrase}`),
+  ...requiredComponentPhrases.filter((phrase) => !component.includes(phrase)).map((phrase) => `${componentPath}: ${phrase}`),
   ...requiredCssPhrases.filter((phrase) => !css.includes(phrase)).map((phrase) => `${cssPath}: ${phrase}`),
-  ...(!pkg.includes('"check:stock-investor-action-summary"')
-    ? [`${packagePath}: check:stock-investor-action-summary`]
-    : []),
-  ...(!reviewGate.includes("check-stock-investor-action-summary.mjs")
-    ? [`${reviewGatePath}: check-stock-investor-action-summary.mjs`]
-    : [])
+  ...(!pkg.includes('"check:stock-investor-action-summary"') ? [`${packagePath}: check:stock-investor-action-summary`] : []),
+  ...(!reviewGate.includes("check-stock-investor-action-summary.mjs") ? [`${reviewGatePath}: check-stock-investor-action-summary.mjs`] : [])
 ];
 
 const forbidden = forbiddenPhrases.filter((phrase) => helper.includes(phrase) || component.includes(phrase));
 
-console.log(
-  JSON.stringify(
-    {
-      forbidden,
-      missing,
-      status: missing.length === 0 && forbidden.length === 0 ? "ok" : "blocked"
-    },
-    null,
-    2
-  )
-);
+console.log(JSON.stringify({ forbidden, missing, status: missing.length === 0 && forbidden.length === 0 ? "ok" : "blocked" }, null, 2));
 
-if (missing.length > 0 || forbidden.length > 0) {
-  process.exitCode = 1;
-}
+if (missing.length > 0 || forbidden.length > 0) process.exitCode = 1;

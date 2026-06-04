@@ -1,4 +1,4 @@
-import fs from "node:fs";
+﻿import fs from "node:fs";
 
 const progressPath = "src/lib/project-progress-score.ts";
 const componentPath = "src/components/project-progress-panel.tsx";
@@ -55,16 +55,33 @@ const required = [
   [componentPath, "Project progress"],
   [componentPath, "CEO PM runtime progress alignment"],
   [componentPath, "project-progress-runtime-strip"],
-  [componentPath, "runtimeGate.currentDefaultRoute"],
-  [componentPath, "runtimeGate.separateRemoteTrigger"],
-  [componentPath, "runtimeGate.publicDataSource"],
-  [componentPath, "runtimeGate.scoreSource"],
+  [componentPath, "runtime.displayHeadline"],
+  [componentPath, "runtime.displayNextDecision"],
+  [componentPath, "runtimeGate.displayRouteTitle"],
+  [componentPath, "runtimeGate.displayDecisionPoint"],
+  [componentPath, "runtimeGate.displayStatus"],
+  [componentPath, "runtimeGate.displayRemoteTrigger"],
+  [componentPath, "runtimeGate.displaySourceBoundary"],
+  [componentPath, "runtimeGate.displayScoreSource"],
+  [componentPath, "runtimeGate.displayBlockedNowTitle"],
   [componentPath, "Evidence gate"],
   [componentPath, "progress.networkBlocker.currentFinding"],
   [componentPath, "project-progress-network-blocker"],
   [componentPath, "Data coverage route / source readiness details"],
   [componentPath, "Data quality evidence gate"],
   [componentPath, "Data coverage route"],
+  [componentPath, "formatBoundary"],
+  [componentPath, "formatBoolean"],
+  [componentPath, "formatNextGate"],
+  [componentPath, "formatRequired"],
+  [componentPath, "公開資料來源"],
+  [componentPath, "分數來源"],
+  [componentPath, "CEO 另行命名授權"],
+  [componentPath, "允許動作"],
+  [componentPath, "封鎖動作"],
+  [componentPath, "核准前禁止"],
+  [componentPath, "執行前必須完成"],
+  [componentPath, "執行前仍封鎖"],
   [componentPath, "progress.dataCoverageRouteDecision.status"],
   [componentPath, "progress.dataCoverageRouteDecision.recommendation"],
   [componentPath, "progress.dataCoverageRouteDecision.blockedReason"],
@@ -99,9 +116,7 @@ const required = [
   [cssPath, ".project-progress-lanes"]
 ];
 
-const mojibakeFragments = ["�", "銝", "嚗", "蝣", "摰", "璅", "鞈", "撣", "憸", "隞", "砍", "靘", "甇", "蝬", "脣", "蝺"];
-
-const forbidden = [
+const forbiddenLiterals = [
   [progressPath, "adjustedScore: 100"],
   [progressPath, "scoreSource=real approved"],
   [progressPath, "canSetScoreSourceReal: true"],
@@ -109,25 +124,44 @@ const forbidden = [
   [componentPath, "connect Supabase"],
   [componentPath, "run SQL"],
   [componentPath, "fetch("],
-  ...mojibakeFragments.map((fragment) => [progressPath, fragment])
+  [componentPath, "runtimeGate.currentDefaultRoute"],
+  [componentPath, "runtimeGate.separateRemoteTrigger"],
+  [componentPath, "runtimeGate.publicDataSource"],
+  [componentPath, "runtimeGate.scoreSource"],
+  [componentPath, "runtime.status"],
+  [componentPath, "runtime.nextDecision"],
+  [componentPath, "public source"],
+  [componentPath, "score source"],
+  [componentPath, "Public source"],
+  [componentPath, "Allowed:"],
+  [componentPath, "Forbidden:"],
+  [componentPath, "Required before execution:"],
+  [componentPath, "? \"yes\" : \"no\""]
 ];
 
+const mojibakePattern = /[\uE000-\uF8FF\uFFFD]|[嚗餅銝蝡舫摰祇雿輻閮踹]{2,}|\?{2,}/u;
+
 const missing = required.filter(([file, phrase]) => !read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
-const blocked = forbidden.filter(([file, phrase]) => read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
+const blocked = forbiddenLiterals
+  .filter(([file, phrase]) => read(file).includes(phrase))
+  .map(([file, phrase]) => `${file}: ${phrase}`);
+const mojibake = [progressPath, componentPath]
+  .filter((file) => mojibakePattern.test(read(file)))
+  .map((file) => `${file}: mojibake-like text`);
 
 console.log(
   JSON.stringify(
     {
-      blocked,
+      blocked: [...blocked, ...mojibake],
       missing,
-      status: missing.length === 0 && blocked.length === 0 ? "ok" : "blocked"
+      status: missing.length === 0 && blocked.length === 0 && mojibake.length === 0 ? "ok" : "blocked"
     },
     null,
     2
   )
 );
 
-if (missing.length > 0 || blocked.length > 0) {
+if (missing.length > 0 || blocked.length > 0 || mojibake.length > 0) {
   process.exitCode = 1;
 }
 

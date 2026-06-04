@@ -87,30 +87,19 @@ const required = [
   [componentPath, "project-progress-runner-execution-gate"],
   [componentPath, "project-progress-source-checkpoint"],
   [componentPath, "project-progress-twii-source-selection"],
-  [componentPath, "progress.dataCoverageRouteDecision.sourceReadinessPacket.etfSourceRightsReviewPacket.candidates.map"],
-  [componentPath, "progress.dataCoverageRouteDecision.sourceReadinessPacket.equityDryRunPacketReadiness.requirements.map"],
-  [componentPath, "progress.dataCoverageRouteDecision.sourceReadinessPacket.equityReportOnlyDryRunPacket.sections.map"],
-  [componentPath, "progress.dataCoverageRouteDecision.sourceReadinessPacket.equityPacketRoleReviewGate.reviews.map"],
-  [
-    componentPath,
-    "progress.dataCoverageRouteDecision.sourceReadinessPacket.equityRunnerImplementationApprovalGate.requirements.map"
-  ],
-  [
-    componentPath,
-    "progress.dataCoverageRouteDecision.sourceReadinessPacket.runnerApprovalDecisionRequestSummary.options.map"
-  ],
-  [
-    componentPath,
-    "progress.dataCoverageRouteDecision.sourceReadinessPacket.runnerApprovalDecisionOutcomeLedger.outcomes.map"
-  ],
-  [
-    componentPath,
-    "progress.dataCoverageRouteDecision.sourceReadinessPacket.equityRunnerExecutionApprovalGate.prechecks.map"
-  ],
-  [componentPath, "progress.dataCoverageRouteDecision.sourceReadinessPacket.lanes.map"],
-  [componentPath, "progress.dataCoverageRouteDecision.sourceReadinessPacket.sourceReadinessCheckpointSummary.lanes.map"],
-  [componentPath, "progress.dataCoverageRouteDecision.sourceReadinessPacket.twiiSourceSelectionPacket.candidates.map"],
-  [componentPath, "progress.dataCoverageRouteDecision.sourceReadinessPacket.stopLine"],
+  [componentPath, "const sourcePacket = progress.dataCoverageRouteDecision.sourceReadinessPacket"],
+  [componentPath, "sourcePacket.etfSourceRightsReviewPacket.candidates.map"],
+  [componentPath, "sourcePacket.equityDryRunPacketReadiness.requirements.map"],
+  [componentPath, "sourcePacket.equityReportOnlyDryRunPacket.sections.map"],
+  [componentPath, "sourcePacket.equityPacketRoleReviewGate.reviews.map"],
+  [componentPath, "sourcePacket.equityRunnerImplementationApprovalGate.requirements.map"],
+  [componentPath, "sourcePacket.runnerApprovalDecisionRequestSummary.options.map"],
+  [componentPath, "sourcePacket.runnerApprovalDecisionOutcomeLedger.outcomes.map"],
+  [componentPath, "sourcePacket.equityRunnerExecutionApprovalGate.prechecks.map"],
+  [componentPath, "sourcePacket.lanes.map"],
+  [componentPath, "sourcePacket.sourceReadinessCheckpointSummary.lanes.map"],
+  [componentPath, "sourcePacket.twiiSourceSelectionPacket.candidates.map"],
+  [componentPath, "sourcePacket.stopLine"],
   [cssPath, ".project-progress-source-readiness"],
   [cssPath, ".project-progress-etf-rights-review"],
   [cssPath, ".project-progress-equity-dry-run"],

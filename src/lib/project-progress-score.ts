@@ -35,26 +35,26 @@ export type ProjectProgressSummary = {
 
 export const projectProgressLanes: ProjectProgressLane[] = [
   {
-    current: 74,
+    current: 88,
     label: "Mock MVP product surface",
     note:
-      "Home, briefing, stock pages, runtime disclosures, and dev recovery are usable for mock-only product validation; they still need cleaner user-facing hierarchy before real-data work.",
-    owner: "PM",
-    weight: 15
-  },
-  {
-    current: 78,
-    label: "Mock signal reading flow",
-    note:
-      "Mock runtime signals, ETF/equity placeholders, and risk-reading flows are coherent enough for product testing, but remain explicitly non-advisory and non-real-data.",
+      "Home, briefing, stock pages, legal pages, runtime disclosures, runtime next-step links, freshness strips, and dev recovery are usable for mock-only product validation; public runtime surfaces and health contracts no longer depend on mojibake copy.",
     owner: "PM",
     weight: 15
   },
   {
     current: 86,
+    label: "Mock signal reading flow",
+    note:
+      "Mock runtime signals, ETF/equity placeholders, product summary cards, risk-reading flows, and legal/weekly/briefing boundaries are coherent enough for product testing, with action summaries and next-step links kept readable, non-advisory, and non-real-data.",
+    owner: "PM",
+    weight: 15
+  },
+  {
+    current: 90,
     label: "Runtime state guard",
     note:
-      "mock-only, not_ready, blocked states, manual gates, review gates, and fail-closed behavior are in place; next work is consistency and readability.",
+      "mock-only, not_ready, blocked states, manual gates, review gates, fail-closed behavior, readable runtime/progress display fields, shared public boundary helpers, and A2 first-screen internal-token regression blocking are in place.",
     owner: "Engineering",
     weight: 15
   },
@@ -83,18 +83,18 @@ export const projectProgressLanes: ProjectProgressLane[] = [
     weight: 10
   },
   {
-    current: 76,
+    current: 83,
     label: "CEO execution focus",
     note:
-      "CEO has shifted sequencing away from UI polish toward data/runtime foundation gates, closure readiness, and the post-readonly evidence queue. Future remote attempts stay separately named and bounded.",
+      "CEO has shifted sequencing toward larger runtime product slices, public trust readability, A2 scanner hardening, data/runtime foundation gates, closure readiness, stale-checker cleanup, and the post-readonly evidence queue. Future remote attempts stay separately named and bounded.",
     owner: "CEO",
     weight: 10
   },
   {
-    current: 80,
+    current: 88,
     label: "DevOps / health / recovery",
     note:
-      "localhost health, build, review gates, and dev-server recovery tools are available. The remaining risk is keeping dev-server and .next recovery predictable during frequent slices.",
+      "localhost health, TypeScript, review gates, language-quality gates, and dev-server recovery tools are available. Health config, full localhost health, and recovery checkers now use stable readable tokens instead of corrupted copy.",
     owner: "Engineering",
     weight: 5
   }

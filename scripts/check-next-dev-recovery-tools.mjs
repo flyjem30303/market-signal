@@ -47,7 +47,7 @@ for (const token of [
   '"/weekly"',
   '"/robots.txt"',
   "Runtime At A Glance",
-  "Blocker readiness",
+  "封鎖項目",
   "Data / Legal / Investment checklists are local-ready",
   "local_ready_remote_paused",
   "Internal Server Error",

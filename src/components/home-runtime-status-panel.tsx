@@ -49,6 +49,7 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
           until separate accepted gates.
         </p>
       </div>
+
       <div className="runtime-product-summary" aria-label="Runtime product summary">
         <article className="active">
           <span>{productSummary.useNow.displayLabel}</span>
@@ -71,8 +72,10 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
           <p>{productSummary.readonlyDecision.displayBody}</p>
         </article>
       </div>
+
       <RuntimeTransitionRail symbol={selectedSymbol} />
       <PublicRuntimeStateStrip context="home" />
+
       <section className="runtime-action-status-strip" aria-label="Runtime action status normalization">
         <div>
           <span>Action status</span>
@@ -92,6 +95,7 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
           </article>
         ))}
       </section>
+
       <article className="readying runtime-execution-readiness-card">
         <span>Execution readiness</span>
         <strong>{executionReadiness.state}</strong>
@@ -102,6 +106,7 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
           {executionReadiness.scoreSource}.
         </p>
       </article>
+
       <article className="active post-readonly-runtime-card">
         <span>Readonly result</span>
         <strong>{postReadonlyRuntime.objectsReachable} objects reachable</strong>
@@ -115,6 +120,7 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
           Public {postReadonlyRuntime.publicDataSource}; score {postReadonlyRuntime.scoreSource}.
         </p>
       </article>
+
       <article className="active post-readonly-runtime-card home-freshness-evidence-card">
         <span>Freshness metadata</span>
         <strong>{freshnessLatestEvidence.state}</strong>
@@ -127,68 +133,70 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
           only, not market-data quality or real-score approval.
         </p>
       </article>
+
       <nav className="runtime-next-links" aria-label="Runtime next steps">
         <TrackedLink
           eventName="home_cta_clicked"
           href={`/stocks/${selectedSymbol}`}
-          label="查看個股頁"
+          label="查看標的頁"
           payload={{ action: "runtime_next_stock", symbol: selectedSymbol }}
         >
-          查看個股頁
+          查看標的頁
         </TrackedLink>
         <TrackedLink
           eventName="home_cta_clicked"
           href="/briefing"
-          label="查看市場簡報"
+          label="查看專案進度"
           payload={{ action: "runtime_next_briefing", symbol: selectedSymbol }}
         >
-          查看市場簡報
+          查看晨報
         </TrackedLink>
         <TrackedLink
           eventName="trust_link_clicked"
           href="/methodology"
-          label="了解 mock 方法"
+          label="了解 mock 邊界"
           payload={{ area: "runtime_next_links", symbol: selectedSymbol }}
         >
-          了解 mock 方法
+          了解 mock 邊界
         </TrackedLink>
       </nav>
+
       <details className="home-runtime-details">
-        <summary>Runtime details: review state and blocked upgrades</summary>
+        <summary>系統細節：審核狀態與尚未開放項目</summary>
         <p>
-          This section keeps readiness, row coverage, source depth, and fail-closed rules available for review while
-          the first screen stays focused on what users can safely read now.
+          展開 runtime 細節、邊界與下一步依據。這裡整理 runtime 目前能做什麼、不能宣稱什麼，以及下一個
+          gate 要解決的依據。公開畫面維持 mock，readonly 證據只代表連線與物件可達，不代表真實市場資料品質或正式分數已開放。
         </p>
         <div>
           <article className="active runtime-delivery-card">
-            <span>Delivery cadence</span>
+            <span>推進節奏</span>
             <strong>{runtimeDeliveryCadence.nextExecutionRatio}</strong>
             <p>{runtimeDeliveryCadence.targetSliceSize}</p>
           </article>
           <article className="active runtime-boundary-copy-card">
-            <span>Visible now</span>
+            <span>可用狀態</span>
             <strong>{boundaryCopy.headline}</strong>
             <p>{boundaryCopy.summary}</p>
             <p>{boundaryCopy.currentState}</p>
           </article>
           <article className="blocked runtime-boundary-copy-card">
-            <span>Not live yet</span>
-            <strong>real data blocked</strong>
+            <span>尚未開放</span>
+            <strong>真實資料宣稱尚未開放</strong>
             <p>{boundaryCopy.blockedState}</p>
             <p>{boundaryCopy.stopLine}</p>
           </article>
           <article className="active">
-            <span>Current progress</span>
+            <span>專案進度</span>
             <strong>{decisionSummary.currentProgressPercent}%</strong>
             <p>{decisionSummary.stage}</p>
           </article>
           <article className="readying">
-            <span>CEO next action</span>
+            <span>下一步</span>
             <strong>{decisionSummary.decisionLabel}</strong>
             <p>{decisionSummary.nextLift}</p>
           </article>
           <article className="blocked">
-            <span>Still blocked</span>
+            <span>被擋住的升級</span>
             <strong>{decisionSummary.blockedTransition}</strong>
             <p>{decisionSummary.safetyStopLine}</p>
           </article>
@@ -198,9 +206,9 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
             <p>{readiness.status}</p>
           </article>
           <article className="blocked">
-            <span>Source depth</span>
+            <span>來源深度</span>
             <strong>{sourceDepth.sourceDepthState}</strong>
-            <p>scoreSource: {sourceDepth.scoreSource}</p>
+            <p>來源深度仍是升級封鎖點；目前 score source 維持 {sourceDepth.scoreSource}。</p>
           </article>
           <article className="readying">
             <span>Row coverage</span>
@@ -210,45 +218,51 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
             </p>
           </article>
           <article className="readying">
-            <span>CEO track</span>
+            <span>Runtime 解讀</span>
             <strong>{runtimeInterpretation.decision}</strong>
             <p>
-              Runtime {runtimeInterpretation.laneRatio.mockRuntimeHardening}% / readonly prep{" "}
-              {runtimeInterpretation.laneRatio.supabaseReadonlyPreparation}%. {runtimeInterpretation.blockers[0]}.
+              mock runtime hardening {runtimeInterpretation.laneRatio.mockRuntimeHardening}% / Supabase readonly
+              preparation {runtimeInterpretation.laneRatio.supabaseReadonlyPreparation}%. {runtimeInterpretation.blockers[0]}
             </p>
           </article>
           <article className="readying runtime-cutpoint-card">
-            <span>Mandatory cutpoints</span>
-            <strong>necessary gates remain</strong>
+            <span>必要切點</span>
+            <strong>切點保持必要即可</strong>
             <p>{runtimeDeliveryCadence.mandatoryCutpoints.slice(0, 3).join("; ")}.</p>
           </article>
           <article className="readying runtime-consistency-card">
-            <span>State consistency</span>
+            <span>狀態一致性</span>
             <strong>{runtimeStateConsistency.consistencyState}</strong>
             <p>{runtimeStateConsistency.statusLine}</p>
           </article>
           <article className="blocked runtime-fail-closed-card">
-            <span>Fail-closed blocked actions</span>
+            <span>Fail-closed</span>
             <strong>{failClosed.failClosedState}</strong>
+            <p>任何 gate 未通過時，都必須維持 mock 與 blocked 狀態。</p>
             <p>{failClosed.blockedActions.slice(0, 4).join(", ")}.</p>
             <p>{failClosed.allowedState}</p>
           </article>
           <article className="readying post-readonly-runtime-card">
-            <span>Post-readonly next gate</span>
+            <span>唯讀後下一關</span>
             <strong>{postReadonlyRuntime.state}</strong>
             <p>{postReadonlyRuntime.rowCoverage.summary}</p>
             <p>{postReadonlyRuntime.nextGate}</p>
           </article>
           <article className="readying post-readonly-runtime-card home-freshness-evidence-card">
-            <span>Freshness evidence boundary</span>
+            <span>Readonly 證據</span>
             <strong>{freshnessLatestEvidence.evidenceStatus}</strong>
             <p>{freshnessLatestEvidence.acceptedScope}</p>
             <p>{freshnessLatestEvidence.stopLine}</p>
           </article>
           <article className="blocked">
-            <span>Blocker readiness</span>
+            <span>封鎖項目準備度</span>
             <strong>{blockerReadiness.status}</strong>
             <p>Data / Legal / Investment checklists are local-ready. {runtimeInterpretation.stopLine}</p>
+          </article>
+          <article className="blocked">
+            <span>失敗即封鎖規則</span>
+            <strong>未通過 gate 就維持 mock</strong>
+            <p>任何資料來源、分數或公開宣稱只要缺少已接受 gate，就必須保持封鎖狀態。</p>
           </article>
         </div>
       </details>

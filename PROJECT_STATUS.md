@@ -1,6 +1,22 @@
 # Project Status
 
 Current PM/A1/A2/I role ownership and parallel workstream boundaries are tracked in `docs/ROLE_WORKSTREAMS.md`.
+Current autonomous runtime continuation rules and the next safe mainline slice are tracked in `docs/RUNTIME_AUTONOMY_HANDOFF.md`.
+
+## Readable Current Status - 2026-06-04
+
+- PM progress score: 75%.
+- Current mainline: CEO / PM / Runtime Engineering.
+- Current execution mode: larger local-only runtime product slices, with A1 and A2 as support lanes and PM as integration owner.
+- Runtime state: public runtime remains mock-only.
+- Public boundary: `publicDataSource=mock`.
+- Score boundary: `scoreSource=mock`.
+- Latest completed mainline slice: public runtime/readiness/action/legal copy was made readable, the `/briefing` PM progress panel was rebuilt with readable boundary and allowed/blocked action text, stale localhost 500 recovery was documented, home/stock runtime product summaries plus runtime next-step links were rebuilt with readable mock-only copy, runtime readiness / gate decision display fields were cleaned so guard summaries no longer depend on mojibake text, remaining PM progress panel labels were cleaned around allowed actions, blocked actions, approval boundaries, and execution preconditions, A2 public-copy QA now blocks urgent first-screen internal-token regressions, briefing / weekly / legal first screens now explain mock-only state in plain reader language without exposing raw source tokens, shared trust / freshness / public-state components now use readable Chinese public boundary wording, shared public runtime boundary helper copy was converted from machine phrasing to reader-facing mock-boundary language, home / stock runtime detail cards now use readable Chinese labels while preserving mock-only stop lines, the runtime UI cleanup removed mojibake from home runtime details, stock runtime governance, data freshness strip, runtime product summaries, localhost health config, and related checker contracts, briefing / weekly row coverage panels plus the shared row coverage readiness panel were reframed as reader-facing data-row coverage readiness while preserving bounded readonly and mock-source stop lines, the mainline readonly / row coverage integration gate now consolidates bounded readiness, packet bridge, preexecution packet, and attempt decision into one local-ready / remote-separate answer, and shared freshness / public runtime boundary helpers now use readable labels such as `資料新鮮度`, `分數來源`, `新鮮度基準`, and `資料品質閘門` while keeping real-source promotion blocked.
+- Latest CEO decision posture: keep PM on runtime engineering by default; only switch to a bounded Supabase readonly row coverage attempt if CEO explicitly names exactly one attempt as a separate action, with sanitized aggregate output and immediate post-run review.
+- Current gate status: full review gate returns `ok`; remote/source/ETF gates that are intentionally blocked are represented as expected blocked/not-ready items with `pass: true`.
+- Local verification: production build, TypeScript, localhost full health, public visible language quality, public runtime boundary coverage, public runtime state strip, trust runtime boundary notice, freshness UI runtime disclosure, A2 public-copy readability candidates, runtime readiness language quality, runtime gate decision brief, runtime product summary, runtime mock disclosure readability, mainline readonly row coverage integration, project progress score, project progress snapshot, CEO progress brief, and runtime autonomy handoff checks are passing.
+- Next safe mainline work: continue local-only runtime readiness and product-facing state clarity; do not start Supabase, SQL, market-data fetch/ingestion, public source promotion, or `scoreSource=real` without a separately named CEO gate.
+- Git status: do not stage or commit while the chairman is away; report pending uncommitted changes instead.
 
 更新日期：2026-05-28
 

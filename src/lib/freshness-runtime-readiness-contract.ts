@@ -63,15 +63,15 @@ export function getFreshnessRuntimeReadinessContract(): FreshnessRuntimeReadines
     ],
     dataFreshnessObject: "blocked_remote_candidate",
     dataRunsObject: "only_runtime_read_candidate",
-    displayBaseline: "目前仍使用模擬新鮮度狀態；Supabase runtime read 預設關閉，公開資料來源維持 mock。",
+    displayBaseline: "目前公開網站仍使用 mock 新鮮度狀態；Supabase runtime read 預設關閉，公開資料來源與評分來源都維持 mock。",
     displayCandidate:
-      "下一個候選只限讀取 data_runs 的新鮮度摘要；data_freshness 仍是遠端候選，不會成為 runtime 依賴。",
+      "下一步只討論從 data_runs 進行一次唯讀檢查；data_freshness 仍不是 runtime 依賴，也不會被寫入。",
     displayHeadline: "新鮮度唯讀檢查可進入流程討論，但尚未執行",
     displayNextDefaultAction:
-      "先跑本機預檢並維持 mock/disabled 預設；只有 CEO 明確點名一次唯讀嘗試時才進入遠端讀取。",
+      "先完成本機預檢並維持 mock/disabled 預設；只有 CEO 明確點名一次 bounded readonly attempt 時才可進入遠端檢查。",
     displayStatus: "可做流程決策，尚未授權執行",
     displayStopLine:
-      "這張卡不允許自動遠端讀取、SQL、寫入、匯入、公開資料來源升級、資料列覆蓋加分或真實評分來源。",
+      "這張合約不允許自動遠端讀取、SQL、寫入、資料匯入、公開來源升級、row coverage 計分、新鮮度品質宣稱或 scoreSource=real。",
     failureBehavior: "fallback_to_mock_snapshot",
     mode: "freshness_runtime_readiness_contract",
     nextDefaultAction:

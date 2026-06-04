@@ -53,7 +53,7 @@ const requiredUiPhrases = [
       "marketSignalSourceStatus?: MarketSignalSourceStatus",
       "市場訊號來源：目前 {marketSignalSourceStatus.resolvedSource}",
       "要求來源 {marketSignalSourceStatus.requestedSource}",
-      "Supabase 讀取",
+      "後端唯讀狀態",
       "{marketSignalSourceStatus.supabaseRuntimeReads}",
       "{marketSignalSourceStatus.reason}"
     ]

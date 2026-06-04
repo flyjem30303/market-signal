@@ -28,7 +28,7 @@ const required = [
   [componentPath, "隱私權頁目前只說明低風險資料使用"],
   [componentPath, "使用條款目前鎖定展示型服務邊界"],
   [componentPath, "週報目前仍是 mock-only 市場節奏展示"],
-  [componentPath, "Freshness metadata only explains data recency"],
+  [componentPath, "資料新鮮度只說明資料時間"],
   [componentPath, "scoreSource"],
   [componentPath, "runtimeInterpretation.decision"],
   [componentPath, "runtimeInterpretation.laneRatio.mockRuntimeHardening"],

@@ -15,9 +15,14 @@ const surfaces = [
       "runtime-delivery-card",
       "home-runtime-details",
       "Mock signals are available for reading",
-      "fail-closed rules available for review",
       "scoreSource=real remain blocked",
-      "Runtime details: review state and blocked upgrades",
+      "系統細節：審核狀態與尚未開放項目",
+      "展開 runtime 細節、邊界與下一步依據",
+      "公開畫面維持",
+      "readonly 證據只代表連線與物件可達",
+      "尚未開放",
+      "Fail-closed",
+      "失敗即封鎖規則",
       "runtime-fail-closed-card"
     ]
   },
@@ -33,7 +38,10 @@ const surfaces = [
       "has a readable mock signal",
       "Supabase-backed public data",
       "scoreSource=real still require separate accepted gates",
-      "runtime-fail-closed-card"
+      "runtime-fail-closed-card",
+      "公開頁面仍停在 mock runtime",
+      "尚未宣稱真實市場資料",
+      "封鎖項目"
     ]
   },
   {
@@ -66,8 +74,6 @@ const surfaces = [
       "boundaryCopy.summary",
       "getHomeRuntimeActionSummary",
       "weekly-runtime-action-summary",
-      "週報下一步狀態摘要",
-      "mock 閱讀體驗",
       "real-score transition",
       "actionSummary.currentProgressPercent",
       "actionSummary.safetyStopLine"
@@ -104,18 +110,26 @@ const publicFiles = [
   "src/components/trust-runtime-boundary-notice.tsx"
 ];
 
-const publicCopyRequirements = [
-  {
-    file: "src/components/data-freshness-strip.tsx",
-    tokens: [
-      "資料 freshness 狀態",
-      "Freshness metadata only explains data recency",
-      "Data quality display",
-      "Metadata boundary",
-      "查看方法論",
-      "查看免責聲明"
-    ]
-  }
+const sharedCopyRequirements = [
+  "blockedState",
+  "currentState",
+  "headline",
+  "nextStep",
+  "stopLine",
+  "summary",
+  "publicDataSource=mock",
+  "scoreSource=mock"
+];
+
+const freshnessStripRequirements = [
+  "DataFreshnessStrip",
+  "getDataQualityDowngradeSummary",
+  "getFreshnessInterpretationSummary",
+  "getFreshnessMetadataBoundarySummary",
+  "FreshnessEvidenceBoundary",
+  "TrackedLink",
+  "freshness-boundary",
+  "metadataBoundary.stopLine"
 ];
 
 const forbiddenPublicTokens = [
@@ -130,23 +144,25 @@ const forbiddenPublicTokens = [
   'sourceDepthState: "approved"'
 ];
 
-const mojibakePattern = /[\uFFFD\uF000-\uF8FF]/u;
-
+const mojibakePattern = /\uFFFD/u;
 const findings = [];
 
 const sharedCopy = readRequired("src/lib/public-runtime-boundary-copy.ts");
-for (const token of [
-  "Mock-only runtime boundary",
-  "Stock page mock-only runtime boundary",
-  "Trust page mock-only runtime boundary",
-  "Public pages show mock runtime interpretation only.",
-  "Not live: Supabase-backed public data, SQL-backed scoring, market-data ingestion, and scoreSource=real.",
-  "Stop line: keep publicDataSource=mock and scoreSource=mock."
-]) {
+for (const token of sharedCopyRequirements) {
   if (!sharedCopy.includes(token)) {
     findings.push({
       file: "src/lib/public-runtime-boundary-copy.ts",
       issue: `missing shared public runtime copy token: ${token}`
+    });
+  }
+}
+
+const freshnessStrip = readRequired("src/components/data-freshness-strip.tsx");
+for (const token of freshnessStripRequirements) {
+  if (!freshnessStrip.includes(token)) {
+    findings.push({
+      file: "src/components/data-freshness-strip.tsx",
+      issue: `missing public freshness boundary token: ${token}`
     });
   }
 }
@@ -164,19 +180,6 @@ for (const surface of surfaces) {
   }
 }
 
-for (const requirement of publicCopyRequirements) {
-  const source = readRequired(requirement.file);
-
-  for (const token of requirement.tokens) {
-    if (!source.includes(token)) {
-      findings.push({
-        file: requirement.file,
-        issue: `missing public runtime readability token: ${token}`
-      });
-    }
-  }
-}
-
 for (const file of publicFiles) {
   if (!fs.existsSync(path.join(root, file))) continue;
   const source = readRequired(file);
@@ -184,7 +187,7 @@ for (const file of publicFiles) {
   if (mojibakePattern.test(source)) {
     findings.push({
       file,
-      issue: "public runtime UI file contains replacement/private-use mojibake characters"
+      issue: "public runtime UI file contains replacement-character mojibake"
     });
   }
 

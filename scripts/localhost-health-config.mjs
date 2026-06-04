@@ -11,6 +11,16 @@ export const localhostStatusHealthPaths = [
   "/robots.txt"
 ];
 
+const stockContentTokens = [
+  "Runtime At A Glance",
+  "Investor Action Summary",
+  "Indicator Roadmap",
+  "local_ready_remote_paused",
+  "scoreSource=real",
+  "封鎖項目",
+  "Data / Legal / Investment checklists are local-ready"
+];
+
 export const localhostContentHealthChecks = [
   {
     path: "/",
@@ -19,98 +29,20 @@ export const localhostContentHealthChecks = [
       "Market Action Summary",
       "local_ready_remote_paused",
       "mock-only runtime",
-      "Blocker readiness",
+      "封鎖項目準備度",
       "Data / Legal / Investment checklists are local-ready"
     ]
   },
-  {
-    path: "/stocks/2330",
-    required: [
-      "Runtime At A Glance",
-      "Investor Action Summary",
-      "Indicator Roadmap",
-      "未來專業指標路線",
-      "mock 可讀",
-      "local_ready_remote_paused",
-      "scoreSource=real",
-      "Blocker readiness",
-      "Data / Legal / Investment checklists are local-ready"
-    ]
-  },
-  {
-    path: "/stocks/TWII",
-    required: [
-      "Runtime At A Glance",
-      "Investor Action Summary",
-      "Indicator Roadmap",
-      "未來專業指標路線",
-      "mock 可讀",
-      "local_ready_remote_paused",
-      "scoreSource=real",
-      "Blocker readiness",
-      "Data / Legal / Investment checklists are local-ready"
-    ]
-  },
-  {
-    path: "/stocks/0050",
-    required: [
-      "Runtime At A Glance",
-      "Investor Action Summary",
-      "Indicator Roadmap",
-      "未來專業指標路線",
-      "mock 可讀",
-      "local_ready_remote_paused",
-      "scoreSource=real",
-      "Blocker readiness",
-      "Data / Legal / Investment checklists are local-ready"
-    ]
-  },
-  {
-    path: "/stocks/006208",
-    required: [
-      "Runtime At A Glance",
-      "Investor Action Summary",
-      "Indicator Roadmap",
-      "未來專業指標路線",
-      "mock 可讀",
-      "local_ready_remote_paused",
-      "scoreSource=real",
-      "Blocker readiness",
-      "Data / Legal / Investment checklists are local-ready"
-    ]
-  },
-  {
-    path: "/stocks/2382",
-    required: [
-      "Runtime At A Glance",
-      "Investor Action Summary",
-      "Indicator Roadmap",
-      "未來專業指標路線",
-      "mock 可讀",
-      "local_ready_remote_paused",
-      "scoreSource=real",
-      "Blocker readiness",
-      "Data / Legal / Investment checklists are local-ready"
-    ]
-  },
-  {
-    path: "/stocks/2308",
-    required: [
-      "Runtime At A Glance",
-      "Investor Action Summary",
-      "Indicator Roadmap",
-      "未來專業指標路線",
-      "mock 可讀",
-      "local_ready_remote_paused",
-      "scoreSource=real",
-      "Blocker readiness",
-      "Data / Legal / Investment checklists are local-ready"
-    ]
-  },
+  ...["/stocks/2330", "/stocks/TWII", "/stocks/0050", "/stocks/006208", "/stocks/2382", "/stocks/2308"].map(
+    (path) => ({
+      path,
+      required: stockContentTokens
+    })
+  ),
   {
     path: "/briefing",
     required: [
-      "Row Coverage Readiness",
+      "資料列覆蓋準備",
       "Market Action Summary",
       "local_ready_remote_paused",
       "Supabase readonly attempt",
@@ -120,7 +52,7 @@ export const localhostContentHealthChecks = [
   },
   {
     path: "/weekly",
-    required: ["Market Action Summary", "Row Coverage Gate", "local_ready_remote_paused", "Supabase readonly attempt"]
+    required: ["Market Action Summary", "資料列覆蓋關卡", "local_ready_remote_paused", "Supabase readonly attempt"]
   }
 ];
 

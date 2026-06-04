@@ -22,9 +22,16 @@ const required = [
   [helperPath, "displayBlockedRemoteActions"],
   [helperPath, "displayRequiredCeoWording"],
   [helperPath, "displayPostRunReviewRequirement"],
-  [helperPath, "可口頭審核，尚未執行"],
-  [helperPath, "唯讀嘗試已在本機準備好，但仍需要 CEO 明確點名"],
+  [helperPath, "displayAutomatedRunLine"],
+  [helperPath, "可進入 CEO 口頭覆核"],
+  [helperPath, "暫停，等待本地預檢完成"],
+  [helperPath, "Readonly attempt 已在本地準備完成"],
   [helperPath, "自動連線 Supabase"],
+  [helperPath, "執行 SQL"],
+  [helperPath, "寫入 Supabase"],
+  [helperPath, "公開資料來源切到 supabase"],
+  [helperPath, "分數來源切到 real"],
+  [helperPath, "自動遠端執行：關閉"],
   [helperPath, "allowedLocalChecks"],
   [helperPath, "blockedRemoteActions"],
   [helperPath, "requiredCeoWording"],
@@ -42,6 +49,8 @@ const required = [
   [componentPath, "readonlyDecisionCard.displayBlockedRemoteActions"],
   [componentPath, "readonlyDecisionCard.displayRequiredCeoWording"],
   [componentPath, "readonlyDecisionCard.displayPostRunReviewRequirement"],
+  [componentPath, "readonlyDecisionCard.displayAutomatedRunLine"],
+  [componentPath, "需 CEO 另行命名 bounded gate"],
   [componentPath, "runtime-readonly-decision-card"],
   [cssPath, ".runtime-readonly-decision-card"],
   [packagePath, "\"check:runtime-readonly-decision-card\": \"node scripts/check-runtime-readonly-decision-card.mjs\""],
@@ -63,13 +72,21 @@ const forbidden = [
   [componentPath, "project-progress-score"]
 ];
 
+const mojibakePatterns = [
+  /\uFFFD/u,
+  /[嚙稽]/u,
+  /[]/u,
+  /[]/u
+];
+
 const uiInternalWordingForbidden = [
   [componentPath, ">{readonlyDecisionCard.decisionState}</strong>"],
   [componentPath, ">{readonlyDecisionCard.headline}</p>"],
   [componentPath, "readonlyDecisionCard.allowedLocalChecks.map"],
   [componentPath, "readonlyDecisionCard.blockedRemoteActions.slice"],
   [componentPath, ">{readonlyDecisionCard.requiredCeoWording}</p>"],
-  [componentPath, ">{readonlyDecisionCard.postRunReviewRequirement}</p>"]
+  [componentPath, ">{readonlyDecisionCard.postRunReviewRequirement}</p>"],
+  [componentPath, "Automated remote run: {readonlyDecisionCard.automatedRemoteRun ? \"true\" : \"false\"}"]
 ];
 
 const missing = required.filter(([file, phrase]) => !read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
@@ -79,6 +96,14 @@ const blocked = [
     .filter(([file, phrase]) => read(file).includes(phrase))
     .map(([file, phrase]) => `${file}: UI still renders internal readonly wording ${phrase}`)
 ];
+
+for (const file of [helperPath, componentPath]) {
+  for (const pattern of mojibakePatterns) {
+    if (pattern.test(read(file))) {
+      blocked.push(`${file}: mojibake readonly decision copy ${String(pattern)}`);
+    }
+  }
+}
 
 console.log(
   JSON.stringify(

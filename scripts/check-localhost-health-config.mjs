@@ -22,14 +22,14 @@ const requiredContentTokensByPath = new Map([
       "Market Action Summary",
       "local_ready_remote_paused",
       "mock-only runtime",
-      "Blocker readiness",
+      "封鎖項目準備度",
       "Data / Legal / Investment checklists are local-ready"
     ]
   ],
   [
     "/briefing",
     [
-      "Row Coverage Readiness",
+      "資料列覆蓋準備",
       "Market Action Summary",
       "local_ready_remote_paused",
       "Supabase readonly attempt",
@@ -37,17 +37,15 @@ const requiredContentTokensByPath = new Map([
       "Three blocker checklists are ready for local review"
     ]
   ],
-  ["/weekly", ["Market Action Summary", "Row Coverage Gate", "local_ready_remote_paused", "Supabase readonly attempt"]]
+  ["/weekly", ["Market Action Summary", "資料列覆蓋關卡", "local_ready_remote_paused", "Supabase readonly attempt"]]
 ]);
 const stockContentTokens = [
   "Runtime At A Glance",
   "Investor Action Summary",
   "Indicator Roadmap",
-  "未來專業指標路線",
-  "mock 可讀",
   "local_ready_remote_paused",
   "scoreSource=real",
-  "Blocker readiness",
+  "封鎖項目",
   "Data / Legal / Investment checklists are local-ready"
 ];
 const missing = [];

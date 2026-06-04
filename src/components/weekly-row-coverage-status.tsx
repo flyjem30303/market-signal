@@ -3,11 +3,11 @@ import { RowCoverageReadinessPanel } from "@/components/row-coverage-readiness-p
 export function WeeklyRowCoverageStatus() {
   return (
     <RowCoverageReadinessPanel
-      ariaLabel="Weekly row coverage readiness"
+      ariaLabel="週報資料列覆蓋準備度"
       className="weekly-row-coverage-status"
-      eyebrow="Row Coverage Gate"
-      openItemSuffix="unresolved"
-      summary="Weekly row coverage remains local-ready and remote-paused. A Supabase readonly attempt still requires a separate CEO-named gate; publicDataSource and scoreSource remain mock."
+      eyebrow="資料列覆蓋關卡"
+      openItemSuffix="筆資料待補"
+      summary="週報只呈現資料列覆蓋準備度的閱讀摘要；Supabase readonly attempt 仍需另外命名授權，publicDataSource 與 scoreSource 都維持 mock。"
     />
   );
 }

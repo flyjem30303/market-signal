@@ -4,8 +4,8 @@ import { TrackedLink } from "@/components/tracked-link";
 import { TrustRuntimeBoundaryNotice } from "@/components/trust-runtime-boundary-notice";
 
 export const metadata: Metadata = {
-  title: "隱私權政策",
-  description: "說明指數燈號目前的資料使用、追蹤事件、localStorage 與隱私邊界。"
+  title: "隱私政策",
+  description: "說明指數燈號目前的資料使用、localStorage、分析事件與模擬資料閱讀邊界。"
 };
 
 export default function PrivacyPage() {
@@ -14,61 +14,60 @@ export default function PrivacyPage() {
       <PageViewTracker eventName="privacy_page_viewed" payload={{ page: "privacy" }} />
       <section className="hero">
         <p className="eyebrow">Privacy</p>
-        <h1>隱私權政策</h1>
+        <h1>隱私政策</h1>
         <p>
-          指數燈號目前以產品驗證為主。公開頁面不要求登入，也不需要使用者提供姓名、電話、身分證字號或金融帳戶資料。
+          指數燈號目前仍在產品建置階段。我們只保留必要的本地偏好與頁面互動事件，用來改善體驗與確認
+          模擬資料閱讀邊界是否清楚。
         </p>
       </section>
 
       <TrustRuntimeBoundaryNotice context="privacy" />
 
-      <section className="legal-quick-read" aria-label="隱私權政策重點">
+      <section className="legal-quick-read" aria-label="隱私政策重點">
         <article>
-          <span>目前不蒐集</span>
-          <strong>敏感個資與金融帳戶</strong>
-          <p>公開頁面不要求提供身分證字號、銀行帳戶、券商帳號、信用卡或精確財務狀況。</p>
+          <span>目前不做</span>
+          <strong>不收集交易帳戶資料</strong>
+          <p>公開頁面不要求輸入券商帳號、交易密碼、身分證件、信用卡或銀行帳戶資訊。</p>
         </article>
         <article>
-          <span>可能使用</span>
-          <strong>產品互動事件</strong>
-          <p>頁面可能記錄頁面瀏覽、按鈕點擊、股票選取與功能互動，用於改善產品流程與可讀性。</p>
+          <span>網站使用</span>
+          <strong>基礎互動事件</strong>
+          <p>頁面可能記錄瀏覽、點擊與導覽事件，用於產品品質分析；這些事件不代表投資行為或交易意圖。</p>
         </article>
         <article>
           <span>本機資料</span>
           <strong>localStorage 偏好設定</strong>
-          <p>收藏標的等偏好可能儲存在你的瀏覽器 localStorage 中，可由你自行清除。</p>
+          <p>部分介面偏好可能存在瀏覽器 localStorage。你可以透過瀏覽器設定清除這些本機資料。</p>
         </article>
       </section>
 
       <section className="panel legal-section">
-        <h2>我們使用哪些資料</h2>
+        <h2>我們可能使用的資料</h2>
         <p>
-          目前主要使用匿名或低識別性的產品互動資料，例如頁面路徑、事件名稱、標的代碼、按鈕來源與基本瀏覽器狀態。
-          這些資料用於確認產品流程是否順暢，並不代表真實投資意圖或財務狀況。
+          目前可能使用頁面瀏覽、按鈕點擊、導覽來源、裝置與瀏覽器狀態等基礎資料，以判斷功能是否清楚、路由是否正常，以及公開揭露是否足夠。
         </p>
       </section>
 
       <section className="panel legal-section">
-        <h2>資料如何使用</h2>
+        <h2>資料不會用於投資建議</h2>
         <p>
-          互動事件用於改善資訊階層、修正錯誤、確認功能是否被理解，以及判斷 mock-only runtime 的揭露是否足夠清楚。
-          不會因為互動事件而產生個別投資建議。
+          互動事件與本機偏好不會用來產生個人化投資建議，也不會改變公開資料與分數仍為模擬狀態的邊界。
         </p>
       </section>
 
       <section className="panel legal-section">
         <h2>資料保存與清除</h2>
         <p>
-          本機偏好資料可透過瀏覽器設定清除。若未來加入帳號、通知、付費或正式資料服務，會先補充相應的隱私說明與使用者控制方式。
+          localStorage 由你的瀏覽器保存，你可以自行清除。若未來加入帳號、訂閱、正式資料或第三方服務，隱私政策會在功能開放前更新。
         </p>
       </section>
 
       <section className="panel legal-links">
-        <h2>相關頁面</h2>
+        <h2>相關文件</h2>
         <PrivacyTrustLink href="/terms" label="查看使用條款" />
         <PrivacyTrustLink href="/disclaimer" label="查看免責聲明" />
         <PrivacyTrustLink href="/methodology" label="查看方法說明" />
-        <PrivacyTrustLink href="/" label="回到市場首頁" />
+        <PrivacyTrustLink href="/" label="回到首頁" />
       </section>
     </main>
   );

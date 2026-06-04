@@ -24,9 +24,9 @@ export type RuntimeReadinessSummary = {
 export const runtimeReadinessLanes: RuntimeReadinessLane[] = [
   {
     current: 76,
-    displayLabel: "模擬狀態保護",
+    displayLabel: "Mock runtime guard",
     displayNextAction:
-      "維持公開頁面只呈現模擬訊號、未完成與暫停狀態；任何遠端動作前都先跑本機檢查。",
+      "維持公開頁面對齊 mock-only、not_ready 與 blocked 狀態；任何遠端動作前都先通過本地 guard checks。",
     label: "Mock runtime guard",
     nextAction:
       "Keep public pages aligned to mock-only, not_ready, and blocked states; continue local guard checks before any remote action.",
@@ -35,9 +35,9 @@ export const runtimeReadinessLanes: RuntimeReadinessLane[] = [
   },
   {
     current: 82,
-    displayLabel: "資料表可讀性",
+    displayLabel: "Supabase readonly reachability",
     displayNextAction:
-      "已接受的唯讀可達性只能當後端證據，用來整理資料表形狀、資料新鮮度解讀與畫面狀態。",
+      "已接受 readonly object reachability 作為後端證據；只可用於 schema shape、freshness interpretation 與 UI state wiring。",
     label: "Supabase object reachability",
     nextAction:
       "Use the accepted readonly reachability evidence only for schema shape, freshness interpretation, and UI state wiring.",
@@ -46,9 +46,9 @@ export const runtimeReadinessLanes: RuntimeReadinessLane[] = [
   },
   {
     current: 42,
-    displayLabel: "資料完整度準備",
+    displayLabel: "Row coverage readiness",
     displayNextAction:
-      "資料列覆蓋率維持本機就緒、遠端暫停；只有在另外授權一次限定唯讀檢查後才能前進。",
+      "Row coverage 維持 local-ready、remote-paused；必須等 CEO 另行命名 bounded readonly attempt 才能跨到遠端。",
     label: "Row coverage readiness",
     nextAction:
       "Keep row coverage in local-ready, remote-paused state until a separately named bounded readonly attempt is approved.",
@@ -57,9 +57,9 @@ export const runtimeReadinessLanes: RuntimeReadinessLane[] = [
   },
   {
     current: 34,
-    displayLabel: "公開宣稱邊界",
+    displayLabel: "Public claim boundary",
     displayNextAction:
-      "公開頁可以說明模擬與暫停邊界，但不能暗示官方資料、投資建議或正式上線。",
+      "公開頁面只能揭露 mock-only 與 blocked 邊界；不得暗示正式資料、投資建議或 production readiness。",
     label: "Public claim boundary",
     nextAction:
       "Public pages may disclose mock-only and blocked boundaries, but must not imply official data, advice, or production readiness.",
@@ -68,9 +68,9 @@ export const runtimeReadinessLanes: RuntimeReadinessLane[] = [
   },
   {
     current: 16,
-    displayLabel: "投資可信度",
+    displayLabel: "Investment credibility",
     displayNextAction:
-      "來源權利、模型可信度與資料品質證據仍會阻擋投資級宣稱與真實評分來源。",
+      "source rights、model credibility 與 data-quality evidence 仍封鎖 investment-grade 與 scoreSource=real 宣稱。",
     label: "Investment credibility",
     nextAction:
       "Source rights, model credibility, and data-quality evidence still block any investment-grade or scoreSource=real claim.",
@@ -85,9 +85,9 @@ export function getRuntimeReadinessSummary(): RuntimeReadinessSummary {
   );
 
   return {
-    displayHeadline: "後端唯讀可達性已確認，但公開網站仍維持模擬訊號",
+    displayHeadline: "Runtime 已通過 Supabase 物件可達性檢查，但公開狀態仍維持 mock-only",
     displayNextDecision:
-      "下一步先整理資料表形狀、資料新鮮度解讀與畫面狀態；新鮮度基準仍看 data_runs，公開資料來源仍維持 mock。",
+      "下一步由 PM 收斂 runtime guard summary，並把 schema、freshness、row coverage、data quality 與 source-depth 的後續 gate 保持為另行命名的邊界。",
     headline: "Runtime passed Supabase object reachability, but public runtime remains mock-only",
     lanes: runtimeReadinessLanes,
     localPreflightCommand: "npm run report:supabase-readonly-preflight",

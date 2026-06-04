@@ -31,17 +31,20 @@ export type MarketFreshnessMetadata = {
 const stateLabels: Record<DataFreshnessState, string> = {
   complete: "完整",
   partial: "部分",
-  stale: "延遲",
-  mock: "模擬",
+  stale: "過期",
+  mock: "Mock",
   unavailable: "不可用"
 };
 
 const stateDescriptions: Record<DataFreshnessState, string> = {
-  complete: "Freshness metadata 已可讀取；僅代表資料狀態可達，不代表真實評分或資料品質已核准。",
-  partial: "Freshness metadata 顯示部分資料缺漏；分數與解讀需保守看待。",
-  stale: "Freshness metadata 顯示資料可能延遲；請避免當成即時狀態。",
-  mock: "目前為模擬資料，用於產品體驗驗證。",
-  unavailable: "資料暫時無法取得，請勿依此做投資判斷。"
+  complete:
+    "Freshness metadata 已可讀取；僅代表資料狀態可達，不代表真實評分或資料品質已核准。",
+  partial:
+    "Freshness metadata is partial, so public runtime must continue to downgrade interpretation and keep scoreSource mock.",
+  stale:
+    "Freshness metadata is stale and requires data-owner review before it can support any runtime claim.",
+  mock: "Public runtime is using mock data for product-flow reading and disclosure verification.",
+  unavailable: "Freshness metadata is unavailable, so the public experience must fall back to mock or unavailable state."
 };
 
 export function buildMockDataFreshnessSnapshot(): DataFreshnessSnapshot {
