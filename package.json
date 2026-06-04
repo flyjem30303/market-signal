@@ -229,6 +229,8 @@
     "check:provider-specific-terms-post-review-rollup": "node scripts/check-provider-specific-terms-post-review-rollup.mjs",
     "report:source-rights-mvp-readiness": "node scripts/report-source-rights-mvp-readiness.mjs",
     "check:source-rights-mvp-readiness": "node scripts/check-source-rights-mvp-readiness.mjs",
+    "report:source-rights-public-placement-readiness": "node scripts/report-source-rights-public-placement-readiness.mjs",
+    "check:source-rights-public-placement-readiness": "node scripts/check-source-rights-public-placement-readiness.mjs",
     "report:data-quality-evidence-checklist": "node scripts/report-data-quality-evidence-checklist.mjs",
     "check:data-quality-evidence-checklist": "node scripts/check-data-quality-evidence-checklist.mjs",
     "report:data-quality-field-validity": "node scripts/report-data-quality-field-validity.mjs",

@@ -110,6 +110,10 @@ const checks = [
     name: "source-rights-mvp-readiness"
   },
   {
+    command: [node, "scripts/check-source-rights-public-placement-readiness.mjs"],
+    name: "source-rights-public-placement-readiness"
+  },
+  {
     command: [node, "scripts/check-bounded-readonly-final-local-alignment.mjs"],
     name: "bounded-readonly-final-local-alignment"
   },

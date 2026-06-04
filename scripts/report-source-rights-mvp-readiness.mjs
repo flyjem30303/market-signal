@@ -36,6 +36,12 @@ const evidenceChecks = [
     owner: "PM",
     command: "scripts/check-narrow-approval-outcome-ledger.mjs",
     proves: "accepted and rejected decision outcomes can be recorded without changing runtime state"
+  },
+  {
+    id: "source-rights-public-placement-readiness",
+    owner: "Product",
+    command: "scripts/check-source-rights-public-placement-readiness.mjs",
+    proves: "public attribution, delay/outage, redistribution, and public-claim placement map is ready for review"
   }
 ];
 
@@ -63,7 +69,7 @@ const report = {
     : "local_source_rights_review_incomplete",
   owner: "Legal",
   recommendedBy: "CEO",
-  readinessPercent: allOk ? 68 : 50,
+  readinessPercent: allOk ? 78 : 50,
   targetForMvpReview: 100,
   mvpMeaning:
     "Source-rights work is locally organized for MVP review, but external provider terms, redistribution rights, public source claims, and runtime promotion are not approved.",
@@ -74,7 +80,8 @@ const report = {
     "source-rights acceptance gate is local-review-only",
     "provider-specific terms packet is ready for human classification",
     "provider-specific terms rollup is aligned to CEO oral review",
-    "approval outcome ledger can record accepted or rejected results without runtime promotion"
+    "approval outcome ledger can record accepted or rejected results without runtime promotion",
+    "public placement map is ready for attribution, delay/outage, redistribution, and claim review"
   ],
   notApproved: [
     "External provider terms are not approved",
@@ -100,7 +107,7 @@ const report = {
     {
       id: "public-attribution-placement",
       owner: "Product",
-      blocker: "Page-level attribution, delay, incompleteness, outage, and fallback wording still need public-copy acceptance."
+      blocker: "Placement map exists, but actual public copy still needs Legal and Product acceptance before source promotion."
     },
     {
       id: "redistribution-storage-policy",
@@ -119,7 +126,7 @@ const report = {
     }
   ],
   ceoRecommendation:
-    "Treat source-rights as locally review-ready but not externally approved. The next high-value move is to connect source-specific packets to the data coverage route while keeping runtime mock-only.",
+    "Treat source-rights as locally review-ready with public placement mapped, but not externally approved. The next high-value move is source-specific human terms classification while keeping runtime mock-only.",
   safety: {
     automatedRemoteRun: false,
     connectionAttempted: false,

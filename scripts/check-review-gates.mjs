@@ -1773,6 +1773,11 @@ const checks = [
     name: "source-rights-mvp-readiness"
   },
   {
+    command: [node, "scripts/check-source-rights-public-placement-readiness.mjs"],
+    expectStatus: "ok",
+    name: "source-rights-public-placement-readiness"
+  },
+  {
     command: [node, "scripts/check-data-quality-evidence-checklist.mjs"],
     expectStatus: "ok",
     name: "data-quality-evidence-checklist"
