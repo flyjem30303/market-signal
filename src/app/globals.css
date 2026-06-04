@@ -412,6 +412,13 @@ select {
   gap: 10px;
 }
 
+.data-quality-acceptance-summary {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.15fr);
+  gap: 10px;
+}
+
 .model-credibility-acceptance-summary {
   display: grid;
   grid-column: 1 / -1;
@@ -421,6 +428,7 @@ select {
 
 .blocker-acceleration-strip article,
 .blocker-closure-gap-summary article,
+.data-quality-acceptance-summary article,
 .source-rights-acceptance-summary article,
 .model-credibility-acceptance-summary article,
 .blocker-fastest-path article {
@@ -503,6 +511,7 @@ select {
 .blocker-priority-strip strong,
 .blocker-acceleration-strip strong,
 .blocker-closure-gap-summary strong,
+.data-quality-acceptance-summary strong,
 .source-rights-acceptance-summary strong,
 .model-credibility-acceptance-summary strong,
 .blocker-fastest-path strong,
@@ -515,6 +524,8 @@ select {
 .blocker-acceleration-strip p,
 .blocker-closure-gap-summary p,
 .blocker-closure-gap-summary small,
+.data-quality-acceptance-summary p,
+.data-quality-acceptance-summary small,
 .source-rights-acceptance-summary p,
 .source-rights-acceptance-summary small,
 .model-credibility-acceptance-summary p,
@@ -531,10 +542,12 @@ select {
 .blocker-priority-strip span,
 .blocker-acceleration-strip span,
 .blocker-closure-gap-summary span,
+.data-quality-acceptance-summary span,
 .source-rights-acceptance-summary span,
 .model-credibility-acceptance-summary span,
 .blocker-fastest-path span,
 .blocker-priority-strip code,
+.data-quality-acceptance-summary code,
 .source-rights-acceptance-summary code,
 .model-credibility-acceptance-summary code,
 .blocker-fastest-path code,
@@ -545,6 +558,7 @@ select {
 .blocker-priority-strip span,
 .blocker-acceleration-strip span,
 .blocker-closure-gap-summary span,
+.data-quality-acceptance-summary span,
 .source-rights-acceptance-summary span,
 .model-credibility-acceptance-summary span,
 .blocker-fastest-path span {
@@ -555,6 +569,7 @@ select {
 }
 
 .blocker-priority-strip code,
+.data-quality-acceptance-summary code,
 .source-rights-acceptance-summary code,
 .model-credibility-acceptance-summary code,
 .blocker-fastest-path code,
@@ -10541,6 +10556,7 @@ input[type="date"] {
   .source-depth-blocker-grid,
   .blocker-readiness-panel,
   .blocker-closure-gap-summary,
+  .data-quality-acceptance-summary,
   .source-rights-acceptance-summary,
   .model-credibility-acceptance-summary,
   .blocker-priority-strip,

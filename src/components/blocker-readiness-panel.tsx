@@ -54,6 +54,30 @@ export function BlockerReadinessPanel() {
           <p>{summary.closureGapSummary.remainingBlockers.join("; ")}.</p>
         </article>
       </div>
+      <div className="data-quality-acceptance-summary" aria-label="Data quality local acceptance summary">
+        <article>
+          <span>Data quality gate</span>
+          <strong>{summary.dataQualityAcceptance.status}</strong>
+          <p>{summary.dataQualityAcceptance.decision}</p>
+          <small>
+            accepted as: {summary.dataQualityAcceptance.acceptedAs} / source:{" "}
+            {summary.dataQualityAcceptance.publicDataSource} / score: {summary.dataQualityAcceptance.scoreSource}
+          </small>
+        </article>
+        <article>
+          <span>Accepted local evidence</span>
+          <p>{summary.dataQualityAcceptance.acceptedEvidenceIds.join(", ")}</p>
+          <code>{summary.dataQualityAcceptance.gateDocument}</code>
+        </article>
+        <article>
+          <span>Next narrow question</span>
+          <p>{summary.dataQualityAcceptance.nextNarrowQuestion}</p>
+        </article>
+        <article>
+          <span>Still blocked</span>
+          <p>{summary.dataQualityAcceptance.blockedDecisions.join("; ")}.</p>
+        </article>
+      </div>
       <div className="source-rights-acceptance-summary" aria-label="Source rights local acceptance summary">
         <article>
           <span>Source rights gate</span>

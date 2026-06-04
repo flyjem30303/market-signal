@@ -69,6 +69,19 @@ export type ModelCredibilityAcceptanceSummary = {
   status: "local_packet_accepted_real_scoring_blocked";
 };
 
+export type DataQualityAcceptanceSummary = {
+  acceptedAs: "local_qa_reviewed_spec_only";
+  acceptedEvidenceIds: string[];
+  blockedDecisions: string[];
+  decision: "ACCEPT_FIELD_VALIDITY_AS_LOCAL_QA_REVIEWED_SPEC_ONLY";
+  gateDocument: string;
+  nextNarrowQuestion: string;
+  owner: "Data";
+  publicDataSource: "mock";
+  scoreSource: "mock";
+  status: "local_field_validity_accepted_quality_points_blocked";
+};
+
 export type BlockerReadinessSummary = {
   accelerationPlan: {
     currentBlockers: string[];
@@ -77,6 +90,7 @@ export type BlockerReadinessSummary = {
     status: "ready_for_separate_readonly_decision";
   };
   closureGapSummary: BlockerClosureGapSummary;
+  dataQualityAcceptance: DataQualityAcceptanceSummary;
   firstMove: BlockerPriorityMove & { reason: string };
   lanes: BlockerReadinessLane[];
   modelCredibilityAcceptance: ModelCredibilityAcceptanceSummary;
@@ -154,6 +168,28 @@ export function getBlockerReadinessSummary(): BlockerReadinessSummary {
       stillMockOnly: true,
       summary:
         "PM can keep runtime moving locally, but promotion remains blocked until Legal, Data, and Investment each close one acceptance gap."
+    },
+    dataQualityAcceptance: {
+      acceptedAs: "local_qa_reviewed_spec_only",
+      acceptedEvidenceIds: ["QA-FIELD-001", "QA-FIELD-002", "QA-DOWNGRADE-001", "QA-BOUNDARY-001"],
+      blockedDecisions: [
+        "data-quality score points",
+        "row coverage points",
+        "quality score threshold pass",
+        "public real-data source claim",
+        "Supabase readonly execution",
+        "SQL execution",
+        "market-data ingestion",
+        "scoreSource=real"
+      ],
+      decision: "ACCEPT_FIELD_VALIDITY_AS_LOCAL_QA_REVIEWED_SPEC_ONLY",
+      gateDocument: "docs/reviews/DATA_QUALITY_FIELD_VALIDITY_ACCEPTANCE_GATE_2026-06-02.md",
+      nextNarrowQuestion:
+        "Can Data keep field validity and downgrade behavior accepted as the local QA baseline while row coverage evidence remains paused and no quality points are awarded?",
+      owner: "Data",
+      publicDataSource: "mock",
+      scoreSource: "mock",
+      status: "local_field_validity_accepted_quality_points_blocked"
     },
     ceoRecommendation:
       "Stop expanding governance. Keep blocker execution focused on the fastest safe path, then reopen one separately named readonly decision only if the packet remains ready.",
