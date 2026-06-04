@@ -106,6 +106,10 @@ const checks = [
     name: "bounded-readonly-final-local-alignment"
   },
   {
+    command: [node, "scripts/check-mvp-launch-prd.mjs"],
+    name: "mvp-launch-prd"
+  },
+  {
     command: [node, "scripts/check-model-credibility-checklist.mjs"],
     name: "model-credibility-checklist"
   },

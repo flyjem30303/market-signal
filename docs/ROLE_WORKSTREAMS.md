@@ -22,6 +22,7 @@ When chat context and this file disagree, PM must treat this file as the safer b
 - Mainline PM: CEO / PM / Runtime Engineering
 - A1: Data / Supabase / Market Evidence
 - A2: Frontend / UX Readability / Public Copy QA
+- F: Product Design / UIUX, activated from the product baseline in `docs/MVP_LAUNCH_PRD.md`
 - I: Cloud Deployment / DevOps / Launch Operations
 
 PM remains the only integration owner. A1 and A2 may prepare local-only packets, reports, checkers, and bounded patches, but PM decides what enters the mainline and when it is committed. I is not a new implementation lane yet; I is a launch-readiness guard for deployment, environment, credential, DNS, monitoring, rollback, and operations risk.
@@ -83,6 +84,22 @@ Current next tasks:
 - Own public readability support for blocker closure: make sure data-quality, source-rights, model-credibility, row-coverage, and mock-only stop lines are understandable on public/runtime surfaces.
 - Keep the A2 lane focused on comprehension blockers and visible-language regressions; visual polish remains lower priority until runtime foundation is stable.
 - Keep visual micro-tuning behind runtime foundation work unless it blocks user comprehension.
+
+## F: Product Design / UIUX
+
+Mission:
+- Use the MVP Launch PRD as the product baseline for interface design timing, design-skill usage, annotation review, and launch-stage polish.
+
+Owned work:
+- UI/UX design brief, visual hierarchy review, first-screen comprehension review, mobile readability, disclosure placement, design annotation review, and final visual polish.
+
+Not owned:
+- Supabase readiness, SQL, raw market data, runtime source promotion, scoring promotion, or independent commits.
+
+Current next tasks:
+- F / Product Design should use docs/MVP_LAUNCH_PRD.md before proposing visual changes.
+- Stay lightweight now: flag comprehension blockers only.
+- Wait until runtime and bounded readonly foundations stabilize before doing full visual redesign or annotation-heavy UI review.
 
 ## Current Blocker-Closure Assignments
 

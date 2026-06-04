@@ -2968,6 +2968,11 @@ const checks = [
     name: "readable-current-status"
   },
   {
+    command: [node, "scripts/check-mvp-launch-prd.mjs"],
+    expectStatus: "ok",
+    name: "mvp-launch-prd"
+  },
+  {
     command: [node, "scripts/check-a2-public-copy-readability-candidates.mjs"],
     expectStatus: "ok",
     name: "a2-public-copy-readability-candidates"
