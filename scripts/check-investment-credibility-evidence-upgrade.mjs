@@ -1,7 +1,7 @@
 import { spawnSync } from "node:child_process";
 import fs from "node:fs";
 
-const reportPath = "scripts/report-investment-credibility-mvp-readiness.mjs";
+const reportPath = "scripts/report-investment-credibility-evidence-upgrade.mjs";
 const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 const fullHealthPath = "scripts/check-localhost-full-health.mjs";
@@ -14,20 +14,21 @@ const missing = [];
 const blocked = [];
 
 for (const phrase of [
-  "mode: \"investment_credibility_mvp_readiness\"",
-  "local_investment_review_ready_not_real_scoring",
-  "readinessPercent: allOk ? 58 : 16",
+  "mode: \"investment_credibility_evidence_upgrade\"",
+  "local_investment_evidence_upgraded_not_real_scoring",
+  "readinessLift: allOk ? 12 : 0",
+  "upgradedReadinessPercent: allOk ? 58 : 46",
   "targetForMvpReview: 80",
-  "scripts/check-model-credibility-checklist.mjs",
-  "scripts/check-model-credibility-local-review.mjs",
-  "scripts/check-model-credibility-acceptance-gate.mjs",
-  "scripts/check-investor-indicator-roadmap-contract.mjs",
-  "scripts/check-home-investor-indicator-roadmap-panel.mjs",
-  "scripts/check-stock-investor-indicator-roadmap-panel.mjs",
-  "scripts/check-investment-credibility-evidence-upgrade.mjs",
-  "investment evidence upgrade tying non-advisory",
-  "Investment credibility has moved beyond roadmap intent",
-  "not approved for real scoring",
+  "scripts/check-narrow-approval-outcome-ledger.mjs",
+  "scripts/check-cp3-tw-stock-backtest-method.mjs",
+  "scripts/check-stock-investor-action-summary.mjs",
+  "scripts/check-briefing-market-action-summary.mjs",
+  "scripts/check-source-rights-mvp-readiness.mjs",
+  "scripts/check-data-goal-readiness.mjs",
+  "non-advisory interpretation outcome is recorded",
+  "backtest method draft documents limitations",
+  "source-rights readiness blocks public professional indicator claims",
+  "data readiness blocks confidence or real-score claims",
   "scoreSource=real",
   "publicDataSource=supabase",
   "does not run SQL"
@@ -50,32 +51,31 @@ for (const pattern of [
   /supabaseWritesEnabled:\s*true/,
   /publicDataSource:\s*"supabase"/,
   /scoreSource:\s*"real"/,
-  /readinessPercent:\s*100/,
-  /targetForMvpReview:\s*100/
+  /upgradedReadinessPercent:\s*100/
 ]) {
   if (pattern.test(source)) blocked.push(`${reportPath}: forbidden source pattern ${String(pattern)}`);
 }
 
 if (
-  packageJson.scripts?.["report:investment-credibility-mvp-readiness"] !==
-  "node scripts/report-investment-credibility-mvp-readiness.mjs"
+  packageJson.scripts?.["report:investment-credibility-evidence-upgrade"] !==
+  "node scripts/report-investment-credibility-evidence-upgrade.mjs"
 ) {
-  missing.push(`${packagePath}: report:investment-credibility-mvp-readiness`);
+  missing.push(`${packagePath}: report:investment-credibility-evidence-upgrade`);
 }
 
 if (
-  packageJson.scripts?.["check:investment-credibility-mvp-readiness"] !==
-  "node scripts/check-investment-credibility-mvp-readiness.mjs"
+  packageJson.scripts?.["check:investment-credibility-evidence-upgrade"] !==
+  "node scripts/check-investment-credibility-evidence-upgrade.mjs"
 ) {
-  missing.push(`${packagePath}: check:investment-credibility-mvp-readiness`);
+  missing.push(`${packagePath}: check:investment-credibility-evidence-upgrade`);
 }
 
-if (!reviewGate.includes("scripts/check-investment-credibility-mvp-readiness.mjs")) {
-  missing.push(`${reviewGatePath}: scripts/check-investment-credibility-mvp-readiness.mjs`);
+if (!reviewGate.includes("scripts/check-investment-credibility-evidence-upgrade.mjs")) {
+  missing.push(`${reviewGatePath}: scripts/check-investment-credibility-evidence-upgrade.mjs`);
 }
 
-if (!fullHealth.includes("scripts/check-investment-credibility-mvp-readiness.mjs")) {
-  missing.push(`${fullHealthPath}: scripts/check-investment-credibility-mvp-readiness.mjs`);
+if (!fullHealth.includes("scripts/check-investment-credibility-evidence-upgrade.mjs")) {
+  missing.push(`${fullHealthPath}: scripts/check-investment-credibility-evidence-upgrade.mjs`);
 }
 
 const run = spawnSync(process.execPath, [reportPath], {
@@ -100,6 +100,7 @@ if (run.status !== 0) {
     /\browPayload\b/i,
     /\bselect\s+\*\s+from\b/i,
     /\binsert\s+into\b/i,
+    /\bupdate\s+[a-z_]+\s+set\b/i,
     /\bdelete\s+from\b/i
   ]) {
     if (pattern.test(run.stdout)) blocked.push(`${reportPath}: forbidden output pattern ${String(pattern)}`);
@@ -113,18 +114,16 @@ if (run.status !== 0) {
 }
 
 if (output) {
-  if (output.mode !== "investment_credibility_mvp_readiness") blocked.push(`output.mode: ${String(output.mode)}`);
-  if (output.status !== "local_investment_review_ready_not_real_scoring") {
+  if (output.mode !== "investment_credibility_evidence_upgrade") blocked.push(`output.mode: ${String(output.mode)}`);
+  if (output.status !== "local_investment_evidence_upgraded_not_real_scoring") {
     blocked.push(`output.status: ${String(output.status)}`);
   }
-  if (output.readinessPercent !== 58) {
-    blocked.push(`output.readinessPercent expected 58, got ${String(output.readinessPercent)}`);
+  if (output.readinessLift !== 12) blocked.push(`output.readinessLift: ${String(output.readinessLift)}`);
+  if (output.upgradedReadinessPercent !== 58) {
+    blocked.push(`output.upgradedReadinessPercent expected 58, got ${String(output.upgradedReadinessPercent)}`);
   }
-  if (output.targetForMvpReview !== 80) {
-    blocked.push(`output.targetForMvpReview: ${String(output.targetForMvpReview)}`);
-  }
-  if (!Array.isArray(output.evidence) || output.evidence.length !== 7 || !output.evidence.every((item) => item.ok === true)) {
-    blocked.push("output.evidence expected seven passing evidence items");
+  if (!Array.isArray(output.evidence) || output.evidence.length !== 6 || !output.evidence.every((item) => item.ok === true)) {
+    blocked.push("output.evidence expected six passing evidence items");
   }
   for (const flag of [
     "automatedRemoteRun",

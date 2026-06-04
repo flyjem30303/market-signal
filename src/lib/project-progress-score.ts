@@ -75,10 +75,10 @@ export const projectProgressLanes: ProjectProgressLane[] = [
     weight: 15
   },
   {
-    current: 46,
+    current: 58,
     label: "Investment credibility evidence",
     note:
-      "Model credibility checklist, local Investment review, acceptance gate, and readable investor indicator roadmap are now local MVP review evidence. Real scoring, ranking, advice, model confidence, and performance claims remain blocked.",
+      "Model credibility checklist, local Investment review, acceptance gate, readable investor indicator roadmap, non-advisory outcome, backtest method limits, stock/briefing action copy, source-rights linkage, and data-readiness linkage are now local MVP review evidence. Real scoring, ranking, advice, model confidence, and performance claims remain blocked.",
     owner: "Investment",
     weight: 10
   },

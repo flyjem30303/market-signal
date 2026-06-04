@@ -30,6 +30,12 @@ const checks = [
     id: "stock-investor-indicator-roadmap-panel",
     command: "scripts/check-stock-investor-indicator-roadmap-panel.mjs",
     evidence: "stock roadmap panel is readable and mock-boundary safe"
+  },
+  {
+    id: "investment-credibility-evidence-upgrade",
+    command: "scripts/check-investment-credibility-evidence-upgrade.mjs",
+    evidence:
+      "non-advisory outcome, backtest method limits, stock/briefing action copy, source rights, and data readiness are aligned"
   }
 ];
 
@@ -55,7 +61,7 @@ const report = {
     ? "local_investment_review_ready_not_real_scoring"
     : "blocked_needs_investment_evidence_repair",
   generatedAt: new Date().toISOString(),
-  readinessPercent: allOk ? 46 : 16,
+  readinessPercent: allOk ? 58 : 16,
   targetForMvpReview: 80,
   owner: "Investment",
   ceoVerdict:
@@ -69,7 +75,8 @@ const report = {
     "local backtest-limitation checklist",
     "local interpretation downgrade policy checklist",
     "readable investor indicator roadmap",
-    "home and stock roadmap panels with mock boundary"
+    "home and stock roadmap panels with mock boundary",
+    "investment evidence upgrade tying non-advisory, backtest-limit, source-rights, and data-readiness evidence together"
   ],
   notApproved: [
     "real scoring",
@@ -81,10 +88,9 @@ const report = {
   ],
   nextGapsTo80: [
     "approved formula version documentation",
-    "accepted backtest limitation wording",
-    "explicit downgrade policy tied to data-quality and source-depth gates",
-    "public non-advisory claim review",
-    "alignment with source rights and row coverage evidence"
+    "explicit downgrade policy wired into public interpretation copy",
+    "source-depth and row-coverage evidence accepted for each promoted indicator family",
+    "public claim wording accepted jointly by Legal and Investment"
   ],
   safety: {
     automatedRemoteRun: false,

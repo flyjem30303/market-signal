@@ -146,6 +146,10 @@ const checks = [
     name: "investment-credibility-mvp-readiness"
   },
   {
+    command: [node, "scripts/check-investment-credibility-evidence-upgrade.mjs"],
+    name: "investment-credibility-evidence-upgrade"
+  },
+  {
     command: [node, "scripts/check-blocker-readiness-panel.mjs"],
     name: "blocker-readiness-panel"
   },
