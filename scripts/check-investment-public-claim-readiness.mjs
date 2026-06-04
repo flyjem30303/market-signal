@@ -1,7 +1,7 @@
 import { spawnSync } from "node:child_process";
 import fs from "node:fs";
 
-const reportPath = "scripts/report-investment-credibility-mvp-readiness.mjs";
+const reportPath = "scripts/report-investment-public-claim-readiness.mjs";
 const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 const fullHealthPath = "scripts/check-localhost-full-health.mjs";
@@ -14,24 +14,20 @@ const missing = [];
 const blocked = [];
 
 for (const phrase of [
-  "mode: \"investment_credibility_mvp_readiness\"",
-  "local_investment_review_ready_not_real_scoring",
-  "readinessPercent: allOk ? 80 : 16",
+  "mode: \"investment_public_claim_readiness\"",
+  "local_public_claim_review_ready_not_real_scoring",
+  "readinessLift: allOk ? 12 : 0",
+  "upgradedReadinessPercent: allOk ? 80 : 68",
   "targetForMvpReview: 80",
-  "scripts/check-model-credibility-checklist.mjs",
-  "scripts/check-model-credibility-local-review.mjs",
-  "scripts/check-model-credibility-acceptance-gate.mjs",
-  "scripts/check-investor-indicator-roadmap-contract.mjs",
-  "scripts/check-home-investor-indicator-roadmap-panel.mjs",
-  "scripts/check-stock-investor-indicator-roadmap-panel.mjs",
-  "scripts/check-investment-credibility-evidence-upgrade.mjs",
+  "scripts/check-cp3-public-claim-approval-checklist.mjs",
+  "scripts/check-cp3-public-claim-approval-checklist-role-review.mjs",
+  "scripts/check-cp3-claim-to-runtime-state-mapping.mjs",
+  "scripts/check-cp3-claim-to-runtime-state-mapping-role-review.mjs",
   "scripts/check-investment-formula-downgrade-readiness.mjs",
-  "scripts/check-investment-public-claim-readiness.mjs",
-  "investment evidence upgrade tying non-advisory",
-  "formula version and downgrade policy readiness",
-  "public claim readiness tying checklist",
-  "Investment credibility reaches MVP review target",
-  "not approved for real scoring",
+  "scripts/check-source-rights-public-placement-readiness.mjs",
+  "public claim checklist exists and is explicitly draft/not approved",
+  "claim categories are mapped to runtime state fields",
+  "source-rights placement is mapped",
   "scoreSource=real",
   "publicDataSource=supabase",
   "does not run SQL"
@@ -54,32 +50,33 @@ for (const pattern of [
   /supabaseWritesEnabled:\s*true/,
   /publicDataSource:\s*"supabase"/,
   /scoreSource:\s*"real"/,
-  /readinessPercent:\s*100/,
-  /targetForMvpReview:\s*100/
+  /scoreSourceRealEnabled:\s*true/,
+  /marketDataFetched:\s*true/,
+  /upgradedReadinessPercent:\s*100/
 ]) {
   if (pattern.test(source)) blocked.push(`${reportPath}: forbidden source pattern ${String(pattern)}`);
 }
 
 if (
-  packageJson.scripts?.["report:investment-credibility-mvp-readiness"] !==
-  "node scripts/report-investment-credibility-mvp-readiness.mjs"
+  packageJson.scripts?.["report:investment-public-claim-readiness"] !==
+  "node scripts/report-investment-public-claim-readiness.mjs"
 ) {
-  missing.push(`${packagePath}: report:investment-credibility-mvp-readiness`);
+  missing.push(`${packagePath}: report:investment-public-claim-readiness`);
 }
 
 if (
-  packageJson.scripts?.["check:investment-credibility-mvp-readiness"] !==
-  "node scripts/check-investment-credibility-mvp-readiness.mjs"
+  packageJson.scripts?.["check:investment-public-claim-readiness"] !==
+  "node scripts/check-investment-public-claim-readiness.mjs"
 ) {
-  missing.push(`${packagePath}: check:investment-credibility-mvp-readiness`);
+  missing.push(`${packagePath}: check:investment-public-claim-readiness`);
 }
 
-if (!reviewGate.includes("scripts/check-investment-credibility-mvp-readiness.mjs")) {
-  missing.push(`${reviewGatePath}: scripts/check-investment-credibility-mvp-readiness.mjs`);
+if (!reviewGate.includes("scripts/check-investment-public-claim-readiness.mjs")) {
+  missing.push(`${reviewGatePath}: scripts/check-investment-public-claim-readiness.mjs`);
 }
 
-if (!fullHealth.includes("scripts/check-investment-credibility-mvp-readiness.mjs")) {
-  missing.push(`${fullHealthPath}: scripts/check-investment-credibility-mvp-readiness.mjs`);
+if (!fullHealth.includes("scripts/check-investment-public-claim-readiness.mjs")) {
+  missing.push(`${fullHealthPath}: scripts/check-investment-public-claim-readiness.mjs`);
 }
 
 const run = spawnSync(process.execPath, [reportPath], {
@@ -104,6 +101,7 @@ if (run.status !== 0) {
     /\browPayload\b/i,
     /\bselect\s+\*\s+from\b/i,
     /\binsert\s+into\b/i,
+    /\bupdate\s+[a-z_]+\s+set\b/i,
     /\bdelete\s+from\b/i
   ]) {
     if (pattern.test(run.stdout)) blocked.push(`${reportPath}: forbidden output pattern ${String(pattern)}`);
@@ -117,18 +115,19 @@ if (run.status !== 0) {
 }
 
 if (output) {
-  if (output.mode !== "investment_credibility_mvp_readiness") blocked.push(`output.mode: ${String(output.mode)}`);
-  if (output.status !== "local_investment_review_ready_not_real_scoring") {
+  if (output.mode !== "investment_public_claim_readiness") blocked.push(`output.mode: ${String(output.mode)}`);
+  if (output.status !== "local_public_claim_review_ready_not_real_scoring") {
     blocked.push(`output.status: ${String(output.status)}`);
   }
-  if (output.readinessPercent !== 80) {
-    blocked.push(`output.readinessPercent expected 80, got ${String(output.readinessPercent)}`);
+  if (output.readinessLift !== 12) blocked.push(`output.readinessLift: ${String(output.readinessLift)}`);
+  if (output.upgradedReadinessPercent !== 80) {
+    blocked.push(`output.upgradedReadinessPercent expected 80, got ${String(output.upgradedReadinessPercent)}`);
   }
   if (output.targetForMvpReview !== 80) {
     blocked.push(`output.targetForMvpReview: ${String(output.targetForMvpReview)}`);
   }
-  if (!Array.isArray(output.evidence) || output.evidence.length !== 9 || !output.evidence.every((item) => item.ok === true)) {
-    blocked.push("output.evidence expected nine passing evidence items");
+  if (!Array.isArray(output.evidence) || output.evidence.length !== 6 || !output.evidence.every((item) => item.ok === true)) {
+    blocked.push("output.evidence expected six passing evidence items");
   }
   for (const flag of [
     "automatedRemoteRun",

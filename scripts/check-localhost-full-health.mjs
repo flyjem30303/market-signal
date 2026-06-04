@@ -158,6 +158,10 @@ const checks = [
     name: "investment-formula-downgrade-readiness"
   },
   {
+    command: [node, "scripts/check-investment-public-claim-readiness.mjs"],
+    name: "investment-public-claim-readiness"
+  },
+  {
     command: [node, "scripts/check-blocker-readiness-panel.mjs"],
     name: "blocker-readiness-panel"
   },

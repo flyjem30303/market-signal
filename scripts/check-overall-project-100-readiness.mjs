@@ -26,8 +26,9 @@ for (const phrase of [
   "bounded_readonly_attempt_reviewed_aggregate_incomplete",
   "audit_passed_not_100_until_coverage_route_complete",
   "route_defined_from_accepted_bounded_readonly_evidence",
-  "investment-credibility-evidence",
-  "local_review_ready_still_below_target",
+  "data-freshness-quality-evidence",
+  "mvp_review_ready_not_real_scoring",
+  "Investment credibility has reached MVP review target",
   "data-coverage-route",
   "source-rights-disclosure",
   "Do not spend the next high-value slice on visual polish",
@@ -113,8 +114,8 @@ if (run.status !== 0) {
 if (output) {
   if (output.mode !== "overall_project_100_readiness") blocked.push(`output.mode: ${String(output.mode)}`);
   if (output.status !== "mvp_100_readiness_in_progress") blocked.push(`output.status: ${String(output.status)}`);
-  if (output.currentOverallPercent !== 80) {
-    blocked.push(`output.currentOverallPercent expected 80, got ${String(output.currentOverallPercent)}`);
+  if (output.currentOverallPercent !== 81) {
+    blocked.push(`output.currentOverallPercent expected 81, got ${String(output.currentOverallPercent)}`);
   }
   if (output.targetOverallPercent !== 100) {
     blocked.push(`output.targetOverallPercent: ${String(output.targetOverallPercent)}`);
@@ -127,13 +128,13 @@ if (output) {
   }
 
   const gapIds = new Set((output.currentTopGaps ?? []).map((gap) => gap.id));
-  for (const id of ["investment-credibility-evidence", "data-coverage-route", "source-rights-disclosure"]) {
+  for (const id of ["data-freshness-quality-evidence", "data-coverage-route", "source-rights-disclosure"]) {
     if (!gapIds.has(id)) blocked.push(`output.currentTopGaps missing ${id}`);
   }
 
-  const investmentGap = (output.currentTopGaps ?? []).find((gap) => gap.id === "investment-credibility-evidence");
-  if (investmentGap?.current !== 68) {
-    blocked.push(`output.currentTopGaps.investment-credibility-evidence current expected 68, got ${String(investmentGap?.current)}`);
+  const dataFreshnessGap = (output.currentTopGaps ?? []).find((gap) => gap.id === "data-freshness-quality-evidence");
+  if (dataFreshnessGap?.current !== 64) {
+    blocked.push(`output.currentTopGaps.data-freshness-quality-evidence current expected 64, got ${String(dataFreshnessGap?.current)}`);
   }
 
   const sourceRightsGap = (output.currentTopGaps ?? []).find((gap) => gap.id === "source-rights-disclosure");

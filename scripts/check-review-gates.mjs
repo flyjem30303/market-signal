@@ -2088,6 +2088,11 @@ const checks = [
     name: "investment-formula-downgrade-readiness"
   },
   {
+    command: [node, "scripts/check-investment-public-claim-readiness.mjs"],
+    expectStatus: "ok",
+    name: "investment-public-claim-readiness"
+  },
+  {
     command: [node, "scripts/check-blocker-readiness-panel.mjs"],
     expectStatus: "ok",
     name: "blocker-readiness-panel"

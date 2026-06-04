@@ -305,6 +305,8 @@
     "check:investment-credibility-evidence-upgrade": "node scripts/check-investment-credibility-evidence-upgrade.mjs",
     "report:investment-formula-downgrade-readiness": "node scripts/report-investment-formula-downgrade-readiness.mjs",
     "check:investment-formula-downgrade-readiness": "node scripts/check-investment-formula-downgrade-readiness.mjs",
+    "report:investment-public-claim-readiness": "node scripts/report-investment-public-claim-readiness.mjs",
+    "check:investment-public-claim-readiness": "node scripts/check-investment-public-claim-readiness.mjs",
     "check:blocker-readiness-panel": "node scripts/check-blocker-readiness-panel.mjs",
     "check:runtime-readiness-panel": "node scripts/check-runtime-readiness-panel.mjs",
     "check:runtime-readiness-language-quality": "node scripts/check-runtime-readiness-language-quality.mjs",

@@ -42,6 +42,12 @@ const checks = [
     command: "scripts/check-investment-formula-downgrade-readiness.mjs",
     evidence:
       "formula version posture and fail-closed downgrade policy are locally ready without approving real scoring"
+  },
+  {
+    id: "investment-public-claim-readiness",
+    command: "scripts/check-investment-public-claim-readiness.mjs",
+    evidence:
+      "public claim checklist, runtime-state mapping, formula downgrade posture, and source-rights placement are locally review-ready"
   }
 ];
 
@@ -67,11 +73,11 @@ const report = {
     ? "local_investment_review_ready_not_real_scoring"
     : "blocked_needs_investment_evidence_repair",
   generatedAt: new Date().toISOString(),
-  readinessPercent: allOk ? 68 : 16,
+  readinessPercent: allOk ? 80 : 16,
   targetForMvpReview: 80,
   owner: "Investment",
   ceoVerdict:
-    "Investment credibility has moved beyond roadmap intent into local review evidence, but it is not approved for real scoring, rankings, advice, model confidence claims, or performance claims.",
+    "Investment credibility reaches MVP review target as local review evidence, but it is not approved for real scoring, rankings, advice, model confidence claims, or performance claims.",
   pmNextShortestPath:
     "Use this local packet to raise MVP readiness, then add stronger model evidence later: formula documentation, backtest limitation wording, downgrade policy, and public non-advisory copy.",
   evidence: results,
@@ -83,7 +89,8 @@ const report = {
     "readable investor indicator roadmap",
     "home and stock roadmap panels with mock boundary",
     "investment evidence upgrade tying non-advisory, backtest-limit, source-rights, and data-readiness evidence together",
-    "formula version and downgrade policy readiness without public score approval"
+    "formula version and downgrade policy readiness without public score approval",
+    "public claim readiness tying checklist, runtime state mapping, formula downgrade posture, and source-rights placement together"
   ],
   notApproved: [
     "real scoring",
@@ -93,10 +100,10 @@ const report = {
     "performance or backtest claims",
     "publicDataSource=supabase"
   ],
-  nextGapsTo80: [
-    "public formula version and downgrade copy placement without implying real scoring",
+  nextAfterMvpReviewTarget: [
+    "final public copy acceptance by Legal and Investment",
     "source-depth and row-coverage evidence accepted for each promoted indicator family",
-    "public claim wording accepted jointly by Legal and Investment"
+    "real-score candidacy only after model validation, source rights, and data coverage gates"
   ],
   safety: {
     automatedRemoteRun: false,

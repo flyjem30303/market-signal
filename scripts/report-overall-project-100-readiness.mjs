@@ -73,11 +73,12 @@ const readinessLanes = [
       targetForMvpReview: 80,
       owner: "Investment",
       status:
-        investmentReadiness.status === "local_investment_review_ready_not_real_scoring"
-          ? "local_review_ready_still_below_target"
-          : "largest_non_data_gap",
+        investmentReadiness.status === "local_investment_review_ready_not_real_scoring" &&
+        (investmentReadiness.readinessPercent ?? 0) >= 80
+          ? "mvp_review_ready_not_real_scoring"
+          : "local_review_ready_still_below_target",
       nextAction:
-        "Raise model credibility evidence with interpretation limits, downgrade policy, backtest/disclaimer boundaries, and non-advisory wording."
+        "Keep investment claims as local review material only; do not approve real scoring, rankings, advice, or performance claims."
   },
   {
     id: "ceo-execution-focus",
@@ -105,17 +106,17 @@ const report = {
   targetOverallPercent: 100,
   dataReadinessPercent,
   ceoVerdict:
-    "Do not spend the next high-value slice on visual polish. The shortest route to 100% is data coverage route closure plus investment credibility evidence, while keeping runtime, health, and mock boundaries stable.",
+    "Investment credibility has reached MVP review target as local-only claim readiness. Do not spend the next high-value slice on visual polish; the shortest route to 100% is data freshness/quality, data coverage route closure, and source-rights approval readiness while keeping runtime, health, and mock boundaries stable.",
   pmNextShortestPath:
-    "Execute a larger local-only blocker-closure slice: integrate data coverage route readiness, source-rights decision inputs, model credibility evidence, and review-gate checks without SQL, writes, raw data, or real-source promotion.",
+    "Execute a larger local-only blocker-closure slice: integrate data quality coverage route readiness, source-rights decision inputs, and review-gate checks without SQL, writes, raw data, or real-source promotion.",
   readinessLanes,
   currentTopGaps: [
     {
-      id: "investment-credibility-evidence",
-      current: investmentReadiness.readinessPercent ?? investmentLane?.current ?? 0,
-      targetForMvpReview: 80,
-      reason: "Local review evidence exists, but real-score or professional indicator credibility cannot be claimed without stronger model/backtest and public-claim evidence.",
-      nextAction: "Run and integrate model credibility local review / acceptance evidence before any real-score candidacy."
+      id: "data-freshness-quality-evidence",
+      current: dataLane?.current ?? 0,
+      targetForMvpReview: 95,
+      reason: "The data lane is still below MVP review target because row coverage, data quality threshold, source rights, and source-depth remain incomplete.",
+      nextAction: "Prepare a no-write data coverage and quality route that can be reviewed before any Supabase write, ingestion, or source promotion."
     },
     {
       id: "data-coverage-route",
