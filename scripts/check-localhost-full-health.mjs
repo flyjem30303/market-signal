@@ -26,6 +26,10 @@ const checks = [
     name: "project-progress-snapshot"
   },
   {
+    command: [node, "scripts/check-overall-project-100-readiness.mjs"],
+    name: "overall-project-100-readiness"
+  },
+  {
     command: [node, "scripts/check-ceo-progress-brief.mjs"],
     name: "ceo-progress-brief"
   },

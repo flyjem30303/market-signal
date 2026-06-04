@@ -1583,6 +1583,11 @@ const checks = [
     name: "project-progress-snapshot"
   },
   {
+    command: [node, "scripts/check-overall-project-100-readiness.mjs"],
+    expectStatus: "ok",
+    name: "overall-project-100-readiness"
+  },
+  {
     command: [node, "scripts/check-ceo-progress-brief.mjs"],
     expectStatus: "ok",
     name: "ceo-progress-brief"

@@ -120,6 +120,8 @@
     "check:project-progress-score": "node scripts/check-project-progress-score.mjs",
     "report:project-progress-snapshot": "node scripts/report-project-progress-snapshot.mjs",
     "check:project-progress-snapshot": "node scripts/check-project-progress-snapshot.mjs",
+    "report:overall-project-100-readiness": "node scripts/report-overall-project-100-readiness.mjs",
+    "check:overall-project-100-readiness": "node scripts/check-overall-project-100-readiness.mjs",
     "report:ceo-progress-brief": "node scripts/report-ceo-progress-brief.mjs",
     "check:ceo-progress-brief": "node scripts/check-ceo-progress-brief.mjs",
     "report:runtime-unblock-acceleration": "node scripts/report-runtime-unblock-acceleration.mjs",
