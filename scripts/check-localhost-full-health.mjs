@@ -106,6 +106,10 @@ const checks = [
     name: "provider-specific-terms-post-review-rollup"
   },
   {
+    command: [node, "scripts/check-source-rights-mvp-readiness.mjs"],
+    name: "source-rights-mvp-readiness"
+  },
+  {
     command: [node, "scripts/check-bounded-readonly-final-local-alignment.mjs"],
     name: "bounded-readonly-final-local-alignment"
   },

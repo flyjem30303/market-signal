@@ -4,6 +4,7 @@ const progress = runJson("scripts/report-project-progress-snapshot.mjs");
 const dataGoal = runJson("scripts/report-data-goal-readiness.mjs");
 const completionAudit = runJson("scripts/report-data-goal-completion-audit.mjs");
 const investmentReadiness = runJson("scripts/report-investment-credibility-mvp-readiness.mjs");
+const sourceRightsReadiness = runJson("scripts/report-source-rights-mvp-readiness.mjs");
 
 const laneMap = new Map((progress.project?.lanes ?? []).map((lane) => [lane.label, lane]));
 const dataLane = laneMap.get("Data freshness and quality evidence");
@@ -125,10 +126,10 @@ const report = {
     },
     {
       id: "source-rights-disclosure",
-      current: progress.project?.blockerClosureReadiness?.closurePercent ?? 0,
+      current: sourceRightsReadiness.readinessPercent ?? progress.project?.blockerClosureReadiness?.closurePercent ?? 0,
       targetForMvpReview: 100,
-      reason: "Source-specific rights and public disclosure approval remain prerequisites for promotion.",
-      nextAction: "Use source-rights local review and provider terms rollup as the next decision input."
+      reason: "Local source-rights review exists, but external provider terms, redistribution, public-source claims, and source-specific public copy remain unapproved.",
+      nextAction: "Connect source-specific terms classification and attribution placement to the data coverage route before any source promotion."
     }
   ],
   completionDefinition: {
@@ -170,7 +171,8 @@ const report = {
     "scripts/report-project-progress-snapshot.mjs",
     "scripts/report-data-goal-readiness.mjs",
     "scripts/report-data-goal-completion-audit.mjs",
-    "scripts/report-investment-credibility-mvp-readiness.mjs"
+    "scripts/report-investment-credibility-mvp-readiness.mjs",
+    "scripts/report-source-rights-mvp-readiness.mjs"
   ],
   stopLine:
     "This overall readiness report does not connect to Supabase, run SQL, write data, fetch market data, print secrets, promote publicDataSource=supabase, or set scoreSource=real."

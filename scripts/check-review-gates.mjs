@@ -1768,6 +1768,11 @@ const checks = [
     name: "provider-specific-terms-post-review-rollup"
   },
   {
+    command: [node, "scripts/check-source-rights-mvp-readiness.mjs"],
+    expectStatus: "ok",
+    name: "source-rights-mvp-readiness"
+  },
+  {
     command: [node, "scripts/check-data-quality-evidence-checklist.mjs"],
     expectStatus: "ok",
     name: "data-quality-evidence-checklist"

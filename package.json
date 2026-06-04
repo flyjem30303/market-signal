@@ -227,6 +227,8 @@
     "check:provider-specific-terms-review-packet": "node scripts/check-provider-specific-terms-review-packet.mjs",
     "report:provider-specific-terms-post-review-rollup": "node scripts/report-provider-specific-terms-post-review-rollup.mjs",
     "check:provider-specific-terms-post-review-rollup": "node scripts/check-provider-specific-terms-post-review-rollup.mjs",
+    "report:source-rights-mvp-readiness": "node scripts/report-source-rights-mvp-readiness.mjs",
+    "check:source-rights-mvp-readiness": "node scripts/check-source-rights-mvp-readiness.mjs",
     "report:data-quality-evidence-checklist": "node scripts/report-data-quality-evidence-checklist.mjs",
     "check:data-quality-evidence-checklist": "node scripts/check-data-quality-evidence-checklist.mjs",
     "report:data-quality-field-validity": "node scripts/report-data-quality-field-validity.mjs",

@@ -22,6 +22,7 @@ for (const phrase of [
   "scripts/report-data-goal-readiness.mjs",
   "scripts/report-data-goal-completion-audit.mjs",
   "scripts/report-investment-credibility-mvp-readiness.mjs",
+  "scripts/report-source-rights-mvp-readiness.mjs",
   "bounded_readonly_attempt_reviewed_aggregate_incomplete",
   "audit_passed_not_100_until_coverage_route_complete",
   "route_defined_from_accepted_bounded_readonly_evidence",
@@ -133,6 +134,11 @@ if (output) {
   const investmentGap = (output.currentTopGaps ?? []).find((gap) => gap.id === "investment-credibility-evidence");
   if (investmentGap?.current !== 46) {
     blocked.push(`output.currentTopGaps.investment-credibility-evidence current expected 46, got ${String(investmentGap?.current)}`);
+  }
+
+  const sourceRightsGap = (output.currentTopGaps ?? []).find((gap) => gap.id === "source-rights-disclosure");
+  if (sourceRightsGap?.current !== 68) {
+    blocked.push(`output.currentTopGaps.source-rights-disclosure current expected 68, got ${String(sourceRightsGap?.current)}`);
   }
 
   if (output.completionDefinition?.dataCoverageRoute !== "route_defined_from_accepted_bounded_readonly_evidence") {
