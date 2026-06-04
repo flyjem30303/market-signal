@@ -40,7 +40,7 @@ const required = [
   [progressPath, "blockerClosureReadinessGate: BlockerClosureReadinessGate"],
   [progressPath, "blockerClosureReadinessGate = getBlockerClosureReadinessGate()"],
   [progressPath, "blockerClosureReadinessGate,"],
-  [progressPath, "current: 64"],
+  [progressPath, "current: 76"],
   [progressPath, "blocker closure readiness"],
   [progressPath, "current: 83"],
   [progressPath, "closure readiness"],

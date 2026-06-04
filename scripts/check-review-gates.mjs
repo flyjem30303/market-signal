@@ -1798,6 +1798,11 @@ const checks = [
     name: "data-quality-field-validity-acceptance-gate"
   },
   {
+    command: [node, "scripts/check-data-freshness-quality-mvp-readiness.mjs"],
+    expectStatus: "ok",
+    name: "data-freshness-quality-mvp-readiness"
+  },
+  {
     command: [node, "scripts/check-data-coverage-route-decision.mjs"],
     expectStatus: "ok",
     name: "data-coverage-route-decision"

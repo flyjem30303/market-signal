@@ -3,6 +3,7 @@ import { spawnSync } from "node:child_process";
 const progress = runJson("scripts/report-project-progress-snapshot.mjs");
 const dataGoal = runJson("scripts/report-data-goal-readiness.mjs");
 const completionAudit = runJson("scripts/report-data-goal-completion-audit.mjs");
+const dataQualityReadiness = runJson("scripts/report-data-freshness-quality-mvp-readiness.mjs");
 const investmentReadiness = runJson("scripts/report-investment-credibility-mvp-readiness.mjs");
 const sourceRightsReadiness = runJson("scripts/report-source-rights-mvp-readiness.mjs");
 
@@ -60,10 +61,13 @@ const readinessLanes = [
   },
   {
     id: "data-freshness-quality-evidence",
-    current: dataLane?.current ?? 0,
+    current: dataQualityReadiness.upgradedReadinessPercent ?? dataLane?.current ?? 0,
     targetForMvpReview: 95,
     owner: "Data",
-    status: dataCoverageRouteReady ? "route_defined_still_below_target" : "blocked",
+    status:
+      dataQualityReadiness.status === "local_data_quality_route_ready_promotion_blocked"
+        ? "local_route_ready_promotion_blocked"
+        : "blocked",
     nextAction:
       "Turn aggregate_count_incomplete into a coverage route: source-specific backfill design, report-only dry-run plan, source rights, QA, and no-write preflight."
   },
@@ -113,7 +117,7 @@ const report = {
   currentTopGaps: [
     {
       id: "data-freshness-quality-evidence",
-      current: dataLane?.current ?? 0,
+      current: dataQualityReadiness.upgradedReadinessPercent ?? dataLane?.current ?? 0,
       targetForMvpReview: 95,
       reason: "The data lane is still below MVP review target because row coverage, data quality threshold, source rights, and source-depth remain incomplete.",
       nextAction: "Prepare a no-write data coverage and quality route that can be reviewed before any Supabase write, ingestion, or source promotion."
@@ -171,6 +175,7 @@ const report = {
   sourceReports: [
     "scripts/report-project-progress-snapshot.mjs",
     "scripts/report-data-goal-readiness.mjs",
+    "scripts/report-data-freshness-quality-mvp-readiness.mjs",
     "scripts/report-data-goal-completion-audit.mjs",
     "scripts/report-investment-credibility-mvp-readiness.mjs",
     "scripts/report-source-rights-mvp-readiness.mjs"

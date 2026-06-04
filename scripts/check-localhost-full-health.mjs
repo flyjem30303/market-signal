@@ -86,6 +86,10 @@ const checks = [
     name: "data-quality-field-validity-acceptance-gate"
   },
   {
+    command: [node, "scripts/check-data-freshness-quality-mvp-readiness.mjs"],
+    name: "data-freshness-quality-mvp-readiness"
+  },
+  {
     command: [node, "scripts/check-source-rights-disclosure-checklist.mjs"],
     name: "source-rights-disclosure-checklist"
   },

@@ -20,6 +20,7 @@ for (const phrase of [
   "targetOverallPercent: 100",
   "scripts/report-project-progress-snapshot.mjs",
   "scripts/report-data-goal-readiness.mjs",
+  "scripts/report-data-freshness-quality-mvp-readiness.mjs",
   "scripts/report-data-goal-completion-audit.mjs",
   "scripts/report-investment-credibility-mvp-readiness.mjs",
   "scripts/report-source-rights-mvp-readiness.mjs",
@@ -27,6 +28,9 @@ for (const phrase of [
   "audit_passed_not_100_until_coverage_route_complete",
   "route_defined_from_accepted_bounded_readonly_evidence",
   "data-freshness-quality-evidence",
+  "local_route_ready_promotion_blocked",
+  "local_data_quality_route_ready_promotion_blocked",
+  "report-data-freshness-quality-mvp-readiness",
   "mvp_review_ready_not_real_scoring",
   "Investment credibility has reached MVP review target",
   "data-coverage-route",
@@ -114,8 +118,8 @@ if (run.status !== 0) {
 if (output) {
   if (output.mode !== "overall_project_100_readiness") blocked.push(`output.mode: ${String(output.mode)}`);
   if (output.status !== "mvp_100_readiness_in_progress") blocked.push(`output.status: ${String(output.status)}`);
-  if (output.currentOverallPercent !== 81) {
-    blocked.push(`output.currentOverallPercent expected 81, got ${String(output.currentOverallPercent)}`);
+  if (output.currentOverallPercent !== 83) {
+    blocked.push(`output.currentOverallPercent expected 83, got ${String(output.currentOverallPercent)}`);
   }
   if (output.targetOverallPercent !== 100) {
     blocked.push(`output.targetOverallPercent: ${String(output.targetOverallPercent)}`);
@@ -133,8 +137,8 @@ if (output) {
   }
 
   const dataFreshnessGap = (output.currentTopGaps ?? []).find((gap) => gap.id === "data-freshness-quality-evidence");
-  if (dataFreshnessGap?.current !== 64) {
-    blocked.push(`output.currentTopGaps.data-freshness-quality-evidence current expected 64, got ${String(dataFreshnessGap?.current)}`);
+  if (dataFreshnessGap?.current !== 76) {
+    blocked.push(`output.currentTopGaps.data-freshness-quality-evidence current expected 76, got ${String(dataFreshnessGap?.current)}`);
   }
 
   const sourceRightsGap = (output.currentTopGaps ?? []).find((gap) => gap.id === "source-rights-disclosure");
