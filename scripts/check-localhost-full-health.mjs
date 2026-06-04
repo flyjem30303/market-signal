@@ -102,6 +102,10 @@ const checks = [
     name: "provider-specific-terms-post-review-rollup"
   },
   {
+    command: [node, "scripts/check-bounded-readonly-final-local-alignment.mjs"],
+    name: "bounded-readonly-final-local-alignment"
+  },
+  {
     command: [node, "scripts/check-model-credibility-checklist.mjs"],
     name: "model-credibility-checklist"
   },

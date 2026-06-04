@@ -139,6 +139,8 @@
     "check:row-coverage-readonly-preexecution-packet": "node scripts/check-row-coverage-readonly-preexecution-packet.mjs",
     "report:row-coverage-readonly-execution-readiness-presenter": "node scripts/report-row-coverage-readonly-execution-readiness-presenter.mjs",
     "check:row-coverage-readonly-execution-readiness-presenter": "node scripts/check-row-coverage-readonly-execution-readiness-presenter.mjs",
+    "report:bounded-readonly-final-local-alignment": "node scripts/report-bounded-readonly-final-local-alignment.mjs",
+    "check:bounded-readonly-final-local-alignment": "node scripts/check-bounded-readonly-final-local-alignment.mjs",
     "check:runtime-gate-decision-brief": "node scripts/check-runtime-gate-decision-brief.mjs",
     "check:runtime-decision-summary": "node scripts/check-runtime-decision-summary.mjs",
     "check:runtime-state-consistency": "node scripts/check-runtime-state-consistency.mjs",
