@@ -3,8 +3,8 @@ import path from "node:path";
 
 const forbiddenPublicReferences = ["/internal", "internal/"];
 const publicFiles = [
-  "src/app/sitemap.ts",
-  "src/app/robots.ts",
+  "src/app/sitemap.xml/route.ts",
+  "src/app/robots.txt/route.ts",
   "src/components/dashboard-shell.tsx",
   "src/app/layout.tsx",
   "src/app/page.tsx",
@@ -39,8 +39,8 @@ for (const file of publicFiles) {
   if (!fs.existsSync(file)) continue;
   const content = read(file);
 
-  if (file === "src/app/robots.ts") {
-    if (!content.includes('disallow: ["/internal", "/api/internal"]')) {
+  if (file === "src/app/robots.txt/route.ts") {
+    if (!content.includes('"Disallow: /internal"') || !content.includes('"Disallow: /api/internal"')) {
       findings.push({
         file,
         issue: "robots must explicitly disallow internal routes"

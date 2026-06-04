@@ -119,6 +119,9 @@ export type NextExecutablePacket = {
   checkCommand: string;
   id: "provider-specific-terms-review-packet";
   owner: "Legal";
+  postReviewCheckCommand: string;
+  postReviewReportCommand: string;
+  postReviewStatus: "local_output_ready_for_ceo_oral_review";
   reportCommand: string;
   status: "ready_for_local_review_no_terms_approval";
   stopLine: string;
@@ -342,12 +345,15 @@ export function getBlockerReadinessSummary(): BlockerReadinessSummary {
       checkCommand: "npm run check:provider-specific-terms-review-packet",
       id: "provider-specific-terms-review-packet",
       owner: "Legal",
+      postReviewCheckCommand: "npm run check:provider-specific-terms-post-review-rollup",
+      postReviewReportCommand: "npm run report:provider-specific-terms-post-review-rollup",
+      postReviewStatus: "local_output_ready_for_ceo_oral_review",
       reportCommand: "npm run report:provider-specific-terms-review-packet",
       status: "ready_for_local_review_no_terms_approval",
       stopLine:
         "Running this packet does not fetch provider terms, approve source rights, connect to Supabase, run SQL, ingest market data, award row coverage points, or set scoreSource=real.",
       summary:
-        "Use this as the next PM/CEO local review entry point for provider-specific terms classification before any remote row coverage attempt."
+        "Use this as the next PM/CEO local review entry point, then run the post-review rollup for CEO oral accepted/rejected handling before any remote row coverage attempt."
     },
     nextNarrowGateComparison: {
       ceoRecommendation:

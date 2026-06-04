@@ -98,6 +98,10 @@ const checks = [
     name: "provider-specific-terms-review-packet"
   },
   {
+    command: [node, "scripts/check-provider-specific-terms-post-review-rollup.mjs"],
+    name: "provider-specific-terms-post-review-rollup"
+  },
+  {
     command: [node, "scripts/check-model-credibility-checklist.mjs"],
     name: "model-credibility-checklist"
   },

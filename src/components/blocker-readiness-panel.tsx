@@ -115,6 +115,11 @@ export function BlockerReadinessPanel() {
           <code>{summary.nextExecutablePacket.reportCommand}</code>
           <code>{summary.nextExecutablePacket.checkCommand}</code>
         </article>
+        <article>
+          <span>Post-review / {summary.nextExecutablePacket.postReviewStatus}</span>
+          <code>{summary.nextExecutablePacket.postReviewReportCommand}</code>
+          <code>{summary.nextExecutablePacket.postReviewCheckCommand}</code>
+        </article>
       </div>
       <div className="data-quality-acceptance-summary" aria-label="Data quality local acceptance summary">
         <article>
