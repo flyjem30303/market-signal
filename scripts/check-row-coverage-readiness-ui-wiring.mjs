@@ -14,7 +14,7 @@ const required = [
   [componentPath, "getRowCoverageSecondAttemptReadiness"],
   [componentPath, "Row coverage"],
   [componentPath, "scoreSource=real"],
-  [componentPath, "查看專案進度"],
+  [componentPath, "查看市場晨報"],
   [componentPath, "runtime_next_briefing"],
   [libPath, "getRowCoverageSecondAttemptReadiness"],
   [libPath, "local_ready_remote_paused"],

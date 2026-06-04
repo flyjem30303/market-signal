@@ -29,7 +29,7 @@ export const localhostContentHealthChecks = [
       "Market Action Summary",
       "local_ready_remote_paused",
       "mock-only runtime",
-      "封鎖項目準備度",
+      "阻塞項目",
       "Data / Legal / Investment checklists are local-ready"
     ]
   },
