@@ -1,4 +1,4 @@
-import fs from "node:fs";
+﻿import fs from "node:fs";
 
 const statusPath = "PROJECT_STATUS.md";
 const packagePath = "package.json";
@@ -34,6 +34,9 @@ const requiredTopPhrases = [
   "分數來源",
   "新鮮度基準",
   "資料品質閘門",
+  "data-goal readiness",
+  "final pre-remote decision point",
+  "data-goal readiness at 92%",
   "Latest CEO decision posture",
   "exactly one attempt as a separate action",
   "sanitized aggregate output and immediate post-run review",

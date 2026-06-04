@@ -1638,6 +1638,11 @@ const checks = [
     name: "bounded-readonly-final-local-alignment"
   },
   {
+    command: [node, "scripts/check-data-goal-readiness.mjs"],
+    expectStatus: "ok",
+    name: "data-goal-readiness"
+  },
+  {
     command: [node, "scripts/check-row-coverage-readonly-execution-readiness-presenter.mjs"],
     expectStatus: "ok",
     name: "row-coverage-readonly-execution-readiness-presenter"

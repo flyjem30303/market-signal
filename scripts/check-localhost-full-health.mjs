@@ -106,6 +106,10 @@ const checks = [
     name: "bounded-readonly-final-local-alignment"
   },
   {
+    command: [node, "scripts/check-data-goal-readiness.mjs"],
+    name: "data-goal-readiness"
+  },
+  {
     command: [node, "scripts/check-mvp-launch-prd.mjs"],
     name: "mvp-launch-prd"
   },
