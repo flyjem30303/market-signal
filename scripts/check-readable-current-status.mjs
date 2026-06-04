@@ -49,6 +49,8 @@ const requiredTopPhrases = [
   "Latest data freshness / quality readiness slice",
   "Data freshness and quality evidence moved from 64% to 76%",
   "data-quality score lift",
+  "Latest source-rights specific classification slice",
+  "Source-rights disclosure moved from 78% to 88%",
   "ten evidence rows",
   "bounded_readonly_attempt_reviewed_aggregate_incomplete",
   "Latest CEO decision posture",

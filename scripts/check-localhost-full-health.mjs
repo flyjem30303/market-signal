@@ -118,6 +118,10 @@ const checks = [
     name: "source-rights-public-placement-readiness"
   },
   {
+    command: [node, "scripts/check-source-rights-specific-classification-readiness.mjs"],
+    name: "source-rights-specific-classification-readiness"
+  },
+  {
     command: [node, "scripts/check-bounded-readonly-final-local-alignment.mjs"],
     name: "bounded-readonly-final-local-alignment"
   },

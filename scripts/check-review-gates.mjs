@@ -1778,6 +1778,11 @@ const checks = [
     name: "source-rights-public-placement-readiness"
   },
   {
+    command: [node, "scripts/check-source-rights-specific-classification-readiness.mjs"],
+    expectStatus: "ok",
+    name: "source-rights-specific-classification-readiness"
+  },
+  {
     command: [node, "scripts/check-data-quality-evidence-checklist.mjs"],
     expectStatus: "ok",
     name: "data-quality-evidence-checklist"

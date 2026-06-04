@@ -231,6 +231,8 @@
     "check:source-rights-mvp-readiness": "node scripts/check-source-rights-mvp-readiness.mjs",
     "report:source-rights-public-placement-readiness": "node scripts/report-source-rights-public-placement-readiness.mjs",
     "check:source-rights-public-placement-readiness": "node scripts/check-source-rights-public-placement-readiness.mjs",
+    "report:source-rights-specific-classification-readiness": "node scripts/report-source-rights-specific-classification-readiness.mjs",
+    "check:source-rights-specific-classification-readiness": "node scripts/check-source-rights-specific-classification-readiness.mjs",
     "report:data-quality-evidence-checklist": "node scripts/report-data-quality-evidence-checklist.mjs",
     "check:data-quality-evidence-checklist": "node scripts/check-data-quality-evidence-checklist.mjs",
     "report:data-quality-field-validity": "node scripts/report-data-quality-field-validity.mjs",

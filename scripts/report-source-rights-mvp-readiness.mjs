@@ -42,6 +42,12 @@ const evidenceChecks = [
     owner: "Product",
     command: "scripts/check-source-rights-public-placement-readiness.mjs",
     proves: "public attribution, delay/outage, redistribution, and public-claim placement map is ready for review"
+  },
+  {
+    id: "source-rights-specific-classification-readiness",
+    owner: "Legal",
+    command: "scripts/check-source-rights-specific-classification-readiness.mjs",
+    proves: "TWII, ETF, provider terms, data coverage, public placement, and investment claim source-rights blockers are locally classified"
   }
 ];
 
@@ -69,7 +75,7 @@ const report = {
     : "local_source_rights_review_incomplete",
   owner: "Legal",
   recommendedBy: "CEO",
-  readinessPercent: allOk ? 78 : 50,
+  readinessPercent: allOk ? 88 : 50,
   targetForMvpReview: 100,
   mvpMeaning:
     "Source-rights work is locally organized for MVP review, but external provider terms, redistribution rights, public source claims, and runtime promotion are not approved.",
@@ -81,7 +87,8 @@ const report = {
     "provider-specific terms packet is ready for human classification",
     "provider-specific terms rollup is aligned to CEO oral review",
     "approval outcome ledger can record accepted or rejected results without runtime promotion",
-    "public placement map is ready for attribution, delay/outage, redistribution, and claim review"
+    "public placement map is ready for attribution, delay/outage, redistribution, and claim review",
+    "source-specific classification readiness is locally mapped for TWII, ETF, data coverage, and public claims"
   ],
   notApproved: [
     "External provider terms are not approved",
@@ -102,7 +109,7 @@ const report = {
     {
       id: "provider-specific-human-terms-classification",
       owner: "Legal",
-      blocker: "Human review must classify each selected source provider's terms and attribution requirements."
+      blocker: "Local classification map exists; actual external provider terms still require human review outside the repo."
     },
     {
       id: "public-attribution-placement",
@@ -126,7 +133,7 @@ const report = {
     }
   ],
   ceoRecommendation:
-    "Treat source-rights as locally review-ready with public placement mapped, but not externally approved. The next high-value move is source-specific human terms classification while keeping runtime mock-only.",
+    "Treat source-rights as locally review-ready with source-specific classification mapped, but not externally approved. The next high-value move is actual external provider terms review and accepted source-specific public copy while keeping runtime mock-only.",
   safety: {
     automatedRemoteRun: false,
     connectionAttempted: false,
