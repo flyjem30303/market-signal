@@ -54,6 +54,30 @@ export function BlockerReadinessPanel() {
           <p>{summary.closureGapSummary.remainingBlockers.join("; ")}.</p>
         </article>
       </div>
+      <div className="blocker-closure-runtime-rollup" aria-label="Blocker closure runtime rollup">
+        <article>
+          <span>Closure rollup</span>
+          <strong>{summary.closureRuntimeRollup.status}</strong>
+          <p>{summary.closureRuntimeRollup.summary}</p>
+          <small>
+            accepted local packets: {summary.closureRuntimeRollup.acceptedLocalPackets} / promotion unblocked:{" "}
+            {summary.closureRuntimeRollup.promotionUnblockedCount}
+          </small>
+        </article>
+        <article>
+          <span>Ready local owners</span>
+          <p>{summary.closureRuntimeRollup.readyLocalOwners.join(", ")}</p>
+          <strong>{summary.closureRuntimeRollup.nextGateCandidate}</strong>
+        </article>
+        <article>
+          <span>Next PM action</span>
+          <p>{summary.closureRuntimeRollup.nextPmAction}</p>
+        </article>
+        <article>
+          <span>Promotion still blocked by</span>
+          <p>{summary.closureRuntimeRollup.blockedPromotionDecisions.join("; ")}.</p>
+        </article>
+      </div>
       <div className="data-quality-acceptance-summary" aria-label="Data quality local acceptance summary">
         <article>
           <span>Data quality gate</span>

@@ -419,6 +419,13 @@ select {
   gap: 10px;
 }
 
+.blocker-closure-runtime-rollup {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr) minmax(0, 1fr) minmax(0, 1.1fr);
+  gap: 10px;
+}
+
 .model-credibility-acceptance-summary {
   display: grid;
   grid-column: 1 / -1;
@@ -428,6 +435,7 @@ select {
 
 .blocker-acceleration-strip article,
 .blocker-closure-gap-summary article,
+.blocker-closure-runtime-rollup article,
 .data-quality-acceptance-summary article,
 .source-rights-acceptance-summary article,
 .model-credibility-acceptance-summary article,
@@ -511,6 +519,7 @@ select {
 .blocker-priority-strip strong,
 .blocker-acceleration-strip strong,
 .blocker-closure-gap-summary strong,
+.blocker-closure-runtime-rollup strong,
 .data-quality-acceptance-summary strong,
 .source-rights-acceptance-summary strong,
 .model-credibility-acceptance-summary strong,
@@ -524,6 +533,8 @@ select {
 .blocker-acceleration-strip p,
 .blocker-closure-gap-summary p,
 .blocker-closure-gap-summary small,
+.blocker-closure-runtime-rollup p,
+.blocker-closure-runtime-rollup small,
 .data-quality-acceptance-summary p,
 .data-quality-acceptance-summary small,
 .source-rights-acceptance-summary p,
@@ -542,11 +553,13 @@ select {
 .blocker-priority-strip span,
 .blocker-acceleration-strip span,
 .blocker-closure-gap-summary span,
+.blocker-closure-runtime-rollup span,
 .data-quality-acceptance-summary span,
 .source-rights-acceptance-summary span,
 .model-credibility-acceptance-summary span,
 .blocker-fastest-path span,
 .blocker-priority-strip code,
+.blocker-closure-runtime-rollup code,
 .data-quality-acceptance-summary code,
 .source-rights-acceptance-summary code,
 .model-credibility-acceptance-summary code,
@@ -558,6 +571,7 @@ select {
 .blocker-priority-strip span,
 .blocker-acceleration-strip span,
 .blocker-closure-gap-summary span,
+.blocker-closure-runtime-rollup span,
 .data-quality-acceptance-summary span,
 .source-rights-acceptance-summary span,
 .model-credibility-acceptance-summary span,
@@ -569,6 +583,7 @@ select {
 }
 
 .blocker-priority-strip code,
+.blocker-closure-runtime-rollup code,
 .data-quality-acceptance-summary code,
 .source-rights-acceptance-summary code,
 .model-credibility-acceptance-summary code,
@@ -10556,6 +10571,7 @@ input[type="date"] {
   .source-depth-blocker-grid,
   .blocker-readiness-panel,
   .blocker-closure-gap-summary,
+  .blocker-closure-runtime-rollup,
   .data-quality-acceptance-summary,
   .source-rights-acceptance-summary,
   .model-credibility-acceptance-summary,

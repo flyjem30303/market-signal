@@ -82,6 +82,18 @@ export type DataQualityAcceptanceSummary = {
   status: "local_field_validity_accepted_quality_points_blocked";
 };
 
+export type BlockerClosureRuntimeRollup = {
+  acceptedLocalPackets: number;
+  blockedPromotionDecisions: string[];
+  mode: "three_lane_blocker_closure_runtime_rollup";
+  nextGateCandidate: "bounded_readonly_row_coverage_or_provider_terms_decision";
+  nextPmAction: string;
+  promotionUnblockedCount: 0;
+  readyLocalOwners: Array<"Data" | "Legal" | "Investment">;
+  status: "local_acceptance_rollup_ready_promotion_blocked";
+  summary: string;
+};
+
 export type BlockerReadinessSummary = {
   accelerationPlan: {
     currentBlockers: string[];
@@ -90,6 +102,7 @@ export type BlockerReadinessSummary = {
     status: "ready_for_separate_readonly_decision";
   };
   closureGapSummary: BlockerClosureGapSummary;
+  closureRuntimeRollup: BlockerClosureRuntimeRollup;
   dataQualityAcceptance: DataQualityAcceptanceSummary;
   firstMove: BlockerPriorityMove & { reason: string };
   lanes: BlockerReadinessLane[];
@@ -168,6 +181,26 @@ export function getBlockerReadinessSummary(): BlockerReadinessSummary {
       stillMockOnly: true,
       summary:
         "PM can keep runtime moving locally, but promotion remains blocked until Legal, Data, and Investment each close one acceptance gap."
+    },
+    closureRuntimeRollup: {
+      acceptedLocalPackets: 3,
+      blockedPromotionDecisions: [
+        "bounded readonly row coverage evidence",
+        "provider-specific source terms approval",
+        "source redistribution approval",
+        "data-quality threshold evidence",
+        "real scoring approval",
+        "public release wording approval"
+      ],
+      mode: "three_lane_blocker_closure_runtime_rollup",
+      nextGateCandidate: "bounded_readonly_row_coverage_or_provider_terms_decision",
+      nextPmAction:
+        "Use the three accepted local packets as the decision baseline, then prepare one narrow CEO choice between bounded row-coverage readonly evidence and provider-specific terms review.",
+      promotionUnblockedCount: 0,
+      readyLocalOwners: ["Data", "Legal", "Investment"],
+      status: "local_acceptance_rollup_ready_promotion_blocked",
+      summary:
+        "Data, Legal, and Investment local packets are accepted, but no promotion gate is opened; runtime stays mock until row coverage, rights, model, quality, and public-release decisions all pass."
     },
     dataQualityAcceptance: {
       acceptedAs: "local_qa_reviewed_spec_only",
