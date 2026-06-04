@@ -49,24 +49,24 @@ export function getRuntimeWorkstreamIntegrationQueue(): RuntimeWorkstreamIntegra
       },
       {
         acceptanceSignal:
-          "A1 handoff candidate separates local-only evidence, missing readonly blockers, and explicit authorization needs",
+          "A1 blocker-closure packet separates data-quality evidence, row-coverage readiness, field-validity QA, downgrade rules, and explicit remote authorization needs",
         blockedUntil:
-          "PM accepts the handoff and CEO separately names any remote readonly attempt",
+          "PM accepts the local-only handoff and CEO separately names any remote readonly attempt",
         id: "a1_evidence_handoff",
         integrationAction:
-          "map accepted A1 evidence into the post-readonly next gate queue without running SQL or remote writes",
+          "map accepted A1 evidence into the post-readonly next gate queue without running SQL, remote reads, remote writes, row payloads, or raw market-data ingestion",
         owner: "A1",
         priority: 2,
         status: "parallel_input_pending"
       },
       {
         acceptanceSignal:
-          "A2 public copy checker distinguishes true visible-copy blockers from terminal encoding noise",
+          "A2 public-copy review confirms blocker-closure wording is understandable for mock-only state, source-rights limits, model-credibility limits, and real-score stop lines",
         blockedUntil:
-          "A2 checker/report passes and PM selects a copy-only UI slice",
+          "A2 checker/report passes and PM selects only launch-blocking readability fixes",
         id: "a2_public_copy_gate",
         integrationAction:
-          "use A2 findings to fix launch-blocking readability before cosmetic polish",
+          "use A2 findings to fix comprehension blockers before cosmetic polish, without editing A1 data evidence or runtime source promotion logic",
         owner: "A2",
         priority: 3,
         status: "ready_when_report_passes"

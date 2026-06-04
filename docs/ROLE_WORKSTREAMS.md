@@ -61,6 +61,8 @@ Not owned:
 Current next tasks:
 - Maintain the A1 market evidence handoff packet.
 - Prepare the next readonly/data evidence packet only from already approved or sanitized evidence.
+- Own the blocker-closure evidence lane for data-quality evidence and row-coverage readiness, including field-validity QA summaries, downgrade rules, and sanitized aggregate-only readiness notes.
+- Keep source-rights and model-credibility dependencies visible as blockers that A1 can reference, but not approve.
 - Escalate to PM before any remote attempt, SQL, or production source promotion.
 
 ## A2: Frontend / UX Readability / Public Copy QA
@@ -78,7 +80,18 @@ Not owned:
 Current next tasks:
 - Audit public UI copy and produce an A2 visible-copy worklist.
 - Prioritize launch-blocking readability issues before cosmetic polish.
+- Own public readability support for blocker closure: make sure data-quality, source-rights, model-credibility, row-coverage, and mock-only stop lines are understandable on public/runtime surfaces.
+- Keep the A2 lane focused on comprehension blockers and visible-language regressions; visual polish remains lower priority until runtime foundation is stable.
 - Keep visual micro-tuning behind runtime foundation work unless it blocks user comprehension.
+
+## Current Blocker-Closure Assignments
+
+- PM mainline: integrate blocker closure into runtime decision surfaces, run local checks, keep Git backup coherent, and decide whether A1/A2 output is accepted.
+- A1: prepare data-quality evidence, row-coverage readiness, field-validity QA, and downgrade-rule handoff material from local-only or already sanitized evidence.
+- A2: review whether blocker closure is understandable to users, especially public wording for mock-only status, source-rights limits, model-credibility limits, and real-score stop lines.
+- I: stay guard-only unless blocker closure work becomes production-affecting through deployment, environment, credential, DNS, monitoring, rollback, or cloud changes.
+
+PM may run mainline, A1, and A2 in parallel. PM must not wait for A1/A2 when runtime work is locally safe, and A1/A2 must not independently commit or cross into each other's lane.
 
 ## I: Cloud Deployment / DevOps / Launch Operations
 

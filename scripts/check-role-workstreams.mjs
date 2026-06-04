@@ -44,6 +44,19 @@ for (const phrase of [
   if (!doc.includes(phrase)) problems.push(`ROLE_WORKSTREAMS missing: ${phrase}`);
 }
 
+for (const phrase of [
+  "## Current Blocker-Closure Assignments",
+  "PM mainline: integrate blocker closure into runtime decision surfaces",
+  "A1: prepare data-quality evidence, row-coverage readiness, field-validity QA, and downgrade-rule handoff material",
+  "A2: review whether blocker closure is understandable to users",
+  "mock-only status, source-rights limits, model-credibility limits, and real-score stop lines",
+  "I: stay guard-only unless blocker closure work becomes production-affecting",
+  "PM may run mainline, A1, and A2 in parallel",
+  "PM must not wait for A1/A2 when runtime work is locally safe"
+]) {
+  if (!doc.includes(phrase)) problems.push(`ROLE_WORKSTREAMS missing blocker-closure assignment: ${phrase}`);
+}
+
 const expectedScript = "node scripts/check-role-workstreams.mjs";
 if (pkg.scripts?.["check:role-workstreams"] !== expectedScript) {
   problems.push("package.json missing check:role-workstreams script");
