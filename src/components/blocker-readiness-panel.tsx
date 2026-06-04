@@ -54,6 +54,30 @@ export function BlockerReadinessPanel() {
           <p>{summary.closureGapSummary.remainingBlockers.join("; ")}.</p>
         </article>
       </div>
+      <div className="source-rights-acceptance-summary" aria-label="Source rights local acceptance summary">
+        <article>
+          <span>Source rights gate</span>
+          <strong>{summary.sourceRightsAcceptance.status}</strong>
+          <p>{summary.sourceRightsAcceptance.decision}</p>
+          <small>
+            accepted as: {summary.sourceRightsAcceptance.acceptedAs} / source:{" "}
+            {summary.sourceRightsAcceptance.publicDataSource} / score: {summary.sourceRightsAcceptance.scoreSource}
+          </small>
+        </article>
+        <article>
+          <span>Accepted local evidence</span>
+          <p>{summary.sourceRightsAcceptance.acceptedEvidenceIds.join(", ")}</p>
+          <code>{summary.sourceRightsAcceptance.gateDocument}</code>
+        </article>
+        <article>
+          <span>Next narrow question</span>
+          <p>{summary.sourceRightsAcceptance.nextNarrowQuestion}</p>
+        </article>
+        <article>
+          <span>Still blocked</span>
+          <p>{summary.sourceRightsAcceptance.blockedDecisions.join("; ")}.</p>
+        </article>
+      </div>
       <div className="blocker-fastest-path" aria-label="Fastest safe unblock path">
         {summary.accelerationPlan.fastestSafePath.map((step) => (
           <article className={step.canRunNow ? "ready" : "hold"} key={step.step}>

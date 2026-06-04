@@ -43,6 +43,19 @@ export type BlockerClosureGapSummary = {
   summary: string;
 };
 
+export type SourceRightsAcceptanceSummary = {
+  acceptedAs: "local_review_packet_only";
+  acceptedEvidenceIds: string[];
+  blockedDecisions: string[];
+  decision: "ACCEPT_SOURCE_RIGHTS_DISCLOSURE_AS_LOCAL_REVIEW_PACKET_ONLY";
+  gateDocument: string;
+  nextNarrowQuestion: string;
+  owner: "Legal";
+  publicDataSource: "mock";
+  scoreSource: "mock";
+  status: "local_packet_accepted_external_rights_blocked";
+};
+
 export type BlockerReadinessSummary = {
   accelerationPlan: {
     currentBlockers: string[];
@@ -56,6 +69,7 @@ export type BlockerReadinessSummary = {
   parallelMoves: BlockerPriorityMove[];
   publicDataSource: "mock";
   scoreSource: "mock";
+  sourceRightsAcceptance: SourceRightsAcceptanceSummary;
   status: "local_checklists_ready_remote_paused";
   headline: string;
   stopLine: string;
@@ -195,6 +209,35 @@ export function getBlockerReadinessSummary(): BlockerReadinessSummary {
     ],
     publicDataSource: "mock",
     scoreSource: "mock",
+    sourceRightsAcceptance: {
+      acceptedAs: "local_review_packet_only",
+      acceptedEvidenceIds: [
+        "LEGAL-SOURCE-001",
+        "LEGAL-SOURCE-002",
+        "PRODUCT-DISCLOSURE-001",
+        "INVESTMENT-CLAIM-001",
+        "BOUNDARY-SOURCE-001"
+      ],
+      blockedDecisions: [
+        "external provider terms approval",
+        "source license approval",
+        "raw market data redistribution",
+        "public real-data source claim",
+        "public investment interpretation claim",
+        "Supabase readonly execution",
+        "SQL execution",
+        "market-data ingestion",
+        "scoreSource=real"
+      ],
+      decision: "ACCEPT_SOURCE_RIGHTS_DISCLOSURE_AS_LOCAL_REVIEW_PACKET_ONLY",
+      gateDocument: "docs/reviews/SOURCE_RIGHTS_DISCLOSURE_ACCEPTANCE_GATE_2026-06-02.md",
+      nextNarrowQuestion:
+        "Can Legal accept one provider-specific source-terms review for attribution, display limits, and disclosure wording without approving ingestion or real scoring?",
+      owner: "Legal",
+      publicDataSource: "mock",
+      scoreSource: "mock",
+      status: "local_packet_accepted_external_rights_blocked"
+    },
     status: "local_checklists_ready_remote_paused",
     stopLine: "No SQL, no Supabase writes, no raw market data, no public source promotion, and no scoreSource=real."
   };
