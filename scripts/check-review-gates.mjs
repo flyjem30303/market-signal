@@ -2838,6 +2838,11 @@ const checks = [
     name: "public-route-loop"
   },
   {
+    command: [node, "scripts/check-site-chrome-readability.mjs"],
+    expectStatus: "ok",
+    name: "site-chrome-readability"
+  },
+  {
     command: [node, "scripts/check-public-visible-language-quality.mjs"],
     expectStatus: "ok",
     name: "public-visible-language-quality"

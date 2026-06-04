@@ -79,14 +79,6 @@ const expectedVisiblePaths = unique([
   "/privacy"
 ]);
 
-const mojibakePatterns = [
-  /\uFFFD/u,
-  /[嚙稽]/u,
-  /[]/u,
-  /[]/u,
-  /\?{2,}/u
-];
-
 const forbiddenText = [
   "Internal Server Error",
   "ERR_CONNECTION_REFUSED",
@@ -104,7 +96,7 @@ for (const page of pages) {
   const response = await fetch(url);
   const html = await response.text();
   const text = normalizeVisibleText(html);
-  const markerHits = mojibakePatterns.map(String).filter((_, index) => mojibakePatterns[index].test(text));
+  const markerHits = findMojibakeMarkers(text);
   const forbiddenHits = forbiddenText.filter((fragment) => text.includes(fragment));
   const missing = page.required.filter((phrase) => !text.includes(phrase));
 
@@ -160,6 +152,10 @@ const selfContract = [
       checkerSource.includes('"隱私政策"')
   },
   {
+    check: "checker source avoids private-use mojibake literals",
+    pass: !hasPrivateUseCodePoint(checkerSource) && checkerSource.includes("findMojibakeMarkers")
+  },
+  {
     check: "aligns with localhost health paths",
     pass: checkerSource.includes("localhostStatusHealthPaths") && checkerSource.includes("localhostContentHealthChecks")
   }
@@ -204,6 +200,26 @@ function normalizeVisibleText(html) {
     .replace(/&quot;/g, '"')
     .replace(/\s+/g, " ")
     .trim();
+}
+
+function findMojibakeMarkers(text) {
+  const markers = [];
+  if (text.includes("\uFFFD")) markers.push("replacement-char");
+  if (/\?{2,}/u.test(text)) markers.push("question-mark-run");
+  if (hasPrivateUseCodePoint(text)) markers.push("private-use-code-point");
+  if (/(?:嚗|銝|蝭|憟|璅|鞈|撣|閮|瘥|摨|甈|雿|蹐|蹓){2,}/u.test(text)) {
+    markers.push("common-mojibake-run");
+  }
+  if (/嚙|稽/u.test(text)) markers.push("known-mojibake-char");
+  return markers;
+}
+
+function hasPrivateUseCodePoint(text) {
+  for (const char of text) {
+    const codePoint = char.codePointAt(0) ?? 0;
+    if (codePoint >= 0xe000 && codePoint <= 0xf8ff) return true;
+  }
+  return false;
 }
 
 function unique(values) {

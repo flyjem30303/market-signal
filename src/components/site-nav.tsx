@@ -18,7 +18,7 @@ export function SiteNav() {
   const pathname = usePathname();
 
   return (
-    <nav aria-label="主要導覽">
+    <nav aria-label="主導覽">
       {navItems.map((item) => {
         const activePath = item.activePrefix ?? item.href;
         const isActive = pathname === activePath || pathname.startsWith(`${activePath}/`);

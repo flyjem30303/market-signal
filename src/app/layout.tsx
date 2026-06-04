@@ -55,9 +55,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <footer className="site-footer">
           <div>
             <strong>台股燈號</strong>
-            <p>目前為 mock 研究體驗，用來驗證市場健康度、風險提示與閱讀流程，不構成投資建議。</p>
+            <p>這個網站目前仍是 mock 閱讀體驗，用來驗證市場健康度、風險提示與閱讀流程，不構成投資建議。</p>
             <div className="site-footer-trust" aria-label="全站資料與責任邊界">
-              <span>資料狀態：mock</span>
+              <span>資料來源：mock</span>
               <span>分數來源：模擬評分</span>
               {footerTrustLinks.map((link) => (
                 <TrackedLink
