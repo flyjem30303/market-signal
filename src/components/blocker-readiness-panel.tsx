@@ -117,6 +117,7 @@ export function BlockerReadinessPanel() {
         </article>
         <article>
           <span>Post-review / {summary.nextExecutablePacket.postReviewStatus}</span>
+          <p>Readonly decision ready: {summary.nextExecutablePacket.readyForNextReadonlyDecision ? "yes" : "no"}</p>
           <code>{summary.nextExecutablePacket.postReviewReportCommand}</code>
           <code>{summary.nextExecutablePacket.postReviewCheckCommand}</code>
         </article>

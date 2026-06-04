@@ -18,6 +18,10 @@ for (const phrase of [
   "status: \"local_terms_packet_output_ready_for_ceo_oral_review\"",
   "packetId: \"provider-specific-terms-review-packet\"",
   "scripts/report-provider-specific-terms-review-packet.mjs",
+  "scripts/report-narrow-approval-outcome-ledger.mjs",
+  "legal-source-terms-review",
+  "readyForNextReadonlyDecision",
+  "already accepted for local planning only",
   "externalTermsApproved: false",
   "providerTermsFetched: false",
   "publicDataSource: \"mock\"",
@@ -162,6 +166,22 @@ if (output) {
     blocked.push(`output.rollupItems: expected 5 items, got ${String(output.rollupItems?.length)}`);
   }
 
+  if (output.legalOutcome?.id !== "legal-source-terms-review") {
+    blocked.push(`output.legalOutcome.id: ${String(output.legalOutcome?.id)}`);
+  }
+  if (!["pending", "accepted", "rejected"].includes(output.legalOutcome?.outcome)) {
+    blocked.push(`output.legalOutcome.outcome: ${String(output.legalOutcome?.outcome)}`);
+  }
+  if (output.legalOutcome?.outcome === "accepted" && output.readyForNextReadonlyDecision !== true) {
+    blocked.push("output.readyForNextReadonlyDecision should be true when legal outcome is accepted");
+  }
+  if (output.legalOutcome?.outcome !== "accepted" && output.readyForNextReadonlyDecision !== false) {
+    blocked.push("output.readyForNextReadonlyDecision should be false until legal outcome is accepted");
+  }
+  if (!Array.isArray(output.legalOutcome?.stillDoesNotAuthorize) || output.legalOutcome.stillDoesNotAuthorize.length < 4) {
+    blocked.push("output.legalOutcome.stillDoesNotAuthorize: expected at least four blocked items");
+  }
+
   if (!Array.isArray(output.ceoDecisionOptions) || output.ceoDecisionOptions.length !== 2) {
     blocked.push("output.ceoDecisionOptions: expected accepted/rejected options");
   }
@@ -170,8 +190,11 @@ if (output) {
     blocked.push("output.notApproved: expected at least 10 blocked approvals");
   }
 
-  if (!String(output.nextRecordCommand).includes("legal-source-terms-review")) {
-    blocked.push("output.nextRecordCommand: expected legal-source-terms-review command text");
+  if (output.legalOutcome?.outcome === "accepted" && output.nextRecordCommand !== null) {
+    blocked.push("output.nextRecordCommand: expected null after legal outcome is already accepted");
+  }
+  if (output.legalOutcome?.outcome !== "accepted" && !String(output.nextRecordCommand).includes("legal-source-terms-review")) {
+    blocked.push("output.nextRecordCommand: expected legal-source-terms-review command text until accepted");
   }
 }
 
