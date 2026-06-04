@@ -20,8 +20,14 @@ for (const phrase of [
   "scripts/report-bounded-readonly-final-local-alignment.mjs",
   "scripts/report-row-coverage-readonly-preexecution-packet.mjs",
   "scripts/report-provider-specific-terms-post-review-rollup.mjs",
+  "scripts/report-row-coverage-evidence-acceptance.mjs",
+  "scripts/report-data-quality-evidence-checklist.mjs",
+  "scripts/report-source-rights-disclosure-checklist.mjs",
   "scripts/report-a1-supabase-market-evidence-handoff-candidate.mjs",
   "scripts/report-project-progress-snapshot.mjs",
+  "rowCoveragePostRunAcceptanceRules",
+  "dataQualityGate",
+  "sourceReadinessGate",
   "not_run_requires_separate_named_authorization",
   "publicDataSource=supabase",
   "scoreSource=real",
@@ -108,8 +114,8 @@ if (output) {
   if (output.dataGoalReadinessPercent !== 92) {
     blocked.push(`output.dataGoalReadinessPercent expected 92 before remote attempt, got ${String(output.dataGoalReadinessPercent)}`);
   }
-  if (!Array.isArray(output.evidenceCoverage) || output.evidenceCoverage.length !== 5) {
-    blocked.push("output.evidenceCoverage expected five evidence rows");
+  if (!Array.isArray(output.evidenceCoverage) || output.evidenceCoverage.length !== 8) {
+    blocked.push("output.evidenceCoverage expected eight evidence rows");
   }
   if (!output.evidenceCoverage?.every((item) => item.ok === true)) {
     blocked.push("output.evidenceCoverage every item must be ok");
