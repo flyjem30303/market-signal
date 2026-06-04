@@ -78,6 +78,31 @@ export function BlockerReadinessPanel() {
           <p>{summary.sourceRightsAcceptance.blockedDecisions.join("; ")}.</p>
         </article>
       </div>
+      <div className="model-credibility-acceptance-summary" aria-label="Model credibility local acceptance summary">
+        <article>
+          <span>Model credibility gate</span>
+          <strong>{summary.modelCredibilityAcceptance.status}</strong>
+          <p>{summary.modelCredibilityAcceptance.decision}</p>
+          <small>
+            accepted as: {summary.modelCredibilityAcceptance.acceptedAs} / source:{" "}
+            {summary.modelCredibilityAcceptance.publicDataSource} / score:{" "}
+            {summary.modelCredibilityAcceptance.scoreSource}
+          </small>
+        </article>
+        <article>
+          <span>Accepted local evidence</span>
+          <p>{summary.modelCredibilityAcceptance.acceptedEvidenceIds.join(", ")}</p>
+          <code>{summary.modelCredibilityAcceptance.gateDocument}</code>
+        </article>
+        <article>
+          <span>Next narrow question</span>
+          <p>{summary.modelCredibilityAcceptance.nextNarrowQuestion}</p>
+        </article>
+        <article>
+          <span>Still blocked</span>
+          <p>{summary.modelCredibilityAcceptance.blockedDecisions.join("; ")}.</p>
+        </article>
+      </div>
       <div className="blocker-fastest-path" aria-label="Fastest safe unblock path">
         {summary.accelerationPlan.fastestSafePath.map((step) => (
           <article className={step.canRunNow ? "ready" : "hold"} key={step.step}>

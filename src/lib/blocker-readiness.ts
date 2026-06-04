@@ -56,6 +56,19 @@ export type SourceRightsAcceptanceSummary = {
   status: "local_packet_accepted_external_rights_blocked";
 };
 
+export type ModelCredibilityAcceptanceSummary = {
+  acceptedAs: "local_investment_review_packet_only";
+  acceptedEvidenceIds: string[];
+  blockedDecisions: string[];
+  decision: "ACCEPT_MODEL_CREDIBILITY_AS_LOCAL_REVIEW_PACKET_ONLY";
+  gateDocument: string;
+  nextNarrowQuestion: string;
+  owner: "Investment";
+  publicDataSource: "mock";
+  scoreSource: "mock";
+  status: "local_packet_accepted_real_scoring_blocked";
+};
+
 export type BlockerReadinessSummary = {
   accelerationPlan: {
     currentBlockers: string[];
@@ -66,6 +79,7 @@ export type BlockerReadinessSummary = {
   closureGapSummary: BlockerClosureGapSummary;
   firstMove: BlockerPriorityMove & { reason: string };
   lanes: BlockerReadinessLane[];
+  modelCredibilityAcceptance: ModelCredibilityAcceptanceSummary;
   parallelMoves: BlockerPriorityMove[];
   publicDataSource: "mock";
   scoreSource: "mock";
@@ -193,6 +207,35 @@ export function getBlockerReadinessSummary(): BlockerReadinessSummary {
         weight: 25
       }
     ],
+    modelCredibilityAcceptance: {
+      acceptedAs: "local_investment_review_packet_only",
+      acceptedEvidenceIds: [
+        "INVESTMENT-MODEL-001",
+        "INVESTMENT-MODEL-002",
+        "INVESTMENT-BACKTEST-001",
+        "QA-MODEL-001",
+        "BOUNDARY-MODEL-001"
+      ],
+      blockedDecisions: [
+        "real scoring",
+        "buy/sell/hold advice",
+        "public ranking claim",
+        "model confidence claim",
+        "formula version promotion",
+        "Supabase readonly execution",
+        "SQL execution",
+        "market-data ingestion",
+        "scoreSource=real"
+      ],
+      decision: "ACCEPT_MODEL_CREDIBILITY_AS_LOCAL_REVIEW_PACKET_ONLY",
+      gateDocument: "docs/reviews/MODEL_CREDIBILITY_ACCEPTANCE_GATE_2026-06-02.md",
+      nextNarrowQuestion:
+        "Can Investment accept the score purpose, formula documentation, backtest limitation wording, and downgrade policy for local explanation only without approving real scoring?",
+      owner: "Investment",
+      publicDataSource: "mock",
+      scoreSource: "mock",
+      status: "local_packet_accepted_real_scoring_blocked"
+    },
     parallelMoves: [
       {
         command: "npm run report:model-credibility-local-review",
