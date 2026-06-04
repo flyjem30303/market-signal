@@ -94,6 +94,10 @@ const checks = [
     name: "source-rights-disclosure-acceptance-gate"
   },
   {
+    command: [node, "scripts/check-provider-specific-terms-review-packet.mjs"],
+    name: "provider-specific-terms-review-packet"
+  },
+  {
     command: [node, "scripts/check-model-credibility-checklist.mjs"],
     name: "model-credibility-checklist"
   },

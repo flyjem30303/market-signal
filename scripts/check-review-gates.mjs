@@ -1733,6 +1733,11 @@ const checks = [
     name: "source-rights-disclosure-acceptance-gate"
   },
   {
+    command: [node, "scripts/check-provider-specific-terms-review-packet.mjs"],
+    expectStatus: "ok",
+    name: "provider-specific-terms-review-packet"
+  },
+  {
     command: [node, "scripts/check-data-quality-evidence-checklist.mjs"],
     expectStatus: "ok",
     name: "data-quality-evidence-checklist"

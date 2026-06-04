@@ -212,6 +212,8 @@
     "report:source-rights-disclosure-local-review": "node scripts/report-source-rights-disclosure-local-review.mjs",
     "check:source-rights-disclosure-local-review": "node scripts/check-source-rights-disclosure-local-review.mjs",
     "check:source-rights-disclosure-acceptance-gate": "node scripts/check-source-rights-disclosure-acceptance-gate.mjs",
+    "report:provider-specific-terms-review-packet": "node scripts/report-provider-specific-terms-review-packet.mjs",
+    "check:provider-specific-terms-review-packet": "node scripts/check-provider-specific-terms-review-packet.mjs",
     "report:data-quality-evidence-checklist": "node scripts/report-data-quality-evidence-checklist.mjs",
     "check:data-quality-evidence-checklist": "node scripts/check-data-quality-evidence-checklist.mjs",
     "report:data-quality-field-validity": "node scripts/report-data-quality-field-validity.mjs",
