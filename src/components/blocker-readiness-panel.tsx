@@ -30,6 +30,30 @@ export function BlockerReadinessPanel() {
           <p>{summary.accelerationPlan.currentBlockers.slice(0, 2).join("; ")}.</p>
         </article>
       </div>
+      <div className="blocker-closure-gap-summary" aria-label="PM acceptance gap summary">
+        <article>
+          <span>PM acceptance gap</span>
+          <strong>{summary.closureGapSummary.overallState}</strong>
+          <p>{summary.closureGapSummary.summary}</p>
+          <small>
+            Next PM move: {summary.closureGapSummary.nextPmAcceptanceMove} / blocked promotion gaps:{" "}
+            {summary.closureGapSummary.blockedPromotionCount} / mock only:{" "}
+            {summary.closureGapSummary.stillMockOnly ? "yes" : "no"}
+          </small>
+        </article>
+        <article>
+          <span>A1 support</span>
+          <p>{summary.closureGapSummary.a1Support}</p>
+        </article>
+        <article>
+          <span>A2 support</span>
+          <p>{summary.closureGapSummary.a2Support}</p>
+        </article>
+        <article>
+          <span>Remaining blockers</span>
+          <p>{summary.closureGapSummary.remainingBlockers.join("; ")}.</p>
+        </article>
+      </div>
       <div className="blocker-fastest-path" aria-label="Fastest safe unblock path">
         {summary.accelerationPlan.fastestSafePath.map((step) => (
           <article className={step.canRunNow ? "ready" : "hold"} key={step.step}>

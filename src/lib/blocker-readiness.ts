@@ -31,6 +31,18 @@ export type BlockerAccelerationStep = {
   stillDoesNotAuthorize: string[];
 };
 
+export type BlockerClosureGapSummary = {
+  a1Support: string;
+  a2Support: string;
+  blockedPromotionCount: number;
+  mode: "pm_acceptance_gap_summary";
+  nextPmAcceptanceMove: BlockerReadinessLane["blockerId"];
+  overallState: "local_gap_summary_ready_remote_paused";
+  remainingBlockers: string[];
+  stillMockOnly: true;
+  summary: string;
+};
+
 export type BlockerReadinessSummary = {
   accelerationPlan: {
     currentBlockers: string[];
@@ -38,6 +50,7 @@ export type BlockerReadinessSummary = {
     recommendedWorkMix: string;
     status: "ready_for_separate_readonly_decision";
   };
+  closureGapSummary: BlockerClosureGapSummary;
   firstMove: BlockerPriorityMove & { reason: string };
   lanes: BlockerReadinessLane[];
   parallelMoves: BlockerPriorityMove[];
@@ -93,6 +106,26 @@ export function getBlockerReadinessSummary(): BlockerReadinessSummary {
       ],
       recommendedWorkMix: "readonly readiness 55 / runtime hardening 35 / blocker execution 10",
       status: "ready_for_separate_readonly_decision"
+    },
+    closureGapSummary: {
+      a1Support:
+        "A1 keeps data-quality evidence, row coverage readiness, field-validity QA, and downgrade-rule handoff warm from local-only or sanitized evidence.",
+      a2Support:
+        "A2 keeps public readability aligned on mock-only source status, source-rights limits, model credibility, and real-score stop lines.",
+      blockedPromotionCount: 5,
+      mode: "pm_acceptance_gap_summary",
+      nextPmAcceptanceMove: "source-rights-and-disclosure",
+      overallState: "local_gap_summary_ready_remote_paused",
+      remainingBlockers: [
+        "accepted readonly row coverage evidence",
+        "provider-specific source-rights approval",
+        "data-quality evidence acceptance threshold",
+        "model credibility and interpretation approval",
+        "public release wording approval for non-advisory claims"
+      ],
+      stillMockOnly: true,
+      summary:
+        "PM can keep runtime moving locally, but promotion remains blocked until Legal, Data, and Investment each close one acceptance gap."
     },
     ceoRecommendation:
       "Stop expanding governance. Keep blocker execution focused on the fastest safe path, then reopen one separately named readonly decision only if the packet remains ready.",

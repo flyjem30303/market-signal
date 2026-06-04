@@ -398,7 +398,15 @@ select {
   gap: 10px;
 }
 
+.blocker-closure-gap-summary {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: minmax(0, 1.15fr) repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
 .blocker-acceleration-strip article,
+.blocker-closure-gap-summary article,
 .blocker-fastest-path article {
   display: grid;
   align-content: start;
@@ -478,6 +486,7 @@ select {
 
 .blocker-priority-strip strong,
 .blocker-acceleration-strip strong,
+.blocker-closure-gap-summary strong,
 .blocker-fastest-path strong,
 .blocker-readiness-grid strong {
   font-size: 15px;
@@ -486,6 +495,8 @@ select {
 
 .blocker-priority-strip p,
 .blocker-acceleration-strip p,
+.blocker-closure-gap-summary p,
+.blocker-closure-gap-summary small,
 .blocker-fastest-path p,
 .blocker-fastest-path small,
 .blocker-readiness-grid p {
@@ -497,6 +508,7 @@ select {
 
 .blocker-priority-strip span,
 .blocker-acceleration-strip span,
+.blocker-closure-gap-summary span,
 .blocker-fastest-path span,
 .blocker-priority-strip code,
 .blocker-fastest-path code,
@@ -506,6 +518,7 @@ select {
 
 .blocker-priority-strip span,
 .blocker-acceleration-strip span,
+.blocker-closure-gap-summary span,
 .blocker-fastest-path span {
   color: var(--muted);
   font-size: 12px;
@@ -10497,6 +10510,7 @@ input[type="date"] {
   .source-depth-blocker-panel,
   .source-depth-blocker-grid,
   .blocker-readiness-panel,
+  .blocker-closure-gap-summary,
   .blocker-priority-strip,
   .blocker-readiness-grid,
   .narrow-approval-outcome-panel,
