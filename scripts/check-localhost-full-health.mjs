@@ -114,6 +114,10 @@ const checks = [
     name: "data-goal-execution-review-bridge"
   },
   {
+    command: [node, "scripts/check-data-goal-completion-audit.mjs"],
+    name: "data-goal-completion-audit"
+  },
+  {
     command: [node, "scripts/check-mvp-launch-prd.mjs"],
     name: "mvp-launch-prd"
   },

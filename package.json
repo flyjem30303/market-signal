@@ -145,6 +145,8 @@
     "check:data-goal-readiness": "node scripts/check-data-goal-readiness.mjs",
     "report:data-goal-execution-review-bridge": "node scripts/report-data-goal-execution-review-bridge.mjs",
     "check:data-goal-execution-review-bridge": "node scripts/check-data-goal-execution-review-bridge.mjs",
+    "report:data-goal-completion-audit": "node scripts/report-data-goal-completion-audit.mjs",
+    "check:data-goal-completion-audit": "node scripts/check-data-goal-completion-audit.mjs",
     "check:runtime-gate-decision-brief": "node scripts/check-runtime-gate-decision-brief.mjs",
     "check:runtime-decision-summary": "node scripts/check-runtime-decision-summary.mjs",
     "check:runtime-state-consistency": "node scripts/check-runtime-state-consistency.mjs",

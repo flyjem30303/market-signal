@@ -1648,6 +1648,11 @@ const checks = [
     name: "data-goal-execution-review-bridge"
   },
   {
+    command: [node, "scripts/check-data-goal-completion-audit.mjs"],
+    expectStatus: "ok",
+    name: "data-goal-completion-audit"
+  },
+  {
     command: [node, "scripts/check-row-coverage-readonly-execution-readiness-presenter.mjs"],
     expectStatus: "ok",
     name: "row-coverage-readonly-execution-readiness-presenter"
