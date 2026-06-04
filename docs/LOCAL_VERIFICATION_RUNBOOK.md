@@ -29,10 +29,11 @@ state.
 3. Run `npm run report:ceo-progress-brief` when a concise chairman-facing verbal update is needed.
 4. Run `npm run report:blocker-resolution-plan` when blocked or waiting decision nodes need an owner/action map.
 5. Run `npm run report:data-quality-evidence-checklist`, `npm run report:source-rights-disclosure-checklist`, and `npm run report:model-credibility-checklist` when the blocker owners need the concrete review inputs.
-6. Run `npm run check:review-gates`.
-7. Run `npm run build` only after review gates finish. If PowerShell blocks `npm.ps1`, run `cmd.exe /c npm run build`.
-8. Run `npm run dev:recover` after build.
-9. Run `npm run check:localhost-full-health` again after recovery.
+6. Run `npm run check:site-chrome-readability` to confirm the global navigation, footer, and mock/score disclosures are still readable.
+7. Run `npm run check:review-gates`.
+8. Run `npm run build` only after review gates finish. If PowerShell blocks `npm.ps1`, run `cmd.exe /c npm run build`.
+9. Run `npm run dev:recover` after build.
+10. Run `npm run check:localhost-full-health` again after recovery.
 
 ## Localhost Recovery
 

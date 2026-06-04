@@ -32,11 +32,13 @@ const required = [
   [runbookPath, "5. Run `npm run report:data-quality-evidence-checklist`"],
   [runbookPath, "`npm run report:source-rights-disclosure-checklist`"],
   [runbookPath, "`npm run report:model-credibility-checklist`"],
-  [runbookPath, "6. Run `npm run check:review-gates`"],
-  [runbookPath, "7. Run `npm run build`"],
+  [runbookPath, "6. Run `npm run check:site-chrome-readability`"],
+  [runbookPath, "global navigation, footer, and mock/score disclosures"],
+  [runbookPath, "7. Run `npm run check:review-gates`"],
+  [runbookPath, "8. Run `npm run build`"],
   [runbookPath, "If PowerShell blocks `npm.ps1`, run `cmd.exe /c npm run build`"],
-  [runbookPath, "8. Run `npm run dev:recover`"],
-  [runbookPath, "9. Run `npm run check:localhost-full-health`"],
+  [runbookPath, "9. Run `npm run dev:recover`"],
+  [runbookPath, "10. Run `npm run check:localhost-full-health`"],
   [runbookPath, "## Localhost Recovery"],
   [runbookPath, "connection refused"],
   [runbookPath, "does not connect to"],
@@ -91,6 +93,7 @@ const required = [
   [packagePath, "\"check:model-credibility-checklist\": \"node scripts/check-model-credibility-checklist.mjs\""],
   [packagePath, "\"check:blocker-readiness-panel\": \"node scripts/check-blocker-readiness-panel.mjs\""],
   [packagePath, "\"check:local-verification-runbook\": \"node scripts/check-local-verification-runbook.mjs\""],
+  [packagePath, "\"check:site-chrome-readability\": \"node scripts/check-site-chrome-readability.mjs\""],
   [reviewGatePath, "scripts/check-local-verification-runbook.mjs"]
 ];
 
