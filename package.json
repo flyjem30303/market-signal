@@ -143,6 +143,8 @@
     "check:bounded-readonly-final-local-alignment": "node scripts/check-bounded-readonly-final-local-alignment.mjs",
     "report:data-goal-readiness": "node scripts/report-data-goal-readiness.mjs",
     "check:data-goal-readiness": "node scripts/check-data-goal-readiness.mjs",
+    "report:data-goal-execution-review-bridge": "node scripts/report-data-goal-execution-review-bridge.mjs",
+    "check:data-goal-execution-review-bridge": "node scripts/check-data-goal-execution-review-bridge.mjs",
     "check:runtime-gate-decision-brief": "node scripts/check-runtime-gate-decision-brief.mjs",
     "check:runtime-decision-summary": "node scripts/check-runtime-decision-summary.mjs",
     "check:runtime-state-consistency": "node scripts/check-runtime-state-consistency.mjs",

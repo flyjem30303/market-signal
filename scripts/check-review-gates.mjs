@@ -1643,6 +1643,11 @@ const checks = [
     name: "data-goal-readiness"
   },
   {
+    command: [node, "scripts/check-data-goal-execution-review-bridge.mjs"],
+    expectStatus: "ok",
+    name: "data-goal-execution-review-bridge"
+  },
+  {
     command: [node, "scripts/check-row-coverage-readonly-execution-readiness-presenter.mjs"],
     expectStatus: "ok",
     name: "row-coverage-readonly-execution-readiness-presenter"

@@ -1,7 +1,7 @@
 import { spawnSync } from "node:child_process";
 import fs from "node:fs";
 
-const reportPath = "scripts/report-data-goal-readiness.mjs";
+const reportPath = "scripts/report-data-goal-execution-review-bridge.mjs";
 const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 const fullHealthPath = "scripts/check-localhost-full-health.mjs";
@@ -14,32 +14,24 @@ const missing = [];
 const blocked = [];
 
 for (const phrase of [
-  "mode: \"data_goal_readiness\"",
-  "ready_at_final_pre_remote_decision_point",
-  "dataGoalReadinessPercent",
-  "scripts/report-bounded-readonly-final-local-alignment.mjs",
-  "scripts/report-row-coverage-readonly-preexecution-packet.mjs",
-  "scripts/report-provider-specific-terms-post-review-rollup.mjs",
-  "scripts/report-row-coverage-evidence-acceptance.mjs",
-  "scripts/report-data-quality-evidence-checklist.mjs",
-  "scripts/report-source-rights-disclosure-checklist.mjs",
-  "scripts/report-data-goal-execution-review-bridge.mjs",
-  "scripts/report-a1-supabase-market-evidence-handoff-candidate.mjs",
-  "scripts/report-project-progress-snapshot.mjs",
-  "rowCoveragePostRunAcceptanceRules",
-  "dataQualityGate",
-  "sourceReadinessGate",
-  "executionReviewBridge",
-  "not_run_requires_separate_named_authorization",
+  "mode: \"data_goal_execution_review_bridge\"",
+  "ready_for_explicit_authorized_one_attempt_flow",
+  "execute exactly one bounded Supabase readonly row coverage attempt",
+  "CP3_ROW_COVERAGE_READONLY_VALIDATE",
+  "scripts/run-row-coverage-readonly-once.mjs",
+  "postRunReviewContract",
+  "sanitizedAggregateOnly",
+  "noPromotionFromAttemptAlone",
+  "postRunDecisionMap",
+  "preflight_blocked",
   "publicDataSource=supabase",
   "scoreSource=real",
-  "does not connect to Supabase"
+  "does not execute Supabase"
 ]) {
   if (!source.includes(phrase)) missing.push(`${reportPath}: ${phrase}`);
 }
 
 for (const pattern of [
-  /run-row-coverage-readonly-once/,
   /validate-supabase-readonly/,
   /@supabase\/supabase-js/,
   /createClient/,
@@ -50,8 +42,6 @@ for (const pattern of [
   /\.delete\(/,
   /\.upsert\(/,
   /process\.env\.(NEXT_PUBLIC_SUPABASE_URL|NEXT_PUBLIC_SUPABASE_ANON_KEY|SUPABASE_SERVICE_ROLE_KEY)/,
-  /publicDataSource:\s*"supabase"/,
-  /scoreSource:\s*"real"/,
   /connectionAttempted:\s*true/,
   /sqlExecuted:\s*true/,
   /supabaseWritesEnabled:\s*true/
@@ -59,20 +49,20 @@ for (const pattern of [
   if (pattern.test(source)) blocked.push(`${reportPath}: forbidden source pattern ${String(pattern)}`);
 }
 
-if (packageJson.scripts?.["report:data-goal-readiness"] !== "node scripts/report-data-goal-readiness.mjs") {
-  missing.push(`${packagePath}: report:data-goal-readiness`);
+if (packageJson.scripts?.["report:data-goal-execution-review-bridge"] !== "node scripts/report-data-goal-execution-review-bridge.mjs") {
+  missing.push(`${packagePath}: report:data-goal-execution-review-bridge`);
 }
 
-if (packageJson.scripts?.["check:data-goal-readiness"] !== "node scripts/check-data-goal-readiness.mjs") {
-  missing.push(`${packagePath}: check:data-goal-readiness`);
+if (packageJson.scripts?.["check:data-goal-execution-review-bridge"] !== "node scripts/check-data-goal-execution-review-bridge.mjs") {
+  missing.push(`${packagePath}: check:data-goal-execution-review-bridge`);
 }
 
-if (!reviewGate.includes("scripts/check-data-goal-readiness.mjs")) {
-  missing.push(`${reviewGatePath}: scripts/check-data-goal-readiness.mjs`);
+if (!reviewGate.includes("scripts/check-data-goal-execution-review-bridge.mjs")) {
+  missing.push(`${reviewGatePath}: scripts/check-data-goal-execution-review-bridge.mjs`);
 }
 
-if (!fullHealth.includes("scripts/check-data-goal-readiness.mjs")) {
-  missing.push(`${fullHealthPath}: scripts/check-data-goal-readiness.mjs`);
+if (!fullHealth.includes("scripts/check-data-goal-execution-review-bridge.mjs")) {
+  missing.push(`${fullHealthPath}: scripts/check-data-goal-execution-review-bridge.mjs`);
 }
 
 const run = spawnSync(process.execPath, [reportPath], {
@@ -111,19 +101,20 @@ if (run.status !== 0) {
 }
 
 if (output) {
-  if (output.mode !== "data_goal_readiness") blocked.push(`output.mode: ${String(output.mode)}`);
-  if (output.status !== "ready_at_final_pre_remote_decision_point") blocked.push(`output.status: ${String(output.status)}`);
-  if (output.dataGoalReadinessPercent !== 92) {
-    blocked.push(`output.dataGoalReadinessPercent expected 92 before remote attempt, got ${String(output.dataGoalReadinessPercent)}`);
+  if (output.mode !== "data_goal_execution_review_bridge") blocked.push(`output.mode: ${String(output.mode)}`);
+  if (output.status !== "ready_for_explicit_authorized_one_attempt_flow") {
+    blocked.push(`output.status: ${String(output.status)}`);
   }
-  if (!Array.isArray(output.evidenceCoverage) || output.evidenceCoverage.length !== 9) {
-    blocked.push("output.evidenceCoverage expected nine evidence rows");
+  if (output.guardedRunner?.maxAttempts !== 1) blocked.push("guardedRunner.maxAttempts must be 1");
+  if (output.postRunReviewContract?.immediate !== true) blocked.push("postRunReviewContract.immediate must be true");
+  if (output.postRunReviewContract?.sanitizedAggregateOnly !== true) {
+    blocked.push("postRunReviewContract.sanitizedAggregateOnly must be true");
   }
-  if (!output.evidenceCoverage?.every((item) => item.ok === true)) {
-    blocked.push("output.evidenceCoverage every item must be ok");
+  if (output.postRunReviewContract?.noPromotionFromAttemptAlone !== true) {
+    blocked.push("postRunReviewContract.noPromotionFromAttemptAlone must be true");
   }
-  if (!Array.isArray(output.remainingAuthorizationItems) || output.remainingAuthorizationItems.length < 5) {
-    blocked.push("output.remainingAuthorizationItems expected at least five items before remote attempt");
+  if (!Array.isArray(output.immediatePrechecksRequired) || output.immediatePrechecksRequired.length < 5) {
+    blocked.push("immediatePrechecksRequired expected at least five checks");
   }
 
   for (const flag of [

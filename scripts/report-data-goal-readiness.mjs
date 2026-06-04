@@ -8,6 +8,7 @@ const projectSnapshot = runJson("scripts/report-project-progress-snapshot.mjs");
 const rowCoverageEvidenceAcceptance = runJson("scripts/report-row-coverage-evidence-acceptance.mjs");
 const dataQualityChecklist = runJson("scripts/report-data-quality-evidence-checklist.mjs");
 const sourceRightsChecklist = runJson("scripts/report-source-rights-disclosure-checklist.mjs");
+const executionReviewBridge = runJson("scripts/report-data-goal-execution-review-bridge.mjs");
 
 const localReady =
   boundedFinalAlignment.status === "ready_for_separately_named_bounded_readonly_decision" &&
@@ -16,6 +17,7 @@ const localReady =
   rowCoverageEvidenceAcceptance.status === "accepted_for_next_decision" &&
   dataQualityChecklist.status === "local_checklist_ready_remote_evidence_missing" &&
   sourceRightsChecklist.status === "local_checklist_ready_external_rights_unverified" &&
+  executionReviewBridge.status === "ready_for_explicit_authorized_one_attempt_flow" &&
   a1Handoff.currentA1EvidenceLine?.handoffPacket === "ready_for_mainline_review_not_promotion" &&
   a1Handoff.currentA1EvidenceLine?.readonlyLocalPreflight === "ready_for_guarded_readonly_decision" &&
   a1Handoff.currentA1EvidenceLine?.readonlyDecisionPacket === "ready_for_ceo_decision" &&
@@ -52,6 +54,7 @@ const report = {
     rowCoveragePostRunAcceptanceRules: rowCoverageEvidenceAcceptance.status,
     dataQualityGate: dataQualityChecklist.status,
     sourceReadinessGate: sourceRightsChecklist.status,
+    executionReviewBridge: executionReviewBridge.status,
     a1EvidenceLine: a1Handoff.currentA1EvidenceLine,
     remoteReadonlyAttempt: remoteAttemptCompleted
       ? "detected_requires_sanitized_post_run_review"
@@ -103,6 +106,11 @@ const report = {
       ok: sourceRightsChecklist.status === "local_checklist_ready_external_rights_unverified"
     },
     {
+      id: "data-goal-execution-review-bridge",
+      status: executionReviewBridge.status,
+      ok: executionReviewBridge.status === "ready_for_explicit_authorized_one_attempt_flow"
+    },
+    {
       id: "a1-supabase-market-evidence-handoff-candidate",
       status: a1Handoff.status,
       ok:
@@ -151,6 +159,7 @@ const report = {
     "scripts/report-row-coverage-evidence-acceptance.mjs",
     "scripts/report-data-quality-evidence-checklist.mjs",
     "scripts/report-source-rights-disclosure-checklist.mjs",
+    "scripts/report-data-goal-execution-review-bridge.mjs",
     "scripts/report-a1-supabase-market-evidence-handoff-candidate.mjs",
     "scripts/report-project-progress-snapshot.mjs"
   ],
