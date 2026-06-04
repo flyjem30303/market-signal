@@ -78,6 +78,29 @@ export function BlockerReadinessPanel() {
           <p>{summary.closureRuntimeRollup.blockedPromotionDecisions.join("; ")}.</p>
         </article>
       </div>
+      <div className="next-narrow-gate-comparison" aria-label="Next narrow gate comparison">
+        <article>
+          <span>Next gate recommendation</span>
+          <strong>{summary.nextNarrowGateComparison.recommendedOption}</strong>
+          <p>{summary.nextNarrowGateComparison.ceoRecommendation}</p>
+          <small>{summary.nextNarrowGateComparison.stopLine}</small>
+        </article>
+        {summary.nextNarrowGateComparison.options.map((option) => (
+          <article className={option.status} key={option.id}>
+            <span>
+              {option.owner} / {option.id}
+            </span>
+            <strong>{option.status}</strong>
+            <p>{option.summary}</p>
+            <p>{option.blockerReduced}</p>
+            <small>
+              remote attempt: {option.requiresRemoteAttempt ? "yes" : "no"} / local now:{" "}
+              {option.canRunLocallyNow ? "yes" : "no"} / risk: {option.risk}
+            </small>
+            <code>{option.command}</code>
+          </article>
+        ))}
+      </div>
       <div className="data-quality-acceptance-summary" aria-label="Data quality local acceptance summary">
         <article>
           <span>Data quality gate</span>

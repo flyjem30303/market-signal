@@ -426,6 +426,13 @@ select {
   gap: 10px;
 }
 
+.next-narrow-gate-comparison {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: minmax(0, 1.15fr) repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
 .model-credibility-acceptance-summary {
   display: grid;
   grid-column: 1 / -1;
@@ -436,6 +443,7 @@ select {
 .blocker-acceleration-strip article,
 .blocker-closure-gap-summary article,
 .blocker-closure-runtime-rollup article,
+.next-narrow-gate-comparison article,
 .data-quality-acceptance-summary article,
 .source-rights-acceptance-summary article,
 .model-credibility-acceptance-summary article,
@@ -452,6 +460,16 @@ select {
 .blocker-acceleration-strip article.blocked {
   border-color: rgba(199, 54, 59, 0.18);
   background: #fff7f7;
+}
+
+.next-narrow-gate-comparison article.recommended_local_next {
+  border-color: rgba(20, 122, 77, 0.24);
+  background: #eff9f5;
+}
+
+.next-narrow-gate-comparison article.ready_but_requires_separate_authorization {
+  border-color: rgba(183, 121, 31, 0.26);
+  background: #fffaf0;
 }
 
 .blocker-fastest-path {
@@ -520,6 +538,7 @@ select {
 .blocker-acceleration-strip strong,
 .blocker-closure-gap-summary strong,
 .blocker-closure-runtime-rollup strong,
+.next-narrow-gate-comparison strong,
 .data-quality-acceptance-summary strong,
 .source-rights-acceptance-summary strong,
 .model-credibility-acceptance-summary strong,
@@ -535,6 +554,8 @@ select {
 .blocker-closure-gap-summary small,
 .blocker-closure-runtime-rollup p,
 .blocker-closure-runtime-rollup small,
+.next-narrow-gate-comparison p,
+.next-narrow-gate-comparison small,
 .data-quality-acceptance-summary p,
 .data-quality-acceptance-summary small,
 .source-rights-acceptance-summary p,
@@ -554,12 +575,14 @@ select {
 .blocker-acceleration-strip span,
 .blocker-closure-gap-summary span,
 .blocker-closure-runtime-rollup span,
+.next-narrow-gate-comparison span,
 .data-quality-acceptance-summary span,
 .source-rights-acceptance-summary span,
 .model-credibility-acceptance-summary span,
 .blocker-fastest-path span,
 .blocker-priority-strip code,
 .blocker-closure-runtime-rollup code,
+.next-narrow-gate-comparison code,
 .data-quality-acceptance-summary code,
 .source-rights-acceptance-summary code,
 .model-credibility-acceptance-summary code,
@@ -572,6 +595,7 @@ select {
 .blocker-acceleration-strip span,
 .blocker-closure-gap-summary span,
 .blocker-closure-runtime-rollup span,
+.next-narrow-gate-comparison span,
 .data-quality-acceptance-summary span,
 .source-rights-acceptance-summary span,
 .model-credibility-acceptance-summary span,
@@ -584,6 +608,7 @@ select {
 
 .blocker-priority-strip code,
 .blocker-closure-runtime-rollup code,
+.next-narrow-gate-comparison code,
 .data-quality-acceptance-summary code,
 .source-rights-acceptance-summary code,
 .model-credibility-acceptance-summary code,
@@ -10572,6 +10597,7 @@ input[type="date"] {
   .blocker-readiness-panel,
   .blocker-closure-gap-summary,
   .blocker-closure-runtime-rollup,
+  .next-narrow-gate-comparison,
   .data-quality-acceptance-summary,
   .source-rights-acceptance-summary,
   .model-credibility-acceptance-summary,

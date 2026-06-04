@@ -94,6 +94,27 @@ export type BlockerClosureRuntimeRollup = {
   summary: string;
 };
 
+export type NextNarrowGateOption = {
+  blockerReduced: string;
+  canRunLocallyNow: boolean;
+  command: string;
+  id: "bounded-readonly-row-coverage" | "provider-specific-terms-review";
+  owner: "Data" | "Legal";
+  requiresRemoteAttempt: boolean;
+  risk: "external_terms_uncertainty" | "remote_readonly_execution";
+  status: "recommended_local_next" | "ready_but_requires_separate_authorization";
+  summary: string;
+};
+
+export type NextNarrowGateComparison = {
+  ceoRecommendation: string;
+  mode: "next_narrow_gate_two_option_comparison";
+  options: NextNarrowGateOption[];
+  recommendedOption: "provider-specific-terms-review";
+  status: "local_comparison_ready_no_execution";
+  stopLine: string;
+};
+
 export type BlockerReadinessSummary = {
   accelerationPlan: {
     currentBlockers: string[];
@@ -107,6 +128,7 @@ export type BlockerReadinessSummary = {
   firstMove: BlockerPriorityMove & { reason: string };
   lanes: BlockerReadinessLane[];
   modelCredibilityAcceptance: ModelCredibilityAcceptanceSummary;
+  nextNarrowGateComparison: NextNarrowGateComparison;
   parallelMoves: BlockerPriorityMove[];
   publicDataSource: "mock";
   scoreSource: "mock";
@@ -304,6 +326,41 @@ export function getBlockerReadinessSummary(): BlockerReadinessSummary {
       publicDataSource: "mock",
       scoreSource: "mock",
       status: "local_packet_accepted_real_scoring_blocked"
+    },
+    nextNarrowGateComparison: {
+      ceoRecommendation:
+        "Choose provider-specific terms review as the next mainline slice. Keep bounded readonly row coverage ready, but run it only after CEO explicitly names exactly one remote attempt.",
+      mode: "next_narrow_gate_two_option_comparison",
+      options: [
+        {
+          blockerReduced: "source rights, attribution, redistribution limits, and public disclosure wording",
+          canRunLocallyNow: true,
+          command: "npm run report:source-rights-disclosure-local-review",
+          id: "provider-specific-terms-review",
+          owner: "Legal",
+          requiresRemoteAttempt: false,
+          risk: "external_terms_uncertainty",
+          status: "recommended_local_next",
+          summary:
+            "Best next slice because it narrows a real promotion blocker without connecting to Supabase, reading rows, or changing runtime source state."
+        },
+        {
+          blockerReduced: "row coverage evidence for data-quality threshold and future real-score candidacy",
+          canRunLocallyNow: false,
+          command: "npm run report:row-coverage-readonly-preexecution-packet",
+          id: "bounded-readonly-row-coverage",
+          owner: "Data",
+          requiresRemoteAttempt: true,
+          risk: "remote_readonly_execution",
+          status: "ready_but_requires_separate_authorization",
+          summary:
+            "High-value but not automatic; it needs a separately named bounded readonly attempt and immediate post-run review before any evidence can be referenced."
+        }
+      ],
+      recommendedOption: "provider-specific-terms-review",
+      status: "local_comparison_ready_no_execution",
+      stopLine:
+        "This comparison does not run Supabase, run SQL, fetch market data, approve provider terms, award row coverage points, promote publicDataSource=supabase, or set scoreSource=real."
     },
     parallelMoves: [
       {
