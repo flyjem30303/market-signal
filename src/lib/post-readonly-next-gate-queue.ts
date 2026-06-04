@@ -1,3 +1,7 @@
+import { buildDataQualityEvidenceGate } from "@/lib/data-quality-evidence-gate";
+import { getFreshnessReadonlyLatestEvidenceSummary } from "@/lib/freshness-readonly-latest-evidence";
+import { getSchemaShapeAcceptanceContract } from "@/lib/schema-shape-acceptance-contract";
+
 export type PostReadonlyNextGateItem = {
   acceptanceSignal: string;
   blockedPromotion: string;
@@ -11,6 +15,17 @@ export type PostReadonlyNextGateItem = {
 export type PostReadonlyNextGateQueue = {
   blockedActions: string[];
   currentDefaultRoute: "post_readonly_next_gate_preparation";
+  gateSummary: {
+    blockedWaitingEvidenceCount: number;
+    dataQualityProgressPercent: number;
+    dataQualityStatus: "blocked" | "candidate";
+    freshnessEvidenceState: "complete";
+    localReadyCount: number;
+    needsRoleReviewCount: number;
+    readableSummary: string;
+    schemaAcceptedCount: number;
+    schemaObjectCount: number;
+  };
   headline: string;
   items: PostReadonlyNextGateItem[];
   mode: "post_readonly_next_gate_queue";
@@ -20,6 +35,67 @@ export type PostReadonlyNextGateQueue = {
 };
 
 export function getPostReadonlyNextGateQueue(): PostReadonlyNextGateQueue {
+  const schemaShape = getSchemaShapeAcceptanceContract();
+  const freshnessEvidence = getFreshnessReadonlyLatestEvidenceSummary();
+  const dataQualityGate = buildDataQualityEvidenceGate({ freshnessState: freshnessEvidence.state });
+  const items: PostReadonlyNextGateItem[] = [
+    {
+      acceptanceSignal:
+        "readonly shape summary lists required objects and fields without row payloads or secrets",
+      blockedPromotion: "Supabase-backed public runtime",
+      id: "schema_shape",
+      nextAction:
+        "compare sanitized object reachability with the runtime field contract and record gaps locally",
+      owner: "Engineering",
+      priority: 1,
+      status: "local_ready"
+    },
+    {
+      acceptanceSignal:
+        "freshness interpretation maps latest sanitized evidence to stale/current/unknown without approving public source",
+      blockedPromotion: "freshness-based public claim",
+      id: "freshness",
+      nextAction:
+        "align data_freshness evidence, runtime copy, and fail-closed labels for stale or missing dates",
+      owner: "Data",
+      priority: 2,
+      status: "local_ready"
+    },
+    {
+      acceptanceSignal:
+        "row coverage explains observed versus expected coverage and missing-row consequence",
+      blockedPromotion: "row coverage points",
+      id: "row_coverage",
+      nextAction:
+        "keep the incomplete aggregate result visible and decide the next bounded readonly evidence question",
+      owner: "Data",
+      priority: 3,
+      status: "blocked_waiting_evidence"
+    },
+    {
+      acceptanceSignal:
+        "data quality gate defines minimum field validity, downgrade behavior, and public-claim limits",
+      blockedPromotion: "data quality score promotion",
+      id: "data_quality",
+      nextAction:
+        "connect field-validity QA, downgrade matrix, and release blocker wording into one acceptance path",
+      owner: "Data",
+      priority: 4,
+      status: "needs_role_review"
+    },
+    {
+      acceptanceSignal:
+        "source-depth artifact proves history depth, source rights boundary, and missing-date policy",
+      blockedPromotion: "scoreSource=real",
+      id: "source_depth",
+      nextAction:
+        "prepare source-depth evidence request only after schema, freshness, row coverage, and quality gaps are explicit",
+      owner: "Investment",
+      priority: 5,
+      status: "needs_role_review"
+    }
+  ];
+
   return {
     blockedActions: [
       "SQL execution",
@@ -30,65 +106,21 @@ export function getPostReadonlyNextGateQueue(): PostReadonlyNextGateQueue {
       "scoreSource=real"
     ],
     currentDefaultRoute: "post_readonly_next_gate_preparation",
+    gateSummary: {
+      blockedWaitingEvidenceCount: items.filter((item) => item.status === "blocked_waiting_evidence").length,
+      dataQualityProgressPercent: dataQualityGate.evidenceProgressPercent,
+      dataQualityStatus: dataQualityGate.status,
+      freshnessEvidenceState: freshnessEvidence.state,
+      localReadyCount: items.filter((item) => item.status === "local_ready").length,
+      needsRoleReviewCount: items.filter((item) => item.status === "needs_role_review").length,
+      readableSummary:
+        "Schema and freshness have local evidence for runtime disclosure; row coverage, data quality, and source depth still block promotion.",
+      schemaAcceptedCount: schemaShape.acceptedCount,
+      schemaObjectCount: schemaShape.objects.length
+    },
     headline:
       "Object reachability is accepted; next work is evidence quality, not real-data promotion.",
-    items: [
-      {
-        acceptanceSignal:
-          "readonly shape summary lists required objects and fields without row payloads or secrets",
-        blockedPromotion: "Supabase-backed public runtime",
-        id: "schema_shape",
-        nextAction:
-          "compare sanitized object reachability with the runtime field contract and record gaps locally",
-        owner: "Engineering",
-        priority: 1,
-        status: "local_ready"
-      },
-      {
-        acceptanceSignal:
-          "freshness interpretation maps latest sanitized evidence to stale/current/unknown without approving public source",
-        blockedPromotion: "freshness-based public claim",
-        id: "freshness",
-        nextAction:
-          "align data_freshness evidence, runtime copy, and fail-closed labels for stale or missing dates",
-        owner: "Data",
-        priority: 2,
-        status: "local_ready"
-      },
-      {
-        acceptanceSignal:
-          "row coverage explains observed versus expected coverage and missing-row consequence",
-        blockedPromotion: "row coverage points",
-        id: "row_coverage",
-        nextAction:
-          "keep the incomplete aggregate result visible and decide the next bounded readonly evidence question",
-        owner: "Data",
-        priority: 3,
-        status: "blocked_waiting_evidence"
-      },
-      {
-        acceptanceSignal:
-          "data quality gate defines minimum field validity, downgrade behavior, and public-claim limits",
-        blockedPromotion: "data quality score promotion",
-        id: "data_quality",
-        nextAction:
-          "connect field-validity QA, downgrade matrix, and release blocker wording into one acceptance path",
-        owner: "Data",
-        priority: 4,
-        status: "needs_role_review"
-      },
-      {
-        acceptanceSignal:
-          "source-depth artifact proves history depth, source rights boundary, and missing-date policy",
-        blockedPromotion: "scoreSource=real",
-        id: "source_depth",
-        nextAction:
-          "prepare source-depth evidence request only after schema, freshness, row coverage, and quality gaps are explicit",
-        owner: "Investment",
-        priority: 5,
-        status: "needs_role_review"
-      }
-    ],
+    items,
     mode: "post_readonly_next_gate_queue",
     publicDataSource: "mock",
     scoreSource: "mock",

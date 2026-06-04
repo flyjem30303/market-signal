@@ -243,6 +243,19 @@ export function RuntimeReadinessPanel() {
           <span>Next gate queue</span>
           <strong>{postReadonlyNextGateQueue.currentDefaultRoute}</strong>
           <p>{postReadonlyNextGateQueue.headline}</p>
+          <p>{postReadonlyNextGateQueue.gateSummary.readableSummary}</p>
+          <p>
+            Schema {postReadonlyNextGateQueue.gateSummary.schemaAcceptedCount}/
+            {postReadonlyNextGateQueue.gateSummary.schemaObjectCount} accepted; freshness{" "}
+            {postReadonlyNextGateQueue.gateSummary.freshnessEvidenceState}; data quality{" "}
+            {postReadonlyNextGateQueue.gateSummary.dataQualityProgressPercent}% /{" "}
+            {postReadonlyNextGateQueue.gateSummary.dataQualityStatus}.
+          </p>
+          <p>
+            Local ready {postReadonlyNextGateQueue.gateSummary.localReadyCount}; waiting evidence{" "}
+            {postReadonlyNextGateQueue.gateSummary.blockedWaitingEvidenceCount}; role review{" "}
+            {postReadonlyNextGateQueue.gateSummary.needsRoleReviewCount}.
+          </p>
           <p>{postReadonlyNextGateQueue.stopLine}</p>
         </article>
         {postReadonlyNextGateQueue.items.map((item) => (
