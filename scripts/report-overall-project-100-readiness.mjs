@@ -3,6 +3,7 @@ import { spawnSync } from "node:child_process";
 const progress = runJson("scripts/report-project-progress-snapshot.mjs");
 const dataGoal = runJson("scripts/report-data-goal-readiness.mjs");
 const completionAudit = runJson("scripts/report-data-goal-completion-audit.mjs");
+const investmentReadiness = runJson("scripts/report-investment-credibility-mvp-readiness.mjs");
 
 const laneMap = new Map((progress.project?.lanes ?? []).map((lane) => [lane.label, lane]));
 const dataLane = laneMap.get("Data freshness and quality evidence");
@@ -67,12 +68,15 @@ const readinessLanes = [
   },
   {
     id: "investment-credibility-evidence",
-    current: investmentLane?.current ?? 0,
-    targetForMvpReview: 80,
-    owner: "Investment",
-    status: "largest_non_data_gap",
-    nextAction:
-      "Raise model credibility evidence with interpretation limits, downgrade policy, backtest/disclaimer boundaries, and non-advisory wording."
+      current: investmentLane?.current ?? 0,
+      targetForMvpReview: 80,
+      owner: "Investment",
+      status:
+        investmentReadiness.status === "local_investment_review_ready_not_real_scoring"
+          ? "local_review_ready_still_below_target"
+          : "largest_non_data_gap",
+      nextAction:
+        "Raise model credibility evidence with interpretation limits, downgrade policy, backtest/disclaimer boundaries, and non-advisory wording."
   },
   {
     id: "ceo-execution-focus",
@@ -107,9 +111,9 @@ const report = {
   currentTopGaps: [
     {
       id: "investment-credibility-evidence",
-      current: investmentLane?.current ?? 0,
+      current: investmentReadiness.readinessPercent ?? investmentLane?.current ?? 0,
       targetForMvpReview: 80,
-      reason: "Real-score or professional indicator credibility cannot be claimed from roadmap intent alone.",
+      reason: "Local review evidence exists, but real-score or professional indicator credibility cannot be claimed without stronger model/backtest and public-claim evidence.",
       nextAction: "Run and integrate model credibility local review / acceptance evidence before any real-score candidacy."
     },
     {
@@ -165,7 +169,8 @@ const report = {
   sourceReports: [
     "scripts/report-project-progress-snapshot.mjs",
     "scripts/report-data-goal-readiness.mjs",
-    "scripts/report-data-goal-completion-audit.mjs"
+    "scripts/report-data-goal-completion-audit.mjs",
+    "scripts/report-investment-credibility-mvp-readiness.mjs"
   ],
   stopLine:
     "This overall readiness report does not connect to Supabase, run SQL, write data, fetch market data, print secrets, promote publicDataSource=supabase, or set scoreSource=real."

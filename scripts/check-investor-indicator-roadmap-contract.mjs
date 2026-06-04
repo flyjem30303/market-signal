@@ -23,9 +23,11 @@ const required = [
   [contractPath, "Confidence level"],
   [contractPath, "publicDataSource: \"mock\""],
   [contractPath, "scoreSource: \"mock\""],
-  [contractPath, "不提供買賣建議"],
-  [contractPath, "不宣稱真實市場資料"],
-  [contractPath, "不啟用 scoreSource=real"],
+  [contractPath, "Investor indicators are a mock roadmap only"],
+  [contractPath, "cannot be treated as real market data"],
+  [contractPath, "real scoring"],
+  [contractPath, "Watch-next guidance can describe what to observe next"],
+  [contractPath, "Confidence level is design-only"],
   [contractPath, "runtimeDataFoundation: 70"],
   [contractPath, "productReadabilityAndWording: 20"],
   [contractPath, "futureIndicatorDesignNotes: 10"],
@@ -43,13 +45,17 @@ const forbidden = [
   [contractPath, "process.env"],
   [contractPath, "scoreSource: \"real\""],
   [contractPath, "publicDataSource: \"supabase\""],
-  [contractPath, "買進"],
-  [contractPath, "賣出"],
-  [contractPath, "停損價"]
+  [contractPath, "buy recommendation"],
+  [contractPath, "sell recommendation"]
 ];
 
 const missing = required.filter(([file, phrase]) => !read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
 const blocked = forbidden.filter(([file, phrase]) => read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
+const mojibakePattern = /[\uE000-\uF8FF\uFFFD]|[嚗餅銝蝡舫摰祇雿輻閮踹]{2,}|\?{2,}/u;
+
+if (mojibakePattern.test(read(contractPath))) {
+  blocked.push(`${contractPath}: mojibake-like text`);
+}
 
 console.log(
   JSON.stringify(

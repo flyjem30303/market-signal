@@ -26,7 +26,7 @@ const required = [
   [componentPath, "等待真實資料"],
   [contractPath, "publicDataSource: \"mock\""],
   [contractPath, "scoreSource: \"mock\""],
-  [contractPath, "不提供買賣建議"],
+  [contractPath, "Investor indicators are a mock roadmap only"],
   [cssPath, ".stock-investor-indicator-roadmap"],
   [cssPath, ".indicator-roadmap-grid"],
   [cssPath, ".indicator-roadmap-grid article.mock-readable"],
@@ -50,6 +50,12 @@ const forbidden = [
 
 const missing = required.filter(([file, phrase]) => !read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
 const blocked = forbidden.filter(([file, phrase]) => read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
+const focusedStockSection = sectionBetween(read(componentPath), "stock-investor-indicator-roadmap", "</section>");
+const mojibakePattern = /[\uE000-\uF8FF\uFFFD]|[嚗餅銝蝡舫摰祇雿輻閮踹]{2,}|\?{2,}/u;
+
+if (mojibakePattern.test(focusedStockSection)) {
+  blocked.push(`${componentPath}: stock investor indicator roadmap contains mojibake-like text`);
+}
 
 console.log(
   JSON.stringify(
@@ -69,4 +75,11 @@ if (missing.length > 0 || blocked.length > 0) {
 
 function read(file) {
   return files.get(file) ?? "";
+}
+
+function sectionBetween(text, startNeedle, endNeedle) {
+  const start = text.indexOf(startNeedle);
+  if (start < 0) return "";
+  const end = text.indexOf(endNeedle, start);
+  return end < 0 ? text.slice(start) : text.slice(start, end + endNeedle.length);
 }

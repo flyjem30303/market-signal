@@ -2063,6 +2063,11 @@ const checks = [
     name: "model-credibility-acceptance-gate"
   },
   {
+    command: [node, "scripts/check-investment-credibility-mvp-readiness.mjs"],
+    expectStatus: "ok",
+    name: "investment-credibility-mvp-readiness"
+  },
+  {
     command: [node, "scripts/check-blocker-readiness-panel.mjs"],
     expectStatus: "ok",
     name: "blocker-readiness-panel"

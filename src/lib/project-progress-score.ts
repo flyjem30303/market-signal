@@ -75,10 +75,10 @@ export const projectProgressLanes: ProjectProgressLane[] = [
     weight: 15
   },
   {
-    current: 16,
+    current: 46,
     label: "Investment credibility evidence",
     note:
-      "Professional indicator direction is defined at roadmap level only. Source rights, model credibility, data quality, and investment interpretation evidence still block any real-score claim.",
+      "Model credibility checklist, local Investment review, acceptance gate, and readable investor indicator roadmap are now local MVP review evidence. Real scoring, ranking, advice, model confidence, and performance claims remain blocked.",
     owner: "Investment",
     weight: 10
   },

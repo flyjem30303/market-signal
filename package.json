@@ -295,6 +295,8 @@
     "report:model-credibility-local-review": "node scripts/report-model-credibility-local-review.mjs",
     "check:model-credibility-local-review": "node scripts/check-model-credibility-local-review.mjs",
     "check:model-credibility-acceptance-gate": "node scripts/check-model-credibility-acceptance-gate.mjs",
+    "report:investment-credibility-mvp-readiness": "node scripts/report-investment-credibility-mvp-readiness.mjs",
+    "check:investment-credibility-mvp-readiness": "node scripts/check-investment-credibility-mvp-readiness.mjs",
     "check:blocker-readiness-panel": "node scripts/check-blocker-readiness-panel.mjs",
     "check:runtime-readiness-panel": "node scripts/check-runtime-readiness-panel.mjs",
     "check:runtime-readiness-language-quality": "node scripts/check-runtime-readiness-language-quality.mjs",

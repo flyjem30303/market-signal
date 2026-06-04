@@ -211,9 +211,9 @@ const snapshot = {
     {
       id: "model-credibility",
       owner: "Investment",
-      readiness: "not_ready",
-      status: "blocked",
-      nextAction: "Review model behavior, backtest limits, downgrade rules, and interpretation policy before real-score candidacy."
+      readiness: "local_review_ready_not_real_scoring",
+      status: "local_evidence_ready_real_score_blocked",
+      nextAction: "Use local model credibility evidence for MVP review only; real-score candidacy still needs stronger backtest, downgrade, source-rights, and data-quality evidence."
     }
   ],
   ceoDecision: {

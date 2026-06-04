@@ -138,6 +138,10 @@ const checks = [
     name: "model-credibility-acceptance-gate"
   },
   {
+    command: [node, "scripts/check-investment-credibility-mvp-readiness.mjs"],
+    name: "investment-credibility-mvp-readiness"
+  },
+  {
     command: [node, "scripts/check-blocker-readiness-panel.mjs"],
     name: "blocker-readiness-panel"
   },

@@ -139,7 +139,7 @@ if (run.status !== 0) {
     "connectionAttempted=false",
     "supabaseWritesEnabled=false",
     "Waiting nodes:",
-    "Blocked nodes: data-quality-evidence, source-rights-and-disclosure, model-credibility",
+    "Blocked nodes: data-quality-evidence, source-rights-and-disclosure",
     "Cadence adjustment: Keep mandatory gates, but consolidate future work into larger product-visible slices"
   ]) {
     if (!run.stdout.includes(phrase)) {
