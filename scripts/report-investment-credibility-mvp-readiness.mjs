@@ -36,6 +36,12 @@ const checks = [
     command: "scripts/check-investment-credibility-evidence-upgrade.mjs",
     evidence:
       "non-advisory outcome, backtest method limits, stock/briefing action copy, source rights, and data readiness are aligned"
+  },
+  {
+    id: "investment-formula-downgrade-readiness",
+    command: "scripts/check-investment-formula-downgrade-readiness.mjs",
+    evidence:
+      "formula version posture and fail-closed downgrade policy are locally ready without approving real scoring"
   }
 ];
 
@@ -61,7 +67,7 @@ const report = {
     ? "local_investment_review_ready_not_real_scoring"
     : "blocked_needs_investment_evidence_repair",
   generatedAt: new Date().toISOString(),
-  readinessPercent: allOk ? 58 : 16,
+  readinessPercent: allOk ? 68 : 16,
   targetForMvpReview: 80,
   owner: "Investment",
   ceoVerdict:
@@ -76,7 +82,8 @@ const report = {
     "local interpretation downgrade policy checklist",
     "readable investor indicator roadmap",
     "home and stock roadmap panels with mock boundary",
-    "investment evidence upgrade tying non-advisory, backtest-limit, source-rights, and data-readiness evidence together"
+    "investment evidence upgrade tying non-advisory, backtest-limit, source-rights, and data-readiness evidence together",
+    "formula version and downgrade policy readiness without public score approval"
   ],
   notApproved: [
     "real scoring",
@@ -87,8 +94,7 @@ const report = {
     "publicDataSource=supabase"
   ],
   nextGapsTo80: [
-    "approved formula version documentation",
-    "explicit downgrade policy wired into public interpretation copy",
+    "public formula version and downgrade copy placement without implying real scoring",
     "source-depth and row-coverage evidence accepted for each promoted indicator family",
     "public claim wording accepted jointly by Legal and Investment"
   ],

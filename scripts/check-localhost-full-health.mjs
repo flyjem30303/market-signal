@@ -150,6 +150,10 @@ const checks = [
     name: "investment-credibility-evidence-upgrade"
   },
   {
+    command: [node, "scripts/check-investment-formula-downgrade-readiness.mjs"],
+    name: "investment-formula-downgrade-readiness"
+  },
+  {
     command: [node, "scripts/check-blocker-readiness-panel.mjs"],
     name: "blocker-readiness-panel"
   },

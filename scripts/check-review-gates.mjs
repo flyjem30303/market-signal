@@ -2078,6 +2078,11 @@ const checks = [
     name: "investment-credibility-evidence-upgrade"
   },
   {
+    command: [node, "scripts/check-investment-formula-downgrade-readiness.mjs"],
+    expectStatus: "ok",
+    name: "investment-formula-downgrade-readiness"
+  },
+  {
     command: [node, "scripts/check-blocker-readiness-panel.mjs"],
     expectStatus: "ok",
     name: "blocker-readiness-panel"

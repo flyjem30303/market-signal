@@ -113,8 +113,8 @@ if (run.status !== 0) {
 if (output) {
   if (output.mode !== "overall_project_100_readiness") blocked.push(`output.mode: ${String(output.mode)}`);
   if (output.status !== "mvp_100_readiness_in_progress") blocked.push(`output.status: ${String(output.status)}`);
-  if (output.currentOverallPercent !== 79) {
-    blocked.push(`output.currentOverallPercent expected 79, got ${String(output.currentOverallPercent)}`);
+  if (output.currentOverallPercent !== 80) {
+    blocked.push(`output.currentOverallPercent expected 80, got ${String(output.currentOverallPercent)}`);
   }
   if (output.targetOverallPercent !== 100) {
     blocked.push(`output.targetOverallPercent: ${String(output.targetOverallPercent)}`);
@@ -132,8 +132,8 @@ if (output) {
   }
 
   const investmentGap = (output.currentTopGaps ?? []).find((gap) => gap.id === "investment-credibility-evidence");
-  if (investmentGap?.current !== 58) {
-    blocked.push(`output.currentTopGaps.investment-credibility-evidence current expected 58, got ${String(investmentGap?.current)}`);
+  if (investmentGap?.current !== 68) {
+    blocked.push(`output.currentTopGaps.investment-credibility-evidence current expected 68, got ${String(investmentGap?.current)}`);
   }
 
   const sourceRightsGap = (output.currentTopGaps ?? []).find((gap) => gap.id === "source-rights-disclosure");

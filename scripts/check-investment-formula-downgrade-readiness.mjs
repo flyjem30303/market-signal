@@ -1,7 +1,7 @@
 import { spawnSync } from "node:child_process";
 import fs from "node:fs";
 
-const reportPath = "scripts/report-investment-credibility-mvp-readiness.mjs";
+const reportPath = "scripts/report-investment-formula-downgrade-readiness.mjs";
 const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 const fullHealthPath = "scripts/check-localhost-full-health.mjs";
@@ -14,22 +14,21 @@ const missing = [];
 const blocked = [];
 
 for (const phrase of [
-  "mode: \"investment_credibility_mvp_readiness\"",
-  "local_investment_review_ready_not_real_scoring",
-  "readinessPercent: allOk ? 68 : 16",
+  "mode: \"investment_formula_downgrade_readiness\"",
+  "local_formula_downgrade_ready_not_real_scoring",
+  "readinessLift: allOk ? 10 : 0",
+  "upgradedReadinessPercent: allOk ? 68 : 58",
   "targetForMvpReview: 80",
   "scripts/check-model-credibility-checklist.mjs",
   "scripts/check-model-credibility-local-review.mjs",
   "scripts/check-model-credibility-acceptance-gate.mjs",
-  "scripts/check-investor-indicator-roadmap-contract.mjs",
-  "scripts/check-home-investor-indicator-roadmap-panel.mjs",
-  "scripts/check-stock-investor-indicator-roadmap-panel.mjs",
+  "scripts/check-data-quality-downgrade-state.mjs",
+  "scripts/check-data-quality-score-contract.mjs",
   "scripts/check-investment-credibility-evidence-upgrade.mjs",
-  "scripts/check-investment-formula-downgrade-readiness.mjs",
-  "investment evidence upgrade tying non-advisory",
-  "formula version and downgrade policy readiness",
-  "Investment credibility has moved beyond roadmap intent",
-  "not approved for real scoring",
+  "local_documented_not_promoted",
+  "local_fail_closed_policy_ready",
+  "formula version mismatch",
+  "row coverage incomplete",
   "scoreSource=real",
   "publicDataSource=supabase",
   "does not run SQL"
@@ -52,32 +51,33 @@ for (const pattern of [
   /supabaseWritesEnabled:\s*true/,
   /publicDataSource:\s*"supabase"/,
   /scoreSource:\s*"real"/,
-  /readinessPercent:\s*100/,
-  /targetForMvpReview:\s*100/
+  /upgradedReadinessPercent:\s*100/,
+  /publicVersionClaimApproved:\s*true/,
+  /canUseForPublicScore:\s*true/
 ]) {
   if (pattern.test(source)) blocked.push(`${reportPath}: forbidden source pattern ${String(pattern)}`);
 }
 
 if (
-  packageJson.scripts?.["report:investment-credibility-mvp-readiness"] !==
-  "node scripts/report-investment-credibility-mvp-readiness.mjs"
+  packageJson.scripts?.["report:investment-formula-downgrade-readiness"] !==
+  "node scripts/report-investment-formula-downgrade-readiness.mjs"
 ) {
-  missing.push(`${packagePath}: report:investment-credibility-mvp-readiness`);
+  missing.push(`${packagePath}: report:investment-formula-downgrade-readiness`);
 }
 
 if (
-  packageJson.scripts?.["check:investment-credibility-mvp-readiness"] !==
-  "node scripts/check-investment-credibility-mvp-readiness.mjs"
+  packageJson.scripts?.["check:investment-formula-downgrade-readiness"] !==
+  "node scripts/check-investment-formula-downgrade-readiness.mjs"
 ) {
-  missing.push(`${packagePath}: check:investment-credibility-mvp-readiness`);
+  missing.push(`${packagePath}: check:investment-formula-downgrade-readiness`);
 }
 
-if (!reviewGate.includes("scripts/check-investment-credibility-mvp-readiness.mjs")) {
-  missing.push(`${reviewGatePath}: scripts/check-investment-credibility-mvp-readiness.mjs`);
+if (!reviewGate.includes("scripts/check-investment-formula-downgrade-readiness.mjs")) {
+  missing.push(`${reviewGatePath}: scripts/check-investment-formula-downgrade-readiness.mjs`);
 }
 
-if (!fullHealth.includes("scripts/check-investment-credibility-mvp-readiness.mjs")) {
-  missing.push(`${fullHealthPath}: scripts/check-investment-credibility-mvp-readiness.mjs`);
+if (!fullHealth.includes("scripts/check-investment-formula-downgrade-readiness.mjs")) {
+  missing.push(`${fullHealthPath}: scripts/check-investment-formula-downgrade-readiness.mjs`);
 }
 
 const run = spawnSync(process.execPath, [reportPath], {
@@ -102,6 +102,7 @@ if (run.status !== 0) {
     /\browPayload\b/i,
     /\bselect\s+\*\s+from\b/i,
     /\binsert\s+into\b/i,
+    /\bupdate\s+[a-z_]+\s+set\b/i,
     /\bdelete\s+from\b/i
   ]) {
     if (pattern.test(run.stdout)) blocked.push(`${reportPath}: forbidden output pattern ${String(pattern)}`);
@@ -115,18 +116,22 @@ if (run.status !== 0) {
 }
 
 if (output) {
-  if (output.mode !== "investment_credibility_mvp_readiness") blocked.push(`output.mode: ${String(output.mode)}`);
-  if (output.status !== "local_investment_review_ready_not_real_scoring") {
+  if (output.mode !== "investment_formula_downgrade_readiness") blocked.push(`output.mode: ${String(output.mode)}`);
+  if (output.status !== "local_formula_downgrade_ready_not_real_scoring") {
     blocked.push(`output.status: ${String(output.status)}`);
   }
-  if (output.readinessPercent !== 68) {
-    blocked.push(`output.readinessPercent expected 68, got ${String(output.readinessPercent)}`);
+  if (output.readinessLift !== 10) blocked.push(`output.readinessLift: ${String(output.readinessLift)}`);
+  if (output.upgradedReadinessPercent !== 68) {
+    blocked.push(`output.upgradedReadinessPercent expected 68, got ${String(output.upgradedReadinessPercent)}`);
   }
-  if (output.targetForMvpReview !== 80) {
-    blocked.push(`output.targetForMvpReview: ${String(output.targetForMvpReview)}`);
+  if (output.formulaVersionPosture?.publicVersionClaimApproved !== false) {
+    blocked.push(`output.formulaVersionPosture.publicVersionClaimApproved: ${String(output.formulaVersionPosture?.publicVersionClaimApproved)}`);
   }
-  if (!Array.isArray(output.evidence) || output.evidence.length !== 8 || !output.evidence.every((item) => item.ok === true)) {
-    blocked.push("output.evidence expected eight passing evidence items");
+  if (output.downgradePolicyPosture?.canUseForPublicScore !== false) {
+    blocked.push(`output.downgradePolicyPosture.canUseForPublicScore: ${String(output.downgradePolicyPosture?.canUseForPublicScore)}`);
+  }
+  if (!Array.isArray(output.evidence) || output.evidence.length !== 6 || !output.evidence.every((item) => item.ok === true)) {
+    blocked.push("output.evidence expected six passing evidence items");
   }
   for (const flag of [
     "automatedRemoteRun",
