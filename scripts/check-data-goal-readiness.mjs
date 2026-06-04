@@ -16,6 +16,7 @@ const blocked = [];
 for (const phrase of [
   "mode: \"data_goal_readiness\"",
   "ready_at_final_pre_remote_decision_point",
+  "bounded_readonly_attempt_reviewed_aggregate_incomplete",
   "dataGoalReadinessPercent",
   "scripts/report-bounded-readonly-final-local-alignment.mjs",
   "scripts/report-row-coverage-readonly-preexecution-packet.mjs",
@@ -24,12 +25,15 @@ for (const phrase of [
   "scripts/report-data-quality-evidence-checklist.mjs",
   "scripts/report-source-rights-disclosure-checklist.mjs",
   "scripts/report-data-goal-execution-review-bridge.mjs",
+  "scripts/check-row-coverage-bounded-readonly-attempt-post-run-review.mjs",
   "scripts/report-a1-supabase-market-evidence-handoff-candidate.mjs",
   "scripts/report-project-progress-snapshot.mjs",
   "rowCoveragePostRunAcceptanceRules",
   "dataQualityGate",
   "sourceReadinessGate",
   "executionReviewBridge",
+  "boundedReadonlyPostRunReview",
+  "completed_with_sanitized_aggregate_incomplete_review",
   "not_run_requires_separate_named_authorization",
   "publicDataSource=supabase",
   "scoreSource=real",
@@ -112,18 +116,20 @@ if (run.status !== 0) {
 
 if (output) {
   if (output.mode !== "data_goal_readiness") blocked.push(`output.mode: ${String(output.mode)}`);
-  if (output.status !== "ready_at_final_pre_remote_decision_point") blocked.push(`output.status: ${String(output.status)}`);
-  if (output.dataGoalReadinessPercent !== 92) {
-    blocked.push(`output.dataGoalReadinessPercent expected 92 before remote attempt, got ${String(output.dataGoalReadinessPercent)}`);
+  if (output.status !== "bounded_readonly_attempt_reviewed_aggregate_incomplete") {
+    blocked.push(`output.status: ${String(output.status)}`);
   }
-  if (!Array.isArray(output.evidenceCoverage) || output.evidenceCoverage.length !== 9) {
-    blocked.push("output.evidenceCoverage expected nine evidence rows");
+  if (output.dataGoalReadinessPercent !== 96) {
+    blocked.push(`output.dataGoalReadinessPercent expected 96 after accepted bounded readonly review, got ${String(output.dataGoalReadinessPercent)}`);
+  }
+  if (!Array.isArray(output.evidenceCoverage) || output.evidenceCoverage.length !== 10) {
+    blocked.push("output.evidenceCoverage expected ten evidence rows");
   }
   if (!output.evidenceCoverage?.every((item) => item.ok === true)) {
     blocked.push("output.evidenceCoverage every item must be ok");
   }
-  if (!Array.isArray(output.remainingAuthorizationItems) || output.remainingAuthorizationItems.length < 5) {
-    blocked.push("output.remainingAuthorizationItems expected at least five items before remote attempt");
+  if (!Array.isArray(output.remainingAuthorizationItems) || output.remainingAuthorizationItems.length < 3) {
+    blocked.push("output.remainingAuthorizationItems expected at least three items after bounded readonly review");
   }
 
   for (const flag of [

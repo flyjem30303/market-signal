@@ -15,11 +15,13 @@ const blocked = [];
 
 for (const phrase of [
   "mode: \"data_goal_completion_audit\"",
-  "audit_passed_not_100_until_authorized_attempt",
+  "audit_passed_not_100_until_coverage_route_complete",
   "currentDataGoalReadinessPercent",
-  "all_nine_evidence_rows_ok",
-  "pending_authorization",
-  "execute exactly one bounded Supabase readonly row coverage attempt",
+  "all_ten_evidence_rows_ok",
+  "proved_with_blocked_coverage",
+  "completed_with_sanitized_aggregate_incomplete_review",
+  "sanitized-post-run-review",
+  "aggregate row coverage is incomplete",
   "sanitized post-run review",
   "publicDataSource=supabase",
   "scoreSource=real",
@@ -100,17 +102,17 @@ if (run.status !== 0) {
 
 if (output) {
   if (output.mode !== "data_goal_completion_audit") blocked.push(`output.mode: ${String(output.mode)}`);
-  if (output.status !== "audit_passed_not_100_until_authorized_attempt") {
+  if (output.status !== "audit_passed_not_100_until_coverage_route_complete") {
     blocked.push(`output.status: ${String(output.status)}`);
   }
-  if (output.currentDataGoalReadinessPercent !== 92) {
-    blocked.push(`currentDataGoalReadinessPercent expected 92, got ${String(output.currentDataGoalReadinessPercent)}`);
+  if (output.currentDataGoalReadinessPercent !== 96) {
+    blocked.push(`currentDataGoalReadinessPercent expected 96, got ${String(output.currentDataGoalReadinessPercent)}`);
   }
-  if (!Array.isArray(output.requirements) || output.requirements.length !== 7) {
-    blocked.push("requirements expected seven rows");
+  if (!Array.isArray(output.requirements) || output.requirements.length !== 8) {
+    blocked.push("requirements expected eight rows");
   }
-  if (!output.requirements?.some((row) => row.result === "pending_authorization")) {
-    blocked.push("requirements must include pending_authorization");
+  if (!output.requirements?.some((row) => row.result === "proved_with_blocked_coverage")) {
+    blocked.push("requirements must include proved_with_blocked_coverage");
   }
   if (!Array.isArray(output.completionBlockers) || output.completionBlockers.length < 4) {
     blocked.push("completionBlockers expected at least four items");

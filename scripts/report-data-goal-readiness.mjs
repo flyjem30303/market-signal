@@ -9,6 +9,7 @@ const rowCoverageEvidenceAcceptance = runJson("scripts/report-row-coverage-evide
 const dataQualityChecklist = runJson("scripts/report-data-quality-evidence-checklist.mjs");
 const sourceRightsChecklist = runJson("scripts/report-source-rights-disclosure-checklist.mjs");
 const executionReviewBridge = runJson("scripts/report-data-goal-execution-review-bridge.mjs");
+const boundedReadonlyPostRunReview = runJson("scripts/check-row-coverage-bounded-readonly-attempt-post-run-review.mjs");
 
 const localReady =
   boundedFinalAlignment.status === "ready_for_separately_named_bounded_readonly_decision" &&
@@ -18,6 +19,7 @@ const localReady =
   dataQualityChecklist.status === "local_checklist_ready_remote_evidence_missing" &&
   sourceRightsChecklist.status === "local_checklist_ready_external_rights_unverified" &&
   executionReviewBridge.status === "ready_for_explicit_authorized_one_attempt_flow" &&
+  boundedReadonlyPostRunReview.status === "ok" &&
   a1Handoff.currentA1EvidenceLine?.handoffPacket === "ready_for_mainline_review_not_promotion" &&
   a1Handoff.currentA1EvidenceLine?.readonlyLocalPreflight === "ready_for_guarded_readonly_decision" &&
   a1Handoff.currentA1EvidenceLine?.readonlyDecisionPacket === "ready_for_ceo_decision" &&
@@ -25,26 +27,28 @@ const localReady =
   projectSnapshot.safety?.publicDataSource === "mock" &&
   projectSnapshot.safety?.scoreSource === "mock";
 
-const remoteAttemptCompleted =
-  boundedFinalAlignment.safety?.connectionAttempted === true ||
-  projectSnapshot.safety?.connectionAttempted === true;
+const remoteAttemptCompleted = boundedReadonlyPostRunReview.status === "ok";
 
-const dataGoalReadinessPercent = localReady ? (remoteAttemptCompleted ? 100 : 92) : 78;
+const dataGoalReadinessPercent = localReady ? (remoteAttemptCompleted ? 96 : 92) : 78;
 
 const report = {
   mode: "data_goal_readiness",
   status: localReady
     ? remoteAttemptCompleted
-      ? "data_goal_remote_readonly_review_required"
+      ? "bounded_readonly_attempt_reviewed_aggregate_incomplete"
       : "ready_at_final_pre_remote_decision_point"
     : "blocked_needs_local_repair",
   generatedAt: new Date().toISOString(),
   dataGoalReadinessPercent,
   ceoSummary: localReady
-    ? "Data/Supabase/Market Evidence is locally aligned for the final pre-remote decision point. Data-side 100% now depends on a separately named exactly-one bounded readonly attempt or a chairman decision to stop at pre-execution readiness."
+    ? remoteAttemptCompleted
+      ? "Data/Supabase/Market Evidence has passed local readiness and has one accepted bounded Supabase readonly post-run review. The remote path worked, but aggregate row coverage is incomplete, so data-side 100% now depends on a coverage/backfill route instead of another generic readonly attempt."
+      : "Data/Supabase/Market Evidence is locally aligned for the final pre-remote decision point. Data-side 100% now depends on a separately named exactly-one bounded readonly attempt or a chairman decision to stop at pre-execution readiness."
     : "Data-side readiness is not locally aligned; repair the failed local packets before discussing remote Supabase readonly execution.",
   pmNextShortestPath: localReady
-    ? "If the chairman explicitly authorizes the named action, run exactly one bounded Supabase readonly attempt after immediate prechecks, then record sanitized post-run review. Otherwise keep publicDataSource and scoreSource mock and continue runtime work."
+    ? remoteAttemptCompleted
+      ? "Do not rerun the generic bounded readonly attempt. Use the accepted aggregate-incomplete evidence to choose a data coverage route: source-specific backfill design, controlled ingestion design, or keep mock runtime while coverage remains incomplete."
+      : "If the chairman explicitly authorizes the named action, run exactly one bounded Supabase readonly attempt after immediate prechecks, then record sanitized post-run review. Otherwise keep publicDataSource and scoreSource mock and continue runtime work."
     : "Run this report's source checkers, repair failed local evidence, and rerun data-goal readiness.",
   completionDefinition: {
     dataSupabaseMarketEvidenceLine: localReady ? "local_final_pre_remote_decision_ready" : "not_ready",
@@ -55,17 +59,19 @@ const report = {
     dataQualityGate: dataQualityChecklist.status,
     sourceReadinessGate: sourceRightsChecklist.status,
     executionReviewBridge: executionReviewBridge.status,
+    boundedReadonlyPostRunReview: boundedReadonlyPostRunReview.status,
     a1EvidenceLine: a1Handoff.currentA1EvidenceLine,
     remoteReadonlyAttempt: remoteAttemptCompleted
-      ? "detected_requires_sanitized_post_run_review"
+      ? "completed_with_sanitized_aggregate_incomplete_review"
       : "not_run_requires_separate_named_authorization",
     publicDataSource: "mock",
     scoreSource: "mock"
   },
   remainingAuthorizationItems: remoteAttemptCompleted
     ? [
-        "Review sanitized post-run result before any data-quality lift.",
-        "Keep runtime promotion blocked until separate promotion gates pass."
+        "Choose the data coverage route before any data-quality lift.",
+        "Keep runtime promotion blocked until row coverage, source rights, QA, and promotion gates pass.",
+        "Do not rerun the generic readonly attempt without a new one-attempt decision gate and a changed diagnostic purpose."
       ]
     : [
         "Separately name exactly one bounded Supabase readonly row coverage attempt.",
@@ -109,6 +115,11 @@ const report = {
       id: "data-goal-execution-review-bridge",
       status: executionReviewBridge.status,
       ok: executionReviewBridge.status === "ready_for_explicit_authorized_one_attempt_flow"
+    },
+    {
+      id: "row-coverage-bounded-readonly-attempt-post-run-review",
+      status: boundedReadonlyPostRunReview.status,
+      ok: boundedReadonlyPostRunReview.status === "ok"
     },
     {
       id: "a1-supabase-market-evidence-handoff-candidate",
@@ -160,6 +171,7 @@ const report = {
     "scripts/report-data-quality-evidence-checklist.mjs",
     "scripts/report-source-rights-disclosure-checklist.mjs",
     "scripts/report-data-goal-execution-review-bridge.mjs",
+    "scripts/check-row-coverage-bounded-readonly-attempt-post-run-review.mjs",
     "scripts/report-a1-supabase-market-evidence-handoff-candidate.mjs",
     "scripts/report-project-progress-snapshot.mjs"
   ],

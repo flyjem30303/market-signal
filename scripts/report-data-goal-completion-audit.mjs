@@ -3,25 +3,29 @@ import { spawnSync } from "node:child_process";
 const readiness = runJson("scripts/report-data-goal-readiness.mjs");
 const executionBridge = runJson("scripts/report-data-goal-execution-review-bridge.mjs");
 const boundedAlignment = runJson("scripts/report-bounded-readonly-final-local-alignment.mjs");
+const boundedReadonlyPostRunReview = runJson("scripts/check-row-coverage-bounded-readonly-attempt-post-run-review.mjs");
 
 const evidenceRowsOk = Array.isArray(readiness.evidenceCoverage) && readiness.evidenceCoverage.every((row) => row.ok === true);
 const mockBoundaryOk = readiness.safety?.publicDataSource === "mock" && readiness.safety?.scoreSource === "mock";
 const noRemoteAttempt = readiness.safety?.connectionAttempted === false;
 const finalPreRemoteReady =
-  readiness.status === "ready_at_final_pre_remote_decision_point" &&
-  readiness.dataGoalReadinessPercent === 92 &&
+  readiness.status === "bounded_readonly_attempt_reviewed_aggregate_incomplete" &&
+  readiness.dataGoalReadinessPercent === 96 &&
   evidenceRowsOk &&
   executionBridge.status === "ready_for_explicit_authorized_one_attempt_flow" &&
   boundedAlignment.status === "ready_for_separately_named_bounded_readonly_decision" &&
+  boundedReadonlyPostRunReview.status === "ok" &&
   mockBoundaryOk;
 
 const audit = {
   mode: "data_goal_completion_audit",
-  status: finalPreRemoteReady ? "audit_passed_not_100_until_authorized_attempt" : "audit_blocked_needs_local_repair",
+  status: finalPreRemoteReady
+    ? "audit_passed_not_100_until_coverage_route_complete"
+    : "audit_blocked_needs_local_repair",
   generatedAt: new Date().toISOString(),
   currentDataGoalReadinessPercent: readiness.dataGoalReadinessPercent,
   goalCompletionClaim: finalPreRemoteReady
-    ? "Not complete at 100 because exactly one bounded Supabase readonly attempt has not been explicitly authorized or executed."
+    ? "Not complete at 100 because exactly one bounded Supabase readonly attempt is already reviewed, but aggregate row coverage is incomplete."
     : "Not complete because local readiness evidence does not yet prove the final pre-remote decision point.",
   requirements: [
     {
@@ -49,7 +53,7 @@ const audit = {
       id: "a1-evidence-line",
       requirement: "A1 evidence, row coverage, source readiness, data quality, and mock/real boundary are explicit.",
       evidence: "scripts/report-data-goal-readiness.mjs evidenceCoverage",
-      status: evidenceRowsOk ? "all_nine_evidence_rows_ok" : "evidence_rows_incomplete",
+      status: evidenceRowsOk ? "all_ten_evidence_rows_ok" : "evidence_rows_incomplete",
       result: evidenceRowsOk ? "proved" : "not_proved"
     },
     {
@@ -57,7 +61,18 @@ const audit = {
       requirement: "Exactly one bounded Supabase readonly attempt is completed if explicitly authorized.",
       evidence: "scripts/report-data-goal-readiness.mjs completionDefinition.remoteReadonlyAttempt",
       status: readiness.completionDefinition?.remoteReadonlyAttempt,
-      result: readiness.completionDefinition?.remoteReadonlyAttempt === "not_run_requires_separate_named_authorization" ? "pending_authorization" : "requires_review"
+      result:
+        readiness.completionDefinition?.remoteReadonlyAttempt ===
+        "completed_with_sanitized_aggregate_incomplete_review"
+          ? "proved_with_blocked_coverage"
+          : "pending_authorization"
+    },
+    {
+      id: "sanitized-post-run-review",
+      requirement: "Bounded readonly sanitized post-run review is recorded and accepted without promotion.",
+      evidence: "scripts/check-row-coverage-bounded-readonly-attempt-post-run-review.mjs",
+      status: boundedReadonlyPostRunReview.status,
+      result: boundedReadonlyPostRunReview.status === "ok" ? "proved" : "not_proved"
     },
     {
       id: "public-source-boundary",
@@ -76,14 +91,14 @@ const audit = {
   ],
   completionBlockers: finalPreRemoteReady
     ? [
-        "Need explicit one-time authorization to execute exactly one bounded Supabase readonly row coverage attempt.",
-        "Need sanitized post-run review from that attempt before 100% can be claimed.",
-        "Need data-quality interpretation after sanitized post-run result.",
+        "Need a data coverage route because the accepted readonly result is aggregate_count_incomplete.",
+        "Need row coverage to reach the configured 360-row target before data-quality lift.",
+        "Need source-rights and data-quality interpretation after coverage is complete.",
         "Need separate later gate before any publicDataSource=supabase or scoreSource=real promotion."
       ]
     : ["Repair local data-goal readiness evidence before asking for remote authorization."],
   nextShortestPath: finalPreRemoteReady
-    ? "Chairman says: execute exactly one bounded Supabase readonly row coverage attempt. PM then runs immediate prechecks, one guarded runner, sanitized post-run review, and updates this audit."
+    ? "Do not rerun the generic readonly attempt. PM should prepare the data coverage route: source-specific backfill design, controlled ingestion design, or a new diagnostic one-attempt gate only if the diagnostic purpose changes."
     : "Repair failed local evidence rows, rerun data-goal readiness, then rerun completion audit.",
   safety: {
     automatedRemoteRun: false,
