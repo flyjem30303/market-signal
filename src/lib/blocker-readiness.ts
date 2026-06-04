@@ -115,6 +115,16 @@ export type NextNarrowGateComparison = {
   stopLine: string;
 };
 
+export type NextExecutablePacket = {
+  checkCommand: string;
+  id: "provider-specific-terms-review-packet";
+  owner: "Legal";
+  reportCommand: string;
+  status: "ready_for_local_review_no_terms_approval";
+  stopLine: string;
+  summary: string;
+};
+
 export type BlockerReadinessSummary = {
   accelerationPlan: {
     currentBlockers: string[];
@@ -128,6 +138,7 @@ export type BlockerReadinessSummary = {
   firstMove: BlockerPriorityMove & { reason: string };
   lanes: BlockerReadinessLane[];
   modelCredibilityAcceptance: ModelCredibilityAcceptanceSummary;
+  nextExecutablePacket: NextExecutablePacket;
   nextNarrowGateComparison: NextNarrowGateComparison;
   parallelMoves: BlockerPriorityMove[];
   publicDataSource: "mock";
@@ -326,6 +337,17 @@ export function getBlockerReadinessSummary(): BlockerReadinessSummary {
       publicDataSource: "mock",
       scoreSource: "mock",
       status: "local_packet_accepted_real_scoring_blocked"
+    },
+    nextExecutablePacket: {
+      checkCommand: "npm run check:provider-specific-terms-review-packet",
+      id: "provider-specific-terms-review-packet",
+      owner: "Legal",
+      reportCommand: "npm run report:provider-specific-terms-review-packet",
+      status: "ready_for_local_review_no_terms_approval",
+      stopLine:
+        "Running this packet does not fetch provider terms, approve source rights, connect to Supabase, run SQL, ingest market data, award row coverage points, or set scoreSource=real.",
+      summary:
+        "Use this as the next PM/CEO local review entry point for provider-specific terms classification before any remote row coverage attempt."
     },
     nextNarrowGateComparison: {
       ceoRecommendation:

@@ -101,6 +101,21 @@ export function BlockerReadinessPanel() {
           </article>
         ))}
       </div>
+      <div className="next-executable-packet" aria-label="Next executable local packet">
+        <article>
+          <span>Next executable packet</span>
+          <strong>{summary.nextExecutablePacket.id}</strong>
+          <p>{summary.nextExecutablePacket.summary}</p>
+          <small>{summary.nextExecutablePacket.stopLine}</small>
+        </article>
+        <article>
+          <span>
+            {summary.nextExecutablePacket.owner} / {summary.nextExecutablePacket.status}
+          </span>
+          <code>{summary.nextExecutablePacket.reportCommand}</code>
+          <code>{summary.nextExecutablePacket.checkCommand}</code>
+        </article>
+      </div>
       <div className="data-quality-acceptance-summary" aria-label="Data quality local acceptance summary">
         <article>
           <span>Data quality gate</span>
