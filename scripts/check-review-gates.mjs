@@ -2978,6 +2978,11 @@ const checks = [
     name: "runtime-schema-promotion-readiness"
   },
   {
+    command: [node, "scripts/check-mock-signal-reading-flow-readiness.mjs"],
+    expectStatus: "ok",
+    name: "mock-signal-reading-flow-readiness"
+  },
+  {
     command: [node, "scripts/check-runtime-readonly-decision-card.mjs"],
     expectStatus: "ok",
     name: "runtime-readonly-decision-card"

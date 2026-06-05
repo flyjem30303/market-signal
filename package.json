@@ -155,6 +155,8 @@
     "check:runtime-fail-closed": "node scripts/check-runtime-fail-closed.mjs",
     "report:runtime-schema-promotion-readiness": "node scripts/report-runtime-schema-promotion-readiness.mjs",
     "check:runtime-schema-promotion-readiness": "node scripts/check-runtime-schema-promotion-readiness.mjs",
+    "report:mock-signal-reading-flow-readiness": "node scripts/report-mock-signal-reading-flow-readiness.mjs",
+    "check:mock-signal-reading-flow-readiness": "node scripts/check-mock-signal-reading-flow-readiness.mjs",
     "check:runtime-readonly-decision-card": "node scripts/check-runtime-readonly-decision-card.mjs",
     "check:post-readonly-runtime-state": "node scripts/check-post-readonly-runtime-state.mjs",
     "check:post-readonly-next-gate-queue": "node scripts/check-post-readonly-next-gate-queue.mjs",

@@ -15,7 +15,7 @@ const topSection = status.split(/\n## (?!Readable Current Status)/u)[0] ?? "";
 
 const requiredTopPhrases = [
   "Readable Current Status - 2026-06-04",
-  "PM progress score: 87%",
+  "PM progress score: 88%",
   "Latest investment-credibility slice",
   "Latest investment evidence upgrade",
   "Investment credibility moved from 46% to 58%",
@@ -88,6 +88,10 @@ const requiredTopPhrases = [
   "Supabase schema / repository readiness moved from 90% to 95%",
   "overall project progress moved from 86% to 87%",
   "runtime/schema promotion readiness gate",
+  "Latest mock signal reading flow readiness slice",
+  "Mock signal reading flow moved from 86% to 95%",
+  "overall project progress moved from 87% to 88%",
+  "mock-only, non-advisory, and readable for MVP review",
   "ten evidence rows",
   "bounded_readonly_attempt_reviewed_aggregate_incomplete",
   "Latest CEO decision posture",

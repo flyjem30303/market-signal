@@ -34,6 +34,10 @@ const checks = [
     name: "runtime-schema-promotion-readiness"
   },
   {
+    command: [node, "scripts/check-mock-signal-reading-flow-readiness.mjs"],
+    name: "mock-signal-reading-flow-readiness"
+  },
+  {
     command: [node, "scripts/check-ceo-progress-brief.mjs"],
     name: "ceo-progress-brief"
   },

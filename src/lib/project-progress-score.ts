@@ -43,10 +43,10 @@ export const projectProgressLanes: ProjectProgressLane[] = [
     weight: 15
   },
   {
-    current: 86,
+    current: 95,
     label: "Mock signal reading flow",
     note:
-      "Mock runtime signals, ETF/equity placeholders, product summary cards, risk-reading flows, and legal/weekly/briefing boundaries are coherent enough for product testing, with action summaries and next-step links kept readable, non-advisory, and non-real-data.",
+      "Mock runtime signals, ETF/equity placeholders, product summary cards, risk-reading flows, legal/weekly/briefing boundaries, first-screen decision aids, investor action summaries, public claim limits, and source-rights copy are consolidated into mock signal reading flow readiness for MVP review. The flow is readable, non-advisory, and non-real-data; real scoring, rankings, recommendations, performance claims, publicDataSource=supabase, and scoreSource=real remain blocked.",
     owner: "PM",
     weight: 15
   },
