@@ -37,6 +37,7 @@ for (const phrase of [
   "Investment credibility has reached MVP review target",
   "data-coverage-route",
   "source-rights-disclosure",
+  "post-MVP source promotion",
   "Do not spend the next high-value slice on visual polish",
   "no-write data coverage/quality route closure",
   "source-specific acceptance packets",
@@ -146,8 +147,8 @@ if (output) {
   }
 
   const sourceRightsGap = (output.currentTopGaps ?? []).find((gap) => gap.id === "source-rights-disclosure");
-  if (sourceRightsGap?.current !== 92) {
-    blocked.push(`output.currentTopGaps.source-rights-disclosure current expected 92, got ${String(sourceRightsGap?.current)}`);
+  if (sourceRightsGap?.current !== 96) {
+    blocked.push(`output.currentTopGaps.source-rights-disclosure current expected 96, got ${String(sourceRightsGap?.current)}`);
   }
 
   if (output.completionDefinition?.dataCoverageRoute !== "route_defined_from_accepted_bounded_readonly_evidence") {

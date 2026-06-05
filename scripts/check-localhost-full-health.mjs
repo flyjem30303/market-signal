@@ -134,6 +134,10 @@ const checks = [
     name: "source-rights-public-copy-acceptance-readiness"
   },
   {
+    command: [node, "scripts/check-source-rights-mvp-deferral-decision-readiness.mjs"],
+    name: "source-rights-mvp-deferral-decision-readiness"
+  },
+  {
     command: [node, "scripts/check-source-rights-specific-classification-readiness.mjs"],
     name: "source-rights-specific-classification-readiness"
   },

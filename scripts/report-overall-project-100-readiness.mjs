@@ -133,8 +133,8 @@ const report = {
       id: "source-rights-disclosure",
       current: sourceRightsReadiness.readinessPercent ?? progress.project?.blockerClosureReadiness?.closurePercent ?? 0,
       targetForMvpReview: 100,
-      reason: "Local source-rights review exists, but external provider terms, redistribution, public-source claims, and source-specific public copy remain unapproved.",
-      nextAction: "Connect source-specific terms classification and attribution placement to the data coverage route before any source promotion."
+      reason: "Mock MVP launch deferral is locally decision-ready, but external provider terms, redistribution, public-source claims, and source promotion remain unapproved.",
+      nextAction: "Keep post-MVP source promotion separate while Legal/Product/Investment review provider-specific terms and final public source copy."
     }
   ],
   completionDefinition: {

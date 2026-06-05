@@ -1,7 +1,7 @@
 import { spawnSync } from "node:child_process";
 import fs from "node:fs";
 
-const reportPath = "scripts/report-source-rights-mvp-readiness.mjs";
+const reportPath = "scripts/report-source-rights-mvp-deferral-decision-readiness.mjs";
 const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 const fullHealthPath = "scripts/check-localhost-full-health.mjs";
@@ -14,30 +14,25 @@ const missing = [];
 const blocked = [];
 
 for (const phrase of [
-  "mode: \"source_rights_mvp_readiness\"",
-  "local_source_rights_review_ready_external_rights_unapproved",
-  "readinessPercent: allOk ? 96 : 50",
+  "mode: \"source_rights_mvp_deferral_decision_readiness\"",
+  "mock_mvp_launch_deferral_ready_source_promotion_blocked",
+  "readinessLift: allOk ? 4 : 0",
+  "upgradedReadinessPercent: allOk ? 96 : 92",
   "targetForMvpReview: 100",
-  "scripts/check-source-rights-disclosure-checklist.mjs",
-  "scripts/check-source-rights-disclosure-local-review.mjs",
-  "scripts/check-source-rights-disclosure-acceptance-gate.mjs",
-  "scripts/check-provider-specific-terms-review-packet.mjs",
-  "scripts/check-provider-specific-terms-post-review-rollup.mjs",
-  "scripts/check-narrow-approval-outcome-ledger.mjs",
   "scripts/check-source-rights-public-placement-readiness.mjs",
-  "scripts/check-source-rights-specific-classification-readiness.mjs",
   "scripts/check-source-rights-public-copy-acceptance-readiness.mjs",
-  "scripts/check-source-rights-mvp-deferral-decision-readiness.mjs",
-  "public placement map is ready",
-  "source-specific classification readiness is locally mapped",
-  "public copy acceptance map is locally ready",
-  "mock MVP launch deferral decision is ready",
-  "External provider terms are not approved",
-  "not externally approved",
+  "scripts/check-source-rights-specific-classification-readiness.mjs",
+  "scripts/check-mvp-launch-prd.mjs",
+  "scripts/check-stock-investor-action-summary.mjs",
+  "mvp-launch-copy",
+  "source-promotion",
+  "redistribution-retention",
+  "investment-public-claims",
+  "accepted_for_mock_mvp_review",
+  "deferred_to_separate_gate",
   "publicDataSource=supabase",
   "scoreSource=real",
-  "does not connect to Supabase",
-  "does not run SQL"
+  "does not connect to Supabase"
 ]) {
   if (!source.includes(phrase)) missing.push(`${reportPath}: ${phrase}`);
 }
@@ -53,29 +48,37 @@ for (const pattern of [
   /\.upsert\(/,
   /process\.env\.(NEXT_PUBLIC_SUPABASE_URL|NEXT_PUBLIC_SUPABASE_ANON_KEY|SUPABASE_SERVICE_ROLE_KEY)/,
   /connectionAttempted:\s*true/,
+  /externalRightsVerified:\s*true/,
+  /externalTermsApproved:\s*true/,
   /sqlExecuted:\s*true/,
   /supabaseWritesEnabled:\s*true/,
   /publicDataSource:\s*"supabase"/,
   /scoreSource:\s*"real"/,
-  /readinessPercent:\s*100/
+  /upgradedReadinessPercent:\s*100/
 ]) {
   if (pattern.test(source)) blocked.push(`${reportPath}: forbidden source pattern ${String(pattern)}`);
 }
 
-if (packageJson.scripts?.["report:source-rights-mvp-readiness"] !== "node scripts/report-source-rights-mvp-readiness.mjs") {
-  missing.push(`${packagePath}: report:source-rights-mvp-readiness`);
+if (
+  packageJson.scripts?.["report:source-rights-mvp-deferral-decision-readiness"] !==
+  "node scripts/report-source-rights-mvp-deferral-decision-readiness.mjs"
+) {
+  missing.push(`${packagePath}: report:source-rights-mvp-deferral-decision-readiness`);
 }
 
-if (packageJson.scripts?.["check:source-rights-mvp-readiness"] !== "node scripts/check-source-rights-mvp-readiness.mjs") {
-  missing.push(`${packagePath}: check:source-rights-mvp-readiness`);
+if (
+  packageJson.scripts?.["check:source-rights-mvp-deferral-decision-readiness"] !==
+  "node scripts/check-source-rights-mvp-deferral-decision-readiness.mjs"
+) {
+  missing.push(`${packagePath}: check:source-rights-mvp-deferral-decision-readiness`);
 }
 
-if (!reviewGate.includes("scripts/check-source-rights-mvp-readiness.mjs")) {
-  missing.push(`${reviewGatePath}: scripts/check-source-rights-mvp-readiness.mjs`);
+if (!reviewGate.includes("scripts/check-source-rights-mvp-deferral-decision-readiness.mjs")) {
+  missing.push(`${reviewGatePath}: scripts/check-source-rights-mvp-deferral-decision-readiness.mjs`);
 }
 
-if (!fullHealth.includes("scripts/check-source-rights-mvp-readiness.mjs")) {
-  missing.push(`${fullHealthPath}: scripts/check-source-rights-mvp-readiness.mjs`);
+if (!fullHealth.includes("scripts/check-source-rights-mvp-deferral-decision-readiness.mjs")) {
+  missing.push(`${fullHealthPath}: scripts/check-source-rights-mvp-deferral-decision-readiness.mjs`);
 }
 
 const run = spawnSync(process.execPath, [reportPath], {
@@ -114,18 +117,19 @@ if (run.status !== 0) {
 }
 
 if (output) {
-  if (output.mode !== "source_rights_mvp_readiness") blocked.push(`output.mode: ${String(output.mode)}`);
-  if (output.status !== "local_source_rights_review_ready_external_rights_unapproved") {
+  if (output.mode !== "source_rights_mvp_deferral_decision_readiness") blocked.push(`output.mode: ${String(output.mode)}`);
+  if (output.status !== "mock_mvp_launch_deferral_ready_source_promotion_blocked") {
     blocked.push(`output.status: ${String(output.status)}`);
   }
-  if (output.readinessPercent !== 96) {
-    blocked.push(`output.readinessPercent expected 96, got ${String(output.readinessPercent)}`);
+  if (output.readinessLift !== 4) blocked.push(`output.readinessLift: ${String(output.readinessLift)}`);
+  if (output.upgradedReadinessPercent !== 96) {
+    blocked.push(`output.upgradedReadinessPercent expected 96, got ${String(output.upgradedReadinessPercent)}`);
   }
-  if (output.targetForMvpReview !== 100) {
-    blocked.push(`output.targetForMvpReview: ${String(output.targetForMvpReview)}`);
+  if (!Array.isArray(output.evidence) || output.evidence.length !== 5 || !output.evidence.every((item) => item.ok === true)) {
+    blocked.push("output.evidence expected five passing evidence items");
   }
-  if (!Array.isArray(output.evidence) || output.evidence.length !== 10 || !output.evidence.every((item) => item.ok === true)) {
-    blocked.push("output.evidence expected ten passing evidence items");
+  if (!Array.isArray(output.deferralDecisionMap) || output.deferralDecisionMap.length !== 4) {
+    blocked.push("output.deferralDecisionMap expected four entries");
   }
   for (const flag of [
     "automatedRemoteRun",

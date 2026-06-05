@@ -233,6 +233,8 @@
     "check:source-rights-public-placement-readiness": "node scripts/check-source-rights-public-placement-readiness.mjs",
     "report:source-rights-public-copy-acceptance-readiness": "node scripts/report-source-rights-public-copy-acceptance-readiness.mjs",
     "check:source-rights-public-copy-acceptance-readiness": "node scripts/check-source-rights-public-copy-acceptance-readiness.mjs",
+    "report:source-rights-mvp-deferral-decision-readiness": "node scripts/report-source-rights-mvp-deferral-decision-readiness.mjs",
+    "check:source-rights-mvp-deferral-decision-readiness": "node scripts/check-source-rights-mvp-deferral-decision-readiness.mjs",
     "report:source-rights-specific-classification-readiness": "node scripts/report-source-rights-specific-classification-readiness.mjs",
     "check:source-rights-specific-classification-readiness": "node scripts/check-source-rights-specific-classification-readiness.mjs",
     "report:data-quality-evidence-checklist": "node scripts/report-data-quality-evidence-checklist.mjs",
