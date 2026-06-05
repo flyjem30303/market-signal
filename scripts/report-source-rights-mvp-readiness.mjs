@@ -48,6 +48,12 @@ const evidenceChecks = [
     owner: "Legal",
     command: "scripts/check-source-rights-specific-classification-readiness.mjs",
     proves: "TWII, ETF, provider terms, data coverage, public placement, and investment claim source-rights blockers are locally classified"
+  },
+  {
+    id: "source-rights-public-copy-acceptance-readiness",
+    owner: "Legal",
+    command: "scripts/check-source-rights-public-copy-acceptance-readiness.mjs",
+    proves: "public copy acceptance map is ready for attribution, redistribution, runtime boundary, and non-advisory claim review"
   }
 ];
 
@@ -75,7 +81,7 @@ const report = {
     : "local_source_rights_review_incomplete",
   owner: "Legal",
   recommendedBy: "CEO",
-  readinessPercent: allOk ? 88 : 50,
+  readinessPercent: allOk ? 92 : 50,
   targetForMvpReview: 100,
   mvpMeaning:
     "Source-rights work is locally organized for MVP review, but external provider terms, redistribution rights, public source claims, and runtime promotion are not approved.",
@@ -88,7 +94,8 @@ const report = {
     "provider-specific terms rollup is aligned to CEO oral review",
     "approval outcome ledger can record accepted or rejected results without runtime promotion",
     "public placement map is ready for attribution, delay/outage, redistribution, and claim review",
-    "source-specific classification readiness is locally mapped for TWII, ETF, data coverage, and public claims"
+    "source-specific classification readiness is locally mapped for TWII, ETF, data coverage, and public claims",
+    "public copy acceptance map is locally ready without approving external provider terms or source promotion"
   ],
   notApproved: [
     "External provider terms are not approved",

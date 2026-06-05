@@ -146,8 +146,8 @@ if (output) {
   }
 
   const sourceRightsGap = (output.currentTopGaps ?? []).find((gap) => gap.id === "source-rights-disclosure");
-  if (sourceRightsGap?.current !== 88) {
-    blocked.push(`output.currentTopGaps.source-rights-disclosure current expected 88, got ${String(sourceRightsGap?.current)}`);
+  if (sourceRightsGap?.current !== 92) {
+    blocked.push(`output.currentTopGaps.source-rights-disclosure current expected 92, got ${String(sourceRightsGap?.current)}`);
   }
 
   if (output.completionDefinition?.dataCoverageRoute !== "route_defined_from_accepted_bounded_readonly_evidence") {

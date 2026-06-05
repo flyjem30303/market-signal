@@ -130,6 +130,10 @@ const checks = [
     name: "source-rights-public-placement-readiness"
   },
   {
+    command: [node, "scripts/check-source-rights-public-copy-acceptance-readiness.mjs"],
+    name: "source-rights-public-copy-acceptance-readiness"
+  },
+  {
     command: [node, "scripts/check-source-rights-specific-classification-readiness.mjs"],
     name: "source-rights-specific-classification-readiness"
   },
