@@ -15,7 +15,7 @@ const topSection = status.split(/\n## (?!Readable Current Status)/u)[0] ?? "";
 
 const requiredTopPhrases = [
   "Readable Current Status - 2026-06-04",
-  "PM progress score: 88%",
+  "PM progress score: 89%",
   "Latest investment-credibility slice",
   "Latest investment evidence upgrade",
   "Investment credibility moved from 46% to 58%",
@@ -92,6 +92,10 @@ const requiredTopPhrases = [
   "Mock signal reading flow moved from 86% to 95%",
   "overall project progress moved from 87% to 88%",
   "mock-only, non-advisory, and readable for MVP review",
+  "Latest mock MVP product surface readiness slice",
+  "Mock MVP product surface moved from 88% to 95%",
+  "overall project progress moved from 88% to 89%",
+  "cross-route product-surface review gate",
   "ten evidence rows",
   "bounded_readonly_attempt_reviewed_aggregate_incomplete",
   "Latest CEO decision posture",

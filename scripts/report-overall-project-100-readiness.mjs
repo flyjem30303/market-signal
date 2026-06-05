@@ -8,8 +8,10 @@ const investmentReadiness = runJson("scripts/report-investment-credibility-mvp-r
 const sourceRightsReadiness = runJson("scripts/report-source-rights-mvp-readiness.mjs");
 const runtimeSchemaReadiness = runJson("scripts/report-runtime-schema-promotion-readiness.mjs");
 const mockSignalReadiness = runJson("scripts/report-mock-signal-reading-flow-readiness.mjs");
+const productSurfaceReadiness = runJson("scripts/report-mock-mvp-product-surface-readiness.mjs");
 
 const laneMap = new Map((progress.project?.lanes ?? []).map((lane) => [lane.label, lane]));
+const productSurfaceLane = laneMap.get("Mock MVP product surface");
 const dataLane = laneMap.get("Data freshness and quality evidence");
 const investmentLane = laneMap.get("Investment credibility evidence");
 const runtimeGuardLane = laneMap.get("Runtime state guard");
@@ -32,11 +34,11 @@ const promotionBoundariesOk =
 const readinessLanes = [
   {
     id: "mock-mvp-product-surface",
-    current: laneMap.get("Mock MVP product surface")?.current ?? 0,
+    current: productSurfaceReadiness.upgradedMockMvpProductSurfacePercent ?? productSurfaceLane?.current ?? 0,
     targetForMvpReview: 95,
     owner: "PM",
-    status: laneStatus(laneMap.get("Mock MVP product surface")?.current ?? 0, 95),
-    nextAction: "Keep only launch-blocking readability fixes; defer broad F/UI polish until foundation gates stabilize."
+    status: laneStatus(productSurfaceReadiness.upgradedMockMvpProductSurfacePercent ?? productSurfaceLane?.current ?? 0, 95),
+    nextAction: "Keep the mock MVP product surface stable while DevOps closure and CEO execution focus finish."
   },
   {
     id: "mock-signal-reading-flow",
@@ -113,25 +115,19 @@ const report = {
   targetOverallPercent: 100,
   dataReadinessPercent,
   ceoVerdict:
-    "Investment credibility has reached MVP review target; data freshness/quality, source-rights, runtime guard, schema/repository readiness, and mock signal reading flow have reached MVP review targets as local-only evidence. Do not spend the next high-value slice on broad visual polish; the shortest route to 100% is mock product surface closure, DevOps health hardening, and CEO execution focus while keeping runtime, health, and mock boundaries stable.",
+    "Investment credibility has reached MVP review target; data freshness/quality, source-rights, runtime guard, schema/repository readiness, mock signal reading flow, and mock MVP product surface have reached MVP review targets as local-only evidence. Do not spend the next high-value slice on broad visual polish; the shortest route to 100% is DevOps health hardening, CEO execution focus, and final completion audit while keeping runtime, health, and mock boundaries stable.",
   pmNextShortestPath:
-    "Execute a larger local-only product-surface readiness slice: keep runtime/schema promotion readiness and mock signal reading flow closed for mock MVP review, preserve data execution-readiness, source-specific acceptance packets, data-coverage-route, source-rights-disclosure, mock-MVP launch review closed, post-MVP source promotion, post-MVP data coverage promotion, and future data coverage promotion as closed/deferred context, then move into mock MVP product surface and DevOps health closure without SQL, writes, raw data, or real-source promotion.",
+    "Execute a larger local-only DevOps and final-readiness slice: keep runtime/schema promotion readiness, mock signal reading flow, and mock MVP product surface closed for mock MVP review, preserve data execution-readiness, source-specific acceptance packets, data-coverage-route, source-rights-disclosure, mock-MVP launch review closed, post-MVP source promotion, post-MVP data coverage promotion, and future data coverage promotion as closed/deferred context, then close DevOps health and CEO execution focus without SQL, writes, raw data, or real-source promotion.",
   closedFoundationContext: [
     "data-coverage-route remains route_defined_from_accepted_bounded_readonly_evidence",
     "source-rights-disclosure is mock-MVP launch review closed while post-MVP source promotion remains deferred",
     "post-MVP data coverage promotion remains deferred behind future data coverage promotion gates",
     "data execution-readiness and source-specific acceptance packets remain local-only evidence",
-    "mock signal reading flow is non-advisory mock-only MVP review ready"
+    "mock signal reading flow is non-advisory mock-only MVP review ready",
+    "mock MVP product surface is cross-route mock-only MVP review ready"
   ],
   readinessLanes,
   currentTopGaps: [
-    {
-      id: "mock-mvp-product-surface",
-      current: laneMap.get("Mock MVP product surface")?.current ?? 0,
-      targetForMvpReview: 95,
-      reason: "Product surface is usable but still below MVP review target because final mock-only first-screen and cross-route review closure remains incomplete.",
-      nextAction: "Close launch-blocking product-surface readability and route-state issues; defer broad F/UI polish."
-    },
     {
       id: "devops-health-recovery",
       current: devopsLane?.current ?? 0,
@@ -145,6 +141,13 @@ const report = {
       targetForMvpReview: 90,
       reason: "Execution focus is improved but still below MVP review target because the next few slices must stay large and avoid governance churn.",
       nextAction: "Keep CEO/PM sequencing on product-surface and DevOps closure; defer broad UI polish and remote promotion."
+    },
+    {
+      id: "final-mvp-100-completion-audit",
+      current: currentOverallPercent,
+      targetForMvpReview: 100,
+      reason: "Most MVP review lanes are now at target, but the project still needs final DevOps closure, CEO execution focus closure, and a requirement-by-requirement completion audit before claiming 100%.",
+      nextAction: "Run a final local-only completion audit only after DevOps health and CEO execution focus reach their MVP targets."
     }
   ],
   completionDefinition: {
@@ -186,6 +189,7 @@ const report = {
     "scripts/report-project-progress-snapshot.mjs",
     "scripts/report-runtime-schema-promotion-readiness.mjs",
     "scripts/report-mock-signal-reading-flow-readiness.mjs",
+    "scripts/report-mock-mvp-product-surface-readiness.mjs",
     "scripts/report-data-goal-readiness.mjs",
     "scripts/report-data-freshness-quality-mvp-readiness.mjs",
     "scripts/report-data-coverage-quality-route-readiness.mjs",

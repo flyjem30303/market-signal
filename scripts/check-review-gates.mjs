@@ -2983,6 +2983,11 @@ const checks = [
     name: "mock-signal-reading-flow-readiness"
   },
   {
+    command: [node, "scripts/check-mock-mvp-product-surface-readiness.mjs"],
+    expectStatus: "ok",
+    name: "mock-mvp-product-surface-readiness"
+  },
+  {
     command: [node, "scripts/check-runtime-readonly-decision-card.mjs"],
     expectStatus: "ok",
     name: "runtime-readonly-decision-card"

@@ -38,6 +38,10 @@ const checks = [
     name: "mock-signal-reading-flow-readiness"
   },
   {
+    command: [node, "scripts/check-mock-mvp-product-surface-readiness.mjs"],
+    name: "mock-mvp-product-surface-readiness"
+  },
+  {
     command: [node, "scripts/check-ceo-progress-brief.mjs"],
     name: "ceo-progress-brief"
   },

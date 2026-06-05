@@ -35,10 +35,10 @@ export type ProjectProgressSummary = {
 
 export const projectProgressLanes: ProjectProgressLane[] = [
   {
-    current: 88,
+    current: 95,
     label: "Mock MVP product surface",
     note:
-      "Home, briefing, stock pages, legal pages, runtime disclosures, runtime next-step links, freshness strips, and dev recovery are usable for mock-only product validation; public runtime surfaces and health contracts no longer depend on mojibake copy.",
+      "Home, briefing, weekly, stock pages, methodology, legal pages, runtime disclosures, runtime next-step links, route loop, site chrome, first-screen summaries, and public language quality are consolidated into mock MVP product surface readiness for MVP review. Broad F/UI polish, brand refinement, real-data launch, publicDataSource=supabase, and scoreSource=real remain blocked or deferred.",
     owner: "PM",
     weight: 15
   },
