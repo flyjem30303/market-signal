@@ -51,18 +51,18 @@ export const projectProgressLanes: ProjectProgressLane[] = [
     weight: 15
   },
   {
-    current: 90,
+    current: 95,
     label: "Runtime state guard",
     note:
-      "mock-only, not_ready, blocked states, manual gates, review gates, fail-closed behavior, readable runtime/progress display fields, shared public boundary helpers, and A2 first-screen internal-token regression blocking are in place.",
+      "mock-only, not_ready, blocked states, manual gates, review gates, fail-closed behavior, readable runtime/progress display fields, shared public boundary helpers, A2 first-screen internal-token regression blocking, post-readonly runtime interpretation, and runtime/schema promotion readiness are in place.",
     owner: "Engineering",
     weight: 15
   },
   {
-    current: 90,
+    current: 95,
     label: "Supabase schema / repository readiness",
     note:
-      "Schema, repository, validator, readonly preflight scaffolding, object reachability, and the daily_prices runtime shape baseline are accepted for local foundation use; promotion evidence still needs separate gates.",
+      "Schema, repository, validator, readonly preflight scaffolding, object reachability, daily_prices runtime shape baseline, data foundation gate, and runtime/schema promotion readiness are accepted for local foundation use; SQL, writes, ingestion, public source promotion, and scoreSource=real still need separate gates.",
     owner: "Engineering",
     weight: 15
   },

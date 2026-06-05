@@ -52,7 +52,7 @@ for (const [file, phrases] of [
   [
     progressPath,
     [
-      "current: 90",
+      "current: 95",
       "daily_prices runtime shape baseline",
       "current: 88",
       "data foundation gate",

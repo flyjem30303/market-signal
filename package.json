@@ -153,6 +153,8 @@
     "check:runtime-decision-summary": "node scripts/check-runtime-decision-summary.mjs",
     "check:runtime-state-consistency": "node scripts/check-runtime-state-consistency.mjs",
     "check:runtime-fail-closed": "node scripts/check-runtime-fail-closed.mjs",
+    "report:runtime-schema-promotion-readiness": "node scripts/report-runtime-schema-promotion-readiness.mjs",
+    "check:runtime-schema-promotion-readiness": "node scripts/check-runtime-schema-promotion-readiness.mjs",
     "check:runtime-readonly-decision-card": "node scripts/check-runtime-readonly-decision-card.mjs",
     "check:post-readonly-runtime-state": "node scripts/check-post-readonly-runtime-state.mjs",
     "check:post-readonly-next-gate-queue": "node scripts/check-post-readonly-next-gate-queue.mjs",

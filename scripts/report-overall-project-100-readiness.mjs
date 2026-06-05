@@ -6,6 +6,7 @@ const completionAudit = runJson("scripts/report-data-goal-completion-audit.mjs")
 const dataQualityReadiness = runJson("scripts/report-data-freshness-quality-mvp-readiness.mjs");
 const investmentReadiness = runJson("scripts/report-investment-credibility-mvp-readiness.mjs");
 const sourceRightsReadiness = runJson("scripts/report-source-rights-mvp-readiness.mjs");
+const runtimeSchemaReadiness = runJson("scripts/report-runtime-schema-promotion-readiness.mjs");
 
 const laneMap = new Map((progress.project?.lanes ?? []).map((lane) => [lane.label, lane]));
 const dataLane = laneMap.get("Data freshness and quality evidence");
@@ -45,7 +46,7 @@ const readinessLanes = [
   },
   {
     id: "runtime-state-guard",
-    current: runtimeGuardLane?.current ?? 0,
+    current: runtimeSchemaReadiness.upgradedRuntimeGuardPercent ?? runtimeGuardLane?.current ?? 0,
     targetForMvpReview: 95,
     owner: "Engineering",
     status: laneStatus(runtimeGuardLane?.current ?? 0, 95),
@@ -53,7 +54,7 @@ const readinessLanes = [
   },
   {
     id: "supabase-schema-repository-readiness",
-    current: laneMap.get("Supabase schema / repository readiness")?.current ?? 0,
+    current: runtimeSchemaReadiness.upgradedSchemaRepositoryPercent ?? laneMap.get("Supabase schema / repository readiness")?.current ?? 0,
     targetForMvpReview: 95,
     owner: "Engineering",
     status: laneStatus(laneMap.get("Supabase schema / repository readiness")?.current ?? 0, 95),
@@ -110,31 +111,37 @@ const report = {
   targetOverallPercent: 100,
   dataReadinessPercent,
   ceoVerdict:
-    "Investment credibility has reached MVP review target, data freshness/quality now has post-MVP data coverage promotion execution readiness as local-only evidence, and source-rights are mock-MVP launch review closed while external rights remain unapproved. Do not spend the next high-value slice on visual polish; the shortest route to 100% is runtime/schema promotion readiness and mock product flow closure while keeping runtime, health, and mock boundaries stable.",
+    "Investment credibility has reached MVP review target; data freshness/quality, source-rights, runtime guard, and schema/repository readiness have reached MVP review targets as local-only evidence. Do not spend the next high-value slice on visual polish; the shortest route to 100% is mock product flow closure, DevOps health hardening, and CEO execution focus while keeping runtime, health, and mock boundaries stable.",
   pmNextShortestPath:
-    "Execute a larger local-only blocker-closure slice: keep source-rights approval readiness closed for mock MVP review, then move from data execution-readiness and source-specific acceptance packets into runtime/schema promotion readiness without SQL, writes, raw data, or real-source promotion.",
+    "Execute a larger local-only product-readiness slice: keep runtime/schema promotion readiness closed for mock MVP review, preserve data execution-readiness, source-specific acceptance packets, data-coverage-route, source-rights-disclosure, mock-MVP launch review closed, post-MVP source promotion, post-MVP data coverage promotion, and future data coverage promotion as closed/deferred context, then move into mock signal reading flow, product surface, and DevOps health closure without SQL, writes, raw data, or real-source promotion.",
+  closedFoundationContext: [
+    "data-coverage-route remains route_defined_from_accepted_bounded_readonly_evidence",
+    "source-rights-disclosure is mock-MVP launch review closed while post-MVP source promotion remains deferred",
+    "post-MVP data coverage promotion remains deferred behind future data coverage promotion gates",
+    "data execution-readiness and source-specific acceptance packets remain local-only evidence"
+  ],
   readinessLanes,
   currentTopGaps: [
     {
-      id: "data-freshness-quality-evidence",
-      current: dataQualityReadiness.upgradedReadinessPercent ?? dataLane?.current ?? 0,
+      id: "mock-signal-reading-flow",
+      current: laneMap.get("Mock signal reading flow")?.current ?? 0,
       targetForMvpReview: 95,
-      reason: "The data lane is MVP-review ready as a local execution-readiness plan, but post-MVP source promotion, row coverage completion, and data-quality score lift remain incomplete.",
-      nextAction: "Keep future data coverage promotion behind a separately named execution gate with sanitized post-run evidence before any Supabase write, ingestion, or source promotion."
+      reason: "Signal reading is coherent but still below MVP review target because user-facing interpretation, mock limitations, and next action language need final closure.",
+      nextAction: "Close mock signal reading flow as non-advisory, mock-only, and readable before cosmetic polish."
     },
     {
-      id: "data-coverage-route",
-      current: dataReadinessPercent,
-      targetForMvpReview: 100,
-      reason: "Bounded readonly attempt is accepted, and mock MVP data coverage deferral is locally decision-ready, but aggregate row coverage is incomplete.",
-      nextAction: "Keep source-specific backfill / ingestion design as report-only work until a separate execution gate approves it."
+      id: "mock-mvp-product-surface",
+      current: laneMap.get("Mock MVP product surface")?.current ?? 0,
+      targetForMvpReview: 95,
+      reason: "Product surface is usable but still below MVP review target because final mock-only first-screen and cross-route review closure remains incomplete.",
+      nextAction: "Close launch-blocking product-surface readability and route-state issues; defer broad F/UI polish."
     },
     {
-      id: "source-rights-disclosure",
-      current: sourceRightsReadiness.readinessPercent ?? progress.project?.blockerClosureReadiness?.closurePercent ?? 0,
-      targetForMvpReview: 100,
-      reason: "Mock MVP launch deferral is locally decision-ready, but external provider terms, redistribution, public-source claims, and source promotion remain unapproved.",
-      nextAction: "Keep post-MVP source promotion separate while Legal/Product/Investment review provider-specific terms and final public source copy."
+      id: "devops-health-recovery",
+      current: devopsLane?.current ?? 0,
+      targetForMvpReview: 95,
+      reason: "DevOps health has stable recovery and checks, but final launch-review hardening is not yet at MVP target.",
+      nextAction: "Consolidate build, TypeScript, dev recovery, localhost full health, and review gate runtime into a final no-remote health closure."
     }
   ],
   completionDefinition: {
@@ -174,6 +181,7 @@ const report = {
   ],
   sourceReports: [
     "scripts/report-project-progress-snapshot.mjs",
+    "scripts/report-runtime-schema-promotion-readiness.mjs",
     "scripts/report-data-goal-readiness.mjs",
     "scripts/report-data-freshness-quality-mvp-readiness.mjs",
     "scripts/report-data-coverage-quality-route-readiness.mjs",

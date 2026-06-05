@@ -2973,6 +2973,11 @@ const checks = [
     name: "runtime-fail-closed"
   },
   {
+    command: [node, "scripts/check-runtime-schema-promotion-readiness.mjs"],
+    expectStatus: "ok",
+    name: "runtime-schema-promotion-readiness"
+  },
+  {
     command: [node, "scripts/check-runtime-readonly-decision-card.mjs"],
     expectStatus: "ok",
     name: "runtime-readonly-decision-card"
