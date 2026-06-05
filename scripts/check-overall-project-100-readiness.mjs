@@ -38,6 +38,7 @@ for (const phrase of [
   "data-coverage-route",
   "source-rights-disclosure",
   "post-MVP source promotion",
+  "post-MVP data coverage promotion",
   "Do not spend the next high-value slice on visual polish",
   "no-write data coverage/quality route closure",
   "source-specific acceptance packets",
@@ -142,8 +143,8 @@ if (output) {
   }
 
   const dataFreshnessGap = (output.currentTopGaps ?? []).find((gap) => gap.id === "data-freshness-quality-evidence");
-  if (dataFreshnessGap?.current !== 88) {
-    blocked.push(`output.currentTopGaps.data-freshness-quality-evidence current expected 88, got ${String(dataFreshnessGap?.current)}`);
+  if (dataFreshnessGap?.current !== 92) {
+    blocked.push(`output.currentTopGaps.data-freshness-quality-evidence current expected 92, got ${String(dataFreshnessGap?.current)}`);
   }
 
   const sourceRightsGap = (output.currentTopGaps ?? []).find((gap) => gap.id === "source-rights-disclosure");

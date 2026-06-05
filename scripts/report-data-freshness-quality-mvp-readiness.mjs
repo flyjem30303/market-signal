@@ -54,6 +54,12 @@ const checks = [
     command: "scripts/check-source-specific-acceptance-packets-readiness.mjs",
     evidence:
       "Source-specific acceptance packets readiness consolidates TWII, ETF, equity, storage-boundary, and QA acceptance states without authorizing execution."
+  },
+  {
+    id: "data-coverage-mvp-deferral-decision-readiness",
+    command: "scripts/check-data-coverage-mvp-deferral-decision-readiness.mjs",
+    evidence:
+      "Mock MVP data coverage deferral decision is ready while aggregate row coverage, data-quality score lift, and real source promotion remain blocked."
   }
 ];
 
@@ -79,8 +85,8 @@ const report = {
   owner: "Data",
   coOwners: ["QA", "Legal", "Engineering"],
   recommendedBy: "CEO",
-  readinessLift: allOk ? 24 : 0,
-  upgradedReadinessPercent: allOk ? 88 : 64,
+  readinessLift: allOk ? 28 : 0,
+  upgradedReadinessPercent: allOk ? 92 : 64,
   targetForMvpReview: 95,
   mvpMeaning:
     "Data freshness and quality evidence has a local reviewable route, but it is not ready for public source promotion, data-quality score lift, ingestion, SQL, or real scoring.",
@@ -94,7 +100,8 @@ const report = {
     "source-rights public placement is mapped before any public data wording",
     "promotion prerequisites define post-run review fields and promotion locks before any readonly decision packet",
     "no-write coverage and quality route is reviewable before any SQL, write, ingestion, or public promotion",
-    "source-specific acceptance packets are reviewable without authorizing execution or promotion"
+    "source-specific acceptance packets are reviewable without authorizing execution or promotion",
+    "mock MVP data coverage deferral decision is ready without awarding row coverage points or data-quality score lift"
   ],
   stillNotApproved: [
     "data-quality score increase",
@@ -114,7 +121,8 @@ const report = {
     "coverage/backfill route approval for missing aggregate rows",
     "field validity evidence from accepted source lanes",
     "QA acceptance of data-quality score threshold without override",
-    "public disclosure acceptance for freshness, quality, and source limitations"
+    "public disclosure acceptance for freshness, quality, and source limitations",
+    "post-MVP data coverage promotion remains a separate execution and source-promotion gate"
   ],
   safety: {
     automatedRemoteRun: false,

@@ -1,7 +1,7 @@
 import { spawnSync } from "node:child_process";
 import fs from "node:fs";
 
-const reportPath = "scripts/report-data-freshness-quality-mvp-readiness.mjs";
+const reportPath = "scripts/report-data-coverage-mvp-deferral-decision-readiness.mjs";
 const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 const fullHealthPath = "scripts/check-localhost-full-health.mjs";
@@ -14,31 +14,26 @@ const missing = [];
 const blocked = [];
 
 for (const phrase of [
-  "mode: \"data_freshness_quality_mvp_readiness\"",
-  "local_data_quality_route_ready_promotion_blocked",
-  "readinessLift: allOk ? 28 : 0",
-  "upgradedReadinessPercent: allOk ? 92 : 64",
+  "mode: \"data_coverage_mvp_deferral_decision_readiness\"",
+  "mock_mvp_launch_data_coverage_deferral_ready_promotion_blocked",
+  "readinessLift: allOk ? 4 : 0",
+  "upgradedReadinessPercent: allOk ? 92 : 88",
   "targetForMvpReview: 95",
-  "scripts/check-data-quality-field-validity-acceptance-gate.mjs",
-  "scripts/check-data-quality-score-contract.mjs",
-  "scripts/check-data-coverage-backfill-plan.mjs",
-  "scripts/check-row-coverage-evidence-acceptance.mjs",
-  "scripts/check-data-goal-readiness.mjs",
-  "scripts/check-source-rights-public-placement-readiness.mjs",
-  "scripts/check-promotion-prerequisites-gate.mjs",
   "scripts/check-data-coverage-quality-route-readiness.mjs",
+  "scripts/check-data-goal-readiness.mjs",
+  "scripts/check-row-coverage-evidence-acceptance.mjs",
   "scripts/check-source-specific-acceptance-packets-readiness.mjs",
-  "scripts/check-data-coverage-mvp-deferral-decision-readiness.mjs",
-  "field validity and downgrade behavior are locally QA-reviewed",
-  "coverage/backfill plan maps source lanes",
-  "bounded readonly post-run review is accepted",
-  "promotion prerequisites define post-run review fields and promotion locks before any readonly decision packet",
-  "no-write coverage and quality route is reviewable before any SQL, write, ingestion, or public promotion",
-  "source-specific acceptance packets are reviewable without authorizing execution or promotion",
-  "mock MVP data coverage deferral decision is ready",
+  "scripts/check-source-rights-mvp-deferral-decision-readiness.mjs",
+  "scripts/check-mvp-launch-prd.mjs",
+  "mock-mvp-data-coverage",
+  "backfill-ingestion-route",
+  "data-quality-score",
+  "real-data-promotion",
+  "accepted_for_mock_mvp_review",
+  "deferred_to_separate_execution_gate",
   "publicDataSource=supabase",
   "scoreSource=real",
-  "does not run SQL"
+  "does not connect to Supabase"
 ]) {
   if (!source.includes(phrase)) missing.push(`${reportPath}: ${phrase}`);
 }
@@ -67,25 +62,25 @@ for (const pattern of [
 }
 
 if (
-  packageJson.scripts?.["report:data-freshness-quality-mvp-readiness"] !==
-  "node scripts/report-data-freshness-quality-mvp-readiness.mjs"
+  packageJson.scripts?.["report:data-coverage-mvp-deferral-decision-readiness"] !==
+  "node scripts/report-data-coverage-mvp-deferral-decision-readiness.mjs"
 ) {
-  missing.push(`${packagePath}: report:data-freshness-quality-mvp-readiness`);
+  missing.push(`${packagePath}: report:data-coverage-mvp-deferral-decision-readiness`);
 }
 
 if (
-  packageJson.scripts?.["check:data-freshness-quality-mvp-readiness"] !==
-  "node scripts/check-data-freshness-quality-mvp-readiness.mjs"
+  packageJson.scripts?.["check:data-coverage-mvp-deferral-decision-readiness"] !==
+  "node scripts/check-data-coverage-mvp-deferral-decision-readiness.mjs"
 ) {
-  missing.push(`${packagePath}: check:data-freshness-quality-mvp-readiness`);
+  missing.push(`${packagePath}: check:data-coverage-mvp-deferral-decision-readiness`);
 }
 
-if (!reviewGate.includes("scripts/check-data-freshness-quality-mvp-readiness.mjs")) {
-  missing.push(`${reviewGatePath}: scripts/check-data-freshness-quality-mvp-readiness.mjs`);
+if (!reviewGate.includes("scripts/check-data-coverage-mvp-deferral-decision-readiness.mjs")) {
+  missing.push(`${reviewGatePath}: scripts/check-data-coverage-mvp-deferral-decision-readiness.mjs`);
 }
 
-if (!fullHealth.includes("scripts/check-data-freshness-quality-mvp-readiness.mjs")) {
-  missing.push(`${fullHealthPath}: scripts/check-data-freshness-quality-mvp-readiness.mjs`);
+if (!fullHealth.includes("scripts/check-data-coverage-mvp-deferral-decision-readiness.mjs")) {
+  missing.push(`${fullHealthPath}: scripts/check-data-coverage-mvp-deferral-decision-readiness.mjs`);
 }
 
 const run = spawnSync(process.execPath, [reportPath], {
@@ -124,19 +119,19 @@ if (run.status !== 0) {
 }
 
 if (output) {
-  if (output.mode !== "data_freshness_quality_mvp_readiness") blocked.push(`output.mode: ${String(output.mode)}`);
-  if (output.status !== "local_data_quality_route_ready_promotion_blocked") {
+  if (output.mode !== "data_coverage_mvp_deferral_decision_readiness") blocked.push(`output.mode: ${String(output.mode)}`);
+  if (output.status !== "mock_mvp_launch_data_coverage_deferral_ready_promotion_blocked") {
     blocked.push(`output.status: ${String(output.status)}`);
   }
-  if (output.readinessLift !== 28) blocked.push(`output.readinessLift: ${String(output.readinessLift)}`);
+  if (output.readinessLift !== 4) blocked.push(`output.readinessLift: ${String(output.readinessLift)}`);
   if (output.upgradedReadinessPercent !== 92) {
     blocked.push(`output.upgradedReadinessPercent expected 92, got ${String(output.upgradedReadinessPercent)}`);
   }
-  if (output.targetForMvpReview !== 95) {
-    blocked.push(`output.targetForMvpReview: ${String(output.targetForMvpReview)}`);
+  if (!Array.isArray(output.evidence) || output.evidence.length !== 6 || !output.evidence.every((item) => item.ok === true)) {
+    blocked.push("output.evidence expected six passing evidence items");
   }
-  if (!Array.isArray(output.evidence) || output.evidence.length !== 10 || !output.evidence.every((item) => item.ok === true)) {
-    blocked.push("output.evidence expected ten passing evidence items");
+  if (!Array.isArray(output.deferralDecisionMap) || output.deferralDecisionMap.length !== 4) {
+    blocked.push("output.deferralDecisionMap expected four entries");
   }
   for (const flag of [
     "automatedRemoteRun",

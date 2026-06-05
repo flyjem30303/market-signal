@@ -119,15 +119,15 @@ const report = {
       id: "data-freshness-quality-evidence",
       current: dataQualityReadiness.upgradedReadinessPercent ?? dataLane?.current ?? 0,
       targetForMvpReview: 95,
-      reason: "The data lane is still below MVP review target because row coverage, data quality threshold, source rights, and source-depth remain incomplete.",
-      nextAction: "Prepare a no-write data coverage and quality route that can be reviewed before any Supabase write, ingestion, or source promotion."
+      reason: "The data lane is still below MVP review target because row coverage, data quality threshold, source rights, and source-depth remain incomplete, though mock MVP data coverage deferral is decision-ready.",
+      nextAction: "Keep post-MVP data coverage promotion separate while Data/QA/Legal review source-specific route acceptance before any Supabase write, ingestion, or source promotion."
     },
     {
       id: "data-coverage-route",
       current: dataReadinessPercent,
       targetForMvpReview: 100,
-      reason: "Bounded readonly attempt is accepted, but aggregate row coverage is incomplete.",
-      nextAction: "Prepare source-specific backfill / ingestion design gate as report-only work."
+      reason: "Bounded readonly attempt is accepted, and mock MVP data coverage deferral is locally decision-ready, but aggregate row coverage is incomplete.",
+      nextAction: "Keep source-specific backfill / ingestion design as report-only work until a separate execution gate approves it."
     },
     {
       id: "source-rights-disclosure",

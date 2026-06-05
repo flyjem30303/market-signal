@@ -94,6 +94,10 @@ const checks = [
     name: "data-coverage-quality-route-readiness"
   },
   {
+    command: [node, "scripts/check-data-coverage-mvp-deferral-decision-readiness.mjs"],
+    name: "data-coverage-mvp-deferral-decision-readiness"
+  },
+  {
     command: [node, "scripts/check-source-specific-acceptance-packets-readiness.mjs"],
     name: "source-specific-acceptance-packets-readiness"
   },
