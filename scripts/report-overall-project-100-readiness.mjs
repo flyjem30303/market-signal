@@ -110,9 +110,9 @@ const report = {
   targetOverallPercent: 100,
   dataReadinessPercent,
   ceoVerdict:
-    "Investment credibility has reached MVP review target, and data freshness/quality now has post-MVP data coverage promotion execution readiness as local-only evidence. Do not spend the next high-value slice on visual polish; the shortest route to 100% is source-rights approval readiness, runtime/schema promotion readiness, and mock product flow closure while keeping runtime, health, and mock boundaries stable.",
+    "Investment credibility has reached MVP review target, data freshness/quality now has post-MVP data coverage promotion execution readiness as local-only evidence, and source-rights are mock-MVP launch review closed while external rights remain unapproved. Do not spend the next high-value slice on visual polish; the shortest route to 100% is runtime/schema promotion readiness and mock product flow closure while keeping runtime, health, and mock boundaries stable.",
   pmNextShortestPath:
-    "Execute a larger local-only blocker-closure slice: move from data execution-readiness and source-specific acceptance packets into source-rights and runtime/schema promotion readiness without SQL, writes, raw data, or real-source promotion.",
+    "Execute a larger local-only blocker-closure slice: keep source-rights approval readiness closed for mock MVP review, then move from data execution-readiness and source-specific acceptance packets into runtime/schema promotion readiness without SQL, writes, raw data, or real-source promotion.",
   readinessLanes,
   currentTopGaps: [
     {
@@ -181,7 +181,8 @@ const report = {
     "scripts/report-source-specific-acceptance-packets-readiness.mjs",
     "scripts/report-data-goal-completion-audit.mjs",
     "scripts/report-investment-credibility-mvp-readiness.mjs",
-    "scripts/report-source-rights-mvp-readiness.mjs"
+    "scripts/report-source-rights-mvp-readiness.mjs",
+    "scripts/report-source-rights-mvp-final-closure-readiness.mjs"
   ],
   stopLine:
     "This overall readiness report does not connect to Supabase, run SQL, write data, fetch market data, print secrets, promote publicDataSource=supabase, or set scoreSource=real."

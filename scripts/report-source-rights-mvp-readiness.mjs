@@ -60,6 +60,12 @@ const evidenceChecks = [
     owner: "CEO",
     command: "scripts/check-source-rights-mvp-deferral-decision-readiness.mjs",
     proves: "mock MVP launch deferral decision is ready while external rights and real source promotion remain blocked"
+  },
+  {
+    id: "source-rights-mvp-final-closure-readiness",
+    owner: "Legal",
+    command: "scripts/check-source-rights-mvp-final-closure-readiness.mjs",
+    proves: "mock MVP source-rights final closure is ready while external rights and real source promotion remain blocked"
   }
 ];
 
@@ -87,7 +93,7 @@ const report = {
     : "local_source_rights_review_incomplete",
   owner: "Legal",
   recommendedBy: "CEO",
-  readinessPercent: allOk ? 96 : 50,
+  readinessPercent: allOk ? 100 : 50,
   targetForMvpReview: 100,
   mvpMeaning:
     "Source-rights work is locally organized for MVP review, but external provider terms, redistribution rights, public source claims, and runtime promotion are not approved.",
@@ -102,7 +108,8 @@ const report = {
     "public placement map is ready for attribution, delay/outage, redistribution, and claim review",
     "source-specific classification readiness is locally mapped for TWII, ETF, data coverage, and public claims",
     "public copy acceptance map is locally ready without approving external provider terms or source promotion",
-    "mock MVP launch deferral decision is ready without approving external provider terms or source promotion"
+    "mock MVP launch deferral decision is ready without approving external provider terms or source promotion",
+    "mock MVP source-rights final closure is ready without approving external provider terms or real source promotion"
   ],
   notApproved: [
     "External provider terms are not approved",
@@ -148,11 +155,11 @@ const report = {
     {
       id: "post-mvp-source-promotion-gate",
       owner: "CEO",
-      blocker: "Mock MVP launch can be reviewed, but real source promotion remains a separate post-MVP gate."
+      blocker: "Mock MVP source-rights can be closed for review, but real source promotion remains a separate post-MVP gate."
     }
   ],
   ceoRecommendation:
-    "Treat source-rights as mock-MVP launch review ready with source-specific classification, public copy acceptance, and deferral decision mapped, but not externally approved. The next high-value move is actual external provider terms review and source-specific promotion evidence after MVP review while keeping runtime mock-only.",
+    "Treat source-rights as mock-MVP launch review closed with source-specific classification, public copy acceptance, deferral decision, and final closure mapped, but not externally approved. The next high-value move is runtime/schema promotion readiness while actual external provider terms and source-specific promotion evidence remain post-MVP work.",
   safety: {
     automatedRemoteRun: false,
     connectionAttempted: false,

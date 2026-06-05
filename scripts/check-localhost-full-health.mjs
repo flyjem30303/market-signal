@@ -146,6 +146,10 @@ const checks = [
     name: "source-rights-mvp-deferral-decision-readiness"
   },
   {
+    command: [node, "scripts/check-source-rights-mvp-final-closure-readiness.mjs"],
+    name: "source-rights-mvp-final-closure-readiness"
+  },
+  {
     command: [node, "scripts/check-source-rights-specific-classification-readiness.mjs"],
     name: "source-rights-specific-classification-readiness"
   },

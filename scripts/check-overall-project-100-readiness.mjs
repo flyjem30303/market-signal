@@ -27,6 +27,7 @@ for (const phrase of [
   "scripts/report-data-goal-completion-audit.mjs",
   "scripts/report-investment-credibility-mvp-readiness.mjs",
   "scripts/report-source-rights-mvp-readiness.mjs",
+  "scripts/report-source-rights-mvp-final-closure-readiness.mjs",
   "bounded_readonly_attempt_reviewed_aggregate_incomplete",
   "audit_passed_not_100_until_coverage_route_complete",
   "route_defined_from_accepted_bounded_readonly_evidence",
@@ -38,6 +39,7 @@ for (const phrase of [
   "Investment credibility has reached MVP review target",
   "data-coverage-route",
   "source-rights-disclosure",
+  "mock-MVP launch review closed",
   "post-MVP source promotion",
   "post-MVP data coverage promotion",
   "data execution-readiness",
@@ -151,8 +153,8 @@ if (output) {
   }
 
   const sourceRightsGap = (output.currentTopGaps ?? []).find((gap) => gap.id === "source-rights-disclosure");
-  if (sourceRightsGap?.current !== 96) {
-    blocked.push(`output.currentTopGaps.source-rights-disclosure current expected 96, got ${String(sourceRightsGap?.current)}`);
+  if (sourceRightsGap?.current !== 100) {
+    blocked.push(`output.currentTopGaps.source-rights-disclosure current expected 100, got ${String(sourceRightsGap?.current)}`);
   }
 
   if (output.completionDefinition?.dataCoverageRoute !== "route_defined_from_accepted_bounded_readonly_evidence") {

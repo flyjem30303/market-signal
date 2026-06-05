@@ -1,7 +1,7 @@
 import { spawnSync } from "node:child_process";
 import fs from "node:fs";
 
-const reportPath = "scripts/report-source-rights-mvp-readiness.mjs";
+const reportPath = "scripts/report-source-rights-mvp-final-closure-readiness.mjs";
 const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 const fullHealthPath = "scripts/check-localhost-full-health.mjs";
@@ -14,32 +14,29 @@ const missing = [];
 const blocked = [];
 
 for (const phrase of [
-  "mode: \"source_rights_mvp_readiness\"",
-  "local_source_rights_review_ready_external_rights_unapproved",
-  "readinessPercent: allOk ? 100 : 50",
+  "mode: \"source_rights_mvp_final_closure_readiness\"",
+  "mock_mvp_source_rights_closure_ready_external_rights_unapproved",
+  "readinessLift: allOk ? 4 : 0",
+  "upgradedReadinessPercent: allOk ? 100 : 96",
   "targetForMvpReview: 100",
-  "scripts/check-source-rights-disclosure-checklist.mjs",
-  "scripts/check-source-rights-disclosure-local-review.mjs",
-  "scripts/check-source-rights-disclosure-acceptance-gate.mjs",
-  "scripts/check-provider-specific-terms-review-packet.mjs",
-  "scripts/check-provider-specific-terms-post-review-rollup.mjs",
-  "scripts/check-narrow-approval-outcome-ledger.mjs",
-  "scripts/check-source-rights-public-placement-readiness.mjs",
-  "scripts/check-source-rights-specific-classification-readiness.mjs",
-  "scripts/check-source-rights-public-copy-acceptance-readiness.mjs",
   "scripts/check-source-rights-mvp-deferral-decision-readiness.mjs",
-  "scripts/check-source-rights-mvp-final-closure-readiness.mjs",
-  "public placement map is ready",
-  "source-specific classification readiness is locally mapped",
-  "public copy acceptance map is locally ready",
-  "mock MVP launch deferral decision is ready",
-  "mock MVP source-rights final closure is ready",
-  "External provider terms are not approved",
-  "not externally approved",
+  "scripts/check-source-rights-public-copy-acceptance-readiness.mjs",
+  "scripts/check-source-rights-specific-classification-readiness.mjs",
+  "scripts/check-provider-specific-terms-post-review-rollup.mjs",
+  "scripts/check-mvp-launch-prd.mjs",
+  "scripts/check-source-rights-public-placement-readiness.mjs",
+  "mock-mvp-source-copy",
+  "external-provider-terms",
+  "source-promotion-dependency",
+  "public-investment-claims",
+  "Public placement map keeps attribution",
+  "MVP launch PRD supports mock-only review",
+  "closed_for_mock_mvp_review",
+  "not_approved_deferred_to_external_review",
+  "blocked_until_separate_promotion_gate",
   "publicDataSource=supabase",
   "scoreSource=real",
-  "does not connect to Supabase",
-  "does not run SQL"
+  "does not connect to Supabase"
 ]) {
   if (!source.includes(phrase)) missing.push(`${reportPath}: ${phrase}`);
 }
@@ -55,29 +52,39 @@ for (const pattern of [
   /\.upsert\(/,
   /process\.env\.(NEXT_PUBLIC_SUPABASE_URL|NEXT_PUBLIC_SUPABASE_ANON_KEY|SUPABASE_SERVICE_ROLE_KEY)/,
   /connectionAttempted:\s*true/,
+  /externalRightsVerified:\s*true/,
+  /externalTermsApproved:\s*true/,
   /sqlExecuted:\s*true/,
   /supabaseWritesEnabled:\s*true/,
   /publicDataSource:\s*"supabase"/,
   /scoreSource:\s*"real"/,
-  /readinessPercent:\s*101/
+  /scoreSourceRealEnabled:\s*true/,
+  /marketDataFetched:\s*true/,
+  /ingestionStarted:\s*true/
 ]) {
   if (pattern.test(source)) blocked.push(`${reportPath}: forbidden source pattern ${String(pattern)}`);
 }
 
-if (packageJson.scripts?.["report:source-rights-mvp-readiness"] !== "node scripts/report-source-rights-mvp-readiness.mjs") {
-  missing.push(`${packagePath}: report:source-rights-mvp-readiness`);
+if (
+  packageJson.scripts?.["report:source-rights-mvp-final-closure-readiness"] !==
+  "node scripts/report-source-rights-mvp-final-closure-readiness.mjs"
+) {
+  missing.push(`${packagePath}: report:source-rights-mvp-final-closure-readiness`);
 }
 
-if (packageJson.scripts?.["check:source-rights-mvp-readiness"] !== "node scripts/check-source-rights-mvp-readiness.mjs") {
-  missing.push(`${packagePath}: check:source-rights-mvp-readiness`);
+if (
+  packageJson.scripts?.["check:source-rights-mvp-final-closure-readiness"] !==
+  "node scripts/check-source-rights-mvp-final-closure-readiness.mjs"
+) {
+  missing.push(`${packagePath}: check:source-rights-mvp-final-closure-readiness`);
 }
 
-if (!reviewGate.includes("scripts/check-source-rights-mvp-readiness.mjs")) {
-  missing.push(`${reviewGatePath}: scripts/check-source-rights-mvp-readiness.mjs`);
+if (!reviewGate.includes("scripts/check-source-rights-mvp-final-closure-readiness.mjs")) {
+  missing.push(`${reviewGatePath}: scripts/check-source-rights-mvp-final-closure-readiness.mjs`);
 }
 
-if (!fullHealth.includes("scripts/check-source-rights-mvp-readiness.mjs")) {
-  missing.push(`${fullHealthPath}: scripts/check-source-rights-mvp-readiness.mjs`);
+if (!fullHealth.includes("scripts/check-source-rights-mvp-final-closure-readiness.mjs")) {
+  missing.push(`${fullHealthPath}: scripts/check-source-rights-mvp-final-closure-readiness.mjs`);
 }
 
 const run = spawnSync(process.execPath, [reportPath], {
@@ -116,18 +123,19 @@ if (run.status !== 0) {
 }
 
 if (output) {
-  if (output.mode !== "source_rights_mvp_readiness") blocked.push(`output.mode: ${String(output.mode)}`);
-  if (output.status !== "local_source_rights_review_ready_external_rights_unapproved") {
+  if (output.mode !== "source_rights_mvp_final_closure_readiness") blocked.push(`output.mode: ${String(output.mode)}`);
+  if (output.status !== "mock_mvp_source_rights_closure_ready_external_rights_unapproved") {
     blocked.push(`output.status: ${String(output.status)}`);
   }
-  if (output.readinessPercent !== 100) {
-    blocked.push(`output.readinessPercent expected 100, got ${String(output.readinessPercent)}`);
+  if (output.readinessLift !== 4) blocked.push(`output.readinessLift: ${String(output.readinessLift)}`);
+  if (output.upgradedReadinessPercent !== 100) {
+    blocked.push(`output.upgradedReadinessPercent expected 100, got ${String(output.upgradedReadinessPercent)}`);
   }
-  if (output.targetForMvpReview !== 100) {
-    blocked.push(`output.targetForMvpReview: ${String(output.targetForMvpReview)}`);
+  if (!Array.isArray(output.evidence) || output.evidence.length !== 6 || !output.evidence.every((item) => item.ok === true)) {
+    blocked.push("output.evidence expected six passing evidence items");
   }
-  if (!Array.isArray(output.evidence) || output.evidence.length !== 11 || !output.evidence.every((item) => item.ok === true)) {
-    blocked.push("output.evidence expected eleven passing evidence items");
+  if (!Array.isArray(output.closureDecisionMap) || output.closureDecisionMap.length !== 4) {
+    blocked.push("output.closureDecisionMap expected four entries");
   }
   for (const flag of [
     "automatedRemoteRun",
