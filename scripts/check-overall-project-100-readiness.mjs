@@ -137,8 +137,8 @@ if (output) {
   }
 
   const dataFreshnessGap = (output.currentTopGaps ?? []).find((gap) => gap.id === "data-freshness-quality-evidence");
-  if (dataFreshnessGap?.current !== 76) {
-    blocked.push(`output.currentTopGaps.data-freshness-quality-evidence current expected 76, got ${String(dataFreshnessGap?.current)}`);
+  if (dataFreshnessGap?.current !== 80) {
+    blocked.push(`output.currentTopGaps.data-freshness-quality-evidence current expected 80, got ${String(dataFreshnessGap?.current)}`);
   }
 
   const sourceRightsGap = (output.currentTopGaps ?? []).find((gap) => gap.id === "source-rights-disclosure");

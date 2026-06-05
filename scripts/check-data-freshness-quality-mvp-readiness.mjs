@@ -16,8 +16,8 @@ const blocked = [];
 for (const phrase of [
   "mode: \"data_freshness_quality_mvp_readiness\"",
   "local_data_quality_route_ready_promotion_blocked",
-  "readinessLift: allOk ? 12 : 0",
-  "upgradedReadinessPercent: allOk ? 76 : 64",
+  "readinessLift: allOk ? 16 : 0",
+  "upgradedReadinessPercent: allOk ? 80 : 64",
   "targetForMvpReview: 95",
   "scripts/check-data-quality-field-validity-acceptance-gate.mjs",
   "scripts/check-data-quality-score-contract.mjs",
@@ -25,9 +25,11 @@ for (const phrase of [
   "scripts/check-row-coverage-evidence-acceptance.mjs",
   "scripts/check-data-goal-readiness.mjs",
   "scripts/check-source-rights-public-placement-readiness.mjs",
+  "scripts/check-promotion-prerequisites-gate.mjs",
   "field validity and downgrade behavior are locally QA-reviewed",
   "coverage/backfill plan maps source lanes",
   "bounded readonly post-run review is accepted",
+  "promotion prerequisites define post-run review fields and promotion locks before any readonly decision packet",
   "publicDataSource=supabase",
   "scoreSource=real",
   "does not run SQL"
@@ -120,15 +122,15 @@ if (output) {
   if (output.status !== "local_data_quality_route_ready_promotion_blocked") {
     blocked.push(`output.status: ${String(output.status)}`);
   }
-  if (output.readinessLift !== 12) blocked.push(`output.readinessLift: ${String(output.readinessLift)}`);
-  if (output.upgradedReadinessPercent !== 76) {
-    blocked.push(`output.upgradedReadinessPercent expected 76, got ${String(output.upgradedReadinessPercent)}`);
+  if (output.readinessLift !== 16) blocked.push(`output.readinessLift: ${String(output.readinessLift)}`);
+  if (output.upgradedReadinessPercent !== 80) {
+    blocked.push(`output.upgradedReadinessPercent expected 80, got ${String(output.upgradedReadinessPercent)}`);
   }
   if (output.targetForMvpReview !== 95) {
     blocked.push(`output.targetForMvpReview: ${String(output.targetForMvpReview)}`);
   }
-  if (!Array.isArray(output.evidence) || output.evidence.length !== 6 || !output.evidence.every((item) => item.ok === true)) {
-    blocked.push("output.evidence expected six passing evidence items");
+  if (!Array.isArray(output.evidence) || output.evidence.length !== 7 || !output.evidence.every((item) => item.ok === true)) {
+    blocked.push("output.evidence expected seven passing evidence items");
   }
   for (const flag of [
     "automatedRemoteRun",

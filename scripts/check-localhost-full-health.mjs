@@ -90,6 +90,10 @@ const checks = [
     name: "data-freshness-quality-mvp-readiness"
   },
   {
+    command: [node, "scripts/check-promotion-prerequisites-gate.mjs"],
+    name: "promotion-prerequisites-gate"
+  },
+  {
     command: [node, "scripts/check-source-rights-disclosure-checklist.mjs"],
     name: "source-rights-disclosure-checklist"
   },

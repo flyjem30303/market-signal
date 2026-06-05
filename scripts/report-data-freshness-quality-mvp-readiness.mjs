@@ -36,6 +36,12 @@ const checks = [
     command: "scripts/check-source-rights-public-placement-readiness.mjs",
     evidence:
       "Source-rights placement maps attribution, delay/outage, redistribution, storage, and non-advisory claim boundaries for public data wording."
+  },
+  {
+    id: "promotion-prerequisites-gate",
+    command: "scripts/check-promotion-prerequisites-gate.mjs",
+    evidence:
+      "Promotion prerequisites gate defines completed local prerequisites, remote evidence blockers, external approval blockers, post-run review fields, and promotion locks before any readonly decision packet."
   }
 ];
 
@@ -61,8 +67,8 @@ const report = {
   owner: "Data",
   coOwners: ["QA", "Legal", "Engineering"],
   recommendedBy: "CEO",
-  readinessLift: allOk ? 12 : 0,
-  upgradedReadinessPercent: allOk ? 76 : 64,
+  readinessLift: allOk ? 16 : 0,
+  upgradedReadinessPercent: allOk ? 80 : 64,
   targetForMvpReview: 95,
   mvpMeaning:
     "Data freshness and quality evidence has a local reviewable route, but it is not ready for public source promotion, data-quality score lift, ingestion, SQL, or real scoring.",
@@ -73,7 +79,8 @@ const report = {
     "coverage/backfill plan maps source lanes, expected rows, observed rows, and missing rows without writes",
     "row coverage evidence is accepted as next-decision material only",
     "bounded readonly post-run review is accepted but aggregate coverage remains incomplete",
-    "source-rights public placement is mapped before any public data wording"
+    "source-rights public placement is mapped before any public data wording",
+    "promotion prerequisites define post-run review fields and promotion locks before any readonly decision packet"
   ],
   stillNotApproved: [
     "data-quality score increase",
