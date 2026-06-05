@@ -15,7 +15,7 @@ const topSection = status.split(/\n## (?!Readable Current Status)/u)[0] ?? "";
 
 const requiredTopPhrases = [
   "Readable Current Status - 2026-06-04",
-  "PM progress score: 83%",
+  "PM progress score: 84%",
   "Latest investment-credibility slice",
   "Latest investment evidence upgrade",
   "Investment credibility moved from 46% to 58%",
@@ -53,6 +53,10 @@ const requiredTopPhrases = [
   "Data freshness and quality evidence moved from 76% to 80%",
   "promotion prerequisites gate",
   "post-run review fields",
+  "Latest data coverage quality route readiness slice",
+  "Data freshness and quality evidence moved from 80% to 84%",
+  "overall project progress moved from 83% to 84%",
+  "no-write coverage route",
   "Latest source-rights specific classification slice",
   "Source-rights disclosure moved from 78% to 88%",
   "ten evidence rows",

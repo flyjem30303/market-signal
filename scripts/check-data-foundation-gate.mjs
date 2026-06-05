@@ -54,7 +54,7 @@ for (const [file, phrases] of [
     [
       "current: 90",
       "daily_prices runtime shape baseline",
-      "current: 80",
+      "current: 84",
       "data foundation gate",
       "current: 83",
       "data/runtime foundation gates"
@@ -120,8 +120,8 @@ if (snapshot.status !== 0) {
   if (output.project?.adjustedScore < 70) {
     blocked.push(`project.adjustedScore expected at least 70, got ${String(output.project?.adjustedScore)}`);
   }
-  if (output.project?.lanes?.find((lane) => lane.label === "Data freshness and quality evidence")?.current !== 80) {
-    blocked.push("Data freshness and quality evidence lane expected 80");
+  if (output.project?.lanes?.find((lane) => lane.label === "Data freshness and quality evidence")?.current !== 84) {
+    blocked.push("Data freshness and quality evidence lane expected 84");
   }
   if (output.safety?.publicDataSource !== "mock" || output.safety?.scoreSource !== "mock") {
     blocked.push("snapshot safety must keep publicDataSource and scoreSource mock");

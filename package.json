@@ -240,6 +240,8 @@
     "check:data-quality-field-validity-acceptance-gate": "node scripts/check-data-quality-field-validity-acceptance-gate.mjs",
     "report:data-freshness-quality-mvp-readiness": "node scripts/report-data-freshness-quality-mvp-readiness.mjs",
     "check:data-freshness-quality-mvp-readiness": "node scripts/check-data-freshness-quality-mvp-readiness.mjs",
+    "report:data-coverage-quality-route-readiness": "node scripts/report-data-coverage-quality-route-readiness.mjs",
+    "check:data-coverage-quality-route-readiness": "node scripts/check-data-coverage-quality-route-readiness.mjs",
     "check:data-coverage-route-decision": "node scripts/check-data-coverage-route-decision.mjs",
     "check:backfill-ingestion-design-gate": "node scripts/check-backfill-ingestion-design-gate.mjs",
     "check:data-coverage-backfill-plan": "node scripts/check-data-coverage-backfill-plan.mjs",

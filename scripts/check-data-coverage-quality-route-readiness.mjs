@@ -1,7 +1,7 @@
 import { spawnSync } from "node:child_process";
 import fs from "node:fs";
 
-const reportPath = "scripts/report-data-freshness-quality-mvp-readiness.mjs";
+const reportPath = "scripts/report-data-coverage-quality-route-readiness.mjs";
 const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 const fullHealthPath = "scripts/check-localhost-full-health.mjs";
@@ -14,27 +14,24 @@ const missing = [];
 const blocked = [];
 
 for (const phrase of [
-  "mode: \"data_freshness_quality_mvp_readiness\"",
-  "local_data_quality_route_ready_promotion_blocked",
+  "mode: \"data_coverage_quality_route_readiness\"",
+  "no_write_coverage_quality_route_ready_for_review",
   "readinessLift: allOk ? 20 : 0",
   "upgradedReadinessPercent: allOk ? 84 : 64",
   "targetForMvpReview: 95",
-  "scripts/check-data-quality-field-validity-acceptance-gate.mjs",
-  "scripts/check-data-quality-score-contract.mjs",
   "scripts/check-data-coverage-backfill-plan.mjs",
-  "scripts/check-row-coverage-evidence-acceptance.mjs",
-  "scripts/check-data-goal-readiness.mjs",
-  "scripts/check-source-rights-public-placement-readiness.mjs",
+  "scripts/check-backfill-ingestion-design-gate.mjs",
+  "scripts/check-source-specific-backfill-design-packet.mjs",
   "scripts/check-promotion-prerequisites-gate.mjs",
-  "scripts/check-data-coverage-quality-route-readiness.mjs",
-  "field validity and downgrade behavior are locally QA-reviewed",
-  "coverage/backfill plan maps source lanes",
-  "bounded readonly post-run review is accepted",
-  "promotion prerequisites define post-run review fields and promotion locks before any readonly decision packet",
-  "no-write coverage and quality route is reviewable before any SQL, write, ingestion, or public promotion",
+  "scripts/check-source-rights-specific-classification-readiness.mjs",
+  "TWII remains the clearest missing-row blocker",
+  "ETF coverage remains source-rights gated",
+  "Equity coverage can reuse existing TWSE STOCK_DAY design evidence",
+  "future mutation target must be decided separately",
+  "QA thresholds, rollback, retention, sanitized output, and post-run review",
   "publicDataSource=supabase",
   "scoreSource=real",
-  "does not run SQL"
+  "does not connect to Supabase"
 ]) {
   if (!source.includes(phrase)) missing.push(`${reportPath}: ${phrase}`);
 }
@@ -63,25 +60,25 @@ for (const pattern of [
 }
 
 if (
-  packageJson.scripts?.["report:data-freshness-quality-mvp-readiness"] !==
-  "node scripts/report-data-freshness-quality-mvp-readiness.mjs"
+  packageJson.scripts?.["report:data-coverage-quality-route-readiness"] !==
+  "node scripts/report-data-coverage-quality-route-readiness.mjs"
 ) {
-  missing.push(`${packagePath}: report:data-freshness-quality-mvp-readiness`);
+  missing.push(`${packagePath}: report:data-coverage-quality-route-readiness`);
 }
 
 if (
-  packageJson.scripts?.["check:data-freshness-quality-mvp-readiness"] !==
-  "node scripts/check-data-freshness-quality-mvp-readiness.mjs"
+  packageJson.scripts?.["check:data-coverage-quality-route-readiness"] !==
+  "node scripts/check-data-coverage-quality-route-readiness.mjs"
 ) {
-  missing.push(`${packagePath}: check:data-freshness-quality-mvp-readiness`);
+  missing.push(`${packagePath}: check:data-coverage-quality-route-readiness`);
 }
 
-if (!reviewGate.includes("scripts/check-data-freshness-quality-mvp-readiness.mjs")) {
-  missing.push(`${reviewGatePath}: scripts/check-data-freshness-quality-mvp-readiness.mjs`);
+if (!reviewGate.includes("scripts/check-data-coverage-quality-route-readiness.mjs")) {
+  missing.push(`${reviewGatePath}: scripts/check-data-coverage-quality-route-readiness.mjs`);
 }
 
-if (!fullHealth.includes("scripts/check-data-freshness-quality-mvp-readiness.mjs")) {
-  missing.push(`${fullHealthPath}: scripts/check-data-freshness-quality-mvp-readiness.mjs`);
+if (!fullHealth.includes("scripts/check-data-coverage-quality-route-readiness.mjs")) {
+  missing.push(`${fullHealthPath}: scripts/check-data-coverage-quality-route-readiness.mjs`);
 }
 
 const run = spawnSync(process.execPath, [reportPath], {
@@ -120,8 +117,8 @@ if (run.status !== 0) {
 }
 
 if (output) {
-  if (output.mode !== "data_freshness_quality_mvp_readiness") blocked.push(`output.mode: ${String(output.mode)}`);
-  if (output.status !== "local_data_quality_route_ready_promotion_blocked") {
+  if (output.mode !== "data_coverage_quality_route_readiness") blocked.push(`output.mode: ${String(output.mode)}`);
+  if (output.status !== "no_write_coverage_quality_route_ready_for_review") {
     blocked.push(`output.status: ${String(output.status)}`);
   }
   if (output.readinessLift !== 20) blocked.push(`output.readinessLift: ${String(output.readinessLift)}`);
@@ -131,8 +128,8 @@ if (output) {
   if (output.targetForMvpReview !== 95) {
     blocked.push(`output.targetForMvpReview: ${String(output.targetForMvpReview)}`);
   }
-  if (!Array.isArray(output.evidence) || output.evidence.length !== 8 || !output.evidence.every((item) => item.ok === true)) {
-    blocked.push("output.evidence expected eight passing evidence items");
+  if (!Array.isArray(output.evidence) || output.evidence.length !== 5 || !output.evidence.every((item) => item.ok === true)) {
+    blocked.push("output.evidence expected five passing evidence items");
   }
   for (const flag of [
     "automatedRemoteRun",

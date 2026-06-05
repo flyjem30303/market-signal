@@ -21,6 +21,7 @@ for (const phrase of [
   "scripts/report-project-progress-snapshot.mjs",
   "scripts/report-data-goal-readiness.mjs",
   "scripts/report-data-freshness-quality-mvp-readiness.mjs",
+  "scripts/report-data-coverage-quality-route-readiness.mjs",
   "scripts/report-data-goal-completion-audit.mjs",
   "scripts/report-investment-credibility-mvp-readiness.mjs",
   "scripts/report-source-rights-mvp-readiness.mjs",
@@ -36,6 +37,8 @@ for (const phrase of [
   "data-coverage-route",
   "source-rights-disclosure",
   "Do not spend the next high-value slice on visual polish",
+  "no-write data coverage/quality route closure",
+  "source-specific acceptance packets",
   "publicDataSource=supabase",
   "scoreSource=real",
   "does not connect to Supabase"
@@ -118,8 +121,8 @@ if (run.status !== 0) {
 if (output) {
   if (output.mode !== "overall_project_100_readiness") blocked.push(`output.mode: ${String(output.mode)}`);
   if (output.status !== "mvp_100_readiness_in_progress") blocked.push(`output.status: ${String(output.status)}`);
-  if (output.currentOverallPercent !== 83) {
-    blocked.push(`output.currentOverallPercent expected 83, got ${String(output.currentOverallPercent)}`);
+  if (output.currentOverallPercent !== 84) {
+    blocked.push(`output.currentOverallPercent expected 84, got ${String(output.currentOverallPercent)}`);
   }
   if (output.targetOverallPercent !== 100) {
     blocked.push(`output.targetOverallPercent: ${String(output.targetOverallPercent)}`);
@@ -137,8 +140,8 @@ if (output) {
   }
 
   const dataFreshnessGap = (output.currentTopGaps ?? []).find((gap) => gap.id === "data-freshness-quality-evidence");
-  if (dataFreshnessGap?.current !== 80) {
-    blocked.push(`output.currentTopGaps.data-freshness-quality-evidence current expected 80, got ${String(dataFreshnessGap?.current)}`);
+  if (dataFreshnessGap?.current !== 84) {
+    blocked.push(`output.currentTopGaps.data-freshness-quality-evidence current expected 84, got ${String(dataFreshnessGap?.current)}`);
   }
 
   const sourceRightsGap = (output.currentTopGaps ?? []).find((gap) => gap.id === "source-rights-disclosure");

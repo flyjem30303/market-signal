@@ -1808,6 +1808,11 @@ const checks = [
     name: "data-freshness-quality-mvp-readiness"
   },
   {
+    command: [node, "scripts/check-data-coverage-quality-route-readiness.mjs"],
+    expectStatus: "ok",
+    name: "data-coverage-quality-route-readiness"
+  },
+  {
     command: [node, "scripts/check-data-coverage-route-decision.mjs"],
     expectStatus: "ok",
     name: "data-coverage-route-decision"

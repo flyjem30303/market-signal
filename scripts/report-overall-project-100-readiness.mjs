@@ -110,9 +110,9 @@ const report = {
   targetOverallPercent: 100,
   dataReadinessPercent,
   ceoVerdict:
-    "Investment credibility has reached MVP review target as local-only claim readiness. Do not spend the next high-value slice on visual polish; the shortest route to 100% is data freshness/quality, data coverage route closure, and source-rights approval readiness while keeping runtime, health, and mock boundaries stable.",
+    "Investment credibility has reached MVP review target as local-only claim readiness. Do not spend the next high-value slice on visual polish; the shortest route to 100% is no-write data coverage/quality route closure and source-rights approval readiness while keeping runtime, health, and mock boundaries stable.",
   pmNextShortestPath:
-    "Execute a larger local-only blocker-closure slice: integrate data quality coverage route readiness, source-rights decision inputs, and review-gate checks without SQL, writes, raw data, or real-source promotion.",
+    "Execute a larger local-only blocker-closure slice: move from no-write coverage/quality route readiness into source-specific acceptance packets without SQL, writes, raw data, or real-source promotion.",
   readinessLanes,
   currentTopGaps: [
     {
@@ -176,6 +176,7 @@ const report = {
     "scripts/report-project-progress-snapshot.mjs",
     "scripts/report-data-goal-readiness.mjs",
     "scripts/report-data-freshness-quality-mvp-readiness.mjs",
+    "scripts/report-data-coverage-quality-route-readiness.mjs",
     "scripts/report-data-goal-completion-audit.mjs",
     "scripts/report-investment-credibility-mvp-readiness.mjs",
     "scripts/report-source-rights-mvp-readiness.mjs"
