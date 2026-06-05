@@ -248,6 +248,8 @@
     "check:data-coverage-quality-route-readiness": "node scripts/check-data-coverage-quality-route-readiness.mjs",
     "report:data-coverage-mvp-deferral-decision-readiness": "node scripts/report-data-coverage-mvp-deferral-decision-readiness.mjs",
     "check:data-coverage-mvp-deferral-decision-readiness": "node scripts/check-data-coverage-mvp-deferral-decision-readiness.mjs",
+    "report:data-coverage-promotion-execution-readiness": "node scripts/report-data-coverage-promotion-execution-readiness.mjs",
+    "check:data-coverage-promotion-execution-readiness": "node scripts/check-data-coverage-promotion-execution-readiness.mjs",
     "report:source-specific-acceptance-packets-readiness": "node scripts/report-source-specific-acceptance-packets-readiness.mjs",
     "check:source-specific-acceptance-packets-readiness": "node scripts/check-source-specific-acceptance-packets-readiness.mjs",
     "check:data-coverage-route-decision": "node scripts/check-data-coverage-route-decision.mjs",

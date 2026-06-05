@@ -1828,6 +1828,11 @@ const checks = [
     name: "data-coverage-mvp-deferral-decision-readiness"
   },
   {
+    command: [node, "scripts/check-data-coverage-promotion-execution-readiness.mjs"],
+    expectStatus: "ok",
+    name: "data-coverage-promotion-execution-readiness"
+  },
+  {
     command: [node, "scripts/check-source-specific-acceptance-packets-readiness.mjs"],
     expectStatus: "ok",
     name: "source-specific-acceptance-packets-readiness"

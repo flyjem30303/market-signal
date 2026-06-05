@@ -22,6 +22,7 @@ for (const phrase of [
   "scripts/report-data-goal-readiness.mjs",
   "scripts/report-data-freshness-quality-mvp-readiness.mjs",
   "scripts/report-data-coverage-quality-route-readiness.mjs",
+  "scripts/report-data-coverage-promotion-execution-readiness.mjs",
   "scripts/report-source-specific-acceptance-packets-readiness.mjs",
   "scripts/report-data-goal-completion-audit.mjs",
   "scripts/report-investment-credibility-mvp-readiness.mjs",
@@ -39,8 +40,10 @@ for (const phrase of [
   "source-rights-disclosure",
   "post-MVP source promotion",
   "post-MVP data coverage promotion",
+  "data execution-readiness",
+  "future data coverage promotion",
   "Do not spend the next high-value slice on visual polish",
-  "no-write data coverage/quality route closure",
+  "source-rights approval readiness",
   "source-specific acceptance packets",
   "publicDataSource=supabase",
   "scoreSource=real",
@@ -124,8 +127,8 @@ if (run.status !== 0) {
 if (output) {
   if (output.mode !== "overall_project_100_readiness") blocked.push(`output.mode: ${String(output.mode)}`);
   if (output.status !== "mvp_100_readiness_in_progress") blocked.push(`output.status: ${String(output.status)}`);
-  if (output.currentOverallPercent !== 85) {
-    blocked.push(`output.currentOverallPercent expected 85, got ${String(output.currentOverallPercent)}`);
+  if (output.currentOverallPercent !== 86) {
+    blocked.push(`output.currentOverallPercent expected 86, got ${String(output.currentOverallPercent)}`);
   }
   if (output.targetOverallPercent !== 100) {
     blocked.push(`output.targetOverallPercent: ${String(output.targetOverallPercent)}`);
@@ -143,8 +146,8 @@ if (output) {
   }
 
   const dataFreshnessGap = (output.currentTopGaps ?? []).find((gap) => gap.id === "data-freshness-quality-evidence");
-  if (dataFreshnessGap?.current !== 92) {
-    blocked.push(`output.currentTopGaps.data-freshness-quality-evidence current expected 92, got ${String(dataFreshnessGap?.current)}`);
+  if (dataFreshnessGap?.current !== 95) {
+    blocked.push(`output.currentTopGaps.data-freshness-quality-evidence current expected 95, got ${String(dataFreshnessGap?.current)}`);
   }
 
   const sourceRightsGap = (output.currentTopGaps ?? []).find((gap) => gap.id === "source-rights-disclosure");

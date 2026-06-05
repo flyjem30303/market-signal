@@ -120,8 +120,8 @@ if (snapshot.status !== 0) {
   if (output.project?.adjustedScore < 70) {
     blocked.push(`project.adjustedScore expected at least 70, got ${String(output.project?.adjustedScore)}`);
   }
-  if (output.project?.lanes?.find((lane) => lane.label === "Data freshness and quality evidence")?.current !== 92) {
-    blocked.push("Data freshness and quality evidence lane expected 92");
+  if (output.project?.lanes?.find((lane) => lane.label === "Data freshness and quality evidence")?.current !== 95) {
+    blocked.push("Data freshness and quality evidence lane expected 95");
   }
   if (output.safety?.publicDataSource !== "mock" || output.safety?.scoreSource !== "mock") {
     blocked.push("snapshot safety must keep publicDataSource and scoreSource mock");
