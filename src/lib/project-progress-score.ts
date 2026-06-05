@@ -67,10 +67,10 @@ export const projectProgressLanes: ProjectProgressLane[] = [
     weight: 15
   },
   {
-    current: 84,
+    current: 88,
     label: "Data freshness and quality evidence",
     note:
-      "Object reachability, daily_prices schema shape, freshness interpretation, data_runs baseline, data_freshness candidate handling, freshness metadata, Supabase readonly runtime activation, local data foundation gate, blocker closure readiness, row coverage acceptance, report-only backfill planning, field validity QA review, data quality score contract, source-rights placement, promotion prerequisites gate, and no-write coverage quality route are consolidated locally. Row coverage completion, data quality threshold, source rights, and source-depth still block promotion; scoreSource stays mock.",
+      "Object reachability, daily_prices schema shape, freshness interpretation, data_runs baseline, data_freshness candidate handling, freshness metadata, Supabase readonly runtime activation, local data foundation gate, blocker closure readiness, row coverage acceptance, report-only backfill planning, field validity QA review, data quality score contract, source-rights placement, promotion prerequisites gate, no-write coverage quality route, and source-specific acceptance packets are consolidated locally. Row coverage completion, data quality threshold, source rights, and source-depth still block promotion; scoreSource stays mock.",
     owner: "Data",
     weight: 15
   },

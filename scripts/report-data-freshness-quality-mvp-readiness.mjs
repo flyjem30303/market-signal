@@ -48,6 +48,12 @@ const checks = [
     command: "scripts/check-data-coverage-quality-route-readiness.mjs",
     evidence:
       "No-write coverage and quality route readiness consolidates source-specific backfill planning, design-gate requirements, source-rights inputs, QA thresholds, and promotion locks."
+  },
+  {
+    id: "source-specific-acceptance-packets-readiness",
+    command: "scripts/check-source-specific-acceptance-packets-readiness.mjs",
+    evidence:
+      "Source-specific acceptance packets readiness consolidates TWII, ETF, equity, storage-boundary, and QA acceptance states without authorizing execution."
   }
 ];
 
@@ -73,8 +79,8 @@ const report = {
   owner: "Data",
   coOwners: ["QA", "Legal", "Engineering"],
   recommendedBy: "CEO",
-  readinessLift: allOk ? 20 : 0,
-  upgradedReadinessPercent: allOk ? 84 : 64,
+  readinessLift: allOk ? 24 : 0,
+  upgradedReadinessPercent: allOk ? 88 : 64,
   targetForMvpReview: 95,
   mvpMeaning:
     "Data freshness and quality evidence has a local reviewable route, but it is not ready for public source promotion, data-quality score lift, ingestion, SQL, or real scoring.",
@@ -87,7 +93,8 @@ const report = {
     "bounded readonly post-run review is accepted but aggregate coverage remains incomplete",
     "source-rights public placement is mapped before any public data wording",
     "promotion prerequisites define post-run review fields and promotion locks before any readonly decision packet",
-    "no-write coverage and quality route is reviewable before any SQL, write, ingestion, or public promotion"
+    "no-write coverage and quality route is reviewable before any SQL, write, ingestion, or public promotion",
+    "source-specific acceptance packets are reviewable without authorizing execution or promotion"
   ],
   stillNotApproved: [
     "data-quality score increase",

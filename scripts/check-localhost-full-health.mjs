@@ -94,6 +94,10 @@ const checks = [
     name: "data-coverage-quality-route-readiness"
   },
   {
+    command: [node, "scripts/check-source-specific-acceptance-packets-readiness.mjs"],
+    name: "source-specific-acceptance-packets-readiness"
+  },
+  {
     command: [node, "scripts/check-promotion-prerequisites-gate.mjs"],
     name: "promotion-prerequisites-gate"
   },

@@ -30,6 +30,12 @@ const checks = [
     command: "scripts/check-source-rights-specific-classification-readiness.mjs",
     routeUse:
       "Connects source-specific rights classification to data coverage planning before public source wording or source promotion."
+  },
+  {
+    id: "source-specific-acceptance-packets-readiness",
+    command: "scripts/check-source-specific-acceptance-packets-readiness.mjs",
+    routeUse:
+      "Consolidates TWII, ETF, equity, storage-boundary, and QA acceptance packet states into one no-write decision map."
   }
 ];
 
@@ -55,8 +61,8 @@ const report = {
   owner: "Data",
   coOwners: ["Engineering", "Legal", "QA", "PM"],
   recommendedBy: "CEO",
-  readinessLift: allOk ? 20 : 0,
-  upgradedReadinessPercent: allOk ? 84 : 64,
+  readinessLift: allOk ? 24 : 0,
+  upgradedReadinessPercent: allOk ? 88 : 64,
   targetForMvpReview: 95,
   routeDecision:
     "Use the accepted aggregate-incomplete readonly evidence to prepare source-specific, report-only coverage and quality decisions before any SQL, write, ingestion, or public promotion.",
@@ -66,7 +72,8 @@ const report = {
     "ETF coverage remains source-rights gated before dry-run implementation",
     "Equity coverage can reuse existing TWSE STOCK_DAY design evidence for a report-only dry-run packet",
     "future mutation target must be decided separately, preferably staging-first unless CEO accepts direct-write risk",
-    "QA thresholds, rollback, retention, sanitized output, and post-run review are required before any row coverage point award"
+    "QA thresholds, rollback, retention, sanitized output, and post-run review are required before any row coverage point award",
+    "source-specific acceptance packets are reviewable as a no-write decision map before execution"
   ],
   stillNotApproved: [
     "SQL execution",

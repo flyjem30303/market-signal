@@ -1813,6 +1813,11 @@ const checks = [
     name: "data-coverage-quality-route-readiness"
   },
   {
+    command: [node, "scripts/check-source-specific-acceptance-packets-readiness.mjs"],
+    expectStatus: "ok",
+    name: "source-specific-acceptance-packets-readiness"
+  },
+  {
     command: [node, "scripts/check-data-coverage-route-decision.mjs"],
     expectStatus: "ok",
     name: "data-coverage-route-decision"

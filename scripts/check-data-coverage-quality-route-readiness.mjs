@@ -16,19 +16,21 @@ const blocked = [];
 for (const phrase of [
   "mode: \"data_coverage_quality_route_readiness\"",
   "no_write_coverage_quality_route_ready_for_review",
-  "readinessLift: allOk ? 20 : 0",
-  "upgradedReadinessPercent: allOk ? 84 : 64",
+  "readinessLift: allOk ? 24 : 0",
+  "upgradedReadinessPercent: allOk ? 88 : 64",
   "targetForMvpReview: 95",
   "scripts/check-data-coverage-backfill-plan.mjs",
   "scripts/check-backfill-ingestion-design-gate.mjs",
   "scripts/check-source-specific-backfill-design-packet.mjs",
   "scripts/check-promotion-prerequisites-gate.mjs",
   "scripts/check-source-rights-specific-classification-readiness.mjs",
+  "scripts/check-source-specific-acceptance-packets-readiness.mjs",
   "TWII remains the clearest missing-row blocker",
   "ETF coverage remains source-rights gated",
   "Equity coverage can reuse existing TWSE STOCK_DAY design evidence",
   "future mutation target must be decided separately",
   "QA thresholds, rollback, retention, sanitized output, and post-run review",
+  "source-specific acceptance packets are reviewable as a no-write decision map before execution",
   "publicDataSource=supabase",
   "scoreSource=real",
   "does not connect to Supabase"
@@ -121,15 +123,15 @@ if (output) {
   if (output.status !== "no_write_coverage_quality_route_ready_for_review") {
     blocked.push(`output.status: ${String(output.status)}`);
   }
-  if (output.readinessLift !== 20) blocked.push(`output.readinessLift: ${String(output.readinessLift)}`);
-  if (output.upgradedReadinessPercent !== 84) {
-    blocked.push(`output.upgradedReadinessPercent expected 84, got ${String(output.upgradedReadinessPercent)}`);
+  if (output.readinessLift !== 24) blocked.push(`output.readinessLift: ${String(output.readinessLift)}`);
+  if (output.upgradedReadinessPercent !== 88) {
+    blocked.push(`output.upgradedReadinessPercent expected 88, got ${String(output.upgradedReadinessPercent)}`);
   }
   if (output.targetForMvpReview !== 95) {
     blocked.push(`output.targetForMvpReview: ${String(output.targetForMvpReview)}`);
   }
-  if (!Array.isArray(output.evidence) || output.evidence.length !== 5 || !output.evidence.every((item) => item.ok === true)) {
-    blocked.push("output.evidence expected five passing evidence items");
+  if (!Array.isArray(output.evidence) || output.evidence.length !== 6 || !output.evidence.every((item) => item.ok === true)) {
+    blocked.push("output.evidence expected six passing evidence items");
   }
   for (const flag of [
     "automatedRemoteRun",

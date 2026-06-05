@@ -177,6 +177,7 @@ const report = {
     "scripts/report-data-goal-readiness.mjs",
     "scripts/report-data-freshness-quality-mvp-readiness.mjs",
     "scripts/report-data-coverage-quality-route-readiness.mjs",
+    "scripts/report-source-specific-acceptance-packets-readiness.mjs",
     "scripts/report-data-goal-completion-audit.mjs",
     "scripts/report-investment-credibility-mvp-readiness.mjs",
     "scripts/report-source-rights-mvp-readiness.mjs"

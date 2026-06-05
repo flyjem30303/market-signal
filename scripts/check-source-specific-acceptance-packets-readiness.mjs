@@ -1,7 +1,7 @@
 import { spawnSync } from "node:child_process";
 import fs from "node:fs";
 
-const reportPath = "scripts/report-data-freshness-quality-mvp-readiness.mjs";
+const reportPath = "scripts/report-source-specific-acceptance-packets-readiness.mjs";
 const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 const fullHealthPath = "scripts/check-localhost-full-health.mjs";
@@ -14,29 +14,27 @@ const missing = [];
 const blocked = [];
 
 for (const phrase of [
-  "mode: \"data_freshness_quality_mvp_readiness\"",
-  "local_data_quality_route_ready_promotion_blocked",
+  "mode: \"source_specific_acceptance_packets_readiness\"",
+  "source_specific_acceptance_packets_reviewable_no_write",
   "readinessLift: allOk ? 24 : 0",
   "upgradedReadinessPercent: allOk ? 88 : 64",
   "targetForMvpReview: 95",
-  "scripts/check-data-quality-field-validity-acceptance-gate.mjs",
-  "scripts/check-data-quality-score-contract.mjs",
-  "scripts/check-data-coverage-backfill-plan.mjs",
-  "scripts/check-row-coverage-evidence-acceptance.mjs",
-  "scripts/check-data-goal-readiness.mjs",
-  "scripts/check-source-rights-public-placement-readiness.mjs",
-  "scripts/check-promotion-prerequisites-gate.mjs",
-  "scripts/check-data-coverage-quality-route-readiness.mjs",
-  "scripts/check-source-specific-acceptance-packets-readiness.mjs",
-  "field validity and downgrade behavior are locally QA-reviewed",
-  "coverage/backfill plan maps source lanes",
-  "bounded readonly post-run review is accepted",
-  "promotion prerequisites define post-run review fields and promotion locks before any readonly decision packet",
-  "no-write coverage and quality route is reviewable before any SQL, write, ingestion, or public promotion",
-  "source-specific acceptance packets are reviewable without authorizing execution or promotion",
+  "scripts/check-twii-source-selection-acceptance-gate.mjs",
+  "scripts/check-twii-report-only-probe-acceptance-gate.mjs",
+  "scripts/check-etf-source-rights-review-packet.mjs",
+  "scripts/check-equity-row-coverage-evidence-acceptance-gate.mjs",
+  "scripts/check-backfill-ingestion-design-gate.mjs",
+  "accepted_for_rights_and_field_contract_review_only",
+  "accepted_for_implementation_preparation_only",
+  "packet_prepared_legal_terms_unapproved",
+  "accepted_as_local_decision_quality_evidence_only",
+  "design_gate_required_not_authorized_for_execution",
+  "TWII source selection is accepted for rights and field-contract review only",
+  "ETF source-rights packet is prepared",
+  "Equity row coverage sample is accepted as local decision-quality evidence only",
   "publicDataSource=supabase",
   "scoreSource=real",
-  "does not run SQL"
+  "does not connect to Supabase"
 ]) {
   if (!source.includes(phrase)) missing.push(`${reportPath}: ${phrase}`);
 }
@@ -65,25 +63,25 @@ for (const pattern of [
 }
 
 if (
-  packageJson.scripts?.["report:data-freshness-quality-mvp-readiness"] !==
-  "node scripts/report-data-freshness-quality-mvp-readiness.mjs"
+  packageJson.scripts?.["report:source-specific-acceptance-packets-readiness"] !==
+  "node scripts/report-source-specific-acceptance-packets-readiness.mjs"
 ) {
-  missing.push(`${packagePath}: report:data-freshness-quality-mvp-readiness`);
+  missing.push(`${packagePath}: report:source-specific-acceptance-packets-readiness`);
 }
 
 if (
-  packageJson.scripts?.["check:data-freshness-quality-mvp-readiness"] !==
-  "node scripts/check-data-freshness-quality-mvp-readiness.mjs"
+  packageJson.scripts?.["check:source-specific-acceptance-packets-readiness"] !==
+  "node scripts/check-source-specific-acceptance-packets-readiness.mjs"
 ) {
-  missing.push(`${packagePath}: check:data-freshness-quality-mvp-readiness`);
+  missing.push(`${packagePath}: check:source-specific-acceptance-packets-readiness`);
 }
 
-if (!reviewGate.includes("scripts/check-data-freshness-quality-mvp-readiness.mjs")) {
-  missing.push(`${reviewGatePath}: scripts/check-data-freshness-quality-mvp-readiness.mjs`);
+if (!reviewGate.includes("scripts/check-source-specific-acceptance-packets-readiness.mjs")) {
+  missing.push(`${reviewGatePath}: scripts/check-source-specific-acceptance-packets-readiness.mjs`);
 }
 
-if (!fullHealth.includes("scripts/check-data-freshness-quality-mvp-readiness.mjs")) {
-  missing.push(`${fullHealthPath}: scripts/check-data-freshness-quality-mvp-readiness.mjs`);
+if (!fullHealth.includes("scripts/check-source-specific-acceptance-packets-readiness.mjs")) {
+  missing.push(`${fullHealthPath}: scripts/check-source-specific-acceptance-packets-readiness.mjs`);
 }
 
 const run = spawnSync(process.execPath, [reportPath], {
@@ -122,19 +120,17 @@ if (run.status !== 0) {
 }
 
 if (output) {
-  if (output.mode !== "data_freshness_quality_mvp_readiness") blocked.push(`output.mode: ${String(output.mode)}`);
-  if (output.status !== "local_data_quality_route_ready_promotion_blocked") {
+  if (output.mode !== "source_specific_acceptance_packets_readiness") blocked.push(`output.mode: ${String(output.mode)}`);
+  if (output.status !== "source_specific_acceptance_packets_reviewable_no_write") {
     blocked.push(`output.status: ${String(output.status)}`);
   }
   if (output.readinessLift !== 24) blocked.push(`output.readinessLift: ${String(output.readinessLift)}`);
   if (output.upgradedReadinessPercent !== 88) {
     blocked.push(`output.upgradedReadinessPercent expected 88, got ${String(output.upgradedReadinessPercent)}`);
   }
-  if (output.targetForMvpReview !== 95) {
-    blocked.push(`output.targetForMvpReview: ${String(output.targetForMvpReview)}`);
-  }
-  if (!Array.isArray(output.evidence) || output.evidence.length !== 9 || !output.evidence.every((item) => item.ok === true)) {
-    blocked.push("output.evidence expected nine passing evidence items");
+  if (output.targetForMvpReview !== 95) blocked.push(`output.targetForMvpReview: ${String(output.targetForMvpReview)}`);
+  if (!Array.isArray(output.evidence) || output.evidence.length !== 5 || !output.evidence.every((item) => item.ok === true)) {
+    blocked.push("output.evidence expected five passing evidence items");
   }
   for (const flag of [
     "automatedRemoteRun",
