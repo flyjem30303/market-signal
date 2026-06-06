@@ -3448,6 +3448,11 @@ const checks = [
     name: "public-trust-and-disclosure-copy-worklist"
   },
   {
+    command: [node, "scripts/check-mvp-remaining-coverage-execution-bridge.mjs"],
+    expectStatus: "ok",
+    name: "mvp-remaining-coverage-execution-bridge"
+  },
+  {
     command: [node, "scripts/check-a1-tw-equity-candidate-artifact-intake.mjs"],
     expectStatus: "ok",
     name: "a1-tw-equity-candidate-artifact-intake"
@@ -4019,6 +4024,7 @@ const coreReviewGateNames = new Set([
   "goal-parallel-workstream-adjustment",
   "taiwan-all-listed-universe-manifest-packet",
   "public-trust-and-disclosure-copy-worklist",
+  "mvp-remaining-coverage-execution-bridge",
   "a1-tw-equity-candidate-artifact-intake",
   "a1-tw-equity-candidate-artifact-delivery-spec",
   "a1-tw-equity-candidate-artifact-self-check",

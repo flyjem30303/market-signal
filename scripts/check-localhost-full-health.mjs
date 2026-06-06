@@ -412,6 +412,10 @@ const checks = [
     name: "public-trust-and-disclosure-copy-worklist"
   },
   {
+    command: [node, "scripts/check-mvp-remaining-coverage-execution-bridge.mjs"],
+    name: "mvp-remaining-coverage-execution-bridge"
+  },
+  {
     command: [node, "scripts/check-a1-tw-equity-candidate-artifact-intake.mjs"],
     name: "a1-tw-equity-candidate-artifact-intake"
   },
