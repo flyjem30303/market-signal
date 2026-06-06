@@ -3068,6 +3068,11 @@ const checks = [
     name: "tw-equity-source-approval-decision-packet"
   },
   {
+    command: [node, "scripts/check-tw-equity-provider-specific-terms-review-packet.mjs"],
+    expectStatus: "ok",
+    name: "tw-equity-provider-specific-terms-review-packet"
+  },
+  {
     command: [node, "scripts/check-runtime-readonly-decision-card.mjs"],
     expectStatus: "ok",
     name: "runtime-readonly-decision-card"
@@ -3529,6 +3534,7 @@ const coreReviewGateNames = new Set([
   "tw-equity-local-report-only-runner",
   "tw-equity-local-report-only-runner-post-run-review",
   "tw-equity-source-approval-decision-packet",
+  "tw-equity-provider-specific-terms-review-packet",
   "typescript"
 ]);
 

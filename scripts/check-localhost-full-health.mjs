@@ -110,6 +110,10 @@ const checks = [
     name: "tw-equity-source-approval-decision-packet"
   },
   {
+    command: [node, "scripts/check-tw-equity-provider-specific-terms-review-packet.mjs"],
+    name: "tw-equity-provider-specific-terms-review-packet"
+  },
+  {
     command: [node, "scripts/check-ceo-progress-brief.mjs"],
     name: "ceo-progress-brief"
   },
