@@ -3278,6 +3278,11 @@ const checks = [
     name: "tw-equity-supabase-metadata-diagnostic-post-run-review"
   },
   {
+    command: [node, "scripts/check-tw-equity-write-path-metadata-comparison.mjs"],
+    expectStatus: "ok",
+    name: "tw-equity-write-path-metadata-comparison"
+  },
+  {
     command: [node, "scripts/check-a1-tw-equity-candidate-artifact-intake.mjs"],
     expectStatus: "ok",
     name: "a1-tw-equity-candidate-artifact-intake"
@@ -3815,6 +3820,7 @@ const coreReviewGateNames = new Set([
   "tw-equity-supabase-metadata-diagnostic-decision-packet",
   "tw-equity-supabase-metadata-diagnostic-once",
   "tw-equity-supabase-metadata-diagnostic-post-run-review",
+  "tw-equity-write-path-metadata-comparison",
   "a1-tw-equity-candidate-artifact-intake",
   "a1-tw-equity-candidate-artifact-delivery-spec",
   "a1-tw-equity-candidate-artifact-self-check",

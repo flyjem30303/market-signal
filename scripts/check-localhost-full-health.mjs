@@ -276,6 +276,10 @@ const checks = [
     name: "tw-equity-supabase-metadata-diagnostic-post-run-review"
   },
   {
+    command: [node, "scripts/check-tw-equity-write-path-metadata-comparison.mjs"],
+    name: "tw-equity-write-path-metadata-comparison"
+  },
+  {
     command: [node, "scripts/check-a1-tw-equity-candidate-artifact-intake.mjs"],
     name: "a1-tw-equity-candidate-artifact-intake"
   },
