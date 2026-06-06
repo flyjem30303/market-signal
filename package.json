@@ -201,6 +201,8 @@
     "report:tw-equity-postgrest-schema-exposure-probe-once": "node scripts/report-tw-equity-postgrest-schema-exposure-probe-once.mjs",
     "check:tw-equity-postgrest-schema-exposure-probe-once": "node scripts/check-tw-equity-postgrest-schema-exposure-probe-once.mjs",
     "check:tw-equity-postgrest-schema-exposure-probe-post-run-review": "node scripts/check-tw-equity-postgrest-schema-exposure-probe-post-run-review-2026-06-06.mjs",
+    "report:tw-equity-schema-exposure-repair-decision-packet": "node scripts/report-tw-equity-schema-exposure-repair-decision-packet.mjs",
+    "check:tw-equity-schema-exposure-repair-decision-packet": "node scripts/check-tw-equity-schema-exposure-repair-decision-packet.mjs",
     "report:a1-tw-equity-candidate-artifact-intake": "node scripts/report-a1-tw-equity-candidate-artifact-intake.mjs",
     "check:a1-tw-equity-candidate-artifact-intake": "node scripts/check-a1-tw-equity-candidate-artifact-intake.mjs",
     "check:a1-tw-equity-candidate-artifact-delivery-spec": "node scripts/check-a1-tw-equity-candidate-artifact-delivery-spec.mjs",

@@ -3293,6 +3293,11 @@ const checks = [
     name: "tw-equity-postgrest-schema-exposure-probe-post-run-review"
   },
   {
+    command: [node, "scripts/check-tw-equity-schema-exposure-repair-decision-packet.mjs"],
+    expectStatus: "ok",
+    name: "tw-equity-schema-exposure-repair-decision-packet"
+  },
+  {
     command: [node, "scripts/check-a1-tw-equity-candidate-artifact-intake.mjs"],
     expectStatus: "ok",
     name: "a1-tw-equity-candidate-artifact-intake"
@@ -3833,6 +3838,7 @@ const coreReviewGateNames = new Set([
   "tw-equity-write-path-metadata-comparison",
   "tw-equity-postgrest-schema-exposure-probe-once",
   "tw-equity-postgrest-schema-exposure-probe-post-run-review",
+  "tw-equity-schema-exposure-repair-decision-packet",
   "a1-tw-equity-candidate-artifact-intake",
   "a1-tw-equity-candidate-artifact-delivery-spec",
   "a1-tw-equity-candidate-artifact-self-check",

@@ -288,6 +288,10 @@ const checks = [
     name: "tw-equity-postgrest-schema-exposure-probe-post-run-review"
   },
   {
+    command: [node, "scripts/check-tw-equity-schema-exposure-repair-decision-packet.mjs"],
+    name: "tw-equity-schema-exposure-repair-decision-packet"
+  },
+  {
     command: [node, "scripts/check-a1-tw-equity-candidate-artifact-intake.mjs"],
     name: "a1-tw-equity-candidate-artifact-intake"
   },
