@@ -159,6 +159,8 @@
     "check:tw-equity-staging-first-write-authorization-packet-v1": "node scripts/check-tw-equity-staging-first-write-authorization-packet-v1.mjs",
     "check:tw-equity-staging-write-authorization-readiness-v2": "node scripts/check-tw-equity-staging-write-authorization-readiness-v2.mjs",
     "check:tw-equity-staging-first-write-post-run-review-template-v1": "node scripts/check-tw-equity-staging-first-write-post-run-review-template-v1.mjs",
+    "check:tw-equity-bounded-staging-write-execution-decision-v1": "node scripts/check-tw-equity-bounded-staging-write-execution-decision-v1.mjs",
+    "check:tw-equity-write-runner-fail-closed-design": "node scripts/check-tw-equity-write-runner-fail-closed-design.mjs",
     "report:ceo-progress-brief": "node scripts/report-ceo-progress-brief.mjs",
     "check:ceo-progress-brief": "node scripts/check-ceo-progress-brief.mjs",
     "report:runtime-unblock-acceleration": "node scripts/report-runtime-unblock-acceleration.mjs",

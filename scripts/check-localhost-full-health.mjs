@@ -166,6 +166,14 @@ const checks = [
     name: "tw-equity-staging-first-write-post-run-review-template-v1"
   },
   {
+    command: [node, "scripts/check-tw-equity-bounded-staging-write-execution-decision-v1.mjs"],
+    name: "tw-equity-bounded-staging-write-execution-decision-v1"
+  },
+  {
+    command: [node, "scripts/check-tw-equity-write-runner-fail-closed-design.mjs"],
+    name: "tw-equity-write-runner-fail-closed-design"
+  },
+  {
     command: [node, "scripts/check-ceo-progress-brief.mjs"],
     name: "ceo-progress-brief"
   },
