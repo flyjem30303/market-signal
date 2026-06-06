@@ -43,7 +43,7 @@ The first bounded staging write authorization packet must include every field be
 - lane: `tw-equity`;
 - symbols: `2330`, `2382`, `2308`;
 - sessions: `60`;
-- target relation: `tw_equity_daily_prices_staging`;
+- target relation set: `staging_twse_stock_day_runs`, `staging_twse_stock_day_prices`;
 - max rows: `180`;
 - source classification reference: `data/source-gates/tw-equity-provider-specific-terms-review-outcomes.json`;
 - service-role posture;
@@ -63,7 +63,7 @@ The first bounded staging write authorization packet must include every field be
 The future command shape remains:
 
 ```powershell
-node scripts/run-tw-equity-staging-write-once.mjs --authorization-id "<AUTHORIZATION_ID>" --lane "tw-equity" --symbols "2330,2382,2308" --sessions 60 --target "tw_equity_daily_prices_staging" --max-rows 180 --post-run-review "docs/reviews/TW_EQUITY_STAGING_FIRST_WRITE_POST_RUN_REVIEW_<DATE>.md"
+node scripts/run-tw-equity-staging-write-once.mjs --authorization-id "<AUTHORIZATION_ID>" --lane "tw-equity" --symbols "2330,2382,2308" --sessions 60 --target "staging_twse_stock_day_runs,staging_twse_stock_day_prices" --max-rows 180 --post-run-review "docs/reviews/TW_EQUITY_STAGING_FIRST_WRITE_POST_RUN_REVIEW_<DATE>.md"
 ```
 
 The command is a contract only. It must not be executed by this packet.

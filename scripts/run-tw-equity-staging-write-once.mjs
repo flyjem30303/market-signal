@@ -5,7 +5,7 @@ const EXPECTED = {
   postRunReview: "docs/reviews/TW_EQUITY_STAGING_FIRST_WRITE_POST_RUN_REVIEW_2026-06-06.md",
   sessions: 60,
   symbols: "2330,2382,2308",
-  target: "tw_equity_daily_prices_staging"
+  target: "staging_twse_stock_day_runs,staging_twse_stock_day_prices"
 };
 
 const args = parseArgs(process.argv.slice(2));
@@ -22,7 +22,6 @@ if (args.postRunReview !== EXPECTED.postRunReview) problems.push("post_run_revie
 const executionRequested = args.execute === "true" || args.execute === true;
 
 if (executionRequested) {
-  problems.push("execution_blocked_by_target_relation_reconciliation");
   problems.push("runner_skeleton_has_no_supabase_write_implementation");
 }
 

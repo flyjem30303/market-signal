@@ -19,7 +19,6 @@ const readableStatus = read(readableStatusPath);
 for (const phrase of [
   "tw_equity_staging_write_fail_closed_runner_skeleton",
   "ready_for_manual_execution_gate_not_executed",
-  "execution_blocked_by_target_relation_reconciliation",
   "runner_skeleton_has_no_supabase_write_implementation",
   "connectionAttempted: false",
   "filesWritten: false",
@@ -42,7 +41,8 @@ for (const phrase of [
   "scripts/run-tw-equity-staging-write-once.mjs",
   "tw_equity_staging_write_fail_closed_runner_skeleton",
   "default no Supabase connection, no SQL, no file write, no market-data fetch, no secrets, no source payload output",
-  "execution remains blocked by target relation reconciliation"
+  "target relation set is reconciled to canonical staging objects",
+  "execution remains blocked because no Supabase write implementation exists"
 ]) {
   if (!status.includes(phrase)) problems.push(`${statusPath} missing: ${phrase}`);
   if (!readableStatus.includes(phrase)) problems.push(`${readableStatusPath} missing: ${phrase}`);
@@ -101,7 +101,7 @@ const dryRun = spawnSync(process.execPath, [
   "--sessions",
   "60",
   "--target",
-  "tw_equity_daily_prices_staging",
+  "staging_twse_stock_day_runs,staging_twse_stock_day_prices",
   "--max-rows",
   "180",
   "--post-run-review",
@@ -129,7 +129,7 @@ const executeAttempt = spawnSync(process.execPath, [
   "--sessions",
   "60",
   "--target",
-  "tw_equity_daily_prices_staging",
+  "staging_twse_stock_day_runs,staging_twse_stock_day_prices",
   "--max-rows",
   "180",
   "--post-run-review",
@@ -146,8 +146,8 @@ if (executeAttempt.status === 0) {
 } else {
   const parsed = JSON.parse(executeAttempt.stdout);
   if (parsed.executionAttempted !== false) problems.push("--execute output must keep executionAttempted false");
-  if (!parsed.problems?.includes("execution_blocked_by_target_relation_reconciliation")) {
-    problems.push("--execute output missing target relation blocker");
+  if (!parsed.problems?.includes("runner_skeleton_has_no_supabase_write_implementation")) {
+    problems.push("--execute output missing runner skeleton implementation blocker");
   }
 }
 
@@ -181,7 +181,7 @@ function validateDryRun(report) {
     sourcePayloadsPrinted: false,
     sqlExecuted: false,
     status: "ready_for_manual_execution_gate_not_executed",
-    targetRelation: "tw_equity_daily_prices_staging"
+    targetRelation: "staging_twse_stock_day_runs,staging_twse_stock_day_prices"
   };
 
   for (const [key, value] of Object.entries(expected)) {

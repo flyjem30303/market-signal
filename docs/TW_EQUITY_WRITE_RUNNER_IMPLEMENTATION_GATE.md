@@ -8,7 +8,7 @@ Status: `tw_equity_write_runner_implementation_gate_ready_fail_closed_skeleton_c
 
 This gate defines the implementation boundary for the future `scripts/run-tw-equity-staging-write-once.mjs` runner. It inherits `docs/TW_EQUITY_ACTUAL_BOUNDED_STAGING_WRITE_AUTHORIZATION_PACKET.md` and `docs/TW_EQUITY_WRITE_RUNNER_FAIL_CLOSED_DESIGN.md`.
 
-This gate now permits a fail-closed runner skeleton at `scripts/run-tw-equity-staging-write-once.mjs`. The skeleton is not a write execution implementation. It prints sanitized JSON only and refuses execution while target relation reconciliation is blocked.
+This gate now permits a fail-closed runner skeleton at `scripts/run-tw-equity-staging-write-once.mjs`. The skeleton is not a write execution implementation. It prints sanitized JSON only and refuses execution because no Supabase write implementation exists yet.
 
 ## Allowed Future Skeleton Scope
 
@@ -55,8 +55,8 @@ If the future runner skeleton is created, a dedicated checker must prove:
 
 CEO decision: create the fail-closed runner skeleton in this GOAL, but do not create a runnable write execution implementation.
 
-Reason: the actual bounded staging write authorization packet is ready, but execution is blocked by target relation reconciliation. The skeleton preserves the exact command contract while preventing accidental writes.
+Reason: the actual bounded staging write authorization packet is reconciled to the canonical local staging objects, but execution is still blocked because the runner intentionally has no write implementation. The skeleton preserves the exact command contract while preventing accidental writes.
 
 ## Next Executable Stage
 
-The next executable stage is a separate "one actual bounded staging write execution after target relation reconciliation" GOAL. It must explicitly authorize execution and must include immediate post-run review.
+The next executable stage is a separate "one actual bounded staging write implementation and execution" GOAL. It must explicitly authorize execution and must include immediate post-run review.

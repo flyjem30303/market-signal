@@ -5,7 +5,7 @@ const problems = [];
 const docPath = "docs/TW_EQUITY_ONE_ATTEMPT_STAGING_WRITE_PREFLIGHT_GATE.md";
 const authPath = "docs/TW_EQUITY_ACTUAL_BOUNDED_STAGING_WRITE_AUTHORIZATION_PACKET.md";
 const migrationPath = "supabase/migrations/0003_twse_stock_day_staging.sql";
-const blockedReviewPath = "docs/reviews/TW_EQUITY_ONE_ATTEMPT_STAGING_WRITE_BLOCKED_REVIEW_2026-06-06.md";
+const reconciliationReviewPath = "docs/reviews/TW_EQUITY_TARGET_RELATION_RECONCILIATION_REVIEW_2026-06-06.md";
 const statusPath = "PROJECT_STATUS.md";
 const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
@@ -15,7 +15,7 @@ const readableStatusPath = "scripts/check-readable-current-status.mjs";
 const doc = read(docPath);
 const auth = read(authPath);
 const migration = read(migrationPath);
-const blockedReview = read(blockedReviewPath);
+const reconciliationReview = read(reconciliationReviewPath);
 const status = read(statusPath);
 const pkg = JSON.parse(read(packagePath));
 const reviewGate = read(reviewGatePath);
@@ -24,9 +24,9 @@ const readableStatus = read(readableStatusPath);
 
 for (const phrase of [
   "TW Equity One-Attempt Staging Write Preflight Gate",
-  "tw_equity_one_attempt_staging_write_preflight_gate_blocked_by_target_relation_reconciliation",
+  "tw_equity_one_attempt_staging_write_preflight_gate_reconciled_not_executed",
   "TW-EQUITY-STAGING-WRITE-2026-06-06-AUTH-001",
-  "target relation: `tw_equity_daily_prices_staging`",
+  "target relation set: `staging_twse_stock_day_runs`, `staging_twse_stock_day_prices`",
   "source classification reference: `data/source-gates/tw-equity-provider-specific-terms-review-outcomes.json`",
   "service-role posture: present but not executed",
   "RLS posture: present but not executed",
@@ -41,7 +41,7 @@ for (const phrase of [
   "no score-source promotion",
   "`staging_twse_stock_day_runs`",
   "`staging_twse_stock_day_prices`",
-  "Current decision: blocked, not executed",
+  "Current decision: target relation reconciled, not executed",
   "No SQL, Supabase connection, Supabase write, staging row creation"
 ]) {
   if (!doc.includes(phrase)) problems.push(`${docPath} missing: ${phrase}`);
@@ -51,7 +51,7 @@ for (const [path, text, phrase] of [
   [authPath, auth, "tw_equity_actual_bounded_staging_write_authorization_packet_ready_not_executed"],
   [migrationPath, migration, "create table if not exists public.staging_twse_stock_day_runs"],
   [migrationPath, migration, "create table if not exists public.staging_twse_stock_day_prices"],
-  [blockedReviewPath, blockedReview, "tw_equity_one_attempt_staging_write_explicitly_blocked_not_executed"]
+  [reconciliationReviewPath, reconciliationReview, "tw_equity_target_relation_reconciliation_accepted_not_executed"]
 ]) {
   if (!text.includes(phrase)) problems.push(`${path} missing: ${phrase}`);
 }
@@ -59,10 +59,10 @@ for (const [path, text, phrase] of [
 for (const phrase of [
   "Latest TW equity one-attempt staging write preflight gate slice",
   "docs/TW_EQUITY_ONE_ATTEMPT_STAGING_WRITE_PREFLIGHT_GATE.md",
-  "tw_equity_one_attempt_staging_write_preflight_gate_blocked_by_target_relation_reconciliation",
-  "docs/reviews/TW_EQUITY_ONE_ATTEMPT_STAGING_WRITE_BLOCKED_REVIEW_2026-06-06.md",
-  "actual bounded staging write is explicitly blocked, not executed",
-  "target relation reconciliation is required"
+  "tw_equity_one_attempt_staging_write_preflight_gate_reconciled_not_executed",
+  "docs/reviews/TW_EQUITY_TARGET_RELATION_RECONCILIATION_REVIEW_2026-06-06.md",
+  "target relation reconciliation is accepted",
+  "actual bounded staging write remains not executed because no write-capable runner exists"
 ]) {
   if (!status.includes(phrase)) problems.push(`${statusPath} missing: ${phrase}`);
   if (!readableStatus.includes(phrase)) problems.push(`${readableStatusPath} missing: ${phrase}`);

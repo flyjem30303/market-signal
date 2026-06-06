@@ -61,7 +61,7 @@ for (const phrase of [
   "lane: `tw-equity`",
   "symbols: `2330`, `2382`, `2308`",
   "sessions: `60`",
-  "target relation: `tw_equity_daily_prices_staging`",
+  "target relation set: `staging_twse_stock_day_runs`, `staging_twse_stock_day_prices`",
   "max rows: `180`",
   "source classification reference: `data/source-gates/tw-equity-provider-specific-terms-review-outcomes.json`",
   "service-role posture",

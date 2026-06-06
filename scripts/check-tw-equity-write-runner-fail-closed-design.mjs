@@ -46,7 +46,7 @@ for (const phrase of [
   "lane equals `tw-equity`",
   "symbols equal `2330`, `2382`, `2308`",
   "sessions equals `60`",
-  "target relation equals `tw_equity_daily_prices_staging`",
+  "target relation set equals `staging_twse_stock_day_runs`, `staging_twse_stock_day_prices`",
   "max rows equals `180`",
   "source classification reference points to `data/source-gates/tw-equity-provider-specific-terms-review-outcomes.json`",
   "redistribution remains `unknown_keep_blocked`",

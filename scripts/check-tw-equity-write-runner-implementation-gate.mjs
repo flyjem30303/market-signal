@@ -60,7 +60,7 @@ for (const phrase of [
   "no production `daily_prices` mutation can occur",
   "create the fail-closed runner skeleton in this GOAL",
   "do not create a runnable write execution implementation",
-  "one actual bounded staging write execution after target relation reconciliation"
+  "one actual bounded staging write implementation and execution"
 ]) {
   if (!doc.includes(phrase)) problems.push(`${docPath} missing: ${phrase}`);
 }
@@ -77,7 +77,7 @@ for (const phrase of [
   "docs/TW_EQUITY_WRITE_RUNNER_IMPLEMENTATION_GATE.md",
   "tw_equity_write_runner_implementation_gate_ready_fail_closed_skeleton_created",
   "fail-closed runner skeleton is created but no write execution implementation exists",
-  "next executable stage is a separate one actual bounded staging write execution after target relation reconciliation GOAL"
+  "next executable stage is a separate one actual bounded staging write implementation and execution GOAL"
 ]) {
   if (!status.includes(phrase)) problems.push(`${statusPath} missing: ${phrase}`);
   if (!readableStatus.includes(phrase)) problems.push(`${readableStatusPath} missing: ${phrase}`);

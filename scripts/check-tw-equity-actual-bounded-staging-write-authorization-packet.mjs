@@ -52,13 +52,13 @@ for (const phrase of [
   "--lane \"tw-equity\"",
   "--symbols \"2330,2382,2308\"",
   "--sessions 60",
-  "--target \"tw_equity_daily_prices_staging\"",
+  "--target \"staging_twse_stock_day_runs,staging_twse_stock_day_prices\"",
   "--max-rows 180",
   "docs/reviews/TW_EQUITY_STAGING_FIRST_WRITE_POST_RUN_REVIEW_2026-06-06.md",
   "lane | `tw-equity`",
   "symbols | `2330`, `2382`, `2308`",
   "sessions | `60`",
-  "target relation | `tw_equity_daily_prices_staging`",
+  "target relation set | `staging_twse_stock_day_runs`, `staging_twse_stock_day_prices`",
   "max rows | `180`",
   "source classification reference | `data/source-gates/tw-equity-provider-specific-terms-review-outcomes.json`",
   "service-role posture | `required_for_future_execution_but_not_loaded_or_printed_by_this_packet`",
@@ -80,10 +80,10 @@ for (const phrase of [
   "`rate-limit-and-outage` | `accepted_for_internal_only`",
   "`redistribution=unknown_keep_blocked` remains active",
   "Public redistribution, download, export, API reuse, downstream copies",
-  "ready for a one-attempt bounded staging write execution gate",
+  "reconciled to the canonical local staging objects",
   "the current GOAL does not execute the write",
   "fail-closed runner skeleton",
-  "refuses execution while target relation reconciliation is blocked",
+  "refuses execution because no Supabase write implementation exists yet",
   "This packet makes the project ready to decide on one actual bounded staging write execution"
 ]) {
   if (!doc.includes(phrase)) problems.push(`${docPath} missing: ${phrase}`);

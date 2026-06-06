@@ -15,11 +15,11 @@ This packet is authorization-ready but not execution-complete. It does not run S
 | field | value |
 | --- | --- |
 | authorization id | `TW-EQUITY-STAGING-WRITE-2026-06-06-AUTH-001` |
-| exact command | `node scripts/run-tw-equity-staging-write-once.mjs --authorization-id "TW-EQUITY-STAGING-WRITE-2026-06-06-AUTH-001" --lane "tw-equity" --symbols "2330,2382,2308" --sessions 60 --target "tw_equity_daily_prices_staging" --max-rows 180 --post-run-review "docs/reviews/TW_EQUITY_STAGING_FIRST_WRITE_POST_RUN_REVIEW_2026-06-06.md"` |
+| exact command | `node scripts/run-tw-equity-staging-write-once.mjs --authorization-id "TW-EQUITY-STAGING-WRITE-2026-06-06-AUTH-001" --lane "tw-equity" --symbols "2330,2382,2308" --sessions 60 --target "staging_twse_stock_day_runs,staging_twse_stock_day_prices" --max-rows 180 --post-run-review "docs/reviews/TW_EQUITY_STAGING_FIRST_WRITE_POST_RUN_REVIEW_2026-06-06.md"` |
 | lane | `tw-equity` |
 | symbols | `2330`, `2382`, `2308` |
 | sessions | `60` |
-| target relation | `tw_equity_daily_prices_staging` |
+| target relation set | `staging_twse_stock_day_runs`, `staging_twse_stock_day_prices` |
 | max rows | `180` |
 | source classification reference | `data/source-gates/tw-equity-provider-specific-terms-review-outcomes.json` |
 | service-role posture | `required_for_future_execution_but_not_loaded_or_printed_by_this_packet` |
@@ -52,9 +52,9 @@ The classification reference remains `data/source-gates/tw-equity-provider-speci
 
 ## CEO Authorization Decision
 
-CEO decision: the packet is ready for a one-attempt bounded staging write execution gate, but the current GOAL does not execute the write.
+CEO decision: the packet is reconciled to the canonical local staging objects and ready for a one-attempt bounded staging write implementation gate, but the current GOAL does not execute the write.
 
-The current stage creates a fail-closed runner skeleton at `scripts/run-tw-equity-staging-write-once.mjs`. The skeleton remains inert, prints sanitized JSON only, and refuses execution while target relation reconciliation is blocked.
+The current stage creates a fail-closed runner skeleton at `scripts/run-tw-equity-staging-write-once.mjs`. The skeleton remains inert, prints sanitized JSON only, and refuses execution because no Supabase write implementation exists yet.
 
 ## Execution Preconditions
 
@@ -63,6 +63,7 @@ Before any actual execution, the next execution gate must prove:
 - the exact command matches this packet;
 - the authorization id matches this packet;
 - the runner safety checker passes;
+- the target relation set remains the canonical local staging objects `staging_twse_stock_day_runs` and `staging_twse_stock_day_prices`;
 - service-role handling is explicit and does not print secrets;
 - RLS posture is acknowledged;
 - rollback owner is present;
