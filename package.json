@@ -182,6 +182,7 @@
     "report:tw-equity-second-bounded-staging-write-retry-decision": "node scripts/report-tw-equity-second-bounded-staging-write-retry-decision.mjs",
     "check:tw-equity-second-bounded-staging-write-retry-decision": "node scripts/check-tw-equity-second-bounded-staging-write-retry-decision.mjs",
     "check:tw-equity-second-write-runner-contract-alignment": "node scripts/check-tw-equity-second-write-runner-contract-alignment.mjs",
+    "check:tw-equity-staging-second-write-retry-post-run-review-2026-06-06": "node scripts/check-tw-equity-staging-second-write-retry-post-run-review-2026-06-06.mjs",
     "report:a1-tw-equity-candidate-artifact-intake": "node scripts/report-a1-tw-equity-candidate-artifact-intake.mjs",
     "check:a1-tw-equity-candidate-artifact-intake": "node scripts/check-a1-tw-equity-candidate-artifact-intake.mjs",
     "check:a1-tw-equity-candidate-artifact-delivery-spec": "node scripts/check-a1-tw-equity-candidate-artifact-delivery-spec.mjs",

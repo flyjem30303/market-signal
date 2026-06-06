@@ -244,6 +244,10 @@ const checks = [
     name: "tw-equity-second-write-runner-contract-alignment"
   },
   {
+    command: [node, "scripts/check-tw-equity-staging-second-write-retry-post-run-review-2026-06-06.mjs"],
+    name: "tw-equity-staging-second-write-retry-post-run-review-2026-06-06"
+  },
+  {
     command: [node, "scripts/check-a1-tw-equity-candidate-artifact-intake.mjs"],
     name: "a1-tw-equity-candidate-artifact-intake"
   },
