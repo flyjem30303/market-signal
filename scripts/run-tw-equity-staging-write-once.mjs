@@ -25,6 +25,7 @@ if (args.target !== EXPECTED.target) problems.push("target_relation_mismatch");
 if (Number(args.maxRows) !== EXPECTED.maxRows) problems.push("max_rows_mismatch");
 if (args.postRunReview !== EXPECTED.postRunReview) problems.push("post_run_review_mismatch");
 
+const commandContractMatched = problems.length === 0;
 const executionRequested = args.execute === "true" || args.execute === true;
 const candidateInputArtifact = args.candidateInput ?? "missing";
 const candidateInputValidation =
@@ -37,6 +38,15 @@ const credentialPresence = {
 };
 const rollbackDryRunAvailable = args.rollbackDryRun === "true" || args.rollbackDryRun === true;
 const rollbackDryRunCountReady = rollbackDryRunAvailable && candidateInputAccepted;
+const writePreExecutionSummary = buildWritePreExecutionSummary({
+  candidateInputAccepted,
+  candidateInputValidation,
+  commandContractMatched,
+  confirmationPresent,
+  credentialPresence,
+  rollbackDryRunAvailable,
+  rollbackDryRunCountReady
+});
 const localPreflightProblems = [];
 
 problems.push(...candidateInputValidation.problems);
@@ -101,7 +111,9 @@ console.log(
       status,
       symbols: args.symbols ? args.symbols.split(",") : [],
       targetRelation: args.target ?? "missing",
-      writeImplementationReady: false
+      writeImplementationReady: false,
+      writePreExecutionSummary,
+      writePreExecutionSummaryReady: writePreExecutionSummary.ready
     },
     null,
     2
@@ -180,6 +192,7 @@ function skippedCandidateInputValidation() {
   return {
     accepted: false,
     priceRows: 0,
+    runId: null,
     problems: [],
     runRows: 0
   };
@@ -189,6 +202,7 @@ function validateCandidateInputArtifact(filePath) {
   const validation = {
     accepted: false,
     priceRows: 0,
+    runId: null,
     problems: [],
     runRows: 0
   };
@@ -229,6 +243,7 @@ function validateCandidateInputArtifact(filePath) {
     validation.problems.push("candidate_run_missing");
   } else {
     validation.runRows = 1;
+    validation.runId = candidateRun.run_id;
     validateCandidateRun(candidateRun, validation.problems);
   }
 
@@ -340,4 +355,44 @@ function nonNegativeNumber(value) {
 
 function isObject(value) {
   return value !== null && typeof value === "object" && !Array.isArray(value);
+}
+
+function buildWritePreExecutionSummary({
+  candidateInputAccepted,
+  candidateInputValidation,
+  commandContractMatched,
+  confirmationPresent,
+  credentialPresence,
+  rollbackDryRunAvailable,
+  rollbackDryRunCountReady
+}) {
+  const ready =
+    commandContractMatched &&
+    confirmationPresent &&
+    credentialPresence.nextPublicSupabaseUrl &&
+    credentialPresence.serviceRoleKey &&
+    candidateInputAccepted &&
+    rollbackDryRunAvailable &&
+    rollbackDryRunCountReady;
+
+  return {
+    blockedUntilSeparateWriteImplementation: true,
+    candidatePriceRows: candidateInputAccepted ? candidateInputValidation.priceRows : 0,
+    candidateRunRows: candidateInputAccepted ? candidateInputValidation.runRows : 0,
+    connectionPlanned: false,
+    destructiveRollbackAllowed: false,
+    maxRows: EXPECTED.maxRows,
+    mutationsPlanned: false,
+    noRetry: true,
+    postRunReviewRequired: true,
+    publicPromotionAllowed: false,
+    ready,
+    rollbackScopeRunId: rollbackDryRunCountReady ? candidateInputValidation.runId : null,
+    rollbackScopeTargetRelation: rollbackDryRunCountReady ? EXPECTED.target : "not_ready",
+    rowCoveragePointsAllowed: false,
+    scoreSourcePromotionAllowed: false,
+    sqlPlanned: false,
+    targetRelation: EXPECTED.target,
+    writeImplementationReady: false
+  };
 }

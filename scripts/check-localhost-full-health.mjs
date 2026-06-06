@@ -202,6 +202,10 @@ const checks = [
     name: "tw-equity-sanitized-candidate-input-validator"
   },
   {
+    command: [node, "scripts/check-tw-equity-write-pre-execution-summary.mjs"],
+    name: "tw-equity-write-pre-execution-summary"
+  },
+  {
     command: [node, "scripts/check-ceo-progress-brief.mjs"],
     name: "ceo-progress-brief"
   },

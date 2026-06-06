@@ -3183,6 +3183,11 @@ const checks = [
     name: "tw-equity-sanitized-candidate-input-validator"
   },
   {
+    command: [node, "scripts/check-tw-equity-write-pre-execution-summary.mjs"],
+    expectStatus: "ok",
+    name: "tw-equity-write-pre-execution-summary"
+  },
+  {
     command: [node, "scripts/check-runtime-readonly-decision-card.mjs"],
     expectStatus: "ok",
     name: "runtime-readonly-decision-card"
@@ -3667,6 +3672,7 @@ const coreReviewGateNames = new Set([
   "tw-equity-write-capable-runner-implementation-readiness-gate",
   "tw-equity-write-implementation-design-to-code-boundary",
   "tw-equity-sanitized-candidate-input-validator",
+  "tw-equity-write-pre-execution-summary",
   "typescript"
 ]);
 
