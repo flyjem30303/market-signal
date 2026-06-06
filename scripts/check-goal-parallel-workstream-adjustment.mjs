@@ -13,25 +13,32 @@ const roadmap = read(roadmapPath);
 const status = read(statusPath);
 
 const requiredDocPhrases = [
-  "Status: `goal_parallel_workstream_adjustment_ready_data_mainline_with_parallel_support`",
-  "complete Level 1 MVP row coverage from `182/360` to `360/360`",
-  "PM should not wait for A1/A2 when a safe mainline data step is available",
-  "A1 is reassigned to the next data-expansion support lane",
-  "prepare the Level 2 Taiwan all-listed universe manifest packet",
-  "A2 is reassigned to launch-trust support while data coverage continues",
-  "prepare public trust and legal-disclosure copy worklists",
-  "完成「資料覆蓋率補齊」主線",
-  "Level 1 MVP row coverage universe",
-  "A1 可在背景準備 Level 2 台灣全上市 universe manifest packet",
-  "A2 可在背景準備公開信任與揭露 copy worklist",
-  "測試手段採輕量優先",
-  "不為了驗證而重跑遠端操作",
-  "不得未經 gate 跑 SQL",
-  "不得未經 gate 寫 Supabase",
-  "不得設定 publicDataSource=supabase",
-  "不得設定 scoreSource=real",
-  "full review gate should be reserved for milestone integration",
-  "The next PM mainline action should remain Level 1 MVP coverage completion"
+  "Status: `goal_launch_engineering_parallel_workstreams_ready`",
+  "formal launch-engineering program",
+  "PM owns the mainline and integration",
+  "A1 owns the data / Supabase / market evidence support lane",
+  "A2 owns the public trust / UX readability / disclosure support lane",
+  "PM must assign new A1/A2 tasks whenever their current background tasks finish",
+  "The GOAL should move toward formal launch engineering",
+  "Dynamic Reassignment Rule",
+  "When A1 or A2 completes a task",
+  "PM immediately assigns the next highest-value side-lane task",
+  "把專案往「正式上線工程完成」推進",
+  "PM 是主線與整合 owner",
+  "A1 是 Data / Supabase / Market Evidence 副線",
+  "A2 是 Frontend / UX Readability / Public Copy QA 副線",
+  "當 A1 或 A2 完成任務時，PM 必須即時審核",
+  "Runtime promotion gate 完成",
+  "真實資料 ingestion / backfill 流程",
+  "公開網站信任與法務揭露完成 launch-ready 文案",
+  "正式上線工程完成部署前置",
+  "A1/A2 assignment 或 completion review",
+  "未經明確 gate 不得跑 SQL",
+  "未經明確 gate 不得寫 Supabase",
+  "不得未經 promotion gate 設定 publicDataSource=supabase",
+  "不得未經 promotion gate 設定 scoreSource=real",
+  "A1/A2 不得自行 commit 或跨線改動",
+  "full review gate should be reserved for milestone integration"
 ];
 
 for (const phrase of requiredDocPhrases) {
@@ -64,8 +71,37 @@ for (const phrase of requiredRoadmapPhrases) {
   }
 }
 
-if (!status.includes("Latest GOAL parallel workstream adjustment slice")) {
-  problems.push(`${statusPath} missing GOAL parallel workstream status entry`);
+const requiredStatusPhrases = [
+  "Latest GOAL launch-engineering parallel workstream adjustment slice",
+  "goal_launch_engineering_parallel_workstreams_ready",
+  "A1/A2 completion now triggers immediate PM reassignment",
+  "formal launch engineering"
+];
+
+for (const phrase of requiredStatusPhrases) {
+  if (!status.includes(phrase)) {
+    problems.push(`${statusPath} missing status phrase: ${phrase}`);
+  }
+}
+
+const forbiddenPatterns = [
+  /�/u,
+  /[\uE000-\uF8FF]/u,
+  /\?祇/u,
+  /摰/u,
+  /銝/u,
+  /Supabase writes are approved/u,
+  /SQL execution is approved/u,
+  /publicDataSource=supabase is approved/u,
+  /scoreSource=real is approved/u,
+  /RUN_REMOTE_NOW/u,
+  /EXECUTION_COMPLETED/u
+];
+
+for (const pattern of forbiddenPatterns) {
+  if (pattern.test(doc)) {
+    problems.push(`${docPath} contains forbidden pattern: ${pattern}`);
+  }
 }
 
 if (problems.length > 0) {
@@ -78,7 +114,7 @@ console.log(
     {
       status: "ok",
       docPath,
-      guardedStatus: "goal_parallel_workstream_adjustment_ready_data_mainline_with_parallel_support"
+      guardedStatus: "goal_launch_engineering_parallel_workstreams_ready"
     },
     null,
     2

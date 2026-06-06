@@ -110,6 +110,19 @@ Current next tasks:
 
 PM may run mainline, A1, and A2 in parallel. PM must not wait for A1/A2 when runtime work is locally safe, and A1/A2 must not independently commit or cross into each other's lane.
 
+## Dynamic A1 / A2 Reassignment
+
+PM must treat A1 and A2 as rolling support lanes, not one-time helpers.
+
+When A1 or A2 completes a task:
+- PM reviews the output and classifies it as accepted, rejected, or needs bounded repair.
+- PM integrates accepted output only after the relevant local checker passes.
+- PM immediately assigns the next highest-value lane-specific task when useful work remains.
+- PM records the new assignment in project files or status notes when it affects launch direction.
+- PM continues the mainline without waiting when safe.
+
+This rule exists because the project GOAL now moves toward formal launch engineering, where data readiness, runtime promotion, public trust copy, and deployment readiness can advance in parallel.
+
 ## I: Cloud Deployment / DevOps / Launch Operations
 
 Mission:
