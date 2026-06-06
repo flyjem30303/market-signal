@@ -238,6 +238,7 @@
     "check:tw-equity-staging-to-daily-prices-remote-preflight-authorization": "node scripts/check-tw-equity-staging-to-daily-prices-remote-preflight-authorization.mjs",
     "check:tw-equity-staging-to-daily-prices-remote-preflight-runner-implementation": "node scripts/check-tw-equity-staging-to-daily-prices-remote-preflight-runner-implementation.mjs",
     "check:tw-equity-daily-prices-existing-target-overlap-policy": "node scripts/check-tw-equity-daily-prices-existing-target-overlap-policy.mjs",
+    "check:tw-equity-daily-prices-overlap-classification-runner": "node scripts/check-tw-equity-daily-prices-overlap-classification-runner.mjs",
     "report:a1-tw-equity-candidate-artifact-intake": "node scripts/report-a1-tw-equity-candidate-artifact-intake.mjs",
     "check:a1-tw-equity-candidate-artifact-intake": "node scripts/check-a1-tw-equity-candidate-artifact-intake.mjs",
     "check:a1-tw-equity-candidate-artifact-delivery-spec": "node scripts/check-a1-tw-equity-candidate-artifact-delivery-spec.mjs",
