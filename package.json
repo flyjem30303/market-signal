@@ -176,6 +176,7 @@
     "check:tw-equity-staging-write-execution-readiness": "node scripts/check-tw-equity-staging-write-execution-readiness.mjs",
     "report:tw-equity-bounded-staging-write-attempt-decision": "node scripts/report-tw-equity-bounded-staging-write-attempt-decision.mjs",
     "check:tw-equity-bounded-staging-write-attempt-decision": "node scripts/check-tw-equity-bounded-staging-write-attempt-decision.mjs",
+    "check:tw-equity-staging-first-write-post-run-review-2026-06-06": "node scripts/check-tw-equity-staging-first-write-post-run-review-2026-06-06.mjs",
     "report:a1-tw-equity-candidate-artifact-intake": "node scripts/report-a1-tw-equity-candidate-artifact-intake.mjs",
     "check:a1-tw-equity-candidate-artifact-intake": "node scripts/check-a1-tw-equity-candidate-artifact-intake.mjs",
     "check:a1-tw-equity-candidate-artifact-delivery-spec": "node scripts/check-a1-tw-equity-candidate-artifact-delivery-spec.mjs",

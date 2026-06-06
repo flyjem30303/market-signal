@@ -228,6 +228,10 @@ const checks = [
     name: "tw-equity-bounded-staging-write-attempt-decision"
   },
   {
+    command: [node, "scripts/check-tw-equity-staging-first-write-post-run-review-2026-06-06.mjs"],
+    name: "tw-equity-staging-first-write-post-run-review-2026-06-06"
+  },
+  {
     command: [node, "scripts/check-a1-tw-equity-candidate-artifact-intake.mjs"],
     name: "a1-tw-equity-candidate-artifact-intake"
   },
