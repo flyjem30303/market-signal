@@ -106,6 +106,10 @@ const checks = [
     name: "tw-equity-local-report-only-runner-post-run-review"
   },
   {
+    command: [node, "scripts/check-tw-equity-source-approval-decision-packet.mjs"],
+    name: "tw-equity-source-approval-decision-packet"
+  },
+  {
     command: [node, "scripts/check-ceo-progress-brief.mjs"],
     name: "ceo-progress-brief"
   },

@@ -140,6 +140,7 @@
     "report:tw-equity-local-report-only-dry-run": "node scripts/report-tw-equity-local-report-only-dry-run.mjs",
     "check:tw-equity-local-report-only-runner": "node scripts/check-tw-equity-local-report-only-runner.mjs",
     "check:tw-equity-local-report-only-runner-post-run-review": "node scripts/check-tw-equity-local-report-only-runner-post-run-review.mjs",
+    "check:tw-equity-source-approval-decision-packet": "node scripts/check-tw-equity-source-approval-decision-packet.mjs",
     "report:ceo-progress-brief": "node scripts/report-ceo-progress-brief.mjs",
     "check:ceo-progress-brief": "node scripts/check-ceo-progress-brief.mjs",
     "report:runtime-unblock-acceleration": "node scripts/report-runtime-unblock-acceleration.mjs",
