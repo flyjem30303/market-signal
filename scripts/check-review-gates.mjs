@@ -3388,6 +3388,11 @@ const checks = [
     name: "tw-equity-staging-to-daily-prices-remote-preflight-runner-implementation"
   },
   {
+    command: [node, "scripts/check-tw-equity-daily-prices-existing-target-overlap-policy.mjs"],
+    expectStatus: "ok",
+    name: "tw-equity-daily-prices-existing-target-overlap-policy"
+  },
+  {
     command: [node, "scripts/check-a1-tw-equity-candidate-artifact-intake.mjs"],
     expectStatus: "ok",
     name: "a1-tw-equity-candidate-artifact-intake"
@@ -3947,6 +3952,7 @@ const coreReviewGateNames = new Set([
   "tw-equity-staging-to-daily-prices-dry-run-preflight",
   "tw-equity-staging-to-daily-prices-remote-preflight-authorization",
   "tw-equity-staging-to-daily-prices-remote-preflight-runner-implementation",
+  "tw-equity-daily-prices-existing-target-overlap-policy",
   "a1-tw-equity-candidate-artifact-intake",
   "a1-tw-equity-candidate-artifact-delivery-spec",
   "a1-tw-equity-candidate-artifact-self-check",

@@ -2,13 +2,13 @@
 
 Date: 2026-06-07
 
-Status: `tw_equity_staging_to_daily_prices_remote_preflight_runner_implemented_not_executed`.
+Status: `tw_equity_staging_to_daily_prices_remote_preflight_runner_executed_blocked_existing_target_overlap`.
 
 ## CEO Decision
 
 The remote preflight authorization packet can now move from command map to a fail-closed runner implementation. This implementation is remote-capable only behind the exact authorization id, accepted staging scope, accepted candidate input, bounded readonly confirmation, credentials, and post-run review path.
 
-This slice does not execute a real remote preflight. It does not run SQL, write Supabase, mutate `daily_prices`, fetch market data, ingest market data, print secrets, print row payloads, award row coverage points, promote public data source, or set `scoreSource=real`.
+This implementation slice originally created the runner without executing a real remote preflight. A later bounded readonly execution attempt has now occurred and is recorded in `docs/reviews/TW_EQUITY_STAGING_TO_DAILY_PRICES_REMOTE_PREFLIGHT_POST_RUN_REVIEW_2026-06-07.md`. The real attempt was blocked by existing production target overlap and did not run SQL, write Supabase, mutate `daily_prices`, fetch market data, ingest market data, print secrets, print row payloads, award row coverage points, promote public data source, or set `scoreSource=real`.
 
 ## Implemented Runner
 
@@ -54,7 +54,9 @@ The mock execution path proves the read/count logic can reach `remote_preflight_
 
 ## Post-Run Review
 
-When a real execution is later authorized, the runner writes the named post-run review artifact immediately after sanitized output classification. The review records aggregate counts, accepted/rejected status, promotion blocks, and unchanged mock runtime boundaries.
+Whenever a real remote attempt occurs, including blocked outcomes, the runner writes the named post-run review artifact immediately after sanitized output classification. The review records aggregate counts, preflight status, problems, accepted/rejected status, promotion blocks, and unchanged mock runtime boundaries.
+
+The 2026-06-07 bounded readonly execution observed `existing_daily_prices_target_count=3` against expected `0`, so the attempt is rejected as `remote_preflight_blocked_existing_daily_prices_target_rows`.
 
 ## Promotion Boundary
 
@@ -73,8 +75,9 @@ The local implementation checker proves:
 - no-execute exact command exits successfully without connection;
 - execute without confirmation fails closed without connection;
 - mocked execute reaches the aggregate-count path and writes a temporary post-run review;
+- mocked blocked execute writes a temporary post-run review and records the existing-target-overlap blocker;
 - output keeps `publicDataSource=mock`, `scoreSource=mock`, `sqlExecuted=false`, `supabaseWriteAttempted=false`, and `daily_prices` mutation false.
 
 ## Next Slice
 
-CEO may now either authorize exactly one real bounded remote preflight execution, or ask PM to add one more pre-execution checklist if credentials/runtime posture needs restating before the attempt.
+CEO should not repeat the same zero-overlap preflight. The next safe slice is the existing-target-overlap classification route defined in `docs/TW_EQUITY_DAILY_PRICES_EXISTING_TARGET_OVERLAP_POLICY.md`.

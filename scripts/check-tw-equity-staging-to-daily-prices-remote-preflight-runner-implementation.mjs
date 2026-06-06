@@ -27,7 +27,7 @@ const fullHealth = read(fullHealthPath);
 
 for (const phrase of [
   "TW Equity Staging To Daily Prices Remote Preflight Runner Implementation",
-  "tw_equity_staging_to_daily_prices_remote_preflight_runner_implemented_not_executed",
+  "tw_equity_staging_to_daily_prices_remote_preflight_runner_executed_blocked_existing_target_overlap",
   "scripts/run-tw-equity-staging-to-daily-prices-remote-preflight-once.mjs",
   "TW-EQUITY-DAILY-PRICES-PREFLIGHT-2026-06-07-AUTH-001",
   "CEO_APPROVED_TW_EQUITY_DAILY_PRICES_PREFLIGHT_ONCE",
@@ -35,7 +35,9 @@ for (const phrase of [
   "ready_for_manual_execution_gate_not_executed",
   "Execute mode without confirmation or credentials returns `blocked` without connecting",
   "remote_preflight_passed_merge_still_requires_separate_authorization",
+  "remote_preflight_blocked_existing_daily_prices_target_rows",
   "writes the named post-run review artifact immediately",
+  "including blocked outcomes",
   "cannot directly:",
   "award row coverage points",
   "`scoreSource=real`"
@@ -100,10 +102,10 @@ for (const phrase of [
   "docs/TW_EQUITY_STAGING_TO_DAILY_PRICES_REMOTE_PREFLIGHT_RUNNER_IMPLEMENTATION.md",
   "scripts/run-tw-equity-staging-to-daily-prices-remote-preflight-once.mjs",
   "scripts/check-tw-equity-staging-to-daily-prices-remote-preflight-runner-implementation.mjs",
-  "tw_equity_staging_to_daily_prices_remote_preflight_runner_implemented_not_executed",
-  "implements the fail-closed bounded readonly aggregate-count runner",
-  "mock execution proves the aggregate-count path without a real remote connection",
-  "No real Supabase connection, SQL, `daily_prices` mutation, market-data fetch, public promotion, row coverage point, or real score source occurred"
+  "tw_equity_staging_to_daily_prices_remote_preflight_runner_executed_blocked_existing_target_overlap",
+  "requires a post-run review whenever a remote attempt occurs",
+  "exactly one real bounded readonly preflight was attempted and produced sanitized aggregate evidence",
+  "No SQL, Supabase write, `daily_prices` mutation, market-data fetch, public promotion, row coverage point, or real score source occurred"
 ]) {
   if (!status.includes(phrase)) problems.push(`${statusPath} missing: ${phrase}`);
   if (!readableStatus.includes(phrase)) problems.push(`${readableStatusPath} missing: ${phrase}`);
@@ -195,6 +197,41 @@ try {
   }
 } finally {
   if (fs.existsSync(reviewPath)) fs.rmSync(reviewPath, { force: true });
+}
+
+const blockedReviewPath =
+  "docs/reviews/TW_EQUITY_STAGING_TO_DAILY_PRICES_REMOTE_PREFLIGHT_POST_RUN_REVIEW_CHECKER_MOCK_BLOCKED.md";
+try {
+  if (fs.existsSync(blockedReviewPath)) fs.rmSync(blockedReviewPath, { force: true });
+  const mockedBlockedExecute = runRunner(
+    [...exactArgs.slice(0, -2), blockedReviewPath, "--confirm-bounded-readonly-preflight", "--execute"],
+    {
+      NEXT_PUBLIC_SUPABASE_URL: "https://example.supabase.co",
+      SUPABASE_SERVICE_ROLE_KEY: "mock-service-role-key",
+      TW_EQUITY_DAILY_PRICES_PREFLIGHT_CONFIRMATION: "CEO_APPROVED_TW_EQUITY_DAILY_PRICES_PREFLIGHT_ONCE",
+      TW_EQUITY_DAILY_PRICES_PREFLIGHT_MOCK_EXISTING_DAILY_PRICES_COUNT: "3",
+      TW_EQUITY_DAILY_PRICES_PREFLIGHT_MOCK_SUPABASE: "enabled"
+    }
+  );
+  if (mockedBlockedExecute.status === 0) {
+    problems.push("mocked blocked execute must fail closed");
+  } else {
+    const parsed = parseJson(mockedBlockedExecute.stdout, "mocked-blocked-execute output");
+    if (parsed.status !== "blocked") problems.push("mocked blocked execute status mismatch");
+    if (parsed.preflightStatus !== "remote_preflight_blocked_existing_daily_prices_target_rows") {
+      problems.push("mocked blocked execute preflight status mismatch");
+    }
+    if (!parsed.problems?.includes("existing_daily_prices_target_count_mismatch")) {
+      problems.push("mocked blocked execute must report existing daily prices mismatch");
+    }
+    if (parsed.postRunReviewWritten !== true) problems.push("mocked blocked execute must write temporary post-run review");
+    if (!fs.existsSync(blockedReviewPath)) problems.push("mocked blocked execute review path missing");
+    if (parsed.sqlExecuted !== false || parsed.supabaseWriteAttempted !== false || parsed.mutations !== false) {
+      problems.push("mocked blocked execute must keep SQL/write/mutation flags false");
+    }
+  }
+} finally {
+  if (fs.existsSync(blockedReviewPath)) fs.rmSync(blockedReviewPath, { force: true });
 }
 
 if (problems.length > 0) {

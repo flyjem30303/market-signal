@@ -61,7 +61,7 @@ const status =
 
 const output = buildOutput({ executionResult, problems, status });
 
-if (executionRequested && problems.length === 0) {
+if (executionResult.remoteAttempted) {
   writePostRunReview(output);
 }
 
@@ -318,9 +318,20 @@ function createMockSupabaseClient() {
       if (options.head) return { count: 1, data: null, error: null };
       return { count: stockRows.length, data: stockRows, error: null };
     }
-    if (table === "daily_prices") return { count: 0, data: options.head ? null : [], error: null };
+    if (table === "daily_prices") {
+      return {
+        count: mockExistingDailyPricesTargetCount(),
+        data: options.head ? null : [],
+        error: null
+      };
+    }
     return { count: 0, data: options.head ? null : [], error: null };
   }
+}
+
+function mockExistingDailyPricesTargetCount() {
+  const value = Number.parseInt(process.env.TW_EQUITY_DAILY_PRICES_PREFLIGHT_MOCK_EXISTING_DAILY_PRICES_COUNT ?? "0", 10);
+  return Number.isFinite(value) && value >= 0 ? value : 0;
 }
 
 function skippedExecution() {
@@ -375,6 +386,7 @@ function buildOutput({ executionResult, problems, status }) {
     mutations: false,
     postRunReview: args.postRunReview ?? "missing",
     postRunReviewWritten: executionResult.postRunReviewWritten,
+    preflightStatus: executionResult.status,
     problems,
     publicDataSource: "mock",
     remoteAttempted: executionResult.remoteAttempted,
@@ -416,11 +428,16 @@ function writePostRunReview(output) {
     "",
     "## Decision",
     "",
+    `- Preflight status: \`${output.preflightStatus}\`.`,
     `- Accepted: \`${output.status === "remote_preflight_passed_merge_still_requires_separate_authorization"}\`.`,
     `- Rejected: \`${output.status !== "remote_preflight_passed_merge_still_requires_separate_authorization"}\`.`,
     "- Production merge authorized: `false`.",
     "- Row coverage points awarded: `false`.",
     "- Later production merge authorization remains separate.",
+    "",
+    "## Problems",
+    "",
+    ...(output.problems.length > 0 ? output.problems.map((problem) => `- \`${problem}\`.`) : ["- `none`."]),
     "",
     "## Safety Confirmation",
     "",
