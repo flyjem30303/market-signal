@@ -149,6 +149,7 @@
     "check:tw-equity-provider-specific-terms-review-outcome-tool-role-review": "node scripts/check-tw-equity-provider-specific-terms-review-outcome-tool-role-review.mjs",
     "check:tw-equity-provider-specific-terms-apply-runbook": "node scripts/check-tw-equity-provider-specific-terms-apply-runbook.mjs",
     "check:tw-equity-provider-specific-terms-apply-runbook-role-review": "node scripts/check-tw-equity-provider-specific-terms-apply-runbook-role-review.mjs",
+    "check:tw-equity-source-review-readiness-summary": "node scripts/check-tw-equity-source-review-readiness-summary.mjs",
     "report:ceo-progress-brief": "node scripts/report-ceo-progress-brief.mjs",
     "check:ceo-progress-brief": "node scripts/check-ceo-progress-brief.mjs",
     "report:runtime-unblock-acceleration": "node scripts/report-runtime-unblock-acceleration.mjs",
