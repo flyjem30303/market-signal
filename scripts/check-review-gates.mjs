@@ -2993,6 +2993,11 @@ const checks = [
     name: "devops-health-recovery-readiness"
   },
   {
+    command: [node, "scripts/check-ceo-execution-focus-closure-readiness.mjs"],
+    expectStatus: "ok",
+    name: "ceo-execution-focus-closure-readiness"
+  },
+  {
     command: [node, "scripts/check-runtime-readonly-decision-card.mjs"],
     expectStatus: "ok",
     name: "runtime-readonly-decision-card"

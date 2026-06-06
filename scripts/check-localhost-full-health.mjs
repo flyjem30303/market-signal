@@ -46,6 +46,10 @@ const checks = [
     name: "devops-health-recovery-readiness"
   },
   {
+    command: [node, "scripts/check-ceo-execution-focus-closure-readiness.mjs"],
+    name: "ceo-execution-focus-closure-readiness"
+  },
+  {
     command: [node, "scripts/check-ceo-progress-brief.mjs"],
     name: "ceo-progress-brief"
   },

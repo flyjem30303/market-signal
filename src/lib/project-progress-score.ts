@@ -83,10 +83,10 @@ export const projectProgressLanes: ProjectProgressLane[] = [
     weight: 10
   },
   {
-    current: 83,
+    current: 90,
     label: "CEO execution focus",
     note:
-      "CEO has shifted sequencing toward larger runtime product slices, public trust readability, A2 scanner hardening, data/runtime foundation gates, closure readiness, stale-checker cleanup, and the post-readonly evidence queue. Future remote attempts stay separately named and bounded.",
+      "CEO execution focus is closed for MVP review: larger coherent local-only slices are now the default, A1/A2/I support lanes feed PM integration, the post-readonly evidence queue stays separated from the mainline, broad UI polish stays deferred until final audit, and authorized Supabase/SQL/real-data promotion remains a separately named flow.",
     owner: "CEO",
     weight: 10
   },
