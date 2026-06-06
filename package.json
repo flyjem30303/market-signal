@@ -169,6 +169,7 @@
     "check:tw-equity-write-implementation-design-to-code-boundary": "node scripts/check-tw-equity-write-implementation-design-to-code-boundary.mjs",
     "check:tw-equity-sanitized-candidate-input-validator": "node scripts/check-tw-equity-sanitized-candidate-input-validator.mjs",
     "check:tw-equity-write-pre-execution-summary": "node scripts/check-tw-equity-write-pre-execution-summary.mjs",
+    "check:tw-equity-write-implementation-final-authorization-gate": "node scripts/check-tw-equity-write-implementation-final-authorization-gate.mjs",
     "report:ceo-progress-brief": "node scripts/report-ceo-progress-brief.mjs",
     "check:ceo-progress-brief": "node scripts/check-ceo-progress-brief.mjs",
     "report:runtime-unblock-acceleration": "node scripts/report-runtime-unblock-acceleration.mjs",

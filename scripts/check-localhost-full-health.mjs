@@ -206,6 +206,10 @@ const checks = [
     name: "tw-equity-write-pre-execution-summary"
   },
   {
+    command: [node, "scripts/check-tw-equity-write-implementation-final-authorization-gate.mjs"],
+    name: "tw-equity-write-implementation-final-authorization-gate"
+  },
+  {
     command: [node, "scripts/check-ceo-progress-brief.mjs"],
     name: "ceo-progress-brief"
   },
