@@ -300,6 +300,10 @@ const checks = [
     name: "record-tw-equity-schema-exposure-repair-outcome"
   },
   {
+    command: [node, "scripts/check-tw-equity-schema-exposure-outcome-to-probe-gate.mjs"],
+    name: "tw-equity-schema-exposure-outcome-to-probe-gate"
+  },
+  {
     command: [node, "scripts/check-a1-tw-equity-candidate-artifact-intake.mjs"],
     name: "a1-tw-equity-candidate-artifact-intake"
   },

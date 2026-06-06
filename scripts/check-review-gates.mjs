@@ -3308,6 +3308,11 @@ const checks = [
     name: "record-tw-equity-schema-exposure-repair-outcome"
   },
   {
+    command: [node, "scripts/check-tw-equity-schema-exposure-outcome-to-probe-gate.mjs"],
+    expectStatus: "ok",
+    name: "tw-equity-schema-exposure-outcome-to-probe-gate"
+  },
+  {
     command: [node, "scripts/check-a1-tw-equity-candidate-artifact-intake.mjs"],
     expectStatus: "ok",
     name: "a1-tw-equity-candidate-artifact-intake"
@@ -3851,6 +3856,7 @@ const coreReviewGateNames = new Set([
   "tw-equity-schema-exposure-repair-decision-packet",
   "tw-equity-schema-exposure-repair-runbook",
   "record-tw-equity-schema-exposure-repair-outcome",
+  "tw-equity-schema-exposure-outcome-to-probe-gate",
   "a1-tw-equity-candidate-artifact-intake",
   "a1-tw-equity-candidate-artifact-delivery-spec",
   "a1-tw-equity-candidate-artifact-self-check",
