@@ -50,16 +50,19 @@ Latest PM completion review:
 
 - `docs/A1_NEXT_DATA_COVERAGE_HANDOFF.md` is `accepted` for PM mainline review.
 - `docs/ETF_SOURCE_RIGHTS_AND_CANDIDATE_READINESS_PACKET.md` is `accepted` for PM mainline review.
+- `docs/A1_ETF_SOURCE_RIGHTS_OUTCOME_DECISION_SUPPORT.md` is `accepted` for PM mainline review.
 - The handoff stayed bounded and local-only.
 - The checker `cmd.exe /c npm run check:a1-next-data-coverage-handoff` passed.
 - The checker `cmd.exe /c npm run check:etf-source-rights-and-candidate-readiness-packet` passed.
+- The checker `cmd.exe /c npm run check:a1-etf-source-rights-outcome-decision-support` passed.
 - PM accepts ETF as the current data-coverage route because `docs/ETF_DAILY_PRICES_COVERAGE_COMPLETION_ROUTE.md` selects ETF as the next completion route while source rights remain blocked.
+- `docs/ETF_SOURCE_RIGHTS_OUTCOME_DECISION_GATE.md` is `blocked` as a PM mainline execution gate because no ETF source lane is accepted for storage, redistribution, derived analysis, candidate generation, or write execution.
 - PM acceptance means the handoff and ETF readiness packet can guide a later source-rights or execution decision; it does not authorize ETF candidate generation, remote fetch, Supabase connection, Supabase write, `daily_prices` mutation, row coverage points, public source promotion, or real score promotion.
 
 Active assignment:
 
-- No deeper ETF data action is active until PM opens a separate source-rights outcome or execution gate.
-- PM should choose either a source-rights outcome decision packet, a blocked-route alternative, or a TWII readiness branch.
+- ETF source-rights outcome decision is open and currently blocked at `rejected_for_execution_pending_external_rights`.
+- PM should reassign A1 to a blocked-route alternative map or TWII readiness branch if no external ETF source-rights evidence is available.
 - Any next data action must stop before remote fetch, candidate generation from source data, SQL, Supabase connection, Supabase write, staging row creation, `daily_prices` mutation, row coverage points, public source promotion, or real score promotion.
 
 Completed first assignment:
@@ -73,6 +76,14 @@ Completed second assignment:
 - Produce `docs/ETF_SOURCE_RIGHTS_AND_CANDIDATE_READINESS_PACKET.md`.
 - Define source-rights outcome intake, ETF `daily_prices` field contract, sanitized candidate artifact shape, and execution-readiness criteria for `0050` and `006208`.
 - Stop before any remote fetch, candidate generation from source data, SQL, Supabase connection, Supabase write, staging row creation, `daily_prices` mutation, row coverage points, public source promotion, or real score promotion.
+
+Completed third assignment:
+
+- Produce `docs/A1_ETF_SOURCE_RIGHTS_OUTCOME_DECISION_SUPPORT.md`.
+- Confirm no ETF source lane is accepted by current local evidence.
+- Recommend keeping `legal_and_redistribution_terms_unapproved` until external source-rights evidence is accepted.
+- Identify the next safe data-lane options as a blocked-route alternative map or TWII readiness branch.
+- Preserve `publicDataSource=mock` and `scoreSource=mock`.
 
 PM intake criteria for A1:
 
@@ -96,16 +107,18 @@ A2 owns the public trust, UX readability, and launch copy support lane.
 Latest PM completion review:
 
 - `docs/A2_PUBLIC_TRUST_LAUNCH_COPY_HANDOFF.md` is `accepted` for PM mainline review.
+- `docs/A2_ROUTE_LEVEL_LAUNCH_COPY_PLACEMENT_CRITERIA.md` is `accepted` for PM mainline review.
 - A2 copy-only launch-blocking wording pass is `accepted` for PM mainline review.
 - The handoff stayed bounded and local-only.
 - The checker `cmd.exe /c npm run check:a2-public-trust-launch-copy-handoff` passed.
+- The checker `cmd.exe /c npm run check:a2-route-level-launch-copy-placement-criteria` passed.
 - The copy pass checkers passed: `check:runtime-mock-disclosure-readability`, `check:trust-runtime-boundary-notice`, `check:home-runtime-status-panel`, `check:stock-runtime-at-a-glance`, `check:public-runtime-boundary-coverage`, and `check:public-visible-language-quality`.
 - PM acceptance means the handoff can guide launch-copy integration; it does not authorize runtime promotion, real-source wording, or visual polish.
 
 Active assignment:
 
-- No deeper A2 copy action is active until PM chooses the next launch-copy placement or visual-language regression task.
-- PM should choose either route-level copy placement criteria, a launch-visible language regression checker, or lower-priority visual polish after runtime/data gates are stronger.
+- Route-level launch copy placement criteria are accepted as a local-only criteria packet.
+- PM should reassign A2 to a copy-only route audit or launch-visible language regression checker when mainline needs public trust support.
 - Any next A2 task must preserve `publicDataSource=mock`, `scoreSource=mock`, non-investment-advice wording, data freshness limitations, missing/delayed data wording, partial coverage wording, and score/model limitations.
 
 Completed first assignment:
@@ -120,6 +133,13 @@ Completed second assignment:
 - Update public boundary copy and trust/runtime notice wording for public trust readability, mock-only state, data freshness, partial coverage, missing/delayed data, non-investment-advice, and score/model limitations.
 - Keep exact stop lines `publicDataSource=mock` and `scoreSource=mock`.
 - Update public language and boundary checkers so they validate readable launch copy instead of stale wording tokens.
+
+Completed third assignment:
+
+- Produce `docs/A2_ROUTE_LEVEL_LAUNCH_COPY_PLACEMENT_CRITERIA.md`.
+- Define required launch trust copy by route or surface: home, stock detail, briefing, weekly, shared runtime boundary, footer/legal, and empty/error states.
+- Split launch-blocking copy from non-blocking visual polish.
+- Preserve mock-only, non-investment-advice, partial coverage, freshness limitation, missing/delayed data, and score/model limitation wording.
 
 PM intake criteria for A2:
 

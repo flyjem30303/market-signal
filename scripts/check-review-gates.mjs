@@ -3428,6 +3428,11 @@ const checks = [
     name: "etf-daily-prices-coverage-completion-route"
   },
   {
+    command: [node, "scripts/check-etf-source-rights-outcome-decision-gate.mjs"],
+    expectStatus: "blocked",
+    name: "etf-source-rights-outcome-decision-gate"
+  },
+  {
     command: [node, "scripts/check-coverage-universe-roadmap.mjs"],
     expectStatus: "ok",
     name: "coverage-universe-roadmap"
@@ -4020,6 +4025,7 @@ const coreReviewGateNames = new Set([
   "tw-equity-daily-prices-insert-missing-merge-post-run-review-2026-06-07",
   "tw-equity-row-coverage-scoring-gate",
   "etf-daily-prices-coverage-completion-route",
+  "etf-source-rights-outcome-decision-gate",
   "coverage-universe-roadmap",
   "goal-parallel-workstream-adjustment",
   "taiwan-all-listed-universe-manifest-packet",
