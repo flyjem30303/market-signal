@@ -215,6 +215,8 @@
     "check:tw-equity-table-api-visibility-permission-diagnostic-decision-packet": "node scripts/check-tw-equity-table-api-visibility-permission-diagnostic-decision-packet.mjs",
     "report:tw-equity-dashboard-table-visibility-observation": "node scripts/report-tw-equity-dashboard-table-visibility-observation.mjs",
     "check:tw-equity-dashboard-table-visibility-observation": "node scripts/check-tw-equity-dashboard-table-visibility-observation.mjs",
+    "report:tw-equity-staging-migration-apply-decision-packet": "node scripts/report-tw-equity-staging-migration-apply-decision-packet.mjs",
+    "check:tw-equity-staging-migration-apply-decision-packet": "node scripts/check-tw-equity-staging-migration-apply-decision-packet.mjs",
     "report:a1-tw-equity-candidate-artifact-intake": "node scripts/report-a1-tw-equity-candidate-artifact-intake.mjs",
     "check:a1-tw-equity-candidate-artifact-intake": "node scripts/check-a1-tw-equity-candidate-artifact-intake.mjs",
     "check:a1-tw-equity-candidate-artifact-delivery-spec": "node scripts/check-a1-tw-equity-candidate-artifact-delivery-spec.mjs",
