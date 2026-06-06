@@ -144,6 +144,8 @@
     "check:tw-equity-provider-specific-terms-review-packet": "node scripts/check-tw-equity-provider-specific-terms-review-packet.mjs",
     "report:tw-equity-provider-specific-terms-review-outcome-ledger": "node scripts/report-tw-equity-provider-specific-terms-review-outcome-ledger.mjs",
     "check:tw-equity-provider-specific-terms-review-outcome-ledger": "node scripts/check-tw-equity-provider-specific-terms-review-outcome-ledger.mjs",
+    "record:tw-equity-provider-specific-terms-review-outcome": "node scripts/record-tw-equity-provider-specific-terms-review-outcome.mjs",
+    "check:record-tw-equity-provider-specific-terms-review-outcome": "node scripts/check-record-tw-equity-provider-specific-terms-review-outcome.mjs",
     "report:ceo-progress-brief": "node scripts/report-ceo-progress-brief.mjs",
     "check:ceo-progress-brief": "node scripts/check-ceo-progress-brief.mjs",
     "report:runtime-unblock-acceleration": "node scripts/report-runtime-unblock-acceleration.mjs",
