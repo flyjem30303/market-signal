@@ -20,6 +20,12 @@ for (const phrase of [
   "tw_equity_staging_write_fail_closed_runner_skeleton",
   "ready_for_manual_execution_gate_not_executed",
   "runner_skeleton_has_no_supabase_write_implementation",
+  "DOTENV_LOCAL_ALLOWED_KEYS = [\"NEXT_PUBLIC_SUPABASE_URL\", \"SUPABASE_SERVICE_ROLE_KEY\"]",
+  "TW_EQUITY_STAGING_WRITE_CONFIRMATION",
+  "CEO_APPROVED_TW_EQUITY_BOUNDED_STAGING_WRITE_ONCE",
+  "credentialPresence",
+  "rollbackDryRunAvailable",
+  "writeImplementationReady: false",
   "connectionAttempted: false",
   "filesWritten: false",
   "marketDataFetched: false",
@@ -79,15 +85,22 @@ for (const pattern of [
   /\.update\(/u,
   /\.delete\(/u,
   /\.upsert\(/u,
-  /process\.env/u,
   /\bfetch\s*\(/u,
   /\bwriteFile/u,
   /\bappendFile/u,
-  /SUPABASE_SERVICE_ROLE_KEY/u,
   /sb_secret_/u,
   /sb_publishable_/u
 ]) {
   if (pattern.test(runner)) problems.push(`${runnerPath} contains forbidden token: ${pattern}`);
+}
+
+for (const pattern of [
+  /console\.log\([^)]*process\.env/u,
+  /JSON\.stringify\([^)]*process\.env/u,
+  /serviceRoleKey:\s*process\.env/u,
+  /NEXT_PUBLIC_SUPABASE_URL:\s*process\.env/u
+]) {
+  if (pattern.test(runner)) problems.push(`${runnerPath} may print environment values: ${pattern}`);
 }
 
 const dryRun = spawnSync(process.execPath, [
@@ -146,6 +159,9 @@ if (executeAttempt.status === 0) {
 } else {
   const parsed = JSON.parse(executeAttempt.stdout);
   if (parsed.executionAttempted !== false) problems.push("--execute output must keep executionAttempted false");
+  if (parsed.writeImplementationReady !== false) problems.push("--execute output must keep writeImplementationReady false");
+  if (parsed.connectionAttempted !== false) problems.push("--execute output must keep connectionAttempted false");
+  if (parsed.sqlExecuted !== false) problems.push("--execute output must keep sqlExecuted false");
   if (!parsed.problems?.includes("runner_skeleton_has_no_supabase_write_implementation")) {
     problems.push("--execute output missing runner skeleton implementation blocker");
   }
@@ -165,6 +181,7 @@ function validateDryRun(report) {
     canPromotePublicSource: false,
     canSetScoreSourceReal: false,
     connectionAttempted: false,
+    confirmationPresent: false,
     exactCommandMatched: true,
     executionAttempted: false,
     executionRequested: false,
@@ -174,6 +191,7 @@ function validateDryRun(report) {
     mutations: false,
     publicDataSource: "mock",
     publicRedistributionBlocked: true,
+    rollbackDryRunAvailable: false,
     rowPayloadsPrinted: false,
     scoreSource: "mock",
     secretsPrinted: false,
@@ -181,7 +199,8 @@ function validateDryRun(report) {
     sourcePayloadsPrinted: false,
     sqlExecuted: false,
     status: "ready_for_manual_execution_gate_not_executed",
-    targetRelation: "staging_twse_stock_day_runs,staging_twse_stock_day_prices"
+    targetRelation: "staging_twse_stock_day_runs,staging_twse_stock_day_prices",
+    writeImplementationReady: false
   };
 
   for (const [key, value] of Object.entries(expected)) {

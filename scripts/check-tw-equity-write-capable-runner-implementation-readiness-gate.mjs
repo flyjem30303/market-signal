@@ -28,7 +28,7 @@ const readableStatus = read(readableStatusPath);
 
 for (const phrase of [
   "TW Equity Write-Capable Runner Implementation Readiness Gate",
-  "tw_equity_write_capable_runner_implementation_readiness_gate_ready_not_implemented",
+  "tw_equity_write_capable_runner_local_preflight_implemented_not_write_capable",
   "docs/TW_EQUITY_ACTUAL_BOUNDED_STAGING_WRITE_AUTHORIZATION_PACKET.md",
   "docs/TW_EQUITY_ONE_ATTEMPT_STAGING_WRITE_PREFLIGHT_GATE.md",
   "docs/reviews/TW_EQUITY_TARGET_RELATION_RECONCILIATION_REVIEW_2026-06-06.md",
@@ -54,6 +54,7 @@ for (const phrase of [
   "print sanitized aggregate output",
   "no retry",
   "`writeImplementationReady`",
+  "local preflight behavior is implemented in the runner",
   "write-capable runner implementation is not created in this slice"
 ]) {
   if (!doc.includes(phrase)) problems.push(`${docPath} missing: ${phrase}`);
@@ -73,9 +74,10 @@ for (const [path, text, phrase] of [
 for (const phrase of [
   "Latest TW equity write-capable runner implementation readiness gate slice",
   "docs/TW_EQUITY_WRITE_CAPABLE_RUNNER_IMPLEMENTATION_READINESS_GATE.md",
-  "tw_equity_write_capable_runner_implementation_readiness_gate_ready_not_implemented",
+  "tw_equity_write_capable_runner_local_preflight_implemented_not_write_capable",
   "target relation reconciliation is accepted",
   "required controls now cover confirmation, service-role allowlist, RLS posture, rollback dry-run, sanitized output, no retry, and canonical staging tables",
+  "local preflight behavior is implemented in the runner",
   "write-capable runner implementation is not created in this slice"
 ]) {
   if (!status.includes(phrase)) problems.push(`${statusPath} missing: ${phrase}`);

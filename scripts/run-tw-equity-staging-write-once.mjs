@@ -1,5 +1,9 @@
+import fs from "node:fs";
+import path from "node:path";
+
 const EXPECTED = {
   authorizationId: "TW-EQUITY-STAGING-WRITE-2026-06-06-AUTH-001",
+  confirmation: "CEO_APPROVED_TW_EQUITY_BOUNDED_STAGING_WRITE_ONCE",
   lane: "tw-equity",
   maxRows: 180,
   postRunReview: "docs/reviews/TW_EQUITY_STAGING_FIRST_WRITE_POST_RUN_REVIEW_2026-06-06.md",
@@ -7,7 +11,9 @@ const EXPECTED = {
   symbols: "2330,2382,2308",
   target: "staging_twse_stock_day_runs,staging_twse_stock_day_prices"
 };
+const DOTENV_LOCAL_ALLOWED_KEYS = ["NEXT_PUBLIC_SUPABASE_URL", "SUPABASE_SERVICE_ROLE_KEY"];
 
+loadProcessEnvFromDotEnvLocal();
 const args = parseArgs(process.argv.slice(2));
 const problems = [];
 
@@ -20,8 +26,23 @@ if (Number(args.maxRows) !== EXPECTED.maxRows) problems.push("max_rows_mismatch"
 if (args.postRunReview !== EXPECTED.postRunReview) problems.push("post_run_review_mismatch");
 
 const executionRequested = args.execute === "true" || args.execute === true;
+const confirmationPresent = process.env.TW_EQUITY_STAGING_WRITE_CONFIRMATION === EXPECTED.confirmation;
+const credentialPresence = {
+  nextPublicSupabaseUrl: envPresent("NEXT_PUBLIC_SUPABASE_URL"),
+  serviceRoleKey: envPresent("SUPABASE_SERVICE_ROLE_KEY")
+};
+const rollbackDryRunAvailable = args.rollbackDryRun === "true" || args.rollbackDryRun === true;
+const localPreflightProblems = [];
 
 if (executionRequested) {
+  if (!confirmationPresent) localPreflightProblems.push("missing_write_confirmation");
+  if (!credentialPresence.nextPublicSupabaseUrl) localPreflightProblems.push("missing_next_public_supabase_url");
+  if (!credentialPresence.serviceRoleKey) localPreflightProblems.push("missing_service_role_key");
+  if (!rollbackDryRunAvailable) localPreflightProblems.push("missing_rollback_dry_run_posture");
+}
+
+if (executionRequested) {
+  problems.push(...localPreflightProblems);
   problems.push("runner_skeleton_has_no_supabase_write_implementation");
 }
 
@@ -36,6 +57,8 @@ console.log(
       canPromotePublicSource: false,
       canSetScoreSourceReal: false,
       connectionAttempted: false,
+      confirmationPresent,
+      credentialPresence,
       exactCommandMatched: problems.length === 0,
       executionAttempted: false,
       executionRequested,
@@ -50,6 +73,7 @@ console.log(
       problems,
       publicDataSource: "mock",
       publicRedistributionBlocked: true,
+      rollbackDryRunAvailable,
       rowPayloadsPrinted: false,
       scoreSource: "mock",
       secretsPrinted: false,
@@ -58,7 +82,8 @@ console.log(
       sqlExecuted: false,
       status,
       symbols: args.symbols ? args.symbols.split(",") : [],
-      targetRelation: args.target ?? "missing"
+      targetRelation: args.target ?? "missing",
+      writeImplementationReady: false
     },
     null,
     2
@@ -90,4 +115,45 @@ function parseArgs(tokens) {
 
 function toCamelCase(value) {
   return value.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase());
+}
+
+function envPresent(name) {
+  return typeof process.env[name] === "string" && process.env[name].trim().length > 0;
+}
+
+function loadProcessEnvFromDotEnvLocal() {
+  const envPath = path.join(process.cwd(), ".env.local");
+  if (!fs.existsSync(envPath)) return;
+
+  const parsed = parseDotEnv(fs.readFileSync(envPath, "utf8"));
+  for (const key of DOTENV_LOCAL_ALLOWED_KEYS) {
+    if (!process.env[key] && parsed[key]) {
+      process.env[key] = parsed[key];
+    }
+  }
+}
+
+function parseDotEnv(text) {
+  const parsed = {};
+  for (const line of text.split(/\r?\n/)) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith("#")) continue;
+
+    const separator = trimmed.indexOf("=");
+    if (separator <= 0) continue;
+
+    const key = trimmed.slice(0, separator).trim();
+    const value = trimmed.slice(separator + 1).trim();
+    parsed[key] = normalizeDotEnvValue(value);
+  }
+  return parsed;
+}
+
+function normalizeDotEnvValue(value) {
+  const trimmed = value.trim();
+  const quote = trimmed[0];
+  if ((quote === "\"" || quote === "'") && trimmed[trimmed.length - 1] === quote) {
+    return trimmed.slice(1, -1);
+  }
+  return trimmed;
 }

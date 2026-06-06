@@ -2,7 +2,7 @@
 
 Updated: 2026-06-06
 
-Status: `tw_equity_write_capable_runner_implementation_readiness_gate_ready_not_implemented`.
+Status: `tw_equity_write_capable_runner_local_preflight_implemented_not_write_capable`.
 
 ## Purpose
 
@@ -74,6 +74,6 @@ A future write-capable runner may output only these fields:
 
 ## Current Stop Line
 
-Current decision: implementation readiness is defined, but write-capable runner implementation is not created in this slice.
+Current decision: implementation readiness is defined and local preflight behavior is implemented in the runner, but write-capable runner implementation is not created in this slice.
 
-The next slice may update the runner to perform local preflight checks for confirmation, credential presence, exact command, target tables, row cap, rollback dry-run posture, and sanitized output shape. It must still stop before any Supabase mutation unless a separate one-attempt execution gate approves the run.
+The runner now performs local preflight checks for confirmation, credential presence, exact command, target tables, row cap, rollback dry-run posture, and sanitized output shape. It still stops before any Supabase mutation unless a separate one-attempt execution gate approves the run.
