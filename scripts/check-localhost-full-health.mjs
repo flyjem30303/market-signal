@@ -236,6 +236,10 @@ const checks = [
     name: "tw-equity-pgrst205-root-cause-gate"
   },
   {
+    command: [node, "scripts/check-tw-equity-second-bounded-staging-write-retry-decision.mjs"],
+    name: "tw-equity-second-bounded-staging-write-retry-decision"
+  },
+  {
     command: [node, "scripts/check-a1-tw-equity-candidate-artifact-intake.mjs"],
     name: "a1-tw-equity-candidate-artifact-intake"
   },
