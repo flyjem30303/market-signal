@@ -3033,6 +3033,11 @@ const checks = [
     name: "backfill-ingestion-execution-packet"
   },
   {
+    command: [node, "scripts/check-tw-equity-report-only-dry-run-packet.mjs"],
+    expectStatus: "ok",
+    name: "tw-equity-report-only-dry-run-packet"
+  },
+  {
     command: [node, "scripts/check-runtime-readonly-decision-card.mjs"],
     expectStatus: "ok",
     name: "runtime-readonly-decision-card"
@@ -3487,6 +3492,7 @@ const coreReviewGateNames = new Set([
   "data-authorization-readonly-attempt-post-run-review",
   "data-population-route-decision",
   "backfill-ingestion-execution-packet",
+  "tw-equity-report-only-dry-run-packet",
   "typescript"
 ]);
 

@@ -82,6 +82,10 @@ const checks = [
     name: "backfill-ingestion-execution-packet"
   },
   {
+    command: [node, "scripts/check-tw-equity-report-only-dry-run-packet.mjs"],
+    name: "tw-equity-report-only-dry-run-packet"
+  },
+  {
     command: [node, "scripts/check-ceo-progress-brief.mjs"],
     name: "ceo-progress-brief"
   },
