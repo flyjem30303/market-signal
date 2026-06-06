@@ -399,6 +399,7 @@
     "check:row-coverage-readonly-guarded-runner": "node scripts/check-row-coverage-readonly-guarded-runner.mjs",
     "check:row-coverage-final-one-attempt-readonly-execution-decision-gate": "node scripts/check-row-coverage-final-one-attempt-readonly-execution-decision-gate.mjs",
     "check:row-coverage-readonly-one-attempt-post-run-review": "node scripts/check-row-coverage-readonly-one-attempt-post-run-review.mjs",
+    "check:row-coverage-bounded-readonly-attempt-post-run-review-2026-06-06": "node scripts/check-row-coverage-bounded-readonly-attempt-post-run-review-2026-06-06.mjs",
     "check:row-coverage-credential-loading-command-revision": "node scripts/check-row-coverage-credential-loading-command-revision.mjs",
     "check:row-coverage-revised-runner-second-one-attempt-execution-decision-gate": "node scripts/check-row-coverage-revised-runner-second-one-attempt-execution-decision-gate.mjs",
     "check:row-coverage-revised-runner-second-attempt-post-run-review": "node scripts/check-row-coverage-revised-runner-second-attempt-post-run-review.mjs",

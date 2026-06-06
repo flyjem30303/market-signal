@@ -2208,6 +2208,11 @@ const checks = [
     name: "row-coverage-readonly-one-attempt-post-run-review"
   },
   {
+    command: [node, "scripts/check-row-coverage-bounded-readonly-attempt-post-run-review-2026-06-06.mjs"],
+    expectStatus: "ok",
+    name: "row-coverage-bounded-readonly-attempt-post-run-review-2026-06-06"
+  },
+  {
     command: [node, "scripts/check-row-coverage-credential-loading-command-revision.mjs"],
     expectStatus: "ok",
     name: "row-coverage-credential-loading-command-revision"
