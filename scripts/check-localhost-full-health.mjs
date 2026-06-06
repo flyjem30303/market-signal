@@ -70,6 +70,10 @@ const checks = [
     name: "data-authorization-decision-packet"
   },
   {
+    command: [node, "scripts/check-data-authorization-readonly-attempt-post-run-review.mjs"],
+    name: "data-authorization-readonly-attempt-post-run-review"
+  },
+  {
     command: [node, "scripts/check-ceo-progress-brief.mjs"],
     name: "ceo-progress-brief"
   },
