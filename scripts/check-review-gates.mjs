@@ -2998,6 +2998,11 @@ const checks = [
     name: "ceo-execution-focus-closure-readiness"
   },
   {
+    command: [node, "scripts/check-final-mvp-100-completion-audit-readiness.mjs"],
+    expectStatus: "ok",
+    name: "final-mvp-100-completion-audit-readiness"
+  },
+  {
     command: [node, "scripts/check-runtime-readonly-decision-card.mjs"],
     expectStatus: "ok",
     name: "runtime-readonly-decision-card"

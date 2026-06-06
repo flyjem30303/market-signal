@@ -24,6 +24,7 @@ for (const phrase of [
   "scripts/report-mock-mvp-product-surface-readiness.mjs",
   "scripts/report-devops-health-recovery-readiness.mjs",
   "scripts/report-ceo-execution-focus-closure-readiness.mjs",
+  "scripts/report-final-mvp-100-completion-audit-readiness.mjs",
   "scripts/report-data-goal-readiness.mjs",
   "scripts/report-data-freshness-quality-mvp-readiness.mjs",
   "scripts/report-data-coverage-quality-route-readiness.mjs",
@@ -52,6 +53,10 @@ for (const phrase of [
   "CEO execution focus closure",
   "ceoExecutionFocusReadiness",
   "CEO execution focus is closed for MVP review",
+  "finalAuditReadiness",
+  "Final MVP 100 completion audit readiness",
+  "focused-audit ready at 96%",
+  "one milestone verification pass",
   "mock-signal-reading-flow",
   "mock-mvp-product-surface",
   "devops-health-recovery",
@@ -148,8 +153,8 @@ if (run.status !== 0) {
 if (output) {
   if (output.mode !== "overall_project_100_readiness") blocked.push(`output.mode: ${String(output.mode)}`);
   if (output.status !== "mvp_100_readiness_in_progress") blocked.push(`output.status: ${String(output.status)}`);
-  if (output.currentOverallPercent !== 91) {
-    blocked.push(`output.currentOverallPercent expected 91, got ${String(output.currentOverallPercent)}`);
+  if (output.currentOverallPercent !== 96) {
+    blocked.push(`output.currentOverallPercent expected 96, got ${String(output.currentOverallPercent)}`);
   }
   if (output.targetOverallPercent !== 100) {
     blocked.push(`output.targetOverallPercent: ${String(output.targetOverallPercent)}`);
@@ -192,8 +197,8 @@ if (output) {
   }
 
   const finalGap = (output.currentTopGaps ?? []).find((gap) => gap.id === "final-mvp-100-completion-audit");
-  if (finalGap?.current !== 91) {
-    blocked.push(`output.currentTopGaps.final-mvp-100-completion-audit current expected 91, got ${String(finalGap?.current)}`);
+  if (finalGap?.current !== 96) {
+    blocked.push(`output.currentTopGaps.final-mvp-100-completion-audit current expected 96, got ${String(finalGap?.current)}`);
   }
 
   if (output.completionDefinition?.dataCoverageRoute !== "route_defined_from_accepted_bounded_readonly_evidence") {

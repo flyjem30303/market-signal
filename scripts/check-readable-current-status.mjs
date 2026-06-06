@@ -15,7 +15,7 @@ const topSection = status.split(/\n## (?!Readable Current Status)/u)[0] ?? "";
 
 const requiredTopPhrases = [
   "Readable Current Status - 2026-06-04",
-  "PM progress score: 91%",
+  "PM progress score: 96%",
   "Latest investment-credibility slice",
   "Latest investment evidence upgrade",
   "Investment credibility moved from 46% to 58%",
@@ -105,6 +105,11 @@ const requiredTopPhrases = [
   "overall project progress moved from 90% to 91%",
   "larger coherent local-only slices",
   "authorized Supabase/SQL/real-data promotion",
+  "Latest final MVP 100 completion audit readiness slice",
+  "focused audit readiness moved from 91% to 96%",
+  "Not yet 100%",
+  "ten focused evidence rows",
+  "one milestone verification pass",
   "final local-only MVP 100 completion audit",
   "ten evidence rows",
   "bounded_readonly_attempt_reviewed_aggregate_incomplete",

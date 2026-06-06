@@ -57,6 +57,8 @@ const snapshot = {
   },
   project: {
     adjustedScore: progress.adjustedScore,
+    currentOverallPercent: progress.currentOverallPercent,
+    focusedAuditReadiness: progress.focusedAuditReadiness,
     blockerClosureReadiness: {
       closurePercent: progress.blockerClosureReadinessGate.closurePercent,
       itemCount: progress.blockerClosureReadinessGate.items.length,

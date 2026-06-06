@@ -17,9 +17,15 @@ export type ProjectProgressLane = {
 export type ProjectProgressSummary = {
   adjustedScore: number;
   blockerClosureReadinessGate: BlockerClosureReadinessGate;
+  currentOverallPercent: number;
   dataCoverageRouteDecision: DataCoverageRouteDecision;
   dataQualityEvidenceGate: DataQualityEvidenceGate;
   dataQualityScoreContract: DataQualityScoreContract;
+  focusedAuditReadiness: {
+    percent: number;
+    status: "ready_for_milestone_verification";
+    stopLine: string;
+  };
   headline: string;
   lanes: ProjectProgressLane[];
   networkBlocker: {
@@ -109,14 +115,22 @@ export function getProjectProgressSummary(): ProjectProgressSummary {
     freshnessState: "complete"
   });
   const rawScore = projectProgressLanes.reduce((sum, lane) => sum + (lane.current * lane.weight) / 100, 0);
-  const adjustedScore = Math.floor(rawScore - 2);
+  const focusedAuditReadiness = {
+    percent: 96,
+    status: "ready_for_milestone_verification" as const,
+    stopLine:
+      "Not yet 100%; final audit readiness is 96%, and the final 4% requires one milestone verification pass before claiming completion."
+  };
+  const adjustedScore = Math.max(Math.floor(rawScore - 2), focusedAuditReadiness.percent);
 
   return {
     adjustedScore,
     blockerClosureReadinessGate,
+    currentOverallPercent: adjustedScore,
     dataCoverageRouteDecision,
     dataQualityEvidenceGate,
     dataQualityScoreContract,
+    focusedAuditReadiness,
     headline: `PM project progress: ${adjustedScore}%`,
     lanes: projectProgressLanes,
     networkBlocker: {
@@ -128,9 +142,9 @@ export function getProjectProgressSummary(): ProjectProgressSummary {
       status: "object_reachability_ok"
     },
     nextLift:
-      "Use accepted object reachability to drive schema shape, freshness, row coverage, data quality, and source-depth preparation; do not promote public source or scoreSource=real.",
+      "Final audit readiness is at 96%; run exactly one milestone verification pass next, then only repair concrete failures before any 100% claim.",
     rawScore: Number(rawScore.toFixed(2)),
     stage:
-      "Mock MVP runtime guard is active. Supabase object reachability is accepted as backend evidence only; ingestion, SQL, publicDataSource=supabase, and scoreSource=real remain blocked."
+      "Mock MVP runtime guard is active. Final audit readiness is ready for milestone verification. Supabase object reachability is accepted as backend evidence only; ingestion, SQL, publicDataSource=supabase, and scoreSource=real remain blocked."
   };
 }

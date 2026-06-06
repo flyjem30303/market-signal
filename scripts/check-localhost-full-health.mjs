@@ -50,6 +50,10 @@ const checks = [
     name: "ceo-execution-focus-closure-readiness"
   },
   {
+    command: [node, "scripts/check-final-mvp-100-completion-audit-readiness.mjs"],
+    name: "final-mvp-100-completion-audit-readiness"
+  },
+  {
     command: [node, "scripts/check-ceo-progress-brief.mjs"],
     name: "ceo-progress-brief"
   },
