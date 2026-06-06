@@ -344,6 +344,10 @@ const checks = [
     name: "tw-equity-post-write-staging-verification"
   },
   {
+    command: [node, "scripts/check-tw-equity-post-write-promotion-readiness-gate.mjs"],
+    name: "tw-equity-post-write-promotion-readiness-gate"
+  },
+  {
     command: [node, "scripts/check-a1-tw-equity-candidate-artifact-intake.mjs"],
     name: "a1-tw-equity-candidate-artifact-intake"
   },
