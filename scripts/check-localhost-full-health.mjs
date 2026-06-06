@@ -74,6 +74,10 @@ const checks = [
     name: "data-authorization-readonly-attempt-post-run-review"
   },
   {
+    command: [node, "scripts/check-data-population-route-decision.mjs"],
+    name: "data-population-route-decision"
+  },
+  {
     command: [node, "scripts/check-ceo-progress-brief.mjs"],
     name: "ceo-progress-brief"
   },

@@ -3023,6 +3023,11 @@ const checks = [
     name: "data-authorization-readonly-attempt-post-run-review"
   },
   {
+    command: [node, "scripts/check-data-population-route-decision.mjs"],
+    expectStatus: "ok",
+    name: "data-population-route-decision"
+  },
+  {
     command: [node, "scripts/check-runtime-readonly-decision-card.mjs"],
     expectStatus: "ok",
     name: "runtime-readonly-decision-card"
@@ -3475,6 +3480,7 @@ const coreReviewGateNames = new Set([
   "data-authorization-entry-gate",
   "data-authorization-decision-packet",
   "data-authorization-readonly-attempt-post-run-review",
+  "data-population-route-decision",
   "typescript"
 ]);
 

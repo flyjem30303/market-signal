@@ -131,6 +131,7 @@
     "check:data-authorization-entry-gate": "node scripts/check-data-authorization-entry-gate.mjs",
     "check:data-authorization-decision-packet": "node scripts/check-data-authorization-decision-packet.mjs",
     "check:data-authorization-readonly-attempt-post-run-review": "node scripts/check-data-authorization-readonly-attempt-post-run-review.mjs",
+    "check:data-population-route-decision": "node scripts/check-data-population-route-decision.mjs",
     "report:ceo-progress-brief": "node scripts/report-ceo-progress-brief.mjs",
     "check:ceo-progress-brief": "node scripts/check-ceo-progress-brief.mjs",
     "report:runtime-unblock-acceleration": "node scripts/report-runtime-unblock-acceleration.mjs",

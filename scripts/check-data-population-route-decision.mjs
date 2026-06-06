@@ -1,0 +1,88 @@
+import fs from "node:fs";
+
+const docPath = "docs/DATA_POPULATION_ROUTE_DECISION_2026-06-06.md";
+const postRunPath = "docs/reviews/DATA_AUTHORIZATION_READONLY_ATTEMPT_POST_RUN_REVIEW_2026-06-06.md";
+const routeLibPath = "src/lib/data-coverage-route-decision.ts";
+const packagePath = "package.json";
+const reviewGatePath = "scripts/check-review-gates.mjs";
+const fullHealthPath = "scripts/check-localhost-full-health.mjs";
+const statusPath = "PROJECT_STATUS.md";
+
+const files = new Map(
+  [docPath, postRunPath, routeLibPath, packagePath, reviewGatePath, fullHealthPath, statusPath].map((file) => [
+    file,
+    fs.existsSync(file) ? fs.readFileSync(file, "utf8") : ""
+  ])
+);
+
+const required = [
+  [docPath, "Data Population Route Decision"],
+  [docPath, "data_population_route_selected_design_only"],
+  [docPath, "docs/reviews/DATA_AUTHORIZATION_READONLY_ATTEMPT_POST_RUN_REVIEW_2026-06-06.md"],
+  [docPath, "CEO selects the data population / backfill route"],
+  [docPath, "design-only approval"],
+  [docPath, "aggregate_count_incomplete"],
+  [docPath, "Expected rows: `360`"],
+  [docPath, "Observed rows: `5`"],
+  [docPath, "Missing rows: `355`"],
+  [docPath, "prepare_backfill_ingestion_design_gate"],
+  [docPath, "source rights and attribution acceptance"],
+  [docPath, "target-table boundary"],
+  [docPath, "report-only dry-run packet"],
+  [docPath, "rollback, cleanup, retention"],
+  [docPath, "post-run review"],
+  [docPath, "A1 Data / Supabase / Market Evidence"],
+  [docPath, "A2 Public Copy / UX Safety"],
+  [docPath, "PM / Engineering mainline"],
+  [docPath, "Do not run SQL"],
+  [docPath, "Do not write Supabase"],
+  [docPath, "Do not create staging rows"],
+  [docPath, "Do not modify `daily_prices`"],
+  [docPath, "Do not fetch, ingest, store, or commit raw market data"],
+  [docPath, "Do not retry the readonly attempt"],
+  [docPath, "Do not promote `publicDataSource=supabase`"],
+  [docPath, "Do not set `scoreSource=real`"],
+  [docPath, "Do not award row coverage points"],
+  [docPath, "Create the backfill / ingestion design gate execution packet"],
+  [postRunPath, "observedTotalRows\": 5"],
+  [postRunPath, "missingRows\": 355"],
+  [postRunPath, "aggregate_count_incomplete"],
+  [routeLibPath, "prepare_backfill_ingestion_design_gate"],
+  [routeLibPath, "observedRows: 5"],
+  [routeLibPath, "missingRows: 355"],
+  [packagePath, "\"check:data-population-route-decision\": \"node scripts/check-data-population-route-decision.mjs\""],
+  [reviewGatePath, "scripts/check-data-population-route-decision.mjs"],
+  [fullHealthPath, "scripts/check-data-population-route-decision.mjs"],
+  [statusPath, "Latest data population route decision slice"],
+  [statusPath, "docs/DATA_POPULATION_ROUTE_DECISION_2026-06-06.md"],
+  [statusPath, "data_population_route_selected_design_only"],
+  [statusPath, "prepare_backfill_ingestion_design_gate"]
+];
+
+const forbidden = [
+  [docPath, "SQL execution is approved"],
+  [docPath, "Supabase writes are approved"],
+  [docPath, "market ingestion is approved"],
+  [docPath, "publicDataSource=supabase is approved"],
+  [docPath, "scoreSource=real is approved"],
+  [docPath, "ROW_COVERAGE_POINTS_AWARDED"],
+  [docPath, "RUN_REMOTE_NOW"],
+  [docPath, "EXECUTION_COMPLETED"],
+  [docPath, "sb_secret_"],
+  [docPath, "sb_publishable_"],
+  [docPath, "SUPABASE_SERVICE_ROLE_KEY="],
+  [docPath, "raw payload:"]
+];
+
+const missing = required.filter(([file, phrase]) => !read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
+const blocked = forbidden.filter(([file, phrase]) => read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
+
+console.log(JSON.stringify({ blocked, missing, status: missing.length === 0 && blocked.length === 0 ? "ok" : "blocked" }, null, 2));
+
+if (missing.length > 0 || blocked.length > 0) {
+  process.exitCode = 1;
+}
+
+function read(file) {
+  return files.get(file) ?? "";
+}
