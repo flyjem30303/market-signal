@@ -22,6 +22,7 @@ for (const phrase of [
   "scripts/report-runtime-schema-promotion-readiness.mjs",
   "scripts/report-mock-signal-reading-flow-readiness.mjs",
   "scripts/report-mock-mvp-product-surface-readiness.mjs",
+  "scripts/report-devops-health-recovery-readiness.mjs",
   "scripts/report-data-goal-readiness.mjs",
   "scripts/report-data-freshness-quality-mvp-readiness.mjs",
   "scripts/report-data-coverage-quality-route-readiness.mjs",
@@ -46,7 +47,8 @@ for (const phrase of [
   "runtime/schema promotion readiness",
   "mock signal reading flow",
   "mock MVP product surface",
-  "DevOps health hardening",
+  "DevOps health recovery",
+  "CEO execution focus closure",
   "mock-signal-reading-flow",
   "mock-mvp-product-surface",
   "devops-health-recovery",
@@ -56,6 +58,7 @@ for (const phrase of [
   "future data coverage promotion",
   "mock signal reading flow is non-advisory mock-only MVP review ready",
   "mock MVP product surface is cross-route mock-only MVP review ready",
+  "DevOps health recovery is build-recovery-health-review-gate MVP review ready",
   "Do not spend the next high-value slice on broad visual polish",
   "runtime/schema promotion readiness",
   "source-specific acceptance packets",
@@ -141,8 +144,8 @@ if (run.status !== 0) {
 if (output) {
   if (output.mode !== "overall_project_100_readiness") blocked.push(`output.mode: ${String(output.mode)}`);
   if (output.status !== "mvp_100_readiness_in_progress") blocked.push(`output.status: ${String(output.status)}`);
-  if (output.currentOverallPercent !== 89) {
-    blocked.push(`output.currentOverallPercent expected 89, got ${String(output.currentOverallPercent)}`);
+  if (output.currentOverallPercent !== 90) {
+    blocked.push(`output.currentOverallPercent expected 90, got ${String(output.currentOverallPercent)}`);
   }
   if (output.targetOverallPercent !== 100) {
     blocked.push(`output.targetOverallPercent: ${String(output.targetOverallPercent)}`);
@@ -155,7 +158,7 @@ if (output) {
   }
 
   const gapIds = new Set((output.currentTopGaps ?? []).map((gap) => gap.id));
-  for (const id of ["devops-health-recovery", "ceo-execution-focus", "final-mvp-100-completion-audit"]) {
+  for (const id of ["ceo-execution-focus", "final-mvp-100-completion-audit"]) {
     if (!gapIds.has(id)) blocked.push(`output.currentTopGaps missing ${id}`);
   }
 
@@ -169,9 +172,14 @@ if (output) {
     blocked.push(`output.readinessLanes.mock-signal-reading-flow current expected 95, got ${String(mockSignalLane?.current)}`);
   }
 
+  const devopsLane = (output.readinessLanes ?? []).find((lane) => lane.id === "devops-health-recovery");
+  if (devopsLane?.current !== 95) {
+    blocked.push(`output.readinessLanes.devops-health-recovery current expected 95, got ${String(devopsLane?.current)}`);
+  }
+
   const devopsGap = (output.currentTopGaps ?? []).find((gap) => gap.id === "devops-health-recovery");
-  if (devopsGap?.current !== 88) {
-    blocked.push(`output.currentTopGaps.devops-health-recovery current expected 88, got ${String(devopsGap?.current)}`);
+  if (devopsGap) {
+    blocked.push("output.currentTopGaps.devops-health-recovery should be closed");
   }
 
   const ceoGap = (output.currentTopGaps ?? []).find((gap) => gap.id === "ceo-execution-focus");
@@ -180,8 +188,8 @@ if (output) {
   }
 
   const finalGap = (output.currentTopGaps ?? []).find((gap) => gap.id === "final-mvp-100-completion-audit");
-  if (finalGap?.current !== 89) {
-    blocked.push(`output.currentTopGaps.final-mvp-100-completion-audit current expected 89, got ${String(finalGap?.current)}`);
+  if (finalGap?.current !== 90) {
+    blocked.push(`output.currentTopGaps.final-mvp-100-completion-audit current expected 90, got ${String(finalGap?.current)}`);
   }
 
   if (output.completionDefinition?.dataCoverageRoute !== "route_defined_from_accepted_bounded_readonly_evidence") {

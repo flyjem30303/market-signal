@@ -2988,6 +2988,11 @@ const checks = [
     name: "mock-mvp-product-surface-readiness"
   },
   {
+    command: [node, "scripts/check-devops-health-recovery-readiness.mjs"],
+    expectStatus: "ok",
+    name: "devops-health-recovery-readiness"
+  },
+  {
     command: [node, "scripts/check-runtime-readonly-decision-card.mjs"],
     expectStatus: "ok",
     name: "runtime-readonly-decision-card"

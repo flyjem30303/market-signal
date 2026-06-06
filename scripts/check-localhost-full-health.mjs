@@ -42,6 +42,10 @@ const checks = [
     name: "mock-mvp-product-surface-readiness"
   },
   {
+    command: [node, "scripts/check-devops-health-recovery-readiness.mjs"],
+    name: "devops-health-recovery-readiness"
+  },
+  {
     command: [node, "scripts/check-ceo-progress-brief.mjs"],
     name: "ceo-progress-brief"
   },

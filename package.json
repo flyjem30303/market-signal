@@ -159,6 +159,8 @@
     "check:mock-signal-reading-flow-readiness": "node scripts/check-mock-signal-reading-flow-readiness.mjs",
     "report:mock-mvp-product-surface-readiness": "node scripts/report-mock-mvp-product-surface-readiness.mjs",
     "check:mock-mvp-product-surface-readiness": "node scripts/check-mock-mvp-product-surface-readiness.mjs",
+    "report:devops-health-recovery-readiness": "node scripts/report-devops-health-recovery-readiness.mjs",
+    "check:devops-health-recovery-readiness": "node scripts/check-devops-health-recovery-readiness.mjs",
     "check:runtime-readonly-decision-card": "node scripts/check-runtime-readonly-decision-card.mjs",
     "check:post-readonly-runtime-state": "node scripts/check-post-readonly-runtime-state.mjs",
     "check:post-readonly-next-gate-queue": "node scripts/check-post-readonly-next-gate-queue.mjs",

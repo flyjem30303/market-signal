@@ -54,7 +54,7 @@ for (const [file, phrases] of [
     [
       "current: 95",
       "daily_prices runtime shape baseline",
-      "current: 88",
+      "DevOps health recovery readiness",
       "data foundation gate",
       "current: 83",
       "data/runtime foundation gates"

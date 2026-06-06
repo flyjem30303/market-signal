@@ -91,10 +91,10 @@ export const projectProgressLanes: ProjectProgressLane[] = [
     weight: 10
   },
   {
-    current: 88,
+    current: 95,
     label: "DevOps / health / recovery",
     note:
-      "localhost health, TypeScript, review gates, language-quality gates, and dev-server recovery tools are available. Health config, full localhost health, and recovery checkers now use stable readable tokens instead of corrupted copy.",
+      "Local verification runbook, TypeScript, JSON parsing, production build order, dev recovery, post-build localhost health, full review gate, route health config, content health, runtime autonomy handoff, and public language checks are consolidated into DevOps health recovery readiness for MVP review. Remote execution, SQL, Supabase writes, raw market data, publicDataSource=supabase, and scoreSource=real remain blocked.",
     owner: "Engineering",
     weight: 5
   }

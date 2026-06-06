@@ -9,6 +9,7 @@ const sourceRightsReadiness = runJson("scripts/report-source-rights-mvp-readines
 const runtimeSchemaReadiness = runJson("scripts/report-runtime-schema-promotion-readiness.mjs");
 const mockSignalReadiness = runJson("scripts/report-mock-signal-reading-flow-readiness.mjs");
 const productSurfaceReadiness = runJson("scripts/report-mock-mvp-product-surface-readiness.mjs");
+const devopsReadiness = runJson("scripts/report-devops-health-recovery-readiness.mjs");
 
 const laneMap = new Map((progress.project?.lanes ?? []).map((lane) => [lane.label, lane]));
 const productSurfaceLane = laneMap.get("Mock MVP product surface");
@@ -99,11 +100,11 @@ const readinessLanes = [
   },
   {
     id: "devops-health-recovery",
-    current: devopsLane?.current ?? 0,
+    current: devopsReadiness.upgradedDevopsHealthRecoveryPercent ?? devopsLane?.current ?? 0,
     targetForMvpReview: 95,
     owner: "Engineering",
-    status: laneStatus(devopsLane?.current ?? 0, 95),
-    nextAction: "Keep build, TypeScript, localhost recovery, full health, and review gates stable."
+    status: laneStatus(devopsReadiness.upgradedDevopsHealthRecoveryPercent ?? devopsLane?.current ?? 0, 95),
+    nextAction: "Keep DevOps health stable while CEO execution focus and final completion audit finish."
   }
 ];
 
@@ -115,26 +116,20 @@ const report = {
   targetOverallPercent: 100,
   dataReadinessPercent,
   ceoVerdict:
-    "Investment credibility has reached MVP review target; data freshness/quality, source-rights, runtime guard, schema/repository readiness, mock signal reading flow, and mock MVP product surface have reached MVP review targets as local-only evidence. Do not spend the next high-value slice on broad visual polish; the shortest route to 100% is DevOps health hardening, CEO execution focus, and final completion audit while keeping runtime, health, and mock boundaries stable.",
+    "Investment credibility has reached MVP review target; data freshness/quality, source-rights, runtime guard, schema/repository readiness, mock signal reading flow, mock MVP product surface, and DevOps health recovery have reached MVP review targets as local-only evidence. Do not spend the next high-value slice on broad visual polish; the shortest route to 100% is CEO execution focus closure and final completion audit while keeping runtime, health, and mock boundaries stable.",
   pmNextShortestPath:
-    "Execute a larger local-only DevOps and final-readiness slice: keep runtime/schema promotion readiness, mock signal reading flow, and mock MVP product surface closed for mock MVP review, preserve data execution-readiness, source-specific acceptance packets, data-coverage-route, source-rights-disclosure, mock-MVP launch review closed, post-MVP source promotion, post-MVP data coverage promotion, and future data coverage promotion as closed/deferred context, then close DevOps health and CEO execution focus without SQL, writes, raw data, or real-source promotion.",
+    "Execute a larger local-only CEO execution focus and completion-audit slice: keep runtime/schema promotion readiness, mock signal reading flow, mock MVP product surface, and DevOps health recovery closed for mock MVP review, preserve data execution-readiness, source-specific acceptance packets, data-coverage-route, source-rights-disclosure, mock-MVP launch review closed, post-MVP source promotion, post-MVP data coverage promotion, and future data coverage promotion as closed/deferred context, then close CEO execution focus and prepare the final requirement-by-requirement audit without SQL, writes, raw data, or real-source promotion.",
   closedFoundationContext: [
     "data-coverage-route remains route_defined_from_accepted_bounded_readonly_evidence",
     "source-rights-disclosure is mock-MVP launch review closed while post-MVP source promotion remains deferred",
     "post-MVP data coverage promotion remains deferred behind future data coverage promotion gates",
     "data execution-readiness and source-specific acceptance packets remain local-only evidence",
     "mock signal reading flow is non-advisory mock-only MVP review ready",
-    "mock MVP product surface is cross-route mock-only MVP review ready"
+    "mock MVP product surface is cross-route mock-only MVP review ready",
+    "DevOps health recovery is build-recovery-health-review-gate MVP review ready"
   ],
   readinessLanes,
   currentTopGaps: [
-    {
-      id: "devops-health-recovery",
-      current: devopsLane?.current ?? 0,
-      targetForMvpReview: 95,
-      reason: "DevOps health has stable recovery and checks, but final launch-review hardening is not yet at MVP target.",
-      nextAction: "Consolidate build, TypeScript, dev recovery, localhost full health, and review gate runtime into a final no-remote health closure."
-    },
     {
       id: "ceo-execution-focus",
       current: laneMap.get("CEO execution focus")?.current ?? 0,
@@ -190,6 +185,7 @@ const report = {
     "scripts/report-runtime-schema-promotion-readiness.mjs",
     "scripts/report-mock-signal-reading-flow-readiness.mjs",
     "scripts/report-mock-mvp-product-surface-readiness.mjs",
+    "scripts/report-devops-health-recovery-readiness.mjs",
     "scripts/report-data-goal-readiness.mjs",
     "scripts/report-data-freshness-quality-mvp-readiness.mjs",
     "scripts/report-data-coverage-quality-route-readiness.mjs",
