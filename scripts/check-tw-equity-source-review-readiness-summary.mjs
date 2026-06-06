@@ -16,7 +16,7 @@ const fullHealth = read(fullHealthPath);
 
 for (const phrase of [
   "TW Equity Source Review Readiness Summary",
-  "tw_equity_source_review_readiness_summary_waiting_human_classification",
+  "tw_equity_source_review_readiness_summary_classified_still_blocked",
   "docs/TW_EQUITY_SOURCE_APPROVAL_DECISION_PACKET.md",
   "docs/TW_EQUITY_PROVIDER_SPECIFIC_TERMS_REVIEW_PACKET.md",
   "data/source-gates/tw-equity-provider-specific-terms-review-outcomes.json",
@@ -25,8 +25,8 @@ for (const phrase of [
   "docs/TW_EQUITY_PROVIDER_SPECIFIC_TERMS_APPLY_RUNBOOK.md",
   "docs/reviews/TW_EQUITY_PROVIDER_SPECIFIC_TERMS_APPLY_RUNBOOK_ROLE_REVIEW_2026-06-06.md",
   "not_source_approved",
-  "Provider-specific terms review outcome is not yet recorded",
-  "waiting for a specific human source/legal classification",
+  "Provider-specific terms review outcomes are recorded",
+  "redistribution` remains `unknown_keep_blocked",
   "Classification means one of the source/legal outcome classes",
   "front-end category chips",
   "Source approval",
@@ -45,9 +45,9 @@ for (const phrase of [
   "Option A",
   "Option B",
   "Option C",
-  "CEO recommends Option B now",
+  "CEO recommends keeping the source lane blocked for promotion",
   "runtime/mock MVP hardening",
-  "Do not execute the apply runbook without a specific human classification",
+  "Do not execute another apply runbook change without a specific human classification",
   "Do not fetch market data",
   "Do not run SQL",
   "Do not connect to Supabase",
@@ -60,9 +60,9 @@ for (const phrase of [
 for (const phrase of [
   "Latest TW equity source review readiness summary slice",
   "docs/TW_EQUITY_SOURCE_REVIEW_READINESS_SUMMARY.md",
-  "tw_equity_source_review_readiness_summary_waiting_human_classification",
-  "CEO recommends Option B",
-  "source review lane has reached a natural waiting point"
+  "tw_equity_source_review_readiness_summary_classified_still_blocked",
+  "redistribution remains unknown_keep_blocked",
+  "source lane blocked for promotion"
 ]) {
   if (!status.includes(phrase)) problems.push(`${statusPath} missing: ${phrase}`);
 }

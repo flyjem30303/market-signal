@@ -2,7 +2,7 @@
 
 Updated: 2026-06-06
 
-Status: `tw_equity_source_classification_minimal_execution_route_ready_waiting_human_input`.
+Status: `tw_equity_source_classification_minimal_execution_route_applied_still_blocked`.
 
 ## Purpose
 
@@ -12,7 +12,7 @@ Classification is not a UI category chip. It is not the home-page filter labels 
 
 ## Current Blocker
 
-The lane is ready to receive a human classification, but no concrete classification has been supplied yet. Until that happens, the TW equity lane remains blocked for source approval, write authorization, staging execution, row coverage points, public source promotion, and real score source.
+The lane received human classifications on 2026-06-06. The current outcome is `6` planning classifications and `1` `unknown_keep_blocked` classification. Until the remaining blocker and the separate write authorization are resolved, the TW equity lane remains blocked for source approval, write authorization, staging execution, row coverage points, public source promotion, and real score source.
 
 ## Allowed Input Shape
 
@@ -87,4 +87,4 @@ One classification is not enough to promote the lane unless the remaining rights
 
 ## CEO Decision
 
-This route is ready, but it is waiting for human input. PM should not create the future write runner until a concrete classification exists. If no classification is available, keep runtime/mock MVP hardening moving and leave the source lane blocked.
+This route has been applied for the chairman's 2026-06-06 classification set. PM should not create the future write runner until `redistribution` is resolved and a separate write authorization exists. Keep runtime/mock MVP hardening and local staging-readiness design moving while the source lane remains blocked for promotion.

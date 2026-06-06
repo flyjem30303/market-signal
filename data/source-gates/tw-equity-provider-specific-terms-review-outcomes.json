@@ -2,52 +2,52 @@
   "outcomes": [
     {
       "id": "permitted-use",
-      "classification": "pending",
-      "recordedBy": "not_recorded",
-      "recordedAt": null,
-      "decisionNote": "Awaiting human provider-specific permitted-use review. Pending does not authorize source use, public display, Supabase reads, SQL, ingestion, storage, Supabase public data posture, or scoreSource=real."
+      "classification": "accepted_for_derived_metrics_only",
+      "recordedBy": "Chairman",
+      "recordedAt": "2026-06-06T15:15:28+08:00",
+      "decisionNote": "Chairman selected 1D: permit TW equity source use for derived metric planning only; this does not authorize public source promotion, SQL, Supabase writes, row coverage points, or real score source."
     },
     {
       "id": "attribution",
-      "classification": "pending",
-      "recordedBy": "not_recorded",
-      "recordedAt": null,
-      "decisionNote": "Awaiting human attribution review for page, report, API/file, download, screenshot, and fallback wording. Pending keeps attribution unapproved."
+      "classification": "accepted_for_delayed_public_display",
+      "recordedBy": "Chairman",
+      "recordedAt": "2026-06-06T15:15:28+08:00",
+      "decisionNote": "Chairman selected 2C: attribution posture may support delayed public display copy after later gates; this does not authorize live data promotion or redistribution."
     },
     {
       "id": "redistribution",
-      "classification": "pending",
-      "recordedBy": "not_recorded",
-      "recordedAt": null,
-      "decisionNote": "Awaiting human redistribution review for raw values, transformed rows, exports, cached responses, and downstream copies. Pending keeps redistribution blocked."
+      "classification": "unknown_keep_blocked",
+      "recordedBy": "Chairman",
+      "recordedAt": "2026-06-06T15:15:28+08:00",
+      "decisionNote": "Chairman selected 6F: redistribution, downloads, exports, API reuse, and downstream copies remain blocked pending further review."
     },
     {
       "id": "retention",
-      "classification": "pending",
-      "recordedBy": "not_recorded",
-      "recordedAt": null,
-      "decisionNote": "Awaiting human retention review for storage window, deletion posture, cache policy, audit trail, and rollback ownership. Pending keeps source-derived storage blocked."
+      "classification": "accepted_for_internal_only",
+      "recordedBy": "Chairman",
+      "recordedAt": "2026-06-06T15:15:28+08:00",
+      "decisionNote": "Chairman selected 5B: internal retention for testing and validation may be planned; public redistribution and production daily_prices mutation remain blocked."
     },
     {
       "id": "rate-limit-and-outage",
-      "classification": "pending",
-      "recordedBy": "not_recorded",
-      "recordedAt": null,
-      "decisionNote": "Awaiting human rate-limit and outage handling review. Pending does not authorize remote reads, retries, scheduling, or provider access."
+      "classification": "accepted_for_internal_only",
+      "recordedBy": "Chairman",
+      "recordedAt": "2026-06-06T15:15:28+08:00",
+      "decisionNote": "Chairman selected 7B: internal rate-limit and outage handling may be planned; remote reads, retries, and scheduling still require later execution gates."
     },
     {
       "id": "delay-incompleteness-public-display",
-      "classification": "pending",
-      "recordedBy": "not_recorded",
-      "recordedAt": null,
-      "decisionNote": "Awaiting human review for delay, freshness, partial coverage, missing sessions, stale state, and public display limits. Pending keeps public real-data display blocked."
+      "classification": "accepted_for_delayed_public_display",
+      "recordedBy": "Chairman",
+      "recordedAt": "2026-06-06T15:15:28+08:00",
+      "decisionNote": "Chairman selected 3C: delayed or incomplete public display posture may be prepared with disclosure after later gates; this does not authorize source ingestion or real score source."
     },
     {
       "id": "derived-score-use",
-      "classification": "pending",
-      "recordedBy": "not_recorded",
-      "recordedAt": null,
-      "decisionNote": "Awaiting human derived-score use review. Pending keeps scoreSource=mock and blocks real-data score influence, ranking, recommendation, and confidence claims."
+      "classification": "accepted_for_derived_metrics_only",
+      "recordedBy": "Chairman",
+      "recordedAt": "2026-06-06T15:15:28+08:00",
+      "decisionNote": "Chairman selected 4D: derived signal and metric planning is allowed after later gates; public scoring, rankings, recommendations, and scoreSource real remain blocked."
     }
   ]
 }

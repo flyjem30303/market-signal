@@ -108,9 +108,9 @@ for (const phrase of [
   "Latest TW equity provider-specific terms review outcome ledger slice",
   "data/source-gates/tw-equity-provider-specific-terms-review-outcomes.json",
   "scripts/report-tw-equity-provider-specific-terms-review-outcome-ledger.mjs",
-  "awaiting_provider_specific_terms_review",
-  "accepted_for_local_planning_only",
-  "unknown_keep_blocked",
+  "provider_specific_terms_review_blocked",
+  "6` planning classifications",
+  "1` `unknown_keep_blocked` for `redistribution`",
   "does not promote runtime state"
 ]) {
   if (!status.includes(phrase)) problems.push(`${statusPath} missing: ${phrase}`);

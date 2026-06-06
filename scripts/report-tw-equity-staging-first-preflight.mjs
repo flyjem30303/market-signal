@@ -16,7 +16,7 @@ const requiredPackets = [
   },
   {
     path: "docs/TW_EQUITY_SOURCE_REVIEW_READINESS_SUMMARY.md",
-    phrases: ["waiting for a specific human source/legal classification", "not_source_approved"]
+    phrases: ["tw_equity_source_review_readiness_summary_classified_still_blocked", "not_source_approved", "redistribution` remains `unknown_keep_blocked"]
   },
   {
     path: "docs/TW_EQUITY_REPORT_ONLY_DRY_RUN_PACKET.md",
@@ -46,7 +46,7 @@ const report = {
   expectedRows: 180,
   latestObservedRows: 3,
   latestMissingRows: 177,
-  sourceClassificationStatus: "waiting_human_source_legal_classification",
+  sourceClassificationStatus: "classified_still_blocked_by_redistribution_and_write_authorization",
   targetRelationProposal: "tw_equity_daily_prices_staging",
   productionDailyPricesBlocked: true,
   requiredAuthorizationMissing: [

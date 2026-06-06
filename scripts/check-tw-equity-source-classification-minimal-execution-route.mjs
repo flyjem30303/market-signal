@@ -18,7 +18,7 @@ const readableStatus = read(readableStatusPath);
 
 for (const phrase of [
   "TW Equity Source Classification Minimal Execution Route",
-  "tw_equity_source_classification_minimal_execution_route_ready_waiting_human_input",
+  "tw_equity_source_classification_minimal_execution_route_applied_still_blocked",
   "Classification is not a UI category chip",
   "source/legal outcome",
   "permitted-use",
@@ -61,7 +61,9 @@ for (const phrase of [
   "Public source promotion",
   "Row coverage points",
   "`scoreSource=real`",
-  "waiting for human input"
+  "received human classifications on 2026-06-06",
+  "6` planning classifications",
+  "1` `unknown_keep_blocked` classification"
 ]) {
   if (!route.includes(phrase)) problems.push(`${routePath} missing: ${phrase}`);
 }
@@ -69,7 +71,7 @@ for (const phrase of [
 for (const phrase of [
   "Latest TW equity source classification minimal execution route slice",
   "docs/TW_EQUITY_SOURCE_CLASSIFICATION_MINIMAL_EXECUTION_ROUTE.md",
-  "tw_equity_source_classification_minimal_execution_route_ready_waiting_human_input",
+  "tw_equity_source_classification_minimal_execution_route_applied_still_blocked",
   "classification is not a UI category chip",
   "permitted-use",
   "do not create the future write runner until a concrete classification exists"
