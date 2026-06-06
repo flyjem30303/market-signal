@@ -10,6 +10,13 @@ Status: `tw_equity_postgrest_schema_exposure_probe_schema_exposure_incomplete`.
 - Target objects: `staging_twse_stock_day_runs`, `staging_twse_stock_day_prices`.
 - Evidence is sanitized schema metadata only.
 
+## Repair Outcome Gate
+
+- Repair outcome required: `accepted`.
+- Repair outcome observed: `accepted`.
+- Repair outcome recorded by: `CEO`.
+- Repair outcome recorded at: `2026-06-06T15:39:30.702Z`.
+
 ## Sanitized Result
 
 - OpenAPI reachable: `true`.

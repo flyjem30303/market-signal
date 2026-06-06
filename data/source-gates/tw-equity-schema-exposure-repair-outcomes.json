@@ -3,13 +3,12 @@
     {
       "id": "tw-equity-postgrest-schema-exposure-cache-repair",
       "title": "TW equity PostgREST schema exposure/cache repair",
-      "outcome": "pending",
-      "recordedBy": "not_recorded",
-      "recordedAt": null,
-      "decisionNote": "Awaiting manual non-data-changing Supabase Dashboard/API schema exposure or schema cache repair outcome. No SQL, write, market-data action, or public promotion is authorized by this pending record.",
+      "outcome": "accepted",
+      "recordedBy": "CEO",
+      "recordedAt": "2026-06-06T15:39:30.702Z",
+      "decisionNote": "Accepted: Data API public schema confirmed and NOTIFY pgrst reload schema executed with no data write.",
       "allowedNextStepWhenAccepted": "one_bounded_postgrest_openapi_schema_exposure_probe_rerun_only",
       "blockedNextStepWhenRejected": "create_new_schema_exposure_repair_packet_before_any_remote_probe_or_write"
     }
   ]
 }
-

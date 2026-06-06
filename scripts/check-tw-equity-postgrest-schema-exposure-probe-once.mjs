@@ -1,4 +1,6 @@
 import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
 import { spawnSync } from "node:child_process";
 
 const problems = [];
@@ -13,6 +15,7 @@ for (const phrase of [
   "CEO_APPROVED_TW_EQUITY_POSTGREST_SCHEMA_EXPOSURE_PROBE_ONCE",
   "TW_EQUITY_POSTGREST_SCHEMA_EXPOSURE_PROBE_CONFIRMATION",
   "data/source-gates/tw-equity-schema-exposure-repair-outcomes.json",
+  "TW_EQUITY_SCHEMA_EXPOSURE_REPAIR_OUTCOME_PATH",
   "tw-equity-postgrest-schema-exposure-cache-repair",
   "tw_equity_postgrest_schema_exposure_probe_blocked_repair_outcome_accepted_required",
   "repair_outcome_accepted_required",
@@ -81,7 +84,8 @@ const runWithConfirmationButPendingOutcome = spawnSync(process.execPath, [runner
   encoding: "utf8",
   env: {
     ...process.env,
-    TW_EQUITY_POSTGREST_SCHEMA_EXPOSURE_PROBE_CONFIRMATION: "CEO_APPROVED_TW_EQUITY_POSTGREST_SCHEMA_EXPOSURE_PROBE_ONCE"
+    TW_EQUITY_POSTGREST_SCHEMA_EXPOSURE_PROBE_CONFIRMATION: "CEO_APPROVED_TW_EQUITY_POSTGREST_SCHEMA_EXPOSURE_PROBE_ONCE",
+    TW_EQUITY_SCHEMA_EXPOSURE_REPAIR_OUTCOME_PATH: writeTemporaryPendingOutcomeFixture()
   }
 });
 if (runWithConfirmationButPendingOutcome.status !== 0) {
@@ -130,4 +134,26 @@ function read(filePath) {
   }
 
   return fs.readFileSync(filePath, "utf8");
+}
+
+function writeTemporaryPendingOutcomeFixture() {
+  const tempDirectory = fs.mkdtempSync(path.join(os.tmpdir(), "tw-equity-schema-exposure-"));
+  const tempPath = path.join(tempDirectory, "repair-outcomes-pending.json");
+  const fixture = {
+    outcomes: [
+      {
+        allowedNextStepWhenAccepted: "one_bounded_postgrest_openapi_schema_exposure_probe_rerun_only",
+        blockedNextStepWhenRejected: "create_new_schema_exposure_repair_packet_before_any_remote_probe_or_write",
+        decisionNote: "Temporary checker fixture keeps repair outcome pending to verify fail-closed behavior.",
+        id: "tw-equity-postgrest-schema-exposure-cache-repair",
+        outcome: "pending",
+        recordedAt: null,
+        recordedBy: "not_recorded",
+        title: "TW equity PostgREST schema exposure/cache repair"
+      }
+    ]
+  };
+
+  fs.writeFileSync(tempPath, `${JSON.stringify(fixture, null, 2)}\n`);
+  return tempPath;
 }

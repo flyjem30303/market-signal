@@ -5,7 +5,9 @@ const CONFIRMATION_VALUE = "CEO_APPROVED_TW_EQUITY_POSTGREST_SCHEMA_EXPOSURE_PRO
 const DOTENV_LOCAL_ALLOWED_KEYS = ["NEXT_PUBLIC_SUPABASE_URL", "SUPABASE_SERVICE_ROLE_KEY"];
 const TARGETS = ["staging_twse_stock_day_runs", "staging_twse_stock_day_prices"];
 const POST_RUN_REVIEW_PATH = "docs/reviews/TW_EQUITY_POSTGREST_SCHEMA_EXPOSURE_PROBE_POST_RUN_REVIEW_2026-06-06.md";
-const REPAIR_OUTCOME_PATH = "data/source-gates/tw-equity-schema-exposure-repair-outcomes.json";
+const REPAIR_OUTCOME_PATH =
+  process.env.TW_EQUITY_SCHEMA_EXPOSURE_REPAIR_OUTCOME_PATH ??
+  "data/source-gates/tw-equity-schema-exposure-repair-outcomes.json";
 const REPAIR_OUTCOME_ID = "tw-equity-postgrest-schema-exposure-cache-repair";
 
 loadProcessEnvFromDotEnvLocal();
@@ -201,6 +203,13 @@ function writePostRunReview({ exposure, status }) {
     "- Exactly one bounded PostgREST OpenAPI schema exposure probe was attempted.",
     "- Target objects: `staging_twse_stock_day_runs`, `staging_twse_stock_day_prices`.",
     "- Evidence is sanitized schema metadata only.",
+    "",
+    "## Repair Outcome Gate",
+    "",
+    `- Repair outcome required: \`accepted\`.`,
+    `- Repair outcome observed: \`${repairOutcome.outcome}\`.`,
+    `- Repair outcome recorded by: \`${repairOutcome.recordedBy ?? "not_recorded"}\`.`,
+    `- Repair outcome recorded at: \`${repairOutcome.recordedAt ?? "not_recorded"}\`.`,
     "",
     "## Sanitized Result",
     "",
