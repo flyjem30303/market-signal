@@ -3028,6 +3028,11 @@ const checks = [
     name: "data-population-route-decision"
   },
   {
+    command: [node, "scripts/check-data-realification-acceleration-gate.mjs"],
+    expectStatus: "ok",
+    name: "data-realification-acceleration-gate"
+  },
+  {
     command: [node, "scripts/check-backfill-ingestion-execution-packet.mjs"],
     expectStatus: "ok",
     name: "backfill-ingestion-execution-packet"
@@ -3101,6 +3106,11 @@ const checks = [
     command: [node, "scripts/check-tw-equity-source-review-readiness-summary.mjs"],
     expectStatus: "ok",
     name: "tw-equity-source-review-readiness-summary"
+  },
+  {
+    command: [node, "scripts/check-tw-equity-staging-first-authorization-packet.mjs"],
+    expectStatus: "ok",
+    name: "tw-equity-staging-first-authorization-packet"
   },
   {
     command: [node, "scripts/check-runtime-readonly-decision-card.mjs"],
@@ -3556,6 +3566,7 @@ const coreReviewGateNames = new Set([
   "data-authorization-decision-packet",
   "data-authorization-readonly-attempt-post-run-review",
   "data-population-route-decision",
+  "data-realification-acceleration-gate",
   "backfill-ingestion-execution-packet",
   "tw-equity-report-only-dry-run-packet",
   "tw-equity-source-rights-packet",
@@ -3571,6 +3582,7 @@ const coreReviewGateNames = new Set([
   "tw-equity-provider-specific-terms-apply-runbook",
   "tw-equity-provider-specific-terms-apply-runbook-role-review",
   "tw-equity-source-review-readiness-summary",
+  "tw-equity-staging-first-authorization-packet",
   "typescript"
 ]);
 

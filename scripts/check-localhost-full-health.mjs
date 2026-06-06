@@ -78,6 +78,10 @@ const checks = [
     name: "data-population-route-decision"
   },
   {
+    command: [node, "scripts/check-data-realification-acceleration-gate.mjs"],
+    name: "data-realification-acceleration-gate"
+  },
+  {
     command: [node, "scripts/check-backfill-ingestion-execution-packet.mjs"],
     name: "backfill-ingestion-execution-packet"
   },
@@ -136,6 +140,10 @@ const checks = [
   {
     command: [node, "scripts/check-tw-equity-source-review-readiness-summary.mjs"],
     name: "tw-equity-source-review-readiness-summary"
+  },
+  {
+    command: [node, "scripts/check-tw-equity-staging-first-authorization-packet.mjs"],
+    name: "tw-equity-staging-first-authorization-packet"
   },
   {
     command: [node, "scripts/check-ceo-progress-brief.mjs"],
