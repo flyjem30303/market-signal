@@ -396,6 +396,10 @@ const checks = [
     name: "etf-daily-prices-coverage-completion-route"
   },
   {
+    command: [node, "scripts/check-coverage-universe-roadmap.mjs"],
+    name: "coverage-universe-roadmap"
+  },
+  {
     command: [node, "scripts/check-a1-tw-equity-candidate-artifact-intake.mjs"],
     name: "a1-tw-equity-candidate-artifact-intake"
   },

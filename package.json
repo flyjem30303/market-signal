@@ -245,6 +245,7 @@
     "check:tw-equity-daily-prices-insert-missing-merge-post-run-review-2026-06-07": "node scripts/check-tw-equity-daily-prices-insert-missing-merge-post-run-review-2026-06-07.mjs",
     "check:tw-equity-row-coverage-scoring-gate": "node scripts/check-tw-equity-row-coverage-scoring-gate.mjs",
     "check:etf-daily-prices-coverage-completion-route": "node scripts/check-etf-daily-prices-coverage-completion-route.mjs",
+    "check:coverage-universe-roadmap": "node scripts/check-coverage-universe-roadmap.mjs",
     "report:a1-tw-equity-candidate-artifact-intake": "node scripts/report-a1-tw-equity-candidate-artifact-intake.mjs",
     "check:a1-tw-equity-candidate-artifact-intake": "node scripts/check-a1-tw-equity-candidate-artifact-intake.mjs",
     "check:a1-tw-equity-candidate-artifact-delivery-spec": "node scripts/check-a1-tw-equity-candidate-artifact-delivery-spec.mjs",

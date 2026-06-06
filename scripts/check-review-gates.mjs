@@ -3428,6 +3428,11 @@ const checks = [
     name: "etf-daily-prices-coverage-completion-route"
   },
   {
+    command: [node, "scripts/check-coverage-universe-roadmap.mjs"],
+    expectStatus: "ok",
+    name: "coverage-universe-roadmap"
+  },
+  {
     command: [node, "scripts/check-a1-tw-equity-candidate-artifact-intake.mjs"],
     expectStatus: "ok",
     name: "a1-tw-equity-candidate-artifact-intake"
@@ -3995,6 +4000,7 @@ const coreReviewGateNames = new Set([
   "tw-equity-daily-prices-insert-missing-merge-post-run-review-2026-06-07",
   "tw-equity-row-coverage-scoring-gate",
   "etf-daily-prices-coverage-completion-route",
+  "coverage-universe-roadmap",
   "a1-tw-equity-candidate-artifact-intake",
   "a1-tw-equity-candidate-artifact-delivery-spec",
   "a1-tw-equity-candidate-artifact-self-check",
