@@ -3208,6 +3208,11 @@ const checks = [
     name: "tw-equity-staging-write-implementation"
   },
   {
+    command: [node, "scripts/check-tw-equity-staging-write-execution-readiness.mjs"],
+    expectStatus: "ok",
+    name: "tw-equity-staging-write-execution-readiness"
+  },
+  {
     command: [node, "scripts/check-runtime-readonly-decision-card.mjs"],
     expectStatus: "ok",
     name: "runtime-readonly-decision-card"
@@ -3701,6 +3706,7 @@ const coreReviewGateNames = new Set([
   "tw-equity-write-implementation-final-authorization-gate",
   "tw-equity-write-implementation-final-authorization-acceptance",
   "tw-equity-staging-write-implementation",
+  "tw-equity-staging-write-execution-readiness",
   "typescript"
 ]);
 

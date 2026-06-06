@@ -172,6 +172,8 @@
     "check:tw-equity-write-implementation-final-authorization-gate": "node scripts/check-tw-equity-write-implementation-final-authorization-gate.mjs",
     "check:tw-equity-write-implementation-final-authorization-acceptance": "node scripts/check-tw-equity-write-implementation-final-authorization-acceptance.mjs",
     "check:tw-equity-staging-write-implementation": "node scripts/check-tw-equity-staging-write-implementation.mjs",
+    "report:tw-equity-staging-write-execution-readiness": "node scripts/report-tw-equity-staging-write-execution-readiness.mjs",
+    "check:tw-equity-staging-write-execution-readiness": "node scripts/check-tw-equity-staging-write-execution-readiness.mjs",
     "report:ceo-progress-brief": "node scripts/report-ceo-progress-brief.mjs",
     "check:ceo-progress-brief": "node scripts/check-ceo-progress-brief.mjs",
     "report:runtime-unblock-acceleration": "node scripts/report-runtime-unblock-acceleration.mjs",
