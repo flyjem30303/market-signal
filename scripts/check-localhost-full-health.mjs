@@ -372,6 +372,10 @@ const checks = [
     name: "tw-equity-daily-prices-overlap-classification-runner"
   },
   {
+    command: [node, "scripts/check-tw-equity-daily-prices-insert-missing-skip-existing-merge-authorization.mjs"],
+    name: "tw-equity-daily-prices-insert-missing-skip-existing-merge-authorization"
+  },
+  {
     command: [node, "scripts/check-a1-tw-equity-candidate-artifact-intake.mjs"],
     name: "a1-tw-equity-candidate-artifact-intake"
   },
