@@ -236,6 +236,10 @@ const checks = [
     name: "a1-tw-equity-candidate-artifact-self-check"
   },
   {
+    command: [node, "scripts/check-pm-tw-equity-candidate-intake-review.mjs"],
+    name: "pm-tw-equity-candidate-intake-review"
+  },
+  {
     command: [node, "scripts/check-ceo-progress-brief.mjs"],
     name: "ceo-progress-brief"
   },

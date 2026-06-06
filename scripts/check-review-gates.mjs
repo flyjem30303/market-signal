@@ -3228,6 +3228,11 @@ const checks = [
     name: "a1-tw-equity-candidate-artifact-self-check"
   },
   {
+    command: [node, "scripts/check-pm-tw-equity-candidate-intake-review.mjs"],
+    expectStatus: "ok",
+    name: "pm-tw-equity-candidate-intake-review"
+  },
+  {
     command: [node, "scripts/check-runtime-readonly-decision-card.mjs"],
     expectStatus: "ok",
     name: "runtime-readonly-decision-card"
@@ -3725,6 +3730,7 @@ const coreReviewGateNames = new Set([
   "a1-tw-equity-candidate-artifact-intake",
   "a1-tw-equity-candidate-artifact-delivery-spec",
   "a1-tw-equity-candidate-artifact-self-check",
+  "pm-tw-equity-candidate-intake-review",
   "typescript"
 ]);
 
