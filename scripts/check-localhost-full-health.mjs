@@ -114,6 +114,10 @@ const checks = [
     name: "tw-equity-provider-specific-terms-review-packet"
   },
   {
+    command: [node, "scripts/check-tw-equity-provider-specific-terms-review-outcome-ledger.mjs"],
+    name: "tw-equity-provider-specific-terms-review-outcome-ledger"
+  },
+  {
     command: [node, "scripts/check-ceo-progress-brief.mjs"],
     name: "ceo-progress-brief"
   },
