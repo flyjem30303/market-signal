@@ -340,6 +340,10 @@ const checks = [
     name: "tw-equity-staging-third-write-post-run-review-2026-06-07"
   },
   {
+    command: [node, "scripts/check-tw-equity-post-write-staging-verification.mjs"],
+    name: "tw-equity-post-write-staging-verification"
+  },
+  {
     command: [node, "scripts/check-a1-tw-equity-candidate-artifact-intake.mjs"],
     name: "a1-tw-equity-candidate-artifact-intake"
   },
