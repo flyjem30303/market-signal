@@ -126,6 +126,10 @@ const checks = [
     name: "tw-equity-provider-specific-terms-review-outcome-tool-role-review"
   },
   {
+    command: [node, "scripts/check-tw-equity-provider-specific-terms-apply-runbook.mjs"],
+    name: "tw-equity-provider-specific-terms-apply-runbook"
+  },
+  {
     command: [node, "scripts/check-ceo-progress-brief.mjs"],
     name: "ceo-progress-brief"
   },
