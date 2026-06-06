@@ -128,6 +128,7 @@
     "check:final-mvp-100-completion-audit-readiness": "node scripts/check-final-mvp-100-completion-audit-readiness.mjs",
     "check:mock-mvp-chairman-review": "node scripts/check-mock-mvp-chairman-review.mjs",
     "check:mock-mvp-f-ui-closeout": "node scripts/check-mock-mvp-f-ui-closeout.mjs",
+    "check:data-authorization-entry-gate": "node scripts/check-data-authorization-entry-gate.mjs",
     "report:ceo-progress-brief": "node scripts/report-ceo-progress-brief.mjs",
     "check:ceo-progress-brief": "node scripts/check-ceo-progress-brief.mjs",
     "report:runtime-unblock-acceleration": "node scripts/report-runtime-unblock-acceleration.mjs",

@@ -62,6 +62,10 @@ const checks = [
     name: "mock-mvp-f-ui-closeout"
   },
   {
+    command: [node, "scripts/check-data-authorization-entry-gate.mjs"],
+    name: "data-authorization-entry-gate"
+  },
+  {
     command: [node, "scripts/check-ceo-progress-brief.mjs"],
     name: "ceo-progress-brief"
   },
