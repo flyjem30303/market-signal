@@ -205,6 +205,8 @@
     "check:tw-equity-schema-exposure-repair-decision-packet": "node scripts/check-tw-equity-schema-exposure-repair-decision-packet.mjs",
     "report:tw-equity-schema-exposure-repair-runbook": "node scripts/report-tw-equity-schema-exposure-repair-runbook.mjs",
     "check:tw-equity-schema-exposure-repair-runbook": "node scripts/check-tw-equity-schema-exposure-repair-runbook.mjs",
+    "record:tw-equity-schema-exposure-repair-outcome": "node scripts/record-tw-equity-schema-exposure-repair-outcome.mjs",
+    "check:record-tw-equity-schema-exposure-repair-outcome": "node scripts/check-record-tw-equity-schema-exposure-repair-outcome.mjs",
     "report:a1-tw-equity-candidate-artifact-intake": "node scripts/report-a1-tw-equity-candidate-artifact-intake.mjs",
     "check:a1-tw-equity-candidate-artifact-intake": "node scripts/check-a1-tw-equity-candidate-artifact-intake.mjs",
     "check:a1-tw-equity-candidate-artifact-delivery-spec": "node scripts/check-a1-tw-equity-candidate-artifact-delivery-spec.mjs",

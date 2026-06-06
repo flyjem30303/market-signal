@@ -31,6 +31,18 @@ The current root-cause candidate is PostgREST schema exposure or schema cache mi
 5. Do not perform any table mutation, SQL migration, policy change, data load, write attempt, row coverage promotion, or public data promotion during this runbook.
 6. Record the outcome in `data/source-gates/tw-equity-schema-exposure-repair-outcomes.json`.
 
+Use a dry-run first:
+
+```bash
+npm run record:tw-equity-schema-exposure-repair-outcome -- --dry-run --id tw-equity-postgrest-schema-exposure-cache-repair --outcome accepted --recordedBy CEO --note "Manual non-data-changing schema exposure/cache repair was completed; no SQL, write, market-data action, raw payload output, or secret output occurred."
+```
+
+Apply only after the dry-run output is clean:
+
+```bash
+npm run record:tw-equity-schema-exposure-repair-outcome -- --apply --id tw-equity-postgrest-schema-exposure-cache-repair --outcome accepted --recordedBy CEO --note "Manual non-data-changing schema exposure/cache repair was completed; no SQL, write, market-data action, raw payload output, or secret output occurred."
+```
+
 ## Accepted Outcome Means
 
 The outcome can be recorded as `accepted` only when all of these are true:
@@ -74,4 +86,3 @@ Rejected outcome blocks the next bounded OpenAPI probe until a new repair packet
 ## Next PM Action
 
 Wait for an accepted or rejected outcome record. If and only if the outcome is accepted, prepare one bounded PostgREST OpenAPI schema exposure probe rerun as a separate slice. Do not proceed directly to staging write.
-

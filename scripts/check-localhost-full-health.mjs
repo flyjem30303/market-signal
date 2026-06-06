@@ -296,6 +296,10 @@ const checks = [
     name: "tw-equity-schema-exposure-repair-runbook"
   },
   {
+    command: [node, "scripts/check-record-tw-equity-schema-exposure-repair-outcome.mjs"],
+    name: "record-tw-equity-schema-exposure-repair-outcome"
+  },
+  {
     command: [node, "scripts/check-a1-tw-equity-candidate-artifact-intake.mjs"],
     name: "a1-tw-equity-candidate-artifact-intake"
   },
