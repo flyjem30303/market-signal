@@ -356,6 +356,10 @@ const checks = [
     name: "tw-equity-staging-to-daily-prices-dry-run-preflight"
   },
   {
+    command: [node, "scripts/check-tw-equity-staging-to-daily-prices-remote-preflight-authorization.mjs"],
+    name: "tw-equity-staging-to-daily-prices-remote-preflight-authorization"
+  },
+  {
     command: [node, "scripts/check-a1-tw-equity-candidate-artifact-intake.mjs"],
     name: "a1-tw-equity-candidate-artifact-intake"
   },

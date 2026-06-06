@@ -234,6 +234,8 @@
     "check:tw-equity-staging-to-daily-prices-merge-design-packet": "node scripts/check-tw-equity-staging-to-daily-prices-merge-design-packet.mjs",
     "report:tw-equity-staging-to-daily-prices-dry-run-preflight": "node scripts/report-tw-equity-staging-to-daily-prices-dry-run-preflight.mjs",
     "check:tw-equity-staging-to-daily-prices-dry-run-preflight": "node scripts/check-tw-equity-staging-to-daily-prices-dry-run-preflight.mjs",
+    "report:tw-equity-staging-to-daily-prices-remote-preflight-authorization": "node scripts/report-tw-equity-staging-to-daily-prices-remote-preflight-authorization.mjs",
+    "check:tw-equity-staging-to-daily-prices-remote-preflight-authorization": "node scripts/check-tw-equity-staging-to-daily-prices-remote-preflight-authorization.mjs",
     "report:a1-tw-equity-candidate-artifact-intake": "node scripts/report-a1-tw-equity-candidate-artifact-intake.mjs",
     "check:a1-tw-equity-candidate-artifact-intake": "node scripts/check-a1-tw-equity-candidate-artifact-intake.mjs",
     "check:a1-tw-equity-candidate-artifact-delivery-spec": "node scripts/check-a1-tw-equity-candidate-artifact-delivery-spec.mjs",
