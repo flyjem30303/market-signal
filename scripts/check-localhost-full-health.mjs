@@ -66,6 +66,10 @@ const checks = [
     name: "data-authorization-entry-gate"
   },
   {
+    command: [node, "scripts/check-data-authorization-decision-packet.mjs"],
+    name: "data-authorization-decision-packet"
+  },
+  {
     command: [node, "scripts/check-ceo-progress-brief.mjs"],
     name: "ceo-progress-brief"
   },

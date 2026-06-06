@@ -3013,6 +3013,11 @@ const checks = [
     name: "data-authorization-entry-gate"
   },
   {
+    command: [node, "scripts/check-data-authorization-decision-packet.mjs"],
+    expectStatus: "ok",
+    name: "data-authorization-decision-packet"
+  },
+  {
     command: [node, "scripts/check-runtime-readonly-decision-card.mjs"],
     expectStatus: "ok",
     name: "runtime-readonly-decision-card"
@@ -3463,6 +3468,7 @@ const coreReviewGateNames = new Set([
   "mock-mvp-chairman-review",
   "mock-mvp-f-ui-closeout",
   "data-authorization-entry-gate",
+  "data-authorization-decision-packet",
   "typescript"
 ]);
 
