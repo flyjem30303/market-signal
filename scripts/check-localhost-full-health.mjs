@@ -392,6 +392,10 @@ const checks = [
     name: "tw-equity-row-coverage-scoring-gate"
   },
   {
+    command: [node, "scripts/check-etf-daily-prices-coverage-completion-route.mjs"],
+    name: "etf-daily-prices-coverage-completion-route"
+  },
+  {
     command: [node, "scripts/check-a1-tw-equity-candidate-artifact-intake.mjs"],
     name: "a1-tw-equity-candidate-artifact-intake"
   },
