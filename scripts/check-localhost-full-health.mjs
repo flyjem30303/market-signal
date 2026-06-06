@@ -240,6 +240,10 @@ const checks = [
     name: "tw-equity-second-bounded-staging-write-retry-decision"
   },
   {
+    command: [node, "scripts/check-tw-equity-second-write-runner-contract-alignment.mjs"],
+    name: "tw-equity-second-write-runner-contract-alignment"
+  },
+  {
     command: [node, "scripts/check-a1-tw-equity-candidate-artifact-intake.mjs"],
     name: "a1-tw-equity-candidate-artifact-intake"
   },

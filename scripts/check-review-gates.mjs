@@ -3233,6 +3233,11 @@ const checks = [
     name: "tw-equity-second-bounded-staging-write-retry-decision"
   },
   {
+    command: [node, "scripts/check-tw-equity-second-write-runner-contract-alignment.mjs"],
+    expectStatus: "ok",
+    name: "tw-equity-second-write-runner-contract-alignment"
+  },
+  {
     command: [node, "scripts/check-a1-tw-equity-candidate-artifact-intake.mjs"],
     expectStatus: "ok",
     name: "a1-tw-equity-candidate-artifact-intake"
@@ -3761,6 +3766,7 @@ const coreReviewGateNames = new Set([
   "tw-equity-staging-first-write-post-run-review-2026-06-06",
   "tw-equity-pgrst205-root-cause-gate",
   "tw-equity-second-bounded-staging-write-retry-decision",
+  "tw-equity-second-write-runner-contract-alignment",
   "a1-tw-equity-candidate-artifact-intake",
   "a1-tw-equity-candidate-artifact-delivery-spec",
   "a1-tw-equity-candidate-artifact-self-check",

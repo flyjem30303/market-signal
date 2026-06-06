@@ -1,21 +1,38 @@
 import fs from "node:fs";
 import path from "node:path";
 
-const EXPECTED = {
-  authorizationId: "TW-EQUITY-STAGING-WRITE-2026-06-06-AUTH-001",
-  confirmation: "CEO_APPROVED_TW_EQUITY_BOUNDED_STAGING_WRITE_ONCE",
+const SHARED_EXPECTED = {
   lane: "tw-equity",
   maxRows: 180,
-  postRunReview: "docs/reviews/TW_EQUITY_STAGING_FIRST_WRITE_POST_RUN_REVIEW_2026-06-06.md",
   sessions: 60,
   symbols: "2330,2382,2308",
   target: "staging_twse_stock_day_runs,staging_twse_stock_day_prices"
 };
+const ATTEMPT_CONTRACTS = [
+  {
+    ...SHARED_EXPECTED,
+    authorizationId: "TW-EQUITY-STAGING-WRITE-2026-06-06-AUTH-001",
+    candidateAuthorizationIds: ["TW-EQUITY-STAGING-WRITE-2026-06-06-AUTH-001"],
+    confirmation: "CEO_APPROVED_TW_EQUITY_BOUNDED_STAGING_WRITE_ONCE",
+    postRunReview: "docs/reviews/TW_EQUITY_STAGING_FIRST_WRITE_POST_RUN_REVIEW_2026-06-06.md"
+  },
+  {
+    ...SHARED_EXPECTED,
+    authorizationId: "TW-EQUITY-STAGING-WRITE-2026-06-06-AUTH-002",
+    candidateAuthorizationIds: [
+      "TW-EQUITY-STAGING-WRITE-2026-06-06-AUTH-001",
+      "TW-EQUITY-STAGING-WRITE-2026-06-06-AUTH-002"
+    ],
+    confirmation: "CEO_APPROVED_TW_EQUITY_SECOND_BOUNDED_STAGING_WRITE_RETRY_ONCE",
+    postRunReview: "docs/reviews/TW_EQUITY_STAGING_SECOND_WRITE_RETRY_POST_RUN_REVIEW_2026-06-06.md"
+  }
+];
 const DOTENV_LOCAL_ALLOWED_KEYS = ["NEXT_PUBLIC_SUPABASE_URL", "SUPABASE_SERVICE_ROLE_KEY"];
 
 loadProcessEnvFromDotEnvLocal();
 const args = parseArgs(process.argv.slice(2));
 const problems = [];
+const EXPECTED = resolveExpected(args);
 
 if (args.authorizationId !== EXPECTED.authorizationId) problems.push("authorization_id_mismatch");
 if (args.lane !== EXPECTED.lane) problems.push("lane_mismatch");
@@ -113,6 +130,23 @@ function toCamelCase(value) {
   return value.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase());
 }
 
+function resolveExpected(parsedArgs) {
+  const exact = ATTEMPT_CONTRACTS.find(
+    (contract) =>
+      parsedArgs.authorizationId === contract.authorizationId &&
+      (!parsedArgs.postRunReview || parsedArgs.postRunReview === contract.postRunReview)
+  );
+  if (exact) return exact;
+
+  const byAuthorization = ATTEMPT_CONTRACTS.find((contract) => parsedArgs.authorizationId === contract.authorizationId);
+  if (byAuthorization) return byAuthorization;
+
+  const byPostRunReview = ATTEMPT_CONTRACTS.find((contract) => parsedArgs.postRunReview === contract.postRunReview);
+  if (byPostRunReview) return byPostRunReview;
+
+  return ATTEMPT_CONTRACTS[0];
+}
+
 function envPresent(name) {
   return typeof process.env[name] === "string" && process.env[name].trim().length > 0;
 }
@@ -191,7 +225,9 @@ function validateCandidateInputArtifact(filePath) {
   const candidateRun = artifact.candidateRun;
   const candidatePrices = Array.isArray(artifact.candidatePrices) ? artifact.candidatePrices : null;
 
-  if (artifact.authorizationId !== EXPECTED.authorizationId) validation.problems.push("candidate_authorization_id_mismatch");
+  if (!EXPECTED.candidateAuthorizationIds.includes(artifact.authorizationId)) {
+    validation.problems.push("candidate_authorization_id_mismatch");
+  }
   if (artifact.targetRelation !== EXPECTED.target) validation.problems.push("candidate_target_relation_mismatch");
   if (artifact.sourceId !== "twse-stock-day") validation.problems.push("candidate_source_id_mismatch");
   if (!sameArray(artifact.symbols, EXPECTED.symbols.split(","))) validation.problems.push("candidate_symbols_mismatch");
