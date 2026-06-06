@@ -198,6 +198,10 @@ const checks = [
     name: "tw-equity-write-implementation-design-to-code-boundary"
   },
   {
+    command: [node, "scripts/check-tw-equity-sanitized-candidate-input-validator.mjs"],
+    name: "tw-equity-sanitized-candidate-input-validator"
+  },
+  {
     command: [node, "scripts/check-ceo-progress-brief.mjs"],
     name: "ceo-progress-brief"
   },
