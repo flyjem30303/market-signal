@@ -232,6 +232,8 @@
     "check:tw-equity-post-write-promotion-readiness-gate": "node scripts/check-tw-equity-post-write-promotion-readiness-gate.mjs",
     "report:tw-equity-staging-to-daily-prices-merge-design-packet": "node scripts/report-tw-equity-staging-to-daily-prices-merge-design-packet.mjs",
     "check:tw-equity-staging-to-daily-prices-merge-design-packet": "node scripts/check-tw-equity-staging-to-daily-prices-merge-design-packet.mjs",
+    "report:tw-equity-staging-to-daily-prices-dry-run-preflight": "node scripts/report-tw-equity-staging-to-daily-prices-dry-run-preflight.mjs",
+    "check:tw-equity-staging-to-daily-prices-dry-run-preflight": "node scripts/check-tw-equity-staging-to-daily-prices-dry-run-preflight.mjs",
     "report:a1-tw-equity-candidate-artifact-intake": "node scripts/report-a1-tw-equity-candidate-artifact-intake.mjs",
     "check:a1-tw-equity-candidate-artifact-intake": "node scripts/check-a1-tw-equity-candidate-artifact-intake.mjs",
     "check:a1-tw-equity-candidate-artifact-delivery-spec": "node scripts/check-a1-tw-equity-candidate-artifact-delivery-spec.mjs",

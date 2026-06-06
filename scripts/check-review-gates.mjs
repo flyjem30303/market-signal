@@ -3373,6 +3373,11 @@ const checks = [
     name: "tw-equity-staging-to-daily-prices-merge-design-packet"
   },
   {
+    command: [node, "scripts/check-tw-equity-staging-to-daily-prices-dry-run-preflight.mjs"],
+    expectStatus: "ok",
+    name: "tw-equity-staging-to-daily-prices-dry-run-preflight"
+  },
+  {
     command: [node, "scripts/check-a1-tw-equity-candidate-artifact-intake.mjs"],
     expectStatus: "ok",
     name: "a1-tw-equity-candidate-artifact-intake"
@@ -3929,6 +3934,7 @@ const coreReviewGateNames = new Set([
   "tw-equity-post-write-staging-verification",
   "tw-equity-post-write-promotion-readiness-gate",
   "tw-equity-staging-to-daily-prices-merge-design-packet",
+  "tw-equity-staging-to-daily-prices-dry-run-preflight",
   "a1-tw-equity-candidate-artifact-intake",
   "a1-tw-equity-candidate-artifact-delivery-spec",
   "a1-tw-equity-candidate-artifact-self-check",
