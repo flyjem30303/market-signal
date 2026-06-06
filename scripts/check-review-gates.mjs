@@ -3433,6 +3433,21 @@ const checks = [
     name: "coverage-universe-roadmap"
   },
   {
+    command: [node, "scripts/check-goal-parallel-workstream-adjustment.mjs"],
+    expectStatus: "ok",
+    name: "goal-parallel-workstream-adjustment"
+  },
+  {
+    command: [node, "scripts/check-taiwan-all-listed-universe-manifest-packet.mjs"],
+    expectStatus: "ok",
+    name: "taiwan-all-listed-universe-manifest-packet"
+  },
+  {
+    command: [node, "scripts/check-public-trust-and-disclosure-copy-worklist.mjs"],
+    expectStatus: "ok",
+    name: "public-trust-and-disclosure-copy-worklist"
+  },
+  {
     command: [node, "scripts/check-a1-tw-equity-candidate-artifact-intake.mjs"],
     expectStatus: "ok",
     name: "a1-tw-equity-candidate-artifact-intake"
@@ -4001,6 +4016,9 @@ const coreReviewGateNames = new Set([
   "tw-equity-row-coverage-scoring-gate",
   "etf-daily-prices-coverage-completion-route",
   "coverage-universe-roadmap",
+  "goal-parallel-workstream-adjustment",
+  "taiwan-all-listed-universe-manifest-packet",
+  "public-trust-and-disclosure-copy-worklist",
   "a1-tw-equity-candidate-artifact-intake",
   "a1-tw-equity-candidate-artifact-delivery-spec",
   "a1-tw-equity-candidate-artifact-self-check",

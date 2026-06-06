@@ -400,6 +400,18 @@ const checks = [
     name: "coverage-universe-roadmap"
   },
   {
+    command: [node, "scripts/check-goal-parallel-workstream-adjustment.mjs"],
+    name: "goal-parallel-workstream-adjustment"
+  },
+  {
+    command: [node, "scripts/check-taiwan-all-listed-universe-manifest-packet.mjs"],
+    name: "taiwan-all-listed-universe-manifest-packet"
+  },
+  {
+    command: [node, "scripts/check-public-trust-and-disclosure-copy-worklist.mjs"],
+    name: "public-trust-and-disclosure-copy-worklist"
+  },
+  {
     command: [node, "scripts/check-a1-tw-equity-candidate-artifact-intake.mjs"],
     name: "a1-tw-equity-candidate-artifact-intake"
   },
