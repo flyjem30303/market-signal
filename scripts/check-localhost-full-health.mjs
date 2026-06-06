@@ -380,6 +380,18 @@ const checks = [
     name: "tw-equity-daily-prices-insert-missing-merge-runner-implementation"
   },
   {
+    command: [node, "scripts/check-tw-equity-daily-prices-insert-missing-merge-execution-decision.mjs"],
+    name: "tw-equity-daily-prices-insert-missing-merge-execution-decision"
+  },
+  {
+    command: [node, "scripts/check-tw-equity-daily-prices-insert-missing-merge-post-run-review-2026-06-07.mjs"],
+    name: "tw-equity-daily-prices-insert-missing-merge-post-run-review-2026-06-07"
+  },
+  {
+    command: [node, "scripts/check-tw-equity-row-coverage-scoring-gate.mjs"],
+    name: "tw-equity-row-coverage-scoring-gate"
+  },
+  {
     command: [node, "scripts/check-a1-tw-equity-candidate-artifact-intake.mjs"],
     name: "a1-tw-equity-candidate-artifact-intake"
   },

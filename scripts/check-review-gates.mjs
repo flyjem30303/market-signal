@@ -3408,6 +3408,21 @@ const checks = [
     name: "tw-equity-daily-prices-insert-missing-merge-runner-implementation"
   },
   {
+    command: [node, "scripts/check-tw-equity-daily-prices-insert-missing-merge-execution-decision.mjs"],
+    expectStatus: "ok",
+    name: "tw-equity-daily-prices-insert-missing-merge-execution-decision"
+  },
+  {
+    command: [node, "scripts/check-tw-equity-daily-prices-insert-missing-merge-post-run-review-2026-06-07.mjs"],
+    expectStatus: "ok",
+    name: "tw-equity-daily-prices-insert-missing-merge-post-run-review-2026-06-07"
+  },
+  {
+    command: [node, "scripts/check-tw-equity-row-coverage-scoring-gate.mjs"],
+    expectStatus: "ok",
+    name: "tw-equity-row-coverage-scoring-gate"
+  },
+  {
     command: [node, "scripts/check-a1-tw-equity-candidate-artifact-intake.mjs"],
     expectStatus: "ok",
     name: "a1-tw-equity-candidate-artifact-intake"
@@ -3971,6 +3986,9 @@ const coreReviewGateNames = new Set([
   "tw-equity-daily-prices-overlap-classification-runner",
   "tw-equity-daily-prices-insert-missing-skip-existing-merge-authorization",
   "tw-equity-daily-prices-insert-missing-merge-runner-implementation",
+  "tw-equity-daily-prices-insert-missing-merge-execution-decision",
+  "tw-equity-daily-prices-insert-missing-merge-post-run-review-2026-06-07",
+  "tw-equity-row-coverage-scoring-gate",
   "a1-tw-equity-candidate-artifact-intake",
   "a1-tw-equity-candidate-artifact-delivery-spec",
   "a1-tw-equity-candidate-artifact-self-check",
