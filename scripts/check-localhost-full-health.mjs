@@ -54,6 +54,10 @@ const checks = [
     name: "final-mvp-100-completion-audit-readiness"
   },
   {
+    command: [node, "scripts/check-mock-mvp-chairman-review.mjs"],
+    name: "mock-mvp-chairman-review"
+  },
+  {
     command: [node, "scripts/check-ceo-progress-brief.mjs"],
     name: "ceo-progress-brief"
   },

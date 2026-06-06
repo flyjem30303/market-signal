@@ -126,6 +126,7 @@
     "check:ceo-execution-focus-closure-readiness": "node scripts/check-ceo-execution-focus-closure-readiness.mjs",
     "report:final-mvp-100-completion-audit-readiness": "node scripts/report-final-mvp-100-completion-audit-readiness.mjs",
     "check:final-mvp-100-completion-audit-readiness": "node scripts/check-final-mvp-100-completion-audit-readiness.mjs",
+    "check:mock-mvp-chairman-review": "node scripts/check-mock-mvp-chairman-review.mjs",
     "report:ceo-progress-brief": "node scripts/report-ceo-progress-brief.mjs",
     "check:ceo-progress-brief": "node scripts/check-ceo-progress-brief.mjs",
     "report:runtime-unblock-acceleration": "node scripts/report-runtime-unblock-acceleration.mjs",
