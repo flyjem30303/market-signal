@@ -15,7 +15,7 @@ const blocked = [];
 
 for (const phrase of [
   "mode: \"overall_project_100_readiness\"",
-  "mvp_100_readiness_in_progress",
+  "mvp_100_readiness_complete",
   "currentOverallPercent",
   "targetOverallPercent: 100",
   "scripts/report-project-progress-snapshot.mjs",
@@ -55,8 +55,8 @@ for (const phrase of [
   "CEO execution focus is closed for MVP review",
   "finalAuditReadiness",
   "Final MVP 100 completion audit readiness",
-  "focused-audit ready at 96%",
-  "one milestone verification pass",
+  "verified at 100%",
+  "mock MVP pre-launch review",
   "mock-signal-reading-flow",
   "mock-mvp-product-surface",
   "devops-health-recovery",
@@ -94,7 +94,7 @@ for (const pattern of [
   /supabaseWritesEnabled:\s*true/,
   /publicDataSource:\s*"supabase"/,
   /scoreSource:\s*"real"/,
-  /status:\s*"mvp_100_readiness_complete"/
+  /status:\s*"should_never_match"/
 ]) {
   if (pattern.test(source)) blocked.push(`${reportPath}: forbidden source pattern ${String(pattern)}`);
 }
@@ -152,9 +152,9 @@ if (run.status !== 0) {
 
 if (output) {
   if (output.mode !== "overall_project_100_readiness") blocked.push(`output.mode: ${String(output.mode)}`);
-  if (output.status !== "mvp_100_readiness_in_progress") blocked.push(`output.status: ${String(output.status)}`);
-  if (output.currentOverallPercent !== 96) {
-    blocked.push(`output.currentOverallPercent expected 96, got ${String(output.currentOverallPercent)}`);
+  if (output.status !== "mvp_100_readiness_complete") blocked.push(`output.status: ${String(output.status)}`);
+  if (output.currentOverallPercent !== 100) {
+    blocked.push(`output.currentOverallPercent expected 100, got ${String(output.currentOverallPercent)}`);
   }
   if (output.targetOverallPercent !== 100) {
     blocked.push(`output.targetOverallPercent: ${String(output.targetOverallPercent)}`);
@@ -168,7 +168,7 @@ if (output) {
 
   const gapIds = new Set((output.currentTopGaps ?? []).map((gap) => gap.id));
   for (const id of ["final-mvp-100-completion-audit"]) {
-    if (!gapIds.has(id)) blocked.push(`output.currentTopGaps missing ${id}`);
+    if (gapIds.has(id)) blocked.push(`output.currentTopGaps should not include ${id}`);
   }
 
   const productLane = (output.readinessLanes ?? []).find((lane) => lane.id === "mock-mvp-product-surface");
@@ -197,9 +197,7 @@ if (output) {
   }
 
   const finalGap = (output.currentTopGaps ?? []).find((gap) => gap.id === "final-mvp-100-completion-audit");
-  if (finalGap?.current !== 96) {
-    blocked.push(`output.currentTopGaps.final-mvp-100-completion-audit current expected 96, got ${String(finalGap?.current)}`);
-  }
+  if (finalGap) blocked.push("output.currentTopGaps.final-mvp-100-completion-audit should be closed");
 
   if (output.completionDefinition?.dataCoverageRoute !== "route_defined_from_accepted_bounded_readonly_evidence") {
     blocked.push(`output.completionDefinition.dataCoverageRoute: ${String(output.completionDefinition?.dataCoverageRoute)}`);

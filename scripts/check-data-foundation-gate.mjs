@@ -56,8 +56,8 @@ for (const [file, phrases] of [
       "daily_prices runtime shape baseline",
       "DevOps health recovery readiness",
       "data foundation gate",
-      "current: 83",
-      "data/runtime foundation gates"
+      "CEO execution focus is closed",
+      "larger coherent local-only slices"
     ]
   ],
   [

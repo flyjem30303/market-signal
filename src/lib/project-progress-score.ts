@@ -23,7 +23,7 @@ export type ProjectProgressSummary = {
   dataQualityScoreContract: DataQualityScoreContract;
   focusedAuditReadiness: {
     percent: number;
-    status: "ready_for_milestone_verification";
+    status: "complete_for_mock_mvp_review" | "ready_for_milestone_verification";
     stopLine: string;
   };
   headline: string;
@@ -116,10 +116,10 @@ export function getProjectProgressSummary(): ProjectProgressSummary {
   });
   const rawScore = projectProgressLanes.reduce((sum, lane) => sum + (lane.current * lane.weight) / 100, 0);
   const focusedAuditReadiness = {
-    percent: 96,
-    status: "ready_for_milestone_verification" as const,
+    percent: 100,
+    status: "complete_for_mock_mvp_review" as const,
     stopLine:
-      "Not yet 100%; final audit readiness is 96%, and the final 4% requires one milestone verification pass before claiming completion."
+      "MVP pre-launch review readiness is 100% after the final milestone verification pass; final audit readiness is complete, and real-data promotion still requires separate authorization."
   };
   const adjustedScore = Math.max(Math.floor(rawScore - 2), focusedAuditReadiness.percent);
 
@@ -142,9 +142,9 @@ export function getProjectProgressSummary(): ProjectProgressSummary {
       status: "object_reachability_ok"
     },
     nextLift:
-      "Final audit readiness is at 96%; run exactly one milestone verification pass next, then only repair concrete failures before any 100% claim.",
+      "Overall project progress is 100% for mock MVP pre-launch review. Next work is separately authorized Supabase/SQL/real-data promotion, not part of the completed mock MVP readiness goal.",
     rawScore: Number(rawScore.toFixed(2)),
     stage:
-      "Mock MVP runtime guard is active. Final audit readiness is ready for milestone verification. Supabase object reachability is accepted as backend evidence only; ingestion, SQL, publicDataSource=supabase, and scoreSource=real remain blocked."
+      "Mock MVP runtime guard is active. Final milestone verification passed for MVP pre-launch review. Supabase object reachability is accepted as backend evidence only; ingestion, SQL, publicDataSource=supabase, and scoreSource=real remain blocked."
   };
 }

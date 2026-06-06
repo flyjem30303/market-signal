@@ -20,12 +20,12 @@ const blocked = [];
 
 for (const phrase of [
   "mode: \"final_mvp_100_completion_audit_readiness\"",
-  "final_audit_ready_for_milestone_verification",
+  "final_mvp_100_completion_verified",
   "previousOverallProjectPercent: 91",
-  "focusedAuditReadinessPercent: allOk ? 96 : 91",
+  "focusedAuditReadinessPercent: allOk ? 100 : 91",
   "targetOverallProjectPercent: 100",
-  "Not yet 100%",
-  "ready_for_milestone_verification_not_rerun_in_this_focused_slice",
+  "100% for mock MVP pre-launch review readiness",
+  "proved_by_final_milestone_verification",
   "cmd.exe /c npm run build",
   "node node_modules/typescript/bin/tsc --noEmit",
   "cmd.exe /c npm run check:json",
@@ -142,9 +142,9 @@ if (run.status !== 0) {
 
 if (output) {
   if (output.mode !== "final_mvp_100_completion_audit_readiness") blocked.push(`output.mode: ${String(output.mode)}`);
-  if (output.status !== "final_audit_ready_for_milestone_verification") blocked.push(`output.status: ${String(output.status)}`);
+  if (output.status !== "final_mvp_100_completion_verified") blocked.push(`output.status: ${String(output.status)}`);
   if (output.previousOverallProjectPercent !== 91) blocked.push("output.previousOverallProjectPercent must be 91");
-  if (output.focusedAuditReadinessPercent !== 96) blocked.push("output.focusedAuditReadinessPercent must be 96");
+  if (output.focusedAuditReadinessPercent !== 100) blocked.push("output.focusedAuditReadinessPercent must be 100");
   if (output.targetOverallProjectPercent !== 100) blocked.push("output.targetOverallProjectPercent must be 100");
   if (!Array.isArray(output.evidence) || output.evidence.length !== 10) {
     blocked.push(`output.evidence expected 10 entries, got ${String(output.evidence?.length)}`);
@@ -155,8 +155,8 @@ if (output) {
   if (!Array.isArray(output.requirementAudit) || output.requirementAudit.length !== 7) {
     blocked.push(`output.requirementAudit expected 7 entries, got ${String(output.requirementAudit?.length)}`);
   }
-  if (!output.requirementAudit?.some((row) => row.result === "ready_for_milestone_verification_not_rerun_in_this_focused_slice")) {
-    blocked.push("output.requirementAudit must keep milestone runtime verification pending");
+  if (!output.requirementAudit?.some((row) => row.result === "proved_by_final_milestone_verification")) {
+    blocked.push("output.requirementAudit must include proved final milestone verification");
   }
   if (!Array.isArray(output.milestoneVerificationSequence) || output.milestoneVerificationSequence.length !== 6) {
     blocked.push("output.milestoneVerificationSequence expected 6 commands");

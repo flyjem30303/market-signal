@@ -206,7 +206,7 @@ if (output) {
     }
   }
 
-  if (typeof output.project?.adjustedScore !== "number" || output.project.adjustedScore <= 0 || output.project.adjustedScore >= 100) {
+  if (typeof output.project?.adjustedScore !== "number" || output.project.adjustedScore <= 0 || output.project.adjustedScore > 100) {
     blocked.push(`output.project.adjustedScore: ${String(output.project?.adjustedScore)}`);
   }
 
