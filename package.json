@@ -223,6 +223,8 @@
     "check:tw-equity-post-migration-readonly-verification": "node scripts/check-tw-equity-post-migration-readonly-verification.mjs",
     "report:tw-equity-post-migration-openapi-exposure-confirmation": "node scripts/report-tw-equity-post-migration-openapi-exposure-confirmation-once.mjs",
     "check:tw-equity-post-migration-openapi-exposure-confirmation": "node scripts/check-tw-equity-post-migration-openapi-exposure-confirmation.mjs",
+    "report:tw-equity-third-bounded-staging-write-decision": "node scripts/report-tw-equity-third-bounded-staging-write-decision.mjs",
+    "check:tw-equity-third-bounded-staging-write-decision": "node scripts/check-tw-equity-third-bounded-staging-write-decision.mjs",
     "report:a1-tw-equity-candidate-artifact-intake": "node scripts/report-a1-tw-equity-candidate-artifact-intake.mjs",
     "check:a1-tw-equity-candidate-artifact-intake": "node scripts/check-a1-tw-equity-candidate-artifact-intake.mjs",
     "check:a1-tw-equity-candidate-artifact-delivery-spec": "node scripts/check-a1-tw-equity-candidate-artifact-delivery-spec.mjs",

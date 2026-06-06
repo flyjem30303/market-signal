@@ -332,6 +332,10 @@ const checks = [
     name: "tw-equity-post-migration-openapi-exposure-confirmation"
   },
   {
+    command: [node, "scripts/check-tw-equity-third-bounded-staging-write-decision.mjs"],
+    name: "tw-equity-third-bounded-staging-write-decision"
+  },
+  {
     command: [node, "scripts/check-a1-tw-equity-candidate-artifact-intake.mjs"],
     name: "a1-tw-equity-candidate-artifact-intake"
   },
