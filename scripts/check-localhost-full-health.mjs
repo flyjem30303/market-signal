@@ -248,6 +248,10 @@ const checks = [
     name: "tw-equity-staging-second-write-retry-post-run-review-2026-06-06"
   },
   {
+    command: [node, "scripts/check-tw-equity-supabase-staging-write-repair-decision-packet.mjs"],
+    name: "tw-equity-supabase-staging-write-repair-decision-packet"
+  },
+  {
     command: [node, "scripts/check-a1-tw-equity-candidate-artifact-intake.mjs"],
     name: "a1-tw-equity-candidate-artifact-intake"
   },
