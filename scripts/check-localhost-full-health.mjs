@@ -182,6 +182,14 @@ const checks = [
     name: "tw-equity-write-runner-implementation-gate"
   },
   {
+    command: [node, "scripts/check-tw-equity-staging-write-runner-safety.mjs"],
+    name: "tw-equity-staging-write-runner-safety"
+  },
+  {
+    command: [node, "scripts/check-tw-equity-one-attempt-staging-write-preflight-gate.mjs"],
+    name: "tw-equity-one-attempt-staging-write-preflight-gate"
+  },
+  {
     command: [node, "scripts/check-ceo-progress-brief.mjs"],
     name: "ceo-progress-brief"
   },

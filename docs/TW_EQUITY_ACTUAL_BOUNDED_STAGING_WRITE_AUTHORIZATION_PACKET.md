@@ -52,9 +52,9 @@ The classification reference remains `data/source-gates/tw-equity-provider-speci
 
 ## CEO Authorization Decision
 
-CEO decision: the packet is ready for a future one-attempt bounded staging write execution gate, but the current GOAL does not execute the write.
+CEO decision: the packet is ready for a one-attempt bounded staging write execution gate, but the current GOAL does not execute the write.
 
-The next stage may create a fail-closed runner skeleton only if the implementation gate passes and the runner remains inert without the exact authorization id and exact command above.
+The current stage creates a fail-closed runner skeleton at `scripts/run-tw-equity-staging-write-once.mjs`. The skeleton remains inert, prints sanitized JSON only, and refuses execution while target relation reconciliation is blocked.
 
 ## Execution Preconditions
 

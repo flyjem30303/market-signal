@@ -8,7 +8,7 @@ Status: `tw_equity_bounded_staging_write_execution_decision_v1_ready_not_execute
 
 This packet is the bounded staging write authorization packet v2 execution decision for the TW equity lane. It inherits `docs/TW_EQUITY_STAGING_WRITE_AUTHORIZATION_READINESS_V2.md` and turns that readiness packet into a next-stage decision without running the write.
 
-This packet does not create or execute the future write runner, run SQL, connect to Supabase, write Supabase, create staging rows, mutate production `daily_prices`, fetch market data, ingest market data, store source-derived rows, print secrets, print source payloads, promote public Supabase data-source mode, award row coverage points, or set `scoreSource=real`.
+This packet originally stopped before runner creation. The later execution GOAL may create a fail-closed runner skeleton, but still must not execute the write runner, run SQL, connect to Supabase, write Supabase, create staging rows, mutate production `daily_prices`, fetch market data, ingest market data, store source-derived rows, print secrets, print source payloads, promote public Supabase data-source mode, award row coverage points, or set `scoreSource=real`.
 
 ## Source / Legal Classification Carried Forward
 

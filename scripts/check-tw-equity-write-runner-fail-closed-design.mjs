@@ -23,7 +23,8 @@ for (const phrase of [
   "TW Equity Write Runner Fail-Closed Design",
   "tw_equity_write_runner_fail_closed_design_ready_no_runner_created",
   "docs/TW_EQUITY_BOUNDED_STAGING_WRITE_EXECUTION_DECISION_V1.md",
-  "No write runner exists in this slice",
+  "fail-closed runner skeleton",
+  "does not include a write execution implementation",
   "scripts/run-tw-equity-staging-write-once.mjs",
   "no Supabase connection",
   "no SQL",
@@ -57,7 +58,7 @@ for (const phrase of [
   "post-run review artifact is provided",
   "no retry is acknowledged",
   "no score-source promotion is acknowledged",
-  "do not create the runnable write runner in this GOAL"
+  "later execution GOAL may create the fail-closed runner skeleton"
 ]) {
   if (!design.includes(phrase)) problems.push(`${designPath} missing: ${phrase}`);
 }
@@ -70,11 +71,11 @@ for (const phrase of [
   "Latest TW equity write runner fail-closed design slice",
   "docs/TW_EQUITY_WRITE_RUNNER_FAIL_CLOSED_DESIGN.md",
   "tw_equity_write_runner_fail_closed_design_ready_no_runner_created",
-  "future write runner remains absent",
+  "a later execution GOAL may create the fail-closed runner skeleton",
   "default no Supabase connection, no SQL, no file write, no market-data fetch, no secret output",
   "publicDataSource equivalent remains mock",
   "scoreSource remains mock",
-  "do not create the runnable write runner in this GOAL"
+  "default no Supabase connection, no SQL, no file write, no market-data fetch, no secret output"
 ]) {
   if (!status.includes(phrase)) problems.push(`${statusPath} missing: ${phrase}`);
   if (!readableStatus.includes(phrase)) problems.push(`${readableStatusPath} missing: ${phrase}`);
@@ -103,8 +104,8 @@ if (!reviewGate.includes('"tw-equity-write-runner-fail-closed-design"')) {
   problems.push("review gate core set missing tw-equity-write-runner-fail-closed-design");
 }
 
-if (fs.existsSync(runnerPath)) {
-  problems.push(`${runnerPath} must remain absent until a separate actual bounded staging write GOAL`);
+if (!fs.existsSync(runnerPath)) {
+  problems.push(`${runnerPath} should exist as the fail-closed runner skeleton in the execution GOAL`);
 }
 
 const forbiddenPatterns = [

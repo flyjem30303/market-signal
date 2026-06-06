@@ -8,7 +8,7 @@ Status: `tw_equity_write_runner_fail_closed_design_ready_no_runner_created`.
 
 This design defines the safety contract for a future write-capable TW equity staging runner. It supports `docs/TW_EQUITY_BOUNDED_STAGING_WRITE_EXECUTION_DECISION_V1.md` and keeps the project ready for a later actual bounded staging write GOAL without creating or running that write.
 
-No write runner exists in this slice. The future path `scripts/run-tw-equity-staging-write-once.mjs` remains absent.
+The later execution GOAL may create a fail-closed runner skeleton at `scripts/run-tw-equity-staging-write-once.mjs`. The skeleton is allowed only if it remains inert by default and does not include a write execution implementation.
 
 ## Fail-Closed Defaults
 
@@ -59,4 +59,4 @@ Before a future runner can perform any write, it must verify:
 
 This design permits only future implementation planning. It does not permit SQL, Supabase writes, staging rows, `daily_prices` mutation, market-data fetch, ingestion, public source promotion, row coverage points, or real score-source promotion.
 
-CEO decision: do not create the runnable write runner in this GOAL. Keep the actual bounded staging write as a separate next GOAL.
+CEO decision: a later execution GOAL may create the fail-closed runner skeleton, but must keep actual bounded staging write execution separate and blocked until preflight passes.

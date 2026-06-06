@@ -91,7 +91,7 @@ for (const phrase of [
   "inherits TW_EQUITY_STAGING_WRITE_AUTHORIZATION_READINESS_V2",
   "redistribution remains unknown_keep_blocked",
   "internal-only staging write may proceed to the next authorization-design stage",
-  "does not create or execute the future write runner",
+  "later execution GOAL may create a fail-closed runner skeleton",
   "actual bounded staging write remains a separate next GOAL"
 ]) {
   if (!status.includes(phrase)) problems.push(`${statusPath} missing: ${phrase}`);
@@ -121,8 +121,8 @@ if (!reviewGate.includes('"tw-equity-bounded-staging-write-execution-decision-v1
   problems.push("review gate core set missing tw-equity-bounded-staging-write-execution-decision-v1");
 }
 
-if (fs.existsSync(runnerPath)) {
-  problems.push(`${runnerPath} must not exist in this decision slice`);
+if (!fs.existsSync(runnerPath)) {
+  problems.push(`${runnerPath} should exist as the later fail-closed runner skeleton`);
 }
 
 const forbiddenPatterns = [

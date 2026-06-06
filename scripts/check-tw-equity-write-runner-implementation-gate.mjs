@@ -23,10 +23,11 @@ const readableStatus = read(readableStatusPath);
 
 for (const phrase of [
   "TW Equity Write Runner Implementation Gate",
-  "tw_equity_write_runner_implementation_gate_ready_no_runner_created",
+  "tw_equity_write_runner_implementation_gate_ready_fail_closed_skeleton_created",
   "docs/TW_EQUITY_ACTUAL_BOUNDED_STAGING_WRITE_AUTHORIZATION_PACKET.md",
   "docs/TW_EQUITY_WRITE_RUNNER_FAIL_CLOSED_DESIGN.md",
-  "No runnable write runner is created by this gate",
+  "fail-closed runner skeleton",
+  "not a write execution implementation",
   "scripts/run-tw-equity-staging-write-once.mjs",
   "default to no Supabase connection",
   "default to no SQL",
@@ -57,8 +58,9 @@ for (const phrase of [
   "default `scoreSource` remains `mock`",
   "no staging row write can occur without the exact authorization id",
   "no production `daily_prices` mutation can occur",
-  "do not create the runnable write runner in this GOAL",
-  "one actual bounded staging write execution"
+  "create the fail-closed runner skeleton in this GOAL",
+  "do not create a runnable write execution implementation",
+  "one actual bounded staging write execution after target relation reconciliation"
 ]) {
   if (!doc.includes(phrase)) problems.push(`${docPath} missing: ${phrase}`);
 }
@@ -73,10 +75,9 @@ for (const [path, text, phrase] of [
 for (const phrase of [
   "Latest TW equity write runner implementation gate slice",
   "docs/TW_EQUITY_WRITE_RUNNER_IMPLEMENTATION_GATE.md",
-  "tw_equity_write_runner_implementation_gate_ready_no_runner_created",
-  "No runnable write runner is created",
-  "future script path remains absent",
-  "next executable stage is a separate one actual bounded staging write execution GOAL"
+  "tw_equity_write_runner_implementation_gate_ready_fail_closed_skeleton_created",
+  "fail-closed runner skeleton is created but no write execution implementation exists",
+  "next executable stage is a separate one actual bounded staging write execution after target relation reconciliation GOAL"
 ]) {
   if (!status.includes(phrase)) problems.push(`${statusPath} missing: ${phrase}`);
   if (!readableStatus.includes(phrase)) problems.push(`${readableStatusPath} missing: ${phrase}`);
@@ -105,8 +106,8 @@ if (!reviewGate.includes('"tw-equity-write-runner-implementation-gate"')) {
   problems.push("review gate core set missing tw-equity-write-runner-implementation-gate");
 }
 
-if (fs.existsSync(runnerPath)) {
-  problems.push(`${runnerPath} must remain absent until a separate execution GOAL`);
+if (!fs.existsSync(runnerPath)) {
+  problems.push(`${runnerPath} must exist as a fail-closed skeleton`);
 }
 
 const forbiddenPatterns = [

@@ -80,8 +80,10 @@ for (const phrase of [
   "`rate-limit-and-outage` | `accepted_for_internal_only`",
   "`redistribution=unknown_keep_blocked` remains active",
   "Public redistribution, download, export, API reuse, downstream copies",
-  "ready for a future one-attempt bounded staging write execution gate",
+  "ready for a one-attempt bounded staging write execution gate",
   "the current GOAL does not execute the write",
+  "fail-closed runner skeleton",
+  "refuses execution while target relation reconciliation is blocked",
   "This packet makes the project ready to decide on one actual bounded staging write execution"
 ]) {
   if (!doc.includes(phrase)) problems.push(`${docPath} missing: ${phrase}`);
@@ -129,8 +131,8 @@ if (!reviewGate.includes('"tw-equity-actual-bounded-staging-write-authorization-
   problems.push("review gate core set missing tw-equity-actual-bounded-staging-write-authorization-packet");
 }
 
-if (fs.existsSync(runnerPath)) {
-  problems.push(`${runnerPath} must remain absent in this authorization-ready GOAL`);
+if (!fs.existsSync(runnerPath)) {
+  problems.push(`${runnerPath} must exist as fail-closed runner skeleton in this execution GOAL`);
 }
 
 const forbiddenPatterns = [

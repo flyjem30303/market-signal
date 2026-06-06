@@ -2,17 +2,17 @@
 
 Updated: 2026-06-06
 
-Status: `tw_equity_write_runner_implementation_gate_ready_no_runner_created`.
+Status: `tw_equity_write_runner_implementation_gate_ready_fail_closed_skeleton_created`.
 
 ## Purpose
 
 This gate defines the implementation boundary for the future `scripts/run-tw-equity-staging-write-once.mjs` runner. It inherits `docs/TW_EQUITY_ACTUAL_BOUNDED_STAGING_WRITE_AUTHORIZATION_PACKET.md` and `docs/TW_EQUITY_WRITE_RUNNER_FAIL_CLOSED_DESIGN.md`.
 
-No runnable write runner is created by this gate. The future script path `scripts/run-tw-equity-staging-write-once.mjs` must remain absent until a separate execution GOAL authorizes creating it.
+This gate now permits a fail-closed runner skeleton at `scripts/run-tw-equity-staging-write-once.mjs`. The skeleton is not a write execution implementation. It prints sanitized JSON only and refuses execution while target relation reconciliation is blocked.
 
 ## Allowed Future Skeleton Scope
 
-A later accepted implementation may create `scripts/run-tw-equity-staging-write-once.mjs` only as a fail-closed runner skeleton.
+The accepted implementation may create `scripts/run-tw-equity-staging-write-once.mjs` only as a fail-closed runner skeleton.
 
 The skeleton must:
 
@@ -53,10 +53,10 @@ If the future runner skeleton is created, a dedicated checker must prove:
 
 ## Current Implementation Decision
 
-CEO decision: do not create the runnable write runner in this GOAL.
+CEO decision: create the fail-closed runner skeleton in this GOAL, but do not create a runnable write execution implementation.
 
-Reason: the actual bounded staging write authorization packet is ready, but creating an inert skeleton is not required to prove authorization readiness. Keeping the runner absent prevents accidental execution while preserving a clear next execution path.
+Reason: the actual bounded staging write authorization packet is ready, but execution is blocked by target relation reconciliation. The skeleton preserves the exact command contract while preventing accidental writes.
 
 ## Next Executable Stage
 
-The next executable stage is a separate "one actual bounded staging write execution" GOAL. It must explicitly authorize runner creation or execution, and must include immediate post-run review.
+The next executable stage is a separate "one actual bounded staging write execution after target relation reconciliation" GOAL. It must explicitly authorize execution and must include immediate post-run review.
