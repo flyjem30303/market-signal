@@ -268,6 +268,14 @@ const checks = [
     name: "tw-equity-supabase-metadata-diagnostic-decision-packet"
   },
   {
+    command: [node, "scripts/check-tw-equity-supabase-metadata-diagnostic-once.mjs"],
+    name: "tw-equity-supabase-metadata-diagnostic-once"
+  },
+  {
+    command: [node, "scripts/check-tw-equity-supabase-metadata-diagnostic-post-run-review-2026-06-06.mjs"],
+    name: "tw-equity-supabase-metadata-diagnostic-post-run-review"
+  },
+  {
     command: [node, "scripts/check-a1-tw-equity-candidate-artifact-intake.mjs"],
     name: "a1-tw-equity-candidate-artifact-intake"
   },

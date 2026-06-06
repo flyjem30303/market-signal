@@ -6,6 +6,8 @@ Status: `tw_equity_supabase_metadata_diagnostic_decision_packet_ready_not_execut
 
 Decision: `READY_FOR_SEPARATE_BOUNDED_METADATA_DIAGNOSTIC_AUTHORIZATION`
 
+Runner status: bounded metadata diagnostic runner prepared at `scripts/report-tw-equity-supabase-metadata-diagnostic-once.mjs`; execution still requires `TW_EQUITY_SUPABASE_METADATA_DIAGNOSTIC_CONFIRMATION=CEO_APPROVED_TW_EQUITY_SUPABASE_METADATA_DIAGNOSTIC_ONCE`.
+
 ## Purpose
 
 This packet prepares the next bounded Supabase metadata diagnostic after the local UUID contract repair. The goal is to classify whether the remaining `PGRST205` write blocker is caused by REST insert schema exposure, PostgREST schema cache, exposed object metadata, RLS/policy posture, or read-only versus write-path schema parity.
@@ -46,14 +48,14 @@ Blocked even if the diagnostic is authorized:
 
 ## Proposed Future Command
 
-The exact future command must be created or confirmed in the execution slice. It should follow this shape:
+The future command now uses the bounded metadata diagnostic runner. It should follow this shape:
 
 ```powershell
 $env:TW_EQUITY_SUPABASE_METADATA_DIAGNOSTIC_CONFIRMATION='CEO_APPROVED_TW_EQUITY_SUPABASE_METADATA_DIAGNOSTIC_ONCE'
 node scripts/report-tw-equity-supabase-metadata-diagnostic-once.mjs --target "staging_twse_stock_day_runs,staging_twse_stock_day_prices" --post-run-review "docs/reviews/TW_EQUITY_SUPABASE_METADATA_DIAGNOSTIC_POST_RUN_REVIEW_2026-06-06.md"
 ```
 
-This packet does not create or run that remote diagnostic runner.
+This packet does not run that remote diagnostic runner. The runner itself must fail closed without confirmation and may perform only one bounded read-only metadata diagnostic.
 
 ## Expected Classifications
 

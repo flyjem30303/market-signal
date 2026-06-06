@@ -38,7 +38,10 @@ for (const phrase of [
   "metadata_access_or_policy_blocked",
   "metadata_column_contract_or_cache_blocked",
   "metadata_project_or_network_blocked",
-  "This packet does not create or run that remote diagnostic runner",
+  "bounded metadata diagnostic runner prepared",
+  "scripts/report-tw-equity-supabase-metadata-diagnostic-once.mjs",
+  "This packet does not run that remote diagnostic runner",
+  "The runner itself must fail closed without confirmation",
   "`publicDataSource=mock`",
   "`scoreSource=mock`"
 ]) {
