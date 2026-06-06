@@ -240,6 +240,7 @@
     "check:tw-equity-daily-prices-existing-target-overlap-policy": "node scripts/check-tw-equity-daily-prices-existing-target-overlap-policy.mjs",
     "check:tw-equity-daily-prices-overlap-classification-runner": "node scripts/check-tw-equity-daily-prices-overlap-classification-runner.mjs",
     "check:tw-equity-daily-prices-insert-missing-skip-existing-merge-authorization": "node scripts/check-tw-equity-daily-prices-insert-missing-skip-existing-merge-authorization.mjs",
+    "check:tw-equity-daily-prices-insert-missing-merge-runner-implementation": "node scripts/check-tw-equity-daily-prices-insert-missing-merge-runner-implementation.mjs",
     "report:a1-tw-equity-candidate-artifact-intake": "node scripts/report-a1-tw-equity-candidate-artifact-intake.mjs",
     "check:a1-tw-equity-candidate-artifact-intake": "node scripts/check-a1-tw-equity-candidate-artifact-intake.mjs",
     "check:a1-tw-equity-candidate-artifact-delivery-spec": "node scripts/check-a1-tw-equity-candidate-artifact-delivery-spec.mjs",

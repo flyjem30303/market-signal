@@ -3403,6 +3403,11 @@ const checks = [
     name: "tw-equity-daily-prices-insert-missing-skip-existing-merge-authorization"
   },
   {
+    command: [node, "scripts/check-tw-equity-daily-prices-insert-missing-merge-runner-implementation.mjs"],
+    expectStatus: "ok",
+    name: "tw-equity-daily-prices-insert-missing-merge-runner-implementation"
+  },
+  {
     command: [node, "scripts/check-a1-tw-equity-candidate-artifact-intake.mjs"],
     expectStatus: "ok",
     name: "a1-tw-equity-candidate-artifact-intake"
@@ -3965,6 +3970,7 @@ const coreReviewGateNames = new Set([
   "tw-equity-daily-prices-existing-target-overlap-policy",
   "tw-equity-daily-prices-overlap-classification-runner",
   "tw-equity-daily-prices-insert-missing-skip-existing-merge-authorization",
+  "tw-equity-daily-prices-insert-missing-merge-runner-implementation",
   "a1-tw-equity-candidate-artifact-intake",
   "a1-tw-equity-candidate-artifact-delivery-spec",
   "a1-tw-equity-candidate-artifact-self-check",
