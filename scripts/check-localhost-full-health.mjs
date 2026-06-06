@@ -312,6 +312,10 @@ const checks = [
     name: "tw-equity-table-api-visibility-permission-diagnostic-decision-packet"
   },
   {
+    command: [node, "scripts/check-tw-equity-dashboard-table-visibility-observation.mjs"],
+    name: "tw-equity-dashboard-table-visibility-observation"
+  },
+  {
     command: [node, "scripts/check-a1-tw-equity-candidate-artifact-intake.mjs"],
     name: "a1-tw-equity-candidate-artifact-intake"
   },
