@@ -5,10 +5,14 @@ const CONFIRMATION_VALUE = "CEO_APPROVED_TW_EQUITY_POSTGREST_SCHEMA_EXPOSURE_PRO
 const DOTENV_LOCAL_ALLOWED_KEYS = ["NEXT_PUBLIC_SUPABASE_URL", "SUPABASE_SERVICE_ROLE_KEY"];
 const TARGETS = ["staging_twse_stock_day_runs", "staging_twse_stock_day_prices"];
 const POST_RUN_REVIEW_PATH = "docs/reviews/TW_EQUITY_POSTGREST_SCHEMA_EXPOSURE_PROBE_POST_RUN_REVIEW_2026-06-06.md";
+const REPAIR_OUTCOME_PATH = "data/source-gates/tw-equity-schema-exposure-repair-outcomes.json";
+const REPAIR_OUTCOME_ID = "tw-equity-postgrest-schema-exposure-cache-repair";
 
 loadProcessEnvFromDotEnvLocal();
 
 const confirmationAccepted = process.env.TW_EQUITY_POSTGREST_SCHEMA_EXPOSURE_PROBE_CONFIRMATION === CONFIRMATION_VALUE;
+const repairOutcome = loadRepairOutcome();
+const repairOutcomeAccepted = repairOutcome.outcome === "accepted";
 const credentialPresence = {
   nextPublicSupabaseUrl: envPresent("NEXT_PUBLIC_SUPABASE_URL"),
   serviceRoleKey: envPresent("SUPABASE_SERVICE_ROLE_KEY")
@@ -84,6 +88,13 @@ if (!confirmationAccepted) {
     exposure: notRunExposure("not_run_confirmation_required"),
     postRunReviewWritten: false,
     status: "tw_equity_postgrest_schema_exposure_probe_not_run_confirmation_required"
+  });
+} else if (!repairOutcomeAccepted) {
+  finish({
+    connectionAttempted: false,
+    exposure: notRunExposure("repair_outcome_accepted_required"),
+    postRunReviewWritten: false,
+    status: "tw_equity_postgrest_schema_exposure_probe_blocked_repair_outcome_accepted_required"
   });
 } else if (!credentialPresence.nextPublicSupabaseUrl || !credentialPresence.serviceRoleKey) {
   finish({
@@ -263,6 +274,38 @@ function loadProcessEnvFromDotEnvLocal() {
   }
 }
 
+function loadRepairOutcome() {
+  if (!fs.existsSync(REPAIR_OUTCOME_PATH)) {
+    return {
+      id: REPAIR_OUTCOME_ID,
+      outcome: "missing",
+      recordedAt: null,
+      recordedBy: null
+    };
+  }
+
+  try {
+    const parsed = JSON.parse(fs.readFileSync(REPAIR_OUTCOME_PATH, "utf8"));
+    const outcome = Array.isArray(parsed.outcomes)
+      ? parsed.outcomes.find((item) => item.id === REPAIR_OUTCOME_ID)
+      : null;
+
+    return {
+      id: outcome?.id ?? REPAIR_OUTCOME_ID,
+      outcome: outcome?.outcome ?? "missing",
+      recordedAt: outcome?.recordedAt ?? null,
+      recordedBy: outcome?.recordedBy ?? null
+    };
+  } catch {
+    return {
+      id: REPAIR_OUTCOME_ID,
+      outcome: "unreadable",
+      recordedAt: null,
+      recordedBy: null
+    };
+  }
+}
+
 function parseDotEnv(text) {
   const parsed = {};
   for (const line of text.split(/\r?\n/)) {
@@ -291,6 +334,14 @@ function finish({ connectionAttempted, exposure, postRunReviewWritten, status })
         status,
         mode: "tw_equity_postgrest_schema_exposure_probe_once",
         confirmation: confirmationAccepted ? "present" : "missing_or_invalid",
+        repairOutcomeGate: {
+          accepted: repairOutcomeAccepted,
+          outcome: repairOutcome.outcome,
+          outcomePath: REPAIR_OUTCOME_PATH,
+          recordedAt: repairOutcome.recordedAt,
+          recordedBy: repairOutcome.recordedBy,
+          requiredOutcome: "accepted"
+        },
         credentialPresence,
         connectionAttempted,
         exposure,

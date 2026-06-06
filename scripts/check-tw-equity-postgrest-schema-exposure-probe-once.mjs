@@ -12,6 +12,10 @@ const pkg = JSON.parse(read(packagePath));
 for (const phrase of [
   "CEO_APPROVED_TW_EQUITY_POSTGREST_SCHEMA_EXPOSURE_PROBE_ONCE",
   "TW_EQUITY_POSTGREST_SCHEMA_EXPOSURE_PROBE_CONFIRMATION",
+  "data/source-gates/tw-equity-schema-exposure-repair-outcomes.json",
+  "tw-equity-postgrest-schema-exposure-cache-repair",
+  "tw_equity_postgrest_schema_exposure_probe_blocked_repair_outcome_accepted_required",
+  "repair_outcome_accepted_required",
   "application/openapi+json",
   "sanitizedSchemaMetadataOnly",
   "tw_equity_postgrest_schema_exposure_probe_schema_exposure_complete_write_path_still_unresolved",
@@ -70,6 +74,45 @@ if (runWithoutConfirmation.status !== 0) {
     }
   } catch {
     problems.push(`${runnerPath} did not emit JSON without confirmation`);
+  }
+}
+
+const runWithConfirmationButPendingOutcome = spawnSync(process.execPath, [runnerPath], {
+  encoding: "utf8",
+  env: {
+    ...process.env,
+    TW_EQUITY_POSTGREST_SCHEMA_EXPOSURE_PROBE_CONFIRMATION: "CEO_APPROVED_TW_EQUITY_POSTGREST_SCHEMA_EXPOSURE_PROBE_ONCE"
+  }
+});
+if (runWithConfirmationButPendingOutcome.status !== 0) {
+  problems.push(`${runnerPath} failed with confirmation and pending repair outcome`);
+} else {
+  try {
+    const report = JSON.parse(runWithConfirmationButPendingOutcome.stdout);
+    if (report.status !== "tw_equity_postgrest_schema_exposure_probe_blocked_repair_outcome_accepted_required") {
+      problems.push(`${runnerPath} must fail closed when repair outcome is not accepted`);
+    }
+    if (report.repairOutcomeGate?.accepted !== false) {
+      problems.push(`${runnerPath} must report repair outcome gate not accepted`);
+    }
+    if (report.connectionAttempted !== false) problems.push(`${runnerPath} must not connect without accepted repair outcome`);
+    if (report.postRunReview?.written !== false) problems.push(`${runnerPath} must not write review without accepted repair outcome`);
+    for (const key of [
+      "sqlExecuted",
+      "migrationExecuted",
+      "supabaseWriteAttempted",
+      "stagingRowsCreated",
+      "dailyPricesMutated",
+      "marketDataFetched",
+      "marketDataIngested",
+      "rawPayloadsPrinted",
+      "rowPayloadsPrinted",
+      "secretsPrinted"
+    ]) {
+      if (report.safety?.[key] !== false) problems.push(`${runnerPath} safety.${key} must be false with pending repair outcome`);
+    }
+  } catch {
+    problems.push(`${runnerPath} did not emit JSON with confirmation and pending repair outcome`);
   }
 }
 
