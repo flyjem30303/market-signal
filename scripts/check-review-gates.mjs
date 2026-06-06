@@ -3333,6 +3333,11 @@ const checks = [
     name: "tw-equity-staging-migration-apply-decision-packet"
   },
   {
+    command: [node, "scripts/check-tw-equity-staging-migration-apply-outcome.mjs"],
+    expectStatus: "ok",
+    name: "tw-equity-staging-migration-apply-outcome"
+  },
+  {
     command: [node, "scripts/check-a1-tw-equity-candidate-artifact-intake.mjs"],
     expectStatus: "ok",
     name: "a1-tw-equity-candidate-artifact-intake"
@@ -3881,6 +3886,7 @@ const coreReviewGateNames = new Set([
   "tw-equity-table-api-visibility-permission-diagnostic-decision-packet",
   "tw-equity-dashboard-table-visibility-observation",
   "tw-equity-staging-migration-apply-decision-packet",
+  "tw-equity-staging-migration-apply-outcome",
   "a1-tw-equity-candidate-artifact-intake",
   "a1-tw-equity-candidate-artifact-delivery-spec",
   "a1-tw-equity-candidate-artifact-self-check",

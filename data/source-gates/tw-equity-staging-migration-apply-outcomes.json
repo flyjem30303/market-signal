@@ -1,0 +1,14 @@
+{
+  "outcomes": [
+    {
+      "id": "tw-equity-staging-migration-apply-0003",
+      "title": "TW equity staging migration 0003 apply outcome",
+      "outcome": "accepted",
+      "recordedBy": "Chairman",
+      "recordedAt": "2026-06-07T00:00:00.000+08:00",
+      "decisionNote": "Accepted: SQL migration 0003 was executed manually in Supabase SQL Editor, PostgREST schema reload was executed, and both staging tables appeared in the public table list. PM did not execute SQL.",
+      "allowedNextStepWhenAccepted": "bounded_post_migration_readonly_verification_only",
+      "blockedNextStepWhenRejected": "create_migration_repair_packet_before_any_verification_or_write"
+    }
+  ]
+}

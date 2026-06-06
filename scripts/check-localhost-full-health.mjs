@@ -320,6 +320,10 @@ const checks = [
     name: "tw-equity-staging-migration-apply-decision-packet"
   },
   {
+    command: [node, "scripts/check-tw-equity-staging-migration-apply-outcome.mjs"],
+    name: "tw-equity-staging-migration-apply-outcome"
+  },
+  {
     command: [node, "scripts/check-a1-tw-equity-candidate-artifact-intake.mjs"],
     name: "a1-tw-equity-candidate-artifact-intake"
   },
