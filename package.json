@@ -134,6 +134,7 @@
     "check:data-population-route-decision": "node scripts/check-data-population-route-decision.mjs",
     "check:backfill-ingestion-execution-packet": "node scripts/check-backfill-ingestion-execution-packet.mjs",
     "check:tw-equity-report-only-dry-run-packet": "node scripts/check-tw-equity-report-only-dry-run-packet.mjs",
+    "check:tw-equity-source-rights-packet": "node scripts/check-tw-equity-source-rights-packet.mjs",
     "report:ceo-progress-brief": "node scripts/report-ceo-progress-brief.mjs",
     "check:ceo-progress-brief": "node scripts/check-ceo-progress-brief.mjs",
     "report:runtime-unblock-acceleration": "node scripts/report-runtime-unblock-acceleration.mjs",

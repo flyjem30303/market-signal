@@ -86,6 +86,10 @@ const checks = [
     name: "tw-equity-report-only-dry-run-packet"
   },
   {
+    command: [node, "scripts/check-tw-equity-source-rights-packet.mjs"],
+    name: "tw-equity-source-rights-packet"
+  },
+  {
     command: [node, "scripts/check-ceo-progress-brief.mjs"],
     name: "ceo-progress-brief"
   },
