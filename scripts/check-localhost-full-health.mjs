@@ -154,6 +154,10 @@ const checks = [
     name: "tw-equity-staging-first-write-authorization-packet-v1"
   },
   {
+    command: [node, "scripts/check-tw-equity-staging-first-write-post-run-review-template-v1.mjs"],
+    name: "tw-equity-staging-first-write-post-run-review-template-v1"
+  },
+  {
     command: [node, "scripts/check-ceo-progress-brief.mjs"],
     name: "ceo-progress-brief"
   },

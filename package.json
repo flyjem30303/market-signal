@@ -156,6 +156,7 @@
     "report:tw-equity-staging-first-preflight": "node scripts/report-tw-equity-staging-first-preflight.mjs",
     "check:tw-equity-staging-first-preflight-runner": "node scripts/check-tw-equity-staging-first-preflight-runner.mjs",
     "check:tw-equity-staging-first-write-authorization-packet-v1": "node scripts/check-tw-equity-staging-first-write-authorization-packet-v1.mjs",
+    "check:tw-equity-staging-first-write-post-run-review-template-v1": "node scripts/check-tw-equity-staging-first-write-post-run-review-template-v1.mjs",
     "report:ceo-progress-brief": "node scripts/report-ceo-progress-brief.mjs",
     "check:ceo-progress-brief": "node scripts/check-ceo-progress-brief.mjs",
     "report:runtime-unblock-acceleration": "node scripts/report-runtime-unblock-acceleration.mjs",
