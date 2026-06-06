@@ -232,6 +232,10 @@ const checks = [
     name: "tw-equity-staging-first-write-post-run-review-2026-06-06"
   },
   {
+    command: [node, "scripts/check-tw-equity-pgrst205-root-cause-gate.mjs"],
+    name: "tw-equity-pgrst205-root-cause-gate"
+  },
+  {
     command: [node, "scripts/check-a1-tw-equity-candidate-artifact-intake.mjs"],
     name: "a1-tw-equity-candidate-artifact-intake"
   },

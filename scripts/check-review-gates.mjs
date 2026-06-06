@@ -3223,6 +3223,11 @@ const checks = [
     name: "tw-equity-staging-first-write-post-run-review-2026-06-06"
   },
   {
+    command: [node, "scripts/check-tw-equity-pgrst205-root-cause-gate.mjs"],
+    expectStatus: "ok",
+    name: "tw-equity-pgrst205-root-cause-gate"
+  },
+  {
     command: [node, "scripts/check-a1-tw-equity-candidate-artifact-intake.mjs"],
     expectStatus: "ok",
     name: "a1-tw-equity-candidate-artifact-intake"
@@ -3749,6 +3754,7 @@ const coreReviewGateNames = new Set([
   "tw-equity-staging-write-execution-readiness",
   "tw-equity-bounded-staging-write-attempt-decision",
   "tw-equity-staging-first-write-post-run-review-2026-06-06",
+  "tw-equity-pgrst205-root-cause-gate",
   "a1-tw-equity-candidate-artifact-intake",
   "a1-tw-equity-candidate-artifact-delivery-spec",
   "a1-tw-equity-candidate-artifact-self-check",
