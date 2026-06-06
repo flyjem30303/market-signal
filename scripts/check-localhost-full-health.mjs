@@ -194,6 +194,10 @@ const checks = [
     name: "tw-equity-write-capable-runner-implementation-readiness-gate"
   },
   {
+    command: [node, "scripts/check-tw-equity-write-implementation-design-to-code-boundary.mjs"],
+    name: "tw-equity-write-implementation-design-to-code-boundary"
+  },
+  {
     command: [node, "scripts/check-ceo-progress-brief.mjs"],
     name: "ceo-progress-brief"
   },

@@ -26,12 +26,15 @@ if (Number(args.maxRows) !== EXPECTED.maxRows) problems.push("max_rows_mismatch"
 if (args.postRunReview !== EXPECTED.postRunReview) problems.push("post_run_review_mismatch");
 
 const executionRequested = args.execute === "true" || args.execute === true;
+const candidateInputArtifact = args.candidateInput ?? "missing";
+const candidateInputAccepted = false;
 const confirmationPresent = process.env.TW_EQUITY_STAGING_WRITE_CONFIRMATION === EXPECTED.confirmation;
 const credentialPresence = {
   nextPublicSupabaseUrl: envPresent("NEXT_PUBLIC_SUPABASE_URL"),
   serviceRoleKey: envPresent("SUPABASE_SERVICE_ROLE_KEY")
 };
 const rollbackDryRunAvailable = args.rollbackDryRun === "true" || args.rollbackDryRun === true;
+const rollbackDryRunCountReady = false;
 const localPreflightProblems = [];
 
 if (executionRequested) {
@@ -39,6 +42,7 @@ if (executionRequested) {
   if (!credentialPresence.nextPublicSupabaseUrl) localPreflightProblems.push("missing_next_public_supabase_url");
   if (!credentialPresence.serviceRoleKey) localPreflightProblems.push("missing_service_role_key");
   if (!rollbackDryRunAvailable) localPreflightProblems.push("missing_rollback_dry_run_posture");
+  if (candidateInputArtifact === "missing") localPreflightProblems.push("missing_candidate_input_artifact_contract");
 }
 
 if (executionRequested) {
@@ -56,6 +60,8 @@ console.log(
       canClaimRealDataLive: false,
       canPromotePublicSource: false,
       canSetScoreSourceReal: false,
+      candidateInputAccepted,
+      candidateInputArtifact,
       connectionAttempted: false,
       confirmationPresent,
       credentialPresence,
@@ -74,6 +80,7 @@ console.log(
       publicDataSource: "mock",
       publicRedistributionBlocked: true,
       rollbackDryRunAvailable,
+      rollbackDryRunCountReady,
       rowPayloadsPrinted: false,
       scoreSource: "mock",
       secretsPrinted: false,
