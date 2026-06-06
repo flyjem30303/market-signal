@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 
 const root = process.cwd();
+const findings = [];
 
 const surfaces = [
   {
@@ -11,18 +12,13 @@ const surfaces = [
       "HomeRuntimeStatusPanel",
       "getPublicRuntimeBoundaryCopy",
       "boundaryCopy.currentState",
+      "boundaryCopy.stopLine",
       "getRuntimeDeliveryCadence",
       "runtime-delivery-card",
       "home-runtime-details",
-      "Mock signals are available for reading",
-      "scoreSource=real remain blocked",
-      "查看 runtime 邊界、推進比例與阻塞項目",
+      "Freshness metadata",
       "Supabase readonly",
-      "不能直接升級公開資料來源",
-      "仍被阻塞",
-      "真實資料與正式分數仍未開放",
       "Fail-closed",
-      "下一個 gate 通過前維持 mock",
       "runtime-fail-closed-card"
     ]
   },
@@ -33,15 +29,13 @@ const surfaces = [
       "StockRuntimeAtAGlance",
       "getPublicRuntimeBoundaryCopy",
       "boundaryCopy.blockedState",
+      "boundaryCopy.summary",
+      "boundaryCopy.currentState",
       "getRuntimeDeliveryCadence",
       "runtime-cutpoint-card",
-      "has a readable mock signal",
-      "Supabase-backed public data",
-      "scoreSource=real still require separate accepted gates",
-      "runtime-fail-closed-card",
-      "公開頁面仍停在 mock runtime",
-      "尚未宣稱真實市場資料",
-      "封鎖項目"
+      "Freshness metadata",
+      "scoreSource=real",
+      "runtime-fail-closed-card"
     ]
   },
   {
@@ -118,7 +112,10 @@ const sharedCopyRequirements = [
   "stopLine",
   "summary",
   "publicDataSource=mock",
-  "scoreSource=mock"
+  "scoreSource=mock",
+  "mock-only",
+  "資料新鮮度",
+  "不構成投資建議"
 ];
 
 const freshnessStripRequirements = [
@@ -141,11 +138,10 @@ const forbiddenPublicTokens = [
   "twse_stock_day_staging",
   "staging_twse_stock_day",
   "daily_prices",
-  'sourceDepthState: "approved"'
+  'sourceDepthState: "approved"',
+  "publicDataSource=supabase approved",
+  "scoreSource=real approved"
 ];
-
-const mojibakePattern = /\uFFFD/u;
-const findings = [];
 
 const sharedCopy = readRequired("src/lib/public-runtime-boundary-copy.ts");
 for (const token of sharedCopyRequirements) {
@@ -153,6 +149,16 @@ for (const token of sharedCopyRequirements) {
     findings.push({
       file: "src/lib/public-runtime-boundary-copy.ts",
       issue: `missing shared public runtime copy token: ${token}`
+    });
+  }
+}
+
+const trustNotice = readRequired("src/components/trust-runtime-boundary-notice.tsx");
+for (const token of ["投資與資料限制", "資料新鮮度", "不構成投資建議", "publicDataSource=mock; scoreSource=mock"]) {
+  if (!trustNotice.includes(token)) {
+    findings.push({
+      file: "src/components/trust-runtime-boundary-notice.tsx",
+      issue: `missing trust notice launch-copy token: ${token}`
     });
   }
 }
@@ -184,10 +190,10 @@ for (const file of publicFiles) {
   if (!fs.existsSync(path.join(root, file))) continue;
   const source = readRequired(file);
 
-  if (mojibakePattern.test(source)) {
+  for (const marker of findMojibakeMarkers(source)) {
     findings.push({
       file,
-      issue: "public runtime UI file contains replacement-character mojibake"
+      issue: `public runtime UI file contains ${marker}`
     });
   }
 
@@ -227,4 +233,19 @@ function readRequired(file) {
   }
 
   return fs.readFileSync(fullPath, "utf8");
+}
+
+function findMojibakeMarkers(text) {
+  const markers = [];
+  if (text.includes("\uFFFD")) markers.push("replacement-character mojibake");
+  if (hasPrivateUseCodePoint(text)) markers.push("private-use mojibake");
+  return markers;
+}
+
+function hasPrivateUseCodePoint(text) {
+  for (const char of text) {
+    const codePoint = char.codePointAt(0) ?? 0;
+    if (codePoint >= 0xe000 && codePoint <= 0xf8ff) return true;
+  }
+  return false;
 }

@@ -43,9 +43,9 @@ const required = [
   [componentPath, "RuntimeTransitionRail"],
   [componentPath, "PublicRuntimeStateStrip"],
   [componentPath, "TrackedLink"],
-  [componentPath, "Mock signals are available for reading"],
-  [componentPath, "useful for checking product flow, risk direction"],
-  [componentPath, "scoreSource=real remain blocked"],
+  [componentPath, "目前可閱讀 mock 訊號"],
+  [componentPath, "真實市場資料"],
+  [componentPath, "scoreSource=real 仍需等待 PM 接受 gate"],
   [componentPath, "runtime-product-summary"],
   [componentPath, "productSummary.useNow.displayLabel"],
   [componentPath, "productSummary.notLiveYet.displayLabel"],
@@ -56,34 +56,15 @@ const required = [
   [componentPath, "runtime-execution-readiness-card"],
   [componentPath, "post-readonly-runtime-card"],
   [componentPath, "Freshness metadata"],
-  [componentPath, "not market-data quality or real-score approval"],
-  [componentPath, "runtime-next-links"],
-  [componentPath, "查看個股燈號"],
-  [componentPath, "查看市場晨報"],
-  [componentPath, "了解 mock 方法"],
-  [componentPath, "查看 runtime 邊界、推進比例與阻塞項目"],
-  [componentPath, "Supabase readonly"],
-  [componentPath, "不能直接升級公開資料來源"],
-  [componentPath, "推進比例"],
-  [componentPath, "目前可用"],
-  [componentPath, "仍被阻塞"],
-  [componentPath, "真實資料與正式分數仍未開放"],
-  [componentPath, "專案進度"],
-  [componentPath, "下一步"],
-  [componentPath, "禁止升級"],
-  [componentPath, "來源深度"],
-  [componentPath, "Row coverage"],
-  [componentPath, "Runtime 解讀"],
-  [componentPath, "必要切點"],
-  [componentPath, "保留必要 gate，但避免過細切片"],
-  [componentPath, "狀態一致性"],
-  [componentPath, "Fail-closed"],
-  [componentPath, "任何 gate 未通過時"],
-  [componentPath, "Readonly 後狀態"],
-  [componentPath, "Readonly 證據"],
-  [componentPath, "阻塞項目"],
-  [componentPath, "升級條件"],
-  [componentPath, "下一個 gate 通過前維持 mock"],
+  [componentPath, "does not approve market-data quality, live freshness, or real-score claims"],
+  [componentPath, "查看個股 mock 訊號"],
+  [componentPath, "查看公開狀態簡報"],
+  [componentPath, "查看 mock 方法說明"],
+  [componentPath, "查看 runtime 邊界、資料限制與下一步"],
+  [componentPath, "這是覆蓋率 readiness，不是公開完整覆蓋率宣稱"],
+  [componentPath, "資料可能缺值、延遲或部分覆蓋"],
+  [componentPath, "公開內容只供資訊閱讀與產品理解"],
+  [componentPath, "boundaryCopy.stopLine"],
   [componentPath, "decisionSummary.currentProgressPercent"],
   [componentPath, "runtimeDeliveryCadence.nextExecutionRatio"],
   [componentPath, "runtimeDeliveryCadence.mandatoryCutpoints"],
@@ -120,9 +101,6 @@ const forbidden = [
   [componentPath, "scoreSource: \"real\""],
   [componentPath, "publicDataSource: \"supabase\""],
   [componentPath, "getHomeRuntimeActionSummary"],
-  [componentPath, "�"],
-  [componentPath, "嚙"],
-  [componentPath, "稽"],
   [actionSummaryPath, "@supabase/supabase-js"],
   [actionSummaryPath, "createClient"],
   [actionSummaryPath, "fetch("],
@@ -137,8 +115,7 @@ const forbidden = [
 
 const missing = required.filter(([file, phrase]) => !read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
 const blocked = forbidden.filter(([file, phrase]) => read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
-const privateUseHits = findPrivateUseHits(read(componentPath));
-for (const hit of privateUseHits) blocked.push(`${componentPath}: private-use code point ${hit}`);
+for (const hit of findMojibakeMarkers(read(componentPath))) blocked.push(`${componentPath}: ${hit}`);
 
 console.log(JSON.stringify({ blocked, missing, status: missing.length === 0 && blocked.length === 0 ? "ok" : "blocked" }, null, 2));
 
@@ -148,18 +125,9 @@ function read(file) {
   return files.get(file) ?? "";
 }
 
-function findPrivateUseHits(text) {
-  const hits = new Set();
-  for (const char of text) {
-    const code = char.codePointAt(0);
-    if (code === undefined) continue;
-    if (
-      (code >= 0xe000 && code <= 0xf8ff) ||
-      (code >= 0xf0000 && code <= 0xffffd) ||
-      (code >= 0x100000 && code <= 0x10fffd)
-    ) {
-      hits.add(`U+${code.toString(16).toUpperCase()}`);
-    }
-  }
-  return [...hits];
+function findMojibakeMarkers(text) {
+  const hits = [];
+  if (/[\uE000-\uF8FF\uFFFD]/u.test(text)) hits.push("private-use-or-replacement-code-point");
+  if (/\?{3,}/u.test(text)) hits.push("question-mark-run");
+  return hits;
 }

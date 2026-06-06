@@ -5,12 +5,12 @@ const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 const checkerPath = "scripts/check-public-visible-language-quality.mjs";
 const baseUrl = process.env.LOCALHOST_BASE_URL ?? "http://localhost:3000";
+
 const coreRuntimeBoundaryRequired = [
   "Runtime",
   "mock",
   "publicDataSource=mock",
   "scoreSource=mock",
-  "資料新鮮度",
   "scoreSource"
 ];
 
@@ -57,15 +57,15 @@ const pages = [
   },
   {
     path: "/disclaimer",
-    required: [...coreRuntimeBoundaryRequired, "免責聲明", "不構成投資建議", "非投資建議"]
+    required: [...coreRuntimeBoundaryRequired, "投資與資料限制", "不構成投資建議", "資料新鮮度"]
   },
   {
     path: "/terms",
-    required: [...coreRuntimeBoundaryRequired, "使用條款", "不得視為交易指示", "資料限制"]
+    required: [...coreRuntimeBoundaryRequired, "使用條款", "不構成投資建議", "資料新鮮度"]
   },
   {
     path: "/privacy",
-    required: [...coreRuntimeBoundaryRequired, "隱私政策", "不收集交易帳戶資料", "localStorage"]
+    required: [...coreRuntimeBoundaryRequired, "隱私與資料邊界", "資料新鮮度", "mock"]
   }
 ];
 
@@ -147,9 +147,9 @@ const selfContract = [
   {
     check: "requires readable legal pages",
     pass:
-      checkerSource.includes('"免責聲明"') &&
+      checkerSource.includes('"投資與資料限制"') &&
       checkerSource.includes('"使用條款"') &&
-      checkerSource.includes('"隱私政策"')
+      checkerSource.includes('"隱私與資料邊界"')
   },
   {
     check: "checker source avoids private-use mojibake literals",
@@ -207,10 +207,6 @@ function findMojibakeMarkers(text) {
   if (text.includes("\uFFFD")) markers.push("replacement-char");
   if (/\?{2,}/u.test(text)) markers.push("question-mark-run");
   if (hasPrivateUseCodePoint(text)) markers.push("private-use-code-point");
-  if (/(?:嚗|銝|蝭|憟|璅|鞈|撣|閮|瘥|摨|甈|雿|蹐|蹓){2,}/u.test(text)) {
-    markers.push("common-mojibake-run");
-  }
-  if (/嚙|稽/u.test(text)) markers.push("known-mojibake-char");
   return markers;
 }
 

@@ -47,10 +47,10 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
     <section className="stock-runtime-at-a-glance" aria-label="Stock runtime status">
       <div>
         <p className="eyebrow">Runtime At A Glance</p>
-        <h2>{snapshot.asset.symbol} has a readable mock signal</h2>
+        <h2>{snapshot.asset.symbol} 目前是可閱讀的 mock 訊號</h2>
         <p>
-          Use this page to understand the mock score, risk direction, and disclosure state. It is not live market-data
-          evidence, and Supabase-backed public data plus scoreSource=real still require separate accepted gates.
+          本頁用來理解 mock 分數、風險方向、資料限制與揭露狀態。這不是即時市場資料、完整覆蓋率、正式模型結論或個人化投資建議；
+          scoreSource=real 仍需等待獨立 gate。
         </p>
       </div>
 
@@ -146,18 +146,18 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
         <TrackedLink
           eventName="stock_link_clicked"
           href="/briefing"
-          label="查看晨報"
+          label="查看公開狀態簡報"
           payload={{ area: "stock_runtime_next_links", symbol: snapshot.asset.symbol }}
         >
-          查看晨報
+          查看公開狀態簡報
         </TrackedLink>
         <TrackedLink
           eventName="trust_link_clicked"
           href="/methodology"
-          label="了解 mock 邊界"
+          label="查看 mock 方法說明"
           payload={{ area: "stock_runtime_next_links", symbol: snapshot.asset.symbol }}
         >
-          了解 mock 邊界
+          查看 mock 方法說明
         </TrackedLink>
         <TrackedLink
           eventName="stock_link_clicked"
@@ -171,7 +171,7 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
 
       <div className="stock-runtime-action-strip" aria-label="Stock next system action summary">
         <article className="active">
-          <span>專案進度</span>
+          <span>目前進度</span>
           <strong>{decisionSummary.currentProgressPercent}%</strong>
           <p>{decisionSummary.stage}</p>
         </article>
@@ -181,7 +181,7 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
           <p>{decisionSummary.nextLift}</p>
         </article>
         <article className="blocked">
-          <span>被擋住的升級</span>
+          <span>被阻擋的升級</span>
           <strong>{decisionSummary.blockedTransition}</strong>
           <p>{decisionSummary.safetyStopLine}</p>
         </article>
@@ -189,11 +189,11 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
 
       <div className="stock-runtime-governance-details" aria-label="Stock system governance details">
         <div>
-          <span>治理摘要</span>
-          <strong>公開頁面仍停在 mock runtime</strong>
+          <span>公開判讀邊界</span>
+          <strong>目前只可閱讀 mock runtime</strong>
           <p>
-            這個標的頁可以用來閱讀 mock score、風險方向與資料邊界；它尚未宣稱真實市場資料、正式分數或
-            Supabase-backed public data。任何升級都要等獨立 gate 接受。
+            這個區塊說明個股頁的資料、分數與模型限制。mock score 可協助理解風險方向，但真實資料來源、完整覆蓋率、
+            freshness 品質與 scoreSource=real 都尚未通過 PM 接受 gate。
           </p>
         </div>
         <article className="active runtime-boundary-copy-card">
@@ -208,40 +208,40 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
           <p>
             Row coverage {postReadonlyRuntime.rowCoverage.coverageStatus}:{" "}
             {postReadonlyRuntime.rowCoverage.observedRows}/{postReadonlyRuntime.rowCoverage.expectedRows} rows, missing{" "}
-            {postReadonlyRuntime.rowCoverage.missingRows}.
+            {postReadonlyRuntime.rowCoverage.missingRows}. 這是 readiness 訊息，不是公開完整覆蓋率承諾。
           </p>
         </article>
         <article className="active post-readonly-runtime-card stock-freshness-evidence-card">
           <span>Freshness metadata</span>
           <strong>{freshnessLatestEvidence.state}</strong>
           <p>
-            {freshnessLatestEvidence.market} freshness is reachable as of {freshnessLatestEvidence.asOfDate} from{" "}
+            {freshnessLatestEvidence.market} freshness metadata is reachable as of {freshnessLatestEvidence.asOfDate} from{" "}
             {freshnessLatestEvidence.sourceName}.
           </p>
           <p>
             Public {freshnessLatestEvidence.publicDataSource}; score {freshnessLatestEvidence.scoreSource}. Metadata
-            only, not market-data quality or scoreSource=real approval.
+            only; it does not approve market-data quality, live freshness, or scoreSource=real claims.
           </p>
         </article>
         <article className="blocked">
-          <span>來源深度</span>
+          <span>資料來源限制</span>
           <strong>{sourceDepth.sourceDepthState}</strong>
           <p>{sourceDepth.stopLine}</p>
         </article>
         <article className="active runtime-delivery-card">
-          <span>推進節奏</span>
+          <span>執行節奏</span>
           <strong>{runtimeDeliveryCadence.nextExecutionRatio}</strong>
           <p>{runtimeDeliveryCadence.targetSliceSize}</p>
         </article>
         <article className="active">
-          <span>可用狀態</span>
+          <span>公開資料邊界</span>
           <strong>{boundaryCopy.headline}</strong>
           <p>{boundaryCopy.summary}</p>
           <p>{boundaryCopy.currentState}</p>
         </article>
         <article className="blocked runtime-boundary-copy-card">
-          <span>尚未開放</span>
-          <strong>真實資料仍未開放</strong>
+          <span>尚未上線</span>
+          <strong>真實資料、真實分數與投資用途仍被阻擋</strong>
           <p>{boundaryCopy.blockedState}</p>
           <p>{boundaryCopy.stopLine}</p>
         </article>
@@ -264,16 +264,16 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
           <p>{rowCoverage.nextDecision}</p>
         </article>
         <article className="readying compact-runtime-blocker">
-          <span>Runtime 解讀</span>
+          <span>Runtime 判讀</span>
           <strong>{runtimeInterpretation.decision}</strong>
           <p>
             mock runtime hardening {runtimeInterpretation.laneRatio.mockRuntimeHardening}% / Supabase readonly
-            preparation {runtimeInterpretation.laneRatio.supabaseReadonlyPreparation}%。{runtimeInterpretation.blockers[0]}
+            preparation {runtimeInterpretation.laneRatio.supabaseReadonlyPreparation}%. {runtimeInterpretation.blockers[0]}
           </p>
         </article>
         <article className="readying compact-runtime-blocker runtime-cutpoint-card">
-          <span>必要切點</span>
-          <strong>切點仍需保留</strong>
+          <span>升級前檢查點</span>
+          <strong>gate 通過前只保留 mock-only 公開說明</strong>
           <p>{runtimeDeliveryCadence.mandatoryCutpoints.slice(0, 3).join("; ")}.</p>
         </article>
         <article className="readying compact-runtime-blocker runtime-consistency-card">
@@ -282,13 +282,13 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
           <p>{runtimeStateConsistency.statusLine}</p>
         </article>
         <article className="readying compact-runtime-blocker post-readonly-runtime-card">
-          <span>Readonly 證據</span>
+          <span>Readonly 結果</span>
           <strong>{postReadonlyRuntime.state}</strong>
           <p>{postReadonlyRuntime.rowCoverage.summary}</p>
           <p>{postReadonlyRuntime.stopLine}</p>
         </article>
         <article className="blocked compact-runtime-blocker">
-          <span>封鎖項目</span>
+          <span>資料與法務限制</span>
           <strong>{blockerReadiness.status}</strong>
           <p>Data / Legal / Investment checklists are local-ready. {runtimeInterpretation.stopLine}</p>
         </article>

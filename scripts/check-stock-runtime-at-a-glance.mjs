@@ -47,9 +47,9 @@ const required = [
   [componentPath, "RuntimeTransitionRail"],
   [componentPath, "PublicRuntimeStateStrip"],
   [componentPath, "TrackedLink"],
-  [componentPath, "has a readable mock signal"],
-  [componentPath, "mock score, risk direction, and disclosure state"],
-  [componentPath, "scoreSource=real still require separate accepted gates"],
+  [componentPath, "目前是可閱讀的 mock 訊號"],
+  [componentPath, "不是即時市場資料、完整覆蓋率、正式模型結論或個人化投資建議"],
+  [componentPath, "scoreSource=real 仍需等待獨立 gate"],
   [componentPath, "stock-runtime-headline-summary"],
   [componentPath, "Stock decision aid groups"],
   [componentPath, "runtime-product-summary"],
@@ -61,33 +61,30 @@ const required = [
   [componentPath, "runtime-action-status-strip"],
   [componentPath, "runtime-execution-readiness-card"],
   [componentPath, "runtime-next-links"],
-  [componentPath, "查看晨報"],
-  [componentPath, "了解 mock 邊界"],
+  [componentPath, "查看公開狀態簡報"],
+  [componentPath, "查看 mock 方法說明"],
   [componentPath, "回到首頁"],
   [componentPath, "stock-runtime-action-strip"],
-  [componentPath, "專案進度"],
+  [componentPath, "目前進度"],
   [componentPath, "下一步"],
-  [componentPath, "被擋住的升級"],
+  [componentPath, "被阻擋的升級"],
   [componentPath, "stock-runtime-governance-details"],
-  [componentPath, "治理摘要"],
-  [componentPath, "公開頁面仍停在 mock runtime"],
-  [componentPath, "尚未宣稱真實市場資料"],
-  [componentPath, "任何升級都要等獨立 gate 接受"],
+  [componentPath, "公開判讀邊界"],
+  [componentPath, "目前只可閱讀 mock runtime"],
   [componentPath, "scoreSource=real is not enabled"],
   [componentPath, "Readonly result"],
   [componentPath, "Freshness metadata"],
-  [componentPath, "not market-data quality or scoreSource=real approval"],
-  [componentPath, "來源深度"],
-  [componentPath, "推進節奏"],
-  [componentPath, "可用狀態"],
-  [componentPath, "尚未開放"],
+  [componentPath, "does not approve market-data quality, live freshness, or scoreSource=real claims"],
+  [componentPath, "資料來源限制"],
+  [componentPath, "公開資料邊界"],
+  [componentPath, "真實資料、真實分數與投資用途仍被阻擋"],
+  [componentPath, "boundaryCopy.stopLine"],
   [componentPath, "Fail-closed"],
   [componentPath, "下一個 runtime gate"],
-  [componentPath, "Runtime 解讀"],
-  [componentPath, "必要切點"],
+  [componentPath, "Runtime 判讀"],
+  [componentPath, "升級前檢查點"],
   [componentPath, "狀態一致性"],
-  [componentPath, "Readonly 證據"],
-  [componentPath, "封鎖項目"],
+  [componentPath, "資料與法務限制"],
   [componentPath, "decisionSummary.currentProgressPercent"],
   [componentPath, "runtimeDeliveryCadence.nextExecutionRatio"],
   [componentPath, "runtimeDeliveryCadence.mandatoryCutpoints"],
@@ -128,10 +125,6 @@ const forbidden = [
   [componentPath, "scoreSource: \"real\""],
   [componentPath, "publicDataSource: \"supabase\""],
   [componentPath, "getHomeRuntimeActionSummary"],
-  [componentPath, "銝"],
-  [componentPath, "撠"],
-  [componentPath, "鞈"],
-  [componentPath, "憭望"],
   [actionSummaryPath, "scoreSource: \"real\""],
   [consistencyPath, "scoreSource: \"real\""],
   [failClosedPath, "scoreSource: \"real\""],
@@ -143,6 +136,7 @@ const forbidden = [
 
 const missing = required.filter(([file, phrase]) => !read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
 const blocked = forbidden.filter(([file, phrase]) => read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
+for (const hit of findMojibakeMarkers(read(componentPath))) blocked.push(`${componentPath}: ${hit}`);
 
 console.log(JSON.stringify({ blocked, missing, status: missing.length === 0 && blocked.length === 0 ? "ok" : "blocked" }, null, 2));
 
@@ -150,4 +144,11 @@ if (missing.length > 0 || blocked.length > 0) process.exitCode = 1;
 
 function read(file) {
   return files.get(file) ?? "";
+}
+
+function findMojibakeMarkers(text) {
+  const hits = [];
+  if (/[\uE000-\uF8FF\uFFFD]/u.test(text)) hits.push("private-use-or-replacement-code-point");
+  if (/\?{3,}/u.test(text)) hits.push("question-mark-run");
+  return hits;
 }

@@ -43,11 +43,10 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
     <section className="home-runtime-status-panel" aria-label="Runtime status">
       <div>
         <p className="eyebrow">Runtime Status</p>
-        <h2>Mock signals are available for reading</h2>
+        <h2>目前可閱讀 mock 訊號</h2>
         <p>
-          {selectedSymbol} can be read as a mock-only signal today: useful for checking product flow, risk direction,
-          and disclosure clarity. Real market data, Supabase-backed public data, and scoreSource=real remain blocked
-          until separate accepted gates.
+          {selectedSymbol} 目前是 mock-only 訊號：可用來理解產品流程、風險方向與揭露位置。真實市場資料、
+          真實公開資料與 scoreSource=real 仍需等待 PM 接受 gate，尚未公開上線。
         </p>
       </div>
 
@@ -116,7 +115,7 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
         <p>
           Row coverage {postReadonlyRuntime.rowCoverage.coverageStatus}:{" "}
           {postReadonlyRuntime.rowCoverage.observedRows}/{postReadonlyRuntime.rowCoverage.expectedRows} rows, missing{" "}
-          {postReadonlyRuntime.rowCoverage.missingRows}.
+          {postReadonlyRuntime.rowCoverage.missingRows}. 這是覆蓋率 readiness，不是公開完整覆蓋率宣稱。
         </p>
         <p>
           Public {postReadonlyRuntime.publicDataSource}; score {postReadonlyRuntime.scoreSource}.
@@ -127,12 +126,12 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
         <span>Freshness metadata</span>
         <strong>{freshnessLatestEvidence.state}</strong>
         <p>
-          {freshnessLatestEvidence.market} freshness is reachable as of {freshnessLatestEvidence.asOfDate} from{" "}
+          {freshnessLatestEvidence.market} freshness metadata is reachable as of {freshnessLatestEvidence.asOfDate} from{" "}
           {freshnessLatestEvidence.sourceName}.
         </p>
         <p>
           Public {freshnessLatestEvidence.publicDataSource}; score {freshnessLatestEvidence.scoreSource}. Metadata
-          only, not market-data quality or real-score approval.
+          only; it does not approve market-data quality, live freshness, or real-score claims.
         </p>
       </article>
 
@@ -140,56 +139,55 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
         <TrackedLink
           eventName="home_cta_clicked"
           href={`/stocks/${selectedSymbol}`}
-          label="查看個股燈號"
+          label="查看個股 mock 訊號"
           payload={{ action: "runtime_next_stock", symbol: selectedSymbol }}
         >
-          查看個股燈號
+          查看個股 mock 訊號
         </TrackedLink>
         <TrackedLink
           eventName="home_cta_clicked"
           href="/briefing"
-          label="查看市場晨報"
+          label="查看公開狀態簡報"
           payload={{ action: "runtime_next_briefing", symbol: selectedSymbol }}
         >
-          查看晨報
+          查看公開狀態簡報
         </TrackedLink>
         <TrackedLink
           eventName="trust_link_clicked"
           href="/methodology"
-          label="了解 mock 方法"
+          label="查看 mock 方法說明"
           payload={{ area: "runtime_next_links", symbol: selectedSymbol }}
         >
-          了解 mock 方法
+          查看 mock 方法說明
         </TrackedLink>
       </nav>
 
       <details className="home-runtime-details">
-        <summary>查看 runtime 邊界、推進比例與阻塞項目</summary>
+        <summary>查看 runtime 邊界、資料限制與下一步</summary>
         <p>
-          目前 runtime 可以繼續強化閱讀體驗、狀態顯示與 fail-closed guard；Supabase readonly
-          證據只代表後端物件可達，不能直接升級公開資料來源、正式分數或投資結論。
-          下一階段仍要等資料品質、來源權利、來源深度與模型可信度 gate 另外通過。
+          這裡整理公開網站目前能說與不能說的內容。mock 訊號可用來閱讀產品流程；freshness metadata
+          只代表狀態可讀，不代表即時行情或資料品質已核准。若資料缺值、延遲、部分覆蓋或尚未驗證，頁面必須保留限制說明。
         </p>
         <div>
           <article className="active runtime-delivery-card">
-            <span>推進比例</span>
+            <span>執行節奏</span>
             <strong>{runtimeDeliveryCadence.nextExecutionRatio}</strong>
             <p>{runtimeDeliveryCadence.targetSliceSize}</p>
           </article>
           <article className="active runtime-boundary-copy-card">
-            <span>目前可用</span>
+            <span>公開資料邊界</span>
             <strong>{boundaryCopy.headline}</strong>
             <p>{boundaryCopy.summary}</p>
             <p>{boundaryCopy.currentState}</p>
           </article>
           <article className="blocked runtime-boundary-copy-card">
-            <span>仍被阻塞</span>
-            <strong>真實資料與正式分數仍未開放</strong>
+            <span>尚未上線</span>
+            <strong>真實資料、真實分數與投資用途仍被阻擋</strong>
             <p>{boundaryCopy.blockedState}</p>
             <p>{boundaryCopy.stopLine}</p>
           </article>
           <article className="active">
-            <span>專案進度</span>
+            <span>目前進度</span>
             <strong>{decisionSummary.currentProgressPercent}%</strong>
             <p>{decisionSummary.stage}</p>
           </article>
@@ -199,7 +197,7 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
             <p>{decisionSummary.nextLift}</p>
           </article>
           <article className="blocked">
-            <span>禁止升級</span>
+            <span>被阻擋的升級</span>
             <strong>{decisionSummary.blockedTransition}</strong>
             <p>{decisionSummary.safetyStopLine}</p>
           </article>
@@ -209,9 +207,9 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
             <p>{readiness.status}</p>
           </article>
           <article className="blocked">
-            <span>來源深度</span>
+            <span>資料來源限制</span>
             <strong>{sourceDepth.sourceDepthState}</strong>
-            <p>來源深度尚未足以支撐正式公開分數；目前 score source 維持 {sourceDepth.scoreSource}。</p>
+            <p>來源權利、覆蓋率與資料品質仍需審核；目前 score source 是 {sourceDepth.scoreSource}。</p>
           </article>
           <article className="readying">
             <span>Row coverage</span>
@@ -221,7 +219,7 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
             </p>
           </article>
           <article className="readying">
-            <span>Runtime 解讀</span>
+            <span>Runtime 判讀</span>
             <strong>{runtimeInterpretation.decision}</strong>
             <p>
               mock runtime hardening {runtimeInterpretation.laneRatio.mockRuntimeHardening}% / Supabase readonly
@@ -229,8 +227,8 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
             </p>
           </article>
           <article className="readying runtime-cutpoint-card">
-            <span>必要切點</span>
-            <strong>保留必要 gate，但避免過細切片</strong>
+            <span>升級前檢查點</span>
+            <strong>gate 通過前只保留 mock-only 公開說明</strong>
             <p>{runtimeDeliveryCadence.mandatoryCutpoints.slice(0, 3).join("; ")}.</p>
           </article>
           <article className="readying runtime-consistency-card">
@@ -241,31 +239,31 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
           <article className="blocked runtime-fail-closed-card">
             <span>Fail-closed</span>
             <strong>{failClosed.failClosedState}</strong>
-            <p>任何 gate 未通過時，公開狀態必須維持 mock 或 blocked。</p>
+            <p>若 gate 尚未通過，公開頁必須維持 mock 或 blocked 狀態，不能暗示真實資料或真實分數已上線。</p>
             <p>{failClosed.blockedActions.slice(0, 4).join(", ")}.</p>
             <p>{failClosed.allowedState}</p>
           </article>
           <article className="readying post-readonly-runtime-card">
-            <span>Readonly 後狀態</span>
+            <span>Readonly 結果</span>
             <strong>{postReadonlyRuntime.state}</strong>
             <p>{postReadonlyRuntime.rowCoverage.summary}</p>
-            <p>唯讀後下一關：{postReadonlyRuntime.nextGate}</p>
+            <p>下一個 gate: {postReadonlyRuntime.nextGate}</p>
           </article>
           <article className="readying post-readonly-runtime-card home-freshness-evidence-card">
-            <span>Readonly 證據</span>
+            <span>Freshness metadata</span>
             <strong>{freshnessLatestEvidence.evidenceStatus}</strong>
             <p>{freshnessLatestEvidence.acceptedScope}</p>
             <p>{freshnessLatestEvidence.stopLine}</p>
           </article>
           <article className="blocked">
-            <span>阻塞項目</span>
+            <span>資料與法務限制</span>
             <strong>{blockerReadiness.status}</strong>
             <p>Data / Legal / Investment checklists are local-ready. {runtimeInterpretation.stopLine}</p>
           </article>
           <article className="blocked">
-            <span>升級條件</span>
-            <strong>下一個 gate 通過前維持 mock</strong>
-            <p>真實資料品質、來源權利、來源深度與模型可信度都要有可審核證據，才可討論公開來源或正式分數升級。</p>
+            <span>非投資建議</span>
+            <strong>公開內容只供資訊閱讀與產品理解</strong>
+            <p>mock 分數不是預測、保證或個人化建議；資料可能缺值、延遲或部分覆蓋，使用者仍需自行判斷風險。</p>
           </article>
         </div>
       </details>

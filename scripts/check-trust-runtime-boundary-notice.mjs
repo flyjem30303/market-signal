@@ -23,13 +23,13 @@ const required = [
   [componentPath, "getRuntimeInterpretationSummary"],
   [componentPath, "getSourceDepthBlockerSummary"],
   [componentPath, "PublicRuntimeStateStrip"],
-  [componentPath, "目前仍是 mock-only 判讀"],
-  [componentPath, "方法論目前用 mock 資料展示評分邏輯"],
-  [componentPath, "隱私權頁目前只說明低風險資料使用"],
-  [componentPath, "使用條款目前鎖定展示型服務邊界"],
-  [componentPath, "週報目前仍是 mock-only 市場節奏展示"],
-  [componentPath, "資料新鮮度只說明資料時間"],
-  [componentPath, "scoreSource"],
+  [componentPath, "投資與資料限制：目前仍是 mock-only"],
+  [componentPath, "方法說明：mock 分數不等於正式模型結論"],
+  [componentPath, "隱私與資料邊界：不因 mock 展示啟用真實資料線"],
+  [componentPath, "使用條款：公開資訊仍受 mock-only 邊界限制"],
+  [componentPath, "週報邊界：目前不是即時或完整市場資料"],
+  [componentPath, "publicDataSource=mock; scoreSource=mock"],
+  [componentPath, "不得把 mock 訊號說成真實資料、完整覆蓋率或正式投資建議"],
   [componentPath, "runtimeInterpretation.decision"],
   [componentPath, "runtimeInterpretation.laneRatio.mockRuntimeHardening"],
   [componentPath, "runtimeInterpretation.stopLine"],
@@ -67,6 +67,10 @@ const forbidden = [
 const missing = required.filter(([file, phrase]) => !read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
 const blocked = forbidden.filter(([file, phrase]) => read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
 
+for (const marker of findMojibakeMarkers(read(componentPath))) {
+  blocked.push(`${componentPath}: ${marker}`);
+}
+
 console.log(
   JSON.stringify(
     {
@@ -85,4 +89,11 @@ if (missing.length > 0 || blocked.length > 0) {
 
 function read(file) {
   return files.get(file) ?? "";
+}
+
+function findMojibakeMarkers(text) {
+  const markers = [];
+  if (/[\uE000-\uF8FF\uFFFD]/u.test(text)) markers.push("private-use-or-replacement-code-point");
+  if (/\?{3,}/u.test(text)) markers.push("question-mark-run");
+  return markers;
 }
