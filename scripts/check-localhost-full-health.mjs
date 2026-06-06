@@ -308,6 +308,10 @@ const checks = [
     name: "tw-equity-post-repair-schema-exposure-probe-result"
   },
   {
+    command: [node, "scripts/check-tw-equity-table-api-visibility-permission-diagnostic-decision-packet.mjs"],
+    name: "tw-equity-table-api-visibility-permission-diagnostic-decision-packet"
+  },
+  {
     command: [node, "scripts/check-a1-tw-equity-candidate-artifact-intake.mjs"],
     name: "a1-tw-equity-candidate-artifact-intake"
   },

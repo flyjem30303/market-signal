@@ -211,6 +211,8 @@
     "check:tw-equity-schema-exposure-outcome-to-probe-gate": "node scripts/check-tw-equity-schema-exposure-outcome-to-probe-gate.mjs",
     "report:tw-equity-post-repair-schema-exposure-probe-result": "node scripts/report-tw-equity-post-repair-schema-exposure-probe-result.mjs",
     "check:tw-equity-post-repair-schema-exposure-probe-result": "node scripts/check-tw-equity-post-repair-schema-exposure-probe-result.mjs",
+    "report:tw-equity-table-api-visibility-permission-diagnostic-decision-packet": "node scripts/report-tw-equity-table-api-visibility-permission-diagnostic-decision-packet.mjs",
+    "check:tw-equity-table-api-visibility-permission-diagnostic-decision-packet": "node scripts/check-tw-equity-table-api-visibility-permission-diagnostic-decision-packet.mjs",
     "report:a1-tw-equity-candidate-artifact-intake": "node scripts/report-a1-tw-equity-candidate-artifact-intake.mjs",
     "check:a1-tw-equity-candidate-artifact-intake": "node scripts/check-a1-tw-equity-candidate-artifact-intake.mjs",
     "check:a1-tw-equity-candidate-artifact-delivery-spec": "node scripts/check-a1-tw-equity-candidate-artifact-delivery-spec.mjs",
