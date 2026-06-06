@@ -58,6 +58,10 @@ const checks = [
     name: "mock-mvp-chairman-review"
   },
   {
+    command: [node, "scripts/check-mock-mvp-f-ui-closeout.mjs"],
+    name: "mock-mvp-f-ui-closeout"
+  },
+  {
     command: [node, "scripts/check-ceo-progress-brief.mjs"],
     name: "ceo-progress-brief"
   },

@@ -3003,6 +3003,11 @@ const checks = [
     name: "mock-mvp-chairman-review"
   },
   {
+    command: [node, "scripts/check-mock-mvp-f-ui-closeout.mjs"],
+    expectStatus: "ok",
+    name: "mock-mvp-f-ui-closeout"
+  },
+  {
     command: [node, "scripts/check-runtime-readonly-decision-card.mjs"],
     expectStatus: "ok",
     name: "runtime-readonly-decision-card"
@@ -3451,6 +3456,7 @@ const coreReviewGateNames = new Set([
   "overall-project-100-readiness",
   "final-mvp-100-completion-audit-readiness",
   "mock-mvp-chairman-review",
+  "mock-mvp-f-ui-closeout",
   "typescript"
 ]);
 
