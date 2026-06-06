@@ -165,6 +165,7 @@
     "check:tw-equity-write-runner-implementation-gate": "node scripts/check-tw-equity-write-runner-implementation-gate.mjs",
     "check:tw-equity-staging-write-runner-safety": "node scripts/check-tw-equity-staging-write-runner-safety.mjs",
     "check:tw-equity-one-attempt-staging-write-preflight-gate": "node scripts/check-tw-equity-one-attempt-staging-write-preflight-gate.mjs",
+    "check:tw-equity-write-capable-runner-implementation-readiness-gate": "node scripts/check-tw-equity-write-capable-runner-implementation-readiness-gate.mjs",
     "report:ceo-progress-brief": "node scripts/report-ceo-progress-brief.mjs",
     "check:ceo-progress-brief": "node scripts/check-ceo-progress-brief.mjs",
     "report:runtime-unblock-acceleration": "node scripts/report-runtime-unblock-acceleration.mjs",

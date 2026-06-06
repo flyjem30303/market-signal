@@ -3168,6 +3168,11 @@ const checks = [
     name: "tw-equity-one-attempt-staging-write-preflight-gate"
   },
   {
+    command: [node, "scripts/check-tw-equity-write-capable-runner-implementation-readiness-gate.mjs"],
+    expectStatus: "ok",
+    name: "tw-equity-write-capable-runner-implementation-readiness-gate"
+  },
+  {
     command: [node, "scripts/check-runtime-readonly-decision-card.mjs"],
     expectStatus: "ok",
     name: "runtime-readonly-decision-card"
@@ -3649,6 +3654,7 @@ const coreReviewGateNames = new Set([
   "tw-equity-write-runner-implementation-gate",
   "tw-equity-staging-write-runner-safety",
   "tw-equity-one-attempt-staging-write-preflight-gate",
+  "tw-equity-write-capable-runner-implementation-readiness-gate",
   "typescript"
 ]);
 

@@ -190,6 +190,10 @@ const checks = [
     name: "tw-equity-one-attempt-staging-write-preflight-gate"
   },
   {
+    command: [node, "scripts/check-tw-equity-write-capable-runner-implementation-readiness-gate.mjs"],
+    name: "tw-equity-write-capable-runner-implementation-readiness-gate"
+  },
+  {
     command: [node, "scripts/check-ceo-progress-brief.mjs"],
     name: "ceo-progress-brief"
   },
