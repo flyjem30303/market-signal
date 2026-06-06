@@ -328,6 +328,10 @@ const checks = [
     name: "tw-equity-post-migration-readonly-verification"
   },
   {
+    command: [node, "scripts/check-tw-equity-post-migration-openapi-exposure-confirmation.mjs"],
+    name: "tw-equity-post-migration-openapi-exposure-confirmation"
+  },
+  {
     command: [node, "scripts/check-a1-tw-equity-candidate-artifact-intake.mjs"],
     name: "a1-tw-equity-candidate-artifact-intake"
   },

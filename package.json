@@ -221,6 +221,8 @@
     "check:tw-equity-staging-migration-apply-outcome": "node scripts/check-tw-equity-staging-migration-apply-outcome.mjs",
     "report:tw-equity-post-migration-readonly-verification": "node scripts/report-tw-equity-post-migration-readonly-verification-once.mjs",
     "check:tw-equity-post-migration-readonly-verification": "node scripts/check-tw-equity-post-migration-readonly-verification.mjs",
+    "report:tw-equity-post-migration-openapi-exposure-confirmation": "node scripts/report-tw-equity-post-migration-openapi-exposure-confirmation-once.mjs",
+    "check:tw-equity-post-migration-openapi-exposure-confirmation": "node scripts/check-tw-equity-post-migration-openapi-exposure-confirmation.mjs",
     "report:a1-tw-equity-candidate-artifact-intake": "node scripts/report-a1-tw-equity-candidate-artifact-intake.mjs",
     "check:a1-tw-equity-candidate-artifact-intake": "node scripts/check-a1-tw-equity-candidate-artifact-intake.mjs",
     "check:a1-tw-equity-candidate-artifact-delivery-spec": "node scripts/check-a1-tw-equity-candidate-artifact-delivery-spec.mjs",
