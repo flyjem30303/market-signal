@@ -232,6 +232,10 @@ const checks = [
     name: "a1-tw-equity-candidate-artifact-delivery-spec"
   },
   {
+    command: [node, "scripts/check-a1-tw-equity-candidate-artifact-self-check.mjs"],
+    name: "a1-tw-equity-candidate-artifact-self-check"
+  },
+  {
     command: [node, "scripts/check-ceo-progress-brief.mjs"],
     name: "ceo-progress-brief"
   },

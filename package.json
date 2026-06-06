@@ -787,7 +787,9 @@
     "run:row-coverage-readonly": "node scripts/run-row-coverage-readonly-once.mjs",
     "seed:data-runs": "node scripts/seed-data-runs-sql.mjs",
     "seed:markets": "node scripts/seed-markets-sql.mjs",
-    "seed:stocks": "node scripts/seed-stocks-sql.mjs"
+    "seed:stocks": "node scripts/seed-stocks-sql.mjs",
+    "report:a1-tw-equity-candidate-artifact-self-check": "node scripts/report-a1-tw-equity-candidate-artifact-self-check.mjs",
+    "check:a1-tw-equity-candidate-artifact-self-check": "node scripts/check-a1-tw-equity-candidate-artifact-self-check.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.4",
