@@ -791,7 +791,9 @@
     "report:a1-tw-equity-candidate-artifact-self-check": "node scripts/report-a1-tw-equity-candidate-artifact-self-check.mjs",
     "check:a1-tw-equity-candidate-artifact-self-check": "node scripts/check-a1-tw-equity-candidate-artifact-self-check.mjs",
     "report:pm-tw-equity-candidate-intake-review": "node scripts/report-pm-tw-equity-candidate-intake-review.mjs",
-    "check:pm-tw-equity-candidate-intake-review": "node scripts/check-pm-tw-equity-candidate-intake-review.mjs"
+    "check:pm-tw-equity-candidate-intake-review": "node scripts/check-pm-tw-equity-candidate-intake-review.mjs",
+    "report:a1-tw-equity-candidate-artifact-production-checklist": "node scripts/report-a1-tw-equity-candidate-artifact-production-checklist.mjs",
+    "check:a1-tw-equity-candidate-artifact-production-checklist": "node scripts/check-a1-tw-equity-candidate-artifact-production-checklist.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.4",

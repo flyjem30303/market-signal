@@ -240,6 +240,10 @@ const checks = [
     name: "pm-tw-equity-candidate-intake-review"
   },
   {
+    command: [node, "scripts/check-a1-tw-equity-candidate-artifact-production-checklist.mjs"],
+    name: "a1-tw-equity-candidate-artifact-production-checklist"
+  },
+  {
     command: [node, "scripts/check-ceo-progress-brief.mjs"],
     name: "ceo-progress-brief"
   },
