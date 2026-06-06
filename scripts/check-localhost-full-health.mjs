@@ -102,6 +102,10 @@ const checks = [
     name: "tw-equity-local-report-only-runner"
   },
   {
+    command: [node, "scripts/check-tw-equity-local-report-only-runner-post-run-review.mjs"],
+    name: "tw-equity-local-report-only-runner-post-run-review"
+  },
+  {
     command: [node, "scripts/check-ceo-progress-brief.mjs"],
     name: "ceo-progress-brief"
   },
