@@ -348,6 +348,10 @@ const checks = [
     name: "tw-equity-post-write-promotion-readiness-gate"
   },
   {
+    command: [node, "scripts/check-tw-equity-staging-to-daily-prices-merge-design-packet.mjs"],
+    name: "tw-equity-staging-to-daily-prices-merge-design-packet"
+  },
+  {
     command: [node, "scripts/check-a1-tw-equity-candidate-artifact-intake.mjs"],
     name: "a1-tw-equity-candidate-artifact-intake"
   },
