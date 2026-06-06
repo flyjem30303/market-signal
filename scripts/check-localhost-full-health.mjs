@@ -98,6 +98,10 @@ const checks = [
     name: "tw-equity-local-report-only-runner-implementation-gate"
   },
   {
+    command: [node, "scripts/check-tw-equity-local-report-only-runner.mjs"],
+    name: "tw-equity-local-report-only-runner"
+  },
+  {
     command: [node, "scripts/check-ceo-progress-brief.mjs"],
     name: "ceo-progress-brief"
   },

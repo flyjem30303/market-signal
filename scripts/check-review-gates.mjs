@@ -3053,6 +3053,11 @@ const checks = [
     name: "tw-equity-local-report-only-runner-implementation-gate"
   },
   {
+    command: [node, "scripts/check-tw-equity-local-report-only-runner.mjs"],
+    expectStatus: "ok",
+    name: "tw-equity-local-report-only-runner"
+  },
+  {
     command: [node, "scripts/check-runtime-readonly-decision-card.mjs"],
     expectStatus: "ok",
     name: "runtime-readonly-decision-card"
@@ -3511,6 +3516,7 @@ const coreReviewGateNames = new Set([
   "tw-equity-source-rights-packet",
   "tw-equity-local-report-only-runner-design",
   "tw-equity-local-report-only-runner-implementation-gate",
+  "tw-equity-local-report-only-runner",
   "typescript"
 ]);
 
