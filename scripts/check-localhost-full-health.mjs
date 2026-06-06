@@ -224,6 +224,10 @@ const checks = [
     name: "tw-equity-staging-write-execution-readiness"
   },
   {
+    command: [node, "scripts/check-tw-equity-bounded-staging-write-attempt-decision.mjs"],
+    name: "tw-equity-bounded-staging-write-attempt-decision"
+  },
+  {
     command: [node, "scripts/check-a1-tw-equity-candidate-artifact-intake.mjs"],
     name: "a1-tw-equity-candidate-artifact-intake"
   },
