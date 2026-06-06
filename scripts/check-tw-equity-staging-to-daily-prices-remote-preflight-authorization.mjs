@@ -32,7 +32,7 @@ for (const phrase of [
   "does not execute the preflight",
   "Authorization id: `TW-EQUITY-DAILY-PRICES-PREFLIGHT-2026-06-07-AUTH-001`",
   "Attempt limit: `1`",
-  "Required command status: `not_implemented_in_this_slice`",
+  "Required command status: `implemented_fail_closed_not_executed`",
   "Execution status: `not_executed`",
   "scripts/run-tw-equity-staging-to-daily-prices-remote-preflight-once.mjs",
   "`staging_run_count`",
@@ -93,9 +93,9 @@ for (const phrase of [
   "tw_equity_staging_to_daily_prices_remote_preflight_authorization_ready_not_executed",
   "TW-EQUITY-DAILY-PRICES-PREFLIGHT-2026-06-07-AUTH-001",
   "attemptLimit: 1",
-  "requiredCommandStatus: \"not_implemented_in_this_slice\"",
-  "runnerImplementedNow: false",
-  "separateRunnerImplementationGateRequired: true",
+  "requiredCommandStatus: \"implemented_fail_closed_not_executed\"",
+  "runnerImplementedNow: true",
+  "separateRunnerImplementationGateRequired: false",
   "targetProductionRelation: \"daily_prices\"",
   "targetStagingScope: \"AUTH-003\"",
   "postRunReviewTemplate: \"tw_equity_staging_to_daily_prices_remote_preflight_post_run_review_template_ready_not_executed\"",
@@ -182,7 +182,7 @@ if (reportRun.status !== 0) {
   }
   if (report.authorizationCandidate?.attemptLimit !== 1) problems.push("attempt limit must be 1");
   if (report.authorizationCandidate?.executionStatus !== "not_executed") problems.push("execution status must be not_executed");
-  if (report.futureCommandContract?.runnerImplementedNow !== false) problems.push("runnerImplementedNow must be false");
+  if (report.futureCommandContract?.runnerImplementedNow !== true) problems.push("runnerImplementedNow must be true");
   if (report.safety?.publicDataSource !== "mock" || report.safety?.scoreSource !== "mock") {
     problems.push("remote preflight authorization must keep mock sources");
   }

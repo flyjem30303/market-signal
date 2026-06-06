@@ -27,15 +27,15 @@ CEO may authorize exactly one future bounded Supabase readonly preflight for the
 - Target staging run: `AUTH-003`.
 - Target production relation: `daily_prices`.
 - Output type: `sanitized_aggregate_counts_only`.
-- Required command status: `not_implemented_in_this_slice`.
+- Required command status: `implemented_fail_closed_not_executed`.
 - Execution status: `not_executed`.
 
 ## Future Exact Command Contract
 
-A later runner may execute only after a separate implementation checker proves the command exists and fail-closed behavior is active. The future command shape is:
+A later runner may execute only after this implementation checker proves the command exists and fail-closed behavior is active. The future command shape is:
 
 ```powershell
-node --env-file=.env.local scripts/run-tw-equity-staging-to-daily-prices-remote-preflight-once.mjs --authorization-id TW-EQUITY-DAILY-PRICES-PREFLIGHT-2026-06-07-AUTH-001 --staging-scope AUTH-003 --confirm-bounded-readonly-preflight
+node --env-file=.env.local scripts/run-tw-equity-staging-to-daily-prices-remote-preflight-once.mjs --authorization-id TW-EQUITY-DAILY-PRICES-PREFLIGHT-2026-06-07-AUTH-001 --staging-scope AUTH-003 --candidate-input data/candidates/tw-equity-staging-candidate.json --post-run-review docs/reviews/TW_EQUITY_STAGING_TO_DAILY_PRICES_REMOTE_PREFLIGHT_POST_RUN_REVIEW_2026-06-07.md --confirm-bounded-readonly-preflight --execute
 ```
 
 If the runner is missing, credentials are missing, expected gates fail, or a second attempt is requested in the same slice, execution must remain blocked.

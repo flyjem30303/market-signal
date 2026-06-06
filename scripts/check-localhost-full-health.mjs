@@ -360,6 +360,10 @@ const checks = [
     name: "tw-equity-staging-to-daily-prices-remote-preflight-authorization"
   },
   {
+    command: [node, "scripts/check-tw-equity-staging-to-daily-prices-remote-preflight-runner-implementation.mjs"],
+    name: "tw-equity-staging-to-daily-prices-remote-preflight-runner-implementation"
+  },
+  {
     command: [node, "scripts/check-a1-tw-equity-candidate-artifact-intake.mjs"],
     name: "a1-tw-equity-candidate-artifact-intake"
   },

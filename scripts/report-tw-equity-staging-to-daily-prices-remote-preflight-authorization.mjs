@@ -4,15 +4,15 @@ const report = {
     attemptLimit: 1,
     attemptType: "bounded_supabase_readonly_preflight",
     executionStatus: "not_executed",
-    requiredCommandStatus: "not_implemented_in_this_slice",
+    requiredCommandStatus: "implemented_fail_closed_not_executed",
     targetProductionRelation: "daily_prices",
     targetStagingScope: "AUTH-003"
   },
   futureCommandContract: {
     command:
-      "node --env-file=.env.local scripts/run-tw-equity-staging-to-daily-prices-remote-preflight-once.mjs --authorization-id TW-EQUITY-DAILY-PRICES-PREFLIGHT-2026-06-07-AUTH-001 --staging-scope AUTH-003 --confirm-bounded-readonly-preflight",
-    runnerImplementedNow: false,
-    separateRunnerImplementationGateRequired: true
+      "node --env-file=.env.local scripts/run-tw-equity-staging-to-daily-prices-remote-preflight-once.mjs --authorization-id TW-EQUITY-DAILY-PRICES-PREFLIGHT-2026-06-07-AUTH-001 --staging-scope AUTH-003 --candidate-input data/candidates/tw-equity-staging-candidate.json --post-run-review docs/reviews/TW_EQUITY_STAGING_TO_DAILY_PRICES_REMOTE_PREFLIGHT_POST_RUN_REVIEW_2026-06-07.md --confirm-bounded-readonly-preflight --execute",
+    runnerImplementedNow: true,
+    separateRunnerImplementationGateRequired: false
   },
   mode: "tw_equity_staging_to_daily_prices_remote_preflight_authorization",
   prerequisites: {
