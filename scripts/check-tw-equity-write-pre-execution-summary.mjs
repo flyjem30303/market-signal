@@ -50,15 +50,12 @@ for (const [pathName, text, phrase] of [
   [runnerPath, runner, "buildWritePreExecutionSummary"],
   [runnerPath, runner, "writePreExecutionSummary"],
   [runnerPath, runner, "writePreExecutionSummaryReady"],
-  [runnerPath, runner, "blockedUntilSeparateWriteImplementation: true"],
   [runnerPath, runner, "postRunReviewRequired: true"],
   [runnerPath, runner, "noRetry: true"],
   [runnerPath, runner, "destructiveRollbackAllowed: false"],
   [runnerPath, runner, "publicPromotionAllowed: false"],
   [runnerPath, runner, "rowCoveragePointsAllowed: false"],
-  [runnerPath, runner, "scoreSourcePromotionAllowed: false"],
-  [runnerPath, runner, "writeImplementationReady: false"],
-  [runnerPath, runner, "runner_skeleton_has_no_supabase_write_implementation"]
+  [runnerPath, runner, "scoreSourcePromotionAllowed: false"]
 ]) {
   if (!text.includes(phrase)) problems.push(`${pathName} missing: ${phrase}`);
 }
@@ -98,30 +95,17 @@ if (!reviewGate.includes('"tw-equity-write-pre-execution-summary"')) {
   problems.push("review gate core set missing tw-equity-write-pre-execution-summary");
 }
 
-for (const pattern of [
-  /@supabase\/supabase-js/u,
-  /createClient/u,
-  /\.from\(/u,
-  /\.insert\(/u,
-  /\.update\(/u,
-  /\.delete\(/u,
-  /\.upsert\(/u,
-  /\bfetch\s*\(/u,
-  /\bwriteFile/u,
-  /\bappendFile/u,
-  /sb_secret_/u,
-  /sb_publishable_/u
-]) {
-  if (pattern.test(runner)) problems.push(`${runnerPath} contains forbidden write-capable token: ${pattern}`);
-}
+if (/\bfetch\s*\(/u.test(runner)) problems.push(`${runnerPath} must not fetch market data`);
+if (/\bwriteFile/u.test(runner) || /\bappendFile/u.test(runner)) problems.push(`${runnerPath} must not write local artifacts`);
+if (/sb_secret_/u.test(runner) || /sb_publishable_/u.test(runner)) problems.push(`${runnerPath} must not contain literal Supabase key material`);
 
 const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "tw-equity-preexec-"));
 const candidatePath = path.join(tempDir, "candidate.json");
 fs.writeFileSync(candidatePath, JSON.stringify(makeSyntheticCandidate(), null, 2), "utf8");
 
 const validAttempt = runRunner(candidatePath);
-if (validAttempt.status === 0) {
-  problems.push(`${runnerPath} must remain blocked even when pre-execution summary is ready`);
+if (validAttempt.status !== 0) {
+  problems.push(`${runnerPath} valid execution-mode preflight must pass into implementation path`);
 } else {
   const parsed = JSON.parse(validAttempt.stdout);
   const summary = parsed.writePreExecutionSummary;
@@ -135,20 +119,19 @@ if (validAttempt.status === 0) {
   }
   if (summary?.postRunReviewRequired !== true) problems.push("summary postRunReviewRequired must be true");
   if (summary?.noRetry !== true) problems.push("summary noRetry must be true");
-  if (summary?.blockedUntilSeparateWriteImplementation !== true) problems.push("summary must remain blocked until separate implementation");
-  if (summary?.connectionPlanned !== false) problems.push("summary connectionPlanned must be false");
+  if (summary?.blockedUntilSeparateWriteImplementation !== false) problems.push("summary must no longer be blocked until separate implementation");
+  if (summary?.connectionPlanned !== true) problems.push("summary connectionPlanned must be true when all gates pass");
   if (summary?.sqlPlanned !== false) problems.push("summary sqlPlanned must be false");
-  if (summary?.mutationsPlanned !== false) problems.push("summary mutationsPlanned must be false");
+  if (summary?.mutationsPlanned !== true) problems.push("summary mutationsPlanned must be true when all gates pass");
   if (summary?.destructiveRollbackAllowed !== false) problems.push("summary destructiveRollbackAllowed must be false");
   if (summary?.publicPromotionAllowed !== false) problems.push("summary publicPromotionAllowed must be false");
   if (summary?.rowCoveragePointsAllowed !== false) problems.push("summary rowCoveragePointsAllowed must be false");
   if (summary?.scoreSourcePromotionAllowed !== false) problems.push("summary scoreSourcePromotionAllowed must be false");
-  if (parsed.connectionAttempted !== false) problems.push("runner must not connect");
-  if (parsed.mutations !== false) problems.push("runner must not mutate");
+  if (parsed.connectionAttempted !== false) problems.push("mocked valid execution path must not attempt remote Supabase connection");
+  if (parsed.mockSupabaseUsed !== true) problems.push("valid execution path must use mock Supabase in checker");
+  if (parsed.writeAttempted !== true) problems.push("valid execution path must reach write attempt when mocked");
+  if (parsed.mutations !== true) problems.push("valid execution path must report staging mutation success when mocked");
   if (parsed.sqlExecuted !== false) problems.push("runner must not execute SQL");
-  if (!parsed.problems?.includes("runner_skeleton_has_no_supabase_write_implementation")) {
-    problems.push("valid path output missing runner skeleton implementation blocker");
-  }
 }
 
 const missingCandidateAttempt = runRunner(null);
@@ -197,6 +180,9 @@ function runRunner(candidatePath) {
     encoding: "utf8",
     env: {
       ...process.env,
+      NEXT_PUBLIC_SUPABASE_URL: "https://example.supabase.co",
+      SUPABASE_SERVICE_ROLE_KEY: "mock-service-role-key",
+      TW_EQUITY_STAGING_WRITE_MOCK_SUPABASE: "enabled",
       TW_EQUITY_STAGING_WRITE_CONFIRMATION: "CEO_APPROVED_TW_EQUITY_BOUNDED_STAGING_WRITE_ONCE"
     },
     shell: false

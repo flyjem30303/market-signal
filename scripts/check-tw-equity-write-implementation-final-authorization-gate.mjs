@@ -18,6 +18,7 @@ const preExecution = read(preExecutionPath);
 const validator = read(validatorPath);
 const boundary = read(boundaryPath);
 const runner = read(runnerPath);
+const writeImplementationCreated = runner.includes("tw_equity_staging_write_fail_closed_write_capable_runner");
 const status = read(statusPath);
 const pkg = JSON.parse(read(packagePath));
 const reviewGate = read(reviewGatePath);
@@ -62,8 +63,8 @@ for (const [pathName, text, phrase] of [
   [validatorPath, validator, "`candidateInputAccepted=true`"],
   [boundaryPath, boundary, "tw_equity_write_implementation_design_to_code_boundary_ready_not_mutating"],
   [boundaryPath, boundary, "must still refuse Supabase mutation"],
-  [runnerPath, runner, "runner_skeleton_has_no_supabase_write_implementation"],
-  [runnerPath, runner, "writeImplementationReady: false"],
+  [runnerPath, runner, writeImplementationCreated ? "executeBoundedStagingWrite" : "runner_skeleton_has_no_supabase_write_implementation"],
+  [runnerPath, runner, writeImplementationCreated ? "writeImplementationReady: true" : "writeImplementationReady: false"],
   [runnerPath, runner, "writePreExecutionSummaryReady"],
   [runnerPath, runner, "connectionAttempted: false"],
   [runnerPath, runner, "mutations: false"],
@@ -107,20 +108,33 @@ if (!reviewGate.includes('"tw-equity-write-implementation-final-authorization-ga
   problems.push("review gate core set missing tw-equity-write-implementation-final-authorization-gate");
 }
 
-for (const pattern of [
-  /@supabase\/supabase-js/u,
-  /createClient/u,
-  /\.from\(/u,
-  /\.insert\(/u,
-  /\.update\(/u,
-  /\.delete\(/u,
-  /\.upsert\(/u,
-  /\bfetch\s*\(/u,
-  /\bwriteFile/u,
-  /\bappendFile/u,
-  /sb_secret_/u,
-  /sb_publishable_/u
-]) {
+const forbiddenPatterns = writeImplementationCreated
+  ? [
+      /\.update\(/u,
+      /\.delete\(/u,
+      /\.upsert\(/u,
+      /\bfetch\s*\(/u,
+      /\bwriteFile/u,
+      /\bappendFile/u,
+      /sb_secret_/u,
+      /sb_publishable_/u
+    ]
+  : [
+      /@supabase\/supabase-js/u,
+      /createClient/u,
+      /\.from\(/u,
+      /\.insert\(/u,
+      /\.update\(/u,
+      /\.delete\(/u,
+      /\.upsert\(/u,
+      /\bfetch\s*\(/u,
+      /\bwriteFile/u,
+      /\bappendFile/u,
+      /sb_secret_/u,
+      /sb_publishable_/u
+    ];
+
+for (const pattern of forbiddenPatterns) {
   if (pattern.test(runner)) problems.push(`${runnerPath} contains forbidden write-capable token before final approval: ${pattern}`);
 }
 

@@ -17,6 +17,7 @@ const readableStatusPath = "scripts/check-readable-current-status.mjs";
 const doc = read(docPath);
 const boundary = read(boundaryPath);
 const runner = read(runnerPath);
+const writeImplementationCreated = runner.includes("tw_equity_staging_write_fail_closed_write_capable_runner");
 const status = read(statusPath);
 const pkg = JSON.parse(read(packagePath));
 const reviewGate = read(reviewGatePath);
@@ -52,7 +53,7 @@ for (const [pathName, text, phrase] of [
   [runnerPath, runner, "candidate_prices_empty"],
   [runnerPath, runner, "rollbackDryRunCandidatePriceRows"],
   [runnerPath, runner, "rollbackDryRunCandidateRunRows"],
-  [runnerPath, runner, "writeImplementationReady: false"],
+  [runnerPath, runner, writeImplementationCreated ? "writeImplementationReady: true" : "writeImplementationReady: false"],
   [runnerPath, runner, "sourcePayloadsPrinted: false"],
   [runnerPath, runner, "rowPayloadsPrinted: false"],
   [runnerPath, runner, "secretsPrinted: false"]
@@ -95,20 +96,33 @@ if (!reviewGate.includes('"tw-equity-sanitized-candidate-input-validator"')) {
   problems.push("review gate core set missing tw-equity-sanitized-candidate-input-validator");
 }
 
-for (const pattern of [
-  /@supabase\/supabase-js/u,
-  /createClient/u,
-  /\.from\(/u,
-  /\.insert\(/u,
-  /\.update\(/u,
-  /\.delete\(/u,
-  /\.upsert\(/u,
-  /\bfetch\s*\(/u,
-  /\bwriteFile/u,
-  /\bappendFile/u,
-  /sb_secret_/u,
-  /sb_publishable_/u
-]) {
+const forbiddenPatterns = writeImplementationCreated
+  ? [
+      /\.update\(/u,
+      /\.delete\(/u,
+      /\.upsert\(/u,
+      /\bfetch\s*\(/u,
+      /\bwriteFile/u,
+      /\bappendFile/u,
+      /sb_secret_/u,
+      /sb_publishable_/u
+    ]
+  : [
+      /@supabase\/supabase-js/u,
+      /createClient/u,
+      /\.from\(/u,
+      /\.insert\(/u,
+      /\.update\(/u,
+      /\.delete\(/u,
+      /\.upsert\(/u,
+      /\bfetch\s*\(/u,
+      /\bwriteFile/u,
+      /\bappendFile/u,
+      /sb_secret_/u,
+      /sb_publishable_/u
+    ];
+
+for (const pattern of forbiddenPatterns) {
   if (pattern.test(runner)) problems.push(`${runnerPath} contains forbidden write-capable token: ${pattern}`);
 }
 
@@ -120,7 +134,9 @@ fs.writeFileSync(validCandidatePath, JSON.stringify(makeSyntheticCandidate(), nu
 fs.writeFileSync(invalidCandidatePath, JSON.stringify({ rawSourcePayload: "blocked" }, null, 2), "utf8");
 
 const validAttempt = runRunner(validCandidatePath);
-if (validAttempt.status === 0) {
+if (validAttempt.status !== 0 && writeImplementationCreated) {
+  problems.push(`${runnerPath} with valid candidate must pass mocked write implementation path`);
+} else if (validAttempt.status === 0 && !writeImplementationCreated) {
   problems.push(`${runnerPath} with valid candidate must still remain blocked because write implementation is absent`);
 } else {
   const parsed = JSON.parse(validAttempt.stdout);
@@ -130,14 +146,17 @@ if (validAttempt.status === 0) {
   if (parsed.rollbackDryRunCountReady !== true) problems.push("valid candidate with rollback dry-run must set rollbackDryRunCountReady true");
   if (parsed.rollbackDryRunCandidateRunRows !== 1) problems.push("valid candidate must expose rollback run count");
   if (parsed.rollbackDryRunCandidatePriceRows !== 3) problems.push("valid candidate must expose rollback price count");
-  if (parsed.connectionAttempted !== false) problems.push("valid candidate must not attempt connection");
-  if (parsed.mutations !== false) problems.push("valid candidate must not mutate");
+  if (parsed.connectionAttempted !== false) problems.push("valid candidate checker path must not attempt remote connection");
+  if (parsed.mutations !== writeImplementationCreated) {
+    problems.push(`valid candidate mutations expected ${writeImplementationCreated}`);
+  }
   if (parsed.sqlExecuted !== false) problems.push("valid candidate must not execute SQL");
   if (parsed.sourcePayloadsPrinted !== false) problems.push("valid candidate must not print source payloads");
   if (parsed.rowPayloadsPrinted !== false) problems.push("valid candidate must not print row payloads");
-  if (!parsed.problems?.includes("runner_skeleton_has_no_supabase_write_implementation")) {
+  if (!writeImplementationCreated && !parsed.problems?.includes("runner_skeleton_has_no_supabase_write_implementation")) {
     problems.push("valid candidate output missing runner skeleton implementation blocker");
   }
+  if (writeImplementationCreated && parsed.mockSupabaseUsed !== true) problems.push("valid candidate checker path must use mock Supabase");
 }
 
 const invalidAttempt = runRunner(invalidCandidatePath);
@@ -191,6 +210,9 @@ function runRunner(candidatePath) {
     encoding: "utf8",
     env: {
       ...process.env,
+      NEXT_PUBLIC_SUPABASE_URL: "https://example.supabase.co",
+      SUPABASE_SERVICE_ROLE_KEY: "mock-service-role-key",
+      TW_EQUITY_STAGING_WRITE_MOCK_SUPABASE: "enabled",
       TW_EQUITY_STAGING_WRITE_CONFIRMATION: "CEO_APPROVED_TW_EQUITY_BOUNDED_STAGING_WRITE_ONCE"
     },
     shell: false

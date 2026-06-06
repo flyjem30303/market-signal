@@ -16,6 +16,12 @@ const topSection = status.split(/\n## (?!Readable Current Status)/u)[0] ?? "";
 const requiredTopPhrases = [
   "Readable Current Status - 2026-06-04",
   "PM progress score: 100%",
+  "Latest TW equity staging write implementation slice",
+  "docs/TW_EQUITY_STAGING_WRITE_IMPLEMENTATION.md",
+  "tw_equity_staging_write_implementation_ready_not_executed",
+  "runner is now write-capable only behind exact command, confirmation, candidate input, credentials, and rollback dry-run gates",
+  "local checker uses `TW_EQUITY_STAGING_WRITE_MOCK_SUPABASE=enabled` to cover the write path without remote connection",
+  "actual bounded write execution is still not performed",
   "Latest investment-credibility slice",
   "Latest investment evidence upgrade",
   "Investment credibility moved from 46% to 58%",

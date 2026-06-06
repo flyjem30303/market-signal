@@ -20,6 +20,7 @@ const preflight = read(preflightPath);
 const reconciliation = read(reconciliationPath);
 const migration = read(migrationPath);
 const runner = read(runnerPath);
+const writeImplementationCreated = runner.includes("tw_equity_staging_write_fail_closed_write_capable_runner");
 const status = read(statusPath);
 const pkg = JSON.parse(read(packagePath));
 const reviewGate = read(reviewGatePath);
@@ -66,7 +67,7 @@ for (const [path, text, phrase] of [
   [reconciliationPath, reconciliation, "tw_equity_target_relation_reconciliation_accepted_not_executed"],
   [migrationPath, migration, "create table if not exists public.staging_twse_stock_day_runs"],
   [migrationPath, migration, "create table if not exists public.staging_twse_stock_day_prices"],
-  [runnerPath, runner, "runner_skeleton_has_no_supabase_write_implementation"]
+  [runnerPath, runner, writeImplementationCreated ? "executeBoundedStagingWrite" : "runner_skeleton_has_no_supabase_write_implementation"]
 ]) {
   if (!text.includes(phrase)) problems.push(`${path} missing: ${phrase}`);
 }

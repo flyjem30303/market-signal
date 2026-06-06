@@ -17,6 +17,7 @@ const doc = read(docPath);
 const readiness = read(readinessPath);
 const migration = read(migrationPath);
 const runner = read(runnerPath);
+const writeImplementationCreated = runner.includes("tw_equity_staging_write_fail_closed_write_capable_runner");
 const status = read(statusPath);
 const pkg = JSON.parse(read(packagePath));
 const reviewGate = read(reviewGatePath);
@@ -57,7 +58,7 @@ for (const [path, text, phrase] of [
   [runnerPath, runner, "candidateInputAccepted"],
   [runnerPath, runner, "rollbackDryRunCountReady"],
   [runnerPath, runner, "missing_candidate_input_artifact_contract"],
-  [runnerPath, runner, "writeImplementationReady: false"]
+  [runnerPath, runner, writeImplementationCreated ? "writeImplementationReady: true" : "writeImplementationReady: false"]
 ]) {
   if (!text.includes(phrase)) problems.push(`${path} missing: ${phrase}`);
 }
@@ -97,20 +98,33 @@ if (!reviewGate.includes('"tw-equity-write-implementation-design-to-code-boundar
   problems.push("review gate core set missing tw-equity-write-implementation-design-to-code-boundary");
 }
 
-for (const pattern of [
-  /@supabase\/supabase-js/u,
-  /createClient/u,
-  /\.from\(/u,
-  /\.insert\(/u,
-  /\.update\(/u,
-  /\.delete\(/u,
-  /\.upsert\(/u,
-  /\bfetch\s*\(/u,
-  /\bwriteFile/u,
-  /\bappendFile/u,
-  /sb_secret_/u,
-  /sb_publishable_/u
-]) {
+const forbiddenPatterns = writeImplementationCreated
+  ? [
+      /\.update\(/u,
+      /\.delete\(/u,
+      /\.upsert\(/u,
+      /\bfetch\s*\(/u,
+      /\bwriteFile/u,
+      /\bappendFile/u,
+      /sb_secret_/u,
+      /sb_publishable_/u
+    ]
+  : [
+      /@supabase\/supabase-js/u,
+      /createClient/u,
+      /\.from\(/u,
+      /\.insert\(/u,
+      /\.update\(/u,
+      /\.delete\(/u,
+      /\.upsert\(/u,
+      /\bfetch\s*\(/u,
+      /\bwriteFile/u,
+      /\bappendFile/u,
+      /sb_secret_/u,
+      /sb_publishable_/u
+    ];
+
+for (const pattern of forbiddenPatterns) {
   if (pattern.test(runner)) problems.push(`${runnerPath} contains forbidden write-capable token: ${pattern}`);
 }
 
@@ -143,7 +157,9 @@ if (executeAttempt.status === 0) {
   const parsed = JSON.parse(executeAttempt.stdout);
   if (parsed.candidateInputAccepted !== false) problems.push("--execute must keep candidateInputAccepted false");
   if (parsed.rollbackDryRunCountReady !== false) problems.push("--execute must keep rollbackDryRunCountReady false");
-  if (parsed.writeImplementationReady !== false) problems.push("--execute must keep writeImplementationReady false");
+  if (parsed.writeImplementationReady !== writeImplementationCreated) {
+    problems.push(`--execute writeImplementationReady expected ${writeImplementationCreated}`);
+  }
   if (parsed.connectionAttempted !== false) problems.push("--execute must keep connectionAttempted false");
   if (parsed.mutations !== false) problems.push("--execute must keep mutations false");
   if (!parsed.problems?.includes("missing_candidate_input_artifact_contract")) {

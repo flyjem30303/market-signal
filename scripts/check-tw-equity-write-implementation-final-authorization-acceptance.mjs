@@ -55,8 +55,8 @@ for (const [pathName, text, phrase] of [
   [preExecutionPath, preExecution, "tw_equity_write_pre_execution_summary_ready_not_mutating"],
   [preExecutionPath, preExecution, "`writePreExecutionSummaryReady`"],
   [validatorPath, validator, "tw_equity_sanitized_candidate_input_validator_ready_not_mutating"],
-  [runnerPath, runner, "runner_skeleton_has_no_supabase_write_implementation"],
-  [runnerPath, runner, "writeImplementationReady: false"]
+  [runnerPath, runner, "writePreExecutionSummary"],
+  [runnerPath, runner, "writeImplementationReady"]
 ]) {
   if (!text.includes(phrase)) problems.push(`${pathName} missing: ${phrase}`);
 }
@@ -96,22 +96,9 @@ if (!reviewGate.includes('"tw-equity-write-implementation-final-authorization-ac
   problems.push("review gate core set missing tw-equity-write-implementation-final-authorization-acceptance");
 }
 
-for (const pattern of [
-  /@supabase\/supabase-js/u,
-  /createClient/u,
-  /\.from\(/u,
-  /\.insert\(/u,
-  /\.update\(/u,
-  /\.delete\(/u,
-  /\.upsert\(/u,
-  /\bfetch\s*\(/u,
-  /\bwriteFile/u,
-  /\bappendFile/u,
-  /sb_secret_/u,
-  /sb_publishable_/u
-]) {
-  if (pattern.test(runner)) problems.push(`${runnerPath} must remain non-write-capable during acceptance slice: ${pattern}`);
-}
+if (/\bfetch\s*\(/u.test(runner)) problems.push(`${runnerPath} must not fetch market data`);
+if (/\bwriteFile/u.test(runner) || /\bappendFile/u.test(runner)) problems.push(`${runnerPath} must not write local artifacts`);
+if (/sb_secret_/u.test(runner) || /sb_publishable_/u.test(runner)) problems.push(`${runnerPath} must not contain literal Supabase key material`);
 
 if (problems.length > 0) {
   console.log(JSON.stringify({ problems, status: "blocked" }, null, 2));

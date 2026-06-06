@@ -7,6 +7,7 @@ Use the MVP Launch PRD as the product baseline: `docs/MVP_LAUNCH_PRD.md`.
 ## Readable Current Status - 2026-06-04
 
 - PM progress score: 100%.
+- Latest TW equity staging write implementation slice: `docs/TW_EQUITY_STAGING_WRITE_IMPLEMENTATION.md` and `scripts/check-tw-equity-staging-write-implementation.mjs` now implement the narrow server-side staging write path in `scripts/run-tw-equity-staging-write-once.mjs`. Status is `tw_equity_staging_write_implementation_ready_not_executed`; runner is now write-capable only behind exact command, confirmation, candidate input, credentials, and rollback dry-run gates. local checker uses `TW_EQUITY_STAGING_WRITE_MOCK_SUPABASE=enabled` to cover the write path without remote connection. actual bounded write execution is still not performed. No real Supabase connection, SQL, real Supabase write, staging rows, production `daily_prices` mutation, market-data fetch, public promotion, row coverage points, or real score source occurred.
 - Current mainline: CEO / PM / Runtime Engineering.
 - Current execution mode: larger local-only runtime product slices, with A1 and A2 as support lanes and PM as integration owner.
 - Runtime state: public runtime remains mock-only.

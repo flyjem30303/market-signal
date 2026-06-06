@@ -214,6 +214,10 @@ const checks = [
     name: "tw-equity-write-implementation-final-authorization-acceptance"
   },
   {
+    command: [node, "scripts/check-tw-equity-staging-write-implementation.mjs"],
+    name: "tw-equity-staging-write-implementation"
+  },
+  {
     command: [node, "scripts/check-ceo-progress-brief.mjs"],
     name: "ceo-progress-brief"
   },

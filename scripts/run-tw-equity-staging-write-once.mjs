@@ -31,6 +31,7 @@ const candidateInputArtifact = args.candidateInput ?? "missing";
 const candidateInputValidation =
   candidateInputArtifact === "missing" ? skippedCandidateInputValidation() : validateCandidateInputArtifact(candidateInputArtifact);
 const candidateInputAccepted = candidateInputValidation.accepted;
+const candidateInput = candidateInputValidation.artifact;
 const confirmationPresent = process.env.TW_EQUITY_STAGING_WRITE_CONFIRMATION === EXPECTED.confirmation;
 const credentialPresence = {
   nextPublicSupabaseUrl: envPresent("NEXT_PUBLIC_SUPABASE_URL"),
@@ -64,61 +65,26 @@ if (executionRequested) {
 
 if (executionRequested) {
   problems.push(...localPreflightProblems);
-  problems.push("runner_skeleton_has_no_supabase_write_implementation");
 }
 
-const status = problems.length === 0 ? "ready_for_manual_execution_gate_not_executed" : "blocked";
+const executionResult =
+  executionRequested && problems.length === 0
+    ? await executeBoundedStagingWrite({
+        candidateInput,
+        credentialPresence,
+        rollbackDryRunCountReady
+      })
+    : skippedExecution();
+problems.push(...executionResult.problems);
 
-console.log(
-  JSON.stringify(
-    {
-      authorizationId: args.authorizationId ?? "missing",
-      canAwardRowCoveragePoints: false,
-      canClaimRealDataLive: false,
-      canPromotePublicSource: false,
-      canSetScoreSourceReal: false,
-      candidateInputAccepted,
-      candidateInputArtifact,
-      candidateInputPriceRows: candidateInputValidation.priceRows,
-      candidateInputRunRows: candidateInputValidation.runRows,
-      connectionAttempted: false,
-      confirmationPresent,
-      credentialPresence,
-      exactCommandMatched: problems.length === 0,
-      executionAttempted: false,
-      executionRequested,
-      filesWritten: false,
-      lane: args.lane ?? "missing",
-      marketDataFetched: false,
-      marketDataIngested: false,
-      maxRows: Number(args.maxRows) || 0,
-      mode: "tw_equity_staging_write_fail_closed_runner_skeleton",
-      mutations: false,
-      postRunReview: args.postRunReview ?? "missing",
-      problems,
-      publicDataSource: "mock",
-      publicRedistributionBlocked: true,
-      rollbackDryRunAvailable,
-      rollbackDryRunCandidatePriceRows: rollbackDryRunCountReady ? candidateInputValidation.priceRows : 0,
-      rollbackDryRunCandidateRunRows: rollbackDryRunCountReady ? candidateInputValidation.runRows : 0,
-      rollbackDryRunCountReady,
-      rowPayloadsPrinted: false,
-      scoreSource: "mock",
-      secretsPrinted: false,
-      serviceRoleKeyPrinted: false,
-      sourcePayloadsPrinted: false,
-      sqlExecuted: false,
-      status,
-      symbols: args.symbols ? args.symbols.split(",") : [],
-      targetRelation: args.target ?? "missing",
-      writeImplementationReady: false,
-      writePreExecutionSummary,
-      writePreExecutionSummaryReady: writePreExecutionSummary.ready
-    },
-    null,
-    2
-  )
-);
+const status =
+  problems.length === 0 && executionResult.mutations
+    ? "ok"
+    : problems.length === 0
+      ? "ready_for_manual_execution_gate_not_executed"
+      : "blocked";
+
+console.log(JSON.stringify(buildOutput({ executionResult, problems, status }), null, 2));
 
 process.exitCode = problems.length === 0 ? 0 : 1;
 
@@ -201,6 +167,7 @@ function skippedCandidateInputValidation() {
 function validateCandidateInputArtifact(filePath) {
   const validation = {
     accepted: false,
+    artifact: null,
     priceRows: 0,
     runId: null,
     problems: [],
@@ -257,6 +224,7 @@ function validateCandidateInputArtifact(filePath) {
   }
 
   validation.accepted = validation.problems.length === 0;
+  validation.artifact = validation.accepted ? artifact : null;
   return validation;
 }
 
@@ -376,13 +344,13 @@ function buildWritePreExecutionSummary({
     rollbackDryRunCountReady;
 
   return {
-    blockedUntilSeparateWriteImplementation: true,
+    blockedUntilSeparateWriteImplementation: false,
     candidatePriceRows: candidateInputAccepted ? candidateInputValidation.priceRows : 0,
     candidateRunRows: candidateInputAccepted ? candidateInputValidation.runRows : 0,
-    connectionPlanned: false,
+    connectionPlanned: ready,
     destructiveRollbackAllowed: false,
     maxRows: EXPECTED.maxRows,
-    mutationsPlanned: false,
+    mutationsPlanned: ready,
     noRetry: true,
     postRunReviewRequired: true,
     publicPromotionAllowed: false,
@@ -393,6 +361,204 @@ function buildWritePreExecutionSummary({
     scoreSourcePromotionAllowed: false,
     sqlPlanned: false,
     targetRelation: EXPECTED.target,
-    writeImplementationReady: false
+    writeImplementationReady: true
+  };
+}
+
+async function executeBoundedStagingWrite({ candidateInput, credentialPresence, rollbackDryRunCountReady }) {
+  const result = {
+    connectionAttempted: false,
+    executionAttempted: true,
+    mutations: false,
+    problems: [],
+    rollbackDryRunRemotePriceRows: 0,
+    rollbackDryRunRemoteRunRows: 0,
+    writeAttempted: false,
+    writtenPriceRows: 0,
+    writtenRunRows: 0
+  };
+
+  if (!credentialPresence.nextPublicSupabaseUrl || !credentialPresence.serviceRoleKey || !candidateInput || !rollbackDryRunCountReady) {
+    result.problems.push("write_execution_preconditions_not_ready");
+    return result;
+  }
+
+  const supabase = await createWriteClient(result);
+
+  const runId = candidateInput.candidateRun.run_id;
+  const rollbackCounts = await countExistingRowsForRun(supabase, runId);
+  result.rollbackDryRunRemoteRunRows = rollbackCounts.runRows;
+  result.rollbackDryRunRemotePriceRows = rollbackCounts.priceRows;
+  result.problems.push(...rollbackCounts.problems);
+
+  if (rollbackCounts.runRows > 0 || rollbackCounts.priceRows > 0) {
+    result.problems.push("rollback_dry_run_scope_not_empty");
+  }
+
+  if (result.problems.length > 0) return result;
+
+  result.writeAttempted = true;
+  const runInsert = await supabase.from("staging_twse_stock_day_runs").insert([candidateInput.candidateRun]);
+  if (runInsert.error) {
+    result.problems.push(sanitizeSupabaseError("run_insert_failed", runInsert.error));
+    return result;
+  }
+
+  const priceInsert = await supabase.from("staging_twse_stock_day_prices").insert(candidateInput.candidatePrices);
+  if (priceInsert.error) {
+    result.problems.push(sanitizeSupabaseError("price_insert_failed", priceInsert.error));
+    return result;
+  }
+
+  result.mutations = true;
+  result.writtenRunRows = 1;
+  result.writtenPriceRows = candidateInput.candidatePrices.length;
+  return result;
+}
+
+async function createWriteClient(executionResult) {
+  if (process.env.TW_EQUITY_STAGING_WRITE_MOCK_SUPABASE === "enabled") {
+    return createMockSupabaseClient();
+  }
+
+  executionResult.connectionAttempted = true;
+  const { createClient } = await import("@supabase/supabase-js");
+  return createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY, {
+    auth: {
+      persistSession: false
+    }
+  });
+}
+
+function createMockSupabaseClient() {
+  return {
+    from(table) {
+      return {
+        insert(rows) {
+          return Promise.resolve({
+            data: null,
+            error: Array.isArray(rows) && rows.length > 0 ? null : { code: `mock_empty_insert_${table}` }
+          });
+        },
+        select() {
+          return {
+            eq() {
+              return Promise.resolve({
+                count: 0,
+                data: null,
+                error: null
+              });
+            }
+          };
+        }
+      };
+    }
+  };
+}
+
+async function countExistingRowsForRun(supabase, runId) {
+  const problems = [];
+  const runCount = await countRowsByRunId(supabase, "staging_twse_stock_day_runs", runId);
+  const priceCount = await countRowsByRunId(supabase, "staging_twse_stock_day_prices", runId);
+
+  for (const countResult of [runCount, priceCount]) {
+    if (countResult.problem) problems.push(countResult.problem);
+  }
+
+  return {
+    priceRows: priceCount.count,
+    problems,
+    runRows: runCount.count
+  };
+}
+
+async function countRowsByRunId(supabase, table, runId) {
+  const { count, error } = await supabase.from(table).select("run_id", {
+    count: "exact",
+    head: true
+  }).eq("run_id", runId);
+
+  if (error) {
+    return {
+      count: 0,
+      problem: sanitizeSupabaseError(`${table}_rollback_count_failed`, error)
+    };
+  }
+
+  return {
+    count: count ?? 0,
+    problem: null
+  };
+}
+
+function sanitizeSupabaseError(prefix, error) {
+  const code = typeof error?.code === "string" ? error.code : "unknown";
+  return `${prefix}_${code}`;
+}
+
+function skippedExecution() {
+  return {
+    connectionAttempted: false,
+    executionAttempted: false,
+    mutations: false,
+    problems: [],
+    rollbackDryRunRemotePriceRows: 0,
+    rollbackDryRunRemoteRunRows: 0,
+    writeAttempted: false,
+    writtenPriceRows: 0,
+    writtenRunRows: 0
+  };
+}
+
+function buildOutput({ executionResult, problems, status }) {
+  return {
+    authorizationId: args.authorizationId ?? "missing",
+    canAwardRowCoveragePoints: false,
+    canClaimRealDataLive: false,
+    canPromotePublicSource: false,
+    canSetScoreSourceReal: false,
+    candidateInputAccepted,
+    candidateInputArtifact,
+    candidateInputPriceRows: candidateInputValidation.priceRows,
+    candidateInputRunRows: candidateInputValidation.runRows,
+    connectionAttempted: executionResult.connectionAttempted,
+    confirmationPresent,
+    credentialPresence,
+    exactCommandMatched: commandContractMatched,
+    executionAttempted: executionResult.executionAttempted,
+    executionRequested,
+    filesWritten: false,
+    lane: args.lane ?? "missing",
+    marketDataFetched: false,
+    marketDataIngested: false,
+    maxRows: Number(args.maxRows) || 0,
+    mode: "tw_equity_staging_write_fail_closed_write_capable_runner",
+    mockSupabaseUsed: process.env.TW_EQUITY_STAGING_WRITE_MOCK_SUPABASE === "enabled",
+    mutations: executionResult.mutations,
+    postRunReview: args.postRunReview ?? "missing",
+    problems,
+    publicDataSource: "mock",
+    publicRedistributionBlocked: true,
+    rollbackDryRunAvailable,
+    rollbackDryRunCandidatePriceRows: rollbackDryRunCountReady ? candidateInputValidation.priceRows : 0,
+    rollbackDryRunCandidateRunRows: rollbackDryRunCountReady ? candidateInputValidation.runRows : 0,
+    rollbackDryRunCountReady,
+    rollbackDryRunRemotePriceRows: executionResult.rollbackDryRunRemotePriceRows,
+    rollbackDryRunRemoteRunRows: executionResult.rollbackDryRunRemoteRunRows,
+    rowPayloadsPrinted: false,
+    scoreSource: "mock",
+    secretsPrinted: false,
+    serviceRoleKeyPrinted: false,
+    sourcePayloadsPrinted: false,
+    sqlExecuted: false,
+    status,
+    symbols: args.symbols ? args.symbols.split(",") : [],
+    targetRelation: args.target ?? "missing",
+    writeAttempted: executionResult.writeAttempted,
+    writeImplementationReady: true,
+    writePreExecutionSummary,
+    writePreExecutionSummaryReady: writePreExecutionSummary.ready,
+    writtenPriceRows: executionResult.writtenPriceRows,
+    writtenRunRows: executionResult.writtenRunRows
   };
 }
