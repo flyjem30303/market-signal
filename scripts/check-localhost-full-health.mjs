@@ -90,6 +90,10 @@ const checks = [
     name: "tw-equity-source-rights-packet"
   },
   {
+    command: [node, "scripts/check-tw-equity-local-report-only-runner-design.mjs"],
+    name: "tw-equity-local-report-only-runner-design"
+  },
+  {
     command: [node, "scripts/check-ceo-progress-brief.mjs"],
     name: "ceo-progress-brief"
   },

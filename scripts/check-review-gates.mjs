@@ -3043,6 +3043,11 @@ const checks = [
     name: "tw-equity-source-rights-packet"
   },
   {
+    command: [node, "scripts/check-tw-equity-local-report-only-runner-design.mjs"],
+    expectStatus: "ok",
+    name: "tw-equity-local-report-only-runner-design"
+  },
+  {
     command: [node, "scripts/check-runtime-readonly-decision-card.mjs"],
     expectStatus: "ok",
     name: "runtime-readonly-decision-card"
@@ -3499,6 +3504,7 @@ const coreReviewGateNames = new Set([
   "backfill-ingestion-execution-packet",
   "tw-equity-report-only-dry-run-packet",
   "tw-equity-source-rights-packet",
+  "tw-equity-local-report-only-runner-design",
   "typescript"
 ]);
 
