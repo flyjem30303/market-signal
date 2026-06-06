@@ -3353,6 +3353,11 @@ const checks = [
     name: "tw-equity-third-bounded-staging-write-decision"
   },
   {
+    command: [node, "scripts/check-tw-equity-staging-third-write-post-run-review-2026-06-07.mjs"],
+    expectStatus: "ok",
+    name: "tw-equity-staging-third-write-post-run-review-2026-06-07"
+  },
+  {
     command: [node, "scripts/check-a1-tw-equity-candidate-artifact-intake.mjs"],
     expectStatus: "ok",
     name: "a1-tw-equity-candidate-artifact-intake"
@@ -3905,6 +3910,7 @@ const coreReviewGateNames = new Set([
   "tw-equity-post-migration-readonly-verification",
   "tw-equity-post-migration-openapi-exposure-confirmation",
   "tw-equity-third-bounded-staging-write-decision",
+  "tw-equity-staging-third-write-post-run-review-2026-06-07",
   "a1-tw-equity-candidate-artifact-intake",
   "a1-tw-equity-candidate-artifact-delivery-spec",
   "a1-tw-equity-candidate-artifact-self-check",

@@ -336,6 +336,10 @@ const checks = [
     name: "tw-equity-third-bounded-staging-write-decision"
   },
   {
+    command: [node, "scripts/check-tw-equity-staging-third-write-post-run-review-2026-06-07.mjs"],
+    name: "tw-equity-staging-third-write-post-run-review-2026-06-07"
+  },
+  {
     command: [node, "scripts/check-a1-tw-equity-candidate-artifact-intake.mjs"],
     name: "a1-tw-equity-candidate-artifact-intake"
   },
