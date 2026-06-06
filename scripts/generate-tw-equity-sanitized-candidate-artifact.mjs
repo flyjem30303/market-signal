@@ -12,7 +12,7 @@ const SYMBOLS = ["2330", "2382", "2308"];
 const MAX_ROWS = 180;
 const SESSIONS_PER_SYMBOL = 60;
 const OUTPUT_PATH = process.env.A1_TW_EQUITY_CANDIDATE_ARTIFACT_PATH ?? "data/candidates/tw-equity-staging-candidate.json";
-const RUN_ID = `tw-equity-staging-candidate-${new Date().toISOString().slice(0, 10)}`;
+const RUN_ID = crypto.randomUUID();
 const USER_AGENT = "taiwan-market-signal-candidate-artifact/0.1";
 
 const startedAt = new Date();

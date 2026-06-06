@@ -260,6 +260,10 @@ const checks = [
     name: "tw-equity-supabase-staging-write-repair-evidence-record"
   },
   {
+    command: [node, "scripts/check-tw-equity-run-id-uuid-contract-repair-gate.mjs"],
+    name: "tw-equity-run-id-uuid-contract-repair-gate"
+  },
+  {
     command: [node, "scripts/check-a1-tw-equity-candidate-artifact-intake.mjs"],
     name: "a1-tw-equity-candidate-artifact-intake"
   },

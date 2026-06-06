@@ -300,6 +300,7 @@ function validateCandidateRun(run, validationProblems) {
   }
 
   if (run.run_type !== "staging_candidate") validationProblems.push("candidate_run_type_mismatch");
+  if (!isUuid(run.run_id)) validationProblems.push("candidate_run_run_id_must_be_uuid");
   if (run.source_id !== "twse-stock-day") validationProblems.push("candidate_run_source_id_mismatch");
   if (run.requested_symbol_count !== EXPECTED.symbols.split(",").length) validationProblems.push("candidate_run_requested_symbol_count_mismatch");
   if (!["draft", "pending_review"].includes(run.review_status)) validationProblems.push("candidate_run_review_status_not_prewrite_safe");
@@ -328,6 +329,7 @@ function validateCandidatePrices(prices, runId, validationProblems) {
     }
 
     if (row.run_id !== runId) validationProblems.push(`candidate_price_${index}_run_id_mismatch`);
+    if (!isUuid(row.run_id)) validationProblems.push(`candidate_price_${index}_run_id_must_be_uuid`);
     if (row.source_id !== "twse-stock-day") validationProblems.push(`candidate_price_${index}_source_id_mismatch`);
     if (row.exchange_code !== "TWSE") validationProblems.push(`candidate_price_${index}_exchange_code_mismatch`);
     if (!allowedSymbols.has(row.symbol)) validationProblems.push(`candidate_price_${index}_symbol_not_authorized`);
@@ -343,6 +345,13 @@ function validateCandidatePrices(prices, runId, validationProblems) {
     if (seen.has(uniqueKey)) validationProblems.push(`candidate_price_${index}_duplicate_trade_date`);
     seen.add(uniqueKey);
   }
+}
+
+function isUuid(value) {
+  return (
+    typeof value === "string" &&
+    /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/iu.test(value)
+  );
 }
 
 function sameArray(actual, expected) {

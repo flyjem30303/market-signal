@@ -3258,6 +3258,11 @@ const checks = [
     name: "tw-equity-supabase-staging-write-repair-evidence-record"
   },
   {
+    command: [node, "scripts/check-tw-equity-run-id-uuid-contract-repair-gate.mjs"],
+    expectStatus: "ok",
+    name: "tw-equity-run-id-uuid-contract-repair-gate"
+  },
+  {
     command: [node, "scripts/check-a1-tw-equity-candidate-artifact-intake.mjs"],
     expectStatus: "ok",
     name: "a1-tw-equity-candidate-artifact-intake"
@@ -3791,6 +3796,7 @@ const coreReviewGateNames = new Set([
   "tw-equity-supabase-staging-write-repair-decision-packet",
   "tw-equity-supabase-staging-write-repair-evidence-checklist",
   "tw-equity-supabase-staging-write-repair-evidence-record",
+  "tw-equity-run-id-uuid-contract-repair-gate",
   "a1-tw-equity-candidate-artifact-intake",
   "a1-tw-equity-candidate-artifact-delivery-spec",
   "a1-tw-equity-candidate-artifact-self-check",

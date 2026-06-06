@@ -45,7 +45,7 @@ The artifact must not include:
 
 `candidateRun` must be normalized to `staging_twse_stock_day_runs` field names. The validator requires the key run metadata fields, including:
 
-- `run_id`;
+- `run_id` as a UUID-shaped value matching the staging migration `uuid` column contract;
 - `run_type=staging_candidate`;
 - `source_id=twse-stock-day`;
 - `source_url_template`;
@@ -65,7 +65,7 @@ The artifact must not include:
 
 `candidatePrices` must be normalized to `staging_twse_stock_day_prices` field names. Each candidate price row must include:
 
-- matching `run_id`;
+- matching UUID-shaped `run_id`;
 - `source_id=twse-stock-day`;
 - `exchange_code=TWSE`;
 - authorized `symbol`;
@@ -75,7 +75,7 @@ The artifact must not include:
 - `source_fetched_at`;
 - non-empty `source_row_hash`.
 
-The validator rejects duplicate `(run_id, exchange_code, symbol, trade_date)` candidate rows and rejects high prices below low prices.
+The validator rejects non-UUID run ids, duplicate `(run_id, exchange_code, symbol, trade_date)` candidate rows, and high prices below low prices.
 
 ## Runner Output Boundary
 

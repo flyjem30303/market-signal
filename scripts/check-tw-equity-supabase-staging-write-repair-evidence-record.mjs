@@ -97,8 +97,14 @@ if (reportRun.status !== 0) {
     if (report.checklistClassification?.c6InsertPayloadAndColumnContract !== "local_payload_contract_mismatch_run_id_not_uuid") {
       problems.push(`${reportPath} must classify C6 as local_payload_contract_mismatch_run_id_not_uuid`);
     }
-    if (report.localEvidence?.candidateRunIdIsUuidShaped !== false) {
-      problems.push(`${reportPath} must detect non-UUID candidate run id`);
+    if (report.recordedFinding?.candidateRunIdWasNotUuidShapedWhenRecorded !== true) {
+      problems.push(`${reportPath} must preserve the historical non-UUID candidate finding`);
+    }
+    if (report.recordedFinding?.currentCandidateMayBeRepairedByLaterSlice !== true) {
+      problems.push(`${reportPath} must allow later candidate repair without invalidating the evidence record`);
+    }
+    if (typeof report.localEvidence?.candidateRunIdIsUuidShaped !== "boolean") {
+      problems.push(`${reportPath} must expose current candidate UUID shape as a boolean`);
     }
     if (report.localEvidence?.migrationDeclaresRunsRunIdUuid !== true) {
       problems.push(`${reportPath} must detect UUID run_id in local migration`);

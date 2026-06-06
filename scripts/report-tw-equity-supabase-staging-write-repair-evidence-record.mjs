@@ -35,15 +35,18 @@ const localEvidence = {
 const report = {
   status: "tw_equity_supabase_staging_write_repair_evidence_record_local_mismatch_found_no_remote_action",
   decision: "LOCAL_PAYLOAD_CONTRACT_REPAIR_REQUIRED_BEFORE_ANY_REMOTE_REPAIR_OR_THIRD_ATTEMPT",
+  recordedFinding: {
+    candidateRunIdWasNotUuidShapedWhenRecorded: true,
+    recordedMismatch: "local_payload_contract_mismatch_run_id_not_uuid",
+    currentCandidateMayBeRepairedByLaterSlice: true
+  },
   checklistClassification: {
     c1RestInsertSchemaExposure: "pending_remote_metadata_evidence",
     c2PostgrestSchemaCache: "pending_dashboard_or_api_metadata_evidence",
     c3ObjectAndSchemaNameMatch: "local_match_accepted",
     c4RlsAndPolicyPosture: "local_rls_enabled_remote_policy_unknown",
     c5ReadOnlyVersusInsertPathMatch: "local_target_path_match_remote_metadata_parity_unknown",
-    c6InsertPayloadAndColumnContract: localEvidence.candidateRunIdIsUuidShaped
-      ? "local_payload_contract_uuid_shape_accepted"
-      : "local_payload_contract_mismatch_run_id_not_uuid"
+    c6InsertPayloadAndColumnContract: "local_payload_contract_mismatch_run_id_not_uuid"
   },
   localEvidence,
   nextAction:
