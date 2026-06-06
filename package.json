@@ -136,6 +136,7 @@
     "check:tw-equity-report-only-dry-run-packet": "node scripts/check-tw-equity-report-only-dry-run-packet.mjs",
     "check:tw-equity-source-rights-packet": "node scripts/check-tw-equity-source-rights-packet.mjs",
     "check:tw-equity-local-report-only-runner-design": "node scripts/check-tw-equity-local-report-only-runner-design.mjs",
+    "check:tw-equity-local-report-only-runner-implementation-gate": "node scripts/check-tw-equity-local-report-only-runner-implementation-gate.mjs",
     "report:ceo-progress-brief": "node scripts/report-ceo-progress-brief.mjs",
     "check:ceo-progress-brief": "node scripts/check-ceo-progress-brief.mjs",
     "report:runtime-unblock-acceleration": "node scripts/report-runtime-unblock-acceleration.mjs",
