@@ -224,6 +224,10 @@ const checks = [
     name: "tw-equity-staging-write-execution-readiness"
   },
   {
+    command: [node, "scripts/check-a1-tw-equity-candidate-artifact-intake.mjs"],
+    name: "a1-tw-equity-candidate-artifact-intake"
+  },
+  {
     command: [node, "scripts/check-ceo-progress-brief.mjs"],
     name: "ceo-progress-brief"
   },
