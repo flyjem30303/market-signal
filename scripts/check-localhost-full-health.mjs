@@ -264,6 +264,10 @@ const checks = [
     name: "tw-equity-run-id-uuid-contract-repair-gate"
   },
   {
+    command: [node, "scripts/check-tw-equity-supabase-metadata-diagnostic-decision-packet.mjs"],
+    name: "tw-equity-supabase-metadata-diagnostic-decision-packet"
+  },
+  {
     command: [node, "scripts/check-a1-tw-equity-candidate-artifact-intake.mjs"],
     name: "a1-tw-equity-candidate-artifact-intake"
   },
