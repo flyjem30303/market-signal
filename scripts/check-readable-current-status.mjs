@@ -16,6 +16,12 @@ const topSection = status.split(/\n## (?!Readable Current Status)/u)[0] ?? "";
 const requiredTopPhrases = [
   "Readable Current Status - 2026-06-04",
   "PM progress score: 100%",
+  "Latest localhost full health acceleration slice",
+  "scripts/check-localhost-full-health.mjs",
+  "fast_localhost_health_with_slow_aggregates_registered",
+  "LOCALHOST_FULL_HEALTH_RUN_SLOW_AGGREGATES=true",
+  "Slow aggregate readiness checks are registered but skipped by default in localhost full health",
+  "site routes remain 200 and full health no longer waits indefinitely",
   "Latest TW equity staging write implementation slice",
   "docs/TW_EQUITY_STAGING_WRITE_IMPLEMENTATION.md",
   "tw_equity_staging_write_implementation_ready_not_executed",

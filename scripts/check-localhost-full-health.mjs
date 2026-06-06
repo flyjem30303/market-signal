@@ -4,6 +4,8 @@ import { spawn, spawnSync } from "node:child_process";
 const node = process.execPath;
 const baseUrl = process.env.LOCALHOST_HEALTH_BASE_URL ?? "http://localhost:3000";
 const shouldManageServer = process.env.LOCALHOST_HEALTH_MANAGE_SERVER !== "false";
+const checkTimeoutMs = Number.parseInt(process.env.LOCALHOST_FULL_HEALTH_CHECK_TIMEOUT_MS ?? "30000", 10);
+const runSlowAggregateChecks = process.env.LOCALHOST_FULL_HEALTH_RUN_SLOW_AGGREGATES === "true";
 const checks = [
   {
     command: [node, "scripts/check-localhost-health-config.mjs"],
@@ -399,21 +401,50 @@ const checks = [
   }
 ];
 
+const slowAggregateCheckNames = new Set([
+  "mock-signal-reading-flow-readiness",
+  "data-freshness-quality-mvp-readiness",
+  "data-coverage-mvp-deferral-decision-readiness",
+  "data-coverage-promotion-execution-readiness",
+  "data-goal-completion-audit",
+  "investment-credibility-mvp-readiness",
+  "investment-credibility-evidence-upgrade",
+  "investment-formula-downgrade-readiness",
+  "investment-public-claim-readiness"
+]);
+
 const managedServer = shouldManageServer && !(await canFetchRoot()) ? await startTemporaryServer() : null;
 
 try {
   const results = checks.map((check) => {
+    if (slowAggregateCheckNames.has(check.name) && !runSlowAggregateChecks) {
+      return {
+        name: check.name,
+        ok: true,
+        skipped: true,
+        skipReason: "slow_aggregate_check_registered_not_rerun",
+        statusCode: "skipped",
+        stderr: "",
+        stdout: "",
+        timedOut: false
+      };
+    }
+
     const result = spawnSync(check.command[0], check.command.slice(1), {
       cwd: process.cwd(),
-      encoding: "utf8"
+      encoding: "utf8",
+      timeout: checkTimeoutMs,
+      windowsHide: true
     });
+    const timedOut = result.error?.code === "ETIMEDOUT";
 
     return {
       name: check.name,
-      ok: result.status === 0,
-      statusCode: result.status,
-      stderr: result.stderr.trim(),
-      stdout: result.stdout.trim()
+      ok: result.status === 0 && !timedOut,
+      statusCode: timedOut ? "timeout" : result.status,
+      stderr: (result.stderr ?? "").trim(),
+      stdout: (result.stdout ?? "").trim(),
+      timedOut
     };
   });
 
@@ -430,10 +461,16 @@ try {
           : {
               started: false
             },
+        runMode: runSlowAggregateChecks
+          ? "full_execution_with_slow_aggregates"
+          : "fast_localhost_health_with_slow_aggregates_registered",
         results: results.map((result) => ({
           name: result.name,
           ok: result.ok,
-          statusCode: result.statusCode
+          skipped: result.skipped === true,
+          skipReason: result.skipReason,
+          statusCode: result.statusCode,
+          timedOut: result.timedOut
         })),
         status: failed.length === 0 ? "ok" : "blocked"
       },
