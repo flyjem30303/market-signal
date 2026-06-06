@@ -153,6 +153,8 @@
     "check:tw-equity-provider-specific-terms-apply-runbook-role-review": "node scripts/check-tw-equity-provider-specific-terms-apply-runbook-role-review.mjs",
     "check:tw-equity-source-review-readiness-summary": "node scripts/check-tw-equity-source-review-readiness-summary.mjs",
     "check:tw-equity-staging-first-authorization-packet": "node scripts/check-tw-equity-staging-first-authorization-packet.mjs",
+    "report:tw-equity-staging-first-preflight": "node scripts/report-tw-equity-staging-first-preflight.mjs",
+    "check:tw-equity-staging-first-preflight-runner": "node scripts/check-tw-equity-staging-first-preflight-runner.mjs",
     "report:ceo-progress-brief": "node scripts/report-ceo-progress-brief.mjs",
     "check:ceo-progress-brief": "node scripts/check-ceo-progress-brief.mjs",
     "report:runtime-unblock-acceleration": "node scripts/report-runtime-unblock-acceleration.mjs",

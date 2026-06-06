@@ -146,6 +146,10 @@ const checks = [
     name: "tw-equity-staging-first-authorization-packet"
   },
   {
+    command: [node, "scripts/check-tw-equity-staging-first-preflight-runner.mjs"],
+    name: "tw-equity-staging-first-preflight-runner"
+  },
+  {
     command: [node, "scripts/check-ceo-progress-brief.mjs"],
     name: "ceo-progress-brief"
   },

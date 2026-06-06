@@ -3113,6 +3113,11 @@ const checks = [
     name: "tw-equity-staging-first-authorization-packet"
   },
   {
+    command: [node, "scripts/check-tw-equity-staging-first-preflight-runner.mjs"],
+    expectStatus: "ok",
+    name: "tw-equity-staging-first-preflight-runner"
+  },
+  {
     command: [node, "scripts/check-runtime-readonly-decision-card.mjs"],
     expectStatus: "ok",
     name: "runtime-readonly-decision-card"
@@ -3583,6 +3588,7 @@ const coreReviewGateNames = new Set([
   "tw-equity-provider-specific-terms-apply-runbook-role-review",
   "tw-equity-source-review-readiness-summary",
   "tw-equity-staging-first-authorization-packet",
+  "tw-equity-staging-first-preflight-runner",
   "typescript"
 ]);
 
