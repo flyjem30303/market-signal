@@ -78,6 +78,10 @@ const checks = [
     name: "data-population-route-decision"
   },
   {
+    command: [node, "scripts/check-backfill-ingestion-execution-packet.mjs"],
+    name: "backfill-ingestion-execution-packet"
+  },
+  {
     command: [node, "scripts/check-ceo-progress-brief.mjs"],
     name: "ceo-progress-brief"
   },

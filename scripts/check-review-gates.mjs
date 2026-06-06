@@ -3028,6 +3028,11 @@ const checks = [
     name: "data-population-route-decision"
   },
   {
+    command: [node, "scripts/check-backfill-ingestion-execution-packet.mjs"],
+    expectStatus: "ok",
+    name: "backfill-ingestion-execution-packet"
+  },
+  {
     command: [node, "scripts/check-runtime-readonly-decision-card.mjs"],
     expectStatus: "ok",
     name: "runtime-readonly-decision-card"
@@ -3481,6 +3486,7 @@ const coreReviewGateNames = new Set([
   "data-authorization-decision-packet",
   "data-authorization-readonly-attempt-post-run-review",
   "data-population-route-decision",
+  "backfill-ingestion-execution-packet",
   "typescript"
 ]);
 
