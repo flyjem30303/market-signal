@@ -1,4 +1,5 @@
 import { getPostReadonlyRuntimeState } from "@/lib/post-readonly-runtime-state";
+import { getRuntimePromotionReadinessSummary } from "@/lib/runtime-promotion-readiness-summary";
 
 type PostReadonlyProductStatusProps = {
   context: "home" | "stock" | "briefing";
@@ -28,6 +29,7 @@ const contextCopy = {
 
 export function PostReadonlyProductStatus({ context, symbol }: PostReadonlyProductStatusProps) {
   const state = getPostReadonlyRuntimeState();
+  const promotion = getRuntimePromotionReadinessSummary();
   const copy = contextCopy[context];
   const subject = symbol ? `${symbol} ` : "";
 
@@ -71,6 +73,41 @@ export function PostReadonlyProductStatus({ context, symbol }: PostReadonlyProdu
           and public-copy requirements before any real-data or real-score transition.
         </p>
       </article>
+      <div className="post-readonly-promotion-summary" aria-label="Runtime promotion readiness summary">
+        <article className="blocked">
+          <span>Promotion readiness</span>
+          <strong>{promotion.overallStatus}</strong>
+          <p>{promotion.headline}</p>
+          <p>
+            Ready {promotion.readinessCounts.ready}/{promotion.readinessCounts.total}; blocked{" "}
+            {promotion.readinessCounts.blocked}; review {promotion.readinessCounts.needsReview}. Row coverage{" "}
+            {promotion.rowCoverage.observedRows}/{promotion.rowCoverage.expectedRows}, missing{" "}
+            {promotion.rowCoverage.missingRows}.
+          </p>
+          <p>{promotion.nextCeoDecision}</p>
+        </article>
+        {promotion.steps.map((step) => (
+          <article
+            className={step.status === "ready_for_local_use" ? "ready" : step.status === "blocked_by_evidence" ? "blocked" : "hold"}
+            key={step.id}
+          >
+            <span>
+              {step.owner} / priority {step.priority}
+            </span>
+            <strong>{step.label}</strong>
+            <p>{step.nextAction}</p>
+            <p>Blocked promotion: {step.blockedPromotion}.</p>
+          </article>
+        ))}
+        <article className="blocked">
+          <span>No-go actions</span>
+          <strong>
+            publicDataSource={promotion.mockBoundary.publicDataSource}; scoreSource={promotion.mockBoundary.scoreSource}
+          </strong>
+          <p>{promotion.noGoActions.join(", ")}.</p>
+          <p>{promotion.stopLine}</p>
+        </article>
+      </div>
     </section>
   );
 }

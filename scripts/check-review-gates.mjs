@@ -3213,6 +3213,11 @@ const checks = [
     name: "post-readonly-runtime-state"
   },
   {
+    command: [node, "scripts/check-runtime-promotion-readiness-summary.mjs"],
+    expectStatus: "ok",
+    name: "runtime-promotion-readiness-summary"
+  },
+  {
     command: [node, "scripts/check-post-readonly-next-gate-queue.mjs"],
     expectStatus: "ok",
     name: "post-readonly-next-gate-queue"
