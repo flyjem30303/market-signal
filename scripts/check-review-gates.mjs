@@ -3108,6 +3108,11 @@ const checks = [
     name: "tw-equity-source-review-readiness-summary"
   },
   {
+    command: [node, "scripts/check-tw-equity-source-classification-minimal-execution-route.mjs"],
+    expectStatus: "ok",
+    name: "tw-equity-source-classification-minimal-execution-route"
+  },
+  {
     command: [node, "scripts/check-tw-equity-staging-first-authorization-packet.mjs"],
     expectStatus: "ok",
     name: "tw-equity-staging-first-authorization-packet"
@@ -3597,6 +3602,7 @@ const coreReviewGateNames = new Set([
   "tw-equity-provider-specific-terms-apply-runbook",
   "tw-equity-provider-specific-terms-apply-runbook-role-review",
   "tw-equity-source-review-readiness-summary",
+  "tw-equity-source-classification-minimal-execution-route",
   "tw-equity-staging-first-authorization-packet",
   "tw-equity-staging-first-preflight-runner",
   "tw-equity-staging-first-write-authorization-packet-v1",

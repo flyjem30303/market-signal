@@ -142,6 +142,10 @@ const checks = [
     name: "tw-equity-source-review-readiness-summary"
   },
   {
+    command: [node, "scripts/check-tw-equity-source-classification-minimal-execution-route.mjs"],
+    name: "tw-equity-source-classification-minimal-execution-route"
+  },
+  {
     command: [node, "scripts/check-tw-equity-staging-first-authorization-packet.mjs"],
     name: "tw-equity-staging-first-authorization-packet"
   },
