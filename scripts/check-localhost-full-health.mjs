@@ -174,6 +174,14 @@ const checks = [
     name: "tw-equity-write-runner-fail-closed-design"
   },
   {
+    command: [node, "scripts/check-tw-equity-actual-bounded-staging-write-authorization-packet.mjs"],
+    name: "tw-equity-actual-bounded-staging-write-authorization-packet"
+  },
+  {
+    command: [node, "scripts/check-tw-equity-write-runner-implementation-gate.mjs"],
+    name: "tw-equity-write-runner-implementation-gate"
+  },
+  {
     command: [node, "scripts/check-ceo-progress-brief.mjs"],
     name: "ceo-progress-brief"
   },
