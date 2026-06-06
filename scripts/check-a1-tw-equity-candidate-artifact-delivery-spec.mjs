@@ -109,10 +109,6 @@ if (!reviewGate.includes('"a1-tw-equity-candidate-artifact-delivery-spec"')) {
   problems.push("review gate core set missing a1-tw-equity-candidate-artifact-delivery-spec");
 }
 
-if (fs.existsSync("data/candidates/tw-equity-staging-candidate.json")) {
-  problems.push("default candidate artifact must not be committed by this spec slice");
-}
-
 if (problems.length > 0) {
   console.log(JSON.stringify({ problems, status: "blocked" }, null, 2));
   process.exit(1);

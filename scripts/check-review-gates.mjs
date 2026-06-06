@@ -3238,6 +3238,11 @@ const checks = [
     name: "a1-tw-equity-candidate-artifact-production-checklist"
   },
   {
+    command: [node, "scripts/check-tw-equity-sanitized-candidate-artifact-generation.mjs"],
+    expectStatus: "ok",
+    name: "tw-equity-sanitized-candidate-artifact-generation"
+  },
+  {
     command: [node, "scripts/check-runtime-readonly-decision-card.mjs"],
     expectStatus: "ok",
     name: "runtime-readonly-decision-card"
@@ -3737,6 +3742,7 @@ const coreReviewGateNames = new Set([
   "a1-tw-equity-candidate-artifact-self-check",
   "pm-tw-equity-candidate-intake-review",
   "a1-tw-equity-candidate-artifact-production-checklist",
+  "tw-equity-sanitized-candidate-artifact-generation",
   "typescript"
 ]);
 

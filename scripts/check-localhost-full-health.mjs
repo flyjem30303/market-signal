@@ -244,6 +244,10 @@ const checks = [
     name: "a1-tw-equity-candidate-artifact-production-checklist"
   },
   {
+    command: [node, "scripts/check-tw-equity-sanitized-candidate-artifact-generation.mjs"],
+    name: "tw-equity-sanitized-candidate-artifact-generation"
+  },
+  {
     command: [node, "scripts/check-ceo-progress-brief.mjs"],
     name: "ceo-progress-brief"
   },
