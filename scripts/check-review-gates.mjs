@@ -3093,6 +3093,11 @@ const checks = [
     name: "tw-equity-provider-specific-terms-apply-runbook"
   },
   {
+    command: [node, "scripts/check-tw-equity-provider-specific-terms-apply-runbook-role-review.mjs"],
+    expectStatus: "ok",
+    name: "tw-equity-provider-specific-terms-apply-runbook-role-review"
+  },
+  {
     command: [node, "scripts/check-runtime-readonly-decision-card.mjs"],
     expectStatus: "ok",
     name: "runtime-readonly-decision-card"
@@ -3559,6 +3564,7 @@ const coreReviewGateNames = new Set([
   "record-tw-equity-provider-specific-terms-review-outcome",
   "tw-equity-provider-specific-terms-review-outcome-tool-role-review",
   "tw-equity-provider-specific-terms-apply-runbook",
+  "tw-equity-provider-specific-terms-apply-runbook-role-review",
   "typescript"
 ]);
 
