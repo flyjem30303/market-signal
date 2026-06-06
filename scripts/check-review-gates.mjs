@@ -3248,6 +3248,11 @@ const checks = [
     name: "tw-equity-supabase-staging-write-repair-decision-packet"
   },
   {
+    command: [node, "scripts/check-tw-equity-supabase-staging-write-repair-evidence-checklist.mjs"],
+    expectStatus: "ok",
+    name: "tw-equity-supabase-staging-write-repair-evidence-checklist"
+  },
+  {
     command: [node, "scripts/check-a1-tw-equity-candidate-artifact-intake.mjs"],
     expectStatus: "ok",
     name: "a1-tw-equity-candidate-artifact-intake"
@@ -3779,6 +3784,7 @@ const coreReviewGateNames = new Set([
   "tw-equity-second-write-runner-contract-alignment",
   "tw-equity-staging-second-write-retry-post-run-review-2026-06-06",
   "tw-equity-supabase-staging-write-repair-decision-packet",
+  "tw-equity-supabase-staging-write-repair-evidence-checklist",
   "a1-tw-equity-candidate-artifact-intake",
   "a1-tw-equity-candidate-artifact-delivery-spec",
   "a1-tw-equity-candidate-artifact-self-check",

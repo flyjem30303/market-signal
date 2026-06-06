@@ -252,6 +252,10 @@ const checks = [
     name: "tw-equity-supabase-staging-write-repair-decision-packet"
   },
   {
+    command: [node, "scripts/check-tw-equity-supabase-staging-write-repair-evidence-checklist.mjs"],
+    name: "tw-equity-supabase-staging-write-repair-evidence-checklist"
+  },
+  {
     command: [node, "scripts/check-a1-tw-equity-candidate-artifact-intake.mjs"],
     name: "a1-tw-equity-candidate-artifact-intake"
   },

@@ -185,6 +185,8 @@
     "check:tw-equity-staging-second-write-retry-post-run-review-2026-06-06": "node scripts/check-tw-equity-staging-second-write-retry-post-run-review-2026-06-06.mjs",
     "report:tw-equity-supabase-staging-write-repair-decision-packet": "node scripts/report-tw-equity-supabase-staging-write-repair-decision-packet.mjs",
     "check:tw-equity-supabase-staging-write-repair-decision-packet": "node scripts/check-tw-equity-supabase-staging-write-repair-decision-packet.mjs",
+    "report:tw-equity-supabase-staging-write-repair-evidence-checklist": "node scripts/report-tw-equity-supabase-staging-write-repair-evidence-checklist.mjs",
+    "check:tw-equity-supabase-staging-write-repair-evidence-checklist": "node scripts/check-tw-equity-supabase-staging-write-repair-evidence-checklist.mjs",
     "report:a1-tw-equity-candidate-artifact-intake": "node scripts/report-a1-tw-equity-candidate-artifact-intake.mjs",
     "check:a1-tw-equity-candidate-artifact-intake": "node scripts/check-a1-tw-equity-candidate-artifact-intake.mjs",
     "check:a1-tw-equity-candidate-artifact-delivery-spec": "node scripts/check-a1-tw-equity-candidate-artifact-delivery-spec.mjs",
