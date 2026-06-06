@@ -17,6 +17,7 @@ import { getRuntimeActionStatusSummary } from "@/lib/runtime-action-status";
 import type { SignalSnapshot } from "@/lib/signal-model";
 import { RuntimeTransitionRail } from "@/components/runtime-transition-rail";
 import { PublicRuntimeStateStrip } from "@/components/public-runtime-state-strip";
+import { PostReadonlyProductStatus } from "@/components/post-readonly-product-status";
 import { TrackedLink } from "@/components/tracked-link";
 
 type StockRuntimeAtAGlanceProps = {
@@ -108,6 +109,7 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
 
       <RuntimeTransitionRail symbol={snapshot.asset.symbol} />
       <PublicRuntimeStateStrip context="stock" />
+      <PostReadonlyProductStatus context="stock" symbol={snapshot.asset.symbol} />
 
       <section className="runtime-action-status-strip" aria-label="Runtime action status normalization">
         <div>

@@ -15,6 +15,7 @@ import { getRuntimeExecutionReadinessSummary } from "@/lib/runtime-execution-rea
 import { getRuntimeActionStatusSummary } from "@/lib/runtime-action-status";
 import { RuntimeTransitionRail } from "@/components/runtime-transition-rail";
 import { PublicRuntimeStateStrip } from "@/components/public-runtime-state-strip";
+import { PostReadonlyProductStatus } from "@/components/post-readonly-product-status";
 import { TrackedLink } from "@/components/tracked-link";
 
 type HomeRuntimeStatusPanelProps = {
@@ -75,6 +76,7 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
 
       <RuntimeTransitionRail symbol={selectedSymbol} />
       <PublicRuntimeStateStrip context="home" />
+      <PostReadonlyProductStatus context="home" symbol={selectedSymbol} />
 
       <section className="runtime-action-status-strip" aria-label="Runtime action status normalization">
         <div>
