@@ -3138,6 +3138,11 @@ const checks = [
     name: "beta-packet-window-one-command-proof-map"
   },
   {
+    command: [node, "scripts/check-beta-packet-window-readiness-summary.mjs"],
+    expectStatus: "ok",
+    name: "beta-packet-window-readiness-summary"
+  },
+  {
     command: [node, "scripts/check-beta-packet-window-reviewed-artifact-outcome-recorder.mjs"],
     expectStatus: "ok",
     name: "beta-packet-window-reviewed-artifact-outcome-recorder"
@@ -4488,6 +4493,7 @@ const coreReviewGateNames = new Set([
   "beta-packet-window-reviewed-artifact-acceptance-gate",
   "beta-packet-window-no-secret-artifact-creation-runbook",
   "beta-packet-window-one-command-proof-map",
+  "beta-packet-window-readiness-summary",
   "beta-packet-window-reviewed-artifact-outcome-recorder",
   "beta-packet-to-deployment-pre-execution-bridge",
   "beta-pre-execution-packet-candidate-template",

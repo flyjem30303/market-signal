@@ -390,6 +390,8 @@
     "check:beta-packet-window-no-secret-artifact-creation-runbook": "node scripts/check-beta-packet-window-no-secret-artifact-creation-runbook.mjs",
     "run:beta-packet-window-proof-map": "node scripts/run-beta-packet-window-proof-map.mjs",
     "check:beta-packet-window-one-command-proof-map": "node scripts/check-beta-packet-window-one-command-proof-map.mjs",
+    "report:beta-packet-window-readiness-summary": "node scripts/report-beta-packet-window-readiness-summary.mjs",
+    "check:beta-packet-window-readiness-summary": "node scripts/check-beta-packet-window-readiness-summary.mjs",
     "record:beta-packet-window-reviewed-artifact-outcome": "node scripts/record-beta-packet-window-reviewed-artifact-outcome.mjs",
     "check:beta-packet-window-reviewed-artifact-outcome-recorder": "node scripts/check-beta-packet-window-reviewed-artifact-outcome-recorder.mjs",
     "check:beta-packet-to-deployment-pre-execution-bridge": "node scripts/check-beta-packet-to-deployment-pre-execution-bridge.mjs",
