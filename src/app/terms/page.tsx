@@ -7,7 +7,7 @@ import { TrustRuntimeBoundaryNotice } from "@/components/trust-runtime-boundary-
 export const metadata: Metadata = {
   title: "使用條款",
   description:
-    "Terms of use for 指數燈號公開 Beta，說明 mock-only 資料邊界、data freshness metadata、非投資建議與使用者責任。"
+    "指數燈號公開 Beta 使用條款，說明示範資料、示範分數、非投資建議、資料限制與使用者責任。"
 };
 
 export default function TermsPage() {
@@ -18,8 +18,8 @@ export default function TermsPage() {
         <p className="eyebrow">Terms</p>
         <h1>使用條款</h1>
         <p>
-          Terms of use: 使用本網站代表你理解目前服務仍是 mock-only Beta。燈號、分數、週報與 data freshness metadata
-          是研究輔助，不是正式投資建議、交易指令或保證報酬的承諾。
+          歡迎使用指數燈號公開 Beta。現階段網站以示範資料與示範分數呈現產品體驗，
+          內容用於研究、整理與決策輔助展示，不構成投資建議、交易指示或收益保證。
         </p>
       </section>
 
@@ -29,55 +29,59 @@ export default function TermsPage() {
       <section className="legal-quick-read" aria-label="使用條款重點">
         <article>
           <span>服務定位</span>
-          <strong>研究輔助工具</strong>
+          <strong>公開 Beta，不是交易服務</strong>
           <p>
-            本網站協助整理市場資料、風險訊號與模型摘要。它不能取代投資顧問、交易系統、券商平台或使用者自己的判斷。
+            本網站協助使用者理解市場狀態與資料限制，但不代替個人判斷、專業顧問、
+            券商平台或正式交易系統。
           </p>
         </article>
         <article>
           <span>資料狀態</span>
-          <strong>mock-only until promotion gate</strong>
+          <strong>正式市場資料尚未啟用</strong>
           <p>
-            publicDataSource=mock，scoreSource=mock。正式資料、完整覆蓋與 real score 必須另行通過 promotion gate。
+            目前公開頁面仍使用示範資料與示範分數。正式資料來源、覆蓋率與更新流程
+            通過後，才會在頁面上清楚標示並切換。
           </p>
         </article>
         <article>
-          <span>禁止用途</span>
-          <strong>不得視為買賣指示</strong>
+          <span>使用責任</span>
+          <strong>請自行評估風險</strong>
           <p>
-            你不應把任何頁面內容解讀為買進、賣出、持有、融資、放空、槓桿或其他特定交易建議。
+            投資有風險，任何市場資訊都可能延遲、不完整或解讀錯誤。使用者應自行查證，
+            並依自身財務狀況與風險承受度做決定。
           </p>
         </article>
       </section>
 
       <section className="panel legal-section">
-        <h2>資料與功能可能變動</h2>
+        <h2>資料與分數限制</h2>
         <p>
-          Beta 期間，資料欄位、模型權重、分類、頁面呈現、追蹤事件與功能入口可能調整。若某項資料暫停、延遲或移除，
-          本網站不保證提供替代資料或事後補償。
+          Beta 期間的資料、燈號、分數與摘要可能使用示範資料、測試流程或尚未完整覆蓋的市場樣本。
+          這些內容只用來呈現產品方向與資訊架構，不應被視為即時、完整或已驗證的正式市場資料。
         </p>
       </section>
 
       <section className="panel legal-section">
-        <h2>使用者判斷與風險</h2>
+        <h2>非投資建議</h2>
         <p>
-          投資有風險，市場價格可能大幅波動。你應自行確認資料來源、交易成本、稅務、流動性、個人風險承受度與法規限制。
+          指數燈號不提供個別化投資建議，也不承諾任何報酬、勝率或避險效果。網站上的分類、
+          趨勢描述、風險提醒與決策輔助資訊，僅供使用者作為研究起點。
         </p>
       </section>
 
       <section className="panel legal-section">
-        <h2>服務限制</h2>
+        <h2>Beta 期間可能變動</h2>
         <p>
-          本網站可能因維護、系統錯誤、第三方服務限制或資料來源變更而中斷。若有重大變更，PM 會優先保持 mock/real
-          狀態與風險揭露可讀。
+          我們會持續調整資料來源、指標邏輯、頁面呈現與風險揭露。功能、內容與可用性可能隨測試結果改變，
+          也可能暫停、延後或移除。正式上線前，所有公開狀態都會以頁面揭露為準。
         </p>
       </section>
 
       <section className="panel legal-links">
         <h2>相關說明</h2>
-        <TermsTrustLink href="/disclaimer" label="查看風險揭露" />
-        <TermsTrustLink href="/privacy" label="查看隱私權說明" />
-        <TermsTrustLink href="/methodology" label="查看方法論" />
+        <TermsTrustLink href="/disclaimer" label="免責聲明" />
+        <TermsTrustLink href="/privacy" label="隱私權說明" />
+        <TermsTrustLink href="/methodology" label="方法說明" />
         <TermsTrustLink href="/" label="回到首頁" />
       </section>
     </main>

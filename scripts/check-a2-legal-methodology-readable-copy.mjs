@@ -22,13 +22,14 @@ const pages = [
   {
     path: "src/app/terms/page.tsx",
     required: [
-      "使用條款",
-      "Terms of use",
-      "mock-only",
-      "data freshness metadata",
-      "publicDataSource=mock",
-      "scoreSource=mock",
-      "不得視為買賣指示"
+      "\u4f7f\u7528\u689d\u6b3e",
+      "\u516c\u958b Beta",
+      "\u793a\u7bc4\u8cc7\u6599",
+      "\u793a\u7bc4\u5206\u6578",
+      "\u6b63\u5f0f\u5e02\u5834\u8cc7\u6599\u5c1a\u672a\u555f\u7528",
+      "\u975e\u6295\u8cc7\u5efa\u8b70",
+      "\u8acb\u81ea\u884c\u8a55\u4f30\u98a8\u96aa",
+      "Beta \u671f\u9593\u53ef\u80fd\u8b8a\u52d5"
     ]
   },
   {
