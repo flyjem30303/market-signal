@@ -3818,6 +3818,16 @@ const checks = [
     name: "a1-source-rights-evidence-batch-brief"
   },
   {
+    command: [node, "scripts/report-a1-source-rights-reviewed-outcome-surface.mjs"],
+    expectStatus: "pm_reviewed_outcome_surface_ready_waiting_no_secret_evidence",
+    name: "a1-source-rights-reviewed-outcome-surface-report"
+  },
+  {
+    command: [node, "scripts/check-a1-source-rights-reviewed-outcome-surface.mjs"],
+    expectStatus: "ok",
+    name: "a1-source-rights-reviewed-outcome-surface"
+  },
+  {
     command: [node, "scripts/check-a1-source-rights-readiness-summary.mjs"],
     expectStatus: "ok",
     name: "a1-source-rights-readiness-summary"

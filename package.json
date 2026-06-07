@@ -281,6 +281,8 @@
     "check:a1-exact-source-rights-evidence-worksheet": "node scripts/check-a1-exact-source-rights-evidence-worksheet.mjs",
     "report:a1-source-rights-evidence-batch-brief": "node scripts/report-a1-source-rights-evidence-batch-brief.mjs",
     "check:a1-source-rights-evidence-batch-brief": "node scripts/check-a1-source-rights-evidence-batch-brief.mjs",
+    "report:a1-source-rights-reviewed-outcome-surface": "node scripts/report-a1-source-rights-reviewed-outcome-surface.mjs",
+    "check:a1-source-rights-reviewed-outcome-surface": "node scripts/check-a1-source-rights-reviewed-outcome-surface.mjs",
     "report:a1-source-rights-readiness-summary": "node scripts/report-a1-source-rights-readiness-summary.mjs",
     "check:a1-source-rights-readiness-summary": "node scripts/check-a1-source-rights-readiness-summary.mjs",
     "check:a1-source-rights-unblock-priority-packet": "node scripts/check-a1-source-rights-unblock-priority-packet.mjs",
