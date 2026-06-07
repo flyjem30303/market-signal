@@ -367,6 +367,7 @@
     "record:beta-packet-window-reviewed-artifact-outcome": "node scripts/record-beta-packet-window-reviewed-artifact-outcome.mjs",
     "check:beta-packet-window-reviewed-artifact-outcome-recorder": "node scripts/check-beta-packet-window-reviewed-artifact-outcome-recorder.mjs",
     "check:beta-packet-to-deployment-pre-execution-bridge": "node scripts/check-beta-packet-to-deployment-pre-execution-bridge.mjs",
+    "check:chairman-beta-launch-review-packet": "node scripts/check-chairman-beta-launch-review-packet.mjs",
     "check:runtime-data-promotion-handoff-checklist": "node scripts/check-runtime-data-promotion-handoff-checklist.mjs",
     "check:runtime-summary-alignment-from-first-closed-loop": "node scripts/check-runtime-summary-alignment-from-first-closed-loop.mjs",
     "check:runtime-readonly-decision-card": "node scripts/check-runtime-readonly-decision-card.mjs",

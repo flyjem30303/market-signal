@@ -3128,6 +3128,11 @@ const checks = [
     name: "beta-packet-to-deployment-pre-execution-bridge"
   },
   {
+    command: [node, "scripts/check-chairman-beta-launch-review-packet.mjs"],
+    expectStatus: "ok",
+    name: "chairman-beta-launch-review-packet"
+  },
+  {
     command: [node, "scripts/check-runtime-data-promotion-handoff-checklist.mjs"],
     expectStatus: "ok",
     name: "runtime-data-promotion-handoff-checklist"
@@ -4386,6 +4391,7 @@ const coreReviewGateNames = new Set([
   "beta-packet-window-one-command-proof-map",
   "beta-packet-window-reviewed-artifact-outcome-recorder",
   "beta-packet-to-deployment-pre-execution-bridge",
+  "chairman-beta-launch-review-packet",
   "runtime-data-promotion-handoff-checklist",
   "runtime-summary-alignment-from-first-closed-loop",
   "a1-mvp-coverage-closure-route-support",
