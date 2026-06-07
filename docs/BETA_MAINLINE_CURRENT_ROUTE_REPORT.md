@@ -38,6 +38,13 @@ If platform values are missing, PM waits only for:
 - `BETA_HOSTING_PROJECT_NAME`
 - `BETA_TEMPORARY_URL`
 
+The mainline report surfaces `platformOperatorHandoff`, which carries only placeholder reply lines:
+
+- `BETA_HOSTING_PROJECT_NAME=<plain-hosting-project-slug>`
+- `BETA_TEMPORARY_URL=https://<public-beta-hostname>/`
+
+It also repeats the safe-shape reminders, the next validator command, the post-value proof-map command, and the reviewed-artifact outcome recorder command. It does not print real platform values and keeps `valuesAreNotStoredInRepo=true`.
+
 While those two values are missing, the report now returns `pmDefaultWhenBlocked.active=true`.
 That default route prevents repeated governance expansion:
 

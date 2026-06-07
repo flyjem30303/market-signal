@@ -132,6 +132,32 @@ if (!report) {
   if (report.runtimeBoundary?.publicDataSource !== "mock") blocked.push("report.runtimeBoundary.publicDataSource must be mock");
   if (report.runtimeBoundary?.scoreSource !== "mock") blocked.push("report.runtimeBoundary.scoreSource must be mock");
   if (report.platformValues?.valuesAreNotPrinted !== true) blocked.push("report.platformValues.valuesAreNotPrinted must be true");
+  if (report.platformOperatorHandoff?.mode !== "placeholder_only_no_values_printed") {
+    blocked.push("report.platformOperatorHandoff.mode must be placeholder_only_no_values_printed");
+  }
+  if (!Array.isArray(report.platformOperatorHandoff?.replyTemplate)) {
+    missing.push("report.platformOperatorHandoff.replyTemplate");
+  } else {
+    const replyTemplate = report.platformOperatorHandoff.replyTemplate.join("\n");
+    if (!replyTemplate.includes("BETA_HOSTING_PROJECT_NAME=<plain-hosting-project-slug>")) {
+      missing.push("report.platformOperatorHandoff.replyTemplate project placeholder");
+    }
+    if (!replyTemplate.includes("BETA_TEMPORARY_URL=https://<public-beta-hostname>/")) {
+      missing.push("report.platformOperatorHandoff.replyTemplate url placeholder");
+    }
+  }
+  if (report.platformOperatorHandoff?.valuesAreNotStoredInRepo !== true) {
+    blocked.push("report.platformOperatorHandoff.valuesAreNotStoredInRepo must be true");
+  }
+  if (report.platformOperatorHandoff?.nextValidationCommand !== "cmd.exe /c npm run validate:beta-platform-two-values") {
+    blocked.push("report.platformOperatorHandoff.nextValidationCommand must route to the two-value validator");
+  }
+  if (!report.platformOperatorHandoff?.afterValuesCommand?.includes("run:beta-packet-window-proof-map")) {
+    missing.push("report.platformOperatorHandoff.afterValuesCommand");
+  }
+  if (!report.platformOperatorHandoff?.afterProofMapCommand?.includes("record:beta-packet-window-reviewed-artifact-outcome")) {
+    missing.push("report.platformOperatorHandoff.afterProofMapCommand");
+  }
   if (!Array.isArray(report.stopLines) || report.stopLines.length < 9) missing.push("report.stopLines");
   if (!report.pmMainline?.nextCommand) missing.push("report.pmMainline.nextCommand");
   if (report.status === "blocked_waiting_two_platform_values") {

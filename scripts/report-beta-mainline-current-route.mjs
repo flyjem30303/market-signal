@@ -39,6 +39,26 @@ const report = {
     temporaryBetaUrlProvided: Boolean(betaReport.platformValues?.temporaryBetaUrlProvided),
     valuesAreNotPrinted: betaReport.platformValues?.valuesAreNotPrinted === true
   },
+  platformOperatorHandoff: {
+    mode: betaReport.operatorHandoff?.mode ?? "placeholder_only_no_values_printed",
+    replyTemplate: Array.isArray(betaReport.operatorHandoff?.replyTemplate)
+      ? betaReport.operatorHandoff.replyTemplate
+      : [
+        "BETA_HOSTING_PROJECT_NAME=<plain-hosting-project-slug>",
+        "BETA_TEMPORARY_URL=https://<public-beta-hostname>/"
+      ],
+    safeShapeReminder: Array.isArray(betaReport.operatorHandoff?.safeShapeReminder)
+      ? betaReport.operatorHandoff.safeShapeReminder
+      : [],
+    nextValidationCommand:
+      betaReport.operatorHandoff?.nextValidationCommand ?? "cmd.exe /c npm run validate:beta-platform-two-values",
+    afterValuesCommand:
+      betaReport.pmMainline?.afterValuesCommand ?? "cmd.exe /c npm run run:beta-packet-window-proof-map",
+    afterProofMapCommand:
+      betaReport.pmMainline?.afterProofMapCommand ??
+      "cmd.exe /c npm run record:beta-packet-window-reviewed-artifact-outcome -- --outcome accepted --reviewedBy PM --note \"PM accepts the no-secret packet-window proof map for pre-execution packet preparation only\" --apply",
+    valuesAreNotStoredInRepo: betaReport.operatorHandoff?.valuesAreNotStoredInRepo === true
+  },
   proofReadiness: {
     repoProofStatus: betaReport.proofReadiness?.repoProofStatus ?? "unknown",
     packetCandidateAllowed: Boolean(betaReport.proofReadiness?.packetCandidateAllowed),
