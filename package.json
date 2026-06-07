@@ -272,6 +272,7 @@
     "check:twii-vendor-internal-or-etf-fallback-selection": "node scripts/check-twii-vendor-internal-or-etf-fallback-selection.mjs",
     "check:a1-twii-vendor-terms-or-internal-feed-owner-evidence-packet": "node scripts/check-a1-twii-vendor-terms-or-internal-feed-owner-evidence-packet.mjs",
     "check:local-launch-proof-refresh-before-executable-packet": "node scripts/check-local-launch-proof-refresh-before-executable-packet.mjs",
+    "check:beta-deployment-platform-values-bridge": "node scripts/check-beta-deployment-platform-values-bridge.mjs",
     "check:taiwan-all-listed-universe-manifest-packet": "node scripts/check-taiwan-all-listed-universe-manifest-packet.mjs",
     "check:public-trust-and-disclosure-copy-worklist": "node scripts/check-public-trust-and-disclosure-copy-worklist.mjs",
     "check:mvp-remaining-coverage-execution-bridge": "node scripts/check-mvp-remaining-coverage-execution-bridge.mjs",

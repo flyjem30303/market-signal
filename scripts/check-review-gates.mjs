@@ -3653,6 +3653,11 @@ const checks = [
     name: "local-launch-proof-refresh-before-executable-packet"
   },
   {
+    command: [node, "scripts/check-beta-deployment-platform-values-bridge.mjs"],
+    expectStatus: "ok",
+    name: "beta-deployment-platform-values-bridge"
+  },
+  {
     command: [node, "scripts/check-taiwan-all-listed-universe-manifest-packet.mjs"],
     expectStatus: "ok",
     name: "taiwan-all-listed-universe-manifest-packet"
@@ -4251,6 +4256,7 @@ const coreReviewGateNames = new Set([
   "twii-vendor-internal-or-etf-fallback-selection",
   "a1-twii-vendor-terms-or-internal-feed-owner-evidence-packet",
   "local-launch-proof-refresh-before-executable-packet",
+  "beta-deployment-platform-values-bridge",
   "public-beta-readiness-gate",
   "beta-launch-preflight-packet",
   "beta-release-runbook-draft",

@@ -63,6 +63,7 @@ Latest PM mainline completion review:
 - `docs/BETA_DEPLOYMENT_OPERATOR_VALUES_GAP_LIST.md` is `accepted` as PM mainline short operator values gap list while external values remain pending.
 - `docs/BETA_DEPLOYMENT_OPERATOR_VALUES_DEFAULTS_AND_REMAINING_GAPS.md` is `accepted` as PM mainline operator values defaults and remaining gaps packet.
 - `docs/LOCAL_LAUNCH_PROOF_REFRESH_BEFORE_EXECUTABLE_PACKET.md` is `accepted` as PM mainline local proof refresh before executable packet.
+- `docs/BETA_DEPLOYMENT_PLATFORM_VALUES_BRIDGE.md` is `accepted` as PM mainline platform values bridge before executable packet.
 - `docs/RUNTIME_LOCAL_ROUTE_HEALTH_REFRESH_BEFORE_EXECUTABLE_PACKET.md` is `accepted` as PM mainline local route health refresh.
 - `docs/DATA_GATE_READINESS_AFTER_LOCAL_ROUTE_HEALTH_REFRESH.md` is `accepted` as PM mainline data gate readiness after local route health refresh.
 - `docs/RUNTIME_DATA_PROMOTION_HANDOFF_CHECKLIST.md` is `accepted` as PM mainline runtime/data promotion handoff checklist.
@@ -94,6 +95,7 @@ Latest PM mainline completion review:
 - The Beta deployment operator values gap list is `beta_deployment_operator_values_gap_list_ready_external_values_pending`.
 - The Beta deployment operator values defaults and remaining gaps packet is `beta_deployment_operator_values_defaults_and_remaining_gaps_ready_not_executable`; current outcome is `safe_operator_defaults_recorded_platform_values_pending`; next route is `executable_packet_candidate_after_platform_project_and_beta_url`.
 - The local launch proof refresh before executable packet is `local_launch_proof_refresh_before_executable_packet_ready_external_platform_values_pending`; current outcome is `local_proof_refresh_ready_platform_project_and_beta_url_pending`; next route is `fill_platform_project_and_beta_url_or_refresh_heavy_packet_proof`.
+- The beta deployment platform values bridge is `beta_deployment_platform_values_bridge_ready_operator_platform_values_pending`; current outcome is `packet_bridge_ready_platform_project_and_beta_url_pending`; next route is `create_executable_packet_candidate_after_platform_values`.
 - The runtime local route health refresh is `runtime_local_route_health_refresh_ready_mock_boundary_preserved`; current outcome is `local_route_health_refresh_ready_for_next_preflight_proof`; next route is `data_gate_readiness_after_local_route_health_refresh`, `executable_packet_candidate_after_platform_values`, or `runtime_repair_before_next_gate`.
 - The data gate readiness after local route health refresh is `data_gate_readiness_after_local_route_health_refresh_ready_source_execution_blocked`; current outcome is `twii_first_data_gate_ready_execution_blocked_external_rights_pending`; next route is `twii_source_rights_and_field_contract_acceptance_or_blocked_record`.
 - The TWII source-rights field-contract acceptance-or-blocked record is `twii_source_rights_field_contract_acceptance_or_blocked_record_blocked_external_evidence_pending`; current outcome is `blocked_external_rights_field_contract_and_asset_mapping_pending`; next route is `twii_vendor_or_internal_feed_fallback_selection_or_etf_source_rights_fallback_decision_support`.
