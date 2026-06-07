@@ -3078,6 +3078,11 @@ const checks = [
     name: "beta-deployment-operator-values-gap-list"
   },
   {
+    command: [node, "scripts/check-runtime-data-promotion-handoff-checklist.mjs"],
+    expectStatus: "ok",
+    name: "runtime-data-promotion-handoff-checklist"
+  },
+  {
     command: [node, "scripts/check-a1-mvp-coverage-closure-route-support.mjs"],
     expectStatus: "ok",
     name: "a1-mvp-coverage-closure-route-support"
@@ -4196,6 +4201,7 @@ const coreReviewGateNames = new Set([
   "local-launch-preflight-without-external-operator-values",
   "local-launch-proof-bundle-snapshot",
   "beta-deployment-operator-values-gap-list",
+  "runtime-data-promotion-handoff-checklist",
   "a1-mvp-coverage-closure-route-support",
   "a2-public-beta-trust-copy-readiness",
   "a2-beta-phrase-set-and-shared-trust-surface-patch-scope",
