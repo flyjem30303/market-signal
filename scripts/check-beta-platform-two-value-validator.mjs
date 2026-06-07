@@ -7,6 +7,7 @@ const docPath = "docs/BETA_PLATFORM_TWO_VALUE_VALIDATOR.md";
 const intakeGatePath = "docs/BETA_PLATFORM_TWO_VALUE_INTAKE_GATE.md";
 const validatorPath = "scripts/validate-beta-platform-two-values.mjs";
 const loaderPath = "scripts/lib/beta-platform-values.mjs";
+const envExamplePath = ".env.example";
 const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 const statusPath = "PROJECT_STATUS.md";
@@ -15,6 +16,7 @@ const boardPath = "docs/LAUNCH_ENGINEERING_WORKSTREAM_BOARD.md";
 const doc = read(docPath);
 const validator = read(validatorPath);
 const loader = read(loaderPath);
+const envExample = read(envExamplePath);
 const pkg = JSON.parse(read(packagePath));
 const reviewGate = read(reviewGatePath);
 
@@ -61,6 +63,15 @@ for (const phrase of [
   "betaPlatformValuesEnv"
 ]) {
   if (!loader.includes(phrase)) problems.push(`${loaderPath} missing phrase: ${phrase}`);
+}
+
+for (const phrase of [
+  "BETA_HOSTING_PROJECT_NAME is the plain hosting project slug",
+  "not a URL or dashboard link",
+  "BETA_TEMPORARY_URL must be a public https preview/Beta URL",
+  "not localhost, Supabase dashboard, or a URL with tokens/query strings"
+]) {
+  if (!envExample.includes(phrase)) problems.push(`${envExamplePath} missing phrase: ${phrase}`);
 }
 
 for (const [filePath, phrase] of [
