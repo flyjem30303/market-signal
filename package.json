@@ -361,6 +361,8 @@
     "validate:beta-platform-two-values": "node scripts/validate-beta-platform-two-values.mjs",
     "check:beta-platform-two-value-validator": "node scripts/check-beta-platform-two-value-validator.mjs",
     "check:beta-two-value-operator-handoff": "node scripts/check-beta-two-value-operator-handoff.mjs",
+    "report:beta-launch-next-action": "node scripts/report-beta-launch-next-action.mjs",
+    "check:beta-launch-next-action": "node scripts/check-beta-launch-next-action.mjs",
     "run:beta-packet-window-candidate-dry-run": "node scripts/run-beta-packet-window-candidate-dry-run.mjs",
     "check:beta-packet-window-candidate-dry-run-runner": "node scripts/check-beta-packet-window-candidate-dry-run-runner.mjs",
     "render:beta-packet-window-candidate-template": "node scripts/render-beta-packet-window-candidate-template.mjs",

@@ -3098,6 +3098,11 @@ const checks = [
     name: "beta-two-value-operator-handoff"
   },
   {
+    command: [node, "scripts/check-beta-launch-next-action.mjs"],
+    expectStatus: "ok",
+    name: "beta-launch-next-action"
+  },
+  {
     command: [node, "scripts/check-beta-packet-window-candidate-dry-run-runner.mjs"],
     expectStatus: "ok",
     name: "beta-packet-window-candidate-dry-run-runner"
@@ -4407,6 +4412,7 @@ const coreReviewGateNames = new Set([
   "beta-platform-two-value-intake-gate",
   "beta-platform-two-value-validator",
   "beta-two-value-operator-handoff",
+  "beta-launch-next-action",
   "beta-packet-window-candidate-dry-run-runner",
   "beta-packet-window-executable-candidate-template",
   "beta-packet-window-reviewed-artifact-acceptance-gate",
