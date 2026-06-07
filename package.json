@@ -332,6 +332,7 @@
     "check:local-launch-preflight-without-external-operator-values": "node scripts/check-local-launch-preflight-without-external-operator-values.mjs",
     "check:local-launch-proof-bundle-snapshot": "node scripts/check-local-launch-proof-bundle-snapshot.mjs",
     "check:beta-deployment-operator-values-gap-list": "node scripts/check-beta-deployment-operator-values-gap-list.mjs",
+    "check:beta-deployment-operator-values-defaults-and-remaining-gaps": "node scripts/check-beta-deployment-operator-values-defaults-and-remaining-gaps.mjs",
     "check:runtime-data-promotion-handoff-checklist": "node scripts/check-runtime-data-promotion-handoff-checklist.mjs",
     "check:runtime-summary-alignment-from-first-closed-loop": "node scripts/check-runtime-summary-alignment-from-first-closed-loop.mjs",
     "check:runtime-readonly-decision-card": "node scripts/check-runtime-readonly-decision-card.mjs",
