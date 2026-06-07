@@ -12,6 +12,7 @@
     "check:localhost-health-config": "node scripts/check-localhost-health-config.mjs",
     "check:localhost-content-health": "node scripts/check-localhost-content-health.mjs",
     "check:localhost-full-health": "node scripts/check-localhost-full-health.mjs",
+    "check:beta-runtime-fast-health": "node scripts/check-beta-runtime-fast-health.mjs",
     "check:local-verification-runbook": "node scripts/check-local-verification-runbook.mjs",
     "check:a2-public-trust-launch-copy-handoff": "node scripts/check-a2-public-trust-launch-copy-handoff.mjs",
     "check:a2-route-level-launch-copy-placement-criteria": "node scripts/check-a2-route-level-launch-copy-placement-criteria.mjs",
