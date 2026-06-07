@@ -387,6 +387,8 @@
     "check:beta-platform-unblock-kit": "node scripts/check-beta-platform-unblock-kit.mjs",
     "report:beta-mainline-current-route": "node scripts/report-beta-mainline-current-route.mjs",
     "check:beta-mainline-current-route": "node scripts/check-beta-mainline-current-route.mjs",
+    "report:beta-pre-execution-packet-readiness": "node scripts/report-beta-pre-execution-packet-readiness.mjs",
+    "check:beta-pre-execution-packet-readiness": "node scripts/check-beta-pre-execution-packet-readiness.mjs",
     "run:beta-packet-window-candidate-dry-run": "node scripts/run-beta-packet-window-candidate-dry-run.mjs",
     "check:beta-packet-window-candidate-dry-run-runner": "node scripts/check-beta-packet-window-candidate-dry-run-runner.mjs",
     "render:beta-packet-window-candidate-template": "node scripts/render-beta-packet-window-candidate-template.mjs",

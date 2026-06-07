@@ -44,6 +44,7 @@ Current PM route:
 
 Latest PM mainline completion review:
 
+- `report:beta-pre-execution-packet-readiness` is `accepted` as PM mainline packet pre-execution readiness surface. It reads the current mainline route plus packet-window readiness, carries `goalReadiness`, and keeps the current PM route on `validate:beta-platform-two-values` until `BETA_HOSTING_PROJECT_NAME` and `BETA_TEMPORARY_URL` are provided.
 - `report:beta-mainline-current-route` now embeds the shared public Beta GOAL readiness rollup under `goalReadiness`. `report:public-beta-goal-readiness-rollup` and the mainline route share `scripts/lib/public-beta-goal-readiness-rollup.mjs`, so PM can see runtime, platform packet, A1, A2, and promotion-boundary readiness from one route report without recursive report execution.
 - `docs/FORMAL_LAUNCH_DEPLOYMENT_READINESS_GATE.md` is `accepted` as PM mainline deployment preflight.
 - `docs/PUBLIC_BETA_READINESS_GATE.md` is `accepted` as PM mainline Beta preflight.

@@ -3118,6 +3118,11 @@ const checks = [
     name: "beta-mainline-current-route"
   },
   {
+    command: [node, "scripts/check-beta-pre-execution-packet-readiness.mjs"],
+    expectStatus: "ok",
+    name: "beta-pre-execution-packet-readiness"
+  },
+  {
     command: [node, "scripts/check-beta-packet-window-candidate-dry-run-runner.mjs"],
     expectStatus: "ok",
     name: "beta-packet-window-candidate-dry-run-runner"
@@ -4513,6 +4518,7 @@ const coreReviewGateNames = new Set([
   "beta-launch-next-action",
   "beta-platform-unblock-kit",
   "beta-mainline-current-route",
+  "beta-pre-execution-packet-readiness",
   "beta-packet-window-candidate-dry-run-runner",
   "beta-packet-window-executable-candidate-template",
   "beta-packet-window-reviewed-artifact-acceptance-gate",
