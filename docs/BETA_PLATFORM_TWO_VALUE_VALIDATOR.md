@@ -37,6 +37,7 @@ Input loading:
 - If one or both values are missing, it safely reads only `BETA_HOSTING_PROJECT_NAME` and `BETA_TEMPORARY_URL` from `.env.local`.
 - It does not print the values; output remains boolean/shape-only.
 - `.env.example` includes blank placeholders for both values so `.env.local` can be filled without storing actual values in tracked docs.
+- The validator, packet-window dry run, and packet-window candidate renderer share the same local loader so values accepted from `.env.local` continue through the whole packet chain.
 
 Example shape:
 

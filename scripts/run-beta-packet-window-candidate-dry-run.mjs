@@ -1,4 +1,8 @@
 import { spawnSync } from "node:child_process";
+import { betaPlatformValuesEnv, loadBetaPlatformValues } from "./lib/beta-platform-values.mjs";
+
+const betaValues = loadBetaPlatformValues();
+const childEnv = betaPlatformValuesEnv();
 
 const validator = run(["cmd.exe", "/c", "npm", "run", "validate:beta-platform-two-values"], "two-value-validator");
 const validatorJson = parseJsonFromStdout(validator.stdout);
@@ -27,8 +31,9 @@ if (validator.exitCode !== 0 || validatorStatus !== "accepted_two_value_shape_on
         : "repair_two_value_validation_before_packet_window",
     runtimeBoundary,
     values: {
-      hostingProjectNameProvided: Boolean(process.env.BETA_HOSTING_PROJECT_NAME),
-      temporaryBetaUrlProvided: Boolean(process.env.BETA_TEMPORARY_URL)
+      hostingProjectNameProvided: betaValues.BETA_HOSTING_PROJECT_NAME.length > 0,
+      temporaryBetaUrlProvided: betaValues.BETA_TEMPORARY_URL.length > 0,
+      loadedFromEnvLocal: betaValues.loadedFromEnvLocal
     },
     validator: summarizeCommand(validator, validatorJson),
     repoProof: null,
@@ -76,7 +81,7 @@ function run(command, name) {
   const result = spawnSync(command[0], command.slice(1), {
     cwd: process.cwd(),
     encoding: "utf8",
-    env: process.env,
+    env: childEnv,
     timeout: 180000,
     windowsHide: true
   });

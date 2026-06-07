@@ -31,6 +31,11 @@ Required environment variables:
 - `BETA_HOSTING_PROJECT_NAME`
 - `BETA_TEMPORARY_URL`
 
+Input loading:
+
+- The renderer uses the shared Beta platform values loader.
+- Values accepted from shell env or `.env.local` continue from validator to dry run to candidate template rendering.
+
 The renderer executes this local-only command map:
 
 1. run `run:beta-packet-window-candidate-dry-run`;

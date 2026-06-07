@@ -6,6 +6,7 @@ const problems = [];
 const docPath = "docs/BETA_PLATFORM_TWO_VALUE_VALIDATOR.md";
 const intakeGatePath = "docs/BETA_PLATFORM_TWO_VALUE_INTAKE_GATE.md";
 const validatorPath = "scripts/validate-beta-platform-two-values.mjs";
+const loaderPath = "scripts/lib/beta-platform-values.mjs";
 const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 const statusPath = "PROJECT_STATUS.md";
@@ -13,6 +14,7 @@ const boardPath = "docs/LAUNCH_ENGINEERING_WORKSTREAM_BOARD.md";
 
 const doc = read(docPath);
 const validator = read(validatorPath);
+const loader = read(loaderPath);
 const pkg = JSON.parse(read(packagePath));
 const reviewGate = read(reviewGatePath);
 
@@ -36,6 +38,7 @@ for (const phrase of [
 }
 
 for (const phrase of [
+  "loadBetaPlatformValues",
   "blocked_waiting_values",
   "rejected_unsafe_values",
   "accepted_two_value_shape_only",
@@ -47,6 +50,17 @@ for (const phrase of [
   "supabase.co"
 ]) {
   if (!validator.includes(phrase)) problems.push(`${validatorPath} missing phrase: ${phrase}`);
+}
+
+for (const phrase of [
+  "ALLOWED_KEYS",
+  "BETA_HOSTING_PROJECT_NAME",
+  "BETA_TEMPORARY_URL",
+  "BETA_PLATFORM_VALUES_SKIP_DOTENV",
+  "loadBetaPlatformValues",
+  "betaPlatformValuesEnv"
+]) {
+  if (!loader.includes(phrase)) problems.push(`${loaderPath} missing phrase: ${phrase}`);
 }
 
 for (const [filePath, phrase] of [

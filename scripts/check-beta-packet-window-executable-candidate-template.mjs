@@ -39,6 +39,8 @@ for (const phrase of [
 }
 
 for (const phrase of [
+  "betaPlatformValuesEnv",
+  "loadBetaPlatformValues",
   "run:beta-packet-window-candidate-dry-run",
   "packet_window_candidate_ready_shape_only",
   "packet_window_candidate_template_ready_shape_only",
@@ -50,6 +52,7 @@ for (const phrase of [
   "scoreSource: \"mock\"",
   "BETA_HOSTING_PROJECT_NAME",
   "BETA_TEMPORARY_URL",
+  "loadedFromEnvLocal",
   "create_separate_reviewed_packet_window_artifact"
 ]) {
   if (!renderer.includes(phrase)) problems.push(`${rendererPath} missing phrase: ${phrase}`);
@@ -88,7 +91,7 @@ for (const [filePath, phrase] of [
 const absentRun = spawnSync(process.execPath, [rendererPath], {
   cwd: process.cwd(),
   encoding: "utf8",
-  env: withoutBetaValues(process.env),
+  env: skipDotenv(withoutBetaValues(process.env)),
   windowsHide: true
 });
 
@@ -195,4 +198,11 @@ function withoutBetaValues(env) {
   delete next.BETA_HOSTING_PROJECT_NAME;
   delete next.BETA_TEMPORARY_URL;
   return next;
+}
+
+function skipDotenv(env) {
+  return {
+    ...env,
+    BETA_PLATFORM_VALUES_SKIP_DOTENV: "1"
+  };
 }

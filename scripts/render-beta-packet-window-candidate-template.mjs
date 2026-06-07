@@ -1,4 +1,8 @@
 import { spawnSync } from "node:child_process";
+import { betaPlatformValuesEnv, loadBetaPlatformValues } from "./lib/beta-platform-values.mjs";
+
+const betaValues = loadBetaPlatformValues();
+const childEnv = betaPlatformValuesEnv();
 
 const dryRun = run(["cmd.exe", "/c", "npm", "run", "run:beta-packet-window-candidate-dry-run"], "packet-window-dry-run");
 const dryRunJson = parseJsonFromStdout(dryRun.stdout);
@@ -58,8 +62,9 @@ const result = {
   launchBoundary: runtimeBoundary,
   platformValues: gitOk
     ? {
-        hostingProjectName: process.env.BETA_HOSTING_PROJECT_NAME,
-        temporaryBetaUrl: process.env.BETA_TEMPORARY_URL
+        hostingProjectName: betaValues.BETA_HOSTING_PROJECT_NAME,
+        temporaryBetaUrl: betaValues.BETA_TEMPORARY_URL,
+        loadedFromEnvLocal: betaValues.loadedFromEnvLocal
       }
     : null,
   repoProof: gitOk
@@ -94,7 +99,7 @@ function run(command, name) {
   const result = spawnSync(command[0], command.slice(1), {
     cwd: process.cwd(),
     encoding: "utf8",
-    env: process.env,
+    env: childEnv,
     timeout: 240000,
     windowsHide: true
   });

@@ -39,6 +39,8 @@ for (const phrase of [
 }
 
 for (const phrase of [
+  "betaPlatformValuesEnv",
+  "loadBetaPlatformValues",
   "validate:beta-platform-two-values",
   "run:beta-executable-packet-repo-proof",
   "accepted_two_value_shape_only",
@@ -49,6 +51,7 @@ for (const phrase of [
   "packetCandidateAllowed: ready",
   "publicDataSource: \"mock\"",
   "scoreSource: \"mock\"",
+  "loadedFromEnvLocal",
   "worktreeState"
 ]) {
   if (!runner.includes(phrase)) problems.push(`${runnerPath} missing phrase: ${phrase}`);
@@ -87,7 +90,7 @@ for (const [filePath, phrase] of [
 const absentRun = spawnSync(process.execPath, [runnerPath], {
   cwd: process.cwd(),
   encoding: "utf8",
-  env: withoutBetaValues(process.env),
+  env: skipDotenv(withoutBetaValues(process.env)),
   windowsHide: true
 });
 
@@ -194,4 +197,11 @@ function withoutBetaValues(env) {
   delete next.BETA_HOSTING_PROJECT_NAME;
   delete next.BETA_TEMPORARY_URL;
   return next;
+}
+
+function skipDotenv(env) {
+  return {
+    ...env,
+    BETA_PLATFORM_VALUES_SKIP_DOTENV: "1"
+  };
 }

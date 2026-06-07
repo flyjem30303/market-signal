@@ -31,6 +31,11 @@ Required environment variables:
 - `BETA_HOSTING_PROJECT_NAME`
 - `BETA_TEMPORARY_URL`
 
+Input loading:
+
+- The runner uses the shared Beta platform values loader.
+- Values accepted from shell env or `.env.local` are carried into child packet-window checks without printing the actual values.
+
 The runner executes the following local-only sequence:
 
 1. run `validate:beta-platform-two-values`;
