@@ -140,13 +140,13 @@ for (const phrase of [
 }
 
 for (const phrase of [
-  "observedRows: 5",
-  "missingRows: 355",
+  "observedRows: 182",
+  "missingRows: 178",
   "expectedRows: 360",
   "publicDataSource: \"mock\"",
   "scoreSource: \"mock\""
 ]) {
-  if (!postReadonly.includes(phrase)) problems.push(`${postReadonlyPath} missing current alignment baseline: ${phrase}`);
+  if (!postReadonly.includes(phrase)) problems.push(`${postReadonlyPath} missing aligned runtime baseline: ${phrase}`);
 }
 
 for (const phrase of [

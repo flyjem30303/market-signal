@@ -31,8 +31,8 @@ export type RuntimePromotionReadinessSummary = {
   };
   rowCoverage: {
     expectedRows: 360;
-    missingRows: 355;
-    observedRows: 5;
+    missingRows: 178;
+    observedRows: 182;
   };
   steps: RuntimePromotionReadinessStep[];
   stopLine: string;

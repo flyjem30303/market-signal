@@ -22,6 +22,8 @@ const required = [
   [helperPath, "keep_mock_runtime_and_prepare_coverage_route"],
   [helperPath, "not_ready_for_real_data_promotion"],
   [helperPath, "aggregate_count_incomplete"],
+  [helperPath, "missingRows: 178"],
+  [helperPath, "observedRows: 182"],
   [helperPath, "publicDataSource: \"mock\""],
   [helperPath, "scoreSource: \"mock\""],
   [helperPath, "ready_for_local_use"],

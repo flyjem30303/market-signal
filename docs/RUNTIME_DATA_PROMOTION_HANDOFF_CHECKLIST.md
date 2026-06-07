@@ -76,13 +76,13 @@ Runtime promotion cannot proceed until a later gate can prove:
 
 ## Runtime Summary Alignment Item
 
-PM records one runtime alignment item:
+PM recorded one runtime alignment item:
 
-- `src/lib/post-readonly-runtime-state.ts` still represents the earlier bounded readonly aggregate state as `5/360`.
+- `src/lib/post-readonly-runtime-state.ts` previously represented the earlier bounded readonly aggregate state as `5/360`.
 - Latest accepted rollup and workstream board represent current Level 1 evidence as `182/360`.
-- Next PM runtime code slice should align product-visible promotion readiness with accepted first closed-loop evidence while still preserving `publicDataSource=mock`, `scoreSource=mock`, and `not_ready_for_real_data_promotion`.
+- PM completed the alignment in `docs/RUNTIME_SUMMARY_ALIGNMENT_FROM_FIRST_CLOSED_LOOP.md`, so product-visible promotion readiness now uses accepted first closed-loop evidence while still preserving `publicDataSource=mock`, `scoreSource=mock`, and `not_ready_for_real_data_promotion`.
 
-This checklist does not perform that code alignment. It makes the required alignment explicit so the next code slice can be smaller and testable.
+This checklist remains the handoff record. The code alignment is guarded separately by `scripts/check-runtime-summary-alignment-from-first-closed-loop.mjs`.
 
 ## A1 / A2 Coordination
 

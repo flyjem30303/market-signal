@@ -3083,6 +3083,11 @@ const checks = [
     name: "runtime-data-promotion-handoff-checklist"
   },
   {
+    command: [node, "scripts/check-runtime-summary-alignment-from-first-closed-loop.mjs"],
+    expectStatus: "ok",
+    name: "runtime-summary-alignment-from-first-closed-loop"
+  },
+  {
     command: [node, "scripts/check-a1-mvp-coverage-closure-route-support.mjs"],
     expectStatus: "ok",
     name: "a1-mvp-coverage-closure-route-support"
@@ -4202,6 +4207,7 @@ const coreReviewGateNames = new Set([
   "local-launch-proof-bundle-snapshot",
   "beta-deployment-operator-values-gap-list",
   "runtime-data-promotion-handoff-checklist",
+  "runtime-summary-alignment-from-first-closed-loop",
   "a1-mvp-coverage-closure-route-support",
   "a2-public-beta-trust-copy-readiness",
   "a2-beta-phrase-set-and-shared-trust-surface-patch-scope",
