@@ -3638,6 +3638,11 @@ const checks = [
     name: "twii-source-rights-field-contract-acceptance-or-blocked-record"
   },
   {
+    command: [node, "scripts/check-twii-vendor-internal-or-etf-fallback-selection.mjs"],
+    expectStatus: "ok",
+    name: "twii-vendor-internal-or-etf-fallback-selection"
+  },
+  {
     command: [node, "scripts/check-taiwan-all-listed-universe-manifest-packet.mjs"],
     expectStatus: "ok",
     name: "taiwan-all-listed-universe-manifest-packet"
@@ -4233,6 +4238,7 @@ const coreReviewGateNames = new Set([
   "runtime-local-route-health-refresh-before-executable-packet",
   "data-gate-readiness-after-local-route-health-refresh",
   "twii-source-rights-field-contract-acceptance-or-blocked-record",
+  "twii-vendor-internal-or-etf-fallback-selection",
   "public-beta-readiness-gate",
   "beta-launch-preflight-packet",
   "beta-release-runbook-draft",
