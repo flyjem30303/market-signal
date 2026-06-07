@@ -366,6 +366,8 @@
     "check:beta-two-value-operator-handoff": "node scripts/check-beta-two-value-operator-handoff.mjs",
     "report:beta-launch-next-action": "node scripts/report-beta-launch-next-action.mjs",
     "check:beta-launch-next-action": "node scripts/check-beta-launch-next-action.mjs",
+    "report:beta-platform-unblock-kit": "node scripts/report-beta-platform-unblock-kit.mjs",
+    "check:beta-platform-unblock-kit": "node scripts/check-beta-platform-unblock-kit.mjs",
     "run:beta-packet-window-candidate-dry-run": "node scripts/run-beta-packet-window-candidate-dry-run.mjs",
     "check:beta-packet-window-candidate-dry-run-runner": "node scripts/check-beta-packet-window-candidate-dry-run-runner.mjs",
     "render:beta-packet-window-candidate-template": "node scripts/render-beta-packet-window-candidate-template.mjs",

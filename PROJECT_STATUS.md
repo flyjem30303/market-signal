@@ -539,3 +539,31 @@ Verification:
 - `cmd.exe /c npm run check:review-gates`
 - `cmd.exe /c npx tsc --noEmit`
 - `git diff --check`
+
+## Latest beta platform unblock kit slice
+
+Status: `beta_platform_unblock_kit_ready_waiting_values`
+
+Date: 2026-06-07
+
+CEO decision: `keep_beta_mainline_waiting_only_for_two_safe_platform_values`.
+
+PM route: `beta_platform_unblock_kit_then_packet_window_proof_map`.
+
+Outcome: `two_value_blocker_made_executable_without_value_output`.
+
+This slice adds `docs/BETA_PLATFORM_UNBLOCK_KIT.md`, `scripts/report-beta-platform-unblock-kit.mjs`, and `scripts/check-beta-platform-unblock-kit.mjs`. The report consolidates the current Beta packet blocker into one safe local output: whether `BETA_HOSTING_PROJECT_NAME` and `BETA_TEMPORARY_URL` are present, the next PM command, the command to run after values validate, the reviewed-artifact recorder command after proof-map readiness, and A1/A2/I parallel lane routing.
+
+The kit keeps the blocker narrow: PM should wait only for the two safe platform values, while A1 continues TWII/ETF source-rights evidence and A2 keeps public Beta trust copy stable. It does not print platform values, secrets, raw payloads, row payloads, or stock id payloads.
+
+This slice does not authorize deployment, hosting mutation, platform env mutation, SQL, Supabase connection/write, staging rows, `daily_prices` mutation, raw market-data work, public source promotion, real score promotion, investment-advice claims, or public launch completion claims.
+
+Verification:
+
+- `cmd.exe /c npm run report:beta-platform-unblock-kit`
+- `cmd.exe /c npm run check:beta-platform-unblock-kit`
+- `cmd.exe /c npm run check:beta-launch-next-action`
+- `cmd.exe /c npm run run:beta-executable-packet-repo-proof`
+- `cmd.exe /c npm run check:review-gates`
+- `cmd.exe /c npx tsc --noEmit`
+- `git diff --check`
