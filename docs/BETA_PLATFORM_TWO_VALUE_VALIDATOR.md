@@ -36,6 +36,7 @@ Input loading:
 - The validator first reads shell environment variables.
 - If one or both values are missing, it safely reads only `BETA_HOSTING_PROJECT_NAME` and `BETA_TEMPORARY_URL` from `.env.local`.
 - It does not print the values; output remains boolean/shape-only.
+- `.env.example` includes blank placeholders for both values so `.env.local` can be filled without storing actual values in tracked docs.
 
 Example shape:
 

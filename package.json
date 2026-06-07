@@ -31,7 +31,7 @@
     "check:etf-due-diligence": "node scripts/check-etf-due-diligence.mjs",
     "check:etf-mis-validation": "node scripts/check-etf-mis-validation-plan.mjs",
     "check:etf-source-gate": "node scripts/check-etf-source-gate.mjs",
-    "check:env": "node -e \"const fs=require('fs'); const s=fs.readFileSync('.env.example','utf8'); for (const k of ['NEXT_PUBLIC_SUPABASE_URL','NEXT_PUBLIC_SUPABASE_ANON_KEY','SUPABASE_SERVICE_ROLE_KEY','NEXT_PUBLIC_DATA_SOURCE','MARKET_SIGNAL_SUPABASE_READS','DATA_FRESHNESS_SOURCE','DATA_FRESHNESS_SUPABASE_READS','INTERNAL_DIAGNOSTICS_ENABLED','INTERNAL_DIAGNOSTICS_TOKEN','NEXT_PUBLIC_SITE_URL']) { if (!s.includes(k+'=')) throw new Error('Missing '+k); console.log(k+' ok'); }\"",
+    "check:env": "node -e \"const fs=require('fs'); const s=fs.readFileSync('.env.example','utf8'); for (const k of ['NEXT_PUBLIC_SUPABASE_URL','NEXT_PUBLIC_SUPABASE_ANON_KEY','SUPABASE_SERVICE_ROLE_KEY','NEXT_PUBLIC_DATA_SOURCE','MARKET_SIGNAL_SUPABASE_READS','DATA_FRESHNESS_SOURCE','DATA_FRESHNESS_SUPABASE_READS','INTERNAL_DIAGNOSTICS_ENABLED','INTERNAL_DIAGNOSTICS_TOKEN','NEXT_PUBLIC_SITE_URL','BETA_HOSTING_PROJECT_NAME','BETA_TEMPORARY_URL']) { if (!s.includes(k+'=')) throw new Error('Missing '+k); console.log(k+' ok'); }\"",
     "check:market-signal-source-boundary": "node scripts/check-market-signal-source-boundary.mjs",
     "check:market-signal-source-status": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/check-market-signal-source-status.mjs",
     "check:public-market-signal-runtime-boundary": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/check-public-market-signal-runtime-boundary.mjs",
