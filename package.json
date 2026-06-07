@@ -274,6 +274,7 @@
     "check:local-launch-proof-refresh-before-executable-packet": "node scripts/check-local-launch-proof-refresh-before-executable-packet.mjs",
     "check:beta-deployment-platform-values-bridge": "node scripts/check-beta-deployment-platform-values-bridge.mjs",
     "check:pre-launch-executable-state-gap-convergence": "node scripts/check-pre-launch-executable-state-gap-convergence.mjs",
+    "check:local-runtime-launch-proof-continuation": "node scripts/check-local-runtime-launch-proof-continuation.mjs",
     "check:taiwan-all-listed-universe-manifest-packet": "node scripts/check-taiwan-all-listed-universe-manifest-packet.mjs",
     "check:public-trust-and-disclosure-copy-worklist": "node scripts/check-public-trust-and-disclosure-copy-worklist.mjs",
     "check:mvp-remaining-coverage-execution-bridge": "node scripts/check-mvp-remaining-coverage-execution-bridge.mjs",
