@@ -250,6 +250,7 @@
     "check:tw-equity-daily-prices-insert-missing-merge-execution-decision": "node scripts/check-tw-equity-daily-prices-insert-missing-merge-execution-decision.mjs",
     "check:tw-equity-daily-prices-insert-missing-merge-post-run-review-2026-06-07": "node scripts/check-tw-equity-daily-prices-insert-missing-merge-post-run-review-2026-06-07.mjs",
     "check:tw-equity-row-coverage-scoring-gate": "node scripts/check-tw-equity-row-coverage-scoring-gate.mjs",
+    "check:data-realification-first-closed-loop-rollup": "node scripts/check-data-realification-first-closed-loop-rollup.mjs",
     "check:etf-daily-prices-coverage-completion-route": "node scripts/check-etf-daily-prices-coverage-completion-route.mjs",
     "check:coverage-universe-roadmap": "node scripts/check-coverage-universe-roadmap.mjs",
     "check:a1-next-data-coverage-handoff": "node scripts/check-a1-next-data-coverage-handoff.mjs",
