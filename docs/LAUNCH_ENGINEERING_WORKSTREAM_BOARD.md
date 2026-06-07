@@ -101,6 +101,7 @@ Latest PM mainline completion review:
 - `docs/A1_TWII_VENDOR_TERMS_OR_INTERNAL_FEED_OWNER_EVIDENCE_PACKET.md` is `accepted` as A1 no-secret vendor/internal evidence packet; it is not filled and does not approve any source lane.
 - `docs/TWII_VENDOR_INTERNAL_EVIDENCE_OUTCOME_LEDGER.md` is `accepted` as PM/A1 no-secret TWII vendor/internal evidence outcome ledger; status is `twii_vendor_internal_evidence_outcome_ledger_ready_pending_evidence`, outcome is `pending_evidence_no_source_rights_acceptance`, and `record:twii-vendor-internal-evidence-outcome` can later classify vendor terms, internal feed owner, field contract, and asset mapping evidence without authorizing execution or promotion.
 - `docs/TWII_SOURCE_RIGHTS_OUTCOME_GATE_BRIDGE.md` is `accepted` as PM TWII source-rights outcome bridge; status is `twii_source_rights_outcome_gate_bridge_ready_evidence_pending`, current outcome is `blocked_waiting_twii_vendor_internal_evidence`, and `report:twii-source-rights-outcome-gate-bridge` now converts the four ledger outcomes into a single PM stop/go signal before any separate TWII source-rights outcome gate can open.
+- `docs/A1_SOURCE_RIGHTS_NEXT_ACTION_REPORT.md` is `accepted` as PM/A1 source-rights next-action router; status is `a1_source_rights_next_action_report_ready_source_rights_pending`, current outcome is `blocked_waiting_source_rights_evidence`, and `report:a1-source-rights-next-action` now consolidates TWII `4/4` pending evidence and ETF blocked source-rights state into one PM route without reopening broad governance.
 - The formal launch deployment readiness gate is `formal_launch_deployment_readiness_gate_ready_not_deployed`.
 - The public Beta readiness gate is `public_beta_readiness_gate_ready_local_beta_allowed_real_promotion_blocked`.
 - The Beta launch preflight packet is `beta_launch_preflight_packet_ready_not_deployed`.
@@ -207,6 +208,7 @@ Active assignment:
 - PM should reassign A1 next to a TWII sanitized candidate artifact readiness gate only after source rights and field contract are accepted.
 - If TWII and ETF source rights remain unresolved, PM should reassign A1 to source-rights evidence intake, vendor/internal-feed decision support, or a blocked-route alternative map.
 - PM should reassign A1 to a blocked-route alternative map or TWII readiness branch when ETF source-rights evidence remains unresolved.
+- PM accepts the A1 source-rights next-action router as the current combined TWII/ETF evidence route. A1 should collect or classify exact TWII vendor/internal/field/asset evidence and ETF legal/redistribution evidence while PM keeps Beta mainline work moving.
 - Any next data action must stop before remote fetch, candidate generation from source data, SQL, Supabase connection, Supabase write, staging row creation, `daily_prices` mutation, row coverage points, public source promotion, or real score promotion.
 
 Completed first assignment:

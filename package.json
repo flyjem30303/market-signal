@@ -284,6 +284,8 @@
     "check:twii-vendor-internal-evidence-outcome-ledger": "node scripts/check-twii-vendor-internal-evidence-outcome-ledger.mjs",
     "report:twii-source-rights-outcome-gate-bridge": "node scripts/report-twii-source-rights-outcome-gate-bridge.mjs",
     "check:twii-source-rights-outcome-gate-bridge": "node scripts/check-twii-source-rights-outcome-gate-bridge.mjs",
+    "report:a1-source-rights-next-action": "node scripts/report-a1-source-rights-next-action.mjs",
+    "check:a1-source-rights-next-action": "node scripts/check-a1-source-rights-next-action.mjs",
     "check:local-launch-proof-refresh-before-executable-packet": "node scripts/check-local-launch-proof-refresh-before-executable-packet.mjs",
     "check:beta-deployment-platform-values-bridge": "node scripts/check-beta-deployment-platform-values-bridge.mjs",
     "check:beta-deployment-packet-window-readiness-selector": "node scripts/check-beta-deployment-packet-window-readiness-selector.mjs",

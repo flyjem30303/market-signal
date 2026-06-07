@@ -3758,6 +3758,11 @@ const checks = [
     name: "twii-source-rights-outcome-gate-bridge"
   },
   {
+    command: [node, "scripts/check-a1-source-rights-next-action.mjs"],
+    expectStatus: "ok",
+    name: "a1-source-rights-next-action"
+  },
+  {
     command: [node, "scripts/check-local-launch-proof-refresh-before-executable-packet.mjs"],
     expectStatus: "ok",
     name: "local-launch-proof-refresh-before-executable-packet"
@@ -4390,6 +4395,7 @@ const coreReviewGateNames = new Set([
   "a1-twii-vendor-terms-or-internal-feed-owner-evidence-packet",
   "twii-vendor-internal-evidence-outcome-ledger",
   "twii-source-rights-outcome-gate-bridge",
+  "a1-source-rights-next-action",
   "local-launch-proof-refresh-before-executable-packet",
   "beta-deployment-platform-values-bridge",
   "public-beta-readiness-gate",
