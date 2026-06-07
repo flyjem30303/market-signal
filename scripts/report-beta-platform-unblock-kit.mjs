@@ -35,6 +35,19 @@ const report = {
     valuesAreNotPrinted: true,
     acceptedShapeOnly: readyToRunProofMap
   },
+  operatorHandoff: {
+    mode: "placeholder_only_no_values_printed",
+    replyTemplate: [
+      "BETA_HOSTING_PROJECT_NAME=<plain-hosting-project-slug>",
+      "BETA_TEMPORARY_URL=https://<public-beta-hostname>/"
+    ],
+    safeShapeReminder: [
+      "Project name: lowercase letters, numbers, and hyphens only; no URL, dashboard word, token, secret, key, password, or invite.",
+      "Temporary URL: public https URL only; no query, hash, username, password, localhost, dashboard host, Supabase host, or private preview token."
+    ],
+    nextValidationCommand: "cmd.exe /c npm run validate:beta-platform-two-values",
+    valuesAreNotStoredInRepo: true
+  },
   proofReadiness: {
     repoProofStatus: repoProof.json?.status ?? "repo_proof_output_unreadable",
     packetCandidateAllowed: Boolean(repoProof.json?.packetCandidateAllowed),

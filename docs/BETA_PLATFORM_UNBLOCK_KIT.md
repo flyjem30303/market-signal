@@ -27,6 +27,15 @@ Run the local unblock report:
 
 The report does not print the values. It reports only whether each value is present, the next command, the proof-map route, A1/A2/I support-lane actions, and stop lines.
 
+The report also includes a placeholder-only operator reply template. Replace the placeholders outside tracked repo documents, then run the validator:
+
+```text
+BETA_HOSTING_PROJECT_NAME=<plain-hosting-project-slug>
+BETA_TEMPORARY_URL=https://<public-beta-hostname>/
+```
+
+The template is intentionally not a storage location for real values. Do not paste real platform values into tracked docs or reports.
+
 ## Mainline Route
 
 Current missing-value command:

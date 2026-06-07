@@ -25,6 +25,11 @@ const requiredReportPhrases = [
   "cmd.exe /c npm run validate:beta-platform-two-values",
   "cmd.exe /c npm run run:beta-packet-window-proof-map",
   "record:beta-packet-window-reviewed-artifact-outcome",
+  "operatorHandoff",
+  "placeholder_only_no_values_printed",
+  "BETA_HOSTING_PROJECT_NAME=<plain-hosting-project-slug>",
+  "BETA_TEMPORARY_URL=https://<public-beta-hostname>/",
+  "valuesAreNotStoredInRepo: true",
   "valuesAreNotPrinted: true",
   "publicDataSource: \"mock\"",
   "scoreSource: \"mock\"",
@@ -66,6 +71,9 @@ const requiredDocPhrases = [
   "`cmd.exe /c npm run validate:beta-platform-two-values`",
   "`cmd.exe /c npm run run:beta-packet-window-proof-map`",
   "`cmd.exe /c npm run record:beta-packet-window-reviewed-artifact-outcome",
+  "BETA_HOSTING_PROJECT_NAME=<plain-hosting-project-slug>",
+  "BETA_TEMPORARY_URL=https://<public-beta-hostname>/",
+  "placeholder-only",
   "A1",
   "A2",
   "I",
@@ -118,6 +126,23 @@ if (!report) {
   if (report.runtimeBoundary?.publicDataSource !== "mock") blocked.push("report.runtimeBoundary.publicDataSource must be mock");
   if (report.runtimeBoundary?.scoreSource !== "mock") blocked.push("report.runtimeBoundary.scoreSource must be mock");
   if (report.platformValues?.valuesAreNotPrinted !== true) blocked.push("report.platformValues.valuesAreNotPrinted must be true");
+  if (report.operatorHandoff?.mode !== "placeholder_only_no_values_printed") {
+    blocked.push("report.operatorHandoff.mode must be placeholder_only_no_values_printed");
+  }
+  if (!Array.isArray(report.operatorHandoff?.replyTemplate)) {
+    missing.push("report.operatorHandoff.replyTemplate");
+  } else {
+    const template = report.operatorHandoff.replyTemplate.join("\n");
+    if (!template.includes("BETA_HOSTING_PROJECT_NAME=<plain-hosting-project-slug>")) {
+      missing.push("report.operatorHandoff.replyTemplate project placeholder");
+    }
+    if (!template.includes("BETA_TEMPORARY_URL=https://<public-beta-hostname>/")) {
+      missing.push("report.operatorHandoff.replyTemplate url placeholder");
+    }
+  }
+  if (report.operatorHandoff?.valuesAreNotStoredInRepo !== true) {
+    blocked.push("report.operatorHandoff.valuesAreNotStoredInRepo must be true");
+  }
   if (!Array.isArray(report.stopLines) || report.stopLines.length < 8) missing.push("report.stopLines");
   if (!report.pmMainline?.afterValuesCommand?.includes("run:beta-packet-window-proof-map")) {
     missing.push("report.pmMainline.afterValuesCommand");
