@@ -261,6 +261,7 @@ Latest PM completion review:
 - `A2 bounded shared trust-surface copy patch` is `accepted` for PM mainline review.
 - `docs/A2_ROUTE_LOCAL_LEGAL_WEEKLY_METHODOLOGY_COPY_REGRESSION_GATE.md` is `accepted` for PM mainline review.
 - `docs/A2_BOUNDED_ROUTE_LOCAL_TRUST_COPY_PATCH.md` is `accepted` for PM mainline review.
+- `docs/A2_ROUTE_LOCAL_TRUST_COPY_ROUTE_HEALTH.md` is `accepted` for PM mainline review.
 - The handoff stayed bounded and local-only.
 - The checker `cmd.exe /c npm run check:a2-public-trust-launch-copy-handoff` passed.
 - The checker `cmd.exe /c npm run check:a2-route-level-launch-copy-placement-criteria` passed.
@@ -271,6 +272,7 @@ Latest PM completion review:
 - The checker `cmd.exe /c npm run check:a2-beta-phrase-set-and-shared-trust-surface-patch-scope` passed.
 - The checker `cmd.exe /c npm run check:a2-route-local-legal-weekly-methodology-copy-regression-gate` passed.
 - The checker `cmd.exe /c npm run check:a2-bounded-route-local-trust-copy-patch` passed.
+- The checker `cmd.exe /c npm run check:a2-route-local-trust-copy-route-health` passed.
 - The shared trust-surface copy patch focused checks passed: `check:runtime-mock-disclosure-readability`, `check:trust-runtime-boundary-notice`, `check:site-chrome-readability`, `check:public-runtime-boundary-coverage`, and `check:public-visible-language-quality`.
 - PM acceptance means the handoff can guide launch-copy integration; it does not authorize runtime promotion, real-source wording, or visual polish.
 
@@ -286,6 +288,7 @@ Active assignment:
 - PM accepts the bounded shared trust-surface copy patch as `a2_shared_trust_surface_copy_patch_applied_mock_boundary_preserved`; CEO decision is `apply_shared_trust_surface_copy_patch_before_route_local_legal_copy`; next route is `route_local_legal_weekly_methodology_copy_patch_or_beta_deployment_intake_values`.
 - PM accepts the route-local legal/weekly/methodology copy regression gate as `a2_route_local_legal_weekly_methodology_copy_regression_gate_ready`; CEO decision is `promote_route_local_trust_copy_regression_before_visual_polish`; next route is `bounded_weekly_methodology_legal_copy_patch_or_data_coverage_source_rights_unblock`.
 - PM accepts the bounded route-local trust copy patch as `a2_bounded_route_local_trust_copy_patch_applied_mock_boundary_preserved`; CEO decision is `apply_route_local_trust_copy_patch_before_visual_polish`; next route is `route_health_for_weekly_methodology_legal_pages_or_data_coverage_source_rights_unblock`.
+- PM accepts route-local trust copy route health as `a2_route_local_trust_copy_route_health_ready`; CEO decision is `verify_route_local_trust_copy_health_before_returning_to_data_coverage`; next route is `data_coverage_source_rights_unblock_after_route_health_green`.
 - Any next A2 task must preserve `publicDataSource=mock`, `scoreSource=mock`, non-investment-advice wording, data freshness limitations, missing/delayed data wording, partial coverage wording, and score/model limitations.
 
 Completed first assignment:
@@ -359,6 +362,14 @@ Completed tenth assignment:
 - Preserve `publicDataSource=mock`, `scoreSource=mock`, mock-only Beta state, data freshness metadata, partial coverage, missing/delayed data, model limitation, non-investment advice, risk disclosure, source-rights gates, and no raw-payload/secret-output boundaries.
 - Keep the copy patch out of SQL, Supabase connection/write, staging rows, `daily_prices` mutation, raw market data, deployment, DNS/SSL mutation, platform env mutation, row coverage points, public source promotion, real score promotion, and visual-polish-only scope.
 
+Completed eleventh assignment:
+
+- Produce `docs/A2_ROUTE_LOCAL_TRUST_COPY_ROUTE_HEALTH.md`.
+- Add `scripts/check-a2-route-local-trust-copy-route-health.mjs` and register it in review gates.
+- Validate `/weekly`, `/methodology`, `/disclaimer`, `/terms`, and `/privacy` for HTTP `200`, route-local trust-copy tokens, `publicDataSource=mock`, `scoreSource=mock`, and `mock-only`.
+- Preserve the ability to validate an already running localhost server or start a temporary non-default-port local server if needed.
+- Keep the route-health work out of SQL, Supabase connection/write, staging rows, `daily_prices` mutation, raw market data, deployment, DNS/SSL mutation, platform env mutation, row coverage points, public source promotion, real score promotion, and visual-polish-only scope.
+
 PM intake criteria for A2:
 
 - Copy gaps are split into launch-blocking and non-blocking polish.
@@ -371,7 +382,7 @@ Next A2 task when PM reopens the copy lane:
 
 - Prepare a bounded shared trust-surface copy patch for `src/lib/public-runtime-boundary-copy.ts`, `src/components/trust-runtime-boundary-notice.tsx`, and footer/legal copy if PM chooses UI implementation next.
 - If PM keeps A2 document-only, prepare a Beta phrase set for mock-only, data freshness metadata, partial coverage, missing/delayed data, model limitation, risk, and non-investment-advice.
-- If copy placement is already covered, run route health for `/weekly`, `/methodology`, `/disclaimer`, `/terms`, and `/privacy`, then continue data coverage source-rights unblock if route health is stable.
+- If copy placement is already covered and route health is stable, continue data coverage source-rights unblock as the next mainline route.
 - Visual polish remains lower priority unless comprehension or legal clarity is blocked.
 
 ## PM Integration Loop
