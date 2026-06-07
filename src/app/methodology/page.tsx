@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { PageViewTracker } from "@/components/page-view-tracker";
+import { RouteLocalTrustCopyPanel } from "@/components/route-local-trust-copy-panel";
 import { TrackedLink } from "@/components/tracked-link";
 import { TrustRuntimeBoundaryNotice } from "@/components/trust-runtime-boundary-notice";
 import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
@@ -44,6 +45,7 @@ export default async function MethodologyPage() {
       </section>
       <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
       <TrustRuntimeBoundaryNotice context="methodology" />
+      <RouteLocalTrustCopyPanel context="methodology" />
 
       <section className="method-quick-read" aria-label="方法論快速摘要">
         <article>

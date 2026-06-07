@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { CommercialSlot } from "@/components/commercial-slot";
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { PageViewTracker } from "@/components/page-view-tracker";
+import { RouteLocalTrustCopyPanel } from "@/components/route-local-trust-copy-panel";
 import { TrackedLink } from "@/components/tracked-link";
 import { TrustRuntimeBoundaryNotice } from "@/components/trust-runtime-boundary-notice";
 import { WeeklyRowCoverageStatus } from "@/components/weekly-row-coverage-status";
@@ -76,6 +77,7 @@ export default async function WeeklyPage() {
         </TrackedLink>
       </nav>
       <TrustRuntimeBoundaryNotice context="weekly" />
+      <RouteLocalTrustCopyPanel context="weekly" />
       <section className="weekly-market-action-summary" aria-label="週報市場行動摘要">
         <div>
           <p className="eyebrow">Market Action Summary</p>

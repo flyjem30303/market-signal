@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { PageViewTracker } from "@/components/page-view-tracker";
+import { RouteLocalTrustCopyPanel } from "@/components/route-local-trust-copy-panel";
 import { TrackedLink } from "@/components/tracked-link";
 import { TrustRuntimeBoundaryNotice } from "@/components/trust-runtime-boundary-notice";
 
@@ -22,6 +23,7 @@ export default function DisclaimerPage() {
       </section>
 
       <TrustRuntimeBoundaryNotice context="disclaimer" />
+      <RouteLocalTrustCopyPanel context="disclaimer" />
 
       <section className="legal-quick-read" aria-label="免責聲明重點">
         <article>

@@ -3138,6 +3138,11 @@ const checks = [
     name: "a2-route-local-legal-weekly-methodology-copy-regression-gate"
   },
   {
+    command: [node, "scripts/check-a2-bounded-route-local-trust-copy-patch.mjs"],
+    expectStatus: "ok",
+    name: "a2-bounded-route-local-trust-copy-patch"
+  },
+  {
     command: [node, "scripts/check-ceo-execution-focus-closure-readiness.mjs"],
     expectStatus: "ok",
     name: "ceo-execution-focus-closure-readiness"
@@ -4310,6 +4315,7 @@ const coreReviewGateNames = new Set([
   "a2-public-beta-trust-copy-readiness",
   "a2-beta-phrase-set-and-shared-trust-surface-patch-scope",
   "a2-route-local-legal-weekly-methodology-copy-regression-gate",
+  "a2-bounded-route-local-trust-copy-patch",
   "taiwan-all-listed-universe-manifest-packet",
   "public-trust-and-disclosure-copy-worklist",
   "mvp-remaining-coverage-execution-bridge",
