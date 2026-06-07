@@ -4,6 +4,7 @@ import { localhostContentHealthChecks, localhostStatusHealthPaths } from "./loca
 const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 const checkerPath = "scripts/check-public-visible-language-quality.mjs";
+const briefingSummaryPath = "src/lib/briefing-market-action-summary.ts";
 const baseUrl = process.env.LOCALHOST_BASE_URL ?? "http://localhost:3000";
 
 const coreRuntimeBoundaryRequired = [
@@ -90,6 +91,18 @@ const forbiddenText = [
 ];
 
 const results = [];
+const sourceReadabilityTargets = [
+  {
+    path: briefingSummaryPath,
+    required: [
+      "CEO Briefing:",
+      "publicDataSource=mock",
+      "scoreSource=mock",
+      "not investment advice",
+      "mock runtime"
+    ]
+  }
+];
 
 for (const page of pages) {
   const url = `${baseUrl}${page.path}`;
@@ -113,6 +126,18 @@ for (const page of pages) {
 const packageJson = fs.readFileSync(packagePath, "utf8");
 const reviewGate = fs.readFileSync(reviewGatePath, "utf8");
 const checkerSource = fs.readFileSync(checkerPath, "utf8");
+const sourceReadability = sourceReadabilityTargets.map((target) => {
+  const source = fs.readFileSync(target.path, "utf8");
+  const markerHits = findMojibakeMarkers(source);
+  const missing = target.required.filter((phrase) => !source.includes(phrase));
+
+  return {
+    markerHits,
+    missing,
+    pass: markerHits.length === 0 && missing.length === 0,
+    path: target.path
+  };
+});
 const registration = [
   {
     file: packagePath,
@@ -158,6 +183,10 @@ const selfContract = [
   {
     check: "aligns with localhost health paths",
     pass: checkerSource.includes("localhostStatusHealthPaths") && checkerSource.includes("localhostContentHealthChecks")
+  },
+  {
+    check: "guards briefing action summary helper",
+    pass: checkerSource.includes(briefingSummaryPath) && checkerSource.includes("sourceReadabilityTargets")
   }
 ];
 
@@ -165,6 +194,7 @@ const failed = results.filter((result) => !result.pass);
 const registrationFailed = registration.filter((result) => !result.pass);
 const routeAlignmentFailed = routeAlignment.filter((result) => !result.pass);
 const selfContractFailed = selfContract.filter((result) => !result.pass);
+const sourceReadabilityFailed = sourceReadability.filter((result) => !result.pass);
 
 console.log(
   JSON.stringify(
@@ -173,8 +203,13 @@ console.log(
       results,
       routeAlignment,
       selfContract,
+      sourceReadability,
       status:
-        failed.length === 0 && registrationFailed.length === 0 && routeAlignmentFailed.length === 0 && selfContractFailed.length === 0
+        failed.length === 0 &&
+        registrationFailed.length === 0 &&
+        routeAlignmentFailed.length === 0 &&
+        selfContractFailed.length === 0 &&
+        sourceReadabilityFailed.length === 0
           ? "ok"
           : "blocked"
     },
@@ -183,7 +218,13 @@ console.log(
   )
 );
 
-if (failed.length > 0 || registrationFailed.length > 0 || routeAlignmentFailed.length > 0 || selfContractFailed.length > 0) {
+if (
+  failed.length > 0 ||
+  registrationFailed.length > 0 ||
+  routeAlignmentFailed.length > 0 ||
+  selfContractFailed.length > 0 ||
+  sourceReadabilityFailed.length > 0
+) {
   process.exitCode = 1;
 }
 
@@ -207,6 +248,13 @@ function findMojibakeMarkers(text) {
   if (text.includes("\uFFFD")) markers.push("replacement-char");
   if (/\?{2,}/u.test(text)) markers.push("question-mark-run");
   if (hasPrivateUseCodePoint(text)) markers.push("private-use-code-point");
+  if (
+    /(?:\u5697|\u929d|\u876d|\u619f|\u7485|\u9788|\u64a3|\u95ae|\u7625|\u6468|\u7508|\u96ff|\u8e50|\u8e53){2,}/u.test(
+      text
+    )
+  ) {
+    markers.push("common-mojibake-run");
+  }
   return markers;
 }
 

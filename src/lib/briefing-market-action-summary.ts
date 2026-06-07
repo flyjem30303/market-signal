@@ -24,52 +24,53 @@ export function buildBriefingMarketActionSummary(
 ): BriefingMarketActionSummary {
   const marketNeedsCaution = market.riskScore >= 60 || breadth.defensive > breadth.constructive;
   const topRiskIsHot = topRisk.riskScore >= 70;
-  const marketLine = `市場分布：${breadth.constructive} 個偏正向、${breadth.watch} 個觀察中、${breadth.defensive} 個偏防守。`;
+  const marketLine = `Market breadth: ${breadth.constructive} constructive, ${breadth.watch} watch, ${breadth.defensive} defensive.`;
 
   if (marketNeedsCaution || topRiskIsHot) {
     return {
-      headline: "CEO Briefing：市場風險升溫，先守住 mock 邊界",
-      marketLine: `${marketLine} 目前最需要追蹤的風險標的是 ${topRisk.asset.symbol}。`,
+      headline: "CEO Briefing: keep the market read defensive until risk cools",
+      marketLine: `${marketLine} Risk is concentrated in ${topRisk.asset.symbol}, so the Beta read should emphasize caution and review discipline.`,
       primary: {
-        body: `${market.asset.symbol} 顯示大盤風險需要留意，先看市場廣度與風險分布，再決定是否進一步檢查 ETF 或權值股。`,
+        body: `${market.asset.symbol} is the market anchor for this mock briefing. Read it first to understand breadth, data quality, and the current caution state before reviewing individual stocks or ETFs.`,
         href: `/stocks/${market.asset.symbol}`,
-        label: "查看大盤狀態",
+        label: "Read market anchor",
         symbol: market.asset.symbol,
-        title: `${market.asset.symbol} 市場背景`,
+        title: `${market.asset.symbol} Market boundary`,
         tone: "hold"
       },
       secondary: {
-        body: `${topRisk.asset.symbol} 風險分數 ${topRisk.riskScore}/100，建議先看風險來源與資料品質，不要直接推論正式訊號。`,
+        body: `${topRisk.asset.symbol} has a mock pullback-risk score of ${topRisk.riskScore}/100. Treat it as a review queue item, not as trading advice or a live market warning.`,
         href: `/stocks/${topRisk.asset.symbol}`,
-        label: "查看最高風險",
+        label: "Review highest risk",
         symbol: topRisk.asset.symbol,
-        title: `${topRisk.asset.symbol} 風險檢查`,
+        title: `${topRisk.asset.symbol} Risk review`,
         tone: "blocked"
       },
       stopLine:
-        "Briefing 仍是 mock runtime 摘要；publicDataSource=mock，scoreSource=mock，不提供買賣建議，也不可作為投資建議。"
+        "Briefing stays in mock runtime: publicDataSource=mock; scoreSource=mock. This is decision-support context, not investment advice."
     };
   }
 
   return {
-    headline: "CEO Briefing：市場暫時偏穩，繼續用 mock 摘要觀察",
-    marketLine: `${marketLine} 目前可以先追蹤大盤與最高風險標的的差距。`,
+    headline: "CEO Briefing: constructive mock read, still wait for real-data gates",
+    marketLine: `${marketLine} The current mock read is constructive, but public Beta must still show partial coverage and source-rights limits.`,
     primary: {
-      body: `${market.asset.symbol} 綜合分數 ${market.compositeScore}/100，可先看趨勢、廣度與資料品質是否一致。`,
+      body: `${market.asset.symbol} has a mock composite score of ${market.compositeScore}/100. Use it to orient the market read before drilling into sector or symbol pages.`,
       href: `/stocks/${market.asset.symbol}`,
-      label: "查看大盤趨勢",
+      label: "Read market strength",
       symbol: market.asset.symbol,
-      title: `${market.asset.symbol} 市場狀態`,
+      title: `${market.asset.symbol} Market read`,
       tone: "active"
     },
     secondary: {
-      body: `${topRisk.asset.symbol} 風險分數 ${topRisk.riskScore}/100，仍需要保留風險觀察，不宜只看強勢分數。`,
+      body: `${topRisk.asset.symbol} has a mock pullback-risk score of ${topRisk.riskScore}/100. Keep it on the watch list even when the broad read is constructive.`,
       href: `/stocks/${topRisk.asset.symbol}`,
-      label: "同步查看風險",
+      label: "Watch risk queue",
       symbol: topRisk.asset.symbol,
-      title: `${topRisk.asset.symbol} 風險追蹤`,
+      title: `${topRisk.asset.symbol} Risk watch`,
       tone: "hold"
     },
-    stopLine: "目前只能使用 mock runtime 解讀；publicDataSource=mock，scoreSource=mock，不能推論正式市場訊號。"
+    stopLine:
+      "This briefing is still mock runtime: publicDataSource=mock; scoreSource=mock. It does not provide buy, sell, hold, or personalized investment advice."
   };
 }

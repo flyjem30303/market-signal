@@ -287,6 +287,7 @@ Latest PM completion review:
 - `docs/A2_ROUTE_LOCAL_LEGAL_WEEKLY_METHODOLOGY_COPY_REGRESSION_GATE.md` is `accepted` for PM mainline review.
 - `docs/A2_BOUNDED_ROUTE_LOCAL_TRUST_COPY_PATCH.md` is `accepted` for PM mainline review.
 - `docs/A2_ROUTE_LOCAL_TRUST_COPY_ROUTE_HEALTH.md` is `accepted` for PM mainline review.
+- `src/lib/briefing-market-action-summary.ts` briefing market-action copy repair is `accepted` as a launch-blocking trust-copy repair, not visual polish.
 - The handoff stayed bounded and local-only.
 - The checker `cmd.exe /c npm run check:a2-public-trust-launch-copy-handoff` passed.
 - The checker `cmd.exe /c npm run check:a2-route-level-launch-copy-placement-criteria` passed.
@@ -314,6 +315,7 @@ Active assignment:
 - PM accepts the route-local legal/weekly/methodology copy regression gate as `a2_route_local_legal_weekly_methodology_copy_regression_gate_ready`; CEO decision is `promote_route_local_trust_copy_regression_before_visual_polish`; next route is `bounded_weekly_methodology_legal_copy_patch_or_data_coverage_source_rights_unblock`.
 - PM accepts the bounded route-local trust copy patch as `a2_bounded_route_local_trust_copy_patch_applied_mock_boundary_preserved`; CEO decision is `apply_route_local_trust_copy_patch_before_visual_polish`; next route is `route_health_for_weekly_methodology_legal_pages_or_data_coverage_source_rights_unblock`.
 - PM accepts route-local trust copy route health as `a2_route_local_trust_copy_route_health_ready`; CEO decision is `verify_route_local_trust_copy_health_before_returning_to_data_coverage`; next route is `data_coverage_source_rights_unblock_after_route_health_green`.
+- PM accepts the briefing market-action summary helper repair; `check:public-visible-language-quality` now guards this helper against mojibake regression while preserving `publicDataSource=mock`, `scoreSource=mock`, and non-investment-advice wording.
 - Any next A2 task must preserve `publicDataSource=mock`, `scoreSource=mock`, non-investment-advice wording, data freshness limitations, missing/delayed data wording, partial coverage wording, and score/model limitations.
 
 Completed first assignment:
