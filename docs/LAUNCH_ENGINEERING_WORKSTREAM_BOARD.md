@@ -95,6 +95,7 @@ Latest PM mainline completion review:
 - `docs/TWII_SOURCE_RIGHTS_FIELD_CONTRACT_ACCEPTANCE_OR_BLOCKED_RECORD.md` is `blocked` as PM mainline acceptance-or-blocked record because source rights, field contract, and asset mapping remain unresolved.
 - `docs/TWII_VENDOR_INTERNAL_OR_ETF_FALLBACK_SELECTION.md` is `accepted` as PM fallback selection, keeping A1 on vendor/internal-feed evidence while PM mainline continues launch/runtime work that does not require real data promotion.
 - `docs/A1_TWII_VENDOR_TERMS_OR_INTERNAL_FEED_OWNER_EVIDENCE_PACKET.md` is `accepted` as A1 no-secret vendor/internal evidence packet; it is not filled and does not approve any source lane.
+- `docs/TWII_VENDOR_INTERNAL_EVIDENCE_OUTCOME_LEDGER.md` is `accepted` as PM/A1 no-secret TWII vendor/internal evidence outcome ledger; status is `twii_vendor_internal_evidence_outcome_ledger_ready_pending_evidence`, outcome is `pending_evidence_no_source_rights_acceptance`, and `record:twii-vendor-internal-evidence-outcome` can later classify vendor terms, internal feed owner, field contract, and asset mapping evidence without authorizing execution or promotion.
 - The formal launch deployment readiness gate is `formal_launch_deployment_readiness_gate_ready_not_deployed`.
 - The public Beta readiness gate is `public_beta_readiness_gate_ready_local_beta_allowed_real_promotion_blocked`.
 - The Beta launch preflight packet is `beta_launch_preflight_packet_ready_not_deployed`.

@@ -1,0 +1,36 @@
+{
+  "outcomes": [
+    {
+      "id": "vendor-terms-evidence",
+      "lane": "licensed-market-data-vendor",
+      "classification": "pending",
+      "recordedBy": "not_recorded",
+      "recordedAt": null,
+      "decisionNote": "Awaiting safe vendor terms evidence. Pending does not authorize source rights, TWII candidate generation, Supabase access, daily_prices mutation, row coverage points, publicDataSource=supabase, or scoreSource=real."
+    },
+    {
+      "id": "internal-feed-owner-evidence",
+      "lane": "internal-approved-feed",
+      "classification": "pending",
+      "recordedBy": "not_recorded",
+      "recordedAt": null,
+      "decisionNote": "Awaiting internal feed owner evidence. Pending does not authorize source rights, TWII candidate generation, Supabase access, daily_prices mutation, row coverage points, publicDataSource=supabase, or scoreSource=real."
+    },
+    {
+      "id": "field-contract-evidence",
+      "lane": "shared-twii-field-contract",
+      "classification": "pending",
+      "recordedBy": "not_recorded",
+      "recordedAt": null,
+      "decisionNote": "Awaiting TWII field contract evidence. Pending does not authorize parser promotion, candidate generation, daily_prices mapping, row coverage points, publicDataSource=supabase, or scoreSource=real."
+    },
+    {
+      "id": "asset-mapping-evidence",
+      "lane": "shared-twii-asset-mapping",
+      "classification": "pending",
+      "recordedBy": "not_recorded",
+      "recordedAt": null,
+      "decisionNote": "Awaiting safe TWII index asset mapping evidence. Pending does not authorize stock id payload output, candidate generation, daily_prices mutation, row coverage points, publicDataSource=supabase, or scoreSource=real."
+    }
+  ]
+}

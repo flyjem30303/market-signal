@@ -3743,6 +3743,11 @@ const checks = [
     name: "a1-twii-vendor-terms-or-internal-feed-owner-evidence-packet"
   },
   {
+    command: [node, "scripts/check-twii-vendor-internal-evidence-outcome-ledger.mjs"],
+    expectStatus: "ok",
+    name: "twii-vendor-internal-evidence-outcome-ledger"
+  },
+  {
     command: [node, "scripts/check-local-launch-proof-refresh-before-executable-packet.mjs"],
     expectStatus: "ok",
     name: "local-launch-proof-refresh-before-executable-packet"
@@ -4373,6 +4378,7 @@ const coreReviewGateNames = new Set([
   "twii-source-rights-field-contract-acceptance-or-blocked-record",
   "twii-vendor-internal-or-etf-fallback-selection",
   "a1-twii-vendor-terms-or-internal-feed-owner-evidence-packet",
+  "twii-vendor-internal-evidence-outcome-ledger",
   "local-launch-proof-refresh-before-executable-packet",
   "beta-deployment-platform-values-bridge",
   "public-beta-readiness-gate",
