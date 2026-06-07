@@ -3658,6 +3658,11 @@ const checks = [
     name: "beta-runtime-fast-health"
   },
   {
+    command: [node, "scripts/check-beta-executable-packet-repo-proof-runner-gate.mjs"],
+    expectStatus: "ok",
+    name: "beta-executable-packet-repo-proof-runner-gate"
+  },
+  {
     command: [node, "scripts/check-data-gate-readiness-after-local-route-health-refresh.mjs"],
     expectStatus: "ok",
     name: "data-gate-readiness-after-local-route-health-refresh"
@@ -4303,6 +4308,7 @@ const coreReviewGateNames = new Set([
   "goal-parallel-workstream-adjustment",
   "runtime-local-route-health-refresh-before-executable-packet",
   "beta-runtime-fast-health",
+  "beta-executable-packet-repo-proof-runner-gate",
   "data-gate-readiness-after-local-route-health-refresh",
   "twii-source-rights-field-contract-acceptance-or-blocked-record",
   "twii-vendor-internal-or-etf-fallback-selection",
