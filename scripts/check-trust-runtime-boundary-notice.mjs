@@ -11,10 +11,9 @@ const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 
 const files = new Map(
-  [componentPath, methodologyPath, disclaimerPath, termsPath, privacyPath, weeklyPath, cssPath, packagePath, reviewGatePath].map((file) => [
-    file,
-    fs.readFileSync(file, "utf8")
-  ])
+  [componentPath, methodologyPath, disclaimerPath, termsPath, privacyPath, weeklyPath, cssPath, packagePath, reviewGatePath].map(
+    (file) => [file, fs.readFileSync(file, "utf8")]
+  )
 );
 
 const required = [
@@ -23,15 +22,17 @@ const required = [
   [componentPath, "getRuntimeInterpretationSummary"],
   [componentPath, "getSourceDepthBlockerSummary"],
   [componentPath, "PublicRuntimeStateStrip"],
-  [componentPath, "投資與資料限制：目前仍是 mock-only"],
-  [componentPath, "方法說明：mock 分數不等於正式模型結論"],
-  [componentPath, "隱私與資料邊界：不因 mock 展示啟用真實資料線"],
-  [componentPath, "使用條款：公開資訊仍受 mock-only 邊界限制"],
-  [componentPath, "週報邊界：目前不是即時或完整市場資料"],
+  [componentPath, "Investment and data limits: currently mock-only"],
+  [componentPath, "Methodology: mock scores are not formal model conclusions"],
+  [componentPath, "Privacy and data boundary: mock display does not enable real data"],
+  [componentPath, "Terms of use: public information remains mock-only"],
+  [componentPath, "Weekly boundary: not live or complete market data"],
   [componentPath, "publicDataSource=mock; scoreSource=mock"],
-  [componentPath, "不得把 mock 訊號說成真實資料、完整覆蓋率或正式投資建議"],
-  [componentPath, "資料新鮮度"],
-  [componentPath, "不構成投資建議"],
+  [componentPath, "Do not describe mock signals as real data, complete"],
+  [componentPath, "Source and score boundary"],
+  [componentPath, "Promotion stop line"],
+  [componentPath, "data freshness metadata"],
+  [componentPath, "not investment advice"],
   [componentPath, "runtimeInterpretation.decision"],
   [componentPath, "runtimeInterpretation.laneRatio.mockRuntimeHardening"],
   [componentPath, "runtimeInterpretation.stopLine"],
