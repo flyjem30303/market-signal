@@ -1,0 +1,124 @@
+{
+  "outcomes": [
+    {
+      "id": "vendor-terms-evidence",
+      "lane": "TWII",
+      "classification": "pending",
+      "pmQuestionResolved": false,
+      "recordedBy": "not_recorded",
+      "recordedAt": null,
+      "sourceReferenceLabel": "not_recorded",
+      "safeEvidenceSummary": "Awaiting no-secret TWII vendor or official terms evidence.",
+      "remainingRisk": "Source-rights outcome gate remains blocked.",
+      "nextGateCandidate": "blocked"
+    },
+    {
+      "id": "internal-feed-owner-evidence",
+      "lane": "TWII",
+      "classification": "pending",
+      "pmQuestionResolved": false,
+      "recordedBy": "not_recorded",
+      "recordedAt": null,
+      "sourceReferenceLabel": "not_recorded",
+      "safeEvidenceSummary": "Awaiting no-secret TWII internal feed owner evidence.",
+      "remainingRisk": "Internal feed branch remains blocked.",
+      "nextGateCandidate": "blocked"
+    },
+    {
+      "id": "field-contract-evidence",
+      "lane": "TWII",
+      "classification": "pending",
+      "pmQuestionResolved": false,
+      "recordedBy": "not_recorded",
+      "recordedAt": null,
+      "sourceReferenceLabel": "not_recorded",
+      "safeEvidenceSummary": "Awaiting no-secret TWII field contract evidence.",
+      "remainingRisk": "Sanitized TWII candidate artifact shape remains blocked.",
+      "nextGateCandidate": "blocked"
+    },
+    {
+      "id": "asset-mapping-evidence",
+      "lane": "TWII",
+      "classification": "pending",
+      "pmQuestionResolved": false,
+      "recordedBy": "not_recorded",
+      "recordedAt": null,
+      "sourceReferenceLabel": "not_recorded",
+      "safeEvidenceSummary": "Awaiting no-secret TWII asset mapping evidence.",
+      "remainingRisk": "TWII row coverage route remains blocked.",
+      "nextGateCandidate": "blocked"
+    },
+    {
+      "id": "etf-legal-use-evidence",
+      "lane": "ETF",
+      "classification": "pending",
+      "pmQuestionResolved": false,
+      "recordedBy": "not_recorded",
+      "recordedAt": null,
+      "sourceReferenceLabel": "not_recorded",
+      "safeEvidenceSummary": "Awaiting no-secret ETF legal use evidence.",
+      "remainingRisk": "ETF source-rights route remains blocked.",
+      "nextGateCandidate": "blocked"
+    },
+    {
+      "id": "etf-redistribution-evidence",
+      "lane": "ETF",
+      "classification": "pending",
+      "pmQuestionResolved": false,
+      "recordedBy": "not_recorded",
+      "recordedAt": null,
+      "sourceReferenceLabel": "not_recorded",
+      "safeEvidenceSummary": "Awaiting no-secret ETF redistribution and display evidence.",
+      "remainingRisk": "ETF public display and derived data route remains blocked.",
+      "nextGateCandidate": "blocked"
+    },
+    {
+      "id": "etf-attribution-retention-evidence",
+      "lane": "ETF",
+      "classification": "pending",
+      "pmQuestionResolved": false,
+      "recordedBy": "not_recorded",
+      "recordedAt": null,
+      "sourceReferenceLabel": "not_recorded",
+      "safeEvidenceSummary": "Awaiting no-secret ETF attribution and retention evidence.",
+      "remainingRisk": "ETF retention and public-copy requirements remain blocked.",
+      "nextGateCandidate": "blocked"
+    },
+    {
+      "id": "etf-derived-analysis-rate-limit-evidence",
+      "lane": "ETF",
+      "classification": "pending",
+      "pmQuestionResolved": false,
+      "recordedBy": "not_recorded",
+      "recordedAt": null,
+      "sourceReferenceLabel": "not_recorded",
+      "safeEvidenceSummary": "Awaiting no-secret ETF derived-analysis and rate-limit evidence.",
+      "remainingRisk": "ETF validation and bounded candidate route remains blocked.",
+      "nextGateCandidate": "blocked"
+    },
+    {
+      "id": "etf-field-contract-evidence",
+      "lane": "ETF",
+      "classification": "pending",
+      "pmQuestionResolved": false,
+      "recordedBy": "not_recorded",
+      "recordedAt": null,
+      "sourceReferenceLabel": "not_recorded",
+      "safeEvidenceSummary": "Awaiting no-secret ETF field contract evidence.",
+      "remainingRisk": "ETF candidate artifact shape remains blocked.",
+      "nextGateCandidate": "blocked"
+    },
+    {
+      "id": "etf-source-comparison-evidence",
+      "lane": "ETF",
+      "classification": "pending",
+      "pmQuestionResolved": false,
+      "recordedBy": "not_recorded",
+      "recordedAt": null,
+      "sourceReferenceLabel": "not_recorded",
+      "safeEvidenceSummary": "Awaiting no-secret comparison of TWSE official ETF disclosures, issuer official pages, and paid vendor routes.",
+      "remainingRisk": "ETF source lane selection remains blocked.",
+      "nextGateCandidate": "blocked"
+    }
+  ]
+}
