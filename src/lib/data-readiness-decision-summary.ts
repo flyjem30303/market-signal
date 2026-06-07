@@ -70,12 +70,12 @@ export function getDataReadinessDecisionSummary(): DataReadinessDecisionSummary 
       command: rowCoverage.commandMap.packageCommand,
       decision: "prepare_but_do_not_run",
       reason:
-        "Readonly row coverage is local-ready, but the next remote read still needs a separate CEO-named bounded attempt and post-run review.",
+        "唯讀覆蓋率檢查已可本地準備，但下一次遠端讀取仍需要 CEO 另行命名的有範圍嘗試與執行後覆核。",
       requiresSeparateCeoNamedAction: true
     },
     closestNextGate: "schema_shape_freshness_row_coverage_decision_gate",
     dataFoundationGate: getDataFoundationGate(),
-    headline: "Post-readonly data readiness is consolidated; runtime remains mock-only.",
+    headline: "唯讀後資料準備狀態已收斂；runtime 仍維持示範狀態。",
     integrationQueue: [
       {
         acceptanceSignal:
@@ -119,51 +119,51 @@ export function getDataReadinessDecisionSummary(): DataReadinessDecisionSummary 
     ],
     lanes: [
       {
-        evidence: `${readonlyEvidence.objects.length} Supabase objects reachable; accepted scope is object reachability only.`,
+        evidence: `${readonlyEvidence.objects.length} 個 Supabase 物件可讀；接受範圍僅限後端物件可讀性。`,
         id: "object-reachability",
-        label: "Object reachability",
+        label: "後端物件可讀性",
         nextAction: readonlyEvidence.nextRuntimeGate,
         owner: "Engineering",
         state: "accepted"
       },
       {
-        evidence: `${schema.acceptedCount} of ${schema.objects.length} object shapes accepted for runtime shape.`,
+        evidence: `${schema.acceptedCount}/${schema.objects.length} 個物件結構已接受，可供 runtime 結構檢查使用。`,
         id: "schema-shape",
-        label: "Schema shape",
+        label: "資料結構",
         nextAction: schema.nextDefaultAction,
         owner: "Data",
         state: "readying"
       },
       {
-        evidence: `${freshness.market} freshness metadata accepted as of ${freshness.asOfDate}; source ${freshness.sourceName}.`,
+        evidence: `${freshness.market} 新鮮度 metadata 已接受，日期 ${freshness.asOfDate}；來源 ${freshness.sourceName}。`,
         id: "freshness-metadata",
-        label: "Freshness metadata",
+        label: "新鮮度 metadata",
         nextAction: freshness.nextRuntimeGate,
         owner: "QA",
         state: "accepted"
       },
       {
-        evidence: `${rowCoverage.latestAttempt.observedTotalRows}/${rowCoverage.latestAttempt.expectedTotalRows} rows observed; ${rowCoverage.latestAttempt.missingRows} missing.`,
+        evidence: `已觀察 ${rowCoverage.latestAttempt.observedTotalRows}/${rowCoverage.latestAttempt.expectedTotalRows} 筆；缺少 ${rowCoverage.latestAttempt.missingRows} 筆。`,
         id: "row-coverage",
-        label: "Row coverage",
+        label: "資料覆蓋率",
         nextAction: rowCoverage.nextDecision,
         owner: "Data",
         state: "blocked"
       },
       {
-        evidence: `${qualityLane?.current ?? 0}% credibility lane; source rights, quality, and model proof still block promotion.`,
+        evidence: `可信度線目前 ${(qualityLane?.current ?? 0).toString()}%；來源權利、品質與模型證據仍阻擋升級。`,
         id: "quality-source-depth",
-        label: "Quality and source depth",
+        label: "品質與來源深度",
         nextAction:
           qualityLane?.nextAction ??
-          "Keep quality and source-depth evidence blocked until Investment and QA gates accept real-data credibility.",
+          "在投資與 QA 檢查點接受正式資料可信度前，品質與來源深度證據維持阻擋。",
         owner: "Investment",
         state: "blocked"
       }
     ],
     mode: "post_readonly_data_readiness_summary",
     recommendation:
-      "Use this summary to prepare the next decision packet; do not run SQL, write Supabase, promote publicDataSource=supabase, or set scoreSource=real.",
+      "此摘要用於準備下一份決策 packet；不得執行 SQL、寫入 Supabase、升級正式公開資料或啟用正式分數。",
     safety: {
       marketDataFetched: false,
       publicDataSource: "mock",
@@ -175,6 +175,6 @@ export function getDataReadinessDecisionSummary(): DataReadinessDecisionSummary 
     },
     status: "local_ready_remote_paused",
     stopLine:
-      "Do not run SQL, write Supabase, fetch or ingest market data, print secrets, promote publicDataSource=supabase, or set scoreSource=real from this summary."
+      "不得從此摘要執行 SQL、寫入 Supabase、抓取或匯入市場資料、輸出 secrets、升級正式公開資料或啟用正式分數。"
   };
 }

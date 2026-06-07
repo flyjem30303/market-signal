@@ -24,53 +24,53 @@ export function buildBriefingMarketActionSummary(
 ): BriefingMarketActionSummary {
   const marketNeedsCaution = market.riskScore >= 60 || breadth.defensive > breadth.constructive;
   const topRiskIsHot = topRisk.riskScore >= 70;
-  const marketLine = `Market breadth: ${breadth.constructive} constructive, ${breadth.watch} watch, ${breadth.defensive} defensive.`;
+  const marketLine = `市場廣度：${breadth.constructive} 個偏正向、${breadth.watch} 個觀察、${breadth.defensive} 個偏防守。`;
 
   if (marketNeedsCaution || topRiskIsHot) {
     return {
-      headline: "CEO Briefing: keep the market read defensive until risk cools",
-      marketLine: `${marketLine} Risk is concentrated in ${topRisk.asset.symbol}, so the Beta read should emphasize caution and review discipline.`,
+      headline: "市場晨報：風險降溫前先維持防守閱讀",
+      marketLine: `${marketLine} 風險集中在 ${topRisk.asset.symbol}，Beta 閱讀應強調謹慎與覆核紀律。`,
       primary: {
-        body: `${market.asset.symbol} is the market anchor for this mock briefing. Read it first to understand breadth, data quality, and the current caution state before reviewing individual stocks or ETFs.`,
+        body: `${market.asset.symbol} 是本次示範晨報的市場錨點。先閱讀市場廣度、資料品質與目前警示狀態，再檢視個股或 ETF。`,
         href: `/stocks/${market.asset.symbol}`,
-        label: "Read market anchor",
+        label: "閱讀市場錨點",
         symbol: market.asset.symbol,
-        title: `${market.asset.symbol} Market boundary`,
+        title: `${market.asset.symbol} 市場邊界`,
         tone: "hold"
       },
       secondary: {
-        body: `${topRisk.asset.symbol} has a mock pullback-risk score of ${topRisk.riskScore}/100. Treat it as a review queue item, not as trading advice or a live market warning.`,
+        body: `${topRisk.asset.symbol} 的示範回檔風險分數為 ${topRisk.riskScore}/100。請把它視為覆核清單項目，不是交易建議或即時市場警報。`,
         href: `/stocks/${topRisk.asset.symbol}`,
-        label: "Review highest risk",
+        label: "覆核最高風險",
         symbol: topRisk.asset.symbol,
-        title: `${topRisk.asset.symbol} Risk review`,
+        title: `${topRisk.asset.symbol} 風險覆核`,
         tone: "blocked"
       },
       stopLine:
-        "Briefing stays in mock runtime: publicDataSource=mock; scoreSource=mock. This is decision-support context, not investment advice."
+        "晨報仍使用示範資料與示範分數；這是決策輔助脈絡，不構成投資建議。"
     };
   }
 
   return {
-    headline: "CEO Briefing: constructive mock read, still wait for real-data gates",
-    marketLine: `${marketLine} The current mock read is constructive, but public Beta must still show partial coverage and source-rights limits.`,
+    headline: "市場晨報：示範訊號偏正向，但仍等待正式資料檢查點",
+    marketLine: `${marketLine} 目前示範閱讀偏正向，但公開 Beta 仍必須揭露覆蓋率不足與來源權利限制。`,
     primary: {
-      body: `${market.asset.symbol} has a mock composite score of ${market.compositeScore}/100. Use it to orient the market read before drilling into sector or symbol pages.`,
+      body: `${market.asset.symbol} 的示範綜合分數為 ${market.compositeScore}/100。可先用它理解市場方向，再進一步閱讀族群或標的頁。`,
       href: `/stocks/${market.asset.symbol}`,
-      label: "Read market strength",
+      label: "閱讀市場強度",
       symbol: market.asset.symbol,
-      title: `${market.asset.symbol} Market read`,
+      title: `${market.asset.symbol} 市場閱讀`,
       tone: "active"
     },
     secondary: {
-      body: `${topRisk.asset.symbol} has a mock pullback-risk score of ${topRisk.riskScore}/100. Keep it on the watch list even when the broad read is constructive.`,
+      body: `${topRisk.asset.symbol} 的示範回檔風險分數為 ${topRisk.riskScore}/100。即使大盤閱讀偏正向，仍應保留在觀察清單。`,
       href: `/stocks/${topRisk.asset.symbol}`,
-      label: "Watch risk queue",
+      label: "觀察風險清單",
       symbol: topRisk.asset.symbol,
-      title: `${topRisk.asset.symbol} Risk watch`,
+      title: `${topRisk.asset.symbol} 風險觀察`,
       tone: "hold"
     },
     stopLine:
-      "This briefing is still mock runtime: publicDataSource=mock; scoreSource=mock. It does not provide buy, sell, hold, or personalized investment advice."
+      "本晨報仍使用示範資料與示範分數，不提供買進、賣出、持有或個人化投資建議。"
   };
 }

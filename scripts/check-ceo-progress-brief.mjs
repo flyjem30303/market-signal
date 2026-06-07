@@ -132,7 +132,7 @@ if (run.status !== 0) {
     "Readonly bridge: ready_to_present_not_execute / accepted_for_mainline_review",
     "Unblock readiness: local_reviews_complete_external_approvals_pending / humanApproval=true",
     "Approval outcome:",
-    "Next meaningful gate: post-readonly runtime decision, then schema/freshness/quality gate",
+    "Next meaningful gate: 唯讀驗證後公開 Beta 決策，接著資料結構/新鮮度/品質檢查點",
     "publicDataSource=mock",
     "scoreSource=mock",
     "sqlExecuted=false",

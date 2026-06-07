@@ -25,7 +25,7 @@ import { signalColor } from "@/lib/signal-model";
 export const metadata: Metadata = {
   title: "市場訊號晨報",
   description:
-    "以 mock-only 狀態整理台股市場健康度、回檔風險、資料新鮮度限制與模型邊界；內容不構成投資建議。"
+    "以示範資料狀態整理台股市場健康度、回檔風險、資料新鮮度限制與模型邊界；內容不構成投資建議。"
 };
 
 export default async function BriefingPage() {
@@ -60,12 +60,12 @@ export default async function BriefingPage() {
           <p className="eyebrow">Daily Briefing</p>
           <h1>市場訊號晨報</h1>
           <p>
-            用一分鐘整理今天的 mock 市場訊號、風險升溫標的與資料限制。這頁支援閱讀流程與公開信任檢查，
-            不是即時市場資料、完整覆蓋率或投資建議；正式資料與正式分數仍是 not-live-yet。
+            用一分鐘整理今天的示範市場訊號、風險升溫標的與資料限制。這頁支援閱讀流程與公開信任檢查，
+            不是即時市場資料、完整覆蓋率或投資建議；正式資料與正式分數尚未上線。
           </p>
           <p className="runtime-boundary-line">
-            目前公開邊界維持 publicDataSource=mock、scoreSource=mock；資料新鮮度只作 metadata 說明，
-            partial coverage、missing/delayed data 與模型限制都必須保留。
+            目前公開版仍使用示範資料與示範分數；資料新鮮度只作狀態說明，
+            覆蓋率不足、資料缺漏或延遲、模型限制都必須保留。
           </p>
         </div>
         <div className="briefing-meta">
@@ -220,9 +220,9 @@ export default async function BriefingPage() {
           </p>
         </div>
         <div className="briefing-boundary-grid">
-          <BoundaryItem label="公開資料來源" value="publicDataSource=mock" />
-          <BoundaryItem label="公開分數來源" value="scoreSource=mock" />
-          <BoundaryItem label="投資用途" value="blocked" />
+          <BoundaryItem label="公開資料來源" value="示範資料" />
+          <BoundaryItem label="公開分數來源" value="示範分數" />
+          <BoundaryItem label="投資用途" value="不得作為投資建議" />
         </div>
       </section>
 
@@ -273,7 +273,7 @@ export default async function BriefingPage() {
         </article>
         <MetricPanel label="資料品質" value={`${market.dataQualityGrade}`} text={`Data quality ${market.dataQualityScore}/100；缺值或延遲需要降級閱讀。`} />
         <MetricPanel label="模型版本" value={market.modelVersion} text="目前仍是 mock model，不得宣稱真實績效或預測能力。" />
-        <MetricPanel label="公開邊界" value="mock-only" text="publicDataSource=mock、scoreSource=mock；不構成投資建議。" />
+        <MetricPanel label="公開邊界" value="示範資料" text="資料來源與分數來源尚未切換為正式市場資料；不構成投資建議。" />
       </section>
 
       <section className="weekly-grid" id="watchlists">
@@ -407,8 +407,8 @@ function BriefingExecutiveSummary({ market, topRisk }: { market: SignalSnapshot;
         <p className="eyebrow">Market Briefing</p>
         <h1>市場訊號晨報</h1>
         <p>
-          目前網站可用 mock 訊號閱讀市場方向、風險排序與產品流程。這不是即時市場資料，也不是投資建議；
-          publicDataSource=mock、scoreSource=mock 必須維持可見。
+          目前網站可用示範訊號閱讀市場方向、風險排序與產品流程。這不是即時市場資料，也不是投資建議；
+          資料來源與分數來源仍是示範狀態，必須在公開頁面清楚揭露。
         </p>
       </div>
       <aside>
@@ -425,10 +425,10 @@ function BriefingExecutiveSummary({ market, topRisk }: { market: SignalSnapshot;
           <i>{decisionSummary.safetyStopLine}</i>
         </span>
         <span>
-          <b>Runtime allocation</b>
+          <b>開發配置</b>
           <i>
-            {runtimeInterpretation.decision}: mock runtime hardening {runtimeInterpretation.laneRatio.mockRuntimeHardening}% /
-            readonly preparation {runtimeInterpretation.laneRatio.supabaseReadonlyPreparation}%
+            示範流程強化：示範流程強化 {runtimeInterpretation.laneRatio.mockRuntimeHardening}% /
+            唯讀資料準備 {runtimeInterpretation.laneRatio.supabaseReadonlyPreparation}%
           </i>
         </span>
       </aside>
@@ -439,7 +439,7 @@ function BriefingExecutiveSummary({ market, topRisk }: { market: SignalSnapshot;
           <p>{decisionSummary.stage}</p>
         </article>
         <article className="readying">
-          <span>下一個 gate</span>
+          <span>下一個檢查點</span>
           <strong>{decisionSummary.decisionLabel}</strong>
           <p>{decisionSummary.nextLift}</p>
         </article>

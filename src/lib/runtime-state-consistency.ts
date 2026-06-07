@@ -25,14 +25,14 @@ export function getRuntimeStateConsistencySummary(): RuntimeStateConsistencySumm
 
   return {
     consistencyState: "mock_consistent",
-    headline: "Runtime state is consistent: public mock, readiness readying, source depth not_ready",
+    headline: "Runtime 狀態一致：公開資料為示範，準備度持續推進，來源深度尚未就緒",
     publicDataSource: "mock",
     readinessState: readiness.status,
     rowCoverageState: rowCoverage.readiness,
     scoreSource: "mock",
     sourceDepthState: sourceDepth.sourceDepthState,
-    statusLine: `${actionSummary.nextAction}: freshness ${freshnessEvidence.evidenceStatus}, row coverage ${rowCoverage.readiness}, source depth ${sourceDepth.sourceDepthState}.`,
+    statusLine: `${actionSummary.nextAction}：新鮮度證據已整理，覆蓋率仍待補齊，來源深度尚未就緒。`,
     stopLine:
-      "Keep every public surface aligned to mock publicDataSource and mock scoreSource until row coverage, source rights, source depth, model credibility, and post-run review gates pass."
+      "在覆蓋率、來源權利、來源深度、模型可信度與執行後覆核通過前，所有公開頁都必須維持示範資料與示範分數。"
   };
 }

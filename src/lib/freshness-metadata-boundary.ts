@@ -25,8 +25,8 @@ export function getFreshnessMetadataBoundarySummary(
   return {
     allowedPublicClaim:
       state === "metadata_reachable"
-        ? "Freshness metadata is reachable; score and public data source remain mock."
-        : "Freshness metadata is not approved as real scoring evidence.",
+        ? "新鮮度 metadata 可讀；分數與公開資料來源仍維持示範狀態。"
+        : "新鮮度 metadata 尚未核准作為正式分數證據。",
     canDisplayFreshnessMetadata: state === "metadata_mock" || state === "metadata_reachable",
     canPromoteCp3Readiness: false,
     canPromoteDataQuality: false,
@@ -34,7 +34,7 @@ export function getFreshnessMetadataBoundarySummary(
     canSwitchPublicDataSource: false,
     state,
     stopLine:
-      "Freshness metadata may inform display state only; it must not approve data quality, public claims, CP3 readiness, or scoreSource=real."
+      "新鮮度 metadata 只能輔助顯示狀態；不得因此核准資料品質、公開宣稱、CP3 準備度或正式分數。"
   };
 }
 

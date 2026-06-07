@@ -1,7 +1,7 @@
 export type HomeRuntimeActionSummary = {
   blockedTransition: string;
   currentProgressPercent: 72;
-  nextAction: "post-readonly runtime decision";
+  nextAction: "唯讀驗證後公開 Beta 決策";
   nextLift: string;
   safetyStopLine: string;
   stage: string;
@@ -9,14 +9,14 @@ export type HomeRuntimeActionSummary = {
 
 export function getHomeRuntimeActionSummary(): HomeRuntimeActionSummary {
   return {
-    blockedTransition: "real-score transition",
+    blockedTransition: "正式分數切換",
     currentProgressPercent: 72,
-    nextAction: "post-readonly runtime decision",
+    nextAction: "唯讀驗證後公開 Beta 決策",
     nextLift:
-      "Translate verified object reachability into schema shape, freshness, row coverage, data quality, source-depth, and UI runtime interpretation decisions without promoting public source or scoreSource=real.",
+      "把已驗證的後端可讀性轉成資料結構、新鮮度、覆蓋率、資料品質、來源深度與公開解讀檢查；不得因此升級公開資料或正式分數。",
     safetyStopLine:
-      "Supabase readonly evidence can inform review, but cannot promote publicDataSource or scoreSource without a separate gate.",
+      "唯讀證據只能輔助審查；公開資料來源與正式分數必須等獨立檢查點通過後才能升級。",
     stage:
-      "Supabase object reachability is verified as backend evidence only. Runtime remains mock-only; ingestion, SQL, publicDataSource=supabase, and scoreSource=real remain blocked."
+      "後端物件可讀性已驗證，但只屬於內部證據。公開版仍使用示範資料；資料匯入、SQL、正式公開資料與正式分數仍被阻擋。"
   };
 }

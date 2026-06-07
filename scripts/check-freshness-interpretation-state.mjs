@@ -18,7 +18,7 @@ const required = [
   [interpretationPath, "scoreSource: \"mock\""],
   [
     interpretationPath,
-    "Do not treat freshness metadata, data_freshness reachability, or schema shape as data-quality approval or scoreSource=real approval."
+    "不得把新鮮度 metadata、data_freshness 可讀性或 schema shape 視為資料品質或正式分數核准。"
   ],
   [stripPath, "getFreshnessInterpretationSummary"],
   [stripPath, "新鮮度基準"],

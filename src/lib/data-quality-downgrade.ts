@@ -19,38 +19,38 @@ export type DataQualityDowngradeSummary = {
 const downgradeByFreshnessState: Record<DataFreshnessState, Omit<DataQualityDowngradeSummary, "scoreSource">> = {
   complete: {
     canUseForPublicScore: false,
-    displayLabel: "Metadata complete, score still mock",
+    displayLabel: "Metadata 完整，分數仍為示範",
     downgradeState: "metadata_complete_unapproved",
     reason: "Freshness metadata is reachable, but source rights, field coverage, data quality, model evidence, and release approval remain separate gates.",
-    stopLine: "Do not use complete freshness metadata as public score approval."
+    stopLine: "不得把完整的新鮮度 metadata 視為公開分數核准。"
   },
   mock: {
     canUseForPublicScore: false,
-    displayLabel: "Mock-only runtime",
+    displayLabel: "示範資料狀態",
     downgradeState: "mock_only",
-    reason: "Public runtime is intentionally using mock data while real market data and scoreSource=real remain blocked.",
-    stopLine: "Do not infer real market readiness from mock runtime state."
+    reason: "公開狀態刻意使用示範資料；正式市場資料與正式分數仍被阻擋。",
+    stopLine: "不得從示範資料狀態推論正式市場資料已就緒。"
   },
   partial: {
     canUseForPublicScore: false,
-    displayLabel: "Partial metadata, public score blocked",
+    displayLabel: "Metadata 不完整，公開分數受阻",
     downgradeState: "metadata_partial_blocked",
-    reason: "Partial freshness metadata means required tables, rows, or run states are not complete enough for public scoring.",
-    stopLine: "Do not promote partial metadata to real score input."
+    reason: "新鮮度 metadata 不完整，代表必要表格、資料列或執行狀態不足以支撐公開評分。",
+    stopLine: "不得把不完整 metadata 升級為正式分數輸入。"
   },
   stale: {
     canUseForPublicScore: false,
-    displayLabel: "Stale metadata, public score blocked",
+    displayLabel: "Metadata 過期，公開分數受阻",
     downgradeState: "metadata_stale_blocked",
-    reason: "Stale freshness metadata requires data owner review before it can support any runtime claim.",
-    stopLine: "Do not promote stale metadata to real score input."
+    reason: "過期的新鮮度 metadata 必須經資料負責人審查後，才可支撐任何公開狀態宣稱。",
+    stopLine: "不得把過期 metadata 升級為正式分數輸入。"
   },
   unavailable: {
     canUseForPublicScore: false,
-    displayLabel: "Metadata unavailable, public score blocked",
+    displayLabel: "Metadata 不可用，公開分數受阻",
     downgradeState: "metadata_unavailable_blocked",
-    reason: "Unavailable freshness metadata blocks public scoring and should degrade to mock or unavailable UI state.",
-    stopLine: "Do not promote unavailable metadata to real score input."
+    reason: "不可用的新鮮度 metadata 會阻擋公開評分，畫面應降級為示範或不可用狀態。",
+    stopLine: "不得把不可用 metadata 升級為正式分數輸入。"
   }
 };
 

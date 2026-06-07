@@ -49,7 +49,7 @@ for (const phrase of [
   "目前預設",
   "需另行授權",
   "只有 CEO 另行命名 bounded gate",
-  "Default route: post-readonly runtime decision",
+  "預設路線：唯讀驗證後公開 Beta 決策",
   "Optional route: schema, freshness, and quality gate",
   "schema shape",
   "data freshness",

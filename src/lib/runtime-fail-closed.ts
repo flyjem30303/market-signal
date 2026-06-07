@@ -23,18 +23,18 @@ export function getRuntimeFailClosedSummary(): RuntimeFailClosedSummary {
   return {
     allowedState: "mock_runtime_only",
     blockedActions: [
-      "Supabase-backed public data",
-      "SQL-backed scoring",
-      "market-data ingestion",
-      "publicDataSource=supabase",
-      "scoreSource=real"
+      "Supabase 支撐的公開資料",
+      "SQL 支撐的分數",
+      "市場資料匯入",
+      "正式公開資料升級",
+      "正式分數啟用"
     ],
     failClosedState: "active",
-    headline: "Fail-closed runtime guard is active",
+    headline: "Fail-closed runtime guard 已啟用",
     publicDataSource: "mock",
     scoreSource: "mock",
-    statusLine: `${actionSummary.nextAction}; ${consistency.consistencyState}; source depth ${sourceDepth.sourceDepthState}; remote trigger ${gateBrief.separateRemoteTrigger}.`,
+    statusLine: `${actionSummary.nextAction}；runtime 狀態一致；來源深度尚未就緒；遠端動作需另行 gate。`,
     stopLine:
-      "Fail closed before Supabase reads, SQL, ingestion, public source promotion, or scoreSource=real unless a separate accepted gate explicitly authorizes that exact action."
+      "除非有獨立且已接受的 gate 明確授權，否則在 Supabase 讀取、SQL、匯入、公開來源升級或正式分數前一律 fail closed。"
   };
 }

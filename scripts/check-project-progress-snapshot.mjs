@@ -73,7 +73,7 @@ const requiredSourcePhrases = [
   "npm run report:model-credibility-local-review",
   "npm run report:data-quality-field-validity-qa-review",
   "runtime product 70 / blocker closure 20 / governance 10",
-  "post-readonly runtime decision, then schema/freshness/quality gate",
+  "唯讀驗證後公開 Beta 決策，接著資料結構/新鮮度/品質檢查點",
   "decisionNodes",
   "id: \"local-verification\"",
   "id: \"row-coverage-readonly\"",

@@ -220,7 +220,7 @@ const snapshot = {
   ],
   ceoDecision: {
     currentLaneRatio: "runtime product 70 / blocker closure 20 / governance 10",
-    nextMeaningfulGate: "post-readonly runtime decision, then schema/freshness/quality gate",
+    nextMeaningfulGate: "唯讀驗證後公開 Beta 決策，接著資料結構/新鮮度/品質檢查點",
     recommendation:
       "consolidate the next work into a larger post-readonly runtime product slice; keep mandatory remote and real-data gates intact, but stop creating low-value micro governance slices",
     runtimeDefaultRoute: runtimeGateBrief.currentDefaultRoute,

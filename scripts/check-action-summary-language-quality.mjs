@@ -9,8 +9,11 @@ const files = [
   "src/lib/weekly-market-action-summary.ts"
 ];
 
-const requiredTokens = ["publicDataSource=mock", "scoreSource=mock"];
-const requiredReadableTokens = ["資料", "風險", "mock"];
+const requiredBoundaryTokenGroups = [
+  ["publicDataSource=mock", "示範資料"],
+  ["scoreSource=mock", "示範分數"]
+];
+const requiredReadableTokenGroups = [["資料"], ["風險"], ["mock", "示範"]];
 const forbiddenTokens = [
   "@supabase/supabase-js",
   "createClient",
@@ -33,12 +36,16 @@ const blocked = [];
 for (const file of files) {
   const content = fs.readFileSync(file, "utf8");
 
-  for (const token of requiredTokens) {
-    if (!content.includes(token)) missing.push(`${file}: ${token}`);
+  for (const group of requiredBoundaryTokenGroups) {
+    if (!group.some((token) => content.includes(token))) {
+      missing.push(`${file}: one of ${group.join(" | ")}`);
+    }
   }
 
-  for (const token of requiredReadableTokens) {
-    if (!content.includes(token)) missing.push(`${file}: readable token ${token}`);
+  for (const group of requiredReadableTokenGroups) {
+    if (!group.some((token) => content.includes(token))) {
+      missing.push(`${file}: readable token ${group.join(" | ")}`);
+    }
   }
 
   for (const token of forbiddenTokens) {

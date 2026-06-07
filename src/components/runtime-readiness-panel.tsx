@@ -407,7 +407,7 @@ export function RuntimeReadinessPanel() {
       </div>
       <details className="runtime-remote-guard-details">
         <summary>Remote guard details: CEO-named one-attempt only</summary>
-        <p>Readonly execution requires one CEO-named bounded action; sanitized post-run review must happen before readiness changes, and writes, SQL, row payloads, and scoreSource=real remain blocked.</p>
+        <p>唯讀執行需要 CEO 命名的一次有範圍動作；準備度改變前必須先完成去識別化執行後覆核，且寫入、SQL、row payload 與正式分數仍被阻擋。</p>
         <RuntimeSectionLabel
           title="One-attempt guard"
           text="Manual readonly attempt preview, stop rules, and required post-run review."

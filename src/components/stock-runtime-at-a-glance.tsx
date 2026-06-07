@@ -265,7 +265,7 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
         </article>
         <article className="readying compact-runtime-blocker">
           <span>Runtime 判讀</span>
-          <strong>{runtimeInterpretation.decision}</strong>
+          <strong>示範流程強化</strong>
           <p>
             mock runtime hardening {runtimeInterpretation.laneRatio.mockRuntimeHardening}% / Supabase readonly
             preparation {runtimeInterpretation.laneRatio.supabaseReadonlyPreparation}%. {runtimeInterpretation.blockers[0]}

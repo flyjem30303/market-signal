@@ -39,11 +39,11 @@ export type RuntimePromotionReadinessSummary = {
 };
 
 const labels: Record<PostReadonlyNextGateItem["id"], string> = {
-  data_quality: "Data quality",
-  freshness: "Freshness",
-  row_coverage: "Row coverage",
-  schema_shape: "Schema shape",
-  source_depth: "Source depth"
+  data_quality: "資料品質",
+  freshness: "資料新鮮度",
+  row_coverage: "資料覆蓋率",
+  schema_shape: "資料結構",
+  source_depth: "來源深度"
 };
 
 export function getRuntimePromotionReadinessSummary(): RuntimePromotionReadinessSummary {
@@ -63,7 +63,7 @@ export function getRuntimePromotionReadinessSummary(): RuntimePromotionReadiness
       label: labels[item.id],
       nextAction:
         item.id === "row_coverage"
-          ? "Define source rights, target tables, dry-run output, rollback, retention, and no-write preflight before any ingestion."
+          ? "匯入前先定義來源權利、目標表、dry-run 輸出、回復方式、保留政策與 no-write preflight。"
           : item.nextAction,
       owner: item.owner,
       priority: item.priority,
@@ -74,21 +74,21 @@ export function getRuntimePromotionReadinessSummary(): RuntimePromotionReadiness
   return {
     blockedReason: "aggregate_count_incomplete",
     currentRoute: "keep_mock_runtime_and_prepare_coverage_route",
-    headline: "Promotion readiness is visible, but real-data promotion is still blocked",
+    headline: "升級準備度已可檢視，但正式資料升級仍被阻擋",
     mockBoundary: {
       publicDataSource: "mock",
       scoreSource: "mock"
     },
     mode: "runtime_promotion_readiness_summary",
     nextCeoDecision:
-      "Keep the public runtime mock-only while A1/Data prepares the coverage route and PM keeps runtime disclosure aligned.",
+      "公開 runtime 維持示範狀態；A1/Data 準備覆蓋率路線，PM 維持 runtime 揭露一致。",
     noGoActions: [
-      "SQL execution",
-      "Supabase writes",
-      "market-data ingestion",
-      "daily_prices modification",
-      "publicDataSource=supabase",
-      "scoreSource=real"
+      "執行 SQL",
+      "寫入 Supabase",
+      "匯入市場資料",
+      "修改 daily_prices",
+      "切換正式公開資料",
+      "啟用正式分數"
     ],
     overallStatus: "not_ready_for_real_data_promotion",
     readinessCounts: {
@@ -104,6 +104,6 @@ export function getRuntimePromotionReadinessSummary(): RuntimePromotionReadiness
     },
     steps,
     stopLine:
-      "This summary does not run SQL, connect to Supabase, write Supabase, fetch market data, award row coverage points, promote publicDataSource=supabase, or set scoreSource=real."
+      "此摘要不執行 SQL、不連線或寫入 Supabase、不抓取市場資料、不給予覆蓋率分數，也不升級公開資料或正式分數。"
   };
 }

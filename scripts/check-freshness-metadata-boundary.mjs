@@ -116,7 +116,7 @@ function scanSource() {
     [modulePath, source, "canPromoteDataQuality: false"],
     [modulePath, source, "canSetScoreSourceReal: false"],
     [modulePath, source, "canSwitchPublicDataSource: false"],
-    [modulePath, source, "Freshness metadata may inform display state only"],
+    [modulePath, source, "新鮮度 metadata 只能輔助顯示狀態"],
     [stripPath, strip, "getFreshnessMetadataBoundarySummary"],
     [stripPath, strip, "Metadata 邊界"],
     [stripPath, strip, "metadataBoundary.stopLine"]

@@ -38,13 +38,13 @@ for (const [token, label] of [
   ["getFreshnessMetadataBoundarySummary", "metadata boundary helper"],
   ["getFreshnessInterpretationSummary", "interpretation helper"],
   ["getSupabaseReadonlyEvidenceSummary", "readonly evidence helper"],
-  ["Freshness evidence boundary", "headline"],
-  ["Freshness metadata", "metadata lane"],
-  ["Readonly reachability", "readonly lane"],
-  ["Data quality", "data quality lane"],
+  ["新鮮度證據邊界", "headline"],
+  ["新鮮度 metadata", "metadata lane"],
+  ["唯讀可讀性", "readonly lane"],
+  ["資料品質", "data quality lane"],
   ["dataQualityApproval", "data-quality approval state"],
-  ["Do not convert freshness metadata or readonly reachability", "stop line"],
-  ["real-score mode", "blocked real score wording"]
+  ["不得把新鮮度 metadata 或唯讀可讀性轉成寫入", "stop line"],
+  ["正式分數模式", "blocked real score wording"]
 ]) {
   requireIncludes(helper, token, label);
 }
@@ -52,7 +52,7 @@ for (const [token, label] of [
 for (const [token, label] of [
   ["FreshnessEvidenceBoundary", "component export"],
   ["getFreshnessEvidenceBoundarySummary", "helper import"],
-  ['aria-label="Freshness evidence boundary"', "aria label"],
+  ['aria-label="新鮮度證據邊界"', "aria label"],
   ['className="freshness-evidence-boundary"', "boundary class"],
   ["freshness-evidence-stop-line", "stop line class"]
 ]) {

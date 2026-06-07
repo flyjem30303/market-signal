@@ -50,7 +50,9 @@ export const localhostContentHealthChecks = [
       "Supabase readonly attempt",
       "Blocker Readiness",
       "Three blocker checklists are ready for local review",
-      ...sharedRuntimeBoundaryTokens
+      "示範資料",
+      "示範分數",
+      "不是投資建議"
     ]
   },
   {

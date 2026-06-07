@@ -41,11 +41,10 @@ const required = [
   [readinessPanelPath, "lane.displayNextAction"],
   [progressPanelPath, "runtime.displayHeadline"],
   [progressPanelPath, "runtime.displayNextDecision"],
-  [actionPath, "Supabase object reachability is verified as backend evidence only"],
-  [actionPath, "Runtime remains mock-only"],
-  [actionPath, "publicDataSource=supabase"],
-  [actionPath, "scoreSource=real remain blocked"],
-  [actionPath, "cannot promote publicDataSource or scoreSource without a separate gate"],
+  [actionPath, "後端物件可讀性已驗證"],
+  [actionPath, "公開版仍使用示範資料"],
+  [actionPath, "正式公開資料與正式分數仍被阻擋"],
+  [actionPath, "公開資料來源與正式分數必須等獨立檢查點通過後才能升級"],
   [packagePath, "\"check:runtime-readiness-language-quality\": \"node scripts/check-runtime-readiness-language-quality.mjs\""],
   [reviewGatePath, "scripts/check-runtime-readiness-language-quality.mjs"]
 ];

@@ -25,7 +25,7 @@ export function getPostReadonlyRuntimeState(): PostReadonlyRuntimeState {
 
   return {
     acceptedEvidence: evidence.acceptedScope,
-    headline: "First closed-loop evidence accepted; runtime remains mock-only",
+    headline: "第一個閉環證據已接受；runtime 仍維持示範狀態",
     nextGate: evidence.nextRuntimeGate,
     objectsReachable: evidence.objects.length,
     publicDataSource: "mock",
@@ -36,13 +36,13 @@ export function getPostReadonlyRuntimeState(): PostReadonlyRuntimeState {
       observedRows: 182,
       reason: "aggregate_count_incomplete",
       summary:
-        "Accepted first closed-loop evidence now covers 182 of 360 expected Level 1 rows. TWII and ETF coverage remain incomplete, so runtime promotion stays blocked."
+        "已接受的第一個閉環證據目前涵蓋 360 筆 Level 1 預期資料中的 182 筆。TWII 與 ETF 覆蓋率仍未補齊，因此正式資料升級維持阻擋。"
     },
     scoreSource: "mock",
     state: "readonly_verified_mock_only",
     stopLine:
-      "Do not convert readonly reachability into writes, ingestion, publicDataSource=supabase, or scoreSource=real.",
+      "唯讀可達性不能轉成寫入、匯入、正式公開資料或正式分數。",
     userFacingSummary:
-      "The first TW equity closed loop is accepted as backend evidence only. The public product still shows mock scoring until coverage, data quality, freshness, source-depth, and promotion gates separately pass."
+      "第一個台股閉環已作為後端證據接受。公開產品仍顯示示範分數，直到覆蓋率、資料品質、新鮮度、來源深度與升級檢查點分別通過。"
   };
 }

@@ -20,6 +20,6 @@ export function getFreshnessInterpretationSummary(): FreshnessInterpretationSumm
     nextGate: "Map schema shape and freshness interpretation from data_runs before any runtime dependency on data_freshness.",
     scoreSource: "mock",
     stopLine:
-      "Do not treat freshness metadata, data_freshness reachability, or schema shape as data-quality approval or scoreSource=real approval."
+      "不得把新鮮度 metadata、data_freshness 可讀性或 schema shape 視為資料品質或正式分數核准。"
   };
 }

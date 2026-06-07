@@ -65,7 +65,7 @@ export function getRuntimeGateDecisionBrief(): RuntimeGateDecisionBrief {
     displayNextStep:
       "PM 繼續整理 runtime guard summary，並把 schema、freshness、quality gate 的後續跨線動作維持為另行命名。",
     displayRemoteTrigger: "只有 CEO 另行命名 bounded gate 時，才能進入單次人工 readonly 嘗試。",
-    displayRouteTitle: "目前預設路線：post-readonly runtime decision",
+    displayRouteTitle: "目前預設路線：唯讀驗證後公開 Beta 決策",
     displayScoreSource: "分數來源：mock",
     displaySourceBoundary: "公開資料來源：mock",
     displayStatus: "本地可整理，遠端需另行授權",
@@ -96,7 +96,7 @@ export function getRuntimeGateDecisionBrief(): RuntimeGateDecisionBrief {
         nextStep: "make the runtime say object reachability is verified while public source and scoring remain mock-only",
         reason: "it converts accepted backend evidence into clearer product state without remote execution or real-data promotion",
         status: "default_now",
-        title: "Default route: post-readonly runtime decision"
+        title: "預設路線：唯讀驗證後公開 Beta 決策"
       },
       {
         displayStatus: "需另行授權",

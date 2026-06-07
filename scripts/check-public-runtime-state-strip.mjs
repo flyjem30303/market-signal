@@ -44,16 +44,16 @@ for (const [token, label] of [
   ['publicDataSource: "mock"', "mock public source"],
   ['scoreSource: "mock"', "mock score source"],
   ['claimApprovalState: "not_approved"', "not approved claim state"],
-  ["Runtime quick read: mock only", "headline"],
-  ["Visible now", "visible-now label"],
-  ["Not live yet", "not-live-yet label"],
-  ["Next gate", "next-gate label"],
-  ["publicDataSource=mock", "public source display"],
-  ["scoreSource=mock", "score source display"],
-  ["claimApproval=not_approved", "claim approval display"],
-  ["Users can read mock signals", "readable user summary"],
-  ["CEO must separately name a bounded readonly gate", "next gate boundary"],
-  ["Do not promote public source", "stop line"]
+  ["公開狀態快讀：示範資料", "headline"],
+  ["目前可見", "visible-now label"],
+  ["尚未上線", "not-live-yet label"],
+  ["下一個檢查點", "next-gate label"],
+  ["資料來源：示範資料", "public source display"],
+  ["分數來源：示範分數", "score source display"],
+  ["公開宣稱尚未核准", "claim approval display"],
+  ["使用者可以閱讀示範訊號", "readable user summary"],
+  ["CEO 必須另行指定範圍明確的唯讀檢查點", "next gate boundary"],
+  ["不得從此狀態升級公開資料來源", "stop line"]
 ]) {
   requireIncludes(helper, token, label);
 }

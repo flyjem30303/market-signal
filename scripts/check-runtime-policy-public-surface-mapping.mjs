@@ -111,8 +111,8 @@ for (const [pathName, text, phrase] of [
   [publicCopyPath, publicCopy, "publicDataSource=mock; scoreSource=mock"],
   [trustNoticePath, trustNotice, "Investment and data limits: currently mock-only"],
   [trustNoticePath, trustNotice, "publicDataSource=mock; scoreSource=mock"],
-  [freshnessStripPath, freshnessStrip, "Data freshness metadata: mock"],
-  [freshnessStripPath, freshnessStrip, "Score source:"],
+  [freshnessStripPath, freshnessStrip, "資料新鮮度 metadata：示範資料"],
+  [freshnessStripPath, freshnessStrip, "分數來源："],
   [runtimeSummaryPath, runtimeSummary, "not_ready_for_real_data_promotion"],
   [runtimeSummaryPath, runtimeSummary, "publicDataSource: \"mock\""],
   [runtimeSummaryPath, runtimeSummary, "scoreSource: \"mock\""]

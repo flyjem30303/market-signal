@@ -64,7 +64,16 @@ const boundaryTriggerTerms = [
   "Supabase",
   "source"
 ];
-const boundaryRequiredAny = ["mock", "scoreSource=mock", "publicDataSource=mock", "模擬", "尚未接真實資料"];
+const boundaryRequiredAny = [
+  "mock",
+  "scoreSource=mock",
+  "publicDataSource=mock",
+  "模擬",
+  "示範資料",
+  "示範分數",
+  "尚未切換為正式市場資料",
+  "尚未接真實資料"
+];
 const mojibakePatterns = [
   { name: "replacement_or_private_use", pattern: /[\uFFFD\uE000-\uF8FF]/u },
   { name: "c1_control", pattern: /[\u0080-\u009F]/u },

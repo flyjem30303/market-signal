@@ -33,7 +33,7 @@ const required = [
   [componentPath, "Promotion stop line"],
   [componentPath, "data freshness metadata"],
   [componentPath, "not investment advice"],
-  [componentPath, "runtimeInterpretation.decision"],
+  [componentPath, "示範流程強化"],
   [componentPath, "runtimeInterpretation.laneRatio.mockRuntimeHardening"],
   [componentPath, "runtimeInterpretation.stopLine"],
   [methodologyPath, "import { TrustRuntimeBoundaryNotice }"],

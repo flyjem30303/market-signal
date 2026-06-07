@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     template: "%s | 指數燈號"
   },
   description:
-    "指數燈號是台股與 ETF 的 mock-only 決策輔助 Beta，提供市場閱讀、資料新鮮度、覆蓋率與非投資建議揭露。"
+    "指數燈號是台股與 ETF 的示範資料決策輔助 Beta，提供市場閱讀、資料新鮮度、覆蓋率與非投資建議揭露。"
 };
 
 const footerTrustLinks = [
@@ -57,13 +57,13 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <div>
             <strong>指數燈號</strong>
             <p>
-              目前是 mock-only 公開 Beta：publicDataSource=mock、scoreSource=mock。內容用於市場閱讀與產品流程展示，
-              可能有 partial coverage、missing/delayed data、model limitation，且不構成 non-investment advice。
+              目前是示範資料公開 Beta：資料來源與分數來源都尚未切換為正式市場資料。內容用於市場閱讀與產品流程展示，
+              可能有覆蓋率不足、資料缺漏或延遲、模型限制，且不構成投資建議。
             </p>
             <div className="site-footer-trust" aria-label="信任與法務連結">
-              <span>資料來源：mock</span>
-              <span>分數來源：mock</span>
-              <span>risk disclosure</span>
+              <span>資料來源：示範資料</span>
+              <span>分數來源：示範分數</span>
+              <span>風險揭露</span>
               {footerTrustLinks.map((link) => (
                 <TrackedLink
                   eventName="site_chrome_link_clicked"

@@ -16,32 +16,32 @@ export type PublicClaimRuntimeState = {
 export function getPublicClaimRuntimeState(): PublicClaimRuntimeState {
   return {
     claimApprovalState: "not_approved",
-    headline: "Runtime quick read: mock only",
+    headline: "公開狀態快讀：示範資料",
     publicDataSource: "mock",
     scoreSource: "mock",
     states: [
       {
-        body: "Users can read mock signals, product flow, and local readiness without treating them as live market evidence.",
-        label: "Visible now",
+        body: "使用者可以閱讀示範訊號、產品流程與本地準備度，但不能把它視為即時市場證據。",
+        label: "目前可見",
         tone: "active",
-        value: "publicDataSource=mock"
+        value: "資料來源：示範資料"
       },
       {
-        body: "Supabase-backed public data, SQL-backed scoring, real market ingestion, and investment-advice claims are blocked.",
-        label: "Not live yet",
+        body: "正式公開資料、SQL 分數、真實市場資料匯入與投資建議宣稱仍被阻擋。",
+        label: "尚未上線",
         tone: "blocked",
-        value: "scoreSource=mock"
+        value: "分數來源：示範分數"
       },
       {
-        body: "CEO must separately name a bounded readonly gate before any runtime transition can be discussed.",
-        label: "Next gate",
+        body: "任何公開狀態升級前，CEO 必須另行指定範圍明確的唯讀檢查點。",
+        label: "下一個檢查點",
         tone: "readying",
-        value: "claimApproval=not_approved"
+        value: "公開宣稱尚未核准"
       }
     ],
     stopLine:
-      "Do not promote public source, real-score wording, market-data coverage, or investment-advice claims from this state.",
+      "不得從此狀態升級公開資料來源、正式分數文字、市場資料覆蓋或投資建議宣稱。",
     summary:
-      "Every public page uses this same quick read before any future Supabase or real-data transition."
+      "所有公開頁面在未來切換正式資料前，都使用同一組狀態快讀。"
   };
 }

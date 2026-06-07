@@ -21,9 +21,9 @@ export function ProjectProgressPanel() {
     <section className="project-progress-panel" aria-label="PM project progress score">
       <div className="project-progress-summary">
         <p className="eyebrow">PM Progress Score</p>
-        <h2>{progress.headline}</h2>
-        <p>{progress.stage}</p>
-        <strong>{progress.nextLift}</strong>
+        <h2>{formatPublicText(progress.headline)}</h2>
+        <p>{formatPublicText(progress.stage)}</p>
+        <strong>{formatPublicText(progress.nextLift)}</strong>
       </div>
 
       <div className="project-progress-meter" aria-label={`Project progress ${progress.adjustedScore}%`}>
@@ -61,26 +61,26 @@ export function ProjectProgressPanel() {
         </article>
         <article className="blocked">
           <span>Evidence gate</span>
-          <strong>{progress.networkBlocker.status}</strong>
-          <p>{progress.networkBlocker.currentFinding}</p>
+          <strong>{formatPublicText(progress.networkBlocker.status)}</strong>
+          <p>{formatPublicText(progress.networkBlocker.currentFinding)}</p>
         </article>
       </div>
 
       <section className="runtime-action-status-strip" aria-label="Runtime action status normalization">
         <div>
           <span>Action status</span>
-          <strong>{actionStatus.headline}</strong>
-          <p>{actionStatus.nextAction}</p>
+          <strong>{formatPublicText(actionStatus.headline)}</strong>
+          <p>{formatPublicText(actionStatus.nextAction)}</p>
         </div>
         {actionStatus.statuses.map((status) => (
           <article className={status.tone} key={status.id}>
             <span>
               {status.owner} / {status.id}
             </span>
-            <strong>{status.label}</strong>
-            <p>{status.detail}</p>
-            <p>允許動作：{status.allowedAction}</p>
-            <p>封鎖動作：{status.blockedAction}</p>
+            <strong>{formatPublicText(status.label)}</strong>
+            <p>{formatPublicText(status.detail)}</p>
+            <p>允許動作：{formatPublicText(status.allowedAction)}</p>
+            <p>封鎖動作：{formatPublicText(status.blockedAction)}</p>
             <p>{formatNextGate(status.nextGate)}</p>
           </article>
         ))}
@@ -89,8 +89,8 @@ export function ProjectProgressPanel() {
       <section className="project-progress-data-readiness" aria-label="Post-readonly data readiness summary">
         <div>
           <span>Data Readiness</span>
-          <strong>{dataReadiness.headline}</strong>
-          <p>{dataReadiness.recommendation}</p>
+          <strong>{formatPublicText(dataReadiness.headline)}</strong>
+          <p>{formatPublicText(dataReadiness.recommendation)}</p>
           <p>{formatNextGate(dataReadiness.closestNextGate)}</p>
           <p>{formatBoundary(dataReadiness.safety.publicDataSource, dataReadiness.safety.scoreSource)}</p>
         </div>
@@ -100,9 +100,9 @@ export function ProjectProgressPanel() {
               <span>
                 {lane.owner} / {lane.state}
               </span>
-              <strong>{lane.label}</strong>
-              <p>{lane.evidence}</p>
-              <p>{lane.nextAction}</p>
+              <strong>{formatPublicText(lane.label)}</strong>
+              <p>{formatPublicText(lane.evidence)}</p>
+              <p>{formatPublicText(lane.nextAction)}</p>
             </article>
           ))}
         </div>
@@ -121,10 +121,10 @@ export function ProjectProgressPanel() {
               <span>
                 {item.owner} / priority {item.priority}
               </span>
-              <strong>{item.id}</strong>
-              <p>{item.acceptanceSignal}</p>
-              <p>{item.integrationAction}</p>
-              <p>Blocked until: {item.blockedUntil}</p>
+              <strong>{formatPublicText(item.id)}</strong>
+              <p>{formatPublicText(item.acceptanceSignal)}</p>
+              <p>{formatPublicText(item.integrationAction)}</p>
+              <p>阻擋直到：{formatPublicText(item.blockedUntil)}</p>
               <p>Source: {item.source}</p>
             </article>
           ))}
@@ -135,7 +135,7 @@ export function ProjectProgressPanel() {
       <section className="project-progress-data-foundation" aria-label="Data foundation gate">
         <div>
           <span>{dataReadiness.dataFoundationGate.status}</span>
-          <strong>{dataReadiness.dataFoundationGate.headline}</strong>
+          <strong>{formatPublicText(dataReadiness.dataFoundationGate.headline)}</strong>
           <p>
             Accepted {dataReadiness.dataFoundationGate.acceptedCount}/{dataReadiness.dataFoundationGate.totalCount};
             foundation {dataReadiness.dataFoundationGate.foundationPercent}%.
@@ -146,7 +146,7 @@ export function ProjectProgressPanel() {
               dataReadiness.dataFoundationGate.scoreSource
             )}
           </p>
-          <p>{dataReadiness.dataFoundationGate.nextGate}</p>
+          <p>{formatPublicText(dataReadiness.dataFoundationGate.nextGate)}</p>
         </div>
         <div className="project-progress-data-foundation-grid">
           {dataReadiness.dataFoundationGate.items.map((item) => (
@@ -154,22 +154,22 @@ export function ProjectProgressPanel() {
               <span>
                 {item.owner} / {item.state}
               </span>
-              <strong>{item.label}</strong>
-              <p>{item.evidence}</p>
-              <p>Blocker: {item.blocker}</p>
-              <p>Next: {item.nextAction}</p>
+              <strong>{formatPublicText(item.label)}</strong>
+              <p>{formatPublicText(item.evidence)}</p>
+              <p>阻擋原因：{formatPublicText(item.blocker)}</p>
+              <p>下一步：{formatPublicText(item.nextAction)}</p>
             </article>
           ))}
         </div>
-        <p>{dataReadiness.dataFoundationGate.stopLine}</p>
+        <p>{formatPublicText(dataReadiness.dataFoundationGate.stopLine)}</p>
       </section>
 
       <section className="project-progress-evidence-ladder" aria-label="Data evidence ladder">
         <div>
           <span>Evidence Ladder</span>
-          <strong>{evidenceLadder.headline}</strong>
-          <p>{evidenceLadder.nextDecision}</p>
-          <p>Active stage: {evidenceLadder.activeStage}</p>
+          <strong>{formatPublicText(evidenceLadder.headline)}</strong>
+          <p>{formatPublicText(evidenceLadder.nextDecision)}</p>
+          <p>目前階段：{formatPublicText(evidenceLadder.activeStage)}</p>
           <p>{formatBoundary(evidenceLadder.publicDataSource, evidenceLadder.scoreSource)}</p>
         </div>
         <div className="project-progress-evidence-ladder-stages">
@@ -178,22 +178,22 @@ export function ProjectProgressPanel() {
               <span>
                 {stage.owner} / {stage.state}
               </span>
-              <strong>{stage.label}</strong>
-              <p>{stage.acceptedEvidence}</p>
-              <p>Exit: {stage.exitCriteria}</p>
-              <p>Blocked promotion: {stage.blockedPromotion}</p>
-              <p>Next: {stage.nextAction}</p>
+              <strong>{formatPublicText(stage.label)}</strong>
+              <p>{formatPublicText(stage.acceptedEvidence)}</p>
+              <p>離開條件：{formatPublicText(stage.exitCriteria)}</p>
+              <p>仍阻擋升級：{formatPublicText(stage.blockedPromotion)}</p>
+              <p>下一步：{formatPublicText(stage.nextAction)}</p>
             </article>
           ))}
         </div>
-        <p>{evidenceLadder.stopLine}</p>
+        <p>{formatPublicText(evidenceLadder.stopLine)}</p>
       </section>
 
       <section className="project-progress-blocker-closure" aria-label="Blocker closure map">
         <div>
           <span>Blocker Closure</span>
-          <strong>{blockerClosure.headline}</strong>
-          <p>{blockerClosure.nextCeoMove}</p>
+          <strong>{formatPublicText(blockerClosure.headline)}</strong>
+          <p>{formatPublicText(blockerClosure.nextCeoMove)}</p>
           <p>{formatBoundary(blockerClosure.publicDataSource, blockerClosure.scoreSource)}</p>
         </div>
         <div className="project-progress-blocker-closure-grid">
@@ -203,10 +203,10 @@ export function ProjectProgressPanel() {
                 {item.owner} / {item.status}
               </span>
               <strong>{item.blockerId}</strong>
-              <p>{item.acceptedLocalEvidence}</p>
+              <p>{formatPublicText(item.acceptedLocalEvidence)}</p>
               <p>Next command: {item.nextCommand}</p>
-              <p>Decision: {item.nextDecision}</p>
-              <p>Blocked promotion: {item.blockedPromotion}</p>
+              <p>決策：{formatPublicText(item.nextDecision)}</p>
+              <p>仍阻擋升級：{formatPublicText(item.blockedPromotion)}</p>
             </article>
           ))}
         </div>
@@ -231,16 +231,16 @@ export function ProjectProgressPanel() {
                   {outcome.owner} / {outcome.recordedBy}
                 </span>
                 <strong>{outcome.outcome}</strong>
-                <p>{outcome.decisionNote}</p>
-                <p>{outcome.acceptedMeaning}</p>
-                <p>{outcome.rejectedMeaning}</p>
-                <p>{outcome.deferredMeaning}</p>
+                <p>{formatPublicText(outcome.decisionNote)}</p>
+                <p>{formatPublicText(outcome.acceptedMeaning)}</p>
+                <p>{formatPublicText(outcome.rejectedMeaning)}</p>
+                <p>{formatPublicText(outcome.deferredMeaning)}</p>
                 <p>Record: {outcome.recordCommand}</p>
               </article>
             ))}
           </div>
-          <p>Next decision {blockerClosure.blockerReviewDecisionOutcomeLedger.nextAllowedDecision}</p>
-          <p>Still blocked: {blockerClosure.blockerReviewDecisionOutcomeLedger.stillBlocked.join(", ")}</p>
+          <p>下一個決策：{formatPublicText(blockerClosure.blockerReviewDecisionOutcomeLedger.nextAllowedDecision)}</p>
+          <p>仍阻擋：{formatPublicText(blockerClosure.blockerReviewDecisionOutcomeLedger.stillBlocked.join("、"))}</p>
         </section>
 
         <section className="project-progress-blocker-readiness-gate">
@@ -261,14 +261,14 @@ export function ProjectProgressPanel() {
                   {item.owner} / {item.closureState}
                 </span>
                 <strong>{item.blockerId}</strong>
-                <p>{item.evidence}</p>
-                <p>Blocked promotion: {item.promotionBlocked}</p>
+              <p>{formatPublicText(item.evidence)}</p>
+              <p>仍阻擋升級：{formatPublicText(item.promotionBlocked)}</p>
               </article>
             ))}
           </div>
-          <p>{progress.blockerClosureReadinessGate.stopLine}</p>
+          <p>{formatPublicText(progress.blockerClosureReadinessGate.stopLine)}</p>
         </section>
-        <p>{blockerClosure.stopLine}</p>
+        <p>{formatPublicText(blockerClosure.stopLine)}</p>
       </section>
 
       <div
@@ -276,9 +276,9 @@ export function ProjectProgressPanel() {
         aria-label={`Supabase evidence gate ${progress.networkBlocker.status}`}
       >
         <span>Supabase readonly evidence gate</span>
-        <strong>{progress.networkBlocker.currentFinding}</strong>
-        <p>{progress.networkBlocker.impact}</p>
-        <p>{progress.networkBlocker.nextAction}</p>
+          <strong>{formatPublicText(progress.networkBlocker.currentFinding)}</strong>
+          <p>{formatPublicText(progress.networkBlocker.impact)}</p>
+          <p>{formatPublicText(progress.networkBlocker.nextAction)}</p>
       </div>
 
       <div
@@ -317,7 +317,7 @@ export function ProjectProgressPanel() {
             </li>
           ))}
         </ul>
-        <p>{progress.dataQualityEvidenceGate.stopLine}</p>
+          <p>{formatPublicText(progress.dataQualityEvidenceGate.stopLine)}</p>
       </div>
 
       <details
@@ -707,7 +707,7 @@ export function ProjectProgressPanel() {
               <b>{lane.current}%</b>
               <small>weight {lane.weight}%</small>
             </footer>
-            <p>{lane.note}</p>
+              <p>{formatPublicText(lane.note)}</p>
           </article>
         ))}
       </div>
@@ -716,7 +716,7 @@ export function ProjectProgressPanel() {
 }
 
 function formatBoundary(publicDataSource: string, scoreSource: string) {
-  return `公開資料來源：${publicDataSource}；分數來源：${scoreSource}`;
+  return `公開資料來源：${formatBoundaryValue(publicDataSource)}；分數來源：${formatBoundaryValue(scoreSource)}`;
 }
 
 function formatBoolean(value: boolean) {
@@ -724,9 +724,39 @@ function formatBoolean(value: boolean) {
 }
 
 function formatNextGate(nextGate: string) {
-  return `下一個 gate：${nextGate}`;
+  return `下一個檢查點：${formatPublicText(nextGate)}`;
 }
 
 function formatRequired(value: boolean) {
   return value ? "需要" : "不需要";
+}
+
+function formatBoundaryValue(value: string) {
+  if (value === "mock") return "示範";
+  return formatPublicText(value);
+}
+
+function formatPublicText(value: string) {
+  return value
+    .replaceAll("publicDataSource=supabase", "正式公開資料")
+    .replaceAll("publicDataSource=mock", "示範公開資料")
+    .replaceAll("publicDataSource", "公開資料來源")
+    .replaceAll("scoreSource=real", "正式分數")
+    .replaceAll("scoreSource=mock", "示範分數")
+    .replaceAll("scoreSource", "分數來源")
+    .replaceAll("Object reachability", "後端物件可讀性")
+    .replaceAll("object reachability", "後端物件可讀性")
+    .replaceAll("investment advice claims", "投資建議宣稱")
+    .replaceAll("investment advice", "投資建議")
+    .replaceAll("advice claims", "建議宣稱")
+    .replaceAll("advice", "建議")
+    .replaceAll("LOCAL_CLOSURE_READY_REMOTE_PAUSED", "本地閉環已整理，遠端升級暫停")
+    .replaceAll("local_ready_remote_paused", "本地可審查，遠端升級暫停")
+    .replaceAll("mock-only", "示範狀態")
+    .replaceAll("real-data promotion", "正式資料升級")
+    .replaceAll("Supabase readonly", "Supabase 唯讀")
+    .replaceAll("Supabase-backed public runtime", "Supabase 支撐的公開 runtime")
+    .replaceAll("investment-grade", "投資等級")
+    .replaceAll("Blocked promotion", "仍阻擋升級")
+    .replaceAll("blocked promotion", "仍阻擋升級");
 }

@@ -68,7 +68,7 @@ const surfaces = [
       "boundaryCopy.summary",
       "getHomeRuntimeActionSummary",
       "weekly-runtime-action-summary",
-      "real-score transition",
+      "正式分數切換",
       "actionSummary.currentProgressPercent",
       "actionSummary.safetyStopLine"
     ]

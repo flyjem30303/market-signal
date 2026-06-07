@@ -288,6 +288,7 @@ Latest PM completion review:
 - `docs/A2_BOUNDED_ROUTE_LOCAL_TRUST_COPY_PATCH.md` is `accepted` for PM mainline review.
 - `docs/A2_ROUTE_LOCAL_TRUST_COPY_ROUTE_HEALTH.md` is `accepted` for PM mainline review.
 - `src/lib/briefing-market-action-summary.ts` briefing market-action copy repair is `accepted` as a launch-blocking trust-copy repair, not visual polish.
+- A2 first-screen public-copy repair is `accepted` as a launch-blocking trust-copy repair: `/briefing` and the site footer no longer expose machine tokens such as `publicDataSource=mock` or `scoreSource=mock` in first-screen/public chrome copy, while the underlying report safety state remains mock/mock.
 - The handoff stayed bounded and local-only.
 - The checker `cmd.exe /c npm run check:a2-public-trust-launch-copy-handoff` passed.
 - The checker `cmd.exe /c npm run check:a2-route-level-launch-copy-placement-criteria` passed.
@@ -300,6 +301,7 @@ Latest PM completion review:
 - The checker `cmd.exe /c npm run check:a2-bounded-route-local-trust-copy-patch` passed.
 - The checker `cmd.exe /c npm run check:a2-route-local-trust-copy-route-health` passed.
 - The shared trust-surface copy patch focused checks passed: `check:runtime-mock-disclosure-readability`, `check:trust-runtime-boundary-notice`, `check:site-chrome-readability`, `check:public-runtime-boundary-coverage`, and `check:public-visible-language-quality`.
+- The A2 first-screen public-copy checker `cmd.exe /c npm run check:a2-public-copy-readability-candidates` passed with `urgentFirstScreenCandidates: 0`.
 - PM acceptance means the handoff can guide launch-copy integration; it does not authorize runtime promotion, real-source wording, or visual polish.
 
 Active assignment:
@@ -316,6 +318,7 @@ Active assignment:
 - PM accepts the bounded route-local trust copy patch as `a2_bounded_route_local_trust_copy_patch_applied_mock_boundary_preserved`; CEO decision is `apply_route_local_trust_copy_patch_before_visual_polish`; next route is `route_health_for_weekly_methodology_legal_pages_or_data_coverage_source_rights_unblock`.
 - PM accepts route-local trust copy route health as `a2_route_local_trust_copy_route_health_ready`; CEO decision is `verify_route_local_trust_copy_health_before_returning_to_data_coverage`; next route is `data_coverage_source_rights_unblock_after_route_health_green`.
 - PM accepts the briefing market-action summary helper repair; `check:public-visible-language-quality` now guards this helper against mojibake regression while preserving `publicDataSource=mock`, `scoreSource=mock`, and non-investment-advice wording.
+- PM accepts the first-screen public-copy repair; `check:a2-public-copy-readability-candidates` now treats reader-facing boundary phrases such as `示範資料`, `示範分數`, and `尚未切換為正式市場資料` as acceptable public Beta disclosures while preserving the report safety values `publicDataSource=mock` and `scoreSource=mock`.
 - Any next A2 task must preserve `publicDataSource=mock`, `scoreSource=mock`, non-investment-advice wording, data freshness limitations, missing/delayed data wording, partial coverage wording, and score/model limitations.
 
 Completed first assignment:
@@ -397,6 +400,16 @@ Completed eleventh assignment:
 - Preserve the ability to validate an already running localhost server or start a temporary non-default-port local server if needed.
 - Keep the route-health work out of SQL, Supabase connection/write, staging rows, `daily_prices` mutation, raw market data, deployment, DNS/SSL mutation, platform env mutation, row coverage points, public source promotion, real score promotion, and visual-polish-only scope.
 
+Completed twelfth assignment:
+
+- Repair launch-blocking public readability on `/briefing` first-screen and primary runtime summaries.
+- Convert visible boundary copy from internal tokens to public Beta language: `示範資料`, `示範分數`, `正式資料`, `正式分數`, `後端物件可讀性`, and `不是投資建議`.
+- Update action-summary, public-visible-language, localhost health, and A2 public-copy checkers so `/briefing` can use reader-facing boundary wording while checker self-contracts still guard `publicDataSource=mock` and `scoreSource=mock`.
+- Add display-layer sanitization for PM progress and post-readonly runtime summaries without changing underlying gate state.
+- Accept `urgentFirstScreenCandidates: 0` as the launch-blocking A2 outcome for this slice.
+- Defer deep internal governance panel cleanup to the next bounded public-summary route; those panels should become public summaries or sanitized display layers before public Beta.
+- Keep the copy repair out of SQL, Supabase connection/write, staging rows, `daily_prices` mutation, raw market data, deployment, DNS/SSL mutation, platform env mutation, row coverage points, public source promotion, real score promotion, and visual-polish-only scope.
+
 PM intake criteria for A2:
 
 - Copy gaps are split into launch-blocking and non-blocking polish.
@@ -407,8 +420,8 @@ PM intake criteria for A2:
 
 Next A2 task when PM reopens the copy lane:
 
-- Prepare a bounded shared trust-surface copy patch for `src/lib/public-runtime-boundary-copy.ts`, `src/components/trust-runtime-boundary-notice.tsx`, and footer/legal copy if PM chooses UI implementation next.
-- If PM keeps A2 document-only, prepare a Beta phrase set for mock-only, data freshness metadata, partial coverage, missing/delayed data, model limitation, risk, and non-investment-advice.
+- Prepare a bounded public-summary replacement for deep `/briefing` internal governance panels, especially runtime readiness details, source-depth blockers, and blocker-readiness panels that still expose raw guard terms.
+- If PM chooses not to replace panels yet, sanitize the display layer for those panels and keep checker self-contracts strict.
 - If copy placement is already covered and route health is stable, continue data coverage source-rights unblock as the next mainline route.
 - Visual polish remains lower priority unless comprehension or legal clarity is blocked.
 

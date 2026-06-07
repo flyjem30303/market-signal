@@ -5,7 +5,7 @@ import { getRuntimeGateDecisionBrief } from "@/lib/runtime-gate-decision-brief";
 export type RuntimeDecisionSummary = {
   blockedTransition: string;
   currentProgressPercent: 72;
-  decisionLabel: "post-readonly runtime decision";
+  decisionLabel: "唯讀驗證後公開 Beta 決策";
   headline: string;
   mode: "runtime_decision_summary";
   nextAction: string;
@@ -30,7 +30,7 @@ export function getRuntimeDecisionSummary(): RuntimeDecisionSummary {
     blockedTransition: action.blockedTransition,
     currentProgressPercent: action.currentProgressPercent,
     decisionLabel: action.nextAction,
-    headline: "Post-readonly runtime decision is the active mainline",
+    headline: "唯讀驗證後的公開 Beta 決策是目前主線",
     mode: "runtime_decision_summary",
     nextAction: gate.pmNextStep,
     nextLift: action.nextLift,
@@ -42,8 +42,8 @@ export function getRuntimeDecisionSummary(): RuntimeDecisionSummary {
     stage: action.stage,
     status: "mock_only_runtime_decision_ready",
     subhead:
-      "Object reachability is accepted as backend evidence, while public data and real scoring stay behind separate gates.",
+      "後端物件可讀性已可作為內部證據；公開資料切換與正式分數仍需通過獨立檢查點。",
     userFacingNow:
-      "Users can read mock-only signal direction, disclosure state, and product flow; they cannot treat it as live market-data evidence or investment advice."
+      "使用者目前可以閱讀示範訊號方向、揭露狀態與產品流程；這不能視為即時市場資料、正式投資證據或投資建議。"
   };
 }

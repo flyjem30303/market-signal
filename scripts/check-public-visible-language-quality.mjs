@@ -46,7 +46,7 @@ const pages = [
   },
   {
     path: "/briefing",
-    required: ["PM project progress", ...coreRuntimeBoundaryRequired]
+    required: ["PM project progress", "示範資料", "示範分數", "不是投資建議"]
   },
   {
     path: "/weekly",
@@ -95,11 +95,11 @@ const sourceReadabilityTargets = [
   {
     path: briefingSummaryPath,
     required: [
-      "CEO Briefing:",
-      "publicDataSource=mock",
-      "scoreSource=mock",
-      "not investment advice",
-      "mock runtime"
+      "市場晨報：",
+      "示範資料",
+      "示範分數",
+      "不構成投資建議",
+      "決策輔助脈絡"
     ]
   }
 ];
