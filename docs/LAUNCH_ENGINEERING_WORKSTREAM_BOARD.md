@@ -161,6 +161,7 @@ Latest PM completion review:
 - `docs/A1_TWII_SOURCE_RIGHTS_AND_CANDIDATE_READINESS_PACKET.md` is `accepted` for PM mainline review.
 - `docs/A1_TWII_INDEX_FIELD_CONTRACT_DECISION_SUPPORT.md` is `accepted` for PM mainline review.
 - `docs/A1_MVP_COVERAGE_CLOSURE_ROUTE_SUPPORT.md` is `accepted` for PM mainline review.
+- `docs/A1_TWII_ETF_SOURCE_RIGHTS_EVIDENCE_INTAKE_PACKET.md` is `accepted` as A1 shared source-rights evidence intake for the remaining TWII and ETF coverage lanes.
 - The handoff stayed bounded and local-only.
 - The checker `cmd.exe /c npm run check:a1-next-data-coverage-handoff` passed.
 - The checker `cmd.exe /c npm run check:etf-source-rights-and-candidate-readiness-packet` passed.
@@ -178,7 +179,9 @@ Active assignment:
 - TWII source-rights and candidate readiness is accepted as the next alternative data branch while ETF remains blocked.
 - PM accepts A1's TWII field-contract decision support as local-only planning evidence.
 - PM accepts A1's MVP coverage closure route support as the current coverage-route map from `182/360` to `360/360`.
-- PM assigns A1 next to `source_rights_evidence_intake_for_tWII_and_etf` as a local-only unblocker for TWII `0/60` and ETF `2/120`.
+- PM assigns A1 next to `source_rights_evidence_intake_for_twii_and_etf` as a local-only unblocker for TWII `0/60` and ETF `2/120`.
+- Legacy deployment packets still refer to this A1 assignment as `source_rights_evidence_intake_for_tWII_and_etf`; PM treats it as the same local-only intake route.
+- PM accepts the shared intake packet as the current A1 evidence intake surface; next route is `twii_or_etf_candidate_artifact_gate_after_pm_acceptance`, otherwise `continue_public_beta_runtime_mainline_mock_visible`.
 - PM should reassign A1 next to a TWII sanitized candidate artifact readiness gate only after source rights and field contract are accepted.
 - If TWII and ETF source rights remain unresolved, PM should reassign A1 to source-rights evidence intake, vendor/internal-feed decision support, or a blocked-route alternative map.
 - PM should reassign A1 to a blocked-route alternative map or TWII readiness branch when ETF source-rights evidence remains unresolved.

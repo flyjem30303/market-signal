@@ -3608,6 +3608,11 @@ const checks = [
     name: "a1-twii-index-field-contract-decision-support"
   },
   {
+    command: [node, "scripts/check-a1-twii-etf-source-rights-evidence-intake-packet.mjs"],
+    expectStatus: "ok",
+    name: "a1-twii-etf-source-rights-evidence-intake-packet"
+  },
+  {
     command: [node, "scripts/check-twii-source-rights-outcome-gate.mjs"],
     expectStatus: "blocked",
     name: "twii-source-rights-outcome-gate"
@@ -4292,6 +4297,7 @@ const coreReviewGateNames = new Set([
   "runtime-data-promotion-handoff-checklist",
   "runtime-summary-alignment-from-first-closed-loop",
   "a1-mvp-coverage-closure-route-support",
+  "a1-twii-etf-source-rights-evidence-intake-packet",
   "a1-source-rights-unblock-priority-packet",
   "a1-twii-source-rights-unblock-decision-record-candidate",
   "a1-twii-source-rights-evidence-intake-or-vendor-fallback-decision-support",
