@@ -3133,6 +3133,11 @@ const checks = [
     name: "a2-route-level-launch-copy-audit"
   },
   {
+    command: [node, "scripts/check-a2-route-local-legal-weekly-methodology-copy-regression-gate.mjs"],
+    expectStatus: "ok",
+    name: "a2-route-local-legal-weekly-methodology-copy-regression-gate"
+  },
+  {
     command: [node, "scripts/check-ceo-execution-focus-closure-readiness.mjs"],
     expectStatus: "ok",
     name: "ceo-execution-focus-closure-readiness"
@@ -4304,6 +4309,7 @@ const coreReviewGateNames = new Set([
   "a1-twii-official-source-intake-fields-or-vendor-terms-review-packet",
   "a2-public-beta-trust-copy-readiness",
   "a2-beta-phrase-set-and-shared-trust-surface-patch-scope",
+  "a2-route-local-legal-weekly-methodology-copy-regression-gate",
   "taiwan-all-listed-universe-manifest-packet",
   "public-trust-and-disclosure-copy-worklist",
   "mvp-remaining-coverage-execution-bridge",

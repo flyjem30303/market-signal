@@ -16,6 +16,7 @@
     "check:a2-public-trust-launch-copy-handoff": "node scripts/check-a2-public-trust-launch-copy-handoff.mjs",
     "check:a2-route-level-launch-copy-placement-criteria": "node scripts/check-a2-route-level-launch-copy-placement-criteria.mjs",
     "check:a2-route-level-launch-copy-audit": "node scripts/check-a2-route-level-launch-copy-audit.mjs",
+    "check:a2-route-local-legal-weekly-methodology-copy-regression-gate": "node scripts/check-a2-route-local-legal-weekly-methodology-copy-regression-gate.mjs",
     "check:a2-briefing-copy-patch": "node scripts/check-a2-briefing-copy-patch.mjs",
     "check:a2-public-beta-trust-copy-readiness": "node scripts/check-a2-public-beta-trust-copy-readiness.mjs",
     "check:a2-beta-phrase-set-and-shared-trust-surface-patch-scope": "node scripts/check-a2-beta-phrase-set-and-shared-trust-surface-patch-scope.mjs",
