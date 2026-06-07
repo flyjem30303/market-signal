@@ -2998,6 +2998,21 @@ const checks = [
     name: "formal-launch-deployment-readiness-gate"
   },
   {
+    command: [node, "scripts/check-public-beta-readiness-gate.mjs"],
+    expectStatus: "ok",
+    name: "public-beta-readiness-gate"
+  },
+  {
+    command: [node, "scripts/check-a1-mvp-coverage-closure-route-support.mjs"],
+    expectStatus: "ok",
+    name: "a1-mvp-coverage-closure-route-support"
+  },
+  {
+    command: [node, "scripts/check-a2-public-beta-trust-copy-readiness.mjs"],
+    expectStatus: "ok",
+    name: "a2-public-beta-trust-copy-readiness"
+  },
+  {
     command: [node, "scripts/check-a2-route-level-launch-copy-audit.mjs"],
     expectStatus: "ok",
     name: "a2-route-level-launch-copy-audit"
@@ -4055,6 +4070,9 @@ const coreReviewGateNames = new Set([
   "twii-source-rights-outcome-gate",
   "coverage-universe-roadmap",
   "goal-parallel-workstream-adjustment",
+  "public-beta-readiness-gate",
+  "a1-mvp-coverage-closure-route-support",
+  "a2-public-beta-trust-copy-readiness",
   "taiwan-all-listed-universe-manifest-packet",
   "public-trust-and-disclosure-copy-worklist",
   "mvp-remaining-coverage-execution-bridge",

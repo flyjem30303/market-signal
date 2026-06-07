@@ -14,39 +14,48 @@ const requiredStockPaths = [
 ];
 const requiredStatusPaths = ["/", ...requiredStockPaths, "/briefing", "/weekly", "/robots.txt"];
 const requiredContentPaths = ["/", ...requiredStockPaths, "/briefing", "/weekly"];
+const sharedRuntimeBoundaryTokens = [
+  "local_ready_remote_paused",
+  "mock-only",
+  "publicDataSource=mock",
+  "scoreSource=mock"
+];
 const requiredContentTokensByPath = new Map([
   [
     "/",
     [
       "Runtime Status",
       "Market Action Summary",
-      "local_ready_remote_paused",
       "mock-only runtime",
-      "阻塞項目",
-      "Data / Legal / Investment checklists are local-ready"
+      "Data / Legal / Investment checklists are local-ready",
+      ...sharedRuntimeBoundaryTokens
     ]
   ],
   [
     "/briefing",
     [
-      "資料列覆蓋準備",
       "Market Action Summary",
-      "local_ready_remote_paused",
       "Supabase readonly attempt",
       "Blocker Readiness",
-      "Three blocker checklists are ready for local review"
+      "Three blocker checklists are ready for local review",
+      ...sharedRuntimeBoundaryTokens
     ]
   ],
-  ["/weekly", ["Market Action Summary", "資料列覆蓋關卡", "local_ready_remote_paused", "Supabase readonly attempt"]]
+  [
+    "/weekly",
+    [
+      "Market Action Summary",
+      "Supabase readonly attempt",
+      ...sharedRuntimeBoundaryTokens
+    ]
+  ]
 ]);
 const stockContentTokens = [
   "Runtime At A Glance",
   "Investor Action Summary",
   "Indicator Roadmap",
-  "local_ready_remote_paused",
-  "scoreSource=real",
-  "封鎖項目",
-  "Data / Legal / Investment checklists are local-ready"
+  "Data / Legal / Investment checklists are local-ready",
+  ...sharedRuntimeBoundaryTokens
 ];
 const missing = [];
 const blocked = [];

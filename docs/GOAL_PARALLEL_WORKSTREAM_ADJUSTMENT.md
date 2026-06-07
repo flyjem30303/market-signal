@@ -75,18 +75,19 @@ A1 and A2 are not passive roles. They are rolling support lanes. Their job is to
 
 ## Revised GOAL Prompt
 
-Use this as the next `/goal` objective when the active goal needs to be recreated:
+Use this as the next `/goal` objective when the active goal needs to be recreated. The current preferred target is public Beta plus the first usable data-realification closed loop, not generic launch governance:
 
 ```text
-請把目標推向「正式上線工程完成」。執行模式採三線並行：PM 是主線與唯一整合 owner；A1 是 Data / Supabase / Market Evidence 副線；A2 是 Frontend / UX Readability / Public Copy QA 副線。A1 或 A2 完成任務時，PM 要立刻審核為 accepted / rejected / needs_bounded_repair / blocked，並在有安全工作可做時重新指派下一個任務。PM 不必等待 A1/A2 才推進主線。
+請把專案推到「可公開 Beta 上線，並完成資料真實化主路徑的第一個可用閉環」。執行模式採三線並行：PM 是主線與唯一整合 owner；A1 是 Data / Supabase / Market Evidence 副線；A2 是 Frontend / UX Readability / Public Copy QA 副線。A1 或 A2 完成任務時，PM 要立刻審核為 accepted / rejected / needs_bounded_repair / blocked，並在有安全工作可做時重新指派下一個任務。PM 不必等待 A1/A2 才推進主線。
 
 完成時應該是什麼狀態：
-1. Level 1 MVP row coverage 有明確完成或阻塞狀態，目標仍是 360/360；任何資料補齊都要有 source-specific gate、sanitized aggregate evidence、post-run review、readback 或 scoring gate。
-2. Runtime promotion gate 清楚記錄 mock-to-real 的條件；publicDataSource=mock / scoreSource=mock 在 promotion gate 通過前不得切換。
-3. Ingestion / backfill 流程具備 candidate artifact、staging/write/readback、rollback、retention、duplicate/overlap policy 與 post-run review。
-4. 投資指標與決策輔助只做 launch-safe 呈現；真實資料與正式分數未通過前，不宣稱正式投資建議或真實績效。
-5. 公開網站信任與法務揭露可讀、可驗證，涵蓋 mock-only、partial coverage、missing/delayed data、資料新鮮度、模型限制、非投資建議。
-6. 正式上線工程具備 env、Supabase/Vercel/Cloudflare 或同等平台、health check、monitoring、rollback、DNS/SSL、secret handling 與 launch checklist。
+1. 網站可公開 Beta 使用，首頁、個股頁、briefing、disclaimer、核心 public route 都可正常瀏覽且沒有 Internal Server Error。
+2. mock / real 邊界清楚，publicDataSource 與 scoreSource 的狀態在 UI、文件、checker 中一致。
+3. TW equity 真實 daily_prices 閉環已有可驗證狀態；TWII 與 ETF 缺口有明確 source-rights、field-contract、candidate artifact、coverage closure 路線。
+4. runtime promotion gate 可以判斷何時從 mock 進入 real，未通過前不得誤導使用者。
+5. ingestion/backfill/write/readback/post-run review/rollback/retention 的第一條可用流程具備記錄與驗證。
+6. 公開網站信任與法務揭露可讀，包含 mock-only、partial coverage、missing/delayed data、資料新鮮度、模型限制、非投資建議。
+7. deployment / env / health check / monitoring / rollback / DNS/SSL / secret handling / launch checklist 有 Beta 上線前檢查表。
 
 提供測試手段：
 - 小型文件或 checker 切片：跑該切片 checker 與 git diff --check。
@@ -132,4 +133,4 @@ To keep velocity:
 
 ## Current CEO Recommendation
 
-Recreate the active `/goal` with the launch-engineering prompt above when ready. Until then, PM should operate under this updated file as the project baseline: continue mainline MVP coverage toward `360/360`, assign A1 the next TWII/data-source readiness task, assign A2 the next launch-trust/readability task, and keep moving toward official launch readiness.
+Recreate the active `/goal` with the public-Beta prompt above when needed. Until then, PM should operate under this updated file as the project baseline: keep moving toward public Beta readiness, preserve `publicDataSource=mock` and `scoreSource=mock` until promotion gates pass, keep TW equity's first real `daily_prices` closed loop visible, and assign A1/A2 to remove data-coverage and public-trust blockers in parallel.

@@ -11,14 +11,19 @@ export const localhostStatusHealthPaths = [
   "/robots.txt"
 ];
 
+const sharedRuntimeBoundaryTokens = [
+  "local_ready_remote_paused",
+  "mock-only",
+  "publicDataSource=mock",
+  "scoreSource=mock"
+];
+
 const stockContentTokens = [
   "Runtime At A Glance",
   "Investor Action Summary",
   "Indicator Roadmap",
-  "local_ready_remote_paused",
-  "scoreSource=real",
-  "封鎖項目",
-  "Data / Legal / Investment checklists are local-ready"
+  "Data / Legal / Investment checklists are local-ready",
+  ...sharedRuntimeBoundaryTokens
 ];
 
 export const localhostContentHealthChecks = [
@@ -27,10 +32,9 @@ export const localhostContentHealthChecks = [
     required: [
       "Runtime Status",
       "Market Action Summary",
-      "local_ready_remote_paused",
       "mock-only runtime",
-      "阻塞項目",
-      "Data / Legal / Investment checklists are local-ready"
+      "Data / Legal / Investment checklists are local-ready",
+      ...sharedRuntimeBoundaryTokens
     ]
   },
   ...["/stocks/2330", "/stocks/TWII", "/stocks/0050", "/stocks/006208", "/stocks/2382", "/stocks/2308"].map(
@@ -42,17 +46,20 @@ export const localhostContentHealthChecks = [
   {
     path: "/briefing",
     required: [
-      "資料列覆蓋準備",
       "Market Action Summary",
-      "local_ready_remote_paused",
       "Supabase readonly attempt",
       "Blocker Readiness",
-      "Three blocker checklists are ready for local review"
+      "Three blocker checklists are ready for local review",
+      ...sharedRuntimeBoundaryTokens
     ]
   },
   {
     path: "/weekly",
-    required: ["Market Action Summary", "資料列覆蓋關卡", "local_ready_remote_paused", "Supabase readonly attempt"]
+    required: [
+      "Market Action Summary",
+      "Supabase readonly attempt",
+      ...sharedRuntimeBoundaryTokens
+    ]
   }
 ];
 

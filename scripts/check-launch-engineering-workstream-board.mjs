@@ -12,7 +12,7 @@ const roles = read(rolePath);
 
 const requiredDocPhrases = [
   "Status: `launch_engineering_workstream_board_ready`",
-  "CEO keeps the active GOAL pointed at formal launch engineering",
+  "CEO keeps the active GOAL pointed at public Beta readiness plus the first usable data-realification closed loop",
   "PM remains the only integration owner",
   "MVP row coverage target: `360/360`",
   "Latest accepted aggregate row coverage evidence: `182/360`",
@@ -27,6 +27,7 @@ const requiredDocPhrases = [
   "`docs/A1_ETF_SOURCE_RIGHTS_OUTCOME_DECISION_SUPPORT.md` is `accepted` for PM mainline review",
   "`docs/A1_TWII_SOURCE_RIGHTS_AND_CANDIDATE_READINESS_PACKET.md` is `accepted` for PM mainline review",
   "`docs/A1_TWII_INDEX_FIELD_CONTRACT_DECISION_SUPPORT.md` is `accepted` for PM mainline review",
+  "`docs/A1_MVP_COVERAGE_CLOSURE_ROUTE_SUPPORT.md` is `accepted` for PM mainline review",
   "Produce `docs/ETF_SOURCE_RIGHTS_AND_CANDIDATE_READINESS_PACKET.md`",
   "`docs/ETF_SOURCE_RIGHTS_OUTCOME_DECISION_GATE.md` is `blocked` as a PM mainline execution gate",
   "`docs/TWII_SOURCE_RIGHTS_OUTCOME_GATE.md` is `blocked` as a PM mainline data gate",
@@ -34,10 +35,17 @@ const requiredDocPhrases = [
   "TWII source-rights and candidate readiness is accepted as the next alternative data branch",
   "TWII remains `not_approved_for_probe_or_ingestion`",
   "PM accepts A1's TWII field-contract decision support as local-only planning evidence",
+  "PM accepts A1's MVP coverage closure route support as the current coverage-route map from `182/360` to `360/360`",
   "PM should reassign A1 next to a TWII sanitized candidate artifact readiness gate only after source rights and field contract are accepted",
   "PM accepts ETF as the current data-coverage route",
+  "Produce `docs/A1_MVP_COVERAGE_CLOSURE_ROUTE_SUPPORT.md`",
+  "source-rights evidence intake checklist",
   "`docs/FORMAL_LAUNCH_DEPLOYMENT_READINESS_GATE.md` is `accepted` as PM mainline deployment preflight",
+  "`docs/PUBLIC_BETA_READINESS_GATE.md` is `accepted` as PM mainline Beta preflight",
   "formal_launch_deployment_readiness_gate_ready_not_deployed",
+  "public_beta_readiness_gate_ready_local_beta_allowed_real_promotion_blocked",
+  "ready_for_local_public_beta_preflight_not_production_deployed",
+  "TW equity has a verified first `daily_prices` closed loop",
   "launch deployment preconditions can progress without source promotion",
   "Produce `docs/A2_PUBLIC_TRUST_LAUNCH_COPY_HANDOFF.md`",
   "`docs/A2_PUBLIC_TRUST_LAUNCH_COPY_HANDOFF.md` is `accepted` for PM mainline review",
@@ -45,9 +53,12 @@ const requiredDocPhrases = [
   "`docs/A2_ROUTE_LEVEL_LAUNCH_COPY_AUDIT.md` is `accepted` for PM mainline review",
   "A2 copy-only launch-blocking wording pass is `accepted` for PM mainline review",
   "`docs/A2 briefing copy-only patch` is `accepted` for PM mainline review",
+  "`docs/A2_PUBLIC_BETA_TRUST_COPY_READINESS.md` is `accepted` for PM mainline review",
   "Run a copy-only launch-blocking wording pass",
   "Update public boundary copy and trust/runtime notice wording",
   "public trust readability",
+  "Produce `docs/A2_PUBLIC_BETA_TRUST_COPY_READINESS.md`",
+  "shared trust surfaces, footer/legal, home/stocks, briefing, weekly, and empty/error state copy before visual polish",
   "PM Integration Loop",
   "accepted",
   "rejected",
@@ -73,7 +84,9 @@ const requiredStatusPhrases = [
   "Latest launch engineering workstream board slice",
   "launch_engineering_workstream_board_ready",
   "A1_NEXT_DATA_COVERAGE_HANDOFF.md",
-  "A2_PUBLIC_TRUST_LAUNCH_COPY_HANDOFF.md"
+  "A1_MVP_COVERAGE_CLOSURE_ROUTE_SUPPORT.md",
+  "A2_PUBLIC_TRUST_LAUNCH_COPY_HANDOFF.md",
+  "A2_PUBLIC_BETA_TRUST_COPY_READINESS.md"
 ];
 
 for (const phrase of requiredStatusPhrases) {

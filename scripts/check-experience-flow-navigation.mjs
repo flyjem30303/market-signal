@@ -40,8 +40,10 @@ for (const [source, page] of [
   requireIncludes(source, 'className="experience-flow-nav"', `${page} flow nav class`);
   requireIncludes(source, 'payload={{ area: "experience_flow"', `${page} tracking payload`);
   requireIncludes(source, 'href="/"', `${page} home link`);
-  requireIncludes(source, "看台指狀態", `${page} market-status link`);
 }
+
+requireIncludes(briefing, "查看市場頁", "briefing market-status link");
+requireIncludes(weekly, "看台指狀態", "weekly market-status link");
 
 requireIncludes(briefing, 'href="/weekly"', "briefing to weekly link");
 requireIncludes(weekly, 'href="/briefing"', "weekly to briefing link");
@@ -51,6 +53,7 @@ requireIncludes(dashboard, "decision_compass_briefing", "home decision compass b
 requireIncludes(dashboard, "decision_compass_market", "home decision compass market tracking");
 requireIncludes(dashboard, "decision_compass_target", "home decision compass target tracking");
 requireIncludes(dashboard, "先判斷市場節奏，再對照大盤，最後才進入 ETF 或個股拆解", "home decision compass reading order");
+requireIncludes(dashboard, "再看台指狀態", "home market-status reading step");
 requireIncludes(dashboard, 'href="/briefing"', "home/stock briefing route");
 requireIncludes(dashboard, 'href="/weekly"', "home/stock weekly route");
 requireIncludes(dashboard, "stock_follow_up", "stock follow-up payload");
