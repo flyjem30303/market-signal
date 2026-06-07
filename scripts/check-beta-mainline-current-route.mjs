@@ -27,6 +27,13 @@ const requiredReportPhrases = [
   "blocked_waiting_two_platform_values",
   "ready_to_run_beta_packet_window_proof_map",
   "ready_to_render_pre_execution_packet_candidate",
+  "platform_values_are_the_only_pm_mainline_external_blocker",
+  "refresh_focused_local_runtime_proof_only_when_runtime_or_route_health_changed",
+  "keep_a1_on_exact_twii_etf_source_rights_evidence_intake",
+  "keep_a2_on_urgent_public_copy_regression_repairs_only",
+  "do_not_reopen_broad_deployment_governance",
+  "do_not_expand_a2_visual_polish_before_platform_values",
+  "do_not_create_packet_window_artifact_before_two_platform_values_validate",
   "No deployment is authorized by this report.",
   "No platform environment value is printed by this report.",
   "No SQL is executed by this report.",
@@ -124,6 +131,15 @@ if (!report) {
   if (report.platformValues?.valuesAreNotPrinted !== true) blocked.push("report.platformValues.valuesAreNotPrinted must be true");
   if (!Array.isArray(report.stopLines) || report.stopLines.length < 9) missing.push("report.stopLines");
   if (!report.pmMainline?.nextCommand) missing.push("report.pmMainline.nextCommand");
+  if (report.status === "blocked_waiting_two_platform_values") {
+    if (report.pmDefaultWhenBlocked?.active !== true) blocked.push("report.pmDefaultWhenBlocked.active must be true while platform values are missing");
+    if (!Array.isArray(report.pmDefaultWhenBlocked?.allowedLocalLanes) || report.pmDefaultWhenBlocked.allowedLocalLanes.length !== 3) {
+      missing.push("report.pmDefaultWhenBlocked.allowedLocalLanes");
+    }
+    if (!Array.isArray(report.pmDefaultWhenBlocked?.avoid) || report.pmDefaultWhenBlocked.avoid.length !== 3) {
+      missing.push("report.pmDefaultWhenBlocked.avoid");
+    }
+  }
   if (!report.parallelRoutes?.a1?.exactLedger) missing.push("report.parallelRoutes.a1.exactLedger");
   if (!report.parallelRoutes?.a2) missing.push("report.parallelRoutes.a2");
   if (!report.sourceReports?.betaPlatformUnblockKit?.parsedJson) missing.push("report.sourceReports.betaPlatformUnblockKit.parsedJson");

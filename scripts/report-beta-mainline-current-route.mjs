@@ -25,6 +25,7 @@ const report = {
     nextCommand: mainlineRoute.nextCommand,
     afterCurrentCommand: mainlineRoute.afterCurrentCommand
   },
+  pmDefaultWhenBlocked: buildPmDefaultWhenBlocked(mainlineRoute.status),
   platformValues: {
     missingValues: Array.isArray(betaReport.platformValues?.missingValues)
       ? betaReport.platformValues.missingValues
@@ -140,6 +141,32 @@ function chooseMainlineRoute(betaStatus, platformStatus, acceptedArtifactExists)
     nextAction: "provide_only_BETA_HOSTING_PROJECT_NAME_and_BETA_TEMPORARY_URL_then_rerun_route_report",
     nextCommand: "cmd.exe /c npm run validate:beta-platform-two-values",
     afterCurrentCommand: "cmd.exe /c npm run report:beta-mainline-current-route"
+  };
+}
+
+function buildPmDefaultWhenBlocked(status) {
+  if (status !== "blocked_waiting_two_platform_values") {
+    return {
+      active: false,
+      reason: "mainline_has_an_executable_next_route",
+      allowedLocalLanes: [],
+      avoid: []
+    };
+  }
+
+  return {
+    active: true,
+    reason: "platform_values_are_the_only_pm_mainline_external_blocker",
+    allowedLocalLanes: [
+      "refresh_focused_local_runtime_proof_only_when_runtime_or_route_health_changed",
+      "keep_a1_on_exact_twii_etf_source_rights_evidence_intake",
+      "keep_a2_on_urgent_public_copy_regression_repairs_only"
+    ],
+    avoid: [
+      "do_not_reopen_broad_deployment_governance",
+      "do_not_expand_a2_visual_polish_before_platform_values",
+      "do_not_create_packet_window_artifact_before_two_platform_values_validate"
+    ]
   };
 }
 
