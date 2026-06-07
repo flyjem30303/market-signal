@@ -7,21 +7,20 @@ const checkerPath = "scripts/check-a2-weekly-readable-copy.mjs";
 
 const required = [
   "Weekly Report",
-  "本週市場觀察",
-  "Weekly boundary",
-  "data freshness metadata",
-  "publicDataSource=mock",
-  "scoreSource=mock",
-  "not investment advice",
-  "mock-only",
+  "\u516c\u958b Beta \u9031\u5831",
+  "\u793a\u7bc4\u8cc7\u6599",
+  "\u793a\u7bc4\u5206\u6578",
+  "\u6b63\u5f0f\u5e02\u5834\u8cc7\u6599\u5c1a\u672a\u555f\u7528",
+  "\u975e\u6295\u8cc7\u5efa\u8b70",
   "TrustRuntimeBoundaryNotice",
   "RouteLocalTrustCopyPanel",
   "DataFreshnessStrip",
   "WeeklyRowCoverageStatus",
   "buildWeeklyMarketActionSummary",
   "Market Action Summary",
-  "本週仍以 mock runtime 做公開閱讀",
-  "重要聲明"
+  "\u672c\u9031\u4ee5\u793a\u7bc4\u8cc7\u6599\u5448\u73fe\u516c\u958b\u95b1\u8b80\u6d41\u7a0b",
+  "\u4e0b\u9031\u89c0\u5bdf\u91cd\u9ede",
+  "\u91cd\u8981\u8072\u660e"
 ];
 
 const forbiddenClaims = [

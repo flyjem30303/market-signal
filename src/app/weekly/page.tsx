@@ -18,7 +18,7 @@ import type { SignalSnapshot } from "@/lib/signal-model";
 export const metadata: Metadata = {
   title: "Weekly Report | Taiwan Market Signal",
   description:
-    "A weekly public Beta report for Taiwan market signal reading. Current runtime remains mock-only with data freshness metadata, publicDataSource=mock, scoreSource=mock, and not investment advice."
+    "公開 Beta 週報，整理台股市場溫度、ETF 與族群觀察。頁面目前使用示範資料與示範分數，正式市場資料尚未啟用，內容為非投資建議。"
 };
 
 export default async function WeeklyPage() {
@@ -49,14 +49,13 @@ export default async function WeeklyPage() {
       <PageViewTracker eventName="weekly_page_viewed" payload={{ page: "weekly" }} />
       <section className="hero">
         <p className="eyebrow">Weekly Report</p>
-        <h1>本週市場觀察</h1>
+        <h1>公開 Beta 週報</h1>
         <p>
           這份週報把台股大盤、ETF、AI 與半導體族群放在同一個閱讀順序中，幫助 Beta 使用者先判斷市場溫度、
           風險熱點與下一步應該查看的標的頁。
         </p>
         <p className="runtime-boundary-line">
-          Weekly boundary: this page is a public Beta reading surface. It uses data freshness metadata and mock-only model output;
-          the formal market-data source and formal score source have not been promoted, and this is not investment advice.
+          本頁使用示範資料與示範分數呈現閱讀流程；正式市場資料尚未啟用，內容僅供研究與資訊整理，屬於非投資建議。
         </p>
       </section>
 
@@ -119,10 +118,10 @@ export default async function WeeklyPage() {
       <section className="weekly-runtime-action-summary" aria-label="Weekly runtime action summary">
         <div>
           <p className="eyebrow">Next Reading Step</p>
-          <h2>本週仍以 mock runtime 做公開閱讀</h2>
+          <h2>本週以示範資料呈現公開閱讀流程</h2>
           <p>
-            週報目前用來說明閱讀流程與邊界，而不是宣告真實資料或真實分數已經上線。資料覆蓋、來源權利、
-            ingestion 與 promotion gate 完成前，公開頁面都維持 mock-only，並保留 publicDataSource=mock 與 scoreSource=mock。
+            週報目前用來說明閱讀流程與風險邊界，而不是宣告真實資料或正式分數已經上線。資料覆蓋、來源權利、
+            寫入流程與升級審核完成前，公開頁面都必須清楚標示示範資料、示範分數與正式市場資料尚未啟用。
           </p>
         </div>
         <article className="active">
@@ -157,9 +156,9 @@ export default async function WeeklyPage() {
         </article>
         <article>
           <span>資料狀態</span>
-          <strong>{freshness.scoreSourceLabel}</strong>
+          <strong>示範分數</strong>
           <p>
-            data freshness metadata 只說明資料與模型狀態，不代表正式資料來源、完整覆蓋率或任何投資建議已被核准。
+            資料狀態只用來說明頁面目前的來源與更新邊界，不代表正式資料來源、完整覆蓋率或任何投資建議已被核准。
           </p>
         </article>
       </section>
@@ -230,7 +229,7 @@ export default async function WeeklyPage() {
         <h2>本週判讀摘要</h2>
         <p>
           {market.asset.symbol} 的 composite score 為 {market.compositeScore}/100，signal state 為 {market.signal.title}。
-          這個數字目前來自 mock runtime，適合用來驗證產品閱讀流程與資訊階層，不應被解讀為正式投資訊號。
+          這個數字目前來自示範分數來源，適合用來驗證產品閱讀流程與資訊階層，不應被解讀為正式投資訊號。
         </p>
         <p>
           Beta 版週報的價值在於把市場、ETF、題材族群與風險清單放到同一個節奏中，讓使用者快速知道下一頁該看哪裡。
@@ -248,7 +247,7 @@ export default async function WeeklyPage() {
         <h2>ETF 觀察清單</h2>
         <p>
           ETF 區塊目前用來示範使用者如何比較 ETF 候選標的。正式配置建議必須等 ETF 來源權利、覆蓋率、
-          freshness 與 promotion gate 通過後才可提升語氣。
+          資料更新狀態與升級審核通過後才可提升語氣。
         </p>
         <div className="rank-list">
           {etfs.map((item) => (
@@ -282,7 +281,7 @@ export default async function WeeklyPage() {
         <h2>下週觀察重點</h2>
         <p>
           下週優先觀察三件事：大盤 signal 是否轉弱、ETF 健康度是否維持、AI 與半導體風險是否升溫。
-          若資料來源、覆蓋率或 freshness 狀態不足，頁面必須維持 mock-only 說明，而不是提高判斷語氣。
+          若資料來源、覆蓋率或資料更新狀態不足，頁面必須維持示範資料說明，而不是提高判斷語氣。
         </p>
       </section>
 
@@ -378,33 +377,33 @@ function buildWeeklyRuntimeCadence(
       label: "Market",
       symbol: market.asset.symbol,
       text: marketIsConstructive
-        ? `${market.asset.symbol} is currently constructive in the mock model. Use it as the first weekly market context check.`
-        : `${market.asset.symbol} is not clearly constructive in the mock model. Review breadth and risk before reading sector candidates.`,
-      title: breadthTone === "active" ? "Market breadth supports a constructive read" : "Market breadth needs a defensive read",
+        ? `${market.asset.symbol} 目前呈現偏正向的示範分數，可作為本週市場脈絡的第一個檢查點。`
+        : `${market.asset.symbol} 目前尚未呈現明確正向，建議先檢查市場廣度與風險熱點，再閱讀族群候選標的。`,
+      title: breadthTone === "active" ? "市場廣度支持偏正向閱讀" : "市場廣度需要防守閱讀",
       tone: breadthTone
     },
     {
       href: `/stocks/${topEtf.asset.symbol}`,
       label: "ETF",
       symbol: topEtf.asset.symbol,
-      text: `${topEtf.asset.symbol} health ${topEtf.healthScore}/100. Compare ETF candidates only within the current mock boundary.`,
-      title: etfTone === "active" ? "ETF candidate is readable" : "ETF candidate needs risk review",
+      text: `${topEtf.asset.symbol} 健康度 ${topEtf.healthScore}/100。ETF 候選標的目前只適合在示範資料範圍內比較。`,
+      title: etfTone === "active" ? "ETF 候選標的可先閱讀" : "ETF 候選標的需要風險複查",
       tone: etfTone
     },
     {
       href: `/stocks/${topRisk.asset.symbol}`,
       label: "Risk",
       symbol: topRisk.asset.symbol,
-      text: `${topRisk.asset.symbol} risk ${topRisk.riskScore}/100. Use this as the first stop for overheating or defensive checks.`,
-      title: riskTone === "blocked" ? "Risk is elevated" : "Risk should stay on watch",
+      text: `${topRisk.asset.symbol} 風險 ${topRisk.riskScore}/100。這是本週檢查過熱與防守閱讀的優先標的。`,
+      title: riskTone === "blocked" ? "風險偏高" : "風險仍需觀察",
       tone: riskTone
     },
     {
       href: "/briefing",
       label: "Briefing",
       symbol: "briefing",
-      text: "Read the briefing after the weekly report to connect this slower weekly view with shorter-term market context.",
-      title: "Move from weekly context to briefing",
+      text: "閱讀週報後再看今日簡報，可把較慢的週線脈絡與短期市場事件接起來。",
+      title: "從週報切換到今日簡報",
       tone: "active"
     }
   ];
