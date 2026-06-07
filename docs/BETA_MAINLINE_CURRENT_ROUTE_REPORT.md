@@ -50,6 +50,7 @@ That default route prevents repeated governance expansion:
 A1 remains on exact TWII/ETF source-rights evidence intake until the exact ledger can open a separate TWII or ETF source-rights outcome gate.
 Its immediate command is `cmd.exe /c npm run report:a1-exact-source-rights-evidence-worksheet`.
 The mainline report also surfaces `parallelRoutes.a1.readiness`, including ready lanes, blocked lanes, TWII pending count, ETF pending count, and the A1 readiness next command.
+The mainline report also surfaces `parallelRoutes.a1.priorityDecision`, keeping TWII first through `twii_source_rights_unblock_first_etf_parallel_rights_option`, preserving ETF as a parallel option, and marking the priority decision as non-executable.
 
 A2 remains on public Beta trust copy, legal disclosure, first-screen readability, and user-understanding checks. If urgent first-screen blockers are zero, A2 should patch only launch-blocking public-copy regressions.
 

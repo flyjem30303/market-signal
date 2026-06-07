@@ -160,6 +160,15 @@ if (!report) {
   if (report.parallelRoutes?.a1?.nextCommand !== "cmd.exe /c npm run report:a1-exact-source-rights-evidence-worksheet") {
     blocked.push("report.parallelRoutes.a1.nextCommand must route to the exact source-rights evidence worksheet report");
   }
+  if (report.parallelRoutes?.a1?.priorityDecision?.route !== "twii_source_rights_unblock_first_etf_parallel_rights_option") {
+    blocked.push("report.parallelRoutes.a1.priorityDecision.route must keep TWII first and ETF parallel");
+  }
+  if (report.parallelRoutes?.a1?.priorityDecision?.nextAssignment !== "twii_source_rights_unblock_decision_record_candidate") {
+    blocked.push("report.parallelRoutes.a1.priorityDecision.nextAssignment must name the TWII unblock decision record candidate");
+  }
+  if (report.parallelRoutes?.a1?.priorityDecision?.executable !== false) {
+    blocked.push("report.parallelRoutes.a1.priorityDecision.executable must remain false");
+  }
   if (!report.parallelRoutes?.a2) missing.push("report.parallelRoutes.a2");
   if (!report.sourceReports?.betaPlatformUnblockKit?.parsedJson) missing.push("report.sourceReports.betaPlatformUnblockKit.parsedJson");
   if (!report.sourceReports?.a1SourceRightsNextAction?.parsedJson) missing.push("report.sourceReports.a1SourceRightsNextAction.parsedJson");

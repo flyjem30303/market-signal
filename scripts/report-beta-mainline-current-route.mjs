@@ -54,6 +54,14 @@ const report = {
       nextAction: a1Report.a1NextAction ?? "continue_exact_source_rights_evidence_intake",
       nextCommand:
         a1Report.a1NextCommand ?? "cmd.exe /c npm run report:a1-exact-source-rights-evidence-worksheet",
+      priorityDecision: a1Report.priorityDecision ?? {
+        source: "docs/A1_SOURCE_RIGHTS_UNBLOCK_PRIORITY_PACKET.md",
+        route: "twii_source_rights_unblock_first_etf_parallel_rights_option",
+        nextAssignment: "twii_source_rights_unblock_decision_record_candidate",
+        firstLane: "TWII",
+        parallelLane: "ETF",
+        executable: false
+      },
       exactLedger: {
         status: exactLedger.status ?? "unknown",
         twiiPendingCount: Number(exactLedger.twiiPendingCount ?? 0),

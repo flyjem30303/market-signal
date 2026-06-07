@@ -17,6 +17,16 @@ const report = {
   pmCommand: "cmd.exe /c npm run report:a1-source-rights-next-action",
   a1NextAction: route.a1NextAction,
   a1NextCommand: route.a1NextCommand,
+  priorityDecision: {
+    source: "docs/A1_SOURCE_RIGHTS_UNBLOCK_PRIORITY_PACKET.md",
+    route: "twii_source_rights_unblock_first_etf_parallel_rights_option",
+    nextAssignment: "twii_source_rights_unblock_decision_record_candidate",
+    firstLane: "TWII",
+    parallelLane: "ETF",
+    reason:
+      "TWII is the narrower 60-row unblock lane with an existing outcome gate; ETF remains the larger 118-row parallel option only if legal and redistribution evidence clears sooner.",
+    executable: false
+  },
   a2NextAction:
     "keep_launch_blocking_trust_copy_stable_only_if_runtime_or_public_copy_surface_changes",
   currentState: {

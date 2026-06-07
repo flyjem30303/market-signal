@@ -53,6 +53,15 @@ if (report?.currentState?.exactLedger?.etfPendingCount !== 6) {
 if (report?.a1NextCommand !== "cmd.exe /c npm run report:a1-exact-source-rights-evidence-worksheet") {
   problems.push("A1 next command should route directly to the exact source-rights evidence worksheet report");
 }
+if (report?.priorityDecision?.route !== "twii_source_rights_unblock_first_etf_parallel_rights_option") {
+  problems.push("priority decision should keep TWII first with ETF as the parallel option");
+}
+if (report?.priorityDecision?.nextAssignment !== "twii_source_rights_unblock_decision_record_candidate") {
+  problems.push("priority decision should expose the TWII unblock decision record candidate assignment");
+}
+if (report?.priorityDecision?.executable !== false) {
+  problems.push("priority decision must remain non-executable");
+}
 
 for (const [filePath, source, phrase] of [
   [docPath, doc, "Status: `a1_source_rights_next_action_report_ready_source_rights_pending`"],
@@ -61,6 +70,9 @@ for (const [filePath, source, phrase] of [
   [docPath, doc, "PM next action: `keep_beta_mainline_moving_and_assign_a1_exact_twii_etf_source_rights_evidence_intake`"],
   [docPath, doc, "A1 next action: `collect_or_classify_twii_vendor_terms_internal_owner_field_contract_asset_mapping_and_etf_legal_redistribution_evidence`"],
   [docPath, doc, "A1 next command: `cmd.exe /c npm run report:a1-exact-source-rights-evidence-worksheet`"],
+  [docPath, doc, "Priority route: `twii_source_rights_unblock_first_etf_parallel_rights_option`"],
+  [docPath, doc, "Priority assignment: `twii_source_rights_unblock_decision_record_candidate`"],
+  [docPath, doc, "Priority source: `docs/A1_SOURCE_RIGHTS_UNBLOCK_PRIORITY_PACKET.md`"],
   [docPath, doc, "cmd.exe /c npm run report:a1-source-rights-next-action"],
   [docPath, doc, "cmd.exe /c npm run report:a1-exact-source-rights-evidence-worksheet"],
   [docPath, doc, "`publicDataSource=mock`"],

@@ -12,6 +12,12 @@ A1 next action: `collect_or_classify_twii_vendor_terms_internal_owner_field_cont
 
 A1 next command: `cmd.exe /c npm run report:a1-exact-source-rights-evidence-worksheet`
 
+Priority route: `twii_source_rights_unblock_first_etf_parallel_rights_option`
+
+Priority assignment: `twii_source_rights_unblock_decision_record_candidate`
+
+Priority source: `docs/A1_SOURCE_RIGHTS_UNBLOCK_PRIORITY_PACKET.md`
+
 Command:
 
 ```powershell
@@ -63,6 +69,8 @@ If the exact outcome ledger records all ETF slots as accepted, PM may open a sep
 If both lanes remain blocked, PM should keep Beta mainline moving and assign A1 to exact source-rights evidence intake rather than reopening broad governance.
 
 A1 should start from `cmd.exe /c npm run report:a1-exact-source-rights-evidence-worksheet` so the 10 required TWII/ETF evidence slots, exact questions, acceptable evidence descriptions, and dry-run recorder templates are visible before any classification is applied.
+
+The current priority remains TWII first and ETF parallel. TWII is the narrower `60`-row unblock lane with an existing source-rights outcome gate. ETF remains the larger `118`-row parallel option only if legal and redistribution evidence clears sooner. This priority route is not executable.
 
 ## A1 Evidence Intake Target
 
