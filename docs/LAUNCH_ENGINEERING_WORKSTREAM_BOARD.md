@@ -183,6 +183,7 @@ Latest PM completion review:
 - A2 copy-only launch-blocking wording pass is `accepted` for PM mainline review.
 - `docs/A2 briefing copy-only patch` is `accepted` for PM mainline review.
 - `docs/A2_PUBLIC_BETA_TRUST_COPY_READINESS.md` is `accepted` for PM mainline review.
+- `docs/A2_BETA_PHRASE_SET_AND_SHARED_TRUST_SURFACE_PATCH_SCOPE.md` is `accepted` for PM mainline review.
 - The handoff stayed bounded and local-only.
 - The checker `cmd.exe /c npm run check:a2-public-trust-launch-copy-handoff` passed.
 - The checker `cmd.exe /c npm run check:a2-route-level-launch-copy-placement-criteria` passed.
@@ -190,6 +191,7 @@ Latest PM completion review:
 - The copy pass checkers passed: `check:runtime-mock-disclosure-readability`, `check:trust-runtime-boundary-notice`, `check:home-runtime-status-panel`, `check:stock-runtime-at-a-glance`, `check:public-runtime-boundary-coverage`, and `check:public-visible-language-quality`.
 - The briefing copy patch checker `cmd.exe /c npm run check:a2-briefing-copy-patch` passed.
 - The checker `cmd.exe /c npm run check:a2-public-beta-trust-copy-readiness` passed.
+- The checker `cmd.exe /c npm run check:a2-beta-phrase-set-and-shared-trust-surface-patch-scope` passed.
 - PM acceptance means the handoff can guide launch-copy integration; it does not authorize runtime promotion, real-source wording, or visual polish.
 
 Active assignment:
@@ -200,6 +202,7 @@ Active assignment:
 - PM accepts the bounded `/briefing` copy-only patch and should reassign A2 next to `/weekly` or footer/legal launch-copy risk after PM finishes this integration.
 - PM accepts A2's public Beta trust-copy readiness support and should prioritize shared trust surfaces, footer/legal, home/stocks, briefing, weekly, and empty/error state copy before visual polish.
 - PM assigns A2 next to `beta_phrase_set_and_shared_trust_surface_patch_scope` to keep public Beta language ready without delaying data and runtime foundations.
+- PM accepts A2's Beta phrase set and shared trust surface patch scope as `a2_beta_phrase_set_and_shared_trust_surface_patch_scope_ready`; CEO decision is `approve_a2_beta_phrase_set_before_shared_trust_surface_patch`, and next route is `bounded_shared_trust_surface_copy_patch_then_route_health`.
 - Any next A2 task must preserve `publicDataSource=mock`, `scoreSource=mock`, non-investment-advice wording, data freshness limitations, missing/delayed data wording, partial coverage wording, and score/model limitations.
 
 Completed first assignment:
@@ -241,6 +244,13 @@ Completed sixth assignment:
 - Classify public Beta trust-copy readiness across home, stocks, briefing, weekly, disclaimer, footer/legal shared chrome, shared runtime boundary surfaces, data freshness strip, empty/error/unavailable states, and visual polish.
 - Mark shared trust/copy risks as Beta blockers when visible text hides mock-only, partial coverage, missing/delayed data, data freshness, model limitation, or non-investment-advice.
 - Keep visual polish after launch-blocking copy readability and preserve `publicDataSource=mock`, `scoreSource=mock`, no real-source wording, no complete-coverage claim, no investment advice, and no runtime toggle changes.
+
+Completed seventh assignment:
+
+- Produce `docs/A2_BETA_PHRASE_SET_AND_SHARED_TRUST_SURFACE_PATCH_SCOPE.md`.
+- Approve the first Beta phrase set for `mock-only`, `publicDataSource=mock`, `scoreSource=mock`, data freshness metadata, partial coverage, missing/delayed data, model limitation, non-investment advice, and risk disclosure.
+- Prioritize shared trust surfaces before broad visual polish: `src/lib/public-runtime-boundary-copy.ts`, `src/components/trust-runtime-boundary-notice.tsx`, `src/components/public-runtime-state-strip.tsx`, `src/components/data-freshness-strip.tsx`, and `src/app/layout.tsx`.
+- Set the next route to `bounded_shared_trust_surface_copy_patch_then_route_health` while preserving no SQL, no Supabase connection/write, no `daily_prices` mutation, no raw market data, no deployment, no public source promotion, and no real score promotion.
 
 PM intake criteria for A2:
 

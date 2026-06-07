@@ -3048,6 +3048,11 @@ const checks = [
     name: "a2-public-beta-trust-copy-readiness"
   },
   {
+    command: [node, "scripts/check-a2-beta-phrase-set-and-shared-trust-surface-patch-scope.mjs"],
+    expectStatus: "ok",
+    name: "a2-beta-phrase-set-and-shared-trust-surface-patch-scope"
+  },
+  {
     command: [node, "scripts/check-a2-route-level-launch-copy-audit.mjs"],
     expectStatus: "ok",
     name: "a2-route-level-launch-copy-audit"
@@ -4115,6 +4120,7 @@ const coreReviewGateNames = new Set([
   "beta-deployment-intake-checklist",
   "a1-mvp-coverage-closure-route-support",
   "a2-public-beta-trust-copy-readiness",
+  "a2-beta-phrase-set-and-shared-trust-surface-patch-scope",
   "taiwan-all-listed-universe-manifest-packet",
   "public-trust-and-disclosure-copy-worklist",
   "mvp-remaining-coverage-execution-bridge",

@@ -18,6 +18,7 @@
     "check:a2-route-level-launch-copy-audit": "node scripts/check-a2-route-level-launch-copy-audit.mjs",
     "check:a2-briefing-copy-patch": "node scripts/check-a2-briefing-copy-patch.mjs",
     "check:a2-public-beta-trust-copy-readiness": "node scripts/check-a2-public-beta-trust-copy-readiness.mjs",
+    "check:a2-beta-phrase-set-and-shared-trust-surface-patch-scope": "node scripts/check-a2-beta-phrase-set-and-shared-trust-surface-patch-scope.mjs",
     "dev:recover": "powershell -ExecutionPolicy Bypass -File scripts/recover-next-dev-server.ps1",
     "check:json": "node -e \"const fs=require('fs'); for (const f of ['package.json','tsconfig.json','data/seeds/markets.seed.json','data/seeds/stocks.seed.json','data/source-gates/narrow-approval-outcomes.json','data/source-gates/runner-approval-decision-outcomes.json','data/source-gates/blocker-review-decision-outcomes.json','data/source-gates/tw-equity-provider-specific-terms-review-outcomes.json','data/source-gates/tw-equity-schema-exposure-repair-outcomes.json','data/source-gates/tw-equity-staging-migration-apply-outcomes.json']) { JSON.parse(fs.readFileSync(f,'utf8')); console.log(f+' ok'); }\"",
     "check:asset-policy": "node --experimental-strip-types scripts/check-asset-type-policy.mjs",
