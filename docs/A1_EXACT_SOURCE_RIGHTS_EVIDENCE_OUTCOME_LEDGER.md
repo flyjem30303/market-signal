@@ -66,6 +66,14 @@ Report current ledger state:
 cmd.exe /c npm run report:a1-exact-source-rights-evidence-outcome-ledger
 ```
 
+List dry-run recording command templates for every pending slot:
+
+```powershell
+cmd.exe /c npm run report:a1-exact-source-rights-evidence-recording-commands
+```
+
+The command helper emits placeholders only. Replace `REPLACE_WITH_NO_SECRET_SUMMARY` and `REPLACE_WITH_NO_SECRET_REMAINING_RISK` after A1 has reviewed no-secret evidence. Keep the generated command in `--dry-run` until PM/CEO accepts the evidence summary.
+
 Dry-run one classification:
 
 ```powershell
@@ -114,6 +122,8 @@ This ledger and recorder do not allow:
 Use:
 
 - `cmd.exe /c npm run report:a1-exact-source-rights-evidence-outcome-ledger`
+- `cmd.exe /c npm run report:a1-exact-source-rights-evidence-recording-commands`
 - `cmd.exe /c npm run check:a1-exact-source-rights-evidence-outcome-ledger`
+- `cmd.exe /c npm run check:a1-exact-source-rights-evidence-recording-commands`
 
 The checker verifies that the ledger starts fail-closed, the recorder defaults to dry-run, and all outputs preserve the mock/mock runtime boundary.
