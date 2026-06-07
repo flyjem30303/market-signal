@@ -2993,6 +2993,16 @@ const checks = [
     name: "devops-health-recovery-readiness"
   },
   {
+    command: [node, "scripts/check-formal-launch-deployment-readiness-gate.mjs"],
+    expectStatus: "ok",
+    name: "formal-launch-deployment-readiness-gate"
+  },
+  {
+    command: [node, "scripts/check-a2-route-level-launch-copy-audit.mjs"],
+    expectStatus: "ok",
+    name: "a2-route-level-launch-copy-audit"
+  },
+  {
     command: [node, "scripts/check-ceo-execution-focus-closure-readiness.mjs"],
     expectStatus: "ok",
     name: "ceo-execution-focus-closure-readiness"
@@ -3431,6 +3441,11 @@ const checks = [
     command: [node, "scripts/check-etf-source-rights-outcome-decision-gate.mjs"],
     expectStatus: "blocked",
     name: "etf-source-rights-outcome-decision-gate"
+  },
+  {
+    command: [node, "scripts/check-a1-twii-source-rights-and-candidate-readiness-packet.mjs"],
+    expectStatus: "ok",
+    name: "a1-twii-source-rights-and-candidate-readiness-packet"
   },
   {
     command: [node, "scripts/check-coverage-universe-roadmap.mjs"],
