@@ -356,3 +356,33 @@ Verification target:
 - `cmd.exe /c npm run check:goal-parallel-workstream-adjustment`
 - `cmd.exe /c npm run check:review-gates`
 - `git diff --check`
+
+## Latest runtime local route health refresh slice
+
+Status: `runtime_local_route_health_refresh_ready_mock_boundary_preserved`
+
+Date: 2026-06-07
+
+CEO decision: `refresh_runtime_local_route_health_before_executable_packet_or_data_gate`.
+
+PM route: `runtime_local_route_health_refresh_before_executable_packet_or_data_gate`.
+
+Outcome: `local_route_health_refresh_ready_for_next_preflight_proof`.
+
+This slice records the local route-health proof chain before a future executable packet or data gate. It preserves `publicDataSource=mock`, `scoreSource=mock`, Level 1 MVP coverage `182/360`, TW equity first closed loop `180/180`, TWII `0/60`, and ETF `2/120`.
+
+Accepted next routes:
+
+- `data_gate_readiness_after_local_route_health_refresh`
+- `executable_packet_candidate_after_platform_values`
+- `runtime_repair_before_next_gate`
+
+This slice does not authorize SQL, Supabase connection, Supabase write, staging rows, broad `daily_prices` mutation, raw market-data work, deployment, public source promotion, or real score promotion.
+
+Verification target:
+
+- `cmd.exe /c npm run check:runtime-local-route-health-refresh-before-executable-packet`
+- `cmd.exe /c npm run check:public-route-loop`
+- `cmd.exe /c npm run check:localhost-health-config`
+- `cmd.exe /c npm run check:review-gates`
+- `git diff --check`

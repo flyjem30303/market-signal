@@ -3623,6 +3623,11 @@ const checks = [
     name: "goal-parallel-workstream-adjustment"
   },
   {
+    command: [node, "scripts/check-runtime-local-route-health-refresh-before-executable-packet.mjs"],
+    expectStatus: "ok",
+    name: "runtime-local-route-health-refresh-before-executable-packet"
+  },
+  {
     command: [node, "scripts/check-taiwan-all-listed-universe-manifest-packet.mjs"],
     expectStatus: "ok",
     name: "taiwan-all-listed-universe-manifest-packet"
@@ -4215,6 +4220,7 @@ const coreReviewGateNames = new Set([
   "twii-source-rights-outcome-gate",
   "coverage-universe-roadmap",
   "goal-parallel-workstream-adjustment",
+  "runtime-local-route-health-refresh-before-executable-packet",
   "public-beta-readiness-gate",
   "beta-launch-preflight-packet",
   "beta-release-runbook-draft",
