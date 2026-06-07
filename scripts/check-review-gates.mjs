@@ -3658,6 +3658,11 @@ const checks = [
     name: "beta-deployment-platform-values-bridge"
   },
   {
+    command: [node, "scripts/check-pre-launch-executable-state-gap-convergence.mjs"],
+    expectStatus: "ok",
+    name: "pre-launch-executable-state-gap-convergence"
+  },
+  {
     command: [node, "scripts/check-taiwan-all-listed-universe-manifest-packet.mjs"],
     expectStatus: "ok",
     name: "taiwan-all-listed-universe-manifest-packet"
