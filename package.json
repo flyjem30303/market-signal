@@ -301,6 +301,7 @@
     "check:runtime-fail-closed": "node scripts/check-runtime-fail-closed.mjs",
     "report:runtime-schema-promotion-readiness": "node scripts/report-runtime-schema-promotion-readiness.mjs",
     "check:runtime-schema-promotion-readiness": "node scripts/check-runtime-schema-promotion-readiness.mjs",
+    "check:runtime-promotion-policy-from-first-closed-loop": "node scripts/check-runtime-promotion-policy-from-first-closed-loop.mjs",
     "report:mock-signal-reading-flow-readiness": "node scripts/report-mock-signal-reading-flow-readiness.mjs",
     "check:mock-signal-reading-flow-readiness": "node scripts/check-mock-signal-reading-flow-readiness.mjs",
     "report:mock-mvp-product-surface-readiness": "node scripts/report-mock-mvp-product-surface-readiness.mjs",

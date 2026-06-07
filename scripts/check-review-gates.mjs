@@ -3503,6 +3503,11 @@ const checks = [
     name: "data-realification-first-closed-loop-rollup"
   },
   {
+    command: [node, "scripts/check-runtime-promotion-policy-from-first-closed-loop.mjs"],
+    expectStatus: "ok",
+    name: "runtime-promotion-policy-from-first-closed-loop"
+  },
+  {
     command: [node, "scripts/check-etf-daily-prices-coverage-completion-route.mjs"],
     expectStatus: "ok",
     name: "etf-daily-prices-coverage-completion-route"
@@ -4120,6 +4125,7 @@ const coreReviewGateNames = new Set([
   "tw-equity-daily-prices-insert-missing-merge-post-run-review-2026-06-07",
   "tw-equity-row-coverage-scoring-gate",
   "data-realification-first-closed-loop-rollup",
+  "runtime-promotion-policy-from-first-closed-loop",
   "etf-daily-prices-coverage-completion-route",
   "etf-source-rights-outcome-decision-gate",
   "a1-twii-index-field-contract-decision-support",
