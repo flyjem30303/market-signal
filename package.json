@@ -364,6 +364,8 @@
     "check:beta-packet-window-no-secret-artifact-creation-runbook": "node scripts/check-beta-packet-window-no-secret-artifact-creation-runbook.mjs",
     "run:beta-packet-window-proof-map": "node scripts/run-beta-packet-window-proof-map.mjs",
     "check:beta-packet-window-one-command-proof-map": "node scripts/check-beta-packet-window-one-command-proof-map.mjs",
+    "record:beta-packet-window-reviewed-artifact-outcome": "node scripts/record-beta-packet-window-reviewed-artifact-outcome.mjs",
+    "check:beta-packet-window-reviewed-artifact-outcome-recorder": "node scripts/check-beta-packet-window-reviewed-artifact-outcome-recorder.mjs",
     "check:runtime-data-promotion-handoff-checklist": "node scripts/check-runtime-data-promotion-handoff-checklist.mjs",
     "check:runtime-summary-alignment-from-first-closed-loop": "node scripts/check-runtime-summary-alignment-from-first-closed-loop.mjs",
     "check:runtime-readonly-decision-card": "node scripts/check-runtime-readonly-decision-card.mjs",

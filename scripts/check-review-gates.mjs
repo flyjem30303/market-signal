@@ -3118,6 +3118,11 @@ const checks = [
     name: "beta-packet-window-one-command-proof-map"
   },
   {
+    command: [node, "scripts/check-beta-packet-window-reviewed-artifact-outcome-recorder.mjs"],
+    expectStatus: "ok",
+    name: "beta-packet-window-reviewed-artifact-outcome-recorder"
+  },
+  {
     command: [node, "scripts/check-runtime-data-promotion-handoff-checklist.mjs"],
     expectStatus: "ok",
     name: "runtime-data-promotion-handoff-checklist"
@@ -4374,6 +4379,7 @@ const coreReviewGateNames = new Set([
   "beta-packet-window-reviewed-artifact-acceptance-gate",
   "beta-packet-window-no-secret-artifact-creation-runbook",
   "beta-packet-window-one-command-proof-map",
+  "beta-packet-window-reviewed-artifact-outcome-recorder",
   "runtime-data-promotion-handoff-checklist",
   "runtime-summary-alignment-from-first-closed-loop",
   "a1-mvp-coverage-closure-route-support",
