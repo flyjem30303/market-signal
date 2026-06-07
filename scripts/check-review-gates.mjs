@@ -3633,6 +3633,11 @@ const checks = [
     name: "data-gate-readiness-after-local-route-health-refresh"
   },
   {
+    command: [node, "scripts/check-twii-source-rights-field-contract-acceptance-or-blocked-record.mjs"],
+    expectStatus: "blocked",
+    name: "twii-source-rights-field-contract-acceptance-or-blocked-record"
+  },
+  {
     command: [node, "scripts/check-taiwan-all-listed-universe-manifest-packet.mjs"],
     expectStatus: "ok",
     name: "taiwan-all-listed-universe-manifest-packet"
@@ -4227,6 +4232,7 @@ const coreReviewGateNames = new Set([
   "goal-parallel-workstream-adjustment",
   "runtime-local-route-health-refresh-before-executable-packet",
   "data-gate-readiness-after-local-route-health-refresh",
+  "twii-source-rights-field-contract-acceptance-or-blocked-record",
   "public-beta-readiness-gate",
   "beta-launch-preflight-packet",
   "beta-release-runbook-draft",
