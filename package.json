@@ -310,6 +310,7 @@
     "check:beta-launch-preflight-packet": "node scripts/check-beta-launch-preflight-packet.mjs",
     "check:beta-release-runbook-draft": "node scripts/check-beta-release-runbook-draft.mjs",
     "check:future-deployment-execution-gate": "node scripts/check-future-deployment-execution-gate.mjs",
+    "check:beta-deployment-operator-input-packet": "node scripts/check-beta-deployment-operator-input-packet.mjs",
     "check:runtime-readonly-decision-card": "node scripts/check-runtime-readonly-decision-card.mjs",
     "check:post-readonly-runtime-state": "node scripts/check-post-readonly-runtime-state.mjs",
     "check:runtime-promotion-readiness-summary": "node scripts/check-runtime-promotion-readiness-summary.mjs",
