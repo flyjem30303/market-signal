@@ -3973,6 +3973,11 @@ const checks = [
     name: "a2-legal-methodology-readable-copy"
   },
   {
+    command: [node, "scripts/check-a2-weekly-readable-copy.mjs"],
+    expectStatus: "ok",
+    name: "a2-weekly-readable-copy"
+  },
+  {
     command: [node, "scripts/check-blocker-review-decision-outcome-ledger.mjs"],
     expectStatus: "ok",
     name: "blocker-review-decision-outcome-ledger"
@@ -4479,6 +4484,7 @@ const coreReviewGateNames = new Set([
   "a2-bounded-route-local-trust-copy-patch",
   "a2-route-local-trust-copy-route-health",
   "a2-legal-methodology-readable-copy",
+  "a2-weekly-readable-copy",
   "taiwan-all-listed-universe-manifest-packet",
   "public-trust-and-disclosure-copy-worklist",
   "mvp-remaining-coverage-execution-bridge",
