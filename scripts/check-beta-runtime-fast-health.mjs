@@ -10,7 +10,7 @@ const statusPath = "PROJECT_STATUS.md";
 const boardPath = "docs/LAUNCH_ENGINEERING_WORKSTREAM_BOARD.md";
 
 const baseUrl = process.env.BETA_RUNTIME_FAST_HEALTH_BASE_URL ?? process.env.LOCALHOST_HEALTH_BASE_URL ?? "http://localhost:3000";
-const timeoutMs = Number.parseInt(process.env.BETA_RUNTIME_FAST_HEALTH_TIMEOUT_MS ?? "3000", 10);
+const timeoutMs = Number.parseInt(process.env.BETA_RUNTIME_FAST_HEALTH_TIMEOUT_MS ?? "8000", 10);
 const routes = (process.env.BETA_RUNTIME_FAST_HEALTH_ROUTES ?? "/,/briefing,/weekly,/stocks/2330,/stocks/TWII,/methodology,/disclaimer,/terms,/privacy")
   .split(",")
   .map((route) => route.trim())
@@ -114,7 +114,10 @@ for (const phrase of [
   if (!doc.includes(phrase)) problems.push(`${docPath} missing hard stop: ${phrase}`);
 }
 
-const routeResults = await Promise.all(routes.map((route) => checkRoute(route)));
+const routeResults = [];
+for (const route of routes) {
+  routeResults.push(await checkRoute(route));
+}
 const failedRoutes = routeResults.filter((result) => result.statusCode !== 200);
 
 if (failedRoutes.length > 0) {

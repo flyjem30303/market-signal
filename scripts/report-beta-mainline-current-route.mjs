@@ -5,12 +5,14 @@ const a1 = runJson(["cmd.exe", "/c", "npm", "run", "report:a1-source-rights-next
 const a1Readiness = runJson(["cmd.exe", "/c", "npm", "run", "report:a1-source-rights-readiness-summary"]);
 const a1Worksheet = runJson(["cmd.exe", "/c", "npm", "run", "report:a1-exact-source-rights-evidence-worksheet"]);
 const a2 = runJson(["cmd.exe", "/c", "npm", "run", "report:a2-public-copy-readability-candidates"]);
+const runtimeFastHealth = runJson(["cmd.exe", "/c", "npm", "run", "check:beta-runtime-fast-health"]);
 
 const betaReport = beta.json ?? {};
 const a1Report = a1.json ?? {};
 const a1ReadinessReport = a1Readiness.json ?? {};
 const a1WorksheetReport = a1Worksheet.json ?? {};
 const a2Report = a2.json ?? {};
+const runtimeFastHealthReport = runtimeFastHealth.json ?? {};
 
 const platformStatus = betaReport.platformValues?.status ?? "unknown";
 const acceptedArtifactExists = Boolean(betaReport.reviewedArtifact?.acceptedArtifactExists);
@@ -69,6 +71,28 @@ const report = {
   reviewedArtifact: betaReport.reviewedArtifact ?? {
     acceptedArtifactExists: false,
     latestAcceptedArtifactPath: null
+  },
+  runtimeHealth: {
+    status: runtimeFastHealthReport.status ?? "unknown",
+    guardedStatus: runtimeFastHealthReport.guardedStatus ?? "unknown",
+    outcome: runtimeFastHealthReport.outcome ?? "unknown",
+    baseUrl: runtimeFastHealthReport.baseUrl ?? "http://localhost:3000",
+    routeCount: Array.isArray(runtimeFastHealthReport.checkedRoutes)
+      ? runtimeFastHealthReport.checkedRoutes.length
+      : 0,
+    allRoutesHttp200: Array.isArray(runtimeFastHealthReport.checkedRoutes)
+      ? runtimeFastHealthReport.checkedRoutes.every((route) => route.statusCode === 200)
+      : false,
+    checkedRoutes: Array.isArray(runtimeFastHealthReport.checkedRoutes)
+      ? runtimeFastHealthReport.checkedRoutes.map((route) => ({
+        route: route.route,
+        statusCode: route.statusCode
+      }))
+      : [],
+    runtimeBoundary: {
+      publicDataSource: runtimeFastHealthReport.runtimeBoundary?.publicDataSource ?? "mock",
+      scoreSource: runtimeFastHealthReport.runtimeBoundary?.scoreSource ?? "mock"
+    }
   },
   parallelRoutes: {
     a1: {
@@ -172,7 +196,8 @@ const report = {
     a1SourceRightsNextAction: commandStatus(a1),
     a1SourceRightsReadinessSummary: commandStatus(a1Readiness),
     a1ExactSourceRightsEvidenceWorksheet: commandStatus(a1Worksheet),
-    a2PublicCopyReadabilityCandidates: commandStatus(a2)
+    a2PublicCopyReadabilityCandidates: commandStatus(a2),
+    betaRuntimeFastHealth: commandStatus(runtimeFastHealth)
   }
 };
 

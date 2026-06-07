@@ -160,6 +160,28 @@ if (!report) {
   }
   if (!Array.isArray(report.stopLines) || report.stopLines.length < 9) missing.push("report.stopLines");
   if (!report.pmMainline?.nextCommand) missing.push("report.pmMainline.nextCommand");
+  if (!report.runtimeHealth) missing.push("report.runtimeHealth");
+  if (report.runtimeHealth?.status !== "ok") {
+    blocked.push("report.runtimeHealth.status must be ok");
+  }
+  if (report.runtimeHealth?.guardedStatus !== "beta_runtime_fast_health_gate_ready") {
+    blocked.push("report.runtimeHealth.guardedStatus must be beta_runtime_fast_health_gate_ready");
+  }
+  if (report.runtimeHealth?.outcome !== "fast_runtime_health_available_for_beta_mainline") {
+    blocked.push("report.runtimeHealth.outcome must remain fast_runtime_health_available_for_beta_mainline");
+  }
+  if (report.runtimeHealth?.routeCount !== 9) {
+    blocked.push("report.runtimeHealth.routeCount must be 9");
+  }
+  if (report.runtimeHealth?.allRoutesHttp200 !== true) {
+    blocked.push("report.runtimeHealth.allRoutesHttp200 must be true");
+  }
+  if (report.runtimeHealth?.runtimeBoundary?.publicDataSource !== "mock") {
+    blocked.push("report.runtimeHealth.runtimeBoundary.publicDataSource must be mock");
+  }
+  if (report.runtimeHealth?.runtimeBoundary?.scoreSource !== "mock") {
+    blocked.push("report.runtimeHealth.runtimeBoundary.scoreSource must be mock");
+  }
   if (report.status === "blocked_waiting_two_platform_values") {
     if (report.pmDefaultWhenBlocked?.active !== true) blocked.push("report.pmDefaultWhenBlocked.active must be true while platform values are missing");
     if (!Array.isArray(report.pmDefaultWhenBlocked?.allowedLocalLanes) || report.pmDefaultWhenBlocked.allowedLocalLanes.length !== 3) {
@@ -231,6 +253,9 @@ if (!report) {
   }
   if (!report.sourceReports?.a2PublicCopyReadabilityCandidates?.parsedJson) {
     missing.push("report.sourceReports.a2PublicCopyReadabilityCandidates.parsedJson");
+  }
+  if (!report.sourceReports?.betaRuntimeFastHealth?.parsedJson) {
+    missing.push("report.sourceReports.betaRuntimeFastHealth.parsedJson");
   }
 }
 

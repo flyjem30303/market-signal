@@ -66,6 +66,8 @@ A2 remains on public Beta trust copy, legal disclosure, first-screen readability
 The mainline report surfaces `parallelRoutes.a2.decisionSupport`, so PM can see the next A2 maintenance slice without reading the full public-copy scanner output. While urgent first-screen candidates are zero, that route stays on `a2-checker-hardening`.
 The A2 scanner also emits `scannerIntegrity`, which is guarded by `check:a2-public-copy-readability-candidates` so public-copy QA remains local-only, network-free, env-free, localhost-independent, Supabase-client-free, and raw-payload-free.
 
+The mainline report surfaces `runtimeHealth` from `check:beta-runtime-fast-health`, including checked route count, HTTP `200` status, and the runtime boundary. This keeps PM's Beta packet route tied to actual local public-route health without running the heavier milestone-only localhost full-health gate every time.
+
 ## Safety Boundary
 
 This report is a local route report only.
