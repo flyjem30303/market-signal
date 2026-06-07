@@ -3448,6 +3448,16 @@ const checks = [
     name: "a1-twii-source-rights-and-candidate-readiness-packet"
   },
   {
+    command: [node, "scripts/check-a1-twii-index-field-contract-decision-support.mjs"],
+    expectStatus: "ok",
+    name: "a1-twii-index-field-contract-decision-support"
+  },
+  {
+    command: [node, "scripts/check-twii-source-rights-outcome-gate.mjs"],
+    expectStatus: "blocked",
+    name: "twii-source-rights-outcome-gate"
+  },
+  {
     command: [node, "scripts/check-coverage-universe-roadmap.mjs"],
     expectStatus: "ok",
     name: "coverage-universe-roadmap"
@@ -4041,6 +4051,8 @@ const coreReviewGateNames = new Set([
   "tw-equity-row-coverage-scoring-gate",
   "etf-daily-prices-coverage-completion-route",
   "etf-source-rights-outcome-decision-gate",
+  "a1-twii-index-field-contract-decision-support",
+  "twii-source-rights-outcome-gate",
   "coverage-universe-roadmap",
   "goal-parallel-workstream-adjustment",
   "taiwan-all-listed-universe-manifest-packet",

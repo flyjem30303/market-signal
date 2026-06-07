@@ -45,7 +45,11 @@ Current PM route:
 Latest PM mainline completion review:
 
 - `docs/FORMAL_LAUNCH_DEPLOYMENT_READINESS_GATE.md` is `accepted` as PM mainline deployment preflight.
+- `docs/TWII_SOURCE_RIGHTS_OUTCOME_GATE.md` is `blocked` as a PM mainline data gate because TWII source rights and field contract remain unresolved.
 - The formal launch deployment readiness gate is `formal_launch_deployment_readiness_gate_ready_not_deployed`.
+- The TWII source-rights outcome gate is `twii_source_rights_outcome_gate_blocked_external_rights_pending`.
+- Current TWII outcome is `rejected_for_execution_pending_external_rights_and_field_contract`.
+- TWII remains `not_approved_for_probe_or_ingestion`.
 - PM selected this route because ETF source rights are blocked and launch deployment preconditions can progress without source promotion.
 - The gate covers environment variables, platform posture, local and future production health checks, monitoring, rollback, DNS/SSL, secret handling, and launch checklist.
 - It does not deploy production, run SQL, connect to Supabase, write Supabase, create staging rows, modify `daily_prices`, fetch market data, award row coverage points, promote `publicDataSource=supabase`, or set `scoreSource=real`.
@@ -60,11 +64,13 @@ Latest PM completion review:
 - `docs/ETF_SOURCE_RIGHTS_AND_CANDIDATE_READINESS_PACKET.md` is `accepted` for PM mainline review.
 - `docs/A1_ETF_SOURCE_RIGHTS_OUTCOME_DECISION_SUPPORT.md` is `accepted` for PM mainline review.
 - `docs/A1_TWII_SOURCE_RIGHTS_AND_CANDIDATE_READINESS_PACKET.md` is `accepted` for PM mainline review.
+- `docs/A1_TWII_INDEX_FIELD_CONTRACT_DECISION_SUPPORT.md` is `accepted` for PM mainline review.
 - The handoff stayed bounded and local-only.
 - The checker `cmd.exe /c npm run check:a1-next-data-coverage-handoff` passed.
 - The checker `cmd.exe /c npm run check:etf-source-rights-and-candidate-readiness-packet` passed.
 - The checker `cmd.exe /c npm run check:a1-etf-source-rights-outcome-decision-support` passed.
 - The checker `cmd.exe /c npm run check:a1-twii-source-rights-and-candidate-readiness-packet` passed.
+- The checker `cmd.exe /c npm run check:a1-twii-index-field-contract-decision-support` passed.
 - PM accepts ETF as the current data-coverage route because `docs/ETF_DAILY_PRICES_COVERAGE_COMPLETION_ROUTE.md` selects ETF as the next completion route while source rights remain blocked.
 - `docs/ETF_SOURCE_RIGHTS_OUTCOME_DECISION_GATE.md` is `blocked` as a PM mainline execution gate because no ETF source lane is accepted for storage, redistribution, derived analysis, candidate generation, or write execution.
 - PM acceptance means the handoff and ETF readiness packet can guide a later source-rights or execution decision; it does not authorize ETF candidate generation, remote fetch, Supabase connection, Supabase write, `daily_prices` mutation, row coverage points, public source promotion, or real score promotion.
@@ -73,7 +79,9 @@ Active assignment:
 
 - ETF source-rights outcome decision is open and currently blocked at `rejected_for_execution_pending_external_rights`.
 - TWII source-rights and candidate readiness is accepted as the next alternative data branch while ETF remains blocked.
-- PM should reassign A1 next to a TWII source-rights outcome gate or a TWII index field-contract decision gate when mainline is ready for the next data move.
+- PM accepts A1's TWII field-contract decision support as local-only planning evidence.
+- PM should reassign A1 next to a TWII sanitized candidate artifact readiness gate only after source rights and field contract are accepted.
+- If TWII source rights remain unresolved, PM should reassign A1 to vendor/internal-feed decision support or a blocked-route alternative map.
 - Any next data action must stop before remote fetch, candidate generation from source data, SQL, Supabase connection, Supabase write, staging row creation, `daily_prices` mutation, row coverage points, public source promotion, or real score promotion.
 
 Completed first assignment:
@@ -104,6 +112,13 @@ Completed fourth assignment:
 - Define TWII source-rights intake, index `daily_prices` field contract, sanitized candidate artifact shape, and future execution-readiness criteria.
 - Keep TWII `not_approved_for_probe_or_ingestion` until a separate PM/CEO gate accepts source rights and field contract.
 
+Completed fifth assignment:
+
+- Produce `docs/A1_TWII_INDEX_FIELD_CONTRACT_DECISION_SUPPORT.md`.
+- Keep the output local-only and not executable.
+- Define TWII daily index field-contract questions for `trade_date`, `index_close`, optional OHLC/turnover fields, calendar/session rules, timezone, precision, missing-session vs source-gap classification, and safe asset-id mapping.
+- Preserve TWII `0/60`, `publicDataSource=mock`, `scoreSource=mock`, no source-rights approval, no parser approval, no probe approval, no candidate generation, no Supabase write, and no row coverage points.
+
 PM intake criteria for A1:
 
 - Current evidence is sanitized and aggregate-only.
@@ -129,11 +144,13 @@ Latest PM completion review:
 - `docs/A2_ROUTE_LEVEL_LAUNCH_COPY_PLACEMENT_CRITERIA.md` is `accepted` for PM mainline review.
 - `docs/A2_ROUTE_LEVEL_LAUNCH_COPY_AUDIT.md` is `accepted` for PM mainline review.
 - A2 copy-only launch-blocking wording pass is `accepted` for PM mainline review.
+- `docs/A2 briefing copy-only patch` is `accepted` for PM mainline review.
 - The handoff stayed bounded and local-only.
 - The checker `cmd.exe /c npm run check:a2-public-trust-launch-copy-handoff` passed.
 - The checker `cmd.exe /c npm run check:a2-route-level-launch-copy-placement-criteria` passed.
 - The checker `cmd.exe /c npm run check:a2-route-level-launch-copy-audit` passed.
 - The copy pass checkers passed: `check:runtime-mock-disclosure-readability`, `check:trust-runtime-boundary-notice`, `check:home-runtime-status-panel`, `check:stock-runtime-at-a-glance`, `check:public-runtime-boundary-coverage`, and `check:public-visible-language-quality`.
+- The briefing copy patch checker `cmd.exe /c npm run check:a2-briefing-copy-patch` passed.
 - PM acceptance means the handoff can guide launch-copy integration; it does not authorize runtime promotion, real-source wording, or visual polish.
 
 Active assignment:
@@ -141,6 +158,7 @@ Active assignment:
 - Route-level launch copy placement criteria are accepted as a local-only criteria packet.
 - Route-level launch copy audit is accepted as a local-only audit packet.
 - PM should reassign A2 next to a bounded `/briefing` copy-only patch or a launch-visible language regression checker when mainline needs public trust support.
+- PM accepts the bounded `/briefing` copy-only patch and should reassign A2 next to `/weekly` or footer/legal launch-copy risk after PM finishes this integration.
 - Any next A2 task must preserve `publicDataSource=mock`, `scoreSource=mock`, non-investment-advice wording, data freshness limitations, missing/delayed data wording, partial coverage wording, and score/model limitations.
 
 Completed first assignment:
@@ -169,6 +187,12 @@ Completed fourth assignment:
 - Classify public routes and surfaces as `satisfies_now`, `needs_small_copy_patch`, `wait_for_phrase_set`, or `lower_priority_visual_polish`.
 - Identify `/briefing`, `/weekly`, legal route-local copy, footer/legal copy, and empty/error/unavailable copy as the next copy-risk areas.
 - Keep home, stock detail, and shared runtime boundary as current `satisfies_now` baselines.
+
+Completed fifth assignment:
+
+- Apply a bounded `/briefing` copy-only patch.
+- Make briefing copy more readable about mock-only state, `publicDataSource=mock`, `scoreSource=mock`, partial coverage, missing/delayed data, data freshness, model limitation, and non-investment-advice.
+- Keep the patch out of Supabase, data evidence, source promotion toggles, score-source promotion, raw market artifacts, and visual-polish-only scope.
 
 PM intake criteria for A2:
 

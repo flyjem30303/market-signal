@@ -8,46 +8,46 @@ const css = fs.readFileSync(cssPath, "utf8");
 
 const requiredPagePhrases = [
   "Model Boundary",
-  "目前為 mock 訊號體驗",
-  "分數仍是模擬評分",
-  "不代表真實模型、真實資料驗證或投資建議",
-  "分數來源",
-  "mock",
-  "資料深度",
-  "not_ready",
-  "公開宣稱",
-  "blocked",
+  "mock 分數不等於正式模型結論",
+  "publicDataSource=mock",
+  "scoreSource=mock",
+  "partial coverage",
+  "missing/delayed data",
+  "資料新鮮度",
+  "模型限制",
+  "非投資建議",
+  "not-live-yet",
   "BoundaryItem",
   "Briefing Compass",
   "模型邊界",
   "市場結構",
-  "行動框架",
-  "觀察名單",
+  "閱讀策略",
+  "觀察清單",
   "model-boundary",
   "market-structure",
   "briefing-playbook",
   "watchlists",
-  "晨報閱讀邊界",
-  "可推進",
-  "暫緩",
-  "封鎖",
+  "晨報公開邊界",
+  "目前可讀",
+  "資料限制",
+  "禁止宣稱",
   "DecisionPill",
   "Market Breadth",
-  "強勢",
+  "可閱讀",
   "風險升溫",
   "buildMarketBreadth",
   "BreadthCard",
   "Concentration Check",
-  "族群集中度檢查",
-  "主導族群",
-  "強勢占比",
+  "市場集中度",
+  "領先族群",
+  "正向占比",
   "buildConcentrationSignal",
   "ConcentrationPanel",
   "Briefing Playbook",
-  "今日行動框架",
-  "今日姿態",
-  "觀察焦點",
-  "避免事項",
+  "今天的閱讀策略",
+  "方向",
+  "廣度",
+  "邊界",
   "buildBriefingPlaybook"
 ];
 
@@ -69,13 +69,13 @@ const requiredCssPhrases = [
 ];
 
 const forbiddenPhrases = [
-  "真實模型輸出",
-  "已通過真實資料驗證",
-  "這是投資建議",
-  "屬於投資建議",
   "scoreSource=real",
+  "publicDataSource=supabase",
   "sourceDepthState=approved",
-  "public claim approved"
+  "public claim approved",
+  "real market data is live",
+  "complete coverage is approved",
+  "investment advice is allowed"
 ];
 
 const missing = [
@@ -83,6 +83,10 @@ const missing = [
   ...requiredCssPhrases.filter((phrase) => !css.includes(phrase)).map((phrase) => `${cssPath}: ${phrase}`)
 ];
 const forbidden = forbiddenPhrases.filter((phrase) => page.includes(phrase));
+
+for (const marker of findMojibakeMarkers(page)) {
+  forbidden.push(`${pagePath}: ${marker}`);
+}
 
 console.log(
   JSON.stringify(
@@ -98,4 +102,11 @@ console.log(
 
 if (missing.length > 0 || forbidden.length > 0) {
   process.exitCode = 1;
+}
+
+function findMojibakeMarkers(text) {
+  const markers = [];
+  if (/[\uE000-\uF8FF\uFFFD]/u.test(text)) markers.push("private-use-or-replacement-code-point");
+  if (/\?{3,}/u.test(text)) markers.push("question-mark-run");
+  return markers;
 }

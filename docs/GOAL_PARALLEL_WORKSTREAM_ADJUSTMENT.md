@@ -78,49 +78,46 @@ A1 and A2 are not passive roles. They are rolling support lanes. Their job is to
 Use this as the next `/goal` objective when the active goal needs to be recreated:
 
 ```text
-把專案往「正式上線工程完成」推進。採多線進行：PM 是主線與整合 owner；A1 是 Data / Supabase / Market Evidence 副線；A2 是 Frontend / UX Readability / Public Copy QA 副線。當 A1 或 A2 完成任務時，PM 必須即時審核、整合或退回修正，並立刻指派下一個最高價值任務，不能讓副線閒置。
+請把目標推向「正式上線工程完成」。執行模式採三線並行：PM 是主線與唯一整合 owner；A1 是 Data / Supabase / Market Evidence 副線；A2 是 Frontend / UX Readability / Public Copy QA 副線。A1 或 A2 完成任務時，PM 要立刻審核為 accepted / rejected / needs_bounded_repair / blocked，並在有安全工作可做時重新指派下一個任務。PM 不必等待 A1/A2 才推進主線。
 
-完成時應該是：
-1. Level 1 MVP row coverage 從目前狀態推進到 360/360，且每次資料寫入、讀回、計分都有 gate、sanitized aggregate evidence、post-run review。
-2. Runtime promotion gate 完成，能清楚判斷何時可從 publicDataSource=mock / scoreSource=mock 進入正式 real-source / real-score；未通過前不得切換。
-3. 真實資料 ingestion / backfill 流程具備來源權利、候選 artifact、staging/write/readback、缺口處理、失敗分類與 rollback/retention 規則。
-4. 投資指標與決策輔助至少完成 launch-safe 的規格、資料依賴與不誤導使用者的呈現規則；正式實裝不得早於資料與 promotion gate。
-5. 公開網站信任與法務揭露完成 launch-ready 文案：資料來源、資料新鮮度、覆蓋率、缺值/延遲、風險、模型限制、非投資建議。
-6. 正式上線工程完成部署前置：環境變數、Supabase/Vercel/Cloudflare 或等效平台、健康檢查、監控、rollback、DNS/SSL、secret handling、launch checklist。
-7. PM 持續管理 A1/A2 任務：A1 完成後補派資料/來源/證據任務；A2 完成後補派公開信任/可讀性/launch copy 任務；PM 只在整合或風險升級時等待副線。
+完成時應該是什麼狀態：
+1. Level 1 MVP row coverage 有明確完成或阻塞狀態，目標仍是 360/360；任何資料補齊都要有 source-specific gate、sanitized aggregate evidence、post-run review、readback 或 scoring gate。
+2. Runtime promotion gate 清楚記錄 mock-to-real 的條件；publicDataSource=mock / scoreSource=mock 在 promotion gate 通過前不得切換。
+3. Ingestion / backfill 流程具備 candidate artifact、staging/write/readback、rollback、retention、duplicate/overlap policy 與 post-run review。
+4. 投資指標與決策輔助只做 launch-safe 呈現；真實資料與正式分數未通過前，不宣稱正式投資建議或真實績效。
+5. 公開網站信任與法務揭露可讀、可驗證，涵蓋 mock-only、partial coverage、missing/delayed data、資料新鮮度、模型限制、非投資建議。
+6. 正式上線工程具備 env、Supabase/Vercel/Cloudflare 或同等平台、health check、monitoring、rollback、DNS/SSL、secret handling 與 launch checklist。
 
-測試手段：
-- 小切片先跑自己的 checker 與 git diff --check。
-- JSON 或文件變更跑 check:json 或對應文件 checker。
-- runtime / launch / data 整合節點才跑 review gate。
-- 資料寫入或 bounded remote attempt 必須跑 precheck、exact one-attempt command、post-run review checker、readback verification。
-- 不為了驗證而反覆重跑遠端操作。
+提供測試手段：
+- 小型文件或 checker 切片：跑該切片 checker 與 git diff --check。
+- JSON 或 package 變更：跑 check:json。
+- A1/A2 整合：先跑該 lane checker，再由 PM 更新 project status / workstream board。
+- Runtime / launch / data milestone：跑相關 checker 與 review gate。
+- bounded remote attempt 或 write/readback：必須先有 precheck、exact one-attempt command、post-run review checker、aggregate readback verification。
 
 禁區邊界：
-- 未經明確 gate 不得跑 SQL。
-- 未經明確 gate 不得寫 Supabase。
-- 未經明確 gate 不得建立 staging rows 或修改 daily_prices。
-- 不得輸出 secrets、raw market payload、row payload、stock id payload。
-- 不得跳過 post-run review。
-- 不得未經 promotion gate 設定 publicDataSource=supabase。
-- 不得未經 promotion gate 設定 scoreSource=real。
-- 不得把 staging 成功、部分 coverage、或 mock UI 完成宣稱為正式上線完成。
-- A1/A2 不得自行 commit 或跨線改動；PM 是唯一整合 owner。
+- 沒有獨立 gate 不執行 SQL。
+- 沒有獨立 gate 不寫 Supabase、不建立 staging rows、不修改 daily_prices。
+- 不輸出 secrets、raw market payload、row payload、stock id payload。
+- 不跳過 post-run review。
+- promotion gate 未通過前，不設定 publicDataSource=supabase。
+- promotion gate 未通過前，不設定 scoreSource=real。
+- A1/A2 不獨立 commit；PM 是唯一整合 owner。
 
-每步要記錄：
+每步要記錄什麼：
 - CEO decision。
 - PM selected route。
 - A1/A2 assignment 或 completion review。
 - command executed 或 skipped reason。
 - sanitized aggregate counts。
-- accepted / rejected / blocked 狀態。
+- accepted / rejected / needs_bounded_repair / blocked。
 - mock / real promotion 狀態。
 - next route。
 
-卡住時：
-- 若是 schema、credential、source-rights、資料品質、權限、Supabase 連線、row conflict、部署、DNS、secret、法務揭露、或安全邊界問題，停止該動作。
-- 回報根因、已完成證據、可選路線、CEO 建議。
-- 若同一阻塞連續三次仍無法推進，才依 blocked audit 規則標記 blocked。
+卡住時要暫停並回報：
+- 如果卡在 schema、credential、source-rights、Supabase relation、row conflict、DNS、secret、payment、account permission，先停止該遠端或權限動作並回報。
+- 如果只是 local checker、文案、文件、UI 可讀性或 route health 問題，CEO/PM 可自行修正後繼續。
+- 如果同一阻塞連續重複三次且無法安全推進，再標記 blocked。
 ```
 
 ## Verification Policy

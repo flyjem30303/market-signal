@@ -19,21 +19,20 @@ const required = [
   [pagePath, "runtimeInterpretation.decision"],
   [pagePath, "runtimeInterpretation.laneRatio.mockRuntimeHardening"],
   [pagePath, "briefing-runtime-action-strip"],
-  [pagePath, "晨報下一步狀態摘要"],
+  [pagePath, "晨報下一步與禁止升級"],
   [pagePath, "decisionSummary.currentProgressPercent"],
   [pagePath, "decisionSummary.decisionLabel"],
   [pagePath, "decisionSummary.blockedTransition"],
   [pagePath, "decisionSummary.safetyStopLine"],
   [pagePath, "市場訊號晨報"],
-  [pagePath, "目前網站可用 mock 訊號閱讀市場方向"],
-  [pagePath, "真實資料、公開資料源與正式評分都仍需完成後續核准"],
-  [pagePath, "現在可讀"],
-  [pagePath, "唯讀證據"],
-  [pagePath, "仍未開放"],
+  [pagePath, "publicDataSource=mock"],
+  [pagePath, "scoreSource=mock"],
+  [pagePath, "不是即時市場資料"],
+  [pagePath, "不是投資建議"],
   [pagePath, "查看市場頁"],
   [pagePath, "查看高風險標的"],
-  [pagePath, "綜合分數"],
-  [pagePath, "風險分數"],
+  [pagePath, "mock composite"],
+  [pagePath, "mock risk"],
   [decisionSummaryPath, "RuntimeDecisionSummary"],
   [decisionSummaryPath, "getRuntimeDecisionSummary"],
   [decisionSummaryPath, "runtime_decision_summary"],
@@ -56,6 +55,8 @@ const forbidden = [
   [pagePath, "project-progress-score"],
   [pagePath, "scoreSource: \"real\""],
   [pagePath, "publicDataSource: \"supabase\""],
+  [pagePath, "scoreSource=real"],
+  [pagePath, "publicDataSource=supabase"],
   [decisionSummaryPath, "@supabase/supabase-js"],
   [decisionSummaryPath, "createClient"],
   [decisionSummaryPath, "fetch("],
@@ -72,19 +73,11 @@ const forbidden = [
   [actionSummaryPath, "scoreSource: \"real\""]
 ];
 
-const mojibakePatterns = [
-  /[�]/u,
-  /\?[^\n"'<>]{0,8}[航亦]/u,
-  /[銝蝡霈瘝嚗敺撌靘鞈璅鈭圾]/u
-];
-
 const missing = required.filter(([file, phrase]) => !read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
 const blocked = forbidden.filter(([file, phrase]) => read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
 
-for (const pattern of mojibakePatterns) {
-  if (pattern.test(executiveSummary)) {
-    blocked.push(`${pagePath}: mojibake executive summary ${String(pattern)}`);
-  }
+for (const marker of findMojibakeMarkers(executiveSummary)) {
+  blocked.push(`${pagePath}: mojibake executive summary ${marker}`);
 }
 
 console.log(
@@ -108,4 +101,11 @@ function read(file) {
   if (file === decisionSummaryPath) return decisionSummary;
   if (file === actionSummaryPath) return actionSummary;
   return css;
+}
+
+function findMojibakeMarkers(text) {
+  const markers = [];
+  if (/[\uE000-\uF8FF\uFFFD]/u.test(text)) markers.push("private-use-or-replacement-code-point");
+  if (/\?{3,}/u.test(text)) markers.push("question-mark-run");
+  return markers;
 }

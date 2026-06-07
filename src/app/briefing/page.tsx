@@ -23,8 +23,9 @@ import type { SignalSnapshot } from "@/lib/signal-model";
 import { signalColor } from "@/lib/signal-model";
 
 export const metadata: Metadata = {
-  title: "台股每日晨報",
-  description: "每天快速查看台股市場健康度、風險升溫標的、ETF 節奏與 AI 半導體觀察。"
+  title: "市場訊號晨報",
+  description:
+    "以 mock-only 狀態整理台股市場健康度、回檔風險、資料新鮮度限制與模型邊界；內容不構成投資建議。"
 };
 
 export default async function BriefingPage() {
@@ -42,13 +43,10 @@ export default async function BriefingPage() {
   const concentration = buildConcentrationSignal(snapshots);
   const playbook = buildBriefingPlaybook(market, breadth, concentration);
   const etfs = snapshots.filter((item) => item.asset.group === "ETF").sort((a, b) => b.healthScore - a.healthScore);
-  const aiSemis = snapshots
-    .filter((item) => ["半導體", "IC 設計", "AI 伺服器", "電子代工"].includes(item.asset.group))
-    .sort((a, b) => b.compositeScore - a.compositeScore)
-    .slice(0, 4);
-  const topEtf = etfs[0];
-  const leadingAiSemi = aiSemis[0];
-  const topRisk = heated[0];
+  const nonEtfStocks = snapshots.filter((item) => item.asset.group !== "ETF");
+  const topEtf = etfs[0] ?? market;
+  const leadingStock = nonEtfStocks.slice().sort((a, b) => b.compositeScore - a.compositeScore)[0] ?? market;
+  const topRisk = heated[0] ?? market;
   const runtimePlan = buildBriefingRuntimePlan(market, breadth, concentration, topRisk);
   const marketActionSummary = buildBriefingMarketActionSummary(market, topRisk, breadth);
 
@@ -56,23 +54,27 @@ export default async function BriefingPage() {
     <main className="page-shell">
       <PageViewTracker eventName="briefing_page_viewed" payload={{ page: "briefing" }} />
       <BriefingExecutiveSummary market={market} topRisk={topRisk} />
+
       <section className="hero briefing-hero">
         <div>
           <p className="eyebrow">Daily Briefing</p>
-          <h1>台股每日晨報</h1>
+          <h1>市場訊號晨報</h1>
           <p>
-            用一分鐘查看今天的市場健康度、風險升溫標的與觀察重點。這是研究模型摘要，不是買賣建議。
+            用一分鐘整理今天的 mock 市場訊號、風險升溫標的與資料限制。這頁支援閱讀流程與公開信任檢查，
+            不是即時市場資料、完整覆蓋率或投資建議；正式資料與正式分數仍是 not-live-yet。
           </p>
           <p className="runtime-boundary-line">
-            目前為模擬資料閱讀版；頁面分數只用來驗證閱讀流程，不代表即時市場資料或投資建議。
+            目前公開邊界維持 publicDataSource=mock、scoreSource=mock；資料新鮮度只作 metadata 說明，
+            partial coverage、missing/delayed data 與模型限制都必須保留。
           </p>
         </div>
         <div className="briefing-meta">
           <span>2026-05-28</span>
-          <span>資料品質 {market.dataQualityGrade} 級</span>
+          <span>資料品質 {market.dataQualityGrade}</span>
           <span>{market.modelVersion}</span>
         </div>
       </section>
+
       <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
 
       <section className="briefing-market-action-summary" aria-label="晨報市場行動摘要">
@@ -108,19 +110,19 @@ export default async function BriefingPage() {
 
       <nav aria-label="Experience Flow" className="experience-flow-nav">
         <span>閱讀路徑</span>
-        <TrackedLink eventName="briefing_link_clicked" href="/" label="回首頁看市場總覽" payload={{ area: "experience_flow", target: "home" }}>
-          回首頁看市場總覽
+        <TrackedLink eventName="briefing_link_clicked" href="/" label="回到首頁總覽" payload={{ area: "experience_flow", target: "home" }}>
+          回到首頁總覽
         </TrackedLink>
         <TrackedLink
           eventName="briefing_link_clicked"
           href={`/stocks/${market.asset.symbol}`}
-          label="看台指狀態"
+          label="查看市場頁"
           payload={{ area: "experience_flow", symbol: market.asset.symbol }}
         >
-          看台指狀態
+          查看市場頁
         </TrackedLink>
-        <TrackedLink eventName="briefing_link_clicked" href="/weekly" label="延伸到本週週報" payload={{ area: "experience_flow", target: "weekly" }}>
-          延伸到本週週報
+        <TrackedLink eventName="briefing_link_clicked" href="/weekly" label="查看週報" payload={{ area: "experience_flow", target: "weekly" }}>
+          查看週報
         </TrackedLink>
       </nav>
 
@@ -137,21 +139,24 @@ export default async function BriefingPage() {
       <nav aria-label="Briefing Compass" className="briefing-compass">
         <a href="#model-boundary">模型邊界</a>
         <a href="#market-structure">市場結構</a>
-        <a href="#briefing-playbook">行動框架</a>
-        <a href="#watchlists">觀察名單</a>
+        <a href="#briefing-playbook">閱讀策略</a>
+        <a href="#watchlists">觀察清單</a>
       </nav>
 
-      <section aria-label="晨報閱讀邊界" className="briefing-decision-strip">
-        <DecisionPill label="可推進" text="閱讀節奏與 mock 體驗" tone="active" />
-        <DecisionPill label="暫緩" text="真實資料切換與公開宣稱" tone="hold" />
-        <DecisionPill label="封鎖" text="投資建議與正式評分" tone="blocked" />
+      <section aria-label="晨報公開邊界" className="briefing-decision-strip">
+        <DecisionPill label="目前可讀" text="mock 訊號、風險方向與產品流程" tone="active" />
+        <DecisionPill label="資料限制" text="資料新鮮度、partial coverage 與缺值/延遲仍需揭露" tone="hold" />
+        <DecisionPill label="禁止宣稱" text="不能說成真實資料、完整覆蓋率、真實分數或投資建議" tone="blocked" />
       </section>
 
-      <section className="briefing-runtime-plan" aria-label="晨報執行順序">
+      <section className="briefing-runtime-plan" aria-label="晨報閱讀計畫">
         <div>
           <p className="eyebrow">Reading Plan</p>
-          <h2>今天照這個順序讀</h2>
-          <p>把晨報壓縮成三個可執行閱讀動作：先判斷市場，再拆風險，最後才進個股或週報脈絡。</p>
+          <h2>先看市場，再看風險與資料限制</h2>
+          <p>
+            晨報先整理市場狀態，再引導到個股、ETF 與週報。每一步都保留 mock-only、資料新鮮度限制、
+            partial coverage、missing/delayed data 與模型限制。
+          </p>
         </div>
         {runtimePlan.map((item) => (
           <TrackedLink
@@ -169,36 +174,38 @@ export default async function BriefingPage() {
         ))}
       </section>
 
-      <section className="briefing-reading-bridge" aria-label="晨報讀後路徑">
+      <section className="briefing-reading-bridge" aria-label="晨報閱讀橋接">
         <div>
           <p className="eyebrow">Reading Bridge</p>
-          <h2>今天先點哪裡</h2>
-          <p>晨報先給方向，下一步回到可檢查的標的頁：大盤、ETF、主線族群與風險升溫清單。</p>
+          <h2>從摘要跳到可檢查的頁面</h2>
+          <p>
+            這些連結只協助使用者在 mock-only 狀態下檢查市場、ETF、個股與風險頁面；分數不是預測、保證或個人化建議。
+          </p>
         </div>
         <nav>
           <BriefingBridgeLink
             href={`/stocks/${market.asset.symbol}`}
-            label="先看大盤"
+            label="市場頁"
             title={`${market.asset.symbol} ${market.asset.name}`}
-            text={`綜合 ${market.compositeScore}/100，確認今天市場基準。`}
+            text={`Composite ${market.compositeScore}/100；請搭配資料品質、模型限制與 mock-only 邊界閱讀。`}
           />
           <BriefingBridgeLink
             href={`/stocks/${topEtf.asset.symbol}`}
-            label="再看 ETF"
+            label="ETF 範例"
             title={`${topEtf.asset.symbol} ${topEtf.asset.name}`}
-            text={`健康 ${topEtf.healthScore}/100，檢查核心部位節奏。`}
+            text={`Health ${topEtf.healthScore}/100；目前仍是 partial coverage/readiness，不代表完整覆蓋率。`}
           />
           <BriefingBridgeLink
-            href={`/stocks/${leadingAiSemi.asset.symbol}`}
-            label="主線族群"
-            title={`${leadingAiSemi.asset.symbol} ${leadingAiSemi.asset.name}`}
-            text={`綜合 ${leadingAiSemi.compositeScore}/100，觀察 AI / 半導體延續性。`}
+            href={`/stocks/${leadingStock.asset.symbol}`}
+            label="強勢標的"
+            title={`${leadingStock.asset.symbol} ${leadingStock.asset.name}`}
+            text={`Composite ${leadingStock.compositeScore}/100；只供 mock 訊號閱讀，不構成投資建議。`}
           />
           <BriefingBridgeLink
             href={`/stocks/${topRisk.asset.symbol}`}
-            label="風險升溫"
+            label="高風險標的"
             title={`${topRisk.asset.symbol} ${topRisk.asset.name}`}
-            text={`風險 ${topRisk.riskScore}/100，先拆解追價風險。`}
+            text={`Risk ${topRisk.riskScore}/100；風險升溫需搭配資料缺口、延遲與模型限制理解。`}
           />
         </nav>
       </section>
@@ -206,44 +213,30 @@ export default async function BriefingPage() {
       <section className="panel briefing-boundary" id="model-boundary">
         <div>
           <p className="eyebrow">Model Boundary</p>
-          <h2>目前為 mock 訊號體驗</h2>
+          <h2>mock 分數不等於正式模型結論</h2>
           <p>
-            晨報頁用來驗證閱讀節奏與資訊架構；分數仍是模擬評分，不代表真實模型、真實資料驗證或投資建議。
+            晨報分數用於產品流程與市場閱讀示範。模型可能受資料新鮮度、缺值/延遲、partial coverage、
+            source-rights 與資料品質限制影響；不得視為預測、保證或投資建議。
           </p>
         </div>
         <div className="briefing-boundary-grid">
-          <BoundaryItem label="分數來源" value="mock" />
-          <BoundaryItem label="資料深度" value="not_ready" />
-          <BoundaryItem label="公開宣稱" value="blocked" />
+          <BoundaryItem label="公開資料來源" value="publicDataSource=mock" />
+          <BoundaryItem label="公開分數來源" value="scoreSource=mock" />
+          <BoundaryItem label="投資用途" value="blocked" />
         </div>
       </section>
 
       <section aria-label="Market Breadth" className="briefing-breadth" id="market-structure">
-        <BreadthCard
-          label="強勢"
-          text="綠燈與黃燈標的"
-          tone="positive"
-          value={String(breadth.constructive)}
-        />
-        <BreadthCard
-          label="觀察"
-          text="橘燈標的"
-          tone="watch"
-          value={String(breadth.watch)}
-        />
-        <BreadthCard
-          label="風險升溫"
-          text="紅燈與深紅標的"
-          tone="risk"
-          value={String(breadth.defensive)}
-        />
+        <BreadthCard label="可閱讀" text="mock 訊號偏正向，可作為產品流程觀察。" tone="positive" value={String(breadth.constructive)} />
+        <BreadthCard label="需觀察" text="分數或資料旗標需要搭配限制說明閱讀。" tone="watch" value={String(breadth.watch)} />
+        <BreadthCard label="風險升溫" text="風險分數偏高，不代表買賣建議。" tone="risk" value={String(breadth.defensive)} />
       </section>
 
       <ConcentrationPanel concentration={concentration} />
 
       <section className="panel briefing-playbook" aria-label="Briefing Playbook" id="briefing-playbook">
         <p className="eyebrow">Briefing Playbook</p>
-        <h2>今日行動框架</h2>
+        <h2>今天的閱讀策略</h2>
         <div className="playbook-grid">
           {playbook.map((item) => (
             <article className={`playbook-card ${item.tone}`} key={item.label}>
@@ -259,7 +252,7 @@ export default async function BriefingPage() {
         <article className="panel briefing-market-card" style={{ ["--signal" as string]: signalColor(market.signal.key) }}>
           <div className="market-card-head">
             <div>
-              <p className="panel-label">今日市場狀態</p>
+              <p className="panel-label">市場摘要</p>
               <h2>{market.asset.name}</h2>
             </div>
             <strong className="signal-badge">{market.signal.title}</strong>
@@ -270,30 +263,31 @@ export default async function BriefingPage() {
               <small>/100</small>
             </div>
             <div className="market-score-copy">
-              <b>今日節奏：觀察風險擴散與熱門股集中度</b>
+              <b>mock composite score</b>
               <p>
-                多頭健康度 {market.healthScore}/100，回檔風險度 {market.riskScore}/100。先看大盤結構，再看個股變化。
+                Health {market.healthScore}/100, risk {market.riskScore}/100. 分數僅供閱讀流程測試；
+                真實資料、完整覆蓋率與正式模型仍未核准。
               </p>
             </div>
           </div>
         </article>
-        <MetricPanel label="資料品質" value={`${market.dataQualityGrade} 級`} text={`完整度 ${market.dataQualityScore}/100`} />
-        <MetricPanel label="模型版本" value={market.modelVersion} text="正式上線前會改接真實資料" />
-        <MetricPanel label="今日重點" value="分批與觀察" text="避免把單日燈號視為交易指令" />
+        <MetricPanel label="資料品質" value={`${market.dataQualityGrade}`} text={`Data quality ${market.dataQualityScore}/100；缺值或延遲需要降級閱讀。`} />
+        <MetricPanel label="模型版本" value={market.modelVersion} text="目前仍是 mock model，不得宣稱真實績效或預測能力。" />
+        <MetricPanel label="公開邊界" value="mock-only" text="publicDataSource=mock、scoreSource=mock；不構成投資建議。" />
       </section>
 
       <section className="weekly-grid" id="watchlists">
-        <BriefingList title="健康度較強" description="可作為今日觀察名單，但仍需搭配估值與籌碼風險。" items={strongest} valueKey="composite" />
-        <BriefingList title="風險升溫" description="風險分數較高，代表追價節奏需要更保守。" items={heated} valueKey="risk" />
+        <BriefingList title="較強 mock 訊號" description="用於比較閱讀流程，不代表投資排名或推薦。" items={strongest} valueKey="composite" />
+        <BriefingList title="風險升溫觀察" description="風險分數偏高時，需優先檢查資料限制、缺值與模型邊界。" items={heated} valueKey="risk" />
       </section>
 
       <section className="weekly-grid">
         <article className="panel briefing-article">
           <p className="eyebrow">ETF Watch</p>
-          <h2>ETF 觀察</h2>
+          <h2>ETF mock 觀察</h2>
           <p>
-            大型 ETF 適合觀察市場核心資金是否穩定。若 ETF 健康度維持高檔但風險升溫，
-            今日更適合檢查加碼節奏，而不是只看指數表面強弱。
+            ETF 清單目前用於 mock 閱讀與流程驗證。partial coverage 或 missing/delayed data 仍需揭露，
+            不能把分數視為完整市場覆蓋或投資建議。
           </p>
           <div className="rank-list">
             {etfs.map((item) => (
@@ -307,28 +301,27 @@ export default async function BriefingPage() {
               >
                 <strong>{item.asset.symbol}</strong>
                 <span>{item.asset.name}</span>
-                <b>健 {item.healthScore}</b>
+                <b>{item.healthScore}</b>
               </TrackedLink>
             ))}
           </div>
         </article>
 
         <article className="panel briefing-article">
-          <p className="eyebrow">AI & Semiconductor</p>
-          <h2>AI / 半導體觀察</h2>
+          <p className="eyebrow">Stock Watch</p>
+          <h2>個股 mock 觀察</h2>
           <p>
-            AI 與半導體仍是台股權值與市場信心的核心來源。今天可優先看分數是否集中在少數股票，
-            若集中度提高，代表指數強勢可能不等於市場廣度健康。
+            個股摘要用於理解風險方向與模型限制。真實來源、資料新鮮度、完整覆蓋率與正式分數仍需後續 gate。
           </p>
           <div className="rank-list">
-            {aiSemis.map((item) => (
+            {nonEtfStocks.slice(0, 4).map((item) => (
               <TrackedLink
                 className="rank-row"
                 eventName="briefing_link_clicked"
                 href={`/stocks/${item.asset.symbol}`}
                 key={item.asset.id}
                 label={`${item.asset.symbol} ${item.asset.name}`}
-                payload={{ area: "ai_semiconductor", symbol: item.asset.symbol }}
+                payload={{ area: "stock_watch", symbol: item.asset.symbol }}
               >
                 <strong>{item.asset.symbol}</strong>
                 <span>{item.asset.name}</span>
@@ -341,40 +334,41 @@ export default async function BriefingPage() {
 
       <section className="panel briefing-article">
         <p className="eyebrow">Today's Rhythm</p>
-        <h2>今日投資節奏提醒</h2>
+        <h2>今天的閱讀節奏</h2>
         <div className="briefing-actions">
-          <ActionCard title="先看大盤" text="確認台指與大型 ETF 的健康度是否同步，避免只被單一熱門股帶動情緒。" />
-          <ActionCard title="再看風險" text="檢查風險升溫名單是否集中在同一族群，集中度提高時追價要更保守。" />
-          <ActionCard title="最後看個股" text="進入個股頁看六大模組、新聞信心與回測摘要，再決定是否需要調整觀察清單。" />
+          <ActionCard title="先看市場" text="確認 TWII mock 訊號與資料新鮮度限制，不把 metadata 當成即時行情。" />
+          <ActionCard title="再看風險" text="檢查高風險標的與缺值/延遲旗標，避免把資料缺口誤讀成模型結論。" />
+          <ActionCard title="最後看方法" text="確認模型版本、partial coverage、非投資建議與公開停止線仍可見。" />
         </div>
       </section>
 
       <section className="panel briefing-links">
         <h2>下一步</h2>
-        <TrackedLink className="text-link" eventName="briefing_link_clicked" href="/weekly" label="看本週週報" payload={{ area: "next_steps" }}>
-          看本週週報
+        <TrackedLink className="text-link" eventName="briefing_link_clicked" href="/weekly" label="查看週報" payload={{ area: "next_steps" }}>
+          查看週報
         </TrackedLink>
-        <TrackedLink className="text-link" eventName="briefing_link_clicked" href="/methodology" label="了解評分方法論" payload={{ area: "next_steps" }}>
-          了解評分方法論
+        <TrackedLink className="text-link" eventName="briefing_link_clicked" href="/methodology" label="查看方法說明" payload={{ area: "next_steps" }}>
+          查看方法說明
         </TrackedLink>
         <TrackedLink
           className="text-link"
           eventName="briefing_link_clicked"
           href="/stocks/2330"
-          label="查看 2330 台積電"
+          label="查看 2330 mock 頁"
           payload={{ area: "next_steps", symbol: "2330" }}
         >
-          查看 2330 台積電
+          查看 2330 mock 頁
         </TrackedLink>
-        <TrackedLink className="text-link" eventName="briefing_link_clicked" href="/disclaimer" label="確認免責聲明" payload={{ area: "next_steps" }}>
-          確認免責聲明
+        <TrackedLink className="text-link" eventName="briefing_link_clicked" href="/disclaimer" label="查看免責聲明" payload={{ area: "next_steps" }}>
+          查看免責聲明
         </TrackedLink>
       </section>
 
       <article className="disclaimer">
-        <h2>投資免責聲明</h2>
+        <h2>非投資建議</h2>
         <p>
-          本晨報為模型摘要與資訊整理，不構成投資建議、買賣推薦或收益保證。所有分數仍需搭配個人風險承受度判斷。
+          本晨報為 mock 模型摘要與資訊整理，不構成投資建議、買賣推薦、完整覆蓋率承諾或收益保證。
+          所有分數仍需搭配個人風險承受度、資料新鮮度限制、缺值/延遲與模型限制判斷。
         </p>
       </article>
 
@@ -414,43 +408,43 @@ function BriefingExecutiveSummary({ market, topRisk }: { market: SignalSnapshot;
         <h1>市場訊號晨報</h1>
         <p>
           目前網站可用 mock 訊號閱讀市場方向、風險排序與產品流程。這不是即時市場資料，也不是投資建議；
-          真實資料、公開資料源與正式評分都仍需完成後續核准。
+          publicDataSource=mock、scoreSource=mock 必須維持可見。
         </p>
       </div>
       <aside>
         <span>
-          <b>現在可讀</b>
+          <b>目前可用</b>
           <i>{decisionSummary.userFacingNow}</i>
         </span>
         <span>
-          <b>唯讀證據</b>
+          <b>下一步</b>
           <i>{decisionSummary.subhead}</i>
         </span>
         <span>
-          <b>仍未開放</b>
+          <b>停止線</b>
           <i>{decisionSummary.safetyStopLine}</i>
         </span>
         <span>
-          <b>推進比例</b>
+          <b>Runtime allocation</b>
           <i>
-            {runtimeInterpretation.decision}: 閱讀體驗 {runtimeInterpretation.laneRatio.mockRuntimeHardening}% /
-            唯讀準備 {runtimeInterpretation.laneRatio.supabaseReadonlyPreparation}%
+            {runtimeInterpretation.decision}: mock runtime hardening {runtimeInterpretation.laneRatio.mockRuntimeHardening}% /
+            readonly preparation {runtimeInterpretation.laneRatio.supabaseReadonlyPreparation}%
           </i>
         </span>
       </aside>
-      <div className="briefing-runtime-action-strip" aria-label="晨報下一步狀態摘要">
+      <div className="briefing-runtime-action-strip" aria-label="晨報下一步與禁止升級">
         <article className="active">
           <span>目前進度</span>
           <strong>{decisionSummary.currentProgressPercent}%</strong>
           <p>{decisionSummary.stage}</p>
         </article>
         <article className="readying">
-          <span>下一步</span>
+          <span>下一個 gate</span>
           <strong>{decisionSummary.decisionLabel}</strong>
           <p>{decisionSummary.nextLift}</p>
         </article>
         <article className="blocked">
-          <span>尚未開放</span>
+          <span>禁止升級</span>
           <strong>{decisionSummary.blockedTransition}</strong>
           <p>{decisionSummary.safetyStopLine}</p>
         </article>
@@ -464,7 +458,7 @@ function BriefingExecutiveSummary({ market, topRisk }: { market: SignalSnapshot;
         >
           <span>查看市場頁</span>
           <strong>{market.asset.name}</strong>
-          <small>綜合分數 {market.compositeScore}/100</small>
+          <small>mock composite {market.compositeScore}/100</small>
         </TrackedLink>
         <TrackedLink
           eventName="briefing_link_clicked"
@@ -476,7 +470,7 @@ function BriefingExecutiveSummary({ market, topRisk }: { market: SignalSnapshot;
           <strong>
             {topRisk.asset.symbol} {topRisk.asset.name}
           </strong>
-          <small>風險分數 {topRisk.riskScore}/100</small>
+          <small>mock risk {topRisk.riskScore}/100</small>
         </TrackedLink>
       </nav>
     </section>
@@ -496,32 +490,32 @@ function buildBriefingRuntimePlan(
   return [
     {
       href: `/stocks/${market.asset.symbol}`,
-      label: "第一步",
+      label: "市場",
       symbol: market.asset.symbol,
       text:
         marketTone === "active"
-          ? `市場綜合 ${market.compositeScore}/100，先確認多頭健康度是否支撐今日閱讀。`
-          : `市場風險 ${market.riskScore}/100，先確認大盤是否需要降速觀察。`,
-      title: marketTone === "active" ? "先看市場基準" : "先降速看市場",
+          ? `市場 composite ${market.compositeScore}/100，可用於 mock 閱讀流程，但不能視為真實投資訊號。`
+          : `市場 risk ${market.riskScore}/100 偏高，請先檢查資料限制與風險揭露。`,
+      title: marketTone === "active" ? "先看市場狀態" : "先檢查市場風險",
       tone: marketTone
     },
     {
       href: `/stocks/${topRisk.asset.symbol}`,
-      label: "第二步",
+      label: "風險",
       symbol: topRisk.asset.symbol,
-      text: `${topRisk.asset.symbol} 風險 ${topRisk.riskScore}/100，確認風險升溫是否集中在單一族群。`,
-      title: riskTone === "blocked" ? "優先拆高風險" : "再看風險清單",
+      text: `${topRisk.asset.symbol} risk ${topRisk.riskScore}/100；這是 mock 風險排序，不是買賣建議。`,
+      title: riskTone === "blocked" ? "高風險標的優先檢查" : "觀察風險升溫",
       tone: riskTone
     },
     {
       href: concentrationTone === "hold" ? "#market-structure" : "/weekly",
-      label: "第三步",
+      label: "廣度",
       symbol: concentrationTone === "hold" ? "market-structure" : "weekly",
       text:
         concentrationTone === "hold"
-          ? "強勢集中度偏高時，先回到市場結構，避免把少數標的當成整體市場。"
-          : "市場廣度尚可時，再進週報，把今天的訊號放到一週脈絡。",
-      title: concentrationTone === "hold" ? "確認集中度" : "接到週報脈絡",
+          ? "市場廣度偏集中，請搭配 partial coverage 與 missing/delayed data 說明閱讀。"
+          : "市場廣度較分散，可接續週報，但仍維持 mock-only 邊界。",
+      title: concentrationTone === "hold" ? "檢查市場集中度" : "接續週報脈絡",
       tone: concentrationTone
     }
   ];
@@ -565,7 +559,7 @@ function BriefingList({
           >
             <strong>{item.asset.symbol}</strong>
             <span>{item.asset.name}</span>
-            <b>{valueKey === "risk" ? `險 ${item.riskScore}` : item.compositeScore}</b>
+            <b>{valueKey === "risk" ? item.riskScore : item.compositeScore}</b>
           </TrackedLink>
         ))}
       </div>
@@ -609,19 +603,19 @@ function ConcentrationPanel({
     <section className="panel briefing-concentration" aria-label="Concentration Check">
       <div>
         <p className="eyebrow">Concentration Check</p>
-        <h2>族群集中度檢查</h2>
+        <h2>市場集中度</h2>
         <p>{concentration.message}</p>
       </div>
       <div className="concentration-metrics">
         <article>
-          <span>主導族群</span>
+          <span>領先族群</span>
           <strong>{concentration.leadingGroup}</strong>
           <b>{concentration.leadingScore}</b>
         </article>
         <article className={concentration.tone}>
-          <span>強勢占比</span>
+          <span>正向占比</span>
           <strong>{concentration.constructiveShare}%</strong>
-          <b>{concentration.tone === "balanced" ? "較均衡" : "偏集中"}</b>
+          <b>{concentration.tone === "balanced" ? "較分散" : "偏集中"}</b>
         </article>
       </div>
     </section>
@@ -639,7 +633,7 @@ function BreadthCard({ label, text, tone, value }: { label: string; text: string
 }
 
 function buildConcentrationSignal(snapshots: SignalSnapshot[]) {
-  const stockSnapshots = snapshots.filter((snapshot) => snapshot.asset.group !== "指數" && snapshot.asset.group !== "ETF");
+  const stockSnapshots = snapshots.filter((snapshot) => snapshot.asset.group !== "ETF");
   const constructive = stockSnapshots.filter(
     (snapshot) => snapshot.signal.key === "green" || snapshot.signal.key === "yellow"
   ).length;
@@ -655,12 +649,12 @@ function buildConcentrationSignal(snapshots: SignalSnapshot[]) {
   const [leadingGroup, leading] =
     Object.entries(groupScores)
       .map(([group, value]) => [group, Math.round(value.score / value.count)] as const)
-      .sort((a, b) => b[1] - a[1])[0] ?? ["未分類", 0];
+      .sort((a, b) => b[1] - a[1])[0] ?? ["market", 0];
   const tone = constructiveShare >= 60 ? "balanced" : "concentrated";
   const message =
     tone === "balanced"
-      ? "強勢標的分布較均衡，仍需確認是否由單一權值族群主導。"
-      : "強勢標的偏少，應優先檢查指數上漲是否集中在少數族群。";
+      ? "mock 訊號分布較分散，但仍需搭配資料新鮮度限制與模型邊界閱讀。"
+      : "mock 訊號偏集中，使用者不應把集中度解讀成投資建議或完整市場結論。";
 
   return { constructiveShare, leadingGroup, leadingScore: leading, message, tone };
 }
@@ -673,44 +667,44 @@ function buildBriefingPlaybook(
   const posture =
     market.signal.key === "green" || market.signal.key === "yellow"
       ? {
-          title: "分批觀察",
-          text: `大盤為${market.signal.title}，先確認強勢是否延伸到更多族群，再看個股頁細節。`,
+          title: "先讀市場方向",
+          text: `${market.signal.title} 只代表 mock 閱讀狀態，不能視為真實市場訊號。`,
           tone: "active"
         }
       : {
-          title: "防守優先",
-          text: `大盤為${market.signal.title}，先降低追價衝動，優先檢查風險升溫名單。`,
+          title: "先讀風險限制",
+          text: `${market.signal.title} 需要搭配資料品質、缺值/延遲與模型限制判斷。`,
           tone: "blocked"
         };
   const focus =
     concentration.tone === "balanced"
       ? {
-          title: "確認廣度",
-          text: `強勢占比 ${concentration.constructiveShare}%，主導族群為 ${concentration.leadingGroup}，可觀察是否延續。`,
+          title: "檢查市場廣度",
+          text: `正向占比 ${concentration.constructiveShare}%，領先族群 ${concentration.leadingGroup}。這仍是 mock 結果。`,
           tone: "active"
         }
       : {
-          title: "檢查集中",
-          text: `強勢占比 ${concentration.constructiveShare}%，主導族群為 ${concentration.leadingGroup}，避免只看指數表面。`,
+          title: "檢查集中風險",
+          text: `正向占比 ${concentration.constructiveShare}%，領先族群 ${concentration.leadingGroup}；避免把集中度當成完整覆蓋率。`,
           tone: "hold"
         };
   const guardrail =
     breadth.defensive > breadth.constructive
       ? {
-          title: "不要追高",
-          text: "風險升溫數量高於強勢數量，先等結構改善，不把單日反彈當成趨勢確認。",
+          title: "降低解讀信心",
+          text: "風險升溫數量較多，公開文案必須保留 partial coverage 與 missing/delayed data 限制。",
           tone: "blocked"
         }
       : {
-          title: "不要放大宣稱",
-          text: "目前仍是 mock 模型摘要，只能作為閱讀節奏驗證，不作為買賣依據。",
+          title: "保留公開邊界",
+          text: "即使 mock 訊號較穩，也不能宣稱真實資料、完整覆蓋率或投資建議。",
           tone: "hold"
         };
 
   return [
-    { label: "今日姿態", ...posture },
-    { label: "觀察焦點", ...focus },
-    { label: "避免事項", ...guardrail }
+    { label: "方向", ...posture },
+    { label: "廣度", ...focus },
+    { label: "邊界", ...guardrail }
   ];
 }
 
