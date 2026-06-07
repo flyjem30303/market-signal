@@ -52,6 +52,7 @@ Latest PM mainline completion review:
 - `docs/BETA_DEPLOYMENT_OPERATOR_INPUT_PACKET.md` is `accepted` as PM mainline deployment operator input preparation.
 - `docs/BETA_DEPLOYMENT_EXECUTION_PACKET_DRAFT.md` is `accepted` as PM mainline non-executable deployment execution packet draft.
 - `docs/BETA_DEPLOYMENT_OPERATOR_FILL_GUIDE.md` is `accepted` as PM mainline operator fill guide before executable deployment packet.
+- `docs/BETA_DEPLOYMENT_INTAKE_CHECKLIST.md` is `accepted` as PM mainline deployment intake checklist before operator values are filled.
 - `docs/TWII_SOURCE_RIGHTS_OUTCOME_GATE.md` is `blocked` as a PM mainline data gate because TWII source rights and field contract remain unresolved.
 - The formal launch deployment readiness gate is `formal_launch_deployment_readiness_gate_ready_not_deployed`.
 - The public Beta readiness gate is `public_beta_readiness_gate_ready_local_beta_allowed_real_promotion_blocked`.
@@ -61,6 +62,7 @@ Latest PM mainline completion review:
 - The Beta deployment operator input packet is `beta_deployment_operator_input_packet_ready_not_filled`.
 - The Beta deployment execution packet draft is `beta_deployment_execution_packet_draft_not_executable`.
 - The Beta deployment operator fill guide is `beta_deployment_operator_fill_guide_ready_not_filled`.
+- The Beta deployment intake checklist is `beta_deployment_intake_checklist_ready_not_filled`.
 - Current public Beta outcome is `ready_for_local_public_beta_preflight_not_production_deployed`.
 - The TWII source-rights outcome gate is `twii_source_rights_outcome_gate_blocked_external_rights_pending`.
 - Current TWII outcome is `rejected_for_execution_pending_external_rights_and_field_contract`.
@@ -73,6 +75,7 @@ Latest PM mainline completion review:
 - PM accepts CEO decision `prepare_beta_deployment_operator_inputs_not_deploying_now`; operator placeholders such as `TBD_PROVIDER_NAME` and `TBD_TEMPORARY_BETA_URL` must be safely filled before a separate execution packet can be created.
 - PM accepts CEO decision `draft_beta_deployment_execution_packet_before_operator_inputs_are_filled`; next route is `fill_operator_inputs_then_create_separate_executable_deployment_packet`, not deployment.
 - PM accepts CEO decision `prepare_operator_fill_steps_before_executable_deployment_packet`; next route is `fill_operator_inputs_safely_then_create_executable_packet`, with any unsafe missing value stopped as `blocked_external_operator_input_pending`.
+- PM accepts CEO decision `prepare_beta_deployment_intake_checklist_before_operator_values`; next route is `operator_intake_values_pending_then_executable_packet_candidate`, with each future operator value classified as accepted, rejected, needs_bounded_repair, or blocked.
 - The gate covers environment variables, platform posture, local and future production health checks, monitoring, rollback, DNS/SSL, secret handling, and launch checklist.
 - It does not deploy production, run SQL, connect to Supabase, write Supabase, create staging rows, modify `daily_prices`, fetch market data, award row coverage points, promote `publicDataSource=supabase`, or set `scoreSource=real`.
 
