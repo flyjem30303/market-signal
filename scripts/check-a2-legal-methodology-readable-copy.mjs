@@ -8,15 +8,15 @@ const pages = [
   {
     path: "src/app/disclaimer/page.tsx",
     required: [
-      "風險揭露與免責聲明",
-      "資料與投資限制",
-      "not investment advice",
-      "資料新鮮度說明",
-      "示範資料",
-      "示範分數",
-      "publicDataSource=mock",
-      "scoreSource=mock",
-      "不是買進、賣出或持有建議"
+      "\u514d\u8cac\u8072\u660e",
+      "Disclaimer",
+      "\u516c\u958b Beta",
+      "\u793a\u7bc4\u8cc7\u6599",
+      "\u793a\u7bc4\u5206\u6578",
+      "\u6b63\u5f0f\u5e02\u5834\u8cc7\u6599\u5c1a\u672a\u555f\u7528",
+      "\u975e\u6295\u8cc7\u5efa\u8b70",
+      "\u8acb\u81ea\u884c\u67e5\u8b49\u4e26\u8a55\u4f30\u98a8\u96aa",
+      "Beta \u671f\u9593\u8b8a\u66f4"
     ]
   },
   {

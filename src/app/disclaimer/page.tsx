@@ -5,9 +5,9 @@ import { TrackedLink } from "@/components/tracked-link";
 import { TrustRuntimeBoundaryNotice } from "@/components/trust-runtime-boundary-notice";
 
 export const metadata: Metadata = {
-  title: "風險揭露與免責聲明",
+  title: "免責聲明",
   description:
-    "說明指數燈號公開 Beta 的資料與投資限制、示範資料邊界、資料新鮮度限制，以及本網站不提供個人化投資建議。"
+    "指數燈號公開 Beta 免責聲明，說明示範資料、示範分數、正式市場資料尚未啟用、非投資建議與使用風險。"
 };
 
 export default function DisclaimerPage() {
@@ -16,10 +16,10 @@ export default function DisclaimerPage() {
       <PageViewTracker eventName="disclaimer_page_viewed" payload={{ page: "disclaimer" }} />
       <section className="hero">
         <p className="eyebrow">Disclaimer</p>
-        <h1>風險揭露與免責聲明</h1>
+        <h1>免責聲明</h1>
         <p>
-          指數燈號目前是公開 Beta 的決策輔助介面，畫面中的燈號、示範分數、摘要與資料新鮮度說明，
-          只用來幫助理解市場狀態。目前仍使用示範資料，不代表完整、即時或保證正確的正式市場資料。
+          指數燈號公開 Beta 目前用示範資料與示範分數呈現產品方向。所有內容都應被視為研究與資訊整理輔助，
+          不構成投資建議、交易指示、個別化顧問服務或任何報酬保證。
         </p>
       </section>
 
@@ -28,58 +28,58 @@ export default function DisclaimerPage() {
 
       <section className="legal-quick-read" aria-label="免責聲明重點">
         <article>
-          <span>資料限制</span>
-          <strong>目前仍是 mock-only Beta</strong>
+          <span>資料狀態</span>
+          <strong>示範資料，正式市場資料尚未啟用</strong>
           <p>
-            publicDataSource=mock，scoreSource=mock。資料可能延遲、不完整、缺漏或無法更新；任何顯示結果都不能視為正式資料源已切換。
+            目前頁面展示的是 Beta 體驗與資訊架構。正式資料來源、覆蓋率、更新流程與來源權利通過後，
+            才會清楚標示並切換成正式資料狀態。
           </p>
         </article>
         <article>
-          <span>投資限制</span>
-          <strong>not investment advice</strong>
+          <span>分數狀態</span>
+          <strong>示範分數，不是買賣訊號</strong>
           <p>
-            本網站不提供買進、賣出、持有、目標價或個人化配置建議；任何內容都不是買進、賣出或持有建議。
-            使用者仍需自行判斷風險，或諮詢合格專業人士。
+            燈號與分數只協助使用者整理觀察方向，不代表未來價格、勝率、適合度，也不代表買進、賣出或持有建議。
           </p>
         </article>
         <article>
-          <span>模型限制</span>
-          <strong>分數不是報酬保證</strong>
+          <span>使用責任</span>
+          <strong>請自行查證並評估風險</strong>
           <p>
-            分數與燈號是模型化摘要，可能受資料覆蓋率、資料新鮮度、權重設計與市場突發事件影響，不能保證預測結果。
+            市場資訊可能延遲、不完整或解讀錯誤。使用者應自行查證資料，並依自己的財務狀況、投資目標與風險承受度做決定。
           </p>
         </article>
       </section>
 
       <section className="panel legal-section">
-        <h2>資料與來源邊界</h2>
+        <h2>資料限制</h2>
         <p>
-          公開 Beta 階段的資料覆蓋仍在擴充。部分股票、ETF、指數或週報欄位可能只有示範資料、聚合狀態或 readiness
-          metadata。只有通過 source-rights、coverage、readonly、ingestion 與 promotion gate 後，才會顯示正式資料來源。
+          Beta 期間的資料可能來自示範樣本、測試流程或尚未完整覆蓋的資料集。資料新鮮度、標的覆蓋率、
+          欄位完整性與來源權利仍在逐步確認中，因此不應把目前內容視為即時或完整的正式市場資料。
         </p>
       </section>
 
       <section className="panel legal-section">
-        <h2>使用者責任</h2>
+        <h2>非投資建議</h2>
         <p>
-          使用者可以把本網站當成研究起點、風險提醒與資料閱讀輔助，但不應把任何燈號、排名或摘要當成唯一決策依據。
-          市場價格可能快速變動，過去資料與模型摘要不代表未來表現。
+          本網站不提供投資顧問服務，也不會針對個別使用者的資產、目標、期間或風險承受度做建議。
+          任何摘要、分類、燈號、分數或提醒，都只適合作為研究起點。
         </p>
       </section>
 
       <section className="panel legal-section">
-        <h2>服務可用性</h2>
+        <h2>Beta 期間變更</h2>
         <p>
-          Beta 期間可能發生維護、資料更新延遲、頁面錯誤、模型調整或功能變更。若資料狀態與頁面文字不一致，應以頁面明示的
-          mock/real 邊界與最新 gate 狀態為準。
+          在正式上線前，資料來源、指標權重、分數說明、頁面呈現與風險揭露都可能調整。
+          如果資料狀態、覆蓋率或正式來源條件改變，頁面會以新的公開說明為準。
         </p>
       </section>
 
       <section className="panel legal-links">
         <h2>相關說明</h2>
-        <LegalTrustLink href="/methodology" label="查看方法論" />
-        <LegalTrustLink href="/terms" label="查看使用條款" />
-        <LegalTrustLink href="/privacy" label="查看隱私權說明" />
+        <LegalTrustLink href="/methodology" label="方法說明" />
+        <LegalTrustLink href="/terms" label="使用條款" />
+        <LegalTrustLink href="/privacy" label="隱私權說明" />
         <LegalTrustLink href="/" label="回到首頁" />
       </section>
     </main>
