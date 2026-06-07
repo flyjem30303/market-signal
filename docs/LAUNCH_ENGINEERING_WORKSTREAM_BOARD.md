@@ -118,6 +118,7 @@ Latest PM mainline completion review:
 - The Beta deployment operator values safe fill recheck is `beta_deployment_operator_values_safe_fill_recheck_ready_external_values_pending`.
 - The local launch preflight without external operator values is `local_launch_preflight_without_external_operator_values_ready_external_values_pending`.
 - The local launch proof bundle snapshot is `local_launch_proof_bundle_snapshot_ready_external_values_pending`.
+- The local launch proof bundle snapshot now includes `report:beta-launch-next-action` and `report:a1-source-rights-next-action`, so PM can reuse one local snapshot while seeing both the blocked Beta platform-values route and the latest A1 TWII/ETF source-rights evidence route.
 - The Beta deployment operator values gap list is `beta_deployment_operator_values_gap_list_ready_external_values_pending`.
 - The Beta deployment operator values defaults and remaining gaps packet is `beta_deployment_operator_values_defaults_and_remaining_gaps_ready_not_executable`; current outcome is `safe_operator_defaults_recorded_platform_values_pending`; next route is `executable_packet_candidate_after_platform_project_and_beta_url`.
 - The local launch proof refresh before executable packet is `local_launch_proof_refresh_before_executable_packet_ready_external_platform_values_pending`; current outcome is `local_proof_refresh_ready_platform_project_and_beta_url_pending`; next route is `fill_platform_project_and_beta_url_or_refresh_heavy_packet_proof`.

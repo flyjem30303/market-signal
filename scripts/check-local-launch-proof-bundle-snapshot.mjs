@@ -13,6 +13,8 @@ const betaPreflightPath = "docs/BETA_LAUNCH_PREFLIGHT_PACKET.md";
 const publicBetaPath = "docs/PUBLIC_BETA_READINESS_GATE.md";
 const formalLaunchPath = "docs/FORMAL_LAUNCH_DEPLOYMENT_READINESS_GATE.md";
 const routeCopyPath = "docs/ROUTE_LOCAL_PUBLIC_COPY_ALIGNMENT.md";
+const betaNextActionPath = "docs/BETA_LAUNCH_NEXT_ACTION_REPORT.md";
+const a1SourceRightsNextActionPath = "docs/A1_SOURCE_RIGHTS_NEXT_ACTION_REPORT.md";
 const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 
@@ -27,6 +29,8 @@ const betaPreflight = read(betaPreflightPath);
 const publicBeta = read(publicBetaPath);
 const formalLaunch = read(formalLaunchPath);
 const routeCopy = read(routeCopyPath);
+const betaNextAction = read(betaNextActionPath);
+const a1SourceRightsNextAction = read(a1SourceRightsNextActionPath);
 const pkg = JSON.parse(read(packagePath));
 const reviewGate = read(reviewGatePath);
 
@@ -43,6 +47,8 @@ const requiredDocPhrases = [
   "docs/PUBLIC_BETA_READINESS_GATE.md",
   "docs/FORMAL_LAUNCH_DEPLOYMENT_READINESS_GATE.md",
   "docs/ROUTE_LOCAL_PUBLIC_COPY_ALIGNMENT.md",
+  "docs/BETA_LAUNCH_NEXT_ACTION_REPORT.md",
+  "docs/A1_SOURCE_RIGHTS_NEXT_ACTION_REPORT.md",
   "local_launch_preflight_without_external_operator_values_ready_external_values_pending",
   "local_preflight_ready_external_operator_values_pending",
   "beta_deployment_operator_values_safe_fill_recheck_ready_external_values_pending",
@@ -66,6 +72,8 @@ const requiredDocPhrases = [
   "cmd.exe /c npm run check:json",
   "node scripts/check-review-gates.mjs",
   "git diff --check",
+  "cmd.exe /c npm run report:beta-launch-next-action",
+  "cmd.exe /c npm run report:a1-source-rights-next-action",
   "node scripts/check-localhost-full-health.mjs",
   "cmd.exe /c npx tsc --noEmit",
   "cmd.exe /c npm run build",
@@ -75,6 +83,10 @@ const requiredDocPhrases = [
   "external_operator_value_pending",
   "accepted_defer_or_external_pending",
   "A1 remains assigned to `source_rights_evidence_intake_for_tWII_and_etf`",
+  "now routed through `report:a1-source-rights-next-action`",
+  "Current A1 router status is `a1_source_rights_next_action_report_ready_source_rights_pending`",
+  "Current A1 router outcome is `blocked_waiting_source_rights_evidence`",
+  "Current A1 next action is `collect_or_classify_twii_vendor_terms_internal_owner_field_contract_asset_mapping_and_etf_legal_redistribution_evidence`",
   "## Hard Stops",
   "The next route is `operator_values_or_executable_packet_candidate_after_local_proof_bundle_snapshot`, not deployment"
 ];
@@ -130,6 +142,24 @@ for (const [filePath, content, phrases] of [
     routeCopyPath,
     routeCopy,
     ["Status: `route_local_public_copy_alignment_ready_mock_boundary_preserved`", "publicDataSource=mock", "scoreSource=mock"]
+  ],
+  [
+    betaNextActionPath,
+    betaNextAction,
+    [
+      "Status: `beta_launch_next_action_report_ready`",
+      "blocked_waiting_two_platform_values",
+      "cmd.exe /c npm run report:beta-launch-next-action"
+    ]
+  ],
+  [
+    a1SourceRightsNextActionPath,
+    a1SourceRightsNextAction,
+    [
+      "Status: `a1_source_rights_next_action_report_ready_source_rights_pending`",
+      "Current outcome: `blocked_waiting_source_rights_evidence`",
+      "cmd.exe /c npm run report:a1-source-rights-next-action"
+    ]
   ]
 ]) {
   for (const phrase of phrases) {

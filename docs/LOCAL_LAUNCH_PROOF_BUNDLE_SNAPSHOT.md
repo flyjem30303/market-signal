@@ -32,6 +32,8 @@ This snapshot is grounded in:
 - `docs/PUBLIC_BETA_READINESS_GATE.md`
 - `docs/FORMAL_LAUNCH_DEPLOYMENT_READINESS_GATE.md`
 - `docs/ROUTE_LOCAL_PUBLIC_COPY_ALIGNMENT.md`
+- `docs/BETA_LAUNCH_NEXT_ACTION_REPORT.md`
+- `docs/A1_SOURCE_RIGHTS_NEXT_ACTION_REPORT.md`
 - `docs/LAUNCH_ENGINEERING_WORKSTREAM_BOARD.md`
 
 Accepted baseline:
@@ -63,6 +65,8 @@ PM accepts the following as the current reusable local proof bundle:
 10. `cmd.exe /c npm run check:json`
 11. `node scripts/check-review-gates.mjs`
 12. `git diff --check`
+13. `cmd.exe /c npm run report:beta-launch-next-action`
+14. `cmd.exe /c npm run report:a1-source-rights-next-action`
 
 Milestone refresh before a future executable deployment packet should additionally run:
 
@@ -88,7 +92,13 @@ Milestone refresh before a future executable deployment packet should additional
 
 ## A1 / A2 Coordination
 
-A1 remains assigned to `source_rights_evidence_intake_for_tWII_and_etf`.
+A1 remains assigned to `source_rights_evidence_intake_for_tWII_and_etf`, now routed through `report:a1-source-rights-next-action`.
+
+Current A1 router status is `a1_source_rights_next_action_report_ready_source_rights_pending`.
+
+Current A1 router outcome is `blocked_waiting_source_rights_evidence`.
+
+Current A1 next action is `collect_or_classify_twii_vendor_terms_internal_owner_field_contract_asset_mapping_and_etf_legal_redistribution_evidence`.
 
 A1 output may inform later data-source and coverage decisions, but this snapshot does not approve source rights, market-data fetch, candidate generation, Supabase read, Supabase write, `daily_prices` mutation, row coverage points, public source promotion, or real score promotion.
 
