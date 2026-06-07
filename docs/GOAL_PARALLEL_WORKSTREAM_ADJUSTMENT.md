@@ -4,133 +4,162 @@ Status: `goal_launch_engineering_parallel_workstreams_ready`
 
 Date: 2026-06-07
 
+Owner: CEO / PM mainline
+
+Support lanes: A1 Data / Supabase / Market Evidence, A2 Frontend / UX Readability / Public Copy QA, I Launch / Ops
+
 ## CEO Decision
 
-CEO changes the next GOAL direction from a single data-coverage lane into a formal launch-engineering program.
+CEO sets the active GOAL to push the project toward `pre_launch_executable_state`, not toward a narrow document-only checkpoint.
 
-The data-coverage work remains important, but the project should now move toward official launch readiness through parallel lanes:
+The project should move as a formal launch-engineering program with parallel lanes:
 
-1. PM owns the mainline and integration.
+1. PM owns the mainline, integration, runtime, launch engineering, and acceptance decisions.
 2. A1 owns the data / Supabase / market evidence support lane.
 3. A2 owns the public trust / UX readability / disclosure support lane.
-4. PM must assign new A1/A2 tasks whenever their current background tasks finish.
-5. The GOAL should move toward formal launch engineering, not only toward row coverage.
+4. I stays as launch / ops guard for deployment, environment, credentials, DNS, monitoring, rollback, and account risks.
+5. PM must assign new A1/A2 tasks whenever their current background tasks finish.
+6. The GOAL should move toward formal launch engineering, including data realification, Supabase closed loop, coverage closure, runtime promotion readiness, public Beta readiness, and launch preflight.
 
-This avoids the previous bottleneck where data coverage delayed runtime, public trust, launch readiness, and promotion-gate preparation.
+This avoids the previous bottleneck where row coverage, runtime readiness, public trust copy, and Beta deployment preparation were treated as one slow sequential lane.
 
-## Revised Operating Model
+## Current GOAL Definition
 
-### PM Mainline
+Use this as the durable GOAL prompt if the active goal must be recreated:
 
-PM owns CEO direction, launch-engineering sequencing, runtime/promotion integration, review-gate registration, final acceptance, and Git backup.
+```text
+目標：把專案推進到「正式上線前可執行狀態」，完成資料真實化、Supabase 寫入/讀回閉環、資料覆蓋率主路徑、Runtime real promotion gate、公開 Beta 部署準備與上線工程前置檢查。
 
-PM mainline priority:
+1. 完成時應該是什麼狀態
+網站核心頁可正常瀏覽；資料面有可驗證的真實化閉環；Supabase write/readback/post-run review/rollback 流程可操作；Coverage Universe Roadmap 已可驅動補齊工作；Runtime 能清楚判斷 mock/real 狀態；promotion gate 能決定何時切到 real；公開 Beta 部署前需要的 operator values、env、rollback、monitoring、法務揭露與信任文案已準備到可執行。
 
-- keep Level 1 MVP data coverage moving toward `360/360`;
-- prepare runtime promotion gates from mock to real;
-- coordinate launch-readiness engineering;
-- integrate A1/A2 outputs when their local checks pass;
-- keep public source and score source blocked until separate promotion gates pass.
+2. 測試手段
+小切片跑 focused checker；資料/DB/Runtime 邊界變更跑對應 gate；Runtime 或 TypeScript 變更才跑 route health / tsc；重要里程碑跑 review gate。避免每一步都做全量驗證，驗證要服務推進，不讓治理拖慢主線。
 
-PM should not wait for A1/A2 if a safe mainline task is available.
+3. 禁區邊界
+可以：做 bounded Supabase readonly attempt、sanitized artifact、schema/cache/readiness 檢查、no-secret operator packet、local checker、文件與 gate、mock/real promotion 準備。
+不可以：輸出 secret、commit raw market data、未經 gate 直接設定 publicDataSource=supabase 或 scoreSource=real、未經安全界線大量寫入 daily_prices、跳過 rollback/post-run review 直接宣稱 real 上線完成。
 
-### A1 Support Lane
+4. 每步要記錄什麼
+記錄 CEO decision、PM route、A1/A2 任務分派、執行結果、accepted/rejected、mock/real 狀態、Supabase/資料覆蓋率影響、下一步 route、是否影響正式上線百分比。
+
+5. 卡住時要暫停並回報
+本機錯誤、checker、文件、Runtime 問題由 PM 自行修到可推進；只有遇到帳號權限、金鑰、付款、DNS、法務授權、資料來源權利、不可安全處理的 Supabase write 風險時才暫停回報。
+```
+
+## Execution Ratio
+
+CEO sets the default execution ratio as a rolling baseline, not a fixed rule:
+
+| Lane | Default ratio | Current route | PM adjustment rule |
+| --- | ---: | --- | --- |
+| PM mainline | 60% | Runtime, launch engineering, integration, gates, local health | Raise to 80% when A1/A2 are externally blocked |
+| A1 | 30% | Coverage, source rights, Supabase/data evidence, sanitized artifacts | Raise when a bounded data/readback step is ready |
+| A2 | 10% | Launch-blocking trust copy and public readability | Raise only when public comprehension or legal trust is blocked |
+
+Visual polish and design micro-tuning remain after runtime, data, and launch-readiness foundations unless the issue blocks comprehension, legal clarity, or route usability.
+
+## Mainline PM Route
+
+PM should move the mainline in this order when safe work is available:
+
+1. Keep core public pages browsable and free of Internal Server Error.
+2. Keep runtime state readable: `publicDataSource=mock`, `scoreSource=mock`, coverage state, freshness limits, and promotion blockers.
+3. Turn accepted data evidence into promotion-gate inputs without promoting public source or score.
+4. Prepare executable Beta launch packets only after safe non-secret operator values are available.
+5. Run focused local checks for small slices and review gate for milestone integration.
+6. Record every route decision in project files when it changes launch direction.
+
+Current PM next route: `runtime_local_route_health_refresh_before_executable_packet_or_data_gate`.
+
+## A1 Support Lane
 
 A1 owns Data / Supabase / Market Evidence.
 
-Current A1 task type:
+Current A1 route:
 
-- TWII source-rights and candidate artifact readiness;
-- ETF source-rights outcome intake;
-- Level 2 Taiwan all-listed universe manifest preparation;
-- data-quality, readback, row-coverage, source-rights, and sanitized aggregate evidence support.
+- TWII source-rights intake or vendor fallback evidence.
+- ETF source-rights outcome support when evidence exists.
+- TW equity candidate artifact hygiene when PM asks for data-readiness proof.
+- Coverage closure support from `182/360` toward `360/360`.
 
-A1 must stop before SQL, Supabase writes, staging row creation, `daily_prices` mutation, raw market-data fetch/ingestion/storage, secret output, row payload output, public source promotion, or `scoreSource=real`.
+A1 must stop before SQL execution, Supabase writes, staging row creation, broad `daily_prices` mutation, raw market-data fetch/ingestion/storage, secret output, row payload output, stock id payload output, public source promotion, or `scoreSource=real`.
 
-### A2 Support Lane
+## A2 Support Lane
 
 A2 owns Frontend / UX Readability / Public Copy QA.
 
-Current A2 task type:
+Current A2 route:
 
-- public trust and disclosure copy readiness;
-- mock/real state wording;
-- coverage, freshness, missing-data, risk, and non-investment-advice explanations;
-- launch-blocking readability issues;
-- post-promotion copy replacement criteria.
+- Keep public trust copy understandable for mock-only, partial coverage, missing/delayed data, model limits, freshness limits, and non-investment-advice wording.
+- Repair only launch-blocking public copy regressions.
+- Defer visual polish unless comprehension or legal clarity is blocked.
 
-A2 must stop before data evidence edits, Supabase logic, source promotion toggles, score-source promotion, raw market evidence, or visual polish that does not unblock launch readiness.
+A2 must stop before data evidence edits, Supabase logic, source promotion toggles, score-source promotion, raw market evidence, or visual-only redesign.
 
 ## Dynamic Reassignment Rule
 
 When A1 or A2 completes a task:
 
-1. PM reviews the output.
-2. PM accepts, rejects, or asks for a bounded repair.
-3. PM immediately assigns the next highest-value side-lane task.
-4. PM records the assignment in project docs or status notes.
+1. PM reviews the output and checker result.
+2. PM records `accepted`, `rejected`, `needs_bounded_repair`, or `blocked`.
+3. PM integrates accepted output only after the relevant local checker passes.
+4. PM immediately assigns the next highest-value side-lane task when useful work remains.
 5. PM continues mainline work without waiting when safe.
-
-A1 and A2 are not passive roles. They are rolling support lanes. Their job is to remove future blockers while PM pushes the main launch path.
-
-## Revised GOAL Prompt
-
-Use this as the next `/goal` objective when the active goal needs to be recreated. The current preferred target is public Beta plus the first usable data-realification closed loop, not generic launch governance:
-
-```text
-請把專案推到「可公開 Beta 上線，並完成資料真實化主路徑的第一個可用閉環」。執行模式採三線並行：PM 是主線與唯一整合 owner；A1 是 Data / Supabase / Market Evidence 副線；A2 是 Frontend / UX Readability / Public Copy QA 副線。A1 或 A2 完成任務時，PM 要立刻審核為 accepted / rejected / needs_bounded_repair / blocked，並在有安全工作可做時重新指派下一個任務。PM 不必等待 A1/A2 才推進主線。
-
-完成時應該是什麼狀態：
-1. 網站可公開 Beta 使用，首頁、個股頁、briefing、disclaimer、核心 public route 都可正常瀏覽且沒有 Internal Server Error。
-2. mock / real 邊界清楚，publicDataSource 與 scoreSource 的狀態在 UI、文件、checker 中一致。
-3. TW equity 真實 daily_prices 閉環已有可驗證狀態；TWII 與 ETF 缺口有明確 source-rights、field-contract、candidate artifact、coverage closure 路線。
-4. runtime promotion gate 可以判斷何時從 mock 進入 real，未通過前不得誤導使用者。
-5. ingestion/backfill/write/readback/post-run review/rollback/retention 的第一條可用流程具備記錄與驗證。
-6. 公開網站信任與法務揭露可讀，包含 mock-only、partial coverage、missing/delayed data、資料新鮮度、模型限制、非投資建議。
-7. deployment / env / health check / monitoring / rollback / DNS/SSL / secret handling / launch checklist 有 Beta 上線前檢查表。
-
-提供測試手段：
-- 小型文件或 checker 切片：跑該切片 checker 與 git diff --check。
-- JSON 或 package 變更：跑 check:json。
-- A1/A2 整合：先跑該 lane checker，再由 PM 更新 project status / workstream board。
-- Runtime / launch / data milestone：跑相關 checker 與 review gate。
-- bounded remote attempt 或 write/readback：必須先有 precheck、exact one-attempt command、post-run review checker、aggregate readback verification。
-
-禁區邊界：
-- 沒有獨立 gate 不執行 SQL。
-- 沒有獨立 gate 不寫 Supabase、不建立 staging rows、不修改 daily_prices。
-- 不輸出 secrets、raw market payload、row payload、stock id payload。
-- 不跳過 post-run review。
-- promotion gate 未通過前，不設定 publicDataSource=supabase。
-- promotion gate 未通過前，不設定 scoreSource=real。
-- A1/A2 不獨立 commit；PM 是唯一整合 owner。
-
-每步要記錄什麼：
-- CEO decision。
-- PM selected route。
-- A1/A2 assignment 或 completion review。
-- command executed 或 skipped reason。
-- sanitized aggregate counts。
-- accepted / rejected / needs_bounded_repair / blocked。
-- mock / real promotion 狀態。
-- next route。
-
-卡住時要暫停並回報：
-- 如果卡在 schema、credential、source-rights、Supabase relation、row conflict、DNS、secret、payment、account permission，先停止該遠端或權限動作並回報。
-- 如果只是 local checker、文案、文件、UI 可讀性或 route health 問題，CEO/PM 可自行修正後繼續。
-- 如果同一阻塞連續重複三次且無法安全推進，再標記 blocked。
-```
 
 ## Verification Policy
 
 To keep velocity:
 
 - local document/checker slices may run only their own checker plus `git diff --check`;
-- A1/A2 output integration should run that lane's checker before PM accepts it;
-- launch-engineering milestones should run readable status, route health, and review gate;
-- data write/readback slices must run their specific precheck, exact one-attempt command, post-run review, and aggregate readback verification;
-- full review gate should be reserved for milestone integration, not every small wording change.
+- JSON or package script edits should run `check:json` only when JSON shape is affected;
+- A1/A2 output integration should run that lane checker before PM accepts it;
+- Runtime / launch / data milestones should run the focused checker plus `check:review-gates`;
+- Runtime or TypeScript edits should run route health or `tsc` only when they are actually touched;
+- bounded remote attempts or write/readback slices must run their specific precheck, exact one-attempt command, post-run review, and aggregate readback verification;
+- full review gate is reserved for milestone integration, not every wording or status note.
 
-## Current CEO Recommendation
+## Current Accepted Baseline
 
-Recreate the active `/goal` with the public-Beta prompt above when needed. Until then, PM should operate under this updated file as the project baseline: keep moving toward public Beta readiness, preserve `publicDataSource=mock` and `scoreSource=mock` until promotion gates pass, keep TW equity's first real `daily_prices` closed loop visible, and assign A1/A2 to remove data-coverage and public-trust blockers in parallel.
+- Public runtime boundary remains `publicDataSource=mock`.
+- Score boundary remains `scoreSource=mock`.
+- Current Level 1 MVP row coverage is `182/360`.
+- TW equity first closed loop is accepted at `180/180`.
+- TWII remains `0/60` and not approved for probe or ingestion.
+- ETF remains `2/120`, with `118` missing rows.
+- Public Beta can continue as mock-visible local Beta preparation.
+- Real data and real score promotion remain blocked until separate gates pass.
+
+## Hard Stops
+
+This GOAL adjustment does not authorize:
+
+- SQL execution;
+- Supabase write;
+- staging row creation;
+- broad `daily_prices` mutation;
+- raw market-data fetch, ingest, storage, or commit;
+- secret output;
+- raw payload, row payload, or stock id payload output;
+- `publicDataSource=supabase`;
+- `scoreSource=real`;
+- deployment, DNS, SSL, platform env, or hosting project mutation;
+- public launch completion claim.
+
+Any later remote/read/write/deploy step must have its own named gate, exact command, post-run review, sanitized aggregate evidence, rollback path, and stop line.
+
+## CEO Recommendation
+
+Continue under this GOAL with larger coherent slices. Do not spend more time on broad governance unless it unlocks a concrete execution step. The next best mainline slice is `runtime_local_route_health_refresh_before_executable_packet_or_data_gate`, while A1 keeps source-rights and coverage evidence warm and A2 handles only launch-blocking public trust readability.
+
+## Verification
+
+Focused verification:
+
+- `node scripts/check-goal-parallel-workstream-adjustment.mjs`
+- `cmd.exe /c npm run check:goal-parallel-workstream-adjustment`
+- `git diff --check`
+
+Milestone integration:
+
+- `cmd.exe /c npm run check:review-gates`

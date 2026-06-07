@@ -322,3 +322,37 @@ D:\指數燈號
 - 不先買新聞 API，先用官方資料與週報內容。
 - 不先重度投放廣告，避免破壞金融工具信任感。
 - 不把產品做成台灣限定架構；台灣是第一市場，不是長期邊界。
+## Latest GOAL launch-engineering parallel workstream adjustment slice
+
+Status: `goal_launch_engineering_parallel_workstreams_ready`
+
+Date: 2026-06-07
+
+CEO decision: keep the active GOAL pointed at `pre_launch_executable_state`, not a narrow document-only checkpoint.
+
+PM route: `runtime_local_route_health_refresh_before_executable_packet_or_data_gate`.
+
+Current operating model:
+
+- PM mainline owns Runtime, launch engineering, integration, route health, and acceptance decisions.
+- A1 owns Data / Supabase / Market Evidence and keeps source-rights, coverage closure, sanitized artifact, and readback evidence lanes warm.
+- A2 owns public trust / UX readability / disclosure QA and only repairs launch-blocking public comprehension issues before visual polish.
+- I remains launch / ops guard for deployment, environment, credentials, DNS, monitoring, rollback, and account risks.
+
+A1/A2 completion now triggers immediate PM reassignment. PM records `accepted`, `rejected`, `needs_bounded_repair`, or `blocked`, then either integrates the output or assigns a bounded repair.
+
+Current formal launch engineering baseline:
+
+- Level 1 MVP row coverage remains `182/360`.
+- TW equity first closed loop is accepted at `180/180`.
+- TWII remains `0/60`.
+- ETF remains `2/120`, with `118` missing rows.
+- Public runtime remains `publicDataSource=mock`.
+- Score source remains `scoreSource=mock`.
+- Real source and real score promotion remain blocked until separate gates pass.
+
+Verification target:
+
+- `cmd.exe /c npm run check:goal-parallel-workstream-adjustment`
+- `cmd.exe /c npm run check:review-gates`
+- `git diff --check`

@@ -1,6 +1,6 @@
 # Role Workstreams
 
-Updated: 2026-06-03
+Updated: 2026-06-07
 
 This file is the project-level assignment map for parallel work. It exists so PM can move faster without losing ownership boundaries.
 
@@ -40,7 +40,9 @@ Owned work:
 - Stage percentage and next-slice selection.
 
 Current next tasks:
-- Continue runtime foundation toward readonly gate readiness, with the next mainline slice focused on making remote guard and freshness-runtime states product-readable while keeping technical details folded or internal.
+- Continue the active GOAL toward `pre_launch_executable_state`.
+- Current mainline route is `runtime_local_route_health_refresh_before_executable_packet_or_data_gate`.
+- Keep runtime foundation, route health, launch engineering, and data promotion handoff moving with larger coherent slices.
 - Keep publicDataSource=mock and scoreSource=mock until explicit release criteria are met.
 - Integrate A1/A2 packets only after local checks pass.
 - Ask I to review deployment, environment, credential, DNS, monitoring, and rollback impact before any public launch, production source, or cloud-environment change.
@@ -60,9 +62,9 @@ Not owned:
 - Public UI copy, runtime page layout, runtime decision helper wording, final production toggle, Git commits, SQL execution, Supabase writes, staging rows, daily_prices writes, raw market data storage.
 
 Current next tasks:
-- Maintain the A1 market evidence handoff packet.
+- Maintain source-rights and market evidence support for TWII and ETF while PM continues the mainline.
 - Prepare the next readonly/data evidence packet only from already approved or sanitized evidence.
-- Own the blocker-closure evidence lane for data-quality evidence and row-coverage readiness, including field-validity QA summaries, downgrade rules, and sanitized aggregate-only readiness notes.
+- Own coverage closure support from `182/360` toward `360/360`, including field-validity QA summaries, downgrade rules, sanitized aggregate-only readiness notes, and candidate artifact hygiene when PM asks.
 - Keep source-rights and model-credibility dependencies visible as blockers that A1 can reference, but not approve.
 - Escalate to PM before any remote attempt, SQL, or production source promotion.
 
@@ -79,8 +81,8 @@ Not owned:
 - Supabase/data evidence scripts, raw market evidence, A1 packets, runtime state helpers, score source promotion, production data-source toggles, Git commits.
 
 Current next tasks:
-- Audit public UI copy and produce an A2 visible-copy worklist.
-- Prioritize launch-blocking readability issues before cosmetic polish.
+- Repair only launch-blocking public trust readability issues while PM continues the mainline.
+- Prioritize mock-only, partial coverage, missing/delayed data, data freshness, score/model limitation, risk, and non-investment-advice clarity before cosmetic polish.
 - Own public readability support for blocker closure: make sure data-quality, source-rights, model-credibility, row-coverage, and mock-only stop lines are understandable on public/runtime surfaces.
 - Keep the A2 lane focused on comprehension blockers and visible-language regressions; visual polish remains lower priority until runtime foundation is stable.
 - Keep visual micro-tuning behind runtime foundation work unless it blocks user comprehension.
