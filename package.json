@@ -355,6 +355,8 @@
     "check:beta-platform-two-value-intake-gate": "node scripts/check-beta-platform-two-value-intake-gate.mjs",
     "validate:beta-platform-two-values": "node scripts/validate-beta-platform-two-values.mjs",
     "check:beta-platform-two-value-validator": "node scripts/check-beta-platform-two-value-validator.mjs",
+    "run:beta-packet-window-candidate-dry-run": "node scripts/run-beta-packet-window-candidate-dry-run.mjs",
+    "check:beta-packet-window-candidate-dry-run-runner": "node scripts/check-beta-packet-window-candidate-dry-run-runner.mjs",
     "check:runtime-data-promotion-handoff-checklist": "node scripts/check-runtime-data-promotion-handoff-checklist.mjs",
     "check:runtime-summary-alignment-from-first-closed-loop": "node scripts/check-runtime-summary-alignment-from-first-closed-loop.mjs",
     "check:runtime-readonly-decision-card": "node scripts/check-runtime-readonly-decision-card.mjs",
