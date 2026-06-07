@@ -169,6 +169,25 @@ if (!report) {
   if (report.parallelRoutes?.a1?.priorityDecision?.executable !== false) {
     blocked.push("report.parallelRoutes.a1.priorityDecision.executable must remain false");
   }
+  if (!report.parallelRoutes?.a1?.worksheetBatch) missing.push("report.parallelRoutes.a1.worksheetBatch");
+  if (report.parallelRoutes?.a1?.worksheetBatch?.recommendedBatch?.batchId !== "twii_source_rights_unblock_first_batch") {
+    blocked.push("report.parallelRoutes.a1.worksheetBatch.recommendedBatch.batchId must keep the TWII source-rights unblock batch visible");
+  }
+  if (report.parallelRoutes?.a1?.worksheetBatch?.recommendedBatch?.lane !== "TWII") {
+    blocked.push("report.parallelRoutes.a1.worksheetBatch.recommendedBatch.lane must remain TWII");
+  }
+  if (report.parallelRoutes?.a1?.worksheetBatch?.recommendedBatch?.executable !== false) {
+    blocked.push("report.parallelRoutes.a1.worksheetBatch.recommendedBatch.executable must remain false");
+  }
+  if (!Array.isArray(report.parallelRoutes?.a1?.worksheetBatch?.recommendedBatch?.slotIds) || report.parallelRoutes.a1.worksheetBatch.recommendedBatch.slotIds.length !== 4) {
+    missing.push("report.parallelRoutes.a1.worksheetBatch.recommendedBatch.slotIds");
+  }
+  if (report.parallelRoutes?.a1?.worksheetBatch?.pendingByLane?.TWII?.length !== 4) {
+    blocked.push("report.parallelRoutes.a1.worksheetBatch.pendingByLane.TWII must currently have 4 pending slots");
+  }
+  if (report.parallelRoutes?.a1?.worksheetBatch?.pendingByLane?.ETF?.length !== 6) {
+    blocked.push("report.parallelRoutes.a1.worksheetBatch.pendingByLane.ETF must currently have 6 pending slots");
+  }
   if (!report.parallelRoutes?.a2) missing.push("report.parallelRoutes.a2");
   if (report.parallelRoutes?.a2?.decisionSupport?.nextRecommendedSlice !== "a2-checker-hardening") {
     blocked.push("report.parallelRoutes.a2.decisionSupport.nextRecommendedSlice must route to a2-checker-hardening while no urgent first-screen candidates exist");
@@ -180,6 +199,9 @@ if (!report) {
   if (!report.sourceReports?.a1SourceRightsNextAction?.parsedJson) missing.push("report.sourceReports.a1SourceRightsNextAction.parsedJson");
   if (!report.sourceReports?.a1SourceRightsReadinessSummary?.parsedJson) {
     missing.push("report.sourceReports.a1SourceRightsReadinessSummary.parsedJson");
+  }
+  if (!report.sourceReports?.a1ExactSourceRightsEvidenceWorksheet?.parsedJson) {
+    missing.push("report.sourceReports.a1ExactSourceRightsEvidenceWorksheet.parsedJson");
   }
   if (!report.sourceReports?.a2PublicCopyReadabilityCandidates?.parsedJson) {
     missing.push("report.sourceReports.a2PublicCopyReadabilityCandidates.parsedJson");

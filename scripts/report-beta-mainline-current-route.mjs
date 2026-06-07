@@ -3,11 +3,13 @@ import { spawnSync } from "node:child_process";
 const beta = runJson(["cmd.exe", "/c", "npm", "run", "report:beta-platform-unblock-kit"]);
 const a1 = runJson(["cmd.exe", "/c", "npm", "run", "report:a1-source-rights-next-action"]);
 const a1Readiness = runJson(["cmd.exe", "/c", "npm", "run", "report:a1-source-rights-readiness-summary"]);
+const a1Worksheet = runJson(["cmd.exe", "/c", "npm", "run", "report:a1-exact-source-rights-evidence-worksheet"]);
 const a2 = runJson(["cmd.exe", "/c", "npm", "run", "report:a2-public-copy-readability-candidates"]);
 
 const betaReport = beta.json ?? {};
 const a1Report = a1.json ?? {};
 const a1ReadinessReport = a1Readiness.json ?? {};
+const a1WorksheetReport = a1Worksheet.json ?? {};
 const a2Report = a2.json ?? {};
 
 const platformStatus = betaReport.platformValues?.status ?? "unknown";
@@ -82,6 +84,25 @@ const report = {
         etfCanOpenOutcomeGate: Boolean(a1ReadinessReport.lanes?.ETF?.canOpenOutcomeGate),
         etfPendingCount: Number(a1ReadinessReport.lanes?.ETF?.pendingCount ?? 0)
       },
+      worksheetBatch: {
+        worksheet: a1WorksheetReport.worksheet ?? "docs/A1_EXACT_SOURCE_RIGHTS_EVIDENCE_WORKSHEET.md",
+        pendingCount: Number(a1WorksheetReport.pendingCount ?? 0),
+        pendingByLane: {
+          TWII: Array.isArray(a1WorksheetReport.pendingByLane?.TWII)
+            ? a1WorksheetReport.pendingByLane.TWII
+            : [],
+          ETF: Array.isArray(a1WorksheetReport.pendingByLane?.ETF)
+            ? a1WorksheetReport.pendingByLane.ETF
+            : []
+        },
+        recommendedBatch: a1WorksheetReport.recommendedBatch ?? {
+          batchId: "twii_source_rights_unblock_first_batch",
+          lane: "TWII",
+          slotIds: [],
+          nextAfterBatch: "cmd.exe /c npm run report:a1-source-rights-readiness-summary",
+          executable: false
+        }
+      },
       coverage: a1Report.currentState?.coverage ?? {
         twEquity: "unknown",
         twii: "unknown",
@@ -130,6 +151,7 @@ const report = {
     betaPlatformUnblockKit: commandStatus(beta),
     a1SourceRightsNextAction: commandStatus(a1),
     a1SourceRightsReadinessSummary: commandStatus(a1Readiness),
+    a1ExactSourceRightsEvidenceWorksheet: commandStatus(a1Worksheet),
     a2PublicCopyReadabilityCandidates: commandStatus(a2)
   }
 };

@@ -26,6 +26,7 @@ The report reads:
 - `report:beta-platform-unblock-kit`
 - `report:a1-source-rights-next-action`
 - `report:a1-source-rights-readiness-summary`
+- `report:a1-exact-source-rights-evidence-worksheet`
 - `report:a2-public-copy-readability-candidates`
 
 If an accepted reviewed artifact exists, PM routes to `render:beta-pre-execution-packet-candidate`.
@@ -51,6 +52,8 @@ A1 remains on exact TWII/ETF source-rights evidence intake until the exact ledge
 Its immediate command is `cmd.exe /c npm run report:a1-exact-source-rights-evidence-worksheet`.
 The mainline report also surfaces `parallelRoutes.a1.readiness`, including ready lanes, blocked lanes, TWII pending count, ETF pending count, and the A1 readiness next command.
 The mainline report also surfaces `parallelRoutes.a1.priorityDecision`, keeping TWII first through `twii_source_rights_unblock_first_etf_parallel_rights_option`, preserving ETF as a parallel option, and marking the priority decision as non-executable.
+The mainline report also surfaces `parallelRoutes.a1.worksheetBatch`, including the pending TWII/ETF slot groups and the recommended non-executable `twii_source_rights_unblock_first_batch`.
+That batch keeps A1 focused on the four TWII source-rights slots before the readiness summary is rerun; it does not approve source rights, candidate generation, row coverage, Supabase access, SQL, ingestion, public source promotion, or real scoring.
 
 A2 remains on public Beta trust copy, legal disclosure, first-screen readability, and user-understanding checks. If urgent first-screen blockers are zero, A2 should patch only launch-blocking public-copy regressions.
 The mainline report surfaces `parallelRoutes.a2.decisionSupport`, so PM can see the next A2 maintenance slice without reading the full public-copy scanner output. While urgent first-screen candidates are zero, that route stays on `a2-checker-hardening`.
