@@ -315,6 +315,7 @@
     "check:beta-deployment-execution-packet-draft": "node scripts/check-beta-deployment-execution-packet-draft.mjs",
     "check:beta-deployment-operator-fill-guide": "node scripts/check-beta-deployment-operator-fill-guide.mjs",
     "check:beta-deployment-intake-checklist": "node scripts/check-beta-deployment-intake-checklist.mjs",
+    "check:beta-deployment-executable-packet-candidate-gate": "node scripts/check-beta-deployment-executable-packet-candidate-gate.mjs",
     "check:runtime-readonly-decision-card": "node scripts/check-runtime-readonly-decision-card.mjs",
     "check:post-readonly-runtime-state": "node scripts/check-post-readonly-runtime-state.mjs",
     "check:runtime-promotion-readiness-summary": "node scripts/check-runtime-promotion-readiness-summary.mjs",
