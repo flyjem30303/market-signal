@@ -3678,6 +3678,11 @@ const checks = [
     name: "beta-deployment-platform-values-bridge"
   },
   {
+    command: [node, "scripts/check-beta-deployment-packet-window-readiness-selector.mjs"],
+    expectStatus: "ok",
+    name: "beta-deployment-packet-window-readiness-selector"
+  },
+  {
     command: [node, "scripts/check-pre-launch-executable-state-gap-convergence.mjs"],
     expectStatus: "ok",
     name: "pre-launch-executable-state-gap-convergence"

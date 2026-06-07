@@ -64,6 +64,7 @@ Latest PM mainline completion review:
 - `docs/BETA_DEPLOYMENT_OPERATOR_VALUES_DEFAULTS_AND_REMAINING_GAPS.md` is `accepted` as PM mainline operator values defaults and remaining gaps packet.
 - `docs/LOCAL_LAUNCH_PROOF_REFRESH_BEFORE_EXECUTABLE_PACKET.md` is `accepted` as PM mainline local proof refresh before executable packet.
 - `docs/BETA_DEPLOYMENT_PLATFORM_VALUES_BRIDGE.md` is `accepted` as PM mainline platform values bridge before executable packet.
+- `docs/BETA_DEPLOYMENT_PACKET_WINDOW_READINESS_SELECTOR.md` is `accepted` as PM mainline packet-window readiness selector; status is `beta_deployment_packet_window_readiness_selector_ready_platform_values_pending`, outcome is `packet_window_ready_for_platform_values_not_deployment`, and next route is `beta_deployment_executable_packet_after_platform_values`.
 - `docs/PRE_LAUNCH_EXECUTABLE_STATE_GAP_CONVERGENCE.md` is `accepted` as PM mainline pre-launch executable-state gap convergence.
 - `docs/LOCAL_RUNTIME_LAUNCH_PROOF_CONTINUATION.md` is `accepted` as PM mainline local runtime launch proof continuation.
 - `docs/LOCAL_RUNTIME_LAUNCH_PROOF_TRIGGER_MATRIX.md` is `accepted` as PM mainline validation trigger matrix.

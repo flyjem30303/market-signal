@@ -277,6 +277,7 @@
     "check:a1-twii-vendor-terms-or-internal-feed-owner-evidence-packet": "node scripts/check-a1-twii-vendor-terms-or-internal-feed-owner-evidence-packet.mjs",
     "check:local-launch-proof-refresh-before-executable-packet": "node scripts/check-local-launch-proof-refresh-before-executable-packet.mjs",
     "check:beta-deployment-platform-values-bridge": "node scripts/check-beta-deployment-platform-values-bridge.mjs",
+    "check:beta-deployment-packet-window-readiness-selector": "node scripts/check-beta-deployment-packet-window-readiness-selector.mjs",
     "check:pre-launch-executable-state-gap-convergence": "node scripts/check-pre-launch-executable-state-gap-convergence.mjs",
     "check:local-runtime-launch-proof-continuation": "node scripts/check-local-runtime-launch-proof-continuation.mjs",
     "check:local-runtime-launch-proof-trigger-matrix": "node scripts/check-local-runtime-launch-proof-trigger-matrix.mjs",
