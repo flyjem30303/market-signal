@@ -107,8 +107,10 @@ for (const phrase of [
   "expectedRows: 360",
   "publicDataSource: \"mock\"",
   "scoreSource: \"mock\"",
-  "Accepted first closed-loop evidence now covers 182 of 360 expected Level 1 rows",
-  "runtime promotion stays blocked"
+  "coverageStatus: \"blocked\"",
+  "aggregate_count_incomplete",
+  "state: \"readonly_verified_mock_only\"",
+  "stopLine:"
 ]) {
   if (!postReadonly.includes(phrase)) problems.push(`${postReadonlyPath} missing aligned runtime phrase: ${phrase}`);
 }

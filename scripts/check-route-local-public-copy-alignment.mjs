@@ -95,10 +95,26 @@ for (const [pathName, text, phrases] of [
   [homePanelPath, homePanel, ['getPublicRuntimeBoundaryCopy("home")', "PublicRuntimeStateStrip", "PostReadonlyProductStatus", "boundaryCopy.currentState", "boundaryCopy.stopLine"]],
   [stockPanelPath, stockPanel, ['getPublicRuntimeBoundaryCopy("stock")', "PublicRuntimeStateStrip", "PostReadonlyProductStatus", "boundaryCopy.currentState", "boundaryCopy.stopLine"]],
   [trustNoticePath, trustNotice, ["Investment and data limits: currently mock-only", "Methodology: mock scores are not formal model conclusions", "Weekly boundary: not live or complete market data", "publicDataSource=mock; scoreSource=mock"]],
-  [freshnessStripPath, freshnessStrip, ["Data freshness metadata", "display context only", "real score source", "Missing/delayed data and partial coverage"]],
+  [
+    freshnessStripPath,
+    freshnessStrip,
+    [
+      "FreshnessEvidenceBoundary",
+      "getFreshnessMetadataBoundarySummary",
+      "getDataQualityDowngradeSummary",
+      "freshness.scoreSourceLabel",
+      "metadataBoundary.allowedPublicClaim",
+      "metadataBoundary.stopLine",
+      "dataQuality.stopLine"
+    ]
+  ],
   [postReadonlyPath, postReadonly, ["state.publicDataSource", "state.scoreSource", "promotion.mockBoundary.publicDataSource", "promotion.mockBoundary.scoreSource"]],
   [publicRuntimeStatePath, publicRuntimeState, ["getPublicClaimRuntimeState", "state.stopLine", "state.states.map"]],
-  [briefingPagePath, briefingPage, ["DataFreshnessStrip", "PublicRuntimeStateStrip", "PostReadonlyProductStatus", "RuntimeReadinessPanel", "BriefingRowCoverageStatus", "publicDataSource=mock", "scoreSource=mock"]],
+  [
+    briefingPagePath,
+    briefingPage,
+    ["DataFreshnessStrip", "PublicRuntimeStateStrip", "PostReadonlyProductStatus", "BriefingPublicBetaGateSummary"]
+  ],
   [weeklyPagePath, weeklyPage, ["DataFreshnessStrip", "TrustRuntimeBoundaryNotice", 'context="weekly"', "WeeklyRowCoverageStatus"]],
   [methodologyPagePath, methodologyPage, ["DataFreshnessStrip", "TrustRuntimeBoundaryNotice", 'context="methodology"']],
   [disclaimerPagePath, disclaimerPage, ["TrustRuntimeBoundaryNotice", 'context="disclaimer"']],

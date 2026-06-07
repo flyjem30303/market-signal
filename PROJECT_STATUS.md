@@ -511,3 +511,31 @@ Verification target:
 - `cmd.exe /c npx tsc --noEmit`
 - Browser DOM token scan on `/briefing`
 - `git diff --check`
+
+## Latest briefing public Beta summary regression gate slice
+
+Status: `briefing_public_beta_summary_regression_gate_ready`
+
+Date: 2026-06-07
+
+CEO decision: `lock_briefing_public_beta_summary_before_next_runtime_push`.
+
+PM route: `a2_briefing_public_summary_regression_gate`.
+
+Outcome: `briefing_public_summary_guard_registered`.
+
+This slice adds `scripts/check-briefing-public-beta-gate-summary.mjs` and registers `check:briefing-public-beta-gate-summary` in the review gate. The checker verifies `/briefing` renders the public Beta summary, keeps old deep internal governance panels out of the briefing page, and blocks visible regressions such as `publicDataSource`, `scoreSource`, `Object reachability`, `investment advice`, `claimApproval`, and `mock_runtime_hardening`.
+
+The existing progress, snapshot, runtime-summary, and route-local public-copy gates were aligned to the new `BriefingPublicBetaGateSummary` route shape, so review gates no longer require removed internal panels while still preserving mock runtime, mock score, freshness boundary, and real-promotion stop lines.
+
+This slice does not authorize SQL, Supabase connection, Supabase write, staging rows, `daily_prices` mutation, raw market-data work, deployment, public source promotion, or real score promotion.
+
+Verification:
+
+- `cmd.exe /c npm run check:briefing-public-beta-gate-summary`
+- `cmd.exe /c npm run check:localhost-content-health`
+- `cmd.exe /c npm run check:public-visible-language-quality`
+- `cmd.exe /c npm run check:a2-public-copy-readability-candidates`
+- `cmd.exe /c npm run check:review-gates`
+- `cmd.exe /c npx tsc --noEmit`
+- `git diff --check`

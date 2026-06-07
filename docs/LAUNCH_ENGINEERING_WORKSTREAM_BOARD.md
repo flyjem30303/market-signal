@@ -419,6 +419,15 @@ Completed thirteenth assignment:
 - Update localhost health expectations from the former internal `Supabase readonly attempt` phrase to the public summary's `遠端唯讀檢查` wording.
 - Keep the panel replacement out of SQL, Supabase connection/write, staging rows, `daily_prices` mutation, raw market data, deployment, DNS/SSL mutation, platform env mutation, row coverage points, public source promotion, real score promotion, and visual-polish-only scope.
 
+Completed fourteenth assignment:
+
+- Add `scripts/check-briefing-public-beta-gate-summary.mjs`.
+- Register `check:briefing-public-beta-gate-summary` in `package.json` and `scripts/check-review-gates.mjs`.
+- Verify `/briefing` renders the public Beta summary anchors after the deep internal panel replacement.
+- Block visible regressions that expose raw internal runtime/governance tokens such as `publicDataSource`, `scoreSource`, `Object reachability`, `investment advice`, `claimApproval`, and `mock_runtime_hardening`.
+- Verify `src/app/briefing/page.tsx` keeps `BriefingPublicBetaGateSummary` and does not re-import/render the removed internal panels.
+- Keep this regression gate out of SQL, Supabase connection/write, staging rows, `daily_prices` mutation, raw market data, deployment, DNS/SSL mutation, platform env mutation, row coverage points, public source promotion, real score promotion, and visual-polish-only scope.
+
 PM intake criteria for A2:
 
 - Copy gaps are split into launch-blocking and non-blocking polish.

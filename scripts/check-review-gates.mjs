@@ -3188,6 +3188,11 @@ const checks = [
     name: "a2-public-beta-trust-copy-readiness"
   },
   {
+    command: [node, "scripts/check-briefing-public-beta-gate-summary.mjs"],
+    expectStatus: "ok",
+    name: "briefing-public-beta-gate-summary"
+  },
+  {
     command: [node, "scripts/check-a2-beta-phrase-set-and-shared-trust-surface-patch-scope.mjs"],
     expectStatus: "ok",
     name: "a2-beta-phrase-set-and-shared-trust-surface-patch-scope"
@@ -4437,6 +4442,7 @@ const coreReviewGateNames = new Set([
   "a1-twii-source-rights-evidence-intake-or-vendor-fallback-decision-support",
   "a1-twii-official-source-intake-fields-or-vendor-terms-review-packet",
   "a2-public-beta-trust-copy-readiness",
+  "briefing-public-beta-gate-summary",
   "a2-beta-phrase-set-and-shared-trust-surface-patch-scope",
   "a2-route-local-legal-weekly-methodology-copy-regression-gate",
   "a2-bounded-route-local-trust-copy-patch",

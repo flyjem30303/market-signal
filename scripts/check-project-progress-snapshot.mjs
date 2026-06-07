@@ -59,13 +59,13 @@ const requiredSourcePhrases = [
   "recent_slices_too_fragmented",
   "larger_mock_runtime_product_slice",
   "runtime product 70 / blocker closure 20 / governance 10",
-  "Keep mandatory gates",
-  "before any Supabase connection attempt",
-  "before any SQL execution",
-  "before any market-data fetch or ingestion",
-  "before any publicDataSource promotion",
-  "before any scoreSource=real transition",
-  "after any remote attempt post-run review",
+  "保留必要 gate",
+  "任何 Supabase 連線嘗試前",
+  "任何 SQL 執行前",
+  "任何市場資料抓取或匯入前",
+  "任何正式公開資料升級前",
+  "任何正式分數切換前",
+  "任何遠端嘗試後，必須先完成執行後覆核",
   "blockerExecutionQueue",
   "bounded_row_coverage_decision_ready",
   "Data 45 / Engineering 35 / Legal-Investment 20",
@@ -306,12 +306,12 @@ if (output) {
 
   const mandatoryCutpoints = new Set(output.cadenceAssessment?.mandatoryCutpoints ?? []);
   for (const cutpoint of [
-    "before any Supabase connection attempt",
-    "before any SQL execution",
-    "before any market-data fetch or ingestion",
-    "before any publicDataSource promotion",
-    "before any scoreSource=real transition",
-    "after any remote attempt post-run review"
+    "任何 Supabase 連線嘗試前",
+    "任何 SQL 執行前",
+    "任何市場資料抓取或匯入前",
+    "任何正式公開資料升級前",
+    "任何正式分數切換前",
+    "任何遠端嘗試後，必須先完成執行後覆核"
   ]) {
     if (!mandatoryCutpoints.has(cutpoint)) {
       blocked.push(`output.cadenceAssessment.mandatoryCutpoints missing ${cutpoint}`);
