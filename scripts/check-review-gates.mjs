@@ -3668,6 +3668,11 @@ const checks = [
     name: "local-runtime-launch-proof-continuation"
   },
   {
+    command: [node, "scripts/check-local-runtime-launch-proof-trigger-matrix.mjs"],
+    expectStatus: "ok",
+    name: "local-runtime-launch-proof-trigger-matrix"
+  },
+  {
     command: [node, "scripts/check-taiwan-all-listed-universe-manifest-packet.mjs"],
     expectStatus: "ok",
     name: "taiwan-all-listed-universe-manifest-packet"
