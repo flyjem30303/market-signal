@@ -30,6 +30,8 @@ const required = [
   [componentPath, "週報邊界：目前不是即時或完整市場資料"],
   [componentPath, "publicDataSource=mock; scoreSource=mock"],
   [componentPath, "不得把 mock 訊號說成真實資料、完整覆蓋率或正式投資建議"],
+  [componentPath, "資料新鮮度"],
+  [componentPath, "不構成投資建議"],
   [componentPath, "runtimeInterpretation.decision"],
   [componentPath, "runtimeInterpretation.laneRatio.mockRuntimeHardening"],
   [componentPath, "runtimeInterpretation.stopLine"],

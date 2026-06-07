@@ -184,6 +184,7 @@ Latest PM completion review:
 - `docs/A2 briefing copy-only patch` is `accepted` for PM mainline review.
 - `docs/A2_PUBLIC_BETA_TRUST_COPY_READINESS.md` is `accepted` for PM mainline review.
 - `docs/A2_BETA_PHRASE_SET_AND_SHARED_TRUST_SURFACE_PATCH_SCOPE.md` is `accepted` for PM mainline review.
+- `A2 bounded shared trust-surface copy patch` is `accepted` for PM mainline review.
 - The handoff stayed bounded and local-only.
 - The checker `cmd.exe /c npm run check:a2-public-trust-launch-copy-handoff` passed.
 - The checker `cmd.exe /c npm run check:a2-route-level-launch-copy-placement-criteria` passed.
@@ -192,6 +193,7 @@ Latest PM completion review:
 - The briefing copy patch checker `cmd.exe /c npm run check:a2-briefing-copy-patch` passed.
 - The checker `cmd.exe /c npm run check:a2-public-beta-trust-copy-readiness` passed.
 - The checker `cmd.exe /c npm run check:a2-beta-phrase-set-and-shared-trust-surface-patch-scope` passed.
+- The shared trust-surface copy patch focused checks passed: `check:runtime-mock-disclosure-readability`, `check:trust-runtime-boundary-notice`, `check:site-chrome-readability`, `check:public-runtime-boundary-coverage`, and `check:public-visible-language-quality`.
 - PM acceptance means the handoff can guide launch-copy integration; it does not authorize runtime promotion, real-source wording, or visual polish.
 
 Active assignment:
@@ -203,6 +205,7 @@ Active assignment:
 - PM accepts A2's public Beta trust-copy readiness support and should prioritize shared trust surfaces, footer/legal, home/stocks, briefing, weekly, and empty/error state copy before visual polish.
 - PM assigns A2 next to `beta_phrase_set_and_shared_trust_surface_patch_scope` to keep public Beta language ready without delaying data and runtime foundations.
 - PM accepts A2's Beta phrase set and shared trust surface patch scope as `a2_beta_phrase_set_and_shared_trust_surface_patch_scope_ready`; CEO decision is `approve_a2_beta_phrase_set_before_shared_trust_surface_patch`, and next route is `bounded_shared_trust_surface_copy_patch_then_route_health`.
+- PM accepts the bounded shared trust-surface copy patch as `a2_shared_trust_surface_copy_patch_applied_mock_boundary_preserved`; CEO decision is `apply_shared_trust_surface_copy_patch_before_route_local_legal_copy`; next route is `route_local_legal_weekly_methodology_copy_patch_or_beta_deployment_intake_values`.
 - Any next A2 task must preserve `publicDataSource=mock`, `scoreSource=mock`, non-investment-advice wording, data freshness limitations, missing/delayed data wording, partial coverage wording, and score/model limitations.
 
 Completed first assignment:
@@ -251,6 +254,14 @@ Completed seventh assignment:
 - Approve the first Beta phrase set for `mock-only`, `publicDataSource=mock`, `scoreSource=mock`, data freshness metadata, partial coverage, missing/delayed data, model limitation, non-investment advice, and risk disclosure.
 - Prioritize shared trust surfaces before broad visual polish: `src/lib/public-runtime-boundary-copy.ts`, `src/components/trust-runtime-boundary-notice.tsx`, `src/components/public-runtime-state-strip.tsx`, `src/components/data-freshness-strip.tsx`, and `src/app/layout.tsx`.
 - Set the next route to `bounded_shared_trust_surface_copy_patch_then_route_health` while preserving no SQL, no Supabase connection/write, no `daily_prices` mutation, no raw market data, no deployment, no public source promotion, and no real score promotion.
+
+Completed eighth assignment:
+
+- Apply a bounded shared trust-surface copy patch.
+- Make `src/lib/public-runtime-boundary-copy.ts`, `src/components/trust-runtime-boundary-notice.tsx`, `src/components/data-freshness-strip.tsx`, `src/app/layout.tsx`, and `src/components/site-nav.tsx` readable for public Beta.
+- Preserve `mock-only`, `publicDataSource=mock`, `scoreSource=mock`, data freshness metadata, partial coverage, missing/delayed data, model limitation, non-investment advice, and risk disclosure.
+- Update focused language checkers to validate the new phrase set and site chrome labels instead of stale mojibake tokens.
+- Keep the patch out of SQL, Supabase connection/write, staging rows, `daily_prices` mutation, raw market data, deployment, DNS/SSL mutation, platform env mutation, row coverage points, public source promotion, and real score promotion.
 
 PM intake criteria for A2:
 

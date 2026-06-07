@@ -61,11 +61,11 @@ const pages = [
   },
   {
     path: "/terms",
-    required: [...coreRuntimeBoundaryRequired, "使用條款", "不構成投資建議", "資料新鮮度"]
+    required: [...coreRuntimeBoundaryRequired, "使用條款", "mock-only", "資料新鮮度"]
   },
   {
     path: "/privacy",
-    required: [...coreRuntimeBoundaryRequired, "隱私與資料邊界", "資料新鮮度", "mock"]
+    required: [...coreRuntimeBoundaryRequired, "隱私與資料邊界", "mock", "raw market payloads"]
   }
 ];
 

@@ -31,6 +31,8 @@ const required = [
   ["src/components/trust-runtime-boundary-notice.tsx", "不構成投資建議"],
   ["src/lib/public-runtime-boundary-copy.ts", "publicDataSource=mock; scoreSource=mock"],
   ["src/lib/public-runtime-boundary-copy.ts", "不得提供個人化投資建議"],
+  ["src/lib/public-runtime-boundary-copy.ts", "partial coverage"],
+  ["src/lib/public-runtime-boundary-copy.ts", "missing/delayed data"],
   ["src/lib/post-readonly-runtime-state.ts", "publicDataSource: \"mock\""],
   ["src/lib/post-readonly-runtime-state.ts", "scoreSource: \"mock\""],
   ["package.json", "\"check:runtime-mock-disclosure-readability\""],

@@ -115,7 +115,10 @@ const sharedCopyRequirements = [
   "scoreSource=mock",
   "mock-only",
   "資料新鮮度",
-  "不構成投資建議"
+  "不構成投資建議",
+  "partial coverage",
+  "missing/delayed data",
+  "model outputs are not forecasts"
 ];
 
 const freshnessStripRequirements = [
