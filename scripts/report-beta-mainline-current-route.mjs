@@ -1,4 +1,5 @@
 import { spawnSync } from "node:child_process";
+import { buildPublicBetaGoalReadinessRollup } from "./lib/public-beta-goal-readiness-rollup.mjs";
 
 const beta = runJson(["cmd.exe", "/c", "npm", "run", "report:beta-platform-unblock-kit"]);
 const a1 = runJson(["cmd.exe", "/c", "npm", "run", "report:a1-source-rights-next-action"]);
@@ -258,6 +259,17 @@ const report = {
     betaRuntimeFastHealth: commandStatus(runtimeFastHealth)
   }
 };
+
+report.goalReadiness = buildPublicBetaGoalReadinessRollup(report, {
+  sourceReports: {
+    betaMainlineCurrentRoute: {
+      exitCode: 0,
+      parsedJson: true,
+      stderrPrinted: false,
+      embeddedInMainlineRoute: true
+    }
+  }
+});
 
 console.log(JSON.stringify(report, null, 2));
 

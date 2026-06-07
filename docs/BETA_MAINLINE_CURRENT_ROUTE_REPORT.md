@@ -72,6 +72,8 @@ The A2 scanner also emits `scannerIntegrity`, which is guarded by `check:a2-publ
 
 The mainline report surfaces `runtimeHealth` from `check:beta-runtime-fast-health`, including checked route count, HTTP `200` status, and the runtime boundary. This keeps PM's Beta packet route tied to actual local public-route health without running the heavier milestone-only localhost full-health gate every time.
 
+The mainline report also surfaces `goalReadiness` from the shared public Beta GOAL readiness rollup helper. This keeps the active GOAL visible in the same PM route report: runtime core routes, Beta platform values and packet readiness, A1 source-rights and coverage frontier, A2 public trust copy, and the mock-only promotion boundary. The embedded rollup is built in memory from the current mainline report and does not invoke the standalone rollup command, so the mainline route avoids recursive report execution.
+
 ## Safety Boundary
 
 This report is a local route report only.
@@ -94,4 +96,5 @@ Use this report when the next action is unclear after A1 or A2 changes. It shoul
 1. Continue Beta platform value / packet work when safe.
 2. Keep A1 source-rights and coverage evidence moving in parallel through `report:a1-source-rights-readiness-summary`, `report:a1-exact-source-rights-evidence-worksheet`, `report:a1-source-rights-evidence-batch-brief`, and `report:a1-source-rights-reviewed-outcome-surface`.
 3. Keep A2 public trust and first-screen readiness stable.
-4. Do not promote real data or real scores until a separate promotion gate passes.
+4. Check `goalReadiness` to see which public Beta GOAL items are ready, blocked, or held before choosing another broad slice.
+5. Do not promote real data or real scores until a separate promotion gate passes.

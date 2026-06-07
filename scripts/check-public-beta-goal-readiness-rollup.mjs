@@ -4,6 +4,7 @@ import fs from "node:fs";
 const problems = [];
 
 const reportPath = "scripts/report-public-beta-goal-readiness-rollup.mjs";
+const helperPath = "scripts/lib/public-beta-goal-readiness-rollup.mjs";
 const docPath = "docs/PUBLIC_BETA_GOAL_READINESS_ROLLUP.md";
 const packagePath = "package.json";
 const statusPath = "PROJECT_STATUS.md";
@@ -11,6 +12,7 @@ const boardPath = "docs/LAUNCH_ENGINEERING_WORKSTREAM_BOARD.md";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 
 const reportSource = read(reportPath);
+const helperSource = read(helperPath);
 const doc = read(docPath);
 const pkg = JSON.parse(read(packagePath));
 const status = read(statusPath);
@@ -48,6 +50,15 @@ for (const [filePath, source, phrase] of [
 }
 
 for (const phrase of [
+  "buildPublicBetaGoalReadinessRollup",
+  "betaMainlineCurrentRoute",
+  "parsedJson",
+  "stderrPrinted"
+]) {
+  if (!reportSource.includes(phrase)) problems.push(`${reportPath} missing phrase: ${phrase}`);
+}
+
+for (const phrase of [
   "public_beta_goal_readiness_rollup",
   "public_beta_goal_not_ready_continue_parallel_work",
   "runtime_core_routes",
@@ -62,7 +73,7 @@ for (const phrase of [
   "supabaseReadsEnabled: false",
   "supabaseWritesEnabled: false"
 ]) {
-  if (!reportSource.includes(phrase)) problems.push(`${reportPath} missing phrase: ${phrase}`);
+  if (!helperSource.includes(phrase)) problems.push(`${helperPath} missing phrase: ${phrase}`);
 }
 
 const run = spawnSync("cmd.exe", ["/c", "npm", "run", "report:public-beta-goal-readiness-rollup"], {
@@ -121,7 +132,9 @@ if (run.status !== 0 || !report) {
 }
 
 for (const pattern of forbiddenPatterns()) {
-  if (pattern.test(reportSource) || pattern.test(doc)) problems.push(`forbidden pattern ${String(pattern)}`);
+  if (pattern.test(reportSource) || pattern.test(helperSource) || pattern.test(doc)) {
+    problems.push(`forbidden pattern ${String(pattern)}`);
+  }
 }
 
 if (problems.length > 0) {

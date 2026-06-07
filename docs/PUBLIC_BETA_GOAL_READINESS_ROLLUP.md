@@ -12,6 +12,8 @@ Support lanes: A1 Data / Supabase / Market Evidence, A2 Trust / Legal / UX Readi
 
 This rollup converts the active GOAL into one PM-readable readiness report. It reads the current mainline route report and summarizes which GOAL completion items are ready, blocked, or held.
 
+The rollup logic lives in `scripts/lib/public-beta-goal-readiness-rollup.mjs`. The standalone command reads `report:beta-mainline-current-route` and passes that report into the helper. The PM mainline route also embeds the same helper output under `goalReadiness`, so CEO/PM can see the GOAL state without opening another report.
+
 ## Commands
 
 ```powershell

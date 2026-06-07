@@ -3,6 +3,7 @@ import fs from "node:fs";
 
 const reportPath = "scripts/report-beta-mainline-current-route.mjs";
 const checkPath = "scripts/check-beta-mainline-current-route.mjs";
+const helperPath = "scripts/lib/public-beta-goal-readiness-rollup.mjs";
 const docPath = "docs/BETA_MAINLINE_CURRENT_ROUTE_REPORT.md";
 const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
@@ -10,11 +11,12 @@ const reviewGatePath = "scripts/check-review-gates.mjs";
 const missing = [];
 const blocked = [];
 
-for (const file of [reportPath, checkPath, docPath, packagePath, reviewGatePath]) {
+for (const file of [reportPath, checkPath, helperPath, docPath, packagePath, reviewGatePath]) {
   if (!fs.existsSync(file)) missing.push(`${file}: file exists`);
 }
 
 const reportSource = read(reportPath);
+const helperSource = read(helperPath);
 const doc = read(docPath);
 const packageJson = JSON.parse(read(packagePath));
 const reviewGate = read(reviewGatePath);
@@ -28,6 +30,8 @@ const requiredReportPhrases = [
   "report:a1-source-rights-evidence-batch-brief",
   "report:a1-source-rights-reviewed-outcome-surface",
   "report:a2-public-copy-readability-candidates",
+  "buildPublicBetaGoalReadinessRollup",
+  "goalReadiness",
   "blocked_waiting_two_platform_values",
   "ready_to_run_beta_packet_window_proof_map",
   "ready_to_render_pre_execution_packet_candidate",
@@ -47,6 +51,20 @@ const requiredReportPhrases = [
   "scoreSource: \"mock\""
 ];
 
+const requiredHelperPhrases = [
+  "public_beta_goal_readiness_rollup",
+  "public_beta_goal_not_ready_continue_parallel_work",
+  "runtime_core_routes",
+  "beta_platform_values_and_packet",
+  "a1_source_rights_and_coverage_frontier",
+  "a2_public_trust_copy",
+  "promotion_boundary",
+  "deploymentAuthorized: false",
+  "marketDataFetched: false",
+  "supabaseReadsEnabled: false",
+  "supabaseWritesEnabled: false"
+];
+
 const forbiddenReportPhrases = [
   "SUPABASE_SERVICE_ROLE_KEY",
   "NEXT_PUBLIC_SUPABASE_ANON_KEY",
@@ -64,8 +82,14 @@ for (const phrase of requiredReportPhrases) {
   if (!reportSource.includes(phrase)) missing.push(`${reportPath}: ${phrase}`);
 }
 
+for (const phrase of requiredHelperPhrases) {
+  if (!helperSource.includes(phrase)) missing.push(`${helperPath}: ${phrase}`);
+}
+
 for (const phrase of forbiddenReportPhrases) {
-  if (reportSource.includes(phrase)) blocked.push(`${reportPath}: forbidden phrase ${phrase}`);
+  if (reportSource.includes(phrase) || helperSource.includes(phrase)) {
+    blocked.push(`${reportPath}/${helperPath}: forbidden phrase ${phrase}`);
+  }
 }
 
 const requiredDocPhrases = [
@@ -74,6 +98,7 @@ const requiredDocPhrases = [
   "cmd.exe /c npm run report:beta-mainline-current-route",
   "cmd.exe /c npm run check:beta-mainline-current-route",
   "cmd.exe /c npm run report:a1-exact-source-rights-evidence-worksheet",
+  "goalReadiness",
   "`BETA_HOSTING_PROJECT_NAME`",
   "`BETA_TEMPORARY_URL`",
   "A1",
@@ -331,6 +356,63 @@ if (!report) {
   }
   if (!report.sourceReports?.betaRuntimeFastHealth?.parsedJson) {
     missing.push("report.sourceReports.betaRuntimeFastHealth.parsedJson");
+  }
+  if (!report.goalReadiness) {
+    missing.push("report.goalReadiness");
+  } else {
+    if (report.goalReadiness.mode !== "public_beta_goal_readiness_rollup") {
+      blocked.push("report.goalReadiness.mode must be public_beta_goal_readiness_rollup");
+    }
+    if (report.goalReadiness.status !== "public_beta_goal_not_ready_continue_parallel_work") {
+      blocked.push("report.goalReadiness.status must currently continue parallel work");
+    }
+    if (report.goalReadiness.currentRoute?.pmMainlineStatus !== "blocked_waiting_two_platform_values") {
+      blocked.push("report.goalReadiness.currentRoute.pmMainlineStatus must match current platform blocker");
+    }
+    if (report.goalReadiness.currentRoute?.pmDefaultWhenBlocked !== true) {
+      blocked.push("report.goalReadiness.currentRoute.pmDefaultWhenBlocked must be true");
+    }
+    const goalItems = new Map(report.goalReadiness.completionItems?.map((item) => [item.id, item]) ?? []);
+    if (goalItems.get("runtime_core_routes")?.status !== "ready") {
+      blocked.push("report.goalReadiness runtime_core_routes must be ready");
+    }
+    if (goalItems.get("beta_platform_values_and_packet")?.status !== "blocked") {
+      blocked.push("report.goalReadiness beta_platform_values_and_packet must be blocked");
+    }
+    if (goalItems.get("a1_source_rights_and_coverage_frontier")?.status !== "blocked") {
+      blocked.push("report.goalReadiness a1_source_rights_and_coverage_frontier must be blocked");
+    }
+    if (goalItems.get("a2_public_trust_copy")?.status !== "ready") {
+      blocked.push("report.goalReadiness a2_public_trust_copy must be ready");
+    }
+    if (goalItems.get("promotion_boundary")?.status !== "held") {
+      blocked.push("report.goalReadiness promotion_boundary must be held");
+    }
+    for (const id of ["beta_platform_values_and_packet", "a1_source_rights_and_coverage_frontier"]) {
+      if (!report.goalReadiness.blockedItems?.includes(id)) {
+        blocked.push(`report.goalReadiness.blockedItems must include ${id}`);
+      }
+    }
+    if (!report.goalReadiness.nextBestActions?.includes("cmd.exe /c npm run validate:beta-platform-two-values")) {
+      blocked.push("report.goalReadiness.nextBestActions must include platform value validator");
+    }
+    if (!report.goalReadiness.nextBestActions?.includes("cmd.exe /c npm run report:a1-source-rights-evidence-batch-brief")) {
+      blocked.push("report.goalReadiness.nextBestActions must include A1 batch brief");
+    }
+    if (!report.goalReadiness.nextBestActions?.includes("cmd.exe /c npm run report:a1-source-rights-reviewed-outcome-surface")) {
+      blocked.push("report.goalReadiness.nextBestActions must include A1 reviewed outcome surface");
+    }
+    if (report.goalReadiness.runtimeBoundary?.publicDataSource !== "mock") {
+      blocked.push("report.goalReadiness.runtimeBoundary.publicDataSource must be mock");
+    }
+    if (report.goalReadiness.runtimeBoundary?.scoreSource !== "mock") {
+      blocked.push("report.goalReadiness.runtimeBoundary.scoreSource must be mock");
+    }
+    for (const flag of ["deploymentAuthorized", "marketDataFetched", "secretsPrinted", "sqlExecuted", "supabaseReadsEnabled", "supabaseWritesEnabled"]) {
+      if (report.goalReadiness.safety?.[flag] !== false) {
+        blocked.push(`report.goalReadiness.safety.${flag} must remain false`);
+      }
+    }
   }
 }
 
