@@ -170,6 +170,12 @@ if (!report) {
     blocked.push("report.parallelRoutes.a1.priorityDecision.executable must remain false");
   }
   if (!report.parallelRoutes?.a2) missing.push("report.parallelRoutes.a2");
+  if (report.parallelRoutes?.a2?.decisionSupport?.nextRecommendedSlice !== "a2-checker-hardening") {
+    blocked.push("report.parallelRoutes.a2.decisionSupport.nextRecommendedSlice must route to a2-checker-hardening while no urgent first-screen candidates exist");
+  }
+  if (report.parallelRoutes?.a2?.priorityCounts?.P2 !== report.parallelRoutes?.a2?.firstScreenCandidates) {
+    blocked.push("report.parallelRoutes.a2.priorityCounts.P2 must match current P2 first-screen candidates");
+  }
   if (!report.sourceReports?.betaPlatformUnblockKit?.parsedJson) missing.push("report.sourceReports.betaPlatformUnblockKit.parsedJson");
   if (!report.sourceReports?.a1SourceRightsNextAction?.parsedJson) missing.push("report.sourceReports.a1SourceRightsNextAction.parsedJson");
   if (!report.sourceReports?.a1SourceRightsReadinessSummary?.parsedJson) {

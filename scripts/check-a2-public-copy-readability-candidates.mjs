@@ -85,6 +85,15 @@ if (report) {
   if (report.summary?.urgentFirstScreenCandidates !== urgentFirstScreenCandidates.length) {
     blocked.push("report.summary.urgentFirstScreenCandidates must match P0/P1 first-screen candidate count");
   }
+  if (report.summary?.priorityCounts?.P0 !== 0) {
+    blocked.push("report.summary.priorityCounts.P0 should currently be 0");
+  }
+  if (report.summary?.priorityCounts?.P1 !== 0) {
+    blocked.push("report.summary.priorityCounts.P1 should currently be 0");
+  }
+  if (report.summary?.priorityCounts?.P2 !== report.summary?.firstScreenCandidates) {
+    blocked.push("report.summary.priorityCounts.P2 should match firstScreenCandidates while no urgent candidates exist");
+  }
   if (urgentFirstScreenCandidates.length > 0) {
     blocked.push(
       `report.candidates.firstScreen has urgent public-copy candidates: ${urgentFirstScreenCandidates
@@ -95,6 +104,18 @@ if (report) {
 
   if (!Array.isArray(report.worklist) || report.worklist.length === 0) {
     missing.push("report.worklist");
+  }
+  if (report.pmDecisionSupport?.nextRecommendedSlice !== "a2-checker-hardening") {
+    blocked.push("report.pmDecisionSupport.nextRecommendedSlice should route to a2-checker-hardening while urgent first-screen candidates are zero");
+  }
+  if (report.pmDecisionSupport?.nextRecommendedPriority !== "P1") {
+    blocked.push("report.pmDecisionSupport.nextRecommendedPriority should be P1");
+  }
+  if (report.pmDecisionSupport?.routeReason !== "no_urgent_first_screen_candidates_keep_checker_hardened_and_public_copy_stable") {
+    blocked.push("report.pmDecisionSupport.routeReason should preserve the no-urgent first-screen route");
+  }
+  if (!Array.isArray(report.pmDecisionSupport?.topFiles) || report.pmDecisionSupport.topFiles.length !== 2) {
+    missing.push("report.pmDecisionSupport.topFiles");
   }
 
   const scannedRoots = report.scope?.roots ?? [];

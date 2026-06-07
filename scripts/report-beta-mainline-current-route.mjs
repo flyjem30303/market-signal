@@ -99,7 +99,16 @@ const report = {
       urgentFirstScreenCandidates: Number(a2Summary.urgentFirstScreenCandidates ?? 0),
       firstScreenCandidates: Number(a2Summary.firstScreenCandidates ?? 0),
       mojibakeCandidates: Number(a2Summary.mojibakeCandidates ?? 0),
-      internalTermHits: Number(a2Summary.internalTermHits ?? 0)
+      internalTermHits: Number(a2Summary.internalTermHits ?? 0),
+      priorityCounts: a2Summary.priorityCounts ?? { P0: 0, P1: 0, P2: 0 },
+      decisionSupport: a2Report.pmDecisionSupport ?? {
+        nextRecommendedSlice: "a2-public-copy-stability-watch",
+        nextRecommendedPriority: "P2",
+        nextRecommendedAction:
+          "Keep public copy stable and patch only launch-blocking readability regressions.",
+        topFiles: [],
+        routeReason: "a2_decision_support_unavailable"
+      }
     }
   },
   runtimeBoundary: {

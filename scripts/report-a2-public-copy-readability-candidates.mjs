@@ -94,6 +94,7 @@ const fileReports = files.map((file) => analyzeFile(file));
 const firstScreenCandidates = buildFirstScreenCandidates(fileReports);
 const urgentFirstScreenCandidates = firstScreenCandidates.filter((candidate) => candidate.priority !== "P2");
 const worklist = buildWorklist(fileReports, firstScreenCandidates);
+const topWorklistItem = worklist[0] ?? null;
 const report = {
   mode: "a2_public_copy_readability_candidates",
   generatedAt: new Date().toISOString(),
@@ -108,9 +109,22 @@ const report = {
     firstScreenCandidates: firstScreenCandidates.length,
     internalTermHits: fileReports.reduce((sum, item) => sum + item.internalTerms.length, 0),
     mojibakeCandidates: fileReports.reduce((sum, item) => sum + item.mojibake.length, 0),
+    priorityCounts: countByPriority(firstScreenCandidates),
     publicDataSource: "mock",
     scoreSource: "mock",
     urgentFirstScreenCandidates: urgentFirstScreenCandidates.length
+  },
+  pmDecisionSupport: {
+    nextRecommendedSlice: topWorklistItem?.id ?? "a2-public-copy-stability-watch",
+    nextRecommendedPriority: topWorklistItem?.priority ?? "P2",
+    nextRecommendedAction:
+      topWorklistItem?.nextAction ??
+      "Keep public copy stable and patch only launch-blocking readability regressions.",
+    topFiles: topWorklistItem?.files ?? [],
+    routeReason:
+      urgentFirstScreenCandidates.length > 0
+        ? "urgent_first_screen_public_copy_candidates_exist"
+        : "no_urgent_first_screen_candidates_keep_checker_hardened_and_public_copy_stable"
   },
   candidates: {
     mojibakeOrPrivateUse: fileReports.flatMap((item) => item.mojibake.map((hit) => ({ file: item.file, ...hit }))),
@@ -348,6 +362,16 @@ function priorityFor(report) {
 
 function priorityRank(priority) {
   return { P0: 0, P1: 1, P2: 2 }[priority] ?? 9;
+}
+
+function countByPriority(candidates) {
+  return candidates.reduce(
+    (counts, candidate) => {
+      counts[candidate.priority] = (counts[candidate.priority] ?? 0) + 1;
+      return counts;
+    },
+    { P0: 0, P1: 0, P2: 0 }
+  );
 }
 
 function suggestedSliceFor(file) {
