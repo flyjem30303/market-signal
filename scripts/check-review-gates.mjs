@@ -3108,6 +3108,11 @@ const checks = [
     name: "a1-twii-source-rights-evidence-intake-or-vendor-fallback-decision-support"
   },
   {
+    command: [node, "scripts/check-a1-twii-official-source-intake-fields-or-vendor-terms-review-packet.mjs"],
+    expectStatus: "ok",
+    name: "a1-twii-official-source-intake-fields-or-vendor-terms-review-packet"
+  },
+  {
     command: [node, "scripts/check-a2-public-beta-trust-copy-readiness.mjs"],
     expectStatus: "ok",
     name: "a2-public-beta-trust-copy-readiness"
@@ -4227,6 +4232,7 @@ const coreReviewGateNames = new Set([
   "a1-source-rights-unblock-priority-packet",
   "a1-twii-source-rights-unblock-decision-record-candidate",
   "a1-twii-source-rights-evidence-intake-or-vendor-fallback-decision-support",
+  "a1-twii-official-source-intake-fields-or-vendor-terms-review-packet",
   "a2-public-beta-trust-copy-readiness",
   "a2-beta-phrase-set-and-shared-trust-surface-patch-scope",
   "taiwan-all-listed-universe-manifest-packet",
