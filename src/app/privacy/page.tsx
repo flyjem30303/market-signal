@@ -7,7 +7,7 @@ import { TrustRuntimeBoundaryNotice } from "@/components/trust-runtime-boundary-
 export const metadata: Metadata = {
   title: "隱私權與資料邊界",
   description:
-    "Privacy and data boundary for 指數燈號公開 Beta，說明本網站如何處理瀏覽狀態、localStorage、事件追蹤與 raw market payloads 邊界。"
+    "指數燈號公開 Beta 的隱私權與資料邊界，說明本網站如何處理瀏覽狀態、本機偏好、事件追蹤與市場資料保護。"
 };
 
 export default function PrivacyPage() {
@@ -18,8 +18,9 @@ export default function PrivacyPage() {
         <p className="eyebrow">Privacy</p>
         <h1>隱私權與資料邊界</h1>
         <p>
-          Privacy and data boundary: 指數燈號公開 Beta 會盡量把使用者資料收集降到最低。頁面可能記錄基本瀏覽事件與本機偏好，
-          但不應輸出 secrets、row payloads、stock id payloads 或 raw market payloads。目前 publicDataSource=mock，scoreSource=mock。
+          指數燈號公開 Beta 會盡量把使用者資料收集降到最低。頁面可能記錄基本瀏覽事件與本機偏好，
+          但不收集交易帳密、個人持股明細，也不公開原始市場資料內容。目前仍使用示範資料與示範分數，
+          尚未切換為正式市場資料服務。
         </p>
       </section>
 
@@ -43,9 +44,9 @@ export default function PrivacyPage() {
         </article>
         <article>
           <span>市場資料</span>
-          <strong>不提交 raw market payloads</strong>
+          <strong>不公開原始市場資料內容</strong>
           <p>
-            資料真實化流程必須經過 source-rights、readonly、ingestion、write/readback 與 promotion gate，不能把原始資料直接提交到 repo。
+            資料真實化流程必須先完成來源權利、讀取驗證、寫入回查與升級審核，不能把原始資料直接提交到版本庫或公開頁面。
           </p>
         </article>
       </section>

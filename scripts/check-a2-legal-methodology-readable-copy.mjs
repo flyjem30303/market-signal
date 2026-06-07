@@ -33,12 +33,13 @@ const pages = [
     path: "src/app/privacy/page.tsx",
     required: [
       "隱私權與資料邊界",
-      "Privacy and data boundary",
+      "公開 Beta 會盡量把使用者資料收集降到最低",
+      "示範資料與示範分數",
+      "尚未切換為正式市場資料服務",
       "localStorage",
-      "raw market payloads",
-      "secrets",
-      "row payloads",
-      "stock id payloads"
+      "不公開原始市場資料內容",
+      "不收集交易帳密",
+      "個人持股明細"
     ]
   },
   {
@@ -86,6 +87,12 @@ for (const page of pages) {
 
   for (const claim of forbiddenClaims) {
     if (source.includes(claim)) blocked.push(`${page.path}: forbidden claim ${claim}`);
+  }
+
+  if (page.path === "src/app/privacy/page.tsx") {
+    for (const phrase of ["publicDataSource=mock", "scoreSource=mock", "raw market payloads", "row payloads", "stock id payloads", "secrets"]) {
+      if (source.includes(phrase)) blocked.push(`${page.path}: public privacy copy should avoid machine/audit phrase ${phrase}`);
+    }
   }
 }
 
