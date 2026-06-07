@@ -23,6 +23,7 @@ const requiredReportPhrases = [
   "keep_beta_mainline_moving_with_a1_a2_parallel_routes",
   "report:beta-platform-unblock-kit",
   "report:a1-source-rights-next-action",
+  "report:a1-exact-source-rights-evidence-worksheet",
   "report:a2-public-copy-readability-candidates",
   "blocked_waiting_two_platform_values",
   "ready_to_run_beta_packet_window_proof_map",
@@ -69,6 +70,7 @@ const requiredDocPhrases = [
   "CEO decision: `keep_beta_mainline_moving_with_a1_a2_parallel_routes`",
   "cmd.exe /c npm run report:beta-mainline-current-route",
   "cmd.exe /c npm run check:beta-mainline-current-route",
+  "cmd.exe /c npm run report:a1-exact-source-rights-evidence-worksheet",
   "`BETA_HOSTING_PROJECT_NAME`",
   "`BETA_TEMPORARY_URL`",
   "A1",
@@ -141,6 +143,9 @@ if (!report) {
     }
   }
   if (!report.parallelRoutes?.a1?.exactLedger) missing.push("report.parallelRoutes.a1.exactLedger");
+  if (report.parallelRoutes?.a1?.nextCommand !== "cmd.exe /c npm run report:a1-exact-source-rights-evidence-worksheet") {
+    blocked.push("report.parallelRoutes.a1.nextCommand must route to the exact source-rights evidence worksheet report");
+  }
   if (!report.parallelRoutes?.a2) missing.push("report.parallelRoutes.a2");
   if (!report.sourceReports?.betaPlatformUnblockKit?.parsedJson) missing.push("report.sourceReports.betaPlatformUnblockKit.parsedJson");
   if (!report.sourceReports?.a1SourceRightsNextAction?.parsedJson) missing.push("report.sourceReports.a1SourceRightsNextAction.parsedJson");

@@ -47,6 +47,7 @@ That default route prevents repeated governance expansion:
 - Do not create a packet-window artifact before both platform values validate.
 
 A1 remains on exact TWII/ETF source-rights evidence intake until the exact ledger can open a separate TWII or ETF source-rights outcome gate.
+Its immediate command is `cmd.exe /c npm run report:a1-exact-source-rights-evidence-worksheet`.
 
 A2 remains on public Beta trust copy, legal disclosure, first-screen readability, and user-understanding checks. If urgent first-screen blockers are zero, A2 should patch only launch-blocking public-copy regressions.
 
@@ -70,6 +71,6 @@ This report is a local route report only.
 Use this report when the next action is unclear after A1 or A2 changes. It should prevent repeated broad governance by giving PM one consolidated route:
 
 1. Continue Beta platform value / packet work when safe.
-2. Keep A1 source-rights and coverage evidence moving in parallel.
+2. Keep A1 source-rights and coverage evidence moving in parallel through `report:a1-exact-source-rights-evidence-worksheet`.
 3. Keep A2 public trust and first-screen readiness stable.
 4. Do not promote real data or real scores until a separate promotion gate passes.

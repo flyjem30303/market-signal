@@ -50,6 +50,9 @@ if (report?.currentState?.exactLedger?.twiiPendingCount !== 4) {
 if (report?.currentState?.exactLedger?.etfPendingCount !== 6) {
   problems.push("exact ledger should currently show six pending ETF slots");
 }
+if (report?.a1NextCommand !== "cmd.exe /c npm run report:a1-exact-source-rights-evidence-worksheet") {
+  problems.push("A1 next command should route directly to the exact source-rights evidence worksheet report");
+}
 
 for (const [filePath, source, phrase] of [
   [docPath, doc, "Status: `a1_source_rights_next_action_report_ready_source_rights_pending`"],
@@ -57,7 +60,9 @@ for (const [filePath, source, phrase] of [
   [docPath, doc, "Current outcome: `blocked_waiting_source_rights_evidence`"],
   [docPath, doc, "PM next action: `keep_beta_mainline_moving_and_assign_a1_exact_twii_etf_source_rights_evidence_intake`"],
   [docPath, doc, "A1 next action: `collect_or_classify_twii_vendor_terms_internal_owner_field_contract_asset_mapping_and_etf_legal_redistribution_evidence`"],
+  [docPath, doc, "A1 next command: `cmd.exe /c npm run report:a1-exact-source-rights-evidence-worksheet`"],
   [docPath, doc, "cmd.exe /c npm run report:a1-source-rights-next-action"],
+  [docPath, doc, "cmd.exe /c npm run report:a1-exact-source-rights-evidence-worksheet"],
   [docPath, doc, "`publicDataSource=mock`"],
   [docPath, doc, "`scoreSource=mock`"],
   [docPath, doc, "TWII pending evidence count: `4/4`"],
@@ -66,8 +71,10 @@ for (const [filePath, source, phrase] of [
   [docPath, doc, "Exact TWII pending slots: `4/4`"],
   [docPath, doc, "Exact ETF pending slots: `6/6`"],
   [statusPath, status, "Latest A1 source-rights next-action report slice"],
+  [statusPath, status, "A1 next command is `cmd.exe /c npm run report:a1-exact-source-rights-evidence-worksheet`"],
   [statusPath, status, "a1_source_rights_next_action_report_ready_source_rights_pending"],
   [boardPath, board, "`docs/A1_SOURCE_RIGHTS_NEXT_ACTION_REPORT.md` is `accepted` as PM/A1 source-rights next-action router"],
+  [boardPath, board, "`report:a1-source-rights-next-action` routes blocked A1 work directly to `report:a1-exact-source-rights-evidence-worksheet`"],
   [boardPath, board, "blocked_waiting_source_rights_evidence"]
 ]) {
   if (!source.includes(phrase)) problems.push(`${filePath} missing phrase: ${phrase}`);

@@ -16,6 +16,7 @@ const report = {
   pmNextAction: route.pmNextAction,
   pmCommand: "cmd.exe /c npm run report:a1-source-rights-next-action",
   a1NextAction: route.a1NextAction,
+  a1NextCommand: route.a1NextCommand,
   a2NextAction:
     "keep_launch_blocking_trust_copy_stable_only_if_runtime_or_public_copy_surface_changes",
   currentState: {
@@ -155,7 +156,8 @@ function chooseRoute(twii, etf, exactLedger) {
     return {
       status: "ready_to_open_twii_source_rights_outcome_gate",
       pmNextAction: "prepare_separate_twii_source_rights_outcome_gate",
-      a1NextAction: "handoff_twii_accepted_evidence_ids_to_pm_for_gate_review"
+      a1NextAction: "handoff_twii_accepted_evidence_ids_to_pm_for_gate_review",
+      a1NextCommand: "cmd.exe /c npm run report:a1-source-rights-next-action"
     };
   }
 
@@ -163,7 +165,8 @@ function chooseRoute(twii, etf, exactLedger) {
     return {
       status: "ready_to_open_etf_source_rights_outcome_gate",
       pmNextAction: "prepare_separate_etf_source_rights_outcome_gate",
-      a1NextAction: "handoff_etf_accepted_source_lane_evidence_to_pm_for_gate_review"
+      a1NextAction: "handoff_etf_accepted_source_lane_evidence_to_pm_for_gate_review",
+      a1NextCommand: "cmd.exe /c npm run report:a1-source-rights-next-action"
     };
   }
 
@@ -171,7 +174,8 @@ function chooseRoute(twii, etf, exactLedger) {
     status: "blocked_waiting_source_rights_evidence",
     pmNextAction: "keep_beta_mainline_moving_and_assign_a1_exact_twii_etf_source_rights_evidence_intake",
     a1NextAction:
-      "collect_or_classify_twii_vendor_terms_internal_owner_field_contract_asset_mapping_and_etf_legal_redistribution_evidence"
+      "collect_or_classify_twii_vendor_terms_internal_owner_field_contract_asset_mapping_and_etf_legal_redistribution_evidence",
+    a1NextCommand: "cmd.exe /c npm run report:a1-exact-source-rights-evidence-worksheet"
   };
 }
 

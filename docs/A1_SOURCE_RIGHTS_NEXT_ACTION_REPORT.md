@@ -10,10 +10,13 @@ PM next action: `keep_beta_mainline_moving_and_assign_a1_exact_twii_etf_source_r
 
 A1 next action: `collect_or_classify_twii_vendor_terms_internal_owner_field_contract_asset_mapping_and_etf_legal_redistribution_evidence`
 
+A1 next command: `cmd.exe /c npm run report:a1-exact-source-rights-evidence-worksheet`
+
 Command:
 
 ```powershell
 cmd.exe /c npm run report:a1-source-rights-next-action
+cmd.exe /c npm run report:a1-exact-source-rights-evidence-worksheet
 ```
 
 ## Current Source-Rights State
@@ -58,6 +61,8 @@ If the exact outcome ledger records all TWII slots as accepted, PM may open a se
 If the exact outcome ledger records all ETF slots as accepted, PM may open a separate ETF source-rights outcome gate.
 
 If both lanes remain blocked, PM should keep Beta mainline moving and assign A1 to exact source-rights evidence intake rather than reopening broad governance.
+
+A1 should start from `cmd.exe /c npm run report:a1-exact-source-rights-evidence-worksheet` so the 10 required TWII/ETF evidence slots, exact questions, acceptable evidence descriptions, and dry-run recorder templates are visible before any classification is applied.
 
 ## A1 Evidence Intake Target
 

@@ -50,6 +50,8 @@ const report = {
     a1: {
       status: a1Report.status ?? "unknown",
       nextAction: a1Report.a1NextAction ?? "continue_exact_source_rights_evidence_intake",
+      nextCommand:
+        a1Report.a1NextCommand ?? "cmd.exe /c npm run report:a1-exact-source-rights-evidence-worksheet",
       exactLedger: {
         status: exactLedger.status ?? "unknown",
         twiiPendingCount: Number(exactLedger.twiiPendingCount ?? 0),
