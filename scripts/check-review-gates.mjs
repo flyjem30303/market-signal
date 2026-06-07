@@ -3003,6 +3003,11 @@ const checks = [
     name: "public-beta-readiness-gate"
   },
   {
+    command: [node, "scripts/check-public-beta-goal-readiness-rollup.mjs"],
+    expectStatus: "ok",
+    name: "public-beta-goal-readiness-rollup"
+  },
+  {
     command: [node, "scripts/check-beta-launch-preflight-packet.mjs"],
     expectStatus: "ok",
     name: "beta-launch-preflight-packet"

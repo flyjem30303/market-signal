@@ -1,0 +1,49 @@
+# Public Beta Goal Readiness Rollup
+
+Status: `public_beta_goal_readiness_rollup_ready_currently_not_complete`
+
+Date: 2026-06-07
+
+Owner: PM mainline
+
+Support lanes: A1 Data / Supabase / Market Evidence, A2 Trust / Legal / UX Readiness
+
+## Purpose
+
+This rollup converts the active GOAL into one PM-readable readiness report. It reads the current mainline route report and summarizes which GOAL completion items are ready, blocked, or held.
+
+## Commands
+
+```powershell
+cmd.exe /c npm run report:public-beta-goal-readiness-rollup
+cmd.exe /c npm run check:public-beta-goal-readiness-rollup
+```
+
+## Completion Items
+
+- `runtime_core_routes`
+- `beta_platform_values_and_packet`
+- `a1_source_rights_and_coverage_frontier`
+- `a2_public_trust_copy`
+- `promotion_boundary`
+
+## Current Interpretation
+
+The rollup is expected to report `public_beta_goal_not_ready_continue_parallel_work` until:
+
+- the two Beta platform values are present and shape-valid;
+- the packet proof map and reviewed artifact route are complete;
+- A1 has enough accepted source-rights evidence to open the next outcome gate candidate;
+- A2 has no urgent public-copy blocker;
+- `publicDataSource=mock` and `scoreSource=mock` remain held until promotion gates pass.
+
+No SQL, Supabase read/write, deployment, raw market-data fetch/ingest, evidence recording, or source/score promotion is authorized.
+
+## Next Route
+
+PM should use the rollup to choose the next high-value slice:
+
+1. If platform values are missing, keep the mainline on `validate:beta-platform-two-values`.
+2. If A1 is blocked, use `report:a1-source-rights-evidence-batch-brief` and `report:a1-source-rights-reviewed-outcome-surface`.
+3. If A2 has urgent blockers, repair only launch-blocking public-copy regressions.
+4. If all items pass, run a final completion audit before any goal completion claim.
