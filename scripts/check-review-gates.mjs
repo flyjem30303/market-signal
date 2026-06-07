@@ -3793,6 +3793,11 @@ const checks = [
     name: "a1-exact-source-rights-evidence-recording-commands"
   },
   {
+    command: [node, "scripts/report-a1-exact-source-rights-evidence-worksheet.mjs"],
+    expectStatus: "pending_fill_handoff_ready",
+    name: "a1-exact-source-rights-evidence-worksheet-report"
+  },
+  {
     command: [node, "scripts/check-a1-exact-source-rights-evidence-worksheet.mjs"],
     expectStatus: "ok",
     name: "a1-exact-source-rights-evidence-worksheet"
@@ -4445,6 +4450,7 @@ const coreReviewGateNames = new Set([
   "a1-exact-source-rights-evidence-intake-command-map",
   "a1-exact-source-rights-evidence-outcome-ledger",
   "a1-exact-source-rights-evidence-recording-commands",
+  "a1-exact-source-rights-evidence-worksheet-report",
   "a1-exact-source-rights-evidence-worksheet",
   "local-launch-proof-refresh-before-executable-packet",
   "beta-deployment-platform-values-bridge",
@@ -4487,6 +4493,7 @@ const coreReviewGateNames = new Set([
   "a1-exact-source-rights-evidence-intake-command-map",
   "a1-exact-source-rights-evidence-outcome-ledger",
   "a1-exact-source-rights-evidence-recording-commands",
+  "a1-exact-source-rights-evidence-worksheet-report",
   "a1-exact-source-rights-evidence-worksheet",
   "a1-source-rights-unblock-priority-packet",
   "a1-twii-source-rights-unblock-decision-record-candidate",

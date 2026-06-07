@@ -112,6 +112,7 @@ This worksheet does not authorize:
 Use:
 
 ```powershell
+cmd.exe /c npm run report:a1-exact-source-rights-evidence-worksheet
 cmd.exe /c npm run check:a1-exact-source-rights-evidence-worksheet
 cmd.exe /c npm run report:a1-source-rights-next-action
 cmd.exe /c npm run report:a1-exact-source-rights-evidence-recording-commands

@@ -1,10 +1,12 @@
 import fs from "node:fs";
+import { spawnSync } from "node:child_process";
 
 const problems = [];
 
 const docPath = "docs/A1_EXACT_SOURCE_RIGHTS_EVIDENCE_WORKSHEET.md";
 const ledgerPath = "docs/A1_EXACT_SOURCE_RIGHTS_EVIDENCE_OUTCOME_LEDGER.md";
 const outcomePath = "data/source-gates/a1-exact-source-rights-evidence-intake-outcomes.json";
+const reportPath = "scripts/report-a1-exact-source-rights-evidence-worksheet.mjs";
 const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 const statusPath = "PROJECT_STATUS.md";
@@ -12,6 +14,7 @@ const boardPath = "docs/LAUNCH_ENGINEERING_WORKSTREAM_BOARD.md";
 
 const doc = read(docPath);
 const ledger = read(ledgerPath);
+const reportSource = read(reportPath);
 const packageJson = JSON.parse(read(packagePath));
 const reviewGate = read(reviewGatePath);
 const status = read(statusPath);
@@ -66,6 +69,13 @@ for (const [slot, lane, gate] of slots) {
 }
 
 if (
+  packageJson.scripts?.["report:a1-exact-source-rights-evidence-worksheet"] !==
+  "node scripts/report-a1-exact-source-rights-evidence-worksheet.mjs"
+) {
+  problems.push(`${packagePath} missing report:a1-exact-source-rights-evidence-worksheet`);
+}
+
+if (
   packageJson.scripts?.["check:a1-exact-source-rights-evidence-worksheet"] !==
   "node scripts/check-a1-exact-source-rights-evidence-worksheet.mjs"
 ) {
@@ -73,6 +83,7 @@ if (
 }
 
 for (const phrase of [
+  "scripts/report-a1-exact-source-rights-evidence-worksheet.mjs",
   "scripts/check-a1-exact-source-rights-evidence-worksheet.mjs",
   "name: \"a1-exact-source-rights-evidence-worksheet\"",
   "\"a1-exact-source-rights-evidence-worksheet\""
@@ -115,8 +126,60 @@ for (const phrase of [
   if (!doc.includes(phrase)) problems.push(`${docPath} missing hard stop ${phrase}`);
 }
 
+const reportRun = spawnSync("cmd.exe", ["/c", "npm", "run", "report:a1-exact-source-rights-evidence-worksheet"], {
+  cwd: process.cwd(),
+  encoding: "utf8",
+  timeout: 120000,
+  windowsHide: true
+});
+const report = parseJson(reportRun.stdout ?? "");
+
+if (reportRun.status !== 0 || !report) {
+  problems.push("worksheet report should emit JSON");
+} else {
+  if (report.status !== "pending_fill_handoff_ready") problems.push(`unexpected report status ${report.status}`);
+  if (report.pendingCount !== slots.length) problems.push(`expected ${slots.length} pending report slots`);
+  if (!Array.isArray(report.pendingSlots) || report.pendingSlots.length !== slots.length) {
+    problems.push("report pendingSlots should match expected slots");
+  } else {
+    for (const [slot, lane, gate] of slots) {
+      const item = report.pendingSlots.find((entry) => entry.id === slot);
+      if (!item) {
+        problems.push(`report missing pending slot ${slot}`);
+        continue;
+      }
+      if (item.lane !== lane) problems.push(`report ${slot} expected lane ${lane}`);
+      if (item.nextGateCandidate !== gate) problems.push(`report ${slot} expected gate ${gate}`);
+      for (const field of ["evidenceSlotId", "sourceReferenceLabel", "safeEvidenceSummary", "remainingRisk"]) {
+        if (!item.requiredFields?.includes(field)) problems.push(`report ${slot} missing required field ${field}`);
+      }
+      if (!item.dryRunCommandTemplate?.includes("--dry-run")) problems.push(`report ${slot} must be dry-run`);
+      if (item.dryRunCommandTemplate?.includes("--apply")) problems.push(`report ${slot} must not include apply`);
+    }
+  }
+  if (report.safety?.publicDataSource !== "mock" || report.safety?.scoreSource !== "mock") {
+    problems.push("report runtime boundary must remain mock");
+  }
+  for (const flag of [
+    "automatedRemoteRun",
+    "candidateArtifactGenerated",
+    "connectionAttempted",
+    "ingestionStarted",
+    "marketDataFetched",
+    "rowCoverageAwarded",
+    "scoreSourceRealEnabled",
+    "secretsPrinted",
+    "sqlExecuted",
+    "supabaseReadsEnabled",
+    "supabaseWritesEnabled"
+  ]) {
+    if (report.safety?.[flag] !== false) problems.push(`report safety ${flag} must be false`);
+  }
+}
+
 for (const [filePath, source] of [
   [docPath, doc],
+  [reportPath, reportSource],
   [outcomePath, JSON.stringify(outcomeData)]
 ]) {
   for (const pattern of forbiddenPatterns()) {
@@ -152,6 +215,17 @@ function read(filePath) {
   }
 
   return fs.readFileSync(filePath, "utf8");
+}
+
+function parseJson(stdout) {
+  const start = stdout.indexOf("{");
+  const end = stdout.lastIndexOf("}");
+  if (start < 0 || end <= start) return null;
+  try {
+    return JSON.parse(stdout.slice(start, end + 1));
+  } catch {
+    return null;
+  }
 }
 
 function forbiddenPatterns() {

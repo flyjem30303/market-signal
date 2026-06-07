@@ -277,6 +277,7 @@
     "report:a1-exact-source-rights-evidence-recording-commands": "node scripts/report-a1-exact-source-rights-evidence-recording-commands.mjs",
     "check:a1-exact-source-rights-evidence-recording-commands": "node scripts/check-a1-exact-source-rights-evidence-recording-commands.mjs",
     "check:a1-exact-source-rights-evidence-outcome-ledger": "node scripts/check-a1-exact-source-rights-evidence-outcome-ledger.mjs",
+    "report:a1-exact-source-rights-evidence-worksheet": "node scripts/report-a1-exact-source-rights-evidence-worksheet.mjs",
     "check:a1-exact-source-rights-evidence-worksheet": "node scripts/check-a1-exact-source-rights-evidence-worksheet.mjs",
     "check:a1-source-rights-unblock-priority-packet": "node scripts/check-a1-source-rights-unblock-priority-packet.mjs",
     "check:a1-twii-source-rights-unblock-decision-record-candidate": "node scripts/check-a1-twii-source-rights-unblock-decision-record-candidate.mjs",
