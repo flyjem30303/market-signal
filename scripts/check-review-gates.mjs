@@ -3628,6 +3628,11 @@ const checks = [
     name: "runtime-local-route-health-refresh-before-executable-packet"
   },
   {
+    command: [node, "scripts/check-data-gate-readiness-after-local-route-health-refresh.mjs"],
+    expectStatus: "ok",
+    name: "data-gate-readiness-after-local-route-health-refresh"
+  },
+  {
     command: [node, "scripts/check-taiwan-all-listed-universe-manifest-packet.mjs"],
     expectStatus: "ok",
     name: "taiwan-all-listed-universe-manifest-packet"
@@ -4221,6 +4226,7 @@ const coreReviewGateNames = new Set([
   "coverage-universe-roadmap",
   "goal-parallel-workstream-adjustment",
   "runtime-local-route-health-refresh-before-executable-packet",
+  "data-gate-readiness-after-local-route-health-refresh",
   "public-beta-readiness-gate",
   "beta-launch-preflight-packet",
   "beta-release-runbook-draft",

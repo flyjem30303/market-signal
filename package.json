@@ -267,6 +267,7 @@
     "check:a1-twii-official-source-intake-fields-or-vendor-terms-review-packet": "node scripts/check-a1-twii-official-source-intake-fields-or-vendor-terms-review-packet.mjs",
     "check:goal-parallel-workstream-adjustment": "node scripts/check-goal-parallel-workstream-adjustment.mjs",
     "check:runtime-local-route-health-refresh-before-executable-packet": "node scripts/check-runtime-local-route-health-refresh-before-executable-packet.mjs",
+    "check:data-gate-readiness-after-local-route-health-refresh": "node scripts/check-data-gate-readiness-after-local-route-health-refresh.mjs",
     "check:taiwan-all-listed-universe-manifest-packet": "node scripts/check-taiwan-all-listed-universe-manifest-packet.mjs",
     "check:public-trust-and-disclosure-copy-worklist": "node scripts/check-public-trust-and-disclosure-copy-worklist.mjs",
     "check:mvp-remaining-coverage-execution-bridge": "node scripts/check-mvp-remaining-coverage-execution-bridge.mjs",

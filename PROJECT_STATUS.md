@@ -386,3 +386,31 @@ Verification target:
 - `cmd.exe /c npm run check:localhost-health-config`
 - `cmd.exe /c npm run check:review-gates`
 - `git diff --check`
+
+## Latest data gate readiness after local route health refresh slice
+
+Status: `data_gate_readiness_after_local_route_health_refresh_ready_source_execution_blocked`
+
+Date: 2026-06-07
+
+CEO decision: `move_from_runtime_local_route_health_refresh_to_data_gate_readiness`.
+
+PM route: `data_gate_readiness_after_local_route_health_refresh`.
+
+Outcome: `twii_first_data_gate_ready_execution_blocked_external_rights_pending`.
+
+The local route-health refresh is accepted as the prerequisite for returning to the data-realification path. PM selects TWII as the first data readiness lane because it is the smallest bounded missing block (`0/60`, missing `60`) and could later move MVP coverage from `182/360` to `242/360` if rights, field contract, candidate artifact, execution, readback, and scoring gates pass.
+
+ETF remains fallback because ETF source rights are still blocked. TW equity is treated as the accepted precedent at `180/180`, not as new work.
+
+Next route: `twii_source_rights_and_field_contract_acceptance_or_blocked_record`.
+
+This slice does not authorize SQL, Supabase connection, Supabase write, staging rows, `daily_prices` mutation, TWII probe execution, ETF fetch, candidate artifact generation, row coverage points, public source promotion, or real score promotion.
+
+Verification target:
+
+- `cmd.exe /c npm run check:data-gate-readiness-after-local-route-health-refresh`
+- `cmd.exe /c npm run check:mvp-remaining-coverage-execution-bridge`
+- `cmd.exe /c npm run check:runtime-local-route-health-refresh-before-executable-packet`
+- `cmd.exe /c npm run check:review-gates`
+- `git diff --check`

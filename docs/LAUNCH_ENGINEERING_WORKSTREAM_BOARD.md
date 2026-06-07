@@ -63,6 +63,7 @@ Latest PM mainline completion review:
 - `docs/BETA_DEPLOYMENT_OPERATOR_VALUES_GAP_LIST.md` is `accepted` as PM mainline short operator values gap list while external values remain pending.
 - `docs/BETA_DEPLOYMENT_OPERATOR_VALUES_DEFAULTS_AND_REMAINING_GAPS.md` is `accepted` as PM mainline operator values defaults and remaining gaps packet.
 - `docs/RUNTIME_LOCAL_ROUTE_HEALTH_REFRESH_BEFORE_EXECUTABLE_PACKET.md` is `accepted` as PM mainline local route health refresh.
+- `docs/DATA_GATE_READINESS_AFTER_LOCAL_ROUTE_HEALTH_REFRESH.md` is `accepted` as PM mainline data gate readiness after local route health refresh.
 - `docs/RUNTIME_DATA_PROMOTION_HANDOFF_CHECKLIST.md` is `accepted` as PM mainline runtime/data promotion handoff checklist.
 - `docs/RUNTIME_SUMMARY_ALIGNMENT_FROM_FIRST_CLOSED_LOOP.md` is `accepted` as PM mainline runtime summary alignment.
 - `docs/A1_SOURCE_RIGHTS_UNBLOCK_PRIORITY_PACKET.md` is `accepted` as A1/PM source-rights unblock priority packet.
@@ -89,6 +90,7 @@ Latest PM mainline completion review:
 - The Beta deployment operator values gap list is `beta_deployment_operator_values_gap_list_ready_external_values_pending`.
 - The Beta deployment operator values defaults and remaining gaps packet is `beta_deployment_operator_values_defaults_and_remaining_gaps_ready_not_executable`; current outcome is `safe_operator_defaults_recorded_platform_values_pending`; next route is `executable_packet_candidate_after_platform_project_and_beta_url`.
 - The runtime local route health refresh is `runtime_local_route_health_refresh_ready_mock_boundary_preserved`; current outcome is `local_route_health_refresh_ready_for_next_preflight_proof`; next route is `data_gate_readiness_after_local_route_health_refresh`, `executable_packet_candidate_after_platform_values`, or `runtime_repair_before_next_gate`.
+- The data gate readiness after local route health refresh is `data_gate_readiness_after_local_route_health_refresh_ready_source_execution_blocked`; current outcome is `twii_first_data_gate_ready_execution_blocked_external_rights_pending`; next route is `twii_source_rights_and_field_contract_acceptance_or_blocked_record`.
 - The runtime/data promotion handoff checklist is `runtime_data_promotion_handoff_checklist_ready_mock_boundary_preserved`.
 - The runtime summary alignment from first closed loop is `runtime_summary_alignment_from_first_closed_loop_applied_mock_boundary_preserved`.
 - The A1 source-rights unblock priority packet is `a1_source_rights_unblock_priority_packet_ready_local_only_not_executable`.
@@ -120,6 +122,7 @@ Latest PM mainline completion review:
 - PM accepts CEO decision `align_runtime_summary_to_accepted_first_closed_loop_without_real_promotion`; current outcome is `runtime_summary_aligned_real_promotion_blocked`; next route is `coverage_gate_or_operator_values_after_runtime_summary_alignment`, not real promotion.
 - PM accepts CEO decision `prioritize_twii_source_rights_unblock_before_etf_while_preserving_etf_parallel_option`; current outcome is `source_rights_priority_ready_execution_blocked`; next route is `twii_source_rights_unblock_decision_record_candidate`, not execution.
 - PM accepts CEO decision `refresh_runtime_local_route_health_before_executable_packet_or_data_gate`; current outcome is `local_route_health_refresh_ready_for_next_preflight_proof`; next route is `data_gate_readiness_after_local_route_health_refresh`, `executable_packet_candidate_after_platform_values`, or `runtime_repair_before_next_gate`, not deployment or real promotion.
+- PM accepts CEO decision `move_from_runtime_local_route_health_refresh_to_data_gate_readiness`; current outcome is `twii_first_data_gate_ready_execution_blocked_external_rights_pending`; next route is `twii_source_rights_and_field_contract_acceptance_or_blocked_record`, not TWII probe execution, ETF fetch, Supabase write, `daily_prices` mutation, or real promotion.
 - The gate covers environment variables, platform posture, local and future production health checks, monitoring, rollback, DNS/SSL, secret handling, and launch checklist.
 - It does not deploy production, run SQL, connect to Supabase, write Supabase, create staging rows, modify `daily_prices`, fetch market data, award row coverage points, promote `publicDataSource=supabase`, or set `scoreSource=real`.
 
