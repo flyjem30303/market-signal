@@ -35,6 +35,13 @@ ETF coverage state:
 - Missing ETF rows: `118`
 - Current ETF source-rights blocker: `legal_and_redistribution_terms_unapproved`
 
+Exact outcome ledger:
+
+- Exact outcome ledger status: `awaiting_a1_exact_source_rights_evidence`
+- Exact TWII pending slots: `4/4`
+- Exact ETF pending slots: `6/6`
+- Exact outcome file: `data/source-gates/a1-exact-source-rights-evidence-intake-outcomes.json`
+
 Runtime boundary:
 
 - `publicDataSource=mock`
@@ -45,6 +52,10 @@ Runtime boundary:
 If TWII evidence becomes complete with `accepted_for_source_rights_outcome_gate_only`, PM may open a separate TWII source-rights outcome gate.
 
 If ETF evidence becomes accepted for legal use, redistribution, attribution, retention, derived analysis, rate limits, and field contract, PM may open a separate ETF source-rights outcome gate.
+
+If the exact outcome ledger records all TWII slots as accepted, PM may open a separate TWII source-rights outcome gate.
+
+If the exact outcome ledger records all ETF slots as accepted, PM may open a separate ETF source-rights outcome gate.
 
 If both lanes remain blocked, PM should keep Beta mainline moving and assign A1 to exact source-rights evidence intake rather than reopening broad governance.
 

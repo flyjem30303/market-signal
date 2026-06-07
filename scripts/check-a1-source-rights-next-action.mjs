@@ -41,6 +41,15 @@ if (report?.currentState?.twii?.pendingEvidenceCount !== 4) {
 if (report?.currentState?.etf?.decision !== "blocked") {
   problems.push("ETF gate should currently remain blocked");
 }
+if (report?.currentState?.exactLedger?.status !== "awaiting_a1_exact_source_rights_evidence") {
+  problems.push("exact ledger should currently await A1 exact source-rights evidence");
+}
+if (report?.currentState?.exactLedger?.twiiPendingCount !== 4) {
+  problems.push("exact ledger should currently show four pending TWII slots");
+}
+if (report?.currentState?.exactLedger?.etfPendingCount !== 6) {
+  problems.push("exact ledger should currently show six pending ETF slots");
+}
 
 for (const [filePath, source, phrase] of [
   [docPath, doc, "Status: `a1_source_rights_next_action_report_ready_source_rights_pending`"],
@@ -53,6 +62,9 @@ for (const [filePath, source, phrase] of [
   [docPath, doc, "`scoreSource=mock`"],
   [docPath, doc, "TWII pending evidence count: `4/4`"],
   [docPath, doc, "ETF current decision: `blocked`"],
+  [docPath, doc, "Exact outcome ledger status: `awaiting_a1_exact_source_rights_evidence`"],
+  [docPath, doc, "Exact TWII pending slots: `4/4`"],
+  [docPath, doc, "Exact ETF pending slots: `6/6`"],
   [statusPath, status, "Latest A1 source-rights next-action report slice"],
   [statusPath, status, "a1_source_rights_next_action_report_ready_source_rights_pending"],
   [boardPath, board, "`docs/A1_SOURCE_RIGHTS_NEXT_ACTION_REPORT.md` is `accepted` as PM/A1 source-rights next-action router"],

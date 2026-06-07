@@ -2,10 +2,12 @@ import fs from "node:fs";
 
 const twiiLedgerPath = "data/source-gates/twii-vendor-internal-evidence-outcomes.json";
 const etfGatePath = "data/source-gates/etf-source-gate.json";
+const exactLedgerPath = "data/source-gates/a1-exact-source-rights-evidence-intake-outcomes.json";
 
 const twii = summarizeTwii(readJson(twiiLedgerPath, { outcomes: [] }));
 const etf = summarizeEtf(readJson(etfGatePath, { decision: "unknown", blockers: [], candidate_sources: [] }));
-const route = chooseRoute(twii, etf);
+const exactLedger = summarizeExactLedger(readJson(exactLedgerPath, { outcomes: [] }));
+const route = chooseRoute(twii, etf, exactLedger);
 
 const report = {
   status: route.status,
@@ -19,6 +21,7 @@ const report = {
   currentState: {
     twii,
     etf,
+    exactLedger,
     coverage: {
       twEquity: "180/180",
       twii: "0/60",
@@ -33,6 +36,8 @@ const report = {
   decisionRules: [
     "If TWII four required evidence outcomes become accepted_for_source_rights_outcome_gate_only, PM may open a separate TWII source-rights outcome gate.",
     "If ETF legal, redistribution, attribution, retention, derived-analysis, rate-limit, and field-contract evidence become accepted, PM may open a separate ETF source-rights outcome gate.",
+    "If the exact outcome ledger records all TWII slots as accepted, PM may route to a separate TWII source-rights outcome gate.",
+    "If the exact outcome ledger records all ETF slots as accepted, PM may route to a separate ETF source-rights outcome gate.",
     "If neither lane has accepted evidence, A1 stays on exact evidence intake while PM continues Beta mainline work that does not require real source promotion."
   ],
   stopLines: [
@@ -101,8 +106,52 @@ function summarizeEtf(gate) {
   };
 }
 
-function chooseRoute(twii, etf) {
-  if (twii.canOpenOutcomeGate) {
+function summarizeExactLedger(ledger) {
+  const twiiSlots = [
+    "vendor-terms-evidence",
+    "internal-feed-owner-evidence",
+    "field-contract-evidence",
+    "asset-mapping-evidence"
+  ];
+  const etfSlots = [
+    "etf-legal-use-evidence",
+    "etf-redistribution-evidence",
+    "etf-attribution-retention-evidence",
+    "etf-derived-analysis-rate-limit-evidence",
+    "etf-field-contract-evidence",
+    "etf-source-comparison-evidence"
+  ];
+  const outcomes = Array.isArray(ledger.outcomes) ? ledger.outcomes : [];
+  const byId = new Map(outcomes.map((outcome) => [outcome.id, outcome]));
+  const twiiAcceptedIds = twiiSlots.filter((id) => byId.get(id)?.classification === "accepted");
+  const etfAcceptedIds = etfSlots.filter((id) => byId.get(id)?.classification === "accepted");
+  const twiiPendingIds = twiiSlots.filter((id) => byId.get(id)?.classification !== "accepted");
+  const etfPendingIds = etfSlots.filter((id) => byId.get(id)?.classification !== "accepted");
+
+  return {
+    lane: "a1_exact_twii_etf_source_rights_evidence",
+    status:
+      twiiPendingIds.length === 0
+        ? "ready_for_separate_twii_source_rights_outcome_gate"
+        : etfPendingIds.length === 0
+          ? "ready_for_separate_etf_source_rights_outcome_gate"
+          : "awaiting_a1_exact_source_rights_evidence",
+    source: exactLedgerPath,
+    canOpenTwiiOutcomeGate: twiiPendingIds.length === 0,
+    canOpenEtfOutcomeGate: etfPendingIds.length === 0,
+    twiiAcceptedCount: twiiAcceptedIds.length,
+    twiiRequiredCount: twiiSlots.length,
+    twiiPendingCount: twiiPendingIds.length,
+    twiiPendingIds,
+    etfAcceptedCount: etfAcceptedIds.length,
+    etfRequiredCount: etfSlots.length,
+    etfPendingCount: etfPendingIds.length,
+    etfPendingIds
+  };
+}
+
+function chooseRoute(twii, etf, exactLedger) {
+  if (exactLedger.canOpenTwiiOutcomeGate || twii.canOpenOutcomeGate) {
     return {
       status: "ready_to_open_twii_source_rights_outcome_gate",
       pmNextAction: "prepare_separate_twii_source_rights_outcome_gate",
@@ -110,7 +159,7 @@ function chooseRoute(twii, etf) {
     };
   }
 
-  if (etf.canOpenOutcomeGate) {
+  if (exactLedger.canOpenEtfOutcomeGate || etf.canOpenOutcomeGate) {
     return {
       status: "ready_to_open_etf_source_rights_outcome_gate",
       pmNextAction: "prepare_separate_etf_source_rights_outcome_gate",
