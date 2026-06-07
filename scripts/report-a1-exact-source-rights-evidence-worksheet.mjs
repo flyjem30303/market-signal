@@ -81,6 +81,9 @@ const pendingSlots = outcomes
     };
   });
 
+const pendingByLane = groupPendingSlotsByLane(pendingSlots);
+const recommendedBatch = buildRecommendedBatch(pendingByLane);
+
 console.log(
   JSON.stringify(
     {
@@ -89,6 +92,8 @@ console.log(
       worksheet: "docs/A1_EXACT_SOURCE_RIGHTS_EVIDENCE_WORKSHEET.md",
       outcomeData: outcomePath,
       pendingCount: pendingSlots.length,
+      pendingByLane,
+      recommendedBatch,
       pendingSlots,
       pmAcceptanceRule: {
         acceptedMeans: "PM may consider a separate source-rights outcome gate candidate only; this is not execution approval.",
@@ -160,4 +165,51 @@ function buildDryRunCommand(id, nextGateCandidate) {
 
 function quote(value) {
   return `"${value.replaceAll('"', '\\"')}"`;
+}
+
+function groupPendingSlotsByLane(slots) {
+  return slots.reduce(
+    (groups, slot) => {
+      const lane = slot.lane ?? "UNKNOWN";
+      groups[lane] = groups[lane] ?? [];
+      groups[lane].push(slot.id);
+      return groups;
+    },
+    { ETF: [], TWII: [] }
+  );
+}
+
+function buildRecommendedBatch(groups) {
+  if (groups.TWII.length > 0) {
+    return {
+      batchId: "twii_source_rights_unblock_first_batch",
+      lane: "TWII",
+      reason:
+        "TWII is the current priority lane because it is the narrower 60-row unblock with an existing source-rights outcome gate.",
+      slotIds: groups.TWII,
+      nextAfterBatch: "cmd.exe /c npm run report:a1-source-rights-readiness-summary",
+      executable: false
+    };
+  }
+
+  if (groups.ETF.length > 0) {
+    return {
+      batchId: "etf_source_rights_parallel_batch",
+      lane: "ETF",
+      reason:
+        "ETF becomes the next batch only after TWII slots are no longer pending or if PM explicitly chooses the ETF parallel option.",
+      slotIds: groups.ETF,
+      nextAfterBatch: "cmd.exe /c npm run report:a1-source-rights-readiness-summary",
+      executable: false
+    };
+  }
+
+  return {
+    batchId: "no_pending_source_rights_slots",
+    lane: "none",
+    reason: "All exact source-rights worksheet slots are filled.",
+    slotIds: [],
+    nextAfterBatch: "cmd.exe /c npm run report:a1-source-rights-readiness-summary",
+    executable: false
+  };
 }

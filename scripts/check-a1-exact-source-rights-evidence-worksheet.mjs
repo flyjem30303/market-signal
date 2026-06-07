@@ -139,6 +139,17 @@ if (reportRun.status !== 0 || !report) {
 } else {
   if (report.status !== "pending_fill_handoff_ready") problems.push(`unexpected report status ${report.status}`);
   if (report.pendingCount !== slots.length) problems.push(`expected ${slots.length} pending report slots`);
+  if (report.pendingByLane?.TWII?.length !== 4) problems.push("report should group four pending TWII slots");
+  if (report.pendingByLane?.ETF?.length !== 6) problems.push("report should group six pending ETF slots");
+  if (report.recommendedBatch?.batchId !== "twii_source_rights_unblock_first_batch") {
+    problems.push("report should recommend the TWII source-rights unblock first batch");
+  }
+  if (report.recommendedBatch?.lane !== "TWII") problems.push("recommended batch lane should be TWII");
+  if (report.recommendedBatch?.slotIds?.length !== 4) problems.push("recommended TWII batch should include four slots");
+  if (report.recommendedBatch?.nextAfterBatch !== "cmd.exe /c npm run report:a1-source-rights-readiness-summary") {
+    problems.push("recommended batch should route back to the A1 readiness summary");
+  }
+  if (report.recommendedBatch?.executable !== false) problems.push("recommended batch must be non-executable");
   if (!Array.isArray(report.pendingSlots) || report.pendingSlots.length !== slots.length) {
     problems.push("report pendingSlots should match expected slots");
   } else {

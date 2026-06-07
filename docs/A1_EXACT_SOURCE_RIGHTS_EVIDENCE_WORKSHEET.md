@@ -75,6 +75,11 @@ cmd.exe /c npm run report:a1-source-rights-next-action
 
 ## Current Routing
 
+- Recommended batch: `twii_source_rights_unblock_first_batch`.
+- Recommended batch lane: `TWII`.
+- Recommended batch slots: `vendor-terms-evidence`, `internal-feed-owner-evidence`, `field-contract-evidence`, and `asset-mapping-evidence`.
+- After the recommended batch is reviewed, rerun `cmd.exe /c npm run report:a1-source-rights-readiness-summary`.
+- The recommended batch is not executable and does not approve source rights.
 - TWII remains `4/4` pending until all TWII slots are accepted.
 - ETF remains `6/6` pending until all ETF slots are accepted.
 - If neither lane has all required slots accepted, PM continues the Beta mainline with mock-visible runtime.
