@@ -26,6 +26,14 @@ const requiredSourceTokens = [
   "sqlExecuted: false",
   "supabaseWritesEnabled: false",
   "rawPayloadPrinted: false",
+  "scannerIntegrity",
+  "localOnly: true",
+  "networkFree: true",
+  "envFree: true",
+  "noChildProcess: true",
+  "noRuntimeDependencyOnLocalhost: true",
+  "noSupabaseClient: true",
+  "rawPayloadFree: true",
   "mojibakeOrPrivateUse",
   "internalTerms",
   "boundaryInsufficient",
@@ -73,6 +81,27 @@ if (report) {
   if (report.safety?.scoreSource !== "mock") blocked.push("report.safety.scoreSource must remain mock");
   for (const key of ["connectionAttempted", "ingestionStarted", "rawPayloadPrinted", "secretsPrinted", "sqlExecuted", "supabaseWritesEnabled"]) {
     if (report.safety?.[key] !== false) blocked.push(`report.safety.${key} must be false`);
+  }
+
+  for (const key of [
+    "envFree",
+    "localOnly",
+    "networkFree",
+    "noChildProcess",
+    "noRuntimeDependencyOnLocalhost",
+    "noSupabaseClient",
+    "rawPayloadFree"
+  ]) {
+    if (report.scannerIntegrity?.[key] !== true) blocked.push(`report.scannerIntegrity.${key} must be true`);
+  }
+  if (report.scannerIntegrity?.enforcedBy !== checkPath) {
+    blocked.push("report.scannerIntegrity.enforcedBy must point to the A2 checker");
+  }
+  if (!Array.isArray(report.scannerIntegrity?.scannedRoots) || !report.scannerIntegrity.scannedRoots.includes("src/app") || !report.scannerIntegrity.scannedRoots.includes("src/components")) {
+    missing.push("report.scannerIntegrity.scannedRoots src/app + src/components");
+  }
+  if (!Array.isArray(report.scannerIntegrity?.excludedPathParts) || !report.scannerIntegrity.excludedPathParts.includes("src/app/api") || !report.scannerIntegrity.excludedPathParts.includes("src/app/internal")) {
+    missing.push("report.scannerIntegrity.excludedPathParts src/app/api + src/app/internal");
   }
 
   for (const section of ["mojibakeOrPrivateUse", "internalTerms", "boundaryInsufficient", "firstScreen"]) {

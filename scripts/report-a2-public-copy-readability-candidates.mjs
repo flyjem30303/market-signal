@@ -36,6 +36,18 @@ const requiredReportSafety = {
   sqlExecuted: false,
   supabaseWritesEnabled: false
 };
+const scannerIntegrity = {
+  envFree: true,
+  localOnly: true,
+  networkFree: true,
+  noChildProcess: true,
+  noRuntimeDependencyOnLocalhost: true,
+  noSupabaseClient: true,
+  rawPayloadFree: true,
+  scannedRoots: scanRoots,
+  excludedPathParts: ["src/app/api", "src/app/internal"],
+  enforcedBy: "scripts/check-a2-public-copy-readability-candidates.mjs"
+};
 const internalTermRules = [
   { term: "PM", severity: "medium", reason: "public copy reads like internal coordination" },
   { term: "Engineering review", severity: "medium", reason: "engineering workflow leaks into public reading flow" },
@@ -99,6 +111,7 @@ const report = {
   mode: "a2_public_copy_readability_candidates",
   generatedAt: new Date().toISOString(),
   safety: requiredReportSafety,
+  scannerIntegrity,
   scope: {
     excludedPathParts: ["src/app/api", "src/app/internal"],
     filesScanned: files.length,

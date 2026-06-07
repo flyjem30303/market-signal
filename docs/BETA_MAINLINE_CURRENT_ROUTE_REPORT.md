@@ -57,6 +57,7 @@ That batch keeps A1 focused on the four TWII source-rights slots before the read
 
 A2 remains on public Beta trust copy, legal disclosure, first-screen readability, and user-understanding checks. If urgent first-screen blockers are zero, A2 should patch only launch-blocking public-copy regressions.
 The mainline report surfaces `parallelRoutes.a2.decisionSupport`, so PM can see the next A2 maintenance slice without reading the full public-copy scanner output. While urgent first-screen candidates are zero, that route stays on `a2-checker-hardening`.
+The A2 scanner also emits `scannerIntegrity`, which is guarded by `check:a2-public-copy-readability-candidates` so public-copy QA remains local-only, network-free, env-free, localhost-independent, Supabase-client-free, and raw-payload-free.
 
 ## Safety Boundary
 
