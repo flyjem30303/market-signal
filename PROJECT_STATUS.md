@@ -480,3 +480,34 @@ Verification target:
 - `cmd.exe /c npm run check:runtime-readiness-language-quality`
 - `cmd.exe /c npx tsc --noEmit`
 - `git diff --check`
+
+## Latest briefing public Beta gate summary replacement slice
+
+Status: `briefing_public_beta_gate_summary_replacement_ready_internal_panels_removed`
+
+Date: 2026-06-07
+
+CEO decision: `replace_deep_internal_briefing_panels_with_public_beta_summary`.
+
+PM route: `a2_deep_internal_governance_panel_public_summary_replacement`.
+
+Outcome: `briefing_public_dom_token_scan_clean`.
+
+This slice replaces the deep `/briefing` internal governance panels (`ProjectProgressPanel`, `RuntimeReadinessPanel`, `BriefingRowCoverageStatus`, `SourceDepthBlockerPanel`, `BlockerReadinessPanel`, and `NarrowApprovalOutcomePanel`) with `BriefingPublicBetaGateSummary`, a bounded public Beta summary that preserves progress, runtime, backend evidence, coverage gap, source-depth, blocker readiness, oral-review, and next-gate information without exposing raw internal guard strings.
+
+Browser verification for `http://localhost:3000/briefing` confirmed:
+
+- `hasPublicSummary: true`
+- `hasReadableBoundary: true`
+- `tokenHits: []` for `publicDataSource`, `scoreSource`, `Object reachability`, `investment advice`, `claimApproval`, and `mock_runtime_hardening`
+
+This slice does not authorize SQL, Supabase connection, Supabase write, staging rows, `daily_prices` mutation, raw market-data work, deployment, public source promotion, or real score promotion.
+
+Verification target:
+
+- `cmd.exe /c npm run check:localhost-content-health`
+- `cmd.exe /c npm run check:public-visible-language-quality`
+- `cmd.exe /c npm run check:a2-public-copy-readability-candidates`
+- `cmd.exe /c npx tsc --noEmit`
+- Browser DOM token scan on `/briefing`
+- `git diff --check`

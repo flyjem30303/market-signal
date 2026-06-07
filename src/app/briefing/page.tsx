@@ -1,15 +1,10 @@
 import type { Metadata } from "next";
-import { BlockerReadinessPanel } from "@/components/blocker-readiness-panel";
 import { CommercialSlot } from "@/components/commercial-slot";
-import { BriefingRowCoverageStatus } from "@/components/briefing-row-coverage-status";
+import { BriefingPublicBetaGateSummary } from "@/components/briefing-public-beta-gate-summary";
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
-import { NarrowApprovalOutcomePanel } from "@/components/narrow-approval-outcome-panel";
 import { PageViewTracker } from "@/components/page-view-tracker";
-import { ProjectProgressPanel } from "@/components/project-progress-panel";
 import { PostReadonlyProductStatus } from "@/components/post-readonly-product-status";
 import { PublicRuntimeStateStrip } from "@/components/public-runtime-state-strip";
-import { RuntimeReadinessPanel } from "@/components/runtime-readiness-panel";
-import { SourceDepthBlockerPanel } from "@/components/source-depth-blocker-panel";
 import { TrackedLink } from "@/components/tracked-link";
 import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
 import { buildBriefingMarketActionSummary } from "@/lib/briefing-market-action-summary";
@@ -128,13 +123,7 @@ export default async function BriefingPage() {
 
       <PublicRuntimeStateStrip context="briefing" />
       <PostReadonlyProductStatus context="briefing" symbol={market.asset.symbol} />
-
-      <ProjectProgressPanel />
-      <RuntimeReadinessPanel />
-      <BriefingRowCoverageStatus />
-      <SourceDepthBlockerPanel />
-      <BlockerReadinessPanel />
-      <NarrowApprovalOutcomePanel />
+      <BriefingPublicBetaGateSummary />
 
       <nav aria-label="Briefing Compass" className="briefing-compass">
         <a href="#model-boundary">模型邊界</a>

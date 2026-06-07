@@ -47,7 +47,7 @@ export const localhostContentHealthChecks = [
     path: "/briefing",
     required: [
       "Market Action Summary",
-      "Supabase readonly attempt",
+      "遠端唯讀檢查",
       "Blocker Readiness",
       "Three blocker checklists are ready for local review",
       "示範資料",

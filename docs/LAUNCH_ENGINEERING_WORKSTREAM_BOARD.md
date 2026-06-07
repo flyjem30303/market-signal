@@ -410,6 +410,15 @@ Completed twelfth assignment:
 - Defer deep internal governance panel cleanup to the next bounded public-summary route; those panels should become public summaries or sanitized display layers before public Beta.
 - Keep the copy repair out of SQL, Supabase connection/write, staging rows, `daily_prices` mutation, raw market data, deployment, DNS/SSL mutation, platform env mutation, row coverage points, public source promotion, real score promotion, and visual-polish-only scope.
 
+Completed thirteenth assignment:
+
+- Replace deep `/briefing` internal governance panels with `BriefingPublicBetaGateSummary`.
+- Preserve public-facing progress, runtime, backend evidence, coverage gap, source-depth, blocker readiness, oral-review, and next-gate signals in a bounded summary.
+- Remove public DOM exposure of raw internal guard terms from the briefing page.
+- Confirm Browser DOM token scan on `/briefing` returns no hits for `publicDataSource`, `scoreSource`, `Object reachability`, `investment advice`, `claimApproval`, or `mock_runtime_hardening`.
+- Update localhost health expectations from the former internal `Supabase readonly attempt` phrase to the public summary's `遠端唯讀檢查` wording.
+- Keep the panel replacement out of SQL, Supabase connection/write, staging rows, `daily_prices` mutation, raw market data, deployment, DNS/SSL mutation, platform env mutation, row coverage points, public source promotion, real score promotion, and visual-polish-only scope.
+
 PM intake criteria for A2:
 
 - Copy gaps are split into launch-blocking and non-blocking polish.
@@ -420,8 +429,8 @@ PM intake criteria for A2:
 
 Next A2 task when PM reopens the copy lane:
 
-- Prepare a bounded public-summary replacement for deep `/briefing` internal governance panels, especially runtime readiness details, source-depth blockers, and blocker-readiness panels that still expose raw guard terms.
-- If PM chooses not to replace panels yet, sanitize the display layer for those panels and keep checker self-contracts strict.
+- Extend the public-summary replacement pattern to other public routes if Browser DOM scans show raw internal guard terms.
+- Prepare a stricter route-level checker for `/briefing` public Beta summary if PM wants this pattern locked before deployment readiness.
 - If copy placement is already covered and route health is stable, continue data coverage source-rights unblock as the next mainline route.
 - Visual polish remains lower priority unless comprehension or legal clarity is blocked.
 
