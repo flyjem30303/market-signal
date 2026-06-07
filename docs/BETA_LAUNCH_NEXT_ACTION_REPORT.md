@@ -41,6 +41,10 @@ A2 keeps public Beta trust copy stable:
 - Patch only launch-blocking copy if runtime surfaces change.
 - Keep visual polish behind launch-blocking readiness.
 
+## Platform Value Intake
+
+PM can provide the two values through shell environment variables or `.env.local`. The validator reads only `BETA_HOSTING_PROJECT_NAME` and `BETA_TEMPORARY_URL` from `.env.local` when shell values are missing, and it does not print either value.
+
 ## Stop Lines
 
 No deployment is authorized by this report.

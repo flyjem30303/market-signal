@@ -1,5 +1,8 @@
-const projectName = (process.env.BETA_HOSTING_PROJECT_NAME ?? "").trim();
-const temporaryUrl = (process.env.BETA_TEMPORARY_URL ?? "").trim();
+import fs from "node:fs";
+
+const dotEnvValues = loadLocalBetaValues();
+const projectName = (process.env.BETA_HOSTING_PROJECT_NAME ?? dotEnvValues.BETA_HOSTING_PROJECT_NAME ?? "").trim();
+const temporaryUrl = (process.env.BETA_TEMPORARY_URL ?? dotEnvValues.BETA_TEMPORARY_URL ?? "").trim();
 
 const problems = [];
 
@@ -29,7 +32,10 @@ console.log(
         : "keep_waiting_for_safe_two_values",
       values: {
         hostingProjectNameProvided: projectName.length > 0,
-        temporaryBetaUrlProvided: temporaryUrl.length > 0
+        temporaryBetaUrlProvided: temporaryUrl.length > 0,
+        loadedFromEnvLocal:
+          Boolean(dotEnvValues.BETA_HOSTING_PROJECT_NAME || dotEnvValues.BETA_TEMPORARY_URL) &&
+          (!process.env.BETA_HOSTING_PROJECT_NAME || !process.env.BETA_TEMPORARY_URL)
       },
       problems,
       runtimeBoundary: {
@@ -79,4 +85,35 @@ function validateTemporaryUrl(value) {
   if (/(localhost|127\.0\.0\.1|dashboard|token|secret|key|password|invite|supabase\.co)/iu.test(parsed.hostname)) {
     problems.push("temporary Beta URL hostname contains unsafe or non-public word");
   }
+}
+
+function loadLocalBetaValues() {
+  if (process.env.BETA_PLATFORM_VALUES_SKIP_DOTENV === "1") return {};
+  const filePath = ".env.local";
+  if (!fs.existsSync(filePath)) return {};
+
+  const values = {};
+  const content = fs.readFileSync(filePath, "utf8");
+  for (const line of content.split(/\r?\n/u)) {
+    const match = line.match(/^\s*(BETA_HOSTING_PROJECT_NAME|BETA_TEMPORARY_URL)\s*=\s*(.*)\s*$/u);
+    if (!match) continue;
+
+    const [, key, rawValue] = match;
+    values[key] = normalizeEnvValue(rawValue);
+  }
+
+  return values;
+}
+
+function normalizeEnvValue(rawValue) {
+  const trimmed = rawValue.trim();
+  if (
+    (trimmed.startsWith('"') && trimmed.endsWith('"')) ||
+    (trimmed.startsWith("'") && trimmed.endsWith("'"))
+  ) {
+    return trimmed.slice(1, -1).trim();
+  }
+
+  const commentIndex = trimmed.search(/\s+#/u);
+  return (commentIndex >= 0 ? trimmed.slice(0, commentIndex) : trimmed).trim();
 }

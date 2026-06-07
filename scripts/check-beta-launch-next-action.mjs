@@ -20,7 +20,7 @@ const reportScript = read(reportPath);
 const run = spawnSync("cmd.exe", ["/c", "npm", "run", "report:beta-launch-next-action"], {
   cwd: process.cwd(),
   encoding: "utf8",
-  env: withoutBetaValues(process.env),
+  env: skipDotenv(withoutBetaValues(process.env)),
   timeout: 120000,
   windowsHide: true
 });
@@ -152,4 +152,11 @@ function withoutBetaValues(env) {
   delete next.BETA_HOSTING_PROJECT_NAME;
   delete next.BETA_TEMPORARY_URL;
   return next;
+}
+
+function skipDotenv(env) {
+  return {
+    ...env,
+    BETA_PLATFORM_VALUES_SKIP_DOTENV: "1"
+  };
 }

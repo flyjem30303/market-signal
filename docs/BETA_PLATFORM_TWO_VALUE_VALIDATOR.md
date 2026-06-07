@@ -31,6 +31,12 @@ Required environment variables:
 - `BETA_HOSTING_PROJECT_NAME`
 - `BETA_TEMPORARY_URL`
 
+Input loading:
+
+- The validator first reads shell environment variables.
+- If one or both values are missing, it safely reads only `BETA_HOSTING_PROJECT_NAME` and `BETA_TEMPORARY_URL` from `.env.local`.
+- It does not print the values; output remains boolean/shape-only.
+
 Example shape:
 
 ```text
@@ -96,9 +102,10 @@ PM may classify this validator as `accepted` when:
 1. script registration exists;
 2. review-gate registration exists;
 3. the validator returns `blocked_waiting_values` when values are absent;
-4. unsafe value rules are explicit;
-5. accepted output is limited to shape validation only;
-6. `publicDataSource=mock` and `scoreSource=mock` remain unchanged.
+4. `.env.local` fallback reads only the two Beta platform values and does not print them;
+5. unsafe value rules are explicit;
+6. accepted output is limited to shape validation only;
+7. `publicDataSource=mock` and `scoreSource=mock` remain unchanged.
 
 ## Hard Stops
 

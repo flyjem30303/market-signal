@@ -78,7 +78,7 @@ for (const phrase of [
 const absentRun = spawnSync(process.execPath, [validatorPath], {
   cwd: process.cwd(),
   encoding: "utf8",
-  env: withoutBetaValues(process.env),
+  env: skipDotenv(withoutBetaValues(process.env)),
   windowsHide: true
 });
 
@@ -91,7 +91,7 @@ const acceptedRun = spawnSync(process.execPath, [validatorPath], {
   cwd: process.cwd(),
   encoding: "utf8",
   env: {
-    ...withoutBetaValues(process.env),
+    ...skipDotenv(withoutBetaValues(process.env)),
     BETA_HOSTING_PROJECT_NAME: "taiwan-market-signal-beta",
     BETA_TEMPORARY_URL: "https://taiwan-market-signal-beta.example.app"
   },
@@ -107,7 +107,7 @@ const rejectedRun = spawnSync(process.execPath, [validatorPath], {
   cwd: process.cwd(),
   encoding: "utf8",
   env: {
-    ...withoutBetaValues(process.env),
+    ...skipDotenv(withoutBetaValues(process.env)),
     BETA_HOSTING_PROJECT_NAME: "secret-project",
     BETA_TEMPORARY_URL: "https://example.app/?token=abc"
   },
@@ -213,4 +213,11 @@ function withoutBetaValues(env) {
   delete next.BETA_HOSTING_PROJECT_NAME;
   delete next.BETA_TEMPORARY_URL;
   return next;
+}
+
+function skipDotenv(env) {
+  return {
+    ...env,
+    BETA_PLATFORM_VALUES_SKIP_DOTENV: "1"
+  };
 }
