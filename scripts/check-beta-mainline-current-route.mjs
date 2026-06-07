@@ -23,6 +23,7 @@ const requiredReportPhrases = [
   "keep_beta_mainline_moving_with_a1_a2_parallel_routes",
   "report:beta-platform-unblock-kit",
   "report:a1-source-rights-next-action",
+  "report:a1-source-rights-readiness-summary",
   "report:a1-exact-source-rights-evidence-worksheet",
   "report:a2-public-copy-readability-candidates",
   "blocked_waiting_two_platform_values",
@@ -143,12 +144,28 @@ if (!report) {
     }
   }
   if (!report.parallelRoutes?.a1?.exactLedger) missing.push("report.parallelRoutes.a1.exactLedger");
+  if (!report.parallelRoutes?.a1?.readiness) missing.push("report.parallelRoutes.a1.readiness");
+  if (report.parallelRoutes?.a1?.readiness?.status !== "blocked_waiting_a1_exact_source_rights_evidence") {
+    blocked.push("report.parallelRoutes.a1.readiness.status must remain blocked while exact evidence is pending");
+  }
+  if (report.parallelRoutes?.a1?.readiness?.nextCommand !== "cmd.exe /c npm run report:a1-exact-source-rights-evidence-worksheet") {
+    blocked.push("report.parallelRoutes.a1.readiness.nextCommand must route to the worksheet report");
+  }
+  if (report.parallelRoutes?.a1?.readiness?.twiiPendingCount !== 4) {
+    blocked.push("report.parallelRoutes.a1.readiness.twiiPendingCount must currently be 4");
+  }
+  if (report.parallelRoutes?.a1?.readiness?.etfPendingCount !== 6) {
+    blocked.push("report.parallelRoutes.a1.readiness.etfPendingCount must currently be 6");
+  }
   if (report.parallelRoutes?.a1?.nextCommand !== "cmd.exe /c npm run report:a1-exact-source-rights-evidence-worksheet") {
     blocked.push("report.parallelRoutes.a1.nextCommand must route to the exact source-rights evidence worksheet report");
   }
   if (!report.parallelRoutes?.a2) missing.push("report.parallelRoutes.a2");
   if (!report.sourceReports?.betaPlatformUnblockKit?.parsedJson) missing.push("report.sourceReports.betaPlatformUnblockKit.parsedJson");
   if (!report.sourceReports?.a1SourceRightsNextAction?.parsedJson) missing.push("report.sourceReports.a1SourceRightsNextAction.parsedJson");
+  if (!report.sourceReports?.a1SourceRightsReadinessSummary?.parsedJson) {
+    missing.push("report.sourceReports.a1SourceRightsReadinessSummary.parsedJson");
+  }
   if (!report.sourceReports?.a2PublicCopyReadabilityCandidates?.parsedJson) {
     missing.push("report.sourceReports.a2PublicCopyReadabilityCandidates.parsedJson");
   }

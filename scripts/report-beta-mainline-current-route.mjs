@@ -2,10 +2,12 @@ import { spawnSync } from "node:child_process";
 
 const beta = runJson(["cmd.exe", "/c", "npm", "run", "report:beta-platform-unblock-kit"]);
 const a1 = runJson(["cmd.exe", "/c", "npm", "run", "report:a1-source-rights-next-action"]);
+const a1Readiness = runJson(["cmd.exe", "/c", "npm", "run", "report:a1-source-rights-readiness-summary"]);
 const a2 = runJson(["cmd.exe", "/c", "npm", "run", "report:a2-public-copy-readability-candidates"]);
 
 const betaReport = beta.json ?? {};
 const a1Report = a1.json ?? {};
+const a1ReadinessReport = a1Readiness.json ?? {};
 const a2Report = a2.json ?? {};
 
 const platformStatus = betaReport.platformValues?.status ?? "unknown";
@@ -61,6 +63,17 @@ const report = {
         etfRequiredCount: Number(exactLedger.etfRequiredCount ?? 0),
         canOpenEtfOutcomeGate: Boolean(exactLedger.canOpenEtfOutcomeGate)
       },
+      readiness: {
+        status: a1ReadinessReport.status ?? "unknown",
+        nextCommand:
+          a1ReadinessReport.nextCommand ?? "cmd.exe /c npm run report:a1-exact-source-rights-evidence-worksheet",
+        readyLanes: Array.isArray(a1ReadinessReport.readyLanes) ? a1ReadinessReport.readyLanes : [],
+        blockedLanes: Array.isArray(a1ReadinessReport.blockedLanes) ? a1ReadinessReport.blockedLanes : [],
+        twiiCanOpenOutcomeGate: Boolean(a1ReadinessReport.lanes?.TWII?.canOpenOutcomeGate),
+        twiiPendingCount: Number(a1ReadinessReport.lanes?.TWII?.pendingCount ?? 0),
+        etfCanOpenOutcomeGate: Boolean(a1ReadinessReport.lanes?.ETF?.canOpenOutcomeGate),
+        etfPendingCount: Number(a1ReadinessReport.lanes?.ETF?.pendingCount ?? 0)
+      },
       coverage: a1Report.currentState?.coverage ?? {
         twEquity: "unknown",
         twii: "unknown",
@@ -99,6 +112,7 @@ const report = {
   sourceReports: {
     betaPlatformUnblockKit: commandStatus(beta),
     a1SourceRightsNextAction: commandStatus(a1),
+    a1SourceRightsReadinessSummary: commandStatus(a1Readiness),
     a2PublicCopyReadabilityCandidates: commandStatus(a2)
   }
 };
