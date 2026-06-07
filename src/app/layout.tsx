@@ -7,11 +7,11 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
   title: {
-    default: "指數燈號 | 台股決策輔助",
+    default: "指數燈號 | Taiwan Market Signal",
     template: "%s | 指數燈號"
   },
   description:
-    "指數燈號是台股與 ETF 的示範資料決策輔助 Beta，提供市場閱讀、資料新鮮度、覆蓋率與非投資建議揭露。"
+    "指數燈號是 Taiwan Market Signal 的公開 Beta 介面，協助使用者閱讀台股、ETF、族群與風險狀態；目前維持 mock-only、非投資建議，正式資料與分數仍需 promotion gate。"
 };
 
 const footerTrustLinks = [
@@ -57,13 +57,13 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <div>
             <strong>指數燈號</strong>
             <p>
-              目前是示範資料公開 Beta：資料來源與分數來源都尚未切換為正式市場資料。內容用於市場閱讀與產品流程展示，
-              可能有覆蓋率不足、資料缺漏或延遲、模型限制，且不構成投資建議。
+              目前是公開 Beta 的 mock-only 閱讀介面；資料新鮮度、覆蓋率與模型分數仍在驗證中，不構成投資建議。
+              資料來源狀態與分數來源狀態都仍是 mock-only Beta，正式市場資料與真實分數需通過獨立正式上線審核。
             </p>
-            <div className="site-footer-trust" aria-label="信任與法務連結">
-              <span>資料來源：示範資料</span>
-              <span>分數來源：示範分數</span>
-              <span>風險揭露</span>
+            <div className="site-footer-trust" aria-label="信任與風險連結">
+              <span>資料來源：mock-only Beta</span>
+              <span>分數來源：mock-only Beta</span>
+              <span>非投資建議</span>
               {footerTrustLinks.map((link) => (
                 <TrackedLink
                   eventName="site_chrome_link_clicked"

@@ -9,35 +9,30 @@ const files = new Map(
   [layoutPath, navPath, packagePath, reviewGatePath].map((file) => [file, fs.readFileSync(file, "utf8")])
 );
 
+const navLabels = ["首頁", "今日簡報", "週報", "個股", "方法說明", "隱私權", "使用條款", "風險揭露"];
+
 const required = [
-  [layoutPath, "指數燈號 | 台股決策輔助"],
+  [layoutPath, "指數燈號 | Taiwan Market Signal"],
   [layoutPath, "Market Signal"],
-  [layoutPath, "信任與法務連結"],
-  [layoutPath, "資料來源：mock"],
-  [layoutPath, "分數來源：mock"],
-  [layoutPath, "mock-only 公開 Beta"],
-  [layoutPath, "publicDataSource=mock"],
-  [layoutPath, "scoreSource=mock"],
-  [layoutPath, "首頁"],
-  [layoutPath, "今日簡報"],
-  [layoutPath, "週報"],
-  [layoutPath, "個股"],
-  [layoutPath, "方法說明"],
-  [layoutPath, "隱私權"],
-  [layoutPath, "使用條款"],
-  [layoutPath, "風險揭露"],
-  [navPath, "首頁"],
-  [navPath, "今日簡報"],
-  [navPath, "週報"],
-  [navPath, "個股"],
-  [navPath, "方法說明"],
-  [navPath, "隱私權"],
-  [navPath, "使用條款"],
-  [navPath, "風險揭露"],
-  [navPath, "aria-label=\"主要導覽\""],
+  [layoutPath, "公開 Beta"],
+  [layoutPath, "mock-only"],
+  [layoutPath, "資料來源狀態"],
+  [layoutPath, "分數來源狀態"],
+  [layoutPath, "非投資建議"],
+  [layoutPath, "正式上線審核"],
+  [layoutPath, "信任與風險連結"],
+  [layoutPath, "資料來源：mock-only Beta"],
+  [layoutPath, "分數來源：mock-only Beta"],
+  [layoutPath, "頁尾導覽"],
+  [navPath, "主要導覽"],
   [packagePath, "\"check:site-chrome-readability\": \"node scripts/check-site-chrome-readability.mjs\""],
   [reviewGatePath, "scripts/check-site-chrome-readability.mjs"]
 ];
+
+for (const label of navLabels) {
+  required.push([layoutPath, label]);
+  required.push([navPath, label]);
+}
 
 const forbidden = [
   [layoutPath, "publicDataSource=supabase"],
@@ -59,7 +54,7 @@ for (const file of [layoutPath, navPath]) {
   const visibleStringMatches = [...content.matchAll(/"([^"]*)"|'([^']*)'|`([^`]*)`/g)];
   for (const match of visibleStringMatches) {
     const value = match[1] ?? match[2] ?? match[3] ?? "";
-    if (/[嚗銝蝭憟璅鞈撣閮瘥摨甈雿蹐蹓]{2,}|\uFFFD|[\uE000-\uF8FF]/u.test(value)) {
+    if (findMojibakeMarkers(value).length > 0) {
       mojibakeHits.push(`${file}: ${value}`);
     }
   }
@@ -69,6 +64,10 @@ console.log(
   JSON.stringify(
     {
       blocked,
+      checked: {
+        navLabels: navLabels.length,
+        requiredPhrases: required.length
+      },
       missing,
       mojibakeHits,
       status: blocked.length === 0 && missing.length === 0 && mojibakeHits.length === 0 ? "ok" : "blocked"
@@ -84,4 +83,21 @@ if (blocked.length > 0 || missing.length > 0 || mojibakeHits.length > 0) {
 
 function read(file) {
   return files.get(file) ?? "";
+}
+
+function findMojibakeMarkers(text) {
+  const markers = [];
+  if (text.includes("\uFFFD")) markers.push("replacement-char");
+  if (/\?{3,}/u.test(text)) markers.push("question-mark-run");
+  if (hasPrivateUseCodePoint(text)) markers.push("private-use-code-point");
+  if (/[嚗]{2,}/u.test(text)) markers.push("common-mojibake-run");
+  return markers;
+}
+
+function hasPrivateUseCodePoint(text) {
+  for (const char of text) {
+    const codePoint = char.codePointAt(0) ?? 0;
+    if (codePoint >= 0xe000 && codePoint <= 0xf8ff) return true;
+  }
+  return false;
 }

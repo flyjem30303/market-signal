@@ -4321,6 +4321,7 @@ const checks = [
 
 const coreReviewGateNames = new Set([
   "local-verification-runbook",
+  "site-chrome-readability",
   "project-progress-score",
   "project-progress-snapshot",
   "overall-project-100-readiness",
