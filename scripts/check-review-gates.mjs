@@ -3508,6 +3508,11 @@ const checks = [
     name: "runtime-promotion-policy-from-first-closed-loop"
   },
   {
+    command: [node, "scripts/check-runtime-policy-public-surface-mapping.mjs"],
+    expectStatus: "ok",
+    name: "runtime-policy-public-surface-mapping"
+  },
+  {
     command: [node, "scripts/check-etf-daily-prices-coverage-completion-route.mjs"],
     expectStatus: "ok",
     name: "etf-daily-prices-coverage-completion-route"
@@ -4126,6 +4131,7 @@ const coreReviewGateNames = new Set([
   "tw-equity-row-coverage-scoring-gate",
   "data-realification-first-closed-loop-rollup",
   "runtime-promotion-policy-from-first-closed-loop",
+  "runtime-policy-public-surface-mapping",
   "etf-daily-prices-coverage-completion-route",
   "etf-source-rights-outcome-decision-gate",
   "a1-twii-index-field-contract-decision-support",
