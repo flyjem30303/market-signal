@@ -3008,6 +3008,11 @@ const checks = [
     name: "beta-launch-preflight-packet"
   },
   {
+    command: [node, "scripts/check-beta-release-runbook-draft.mjs"],
+    expectStatus: "ok",
+    name: "beta-release-runbook-draft"
+  },
+  {
     command: [node, "scripts/check-a1-mvp-coverage-closure-route-support.mjs"],
     expectStatus: "ok",
     name: "a1-mvp-coverage-closure-route-support"
@@ -4077,6 +4082,7 @@ const coreReviewGateNames = new Set([
   "goal-parallel-workstream-adjustment",
   "public-beta-readiness-gate",
   "beta-launch-preflight-packet",
+  "beta-release-runbook-draft",
   "a1-mvp-coverage-closure-route-support",
   "a2-public-beta-trust-copy-readiness",
   "taiwan-all-listed-universe-manifest-packet",
