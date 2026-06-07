@@ -3083,6 +3083,11 @@ const checks = [
     name: "beta-deployment-operator-values-defaults-and-remaining-gaps"
   },
   {
+    command: [node, "scripts/check-beta-platform-two-value-intake-gate.mjs"],
+    expectStatus: "ok",
+    name: "beta-platform-two-value-intake-gate"
+  },
+  {
     command: [node, "scripts/check-runtime-data-promotion-handoff-checklist.mjs"],
     expectStatus: "ok",
     name: "runtime-data-promotion-handoff-checklist"
@@ -4332,6 +4337,7 @@ const coreReviewGateNames = new Set([
   "local-launch-proof-bundle-snapshot",
   "beta-deployment-operator-values-gap-list",
   "beta-deployment-operator-values-defaults-and-remaining-gaps",
+  "beta-platform-two-value-intake-gate",
   "runtime-data-promotion-handoff-checklist",
   "runtime-summary-alignment-from-first-closed-loop",
   "a1-mvp-coverage-closure-route-support",
