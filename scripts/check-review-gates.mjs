@@ -3793,6 +3793,11 @@ const checks = [
     name: "a1-exact-source-rights-evidence-recording-commands"
   },
   {
+    command: [node, "scripts/check-a1-exact-source-rights-evidence-worksheet.mjs"],
+    expectStatus: "ok",
+    name: "a1-exact-source-rights-evidence-worksheet"
+  },
+  {
     command: [node, "scripts/check-local-launch-proof-refresh-before-executable-packet.mjs"],
     expectStatus: "ok",
     name: "local-launch-proof-refresh-before-executable-packet"
@@ -4440,6 +4445,7 @@ const coreReviewGateNames = new Set([
   "a1-exact-source-rights-evidence-intake-command-map",
   "a1-exact-source-rights-evidence-outcome-ledger",
   "a1-exact-source-rights-evidence-recording-commands",
+  "a1-exact-source-rights-evidence-worksheet",
   "local-launch-proof-refresh-before-executable-packet",
   "beta-deployment-platform-values-bridge",
   "public-beta-readiness-gate",
@@ -4481,6 +4487,7 @@ const coreReviewGateNames = new Set([
   "a1-exact-source-rights-evidence-intake-command-map",
   "a1-exact-source-rights-evidence-outcome-ledger",
   "a1-exact-source-rights-evidence-recording-commands",
+  "a1-exact-source-rights-evidence-worksheet",
   "a1-source-rights-unblock-priority-packet",
   "a1-twii-source-rights-unblock-decision-record-candidate",
   "a1-twii-source-rights-evidence-intake-or-vendor-fallback-decision-support",
