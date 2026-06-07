@@ -324,6 +324,7 @@
     "check:beta-deployment-operator-values-minimal-sheet": "node scripts/check-beta-deployment-operator-values-minimal-sheet.mjs",
     "check:beta-deployment-operator-values-completion-gate": "node scripts/check-beta-deployment-operator-values-completion-gate.mjs",
     "check:beta-deployment-no-secret-operator-values-record": "node scripts/check-beta-deployment-no-secret-operator-values-record.mjs",
+    "check:beta-deployment-operator-values-safe-fill-recheck": "node scripts/check-beta-deployment-operator-values-safe-fill-recheck.mjs",
     "check:runtime-readonly-decision-card": "node scripts/check-runtime-readonly-decision-card.mjs",
     "check:post-readonly-runtime-state": "node scripts/check-post-readonly-runtime-state.mjs",
     "check:runtime-promotion-readiness-summary": "node scripts/check-runtime-promotion-readiness-summary.mjs",

@@ -3058,6 +3058,11 @@ const checks = [
     name: "beta-deployment-no-secret-operator-values-record"
   },
   {
+    command: [node, "scripts/check-beta-deployment-operator-values-safe-fill-recheck.mjs"],
+    expectStatus: "ok",
+    name: "beta-deployment-operator-values-safe-fill-recheck"
+  },
+  {
     command: [node, "scripts/check-a1-mvp-coverage-closure-route-support.mjs"],
     expectStatus: "ok",
     name: "a1-mvp-coverage-closure-route-support"
@@ -4172,6 +4177,7 @@ const coreReviewGateNames = new Set([
   "beta-deployment-operator-values-minimal-sheet",
   "beta-deployment-operator-values-completion-gate",
   "beta-deployment-no-secret-operator-values-record",
+  "beta-deployment-operator-values-safe-fill-recheck",
   "a1-mvp-coverage-closure-route-support",
   "a2-public-beta-trust-copy-readiness",
   "a2-beta-phrase-set-and-shared-trust-surface-patch-scope",
