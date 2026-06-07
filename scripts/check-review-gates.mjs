@@ -3583,6 +3583,11 @@ const checks = [
     name: "data-realification-first-closed-loop-rollup"
   },
   {
+    command: [node, "scripts/check-data-realification-post-first-closed-loop-next-lane-selector.mjs"],
+    expectStatus: "ok",
+    name: "data-realification-post-first-closed-loop-next-lane-selector"
+  },
+  {
     command: [node, "scripts/check-runtime-promotion-policy-from-first-closed-loop.mjs"],
     expectStatus: "ok",
     name: "runtime-promotion-policy-from-first-closed-loop"
@@ -4280,6 +4285,7 @@ const coreReviewGateNames = new Set([
   "tw-equity-daily-prices-insert-missing-merge-post-run-review-2026-06-07",
   "tw-equity-row-coverage-scoring-gate",
   "data-realification-first-closed-loop-rollup",
+  "data-realification-post-first-closed-loop-next-lane-selector",
   "runtime-promotion-policy-from-first-closed-loop",
   "runtime-policy-public-surface-mapping",
   "bounded-public-surface-copy-patch-from-mapping",

@@ -65,6 +65,7 @@ Latest PM mainline completion review:
 - `docs/LOCAL_LAUNCH_PROOF_REFRESH_BEFORE_EXECUTABLE_PACKET.md` is `accepted` as PM mainline local proof refresh before executable packet.
 - `docs/BETA_DEPLOYMENT_PLATFORM_VALUES_BRIDGE.md` is `accepted` as PM mainline platform values bridge before executable packet.
 - `docs/BETA_DEPLOYMENT_PACKET_WINDOW_READINESS_SELECTOR.md` is `accepted` as PM mainline packet-window readiness selector; status is `beta_deployment_packet_window_readiness_selector_ready_platform_values_pending`, outcome is `packet_window_ready_for_platform_values_not_deployment`, and next route is `beta_deployment_executable_packet_after_platform_values`.
+- `docs/DATA_REALIFICATION_POST_FIRST_CLOSED_LOOP_NEXT_LANE_SELECTOR.md` is `accepted` as PM/A1 post-first-closed-loop next data lane selector; status is `data_realification_post_first_closed_loop_next_lane_selector_ready`, outcome is `twii_first_if_rights_change_otherwise_beta_runtime_mainline`, PM route is `beta_deployment_executable_packet_after_platform_values_or_runtime_promotion_readiness_with_mock_boundary`, and A1 route is `fill_twii_or_etf_source_rights_evidence_before_candidate_gate`.
 - `docs/PRE_LAUNCH_EXECUTABLE_STATE_GAP_CONVERGENCE.md` is `accepted` as PM mainline pre-launch executable-state gap convergence.
 - `docs/LOCAL_RUNTIME_LAUNCH_PROOF_CONTINUATION.md` is `accepted` as PM mainline local runtime launch proof continuation.
 - `docs/LOCAL_RUNTIME_LAUNCH_PROOF_TRIGGER_MATRIX.md` is `accepted` as PM mainline validation trigger matrix.
