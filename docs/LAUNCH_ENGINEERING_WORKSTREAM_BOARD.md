@@ -65,6 +65,7 @@ Latest PM mainline completion review:
 - `docs/RUNTIME_SUMMARY_ALIGNMENT_FROM_FIRST_CLOSED_LOOP.md` is `accepted` as PM mainline runtime summary alignment.
 - `docs/A1_SOURCE_RIGHTS_UNBLOCK_PRIORITY_PACKET.md` is `accepted` as A1/PM source-rights unblock priority packet.
 - `docs/A1_TWII_SOURCE_RIGHTS_UNBLOCK_DECISION_RECORD_CANDIDATE.md` is `accepted` as A1/PM TWII source-rights decision record candidate.
+- `docs/A1_TWII_SOURCE_RIGHTS_EVIDENCE_INTAKE_OR_VENDOR_FALLBACK_DECISION_SUPPORT.md` is `accepted` as A1/PM TWII source-rights evidence intake and fallback decision support.
 - `docs/TWII_SOURCE_RIGHTS_OUTCOME_GATE.md` is `blocked` as a PM mainline data gate because TWII source rights and field contract remain unresolved.
 - The formal launch deployment readiness gate is `formal_launch_deployment_readiness_gate_ready_not_deployed`.
 - The public Beta readiness gate is `public_beta_readiness_gate_ready_local_beta_allowed_real_promotion_blocked`.
@@ -87,6 +88,7 @@ Latest PM mainline completion review:
 - The runtime summary alignment from first closed loop is `runtime_summary_alignment_from_first_closed_loop_applied_mock_boundary_preserved`.
 - The A1 source-rights unblock priority packet is `a1_source_rights_unblock_priority_packet_ready_local_only_not_executable`.
 - The A1 TWII source-rights decision record candidate is `a1_twii_source_rights_unblock_decision_record_candidate_ready_local_only_not_approved`; current outcome is `decision_record_candidate_ready_rights_still_blocked`; next route is `twii_source_rights_evidence_intake_or_vendor_fallback_decision_support`.
+- The A1 TWII source-rights evidence intake and fallback decision support is `a1_twii_source_rights_evidence_intake_or_vendor_fallback_decision_support_ready_local_only_not_executable`; current outcome is `official_lane_intake_ready_fallback_route_prepared_rights_still_blocked`; next route is `twii_official_source_intake_fields_or_vendor_terms_review_packet`.
 - Current public Beta outcome is `ready_for_local_public_beta_preflight_not_production_deployed`.
 - The TWII source-rights outcome gate is `twii_source_rights_outcome_gate_blocked_external_rights_pending`.
 - Current TWII outcome is `rejected_for_execution_pending_external_rights_and_field_contract`.

@@ -263,6 +263,7 @@
     "check:a1-mvp-coverage-closure-route-support": "node scripts/check-a1-mvp-coverage-closure-route-support.mjs",
     "check:a1-source-rights-unblock-priority-packet": "node scripts/check-a1-source-rights-unblock-priority-packet.mjs",
     "check:a1-twii-source-rights-unblock-decision-record-candidate": "node scripts/check-a1-twii-source-rights-unblock-decision-record-candidate.mjs",
+    "check:a1-twii-source-rights-evidence-intake-or-vendor-fallback-decision-support": "node scripts/check-a1-twii-source-rights-evidence-intake-or-vendor-fallback-decision-support.mjs",
     "check:goal-parallel-workstream-adjustment": "node scripts/check-goal-parallel-workstream-adjustment.mjs",
     "check:taiwan-all-listed-universe-manifest-packet": "node scripts/check-taiwan-all-listed-universe-manifest-packet.mjs",
     "check:public-trust-and-disclosure-copy-worklist": "node scripts/check-public-trust-and-disclosure-copy-worklist.mjs",
