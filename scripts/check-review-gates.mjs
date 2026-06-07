@@ -3093,6 +3093,11 @@ const checks = [
     name: "a1-mvp-coverage-closure-route-support"
   },
   {
+    command: [node, "scripts/check-a1-source-rights-unblock-priority-packet.mjs"],
+    expectStatus: "ok",
+    name: "a1-source-rights-unblock-priority-packet"
+  },
+  {
     command: [node, "scripts/check-a2-public-beta-trust-copy-readiness.mjs"],
     expectStatus: "ok",
     name: "a2-public-beta-trust-copy-readiness"
@@ -4209,6 +4214,7 @@ const coreReviewGateNames = new Set([
   "runtime-data-promotion-handoff-checklist",
   "runtime-summary-alignment-from-first-closed-loop",
   "a1-mvp-coverage-closure-route-support",
+  "a1-source-rights-unblock-priority-packet",
   "a2-public-beta-trust-copy-readiness",
   "a2-beta-phrase-set-and-shared-trust-surface-patch-scope",
   "taiwan-all-listed-universe-manifest-packet",

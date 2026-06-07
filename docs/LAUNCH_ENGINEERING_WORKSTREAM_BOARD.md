@@ -63,6 +63,7 @@ Latest PM mainline completion review:
 - `docs/BETA_DEPLOYMENT_OPERATOR_VALUES_GAP_LIST.md` is `accepted` as PM mainline short operator values gap list while external values remain pending.
 - `docs/RUNTIME_DATA_PROMOTION_HANDOFF_CHECKLIST.md` is `accepted` as PM mainline runtime/data promotion handoff checklist.
 - `docs/RUNTIME_SUMMARY_ALIGNMENT_FROM_FIRST_CLOSED_LOOP.md` is `accepted` as PM mainline runtime summary alignment.
+- `docs/A1_SOURCE_RIGHTS_UNBLOCK_PRIORITY_PACKET.md` is `accepted` as A1/PM source-rights unblock priority packet.
 - `docs/TWII_SOURCE_RIGHTS_OUTCOME_GATE.md` is `blocked` as a PM mainline data gate because TWII source rights and field contract remain unresolved.
 - The formal launch deployment readiness gate is `formal_launch_deployment_readiness_gate_ready_not_deployed`.
 - The public Beta readiness gate is `public_beta_readiness_gate_ready_local_beta_allowed_real_promotion_blocked`.
@@ -83,6 +84,7 @@ Latest PM mainline completion review:
 - The Beta deployment operator values gap list is `beta_deployment_operator_values_gap_list_ready_external_values_pending`.
 - The runtime/data promotion handoff checklist is `runtime_data_promotion_handoff_checklist_ready_mock_boundary_preserved`.
 - The runtime summary alignment from first closed loop is `runtime_summary_alignment_from_first_closed_loop_applied_mock_boundary_preserved`.
+- The A1 source-rights unblock priority packet is `a1_source_rights_unblock_priority_packet_ready_local_only_not_executable`.
 - Current public Beta outcome is `ready_for_local_public_beta_preflight_not_production_deployed`.
 - The TWII source-rights outcome gate is `twii_source_rights_outcome_gate_blocked_external_rights_pending`.
 - Current TWII outcome is `rejected_for_execution_pending_external_rights_and_field_contract`.
@@ -106,6 +108,7 @@ Latest PM mainline completion review:
 - PM accepts CEO decision `compress_operator_values_gap_before_executable_packet_candidate`; current outcome is `external_operator_values_gap_identified_packet_blocked`; next route is `fill_safe_operator_values_or_continue_local_launch_runtime_data_work`, not deployment.
 - PM accepts CEO decision `align_runtime_promotion_gate_with_data_coverage_route_without_real_promotion`; current outcome is `runtime_data_handoff_ready_runtime_summary_alignment_pending`; next route is `runtime_summary_alignment_from_first_closed_loop_evidence_or_coverage_gate`, not real promotion.
 - PM accepts CEO decision `align_runtime_summary_to_accepted_first_closed_loop_without_real_promotion`; current outcome is `runtime_summary_aligned_real_promotion_blocked`; next route is `coverage_gate_or_operator_values_after_runtime_summary_alignment`, not real promotion.
+- PM accepts CEO decision `prioritize_twii_source_rights_unblock_before_etf_while_preserving_etf_parallel_option`; current outcome is `source_rights_priority_ready_execution_blocked`; next route is `twii_source_rights_unblock_decision_record_candidate`, not execution.
 - The gate covers environment variables, platform posture, local and future production health checks, monitoring, rollback, DNS/SSL, secret handling, and launch checklist.
 - It does not deploy production, run SQL, connect to Supabase, write Supabase, create staging rows, modify `daily_prices`, fetch market data, award row coverage points, promote `publicDataSource=supabase`, or set `scoreSource=real`.
 
