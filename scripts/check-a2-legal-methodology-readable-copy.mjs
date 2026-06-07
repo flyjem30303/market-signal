@@ -48,13 +48,15 @@ const pages = [
   {
     path: "src/app/methodology/page.tsx",
     required: [
-      "方法論",
+      "\u65b9\u6cd5\u8aaa\u660e",
       "Methodology",
-      "mock scores",
-      "promotion gate",
-      "publicDataSource",
-      "scoreSource",
-      "不是買進、賣出或持有建議"
+      "\u793a\u7bc4\u8cc7\u6599",
+      "\u793a\u7bc4\u8a55\u5206",
+      "\u6b63\u5f0f\u5e02\u5834\u8cc7\u6599",
+      "\u975e\u6295\u8cc7\u5efa\u8b70",
+      "\u6307\u6a19\u7d44\u6210",
+      "\u8cc7\u6599\u54c1\u8cea\u7b49\u7d1a",
+      "\u4e0d\u628a\u5206\u6578\u7576\u6307\u4ee4"
     ]
   }
 ];

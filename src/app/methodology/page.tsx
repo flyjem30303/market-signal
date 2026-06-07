@@ -8,25 +8,25 @@ import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
 import { getMarketSignalSourceStatus } from "@/lib/repositories/market-signal-repository";
 
 export const metadata: Metadata = {
-  title: "方法論",
+  title: "方法說明",
   description:
-    "Methodology for 指數燈號公開 Beta，說明 mock scores、資料新鮮度、模型限制、分數來源與 promotion gate 之前的使用邊界。"
+    "指數燈號公開 Beta 方法說明，解釋示範評分、資料限制、指標組成、品質等級與非投資建議邊界。"
 };
 
-const modules = [
-  ["市場趨勢", "18%", "指數方向、週期位置、風險溫度", "判斷大盤環境是否支持積極曝險。"],
-  ["產業動能", "18%", "族群強弱、半導體與 ETF 分組", "比較同類資產的相對強弱。"],
-  ["評價與品質", "16%", "估值、獲利穩定度、基本面風險", "避免只看短線漲跌。"],
-  ["資金與籌碼", "14%", "成交量、法人與市場情緒", "觀察買盤是否持續。"],
-  ["風險控制", "16%", "波動、回檔、集中度與資料缺口", "讓高分也能被風險拉回。"],
-  ["總體環境", "18%", "利率、匯率、美元、波動率與國際市場", "提醒外部壓力是否升高。"]
+const methodModules = [
+  ["趨勢位置", "18%", "觀察價格與均線位置，協助判斷目前偏強、偏弱或盤整。", "示範階段只做狀態整理，不預測短線漲跌。"],
+  ["量能變化", "18%", "觀察成交量是否支持價格變動，避免只看價格而忽略參與度。", "量能異常需要搭配事件與流動性判斷。"],
+  ["波動風險", "16%", "觀察近期波動與回撤壓力，協助提醒追價或過度集中風險。", "高分不代表低風險，低分也不等於必然下跌。"],
+  ["產業與市場脈絡", "14%", "把個股或 ETF 放回市場、類股與指數環境中閱讀。", "目前仍以示範資料呈現，正式資料覆蓋後才會擴大。"],
+  ["資料品質", "16%", "標示資料是否完整、新鮮、可追溯，避免把缺口誤讀為訊號。", "資料不足時應降低解讀強度。"],
+  ["使用情境", "18%", "把分數轉成觀察、等待、風險提醒等輔助語言。", "不產生買進、賣出或持有指令。"]
 ];
 
 const qualityLevels = [
-  ["A", "資料來源、覆蓋率與更新流程清楚，可支持較高信任度的摘要。"],
-  ["B", "主要資料可用，但仍有部分欄位、頻率或來源權利需要補強。"],
-  ["C", "只能作為方向參考，使用時必須搭配人工檢查與其他來源。"],
-  ["D", "資料不足或尚未通過 gate，不應用於公開真實分數。"]
+  ["A", "資料較完整，示範評分可作為較高信心的閱讀起點，但仍需自行查證。"],
+  ["B", "資料大致可讀，仍有部分限制或延遲，需要搭配其他來源確認。"],
+  ["C", "資料或覆蓋率不足，適合觀察方向，不適合作為主要判斷依據。"],
+  ["D", "資料缺口明顯，頁面只保留基本說明，不應解讀成有效訊號。"]
 ];
 
 export default async function MethodologyPage() {
@@ -38,10 +38,10 @@ export default async function MethodologyPage() {
       <PageViewTracker eventName="methodology_page_viewed" payload={{ page: "methodology" }} />
       <section className="hero">
         <p className="eyebrow">Methodology</p>
-        <h1>方法論</h1>
+        <h1>方法說明</h1>
         <p>
-          Methodology: 指數燈號把市場趨勢、產業動能、評價品質、資金籌碼、風險控制與總體環境整理成可閱讀的 mock scores。
-          目前分數仍是 Beta 示範狀態，不代表正式市場資料、完整覆蓋或個人化投資建議。
+          指數燈號公開 Beta 先用示範資料與示範評分呈現產品邏輯。這頁說明分數如何被拆解、
+          目前有哪些限制，以及使用者應該如何把燈號當成研究起點，而不是交易指令。
         </p>
       </section>
 
@@ -49,71 +49,74 @@ export default async function MethodologyPage() {
       <TrustRuntimeBoundaryNotice context="methodology" />
       <RouteLocalTrustCopyPanel context="methodology" />
 
-      <section className="method-quick-read" aria-label="方法論快速閱讀">
+      <section className="method-quick-read" aria-label="方法快速閱讀">
         <article>
-          <span>目前用途</span>
-          <strong>決策輔助，不是交易指令</strong>
-          <p>分數用來整理市場訊號，協助使用者知道要看哪裡；它不是買進、賣出或持有建議。</p>
+          <span>目前定位</span>
+          <strong>示範評分，正式資料尚未啟用</strong>
+          <p>頁面先展示資訊架構與閱讀方式。正式市場資料、覆蓋率與來源權利完成前，分數不應被視為正式訊號。</p>
         </article>
         <article>
-          <span>資料來源</span>
-          <strong>{freshness.scoreSourceLabel}</strong>
-          <p>資料新鮮度會以 metadata 呈現。若來源、時間或覆蓋不足，頁面必須維持 mock/real 邊界清楚。</p>
+          <span>閱讀方式</span>
+          <strong>看狀態，不看單點答案</strong>
+          <p>分數應搭配趨勢、量能、波動、資料品質與市場脈絡一起看，避免用單一數字做決策。</p>
         </article>
         <article>
-          <span>升級條件</span>
-          <strong>promotion gate 後才可切 real</strong>
-          <p>publicDataSource 與 scoreSource 必須通過資料權利、coverage、readonly、ingestion 與模型審核後才能升級。</p>
+          <span>使用邊界</span>
+          <strong>非投資建議</strong>
+          <p>本網站不提供買進、賣出或持有建議，也不保證任何報酬、勝率或避險效果。</p>
         </article>
       </section>
 
-      <section className="method-application-bridge" aria-label="方法論閱讀入口">
+      <section className="method-application-bridge" aria-label="方法使用入口">
         <div>
           <p className="eyebrow">Apply The Method</p>
-          <h2>從總覽到個股逐層閱讀</h2>
-          <p>先看市場總覽，再進入週報與個股頁，最後檢查資料邊界與風險揭露。</p>
+          <h2>從總覽到單一標的，逐層閱讀</h2>
+          <p>建議先看市場總覽，再看週報與單一標的頁。每一層都應同時留意資料狀態與風險揭露。</p>
         </div>
         <nav>
-          <MethodBridgeLink href="/briefing" label="市場簡報" title="看整體狀態" text="先確認市場方向、資料覆蓋與目前仍待補齊的 gate。" />
-          <MethodBridgeLink href="/weekly" label="週報" title="看每週節奏" text="用週報比較指數、ETF 與主要族群的相對狀態。" />
-          <MethodBridgeLink href="/stocks/TWII" label="指數頁" title="看大盤環境" text="用 TWII 頁面理解大盤燈號、資料新鮮度與 mock 邊界。" />
-          <MethodBridgeLink href="/stocks/2330" label="個股頁" title="看單一標的" text="用個股頁檢查分數來源、風險提示與後續閱讀路徑。" />
+          <MethodBridgeLink href="/briefing" label="市場總覽" title="先看大盤狀態" text="掌握目前市場溫度、資料限制與主要觀察方向。" />
+          <MethodBridgeLink href="/weekly" label="週報" title="再看中期節奏" text="把短期波動放進一週尺度，降低單日雜訊。" />
+          <MethodBridgeLink href="/stocks/TWII" label="台股指數" title="檢查指數脈絡" text="用指數頁理解市場背景，再回到個股或 ETF。" />
+          <MethodBridgeLink href="/stocks/2330" label="個股頁" title="最後看標的細節" text="閱讀趨勢、風險與資料品質，不把分數當成交易指令。" />
         </nav>
       </section>
 
-      <section className="method-runtime-map" aria-label="方法論 runtime 地圖">
+      <section className="method-runtime-map" aria-label="資料狀態轉換說明">
         <div>
-          <p className="eyebrow">Runtime Map</p>
-          <h2>分數如何從 mock 走向 real</h2>
-          <p>目前 runtime 以安全可讀為主。正式資料與正式分數必須經過多個 gate，而不是只靠單次資料寫入。</p>
+          <p className="eyebrow">Data State</p>
+          <h2>從示範資料到正式資料，需要逐步通過</h2>
+          <p>
+            正式資料啟用前，必須確認資料來源權利、欄位定義、覆蓋率、更新流程、回復方式與公開揭露。
+            通過前，公開頁面會維持示範資料說明。
+          </p>
         </div>
         <article>
           <span>第一步</span>
-          <strong>資料權利確認</strong>
-          <p>確認資料來源、欄位授權、再散布限制與可保留的 attribution。</p>
+          <strong>確認來源與權利</strong>
+          <p>先確認資料可以合法使用、保存、轉換與公開呈現。</p>
         </article>
         <article>
           <span>第二步</span>
-          <strong>覆蓋率與品質</strong>
-          <p>檢查股票、指數、ETF 的覆蓋率、缺漏、更新頻率與異常值處理。</p>
+          <strong>確認覆蓋與品質</strong>
+          <p>再確認台股、指數與 ETF 的資料覆蓋率、更新頻率與缺口處理。</p>
         </article>
         <article>
           <span>第三步</span>
-          <strong>promotion gate</strong>
-          <p>只有 gate 接受後，才允許 publicDataSource 或 scoreSource 從 mock 往 real 推進。</p>
+          <strong>公開標示資料狀態</strong>
+          <p>正式切換前，頁面必須清楚告知使用者資料是否為示範、延遲、部分覆蓋或正式來源。</p>
         </article>
       </section>
 
       <section className="panel method-section">
-        <h2>模型模組</h2>
-        <div className="method-table" role="table" aria-label="模型模組">
+        <h2>指標組成</h2>
+        <div className="method-table" role="table" aria-label="指標組成">
           <div className="method-row method-head" role="row">
             <span>模組</span>
             <span>權重</span>
-            <span>主要資料</span>
-            <span>閱讀重點</span>
+            <span>觀察內容</span>
+            <span>限制提醒</span>
           </div>
-          {modules.map(([name, weight, data, comment]) => (
+          {methodModules.map(([name, weight, data, comment]) => (
             <div className="method-row" role="row" key={name}>
               <strong>{name}</strong>
               <span>{weight}</span>
@@ -125,7 +128,7 @@ export default async function MethodologyPage() {
       </section>
 
       <section className="panel method-section">
-        <h2>資料品質分級</h2>
+        <h2>資料品質等級</h2>
         <div className="quality-grid">
           {qualityLevels.map(([level, text]) => (
             <article className="quality-card" key={level}>
@@ -137,35 +140,35 @@ export default async function MethodologyPage() {
       </section>
 
       <article className="disclaimer">
-        <h2>方法論限制</h2>
+        <h2>方法限制</h2>
         <p>
-          任何模型都會簡化現實。指數燈號的分數可能因資料延遲、覆蓋不足、權重設計或市場突發事件而失真。請把它當成研究輔助，
-          不要把它當成保證報酬或個人化投資建議。
+          分數只是整理資訊的一種方式，不代表未來價格、個人適合度或交易建議。使用者應搭配自身目標、
+          風險承受度、資金規劃與其他資料來源自行判斷。
         </p>
       </article>
 
-      <section className="method-guardrail-grid" aria-label="方法論防線">
+      <section className="method-guardrail-grid" aria-label="方法護欄">
         <article>
-          <h2>不承諾即時</h2>
-          <p>資料新鮮度會明示，未通過正式 gate 前不宣稱即時市場資料。</p>
+          <h2>不把缺資料當訊號</h2>
+          <p>資料不足時，頁面應降低信心或明確提醒，而不是硬做結論。</p>
         </article>
         <article>
-          <h2>不承諾完整</h2>
-          <p>覆蓋率仍在補齊，缺少指數或 ETF 證據時，頁面必須保留限制說明。</p>
+          <h2>不把分數當指令</h2>
+          <p>分數只協助排序與提醒，不能替代使用者自己的投資判斷。</p>
         </article>
         <article>
-          <h2>不承諾投資結果</h2>
-          <p>分數、燈號與摘要不能保證報酬，也不能取代使用者的風險管理。</p>
+          <h2>不隱藏資料狀態</h2>
+          <p>示範、延遲、部分覆蓋或正式資料，都必須用使用者能理解的文字標示。</p>
         </article>
       </section>
 
       <section className="panel method-links">
         <h2>繼續閱讀</h2>
         <TrustTextLink href="/" label="回到首頁" />
-        <TrustTextLink href="/briefing" label="查看市場簡報" />
-        <TrustTextLink href="/weekly" label="查看週報" />
-        <TrustTextLink href="/disclaimer" label="查看風險揭露" />
-        <TrustTextLink href="/terms" label="查看使用條款" />
+        <TrustTextLink href="/briefing" label="市場總覽" />
+        <TrustTextLink href="/weekly" label="週報" />
+        <TrustTextLink href="/disclaimer" label="免責聲明" />
+        <TrustTextLink href="/terms" label="使用條款" />
       </section>
     </main>
   );
