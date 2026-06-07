@@ -270,6 +270,7 @@
     "check:data-gate-readiness-after-local-route-health-refresh": "node scripts/check-data-gate-readiness-after-local-route-health-refresh.mjs",
     "check:twii-source-rights-field-contract-acceptance-or-blocked-record": "node scripts/check-twii-source-rights-field-contract-acceptance-or-blocked-record.mjs",
     "check:twii-vendor-internal-or-etf-fallback-selection": "node scripts/check-twii-vendor-internal-or-etf-fallback-selection.mjs",
+    "check:a1-twii-vendor-terms-or-internal-feed-owner-evidence-packet": "node scripts/check-a1-twii-vendor-terms-or-internal-feed-owner-evidence-packet.mjs",
     "check:taiwan-all-listed-universe-manifest-packet": "node scripts/check-taiwan-all-listed-universe-manifest-packet.mjs",
     "check:public-trust-and-disclosure-copy-worklist": "node scripts/check-public-trust-and-disclosure-copy-worklist.mjs",
     "check:mvp-remaining-coverage-execution-bridge": "node scripts/check-mvp-remaining-coverage-execution-bridge.mjs",
