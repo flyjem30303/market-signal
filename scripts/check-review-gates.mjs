@@ -3803,6 +3803,11 @@ const checks = [
     name: "a1-exact-source-rights-evidence-worksheet"
   },
   {
+    command: [node, "scripts/check-a1-source-rights-readiness-summary.mjs"],
+    expectStatus: "ok",
+    name: "a1-source-rights-readiness-summary"
+  },
+  {
     command: [node, "scripts/check-local-launch-proof-refresh-before-executable-packet.mjs"],
     expectStatus: "ok",
     name: "local-launch-proof-refresh-before-executable-packet"
@@ -4452,6 +4457,7 @@ const coreReviewGateNames = new Set([
   "a1-exact-source-rights-evidence-recording-commands",
   "a1-exact-source-rights-evidence-worksheet-report",
   "a1-exact-source-rights-evidence-worksheet",
+  "a1-source-rights-readiness-summary",
   "local-launch-proof-refresh-before-executable-packet",
   "beta-deployment-platform-values-bridge",
   "public-beta-readiness-gate",
@@ -4495,6 +4501,7 @@ const coreReviewGateNames = new Set([
   "a1-exact-source-rights-evidence-recording-commands",
   "a1-exact-source-rights-evidence-worksheet-report",
   "a1-exact-source-rights-evidence-worksheet",
+  "a1-source-rights-readiness-summary",
   "a1-source-rights-unblock-priority-packet",
   "a1-twii-source-rights-unblock-decision-record-candidate",
   "a1-twii-source-rights-evidence-intake-or-vendor-fallback-decision-support",
