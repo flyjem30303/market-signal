@@ -28,6 +28,7 @@ The report reads:
 - `report:a1-source-rights-readiness-summary`
 - `report:a1-exact-source-rights-evidence-worksheet`
 - `report:a1-source-rights-evidence-batch-brief`
+- `report:a1-source-rights-reviewed-outcome-surface`
 - `report:a2-public-copy-readability-candidates`
 
 If an accepted reviewed artifact exists, PM routes to `render:beta-pre-execution-packet-candidate`.
@@ -63,6 +64,7 @@ The mainline report also surfaces `parallelRoutes.a1.priorityDecision`, keeping 
 The mainline report also surfaces `parallelRoutes.a1.worksheetBatch`, including the pending TWII/ETF slot groups and the recommended non-executable `twii_source_rights_unblock_first_batch`.
 That batch keeps A1 focused on the four TWII source-rights slots before the readiness summary is rerun; it does not approve source rights, candidate generation, row coverage, Supabase access, SQL, ingestion, public source promotion, or real scoring.
 The mainline report also surfaces `parallelRoutes.a1.batchBrief`, which summarizes the TWII-first batch brief: batch id, lane, four pending slot ids, required no-secret output shape, PM handoff note, next readiness command, and fail-closed safety flags. This lets PM assign the current A1 evidence task from the mainline route report without opening the full worksheet.
+The mainline report also surfaces `parallelRoutes.a1.reviewedOutcomeSurface`, which summarizes the PM reviewed-outcome routes for the four TWII slots: `accepted` routes only to the separate TWII source-rights outcome gate, `rejected` and `blocked` stay blocked, and `needs_bounded_repair` routes to bounded repair. It also confirms no evidence is recorded and no Supabase or market-data access is enabled by the route report.
 
 A2 remains on public Beta trust copy, legal disclosure, first-screen readability, and user-understanding checks. If urgent first-screen blockers are zero, A2 should patch only launch-blocking public-copy regressions.
 The mainline report surfaces `parallelRoutes.a2.decisionSupport`, so PM can see the next A2 maintenance slice without reading the full public-copy scanner output. While urgent first-screen candidates are zero, that route stays on `a2-checker-hardening`.
@@ -90,6 +92,6 @@ This report is a local route report only.
 Use this report when the next action is unclear after A1 or A2 changes. It should prevent repeated broad governance by giving PM one consolidated route:
 
 1. Continue Beta platform value / packet work when safe.
-2. Keep A1 source-rights and coverage evidence moving in parallel through `report:a1-source-rights-readiness-summary`, `report:a1-exact-source-rights-evidence-worksheet`, and `report:a1-source-rights-evidence-batch-brief`.
+2. Keep A1 source-rights and coverage evidence moving in parallel through `report:a1-source-rights-readiness-summary`, `report:a1-exact-source-rights-evidence-worksheet`, `report:a1-source-rights-evidence-batch-brief`, and `report:a1-source-rights-reviewed-outcome-surface`.
 3. Keep A2 public trust and first-screen readiness stable.
 4. Do not promote real data or real scores until a separate promotion gate passes.

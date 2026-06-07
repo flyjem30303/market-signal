@@ -5,6 +5,13 @@ const a1 = runJson(["cmd.exe", "/c", "npm", "run", "report:a1-source-rights-next
 const a1Readiness = runJson(["cmd.exe", "/c", "npm", "run", "report:a1-source-rights-readiness-summary"]);
 const a1Worksheet = runJson(["cmd.exe", "/c", "npm", "run", "report:a1-exact-source-rights-evidence-worksheet"]);
 const a1BatchBrief = runJson(["cmd.exe", "/c", "npm", "run", "report:a1-source-rights-evidence-batch-brief"]);
+const a1ReviewedOutcomeSurface = runJson([
+  "cmd.exe",
+  "/c",
+  "npm",
+  "run",
+  "report:a1-source-rights-reviewed-outcome-surface"
+]);
 const a2 = runJson(["cmd.exe", "/c", "npm", "run", "report:a2-public-copy-readability-candidates"]);
 const runtimeFastHealth = runJson(["cmd.exe", "/c", "npm", "run", "check:beta-runtime-fast-health"]);
 
@@ -13,6 +20,7 @@ const a1Report = a1.json ?? {};
 const a1ReadinessReport = a1Readiness.json ?? {};
 const a1WorksheetReport = a1Worksheet.json ?? {};
 const a1BatchBriefReport = a1BatchBrief.json ?? {};
+const a1ReviewedOutcomeSurfaceReport = a1ReviewedOutcomeSurface.json ?? {};
 const a2Report = a2.json ?? {};
 const runtimeFastHealthReport = runtimeFastHealth.json ?? {};
 
@@ -171,6 +179,30 @@ const report = {
           supabaseWritesEnabled: a1BatchBriefReport.safety?.supabaseWritesEnabled === true
         }
       },
+      reviewedOutcomeSurface: {
+        status: a1ReviewedOutcomeSurfaceReport.status ?? "unknown",
+        activeLane: a1ReviewedOutcomeSurfaceReport.activeLane ?? "unknown",
+        pendingCount: Number(a1ReviewedOutcomeSurfaceReport.pendingCount ?? 0),
+        decisionRoutes: {
+          accepted: a1ReviewedOutcomeSurfaceReport.pmDecisionMatrix?.accepted?.nextGateCandidate ?? "unknown",
+          rejected: a1ReviewedOutcomeSurfaceReport.pmDecisionMatrix?.rejected?.nextGateCandidate ?? "unknown",
+          needs_bounded_repair:
+            a1ReviewedOutcomeSurfaceReport.pmDecisionMatrix?.needs_bounded_repair?.nextGateCandidate ?? "unknown",
+          blocked: a1ReviewedOutcomeSurfaceReport.pmDecisionMatrix?.blocked?.nextGateCandidate ?? "unknown"
+        },
+        reviewedSlotCount: Array.isArray(a1ReviewedOutcomeSurfaceReport.reviewedOutcomeSlots)
+          ? a1ReviewedOutcomeSurfaceReport.reviewedOutcomeSlots.length
+          : 0,
+        nextAfterAnyDryRun:
+          a1ReviewedOutcomeSurfaceReport.nextAfterAnyDryRun ??
+          "cmd.exe /c npm run report:a1-source-rights-readiness-summary",
+        safety: {
+          evidenceRecorded: a1ReviewedOutcomeSurfaceReport.safety?.evidenceRecorded === true,
+          marketDataFetched: a1ReviewedOutcomeSurfaceReport.safety?.marketDataFetched === true,
+          supabaseReadsEnabled: a1ReviewedOutcomeSurfaceReport.safety?.supabaseReadsEnabled === true,
+          supabaseWritesEnabled: a1ReviewedOutcomeSurfaceReport.safety?.supabaseWritesEnabled === true
+        }
+      },
       coverage: a1Report.currentState?.coverage ?? {
         twEquity: "unknown",
         twii: "unknown",
@@ -221,6 +253,7 @@ const report = {
     a1SourceRightsReadinessSummary: commandStatus(a1Readiness),
     a1ExactSourceRightsEvidenceWorksheet: commandStatus(a1Worksheet),
     a1SourceRightsEvidenceBatchBrief: commandStatus(a1BatchBrief),
+    a1SourceRightsReviewedOutcomeSurface: commandStatus(a1ReviewedOutcomeSurface),
     a2PublicCopyReadabilityCandidates: commandStatus(a2),
     betaRuntimeFastHealth: commandStatus(runtimeFastHealth)
   }

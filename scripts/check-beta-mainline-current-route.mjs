@@ -26,6 +26,7 @@ const requiredReportPhrases = [
   "report:a1-source-rights-readiness-summary",
   "report:a1-exact-source-rights-evidence-worksheet",
   "report:a1-source-rights-evidence-batch-brief",
+  "report:a1-source-rights-reviewed-outcome-surface",
   "report:a2-public-copy-readability-candidates",
   "blocked_waiting_two_platform_values",
   "ready_to_run_beta_packet_window_proof_map",
@@ -269,6 +270,41 @@ if (!report) {
       blocked.push(`report.parallelRoutes.a1.batchBrief.safety.${flag} must remain false`);
     }
   }
+  if (!report.parallelRoutes?.a1?.reviewedOutcomeSurface) {
+    missing.push("report.parallelRoutes.a1.reviewedOutcomeSurface");
+  }
+  if (report.parallelRoutes?.a1?.reviewedOutcomeSurface?.status !== "pm_reviewed_outcome_surface_ready_waiting_no_secret_evidence") {
+    blocked.push("report.parallelRoutes.a1.reviewedOutcomeSurface.status must be pm_reviewed_outcome_surface_ready_waiting_no_secret_evidence");
+  }
+  if (report.parallelRoutes?.a1?.reviewedOutcomeSurface?.activeLane !== "TWII") {
+    blocked.push("report.parallelRoutes.a1.reviewedOutcomeSurface.activeLane must be TWII");
+  }
+  if (report.parallelRoutes?.a1?.reviewedOutcomeSurface?.pendingCount !== 4) {
+    blocked.push("report.parallelRoutes.a1.reviewedOutcomeSurface.pendingCount must currently be 4");
+  }
+  if (report.parallelRoutes?.a1?.reviewedOutcomeSurface?.reviewedSlotCount !== 4) {
+    blocked.push("report.parallelRoutes.a1.reviewedOutcomeSurface.reviewedSlotCount must currently be 4");
+  }
+  if (report.parallelRoutes?.a1?.reviewedOutcomeSurface?.decisionRoutes?.accepted !== "twii_source_rights_outcome_gate") {
+    blocked.push("report.parallelRoutes.a1.reviewedOutcomeSurface.decisionRoutes.accepted must route to TWII source-rights outcome gate");
+  }
+  if (report.parallelRoutes?.a1?.reviewedOutcomeSurface?.decisionRoutes?.rejected !== "blocked") {
+    blocked.push("report.parallelRoutes.a1.reviewedOutcomeSurface.decisionRoutes.rejected must remain blocked");
+  }
+  if (report.parallelRoutes?.a1?.reviewedOutcomeSurface?.decisionRoutes?.needs_bounded_repair !== "needs_bounded_repair") {
+    blocked.push("report.parallelRoutes.a1.reviewedOutcomeSurface.decisionRoutes.needs_bounded_repair must route to bounded repair");
+  }
+  if (report.parallelRoutes?.a1?.reviewedOutcomeSurface?.decisionRoutes?.blocked !== "blocked") {
+    blocked.push("report.parallelRoutes.a1.reviewedOutcomeSurface.decisionRoutes.blocked must remain blocked");
+  }
+  if (report.parallelRoutes?.a1?.reviewedOutcomeSurface?.nextAfterAnyDryRun !== "cmd.exe /c npm run report:a1-source-rights-readiness-summary") {
+    blocked.push("report.parallelRoutes.a1.reviewedOutcomeSurface.nextAfterAnyDryRun must route to A1 readiness summary");
+  }
+  for (const flag of ["evidenceRecorded", "marketDataFetched", "supabaseReadsEnabled", "supabaseWritesEnabled"]) {
+    if (report.parallelRoutes?.a1?.reviewedOutcomeSurface?.safety?.[flag] !== false) {
+      blocked.push(`report.parallelRoutes.a1.reviewedOutcomeSurface.safety.${flag} must remain false`);
+    }
+  }
   if (!report.parallelRoutes?.a2) missing.push("report.parallelRoutes.a2");
   if (report.parallelRoutes?.a2?.decisionSupport?.nextRecommendedSlice !== "a2-checker-hardening") {
     blocked.push("report.parallelRoutes.a2.decisionSupport.nextRecommendedSlice must route to a2-checker-hardening while no urgent first-screen candidates exist");
@@ -286,6 +322,9 @@ if (!report) {
   }
   if (!report.sourceReports?.a1SourceRightsEvidenceBatchBrief?.parsedJson) {
     missing.push("report.sourceReports.a1SourceRightsEvidenceBatchBrief.parsedJson");
+  }
+  if (!report.sourceReports?.a1SourceRightsReviewedOutcomeSurface?.parsedJson) {
+    missing.push("report.sourceReports.a1SourceRightsReviewedOutcomeSurface.parsedJson");
   }
   if (!report.sourceReports?.a2PublicCopyReadabilityCandidates?.parsedJson) {
     missing.push("report.sourceReports.a2PublicCopyReadabilityCandidates.parsedJson");
