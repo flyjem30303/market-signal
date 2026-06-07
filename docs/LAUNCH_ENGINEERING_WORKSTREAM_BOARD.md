@@ -59,6 +59,7 @@ Latest PM mainline completion review:
 - `docs/BETA_DEPLOYMENT_NO_SECRET_OPERATOR_VALUES_RECORD.md` is `accepted` as PM mainline no-secret operator values record candidate.
 - `docs/BETA_DEPLOYMENT_OPERATOR_VALUES_SAFE_FILL_RECHECK.md` is `accepted` as PM mainline operator values safe fill recheck.
 - `docs/LOCAL_LAUNCH_PREFLIGHT_WITHOUT_EXTERNAL_OPERATOR_VALUES.md` is `accepted` as PM mainline local launch preflight while external operator values remain pending.
+- `docs/LOCAL_LAUNCH_PROOF_BUNDLE_SNAPSHOT.md` is `accepted` as PM mainline local proof bundle snapshot while external operator values remain pending.
 - `docs/TWII_SOURCE_RIGHTS_OUTCOME_GATE.md` is `blocked` as a PM mainline data gate because TWII source rights and field contract remain unresolved.
 - The formal launch deployment readiness gate is `formal_launch_deployment_readiness_gate_ready_not_deployed`.
 - The public Beta readiness gate is `public_beta_readiness_gate_ready_local_beta_allowed_real_promotion_blocked`.
@@ -75,6 +76,7 @@ Latest PM mainline completion review:
 - The Beta deployment no-secret operator values record is `beta_deployment_no_secret_operator_values_record_ready_not_filled`.
 - The Beta deployment operator values safe fill recheck is `beta_deployment_operator_values_safe_fill_recheck_ready_external_values_pending`.
 - The local launch preflight without external operator values is `local_launch_preflight_without_external_operator_values_ready_external_values_pending`.
+- The local launch proof bundle snapshot is `local_launch_proof_bundle_snapshot_ready_external_values_pending`.
 - Current public Beta outcome is `ready_for_local_public_beta_preflight_not_production_deployed`.
 - The TWII source-rights outcome gate is `twii_source_rights_outcome_gate_blocked_external_rights_pending`.
 - Current TWII outcome is `rejected_for_execution_pending_external_rights_and_field_contract`.
@@ -94,6 +96,7 @@ Latest PM mainline completion review:
 - PM accepts CEO decision `prepare_no_secret_operator_values_record_before_executable_packet_recheck`; current outcome is `not_filled_external_operator_values_pending`; next route is `operator_values_safe_fill_or_executable_packet_candidate_recheck`, not deployment.
 - PM accepts CEO decision `recheck_operator_values_safe_fill_before_executable_packet_candidate`; current outcome is `external_operator_values_still_pending_executable_packet_blocked`; next route is `external_operator_values_or_continue_local_launch_preflight`, not deployment.
 - PM accepts CEO decision `continue_local_launch_preflight_while_external_operator_values_pending`; current outcome is `local_preflight_ready_external_operator_values_pending`; next route is `external_operator_values_or_executable_packet_candidate_after_local_preflight`, not deployment.
+- PM accepts CEO decision `capture_local_launch_proof_bundle_before_executable_packet`; current outcome is `local_proof_bundle_ready_external_operator_values_pending`; next route is `operator_values_or_executable_packet_candidate_after_local_proof_bundle_snapshot`, not deployment.
 - The gate covers environment variables, platform posture, local and future production health checks, monitoring, rollback, DNS/SSL, secret handling, and launch checklist.
 - It does not deploy production, run SQL, connect to Supabase, write Supabase, create staging rows, modify `daily_prices`, fetch market data, award row coverage points, promote `publicDataSource=supabase`, or set `scoreSource=real`.
 
