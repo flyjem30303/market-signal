@@ -72,6 +72,8 @@ If any command blocks, PM repairs local files first or records a blocked decisio
 
 A later deployment execution gate must be separate from this draft and must include:
 
+A later deployment execution packet must be created before anyone performs the actual platform action.
+
 - selected host;
 - selected production branch or source;
 - canonical URL;

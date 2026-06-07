@@ -48,11 +48,13 @@ Latest PM mainline completion review:
 - `docs/PUBLIC_BETA_READINESS_GATE.md` is `accepted` as PM mainline Beta preflight.
 - `docs/BETA_LAUNCH_PREFLIGHT_PACKET.md` is `accepted` as PM mainline Beta launch preflight.
 - `docs/BETA_RELEASE_RUNBOOK_DRAFT.md` is `accepted` as PM mainline draft runbook before any deploy.
+- `docs/FUTURE_DEPLOYMENT_EXECUTION_GATE.md` is `accepted` as PM mainline deployment execution gate preparation.
 - `docs/TWII_SOURCE_RIGHTS_OUTCOME_GATE.md` is `blocked` as a PM mainline data gate because TWII source rights and field contract remain unresolved.
 - The formal launch deployment readiness gate is `formal_launch_deployment_readiness_gate_ready_not_deployed`.
 - The public Beta readiness gate is `public_beta_readiness_gate_ready_local_beta_allowed_real_promotion_blocked`.
 - The Beta launch preflight packet is `beta_launch_preflight_packet_ready_not_deployed`.
 - The Beta release runbook draft is `beta_release_runbook_draft_ready_before_any_deploy`.
+- The future deployment execution gate is `future_deployment_execution_gate_ready_not_executed`.
 - Current public Beta outcome is `ready_for_local_public_beta_preflight_not_production_deployed`.
 - The TWII source-rights outcome gate is `twii_source_rights_outcome_gate_blocked_external_rights_pending`.
 - Current TWII outcome is `rejected_for_execution_pending_external_rights_and_field_contract`.
@@ -61,6 +63,7 @@ Latest PM mainline completion review:
 - PM selected the Beta route because TW equity has a verified first `daily_prices` closed loop, public surfaces can continue as mock-visible Beta, and real promotion can remain blocked until coverage and source-rights gates pass.
 - PM selected the next route `beta_release_runbook_draft_before_any_deploy` so deployment ordering, secret input, post-deploy health, rollback, legal/source-rights, and mock/real boundaries are explicit before any production action.
 - PM accepts CEO decision `draft_beta_release_runbook_before_any_deploy`; the next deployment-facing action must be a separate future deployment execution gate after deployment target decision, not an automatic deploy.
+- PM accepts CEO decision `prepare_future_deployment_execution_gate_not_deploying_now`; first public Beta target posture is `vercel_or_equivalent_managed_nextjs_host`, while deployment, DNS/SSL, platform env mutation, secret upload, public source promotion, and real score promotion remain separate future actions.
 - The gate covers environment variables, platform posture, local and future production health checks, monitoring, rollback, DNS/SSL, secret handling, and launch checklist.
 - It does not deploy production, run SQL, connect to Supabase, write Supabase, create staging rows, modify `daily_prices`, fetch market data, award row coverage points, promote `publicDataSource=supabase`, or set `scoreSource=real`.
 
