@@ -3028,6 +3028,11 @@ const checks = [
     name: "beta-deployment-execution-packet-draft"
   },
   {
+    command: [node, "scripts/check-beta-deployment-operator-fill-guide.mjs"],
+    expectStatus: "ok",
+    name: "beta-deployment-operator-fill-guide"
+  },
+  {
     command: [node, "scripts/check-a1-mvp-coverage-closure-route-support.mjs"],
     expectStatus: "ok",
     name: "a1-mvp-coverage-closure-route-support"
@@ -4101,6 +4106,7 @@ const coreReviewGateNames = new Set([
   "future-deployment-execution-gate",
   "beta-deployment-operator-input-packet",
   "beta-deployment-execution-packet-draft",
+  "beta-deployment-operator-fill-guide",
   "a1-mvp-coverage-closure-route-support",
   "a2-public-beta-trust-copy-readiness",
   "taiwan-all-listed-universe-manifest-packet",
