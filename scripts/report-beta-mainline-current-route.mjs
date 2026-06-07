@@ -4,6 +4,7 @@ const beta = runJson(["cmd.exe", "/c", "npm", "run", "report:beta-platform-unblo
 const a1 = runJson(["cmd.exe", "/c", "npm", "run", "report:a1-source-rights-next-action"]);
 const a1Readiness = runJson(["cmd.exe", "/c", "npm", "run", "report:a1-source-rights-readiness-summary"]);
 const a1Worksheet = runJson(["cmd.exe", "/c", "npm", "run", "report:a1-exact-source-rights-evidence-worksheet"]);
+const a1BatchBrief = runJson(["cmd.exe", "/c", "npm", "run", "report:a1-source-rights-evidence-batch-brief"]);
 const a2 = runJson(["cmd.exe", "/c", "npm", "run", "report:a2-public-copy-readability-candidates"]);
 const runtimeFastHealth = runJson(["cmd.exe", "/c", "npm", "run", "check:beta-runtime-fast-health"]);
 
@@ -11,6 +12,7 @@ const betaReport = beta.json ?? {};
 const a1Report = a1.json ?? {};
 const a1ReadinessReport = a1Readiness.json ?? {};
 const a1WorksheetReport = a1Worksheet.json ?? {};
+const a1BatchBriefReport = a1BatchBrief.json ?? {};
 const a2Report = a2.json ?? {};
 const runtimeFastHealthReport = runtimeFastHealth.json ?? {};
 
@@ -147,6 +149,28 @@ const report = {
           executable: false
         }
       },
+      batchBrief: {
+        status: a1BatchBriefReport.status ?? "unknown",
+        nextMode: a1BatchBriefReport.nextMode ?? "unknown",
+        batchId: a1BatchBriefReport.batch?.batchId ?? "unknown",
+        lane: a1BatchBriefReport.batch?.lane ?? "unknown",
+        pendingCount: Number(a1BatchBriefReport.batch?.pendingCount ?? 0),
+        slotIds: Array.isArray(a1BatchBriefReport.batch?.slotIds) ? a1BatchBriefReport.batch.slotIds : [],
+        nextAfterEvidenceReview:
+          a1BatchBriefReport.batch?.nextAfterEvidenceReview ??
+          "cmd.exe /c npm run report:a1-source-rights-readiness-summary",
+        executable: a1BatchBriefReport.batch?.executable === true,
+        outputShape: Array.isArray(a1BatchBriefReport.assignmentForA1?.outputShape)
+          ? a1BatchBriefReport.assignmentForA1.outputShape
+          : ["evidenceSlotId", "sourceReferenceLabel", "safeEvidenceSummary", "remainingRisk"],
+        handoffToPM: a1BatchBriefReport.assignmentForA1?.handoffToPM ?? null,
+        safety: {
+          evidenceRecorded: a1BatchBriefReport.safety?.evidenceRecorded === true,
+          marketDataFetched: a1BatchBriefReport.safety?.marketDataFetched === true,
+          supabaseReadsEnabled: a1BatchBriefReport.safety?.supabaseReadsEnabled === true,
+          supabaseWritesEnabled: a1BatchBriefReport.safety?.supabaseWritesEnabled === true
+        }
+      },
       coverage: a1Report.currentState?.coverage ?? {
         twEquity: "unknown",
         twii: "unknown",
@@ -196,6 +220,7 @@ const report = {
     a1SourceRightsNextAction: commandStatus(a1),
     a1SourceRightsReadinessSummary: commandStatus(a1Readiness),
     a1ExactSourceRightsEvidenceWorksheet: commandStatus(a1Worksheet),
+    a1SourceRightsEvidenceBatchBrief: commandStatus(a1BatchBrief),
     a2PublicCopyReadabilityCandidates: commandStatus(a2),
     betaRuntimeFastHealth: commandStatus(runtimeFastHealth)
   }
