@@ -353,6 +353,8 @@
     "check:beta-deployment-operator-values-gap-list": "node scripts/check-beta-deployment-operator-values-gap-list.mjs",
     "check:beta-deployment-operator-values-defaults-and-remaining-gaps": "node scripts/check-beta-deployment-operator-values-defaults-and-remaining-gaps.mjs",
     "check:beta-platform-two-value-intake-gate": "node scripts/check-beta-platform-two-value-intake-gate.mjs",
+    "validate:beta-platform-two-values": "node scripts/validate-beta-platform-two-values.mjs",
+    "check:beta-platform-two-value-validator": "node scripts/check-beta-platform-two-value-validator.mjs",
     "check:runtime-data-promotion-handoff-checklist": "node scripts/check-runtime-data-promotion-handoff-checklist.mjs",
     "check:runtime-summary-alignment-from-first-closed-loop": "node scripts/check-runtime-summary-alignment-from-first-closed-loop.mjs",
     "check:runtime-readonly-decision-card": "node scripts/check-runtime-readonly-decision-card.mjs",
