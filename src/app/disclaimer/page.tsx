@@ -7,7 +7,7 @@ import { TrustRuntimeBoundaryNotice } from "@/components/trust-runtime-boundary-
 export const metadata: Metadata = {
   title: "風險揭露與免責聲明",
   description:
-    "說明指數燈號公開 Beta 的 Investment and data limits、mock-only 資料邊界、資料新鮮度限制，以及本網站不提供個人化投資建議。"
+    "說明指數燈號公開 Beta 的資料與投資限制、示範資料邊界、資料新鮮度限制，以及本網站不提供個人化投資建議。"
 };
 
 export default function DisclaimerPage() {
@@ -18,8 +18,8 @@ export default function DisclaimerPage() {
         <p className="eyebrow">Disclaimer</p>
         <h1>風險揭露與免責聲明</h1>
         <p>
-          Investment and data limits: 指數燈號目前是公開 Beta 的決策輔助介面，畫面中的燈號、分數、摘要與
-          data freshness metadata 只用來幫助理解市場狀態，不代表完整、即時或保證正確的正式市場資料。
+          指數燈號目前是公開 Beta 的決策輔助介面，畫面中的燈號、示範分數、摘要與資料新鮮度說明，
+          只用來幫助理解市場狀態。目前仍使用示範資料，不代表完整、即時或保證正確的正式市場資料。
         </p>
       </section>
 

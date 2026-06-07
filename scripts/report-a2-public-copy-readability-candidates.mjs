@@ -9,7 +9,11 @@ const excludedPathParts = [
 ];
 const publicFirstScreenFiles = new Set([
   "src/app/briefing/page.tsx",
+  "src/app/disclaimer/page.tsx",
   "src/app/weekly/page.tsx",
+  "src/app/methodology/page.tsx",
+  "src/app/privacy/page.tsx",
+  "src/app/terms/page.tsx",
   "src/components/dashboard-shell.tsx",
   "src/app/layout.tsx",
   "src/components/site-nav.tsx"
@@ -348,6 +352,10 @@ function priorityRank(priority) {
 
 function suggestedSliceFor(file) {
   if (file.includes("briefing")) return "copy-only pass on non-executive summary sections: runtime plan, reading bridge, model boundary, next steps";
+  if (file.includes("disclaimer")) return "verify first-screen disclaimer states non-advice, mock-data, and score-boundary in plain language";
+  if (file.includes("methodology")) return "verify first-screen methodology explains limits before technical model details";
+  if (file.includes("privacy")) return "verify first-screen privacy copy keeps data-collection and mock-data boundaries readable";
+  if (file.includes("terms")) return "verify first-screen terms copy states beta limitations and non-trading-service boundary";
   if (file.includes("weekly")) return "copy-only pass on hero, weekly runtime/action summary, cadence, and next-step links";
   if (file.includes("dashboard-shell")) return "copy-only pass on home hero, quick start, decision compass, and stock follow-up links";
   if (file.includes("layout")) return "verify site-wide metadata, footer trust copy, and nav labels";

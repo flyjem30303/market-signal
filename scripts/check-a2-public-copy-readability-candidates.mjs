@@ -16,6 +16,10 @@ const forbiddenExecutableReportTokens = [
 const requiredSourceTokens = [
   "src/app",
   "src/components",
+  "src/app/disclaimer/page.tsx",
+  "src/app/methodology/page.tsx",
+  "src/app/privacy/page.tsx",
+  "src/app/terms/page.tsx",
   "publicDataSource: \"mock\"",
   "scoreSource: \"mock\"",
   "connectionAttempted: false",

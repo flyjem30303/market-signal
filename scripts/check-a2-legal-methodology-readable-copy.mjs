@@ -9,9 +9,11 @@ const pages = [
     path: "src/app/disclaimer/page.tsx",
     required: [
       "風險揭露與免責聲明",
-      "Investment and data limits",
+      "資料與投資限制",
       "not investment advice",
-      "data freshness metadata",
+      "資料新鮮度說明",
+      "示範資料",
+      "示範分數",
       "publicDataSource=mock",
       "scoreSource=mock",
       "不是買進、賣出或持有建議"
