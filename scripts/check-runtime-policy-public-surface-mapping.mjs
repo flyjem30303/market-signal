@@ -109,7 +109,7 @@ for (const [pathName, text, phrase] of [
   [publicBetaGatePath, publicBetaGate, "scoreSource=mock"],
   [publicCopyPath, publicCopy, "Public Beta boundary: mock-only"],
   [publicCopyPath, publicCopy, "publicDataSource=mock; scoreSource=mock"],
-  [trustNoticePath, trustNotice, "投資與資料限制：目前仍是 mock-only"],
+  [trustNoticePath, trustNotice, "Investment and data limits: currently mock-only"],
   [trustNoticePath, trustNotice, "publicDataSource=mock; scoreSource=mock"],
   [freshnessStripPath, freshnessStrip, "Data freshness metadata: mock"],
   [freshnessStripPath, freshnessStrip, "Score source:"],

@@ -12,32 +12,32 @@ const contextCopy = {
   disclaimer: {
     eyebrow: "Legal Boundary",
     summary:
-      "This site is a mock-only decision-support product surface. It may show signal flow, 資料新鮮度 metadata, partial coverage, model limitation, and risk disclosure, but 不構成投資建議.",
-    title: "投資與資料限制：目前仍是 mock-only"
+      "This site is a mock-only decision-support product surface. It may show signal flow, data freshness metadata, partial coverage, model limitation, and risk disclosure, but it is not investment advice.",
+    title: "Investment and data limits: currently mock-only"
   },
   methodology: {
     eyebrow: "Method Boundary",
     summary:
       "The current methodology explains how the product reads signals. It does not validate forecasts, complete coverage, real scoring, or personalized recommendations.",
-    title: "方法說明：mock 分數不等於正式模型結論"
+    title: "Methodology: mock scores are not formal model conclusions"
   },
   privacy: {
     eyebrow: "Privacy Boundary",
     summary:
       "Runtime pages keep the public experience in mock mode. Do not enter secrets here; raw market payloads and row payloads are not shown on public pages.",
-    title: "隱私與資料邊界：不因 mock 展示啟用真實資料線"
+    title: "Privacy and data boundary: mock display does not enable real data"
   },
   terms: {
     eyebrow: "Terms Boundary",
     summary:
-      "Use the site as an informational mock Beta. Signals, scores, rankings, 資料新鮮度, and summaries can be stale, incomplete, delayed, unavailable, or wrong.",
-    title: "使用條款：公開資訊仍受 mock-only 邊界限制"
+      "Use the site as an informational mock Beta. Signals, scores, rankings, data freshness metadata, and summaries can be stale, incomplete, delayed, unavailable, or wrong.",
+    title: "Terms of use: public information remains mock-only"
   },
   weekly: {
     eyebrow: "Weekly Boundary",
     summary:
       "Weekly summaries are product-flow readings. They do not prove live market freshness, complete row coverage, real score approval, or investment advice.",
-    title: "週報邊界：目前不是即時或完整市場資料"
+    title: "Weekly boundary: not live or complete market data"
   }
 } as const;
 
@@ -73,7 +73,8 @@ export function TrustRuntimeBoundaryNotice({ context }: TrustRuntimeBoundaryNoti
         <p>Current score source: {sourceDepth.scoreSource === "mock" ? "mock" : sourceDepth.scoreSource}</p>
         <p>
           This state keeps the experience mock-only. Source rights, model credibility, data quality, and public-claim
-          gates must pass before real-score wording can appear. 不得把 mock 訊號說成真實資料、完整覆蓋率或正式投資建議.
+          gates must pass before real-score wording can appear. Do not describe mock signals as real data, complete
+          coverage, or formal investment advice.
         </p>
       </article>
       <article className="blocked">

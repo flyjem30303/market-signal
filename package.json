@@ -303,6 +303,7 @@
     "check:runtime-schema-promotion-readiness": "node scripts/check-runtime-schema-promotion-readiness.mjs",
     "check:runtime-promotion-policy-from-first-closed-loop": "node scripts/check-runtime-promotion-policy-from-first-closed-loop.mjs",
     "check:runtime-policy-public-surface-mapping": "node scripts/check-runtime-policy-public-surface-mapping.mjs",
+    "check:bounded-public-surface-copy-patch-from-mapping": "node scripts/check-bounded-public-surface-copy-patch-from-mapping.mjs",
     "report:mock-signal-reading-flow-readiness": "node scripts/report-mock-signal-reading-flow-readiness.mjs",
     "check:mock-signal-reading-flow-readiness": "node scripts/check-mock-signal-reading-flow-readiness.mjs",
     "report:mock-mvp-product-surface-readiness": "node scripts/report-mock-mvp-product-surface-readiness.mjs",

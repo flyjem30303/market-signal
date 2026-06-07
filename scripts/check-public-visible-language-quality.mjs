@@ -49,23 +49,23 @@ const pages = [
   },
   {
     path: "/weekly",
-    required: coreRuntimeBoundaryRequired
+    required: [...coreRuntimeBoundaryRequired, "Weekly boundary", "data freshness metadata"]
   },
   {
     path: "/methodology",
-    required: coreRuntimeBoundaryRequired
+    required: [...coreRuntimeBoundaryRequired, "Methodology", "mock scores"]
   },
   {
     path: "/disclaimer",
-    required: [...coreRuntimeBoundaryRequired, "投資與資料限制", "不構成投資建議", "資料新鮮度"]
+    required: [...coreRuntimeBoundaryRequired, "Investment and data limits", "not investment advice", "data freshness metadata"]
   },
   {
     path: "/terms",
-    required: [...coreRuntimeBoundaryRequired, "使用條款", "mock-only", "資料新鮮度"]
+    required: [...coreRuntimeBoundaryRequired, "Terms of use", "mock-only", "data freshness metadata"]
   },
   {
     path: "/privacy",
-    required: [...coreRuntimeBoundaryRequired, "隱私與資料邊界", "mock", "raw market payloads"]
+    required: [...coreRuntimeBoundaryRequired, "Privacy and data boundary", "mock", "raw market payloads"]
   }
 ];
 
@@ -147,9 +147,9 @@ const selfContract = [
   {
     check: "requires readable legal pages",
     pass:
-      checkerSource.includes('"投資與資料限制"') &&
-      checkerSource.includes('"使用條款"') &&
-      checkerSource.includes('"隱私與資料邊界"')
+      checkerSource.includes('"Investment and data limits"') &&
+      checkerSource.includes('"Terms of use"') &&
+      checkerSource.includes('"Privacy and data boundary"')
   },
   {
     check: "checker source avoids private-use mojibake literals",

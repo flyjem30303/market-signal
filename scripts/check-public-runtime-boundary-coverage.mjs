@@ -114,8 +114,9 @@ const sharedCopyRequirements = [
   "publicDataSource=mock",
   "scoreSource=mock",
   "mock-only",
-  "資料新鮮度",
-  "不構成投資建議",
+  "Data freshness metadata",
+  "This does not constitute investment advice",
+  "First TW equity closed-loop evidence",
   "partial coverage",
   "missing/delayed data",
   "model outputs are not forecasts"
@@ -157,7 +158,12 @@ for (const token of sharedCopyRequirements) {
 }
 
 const trustNotice = readRequired("src/components/trust-runtime-boundary-notice.tsx");
-for (const token of ["投資與資料限制", "資料新鮮度", "不構成投資建議", "publicDataSource=mock; scoreSource=mock"]) {
+for (const token of [
+  "Investment and data limits: currently mock-only",
+  "data freshness metadata",
+  "not investment advice",
+  "publicDataSource=mock; scoreSource=mock"
+]) {
   if (!trustNotice.includes(token)) {
     findings.push({
       file: "src/components/trust-runtime-boundary-notice.tsx",

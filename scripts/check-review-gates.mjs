@@ -3513,6 +3513,11 @@ const checks = [
     name: "runtime-policy-public-surface-mapping"
   },
   {
+    command: [node, "scripts/check-bounded-public-surface-copy-patch-from-mapping.mjs"],
+    expectStatus: "ok",
+    name: "bounded-public-surface-copy-patch-from-mapping"
+  },
+  {
     command: [node, "scripts/check-etf-daily-prices-coverage-completion-route.mjs"],
     expectStatus: "ok",
     name: "etf-daily-prices-coverage-completion-route"
@@ -4132,6 +4137,7 @@ const coreReviewGateNames = new Set([
   "data-realification-first-closed-loop-rollup",
   "runtime-promotion-policy-from-first-closed-loop",
   "runtime-policy-public-surface-mapping",
+  "bounded-public-surface-copy-patch-from-mapping",
   "etf-daily-prices-coverage-completion-route",
   "etf-source-rights-outcome-decision-gate",
   "a1-twii-index-field-contract-decision-support",
