@@ -4,6 +4,7 @@ import { BriefingPublicBetaGateSummary } from "@/components/briefing-public-beta
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { PageViewTracker } from "@/components/page-view-tracker";
 import { PostReadonlyProductStatus } from "@/components/post-readonly-product-status";
+import { PublicBetaLaunchReadinessPanel } from "@/components/public-beta-launch-readiness-panel";
 import { PublicRuntimeStateStrip } from "@/components/public-runtime-state-strip";
 import { TrackedLink } from "@/components/tracked-link";
 import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
@@ -123,6 +124,7 @@ export default async function BriefingPage() {
 
       <PublicRuntimeStateStrip context="briefing" />
       <PostReadonlyProductStatus context="briefing" symbol={market.asset.symbol} />
+      <PublicBetaLaunchReadinessPanel />
       <BriefingPublicBetaGateSummary />
 
       <nav aria-label="Briefing Compass" className="briefing-compass">

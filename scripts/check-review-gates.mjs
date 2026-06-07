@@ -3008,6 +3008,11 @@ const checks = [
     name: "public-beta-goal-readiness-rollup"
   },
   {
+    command: [node, "scripts/check-public-beta-launch-readiness-panel.mjs"],
+    expectStatus: "ok",
+    name: "public-beta-launch-readiness-panel"
+  },
+  {
     command: [node, "scripts/check-beta-launch-preflight-packet.mjs"],
     expectStatus: "ok",
     name: "beta-launch-preflight-packet"
@@ -4496,6 +4501,7 @@ const coreReviewGateNames = new Set([
   "local-launch-proof-refresh-before-executable-packet",
   "beta-deployment-platform-values-bridge",
   "public-beta-readiness-gate",
+  "public-beta-launch-readiness-panel",
   "beta-launch-preflight-packet",
   "beta-release-runbook-draft",
   "future-deployment-execution-gate",

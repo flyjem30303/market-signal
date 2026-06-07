@@ -361,6 +361,7 @@
     "check:public-beta-readiness-gate": "node scripts/check-public-beta-readiness-gate.mjs",
     "report:public-beta-goal-readiness-rollup": "node scripts/report-public-beta-goal-readiness-rollup.mjs",
     "check:public-beta-goal-readiness-rollup": "node scripts/check-public-beta-goal-readiness-rollup.mjs",
+    "check:public-beta-launch-readiness-panel": "node scripts/check-public-beta-launch-readiness-panel.mjs",
     "check:beta-launch-preflight-packet": "node scripts/check-beta-launch-preflight-packet.mjs",
     "check:beta-release-runbook-draft": "node scripts/check-beta-release-runbook-draft.mjs",
     "check:future-deployment-execution-gate": "node scripts/check-future-deployment-execution-gate.mjs",
