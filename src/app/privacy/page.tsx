@@ -5,8 +5,9 @@ import { TrackedLink } from "@/components/tracked-link";
 import { TrustRuntimeBoundaryNotice } from "@/components/trust-runtime-boundary-notice";
 
 export const metadata: Metadata = {
-  title: "隱私政策",
-  description: "說明指數燈號目前的資料使用、localStorage、分析事件與模擬資料閱讀邊界。"
+  title: "隱私權與資料邊界",
+  description:
+    "Privacy and data boundary for 指數燈號公開 Beta，說明本網站如何處理瀏覽狀態、localStorage、事件追蹤與 raw market payloads 邊界。"
 };
 
 export default function PrivacyPage() {
@@ -15,60 +16,67 @@ export default function PrivacyPage() {
       <PageViewTracker eventName="privacy_page_viewed" payload={{ page: "privacy" }} />
       <section className="hero">
         <p className="eyebrow">Privacy</p>
-        <h1>隱私政策</h1>
+        <h1>隱私權與資料邊界</h1>
         <p>
-          指數燈號目前仍在產品建置階段。我們只保留必要的本地偏好與頁面互動事件，用來改善體驗與確認
-          模擬資料閱讀邊界是否清楚。
+          Privacy and data boundary: 指數燈號公開 Beta 會盡量把使用者資料收集降到最低。頁面可能記錄基本瀏覽事件與本機偏好，
+          但不應輸出 secrets、row payloads、stock id payloads 或 raw market payloads。目前 publicDataSource=mock，scoreSource=mock。
         </p>
       </section>
 
       <TrustRuntimeBoundaryNotice context="privacy" />
       <RouteLocalTrustCopyPanel context="privacy" />
 
-      <section className="legal-quick-read" aria-label="隱私政策重點">
+      <section className="legal-quick-read" aria-label="隱私權重點">
         <article>
-          <span>目前不做</span>
-          <strong>不收集交易帳戶資料</strong>
-          <p>公開頁面不要求輸入券商帳號、交易密碼、身分證件、信用卡或銀行帳戶資訊。</p>
+          <span>本機狀態</span>
+          <strong>localStorage 只保存操作偏好</strong>
+          <p>
+            若功能需要記住瀏覽狀態、篩選條件或使用者確認狀態，會優先使用本機儲存，不把它解讀為投資偏好或個人化建議。
+          </p>
         </article>
         <article>
-          <span>網站使用</span>
-          <strong>基礎互動事件</strong>
-          <p>頁面可能記錄瀏覽、點擊與導覽事件，用於產品品質分析；這些事件不代表投資行為或交易意圖。</p>
+          <span>事件追蹤</span>
+          <strong>用於改善公開 Beta 體驗</strong>
+          <p>
+            站內連結與頁面瀏覽事件可用來理解哪些說明需要更清楚。事件不應包含秘密值、原始市場資料或個人交易內容。
+          </p>
         </article>
         <article>
-          <span>本機資料</span>
-          <strong>localStorage 偏好設定</strong>
-          <p>部分介面偏好可能存在瀏覽器 localStorage。你可以透過瀏覽器設定清除這些本機資料。</p>
+          <span>市場資料</span>
+          <strong>不提交 raw market payloads</strong>
+          <p>
+            資料真實化流程必須經過 source-rights、readonly、ingestion、write/readback 與 promotion gate，不能把原始資料直接提交到 repo。
+          </p>
         </article>
       </section>
 
       <section className="panel legal-section">
-        <h2>我們可能使用的資料</h2>
+        <h2>我們可能處理的資料</h2>
         <p>
-          目前可能使用頁面瀏覽、按鈕點擊、導覽來源、裝置與瀏覽器狀態等基礎資料，以判斷功能是否清楚、路由是否正常，以及公開揭露是否足夠。
+          Beta 階段可能處理頁面路徑、互動事件、使用者選擇的符號、裝置瀏覽器基本資訊與本機偏好。這些資料用於產品改善、
+          健康檢查與公開信任文案調整。
         </p>
       </section>
 
       <section className="panel legal-section">
-        <h2>資料不會用於投資建議</h2>
+        <h2>我們不應收集的資料</h2>
         <p>
-          互動事件與本機偏好不會用來產生個人化投資建議，也不會改變公開資料與分數仍為模擬狀態的邊界。
+          本網站不應要求輸入券商帳號、交易密碼、身分證字號、銀行資料或個人持股明細。若未來需要會員功能，必須另行補充資料保護與權限設計。
         </p>
       </section>
 
       <section className="panel legal-section">
-        <h2>資料保存與清除</h2>
+        <h2>資料保留與刪除</h2>
         <p>
-          localStorage 由你的瀏覽器保存，你可以自行清除。若未來加入帳號、訂閱、正式資料或第三方服務，隱私政策會在功能開放前更新。
+          本機狀態可由使用者清除瀏覽器資料移除。若未來加入伺服器端帳號或付費功能，會在上線前補齊資料保留、刪除與客服流程。
         </p>
       </section>
 
       <section className="panel legal-links">
-        <h2>相關文件</h2>
+        <h2>相關說明</h2>
         <PrivacyTrustLink href="/terms" label="查看使用條款" />
-        <PrivacyTrustLink href="/disclaimer" label="查看免責聲明" />
-        <PrivacyTrustLink href="/methodology" label="查看方法說明" />
+        <PrivacyTrustLink href="/disclaimer" label="查看風險揭露" />
+        <PrivacyTrustLink href="/methodology" label="查看方法論" />
         <PrivacyTrustLink href="/" label="回到首頁" />
       </section>
     </main>

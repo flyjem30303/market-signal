@@ -419,6 +419,7 @@
     "check:mvp-launch-prd": "node scripts/check-mvp-launch-prd.mjs",
     "report:a2-public-copy-readability-candidates": "node scripts/report-a2-public-copy-readability-candidates.mjs",
     "check:a2-public-copy-readability-candidates": "node scripts/check-a2-public-copy-readability-candidates.mjs",
+    "check:a2-legal-methodology-readable-copy": "node scripts/check-a2-legal-methodology-readable-copy.mjs",
     "report:blocker-review-decision-outcome-ledger": "node scripts/report-blocker-review-decision-outcome-ledger.mjs",
     "check:blocker-review-decision-outcome-ledger": "node scripts/check-blocker-review-decision-outcome-ledger.mjs",
     "record:blocker-review-decision-outcome": "node scripts/record-blocker-review-decision-outcome.mjs",

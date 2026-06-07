@@ -8,24 +8,25 @@ import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
 import { getMarketSignalSourceStatus } from "@/lib/repositories/market-signal-repository";
 
 export const metadata: Metadata = {
-  title: "評分方法論",
-  description: "說明台股燈號的多頭健康度、回檔風險度、六大模組、資料品質與回測揭露原則。"
+  title: "方法論",
+  description:
+    "Methodology for 指數燈號公開 Beta，說明 mock scores、資料新鮮度、模型限制、分數來源與 promotion gate 之前的使用邊界。"
 };
 
 const modules = [
-  ["價格趨勢", "18%", "收盤價、均線、相對強弱、成交量", "觀察趨勢是否延續，是否出現結構轉弱。"],
-  ["獲利基本面", "18%", "月營收、EPS、毛利率、營益率", "確認獲利是否支撐目前評價。"],
-  ["估值壓力", "16%", "PE、PB、殖利率、歷史分位", "判斷是否進入追價或過熱區。"],
-  ["市場廣度 / 族群", "14%", "同產業上漲比例、站上均線比例", "檢查漲勢是否擴散，而不是只靠少數權值股。"],
-  ["籌碼資金", "16%", "三大法人、融資、借券、當沖比", "觀察資金是否穩定，散戶槓桿是否偏熱。"],
-  ["宏觀與上游", "18%", "SOX、NASDAQ、VIX、10Y、DXY、USD/TWD", "評估外部環境是否支持風險資產。"]
+  ["市場趨勢", "18%", "指數方向、週期位置、風險溫度", "判斷大盤環境是否支持積極曝險。"],
+  ["產業動能", "18%", "族群強弱、半導體與 ETF 分組", "比較同類資產的相對強弱。"],
+  ["評價與品質", "16%", "估值、獲利穩定度、基本面風險", "避免只看短線漲跌。"],
+  ["資金與籌碼", "14%", "成交量、法人與市場情緒", "觀察買盤是否持續。"],
+  ["風險控制", "16%", "波動、回檔、集中度與資料缺口", "讓高分也能被風險拉回。"],
+  ["總體環境", "18%", "利率、匯率、美元、波動率與國際市場", "提醒外部壓力是否升高。"]
 ];
 
 const qualityLevels = [
-  ["A", "核心資料完整，更新時間正常，燈號可作為主要觀察依據。"],
-  ["B", "少數非核心資料缺漏，分數仍可參考，但需保留解讀空間。"],
-  ["C", "重要資料缺漏，分數需保守解讀，避免過度依賴單日燈號。"],
-  ["D", "資料不足，不應產生正式燈號，只能顯示資料不足。"]
+  ["A", "資料來源、覆蓋率與更新流程清楚，可支持較高信任度的摘要。"],
+  ["B", "主要資料可用，但仍有部分欄位、頻率或來源權利需要補強。"],
+  ["C", "只能作為方向參考，使用時必須搭配人工檢查與其他來源。"],
+  ["D", "資料不足或尚未通過 gate，不應用於公開真實分數。"]
 ];
 
 export default async function MethodologyPage() {
@@ -37,97 +38,80 @@ export default async function MethodologyPage() {
       <PageViewTracker eventName="methodology_page_viewed" payload={{ page: "methodology" }} />
       <section className="hero">
         <p className="eyebrow">Methodology</p>
-        <h1>評分方法論</h1>
+        <h1>方法論</h1>
         <p>
-          台股燈號的定位是市場狀態儀表，協助投資人觀察多頭健康度與回檔風險。
-          分數不是買賣建議，也不是收益保證。
+          Methodology: 指數燈號把市場趨勢、產業動能、評價品質、資金籌碼、風險控制與總體環境整理成可閱讀的 mock scores。
+          目前分數仍是 Beta 示範狀態，不代表正式市場資料、完整覆蓋或個人化投資建議。
         </p>
       </section>
+
       <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
       <TrustRuntimeBoundaryNotice context="methodology" />
       <RouteLocalTrustCopyPanel context="methodology" />
 
-      <section className="method-quick-read" aria-label="方法論快速摘要">
+      <section className="method-quick-read" aria-label="方法論快速閱讀">
         <article>
-          <span>目前定位</span>
-          <strong>市場狀態儀表</strong>
-          <p>協助使用者理解健康度、風險度與資料限制，不直接輸出買賣指令。</p>
+          <span>目前用途</span>
+          <strong>決策輔助，不是交易指令</strong>
+          <p>分數用來整理市場訊號，協助使用者知道要看哪裡；它不是買進、賣出或持有建議。</p>
         </article>
         <article>
-          <span>目前資料</span>
+          <span>資料來源</span>
           <strong>{freshness.scoreSourceLabel}</strong>
-          <p>現階段仍用來驗證產品體驗；正式模型需完成真實資料、回測與角色審核。</p>
+          <p>資料新鮮度會以 metadata 呈現。若來源、時間或覆蓋不足，頁面必須維持 mock/real 邊界清楚。</p>
         </article>
         <article>
-          <span>公開宣稱</span>
-          <strong>尚未開放</strong>
-          <p>不能宣稱真實績效、真實訊號或投資建議，直到公開宣稱 gate 完成。</p>
+          <span>升級條件</span>
+          <strong>promotion gate 後才可切 real</strong>
+          <p>publicDataSource 與 scoreSource 必須通過資料權利、coverage、readonly、ingestion 與模型審核後才能升級。</p>
         </article>
       </section>
 
-      <section className="method-application-bridge" aria-label="方法論應用路徑">
+      <section className="method-application-bridge" aria-label="方法論閱讀入口">
         <div>
           <p className="eyebrow">Apply The Method</p>
-          <h2>把方法拿去對照頁面</h2>
-          <p>先理解評分邏輯，再回到實際頁面檢查市場、週期、單一標的與資料邊界。</p>
+          <h2>從總覽到個股逐層閱讀</h2>
+          <p>先看市場總覽，再進入週報與個股頁，最後檢查資料邊界與風險揭露。</p>
         </div>
         <nav>
-          <MethodBridgeLink href="/briefing" label="每日節奏" title="看晨報" text="用市場廣度、風險升溫與主線族群練習每日判讀。" />
-          <MethodBridgeLink href="/weekly" label="週期觀察" title="看週報" text="把健康度、風險度與 ETF 節奏放到一週脈絡中看。" />
-          <MethodBridgeLink href="/stocks/TWII" label="市場基準" title="看台指" text="用指數頁對照大盤健康度、風險度與資料品質。" />
-          <MethodBridgeLink href="/stocks/2330" label="個股拆解" title="看 2330" text="進入個股頁檢查模組、趨勢、新聞信心與回測摘要。" />
+          <MethodBridgeLink href="/briefing" label="市場簡報" title="看整體狀態" text="先確認市場方向、資料覆蓋與目前仍待補齊的 gate。" />
+          <MethodBridgeLink href="/weekly" label="週報" title="看每週節奏" text="用週報比較指數、ETF 與主要族群的相對狀態。" />
+          <MethodBridgeLink href="/stocks/TWII" label="指數頁" title="看大盤環境" text="用 TWII 頁面理解大盤燈號、資料新鮮度與 mock 邊界。" />
+          <MethodBridgeLink href="/stocks/2330" label="個股頁" title="看單一標的" text="用個股頁檢查分數來源、風險提示與後續閱讀路徑。" />
         </nav>
       </section>
 
-      <section className="method-runtime-map" aria-label="方法論 runtime 對照">
+      <section className="method-runtime-map" aria-label="方法論 runtime 地圖">
         <div>
           <p className="eyebrow">Runtime Map</p>
-          <h2>分數進頁面後怎麼讀</h2>
-          <p>方法論不是獨立文件，它要回到首頁、晨報、週報與個股頁，形成一致的 mock 閱讀流程。</p>
+          <h2>分數如何從 mock 走向 real</h2>
+          <p>目前 runtime 以安全可讀為主。正式資料與正式分數必須經過多個 gate，而不是只靠單次資料寫入。</p>
         </div>
         <article>
           <span>第一步</span>
-          <strong>先看狀態</strong>
-          <p>確認資料狀態、分數來源與燈號，只判斷目前可讀取程度，不直接推導投資動作。</p>
+          <strong>資料權利確認</strong>
+          <p>確認資料來源、欄位授權、再散布限制與可保留的 attribution。</p>
         </article>
         <article>
           <span>第二步</span>
-          <strong>再拆模組</strong>
-          <p>把健康度、風險度、趨勢、技術、籌碼、基本面與新聞信心分開交叉檢查。</p>
+          <strong>覆蓋率與品質</strong>
+          <p>檢查股票、指數、ETF 的覆蓋率、缺漏、更新頻率與異常值處理。</p>
         </article>
         <article>
           <span>第三步</span>
-          <strong>確認停止線</strong>
-          <p>資料來源、回測或公開宣稱不足時，停止升級結論，只保留觀察與產品驗證。</p>
+          <strong>promotion gate</strong>
+          <p>只有 gate 接受後，才允許 publicDataSource 或 scoreSource 從 mock 往 real 推進。</p>
         </article>
       </section>
 
       <section className="panel method-section">
-        <h2>健康度、風險度與綜合燈號</h2>
-        <div className="method-grid">
-          <article>
-            <h3>多頭健康度</h3>
-            <p>衡量趨勢、基本面、資金與產業支撐是否仍存在。分數越高，代表多頭條件越完整。</p>
-          </article>
-          <article>
-            <h3>回檔風險度</h3>
-            <p>衡量估值、籌碼、波動、集中度與宏觀壓力是否升高。分數越高，代表追價需要更謹慎。</p>
-          </article>
-          <article>
-            <h3>綜合燈號</h3>
-            <p>把健康度與風險度合併，作為投資節奏參考。燈號反映風險環境，不代表交易指令。</p>
-          </article>
-        </div>
-      </section>
-
-      <section className="panel method-section">
-        <h2>六大評分模組</h2>
-        <div className="method-table" role="table" aria-label="六大評分模組">
+        <h2>模型模組</h2>
+        <div className="method-table" role="table" aria-label="模型模組">
           <div className="method-row method-head" role="row">
             <span>模組</span>
             <span>權重</span>
             <span>主要資料</span>
-            <span>專業判讀</span>
+            <span>閱讀重點</span>
           </div>
           {modules.map(([name, weight, data, comment]) => (
             <div className="method-row" role="row" key={name}>
@@ -138,24 +122,6 @@ export default async function MethodologyPage() {
             </div>
           ))}
         </div>
-      </section>
-
-      <section className="weekly-grid">
-        <article className="panel method-section">
-          <h2>股票與 ETF 分開校準</h2>
-          <p>
-            個股需要更重視基本面、估值、籌碼與產業資料；ETF 則需要更重視成分股廣度、
-            整體市場趨勢、折溢價、成交量與大盤風險。正式模型會分開校準，避免同一套權重套用所有標的。
-          </p>
-        </article>
-
-        <article className="panel method-section">
-          <h2>回測揭露原則</h2>
-          <p>
-            每個燈號都應揭露樣本期間、樣本數、20 日與 60 日平均報酬、勝率、最大回檔、
-            是否含交易成本，以及是否存在存活者偏誤。
-          </p>
-        </article>
       </section>
 
       <section className="panel method-section">
@@ -171,34 +137,34 @@ export default async function MethodologyPage() {
       </section>
 
       <article className="disclaimer">
-        <h2>目前限制</h2>
+        <h2>方法論限制</h2>
         <p>
-          目前版本仍使用 mock model 與合成報酬，適合驗證產品體驗，不適合作為真實投資模型。
-          正式上線前必須接入真實資料、記錄模型版本，並完成回測揭露。
+          任何模型都會簡化現實。指數燈號的分數可能因資料延遲、覆蓋不足、權重設計或市場突發事件而失真。請把它當成研究輔助，
+          不要把它當成保證報酬或個人化投資建議。
         </p>
       </article>
 
-      <section className="method-guardrail-grid" aria-label="方法論使用邊界">
+      <section className="method-guardrail-grid" aria-label="方法論防線">
         <article>
-          <h2>可以怎麼用</h2>
-          <p>用來比較標的狀態、檢查風險是否升溫、安排閱讀順序與觀察清單。</p>
+          <h2>不承諾即時</h2>
+          <p>資料新鮮度會明示，未通過正式 gate 前不宣稱即時市場資料。</p>
         </article>
         <article>
-          <h2>不可以怎麼用</h2>
-          <p>不能把燈號直接視為買進、賣出、加碼、減碼或任何形式的投資建議。</p>
+          <h2>不承諾完整</h2>
+          <p>覆蓋率仍在補齊，缺少指數或 ETF 證據時，頁面必須保留限制說明。</p>
         </article>
         <article>
-          <h2>何時能升級</h2>
-          <p>需完成真實資料來源、權利、資料品質、回測、法遵、投資與 CEO/董事長授權 gate。</p>
+          <h2>不承諾投資結果</h2>
+          <p>分數、燈號與摘要不能保證報酬，也不能取代使用者的風險管理。</p>
         </article>
       </section>
 
       <section className="panel method-links">
-        <h2>理解方法後</h2>
-        <TrustTextLink href="/" label="回首頁看 mock 覆蓋地圖" />
-        <TrustTextLink href="/briefing" label="看每日晨報" />
-        <TrustTextLink href="/weekly" label="看本週週報" />
-        <TrustTextLink href="/disclaimer" label="確認免責聲明" />
+        <h2>繼續閱讀</h2>
+        <TrustTextLink href="/" label="回到首頁" />
+        <TrustTextLink href="/briefing" label="查看市場簡報" />
+        <TrustTextLink href="/weekly" label="查看週報" />
+        <TrustTextLink href="/disclaimer" label="查看風險揭露" />
         <TrustTextLink href="/terms" label="查看使用條款" />
       </section>
     </main>
