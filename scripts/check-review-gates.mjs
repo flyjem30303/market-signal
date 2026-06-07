@@ -3773,6 +3773,11 @@ const checks = [
     name: "a1-source-rights-next-action"
   },
   {
+    command: [node, "scripts/check-a1-exact-source-rights-evidence-intake-command-map.mjs"],
+    expectStatus: "ok",
+    name: "a1-exact-source-rights-evidence-intake-command-map"
+  },
+  {
     command: [node, "scripts/check-local-launch-proof-refresh-before-executable-packet.mjs"],
     expectStatus: "ok",
     name: "local-launch-proof-refresh-before-executable-packet"
@@ -4406,6 +4411,7 @@ const coreReviewGateNames = new Set([
   "twii-vendor-internal-evidence-outcome-ledger",
   "twii-source-rights-outcome-gate-bridge",
   "a1-source-rights-next-action",
+  "a1-exact-source-rights-evidence-intake-command-map",
   "local-launch-proof-refresh-before-executable-packet",
   "beta-deployment-platform-values-bridge",
   "public-beta-readiness-gate",
@@ -4443,6 +4449,7 @@ const coreReviewGateNames = new Set([
   "runtime-summary-alignment-from-first-closed-loop",
   "a1-mvp-coverage-closure-route-support",
   "a1-twii-etf-source-rights-evidence-intake-packet",
+  "a1-exact-source-rights-evidence-intake-command-map",
   "a1-source-rights-unblock-priority-packet",
   "a1-twii-source-rights-unblock-decision-record-candidate",
   "a1-twii-source-rights-evidence-intake-or-vendor-fallback-decision-support",
