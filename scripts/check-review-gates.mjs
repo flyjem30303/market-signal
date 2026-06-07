@@ -3073,6 +3073,11 @@ const checks = [
     name: "local-launch-proof-bundle-snapshot"
   },
   {
+    command: [node, "scripts/check-beta-deployment-operator-values-gap-list.mjs"],
+    expectStatus: "ok",
+    name: "beta-deployment-operator-values-gap-list"
+  },
+  {
     command: [node, "scripts/check-a1-mvp-coverage-closure-route-support.mjs"],
     expectStatus: "ok",
     name: "a1-mvp-coverage-closure-route-support"
@@ -4190,6 +4195,7 @@ const coreReviewGateNames = new Set([
   "beta-deployment-operator-values-safe-fill-recheck",
   "local-launch-preflight-without-external-operator-values",
   "local-launch-proof-bundle-snapshot",
+  "beta-deployment-operator-values-gap-list",
   "a1-mvp-coverage-closure-route-support",
   "a2-public-beta-trust-copy-readiness",
   "a2-beta-phrase-set-and-shared-trust-surface-patch-scope",
