@@ -3808,6 +3808,16 @@ const checks = [
     name: "a1-exact-source-rights-evidence-worksheet"
   },
   {
+    command: [node, "scripts/report-a1-source-rights-evidence-batch-brief.mjs"],
+    expectStatus: "twii_batch_brief_ready_pending_no_secret_evidence",
+    name: "a1-source-rights-evidence-batch-brief-report"
+  },
+  {
+    command: [node, "scripts/check-a1-source-rights-evidence-batch-brief.mjs"],
+    expectStatus: "ok",
+    name: "a1-source-rights-evidence-batch-brief"
+  },
+  {
     command: [node, "scripts/check-a1-source-rights-readiness-summary.mjs"],
     expectStatus: "ok",
     name: "a1-source-rights-readiness-summary"
