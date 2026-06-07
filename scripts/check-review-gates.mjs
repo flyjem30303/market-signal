@@ -3133,6 +3133,11 @@ const checks = [
     name: "beta-packet-to-deployment-pre-execution-bridge"
   },
   {
+    command: [node, "scripts/check-beta-pre-execution-packet-candidate-template.mjs"],
+    expectStatus: "ok",
+    name: "beta-pre-execution-packet-candidate-template"
+  },
+  {
     command: [node, "scripts/check-chairman-beta-launch-review-packet.mjs"],
     expectStatus: "ok",
     name: "chairman-beta-launch-review-packet"
@@ -4397,6 +4402,7 @@ const coreReviewGateNames = new Set([
   "beta-packet-window-one-command-proof-map",
   "beta-packet-window-reviewed-artifact-outcome-recorder",
   "beta-packet-to-deployment-pre-execution-bridge",
+  "beta-pre-execution-packet-candidate-template",
   "chairman-beta-launch-review-packet",
   "runtime-data-promotion-handoff-checklist",
   "runtime-summary-alignment-from-first-closed-loop",
