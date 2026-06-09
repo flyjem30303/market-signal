@@ -335,6 +335,8 @@
     "check:twii-bounded-data-acceptance-named-attempt-packet": "node scripts/check-twii-bounded-data-acceptance-named-attempt-packet.mjs",
     "run:twii-bounded-data-acceptance-packet-driven-chain": "node scripts/run-twii-bounded-data-acceptance-packet-driven-chain.mjs",
     "check:twii-bounded-data-acceptance-packet-driven-chain": "node scripts/check-twii-bounded-data-acceptance-packet-driven-chain.mjs",
+    "report:twii-sanitized-candidate-artifact-chain-handoff": "node scripts/report-twii-sanitized-candidate-artifact-chain-handoff.mjs",
+    "check:twii-sanitized-candidate-artifact-chain-handoff": "node scripts/check-twii-sanitized-candidate-artifact-chain-handoff.mjs",
     "report:a1-source-rights-evidence-batch-brief": "node scripts/report-a1-source-rights-evidence-batch-brief.mjs",
     "check:a1-source-rights-evidence-batch-brief": "node scripts/check-a1-source-rights-evidence-batch-brief.mjs",
     "report:a1-source-rights-reviewed-outcome-surface": "node scripts/report-a1-source-rights-reviewed-outcome-surface.mjs",
