@@ -3998,6 +3998,11 @@ const checks = [
     name: "twii-bounded-readonly-preflight-authorization-packet"
   },
   {
+    command: [node, "scripts/check-twii-bounded-readonly-preflight-final-execution-gate.mjs"],
+    expectStatus: "ok",
+    name: "twii-bounded-readonly-preflight-final-execution-gate"
+  },
+  {
     command: [node, "scripts/check-coverage-universe-roadmap.mjs"],
     expectStatus: "ok",
     name: "coverage-universe-roadmap"
@@ -4818,6 +4823,7 @@ const coreReviewGateNames = new Set([
   "twii-bounded-readonly-preflight-candidate-design",
   "twii-bounded-readonly-preflight-runner-stub",
   "twii-bounded-readonly-preflight-authorization-packet",
+  "twii-bounded-readonly-preflight-final-execution-gate",
   "coverage-universe-roadmap",
   "goal-parallel-workstream-adjustment",
   "runtime-local-route-health-refresh-before-executable-packet",
@@ -4871,6 +4877,7 @@ const coreReviewGateNames = new Set([
   "twii-bounded-readonly-preflight-candidate-design",
   "twii-bounded-readonly-preflight-runner-stub",
   "twii-bounded-readonly-preflight-authorization-packet",
+  "twii-bounded-readonly-preflight-final-execution-gate",
   "a1-source-rights-readiness-summary",
   "local-launch-proof-refresh-before-executable-packet",
   "beta-deployment-platform-values-bridge",
@@ -4999,6 +5006,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "twii-bounded-readonly-preflight-candidate-design",
   "twii-bounded-readonly-preflight-runner-stub",
   "twii-bounded-readonly-preflight-authorization-packet",
+  "twii-bounded-readonly-preflight-final-execution-gate",
   "typescript"
 ]);
 

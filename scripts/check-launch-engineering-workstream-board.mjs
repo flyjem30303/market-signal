@@ -99,6 +99,8 @@ const requiredDocPhrases = [
   "twii_bounded_readonly_preflight_runner_stub_ready_fail_closed",
   "`docs/TWII_BOUNDED_READONLY_PREFLIGHT_AUTHORIZATION_PACKET.md` is `accepted` as TWII bounded readonly preflight authorization packet",
   "twii_bounded_readonly_preflight_authorization_packet_ready_not_executed",
+  "`docs/TWII_BOUNDED_READONLY_PREFLIGHT_FINAL_EXECUTION_GATE.md` is `accepted` as TWII bounded readonly preflight final execution gate",
+  "twii_bounded_readonly_preflight_final_execution_gate_ready_not_executed",
   "ETF source-rights outcome decision is open and currently blocked at `rejected_for_execution_pending_external_rights`",
   "TWII source-rights and candidate readiness is accepted as the next alternative data branch",
   "TWII remains `not_approved_for_probe_or_ingestion`",

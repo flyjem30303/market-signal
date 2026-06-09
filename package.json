@@ -357,6 +357,8 @@
     "check:twii-bounded-readonly-preflight-runner-stub": "node scripts/check-twii-bounded-readonly-preflight-runner-stub.mjs",
     "report:twii-bounded-readonly-preflight-authorization-packet": "node scripts/report-twii-bounded-readonly-preflight-authorization-packet.mjs",
     "check:twii-bounded-readonly-preflight-authorization-packet": "node scripts/check-twii-bounded-readonly-preflight-authorization-packet.mjs",
+    "report:twii-bounded-readonly-preflight-final-execution-gate": "node scripts/report-twii-bounded-readonly-preflight-final-execution-gate.mjs",
+    "check:twii-bounded-readonly-preflight-final-execution-gate": "node scripts/check-twii-bounded-readonly-preflight-final-execution-gate.mjs",
     "report:a1-source-rights-evidence-batch-brief": "node scripts/report-a1-source-rights-evidence-batch-brief.mjs",
     "check:a1-source-rights-evidence-batch-brief": "node scripts/check-a1-source-rights-evidence-batch-brief.mjs",
     "report:a1-source-rights-reviewed-outcome-surface": "node scripts/report-a1-source-rights-reviewed-outcome-surface.mjs",
