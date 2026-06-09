@@ -349,6 +349,8 @@
     "check:pm-twii-named-attempt-no-write-proof": "node scripts/check-pm-twii-named-attempt-no-write-proof.mjs",
     "report:twii-no-write-proof-post-review-readiness-gate": "node scripts/report-twii-no-write-proof-post-review-readiness-gate.mjs",
     "check:twii-no-write-proof-post-review-readiness-gate": "node scripts/check-twii-no-write-proof-post-review-readiness-gate.mjs",
+    "report:twii-bounded-readonly-preflight-candidate-design": "node scripts/report-twii-bounded-readonly-preflight-candidate-design.mjs",
+    "check:twii-bounded-readonly-preflight-candidate-design": "node scripts/check-twii-bounded-readonly-preflight-candidate-design.mjs",
     "report:a1-source-rights-evidence-batch-brief": "node scripts/report-a1-source-rights-evidence-batch-brief.mjs",
     "check:a1-source-rights-evidence-batch-brief": "node scripts/check-a1-source-rights-evidence-batch-brief.mjs",
     "report:a1-source-rights-reviewed-outcome-surface": "node scripts/report-a1-source-rights-reviewed-outcome-surface.mjs",

@@ -93,6 +93,8 @@ const requiredDocPhrases = [
   "pm_twii_named_attempt_no_write_proof_ready",
   "`docs/TWII_NO_WRITE_PROOF_POST_REVIEW_READINESS_GATE.md` is `accepted` as TWII no-write proof post-review readiness gate",
   "twii_no_write_proof_post_review_readiness_gate_ready",
+  "`docs/TWII_BOUNDED_READONLY_PREFLIGHT_CANDIDATE_DESIGN.md` is `accepted` as TWII bounded readonly preflight candidate design",
+  "twii_bounded_readonly_preflight_candidate_design_ready",
   "ETF source-rights outcome decision is open and currently blocked at `rejected_for_execution_pending_external_rights`",
   "TWII source-rights and candidate readiness is accepted as the next alternative data branch",
   "TWII remains `not_approved_for_probe_or_ingestion`",
