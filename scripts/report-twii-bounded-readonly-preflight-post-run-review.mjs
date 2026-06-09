@@ -9,27 +9,42 @@ if (!summaryPath || !summaryPath.startsWith("tmp/")) {
 }
 
 const summary = summaryPath ? readJson(summaryPath) : {};
-if (summary.status !== "twii_bounded_readonly_preflight_stub_blocked_confirmation_required") {
-  problems.push("post_run_review_accepts_only_default_confirmation_blocked_stub_summary");
-}
-if (summary.outcome !== "blocked_fail_closed_no_remote_attempt") {
-  problems.push("summary_outcome_must_be_blocked_fail_closed_no_remote_attempt");
+const acceptsDefaultBlockedStub =
+  summary.status === "twii_bounded_readonly_preflight_stub_blocked_confirmation_required" &&
+  summary.outcome === "blocked_fail_closed_no_remote_attempt";
+const acceptsBoundaryDryRun =
+  summary.status === "twii_bounded_readonly_preflight_real_readonly_boundary_dry_run_ready" &&
+  summary.outcome === "ready_for_single_remote_readonly_attempt_not_executed" &&
+  summary.remoteExecutionBoundaryImplemented === true &&
+  summary.executeRequested === false;
+
+if (!acceptsDefaultBlockedStub && !acceptsBoundaryDryRun) {
+  problems.push("post_run_review_accepts_only_default_blocked_stub_or_real_readonly_boundary_dry_run");
 }
 if (summary.failClosed !== true || summary.remoteExecutionImplemented !== false) {
-  problems.push("summary_must_be_fail_closed_and_remote_unimplemented");
+  problems.push("summary_must_be_fail_closed_and_remote_unexecuted");
 }
 assertSafety(summary.safety, "summary safety");
 
 const accepted = problems.length === 0;
+const acceptedStatus = acceptsBoundaryDryRun
+  ? "twii_bounded_readonly_preflight_post_run_review_accepted_real_readonly_boundary_dry_run"
+  : "twii_bounded_readonly_preflight_post_run_review_accepted_fail_closed_stub";
+const acceptedOutcome = acceptsBoundaryDryRun
+  ? "accepted_real_readonly_boundary_dry_run_no_remote_attempt"
+  : "accepted_fail_closed_stub_no_remote_attempt";
 const review = {
-  status: accepted ? "twii_bounded_readonly_preflight_post_run_review_accepted_fail_closed_stub" : "blocked",
-  outcome: accepted ? "accepted_fail_closed_stub_no_remote_attempt" : "blocked",
+  status: accepted ? acceptedStatus : "blocked",
+  outcome: accepted ? acceptedOutcome : "blocked",
   summaryPath: summaryPath || null,
   reviewedStatus: summary.status ?? null,
   reviewedOutcome: summary.outcome ?? null,
-  acceptedMeaning:
-    "Accepted only as proof that the local readonly preflight stub fails closed without confirmation. It does not approve a Supabase readonly attempt.",
-  nextRecommendedSlice: "twii_bounded_readonly_preflight_authorization_packet",
+  acceptedMeaning: acceptsBoundaryDryRun
+    ? "Accepted only as proof that the real-readonly runner boundary dry-run is token-gated and no-remote. It does not approve a Supabase readonly attempt."
+    : "Accepted only as proof that the local readonly preflight stub fails closed without confirmation. It does not approve a Supabase readonly attempt.",
+  nextRecommendedSlice: acceptsBoundaryDryRun
+    ? "twii_bounded_readonly_preflight_single_attempt_authorization"
+    : "twii_bounded_readonly_preflight_authorization_packet",
   safety: {
     publicDataSource: "mock",
     scoreSource: "mock",

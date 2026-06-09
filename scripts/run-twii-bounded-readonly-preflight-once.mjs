@@ -14,6 +14,8 @@ const candidateArtifactPath = normalizePath(args["candidate-artifact-path"] ?? "
 const mode = args.mode;
 const confirmation = args.confirm;
 const outDir = args["out-dir"] ?? DEFAULT_OUT_DIR;
+const dryRunRealReadonlyBoundary = args["dry-run-real-readonly-boundary"] === "true";
+const executeRequested = args.execute === "true";
 
 if (!attemptId || !/^[a-z0-9][a-z0-9_-]{2,80}$/iu.test(attemptId)) {
   problems.push("attempt_id_missing_or_unsafe");
@@ -47,7 +49,10 @@ if (candidateArtifactPath === EXPECTED_CANDIDATE_PATH) {
 
 const confirmationPresent = confirmation === CONFIRMATION;
 const safeAttemptId = safeFileStamp(attemptId ?? "missing");
-const summaryPath = path.join(outDir, `twii-bounded-readonly-preflight-stub-${safeAttemptId}.json`);
+const summaryFilePrefix = dryRunRealReadonlyBoundary
+  ? "twii-bounded-readonly-preflight-boundary"
+  : "twii-bounded-readonly-preflight-stub";
+const summaryPath = path.join(outDir, `${summaryFilePrefix}-${safeAttemptId}.json`);
 const blockedByConfirmation = !confirmationPresent;
 
 const status =
@@ -55,14 +60,22 @@ const status =
     ? "blocked_invalid_stub_input"
     : blockedByConfirmation
       ? "twii_bounded_readonly_preflight_stub_blocked_confirmation_required"
-      : "twii_bounded_readonly_preflight_stub_ready_remote_execution_not_implemented";
+      : executeRequested
+        ? "twii_bounded_readonly_preflight_real_readonly_boundary_blocked_execute_not_enabled"
+        : dryRunRealReadonlyBoundary
+          ? "twii_bounded_readonly_preflight_real_readonly_boundary_dry_run_ready"
+          : "twii_bounded_readonly_preflight_real_readonly_boundary_requires_dry_run";
 
 const outcome =
   problems.length > 0
     ? "blocked"
     : blockedByConfirmation
       ? "blocked_fail_closed_no_remote_attempt"
-      : "ready_for_separate_remote_implementation_not_executed";
+      : executeRequested
+        ? "blocked_execute_requested_no_remote_attempt"
+        : dryRunRealReadonlyBoundary
+          ? "ready_for_single_remote_readonly_attempt_not_executed"
+          : "blocked_confirmation_present_but_dry_run_boundary_required";
 
 const summary = {
   status,
@@ -75,6 +88,9 @@ const summary = {
   candidateArtifactStatus: handoff.status ?? null,
   confirmationPresent,
   requiredConfirmation: CONFIRMATION,
+  dryRunRealReadonlyBoundary,
+  executeRequested,
+  remoteExecutionBoundaryImplemented: dryRunRealReadonlyBoundary && !executeRequested && problems.length === 0,
   remoteExecutionImplemented: false,
   failClosed: true,
   safety: {
