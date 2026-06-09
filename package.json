@@ -347,6 +347,8 @@
     "check:twii-a1-d-handoff-reply-template": "node scripts/check-twii-a1-d-handoff-reply-template.mjs",
     "report:pm-twii-named-attempt-no-write-proof": "node scripts/report-pm-twii-named-attempt-no-write-proof.mjs",
     "check:pm-twii-named-attempt-no-write-proof": "node scripts/check-pm-twii-named-attempt-no-write-proof.mjs",
+    "report:twii-no-write-proof-post-review-readiness-gate": "node scripts/report-twii-no-write-proof-post-review-readiness-gate.mjs",
+    "check:twii-no-write-proof-post-review-readiness-gate": "node scripts/check-twii-no-write-proof-post-review-readiness-gate.mjs",
     "report:a1-source-rights-evidence-batch-brief": "node scripts/report-a1-source-rights-evidence-batch-brief.mjs",
     "check:a1-source-rights-evidence-batch-brief": "node scripts/check-a1-source-rights-evidence-batch-brief.mjs",
     "report:a1-source-rights-reviewed-outcome-surface": "node scripts/report-a1-source-rights-reviewed-outcome-surface.mjs",
