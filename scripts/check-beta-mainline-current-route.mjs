@@ -306,8 +306,13 @@ if (!report) {
     if (report.pmRouteRouter.pmCommand !== "cmd.exe /c npm run report:public-beta-external-input-copy-packet") {
       blocked.push("report.pmRouteRouter.pmCommand must keep the external-input copy packet as the missing-value route");
     }
-    if (report.pmRouteRouter.fallbackFullRequestCommand !== "cmd.exe /c npm run report:public-beta-external-input-request") {
-      blocked.push("report.pmRouteRouter.fallbackFullRequestCommand must keep the full external-input request as fallback");
+    if (
+      ![
+        "cmd.exe /c npm run report:public-beta-external-input-request",
+        "cmd.exe /c npm run render:beta-pre-execution-packet-candidate"
+      ].includes(report.pmRouteRouter.fallbackFullRequestCommand)
+    ) {
+      blocked.push("report.pmRouteRouter.fallbackFullRequestCommand must keep either the full external-input request or accepted-artifact packet candidate renderer as fallback");
     }
     if (
       ![
@@ -1442,8 +1447,8 @@ if (!report) {
     if (report.goalReadiness.currentRoute?.pmMainlineStatus !== report.status) {
       blocked.push("report.goalReadiness.currentRoute.pmMainlineStatus must match current mainline blocker");
     }
-    if (report.goalReadiness.currentRoute?.pmDefaultWhenBlocked !== true) {
-      blocked.push("report.goalReadiness.currentRoute.pmDefaultWhenBlocked must be true");
+    if (report.goalReadiness.currentRoute?.pmDefaultWhenBlocked !== false) {
+      blocked.push("report.goalReadiness.currentRoute.pmDefaultWhenBlocked must be false once mainline has an executable route");
     }
     const goalItems = new Map(report.goalReadiness.completionItems?.map((item) => [item.id, item]) ?? []);
     if (goalItems.get("runtime_core_routes")?.status !== "ready") {

@@ -24,6 +24,7 @@ const pmWorktreeState = pmSafeguardReady
   : (pmWorktreeReview.json?.worktree?.worktreeState ?? routePreview.json?.proofMap?.repoProofWorktreeState ?? "needs_pm_review_before_packet_creation");
 const postReplyOneRunnerCommand = "cmd.exe /c npm run run:public-beta-post-reply-route-once";
 const responseReadinessCommand = "cmd.exe /c npm run report:public-beta-external-input-response-readiness";
+const acceptedReviewedArtifact = findAcceptedReviewedArtifact();
 
 const report = {
   status: readyToRunProofMap ? "beta_platform_values_ready_for_packet_window" : "blocked_waiting_two_platform_values",
@@ -90,9 +91,11 @@ const report = {
     intakeCommand: quickstart.json?.pmNow?.intakeCommand ?? "cmd.exe /c npm run report:beta-platform-two-value-intake-command"
   },
   reviewedArtifact: {
-    acceptedArtifactExists: false,
-    latestAcceptedArtifactPath: null,
-    decisionRoute: "record_after_no_secret_platform_once_runner_reaches_review_template"
+    acceptedArtifactExists: acceptedReviewedArtifact.exists,
+    latestAcceptedArtifactPath: acceptedReviewedArtifact.path,
+    decisionRoute: acceptedReviewedArtifact.exists
+      ? "render_pre_execution_packet_candidate_from_accepted_reviewed_artifact"
+      : "record_after_no_secret_platform_once_runner_reaches_review_template"
   },
   parallelLanes: {
     a1: sourceSummary.canOpenTwiiRightsGate
@@ -147,6 +150,34 @@ function parseJson(stdout) {
   } catch {
     return null;
   }
+}
+
+function findAcceptedReviewedArtifact() {
+  const dir = "docs/reviews";
+  if (!fs.existsSync(dir)) return { exists: false, path: null };
+
+  const files = fs
+    .readdirSync(dir)
+    .filter((name) => /^BETA_PACKET_WINDOW_REVIEWED_ARTIFACT_\d{4}-\d{2}-\d{2}(?:_\d{2})?\.md$/u.test(name))
+    .map((name) => `${dir}/${name}`)
+    .sort();
+
+  for (const filePath of files.toReversed()) {
+    const content = fs.readFileSync(filePath, "utf8");
+    if (isAcceptedReviewedArtifact(content)) return { exists: true, path: filePath };
+  }
+
+  return { exists: false, path: null };
+}
+
+function isAcceptedReviewedArtifact(content) {
+  return [
+    "Status: `accepted`",
+    "- Outcome: `accepted`",
+    "reviewOutcome: `accepted`",
+    "Review outcome: `accepted`",
+    "outcome: `accepted`"
+  ].some((phrase) => content.includes(phrase));
 }
 
 function readJson(filePath, fallback) {

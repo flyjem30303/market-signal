@@ -135,6 +135,8 @@ function findAcceptedReviewedArtifact() {
   for (const filePath of files.toReversed()) {
     const content = fs.readFileSync(filePath, "utf8");
     if (
+      content.includes("Status: `accepted`") ||
+      content.includes("- Outcome: `accepted`") ||
       content.includes("reviewOutcome: `accepted`") ||
       content.includes("Review outcome: `accepted`") ||
       content.includes("outcome: `accepted`")
