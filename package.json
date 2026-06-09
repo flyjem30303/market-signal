@@ -339,6 +339,8 @@
     "check:twii-sanitized-candidate-artifact-chain-handoff": "node scripts/check-twii-sanitized-candidate-artifact-chain-handoff.mjs",
     "render:twii-bounded-data-acceptance-named-packet-scaffold": "node scripts/render-twii-bounded-data-acceptance-named-packet-scaffold.mjs",
     "check:twii-bounded-data-acceptance-named-packet-scaffold": "node scripts/check-twii-bounded-data-acceptance-named-packet-scaffold.mjs",
+    "run:twii-scaffold-to-packet-driven-chain-smoke-proof": "node scripts/run-twii-scaffold-to-packet-driven-chain-smoke-proof.mjs",
+    "check:twii-scaffold-to-packet-driven-chain-smoke-proof": "node scripts/check-twii-scaffold-to-packet-driven-chain-smoke-proof.mjs",
     "report:a1-source-rights-evidence-batch-brief": "node scripts/report-a1-source-rights-evidence-batch-brief.mjs",
     "check:a1-source-rights-evidence-batch-brief": "node scripts/check-a1-source-rights-evidence-batch-brief.mjs",
     "report:a1-source-rights-reviewed-outcome-surface": "node scripts/report-a1-source-rights-reviewed-outcome-surface.mjs",

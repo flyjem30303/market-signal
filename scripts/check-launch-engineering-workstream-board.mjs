@@ -83,6 +83,8 @@ const requiredDocPhrases = [
   "twii_sanitized_candidate_artifact_chain_handoff_ready",
   "`docs/TWII_BOUNDED_DATA_ACCEPTANCE_NAMED_PACKET_SCAFFOLD.md` is `accepted` as TWII bounded data acceptance named packet scaffold",
   "twii_bounded_data_acceptance_named_packet_scaffold_ready",
+  "`docs/TWII_SCAFFOLD_TO_PACKET_DRIVEN_CHAIN_SMOKE_PROOF.md` is `accepted` as TWII scaffold-to-packet-driven chain smoke proof",
+  "twii_scaffold_to_packet_driven_chain_smoke_proof_ready",
   "ETF source-rights outcome decision is open and currently blocked at `rejected_for_execution_pending_external_rights`",
   "TWII source-rights and candidate readiness is accepted as the next alternative data branch",
   "TWII remains `not_approved_for_probe_or_ingestion`",
