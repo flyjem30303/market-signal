@@ -3863,6 +3863,16 @@ const checks = [
     name: "a1-twii-sanitized-candidate-artifact-readiness-gate"
   },
   {
+    command: [node, "scripts/check-a1-twii-candidate-artifact-self-check.mjs"],
+    expectStatus: "ok",
+    name: "a1-twii-candidate-artifact-self-check"
+  },
+  {
+    command: [node, "scripts/check-pm-twii-candidate-intake-review.mjs"],
+    expectStatus: "ok",
+    name: "pm-twii-candidate-intake-review"
+  },
+  {
     command: [node, "scripts/check-coverage-universe-roadmap.mjs"],
     expectStatus: "ok",
     name: "coverage-universe-roadmap"
@@ -4656,6 +4666,8 @@ const coreReviewGateNames = new Set([
   "a1-twii-index-field-contract-decision-support",
   "twii-source-rights-outcome-gate",
   "a1-twii-sanitized-candidate-artifact-readiness-gate",
+  "a1-twii-candidate-artifact-self-check",
+  "pm-twii-candidate-intake-review",
   "coverage-universe-roadmap",
   "goal-parallel-workstream-adjustment",
   "runtime-local-route-health-refresh-before-executable-packet",
@@ -4682,6 +4694,8 @@ const coreReviewGateNames = new Set([
   "a1-twii-post-reply-pm-classification-once",
   "a1-twii-outcome-gate-candidate-route",
   "a1-twii-sanitized-candidate-artifact-readiness-gate",
+  "a1-twii-candidate-artifact-self-check",
+  "pm-twii-candidate-intake-review",
   "a1-source-rights-readiness-summary",
   "local-launch-proof-refresh-before-executable-packet",
   "beta-deployment-platform-values-bridge",
