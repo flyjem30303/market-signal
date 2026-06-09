@@ -4058,6 +4058,11 @@ const checks = [
     name: "twii-write-gate-runner-boundary"
   },
   {
+    command: [node, "scripts/check-twii-non-executing-write-runner-skeleton.mjs"],
+    expectStatus: "ok",
+    name: "twii-non-executing-write-runner-skeleton"
+  },
+  {
     command: [node, "scripts/check-coverage-universe-roadmap.mjs"],
     expectStatus: "ok",
     name: "coverage-universe-roadmap"
@@ -4890,6 +4895,7 @@ const coreReviewGateNames = new Set([
   "twii-supabase-write-gate-preauth",
   "twii-supabase-write-gate-packet-template",
   "twii-write-gate-runner-boundary",
+  "twii-non-executing-write-runner-skeleton",
   "coverage-universe-roadmap",
   "goal-parallel-workstream-adjustment",
   "runtime-local-route-health-refresh-before-executable-packet",
@@ -4955,6 +4961,7 @@ const coreReviewGateNames = new Set([
   "twii-supabase-write-gate-preauth",
   "twii-supabase-write-gate-packet-template",
   "twii-write-gate-runner-boundary",
+  "twii-non-executing-write-runner-skeleton",
   "a1-source-rights-readiness-summary",
   "local-launch-proof-refresh-before-executable-packet",
   "beta-deployment-platform-values-bridge",
@@ -5095,6 +5102,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "twii-supabase-write-gate-preauth",
   "twii-supabase-write-gate-packet-template",
   "twii-write-gate-runner-boundary",
+  "twii-non-executing-write-runner-skeleton",
   "typescript"
 ]);
 
