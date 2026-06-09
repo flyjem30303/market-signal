@@ -3883,6 +3883,16 @@ const checks = [
     name: "pm-twii-report-only-dry-run-preflight"
   },
   {
+    command: [node, "scripts/check-twii-report-only-local-runner.mjs"],
+    expectStatus: "ok",
+    name: "twii-report-only-local-runner"
+  },
+  {
+    command: [node, "scripts/check-twii-report-only-local-runner-post-run-review.mjs"],
+    expectStatus: "ok",
+    name: "twii-report-only-local-runner-post-run-review"
+  },
+  {
     command: [node, "scripts/check-coverage-universe-roadmap.mjs"],
     expectStatus: "ok",
     name: "coverage-universe-roadmap"
@@ -4680,6 +4690,8 @@ const coreReviewGateNames = new Set([
   "pm-twii-candidate-intake-review",
   "twii-report-only-dry-run-decision-gate",
   "pm-twii-report-only-dry-run-preflight",
+  "twii-report-only-local-runner",
+  "twii-report-only-local-runner-post-run-review",
   "coverage-universe-roadmap",
   "goal-parallel-workstream-adjustment",
   "runtime-local-route-health-refresh-before-executable-packet",
@@ -4710,6 +4722,8 @@ const coreReviewGateNames = new Set([
   "pm-twii-candidate-intake-review",
   "twii-report-only-dry-run-decision-gate",
   "pm-twii-report-only-dry-run-preflight",
+  "twii-report-only-local-runner",
+  "twii-report-only-local-runner-post-run-review",
   "a1-source-rights-readiness-summary",
   "local-launch-proof-refresh-before-executable-packet",
   "beta-deployment-platform-values-bridge",
