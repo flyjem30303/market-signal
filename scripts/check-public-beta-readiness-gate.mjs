@@ -33,7 +33,7 @@ for (const phrase of [
   "Full Level 1 MVP row coverage remains `182/360`",
   "Remaining TWII sub-scope remains `0/60`",
   "Remaining ETF sub-scope remains `2/120`",
-  "TWII source-rights outcome gate remains `twii_source_rights_outcome_gate_blocked_external_rights_pending`",
+  "TWII source-rights outcome gate is `twii_source_rights_outcome_gate_candidate_ready_for_pm_review`, but TWII execution and real promotion remain blocked.",
   "ETF source-rights outcome remains blocked by `legal_and_redistribution_terms_unapproved`",
   "Public runtime boundary remains `publicDataSource=mock`",
   "Score boundary remains `scoreSource=mock`",
@@ -115,9 +115,9 @@ for (const phrase of [
 }
 
 for (const phrase of [
-  "Status: `twii_source_rights_outcome_gate_blocked_external_rights_pending`",
-  "`rejected_for_execution_pending_external_rights_and_field_contract`",
-  "The TWII route remains `not_approved_for_probe_or_ingestion`"
+  "Status: `twii_source_rights_outcome_gate_candidate_ready_for_pm_review`",
+  "`candidate_ready_no_execution_authority`",
+  "this gate is ready for PM/CEO review only"
 ]) {
   if (!twiiGate.includes(phrase)) problems.push(`${twiiGatePath} missing: ${phrase}`);
 }

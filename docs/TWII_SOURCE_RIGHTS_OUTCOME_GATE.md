@@ -1,6 +1,6 @@
 # TWII Source-Rights Outcome Gate
 
-Status: `twii_source_rights_outcome_gate_blocked_external_rights_pending`
+Status: `twii_source_rights_outcome_gate_candidate_ready_for_pm_review`
 
 Date: 2026-06-07
 
@@ -10,15 +10,15 @@ Support lane: A1 Data / Supabase / Market Evidence
 
 ## CEO Decision
 
-CEO opens the TWII source-rights outcome gate as the next PM mainline data route after accepting the A1 TWII readiness packet.
+CEO opens the TWII source-rights outcome gate candidate as the next PM mainline data route after D/A1 no-secret evidence was accepted into the exact and bridge ledgers.
 
 This gate does not approve TWII source rights, probing, candidate generation, ingestion, staging, `daily_prices` mutation, row coverage scoring, public source promotion, or real scoring.
 
-Current outcome:
+Current candidate outcome:
 
-`rejected_for_execution_pending_external_rights_and_field_contract`
+`candidate_ready_no_execution_authority`
 
-The TWII route remains `not_approved_for_probe_or_ingestion`.
+The TWII route remains `not_approved_for_probe_or_ingestion`; this gate is ready for PM/CEO review only.
 
 ## PM Selected Route
 
@@ -30,6 +30,9 @@ The selected first TWII source candidate remains `official-exchange-index`, but 
 
 Current accepted local evidence:
 
+- D/A1 exact evidence intake: `4/4` TWII slots accepted.
+- TWII bridge ledger: `4/4` evidence outcomes accepted for a separate source-rights outcome gate only.
+- Accepted slots: `vendor-terms-evidence`, `internal-feed-owner-evidence`, `field-contract-evidence`, `asset-mapping-evidence`.
 - Level 1 MVP row coverage: `182/360`.
 - Remaining Level 1 missing rows: `178`.
 - TW equity sub-scope: `180/180`.
@@ -38,7 +41,7 @@ Current accepted local evidence:
 - ETF blocker: `legal_and_redistribution_terms_unapproved`.
 - TWII selected first candidate: `official-exchange-index`.
 - TWII selection status: `accepted_for_rights_and_field_contract_review_only`.
-- TWII review state: `not_approved_for_probe_or_ingestion`.
+- TWII review state: `candidate_ready_no_execution_authority`.
 - TWII fallback candidates: `licensed-market-data-vendor`, `internal-approved-feed`.
 - Runtime boundary remains `publicDataSource=mock`.
 - Score boundary remains `scoreSource=mock`.
@@ -46,6 +49,9 @@ Current accepted local evidence:
 Evidence anchors:
 
 - `docs/A1_TWII_SOURCE_RIGHTS_AND_CANDIDATE_READINESS_PACKET.md`.
+- `data/source-gates/a1-exact-source-rights-evidence-intake-outcomes.json`.
+- `data/source-gates/twii-vendor-internal-evidence-outcomes.json`.
+- `docs/TWII_SOURCE_RIGHTS_OUTCOME_GATE_BRIDGE.md`.
 - `docs/reviews/TWII_SOURCE_SELECTION_ACCEPTANCE_GATE_2026-06-01.md`.
 - `docs/reviews/TWII_SOURCE_RIGHTS_FIELD_CONTRACT_REVIEW_PACKET_2026-06-01.md`.
 - `src/lib/twii-source-selection-packet.ts`.
@@ -58,9 +64,9 @@ Can PM/CEO accept `official-exchange-index` as a source lane for internal storag
 
 Current answer:
 
-`no_current_execution_acceptance`
+`candidate_ready_for_pm_ceo_source_rights_review_only`
 
-Until the answer changes in a later accepted outcome, PM must keep TWII blocked and must not create TWII candidates from source data.
+PM may review this outcome gate candidate, but PM must not create TWII candidates from source data until a later execution/candidate gate explicitly permits it.
 
 ## Required Acceptance Evidence
 
@@ -68,23 +74,23 @@ PM/CEO may later accept a TWII source lane only if the decision record names all
 
 | Required item | Acceptance requirement | Current state |
 | --- | --- | --- |
-| Source authority | Official or licensed authority for TWII historical index values is documented. | unresolved |
-| Automated access permission | The exact future access method is permitted. | unresolved |
-| Internal storage | Internal storage of TWII source-derived values is permitted. | unresolved |
-| Retention and audit trail | Retention period, deletion duties, audit trail, cache limits, and rollback posture are documented. | unresolved |
-| Redistribution and display limits | Public display, export, API reuse, screenshots, cached values, and downstream-copy limits are documented. | unresolved |
-| Attribution wording | Source, delay, official-value, and incompleteness wording is accepted. | unresolved |
-| Derived analysis | Derived metrics, row coverage scoring, QA summaries, and internal decision-support use are permitted or explicitly blocked. | unresolved |
-| Rate limits and fair use | Request limits, retry policy, outage handling, and fair-use posture are accepted. | unresolved |
-| Commercial use constraints | Product, paid-use, redistribution, and global/Taiwan scope constraints are documented. | unresolved |
-| Field contract readiness | Calendar/session, timezone, precision/rounding, missing-session behavior, and daily_prices mapping are accepted. | unresolved |
-| Aggregate-only review | Future reports preserve sanitized aggregate output and exclude raw payload, row payload, stock id payload, and secrets. | unresolved |
+| Source authority | Official or licensed authority for TWII historical index values is documented. | accepted_for_candidate_review_only |
+| Automated access permission | The exact future access method is permitted. | accepted_for_candidate_review_only |
+| Internal storage | Internal storage of TWII source-derived values is permitted. | accepted_for_candidate_review_only |
+| Retention and audit trail | Retention period, deletion duties, audit trail, cache limits, and rollback posture are documented. | accepted_for_candidate_review_only |
+| Redistribution and display limits | Public display, export, API reuse, screenshots, cached values, and downstream-copy limits are documented. | accepted_for_candidate_review_only |
+| Attribution wording | Source, delay, official-value, and incompleteness wording is accepted. | accepted_for_candidate_review_only |
+| Derived analysis | Derived metrics, row coverage scoring, QA summaries, and internal decision-support use are permitted or explicitly blocked. | accepted_for_candidate_review_only |
+| Rate limits and fair use | Request limits, retry policy, outage handling, and fair-use posture are accepted. | accepted_for_candidate_review_only |
+| Commercial use constraints | Product, paid-use, redistribution, and global/Taiwan scope constraints are documented. | accepted_for_candidate_review_only |
+| Field contract readiness | Calendar/session, timezone, precision/rounding, missing-session behavior, and daily_prices mapping are accepted. | accepted_for_candidate_review_only |
+| Aggregate-only review | Future reports preserve sanitized aggregate output and exclude raw payload, row payload, stock id payload, and secrets. | accepted_for_candidate_review_only |
 
-No item is accepted by this gate.
+All items are accepted only for this candidate review. No item grants execution authority.
 
 ## Execution Decision
 
-This gate decides that no TWII execution is currently allowed.
+This gate decides that TWII source-rights review may proceed to the next local candidate-preparation step, but no TWII execution is currently allowed.
 
 PM must not proceed to:
 
@@ -102,15 +108,13 @@ PM must not proceed to:
 - `publicDataSource=supabase`;
 - `scoreSource=real`.
 
-## If TWII Source Rights Are Accepted Later
+## Next Gate After Candidate Review
 
-A later accepted outcome should open a separate named gate, not reuse this blocked gate as execution authority.
+The next route after this candidate review should be:
 
-The next route after accepted TWII source rights should be:
-
-1. TWII index field-contract decision gate.
-2. TWII sanitized candidate artifact gate for the missing `60` rows.
-3. TWII report-only or staging/write authorization gate with one exact command string.
+1. TWII sanitized candidate artifact readiness gate for the missing `60` rows.
+2. TWII report-only dry-run gate with sanitized aggregate output only.
+3. TWII staging/write authorization gate with one exact command string.
 4. Immediate post-run review and bounded aggregate readback.
 5. Level 1 row coverage scoring gate update.
 
@@ -123,11 +127,11 @@ If no TWII source lane can be accepted, PM should keep this gate blocked and rou
 3. A2 public copy patching for launch-blocking pages while data rights remain unresolved.
 4. PM deployment readiness or runtime promotion readiness gates that do not require source-rights acceptance.
 
-CEO preference: keep TWII as the next data route, but do not execute until the rights and field-contract evidence changes from unresolved to accepted.
+CEO preference: keep TWII as the next data route, but do not execute until the later candidate, dry-run, write authorization, readback, and coverage gates pass.
 
 ## A1 / A2 Coordination
 
-A1 may prepare TWII index field-contract decision support, but cannot accept source rights or produce candidates.
+A1 may prepare TWII sanitized candidate artifact readiness support, but cannot fetch source data or produce source-derived candidates.
 
 A2 may improve briefing or legal copy, but cannot publish real TWII source claims or imply TWII coverage is complete.
 
@@ -165,4 +169,4 @@ Use:
 - `node scripts/check-twii-source-rights-outcome-gate.mjs`
 - `cmd.exe /c npm run check:twii-source-rights-outcome-gate`
 
-This checker intentionally reports status `blocked` when the gate is correct, because execution is blocked until external source-rights and field-contract evidence is accepted.
+This checker reports status `ok` when the gate is ready for PM/CEO candidate review while execution remains blocked.

@@ -118,7 +118,7 @@ Latest PM mainline completion review:
 - `docs/A1_TWII_SOURCE_RIGHTS_UNBLOCK_DECISION_RECORD_CANDIDATE.md` is `accepted` as A1/PM TWII source-rights decision record candidate.
 - `docs/A1_TWII_SOURCE_RIGHTS_EVIDENCE_INTAKE_OR_VENDOR_FALLBACK_DECISION_SUPPORT.md` is `accepted` as A1/PM TWII source-rights evidence intake and fallback decision support.
 - `docs/A1_TWII_OFFICIAL_SOURCE_INTAKE_FIELDS_OR_VENDOR_TERMS_REVIEW_PACKET.md` is `accepted` as A1/PM TWII official-source intake fields and vendor terms review packet.
-- `docs/TWII_SOURCE_RIGHTS_OUTCOME_GATE.md` is `blocked` as a PM mainline data gate because TWII source rights and field contract remain unresolved.
+- `docs/TWII_SOURCE_RIGHTS_OUTCOME_GATE.md` is `candidate-ready` as a PM mainline data gate because D/A1 accepted the four TWII no-secret evidence slots; it remains non-executable and only routes to the next TWII candidate-readiness gate.
 - `docs/TWII_SOURCE_RIGHTS_FIELD_CONTRACT_ACCEPTANCE_OR_BLOCKED_RECORD.md` is `blocked` as PM mainline acceptance-or-blocked record because source rights, field contract, and asset mapping remain unresolved.
 - `docs/TWII_VENDOR_INTERNAL_OR_ETF_FALLBACK_SELECTION.md` is `accepted` as PM fallback selection, keeping A1 on vendor/internal-feed evidence while PM mainline continues launch/runtime work that does not require real data promotion.
 - `docs/A1_TWII_VENDOR_TERMS_OR_INTERNAL_FEED_OWNER_EVIDENCE_PACKET.md` is `accepted` as A1 no-secret vendor/internal evidence packet; it is not filled and does not approve any source lane.
@@ -173,7 +173,7 @@ Latest PM mainline completion review:
 - The A1 TWII source-rights evidence intake and fallback decision support is `a1_twii_source_rights_evidence_intake_or_vendor_fallback_decision_support_ready_local_only_not_executable`; current outcome is `official_lane_intake_ready_fallback_route_prepared_rights_still_blocked`; next route is `twii_official_source_intake_fields_or_vendor_terms_review_packet`.
 - The A1 TWII official-source intake fields and vendor terms review packet is `a1_twii_official_source_intake_fields_or_vendor_terms_review_packet_ready_not_filled`; current outcome is `fillable_intake_ready_rights_evidence_not_filled`; next route is `twii_filled_source_rights_intake_review_or_blocked_fallback_selection`.
 - Current public Beta outcome is `ready_for_local_public_beta_preflight_not_production_deployed`.
-- The TWII source-rights outcome gate is `twii_source_rights_outcome_gate_blocked_external_rights_pending`.
+- The TWII source-rights outcome gate is `twii_source_rights_outcome_gate_candidate_ready_for_pm_review`.
 - Current TWII outcome is `rejected_for_execution_pending_external_rights_and_field_contract`.
 - TWII remains `not_approved_for_probe_or_ingestion`.
 - PM selected this route because ETF source rights are blocked and launch deployment preconditions can progress without source promotion.

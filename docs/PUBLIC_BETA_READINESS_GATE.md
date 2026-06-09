@@ -36,7 +36,7 @@ Accepted evidence:
 - Full Level 1 MVP row coverage remains `182/360`.
 - Remaining TWII sub-scope remains `0/60`.
 - Remaining ETF sub-scope remains `2/120`, with `0050` `1/60` and `006208` `1/60`.
-- TWII source-rights outcome gate remains `twii_source_rights_outcome_gate_blocked_external_rights_pending`.
+- TWII source-rights outcome gate is `twii_source_rights_outcome_gate_candidate_ready_for_pm_review`, but TWII execution and real promotion remain blocked.
 - ETF source-rights outcome remains blocked by `legal_and_redistribution_terms_unapproved`.
 - Public runtime boundary remains `publicDataSource=mock`.
 - Score boundary remains `scoreSource=mock`.
@@ -91,7 +91,7 @@ Public Beta readiness requires these criteria to be accepted:
 Real public data and real score remain blocked by these items:
 
 - Full MVP row coverage is still `182/360`, not `360/360`.
-- TWII remains `not_approved_for_probe_or_ingestion`.
+- TWII remains `not_approved_for_probe_or_ingestion` for execution even though the source-rights outcome gate candidate is ready for PM/CEO review.
 - ETF source rights remain `legal_and_redistribution_terms_unapproved`.
 - Runtime promotion gate has not accepted `publicDataSource=supabase`.
 - Score-source promotion gate has not accepted `scoreSource=real`.

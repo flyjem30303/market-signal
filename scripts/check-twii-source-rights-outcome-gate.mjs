@@ -21,22 +21,25 @@ const pkg = JSON.parse(read(packagePath));
 const reviewGate = read(reviewGatePath);
 
 for (const phrase of [
-  "Status: `twii_source_rights_outcome_gate_blocked_external_rights_pending`",
-  "`rejected_for_execution_pending_external_rights_and_field_contract`",
-  "The TWII route remains `not_approved_for_probe_or_ingestion`",
+  "Status: `twii_source_rights_outcome_gate_candidate_ready_for_pm_review`",
+  "`candidate_ready_no_execution_authority`",
+  "this gate is ready for PM/CEO review only",
+  "D/A1 exact evidence intake: `4/4` TWII slots accepted",
+  "TWII bridge ledger: `4/4` evidence outcomes accepted for a separate source-rights outcome gate only",
+  "Accepted slots: `vendor-terms-evidence`, `internal-feed-owner-evidence`, `field-contract-evidence`, `asset-mapping-evidence`",
   "Level 1 MVP row coverage remains `182/360`",
   "TWII is `0/60`",
   "ETF remains blocked by `legal_and_redistribution_terms_unapproved`",
   "TWII selected first candidate: `official-exchange-index`",
   "TWII selection status: `accepted_for_rights_and_field_contract_review_only`",
-  "TWII review state: `not_approved_for_probe_or_ingestion`",
+  "TWII review state: `candidate_ready_no_execution_authority`",
   "TWII fallback candidates: `licensed-market-data-vendor`, `internal-approved-feed`",
   "Runtime boundary remains `publicDataSource=mock`",
   "Score boundary remains `scoreSource=mock`",
-  "`no_current_execution_acceptance`",
-  "No item is accepted by this gate",
-  "This gate decides that no TWII execution is currently allowed",
-  "A1 may prepare TWII index field-contract decision support",
+  "`candidate_ready_for_pm_ceo_source_rights_review_only`",
+  "All items are accepted only for this candidate review. No item grants execution authority.",
+  "This gate decides that TWII source-rights review may proceed to the next local candidate-preparation step",
+  "A1 may prepare TWII sanitized candidate artifact readiness support",
   "A2 may improve briefing or legal copy",
   "PM remains the only integration owner",
   "does not approve source rights",
@@ -72,7 +75,7 @@ for (const phrase of [
 }
 
 for (const phrase of [
-  "`docs/TWII_SOURCE_RIGHTS_OUTCOME_GATE.md` is `blocked` as a PM mainline data gate",
+  "`docs/TWII_SOURCE_RIGHTS_OUTCOME_GATE.md` is `candidate-ready` as a PM mainline data gate",
   "`docs/A1_TWII_INDEX_FIELD_CONTRACT_DECISION_SUPPORT.md` is `accepted` for PM mainline review",
   "`docs/A2 briefing copy-only patch` is `accepted` for PM mainline review",
   "TWII remains `not_approved_for_probe_or_ingestion`",
@@ -83,9 +86,8 @@ for (const phrase of [
 
 for (const phrase of [
   "Latest TWII source-rights outcome gate slice",
-  "twii_source_rights_outcome_gate_blocked_external_rights_pending",
-  "rejected_for_execution_pending_external_rights_and_field_contract",
-  "not_approved_for_probe_or_ingestion"
+  "twii_source_rights_outcome_gate_candidate_ready_for_pm_review",
+  "routes TWII toward the next local candidate-readiness gate"
 ]) {
   if (!status.includes(phrase)) problems.push(`${statusPath} missing: ${phrase}`);
 }
@@ -140,8 +142,9 @@ if (problems.length > 0) {
 console.log(
   JSON.stringify(
     {
-      status: "blocked",
-      blockedReason: "twii_source_rights_and_field_contract_evidence_unresolved",
+      status: "ok",
+      guardedStatus: "twii_source_rights_outcome_gate_candidate_ready_for_pm_review",
+      executionAllowed: false,
       gate: "twii_source_rights_outcome_gate"
     },
     null,
