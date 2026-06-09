@@ -30,6 +30,8 @@ const commands = [
 const results = commands.map(runCommand);
 const failed = results.filter((result) => result.exitCode !== 0 || result.timedOut);
 const gitStatus = results.find((result) => result.name === "git-status")?.stdout ?? "";
+const gitLines = gitStatus.split(/\r?\n/u).map((line) => line.trim()).filter(Boolean);
+const pmSnapshot = buildPmSnapshot(gitLines);
 const worktreeState = gitStatus.trim().length === 0 ? "clean" : "needs_pm_review_before_packet_creation";
 
 const result = {
@@ -43,9 +45,11 @@ const result = {
     scoreSource: "mock"
   },
   worktreeState,
+  pmSnapshot,
   notes: [
     "Repo proof is refreshed locally.",
     "Executable packet remains blocked until hosting project name and temporary Beta URL exist.",
+    "When Git backup is deferred, a classified no-Git PM snapshot can satisfy the worktree safeguard for the packet-window dry run.",
     "No deployment, SQL, Supabase write, market-data fetch, public source promotion, or real score promotion is authorized."
   ],
   results: results.map((item) => ({
@@ -93,4 +97,70 @@ function summarizeStdout(stdout) {
   } catch {
     return trimmed.split(/\r?\n/u).slice(-3).join("\n");
   }
+}
+
+function buildPmSnapshot(lines) {
+  const groups = classifyGitLines(lines);
+  const unresolvedCount = groups.unrelatedOrNeedsPmDecision.length;
+  const betaReadinessCount =
+    groups.a1DataEvidenceSupport.length +
+    groups.betaDeploymentAndPacketChain.length +
+    groups.projectStatusAndTooling.length +
+    groups.publicRuntimeAndTrustSurface.length;
+
+  return {
+    status:
+      unresolvedCount === 0
+        ? "classified_beta_readiness_worktree_safeguard_ready"
+        : "unresolved_worktree_items_require_pm_classification",
+    betaReadinessCount,
+    excludedFromBetaLaunchPacketCount: groups.excludedFromBetaLaunchPacket.length,
+    unresolvedCount,
+    allowedAsNoGitSafeguard: unresolvedCount === 0,
+    note:
+      unresolvedCount === 0
+        ? "All changed files are classified as current Beta readiness support or explicitly excluded from the Beta launch packet."
+        : "Some changed files still need PM classification before packet-window dry run readiness."
+  };
+}
+
+function classifyGitLines(lines) {
+  const groups = {
+    a1DataEvidenceSupport: [],
+    betaDeploymentAndPacketChain: [],
+    excludedFromBetaLaunchPacket: [],
+    projectStatusAndTooling: [],
+    publicRuntimeAndTrustSurface: [],
+    unrelatedOrNeedsPmDecision: []
+  };
+
+  for (const line of lines) {
+    const filePath = line.replace(/^(?:[ MADRCU?!]{1,2})\s+/u, "");
+    if (filePath === "docs/PROJECT_STARTUP_DOC_TRACKING.md") {
+      groups.excludedFromBetaLaunchPacket.push(line);
+    } else if (
+      /A1_TWII_EVIDENCE|a1-twii-evidence|a1-twii-four-slot|a1-twii-local-evidence|a1-twii-outcome-gate|a1-twii-pm-intake|a1-twii-post-reply|source-rights|SOURCE_RIGHTS/iu.test(
+        filePath
+      )
+    ) {
+      groups.a1DataEvidenceSupport.push(line);
+    } else if (/BETA_|VERCEL_|beta-|vercel-|packet-window|platform-two-value|deployment-quickstart|pm-worktree-review-preflight/iu.test(filePath)) {
+      groups.betaDeploymentAndPacketChain.push(line);
+    } else if (/^(PROJECT_STATUS\.md|docs[\\/](RUNTIME_AUTONOMY_HANDOFF|LAUNCH_ENGINEERING_WORKSTREAM_BOARD|GOAL_PARALLEL_WORKSTREAM_ADJUSTMENT)\.md|package\.json|scripts[\\/](check-launch-engineering-workstream-board|check-goal-parallel-workstream-adjustment|check-runtime-autonomy-handoff|check-review-gates)\.mjs|scripts[\\/]recover-next-dev-server\.ps1)$/iu.test(filePath)) {
+      groups.projectStatusAndTooling.push(line);
+    } else if (
+      /src[\\/]app[\\/]briefing[\\/]page\.tsx/iu.test(filePath) ||
+      /src[\\/]components[\\/](home-runtime-status-panel|public-beta-launch-readiness-panel|stock-runtime-at-a-glance|trust-runtime-boundary-notice)\.tsx/iu.test(filePath) ||
+      /src[\\/]lib[\\/](briefing-market-action-summary|public-beta-launch-readiness|runtime-product-summary)\.ts/iu.test(filePath) ||
+      /src[\\/]app[\\/]globals\.css/iu.test(filePath) ||
+      /a2-public-copy-readability-candidates/iu.test(filePath) ||
+      /check-(briefing-market-action-summary|home-runtime-status-panel|public-beta-launch-readiness-panel|public-visible-language-quality|runtime-mock-disclosure-readability|stock-runtime-at-a-glance|trust-runtime-boundary-notice)/iu.test(filePath)
+    ) {
+      groups.publicRuntimeAndTrustSurface.push(line);
+    } else {
+      groups.unrelatedOrNeedsPmDecision.push(line);
+    }
+  }
+
+  return groups;
 }

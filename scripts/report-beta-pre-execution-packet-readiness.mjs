@@ -13,6 +13,7 @@ const report = {
   status,
   ok: status === "ready_to_render_pre_execution_packet_candidate",
   ceoDecision: "compress_packet_pre_execution_readiness_into_one_pm_route",
+  nextExecutableStep: nextExecutableStepFor(status, mainlineReport, packetWindowReport),
   pmNextCommand: nextCommandFor(status, mainlineReport, packetWindowReport),
   currentBlockers: buildCurrentBlockers(mainlineReport, packetWindowReport, goalReadiness),
   mainline: {
@@ -55,7 +56,7 @@ const report = {
     {
       step: "record_pm_reviewed_artifact_outcome",
       command:
-        "cmd.exe /c npm run record:beta-packet-window-reviewed-artifact-outcome -- --outcome accepted --reviewedBy PM --note \"PM accepts the no-secret packet-window proof map for pre-execution packet preparation only\" --apply",
+        "cmd.exe /c npm run record:beta-packet-window-reviewed-artifact-outcome -- --dry-run --outcome accepted --reviewedBy PM --note \"PM dry-run verifies the no-secret packet-window reviewed artifact before any apply decision.\"",
       opensWhen: "packet-window proof map reaches the no-secret reviewed artifact template"
     },
     {
@@ -120,6 +121,9 @@ function classifyStatus(mainlineReport, packetWindowReport) {
   if (mainlineReport.status === "blocked_unsafe_platform_values" || packetWindowReport.status === "blocked_unsafe_platform_values") {
     return "blocked_unsafe_platform_values";
   }
+  if (mainlineReport.status === "blocked_waiting_external_input_response") {
+    return "blocked_waiting_external_input_response";
+  }
   if (mainlineReport.status === "blocked_waiting_two_platform_values" || packetWindowReport.status === "blocked_waiting_two_platform_values") {
     return "blocked_waiting_two_platform_values";
   }
@@ -127,17 +131,45 @@ function classifyStatus(mainlineReport, packetWindowReport) {
 }
 
 function nextCommandFor(status, mainlineReport, packetWindowReport) {
+  return nextExecutableStepFor(status, mainlineReport, packetWindowReport).command;
+}
+
+function nextExecutableStepFor(status, mainlineReport, packetWindowReport) {
   if (status === "ready_to_render_pre_execution_packet_candidate") {
-    return "cmd.exe /c npm run render:beta-pre-execution-packet-candidate";
+    return {
+      lane: "pre_execution_packet_candidate",
+      command: "cmd.exe /c npm run render:beta-pre-execution-packet-candidate",
+      reason: "An accepted reviewed artifact exists, so PM can render the pre-execution packet candidate."
+    };
   }
   if (status === "ready_for_pm_reviewed_artifact_record") {
-    return packetWindowReport.pmNextCommand ??
-      "cmd.exe /c npm run record:beta-packet-window-reviewed-artifact-outcome -- --outcome accepted --reviewedBy PM --note \"PM accepts the no-secret packet-window proof map for pre-execution packet preparation only\" --apply";
+    return packetWindowReport.nextExecutableStep ?? {
+      lane: "pm_reviewed_artifact_outcome",
+      command:
+        packetWindowReport.pmNextCommand ??
+        "cmd.exe /c npm run record:beta-packet-window-reviewed-artifact-outcome -- --dry-run --outcome accepted --reviewedBy PM --note \"PM dry-run verifies the no-secret packet-window reviewed artifact before any apply decision.\"",
+      reason: "The packet-window proof map reached the reviewed artifact template, so PM records accepted or rejected."
+    };
   }
   if (status === "ready_to_run_beta_packet_window_proof_map") {
-    return "cmd.exe /c npm run run:beta-packet-window-proof-map";
+    return {
+      lane: "packet_window_proof_map",
+      command: "cmd.exe /c npm run run:beta-packet-window-proof-map",
+      reason: "The platform values are shape-valid, so PM can run the packet-window proof map."
+    };
   }
-  return mainlineReport.pmMainline?.nextCommand ?? "cmd.exe /c npm run validate:beta-platform-two-values";
+  if (status === "blocked_waiting_external_input_response") {
+    return {
+      lane: "external_input_request",
+      command: mainlineReport.pmMainline?.nextCommand ?? "cmd.exe /c npm run report:public-beta-external-input-request",
+      reason: "The pre-execution packet is blocked by the current combined external-input response: platform values plus A1 TWII four-slot no-secret evidence."
+    };
+  }
+  return packetWindowReport.nextExecutableStep ?? {
+    lane: "external_input_request",
+    command: mainlineReport.pmMainline?.nextCommand ?? "cmd.exe /c npm run report:public-beta-external-input-request",
+    reason: "The pre-execution packet is blocked by missing external inputs; use the single external-input request."
+  };
 }
 
 function buildCurrentBlockers(mainlineReport, packetWindowReport, goalReadiness) {

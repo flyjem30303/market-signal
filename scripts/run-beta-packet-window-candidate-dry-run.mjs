@@ -50,7 +50,11 @@ const repoProof = run(["cmd.exe", "/c", "npm", "run", "run:beta-executable-packe
 const repoProofJson = parseJsonFromStdout(repoProof.stdout);
 const repoProofOk = repoProof.exitCode === 0 && repoProofJson?.status === "ok";
 const worktreeClean = repoProofJson?.worktreeState === "clean";
-const ready = repoProofOk && worktreeClean;
+const pmSnapshotReady =
+  repoProofJson?.worktreeState === "needs_pm_review_before_packet_creation" &&
+  repoProofJson?.pmSnapshot?.status === "classified_beta_readiness_worktree_safeguard_ready" &&
+  repoProofJson?.pmSnapshot?.unresolvedCount === 0;
+const ready = repoProofOk && (worktreeClean || pmSnapshotReady);
 
 printResult({
   status: ready ? "packet_window_candidate_ready_shape_only" : "repo_proof_blocked",
@@ -66,9 +70,11 @@ printResult({
   },
   validator: summarizeCommand(validator, validatorJson),
   repoProof: summarizeCommand(repoProof, repoProofJson),
+  pmSnapshot: repoProofJson?.pmSnapshot ?? null,
   notes: [
     "This is a local dry run for packet-window readiness only.",
     "It does not store platform values in repo documents.",
+    "A classified no-Git PM snapshot can satisfy the worktree safeguard when Git backup is intentionally deferred.",
     "No deployment, SQL, Supabase write, market-data fetch, public source promotion, or real score promotion is authorized."
   ]
 });
@@ -114,6 +120,8 @@ function summarizeCommand(command, parsed) {
     guardedStatus: parsed?.guardedStatus ?? null,
     outcome: parsed?.outcome ?? null,
     packetCandidateAllowed: parsed?.packetCandidateAllowed ?? false,
+    pmSnapshotStatus: parsed?.pmSnapshot?.status ?? null,
+    pmSnapshotUnresolvedCount: parsed?.pmSnapshot?.unresolvedCount ?? null,
     worktreeState: parsed?.worktreeState ?? null,
     timedOut: command.timedOut
   };

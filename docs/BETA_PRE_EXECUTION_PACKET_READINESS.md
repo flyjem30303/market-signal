@@ -21,12 +21,13 @@ cmd.exe /c npm run check:beta-pre-execution-packet-readiness
 
 ## Current Expected State
 
-The current expected state is `blocked_waiting_two_platform_values`.
+The current expected state is `blocked_waiting_external_input_response`.
 
-The two PM mainline external blockers are:
+The current PM mainline external blockers are:
 
 - `BETA_HOSTING_PROJECT_NAME`
 - `BETA_TEMPORARY_URL`
+- A1 TWII four-slot no-secret evidence
 
 The embedded `goalReadiness` state should still show:
 
@@ -35,6 +36,14 @@ The embedded `goalReadiness` state should still show:
 - `promotion_boundary` held.
 - `beta_platform_values_and_packet` blocked.
 - `a1_source_rights_and_coverage_frontier` blocked.
+
+While these values are missing, the report's `pmNextCommand` and `nextExecutableStep.command` should point to:
+
+```powershell
+cmd.exe /c npm run report:public-beta-external-input-request
+```
+
+This keeps PM on the shortest executable route instead of repeatedly running a validator that is already known to be blocked.
 
 ## Packet Execution Sequence
 
@@ -62,4 +71,4 @@ The report keeps the next sequence explicit without executing it:
 
 ## PM Usage
 
-Use this report when the next public Beta step is unclear. If it reports `blocked_waiting_two_platform_values`, PM should keep the mainline focused on the two safe platform values and keep A1/A2 parallel work moving. If it reports a ready packet state, PM should follow the single `pmNextCommand` and run the focused checker afterward.
+Use this report when the next public Beta step is unclear. If it reports `blocked_waiting_external_input_response`, PM should use the single external-input request, then rerun response-readiness. If it reports the narrower `blocked_waiting_two_platform_values`, A1 evidence is already ready and PM should keep working only on the two platform values. If it reports a ready packet state, PM should follow the single `pmNextCommand` and run the focused checker afterward.

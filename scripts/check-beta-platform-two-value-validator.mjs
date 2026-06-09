@@ -45,6 +45,8 @@ for (const phrase of [
   "rejected_unsafe_values",
   "accepted_two_value_shape_only",
   "packetCandidateAllowed: false",
+  "classifyProvider",
+  "nextCommands",
   "publicDataSource: \"mock\"",
   "scoreSource: \"mock\"",
   "BETA_HOSTING_PROJECT_NAME",
@@ -127,6 +129,12 @@ if (acceptedRun.status !== 0) problems.push(`${validatorPath} accepted sample sh
 if (!acceptedRun.stdout.includes('"status": "accepted_two_value_shape_only"')) {
   problems.push(`${validatorPath} accepted sample did not report accepted_two_value_shape_only`);
 }
+if (!acceptedRun.stdout.includes('"provider": "other-public-host"')) {
+  problems.push(`${validatorPath} accepted sample should classify provider without printing the URL`);
+}
+if (!acceptedRun.stdout.includes("run:beta-packet-window-proof-map")) {
+  problems.push(`${validatorPath} accepted sample should route to packet-window proof map`);
+}
 
 const rejectedRun = spawnSync(process.execPath, [validatorPath], {
   cwd: process.cwd(),
@@ -142,6 +150,9 @@ const rejectedRun = spawnSync(process.execPath, [validatorPath], {
 if (rejectedRun.status === 0) problems.push(`${validatorPath} rejected sample should exit non-zero`);
 if (!rejectedRun.stdout.includes('"status": "rejected_unsafe_values"')) {
   problems.push(`${validatorPath} rejected sample did not report rejected_unsafe_values`);
+}
+if (!rejectedRun.stdout.includes('"provider": "other-public-host"')) {
+  problems.push(`${validatorPath} rejected sample should still classify provider shape only`);
 }
 
 for (const phrase of [

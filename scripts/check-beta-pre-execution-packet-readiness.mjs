@@ -25,6 +25,9 @@ for (const [filePath, source, phrase] of [
   [reportPath, reportSource, "report:beta-mainline-current-route"],
   [reportPath, reportSource, "report:beta-packet-window-readiness-summary"],
   [reportPath, reportSource, "goalReadiness"],
+  [reportPath, reportSource, "nextExecutableStep"],
+  [reportPath, reportSource, "external_input_request"],
+  [reportPath, reportSource, "blocked_waiting_external_input_response"],
   [reportPath, reportSource, "packetExecutionSequence"],
   [reportPath, reportSource, "deploymentAuthorized: false"],
   [reportPath, reportSource, "supabaseRead: false"],
@@ -65,11 +68,20 @@ if (!report) {
   problems.push("report:beta-pre-execution-packet-readiness should emit JSON");
 } else {
   if (report.mode !== "beta_pre_execution_packet_readiness") problems.push("mode should be beta_pre_execution_packet_readiness");
-  if (report.status !== "blocked_waiting_two_platform_values") {
-    problems.push(`current status should be blocked_waiting_two_platform_values, got ${report.status}`);
+  if (report.status !== "blocked_waiting_external_input_response") {
+    problems.push(`current status should be blocked_waiting_external_input_response, got ${report.status}`);
   }
-  if (report.pmNextCommand !== "cmd.exe /c npm run validate:beta-platform-two-values") {
-    problems.push("pmNextCommand should remain the two-value validator while platform values are missing");
+  if (report.pmNextCommand !== "cmd.exe /c npm run report:public-beta-external-input-request") {
+    problems.push("pmNextCommand should route to public beta external input request while platform values are missing");
+  }
+  if (report.nextExecutableStep?.lane !== "external_input_request") {
+    problems.push("nextExecutableStep should use external_input_request while platform values are missing");
+  }
+  if (report.nextExecutableStep?.command !== "cmd.exe /c npm run report:public-beta-external-input-request") {
+    problems.push("nextExecutableStep command should route to public beta external input request");
+  }
+  if (!report.nextExecutableStep?.reason?.includes("combined external-input response")) {
+    problems.push("nextExecutableStep reason should mention the combined external-input response");
   }
   for (const blocker of [
     "BETA_HOSTING_PROJECT_NAME",
@@ -80,8 +92,8 @@ if (!report) {
   ]) {
     if (!report.currentBlockers?.includes(blocker)) problems.push(`currentBlockers should include ${blocker}`);
   }
-  if (report.mainline?.status !== "blocked_waiting_two_platform_values") {
-    problems.push("mainline.status should remain blocked_waiting_two_platform_values");
+  if (report.mainline?.status !== "blocked_waiting_external_input_response") {
+    problems.push("mainline.status should remain blocked_waiting_external_input_response");
   }
   if (report.mainline?.pmDefaultWhenBlocked !== true) {
     problems.push("mainline.pmDefaultWhenBlocked should be true");
@@ -159,6 +171,7 @@ console.log(
       guardedStatus: "beta_pre_execution_packet_readiness_ready_waiting_platform_values",
       reportStatus: report.status,
       nextCommand: report.pmNextCommand,
+      nextExecutableStep: report.nextExecutableStep,
       currentBlockers: report.currentBlockers
     },
     null,

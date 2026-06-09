@@ -20,6 +20,18 @@ Current outcome: `handoff_ready_waiting_for_project_name_and_public_beta_url`.
 
 This handoff does not deploy, create or mutate hosting resources, run deployment commands, upload secrets, mutate platform environment variables, change DNS or SSL, connect to Supabase, run SQL, write Supabase, mutate `daily_prices`, fetch or ingest market data, promote public runtime state, award row coverage points, or set real score source.
 
+Current missing-value PM command:
+
+```text
+cmd.exe /c npm run report:public-beta-external-input-request
+```
+
+After I / operator replies, PM first runs:
+
+```text
+cmd.exe /c npm run report:public-beta-external-input-response-readiness
+```
+
 ## Provide Only These Two Values
 
 Copy the two values into the runtime environment or provide them to PM for the validator run. Do not paste secrets into repo files.
@@ -63,12 +75,13 @@ BETA_TEMPORARY_URL=https://taiwan-market-signal-beta.example.app
 - no Supabase project API URL;
 - path must be empty or `/`.
 
-## PM Validation Command
+## PM After-Reply Command
 
-PM validates the two values with:
+After the two values are provided, PM first checks response readiness, then uses the combined post-reply one-runner:
 
 ```text
-cmd.exe /c npm run validate:beta-platform-two-values
+cmd.exe /c npm run report:public-beta-external-input-response-readiness
+cmd.exe /c npm run run:public-beta-post-reply-route-once
 ```
 
 Expected outcomes:
@@ -77,18 +90,17 @@ Expected outcomes:
 | --- | --- | --- |
 | `blocked_waiting_values` | One or both values are missing. | Ask I / operator for the missing safe value only. |
 | `rejected_unsafe_values` | One or both values are unsafe. | Ask I / operator for corrected non-secret values only. |
-| `accepted_two_value_shape_only` | Both values pass local shape validation. | Run `cmd.exe /c npm run run:beta-packet-window-proof-map`. |
+| `accepted_two_value_shape_only` | Both values pass local shape validation inside the one-command runner. | Continue to PM review of the no-secret packet-window proof result. |
 
 Passing the validator does not deploy the site and does not prove launch completion.
 
 ## PM Packet Window Sequence
 
-After `accepted_two_value_shape_only`, PM should run:
+After the one-command runner reaches pending PM review, PM should run:
 
-1. `cmd.exe /c npm run run:beta-packet-window-proof-map`
-2. `cmd.exe /c npm run record:beta-packet-window-reviewed-artifact-outcome -- --dry-run --outcome accepted --reviewedBy PM --note "PM dry-run verifies the reviewed artifact outcome recorder without writing a review artifact."`
-3. PM records `accepted` or `rejected` only after review.
-4. If accepted, PM prepares a separate pre-execution packet candidate.
+1. `cmd.exe /c npm run record:beta-packet-window-reviewed-artifact-outcome -- --dry-run --outcome accepted --reviewedBy PM --note "PM dry-run verifies the reviewed artifact outcome recorder without writing a review artifact."`
+2. PM records `accepted` or `rejected` only after review.
+3. If accepted, PM prepares a separate pre-execution packet candidate.
 
 Deployment remains unauthorized until a later explicit execution gate.
 
@@ -112,7 +124,9 @@ Do not provide:
 
 PM route:
 
-- Validate only the two values.
+- While values are missing, use `report:public-beta-external-input-request`.
+- After I / operator replies, use `report:public-beta-external-input-response-readiness`.
+- Then run `run:public-beta-post-reply-route-once`; standalone validation/proof-map commands are only diagnostics if the runner fails.
 - Do not reopen the full operator sheet unless this handoff fails.
 - Keep `publicDataSource=mock` and `scoreSource=mock`.
 
@@ -135,9 +149,9 @@ I route:
 PM may classify this handoff as `accepted` when:
 
 1. only two required values are named;
-2. the handoff references `validate:beta-platform-two-values`;
+2. the handoff references `report:public-beta-external-input-request`, `report:public-beta-external-input-response-readiness`, and `run:public-beta-post-reply-route-once`;
 3. safe and unsafe examples are explicit;
-4. the next route after validation is `run:beta-packet-window-proof-map`;
+4. the next route after response-readiness is `run:public-beta-post-reply-route-once`;
 5. `publicDataSource=mock` remains required;
 6. `scoreSource=mock` remains required;
 7. package and review-gate registration exist;

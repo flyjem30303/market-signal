@@ -2,7 +2,7 @@
 
 Status: `beta_launch_next_action_report_ready`
 
-Date: 2026-06-07
+Date: 2026-06-08
 
 Owner: PM mainline
 
@@ -24,17 +24,20 @@ The report returns one of these route states:
 
 | Status | PM action | Command |
 | --- | --- | --- |
-| `blocked_waiting_two_platform_values` | Obtain only `BETA_HOSTING_PROJECT_NAME` and `BETA_TEMPORARY_URL`. Do not reopen broad deployment planning. | `cmd.exe /c npm run validate:beta-platform-two-values` |
-| `blocked_unsafe_platform_values` | Ask for corrected non-secret platform values. | `cmd.exe /c npm run validate:beta-platform-two-values` |
-| `ready_to_run_beta_packet_window_proof_map` | Run the packet-window proof map, then record a reviewed artifact as accepted or rejected. | `cmd.exe /c npm run run:beta-packet-window-proof-map` |
+| `blocked_waiting_external_input_response` | Use the single external-input request while both platform values and A1 four-slot evidence are missing. Do not reopen broad deployment planning. | `cmd.exe /c npm run report:public-beta-external-input-request` |
+| `blocked_waiting_two_platform_values` | Use the same external-input request when A1 evidence is already ready but platform values are still missing. | `cmd.exe /c npm run report:public-beta-external-input-request` |
+| `blocked_unsafe_platform_values` | Ask for corrected non-secret platform values, then rerun response-readiness. | `cmd.exe /c npm run report:public-beta-external-input-response-readiness` |
+| `ready_to_run_public_beta_post_reply_one_runner` | Run the combined post-reply one-runner, then record a reviewed artifact as accepted or rejected only if the runner reaches PM packet review. | `cmd.exe /c npm run run:public-beta-post-reply-route-once` |
 | `ready_to_render_pre_execution_packet_candidate` | Render the separate pre-execution packet candidate from an accepted reviewed artifact. | `cmd.exe /c npm run render:beta-pre-execution-packet-candidate` |
 
 ## Parallel Workstream Routing
 
-A1 continues the source-rights lane while PM waits for platform values:
+A1 continues the source-rights lane while PM waits for the current external-input reply:
 
-- If TWII vendor/internal evidence remains pending, continue safe evidence collection or ETF source-rights fallback.
-- If all required TWII evidence is accepted, prepare the TWII source-rights outcome gate.
+- A1 source-rights work stays narrowed to the four TWII no-secret evidence slots while PM waits for the current external-input reply.
+- If A1 TWII four-slot no-secret evidence remains pending, use `cmd.exe /c npm run report:a1-twii-four-slot-reply-request`.
+- After A1 replies, PM first runs `cmd.exe /c npm run report:public-beta-external-input-response-readiness`, then uses the post-reply one-runner or the shape/classification reports it points to, including `cmd.exe /c npm run check:a1-twii-evidence-response-shape` before PM classification.
+- If all four required TWII evidence slots are accepted, prepare the separate TWII source-rights outcome gate candidate.
 
 A2 keeps public Beta trust copy stable:
 

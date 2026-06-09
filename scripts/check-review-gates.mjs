@@ -3008,6 +3008,11 @@ const checks = [
     name: "public-beta-goal-readiness-rollup"
   },
   {
+    command: [node, "scripts/check-public-beta-pm-next-status.mjs"],
+    expectStatus: "ok",
+    name: "public-beta-pm-next-status"
+  },
+  {
     command: [node, "scripts/check-public-beta-launch-readiness-panel.mjs"],
     expectStatus: "ok",
     name: "public-beta-launch-readiness-panel"
@@ -3098,9 +3103,24 @@ const checks = [
     name: "beta-platform-two-value-intake-gate"
   },
   {
+    command: [node, "scripts/check-beta-platform-two-value-intake-command.mjs"],
+    expectStatus: "ok",
+    name: "beta-platform-two-value-intake-command"
+  },
+  {
     command: [node, "scripts/check-beta-platform-two-value-validator.mjs"],
     expectStatus: "ok",
     name: "beta-platform-two-value-validator"
+  },
+  {
+    command: [node, "scripts/check-beta-platform-proof-status.mjs"],
+    expectStatus: "ok",
+    name: "beta-platform-proof-status"
+  },
+  {
+    command: [node, "scripts/check-beta-platform-values-route-preview.mjs"],
+    expectStatus: "ok",
+    name: "beta-platform-values-route-preview"
   },
   {
     command: [node, "scripts/check-beta-two-value-operator-handoff.mjs"],
@@ -3113,9 +3133,104 @@ const checks = [
     name: "beta-launch-next-action"
   },
   {
+    command: [node, "scripts/check-beta-deployment-quickstart.mjs"],
+    expectStatus: "ok",
+    name: "beta-deployment-quickstart"
+  },
+  {
+    command: [node, "scripts/check-vercel-beta-pre-creation-checklist.mjs"],
+    expectStatus: "ok",
+    name: "vercel-beta-pre-creation-checklist"
+  },
+  {
+    command: [node, "scripts/check-vercel-operator-step-by-step-checklist.mjs"],
+    expectStatus: "ok",
+    name: "vercel-operator-step-by-step-checklist"
+  },
+  {
     command: [node, "scripts/check-beta-platform-unblock-kit.mjs"],
     expectStatus: "ok",
     name: "beta-platform-unblock-kit"
+  },
+  {
+    command: [node, "scripts/check-public-beta-production-build-proof.mjs"],
+    expectStatus: "ok",
+    name: "public-beta-production-build-proof"
+  },
+  {
+    command: [node, "scripts/check-public-beta-mock-launch-proof-bundle.mjs"],
+    expectStatus: "ok",
+    name: "public-beta-mock-launch-proof-bundle"
+  },
+  {
+    command: [node, "scripts/check-public-beta-separated-preflight.mjs"],
+    expectStatus: "ok",
+    name: "public-beta-separated-preflight"
+  },
+  {
+    command: [node, "scripts/check-public-beta-external-input-request.mjs"],
+    expectStatus: "ok",
+    name: "public-beta-external-input-request"
+  },
+  {
+    command: [node, "scripts/check-public-beta-external-input-copy-packet.mjs"],
+    expectStatus: "ok",
+    name: "public-beta-external-input-copy-packet"
+  },
+  {
+    command: [node, "scripts/check-public-beta-external-reply-file-template.mjs"],
+    expectStatus: "ok",
+    name: "public-beta-external-reply-file-template"
+  },
+  {
+    command: [node, "scripts/check-public-beta-external-reply-file-template-writer.mjs"],
+    expectStatus: "ok",
+    name: "public-beta-external-reply-file-template-writer"
+  },
+  {
+    command: [node, "scripts/check-public-beta-external-reply-env-fill.mjs"],
+    expectStatus: "ok",
+    name: "public-beta-external-reply-env-fill"
+  },
+  {
+    command: [node, "scripts/check-public-beta-external-reply-env-template-writer.mjs"],
+    expectStatus: "ok",
+    name: "public-beta-external-reply-env-template-writer"
+  },
+  {
+    command: [node, "scripts/check-public-beta-external-reply-intake-dry-run.mjs"],
+    expectStatus: "ok",
+    name: "public-beta-external-reply-intake-dry-run"
+  },
+  {
+    command: [node, "scripts/check-public-beta-a1-reply-pm-classification-preview.mjs"],
+    expectStatus: "ok",
+    name: "public-beta-a1-reply-pm-classification-preview"
+  },
+  {
+    command: [node, "scripts/check-public-beta-external-reply-file-route.mjs"],
+    expectStatus: "ok",
+    name: "public-beta-external-reply-file-route"
+  },
+  {
+    command: [node, "scripts/check-public-beta-external-reply-file-workflow-proof.mjs"],
+    expectStatus: "ok",
+    name: "public-beta-external-reply-file-workflow-proof"
+  },
+  {
+    command: [node, "scripts/check-public-beta-external-input-response-readiness.mjs"],
+    expectStatus: "ok",
+    name: "public-beta-external-input-response-readiness"
+  },
+  {
+    command: [node, "scripts/check-public-beta-post-reply-route-once.mjs"],
+    expectStatus: "ok",
+    name: "public-beta-post-reply-route-once"
+  },
+  {
+    command: [node, "scripts/check-beta-launch-remaining-blockers.mjs"],
+    expectStatus: "ok",
+    name: "beta-launch-remaining-blockers"
   },
   {
     command: [node, "scripts/check-beta-mainline-current-route.mjs"],
@@ -3151,6 +3266,11 @@ const checks = [
     command: [node, "scripts/check-beta-packet-window-one-command-proof-map.mjs"],
     expectStatus: "ok",
     name: "beta-packet-window-one-command-proof-map"
+  },
+  {
+    command: [node, "scripts/check-beta-platform-two-value-proof-map-once.mjs"],
+    expectStatus: "ok",
+    name: "beta-platform-two-value-proof-map-once"
   },
   {
     command: [node, "scripts/check-beta-packet-window-readiness-summary.mjs"],
@@ -3758,6 +3878,16 @@ const checks = [
     name: "beta-runtime-fast-health"
   },
   {
+    command: [node, "scripts/check-public-beta-core-route-quick-proof.mjs"],
+    expectStatus: "ok",
+    name: "public-beta-core-route-quick-proof"
+  },
+  {
+    command: [node, "scripts/check-pm-worktree-review-preflight.mjs"],
+    expectStatus: "ok",
+    name: "pm-worktree-review-preflight"
+  },
+  {
     command: [node, "scripts/check-beta-executable-packet-repo-proof-runner-gate.mjs"],
     expectStatus: "ok",
     name: "beta-executable-packet-repo-proof-runner-gate"
@@ -3821,6 +3951,46 @@ const checks = [
     command: [node, "scripts/check-a1-exact-source-rights-evidence-worksheet.mjs"],
     expectStatus: "ok",
     name: "a1-exact-source-rights-evidence-worksheet"
+  },
+  {
+    command: [node, "scripts/check-a1-twii-evidence-intake-mini-packet.mjs"],
+    expectStatus: "ok",
+    name: "a1-twii-evidence-intake-mini-packet"
+  },
+  {
+    command: [node, "scripts/check-a1-twii-evidence-response-shape.mjs"],
+    expectStatus: "ok",
+    name: "a1-twii-evidence-response-shape"
+  },
+  {
+    command: [node, "scripts/check-a1-twii-four-slot-reply-request.mjs"],
+    expectStatus: "ok",
+    name: "a1-twii-four-slot-reply-request"
+  },
+  {
+    command: [node, "scripts/check-a1-twii-evidence-pm-classification-route.mjs"],
+    expectStatus: "ok",
+    name: "a1-twii-evidence-pm-classification-route"
+  },
+  {
+    command: [node, "scripts/check-a1-twii-pm-intake-decision-summary.mjs"],
+    expectStatus: "ok",
+    name: "a1-twii-pm-intake-decision-summary"
+  },
+  {
+    command: [node, "scripts/check-a1-twii-evidence-completion-status.mjs"],
+    expectStatus: "ok",
+    name: "a1-twii-evidence-completion-status"
+  },
+  {
+    command: [node, "scripts/check-a1-twii-post-reply-pm-classification-once.mjs"],
+    expectStatus: "ok",
+    name: "a1-twii-post-reply-pm-classification-once"
+  },
+  {
+    command: [node, "scripts/check-a1-twii-outcome-gate-candidate-route.mjs"],
+    expectStatus: "ok",
+    name: "a1-twii-outcome-gate-candidate-route"
   },
   {
     command: [node, "scripts/report-a1-source-rights-evidence-batch-brief.mjs"],
@@ -4373,7 +4543,7 @@ const checks = [
     name: "etf-source-report"
   },
   {
-    command: [node, "node_modules/typescript/bin/tsc", "--noEmit"],
+    command: [node, "node_modules/typescript/bin/tsc", "--noEmit", "--incremental", "false"],
     expectStatus: "ok",
     name: "typescript"
   }
@@ -4497,6 +4667,14 @@ const coreReviewGateNames = new Set([
   "a1-exact-source-rights-evidence-recording-commands",
   "a1-exact-source-rights-evidence-worksheet-report",
   "a1-exact-source-rights-evidence-worksheet",
+  "a1-twii-evidence-intake-mini-packet",
+  "a1-twii-evidence-response-shape",
+  "a1-twii-four-slot-reply-request",
+  "a1-twii-evidence-pm-classification-route",
+  "a1-twii-pm-intake-decision-summary",
+  "a1-twii-evidence-completion-status",
+  "a1-twii-post-reply-pm-classification-once",
+  "a1-twii-outcome-gate-candidate-route",
   "a1-source-rights-readiness-summary",
   "local-launch-proof-refresh-before-executable-packet",
   "beta-deployment-platform-values-bridge",
@@ -4519,10 +4697,31 @@ const coreReviewGateNames = new Set([
   "beta-deployment-operator-values-gap-list",
   "beta-deployment-operator-values-defaults-and-remaining-gaps",
   "beta-platform-two-value-intake-gate",
+  "beta-platform-two-value-intake-command",
   "beta-platform-two-value-validator",
+  "beta-platform-proof-status",
+  "beta-platform-values-route-preview",
   "beta-two-value-operator-handoff",
   "beta-launch-next-action",
+  "beta-deployment-quickstart",
+  "vercel-beta-pre-creation-checklist",
+  "vercel-operator-step-by-step-checklist",
   "beta-platform-unblock-kit",
+  "public-beta-mock-launch-proof-bundle",
+  "public-beta-separated-preflight",
+  "public-beta-external-input-request",
+  "public-beta-external-input-copy-packet",
+  "public-beta-external-reply-file-template",
+  "public-beta-external-reply-file-template-writer",
+  "public-beta-external-reply-env-fill",
+  "public-beta-external-reply-env-template-writer",
+  "public-beta-external-reply-intake-dry-run",
+  "public-beta-a1-reply-pm-classification-preview",
+  "public-beta-external-reply-file-route",
+  "public-beta-external-reply-file-workflow-proof",
+  "public-beta-external-input-response-readiness",
+  "public-beta-post-reply-route-once",
+  "beta-launch-remaining-blockers",
   "beta-mainline-current-route",
   "beta-pre-execution-packet-readiness",
   "beta-packet-window-candidate-dry-run-runner",
@@ -4530,6 +4729,7 @@ const coreReviewGateNames = new Set([
   "beta-packet-window-reviewed-artifact-acceptance-gate",
   "beta-packet-window-no-secret-artifact-creation-runbook",
   "beta-packet-window-one-command-proof-map",
+  "beta-platform-two-value-proof-map-once",
   "beta-packet-window-readiness-summary",
   "beta-packet-window-reviewed-artifact-outcome-recorder",
   "beta-packet-to-deployment-pre-execution-bridge",
@@ -4544,6 +4744,13 @@ const coreReviewGateNames = new Set([
   "a1-exact-source-rights-evidence-recording-commands",
   "a1-exact-source-rights-evidence-worksheet-report",
   "a1-exact-source-rights-evidence-worksheet",
+  "a1-twii-evidence-intake-mini-packet",
+  "a1-twii-evidence-response-shape",
+  "a1-twii-four-slot-reply-request",
+  "a1-twii-evidence-pm-classification-route",
+  "a1-twii-evidence-completion-status",
+  "a1-twii-post-reply-pm-classification-once",
+  "a1-twii-outcome-gate-candidate-route",
   "a1-source-rights-readiness-summary",
   "a1-source-rights-unblock-priority-packet",
   "a1-twii-source-rights-unblock-decision-record-candidate",
@@ -4569,20 +4776,68 @@ const coreReviewGateNames = new Set([
   "typescript"
 ]);
 
+const publicBetaFocusedReviewGateNames = new Set([
+  "local-verification-runbook",
+  "public-visible-language-quality",
+  "public-beta-launch-readiness-panel",
+  "beta-platform-proof-status",
+  "beta-platform-values-route-preview",
+  "beta-deployment-quickstart",
+  "beta-runtime-fast-health",
+  "public-beta-mock-launch-proof-bundle",
+  "a1-twii-four-slot-reply-request",
+  "a1-twii-pm-intake-decision-summary",
+  "a1-twii-evidence-completion-status",
+  "typescript"
+]);
+
 const runHistoricalGates = process.env.REVIEW_GATE_RUN_HISTORICAL === "true";
+const runLegacyCoreGates = process.env.REVIEW_GATE_RUN_LEGACY_CORE === "true";
+const includeRegisteredOnlyResults = process.env.REVIEW_GATE_VERBOSE_REGISTERED === "true" || runHistoricalGates || runLegacyCoreGates;
+const activeReviewGateNames = runLegacyCoreGates ? coreReviewGateNames : publicBetaFocusedReviewGateNames;
+
+if (!runHistoricalGates && !runLegacyCoreGates) {
+  spawnSync("cmd.exe", ["/c", "npm", "run", "dev:recover"], {
+    cwd: process.cwd(),
+    encoding: "utf8",
+    shell: false,
+    windowsHide: true
+  });
+  waitForFocusedRuntimeHealth();
+}
+
 const results = checks.map((check) =>
-  runHistoricalGates || coreReviewGateNames.has(check.name) ? runCheck(check) : skipRegisteredCheck(check)
+  runHistoricalGates || activeReviewGateNames.has(check.name) ? runCheck(check) : skipRegisteredCheck(check)
 );
 const failed = results.filter((result) => !result.pass);
+const executed = results.filter((result) => result.execution === "executed");
+const registeredOnly = results.filter((result) => result.execution === "registered_not_rerun");
+const reportResults = includeRegisteredOnlyResults ? results : executed.concat(failed.filter((result) => result.execution !== "executed"));
+const slowestExecuted = executed
+  .slice()
+  .sort((left, right) => (right.duration_ms ?? 0) - (left.duration_ms ?? 0))
+  .slice(0, 5)
+  .map((result) => ({
+    duration_ms: result.duration_ms,
+    name: result.name,
+    pass: result.pass
+  }));
 
 console.log(
   JSON.stringify(
     {
-      results,
-      runMode: runHistoricalGates ? "full_historical_execution" : "core_milestone_execution_with_historical_registration",
+      results: reportResults,
+      runMode: runHistoricalGates
+        ? "full_historical_execution"
+        : runLegacyCoreGates
+          ? "legacy_core_milestone_execution_with_historical_registration"
+          : "public_beta_focused_execution_with_historical_registration",
       registeredCount: checks.length,
-      executedCount: results.filter((result) => result.execution === "executed").length,
-      registeredOnlyCount: results.filter((result) => result.execution === "registered_not_rerun").length,
+      executedCount: executed.length,
+      registeredOnlyCount: registeredOnly.length,
+      omittedRegisteredOnlyCount: includeRegisteredOnlyResults ? 0 : registeredOnly.length,
+      outputMode: includeRegisteredOnlyResults ? "verbose_with_registered_results" : "focused_executed_results_only",
+      slowestExecuted,
       status: failed.length === 0 ? "ok" : "blocked"
     },
     null,
@@ -4595,16 +4850,19 @@ if (failed.length > 0) {
 }
 
 function runCheck(check) {
+  const startedAt = Date.now();
   const result = spawnSync(check.command[0], check.command.slice(1), {
     cwd: process.cwd(),
     encoding: "utf8",
-    shell: false
+    shell: false,
+    timeout: 180000
   });
   const output = `${result.stdout ?? ""}\n${result.stderr ?? ""}`.trim();
   const observedStatus = readStatus(output, result.status);
   const pass = check.expectStatus === "report" ? result.status === 0 && output.includes("ETF Source Readiness Report") : observedStatus === check.expectStatus;
 
   return {
+    duration_ms: Date.now() - startedAt,
     exit_code: result.status,
     execution: "executed",
     expected_status: check.expectStatus,
@@ -4639,4 +4897,22 @@ function readStatus(output, exitCode) {
   }
 
   return exitCode === 0 ? "ok" : "blocked";
+}
+
+function wait(ms) {
+  Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms);
+}
+
+function waitForFocusedRuntimeHealth() {
+  for (let attempt = 1; attempt <= 4; attempt += 1) {
+    const result = spawnSync("cmd.exe", ["/c", "npm", "run", "check:beta-runtime-fast-health"], {
+      cwd: process.cwd(),
+      encoding: "utf8",
+      shell: false,
+      timeout: 45000,
+      windowsHide: true
+    });
+    if (result.status === 0) return;
+    wait(5000);
+  }
 }

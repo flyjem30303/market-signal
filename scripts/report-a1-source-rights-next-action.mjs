@@ -49,7 +49,7 @@ const report = {
     "If ETF legal, redistribution, attribution, retention, derived-analysis, rate-limit, and field-contract evidence become accepted, PM may open a separate ETF source-rights outcome gate.",
     "If the exact outcome ledger records all TWII slots as accepted, PM may route to a separate TWII source-rights outcome gate.",
     "If the exact outcome ledger records all ETF slots as accepted, PM may route to a separate ETF source-rights outcome gate.",
-    "If neither lane has accepted evidence, A1 stays on exact evidence intake while PM continues Beta mainline work that does not require real source promotion."
+    "If neither lane has accepted evidence, A1 stays on the TWII four-slot no-secret request while PM continues Beta mainline work that does not require real source promotion."
   ],
   stopLines: [
     "No SQL is executed by this report.",
@@ -182,10 +182,10 @@ function chooseRoute(twii, etf, exactLedger) {
 
   return {
     status: "blocked_waiting_source_rights_evidence",
-    pmNextAction: "keep_beta_mainline_moving_and_assign_a1_exact_twii_etf_source_rights_evidence_intake",
+    pmNextAction: "keep_beta_mainline_moving_and_assign_a1_twii_four_slot_no_secret_evidence_request",
     a1NextAction:
-      "collect_or_classify_twii_vendor_terms_internal_owner_field_contract_asset_mapping_and_etf_legal_redistribution_evidence",
-    a1NextCommand: "cmd.exe /c npm run report:a1-exact-source-rights-evidence-worksheet"
+      "collect_or_classify_only_the_four_twii_no_secret_source_rights_evidence_slots_before_any_etf_expansion",
+    a1NextCommand: "cmd.exe /c npm run report:a1-twii-four-slot-reply-request"
   };
 }
 

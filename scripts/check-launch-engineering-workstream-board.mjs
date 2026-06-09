@@ -1,14 +1,23 @@
 import fs from "node:fs";
 
 const docPath = "docs/LAUNCH_ENGINEERING_WORKSTREAM_BOARD.md";
+const packagePath = "package.json";
 const statusPath = "PROJECT_STATUS.md";
 const rolePath = "docs/ROLE_WORKSTREAMS.md";
 
 const problems = [];
 
 const doc = read(docPath);
+const pkg = JSON.parse(read(packagePath));
 const status = read(statusPath);
 const roles = read(rolePath);
+
+if (
+  pkg.scripts?.["check:launch-engineering-workstream-board"] !==
+  "node scripts/check-launch-engineering-workstream-board.mjs"
+) {
+  problems.push(`${packagePath} missing check:launch-engineering-workstream-board script`);
+}
 
 const requiredDocPhrases = [
   "Status: `launch_engineering_workstream_board_ready`",
@@ -60,6 +69,8 @@ const requiredDocPhrases = [
   "Produce `docs/A2_PUBLIC_BETA_TRUST_COPY_READINESS.md`",
   "shared trust surfaces, footer/legal, home/stocks, briefing, weekly, and empty/error state copy before visual polish",
   "PM Integration Loop",
+  "report:public-beta-external-input-request",
+  "report:public-beta-external-input-response-readiness",
   "accepted",
   "rejected",
   "needs_bounded_repair",

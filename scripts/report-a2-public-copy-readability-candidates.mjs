@@ -107,6 +107,7 @@ const firstScreenCandidates = buildFirstScreenCandidates(fileReports);
 const urgentFirstScreenCandidates = firstScreenCandidates.filter((candidate) => candidate.priority !== "P2");
 const worklist = buildWorklist(fileReports, firstScreenCandidates);
 const topWorklistItem = worklist[0] ?? null;
+const launchBlockingStatus = buildLaunchBlockingStatus(fileReports, urgentFirstScreenCandidates);
 const report = {
   mode: "a2_public_copy_readability_candidates",
   generatedAt: new Date().toISOString(),
@@ -128,8 +129,13 @@ const report = {
     urgentFirstScreenCandidates: urgentFirstScreenCandidates.length
   },
   pmDecisionSupport: {
-    nextRecommendedSlice: topWorklistItem?.id ?? "a2-public-copy-stability-watch",
-    nextRecommendedPriority: topWorklistItem?.priority ?? "P2",
+    deferredWorkReason:
+      launchBlockingStatus.status === "clear"
+        ? "P2 public-copy and visual polish candidates are deferred until after hard public Beta blockers are removed."
+        : "Launch-blocking public-copy candidates must be cleared before public Beta promotion.",
+    launchBlockingStatus,
+    nextRecommendedSlice: topWorklistItem?.id ?? "none_until_launch_blocking_regression",
+    nextRecommendedPriority: topWorklistItem?.priority ?? "deferred",
     nextRecommendedAction:
       topWorklistItem?.nextAction ??
       "Keep public copy stable and patch only launch-blocking readability regressions.",
@@ -137,7 +143,7 @@ const report = {
     routeReason:
       urgentFirstScreenCandidates.length > 0
         ? "urgent_first_screen_public_copy_candidates_exist"
-        : "no_urgent_first_screen_candidates_keep_checker_hardened_and_public_copy_stable"
+        : "no_urgent_first_screen_candidates_defer_a2_until_launch_blocking_regression"
   },
   candidates: {
     mojibakeOrPrivateUse: fileReports.flatMap((item) => item.mojibake.map((hit) => ({ file: item.file, ...hit }))),
@@ -161,6 +167,7 @@ function analyzeFile(file) {
   const firstScreenVisible = extractVisibleStrings(firstScreen).join(" ");
   const mojibake = findMojibake(lines);
   const internalTerms = findInternalTerms(file, visible, firstScreenVisible);
+  const urgentInternalTerms = internalTerms.filter((hit) => hit.firstScreen && !isExplainedFirstScreenBoundaryTerm(hit, firstScreenVisible));
   const forbiddenSourceHits = forbiddenSourceTokens.filter((token) => content.includes(token));
   const boundary = assessBoundary(file, visible, firstScreenVisible);
 
@@ -170,6 +177,7 @@ function analyzeFile(file) {
     firstScreenSignal: {
       hasFirstScreenRange: firstScreen.length > 0,
       internalTermHits: internalTerms.filter((hit) => hit.firstScreen).length,
+      urgentInternalTermHits: urgentInternalTerms.length,
       visibleLength: firstScreenVisible.length
     },
     forbiddenSourceHits,
@@ -304,7 +312,10 @@ function buildFirstScreenCandidates(reports) {
     .map((report) => {
       const reasons = [];
       if (report.mojibake.length > 0) reasons.push("mojibake/private-use candidates");
-      if (report.firstScreenSignal.internalTermHits > 0) reasons.push("internal terms appear in first screen");
+      if (report.firstScreenSignal.urgentInternalTermHits > 0) reasons.push("unexplained internal terms appear in first screen");
+      if (report.firstScreenSignal.internalTermHits > 0 && report.firstScreenSignal.urgentInternalTermHits === 0) {
+        reasons.push("first-screen technical boundary is present but explained in public language");
+      }
       if (report.boundary.status === "candidate") reasons.push("mock/scoreSource boundary may be too far from first screen");
       if (report.file.includes("briefing")) reasons.push("briefing non-executive sections shape daily first impression");
       if (report.file.includes("weekly")) reasons.push("weekly page should read like public weekly report, not runtime status");
@@ -354,23 +365,38 @@ function buildWorklist(reports, firstScreenCandidates) {
     });
   }
 
-  items.push({
-    id: "a2-checker-hardening",
-    priority: "P1",
-    files: [
-      "scripts/report-a2-public-copy-readability-candidates.mjs",
-      "scripts/check-a2-public-copy-readability-candidates.mjs"
-    ],
-    nextAction: "Keep this local-only scanner independent from localhost, SQL, Supabase, and raw market payloads."
-  });
-
   return items;
 }
 
 function priorityFor(report) {
   if (report.mojibake.length > 0 || report.boundary.status === "candidate") return "P0";
-  if (report.firstScreenSignal.internalTermHits > 0) return "P1";
+  if (report.firstScreenSignal.urgentInternalTermHits > 0) return "P1";
   return "P2";
+}
+
+function buildLaunchBlockingStatus(reports, urgentCandidates) {
+  const mojibakeCount = reports.reduce((sum, report) => sum + report.mojibake.length, 0);
+  const boundaryCandidateCount = reports.filter((report) => report.boundary.status === "candidate").length;
+
+  if (urgentCandidates.length > 0 || mojibakeCount > 0 || boundaryCandidateCount > 0) {
+    return {
+      allowedNextAction: "fix_launch_blocking_public_copy_before_beta",
+      boundaryCandidateCount,
+      hardBlocker: true,
+      mojibakeCount,
+      status: "blocked",
+      urgentFirstScreenCandidates: urgentCandidates.length
+    };
+  }
+
+  return {
+    allowedNextAction: "keep_stable_only_unless_launch_blocking_regression",
+    boundaryCandidateCount,
+    hardBlocker: false,
+    mojibakeCount,
+    status: "clear",
+    urgentFirstScreenCandidates: 0
+  };
 }
 
 function priorityRank(priority) {
@@ -405,4 +431,22 @@ function compact(line) {
 
 function escapeRegExp(value) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function isExplainedFirstScreenBoundaryTerm(hit, firstScreenVisible) {
+  if (!hit.firstScreen) return false;
+
+  const text = firstScreenVisible.toLowerCase();
+  const hasPublicBoundary =
+    text.includes("public beta") ||
+    text.includes("mock") ||
+    text.includes("示範") ||
+    text.includes("模擬") ||
+    text.includes("不是投資建議") ||
+    text.includes("正式市場資料") ||
+    text.includes("真實分數");
+
+  if (!hasPublicBoundary) return false;
+
+  return ["runtime", "publicDataSource", "scoreSource"].includes(hit.term);
 }

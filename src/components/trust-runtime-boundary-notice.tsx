@@ -84,7 +84,7 @@ export function TrustRuntimeBoundaryNotice({ context }: TrustRuntimeBoundaryNoti
       </article>
       <article className="readying">
         <span>PM runtime route</span>
-        <strong>示範流程強化</strong>
+        <strong>Mock runtime hardening remains active</strong>
         <p>
           mock runtime hardening {runtimeInterpretation.laneRatio.mockRuntimeHardening}% / Supabase readonly
           preparation {runtimeInterpretation.laneRatio.supabaseReadonlyPreparation}%. {runtimeInterpretation.blockers[0]}

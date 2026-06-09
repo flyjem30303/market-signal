@@ -35,6 +35,8 @@ The runner executes this local-only sequence:
 
 The runner stops at the first non-ready state and reports the next route. It does not write files. It does not convert `pending_pm_review` into `accepted`. It does not authorize deployment.
 
+When Git backup is intentionally deferred, the packet-window dry-run step may use the repo proof runner's no-Git PM snapshot as the worktree safeguard. If the two platform values pass shape validation, repo proof passes, and `pmSnapshot.unresolvedCount=0`, the one-command proof map can continue to the no-secret reviewed artifact record template without requiring a clean Git worktree.
+
 ## Output States
 
 | State | Meaning | Next route |
@@ -63,6 +65,8 @@ The runner summary must include:
 
 PM route:
 
+- While either platform value is missing, route PM back to `cmd.exe /c npm run report:public-beta-external-input-request`.
+- After I / operator replies, run `cmd.exe /c npm run report:public-beta-external-input-response-readiness` before this proof map.
 - Use this runner after platform values arrive.
 - If it stops at `blocked_waiting_values`, do not spend more local engineering on platform values.
 - If it reaches `reviewed_artifact_template_ready_pending_pm_review`, PM may create a separate reviewed artifact and classify it as `accepted` or `rejected`.
@@ -91,7 +95,8 @@ PM may classify this proof map as `accepted` when:
 4. the step order is explicit;
 5. the runner does not write files;
 6. the runner never converts `pending_pm_review` into `accepted`;
-7. `publicDataSource=mock` and `scoreSource=mock` remain unchanged.
+7. safe placeholder platform values can reach `reviewed_artifact_template_ready_pending_pm_review` through the no-Git PM snapshot path;
+8. `publicDataSource=mock` and `scoreSource=mock` remain unchanged.
 
 ## Hard Stops
 

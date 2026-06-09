@@ -4092,12 +4092,27 @@ select {
 
 .public-beta-launch-readiness-score span,
 .public-beta-launch-readiness-score small,
+.public-beta-operational-goal span,
 .public-beta-launch-readiness-grid span,
+.public-beta-external-input-request span,
+.public-beta-platform-values-guide span,
+.public-beta-worktree-guide span,
+.public-beta-a1-mini-packet-guide span,
+.public-beta-a1-task-board span,
+.public-beta-a1-bounded-repair span,
+.public-beta-a1-classification-quick-map span,
+.public-beta-a1-classification-queue span,
 .public-beta-launch-readiness-route span {
   color: var(--muted);
   font-size: 11px;
   font-weight: 850;
   text-transform: uppercase;
+}
+
+.public-beta-operational-goal {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: minmax(0, 1.4fr) minmax(220px, 0.8fr);
 }
 
 .public-beta-launch-readiness-grid {
@@ -4106,7 +4121,16 @@ select {
   grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
 }
 
+.public-beta-operational-goal article,
 .public-beta-launch-readiness-grid article,
+.public-beta-external-input-request article,
+.public-beta-platform-values-guide article,
+.public-beta-worktree-guide article,
+.public-beta-a1-mini-packet-guide article,
+.public-beta-a1-task-board article,
+.public-beta-a1-bounded-repair article,
+.public-beta-a1-classification-quick-map article,
+.public-beta-a1-classification-queue article,
 .public-beta-launch-readiness-route article {
   display: grid;
   align-content: start;
@@ -4116,6 +4140,11 @@ select {
   border-radius: 8px;
   background: var(--panel-muted);
   padding: 14px;
+}
+
+.public-beta-operational-goal article:first-child {
+  border-color: rgba(15, 93, 76, 0.18);
+  background: #eff9f5;
 }
 
 .public-beta-launch-readiness-grid article.ready {
@@ -4133,7 +4162,130 @@ select {
   background: #fff7f7;
 }
 
+.public-beta-hard-blocker-actions {
+  display: grid;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid rgba(199, 54, 59, 0.16);
+  border-radius: 8px;
+  background: #fffafa;
+}
+
+.public-beta-hard-blocker-actions > div,
+.public-beta-hard-blocker-actions article {
+  display: grid;
+  gap: 8px;
+}
+
+.public-beta-hard-blocker-actions article {
+  padding: 14px;
+  border: 1px solid rgba(199, 54, 59, 0.16);
+  border-radius: 8px;
+  background: #fff;
+}
+
+.public-beta-hard-blocker-actions span,
+.public-beta-hard-blocker-actions p,
+.public-beta-hard-blocker-actions li,
+.public-beta-hard-blocker-actions code {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.public-beta-hard-blocker-actions span {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.public-beta-hard-blocker-actions strong {
+  color: var(--text);
+  font-size: 16px;
+}
+
+.public-beta-hard-blocker-actions ol {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding-left: 18px;
+}
+
+.public-beta-hard-blocker-actions code {
+  color: #8a282d;
+  font-weight: 800;
+}
+
+.public-beta-hard-blocker-inputs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.public-beta-hard-blocker-inputs code {
+  display: inline-flex;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: #fff1f1;
+}
+
+.public-beta-mock-launch-proof-bundle {
+  display: grid;
+  gap: 12px;
+}
+
+.public-beta-mock-launch-proof-bundle article {
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+  border: 1px solid rgba(15, 93, 76, 0.18);
+  border-radius: 8px;
+  background: #eff9f5;
+}
+
+.public-beta-mock-launch-proof-bundle span {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.public-beta-mock-launch-proof-bundle strong {
+  color: var(--text);
+  font-size: 16px;
+}
+
+.public-beta-mock-launch-proof-bundle p,
+.public-beta-mock-launch-proof-bundle li,
+.public-beta-mock-launch-proof-bundle code {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.public-beta-mock-launch-proof-bundle ol {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding-left: 18px;
+}
+
+.public-beta-mock-launch-proof-bundle code {
+  color: #0f5d4c;
+  font-weight: 800;
+}
+
 .public-beta-launch-readiness-grid strong,
+.public-beta-operational-goal strong,
+.public-beta-external-input-request strong,
+.public-beta-platform-values-guide strong,
+.public-beta-worktree-guide strong,
+.public-beta-a1-mini-packet-guide strong,
+.public-beta-a1-task-board strong,
+.public-beta-a1-bounded-repair strong,
+.public-beta-a1-classification-quick-map strong,
+.public-beta-a1-classification-queue strong,
 .public-beta-launch-readiness-route strong {
   color: var(--text);
   font-size: 16px;
@@ -4142,6 +4294,29 @@ select {
 }
 
 .public-beta-launch-readiness-grid p,
+.public-beta-operational-goal p,
+.public-beta-operational-goal li,
+.public-beta-external-input-request p,
+.public-beta-external-input-request li,
+.public-beta-external-input-request code,
+.public-beta-platform-values-guide p,
+.public-beta-platform-values-guide li,
+.public-beta-platform-values-guide code,
+.public-beta-worktree-guide p,
+.public-beta-worktree-guide code,
+.public-beta-a1-mini-packet-guide p,
+.public-beta-a1-mini-packet-guide li,
+.public-beta-a1-mini-packet-guide code,
+.public-beta-a1-task-board p,
+.public-beta-a1-task-board small,
+.public-beta-a1-bounded-repair p,
+.public-beta-a1-bounded-repair small,
+.public-beta-a1-bounded-repair code,
+.public-beta-a1-classification-quick-map p,
+.public-beta-a1-classification-quick-map li,
+.public-beta-a1-classification-quick-map code,
+.public-beta-a1-classification-queue p,
+.public-beta-a1-classification-queue code,
 .public-beta-launch-readiness-route p,
 .public-beta-launch-readiness-route li,
 .public-beta-launch-readiness-route code {
@@ -4150,6 +4325,322 @@ select {
   line-height: 1.55;
   margin: 0;
   overflow-wrap: anywhere;
+}
+
+.public-beta-platform-values-guide {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+}
+
+.public-beta-external-input-request {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: minmax(0, 1.6fr) minmax(220px, 0.8fr);
+}
+
+.public-beta-external-input-request article:first-child {
+  border-color: rgba(15, 93, 76, 0.18);
+  background: #eff9f5;
+}
+
+.public-beta-external-input-request ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.public-beta-external-input-request code {
+  color: #0f5d4c;
+  font-weight: 800;
+}
+
+.public-beta-missing-reply-block {
+  border-top: 1px solid rgba(15, 93, 76, 0.14);
+  display: grid;
+  gap: 8px;
+  padding-top: 10px;
+}
+
+.public-beta-missing-reply-block + .public-beta-missing-reply-block {
+  margin-top: 12px;
+}
+
+.public-beta-missing-reply-block small {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.public-beta-platform-values-guide article:first-child {
+  border-color: rgba(15, 93, 76, 0.18);
+  background: #eff9f5;
+}
+
+.public-beta-platform-values-guide ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.public-beta-platform-after-validation {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding-left: 18px;
+}
+
+.public-beta-platform-values-guide code {
+  color: #0f5d4c;
+  font-weight: 800;
+}
+
+.public-beta-reply-template {
+  display: grid;
+  gap: 6px;
+}
+
+.public-beta-reply-template code {
+  display: block;
+}
+
+.public-beta-worktree-guide {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+}
+
+.public-beta-worktree-guide article:first-child {
+  border-color: rgba(15, 93, 76, 0.18);
+  background: #eff9f5;
+}
+
+.public-beta-worktree-guide article:last-child {
+  border-color: rgba(183, 121, 31, 0.26);
+  background: #fffaf0;
+}
+
+.public-beta-worktree-guide code {
+  color: #0f5d4c;
+  font-weight: 800;
+}
+
+.public-beta-a1-mini-packet-guide {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 1.25fr 1fr 1fr;
+}
+
+.public-beta-a1-mini-packet-guide article:first-child {
+  border-color: rgba(183, 121, 31, 0.26);
+  background: #fffaf0;
+}
+
+.public-beta-a1-mini-packet-guide ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.public-beta-a1-mini-packet-guide code {
+  color: #8a5a12;
+  font-weight: 800;
+}
+
+.public-beta-a1-task-board {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+}
+
+.public-beta-a1-task-board article {
+  border-color: rgba(183, 121, 31, 0.26);
+  background: #fffaf0;
+}
+
+.public-beta-a1-task-board small {
+  color: #8a5a12;
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
+.public-beta-a1-fast-triage {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr) minmax(0, 1fr);
+}
+
+.public-beta-a1-fast-triage article {
+  border-color: rgba(183, 121, 31, 0.26);
+  background: #fffaf0;
+}
+
+.public-beta-a1-fast-triage ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.public-beta-a1-fast-triage code {
+  color: #8a5a12;
+  font-weight: 800;
+}
+
+.public-beta-a1-bounded-repair {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.public-beta-a1-bounded-repair article {
+  border-color: rgba(183, 121, 31, 0.26);
+  background: #fffaf0;
+}
+
+.public-beta-a1-bounded-repair article:first-child {
+  grid-column: 1 / -1;
+}
+
+.public-beta-a1-bounded-repair code,
+.public-beta-a1-bounded-repair small {
+  color: #8a5a12;
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
+.public-beta-a1-classification-queue {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.public-beta-a1-classification-queue article {
+  border-color: rgba(183, 121, 31, 0.26);
+  background: #fffaf0;
+}
+
+.public-beta-a1-classification-queue article:first-child {
+  grid-column: 1 / -1;
+}
+
+.public-beta-a1-classification-quick-map {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.public-beta-a1-classification-quick-map article {
+  border-color: rgba(183, 121, 31, 0.26);
+  background: #fffaf0;
+}
+
+.public-beta-a1-classification-quick-map article:first-child {
+  grid-column: 1 / -1;
+}
+
+.public-beta-a1-classification-quick-map ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.public-beta-a1-classification-quick-map code {
+  color: #8a5a12;
+  font-weight: 800;
+}
+
+.public-beta-a1-classification-queue code {
+  color: #8a5a12;
+  font-weight: 800;
+}
+
+.public-beta-a1-narrow-request {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+}
+
+.public-beta-a1-narrow-request article {
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+  border: 1px solid rgba(183, 121, 31, 0.2);
+  border-radius: 8px;
+  background: #fffaf0;
+}
+
+.public-beta-a1-narrow-request span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.public-beta-a1-narrow-request strong {
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.public-beta-a1-narrow-request ul {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding-left: 18px;
+}
+
+.public-beta-a1-narrow-request code {
+  color: #8a5a12;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.public-beta-a1-reply-shape {
+  display: grid;
+  gap: 6px;
+}
+
+.public-beta-a1-reply-shape code {
+  display: block;
+}
+
+.public-beta-data-readiness-guide {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+}
+
+.public-beta-data-readiness-guide article {
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+  border: 1px solid rgba(15, 93, 76, 0.16);
+  border-radius: 8px;
+  background: #f7fbfa;
+}
+
+.public-beta-data-readiness-guide span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.public-beta-data-readiness-guide strong {
+  color: var(--text);
+  font-size: 14px;
+}
+
+.public-beta-data-readiness-guide p,
+.public-beta-data-readiness-guide code {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.55;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.public-beta-data-readiness-guide code {
+  color: #0f5d4c;
+  font-weight: 800;
 }
 
 .public-beta-launch-readiness-route {
@@ -11084,6 +11575,16 @@ input[type="date"] {
   .weekly-market-action-summary,
   .public-beta-launch-readiness-head,
   .public-beta-launch-readiness-grid,
+  .public-beta-hard-blocker-actions,
+  .public-beta-external-input-request,
+  .public-beta-mock-launch-proof-bundle,
+  .public-beta-platform-values-guide,
+  .public-beta-worktree-guide,
+  .public-beta-a1-mini-packet-guide,
+  .public-beta-a1-task-board,
+  .public-beta-a1-narrow-request,
+  .public-beta-data-readiness-guide,
+  .public-beta-a1-classification-quick-map,
   .public-beta-launch-readiness-route,
   .briefing-runtime-plan,
   .briefing-market-action-summary,

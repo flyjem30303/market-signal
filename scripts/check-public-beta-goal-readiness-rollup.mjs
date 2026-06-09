@@ -41,7 +41,15 @@ for (const [filePath, source, phrase] of [
   [docPath, doc, "a1_source_rights_and_coverage_frontier"],
   [docPath, doc, "a2_public_trust_copy"],
   [docPath, doc, "promotion_boundary"],
+  [docPath, doc, "operational_goal_v3_execution_first"],
+  [docPath, doc, "close only the active external blocker chain"],
+  [docPath, doc, "directly advances platform values, packet proof, A1 evidence classification, or runtime route health"],
+  [docPath, doc, "prefer existing one-runner commands"],
   [docPath, doc, "No SQL, Supabase read/write, deployment, raw market-data fetch/ingest, evidence recording, or source/score promotion is authorized."],
+  [docPath, doc, "cmd.exe /c npm run report:public-beta-external-input-response-readiness"],
+  [docPath, doc, "cmd.exe /c npm run report:public-beta-external-reply-file-route"],
+  [docPath, doc, "The reply-file route chooses the template, copy packet, bounded A1 repair, workflow proof, or lower-level response-readiness path."],
+  [docPath, doc, "cmd.exe /c npm run run:public-beta-post-reply-route-once"],
   [statusPath, status, "Latest public Beta goal readiness rollup slice"],
   [boardPath, board, "`report:public-beta-goal-readiness-rollup` is `accepted` as PM mainline GOAL-readiness rollup"],
   [reviewGatePath, reviewGate, "name: \"public-beta-goal-readiness-rollup\""]
@@ -61,10 +69,21 @@ for (const phrase of [
 for (const phrase of [
   "public_beta_goal_readiness_rollup",
   "public_beta_goal_not_ready_continue_parallel_work",
+  "operational_goal_v3_execution_first",
+  "Close only the active external blocker chain",
+  "hardBlockers",
+  "executionBias",
+  "keep_reviewed_artifact_recording_dry_run_until_separate_pm_apply_decision",
+  "cmd.exe /c npm run report:public-beta-external-input-response-readiness",
+  "cmd.exe /c npm run report:public-beta-external-reply-file-route",
+  "cmd.exe /c npm run run:public-beta-post-reply-route-once",
   "runtime_core_routes",
   "beta_platform_values_and_packet",
   "a1_source_rights_and_coverage_frontier",
   "a2_public_trust_copy",
+  "launchBlockingStatus",
+  "keep_stable_only_unless_launch_blocking_regression",
+  "P2 polish",
   "promotion_boundary",
   "publicDataSource",
   "scoreSource",
@@ -90,11 +109,54 @@ if (run.status !== 0 || !report) {
   if (report.status !== "public_beta_goal_not_ready_continue_parallel_work") {
     problems.push(`unexpected status ${report.status}`);
   }
-  if (report.currentRoute?.pmMainlineStatus !== "blocked_waiting_two_platform_values") {
-    problems.push("pm mainline should currently be blocked waiting two platform values");
+  if (
+    !["blocked_waiting_two_platform_values", "blocked_waiting_external_input_response"].includes(
+      report.currentRoute?.pmMainlineStatus
+    )
+  ) {
+    problems.push("pm mainline should currently be blocked waiting external input");
   }
   if (report.currentRoute?.pmDefaultWhenBlocked !== true) {
     problems.push("pmDefaultWhenBlocked should remain true");
+  }
+  if (report.ceoDecision !== "use_execution_first_goal_writing_mainline_platform_values_packet_a1_only") {
+    problems.push("ceoDecision should use execution-first goal writing");
+  }
+  if (report.goalWriting?.style !== "operational_goal_v3_execution_first") {
+    problems.push("goalWriting style should be operational_goal_v3_execution_first");
+  }
+  for (const blocker of [
+    "BETA_HOSTING_PROJECT_NAME",
+    "BETA_TEMPORARY_URL",
+    "A1_TWII_FOUR_SLOT_NO_SECRET_SOURCE_RIGHTS_EVIDENCE"
+  ]) {
+    if (!report.goalWriting?.hardBlockers?.includes(blocker)) {
+      problems.push(`goalWriting hardBlockers should include ${blocker}`);
+    }
+  }
+  if (!report.goalWriting?.executionBias?.includes("prefer_existing_one_runner_commands")) {
+    problems.push("goalWriting executionBias should prefer existing one-runner commands");
+  }
+  if (!report.goalWriting?.executionBias?.includes("keep_reviewed_artifact_recording_dry_run_until_separate_pm_apply_decision")) {
+    problems.push("goalWriting executionBias should keep reviewed-artifact recording dry-run until separate PM apply decision");
+  }
+  if (!report.nextBestActions?.includes("cmd.exe /c npm run report:public-beta-external-reply-file-route")) {
+    problems.push("nextBestActions should include the external reply file route immediately after external replies");
+  }
+  if (!report.nextBestActions?.includes("cmd.exe /c npm run report:public-beta-external-input-response-readiness")) {
+    problems.push("nextBestActions should include response-readiness immediately after external replies");
+  }
+  const routeIndex = report.nextBestActions?.indexOf("cmd.exe /c npm run report:public-beta-external-reply-file-route") ?? -1;
+  const responseReadinessIndex =
+    report.nextBestActions?.indexOf("cmd.exe /c npm run report:public-beta-external-input-response-readiness") ?? -1;
+  if (!(routeIndex >= 0 && responseReadinessIndex > routeIndex)) {
+    problems.push("nextBestActions should order external reply file route before response-readiness");
+  }
+  if (!report.nextBestActions?.includes("cmd.exe /c npm run run:public-beta-post-reply-route-once")) {
+    problems.push("nextBestActions should include the combined public Beta post-reply one-runner");
+  }
+  if (report.nextBestActions?.includes("cmd.exe /c npm run run:beta-platform-two-value-proof-map-once")) {
+    problems.push("nextBestActions should not expose the lower-level platform proof runner as the routine next command");
   }
   const byId = new Map(report.completionItems?.map((item) => [item.id, item]) ?? []);
   if (byId.get("runtime_core_routes")?.status !== "ready") problems.push("runtime_core_routes should be ready");
@@ -105,6 +167,12 @@ if (run.status !== 0 || !report) {
     problems.push("a1_source_rights_and_coverage_frontier should currently be blocked");
   }
   if (byId.get("a2_public_trust_copy")?.status !== "ready") problems.push("a2_public_trust_copy should be ready");
+  if (!String(byId.get("a2_public_trust_copy")?.evidence ?? "").includes("launchBlockingStatus is clear")) {
+    problems.push("a2_public_trust_copy evidence should use launchBlockingStatus clear wording");
+  }
+  if (!String(byId.get("a2_public_trust_copy")?.nextAction ?? "").includes("defer P2 polish")) {
+    problems.push("a2_public_trust_copy nextAction should defer P2 polish");
+  }
   if (byId.get("promotion_boundary")?.status !== "held") problems.push("promotion_boundary should be held");
   for (const id of ["beta_platform_values_and_packet", "a1_source_rights_and_coverage_frontier"]) {
     if (!report.blockedItems?.includes(id)) problems.push(`blockedItems should include ${id}`);

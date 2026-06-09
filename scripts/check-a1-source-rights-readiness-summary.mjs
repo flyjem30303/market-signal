@@ -31,8 +31,8 @@ if (report) {
   if (report.status !== "blocked_waiting_a1_exact_source_rights_evidence") {
     problems.push(`current report status should remain blocked_waiting_a1_exact_source_rights_evidence, got ${report.status}`);
   }
-  if (report.nextCommand !== "cmd.exe /c npm run report:a1-exact-source-rights-evidence-worksheet") {
-    problems.push("blocked readiness summary should route A1 back to the worksheet report");
+  if (report.nextCommand !== "cmd.exe /c npm run report:a1-twii-four-slot-reply-request") {
+    problems.push("blocked readiness summary should route A1 back to the TWII four-slot reply request");
   }
   if (report.runtimeBoundary?.publicDataSource !== "mock") problems.push("publicDataSource must remain mock");
   if (report.runtimeBoundary?.scoreSource !== "mock") problems.push("scoreSource must remain mock");
@@ -62,7 +62,7 @@ for (const [filePath, source, phrase] of [
   [docPath, doc, "Status: `a1_source_rights_readiness_summary_ready_evidence_pending`"],
   [docPath, doc, "Current outcome: `blocked_waiting_a1_exact_source_rights_evidence`"],
   [docPath, doc, "cmd.exe /c npm run report:a1-source-rights-readiness-summary"],
-  [docPath, doc, "cmd.exe /c npm run report:a1-exact-source-rights-evidence-worksheet"],
+  [docPath, doc, "cmd.exe /c npm run report:a1-twii-four-slot-reply-request"],
   [docPath, doc, "TWII readiness: `4/4` pending"],
   [docPath, doc, "ETF readiness: `6/6` pending"],
   [docPath, doc, "`publicDataSource=mock`"],

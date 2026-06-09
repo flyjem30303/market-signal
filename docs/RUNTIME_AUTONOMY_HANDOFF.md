@@ -1,6 +1,6 @@
 # Runtime Autonomy Handoff
 
-Updated: 2026-06-04
+Updated: 2026-06-08
 
 This is the short recovery note for autonomous CEO / PM runtime continuation. Use it when the chat is compacted, the chairman is away, or a heartbeat resumes with limited context.
 
@@ -10,6 +10,48 @@ This is the short recovery note for autonomous CEO / PM runtime continuation. Us
 - Active lane: CEO / PM / Runtime Engineering.
 - Support lanes: A1 handles Data / Supabase / Market Evidence; A2 handles Frontend / UX Readability / Public Copy QA; I handles Cloud Deployment / DevOps / Launch Operations readiness.
 - Integration rule: PM is the only integration owner. A1, A2, and I prepare inputs; PM decides what enters mainline.
+
+## Current GOAL Wording - Delivery First
+
+Goal: push the project to a public Beta pre-launch executable state with the shortest safe path.
+
+Operational GOAL v4:
+- Remove only the real current hard blockers: missing `BETA_HOSTING_PROJECT_NAME`, missing `BETA_TEMPORARY_URL`, and missing A1 TWII four-slot no-secret source-rights evidence.
+- Use the largest safe local slice that directly advances platform values, packet proof, A1 evidence classification, or runtime route health.
+- Prefer one-runner commands over split command chains.
+- Do not reopen governance, role review, visual polish, or broad audit loops unless they directly unlock the active chain.
+- Run only the smallest checker set that proves the slice; reserve the full review gate for promotion, packet milestone, deployment readiness, or large integration.
+- Keep reviewed-artifact recording on dry-run by default; apply accepted outcomes only as a separate PM decision.
+- Treat UI micro-polish, broad role review, and status-only documents as deferred unless a focused checker shows they block the active launch chain.
+- Do not spend a slice only proving that the project is still blocked; every routine slice should either simplify the external reply, validate the post-reply path, or reduce the next PM/A1 action to a smaller executable packet.
+
+CEO velocity rewrite:
+- Prioritize the platform -> packet -> A1 evidence -> runtime health chain.
+- Use one coherent blocker-removal slice instead of many micro-governance slices.
+- Use one-command runners when available.
+- Run the smallest checker set that proves the slice.
+- Defer UI micro-polish, broad role review, and full review gate unless they unlock the active chain.
+- If a safe local next step exists, execute it instead of stopping at another recommendation.
+
+Completion state:
+- The two safe Beta platform values are available and shape-validated without printing them.
+- The packet-window proof map can run through its local proof route.
+- A1 has moved TWII four-slot no-secret evidence to a PM-classifiable state, or PM has recorded the exact remaining external blocker.
+- Core public routes stay healthy and readable with `publicDataSource=mock` and `scoreSource=mock`.
+
+Execution rule:
+- CEO chooses the next highest-value blocker-removal slice.
+- PM executes the slice immediately when it is local-only and safe.
+- A1 and A2 remain parallel support lanes; PM integrates only bounded outputs that preserve mock/score boundaries.
+- Do not open broad governance, role-review packets, or visual polish unless they unblock the current launch route.
+
+Verification rule:
+- Use focused checks first: TypeScript, route health, public visible-language, A1/A2 route-specific checkers, and PM worktree preflight.
+- Run the full review gate only after a larger integration or before promotion/packet work.
+- Each slice records only completed work, remaining hard blockers, and checks run. Everything else is milestone-review material, not routine progress work.
+
+Hard stops:
+- No deployment, SQL, Supabase write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret/raw payload output, `publicDataSource=supabase`, `scoreSource=real`, or Git add/commit/push unless the chairman explicitly asks.
 
 ## Current Runtime State
 
@@ -25,11 +67,11 @@ This is the short recovery note for autonomous CEO / PM runtime continuation. Us
 
 CEO should choose the next highest-value local-only slice from this order:
 
-1. Runtime guard summary readability and display-only fields.
-2. Freshness / readonly / mock-boundary copy that prevents user or operator confusion.
-3. Local static checker coverage for public language, fail-closed behavior, and review-gate registration.
-4. TypeScript and local route health.
-5. Documentation updates that preserve context after compaction.
+1. External-input closure: make the two Beta platform values and A1 TWII four-slot no-secret reply packet smaller, clearer, and easier to run through the post-reply one-runner.
+2. Packet proof and blocker route: keep `report:public-beta-external-input-response-readiness`, `run:public-beta-post-reply-route-once`, and `report:beta-mainline-current-route` aligned on the same next action.
+3. A1 evidence classification readiness: reduce the remaining A1 evidence repair work to PM-classifiable no-secret slots without recording evidence or approving source rights.
+4. Runtime route health and mock boundary only when a route/checker fails or the user reports a visible runtime issue.
+5. Documentation updates only when they preserve compaction context or prevent repeated execution drift.
 
 Use larger coherent slices when governance becomes too fine. Do not spend heartbeat time creating narrow role-review documents unless a missing gate would otherwise block runtime work.
 

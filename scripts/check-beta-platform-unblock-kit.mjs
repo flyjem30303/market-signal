@@ -22,15 +22,28 @@ const reviewGate = read(reviewGatePath);
 const requiredReportPhrases = [
   "blocked_waiting_two_platform_values",
   "beta_platform_values_ready_for_packet_window",
+  "keep_beta_mainline_waiting_only_for_two_safe_platform_values_then_post_reply_one_runner",
+  "cmd.exe /c npm run report:public-beta-external-input-request",
+  "cmd.exe /c npm run report:public-beta-external-input-response-readiness",
   "cmd.exe /c npm run validate:beta-platform-two-values",
+  "cmd.exe /c npm run run:public-beta-post-reply-route-once",
   "cmd.exe /c npm run run:beta-packet-window-proof-map",
+  "cmd.exe /c npm run run:beta-platform-two-value-proof-map-once",
   "record:beta-packet-window-reviewed-artifact-outcome",
   "operatorHandoff",
+  "nextResponseReadinessCommand",
+  "diagnosticValidationCommand",
+  "diagnosticOnly",
+  "standalone_validator_and_proof_map_are_for_failed_runner_debugging_not_pm_routine_next_step",
   "placeholder_only_no_values_printed",
-  "BETA_HOSTING_PROJECT_NAME=<plain-hosting-project-slug>",
+  "BETA_HOSTING_PROJECT_NAME=<plain-hosting-project-or-site-name>",
   "BETA_TEMPORARY_URL=https://<public-beta-hostname>/",
   "valuesAreNotStoredInRepo: true",
   "valuesAreNotPrinted: true",
+  "report:pm-worktree-review-preflight",
+  "safeguardReady",
+  "platform_values_pending",
+  "repo_safeguard_ready_platform_values_pending",
   "publicDataSource: \"mock\"",
   "scoreSource: \"mock\"",
   "No deployment is authorized.",
@@ -64,14 +77,17 @@ for (const phrase of forbiddenReportPhrases) {
 
 const requiredDocPhrases = [
   "Status: `beta_platform_unblock_kit_ready_waiting_values`",
-  "CEO decision: `keep_beta_mainline_waiting_only_for_two_safe_platform_values`",
+  "CEO decision: `keep_beta_mainline_waiting_only_for_two_safe_platform_values_then_post_reply_one_runner`",
   "`BETA_HOSTING_PROJECT_NAME`",
   "`BETA_TEMPORARY_URL`",
   "`cmd.exe /c npm run report:beta-platform-unblock-kit`",
+  "`cmd.exe /c npm run report:public-beta-external-input-request`",
+  "`cmd.exe /c npm run report:public-beta-external-input-response-readiness`",
+  "`cmd.exe /c npm run run:public-beta-post-reply-route-once`",
   "`cmd.exe /c npm run validate:beta-platform-two-values`",
-  "`cmd.exe /c npm run run:beta-packet-window-proof-map`",
+  "These diagnostic commands are not the PM routine next step.",
   "`cmd.exe /c npm run record:beta-packet-window-reviewed-artifact-outcome",
-  "BETA_HOSTING_PROJECT_NAME=<plain-hosting-project-slug>",
+  "BETA_HOSTING_PROJECT_NAME=<plain-hosting-project-or-site-name>",
   "BETA_TEMPORARY_URL=https://<public-beta-hostname>/",
   "placeholder-only",
   "A1",
@@ -133,7 +149,7 @@ if (!report) {
     missing.push("report.operatorHandoff.replyTemplate");
   } else {
     const template = report.operatorHandoff.replyTemplate.join("\n");
-    if (!template.includes("BETA_HOSTING_PROJECT_NAME=<plain-hosting-project-slug>")) {
+    if (!template.includes("BETA_HOSTING_PROJECT_NAME=<plain-hosting-project-or-site-name>")) {
       missing.push("report.operatorHandoff.replyTemplate project placeholder");
     }
     if (!template.includes("BETA_TEMPORARY_URL=https://<public-beta-hostname>/")) {
@@ -143,12 +159,53 @@ if (!report) {
   if (report.operatorHandoff?.valuesAreNotStoredInRepo !== true) {
     blocked.push("report.operatorHandoff.valuesAreNotStoredInRepo must be true");
   }
+  if (report.operatorHandoff?.nextResponseReadinessCommand !== "cmd.exe /c npm run report:public-beta-external-input-response-readiness") {
+    blocked.push("report.operatorHandoff.nextResponseReadinessCommand must route to response-readiness");
+  }
+  if (report.operatorHandoff?.nextValidationCommand) {
+    blocked.push("report.operatorHandoff.nextValidationCommand must not be exposed as the routine PM next command");
+  }
+  if (report.proofReadiness?.diagnosticValidationCommand !== "cmd.exe /c npm run validate:beta-platform-two-values") {
+    blocked.push("report.proofReadiness.diagnosticValidationCommand must retain validator as diagnostics");
+  }
+  if (
+    report.proofReadiness?.diagnosticOnly !==
+    "standalone_validator_and_proof_map_are_for_failed_runner_debugging_not_pm_routine_next_step"
+  ) {
+    blocked.push("report.proofReadiness.diagnosticOnly must mark low-level commands as diagnostics");
+  }
   if (!Array.isArray(report.stopLines) || report.stopLines.length < 8) missing.push("report.stopLines");
-  if (!report.pmMainline?.afterValuesCommand?.includes("run:beta-packet-window-proof-map")) {
+  if (report.pmMainline?.afterValuesCommand !== "cmd.exe /c npm run run:public-beta-post-reply-route-once") {
     missing.push("report.pmMainline.afterValuesCommand");
+  }
+  if (report.operatorHandoff?.postReplyOnceRunnerCommand !== "cmd.exe /c npm run run:public-beta-post-reply-route-once") {
+    missing.push("report.operatorHandoff.postReplyOnceRunnerCommand");
+  }
+  if (report.status === "blocked_waiting_two_platform_values") {
+    if (report.pmMainline?.nextCommand !== "cmd.exe /c npm run report:public-beta-external-input-request") {
+      blocked.push("report.pmMainline.nextCommand should route to public beta external input request while values are missing");
+    }
+    if (report.pmMainline?.afterCurrentCommand !== "cmd.exe /c npm run report:public-beta-external-input-response-readiness") {
+      blocked.push("report.pmMainline.afterCurrentCommand should route to external input response readiness");
+    }
+    if (report.quickstart?.pmCommand !== "cmd.exe /c npm run report:public-beta-external-input-request") {
+      blocked.push("report.quickstart.pmCommand should align with external input request while values are missing");
+    }
   }
   if (!report.pmMainline?.afterProofMapCommand?.includes("record:beta-packet-window-reviewed-artifact-outcome")) {
     missing.push("report.pmMainline.afterProofMapCommand");
+  }
+  if (!report.pmMainline?.afterProofMapCommand?.includes("--dry-run")) {
+    blocked.push("report.pmMainline.afterProofMapCommand must be dry-run until PM explicitly accepts apply");
+  }
+  if (report.pmMainline?.afterProofMapCommand?.includes("--apply")) {
+    blocked.push("report.pmMainline.afterProofMapCommand must not expose routine apply");
+  }
+  if (report.proofReadiness?.safeguardReady !== true) {
+    blocked.push("report.proofReadiness.safeguardReady should be true when PM worktree preflight has no unresolved items");
+  }
+  if (report.proofReadiness?.blocker !== "platform_values_pending") {
+    blocked.push("report.proofReadiness.blocker should be platform_values_pending");
   }
   if (!report.parallelLanes?.a1 || !report.parallelLanes?.a2 || !report.parallelLanes?.i) {
     missing.push("report.parallelLanes a1/a2/i");

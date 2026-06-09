@@ -22,12 +22,15 @@ This summary runs the safe local shape validator and the existing packet-window 
 Current expected route:
 
 ```powershell
-cmd.exe /c npm run validate:beta-platform-two-values
+cmd.exe /c npm run report:public-beta-external-input-request
 ```
 
-After both platform values are safely provided, PM may rerun:
+The summary also reports `nextExecutableStep`. While the two values are missing, PM should use the single external-input request instead of repeatedly running the validator.
+
+After both platform values are safely provided, PM may run:
 
 ```powershell
+cmd.exe /c npm run validate:beta-platform-two-values
 cmd.exe /c npm run run:beta-packet-window-proof-map
 ```
 
@@ -38,6 +41,7 @@ cmd.exe /c npm run run:beta-packet-window-proof-map
 - The proof map stops at `two-value-validator`.
 - The current result is not a deployment authorization.
 - The current result does not create or accept a reviewed artifact.
+- After the two platform values pass, the proof map may still stop at repo/worktree proof if the worktree is not clean or has not been reviewed for packet creation.
 
 ## Runtime Boundary
 

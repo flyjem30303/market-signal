@@ -23,12 +23,16 @@ for (const phrase of [
   "beta_packet_window_candidate_dry_run_runner",
   "dry_run_runner_ready_external_values_still_pending",
   "cmd.exe /c npm run run:beta-packet-window-candidate-dry-run",
+  "cmd.exe /c npm run report:public-beta-external-input-request",
+  "cmd.exe /c npm run report:public-beta-external-input-response-readiness",
   "validate:beta-platform-two-values",
   "run:beta-executable-packet-repo-proof",
   "blocked_waiting_values",
   "rejected_unsafe_values",
   "repo_proof_blocked",
   "packet_window_candidate_ready_shape_only",
+  "pmSnapshot.status=classified_beta_readiness_worktree_safeguard_ready",
+  "pmSnapshot.unresolvedCount=0",
   "packetCandidateAllowed",
   "`publicDataSource=mock`",
   "`scoreSource=mock`",
@@ -49,6 +53,8 @@ for (const phrase of [
   "repo_proof_blocked",
   "packet_window_candidate_ready_shape_only",
   "packetCandidateAllowed: ready",
+  "pmSnapshotReady",
+  "classified_beta_readiness_worktree_safeguard_ready",
   "publicDataSource: \"mock\"",
   "scoreSource: \"mock\"",
   "loadedFromEnvLocal",
@@ -100,6 +106,31 @@ if (!absentRun.stdout.includes('"status": "blocked_waiting_values"')) {
 }
 if (!absentRun.stdout.includes('"repoProof": null')) {
   problems.push(`${runnerPath} absent-value dry run should not run repo proof`);
+}
+
+const safeRun = spawnSync("cmd.exe", ["/c", "npm", "run", "run:beta-packet-window-candidate-dry-run"], {
+  cwd: process.cwd(),
+  encoding: "utf8",
+  env: {
+    ...skipDotenv(process.env),
+    BETA_HOSTING_PROJECT_NAME: "taiwan-market-signal-beta",
+    BETA_TEMPORARY_URL: "https://taiwan-market-signal-beta.vercel.app/"
+  },
+  windowsHide: true
+});
+const safeReport = parseJson(safeRun.stdout ?? "");
+if (safeRun.status !== 0) problems.push(`${runnerPath} safe-value dry run should exit 0`);
+if (safeReport?.status !== "packet_window_candidate_ready_shape_only") {
+  problems.push(`${runnerPath} safe-value dry run should reach packet_window_candidate_ready_shape_only`);
+}
+if (safeReport?.packetCandidateAllowed !== true) {
+  problems.push(`${runnerPath} safe-value dry run should allow the packet candidate shape`);
+}
+if (safeReport?.pmSnapshot?.status !== "classified_beta_readiness_worktree_safeguard_ready") {
+  problems.push(`${runnerPath} safe-value dry run should use the no-Git PM snapshot`);
+}
+if (safeReport?.pmSnapshot?.unresolvedCount !== 0) {
+  problems.push(`${runnerPath} no-Git PM snapshot should have zero unresolved items`);
 }
 
 for (const phrase of [
@@ -204,4 +235,15 @@ function skipDotenv(env) {
     ...env,
     BETA_PLATFORM_VALUES_SKIP_DOTENV: "1"
   };
+}
+
+function parseJson(stdout) {
+  const start = stdout.indexOf("{");
+  if (start < 0) return null;
+
+  try {
+    return JSON.parse(stdout.slice(start));
+  } catch {
+    return null;
+  }
 }

@@ -4,25 +4,20 @@ import { localhostContentHealthChecks, localhostStatusHealthPaths } from "./loca
 const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 const checkerPath = "scripts/check-public-visible-language-quality.mjs";
-const briefingSummaryPath = "src/lib/briefing-market-action-summary.ts";
+const publicBetaReadinessDataPath = "src/lib/public-beta-launch-readiness.ts";
+const publicBetaReadinessPanelPath = "src/components/public-beta-launch-readiness-panel.tsx";
 const baseUrl = process.env.LOCALHOST_BASE_URL ?? "http://localhost:3000";
 
-const coreRuntimeBoundaryRequired = [
-  "Runtime",
-  "mock",
-  "publicDataSource=mock",
-  "scoreSource=mock",
-  "scoreSource"
-];
+const coreRuntimeBoundaryRequired = ["mock", "publicDataSource=mock", "scoreSource=mock"];
 
 const pages = [
   {
     path: "/",
-    required: [...coreRuntimeBoundaryRequired, "Indicator Roadmap"]
+    required: [...coreRuntimeBoundaryRequired, "Public Beta Readiness"]
   },
   {
     path: "/stocks/TWII",
-    required: [...coreRuntimeBoundaryRequired, "Indicator Roadmap", "TWII Mock Disclosure"]
+    required: [...coreRuntimeBoundaryRequired, "TWII Mock Disclosure"]
   },
   {
     path: "/stocks/2330",
@@ -46,7 +41,15 @@ const pages = [
   },
   {
     path: "/briefing",
-    required: ["PM project progress", "示範資料", "示範分數", "不是投資建議"]
+    required: [
+      "Market Briefing",
+      "Public Beta Readiness",
+      "Public Beta pre-launch executable state",
+      "BETA_HOSTING_PROJECT_NAME",
+      "BETA_TEMPORARY_URL",
+      "publicDataSource",
+      "scoreSource"
+    ]
   },
   {
     path: "/weekly",
@@ -66,7 +69,7 @@ const pages = [
   },
   {
     path: "/privacy",
-    required: [...coreRuntimeBoundaryRequired, "Privacy and data boundary", "mock", "raw market payloads"]
+    required: [...coreRuntimeBoundaryRequired, "Privacy and data boundary", "raw market payloads"]
   }
 ];
 
@@ -90,38 +93,57 @@ const forbiddenText = [
   "claimApproval=approved"
 ];
 
-const results = [];
 const sourceReadabilityTargets = [
   {
-    path: briefingSummaryPath,
+    path: publicBetaReadinessDataPath,
     required: [
-      "市場晨報：",
-      "示範資料",
-      "示範分數",
-      "不構成投資建議",
-      "決策輔助脈絡"
+      "Public Beta pre-launch executable state",
+      "cmd.exe /c npm run report:public-beta-external-input-request",
+      "cmd.exe /c npm run run:public-beta-post-reply-route-once",
+      "BETA_HOSTING_PROJECT_NAME",
+      "BETA_TEMPORARY_URL",
+      "Data readiness frontier",
+      "Runtime route health",
+      "A1 data/source-rights frontier",
+      "Public trust copy",
+      "Mock / real boundary",
+      "Beta platform values",
+      "acceptedCount: 111",
+      "unresolvedCount: 0",
+      "Safeguard ready; no unresolved worktree items",
+      "not a current public Beta hard blocker",
+      "publicDataSource: \"mock\"",
+      "scoreSource: \"mock\""
+    ]
+  },
+  {
+    path: publicBetaReadinessPanelPath,
+    required: [
+      "Public Beta launch readiness",
+      "Remaining hard blockers",
+      "Beta platform value reply format",
+      "A1 TWII no-secret evidence reply format"
     ]
   }
 ];
 
-for (const page of pages) {
-  const url = `${baseUrl}${page.path}`;
-  const response = await fetch(url);
+const results = await Promise.all(pages.map(async (page) => {
+  const response = await fetch(`${baseUrl}${page.path}`);
   const html = await response.text();
   const text = normalizeVisibleText(html);
   const markerHits = findMojibakeMarkers(text);
   const forbiddenHits = forbiddenText.filter((fragment) => text.includes(fragment));
   const missing = page.required.filter((phrase) => !text.includes(phrase));
 
-  results.push({
+  return {
     forbiddenHits,
     markerHits,
     missing,
     pass: response.status === 200 && markerHits.length === 0 && forbiddenHits.length === 0 && missing.length === 0,
     path: page.path,
     status: response.status
-  });
-}
+  };
+}));
 
 const packageJson = fs.readFileSync(packagePath, "utf8");
 const reviewGate = fs.readFileSync(reviewGatePath, "utf8");
@@ -138,6 +160,7 @@ const sourceReadability = sourceReadabilityTargets.map((target) => {
     path: target.path
   };
 });
+
 const registration = [
   {
     file: packagePath,
@@ -177,16 +200,19 @@ const selfContract = [
       checkerSource.includes('"Privacy and data boundary"')
   },
   {
-    check: "checker source avoids private-use mojibake literals",
-    pass: !hasPrivateUseCodePoint(checkerSource) && checkerSource.includes("findMojibakeMarkers")
+    check: "checker source avoids mojibake literals",
+    pass: !hasPrivateUseCodePoint(checkerSource) && !hasCommonMojibakeRun(checkerSource)
   },
   {
     check: "aligns with localhost health paths",
     pass: checkerSource.includes("localhostStatusHealthPaths") && checkerSource.includes("localhostContentHealthChecks")
   },
   {
-    check: "guards briefing action summary helper",
-    pass: checkerSource.includes(briefingSummaryPath) && checkerSource.includes("sourceReadabilityTargets")
+    check: "guards public beta launch readiness copy",
+    pass:
+      checkerSource.includes(publicBetaReadinessDataPath) &&
+      checkerSource.includes(publicBetaReadinessPanelPath) &&
+      checkerSource.includes("Public Beta pre-launch executable state")
   }
 ];
 
@@ -248,14 +274,26 @@ function findMojibakeMarkers(text) {
   if (text.includes("\uFFFD")) markers.push("replacement-char");
   if (/\?{2,}/u.test(text)) markers.push("question-mark-run");
   if (hasPrivateUseCodePoint(text)) markers.push("private-use-code-point");
-  if (
-    /(?:\u5697|\u929d|\u876d|\u619f|\u7485|\u9788|\u64a3|\u95ae|\u7625|\u6468|\u7508|\u96ff|\u8e50|\u8e53){2,}/u.test(
-      text
-    )
-  ) {
-    markers.push("common-mojibake-run");
-  }
+  if (hasCommonMojibakeRun(text)) markers.push("common-mojibake-run");
   return markers;
+}
+
+function hasCommonMojibakeRun(text) {
+  const commonMojibakeCodePoints = [
+    0x5697, 0x929d, 0x876d, 0x619f, 0x7485, 0x9788, 0x64a3,
+    0x95ae, 0x7625, 0x6468, 0x7508, 0x96ff, 0x8e50, 0x8e53
+  ];
+  let runLength = 0;
+  for (const char of text) {
+    const codePoint = char.codePointAt(0) ?? 0;
+    if (commonMojibakeCodePoints.includes(codePoint)) {
+      runLength += 1;
+      if (runLength >= 2) return true;
+    } else {
+      runLength = 0;
+    }
+  }
+  return false;
 }
 
 function hasPrivateUseCodePoint(text) {

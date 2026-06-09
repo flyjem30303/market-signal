@@ -33,8 +33,14 @@ if (report) {
   if (report.status !== "blocked_waiting_two_platform_values") {
     problems.push(`current report status should be blocked_waiting_two_platform_values, got ${report.status}`);
   }
-  if (report.pmNextCommand !== "cmd.exe /c npm run validate:beta-platform-two-values") {
-    problems.push("blocked summary should route to validate:beta-platform-two-values");
+  if (report.pmNextCommand !== "cmd.exe /c npm run report:public-beta-external-input-request") {
+    problems.push("blocked summary should route to public beta external input request");
+  }
+  if (report.nextExecutableStep?.lane !== "external_input_request") {
+    problems.push("blocked summary nextExecutableStep should use external_input_request lane");
+  }
+  if (report.nextExecutableStep?.command !== "cmd.exe /c npm run report:public-beta-external-input-request") {
+    problems.push("blocked summary nextExecutableStep should point to external input request");
   }
   if (report.validator?.valuesAreNotPrinted !== true) problems.push("valuesAreNotPrinted must be true");
   if (report.proofMap?.stoppedAt !== "two-value-validator") problems.push("proof map should stop at two-value-validator");
@@ -65,6 +71,7 @@ for (const [filePath, source, phrase] of [
   [docPath, doc, "Status: `beta_packet_window_readiness_summary_ready_waiting_values`"],
   [docPath, doc, "Current outcome: `blocked_waiting_two_platform_values`"],
   [docPath, doc, "cmd.exe /c npm run report:beta-packet-window-readiness-summary"],
+  [docPath, doc, "cmd.exe /c npm run report:public-beta-external-input-request"],
   [docPath, doc, "cmd.exe /c npm run validate:beta-platform-two-values"],
   [docPath, doc, "cmd.exe /c npm run run:beta-packet-window-proof-map"],
   [docPath, doc, "`publicDataSource=mock`"],
@@ -113,7 +120,8 @@ console.log(
       status: "ok",
       guardedStatus: "beta_packet_window_readiness_summary_ready_waiting_values",
       reportStatus: report.status,
-      nextCommand: report.pmNextCommand
+      nextCommand: report.pmNextCommand,
+      nextExecutableStep: report.nextExecutableStep
     },
     null,
     2

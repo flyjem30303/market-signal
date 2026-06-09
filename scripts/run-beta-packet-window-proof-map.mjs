@@ -82,8 +82,10 @@ function run(step) {
   return {
     exitCode: result.status ?? 1,
     name: step.name,
+    nextRoute: json?.nextRoute ?? null,
     packetCandidateAllowed: json?.packetCandidateAllowed ?? false,
     recordTemplateAllowed: json?.recordTemplateAllowed ?? false,
+    repoProofWorktreeState: json?.repoProof?.worktreeState ?? null,
     status: json?.status ?? "output_unreadable",
     stderr: (result.stderr ?? "").trim(),
     stdout: (result.stdout ?? "").trim(),
@@ -116,8 +118,10 @@ function summarizeStep(result) {
   return {
     exitCode: result.exitCode,
     name: result.name,
+    nextRoute: result.nextRoute,
     packetCandidateAllowed: result.packetCandidateAllowed,
     recordTemplateAllowed: result.recordTemplateAllowed,
+    repoProofWorktreeState: result.repoProofWorktreeState,
     status: result.status,
     timedOut: result.timedOut
   };

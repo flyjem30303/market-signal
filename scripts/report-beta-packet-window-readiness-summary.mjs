@@ -14,6 +14,7 @@ console.log(
       status,
       ok: status === "ready_for_pm_reviewed_artifact_record",
       ceoDecision: "summarize_packet_window_readiness_without_deployment_or_artifact_creation",
+      nextExecutableStep: nextExecutableStepFor(status),
       pmNextCommand: nextCommandFor(status),
       validator: {
         status: validatorReport.status ?? "unknown",
@@ -85,16 +86,41 @@ function classifyReadiness(validatorReport, proofMapReport) {
 }
 
 function nextCommandFor(status) {
+  return nextExecutableStepFor(status).command;
+}
+
+function nextExecutableStepFor(status) {
   if (status === "blocked_waiting_two_platform_values") {
-    return "cmd.exe /c npm run validate:beta-platform-two-values";
+    return {
+      lane: "external_input_request",
+      command: "cmd.exe /c npm run report:public-beta-external-input-request",
+      reason:
+        "The packet-window chain is blocked only by missing platform values, so the shortest useful step is the external-input request instead of rerunning validation."
+    };
   }
   if (status === "blocked_unsafe_platform_values") {
-    return "cmd.exe /c npm run validate:beta-platform-two-values";
+    return {
+      lane: "platform_value_repair",
+      command: "cmd.exe /c npm run validate:beta-platform-two-values",
+      reason:
+        "Platform values were present but unsafe; repair the values and rerun validation before proof-map work."
+    };
   }
   if (status === "ready_for_pm_reviewed_artifact_record") {
-    return "cmd.exe /c npm run record:beta-packet-window-reviewed-artifact-outcome -- --outcome accepted --reviewedBy PM --note \"PM accepts the no-secret packet-window proof map for pre-execution packet preparation only\" --apply";
+    return {
+      lane: "pm_reviewed_artifact_outcome",
+      command:
+        "cmd.exe /c npm run record:beta-packet-window-reviewed-artifact-outcome -- --dry-run --outcome accepted --reviewedBy PM --note \"PM dry-run verifies the no-secret packet-window reviewed artifact before any apply decision.\"",
+      reason:
+        "The proof map reached the reviewed artifact template, so PM records accepted or rejected in the separate reviewed artifact outcome."
+    };
   }
-  return "cmd.exe /c npm run run:beta-packet-window-proof-map";
+  return {
+    lane: "packet_window_proof_map",
+    command: "cmd.exe /c npm run run:beta-packet-window-proof-map",
+    reason:
+      "Platform values are not the blocker, so rerun the packet-window proof map to isolate the packet-chain issue."
+  };
 }
 
 function runJson(command) {

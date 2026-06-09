@@ -22,6 +22,8 @@ for (const phrase of [
   "beta_packet_window_one_command_proof_map",
   "one_command_proof_map_ready_external_values_still_pending",
   "cmd.exe /c npm run run:beta-packet-window-proof-map",
+  "cmd.exe /c npm run report:public-beta-external-input-request",
+  "cmd.exe /c npm run report:public-beta-external-input-response-readiness",
   "validate:beta-platform-two-values",
   "run:beta-packet-window-candidate-dry-run",
   "render:beta-packet-window-candidate-template",
@@ -32,6 +34,8 @@ for (const phrase of [
   "`candidate_template_blocked`",
   "`reviewed_artifact_template_blocked`",
   "`reviewed_artifact_template_ready_pending_pm_review`",
+  "no-Git PM snapshot",
+  "pmSnapshot.unresolvedCount=0",
   "`publicDataSource=mock`",
   "`scoreSource=mock`",
   "`publicDataSource=supabase`",
@@ -50,6 +54,8 @@ for (const phrase of [
   "packet_window_candidate_template_ready_shape_only",
   "reviewed_artifact_record_template_ready_pending_pm_review",
   "blocked_waiting_values",
+  "nextRoute",
+  "repoProofWorktreeState",
   "deploymentAuthorized: false",
   "publicDataSource: \"mock\"",
   "scoreSource: \"mock\""
@@ -99,6 +105,38 @@ if (!absentRun.stdout.includes('"status": "blocked_waiting_values"')) {
 }
 if (!absentRun.stdout.includes('"stoppedAt": "two-value-validator"')) {
   problems.push(`${runnerPath} absent-value proof map should stop at two-value-validator`);
+}
+
+const safeRun = spawnSync("cmd.exe", ["/c", "npm", "run", "run:beta-packet-window-proof-map"], {
+  cwd: process.cwd(),
+  encoding: "utf8",
+  env: {
+    ...process.env,
+    BETA_PLATFORM_VALUES_SKIP_DOTENV: "1",
+    BETA_HOSTING_PROJECT_NAME: "taiwan-market-signal-beta",
+    BETA_TEMPORARY_URL: "https://taiwan-market-signal-beta.vercel.app/"
+  },
+  windowsHide: true
+});
+const safeReport = parseJson(safeRun.stdout ?? "");
+if (safeRun.status !== 0) problems.push(`${runnerPath} safe-value proof map should exit 0`);
+if (safeReport?.status !== "reviewed_artifact_template_ready_pending_pm_review") {
+  problems.push(`${runnerPath} safe-value proof map should reach reviewed_artifact_template_ready_pending_pm_review`);
+}
+if (safeReport?.deploymentAuthorized !== false) {
+  problems.push(`${runnerPath} safe-value proof map must not authorize deployment`);
+}
+if (safeReport?.runtimeBoundary?.publicDataSource !== "mock") {
+  problems.push(`${runnerPath} safe-value proof map publicDataSource must remain mock`);
+}
+if (safeReport?.runtimeBoundary?.scoreSource !== "mock") {
+  problems.push(`${runnerPath} safe-value proof map scoreSource must remain mock`);
+}
+if (!safeReport?.steps?.some((step) => step.name === "packet-window-dry-run" && step.repoProofWorktreeState === "needs_pm_review_before_packet_creation")) {
+  problems.push(`${runnerPath} safe-value proof map should exercise the no-Git PM snapshot worktree path`);
+}
+if (!safeReport?.steps?.some((step) => step.name === "reviewed-artifact-record-template-renderer" && step.recordTemplateAllowed === true)) {
+  problems.push(`${runnerPath} safe-value proof map should reach the reviewed artifact record template renderer`);
 }
 
 for (const phrase of [
@@ -196,4 +234,15 @@ function withoutBetaValues(env) {
   delete next.BETA_HOSTING_PROJECT_NAME;
   delete next.BETA_TEMPORARY_URL;
   return next;
+}
+
+function parseJson(stdout) {
+  const start = stdout.indexOf("{");
+  if (start < 0) return null;
+
+  try {
+    return JSON.parse(stdout.slice(start));
+  } catch {
+    return null;
+  }
 }

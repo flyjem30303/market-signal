@@ -3,6 +3,7 @@ import { loadBetaPlatformValues } from "./lib/beta-platform-values.mjs";
 const betaValues = loadBetaPlatformValues();
 const projectName = betaValues.BETA_HOSTING_PROJECT_NAME;
 const temporaryUrl = betaValues.BETA_TEMPORARY_URL;
+const provider = temporaryUrl ? classifyProvider(temporaryUrl) : "pending";
 
 const problems = [];
 
@@ -33,9 +34,19 @@ console.log(
       values: {
         hostingProjectNameProvided: projectName.length > 0,
         temporaryBetaUrlProvided: temporaryUrl.length > 0,
-        loadedFromEnvLocal: betaValues.loadedFromEnvLocal
+        loadedFromEnvLocal: betaValues.loadedFromEnvLocal,
+        provider
       },
       problems,
+      nextCommands: ok
+        ? [
+          "cmd.exe /c npm run run:beta-packet-window-proof-map",
+          "cmd.exe /c npm run report:beta-mainline-current-route"
+        ]
+        : [
+          "cmd.exe /c npm run validate:beta-platform-two-values",
+          "cmd.exe /c npm run report:beta-deployment-quickstart"
+        ],
       runtimeBoundary: {
         publicDataSource: "mock",
         scoreSource: "mock"
@@ -83,4 +94,18 @@ function validateTemporaryUrl(value) {
   if (/(localhost|127\.0\.0\.1|dashboard|token|secret|key|password|invite|supabase\.co)/iu.test(parsed.hostname)) {
     problems.push("temporary Beta URL hostname contains unsafe or non-public word");
   }
+}
+
+function classifyProvider(value) {
+  let parsed;
+  try {
+    parsed = new URL(value);
+  } catch {
+    return "invalid";
+  }
+
+  if (parsed.hostname.endsWith(".vercel.app")) return "vercel";
+  if (parsed.hostname.endsWith(".netlify.app")) return "netlify";
+  if (parsed.hostname.endsWith(".pages.dev")) return "cloudflare-pages";
+  return "other-public-host";
 }

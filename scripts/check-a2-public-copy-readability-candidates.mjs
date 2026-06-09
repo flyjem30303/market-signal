@@ -38,7 +38,10 @@ const requiredSourceTokens = [
   "internalTerms",
   "boundaryInsufficient",
   "firstScreen",
-  "urgentFirstScreenCandidates"
+  "urgentFirstScreenCandidates",
+  "launchBlockingStatus",
+  "deferredWorkReason",
+  "keep_stable_only_unless_launch_blocking_regression"
 ];
 
 const missing = [];
@@ -131,20 +134,46 @@ if (report) {
     );
   }
 
-  if (!Array.isArray(report.worklist) || report.worklist.length === 0) {
+  if (!Array.isArray(report.worklist)) {
     missing.push("report.worklist");
   }
-  if (report.pmDecisionSupport?.nextRecommendedSlice !== "a2-checker-hardening") {
-    blocked.push("report.pmDecisionSupport.nextRecommendedSlice should route to a2-checker-hardening while urgent first-screen candidates are zero");
+  if (report.worklist?.length !== 0) {
+    blocked.push("report.worklist should be empty while A2 has no launch-blocking public-copy candidates");
   }
-  if (report.pmDecisionSupport?.nextRecommendedPriority !== "P1") {
-    blocked.push("report.pmDecisionSupport.nextRecommendedPriority should be P1");
+  if (report.pmDecisionSupport?.nextRecommendedSlice !== "none_until_launch_blocking_regression") {
+    blocked.push("report.pmDecisionSupport.nextRecommendedSlice should defer A2 while urgent first-screen candidates are zero");
   }
-  if (report.pmDecisionSupport?.routeReason !== "no_urgent_first_screen_candidates_keep_checker_hardened_and_public_copy_stable") {
-    blocked.push("report.pmDecisionSupport.routeReason should preserve the no-urgent first-screen route");
+  if (report.pmDecisionSupport?.nextRecommendedPriority !== "deferred") {
+    blocked.push("report.pmDecisionSupport.nextRecommendedPriority should be deferred while A2 is clear");
   }
-  if (!Array.isArray(report.pmDecisionSupport?.topFiles) || report.pmDecisionSupport.topFiles.length !== 2) {
+  if (report.pmDecisionSupport?.routeReason !== "no_urgent_first_screen_candidates_defer_a2_until_launch_blocking_regression") {
+    blocked.push("report.pmDecisionSupport.routeReason should preserve the no-urgent deferred route");
+  }
+  if (!Array.isArray(report.pmDecisionSupport?.topFiles)) {
     missing.push("report.pmDecisionSupport.topFiles");
+  } else if (report.pmDecisionSupport.topFiles.length !== 0) {
+    blocked.push("report.pmDecisionSupport.topFiles should be empty while A2 is clear");
+  }
+  if (report.pmDecisionSupport?.launchBlockingStatus?.status !== "clear") {
+    blocked.push("report.pmDecisionSupport.launchBlockingStatus.status should be clear while A2 has no urgent public-copy candidates");
+  }
+  if (report.pmDecisionSupport?.launchBlockingStatus?.hardBlocker !== false) {
+    blocked.push("report.pmDecisionSupport.launchBlockingStatus.hardBlocker should be false while A2 is non-blocking");
+  }
+  if (report.pmDecisionSupport?.launchBlockingStatus?.allowedNextAction !== "keep_stable_only_unless_launch_blocking_regression") {
+    blocked.push("report.pmDecisionSupport.launchBlockingStatus.allowedNextAction should defer non-blocking A2 polish");
+  }
+  if (report.pmDecisionSupport?.launchBlockingStatus?.urgentFirstScreenCandidates !== 0) {
+    blocked.push("report.pmDecisionSupport.launchBlockingStatus.urgentFirstScreenCandidates should be 0");
+  }
+  if (report.pmDecisionSupport?.launchBlockingStatus?.boundaryCandidateCount !== 0) {
+    blocked.push("report.pmDecisionSupport.launchBlockingStatus.boundaryCandidateCount should be 0");
+  }
+  if (report.pmDecisionSupport?.launchBlockingStatus?.mojibakeCount !== 0) {
+    blocked.push("report.pmDecisionSupport.launchBlockingStatus.mojibakeCount should be 0");
+  }
+  if (!String(report.pmDecisionSupport?.deferredWorkReason ?? "").includes("P2 public-copy and visual polish candidates are deferred")) {
+    missing.push("report.pmDecisionSupport.deferredWorkReason P2 deferral");
   }
 
   const scannedRoots = report.scope?.roots ?? [];

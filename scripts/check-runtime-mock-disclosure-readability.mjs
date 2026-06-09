@@ -17,20 +17,17 @@ const required = [
   ["src/lib/runtime-product-summary.ts", "Use mock signals for reading only"],
   ["src/lib/runtime-product-summary.ts", "Real-data claims are not live"],
   ["src/lib/runtime-product-summary.ts", "Decide post-readonly runtime interpretation"],
-  ["src/components/home-runtime-status-panel.tsx", "目前可閱讀 mock 訊號"],
-  ["src/components/home-runtime-status-panel.tsx", "真實市場資料"],
-  ["src/components/home-runtime-status-panel.tsx", "freshness metadata"],
-  ["src/components/home-runtime-status-panel.tsx", "這是覆蓋率 readiness，不是公開完整覆蓋率宣稱"],
-  ["src/components/home-runtime-status-panel.tsx", "公開內容只供資訊閱讀與產品理解"],
-  ["src/components/home-runtime-status-panel.tsx", "scoreSource=real 仍需等待 PM 接受 gate"],
-  ["src/components/stock-runtime-at-a-glance.tsx", "目前是可閱讀的 mock 訊號"],
-  ["src/components/stock-runtime-at-a-glance.tsx", "不是即時市場資料、完整覆蓋率、正式模型結論或個人化投資建議"],
-  ["src/components/stock-runtime-at-a-glance.tsx", "這是 readiness 訊息，不是公開完整覆蓋率承諾"],
+  ["src/components/home-runtime-status-panel.tsx", "目前可用的是 mock 訊號閱讀模式"],
+  ["src/components/home-runtime-status-panel.tsx", "不是投資建議"],
+  ["src/components/home-runtime-status-panel.tsx", "This is readiness evidence only, not a public real-data claim."],
+  ["src/components/home-runtime-status-panel.tsx", "Real data, complete coverage, and advice wording remain blocked"],
+  ["src/components/stock-runtime-at-a-glance.tsx", "目前是 mock 訊號閱讀頁"],
+  ["src/components/stock-runtime-at-a-glance.tsx", "不是個人化投資建議"],
   ["src/components/stock-runtime-at-a-glance.tsx", "scoreSource=real is not enabled"],
-  ["src/components/trust-runtime-boundary-notice.tsx", "投資與資料限制：目前仍是 mock-only"],
-  ["src/components/trust-runtime-boundary-notice.tsx", "不構成投資建議"],
+  ["src/components/trust-runtime-boundary-notice.tsx", "Investment and data limits: currently mock-only"],
+  ["src/components/trust-runtime-boundary-notice.tsx", "not investment advice"],
+  ["src/components/trust-runtime-boundary-notice.tsx", "publicDataSource=mock; scoreSource=mock"],
   ["src/lib/public-runtime-boundary-copy.ts", "publicDataSource=mock; scoreSource=mock"],
-  ["src/lib/public-runtime-boundary-copy.ts", "不得提供個人化投資建議"],
   ["src/lib/public-runtime-boundary-copy.ts", "partial coverage"],
   ["src/lib/public-runtime-boundary-copy.ts", "missing/delayed data"],
   ["src/lib/post-readonly-runtime-state.ts", "publicDataSource: \"mock\""],
@@ -55,30 +52,20 @@ const missing = required.filter(([file, phrase]) => !read(file).includes(phrase)
 const blocked = forbidden.filter(([file, phrase]) => read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
 
 for (const file of [
+  "src/lib/runtime-product-summary.ts",
   "src/components/home-runtime-status-panel.tsx",
   "src/components/stock-runtime-at-a-glance.tsx",
   "src/components/trust-runtime-boundary-notice.tsx",
   "src/lib/public-runtime-boundary-copy.ts"
 ]) {
-  const markers = findMojibakeMarkers(read(file));
-  for (const marker of markers) blocked.push(`${file}: ${marker}`);
+  for (const marker of findMojibakeMarkers(read(file))) {
+    blocked.push(`${file}: ${marker}`);
+  }
 }
 
-console.log(
-  JSON.stringify(
-    {
-      blocked,
-      missing,
-      status: missing.length === 0 && blocked.length === 0 ? "ok" : "blocked"
-    },
-    null,
-    2
-  )
-);
+console.log(JSON.stringify({ blocked, missing, status: missing.length === 0 && blocked.length === 0 ? "ok" : "blocked" }, null, 2));
 
-if (missing.length > 0 || blocked.length > 0) {
-  process.exitCode = 1;
-}
+if (missing.length > 0 || blocked.length > 0) process.exitCode = 1;
 
 function read(file) {
   return files.get(file) ?? "";

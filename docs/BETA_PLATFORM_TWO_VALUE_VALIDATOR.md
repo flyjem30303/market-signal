@@ -36,6 +36,7 @@ Input loading:
 - The validator first reads shell environment variables.
 - If one or both values are missing, it safely reads only `BETA_HOSTING_PROJECT_NAME` and `BETA_TEMPORARY_URL` from `.env.local`.
 - It does not print the values; output remains boolean/shape-only.
+- It may print a provider classification such as `vercel`, `netlify`, `cloudflare-pages`, or `other-public-host`, but it must not print the URL or project name itself.
 - `.env.example` includes blank placeholders for both values so `.env.local` can be filled without storing actual values in tracked docs.
 - The validator, packet-window dry run, and packet-window candidate renderer share the same local loader so values accepted from `.env.local` continue through the whole packet chain.
 
@@ -75,6 +76,7 @@ Temporary Beta URL:
 | `accepted_two_value_shape_only` | Both values pass local shape validation. | Run repo proof and create a separate packet-window candidate. |
 
 Passing this validator does not mean the site is deployed or public launch is complete. It only means the two values are safe enough to enter a later packet candidate.
+When accepted, the validator returns the next safe local commands: run the Beta packet-window proof map, then rerun the mainline route report.
 
 ## PM / A1 / A2 Routing
 

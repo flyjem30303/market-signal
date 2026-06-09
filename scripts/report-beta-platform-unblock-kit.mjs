@@ -2,8 +2,9 @@ import { spawnSync } from "node:child_process";
 import fs from "node:fs";
 
 const validator = runJson(["cmd.exe", "/c", "npm", "run", "validate:beta-platform-two-values"]);
-const nextAction = runJson(["cmd.exe", "/c", "npm", "run", "report:beta-launch-next-action"]);
-const repoProof = runJson(["cmd.exe", "/c", "npm", "run", "run:beta-executable-packet-repo-proof"]);
+const quickstart = runJson(["cmd.exe", "/c", "npm", "run", "report:beta-deployment-quickstart"]);
+const routePreview = runJson(["cmd.exe", "/c", "npm", "run", "report:beta-platform-values-route-preview"]);
+const pmWorktreeReview = runJson(["cmd.exe", "/c", "npm", "run", "report:pm-worktree-review-preflight"]);
 const sourceLedger = readJson("data/source-gates/twii-vendor-internal-evidence-outcomes.json", { outcomes: [] });
 
 const platformStatus = validator.json?.status ?? "validator_output_unreadable";
@@ -13,19 +14,38 @@ const missingValues = [
 ].filter(Boolean);
 const sourceSummary = summarizeSourceLedger(sourceLedger);
 const readyToRunProofMap = platformStatus === "accepted_two_value_shape_only";
+const pmSafeguardReady = pmWorktreeReview.json?.pmAcceptanceSummary?.unresolvedCount === 0;
+const pmPacketCandidateBlocker =
+  pmWorktreeReview.json?.pmAcceptanceSummary?.packetCandidateBlocker ??
+  routePreview.json?.proofMap?.repoProofWorktreeState ??
+  "needs_pm_review_before_packet_creation";
+const pmWorktreeState = pmSafeguardReady
+  ? "classified_beta_readiness_worktree_safeguard_ready_continue_to_platform_values"
+  : (pmWorktreeReview.json?.worktree?.worktreeState ?? routePreview.json?.proofMap?.repoProofWorktreeState ?? "needs_pm_review_before_packet_creation");
+const postReplyOneRunnerCommand = "cmd.exe /c npm run run:public-beta-post-reply-route-once";
+const responseReadinessCommand = "cmd.exe /c npm run report:public-beta-external-input-response-readiness";
 
 const report = {
   status: readyToRunProofMap ? "beta_platform_values_ready_for_packet_window" : "blocked_waiting_two_platform_values",
   ok: true,
-  ceoDecision: "keep_beta_mainline_waiting_only_for_two_safe_platform_values",
+  ceoDecision: "keep_beta_mainline_waiting_only_for_two_safe_platform_values_then_post_reply_one_runner",
   pmMainline: {
-    currentRoute: readyToRunProofMap ? "run_packet_window_proof_map" : "obtain_two_safe_platform_values",
+    currentRoute: readyToRunProofMap
+      ? "run_public_beta_post_reply_one_runner"
+      : "use_single_external_input_request_for_platform_values_and_a1_evidence",
     nextCommand: readyToRunProofMap
-      ? "cmd.exe /c npm run run:beta-packet-window-proof-map"
-      : "cmd.exe /c npm run validate:beta-platform-two-values",
-    afterValuesCommand: "cmd.exe /c npm run run:beta-packet-window-proof-map",
+      ? postReplyOneRunnerCommand
+      : "cmd.exe /c npm run report:public-beta-external-input-request",
+    afterCurrentCommand: readyToRunProofMap
+      ? "cmd.exe /c npm run record:beta-packet-window-reviewed-artifact-outcome -- --dry-run --outcome accepted --reviewedBy PM --note \"PM dry-run verifies the no-secret packet-window reviewed artifact before any apply decision.\""
+      : responseReadinessCommand,
+    afterValuesCommand: postReplyOneRunnerCommand,
     afterProofMapCommand:
-      "cmd.exe /c npm run record:beta-packet-window-reviewed-artifact-outcome -- --outcome accepted --reviewedBy PM --note \"PM accepts the no-secret packet-window proof map for pre-execution packet preparation only\" --apply"
+      "cmd.exe /c npm run record:beta-packet-window-reviewed-artifact-outcome -- --dry-run --outcome accepted --reviewedBy PM --note \"PM dry-run verifies the no-secret packet-window reviewed artifact before any apply decision.\"",
+    manualDecisionReports: [
+      "cmd.exe /c npm run report:beta-mainline-current-route",
+      "cmd.exe /c npm run report:beta-pre-execution-packet-readiness"
+    ]
   },
   platformValues: {
     missingValues,
@@ -38,26 +58,41 @@ const report = {
   operatorHandoff: {
     mode: "placeholder_only_no_values_printed",
     replyTemplate: [
-      "BETA_HOSTING_PROJECT_NAME=<plain-hosting-project-slug>",
+      "BETA_HOSTING_PROJECT_NAME=<plain-hosting-project-or-site-name>",
       "BETA_TEMPORARY_URL=https://<public-beta-hostname>/"
     ],
     safeShapeReminder: [
       "Project name: lowercase letters, numbers, and hyphens only; no URL, dashboard word, token, secret, key, password, or invite.",
       "Temporary URL: public https URL only; no query, hash, username, password, localhost, dashboard host, Supabase host, or private preview token."
     ],
-    nextValidationCommand: "cmd.exe /c npm run validate:beta-platform-two-values",
+    nextResponseReadinessCommand: responseReadinessCommand,
+    postReplyOnceRunnerCommand: postReplyOneRunnerCommand,
     valuesAreNotStoredInRepo: true
   },
   proofReadiness: {
-    repoProofStatus: repoProof.json?.status ?? "repo_proof_output_unreadable",
-    packetCandidateAllowed: Boolean(repoProof.json?.packetCandidateAllowed),
-    blocker: repoProof.json?.blocker ?? null,
-    worktreeState: repoProof.json?.worktreeState ?? null,
-    currentCommit: repoProof.json?.results?.find((item) => item.name === "git-commit")?.stdout ?? null
+    packetProofMapCommand: "cmd.exe /c npm run run:beta-packet-window-proof-map",
+    platformOnceRunnerCommand: "cmd.exe /c npm run run:beta-platform-two-value-proof-map-once",
+    diagnosticValidationCommand: "cmd.exe /c npm run validate:beta-platform-two-values",
+    diagnosticOnly: "standalone_validator_and_proof_map_are_for_failed_runner_debugging_not_pm_routine_next_step",
+    routePreviewStatus: routePreview.json?.status ?? "route_preview_output_unreadable",
+    repoProofStatus: pmSafeguardReady ? "repo_safeguard_ready_platform_values_pending" : (routePreview.json?.proofMap?.status ?? "repo_proof_blocked"),
+    packetCandidateAllowed: Boolean(routePreview.json?.proofMap?.packetCandidateAllowed),
+    blocker: pmSafeguardReady ? "platform_values_pending" : pmPacketCandidateBlocker,
+    worktreeState: pmWorktreeState,
+    safeguardReady: pmSafeguardReady,
+    unresolvedWorktreeItems: pmWorktreeReview.json?.pmAcceptanceSummary?.unresolvedCount ?? null,
+    currentCommit: null
   },
-  reviewedArtifact: nextAction.json?.currentState?.reviewedArtifact ?? {
+  quickstart: {
+    status: quickstart.json?.guardedStatus ?? "quickstart_output_unreadable",
+    pmCommand: quickstart.json?.pmNow?.command ?? "cmd.exe /c npm run report:public-beta-external-input-request",
+    nextExecutableStep: quickstart.json?.nextExecutableStep ?? null,
+    intakeCommand: quickstart.json?.pmNow?.intakeCommand ?? "cmd.exe /c npm run report:beta-platform-two-value-intake-command"
+  },
+  reviewedArtifact: {
     acceptedArtifactExists: false,
-    latestAcceptedArtifactPath: null
+    latestAcceptedArtifactPath: null,
+    decisionRoute: "record_after_no_secret_platform_once_runner_reaches_review_template"
   },
   parallelLanes: {
     a1: sourceSummary.canOpenTwiiRightsGate
@@ -90,7 +125,7 @@ function runJson(command) {
     cwd: process.cwd(),
     encoding: "utf8",
     env: process.env,
-    timeout: 180000,
+    timeout: 60000,
     windowsHide: true
   });
 

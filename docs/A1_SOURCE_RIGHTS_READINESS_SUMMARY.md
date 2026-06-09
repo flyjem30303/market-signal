@@ -22,7 +22,7 @@ ETF readiness: `6/6` pending
 Current A1 next command:
 
 ```powershell
-cmd.exe /c npm run report:a1-exact-source-rights-evidence-worksheet
+cmd.exe /c npm run report:a1-twii-four-slot-reply-request
 ```
 
 ## PM Rule
@@ -31,7 +31,8 @@ This summary reads the exact evidence outcome ledger and decides whether either 
 
 - TWII can only become ready when all four TWII evidence slots are `accepted` and PM-question resolved.
 - ETF can only become ready when all six ETF evidence slots are `accepted` and PM-question resolved.
-- If any required slot is pending, blocked, rejected, unavailable, missing, or needs bounded repair, PM keeps A1 on the worksheet route.
+- If any required TWII slot is pending, blocked, rejected, unavailable, missing, or needs bounded repair, PM keeps A1 on the four-slot no-secret reply-request route.
+- The full worksheet remains available as background context for ETF or later expansion, but it is not the current shortest A1 handoff.
 - A ready lane still only permits a separate source-rights outcome gate candidate. It does not approve execution.
 
 ## Runtime Boundary

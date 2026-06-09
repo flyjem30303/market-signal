@@ -5,6 +5,8 @@ const batchBriefPath = "scripts/report-a1-source-rights-evidence-batch-brief.mjs
 const outcomes = JSON.parse(fs.readFileSync(outcomePath, "utf8")).outcomes;
 
 const twiiPending = outcomes.filter((outcome) => outcome.lane === "TWII" && outcome.classification === "pending");
+const twiiSlots = outcomes.filter((outcome) => outcome.lane === "TWII");
+const judgementSummary = buildJudgementSummary(twiiSlots);
 
 console.log(
   JSON.stringify(
@@ -19,6 +21,28 @@ console.log(
       },
       activeLane: twiiPending.length > 0 ? "TWII" : "none",
       pendingCount: twiiPending.length,
+      judgementSummary,
+      pmNarrowRequest: {
+        mode: "four_slot_no_secret_reply",
+        askA1For: twiiPending.map((outcome) => outcome.id),
+        requiredFields: ["evidenceSlotId", "sourceReferenceLabel", "safeEvidenceSummary", "remainingRisk"],
+        copyableReplyShape: [
+          "evidenceSlotId: <one TWII slot id>",
+          "sourceReferenceLabel: <no-secret reviewed source label>",
+          "safeEvidenceSummary: <one to three sentences; no copied contract text, credentials, private links, or source extracts>",
+          "remainingRisk: <one to two sentences; state what still blocks execution>"
+        ],
+        pmReviewRule:
+          "Classify each slot as accepted, rejected, needs_bounded_repair, or blocked; all four accepted slots are required before a separate TWII outcome gate candidate.",
+        afterA1Reply: [
+          "cmd.exe /c npm run report:public-beta-external-input-response-readiness",
+          "cmd.exe /c npm run run:a1-twii-post-reply-pm-classification-once",
+          "cmd.exe /c npm run check:a1-twii-evidence-response-shape",
+          "cmd.exe /c npm run report:a1-twii-evidence-pm-classification-route",
+          "cmd.exe /c npm run report:a1-source-rights-reviewed-outcome-surface",
+          "cmd.exe /c npm run report:a1-source-rights-readiness-summary"
+        ]
+      },
       pmDecisionMatrix: {
         accepted: {
           meaning:
@@ -105,6 +129,56 @@ console.log(
     2
   )
 );
+
+function buildJudgementSummary(slots) {
+  const counts = {
+    accepted: slots.filter((slot) => slot.classification === "accepted" && slot.pmQuestionResolved === true).length,
+    blocked: slots.filter((slot) => ["blocked", "rejected", "unavailable"].includes(slot.classification)).length,
+    needs_bounded_repair: slots.filter((slot) => slot.classification === "needs_bounded_repair").length,
+    pending: slots.filter((slot) => slot.classification === "pending").length
+  };
+  const canOpenOutcomeGate =
+    counts.accepted === slots.length &&
+    counts.pending === 0 &&
+    counts.needs_bounded_repair === 0 &&
+    counts.blocked === 0;
+
+  return {
+    canOpenOutcomeGate,
+    counts,
+    nextPmAction: canOpenOutcomeGate
+      ? "open_separate_twii_source_rights_outcome_gate_candidate"
+      : "wait_for_a1_four_slot_no_secret_evidence_then_dry_run_pm_classification",
+    slots: slots.map((slot) => ({
+      id: slot.id,
+      currentDecision: classifyCurrentDecision(slot),
+      currentClassification: slot.classification,
+      pmQuestionResolved: slot.pmQuestionResolved === true,
+      nextAction: nextActionForSlot(slot),
+      remainingRisk: slot.remainingRisk
+    }))
+  };
+}
+
+function classifyCurrentDecision(slot) {
+  if (slot.classification === "accepted" && slot.pmQuestionResolved === true) return "accepted";
+  if (slot.classification === "needs_bounded_repair") return "needs_bounded_repair";
+  if (["blocked", "rejected", "unavailable"].includes(slot.classification)) return "blocked";
+  return "pending_a1_evidence";
+}
+
+function nextActionForSlot(slot) {
+  if (slot.classification === "accepted" && slot.pmQuestionResolved === true) {
+    return "hold_until_all_twii_slots_are_accepted";
+  }
+  if (slot.classification === "needs_bounded_repair") {
+    return "ask_a1_for_smallest_missing_no_secret_clarification";
+  }
+  if (["blocked", "rejected", "unavailable"].includes(slot.classification)) {
+    return "keep_twii_outcome_gate_blocked_or_choose_another_safe_lane";
+  }
+  return "ask_a1_to_return_evidenceSlotId_sourceReferenceLabel_safeEvidenceSummary_remainingRisk";
+}
 
 function buildCommand(id, classification, pmQuestionResolved, nextGateCandidate) {
   return [

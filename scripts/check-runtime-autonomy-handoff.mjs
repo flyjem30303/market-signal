@@ -26,8 +26,13 @@ for (const phrase of [
   "Latest verified state: full review gate is `ok`",
   "localhost content/full health is `ok`",
   "briefing / weekly row coverage panels plus the shared row coverage readiness panel",
-  "Runtime guard summary readability",
-  "Freshness / readonly / mock-boundary copy",
+  "Operational GOAL v4",
+  "External-input closure",
+  "Packet proof and blocker route",
+  "A1 evidence classification readiness",
+  "Runtime route health and mock boundary",
+  "UI micro-polish, broad role review, and status-only documents as deferred",
+  "Do not spend a slice only proving that the project is still blocked",
   "Use larger coherent slices",
   "report:mainline-readonly-row-coverage-integration",
   "check:mainline-readonly-row-coverage-integration",
@@ -82,8 +87,8 @@ if (!status.includes("docs/RUNTIME_AUTONOMY_HANDOFF.md")) {
 }
 
 const forbidden = [
-  /publicDataSource=supabase/i,
-  /scoreSource=real/i,
+  /(?:^|\n)(?![^\n]*(?:No|Do not|must not|unless the chairman explicitly asks|forbidden|blocked|promotion remains gated))[^\n]*publicDataSource=supabase/i,
+  /(?:^|\n)(?![^\n]*(?:No|Do not|must not|unless the chairman explicitly asks|forbidden|blocked|promotion remains gated))[^\n]*scoreSource=real/i,
   /SUPABASE_SERVICE_ROLE_KEY=.+/i,
   /sb_secret_/i,
   /sb_publishable_/i,

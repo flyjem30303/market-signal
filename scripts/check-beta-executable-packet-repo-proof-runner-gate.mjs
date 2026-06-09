@@ -1,4 +1,5 @@
 import fs from "node:fs";
+import { spawnSync } from "node:child_process";
 
 const problems = [];
 
@@ -30,6 +31,8 @@ for (const phrase of [
   "cmd.exe /c npm run check:beta-runtime-fast-health",
   "cmd.exe /c npm run check:public-route-loop",
   "cmd.exe /c npx tsc --noEmit",
+  "pmSnapshot.status=classified_beta_readiness_worktree_safeguard_ready",
+  "pmSnapshot.unresolvedCount=0",
   "packetCandidateAllowed: false",
   "platform_generated_value_pending",
   "external_operator_value_pending",
@@ -43,6 +46,10 @@ for (const phrase of [
 
 for (const phrase of [
   "packetCandidateAllowed: false",
+  "pmSnapshot",
+  "classified_beta_readiness_worktree_safeguard_ready",
+  "a1-twii-pm-intake",
+  "a1-twii-post-reply",
   "platform_generated_values_pending",
   "publicDataSource: \"mock\"",
   "scoreSource: \"mock\"",
@@ -82,6 +89,24 @@ for (const [filePath, phrase] of [
   [boardPath, "repo_proof_runner_ready_packet_still_blocked_external_platform_values_pending"]
 ]) {
   if (!read(filePath).includes(phrase)) problems.push(`${filePath} missing phrase: ${phrase}`);
+}
+
+const proofRun = spawnSync("cmd.exe", ["/c", "npm", "run", "run:beta-executable-packet-repo-proof"], {
+  cwd: process.cwd(),
+  encoding: "utf8",
+  windowsHide: true
+});
+const proofReport = parseJson(proofRun.stdout ?? "");
+if (proofRun.status !== 0) problems.push("run:beta-executable-packet-repo-proof should exit 0");
+if (proofReport?.status !== "ok") problems.push("repo proof status should be ok");
+if (proofReport?.pmSnapshot?.status !== "classified_beta_readiness_worktree_safeguard_ready") {
+  problems.push("repo proof should emit classified no-Git PM snapshot");
+}
+if (proofReport?.pmSnapshot?.unresolvedCount !== 0) {
+  problems.push("repo proof no-Git PM snapshot should have zero unresolved items");
+}
+if (proofReport?.pmSnapshot?.allowedAsNoGitSafeguard !== true) {
+  problems.push("repo proof no-Git PM snapshot should be allowed as safeguard");
 }
 
 for (const phrase of [
@@ -172,4 +197,15 @@ function read(filePath) {
   }
 
   return fs.readFileSync(filePath, "utf8");
+}
+
+function parseJson(stdout) {
+  const start = stdout.indexOf("{");
+  if (start < 0) return null;
+
+  try {
+    return JSON.parse(stdout.slice(start));
+  } catch {
+    return null;
+  }
 }

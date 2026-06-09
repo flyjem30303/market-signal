@@ -26,17 +26,21 @@ for (const phrase of [
   "handoff_ready_waiting_for_project_name_and_public_beta_url",
   "BETA_HOSTING_PROJECT_NAME=",
   "BETA_TEMPORARY_URL=",
-  "cmd.exe /c npm run validate:beta-platform-two-values",
+  "cmd.exe /c npm run report:public-beta-external-input-request",
+  "cmd.exe /c npm run report:public-beta-external-input-response-readiness",
+  "cmd.exe /c npm run run:public-beta-post-reply-route-once",
   "`blocked_waiting_values`",
   "`rejected_unsafe_values`",
   "`accepted_two_value_shape_only`",
-  "cmd.exe /c npm run run:beta-packet-window-proof-map",
   "`publicDataSource=mock`",
   "`scoreSource=mock`",
   "`publicDataSource=supabase`",
   "`scoreSource=real`",
   "Do not paste secrets into repo files.",
-  "Do not reopen the full operator sheet unless this handoff fails."
+  "Do not reopen the full operator sheet unless this handoff fails.",
+  "While values are missing, use `report:public-beta-external-input-request`.",
+  "After I / operator replies, use `report:public-beta-external-input-response-readiness`.",
+  "standalone validation/proof-map commands are only diagnostics if the runner fails"
 ]) {
   if (!doc.includes(phrase)) problems.push(`${docPath} missing phrase: ${phrase}`);
 }
@@ -150,7 +154,7 @@ console.log(
       status: "ok",
       guardedStatus: "beta_two_value_operator_handoff_ready_waiting_values",
       outcome: "handoff_ready_waiting_for_project_name_and_public_beta_url",
-      nextRoute: "validate_two_values_then_run_packet_window_proof_map"
+      nextRoute: "external_input_request_then_response_readiness_then_public_beta_post_reply_one_runner"
     },
     null,
     2

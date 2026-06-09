@@ -50,14 +50,16 @@ The runner executes the following local-only sequence:
 | `blocked_waiting_values` | One or both platform values are missing. | Keep waiting for I / launch operator values. |
 | `rejected_unsafe_values` | Values were provided but failed local safety shape checks. | Request corrected non-secret values. |
 | `repo_proof_blocked` | Values passed, but repo proof, route health, TypeScript, or worktree state is not packet-ready. | Repair repo/runtime proof before packet work. |
-| `packet_window_candidate_ready_shape_only` | Values passed, repo proof passed, and worktree is clean. | Create a separate executable packet-window candidate. |
+| `packet_window_candidate_ready_shape_only` | Values passed, repo proof passed, and worktree is clean or the no-Git PM snapshot is classified with zero unresolved items. | Create a separate executable packet-window candidate. |
 
-`packetCandidateAllowed` can become `true` only in `packet_window_candidate_ready_shape_only`; this still does not deploy or claim public launch completion.
+`packetCandidateAllowed` can become `true` only in `packet_window_candidate_ready_shape_only`; this still does not deploy or claim public launch completion. When Git backup is intentionally deferred, the runner accepts `pmSnapshot.status=classified_beta_readiness_worktree_safeguard_ready` with `pmSnapshot.unresolvedCount=0` as the worktree safeguard for this dry run only.
 
 ## PM / A1 / A2 Routing
 
 PM route:
 
+- While either platform value is missing, route PM back to `cmd.exe /c npm run report:public-beta-external-input-request`.
+- After I / operator replies, run `cmd.exe /c npm run report:public-beta-external-input-response-readiness` before this runner.
 - Use this runner after I provides the two values.
 - If `packet_window_candidate_ready_shape_only`, prepare a separate executable packet-window candidate.
 - If `blocked_waiting_values`, do not spend more governance time on platform values.
@@ -85,7 +87,7 @@ PM may classify this runner as `accepted` when:
 3. absent values return `blocked_waiting_values`;
 4. unsafe values route through `rejected_unsafe_values`;
 5. repo proof runs only after `accepted_two_value_shape_only`;
-6. `packetCandidateAllowed` remains false unless values pass, repo proof passes, and worktree state is clean;
+6. `packetCandidateAllowed` remains false unless values pass, repo proof passes, and either worktree state is clean or the no-Git PM snapshot is classified with zero unresolved items;
 7. `publicDataSource=mock` and `scoreSource=mock` remain unchanged.
 
 ## Hard Stops

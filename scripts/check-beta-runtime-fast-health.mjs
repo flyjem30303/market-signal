@@ -11,6 +11,8 @@ const boardPath = "docs/LAUNCH_ENGINEERING_WORKSTREAM_BOARD.md";
 
 const baseUrl = process.env.BETA_RUNTIME_FAST_HEALTH_BASE_URL ?? process.env.LOCALHOST_HEALTH_BASE_URL ?? "http://localhost:3000";
 const timeoutMs = Number.parseInt(process.env.BETA_RUNTIME_FAST_HEALTH_TIMEOUT_MS ?? "8000", 10);
+const routeRetryCount = Number.parseInt(process.env.BETA_RUNTIME_FAST_HEALTH_ROUTE_RETRIES ?? "5", 10);
+const routeRetryDelayMs = Number.parseInt(process.env.BETA_RUNTIME_FAST_HEALTH_ROUTE_RETRY_DELAY_MS ?? "500", 10);
 const routes = (process.env.BETA_RUNTIME_FAST_HEALTH_ROUTES ?? "/,/briefing,/weekly,/stocks/2330,/stocks/TWII,/methodology,/disclaimer,/terms,/privacy")
   .split(",")
   .map((route) => route.trim())
@@ -153,6 +155,17 @@ console.log(
 );
 
 async function checkRoute(route) {
+  let lastResult = null;
+  for (let attempt = 0; attempt <= routeRetryCount; attempt += 1) {
+    lastResult = await fetchRouteOnce(route, attempt + 1);
+    if (lastResult.statusCode === 200) return lastResult;
+    if (attempt < routeRetryCount) await delay(routeRetryDelayMs);
+  }
+
+  return lastResult;
+}
+
+async function fetchRouteOnce(route, attempt) {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), timeoutMs);
 
@@ -162,12 +175,14 @@ async function checkRoute(route) {
       signal: controller.signal
     });
     return {
+      attempt,
       ok: response.ok,
       route,
       statusCode: response.status
     };
   } catch (error) {
     return {
+      attempt,
       error: error instanceof Error ? error.message : String(error),
       ok: false,
       route,
@@ -176,6 +191,10 @@ async function checkRoute(route) {
   } finally {
     clearTimeout(timeout);
   }
+}
+
+async function delay(milliseconds) {
+  await new Promise((resolve) => setTimeout(resolve, milliseconds));
 }
 
 function read(filePath) {

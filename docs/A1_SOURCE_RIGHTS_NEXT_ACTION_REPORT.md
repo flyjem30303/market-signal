@@ -6,11 +6,11 @@ CEO decision: `route_a1_source_rights_next_action_without_reopening_governance`
 
 Current outcome: `blocked_waiting_source_rights_evidence`
 
-PM next action: `keep_beta_mainline_moving_and_assign_a1_exact_twii_etf_source_rights_evidence_intake`
+PM next action: `keep_beta_mainline_moving_and_assign_a1_twii_four_slot_no_secret_evidence_request`
 
-A1 next action: `collect_or_classify_twii_vendor_terms_internal_owner_field_contract_asset_mapping_and_etf_legal_redistribution_evidence`
+A1 next action: `collect_or_classify_only_the_four_twii_no_secret_source_rights_evidence_slots_before_any_etf_expansion`
 
-A1 next command: `cmd.exe /c npm run report:a1-exact-source-rights-evidence-worksheet`
+A1 next command: `cmd.exe /c npm run report:a1-twii-four-slot-reply-request`
 
 Priority route: `twii_source_rights_unblock_first_etf_parallel_rights_option`
 
@@ -22,7 +22,7 @@ Command:
 
 ```powershell
 cmd.exe /c npm run report:a1-source-rights-next-action
-cmd.exe /c npm run report:a1-exact-source-rights-evidence-worksheet
+cmd.exe /c npm run report:a1-twii-four-slot-reply-request
 ```
 
 ## Current Source-Rights State
@@ -66,9 +66,9 @@ If the exact outcome ledger records all TWII slots as accepted, PM may open a se
 
 If the exact outcome ledger records all ETF slots as accepted, PM may open a separate ETF source-rights outcome gate.
 
-If both lanes remain blocked, PM should keep Beta mainline moving and assign A1 to exact source-rights evidence intake rather than reopening broad governance.
+If both lanes remain blocked, PM should keep Beta mainline moving and assign A1 to the TWII four-slot no-secret request rather than reopening broad governance.
 
-A1 should start from `cmd.exe /c npm run report:a1-exact-source-rights-evidence-worksheet` so the 10 required TWII/ETF evidence slots, exact questions, acceptable evidence descriptions, and dry-run recorder templates are visible before any classification is applied.
+A1 should start from `cmd.exe /c npm run report:a1-twii-four-slot-reply-request` so the four current TWII no-secret evidence slots are returned before PM classification. The 10-slot worksheet remains available as background context, not the current shortest handoff.
 
 The current priority remains TWII first and ETF parallel. TWII is the narrower `60`-row unblock lane with an existing source-rights outcome gate. ETF remains the larger `118`-row parallel option only if legal and redistribution evidence clears sooner. This priority route is not executable.
 
@@ -80,10 +80,7 @@ A1 should collect or classify only no-secret, no-raw-payload evidence for:
 - TWII internal feed owner evidence.
 - TWII field contract evidence.
 - TWII asset mapping evidence.
-- ETF legal use evidence.
-- ETF redistribution evidence.
-- ETF attribution and retention evidence.
-- ETF derived-analysis and rate-limit evidence.
+- ETF evidence remains deferred until the TWII four-slot route is reviewed or CEO/PM deliberately expands the A1 lane.
 
 ## Hard Stops
 

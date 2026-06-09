@@ -35,7 +35,9 @@ The runner collects only repo-local and localhost-safe proof:
 5. `cmd.exe /c npm run check:public-route-loop`
 6. `cmd.exe /c npx tsc --noEmit`
 
-The runner returns `packetCandidateAllowed: false` until platform values are present and worktree state is reviewed. A dirty worktree is allowed for development runs but must be treated as `needs_pm_review_before_packet_creation`.
+The runner returns `packetCandidateAllowed: false` until platform values are present. A dirty worktree is allowed for development runs and is treated as `needs_pm_review_before_packet_creation`, but the runner now also emits a no-Git `pmSnapshot`.
+
+When Git backup is intentionally deferred, `pmSnapshot.status=classified_beta_readiness_worktree_safeguard_ready` and `pmSnapshot.unresolvedCount=0` can satisfy the packet-window worktree safeguard without staging, committing, or pushing. This does not approve deployment; it only prevents the packet-window dry run from being blocked by a classified Beta-readiness worktree.
 
 ## Relationship To Platform Values
 
@@ -78,11 +80,12 @@ PM may classify this gate as `accepted` when:
 1. `run:beta-executable-packet-repo-proof` exists;
 2. `check:beta-executable-packet-repo-proof-runner-gate` passes;
 3. repo proof commands are explicit;
-4. platform values remain explicit blockers;
-5. `publicDataSource=mock` remains unchanged;
-6. `scoreSource=mock` remains unchanged;
-7. package and review-gate registration exist;
-8. the runner output never marks public launch complete.
+4. no-Git `pmSnapshot` is emitted when the worktree is dirty;
+5. platform values remain explicit blockers;
+6. `publicDataSource=mock` remains unchanged;
+7. `scoreSource=mock` remains unchanged;
+8. package and review-gate registration exist;
+9. the runner output never marks public launch complete.
 
 ## Hard Stops
 

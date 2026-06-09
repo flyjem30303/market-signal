@@ -1,6 +1,7 @@
 import fs from "node:fs";
 
-const outcomePath = "data/source-gates/a1-exact-source-rights-evidence-intake-outcomes.json";
+const defaultOutcomePath = "data/source-gates/a1-exact-source-rights-evidence-intake-outcomes.json";
+const outcomePath = process.env.A1_TWII_EVIDENCE_COMPLETION_OUTCOME_PATH || defaultOutcomePath;
 const docPath = "docs/A1_SOURCE_RIGHTS_READINESS_SUMMARY.md";
 const outcomes = readOutcomes(outcomePath);
 
@@ -57,10 +58,10 @@ console.log(
       outcomeData: outcomePath,
       pmDecision: readyLanes.length > 0
         ? "open_only_the_ready_lane_as_a_separate_source_rights_outcome_gate_candidate"
-        : "keep_a1_on_exact_source_rights_evidence_worksheet_until_a_lane_is_complete",
+        : "keep_a1_on_twii_four_slot_no_secret_evidence_request_until_a_lane_is_complete",
       nextCommand: readyLanes.length > 0
         ? "cmd.exe /c npm run report:a1-source-rights-next-action"
-        : "cmd.exe /c npm run report:a1-exact-source-rights-evidence-worksheet",
+        : "cmd.exe /c npm run report:a1-twii-four-slot-reply-request",
       readyLanes,
       blockedLanes,
       lanes,
@@ -136,7 +137,9 @@ function summarizeLane(lane, definition, allOutcomes) {
     missingIds,
     nextCommand: canOpenOutcomeGate
       ? definition.readyCommand
-      : "cmd.exe /c npm run report:a1-exact-source-rights-evidence-worksheet",
+      : lane === "TWII"
+        ? "cmd.exe /c npm run report:a1-twii-four-slot-reply-request"
+        : "cmd.exe /c npm run report:a1-exact-source-rights-evidence-worksheet",
     outcomeGateCandidate: canOpenOutcomeGate ? definition.outcomeGate : "blocked",
     pendingCount: pendingIds.length,
     pendingIds,

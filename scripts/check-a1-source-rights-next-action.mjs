@@ -50,8 +50,8 @@ if (report?.currentState?.exactLedger?.twiiPendingCount !== 4) {
 if (report?.currentState?.exactLedger?.etfPendingCount !== 6) {
   problems.push("exact ledger should currently show six pending ETF slots");
 }
-if (report?.a1NextCommand !== "cmd.exe /c npm run report:a1-exact-source-rights-evidence-worksheet") {
-  problems.push("A1 next command should route directly to the exact source-rights evidence worksheet report");
+if (report?.a1NextCommand !== "cmd.exe /c npm run report:a1-twii-four-slot-reply-request") {
+  problems.push("A1 next command should route directly to the TWII four-slot reply request");
 }
 if (report?.priorityDecision?.route !== "twii_source_rights_unblock_first_etf_parallel_rights_option") {
   problems.push("priority decision should keep TWII first with ETF as the parallel option");
@@ -67,14 +67,14 @@ for (const [filePath, source, phrase] of [
   [docPath, doc, "Status: `a1_source_rights_next_action_report_ready_source_rights_pending`"],
   [docPath, doc, "CEO decision: `route_a1_source_rights_next_action_without_reopening_governance`"],
   [docPath, doc, "Current outcome: `blocked_waiting_source_rights_evidence`"],
-  [docPath, doc, "PM next action: `keep_beta_mainline_moving_and_assign_a1_exact_twii_etf_source_rights_evidence_intake`"],
-  [docPath, doc, "A1 next action: `collect_or_classify_twii_vendor_terms_internal_owner_field_contract_asset_mapping_and_etf_legal_redistribution_evidence`"],
-  [docPath, doc, "A1 next command: `cmd.exe /c npm run report:a1-exact-source-rights-evidence-worksheet`"],
+  [docPath, doc, "PM next action: `keep_beta_mainline_moving_and_assign_a1_twii_four_slot_no_secret_evidence_request`"],
+  [docPath, doc, "A1 next action: `collect_or_classify_only_the_four_twii_no_secret_source_rights_evidence_slots_before_any_etf_expansion`"],
+  [docPath, doc, "A1 next command: `cmd.exe /c npm run report:a1-twii-four-slot-reply-request`"],
   [docPath, doc, "Priority route: `twii_source_rights_unblock_first_etf_parallel_rights_option`"],
   [docPath, doc, "Priority assignment: `twii_source_rights_unblock_decision_record_candidate`"],
   [docPath, doc, "Priority source: `docs/A1_SOURCE_RIGHTS_UNBLOCK_PRIORITY_PACKET.md`"],
   [docPath, doc, "cmd.exe /c npm run report:a1-source-rights-next-action"],
-  [docPath, doc, "cmd.exe /c npm run report:a1-exact-source-rights-evidence-worksheet"],
+  [docPath, doc, "cmd.exe /c npm run report:a1-twii-four-slot-reply-request"],
   [docPath, doc, "`publicDataSource=mock`"],
   [docPath, doc, "`scoreSource=mock`"],
   [docPath, doc, "TWII pending evidence count: `4/4`"],
@@ -83,10 +83,10 @@ for (const [filePath, source, phrase] of [
   [docPath, doc, "Exact TWII pending slots: `4/4`"],
   [docPath, doc, "Exact ETF pending slots: `6/6`"],
   [statusPath, status, "Latest A1 source-rights next-action report slice"],
-  [statusPath, status, "A1 next command is `cmd.exe /c npm run report:a1-exact-source-rights-evidence-worksheet`"],
+  [statusPath, status, "A1 next command is `cmd.exe /c npm run report:a1-twii-four-slot-reply-request`"],
   [statusPath, status, "a1_source_rights_next_action_report_ready_source_rights_pending"],
   [boardPath, board, "`docs/A1_SOURCE_RIGHTS_NEXT_ACTION_REPORT.md` is `accepted` as PM/A1 source-rights next-action router"],
-  [boardPath, board, "`report:a1-source-rights-next-action` routes blocked A1 work directly to `report:a1-exact-source-rights-evidence-worksheet`"],
+  [boardPath, board, "`report:a1-source-rights-next-action` routes blocked A1 work directly to `report:a1-twii-four-slot-reply-request`"],
   [boardPath, board, "blocked_waiting_source_rights_evidence"]
 ]) {
   if (!source.includes(phrase)) problems.push(`${filePath} missing phrase: ${phrase}`);

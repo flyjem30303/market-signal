@@ -25,5 +25,6 @@ out/
 *.sqlite3
 *.db
 .cache/
+tmp/
 .research/
 supabase/bootstrap-parts/

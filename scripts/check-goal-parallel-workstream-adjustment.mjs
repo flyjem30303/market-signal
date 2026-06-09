@@ -20,7 +20,37 @@ const requiredDocPhrases = [
   "A1 owns the data / Supabase / market evidence support lane",
   "A2 owns the public trust / UX readability / disclosure support lane",
   "PM must assign new A1/A2 tasks whenever their current background tasks finish",
-  "正式上線前可執行狀態",
+  "Push the project to a public Beta pre-launch executable state.",
+  "CEO chooses only the highest-value blocker-removal slice.",
+  "PM immediately executes local-only slices that do not trigger permission prompts.",
+  "PM uses one-command runners when they already wrap the required local safety checks.",
+  "Governance, role review, and UI micro-polish are deferred unless they directly remove a blocker.",
+  "Full review gate is reserved for milestone integration, promotion, or deployment packet work.",
+  "If safe blocker-removal work remains, continue instead of stopping only to report.",
+  "Delivery-First GOAL Trim",
+  "CEO Velocity Rewrite",
+  "Move the project toward public Beta executable readiness with the shortest safe path.",
+  "Primary completion chain",
+  "Platform: collect and shape-validate BETA_HOSTING_PROJECT_NAME and BETA_TEMPORARY_URL",
+  "Packet: run the no-secret packet-window proof chain to PM-reviewed artifact readiness.",
+  "Data: move A1 TWII no-secret source-rights evidence to PM-classifiable state",
+  "Runtime: keep /, /briefing, and stock routes healthy, readable, and explicitly mock-only.",
+  "Prefer one coherent blocker-removal slice over many micro-governance slices.",
+  "Run only the smallest checker set that proves the slice.",
+  "CEO ruling: this rewrite supersedes the longer GOAL wording for day-to-day execution.",
+  "Historical Operational GOAL v2 - Superseded",
+  "This section is retained only as history.",
+  "Operational GOAL v3 - Execution First",
+  "Push the project to public Beta pre-launch executable readiness by closing only the active external blocker chain.",
+  "Do the largest safe local slice that directly advances platform values, packet proof, A1 evidence classification, or runtime route health.",
+  "Do not create new governance packets, role-review loops, visual polish slices, or broad audits unless they unblock the current chain.",
+  "keep reviewed-artifact recording dry-run unless PM explicitly applies an accepted outcome",
+  "Run focused checks only.",
+  "Operational GOAL v3 below supersedes v2 for routine execution.",
+  "Current hard blockers",
+  "Missing `BETA_HOSTING_PROJECT_NAME`",
+  "Missing `BETA_TEMPORARY_URL`",
+  "Missing A1 TWII four-slot no-secret source-rights evidence",
   "Supabase write/readback/post-run review/rollback",
   "Coverage Universe Roadmap",
   "publicDataSource=supabase",
@@ -29,7 +59,7 @@ const requiredDocPhrases = [
   "PM mainline",
   "A1",
   "A2",
-  "Current PM next route: `runtime_local_route_health_refresh_before_executable_packet_or_data_gate`",
+  "Current PM next route: `external_input_response_readiness_then_platform_two_value_one_runner_or_a1_evidence_classification`",
   "Dynamic Reassignment Rule",
   "accepted",
   "rejected",
@@ -75,6 +105,7 @@ for (const phrase of requiredRoadmapPhrases) {
 }
 
 const requiredStatusPhrases = [
+  "Latest Operational GOAL v3 execution-first rewrite slice",
   "Latest GOAL launch-engineering parallel workstream adjustment slice",
   "goal_launch_engineering_parallel_workstreams_ready",
   "A1/A2 completion now triggers immediate PM reassignment",
@@ -89,7 +120,7 @@ for (const phrase of requiredStatusPhrases) {
 
 const forbiddenPatterns = [
   /[\uE000-\uF8FF\uFFFD]/u,
-  /嚙/u,
+  /\?\?/u,
   /\?{3,}/u,
   /Supabase writes are approved/u,
   /SQL execution is approved/u,
@@ -115,7 +146,13 @@ console.log(
     {
       status: "ok",
       docPath,
-      guardedStatus: "goal_launch_engineering_parallel_workstreams_ready"
+      guardedStatus: "goal_launch_engineering_parallel_workstreams_ready",
+      currentHardBlockers: [
+        "BETA_HOSTING_PROJECT_NAME",
+        "BETA_TEMPORARY_URL",
+        "A1_TWII_FOUR_SLOT_NO_SECRET_SOURCE_RIGHTS_EVIDENCE"
+      ],
+      verificationPolicy: "focused_checks_first_full_review_gate_only_for_milestones"
     },
     null,
     2

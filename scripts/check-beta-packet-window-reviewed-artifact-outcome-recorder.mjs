@@ -128,6 +128,53 @@ if (!dryRun.stdout.includes('"artifactPath": null')) {
   problems.push(`${recorderPath} absent-value dry-run should not report artifact path`);
 }
 
+const safeDryRunBefore = listReviews();
+const safeDryRun = spawnSync(
+  "cmd.exe",
+  [
+    "/c",
+    "npm",
+    "run",
+    "record:beta-packet-window-reviewed-artifact-outcome",
+    "--",
+    "--dry-run",
+    "--outcome",
+    "accepted",
+    "--reviewedBy",
+    "PM",
+    "--note",
+    "PM dry-run verifies safe platform values can reach pending apply without writing a review artifact."
+  ],
+  {
+    cwd: process.cwd(),
+    encoding: "utf8",
+    env: withSafeBetaValues(process.env),
+    windowsHide: true
+  }
+);
+const safeDryRunAfter = listReviews();
+
+if (safeDryRun.status !== 0) problems.push(`${recorderPath} safe-value dry-run should exit 0`);
+if (JSON.stringify(safeDryRunBefore) !== JSON.stringify(safeDryRunAfter)) {
+  problems.push(`${recorderPath} safe-value dry-run mutated ${reviewsDir}`);
+}
+for (const phrase of [
+  '"status": "ready_pending_apply"',
+  '"artifactWriteAllowed": true',
+  '"deploymentAuthorized": false',
+  '"publicDataSource": "mock"',
+  '"scoreSource": "mock"',
+  '"outcome": "accepted"',
+  '"reviewedBy": "PM"'
+]) {
+  if (!safeDryRun.stdout.includes(phrase)) {
+    problems.push(`${recorderPath} safe-value dry-run missing phrase: ${phrase}`);
+  }
+}
+if (!safeDryRun.stdout.includes('"artifactPath": "docs/reviews/BETA_PACKET_WINDOW_REVIEWED_ARTIFACT_')) {
+  problems.push(`${recorderPath} safe-value dry-run should report a docs/reviews artifact path`);
+}
+
 for (const phrase of [
   "production deployment",
   "preview deployment",
@@ -185,7 +232,8 @@ const forbiddenPatterns = [
 for (const [filePath, source] of [
   [docPath, doc],
   [recorderPath, recorder],
-  ["dry-run-output", dryRun.stdout]
+  ["dry-run-output", dryRun.stdout],
+  ["safe-dry-run-output", safeDryRun.stdout]
 ]) {
   for (const pattern of forbiddenPatterns) {
     if (pattern.test(source)) problems.push(`${filePath} contains forbidden pattern: ${pattern}`);
@@ -228,4 +276,12 @@ function withoutBetaValues(env) {
   delete next.BETA_HOSTING_PROJECT_NAME;
   delete next.BETA_TEMPORARY_URL;
   return next;
+}
+
+function withSafeBetaValues(env) {
+  return {
+    ...withoutBetaValues(env),
+    BETA_HOSTING_PROJECT_NAME: "codex-safe-beta",
+    BETA_TEMPORARY_URL: "https://codex-safe-beta.vercel.app/"
+  };
 }

@@ -3,12 +3,13 @@ import { spawnSync } from "node:child_process";
 
 const betaValues = run(["cmd.exe", "/c", "npm", "run", "validate:beta-platform-two-values"], withoutBetaValuesIfUnset());
 const validator = parseJson(betaValues.stdout);
-const sourceLedger = readJson("data/source-gates/twii-vendor-internal-evidence-outcomes.json", { outcomes: [] });
+const sourceLedger = readJson("data/source-gates/a1-exact-source-rights-evidence-intake-outcomes.json", { outcomes: [] });
 const acceptedReviewedArtifact = findAcceptedReviewedArtifact();
+const postReplyOneRunnerCommand = "cmd.exe /c npm run run:public-beta-post-reply-route-once";
 
 const platformStatus = validator?.status ?? "validator_output_unreadable";
 const sourceSummary = summarizeSourceLedger(sourceLedger);
-const nextAction = chooseNextAction(platformStatus, acceptedReviewedArtifact);
+const nextAction = chooseNextAction(platformStatus, acceptedReviewedArtifact, sourceSummary);
 
 const report = {
   status: nextAction.status,
@@ -17,8 +18,11 @@ const report = {
   pmMainlineNextAction: nextAction.pmMainlineNextAction,
   pmCommand: nextAction.pmCommand,
   a1NextAction: sourceSummary.canOpenTwiiRightsGate
-    ? "prepare_twii_source_rights_outcome_gate"
-    : "continue_twii_vendor_internal_evidence_collection_or_etf_source_rights_fallback",
+    ? "prepare_separate_twii_source_rights_outcome_gate_candidate"
+    : "collect_a1_twii_four_slot_no_secret_evidence_then_response_readiness_and_pm_classify",
+  a1Command: sourceSummary.canOpenTwiiRightsGate
+    ? "cmd.exe /c npm run report:a1-twii-outcome-gate-candidate-route"
+    : "cmd.exe /c npm run report:a1-twii-four-slot-reply-request",
   a2NextAction:
     "keep_public_beta_trust_copy_stable_and_only_patch_launch_blocking_copy_if_runtime_surface_changes",
   currentState: {
@@ -32,7 +36,7 @@ const report = {
       acceptedArtifactExists: acceptedReviewedArtifact.exists,
       latestAcceptedArtifactPath: acceptedReviewedArtifact.path
     },
-    twiiSourceRights: sourceSummary,
+    a1TwiiFourSlotEvidence: sourceSummary,
     runtimeBoundary: {
       publicDataSource: "mock",
       scoreSource: "mock"
@@ -49,14 +53,14 @@ const report = {
   ],
   notes: [
     "This report is a routing report, not a deployment packet and not a data-source promotion gate.",
-    "When platform values are missing, PM should not reopen broad deployment planning; only the two safe values are needed.",
-    "A1 source-rights work can continue in parallel while PM waits for platform values."
+    "When platform values or A1 TWII evidence are missing, PM should use the single external-input request instead of reopening broad deployment planning.",
+    "A1 source-rights work stays narrowed to the four TWII no-secret evidence slots while PM waits for the current external-input reply."
   ]
 };
 
 console.log(JSON.stringify(report, null, 2));
 
-function chooseNextAction(platformStatus, acceptedArtifact) {
+function chooseNextAction(platformStatus, acceptedArtifact, sourceSummary) {
   if (acceptedArtifact.exists) {
     return {
       status: "ready_to_render_pre_execution_packet_candidate",
@@ -67,9 +71,9 @@ function chooseNextAction(platformStatus, acceptedArtifact) {
 
   if (platformStatus === "accepted_two_value_shape_only") {
     return {
-      status: "ready_to_run_beta_packet_window_proof_map",
-      pmMainlineNextAction: "run_beta_packet_window_proof_map_then_record_reviewed_artifact_outcome",
-      pmCommand: "cmd.exe /c npm run run:beta-packet-window-proof-map"
+      status: "ready_to_run_public_beta_post_reply_one_runner",
+      pmMainlineNextAction: "run_public_beta_post_reply_one_runner_then_record_reviewed_artifact_outcome_if_packet_review_reached",
+      pmCommand: postReplyOneRunnerCommand
     };
   }
 
@@ -77,29 +81,44 @@ function chooseNextAction(platformStatus, acceptedArtifact) {
     return {
       status: "blocked_unsafe_platform_values",
       pmMainlineNextAction: "request_corrected_safe_hosting_project_name_and_public_temporary_beta_url",
-      pmCommand: "cmd.exe /c npm run validate:beta-platform-two-values"
+      pmCommand: "cmd.exe /c npm run report:public-beta-external-input-response-readiness"
     };
   }
 
   return {
-    status: "blocked_waiting_two_platform_values",
-    pmMainlineNextAction: "obtain_only_BETA_HOSTING_PROJECT_NAME_and_BETA_TEMPORARY_URL",
-    pmCommand: "cmd.exe /c npm run validate:beta-platform-two-values"
+    status: sourceSummary.canOpenTwiiRightsGate
+      ? "blocked_waiting_two_platform_values"
+      : "blocked_waiting_external_input_response",
+    pmMainlineNextAction: "use_single_external_input_request_for_platform_values_and_a1_evidence",
+    pmCommand: "cmd.exe /c npm run report:public-beta-external-input-request"
   };
 }
 
 function summarizeSourceLedger(ledger) {
   const outcomes = Array.isArray(ledger.outcomes) ? ledger.outcomes : [];
-  const pending = outcomes.filter((outcome) => outcome.classification === "pending");
-  const accepted = outcomes.filter((outcome) => outcome.classification === "accepted");
+  const twiiOutcomes = outcomes.filter((outcome) => outcome.lane === "TWII");
+  const pending = twiiOutcomes.filter((outcome) => outcome.classification === "pending");
+  const accepted = twiiOutcomes.filter((outcome) => outcome.classification === "accepted");
+  const blocked = twiiOutcomes.filter((outcome) => outcome.classification === "blocked");
+  const needsBoundedRepair = twiiOutcomes.filter((outcome) => outcome.classification === "needs_bounded_repair");
+  const rejected = twiiOutcomes.filter((outcome) => outcome.classification === "rejected");
+  const allAccepted = twiiOutcomes.length > 0 && accepted.length === twiiOutcomes.length;
 
   return {
-    status: pending.length === 0 && outcomes.length > 0 ? "evidence_ready_for_gate_review" : "evidence_pending",
+    status: allAccepted ? "twii_four_slot_evidence_ready_for_gate_review" : "twii_four_slot_evidence_pending",
     pendingEvidenceCount: pending.length,
     acceptedEvidenceCount: accepted.length,
-    requiredEvidenceCount: outcomes.length,
+    blockedEvidenceCount: blocked.length,
+    needsBoundedRepairEvidenceCount: needsBoundedRepair.length,
+    rejectedEvidenceCount: rejected.length,
+    requiredEvidenceCount: twiiOutcomes.length,
     pendingEvidenceIds: pending.map((outcome) => outcome.id),
-    canOpenTwiiRightsGate: pending.length === 0 && outcomes.length > 0
+    requiredEvidenceIds: twiiOutcomes.map((outcome) => outcome.id),
+    nextCommand: allAccepted
+      ? "cmd.exe /c npm run report:a1-twii-outcome-gate-candidate-route"
+      : "cmd.exe /c npm run report:a1-twii-four-slot-reply-request",
+    afterReplyFirstCommand: "cmd.exe /c npm run report:public-beta-external-input-response-readiness",
+    canOpenTwiiRightsGate: allAccepted
   };
 }
 
