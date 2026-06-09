@@ -363,6 +363,8 @@
     "check:twii-bounded-readonly-preflight-real-readonly-runner-boundary": "node scripts/check-twii-bounded-readonly-preflight-real-readonly-runner-boundary.mjs",
     "report:twii-bounded-readonly-preflight-single-attempt-execution-packet": "node scripts/report-twii-bounded-readonly-preflight-single-attempt-execution-packet.mjs",
     "check:twii-bounded-readonly-preflight-single-attempt-execution-packet": "node scripts/check-twii-bounded-readonly-preflight-single-attempt-execution-packet.mjs",
+    "report:twii-bounded-readonly-preflight-authorized-attempt-result-20260609": "node scripts/report-twii-bounded-readonly-preflight-authorized-attempt-result-20260609.mjs",
+    "check:twii-bounded-readonly-preflight-authorized-attempt-result-20260609": "node scripts/check-twii-bounded-readonly-preflight-authorized-attempt-result-20260609.mjs",
     "report:a1-source-rights-evidence-batch-brief": "node scripts/report-a1-source-rights-evidence-batch-brief.mjs",
     "check:a1-source-rights-evidence-batch-brief": "node scripts/check-a1-source-rights-evidence-batch-brief.mjs",
     "report:a1-source-rights-reviewed-outcome-surface": "node scripts/report-a1-source-rights-reviewed-outcome-surface.mjs",

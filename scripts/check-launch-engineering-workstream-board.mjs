@@ -105,6 +105,8 @@ const requiredDocPhrases = [
   "twii_bounded_readonly_preflight_real_readonly_runner_boundary_ready_no_remote_attempt",
   "`docs/TWII_BOUNDED_READONLY_PREFLIGHT_SINGLE_ATTEMPT_EXECUTION_PACKET.md` is `accepted` as TWII bounded readonly preflight single-attempt execution packet",
   "twii_bounded_readonly_preflight_single_attempt_execution_packet_ready_not_executed",
+  "`docs/TWII_BOUNDED_READONLY_PREFLIGHT_AUTHORIZED_ATTEMPT_RESULT_20260609.md` is `accepted` as TWII bounded readonly preflight authorized attempt result",
+  "twii_bounded_readonly_preflight_authorized_attempt_blocked_execute_not_enabled_no_remote_attempt",
   "ETF source-rights outcome decision is open and currently blocked at `rejected_for_execution_pending_external_rights`",
   "TWII source-rights and candidate readiness is accepted as the next alternative data branch",
   "TWII remains `not_approved_for_probe_or_ingestion`",
