@@ -681,6 +681,10 @@ function chooseMainlineRoute({ acceptedArtifactExists, a1FourSlotEvidencePending
 
 function buildPmRouteRouter(routerReport) {
   const a1Evidence = routerReport.currentState?.a1TwiiFourSlotEvidence ?? {};
+  const a1ReviewedCounts = a1ReviewedOutcomeSurfaceReport.judgementSummary?.counts ?? {};
+  const a1NeedsRepairOrBlocked =
+    Number(a1ReviewedCounts.blocked ?? 0) > 0 ||
+    Number(a1ReviewedCounts.needs_bounded_repair ?? 0) > 0;
 
   return {
     status: routerReport.status ?? "unknown",
@@ -689,13 +693,23 @@ function buildPmRouteRouter(routerReport) {
     pmCommand: externalInputCopyPacketCommand,
     fallbackFullRequestCommand: routerReport.pmCommand ?? externalInputFullRequestCommand,
     a1NextAction:
-      routerReport.a1NextAction ?? "collect_a1_twii_four_slot_no_secret_evidence_then_response_readiness_and_pm_classify",
-    a1Command: routerReport.a1Command ?? "cmd.exe /c npm run report:a1-twii-four-slot-reply-request",
+      a1NeedsRepairOrBlocked
+        ? "resolve_a1_twii_two_blocked_two_bounded_repair_slots_before_outcome_gate"
+        : routerReport.a1NextAction ?? "collect_a1_twii_four_slot_no_secret_evidence_then_response_readiness_and_pm_classify",
+    a1Command: a1NeedsRepairOrBlocked
+      ? "cmd.exe /c npm run report:a1-twii-pm-intake-decision-summary"
+      : routerReport.a1Command ?? "cmd.exe /c npm run report:a1-twii-four-slot-reply-request",
     a1FourSlotEvidence: {
-      status: a1Evidence.status ?? "twii_four_slot_evidence_pending",
+      status: a1NeedsRepairOrBlocked
+        ? "twii_four_slot_evidence_waiting_bounded_repairs"
+        : a1Evidence.status ?? "twii_four_slot_evidence_pending",
       pendingEvidenceCount: Number(a1Evidence.pendingEvidenceCount ?? 0),
+      blockedEvidenceCount: Number(a1ReviewedCounts.blocked ?? 0),
+      needsBoundedRepairCount: Number(a1ReviewedCounts.needs_bounded_repair ?? 0),
       requiredEvidenceCount: Number(a1Evidence.requiredEvidenceCount ?? 0),
-      nextCommand: a1Evidence.nextCommand ?? "cmd.exe /c npm run report:a1-twii-four-slot-reply-request",
+      nextCommand: a1NeedsRepairOrBlocked
+        ? "cmd.exe /c npm run report:a1-twii-pm-intake-decision-summary"
+        : a1Evidence.nextCommand ?? "cmd.exe /c npm run report:a1-twii-four-slot-reply-request",
       afterReplyFirstCommand: "cmd.exe /c npm run report:public-beta-external-input-response-readiness"
     },
     safety: {

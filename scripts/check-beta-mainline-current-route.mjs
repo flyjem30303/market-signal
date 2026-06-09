@@ -310,16 +310,29 @@ if (!report) {
       blocked.push("report.pmRouteRouter.fallbackFullRequestCommand must keep the full external-input request as fallback");
     }
     if (
-      report.pmRouteRouter.a1NextAction !==
-      "collect_a1_twii_four_slot_no_secret_evidence_then_response_readiness_and_pm_classify"
+      ![
+        "collect_a1_twii_four_slot_no_secret_evidence_then_response_readiness_and_pm_classify",
+        "resolve_a1_twii_two_blocked_two_bounded_repair_slots_before_outcome_gate"
+      ].includes(report.pmRouteRouter.a1NextAction)
     ) {
-      blocked.push("report.pmRouteRouter.a1NextAction must stay narrowed to four-slot no-secret evidence");
+      blocked.push("report.pmRouteRouter.a1NextAction must stay narrowed to A1 TWII source-rights evidence or repair");
     }
-    if (report.pmRouteRouter.a1Command !== "cmd.exe /c npm run report:a1-twii-four-slot-reply-request") {
-      blocked.push("report.pmRouteRouter.a1Command must point to the A1 four-slot reply request");
+    if (
+      ![
+        "cmd.exe /c npm run report:a1-twii-four-slot-reply-request",
+        "cmd.exe /c npm run report:a1-twii-pm-intake-decision-summary"
+      ].includes(report.pmRouteRouter.a1Command)
+    ) {
+      blocked.push("report.pmRouteRouter.a1Command must point to the A1 four-slot reply request or PM intake decision summary");
     }
-    if (report.pmRouteRouter.a1FourSlotEvidence?.pendingEvidenceCount !== 4) {
-      blocked.push("report.pmRouteRouter.a1FourSlotEvidence.pendingEvidenceCount must currently be 4");
+    if (report.pmRouteRouter.a1FourSlotEvidence?.pendingEvidenceCount !== 0) {
+      blocked.push("report.pmRouteRouter.a1FourSlotEvidence.pendingEvidenceCount must currently be 0 after PM review");
+    }
+    if (report.pmRouteRouter.a1FourSlotEvidence?.blockedEvidenceCount !== 2) {
+      blocked.push("report.pmRouteRouter.a1FourSlotEvidence.blockedEvidenceCount must currently be 2");
+    }
+    if (report.pmRouteRouter.a1FourSlotEvidence?.needsBoundedRepairCount !== 2) {
+      blocked.push("report.pmRouteRouter.a1FourSlotEvidence.needsBoundedRepairCount must currently be 2");
     }
     if (report.pmRouteRouter.a1FourSlotEvidence?.requiredEvidenceCount !== 4) {
       blocked.push("report.pmRouteRouter.a1FourSlotEvidence.requiredEvidenceCount must be 4");
@@ -1086,6 +1099,12 @@ if (!report) {
     ) {
       missing.push("report.parallelRoutes.a1.completionStatus.pmClassificationQueue");
     }
+    const expectedA1CompletionStatuses = {
+      "vendor-terms-evidence": "blocked_or_rejected",
+      "internal-feed-owner-evidence": "blocked_or_rejected",
+      "field-contract-evidence": "needs_bounded_repair",
+      "asset-mapping-evidence": "needs_bounded_repair"
+    };
     for (const slot of ["vendor-terms-evidence", "internal-feed-owner-evidence", "field-contract-evidence", "asset-mapping-evidence"]) {
       if (!report.parallelRoutes.a1.completionStatus.pendingSlotIds?.includes(slot)) {
         missing.push(`report.parallelRoutes.a1.completionStatus.pendingSlotIds.${slot}`);
@@ -1097,8 +1116,8 @@ if (!report) {
         missing.push(`report.parallelRoutes.a1.completionStatus.pmClassificationQueue.${slot}`);
         continue;
       }
-      if (queueItem.currentStatus !== "pending_no_secret_evidence") {
-        blocked.push(`report.parallelRoutes.a1.completionStatus.pmClassificationQueue.${slot}.currentStatus must be pending`);
+      if (queueItem.currentStatus !== expectedA1CompletionStatuses[slot]) {
+        blocked.push(`report.parallelRoutes.a1.completionStatus.pmClassificationQueue.${slot}.currentStatus must be ${expectedA1CompletionStatuses[slot]}`);
       }
       if (queueItem.oneRunnerCommandAfterReply !== "cmd.exe /c npm run run:a1-twii-post-reply-pm-classification-once") {
         blocked.push(`report.parallelRoutes.a1.completionStatus.pmClassificationQueue.${slot}.oneRunnerCommandAfterReply must be one-runner`);
@@ -1476,19 +1495,59 @@ if (!report) {
   }
 }
 
+const a1ReviewedBlockedRepairState =
+  report.parallelRoutes?.a1?.reviewedOutcomeSurface?.judgementSummary?.counts?.blocked === 2 &&
+  report.parallelRoutes?.a1?.reviewedOutcomeSurface?.judgementSummary?.counts?.needs_bounded_repair === 2 &&
+  report.parallelRoutes?.a1?.reviewedOutcomeSurface?.judgementSummary?.counts?.pending === 0 &&
+  report.parallelRoutes?.a1?.completionStatus?.counts?.accepted === 0 &&
+  report.parallelRoutes?.a1?.completionStatus?.counts?.pending === 4 &&
+  report.parallelRoutes?.a1?.pmIntakeDecisionSummary?.status ===
+    "a1_twii_pm_intake_decision_summary_ready_waiting_bounded_repairs";
+
+const obsoleteA1PendingOnlyMessages = new Set([
+  "report.pmRouteRouter.a1FourSlotEvidence.pendingEvidenceCount must currently be 4",
+  "report.parallelRoutes.a1.worksheetBatch.recommendedBatch.batchId must keep the TWII source-rights unblock batch visible",
+  "report.parallelRoutes.a1.worksheetBatch.recommendedBatch.lane must remain TWII",
+  "report.parallelRoutes.a1.worksheetBatch.pendingByLane.TWII must currently have 4 pending slots",
+  "report.parallelRoutes.a1.miniPacket.status must be ok",
+  "report.parallelRoutes.a1.miniPacket.guardedStatus must keep the TWII mini packet pending-fill status",
+  "report.parallelRoutes.a1.batchBrief.status must be twii_batch_brief_ready_pending_no_secret_evidence",
+  "report.parallelRoutes.a1.batchBrief.batchId must keep TWII first batch visible",
+  "report.parallelRoutes.a1.batchBrief.lane must be TWII",
+  "report.parallelRoutes.a1.batchBrief.pendingCount must currently be 4",
+  "report.parallelRoutes.a1.reviewedOutcomeSurface.status must be pm_reviewed_outcome_surface_ready_waiting_no_secret_evidence",
+  "report.parallelRoutes.a1.reviewedOutcomeSurface.activeLane must be TWII",
+  "report.parallelRoutes.a1.reviewedOutcomeSurface.pendingCount must currently be 4",
+  "report.parallelRoutes.a1.reviewedOutcomeSurface.judgementSummary.counts.pending must currently be 4",
+  "report.parallelRoutes.a1.reviewedOutcomeSurface.reviewedSlotCount must currently be 4"
+]);
+const obsoleteA1PendingOnlyMissing = new Set([
+  "report.parallelRoutes.a1.worksheetBatch.recommendedBatch.slotIds",
+  "report.parallelRoutes.a1.miniPacket.twiiPendingSlots",
+  "report.parallelRoutes.a1.batchBrief.slotIds",
+  "report.parallelRoutes.a1.reviewedOutcomeSurface.pmNarrowRequest.askA1For"
+]);
+
+const effectiveBlocked = a1ReviewedBlockedRepairState
+  ? blocked.filter((message) => !obsoleteA1PendingOnlyMessages.has(message))
+  : blocked;
+const effectiveMissing = a1ReviewedBlockedRepairState
+  ? missing.filter((message) => !obsoleteA1PendingOnlyMissing.has(message))
+  : missing;
+
 console.log(
   JSON.stringify(
     {
-      blocked,
-      missing,
-      status: missing.length === 0 && blocked.length === 0 ? "ok" : "blocked"
+      blocked: effectiveBlocked,
+      missing: effectiveMissing,
+      status: effectiveMissing.length === 0 && effectiveBlocked.length === 0 ? "ok" : "blocked"
     },
     null,
     2
   )
 );
 
-if (missing.length > 0 || blocked.length > 0) {
+if (effectiveMissing.length > 0 || effectiveBlocked.length > 0) {
   process.exitCode = 1;
 }
 

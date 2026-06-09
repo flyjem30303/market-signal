@@ -22,10 +22,11 @@ When chat context and this file disagree, PM must treat this file as the safer b
 - Mainline PM: CEO / PM / Runtime Engineering
 - A1: Data / Supabase / Market Evidence
 - A2: Frontend / UX Readability / Public Copy QA
+- D: Legal / Source Rights Review
 - F: Product Design / UIUX, activated from the product baseline in `docs/MVP_LAUNCH_PRD.md`
 - I: Cloud Deployment / DevOps / Launch Operations
 
-PM remains the only integration owner. A1 and A2 may prepare local-only packets, reports, checkers, and bounded patches, but PM decides what enters the mainline and when it is committed. I is not a new implementation lane yet; I is a launch-readiness guard for deployment, environment, credential, DNS, monitoring, rollback, and operations risk.
+PM remains the only integration owner. A1 and A2 may prepare local-only packets, reports, checkers, and bounded patches, but PM decides what enters the mainline and when it is committed. D provides legal/source-rights evidence and does not execute data or runtime work. I is not a new implementation lane yet; I is a launch-readiness guard for deployment, environment, credential, DNS, monitoring, rollback, and operations risk.
 
 ## Mainline PM
 
@@ -103,11 +104,30 @@ Current next tasks:
 - Stay lightweight now: flag comprehension blockers only.
 - Wait until runtime and bounded readonly foundations stabilize before doing full visual redesign or annotation-heavy UI review.
 
+## D: Legal / Source Rights Review
+
+Mission:
+- Review source/provider terms and internal authorization paths so PM can decide whether a data lane may move from blocked to bounded repair, accepted, or still blocked.
+- Keep legal/source-rights evidence no-secret and decision-oriented.
+
+Owned work:
+- Provider terms review summaries, source-rights constraints, attribution/retention/redistribution/commercial-use notes, internal feed authorization path review, and legal risk labels for PM.
+- D's current assignment is `docs/D_SOURCE_TERMS_REVIEW_ASSIGNMENT.md`.
+
+Not owned:
+- SQL, Supabase reads/writes, staging rows, `daily_prices`, market-data fetch/ingest/storage, candidate artifacts, runtime toggles, `publicDataSource=supabase`, `scoreSource=real`, UI copy, or Git commits.
+
+Current next tasks:
+- Confirm whether the intended TWII source terms allow the project's planned internal evaluation, storage, derived display, public wording, attribution, retention, and commercial/Beta use path.
+- Confirm whether any internal feed owner/approval path exists and can authorize project use.
+- Return only no-secret labels and summaries to PM/A1 using the four-slot A1 evidence shape; do not copy contract text or private links into repo files.
+
 ## Current Blocker-Closure Assignments
 
 - PM mainline: integrate blocker closure into runtime decision surfaces, run local checks, keep Git backup coherent, and decide whether A1/A2 output is accepted.
 - A1: prepare data-quality evidence, row-coverage readiness, field-validity QA, and downgrade-rule handoff material from local-only or already sanitized evidence.
 - A2: review whether blocker closure is understandable to users, especially public wording for mock-only status, source-rights limits, model-credibility limits, and real-score stop lines.
+- D: confirm source/provider terms and internal authorization path for TWII before PM may consider source-rights outcome gates.
 - I: stay guard-only unless blocker closure work becomes production-affecting through deployment, environment, credential, DNS, monitoring, rollback, or cloud changes.
 
 PM may run mainline, A1, and A2 in parallel. PM must not wait for A1/A2 when runtime work is locally safe, and A1/A2 must not independently commit or cross into each other's lane.

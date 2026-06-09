@@ -24,6 +24,8 @@ for (const phrase of [
   "a1-twii-pm-intake",
   "a1-twii-post-reply",
   "betaDeploymentAndPacketChain",
+  "dLegalSourceRightsReview",
+  "D_SOURCE_TERMS_REVIEW_ASSIGNMENT",
   "projectStatusAndTooling",
   "pmAcceptanceSummary",
   "accept_current_beta_readiness_worktree_for_backup_then_packet_candidate",

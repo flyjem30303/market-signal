@@ -32,6 +32,12 @@ const requiredSlots = [
   "field-contract-evidence",
   "asset-mapping-evidence"
 ];
+const expectedCurrentStatuses = {
+  "vendor-terms-evidence": "blocked_or_rejected",
+  "internal-feed-owner-evidence": "blocked_or_rejected",
+  "field-contract-evidence": "needs_bounded_repair",
+  "asset-mapping-evidence": "needs_bounded_repair"
+};
 const requiredFields = [
   "evidenceSlotId",
   "sourceReferenceLabel",
@@ -44,14 +50,14 @@ const acceptedFixtureReport = parseJson(acceptedFixtureRun.stdout);
 for (const id of requiredSlots) {
   const slot = report?.slots?.find((item) => item.id === id);
   expect(Boolean(slot), `missing slot ${id}`);
-  expect(slot?.status === "pending_no_secret_evidence", `${id} should be pending`);
+  expect(slot?.status === expectedCurrentStatuses[id], `${id} should be ${expectedCurrentStatuses[id]}`);
   expect(report?.slotIds?.pending?.includes(id), `slotIds.pending missing ${id}`);
   for (const field of requiredFields) {
     expect(slot?.requiredFields?.includes(field), `${id} missing field ${field}`);
   }
   const queueItem = report?.pmClassificationQueue?.find((item) => item.evidenceSlotId === id);
   expect(Boolean(queueItem), `pmClassificationQueue missing ${id}`);
-  expect(queueItem?.currentStatus === "pending_no_secret_evidence", `${id} queue item should be pending`);
+  expect(queueItem?.currentStatus === expectedCurrentStatuses[id], `${id} queue item should be ${expectedCurrentStatuses[id]}`);
   expect(
     queueItem?.oneRunnerCommandAfterReply === "cmd.exe /c npm run run:a1-twii-post-reply-pm-classification-once",
     `${id} queue item should expose the one-runner command after reply`

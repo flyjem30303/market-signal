@@ -12,6 +12,11 @@ export function buildPublicBetaGoalReadinessRollup(report, options = {}) {
   const packetReady = report.reviewedArtifact?.acceptedArtifactExists === true;
   const a1Ready = report.parallelRoutes?.a1?.readiness?.twiiCanOpenOutcomeGate === true ||
     report.parallelRoutes?.a1?.readiness?.etfCanOpenOutcomeGate === true;
+  const a1JudgementCounts = report.parallelRoutes?.a1?.reviewedOutcomeSurface?.judgementSummary?.counts ?? {};
+  const a1EvidenceSummary = Number(a1JudgementCounts.blocked ?? 0) > 0 ||
+    Number(a1JudgementCounts.needs_bounded_repair ?? 0) > 0
+    ? `TWII blocked ${Number(a1JudgementCounts.blocked ?? 0)}, needs repair ${Number(a1JudgementCounts.needs_bounded_repair ?? 0)}, pending ${Number(a1JudgementCounts.pending ?? 0)}`
+    : `TWII pending ${Number(report.parallelRoutes?.a1?.readiness?.twiiPendingCount ?? 0)}, ETF pending ${Number(report.parallelRoutes?.a1?.readiness?.etfPendingCount ?? 0)}`;
   const a2LaunchBlockingStatus = report.parallelRoutes?.a2?.launchBlockingStatus ?? {};
   const a2Ready = a2LaunchBlockingStatus.status === "clear" &&
     a2LaunchBlockingStatus.hardBlocker === false &&
@@ -47,10 +52,10 @@ export function buildPublicBetaGoalReadinessRollup(report, options = {}) {
       status: a1Ready ? "ready_for_outcome_gate_candidate" : "blocked",
       evidence: a1Ready
         ? "A1 readiness has at least one lane ready for a separate source-rights outcome gate candidate"
-        : `TWII pending ${Number(report.parallelRoutes?.a1?.readiness?.twiiPendingCount ?? 0)}, ETF pending ${Number(report.parallelRoutes?.a1?.readiness?.etfPendingCount ?? 0)}`,
+        : a1EvidenceSummary,
       nextAction: a1Ready
         ? "open only the ready source-rights outcome gate candidate"
-        : "ask A1 only for the four TWII no-secret slots; after reply run the external reply file route first, then classify the reviewed outcome surface only when the route says A1 evidence is reviewable"
+        : "resolve the two TWII blocked slots and two bounded-repair slots through the PM intake decision summary before any source-rights outcome gate"
     },
     {
       id: "a2_public_trust_copy",

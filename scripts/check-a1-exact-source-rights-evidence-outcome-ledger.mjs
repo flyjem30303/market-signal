@@ -162,7 +162,11 @@ if (reportRun.status !== 0 || !report) problems.push("ledger report should emit 
 if (dryRun.status !== 0 || !dryRunReport) problems.push("recorder dry-run should emit JSON");
 
 if (report) {
-  if (report.status !== "awaiting_a1_exact_source_rights_evidence") problems.push(`unexpected report status ${report.status}`);
+  const allowedReportStatuses = new Set([
+    "awaiting_a1_exact_source_rights_evidence",
+    "a1_exact_source_rights_evidence_blocked"
+  ]);
+  if (!allowedReportStatuses.has(report.status)) problems.push(`unexpected report status ${report.status}`);
   if (report.canOpenTwiiSourceRightsOutcomeGate !== false) problems.push("TWII gate must remain closed");
   if (report.canOpenEtfSourceRightsOutcomeGate !== false) problems.push("ETF gate must remain closed");
   if (report.nextAllowedRoute !== "continue_public_beta_runtime_mainline_mock_visible") {

@@ -66,6 +66,7 @@ function classifyGitLines(lines) {
   const groups = {
     a1DataEvidenceSupport: [],
     betaDeploymentAndPacketChain: [],
+    dLegalSourceRightsReview: [],
     excludedFromBetaLaunchPacket: [],
     projectStatusAndTooling: [],
     publicRuntimeAndTrustSurface: [],
@@ -80,6 +81,8 @@ function classifyGitLines(lines) {
       groups.a1DataEvidenceSupport.push(line);
     } else if (isBetaDeploymentAndPacketChain(filePath)) {
       groups.betaDeploymentAndPacketChain.push(line);
+    } else if (isDLegalSourceRightsReview(filePath)) {
+      groups.dLegalSourceRightsReview.push(line);
     } else if (isProjectStatusAndTooling(filePath)) {
       groups.projectStatusAndTooling.push(line);
     } else if (isPublicRuntimeAndTrustSurface(filePath)) {
@@ -102,6 +105,7 @@ function buildPmAcceptanceSummary(groups) {
   const betaReadinessGroups = [
     "a1DataEvidenceSupport",
     "betaDeploymentAndPacketChain",
+    "dLegalSourceRightsReview",
     "projectStatusAndTooling",
     "publicRuntimeAndTrustSurface"
   ];
@@ -138,6 +142,13 @@ function isA1DataEvidenceSupport(filePath) {
 
 function isBetaDeploymentAndPacketChain(filePath) {
   return /BETA_|VERCEL_|beta-|vercel-|packet-window|platform-two-value|deployment-quickstart|pm-worktree-review-preflight/iu.test(filePath);
+}
+
+function isDLegalSourceRightsReview(filePath) {
+  return (
+    filePath === "docs/D_SOURCE_TERMS_REVIEW_ASSIGNMENT.md" ||
+    filePath === "docs/ROLE_WORKSTREAMS.md"
+  );
 }
 
 function isProjectStatusAndTooling(filePath) {
