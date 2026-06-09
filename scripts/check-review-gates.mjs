@@ -3938,6 +3938,11 @@ const checks = [
     name: "twii-bounded-data-acceptance-dry-run-review-chain"
   },
   {
+    command: [node, "scripts/check-twii-bounded-data-acceptance-named-attempt-packet.mjs"],
+    expectStatus: "ok",
+    name: "twii-bounded-data-acceptance-named-attempt-packet"
+  },
+  {
     command: [node, "scripts/check-coverage-universe-roadmap.mjs"],
     expectStatus: "ok",
     name: "coverage-universe-roadmap"
@@ -4746,6 +4751,7 @@ const coreReviewGateNames = new Set([
   "twii-bounded-data-acceptance-attempt-dry-run-wrapper",
   "twii-bounded-data-acceptance-post-run-review",
   "twii-bounded-data-acceptance-dry-run-review-chain",
+  "twii-bounded-data-acceptance-named-attempt-packet",
   "coverage-universe-roadmap",
   "goal-parallel-workstream-adjustment",
   "runtime-local-route-health-refresh-before-executable-packet",
@@ -4787,6 +4793,7 @@ const coreReviewGateNames = new Set([
   "twii-bounded-data-acceptance-attempt-dry-run-wrapper",
   "twii-bounded-data-acceptance-post-run-review",
   "twii-bounded-data-acceptance-dry-run-review-chain",
+  "twii-bounded-data-acceptance-named-attempt-packet",
   "a1-source-rights-readiness-summary",
   "local-launch-proof-refresh-before-executable-packet",
   "beta-deployment-platform-values-bridge",
@@ -4903,6 +4910,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "twii-bounded-data-acceptance-attempt-dry-run-wrapper",
   "twii-bounded-data-acceptance-post-run-review",
   "twii-bounded-data-acceptance-dry-run-review-chain",
+  "twii-bounded-data-acceptance-named-attempt-packet",
   "typescript"
 ]);
 

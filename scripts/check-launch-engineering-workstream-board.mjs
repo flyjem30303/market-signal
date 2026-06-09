@@ -75,6 +75,8 @@ const requiredDocPhrases = [
   "twii_bounded_data_acceptance_post_run_review_gate_ready",
   "`docs/TWII_BOUNDED_DATA_ACCEPTANCE_DRY_RUN_REVIEW_CHAIN.md` is `accepted` as TWII bounded data acceptance dry-run review chain",
   "twii_bounded_data_acceptance_dry_run_review_chain_ready",
+  "`docs/TWII_BOUNDED_DATA_ACCEPTANCE_NAMED_ATTEMPT_PACKET_GATE.md` is `accepted` as TWII bounded data acceptance named attempt packet gate",
+  "twii_bounded_data_acceptance_named_attempt_packet_gate_ready",
   "ETF source-rights outcome decision is open and currently blocked at `rejected_for_execution_pending_external_rights`",
   "TWII source-rights and candidate readiness is accepted as the next alternative data branch",
   "TWII remains `not_approved_for_probe_or_ingestion`",
