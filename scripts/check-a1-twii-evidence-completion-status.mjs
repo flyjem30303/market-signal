@@ -33,8 +33,8 @@ const requiredSlots = [
   "asset-mapping-evidence"
 ];
 const expectedCurrentStatuses = {
-  "vendor-terms-evidence": "blocked_or_rejected",
-  "internal-feed-owner-evidence": "blocked_or_rejected",
+  "vendor-terms-evidence": "needs_bounded_repair",
+  "internal-feed-owner-evidence": "needs_bounded_repair",
   "field-contract-evidence": "needs_bounded_repair",
   "asset-mapping-evidence": "needs_bounded_repair"
 };

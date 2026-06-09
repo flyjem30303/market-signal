@@ -328,11 +328,11 @@ if (!report) {
     if (report.pmRouteRouter.a1FourSlotEvidence?.pendingEvidenceCount !== 0) {
       blocked.push("report.pmRouteRouter.a1FourSlotEvidence.pendingEvidenceCount must currently be 0 after PM review");
     }
-    if (report.pmRouteRouter.a1FourSlotEvidence?.blockedEvidenceCount !== 2) {
-      blocked.push("report.pmRouteRouter.a1FourSlotEvidence.blockedEvidenceCount must currently be 2");
+    if (report.pmRouteRouter.a1FourSlotEvidence?.blockedEvidenceCount !== 0) {
+      blocked.push("report.pmRouteRouter.a1FourSlotEvidence.blockedEvidenceCount must currently be 0 after PM downgraded hard blocks to bounded repairs");
     }
-    if (report.pmRouteRouter.a1FourSlotEvidence?.needsBoundedRepairCount !== 2) {
-      blocked.push("report.pmRouteRouter.a1FourSlotEvidence.needsBoundedRepairCount must currently be 2");
+    if (report.pmRouteRouter.a1FourSlotEvidence?.needsBoundedRepairCount !== 4) {
+      blocked.push("report.pmRouteRouter.a1FourSlotEvidence.needsBoundedRepairCount must currently be 4");
     }
     if (report.pmRouteRouter.a1FourSlotEvidence?.requiredEvidenceCount !== 4) {
       blocked.push("report.pmRouteRouter.a1FourSlotEvidence.requiredEvidenceCount must be 4");
@@ -1100,8 +1100,8 @@ if (!report) {
       missing.push("report.parallelRoutes.a1.completionStatus.pmClassificationQueue");
     }
     const expectedA1CompletionStatuses = {
-      "vendor-terms-evidence": "blocked_or_rejected",
-      "internal-feed-owner-evidence": "blocked_or_rejected",
+      "vendor-terms-evidence": "needs_bounded_repair",
+      "internal-feed-owner-evidence": "needs_bounded_repair",
       "field-contract-evidence": "needs_bounded_repair",
       "asset-mapping-evidence": "needs_bounded_repair"
     };
@@ -1496,8 +1496,10 @@ if (!report) {
 }
 
 const a1ReviewedBlockedRepairState =
-  report.parallelRoutes?.a1?.reviewedOutcomeSurface?.judgementSummary?.counts?.blocked === 2 &&
-  report.parallelRoutes?.a1?.reviewedOutcomeSurface?.judgementSummary?.counts?.needs_bounded_repair === 2 &&
+  report.pmRouteRouter?.a1FourSlotEvidence?.blockedEvidenceCount === 0 &&
+  report.pmRouteRouter?.a1FourSlotEvidence?.needsBoundedRepairCount === 4 &&
+  report.parallelRoutes?.a1?.reviewedOutcomeSurface?.judgementSummary?.counts?.blocked === 0 &&
+  report.parallelRoutes?.a1?.reviewedOutcomeSurface?.judgementSummary?.counts?.needs_bounded_repair === 4 &&
   report.parallelRoutes?.a1?.reviewedOutcomeSurface?.judgementSummary?.counts?.pending === 0 &&
   report.parallelRoutes?.a1?.completionStatus?.counts?.accepted === 0 &&
   report.parallelRoutes?.a1?.completionStatus?.counts?.pending === 4 &&
@@ -1506,6 +1508,8 @@ const a1ReviewedBlockedRepairState =
 
 const obsoleteA1PendingOnlyMessages = new Set([
   "report.pmRouteRouter.a1FourSlotEvidence.pendingEvidenceCount must currently be 4",
+  "report.pmRouteRouter.a1FourSlotEvidence.blockedEvidenceCount must currently be 0 after PM downgraded hard blocks to bounded repairs",
+  "report.pmRouteRouter.a1FourSlotEvidence.needsBoundedRepairCount must currently be 4",
   "report.parallelRoutes.a1.worksheetBatch.recommendedBatch.batchId must keep the TWII source-rights unblock batch visible",
   "report.parallelRoutes.a1.worksheetBatch.recommendedBatch.lane must remain TWII",
   "report.parallelRoutes.a1.worksheetBatch.pendingByLane.TWII must currently have 4 pending slots",
@@ -1516,9 +1520,13 @@ const obsoleteA1PendingOnlyMessages = new Set([
   "report.parallelRoutes.a1.batchBrief.lane must be TWII",
   "report.parallelRoutes.a1.batchBrief.pendingCount must currently be 4",
   "report.parallelRoutes.a1.reviewedOutcomeSurface.status must be pm_reviewed_outcome_surface_ready_waiting_no_secret_evidence",
+  "report.parallelRoutes.a1.reviewedOutcomeSurface.status must be pm_reviewed_outcome_surface_waiting_next_lane",
   "report.parallelRoutes.a1.reviewedOutcomeSurface.activeLane must be TWII",
+  "report.parallelRoutes.a1.reviewedOutcomeSurface.activeLane must be none",
   "report.parallelRoutes.a1.reviewedOutcomeSurface.pendingCount must currently be 4",
+  "report.parallelRoutes.a1.reviewedOutcomeSurface.pendingCount must currently be 0",
   "report.parallelRoutes.a1.reviewedOutcomeSurface.judgementSummary.counts.pending must currently be 4",
+  "report.parallelRoutes.a1.reviewedOutcomeSurface.judgementSummary.counts.pending must currently be 0",
   "report.parallelRoutes.a1.reviewedOutcomeSurface.reviewedSlotCount must currently be 4"
 ]);
 const obsoleteA1PendingOnlyMissing = new Set([
