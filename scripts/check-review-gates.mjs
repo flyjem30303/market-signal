@@ -3873,6 +3873,16 @@ const checks = [
     name: "pm-twii-candidate-intake-review"
   },
   {
+    command: [node, "scripts/check-twii-report-only-dry-run-decision-gate.mjs"],
+    expectStatus: "ok",
+    name: "twii-report-only-dry-run-decision-gate"
+  },
+  {
+    command: [node, "scripts/check-pm-twii-report-only-dry-run-preflight.mjs"],
+    expectStatus: "ok",
+    name: "pm-twii-report-only-dry-run-preflight"
+  },
+  {
     command: [node, "scripts/check-coverage-universe-roadmap.mjs"],
     expectStatus: "ok",
     name: "coverage-universe-roadmap"
@@ -4668,6 +4678,8 @@ const coreReviewGateNames = new Set([
   "a1-twii-sanitized-candidate-artifact-readiness-gate",
   "a1-twii-candidate-artifact-self-check",
   "pm-twii-candidate-intake-review",
+  "twii-report-only-dry-run-decision-gate",
+  "pm-twii-report-only-dry-run-preflight",
   "coverage-universe-roadmap",
   "goal-parallel-workstream-adjustment",
   "runtime-local-route-health-refresh-before-executable-packet",
@@ -4696,6 +4708,8 @@ const coreReviewGateNames = new Set([
   "a1-twii-sanitized-candidate-artifact-readiness-gate",
   "a1-twii-candidate-artifact-self-check",
   "pm-twii-candidate-intake-review",
+  "twii-report-only-dry-run-decision-gate",
+  "pm-twii-report-only-dry-run-preflight",
   "a1-source-rights-readiness-summary",
   "local-launch-proof-refresh-before-executable-packet",
   "beta-deployment-platform-values-bridge",
