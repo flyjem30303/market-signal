@@ -390,6 +390,8 @@
     "check:twii-write-runner-implementation-review-gate": "node scripts/check-twii-write-runner-implementation-review-gate.mjs",
     "report:twii-write-readiness-packet-consolidation": "node scripts/report-twii-write-readiness-packet-consolidation.mjs",
     "check:twii-write-readiness-packet-consolidation": "node scripts/check-twii-write-readiness-packet-consolidation.mjs",
+    "report:twii-a1-d-write-prerequisite-dispatch-packet": "node scripts/report-twii-a1-d-write-prerequisite-dispatch-packet.mjs",
+    "check:twii-a1-d-write-prerequisite-dispatch-packet": "node scripts/check-twii-a1-d-write-prerequisite-dispatch-packet.mjs",
     "report:a1-source-rights-evidence-batch-brief": "node scripts/report-a1-source-rights-evidence-batch-brief.mjs",
     "check:a1-source-rights-evidence-batch-brief": "node scripts/check-a1-source-rights-evidence-batch-brief.mjs",
     "report:a1-source-rights-reviewed-outcome-surface": "node scripts/report-a1-source-rights-reviewed-outcome-surface.mjs",
