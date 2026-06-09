@@ -343,6 +343,8 @@
     "check:twii-scaffold-to-packet-driven-chain-smoke-proof": "node scripts/check-twii-scaffold-to-packet-driven-chain-smoke-proof.mjs",
     "report:twii-real-handoff-intake-checklist": "node scripts/report-twii-real-handoff-intake-checklist.mjs",
     "check:twii-real-handoff-intake-checklist": "node scripts/check-twii-real-handoff-intake-checklist.mjs",
+    "report:twii-a1-d-handoff-reply-template": "node scripts/report-twii-a1-d-handoff-reply-template.mjs",
+    "check:twii-a1-d-handoff-reply-template": "node scripts/check-twii-a1-d-handoff-reply-template.mjs",
     "report:a1-source-rights-evidence-batch-brief": "node scripts/report-a1-source-rights-evidence-batch-brief.mjs",
     "check:a1-source-rights-evidence-batch-brief": "node scripts/check-a1-source-rights-evidence-batch-brief.mjs",
     "report:a1-source-rights-reviewed-outcome-surface": "node scripts/report-a1-source-rights-reviewed-outcome-surface.mjs",
