@@ -182,8 +182,25 @@ if ((dryRun.status ?? 1) !== 0 || !dryRunJson) problems.push(`${recorderPath} dr
 
 if (reportJson) {
   if (reportJson.mode !== "twii_vendor_internal_evidence_outcome_ledger") problems.push("report mode mismatch");
-  if (reportJson.status !== "awaiting_twii_vendor_internal_evidence") problems.push(`unexpected report status ${reportJson.status}`);
-  if (reportJson.canOpenTwiiSourceRightsOutcomeGate !== false) problems.push("pending report must not open outcome gate");
+  if (![
+    "awaiting_twii_vendor_internal_evidence",
+    "twii_vendor_internal_evidence_blocked",
+    "twii_vendor_internal_evidence_needs_bounded_repair",
+    "partial_twii_vendor_internal_evidence_recorded",
+    "ready_for_twii_source_rights_outcome_gate_only"
+  ].includes(reportJson.status)) {
+    problems.push(`unexpected report status ${reportJson.status}`);
+  }
+  if (reportJson.status === "ready_for_twii_source_rights_outcome_gate_only") {
+    if (reportJson.canOpenTwiiSourceRightsOutcomeGate !== true) {
+      problems.push("ready report should open only the separate TWII source-rights outcome gate candidate route");
+    }
+    if (reportJson.counts?.acceptedForSourceRightsOutcomeGateOnly !== 4 || reportJson.counts?.total !== 4) {
+      problems.push("ready report should have 4 accepted no-secret TWII evidence outcomes");
+    }
+  } else if (reportJson.canOpenTwiiSourceRightsOutcomeGate !== false) {
+    problems.push("non-ready report must not open outcome gate");
+  }
   for (const flag of [
     "automatedRemoteRun",
     "connectionAttempted",
@@ -201,6 +218,17 @@ if (reportJson) {
   }
   if (reportJson.runtimeBoundary?.publicDataSource !== "mock" || reportJson.runtimeBoundary?.scoreSource !== "mock") {
     problems.push("report runtime boundary must remain mock");
+  }
+  for (const stopLine of [
+    "source-rights approval",
+    "TWII candidate generation",
+    "SQL execution",
+    "Supabase writes",
+    "market-data fetch",
+    "publicDataSource=supabase",
+    "scoreSource=real"
+  ]) {
+    if (!reportJson.stillBlocked?.includes(stopLine)) problems.push(`report stillBlocked missing ${stopLine}`);
   }
 }
 
@@ -220,7 +248,10 @@ console.log(
   JSON.stringify(
     {
       status: "ok",
-      guardedStatus: "twii_vendor_internal_evidence_outcome_ledger_ready_pending_evidence",
+      guardedStatus:
+        reportJson.status === "ready_for_twii_source_rights_outcome_gate_only"
+          ? "twii_vendor_internal_evidence_outcome_ledger_ready_for_separate_gate"
+          : "twii_vendor_internal_evidence_outcome_ledger_ready_pending_evidence",
       reportStatus: reportJson.status,
       canOpenTwiiSourceRightsOutcomeGate: reportJson.canOpenTwiiSourceRightsOutcomeGate,
       recorderDryRunStatus: dryRunJson.status

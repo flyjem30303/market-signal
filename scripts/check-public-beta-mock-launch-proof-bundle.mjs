@@ -24,14 +24,17 @@ expect(report?.localProof?.allRequiredChecksPassed === true, "all required local
 expect(report?.localProof?.checkedCount === 6, "checked count should be 6");
 expect(report?.localProof?.executedCount === 1, "executed count should be 1");
 expect(report?.localProof?.delegatedCount === 5, "delegated count should be 5");
-expect(report?.remainingHardBlockers?.count === 2, "remaining hard blocker count should stay 2");
+expect([1, 2].includes(report?.remainingHardBlockers?.count), "remaining hard blocker count should be 1 or 2 depending on A1 evidence state");
 expect(
   report?.remainingHardBlockers?.platform?.status === "blocked_waiting_two_platform_values",
   "platform blocker should still wait for two values"
 );
 expect(
-  report?.remainingHardBlockers?.a1TwiiEvidence?.status === "blocked_waiting_a1_twii_four_slot_no_secret_evidence",
-  "A1 blocker should still wait for four no-secret slots"
+  [
+    "blocked_waiting_a1_twii_four_slot_no_secret_evidence",
+    "a1_twii_four_slot_evidence_ready_for_outcome_gate_route"
+  ].includes(report?.remainingHardBlockers?.a1TwiiEvidence?.status),
+  "A1 status should wait for four no-secret slots or be ready for outcome-gate route"
 );
 expect(report?.runtimeBoundary?.publicDataSource === "mock", "publicDataSource must remain mock");
 expect(report?.runtimeBoundary?.scoreSource === "mock", "scoreSource must remain mock");

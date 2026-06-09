@@ -11,20 +11,40 @@ const reportRun = run(["node", reportPath]);
 const report = parseJson(reportRun.stdout);
 
 expect(reportRun.exitCode === 0, "report should exit 0");
-expect(report?.status === "blocked_waiting_a1_twii_four_slot_no_secret_evidence", "current A1 TWII status should wait for four no-secret slots");
+expect(
+  [
+    "blocked_waiting_a1_twii_four_slot_no_secret_evidence",
+    "a1_twii_four_slot_evidence_ready_for_outcome_gate_route"
+  ].includes(report?.status),
+  "current A1 TWII status should wait for evidence or be ready for outcome-gate route"
+);
 expect(report?.mode === "a1_twii_evidence_completion_status", "report mode should be stable");
 expect(report?.counts?.required === 4, "required count should be 4");
-expect(report?.counts?.accepted === 0, "accepted count should currently be 0");
-expect(report?.counts?.pending === 4, "pending count should currently be 4");
+if (report?.status === "a1_twii_four_slot_evidence_ready_for_outcome_gate_route") {
+  expect(report?.counts?.accepted === 4, "accepted count should currently be 4");
+  expect(report?.counts?.pending === 0, "pending count should currently be 0");
+} else {
+  expect(report?.counts?.accepted === 0, "accepted count should currently be 0");
+  expect(report?.counts?.pending === 4, "pending count should currently be 4");
+}
 expect(report?.slotIds?.required?.length === 4, "slotIds.required should expose four TWII slots");
-expect(report?.slotIds?.pending?.length === 4, "slotIds.pending should expose four pending TWII slots");
-expect(report?.slotIds?.accepted?.length === 0, "slotIds.accepted should be empty while evidence is pending");
+if (report?.status === "a1_twii_four_slot_evidence_ready_for_outcome_gate_route") {
+  expect(report?.slotIds?.pending?.length === 0, "slotIds.pending should be empty in ready state");
+  expect(report?.slotIds?.accepted?.length === 4, "slotIds.accepted should expose four accepted TWII slots");
+} else {
+  expect(report?.slotIds?.pending?.length === 4, "slotIds.pending should expose four pending TWII slots");
+  expect(report?.slotIds?.accepted?.length === 0, "slotIds.accepted should be empty while evidence is pending");
+}
 expect(report?.runtimeBoundary?.publicDataSource === "mock", "publicDataSource must remain mock");
 expect(report?.runtimeBoundary?.scoreSource === "mock", "scoreSource must remain mock");
-expect(
-  report?.nextAction === "ask_a1_for_only_the_pending_no_secret_slot_summaries",
-  "pending route should ask A1 only for no-secret slot summaries"
-);
+if (report?.status === "a1_twii_four_slot_evidence_ready_for_outcome_gate_route") {
+  expect(report?.nextAction === "run_a1_twii_outcome_gate_candidate_route", "ready route should run the A1 TWII outcome-gate candidate route");
+} else {
+  expect(
+    report?.nextAction === "ask_a1_for_only_the_pending_no_secret_slot_summaries",
+    "pending route should ask A1 only for no-secret slot summaries"
+  );
+}
 
 const requiredSlots = [
   "vendor-terms-evidence",
@@ -33,10 +53,10 @@ const requiredSlots = [
   "asset-mapping-evidence"
 ];
 const expectedCurrentStatuses = {
-  "vendor-terms-evidence": "needs_bounded_repair",
-  "internal-feed-owner-evidence": "needs_bounded_repair",
-  "field-contract-evidence": "needs_bounded_repair",
-  "asset-mapping-evidence": "needs_bounded_repair"
+  "vendor-terms-evidence": report?.status === "a1_twii_four_slot_evidence_ready_for_outcome_gate_route" ? "accepted_ready_for_outcome_gate" : "needs_bounded_repair",
+  "internal-feed-owner-evidence": report?.status === "a1_twii_four_slot_evidence_ready_for_outcome_gate_route" ? "accepted_ready_for_outcome_gate" : "needs_bounded_repair",
+  "field-contract-evidence": report?.status === "a1_twii_four_slot_evidence_ready_for_outcome_gate_route" ? "accepted_ready_for_outcome_gate" : "needs_bounded_repair",
+  "asset-mapping-evidence": report?.status === "a1_twii_four_slot_evidence_ready_for_outcome_gate_route" ? "accepted_ready_for_outcome_gate" : "needs_bounded_repair"
 };
 const requiredFields = [
   "evidenceSlotId",
@@ -51,31 +71,39 @@ for (const id of requiredSlots) {
   const slot = report?.slots?.find((item) => item.id === id);
   expect(Boolean(slot), `missing slot ${id}`);
   expect(slot?.status === expectedCurrentStatuses[id], `${id} should be ${expectedCurrentStatuses[id]}`);
-  expect(report?.slotIds?.pending?.includes(id), `slotIds.pending missing ${id}`);
+  if (report?.status === "a1_twii_four_slot_evidence_ready_for_outcome_gate_route") {
+    expect(report?.slotIds?.accepted?.includes(id), `slotIds.accepted missing ${id}`);
+  } else {
+    expect(report?.slotIds?.pending?.includes(id), `slotIds.pending missing ${id}`);
+  }
   for (const field of requiredFields) {
     expect(slot?.requiredFields?.includes(field), `${id} missing field ${field}`);
   }
   const queueItem = report?.pmClassificationQueue?.find((item) => item.evidenceSlotId === id);
-  expect(Boolean(queueItem), `pmClassificationQueue missing ${id}`);
-  expect(queueItem?.currentStatus === expectedCurrentStatuses[id], `${id} queue item should be ${expectedCurrentStatuses[id]}`);
-  expect(
-    queueItem?.oneRunnerCommandAfterReply === "cmd.exe /c npm run run:a1-twii-post-reply-pm-classification-once",
-    `${id} queue item should expose the one-runner command after reply`
-  );
-  expect(
-    queueItem?.firstPmCommandAfterReply === "cmd.exe /c npm run report:public-beta-external-input-response-readiness",
-    `${id} queue item should run response-readiness first`
-  );
-  expect(
-    queueItem?.secondPmCommandAfterReply === "cmd.exe /c npm run check:a1-twii-evidence-response-shape",
-    `${id} queue item should run shape guard after the one-runner`
-  );
-  expect(
-    queueItem?.thirdPmCommandAfterReply === "cmd.exe /c npm run report:a1-twii-evidence-pm-classification-route",
-    `${id} queue item should route to PM classification after shape guard`
-  );
-  for (const option of ["accepted", "rejected", "needs_bounded_repair", "blocked"]) {
-    expect(queueItem?.pmClassificationOptions?.includes(option), `${id} queue item missing option ${option}`);
+  if (report?.status === "a1_twii_four_slot_evidence_ready_for_outcome_gate_route") {
+    expect(!queueItem, `pmClassificationQueue should not include accepted slot ${id}`);
+  } else {
+    expect(Boolean(queueItem), `pmClassificationQueue missing ${id}`);
+    expect(queueItem?.currentStatus === expectedCurrentStatuses[id], `${id} queue item should be ${expectedCurrentStatuses[id]}`);
+    expect(
+      queueItem?.oneRunnerCommandAfterReply === "cmd.exe /c npm run run:a1-twii-post-reply-pm-classification-once",
+      `${id} queue item should expose the one-runner command after reply`
+    );
+    expect(
+      queueItem?.firstPmCommandAfterReply === "cmd.exe /c npm run report:public-beta-external-input-response-readiness",
+      `${id} queue item should run response-readiness first`
+    );
+    expect(
+      queueItem?.secondPmCommandAfterReply === "cmd.exe /c npm run check:a1-twii-evidence-response-shape",
+      `${id} queue item should run shape guard after the one-runner`
+    );
+    expect(
+      queueItem?.thirdPmCommandAfterReply === "cmd.exe /c npm run report:a1-twii-evidence-pm-classification-route",
+      `${id} queue item should route to PM classification after shape guard`
+    );
+    for (const option of ["accepted", "rejected", "needs_bounded_repair", "blocked"]) {
+      expect(queueItem?.pmClassificationOptions?.includes(option), `${id} queue item missing option ${option}`);
+    }
   }
 }
 
@@ -85,21 +113,32 @@ expect(
   "pmQueueRule should keep PM classification after response-readiness, shape guard, and no-apply"
 );
 
-const expectedPendingCommands = [
-  "cmd.exe /c npm run report:a1-twii-four-slot-reply-request"
-];
-expect(
-  JSON.stringify(report?.nextCommands ?? []) === JSON.stringify(expectedPendingCommands),
-  "pending A1 completion route should expose only the A1 four-slot reply request before evidence exists"
-);
-for (const command of [
-  "cmd.exe /c npm run run:a1-twii-post-reply-pm-classification-once",
-  "cmd.exe /c npm run check:a1-twii-evidence-response-shape",
-  "cmd.exe /c npm run report:a1-twii-evidence-pm-classification-route",
-  "cmd.exe /c npm run report:a1-source-rights-reviewed-outcome-surface",
-  "cmd.exe /c npm run report:a1-source-rights-readiness-summary"
-]) {
-  expect(!report?.nextCommands?.includes(command), `pending nextCommands must not expose post-reply command before evidence exists: ${command}`);
+if (report?.status === "a1_twii_four_slot_evidence_ready_for_outcome_gate_route") {
+  expect(
+    JSON.stringify(report?.nextCommands ?? []) ===
+      JSON.stringify([
+        "cmd.exe /c npm run report:a1-twii-outcome-gate-candidate-route",
+        "cmd.exe /c npm run report:a1-source-rights-next-action"
+      ]),
+    "ready A1 completion route should expose only the outcome-gate route commands"
+  );
+} else {
+  const expectedPendingCommands = [
+    "cmd.exe /c npm run report:a1-twii-four-slot-reply-request"
+  ];
+  expect(
+    JSON.stringify(report?.nextCommands ?? []) === JSON.stringify(expectedPendingCommands),
+    "pending A1 completion route should expose only the A1 four-slot reply request before evidence exists"
+  );
+  for (const command of [
+    "cmd.exe /c npm run run:a1-twii-post-reply-pm-classification-once",
+    "cmd.exe /c npm run check:a1-twii-evidence-response-shape",
+    "cmd.exe /c npm run report:a1-twii-evidence-pm-classification-route",
+    "cmd.exe /c npm run report:a1-source-rights-reviewed-outcome-surface",
+    "cmd.exe /c npm run report:a1-source-rights-readiness-summary"
+  ]) {
+    expect(!report?.nextCommands?.includes(command), `pending nextCommands must not expose post-reply command before evidence exists: ${command}`);
+  }
 }
 expect(acceptedFixtureRun.exitCode === 0, "accepted fixture scenario should exit 0");
 expect(

@@ -69,11 +69,19 @@ if (!report) {
   ) {
     problems.push(`unexpected report status ${String(report.status)}`);
   }
-  if (report.currentState?.pendingCount !== 4) {
-    problems.push("current TWII state should still show four pending slots before A1 reply");
-  }
-  if (report.currentState?.canOpenTwiiOutcomeGate !== false) {
-    problems.push("TWII outcome gate must remain closed in current state");
+  if (report.status === "a1_twii_pm_intake_ready_for_separate_outcome_gate_candidate") {
+    if (report.currentState?.acceptedCount !== 4) problems.push("ready state should show four accepted slots");
+    if (report.currentState?.pendingCount !== 0) problems.push("ready state should show zero pending slots");
+    if (report.currentState?.canOpenTwiiOutcomeGate !== true) {
+      problems.push("ready state should open only the separate TWII outcome gate candidate");
+    }
+  } else {
+    if (report.currentState?.pendingCount !== 4) {
+      problems.push("current TWII state should still show four pending slots before A1 reply");
+    }
+    if (report.currentState?.canOpenTwiiOutcomeGate !== false) {
+      problems.push("TWII outcome gate must remain closed in current state");
+    }
   }
   if (!Array.isArray(report.boundedRepairIntake?.repairRequests) || report.boundedRepairIntake.repairRequests.length !== 4) {
     problems.push("boundedRepairIntake must include four repair requests");
@@ -84,9 +92,19 @@ if (!report) {
     "field-contract-evidence",
     "asset-mapping-evidence"
   ]) {
-    if (!report.currentState?.pendingSlotIds?.includes(slot)) problems.push(`missing pending slot ${slot}`);
+    if (
+      report.status !== "a1_twii_pm_intake_ready_for_separate_outcome_gate_candidate" &&
+      !report.currentState?.pendingSlotIds?.includes(slot)
+    ) {
+      problems.push(`missing pending slot ${slot}`);
+    }
     if (!report.boundedRepairIntake?.repairRequests?.some((request) => request.evidenceSlotId === slot)) {
       problems.push(`missing bounded repair request for ${slot}`);
+    }
+  }
+  if (report.status === "a1_twii_pm_intake_ready_for_separate_outcome_gate_candidate") {
+    if (!report.nextCommands?.includes("cmd.exe /c npm run report:a1-twii-outcome-gate-candidate-route")) {
+      problems.push("ready PM intake summary should expose the TWII outcome-gate candidate route");
     }
   }
   if (report.pmClassificationAfterA1Reply?.firstCommand !== "cmd.exe /c npm run check:a1-twii-evidence-response-shape") {

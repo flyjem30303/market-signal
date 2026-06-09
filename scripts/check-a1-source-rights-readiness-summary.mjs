@@ -28,17 +28,31 @@ if (run.status !== 0) problems.push("report:a1-source-rights-readiness-summary s
 if (!report) problems.push("report:a1-source-rights-readiness-summary should emit JSON");
 
 if (report) {
-  if (report.status !== "blocked_waiting_a1_exact_source_rights_evidence") {
-    problems.push(`current report status should remain blocked_waiting_a1_exact_source_rights_evidence, got ${report.status}`);
+  if (![
+    "blocked_waiting_a1_exact_source_rights_evidence",
+    "ready_for_separate_source_rights_outcome_gate_candidate"
+  ].includes(report.status)) {
+    problems.push(`unexpected current report status ${report.status}`);
   }
-  if (report.nextCommand !== "cmd.exe /c npm run report:a1-twii-four-slot-reply-request") {
-    problems.push("blocked readiness summary should route A1 back to the TWII four-slot reply request");
+  if (report.status === "ready_for_separate_source_rights_outcome_gate_candidate") {
+    if (report.nextCommand !== "cmd.exe /c npm run report:a1-source-rights-next-action") {
+      problems.push("ready readiness summary should route PM to A1 source-rights next action");
+    }
+    if (report.lanes?.TWII?.acceptedCount !== 4) problems.push("TWII should have four accepted slots");
+    if (report.lanes?.TWII?.pendingCount !== 0) problems.push("TWII should have zero pending slots");
+    if (report.lanes?.TWII?.canOpenOutcomeGate !== true) {
+      problems.push("TWII should open only the separate source-rights outcome gate candidate");
+    }
+  } else {
+    if (report.nextCommand !== "cmd.exe /c npm run report:a1-twii-four-slot-reply-request") {
+      problems.push("blocked readiness summary should route A1 back to the TWII four-slot reply request");
+    }
+    if (report.lanes?.TWII?.pendingCount !== 4) problems.push("TWII should currently have four pending slots");
+    if (report.lanes?.TWII?.canOpenOutcomeGate !== false) problems.push("TWII outcome gate must remain closed");
   }
   if (report.runtimeBoundary?.publicDataSource !== "mock") problems.push("publicDataSource must remain mock");
   if (report.runtimeBoundary?.scoreSource !== "mock") problems.push("scoreSource must remain mock");
-  if (report.lanes?.TWII?.pendingCount !== 4) problems.push("TWII should currently have four pending slots");
   if (report.lanes?.ETF?.pendingCount !== 6) problems.push("ETF should currently have six pending slots");
-  if (report.lanes?.TWII?.canOpenOutcomeGate !== false) problems.push("TWII outcome gate must remain closed");
   if (report.lanes?.ETF?.canOpenOutcomeGate !== false) problems.push("ETF outcome gate must remain closed");
   for (const flag of [
     "automatedRemoteRun",
@@ -109,7 +123,10 @@ console.log(
   JSON.stringify(
     {
       status: "ok",
-      guardedStatus: "a1_source_rights_readiness_summary_ready_evidence_pending",
+      guardedStatus:
+        report.status === "ready_for_separate_source_rights_outcome_gate_candidate"
+          ? "a1_source_rights_readiness_summary_ready_for_separate_gate"
+          : "a1_source_rights_readiness_summary_ready_evidence_pending",
       reportStatus: report.status,
       nextCommand: report.nextCommand
     },

@@ -33,9 +33,17 @@ const status = read(statusPath);
 
 expect(reportRun.status === 0, "report should exit 0");
 expect(report?.mode === "a1_twii_four_slot_reply_request", "report mode mismatch");
-expect(report?.status === "a1_twii_four_slot_reply_request_ready", "report should be ready while TWII slots are pending");
+expect(
+  ["a1_twii_four_slot_reply_request_ready", "a1_twii_four_slot_reply_already_classified"].includes(report?.status),
+  "report should be ready or already classified"
+);
 expect(report?.counts?.required === 4, "required count should be 4");
-expect(report?.counts?.pending === 4, "pending count should currently be 4");
+if (report?.status === "a1_twii_four_slot_reply_already_classified") {
+  expect(report?.counts?.accepted === 4, "already-classified count should have four accepted slots");
+  expect(report?.counts?.pending === 0, "already-classified count should have zero pending slots");
+} else {
+  expect(report?.counts?.pending === 4, "pending count should currently be 4");
+}
 expect(report?.runtimeBoundary?.publicDataSource === "mock", "publicDataSource must remain mock");
 expect(report?.runtimeBoundary?.scoreSource === "mock", "scoreSource must remain mock");
 expect(report?.safety?.applyCommandEmitted === false, "applyCommandEmitted must be false");
@@ -101,8 +109,13 @@ for (const id of requiredSlots) {
 for (const id of requiredSlots) {
   const slot = report?.slots?.find((item) => item.id === id);
   expect(Boolean(slot), `missing slot ${id}`);
-  expect(report?.requestForA1?.pendingSlotIds?.includes(id), `missing pending request for ${id}`);
-  expect(JSON.stringify(report?.requestForA1?.copyableReplyTemplate ?? []).includes(`evidenceSlotId: ${id}`), `template missing ${id}`);
+  if (report?.status === "a1_twii_four_slot_reply_already_classified") {
+    expect(slot?.currentClassification === "accepted", `${id} should be accepted in already-classified state`);
+    expect(slot?.pmQuestionResolved === true, `${id} PM question should be resolved in already-classified state`);
+  } else {
+    expect(report?.requestForA1?.pendingSlotIds?.includes(id), `missing pending request for ${id}`);
+    expect(JSON.stringify(report?.requestForA1?.copyableReplyTemplate ?? []).includes(`evidenceSlotId: ${id}`), `template missing ${id}`);
+  }
 }
 
 for (const field of requiredFields) {
@@ -203,8 +216,11 @@ console.log(
   JSON.stringify(
     {
       status: "ok",
-      guardedStatus: "a1_twii_four_slot_reply_request_ready",
-      pendingSlots: requiredSlots,
+      guardedStatus:
+        report.status === "a1_twii_four_slot_reply_already_classified"
+          ? "a1_twii_four_slot_reply_already_classified"
+          : "a1_twii_four_slot_reply_request_ready",
+      pendingSlots: report.requestForA1.pendingSlotIds,
       publicDataSource: "mock",
       scoreSource: "mock"
     },

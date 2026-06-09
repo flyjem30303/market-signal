@@ -141,17 +141,27 @@ if (run.status !== 0) {
 
 if (report) {
   if (report.mode !== "twii_source_rights_outcome_gate_bridge") problems.push(`report.mode: ${String(report.mode)}`);
-  if (report.status !== "blocked_waiting_twii_vendor_internal_evidence") {
+  if (![
+    "blocked_waiting_twii_vendor_internal_evidence",
+    "ready_for_twii_source_rights_outcome_gate_only"
+  ].includes(report.status)) {
     problems.push(`report.status: ${String(report.status)}`);
   }
-  if (report.canOpenTwiiSourceRightsOutcomeGate !== false) {
+  if (report.status === "ready_for_twii_source_rights_outcome_gate_only") {
+    if (report.canOpenTwiiSourceRightsOutcomeGate !== true) {
+      problems.push(`report.canOpenTwiiSourceRightsOutcomeGate: ${String(report.canOpenTwiiSourceRightsOutcomeGate)}`);
+    }
+    if (report.counts?.acceptedForSourceRightsOutcomeGateOnly !== 4 || report.counts?.required !== 4) {
+      problems.push("report counts must reflect current four accepted evidence outcomes");
+    }
+    if (report.counts?.notAccepted !== 0 || report.counts?.missingRequiredIds !== 0) {
+      problems.push("ready report should have no missing or not-accepted TWII source-rights evidence outcomes");
+    }
+  } else if (report.canOpenTwiiSourceRightsOutcomeGate !== false) {
     problems.push(`report.canOpenTwiiSourceRightsOutcomeGate: ${String(report.canOpenTwiiSourceRightsOutcomeGate)}`);
   }
   if (report.runtimeBoundary?.publicDataSource !== "mock" || report.runtimeBoundary?.scoreSource !== "mock") {
     problems.push("report runtime boundary must be mock/mock");
-  }
-  if (report.counts?.acceptedForSourceRightsOutcomeGateOnly !== 0 || report.counts?.required !== 4) {
-    problems.push("report counts must reflect current four pending evidence outcomes");
   }
   for (const flag of [
     "automatedRemoteRun",
@@ -167,6 +177,17 @@ if (report) {
     "supabaseWritesEnabled"
   ]) {
     if (report.safety?.[flag] !== false) problems.push(`report.safety.${flag}: ${String(report.safety?.[flag])}`);
+  }
+  for (const stopLine of [
+    "source-rights approval",
+    "TWII candidate generation",
+    "SQL execution",
+    "Supabase writes",
+    "market-data fetch",
+    "publicDataSource=supabase",
+    "scoreSource=real"
+  ]) {
+    if (!report.stillBlocked?.includes(stopLine)) problems.push(`report stillBlocked missing ${stopLine}`);
   }
 }
 
@@ -188,9 +209,12 @@ console.log(
   JSON.stringify(
     {
       status: "ok",
-      guardedStatus: "twii_source_rights_outcome_gate_bridge_ready_evidence_pending",
-      reportStatus: "blocked_waiting_twii_vendor_internal_evidence",
-      canOpenTwiiSourceRightsOutcomeGate: false
+      guardedStatus:
+        report.status === "ready_for_twii_source_rights_outcome_gate_only"
+          ? "twii_source_rights_outcome_gate_bridge_ready_for_separate_gate"
+          : "twii_source_rights_outcome_gate_bridge_ready_evidence_pending",
+      reportStatus: report.status,
+      canOpenTwiiSourceRightsOutcomeGate: report.canOpenTwiiSourceRightsOutcomeGate
     },
     null,
     2

@@ -164,13 +164,35 @@ if (dryRun.status !== 0 || !dryRunReport) problems.push("recorder dry-run should
 if (report) {
   const allowedReportStatuses = new Set([
     "awaiting_a1_exact_source_rights_evidence",
-    "a1_exact_source_rights_evidence_blocked"
+    "a1_exact_source_rights_evidence_blocked",
+    "a1_exact_source_rights_evidence_needs_bounded_repair",
+    "partial_a1_exact_source_rights_evidence_recorded",
+    "ready_for_twii_source_rights_outcome_gate_only",
+    "ready_for_etf_source_rights_outcome_gate_only"
   ]);
   if (!allowedReportStatuses.has(report.status)) problems.push(`unexpected report status ${report.status}`);
-  if (report.canOpenTwiiSourceRightsOutcomeGate !== false) problems.push("TWII gate must remain closed");
-  if (report.canOpenEtfSourceRightsOutcomeGate !== false) problems.push("ETF gate must remain closed");
-  if (report.nextAllowedRoute !== "continue_public_beta_runtime_mainline_mock_visible") {
-    problems.push("next route should keep public beta runtime mainline mock visible");
+  if (report.status === "ready_for_twii_source_rights_outcome_gate_only") {
+    if (report.canOpenTwiiSourceRightsOutcomeGate !== true) problems.push("TWII evidence should open only the separate TWII outcome gate candidate route");
+    if (report.nextAllowedRoute !== "twii_source_rights_outcome_gate") {
+      problems.push("TWII ready route should prepare only the separate TWII source-rights outcome gate");
+    }
+    if (report.counts?.accepted !== 4 || report.counts?.twiiTotal !== 4) {
+      problems.push("TWII ready route should have 4 accepted TWII no-secret evidence outcomes");
+    }
+  } else if (report.canOpenTwiiSourceRightsOutcomeGate !== false) {
+    problems.push("TWII gate must remain closed unless the report is TWII-ready");
+  }
+  if (report.status === "ready_for_etf_source_rights_outcome_gate_only") {
+    if (report.canOpenEtfSourceRightsOutcomeGate !== true) problems.push("ETF evidence should open only the separate ETF outcome gate candidate route");
+  } else if (report.canOpenEtfSourceRightsOutcomeGate !== false) {
+    problems.push("ETF gate must remain closed unless the report is ETF-ready");
+  }
+  if (![
+    "continue_public_beta_runtime_mainline_mock_visible",
+    "twii_source_rights_outcome_gate",
+    "etf_source_rights_outcome_gate"
+  ].includes(report.nextAllowedRoute)) {
+    problems.push("next route must be a bounded mock-runtime or separate source-rights outcome gate route");
   }
   if (report.runtimeBoundary?.publicDataSource !== "mock" || report.runtimeBoundary?.scoreSource !== "mock") {
     problems.push("runtime boundary must remain mock");
@@ -191,6 +213,16 @@ if (report) {
     "supabaseWritesEnabled"
   ]) {
     if (report.safety?.[flag] !== false) problems.push(`report safety ${flag} must be false`);
+  }
+  for (const stopLine of [
+    "SQL execution",
+    "Supabase writes",
+    "daily_prices mutation",
+    "market-data fetch",
+    "publicDataSource=supabase",
+    "scoreSource=real"
+  ]) {
+    if (!report.stillBlocked?.includes(stopLine)) problems.push(`report stillBlocked missing ${stopLine}`);
   }
 }
 

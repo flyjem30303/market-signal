@@ -61,29 +61,57 @@ if (run.status !== 0) problems.push(`${reportPath} should exit 0`);
 if (!report) {
   problems.push(`${reportPath} should emit JSON`);
 } else {
-  if (report.status !== "blocked_waiting_four_twii_accepted_no_secret_evidence_slots") {
-    problems.push(`current status should remain blocked, got ${String(report.status)}`);
+  if (![
+    "blocked_waiting_four_twii_accepted_no_secret_evidence_slots",
+    "ready_to_prepare_separate_twii_source_rights_outcome_gate_candidate"
+  ].includes(report.status)) {
+    problems.push(`unexpected current status, got ${String(report.status)}`);
   }
   if (report.mode !== "a1_twii_outcome_gate_candidate_route") {
     problems.push("report mode mismatch");
   }
-  if (report.currentEvidence?.exactLedger?.acceptedCount !== 0) {
-    problems.push("exact ledger acceptedCount should currently be 0");
-  }
-  if (report.currentEvidence?.exactLedger?.pendingCount !== 4) {
-    problems.push("exact ledger pendingCount should currently be 4");
-  }
-  if (report.currentEvidence?.exactLedger?.canOpenOutcomeGate !== false) {
-    problems.push("exact ledger must not open the TWII outcome gate yet");
-  }
-  if (report.currentEvidence?.bridge?.canOpenTwiiSourceRightsOutcomeGate !== false) {
-    problems.push("bridge must not open the TWII source-rights outcome gate yet");
-  }
-  if (report.pmRoute?.nextAction !== "keep_twii_outcome_gate_closed_and_wait_for_all_four_no_secret_slots") {
-    problems.push("blocked route should keep TWII outcome gate closed");
-  }
-  if (!report.pmRoute?.commands?.includes("cmd.exe /c npm run report:a1-twii-evidence-pm-classification-route")) {
-    problems.push("blocked route should return PM to the A1 classification route");
+  if (report.status === "ready_to_prepare_separate_twii_source_rights_outcome_gate_candidate") {
+    if (report.currentEvidence?.exactLedger?.acceptedCount !== 4) {
+      problems.push("ready route should have exact ledger acceptedCount 4");
+    }
+    if (report.currentEvidence?.exactLedger?.pendingCount !== 0) {
+      problems.push("ready route should have exact ledger pendingCount 0");
+    }
+    if (report.currentEvidence?.exactLedger?.canOpenOutcomeGate !== true) {
+      problems.push("exact ledger should open only the separate TWII outcome gate candidate route");
+    }
+    if (report.currentEvidence?.bridge?.canOpenTwiiSourceRightsOutcomeGate !== true) {
+      problems.push("bridge should open only the separate TWII source-rights outcome gate candidate route");
+    }
+    if (report.pmRoute?.nextAction !== "prepare_separate_twii_source_rights_outcome_gate_candidate") {
+      problems.push("ready route should prepare the separate TWII source-rights outcome gate candidate");
+    }
+    for (const command of [
+      "cmd.exe /c npm run check:a1-source-rights-readiness-summary",
+      "cmd.exe /c npm run check:twii-source-rights-outcome-gate-bridge",
+      "cmd.exe /c npm run report:a1-source-rights-next-action"
+    ]) {
+      if (!report.pmRoute?.commands?.includes(command)) problems.push(`ready route missing command ${command}`);
+    }
+  } else {
+    if (report.currentEvidence?.exactLedger?.acceptedCount !== 0) {
+      problems.push("blocked exact ledger acceptedCount should currently be 0");
+    }
+    if (report.currentEvidence?.exactLedger?.pendingCount !== 4) {
+      problems.push("blocked exact ledger pendingCount should currently be 4");
+    }
+    if (report.currentEvidence?.exactLedger?.canOpenOutcomeGate !== false) {
+      problems.push("blocked exact ledger must not open the TWII outcome gate yet");
+    }
+    if (report.currentEvidence?.bridge?.canOpenTwiiSourceRightsOutcomeGate !== false) {
+      problems.push("blocked bridge must not open the TWII source-rights outcome gate yet");
+    }
+    if (report.pmRoute?.nextAction !== "keep_twii_outcome_gate_closed_and_wait_for_all_four_no_secret_slots") {
+      problems.push("blocked route should keep TWII outcome gate closed");
+    }
+    if (!report.pmRoute?.commands?.includes("cmd.exe /c npm run report:a1-twii-evidence-pm-classification-route")) {
+      problems.push("blocked route should return PM to the A1 classification route");
+    }
   }
   if (report.runtimeBoundary?.publicDataSource !== "mock") problems.push("publicDataSource must remain mock");
   if (report.runtimeBoundary?.scoreSource !== "mock") problems.push("scoreSource must remain mock");

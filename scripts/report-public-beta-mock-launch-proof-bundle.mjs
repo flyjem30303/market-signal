@@ -43,7 +43,8 @@ const platformReport = runJson(["cmd.exe", "/c", "npm", "run", "report:beta-plat
 const a1Report = runJson(["cmd.exe", "/c", "npm", "run", "report:a1-twii-evidence-completion-status"]);
 const platformBlocked = platformReport.json?.status === "blocked_waiting_two_platform_values";
 const a1Blocked = a1Report.json?.status === "blocked_waiting_a1_twii_four_slot_no_secret_evidence";
-const blockerReportsKnown = platformBlocked && a1Blocked;
+const a1ReadyForOutcomeGate = a1Report.json?.status === "a1_twii_four_slot_evidence_ready_for_outcome_gate_route";
+const blockerReportsKnown = platformBlocked && (a1Blocked || a1ReadyForOutcomeGate);
 const remainingHardBlockers = [platformBlocked, a1Blocked].filter(Boolean).length;
 const allRequiredProofsAccountedFor = failed.length === 0 && blockerReportsKnown;
 const nextExecutableStep = allRequiredProofsAccountedFor

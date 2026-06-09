@@ -3,34 +3,34 @@
     {
       "id": "vendor-terms-evidence",
       "lane": "licensed-market-data-vendor",
-      "classification": "pending",
-      "recordedBy": "not_recorded",
-      "recordedAt": null,
-      "decisionNote": "Awaiting safe vendor terms evidence. Pending does not authorize source rights, TWII candidate generation, Supabase access, daily_prices mutation, row coverage points, publicDataSource=supabase, or scoreSource=real."
+      "classification": "accepted_for_source_rights_outcome_gate_only",
+      "recordedBy": "PM",
+      "recordedAt": "2026-06-09T08:06:30.572Z",
+      "decisionNote": "PM accepted D/A1 no-secret TWII vendor/source terms evidence for opening the next source-rights outcome gate only; no execution or promotion is authorized."
     },
     {
       "id": "internal-feed-owner-evidence",
       "lane": "internal-approved-feed",
-      "classification": "pending",
-      "recordedBy": "not_recorded",
-      "recordedAt": null,
-      "decisionNote": "Awaiting internal feed owner evidence. Pending does not authorize source rights, TWII candidate generation, Supabase access, daily_prices mutation, row coverage points, publicDataSource=supabase, or scoreSource=real."
+      "classification": "accepted_for_source_rights_outcome_gate_only",
+      "recordedBy": "PM",
+      "recordedAt": "2026-06-09T08:06:30.701Z",
+      "decisionNote": "PM accepted D/A1 no-secret TWII owner or approval-path evidence for opening the next source-rights outcome gate only; no execution or promotion is authorized."
     },
     {
       "id": "field-contract-evidence",
       "lane": "shared-twii-field-contract",
-      "classification": "pending",
-      "recordedBy": "not_recorded",
-      "recordedAt": null,
-      "decisionNote": "Awaiting TWII field contract evidence. Pending does not authorize parser promotion, candidate generation, daily_prices mapping, row coverage points, publicDataSource=supabase, or scoreSource=real."
+      "classification": "accepted_for_source_rights_outcome_gate_only",
+      "recordedBy": "PM",
+      "recordedAt": "2026-06-09T08:06:30.703Z",
+      "decisionNote": "PM accepted D/A1 no-secret TWII field-contract evidence for opening the next source-rights outcome gate only; candidate generation and writes remain blocked."
     },
     {
       "id": "asset-mapping-evidence",
       "lane": "shared-twii-asset-mapping",
-      "classification": "pending",
-      "recordedBy": "not_recorded",
-      "recordedAt": null,
-      "decisionNote": "Awaiting safe TWII index asset mapping evidence. Pending does not authorize stock id payload output, candidate generation, daily_prices mutation, row coverage points, publicDataSource=supabase, or scoreSource=real."
+      "classification": "accepted_for_source_rights_outcome_gate_only",
+      "recordedBy": "PM",
+      "recordedAt": "2026-06-09T08:06:31.455Z",
+      "decisionNote": "PM accepted D/A1 no-secret TWII asset-mapping evidence for opening the next source-rights outcome gate only; row coverage and promotion remain blocked."
     }
   ]
 }
