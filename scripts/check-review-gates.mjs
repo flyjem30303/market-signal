@@ -4023,6 +4023,11 @@ const checks = [
     name: "twii-bounded-readonly-preflight-open-one-remote-readonly-execution-path"
   },
   {
+    command: [node, "scripts/check-twii-bounded-readonly-result-to-data-route-decision.mjs"],
+    expectStatus: "ok",
+    name: "twii-bounded-readonly-result-to-data-route-decision"
+  },
+  {
     command: [node, "scripts/check-coverage-universe-roadmap.mjs"],
     expectStatus: "ok",
     name: "coverage-universe-roadmap"
@@ -4848,6 +4853,7 @@ const coreReviewGateNames = new Set([
   "twii-bounded-readonly-preflight-single-attempt-execution-packet",
   "twii-bounded-readonly-preflight-authorized-attempt-result-20260609",
   "twii-bounded-readonly-preflight-open-one-remote-readonly-execution-path",
+  "twii-bounded-readonly-result-to-data-route-decision",
   "coverage-universe-roadmap",
   "goal-parallel-workstream-adjustment",
   "runtime-local-route-health-refresh-before-executable-packet",
@@ -4906,6 +4912,7 @@ const coreReviewGateNames = new Set([
   "twii-bounded-readonly-preflight-single-attempt-execution-packet",
   "twii-bounded-readonly-preflight-authorized-attempt-result-20260609",
   "twii-bounded-readonly-preflight-open-one-remote-readonly-execution-path",
+  "twii-bounded-readonly-result-to-data-route-decision",
   "a1-source-rights-readiness-summary",
   "local-launch-proof-refresh-before-executable-packet",
   "beta-deployment-platform-values-bridge",
@@ -5039,6 +5046,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "twii-bounded-readonly-preflight-single-attempt-execution-packet",
   "twii-bounded-readonly-preflight-authorized-attempt-result-20260609",
   "twii-bounded-readonly-preflight-open-one-remote-readonly-execution-path",
+  "twii-bounded-readonly-result-to-data-route-decision",
   "typescript"
 ]);
 

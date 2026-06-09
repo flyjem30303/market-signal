@@ -369,6 +369,8 @@
     "report:twii-bounded-readonly-preflight-remote-readonly-post-run-review": "node scripts/report-twii-bounded-readonly-preflight-remote-readonly-post-run-review.mjs",
     "report:twii-bounded-readonly-preflight-open-one-remote-readonly-execution-path": "node scripts/report-twii-bounded-readonly-preflight-open-one-remote-readonly-execution-path.mjs",
     "check:twii-bounded-readonly-preflight-open-one-remote-readonly-execution-path": "node scripts/check-twii-bounded-readonly-preflight-open-one-remote-readonly-execution-path.mjs",
+    "report:twii-bounded-readonly-result-to-data-route-decision": "node scripts/report-twii-bounded-readonly-result-to-data-route-decision.mjs",
+    "check:twii-bounded-readonly-result-to-data-route-decision": "node scripts/check-twii-bounded-readonly-result-to-data-route-decision.mjs",
     "report:a1-source-rights-evidence-batch-brief": "node scripts/report-a1-source-rights-evidence-batch-brief.mjs",
     "check:a1-source-rights-evidence-batch-brief": "node scripts/check-a1-source-rights-evidence-batch-brief.mjs",
     "report:a1-source-rights-reviewed-outcome-surface": "node scripts/report-a1-source-rights-reviewed-outcome-surface.mjs",
