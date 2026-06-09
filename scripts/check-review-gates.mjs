@@ -4078,6 +4078,11 @@ const checks = [
     name: "twii-a1-d-write-prerequisite-dispatch-packet"
   },
   {
+    command: [node, "scripts/check-twii-a1-d-write-prerequisite-pm-intake-ledger.mjs"],
+    expectStatus: "ok",
+    name: "twii-a1-d-write-prerequisite-pm-intake-ledger"
+  },
+  {
     command: [node, "scripts/check-coverage-universe-roadmap.mjs"],
     expectStatus: "ok",
     name: "coverage-universe-roadmap"
@@ -4914,6 +4919,7 @@ const coreReviewGateNames = new Set([
   "twii-write-runner-implementation-review-gate",
   "twii-write-readiness-packet-consolidation",
   "twii-a1-d-write-prerequisite-dispatch-packet",
+  "twii-a1-d-write-prerequisite-pm-intake-ledger",
   "coverage-universe-roadmap",
   "goal-parallel-workstream-adjustment",
   "runtime-local-route-health-refresh-before-executable-packet",
@@ -4983,6 +4989,7 @@ const coreReviewGateNames = new Set([
   "twii-write-runner-implementation-review-gate",
   "twii-write-readiness-packet-consolidation",
   "twii-a1-d-write-prerequisite-dispatch-packet",
+  "twii-a1-d-write-prerequisite-pm-intake-ledger",
   "a1-source-rights-readiness-summary",
   "local-launch-proof-refresh-before-executable-packet",
   "beta-deployment-platform-values-bridge",
@@ -5127,6 +5134,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "twii-write-runner-implementation-review-gate",
   "twii-write-readiness-packet-consolidation",
   "twii-a1-d-write-prerequisite-dispatch-packet",
+  "twii-a1-d-write-prerequisite-pm-intake-ledger",
   "typescript"
 ]);
 

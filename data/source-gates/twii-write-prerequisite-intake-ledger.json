@@ -1,0 +1,90 @@
+{
+  "ledgerId": "twii-write-prerequisite-intake-ledger",
+  "updated": "2026-06-10",
+  "status": "twii_a1_d_write_prerequisite_pm_intake_ledger_ready_pending_replies",
+  "sourceDispatchPacket": "docs/TWII_A1_D_WRITE_PREREQUISITE_DISPATCH_PACKET.md",
+  "implementationAllowedNow": false,
+  "publicDataSource": "mock",
+  "scoreSource": "mock",
+  "outcomes": [
+    {
+      "slotId": "source-rights-decision",
+      "owner": "A1/D/PM",
+      "classification": "pending",
+      "safeEvidenceSummary": "",
+      "pmDecisionNote": "Awaiting no-secret A1/D source-rights reply.",
+      "rawPayloadIncluded": false,
+      "rowPayloadIncluded": false,
+      "stockIdPayloadIncluded": false,
+      "secretsIncluded": false,
+      "copiedTermsTextIncluded": false,
+      "privateDashboardLinksIncluded": false
+    },
+    {
+      "slotId": "field-contract-decision",
+      "owner": "A1/PM",
+      "classification": "pending",
+      "safeEvidenceSummary": "",
+      "pmDecisionNote": "Awaiting no-secret A1 field-contract reply.",
+      "rawPayloadIncluded": false,
+      "rowPayloadIncluded": false,
+      "stockIdPayloadIncluded": false,
+      "secretsIncluded": false,
+      "copiedTermsTextIncluded": false,
+      "privateDashboardLinksIncluded": false
+    },
+    {
+      "slotId": "asset-mapping-decision",
+      "owner": "A1/PM",
+      "classification": "pending",
+      "safeEvidenceSummary": "",
+      "pmDecisionNote": "Awaiting no-secret A1 asset-mapping reply.",
+      "rawPayloadIncluded": false,
+      "rowPayloadIncluded": false,
+      "stockIdPayloadIncluded": false,
+      "secretsIncluded": false,
+      "copiedTermsTextIncluded": false,
+      "privateDashboardLinksIncluded": false
+    },
+    {
+      "slotId": "rollback-dry-run-plan",
+      "owner": "A1/PM",
+      "classification": "pending",
+      "safeEvidenceSummary": "",
+      "pmDecisionNote": "Awaiting aggregate-only rollback dry-run plan reply.",
+      "rawPayloadIncluded": false,
+      "rowPayloadIncluded": false,
+      "stockIdPayloadIncluded": false,
+      "secretsIncluded": false,
+      "copiedTermsTextIncluded": false,
+      "privateDashboardLinksIncluded": false
+    },
+    {
+      "slotId": "post-write-readback-plan",
+      "owner": "A1/PM",
+      "classification": "pending",
+      "safeEvidenceSummary": "",
+      "pmDecisionNote": "Awaiting aggregate-only post-write readback plan reply.",
+      "rawPayloadIncluded": false,
+      "rowPayloadIncluded": false,
+      "stockIdPayloadIncluded": false,
+      "secretsIncluded": false,
+      "copiedTermsTextIncluded": false,
+      "privateDashboardLinksIncluded": false
+    },
+    {
+      "slotId": "post-write-review-plan",
+      "owner": "PM",
+      "classification": "pending",
+      "safeEvidenceSummary": "",
+      "pmDecisionNote": "Awaiting PM aggregate-only post-write review plan.",
+      "rawPayloadIncluded": false,
+      "rowPayloadIncluded": false,
+      "stockIdPayloadIncluded": false,
+      "secretsIncluded": false,
+      "copiedTermsTextIncluded": false,
+      "privateDashboardLinksIncluded": false
+    }
+  ]
+}
+
