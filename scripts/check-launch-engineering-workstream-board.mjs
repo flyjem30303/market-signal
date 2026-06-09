@@ -89,6 +89,8 @@ const requiredDocPhrases = [
   "twii_real_handoff_intake_checklist_ready",
   "`docs/TWII_A1_D_HANDOFF_REPLY_TEMPLATE.md` is `accepted` as TWII A1/D handoff reply template",
   "twii_a1_d_handoff_reply_template_ready",
+  "`docs/PM_TWII_NAMED_ATTEMPT_NO_WRITE_PROOF.md` is `accepted` as PM TWII named attempt no-write proof",
+  "pm_twii_named_attempt_no_write_proof_ready",
   "ETF source-rights outcome decision is open and currently blocked at `rejected_for_execution_pending_external_rights`",
   "TWII source-rights and candidate readiness is accepted as the next alternative data branch",
   "TWII remains `not_approved_for_probe_or_ingestion`",

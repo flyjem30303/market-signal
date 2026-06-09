@@ -1,0 +1,29 @@
+{
+  "artifactId": "twii-sanitized-candidate-20260609",
+  "lane": "TWII",
+  "assetType": "index",
+  "symbol": "TWII",
+  "scope": "twii_index_daily_prices_missing_rows",
+  "sourceLane": "official-exchange-index",
+  "sourceRightsGateStatus": "twii_source_rights_outcome_gate_candidate_ready_for_pm_review",
+  "fieldContractVersion": "twii-v1",
+  "coverageWindowSessions": 60,
+  "alreadyObservedRows": 0,
+  "candidateMissingRows": 60,
+  "expectedRows": 60,
+  "reviewOutputPolicy": "aggregate_only_no_raw_or_row_payloads_no_stock_id_payloads",
+  "sanitizedAggregateOnly": true,
+  "rawPayloadIncluded": false,
+  "rowPayloadIncluded": false,
+  "stockIdPayloadIncluded": false,
+  "secretsIncluded": false,
+  "aggregateValidation": {
+    "expectedRows": 60,
+    "candidateRows": 60,
+    "duplicateRows": 0,
+    "rejectedRows": 0,
+    "missingRows": 0,
+    "fieldNames": ["trade_date", "index_close", "source_row_hash"],
+    "validationStatus": "pending_pm_review"
+  }
+}

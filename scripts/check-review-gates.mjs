@@ -3973,6 +3973,11 @@ const checks = [
     name: "twii-a1-d-handoff-reply-template"
   },
   {
+    command: [node, "scripts/check-pm-twii-named-attempt-no-write-proof.mjs"],
+    expectStatus: "ok",
+    name: "pm-twii-named-attempt-no-write-proof"
+  },
+  {
     command: [node, "scripts/check-coverage-universe-roadmap.mjs"],
     expectStatus: "ok",
     name: "coverage-universe-roadmap"
@@ -4788,6 +4793,7 @@ const coreReviewGateNames = new Set([
   "twii-scaffold-to-packet-driven-chain-smoke-proof",
   "twii-real-handoff-intake-checklist",
   "twii-a1-d-handoff-reply-template",
+  "pm-twii-named-attempt-no-write-proof",
   "coverage-universe-roadmap",
   "goal-parallel-workstream-adjustment",
   "runtime-local-route-health-refresh-before-executable-packet",
@@ -4836,6 +4842,7 @@ const coreReviewGateNames = new Set([
   "twii-scaffold-to-packet-driven-chain-smoke-proof",
   "twii-real-handoff-intake-checklist",
   "twii-a1-d-handoff-reply-template",
+  "pm-twii-named-attempt-no-write-proof",
   "a1-source-rights-readiness-summary",
   "local-launch-proof-refresh-before-executable-packet",
   "beta-deployment-platform-values-bridge",
@@ -4959,6 +4966,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "twii-scaffold-to-packet-driven-chain-smoke-proof",
   "twii-real-handoff-intake-checklist",
   "twii-a1-d-handoff-reply-template",
+  "pm-twii-named-attempt-no-write-proof",
   "typescript"
 ]);
 
