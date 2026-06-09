@@ -3854,8 +3854,13 @@ const checks = [
   },
   {
     command: [node, "scripts/check-twii-source-rights-outcome-gate.mjs"],
-    expectStatus: "blocked",
+    expectStatus: "ok",
     name: "twii-source-rights-outcome-gate"
+  },
+  {
+    command: [node, "scripts/check-a1-twii-sanitized-candidate-artifact-readiness-gate.mjs"],
+    expectStatus: "ok",
+    name: "a1-twii-sanitized-candidate-artifact-readiness-gate"
   },
   {
     command: [node, "scripts/check-coverage-universe-roadmap.mjs"],
@@ -4650,6 +4655,7 @@ const coreReviewGateNames = new Set([
   "etf-source-rights-outcome-decision-gate",
   "a1-twii-index-field-contract-decision-support",
   "twii-source-rights-outcome-gate",
+  "a1-twii-sanitized-candidate-artifact-readiness-gate",
   "coverage-universe-roadmap",
   "goal-parallel-workstream-adjustment",
   "runtime-local-route-health-refresh-before-executable-packet",
@@ -4675,6 +4681,7 @@ const coreReviewGateNames = new Set([
   "a1-twii-evidence-completion-status",
   "a1-twii-post-reply-pm-classification-once",
   "a1-twii-outcome-gate-candidate-route",
+  "a1-twii-sanitized-candidate-artifact-readiness-gate",
   "a1-source-rights-readiness-summary",
   "local-launch-proof-refresh-before-executable-packet",
   "beta-deployment-platform-values-bridge",

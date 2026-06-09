@@ -299,6 +299,8 @@
     "check:a1-twii-evidence-completion-status": "node scripts/check-a1-twii-evidence-completion-status.mjs",
     "report:a1-twii-outcome-gate-candidate-route": "node scripts/report-a1-twii-outcome-gate-candidate-route.mjs",
     "check:a1-twii-outcome-gate-candidate-route": "node scripts/check-a1-twii-outcome-gate-candidate-route.mjs",
+    "report:a1-twii-sanitized-candidate-artifact-readiness-gate": "node scripts/report-a1-twii-sanitized-candidate-artifact-readiness-gate.mjs",
+    "check:a1-twii-sanitized-candidate-artifact-readiness-gate": "node scripts/check-a1-twii-sanitized-candidate-artifact-readiness-gate.mjs",
     "report:a1-source-rights-evidence-batch-brief": "node scripts/report-a1-source-rights-evidence-batch-brief.mjs",
     "check:a1-source-rights-evidence-batch-brief": "node scripts/check-a1-source-rights-evidence-batch-brief.mjs",
     "report:a1-source-rights-reviewed-outcome-surface": "node scripts/report-a1-source-rights-reviewed-outcome-surface.mjs",
