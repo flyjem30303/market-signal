@@ -69,6 +69,8 @@ const requiredDocPhrases = [
   "`docs/PM_TWII_BOUNDED_DATA_ACCEPTANCE_ATTEMPT_RUNNER_READINESS.md` is `accepted` as PM TWII bounded data acceptance attempt runner readiness",
   "twii_bounded_data_acceptance_attempt_runner_design_ready_no_execution",
   "pm_twii_bounded_data_acceptance_attempt_runner_readiness_ready_no_execution",
+  "`docs/TWII_BOUNDED_DATA_ACCEPTANCE_ATTEMPT_DRY_RUN_WRAPPER.md` is `accepted` as TWII bounded data acceptance attempt dry-run wrapper",
+  "twii_bounded_data_acceptance_attempt_dry_run_wrapper_ready_no_write",
   "ETF source-rights outcome decision is open and currently blocked at `rejected_for_execution_pending_external_rights`",
   "TWII source-rights and candidate readiness is accepted as the next alternative data branch",
   "TWII remains `not_approved_for_probe_or_ingestion`",

@@ -325,6 +325,8 @@
     "check:pm-twii-bounded-data-acceptance-decision-review": "node scripts/check-pm-twii-bounded-data-acceptance-decision-review.mjs",
     "report:pm-twii-bounded-data-acceptance-attempt-runner-readiness": "node scripts/report-pm-twii-bounded-data-acceptance-attempt-runner-readiness.mjs",
     "check:pm-twii-bounded-data-acceptance-attempt-runner-readiness": "node scripts/check-pm-twii-bounded-data-acceptance-attempt-runner-readiness.mjs",
+    "run:twii-bounded-data-acceptance-attempt": "node scripts/run-twii-bounded-data-acceptance-attempt.mjs",
+    "check:twii-bounded-data-acceptance-attempt-dry-run-wrapper": "node scripts/check-twii-bounded-data-acceptance-attempt-dry-run-wrapper.mjs",
     "report:a1-source-rights-evidence-batch-brief": "node scripts/report-a1-source-rights-evidence-batch-brief.mjs",
     "check:a1-source-rights-evidence-batch-brief": "node scripts/check-a1-source-rights-evidence-batch-brief.mjs",
     "report:a1-source-rights-reviewed-outcome-surface": "node scripts/report-a1-source-rights-reviewed-outcome-surface.mjs",
