@@ -379,6 +379,8 @@
     "check:twii-bounded-data-acceptance-no-write-chain-run-20260609": "node scripts/check-twii-bounded-data-acceptance-no-write-chain-run-20260609.mjs",
     "report:twii-supabase-write-gate-preauth": "node scripts/report-twii-supabase-write-gate-preauth.mjs",
     "check:twii-supabase-write-gate-preauth": "node scripts/check-twii-supabase-write-gate-preauth.mjs",
+    "report:twii-supabase-write-gate-packet-template": "node scripts/report-twii-supabase-write-gate-packet-template.mjs",
+    "check:twii-supabase-write-gate-packet-template": "node scripts/check-twii-supabase-write-gate-packet-template.mjs",
     "report:a1-source-rights-evidence-batch-brief": "node scripts/report-a1-source-rights-evidence-batch-brief.mjs",
     "check:a1-source-rights-evidence-batch-brief": "node scripts/check-a1-source-rights-evidence-batch-brief.mjs",
     "report:a1-source-rights-reviewed-outcome-surface": "node scripts/report-a1-source-rights-reviewed-outcome-surface.mjs",
