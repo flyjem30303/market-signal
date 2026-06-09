@@ -375,6 +375,8 @@
     "check:twii-candidate-acceptance-preparation": "node scripts/check-twii-candidate-acceptance-preparation.mjs",
     "report:twii-bounded-data-acceptance-execution-decision": "node scripts/report-twii-bounded-data-acceptance-execution-decision.mjs",
     "check:twii-bounded-data-acceptance-execution-decision": "node scripts/check-twii-bounded-data-acceptance-execution-decision.mjs",
+    "report:twii-bounded-data-acceptance-no-write-chain-run-20260609": "node scripts/report-twii-bounded-data-acceptance-no-write-chain-run-20260609.mjs",
+    "check:twii-bounded-data-acceptance-no-write-chain-run-20260609": "node scripts/check-twii-bounded-data-acceptance-no-write-chain-run-20260609.mjs",
     "report:a1-source-rights-evidence-batch-brief": "node scripts/report-a1-source-rights-evidence-batch-brief.mjs",
     "check:a1-source-rights-evidence-batch-brief": "node scripts/check-a1-source-rights-evidence-batch-brief.mjs",
     "report:a1-source-rights-reviewed-outcome-surface": "node scripts/report-a1-source-rights-reviewed-outcome-surface.mjs",
