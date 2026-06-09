@@ -3918,6 +3918,11 @@ const checks = [
     name: "pm-twii-bounded-data-acceptance-decision-review"
   },
   {
+    command: [node, "scripts/check-pm-twii-bounded-data-acceptance-attempt-runner-readiness.mjs"],
+    expectStatus: "ok",
+    name: "pm-twii-bounded-data-acceptance-attempt-runner-readiness"
+  },
+  {
     command: [node, "scripts/check-coverage-universe-roadmap.mjs"],
     expectStatus: "ok",
     name: "coverage-universe-roadmap"
@@ -4722,6 +4727,7 @@ const coreReviewGateNames = new Set([
   "pm-twii-candidate-acceptance-review",
   "twii-bounded-data-acceptance-route-preflight",
   "pm-twii-bounded-data-acceptance-decision-review",
+  "pm-twii-bounded-data-acceptance-attempt-runner-readiness",
   "coverage-universe-roadmap",
   "goal-parallel-workstream-adjustment",
   "runtime-local-route-health-refresh-before-executable-packet",
@@ -4759,6 +4765,7 @@ const coreReviewGateNames = new Set([
   "pm-twii-candidate-acceptance-review",
   "twii-bounded-data-acceptance-route-preflight",
   "pm-twii-bounded-data-acceptance-decision-review",
+  "pm-twii-bounded-data-acceptance-attempt-runner-readiness",
   "a1-source-rights-readiness-summary",
   "local-launch-proof-refresh-before-executable-packet",
   "beta-deployment-platform-values-bridge",
