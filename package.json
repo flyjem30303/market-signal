@@ -425,6 +425,8 @@
     "check:twii-final-no-write-authorization-packet": "node scripts/check-twii-final-no-write-authorization-packet.mjs",
     "report:twii-explicit-execute-switch-confirmation-intake-gate": "node scripts/report-twii-explicit-execute-switch-confirmation-intake-gate.mjs",
     "check:twii-explicit-execute-switch-confirmation-intake-gate": "node scripts/check-twii-explicit-execute-switch-confirmation-intake-gate.mjs",
+    "report:twii-server-only-pre-execution-checks-gate": "node scripts/report-twii-server-only-pre-execution-checks-gate.mjs",
+    "check:twii-server-only-pre-execution-checks-gate": "node scripts/check-twii-server-only-pre-execution-checks-gate.mjs",
     "report:twii-a1-d-write-prerequisite-dispatch-packet": "node scripts/report-twii-a1-d-write-prerequisite-dispatch-packet.mjs",
     "check:twii-a1-d-write-prerequisite-dispatch-packet": "node scripts/check-twii-a1-d-write-prerequisite-dispatch-packet.mjs",
     "report:twii-a1-d-write-prerequisite-pm-intake-ledger": "node scripts/report-twii-a1-d-write-prerequisite-pm-intake-ledger.mjs",
