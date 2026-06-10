@@ -411,6 +411,8 @@
     "check:twii-fail-closed-runner-stub": "node scripts/check-twii-fail-closed-runner-stub.mjs",
     "report:twii-explicit-execution-attempt-packet": "node scripts/report-twii-explicit-execution-attempt-packet.mjs",
     "check:twii-explicit-execution-attempt-packet": "node scripts/check-twii-explicit-execution-attempt-packet.mjs",
+    "report:twii-future-execute-switch-confirmation-gate": "node scripts/report-twii-future-execute-switch-confirmation-gate.mjs",
+    "check:twii-future-execute-switch-confirmation-gate": "node scripts/check-twii-future-execute-switch-confirmation-gate.mjs",
     "report:twii-a1-d-write-prerequisite-dispatch-packet": "node scripts/report-twii-a1-d-write-prerequisite-dispatch-packet.mjs",
     "check:twii-a1-d-write-prerequisite-dispatch-packet": "node scripts/check-twii-a1-d-write-prerequisite-dispatch-packet.mjs",
     "report:twii-a1-d-write-prerequisite-pm-intake-ledger": "node scripts/report-twii-a1-d-write-prerequisite-pm-intake-ledger.mjs",

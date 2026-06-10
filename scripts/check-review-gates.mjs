@@ -4128,6 +4128,11 @@ const checks = [
     name: "twii-explicit-execution-attempt-packet"
   },
   {
+    command: [node, "scripts/check-twii-future-execute-switch-confirmation-gate.mjs"],
+    expectStatus: "ok",
+    name: "twii-future-execute-switch-confirmation-gate"
+  },
+  {
     command: [node, "scripts/check-twii-a1-d-write-prerequisite-dispatch-packet.mjs"],
     expectStatus: "ok",
     name: "twii-a1-d-write-prerequisite-dispatch-packet"
@@ -4983,6 +4988,7 @@ const coreReviewGateNames = new Set([
   "twii-one-attempt-runner-execution-gate",
   "twii-fail-closed-runner-stub",
   "twii-explicit-execution-attempt-packet",
+  "twii-future-execute-switch-confirmation-gate",
   "twii-a1-d-write-prerequisite-dispatch-packet",
   "twii-a1-d-write-prerequisite-pm-intake-ledger",
   "coverage-universe-roadmap",
@@ -5063,6 +5069,7 @@ const coreReviewGateNames = new Set([
   "twii-one-attempt-runner-execution-gate",
   "twii-fail-closed-runner-stub",
   "twii-explicit-execution-attempt-packet",
+  "twii-future-execute-switch-confirmation-gate",
   "twii-a1-d-write-prerequisite-dispatch-packet",
   "twii-a1-d-write-prerequisite-pm-intake-ledger",
   "a1-source-rights-readiness-summary",
@@ -5220,6 +5227,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "twii-one-attempt-runner-execution-gate",
   "twii-fail-closed-runner-stub",
   "twii-explicit-execution-attempt-packet",
+  "twii-future-execute-switch-confirmation-gate",
   "twii-a1-d-write-prerequisite-dispatch-packet",
   "twii-a1-d-write-prerequisite-pm-intake-ledger",
   "typescript"
