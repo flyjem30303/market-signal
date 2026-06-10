@@ -442,6 +442,8 @@
     "check:twii-execute-switch-confirmation-preflight": "node scripts/check-twii-execute-switch-confirmation-preflight.mjs",
     "report:twii-bounded-insert-missing-only-contract-preflight": "node scripts/report-twii-bounded-insert-missing-only-contract-preflight.mjs",
     "check:twii-bounded-insert-missing-only-contract-preflight": "node scripts/check-twii-bounded-insert-missing-only-contract-preflight.mjs",
+    "report:twii-aggregate-readback-contract-preflight": "node scripts/report-twii-aggregate-readback-contract-preflight.mjs",
+    "check:twii-aggregate-readback-contract-preflight": "node scripts/check-twii-aggregate-readback-contract-preflight.mjs",
     "report:twii-a1-d-write-prerequisite-dispatch-packet": "node scripts/report-twii-a1-d-write-prerequisite-dispatch-packet.mjs",
     "check:twii-a1-d-write-prerequisite-dispatch-packet": "node scripts/check-twii-a1-d-write-prerequisite-dispatch-packet.mjs",
     "report:twii-a1-d-write-prerequisite-pm-intake-ledger": "node scripts/report-twii-a1-d-write-prerequisite-pm-intake-ledger.mjs",
