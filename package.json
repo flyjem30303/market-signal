@@ -409,6 +409,8 @@
     "run:twii-fail-closed-runner-stub": "node scripts/run-twii-fail-closed-runner-stub.mjs",
     "report:twii-fail-closed-runner-stub-post-run-review": "node scripts/report-twii-fail-closed-runner-stub-post-run-review.mjs",
     "check:twii-fail-closed-runner-stub": "node scripts/check-twii-fail-closed-runner-stub.mjs",
+    "report:twii-explicit-execution-attempt-packet": "node scripts/report-twii-explicit-execution-attempt-packet.mjs",
+    "check:twii-explicit-execution-attempt-packet": "node scripts/check-twii-explicit-execution-attempt-packet.mjs",
     "report:twii-a1-d-write-prerequisite-dispatch-packet": "node scripts/report-twii-a1-d-write-prerequisite-dispatch-packet.mjs",
     "check:twii-a1-d-write-prerequisite-dispatch-packet": "node scripts/check-twii-a1-d-write-prerequisite-dispatch-packet.mjs",
     "report:twii-a1-d-write-prerequisite-pm-intake-ledger": "node scripts/report-twii-a1-d-write-prerequisite-pm-intake-ledger.mjs",
