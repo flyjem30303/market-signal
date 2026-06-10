@@ -479,6 +479,7 @@
     "report:public-beta-pm-next-status": "node scripts/report-public-beta-pm-next-status.mjs",
     "check:public-beta-pm-next-status": "node scripts/check-public-beta-pm-next-status.mjs",
     "check:public-beta-launch-readiness-panel": "node scripts/check-public-beta-launch-readiness-panel.mjs",
+    "check:public-beta-data-readiness-status": "node scripts/check-public-beta-data-readiness-status.mjs",
     "check:beta-launch-preflight-packet": "node scripts/check-beta-launch-preflight-packet.mjs",
     "check:beta-release-runbook-draft": "node scripts/check-beta-release-runbook-draft.mjs",
     "check:future-deployment-execution-gate": "node scripts/check-future-deployment-execution-gate.mjs",

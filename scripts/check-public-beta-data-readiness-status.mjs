@@ -1,0 +1,102 @@
+import fs from "node:fs";
+
+const problems = [];
+
+const componentPath = "src/components/public-beta-data-readiness-status.tsx";
+const libPath = "src/lib/public-beta-data-readiness-status.ts";
+const homePanelPath = "src/components/home-runtime-status-panel.tsx";
+const cssPath = "src/app/globals.css";
+const packagePath = "package.json";
+const statusPath = "PROJECT_STATUS.md";
+const boardPath = "docs/LAUNCH_ENGINEERING_WORKSTREAM_BOARD.md";
+const reviewGatePath = "scripts/check-review-gates.mjs";
+
+const component = read(componentPath);
+const lib = read(libPath);
+const homePanel = read(homePanelPath);
+const css = read(cssPath);
+const pkg = JSON.parse(read(packagePath));
+const status = read(statusPath);
+const board = read(boardPath);
+const reviewGate = read(reviewGatePath);
+
+for (const [filePath, source, phrase] of [
+  [componentPath, component, "PublicBetaDataReadinessStatus"],
+  [componentPath, component, "Public Beta data readiness status"],
+  [componentPath, component, "not a full coverage claim"],
+  [libPath, lib, "資料真實化進度可見，但仍維持 mock"],
+  [libPath, lib, "pendingSlots: 6"],
+  [libPath, lib, "acceptedRows: 182"],
+  [libPath, lib, "targetRows: 360"],
+  [libPath, lib, "publicDataSource: \"mock\""],
+  [libPath, lib, "scoreSource: \"mock\""],
+  [homePanelPath, homePanel, "import { PublicBetaDataReadinessStatus }"],
+  [homePanelPath, homePanel, "<PublicBetaDataReadinessStatus />"],
+  [cssPath, css, ".public-beta-data-readiness-status"],
+  [cssPath, css, ".public-beta-data-readiness-lanes"],
+  [statusPath, status, "Latest public Beta data-readiness visible status slice"],
+  [statusPath, status, "publicDataSource=mock"],
+  [statusPath, status, "scoreSource=mock"],
+  [boardPath, board, "`src/components/public-beta-data-readiness-status.tsx` is `accepted` as public Beta visible data-readiness status"],
+  [reviewGatePath, reviewGate, "scripts/check-public-beta-data-readiness-status.mjs"],
+  [reviewGatePath, reviewGate, "name: \"public-beta-data-readiness-status\""]
+]) {
+  if (!source.includes(phrase)) problems.push(`${filePath} missing phrase: ${phrase}`);
+}
+
+if (pkg.scripts?.["check:public-beta-data-readiness-status"] !== "node scripts/check-public-beta-data-readiness-status.mjs") {
+  problems.push(`${packagePath} missing check:public-beta-data-readiness-status`);
+}
+
+for (const [filePath, source] of [
+  [componentPath, component],
+  [libPath, lib],
+  [homePanelPath, homePanel]
+]) {
+  for (const pattern of forbiddenPatterns()) {
+    if (pattern.test(source)) problems.push(`${filePath} contains forbidden pattern ${String(pattern)}`);
+  }
+}
+
+if (problems.length > 0) {
+  console.error(JSON.stringify({ status: "blocked", problems }, null, 2));
+  process.exit(1);
+}
+
+console.log(
+  JSON.stringify(
+    {
+      status: "ok",
+      guardedStatus: "public_beta_data_readiness_visible_status_ready_mock_only",
+      publicDataSource: "mock",
+      scoreSource: "mock"
+    },
+    null,
+    2
+  )
+);
+
+function read(filePath) {
+  if (!fs.existsSync(filePath)) {
+    problems.push(`missing file: ${filePath}`);
+    return "{}";
+  }
+  return fs.readFileSync(filePath, "utf8");
+}
+
+function forbiddenPatterns() {
+  return [
+    /@supabase\/supabase-js/u,
+    /createClient/u,
+    /\.from\(/u,
+    /\.insert\(/u,
+    /\.update\(/u,
+    /\.delete\(/u,
+    /\.upsert\(/u,
+    /\bsb_(publishable|secret|anon|service_role)_[a-z0-9_-]+/iu,
+    /publicDataSource:\s*"supabase"/u,
+    /scoreSource:\s*"real"/u,
+    /complete coverage claim/iu,
+    /row coverage points awarded/iu
+  ];
+}

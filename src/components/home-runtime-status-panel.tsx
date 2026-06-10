@@ -1,6 +1,7 @@
 import { RuntimeTransitionRail } from "@/components/runtime-transition-rail";
 import { PublicRuntimeStateStrip } from "@/components/public-runtime-state-strip";
 import { PostReadonlyProductStatus } from "@/components/post-readonly-product-status";
+import { PublicBetaDataReadinessStatus } from "@/components/public-beta-data-readiness-status";
 import { TrackedLink } from "@/components/tracked-link";
 import { getBlockerReadinessSummary } from "@/lib/blocker-readiness";
 import { getFreshnessReadonlyLatestEvidenceSummary } from "@/lib/freshness-readonly-latest-evidence";
@@ -69,6 +70,7 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
       <RuntimeTransitionRail symbol={selectedSymbol} />
       <PublicRuntimeStateStrip context="home" />
       <PostReadonlyProductStatus context="home" symbol={selectedSymbol} />
+      <PublicBetaDataReadinessStatus />
 
       <section className="runtime-action-status-strip" aria-label="Runtime action status normalization">
         <div>
