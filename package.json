@@ -402,6 +402,8 @@
     "check:twii-pre-execution-proof-bundle": "node scripts/check-twii-pre-execution-proof-bundle.mjs",
     "report:twii-future-one-time-authorization-packet": "node scripts/report-twii-future-one-time-authorization-packet.mjs",
     "check:twii-future-one-time-authorization-packet": "node scripts/check-twii-future-one-time-authorization-packet.mjs",
+    "report:twii-pm-authorization-review-decision-packet": "node scripts/report-twii-pm-authorization-review-decision-packet.mjs",
+    "check:twii-pm-authorization-review-decision-packet": "node scripts/check-twii-pm-authorization-review-decision-packet.mjs",
     "report:twii-a1-d-write-prerequisite-dispatch-packet": "node scripts/report-twii-a1-d-write-prerequisite-dispatch-packet.mjs",
     "check:twii-a1-d-write-prerequisite-dispatch-packet": "node scripts/check-twii-a1-d-write-prerequisite-dispatch-packet.mjs",
     "report:twii-a1-d-write-prerequisite-pm-intake-ledger": "node scripts/report-twii-a1-d-write-prerequisite-pm-intake-ledger.mjs",

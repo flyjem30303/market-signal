@@ -4108,6 +4108,11 @@ const checks = [
     name: "twii-future-one-time-authorization-packet"
   },
   {
+    command: [node, "scripts/check-twii-pm-authorization-review-decision-packet.mjs"],
+    expectStatus: "ok",
+    name: "twii-pm-authorization-review-decision-packet"
+  },
+  {
     command: [node, "scripts/check-twii-a1-d-write-prerequisite-dispatch-packet.mjs"],
     expectStatus: "ok",
     name: "twii-a1-d-write-prerequisite-dispatch-packet"
@@ -4959,6 +4964,7 @@ const coreReviewGateNames = new Set([
   "twii-explicit-execution-readiness-selector",
   "twii-pre-execution-proof-bundle",
   "twii-future-one-time-authorization-packet",
+  "twii-pm-authorization-review-decision-packet",
   "twii-a1-d-write-prerequisite-dispatch-packet",
   "twii-a1-d-write-prerequisite-pm-intake-ledger",
   "coverage-universe-roadmap",
@@ -5035,6 +5041,7 @@ const coreReviewGateNames = new Set([
   "twii-explicit-execution-readiness-selector",
   "twii-pre-execution-proof-bundle",
   "twii-future-one-time-authorization-packet",
+  "twii-pm-authorization-review-decision-packet",
   "twii-a1-d-write-prerequisite-dispatch-packet",
   "twii-a1-d-write-prerequisite-pm-intake-ledger",
   "a1-source-rights-readiness-summary",
@@ -5188,6 +5195,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "twii-explicit-execution-readiness-selector",
   "twii-pre-execution-proof-bundle",
   "twii-future-one-time-authorization-packet",
+  "twii-pm-authorization-review-decision-packet",
   "twii-a1-d-write-prerequisite-dispatch-packet",
   "twii-a1-d-write-prerequisite-pm-intake-ledger",
   "typescript"

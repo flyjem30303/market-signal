@@ -1,0 +1,56 @@
+{
+  "decisionPacketKind": "twii_pm_authorization_review_decision_packet",
+  "decisionId": "twii-pm-authorization-review-decision-20260610-a",
+  "reviewTarget": "data/source-gates/twii-future-one-time-authorization-packet.json",
+  "preExecutionProofBundlePath": "data/source-gates/twii-pre-execution-proof-bundle.json",
+  "explicitExecutionPacketDraftPath": "data/source-gates/twii-explicit-execution-packet-draft.json",
+  "reviewDecision": "accepted_for_future_execution_gate_preparation_only",
+  "decisionAlternatives": [
+    "accepted_for_future_execution_gate_preparation_only",
+    "rejected_needs_repair"
+  ],
+  "acceptedCriteria": [
+    "authorization packet report status is ready no execution",
+    "pre-execution proof bundle is ready for PM review",
+    "execute default remains false",
+    "server-only credential handling is required",
+    "credential value output remains forbidden",
+    "execution/write/implementation remain blocked"
+  ],
+  "rejectionCriteria": [
+    "authorization packet report is blocked",
+    "proof bundle is missing or not ready",
+    "execute default is true",
+    "credential value output is allowed",
+    "any execution/write/implementation flag is true"
+  ],
+  "nextIfAccepted": "prepare_one_attempt_runner_execution_gate_no_execution",
+  "nextIfRejected": "repair_authorization_packet_or_proof_bundle",
+  "authorizationReadyForPmReview": true,
+  "reviewDecisionRecorded": true,
+  "executionAllowedNow": false,
+  "writeGateExecutableNow": false,
+  "implementationAllowedNow": false,
+  "promotionAllowed": false,
+  "rowCoverageScoringAllowed": false,
+  "scoreSourceRealAllowed": false,
+  "safety": {
+    "publicDataSource": "mock",
+    "scoreSource": "mock",
+    "sqlExecuted": false,
+    "supabaseConnectionAttempted": false,
+    "supabaseWritesEnabled": false,
+    "marketDataFetched": false,
+    "marketDataIngested": false,
+    "candidateRowsAccepted": false,
+    "dailyPricesMutated": false,
+    "stagingRowsCreated": false,
+    "rowCoverageScoringAllowed": false,
+    "rawPayloadOutput": false,
+    "rowPayloadOutput": false,
+    "stockIdPayloadOutput": false,
+    "secretsOutput": false,
+    "publicPromotionAllowed": false,
+    "scoreSourceRealAllowed": false
+  }
+}
