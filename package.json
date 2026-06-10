@@ -432,6 +432,8 @@
     "check:twii-bounded-write-attempt-runner-fail-closed-scaffold": "node scripts/check-twii-bounded-write-attempt-runner-fail-closed-scaffold.mjs",
     "report:twii-real-write-runner-implementation-review-gate": "node scripts/report-twii-real-write-runner-implementation-review-gate.mjs",
     "check:twii-real-write-runner-implementation-review-gate": "node scripts/check-twii-real-write-runner-implementation-review-gate.mjs",
+    "report:twii-implementation-scope-packet": "node scripts/report-twii-implementation-scope-packet.mjs",
+    "check:twii-implementation-scope-packet": "node scripts/check-twii-implementation-scope-packet.mjs",
     "report:twii-a1-d-write-prerequisite-dispatch-packet": "node scripts/report-twii-a1-d-write-prerequisite-dispatch-packet.mjs",
     "check:twii-a1-d-write-prerequisite-dispatch-packet": "node scripts/check-twii-a1-d-write-prerequisite-dispatch-packet.mjs",
     "report:twii-a1-d-write-prerequisite-pm-intake-ledger": "node scripts/report-twii-a1-d-write-prerequisite-pm-intake-ledger.mjs",

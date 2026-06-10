@@ -4173,6 +4173,11 @@ const checks = [
     name: "twii-real-write-runner-implementation-review-gate"
   },
   {
+    command: [node, "scripts/check-twii-implementation-scope-packet.mjs"],
+    expectStatus: "ok",
+    name: "twii-implementation-scope-packet"
+  },
+  {
     command: [node, "scripts/check-twii-a1-d-write-prerequisite-dispatch-packet.mjs"],
     expectStatus: "ok",
     name: "twii-a1-d-write-prerequisite-dispatch-packet"
@@ -5037,6 +5042,7 @@ const coreReviewGateNames = new Set([
   "twii-server-only-pre-execution-checks-gate",
   "twii-bounded-write-attempt-runner-fail-closed-scaffold",
   "twii-real-write-runner-implementation-review-gate",
+  "twii-implementation-scope-packet",
   "twii-a1-d-write-prerequisite-dispatch-packet",
   "twii-a1-d-write-prerequisite-pm-intake-ledger",
   "coverage-universe-roadmap",
@@ -5126,6 +5132,7 @@ const coreReviewGateNames = new Set([
   "twii-server-only-pre-execution-checks-gate",
   "twii-bounded-write-attempt-runner-fail-closed-scaffold",
   "twii-real-write-runner-implementation-review-gate",
+  "twii-implementation-scope-packet",
   "twii-a1-d-write-prerequisite-dispatch-packet",
   "twii-a1-d-write-prerequisite-pm-intake-ledger",
   "a1-source-rights-readiness-summary",
@@ -5292,6 +5299,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "twii-server-only-pre-execution-checks-gate",
   "twii-bounded-write-attempt-runner-fail-closed-scaffold",
   "twii-real-write-runner-implementation-review-gate",
+  "twii-implementation-scope-packet",
   "twii-a1-d-write-prerequisite-dispatch-packet",
   "twii-a1-d-write-prerequisite-pm-intake-ledger",
   "typescript"
