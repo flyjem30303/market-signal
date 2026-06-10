@@ -1,7 +1,7 @@
 export type PublicBetaDataReadinessLane = {
   id: string;
   label: string;
-  status: "accepted" | "pending" | "blocked";
+  status: "accepted" | "readying" | "blocked";
   summary: string;
 };
 
@@ -16,7 +16,7 @@ export type PublicBetaDataReadinessStatus = {
     label: string;
   };
   twiiPrerequisites: {
-    pendingSlots: number;
+    acceptedSlots: number;
     totalSlots: number;
     nextOwner: string;
     nextAction: string;
@@ -27,9 +27,9 @@ export type PublicBetaDataReadinessStatus = {
 
 export function getPublicBetaDataReadinessStatus(): PublicBetaDataReadinessStatus {
   return {
-    headline: "資料真實化進度可見，但仍維持 mock",
+    headline: "Data-realification is visible, but runtime remains mock",
     summary:
-      "目前已建立 TWII 寫入前的 A1/D 補件與 PM intake ledger；6 個 prerequisite 仍待回覆，所以公開 Beta 可以展示進度，但不能宣稱真實資料完成。",
+      "PM has accepted the TWII write-prerequisite intake as gate-preparation evidence only. This opens a future candidate-gate preparation path, not SQL, Supabase writes, row acceptance, coverage scoring, or real promotion.",
     publicDataSource: "mock",
     scoreSource: "mock",
     rowCoverage: {
@@ -38,33 +38,34 @@ export function getPublicBetaDataReadinessStatus(): PublicBetaDataReadinessStatu
       label: "182/360 accepted evidence"
     },
     twiiPrerequisites: {
-      pendingSlots: 6,
+      acceptedSlots: 6,
       totalSlots: 6,
-      nextOwner: "A1 / D / PM",
-      nextAction: "A1/D 回覆 6 個 prerequisite slot，PM 再做 accepted/rejected intake。"
+      nextOwner: "CEO / PM",
+      nextAction:
+        "Prepare the next bounded write-ready candidate gate; keep SQL, Supabase writes, row acceptance, scoring, and promotion blocked."
     },
     lanes: [
       {
         id: "tw-equity",
         label: "TW equity",
         status: "accepted",
-        summary: "2330、2382、2308 已完成第一階段 evidence coverage。"
+        summary: "2330, 2382, and 2308 evidence coverage remains accepted for the current Beta evidence view."
       },
       {
         id: "twii",
         label: "TWII",
-        status: "pending",
-        summary: "等待 source-rights、field-contract、asset-mapping、rollback/readback/review 6 格補件。"
+        status: "readying",
+        summary:
+          "A1/D prerequisite intake is accepted for future gate preparation; implementation and writes remain blocked."
       },
       {
         id: "etf",
         label: "ETF",
         status: "blocked",
-        summary: "0050、006208 仍受來源權利與覆蓋率缺口限制。"
+        summary: "0050 and 006208 still need separate source-rights and coverage evidence before real promotion."
       }
     ],
     stopLine:
-      "不執行 SQL、不寫 Supabase、不匯入市場資料、不接受 rows、不給 row coverage points、不設定 scoreSource=real。"
+      "No SQL, Supabase write, market-data ingestion, row acceptance, row coverage points, publicDataSource=supabase, or scoreSource=real is allowed by this status."
   };
 }
-

@@ -24,8 +24,9 @@ for (const [filePath, source, phrase] of [
   [componentPath, component, "PublicBetaDataReadinessStatus"],
   [componentPath, component, "Public Beta data readiness status"],
   [componentPath, component, "not a full coverage claim"],
-  [libPath, lib, "資料真實化進度可見，但仍維持 mock"],
-  [libPath, lib, "pendingSlots: 6"],
+  [libPath, lib, "Data-realification is visible, but runtime remains mock"],
+  [libPath, lib, "acceptedSlots: 6"],
+  [libPath, lib, "future candidate-gate preparation"],
   [libPath, lib, "acceptedRows: 182"],
   [libPath, lib, "targetRows: 360"],
   [libPath, lib, "publicDataSource: \"mock\""],
@@ -67,7 +68,7 @@ console.log(
   JSON.stringify(
     {
       status: "ok",
-      guardedStatus: "public_beta_data_readiness_visible_status_ready_mock_only",
+      guardedStatus: "public_beta_data_readiness_visible_status_twii_prerequisites_accepted_mock_only",
       publicDataSource: "mock",
       scoreSource: "mock"
     },

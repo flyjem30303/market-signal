@@ -18,10 +18,10 @@ export function PublicBetaDataReadinessStatus() {
           Accepted evidence {status.rowCoverage.acceptedRows}/{status.rowCoverage.targetRows}; not a full coverage claim.
         </p>
       </article>
-      <article className="blocked">
+      <article className="readying">
         <span>TWII prerequisites</span>
         <strong>
-          {status.twiiPrerequisites.pendingSlots}/{status.twiiPrerequisites.totalSlots} pending
+          {status.twiiPrerequisites.acceptedSlots}/{status.twiiPrerequisites.totalSlots} accepted for gate prep
         </strong>
         <p>{status.twiiPrerequisites.nextAction}</p>
       </article>

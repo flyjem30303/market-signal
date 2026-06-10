@@ -1,27 +1,41 @@
+import fs from "node:fs";
+
+const intakeLedger = JSON.parse(fs.readFileSync("data/source-gates/twii-write-prerequisite-intake-ledger.json", "utf8"));
+const acceptedPrerequisiteCount = Array.isArray(intakeLedger.outcomes)
+  ? intakeLedger.outcomes.filter((outcome) => outcome.classification === "accepted").length
+  : 0;
+const allPrerequisitesAccepted = acceptedPrerequisiteCount === 6;
+
 const readinessItems = [
   {
     item: "source-rights decision",
-    currentState: "blocked_or_unresolved",
+    currentState: allPrerequisitesAccepted ? "accepted_for_candidate_gate_prep" : "blocked_or_unresolved",
     owner: "A1/D/PM",
     acceptedEvidenceNeeded:
       "no-secret accepted source authority, storage, retention, redistribution, attribution, and commercial-use decision",
-    nextExecutableAction: "A1/D provide or update source-rights outcome evidence for PM review",
+    nextExecutableAction: allPrerequisitesAccepted
+      ? "carry accepted source-rights reference into the next future candidate gate"
+      : "A1/D provide or update source-rights outcome evidence for PM review",
     boundary: "no_probe_no_ingestion_no_write"
   },
   {
     item: "field-contract decision",
-    currentState: "blocked_or_unresolved",
+    currentState: allPrerequisitesAccepted ? "accepted_for_candidate_gate_prep" : "blocked_or_unresolved",
     owner: "A1/PM",
     acceptedEvidenceNeeded: "accepted field list, field meaning, date convention, numeric precision, null handling, duplicate policy",
-    nextExecutableAction: "A1 provide field-contract evidence that PM can classify accepted/rejected",
+    nextExecutableAction: allPrerequisitesAccepted
+      ? "carry accepted field-contract reference into the next future candidate gate"
+      : "A1 provide field-contract evidence that PM can classify accepted/rejected",
     boundary: "no_row_payload_output"
   },
   {
     item: "asset-mapping decision",
-    currentState: "blocked_or_unresolved",
+    currentState: allPrerequisitesAccepted ? "accepted_for_candidate_gate_prep" : "blocked_or_unresolved",
     owner: "A1/PM",
     acceptedEvidenceNeeded: "accepted mapping from TWII index lane to target asset/table/scope without stock-id payload exposure",
-    nextExecutableAction: "A1 provide asset-mapping evidence for PM review",
+    nextExecutableAction: allPrerequisitesAccepted
+      ? "carry accepted asset-mapping reference into the next future candidate gate"
+      : "A1 provide asset-mapping evidence for PM review",
     boundary: "no_stock_id_payload_output"
   },
   {
@@ -50,26 +64,32 @@ const readinessItems = [
   },
   {
     item: "rollback dry-run",
-    currentState: "planned_not_executable",
+    currentState: allPrerequisitesAccepted ? "plan_accepted_for_candidate_gate_prep" : "planned_not_executable",
     owner: "PM/A1",
     acceptedEvidenceNeeded: "aggregate-only dry-run plan scoped to authorization id before any mutation",
-    nextExecutableAction: "define future no-mutation rollback count proof",
+    nextExecutableAction: allPrerequisitesAccepted
+      ? "carry accepted aggregate rollback dry-run plan into the next future candidate gate"
+      : "define future no-mutation rollback count proof",
     boundary: "no_destructive_rollback"
   },
   {
     item: "post-write readback",
-    currentState: "planned_not_executable",
+    currentState: allPrerequisitesAccepted ? "plan_accepted_for_candidate_gate_prep" : "planned_not_executable",
     owner: "PM/A1",
     acceptedEvidenceNeeded: "aggregate-only readback fields for attempted, inserted, rejected, duplicate counts and max date",
-    nextExecutableAction: "define future post-write readback summary shape",
+    nextExecutableAction: allPrerequisitesAccepted
+      ? "carry accepted aggregate readback shape into the next future candidate gate"
+      : "define future post-write readback summary shape",
     boundary: "no_row_payload_output"
   },
   {
     item: "post-write review",
-    currentState: "planned_not_executable",
+    currentState: allPrerequisitesAccepted ? "plan_accepted_for_candidate_gate_prep" : "planned_not_executable",
     owner: "PM",
     acceptedEvidenceNeeded: "post-write review command that accepts only aggregate summary output",
-    nextExecutableAction: "prepare future review command after readback plan is accepted",
+    nextExecutableAction: allPrerequisitesAccepted
+      ? "carry accepted aggregate post-write review plan into the next future candidate gate"
+      : "prepare future review command after readback plan is accepted",
     boundary: "no_promotion_in_same_run"
   },
   {
@@ -87,34 +107,53 @@ const blockedItems = readinessItems.filter((item) =>
 );
 
 const readyLocalItems = readinessItems.filter((item) =>
-  ["ready_local_only", "policy_ready_local_only"].includes(item.currentState)
+  [
+    "ready_local_only",
+    "policy_ready_local_only",
+    "accepted_for_candidate_gate_prep",
+    "plan_accepted_for_candidate_gate_prep"
+  ].includes(item.currentState)
 );
 
 const report = {
-  status: "twii_write_readiness_packet_consolidation_ready_blocked_prerequisites_mapped",
-  outcome: "write_readiness_owner_action_map_ready_no_real_write",
+  status: allPrerequisitesAccepted
+    ? "twii_write_readiness_packet_consolidation_prerequisites_accepted_future_gate_ready"
+    : "twii_write_readiness_packet_consolidation_ready_blocked_prerequisites_mapped",
+  outcome: allPrerequisitesAccepted
+    ? "write_readiness_prerequisites_accepted_prepare_future_candidate_gate_no_real_write"
+    : "write_readiness_owner_action_map_ready_no_real_write",
   mode: "twii_write_readiness_packet_consolidation",
   owner: "CEO/PM",
   implementationAllowedNow: false,
+  futureCandidateGateAllowed: allPrerequisitesAccepted,
   readyLocalCount: readyLocalItems.length,
   blockedPrerequisiteCount: blockedItems.length,
+  acceptedPrerequisiteCount,
   readinessItems,
   ownerDispatch: {
     A1: [
-      "source-rights evidence",
-      "field-contract evidence",
-      "asset-mapping evidence",
-      "future aggregate rollback/readback shape only after PM accepts prerequisite evidence"
+      allPrerequisitesAccepted
+        ? "stand by for future candidate-gate packet review; do not fetch or ingest market data"
+        : "source-rights evidence",
+      allPrerequisitesAccepted ? "preserve sanitized artifact path for PM packet use" : "field-contract evidence",
+      allPrerequisitesAccepted ? "no new raw or row payload delivery" : "asset-mapping evidence"
     ],
-    D: ["source-rights/legal/redistribution terms evidence"],
+    D: [
+      allPrerequisitesAccepted
+        ? "stand by for future candidate-gate source-rights wording review only"
+        : "source-rights/legal/redistribution terms evidence"
+    ],
     PM: [
       "keep write runner implementation blocked",
-      "classify A1/D evidence through accepted/rejected records",
+      allPrerequisitesAccepted
+        ? "prepare the separate future TWII write implementation candidate gate"
+        : "classify A1/D evidence through accepted/rejected records",
       "continue runtime-safe mainline work that does not require real write execution"
     ]
   },
-  nextAction:
-    "Route A1/D to the three blocked prerequisite evidence rows first; PM should not implement real write behavior until all blocked rows become accepted.",
+  nextAction: allPrerequisitesAccepted
+    ? "Prepare the separate future TWII write implementation candidate gate; do not implement or execute real write behavior from this consolidation report."
+    : "Route A1/D to the three blocked prerequisite evidence rows first; PM should not implement real write behavior until all blocked rows become accepted.",
   safety: {
     publicDataSource: "mock",
     scoreSource: "mock",
@@ -140,4 +179,3 @@ const report = {
 };
 
 console.log(JSON.stringify(report, null, 2));
-

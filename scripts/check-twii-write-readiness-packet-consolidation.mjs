@@ -27,15 +27,17 @@ const run = spawnSync(process.execPath, [reportPath], {
 
 const output = parseJson(run.stdout ?? "", "write readiness consolidation stdout");
 if (run.status !== 0) problems.push("write readiness consolidation report must exit 0");
-if (output.status !== "twii_write_readiness_packet_consolidation_ready_blocked_prerequisites_mapped") {
-  problems.push("write readiness consolidation status must map blocked prerequisites");
+if (output.status !== "twii_write_readiness_packet_consolidation_prerequisites_accepted_future_gate_ready") {
+  problems.push("write readiness consolidation status must show accepted prerequisites for future gate");
 }
-if (output.outcome !== "write_readiness_owner_action_map_ready_no_real_write") {
+if (output.outcome !== "write_readiness_prerequisites_accepted_prepare_future_candidate_gate_no_real_write") {
   problems.push("write readiness consolidation outcome must remain no-real-write");
 }
 if (output.implementationAllowedNow !== false) problems.push("implementationAllowedNow must be false");
-if (output.readyLocalCount !== 4) problems.push("readyLocalCount must be 4");
-if (output.blockedPrerequisiteCount !== 6) problems.push("blockedPrerequisiteCount must be 6");
+if (output.futureCandidateGateAllowed !== true) problems.push("futureCandidateGateAllowed must be true after prerequisite acceptance");
+if (output.readyLocalCount !== 10) problems.push("readyLocalCount must be 10 after prerequisite acceptance");
+if (output.blockedPrerequisiteCount !== 0) problems.push("blockedPrerequisiteCount must be 0 after prerequisite acceptance");
+if (output.acceptedPrerequisiteCount !== 6) problems.push("acceptedPrerequisiteCount must be 6");
 if (!Array.isArray(output.readinessItems) || output.readinessItems.length !== 10) {
   problems.push("readinessItems must contain 10 rows");
 }
@@ -69,9 +71,9 @@ if (
 
 for (const phrase of [
   "TWII Write Readiness Packet Consolidation",
-  "twii_write_readiness_packet_consolidation_ready_blocked_prerequisites_mapped",
+  "twii_write_readiness_packet_consolidation_prerequisites_accepted_future_gate_ready",
   "Owner Dispatch",
-  "A1 next: source-rights, field-contract, and asset-mapping evidence only",
+  "A1 next: stand by for future candidate-gate packet review",
   "Do not add Supabase client code"
 ]) {
   if (!doc.includes(phrase)) problems.push(`${docPath} missing: ${phrase}`);
@@ -80,16 +82,16 @@ for (const phrase of [
 for (const phrase of [
   "Latest TWII write readiness packet consolidation slice",
   "docs/TWII_WRITE_READINESS_PACKET_CONSOLIDATION.md",
-  "twii_write_readiness_packet_consolidation_ready_blocked_prerequisites_mapped",
-  "write_readiness_owner_action_map_ready_no_real_write"
+  "twii_write_readiness_packet_consolidation_prerequisites_accepted_future_gate_ready",
+  "write_readiness_prerequisites_accepted_prepare_future_candidate_gate_no_real_write"
 ]) {
   if (!status.includes(phrase)) problems.push(`${statusPath} missing: ${phrase}`);
 }
 
 for (const phrase of [
   "`docs/TWII_WRITE_READINESS_PACKET_CONSOLIDATION.md` is `accepted` as TWII write readiness packet consolidation",
-  "twii_write_readiness_packet_consolidation_ready_blocked_prerequisites_mapped",
-  "write_readiness_owner_action_map_ready_no_real_write"
+  "twii_write_readiness_packet_consolidation_prerequisites_accepted_future_gate_ready",
+  "write_readiness_prerequisites_accepted_prepare_future_candidate_gate_no_real_write"
 ]) {
   if (!board.includes(phrase)) problems.push(`${boardPath} missing: ${phrase}`);
 }
@@ -124,7 +126,8 @@ console.log(
       guardedStatus: output.status,
       acceptedOutcome: output.outcome,
       readyLocalCount: output.readyLocalCount,
-      blockedPrerequisiteCount: output.blockedPrerequisiteCount
+      blockedPrerequisiteCount: output.blockedPrerequisiteCount,
+      acceptedPrerequisiteCount: output.acceptedPrerequisiteCount
     },
     null,
     2
@@ -191,4 +194,3 @@ function forbiddenPatterns() {
     /row coverage scoring is approved/iu
   ];
 }
-

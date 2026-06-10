@@ -2,7 +2,7 @@
 
 Updated: 2026-06-10
 
-Status: `twii_a1_d_write_prerequisite_pm_intake_ledger_ready_pending_replies`
+Status: `twii_a1_d_write_prerequisite_pm_intake_ledger_all_accepted_ready_for_future_candidate_gate`
 
 ## Purpose
 
@@ -16,7 +16,9 @@ Canonical local ledger:
 
 - `data/source-gates/twii-write-prerequisite-intake-ledger.json`
 
-The initial ledger keeps all six slots as `pending` until PM records A1/D evidence outcomes.
+The current ledger records all six slots as `accepted` for future candidate-gate preparation only.
+
+This means PM may prepare a separate future `TWII write implementation upgrade candidate` gate. It still does not authorize SQL, Supabase connection, Supabase write, credential value access, market-data fetch, market-data ingestion, `daily_prices` mutation, candidate row acceptance, row coverage scoring, public data-source promotion, or `scoreSource=real`.
 
 ## Required Slots
 
@@ -39,9 +41,11 @@ Allowed classifications:
 
 ## PM Intake Rule
 
-All six slots must be `accepted` before PM may open a future `TWII write implementation upgrade candidate` gate.
+All six slots are now `accepted` before PM may open a future `TWII write implementation upgrade candidate` gate.
 
-If any slot is `pending`, `needs_bounded_repair`, `blocked`, or `rejected`, the write runner implementation remains blocked.
+If any future review downgrades a slot to `pending`, `needs_bounded_repair`, `blocked`, or `rejected`, the write runner implementation remains blocked.
+
+`accepted` in this ledger means only that PM may prepare the next candidate gate. It does not authorize implementation.
 
 `needs_bounded_repair` means PM may ask exactly one narrow safe question for that slot. It does not authorize implementation.
 
@@ -52,4 +56,3 @@ Ledger entries may include only no-secret summaries and safe labels. Entries mus
 ## Stop Line
 
 Do not add Supabase client code, read credentials, run SQL, connect to Supabase, write Supabase, fetch market data, ingest market data, mutate `daily_prices`, accept candidate rows, award row coverage points, output raw/row/stock-id payloads, print secrets, promote public source, or set `scoreSource=real` from this ledger.
-

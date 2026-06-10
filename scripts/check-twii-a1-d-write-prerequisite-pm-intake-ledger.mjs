@@ -29,16 +29,17 @@ const run = spawnSync(process.execPath, [reportPath], {
 
 const output = parseJson(run.stdout ?? "", "PM intake ledger stdout");
 if (run.status !== 0) problems.push("PM intake ledger report must exit 0");
-if (output.status !== "twii_a1_d_write_prerequisite_pm_intake_ledger_ready_pending_replies") {
-  problems.push("initial PM intake ledger status must be ready pending replies");
+if (output.status !== "twii_a1_d_write_prerequisite_pm_intake_ledger_all_accepted_ready_for_future_candidate_gate") {
+  problems.push("PM intake ledger status must be all accepted for future candidate gate");
 }
-if (output.outcome !== "implementation_upgrade_still_blocked_waiting_pm_intake") {
-  problems.push("initial PM intake ledger outcome must keep implementation blocked");
+if (output.outcome !== "all_prerequisites_accepted_future_candidate_gate_may_be_prepared") {
+  problems.push("PM intake ledger outcome must allow only future candidate gate preparation");
 }
 if (output.implementationAllowedNow !== false) problems.push("implementationAllowedNow must be false");
-if (output.futureCandidateGateAllowed !== false) problems.push("futureCandidateGateAllowed must be false until all slots accepted");
+if (output.futureCandidateGateAllowed !== true) problems.push("futureCandidateGateAllowed must be true after all slots are accepted");
 if (output.counts?.total !== 6) problems.push("ledger must contain 6 outcomes");
-if (output.counts?.pending !== 6) problems.push("initial ledger must keep all 6 outcomes pending");
+if (output.counts?.accepted !== 6) problems.push("ledger must keep all 6 outcomes accepted");
+if (output.counts?.pending !== 0) problems.push("ledger must have 0 pending outcomes after PM intake");
 if (output.counts?.unsafeEntryCount !== 0) problems.push("ledger must have 0 unsafe entries");
 
 for (const slotId of [
@@ -67,8 +68,8 @@ if (
 
 for (const phrase of [
   "TWII A1/D Write Prerequisite PM Intake Ledger",
-  "twii_a1_d_write_prerequisite_pm_intake_ledger_ready_pending_replies",
-  "All six slots must be `accepted`",
+  "twii_a1_d_write_prerequisite_pm_intake_ledger_all_accepted_ready_for_future_candidate_gate",
+  "all six slots as `accepted`",
   "data/source-gates/twii-write-prerequisite-intake-ledger.json",
   "Do not add Supabase client code"
 ]) {
@@ -79,15 +80,15 @@ for (const phrase of [
   "Latest TWII A1/D write prerequisite PM intake ledger slice",
   "docs/TWII_A1_D_WRITE_PREREQUISITE_PM_INTAKE_LEDGER.md",
   "data/source-gates/twii-write-prerequisite-intake-ledger.json",
-  "twii_a1_d_write_prerequisite_pm_intake_ledger_ready_pending_replies"
+  "twii_a1_d_write_prerequisite_pm_intake_ledger_all_accepted_ready_for_future_candidate_gate"
 ]) {
   if (!status.includes(phrase)) problems.push(`${statusPath} missing: ${phrase}`);
 }
 
 for (const phrase of [
   "`docs/TWII_A1_D_WRITE_PREREQUISITE_PM_INTAKE_LEDGER.md` is `accepted` as TWII A1/D write prerequisite PM intake ledger",
-  "twii_a1_d_write_prerequisite_pm_intake_ledger_ready_pending_replies",
-  "implementation_upgrade_still_blocked_waiting_pm_intake"
+  "twii_a1_d_write_prerequisite_pm_intake_ledger_all_accepted_ready_for_future_candidate_gate",
+  "all_prerequisites_accepted_future_candidate_gate_may_be_prepared"
 ]) {
   if (!board.includes(phrase)) problems.push(`${boardPath} missing: ${phrase}`);
 }
@@ -122,7 +123,7 @@ console.log(
       status: "ok",
       guardedStatus: output.status,
       acceptedOutcome: output.outcome,
-      pendingSlots: output.counts.pending
+      acceptedSlots: output.counts.accepted
     },
     null,
     2
@@ -189,4 +190,3 @@ function forbiddenPatterns() {
     /row coverage scoring is approved/iu
   ];
 }
-

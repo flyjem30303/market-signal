@@ -1,7 +1,7 @@
 {
   "ledgerId": "twii-write-prerequisite-intake-ledger",
   "updated": "2026-06-10",
-  "status": "twii_a1_d_write_prerequisite_pm_intake_ledger_ready_pending_replies",
+  "status": "twii_a1_d_write_prerequisite_pm_intake_ledger_all_accepted_ready_for_future_candidate_gate",
   "sourceDispatchPacket": "docs/TWII_A1_D_WRITE_PREREQUISITE_DISPATCH_PACKET.md",
   "implementationAllowedNow": false,
   "publicDataSource": "mock",
@@ -10,9 +10,9 @@
     {
       "slotId": "source-rights-decision",
       "owner": "A1/D/PM",
-      "classification": "pending",
-      "safeEvidenceSummary": "",
-      "pmDecisionNote": "Awaiting no-secret A1/D source-rights reply.",
+      "classification": "accepted",
+      "safeEvidenceSummary": "PM accepted the no-secret A1/D source-rights evidence as sufficient to prepare a future TWII write implementation candidate gate only.",
+      "pmDecisionNote": "Accepted for future candidate-gate preparation only; SQL, Supabase activity, candidate row acceptance, coverage scoring, public promotion, and real score remain blocked.",
       "rawPayloadIncluded": false,
       "rowPayloadIncluded": false,
       "stockIdPayloadIncluded": false,
@@ -23,9 +23,9 @@
     {
       "slotId": "field-contract-decision",
       "owner": "A1/PM",
-      "classification": "pending",
-      "safeEvidenceSummary": "",
-      "pmDecisionNote": "Awaiting no-secret A1 field-contract reply.",
+      "classification": "accepted",
+      "safeEvidenceSummary": "PM accepted the no-secret TWII field-contract evidence covering the minimum aggregate index contract and daily_prices mapping basis for future gate preparation only.",
+      "pmDecisionNote": "Accepted for future candidate-gate preparation only; no row payload output, candidate row acceptance, Supabase write, or promotion is authorized.",
       "rawPayloadIncluded": false,
       "rowPayloadIncluded": false,
       "stockIdPayloadIncluded": false,
@@ -36,9 +36,9 @@
     {
       "slotId": "asset-mapping-decision",
       "owner": "A1/PM",
-      "classification": "pending",
-      "safeEvidenceSummary": "",
-      "pmDecisionNote": "Awaiting no-secret A1 asset-mapping reply.",
+      "classification": "accepted",
+      "safeEvidenceSummary": "PM accepted the no-secret TWII index-lane asset mapping evidence for future gate preparation only, without row payloads or stock-id payloads.",
+      "pmDecisionNote": "Accepted for future candidate-gate preparation only; stock-id payload output, row coverage scoring, and real runtime promotion remain blocked.",
       "rawPayloadIncluded": false,
       "rowPayloadIncluded": false,
       "stockIdPayloadIncluded": false,
@@ -49,9 +49,9 @@
     {
       "slotId": "rollback-dry-run-plan",
       "owner": "A1/PM",
-      "classification": "pending",
-      "safeEvidenceSummary": "",
-      "pmDecisionNote": "Awaiting aggregate-only rollback dry-run plan reply.",
+      "classification": "accepted",
+      "safeEvidenceSummary": "PM accepted the existing rollback/no-write stop-line plan as an aggregate-only future gate prerequisite: any future packet must stop if rollback dry-run scope is missing.",
+      "pmDecisionNote": "Accepted as a plan-only prerequisite for future candidate-gate preparation; destructive rollback, SQL, Supabase connection, and Supabase write remain blocked.",
       "rawPayloadIncluded": false,
       "rowPayloadIncluded": false,
       "stockIdPayloadIncluded": false,
@@ -62,9 +62,9 @@
     {
       "slotId": "post-write-readback-plan",
       "owner": "A1/PM",
-      "classification": "pending",
-      "safeEvidenceSummary": "",
-      "pmDecisionNote": "Awaiting aggregate-only post-write readback plan reply.",
+      "classification": "accepted",
+      "safeEvidenceSummary": "PM accepted the aggregate-only post-write readback shape for future gate preparation: attempted, inserted, rejected, duplicate counts, target scope/table, and max trade date only.",
+      "pmDecisionNote": "Accepted as a plan-only prerequisite for future candidate-gate preparation; no Supabase read/write, row payload output, row acceptance, or promotion is authorized now.",
       "rawPayloadIncluded": false,
       "rowPayloadIncluded": false,
       "stockIdPayloadIncluded": false,
@@ -75,9 +75,9 @@
     {
       "slotId": "post-write-review-plan",
       "owner": "PM",
-      "classification": "pending",
-      "safeEvidenceSummary": "",
-      "pmDecisionNote": "Awaiting PM aggregate-only post-write review plan.",
+      "classification": "accepted",
+      "safeEvidenceSummary": "PM accepted the post-write review plan as aggregate-only and separate from promotion: any future review must inspect only safe counts and keep promotion/scoring blocked in the same run.",
+      "pmDecisionNote": "Accepted as a plan-only prerequisite for future candidate-gate preparation; publicDataSource=supabase, scoreSource=real, and row coverage scoring remain blocked.",
       "rawPayloadIncluded": false,
       "rowPayloadIncluded": false,
       "stockIdPayloadIncluded": false,
@@ -87,4 +87,3 @@
     }
   ]
 }
-
