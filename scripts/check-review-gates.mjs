@@ -4193,6 +4193,11 @@ const checks = [
     name: "twii-execute-switch-confirmation-preflight"
   },
   {
+    command: [node, "scripts/check-twii-bounded-insert-missing-only-contract-preflight.mjs"],
+    expectStatus: "ok",
+    name: "twii-bounded-insert-missing-only-contract-preflight"
+  },
+  {
     command: [node, "scripts/check-twii-a1-d-write-prerequisite-dispatch-packet.mjs"],
     expectStatus: "ok",
     name: "twii-a1-d-write-prerequisite-dispatch-packet"
@@ -5061,6 +5066,7 @@ const coreReviewGateNames = new Set([
   "twii-server-only-implementation-scaffold",
   "twii-credential-presence-shape-checker",
   "twii-execute-switch-confirmation-preflight",
+  "twii-bounded-insert-missing-only-contract-preflight",
   "twii-a1-d-write-prerequisite-dispatch-packet",
   "twii-a1-d-write-prerequisite-pm-intake-ledger",
   "coverage-universe-roadmap",
@@ -5154,6 +5160,7 @@ const coreReviewGateNames = new Set([
   "twii-server-only-implementation-scaffold",
   "twii-credential-presence-shape-checker",
   "twii-execute-switch-confirmation-preflight",
+  "twii-bounded-insert-missing-only-contract-preflight",
   "twii-a1-d-write-prerequisite-dispatch-packet",
   "twii-a1-d-write-prerequisite-pm-intake-ledger",
   "a1-source-rights-readiness-summary",
@@ -5324,6 +5331,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "twii-server-only-implementation-scaffold",
   "twii-credential-presence-shape-checker",
   "twii-execute-switch-confirmation-preflight",
+  "twii-bounded-insert-missing-only-contract-preflight",
   "twii-a1-d-write-prerequisite-dispatch-packet",
   "twii-a1-d-write-prerequisite-pm-intake-ledger",
   "typescript"
