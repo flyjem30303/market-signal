@@ -390,6 +390,8 @@
     "check:twii-write-runner-implementation-review-gate": "node scripts/check-twii-write-runner-implementation-review-gate.mjs",
     "report:twii-write-readiness-packet-consolidation": "node scripts/report-twii-write-readiness-packet-consolidation.mjs",
     "check:twii-write-readiness-packet-consolidation": "node scripts/check-twii-write-readiness-packet-consolidation.mjs",
+    "report:twii-write-implementation-candidate-gate-packet": "node scripts/report-twii-write-implementation-candidate-gate-packet.mjs",
+    "check:twii-write-implementation-candidate-gate-packet": "node scripts/check-twii-write-implementation-candidate-gate-packet.mjs",
     "report:twii-a1-d-write-prerequisite-dispatch-packet": "node scripts/report-twii-a1-d-write-prerequisite-dispatch-packet.mjs",
     "check:twii-a1-d-write-prerequisite-dispatch-packet": "node scripts/check-twii-a1-d-write-prerequisite-dispatch-packet.mjs",
     "report:twii-a1-d-write-prerequisite-pm-intake-ledger": "node scripts/report-twii-a1-d-write-prerequisite-pm-intake-ledger.mjs",

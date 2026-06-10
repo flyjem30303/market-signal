@@ -1,0 +1,60 @@
+{
+  "packetKind": "twii_write_implementation_candidate_gate_packet",
+  "authorizationId": "twii-write-implementation-candidate-20260610-a",
+  "chairmanDecision": "accepted_for_candidate_gate_preparation_only",
+  "ceoDecision": "accepted_for_candidate_gate_preparation_only",
+  "pmOwner": "PM",
+  "candidateArtifactPath": "data/candidates/twii-sanitized-candidate.json",
+  "sourceRightsDecisionReference": "data/source-gates/twii-write-prerequisite-intake-ledger.json#source-rights-decision",
+  "fieldContractReference": "data/source-gates/twii-write-prerequisite-intake-ledger.json#field-contract-decision",
+  "assetMappingReference": "data/source-gates/twii-write-prerequisite-intake-ledger.json#asset-mapping-decision",
+  "targetTable": "daily_prices",
+  "targetLane": "TWII",
+  "targetScope": "twii_index_daily_prices_missing_rows",
+  "maxRows": 60,
+  "writeMode": "bounded_insert_missing_only",
+  "duplicatePolicy": "reject_duplicates",
+  "rollbackPlan": {
+    "required": true,
+    "scope": "authorizationId",
+    "mode": "aggregate_only_no_mutation_until_future_write_gate",
+    "noWriteStopLine": true
+  },
+  "postWriteReadbackPlan": {
+    "aggregateOnly": true,
+    "requiredFields": [
+      "attempted_row_count",
+      "inserted_row_count",
+      "rejected_row_count",
+      "duplicate_row_count",
+      "target_scope",
+      "target_table",
+      "post_write_max_trade_date"
+    ]
+  },
+  "postWriteReviewCommand": "cmd.exe /c npm run report:twii-future-post-write-review -- --summary-path <SUMMARY_JSON>",
+  "promotionAllowed": false,
+  "rowCoverageScoringAllowed": false,
+  "scoreSourceRealAllowed": false,
+  "implementationAllowedNow": false,
+  "futureWriteGatePacketRequired": true,
+  "safety": {
+    "publicDataSource": "mock",
+    "scoreSource": "mock",
+    "sqlExecuted": false,
+    "supabaseConnectionAttempted": false,
+    "supabaseWritesEnabled": false,
+    "marketDataFetched": false,
+    "marketDataIngested": false,
+    "candidateRowsAccepted": false,
+    "dailyPricesMutated": false,
+    "stagingRowsCreated": false,
+    "rowCoverageScoringAllowed": false,
+    "rawPayloadOutput": false,
+    "rowPayloadOutput": false,
+    "stockIdPayloadOutput": false,
+    "secretsOutput": false,
+    "publicPromotionAllowed": false,
+    "scoreSourceRealAllowed": false
+  }
+}
