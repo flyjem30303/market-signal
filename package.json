@@ -436,6 +436,8 @@
     "check:twii-implementation-scope-packet": "node scripts/check-twii-implementation-scope-packet.mjs",
     "report:twii-server-only-implementation-scaffold": "node scripts/report-twii-server-only-implementation-scaffold.mjs",
     "check:twii-server-only-implementation-scaffold": "node scripts/check-twii-server-only-implementation-scaffold.mjs",
+    "report:twii-credential-presence-shape-checker": "node scripts/report-twii-credential-presence-shape-checker.mjs",
+    "check:twii-credential-presence-shape-checker": "node scripts/check-twii-credential-presence-shape-checker.mjs",
     "report:twii-a1-d-write-prerequisite-dispatch-packet": "node scripts/report-twii-a1-d-write-prerequisite-dispatch-packet.mjs",
     "check:twii-a1-d-write-prerequisite-dispatch-packet": "node scripts/check-twii-a1-d-write-prerequisite-dispatch-packet.mjs",
     "report:twii-a1-d-write-prerequisite-pm-intake-ledger": "node scripts/report-twii-a1-d-write-prerequisite-pm-intake-ledger.mjs",
