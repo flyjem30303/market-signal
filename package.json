@@ -419,6 +419,8 @@
     "run:twii-server-only-runner-preflight": "node scripts/run-twii-server-only-runner-preflight.mjs",
     "report:twii-server-only-runner-preflight": "node scripts/report-twii-server-only-runner-preflight.mjs",
     "check:twii-server-only-runner-preflight": "node scripts/check-twii-server-only-runner-preflight.mjs",
+    "report:twii-no-secret-execution-readiness-review": "node scripts/report-twii-no-secret-execution-readiness-review.mjs",
+    "check:twii-no-secret-execution-readiness-review": "node scripts/check-twii-no-secret-execution-readiness-review.mjs",
     "report:twii-a1-d-write-prerequisite-dispatch-packet": "node scripts/report-twii-a1-d-write-prerequisite-dispatch-packet.mjs",
     "check:twii-a1-d-write-prerequisite-dispatch-packet": "node scripts/check-twii-a1-d-write-prerequisite-dispatch-packet.mjs",
     "report:twii-a1-d-write-prerequisite-pm-intake-ledger": "node scripts/report-twii-a1-d-write-prerequisite-pm-intake-ledger.mjs",
