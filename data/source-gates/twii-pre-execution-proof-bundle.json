@@ -1,0 +1,97 @@
+{
+  "bundleKind": "twii_pre_execution_proof_bundle",
+  "bundleId": "twii-pre-execution-proof-bundle-20260610-a",
+  "selectorReportPath": "scripts/report-twii-explicit-execution-readiness-selector.mjs",
+  "executionPacketPath": "data/source-gates/twii-explicit-execution-packet-draft.json",
+  "targetTable": "daily_prices",
+  "targetLane": "TWII",
+  "targetScope": "twii_index_daily_prices_missing_rows",
+  "maxRows": 60,
+  "proofs": [
+    {
+      "proofId": "rollback-dry-run-proof",
+      "proofKind": "rollback_dry_run",
+      "required": true,
+      "readyForPmReview": true,
+      "mutationAllowed": false,
+      "requiredOutputShape": [
+        "attempt_id",
+        "target_table",
+        "target_scope",
+        "rollback_scope",
+        "would_rollback_row_count",
+        "mutation_executed"
+      ]
+    },
+    {
+      "proofId": "aggregate-readback-proof",
+      "proofKind": "aggregate_readback",
+      "required": true,
+      "readyForPmReview": true,
+      "payloadOutputAllowed": false,
+      "requiredOutputShape": [
+        "target_table",
+        "target_scope",
+        "expected_row_count",
+        "observed_row_count",
+        "duplicate_row_count",
+        "aggregate_only"
+      ]
+    },
+    {
+      "proofId": "post-write-review-proof",
+      "proofKind": "post_write_review",
+      "required": true,
+      "readyForPmReview": true,
+      "rowAcceptanceAllowed": false,
+      "requiredOutputShape": [
+        "attempt_id",
+        "inserted_row_count",
+        "rejected_row_count",
+        "duplicate_row_count",
+        "candidate_rows_accepted",
+        "promotion_allowed"
+      ]
+    }
+  ],
+  "bundleStatus": "ready_for_pm_review_no_execution",
+  "proofsReady": true,
+  "missingProofs": [],
+  "recommendedNextAction": "prepare_future_one_time_authorization_packet_after_pm_review",
+  "requiredBeforeAnyExecution": [
+    "pm_accepts_pre_execution_proof_bundle",
+    "future_one_time_authorization_packet_is_prepared",
+    "execute_switch_is_explicitly_enabled_later",
+    "confirmation_phrase_is_supplied_later",
+    "promotion_and_scoring_remain_blocked_until_separate_gate"
+  ],
+  "blockedExecutionReasons": [
+    "executionAllowedNow=false",
+    "writeGateExecutableNow=false",
+    "implementationAllowedNow=false",
+    "execute flag remains false in the explicit execution packet draft",
+    "future one-time authorization packet has not been issued"
+  ],
+  "executionAllowedNow": false,
+  "writeGateExecutableNow": false,
+  "implementationAllowedNow": false,
+  "safety": {
+    "publicDataSource": "mock",
+    "scoreSource": "mock",
+    "sqlExecuted": false,
+    "supabaseConnectionAttempted": false,
+    "supabaseWritesEnabled": false,
+    "marketDataFetched": false,
+    "marketDataIngested": false,
+    "candidateRowsAccepted": false,
+    "dailyPricesMutated": false,
+    "stagingRowsCreated": false,
+    "rowCoverageScoringAllowed": false,
+    "rawPayloadOutput": false,
+    "rowPayloadOutput": false,
+    "stockIdPayloadOutput": false,
+    "secretsOutput": false,
+    "publicPromotionAllowed": false,
+    "scoreSourceRealAllowed": false
+  }
+}

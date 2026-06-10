@@ -398,6 +398,8 @@
     "check:twii-explicit-execution-packet-draft": "node scripts/check-twii-explicit-execution-packet-draft.mjs",
     "report:twii-explicit-execution-readiness-selector": "node scripts/report-twii-explicit-execution-readiness-selector.mjs",
     "check:twii-explicit-execution-readiness-selector": "node scripts/check-twii-explicit-execution-readiness-selector.mjs",
+    "report:twii-pre-execution-proof-bundle": "node scripts/report-twii-pre-execution-proof-bundle.mjs",
+    "check:twii-pre-execution-proof-bundle": "node scripts/check-twii-pre-execution-proof-bundle.mjs",
     "report:twii-a1-d-write-prerequisite-dispatch-packet": "node scripts/report-twii-a1-d-write-prerequisite-dispatch-packet.mjs",
     "check:twii-a1-d-write-prerequisite-dispatch-packet": "node scripts/check-twii-a1-d-write-prerequisite-dispatch-packet.mjs",
     "report:twii-a1-d-write-prerequisite-pm-intake-ledger": "node scripts/report-twii-a1-d-write-prerequisite-pm-intake-ledger.mjs",
