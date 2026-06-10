@@ -396,6 +396,8 @@
     "check:twii-future-write-gate-review-packet": "node scripts/check-twii-future-write-gate-review-packet.mjs",
     "report:twii-explicit-execution-packet-draft": "node scripts/report-twii-explicit-execution-packet-draft.mjs",
     "check:twii-explicit-execution-packet-draft": "node scripts/check-twii-explicit-execution-packet-draft.mjs",
+    "report:twii-explicit-execution-readiness-selector": "node scripts/report-twii-explicit-execution-readiness-selector.mjs",
+    "check:twii-explicit-execution-readiness-selector": "node scripts/check-twii-explicit-execution-readiness-selector.mjs",
     "report:twii-a1-d-write-prerequisite-dispatch-packet": "node scripts/report-twii-a1-d-write-prerequisite-dispatch-packet.mjs",
     "check:twii-a1-d-write-prerequisite-dispatch-packet": "node scripts/check-twii-a1-d-write-prerequisite-dispatch-packet.mjs",
     "report:twii-a1-d-write-prerequisite-pm-intake-ledger": "node scripts/report-twii-a1-d-write-prerequisite-pm-intake-ledger.mjs",
