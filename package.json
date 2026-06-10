@@ -434,6 +434,8 @@
     "check:twii-real-write-runner-implementation-review-gate": "node scripts/check-twii-real-write-runner-implementation-review-gate.mjs",
     "report:twii-implementation-scope-packet": "node scripts/report-twii-implementation-scope-packet.mjs",
     "check:twii-implementation-scope-packet": "node scripts/check-twii-implementation-scope-packet.mjs",
+    "report:twii-server-only-implementation-scaffold": "node scripts/report-twii-server-only-implementation-scaffold.mjs",
+    "check:twii-server-only-implementation-scaffold": "node scripts/check-twii-server-only-implementation-scaffold.mjs",
     "report:twii-a1-d-write-prerequisite-dispatch-packet": "node scripts/report-twii-a1-d-write-prerequisite-dispatch-packet.mjs",
     "check:twii-a1-d-write-prerequisite-dispatch-packet": "node scripts/check-twii-a1-d-write-prerequisite-dispatch-packet.mjs",
     "report:twii-a1-d-write-prerequisite-pm-intake-ledger": "node scripts/report-twii-a1-d-write-prerequisite-pm-intake-ledger.mjs",
