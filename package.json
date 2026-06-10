@@ -438,6 +438,8 @@
     "check:twii-server-only-implementation-scaffold": "node scripts/check-twii-server-only-implementation-scaffold.mjs",
     "report:twii-credential-presence-shape-checker": "node scripts/report-twii-credential-presence-shape-checker.mjs",
     "check:twii-credential-presence-shape-checker": "node scripts/check-twii-credential-presence-shape-checker.mjs",
+    "report:twii-execute-switch-confirmation-preflight": "node scripts/report-twii-execute-switch-confirmation-preflight.mjs",
+    "check:twii-execute-switch-confirmation-preflight": "node scripts/check-twii-execute-switch-confirmation-preflight.mjs",
     "report:twii-a1-d-write-prerequisite-dispatch-packet": "node scripts/report-twii-a1-d-write-prerequisite-dispatch-packet.mjs",
     "check:twii-a1-d-write-prerequisite-dispatch-packet": "node scripts/check-twii-a1-d-write-prerequisite-dispatch-packet.mjs",
     "report:twii-a1-d-write-prerequisite-pm-intake-ledger": "node scripts/report-twii-a1-d-write-prerequisite-pm-intake-ledger.mjs",
