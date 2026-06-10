@@ -26,13 +26,14 @@ const run = spawnSync(process.execPath, [reportPath], {
 });
 const output = parseJson(run.stdout ?? "", "implementation review stdout");
 if (run.status !== 0) problems.push("implementation review report must exit 0");
-if (output.status !== "twii_write_runner_implementation_review_gate_blocked_prerequisites_not_accepted") {
-  problems.push("implementation review gate must be blocked on prerequisites");
+if (output.status !== "twii_write_runner_implementation_review_gate_ready_future_review_no_execution") {
+  problems.push("implementation review gate must be ready for future review without execution");
 }
-if (output.outcome !== "implementation_upgrade_blocked_keep_skeleton_non_executing") {
-  problems.push("implementation review outcome must keep skeleton non-executing");
+if (output.outcome !== "implementation_review_ready_but_real_write_still_blocked") {
+  problems.push("implementation review outcome must keep real write blocked");
 }
 if (output.implementationAllowedNow !== false) problems.push("implementationAllowedNow must be false");
+if (output.writeGateExecutableNow !== false) problems.push("writeGateExecutableNow must be false");
 assertSafety(output);
 
 if (pkg.scripts?.["report:twii-write-runner-implementation-review-gate"] !== `node ${reportPath}`) {
@@ -47,8 +48,8 @@ if (
 
 for (const phrase of [
   "TWII Write Runner Implementation Review Gate",
-  "twii_write_runner_implementation_review_gate_blocked_prerequisites_not_accepted",
-  "Current decision: blocked",
+  "twii_write_runner_implementation_review_gate_ready_future_review_no_execution",
+  "Current decision: ready for future review, no execution",
   "source-rights decision",
   "field-contract decision",
   "asset-mapping decision",
@@ -60,16 +61,16 @@ for (const phrase of [
 for (const phrase of [
   "Latest TWII write runner implementation review gate slice",
   "docs/TWII_WRITE_RUNNER_IMPLEMENTATION_REVIEW_GATE.md",
-  "twii_write_runner_implementation_review_gate_blocked_prerequisites_not_accepted",
-  "implementation_upgrade_blocked_keep_skeleton_non_executing"
+  "twii_write_runner_implementation_review_gate_ready_future_review_no_execution",
+  "implementation_review_ready_but_real_write_still_blocked"
 ]) {
   if (!status.includes(phrase)) problems.push(`${statusPath} missing: ${phrase}`);
 }
 
 for (const phrase of [
-  "`docs/TWII_WRITE_RUNNER_IMPLEMENTATION_REVIEW_GATE.md` is `blocked` as TWII write runner implementation review gate",
-  "twii_write_runner_implementation_review_gate_blocked_prerequisites_not_accepted",
-  "implementation_upgrade_blocked_keep_skeleton_non_executing"
+  "`docs/TWII_WRITE_RUNNER_IMPLEMENTATION_REVIEW_GATE.md` is `accepted` as TWII write runner implementation review gate",
+  "twii_write_runner_implementation_review_gate_ready_future_review_no_execution",
+  "implementation_review_ready_but_real_write_still_blocked"
 ]) {
   if (!board.includes(phrase)) problems.push(`${boardPath} missing: ${phrase}`);
 }
@@ -102,7 +103,9 @@ console.log(
     {
       status: "ok",
       guardedStatus: output.status,
-      acceptedOutcome: output.outcome
+      acceptedOutcome: output.outcome,
+      implementationAllowedNow: output.implementationAllowedNow,
+      writeGateExecutableNow: output.writeGateExecutableNow
     },
     null,
     2
@@ -169,4 +172,3 @@ function forbiddenPatterns() {
     /row coverage scoring is approved/iu
   ];
 }
-

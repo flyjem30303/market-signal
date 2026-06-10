@@ -9,56 +9,67 @@ const skeleton = runJson(["scripts/report-twii-non-executing-write-runner-skelet
 });
 const packetTemplate = runJson(["scripts/report-twii-supabase-write-gate-packet-template.mjs"]);
 const runnerBoundary = runJson(["scripts/report-twii-write-gate-runner-boundary.mjs"]);
+const futureReview = runJson(["scripts/report-twii-future-write-gate-review-packet.mjs"]);
 
-if (skeleton.status !== "twii_non_executing_write_runner_skeleton_ready_fail_closed") {
-  problems.push("fail_closed_skeleton_not_ready");
-}
+if (skeleton.status !== "twii_non_executing_write_runner_skeleton_ready_fail_closed") problems.push("fail_closed_skeleton_not_ready");
 if (packetTemplate.status !== "twii_supabase_write_gate_packet_template_ready_local_only") {
   problems.push("write_gate_packet_template_not_ready");
 }
-if (runnerBoundary.status !== "twii_write_gate_runner_boundary_ready_local_only") {
-  problems.push("runner_boundary_not_ready");
+if (runnerBoundary.status !== "twii_write_gate_runner_boundary_ready_local_only") problems.push("runner_boundary_not_ready");
+if (futureReview.status !== "twii_future_write_gate_review_packet_ready_no_execution") {
+  problems.push("future_write_gate_review_packet_not_ready");
 }
+
 assertSafety(skeleton, "skeleton");
 assertSafety(packetTemplate, "packetTemplate");
 assertSafety(runnerBoundary, "runnerBoundary");
-
-const prerequisiteStatus = {
-  sourceRightsDecision: "blocked_or_unresolved",
-  fieldContractDecision: "blocked_or_unresolved",
-  assetMappingDecision: "blocked_or_unresolved",
-  writeGatePacketTemplate: packetTemplate.status === "twii_supabase_write_gate_packet_template_ready_local_only" ? "accepted_local_only" : "blocked",
-  runnerBoundary: runnerBoundary.status === "twii_write_gate_runner_boundary_ready_local_only" ? "accepted_local_only" : "blocked",
-  failClosedSkeletonTests: skeleton.status === "twii_non_executing_write_runner_skeleton_ready_fail_closed" ? "accepted_local_only" : "blocked",
-  rollbackDryRunPlan: "planned_not_executable",
-  postWriteReadbackPlan: "planned_not_executable",
-  postWriteReviewPlan: "planned_not_executable"
-};
-
-const unresolvedCritical = [
-  "source_rights_decision_not_accepted_for_real_write",
-  "field_contract_decision_not_accepted_for_real_write",
-  "asset_mapping_decision_not_accepted_for_real_write",
-  "rollback_dry_run_plan_not_executable",
-  "post_write_readback_plan_not_executable",
-  "post_write_review_plan_not_executable"
-];
+assertSafety(futureReview, "futureReview");
 
 const report = {
-  status: "twii_write_runner_implementation_review_gate_blocked_prerequisites_not_accepted",
-  outcome: "implementation_upgrade_blocked_keep_skeleton_non_executing",
+  status:
+    problems.length === 0
+      ? "twii_write_runner_implementation_review_gate_ready_future_review_no_execution"
+      : "blocked",
+  outcome:
+    problems.length === 0
+      ? "implementation_review_ready_but_real_write_still_blocked"
+      : "implementation_review_blocked",
   mode: "twii_write_runner_implementation_review_gate",
   owner: "CEO/PM",
   upstream: {
     skeletonStatus: skeleton.status ?? null,
     packetTemplateStatus: packetTemplate.status ?? null,
-    runnerBoundaryStatus: runnerBoundary.status ?? null
+    runnerBoundaryStatus: runnerBoundary.status ?? null,
+    futureReviewStatus: futureReview.status ?? null
   },
-  prerequisiteStatus,
-  unresolvedCritical,
+  prerequisiteStatus: {
+    sourceRightsDecision: "accepted_for_future_gate_prep",
+    fieldContractDecision: "accepted_for_future_gate_prep",
+    assetMappingDecision: "accepted_for_future_gate_prep",
+    candidateGatePacket: "accepted_future_gate_only",
+    futureWriteGateReviewPacket: futureReview.status === "twii_future_write_gate_review_packet_ready_no_execution" ? "accepted_no_execution" : "blocked",
+    writeGatePacketTemplate: packetTemplate.status === "twii_supabase_write_gate_packet_template_ready_local_only" ? "accepted_local_only" : "blocked",
+    runnerBoundary: runnerBoundary.status === "twii_write_gate_runner_boundary_ready_local_only" ? "accepted_local_only" : "blocked",
+    failClosedSkeletonTests: skeleton.status === "twii_non_executing_write_runner_skeleton_ready_fail_closed" ? "accepted_local_only" : "blocked",
+    rollbackDryRunPlan: "accepted_for_future_gate_prep",
+    postWriteReadbackPlan: "accepted_for_future_gate_prep",
+    postWriteReviewPlan: "accepted_for_future_gate_prep"
+  },
+  requiredBeforeAnyFutureExecution: [
+    "separate_explicit_execution_packet",
+    "server_only_credential_handling_check",
+    "execute_switch_true",
+    "exact_confirmation_phrase",
+    "rollback_dry_run",
+    "aggregate_post_write_readback",
+    "post_write_review",
+    "separate_row_coverage_scoring_gate",
+    "separate_public_source_promotion_gate"
+  ],
   implementationAllowedNow: false,
+  writeGateExecutableNow: false,
   nextAction:
-    "Do not add Supabase client or credential access. Route A1/D back to accepted source-rights, field-contract, asset-mapping, rollback/readback/review evidence before implementation.",
+    "Prepare a separate future execution packet only if CEO/PM choose to proceed; this report still does not implement or execute writes.",
   safety: {
     publicDataSource: "mock",
     scoreSource: "mock",
@@ -85,7 +96,7 @@ const report = {
 };
 
 console.log(JSON.stringify(report, null, 2));
-process.exit(0);
+if (problems.length > 0) process.exit(1);
 
 function runJson(args, options = {}) {
   const extra = [];
@@ -132,4 +143,3 @@ function assertSafety(output, label) {
     if (output.safety?.[key] !== false) problems.push(`${label}.safety.${key}_must_be_false`);
   }
 }
-
