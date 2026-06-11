@@ -214,11 +214,11 @@ export default async function BriefingPage() {
 
       <section className="public-beta-readonly-gate briefing-readonly-gate" aria-label="Batch 1 bounded readonly gate">
         <div className="public-beta-readonly-gate-head">
-          <p className="eyebrow">Bounded Readonly Gate</p>
-          <h2>Batch 1 只讀驗證包：ready to present, not execute</h2>
+          <p className="eyebrow">資料升級安全線</p>
+          <h2>Batch 1 只讀診斷結果：已完成一次，仍不可寫入</h2>
           <p>
-            這個 gate 只整理未來若要做一次 bounded readonly attempt 時，PM/CEO 要審核的目的、輸出欄位與 fail-closed 條件；
-            目前沒有執行 Supabase、沒有 SQL、沒有寫入，也不會切換 real。
+            這個區塊只說明資料真實化前的安全檢查結果：目前已做過一次彙總型只讀診斷，
+            但覆蓋率還不足，所以公開頁仍維持 mock-only，沒有 SQL、沒有寫入，也不會切換 real。
           </p>
         </div>
         <div className="public-beta-readonly-gate-grid">

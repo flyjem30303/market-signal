@@ -85,12 +85,14 @@ const pages = [
       "Batch 1 Readiness",
       "Field contract",
       "Readonly / write gates",
-      "Bounded Readonly Gate",
+      "資料升級安全線",
+      "Batch 1 只讀診斷結果",
+      "只讀診斷目的",
       "已完成一次只讀診斷",
+      "只有彙總證據",
       "目前只確認彙總覆蓋率",
       "寫入、回補與真實分數升級仍關閉",
-      "Aggregate proof only",
-      "Write / promotion lock"
+      "寫入與升級鎖定"
     ]
   },
   {

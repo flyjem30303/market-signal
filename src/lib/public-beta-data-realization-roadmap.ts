@@ -264,26 +264,26 @@ export function getPublicBetaCoverageRolloutPlan(): PublicBetaCoverageRolloutPla
     readonlyGate: [
       {
         id: "readonly-purpose",
-        label: "Readonly purpose",
+        label: "只讀診斷目的",
         publicStatus: "已完成一次只讀診斷，結果仍需補資料",
-        publicMeaning: "One bounded readonly validation has run. It reached Supabase and returned aggregate-only counts, but Batch 1 coverage is still incomplete, so the public site remains mock-only.",
-        requiredBeforeExecution: "Do not retry this attempt in the same slice. Prepare a Batch 1 data coverage route decision for TWII, 0050, and 006208 before any write/backfill gate.",
+        publicMeaning: "這次只確認後端可讀與彙總筆數，還不能代表 Batch 1 資料已完整。",
+        requiredBeforeExecution: "下一步先處理 TWII、0050、006208 的覆蓋缺口，再評估任何寫入或回補 gate。",
         status: "blocked"
       },
       {
         id: "aggregate-proof",
-        label: "Aggregate proof only",
+        label: "只有彙總證據",
         publicStatus: "目前只確認彙總覆蓋率，尚未補齊 Batch 1",
-        publicMeaning: "The latest diagnostic counted 182 of 360 expected Batch 1 rows. Three symbols are complete, while TWII and two ETF symbols still need coverage work.",
-        requiredBeforeExecution: "Post-run review confirmed no raw payload, row payload, stock-id payload, secrets, SQL text, Supabase write, or market-data ingestion was exposed.",
+        publicMeaning: "目前 360 筆預期資料中只觀察到 182 筆；三個標的完整，但 TWII 與兩檔 ETF 還需要補覆蓋。",
+        requiredBeforeExecution: "這份結果只保留彙總資訊；未暴露原始資料、逐列資料、stock_id、密鑰、SQL、寫入或市場資料匯入。",
         status: "ready"
       },
       {
         id: "write-promotion-lock",
-        label: "Write / promotion lock",
+        label: "寫入與升級鎖定",
         publicStatus: "寫入、回補與真實分數升級仍關閉",
         publicMeaning: "只讀驗證即使成功，也不代表可以寫資料、補資料、給 row coverage 分數或切 real。",
-        requiredBeforeExecution: "任何 write/backfill、公開資料升級或真實分數啟用都必須另開 gate。",
+        requiredBeforeExecution: "任何寫入、回補、公開資料升級或真實分數啟用都必須另開 gate。",
         status: "blocked"
       }
     ],
