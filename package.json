@@ -403,6 +403,7 @@
     "check:twii-pre-execution-proof-bundle": "node scripts/check-twii-pre-execution-proof-bundle.mjs",
     "report:twii-future-one-time-authorization-packet": "node scripts/report-twii-future-one-time-authorization-packet.mjs",
     "check:twii-future-one-time-authorization-packet": "node scripts/check-twii-future-one-time-authorization-packet.mjs",
+    "check:twii-one-shot-authorization-packet-alignment": "node scripts/check-twii-one-shot-authorization-packet-alignment.mjs",
     "report:twii-pm-authorization-review-decision-packet": "node scripts/report-twii-pm-authorization-review-decision-packet.mjs",
     "check:twii-pm-authorization-review-decision-packet": "node scripts/check-twii-pm-authorization-review-decision-packet.mjs",
     "report:twii-one-attempt-runner-execution-gate": "node scripts/report-twii-one-attempt-runner-execution-gate.mjs",

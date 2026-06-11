@@ -88,6 +88,10 @@ const checks = [
     name: "twii-coverage-repair-gate"
   },
   {
+    command: [node, "scripts/check-twii-one-shot-authorization-packet-alignment.mjs"],
+    name: "twii-one-shot-authorization-packet-alignment"
+  },
+  {
     command: [node, "scripts/check-data-realification-acceleration-gate.mjs"],
     name: "data-realification-acceleration-gate"
   },

@@ -1007,6 +1007,30 @@ Date: 2026-06-08
 卡住：A1 尚未回傳四格 no-secret evidence，因此 outcome gate 仍不能開，且不得進入 source-rights approval、candidate generation、Supabase、SQL、market-data ingestion、row coverage points 或 real promotion。
 
 下一步：A1 只需回 `evidenceSlotId`、`sourceReferenceLabel`、`safeEvidenceSummary`、`remainingRisk`；PM 收到後先跑 `check:a1-twii-evidence-response-shape`，再 dry-run reviewed outcome。
+# Latest TWII one-shot authorization packet alignment slice
+
+Status: `twii_one_shot_authorization_packet_alignment_ready_no_execution`
+
+Date: 2026-06-12
+
+CEO decision: `reuse_existing_twii_future_one_time_authorization_packet_and_align_latest_coverage_repair_gate`.
+
+PM route: `prepare_twii_one_shot_authorization_packet_without_execution`.
+
+Outcome: `twii_one_shot_authorization_packet_alignment_registered_local_only`.
+
+This slice adds `docs/TWII_ONE_SHOT_AUTHORIZATION_PACKET_ALIGNMENT.md` and `scripts/check-twii-one-shot-authorization-packet-alignment.mjs`, then registers `check:twii-one-shot-authorization-packet-alignment` in `package.json`, `scripts/check-review-gates.mjs`, and `scripts/check-localhost-full-health.mjs`.
+
+The alignment accepts the existing `docs/TWII_FUTURE_ONE_TIME_AUTHORIZATION_PACKET.md` and `data/source-gates/twii-future-one-time-authorization-packet.json` as the canonical one-time authorization packet family, while `docs/TWII_COVERAGE_REPAIR_GATE.md` supplies the latest 2026-06-12 route context.
+
+A1 support file target: `docs/A1_TWII_ONE_SHOT_AUTH_PACKET_DATA_INPUTS.md`. A2 support file target: `docs/A2_TWII_ONE_SHOT_AUTH_PACKET_PUBLIC_COPY_GUARD.md`.
+
+The current route remains aggregate-only and non-executing: `TWII`, `daily_prices`, `twii_index_daily_prices_missing_rows`, `maxRows=60`, `bounded_insert_missing_only`, and `reject_duplicates`. Runtime stays `publicDataSource=mock`; scoring stays `scoreSource=mock`.
+
+This slice does not authorize SQL, Supabase connection, Supabase write, staging rows, `daily_prices` mutation, market-data fetch/ingest/store/commit, candidate-row acceptance, row coverage scoring, public source promotion, real score promotion, live-data claims, or investment-advice claims.
+
+Next PM route: `prepare_pm_review_decision_for_twii_future_one_time_authorization_packet_without_execution`.
+
 # Latest TWII coverage repair gate slice
 
 Status: `twii_coverage_repair_gate_ready_design_only_not_executable`
