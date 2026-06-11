@@ -109,7 +109,7 @@ export function getPublicBetaDataRealizationRoadmap(): PublicBetaDataRealization
       {
         currentState: "公開頁仍使用 mock score，不提供 real-time 或 real score 宣稱。",
         id: "runtime-promotion",
-        label: "Runtime promotion",
+        label: "公開資料升級",
         nextStep: "資料覆蓋、品質、來源權利與法務揭露通過後，才允許升級到 real。",
         publicMeaning: "使用者可以先理解產品，但不能把目前燈號當正式決策依據。",
         tone: "blocked"
@@ -134,7 +134,7 @@ export function getPublicBetaCoverageRolloutPlan(): PublicBetaCoverageRolloutPla
       {
         blocker: "TWII 與 ETF 欄位、單位、日期、漲跌幅與排除欄位尚未完成合約。",
         id: "batch1-field-contract",
-        label: "Field contract",
+        label: "欄位規格",
         nextStep: "鎖定 symbol、session date、close/level、change、source status、rights status 等最小欄位。",
         publicMeaning: "欄位合約完成後，使用者才知道每個數字代表什麼。",
         status: "waiting"
@@ -150,7 +150,7 @@ export function getPublicBetaCoverageRolloutPlan(): PublicBetaCoverageRolloutPla
       {
         blocker: "readonly/write gate 尚未允許公開 runtime 讀寫正式資料。",
         id: "batch1-runtime-gates",
-        label: "Readonly / write gates",
+        label: "唯讀與寫入條件",
         nextStep: "等 readonly、write path、rollback/fail-closed 全部通過後才可能 promotion。",
         publicMeaning: "資料庫準備好不等於網站可以直接切 real。",
         status: "blocked"
@@ -224,7 +224,7 @@ export function getPublicBetaCoverageRolloutPlan(): PublicBetaCoverageRolloutPla
     checklist: [
       {
         id: "coverage-sufficiency",
-        label: "Coverage sufficiency",
+        label: "覆蓋率是否足夠",
         notYetClaimed: "尚未宣稱完整覆蓋所有台股。",
         publicWording: "先分批補齊市場基準、ETF、主要個股與族群資料。",
         status: "waiting"
@@ -252,7 +252,7 @@ export function getPublicBetaCoverageRolloutPlan(): PublicBetaCoverageRolloutPla
       },
       {
         id: "trust-legal-disclosure",
-        label: "Trust and legal disclosure",
+        label: "信任與法務揭露",
         notYetClaimed: "不提供買賣建議、績效承諾或即時精準到秒承諾。",
         publicWording: "所有燈號都是資訊與風險辨識，不是交易指令。",
         status: "ready"
@@ -260,7 +260,7 @@ export function getPublicBetaCoverageRolloutPlan(): PublicBetaCoverageRolloutPla
     ],
     disclosure:
       "Coverage rollout 與 promotion checklist 只說明上線路徑；目前仍保持示範資料與示範分數。",
-    headline: "Coverage Rollout Plan",
+    headline: "資料覆蓋率展開計畫",
     readonlyGate: [
       {
         id: "readonly-purpose",

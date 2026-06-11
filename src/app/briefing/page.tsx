@@ -189,7 +189,7 @@ export default async function BriefingPage() {
 
       <section className="public-beta-data-realization-roadmap briefing-data-realization" aria-label="資料真實化路徑">
         <div className="public-beta-data-realization-head">
-          <p className="eyebrow">Data Realization Path</p>
+          <p className="eyebrow">資料真實化路徑</p>
           <h2>{dataRealizationRoadmap.headline}</h2>
           <p>{dataRealizationRoadmap.summary}</p>
           <p>{dataRealizationRoadmap.disclosure}</p>
@@ -208,7 +208,7 @@ export default async function BriefingPage() {
 
       <section className="public-beta-coverage-rollout briefing-coverage-rollout" aria-label="Coverage rollout plan">
         <div className="public-beta-coverage-rollout-head">
-          <p className="eyebrow">Coverage Rollout</p>
+          <p className="eyebrow">覆蓋率展開</p>
           <h2>{coverageRolloutPlan.headline}</h2>
           <p>{coverageRolloutPlan.summary}</p>
           <p>{coverageRolloutPlan.disclosure}</p>
@@ -236,7 +236,7 @@ export default async function BriefingPage() {
 
       <section className="public-beta-batch1-readiness briefing-batch1-readiness" aria-label="Batch 1 readiness checklist">
         <div className="public-beta-batch1-readiness-head">
-          <p className="eyebrow">Batch 1 Readiness</p>
+          <p className="eyebrow">Batch 1 可上線準備</p>
           <h2>TWII + 核心 ETF 真實化前置閉環</h2>
           <p>
             Batch 1 會先處理台股大盤與核心 ETF，但只有來源權利、欄位合約、更新規則與 runtime gates

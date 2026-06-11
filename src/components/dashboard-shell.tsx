@@ -652,7 +652,7 @@ function HomeProductOverview({
 
       <section className="public-beta-data-realization-roadmap" aria-label="資料真實化路徑">
         <div className="public-beta-data-realization-head">
-          <p className="eyebrow">Data Realization Path</p>
+          <p className="eyebrow">資料真實化路徑</p>
           <h2>{dataRealizationRoadmap.headline}</h2>
           <p>{dataRealizationRoadmap.summary}</p>
           <p>{dataRealizationRoadmap.disclosure}</p>
@@ -671,7 +671,7 @@ function HomeProductOverview({
 
       <section className="public-beta-coverage-rollout" aria-label="Coverage rollout plan">
         <div className="public-beta-coverage-rollout-head">
-          <p className="eyebrow">Coverage Rollout</p>
+          <p className="eyebrow">覆蓋率展開</p>
           <h2>{coverageRolloutPlan.headline}</h2>
           <p>{coverageRolloutPlan.summary}</p>
           <p>{coverageRolloutPlan.disclosure}</p>
@@ -699,7 +699,7 @@ function HomeProductOverview({
 
       <section className="public-beta-batch1-readiness" aria-label="Batch 1 readiness checklist">
         <div className="public-beta-batch1-readiness-head">
-          <p className="eyebrow">Next Data Step</p>
+          <p className="eyebrow">下一個資料步驟</p>
           <h2>先把大盤與核心 ETF 變成可驗證資料</h2>
           <p>
             下一階段先處理 TWII 與核心 ETF，目標是讓使用者能用同一套口徑看市場氣氛。現在仍是 mock 閱讀模式，
