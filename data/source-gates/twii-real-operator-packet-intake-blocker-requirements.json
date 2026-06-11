@@ -1,0 +1,58 @@
+{
+  "requirementSetKind": "twii_real_operator_packet_intake_blocker_requirements",
+  "requirementSetMode": "real_intake_required_values_blocker_only_no_execution",
+  "sourceFillSimulationGatePath": "data/source-gates/twii-operator-packet-fill-simulation-gate-preflight.json",
+  "sourceFillSimulationFixturesPath": "data/source-gates/twii-operator-packet-fill-simulation-fixtures.json",
+  "blockerOnly": true,
+  "realValuesProvidedNow": false,
+  "realDecisionValueReadNow": false,
+  "realDecisionValueRecordedNow": false,
+  "executionAllowedNow": false,
+  "publicDataSource": "mock",
+  "scoreSource": "mock",
+  "requiredRealIntakeFields": [
+    "realDecisionStatus",
+    "realDecisionRecordedBy",
+    "realDecisionRecordedAt",
+    "realDecisionReasonSummary",
+    "realRepairRequiredSummary",
+    "operatorReviewStatus",
+    "operatorAttestation",
+    "executionAcknowledgement",
+    "publicDataSource",
+    "scoreSource"
+  ],
+  "blockerStatuses": [
+    "blocked_missing_real_values",
+    "blocked_pending_operator_review",
+    "blocked_repair_required",
+    "ready_for_future_intake_review_only"
+  ],
+  "currentBlockers": [
+    "blocked_missing_real_values",
+    "blocked_pending_operator_review"
+  ],
+  "missingRealValuePlaceholders": [
+    "__REAL_DECISION_STATUS__",
+    "__REAL_DECISION_RECORDED_BY__",
+    "__REAL_DECISION_RECORDED_AT__",
+    "__REAL_DECISION_REASON_SUMMARY__",
+    "__REAL_REPAIR_REQUIRED_SUMMARY_OR_EMPTY__",
+    "__REAL_OPERATOR_ATTESTATION__",
+    "__REAL_EXECUTION_ACKNOWLEDGEMENT__"
+  ],
+  "disallowedRequirementFields": [
+    "decisionSecretValue",
+    "authorizationValue",
+    "confirmationPhraseValue",
+    "executeSwitchValue",
+    "credentialValue",
+    "rowBody",
+    "tradeDateList",
+    "sourcePayload",
+    "rawPayload",
+    "stockIdPayload",
+    "personalizedAdvice",
+    "buySellHoldSignal"
+  ]
+}
