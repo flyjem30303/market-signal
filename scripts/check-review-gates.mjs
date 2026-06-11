@@ -4378,6 +4378,11 @@ const checks = [
     name: "twii-external-values-shape-recheck-preparation-gate"
   },
   {
+    command: [node, "scripts/check-twii-pre-execution-readiness-recheck-preparation-gate.mjs"],
+    expectStatus: "ok",
+    name: "twii-pre-execution-readiness-recheck-preparation-gate"
+  },
+  {
     command: [node, "scripts/check-twii-a1-d-write-prerequisite-dispatch-packet.mjs"],
     expectStatus: "ok",
     name: "twii-a1-d-write-prerequisite-dispatch-packet"
@@ -5283,6 +5288,7 @@ const coreReviewGateNames = new Set([
   "twii-explicit-operator-go-no-go-decision-preparation-gate",
   "twii-operator-value-intake-stopline-preparation-gate",
   "twii-external-values-shape-recheck-preparation-gate",
+  "twii-pre-execution-readiness-recheck-preparation-gate",
   "twii-a1-d-write-prerequisite-dispatch-packet",
   "twii-a1-d-write-prerequisite-pm-intake-ledger",
   "coverage-universe-roadmap",
@@ -5413,6 +5419,7 @@ const coreReviewGateNames = new Set([
   "twii-explicit-operator-go-no-go-decision-preparation-gate",
   "twii-operator-value-intake-stopline-preparation-gate",
   "twii-external-values-shape-recheck-preparation-gate",
+  "twii-pre-execution-readiness-recheck-preparation-gate",
   "twii-a1-d-write-prerequisite-dispatch-packet",
   "twii-a1-d-write-prerequisite-pm-intake-ledger",
   "a1-source-rights-readiness-summary",
@@ -5620,6 +5627,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "twii-explicit-operator-go-no-go-decision-preparation-gate",
   "twii-operator-value-intake-stopline-preparation-gate",
   "twii-external-values-shape-recheck-preparation-gate",
+  "twii-pre-execution-readiness-recheck-preparation-gate",
   "twii-a1-d-write-prerequisite-dispatch-packet",
   "twii-a1-d-write-prerequisite-pm-intake-ledger",
   "typescript"

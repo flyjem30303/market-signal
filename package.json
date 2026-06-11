@@ -514,6 +514,8 @@
     "check:twii-operator-value-intake-stopline-preparation-gate": "node scripts/check-twii-operator-value-intake-stopline-preparation-gate.mjs",
     "report:twii-external-values-shape-recheck-preparation-gate": "node scripts/report-twii-external-values-shape-recheck-preparation-gate.mjs",
     "check:twii-external-values-shape-recheck-preparation-gate": "node scripts/check-twii-external-values-shape-recheck-preparation-gate.mjs",
+    "report:twii-pre-execution-readiness-recheck-preparation-gate": "node scripts/report-twii-pre-execution-readiness-recheck-preparation-gate.mjs",
+    "check:twii-pre-execution-readiness-recheck-preparation-gate": "node scripts/check-twii-pre-execution-readiness-recheck-preparation-gate.mjs",
     "report:twii-a1-d-write-prerequisite-dispatch-packet": "node scripts/report-twii-a1-d-write-prerequisite-dispatch-packet.mjs",
     "check:twii-a1-d-write-prerequisite-dispatch-packet": "node scripts/check-twii-a1-d-write-prerequisite-dispatch-packet.mjs",
     "report:twii-a1-d-write-prerequisite-pm-intake-ledger": "node scripts/report-twii-a1-d-write-prerequisite-pm-intake-ledger.mjs",
