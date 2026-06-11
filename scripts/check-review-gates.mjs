@@ -4373,6 +4373,11 @@ const checks = [
     name: "twii-operator-value-intake-stopline-preparation-alignment-gate"
   },
   {
+    command: [node, "scripts/check-twii-external-values-shape-recheck-preparation-alignment-gate.mjs"],
+    expectStatus: "ok",
+    name: "twii-external-values-shape-recheck-preparation-alignment-gate"
+  },
+  {
     command: [node, "scripts/check-twii-separate-authorized-execution-attempt-readiness-gate.mjs"],
     expectStatus: "ok",
     name: "twii-separate-authorized-execution-attempt-readiness-gate"
@@ -5317,6 +5322,7 @@ const coreReviewGateNames = new Set([
   "twii-final-authorization-stopline-preparation-alignment-gate",
   "twii-explicit-operator-go-no-go-decision-preparation-alignment-gate",
   "twii-operator-value-intake-stopline-preparation-alignment-gate",
+  "twii-external-values-shape-recheck-preparation-alignment-gate",
   "twii-separate-authorized-execution-attempt-readiness-gate",
   "twii-final-authorization-stopline-go-no-go-gate",
   "twii-explicit-operator-go-no-go-decision-preparation-gate",
@@ -5454,6 +5460,7 @@ const coreReviewGateNames = new Set([
   "twii-final-authorization-stopline-preparation-alignment-gate",
   "twii-explicit-operator-go-no-go-decision-preparation-alignment-gate",
   "twii-operator-value-intake-stopline-preparation-alignment-gate",
+  "twii-external-values-shape-recheck-preparation-alignment-gate",
   "twii-separate-authorized-execution-attempt-readiness-gate",
   "twii-final-authorization-stopline-go-no-go-gate",
   "twii-explicit-operator-go-no-go-decision-preparation-gate",
@@ -5666,6 +5673,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "twii-final-authorization-stopline-preparation-alignment-gate",
   "twii-explicit-operator-go-no-go-decision-preparation-alignment-gate",
   "twii-operator-value-intake-stopline-preparation-alignment-gate",
+  "twii-external-values-shape-recheck-preparation-alignment-gate",
   "twii-separate-authorized-execution-attempt-readiness-gate",
   "twii-final-authorization-stopline-go-no-go-gate",
   "twii-explicit-operator-go-no-go-decision-preparation-gate",

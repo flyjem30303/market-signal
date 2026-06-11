@@ -520,6 +520,8 @@
     "check:twii-explicit-operator-go-no-go-decision-preparation-gate": "node scripts/check-twii-explicit-operator-go-no-go-decision-preparation-gate.mjs",
     "report:twii-operator-value-intake-stopline-preparation-gate": "node scripts/report-twii-operator-value-intake-stopline-preparation-gate.mjs",
     "check:twii-operator-value-intake-stopline-preparation-gate": "node scripts/check-twii-operator-value-intake-stopline-preparation-gate.mjs",
+    "report:twii-external-values-shape-recheck-preparation-alignment-gate": "node scripts/report-twii-external-values-shape-recheck-preparation-alignment-gate.mjs",
+    "check:twii-external-values-shape-recheck-preparation-alignment-gate": "node scripts/check-twii-external-values-shape-recheck-preparation-alignment-gate.mjs",
     "report:twii-external-values-shape-recheck-preparation-gate": "node scripts/report-twii-external-values-shape-recheck-preparation-gate.mjs",
     "check:twii-external-values-shape-recheck-preparation-gate": "node scripts/check-twii-external-values-shape-recheck-preparation-gate.mjs",
     "report:twii-pre-execution-readiness-recheck-preparation-gate": "node scripts/report-twii-pre-execution-readiness-recheck-preparation-gate.mjs",
