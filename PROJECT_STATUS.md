@@ -4,6 +4,10 @@ Current PM/A1/A2/I role ownership and parallel workstream boundaries are tracked
 Current autonomous runtime continuation rules and the next safe mainline slice are tracked in `docs/RUNTIME_AUTONOMY_HANDOFF.md`.
 Use the MVP Launch PRD as the product baseline: `docs/MVP_LAUNCH_PRD.md`.
 
+## Readable Current Status - 2026-06-12
+
+- Latest Batch 1 row coverage readonly post-run review slice: PM executed exactly one named bounded readonly attempt and recorded the sanitized post-run result in `docs/reviews/BATCH1_ROW_COVERAGE_READONLY_POST_RUN_REVIEW_2026-06-12.md`; A1 support checklist is `docs/A1_BATCH1_READONLY_POST_RUN_EVIDENCE_CHECKLIST.md`; A2 copy guard is `docs/A2_BATCH1_READONLY_POST_RUN_COPY_GUARD.md`. Status is `batch1_row_coverage_readonly_post_run_review_recorded`; decision is `STOP_AFTER_ONE_ATTEMPT_WITH_SANITIZED_BLOCKED_RESULT`; outcome is `aggregate_count_incomplete`; the readonly path reached Supabase but observed 182 of 360 expected rows, with 178 rows missing. This is aggregate diagnostic evidence only: no SQL, Supabase write, staging row, `daily_prices` mutation, raw market-data fetch, raw payload storage, secret output, row payload output, `stock_id` output, public source promotion, row coverage point award, or `scoreSource=real` occurred. Next CEO/PM move is a Batch 1 data coverage route decision focused on incomplete `TWII`, `0050`, and `006208` coverage while publicDataSource remains `mock` and scoreSource remains `mock`.
+
 ## Readable Current Status - 2026-06-04
 
 - PM progress score: 100%.

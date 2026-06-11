@@ -265,17 +265,17 @@ export function getPublicBetaCoverageRolloutPlan(): PublicBetaCoverageRolloutPla
       {
         id: "readonly-purpose",
         label: "Readonly purpose",
-        pmState: "operator_decision_named_not_executed",
-        publicMeaning: "CEO/Chairman 已命名一次未來可執行的 aggregate-only 只讀驗證，但目前尚未連線或執行。",
-        requiredBeforeExecution: "執行前仍必須同切片通過 local preflight，並只能跑一次 guarded readonly runner。",
-        status: "ready"
+        pmState: "post_run_review_recorded_blocked",
+        publicMeaning: "One bounded readonly validation has run. It reached Supabase and returned aggregate-only counts, but Batch 1 coverage is still incomplete, so the public site remains mock-only.",
+        requiredBeforeExecution: "Do not retry this attempt in the same slice. Prepare a Batch 1 data coverage route decision for TWII, 0050, and 006208 before any write/backfill gate.",
+        status: "blocked"
       },
       {
         id: "aggregate-proof",
         label: "Aggregate proof only",
-        pmState: "proof_contract_ready",
-        publicMeaning: "未來若執行，只能回傳總量、缺漏、阻塞原因與安全旗標，不能回傳逐筆資料或市場數值。",
-        requiredBeforeExecution: "post-run review 欄位必須排除 raw payload、row payload、stock-id、secrets、SQL text。",
+        pmState: "observed_182_of_360_missing_178",
+        publicMeaning: "The latest diagnostic counted 182 of 360 expected Batch 1 rows. Three symbols are complete, while TWII and two ETF symbols still need coverage work.",
+        requiredBeforeExecution: "Post-run review confirmed no raw payload, row payload, stock-id payload, secrets, SQL text, Supabase write, or market-data ingestion was exposed.",
         status: "ready"
       },
       {

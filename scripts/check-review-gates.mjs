@@ -3408,6 +3408,11 @@ const checks = [
     name: "data-authorization-readonly-attempt-post-run-review"
   },
   {
+    command: [node, "scripts/check-batch1-row-coverage-readonly-post-run-review.mjs"],
+    expectStatus: "ok",
+    name: "batch1-row-coverage-readonly-post-run-review"
+  },
+  {
     command: [node, "scripts/check-data-population-route-decision.mjs"],
     expectStatus: "ok",
     name: "data-population-route-decision"

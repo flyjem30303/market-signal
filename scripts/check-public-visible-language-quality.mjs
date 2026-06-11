@@ -77,8 +77,8 @@ const pages = [
       "Field contract",
       "Readonly / write gates",
       "Bounded Readonly Gate",
-      "ready to present, not execute",
-      "operator_decision_named_not_executed",
+      "post_run_review_recorded_blocked",
+      "observed_182_of_360_missing_178",
       "Aggregate proof only",
       "Write / promotion lock"
     ]

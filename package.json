@@ -148,6 +148,7 @@
     "check:data-authorization-entry-gate": "node scripts/check-data-authorization-entry-gate.mjs",
     "check:data-authorization-decision-packet": "node scripts/check-data-authorization-decision-packet.mjs",
     "check:data-authorization-readonly-attempt-post-run-review": "node scripts/check-data-authorization-readonly-attempt-post-run-review.mjs",
+    "check:batch1-row-coverage-readonly-post-run-review": "node scripts/check-batch1-row-coverage-readonly-post-run-review.mjs",
     "check:data-population-route-decision": "node scripts/check-data-population-route-decision.mjs",
     "report:data-realification-acceleration-gate": "node scripts/report-data-realification-acceleration-gate.mjs",
     "check:data-realification-acceleration-gate": "node scripts/check-data-realification-acceleration-gate.mjs",
