@@ -22,7 +22,10 @@ import { buildMockDataFreshnessSnapshot, type DataFreshnessSnapshot } from "@/li
 import { buildHomeMarketActionSummary } from "@/lib/home-market-action-summary";
 import { buildInvestorActionSummary } from "@/lib/investor-action-summary";
 import { getInvestorIndicatorRoadmap, type InvestorIndicatorStatus } from "@/lib/investor-indicator-roadmap";
-import { getPublicBetaDataRealizationRoadmap } from "@/lib/public-beta-data-realization-roadmap";
+import {
+  getPublicBetaCoverageRolloutPlan,
+  getPublicBetaDataRealizationRoadmap
+} from "@/lib/public-beta-data-realization-roadmap";
 import { getTwiiLocalDisclosureConsumerOutput } from "@/lib/twii-local-disclosure-consumer";
 import {
   getMarketSignalRepository,
@@ -474,6 +477,7 @@ function HomeProductOverview({
   const indicatorRoadmap = getInvestorIndicatorRoadmap();
   const visibleIndicatorFamilies = indicatorRoadmap.families.slice(0, 3);
   const dataRealizationRoadmap = getPublicBetaDataRealizationRoadmap();
+  const coverageRolloutPlan = getPublicBetaCoverageRolloutPlan();
   const alertUpdateTime = snapshot.lastUpdatedAt.replace("T", " ").replace("+08:00", " 台北時間");
   const breadth = snapshots.reduce(
     (summary, item) => {
@@ -641,7 +645,7 @@ function HomeProductOverview({
             <span>警示清單</span>
             <strong>{publicDashboardAlerts.length} 則待閱讀警示</strong>
             <p>每則警示都包含狀態、成因、更新時間、影響級別與下一步建議，避免只看單一數字誤判。</p>
-            <small>非投資建議；不提供買賣指令或保證報酬。</small>
+            <small>非投資建議；不提供買賣指令或收益承諾。</small>
           </article>
         </div>
         <div className="home-public-beta-alert-list">
@@ -692,6 +696,34 @@ function HomeProductOverview({
               <strong>{stage.publicMeaning}</strong>
               <p>{stage.currentState}</p>
               <small>下一步：{stage.nextStep}</small>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="public-beta-coverage-rollout" aria-label="Coverage rollout plan">
+        <div className="public-beta-coverage-rollout-head">
+          <p className="eyebrow">Coverage Rollout</p>
+          <h2>{coverageRolloutPlan.headline}</h2>
+          <p>{coverageRolloutPlan.summary}</p>
+          <p>{coverageRolloutPlan.disclosure}</p>
+        </div>
+        <div className="public-beta-coverage-batches">
+          {coverageRolloutPlan.batches.map((batch) => (
+            <article className={batch.tone} key={batch.id}>
+              <span>{batch.label}</span>
+              <strong>{batch.publicValue}</strong>
+              <p>{batch.currentState}</p>
+              <small>下一步：{batch.nextStep}</small>
+            </article>
+          ))}
+        </div>
+        <div className="public-beta-promotion-checklist">
+          {coverageRolloutPlan.checklist.map((item) => (
+            <article className={item.status} key={item.id}>
+              <span>{item.label}</span>
+              <strong>{item.publicWording}</strong>
+              <p>{item.notYetClaimed}</p>
             </article>
           ))}
         </div>

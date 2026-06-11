@@ -24,7 +24,11 @@ const pages = [
       "資料真實化路徑",
       "覆蓋範圍",
       "來源與權利",
-      "Runtime promotion"
+      "Runtime promotion",
+      "Coverage Rollout Plan",
+      "Batch 1：TWII + 核心 ETF",
+      "Coverage sufficiency",
+      "Trust and legal disclosure"
     ]
   },
   {
@@ -60,7 +64,11 @@ const pages = [
       "資料真實化路徑",
       "覆蓋範圍",
       "來源與權利",
-      "Runtime promotion"
+      "Runtime promotion",
+      "Coverage Rollout Plan",
+      "Batch 1：TWII + 核心 ETF",
+      "Coverage sufficiency",
+      "Trust and legal disclosure"
     ]
   },
   {

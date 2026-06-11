@@ -14,6 +14,31 @@ export type PublicBetaDataRealizationRoadmap = {
   summary: string;
 };
 
+export type PublicBetaCoverageBatch = {
+  currentState: string;
+  id: string;
+  label: string;
+  nextStep: string;
+  publicValue: string;
+  tone: "active" | "blocked" | "hold";
+};
+
+export type PublicBetaPromotionChecklistItem = {
+  id: string;
+  label: string;
+  notYetClaimed: string;
+  publicWording: string;
+  status: "blocked" | "ready" | "waiting";
+};
+
+export type PublicBetaCoverageRolloutPlan = {
+  batches: PublicBetaCoverageBatch[];
+  checklist: PublicBetaPromotionChecklistItem[];
+  disclosure: string;
+  headline: string;
+  summary: string;
+};
+
 export function getPublicBetaDataRealizationRoadmap(): PublicBetaDataRealizationRoadmap {
   return {
     disclosure:
@@ -63,5 +88,94 @@ export function getPublicBetaDataRealizationRoadmap(): PublicBetaDataRealization
     ],
     summary:
       "第二階段的核心不是一次補完所有資料，而是把覆蓋範圍、來源權利、資料庫、匯入回補與 runtime promotion 做成可追蹤閉環。"
+  };
+}
+
+export function getPublicBetaCoverageRolloutPlan(): PublicBetaCoverageRolloutPlan {
+  return {
+    batches: [
+      {
+        currentState: "首頁、briefing 與主要股票頁已能展示 mock-only 市場狀態與資料邊界。",
+        id: "batch-0-current-mock-showcase",
+        label: "Batch 0：目前展示",
+        nextStep: "持續把公開頁文字維持為 mock-only，不宣稱正式資料。",
+        publicValue: "讓使用者先理解產品怎麼讀市場氛圍。",
+        tone: "active"
+      },
+      {
+        currentState: "TWII 與核心 ETF 是最適合先做真實化的基準組，但來源權利與欄位合約仍需通過。",
+        id: "batch-1-twii-core-etf",
+        label: "Batch 1：TWII + 核心 ETF",
+        nextStep: "完成來源權利、欄位、更新時間與缺漏規則後，再進 readonly/write gate。",
+        publicValue: "先補大盤與 ETF，讓使用者有市場基準。",
+        tone: "hold"
+      },
+      {
+        currentState: "主要上市公司與個股仍需 universe、來源與回補策略。",
+        id: "batch-2-major-listed-companies",
+        label: "Batch 2：主要上市公司",
+        nextStep: "先定義權值股與高關注清單，再逐批補資料欄位。",
+        publicValue: "讓個股頁從展示樣板逐步變成可比較的資料面板。",
+        tone: "hold"
+      },
+      {
+        currentState: "板塊與產業分類可先用 mock 分群呈現，真實分類與來源仍需確認。",
+        id: "batch-3-sector-industry",
+        label: "Batch 3：板塊與產業",
+        nextStep: "建立產業對照表、分類來源與公開引用規則。",
+        publicValue: "幫使用者看見市場風險集中在哪些族群。",
+        tone: "hold"
+      },
+      {
+        currentState: "波動率、資金流、均線與動能屬於進階指標，必須等基礎資料穩定後再升級。",
+        id: "batch-4-advanced-indicators",
+        label: "Batch 4：進階指標",
+        nextStep: "等價格、量能與來源品質穩定，再導入進階指標。",
+        publicValue: "讓使用者從燈號進一步理解成因與風險結構。",
+        tone: "blocked"
+      }
+    ],
+    checklist: [
+      {
+        id: "coverage-sufficiency",
+        label: "Coverage sufficiency",
+        notYetClaimed: "尚未宣稱完整覆蓋所有台股。",
+        publicWording: "先分批補齊市場基準、ETF、主要個股與族群資料。",
+        status: "waiting"
+      },
+      {
+        id: "source-rights-accepted",
+        label: "Source rights accepted",
+        notYetClaimed: "尚未宣稱所有來源都可公開展示或再利用。",
+        publicWording: "每批資料都需要確認來源、引用與公開展示權利。",
+        status: "blocked"
+      },
+      {
+        id: "supabase-readiness",
+        label: "Supabase readiness",
+        notYetClaimed: "尚未宣稱公開 runtime 已讀寫正式 Supabase 資料。",
+        publicWording: "資料庫準備與公開資料服務是兩個不同階段。",
+        status: "waiting"
+      },
+      {
+        id: "ingestion-backfill-repeatability",
+        label: "Ingestion/backfill repeatability",
+        notYetClaimed: "尚未宣稱匯入與歷史回補已可穩定重跑。",
+        publicWording: "正式上線前需能重跑、驗證、回退與標示缺漏。",
+        status: "waiting"
+      },
+      {
+        id: "trust-legal-disclosure",
+        label: "Trust and legal disclosure",
+        notYetClaimed: "不提供買賣建議、收益承諾或即時精準到秒承諾。",
+        publicWording: "所有燈號都是資訊與風險辨識，不是交易指令。",
+        status: "ready"
+      }
+    ],
+    disclosure:
+      "Coverage rollout 與 promotion checklist 只說明上線路徑；目前仍保持 publicDataSource=mock、scoreSource=mock。",
+    headline: "Coverage Rollout Plan",
+    summary:
+      "公開 Beta 會先從市場基準與核心 ETF 補起，再擴到主要個股、板塊產業與進階指標；未通過 checklist 前不切換 real。"
   };
 }

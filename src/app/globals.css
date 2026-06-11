@@ -5409,6 +5409,89 @@ select {
   margin: 0;
 }
 
+.public-beta-coverage-rollout {
+  display: grid;
+  gap: 14px;
+  border: 1px solid rgba(15, 118, 110, 0.18);
+  border-radius: 8px;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+  box-shadow: var(--shadow-soft);
+  margin-bottom: 16px;
+  padding: 16px;
+}
+
+.public-beta-coverage-rollout-head {
+  max-width: 920px;
+}
+
+.public-beta-coverage-rollout-head h2 {
+  font-size: 23px;
+  line-height: 1.25;
+  margin: 0 0 8px;
+}
+
+.public-beta-coverage-rollout-head p {
+  color: var(--muted);
+  line-height: 1.75;
+  margin: 0 0 6px;
+}
+
+.public-beta-coverage-batches,
+.public-beta-promotion-checklist {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.public-beta-coverage-batches article,
+.public-beta-promotion-checklist article {
+  display: grid;
+  gap: 8px;
+  min-height: 180px;
+  border: 1px solid var(--line);
+  border-top: 4px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  padding: 13px;
+}
+
+.public-beta-coverage-batches article.active,
+.public-beta-promotion-checklist article.ready {
+  border-top-color: var(--green);
+}
+
+.public-beta-coverage-batches article.hold,
+.public-beta-promotion-checklist article.waiting {
+  border-top-color: var(--amber);
+}
+
+.public-beta-coverage-batches article.blocked,
+.public-beta-promotion-checklist article.blocked {
+  border-top-color: var(--red);
+}
+
+.public-beta-coverage-batches span,
+.public-beta-promotion-checklist span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.public-beta-coverage-batches strong,
+.public-beta-promotion-checklist strong {
+  overflow-wrap: anywhere;
+  font-size: 16px;
+  line-height: 1.35;
+}
+
+.public-beta-coverage-batches p,
+.public-beta-coverage-batches small,
+.public-beta-promotion-checklist p {
+  color: var(--muted);
+  line-height: 1.55;
+  margin: 0;
+}
+
 .home-indicator-roadmap {
   display: grid;
   grid-template-columns: minmax(260px, 1.1fr) repeat(3, minmax(0, 0.8fr));
@@ -11698,6 +11781,9 @@ input[type="date"] {
   .home-market-action-summary,
   .home-public-beta-layer-grid,
   .home-public-beta-alert-list,
+  .public-beta-data-realization-grid,
+  .public-beta-coverage-batches,
+  .public-beta-promotion-checklist,
   .project-progress-panel,
   .project-progress-lanes,
   .project-progress-data-readiness-lanes,
