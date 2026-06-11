@@ -13,6 +13,21 @@ const coreRuntimeBoundaryRequired = ["mock", "publicDataSource=mock", "scoreSour
 const pages = [
   {
     path: "/",
+    forbidden: [
+      "CEO",
+      "PM ",
+      "A1",
+      "A2",
+      "readonly-attempt",
+      "post-run",
+      "preflight",
+      "packet",
+      "operator",
+      "Allowed:",
+      "Next gate:",
+      "execution signal",
+      "Market breadth:"
+    ],
     required: [
       ...coreRuntimeBoundaryRequired,
       "Public Beta Index Dashboard",
@@ -61,6 +76,21 @@ const pages = [
   },
   {
     path: "/briefing",
+    forbidden: [
+      "CEO",
+      "PM ",
+      "A1",
+      "A2",
+      "readonly-attempt",
+      "post-run",
+      "preflight",
+      "packet",
+      "operator",
+      "Allowed:",
+      "Next gate:",
+      "execution signal",
+      "Market breadth:"
+    ],
     required: [
       "Market Briefing",
       "市場訊號晨報",
@@ -187,7 +217,8 @@ const results = await Promise.all(pages.map(async (page) => {
   const html = await response.text();
   const text = normalizeVisibleText(html);
   const markerHits = findMojibakeMarkers(text);
-  const forbiddenHits = forbiddenText.filter((fragment) => text.includes(fragment));
+  const pageForbidden = [...forbiddenText, ...(page.forbidden ?? [])];
+  const forbiddenHits = pageForbidden.filter((fragment) => text.includes(fragment));
   const missing = page.required.filter((phrase) => !text.includes(phrase));
 
   return {

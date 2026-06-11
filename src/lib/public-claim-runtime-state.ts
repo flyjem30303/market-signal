@@ -33,7 +33,7 @@ export function getPublicClaimRuntimeState(): PublicClaimRuntimeState {
         value: "分數來源：示範分數"
       },
       {
-        body: "任何公開狀態升級前，CEO 必須另行指定範圍明確的唯讀檢查點。",
+        body: "任何公開狀態升級前，必須先完成範圍明確的資料檢查與安全覆核。",
         label: "下一個檢查點",
         tone: "readying",
         value: "公開宣稱尚未核准"

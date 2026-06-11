@@ -47,7 +47,7 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
         <h2>目前可用的是 mock 訊號閱讀模式</h2>
         <p>
           {selectedSymbol} 目前可用於檢查產品流程、燈號解讀與公開揭露方式。正式市場資料、完整覆蓋率與
-          scoreSource=real 仍需通過 PM gate；通過前，網站不會宣稱即時資料、真實評分或投資建議。
+          scoreSource=real 仍需通過資料品質與來源檢查；通過前，網站不會宣稱即時資料、真實評分或投資建議。
           不是投資建議。
         </p>
       </div>
@@ -74,31 +74,31 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
 
       <section className="runtime-action-status-strip" aria-label="Runtime action status normalization">
         <div>
-          <span>Action status</span>
+          <span>公開狀態</span>
           <strong>{actionStatus.headline}</strong>
           <p>{actionStatus.nextAction}</p>
         </div>
         {actionStatus.statuses.map((status) => (
           <article className={status.tone} key={status.id}>
             <span>
-              {status.owner} / {status.id}
+              {status.owner === "Data" ? "資料線" : "產品線"}
             </span>
             <strong>{status.label}</strong>
             <p>{status.detail}</p>
-            <p>Allowed: {status.allowedAction}</p>
-            <p>Blocked: {status.blockedAction}</p>
-            <p>Next gate: {status.nextGate}</p>
+            <p>目前可做：{status.allowedAction}</p>
+            <p>仍不可做：{status.blockedAction}</p>
+            <p>下一步：{status.nextGate}</p>
           </article>
         ))}
       </section>
 
       <article className="readying runtime-execution-readiness-card">
-        <span>Execution readiness</span>
-        <strong>{executionReadiness.state}</strong>
-        <p>{executionReadiness.chairBrief}</p>
-        <p>{executionReadiness.decisionQuestion}</p>
+        <span>正式資料升級狀態</span>
+        <strong>仍維持示範資料</strong>
+        <p>目前公開頁只呈現示範訊號與資料邊界；正式資料升級前仍需完成資料覆蓋、來源權利與安全檢查。</p>
+        <p>這個狀態不會自動執行 SQL、寫入 Supabase、匯入市場資料或切換正式分數。</p>
         <p>
-          Command preview: {executionReadiness.commandLabel}. Public {executionReadiness.publicDataSource}; score{" "}
+          Public {executionReadiness.publicDataSource}; score{" "}
           {executionReadiness.scoreSource}.
         </p>
       </article>
@@ -243,7 +243,7 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
             <span>Readonly state</span>
             <strong>{postReadonlyRuntime.state}</strong>
             <p>{postReadonlyRuntime.rowCoverage.summary}</p>
-            <p>Next gate: {postReadonlyRuntime.nextGate}</p>
+            <p>下一步：{postReadonlyRuntime.nextGate}</p>
           </article>
           <article className="readying post-readonly-runtime-card home-freshness-evidence-card">
             <span>Freshness metadata</span>

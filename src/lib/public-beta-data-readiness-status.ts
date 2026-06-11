@@ -27,45 +27,45 @@ export type PublicBetaDataReadinessStatus = {
 
 export function getPublicBetaDataReadinessStatus(): PublicBetaDataReadinessStatus {
   return {
-    headline: "Data-realification is visible, but runtime remains mock",
+    headline: "資料真實化正在補齊，公開頁仍維持示範模式",
     summary:
-      "PM has accepted the TWII write-prerequisite intake as gate-preparation evidence only. This opens a future candidate-gate preparation path, not SQL, Supabase writes, row acceptance, coverage scoring, or real promotion.",
+      "目前已完成一批彙總證據與資料結構檢查，可用來說明市場狀態頁的方向；但正式資料覆蓋率、來源深度與寫入覆核尚未完成，因此公開頁仍以示範資料呈現。",
     publicDataSource: "mock",
     scoreSource: "mock",
     rowCoverage: {
       acceptedRows: 182,
       targetRows: 360,
-      label: "182/360 accepted evidence"
+      label: "已觀察 182/360 筆彙總證據"
     },
     twiiPrerequisites: {
       acceptedSlots: 6,
       totalSlots: 6,
-      nextOwner: "CEO / PM",
+      nextOwner: "產品與資料團隊",
       nextAction:
-        "Prepare the next bounded write-ready candidate gate; keep SQL, Supabase writes, row acceptance, scoring, and promotion blocked."
+        "下一步是把已接受的來源、欄位、覆蓋率與回讀條件整理成可執行檢查包；通過前不開放正式資料寫入或分數升級。"
     },
     lanes: [
       {
         id: "tw-equity",
-        label: "TW equity",
+        label: "台股個股示範組",
         status: "accepted",
-        summary: "2330, 2382, and 2308 evidence coverage remains accepted for the current Beta evidence view."
+        summary: "2330、2382、2308 已可支撐示範閱讀流程，但仍不是完整上市櫃覆蓋。"
       },
       {
         id: "twii",
-        label: "TWII",
+        label: "大盤基準",
         status: "readying",
         summary:
-          "A1/D prerequisite intake is accepted for future gate preparation; implementation and writes remain blocked."
+          "TWII 已有一次安全範圍內的彙總證據，可作為下一步資料真實化檢查基準；公開頁仍維持示範狀態。"
       },
       {
         id: "etf",
-        label: "ETF",
+        label: "核心 ETF",
         status: "blocked",
-        summary: "0050 and 006208 still need separate source-rights and coverage evidence before real promotion."
+        summary: "0050 與 006208 目前只支撐示範狀態，還需要來源、覆蓋率與回讀證據補齊後才能升級。"
       }
     ],
     stopLine:
-      "No SQL, Supabase write, market-data ingestion, row acceptance, row coverage points, publicDataSource=supabase, or scoreSource=real is allowed by this status."
+      "在來源權利、覆蓋率、品質檢查、回讀與回退條件都完成前，不執行正式資料寫入、不宣稱即時真實資料，也不把分數來源升級為 real。"
   };
 }

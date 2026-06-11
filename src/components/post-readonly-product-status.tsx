@@ -41,6 +41,29 @@ const promotionStepStatusClass = {
   ready_for_local_use: "ready"
 } as const;
 
+const publicPromotionStepCopy = {
+  data_structure: {
+    label: "資料結構",
+    nextAction: "確認欄位、單位、日期與缺漏規則，讓使用者知道每個數字代表什麼。"
+  },
+  freshness_interpretation: {
+    label: "更新時間",
+    nextAction: "清楚標示資料日期、延遲與缺漏狀態，避免把示範資料誤認為即時資料。"
+  },
+  row_coverage: {
+    label: "覆蓋率",
+    nextAction: "補齊 Batch 1 缺口後，才可討論更完整的市場基準。"
+  },
+  data_quality: {
+    label: "資料品質",
+    nextAction: "建立品質分級、降級與錯誤回退規則，讓警示不因缺資料而誤導。"
+  },
+  source_depth: {
+    label: "來源深度",
+    nextAction: "確認來源權利、引用方式與公開展示邊界。"
+  }
+} as const;
+
 function toPublicBoundaryLabel(value: "mock") {
   return publicBoundaryLabel[value];
 }
@@ -107,18 +130,16 @@ export function PostReadonlyProductStatus({ context, symbol }: PostReadonlyProdu
             {promotion.rowCoverage.observedRows}/{promotion.rowCoverage.expectedRows}，缺少{" "}
             {promotion.rowCoverage.missingRows}。
           </p>
-          <p>{promotion.nextCeoDecision}</p>
+          <p>公開頁先維持示範狀態；補齊來源、品質與覆蓋率後，才可重新評估正式資料升級。</p>
         </article>
         {promotion.steps.map((step) => (
           <article
             className={promotionStepStatusClass[step.status]}
             key={step.id}
           >
-            <span>
-              {step.owner} / 優先度 {step.priority}
-            </span>
-            <strong>{step.label}</strong>
-            <p>{step.nextAction}</p>
+            <span>{step.priority <= 1 ? "優先補齊" : "後續補強"}</span>
+            <strong>{toPublicPromotionStep(step.id).label}</strong>
+            <p>{toPublicPromotionStep(step.id).nextAction}</p>
             <p>仍阻擋升級：{step.blockedPromotion}。</p>
           </article>
         ))}
@@ -134,4 +155,11 @@ export function PostReadonlyProductStatus({ context, symbol }: PostReadonlyProdu
       </div>
     </section>
   );
+}
+
+function toPublicPromotionStep(id: string) {
+  return publicPromotionStepCopy[id as keyof typeof publicPromotionStepCopy] ?? {
+    label: id.replaceAll("_", " "),
+    nextAction: "完成對應資料檢查後，再評估是否能進入正式資料升級。"
+  };
 }

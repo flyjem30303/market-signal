@@ -61,14 +61,14 @@ export function getFreshnessRuntimeOperationDecisionSummary(
           value: readonlyEvidence.evidenceStatus
         },
         {
-          body: "任何遠端命令前，仍需要 CEO 另行命名的動作與確認代碼。",
-          label: "執行觸發",
+          body: "目前不會從公開頁自動讀取遠端資料；下一次資料檢查必須先完成範圍與安全條件。",
+          label: "遠端資料檢查",
           state: "hold",
-          value: "separate_ceo_named_action_required"
+          value: "manual_scope_required"
         },
         {
-          body: "任何準備度、公開狀態或分數變更前，都必須先記錄去識別化執行後覆核。",
-          label: "執行後覆核",
+          body: "任何準備度、公開狀態或分數變更前，都必須先確認結果不含密鑰、原始資料或逐列內容。",
+          label: "結果安全檢查",
           state: "blocked",
           value: "required_before_promotion"
         }
@@ -78,7 +78,7 @@ export function getFreshnessRuntimeOperationDecisionSummary(
     },
     routeSummary: {
       defaultRoute: "mock_runtime_hardening",
-      headline: "PM 路線選擇摘要",
+      headline: "公開頁下一步路線",
       options: [
         {
           body: "在公開來源與分數仍為示範狀態時，繼續改善可讀性、揭露、失敗關閉行為與本地檢查。",
@@ -87,8 +87,8 @@ export function getFreshnessRuntimeOperationDecisionSummary(
           value: "mock_runtime_hardening"
         },
         {
-          body: "只有在 CEO 另行命名一次有範圍的唯讀嘗試、具備確認代碼並承諾立即去識別化執行後覆核時才可使用。",
-          label: "可選路線",
+          body: "等資料範圍、來源權利、回讀與回退條件都清楚後，才可安排下一次有範圍的資料檢查。",
+          label: "資料檢查路線",
           state: canPrepareReadonlyAttempt ? "optional" : "blocked",
           value: "bounded_readonly_attempt_candidate"
         },
@@ -114,9 +114,9 @@ export function getFreshnessRuntimeOperationDecisionSummary(
       },
       {
         body: canPrepareReadonlyAttempt
-          ? "唯讀可讀性可支撐另行核准的 bounded attempt 候選，之後仍需 post-run review。"
-          : "在可讀性與 post-run guardrail 明確前，唯讀嘗試準備仍被阻擋。",
-        label: "唯讀嘗試",
+          ? "後端可讀性可支撐下一次有範圍的資料檢查候選，但仍不能改變公開資料狀態。"
+          : "在可讀性與結果安全條件明確前，資料檢查準備仍被阻擋。",
+        label: "資料檢查候選",
         state: canPrepareReadonlyAttempt ? "candidate" : "blocked",
         value: canPrepareReadonlyAttempt ? "candidate_only" : "blocked"
       },
@@ -128,7 +128,7 @@ export function getFreshnessRuntimeOperationDecisionSummary(
       }
     ],
     nextAction:
-      "只能準備 bounded readonly-attempt 決策候選，或繼續示範流程強化；不得從這個 UI 狀態執行遠端讀取。",
+      "只能繼續強化示範閱讀流程，或準備下一次有範圍的資料檢查；不得從公開頁執行遠端讀取。",
     stopLine:
       "任何 runtime 操作決策都不得觸發 SQL、Supabase 寫入、市場資料匯入、公開來源升級或正式分數升級。",
     summary: evidenceBoundary.summary

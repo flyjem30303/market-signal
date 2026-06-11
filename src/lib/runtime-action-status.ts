@@ -10,7 +10,7 @@ export type RuntimeActionStatusItem = {
   id: RuntimeActionStatusId;
   label: string;
   nextGate: string;
-  owner: "CEO" | "PM" | "Product" | "Data";
+  owner: "Product" | "Data";
   tone: "active" | "blocked" | "readying";
 };
 
@@ -29,10 +29,10 @@ export function getRuntimeActionStatusSummary(): RuntimeActionStatusSummary {
   const executionReadiness = getRuntimeExecutionReadinessSummary();
 
   return {
-    headline: "Runtime action states are normalized across public and internal surfaces.",
+    headline: "公開頁狀態維持示範閱讀模式",
     mode: "runtime_action_status_normalization",
     nextAction:
-      "Use these four labels when wiring Home, Stock, Briefing, readonly attempt gates, and post-run review states.",
+      "目前可閱讀市場氛圍、風險方向與資料邊界；正式資料升級仍需獨立檢查。",
     publicDataSource: executionReadiness.publicDataSource,
     scoreSource: executionReadiness.scoreSource,
     statuses: [
@@ -47,34 +47,34 @@ export function getRuntimeActionStatusSummary(): RuntimeActionStatusSummary {
         tone: "active"
       },
       {
-        allowedAction: "Prepare local evidence, static gates, and readonly post-run interpretation rules.",
-        blockedAction: "Do not award row coverage points or promote readiness from incomplete evidence.",
+        allowedAction: "整理資料結構、新鮮度與覆蓋率說明，讓使用者知道目前可信度。",
+        blockedAction: "不能從未補齊的證據宣稱完整覆蓋或正式資料。",
         detail: `${readiness.score}% runtime readiness; schema, freshness, and row coverage interpretation are still being prepared.`,
         id: "readying",
-        label: "Preparing runtime evidence",
-        nextGate: "Readonly evidence interpretation",
-        owner: "PM",
+        label: "資料證據準備中",
+        nextGate: "資料品質與覆蓋率檢查",
+        owner: "Product",
         tone: "readying"
       },
       {
-        allowedAction: "Show why external-data promotion is blocked and what evidence is missing.",
+        allowedAction: "說明為什麼正式資料尚未啟用，以及還缺哪些證據。",
         blockedAction: "No SQL, Supabase writes, ingestion, real score, or public Supabase source promotion.",
         detail: "Supabase writes, SQL, market-data ingestion, publicDataSource=supabase, scoreSource=real, and investment-grade claims remain blocked.",
         id: "blocked",
-        label: "External-data promotion blocked",
-        nextGate: "Data quality acceptance",
+        label: "正式資料升級尚未開放",
+        nextGate: "資料品質接受條件",
         owner: "Data",
         tone: "blocked"
       },
       {
-        allowedAction: "CEO may name one bounded readonly attempt after immediate local prechecks.",
-        blockedAction: "No automatic remote run, no broad probe, no SQL, and no market-data ingestion.",
+        allowedAction: "下一次資料檢查必須先限定範圍、欄位、輸出與停止條件。",
+        blockedAction: "不自動執行遠端讀取、不廣泛探查、不跑 SQL、不匯入市場資料。",
         detail:
-          "Exactly one bounded readonly attempt may be discussed only after CEO oral naming and immediate prechecks.",
+          "資料檢查只能作為升級前證據，不能直接改變公開資料來源或分數來源。",
         id: "oral_decision_ready",
-        label: "CEO oral decision ready",
-        nextGate: "CEO named bounded readonly attempt",
-        owner: "CEO",
+        label: "下一次資料檢查需另行限定",
+        nextGate: "有範圍的資料檢查",
+        owner: "Data",
         tone: "readying"
       }
     ],
