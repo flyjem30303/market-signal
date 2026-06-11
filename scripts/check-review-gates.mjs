@@ -4323,6 +4323,11 @@ const checks = [
     name: "twii-operator-checklist-next-execution-route-gate-preflight"
   },
   {
+    command: [node, "scripts/check-twii-operator-values-intake-readiness-surface-gate-preflight.mjs"],
+    expectStatus: "ok",
+    name: "twii-operator-values-intake-readiness-surface-gate-preflight"
+  },
+  {
     command: [node, "scripts/check-twii-a1-d-write-prerequisite-dispatch-packet.mjs"],
     expectStatus: "ok",
     name: "twii-a1-d-write-prerequisite-dispatch-packet"
@@ -5217,6 +5222,7 @@ const coreReviewGateNames = new Set([
   "twii-real-operator-intake-checklist-packet-gate-preflight",
   "twii-operator-checklist-completion-simulator-gate-preflight",
   "twii-operator-checklist-next-execution-route-gate-preflight",
+  "twii-operator-values-intake-readiness-surface-gate-preflight",
   "twii-a1-d-write-prerequisite-dispatch-packet",
   "twii-a1-d-write-prerequisite-pm-intake-ledger",
   "coverage-universe-roadmap",
@@ -5336,6 +5342,7 @@ const coreReviewGateNames = new Set([
   "twii-real-operator-intake-checklist-packet-gate-preflight",
   "twii-operator-checklist-completion-simulator-gate-preflight",
   "twii-operator-checklist-next-execution-route-gate-preflight",
+  "twii-operator-values-intake-readiness-surface-gate-preflight",
   "twii-a1-d-write-prerequisite-dispatch-packet",
   "twii-a1-d-write-prerequisite-pm-intake-ledger",
   "a1-source-rights-readiness-summary",
@@ -5532,6 +5539,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "twii-real-operator-intake-checklist-packet-gate-preflight",
   "twii-operator-checklist-completion-simulator-gate-preflight",
   "twii-operator-checklist-next-execution-route-gate-preflight",
+  "twii-operator-values-intake-readiness-surface-gate-preflight",
   "twii-a1-d-write-prerequisite-dispatch-packet",
   "twii-a1-d-write-prerequisite-pm-intake-ledger",
   "typescript"
