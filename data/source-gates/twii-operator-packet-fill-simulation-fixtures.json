@@ -1,0 +1,83 @@
+{
+  "simulationSetKind": "twii_operator_packet_fill_simulation_fixtures",
+  "simulationSetMode": "placeholder_only_operator_fill_simulation_no_execution",
+  "sourcePacketGatePath": "data/source-gates/twii-operator-visible-decision-packet-readiness-gate-preflight.json",
+  "sourcePacketFixturesPath": "data/source-gates/twii-operator-visible-decision-packet-readiness-fixtures.json",
+  "dryRunOnly": true,
+  "placeholderOnly": true,
+  "recordedAsReal": false,
+  "realDecisionValueReadNow": false,
+  "realDecisionValueRecordedNow": false,
+  "executionAllowedNow": false,
+  "publicDataSource": "mock",
+  "scoreSource": "mock",
+  "allowedSimulatedReviewStatuses": [
+    "simulated_accepted_for_future_real_intake",
+    "simulated_rejected_for_future_real_intake",
+    "simulated_repair_required_before_real_intake"
+  ],
+  "simulations": [
+    {
+      "simulationId": "fill-simulation-accepted-fixture-only",
+      "sourcePacketId": "operator-packet-accepted-fixture-only",
+      "decisionStatus": "accepted",
+      "simulatedReviewStatus": "simulated_accepted_for_future_real_intake",
+      "simulatedRecordedBy": "__SIMULATED_REAL_DECISION_RECORDED_BY__",
+      "simulatedRecordedAt": "__SIMULATED_REAL_DECISION_RECORDED_AT__",
+      "simulatedReasonSummary": "__SIMULATED_REAL_DECISION_REASON__",
+      "simulatedRepairSummary": "",
+      "placeholdersStillSynthetic": true,
+      "expectedSimulationOutcome": "operator_fill_simulation_acceptance_valid_execution_still_blocked",
+      "publicDataSource": "mock",
+      "scoreSource": "mock",
+      "executionAllowedNow": false,
+      "recordedAsReal": false
+    },
+    {
+      "simulationId": "fill-simulation-rejected-fixture-only",
+      "sourcePacketId": "operator-packet-rejected-fixture-only",
+      "decisionStatus": "rejected",
+      "simulatedReviewStatus": "simulated_rejected_for_future_real_intake",
+      "simulatedRecordedBy": "__SIMULATED_REAL_DECISION_RECORDED_BY__",
+      "simulatedRecordedAt": "__SIMULATED_REAL_DECISION_RECORDED_AT__",
+      "simulatedReasonSummary": "__SIMULATED_REAL_DECISION_REASON__",
+      "simulatedRepairSummary": "",
+      "placeholdersStillSynthetic": true,
+      "expectedSimulationOutcome": "operator_fill_simulation_rejection_valid_execution_still_blocked",
+      "publicDataSource": "mock",
+      "scoreSource": "mock",
+      "executionAllowedNow": false,
+      "recordedAsReal": false
+    },
+    {
+      "simulationId": "fill-simulation-repair-required-fixture-only",
+      "sourcePacketId": "operator-packet-repair-required-fixture-only",
+      "decisionStatus": "repair_required",
+      "simulatedReviewStatus": "simulated_repair_required_before_real_intake",
+      "simulatedRecordedBy": "__SIMULATED_REAL_DECISION_RECORDED_BY__",
+      "simulatedRecordedAt": "__SIMULATED_REAL_DECISION_RECORDED_AT__",
+      "simulatedReasonSummary": "__SIMULATED_REAL_DECISION_REASON__",
+      "simulatedRepairSummary": "__SIMULATED_REAL_REPAIR_REQUIRED_SUMMARY__",
+      "placeholdersStillSynthetic": true,
+      "expectedSimulationOutcome": "operator_fill_simulation_repair_required_valid_execution_still_blocked",
+      "publicDataSource": "mock",
+      "scoreSource": "mock",
+      "executionAllowedNow": false,
+      "recordedAsReal": false
+    }
+  ],
+  "disallowedSimulationFields": [
+    "decisionSecretValue",
+    "authorizationValue",
+    "confirmationPhraseValue",
+    "executeSwitchValue",
+    "credentialValue",
+    "rowBody",
+    "tradeDateList",
+    "sourcePayload",
+    "rawPayload",
+    "stockIdPayload",
+    "personalizedAdvice",
+    "buySellHoldSignal"
+  ]
+}
