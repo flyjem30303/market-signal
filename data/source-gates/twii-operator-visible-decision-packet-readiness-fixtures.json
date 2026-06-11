@@ -1,0 +1,97 @@
+{
+  "packetSetKind": "twii_operator_visible_decision_packet_readiness_fixtures",
+  "packetSetMode": "mock_record_derived_operator_visible_packet_readiness_only_no_execution",
+  "sourceRecorderGatePath": "data/source-gates/twii-decision-intake-recorder-mock-gate-preflight.json",
+  "sourceMockRecordsPath": "data/source-gates/twii-decision-intake-recorder-mock-records.json",
+  "dryRunOnly": true,
+  "operatorPacketOnly": true,
+  "recordedAsReal": false,
+  "realDecisionValueReadNow": false,
+  "realDecisionValueRecordedNow": false,
+  "executionAllowedNow": false,
+  "publicDataSource": "mock",
+  "scoreSource": "mock",
+  "allowedOperatorReviewStatuses": [
+    "pending_operator_review",
+    "accepted_for_future_real_intake",
+    "rejected_for_future_real_intake",
+    "repair_required_before_real_intake"
+  ],
+  "packets": [
+    {
+      "packetId": "operator-packet-accepted-fixture-only",
+      "sourceRecordId": "mock-record-accepted-fixture-only",
+      "decisionStatus": "accepted",
+      "operatorActionRequired": "review_future_real_intake_values_before_execution",
+      "operatorVisibleSummary": "Synthetic accepted path is ready for future operator review only.",
+      "operatorReviewStatus": "pending_operator_review",
+      "missingValuePlaceholders": [
+        "__REAL_DECISION_RECORDED_BY__",
+        "__REAL_DECISION_RECORDED_AT__",
+        "__REAL_DECISION_REASON__"
+      ],
+      "auditRole": "CEO_DRY_RUN_FIXTURE",
+      "auditTimestampLabel": "DRY_RUN_TIMESTAMP_PLACEHOLDER",
+      "publicDataSource": "mock",
+      "scoreSource": "mock",
+      "executionAllowedNow": false,
+      "recordedAsReal": false,
+      "expectedPacketOutcome": "operator_packet_acceptance_readiness_valid_execution_still_blocked"
+    },
+    {
+      "packetId": "operator-packet-rejected-fixture-only",
+      "sourceRecordId": "mock-record-rejected-fixture-only",
+      "decisionStatus": "rejected",
+      "operatorActionRequired": "review_future_real_intake_values_before_execution",
+      "operatorVisibleSummary": "Synthetic rejected path is ready for future operator review only.",
+      "operatorReviewStatus": "pending_operator_review",
+      "missingValuePlaceholders": [
+        "__REAL_DECISION_RECORDED_BY__",
+        "__REAL_DECISION_RECORDED_AT__",
+        "__REAL_DECISION_REASON__"
+      ],
+      "auditRole": "CEO_DRY_RUN_FIXTURE",
+      "auditTimestampLabel": "DRY_RUN_TIMESTAMP_PLACEHOLDER",
+      "publicDataSource": "mock",
+      "scoreSource": "mock",
+      "executionAllowedNow": false,
+      "recordedAsReal": false,
+      "expectedPacketOutcome": "operator_packet_rejection_readiness_valid_execution_still_blocked"
+    },
+    {
+      "packetId": "operator-packet-repair-required-fixture-only",
+      "sourceRecordId": "mock-record-repair-required-fixture-only",
+      "decisionStatus": "repair_required",
+      "operatorActionRequired": "review_future_real_intake_values_before_execution",
+      "operatorVisibleSummary": "Synthetic repair-required path is ready for future operator review only.",
+      "operatorReviewStatus": "pending_operator_review",
+      "missingValuePlaceholders": [
+        "__REAL_DECISION_RECORDED_BY__",
+        "__REAL_DECISION_RECORDED_AT__",
+        "__REAL_DECISION_REASON__",
+        "__REAL_REPAIR_REQUIRED_SUMMARY__"
+      ],
+      "auditRole": "CEO_DRY_RUN_FIXTURE",
+      "auditTimestampLabel": "DRY_RUN_TIMESTAMP_PLACEHOLDER",
+      "publicDataSource": "mock",
+      "scoreSource": "mock",
+      "executionAllowedNow": false,
+      "recordedAsReal": false,
+      "expectedPacketOutcome": "operator_packet_repair_required_readiness_valid_execution_still_blocked"
+    }
+  ],
+  "disallowedPacketFields": [
+    "decisionSecretValue",
+    "authorizationValue",
+    "confirmationPhraseValue",
+    "executeSwitchValue",
+    "credentialValue",
+    "rowBody",
+    "tradeDateList",
+    "sourcePayload",
+    "rawPayload",
+    "stockIdPayload",
+    "personalizedAdvice",
+    "buySellHoldSignal"
+  ]
+}
