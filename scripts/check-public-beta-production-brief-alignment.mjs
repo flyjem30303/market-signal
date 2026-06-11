@@ -31,6 +31,18 @@ const forbiddenVisibleText = [
   "CEO"
 ];
 
+const stockSignalRequired = [
+  "為什麼是這個燈號",
+  "結構支撐",
+  "風險拉力",
+  "資料邊界",
+  "關注",
+  "加強觀察",
+  "減少風險",
+  "publicDataSource=mock",
+  "scoreSource=mock"
+];
+
 const routes = [
   {
     path: "/",
@@ -87,6 +99,26 @@ const routes = [
       "publicDataSource=mock",
       "scoreSource=mock"
     ]
+  },
+  {
+    path: "/stocks/TWII",
+    required: stockSignalRequired
+  },
+  {
+    path: "/stocks/0050",
+    required: stockSignalRequired
+  },
+  {
+    path: "/stocks/006208",
+    required: stockSignalRequired
+  },
+  {
+    path: "/stocks/2382",
+    required: stockSignalRequired
+  },
+  {
+    path: "/stocks/2308",
+    required: stockSignalRequired
   }
 ];
 
