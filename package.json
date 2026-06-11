@@ -446,6 +446,8 @@
     "check:twii-aggregate-readback-contract-preflight": "node scripts/check-twii-aggregate-readback-contract-preflight.mjs",
     "report:twii-post-run-review-contract-preflight": "node scripts/report-twii-post-run-review-contract-preflight.mjs",
     "check:twii-post-run-review-contract-preflight": "node scripts/check-twii-post-run-review-contract-preflight.mjs",
+    "report:twii-rollback-readiness-contract-preflight": "node scripts/report-twii-rollback-readiness-contract-preflight.mjs",
+    "check:twii-rollback-readiness-contract-preflight": "node scripts/check-twii-rollback-readiness-contract-preflight.mjs",
     "report:twii-a1-d-write-prerequisite-dispatch-packet": "node scripts/report-twii-a1-d-write-prerequisite-dispatch-packet.mjs",
     "check:twii-a1-d-write-prerequisite-dispatch-packet": "node scripts/check-twii-a1-d-write-prerequisite-dispatch-packet.mjs",
     "report:twii-a1-d-write-prerequisite-pm-intake-ledger": "node scripts/report-twii-a1-d-write-prerequisite-pm-intake-ledger.mjs",
