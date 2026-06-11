@@ -78,6 +78,7 @@ const pages = [
       "Readonly / write gates",
       "Bounded Readonly Gate",
       "ready to present, not execute",
+      "operator_decision_named_not_executed",
       "Aggregate proof only",
       "Write / promotion lock"
     ]

@@ -265,9 +265,9 @@ export function getPublicBetaCoverageRolloutPlan(): PublicBetaCoverageRolloutPla
       {
         id: "readonly-purpose",
         label: "Readonly purpose",
-        pmState: "ready_to_present_not_execute",
-        publicMeaning: "只允許未來一次被授權的 aggregate-only 只讀驗證，不會把網站切成正式資料來源。",
-        requiredBeforeExecution: "CEO 必須明確命名一次 bounded readonly attempt，且 local preflight 要先通過。",
+        pmState: "operator_decision_named_not_executed",
+        publicMeaning: "CEO/Chairman 已命名一次未來可執行的 aggregate-only 只讀驗證，但目前尚未連線或執行。",
+        requiredBeforeExecution: "執行前仍必須同切片通過 local preflight，並只能跑一次 guarded readonly runner。",
         status: "ready"
       },
       {
