@@ -4353,6 +4353,11 @@ const checks = [
     name: "twii-explicit-execution-packet-preparation-gate"
   },
   {
+    command: [node, "scripts/check-twii-separate-authorized-execution-attempt-preparation-gate.mjs"],
+    expectStatus: "ok",
+    name: "twii-separate-authorized-execution-attempt-preparation-gate"
+  },
+  {
     command: [node, "scripts/check-twii-separate-authorized-execution-attempt-readiness-gate.mjs"],
     expectStatus: "ok",
     name: "twii-separate-authorized-execution-attempt-readiness-gate"
@@ -5293,6 +5298,7 @@ const coreReviewGateNames = new Set([
   "twii-server-only-pre-execution-integration-gate",
   "twii-bounded-operator-authorization-packet-gate",
   "twii-explicit-execution-packet-preparation-gate",
+  "twii-separate-authorized-execution-attempt-preparation-gate",
   "twii-separate-authorized-execution-attempt-readiness-gate",
   "twii-final-authorization-stopline-go-no-go-gate",
   "twii-explicit-operator-go-no-go-decision-preparation-gate",
@@ -5426,6 +5432,7 @@ const coreReviewGateNames = new Set([
   "twii-server-only-pre-execution-integration-gate",
   "twii-bounded-operator-authorization-packet-gate",
   "twii-explicit-execution-packet-preparation-gate",
+  "twii-separate-authorized-execution-attempt-preparation-gate",
   "twii-separate-authorized-execution-attempt-readiness-gate",
   "twii-final-authorization-stopline-go-no-go-gate",
   "twii-explicit-operator-go-no-go-decision-preparation-gate",

@@ -504,6 +504,8 @@
     "check:twii-bounded-operator-authorization-packet-gate": "node scripts/check-twii-bounded-operator-authorization-packet-gate.mjs",
     "report:twii-explicit-execution-packet-preparation-gate": "node scripts/report-twii-explicit-execution-packet-preparation-gate.mjs",
     "check:twii-explicit-execution-packet-preparation-gate": "node scripts/check-twii-explicit-execution-packet-preparation-gate.mjs",
+    "report:twii-separate-authorized-execution-attempt-preparation-gate": "node scripts/report-twii-separate-authorized-execution-attempt-preparation-gate.mjs",
+    "check:twii-separate-authorized-execution-attempt-preparation-gate": "node scripts/check-twii-separate-authorized-execution-attempt-preparation-gate.mjs",
     "report:twii-separate-authorized-execution-attempt-readiness-gate": "node scripts/report-twii-separate-authorized-execution-attempt-readiness-gate.mjs",
     "check:twii-separate-authorized-execution-attempt-readiness-gate": "node scripts/check-twii-separate-authorized-execution-attempt-readiness-gate.mjs",
     "report:twii-final-authorization-stopline-go-no-go-gate": "node scripts/report-twii-final-authorization-stopline-go-no-go-gate.mjs",
