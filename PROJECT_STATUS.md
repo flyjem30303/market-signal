@@ -1007,6 +1007,30 @@ Date: 2026-06-08
 卡住：A1 尚未回傳四格 no-secret evidence，因此 outcome gate 仍不能開，且不得進入 source-rights approval、candidate generation、Supabase、SQL、market-data ingestion、row coverage points 或 real promotion。
 
 下一步：A1 只需回 `evidenceSlotId`、`sourceReferenceLabel`、`safeEvidenceSummary`、`remainingRisk`；PM 收到後先跑 `check:a1-twii-evidence-response-shape`，再 dry-run reviewed outcome。
+# Latest BRIEF-aligned briefing first-screen readability slice
+
+Status: `brief_aligned_briefing_first_screen_readability_visible`
+
+Date: 2026-06-12
+
+CEO decision: `prioritize_briefing_first_screen_comprehension_before_additional_governance_depth`.
+
+PM route: `make_briefing_first_screen_match_index_state_dashboard_brief`.
+
+Outcome: `briefing_executive_summary_and_visible_language_checker_aligned_to_brief`.
+
+This slice updates `src/app/briefing/page.tsx` so `/briefing` first screen explains the market anchor, risk focus, data boundary, next readiness step, and non-investment-advice posture in investor-facing language.
+
+This slice also updates `scripts/check-public-visible-language-quality.mjs` so `/briefing` must expose BRIEF-aligned words: `市場訊號晨報`, `市場錨點`, `風險焦點`, `資料邊界`, `mock-only`, `publicDataSource=mock`, `scoreSource=mock`, `不是投資建議`, `關注`, `加強觀察`, and `降低風險`.
+
+The in-app browser verified `http://localhost:3000/briefing` exposes the BRIEF copy and does not expose development process artifacts such as `BETA_HOSTING_PROJECT_NAME`, `PUBLIC_BETA_EXTERNAL_REPLY_PATH`, `cmd.exe /c npm run report:public-beta-external-input-request`, or `Current hard blockers`.
+
+Validation passed: `cmd.exe /c npx tsc --noEmit --incremental false`, `cmd.exe /c npm run check:public-visible-language-quality`, `git diff --check`, and browser first-screen verification.
+
+This slice does not authorize SQL, Supabase connection, Supabase write, staging rows, `daily_prices` mutation, market-data fetch/ingest/store/commit, candidate-row acceptance, row coverage scoring, public source promotion, real score promotion, live-data claims, or investment-advice claims.
+
+Next PM route: continue converting remaining visible `/briefing` sections from legacy process language into BRIEF-oriented indicator explanation, warning cause, update-time, impact-level, and next-action copy.
+
 # Latest BRIEF-aligned homepage hero readability slice
 
 Status: `brief_aligned_homepage_hero_readability_visible`

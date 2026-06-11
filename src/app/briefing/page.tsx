@@ -78,8 +78,8 @@ export default async function BriefingPage() {
             它用來展示產品方向，不是交易服務，也不是投資建議。
           </p>
           <p className="runtime-boundary-line">
-            目前仍是示範資料與示範分數。正式市場資料、真實分數、Supabase 寫入與資料 promotion
-            仍需通過後續 gate。
+            目前仍是示範資料與示範分數：publicDataSource=mock、scoreSource=mock。
+            正式市場資料、真實分數、Supabase 寫入與資料 promotion 仍需通過後續 gate。
           </p>
         </div>
         <div className="briefing-meta">
@@ -490,8 +490,8 @@ function BriefingExecutiveSummary({ market, topRisk }: { market: SignalSnapshot;
         <p className="eyebrow">Market Briefing</p>
         <h1>市場訊號晨報</h1>
         <p>
-          Current public Beta state: core runtime routes are healthy, trust copy is readable, but real-data promotion is
-          still closed by platform values and A1 source-rights evidence.
+          先用一頁看懂今天的市場錨點、風險焦點與資料邊界。公開 Beta 目前仍是 mock-only，
+          目標是協助使用者判斷要關注、加強觀察，或先降低風險；不是投資建議。
         </p>
       </div>
       <aside>
@@ -500,35 +500,35 @@ function BriefingExecutiveSummary({ market, topRisk }: { market: SignalSnapshot;
           <i>公開頁仍使用示範資料與示範分數</i>
         </span>
         <span>
-          <b>Next readiness item</b>
-          <i>Public launch settings and source checks are still being prepared</i>
+          <b>下一步</b>
+          <i>補齊資料授權與來源檢查後，才會評估真實資料 promotion</i>
         </span>
         <span>
-          <b>Data evidence</b>
-          <i>Index source coverage is still under review</i>
+          <b>資料證據</b>
+          <i>指數來源、覆蓋率、回讀與回滾證據仍在 gate 中</i>
         </span>
         <span>
-          <b>Risk focus</b>
+          <b>風險焦點</b>
           <i>
-            {topRisk.asset.symbol} mock risk {topRisk.riskScore}/100
+            {topRisk.asset.symbol} mock 風險 {topRisk.riskScore}/100
           </i>
         </span>
       </aside>
       <div className="briefing-runtime-action-strip" aria-label="Briefing runtime action strip">
         <article className="active">
-          <span>Market anchor</span>
+          <span>市場錨點</span>
           <strong>{market.asset.symbol}</strong>
           <p>{market.asset.name}</p>
         </article>
         <article className="readying">
-          <span>Beta route</span>
-          <strong>Waiting values</strong>
-          <p>Validate two platform values before packet proof.</p>
+          <span>Beta 路徑</span>
+          <strong>資料 gate 準備中</strong>
+          <p>資料來源、授權、回讀與回滾證據通過前，不宣稱真實資料上線。</p>
         </article>
         <article className="blocked">
-          <span>Stop line</span>
-          <strong>No real score</strong>
-          <p>Do not promote source or score before gates pass.</p>
+          <span>停止線</span>
+          <strong>不啟用真實分數</strong>
+          <p>gate 通過前不升級 publicDataSource，也不把 scoreSource 設為 real。</p>
         </article>
       </div>
       <nav>
