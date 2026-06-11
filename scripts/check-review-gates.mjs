@@ -4203,6 +4203,11 @@ const checks = [
     name: "twii-aggregate-readback-contract-preflight"
   },
   {
+    command: [node, "scripts/check-twii-post-run-review-contract-preflight.mjs"],
+    expectStatus: "ok",
+    name: "twii-post-run-review-contract-preflight"
+  },
+  {
     command: [node, "scripts/check-twii-a1-d-write-prerequisite-dispatch-packet.mjs"],
     expectStatus: "ok",
     name: "twii-a1-d-write-prerequisite-dispatch-packet"
@@ -5073,6 +5078,7 @@ const coreReviewGateNames = new Set([
   "twii-execute-switch-confirmation-preflight",
   "twii-bounded-insert-missing-only-contract-preflight",
   "twii-aggregate-readback-contract-preflight",
+  "twii-post-run-review-contract-preflight",
   "twii-a1-d-write-prerequisite-dispatch-packet",
   "twii-a1-d-write-prerequisite-pm-intake-ledger",
   "coverage-universe-roadmap",
@@ -5168,6 +5174,7 @@ const coreReviewGateNames = new Set([
   "twii-execute-switch-confirmation-preflight",
   "twii-bounded-insert-missing-only-contract-preflight",
   "twii-aggregate-readback-contract-preflight",
+  "twii-post-run-review-contract-preflight",
   "twii-a1-d-write-prerequisite-dispatch-packet",
   "twii-a1-d-write-prerequisite-pm-intake-ledger",
   "a1-source-rights-readiness-summary",
@@ -5340,6 +5347,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "twii-execute-switch-confirmation-preflight",
   "twii-bounded-insert-missing-only-contract-preflight",
   "twii-aggregate-readback-contract-preflight",
+  "twii-post-run-review-contract-preflight",
   "twii-a1-d-write-prerequisite-dispatch-packet",
   "twii-a1-d-write-prerequisite-pm-intake-ledger",
   "typescript"
