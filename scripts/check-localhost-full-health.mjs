@@ -92,6 +92,10 @@ const checks = [
     name: "twii-one-shot-authorization-packet-alignment"
   },
   {
+    command: [node, "scripts/check-twii-pm-authorization-review-decision-alignment.mjs"],
+    name: "twii-pm-authorization-review-decision-alignment"
+  },
+  {
     command: [node, "scripts/check-data-realification-acceleration-gate.mjs"],
     name: "data-realification-acceleration-gate"
   },

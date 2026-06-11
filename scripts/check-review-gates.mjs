@@ -4123,6 +4123,11 @@ const checks = [
     name: "twii-pm-authorization-review-decision-packet"
   },
   {
+    command: [node, "scripts/check-twii-pm-authorization-review-decision-alignment.mjs"],
+    expectStatus: "ok",
+    name: "twii-pm-authorization-review-decision-alignment"
+  },
+  {
     command: [node, "scripts/check-twii-one-attempt-runner-execution-gate.mjs"],
     expectStatus: "ok",
     name: "twii-one-attempt-runner-execution-gate"
@@ -5286,6 +5291,7 @@ const coreReviewGateNames = new Set([
   "twii-future-one-time-authorization-packet",
   "twii-one-shot-authorization-packet-alignment",
   "twii-pm-authorization-review-decision-packet",
+  "twii-pm-authorization-review-decision-alignment",
   "twii-one-attempt-runner-execution-gate",
   "twii-fail-closed-runner-stub",
   "twii-explicit-execution-attempt-packet",
@@ -5426,6 +5432,7 @@ const coreReviewGateNames = new Set([
   "twii-future-one-time-authorization-packet",
   "twii-one-shot-authorization-packet-alignment",
   "twii-pm-authorization-review-decision-packet",
+  "twii-pm-authorization-review-decision-alignment",
   "twii-one-attempt-runner-execution-gate",
   "twii-fail-closed-runner-stub",
   "twii-explicit-execution-attempt-packet",
@@ -5641,6 +5648,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "twii-future-one-time-authorization-packet",
   "twii-one-shot-authorization-packet-alignment",
   "twii-pm-authorization-review-decision-packet",
+  "twii-pm-authorization-review-decision-alignment",
   "twii-one-attempt-runner-execution-gate",
   "twii-fail-closed-runner-stub",
   "twii-explicit-execution-attempt-packet",

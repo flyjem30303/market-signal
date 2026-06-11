@@ -1007,6 +1007,30 @@ Date: 2026-06-08
 卡住：A1 尚未回傳四格 no-secret evidence，因此 outcome gate 仍不能開，且不得進入 source-rights approval、candidate generation、Supabase、SQL、market-data ingestion、row coverage points 或 real promotion。
 
 下一步：A1 只需回 `evidenceSlotId`、`sourceReferenceLabel`、`safeEvidenceSummary`、`remainingRisk`；PM 收到後先跑 `check:a1-twii-evidence-response-shape`，再 dry-run reviewed outcome。
+# Latest TWII PM authorization review decision alignment slice
+
+Status: `twii_pm_authorization_review_decision_alignment_ready_no_execution`
+
+Date: 2026-06-12
+
+CEO decision: `align_pm_review_decision_with_latest_twii_one_shot_authorization_route`.
+
+PM route: `prepare_pm_review_decision_for_twii_future_one_time_authorization_packet_without_execution`.
+
+Outcome: `twii_pm_authorization_review_decision_alignment_registered_local_only`.
+
+This slice adds `docs/TWII_PM_AUTHORIZATION_REVIEW_DECISION_ALIGNMENT.md` and `scripts/check-twii-pm-authorization-review-decision-alignment.mjs`, then registers `check:twii-pm-authorization-review-decision-alignment` in `package.json`, `scripts/check-review-gates.mjs`, and `scripts/check-localhost-full-health.mjs`.
+
+The alignment accepts the existing `docs/TWII_PM_AUTHORIZATION_REVIEW_DECISION_PACKET.md` and `data/source-gates/twii-pm-authorization-review-decision-packet.json` as the canonical PM review decision artifact, while `docs/TWII_ONE_SHOT_AUTHORIZATION_PACKET_ALIGNMENT.md` supplies the latest 2026-06-12 route context.
+
+A1 support file: `docs/A1_TWII_PM_AUTH_REVIEW_DATA_EVIDENCE_CHECKLIST.md`. A2 support file: `docs/A2_TWII_PM_AUTH_REVIEW_PUBLIC_COPY_GUARD.md`.
+
+The PM decision remains accepted only for future execution-gate preparation: `accepted_for_future_execution_gate_preparation_only`. It does not authorize execution. Runtime stays `publicDataSource=mock`; scoring stays `scoreSource=mock`.
+
+This slice does not authorize SQL, Supabase connection, Supabase write, staging rows, `daily_prices` mutation, market-data fetch/ingest/store/commit, candidate-row acceptance, row coverage scoring, public source promotion, real score promotion, live-data claims, or investment-advice claims.
+
+Next PM route: `prepare_one_attempt_runner_execution_gate_no_execution`.
+
 # Latest TWII one-shot authorization packet alignment slice
 
 Status: `twii_one_shot_authorization_packet_alignment_ready_no_execution`

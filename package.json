@@ -406,6 +406,7 @@
     "check:twii-one-shot-authorization-packet-alignment": "node scripts/check-twii-one-shot-authorization-packet-alignment.mjs",
     "report:twii-pm-authorization-review-decision-packet": "node scripts/report-twii-pm-authorization-review-decision-packet.mjs",
     "check:twii-pm-authorization-review-decision-packet": "node scripts/check-twii-pm-authorization-review-decision-packet.mjs",
+    "check:twii-pm-authorization-review-decision-alignment": "node scripts/check-twii-pm-authorization-review-decision-alignment.mjs",
     "report:twii-one-attempt-runner-execution-gate": "node scripts/report-twii-one-attempt-runner-execution-gate.mjs",
     "check:twii-one-attempt-runner-execution-gate": "node scripts/check-twii-one-attempt-runner-execution-gate.mjs",
     "run:twii-fail-closed-runner-stub": "node scripts/run-twii-fail-closed-runner-stub.mjs",
