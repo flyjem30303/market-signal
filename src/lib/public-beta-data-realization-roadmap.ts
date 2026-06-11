@@ -40,8 +40,17 @@ export type PublicBetaBatch1ReadinessItem = {
   status: "blocked" | "ready" | "waiting";
 };
 
+export type PublicBetaBatch1UserStep = {
+  id: string;
+  label: string;
+  message: string;
+  nextStep: string;
+  status: "blocked" | "ready" | "waiting";
+};
+
 export type PublicBetaCoverageRolloutPlan = {
   batch1Readiness: PublicBetaBatch1ReadinessItem[];
+  batch1UserSteps: PublicBetaBatch1UserStep[];
   batches: PublicBetaCoverageBatch[];
   checklist: PublicBetaPromotionChecklistItem[];
   disclosure: string;
@@ -134,6 +143,29 @@ export function getPublicBetaCoverageRolloutPlan(): PublicBetaCoverageRolloutPla
         label: "Readonly / write gates",
         nextStep: "等 readonly、write path、rollback/fail-closed 全部通過後才可能 promotion。",
         publicMeaning: "資料庫準備好不等於網站可以直接切 real。",
+        status: "blocked"
+      }
+    ],
+    batch1UserSteps: [
+      {
+        id: "batch1-user-market-baseline",
+        label: "先補大盤基準",
+        message: "TWII 會先成為市場氣氛的基準線，讓使用者知道今天是偏穩、偏熱，還是需要提高警覺。",
+        nextStep: "完成來源權利、欄位與交易日規則後，才進入 readonly 驗證。",
+        status: "waiting"
+      },
+      {
+        id: "batch1-user-core-etf",
+        label: "再補核心 ETF",
+        message: "核心 ETF 會用來對照大盤與主要資金方向，但不包含持股、淨值或折溢價等進階資料。",
+        nextStep: "先確認公開展示權利與最小欄位，再決定是否納入 Batch 1。",
+        status: "waiting"
+      },
+      {
+        id: "batch1-user-data-boundary",
+        label: "保持資料邊界清楚",
+        message: "目前網站仍是 mock 閱讀模式；畫面可以解釋產品邏輯，但不能宣稱已提供正式市場資料。",
+        nextStep: "等 readonly、write、回補與 promotion gate 都通過後，才可調整公開宣稱。",
         status: "blocked"
       }
     ],

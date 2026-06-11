@@ -5521,7 +5521,7 @@ select {
 
 .public-beta-batch1-readiness-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
 }
 
@@ -5565,6 +5565,23 @@ select {
   color: var(--muted);
   line-height: 1.55;
   margin: 0;
+}
+
+.inline-status-link {
+  align-self: start;
+  border: 1px solid rgba(15, 118, 110, 0.22);
+  border-radius: 8px;
+  color: var(--teal);
+  display: inline-flex;
+  font-size: 14px;
+  font-weight: 800;
+  justify-self: start;
+  padding: 9px 12px;
+  text-decoration: none;
+}
+
+.inline-status-link:hover {
+  background: rgba(15, 118, 110, 0.08);
 }
 
 .home-indicator-roadmap {
