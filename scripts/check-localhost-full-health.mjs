@@ -96,6 +96,10 @@ const checks = [
     name: "twii-pm-authorization-review-decision-alignment"
   },
   {
+    command: [node, "scripts/check-twii-one-attempt-runner-execution-gate-alignment.mjs"],
+    name: "twii-one-attempt-runner-execution-gate-alignment"
+  },
+  {
     command: [node, "scripts/check-data-realification-acceleration-gate.mjs"],
     name: "data-realification-acceleration-gate"
   },

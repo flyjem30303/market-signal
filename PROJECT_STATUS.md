@@ -1007,6 +1007,30 @@ Date: 2026-06-08
 卡住：A1 尚未回傳四格 no-secret evidence，因此 outcome gate 仍不能開，且不得進入 source-rights approval、candidate generation、Supabase、SQL、market-data ingestion、row coverage points 或 real promotion。
 
 下一步：A1 只需回 `evidenceSlotId`、`sourceReferenceLabel`、`safeEvidenceSummary`、`remainingRisk`；PM 收到後先跑 `check:a1-twii-evidence-response-shape`，再 dry-run reviewed outcome。
+# Latest TWII one-attempt runner execution gate alignment slice
+
+Status: `twii_one_attempt_runner_execution_gate_alignment_ready_no_execution`
+
+Date: 2026-06-12
+
+CEO decision: `align_accepted_pm_review_decision_to_existing_twii_one_attempt_runner_gate`.
+
+PM route: `align_accepted_pm_review_decision_to_one_attempt_runner_gate_without_execution`.
+
+Outcome: `twii_one_attempt_runner_execution_gate_alignment_registered_local_only`.
+
+This slice adds `docs/TWII_ONE_ATTEMPT_RUNNER_EXECUTION_GATE_ALIGNMENT.md` and `scripts/check-twii-one-attempt-runner-execution-gate-alignment.mjs`, then registers `check:twii-one-attempt-runner-execution-gate-alignment` in `package.json`, `scripts/check-review-gates.mjs`, and `scripts/check-localhost-full-health.mjs`.
+
+The alignment connects `docs/TWII_PM_AUTHORIZATION_REVIEW_DECISION_ALIGNMENT.md` to the existing fail-closed runner gate in `docs/TWII_ONE_ATTEMPT_RUNNER_EXECUTION_GATE.md` and `data/source-gates/twii-one-attempt-runner-execution-gate.json`.
+
+A1 support file: `docs/A1_TWII_ONE_ATTEMPT_EXECUTION_GATE_DATA_EVIDENCE_CHECKLIST.md`. A2 support file: `docs/A2_TWII_ONE_ATTEMPT_EXECUTION_GATE_PUBLIC_COPY_GUARD.md`.
+
+The route remains accepted only for runner-gate alignment and future explicit-attempt packet preparation: `accepted_for_runner_gate_alignment_only`. It does not authorize execution. Runner mode remains `fail_closed_no_execution`. Runtime stays `publicDataSource=mock`; scoring stays `scoreSource=mock`.
+
+This slice does not authorize SQL, Supabase connection, Supabase write, staging rows, `daily_prices` mutation, market-data fetch/ingest/store/commit, candidate-row acceptance, row coverage scoring, public source promotion, real score promotion, live-data claims, or investment-advice claims.
+
+Next PM route: `prepare_fail_closed_runner_stub_or_explicit_execution_attempt_packet`.
+
 # Latest TWII PM authorization review decision alignment slice
 
 Status: `twii_pm_authorization_review_decision_alignment_ready_no_execution`
