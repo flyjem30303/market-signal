@@ -19,6 +19,14 @@ const forbiddenVisibleText = [
   "operator",
   "Allowed:",
   "Next gate:",
+  "Readonly result",
+  "Freshness metadata",
+  "Source depth",
+  "Runtime consistency",
+  "Readonly state",
+  "Data and legal readiness",
+  "readiness evidence",
+  "scoreSource=real claims",
   "PM ",
   "CEO"
 ];
