@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import type { Asset } from "@/lib/assets";
 import { StockSeoContent } from "@/components/stock-seo-content";
 import { CommercialSlot } from "@/components/commercial-slot";
-import { Cp3RuntimeStatePanel } from "@/components/cp3-runtime-state-panel";
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { HomeRuntimeStatusPanel } from "@/components/home-runtime-status-panel";
 import { StockRuntimeAtAGlance } from "@/components/stock-runtime-at-a-glance";
@@ -294,11 +293,6 @@ export function DashboardShell({
               label="TWII stock page mock disclosure status"
             />
           )}
-          <details className="stock-runtime-details">
-            <summary>產品狀態細節：資料與評分邊界</summary>
-            <p>這裡保留目前頁面的狀態樣本、資料限制與下一步檢查；第一屏則優先給使用者閱讀產品狀態。</p>
-            <Cp3RuntimeStatePanel freshness={freshness} snapshot={snapshot} />
-          </details>
           <StockEvidenceSnapshot snapshot={snapshot} />
           <StockDataGapPanel snapshot={snapshot} onTab={changeTab} />
           <StockDecisionCompass scoreSourceLabel={freshness.scoreSourceLabel} snapshot={snapshot} />
@@ -317,32 +311,6 @@ export function DashboardShell({
           <StockModuleHighlights snapshot={snapshot} onTab={changeTab} />
           <StockRiskChecklist snapshot={snapshot} onTab={changeTab} />
           <StockNextStepGuide snapshot={snapshot} onTab={changeTab} />
-          <details className="stock-governance-details">
-            <summary>治理與審核細節</summary>
-            <StockDecisionBoundary onTab={changeTab} />
-            <StockReviewQueue snapshot={snapshot} onTab={changeTab} />
-            <StockRoleResponsibilityMap onTab={changeTab} />
-            <StockEscalationReadiness snapshot={snapshot} onTab={changeTab} />
-            <StockCeoSynthesis snapshot={snapshot} onTab={changeTab} />
-            <StockSourceExplanationBacklog snapshot={snapshot} onTab={changeTab} />
-            <StockSourceAcceptanceCriteria onTab={changeTab} />
-            <StockSourceDecisionBlockers onTab={changeTab} />
-            <StockSourceCheckpointPath onTab={changeTab} />
-            <StockSourceEscalationSignal onTab={changeTab} />
-            <StockMockBoundaryLegend onTab={changeTab} />
-            <StockSafeReadingFlow onTab={changeTab} />
-            <StockStopReadingConditions onTab={changeTab} />
-            <StockExplanationPriority onTab={changeTab} />
-            <StockRoleReviewTriggers onTab={changeTab} />
-            <StockPreReviewForbiddenActions onTab={changeTab} />
-            <StockChairmanReviewReadiness onTab={changeTab} />
-            <StockChairmanNarrowQuestions onTab={changeTab} />
-            <StockChairmanAnswerCriteria onTab={changeTab} />
-            <StockChairmanAnswerRouting onTab={changeTab} />
-            <StockPreAuthorizationStopLines onTab={changeTab} />
-            <StockCeoOptionConvergence onTab={changeTab} />
-            <StockAuthorizationScopeReadiness onTab={changeTab} />
-          </details>
         </>
       )}
 

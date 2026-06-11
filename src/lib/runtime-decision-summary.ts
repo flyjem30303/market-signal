@@ -1,18 +1,17 @@
 import { getHomeRuntimeActionSummary } from "@/lib/home-runtime-action-summary";
 import { getPostReadonlyRuntimeState } from "@/lib/post-readonly-runtime-state";
-import { getRuntimeGateDecisionBrief } from "@/lib/runtime-gate-decision-brief";
 
 export type RuntimeDecisionSummary = {
   blockedTransition: string;
   currentProgressPercent: 72;
-  decisionLabel: "唯讀驗證後公開 Beta 決策";
+  decisionLabel: "補強公開 Beta 決策輔助";
   headline: string;
   mode: "runtime_decision_summary";
   nextAction: string;
   nextLift: string;
   publicDataSource: "mock";
   readonlyState: string;
-  route: "post_readonly_runtime_decision";
+  route: "public_beta_decision_aid";
   safetyStopLine: string;
   scoreSource: "mock";
   stage: string;
@@ -24,26 +23,23 @@ export type RuntimeDecisionSummary = {
 export function getRuntimeDecisionSummary(): RuntimeDecisionSummary {
   const action = getHomeRuntimeActionSummary();
   const postReadonly = getPostReadonlyRuntimeState();
-  const gate = getRuntimeGateDecisionBrief();
 
   return {
     blockedTransition: action.blockedTransition,
     currentProgressPercent: action.currentProgressPercent,
     decisionLabel: action.nextAction,
-    headline: "唯讀驗證後的公開 Beta 決策是目前主線",
+    headline: "公開 Beta 儀表站正在補強可行動解讀",
     mode: "runtime_decision_summary",
-    nextAction: gate.pmNextStep,
+    nextAction: "優先把燈號成因、更新時間、影響級別與下一步觀察動作放進主要閱讀路徑。",
     nextLift: action.nextLift,
     publicDataSource: "mock",
     readonlyState: postReadonly.state,
-    route: gate.currentDefaultRoute,
+    route: "public_beta_decision_aid",
     safetyStopLine: action.safetyStopLine,
     scoreSource: "mock",
     stage: action.stage,
     status: "mock_only_runtime_decision_ready",
-    subhead:
-      "後端物件可讀性已可作為內部證據；公開資料切換與正式分數仍需通過獨立檢查點。",
-    userFacingNow:
-      "使用者目前可以閱讀示範訊號方向、揭露狀態與產品流程；這不能視為即時市場資料、正式投資證據或投資建議。"
+    subhead: "目前先讓使用者看懂市場氛圍與限制；正式資料升級仍需另行通過資料與揭露檢查。",
+    userFacingNow: "使用者可以把本頁當作示範儀表站，快速理解風險方向、觀察重點與資料限制。"
   };
 }

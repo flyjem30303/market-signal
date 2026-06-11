@@ -22,52 +22,46 @@ export function getStockRuntimeHeadlineSummary(snapshot: SignalSnapshot): StockR
   return {
     decisionAidGroups: [
       {
-        items: [
-          "Mock composite score and risk direction",
-          "Module health/risk ranking",
-          "Freshness metadata reachability"
-        ],
-        label: "Can reference",
+        items: ["示範分數方向", "風險高低排序", "資料更新狀態說明"],
+        label: "現在可參考",
         state: "active",
-        title: "Useful for reading flow and relative risk checks"
+        title: "適合用來理解相對強弱與風險氛圍"
       },
       {
-        items: ["Mock quote and module details", "Backtest and news modules", "Peer comparison cards"],
-        label: "Display only",
+        items: ["報價與模組細節", "回看樣本與新聞摘要", "同族群比較卡片"],
+        label: "輔助閱讀",
         state: "readying",
-        title: "Good for product validation, not investment proof"
+        title: "可協助理解頁面流程，但不是正式投資證據"
       },
       {
-        items: ["Live market-data claims", "Supabase-backed public data", "scoreSource=real and SQL scoring"],
-        label: "Not live yet",
+        items: ["即時真實行情宣稱", "正式資料來源", "正式分數與買賣建議"],
+        label: "尚未開放",
         state: "blocked",
-        title: "Blocked until separate accepted gates"
+        title: "需等資料來源、覆蓋率、品質與法務揭露都通過"
       }
     ],
-    headline: `${snapshot.asset.symbol} is readable as a mock signal`,
+    headline: `${snapshot.asset.symbol} 目前可作為示範訊號閱讀`,
     items: [
       {
-        body: "Use this page to read the mock signal, risk direction, freshness note, and current safety boundary.",
-        label: "Use now",
+        body: "先看燈號、風險方向、資料更新說明與目前停止線，建立 30 秒初判。",
+        label: "現在可看",
         state: "active",
-        value: "mock_runtime_readable"
+        value: "示範訊號可讀"
       },
       {
-        body: "Live market-data claims, Supabase-backed public data, row coverage credit, and real scoring are still blocked.",
-        label: "Not live",
+        body: "正式市場資料、完整覆蓋率、真實分數與買賣建議仍未啟用。",
+        label: "仍不可推論",
         state: "blocked",
-        value: "real_data_blocked"
+        value: "正式資料未啟用"
       },
       {
-        body: "Improve the reading flow first; a bounded readonly attempt stays separate until CEO explicitly names it.",
-        label: "Next move",
+        body: "下一步優先補強解釋、來源深度與資料覆蓋，讓使用者能在 3 分鐘內決定觀察動作。",
+        label: "下一步",
         state: "readying",
-        value: "mock_runtime_hardening"
+        value: "補強決策輔助"
       }
     ],
-    stopLine:
-      "This headline summary does not approve publicDataSource=supabase, data-quality promotion, or scoreSource real mode.",
-    subhead:
-      "First-screen summary: what can be read now, what remains blocked, and what review comes next."
+    stopLine: "本頁不宣稱正式資料來源、完整資料品質或正式分數已啟用，也不提供投資建議。",
+    subhead: "首屏摘要：先說明現在能讀什麼、不能推論什麼，以及下一步補強方向。"
   };
 }

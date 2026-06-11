@@ -9,25 +9,26 @@ const publicBetaReadinessPanelPath = "src/components/public-beta-launch-readines
 const baseUrl = process.env.LOCALHOST_BASE_URL ?? "http://localhost:3000";
 
 const coreRuntimeBoundaryRequired = ["mock", "publicDataSource=mock", "scoreSource=mock"];
+const publicOperationsForbidden = [
+  "CEO",
+  "PM ",
+  "A1",
+  "A2",
+  "readonly-attempt",
+  "post-run",
+  "preflight",
+  "packet",
+  "operator",
+  "Allowed:",
+  "Next gate:",
+  "execution signal",
+  "Market breadth:"
+];
 
 const pages = [
   {
     path: "/",
-    forbidden: [
-      "CEO",
-      "PM ",
-      "A1",
-      "A2",
-      "readonly-attempt",
-      "post-run",
-      "preflight",
-      "packet",
-      "operator",
-      "Allowed:",
-      "Next gate:",
-      "execution signal",
-      "Market breadth:"
-    ],
+    forbidden: publicOperationsForbidden,
     required: [
       ...coreRuntimeBoundaryRequired,
       "Public Beta Index Dashboard",
@@ -52,45 +53,37 @@ const pages = [
   },
   {
     path: "/stocks/TWII",
+    forbidden: publicOperationsForbidden,
     required: [...coreRuntimeBoundaryRequired, "TWII Mock Disclosure"]
   },
   {
     path: "/stocks/2330",
+    forbidden: publicOperationsForbidden,
     required: [...coreRuntimeBoundaryRequired, "Indicator Roadmap"]
   },
   {
     path: "/stocks/0050",
+    forbidden: publicOperationsForbidden,
     required: [...coreRuntimeBoundaryRequired, "Indicator Roadmap"]
   },
   {
     path: "/stocks/006208",
+    forbidden: publicOperationsForbidden,
     required: [...coreRuntimeBoundaryRequired, "Indicator Roadmap"]
   },
   {
     path: "/stocks/2382",
+    forbidden: publicOperationsForbidden,
     required: [...coreRuntimeBoundaryRequired, "Indicator Roadmap"]
   },
   {
     path: "/stocks/2308",
+    forbidden: publicOperationsForbidden,
     required: [...coreRuntimeBoundaryRequired, "Indicator Roadmap"]
   },
   {
     path: "/briefing",
-    forbidden: [
-      "CEO",
-      "PM ",
-      "A1",
-      "A2",
-      "readonly-attempt",
-      "post-run",
-      "preflight",
-      "packet",
-      "operator",
-      "Allowed:",
-      "Next gate:",
-      "execution signal",
-      "Market breadth:"
-    ],
+    forbidden: publicOperationsForbidden,
     required: [
       "Market Briefing",
       "市場訊號晨報",
