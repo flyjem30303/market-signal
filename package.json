@@ -464,6 +464,8 @@
     "check:twii-exact-runtime-execution-command-preparation-gate-preflight": "node scripts/check-twii-exact-runtime-execution-command-preparation-gate-preflight.mjs",
     "report:twii-final-execution-run-authorization-go-no-go-gate-preflight": "node scripts/report-twii-final-execution-run-authorization-go-no-go-gate-preflight.mjs",
     "check:twii-final-execution-run-authorization-go-no-go-gate-preflight": "node scripts/check-twii-final-execution-run-authorization-go-no-go-gate-preflight.mjs",
+    "report:twii-final-execution-rehearsal-gate-preflight": "node scripts/report-twii-final-execution-rehearsal-gate-preflight.mjs",
+    "check:twii-final-execution-rehearsal-gate-preflight": "node scripts/check-twii-final-execution-rehearsal-gate-preflight.mjs",
     "report:twii-a1-d-write-prerequisite-dispatch-packet": "node scripts/report-twii-a1-d-write-prerequisite-dispatch-packet.mjs",
     "check:twii-a1-d-write-prerequisite-dispatch-packet": "node scripts/check-twii-a1-d-write-prerequisite-dispatch-packet.mjs",
     "report:twii-a1-d-write-prerequisite-pm-intake-ledger": "node scripts/report-twii-a1-d-write-prerequisite-pm-intake-ledger.mjs",
