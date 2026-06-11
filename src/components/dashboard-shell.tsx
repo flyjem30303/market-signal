@@ -8,7 +8,6 @@ import { CommercialSlot } from "@/components/commercial-slot";
 import { Cp3RuntimeStatePanel } from "@/components/cp3-runtime-state-panel";
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { HomeRuntimeStatusPanel } from "@/components/home-runtime-status-panel";
-import { PublicBetaLaunchReadinessPanel } from "@/components/public-beta-launch-readiness-panel";
 import { StockRuntimeAtAGlance } from "@/components/stock-runtime-at-a-glance";
 import { TrackedLink } from "@/components/tracked-link";
 import { TwiiMockDisclosureStatus } from "@/components/twii-mock-disclosure-status";
@@ -277,8 +276,6 @@ export function DashboardShell({
           onTab={changeTab}
         />
       )}
-
-      {!includeSeoContent && <PublicBetaLaunchReadinessPanel compact />}
 
       {!includeSeoContent && <HomeRuntimeStatusPanel selectedSymbol={selected.symbol} />}
 

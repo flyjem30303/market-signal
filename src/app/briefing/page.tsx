@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { PageViewTracker } from "@/components/page-view-tracker";
 import { PostReadonlyProductStatus } from "@/components/post-readonly-product-status";
-import { PublicBetaLaunchReadinessPanel } from "@/components/public-beta-launch-readiness-panel";
 import { PublicRuntimeStateStrip } from "@/components/public-runtime-state-strip";
 import { TrackedLink } from "@/components/tracked-link";
 import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
@@ -136,7 +135,6 @@ export default async function BriefingPage() {
 
       <PublicRuntimeStateStrip context="briefing" />
       <PostReadonlyProductStatus context="briefing" symbol={market.asset.symbol} />
-      <PublicBetaLaunchReadinessPanel />
 
       <nav aria-label="Briefing Compass" className="briefing-compass">
         <a href="#model-boundary">Model boundary</a>
@@ -405,12 +403,12 @@ function BriefingExecutiveSummary({ market, topRisk }: { market: SignalSnapshot;
           <i>publicDataSource=mock / scoreSource=mock</i>
         </span>
         <span>
-          <b>Next blocker</b>
-          <i>BETA_HOSTING_PROJECT_NAME and BETA_TEMPORARY_URL</i>
+          <b>Next readiness item</b>
+          <i>Public launch settings and source checks are still being prepared</i>
         </span>
         <span>
-          <b>A1 evidence</b>
-          <i>TWII four no-secret slots still pending</i>
+          <b>Data evidence</b>
+          <i>Index source coverage is still under review</i>
         </span>
         <span>
           <b>Risk focus</b>

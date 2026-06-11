@@ -13,7 +13,7 @@ const coreRuntimeBoundaryRequired = ["mock", "publicDataSource=mock", "scoreSour
 const pages = [
   {
     path: "/",
-    required: [...coreRuntimeBoundaryRequired, "Public Beta Readiness"]
+    required: [...coreRuntimeBoundaryRequired]
   },
   {
     path: "/stocks/TWII",
@@ -43,10 +43,6 @@ const pages = [
     path: "/briefing",
     required: [
       "Market Briefing",
-      "Public Beta Readiness",
-      "Public Beta pre-launch executable state",
-      "BETA_HOSTING_PROJECT_NAME",
-      "BETA_TEMPORARY_URL",
       "publicDataSource",
       "scoreSource"
     ]
@@ -90,7 +86,18 @@ const forbiddenText = [
   "Visible now: supabase",
   "scoreSource=real approved",
   "publicDataSource=supabase approved",
-  "claimApproval=approved"
+  "claimApproval=approved",
+  "Public Beta pre-launch executable state",
+  "Current hard blockers",
+  "Remaining hard blockers",
+  "External reply dry-run intake",
+  "BETA_HOSTING_PROJECT_NAME",
+  "BETA_TEMPORARY_URL",
+  "PUBLIC_BETA_EXTERNAL_REPLY_PATH",
+  "cmd.exe /c npm run report:public-beta-external-input-request",
+  "cmd.exe /c npm run run:public-beta-post-reply-route-once",
+  "A1 fail-fast policy",
+  "Single reply checklist"
 ];
 
 const sourceReadabilityTargets = [

@@ -19,7 +19,7 @@ const routes = [
 const routeContracts = [
   {
     file: "src/app/briefing/page.tsx",
-    tokens: ["PublicRuntimeStateStrip", "PublicBetaLaunchReadinessPanel", "DataFreshnessStrip"]
+    tokens: ["PublicRuntimeStateStrip", "DataFreshnessStrip"]
   },
   {
     file: "src/app/weekly/page.tsx",
