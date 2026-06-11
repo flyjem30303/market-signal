@@ -1,0 +1,12 @@
+{
+  "templateKind": "twii_real_decision_intake_packet_template_blank",
+  "templateMode": "blank_placeholder_only_no_execution",
+  "decisionStatus": "__DECISION_STATUS__",
+  "decisionRecordedByRole": "__DECISION_RECORDED_BY_ROLE__",
+  "decisionRecordedAtLabel": "__DECISION_RECORDED_AT_LABEL__",
+  "decisionReasonSummary": "__DECISION_REASON_SUMMARY__",
+  "repairRequiredSummary": "__REPAIR_REQUIRED_SUMMARY_OR_EMPTY__",
+  "publicDataSource": "mock",
+  "scoreSource": "mock",
+  "valuesFilledNow": false
+}
