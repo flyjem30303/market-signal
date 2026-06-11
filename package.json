@@ -468,6 +468,8 @@
     "check:twii-final-execution-rehearsal-gate-preflight": "node scripts/check-twii-final-execution-rehearsal-gate-preflight.mjs",
     "report:twii-real-final-execution-auth-request-packet-preflight": "node scripts/report-twii-real-final-execution-auth-request-packet-preflight.mjs",
     "check:twii-real-final-execution-auth-request-packet-preflight": "node scripts/check-twii-real-final-execution-auth-request-packet-preflight.mjs",
+    "report:twii-operator-authorization-acceptance-gate-preflight": "node scripts/report-twii-operator-authorization-acceptance-gate-preflight.mjs",
+    "check:twii-operator-authorization-acceptance-gate-preflight": "node scripts/check-twii-operator-authorization-acceptance-gate-preflight.mjs",
     "report:twii-a1-d-write-prerequisite-dispatch-packet": "node scripts/report-twii-a1-d-write-prerequisite-dispatch-packet.mjs",
     "check:twii-a1-d-write-prerequisite-dispatch-packet": "node scripts/check-twii-a1-d-write-prerequisite-dispatch-packet.mjs",
     "report:twii-a1-d-write-prerequisite-pm-intake-ledger": "node scripts/report-twii-a1-d-write-prerequisite-pm-intake-ledger.mjs",
