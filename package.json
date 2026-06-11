@@ -494,6 +494,8 @@
     "check:twii-operator-checklist-next-execution-route-gate-preflight": "node scripts/check-twii-operator-checklist-next-execution-route-gate-preflight.mjs",
     "report:twii-operator-values-intake-readiness-surface-gate-preflight": "node scripts/report-twii-operator-values-intake-readiness-surface-gate-preflight.mjs",
     "check:twii-operator-values-intake-readiness-surface-gate-preflight": "node scripts/check-twii-operator-values-intake-readiness-surface-gate-preflight.mjs",
+    "report:twii-operator-values-shape-recheck-gate-preflight": "node scripts/report-twii-operator-values-shape-recheck-gate-preflight.mjs",
+    "check:twii-operator-values-shape-recheck-gate-preflight": "node scripts/check-twii-operator-values-shape-recheck-gate-preflight.mjs",
     "report:twii-a1-d-write-prerequisite-dispatch-packet": "node scripts/report-twii-a1-d-write-prerequisite-dispatch-packet.mjs",
     "check:twii-a1-d-write-prerequisite-dispatch-packet": "node scripts/check-twii-a1-d-write-prerequisite-dispatch-packet.mjs",
     "report:twii-a1-d-write-prerequisite-pm-intake-ledger": "node scripts/report-twii-a1-d-write-prerequisite-pm-intake-ledger.mjs",
