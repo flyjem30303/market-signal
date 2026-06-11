@@ -450,6 +450,8 @@
     "check:twii-rollback-readiness-contract-preflight": "node scripts/check-twii-rollback-readiness-contract-preflight.mjs",
     "report:twii-final-execution-packet-preflight": "node scripts/report-twii-final-execution-packet-preflight.mjs",
     "check:twii-final-execution-packet-preflight": "node scripts/check-twii-final-execution-packet-preflight.mjs",
+    "report:twii-one-attempt-authorization-intake-preflight": "node scripts/report-twii-one-attempt-authorization-intake-preflight.mjs",
+    "check:twii-one-attempt-authorization-intake-preflight": "node scripts/check-twii-one-attempt-authorization-intake-preflight.mjs",
     "report:twii-a1-d-write-prerequisite-dispatch-packet": "node scripts/report-twii-a1-d-write-prerequisite-dispatch-packet.mjs",
     "check:twii-a1-d-write-prerequisite-dispatch-packet": "node scripts/check-twii-a1-d-write-prerequisite-dispatch-packet.mjs",
     "report:twii-a1-d-write-prerequisite-pm-intake-ledger": "node scripts/report-twii-a1-d-write-prerequisite-pm-intake-ledger.mjs",
