@@ -243,13 +243,13 @@ export function DashboardShell({
         <p className="eyebrow">Market Signal Dashboard</p>
         <h1>
           {includeSeoContent
-            ? `${selected.symbol} ${selected.name} 台股燈號：${snapshot.signal.title}`
-            : "台股與 ETF 指數燈號儀表板"}
+            ? `${selected.symbol} ${selected.name} 狀態儀表：${snapshot.signal.title}`
+            : "指數狀態儀表站"}
         </h1>
         <p>
           {includeSeoContent
-            ? `目前 ${selected.symbol} 使用 mock-only 閱讀模式呈現健康度、風險與資料限制；正式資料來源與正式評分仍未啟用。`
-            : "用 mock-only 閱讀模式先看台股、ETF 與市場指數的健康度、風險與資料缺口；正式資料來源與正式評分尚未啟用。"}
+            ? `目前 ${selected.symbol} 仍以 mock-only 資料呈現，協助使用者快速理解狀態、風險與資料品質；不構成投資建議，也尚未啟用真實資料推廣。`
+            : "用紅黃綠燈、核心指標與警示清單，把市場氛圍整理成 30 秒可讀、3 分鐘可行動的決策輔助畫面。目前仍為 mock-only 公開 Beta。"}
         </p>
       </section>
 

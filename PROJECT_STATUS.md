@@ -1007,6 +1007,28 @@ Date: 2026-06-08
 卡住：A1 尚未回傳四格 no-secret evidence，因此 outcome gate 仍不能開，且不得進入 source-rights approval、candidate generation、Supabase、SQL、market-data ingestion、row coverage points 或 real promotion。
 
 下一步：A1 只需回 `evidenceSlotId`、`sourceReferenceLabel`、`safeEvidenceSummary`、`remainingRisk`；PM 收到後先跑 `check:a1-twii-evidence-response-shape`，再 dry-run reviewed outcome。
+# Latest BRIEF-aligned homepage hero readability slice
+
+Status: `brief_aligned_homepage_hero_readability_visible`
+
+Date: 2026-06-12
+
+CEO decision: `prioritize_visible_brief_progress_over_additional_governance_layers`.
+
+PM route: `make_public_homepage_first_view_match_index_state_dashboard_brief`.
+
+Outcome: `homepage_hero_copy_aligned_to_30_second_and_3_minute_decision_brief`.
+
+This slice updates `src/components/dashboard-shell.tsx` so the public homepage and stock-page hero speak in investor-facing terms: `指數狀態儀表站`, 30-second market atmosphere reading, 3-minute action judgment, mock-only public Beta, non-investment-advice boundary, and no real-data promotion claim.
+
+The in-app browser verified `http://localhost:3000/` exposes the BRIEF copy and does not expose development process artifacts such as `BETA_HOSTING_PROJECT_NAME`, `PUBLIC_BETA_EXTERNAL_REPLY_PATH`, `cmd.exe /c npm run report:public-beta-external-input-request`, or `Current hard blockers`.
+
+Validation passed: `cmd.exe /c npx tsc --noEmit --incremental false`, `cmd.exe /c npm run check:public-visible-language-quality`, and `git diff --check`.
+
+This slice does not authorize SQL, Supabase connection, Supabase write, staging rows, `daily_prices` mutation, market-data fetch/ingest/store/commit, candidate-row acceptance, row coverage scoring, public source promotion, real score promotion, live-data claims, or investment-advice claims.
+
+Next PM route: continue replacing visible development-process copy with BRIEF-oriented market state, indicator explanation, warning cause, freshness, and trust-copy surfaces while data gates continue in parallel.
+
 # Latest TWII one-attempt runner execution gate alignment slice
 
 Status: `twii_one_attempt_runner_execution_gate_alignment_ready_no_execution`
