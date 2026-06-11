@@ -454,6 +454,8 @@
     "check:twii-one-attempt-authorization-intake-preflight": "node scripts/check-twii-one-attempt-authorization-intake-preflight.mjs",
     "report:twii-bounded-one-attempt-execution-review-preflight": "node scripts/report-twii-bounded-one-attempt-execution-review-preflight.mjs",
     "check:twii-bounded-one-attempt-execution-review-preflight": "node scripts/check-twii-bounded-one-attempt-execution-review-preflight.mjs",
+    "report:twii-final-runtime-execution-gate-preflight": "node scripts/report-twii-final-runtime-execution-gate-preflight.mjs",
+    "check:twii-final-runtime-execution-gate-preflight": "node scripts/check-twii-final-runtime-execution-gate-preflight.mjs",
     "report:twii-a1-d-write-prerequisite-dispatch-packet": "node scripts/report-twii-a1-d-write-prerequisite-dispatch-packet.mjs",
     "check:twii-a1-d-write-prerequisite-dispatch-packet": "node scripts/check-twii-a1-d-write-prerequisite-dispatch-packet.mjs",
     "report:twii-a1-d-write-prerequisite-pm-intake-ledger": "node scripts/report-twii-a1-d-write-prerequisite-pm-intake-ledger.mjs",
