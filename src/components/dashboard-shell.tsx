@@ -22,6 +22,7 @@ import { buildMockDataFreshnessSnapshot, type DataFreshnessSnapshot } from "@/li
 import { buildHomeMarketActionSummary } from "@/lib/home-market-action-summary";
 import { buildInvestorActionSummary } from "@/lib/investor-action-summary";
 import { getInvestorIndicatorRoadmap, type InvestorIndicatorStatus } from "@/lib/investor-indicator-roadmap";
+import { getPublicBetaDataRealizationRoadmap } from "@/lib/public-beta-data-realization-roadmap";
 import { getTwiiLocalDisclosureConsumerOutput } from "@/lib/twii-local-disclosure-consumer";
 import {
   getMarketSignalRepository,
@@ -472,6 +473,7 @@ function HomeProductOverview({
   const actionSummary = buildHomeMarketActionSummary(snapshot, snapshots);
   const indicatorRoadmap = getInvestorIndicatorRoadmap();
   const visibleIndicatorFamilies = indicatorRoadmap.families.slice(0, 3);
+  const dataRealizationRoadmap = getPublicBetaDataRealizationRoadmap();
   const alertUpdateTime = snapshot.lastUpdatedAt.replace("T", " ").replace("+08:00", " 台北時間");
   const breadth = snapshots.reduce(
     (summary, item) => {
@@ -672,6 +674,25 @@ function HomeProductOverview({
                 </div>
               </dl>
             </TrackedLink>
+          ))}
+        </div>
+      </section>
+
+      <section className="public-beta-data-realization-roadmap" aria-label="資料真實化路徑">
+        <div className="public-beta-data-realization-head">
+          <p className="eyebrow">Data Realization Path</p>
+          <h2>{dataRealizationRoadmap.headline}</h2>
+          <p>{dataRealizationRoadmap.summary}</p>
+          <p>{dataRealizationRoadmap.disclosure}</p>
+        </div>
+        <div className="public-beta-data-realization-grid">
+          {dataRealizationRoadmap.stages.map((stage) => (
+            <article className={stage.tone} key={stage.id}>
+              <span>{stage.label}</span>
+              <strong>{stage.publicMeaning}</strong>
+              <p>{stage.currentState}</p>
+              <small>下一步：{stage.nextStep}</small>
+            </article>
           ))}
         </div>
       </section>

@@ -20,7 +20,11 @@ const pages = [
       "核心指標面板",
       "警示清單",
       "30 秒看懂市場氛圍",
-      "下一步建議"
+      "下一步建議",
+      "資料真實化路徑",
+      "覆蓋範圍",
+      "來源與權利",
+      "Runtime promotion"
     ]
   },
   {
@@ -52,7 +56,11 @@ const pages = [
     required: [
       "Market Briefing",
       "publicDataSource",
-      "scoreSource"
+      "scoreSource",
+      "資料真實化路徑",
+      "覆蓋範圍",
+      "來源與權利",
+      "Runtime promotion"
     ]
   },
   {

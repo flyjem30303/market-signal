@@ -6,6 +6,7 @@ import { PublicRuntimeStateStrip } from "@/components/public-runtime-state-strip
 import { TrackedLink } from "@/components/tracked-link";
 import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
 import { buildBriefingMarketActionSummary } from "@/lib/briefing-market-action-summary";
+import { getPublicBetaDataRealizationRoadmap } from "@/lib/public-beta-data-realization-roadmap";
 import {
   getMarketSignalRepository,
   getMarketSignalSourceStatus
@@ -56,6 +57,7 @@ export default async function BriefingPage() {
   const topRisk = heated[0] ?? market;
   const runtimePlan = buildBriefingRuntimePlan(market, breadth, concentration, topRisk);
   const marketActionSummary = buildBriefingMarketActionSummary(market, topRisk, breadth);
+  const dataRealizationRoadmap = getPublicBetaDataRealizationRoadmap();
 
   return (
     <main className="page-shell">
@@ -135,6 +137,25 @@ export default async function BriefingPage() {
 
       <PublicRuntimeStateStrip context="briefing" />
       <PostReadonlyProductStatus context="briefing" symbol={market.asset.symbol} />
+
+      <section className="public-beta-data-realization-roadmap briefing-data-realization" aria-label="資料真實化路徑">
+        <div className="public-beta-data-realization-head">
+          <p className="eyebrow">Data Realization Path</p>
+          <h2>{dataRealizationRoadmap.headline}</h2>
+          <p>{dataRealizationRoadmap.summary}</p>
+          <p>{dataRealizationRoadmap.disclosure}</p>
+        </div>
+        <div className="public-beta-data-realization-grid">
+          {dataRealizationRoadmap.stages.map((stage) => (
+            <article className={stage.tone} key={stage.id}>
+              <span>{stage.label}</span>
+              <strong>{stage.publicMeaning}</strong>
+              <p>{stage.currentState}</p>
+              <small>下一步：{stage.nextStep}</small>
+            </article>
+          ))}
+        </div>
+      </section>
 
       <nav aria-label="Briefing Compass" className="briefing-compass">
         <a href="#model-boundary">Model boundary</a>
