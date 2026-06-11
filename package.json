@@ -460,6 +460,8 @@
     "check:twii-final-operator-authorization-packet-preflight": "node scripts/check-twii-final-operator-authorization-packet-preflight.mjs",
     "report:twii-explicit-bounded-runtime-attempt-decision-gate-preflight": "node scripts/report-twii-explicit-bounded-runtime-attempt-decision-gate-preflight.mjs",
     "check:twii-explicit-bounded-runtime-attempt-decision-gate-preflight": "node scripts/check-twii-explicit-bounded-runtime-attempt-decision-gate-preflight.mjs",
+    "report:twii-exact-runtime-execution-command-preparation-gate-preflight": "node scripts/report-twii-exact-runtime-execution-command-preparation-gate-preflight.mjs",
+    "check:twii-exact-runtime-execution-command-preparation-gate-preflight": "node scripts/check-twii-exact-runtime-execution-command-preparation-gate-preflight.mjs",
     "report:twii-a1-d-write-prerequisite-dispatch-packet": "node scripts/report-twii-a1-d-write-prerequisite-dispatch-packet.mjs",
     "check:twii-a1-d-write-prerequisite-dispatch-packet": "node scripts/check-twii-a1-d-write-prerequisite-dispatch-packet.mjs",
     "report:twii-a1-d-write-prerequisite-pm-intake-ledger": "node scripts/report-twii-a1-d-write-prerequisite-pm-intake-ledger.mjs",
