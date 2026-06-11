@@ -486,6 +486,8 @@
     "check:twii-operator-packet-fill-simulation-gate-preflight": "node scripts/check-twii-operator-packet-fill-simulation-gate-preflight.mjs",
     "report:twii-real-operator-packet-intake-blocker-gate-preflight": "node scripts/report-twii-real-operator-packet-intake-blocker-gate-preflight.mjs",
     "check:twii-real-operator-packet-intake-blocker-gate-preflight": "node scripts/check-twii-real-operator-packet-intake-blocker-gate-preflight.mjs",
+    "report:twii-real-operator-intake-checklist-packet-gate-preflight": "node scripts/report-twii-real-operator-intake-checklist-packet-gate-preflight.mjs",
+    "check:twii-real-operator-intake-checklist-packet-gate-preflight": "node scripts/check-twii-real-operator-intake-checklist-packet-gate-preflight.mjs",
     "report:twii-a1-d-write-prerequisite-dispatch-packet": "node scripts/report-twii-a1-d-write-prerequisite-dispatch-packet.mjs",
     "check:twii-a1-d-write-prerequisite-dispatch-packet": "node scripts/check-twii-a1-d-write-prerequisite-dispatch-packet.mjs",
     "report:twii-a1-d-write-prerequisite-pm-intake-ledger": "node scripts/report-twii-a1-d-write-prerequisite-pm-intake-ledger.mjs",

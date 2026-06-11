@@ -1,0 +1,85 @@
+{
+  "checklistKind": "twii_real_operator_intake_checklist_packet",
+  "checklistMode": "real_intake_checklist_packet_only_no_execution",
+  "sourceBlockerGatePath": "data/source-gates/twii-real-operator-packet-intake-blocker-gate-preflight.json",
+  "sourceBlockerRequirementsPath": "data/source-gates/twii-real-operator-packet-intake-blocker-requirements.json",
+  "checklistPacketOnly": true,
+  "realValuesProvidedNow": false,
+  "realDecisionValueReadNow": false,
+  "realDecisionValueRecordedNow": false,
+  "executionAllowedNow": false,
+  "publicDataSource": "mock",
+  "scoreSource": "mock",
+  "completionCriteria": [
+    "all_required_real_intake_fields_provided",
+    "operator_review_status_not_pending",
+    "operator_attestation_provided",
+    "execution_acknowledgement_provided",
+    "mock_boundary_still_visible"
+  ],
+  "currentChecklistStatus": "blocked_missing_real_values",
+  "items": [
+    {
+      "itemId": "real-decision-status",
+      "requiredField": "realDecisionStatus",
+      "placeholder": "__REAL_DECISION_STATUS__",
+      "required": true,
+      "providedNow": false,
+      "blockerStatus": "blocked_missing_real_values"
+    },
+    {
+      "itemId": "real-decision-recorded-by",
+      "requiredField": "realDecisionRecordedBy",
+      "placeholder": "__REAL_DECISION_RECORDED_BY__",
+      "required": true,
+      "providedNow": false,
+      "blockerStatus": "blocked_missing_real_values"
+    },
+    {
+      "itemId": "real-decision-recorded-at",
+      "requiredField": "realDecisionRecordedAt",
+      "placeholder": "__REAL_DECISION_RECORDED_AT__",
+      "required": true,
+      "providedNow": false,
+      "blockerStatus": "blocked_missing_real_values"
+    },
+    {
+      "itemId": "real-decision-reason-summary",
+      "requiredField": "realDecisionReasonSummary",
+      "placeholder": "__REAL_DECISION_REASON_SUMMARY__",
+      "required": true,
+      "providedNow": false,
+      "blockerStatus": "blocked_missing_real_values"
+    },
+    {
+      "itemId": "operator-attestation",
+      "requiredField": "operatorAttestation",
+      "placeholder": "__REAL_OPERATOR_ATTESTATION__",
+      "required": true,
+      "providedNow": false,
+      "blockerStatus": "blocked_pending_operator_review"
+    },
+    {
+      "itemId": "execution-acknowledgement",
+      "requiredField": "executionAcknowledgement",
+      "placeholder": "__REAL_EXECUTION_ACKNOWLEDGEMENT__",
+      "required": true,
+      "providedNow": false,
+      "blockerStatus": "blocked_pending_operator_review"
+    }
+  ],
+  "disallowedChecklistFields": [
+    "decisionSecretValue",
+    "authorizationValue",
+    "confirmationPhraseValue",
+    "executeSwitchValue",
+    "credentialValue",
+    "rowBody",
+    "tradeDateList",
+    "sourcePayload",
+    "rawPayload",
+    "stockIdPayload",
+    "personalizedAdvice",
+    "buySellHoldSignal"
+  ]
+}
