@@ -500,6 +500,8 @@
     "check:twii-pre-execution-readiness-recheck-gate-preflight": "node scripts/check-twii-pre-execution-readiness-recheck-gate-preflight.mjs",
     "report:twii-server-only-pre-execution-integration-gate": "node scripts/report-twii-server-only-pre-execution-integration-gate.mjs",
     "check:twii-server-only-pre-execution-integration-gate": "node scripts/check-twii-server-only-pre-execution-integration-gate.mjs",
+    "report:twii-bounded-operator-authorization-packet-gate": "node scripts/report-twii-bounded-operator-authorization-packet-gate.mjs",
+    "check:twii-bounded-operator-authorization-packet-gate": "node scripts/check-twii-bounded-operator-authorization-packet-gate.mjs",
     "report:twii-a1-d-write-prerequisite-dispatch-packet": "node scripts/report-twii-a1-d-write-prerequisite-dispatch-packet.mjs",
     "check:twii-a1-d-write-prerequisite-dispatch-packet": "node scripts/check-twii-a1-d-write-prerequisite-dispatch-packet.mjs",
     "report:twii-a1-d-write-prerequisite-pm-intake-ledger": "node scripts/report-twii-a1-d-write-prerequisite-pm-intake-ledger.mjs",
