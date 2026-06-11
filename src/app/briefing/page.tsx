@@ -63,6 +63,8 @@ export default async function BriefingPage() {
   const marketActionSummary = buildBriefingMarketActionSummary(market, topRisk, breadth);
   const dataRealizationRoadmap = getPublicBetaDataRealizationRoadmap();
   const coverageRolloutPlan = getPublicBetaCoverageRolloutPlan();
+  const briefingAlerts = buildBriefingAlerts(market, topRisk, breadth, concentration);
+  const briefingAlertUpdateTime = market.lastUpdatedAt.replace("T", " ").replace("+08:00", " 台北時間");
 
   return (
     <main className="page-shell">
@@ -120,6 +122,47 @@ export default async function BriefingPage() {
           <strong>{marketActionSummary.secondary.title}</strong>
           <p>{marketActionSummary.secondary.body}</p>
         </TrackedLink>
+      </section>
+
+      <section className="home-public-beta-layers briefing-alert-decision-list" aria-label="Briefing alert list">
+        <div className="home-public-beta-layer alerts">
+          <span>警示清單</span>
+          <strong>{briefingAlerts.length} 則今日重點警示</strong>
+          <p>每則警示都包含狀態、成因、更新時間、影響級別與下一步建議，讓使用者先判斷要關注、加強觀察或減少風險。</p>
+        </div>
+        <div className="home-public-beta-alert-list">
+          {briefingAlerts.map((alert) => (
+            <TrackedLink
+              className={alert.tone}
+              eventName="briefing_link_clicked"
+              href={alert.href}
+              key={alert.title}
+              label={alert.title}
+              payload={{ action: "briefing_alert", alert: alert.title, symbol: alert.symbol }}
+            >
+              <span>{alert.status}</span>
+              <strong>{alert.title}</strong>
+              <dl>
+                <div>
+                  <dt>成因</dt>
+                  <dd>{alert.cause}</dd>
+                </div>
+                <div>
+                  <dt>更新時間</dt>
+                  <dd>{briefingAlertUpdateTime}</dd>
+                </div>
+                <div>
+                  <dt>影響級別</dt>
+                  <dd>{alert.impact}</dd>
+                </div>
+                <div>
+                  <dt>下一步</dt>
+                  <dd>{alert.next}</dd>
+                </div>
+              </dl>
+            </TrackedLink>
+          ))}
+        </div>
       </section>
 
       <nav aria-label="Experience Flow" className="experience-flow-nav">
@@ -557,6 +600,63 @@ function BriefingExecutiveSummary({ market, topRisk }: { market: SignalSnapshot;
       </nav>
     </section>
   );
+}
+
+function buildBriefingAlerts(
+  market: SignalSnapshot,
+  topRisk: SignalSnapshot,
+  breadth: ReturnType<typeof buildMarketBreadth>,
+  concentration: ReturnType<typeof buildConcentrationSignal>
+) {
+  const marketNeedsCaution = market.riskScore >= 60 || breadth.defensive > breadth.constructive;
+  const topRiskElevated = topRisk.riskScore >= 70;
+  const concentrated = concentration.tone === "concentrated";
+
+  return [
+    {
+      cause: marketNeedsCaution
+        ? `大盤風險分數 ${market.riskScore}/100，防守或觀察訊號需要優先閱讀。`
+        : `大盤綜合分數 ${market.compositeScore}/100，目前仍需搭配資料邊界解讀。`,
+      href: `/stocks/${market.asset.symbol}`,
+      impact: marketNeedsCaution ? "中高" : "中",
+      next: marketNeedsCaution ? "先加強觀察大盤風險，再看機會卡。" : "可先關注大盤脈絡，再往 ETF 或族群延伸。",
+      status: marketNeedsCaution ? "加強觀察" : "關注",
+      symbol: market.asset.symbol,
+      title: `${market.asset.symbol} 市場氛圍警示`,
+      tone: marketNeedsCaution ? "hold" : "active"
+    },
+    {
+      cause: `${topRisk.asset.symbol} 風險分數 ${topRisk.riskScore}/100，是目前 briefing 內最需要複核的標的。`,
+      href: `/stocks/${topRisk.asset.symbol}`,
+      impact: topRiskElevated ? "高" : "中",
+      next: topRiskElevated ? "先減少風險暴露想像，不要把分數視為買賣訊號。" : "保持觀察，確認風險是否擴散到同族群。",
+      status: topRiskElevated ? "減少風險" : "加強觀察",
+      symbol: topRisk.asset.symbol,
+      title: `${topRisk.asset.symbol} 風險卡片`,
+      tone: topRiskElevated ? "blocked" : "hold"
+    },
+    {
+      cause: concentrated
+        ? `${concentration.topGroup} 佔 mock universe ${concentration.topGroupShare}%，單一族群解讀容易放大市場結論。`
+        : `市場結構較分散，仍需用資料覆蓋率與更新時間確認可信度。`,
+      href: concentrated ? "#market-structure" : "/weekly",
+      impact: concentrated ? "中高" : "中",
+      next: concentrated ? "先看市場結構，再解讀個股或 ETF。" : "可延伸到週報檢查中期脈絡。",
+      status: concentrated ? "加強觀察" : "關注",
+      symbol: concentrated ? "market-structure" : "weekly",
+      title: "市場結構警示",
+      tone: concentrated ? "hold" : "active"
+    }
+  ] satisfies Array<{
+    cause: string;
+    href: string;
+    impact: string;
+    next: string;
+    status: string;
+    symbol: string;
+    title: string;
+    tone: Tone;
+  }>;
 }
 
 function buildBriefingRuntimePlan(
