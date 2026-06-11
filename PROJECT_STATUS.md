@@ -1007,3 +1007,24 @@ Date: 2026-06-08
 卡住：A1 尚未回傳四格 no-secret evidence，因此 outcome gate 仍不能開，且不得進入 source-rights approval、candidate generation、Supabase、SQL、market-data ingestion、row coverage points 或 real promotion。
 
 下一步：A1 只需回 `evidenceSlotId`、`sourceReferenceLabel`、`safeEvidenceSummary`、`remainingRisk`；PM 收到後先跑 `check:a1-twii-evidence-response-shape`，再 dry-run reviewed outcome。
+# Latest TWII coverage repair gate slice
+
+Status: `twii_coverage_repair_gate_ready_design_only_not_executable`
+
+Date: 2026-06-12
+
+CEO decision: `keep_data_realification_mainline_on_twii_first_coverage_repair_gate`.
+
+PM route: `prepare_twii_coverage_repair_gate`.
+
+Outcome: `twii_coverage_repair_gate_packet_registered_local_only`.
+
+This slice adds `docs/TWII_COVERAGE_REPAIR_GATE.md` and `scripts/check-twii-coverage-repair-gate.mjs`, then registers `check:twii-coverage-repair-gate` in `package.json`, `scripts/check-review-gates.mjs`, and `scripts/check-localhost-full-health.mjs`.
+
+A1 supplied `docs/A1_TWII_COVERAGE_REPAIR_GATE_PREREQ_CHECKLIST.md`. A2 supplied `docs/A2_TWII_COVERAGE_REPAIR_GATE_PUBLIC_COPY_GUARD.md`. PM accepted both only as local support for TWII first coverage repair gate preparation.
+
+The current route remains aggregate-only: `TWII`, `daily_prices`, `twii_index_daily_prices_missing_rows`, `0/60`, `60` missing rows, Batch 1 `182/360`, and `178` total missing rows. Runtime stays `publicDataSource=mock`; scoring stays `scoreSource=mock`.
+
+This slice does not authorize SQL, Supabase connection, Supabase write, staging rows, `daily_prices` mutation, market-data fetch/ingest/store/commit, candidate-row acceptance, row coverage scoring, public source promotion, real score promotion, live-data claims, or investment-advice claims.
+
+Next PM route: `prepare_twii_one_shot_authorization_packet_without_execution`.

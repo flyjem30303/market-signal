@@ -4203,6 +4203,11 @@ const checks = [
     name: "twii-bounded-insert-missing-only-contract-preflight"
   },
   {
+    command: [node, "scripts/check-twii-coverage-repair-gate.mjs"],
+    expectStatus: "ok",
+    name: "twii-coverage-repair-gate"
+  },
+  {
     command: [node, "scripts/check-twii-aggregate-readback-contract-preflight.mjs"],
     expectStatus: "ok",
     name: "twii-aggregate-readback-contract-preflight"
@@ -5292,6 +5297,7 @@ const coreReviewGateNames = new Set([
   "twii-credential-presence-shape-checker",
   "twii-execute-switch-confirmation-preflight",
   "twii-bounded-insert-missing-only-contract-preflight",
+  "twii-coverage-repair-gate",
   "twii-aggregate-readback-contract-preflight",
   "twii-post-run-review-contract-preflight",
   "twii-rollback-readiness-contract-preflight",
@@ -5430,6 +5436,7 @@ const coreReviewGateNames = new Set([
   "twii-credential-presence-shape-checker",
   "twii-execute-switch-confirmation-preflight",
   "twii-bounded-insert-missing-only-contract-preflight",
+  "twii-coverage-repair-gate",
   "twii-aggregate-readback-contract-preflight",
   "twii-post-run-review-contract-preflight",
   "twii-rollback-readiness-contract-preflight",
@@ -5643,6 +5650,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "twii-credential-presence-shape-checker",
   "twii-execute-switch-confirmation-preflight",
   "twii-bounded-insert-missing-only-contract-preflight",
+  "twii-coverage-repair-gate",
   "twii-aggregate-readback-contract-preflight",
   "twii-post-run-review-contract-preflight",
   "twii-rollback-readiness-contract-preflight",

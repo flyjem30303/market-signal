@@ -84,6 +84,10 @@ const checks = [
     name: "data-population-route-decision"
   },
   {
+    command: [node, "scripts/check-twii-coverage-repair-gate.mjs"],
+    name: "twii-coverage-repair-gate"
+  },
+  {
     command: [node, "scripts/check-data-realification-acceleration-gate.mjs"],
     name: "data-realification-acceleration-gate"
   },
