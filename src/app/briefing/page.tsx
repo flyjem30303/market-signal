@@ -210,6 +210,27 @@ export default async function BriefingPage() {
         </div>
       </section>
 
+      <section className="public-beta-readonly-gate briefing-readonly-gate" aria-label="Batch 1 bounded readonly gate">
+        <div className="public-beta-readonly-gate-head">
+          <p className="eyebrow">Bounded Readonly Gate</p>
+          <h2>Batch 1 只讀驗證包：ready to present, not execute</h2>
+          <p>
+            這個 gate 只整理未來若要做一次 bounded readonly attempt 時，PM/CEO 要審核的目的、輸出欄位與 fail-closed 條件；
+            目前沒有執行 Supabase、沒有 SQL、沒有寫入，也不會切換 real。
+          </p>
+        </div>
+        <div className="public-beta-readonly-gate-grid">
+          {coverageRolloutPlan.readonlyGate.map((item) => (
+            <article className={item.status} key={item.id}>
+              <span>{item.label}</span>
+              <strong>{item.publicMeaning}</strong>
+              <p>PM state: {item.pmState}</p>
+              <small>執行前條件：{item.requiredBeforeExecution}</small>
+            </article>
+          ))}
+        </div>
+      </section>
+
       <nav aria-label="Briefing Compass" className="briefing-compass">
         <a href="#model-boundary">Model boundary</a>
         <a href="#market-structure">Market structure</a>

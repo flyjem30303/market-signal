@@ -75,7 +75,11 @@ const pages = [
       "Trust and legal disclosure",
       "Batch 1 Readiness",
       "Field contract",
-      "Readonly / write gates"
+      "Readonly / write gates",
+      "Bounded Readonly Gate",
+      "ready to present, not execute",
+      "Aggregate proof only",
+      "Write / promotion lock"
     ]
   },
   {

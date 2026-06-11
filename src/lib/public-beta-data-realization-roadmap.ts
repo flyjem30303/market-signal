@@ -48,6 +48,15 @@ export type PublicBetaBatch1UserStep = {
   status: "blocked" | "ready" | "waiting";
 };
 
+export type PublicBetaReadonlyGateStep = {
+  id: string;
+  label: string;
+  pmState: string;
+  publicMeaning: string;
+  requiredBeforeExecution: string;
+  status: "blocked" | "ready" | "waiting";
+};
+
 export type PublicBetaCoverageRolloutPlan = {
   batch1Readiness: PublicBetaBatch1ReadinessItem[];
   batch1UserSteps: PublicBetaBatch1UserStep[];
@@ -55,6 +64,7 @@ export type PublicBetaCoverageRolloutPlan = {
   checklist: PublicBetaPromotionChecklistItem[];
   disclosure: string;
   headline: string;
+  readonlyGate: PublicBetaReadonlyGateStep[];
   summary: string;
 };
 
@@ -251,6 +261,32 @@ export function getPublicBetaCoverageRolloutPlan(): PublicBetaCoverageRolloutPla
     disclosure:
       "Coverage rollout 與 promotion checklist 只說明上線路徑；目前仍保持 publicDataSource=mock、scoreSource=mock。",
     headline: "Coverage Rollout Plan",
+    readonlyGate: [
+      {
+        id: "readonly-purpose",
+        label: "Readonly purpose",
+        pmState: "ready_to_present_not_execute",
+        publicMeaning: "只允許未來一次被授權的 aggregate-only 只讀驗證，不會把網站切成正式資料來源。",
+        requiredBeforeExecution: "CEO 必須明確命名一次 bounded readonly attempt，且 local preflight 要先通過。",
+        status: "ready"
+      },
+      {
+        id: "aggregate-proof",
+        label: "Aggregate proof only",
+        pmState: "proof_contract_ready",
+        publicMeaning: "未來若執行，只能回傳總量、缺漏、阻塞原因與安全旗標，不能回傳逐筆資料或市場數值。",
+        requiredBeforeExecution: "post-run review 欄位必須排除 raw payload、row payload、stock-id、secrets、SQL text。",
+        status: "ready"
+      },
+      {
+        id: "write-promotion-lock",
+        label: "Write / promotion lock",
+        pmState: "blocked_until_separate_gate",
+        publicMeaning: "只讀驗證即使成功，也不代表可以寫資料、補資料、給 row coverage 分數或切 real。",
+        requiredBeforeExecution: "任何 write/backfill/publicDataSource=supabase/scoreSource=real 都必須另開 gate。",
+        status: "blocked"
+      }
+    ],
     summary:
       "公開 Beta 會先從市場基準與核心 ETF 補起，再擴到主要個股、板塊產業與進階指標；未通過 checklist 前不切換 real。"
   };
