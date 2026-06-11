@@ -189,6 +189,27 @@ export default async function BriefingPage() {
         </div>
       </section>
 
+      <section className="public-beta-batch1-readiness briefing-batch1-readiness" aria-label="Batch 1 readiness checklist">
+        <div className="public-beta-batch1-readiness-head">
+          <p className="eyebrow">Batch 1 Readiness</p>
+          <h2>TWII + 核心 ETF 真實化前置閉環</h2>
+          <p>
+            Batch 1 會先處理台股大盤與核心 ETF，但只有來源權利、欄位合約、更新規則與 runtime gates
+            都通過後，才可能從 mock 進入 real promotion。
+          </p>
+        </div>
+        <div className="public-beta-batch1-readiness-grid">
+          {coverageRolloutPlan.batch1Readiness.map((item) => (
+            <article className={item.status} key={item.id}>
+              <span>{item.label}</span>
+              <strong>{item.publicMeaning}</strong>
+              <p>{item.blocker}</p>
+              <small>下一步：{item.nextStep}</small>
+            </article>
+          ))}
+        </div>
+      </section>
+
       <nav aria-label="Briefing Compass" className="briefing-compass">
         <a href="#model-boundary">Model boundary</a>
         <a href="#market-structure">Market structure</a>

@@ -28,7 +28,10 @@ const pages = [
       "Coverage Rollout Plan",
       "Batch 1：TWII + 核心 ETF",
       "Coverage sufficiency",
-      "Trust and legal disclosure"
+      "Trust and legal disclosure",
+      "Batch 1 Readiness",
+      "Field contract",
+      "Readonly / write gates"
     ]
   },
   {
@@ -68,7 +71,10 @@ const pages = [
       "Coverage Rollout Plan",
       "Batch 1：TWII + 核心 ETF",
       "Coverage sufficiency",
-      "Trust and legal disclosure"
+      "Trust and legal disclosure",
+      "Batch 1 Readiness",
+      "Field contract",
+      "Readonly / write gates"
     ]
   },
   {

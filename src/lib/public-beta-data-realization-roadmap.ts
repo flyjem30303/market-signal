@@ -31,7 +31,17 @@ export type PublicBetaPromotionChecklistItem = {
   status: "blocked" | "ready" | "waiting";
 };
 
+export type PublicBetaBatch1ReadinessItem = {
+  blocker: string;
+  id: string;
+  label: string;
+  nextStep: string;
+  publicMeaning: string;
+  status: "blocked" | "ready" | "waiting";
+};
+
 export type PublicBetaCoverageRolloutPlan = {
+  batch1Readiness: PublicBetaBatch1ReadinessItem[];
   batches: PublicBetaCoverageBatch[];
   checklist: PublicBetaPromotionChecklistItem[];
   disclosure: string;
@@ -82,7 +92,7 @@ export function getPublicBetaDataRealizationRoadmap(): PublicBetaDataRealization
         id: "runtime-promotion",
         label: "Runtime promotion",
         nextStep: "資料覆蓋、品質、來源權利與法務揭露通過後，才允許升級到 real。",
-        publicMeaning: "使用者可以先理解產品，但不能把目前燈號當正式投資訊號。",
+        publicMeaning: "使用者可以先理解產品，但不能把目前燈號當正式決策依據。",
         tone: "blocked"
       }
     ],
@@ -93,6 +103,40 @@ export function getPublicBetaDataRealizationRoadmap(): PublicBetaDataRealization
 
 export function getPublicBetaCoverageRolloutPlan(): PublicBetaCoverageRolloutPlan {
   return {
+    batch1Readiness: [
+      {
+        blocker: "TWII 與 ETF 來源權利、引用範圍、公開展示條款仍需接受。",
+        id: "batch1-source-rights",
+        label: "Source rights",
+        nextStep: "先確認 TWII 與核心 ETF 的來源、引用、展示與再利用邊界。",
+        publicMeaning: "資料能不能公開展示，比資料本身是否存在更重要。",
+        status: "blocked"
+      },
+      {
+        blocker: "TWII 與 ETF 欄位、單位、日期、漲跌幅與排除欄位尚未完成合約。",
+        id: "batch1-field-contract",
+        label: "Field contract",
+        nextStep: "鎖定 symbol、session date、close/level、change、source status、rights status 等最小欄位。",
+        publicMeaning: "欄位合約完成後，使用者才知道每個數字代表什麼。",
+        status: "waiting"
+      },
+      {
+        blocker: "更新頻率、台北時區、交易日與缺漏 session 規則尚未正式定義。",
+        id: "batch1-cadence-missing-rules",
+        label: "Cadence and missing rules",
+        nextStep: "定義更新時間、缺漏標示、休市與補資料規則。",
+        publicMeaning: "使用者需要知道資料是最新、延遲、缺漏，或仍是 mock。",
+        status: "waiting"
+      },
+      {
+        blocker: "readonly/write gate 尚未允許公開 runtime 讀寫正式資料。",
+        id: "batch1-runtime-gates",
+        label: "Readonly / write gates",
+        nextStep: "等 readonly、write path、rollback/fail-closed 全部通過後才可能 promotion。",
+        publicMeaning: "資料庫準備好不等於網站可以直接切 real。",
+        status: "blocked"
+      }
+    ],
     batches: [
       {
         currentState: "首頁、briefing 與主要股票頁已能展示 mock-only 市場狀態與資料邊界。",
@@ -167,7 +211,7 @@ export function getPublicBetaCoverageRolloutPlan(): PublicBetaCoverageRolloutPla
       {
         id: "trust-legal-disclosure",
         label: "Trust and legal disclosure",
-        notYetClaimed: "不提供買賣建議、收益承諾或即時精準到秒承諾。",
+        notYetClaimed: "不提供買賣建議、績效承諾或即時精準到秒承諾。",
         publicWording: "所有燈號都是資訊與風險辨識，不是交易指令。",
         status: "ready"
       }

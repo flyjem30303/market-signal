@@ -5492,6 +5492,81 @@ select {
   margin: 0;
 }
 
+.public-beta-batch1-readiness {
+  display: grid;
+  gap: 14px;
+  border: 1px solid rgba(15, 118, 110, 0.18);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+  margin-bottom: 16px;
+  padding: 16px;
+}
+
+.public-beta-batch1-readiness-head {
+  max-width: 900px;
+}
+
+.public-beta-batch1-readiness-head h2 {
+  font-size: 23px;
+  line-height: 1.25;
+  margin: 0 0 8px;
+}
+
+.public-beta-batch1-readiness-head p {
+  color: var(--muted);
+  line-height: 1.75;
+  margin: 0;
+}
+
+.public-beta-batch1-readiness-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.public-beta-batch1-readiness-grid article {
+  display: grid;
+  gap: 8px;
+  min-height: 190px;
+  border: 1px solid var(--line);
+  border-top: 4px solid var(--line);
+  border-radius: 8px;
+  background: #fcfcfb;
+  padding: 13px;
+}
+
+.public-beta-batch1-readiness-grid article.ready {
+  border-top-color: var(--green);
+}
+
+.public-beta-batch1-readiness-grid article.waiting {
+  border-top-color: var(--amber);
+}
+
+.public-beta-batch1-readiness-grid article.blocked {
+  border-top-color: var(--red);
+}
+
+.public-beta-batch1-readiness-grid span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.public-beta-batch1-readiness-grid strong {
+  overflow-wrap: anywhere;
+  font-size: 16px;
+  line-height: 1.35;
+}
+
+.public-beta-batch1-readiness-grid p,
+.public-beta-batch1-readiness-grid small {
+  color: var(--muted);
+  line-height: 1.55;
+  margin: 0;
+}
+
 .home-indicator-roadmap {
   display: grid;
   grid-template-columns: minmax(260px, 1.1fr) repeat(3, minmax(0, 0.8fr));
@@ -11784,6 +11859,7 @@ input[type="date"] {
   .public-beta-data-realization-grid,
   .public-beta-coverage-batches,
   .public-beta-promotion-checklist,
+  .public-beta-batch1-readiness-grid,
   .project-progress-panel,
   .project-progress-lanes,
   .project-progress-data-readiness-lanes,

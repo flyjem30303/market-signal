@@ -520,7 +520,7 @@ function HomeProductOverview({
       href: `/stocks/${selected.symbol}`,
       impact: gapCount > 0 ? "高" : "中",
       label: `${selected.symbol} 資料品質`,
-      next: gapCount > 0 ? "先確認資料缺口，再閱讀分數。" : "可閱讀分數，但仍不可當成正式投資訊號。",
+      next: gapCount > 0 ? "先確認資料缺口，再閱讀分數。" : "可閱讀分數，但仍不可當成正式決策依據。",
       status: gapCount > 0 ? "資料待補" : "可閱讀",
       title: "資料可靠度"
     },
@@ -554,7 +554,7 @@ function HomeProductOverview({
           </h2>
           <p>
             目前分數來源為 {scoreSourceLabel}。這個首頁先協助你理解標的狀態、風險溫度與資料限制，
-            不把 mock 分數包裝成正式投資訊號。
+            不把 mock 分數包裝成正式決策依據。
           </p>
           <div className="home-action-row">
             <a
@@ -645,7 +645,7 @@ function HomeProductOverview({
             <span>警示清單</span>
             <strong>{publicDashboardAlerts.length} 則待閱讀警示</strong>
             <p>每則警示都包含狀態、成因、更新時間、影響級別與下一步建議，避免只看單一數字誤判。</p>
-            <small>非投資建議；不提供買賣指令或收益承諾。</small>
+            <small>非投資建議；不提供買賣指令或績效承諾。</small>
           </article>
         </div>
         <div className="home-public-beta-alert-list">
@@ -724,6 +724,27 @@ function HomeProductOverview({
               <span>{item.label}</span>
               <strong>{item.publicWording}</strong>
               <p>{item.notYetClaimed}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="public-beta-batch1-readiness" aria-label="Batch 1 readiness checklist">
+        <div className="public-beta-batch1-readiness-head">
+          <p className="eyebrow">Batch 1 Readiness</p>
+          <h2>TWII + 核心 ETF 真實化前置閉環</h2>
+          <p>
+            Batch 1 會先處理台股大盤與核心 ETF，但只有來源權利、欄位合約、更新規則與 runtime gates
+            都通過後，才可能從 mock 進入 real promotion。
+          </p>
+        </div>
+        <div className="public-beta-batch1-readiness-grid">
+          {coverageRolloutPlan.batch1Readiness.map((item) => (
+            <article className={item.status} key={item.id}>
+              <span>{item.label}</span>
+              <strong>{item.publicMeaning}</strong>
+              <p>{item.blocker}</p>
+              <small>下一步：{item.nextStep}</small>
             </article>
           ))}
         </div>
