@@ -583,7 +583,7 @@ function HomeProductOverview({
       <section className="home-public-beta-loop" aria-label="公開 Beta 指數狀態儀表站">
         <div className="home-public-beta-loop-head">
           <p className="eyebrow">Public Beta Index Dashboard</p>
-          <h2>30 秒看懂市場氛圍，3 分鐘決定下一步觀察</h2>
+          <h2>30 秒看懂市場氛圍，3 分鐘決定關注、加強觀察或減少風險</h2>
           <p>
             這裡把首頁收斂成三層：全市場總覽、核心指標面板、警示清單。資料仍以
             publicDataSource=mock、scoreSource=mock 呈現，只做資訊閱讀與產品驗證。

@@ -55,7 +55,7 @@ export function getStockRuntimeHeadlineSummary(snapshot: SignalSnapshot): StockR
         value: "正式資料未啟用"
       },
       {
-        body: "下一步優先補強解釋、來源深度與資料覆蓋，讓使用者能在 3 分鐘內決定觀察動作。",
+        body: "下一步優先補強解釋、來源深度與資料覆蓋，讓使用者能在 3 分鐘內決定要關注、加強觀察，或先減少風險。",
         label: "下一步",
         state: "readying",
         value: "補強決策輔助"

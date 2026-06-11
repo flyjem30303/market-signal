@@ -36,6 +36,7 @@ const pages = [
       "核心指標面板",
       "警示清單",
       "30 秒看懂市場氛圍",
+      "減少風險",
       "下一步建議",
       "資料真實化路徑",
       "覆蓋範圍",
@@ -54,32 +55,32 @@ const pages = [
   {
     path: "/stocks/TWII",
     forbidden: publicOperationsForbidden,
-    required: [...coreRuntimeBoundaryRequired, "TWII Mock Disclosure"]
+    required: [...coreRuntimeBoundaryRequired, "TWII Mock Disclosure", "減少風險"]
   },
   {
     path: "/stocks/2330",
     forbidden: publicOperationsForbidden,
-    required: [...coreRuntimeBoundaryRequired, "Indicator Roadmap"]
+    required: [...coreRuntimeBoundaryRequired, "Indicator Roadmap", "減少風險"]
   },
   {
     path: "/stocks/0050",
     forbidden: publicOperationsForbidden,
-    required: [...coreRuntimeBoundaryRequired, "Indicator Roadmap"]
+    required: [...coreRuntimeBoundaryRequired, "Indicator Roadmap", "減少風險"]
   },
   {
     path: "/stocks/006208",
     forbidden: publicOperationsForbidden,
-    required: [...coreRuntimeBoundaryRequired, "Indicator Roadmap"]
+    required: [...coreRuntimeBoundaryRequired, "Indicator Roadmap", "減少風險"]
   },
   {
     path: "/stocks/2382",
     forbidden: publicOperationsForbidden,
-    required: [...coreRuntimeBoundaryRequired, "Indicator Roadmap"]
+    required: [...coreRuntimeBoundaryRequired, "Indicator Roadmap", "減少風險"]
   },
   {
     path: "/stocks/2308",
     forbidden: publicOperationsForbidden,
-    required: [...coreRuntimeBoundaryRequired, "Indicator Roadmap"]
+    required: [...coreRuntimeBoundaryRequired, "Indicator Roadmap", "減少風險"]
   },
   {
     path: "/briefing",
