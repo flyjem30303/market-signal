@@ -510,6 +510,8 @@
     "check:twii-final-authorization-stopline-preparation-alignment-gate": "node scripts/check-twii-final-authorization-stopline-preparation-alignment-gate.mjs",
     "report:twii-explicit-operator-go-no-go-decision-preparation-alignment-gate": "node scripts/report-twii-explicit-operator-go-no-go-decision-preparation-alignment-gate.mjs",
     "check:twii-explicit-operator-go-no-go-decision-preparation-alignment-gate": "node scripts/check-twii-explicit-operator-go-no-go-decision-preparation-alignment-gate.mjs",
+    "report:twii-operator-value-intake-stopline-preparation-alignment-gate": "node scripts/report-twii-operator-value-intake-stopline-preparation-alignment-gate.mjs",
+    "check:twii-operator-value-intake-stopline-preparation-alignment-gate": "node scripts/check-twii-operator-value-intake-stopline-preparation-alignment-gate.mjs",
     "report:twii-separate-authorized-execution-attempt-readiness-gate": "node scripts/report-twii-separate-authorized-execution-attempt-readiness-gate.mjs",
     "check:twii-separate-authorized-execution-attempt-readiness-gate": "node scripts/check-twii-separate-authorized-execution-attempt-readiness-gate.mjs",
     "report:twii-final-authorization-stopline-go-no-go-gate": "node scripts/report-twii-final-authorization-stopline-go-no-go-gate.mjs",
