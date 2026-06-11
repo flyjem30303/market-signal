@@ -51,7 +51,7 @@ export type PublicBetaBatch1UserStep = {
 export type PublicBetaReadonlyGateStep = {
   id: string;
   label: string;
-  pmState: string;
+  publicStatus: string;
   publicMeaning: string;
   requiredBeforeExecution: string;
   status: "blocked" | "ready" | "waiting";
@@ -265,7 +265,7 @@ export function getPublicBetaCoverageRolloutPlan(): PublicBetaCoverageRolloutPla
       {
         id: "readonly-purpose",
         label: "Readonly purpose",
-        pmState: "post_run_review_recorded_blocked",
+        publicStatus: "已完成一次只讀診斷，結果仍需補資料",
         publicMeaning: "One bounded readonly validation has run. It reached Supabase and returned aggregate-only counts, but Batch 1 coverage is still incomplete, so the public site remains mock-only.",
         requiredBeforeExecution: "Do not retry this attempt in the same slice. Prepare a Batch 1 data coverage route decision for TWII, 0050, and 006208 before any write/backfill gate.",
         status: "blocked"
@@ -273,7 +273,7 @@ export function getPublicBetaCoverageRolloutPlan(): PublicBetaCoverageRolloutPla
       {
         id: "aggregate-proof",
         label: "Aggregate proof only",
-        pmState: "observed_182_of_360_missing_178",
+        publicStatus: "目前只確認彙總覆蓋率，尚未補齊 Batch 1",
         publicMeaning: "The latest diagnostic counted 182 of 360 expected Batch 1 rows. Three symbols are complete, while TWII and two ETF symbols still need coverage work.",
         requiredBeforeExecution: "Post-run review confirmed no raw payload, row payload, stock-id payload, secrets, SQL text, Supabase write, or market-data ingestion was exposed.",
         status: "ready"
@@ -281,7 +281,7 @@ export function getPublicBetaCoverageRolloutPlan(): PublicBetaCoverageRolloutPla
       {
         id: "write-promotion-lock",
         label: "Write / promotion lock",
-        pmState: "blocked_until_separate_gate",
+        publicStatus: "寫入、回補與真實分數升級仍關閉",
         publicMeaning: "只讀驗證即使成功，也不代表可以寫資料、補資料、給 row coverage 分數或切 real。",
         requiredBeforeExecution: "任何 write/backfill、公開資料升級或真實分數啟用都必須另開 gate。",
         status: "blocked"

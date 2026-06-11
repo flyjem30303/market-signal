@@ -226,7 +226,7 @@ export default async function BriefingPage() {
             <article className={item.status} key={item.id}>
               <span>{item.label}</span>
               <strong>{item.publicMeaning}</strong>
-              <p>PM state: {item.pmState}</p>
+              <p>{item.publicStatus}</p>
               <small>執行前條件：{item.requiredBeforeExecution}</small>
             </article>
           ))}

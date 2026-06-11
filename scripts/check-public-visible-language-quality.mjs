@@ -86,8 +86,9 @@ const pages = [
       "Field contract",
       "Readonly / write gates",
       "Bounded Readonly Gate",
-      "post_run_review_recorded_blocked",
-      "observed_182_of_360_missing_178",
+      "已完成一次只讀診斷",
+      "目前只確認彙總覆蓋率",
+      "寫入、回補與真實分數升級仍關閉",
       "Aggregate proof only",
       "Write / promotion lock"
     ]
