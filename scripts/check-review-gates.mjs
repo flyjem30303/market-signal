@@ -4283,6 +4283,11 @@ const checks = [
     name: "twii-real-decision-intake-packet-template-gate-preflight"
   },
   {
+    command: [node, "scripts/check-twii-real-decision-acceptance-dry-run-gate-preflight.mjs"],
+    expectStatus: "ok",
+    name: "twii-real-decision-acceptance-dry-run-gate-preflight"
+  },
+  {
     command: [node, "scripts/check-twii-a1-d-write-prerequisite-dispatch-packet.mjs"],
     expectStatus: "ok",
     name: "twii-a1-d-write-prerequisite-dispatch-packet"
@@ -5169,6 +5174,7 @@ const coreReviewGateNames = new Set([
   "twii-accepted-decision-record-intake-gate-preflight",
   "twii-decision-value-fixture-intake-validator-gate-preflight",
   "twii-real-decision-intake-packet-template-gate-preflight",
+  "twii-real-decision-acceptance-dry-run-gate-preflight",
   "twii-a1-d-write-prerequisite-dispatch-packet",
   "twii-a1-d-write-prerequisite-pm-intake-ledger",
   "coverage-universe-roadmap",
@@ -5280,6 +5286,7 @@ const coreReviewGateNames = new Set([
   "twii-accepted-decision-record-intake-gate-preflight",
   "twii-decision-value-fixture-intake-validator-gate-preflight",
   "twii-real-decision-intake-packet-template-gate-preflight",
+  "twii-real-decision-acceptance-dry-run-gate-preflight",
   "twii-a1-d-write-prerequisite-dispatch-packet",
   "twii-a1-d-write-prerequisite-pm-intake-ledger",
   "a1-source-rights-readiness-summary",
@@ -5468,6 +5475,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "twii-accepted-decision-record-intake-gate-preflight",
   "twii-decision-value-fixture-intake-validator-gate-preflight",
   "twii-real-decision-intake-packet-template-gate-preflight",
+  "twii-real-decision-acceptance-dry-run-gate-preflight",
   "twii-a1-d-write-prerequisite-dispatch-packet",
   "twii-a1-d-write-prerequisite-pm-intake-ledger",
   "typescript"

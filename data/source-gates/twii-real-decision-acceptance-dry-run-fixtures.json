@@ -1,0 +1,56 @@
+{
+  "fixtureKind": "twii_real_decision_acceptance_dry_run_fixtures",
+  "fixtureMode": "synthetic_decision_packet_dry_run_only_no_execution",
+  "sourceTemplateGatePath": "data/source-gates/twii-real-decision-intake-packet-template-gate-preflight.json",
+  "sourceBlankTemplatePath": "data/source-gates/twii-real-decision-intake-packet-template.blank.json",
+  "dryRunOnly": true,
+  "realDecisionValueReadNow": false,
+  "realDecisionValueRecordedNow": false,
+  "fixtureDecisionAcceptedAsReal": false,
+  "executionAllowedNow": false,
+  "publicDataSource": "mock",
+  "scoreSource": "mock",
+  "cases": [
+    {
+      "caseId": "accepted_fixture_only",
+      "decisionStatus": "accepted",
+      "decisionRecordedByRole": "CEO_DRY_RUN_FIXTURE",
+      "decisionRecordedAtLabel": "DRY_RUN_TIMESTAMP_PLACEHOLDER",
+      "decisionReasonSummary": "Synthetic dry-run accepted path only; not a real authorization.",
+      "repairRequiredSummary": "",
+      "expectedOutcome": "dry_run_acceptance_packet_valid_execution_still_blocked"
+    },
+    {
+      "caseId": "rejected_fixture_only",
+      "decisionStatus": "rejected",
+      "decisionRecordedByRole": "CEO_DRY_RUN_FIXTURE",
+      "decisionRecordedAtLabel": "DRY_RUN_TIMESTAMP_PLACEHOLDER",
+      "decisionReasonSummary": "Synthetic dry-run rejected path only; not a real rejection record.",
+      "repairRequiredSummary": "",
+      "expectedOutcome": "dry_run_rejection_packet_valid_execution_still_blocked"
+    },
+    {
+      "caseId": "repair_required_fixture_only",
+      "decisionStatus": "repair_required",
+      "decisionRecordedByRole": "CEO_DRY_RUN_FIXTURE",
+      "decisionRecordedAtLabel": "DRY_RUN_TIMESTAMP_PLACEHOLDER",
+      "decisionReasonSummary": "Synthetic dry-run repair path only; not a real repair order.",
+      "repairRequiredSummary": "Synthetic repair summary placeholder for dry-run validation only.",
+      "expectedOutcome": "dry_run_repair_required_packet_valid_execution_still_blocked"
+    }
+  ],
+  "disallowedFields": [
+    "decisionSecretValue",
+    "authorizationValue",
+    "confirmationPhraseValue",
+    "executeSwitchValue",
+    "credentialValue",
+    "rowBody",
+    "tradeDateList",
+    "sourcePayload",
+    "rawPayload",
+    "stockIdPayload",
+    "personalizedAdvice",
+    "buySellHoldSignal"
+  ]
+}
