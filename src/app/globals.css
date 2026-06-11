@@ -5208,6 +5208,132 @@ select {
   margin-bottom: 8px;
 }
 
+.home-public-beta-loop {
+  display: grid;
+  gap: 14px;
+  border: 1px solid rgba(15, 118, 110, 0.22);
+  border-radius: 8px;
+  background: linear-gradient(180deg, #f7fbf8 0%, #ffffff 100%);
+  box-shadow: var(--shadow-soft);
+  margin-bottom: 16px;
+  padding: 16px;
+}
+
+.home-public-beta-loop-head {
+  max-width: 860px;
+}
+
+.home-public-beta-loop-head h2 {
+  font-size: 24px;
+  line-height: 1.25;
+  margin: 0 0 8px;
+}
+
+.home-public-beta-loop-head p {
+  color: var(--muted);
+  line-height: 1.75;
+  margin: 0;
+}
+
+.home-public-beta-layer-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.home-public-beta-layer {
+  display: grid;
+  gap: 8px;
+  min-height: 176px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  padding: 14px;
+}
+
+.home-public-beta-layer.overview {
+  border-top: 4px solid var(--teal);
+}
+
+.home-public-beta-layer.indicators {
+  border-top: 4px solid var(--blue);
+}
+
+.home-public-beta-layer.alerts {
+  border-top: 4px solid var(--amber);
+}
+
+.home-public-beta-layer span,
+.home-public-beta-alert-list span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 850;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.home-public-beta-layer strong {
+  overflow-wrap: anywhere;
+  font-size: 20px;
+  line-height: 1.25;
+}
+
+.home-public-beta-layer p,
+.home-public-beta-layer small {
+  color: var(--muted);
+  line-height: 1.65;
+  margin: 0;
+}
+
+.home-public-beta-alert-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.home-public-beta-alert-list a {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+  border: 1px solid rgba(22, 33, 29, 0.1);
+  border-radius: 8px;
+  background: #fcfcfb;
+  color: var(--text);
+  padding: 14px;
+  text-decoration: none;
+  transition: border-color 0.18s ease, transform 0.18s ease;
+}
+
+.home-public-beta-alert-list a:hover {
+  border-color: rgba(15, 118, 110, 0.36);
+  transform: translateY(-1px);
+}
+
+.home-public-beta-alert-list strong {
+  overflow-wrap: anywhere;
+  font-size: 18px;
+  line-height: 1.25;
+}
+
+.home-public-beta-alert-list dl,
+.home-public-beta-alert-list div {
+  display: grid;
+  gap: 5px;
+  margin: 0;
+}
+
+.home-public-beta-alert-list dt {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.home-public-beta-alert-list dd {
+  color: var(--muted);
+  line-height: 1.55;
+  margin: 0;
+}
+
 .home-indicator-roadmap {
   display: grid;
   grid-template-columns: minmax(260px, 1.1fr) repeat(3, minmax(0, 0.8fr));
@@ -11495,6 +11621,8 @@ input[type="date"] {
   .home-group-grid,
   .home-watchlists,
   .home-market-action-summary,
+  .home-public-beta-layer-grid,
+  .home-public-beta-alert-list,
   .project-progress-panel,
   .project-progress-lanes,
   .project-progress-data-readiness-lanes,

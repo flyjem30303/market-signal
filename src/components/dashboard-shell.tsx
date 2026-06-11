@@ -472,6 +472,7 @@ function HomeProductOverview({
   const actionSummary = buildHomeMarketActionSummary(snapshot, snapshots);
   const indicatorRoadmap = getInvestorIndicatorRoadmap();
   const visibleIndicatorFamilies = indicatorRoadmap.families.slice(0, 3);
+  const alertUpdateTime = snapshot.lastUpdatedAt.replace("T", " ").replace("+08:00", " 台北時間");
   const breadth = snapshots.reduce(
     (summary, item) => {
       if (item.signal.key === "green" || item.signal.key === "yellow") {
@@ -507,6 +508,35 @@ function HomeProductOverview({
             label: `${strongestSnapshot.asset.symbol} 綜合 ${strongestSnapshot.compositeScore}/100`,
             reason: "市場廣度尚可，先從強勢標的確認趨勢是否連續，但仍維持 mock 邊界。"
           };
+  const publicDashboardAlerts = [
+    {
+      cause: gapCount > 0 ? `${gapCount} 個資料旗標仍需補齊，公開解讀先維持降級。` : "目前沒有額外資料旗標，但仍維持 mock 邊界。",
+      href: `/stocks/${selected.symbol}`,
+      impact: gapCount > 0 ? "高" : "中",
+      label: `${selected.symbol} 資料品質`,
+      next: gapCount > 0 ? "先確認資料缺口，再閱讀分數。" : "可閱讀分數，但仍不可當成正式投資訊號。",
+      status: gapCount > 0 ? "資料待補" : "可閱讀",
+      title: "資料可靠度"
+    },
+    {
+      cause: `${riskiestSnapshot.asset.symbol} 風險分數 ${riskiestSnapshot.riskScore}/100，是目前最需要留意的標的。`,
+      href: `/stocks/${riskiestSnapshot.asset.symbol}`,
+      impact: riskiestSnapshot.riskScore >= 70 ? "高" : "中",
+      label: `${riskiestSnapshot.asset.symbol} 風險來源`,
+      next: "先拆解風險來源，再決定是否加強觀察或降低曝險。",
+      status: riskiestSnapshot.riskScore >= 70 ? "風險升溫" : "持續觀察",
+      title: "風險警示"
+    },
+    {
+      cause: `市場分布為正向 ${breadth.constructive}、觀察 ${breadth.watch}、防守 ${breadth.defensive}。`,
+      href: "/briefing",
+      impact: breadth.defensive > breadth.constructive ? "中高" : "中",
+      label: "市場晨報",
+      next: breadth.defensive > breadth.constructive ? "優先看防守清單與市場廣度。" : "先看強勢是否延續，再對照風險。",
+      status: breadth.defensive > breadth.constructive ? "防守優先" : "市場偏穩",
+      title: "市場氛圍"
+    }
+  ];
 
   return (
     <>
@@ -573,6 +603,76 @@ function HomeProductOverview({
             <strong>{gapCount} 項旗標</strong>
             <p>正式資料來源與公開宣稱仍未完成前，所有分數只支援產品體驗。</p>
           </article>
+        </div>
+      </section>
+
+      <section className="home-public-beta-loop" aria-label="公開 Beta 指數狀態儀表站">
+        <div className="home-public-beta-loop-head">
+          <p className="eyebrow">Public Beta Index Dashboard</p>
+          <h2>30 秒看懂市場氛圍，3 分鐘決定下一步觀察</h2>
+          <p>
+            這裡把首頁收斂成三層：全市場總覽、核心指標面板、警示清單。資料仍以
+            publicDataSource=mock、scoreSource=mock 呈現，只做資訊閱讀與產品驗證。
+          </p>
+        </div>
+        <div className="home-public-beta-layer-grid">
+          <article className="home-public-beta-layer overview">
+            <span>全市場總覽</span>
+            <strong>{marketSnapshot.signal.title}</strong>
+            <p>
+              目前市場氛圍：正向 {breadth.constructive}、觀察 {breadth.watch}、防守 {breadth.defensive}。
+              先看大盤燈號，再決定是否進入 ETF、板塊或個股頁。
+            </p>
+            <small>更新時間：{alertUpdateTime}</small>
+          </article>
+          <article className="home-public-beta-layer indicators">
+            <span>核心指標面板</span>
+            <strong>
+              健康 {snapshot.healthScore} / 風險 {snapshot.riskScore} / 資料 {snapshot.dataQualityGrade}
+            </strong>
+            <p>
+              核心讀法：燈號看方向，健康分數看結構，風險分數看回撤壓力，資料等級決定是否需要降級解讀。
+            </p>
+            <small>資料旗標：{gapCount} 項</small>
+          </article>
+          <article className="home-public-beta-layer alerts">
+            <span>警示清單</span>
+            <strong>{publicDashboardAlerts.length} 則待閱讀警示</strong>
+            <p>每則警示都包含狀態、成因、更新時間、影響級別與下一步建議，避免只看單一數字誤判。</p>
+            <small>非投資建議；不提供買賣指令或保證報酬。</small>
+          </article>
+        </div>
+        <div className="home-public-beta-alert-list">
+          {publicDashboardAlerts.map((alert) => (
+            <TrackedLink
+              eventName="home_cta_clicked"
+              href={alert.href}
+              key={alert.title}
+              label={alert.label}
+              payload={{ action: "public_beta_alert", alert: alert.title, symbol: selected.symbol }}
+            >
+              <span>{alert.status}</span>
+              <strong>{alert.title}</strong>
+              <dl>
+                <div>
+                  <dt>成因</dt>
+                  <dd>{alert.cause}</dd>
+                </div>
+                <div>
+                  <dt>更新時間</dt>
+                  <dd>{alertUpdateTime}</dd>
+                </div>
+                <div>
+                  <dt>影響級別</dt>
+                  <dd>{alert.impact}</dd>
+                </div>
+                <div>
+                  <dt>下一步建議</dt>
+                  <dd>{alert.next}</dd>
+                </div>
+              </dl>
+            </TrackedLink>
+          ))}
         </div>
       </section>
 

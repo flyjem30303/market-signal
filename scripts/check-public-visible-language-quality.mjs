@@ -13,7 +13,15 @@ const coreRuntimeBoundaryRequired = ["mock", "publicDataSource=mock", "scoreSour
 const pages = [
   {
     path: "/",
-    required: [...coreRuntimeBoundaryRequired]
+    required: [
+      ...coreRuntimeBoundaryRequired,
+      "Public Beta Index Dashboard",
+      "全市場總覽",
+      "核心指標面板",
+      "警示清單",
+      "30 秒看懂市場氛圍",
+      "下一步建議"
+    ]
   },
   {
     path: "/stocks/TWII",
