@@ -506,6 +506,8 @@
     "check:twii-explicit-execution-packet-preparation-gate": "node scripts/check-twii-explicit-execution-packet-preparation-gate.mjs",
     "report:twii-separate-authorized-execution-attempt-readiness-gate": "node scripts/report-twii-separate-authorized-execution-attempt-readiness-gate.mjs",
     "check:twii-separate-authorized-execution-attempt-readiness-gate": "node scripts/check-twii-separate-authorized-execution-attempt-readiness-gate.mjs",
+    "report:twii-final-authorization-stopline-go-no-go-gate": "node scripts/report-twii-final-authorization-stopline-go-no-go-gate.mjs",
+    "check:twii-final-authorization-stopline-go-no-go-gate": "node scripts/check-twii-final-authorization-stopline-go-no-go-gate.mjs",
     "report:twii-a1-d-write-prerequisite-dispatch-packet": "node scripts/report-twii-a1-d-write-prerequisite-dispatch-packet.mjs",
     "check:twii-a1-d-write-prerequisite-dispatch-packet": "node scripts/check-twii-a1-d-write-prerequisite-dispatch-packet.mjs",
     "report:twii-a1-d-write-prerequisite-pm-intake-ledger": "node scripts/report-twii-a1-d-write-prerequisite-pm-intake-ledger.mjs",
