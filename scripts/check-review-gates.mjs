@@ -4348,6 +4348,11 @@ const checks = [
     name: "twii-bounded-operator-authorization-packet-gate"
   },
   {
+    command: [node, "scripts/check-twii-explicit-execution-packet-preparation-gate.mjs"],
+    expectStatus: "ok",
+    name: "twii-explicit-execution-packet-preparation-gate"
+  },
+  {
     command: [node, "scripts/check-twii-a1-d-write-prerequisite-dispatch-packet.mjs"],
     expectStatus: "ok",
     name: "twii-a1-d-write-prerequisite-dispatch-packet"
@@ -5247,6 +5252,7 @@ const coreReviewGateNames = new Set([
   "twii-pre-execution-readiness-recheck-gate-preflight",
   "twii-server-only-pre-execution-integration-gate",
   "twii-bounded-operator-authorization-packet-gate",
+  "twii-explicit-execution-packet-preparation-gate",
   "twii-a1-d-write-prerequisite-dispatch-packet",
   "twii-a1-d-write-prerequisite-pm-intake-ledger",
   "coverage-universe-roadmap",
@@ -5371,6 +5377,7 @@ const coreReviewGateNames = new Set([
   "twii-pre-execution-readiness-recheck-gate-preflight",
   "twii-server-only-pre-execution-integration-gate",
   "twii-bounded-operator-authorization-packet-gate",
+  "twii-explicit-execution-packet-preparation-gate",
   "twii-a1-d-write-prerequisite-dispatch-packet",
   "twii-a1-d-write-prerequisite-pm-intake-ledger",
   "a1-source-rights-readiness-summary",
@@ -5572,6 +5579,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "twii-pre-execution-readiness-recheck-gate-preflight",
   "twii-server-only-pre-execution-integration-gate",
   "twii-bounded-operator-authorization-packet-gate",
+  "twii-explicit-execution-packet-preparation-gate",
   "twii-a1-d-write-prerequisite-dispatch-packet",
   "twii-a1-d-write-prerequisite-pm-intake-ledger",
   "typescript"
