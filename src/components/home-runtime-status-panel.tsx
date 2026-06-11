@@ -104,13 +104,13 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
       </article>
 
       <article className="active post-readonly-runtime-card">
-        <span>Readonly result</span>
-        <strong>{postReadonlyRuntime.objectsReachable} objects reachable</strong>
+        <span>資料覆蓋檢查</span>
+        <strong>
+          {postReadonlyRuntime.rowCoverage.observedRows}/{postReadonlyRuntime.rowCoverage.expectedRows} 筆已可比對
+        </strong>
         <p>{postReadonlyRuntime.headline}</p>
         <p>
-          Row coverage {postReadonlyRuntime.rowCoverage.coverageStatus}:{" "}
-          {postReadonlyRuntime.rowCoverage.observedRows}/{postReadonlyRuntime.rowCoverage.expectedRows} rows, missing{" "}
-          {postReadonlyRuntime.rowCoverage.missingRows}. This is readiness evidence only, not a public real-data claim.
+          目前仍有 {postReadonlyRuntime.rowCoverage.missingRows} 筆覆蓋缺口；這只是資料準備狀態，不代表正式即時資料或投資建議。
         </p>
         <p>
           Public {postReadonlyRuntime.publicDataSource}; score {postReadonlyRuntime.scoreSource}.
@@ -118,15 +118,14 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
       </article>
 
       <article className="active post-readonly-runtime-card home-freshness-evidence-card">
-        <span>Freshness metadata</span>
-        <strong>{freshnessLatestEvidence.state}</strong>
+        <span>資料更新狀態</span>
+        <strong>可讀取更新線索</strong>
         <p>
-          {freshnessLatestEvidence.market} freshness metadata is reachable as of {freshnessLatestEvidence.asOfDate} from{" "}
-          {freshnessLatestEvidence.sourceName}.
+          {freshnessLatestEvidence.market} 的更新線索已記錄至 {freshnessLatestEvidence.asOfDate}，來源：
+          {freshnessLatestEvidence.sourceName}。
         </p>
         <p>
-          Public {freshnessLatestEvidence.publicDataSource}; score {freshnessLatestEvidence.scoreSource}. Metadata
-          only; it does not approve market-data quality, live freshness, or real-score claims.
+          公開頁維持 {freshnessLatestEvidence.publicDataSource} / {freshnessLatestEvidence.scoreSource}；這只代表更新線索存在，不代表即時行情、完整品質或正式分數。
         </p>
       </article>
 
@@ -203,9 +202,9 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
             <p>{readiness.status}</p>
           </article>
           <article className="blocked">
-            <span>Source depth</span>
-            <strong>{sourceDepth.sourceDepthState}</strong>
-            <p>Source depth and source-rights evidence still block public promotion. Current score source: {sourceDepth.scoreSource}.</p>
+            <span>來源說明</span>
+            <strong>來源深度仍待補齊</strong>
+            <p>正式資料上線前，仍需確認來源權利、欄位契約與可回溯說明。</p>
           </article>
           <article className="readying">
             <span>Row coverage</span>
@@ -228,9 +227,9 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
             <p>{runtimeDeliveryCadence.mandatoryCutpoints.slice(0, 3).join("; ")}.</p>
           </article>
           <article className="readying runtime-consistency-card">
-            <span>Runtime consistency</span>
-            <strong>{runtimeStateConsistency.consistencyState}</strong>
-            <p>{runtimeStateConsistency.statusLine}</p>
+            <span>狀態一致性</span>
+            <strong>公開頁維持示範邊界</strong>
+            <p>首頁、簡報與股票頁會一致標示 mock 資料，避免使用者把示範分數誤讀成正式行情。</p>
           </article>
           <article className="blocked runtime-fail-closed-card">
             <span>Fail-closed</span>
@@ -240,21 +239,21 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
             <p>{failClosed.allowedState}</p>
           </article>
           <article className="readying post-readonly-runtime-card">
-            <span>Readonly state</span>
-            <strong>{postReadonlyRuntime.state}</strong>
-            <p>{postReadonlyRuntime.rowCoverage.summary}</p>
+            <span>資料覆蓋狀態</span>
+            <strong>仍在補齊缺口</strong>
+            <p>部分資料列尚未補齊；完成來源、覆蓋率與品質檢查前，公開頁不升級為正式資料。</p>
             <p>下一步：{postReadonlyRuntime.nextGate}</p>
           </article>
           <article className="readying post-readonly-runtime-card home-freshness-evidence-card">
-            <span>Freshness metadata</span>
-            <strong>{freshnessLatestEvidence.evidenceStatus}</strong>
+            <span>資料更新狀態</span>
+            <strong>更新線索仍需覆核</strong>
             <p>{freshnessLatestEvidence.acceptedScope}</p>
             <p>{freshnessLatestEvidence.stopLine}</p>
           </article>
           <article className="blocked">
-            <span>Data and legal readiness</span>
-            <strong>{blockerReadiness.status}</strong>
-            <p>Data / Legal / Investment checklists are local-ready. {runtimeInterpretation.stopLine}</p>
+            <span>資料與揭露準備</span>
+            <strong>上線前仍需完成來源與風險揭露</strong>
+            <p>正式資料與投資相關呈現必須通過資料、法務與風險揭露檢查；目前仍維持示範說明。</p>
           </article>
           <article className="blocked">
             <span>Public claim limit</span>

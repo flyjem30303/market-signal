@@ -22,7 +22,15 @@ const publicOperationsForbidden = [
   "Allowed:",
   "Next gate:",
   "execution signal",
-  "Market breadth:"
+  "Market breadth:",
+  "Readonly result",
+  "Freshness metadata",
+  "Source depth",
+  "Runtime consistency",
+  "Readonly state",
+  "Data and legal readiness",
+  "readiness evidence",
+  "scoreSource=real claims"
 ];
 
 const pages = [

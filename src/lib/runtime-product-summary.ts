@@ -5,7 +5,7 @@ export type RuntimeProductSummaryItem = {
   displayBody: string;
   displayLabel: string;
   displayTitle: string;
-  label: "Use now" | "Not live yet" | "Next gate" | "Readonly result";
+  label: "Use now" | "Not live yet" | "Next gate" | "Data check result";
   title: string;
 };
 
@@ -43,9 +43,9 @@ export function getRuntimeProductSummary(symbol: string): RuntimeProductSummary 
     readonlyDecision: {
       body: `${postReadonly.objectsReachable} Supabase objects are reachable in read-only validation. Public source remains ${postReadonly.publicDataSource}; score remains ${postReadonly.scoreSource}. ${postReadonly.stopLine}`,
       displayBody: `readonly 驗證目前可讀到 ${postReadonly.objectsReachable} 個 Supabase objects。公開資料來源仍是 ${postReadonly.publicDataSource}；分數來源仍是 ${postReadonly.scoreSource}。${postReadonly.stopLine}`,
-      displayLabel: "Readonly result",
+      displayLabel: "資料檢查結果",
       displayTitle: "object reachability 已驗證",
-      label: "Readonly result",
+      label: "Data check result",
       title: "Object reachability is verified"
     },
     useNow: {

@@ -38,13 +38,13 @@ const stateLabels: Record<DataFreshnessState, string> = {
 
 const stateDescriptions: Record<DataFreshnessState, string> = {
   complete:
-    "Freshness metadata 已可讀取；僅代表資料狀態可達，不代表真實評分或資料品質已核准。",
+    "資料更新線索已可讀取；僅代表資料狀態可達，不代表真實評分或資料品質已核准。",
   partial:
-    "Freshness metadata is partial, so public runtime must continue to downgrade interpretation and keep scoreSource mock.",
+    "資料更新線索仍不完整，公開頁必須降級解讀並維持 scoreSource mock。",
   stale:
-    "Freshness metadata is stale and requires data-owner review before it can support any runtime claim.",
+    "資料更新線索已過期，需要資料負責人重新確認後才能支援任何公開解讀。",
   mock: "Public runtime is using mock data for product-flow reading and disclosure verification.",
-  unavailable: "Freshness metadata is unavailable, so the public experience must fall back to mock or unavailable state."
+  unavailable: "資料更新線索目前不可用，因此公開體驗必須回到 mock 或不可用狀態。"
 };
 
 export function buildMockDataFreshnessSnapshot(): DataFreshnessSnapshot {
