@@ -4383,6 +4383,11 @@ const checks = [
     name: "twii-pre-execution-readiness-recheck-preparation-gate"
   },
   {
+    command: [node, "scripts/check-twii-server-only-pre-execution-integration-preparation-gate.mjs"],
+    expectStatus: "ok",
+    name: "twii-server-only-pre-execution-integration-preparation-gate"
+  },
+  {
     command: [node, "scripts/check-twii-a1-d-write-prerequisite-dispatch-packet.mjs"],
     expectStatus: "ok",
     name: "twii-a1-d-write-prerequisite-dispatch-packet"
@@ -5289,6 +5294,7 @@ const coreReviewGateNames = new Set([
   "twii-operator-value-intake-stopline-preparation-gate",
   "twii-external-values-shape-recheck-preparation-gate",
   "twii-pre-execution-readiness-recheck-preparation-gate",
+  "twii-server-only-pre-execution-integration-preparation-gate",
   "twii-a1-d-write-prerequisite-dispatch-packet",
   "twii-a1-d-write-prerequisite-pm-intake-ledger",
   "coverage-universe-roadmap",
