@@ -1,10 +1,7 @@
 import fs from "node:fs";
-import { spawnSync } from "node:child_process";
 
 const gatePath = "data/source-gates/twii-explicit-execution-packet-preparation-gate.json";
-const integrationReportPath = "scripts/report-twii-server-only-pre-execution-integration-gate.mjs";
-const integrationGatePath = "data/source-gates/twii-server-only-pre-execution-integration-gate.json";
-const readinessGatePath = "data/source-gates/twii-pre-execution-readiness-recheck-gate-preflight.json";
+const authorizationGatePath = "data/source-gates/twii-bounded-operator-authorization-packet-preparation-gate.json";
 const serverChecksPath = "data/source-gates/twii-server-only-pre-execution-checks-gate.json";
 const rollbackPath = "data/source-gates/twii-rollback-readiness-contract-preflight.json";
 const readbackPath = "data/source-gates/twii-aggregate-readback-contract-preflight.json";
@@ -13,14 +10,12 @@ const boundedInsertPath = "data/source-gates/twii-bounded-insert-missing-only-co
 const problems = [];
 
 const gate = readJson(gatePath);
-const integrationGate = readJson(integrationGatePath);
-const readinessGate = readJson(readinessGatePath);
+const authorizationGate = readJson(authorizationGatePath);
 const serverChecks = readJson(serverChecksPath);
 const rollback = readJson(rollbackPath);
 const readback = readJson(readbackPath);
 const postRun = readJson(postRunPath);
 const boundedInsert = readJson(boundedInsertPath);
-const integrationReport = runJsonReport(integrationReportPath, "TWII server-only pre-execution integration gate");
 
 validateGate();
 validateSources();
@@ -32,8 +27,7 @@ const report = {
   outcome: ok ? "explicit_execution_packet_preparation_ready_execution_still_blocked" : "explicit_execution_packet_preparation_gate_blocked",
   mode: "twii_explicit_execution_packet_preparation_gate_no_execution",
   gatePath,
-  integrationGatePath,
-  readinessGatePath,
+  authorizationGatePath,
   serverChecksPath,
   rollbackPath,
   readbackPath,
@@ -47,6 +41,8 @@ const report = {
   executionPacketValidation: {
     requiredExecutionPacketFieldCount: (gate.requiredExecutionPacketFields ?? []).length,
     placeholderCount: placeholders.length,
+    fieldNameOnlyPlaceholderCount: placeholders.filter((item) => item.fieldNameOnly === true).length,
+    presenceOnlyPlaceholderCount: placeholders.filter((item) => item.presenceOnly === true).length,
     providedNowCount: placeholders.filter((item) => item.providedNow === true).length,
     valueReadNowCount: placeholders.filter((item) => item.valueReadNow === true).length,
     executionAuthorizedNowCount: placeholders.filter((item) => item.executionAuthorizedNow === true).length,
@@ -54,15 +50,15 @@ const report = {
   },
   executionPacketState: {
     explicitExecutionPacketPreparationGatePrepared: gate.explicitExecutionPacketPreparationGatePrepared === true,
-    boundedOperatorAuthorizationPacketReferenced: gate.boundedOperatorAuthorizationPacketReferenced === true,
-    serverOnlyPreExecutionIntegrationReferenced: gate.serverOnlyPreExecutionIntegrationReferenced === true,
-    preExecutionReadinessRecheckReferenced: gate.preExecutionReadinessRecheckReferenced === true,
+    boundedOperatorAuthorizationPacketPreparationReferenced: gate.boundedOperatorAuthorizationPacketPreparationReferenced === true,
     serverOnlyPreExecutionChecksReferenced: gate.serverOnlyPreExecutionChecksReferenced === true,
     rollbackContractReferenced: gate.rollbackContractReferenced === true,
     aggregateReadbackContractReferenced: gate.aggregateReadbackContractReferenced === true,
     postRunReviewContractReferenced: gate.postRunReviewContractReferenced === true,
     boundedInsertContractReferenced: gate.boundedInsertContractReferenced === true,
+    explicitExecutionPacketShapePrepared: gate.explicitExecutionPacketShapePrepared === true,
     requiredExecutionPacketFieldsPrepared: gate.requiredExecutionPacketFieldsPrepared === true,
+    operatorAuthorizationPacketHandoffPrepared: gate.operatorAuthorizationPacketHandoffPrepared === true,
     operatorDecisionPresencePrepared: gate.operatorDecisionPresencePrepared === true,
     authorizationPresencePrepared: gate.authorizationPresencePrepared === true,
     executeSwitchPresencePrepared: gate.executeSwitchPresencePrepared === true,
@@ -74,10 +70,12 @@ const report = {
     candidateDuplicateRejectionPlaceholderPrepared: gate.candidateDuplicateRejectionPlaceholderPrepared === true,
     mockBoundaryRechecked: gate.mockBoundaryRechecked === true,
     executionStopLinesPrepared: gate.executionStopLinesPrepared === true,
-    explicitExecutionPacketShapePrepared: gate.explicitExecutionPacketShapePrepared === true,
     reviewOnly: true,
     localOnly: true,
+    shapeOnly: true,
     presenceOnly: true,
+    fieldNameOnly: true,
+    serverOnly: true,
     externalOnlyValuesProvidedNow: false,
     externalOperatorDecisionProvidedNow: false,
     operatorAuthorizationAcceptedNow: false,
@@ -88,14 +86,13 @@ const report = {
     runnerExecutableNow: false,
     executionAllowedNow: false,
     writeGateExecutableNow: false,
+    finalExecutionAllowedNow: false,
     implementationAllowedNow: false
   },
   upstream: {
-    integrationGateStatus: integrationReport.status ?? null,
-    integrationGateOutcome: integrationReport.outcome ?? null,
-    integrationGateKind: integrationGate.gateKind ?? null,
-    readinessGateKind: readinessGate.gateKind ?? null,
-    serverChecksAttemptId: serverChecks.attemptId ?? null,
+    authorizationPreparationStatus: authorizationGate.currentAuthorizationPacketPreparationStatus ?? null,
+    authorizationPreparationOutcome: authorizationGate.authorizationPacketPreparationOutcome ?? null,
+    authorizationPreparationGateKind: authorizationGate.gateKind ?? null,
     credentialPresenceOnlyCheckAllowed: serverChecks.credentialPresenceOnlyCheckAllowed ?? null,
     rollbackContractDecision: rollback.contractDecision ?? null,
     aggregateReadbackContractDecision: readback.contractDecision ?? null,
@@ -114,9 +111,7 @@ function validateGate() {
   const expected = {
     gateKind: "twii_explicit_execution_packet_preparation_gate",
     gateMode: "explicit_execution_packet_preparation_fail_closed_no_execution",
-    sourceBoundedOperatorAuthorizationPacketGatePath: gatePath.replace("twii-explicit-execution-packet-preparation-gate", "twii-bounded-operator-authorization-packet-gate"),
-    sourceServerOnlyPreExecutionIntegrationGatePath: integrationGatePath,
-    sourcePreExecutionReadinessRecheckGatePath: readinessGatePath,
+    sourceBoundedOperatorAuthorizationPacketPreparationGatePath: authorizationGatePath,
     sourceServerOnlyPreExecutionChecksPath: serverChecksPath,
     sourceRollbackContractPath: rollbackPath,
     sourceAggregateReadbackContractPath: readbackPath,
@@ -127,16 +122,17 @@ function validateGate() {
     targetTable: "daily_prices",
     maxRows: 60,
     explicitExecutionPacketPreparationGatePrepared: true,
-    boundedOperatorAuthorizationPacketReferenced: true,
-    serverOnlyPreExecutionIntegrationReferenced: true,
-    preExecutionReadinessRecheckReferenced: true,
+    boundedOperatorAuthorizationPacketPreparationReferenced: true,
     serverOnlyPreExecutionChecksReferenced: true,
     rollbackContractReferenced: true,
     aggregateReadbackContractReferenced: true,
     postRunReviewContractReferenced: true,
     boundedInsertContractReferenced: true,
+    explicitExecutionPacketShapePrepared: true,
     requiredExecutionPacketFieldsPrepared: true,
+    operatorAuthorizationPacketHandoffPrepared: true,
     operatorDecisionPresencePrepared: true,
+    authorizationPresencePrepared: true,
     executeSwitchPresencePrepared: true,
     confirmationPhrasePresencePrepared: true,
     serverOnlyCredentialPresencePrepared: true,
@@ -146,25 +142,25 @@ function validateGate() {
     candidateDuplicateRejectionPlaceholderPrepared: true,
     mockBoundaryRechecked: true,
     executionStopLinesPrepared: true,
-    explicitExecutionPacketShapePrepared: true,
     localOnly: true,
     reviewOnly: true,
+    shapeOnly: true,
     presenceOnly: true,
+    fieldNameOnly: true,
+    serverOnly: true,
     currentExecutionPacketStatus: "explicit_execution_packet_preparation_ready_waiting_external_values",
-    nextReviewOnlyRoute: "explicit_execution_packet_review_then_separate_authorized_execution_attempt",
-    allowedNextCommandCategory: "review_only_separate_execution_attempt_preparation",
-    executionPacketDecision: "explicit_execution_packet_shape_ready_but_execution_still_blocked"
+    nextReviewOnlyRoute: "explicit_execution_packet_preparation_review_then_separate_authorized_execution_attempt_preparation",
+    allowedNextCommandCategory: "review_only_separate_authorized_execution_attempt_preparation",
+    executionPacketDecision: "explicit_execution_packet_preparation_ready_but_execution_still_blocked"
   };
   for (const [key, value] of Object.entries(expected)) if (gate[key] !== value) problems.push(`gate.${key} must be ${JSON.stringify(value)}`);
-  if ((gate.executionPacketFieldPlaceholders ?? []).length !== (gate.requiredExecutionPacketFields ?? []).length) problems.push("gate.executionPacketFieldPlaceholders must match requiredExecutionPacketFields");
-  for (const id of gate.requiredExecutionPacketFields ?? []) if (!(gate.executionPacketFieldPlaceholders ?? []).some((item) => item.fieldId === id)) problems.push(`gate missing authorization placeholder ${id}`);
+  if ((gate.executionPacketFieldPlaceholders ?? []).length !== (gate.requiredExecutionPacketFields ?? []).length) problems.push("executionPacketFieldPlaceholders must match requiredExecutionPacketFields");
+  for (const id of gate.requiredExecutionPacketFields ?? []) if (!(gate.executionPacketFieldPlaceholders ?? []).some((item) => item.fieldId === id)) problems.push(`gate missing execution packet placeholder ${id}`);
   for (const item of gate.executionPacketFieldPlaceholders ?? []) {
-    for (const field of ["fieldId", "label", "required", "providedNow", "valueReadNow", "executionAuthorizedNow", "executionAllowedByField", "storageAllowedInRepo", "placeholderOnly"]) if (!(field in item)) problems.push(`placeholder ${item.fieldId ?? "unknown"} missing ${field}`);
-    if (item.providedNow !== false) problems.push(`placeholder ${item.fieldId ?? "unknown"} providedNow must be false`);
-    if (item.valueReadNow !== false) problems.push(`placeholder ${item.fieldId ?? "unknown"} valueReadNow must be false`);
-    if (item.executionAuthorizedNow !== false) problems.push(`placeholder ${item.fieldId ?? "unknown"} executionAuthorizedNow must be false`);
-    if (item.executionAllowedByField !== false) problems.push(`placeholder ${item.fieldId ?? "unknown"} executionAllowedByField must be false`);
-    if (item.storageAllowedInRepo !== false) problems.push(`placeholder ${item.fieldId ?? "unknown"} storageAllowedInRepo must be false`);
+    for (const field of ["fieldId", "fieldNameOnly", "presenceOnly", "providedNow", "valueReadNow", "executionAuthorizedNow", "executionAllowedByField", "storageAllowedInRepo", "placeholderOnly"]) if (!(field in item)) problems.push(`placeholder ${item.fieldId ?? "unknown"} missing ${field}`);
+    if (item.fieldNameOnly !== true) problems.push(`placeholder ${item.fieldId ?? "unknown"} fieldNameOnly must be true`);
+    if (item.presenceOnly !== true) problems.push(`placeholder ${item.fieldId ?? "unknown"} presenceOnly must be true`);
+    for (const key of ["providedNow", "valueReadNow", "executionAuthorizedNow", "executionAllowedByField", "storageAllowedInRepo"]) if (item[key] !== false) problems.push(`placeholder ${item.fieldId ?? "unknown"} ${key} must be false`);
     if (item.placeholderOnly !== true) problems.push(`placeholder ${item.fieldId ?? "unknown"} placeholderOnly must be true`);
   }
   for (const blocked of ["externalOnlyValuesProvidedNow=false", "externalOperatorDecisionProvidedNow=false", "operatorAuthorizationAcceptedNow=false", "authorizationValueReadNow=false", "serverOnlyCredentialCheckPassed=false", "executeSwitchProvided=false", "confirmationPhraseProvided=false", "rollbackDryRunPassed=false", "aggregateReadbackPassed=false", "postRunReviewPassed=false", "candidateDuplicateRejectionProofPassed=false", "runnerExecutableNow=false", "executionAllowedNow=false", "writeGateExecutableNow=false", "finalExecutionAllowedNow=false", "implementationAllowedNow=false"]) if (!(gate.blockedReasons ?? []).includes(blocked)) problems.push(`gate missing blocked reason ${blocked}`);
@@ -173,10 +169,9 @@ function validateGate() {
 }
 
 function validateSources() {
-  if (integrationReport.status !== "twii_server_only_pre_execution_integration_gate_ready_no_execution") problems.push("integration report status mismatch");
-  if (integrationReport.outcome !== "server_only_pre_execution_integration_ready_execution_still_blocked") problems.push("integration report outcome mismatch");
-  if (integrationGate.gateKind !== "twii_server_only_pre_execution_integration_gate") problems.push("integration gate kind mismatch");
-  if (readinessGate.gateKind !== "twii_pre_execution_readiness_recheck_gate_preflight") problems.push("readiness gate kind mismatch");
+  if (authorizationGate.gateKind !== "twii_bounded_operator_authorization_packet_preparation_gate") problems.push("authorization preparation gate kind mismatch");
+  if (authorizationGate.currentAuthorizationPacketPreparationStatus !== "bounded_operator_authorization_packet_preparation_ready_waiting_external_values") problems.push("authorization preparation status mismatch");
+  if (authorizationGate.authorizationPacketPreparationOutcome !== "bounded_operator_authorization_packet_prepared_but_authorization_and_execution_still_blocked") problems.push("authorization preparation outcome mismatch");
   if (serverChecks.credentialPresenceOnlyCheckAllowed !== true) problems.push("server checks must allow credential presence-only check");
   if (serverChecks.credentialValuesRead !== false) problems.push("server checks must not read credential values");
   if (serverChecks.executeSwitchProvided !== false) problems.push("server checks executeSwitchProvided must be false");
@@ -192,10 +187,18 @@ function validateSources() {
 function falseKeys() {
   return ["realValuesProvidedNow", "realValuesReadNow", "realDecisionValueReadNow", "realDecisionValueRecordedNow", "externalOnlyValuesProvidedNow", "externalOperatorDecisionProvidedNow", "operatorAuthorizationAcceptedNow", "authorizationValueReadNow", "executeSwitchProvided", "confirmationPhraseProvided", "confirmationPhraseMatched", "serverOnlyCredentialCheckPassed", "credentialValuesRead", "rollbackDryRunPassed", "aggregateReadbackPassed", "postRunReviewPassed", "candidateDuplicateRejectionProofPassed", "runnerExecutableNow", "executionAllowedNow", "writeGateExecutableNow", "finalExecutionAllowedNow", "implementationAllowedNow", "sqlExecuted", "supabaseClientImported", "supabaseConnectionAttempted", "supabaseWritesEnabled", "supabaseReadsEnabled", "marketDataFetched", "marketDataIngested", "dailyPricesMutated", "stagingRowsCreated", "candidateRowsAccepted", "rowCoverageScoringAllowed", "rawPayloadOutput", "rowPayloadOutput", "stockIdPayloadOutput", "secretsOutput", "envValueOutput", "promotionAllowed", "scoreSourceRealAllowed"];
 }
+
 function validateSafety(safety) {
   if (safety.publicDataSource !== "mock") problems.push("safety.publicDataSource must be mock");
   if (safety.scoreSource !== "mock") problems.push("safety.scoreSource must be mock");
-  for (const key of ["sqlExecuted", "supabaseClientImported", "supabaseConnectionAttempted", "supabaseReadsEnabled", "supabaseWritesEnabled", "marketDataFetched", "marketDataIngested", "candidateRowsAccepted", "realValuesProvidedNow", "realValuesReadNow", "realDecisionValueReadNow", "realDecisionValueRecordedNow", "externalOnlyValuesProvidedNow", "externalOperatorDecisionProvidedNow", "operatorAuthorizationAcceptedNow", "authorizationValueReadNow", "executeSwitchProvided", "confirmationPhraseProvided", "confirmationPhraseMatched", "serverOnlyCredentialCheckPassed", "credentialValuesRead", "rollbackDryRunPassed", "aggregateReadbackPassed", "postRunReviewPassed", "candidateDuplicateRejectionProofPassed", "dailyPricesMutated", "stagingRowsCreated", "rowCoverageScoringAllowed", "secretsOutput", "envValueOutput", "publicPromotionAllowed", "scoreSourceRealAllowed"]) if (safety[key] !== false) problems.push(`safety.${key} must be false`);
+  for (const key of ["sqlExecuted", "supabaseClientImported", "supabaseConnectionAttempted", "supabaseReadsEnabled", "supabaseWritesEnabled", "credentialValuesRead", "marketDataFetched", "marketDataIngested", "candidateRowsAccepted", "realValuesProvidedNow", "realValuesReadNow", "realDecisionValueReadNow", "realDecisionValueRecordedNow", "externalOnlyValuesProvidedNow", "externalOperatorDecisionProvidedNow", "operatorAuthorizationAcceptedNow", "authorizationValueReadNow", "executeSwitchProvided", "confirmationPhraseProvided", "confirmationPhraseMatched", "serverOnlyCredentialCheckPassed", "rollbackDryRunPassed", "aggregateReadbackPassed", "postRunReviewPassed", "candidateDuplicateRejectionProofPassed", "dailyPricesMutated", "stagingRowsCreated", "rowCoverageScoringAllowed", "secretsOutput", "envValueOutput", "publicPromotionAllowed", "scoreSourceRealAllowed"]) if (safety[key] !== false) problems.push(`safety.${key} must be false`);
 }
-function readJson(filePath) { try { return JSON.parse(fs.readFileSync(filePath, "utf8")); } catch (error) { problems.push(`failed to read ${filePath}: ${error.message}`); return {}; } }
-function runJsonReport(filePath, label) { const run = spawnSync(process.execPath, [filePath], { cwd: process.cwd(), encoding: "utf8", shell: false, timeout: 120000, windowsHide: true }); if (run.status !== 0) { problems.push(`${label} exited ${run.status}`); return {}; } try { return JSON.parse(run.stdout); } catch (error) { problems.push(`${label} did not emit JSON: ${error.message}`); return {}; } }
+
+function readJson(filePath) {
+  try {
+    return JSON.parse(fs.readFileSync(filePath, "utf8"));
+  } catch (error) {
+    problems.push(`failed to read ${filePath}: ${error.message}`);
+    return {};
+  }
+}

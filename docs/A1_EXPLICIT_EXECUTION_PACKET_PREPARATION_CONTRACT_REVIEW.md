@@ -4,28 +4,33 @@ Status: a1_explicit_execution_packet_preparation_contract_review_ready
 
 ## Review Scope
 
-A1 reviews the upcoming TWII explicit execution packet preparation gate as a contract-only support lane for PM integration. This review does not authorize execution, does not validate real values, and does not promote runtime data sources.
+A1 reviews the upcoming TWII explicit execution packet preparation gate as a contract-only support lane for PM integration. This is an explicit execution packet contract review for local preparation only; it does not authorize execution, does not validate real values, and does not promote runtime data sources.
+
+The bounded target scope is TWII only, `daily_prices` only, and 60 rows maximum by shape. This document does not confirm that 60 rows exist, does not accept candidate rows, and does not score row coverage.
+
+The operator authorization packet handoff remains a future, external, PM-owned handoff. A1 records only the local contract expectations and blocked reasons for that handoff; A1 does not receive, request, store, or infer any real operator authorization value.
 
 ## Required Execution Packet Fields
 
-The PM mainline gate should require the explicit execution packet to define these fields by shape only:
+The PM mainline gate should require the explicit execution packet to define these required execution packet fields by shape only:
 
 - packet id
 - lane id
 - symbol
 - scope
 - target table
-- maximum bounded rows
+- bounded target scope
+- maximum bounded rows: 60 rows
 - authorization decision placeholder
 - execute switch placeholder
 - confirmation phrase placeholder
 - server-only credential presence placeholder
-- rollback dry-run placeholder
-- aggregate readback placeholder
-- post-run review placeholder
-- duplicate proof placeholder
+- rollback dry-run proof placeholder
+- aggregate readback proof placeholder
+- post-run review proof placeholder
+- duplicate rejection proof placeholder
 - blocked reasons
-- next review-only route
+- next route
 - promotion locks
 
 Each field must be checked for presence and allowed shape only. The gate must not read, print, store, infer, or fill real authorization values, credential values, confirmation phrase values, decision values, row bodies, source payloads, stock-id payloads, or market-data payloads.
@@ -62,10 +67,10 @@ The explicit packet must distinguish shape readiness from execution permission:
 
 The packet preparation gate should include placeholders for:
 
-- rollback dry-run proof
-- aggregate readback proof
-- post-run review proof
-- duplicate proof for missing-only candidate behavior
+- rollback dry-run proof placeholder
+- aggregate readback proof placeholder
+- post-run review proof placeholder
+- duplicate rejection proof placeholder for missing-only candidate behavior
 
 All placeholder checks must default to not passed. They can prepare the future checklist, but they cannot execute rollback, read Supabase rows, write Supabase rows, accept candidate rows, or mutate `daily_prices`.
 
@@ -93,7 +98,7 @@ Recommended next route:
 
 This route is review-only. It prepares the later handoff path but does not execute SQL, connect to Supabase, write rows, mutate `daily_prices`, accept candidate rows, or promote runtime data sources.
 
-## Fail-Closed Rules
+## fail-closed rules
 
 The packet must fail closed if any script, report, or reviewer detects:
 
@@ -111,7 +116,7 @@ The packet must fail closed if any script, report, or reviewer detects:
 
 The only acceptable output is a preparation-ready but execution-blocked state.
 
-## PM Integration Notes
+## PM integration notes
 
 PM can integrate this A1 review by checking that the explicit execution packet preparation gate:
 
