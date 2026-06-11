@@ -1,0 +1,63 @@
+{
+  "fixtureKind": "twii_decision_value_fixture_intake_validator_safe_fixtures",
+  "syntheticOnly": true,
+  "realDecisionValuesIncluded": false,
+  "secretsIncluded": false,
+  "rawPayloadIncluded": false,
+  "rowPayloadIncluded": false,
+  "stockIdPayloadIncluded": false,
+  "fixtures": [
+    {
+      "caseId": "accepted_valid_minimal",
+      "decisionStatus": "accepted",
+      "decisionRecordedByRole": "CEO",
+      "decisionRecordedAtLabel": "synthetic-fixture-time",
+      "decisionReasonSummary": "synthetic acceptance fixture",
+      "publicDataSource": "mock",
+      "scoreSource": "mock",
+      "expectedValid": true
+    },
+    {
+      "caseId": "rejected_valid_with_reason",
+      "decisionStatus": "rejected",
+      "decisionRecordedByRole": "CEO",
+      "decisionRecordedAtLabel": "synthetic-fixture-time",
+      "decisionReasonSummary": "synthetic rejection fixture",
+      "publicDataSource": "mock",
+      "scoreSource": "mock",
+      "expectedValid": true
+    },
+    {
+      "caseId": "repair_required_valid_with_summary",
+      "decisionStatus": "repair_required",
+      "decisionRecordedByRole": "CEO",
+      "decisionRecordedAtLabel": "synthetic-fixture-time",
+      "decisionReasonSummary": "synthetic repair fixture",
+      "repairRequiredSummary": "synthetic repair required summary",
+      "publicDataSource": "mock",
+      "scoreSource": "mock",
+      "expectedValid": true
+    },
+    {
+      "caseId": "deferred_invalid_status",
+      "decisionStatus": "deferred_or_expired",
+      "decisionRecordedByRole": "CEO",
+      "decisionRecordedAtLabel": "synthetic-fixture-time",
+      "decisionReasonSummary": "synthetic invalid status fixture",
+      "publicDataSource": "mock",
+      "scoreSource": "mock",
+      "expectedValid": false
+    },
+    {
+      "caseId": "forbidden_field_rejected",
+      "decisionStatus": "accepted",
+      "decisionRecordedByRole": "CEO",
+      "decisionRecordedAtLabel": "synthetic-fixture-time",
+      "decisionReasonSummary": "synthetic forbidden field fixture",
+      "publicDataSource": "mock",
+      "scoreSource": "mock",
+      "expectedValid": false,
+      "authorizationValue": "synthetic-forbidden-placeholder"
+    }
+  ]
+}

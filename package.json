@@ -472,6 +472,8 @@
     "check:twii-operator-authorization-acceptance-gate-preflight": "node scripts/check-twii-operator-authorization-acceptance-gate-preflight.mjs",
     "report:twii-accepted-decision-record-intake-gate-preflight": "node scripts/report-twii-accepted-decision-record-intake-gate-preflight.mjs",
     "check:twii-accepted-decision-record-intake-gate-preflight": "node scripts/check-twii-accepted-decision-record-intake-gate-preflight.mjs",
+    "report:twii-decision-value-fixture-intake-validator-gate-preflight": "node scripts/report-twii-decision-value-fixture-intake-validator-gate-preflight.mjs",
+    "check:twii-decision-value-fixture-intake-validator-gate-preflight": "node scripts/check-twii-decision-value-fixture-intake-validator-gate-preflight.mjs",
     "report:twii-a1-d-write-prerequisite-dispatch-packet": "node scripts/report-twii-a1-d-write-prerequisite-dispatch-packet.mjs",
     "check:twii-a1-d-write-prerequisite-dispatch-packet": "node scripts/check-twii-a1-d-write-prerequisite-dispatch-packet.mjs",
     "report:twii-a1-d-write-prerequisite-pm-intake-ledger": "node scripts/report-twii-a1-d-write-prerequisite-pm-intake-ledger.mjs",
