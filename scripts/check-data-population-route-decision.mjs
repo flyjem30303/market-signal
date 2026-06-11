@@ -1,7 +1,7 @@
 import fs from "node:fs";
 
-const docPath = "docs/DATA_POPULATION_ROUTE_DECISION_2026-06-06.md";
-const postRunPath = "docs/reviews/DATA_AUTHORIZATION_READONLY_ATTEMPT_POST_RUN_REVIEW_2026-06-06.md";
+const docPath = "docs/BATCH1_DATA_COVERAGE_ROUTE_DECISION_2026-06-12.md";
+const postRunPath = "docs/reviews/BATCH1_ROW_COVERAGE_READONLY_POST_RUN_REVIEW_2026-06-12.md";
 const routeLibPath = "src/lib/data-coverage-route-decision.ts";
 const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
@@ -16,24 +16,27 @@ const files = new Map(
 );
 
 const required = [
-  [docPath, "Data Population Route Decision"],
-  [docPath, "data_population_route_selected_design_only"],
-  [docPath, "docs/reviews/DATA_AUTHORIZATION_READONLY_ATTEMPT_POST_RUN_REVIEW_2026-06-06.md"],
-  [docPath, "CEO selects the data population / backfill route"],
+  [docPath, "Batch 1 Data Coverage Route Decision"],
+  [docPath, "batch1_data_coverage_route_selected_twii_first_design_only"],
+  [docPath, "docs/reviews/BATCH1_ROW_COVERAGE_READONLY_POST_RUN_REVIEW_2026-06-12.md"],
+  [docPath, "CEO selects a `TWII`-first Batch 1 coverage repair route"],
   [docPath, "design-only approval"],
   [docPath, "aggregate_count_incomplete"],
   [docPath, "Expected rows: `360`"],
-  [docPath, "Observed rows: `5`"],
-  [docPath, "Missing rows: `355`"],
-  [docPath, "prepare_backfill_ingestion_design_gate"],
+  [docPath, "Observed rows: `182`"],
+  [docPath, "Missing rows: `178`"],
+  [docPath, "prepare_twii_coverage_repair_gate"],
+  [docPath, "`TWII` is `0/60`"],
+  [docPath, "`0050` is `1/60`"],
+  [docPath, "`006208` is `1/60`"],
   [docPath, "source rights and attribution acceptance"],
   [docPath, "target-table boundary"],
   [docPath, "report-only dry-run packet"],
   [docPath, "rollback, cleanup, retention"],
   [docPath, "post-run review"],
+  [docPath, "PM / Engineering mainline"],
   [docPath, "A1 Data / Supabase / Market Evidence"],
   [docPath, "A2 Public Copy / UX Safety"],
-  [docPath, "PM / Engineering mainline"],
   [docPath, "Do not run SQL"],
   [docPath, "Do not write Supabase"],
   [docPath, "Do not create staging rows"],
@@ -43,20 +46,20 @@ const required = [
   [docPath, "Do not promote `publicDataSource=supabase`"],
   [docPath, "Do not set `scoreSource=real`"],
   [docPath, "Do not award row coverage points"],
-  [docPath, "Create the backfill / ingestion design gate execution packet"],
-  [postRunPath, "observedTotalRows\": 5"],
-  [postRunPath, "missingRows\": 355"],
+  [docPath, "Create the `TWII` coverage repair gate"],
+  [postRunPath, "observedTotalRows\": 182"],
+  [postRunPath, "missingRows\": 178"],
   [postRunPath, "aggregate_count_incomplete"],
-  [routeLibPath, "prepare_backfill_ingestion_design_gate"],
-  [routeLibPath, "observedRows: 5"],
-  [routeLibPath, "missingRows: 355"],
+  [routeLibPath, "prepare_twii_coverage_repair_gate"],
+  [routeLibPath, "observedRows: 182"],
+  [routeLibPath, "missingRows: 178"],
   [packagePath, "\"check:data-population-route-decision\": \"node scripts/check-data-population-route-decision.mjs\""],
   [reviewGatePath, "scripts/check-data-population-route-decision.mjs"],
   [fullHealthPath, "scripts/check-data-population-route-decision.mjs"],
-  [statusPath, "Latest data population route decision slice"],
-  [statusPath, "docs/DATA_POPULATION_ROUTE_DECISION_2026-06-06.md"],
-  [statusPath, "data_population_route_selected_design_only"],
-  [statusPath, "prepare_backfill_ingestion_design_gate"]
+  [statusPath, "Latest Batch 1 data coverage route decision slice"],
+  [statusPath, "docs/BATCH1_DATA_COVERAGE_ROUTE_DECISION_2026-06-12.md"],
+  [statusPath, "batch1_data_coverage_route_selected_twii_first_design_only"],
+  [statusPath, "prepare_twii_coverage_repair_gate"]
 ];
 
 const forbidden = [

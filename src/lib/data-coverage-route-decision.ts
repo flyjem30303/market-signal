@@ -3,7 +3,7 @@ import { getDataCoverageBackfillPlan, type DataCoverageBackfillPlan } from "@/li
 import { getDataSourceReadinessPacket, type DataSourceReadinessPacket } from "@/lib/data-source-readiness-packet";
 
 export type DataCoverageRouteOption = {
-  id: "backfill-ingestion-design-gate" | "mock-runtime-hardening";
+  id: "twii-coverage-repair-gate" | "etf-source-rights-gate" | "mock-runtime-hardening";
   label: string;
   owner: "Data" | "Engineering" | "PM";
   priority: "primary" | "secondary";
@@ -17,11 +17,11 @@ export type DataCoverageRouteDecision = {
   designGate: BackfillIngestionDesignGate;
   sourceReadinessPacket: DataSourceReadinessPacket;
   expectedRows: 360;
-  observedRows: 5;
-  missingRows: 355;
+  observedRows: 182;
+  missingRows: 178;
   options: DataCoverageRouteOption[];
   publicDataSource: "mock";
-  recommendation: "prepare_backfill_ingestion_design_gate";
+  recommendation: "prepare_twii_coverage_repair_gate";
   scoreSource: "mock";
   status: "coverage_route_decision_required";
   stopLine: string;
@@ -33,18 +33,28 @@ export function getDataCoverageRouteDecision(): DataCoverageRouteDecision {
     backfillPlan: getDataCoverageBackfillPlan(),
     designGate: getBackfillIngestionDesignGate(),
     expectedRows: 360,
-    missingRows: 355,
-    observedRows: 5,
+    missingRows: 178,
+    observedRows: 182,
     options: [
       {
-        id: "backfill-ingestion-design-gate",
-        label: "Prepare backfill / ingestion design gate",
+        id: "twii-coverage-repair-gate",
+        label: "Prepare TWII coverage repair gate",
         nextAction:
-          "Define source rights, target tables, dry-run output, rollback, retention, and no-write preflight before any ingestion.",
+          "Prepare a local-only packet for TWII, daily_prices, and 60 missing rows before any source fetch, SQL, Supabase write, or promotion.",
         owner: "Data",
         priority: "primary",
         rationale:
-          "The bounded readonly attempt proved the remote aggregate path, but row coverage is blocked by missing daily_prices rows."
+          "The bounded readonly attempt proved the remote aggregate path. TWII is the smallest meaningful incomplete lane at 0/60 and has more local readiness scaffolding than the ETF lane."
+      },
+      {
+        id: "etf-source-rights-gate",
+        label: "Prepare ETF source-rights gate",
+        nextAction:
+          "Keep 0050 and 006208 on a parallel source-rights, field-contract, and candidate-shape path before any ETF candidate or write gate.",
+        owner: "Data",
+        priority: "secondary",
+        rationale:
+          "The ETF lane can close 118 missing rows, but it remains blocked by source-rights and redistribution evidence."
       },
       {
         id: "mock-runtime-hardening",
@@ -58,7 +68,7 @@ export function getDataCoverageRouteDecision(): DataCoverageRouteDecision {
       }
     ],
     publicDataSource: "mock",
-    recommendation: "prepare_backfill_ingestion_design_gate",
+    recommendation: "prepare_twii_coverage_repair_gate",
     scoreSource: "mock",
     sourceReadinessPacket: getDataSourceReadinessPacket(),
     status: "coverage_route_decision_required",

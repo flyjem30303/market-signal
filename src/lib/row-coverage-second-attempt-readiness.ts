@@ -15,8 +15,8 @@ export type RowCoverageSecondAttemptReadiness = {
   latestAttempt: {
     coverageStatus: "blocked";
     expectedTotalRows: 360;
-    missingRows: 355;
-    observedTotalRows: 5;
+    missingRows: 178;
+    observedTotalRows: 182;
     reason: "aggregate_count_incomplete";
     remoteAttempted: true;
   };
@@ -54,16 +54,16 @@ export function getRowCoverageSecondAttemptReadiness(): RowCoverageSecondAttempt
         "no scoreSource=real"
       ]
     },
-    headline: "Row coverage readonly gate ready",
+    headline: "Row coverage readonly gate reviewed",
     latestAttempt: {
       coverageStatus: "blocked",
       expectedTotalRows: 360,
-      missingRows: 355,
-      observedTotalRows: 5,
+      missingRows: 178,
+      observedTotalRows: 182,
       reason: "aggregate_count_incomplete",
       remoteAttempted: true
     },
-    nextDecision: "CEO must separately name one bounded Supabase readonly attempt before any remote row coverage read.",
+    nextDecision: "PM should prepare the Batch 1 coverage repair route; do not retry readonly in the same slice.",
     publicDataSource: "mock",
     readiness: "local_ready_remote_paused",
     scoreSource: "mock",
@@ -71,10 +71,12 @@ export function getRowCoverageSecondAttemptReadiness(): RowCoverageSecondAttempt
     stopLine:
       "Do not run SQL, write Supabase, award row coverage points, promote publicDataSource=supabase, or set scoreSource=real from this state.",
     unresolved: [
-      "remote attempt still requires separate CEO naming",
+      "TWII remains 0/60",
+      "0050 remains 1/60",
+      "006208 remains 1/60",
       "row coverage points remain blocked",
       "CP3 remains not_ready",
-      "post-run review is required before any readiness change"
+      "write/backfill execution requires a separate named gate"
     ]
   };
 }

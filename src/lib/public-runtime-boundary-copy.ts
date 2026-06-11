@@ -18,9 +18,9 @@ const shared: PublicRuntimeBoundaryCopy = {
   nextStep:
     "Next step is a separately bounded PM/runtime gate. Until that gate is accepted, shared trust copy must stay in mock mode and avoid real-source, complete-coverage, or advice wording.",
   stopLine:
-    "publicDataSource=mock; scoreSource=mock. Do not promote publicDataSource=supabase, scoreSource=real, complete coverage, live market freshness, or investment-advice claims from this state.",
+    "Public data and scoring remain in demo mode. Do not promote live data, real scoring, complete coverage, live market freshness, or advice claims from this state.",
   summary:
-    "Use mock signals for reading only. Data freshness metadata is display context, partial coverage may omit rows, missing/delayed data lowers confidence, and model outputs are not forecasts. This does not constitute investment advice or personalized recommendations."
+    "Use mock signals for reading only. Data freshness metadata is display context, partial coverage may omit rows, missing/delayed data lowers confidence, and model outputs are not forecasts. This does not provide buy/sell advice or personalized recommendations."
 };
 
 export function getPublicRuntimeBoundaryCopy(surface: PublicRuntimeBoundarySurface): PublicRuntimeBoundaryCopy {
@@ -39,7 +39,7 @@ export function getPublicRuntimeBoundaryCopy(surface: PublicRuntimeBoundarySurfa
     return {
       ...shared,
       currentState:
-        "Legal, methodology, privacy, terms, and weekly surfaces must repeat the same boundary: mock-only runtime, publicDataSource=mock, scoreSource=mock, partial coverage, limited first closed-loop evidence, and non-investment advice.",
+        "Legal, methodology, privacy, terms, and weekly surfaces must repeat the same boundary: mock-only runtime, demo public data, demo scoring, partial coverage, limited first closed-loop evidence, and non-advisory framing.",
       headline: "Trust boundary: mock-only",
       summary:
         "Trust copy must make limits visible before the reader acts: first closed-loop evidence is Beta context, data freshness metadata is not live-data approval, partial coverage is not complete coverage, and model limitation blocks real-score claims."

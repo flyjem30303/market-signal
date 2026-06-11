@@ -18,7 +18,7 @@ const required = [
   [gatePath, "getBackfillIngestionDesignGate"],
   [gatePath, "design_gate_required_not_authorized_for_execution"],
   [gatePath, "blockedReason: \"aggregate_count_incomplete\""],
-  [gatePath, "missingRows: 355"],
+  [gatePath, "missingRows: 178"],
   [gatePath, "targetRelation: \"daily_prices\""],
   [gatePath, "publicDataSource: \"mock\""],
   [gatePath, "scoreSource: \"mock\""],

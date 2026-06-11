@@ -63,8 +63,8 @@ const pages = [
     path: "/briefing",
     required: [
       "Market Briefing",
-      "publicDataSource",
-      "scoreSource",
+      "示範資料",
+      "示範分數",
       "資料真實化路徑",
       "覆蓋範圍",
       "來源與權利",

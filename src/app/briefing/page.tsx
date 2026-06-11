@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { BriefingPublicBetaGateSummary } from "@/components/briefing-public-beta-gate-summary";
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { PageViewTracker } from "@/components/page-view-tracker";
 import { PostReadonlyProductStatus } from "@/components/post-readonly-product-status";
@@ -40,7 +41,7 @@ export default async function BriefingPage() {
           <div>
             <p className="eyebrow">Market Briefing</p>
             <h1>市場訊號晨報</h1>
-            <p>目前沒有可顯示的 mock snapshot。publicDataSource=mock / scoreSource=mock 仍保持關閉真實資料 promotion。</p>
+            <p>目前沒有可顯示的 mock snapshot。公開頁仍使用示範資料與示範分數，真實資料 promotion 仍關閉。</p>
           </div>
         </section>
       </main>
@@ -77,7 +78,7 @@ export default async function BriefingPage() {
             它用來展示產品方向，不是交易服務，也不是投資建議。
           </p>
           <p className="runtime-boundary-line">
-            publicDataSource=mock / scoreSource=mock。正式市場資料、真實分數、Supabase 寫入與資料 promotion
+            目前仍是示範資料與示範分數。正式市場資料、真實分數、Supabase 寫入與資料 promotion
             仍需通過後續 gate。
           </p>
         </div>
@@ -141,6 +142,7 @@ export default async function BriefingPage() {
 
       <PublicRuntimeStateStrip context="briefing" />
       <PostReadonlyProductStatus context="briefing" symbol={market.asset.symbol} />
+      <BriefingPublicBetaGateSummary />
 
       <section className="public-beta-data-realization-roadmap briefing-data-realization" aria-label="資料真實化路徑">
         <div className="public-beta-data-realization-head">
@@ -241,7 +243,7 @@ export default async function BriefingPage() {
       <section aria-label="Briefing decision boundary" className="briefing-decision-strip">
         <DecisionPill label="Current mode" text="Mock-only public Beta reading surface" tone="active" />
         <DecisionPill label="Data status" text="Coverage, freshness, and source-rights gates are still incomplete" tone="hold" />
-        <DecisionPill label="Hard stop" text="No investment advice, no real score, no live market-data promotion" tone="blocked" />
+        <DecisionPill label="Hard stop" text="不提供買賣建議、不啟用真實分數、不宣稱即時市場資料" tone="blocked" />
       </section>
 
       <section className="briefing-runtime-plan" aria-label="Briefing reading plan">
@@ -312,13 +314,13 @@ export default async function BriefingPage() {
           <h2>目前是 mock runtime，不是正式資料服務</h2>
           <p>
             公開 Beta 先驗證資訊層級、閱讀流程、信任揭露與產品定位。正式資料、真實分數、Supabase 讀寫、
-            ingestion/backfill 與 scoreSource=real 都還沒有被 promotion gate 啟用。
+            ingestion/backfill 與真實分數都還沒有被 promotion gate 啟用。
           </p>
         </div>
         <div className="briefing-boundary-grid">
           <BoundaryItem label="Public data source" value="mock" />
           <BoundaryItem label="Score source" value="mock" />
-          <BoundaryItem label="Advice status" value="not investment advice" />
+          <BoundaryItem label="Advice status" value="不提供買賣建議" />
         </div>
       </section>
 
@@ -452,9 +454,9 @@ export default async function BriefingPage() {
       <article className="disclaimer">
         <h2>Important disclosure</h2>
         <p>
-          This briefing is a public Beta reading surface. It uses mock data and mock scores, does not provide investment
-          advice, and does not imply that source rights, coverage, Supabase writes, ingestion/backfill, or scoreSource=real
-          have been approved.
+          This briefing is a public Beta reading surface. It uses demo data and demo scores, does not provide buy/sell
+          recommendations, and does not imply that source rights, coverage, Supabase writes, ingestion/backfill, or real
+          scoring have been approved.
         </p>
       </article>
     </main>
@@ -495,7 +497,7 @@ function BriefingExecutiveSummary({ market, topRisk }: { market: SignalSnapshot;
       <aside>
         <span>
           <b>Runtime</b>
-          <i>publicDataSource=mock / scoreSource=mock</i>
+          <i>公開頁仍使用示範資料與示範分數</i>
         </span>
         <span>
           <b>Next readiness item</b>

@@ -10,8 +10,8 @@ export type DataCoverageBackfillLane = {
 export type DataCoverageBackfillPlan = {
   status: "report_only_source_lane_plan";
   expectedRows: 360;
-  observedRows: 5;
-  missingRows: 355;
+  observedRows: 182;
+  missingRows: 178;
   lanes: DataCoverageBackfillLane[];
   publicDataSource: "mock";
   scoreSource: "mock";
@@ -50,8 +50,8 @@ export function getDataCoverageBackfillPlan(): DataCoverageBackfillPlan {
         symbols: ["2330", "2382", "2308"]
       }
     ],
-    missingRows: 355,
-    observedRows: 5,
+    missingRows: 178,
+    observedRows: 182,
     publicDataSource: "mock",
     scoreSource: "mock",
     status: "report_only_source_lane_plan",

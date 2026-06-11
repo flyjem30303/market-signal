@@ -13,7 +13,7 @@ export type BackfillIngestionDesignGateRequirement = {
 export type BackfillIngestionDesignGate = {
   blockedReason: "aggregate_count_incomplete";
   gateStatus: "design_gate_required_not_authorized_for_execution";
-  missingRows: 355;
+  missingRows: 178;
   publicDataSource: "mock";
   requirements: BackfillIngestionDesignGateRequirement[];
   scoreSource: "mock";
@@ -26,7 +26,7 @@ export function getBackfillIngestionDesignGate(): BackfillIngestionDesignGate {
   return {
     blockedReason: "aggregate_count_incomplete",
     gateStatus: "design_gate_required_not_authorized_for_execution",
-    missingRows: 355,
+    missingRows: 178,
     publicDataSource: "mock",
     requirements: [
       {

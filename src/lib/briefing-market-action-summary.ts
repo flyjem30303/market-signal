@@ -24,7 +24,7 @@ export function buildBriefingMarketActionSummary(
 ): BriefingMarketActionSummary {
   const marketNeedsCaution = market.riskScore >= 60 || breadth.defensive > breadth.constructive;
   const topRiskIsHot = topRisk.riskScore >= 70;
-  const marketLine = `Market breadth: ${breadth.constructive} constructive, ${breadth.watch} watch, ${breadth.defensive} defensive. publicDataSource=mock and scoreSource=mock remain in force.`;
+  const marketLine = `Market breadth: ${breadth.constructive} constructive, ${breadth.watch} watch, ${breadth.defensive} defensive. Public data and scoring remain in demo mode.`;
 
   if (marketNeedsCaution || topRiskIsHot) {
     return {
@@ -69,6 +69,6 @@ export function buildBriefingMarketActionSummary(
       title: `${topRisk.asset.symbol} risk watch`,
       tone: "hold"
     },
-    stopLine: "不提供買賣建議；publicDataSource=mock / scoreSource=mock，正式資料與真實分數仍需通過 promotion gate。"
+    stopLine: "不提供買賣建議；目前仍是示範資料與示範分數，正式資料與真實分數仍需通過 promotion gate。"
   };
 }

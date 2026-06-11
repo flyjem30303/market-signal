@@ -71,7 +71,7 @@ export type PublicBetaCoverageRolloutPlan = {
 export function getPublicBetaDataRealizationRoadmap(): PublicBetaDataRealizationRoadmap {
   return {
     disclosure:
-      "目前公開頁仍維持 publicDataSource=mock / scoreSource=mock；正式資料、Supabase 寫入、ingestion/backfill 與 scoreSource=real 尚未啟用。",
+      "目前公開頁仍維持示範資料與示範分數；正式資料、Supabase 寫入、ingestion/backfill 與真實分數尚未啟用。",
     headline: "資料真實化路徑",
     stages: [
       {
@@ -259,7 +259,7 @@ export function getPublicBetaCoverageRolloutPlan(): PublicBetaCoverageRolloutPla
       }
     ],
     disclosure:
-      "Coverage rollout 與 promotion checklist 只說明上線路徑；目前仍保持 publicDataSource=mock、scoreSource=mock。",
+      "Coverage rollout 與 promotion checklist 只說明上線路徑；目前仍保持示範資料與示範分數。",
     headline: "Coverage Rollout Plan",
     readonlyGate: [
       {
@@ -283,7 +283,7 @@ export function getPublicBetaCoverageRolloutPlan(): PublicBetaCoverageRolloutPla
         label: "Write / promotion lock",
         pmState: "blocked_until_separate_gate",
         publicMeaning: "只讀驗證即使成功，也不代表可以寫資料、補資料、給 row coverage 分數或切 real。",
-        requiredBeforeExecution: "任何 write/backfill/publicDataSource=supabase/scoreSource=real 都必須另開 gate。",
+        requiredBeforeExecution: "任何 write/backfill、公開資料升級或真實分數啟用都必須另開 gate。",
         status: "blocked"
       }
     ],
