@@ -5334,6 +5334,84 @@ select {
   margin: 0;
 }
 
+.home-core-indicator-readout {
+  display: grid;
+  gap: 12px;
+  border: 1px solid rgba(15, 118, 110, 0.18);
+  border-radius: 8px;
+  background: #f8fbfa;
+  padding: 15px;
+}
+
+.home-core-indicator-readout h3 {
+  font-size: 22px;
+  line-height: 1.25;
+  margin: 0 0 6px;
+}
+
+.home-core-indicator-readout p {
+  color: var(--muted);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.home-core-indicator-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.home-core-indicator-grid article {
+  display: grid;
+  gap: 8px;
+  min-height: 190px;
+  border: 1px solid var(--line);
+  border-top: 4px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  padding: 13px;
+}
+
+.home-core-indicator-grid article.constructive {
+  border-top-color: var(--green);
+}
+
+.home-core-indicator-grid article.watch {
+  border-top-color: var(--amber);
+}
+
+.home-core-indicator-grid article.defensive {
+  border-top-color: var(--red);
+}
+
+.home-core-indicator-grid span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 850;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.home-core-indicator-grid strong {
+  overflow-wrap: anywhere;
+  font-size: 24px;
+  line-height: 1.15;
+}
+
+.home-core-indicator-grid p,
+.home-core-indicator-grid small,
+.home-core-indicator-grid em {
+  color: var(--muted);
+  font-style: normal;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.home-core-indicator-grid em {
+  color: var(--text);
+  font-weight: 750;
+}
+
 .public-beta-data-realization-roadmap {
   display: grid;
   gap: 14px;
@@ -11947,6 +12025,7 @@ input[type="date"] {
   .home-watchlists,
   .home-market-action-summary,
   .home-public-beta-layer-grid,
+  .home-core-indicator-grid,
   .home-public-beta-alert-list,
   .public-beta-data-realization-grid,
   .public-beta-coverage-batches,

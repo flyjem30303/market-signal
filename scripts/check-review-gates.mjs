@@ -2868,6 +2868,11 @@ const checks = [
     name: "home-first-screen-action-summary"
   },
   {
+    command: [node, "scripts/check-home-core-indicator-readout.mjs"],
+    expectStatus: "ok",
+    name: "home-core-indicator-readout"
+  },
+  {
     command: [node, "scripts/check-home-investor-indicator-roadmap-panel.mjs"],
     expectStatus: "ok",
     name: "home-investor-indicator-roadmap-panel"

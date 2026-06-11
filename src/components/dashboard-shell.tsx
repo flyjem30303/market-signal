@@ -511,6 +511,32 @@ function HomeProductOverview({
       title: "市場氛圍"
     }
   ];
+  const coreIndicatorReadouts = [
+    {
+      action: "\u5148\u5224\u65b7\u5e02\u5834\u6c23\u6c1b\u662f\u5426\u503c\u5f97\u95dc\u6ce8",
+      label: "\u5e02\u5834\u6c23\u6c1b",
+      note: "\u7528\u7d9c\u5408\u5206\u6578\u628a\u76ee\u524d\u5e02\u5834\u7684\u5f37\u5f31\u8f49\u6210\u4e00\u500b\u5feb\u8b80\u8d77\u9ede\uff0c\u9084\u4e0d\u662f\u771f\u5be6\u6295\u8cc7\u8a0a\u865f\u3002",
+      state: marketSnapshot.signal.title,
+      tone: marketSnapshot.compositeScore >= 70 ? "constructive" : marketSnapshot.compositeScore >= 55 ? "watch" : "defensive",
+      value: `${marketSnapshot.compositeScore}/100`
+    },
+    {
+      action: snapshot.riskScore >= 60 ? "\u512a\u5148\u52a0\u5f37\u89c0\u5bdf\u98a8\u96aa\u4f86\u6e90" : "\u7e7c\u7e8c\u8ffd\u8e64\u98a8\u96aa\u662f\u5426\u64f4\u6563",
+      label: "\u98a8\u96aa\u71b1\u5ea6",
+      note: "\u628a\u56de\u6a94\u3001\u6ce2\u52d5\u8207\u8cc7\u6599\u7f3a\u53e3\u4e00\u8d77\u653e\u9032\u89c0\u5bdf\uff0c\u907f\u514d\u53ea\u770b\u4e00\u500b\u6578\u5b57\u5c31\u8ffd\u50f9\u3002",
+      state: riskState,
+      tone: snapshot.riskScore >= 70 ? "defensive" : snapshot.riskScore >= 55 ? "watch" : "constructive",
+      value: `${snapshot.riskScore}/100`
+    },
+    {
+      action: gapCount > 0 ? "\u628a\u7d50\u8ad6\u8996\u70ba\u793a\u7bc4\u95b1\u8b80\uff0c\u7b49\u5f85\u771f\u5be6\u8cc7\u6599\u88dc\u9f4a" : "\u53ef\u5148\u7576\u4f5c\u7a69\u5b9a\u793a\u7bc4\u6d41\u7a0b\u95b1\u8b80",
+      label: "\u8cc7\u6599\u53ef\u4fe1\u5ea6",
+      note: "\u76ee\u524d\u4ecd\u70ba mock-only\uff1b\u771f\u5be6\u8cc7\u6599\u4e0a\u7dda\u8981\u7b49\u4f86\u6e90\u3001\u8986\u84cb\u7387\u3001\u56de\u9000\u8207\u6642\u9593\u6233\u90fd\u901a\u904e\u3002",
+      state: `${gapCount} \u500b\u5f85\u88dc\u9f4a\u9805\u76ee`,
+      tone: gapCount > 0 ? "watch" : "constructive",
+      value: snapshot.dataQualityGrade
+    }
+  ];
 
   return (
     <>
@@ -616,6 +642,26 @@ function HomeProductOverview({
             <small>非投資建議；不提供買賣指令或績效承諾。</small>
           </article>
         </div>
+        <section className="home-core-indicator-readout" aria-label="\u6838\u5fc3\u6307\u6a19\u5feb\u8b80">
+          <div>
+            <p className="eyebrow">Core Indicator Readout</p>
+            <h3>{"\u6838\u5fc3\u6307\u6a19\u5feb\u8b80"}</h3>
+            <p>
+              {"\u9019\u4e00\u5340\u628a\u5e02\u5834\u6c23\u6c1b\u3001\u98a8\u96aa\u71b1\u5ea6\u8207\u8cc7\u6599\u53ef\u4fe1\u5ea6\u653e\u5728\u540c\u4e00\u500b\u9762\u677f\uff0c\u8b93\u4f7f\u7528\u8005\u5148\u77e5\u9053\u70ba\u4ec0\u9ebc\u662f\u7da0\u3001\u9ec3\u6216\u7d05\uff0c\u518d\u6c7a\u5b9a\u8981\u95dc\u6ce8\u3001\u52a0\u5f37\u89c0\u5bdf\u6216\u6e1b\u5c11\u98a8\u96aa\u3002"}
+            </p>
+          </div>
+          <div className="home-core-indicator-grid">
+            {coreIndicatorReadouts.map((item) => (
+              <article className={item.tone} key={item.label}>
+                <span>{item.label}</span>
+                <strong>{item.value}</strong>
+                <p>{item.state}</p>
+                <small>{item.note}</small>
+                <em>{item.action}</em>
+              </article>
+            ))}
+          </div>
+        </section>
         <div className="home-public-beta-alert-list">
           {publicDashboardAlerts.map((alert) => (
             <TrackedLink
