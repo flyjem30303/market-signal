@@ -4268,6 +4268,11 @@ const checks = [
     name: "twii-operator-authorization-acceptance-gate-preflight"
   },
   {
+    command: [node, "scripts/check-twii-accepted-decision-record-intake-gate-preflight.mjs"],
+    expectStatus: "ok",
+    name: "twii-accepted-decision-record-intake-gate-preflight"
+  },
+  {
     command: [node, "scripts/check-twii-a1-d-write-prerequisite-dispatch-packet.mjs"],
     expectStatus: "ok",
     name: "twii-a1-d-write-prerequisite-dispatch-packet"
@@ -5151,6 +5156,7 @@ const coreReviewGateNames = new Set([
   "twii-final-execution-rehearsal-gate-preflight",
   "twii-real-final-execution-auth-request-packet-preflight",
   "twii-operator-authorization-acceptance-gate-preflight",
+  "twii-accepted-decision-record-intake-gate-preflight",
   "twii-a1-d-write-prerequisite-dispatch-packet",
   "twii-a1-d-write-prerequisite-pm-intake-ledger",
   "coverage-universe-roadmap",
@@ -5259,6 +5265,7 @@ const coreReviewGateNames = new Set([
   "twii-final-execution-rehearsal-gate-preflight",
   "twii-real-final-execution-auth-request-packet-preflight",
   "twii-operator-authorization-acceptance-gate-preflight",
+  "twii-accepted-decision-record-intake-gate-preflight",
   "twii-a1-d-write-prerequisite-dispatch-packet",
   "twii-a1-d-write-prerequisite-pm-intake-ledger",
   "a1-source-rights-readiness-summary",
@@ -5444,6 +5451,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "twii-final-execution-rehearsal-gate-preflight",
   "twii-real-final-execution-auth-request-packet-preflight",
   "twii-operator-authorization-acceptance-gate-preflight",
+  "twii-accepted-decision-record-intake-gate-preflight",
   "twii-a1-d-write-prerequisite-dispatch-packet",
   "twii-a1-d-write-prerequisite-pm-intake-ledger",
   "typescript"
