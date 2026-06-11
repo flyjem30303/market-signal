@@ -13,11 +13,11 @@ export type RowCoverageSecondAttemptReadiness = {
   };
   headline: string;
   latestAttempt: {
-    coverageStatus: "blocked";
+    coverageStatus: "暫不升級";
     expectedTotalRows: 360;
     missingRows: 178;
     observedTotalRows: 182;
-    reason: "aggregate_count_incomplete";
+    reason: "資料覆蓋率尚未達標";
     remoteAttempted: true;
   };
   nextDecision: string;
@@ -40,43 +40,33 @@ export function getRowCoverageSecondAttemptReadiness(): RowCoverageSecondAttempt
         "$env:ROW_COVERAGE_READONLY_VALIDATE_CONFIRMATION=\"CP3_ROW_COVERAGE_READONLY_VALIDATE\"; & 'C:\\Program Files\\nodejs\\node.exe' scripts\\run-row-coverage-readonly-once.mjs"
     },
     goNoGo: {
-      decisionRequired: "CEO must explicitly name exactly one bounded Supabase readonly row coverage attempt before any remote read.",
-      go: [
-        "local prerequisite checks are ok",
-        "sanitized output contract is defined",
-        "post-run review is required immediately after the attempt"
-      ],
-      noGo: [
-        "no SQL execution",
-        "no Supabase writes",
-        "no raw market data ingestion",
-        "no publicDataSource=supabase",
-        "no scoreSource=real"
-      ]
+      decisionRequired: "下一次外部資料檢查必須先限定範圍、停止條件與結果覆核方式，避免把未完整覆蓋的資料誤當成正式訊號。",
+      go: ["本機檢查通過", "輸出欄位已定義", "檢查後必須留下可追溯結果"],
+      noGo: ["不執行 SQL", "不寫入 Supabase", "不匯入原始市場資料", "不切換 publicDataSource=supabase", "不切換 scoreSource=real"]
     },
-    headline: "Row coverage readonly gate reviewed",
+    headline: "週報資料覆蓋率仍在補齊中",
     latestAttempt: {
-      coverageStatus: "blocked",
+      coverageStatus: "暫不升級",
       expectedTotalRows: 360,
       missingRows: 178,
       observedTotalRows: 182,
-      reason: "aggregate_count_incomplete",
+      reason: "資料覆蓋率尚未達標",
       remoteAttempted: true
     },
-    nextDecision: "PM should prepare the Batch 1 coverage repair route; do not retry readonly in the same slice.",
+    nextDecision: "下一步優先補齊 Batch 1 覆蓋缺口，讓週報能從示範閱讀流程走向可驗證資料流程。",
     publicDataSource: "mock",
     readiness: "local_ready_remote_paused",
     scoreSource: "mock",
     stage: "row_coverage_second_attempt",
     stopLine:
-      "Do not run SQL, write Supabase, award row coverage points, promote publicDataSource=supabase, or set scoreSource=real from this state.",
+      "在來源權利、覆蓋率、品質檢查與回退條件都通過前，公開頁面仍維持示範資料與 mock 分數。",
     unresolved: [
-      "TWII remains 0/60",
-      "0050 remains 1/60",
-      "006208 remains 1/60",
-      "row coverage points remain blocked",
-      "CP3 remains not_ready",
-      "write/backfill execution requires a separate named gate"
+      "TWII 最近 60 個交易日仍待補齊",
+      "0050 最近 60 個交易日仍待補齊",
+      "006208 最近 60 個交易日仍待補齊",
+      "覆蓋率分數尚未開放",
+      "正式資料升級尚未開放",
+      "寫入與回補流程需要另行通過資料升級條件"
     ]
   };
 }

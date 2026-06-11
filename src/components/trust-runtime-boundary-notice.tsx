@@ -83,11 +83,12 @@ export function TrustRuntimeBoundaryNotice({ context }: TrustRuntimeBoundaryNoti
         <p>{runtimeInterpretation.stopLine}</p>
       </article>
       <article className="readying">
-        <span>PM runtime route</span>
-        <strong>Mock runtime hardening remains active</strong>
+        <span>Data upgrade rhythm</span>
+        <strong>Demo experience remains active</strong>
         <p>
-          mock runtime hardening {runtimeInterpretation.laneRatio.mockRuntimeHardening}% / Supabase readonly
-          preparation {runtimeInterpretation.laneRatio.supabaseReadonlyPreparation}%. {runtimeInterpretation.blockers[0]}
+          demo experience hardening {runtimeInterpretation.laneRatio.mockRuntimeHardening}% / data source preparation{" "}
+          {runtimeInterpretation.laneRatio.supabaseReadonlyPreparation}%. Real-data publication still requires a
+          separately scoped source check before the public state can change.
         </p>
       </article>
     </section>

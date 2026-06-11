@@ -5,57 +5,57 @@ type RouteLocalTrustCopyPanelProps = {
 const copyByContext = {
   disclaimer: {
     eyebrow: "Disclosure Summary",
-    title: "目前公開內容僅供產品閱讀與風險理解",
+    title: "目前是示範型資訊服務，不是投資建議",
     summary:
-      "本網站目前仍是 mock-only Beta。畫面可能展示分數、燈號、摘要與資料新鮮度 metadata，但它們不是即時市場資料、完整覆蓋、正式模型結論或個人化投資建議。",
+      "網站會呈現市場狀態、資料時效、模型限制與風險提醒，但目前仍維持 mock-only Beta；任何燈號、分數或排名都不能視為買賣建議。",
     points: [
-      "publicDataSource=mock；scoreSource=mock 仍是公開頁狀態。",
-      "資料可能缺漏、延遲、尚未驗證或只代表部分覆蓋；這是 missing/delayed data 風險。",
-      "任何買賣、持有、避險或配置決策，都必須由使用者自行判斷並承擔風險；本頁維持 non-investment advice 邊界。"
+      "publicDataSource=mock、scoreSource=mock，代表公開頁仍是示範資料與示範分數。",
+      "資料可能延遲、缺漏或無法更新，使用者應自行複核原始來源與自身風險承受度。",
+      "所有風險提示都只用於資訊整理，不保證報酬，也不代表個別投資建議。"
     ]
   },
   methodology: {
     eyebrow: "Model Boundary",
-    title: "方法論說明的是讀盤框架，不是保證結果",
+    title: "方法論說明的是閱讀順序，不是正式模型結論",
     summary:
-      "目前分數與指標用於展示決策輔助流程。它們會受資料來源、缺漏、延遲、模型假設與覆蓋率影響，不能被解讀為預測、保證績效或正式投資建議。",
+      "目前分數用來展示指數狀態儀表站的閱讀流程；它尚未代表完整覆蓋、正式預測能力或個人化建議。",
     points: [
-      "模型輸出仍是 mock score，尚未通過 real promotion gate。",
-      "資料新鮮度代表 metadata / readiness，不等於即時行情已上線。",
-      "正式切到 real 前，source rights、coverage、quality、rollback 與 post-run review 都要通過。"
+      "分數仍是 mock score，尚未通過 real promotion gate。",
+      "資料時效可被展示，但不等於資料完整、模型可信或來源權利已完成。",
+      "未來切換真實資料前，必須通過來源權利、覆蓋率、品質與回退條件。"
     ]
   },
   privacy: {
     eyebrow: "Privacy Boundary",
-    title: "公開頁不應輸入機密，也不展示原始資料 payload",
+    title: "公開頁不要求輸入密鑰，也不展示原始市場 payload",
     summary:
-      "目前公開體驗維持 mock 顯示。使用者不需要在公開頁輸入 Supabase key、券商帳密、付款資訊或其他機密；公開頁也不應揭露 raw market payload、row payload 或 stock id payload。",
+      "目前公開頁只呈現整理後的示範資訊，不會要求使用者輸入 Supabase key、資料供應商密鑰或其他敏感內容。",
     points: [
-      "瀏覽器端只保留必要的體驗與分析狀態，不承諾保存投資紀錄。",
-      "資料來源、寫入與讀回流程由後端 gate 管控，不在公開頁輸出秘密或原始列資料。",
-      "若未來加入帳號或付費功能，需要另行補齊隱私、資料保存與刪除政策。"
+      "公開頁不顯示 secrets、raw market payload、row payload 或可反推敏感資料的內容。",
+      "若未來接入真實資料，仍會以最小揭露、可追溯與可回退為原則。",
+      "使用者互動資料應只用於產品體驗改善與基本分析，不作為個人化投資判斷。"
     ]
   },
   terms: {
     eyebrow: "Terms Summary",
-    title: "請把目前網站視為 mock Beta 決策輔助介面",
+    title: "請把目前版本視為公開 Beta 示範服務",
     summary:
-      "目前網站可用來理解功能流程、讀盤框架與風險揭露，但不代表真實資料已完整上線，也不代表任何資料商授權、模型績效或投資建議已被核准。",
+      "目前網站適合用來理解產品方向與資訊組織方式，不適合直接作為交易、投資配置或風險承諾依據。",
     points: [
-      "公開頁不得宣稱 complete coverage、validated forecast 或 scoreSource=real。",
-      "若資料缺漏、延遲、不可用或來源權利未完成，系統應降低信心或保留 mock 狀態。",
-      "使用者應自行確認資訊來源、風險承受度與交易決策。"
+      "網站不宣稱 complete coverage、validated forecast 或 scoreSource=real。",
+      "燈號與卡片可能過期、缺漏或失準，使用者必須自行判斷與複核。",
+      "正式上線前會補齊資料來源、法務揭露、品質檢查與錯誤回退說明。"
     ]
   },
   weekly: {
     eyebrow: "Weekly Reading Boundary",
-    title: "週報是產品流程示範，不是即時市場結論",
+    title: "週報是市場閱讀輔助，不是即時完整市場資料",
     summary:
-      "週報目前用 mock signal 串起市場、ETF、產業與風險的閱讀流程。它可以幫助理解未來產品怎麼呈現，但不能當成即時行情、完整市場覆蓋或買賣建議。",
+      "週報用來示範如何把大盤、ETF、族群與風險提示串成可閱讀的決策輔助流程；目前仍不代表完整即時資料或投資建議。",
     points: [
-      "週報 cadence 仍依 mock 資料與 freshness metadata 呈現。",
-      "coverage 仍是 partial coverage / readiness，缺漏或延遲資料可能影響解讀。",
-      "正式週報上線前，需要資料覆蓋、source rights、品質分級、rollback 與 post-run review 通過。"
+      "週報節奏仍依 mock 資料與 freshness metadata 呈現。",
+      "目前覆蓋率仍是 partial coverage / readiness，缺漏或延遲資料可能影響解讀。",
+      "正式週報上線前，需要資料覆蓋、來源權利、品質分級、回退條件與結果覆核都通過。"
     ]
   }
 } as const;

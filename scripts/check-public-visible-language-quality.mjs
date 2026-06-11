@@ -121,6 +121,7 @@ const pages = [
   },
   {
     path: "/weekly",
+    forbidden: publicOperationsForbidden,
     required: [...coreRuntimeBoundaryRequired, "Weekly boundary", "data freshness metadata"]
   },
   {
