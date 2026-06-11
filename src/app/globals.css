@@ -5412,6 +5412,96 @@ select {
   font-weight: 750;
 }
 
+.stock-signal-why-panel {
+  display: grid;
+  gap: 14px;
+  border: 1px solid rgba(40, 94, 203, 0.16);
+  border-radius: 8px;
+  background: #f8fafc;
+  box-shadow: var(--shadow-soft);
+  margin-bottom: 16px;
+  padding: 16px;
+}
+
+.stock-signal-why-panel h2 {
+  font-size: 22px;
+  line-height: 1.25;
+  margin: 0 0 6px;
+}
+
+.stock-signal-why-panel p {
+  color: var(--muted);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.stock-signal-why-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.stock-signal-why-grid article {
+  display: grid;
+  gap: 8px;
+  min-height: 174px;
+  border: 1px solid var(--line);
+  border-top: 4px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  padding: 13px;
+}
+
+.stock-signal-why-grid article.constructive {
+  border-top-color: var(--green);
+}
+
+.stock-signal-why-grid article.watch {
+  border-top-color: var(--amber);
+}
+
+.stock-signal-why-grid article.defensive {
+  border-top-color: var(--red);
+}
+
+.stock-signal-why-grid span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 850;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.stock-signal-why-grid strong {
+  overflow-wrap: anywhere;
+  font-size: 22px;
+  line-height: 1.15;
+}
+
+.stock-signal-why-grid p,
+.stock-signal-why-grid em {
+  color: var(--muted);
+  font-style: normal;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.stock-signal-why-grid em {
+  color: var(--text);
+  font-weight: 750;
+}
+
+.stock-signal-why-panel button {
+  justify-self: start;
+  border: 1px solid rgba(15, 118, 110, 0.22);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--teal);
+  cursor: pointer;
+  font-weight: 850;
+  padding: 10px 13px;
+}
+
 .public-beta-data-realization-roadmap {
   display: grid;
   gap: 14px;
@@ -12027,6 +12117,7 @@ input[type="date"] {
   .home-public-beta-layer-grid,
   .home-core-indicator-grid,
   .home-public-beta-alert-list,
+  .stock-signal-why-grid,
   .public-beta-data-realization-grid,
   .public-beta-coverage-batches,
   .public-beta-promotion-checklist,

@@ -151,6 +151,13 @@ const pages = [
   }
 ];
 
+const stockSignalExplanationRequired = ["為什麼是這個燈號", "結構支撐", "風險拉力", "資料邊界"];
+for (const page of pages) {
+  if (page.path.startsWith("/stocks/")) {
+    page.required.push(...stockSignalExplanationRequired);
+  }
+}
+
 const visiblePagePaths = pages.map((page) => page.path);
 const expectedVisiblePaths = unique([
   ...localhostStatusHealthPaths.filter((path) => path !== "/robots.txt"),

@@ -65,6 +65,20 @@ const routes = [
       "publicDataSource=mock",
       "scoreSource=mock"
     ]
+  },
+  {
+    path: "/stocks/2330",
+    required: [
+      "為什麼是這個燈號",
+      "結構支撐",
+      "風險拉力",
+      "資料邊界",
+      "關注",
+      "加強觀察",
+      "減少風險",
+      "publicDataSource=mock",
+      "scoreSource=mock"
+    ]
   }
 ];
 

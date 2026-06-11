@@ -2913,6 +2913,11 @@ const checks = [
     name: "stock-first-screen-action-summary"
   },
   {
+    command: [node, "scripts/check-stock-signal-explanation-readout.mjs"],
+    expectStatus: "ok",
+    name: "stock-signal-explanation-readout"
+  },
+  {
     command: [node, "scripts/check-stock-trend-tab-readability.mjs"],
     expectStatus: "ok",
     name: "stock-trend-tab-readability"

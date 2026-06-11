@@ -287,6 +287,7 @@ export function DashboardShell({
           <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
           <StockRuntimeAtAGlance scoreSourceLabel={freshness.scoreSourceLabel} snapshot={snapshot} />
           <StockRuntimeBrief scoreSourceLabel={freshness.scoreSourceLabel} snapshot={snapshot} onTab={changeTab} />
+          <StockSignalWhyPanel snapshot={snapshot} onTab={changeTab} />
           {selected.symbol === "TWII" && (
             <TwiiMockDisclosureStatus
               disclosure={twiiMockDisclosure}
@@ -1134,6 +1135,67 @@ function StockPeerNavigator({ peers, selected }: { peers: SignalSnapshot[]; sele
           </TrackedLink>
         ))}
       </div>
+    </section>
+  );
+}
+
+function StockSignalWhyPanel({ snapshot, onTab }: { snapshot: SignalSnapshot; onTab: (tab: TabKey) => void }) {
+  const riskTone = snapshot.riskScore >= 70 ? "defensive" : snapshot.riskScore >= 55 ? "watch" : "constructive";
+  const dataWarningCount = snapshot.missingModuleFlags.length + snapshot.staleDataFlags.length;
+  const dataTone = dataWarningCount > 0 ? "watch" : "constructive";
+  const structureTone = snapshot.healthScore >= 70 ? "constructive" : snapshot.healthScore >= 55 ? "watch" : "defensive";
+  const items = [
+    {
+      action: snapshot.healthScore >= 70 ? "\u53ef\u4ee5\u5148\u89c0\u5bdf\u8d70\u52e2\u662f\u5426\u9023\u7e8c" : "\u5148\u56de\u5230\u8d8b\u52e2\u9801\u6aa2\u67e5\u5206\u6578\u662f\u5426\u65b7\u88c2",
+      label: "\u7d50\u69cb\u652f\u6490",
+      note: `\u5065\u5eb7\u5206\u6578 ${snapshot.healthScore}/100\uff0c\u7528\u4f86\u5224\u65b7\u71c8\u865f\u80cc\u5f8c\u662f\u5426\u6709\u8db3\u5920\u7d50\u69cb\u652f\u6490\u3002`,
+      tone: structureTone,
+      value: `${snapshot.healthScore}/100`
+    },
+    {
+      action: snapshot.riskScore >= 55 ? "\u5148\u52a0\u5f37\u89c0\u5bdf\u98a8\u96aa\u4f86\u6e90" : "\u6301\u7e8c\u89c0\u5bdf\u98a8\u96aa\u662f\u5426\u64f4\u6563",
+      label: "\u98a8\u96aa\u62c9\u529b",
+      note: `\u98a8\u96aa\u5206\u6578 ${snapshot.riskScore}/100\uff0c\u63d0\u9192\u8ffd\u50f9\u524d\u8981\u5148\u770b\u6ce2\u52d5\u3001\u56de\u6a94\u8207\u6a21\u7d44\u7f3a\u53e3\u3002`,
+      tone: riskTone,
+      value: `${snapshot.riskScore}/100`
+    },
+    {
+      action: dataWarningCount > 0 ? "\u5c07\u7d50\u8ad6\u964d\u7d1a\u70ba\u793a\u7bc4\u95b1\u8b80" : "\u53ef\u4ee5\u5148\u5f9e\u95b1\u8b80\u6d41\u7a0b\u7406\u89e3\u8a0a\u865f",
+      label: "\u8cc7\u6599\u908a\u754c",
+      note: dataWarningCount > 0
+        ? `\u76ee\u524d\u6709 ${dataWarningCount} \u500b\u8cc7\u6599\u65d7\u6a19\uff0c\u7d50\u8ad6\u5fc5\u9808\u4fdd\u6301 mock-only \u964d\u7d1a\u89e3\u8b80\u3002`
+        : "\u76ee\u524d\u6c92\u6709\u984d\u5916\u8cc7\u6599\u65d7\u6a19\uff0c\u4f46\u4ecd\u662f mock-only \u516c\u958b Beta \u95b1\u8b80\u6d41\u7a0b\u3002",
+      tone: dataTone,
+      value: snapshot.dataQualityGrade
+    }
+  ];
+
+  return (
+    <section className="stock-signal-why-panel" aria-label="\u70ba\u4ec0\u9ebc\u662f\u9019\u500b\u71c8\u865f">
+      <div>
+        <p className="eyebrow">Signal Explanation</p>
+        <h2>{"\u70ba\u4ec0\u9ebc\u662f\u9019\u500b\u71c8\u865f"}</h2>
+        <p>
+          {`\u76ee\u524d\u986f\u793a ${snapshot.signal.title}\uff0c\u4f46\u9019\u662f mock-only \u7684\u8cc7\u8a0a\u95b1\u8b80\u8f14\u52a9\u3002\u8acb\u5148\u770b\u7d50\u69cb\u652f\u6490\u3001\u98a8\u96aa\u62c9\u529b\u8207\u8cc7\u6599\u908a\u754c\uff0c\u518d\u6c7a\u5b9a\u8981\u95dc\u6ce8\u3001\u52a0\u5f37\u89c0\u5bdf\u6216\u6e1b\u5c11\u98a8\u96aa\u3002`}
+        </p>
+      </div>
+      <div className="stock-signal-why-grid">
+        {items.map((item) => (
+          <article className={item.tone} key={item.label}>
+            <span>{item.label}</span>
+            <strong>{item.value}</strong>
+            <p>{item.note}</p>
+            <em>{item.action}</em>
+          </article>
+        ))}
+      </div>
+      <button onClick={() => onTab(dataWarningCount > 0 ? "today" : snapshot.riskScore >= 55 ? "technical" : "trend")} type="button">
+        {dataWarningCount > 0
+          ? "\u67e5\u770b\u8cc7\u6599\u65d7\u6a19"
+          : snapshot.riskScore >= 55
+            ? "\u67e5\u770b\u98a8\u96aa\u4f86\u6e90"
+            : "\u67e5\u770b\u8d8b\u52e2\u9023\u7e8c\u6027"}
+      </button>
     </section>
   );
 }
