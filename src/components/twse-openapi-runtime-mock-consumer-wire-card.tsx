@@ -1,23 +1,24 @@
 import { getTwseOpenApiRuntimeMockConsumerWireSummary } from "@/lib/twse-openapi-runtime-mock-consumer-wire";
+import { getTwseOpenApiRuntimeMarketMood } from "@/lib/twse-openapi-runtime-market-mood";
 
 export function TwseOpenApiRuntimeMockConsumerWireCard() {
   const wire = getTwseOpenApiRuntimeMockConsumerWireSummary();
-  const latestPoint = wire.handoff.latestPoint;
+  const mood = getTwseOpenApiRuntimeMarketMood();
 
   return (
     <article className={wire.status === "ready" ? "active twse-openapi-runtime-wire-card" : "blocked twse-openapi-runtime-wire-card"}>
-      <span>Mock runtime wire</span>
-      <strong>{wire.display.headline}</strong>
-      <p>{wire.display.userValue}</p>
-      <p>{wire.display.safetyCopy}</p>
+      <span>市場氛圍示範</span>
+      <strong>{mood.status}</strong>
+      <p>{mood.summary}</p>
+      <p>{mood.cause}</p>
       <p>
-        Points: {wire.handoff.pointCount}; latest synthetic session: {latestPoint?.tradeDate ?? "none"}; change:{" "}
-        {wire.handoff.runtimeChange.changePercent ?? "n/a"}%.
+        更新時間：{mood.updatedAtLabel}；影響級別：{mood.impactLevel}。
       </p>
       <p>
-        Boundary: {wire.boundary.publicDataSource} / {wire.boundary.scoreSource}; fetch=false; sql=false; write=false.
+        資料邊界：{mood.boundary.publicDataSource} / {mood.boundary.scoreSource}；fetch=false；sql=false；write=false。
       </p>
-      <p>{wire.display.nextAction}</p>
+      <p>{mood.nextObservation}</p>
+      <p>{mood.safetyLine}</p>
     </article>
   );
 }

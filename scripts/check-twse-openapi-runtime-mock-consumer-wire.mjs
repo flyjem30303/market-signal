@@ -1,6 +1,7 @@
 import fs from "node:fs";
 
 const modulePath = "src/lib/twse-openapi-runtime-mock-consumer-wire.ts";
+const moodPath = "src/lib/twse-openapi-runtime-market-mood.ts";
 const componentPath = "src/components/twse-openapi-runtime-mock-consumer-wire-card.tsx";
 const parentComponentPath = "src/components/twse-openapi-runtime-mock-wiring-status.tsx";
 const packagePath = "package.json";
@@ -9,6 +10,7 @@ const reviewGatePath = "scripts/check-review-gates.mjs";
 const problems = [];
 
 const moduleSource = read(modulePath);
+const moodSource = read(moodPath);
 const componentSource = read(componentPath);
 const parentComponentSource = read(parentComponentPath);
 const packageJson = JSON.parse(read(packagePath));
@@ -26,9 +28,15 @@ for (const [filePath, source, phrase] of [
   [modulePath, moduleSource, "rawMarketDataFetch: false"],
   [modulePath, moduleSource, "sqlExecution: false"],
   [modulePath, moduleSource, "supabaseWrite: false"],
+  [moodPath, moodSource, "getTwseOpenApiRuntimeMarketMood"],
+  [moodPath, moodSource, "市場氛圍"],
+  [moodPath, moodSource, "不提供買賣建議"],
+  [moodPath, moodSource, "publicDataSource"],
+  [moodPath, moodSource, "scoreSource"],
   [componentPath, componentSource, "TwseOpenApiRuntimeMockConsumerWireCard"],
-  [componentPath, componentSource, "Mock runtime wire"],
-  [componentPath, componentSource, "fetch=false; sql=false; write=false"],
+  [componentPath, componentSource, "市場氛圍示範"],
+  [componentPath, componentSource, "資料邊界"],
+  [componentPath, componentSource, "fetch=false；sql=false；write=false"],
   [parentComponentPath, parentComponentSource, "import { TwseOpenApiRuntimeMockConsumerWireCard }"],
   [parentComponentPath, parentComponentSource, "<TwseOpenApiRuntimeMockConsumerWireCard />"],
   [reviewGatePath, reviewGateSource, "scripts/check-twse-openapi-runtime-mock-consumer-wire.mjs"],
@@ -46,6 +54,7 @@ if (
 
 for (const [filePath, source] of [
   [modulePath, moduleSource],
+  [moodPath, moodSource],
   [componentPath, componentSource],
   [parentComponentPath, parentComponentSource]
 ]) {

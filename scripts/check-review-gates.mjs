@@ -4288,6 +4288,11 @@ const checks = [
     name: "twii-coverage-repair-gate"
   },
   {
+    command: [node, "scripts/check-a1-coverage-gap-next-execution-roadmap.mjs"],
+    expectStatus: "ok",
+    name: "a1-coverage-gap-next-execution-roadmap"
+  },
+  {
     command: [node, "scripts/check-twii-aggregate-readback-contract-preflight.mjs"],
     expectStatus: "ok",
     name: "twii-aggregate-readback-contract-preflight"
@@ -5387,6 +5392,7 @@ const coreReviewGateNames = new Set([
   "twii-execute-switch-confirmation-preflight",
   "twii-bounded-insert-missing-only-contract-preflight",
   "twii-coverage-repair-gate",
+  "a1-coverage-gap-next-execution-roadmap",
   "twii-aggregate-readback-contract-preflight",
   "twii-post-run-review-contract-preflight",
   "twii-rollback-readiness-contract-preflight",
@@ -5532,6 +5538,7 @@ const coreReviewGateNames = new Set([
   "twii-execute-switch-confirmation-preflight",
   "twii-bounded-insert-missing-only-contract-preflight",
   "twii-coverage-repair-gate",
+  "a1-coverage-gap-next-execution-roadmap",
   "twii-aggregate-readback-contract-preflight",
   "twii-post-run-review-contract-preflight",
   "twii-rollback-readiness-contract-preflight",
@@ -5764,6 +5771,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "twii-execute-switch-confirmation-preflight",
   "twii-bounded-insert-missing-only-contract-preflight",
   "twii-coverage-repair-gate",
+  "a1-coverage-gap-next-execution-roadmap",
   "twii-aggregate-readback-contract-preflight",
   "twii-post-run-review-contract-preflight",
   "twii-rollback-readiness-contract-preflight",

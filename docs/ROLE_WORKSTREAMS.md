@@ -39,6 +39,7 @@ Completion definition:
 - `src/lib/twse-openapi-parser-consumer-adapter.ts` records no-fetch parser-result-to-runtime-handoff behavior, runtime point ordering, attribution carry-forward, fail-closed blocked output, and mock/no-promotion boundaries;
 - `src/lib/twse-openapi-runtime-mock-wiring-readiness.ts` and `src/components/twse-openapi-runtime-mock-wiring-status.tsx` expose the TWSE runtime wiring state on the public home runtime surface without promoting real data;
 - `src/lib/twse-openapi-runtime-mock-consumer-wire.ts` and `src/components/twse-openapi-runtime-mock-consumer-wire-card.tsx` compute and display a synthetic-only runtime bridge from parser output through the consumer adapter;
+- `src/lib/twse-openapi-runtime-market-mood.ts` translates the synthetic-only runtime bridge into BRIEF-aligned product copy: market mood status, cause, update time, impact level, next observation, and safety line;
 - `docs/TWSE_OPENAPI_RUNTIME_CONSUMER_ADAPTER_SYNTHETIC_CASE_NOTES.md`, `docs/TWSE_OPENAPI_FIELD_CONTRACT_ROADMAP.md`, `docs/TWSE_OPENAPI_COVERAGE_UNIVERSE_AND_BACKFILL_READINESS.md` record A1 synthetic consumer case notes, coverage universe roadmap, and ingestion readiness packets;
 - PM accepts A1's recommendation that `prepare_twse_openapi_runtime_mock_consumer_wiring_readiness` can move into mock runtime wire because the three A1 support packets are already covered by focused review gates;
 - A1 continues data-line source and coverage work without market-row fetch;
@@ -70,8 +71,8 @@ Owned work:
 - Stage percentage and next-slice selection.
 
 Current next tasks:
-- Continue the active GOAL from `twse_openapi_runtime_mock_consumer_wire` into BRIEF runtime/product readability.
-- Current mainline route is public Beta index dashboard runtime comprehension: reduce internal-only governance noise, keep the TWSE runtime mock wire readable, and integrate A1 data-line handoffs only after checks pass.
+- Continue the active GOAL from `twse_openapi_runtime_mock_consumer_wire` into BRIEF runtime/product readability and market-mood comprehension.
+- Current mainline route is public Beta index dashboard runtime comprehension: reduce internal-only governance noise, keep the TWSE runtime mock wire readable as market mood / cause / next observation, and integrate A1 data-line handoffs only after checks pass.
 - Keep runtime foundation, route health, launch engineering, and data promotion handoff moving, but do not proceed to real-data promotion until the open-data source gate and official-source intake packet remain passing.
 - Keep publicDataSource=mock and scoreSource=mock until explicit release criteria are met.
 - Integrate A1/A2 packets only after local checks pass.
