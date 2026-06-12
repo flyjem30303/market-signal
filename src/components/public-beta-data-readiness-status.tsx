@@ -12,6 +12,13 @@ const sourceStatusLabels = {
   reviewing: "檢查中"
 } as const;
 
+const coverageScopeStatusLabels = {
+  blocked: "暫停",
+  candidate: "候選",
+  future: "後續",
+  "mock-ready": "mock 可用"
+} as const;
+
 export function PublicBetaDataReadinessStatus() {
   const status = getPublicBetaDataReadinessStatus();
 
@@ -51,6 +58,16 @@ export function PublicBetaDataReadinessStatus() {
             <strong>{sourceStatusLabels[item.status]}</strong>
             <p>{item.summary}</p>
             <p>下一步：{item.nextStep}</p>
+          </article>
+        ))}
+      </div>
+      <div className="public-beta-coverage-artifact-scopes" aria-label="Public Beta next coverage artifact scopes">
+        {status.coverageArtifactScopes.map((scope) => (
+          <article className={scope.status} key={scope.id}>
+            <span>{scope.label}</span>
+            <strong>{scope.publicLabel}</strong>
+            <p>{coverageScopeStatusLabels[scope.status]}</p>
+            <p>{scope.summary}</p>
           </article>
         ))}
       </div>

@@ -33,6 +33,7 @@ PM should not wait for A1/A2 unless a mainline change directly depends on their 
 
 Latest PM integration:
 
+- PM wired the accepted A1 no-fetch coverage artifact into the public data-readiness runtime surface. `src/lib/public-beta-data-readiness-status.ts` and `src/components/public-beta-data-readiness-status.tsx` now expose the next coverage scopes as user-readable cards: `TWII 大盤基準準備中`, `核心 ETF 來源條件待確認`, `第一批上市個股示範`, `產業與族群待 taxonomy review`, and `進階指標 mock 可解釋，真實計算未開放`. The integration remains mock-only and does not promote public data, score source, row coverage points, SQL, Supabase, or raw market data.
 - A1 next no-fetch coverage artifact is now ready for PM intake at `docs/A1_PUBLIC_BETA_NEXT_NO_FETCH_COVERAGE_ARTIFACT.md`. It separates `TWII`, core ETF (`0050`, `006208`), Batch 1 listed-equity demo anchors (`2330`, `2382`, `2308`), sector/industry, and derived indicators into PM-safe runtime coverage states. The next PM route is `wire_next_no_fetch_coverage_artifact_into_public_data_readiness_status`; A1 next owns `prepare_twii_terms_field_cadence_attribution_no_fetch_packet`; A2 next owns `review_data_readiness_and_coverage_artifact_public_copy_density`.
 - PM repaired the shared public Beta data-readiness and data-realization runtime helpers. Home and `/briefing` now show readable Chinese for data readiness, row coverage evidence, TWII prerequisites, public data boundary, source-trust next steps, coverage rollout batches, readonly gate status, and mock-only stop lines. This slice keeps `publicDataSource=mock`, `scoreSource=mock`, no SQL, no Supabase write, no market-data fetch, and no real-data promotion. A1 next owns the next no-fetch coverage artifact; A2 next owns public-copy review for the repaired data readiness and coverage rollout wording.
 - PM cleaned the shared public Beta route-reading path across Home, `/briefing`, and stock detail. The route panel now uses reader-facing Chinese for the three-step path, source/coverage state, next data gate, and mock boundary, and the dedicated checker blocks mojibake/developer residue on the shared route surface.
@@ -160,8 +161,8 @@ This goal slice is complete when:
 
 Recommended next mainline action:
 
-`wire_next_no_fetch_coverage_artifact_into_public_data_readiness_status`
+`prepare_twii_terms_field_cadence_attribution_no_fetch_packet`
 
 Meaning:
 
-PM should absorb the accepted A1 no-fetch coverage artifact into public data readiness status only as mock-safe runtime wording. A1 should prepare the next TWII terms/field/cadence/attribution no-fetch packet, while A2 checks public copy density and mock/non-advice clarity. Real-data promotion remains blocked until a separately accepted source-rights, coverage, quality, rollback, and runtime gate is recorded.
+PM has absorbed the accepted A1 no-fetch coverage artifact into mock-safe runtime wording. A1 should prepare the next TWII terms/field/cadence/attribution no-fetch packet, while A2 checks public copy density and mock/non-advice clarity. Real-data promotion remains blocked until a separately accepted source-rights, coverage, quality, rollback, and runtime gate is recorded.

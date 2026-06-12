@@ -4311,7 +4311,8 @@ select {
 }
 
 .public-beta-data-readiness-status span,
-.public-beta-data-readiness-lanes span {
+.public-beta-data-readiness-lanes span,
+.public-beta-coverage-artifact-scopes span {
   color: var(--muted);
   font-size: 11px;
   font-weight: 850;
@@ -4319,7 +4320,8 @@ select {
 }
 
 .public-beta-data-readiness-status strong,
-.public-beta-data-readiness-lanes strong {
+.public-beta-data-readiness-lanes strong,
+.public-beta-coverage-artifact-scopes strong {
   overflow-wrap: anywhere;
   color: var(--text);
   font-size: 15px;
@@ -4327,7 +4329,8 @@ select {
 }
 
 .public-beta-data-readiness-status p,
-.public-beta-data-readiness-lanes p {
+.public-beta-data-readiness-lanes p,
+.public-beta-coverage-artifact-scopes p {
   margin: 0;
   color: var(--muted);
   font-size: 13px;
@@ -4353,10 +4356,33 @@ select {
   background: #fff7f7;
 }
 
+.public-beta-coverage-artifact-scopes article.mock-ready,
+.public-beta-coverage-artifact-scopes article.candidate {
+  border-color: rgba(20, 122, 77, 0.25);
+  background: #f3fbf6;
+}
+
+.public-beta-coverage-artifact-scopes article.future {
+  border-color: rgba(67, 56, 202, 0.18);
+  background: #f8f7ff;
+}
+
+.public-beta-coverage-artifact-scopes article.blocked {
+  border-color: rgba(199, 54, 59, 0.2);
+  background: #fff7f7;
+}
+
 .public-beta-data-readiness-lanes {
   display: grid;
   grid-column: 1 / -1;
   grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.public-beta-coverage-artifact-scopes {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 10px;
 }
 
@@ -12788,6 +12814,10 @@ input[type="date"] {
   .briefing-executive-summary nav,
   .public-beta-route-consistency__steps,
   .public-beta-route-consistency__boundary,
+  .public-beta-data-readiness-status,
+  .public-beta-data-readiness-lanes,
+  .public-beta-source-trust,
+  .public-beta-coverage-artifact-scopes,
   .public-beta-source-coverage-runtime,
   .public-beta-source-coverage-runtime__layers,
   .public-beta-source-coverage-runtime__field-contracts,
