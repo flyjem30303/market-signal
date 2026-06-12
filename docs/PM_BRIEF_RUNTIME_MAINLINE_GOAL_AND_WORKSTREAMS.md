@@ -237,6 +237,44 @@ This goal slice is complete when:
 
 ## 8. Next CEO Decision
 
+## 8A. 2026-06-13 PM Mainline Runtime Copy Slice
+
+CEO decision:
+
+`continue_brief_product_runtime_public_readability_before_next_data_execution`
+
+PM executed the route-local trust/readability slice because public Beta pages still exposed unreadable legacy copy on `/weekly`, `/methodology`, `/disclaimer`, `/terms`, and `/privacy`.
+
+Completed mainline work:
+
+- Rewrote `/weekly` as a concise public Beta weekly report that supports 30-second market atmosphere and 3-minute action judgment.
+- Rewrote `/methodology` as a readable method explanation with indicator composition, data-quality grades, and score boundary language.
+- Rewrote `/disclaimer`, `/terms`, and `/privacy` as public-facing trust pages with clear mock-only, non-investment-advice, privacy, and Beta-change boundaries.
+- Rewrote `RouteLocalTrustCopyPanel`, `WeeklyRowCoverageStatus`, and `buildWeeklyMarketActionSummary` to remove mojibake and preserve publicDataSource/scoreSource mock boundaries.
+- Updated A2 readability gates so the checks now assert the current public copy instead of stale mojibake expectations.
+- Restored local runtime after `.next` dev-server chunk drift caused `/` and `/briefing` HTTP 500; root cause was stale dev cache (`Cannot find module './948.js'`), not source code.
+
+Verification completed:
+
+- `cmd.exe /c npm run check:a2-weekly-readable-copy`
+- `cmd.exe /c npm run check:a2-legal-methodology-readable-copy`
+- `cmd.exe /c npx tsc --noEmit`
+- `cmd.exe /c npm run build`
+- `cmd.exe /c npm run check:public-beta-core-route-quick-proof`
+- `cmd.exe /c npm run check:review-gates`
+
+Current lane assignments:
+
+- PM mainline: continue BRIEF product/runtime closed loop; next priority is to make the route-local trust pages visually consistent with the home/briefing reading path without opening visual-polish-only work.
+- A1 background: continue `source/coverage` no-fetch line, focusing on legal/free/automatable source coverage and field-contract readiness. Do not fetch rows, run SQL, connect Supabase, or prepare real promotion claims.
+- A2 background: audit public copy surfaces after this slice; focus on blocking internal execution strings, stale governance copy, mojibake, and any wording that implies real data, complete coverage, or investment advice.
+
+Next PM mainline candidate:
+
+`public_beta_route_local_trust_visual_consistency_guard`
+
+This should be a bounded product/runtime slice: add or update a checker that ensures `/weekly`, `/methodology`, `/disclaimer`, `/terms`, and `/privacy` remain readable, mock-boundary-safe, and free of development-process residue. Do not expand into broad UI redesign yet.
+
 Recommended next mainline action:
 
 `wait_for_explicit_operator_decision_before_execution_packet`

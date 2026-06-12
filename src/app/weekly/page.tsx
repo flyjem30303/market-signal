@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { CommercialSlot } from "@/components/commercial-slot";
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { PageViewTracker } from "@/components/page-view-tracker";
 import { RouteLocalTrustCopyPanel } from "@/components/route-local-trust-copy-panel";
@@ -7,7 +6,6 @@ import { TrackedLink } from "@/components/tracked-link";
 import { TrustRuntimeBoundaryNotice } from "@/components/trust-runtime-boundary-notice";
 import { WeeklyRowCoverageStatus } from "@/components/weekly-row-coverage-status";
 import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
-import { getHomeRuntimeActionSummary } from "@/lib/home-runtime-action-summary";
 import { buildWeeklyMarketActionSummary } from "@/lib/weekly-market-action-summary";
 import {
   getMarketSignalRepository,
@@ -18,7 +16,7 @@ import type { SignalSnapshot } from "@/lib/signal-model";
 export const metadata: Metadata = {
   title: "Weekly Report | Taiwan Market Signal",
   description:
-    "公開 Beta 週報，整理台股市場溫度、ETF 與族群觀察。頁面目前使用示範資料與示範分數，正式市場資料尚未啟用，內容為非投資建議。"
+    "公開 Beta 週報：以示範資料、示範分數與 mock runtime 邊界，整理市場總覽、ETF、風險樣本與下週觀察重點。"
 };
 
 export default async function WeeklyPage() {
@@ -28,21 +26,14 @@ export default async function WeeklyPage() {
   const snapshots = repository
     .getAssets()
     .map((asset) => repository.getSnapshot(asset.symbol, "2026-05-28"))
-    .filter((snapshot): snapshot is NonNullable<typeof snapshot> => Boolean(snapshot));
+    .filter((snapshot): snapshot is SignalSnapshot => Boolean(snapshot));
   const market = snapshots.find((item) => item.asset.symbol === "TWII") ?? snapshots[0];
-  const topHealth = snapshots.slice().sort((a, b) => b.compositeScore - a.compositeScore).slice(0, 6);
-  const riskHeating = snapshots.slice().sort((a, b) => b.riskScore - a.riskScore).slice(0, 6);
-  const etfs = snapshots.filter((item) => item.asset.group === "ETF").sort((a, b) => b.healthScore - a.healthScore);
-  const aiSemis = snapshots
-    .filter((item) => ["2330", "2454", "2317", "2308", "2382"].includes(item.asset.symbol))
-    .sort((a, b) => b.healthScore - a.healthScore);
+  const topRisk = snapshots.slice().sort((a, b) => b.riskScore - a.riskScore)[0] ?? market;
+  const topEtf = snapshots
+    .filter((item) => item.asset.group === "ETF")
+    .sort((a, b) => b.healthScore - a.healthScore)[0] ?? market;
   const breadth = buildWeeklyBreadth(snapshots);
-  const topRisk = riskHeating[0];
-  const topEtf = etfs[0] ?? topHealth[0];
-  const leadingAiSemi = aiSemis[0] ?? topHealth[0];
-  const cadence = buildWeeklyRuntimeCadence(market, breadth, topRisk, topEtf);
-  const actionSummary = getHomeRuntimeActionSummary();
-  const marketActionSummary = buildWeeklyMarketActionSummary(market, topRisk, topEtf, breadth);
+  const actionSummary = buildWeeklyMarketActionSummary(market, topRisk, topEtf, breadth);
 
   return (
     <main className="page-shell">
@@ -51,396 +42,91 @@ export default async function WeeklyPage() {
         <p className="eyebrow">Weekly Report</p>
         <h1>公開 Beta 週報</h1>
         <p>
-          這份週報把台股大盤、ETF、AI 與半導體族群放在同一個閱讀順序中，幫助 Beta 使用者先判斷市場溫度、
-          風險熱點與下一步應該查看的標的頁。
+          本週以示範資料呈現公開閱讀流程：先看全市場氛圍，再看 ETF 與風險樣本，最後決定下週要觀察、複核或暫停追價。
+          正式市場資料尚未啟用，所有分數都只是示範分數。
         </p>
         <p className="runtime-boundary-line">
-          本頁使用示範資料與示範分數呈現閱讀流程；正式市場資料尚未啟用，內容僅供研究與資訊整理，屬於非投資建議。
+          重要聲明：publicDataSource=mock；scoreSource=mock。本頁為非投資建議，不提供買賣建議，也不宣稱即時或完整市場覆蓋。
         </p>
       </section>
 
       <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
-
-      <nav aria-label="Experience Flow" className="experience-flow-nav">
-        <span>閱讀路徑</span>
-        <TrackedLink eventName="weekly_link_clicked" href="/" label="回到市場總覽" payload={{ area: "experience_flow", target: "home" }}>
-          市場總覽
-        </TrackedLink>
-        <TrackedLink eventName="weekly_link_clicked" href="/briefing" label="查看今日簡報" payload={{ area: "experience_flow", target: "briefing" }}>
-          今日簡報
-        </TrackedLink>
-        <TrackedLink
-          eventName="weekly_link_clicked"
-          href={`/stocks/${market.asset.symbol}`}
-          label="查看大盤頁"
-          payload={{ area: "experience_flow", symbol: market.asset.symbol }}
-        >
-          大盤頁
-        </TrackedLink>
-      </nav>
-
       <TrustRuntimeBoundaryNotice context="weekly" />
       <RouteLocalTrustCopyPanel context="weekly" />
 
-      <section className="weekly-market-action-summary" aria-label="Weekly market action summary">
+      <section className="weekly-market-action-summary" aria-label="Market Action Summary">
         <div>
           <p className="eyebrow">Market Action Summary</p>
-          <h2>{marketActionSummary.headline}</h2>
-          <p>{marketActionSummary.weeklyLine}</p>
-          <p>{marketActionSummary.stopLine}</p>
+          <h2>{actionSummary.headline}</h2>
+          <p>{actionSummary.weeklyLine}</p>
+          <p>{actionSummary.stopLine}</p>
         </div>
         <TrackedLink
-          className={marketActionSummary.primary.tone}
+          className={actionSummary.primary.tone}
           eventName="weekly_link_clicked"
-          href={marketActionSummary.primary.href}
-          label={marketActionSummary.primary.title}
-          payload={{ area: "weekly_market_action_primary", symbol: marketActionSummary.primary.symbol }}
+          href={actionSummary.primary.href}
+          label={actionSummary.primary.title}
+          payload={{ area: "weekly_market_action_primary", symbol: actionSummary.primary.symbol }}
         >
-          <span>{marketActionSummary.primary.label}</span>
-          <strong>{marketActionSummary.primary.title}</strong>
-          <p>{marketActionSummary.primary.body}</p>
+          <span>{actionSummary.primary.label}</span>
+          <strong>{actionSummary.primary.title}</strong>
+          <p>{actionSummary.primary.body}</p>
         </TrackedLink>
         <TrackedLink
-          className={marketActionSummary.secondary.tone}
+          className={actionSummary.secondary.tone}
           eventName="weekly_link_clicked"
-          href={marketActionSummary.secondary.href}
-          label={marketActionSummary.secondary.title}
-          payload={{ area: "weekly_market_action_secondary", symbol: marketActionSummary.secondary.symbol }}
+          href={actionSummary.secondary.href}
+          label={actionSummary.secondary.title}
+          payload={{ area: "weekly_market_action_secondary", symbol: actionSummary.secondary.symbol }}
         >
-          <span>{marketActionSummary.secondary.label}</span>
-          <strong>{marketActionSummary.secondary.title}</strong>
-          <p>{marketActionSummary.secondary.body}</p>
+          <span>{actionSummary.secondary.label}</span>
+          <strong>{actionSummary.secondary.title}</strong>
+          <p>{actionSummary.secondary.body}</p>
         </TrackedLink>
       </section>
 
       <WeeklyRowCoverageStatus />
 
-      <section className="weekly-runtime-action-summary" aria-label="Weekly runtime action summary">
-        <div>
-          <p className="eyebrow">Next Reading Step</p>
-          <h2>本週以示範資料呈現公開閱讀流程</h2>
-          <p>
-            週報目前用來說明閱讀流程與風險邊界，而不是宣告真實資料或正式分數已經上線。資料覆蓋、來源權利、
-            寫入流程與升級審核完成前，公開頁面都必須清楚標示示範資料、示範分數與正式市場資料尚未啟用。
-          </p>
-        </div>
-        <article className="active">
-          <span>目前進度</span>
-          <strong>{actionSummary.currentProgressPercent}%</strong>
-          <p>{actionSummary.stage}</p>
-        </article>
-        <article className="readying">
-          <span>下一步</span>
-          <strong>{actionSummary.nextAction}</strong>
-          <p>{actionSummary.nextLift}</p>
-        </article>
-        <article className="blocked">
-          <span>不可越線</span>
-          <strong>{actionSummary.blockedTransition}</strong>
-          <p>{actionSummary.safetyStopLine}</p>
-        </article>
-      </section>
-
-      <section className="weekly-quick-read" aria-label="Weekly quick read">
+      <section className="weekly-quick-read" aria-label="週報 30 秒閱讀">
         <article>
-          <span>市場廣度</span>
-          <strong>{breadth.constructive} 檔偏正向</strong>
-          <p>
-            正向、觀望與防守標的的分布，提供本週市場溫度的第一層判讀，後續仍需搭配各標的頁的模組分數。
-          </p>
+          <span>30 秒市場氛圍</span>
+          <strong>{breadth.constructive} 個偏強、{breadth.defensive} 個偏防守</strong>
+          <p>先確認市場是偏進攻、偏觀察，還是需要降低風險。若防守數量增加，先複核風險成因。</p>
         </article>
         <article>
-          <span>風險熱點</span>
-          <strong>{topRisk.asset.symbol} 風險 {topRisk.riskScore}</strong>
-          <p>風險分數較高的標的會優先放入觀察清單，提醒使用者不要只看健康分數或題材熱度。</p>
+          <span>3 分鐘行動判斷</span>
+          <strong>觀察、複核、等待</strong>
+          <p>使用者應先讀總覽，再打開一個 ETF 與一個高風險樣本；若兩者訊號衝突，暫時等待更多資料。</p>
         </article>
         <article>
-          <span>資料狀態</span>
-          <strong>示範分數</strong>
-          <p>
-            資料狀態只用來說明頁面目前的來源與更新邊界，不代表正式資料來源、完整覆蓋率或任何投資建議已被核准。
-          </p>
+          <span>下週觀察重點</span>
+          <strong>資料來源與覆蓋率仍是主線</strong>
+          <p>下週優先追蹤資料來源權利、欄位契約、覆蓋率與 promotion gate，而不是急著宣稱真實資料上線。</p>
         </article>
-      </section>
-
-      <section className="weekly-runtime-cadence" aria-label="Weekly cadence">
-        <div>
-          <p className="eyebrow">Weekly Cadence</p>
-          <h2>建議的本週閱讀順序</h2>
-          <p>
-            先看大盤與廣度，再看 ETF 與風險熱點，最後回到 briefing 確認短期事件。這個順序讓 Beta 使用者理解系統，
-            但不替代個人研究或專業判斷。
-          </p>
-        </div>
-        {cadence.map((item) => (
-          <TrackedLink
-            className={item.tone}
-            eventName="weekly_link_clicked"
-            href={item.href}
-            key={item.label}
-            label={item.title}
-            payload={{ area: "weekly_cadence", symbol: item.symbol }}
-          >
-            <span>{item.label}</span>
-            <strong>{item.title}</strong>
-            <p>{item.text}</p>
-          </TrackedLink>
-        ))}
-      </section>
-
-      <section className="weekly-reading-bridge" aria-label="Weekly reading bridge">
-        <div>
-          <p className="eyebrow">Reading Bridge</p>
-          <h2>從週報進入標的頁</h2>
-          <p>
-            週報只提供高層次導讀。真正的分數拆解、模組風險與資料品質狀態，仍應回到個別標的頁逐項檢查。
-          </p>
-        </div>
-        <nav>
-          <WeeklyBridgeLink
-            href={`/stocks/${market.asset.symbol}`}
-            label="大盤"
-            title={`${market.asset.symbol} market signal`}
-            text={`Composite ${market.compositeScore}/100. Use this page to check whether the weekly market tone is constructive or defensive.`}
-          />
-          <WeeklyBridgeLink
-            href={`/stocks/${topEtf.asset.symbol}`}
-            label="ETF"
-            title={`${topEtf.asset.symbol} ETF signal`}
-            text={`Health ${topEtf.healthScore}/100. Use this as the first ETF reference before comparing allocation candidates.`}
-          />
-          <WeeklyBridgeLink
-            href={`/stocks/${leadingAiSemi.asset.symbol}`}
-            label="AI / Semiconductor"
-            title={`${leadingAiSemi.asset.symbol} sector signal`}
-            text={`Health ${leadingAiSemi.healthScore}/100. Use this to inspect whether AI and semiconductor strength is broad or concentrated.`}
-          />
-          <WeeklyBridgeLink
-            href={`/stocks/${topRisk.asset.symbol}`}
-            label="Risk"
-            title={`${topRisk.asset.symbol} risk signal`}
-            text={`Risk ${topRisk.riskScore}/100. Use this to review whether the highest-risk candidate needs a defensive reading.`}
-          />
-        </nav>
-      </section>
-
-      <article className="panel weekly-article">
-        <p className="eyebrow">Market Brief</p>
-        <h2>本週判讀摘要</h2>
-        <p>
-          {market.asset.symbol} 的 composite score 為 {market.compositeScore}/100，signal state 為 {market.signal.title}。
-          這個數字目前來自示範分數來源，適合用來驗證產品閱讀流程與資訊階層，不應被解讀為正式投資訊號。
-        </p>
-        <p>
-          Beta 版週報的價值在於把市場、ETF、題材族群與風險清單放到同一個節奏中，讓使用者快速知道下一頁該看哪裡。
-          在資料真實化完成前，所有結論都必須維持保守語氣，並保留來源、覆蓋率與模型限制。
-        </p>
-      </article>
-
-      <section className="weekly-grid">
-        <WeeklyRanking title="健康度排行" items={topHealth} description="依 composite score 排序，協助使用者先找到相對強勢的候選標的。" />
-        <WeeklyRanking title="風險熱點排行" items={riskHeating} description="依 risk score 排序，提醒使用者先檢查可能過熱或需要防守閱讀的標的。" scoreKey="risk" />
-      </section>
-
-      <section className="panel">
-        <p className="eyebrow">ETF Allocation</p>
-        <h2>ETF 觀察清單</h2>
-        <p>
-          ETF 區塊目前用來示範使用者如何比較 ETF 候選標的。正式配置建議必須等 ETF 來源權利、覆蓋率、
-          資料更新狀態與升級審核通過後才可提升語氣。
-        </p>
-        <div className="rank-list">
-          {etfs.map((item) => (
-            <TrackedLink
-              className="rank-row"
-              eventName="weekly_link_clicked"
-              href={`/stocks/${item.asset.symbol}`}
-              key={item.asset.id}
-              label={`${item.asset.symbol} ETF`}
-              payload={{ area: "etf_allocation", symbol: item.asset.symbol }}
-            >
-              <strong>{item.asset.symbol}</strong>
-              <span>ETF candidate</span>
-              <b>Health {item.healthScore}</b>
-            </TrackedLink>
-          ))}
-        </div>
       </section>
 
       <section className="panel weekly-article">
-        <p className="eyebrow">AI & Semiconductor</p>
-        <h2>AI 與半導體觀察</h2>
+        <p className="eyebrow">重要聲明</p>
+        <h2>本週以示範資料呈現公開閱讀流程</h2>
         <p>
-          AI 與半導體仍是 Beta 版的高關注族群。週報會列出相關 symbol，方便使用者進一步查看標的頁：
-          {aiSemis.slice(0, 3).map((item) => ` ${item.asset.symbol}`).join(", ")}。目前只呈現閱讀輔助，不宣告正式買賣建議。
+          週報的目標是降低資訊擷取時間，讓一般投資者先形成市場觀察順序。內容不是個股買賣建議，也不保證資料即時、完整或正確。
+        </p>
+        <p>
+          若未來 A1 資料線完成合法免費可自動化來源、欄位契約與覆蓋率驗證，週報才會進入 real-data promotion 評估。
         </p>
       </section>
-
-      <section className="panel weekly-article">
-        <p className="eyebrow">Next Week Watchlist</p>
-        <h2>下週觀察重點</h2>
-        <p>
-          下週優先觀察三件事：大盤 signal 是否轉弱、ETF 健康度是否維持、AI 與半導體風險是否升溫。
-          若資料來源、覆蓋率或資料更新狀態不足，頁面必須維持示範資料說明，而不是提高判斷語氣。
-        </p>
-      </section>
-
-      <section className="panel weekly-links">
-        <h2>繼續閱讀</h2>
-        <TrackedLink className="text-link" eventName="weekly_link_clicked" href="/" label="市場總覽" payload={{ area: "next_steps" }}>
-          市場總覽
-        </TrackedLink>
-        <TrackedLink className="text-link" eventName="weekly_link_clicked" href="/briefing" label="今日簡報" payload={{ area: "next_steps" }}>
-          今日簡報
-        </TrackedLink>
-        <TrackedLink
-          className="text-link"
-          eventName="weekly_link_clicked"
-          href="/stocks/TWII"
-          label="大盤標的頁"
-          payload={{ area: "next_steps", symbol: "TWII" }}
-        >
-          大盤標的頁
-        </TrackedLink>
-        <TrackedLink className="text-link" eventName="weekly_link_clicked" href="/methodology" label="方法論" payload={{ area: "next_steps" }}>
-          方法論
-        </TrackedLink>
-        <TrackedLink className="text-link" eventName="weekly_link_clicked" href="/disclaimer" label="免責聲明" payload={{ area: "next_steps" }}>
-          免責聲明
-        </TrackedLink>
-      </section>
-
-      <article className="disclaimer">
-        <h2>重要聲明</h2>
-        <p>
-          本週報為公開 Beta 的資訊整理與產品閱讀示範，不是投資建議、研究報告、招攬或保證收益。
-          使用者應自行確認資料來源、資料延遲、模型限制與個人風險承受度。
-        </p>
-      </article>
-
-      <CommercialSlot context="weekly" />
     </main>
-  );
-}
-
-function WeeklyBridgeLink({
-  href,
-  label,
-  text,
-  title
-}: {
-  href: string;
-  label: string;
-  text: string;
-  title: string;
-}) {
-  return (
-    <TrackedLink eventName="weekly_link_clicked" href={href} label={title} payload={{ area: "reading_bridge", symbol: href.split("/").pop() }}>
-      <span>{label}</span>
-      <strong>{title}</strong>
-      <p>{text}</p>
-    </TrackedLink>
   );
 }
 
 function buildWeeklyBreadth(snapshots: SignalSnapshot[]) {
   return snapshots.reduce(
     (summary, snapshot) => {
-      if (snapshot.signal.key === "green" || snapshot.signal.key === "yellow") {
-        summary.constructive += 1;
-      } else if (snapshot.signal.key === "orange") {
-        summary.watch += 1;
-      } else {
-        summary.defensive += 1;
-      }
-
+      if (snapshot.compositeScore >= 70) summary.constructive += 1;
+      else if (snapshot.riskScore >= 60 || snapshot.compositeScore < 45) summary.defensive += 1;
+      else summary.watch += 1;
       return summary;
     },
     { constructive: 0, defensive: 0, watch: 0 }
-  );
-}
-
-function buildWeeklyRuntimeCadence(
-  market: SignalSnapshot,
-  breadth: ReturnType<typeof buildWeeklyBreadth>,
-  topRisk: SignalSnapshot,
-  topEtf: SignalSnapshot
-) {
-  const marketIsConstructive = market.signal.key === "green" || market.signal.key === "yellow";
-  const breadthTone = breadth.defensive > breadth.constructive ? "hold" : "active";
-  const riskTone = topRisk.riskScore >= 70 ? "blocked" : "hold";
-  const etfTone = topEtf.riskScore >= 60 ? "hold" : "active";
-
-  return [
-    {
-      href: `/stocks/${market.asset.symbol}`,
-      label: "Market",
-      symbol: market.asset.symbol,
-      text: marketIsConstructive
-        ? `${market.asset.symbol} 目前呈現偏正向的示範分數，可作為本週市場脈絡的第一個檢查點。`
-        : `${market.asset.symbol} 目前尚未呈現明確正向，建議先檢查市場廣度與風險熱點，再閱讀族群候選標的。`,
-      title: breadthTone === "active" ? "市場廣度支持偏正向閱讀" : "市場廣度需要防守閱讀",
-      tone: breadthTone
-    },
-    {
-      href: `/stocks/${topEtf.asset.symbol}`,
-      label: "ETF",
-      symbol: topEtf.asset.symbol,
-      text: `${topEtf.asset.symbol} 健康度 ${topEtf.healthScore}/100。ETF 候選標的目前只適合在示範資料範圍內比較。`,
-      title: etfTone === "active" ? "ETF 候選標的可先閱讀" : "ETF 候選標的需要風險複查",
-      tone: etfTone
-    },
-    {
-      href: `/stocks/${topRisk.asset.symbol}`,
-      label: "Risk",
-      symbol: topRisk.asset.symbol,
-      text: `${topRisk.asset.symbol} 風險 ${topRisk.riskScore}/100。這是本週檢查過熱與防守閱讀的優先標的。`,
-      title: riskTone === "blocked" ? "風險偏高" : "風險仍需觀察",
-      tone: riskTone
-    },
-    {
-      href: "/briefing",
-      label: "Briefing",
-      symbol: "briefing",
-      text: "閱讀週報後再看今日簡報，可把較慢的週線脈絡與短期市場事件接起來。",
-      title: "從週報切換到今日簡報",
-      tone: "active"
-    }
-  ];
-}
-
-function WeeklyRanking({
-  title,
-  description,
-  items,
-  scoreKey = "composite"
-}: {
-  title: string;
-  description: string;
-  items: SignalSnapshot[];
-  scoreKey?: "composite" | "risk";
-}) {
-  return (
-    <section className="panel">
-      <p className="eyebrow">Ranking</p>
-      <h2>{title}</h2>
-      <p>{description}</p>
-      <div className="rank-list">
-        {items.map((item) => (
-          <TrackedLink
-            className="rank-row"
-            eventName="weekly_link_clicked"
-            href={`/stocks/${item.asset.symbol}`}
-            key={item.asset.id}
-            label={`${item.asset.symbol} signal`}
-            payload={{ area: "ranking", symbol: item.asset.symbol }}
-          >
-            <strong>{item.asset.symbol}</strong>
-            <span>{item.asset.group === "ETF" ? "ETF candidate" : "Stock candidate"}</span>
-            <b>{scoreKey === "risk" ? `Risk ${item.riskScore}` : `Score ${item.compositeScore}`}</b>
-          </TrackedLink>
-        ))}
-      </div>
-    </section>
   );
 }

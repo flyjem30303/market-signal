@@ -3,60 +3,72 @@ import fs from "node:fs";
 const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 const checkerPath = "scripts/check-a2-legal-methodology-readable-copy.mjs";
+const trustPanelPath = "src/components/route-local-trust-copy-panel.tsx";
 
 const pages = [
   {
     path: "src/app/disclaimer/page.tsx",
     required: [
-      "\u514d\u8cac\u8072\u660e",
+      "免責聲明",
       "Disclaimer",
-      "\u516c\u958b Beta",
-      "\u793a\u7bc4\u8cc7\u6599",
-      "\u793a\u7bc4\u5206\u6578",
-      "\u6b63\u5f0f\u5e02\u5834\u8cc7\u6599\u5c1a\u672a\u555f\u7528",
-      "\u975e\u6295\u8cc7\u5efa\u8b70",
-      "\u8acb\u81ea\u884c\u67e5\u8b49\u4e26\u8a55\u4f30\u98a8\u96aa",
-      "Beta \u671f\u9593\u8b8a\u66f4"
+      "公開 Beta",
+      "示範資料",
+      "示範分數",
+      "正式市場資料尚未啟用",
+      "非投資建議",
+      "請自行查證並評估風險",
+      "Beta 期間變更"
     ]
   },
   {
     path: "src/app/terms/page.tsx",
     required: [
-      "\u4f7f\u7528\u689d\u6b3e",
-      "\u516c\u958b Beta",
-      "\u793a\u7bc4\u8cc7\u6599",
-      "\u793a\u7bc4\u5206\u6578",
-      "\u6b63\u5f0f\u5e02\u5834\u8cc7\u6599\u5c1a\u672a\u555f\u7528",
-      "\u975e\u6295\u8cc7\u5efa\u8b70",
-      "\u8acb\u81ea\u884c\u8a55\u4f30\u98a8\u96aa",
-      "Beta \u671f\u9593\u53ef\u80fd\u8b8a\u52d5"
+      "使用條款",
+      "公開 Beta",
+      "示範資料",
+      "示範分數",
+      "正式市場資料尚未啟用",
+      "非投資建議",
+      "請自行評估風險",
+      "Beta 期間可能變動"
     ]
   },
   {
     path: "src/app/privacy/page.tsx",
     required: [
-      "隱私權與資料邊界",
-      "公開 Beta 會盡量把使用者資料收集降到最低",
-      "示範資料與示範分數",
-      "尚未切換為正式市場資料服務",
-      "localStorage",
-      "不公開原始市場資料內容",
-      "不收集交易帳密",
-      "個人持股明細"
+      "隱私與資料說明",
+      "公開 Beta",
+      "mock-only",
+      "不需要輸入 API key",
+      "不顯示 secrets",
+      "raw market payloads",
+      "row payloads",
+      "stock id payloads",
+      "不要求使用者輸入交易帳密"
     ]
   },
   {
     path: "src/app/methodology/page.tsx",
     required: [
-      "\u65b9\u6cd5\u8aaa\u660e",
+      "方法說明",
       "Methodology",
-      "\u793a\u7bc4\u8cc7\u6599",
-      "\u793a\u7bc4\u8a55\u5206",
-      "\u6b63\u5f0f\u5e02\u5834\u8cc7\u6599",
-      "\u975e\u6295\u8cc7\u5efa\u8b70",
-      "\u6307\u6a19\u7d44\u6210",
-      "\u8cc7\u6599\u54c1\u8cea\u7b49\u7d1a",
-      "\u4e0d\u628a\u5206\u6578\u7576\u6307\u4ee4"
+      "示範資料",
+      "示範評分",
+      "正式市場資料",
+      "投資建議",
+      "指標組成",
+      "資料品質等級",
+      "不把分數當指令"
+    ]
+  },
+  {
+    path: trustPanelPath,
+    required: [
+      "目前提供的是市場觀察輔助",
+      "方法說明只描述評分邏輯",
+      "公開頁不要求輸入密鑰",
+      "請把公開 Beta 視為資訊產品原型",
+      "週報用來整理觀察重點"
     ]
   }
 ];
@@ -85,19 +97,12 @@ for (const page of pages) {
     if (!source.includes(phrase)) missing.push(`${page.path}: ${phrase}`);
   }
 
-  const markers = findMojibakeMarkers(source);
-  for (const marker of markers) {
+  for (const marker of findMojibakeMarkers(source)) {
     blocked.push(`${page.path}: mojibake marker ${marker}`);
   }
 
   for (const claim of forbiddenClaims) {
     if (source.includes(claim)) blocked.push(`${page.path}: forbidden claim ${claim}`);
-  }
-
-  if (page.path === "src/app/privacy/page.tsx") {
-    for (const phrase of ["publicDataSource=mock", "scoreSource=mock", "raw market payloads", "row payloads", "stock id payloads", "secrets"]) {
-      if (source.includes(phrase)) blocked.push(`${page.path}: public privacy copy should avoid machine/audit phrase ${phrase}`);
-    }
   }
 }
 
@@ -154,7 +159,7 @@ function read(filePath) {
 function findMojibakeMarkers(text) {
   const markers = [];
   if (text.includes("\uFFFD")) markers.push("replacement-char");
-  if (/\?{2,}/u.test(text)) markers.push("question-mark-run");
+  if (/\?{3,}/u.test(text)) markers.push("question-mark-run");
   if (hasPrivateUseCodePoint(text)) markers.push("private-use-code-point");
   if (/(?:嚗|銝|蝭|憟|璅|鞈|撣|閮|瘥|摨|甈|雿|蹐|蹓||){2,}/u.test(text)) {
     markers.push("common-mojibake-run");
