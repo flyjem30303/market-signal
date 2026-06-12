@@ -21,6 +21,15 @@ export type PublicBetaCoverageArtifactScope = {
   summary: string;
 };
 
+export type PublicBetaTwiiTermsReadinessItem = {
+  id: string;
+  label: string;
+  status: "ready-for-copy" | "review-required" | "blocked";
+  publicLabel: string;
+  summary: string;
+  nextStep: string;
+};
+
 export type PublicBetaDataReadinessStatus = {
   headline: string;
   summary: string;
@@ -37,6 +46,7 @@ export type PublicBetaDataReadinessStatus = {
     nextOwner: string;
     nextAction: string;
   };
+  twiiTermsReadiness: PublicBetaTwiiTermsReadinessItem[];
   coverageArtifactScopes: PublicBetaCoverageArtifactScope[];
   lanes: PublicBetaDataReadinessLane[];
   sourceTrust: PublicBetaSourceTrustItem[];
@@ -62,6 +72,44 @@ export function getPublicBetaDataReadinessStatus(): PublicBetaDataReadinessStatu
       nextAction:
         "先把 TWII 與第一批資料線的來源、欄位、覆蓋範圍整理成 no-fetch artifact；通過後才可進入下一個明確授權 gate。"
     },
+    twiiTermsReadiness: [
+      {
+        id: "twii-source-terms",
+        label: "資料條款",
+        publicLabel: "條款仍在確認",
+        status: "review-required",
+        summary:
+          "目前只確認候選路徑與需要比對的條款面，尚未把任何來源視為可公開正式使用。",
+        nextStep: "確認 exact endpoint 的使用條款、儲存條件與公開顯示條件。"
+      },
+      {
+        id: "twii-field-contract",
+        label: "欄位對照",
+        publicLabel: "最小欄位待確認",
+        status: "review-required",
+        summary:
+          "先鎖定交易日、收盤值、標的代碼、標的名稱、來源標籤與來源更新時間，不展開額外技術指標。",
+        nextStep: "在 no-fetch 條件下確認欄位語意、缺值、修正與假日處理規則。"
+      },
+      {
+        id: "twii-daily-cadence",
+        label: "更新節奏",
+        publicLabel: "每日收盤後候選",
+        status: "ready-for-copy",
+        summary:
+          "公開 Beta 不承諾即時資料；TWII 真實化路線以每日收盤後批次更新為候選節奏。",
+        nextStep: "補齊失敗重試、快取沿用、缺漏交易日與人工停用訊息。"
+      },
+      {
+        id: "twii-attribution-copy",
+        label: "公開引用",
+        publicLabel: "引用文案待審",
+        status: "review-required",
+        summary:
+          "頁面可先說明候選來源與 mock 邊界，但不得暗示官方背書、即時精準或投資建議。",
+        nextStep: "由 A2 檢查資料來源、更新時間、風險揭露與非投資建議文案。"
+      }
+    ],
     coverageArtifactScopes: [
       {
         id: "twii-index-baseline",

@@ -19,6 +19,12 @@ const coverageScopeStatusLabels = {
   "mock-ready": "mock 可用"
 } as const;
 
+const twiiTermsStatusLabels = {
+  blocked: "暫停",
+  "ready-for-copy": "可進入文案",
+  "review-required": "待確認"
+} as const;
+
 export function PublicBetaDataReadinessStatus() {
   const status = getPublicBetaDataReadinessStatus();
 
@@ -56,6 +62,17 @@ export function PublicBetaDataReadinessStatus() {
           <article className={item.status} key={item.id}>
             <span>{item.label}</span>
             <strong>{sourceStatusLabels[item.status]}</strong>
+            <p>{item.summary}</p>
+            <p>下一步：{item.nextStep}</p>
+          </article>
+        ))}
+      </div>
+      <div className="public-beta-twii-terms-readiness" aria-label="TWII terms field cadence attribution readiness">
+        {status.twiiTermsReadiness.map((item) => (
+          <article className={item.status} key={item.id}>
+            <span>{item.label}</span>
+            <strong>{item.publicLabel}</strong>
+            <p>{twiiTermsStatusLabels[item.status]}</p>
             <p>{item.summary}</p>
             <p>下一步：{item.nextStep}</p>
           </article>
