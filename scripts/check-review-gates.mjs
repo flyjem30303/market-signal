@@ -2883,6 +2883,11 @@ const checks = [
     name: "home-product-first-information-hierarchy"
   },
   {
+    command: [node, "scripts/check-briefing-product-first-information-hierarchy.mjs"],
+    expectStatus: "ok",
+    name: "briefing-product-first-information-hierarchy"
+  },
+  {
     command: [node, "scripts/check-stock-runtime-at-a-glance.mjs"],
     expectStatus: "ok",
     name: "stock-runtime-at-a-glance"
