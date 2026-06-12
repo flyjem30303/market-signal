@@ -40,6 +40,7 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
   const freshnessLatestEvidence = getFreshnessReadonlyLatestEvidenceSummary();
   const executionReadiness = getRuntimeExecutionReadinessSummary();
   const actionStatus = getRuntimeActionStatusSummary();
+  const decisionBrief = buildStockDecisionBrief(snapshot);
 
   return (
     <section className="stock-runtime-at-a-glance" aria-label="Stock runtime status">
@@ -50,6 +51,30 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
           本頁用示範資料呈現燈號、風險方向、資料更新說明與目前限制；適合做市場氛圍閱讀，
           但尚未啟用正式資料來源、完整覆蓋率或正式分數。
         </p>
+      </div>
+
+      <div className="stock-public-decision-summary" aria-label="Stock public decision summary">
+        <div>
+          <p className="eyebrow">Stock Decision Brief</p>
+          <h2>{snapshot.asset.symbol} 30 秒看懂標的狀態</h2>
+          <p>3 分鐘內請看：成因、更新時間、影響級別、下一步觀察，並回到市場晨報交叉確認。</p>
+        </div>
+        <article className={decisionBrief.statusTone}>
+          <span>標的氛圍</span>
+          <strong>{decisionBrief.status}</strong>
+          <p>成因：{decisionBrief.cause}</p>
+        </article>
+        <article className={decisionBrief.impactTone}>
+          <span>影響級別</span>
+          <strong>{decisionBrief.impactLevel}</strong>
+          <p>更新時間：{decisionBrief.updatedAt}</p>
+          <p>下一步：{decisionBrief.nextStep}</p>
+        </article>
+        <article className="blocked">
+          <span>資料邊界</span>
+          <strong>mock-only</strong>
+          <p>資料邊界：publicDataSource=mock，scoreSource=mock；目前不是即時真實資料，不提供買賣建議。</p>
+        </article>
       </div>
 
       <div className="stock-runtime-headline-summary" aria-label="Stock runtime headline summary">
@@ -283,4 +308,58 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
       </div>
     </section>
   );
+}
+
+function buildStockDecisionBrief(snapshot: SignalSnapshot) {
+  const hasDataWarnings = snapshot.missingModuleFlags.length > 0 || snapshot.staleDataFlags.length > 0;
+  const highRisk = snapshot.riskScore >= 70;
+  const watchRisk = snapshot.riskScore >= 55;
+  const strongHealth = snapshot.healthScore >= 68;
+  const updatedAt = snapshot.lastUpdatedAt.replace("T", " ").replace("+08:00", " 台北時間");
+
+  if (hasDataWarnings) {
+    return {
+      cause: "仍有正式價格、資金流或基本面缺口，現階段只能用示範燈號判讀方向。",
+      impactLevel: "中",
+      impactTone: "readying" as const,
+      nextStep: "先看資料邊界與市場晨報，再等待來源、覆蓋率與品質 gate 通過。",
+      status: "資料待確認",
+      statusTone: "readying" as const,
+      updatedAt
+    };
+  }
+
+  if (highRisk) {
+    return {
+      cause: "風險分數升高，波動或弱勢模組可能正在拉高觀察成本。",
+      impactLevel: "高",
+      impactTone: "blocked" as const,
+      nextStep: "先加強觀察風險與技術模組，不把示範分數當成買賣訊號。",
+      status: "需要加強觀察",
+      statusTone: "blocked" as const,
+      updatedAt
+    };
+  }
+
+  if (watchRisk) {
+    return {
+      cause: "風險尚未解除，但健康與趨勢訊號仍可作為市場氛圍參考。",
+      impactLevel: "中",
+      impactTone: "readying" as const,
+      nextStep: "先複核趨勢、風險與同族群比較，避免只看單一分數。",
+      status: "觀察中",
+      statusTone: "readying" as const,
+      updatedAt
+    };
+  }
+
+  return {
+    cause: strongHealth ? "健康分數相對穩定，示範燈號可協助建立初步市場閱讀。" : "風險未明顯升溫，但仍需搭配趨勢與資料品質確認。",
+    impactLevel: strongHealth ? "低" : "中",
+    impactTone: strongHealth ? ("active" as const) : ("readying" as const),
+    nextStep: "持續觀察燈號、更新時間與市場晨報，不升級成個別投資建議。",
+    status: strongHealth ? "可持續觀察" : "觀察中",
+    statusTone: strongHealth ? ("active" as const) : ("readying" as const),
+    updatedAt
+  };
 }

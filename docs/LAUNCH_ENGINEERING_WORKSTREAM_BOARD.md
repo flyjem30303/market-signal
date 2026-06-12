@@ -18,6 +18,7 @@ PM should run the mainline while A1 and A2 remove future blockers in parallel. P
 
 This board uses the current project state as the baseline:
 
+- Latest PM product/runtime slice: stock detail public decision readability is accepted as local-only runtime/product progress. Stock pages now show a BRIEF-aligned `30 秒看懂標的狀態` block with cause, update time, impact level, next step, and explicit `publicDataSource=mock` / `scoreSource=mock` / non-investment-advice boundary before deeper runtime details. Focused checks passed: `check:stock-runtime-at-a-glance`, `check:stock-first-screen-action-summary`, `check:stock-first-screen-readability`, `check:public-visible-language-quality`, and `npx tsc --noEmit --incremental false`.
 - Latest PM product/runtime slice: `/briefing` public Beta copy closeout is accepted as local-only runtime/product progress. The page now protects the BRIEF loop with readable market mood, 3-minute reading plan, cause, update time, impact level, next step, source trust, mock boundary, and important disclosure copy while blocking internal process terms. Focused checks passed: `check:briefing-market-action-summary`, `check:briefing-boundary-disclosure`, `check:public-visible-language-quality`, `npx tsc --noEmit --incremental false`, and browser DOM verification.
 - MVP row coverage target: `360/360`.
 - Latest accepted aggregate row coverage evidence: `182/360`.
@@ -51,6 +52,12 @@ Current PM route:
 5. Prepare launch readiness across environment variables, deployment health, monitoring, rollback, DNS/SSL, and secret handling.
 6. Integrate A1/A2 handoffs only after the relevant local checker passes.
 7. Preserve `publicDataSource=mock` and `scoreSource=mock` until a separate promotion gate accepts the change.
+
+Latest CEO/PM parallel-lane assignment:
+
+- PM mainline: keep integrating BRIEF product/runtime readability across public surfaces, prioritizing user comprehension over visual polish.
+- A1 support lane: continue legal/free automatable source and coverage artifacts without market-row fetch, SQL, Supabase connection/write, or raw payload storage.
+- A2 support lane: continue public-copy and product-safety QA for visible pages, especially preventing investment-advice, real-time, or real-data claims before promotion gates pass.
 
 Latest PM mainline completion review:
 

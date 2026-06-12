@@ -1,6 +1,7 @@
 import fs from "node:fs";
 
 const docPath = "docs/A2_PUBLIC_COPY_UX_SAFETY_BRIEF_HANDOFF.md";
+const qaDocPath = "docs/A2_PUBLIC_COPY_UX_SAFETY_QA_HANDOFF_2026_06_12.md";
 const componentPath = "src/components/twse-openapi-runtime-mock-consumer-wire-card.tsx";
 const checkerPath = "scripts/check-a2-public-copy-ux-safety-brief-handoff.mjs";
 const packagePath = "package.json";
@@ -8,6 +9,7 @@ const reviewGatePath = "scripts/check-review-gates.mjs";
 
 const problems = [];
 const doc = read(docPath);
+const qaDoc = read(qaDocPath);
 const component = read(componentPath);
 const checker = read(checkerPath);
 const pkg = JSON.parse(read(packagePath));
@@ -29,6 +31,21 @@ for (const [filePath, source, phrase] of [
   [docPath, doc, "Do not set `publicDataSource=supabase`."],
   [docPath, doc, "Do not set `scoreSource=real`."],
   [docPath, doc, "Audit `/briefing` visible copy"],
+  [qaDocPath, qaDoc, "A2 Public Copy / UX Safety QA Handoff - 2026-06-12"],
+  [qaDocPath, qaDoc, "30 seconds: users can understand market mood."],
+  [qaDocPath, qaDoc, "3 minutes: users can decide whether to watch, intensify observation, or reduce risk."],
+  [qaDocPath, qaDoc, "Home `/`"],
+  [qaDocPath, qaDoc, "Briefing `/briefing`"],
+  [qaDocPath, qaDoc, "Stock detail `/stocks/[symbol]`"],
+  [qaDocPath, qaDoc, "Acceptable for public Beta readability after PM checker pass"],
+  [qaDocPath, qaDoc, "`publicDataSource=mock`"],
+  [qaDocPath, qaDoc, "`scoreSource=mock`"],
+  [qaDocPath, qaDoc, "not real-time data"],
+  [qaDocPath, qaDoc, "no buy/sell advice"],
+  [qaDocPath, qaDoc, "No SQL was run."],
+  [qaDocPath, qaDoc, "No Supabase connection was attempted."],
+  [qaDocPath, qaDoc, "No market-data endpoint was fetched."],
+  [qaDocPath, qaDoc, "does not authorize SQL, Supabase access"],
   [componentPath, component, "市場氛圍示範"],
   [componentPath, component, "資料邊界"],
   [componentPath, component, "fetch=false；sql=false；write=false"],
@@ -47,6 +64,7 @@ if (
 
 for (const [filePath, source] of [
   [docPath, doc],
+  [qaDocPath, qaDoc],
   [componentPath, component]
 ]) {
   for (const pattern of forbiddenPatterns()) {

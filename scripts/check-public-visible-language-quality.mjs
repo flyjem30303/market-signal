@@ -27,6 +27,19 @@ const publicOperationsForbidden = [
   "operator"
 ];
 
+const stockDecisionBriefRequired = [
+  "30 秒看懂標的狀態",
+  "3 分鐘內請看",
+  "成因",
+  "更新時間",
+  "影響級別",
+  "下一步",
+  "資料邊界：publicDataSource=mock，scoreSource=mock",
+  "目前不是即時真實資料",
+  "不提供買賣建議",
+  "Indicator Roadmap"
+];
+
 const pages = [
   {
     path: "/",
@@ -44,32 +57,32 @@ const pages = [
   {
     path: "/stocks/TWII",
     forbidden: publicOperationsForbidden,
-    required: [...coreRuntimeBoundaryRequired, "TWII Mock Disclosure"]
+    required: [...coreRuntimeBoundaryRequired, ...stockDecisionBriefRequired, "TWII Mock Disclosure"]
   },
   {
     path: "/stocks/2330",
     forbidden: publicOperationsForbidden,
-    required: [...coreRuntimeBoundaryRequired, "Indicator Roadmap"]
+    required: [...coreRuntimeBoundaryRequired, ...stockDecisionBriefRequired]
   },
   {
     path: "/stocks/0050",
     forbidden: publicOperationsForbidden,
-    required: [...coreRuntimeBoundaryRequired, "Indicator Roadmap"]
+    required: [...coreRuntimeBoundaryRequired, ...stockDecisionBriefRequired]
   },
   {
     path: "/stocks/006208",
     forbidden: publicOperationsForbidden,
-    required: [...coreRuntimeBoundaryRequired, "Indicator Roadmap"]
+    required: [...coreRuntimeBoundaryRequired, ...stockDecisionBriefRequired]
   },
   {
     path: "/stocks/2382",
     forbidden: publicOperationsForbidden,
-    required: [...coreRuntimeBoundaryRequired, "Indicator Roadmap"]
+    required: [...coreRuntimeBoundaryRequired, ...stockDecisionBriefRequired]
   },
   {
     path: "/stocks/2308",
     forbidden: publicOperationsForbidden,
-    required: [...coreRuntimeBoundaryRequired, "Indicator Roadmap"]
+    required: [...coreRuntimeBoundaryRequired, ...stockDecisionBriefRequired]
   },
   {
     path: "/briefing",
@@ -246,6 +259,13 @@ const selfContract = [
       checkerSource.includes("30 秒看懂今日市場氣氛") &&
       checkerSource.includes("3 分鐘判讀流程") &&
       checkerSource.includes("重要揭露")
+  },
+  {
+    check: "requires readable stock decision brief copy",
+    pass:
+      checkerSource.includes("30 秒看懂標的狀態") &&
+      checkerSource.includes("3 分鐘內請看") &&
+      checkerSource.includes("資料邊界：publicDataSource=mock，scoreSource=mock")
   },
   {
     check: "requires readable legal pages",

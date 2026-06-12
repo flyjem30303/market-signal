@@ -4318,6 +4318,11 @@ const checks = [
     name: "a1-official-open-source-coverage-no-fetch-handoff"
   },
   {
+    command: [node, "scripts/check-a1-public-beta-source-coverage-runtime-no-fetch-handoff.mjs"],
+    expectStatus: "ok",
+    name: "a1-public-beta-source-coverage-runtime-no-fetch-handoff"
+  },
+  {
     command: [node, "scripts/check-a1-official-open-free-source-terms-and-coverage-matrix-no-fetch.mjs"],
     expectStatus: "ok",
     name: "a1-official-open-free-source-terms-and-coverage-matrix-no-fetch"

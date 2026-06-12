@@ -33,20 +33,25 @@ const required = [
   [stockRender, "StockModuleHighlights", "stock render module highlights"],
   [stockRender, "StockRiskChecklist", "stock render risk checklist"],
   [stockRender, "StockNextStepGuide", "stock render next step guide"],
-  [runtime, "Runtime At A Glance", "runtime label"],
-  [runtime, "has a readable mock signal", "readable mock signal headline"],
-  [runtime, "mock score, risk direction, and disclosure state", "mock score interpretation"],
-  [runtime, "Supabase-backed public data plus scoreSource=real still require separate accepted gates", "real data blocked line"],
+  [runtime, "資料狀態摘要", "runtime readable label"],
+  [runtime, "stock-public-decision-summary", "public decision summary"],
+  [runtime, "30 秒看懂標的狀態", "30-second decision brief"],
+  [runtime, "3 分鐘內請看", "3-minute action route"],
+  [runtime, "成因", "cause label"],
+  [runtime, "更新時間", "updated time label"],
+  [runtime, "影響級別", "impact label"],
+  [runtime, "下一步", "next step label"],
+  [runtime, "資料邊界：publicDataSource=mock，scoreSource=mock", "mock boundary line"],
+  [runtime, "不提供買賣建議", "non-advice line"],
   [runtime, "stock-runtime-headline-summary", "runtime headline summary"],
   [runtime, "stock-decision-aid-groups", "decision aid groups"],
   [runtime, "headlineSummary.decisionAidGroups", "decision aid group source"],
-  [runtime, "First-screen runtime summary", "first-screen runtime summary"],
   [runtime, "PublicRuntimeStateStrip", "public runtime strip"],
   [runtime, 'context="stock"', "stock public runtime context"],
   [runtime, "stock-runtime-action-strip", "stock runtime action strip"],
   [runtime, "decisionSummary.decisionLabel", "next action summary"],
   [runtime, "decisionSummary.safetyStopLine", "safety stop line"],
-  [runtime, "scoreSource=real is not enabled", "score source real blocked"],
+  [runtime, "正式資料升級必須先完成來源、覆蓋率、品質檢查、回讀與揭露條件", "real data blocked line"],
   [decision, "Stock Decision Compass", "decision compass aria"],
   [decision, "scoreSourceLabel", "decision score source"],
   [decision, "snapshot.riskScore", "decision risk score"],
@@ -59,17 +64,18 @@ const required = [
   [guide, "scoreSource=mock", "mock score source"],
   [guide, "blocked gates", "blocked gates line"],
   [guide, "stock_next_step_guide", "next step tracking"],
-  [headline, "what can be read now, what remains blocked, and what review comes next", "headline purpose"],
+  [headline, "建立 30 秒初判", "headline 30-second route"],
+  [headline, "3 分鐘內決定", "headline 3-minute route"],
   [headline, "decisionAidGroups", "decision aid group contract"],
-  [headline, "Can reference", "can reference group"],
-  [headline, "Display only", "display only group"],
-  [headline, "Not live yet", "not live group"],
-  [headline, "Mock composite score and risk direction", "mock score reference"],
-  [headline, "Good for product validation, not investment proof", "display-only boundary"],
-  [headline, "scoreSource=real and SQL scoring", "real score blocked group"],
-  [headline, "mock_runtime_readable", "mock readable state"],
-  [headline, "real_data_blocked", "real data blocked state"],
-  [headline, "does not approve publicDataSource=supabase", "supabase approval blocked"],
+  [headline, "現在可參考", "can reference group"],
+  [headline, "輔助閱讀", "display only group"],
+  [headline, "尚未開放", "not live group"],
+  [headline, "示範分數方向", "mock score reference"],
+  [headline, "不是正式投資證據", "display-only boundary"],
+  [headline, "正式分數與買賣建議", "real score blocked group"],
+  [headline, "示範訊號可讀", "mock readable state"],
+  [headline, "正式資料未啟用", "real data blocked state"],
+  [headline, "本頁不宣稱正式資料來源", "supabase approval blocked"],
   [packageJson, '"check:stock-first-screen-action-summary"', "package script"],
   [reviewGate, "scripts/check-stock-first-screen-action-summary.mjs", "review gate wiring"]
 ];
@@ -99,6 +105,13 @@ const missing = [
 ];
 const blocked = forbidden.filter(([source, token]) => source.includes(token)).map(([, token, label]) => `${label}: ${token}`);
 
+for (const [name, source] of [
+  ["runtime", runtime],
+  ["headline", headline]
+]) {
+  for (const hit of findMojibakeMarkers(source)) blocked.push(`${name}: ${hit}`);
+}
+
 console.log(
   JSON.stringify(
     {
@@ -113,4 +126,11 @@ console.log(
 
 if (missing.length > 0 || blocked.length > 0) {
   process.exitCode = 1;
+}
+
+function findMojibakeMarkers(text) {
+  const hits = [];
+  if (/[\uE000-\uF8FF\uFFFD]/u.test(text)) hits.push("private-use-or-replacement-code-point");
+  if (/\?{3,}/u.test(text)) hits.push("question-mark-run");
+  return hits;
 }

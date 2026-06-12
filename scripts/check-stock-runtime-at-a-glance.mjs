@@ -24,34 +24,38 @@ const files = new Map(
 
 const required = [
   [componentPath, "StockRuntimeAtAGlance"],
-  [componentPath, "目前是 mock 訊號閱讀頁"],
-  [componentPath, "不是個人化投資建議"],
-  [componentPath, "scoreSource=real 尚未啟用"],
+  [componentPath, "stock-public-decision-summary"],
+  [componentPath, "30 秒看懂標的狀態"],
+  [componentPath, "3 分鐘內請看"],
+  [componentPath, "成因"],
+  [componentPath, "更新時間"],
+  [componentPath, "影響級別"],
+  [componentPath, "下一步"],
+  [componentPath, "資料邊界：publicDataSource=mock，scoreSource=mock"],
+  [componentPath, "目前不是即時真實資料"],
+  [componentPath, "不提供買賣建議"],
   [componentPath, "stock-runtime-headline-summary"],
   [componentPath, "Stock decision aid groups"],
   [componentPath, "runtime-product-summary"],
-  [componentPath, "查看公開 Beta 簡報"],
-  [componentPath, "查看 mock 方法論"],
-  [componentPath, "回到首頁"],
-  [componentPath, "Stock page remains mock runtime"],
-  [componentPath, "scoreSource=real is not enabled"],
-  [componentPath, "This is readiness evidence only, not a public real-data claim."],
-  [componentPath, "Real data, complete coverage, and advice wording remain blocked"],
-  [componentPath, "Mock runtime hardening remains active"],
-  [componentPath, "Stop at gates before any mock-to-real promotion"],
+  [componentPath, "看公開 Beta 市場摘要"],
+  [componentPath, "了解示範資料邊界"],
+  [componentPath, "回首頁看市場總覽"],
+  [componentPath, "正式資料升級必須先完成來源、覆蓋率、品質檢查、回讀與揭露條件"],
+  [componentPath, "buildStockDecisionBrief"],
   [productSummaryPath, "Use mock signals for reading only"],
   [productSummaryPath, "Real-data claims are not live"],
   [headlineSummaryPath, "StockRuntimeHeadlineSummary"],
   [headlineSummaryPath, "decisionAidGroups"],
-  [headlineSummaryPath, "does not approve publicDataSource=supabase"],
-  [decisionSummaryPath, "publicDataSource: \"mock\""],
-  [decisionSummaryPath, "scoreSource: \"mock\""],
+  [headlineSummaryPath, "本頁不宣稱正式資料來源"],
+  [decisionSummaryPath, 'publicDataSource: "mock"'],
+  [decisionSummaryPath, 'scoreSource: "mock"'],
   [dashboardPath, "import { StockRuntimeAtAGlance }"],
   [dashboardPath, "<StockRuntimeAtAGlance scoreSourceLabel={freshness.scoreSourceLabel} snapshot={snapshot} />"],
   [cssPath, ".stock-runtime-at-a-glance"],
+  [cssPath, ".stock-public-decision-summary"],
   [cssPath, ".stock-runtime-headline-summary"],
   [cssPath, ".stock-runtime-governance-details"],
-  [packagePath, "\"check:stock-runtime-at-a-glance\": \"node scripts/check-stock-runtime-at-a-glance.mjs\""],
+  [packagePath, '"check:stock-runtime-at-a-glance": "node scripts/check-stock-runtime-at-a-glance.mjs"'],
   [reviewGatePath, "scripts/check-stock-runtime-at-a-glance.mjs"]
 ];
 
@@ -61,15 +65,15 @@ const forbidden = [
   [componentPath, "fetch("],
   [componentPath, ".from("],
   [componentPath, "process.env"],
-  [componentPath, "scoreSource: \"real\""],
-  [componentPath, "publicDataSource: \"supabase\""],
-  [dashboardPath, "scoreSource=\"real\""]
+  [componentPath, 'scoreSource: "real"'],
+  [componentPath, 'publicDataSource: "supabase"'],
+  [dashboardPath, 'scoreSource="real"']
 ];
 
 const missing = required.filter(([file, phrase]) => !read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
 const blocked = forbidden.filter(([file, phrase]) => read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
 
-for (const file of [componentPath, productSummaryPath]) {
+for (const file of [componentPath, productSummaryPath, headlineSummaryPath]) {
   for (const hit of findMojibakeMarkers(read(file))) blocked.push(`${file}: ${hit}`);
 }
 

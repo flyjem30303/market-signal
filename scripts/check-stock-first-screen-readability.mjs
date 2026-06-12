@@ -9,7 +9,7 @@ const files = new Map(
 );
 
 const component = read(componentPath);
-const firstScreenStart = component.indexOf("<section className=\"hero\">");
+const firstScreenStart = component.indexOf('<section className="hero">');
 const firstScreenEnd = component.indexOf("function StockPageFollowUpLinks", firstScreenStart);
 const followUpStart = component.indexOf("function StockPageFollowUpLinks");
 const followUpEnd = component.indexOf("function HomeProductOverview", followUpStart);
@@ -22,23 +22,20 @@ const homeOverview = slice(homeStart, homeEnd);
 
 const required = [
   ["firstScreen", "Market Signal Dashboard"],
-  ["firstScreen", "台股與 ETF 指數燈號儀表板"],
-  ["firstScreen", "mock-only 閱讀模式"],
-  ["firstScreen", "正式資料來源與正式評分尚未啟用"],
-  ["firstScreen", "產品狀態細節：資料與評分邊界"],
-  ["firstScreen", "治理與審核細節"],
+  ["firstScreen", "狀態儀表"],
+  ["firstScreen", "mock-only 資料"],
+  ["firstScreen", "快速理解狀態、風險與資料品質"],
+  ["firstScreen", "不構成投資建議"],
+  ["firstScreen", "尚未啟用真實資料推廣"],
   ["firstScreen", "股票內容分頁"],
-  ["firstScreen", "今日燈號"],
-  ["firstScreen", "市場趨勢"],
-  ["firstScreen", "新聞摘要"],
-  ["firstScreen", "回測摘要"],
   ["firstScreen", "今日"],
   ["firstScreen", "趨勢"],
   ["firstScreen", "技術"],
   ["firstScreen", "量能"],
-  ["firstScreen", "基本面 / 籌碼"],
-  ["firstScreen", "新聞"],
+  ["firstScreen", "基本面"],
   ["firstScreen", "回測"],
+  ["firstScreen", "新聞"],
+  ["followUp", "After Reading"],
   ["followUp", "看完"],
   ["followUp", "回到市場層級交叉檢查"],
   ["followUp", "看每日晨報"],
@@ -46,14 +43,17 @@ const required = [
   ["followUp", "回首頁看覆蓋地圖"],
   ["followUp", "確認方法論"],
   ["followUp", "確認免責聲明"],
-  ["homeOverview", "首頁快速摘要"],
-  ["homeOverview", "先用"],
-  ["homeOverview", "建立今日閱讀節奏"],
-  ["homeOverview", "正式投資訊號"],
-  ["homeOverview", "首頁下一步決策列"],
-  ["homeOverview", "三分鐘閱讀路線"],
-  ["homeOverview", "首頁市場廣度摘要"],
-  [packagePath, "\"check:stock-first-screen-readability\": \"node scripts/check-stock-first-screen-readability.mjs\""],
+  ["homeOverview", "市場氛圍"],
+  ["homeOverview", "3 分鐘決定"],
+  ["homeOverview", "全市場總覽"],
+  ["homeOverview", "核心指標面板"],
+  ["homeOverview", "警示清單"],
+  ["homeOverview", "市場氛圍"],
+  ["homeOverview", "警示清單"],
+  ["homeOverview", "mock 邊界"],
+  ["homeOverview", "正式市場資料或正式評分"],
+  ["homeOverview", "正式市場資料"],
+  [packagePath, '"check:stock-first-screen-readability": "node scripts/check-stock-first-screen-readability.mjs"'],
   [reviewGatePath, "scripts/check-stock-first-screen-readability.mjs"]
 ];
 
@@ -77,7 +77,6 @@ const sources = new Map([
   ["homeOverview", homeOverview],
   ...files
 ]);
-const mojibakePattern = /[\uFFFD\uF000-\uF8FF]/u;
 const missing = required.filter(([file, phrase]) => !source(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
 const blocked = forbidden.filter(([file, phrase]) => source(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
 
@@ -98,8 +97,8 @@ for (const [name, content] of [
   ["followUp", followUp],
   ["homeOverview", homeOverview]
 ]) {
-  if (mojibakePattern.test(content)) {
-    blocked.push(`${componentPath}: ${name} contains replacement/private-use mojibake characters`);
+  for (const hit of findMojibakeMarkers(content)) {
+    blocked.push(`${componentPath}: ${name} contains ${hit}`);
   }
 }
 
@@ -129,4 +128,11 @@ function slice(start, end) {
 
 function source(file) {
   return sources.get(file) ?? "";
+}
+
+function findMojibakeMarkers(text) {
+  const hits = [];
+  if (/[\uE000-\uF8FF\uFFFD]/u.test(text)) hits.push("private-use-or-replacement-code-point");
+  if (/\?{3,}/u.test(text)) hits.push("question-mark-run");
+  return hits;
 }

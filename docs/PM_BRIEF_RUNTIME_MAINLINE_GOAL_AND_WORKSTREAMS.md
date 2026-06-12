@@ -33,9 +33,10 @@ PM should not wait for A1/A2 unless a mainline change directly depends on their 
 
 Latest PM integration:
 
+- Stock detail runtime pages now include a BRIEF-aligned public decision brief: `30 秒看懂標的狀態`, `3 分鐘內請看`, cause, update time, impact level, next step, and a visible `publicDataSource=mock` / `scoreSource=mock` / non-investment-advice boundary. The stock-focused gates were refreshed to guard these user-facing requirements instead of stale internal process copy.
 - `/briefing` has been moved closer to the BRIEF product target by converting visible navigation, decision boundary, reading bridge, watchlists, action cards, next-reading links, executive links, and runtime-plan copy into reader-facing public Beta language.
 - The relevant gates now protect readable public Beta phrases, 30-second/3-minute decision flow, mock boundary, no-advice posture, and absence of internal blocker/process terms.
-- Next PM mainline should continue with stock-detail and home-to-briefing consistency only where comprehension is blocked; broad visual polish remains lower priority.
+- Next PM mainline should continue with home / briefing / stock consistency only where comprehension, source trust, or runtime safety is blocked; broad visual polish remains lower priority.
 - Previous route anchor retained for checker continuity: `integrate_runtime_readability_and_source_trust_states_before_real_data_promotion`.
 
 ## 3. A1 Data / Source / Coverage Lane
@@ -45,6 +46,8 @@ A1 owns source and coverage preparation that does not fetch market rows.
 Active A1 artifact:
 
 - `docs/A1_OFFICIAL_OPEN_FREE_SOURCE_TERMS_AND_COVERAGE_MATRIX_NO_FETCH.md`
+- `docs/A1_PUBLIC_BETA_SOURCE_COVERAGE_RUNTIME_NO_FETCH_HANDOFF.md`
+- current PM assignment: keep extending source / coverage evidence toward the full public Beta data universe, but return only sanitized, no-secret, no-fetch artifacts that PM can accept through local checks.
 
 A1 is responsible for:
 
@@ -71,6 +74,8 @@ A2 owns public-copy safety and user comprehension.
 Active A2 artifact:
 
 - `docs/A2_HOME_FIRST_SCREEN_PUBLIC_COPY_HANDOFF.md`
+- `docs/A2_PUBLIC_COPY_UX_SAFETY_QA_HANDOFF_2026_06_12.md`
+- current PM assignment: review stock detail and home-to-briefing language for 30-second comprehension, 3-minute action judgment, mock/real boundary clarity, and non-advice wording; propose copy patches only when they improve comprehension or safety.
 
 A2 is responsible for:
 
@@ -134,8 +139,8 @@ This goal slice is complete when:
 
 Recommended next mainline action:
 
-`integrate_briefing_runtime_copy_closeout_then_stock_detail_decision_readability`
+`integrate_home_stock_briefing_runtime_consistency_then_data_line_handoff_readiness`
 
 Meaning:
 
-PM should keep improving the public Beta usable loop while A1 continues terms/coverage work and A2 continues copy safety. The next mainline slice should focus on whether stock detail pages explain decision context, source trust, mock boundary, and next observation as clearly as `/briefing`. Real-data promotion remains blocked until a separately accepted source-rights, coverage, quality, rollback, and runtime gate is recorded.
+PM should keep improving the public Beta usable loop while A1 continues source/coverage work and A2 continues copy safety. The next mainline slice should focus on route-to-route consistency and data-line handoff readiness: users should be able to move from home to briefing to stock detail without seeing internal governance language or mistaking mock signals for live data. Real-data promotion remains blocked until a separately accepted source-rights, coverage, quality, rollback, and runtime gate is recorded.
