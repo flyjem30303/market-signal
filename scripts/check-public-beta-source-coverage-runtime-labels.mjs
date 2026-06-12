@@ -32,7 +32,9 @@ requireIncludes("review gate", reviewGate, [
 
 requireIncludes("module", moduleSource, [
   "getPublicBetaSourceCoverageRuntimeLabels",
+  "getEtfMarketPriceMockRuntimeHandoff",
   "coverageGapMatrix",
+  "etfMarketPriceMockChecks",
   "etfMarketPriceScope",
   "TWII 指數基準",
   "核心 ETF 脈絡",
@@ -64,6 +66,9 @@ requireIncludes("module", moduleSource, [
   "折溢價暫不接入",
   "ETF 不提供買賣建議",
   "0050、006208 目前只作為 mock ETF 觀察範例",
+  "ETF 30 秒脈絡",
+  "ETF 3 分鐘行動",
+  "mock 驗證",
   'publicDataSource: "mock"',
   'scoreSource: "mock"'
 ]);
@@ -74,10 +79,12 @@ requireIncludes("component", component, [
   "Source & Coverage",
   "Coverage gap matrix",
   "ETF market price scope",
+  "ETF market price mock runtime checks",
   "gapStatusCopy",
   "etfScopeStatusCopy",
   "public-beta-source-coverage-runtime__gap-matrix",
   "public-beta-source-coverage-runtime__etf-scope",
+  "public-beta-source-coverage-runtime__etf-checks",
   "下一步：",
   "等待條件",
   "檢查中",
@@ -112,6 +119,7 @@ requireIncludes("css", css, [
   ".public-beta-source-coverage-runtime__layers",
   ".public-beta-source-coverage-runtime__gap-matrix",
   ".public-beta-source-coverage-runtime__etf-scope",
+  ".public-beta-source-coverage-runtime__etf-checks",
   ".public-beta-source-coverage-runtime__field-contracts",
   ".public-beta-source-coverage-runtime__index-checks",
   ".public-beta-source-coverage-runtime__batch1-policy",
@@ -187,6 +195,9 @@ async function checkRoute(path) {
     "折溢價暫不接入",
     "ETF 不提供買賣建議",
     "0050、006208 目前只作為 mock ETF 觀察範例",
+    "ETF 30 秒脈絡",
+    "ETF 3 分鐘行動",
+    "mock 驗證",
     "scoreSource=mock",
     "不宣稱真實資料"
   ];

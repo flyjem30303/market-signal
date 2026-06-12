@@ -74,6 +74,16 @@ export function PublicBetaSourceCoverageRuntimeLabelsPanel({
         ))}
       </div>
 
+      <div className="public-beta-source-coverage-runtime__etf-checks" aria-label="ETF market price mock runtime checks">
+        {labels.etfMarketPriceMockChecks.map((check) => (
+          <article key={check.id}>
+            <span>{check.status}</span>
+            <strong>{check.label}</strong>
+            <p>{check.detail}</p>
+          </article>
+        ))}
+      </div>
+
       <div className="public-beta-source-coverage-runtime__field-contracts" aria-label="Source field contract status">
         {labels.fieldContracts.map((contract) => (
           <article key={contract.id}>

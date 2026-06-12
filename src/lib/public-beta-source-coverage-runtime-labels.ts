@@ -1,3 +1,4 @@
+import { getEtfMarketPriceMockRuntimeHandoff } from "@/lib/etf-market-price-mock-runtime-handoff";
 import { getTwseOpenApiIndexBaselineMockRuntimeHandoff } from "@/lib/twse-openapi-index-baseline-mock-runtime-handoff";
 
 export type PublicBetaSourceCoverageContext = "home" | "briefing" | "stock";
@@ -61,6 +62,7 @@ export type PublicBetaSourceCoverageRuntimeLabels = {
     stopLine: string;
   };
   coverageGapMatrix: PublicBetaCoverageGapMatrixItem[];
+  etfMarketPriceMockChecks: PublicBetaIndexBaselineRuntimeCheck[];
   etfMarketPriceScope: PublicBetaEtfMarketPriceScopeLabel[];
   fieldContracts: PublicBetaFieldContractStatus[];
   headline: string;
@@ -76,6 +78,7 @@ export function getPublicBetaSourceCoverageRuntimeLabels(
   stockSymbol = "2330"
 ): PublicBetaSourceCoverageRuntimeLabels {
   const indexBaselineHandoff = getTwseOpenApiIndexBaselineMockRuntimeHandoff();
+  const etfMarketPriceHandoff = getEtfMarketPriceMockRuntimeHandoff();
   const contextLine =
     context === "stock"
       ? `${stockSymbol} 仍是 mock 標的頁，請把它當成產品體驗與資料邊界示範。`
@@ -189,6 +192,26 @@ export function getPublicBetaSourceCoverageRuntimeLabels(
         label: "ETF 不提供買賣建議",
         status: "mock_only"
       }
+    ],
+    etfMarketPriceMockChecks: [
+      {
+        detail: etfMarketPriceHandoff.decisionUse.thirtySecondMood,
+        id: "etf-market-price-thirty-second-mood",
+        label: "ETF 30 秒脈絡",
+        status: "mock 驗證"
+      },
+      {
+        detail: etfMarketPriceHandoff.decisionUse.threeMinuteAction,
+        id: "etf-market-price-three-minute-action",
+        label: "ETF 3 分鐘行動",
+        status: "mock 驗證"
+      },
+      ...etfMarketPriceHandoff.caseSummaries.map((item) => ({
+        detail: item.detail,
+        id: item.caseId,
+        label: item.label,
+        status: item.status
+      }))
     ],
     fieldContracts: [
       {

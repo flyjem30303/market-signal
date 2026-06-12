@@ -3774,6 +3774,7 @@ select {
 .public-beta-source-coverage-runtime__etf-scope article,
 .public-beta-source-coverage-runtime__field-contracts article,
 .public-beta-source-coverage-runtime__index-checks article,
+.public-beta-source-coverage-runtime__etf-checks article,
 .public-beta-source-coverage-runtime__batch1-policy article,
 .public-beta-source-coverage-runtime__actions article,
 .public-beta-source-coverage-runtime__boundary article {
@@ -3837,6 +3838,13 @@ select {
   gap: 10px;
 }
 
+.public-beta-source-coverage-runtime__etf-checks {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
 .public-beta-source-coverage-runtime__batch1-policy {
   display: grid;
   grid-column: 1 / -1;
@@ -3852,6 +3860,11 @@ select {
 .public-beta-source-coverage-runtime__index-checks article {
   border-color: rgba(183, 121, 31, 0.16);
   background: #fffdf7;
+}
+
+.public-beta-source-coverage-runtime__etf-checks article {
+  border-color: rgba(15, 118, 110, 0.16);
+  background: #f7fffc;
 }
 
 .public-beta-source-coverage-runtime__batch1-policy article {
@@ -3904,6 +3917,7 @@ select {
 .public-beta-source-coverage-runtime__etf-scope span,
 .public-beta-source-coverage-runtime__field-contracts span,
 .public-beta-source-coverage-runtime__index-checks span,
+.public-beta-source-coverage-runtime__etf-checks span,
 .public-beta-source-coverage-runtime__batch1-policy span,
 .public-beta-source-coverage-runtime__actions span,
 .public-beta-source-coverage-runtime__boundary span {
@@ -3918,6 +3932,7 @@ select {
 .public-beta-source-coverage-runtime__etf-scope strong,
 .public-beta-source-coverage-runtime__field-contracts strong,
 .public-beta-source-coverage-runtime__index-checks strong,
+.public-beta-source-coverage-runtime__etf-checks strong,
 .public-beta-source-coverage-runtime__batch1-policy strong,
 .public-beta-source-coverage-runtime__actions strong,
 .public-beta-source-coverage-runtime__boundary strong {
@@ -3934,6 +3949,7 @@ select {
 .public-beta-source-coverage-runtime__etf-scope p,
 .public-beta-source-coverage-runtime__field-contracts p,
 .public-beta-source-coverage-runtime__index-checks p,
+.public-beta-source-coverage-runtime__etf-checks p,
 .public-beta-source-coverage-runtime__batch1-policy p,
 .public-beta-source-coverage-runtime__actions p,
 .public-beta-source-coverage-runtime__boundary p {
@@ -13103,6 +13119,7 @@ input[type="date"] {
   .public-beta-source-coverage-runtime__etf-scope,
   .public-beta-source-coverage-runtime__field-contracts,
   .public-beta-source-coverage-runtime__index-checks,
+  .public-beta-source-coverage-runtime__etf-checks,
   .public-beta-source-coverage-runtime__batch1-policy,
   .public-beta-source-coverage-runtime__actions,
   .public-beta-source-coverage-runtime__boundary,
