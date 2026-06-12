@@ -304,6 +304,7 @@ export function DashboardShell({
           <PublicBetaUsableLoopPanel context="stock" stockSymbol={selected.symbol} />
           <PublicBetaRouteConsistencyPanel context="stock" stockSymbol={selected.symbol} />
           <PublicBetaSourceCoverageRuntimeLabelsPanel context="stock" stockSymbol={selected.symbol} />
+          <StockDecisionAidSummaryPanel snapshot={snapshot} onTab={changeTab} />
           <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
           <StockRuntimeBrief scoreSourceLabel={freshness.scoreSourceLabel} snapshot={snapshot} onTab={changeTab} />
           <StockSignalWhyPanel snapshot={snapshot} onTab={changeTab} />
@@ -1214,6 +1215,80 @@ function StockSignalWhyPanel({ snapshot, onTab }: { snapshot: SignalSnapshot; on
           : snapshot.riskScore >= 55
             ? "\u67e5\u770b\u98a8\u96aa\u4f86\u6e90"
             : "\u67e5\u770b\u8d8b\u52e2\u9023\u7e8c\u6027"}
+      </button>
+    </section>
+  );
+}
+
+function StockDecisionAidSummaryPanel({ snapshot, onTab }: { snapshot: SignalSnapshot; onTab: (tab: TabKey) => void }) {
+  const warningCount = snapshot.missingModuleFlags.length + snapshot.staleDataFlags.length;
+  const impactLevel = snapshot.riskScore >= 70 ? "高" : snapshot.riskScore >= 55 || warningCount > 0 ? "中" : "低";
+  const tone = impactLevel === "高" ? "blocked" : impactLevel === "中" ? "hold" : "active";
+  const updatedAt = snapshot.lastUpdatedAt.replace("T", " ").replace("+08:00", " 台北時間");
+  const cause = warningCount > 0
+    ? `目前有 ${warningCount} 個資料旗標，燈號先作為 mock 狀態閱讀，不作為真實行情結論。`
+    : snapshot.riskScore >= 70
+      ? "風險分數偏高，先確認技術面、波動與資料邊界，再判斷是否需要降低曝險。"
+      : snapshot.healthScore >= 70
+        ? "結構分數較強，先觀察趨勢是否延續，同時確認風險沒有擴散。"
+        : "結構與風險都在觀察區，適合先等待更明確的資料或訊號。";
+  const nextObservation = warningCount > 0
+    ? "先查看資料旗標與來源覆蓋，所有結論都維持示範閱讀。"
+    : snapshot.riskScore >= 70
+      ? "先看技術面風險來源，再回到市場簡報確認是否為全市場壓力。"
+      : snapshot.healthScore >= 70
+        ? "先看趨勢連續性，再檢查成交與基本面是否支持。"
+        : "先看今日摘要與趨勢頁，等待訊號走出明確方向。";
+  const primaryTab: TabKey = warningCount > 0 ? "today" : snapshot.riskScore >= 70 ? "technical" : "trend";
+
+  const items = [
+    {
+      label: "成因",
+      title: snapshot.signal.title,
+      body: cause,
+      tone
+    },
+    {
+      label: "更新時間",
+      title: updatedAt,
+      body: "目前顯示為公開 Beta mock 狀態，真實資料上線前不宣稱即時或完整覆蓋。",
+      tone: "active"
+    },
+    {
+      label: "影響級別",
+      title: impactLevel,
+      body: `健康分數 ${snapshot.healthScore}/100，風險分數 ${snapshot.riskScore}/100，用來決定觀察強度。`,
+      tone
+    },
+    {
+      label: "下一步觀察",
+      title: primaryTab === "technical" ? "加強風險確認" : primaryTab === "trend" ? "觀察趨勢延續" : "先確認資料邊界",
+      body: nextObservation,
+      tone: primaryTab === "today" ? "hold" : tone
+    }
+  ];
+
+  return (
+    <section className="stock-decision-aid-summary-panel" aria-label="Stock decision aid summary">
+      <div>
+        <p className="eyebrow">Decision Aid Summary</p>
+        <h2>{snapshot.asset.symbol} 決策輔助摘要</h2>
+        <p>
+          先用 3 分鐘確認成因、更新時間、影響級別與下一步觀察；目前維持 publicDataSource=mock、scoreSource=mock，
+          不構成投資建議。
+        </p>
+      </div>
+      <div className="stock-decision-aid-summary-grid">
+        {items.map((item) => (
+          <article className={item.tone} key={item.label}>
+            <span>{item.label}</span>
+            <strong>{item.title}</strong>
+            <p>{item.body}</p>
+          </article>
+        ))}
+      </div>
+      <button onClick={() => onTab(primaryTab)} type="button">
+        {primaryTab === "technical" ? "查看風險來源" : primaryTab === "trend" ? "查看趨勢連續性" : "查看資料旗標"}
       </button>
     </section>
   );

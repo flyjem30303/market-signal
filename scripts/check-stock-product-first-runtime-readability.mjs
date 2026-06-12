@@ -36,6 +36,7 @@ assertOrder("stock page source product-first runtime order", stockSeoSlice, [
   '<PublicBetaUsableLoopPanel context="stock"',
   '<PublicBetaRouteConsistencyPanel context="stock"',
   '<PublicBetaSourceCoverageRuntimeLabelsPanel context="stock"',
+  "<StockDecisionAidSummaryPanel",
   "<DataFreshnessStrip"
 ]);
 
@@ -54,8 +55,20 @@ for (const route of ["/stocks/2330", "/stocks/TWII", "/stocks/0050"]) {
     "Stock Decision Brief",
     "Public Beta Decision Loop",
     "\u8cc7\u6599\u4f86\u6e90\u8207\u8986\u84cb\u7bc4\u570d",
+    "Decision Aid Summary",
     "\u8cc7\u6599\u65b0\u9bae\u5ea6 metadata"
   ]);
+
+  for (const requiredDecisionAidLabel of [
+    "\u6210\u56e0",
+    "\u66f4\u65b0\u6642\u9593",
+    "\u5f71\u97ff\u7d1a\u5225",
+    "\u4e0b\u4e00\u6b65\u89c0\u5bdf"
+  ]) {
+    if (!visible.includes(requiredDecisionAidLabel)) {
+      problems.push(`${route} missing stock decision-aid label ${requiredDecisionAidLabel}`);
+    }
+  }
 
   if (!visible.includes("\u53ef\u7528\u9589\u74b0")) {
     problems.push(`${route} missing usable-loop copy`);

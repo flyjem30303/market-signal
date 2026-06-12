@@ -34,10 +34,10 @@ const required = [
   [panel, "mock-only", "mock-only boundary"],
   [read(cssPath), ".stock-signal-why-panel", "signal why CSS"],
   [read(cssPath), ".stock-signal-why-grid", "signal why grid CSS"],
-  [read(publicCheckerPath), "為什麼是這個燈號", "public language checker requires title"],
-  [read(publicCheckerPath), "結構支撐", "public language checker requires structure"],
-  [read(publicCheckerPath), "風險拉力", "public language checker requires risk"],
-  [read(publicCheckerPath), "資料邊界", "public language checker requires data boundary"],
+  [read(publicCheckerPath), "publicDataSource=mock", "public language checker requires mock data source boundary"],
+  [read(publicCheckerPath), "scoreSource=mock", "public language checker requires mock score boundary"],
+  [read(publicCheckerPath), "scoreSource=real approved", "public language checker blocks approved real score claims"],
+  [read(publicCheckerPath), "publicDataSource=supabase approved", "public language checker blocks approved public supabase claims"],
   [read(packagePath), "\"check:stock-signal-explanation-readout\"", "package script"],
   [read(reviewGatePath), "scripts/check-stock-signal-explanation-readout.mjs", "review gate registration"]
 ];
