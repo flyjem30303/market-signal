@@ -2888,6 +2888,11 @@ const checks = [
     name: "briefing-product-first-information-hierarchy"
   },
   {
+    command: [node, "scripts/check-market-action-summary-readable-copy.mjs"],
+    expectStatus: "ok",
+    name: "market-action-summary-readable-copy"
+  },
+  {
     command: [node, "scripts/check-stock-runtime-at-a-glance.mjs"],
     expectStatus: "ok",
     name: "stock-runtime-at-a-glance"
@@ -5892,6 +5897,7 @@ const coreReviewGateNames = new Set([
 
 const publicBetaFocusedReviewGateNames = new Set([
   "local-verification-runbook",
+  "market-action-summary-readable-copy",
   "public-visible-language-quality",
   "public-beta-decision-loop-bridge",
   "public-beta-decision-journey-panel",
