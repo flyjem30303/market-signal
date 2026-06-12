@@ -3535,6 +3535,82 @@ select {
   line-height: 1.55;
 }
 
+.public-beta-decision-loop-bridge {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.8fr) minmax(320px, 1.4fr);
+  gap: 14px;
+  border: 1px solid rgba(15, 118, 110, 0.2);
+  border-radius: 8px;
+  background: #f7fbf9;
+  padding: 18px;
+}
+
+.public-beta-decision-loop-bridge__head,
+.public-beta-decision-loop-bridge__footer {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+}
+
+.public-beta-decision-loop-bridge__head h2 {
+  margin: 0;
+  color: var(--text);
+  font-size: 22px;
+  line-height: 1.25;
+}
+
+.public-beta-decision-loop-bridge__head p,
+.public-beta-decision-loop-bridge__footer p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.public-beta-decision-loop-bridge__steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.public-beta-decision-loop-bridge__steps article {
+  display: grid;
+  align-content: start;
+  min-width: 0;
+  gap: 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  padding: 14px;
+}
+
+.public-beta-decision-loop-bridge__steps span {
+  color: var(--teal);
+  font-size: 12px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.public-beta-decision-loop-bridge__steps strong {
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.35;
+}
+
+.public-beta-decision-loop-bridge__steps p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.public-beta-decision-loop-bridge__footer {
+  grid-column: 1 / -1;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  border-top: 1px solid rgba(15, 118, 110, 0.14);
+  padding-top: 12px;
+}
+
 .runtime-next-links {
   display: flex;
   flex-wrap: wrap;
@@ -12953,6 +13029,9 @@ input[type="date"] {
   .briefing-executive-summary nav,
   .public-beta-route-consistency__steps,
   .public-beta-route-consistency__boundary,
+  .public-beta-decision-loop-bridge,
+  .public-beta-decision-loop-bridge__steps,
+  .public-beta-decision-loop-bridge__footer,
   .public-beta-data-readiness-status,
   .public-beta-data-readiness-lanes,
   .public-beta-source-trust,

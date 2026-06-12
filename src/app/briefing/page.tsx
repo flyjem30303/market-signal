@@ -4,6 +4,7 @@ import { BriefingPublicDecisionSummaryPanel } from "@/components/briefing-public
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { PageViewTracker } from "@/components/page-view-tracker";
 import { PostReadonlyProductStatus } from "@/components/post-readonly-product-status";
+import { PublicBetaDecisionLoopBridge } from "@/components/public-beta-decision-loop-bridge";
 import { PublicBetaDataReadinessStatus } from "@/components/public-beta-data-readiness-status";
 import { PublicBetaRouteConsistencyPanel } from "@/components/public-beta-route-consistency-panel";
 import { PublicBetaSourceCoverageRuntimeLabelsPanel } from "@/components/public-beta-source-coverage-runtime-labels-panel";
@@ -68,6 +69,7 @@ export default async function BriefingPage() {
     <main className="page-shell">
       <PageViewTracker eventName="briefing_page_viewed" payload={{ page: "briefing" }} />
       <BriefingPublicDecisionSummaryPanel breadth={breadth} market={market} topRisk={topRisk} />
+      <PublicBetaDecisionLoopBridge context="briefing" stockSymbol={market.asset.symbol} />
       <PublicBetaRouteConsistencyPanel context="briefing" stockSymbol={market.asset.symbol} />
       <PublicBetaSourceCoverageRuntimeLabelsPanel context="briefing" stockSymbol={market.asset.symbol} />
       <BriefingExecutiveSummary market={market} topRisk={topRisk} />

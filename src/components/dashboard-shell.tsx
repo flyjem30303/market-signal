@@ -8,6 +8,7 @@ import { CommercialSlot } from "@/components/commercial-slot";
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { HomeRuntimeStatusPanel } from "@/components/home-runtime-status-panel";
 import { PublicBetaIndexDashboardBriefLoopPanel } from "@/components/public-beta-index-dashboard-brief-loop-panel";
+import { PublicBetaDecisionLoopBridge } from "@/components/public-beta-decision-loop-bridge";
 import { PublicBetaRouteConsistencyPanel } from "@/components/public-beta-route-consistency-panel";
 import { PublicBetaSourceCoverageRuntimeLabelsPanel } from "@/components/public-beta-source-coverage-runtime-labels-panel";
 import { StockRuntimeAtAGlance } from "@/components/stock-runtime-at-a-glance";
@@ -291,10 +292,13 @@ export function DashboardShell({
 
       {!includeSeoContent && <HomeRuntimeStatusPanel selectedSymbol={selected.symbol} />}
 
+      {!includeSeoContent && <PublicBetaDecisionLoopBridge context="home" stockSymbol={selected.symbol} />}
+
       {includeSeoContent && (
         <>
           <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
           <StockRuntimeAtAGlance scoreSourceLabel={freshness.scoreSourceLabel} snapshot={snapshot} />
+          <PublicBetaDecisionLoopBridge context="stock" stockSymbol={selected.symbol} />
           <PublicBetaRouteConsistencyPanel context="stock" stockSymbol={selected.symbol} />
           <PublicBetaSourceCoverageRuntimeLabelsPanel context="stock" stockSymbol={selected.symbol} />
           <StockRuntimeBrief scoreSourceLabel={freshness.scoreSourceLabel} snapshot={snapshot} onTab={changeTab} />

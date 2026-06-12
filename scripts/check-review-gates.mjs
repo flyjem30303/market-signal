@@ -2968,6 +2968,11 @@ const checks = [
     name: "public-visible-language-quality"
   },
   {
+    command: [node, "scripts/check-public-beta-decision-loop-bridge.mjs"],
+    expectStatus: "ok",
+    name: "public-beta-decision-loop-bridge"
+  },
+  {
     command: [node, "scripts/check-public-language-gate-self-audit.mjs"],
     expectStatus: "ok",
     name: "public-language-gate-self-audit"
@@ -5823,6 +5828,7 @@ const coreReviewGateNames = new Set([
 const publicBetaFocusedReviewGateNames = new Set([
   "local-verification-runbook",
   "public-visible-language-quality",
+  "public-beta-decision-loop-bridge",
   "public-beta-index-dashboard-brief-loop",
   "public-beta-route-consistency",
   "public-beta-source-coverage-runtime-labels",

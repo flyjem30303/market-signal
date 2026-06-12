@@ -995,6 +995,7 @@
     "check:public-runtime-boundary-coverage": "node scripts/check-public-runtime-boundary-coverage.mjs",
     "check:site-chrome-readability": "node scripts/check-site-chrome-readability.mjs",
     "check:public-visible-language-quality": "node scripts/check-public-visible-language-quality.mjs",
+    "check:public-beta-decision-loop-bridge": "node scripts/check-public-beta-decision-loop-bridge.mjs",
     "check:public-beta-production-brief-alignment": "node scripts/check-public-beta-production-brief-alignment.mjs",
     "check:public-language-gate-self-audit": "node scripts/check-public-language-gate-self-audit.mjs",
     "check:cp3-5pm-runtime-readiness-checkpoint": "node scripts/check-cp3-5pm-runtime-readiness-checkpoint.mjs",
