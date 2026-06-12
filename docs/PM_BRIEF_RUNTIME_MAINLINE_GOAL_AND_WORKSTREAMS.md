@@ -53,7 +53,8 @@ Active A1 artifact:
 - `docs/A1_PUBLIC_BETA_SOURCE_COVERAGE_RUNTIME_NO_FETCH_HANDOFF.md`
 - `docs/A1_TWSE_OPENAPI_TERMS_FIELD_COVERAGE_MATRIX_NO_FETCH.md`
 - `docs/A1_TWSE_OPENAPI_INDEX_BASELINE_FIELD_CONTRACT_CONFIRMATION_NO_FETCH.md`
-- current PM assignment: prepare index-baseline synthetic contract cases and a Batch 1 listed-equity symbol policy without stock-id row-list output; return only sanitized, no-secret, no-fetch artifacts that PM can accept through local checks.
+- `docs/A1_INDEX_BASELINE_SYNTHETIC_CONTRACT_CASES_NO_FETCH.md`
+- current PM assignment: prepare the next synthetic parser fixture for index baseline without market-row fetch; keep Batch 1 listed-equity symbol policy as the next A1 background candidate when agent capacity is available.
 
 A1 is responsible for:
 
@@ -61,7 +62,7 @@ A1 is responsible for:
 - coverage categories for daily close, volume, date, symbol, ETF, index, and stock lanes,
 - no-fetch terms review packets,
 - source-lane questions for PM/CEO decisions.
-- next background task: `prepare_index_baseline_synthetic_contract_cases_no_fetch` and `prepare_batch1_listed_equity_symbol_policy_no_row_list`; keep the output local-only, no-fetch, no-secret, and PM-readable.
+- next background task: `prepare_batch1_listed_equity_symbol_policy_no_row_list`; keep the output local-only, no-fetch, no-secret, and PM-readable.
 
 A1 is not authorized by this goal to:
 
@@ -82,6 +83,7 @@ Active A2 artifact:
 - `docs/A2_HOME_FIRST_SCREEN_PUBLIC_COPY_HANDOFF.md`
 - `docs/A2_PUBLIC_COPY_UX_SAFETY_QA_HANDOFF_2026_06_12.md`
 - `docs/A2_SOURCE_COVERAGE_RUNTIME_LABELS_PUBLIC_COPY_REVIEW.md`
+- `docs/A2_FIELD_CONTRACT_PUBLIC_COPY_GUARD.md`
 - current PM assignment: review stock detail and home-to-briefing language for 30-second comprehension, 3-minute action judgment, mock/real boundary clarity, and non-advice wording; propose copy patches only when they improve comprehension or safety.
 
 A2 is responsible for:
@@ -91,7 +93,7 @@ A2 is responsible for:
 - mock/real boundary readability,
 - non-investment-advice wording,
 - blocking internal execution strings on public surfaces.
-- next background task: `prepare_field_contract_public_copy_guard`; keep field-contract wording public-readable as `欄位對照仍在檢查`, avoid parser internals, and preserve mock/non-advice boundary clarity.
+- next background task: monitor field-contract labels after PM route-health checks; propose only bounded copy repair if public wording leaks parser internals or weakens mock/non-advice boundary clarity.
 
 A2 is not authorized by this goal to:
 
@@ -146,8 +148,8 @@ This goal slice is complete when:
 
 Recommended next mainline action:
 
-`prepare_index_baseline_synthetic_contract_cases_no_fetch_then_pm_route_health`
+`prepare_index_baseline_synthetic_parser_fixture_no_fetch`
 
 Meaning:
 
-PM should keep the field-contract labels route-healthy while A1 prepares synthetic-only field-contract cases and a Batch 1 symbol policy without row-list output. A2 should guard public wording so field-contract status stays understandable and does not leak parser internals. Real-data promotion remains blocked until a separately accepted source-rights, coverage, quality, rollback, and runtime gate is recorded.
+PM should convert the accepted A1 synthetic contract cases into a no-fetch parser fixture or fixture-readiness gate for index baseline. A1 should keep Batch 1 symbol policy queued without row-list output. A2 should keep field-contract public copy understandable and non-advice. Real-data promotion remains blocked until a separately accepted source-rights, coverage, quality, rollback, and runtime gate is recorded.

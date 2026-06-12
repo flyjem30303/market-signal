@@ -4333,6 +4333,16 @@ const checks = [
     name: "a1-twse-openapi-index-baseline-field-contract-confirmation-no-fetch"
   },
   {
+    command: [node, "scripts/check-a1-index-baseline-synthetic-contract-cases-no-fetch.mjs"],
+    expectStatus: "ok",
+    name: "a1-index-baseline-synthetic-contract-cases-no-fetch"
+  },
+  {
+    command: [node, "scripts/check-a2-field-contract-public-copy-guard.mjs"],
+    expectStatus: "ok",
+    name: "a2-field-contract-public-copy-guard"
+  },
+  {
     command: [node, "scripts/check-pm-brief-runtime-mainline-goal-and-workstreams.mjs"],
     expectStatus: "ok",
     name: "pm-brief-runtime-mainline-goal-and-workstreams"
@@ -5774,6 +5784,8 @@ const publicBetaFocusedReviewGateNames = new Set([
   "twse-openapi-field-contract-roadmap",
   "twse-openapi-coverage-and-backfill-readiness",
   "a1-twse-openapi-index-baseline-field-contract-confirmation-no-fetch",
+  "a1-index-baseline-synthetic-contract-cases-no-fetch",
+  "a2-field-contract-public-copy-guard",
   "public-beta-launch-readiness-panel",
   "public-beta-data-readiness-status",
   "beta-platform-proof-status",
