@@ -4363,6 +4363,11 @@ const checks = [
     name: "etf-market-price-synthetic-fixture"
   },
   {
+    command: [node, "scripts/check-etf-market-price-mock-runtime-handoff.mjs"],
+    expectStatus: "ok",
+    name: "etf-market-price-mock-runtime-handoff"
+  },
+  {
     command: [node, "scripts/check-a1-official-open-free-source-terms-and-coverage-matrix-no-fetch.mjs"],
     expectStatus: "ok",
     name: "a1-official-open-free-source-terms-and-coverage-matrix-no-fetch"
@@ -5879,6 +5884,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "a1-etf-market-price-source-scope-no-fetch",
   "a1-etf-market-price-field-contract-no-fetch",
   "etf-market-price-synthetic-fixture",
+  "etf-market-price-mock-runtime-handoff",
   "a1-twse-openapi-index-baseline-field-contract-confirmation-no-fetch",
   "a1-index-baseline-synthetic-contract-cases-no-fetch",
   "a1-batch1-listed-equity-symbol-policy-no-row-list",

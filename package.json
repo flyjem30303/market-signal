@@ -42,6 +42,7 @@
     "check:a1-etf-market-price-source-scope-no-fetch": "node scripts/check-a1-etf-market-price-source-scope-no-fetch.mjs",
     "check:a1-etf-market-price-field-contract-no-fetch": "node scripts/check-a1-etf-market-price-field-contract-no-fetch.mjs",
     "check:etf-market-price-synthetic-fixture": "node scripts/check-etf-market-price-synthetic-fixture.mjs",
+    "check:etf-market-price-mock-runtime-handoff": "node scripts/check-etf-market-price-mock-runtime-handoff.mjs",
     "check:a1-official-open-free-source-terms-and-coverage-matrix-no-fetch": "node scripts/check-a1-official-open-free-source-terms-and-coverage-matrix-no-fetch.mjs",
     "check:a1-twse-openapi-index-baseline-field-contract-confirmation-no-fetch": "node scripts/check-a1-twse-openapi-index-baseline-field-contract-confirmation-no-fetch.mjs",
     "check:a1-index-baseline-synthetic-contract-cases-no-fetch": "node scripts/check-a1-index-baseline-synthetic-contract-cases-no-fetch.mjs",
