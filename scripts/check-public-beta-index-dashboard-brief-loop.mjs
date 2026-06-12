@@ -48,22 +48,33 @@ requireIncludes("home dashboard source", dashboard, [
 
 requireIncludes("brief loop module", moduleSource, [
   "getPublicBetaIndexDashboardBriefLoop",
-  "指數狀態儀表站",
+  "30 秒看懂市場氣氛，3 分鐘形成下一步觀察",
   "30 秒看懂市場氛圍",
   "3 分鐘形成下一步觀察",
-  "全市場總覽、核心指標面板與警示清單三層視圖",
+  "首頁把全市場總覽、核心指標與警示清單放在同一條路徑",
+  "市場氛圍",
+  "風險焦點",
+  "資料可信度",
+  "TWII 市場氛圍仍是示範狀態",
+  "資料與分數仍維持 mock",
   "更新時間",
   "影響級別",
   "下一步",
+  "不宣稱即時真實資料",
+  "不提供買賣建議",
   "publicDataSource",
-  "scoreSource",
-  "不提供買賣建議"
+  "scoreSource"
 ]);
 
 requireIncludes("brief loop component", component, [
   "home-public-beta-loop",
   "core indicator panel",
   "market alert list",
+  "第一步",
+  "第二步",
+  "更新時間：",
+  "影響級別：",
+  "下一步：",
   "publicDataSource=",
   "scoreSource="
 ]);
@@ -78,29 +89,34 @@ requireIncludes("brief loop css", css, [
 requireExcludes("home dashboard source", dashboard, publicResiduePhrases());
 requireExcludes("brief loop module", moduleSource, forbiddenRuntimePhrases());
 requireExcludes("brief loop component", component, forbiddenRuntimePhrases());
+requireExcludes("brief loop module", moduleSource, mojibakeMarkers());
+requireExcludes("brief loop component", component, mojibakeMarkers());
 
 const home = await get("/");
 if (home.statusCode !== 200) problems.push(`/ must return 200, got ${home.statusCode}`);
 
 requireIncludes("home page", home.body, [
   "Public Beta Index Dashboard",
-  "指數狀態儀表站",
+  "30 秒看懂市場氣氛，3 分鐘形成下一步觀察",
   "30 秒看懂市場氛圍",
   "3 分鐘形成下一步觀察",
   "市場氛圍",
-  "風險溫度",
+  "風險焦點",
   "資料可信度",
-  "TWII 市場氛圍示範",
+  "TWII 市場氛圍仍是示範狀態",
+  "資料與分數仍維持 mock",
   "更新時間",
   "影響級別",
   "下一步",
   "publicDataSource=mock",
   "scoreSource=mock",
+  "不宣稱即時真實資料",
   "不提供買賣建議"
 ]);
 
 requireExcludes("home page", home.body, [
   ...publicResiduePhrases(),
+  ...mojibakeMarkers(),
   "readonly-attempt",
   "post-run",
   "preflight",
@@ -118,7 +134,7 @@ console.log(
       checkedRoutes: ["/"],
       status: "ok",
       summary:
-        "Public Beta index dashboard matches the BRIEF loop: overview, indicators, alerts, mock boundary, and non-advice wording are present without public developer residue."
+        "Public Beta index dashboard matches the BRIEF loop with readable 30-second and 3-minute copy, mock boundary, and no public developer residue."
     },
     null,
     2
@@ -164,6 +180,10 @@ function forbiddenRuntimePhrases() {
     "sqlExecution: true",
     "supabaseWrite: true"
   ];
+}
+
+function mojibakeMarkers() {
+  return ["嚗", "銝", "蝚", "甇", "摰", "閬", "隤", "蝷", "霅", "璅"];
 }
 
 function get(urlPath) {

@@ -1,6 +1,6 @@
 export type PublicBetaIndexDashboardBriefAlert = {
   cause: string;
-  impactLevel: "觀察" | "提醒" | "阻塞";
+  impactLevel: "低" | "中" | "高";
   nextStep: string;
   status: string;
   title: string;
@@ -31,19 +31,21 @@ export function getPublicBetaIndexDashboardBriefLoop(): PublicBetaIndexDashboard
   return {
     alerts: [
       {
-        cause: "TWII runtime 目前只接 synthetic-only consumer wire，尚未通過資料來源與覆蓋率 gate。",
-        impactLevel: "觀察",
-        nextStep: "先用示範卡理解指標結構，等待資料線完成合法來源與 coverage handoff。",
-        status: "可讀示範",
-        title: "TWII 市場氛圍示範",
+        cause:
+          "TWII 目前只接到 synthetic-only mock runtime，用來驗證市場氛圍閱讀流程；正式資料來源與覆蓋率仍未升級。",
+        impactLevel: "中",
+        nextStep: "先看大盤、ETF、上市個股哪一層仍在檢查，再回到晨報確認成因與更新時間。",
+        status: "觀察",
+        title: "TWII 市場氛圍仍是示範狀態",
         updatedAt: "mock runtime"
       },
       {
-        cause: "publicDataSource 與 scoreSource 都仍保持 mock，避免誤導使用者以為已經上真實資料。",
-        impactLevel: "阻塞",
-        nextStep: "正式資料 promotion 前，首頁與個股頁都必須繼續顯示資料邊界。",
-        status: "真實資料未啟用",
-        title: "資料真實化邊界",
+        cause:
+          "publicDataSource 與 scoreSource 仍維持 mock，避免使用者把示範燈號誤認為即時行情或正式投資訊號。",
+        impactLevel: "低",
+        nextStep: "正式資料上線前，僅把燈號當成觀察入口，不作為買賣建議或保證報酬依據。",
+        status: "邊界",
+        title: "資料與分數仍維持 mock",
         updatedAt: "持續檢查"
       }
     ],
@@ -51,30 +53,30 @@ export function getPublicBetaIndexDashboardBriefLoop(): PublicBetaIndexDashboard
       publicDataSource: "mock",
       scoreSource: "mock"
     },
-    headline: "指數狀態儀表站：先看氣氛，再看原因，最後決定要不要加強觀察",
+    headline: "30 秒看懂市場氣氛，3 分鐘形成下一步觀察",
     indicatorPanel: [
       {
         label: "市場氛圍",
         state: "示範觀察",
-        summary: "目前以 mock 訊號演練紅黃綠燈流程，讓使用者先熟悉判讀順序。"
+        summary: "用紅黃綠燈與核心指標先判斷今天偏向正向、觀察或防守。"
       },
       {
-        label: "風險溫度",
-        state: "需交叉驗證",
-        summary: "風險分數只代表產品模型示範，尚未連到正式資料來源或真實分數。"
+        label: "風險焦點",
+        state: "需要複核",
+        summary: "風險分數只協助排序注意力，仍需搭配成因、更新時間與資料狀態。"
       },
       {
         label: "資料可信度",
-        state: "資料線建置中",
-        summary: "資料支援線正在處理合法免費可自動化來源與覆蓋率補齊前置。"
+        state: "mock 邊界",
+        summary: "目前先展示閱讀流程；來源權利、覆蓋品質與正式更新節奏仍在檢查。"
       }
     ],
     marketOverview:
-      "首頁先提供全市場總覽、核心指標面板與警示清單三層視圖，避免使用者直接被表格或工程狀態淹沒。",
-    primaryAction: "30 秒內：確認目前是觀察、提醒或阻塞狀態。",
-    secondaryAction: "3 分鐘內：查看成因、更新時間、影響級別，決定是否追蹤 TWII、ETF 或個股頁。",
+      "首頁把全市場總覽、核心指標與警示清單放在同一條路徑，讓一般投資者先理解市場氣氛，再決定要關注、加強觀察或減少風險。",
+    primaryAction: "30 秒內：先判斷目前市場偏向正向、觀察或防守。",
+    secondaryAction: "3 分鐘內：再看警示成因、更新時間、影響級別與下一步觀察。",
     stopLine:
-      "目前仍是 mock 資料與 mock 分數；不代表即時市場資料，不提供買賣建議，也不應被解讀為報酬保證。",
+      "目前仍是 mock-only 公開 Beta，不宣稱即時真實資料、不宣稱完整覆蓋、不提供買賣建議，也不保證任何投資結果。",
     timeToAction: "3 分鐘形成下一步觀察",
     timeToUnderstand: "30 秒看懂市場氛圍"
   };
