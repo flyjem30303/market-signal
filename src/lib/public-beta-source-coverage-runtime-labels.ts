@@ -24,6 +24,13 @@ export type PublicBetaIndexBaselineRuntimeCheck = {
   status: "可示範" | "暫停公開" | "政策待確認";
 };
 
+export type PublicBetaBatch1PolicyLabel = {
+  detail: string;
+  id: string;
+  label: string;
+  status: "展示可用" | "不可宣稱" | "範圍切開";
+};
+
 export type PublicBetaSourceCoverageAction = {
   body: string;
   id: string;
@@ -32,6 +39,7 @@ export type PublicBetaSourceCoverageAction = {
 };
 
 export type PublicBetaSourceCoverageRuntimeLabels = {
+  batch1PolicyLabels: PublicBetaBatch1PolicyLabel[];
   boundary: {
     publicDataSource: "mock";
     scoreSource: "mock";
@@ -57,6 +65,26 @@ export function getPublicBetaSourceCoverageRuntimeLabels(
       : "目前公開 Beta 先讓使用者看懂市場狀態；資料來源與覆蓋率仍以候選路線呈現。";
 
   return {
+    batch1PolicyLabels: [
+      {
+        detail: "2330、2382、2308 只作為第一批上市個股 mock 示範錨點，用來驗證閱讀流程，不代表正式資料覆蓋。",
+        id: "batch1-demo-anchors",
+        label: "第一批示範標的",
+        status: "展示可用"
+      },
+      {
+        detail: "目前不公開完整上市公司清單、不輸出原始股票代碼列、不展示候選資料列，避免使用者誤認已完成全市場覆蓋。",
+        id: "batch1-no-row-list",
+        label: "不是完整上市股票覆蓋",
+        status: "不可宣稱"
+      },
+      {
+        detail: "上市個股、ETF、指數與 OTC 需要分開確認來源、欄位與覆蓋規則；0050、006208 與 TWII 不併入這一批。",
+        id: "batch1-instrument-scope",
+        label: "上市個股與 ETF/指數分開",
+        status: "範圍切開"
+      }
+    ],
     boundary: {
       publicDataSource: "mock",
       scoreSource: "mock",

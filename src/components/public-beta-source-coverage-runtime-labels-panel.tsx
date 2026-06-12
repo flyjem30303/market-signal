@@ -60,6 +60,16 @@ export function PublicBetaSourceCoverageRuntimeLabelsPanel({
         ))}
       </div>
 
+      <div className="public-beta-source-coverage-runtime__batch1-policy" aria-label="Batch 1 listed equity policy labels">
+        {labels.batch1PolicyLabels.map((policy) => (
+          <article key={policy.id}>
+            <span>{policy.status}</span>
+            <strong>{policy.label}</strong>
+            <p>{policy.detail}</p>
+          </article>
+        ))}
+      </div>
+
       <div className="public-beta-source-coverage-runtime__actions" aria-label="Source coverage reading actions">
         {labels.readingActions.map((action) => (
           <article key={action.id}>

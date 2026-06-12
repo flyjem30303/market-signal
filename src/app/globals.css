@@ -3632,6 +3632,7 @@ select {
 .public-beta-source-coverage-runtime__layers article,
 .public-beta-source-coverage-runtime__field-contracts article,
 .public-beta-source-coverage-runtime__index-checks article,
+.public-beta-source-coverage-runtime__batch1-policy article,
 .public-beta-source-coverage-runtime__actions article,
 .public-beta-source-coverage-runtime__boundary article {
   display: grid;
@@ -3680,6 +3681,13 @@ select {
   gap: 10px;
 }
 
+.public-beta-source-coverage-runtime__batch1-policy {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
 .public-beta-source-coverage-runtime__field-contracts article {
   border-color: rgba(40, 94, 203, 0.16);
   background: #f9fbff;
@@ -3690,6 +3698,11 @@ select {
   background: #fffdf7;
 }
 
+.public-beta-source-coverage-runtime__batch1-policy article {
+  border-color: rgba(15, 118, 110, 0.16);
+  background: #f7fffc;
+}
+
 .public-beta-source-coverage-runtime__actions article {
   border-color: rgba(15, 118, 110, 0.16);
   background: #fbfffd;
@@ -3698,6 +3711,7 @@ select {
 .public-beta-source-coverage-runtime__layers span,
 .public-beta-source-coverage-runtime__field-contracts span,
 .public-beta-source-coverage-runtime__index-checks span,
+.public-beta-source-coverage-runtime__batch1-policy span,
 .public-beta-source-coverage-runtime__actions span,
 .public-beta-source-coverage-runtime__boundary span {
   color: var(--muted);
@@ -3709,6 +3723,7 @@ select {
 .public-beta-source-coverage-runtime__layers strong,
 .public-beta-source-coverage-runtime__field-contracts strong,
 .public-beta-source-coverage-runtime__index-checks strong,
+.public-beta-source-coverage-runtime__batch1-policy strong,
 .public-beta-source-coverage-runtime__actions strong,
 .public-beta-source-coverage-runtime__boundary strong {
   overflow-wrap: anywhere;
@@ -3721,6 +3736,7 @@ select {
 .public-beta-source-coverage-runtime__layers small,
 .public-beta-source-coverage-runtime__field-contracts p,
 .public-beta-source-coverage-runtime__index-checks p,
+.public-beta-source-coverage-runtime__batch1-policy p,
 .public-beta-source-coverage-runtime__actions p,
 .public-beta-source-coverage-runtime__boundary p {
   margin: 0;
@@ -12774,6 +12790,9 @@ input[type="date"] {
   .public-beta-route-consistency__boundary,
   .public-beta-source-coverage-runtime,
   .public-beta-source-coverage-runtime__layers,
+  .public-beta-source-coverage-runtime__field-contracts,
+  .public-beta-source-coverage-runtime__index-checks,
+  .public-beta-source-coverage-runtime__batch1-policy,
   .public-beta-source-coverage-runtime__actions,
   .public-beta-source-coverage-runtime__boundary,
   .quote-panel,
