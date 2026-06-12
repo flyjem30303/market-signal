@@ -3368,6 +3368,11 @@ const checks = [
     name: "a2-public-copy-ux-safety-brief-handoff"
   },
   {
+    command: [node, "scripts/check-a2-home-first-screen-public-copy-handoff.mjs"],
+    expectStatus: "ok",
+    name: "a2-home-first-screen-public-copy-handoff"
+  },
+  {
     command: [node, "scripts/check-a2-public-beta-runtime-ux-safety-handoff.mjs"],
     expectStatus: "ok",
     name: "a2-public-beta-runtime-ux-safety-handoff"
@@ -4311,6 +4316,16 @@ const checks = [
     command: [node, "scripts/check-a1-official-open-source-coverage-no-fetch-handoff.mjs"],
     expectStatus: "ok",
     name: "a1-official-open-source-coverage-no-fetch-handoff"
+  },
+  {
+    command: [node, "scripts/check-a1-official-open-free-source-terms-and-coverage-matrix-no-fetch.mjs"],
+    expectStatus: "ok",
+    name: "a1-official-open-free-source-terms-and-coverage-matrix-no-fetch"
+  },
+  {
+    command: [node, "scripts/check-pm-brief-runtime-mainline-goal-and-workstreams.mjs"],
+    expectStatus: "ok",
+    name: "pm-brief-runtime-mainline-goal-and-workstreams"
   },
   {
     command: [node, "scripts/check-twii-aggregate-readback-contract-preflight.mjs"],
@@ -5415,6 +5430,7 @@ const coreReviewGateNames = new Set([
   "a1-coverage-gap-next-execution-roadmap",
   "a1-source-and-coverage-no-fetch-handoff",
   "a1-official-open-source-coverage-no-fetch-handoff",
+  "a1-official-open-free-source-terms-and-coverage-matrix-no-fetch",
   "twii-aggregate-readback-contract-preflight",
   "twii-post-run-review-contract-preflight",
   "twii-rollback-readiness-contract-preflight",
@@ -5563,6 +5579,7 @@ const coreReviewGateNames = new Set([
   "a1-coverage-gap-next-execution-roadmap",
   "a1-source-and-coverage-no-fetch-handoff",
   "a1-official-open-source-coverage-no-fetch-handoff",
+  "a1-official-open-free-source-terms-and-coverage-matrix-no-fetch",
   "twii-aggregate-readback-contract-preflight",
   "twii-post-run-review-contract-preflight",
   "twii-rollback-readiness-contract-preflight",
@@ -5689,10 +5706,12 @@ const coreReviewGateNames = new Set([
   "a1-twii-source-rights-unblock-decision-record-candidate",
   "a1-twii-source-rights-evidence-intake-or-vendor-fallback-decision-support",
   "a1-twii-official-source-intake-fields-or-vendor-terms-review-packet",
+  "pm-brief-runtime-mainline-goal-and-workstreams",
   "a2-public-beta-trust-copy-readiness",
   "briefing-public-beta-gate-summary",
   "a2-beta-phrase-set-and-shared-trust-surface-patch-scope",
   "a2-public-copy-ux-safety-brief-handoff",
+  "a2-home-first-screen-public-copy-handoff",
   "a2-public-beta-runtime-ux-safety-handoff",
   "a2-route-local-legal-weekly-methodology-copy-regression-gate",
   "a2-bounded-route-local-trust-copy-patch",
@@ -5733,6 +5752,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "beta-deployment-quickstart",
   "beta-runtime-fast-health",
   "public-beta-mock-launch-proof-bundle",
+  "a2-home-first-screen-public-copy-handoff",
   "a1-twii-four-slot-reply-request",
   "a1-twii-pm-intake-decision-summary",
   "a1-twii-evidence-completion-status",
@@ -5800,6 +5820,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "a1-coverage-gap-next-execution-roadmap",
   "a1-source-and-coverage-no-fetch-handoff",
   "a1-official-open-source-coverage-no-fetch-handoff",
+  "a1-official-open-free-source-terms-and-coverage-matrix-no-fetch",
   "twii-aggregate-readback-contract-preflight",
   "twii-post-run-review-contract-preflight",
   "twii-rollback-readiness-contract-preflight",
