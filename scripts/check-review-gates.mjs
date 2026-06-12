@@ -4643,6 +4643,11 @@ const checks = [
     name: "pre-launch-executable-state-gap-convergence"
   },
   {
+    command: [node, "scripts/check-public-beta-index-dashboard-brief-loop.mjs"],
+    expectStatus: "ok",
+    name: "public-beta-index-dashboard-brief-loop"
+  },
+  {
     command: [node, "scripts/check-local-runtime-launch-proof-continuation.mjs"],
     expectStatus: "ok",
     name: "local-runtime-launch-proof-continuation"
@@ -5617,6 +5622,7 @@ const coreReviewGateNames = new Set([
 const publicBetaFocusedReviewGateNames = new Set([
   "local-verification-runbook",
   "public-visible-language-quality",
+  "public-beta-index-dashboard-brief-loop",
   "public-beta-launch-readiness-panel",
   "public-beta-data-readiness-status",
   "beta-platform-proof-status",
