@@ -18,14 +18,14 @@ The public surface should explain that formal data fields are still being checke
 
 Use these phrases when field-contract status appears on public pages:
 
-- `欄位對照仍在檢查`
+- `欄位契約`
 - `大盤欄位對照`
 - `上市個股欄位對照`
-- `日期、收盤值與缺漏交易日規則仍在確認`
-- `標的代碼、標的名稱、收盤價、成交量與成交金額仍在確認`
-- `正式資料上線前只做示範閱讀`
-- `不是即時行情`
-- `不是投資建議`
+- `大盤資料至少需要交易日與收盤值，才能支撐首頁與 briefing 的市場狀態判讀。`
+- `第一批個股需要日期、收盤、成交量與基本識別欄位；缺欄時只能維持 mock 或降級顯示。`
+- `資料來源與覆蓋範圍`
+- `publicDataSource=mock`
+- `scoreSource=mock`
 
 ## 3. Avoided Public Phrases
 
@@ -48,7 +48,7 @@ Do not expose these concepts on public pages unless they are inside non-public e
 
 ## 4. Reader Meaning
 
-When users see `欄位對照仍在檢查`, it should mean:
+When users see `欄位契約` or `大盤欄位對照`, it should mean:
 
 1. the page is safe to read as a demonstration;
 2. the displayed signal is not formal market data;
@@ -68,7 +68,7 @@ This guard does not authorize:
 - `scoreSource=real`;
 - real-time market-data claims;
 - buy/sell recommendations;
-- 保證報酬宣稱。
+- investment advice.
 
 ## 6. PM Handoff
 

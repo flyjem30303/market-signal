@@ -27,25 +27,26 @@ requireIncludes("review gate", reviewGate, [
 
 requireIncludes("A2 copy guard", doc, [
   "Status: `a2_field_contract_public_copy_guard_ready`",
-  "欄位對照仍在檢查",
+  "欄位契約",
   "大盤欄位對照",
   "上市個股欄位對照",
-  "日期、收盤值與缺漏交易日規則仍在確認",
-  "標的代碼、標的名稱、收盤價、成交量與成交金額仍在確認",
-  "正式資料上線前只做示範閱讀",
-  "不是即時行情",
-  "不是投資建議",
+  "大盤資料至少需要交易日與收盤值",
+  "第一批個股需要日期、收盤、成交量與基本識別欄位",
+  "資料來源與覆蓋範圍",
+  "`publicDataSource=mock`",
+  "`scoreSource=mock`",
   "`publicDataSource=supabase`",
   "`scoreSource=real`",
+  "investment advice",
   "accept_a2_field_contract_public_copy_guard_for_source_coverage_runtime"
 ]);
 
 requireIncludes("runtime labels", moduleSource, [
-  "欄位對照仍在檢查",
+  "欄位契約",
   "大盤欄位對照",
   "上市個股欄位對照",
-  "日期、收盤值與缺漏交易日規則仍在確認",
-  "標的代碼、標的名稱、收盤價、成交量與成交金額仍在確認"
+  "大盤資料至少需要交易日與收盤值",
+  "第一批個股需要日期、收盤、成交量與基本識別欄位"
 ]);
 
 requireIncludes("runtime component", component, [
@@ -69,6 +70,9 @@ for (const [label, source] of [
     "sell now",
     "guaranteed return approved"
   ]);
+  for (const marker of findMojibakeMarkers(source)) {
+    problems.push(`${label} exposes ${marker}`);
+  }
 }
 
 if (problems.length) {
@@ -108,4 +112,11 @@ function requireExcludes(label, text, needles) {
   for (const needle of needles) {
     if (text.includes(needle)) problems.push(`${label} must not expose ${needle}`);
   }
+}
+
+function findMojibakeMarkers(text) {
+  const markers = [];
+  if (/[\uE000-\uF8FF\uFFFD]/u.test(text)) markers.push("private-use-or-replacement-code-point");
+  if (/\?{3,}/u.test(text)) markers.push("question-mark-run");
+  return markers;
 }

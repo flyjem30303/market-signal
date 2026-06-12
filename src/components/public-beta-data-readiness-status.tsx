@@ -1,40 +1,40 @@
 import { getPublicBetaDataReadinessStatus } from "@/lib/public-beta-data-readiness-status";
 
 const laneStatusLabels = {
-  accepted: "已接受",
-  blocked: "暫停",
+  accepted: "已納入 mock 示範",
+  blocked: "等待條件",
   readying: "準備中"
 } as const;
 
 const sourceStatusLabels = {
-  blocked: "暫停",
+  blocked: "暫不開放",
   candidate: "候選",
-  reviewing: "檢查中"
+  reviewing: "確認中"
 } as const;
 
 const coverageScopeStatusLabels = {
-  blocked: "暫停",
-  candidate: "候選",
-  future: "後續",
-  "mock-ready": "mock 可用"
+  blocked: "等待來源條件",
+  candidate: "候選線",
+  future: "後續階段",
+  "mock-ready": "mock 示範可用"
 } as const;
 
 const twiiTermsStatusLabels = {
-  blocked: "暫停",
-  "ready-for-copy": "可進入文案",
-  "review-required": "待確認"
+  blocked: "暫不開放",
+  "ready-for-copy": "可作為公開說明",
+  "review-required": "仍需 review"
 } as const;
 
 const boundedReadonlyStatusLabels = {
-  blocked: "升級鎖定",
-  prepared: "已準備",
-  required: "必要前提"
+  blocked: "目前鎖住",
+  prepared: "安全形狀已準備",
+  required: "必要條件"
 } as const;
 
 const operatorDecisionStatusLabels = {
-  blocked: "仍鎖住",
-  ready: "已整理",
-  waiting: "等待決策"
+  blocked: "blocked",
+  ready: "ready",
+  waiting: "waiting"
 } as const;
 
 export function PublicBetaDataReadinessStatus() {
@@ -43,22 +43,22 @@ export function PublicBetaDataReadinessStatus() {
   return (
     <section className="public-beta-data-readiness-status" aria-label="Public Beta data readiness status">
       <div className="public-beta-data-readiness-status-main">
-        <p className="eyebrow">資料準備狀態</p>
+        <p className="eyebrow">Data Readiness</p>
         <h2>{status.headline}</h2>
         <p>{status.summary}</p>
         <p>{status.stopLine}</p>
       </div>
       <article className="readying">
-        <span>覆蓋率證據</span>
+        <span>覆蓋證據</span>
         <strong>{status.rowCoverage.label}</strong>
         <p>
-          已接受證據 {status.rowCoverage.acceptedRows}/{status.rowCoverage.targetRows}；這不是完整覆蓋率承諾。
+          目前檢查進度 {status.rowCoverage.acceptedRows}/{status.rowCoverage.targetRows}；這只是資料準備狀態，不代表真實資料已上線。
         </p>
       </article>
       <article className="readying">
         <span>TWII 前置條件</span>
         <strong>
-          {status.twiiPrerequisites.acceptedSlots}/{status.twiiPrerequisites.totalSlots} 已可進入 gate 準備
+          {status.twiiPrerequisites.acceptedSlots}/{status.twiiPrerequisites.totalSlots} 項已整理
         </strong>
         <p>{status.twiiPrerequisites.nextAction}</p>
       </article>
@@ -67,7 +67,7 @@ export function PublicBetaDataReadinessStatus() {
         <strong>
           {status.publicDataSource} / {status.scoreSource}
         </strong>
-        <p>公開 Beta 仍維持 mock；真實資料與真實分數需要另外通過升級 gate。</p>
+        <p>公開 Beta 仍維持 mock；任何 real-data promotion 都需要另行通過資料與法務 gate。</p>
       </article>
       <div className="public-beta-source-trust">
         {status.sourceTrust.map((item) => (
@@ -100,7 +100,7 @@ export function PublicBetaDataReadinessStatus() {
           </article>
         ))}
       </div>
-      <div className="public-beta-twii-decision-readiness" aria-label="TWII 資料決策狀態">
+      <div className="public-beta-twii-decision-readiness" aria-label="TWII data decision readiness">
         {status.operatorDecisionReadiness.map((item) => (
           <article className={item.status} key={item.id}>
             <span>{item.label}</span>

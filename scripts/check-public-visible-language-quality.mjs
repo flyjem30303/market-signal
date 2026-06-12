@@ -4,8 +4,6 @@ import { localhostContentHealthChecks, localhostStatusHealthPaths } from "./loca
 const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 const checkerPath = "scripts/check-public-visible-language-quality.mjs";
-const publicBetaReadinessDataPath = "src/lib/public-beta-launch-readiness.ts";
-const publicBetaReadinessPanelPath = "src/components/public-beta-launch-readiness-panel.tsx";
 const baseUrl = process.env.LOCALHOST_BASE_URL ?? "http://localhost:3000";
 
 const coreRuntimeBoundaryRequired = ["mock", "publicDataSource=mock", "scoreSource=mock"];
@@ -16,8 +14,7 @@ const publicOperationsForbidden = [
   "BETA_HOSTING_PROJECT_NAME",
   "BETA_TEMPORARY_URL",
   "PUBLIC_BETA_EXTERNAL_REPLY_PATH",
-  "cmd.exe /c npm run report:public-beta-external-input-request",
-  "cmd.exe /c npm run run:public-beta-post-reply-route-once",
+  "cmd.exe /c npm run",
   "A1 fail-fast policy",
   "Single reply checklist",
   "readonly-attempt",
@@ -27,19 +24,33 @@ const publicOperationsForbidden = [
   "operator"
 ];
 
-const stockDecisionBriefRequired = [
-  "30 秒看懂標的狀態",
-  "3 分鐘內請看",
-  "成因",
-  "更新時間",
-  "影響級別",
-  "下一步",
-  "資料邊界：publicDataSource=mock，scoreSource=mock",
-  "目前不是即時真實資料",
-  "不提供買賣建議",
+const decisionLoopRequired = [
+  "Public Beta Decision Loop",
+  "30 秒市場氛圍，3 分鐘行動判斷",
+  "先看市場氛圍",
+  "再看成因與時間",
+  "最後看資料邊界",
+  "不是即時真實資料",
+  "不提供買賣建議"
+];
+
+const routeAndDataRequired = [
+  "Public Beta Reading Path",
+  "首頁：看市場溫度",
+  "Briefing：看原因與行動",
+  "Source & Coverage",
+  "資料來源與覆蓋範圍"
+];
+
+const homeAndBriefingDataRequired = [
+  "Data Readiness",
+  "資料真實化仍在準備中，公開頁維持 mock"
+];
+
+const stockPublicRequired = [
+  ...decisionLoopRequired,
+  ...routeAndDataRequired,
   "TWII 資料決策",
-  "真實資料升級仍在準備中",
-  "等待一次受控讀取決策",
   "Indicator Roadmap"
 ];
 
@@ -50,42 +61,13 @@ const pages = [
     required: [
       ...coreRuntimeBoundaryRequired,
       "Public Beta Index Dashboard",
-      "30 秒看懂市場氛圍",
-      "3 分鐘決定關注",
-      "全市場總覽",
-      "核心指標面板",
-      "警示清單"
+      "30 秒市場氛圍，3 分鐘行動判斷",
+      "市場氛圍",
+      "風險焦點",
+      "行動判斷",
+      ...routeAndDataRequired,
+      ...homeAndBriefingDataRequired
     ]
-  },
-  {
-    path: "/stocks/TWII",
-    forbidden: publicOperationsForbidden,
-    required: [...coreRuntimeBoundaryRequired, ...stockDecisionBriefRequired, "TWII Mock Disclosure"]
-  },
-  {
-    path: "/stocks/2330",
-    forbidden: publicOperationsForbidden,
-    required: [...coreRuntimeBoundaryRequired, ...stockDecisionBriefRequired]
-  },
-  {
-    path: "/stocks/0050",
-    forbidden: publicOperationsForbidden,
-    required: [...coreRuntimeBoundaryRequired, ...stockDecisionBriefRequired]
-  },
-  {
-    path: "/stocks/006208",
-    forbidden: publicOperationsForbidden,
-    required: [...coreRuntimeBoundaryRequired, ...stockDecisionBriefRequired]
-  },
-  {
-    path: "/stocks/2382",
-    forbidden: publicOperationsForbidden,
-    required: [...coreRuntimeBoundaryRequired, ...stockDecisionBriefRequired]
-  },
-  {
-    path: "/stocks/2308",
-    forbidden: publicOperationsForbidden,
-    required: [...coreRuntimeBoundaryRequired, ...stockDecisionBriefRequired]
   },
   {
     path: "/briefing",
@@ -93,27 +75,44 @@ const pages = [
     required: [
       ...coreRuntimeBoundaryRequired,
       "Market Briefing",
-      "市場訊號晨報",
-      "30 秒看懂今日市場氣氛",
-      "3 分鐘判讀流程",
-      "市場氛圍",
-      "主要市場警示",
-      "成因",
-      "更新時間",
-      "影響級別",
-      "下一步",
-      "資料邊界",
-      "不提供買賣建議",
-      "不是即時真實資料",
-      "真實資料尚未上線",
-      "partial coverage",
-      "missing/delayed data",
-      "重要揭露",
+      "Briefing 把全市場總覽延伸成觀察清單",
       "Market Action Summary",
       "Model Boundary",
       "Briefing Playbook",
-      "下一步閱讀"
+      ...decisionLoopRequired,
+      ...routeAndDataRequired,
+      ...homeAndBriefingDataRequired
     ]
+  },
+  {
+    path: "/stocks/TWII",
+    forbidden: publicOperationsForbidden,
+    required: [...coreRuntimeBoundaryRequired, ...stockPublicRequired, "TWII Mock Disclosure"]
+  },
+  {
+    path: "/stocks/2330",
+    forbidden: publicOperationsForbidden,
+    required: [...coreRuntimeBoundaryRequired, ...stockPublicRequired]
+  },
+  {
+    path: "/stocks/0050",
+    forbidden: publicOperationsForbidden,
+    required: [...coreRuntimeBoundaryRequired, ...stockPublicRequired]
+  },
+  {
+    path: "/stocks/006208",
+    forbidden: publicOperationsForbidden,
+    required: [...coreRuntimeBoundaryRequired, ...stockPublicRequired]
+  },
+  {
+    path: "/stocks/2382",
+    forbidden: publicOperationsForbidden,
+    required: [...coreRuntimeBoundaryRequired, ...stockPublicRequired]
+  },
+  {
+    path: "/stocks/2308",
+    forbidden: publicOperationsForbidden,
+    required: [...coreRuntimeBoundaryRequired, ...stockPublicRequired]
   },
   {
     path: "/weekly",
@@ -122,18 +121,22 @@ const pages = [
   },
   {
     path: "/methodology",
+    forbidden: publicOperationsForbidden,
     required: [...coreRuntimeBoundaryRequired, "Methodology", "mock scores"]
   },
   {
     path: "/disclaimer",
+    forbidden: publicOperationsForbidden,
     required: [...coreRuntimeBoundaryRequired, "Investment and data limits", "not investment advice", "data freshness metadata"]
   },
   {
     path: "/terms",
+    forbidden: publicOperationsForbidden,
     required: [...coreRuntimeBoundaryRequired, "Terms of use", "mock-only", "data freshness metadata"]
   },
   {
     path: "/privacy",
+    forbidden: publicOperationsForbidden,
     required: [...coreRuntimeBoundaryRequired, "Privacy and data boundary", "raw market payloads"]
   }
 ];
@@ -162,31 +165,16 @@ const forbiddenText = [
 
 const sourceReadabilityTargets = [
   {
-    path: publicBetaReadinessDataPath,
-    required: [
-      "Public Beta pre-launch executable state",
-      "cmd.exe /c npm run report:public-beta-external-input-request",
-      "cmd.exe /c npm run run:public-beta-post-reply-route-once",
-      "BETA_HOSTING_PROJECT_NAME",
-      "BETA_TEMPORARY_URL",
-      "Data readiness frontier",
-      "Runtime route health",
-      "A1 data/source-rights frontier",
-      "Public trust copy",
-      "Mock / real boundary",
-      "Beta platform values",
-      'publicDataSource: "mock"',
-      'scoreSource: "mock"'
-    ]
+    path: "src/lib/public-beta-route-consistency.ts",
+    required: ["從首頁總覽到 briefing，再到標的頁", "首頁：看市場溫度", "不提供買賣建議"]
   },
   {
-    path: publicBetaReadinessPanelPath,
-    required: [
-      "Public Beta launch readiness",
-      "Remaining hard blockers",
-      "Beta platform value reply format",
-      "A1 TWII no-secret evidence reply format"
-    ]
+    path: "src/lib/public-beta-data-readiness-status.ts",
+    required: ["資料真實化仍在準備中，公開頁維持 mock", "TWSE OpenAPI 候選來源", "不寫 Supabase"]
+  },
+  {
+    path: "src/lib/public-beta-source-coverage-runtime-labels.ts",
+    required: ["資料來源與覆蓋範圍", "不宣稱全市場覆蓋", "最後做觀察判斷"]
   }
 ];
 
@@ -257,18 +245,15 @@ const selfContract = [
     pass: checkerSource.includes("publicDataSource=supabase approved")
   },
   {
-    check: "requires readable public beta brief copy",
+    check: "requires readable public beta decision loop",
     pass:
-      checkerSource.includes("30 秒看懂今日市場氣氛") &&
-      checkerSource.includes("3 分鐘判讀流程") &&
-      checkerSource.includes("重要揭露")
+      checkerSource.includes("30 秒市場氛圍，3 分鐘行動判斷") &&
+      checkerSource.includes("先看市場氛圍") &&
+      checkerSource.includes("最後看資料邊界")
   },
   {
-    check: "requires readable stock decision brief copy",
-    pass:
-      checkerSource.includes("30 秒看懂標的狀態") &&
-      checkerSource.includes("3 分鐘內請看") &&
-      checkerSource.includes("資料邊界：publicDataSource=mock，scoreSource=mock")
+    check: "requires readable source coverage and data readiness copy",
+    pass: checkerSource.includes("資料來源與覆蓋範圍") && checkerSource.includes("資料真實化仍在準備中")
   },
   {
     check: "requires readable legal pages",
@@ -283,7 +268,7 @@ const selfContract = [
     pass: routeAlignment.every((item) => item.pass)
   },
   {
-    check: "guards public beta launch readiness copy",
+    check: "guards public product-facing source copy",
     pass: sourceReadability.every((item) => item.pass)
   }
 ];
@@ -313,6 +298,7 @@ function normalizeVisibleText(html) {
     .replace(/<script[\s\S]*?<\/script>/gi, " ")
     .replace(/<style[\s\S]*?<\/style>/gi, " ")
     .replace(/<[^>]+>/g, " ")
+    .replace(/&amp;/g, "&")
     .replace(/\s+/g, " ")
     .trim();
 }

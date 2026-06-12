@@ -33,6 +33,8 @@ PM should not wait for A1/A2 unless a mainline change directly depends on their 
 
 Latest PM integration:
 
+- PM is cleaning the public product runtime surfaces so the site reads like a Beta index status dashboard rather than an internal execution console. `Public Beta Reading Path`, `Data Readiness`, and `Source & Coverage` now focus on market mood, cause/time review, source coverage limits, mock/real boundary, and next observation action. A1 remains assigned to legal/free automated source and coverage evidence; A2 remains assigned to public copy safety. The mainline should keep integrating only the support-lane outputs that improve user comprehension or runtime safety, and defer broad visual polish until the foundation is stable.
+
 - PM added a shared `PublicBetaDecisionLoopBridge` across `/`, `/briefing`, and stock runtime pages. The bridge uses the same public product loop everywhere: `30 秒市場氛圍，3 分鐘行動判斷`, `先看市場氛圍`, `再看成因與時間`, and `最後看資料邊界`. It keeps the boundary visible: `publicDataSource=mock`, `scoreSource=mock`, not real-time live data, and no buy/sell advice. A1 continues the data/source/coverage lane without fetch, SQL, Supabase write, raw payload, or promotion. A2 now reviews this shared bridge for public-copy safety and should block any future copy that turns the bridge into live-data, official-source approval, or investment-advice language.
 
 - PM surfaced TWII data-decision readiness on stock detail runtime pages. `src/components/stock-runtime-at-a-glance.tsx` now includes a `stock-twii-data-decision-status` strip that tells users the current state in public language: TWII source evidence is organized, one controlled read decision is still pending, and the public runtime remains `publicDataSource=mock` / `scoreSource=mock` with no buy/sell advice. This supports the BRIEF goal directly: users can understand what the stock page can be used for now within 30 seconds and why real-data claims are still locked before making a 3-minute observation decision. A1 remains assigned to source/coverage evidence; A2 remains assigned to public-copy safety. No SQL, Supabase read/write, market-data fetch/ingest/store/commit, `daily_prices` mutation, public source promotion, `publicDataSource=supabase`, `scoreSource=real`, real-time claim, or investment-advice claim occurred.
@@ -97,7 +99,8 @@ A1 is responsible for:
 - coverage categories for daily close, volume, date, symbol, ETF, index, and stock lanes,
 - no-fetch terms review packets,
 - source-lane questions for PM/CEO decisions.
-- next background task: monitor future explicit operator decision; if authorization is later accepted, prepare no-write execution packet details from `docs/A1_TWII_READONLY_EXECUTION_PACKET_PREREQUISITES_NO_EXECUTION.md`.
+- next background task: prepare `A1_BRIEF_SOURCE_COVERAGE_NEXT_HANDOFF_NO_FETCH` when agent capacity is available, focused on source/coverage status, the next smallest no-fetch data task, PM-safe public runtime language, and checker requirements.
+- fallback task while agent capacity is full: monitor future explicit operator decision; if authorization is later accepted, prepare no-write execution packet details from `docs/A1_TWII_READONLY_EXECUTION_PACKET_PREREQUISITES_NO_EXECUTION.md`.
 
 A1 is not authorized by this goal to:
 
@@ -130,7 +133,8 @@ A2 is responsible for:
 - mock/real boundary readability,
 - non-investment-advice wording,
 - blocking internal execution strings on public surfaces.
-- next background task: monitor any future copy integration request and use `docs/A2_TWII_OPERATOR_DECISION_PUBLIC_COPY_GUARD.md`; keep it copy-only and do not approve source rights, real data, real scoring, SQL, Supabase, raw payloads, or investment advice.
+- next background task: review the cleaned `Public Beta Reading Path`, `Data Readiness`, and `Source & Coverage` surfaces for public-copy safety when agent capacity is available.
+- fallback task while agent capacity is full: monitor any future copy integration request and use `docs/A2_TWII_OPERATOR_DECISION_PUBLIC_COPY_GUARD.md`; keep it copy-only and do not approve source rights, real data, real scoring, SQL, Supabase, raw payloads, or investment advice.
 
 A2 is not authorized by this goal to:
 

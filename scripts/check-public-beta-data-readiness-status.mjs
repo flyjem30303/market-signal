@@ -12,6 +12,7 @@ const statusPath = "PROJECT_STATUS.md";
 const boardPath = "docs/LAUNCH_ENGINEERING_WORKSTREAM_BOARD.md";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 const a1MatrixPath = "docs/A1_OFFICIAL_OPEN_FREE_SOURCE_TERMS_AND_COVERAGE_MATRIX_NO_FETCH.md";
+const baseUrl = process.env.LOCALHOST_BASE_URL ?? "http://localhost:3000";
 
 const component = read(componentPath);
 const lib = read(libPath);
@@ -24,104 +25,100 @@ const board = read(boardPath);
 const reviewGate = read(reviewGatePath);
 const a1Matrix = read(a1MatrixPath);
 
-for (const [filePath, source, phrase] of [
-  [componentPath, component, "PublicBetaDataReadinessStatus"],
-  [componentPath, component, "Public Beta data readiness status"],
-  [componentPath, component, "資料準備狀態"],
-  [componentPath, component, "覆蓋率證據"],
-  [componentPath, component, "TWII 前置條件"],
-  [componentPath, component, "公開資料邊界"],
-  [componentPath, component, "coverageScopeStatusLabels"],
-  [componentPath, component, "twiiTermsStatusLabels"],
-  [componentPath, component, "boundedReadonlyStatusLabels"],
-  [componentPath, component, "operatorDecisionStatusLabels"],
-  [componentPath, component, "Public Beta next coverage artifact scopes"],
-  [componentPath, component, "TWII terms field cadence attribution readiness"],
-  [componentPath, component, "Bounded readonly gate requirements"],
-  [componentPath, component, "TWII 資料決策狀態"],
-  [componentPath, component, "public-beta-twii-terms-readiness"],
-  [componentPath, component, "public-beta-bounded-readonly-requirements"],
-  [componentPath, component, "public-beta-twii-decision-readiness"],
-  [componentPath, component, "public-beta-coverage-artifact-scopes"],
-  [componentPath, component, "等待決策"],
-  [componentPath, component, "下一步："],
-  [componentPath, component, "下一步："],
-  [componentPath, component, "這不是完整覆蓋率承諾"],
-  [libPath, lib, "資料真實化仍在準備，公開頁先用 mock 說清楚狀態"],
-  [libPath, lib, "twiiTermsReadiness"],
-  [libPath, lib, "資料條款"],
-  [libPath, lib, "條款仍在確認"],
-  [libPath, lib, "欄位對照"],
-  [libPath, lib, "最小欄位待確認"],
-  [libPath, lib, "更新節奏"],
-  [libPath, lib, "每日收盤後候選"],
-  [libPath, lib, "公開引用"],
-  [libPath, lib, "引用文案待審"],
-  [libPath, lib, "boundedReadonlyRequirements"],
-  [libPath, lib, "來源權利"],
-  [libPath, lib, "需確認來源條款"],
-  [libPath, lib, "欄位契約"],
-  [libPath, lib, "需確認欄位語意"],
-  [libPath, lib, "安全輸出"],
-  [libPath, lib, "只允許安全摘要"],
-  [libPath, lib, "升級鎖"],
-  [libPath, lib, "不自動升級資料源"],
-  [libPath, lib, "operatorDecisionReadiness"],
-  [libPath, lib, "TWII 來源證據"],
-  [libPath, lib, "已整理，尚未啟用真實資料"],
-  [libPath, lib, "操作決策"],
-  [libPath, lib, "等待明確選擇"],
-  [libPath, lib, "真實資料升級"],
-  [libPath, lib, "仍鎖住"],
-  [libPath, lib, "TWII 來源與欄位契約已整理成可審證據"],
-  [libPath, lib, "沒有明確決策前，不準備遠端執行準備"],
-  [libPath, lib, "尚未通過來源權利、覆蓋率、品質、執行後檢查與公開升級關卡"],
-  [libPath, lib, "公開頁維持非即時、非投資建議、mock-only"],
-  [libPath, lib, "coverageArtifactScopes"],
-  [libPath, lib, "TWII 大盤基準準備中"],
-  [libPath, lib, "核心 ETF 來源條件待確認"],
-  [libPath, lib, "第一批上市個股示範"],
-  [libPath, lib, "產業與族群待 taxonomy review"],
-  [libPath, lib, "進階指標 mock 可解釋，真實計算未開放"],
-  [libPath, lib, "acceptedSlots: 6"],
-  [libPath, lib, "nextOwner: \"CEO/PM\""],
-  [libPath, lib, "acceptedRows: 182"],
-  [libPath, lib, "targetRows: 360"],
-  [libPath, lib, "目前已接受 182/360 筆覆蓋證據"],
-  [libPath, lib, "sourceTrust"],
-  [libPath, lib, "TWSE OpenAPI 候選來源"],
-  [libPath, lib, "TWII 指數候選"],
-  [libPath, lib, "ETF 來源條件"],
-  [libPath, lib, "no-fetch coverage artifact"],
-  [libPath, lib, "terms、automation、free-use"],
-  [libPath, lib, "ETF-specific review"],
-  [libPath, lib, "publicDataSource: \"mock\""],
-  [libPath, lib, "scoreSource: \"mock\""],
-  [a1MatrixPath, a1Matrix, "A1 Official Open Free Source Terms and Coverage Matrix No-Fetch"],
-  [a1MatrixPath, a1Matrix, "TWSE OpenAPI"],
-  [a1MatrixPath, a1Matrix, "automation"],
-  [a1MatrixPath, a1Matrix, "free"],
-  [homePanelPath, homePanel, "import { PublicBetaDataReadinessStatus }"],
-  [homePanelPath, homePanel, "<PublicBetaDataReadinessStatus />"],
-  [briefingPagePath, briefingPage, "import { PublicBetaDataReadinessStatus }"],
-  [briefingPagePath, briefingPage, "<PublicBetaDataReadinessStatus />"],
-  [briefingPagePath, briefingPage, "<DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />"],
-  [cssPath, css, ".public-beta-data-readiness-status"],
-  [cssPath, css, ".public-beta-data-readiness-lanes"],
-  [cssPath, css, ".public-beta-twii-terms-readiness"],
-  [cssPath, css, ".public-beta-bounded-readonly-requirements"],
-  [cssPath, css, ".public-beta-twii-decision-readiness"],
-  [cssPath, css, ".public-beta-coverage-artifact-scopes"],
-  [cssPath, css, ".public-beta-source-trust"],
-  [cssPath, css, ".public-beta-source-trust article.reviewing"],
-  [statusPath, status, "Latest public Beta data-readiness visible status slice"],
-  [statusPath, status, "publicDataSource=mock"],
-  [statusPath, status, "scoreSource=mock"],
-  [boardPath, board, "`src/components/public-beta-data-readiness-status.tsx` is `accepted` as public Beta visible data-readiness status"],
-  [reviewGatePath, reviewGate, "scripts/check-public-beta-data-readiness-status.mjs"],
-  [reviewGatePath, reviewGate, "name: \"public-beta-data-readiness-status\""]
+for (const [filePath, source, phrases] of [
+  [
+    componentPath,
+    component,
+    [
+      "PublicBetaDataReadinessStatus",
+      "Public Beta data readiness status",
+      "Data Readiness",
+      "覆蓋證據",
+      "TWII 前置條件",
+      "公開資料邊界",
+      "TWII data decision readiness",
+      "coverageScopeStatusLabels",
+      "twiiTermsStatusLabels",
+      "boundedReadonlyStatusLabels",
+      "operatorDecisionStatusLabels",
+      "public-beta-twii-terms-readiness",
+      "public-beta-bounded-readonly-requirements",
+      "public-beta-twii-decision-readiness",
+      "public-beta-coverage-artifact-scopes"
+    ]
+  ],
+  [
+    libPath,
+    lib,
+    [
+      "資料真實化仍在準備中，公開頁維持 mock",
+      "目前可檢查的覆蓋證據 182/360",
+      "twiiTermsReadiness",
+      "資料條款",
+      "欄位契約",
+      "更新節奏",
+      "公開引用",
+      "boundedReadonlyRequirements",
+      "來源權利",
+      "安全輸出",
+      "升級鎖",
+      "operatorDecisionReadiness",
+      "TWII 資料證據",
+      "受控讀取決策",
+      "真實資料升級",
+      "coverageArtifactScopes",
+      "TWII",
+      "0050 / 006208",
+      "2330 / 2382 / 2308",
+      "產業 / 族群",
+      "波動率 / 資金流 / 乖離 / 動能",
+      "acceptedSlots: 6",
+      "acceptedRows: 182",
+      "targetRows: 360",
+      "sourceTrust",
+      "TWSE OpenAPI 候選來源",
+      "TWII 指數候選線",
+      "ETF 來源條件",
+      "不執行 SQL",
+      "不寫 Supabase",
+      "不抓取或儲存 raw market data",
+      'publicDataSource: "mock"',
+      'scoreSource: "mock"'
+    ]
+  ],
+  [
+    a1MatrixPath,
+    a1Matrix,
+    ["A1 Official Open Free Source Terms and Coverage Matrix No-Fetch", "TWSE OpenAPI", "automation", "free"]
+  ],
+  [homePanelPath, homePanel, ["import { PublicBetaDataReadinessStatus }", "<PublicBetaDataReadinessStatus />"]],
+  [briefingPagePath, briefingPage, ["import { PublicBetaDataReadinessStatus }", "<PublicBetaDataReadinessStatus />"]],
+  [
+    cssPath,
+    css,
+    [
+      ".public-beta-data-readiness-status",
+      ".public-beta-data-readiness-lanes",
+      ".public-beta-twii-terms-readiness",
+      ".public-beta-bounded-readonly-requirements",
+      ".public-beta-twii-decision-readiness",
+      ".public-beta-coverage-artifact-scopes",
+      ".public-beta-source-trust"
+    ]
+  ],
+  [
+    statusPath,
+    status,
+    ["Latest public Beta data-readiness visible status slice", "publicDataSource=mock", "scoreSource=mock"]
+  ],
+  [
+    boardPath,
+    board,
+    ["`src/components/public-beta-data-readiness-status.tsx` is `accepted` as public Beta visible data-readiness status"]
+  ],
+  [reviewGatePath, reviewGate, ["scripts/check-public-beta-data-readiness-status.mjs", "public-beta-data-readiness-status"]]
 ]) {
-  if (!source.includes(phrase)) problems.push(`${filePath} missing phrase: ${phrase}`);
+  requireIncludes(filePath, source, phrases);
 }
 
 if (pkg.scripts?.["check:public-beta-data-readiness-status"] !== "node scripts/check-public-beta-data-readiness-status.mjs") {
@@ -137,16 +134,22 @@ for (const [filePath, source] of [
   for (const pattern of forbiddenPatterns()) {
     if (pattern.test(source)) problems.push(`${filePath} contains forbidden pattern ${String(pattern)}`);
   }
+  for (const marker of findMojibakeMarkers(source)) {
+    problems.push(`${filePath} exposes ${marker}`);
+  }
 }
 
+const routeResults = await Promise.all(["/", "/briefing"].map(checkRoute));
+
 if (problems.length > 0) {
-  console.error(JSON.stringify({ status: "blocked", problems }, null, 2));
+  console.error(JSON.stringify({ status: "blocked", problems, routeResults }, null, 2));
   process.exit(1);
 }
 
 console.log(
   JSON.stringify(
     {
+      routeResults,
       status: "ok",
       guardedStatus: "public_beta_data_readiness_source_trust_visible_mock_only",
       publicDataSource: "mock",
@@ -158,12 +161,65 @@ console.log(
   )
 );
 
+async function checkRoute(path) {
+  const response = await fetch(`${baseUrl}${path}`);
+  const html = await response.text();
+  const text = normalizeVisibleText(html);
+  const required = [
+    "Data Readiness",
+    "資料真實化仍在準備中，公開頁維持 mock",
+    "覆蓋證據",
+    "目前可檢查的覆蓋證據 182/360",
+    "TWII 前置條件",
+    "公開資料邊界",
+    "TWSE OpenAPI 候選來源",
+    "真實資料升級",
+    "publicDataSource=mock",
+    "scoreSource=mock",
+    "不執行 SQL",
+    "不寫 Supabase"
+  ];
+  const forbidden = [
+    "publicDataSource=supabase approved",
+    "scoreSource=real approved",
+    "SQL execution is approved",
+    "Supabase writes are approved",
+    "raw market data fetch is approved",
+    "Current hard blockers",
+    "External reply dry-run intake",
+    "cmd.exe /c npm run"
+  ];
+  const missing = required.filter((token) => !text.includes(token));
+  const blocked = forbidden.filter((token) => text.includes(token));
+  const markers = findMojibakeMarkers(text);
+
+  if (response.status !== 200) problems.push(`${path} returned ${response.status}`);
+  for (const token of missing) problems.push(`${path} missing ${token}`);
+  for (const token of blocked) problems.push(`${path} exposes ${token}`);
+  for (const token of markers) problems.push(`${path} exposes ${token}`);
+
+  return {
+    blocked,
+    markers,
+    missing,
+    pass: response.status === 200 && missing.length === 0 && blocked.length === 0 && markers.length === 0,
+    path,
+    status: response.status
+  };
+}
+
 function read(filePath) {
   if (!fs.existsSync(filePath)) {
     problems.push(`missing file: ${filePath}`);
     return "{}";
   }
   return fs.readFileSync(filePath, "utf8");
+}
+
+function requireIncludes(label, text, needles) {
+  for (const needle of needles) {
+    if (!text.includes(needle)) problems.push(`${label} missing phrase: ${needle}`);
+  }
 }
 
 function forbiddenPatterns() {
@@ -181,8 +237,23 @@ function forbiddenPatterns() {
     /complete coverage claim/iu,
     /row coverage points awarded/iu,
     /official source is approved/iu,
-    /real market data is live/iu,
-    /[�]/u,
-    /[蝬鞈撌銝嚗雿摰璅閬]/u
+    /real market data is live/iu
   ];
+}
+
+function findMojibakeMarkers(text) {
+  const markers = [];
+  if (/[\uE000-\uF8FF\uFFFD]/u.test(text)) markers.push("private-use-or-replacement-code-point");
+  if (/\?{3,}/u.test(text)) markers.push("question-mark-run");
+  return markers;
+}
+
+function normalizeVisibleText(html) {
+  return html
+    .replace(/<script[\s\S]*?<\/script>/gi, " ")
+    .replace(/<style[\s\S]*?<\/style>/gi, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/\s+/g, " ")
+    .trim();
 }
