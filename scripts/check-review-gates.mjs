@@ -4373,6 +4373,11 @@ const checks = [
     name: "a1-twii-exact-source-rights-and-field-contract-evidence-no-fetch"
   },
   {
+    command: [node, "scripts/check-twii-operator-readonly-decision-packet-no-execution.mjs"],
+    expectStatus: "ok",
+    name: "twii-operator-readonly-decision-packet-no-execution"
+  },
+  {
     command: [node, "scripts/check-a2-field-contract-public-copy-guard.mjs"],
     expectStatus: "ok",
     name: "a2-field-contract-public-copy-guard"
@@ -5830,6 +5835,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "a1-twii-terms-field-cadence-attribution-no-fetch-packet",
   "a1-twii-bounded-readonly-gate-candidate-requirements-no-execution",
   "a1-twii-exact-source-rights-and-field-contract-evidence-no-fetch",
+  "twii-operator-readonly-decision-packet-no-execution",
   "a2-field-contract-public-copy-guard",
   "a2-twii-source-attribution-and-cadence-public-copy-guard",
   "twse-openapi-index-baseline-synthetic-parser-fixture",

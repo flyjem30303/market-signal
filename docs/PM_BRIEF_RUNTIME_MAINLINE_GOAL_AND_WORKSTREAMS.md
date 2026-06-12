@@ -33,6 +33,8 @@ PM should not wait for A1/A2 unless a mainline change directly depends on their 
 
 Latest PM integration:
 
+- PM converted the accepted A1 TWII exact evidence packet into a no-execution operator readonly decision packet at `docs/TWII_OPERATOR_READONLY_DECISION_PACKET_NO_EXECUTION.md`. The packet names three future decisions, `authorize_one_bounded_readonly_attempt`, `request_evidence_repair`, and `defer_readonly_attempt`, while keeping `operatorDecisionAcceptedNow=false`, `executionPacketPreparedNow=false`, `runnerExecutableNow=false`, `readonlyAttemptExecutableNow=false`, `publicDataSource=mock`, and `scoreSource=mock`. It does not authorize SQL, Supabase connection/read/write, staging rows, `daily_prices` mutation, endpoint probe, OpenAPI call, CSV download, market-data fetch/ingest/storage/commit, public source promotion, real scoring, or investment advice. The next PM route is `review_operator_readonly_decision_packet_then_wait_for_explicit_operator_decision`; A1 next owns `prepare_twii_readonly_execution_packet_prerequisites_if_operator_authorizes_later`; A2 next owns `prepare_twii_operator_decision_public_copy_guard_if_pm_requests`.
+
 - A1 TWII exact source-rights and field-contract evidence is ready for PM review at `docs/A1_TWII_EXACT_SOURCE_RIGHTS_AND_FIELD_CONTRACT_EVIDENCE_NO_FETCH.md`. The packet records official metadata references, daily cadence, free/open license reference, OpenAPI metadata reference, and minimum field contract for `trade_date`, `close_value`, `instrument_code`, `instrument_name`, `source_url_label`, and `source_updated_at`. It remains no-fetch/no-execution: no SQL, no Supabase connection/read/write, no staging rows, no `daily_prices` mutation, no endpoint probe, no row payload, no raw market-data storage, no source promotion, no `publicDataSource=supabase`, and no `scoreSource=real`. The next PM route is `review_exact_twii_evidence_then_prepare_operator_readonly_decision_packet_or_repair`; A1 next owns `prepare_twii_operator_readonly_decision_packet_no_execution_if_pm_accepts_evidence`; A2 next owns `prepare_twii_source_attribution_cadence_phrase_set_patch_if_pm_requests`.
 
 - PM surfaced bounded readonly requirements in the shared public Beta data-readiness runtime surface. `src/lib/public-beta-data-readiness-status.ts` and `src/components/public-beta-data-readiness-status.tsx` now expose `來源權利`, `欄位契約`, `安全輸出`, and `升級鎖` so users and PM can see what must be true before any future readonly gate, without implying authorization or execution. The next PM/A1 route is `prepare_exact_source_rights_and_field_contract_evidence_for_future_readonly_attempt`.
@@ -77,7 +79,8 @@ Active A1 artifact:
 - `docs/A1_TWII_TERMS_FIELD_CADENCE_ATTRIBUTION_NO_FETCH_PACKET.md`
 - `docs/A1_TWII_BOUNDED_READONLY_GATE_CANDIDATE_REQUIREMENTS_NO_EXECUTION.md`
 - `docs/A1_TWII_EXACT_SOURCE_RIGHTS_AND_FIELD_CONTRACT_EVIDENCE_NO_FETCH.md`
-- current PM assignment: review the exact TWII source-rights and field-contract evidence, then either prepare an operator readonly decision packet or repair the evidence packet.
+- `docs/TWII_OPERATOR_READONLY_DECISION_PACKET_NO_EXECUTION.md`
+- current PM assignment: review the operator readonly decision packet and wait for an explicit future operator decision before any execution packet is prepared.
 
 A1 is responsible for:
 
@@ -85,7 +88,7 @@ A1 is responsible for:
 - coverage categories for daily close, volume, date, symbol, ETF, index, and stock lanes,
 - no-fetch terms review packets,
 - source-lane questions for PM/CEO decisions.
-- next background task: prepare `prepare_twii_operator_readonly_decision_packet_no_execution_if_pm_accepts_evidence`; keep output field-name-only, aggregate-only, local-only, no-fetch, no-secret, and PM-readable.
+- next background task: prepare `prepare_twii_readonly_execution_packet_prerequisites_if_operator_authorizes_later`; keep output field-name-only, aggregate-only, local-only, no-fetch, no-secret, and PM-readable.
 
 A1 is not authorized by this goal to:
 
@@ -172,8 +175,8 @@ This goal slice is complete when:
 
 Recommended next mainline action:
 
-`review_exact_twii_evidence_then_prepare_operator_readonly_decision_packet_or_repair`
+`review_operator_readonly_decision_packet_then_wait_for_explicit_operator_decision`
 
 Meaning:
 
-PM now has exact TWII source-rights and field-contract metadata evidence in a no-fetch packet. CEO/PM should review whether the packet is sufficient to prepare a no-execution operator readonly decision packet, or whether A1 must repair evidence gaps first. A2 should prepare source-attribution/cadence phrase-set patches only if PM requests them. Real-data promotion remains blocked until a separately accepted source-rights, coverage, quality, rollback, and runtime gate is recorded.
+PM now has a no-execution TWII operator readonly decision packet based on exact source evidence. CEO/PM can wait for a future explicit operator decision, while A1 prepares prerequisite shape only if that future decision authorizes one bounded readonly attempt and A2 prepares copy guard only if PM requests it. Real-data promotion remains blocked until a separately accepted source-rights, coverage, quality, rollback, execution, post-run review, and runtime promotion gate is recorded.
