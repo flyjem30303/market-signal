@@ -49,7 +49,7 @@ Fill these fields only with safe non-secret conclusions, citations, or internal 
 | Field id | Field | Fill state | Required safe value |
 | --- | --- | --- | --- |
 | `OFFICIAL-001` | Source authority | `ACCEPTED_SAFE_PUBLIC_REFERENCE` | Taiwan Stock Exchange Corporation (`TWSE`) is the official public authority/source surface for TAIEX/TWII index series and TAIEX historical index values. This accepts source identity only; it does not approve automated access, storage, redistribution, derived analysis, candidate generation, or execution. |
-| `OFFICIAL-002` | Terms location | `TBD_SAFE_NON_SECRET_REFERENCE` | Provide a safe reference to terms, license, or internal approval source. |
+| `OFFICIAL-002` | Terms location | `TERMS_LOCATION_IDENTIFIED_SAFE_PUBLIC_REFERENCE` | Safe public reference locations are TWSE website Terms of Use and TWSE Regulations Governing the Use of Trading Information / contracts / fee standards pages. This identifies where rights review must occur; it does not approve automated access, internal storage, redistribution, commercial use, or public real-data display. |
 | `OFFICIAL-003` | Automated access | `TBD_ACCEPTED_REJECTED_OR_BLOCKED` | State whether the exact future access method is allowed. |
 | `OFFICIAL-004` | Internal storage | `TBD_ACCEPTED_REJECTED_OR_BLOCKED` | State whether internal storage of source-derived TWII values is allowed. |
 | `OFFICIAL-005` | Retention/deletion | `TBD_ACCEPTED_REJECTED_OR_BLOCKED` | State retention window, deletion duty, cache limits, rollback, and audit posture. |
@@ -63,7 +63,7 @@ Fill these fields only with safe non-secret conclusions, citations, or internal 
 
 Official source fill status:
 
-`partially_filled_official_001_source_authority_only`
+`partially_filled_official_001_002_source_authority_and_terms_location_only`
 
 ### OFFICIAL-001 Evidence Note
 
@@ -81,6 +81,29 @@ This note is intentionally narrow:
 - not accepted: commercial/global use;
 - not accepted: field-contract approval;
 - not accepted: candidate generation, parser work, market-data fetch, SQL, Supabase, `daily_prices` mutation, public source promotion, or real scoring.
+
+### OFFICIAL-002 Evidence Note
+
+PM records the safe public terms-location references for TWII/TAIEX source-rights review:
+
+- TWSE Terms of Use: `https://www.twse.com.tw/zh/terms/use.html`.
+- TWSE English Terms of Use: `https://www.twse.com.tw/en/terms/use.html`.
+- TWSE Trading Information use / contracts / fee standards page: `https://www.twse.com.tw/zh/products/information/use.html`.
+- TWSE English Trading Information use / contracts / fee standards page: `https://www.twse.com.tw/en/products/information/use.html`.
+
+The terms-location review also records two important stop-lines from those references:
+
+- TWSE Terms of Use identifies download / automated-tool restrictions and intellectual-property boundaries that require separate acceptance before any automated access or reuse.
+- TWSE Trading Information use pages identify the management rules / contract / fee-standard route for applicants using trading information.
+
+This note is intentionally narrow:
+
+- accepted: safe public terms-location references for review;
+- not accepted: interpretation that the terms permit automated download;
+- not accepted: internal storage;
+- not accepted: redistribution / public display;
+- not accepted: commercial/global use;
+- not accepted: source-rights approval, field-contract approval, candidate generation, parser work, market-data fetch, SQL, Supabase, `daily_prices` mutation, public source promotion, or real scoring.
 
 ## Vendor Terms Review Fields
 
