@@ -32,6 +32,16 @@ export function PublicBetaDataReadinessStatus() {
         </strong>
         <p>Public Beta remains mock until a separate promotion gate accepts real data and real score.</p>
       </article>
+      <div className="public-beta-source-trust">
+        {status.sourceTrust.map((item) => (
+          <article className={item.status} key={item.id}>
+            <span>{item.label}</span>
+            <strong>{item.status}</strong>
+            <p>{item.summary}</p>
+            <p>下一步：{item.nextStep}</p>
+          </article>
+        ))}
+      </div>
       <div className="public-beta-data-readiness-lanes">
         {status.lanes.map((lane) => (
           <article className={lane.status} key={lane.id}>

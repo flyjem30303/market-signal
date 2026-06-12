@@ -4048,6 +4048,61 @@ select {
   gap: 10px;
 }
 
+.public-beta-source-trust {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.public-beta-source-trust article {
+  display: grid;
+  align-content: start;
+  min-width: 0;
+  gap: 7px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  padding: 14px;
+}
+
+.public-beta-source-trust span {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.public-beta-source-trust strong {
+  overflow-wrap: anywhere;
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.35;
+}
+
+.public-beta-source-trust p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.public-beta-source-trust article.candidate {
+  border-color: rgba(20, 122, 77, 0.25);
+  background: #f3fbf6;
+}
+
+.public-beta-source-trust article.reviewing {
+  border-color: rgba(183, 121, 31, 0.25);
+  background: #fffaf0;
+}
+
+.public-beta-source-trust article.blocked {
+  border-color: rgba(199, 54, 59, 0.2);
+  background: #fff7f7;
+}
+
 .twse-openapi-runtime-mock-wiring-status {
   display: grid;
   grid-column: 1 / -1;

@@ -10,6 +10,7 @@ const packagePath = "package.json";
 const statusPath = "PROJECT_STATUS.md";
 const boardPath = "docs/LAUNCH_ENGINEERING_WORKSTREAM_BOARD.md";
 const reviewGatePath = "scripts/check-review-gates.mjs";
+const a1MatrixPath = "docs/A1_OFFICIAL_OPEN_FREE_SOURCE_TERMS_AND_COVERAGE_MATRIX_NO_FETCH.md";
 
 const component = read(componentPath);
 const lib = read(libPath);
@@ -19,28 +20,45 @@ const pkg = JSON.parse(read(packagePath));
 const status = read(statusPath);
 const board = read(boardPath);
 const reviewGate = read(reviewGatePath);
+const a1Matrix = read(a1MatrixPath);
 
 for (const [filePath, source, phrase] of [
   [componentPath, component, "PublicBetaDataReadinessStatus"],
   [componentPath, component, "Public Beta data readiness status"],
   [componentPath, component, "not a full coverage claim"],
+  [componentPath, component, "public-beta-source-trust"],
+  [componentPath, component, "下一步：{item.nextStep}"],
   [libPath, lib, "資料真實化正在補齊，公開頁仍維持示範模式"],
   [libPath, lib, "acceptedSlots: 6"],
-  [libPath, lib, "可執行檢查包"],
+  [libPath, lib, "產品與資料團隊"],
   [libPath, lib, "acceptedRows: 182"],
   [libPath, lib, "targetRows: 360"],
   [libPath, lib, "已觀察 182/360 筆彙總證據"],
-  [libPath, lib, "產品與資料團隊"],
+  [libPath, lib, "sourceTrust"],
+  [libPath, lib, "TWSE OpenAPI 候選"],
+  [libPath, lib, "TWII 大盤基準"],
+  [libPath, lib, "核心 ETF 來源"],
+  [libPath, lib, "no-fetch 來源與覆蓋矩陣"],
+  [libPath, lib, "terms / automation / free-use review"],
+  [libPath, lib, "ETF-specific review"],
   [libPath, lib, "publicDataSource: \"mock\""],
   [libPath, lib, "scoreSource: \"mock\""],
+  [a1MatrixPath, a1Matrix, "A1 Official Open Free Source Terms and Coverage Matrix No-Fetch"],
+  [a1MatrixPath, a1Matrix, "TWSE OpenAPI"],
+  [a1MatrixPath, a1Matrix, "automation"],
+  [a1MatrixPath, a1Matrix, "free"],
   [homePanelPath, homePanel, "import { PublicBetaDataReadinessStatus }"],
   [homePanelPath, homePanel, "<PublicBetaDataReadinessStatus />"],
   [cssPath, css, ".public-beta-data-readiness-status"],
   [cssPath, css, ".public-beta-data-readiness-lanes"],
+  [cssPath, css, ".public-beta-source-trust"],
+  [cssPath, css, ".public-beta-source-trust article.reviewing"],
   [statusPath, status, "Latest public Beta data-readiness visible status slice"],
+  [statusPath, status, "TWSE OpenAPI 候選"],
   [statusPath, status, "publicDataSource=mock"],
   [statusPath, status, "scoreSource=mock"],
   [boardPath, board, "`src/components/public-beta-data-readiness-status.tsx` is `accepted` as public Beta visible data-readiness status"],
+  [boardPath, board, "TWSE OpenAPI 候選"],
   [reviewGatePath, reviewGate, "scripts/check-public-beta-data-readiness-status.mjs"],
   [reviewGatePath, reviewGate, "name: \"public-beta-data-readiness-status\""]
 ]) {
@@ -70,9 +88,10 @@ console.log(
   JSON.stringify(
     {
       status: "ok",
-      guardedStatus: "public_beta_data_readiness_visible_status_twii_prerequisites_accepted_mock_only",
+      guardedStatus: "public_beta_data_readiness_source_trust_visible_mock_only",
       publicDataSource: "mock",
-      scoreSource: "mock"
+      scoreSource: "mock",
+      sourceTrust: ["TWSE OpenAPI candidate", "TWII index candidate", "ETF source blocked"]
     },
     null,
     2
@@ -100,6 +119,8 @@ function forbiddenPatterns() {
     /publicDataSource:\s*"supabase"/u,
     /scoreSource:\s*"real"/u,
     /complete coverage claim/iu,
-    /row coverage points awarded/iu
+    /row coverage points awarded/iu,
+    /official source is approved/iu,
+    /real market data is live/iu
   ];
 }
