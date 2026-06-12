@@ -273,15 +273,7 @@ export function DashboardShell({
         onSelect={selectAsset}
       />
 
-      {!includeSeoContent && <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />}
-
       {!includeSeoContent && <PublicBetaIndexDashboardBriefLoopPanel />}
-
-      {!includeSeoContent && <PublicBetaRouteConsistencyPanel context="home" stockSymbol={selected.symbol} />}
-
-      {!includeSeoContent && <PublicBetaSourceCoverageRuntimeLabelsPanel context="home" stockSymbol={selected.symbol} />}
-
-      {!includeSeoContent && <PublicBetaUsableLoopPanel context="home" stockSymbol={selected.symbol} />}
 
       {!includeSeoContent && (
         <HomeProductOverview
@@ -293,9 +285,17 @@ export function DashboardShell({
         />
       )}
 
-      {!includeSeoContent && <HomeRuntimeStatusPanel selectedSymbol={selected.symbol} />}
+      {!includeSeoContent && <PublicBetaUsableLoopPanel context="home" stockSymbol={selected.symbol} />}
+
+      {!includeSeoContent && <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />}
+
+      {!includeSeoContent && <PublicBetaSourceCoverageRuntimeLabelsPanel context="home" stockSymbol={selected.symbol} />}
 
       {!includeSeoContent && <PublicBetaDecisionLoopBridge context="home" stockSymbol={selected.symbol} />}
+
+      {!includeSeoContent && <PublicBetaRouteConsistencyPanel context="home" stockSymbol={selected.symbol} />}
+
+      {!includeSeoContent && <HomeRuntimeStatusPanel selectedSymbol={selected.symbol} />}
 
       {includeSeoContent && (
         <>

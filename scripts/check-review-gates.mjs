@@ -2878,6 +2878,11 @@ const checks = [
     name: "home-investor-indicator-roadmap-panel"
   },
   {
+    command: [node, "scripts/check-home-product-first-information-hierarchy.mjs"],
+    expectStatus: "ok",
+    name: "home-product-first-information-hierarchy"
+  },
+  {
     command: [node, "scripts/check-stock-runtime-at-a-glance.mjs"],
     expectStatus: "ok",
     name: "stock-runtime-at-a-glance"

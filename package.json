@@ -984,6 +984,7 @@
     "check:home-first-screen-action-summary": "node scripts/check-home-first-screen-action-summary.mjs",
     "check:home-core-indicator-readout": "node scripts/check-home-core-indicator-readout.mjs",
     "check:home-investor-indicator-roadmap-panel": "node scripts/check-home-investor-indicator-roadmap-panel.mjs",
+    "check:home-product-first-information-hierarchy": "node scripts/check-home-product-first-information-hierarchy.mjs",
     "check:stock-runtime-at-a-glance": "node scripts/check-stock-runtime-at-a-glance.mjs",
     "check:runtime-mock-disclosure-readability": "node scripts/check-runtime-mock-disclosure-readability.mjs",
     "check:stock-page-readable-boundary-copy": "node scripts/check-stock-page-readable-boundary-copy.mjs",
