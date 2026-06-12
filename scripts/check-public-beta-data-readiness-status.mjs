@@ -5,6 +5,7 @@ const problems = [];
 const componentPath = "src/components/public-beta-data-readiness-status.tsx";
 const libPath = "src/lib/public-beta-data-readiness-status.ts";
 const homePanelPath = "src/components/home-runtime-status-panel.tsx";
+const briefingPagePath = "src/app/briefing/page.tsx";
 const cssPath = "src/app/globals.css";
 const packagePath = "package.json";
 const statusPath = "PROJECT_STATUS.md";
@@ -15,6 +16,7 @@ const a1MatrixPath = "docs/A1_OFFICIAL_OPEN_FREE_SOURCE_TERMS_AND_COVERAGE_MATRI
 const component = read(componentPath);
 const lib = read(libPath);
 const homePanel = read(homePanelPath);
+const briefingPage = read(briefingPagePath);
 const css = read(cssPath);
 const pkg = JSON.parse(read(packagePath));
 const status = read(statusPath);
@@ -49,6 +51,9 @@ for (const [filePath, source, phrase] of [
   [a1MatrixPath, a1Matrix, "free"],
   [homePanelPath, homePanel, "import { PublicBetaDataReadinessStatus }"],
   [homePanelPath, homePanel, "<PublicBetaDataReadinessStatus />"],
+  [briefingPagePath, briefingPage, "import { PublicBetaDataReadinessStatus }"],
+  [briefingPagePath, briefingPage, "<PublicBetaDataReadinessStatus />"],
+  [briefingPagePath, briefingPage, "<DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />"],
   [cssPath, css, ".public-beta-data-readiness-status"],
   [cssPath, css, ".public-beta-data-readiness-lanes"],
   [cssPath, css, ".public-beta-source-trust"],
@@ -72,7 +77,8 @@ if (pkg.scripts?.["check:public-beta-data-readiness-status"] !== "node scripts/c
 for (const [filePath, source] of [
   [componentPath, component],
   [libPath, lib],
-  [homePanelPath, homePanel]
+  [homePanelPath, homePanel],
+  [briefingPagePath, briefingPage]
 ]) {
   for (const pattern of forbiddenPatterns()) {
     if (pattern.test(source)) problems.push(`${filePath} contains forbidden pattern ${String(pattern)}`);

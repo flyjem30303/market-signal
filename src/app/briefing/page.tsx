@@ -4,6 +4,7 @@ import { BriefingPublicDecisionSummaryPanel } from "@/components/briefing-public
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { PageViewTracker } from "@/components/page-view-tracker";
 import { PostReadonlyProductStatus } from "@/components/post-readonly-product-status";
+import { PublicBetaDataReadinessStatus } from "@/components/public-beta-data-readiness-status";
 import { PublicRuntimeStateStrip } from "@/components/public-runtime-state-strip";
 import { TrackedLink } from "@/components/tracked-link";
 import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
@@ -86,6 +87,7 @@ export default async function BriefingPage() {
       </section>
 
       <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
+      <PublicBetaDataReadinessStatus />
 
       <section className="briefing-market-action-summary" aria-label="Market action summary">
         <div>
