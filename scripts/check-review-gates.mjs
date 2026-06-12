@@ -5642,6 +5642,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "a1-twii-evidence-completion-status",
   "a1-twii-source-rights-unblock-decision-record-candidate",
   "a1-twii-source-rights-evidence-intake-or-vendor-fallback-decision-support",
+  "a1-twii-official-source-intake-fields-or-vendor-terms-review-packet",
   "twii-bounded-data-acceptance-attempt-dry-run-wrapper",
   "twii-bounded-data-acceptance-post-run-review",
   "twii-bounded-data-acceptance-dry-run-review-chain",
