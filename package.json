@@ -266,6 +266,7 @@
     "check:data-realification-post-first-closed-loop-next-lane-selector": "node scripts/check-data-realification-post-first-closed-loop-next-lane-selector.mjs",
     "report:public-beta-data-realification-next-action": "node scripts/report-public-beta-data-realification-next-action.mjs",
     "check:public-beta-data-realification-next-action": "node scripts/check-public-beta-data-realification-next-action.mjs",
+    "check:open-free-auto-data-source-gate": "node scripts/check-open-free-auto-data-source-gate.mjs",
     "check:etf-daily-prices-coverage-completion-route": "node scripts/check-etf-daily-prices-coverage-completion-route.mjs",
     "check:coverage-universe-roadmap": "node scripts/check-coverage-universe-roadmap.mjs",
     "check:a1-next-data-coverage-handoff": "node scripts/check-a1-next-data-coverage-handoff.mjs",
