@@ -33,6 +33,7 @@ PM should not wait for A1/A2 unless a mainline change directly depends on their 
 
 Latest PM integration:
 
+- PM surfaced bounded readonly requirements in the shared public Beta data-readiness runtime surface. `src/lib/public-beta-data-readiness-status.ts` and `src/components/public-beta-data-readiness-status.tsx` now expose `來源權利`, `欄位契約`, `安全輸出`, and `升級鎖` so users and PM can see what must be true before any future readonly gate, without implying authorization or execution. The next PM/A1 route is `prepare_exact_source_rights_and_field_contract_evidence_for_future_readonly_attempt`.
 - A2 TWII source-attribution and cadence public-copy guard is ready for PM intake at `docs/A2_TWII_SOURCE_ATTRIBUTION_AND_CADENCE_PUBLIC_COPY_GUARD.md`. PM accepted the background output after bounded repair and registered `scripts/check-a2-twii-source-attribution-and-cadence-public-copy-guard.mjs`. The guard protects source-attribution wording, daily-after-close cadence wording, mock boundary, and non-investment-advice wording before any real-data promotion.
 - A1 bounded readonly gate candidate requirements are now ready for PM intake at `docs/A1_TWII_BOUNDED_READONLY_GATE_CANDIDATE_REQUIREMENTS_NO_EXECUTION.md`. The packet defines future attempt fields, fail-closed requirements, source-rights evidence, field contract, cadence, no-secret output, no raw/row payload output, no Supabase write, no `daily_prices` mutation, no promotion, and post-run review requirements while remaining no-execution. The next PM route is `surface_bounded_readonly_requirements_as_runtime_readiness_then_wait_for_external_execution_decision`; A1 next owns `prepare_exact_source_rights_and_field_contract_evidence_for_future_readonly_attempt`; A2 next owns `review_twii_source_attribution_and_cadence_public_copy_guard`.
 - PM wired the TWII terms/field/cadence/attribution packet into the shared public Beta data-readiness runtime surface. `src/lib/public-beta-data-readiness-status.ts` and `src/components/public-beta-data-readiness-status.tsx` now expose `資料條款`, `欄位對照`, `更新節奏`, and `公開引用` as reader-facing readiness cards. The integration keeps `publicDataSource=mock`, `scoreSource=mock`, no SQL, no Supabase, no raw market-data fetch, no endpoint probe, and no real-data promotion. The next PM route is `review_twii_terms_runtime_readiness_copy_then_prepare_bounded_readonly_requirements`; A1 next owns `prepare_twii_bounded_readonly_gate_candidate_requirements_no_execution`; A2 next owns `review_twii_source_attribution_and_cadence_public_copy_guard`.
@@ -168,8 +169,8 @@ This goal slice is complete when:
 
 Recommended next mainline action:
 
-`surface_bounded_readonly_requirements_as_runtime_readiness_then_wait_for_external_execution_decision`
+`prepare_exact_source_rights_and_field_contract_evidence_for_future_readonly_attempt`
 
 Meaning:
 
-PM has a no-execution bounded readonly requirements packet and should translate only the readiness status into mock-safe runtime wording. A1 should prepare exact source-rights and field-contract evidence for a future readonly attempt, while A2 checks public attribution, cadence, mock boundary, and non-advice copy. Real-data promotion remains blocked until a separately accepted source-rights, coverage, quality, rollback, and runtime gate is recorded.
+PM has surfaced the no-execution bounded readonly requirements in mock-safe runtime wording. A1 should prepare exact source-rights and field-contract evidence for a future readonly attempt, while A2 prepares copy-only phrase-set patches only if PM requests them. Real-data promotion remains blocked until a separately accepted source-rights, coverage, quality, rollback, and runtime gate is recorded.

@@ -30,6 +30,14 @@ export type PublicBetaTwiiTermsReadinessItem = {
   nextStep: string;
 };
 
+export type PublicBetaBoundedReadonlyRequirementItem = {
+  id: string;
+  label: string;
+  status: "required" | "prepared" | "blocked";
+  publicLabel: string;
+  summary: string;
+};
+
 export type PublicBetaDataReadinessStatus = {
   headline: string;
   summary: string;
@@ -47,6 +55,7 @@ export type PublicBetaDataReadinessStatus = {
     nextAction: string;
   };
   twiiTermsReadiness: PublicBetaTwiiTermsReadinessItem[];
+  boundedReadonlyRequirements: PublicBetaBoundedReadonlyRequirementItem[];
   coverageArtifactScopes: PublicBetaCoverageArtifactScope[];
   lanes: PublicBetaDataReadinessLane[];
   sourceTrust: PublicBetaSourceTrustItem[];
@@ -108,6 +117,40 @@ export function getPublicBetaDataReadinessStatus(): PublicBetaDataReadinessStatu
         summary:
           "頁面可先說明候選來源與 mock 邊界，但不得暗示官方背書、即時精準或投資建議。",
         nextStep: "由 A2 檢查資料來源、更新時間、風險揭露與非投資建議文案。"
+      }
+    ],
+    boundedReadonlyRequirements: [
+      {
+        id: "readonly-source-rights",
+        label: "來源權利",
+        publicLabel: "需確認來源條款",
+        status: "required",
+        summary:
+          "未來任何唯讀檢查前，都要先確認 exact source route、可自動化條件、儲存與公開顯示條件。"
+      },
+      {
+        id: "readonly-field-contract",
+        label: "欄位契約",
+        publicLabel: "需確認欄位語意",
+        status: "required",
+        summary:
+          "交易日、收盤值、標的代碼、標的名稱、來源標籤與來源更新時間都需先定義缺值與修正規則。"
+      },
+      {
+        id: "readonly-safe-output",
+        label: "安全輸出",
+        publicLabel: "只允許安全摘要",
+        status: "prepared",
+        summary:
+          "未來唯讀檢查只能輸出 sanitized aggregate 或布林狀態，不顯示 raw payload、row payload、secret 或 stock-id row list。"
+      },
+      {
+        id: "readonly-promotion-lock",
+        label: "升級鎖",
+        publicLabel: "不自動升級資料源",
+        status: "blocked",
+        summary:
+          "即使未來唯讀檢查成功，也不會自動切換正式資料或真實分數；仍需獨立 promotion gate。"
       }
     ],
     coverageArtifactScopes: [

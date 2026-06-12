@@ -25,6 +25,12 @@ const twiiTermsStatusLabels = {
   "review-required": "待確認"
 } as const;
 
+const boundedReadonlyStatusLabels = {
+  blocked: "升級鎖定",
+  prepared: "已準備",
+  required: "必要前提"
+} as const;
+
 export function PublicBetaDataReadinessStatus() {
   const status = getPublicBetaDataReadinessStatus();
 
@@ -75,6 +81,16 @@ export function PublicBetaDataReadinessStatus() {
             <p>{twiiTermsStatusLabels[item.status]}</p>
             <p>{item.summary}</p>
             <p>下一步：{item.nextStep}</p>
+          </article>
+        ))}
+      </div>
+      <div className="public-beta-bounded-readonly-requirements" aria-label="Bounded readonly gate requirements">
+        {status.boundedReadonlyRequirements.map((item) => (
+          <article className={item.status} key={item.id}>
+            <span>{item.label}</span>
+            <strong>{item.publicLabel}</strong>
+            <p>{boundedReadonlyStatusLabels[item.status]}</p>
+            <p>{item.summary}</p>
           </article>
         ))}
       </div>
