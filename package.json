@@ -589,6 +589,7 @@
     "check:pre-launch-executable-state-gap-convergence": "node scripts/check-pre-launch-executable-state-gap-convergence.mjs",
     "check:public-beta-index-dashboard-brief-loop": "node scripts/check-public-beta-index-dashboard-brief-loop.mjs",
     "check:public-beta-route-consistency": "node scripts/check-public-beta-route-consistency.mjs",
+    "check:public-beta-source-coverage-runtime-labels": "node scripts/check-public-beta-source-coverage-runtime-labels.mjs",
     "check:local-runtime-launch-proof-continuation": "node scripts/check-local-runtime-launch-proof-continuation.mjs",
     "check:local-runtime-launch-proof-trigger-matrix": "node scripts/check-local-runtime-launch-proof-trigger-matrix.mjs",
     "check:taiwan-all-listed-universe-manifest-packet": "node scripts/check-taiwan-all-listed-universe-manifest-packet.mjs",

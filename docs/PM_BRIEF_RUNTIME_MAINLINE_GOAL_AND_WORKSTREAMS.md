@@ -33,6 +33,7 @@ PM should not wait for A1/A2 unless a mainline change directly depends on their 
 
 Latest PM integration:
 
+- Home, briefing, and stock detail now share a `Source & Coverage` runtime-label panel. The panel turns A1's no-fetch source/coverage handoff into reader-facing states: index baseline checking, core ETF blocked, and first listed-equity demo group usable only as mock demonstration. This keeps source trust and coverage gaps visible without claiming real data, complete coverage, or real score readiness.
 - Home, briefing, and stock detail now share a visible `Public Beta Reading Path` panel. The route consistency surface tells users how to move from 30-second market overview to 3-minute briefing judgment to stock detail confirmation, while translating A1 data-line status into reader-facing candidate-source confirmation and preserving `publicDataSource=mock` / `scoreSource=mock` / non-advice boundaries.
 - Stock detail runtime pages now include a BRIEF-aligned public decision brief: `30 秒看懂標的狀態`, `3 分鐘內請看`, cause, update time, impact level, next step, and a visible `publicDataSource=mock` / `scoreSource=mock` / non-investment-advice boundary. The stock-focused gates were refreshed to guard these user-facing requirements instead of stale internal process copy.
 - `/briefing` has been moved closer to the BRIEF product target by converting visible navigation, decision boundary, reading bridge, watchlists, action cards, next-reading links, executive links, and runtime-plan copy into reader-facing public Beta language.
@@ -140,8 +141,8 @@ This goal slice is complete when:
 
 Recommended next mainline action:
 
-`wire_mock_runtime_source_coverage_labels_then_route_health`
+`route_health_and_source_coverage_public_copy_tightening`
 
 Meaning:
 
-PM should keep improving the public Beta usable loop while A1 continues source/coverage work and A2 continues copy safety. The next mainline slice should use A1's no-fetch source/coverage handoff to prepare mock-only runtime labels for source lane, coverage layer, and promotion blocker state, then verify route health. Real-data promotion remains blocked until a separately accepted source-rights, coverage, quality, rollback, and runtime gate is recorded.
+PM should verify the new source/coverage labels across route health and then tighten only the copy that improves user comprehension: source trust, coverage gap, mock boundary, non-advice, and next observation. A1 should continue `prepare_twse_openapi_terms_field_coverage_matrix_no_fetch`; A2 should scan whether the new labels are understandable without exposing internal process language. Real-data promotion remains blocked until a separately accepted source-rights, coverage, quality, rollback, and runtime gate is recorded.

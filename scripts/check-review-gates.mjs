@@ -4753,6 +4753,11 @@ const checks = [
     name: "public-beta-route-consistency"
   },
   {
+    command: [node, "scripts/check-public-beta-source-coverage-runtime-labels.mjs"],
+    expectStatus: "ok",
+    name: "public-beta-source-coverage-runtime-labels"
+  },
+  {
     command: [node, "scripts/check-local-runtime-launch-proof-continuation.mjs"],
     expectStatus: "ok",
     name: "local-runtime-launch-proof-continuation"
@@ -5745,6 +5750,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "public-visible-language-quality",
   "public-beta-index-dashboard-brief-loop",
   "public-beta-route-consistency",
+  "public-beta-source-coverage-runtime-labels",
   "public-beta-data-realification-next-action",
   "open-free-auto-data-source-gate",
   "twse-openapi-bounded-metadata-terms-validation",
