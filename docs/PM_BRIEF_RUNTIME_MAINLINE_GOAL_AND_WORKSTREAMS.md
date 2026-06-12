@@ -33,6 +33,7 @@ PM should not wait for A1/A2 unless a mainline change directly depends on their 
 
 Latest PM integration:
 
+- A1 TWII terms/field/cadence/attribution no-fetch packet is ready for PM intake at `docs/A1_TWII_TERMS_FIELD_CADENCE_ATTRIBUTION_NO_FETCH_PACKET.md`. It narrows the TWII source route into terms, minimum fields, daily-after-close cadence, and public attribution decisions while preserving `publicDataSource=mock`, `scoreSource=mock`, no SQL, no Supabase connection/write, no staging rows, no `daily_prices` mutation, no endpoint probe, no market-data fetch/ingest/store/commit, no row payloads, no row coverage points, and no real-data promotion. The next PM route is `wire_twii_terms_field_cadence_attribution_status_into_runtime_readiness_copy`; A1 next owns `prepare_twii_bounded_readonly_gate_candidate_requirements_no_execution`; A2 next owns `review_twii_source_attribution_and_cadence_public_copy_guard`.
 - PM wired the accepted A1 no-fetch coverage artifact into the public data-readiness runtime surface. `src/lib/public-beta-data-readiness-status.ts` and `src/components/public-beta-data-readiness-status.tsx` now expose the next coverage scopes as user-readable cards: `TWII 大盤基準準備中`, `核心 ETF 來源條件待確認`, `第一批上市個股示範`, `產業與族群待 taxonomy review`, and `進階指標 mock 可解釋，真實計算未開放`. The integration remains mock-only and does not promote public data, score source, row coverage points, SQL, Supabase, or raw market data.
 - A1 next no-fetch coverage artifact is now ready for PM intake at `docs/A1_PUBLIC_BETA_NEXT_NO_FETCH_COVERAGE_ARTIFACT.md`. It separates `TWII`, core ETF (`0050`, `006208`), Batch 1 listed-equity demo anchors (`2330`, `2382`, `2308`), sector/industry, and derived indicators into PM-safe runtime coverage states. The next PM route is `wire_next_no_fetch_coverage_artifact_into_public_data_readiness_status`; A1 next owns `prepare_twii_terms_field_cadence_attribution_no_fetch_packet`; A2 next owns `review_data_readiness_and_coverage_artifact_public_copy_density`.
 - PM repaired the shared public Beta data-readiness and data-realization runtime helpers. Home and `/briefing` now show readable Chinese for data readiness, row coverage evidence, TWII prerequisites, public data boundary, source-trust next steps, coverage rollout batches, readonly gate status, and mock-only stop lines. This slice keeps `publicDataSource=mock`, `scoreSource=mock`, no SQL, no Supabase write, no market-data fetch, and no real-data promotion. A1 next owns the next no-fetch coverage artifact; A2 next owns public-copy review for the repaired data readiness and coverage rollout wording.
@@ -67,7 +68,8 @@ Active A1 artifact:
 - `docs/A1_INDEX_BASELINE_SYNTHETIC_CONTRACT_CASES_NO_FETCH.md`
 - `docs/A1_BATCH1_LISTED_EQUITY_SYMBOL_POLICY_NO_ROW_LIST.md`
 - `docs/A1_PUBLIC_BETA_NEXT_NO_FETCH_COVERAGE_ARTIFACT.md`
-- current PM assignment: absorb the next no-fetch coverage artifact into public data readiness status only if it improves runtime comprehension without implying real-data promotion.
+- `docs/A1_TWII_TERMS_FIELD_CADENCE_ATTRIBUTION_NO_FETCH_PACKET.md`
+- current PM assignment: absorb the TWII terms/field/cadence/attribution no-fetch packet into runtime readiness copy only if it improves source trust, cadence clarity, and public attribution without implying real-data promotion.
 
 A1 is responsible for:
 
@@ -75,7 +77,7 @@ A1 is responsible for:
 - coverage categories for daily close, volume, date, symbol, ETF, index, and stock lanes,
 - no-fetch terms review packets,
 - source-lane questions for PM/CEO decisions.
-- next background task: prepare `prepare_twii_terms_field_cadence_attribution_no_fetch_packet`; keep output field-name-only, aggregate-only, local-only, no-fetch, no-secret, and PM-readable.
+- next background task: prepare `prepare_twii_bounded_readonly_gate_candidate_requirements_no_execution`; keep output field-name-only, aggregate-only, local-only, no-fetch, no-secret, and PM-readable.
 
 A1 is not authorized by this goal to:
 
@@ -106,7 +108,7 @@ A2 is responsible for:
 - mock/real boundary readability,
 - non-investment-advice wording,
 - blocking internal execution strings on public surfaces.
-- next background task: review `docs/A1_PUBLIC_BETA_NEXT_NO_FETCH_COVERAGE_ARTIFACT.md` plus the repaired data-readiness and data-realization public wording; propose only bounded copy repair if wording is too dense, still feels internal, or weakens the mock/non-advice boundary.
+- next background task: review `docs/A1_TWII_TERMS_FIELD_CADENCE_ATTRIBUTION_NO_FETCH_PACKET.md` plus current data-readiness public wording; propose only bounded copy repair if source attribution, daily cadence, mock boundary, or non-advice wording is unclear.
 
 A2 is not authorized by this goal to:
 
@@ -161,8 +163,8 @@ This goal slice is complete when:
 
 Recommended next mainline action:
 
-`prepare_twii_terms_field_cadence_attribution_no_fetch_packet`
+`wire_twii_terms_field_cadence_attribution_status_into_runtime_readiness_copy`
 
 Meaning:
 
-PM has absorbed the accepted A1 no-fetch coverage artifact into mock-safe runtime wording. A1 should prepare the next TWII terms/field/cadence/attribution no-fetch packet, while A2 checks public copy density and mock/non-advice clarity. Real-data promotion remains blocked until a separately accepted source-rights, coverage, quality, rollback, and runtime gate is recorded.
+PM has a local-only TWII terms/field/cadence/attribution packet and should translate only its readiness status into mock-safe runtime wording. A1 should prepare the bounded readonly gate requirements without execution, while A2 checks public attribution, cadence, mock boundary, and non-advice copy. Real-data promotion remains blocked until a separately accepted source-rights, coverage, quality, rollback, and runtime gate is recorded.

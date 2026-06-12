@@ -4358,6 +4358,11 @@ const checks = [
     name: "a1-public-beta-next-no-fetch-coverage-artifact"
   },
   {
+    command: [node, "scripts/check-a1-twii-terms-field-cadence-attribution-no-fetch-packet.mjs"],
+    expectStatus: "ok",
+    name: "a1-twii-terms-field-cadence-attribution-no-fetch-packet"
+  },
+  {
     command: [node, "scripts/check-a2-field-contract-public-copy-guard.mjs"],
     expectStatus: "ok",
     name: "a2-field-contract-public-copy-guard"
@@ -5807,6 +5812,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "a1-index-baseline-synthetic-contract-cases-no-fetch",
   "a1-batch1-listed-equity-symbol-policy-no-row-list",
   "a1-public-beta-next-no-fetch-coverage-artifact",
+  "a1-twii-terms-field-cadence-attribution-no-fetch-packet",
   "a2-field-contract-public-copy-guard",
   "twse-openapi-index-baseline-synthetic-parser-fixture",
   "twse-openapi-index-baseline-mock-runtime-handoff",
