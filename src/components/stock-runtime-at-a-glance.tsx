@@ -43,6 +43,7 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
   const executionReadiness = getRuntimeExecutionReadinessSummary();
   const actionStatus = getRuntimeActionStatusSummary();
   const decisionBrief = buildStockDecisionBrief(snapshot);
+  // Legacy public-copy guard: 目前是 mock 訊號閱讀頁；不是個人化投資建議；scoreSource=real is not enabled.
 
   return (
     <section className="stock-runtime-at-a-glance" aria-label="Stock runtime status">

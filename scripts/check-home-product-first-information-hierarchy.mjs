@@ -43,6 +43,9 @@ const homeHtml = await home.text();
 const visible = normalize(homeHtml);
 
 if (home.status !== 200) problems.push(`/ returned ${home.status}`);
+if (visible.length > 16000) {
+  problems.push(`home visible text too dense for product-first Beta surface: ${visible.length}`);
+}
 
 const orderedVisibleMarkers = [
   "Public Beta Index Dashboard",

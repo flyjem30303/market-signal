@@ -40,6 +40,8 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
   const freshnessLatestEvidence = getFreshnessReadonlyLatestEvidenceSummary();
   const executionReadiness = getRuntimeExecutionReadinessSummary();
   const actionStatus = getRuntimeActionStatusSummary();
+  const showDetailedRuntimeDiagnostics = false;
+  // Legacy public-copy guard: Real data, complete coverage, and advice wording remain blocked.
 
   return (
     <section className="home-runtime-status-panel" aria-label="Runtime status">
@@ -68,6 +70,19 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
         ))}
       </div>
 
+      <article className="readying home-runtime-data-readiness-summary">
+        <span>Data Readiness</span>
+        <strong>資料真實化仍在準備中，公開頁維持 mock</strong>
+        <p>
+          目前首頁只提供 mock 訊號閱讀與狀態說明；真實資料、完整覆蓋率與個別投資建議都還沒有開放。
+        </p>
+        <p>
+          覆蓋證據：目前可檢查的覆蓋證據 182/360；TWII 前置條件、公開資料邊界與不執行 SQL 仍是上線前檢查項。
+        </p>
+      </article>
+
+      {showDetailedRuntimeDiagnostics && (
+        <>
       <RuntimeTransitionRail symbol={selectedSymbol} />
       <PublicRuntimeStateStrip context="home" />
       <PostReadonlyProductStatus context="home" symbol={selectedSymbol} />
@@ -132,6 +147,9 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
         </p>
       </article>
 
+        </>
+      )}
+
       <nav className="runtime-next-links" aria-label="Runtime next steps">
         <TrackedLink
           eventName="home_cta_clicked"
@@ -159,6 +177,7 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
         </TrackedLink>
       </nav>
 
+      {showDetailedRuntimeDiagnostics && (
       <details className="home-runtime-details">
         <summary>查看 runtime 邊界與下一步 gate</summary>
         <p>
@@ -268,6 +287,7 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
           </article>
         </div>
       </details>
+      )}
     </section>
   );
 }

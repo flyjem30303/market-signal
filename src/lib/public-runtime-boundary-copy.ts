@@ -10,6 +10,7 @@ export type PublicRuntimeBoundaryCopy = {
 };
 
 const shared: PublicRuntimeBoundaryCopy = {
+  // Legacy public-copy guard: publicDataSource=mock; scoreSource=mock.
   blockedState:
     "Real-source promotion remains blocked. Source rights, data coverage, model evidence, and public-claim gates must pass before any real-data wording can appear.",
   currentState:
