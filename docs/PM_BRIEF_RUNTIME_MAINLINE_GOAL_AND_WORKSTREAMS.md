@@ -33,7 +33,7 @@ PM should not wait for A1/A2 unless a mainline change directly depends on their 
 
 Latest PM integration:
 
-- Home, briefing, and stock detail now share a `Source & Coverage` runtime-label panel. The panel turns A1's no-fetch source/coverage handoff into reader-facing states: index baseline checking, core ETF blocked, and first listed-equity demo group usable only as mock demonstration. This keeps source trust and coverage gaps visible without claiming real data, complete coverage, or real score readiness.
+- Home, briefing, and stock detail now share a `Source & Coverage` runtime-label panel. The panel turns A1's no-fetch source/coverage handoff into reader-facing states: index baseline checking, core ETF blocked, and first listed-equity batch usable only as mock demonstration. PM accepted `docs/A1_TWSE_OPENAPI_TERMS_FIELD_COVERAGE_MATRIX_NO_FETCH.md` for mock runtime label planning and accepted `docs/A2_SOURCE_COVERAGE_RUNTIME_LABELS_PUBLIC_COPY_REVIEW.md` after applying bounded copy repair. This keeps source trust and coverage gaps visible without claiming real data, complete coverage, or real score readiness.
 - Home, briefing, and stock detail now share a visible `Public Beta Reading Path` panel. The route consistency surface tells users how to move from 30-second market overview to 3-minute briefing judgment to stock detail confirmation, while translating A1 data-line status into reader-facing candidate-source confirmation and preserving `publicDataSource=mock` / `scoreSource=mock` / non-advice boundaries.
 - Stock detail runtime pages now include a BRIEF-aligned public decision brief: `30 秒看懂標的狀態`, `3 分鐘內請看`, cause, update time, impact level, next step, and a visible `publicDataSource=mock` / `scoreSource=mock` / non-investment-advice boundary. The stock-focused gates were refreshed to guard these user-facing requirements instead of stale internal process copy.
 - `/briefing` has been moved closer to the BRIEF product target by converting visible navigation, decision boundary, reading bridge, watchlists, action cards, next-reading links, executive links, and runtime-plan copy into reader-facing public Beta language.
@@ -49,6 +49,7 @@ Active A1 artifact:
 
 - `docs/A1_OFFICIAL_OPEN_FREE_SOURCE_TERMS_AND_COVERAGE_MATRIX_NO_FETCH.md`
 - `docs/A1_PUBLIC_BETA_SOURCE_COVERAGE_RUNTIME_NO_FETCH_HANDOFF.md`
+- `docs/A1_TWSE_OPENAPI_TERMS_FIELD_COVERAGE_MATRIX_NO_FETCH.md`
 - current PM assignment: keep extending source / coverage evidence toward the full public Beta data universe, but return only sanitized, no-secret, no-fetch artifacts that PM can accept through local checks.
 
 A1 is responsible for:
@@ -57,7 +58,7 @@ A1 is responsible for:
 - coverage categories for daily close, volume, date, symbol, ETF, index, and stock lanes,
 - no-fetch terms review packets,
 - source-lane questions for PM/CEO decisions.
-- next background task: continue source/coverage evidence toward `OFFICIAL` and TWSE OpenAPI readiness without fetching market rows; return only sanitized, no-secret, aggregate or terms/field-contract artifacts for PM acceptance.
+- next background task: prepare a no-fetch field-contract confirmation packet for index baseline and Batch 1 listed-equity planning; return only sanitized, no-secret, terms/field-contract artifacts for PM acceptance.
 
 A1 is not authorized by this goal to:
 
@@ -77,6 +78,7 @@ Active A2 artifact:
 
 - `docs/A2_HOME_FIRST_SCREEN_PUBLIC_COPY_HANDOFF.md`
 - `docs/A2_PUBLIC_COPY_UX_SAFETY_QA_HANDOFF_2026_06_12.md`
+- `docs/A2_SOURCE_COVERAGE_RUNTIME_LABELS_PUBLIC_COPY_REVIEW.md`
 - current PM assignment: review stock detail and home-to-briefing language for 30-second comprehension, 3-minute action judgment, mock/real boundary clarity, and non-advice wording; propose copy patches only when they improve comprehension or safety.
 
 A2 is responsible for:
@@ -86,7 +88,7 @@ A2 is responsible for:
 - mock/real boundary readability,
 - non-investment-advice wording,
 - blocking internal execution strings on public surfaces.
-- next background task: scan remaining public surfaces for user-facing comprehension gaps, especially stock detail and home-to-briefing transitions; propose copy patches only when they improve 30-second market mood, 3-minute action judgment, source trust, or legal clarity.
+- next background task: monitor the new source/coverage labels for public readability, small-screen crowding, internal workflow terms, and mock/non-advice boundary clarity; propose copy-only patches only when they improve comprehension or safety.
 
 A2 is not authorized by this goal to:
 

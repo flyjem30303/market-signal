@@ -9,9 +9,9 @@ type PublicBetaSourceCoverageRuntimeLabelsPanelProps = {
 };
 
 const stateCopy = {
-  blocked: "待補齊",
-  checking: "確認中",
-  usable_demo: "示範可讀"
+  blocked: "暫停公開",
+  checking: "檢查中",
+  usable_demo: "展示可用"
 } satisfies Record<string, string>;
 
 export function PublicBetaSourceCoverageRuntimeLabelsPanel({

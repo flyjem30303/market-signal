@@ -32,10 +32,11 @@ requireIncludes("review gate", reviewGate, [
 
 requireIncludes("module", moduleSource, [
   "getPublicBetaSourceCoverageRuntimeLabels",
-  "來源與覆蓋狀態：先可讀，再升級",
+  "資料來源與覆蓋狀態",
+  "正式市場資料、來源權利、覆蓋品質與更新節奏仍在檢查",
   "大盤基準",
   "核心 ETF",
-  "個股示範組",
+  "上市個股批次",
   "正式資料上線前，不宣稱即時真實資料",
   'publicDataSource: "mock"',
   'scoreSource: "mock"'
@@ -45,6 +46,9 @@ requireIncludes("component", component, [
   "PublicBetaSourceCoverageRuntimeLabelsPanel",
   "Public Beta source coverage runtime labels",
   "Source & Coverage",
+  "展示可用",
+  "檢查中",
+  "暫停公開",
   "public-beta-source-coverage-runtime__layers",
   "public-beta-source-coverage-runtime__boundary",
   "publicDataSource=",
@@ -77,7 +81,11 @@ for (const [label, source] of [
   requireExcludes(label, source, forbiddenRuntimePhrases());
 }
 
-const routeResults = await Promise.all(["/", "/briefing", "/stocks/2330"].map(checkRoute));
+const routeResults = await Promise.all(
+  ["/", "/briefing", "/stocks/TWII", "/stocks/2330", "/stocks/0050", "/stocks/006208", "/stocks/2382", "/stocks/2308"].map(
+    checkRoute
+  )
+);
 
 if (problems.length) {
   console.error(JSON.stringify({ problems, routeResults, status: "blocked" }, null, 2));
@@ -102,10 +110,13 @@ async function checkRoute(path) {
   const html = await response.text();
   const required = [
     "Source &amp; Coverage",
-    "來源與覆蓋狀態",
+    "資料來源與覆蓋狀態",
     "大盤基準",
     "核心 ETF",
-    "個股示範組",
+    "上市個股批次",
+    "展示可用",
+    "檢查中",
+    "暫停公開",
     "publicDataSource=mock",
     "scoreSource=mock",
     "不宣稱即時真實資料",

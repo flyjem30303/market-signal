@@ -35,7 +35,7 @@ export function getPublicBetaSourceCoverageRuntimeLabels(
       scoreSource: "mock",
       stopLine: "正式資料上線前，不宣稱即時真實資料、不宣稱完整覆蓋，也不提供買賣建議。"
     },
-    headline: "來源與覆蓋狀態：先可讀，再升級",
+    headline: "資料來源與覆蓋狀態",
     layers: [
       {
         detail: "支援 30 秒市場氛圍與晨報入口，但目前仍是示範訊號。",
@@ -54,13 +54,13 @@ export function getPublicBetaSourceCoverageRuntimeLabels(
       {
         detail: "2330、2382、2308 可支援示範閱讀流程，但不是全市場覆蓋。",
         id: "listed-equity-batch1",
-        label: "個股示範組",
+        label: "上市個股批次",
         next: "建立批次規則，再逐步擴大上市股票 universe。",
         state: "usable_demo"
       }
     ],
     summary:
-      "這個區塊把 A1 的來源與覆蓋矩陣先翻成 runtime 可讀標籤：哪些只是示範可讀、哪些正在確認、哪些仍被阻擋。",
-    userMeaning: contextLine
+      "公開 Beta 目前使用模擬資料，讓使用者先理解指數狀態儀表站的閱讀方式；正式市場資料、來源權利、覆蓋品質與更新節奏仍在檢查。",
+    userMeaning: `${contextLine} 一般投資者可以把這一區當成資料可信度標籤：哪些只是展示可用、哪些還在檢查、哪些暫時不能當作完整市場覆蓋。`
   };
 }

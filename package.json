@@ -590,6 +590,7 @@
     "check:public-beta-index-dashboard-brief-loop": "node scripts/check-public-beta-index-dashboard-brief-loop.mjs",
     "check:public-beta-route-consistency": "node scripts/check-public-beta-route-consistency.mjs",
     "check:public-beta-source-coverage-runtime-labels": "node scripts/check-public-beta-source-coverage-runtime-labels.mjs",
+    "check:source-coverage-runtime-handoff-docs": "node scripts/check-source-coverage-runtime-handoff-docs.mjs",
     "check:local-runtime-launch-proof-continuation": "node scripts/check-local-runtime-launch-proof-continuation.mjs",
     "check:local-runtime-launch-proof-trigger-matrix": "node scripts/check-local-runtime-launch-proof-trigger-matrix.mjs",
     "check:taiwan-all-listed-universe-manifest-packet": "node scripts/check-taiwan-all-listed-universe-manifest-packet.mjs",

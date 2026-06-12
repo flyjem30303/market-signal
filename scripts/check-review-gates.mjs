@@ -4758,6 +4758,11 @@ const checks = [
     name: "public-beta-source-coverage-runtime-labels"
   },
   {
+    command: [node, "scripts/check-source-coverage-runtime-handoff-docs.mjs"],
+    expectStatus: "ok",
+    name: "source-coverage-runtime-handoff-docs"
+  },
+  {
     command: [node, "scripts/check-local-runtime-launch-proof-continuation.mjs"],
     expectStatus: "ok",
     name: "local-runtime-launch-proof-continuation"
@@ -5751,6 +5756,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "public-beta-index-dashboard-brief-loop",
   "public-beta-route-consistency",
   "public-beta-source-coverage-runtime-labels",
+  "source-coverage-runtime-handoff-docs",
   "public-beta-data-realification-next-action",
   "open-free-auto-data-source-gate",
   "twse-openapi-bounded-metadata-terms-validation",
