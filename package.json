@@ -46,6 +46,8 @@
     "check:a1-twii-bounded-readonly-gate-candidate-requirements-no-execution": "node scripts/check-a1-twii-bounded-readonly-gate-candidate-requirements-no-execution.mjs",
     "check:a1-twii-exact-source-rights-and-field-contract-evidence-no-fetch": "node scripts/check-a1-twii-exact-source-rights-and-field-contract-evidence-no-fetch.mjs",
     "check:twii-operator-readonly-decision-packet-no-execution": "node scripts/check-twii-operator-readonly-decision-packet-no-execution.mjs",
+    "check:a1-twii-readonly-execution-packet-prerequisites-no-execution": "node scripts/check-a1-twii-readonly-execution-packet-prerequisites-no-execution.mjs",
+    "check:a2-twii-operator-decision-public-copy-guard": "node scripts/check-a2-twii-operator-decision-public-copy-guard.mjs",
     "check:a2-field-contract-public-copy-guard": "node scripts/check-a2-field-contract-public-copy-guard.mjs",
     "check:a2-twii-source-attribution-and-cadence-public-copy-guard": "node scripts/check-a2-twii-source-attribution-and-cadence-public-copy-guard.mjs",
     "check:pm-brief-runtime-mainline-goal-and-workstreams": "node scripts/check-pm-brief-runtime-mainline-goal-and-workstreams.mjs",

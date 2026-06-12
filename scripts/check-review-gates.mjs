@@ -4378,6 +4378,16 @@ const checks = [
     name: "twii-operator-readonly-decision-packet-no-execution"
   },
   {
+    command: [node, "scripts/check-a1-twii-readonly-execution-packet-prerequisites-no-execution.mjs"],
+    expectStatus: "ok",
+    name: "a1-twii-readonly-execution-packet-prerequisites-no-execution"
+  },
+  {
+    command: [node, "scripts/check-a2-twii-operator-decision-public-copy-guard.mjs"],
+    expectStatus: "ok",
+    name: "a2-twii-operator-decision-public-copy-guard"
+  },
+  {
     command: [node, "scripts/check-a2-field-contract-public-copy-guard.mjs"],
     expectStatus: "ok",
     name: "a2-field-contract-public-copy-guard"
@@ -5836,6 +5846,8 @@ const publicBetaFocusedReviewGateNames = new Set([
   "a1-twii-bounded-readonly-gate-candidate-requirements-no-execution",
   "a1-twii-exact-source-rights-and-field-contract-evidence-no-fetch",
   "twii-operator-readonly-decision-packet-no-execution",
+  "a1-twii-readonly-execution-packet-prerequisites-no-execution",
+  "a2-twii-operator-decision-public-copy-guard",
   "a2-field-contract-public-copy-guard",
   "a2-twii-source-attribution-and-cadence-public-copy-guard",
   "twse-openapi-index-baseline-synthetic-parser-fixture",
