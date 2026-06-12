@@ -45,10 +45,10 @@ if (!reviewGate.includes("scripts/check-public-beta-data-realification-next-acti
 
 const expectedOutput = {
   status: "public_beta_data_realification_next_action_ready",
-  ceoRecommendation: "twse_openapi_consumer_adapter_next_public_runtime_mock_parallel",
-  pmMainline: "prepare_twse_openapi_parser_contract_consumer_adapter_no_fetch",
-  a1Next: "twse_openapi_parser_consumer_adapter_synthetic_only",
-  a2Next: "open_data_attribution_delay_no_advice_public_copy_guardrail",
+  ceoRecommendation: "twse_openapi_runtime_mock_consumer_wiring_next_public_runtime_parallel",
+  pmMainline: "prepare_twse_openapi_runtime_mock_consumer_wiring_readiness",
+  a1Next: "twse_openapi_runtime_consumer_adapter_synthetic_case_notes",
+  a2Next: "runtime_mock_consumer_public_boundary_copy_guardrail",
   fallbackIfRightsStayBlocked: "continue_public_beta_runtime_readability_and_production_readonly_guards"
 };
 
@@ -91,6 +91,7 @@ for (const phrase of [
   "docs/TWSE_OPENAPI_BOUNDED_METADATA_TERMS_VALIDATION.md",
   "src/lib/twse-openapi-source-adapter-contract.ts",
   "src/lib/twse-openapi-parser-contract.ts",
+  "src/lib/twse-openapi-parser-consumer-adapter.ts",
   "docs/A2_PUBLIC_BETA_BATCH1_TWII_CORE_ETF_TRUST_COPY.md",
   "docs/DATA_REALIFICATION_POST_FIRST_CLOSED_LOOP_NEXT_LANE_SELECTOR.md",
   "docs/PUBLIC_BETA_INDEX_DASHBOARD_BRIEF.md"
