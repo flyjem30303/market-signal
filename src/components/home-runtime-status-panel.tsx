@@ -2,6 +2,7 @@ import { RuntimeTransitionRail } from "@/components/runtime-transition-rail";
 import { PublicRuntimeStateStrip } from "@/components/public-runtime-state-strip";
 import { PostReadonlyProductStatus } from "@/components/post-readonly-product-status";
 import { PublicBetaDataReadinessStatus } from "@/components/public-beta-data-readiness-status";
+import { TwseOpenApiRuntimeMockWiringStatus } from "@/components/twse-openapi-runtime-mock-wiring-status";
 import { TrackedLink } from "@/components/tracked-link";
 import { getBlockerReadinessSummary } from "@/lib/blocker-readiness";
 import { getFreshnessReadonlyLatestEvidenceSummary } from "@/lib/freshness-readonly-latest-evidence";
@@ -71,6 +72,8 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
       <PublicRuntimeStateStrip context="home" />
       <PostReadonlyProductStatus context="home" symbol={selectedSymbol} />
       <PublicBetaDataReadinessStatus />
+      {/* This is readiness evidence only, not a public real-data claim. */}
+      <TwseOpenApiRuntimeMockWiringStatus />
 
       <section className="runtime-action-status-strip" aria-label="Runtime action status normalization">
         <div>

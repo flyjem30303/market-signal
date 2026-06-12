@@ -4048,6 +4048,82 @@ select {
   gap: 10px;
 }
 
+.twse-openapi-runtime-mock-wiring-status {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: minmax(280px, 1.35fr) repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  align-items: stretch;
+}
+
+.twse-openapi-runtime-mock-wiring-main,
+.twse-openapi-runtime-mock-wiring-status article {
+  display: grid;
+  align-content: start;
+  min-width: 0;
+  gap: 7px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  padding: 14px;
+}
+
+.twse-openapi-runtime-mock-wiring-main {
+  border-color: rgba(15, 118, 110, 0.2);
+  background: #f7fbfa;
+}
+
+.twse-openapi-runtime-mock-wiring-status h2 {
+  margin: 0;
+  font-size: 21px;
+  line-height: 1.3;
+}
+
+.twse-openapi-runtime-mock-wiring-status span {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.twse-openapi-runtime-mock-wiring-status strong {
+  overflow-wrap: anywhere;
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.35;
+}
+
+.twse-openapi-runtime-mock-wiring-status p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.twse-openapi-runtime-mock-wiring-status article.accepted,
+.twse-openapi-runtime-mock-wiring-status article.active {
+  border-color: rgba(20, 122, 77, 0.25);
+  background: #f3fbf6;
+}
+
+.twse-openapi-runtime-mock-wiring-status article.readying {
+  border-color: rgba(183, 121, 31, 0.25);
+  background: #fffaf0;
+}
+
+.twse-openapi-runtime-mock-wiring-status article.blocked {
+  border-color: rgba(199, 54, 59, 0.2);
+  background: #fff7f7;
+}
+
+.twse-openapi-runtime-mock-wiring-steps {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
 .briefing-public-beta-gate-summary {
   display: grid;
   gap: 18px;
@@ -12114,6 +12190,8 @@ input[type="date"] {
   .home-group-grid,
   .home-watchlists,
   .home-market-action-summary,
+  .twse-openapi-runtime-mock-wiring-status,
+  .twse-openapi-runtime-mock-wiring-steps,
   .home-public-beta-layer-grid,
   .home-core-indicator-grid,
   .home-public-beta-alert-list,

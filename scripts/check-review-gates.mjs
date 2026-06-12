@@ -3858,6 +3858,26 @@ const checks = [
     name: "twse-openapi-parser-consumer-adapter"
   },
   {
+    command: [node, "scripts/check-twse-openapi-runtime-mock-wiring-readiness.mjs"],
+    expectStatus: "ok",
+    name: "twse-openapi-runtime-mock-wiring-readiness"
+  },
+  {
+    command: [node, "scripts/check-twse-openapi-runtime-consumer-adapter-synthetic-case-notes.mjs"],
+    expectStatus: "ok",
+    name: "twse-openapi-runtime-consumer-adapter-synthetic-case-notes"
+  },
+  {
+    command: [node, "scripts/check-twse-openapi-field-contract-roadmap.mjs"],
+    expectStatus: "ok",
+    name: "twse-openapi-field-contract-roadmap"
+  },
+  {
+    command: [node, "scripts/check-twse-openapi-coverage-and-backfill-readiness.mjs"],
+    expectStatus: "ok",
+    name: "twse-openapi-coverage-and-backfill-readiness"
+  },
+  {
     command: [node, "scripts/check-runtime-promotion-policy-from-first-closed-loop.mjs"],
     expectStatus: "ok",
     name: "runtime-promotion-policy-from-first-closed-loop"
@@ -5409,6 +5429,9 @@ const coreReviewGateNames = new Set([
   "twii-a1-d-write-prerequisite-dispatch-packet",
   "twii-a1-d-write-prerequisite-pm-intake-ledger",
   "coverage-universe-roadmap",
+  "twse-openapi-runtime-consumer-adapter-synthetic-case-notes",
+  "twse-openapi-field-contract-roadmap",
+  "twse-openapi-coverage-and-backfill-readiness",
   "goal-parallel-workstream-adjustment",
   "runtime-local-route-health-refresh-before-executable-packet",
   "beta-runtime-fast-health",
@@ -5660,6 +5683,10 @@ const publicBetaFocusedReviewGateNames = new Set([
   "twse-openapi-source-adapter-contract",
   "twse-openapi-parser-contract",
   "twse-openapi-parser-consumer-adapter",
+  "twse-openapi-runtime-mock-wiring-readiness",
+  "twse-openapi-runtime-consumer-adapter-synthetic-case-notes",
+  "twse-openapi-field-contract-roadmap",
+  "twse-openapi-coverage-and-backfill-readiness",
   "public-beta-launch-readiness-panel",
   "public-beta-data-readiness-status",
   "beta-platform-proof-status",

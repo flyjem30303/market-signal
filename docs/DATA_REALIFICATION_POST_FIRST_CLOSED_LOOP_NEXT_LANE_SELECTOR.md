@@ -18,6 +18,8 @@ Current route: `post_first_closed_loop_next_data_lane_selector`.
 
 Current outcome: `twii_first_if_rights_change_otherwise_beta_runtime_mainline`.
 
+Runtime wiring handoff readiness target: `prepare_twse_openapi_runtime_mock_consumer_wiring_readiness`.
+
 This selector does not execute SQL, connect to Supabase, write Supabase, create staging rows, mutate `daily_prices`, fetch or ingest market data, generate source-derived candidates, award row coverage points, promote public source, or set real scoring.
 
 ## Current Evidence Baseline

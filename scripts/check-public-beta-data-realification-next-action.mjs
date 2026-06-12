@@ -51,10 +51,32 @@ const expectedOutput = {
   a2Next: "runtime_mock_consumer_public_boundary_copy_guardrail",
   fallbackIfRightsStayBlocked: "continue_public_beta_runtime_readability_and_production_readonly_guards"
 };
+const completedMainlineRoute = "twse_openapi_runtime_mock_consumer_wiring_readiness";
+const expectedReadiness = {
+  twseRuntimeCaseNotesReady: true,
+  twseFieldContractRoadmapReady: true,
+  twseCoverageBackfillReadinessReady: true,
+  runtimeMockWiringReadinessReady: true,
+  parserFailureBlockingGuardVerified: true,
+  sourceRightsPacketAligned: true
+};
 
 if (output.status !== expectedOutput.status) problems.push("status mismatch");
 for (const [key, value] of Object.entries(expectedOutput).filter(([key]) => key !== "status")) {
   if (output.decision?.[key] !== value) problems.push(`decision.${key} mismatch`);
+}
+if (!output.readiness || typeof output.readiness !== "object") {
+  problems.push("readiness block missing");
+} else {
+  for (const [key, value] of Object.entries(expectedReadiness)) {
+    if (output.readiness.a1Readiness?.[key] !== value) problems.push(`readiness.a1Readiness.${key} must be ${value}`);
+  }
+  if (output.readiness.canEnterTwseOpenApiRuntimeMockWiring !== true) {
+    problems.push("readiness.canEnterTwseOpenApiRuntimeMockWiring must be true");
+  }
+  if (!Array.isArray(output.readiness.requiredAdditionalReadinessArtifacts)) {
+    problems.push("readiness.requiredAdditionalReadinessArtifacts must be array");
+  }
 }
 
 const expectedCoverage = {
@@ -81,6 +103,12 @@ for (const [key, value] of Object.entries(output.hardStops ?? {})) {
 }
 
 if ((output.missingEvidence ?? []).length !== 0) problems.push("missingEvidence must be empty");
+if (output.coverage?.fullLevel1ExpectedRows !== 360 || output.coverage?.fullLevel1ObservedRows !== 182) {
+  problems.push("coverage numbers mismatch");
+}
+if (output.decision?.pmMainline !== "prepare_twse_openapi_runtime_mock_consumer_wiring_readiness") {
+  problems.push("decision.pmMainline mismatch");
+}
 
 for (const phrase of [
   "docs/A1_DATA_COVERAGE_NEXT_BATCH_HANDOFF.md",
@@ -92,6 +120,7 @@ for (const phrase of [
   "src/lib/twse-openapi-source-adapter-contract.ts",
   "src/lib/twse-openapi-parser-contract.ts",
   "src/lib/twse-openapi-parser-consumer-adapter.ts",
+  "src/lib/twse-openapi-runtime-mock-wiring-readiness.ts",
   "docs/A2_PUBLIC_BETA_BATCH1_TWII_CORE_ETF_TRUST_COPY.md",
   "docs/DATA_REALIFICATION_POST_FIRST_CLOSED_LOOP_NEXT_LANE_SELECTOR.md",
   "docs/PUBLIC_BETA_INDEX_DASHBOARD_BRIEF.md"

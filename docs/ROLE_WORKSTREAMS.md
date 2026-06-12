@@ -30,13 +30,15 @@ PM remains the only integration owner. A1 and A2 may prepare local-only packets,
 
 ## Active Goal - 2026-06-12
 
-GOAL: advance from completed `OFFICIAL-001` through `OFFICIAL-012` intake into `twse_openapi_bounded_metadata_terms_validation_ready_no_market_rows`, `twse_openapi_source_adapter_contract_scaffold_no_data_fetch`, `twse_openapi_parser_contract_with_synthetic_fixtures_only`, and `twse_openapi_parser_contract_consumer_adapter_no_fetch`.
+GOAL: advance from completed `OFFICIAL-001` through `OFFICIAL-012` intake into `twse_openapi_bounded_metadata_terms_validation_ready_no_market_rows`, `twse_openapi_source_adapter_contract_scaffold_no_data_fetch`, `twse_openapi_parser_contract_with_synthetic_fixtures_only`, `twse_openapi_parser_contract_consumer_adapter_no_fetch`, and `twse_openapi_runtime_mock_consumer_wiring_readiness`.
 
 Completion definition:
 - `docs/TWSE_OPENAPI_BOUNDED_METADATA_TERMS_VALIDATION.md` records metadata-only TWSE OpenAPI route validation, terms / attribution posture, field-contract limitations, and next adapter route;
 - `src/lib/twse-openapi-source-adapter-contract.ts` records route contracts, normalized output shape, attribution contract, and hard mock/no-fetch boundaries;
 - `src/lib/twse-openapi-parser-contract.ts` records synthetic-only parser behavior for route-level date, number, required-field, duplicate-date, and fail-closed handling;
 - `src/lib/twse-openapi-parser-consumer-adapter.ts` records no-fetch parser-result-to-runtime-handoff behavior, runtime point ordering, attribution carry-forward, fail-closed blocked output, and mock/no-promotion boundaries;
+- `src/lib/twse-openapi-runtime-mock-wiring-readiness.ts` and `src/components/twse-openapi-runtime-mock-wiring-status.tsx` expose the TWSE runtime wiring state on the public home runtime surface without promoting real data;
+- `docs/TWSE_OPENAPI_RUNTIME_CONSUMER_ADAPTER_SYNTHETIC_CASE_NOTES.md`, `docs/TWSE_OPENAPI_FIELD_CONTRACT_ROADMAP.md`, `docs/TWSE_OPENAPI_COVERAGE_UNIVERSE_AND_BACKFILL_READINESS.md` record A1 synthetic consumer case notes, coverage universe roadmap, and ingestion readiness packets;
 - PM selector points to `prepare_twse_openapi_runtime_mock_consumer_wiring_readiness`;
 - A1 owns synthetic consumer adapter case notes without market-row fetch;
 - A2 owns runtime mock consumer public attribution / delay / no-advice / boundary copy guard;
@@ -45,7 +47,7 @@ Completion definition:
 - PM records status and Git backup after passing checks.
 
 Parallel work split:
-- PM: integrate the TWSE OpenAPI bounded metadata / terms validation packet, source adapter contract, parser contract, parser consumer adapter, checkers, selector, status, review gate, and Git backup.
+- PM: integrate the TWSE OpenAPI bounded metadata / terms validation packet, source adapter contract, parser contract, parser consumer adapter, runtime mock wiring surface, checkers, selector, status, review gate, and Git backup.
 - A1: prepare runtime consumer adapter synthetic case notes for success, empty output, missing required field, date / number failure, duplicate dates, and schema drift without fetching market rows.
 - A2: prepare runtime mock consumer public attribution, delayed-data, non-investment-advice, source-gap, and no-official-endorsement copy guard.
 - D: remain available for source-rights wording review if PM finds a legal ambiguity, but do not run data or runtime work.
@@ -67,8 +69,8 @@ Owned work:
 - Stage percentage and next-slice selection.
 
 Current next tasks:
-- Continue the active GOAL from completed `twse_openapi_parser_contract_consumer_adapter_no_fetch`.
-- Current mainline route is `twse_openapi_runtime_mock_consumer_wiring_readiness`.
+- Continue the active GOAL from `twse_openapi_runtime_mock_consumer_wiring_readiness` into BRIEF runtime/product readability.
+- Current mainline route is public Beta index dashboard runtime comprehension: reduce internal-only governance noise, keep the TWSE runtime mock wiring readable, and integrate A1 data-line handoffs only after checks pass.
 - Keep runtime foundation, route health, launch engineering, and data promotion handoff moving, but do not proceed to real-data promotion until the open-data source gate and official-source intake packet remain passing.
 - Keep publicDataSource=mock and scoreSource=mock until explicit release criteria are met.
 - Integrate A1/A2 packets only after local checks pass.
@@ -90,11 +92,13 @@ Not owned:
 
 Current next tasks:
 - Maintain source-rights and market evidence support for TWII and ETF while PM continues the mainline.
-- Prepare TWSE OpenAPI parser consumer adapter synthetic case notes for runtime mock wiring; do not fetch market rows.
+- Prepare TWSE OpenAPI parser consumer adapter synthetic case notes for runtime mock wiring; do not fetch market rows. (completed for `twse_openapi_runtime_consumer_adapter_synthetic_case_notes`)
+- Finalize TWSE OpenAPI field-contract roadmap and escalation plan for parser-consumer handoff. (completed for `twse_openapi_field_contract_roadmap`)
 - Confirm daily close, same-day trading information, attribution, retention, display, derived analysis, and aggregate-only review requirements from safe references.
-- Own coverage closure support from `182/360` toward `360/360`, including field-validity QA summaries, downgrade rules, sanitized aggregate-only readiness notes, and candidate artifact hygiene when PM asks.
+- Own coverage closure support from `182/360` toward `360/360`, including field-validity QA summaries, downgrade rules, sanitized aggregate-only readiness notes, and candidate artifact hygiene when PM asks. (completed for `twse_openapi_coverage_and_backfill_readiness`)
 - Keep source-rights and model-credibility dependencies visible as blockers that A1 can reference, but not approve.
 - Escalate to PM before any remote attempt, SQL, or production source promotion.
+- Current A1 handoff alignment for PM integration remains: `prepare_twse_openapi_runtime_mock_consumer_wiring_readiness`.
 
 ## A2: Frontend / UX Readability / Public Copy QA
 
