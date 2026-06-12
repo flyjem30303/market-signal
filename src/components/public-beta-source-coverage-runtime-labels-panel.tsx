@@ -21,6 +21,12 @@ const gapStatusCopy = {
   future: "Future"
 } satisfies Record<string, string>;
 
+const etfScopeStatusCopy = {
+  checking: "Checking",
+  excluded: "Excluded",
+  mock_only: "Mock only"
+} satisfies Record<string, string>;
+
 export function PublicBetaSourceCoverageRuntimeLabelsPanel({
   context,
   stockSymbol = "2330"
@@ -54,6 +60,16 @@ export function PublicBetaSourceCoverageRuntimeLabelsPanel({
             <strong>{item.label}</strong>
             <p>{item.detail}</p>
             <small>下一步：{item.next}</small>
+          </article>
+        ))}
+      </div>
+
+      <div className="public-beta-source-coverage-runtime__etf-scope" aria-label="ETF market price scope">
+        {labels.etfMarketPriceScope.map((item) => (
+          <article className={item.status} key={item.id}>
+            <span>{etfScopeStatusCopy[item.status]}</span>
+            <strong>{item.label}</strong>
+            <p>{item.detail}</p>
           </article>
         ))}
       </div>

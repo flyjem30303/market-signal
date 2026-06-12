@@ -3771,6 +3771,7 @@ select {
 
 .public-beta-source-coverage-runtime__layers article,
 .public-beta-source-coverage-runtime__gap-matrix article,
+.public-beta-source-coverage-runtime__etf-scope article,
 .public-beta-source-coverage-runtime__field-contracts article,
 .public-beta-source-coverage-runtime__index-checks article,
 .public-beta-source-coverage-runtime__batch1-policy article,
@@ -3809,6 +3810,13 @@ select {
 }
 
 .public-beta-source-coverage-runtime__gap-matrix {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+}
+
+.public-beta-source-coverage-runtime__etf-scope {
   display: grid;
   grid-column: 1 / -1;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -3871,6 +3879,21 @@ select {
   background: #fff7f7;
 }
 
+.public-beta-source-coverage-runtime__etf-scope article.checking {
+  border-color: rgba(183, 121, 31, 0.22);
+  background: #fffaf0;
+}
+
+.public-beta-source-coverage-runtime__etf-scope article.excluded {
+  border-color: rgba(199, 54, 59, 0.18);
+  background: #fff7f7;
+}
+
+.public-beta-source-coverage-runtime__etf-scope article.mock_only {
+  border-color: rgba(20, 122, 77, 0.2);
+  background: #f5fbf7;
+}
+
 .public-beta-source-coverage-runtime__actions article {
   border-color: rgba(15, 118, 110, 0.16);
   background: #fbfffd;
@@ -3878,6 +3901,7 @@ select {
 
 .public-beta-source-coverage-runtime__layers span,
 .public-beta-source-coverage-runtime__gap-matrix span,
+.public-beta-source-coverage-runtime__etf-scope span,
 .public-beta-source-coverage-runtime__field-contracts span,
 .public-beta-source-coverage-runtime__index-checks span,
 .public-beta-source-coverage-runtime__batch1-policy span,
@@ -3891,6 +3915,7 @@ select {
 
 .public-beta-source-coverage-runtime__layers strong,
 .public-beta-source-coverage-runtime__gap-matrix strong,
+.public-beta-source-coverage-runtime__etf-scope strong,
 .public-beta-source-coverage-runtime__field-contracts strong,
 .public-beta-source-coverage-runtime__index-checks strong,
 .public-beta-source-coverage-runtime__batch1-policy strong,
@@ -3906,6 +3931,7 @@ select {
 .public-beta-source-coverage-runtime__layers small,
 .public-beta-source-coverage-runtime__gap-matrix p,
 .public-beta-source-coverage-runtime__gap-matrix small,
+.public-beta-source-coverage-runtime__etf-scope p,
 .public-beta-source-coverage-runtime__field-contracts p,
 .public-beta-source-coverage-runtime__index-checks p,
 .public-beta-source-coverage-runtime__batch1-policy p,
@@ -13074,6 +13100,7 @@ input[type="date"] {
   .public-beta-source-coverage-runtime,
   .public-beta-source-coverage-runtime__layers,
   .public-beta-source-coverage-runtime__gap-matrix,
+  .public-beta-source-coverage-runtime__etf-scope,
   .public-beta-source-coverage-runtime__field-contracts,
   .public-beta-source-coverage-runtime__index-checks,
   .public-beta-source-coverage-runtime__batch1-policy,

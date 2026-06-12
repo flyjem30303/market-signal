@@ -39,6 +39,13 @@ export type PublicBetaCoverageGapMatrixItem = {
   status: "candidate" | "checking" | "future" | "blocked";
 };
 
+export type PublicBetaEtfMarketPriceScopeLabel = {
+  detail: string;
+  id: string;
+  label: string;
+  status: "checking" | "excluded" | "mock_only";
+};
+
 export type PublicBetaSourceCoverageAction = {
   body: string;
   id: string;
@@ -54,6 +61,7 @@ export type PublicBetaSourceCoverageRuntimeLabels = {
     stopLine: string;
   };
   coverageGapMatrix: PublicBetaCoverageGapMatrixItem[];
+  etfMarketPriceScope: PublicBetaEtfMarketPriceScopeLabel[];
   fieldContracts: PublicBetaFieldContractStatus[];
   headline: string;
   indexBaselineChecks: PublicBetaIndexBaselineRuntimeCheck[];
@@ -148,6 +156,38 @@ export function getPublicBetaSourceCoverageRuntimeLabels(
         label: "衍生指標層",
         next: "先維持 mock explanation，不提供買賣建議。",
         status: "blocked"
+      }
+    ],
+    etfMarketPriceScope: [
+      {
+        detail: "0050、006208 目前只作為 mock ETF 觀察範例；未來若開真實資料，先限於交易所市價欄位。",
+        id: "etf-market-price-runtime-scope",
+        label: "ETF 市價範圍",
+        status: "checking"
+      },
+      {
+        detail: "NAV 需要獨立基金資料來源、更新頻率與解讀規則，不能混入市價線。",
+        id: "etf-nav-excluded",
+        label: "NAV 暫不接入",
+        status: "excluded"
+      },
+      {
+        detail: "成分股與權重屬於另一條 issuer/fund disclosure 線，公開 Beta 先不承諾。",
+        id: "etf-holdings-excluded",
+        label: "成分股暫不接入",
+        status: "excluded"
+      },
+      {
+        detail: "折溢價需要 NAV 加市價與公式門檻，現階段只保留為未來衍生指標。",
+        id: "etf-premium-discount-excluded",
+        label: "折溢價暫不接入",
+        status: "excluded"
+      },
+      {
+        detail: "ETF 卡片只輔助觀察市場脈絡，不形成推薦排行、買進或賣出訊號。",
+        id: "etf-non-advice-runtime-boundary",
+        label: "ETF 不提供買賣建議",
+        status: "mock_only"
       }
     ],
     fieldContracts: [
