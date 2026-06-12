@@ -33,6 +33,8 @@ PM should not wait for A1/A2 unless a mainline change directly depends on their 
 
 Latest PM integration:
 
+- PM accepted the A1 ETF market-price-only scope packet at `docs/A1_ETF_MARKET_PRICE_SOURCE_SCOPE_NO_FETCH.md`. It keeps `0050` and `006208` as mock runtime anchors, narrows future ETF real display to exchange-traded market-price fields, and explicitly excludes NAV, holdings, premium/discount, intraday iNAV, distribution schedules, issuer factsheet text, and ETF recommendation ranking. ETF source-rights remain `checking`; redistribution remains `not_approved`; ETF row coverage credit remains `blocked`. Next PM route is `wire_etf_market_price_scope_into_public_runtime_labels`; next A1 route is `prepare_etf_market_price_field_contract_no_fetch`; next A2 route is `review_etf_market_price_scope_public_copy_safety`.
+
 - PM wired the accepted source/coverage gap matrix into the shared `Source & Coverage` runtime panel. The public routes now show seven coverage lanes in reader-facing language: `TWII 指數基準`, `核心 ETF 脈絡`, `Batch 1 個股示範`, `完整上市股票`, `OTC 未來擴充`, `產業分類脈絡`, and `衍生指標層`. This makes the source/coverage gate visible without exposing internal commands or claiming real data. A2 background review could not spawn because the agent thread limit was reached, so PM strengthened `scripts/check-public-beta-source-coverage-runtime-labels.mjs` to guard the public route output directly. Next PM route is `review_source_coverage_runtime_matrix_labels_then_prepare_etf_scope_no_fetch`; next A1 route remains `prepare_etf_market_price_source_scope_no_fetch`; next A2 route remains `review_source_coverage_gap_matrix_public_copy_safety`.
 
 - PM accepted the A1 source/coverage gap matrix at `docs/A1_PUBLIC_BETA_SOURCE_COVERAGE_GAP_MATRIX_NO_FETCH.md`. The matrix separates `index_baseline`, `core_etf_context`, `listed_equity_batch1`, `listed_equity_full`, `otc_future_expansion`, `sector_industry_context`, and `derived_indicator_layer`, with source-rights status, field-contract readiness, public display posture, and next no-fetch tasks. This gives PM a concrete bridge from data coverage planning into runtime labels without claiming real data. Next PM route is `wire_source_coverage_gap_matrix_into_public_runtime_readiness_labels`; next A1 route is `prepare_etf_market_price_source_scope_no_fetch`; next A2 route is `review_source_coverage_gap_matrix_public_copy_safety`.
@@ -85,6 +87,7 @@ A1 owns source and coverage preparation that does not fetch market rows.
 
 Active A1 artifact:
 
+- `docs/A1_ETF_MARKET_PRICE_SOURCE_SCOPE_NO_FETCH.md`
 - `docs/A1_PUBLIC_BETA_SOURCE_COVERAGE_GAP_MATRIX_NO_FETCH.md`
 - `docs/A1_BRIEF_SOURCE_COVERAGE_NEXT_HANDOFF_NO_FETCH.md`
 - `docs/A1_OFFICIAL_OPEN_FREE_SOURCE_TERMS_AND_COVERAGE_MATRIX_NO_FETCH.md`
@@ -107,7 +110,7 @@ A1 is responsible for:
 - coverage categories for daily close, volume, date, symbol, ETF, index, and stock lanes,
 - no-fetch terms review packets,
 - source-lane questions for PM/CEO decisions.
-- current next task: prepare `prepare_etf_market_price_source_scope_no_fetch`, separating ETF market price from NAV, holdings, premium-discount, issuer materials, and product-advice language before any ETF real display can be considered.
+- current next task: prepare `prepare_etf_market_price_field_contract_no_fetch`, defining planning-only ETF market-price fields, source metadata, quality controls, and public attribution language without fetching ETF rows or approving real display.
 - next background task: prepare `A1_BRIEF_SOURCE_COVERAGE_NEXT_HANDOFF_NO_FETCH` when agent capacity is available, focused on source/coverage status, the next smallest no-fetch data task, PM-safe public runtime language, and checker requirements.
 - fallback task while agent capacity is full: monitor future explicit operator decision; if authorization is later accepted, prepare no-write execution packet details from `docs/A1_TWII_READONLY_EXECUTION_PACKET_PREREQUISITES_NO_EXECUTION.md`.
 
@@ -143,7 +146,7 @@ A2 is responsible for:
 - mock/real boundary readability,
 - non-investment-advice wording,
 - blocking internal execution strings on public surfaces.
-- current next task: review `docs/A1_PUBLIC_BETA_SOURCE_COVERAGE_GAP_MATRIX_NO_FETCH.md` for public-copy safety, then keep the public runtime surface audit current across `/`, `/briefing`, weekly, stock, methodology, disclaimer, terms, and privacy routes; block internal packet language, real-time claims, complete-coverage claims, source-promotion claims, and buy/sell advice.
+- current next task: review `docs/A1_ETF_MARKET_PRICE_SOURCE_SCOPE_NO_FETCH.md` for public-copy safety, especially NAV/holdings/premium-discount exclusions and non-advice wording; then keep the public runtime surface audit current across `/`, `/briefing`, weekly, stock, methodology, disclaimer, terms, and privacy routes.
 - next background task: review the cleaned `Public Beta Reading Path`, `Data Readiness`, and `Source & Coverage` surfaces for public-copy safety when agent capacity is available.
 - fallback task while agent capacity is full: monitor any future copy integration request and use `docs/A2_TWII_OPERATOR_DECISION_PUBLIC_COPY_GUARD.md`; keep it copy-only and do not approve source rights, real data, real scoring, SQL, Supabase, raw payloads, or investment advice.
 

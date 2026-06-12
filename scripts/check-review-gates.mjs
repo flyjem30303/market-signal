@@ -4348,6 +4348,11 @@ const checks = [
     name: "a1-public-beta-source-coverage-gap-matrix-no-fetch"
   },
   {
+    command: [node, "scripts/check-a1-etf-market-price-source-scope-no-fetch.mjs"],
+    expectStatus: "ok",
+    name: "a1-etf-market-price-source-scope-no-fetch"
+  },
+  {
     command: [node, "scripts/check-a1-official-open-free-source-terms-and-coverage-matrix-no-fetch.mjs"],
     expectStatus: "ok",
     name: "a1-official-open-free-source-terms-and-coverage-matrix-no-fetch"
@@ -5861,6 +5866,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "twse-openapi-coverage-and-backfill-readiness",
   "a1-brief-source-coverage-next-handoff-no-fetch",
   "a1-public-beta-source-coverage-gap-matrix-no-fetch",
+  "a1-etf-market-price-source-scope-no-fetch",
   "a1-twse-openapi-index-baseline-field-contract-confirmation-no-fetch",
   "a1-index-baseline-synthetic-contract-cases-no-fetch",
   "a1-batch1-listed-equity-symbol-policy-no-row-list",
