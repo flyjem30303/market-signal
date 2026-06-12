@@ -33,6 +33,7 @@ PM should not wait for A1/A2 unless a mainline change directly depends on their 
 
 Latest PM integration:
 
+- PM integrated the index-baseline mock runtime handoff into the shared `Source & Coverage` public panel. The public label layer now shows `可示範`, `暫停公開`, and `政策待確認` for index baseline checks without exposing fixture, parser, or handoff internals.
 - PM added `src/lib/twse-openapi-index-baseline-mock-runtime-handoff.ts` to summarize the index-baseline fixture into mock runtime statuses: `可示範`, `暫停公開`, and `政策待確認`. The handoff status is `twse_openapi_index_baseline_mock_runtime_handoff_ready_no_fetch`, and the next route is `index_baseline_mock_runtime_handoff_review_then_public_label_integration`.
 - PM converted A1's no-fetch index-baseline synthetic cases into `src/lib/twse-openapi-index-baseline-synthetic-fixture.ts`. The fixture status is `twse_openapi_index_baseline_synthetic_parser_fixture_ready_no_fetch` and covers valid date/close, missing close, duplicate date, missing optional fields, revision warning, and session-gap behavior without fetching market rows or promoting real data.
 - Completed route anchor retained for checker continuity: `prepare_index_baseline_synthetic_parser_fixture_no_fetch`.
@@ -151,8 +152,8 @@ This goal slice is complete when:
 
 Recommended next mainline action:
 
-`index_baseline_mock_runtime_handoff_review_then_public_label_integration`
+`index_baseline_public_label_route_health_then_batch1_policy`
 
 Meaning:
 
-PM should review the new mock runtime handoff and integrate only the public-readable parts into existing source/coverage labels if it improves 30-second market mood or 3-minute action judgment. A1 should keep Batch 1 symbol policy queued without row-list output. A2 should keep field-contract public copy understandable and non-advice. Real-data promotion remains blocked until a separately accepted source-rights, coverage, quality, rollback, and runtime gate is recorded.
+PM should verify the new public labels remain route-healthy and not too dense, then move the data support lane toward Batch 1 listed-equity symbol policy without row-list output. A2 should keep the public copy understandable and non-advice. Real-data promotion remains blocked until a separately accepted source-rights, coverage, quality, rollback, and runtime gate is recorded.

@@ -50,6 +50,16 @@ export function PublicBetaSourceCoverageRuntimeLabelsPanel({
         ))}
       </div>
 
+      <div className="public-beta-source-coverage-runtime__index-checks" aria-label="Index baseline mock runtime checks">
+        {labels.indexBaselineChecks.map((check) => (
+          <article key={check.id}>
+            <span>{check.status}</span>
+            <strong>{check.label}</strong>
+            <p>{check.detail}</p>
+          </article>
+        ))}
+      </div>
+
       <div className="public-beta-source-coverage-runtime__actions" aria-label="Source coverage reading actions">
         {labels.readingActions.map((action) => (
           <article key={action.id}>

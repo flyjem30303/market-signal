@@ -1,3 +1,5 @@
+import { getTwseOpenApiIndexBaselineMockRuntimeHandoff } from "@/lib/twse-openapi-index-baseline-mock-runtime-handoff";
+
 export type PublicBetaSourceCoverageContext = "home" | "briefing" | "stock";
 
 export type PublicBetaSourceCoverageLayer = {
@@ -15,6 +17,13 @@ export type PublicBetaFieldContractStatus = {
   status: string;
 };
 
+export type PublicBetaIndexBaselineRuntimeCheck = {
+  detail: string;
+  id: string;
+  label: string;
+  status: "可示範" | "暫停公開" | "政策待確認";
+};
+
 export type PublicBetaSourceCoverageAction = {
   body: string;
   id: string;
@@ -30,6 +39,7 @@ export type PublicBetaSourceCoverageRuntimeLabels = {
   };
   fieldContracts: PublicBetaFieldContractStatus[];
   headline: string;
+  indexBaselineChecks: PublicBetaIndexBaselineRuntimeCheck[];
   layers: PublicBetaSourceCoverageLayer[];
   readingActions: PublicBetaSourceCoverageAction[];
   summary: string;
@@ -40,6 +50,7 @@ export function getPublicBetaSourceCoverageRuntimeLabels(
   context: PublicBetaSourceCoverageContext,
   stockSymbol = "2330"
 ): PublicBetaSourceCoverageRuntimeLabels {
+  const indexBaselineHandoff = getTwseOpenApiIndexBaselineMockRuntimeHandoff();
   const contextLine =
     context === "stock"
       ? `${stockSymbol} 仍以示範資料說明標的狀態，來源與覆蓋率升級前不能視為正式行情。`
@@ -66,6 +77,12 @@ export function getPublicBetaSourceCoverageRuntimeLabels(
       }
     ],
     headline: "資料來源與覆蓋狀態",
+    indexBaselineChecks: indexBaselineHandoff.caseSummaries.map((item) => ({
+      detail: toPublicIndexBaselineCheckDetail(item.caseId),
+      id: item.caseId,
+      label: item.label,
+      status: item.status
+    })),
     layers: [
       {
         detail: "支援 30 秒市場氛圍與晨報入口，但目前仍是示範訊號。",
@@ -113,4 +130,23 @@ export function getPublicBetaSourceCoverageRuntimeLabels(
       "公開 Beta 目前使用模擬資料，讓使用者先理解指數狀態儀表站的閱讀方式；正式市場資料、來源權利、覆蓋品質與更新節奏仍在檢查。",
     userMeaning: `${contextLine} 一般投資者可以把這一區當成資料可信度標籤：哪些只是展示可用、哪些還在檢查、哪些暫時不能當作完整市場覆蓋。`
   };
+}
+
+function toPublicIndexBaselineCheckDetail(caseId: string): string {
+  switch (caseId) {
+    case "index_valid_date_close":
+      return "日期與收盤值可形成示範閱讀點，但仍不是正式行情。";
+    case "index_missing_close":
+      return "缺少收盤值時必須暫停公開，避免使用者看到不完整市場狀態。";
+    case "index_duplicate_trade_date":
+      return "同一交易日重複時必須暫停公開，避免市場氛圍被重複資料扭曲。";
+    case "index_missing_optional_fields":
+      return "延伸欄位缺漏時仍可示範閱讀，但成交量、成交金額等解釋要保守。";
+    case "index_revision_warning":
+      return "來源修正規則尚未確認前，只能標示政策待確認，不能覆蓋歷史。";
+    case "index_timezone_session_gap":
+      return "交易日缺口需要交易日曆規則確認，不能直接當作市場異常。";
+    default:
+      return "這個檢查仍維持示範閱讀，不代表正式資料上線。";
+  }
 }

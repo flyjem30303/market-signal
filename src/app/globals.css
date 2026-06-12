@@ -3631,6 +3631,7 @@ select {
 
 .public-beta-source-coverage-runtime__layers article,
 .public-beta-source-coverage-runtime__field-contracts article,
+.public-beta-source-coverage-runtime__index-checks article,
 .public-beta-source-coverage-runtime__actions article,
 .public-beta-source-coverage-runtime__boundary article {
   display: grid;
@@ -3672,9 +3673,21 @@ select {
   gap: 10px;
 }
 
+.public-beta-source-coverage-runtime__index-checks {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
 .public-beta-source-coverage-runtime__field-contracts article {
   border-color: rgba(40, 94, 203, 0.16);
   background: #f9fbff;
+}
+
+.public-beta-source-coverage-runtime__index-checks article {
+  border-color: rgba(183, 121, 31, 0.16);
+  background: #fffdf7;
 }
 
 .public-beta-source-coverage-runtime__actions article {
@@ -3684,6 +3697,7 @@ select {
 
 .public-beta-source-coverage-runtime__layers span,
 .public-beta-source-coverage-runtime__field-contracts span,
+.public-beta-source-coverage-runtime__index-checks span,
 .public-beta-source-coverage-runtime__actions span,
 .public-beta-source-coverage-runtime__boundary span {
   color: var(--muted);
@@ -3694,6 +3708,7 @@ select {
 
 .public-beta-source-coverage-runtime__layers strong,
 .public-beta-source-coverage-runtime__field-contracts strong,
+.public-beta-source-coverage-runtime__index-checks strong,
 .public-beta-source-coverage-runtime__actions strong,
 .public-beta-source-coverage-runtime__boundary strong {
   overflow-wrap: anywhere;
@@ -3705,6 +3720,7 @@ select {
 .public-beta-source-coverage-runtime__layers p,
 .public-beta-source-coverage-runtime__layers small,
 .public-beta-source-coverage-runtime__field-contracts p,
+.public-beta-source-coverage-runtime__index-checks p,
 .public-beta-source-coverage-runtime__actions p,
 .public-beta-source-coverage-runtime__boundary p {
   margin: 0;
