@@ -2893,6 +2893,11 @@ const checks = [
     name: "market-action-summary-readable-copy"
   },
   {
+    command: [node, "scripts/check-public-beta-alert-list-actionability.mjs"],
+    expectStatus: "ok",
+    name: "public-beta-alert-list-actionability"
+  },
+  {
     command: [node, "scripts/check-stock-runtime-at-a-glance.mjs"],
     expectStatus: "ok",
     name: "stock-runtime-at-a-glance"
@@ -5898,6 +5903,7 @@ const coreReviewGateNames = new Set([
 const publicBetaFocusedReviewGateNames = new Set([
   "local-verification-runbook",
   "market-action-summary-readable-copy",
+  "public-beta-alert-list-actionability",
   "public-visible-language-quality",
   "public-beta-decision-loop-bridge",
   "public-beta-decision-journey-panel",
