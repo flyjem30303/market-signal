@@ -45,10 +45,10 @@ if (!reviewGate.includes("scripts/check-public-beta-data-realification-next-acti
 
 const expectedOutput = {
   status: "public_beta_data_realification_next_action_ready",
-  ceoRecommendation: "twii_source_rights_unblock_first_etf_parallel_public_runtime_mock",
-  pmMainline: "prepare_twii_official_source_intake_fields_or_vendor_terms_review_packet",
-  a1Next: "twii_official_source_intake_fields_or_vendor_terms_review_packet",
-  a2Next: "source_rights_pending_public_language_guardrail",
+  ceoRecommendation: "official_open_data_api_bounded_validation_first_public_runtime_mock_parallel",
+  pmMainline: "prepare_twse_openapi_bounded_metadata_terms_validation_and_source_adapter_design",
+  a1Next: "twse_openapi_bounded_metadata_terms_field_contract_validation_no_market_rows",
+  a2Next: "open_data_attribution_delay_no_advice_public_copy_guardrail",
   fallbackIfRightsStayBlocked: "continue_public_beta_runtime_readability_and_production_readonly_guards"
 };
 
@@ -87,6 +87,7 @@ for (const phrase of [
   "docs/A1_SOURCE_RIGHTS_UNBLOCK_PRIORITY_PACKET.md",
   "docs/A1_TWII_SOURCE_RIGHTS_UNBLOCK_DECISION_RECORD_CANDIDATE.md",
   "docs/A1_TWII_SOURCE_RIGHTS_EVIDENCE_INTAKE_OR_VENDOR_FALLBACK_DECISION_SUPPORT.md",
+  "docs/A1_TWII_OFFICIAL_SOURCE_INTAKE_FIELDS_OR_VENDOR_TERMS_REVIEW_PACKET.md",
   "docs/A2_PUBLIC_BETA_BATCH1_TWII_CORE_ETF_TRUST_COPY.md",
   "docs/DATA_REALIFICATION_POST_FIRST_CLOSED_LOOP_NEXT_LANE_SELECTOR.md",
   "docs/PUBLIC_BETA_INDEX_DASHBOARD_BRIEF.md"

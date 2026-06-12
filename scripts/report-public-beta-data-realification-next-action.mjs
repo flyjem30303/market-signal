@@ -5,6 +5,7 @@ const inputs = {
   a1RightsPriority: "docs/A1_SOURCE_RIGHTS_UNBLOCK_PRIORITY_PACKET.md",
   a1DecisionRecord: "docs/A1_TWII_SOURCE_RIGHTS_UNBLOCK_DECISION_RECORD_CANDIDATE.md",
   a1EvidenceFallback: "docs/A1_TWII_SOURCE_RIGHTS_EVIDENCE_INTAKE_OR_VENDOR_FALLBACK_DECISION_SUPPORT.md",
+  a1OfficialIntake: "docs/A1_TWII_OFFICIAL_SOURCE_INTAKE_FIELDS_OR_VENDOR_TERMS_REVIEW_PACKET.md",
   a2TrustCopy: "docs/A2_PUBLIC_BETA_BATCH1_TWII_CORE_ETF_TRUST_COPY.md",
   pmSelector: "docs/DATA_REALIFICATION_POST_FIRST_CLOSED_LOOP_NEXT_LANE_SELECTOR.md",
   publicBrief: "docs/PUBLIC_BETA_INDEX_DASHBOARD_BRIEF.md"
@@ -29,6 +30,8 @@ const requiredPhrases = [
   [inputs.a1RightsPriority, "A1 next assignment: `twii_source_rights_unblock_decision_record_candidate`"],
   [inputs.a1DecisionRecord, "The next route is `twii_source_rights_evidence_intake_or_vendor_fallback_decision_support`"],
   [inputs.a1EvidenceFallback, "The next route is `twii_official_source_intake_fields_or_vendor_terms_review_packet`"],
+  [inputs.a1OfficialIntake, "filled_official_001_012_for_official_open_data_api_candidate_no_execution"],
+  [inputs.a1OfficialIntake, "a1_twii_official_source_intake_fields_or_vendor_terms_review_packet_filled_official_001_012_no_execution"],
   [inputs.a2TrustCopy, "Batch 1 starts with TWII and core ETF"],
   [inputs.publicBrief, "understand the market mood within 30 seconds"]
 ];
@@ -46,10 +49,10 @@ const output = {
     : "public_beta_data_realification_next_action_blocked_missing_local_evidence",
   mode: "local_only_next_action_selector",
   decision: {
-    ceoRecommendation: "twii_source_rights_unblock_first_etf_parallel_public_runtime_mock",
-    pmMainline: "prepare_twii_official_source_intake_fields_or_vendor_terms_review_packet",
-    a1Next: "twii_official_source_intake_fields_or_vendor_terms_review_packet",
-    a2Next: "source_rights_pending_public_language_guardrail",
+    ceoRecommendation: "official_open_data_api_bounded_validation_first_public_runtime_mock_parallel",
+    pmMainline: "prepare_twse_openapi_bounded_metadata_terms_validation_and_source_adapter_design",
+    a1Next: "twse_openapi_bounded_metadata_terms_field_contract_validation_no_market_rows",
+    a2Next: "open_data_attribution_delay_no_advice_public_copy_guardrail",
     fallbackIfRightsStayBlocked: "continue_public_beta_runtime_readability_and_production_readonly_guards"
   },
   coverage: requiredEvidence,
@@ -77,7 +80,7 @@ const output = {
   },
   missingEvidence,
   nextHumanReadableSummary:
-    "Keep public Beta readable while A1 prepares a no-secret official-source intake plus vendor/internal-feed fallback packet for TWII. ETF remains parallel but blocked by rights evidence. No data execution or promotion is authorized by this report."
+    "OFFICIAL-001 through OFFICIAL-012 are filled for the official_open_data_api candidate. Move next to bounded TWSE OpenAPI metadata / terms / field-contract validation and source-adapter design while public runtime remains mock. No market-row fetch, data execution, Supabase write, or promotion is authorized by this report."
 };
 
 console.log(JSON.stringify(output, null, 2));

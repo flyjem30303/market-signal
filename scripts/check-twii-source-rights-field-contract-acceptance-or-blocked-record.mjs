@@ -52,12 +52,12 @@ for (const phrase of requiredDocPhrases) {
 
 const requiredCrossFilePhrases = [
   [dataGatePath, "twii_source_rights_and_field_contract_acceptance_or_blocked_record"],
-  [twiiIntakePath, "a1_twii_official_source_intake_fields_or_vendor_terms_review_packet_ready_not_filled"],
-  [twiiIntakePath, "not_filled_official_source_evidence_pending"],
+  [twiiIntakePath, "a1_twii_official_source_intake_fields_or_vendor_terms_review_packet_filled_official_001_012_no_execution"],
+  [twiiIntakePath, "official_open_data_intake_filled_execution_still_blocked"],
   [twiiFieldPath, "Mapping to an internal stock id or market asset id remains unresolved"],
   [twiiFieldPath, "TWII mapping to `daily_prices` remains a field-contract question"],
-  [twiiOutcomePath, "twii_source_rights_outcome_gate_blocked_external_rights_pending"],
-  [twiiOutcomePath, "`no_current_execution_acceptance`"],
+  [twiiOutcomePath, "twii_source_rights_outcome_gate_candidate_ready_for_pm_review"],
+  [twiiOutcomePath, "`candidate_ready_no_execution_authority`"],
   [evidencePath, "official_lane_intake_ready_fallback_route_prepared_rights_still_blocked"],
   [etfOutcomePath, "etf_source_rights_outcome_decision_gate_blocked_external_rights_pending"],
   [boardPath, "`docs/TWII_SOURCE_RIGHTS_FIELD_CONTRACT_ACCEPTANCE_OR_BLOCKED_RECORD.md` is `blocked` as PM mainline acceptance-or-blocked record"],

@@ -23,9 +23,9 @@ const pkg = JSON.parse(read(packagePath));
 const reviewGate = read(reviewGatePath);
 
 for (const phrase of [
-  "Status: `a1_twii_official_source_intake_fields_or_vendor_terms_review_packet_ready_not_filled`",
+  "Status: `a1_twii_official_source_intake_fields_or_vendor_terms_review_packet_filled_official_001_012_no_execution`",
   "Decision route: `twii_official_source_intake_fields_or_vendor_terms_review_packet`",
-  "fillable_intake_ready_rights_evidence_not_filled",
+  "official_open_data_intake_filled_execution_still_blocked",
   "Level 1 MVP coverage: `182/360`",
   "Missing rows: `178`",
   "TW equity sub-scope: `180/180`",
@@ -48,8 +48,25 @@ for (const phrase of [
   "`OFFICIAL-003`",
   "BLOCKED_UNCONSENTED_WEBSITE_AUTOMATION_OPENAPI_ROUTE_SEPARATE",
   "separate candidate route is machine access through data.gov-referenced TWSE OpenAPI endpoints",
+  "`OFFICIAL-004`",
+  "ACCEPTED_OPEN_DATA_INTERNAL_STORAGE_WITH_ATTRIBUTION_AND_AUDIT",
+  "`OFFICIAL-005`",
+  "ACCEPTED_INTERNAL_RETENTION_WITH_CORRECTION_AND_WITHDRAWAL_CONTROLS",
+  "`OFFICIAL-006`",
+  "ACCEPTED_PUBLIC_DISPLAY_WITH_ATTRIBUTION_DELAY_AND_NO_RAW_PAYLOAD_REPUBLICATION",
+  "`OFFICIAL-007`",
+  "ACCEPTED_SAFE_COPY_REFERENCE_OPEN_GOVERNMENT_DATA_LICENSE",
+  "`OFFICIAL-008`",
+  "ACCEPTED_DERIVED_ANALYSIS_WITH_NO_INVESTMENT_ADVICE_AND_TRACEABLE_INPUTS",
+  "`OFFICIAL-009`",
+  "ACCEPTED_INTERNAL_CONSERVATIVE_DAILY_BATCH_POLICY_PENDING_PROVIDER_LIMIT_DISCOVERY",
+  "`OFFICIAL-010`",
+  "ACCEPTED_OPEN_DATA_PRODUCT_USE_WITH_ATTRIBUTION_AND_NO_OFFICIAL_ENDORSEMENT",
+  "`OFFICIAL-011`",
+  "ACCEPTED_METADATA_FIELD_CONTRACT_FOR_DAILY_CLOSE_AND_TRADING_INFO",
   "`OFFICIAL-012`",
-  "reconciled_official_001_002_003_for_official_open_data_api_candidate_only",
+  "ACCEPTED_AGGREGATE_ONLY_REVIEW_NO_RAW_PAYLOAD_OR_SECRET_OUTPUT",
+  "filled_official_001_012_for_official_open_data_api_candidate_no_execution",
   "## OFFICIAL-001 Evidence Note",
   "accepted: source authority / official public source surface",
   "accepted: `official_open_data_api` as the current candidate route for later bounded validation",
@@ -71,6 +88,33 @@ for (const phrase of [
   "data.gov-referenced TWSE OpenAPI machine access is a separate candidate route for bounded metadata / terms / field-contract validation",
   "accepted: data.gov-referenced TWSE OpenAPI is a separate automatable candidate for the next bounded validation gate",
   "not accepted: parser implementation, probe, endpoint test, market-data fetch, raw payload capture, candidate generation, SQL, Supabase, `daily_prices` mutation, public source promotion, or real scoring",
+  "## OFFICIAL-004 Evidence Note",
+  "accepted: internal storage design for normalized daily close / trading-information records",
+  "not accepted: production Supabase write now",
+  "## OFFICIAL-005 Evidence Note",
+  "keep correction, deletion, rollback, stale-data, and source-withdrawal controls",
+  "not accepted: indefinite raw payload archives",
+  "## OFFICIAL-006 Evidence Note",
+  "raw payload republication, bulk downstream API resale, and official real-time claims are not accepted",
+  "## OFFICIAL-007 Evidence Note",
+  "資料來源：臺灣證券交易所 OpenAPI / 政府資料開放平臺",
+  "not accepted: official endorsement implication",
+  "## OFFICIAL-008 Evidence Note",
+  "Allowed derived outputs:",
+  "not accepted: buy/sell/hold instruction",
+  "## OFFICIAL-009 Evidence Note",
+  "daily batch after market close",
+  "no user-triggered high-frequency refresh",
+  "## OFFICIAL-010 Evidence Note",
+  "no resale of bulk raw data",
+  "no real-time trading-data claim",
+  "## OFFICIAL-011 Evidence Note",
+  "PM records swagger metadata only. No market rows were fetched, stored, or printed.",
+  "/indicesReport/MI_5MINS_HIST",
+  "/exchangeReport/STOCK_DAY_ALL",
+  "## OFFICIAL-012 Evidence Note",
+  "allowed: aggregate counts, schema names, field-contract summaries, validation status, source labels, attribution text, and no-secret route decisions",
+  "forbidden: raw response bodies, raw row payloads, stock-id payload dumps",
   "## Vendor Terms Review Fields",
   "`VENDOR-001`",
   "`VENDOR-007`",
@@ -132,10 +176,10 @@ for (const [filePath, content, phrases] of [
 }
 
 for (const phrase of [
-  "Latest A1 TWII official source intake fields or vendor terms review packet slice",
-  "a1_twii_official_source_intake_fields_or_vendor_terms_review_packet_ready_not_filled",
-  "fillable_intake_ready_rights_evidence_not_filled",
-  "twii_filled_source_rights_intake_review_or_blocked_fallback_selection",
+  "Latest TWII OFFICIAL-001~012 completion GOAL slice",
+  "a1_twii_official_source_intake_fields_or_vendor_terms_review_packet_filled_official_001_012_no_execution",
+  "official_open_data_intake_filled_execution_still_blocked",
+  "twse_openapi_bounded_metadata_and_terms_validation_then_source_adapter_design",
   "scoreSource=mock"
 ]) {
   if (!status.includes(phrase)) problems.push(`${statusPath} missing: ${phrase}`);
@@ -143,9 +187,9 @@ for (const phrase of [
 
 for (const phrase of [
   "`docs/A1_TWII_OFFICIAL_SOURCE_INTAKE_FIELDS_OR_VENDOR_TERMS_REVIEW_PACKET.md` is `accepted` as A1/PM TWII official-source intake fields and vendor terms review packet",
-  "a1_twii_official_source_intake_fields_or_vendor_terms_review_packet_ready_not_filled",
-  "fillable_intake_ready_rights_evidence_not_filled",
-  "twii_filled_source_rights_intake_review_or_blocked_fallback_selection"
+  "a1_twii_official_source_intake_fields_or_vendor_terms_review_packet_filled_official_001_012_no_execution",
+  "official_open_data_intake_filled_execution_still_blocked",
+  "twse_openapi_bounded_metadata_and_terms_validation_then_source_adapter_design"
 ]) {
   if (!board.includes(phrase)) problems.push(`${boardPath} missing: ${phrase}`);
 }
@@ -233,9 +277,9 @@ console.log(
   JSON.stringify(
     {
       status: "ok",
-      guardedStatus: "a1_twii_official_source_intake_fields_or_vendor_terms_review_packet_ready_not_filled",
-      outcome: "fillable_intake_ready_rights_evidence_not_filled",
-      nextRoute: "twii_filled_source_rights_intake_review_or_blocked_fallback_selection",
+      guardedStatus: "a1_twii_official_source_intake_fields_or_vendor_terms_review_packet_filled_official_001_012_no_execution",
+      outcome: "official_open_data_intake_filled_execution_still_blocked",
+      nextRoute: "twse_openapi_bounded_metadata_and_terms_validation_then_source_adapter_design",
       docPath
     },
     null,

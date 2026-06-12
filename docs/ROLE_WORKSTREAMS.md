@@ -28,6 +28,23 @@ When chat context and this file disagree, PM must treat this file as the safer b
 
 PM remains the only integration owner. A1 and A2 may prepare local-only packets, reports, checkers, and bounded patches, but PM decides what enters the mainline and when it is committed. D provides legal/source-rights evidence and does not execute data or runtime work. I is not a new implementation lane yet; I is a launch-readiness guard for deployment, environment, credential, DNS, monitoring, rollback, and operations risk.
 
+## Active Goal - 2026-06-12
+
+GOAL: complete `OFFICIAL-001` through `OFFICIAL-012` in `docs/A1_TWII_OFFICIAL_SOURCE_INTAKE_FIELDS_OR_VENDOR_TERMS_REVIEW_PACKET.md` for the `official_open_data_api` route.
+
+Completion definition:
+- every official source intake field has a safe non-secret accepted / blocked / bounded conclusion;
+- data.gov / TWSE OpenAPI is separated from blocked TWSE website automation;
+- no field authorizes SQL, Supabase writes, staging rows, `daily_prices` mutation, raw market-data fetch/storage/output, `publicDataSource=supabase`, `scoreSource=real`, or investment advice;
+- checker and focused review gate pass;
+- PM records status and Git backup after passing checks.
+
+Parallel work split:
+- PM: integrate the official-source intake packet, checker, status, review gate, and Git backup.
+- A1: prepare the next bounded metadata / terms / field-contract validation packet for TWSE OpenAPI without fetching market rows.
+- A2: prepare public attribution, delayed-data, non-investment-advice, source-gap, and no-official-endorsement copy.
+- D: remain available for source-rights wording review if PM finds a legal ambiguity, but do not run data or runtime work.
+
 ## Mainline PM
 
 Mission:
@@ -41,9 +58,9 @@ Owned work:
 - Stage percentage and next-slice selection.
 
 Current next tasks:
-- Continue the active GOAL toward `pre_launch_executable_state`.
-- Current mainline route is `runtime_local_route_health_refresh_before_executable_packet_or_data_gate`.
-- Keep runtime foundation, route health, launch engineering, and data promotion handoff moving with larger coherent slices.
+- Continue the active GOAL toward `official_001_012_complete_for_official_open_data_api`.
+- Current mainline route is `twii_open_data_source_intake_completion_then_bounded_metadata_terms_validation`.
+- Keep runtime foundation, route health, launch engineering, and data promotion handoff moving, but do not proceed to real-data promotion until the open-data source gate and official-source intake packet remain passing.
 - Keep publicDataSource=mock and scoreSource=mock until explicit release criteria are met.
 - Integrate A1/A2 packets only after local checks pass.
 - Ask I to review deployment, environment, credential, DNS, monitoring, and rollback impact before any public launch, production source, or cloud-environment change.
@@ -64,7 +81,8 @@ Not owned:
 
 Current next tasks:
 - Maintain source-rights and market evidence support for TWII and ETF while PM continues the mainline.
-- Prepare the next readonly/data evidence packet only from already approved or sanitized evidence.
+- Prepare TWSE OpenAPI bounded metadata / terms / field-contract validation using swagger metadata and open-data references only; do not fetch market rows.
+- Confirm daily close, same-day trading information, attribution, retention, display, derived analysis, and aggregate-only review requirements from safe references.
 - Own coverage closure support from `182/360` toward `360/360`, including field-validity QA summaries, downgrade rules, sanitized aggregate-only readiness notes, and candidate artifact hygiene when PM asks.
 - Keep source-rights and model-credibility dependencies visible as blockers that A1 can reference, but not approve.
 - Escalate to PM before any remote attempt, SQL, or production source promotion.
@@ -83,6 +101,7 @@ Not owned:
 
 Current next tasks:
 - Repair only launch-blocking public trust readability issues while PM continues the mainline.
+- Prepare copy for `official_open_data_api`: source attribution, update-time display, delayed/non-real-time data wording, non-investment-advice wording, source-gap wording, and no-official-endorsement wording.
 - Prioritize mock-only, partial coverage, missing/delayed data, data freshness, score/model limitation, risk, and non-investment-advice clarity before cosmetic polish.
 - Own public readability support for blocker closure: make sure data-quality, source-rights, model-credibility, row-coverage, and mock-only stop lines are understandable on public/runtime surfaces.
 - Keep the A2 lane focused on comprehension blockers and visible-language regressions; visual polish remains lower priority until runtime foundation is stable.
