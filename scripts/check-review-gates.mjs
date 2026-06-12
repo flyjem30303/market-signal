@@ -4348,6 +4348,11 @@ const checks = [
     name: "a1-index-baseline-synthetic-contract-cases-no-fetch"
   },
   {
+    command: [node, "scripts/check-a1-batch1-listed-equity-symbol-policy-no-row-list.mjs"],
+    expectStatus: "ok",
+    name: "a1-batch1-listed-equity-symbol-policy-no-row-list"
+  },
+  {
     command: [node, "scripts/check-a2-field-contract-public-copy-guard.mjs"],
     expectStatus: "ok",
     name: "a2-field-contract-public-copy-guard"
@@ -5795,6 +5800,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "twse-openapi-coverage-and-backfill-readiness",
   "a1-twse-openapi-index-baseline-field-contract-confirmation-no-fetch",
   "a1-index-baseline-synthetic-contract-cases-no-fetch",
+  "a1-batch1-listed-equity-symbol-policy-no-row-list",
   "a2-field-contract-public-copy-guard",
   "twse-openapi-index-baseline-synthetic-parser-fixture",
   "twse-openapi-index-baseline-mock-runtime-handoff",

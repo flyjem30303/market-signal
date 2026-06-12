@@ -33,6 +33,7 @@ PM should not wait for A1/A2 unless a mainline change directly depends on their 
 
 Latest PM integration:
 
+- PM accepted `docs/A1_BATCH1_LISTED_EQUITY_SYMBOL_POLICY_NO_ROW_LIST.md` as the Batch 1 listed-equity policy input. The accepted policy keeps the first listed-equity batch small, visible, and explainable; blocks full stock-id row-list output; separates listed equity from ETF, index, OTC, and other instrument scopes; and keeps public labels mock-only and non-advice. The next route is `prepare_batch1_listed_equity_mock_runtime_policy_labels`.
 - PM integrated the index-baseline mock runtime handoff into the shared `Source & Coverage` public panel. The public label layer now shows `可示範`, `暫停公開`, and `政策待確認` for index baseline checks without exposing fixture, parser, or handoff internals.
 - PM added `src/lib/twse-openapi-index-baseline-mock-runtime-handoff.ts` to summarize the index-baseline fixture into mock runtime statuses: `可示範`, `暫停公開`, and `政策待確認`. The handoff status is `twse_openapi_index_baseline_mock_runtime_handoff_ready_no_fetch`, and the next route is `index_baseline_mock_runtime_handoff_review_then_public_label_integration`.
 - PM converted A1's no-fetch index-baseline synthetic cases into `src/lib/twse-openapi-index-baseline-synthetic-fixture.ts`. The fixture status is `twse_openapi_index_baseline_synthetic_parser_fixture_ready_no_fetch` and covers valid date/close, missing close, duplicate date, missing optional fields, revision warning, and session-gap behavior without fetching market rows or promoting real data.
@@ -58,7 +59,8 @@ Active A1 artifact:
 - `docs/A1_TWSE_OPENAPI_TERMS_FIELD_COVERAGE_MATRIX_NO_FETCH.md`
 - `docs/A1_TWSE_OPENAPI_INDEX_BASELINE_FIELD_CONTRACT_CONFIRMATION_NO_FETCH.md`
 - `docs/A1_INDEX_BASELINE_SYNTHETIC_CONTRACT_CASES_NO_FETCH.md`
-- current PM assignment: prepare the next synthetic parser fixture for index baseline without market-row fetch; keep Batch 1 listed-equity symbol policy as the next A1 background candidate when agent capacity is available.
+- `docs/A1_BATCH1_LISTED_EQUITY_SYMBOL_POLICY_NO_ROW_LIST.md`
+- current PM assignment: translate the accepted Batch 1 listed-equity policy into mock runtime labels only if it clarifies public coverage status without making the public surface feel like an internal execution console.
 
 A1 is responsible for:
 
@@ -66,7 +68,7 @@ A1 is responsible for:
 - coverage categories for daily close, volume, date, symbol, ETF, index, and stock lanes,
 - no-fetch terms review packets,
 - source-lane questions for PM/CEO decisions.
-- next background task: `prepare_batch1_listed_equity_symbol_policy_no_row_list`; keep the output local-only, no-fetch, no-secret, and PM-readable.
+- next background task: prepare follow-up Batch 1 field-policy notes only after PM confirms the mock runtime labels are readable and not too dense; keep output local-only, no-fetch, no-secret, and PM-readable.
 
 A1 is not authorized by this goal to:
 
@@ -97,7 +99,7 @@ A2 is responsible for:
 - mock/real boundary readability,
 - non-investment-advice wording,
 - blocking internal execution strings on public surfaces.
-- next background task: monitor field-contract labels after PM route-health checks; propose only bounded copy repair if public wording leaks parser internals or weakens mock/non-advice boundary clarity.
+- next background task: monitor Batch 1 listed-equity labels after PM integration; propose only bounded copy repair if public wording implies complete coverage, live data, or investment advice.
 
 A2 is not authorized by this goal to:
 
@@ -152,7 +154,7 @@ This goal slice is complete when:
 
 Recommended next mainline action:
 
-`index_baseline_public_label_route_health_then_batch1_policy`
+`prepare_batch1_listed_equity_mock_runtime_policy_labels`
 
 Meaning:
 
