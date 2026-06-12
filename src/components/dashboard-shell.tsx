@@ -8,6 +8,7 @@ import { CommercialSlot } from "@/components/commercial-slot";
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { HomeRuntimeStatusPanel } from "@/components/home-runtime-status-panel";
 import { PublicBetaIndexDashboardBriefLoopPanel } from "@/components/public-beta-index-dashboard-brief-loop-panel";
+import { PublicBetaRouteConsistencyPanel } from "@/components/public-beta-route-consistency-panel";
 import { StockRuntimeAtAGlance } from "@/components/stock-runtime-at-a-glance";
 import { TrackedLink } from "@/components/tracked-link";
 import { TwiiMockDisclosureStatus } from "@/components/twii-mock-disclosure-status";
@@ -273,6 +274,8 @@ export function DashboardShell({
 
       {!includeSeoContent && <PublicBetaIndexDashboardBriefLoopPanel />}
 
+      {!includeSeoContent && <PublicBetaRouteConsistencyPanel context="home" stockSymbol={selected.symbol} />}
+
       {!includeSeoContent && (
         <HomeProductOverview
           scoreSourceLabel={freshness.scoreSourceLabel}
@@ -289,6 +292,7 @@ export function DashboardShell({
         <>
           <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
           <StockRuntimeAtAGlance scoreSourceLabel={freshness.scoreSourceLabel} snapshot={snapshot} />
+          <PublicBetaRouteConsistencyPanel context="stock" stockSymbol={selected.symbol} />
           <StockRuntimeBrief scoreSourceLabel={freshness.scoreSourceLabel} snapshot={snapshot} onTab={changeTab} />
           <StockSignalWhyPanel snapshot={snapshot} onTab={changeTab} />
           {selected.symbol === "TWII" && (

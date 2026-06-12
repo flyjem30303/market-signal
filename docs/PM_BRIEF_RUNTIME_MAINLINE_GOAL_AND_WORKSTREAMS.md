@@ -33,10 +33,11 @@ PM should not wait for A1/A2 unless a mainline change directly depends on their 
 
 Latest PM integration:
 
+- Home, briefing, and stock detail now share a visible `Public Beta Reading Path` panel. The route consistency surface tells users how to move from 30-second market overview to 3-minute briefing judgment to stock detail confirmation, while translating A1 data-line status into reader-facing candidate-source confirmation and preserving `publicDataSource=mock` / `scoreSource=mock` / non-advice boundaries.
 - Stock detail runtime pages now include a BRIEF-aligned public decision brief: `30 秒看懂標的狀態`, `3 分鐘內請看`, cause, update time, impact level, next step, and a visible `publicDataSource=mock` / `scoreSource=mock` / non-investment-advice boundary. The stock-focused gates were refreshed to guard these user-facing requirements instead of stale internal process copy.
 - `/briefing` has been moved closer to the BRIEF product target by converting visible navigation, decision boundary, reading bridge, watchlists, action cards, next-reading links, executive links, and runtime-plan copy into reader-facing public Beta language.
 - The relevant gates now protect readable public Beta phrases, 30-second/3-minute decision flow, mock boundary, no-advice posture, and absence of internal blocker/process terms.
-- Next PM mainline should continue with home / briefing / stock consistency only where comprehension, source trust, or runtime safety is blocked; broad visual polish remains lower priority.
+- Next PM mainline should continue with data-line mock runtime label readiness and only add public UI when it clarifies source trust, coverage state, or runtime safety; broad visual polish remains lower priority.
 - Previous route anchor retained for checker continuity: `integrate_runtime_readability_and_source_trust_states_before_real_data_promotion`.
 
 ## 3. A1 Data / Source / Coverage Lane
@@ -139,8 +140,8 @@ This goal slice is complete when:
 
 Recommended next mainline action:
 
-`integrate_home_stock_briefing_runtime_consistency_then_data_line_handoff_readiness`
+`wire_mock_runtime_source_coverage_labels_then_route_health`
 
 Meaning:
 
-PM should keep improving the public Beta usable loop while A1 continues source/coverage work and A2 continues copy safety. The next mainline slice should focus on route-to-route consistency and data-line handoff readiness: users should be able to move from home to briefing to stock detail without seeing internal governance language or mistaking mock signals for live data. Real-data promotion remains blocked until a separately accepted source-rights, coverage, quality, rollback, and runtime gate is recorded.
+PM should keep improving the public Beta usable loop while A1 continues source/coverage work and A2 continues copy safety. The next mainline slice should use A1's no-fetch source/coverage handoff to prepare mock-only runtime labels for source lane, coverage layer, and promotion blocker state, then verify route health. Real-data promotion remains blocked until a separately accepted source-rights, coverage, quality, rollback, and runtime gate is recorded.

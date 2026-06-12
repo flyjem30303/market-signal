@@ -5,6 +5,7 @@ import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { PageViewTracker } from "@/components/page-view-tracker";
 import { PostReadonlyProductStatus } from "@/components/post-readonly-product-status";
 import { PublicBetaDataReadinessStatus } from "@/components/public-beta-data-readiness-status";
+import { PublicBetaRouteConsistencyPanel } from "@/components/public-beta-route-consistency-panel";
 import { PublicRuntimeStateStrip } from "@/components/public-runtime-state-strip";
 import { TrackedLink } from "@/components/tracked-link";
 import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
@@ -66,6 +67,7 @@ export default async function BriefingPage() {
     <main className="page-shell">
       <PageViewTracker eventName="briefing_page_viewed" payload={{ page: "briefing" }} />
       <BriefingPublicDecisionSummaryPanel breadth={breadth} market={market} topRisk={topRisk} />
+      <PublicBetaRouteConsistencyPanel context="briefing" stockSymbol={market.asset.symbol} />
       <BriefingExecutiveSummary market={market} topRisk={topRisk} />
 
       <section className="hero briefing-hero">

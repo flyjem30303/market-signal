@@ -3512,6 +3512,87 @@ select {
   overflow-wrap: anywhere;
 }
 
+.public-beta-route-consistency {
+  display: grid;
+  gap: 12px;
+  margin: 16px 0;
+  border: 1px solid rgba(15, 118, 110, 0.2);
+  border-radius: 8px;
+  background: #fbfffd;
+  padding: 16px;
+  box-shadow: var(--shadow-soft);
+}
+
+.public-beta-route-consistency__head {
+  display: grid;
+  gap: 6px;
+}
+
+.public-beta-route-consistency__head h2 {
+  margin: 0;
+  font-size: 22px;
+  line-height: 1.3;
+}
+
+.public-beta-route-consistency__head p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.public-beta-route-consistency__steps,
+.public-beta-route-consistency__boundary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.public-beta-route-consistency__step,
+.public-beta-route-consistency__boundary article {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  border: 1px solid rgba(15, 118, 110, 0.16);
+  border-radius: 8px;
+  background: #fff;
+  padding: 12px;
+  text-decoration: none;
+}
+
+.public-beta-route-consistency__step:hover {
+  border-color: var(--teal);
+  background: #f2fbf8;
+}
+
+.public-beta-route-consistency__step span,
+.public-beta-route-consistency__boundary span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.public-beta-route-consistency__step strong,
+.public-beta-route-consistency__boundary strong {
+  overflow-wrap: anywhere;
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.3;
+}
+
+.public-beta-route-consistency__step p,
+.public-beta-route-consistency__boundary p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.public-beta-route-consistency__boundary article:last-child {
+  border-color: rgba(199, 54, 59, 0.2);
+  background: #fff7f7;
+}
+
 .stock-public-decision-summary {
   display: grid;
   grid-column: 1 / -1;
@@ -12546,6 +12627,8 @@ input[type="date"] {
   .runtime-readiness-lanes,
   .briefing-executive-summary,
   .briefing-executive-summary nav,
+  .public-beta-route-consistency__steps,
+  .public-beta-route-consistency__boundary,
   .quote-panel,
   .stock-evidence-snapshot,
   .stock-runtime-at-a-glance,
