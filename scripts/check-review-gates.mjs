@@ -5183,6 +5183,11 @@ const checks = [
     name: "market-action-summary-coverage"
   },
   {
+    command: [node, "scripts/check-public-beta-mainline-action-bridge.mjs"],
+    expectStatus: "ok",
+    name: "public-beta-mainline-action-bridge"
+  },
+  {
     command: [node, "scripts/check-action-summary-language-quality.mjs"],
     expectStatus: "ok",
     name: "action-summary-language-quality"
@@ -5921,6 +5926,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "public-beta-index-dashboard-brief-loop",
   "public-beta-route-consistency",
   "public-beta-route-local-trust-visual-consistency",
+  "public-beta-mainline-action-bridge",
   "public-beta-source-coverage-runtime-labels",
   "source-coverage-runtime-handoff-docs",
   "public-beta-data-realification-next-action",

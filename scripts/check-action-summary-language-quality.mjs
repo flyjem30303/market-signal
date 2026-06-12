@@ -10,10 +10,14 @@ const files = [
 ];
 
 const requiredBoundaryTokenGroups = [
-  ["publicDataSource=mock", "示範資料"],
-  ["scoreSource=mock", "示範分數"]
+  ["publicDataSource=mock", "示範資料", "\\u793a\\u7bc4\\u8cc7\\u6599"],
+  ["scoreSource=mock", "示範分數", "\\u793a\\u7bc4\\u5206\\u6578"]
 ];
-const requiredReadableTokenGroups = [["資料"], ["風險"], ["mock", "示範"]];
+const requiredReadableTokenGroups = [
+  ["資料", "\\u8cc7\\u6599"],
+  ["風險", "\\u98a8\\u96aa"],
+  ["mock", "示範", "\\u793a\\u7bc4"]
+];
 const forbiddenTokens = [
   "@supabase/supabase-js",
   "createClient",

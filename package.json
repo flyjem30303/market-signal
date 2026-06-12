@@ -1309,6 +1309,7 @@
     "check:stock-investor-action-summary": "node scripts/check-stock-investor-action-summary.mjs",
     "check:stock-investor-indicator-roadmap-panel": "node scripts/check-stock-investor-indicator-roadmap-panel.mjs",
     "check:market-action-summary-coverage": "node scripts/check-market-action-summary-coverage.mjs",
+    "check:public-beta-mainline-action-bridge": "node scripts/check-public-beta-mainline-action-bridge.mjs",
     "check:action-summary-language-quality": "node scripts/check-action-summary-language-quality.mjs",
     "check:supabase-readonly-validator-output-contract": "node scripts/check-supabase-readonly-validator-output-contract.mjs",
     "check:supabase-readonly-blank-error-root-cause": "node scripts/check-supabase-readonly-blank-error-root-cause.mjs",

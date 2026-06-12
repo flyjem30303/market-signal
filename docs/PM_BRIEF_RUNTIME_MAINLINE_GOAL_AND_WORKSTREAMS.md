@@ -316,6 +316,43 @@ Next PM mainline candidate:
 
 This should check that the highest-traffic path still gives users a 30-second market mood and 3-minute action judgment without exposing internal execution language or real-data claims.
 
+## 8C. 2026-06-13 Mainline 3-Minute Action Bridge Guard
+
+CEO decision:
+
+`guard_home_briefing_stock_3_minute_action_bridge_before_next_runtime_expansion`
+
+PM executed a bounded BRIEF product/runtime guard for the highest-traffic path (`/`, `/briefing`, `/stocks/[symbol]`). This does not change the data source, does not promote real data, and does not open broad visual polish. It verifies that the public Beta product loop still gives users:
+
+- a 30-second market atmosphere entry point,
+- a 3-minute action judgment path,
+- an observation / risk / stop-condition structure,
+- mock-only publicDataSource and scoreSource boundaries,
+- non-investment-advice language,
+- no runtime helper dependency on Supabase, fetch, env secrets, or real score/source promotion.
+
+New guard:
+
+- `scripts/check-public-beta-mainline-action-bridge.mjs`
+- package command: `check:public-beta-mainline-action-bridge`
+- review-gate name: `public-beta-mainline-action-bridge`
+
+Verification completed:
+
+- `cmd.exe /c npm run check:public-beta-mainline-action-bridge`
+
+Current lane assignments:
+
+- PM mainline: keep pushing BRIEF product/runtime on high-traffic surfaces; next slice should either make the public dashboard surface less internally technical or add a user-facing progress/status summary that does not expose process residue.
+- A1 background: continue legal/free/automatable source and coverage work as an independent data lane; no row fetch, SQL, Supabase write, raw payload storage, or real promotion.
+- A2 background: audit copy comprehension on the high-traffic path using this guard as baseline; focus on phrases a normal investor cannot understand within 30 seconds.
+
+Next PM mainline candidate:
+
+`public_beta_home_briefing_stock_internal_residue_reduction`
+
+This should reduce public-facing internal process residue on high-traffic pages without weakening the mock boundary, legal disclosure, or data-source caution.
+
 Recommended next mainline action:
 
 `wait_for_explicit_operator_decision_before_execution_packet`
