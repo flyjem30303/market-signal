@@ -3,7 +3,7 @@ export type RuntimeDeliveryCadence = {
   deEmphasizedCutpoints: string[];
   mandatoryCutpoints: string[];
   nextExecutionMode: "larger_mock_runtime_product_slice";
-  nextExecutionRatio: "runtime product 70 / blocker closure 20 / governance 10";
+  nextExecutionRatio: "runtime product 70 / data readiness 20 / governance 10";
   reason: string;
   targetSliceSize: string;
   verdict: "recent_slices_too_fragmented";
@@ -28,7 +28,7 @@ export function getRuntimeDeliveryCadence(): RuntimeDeliveryCadence {
       "任何遠端嘗試後，必須先完成執行後覆核"
     ],
     nextExecutionMode: "larger_mock_runtime_product_slice",
-    nextExecutionRatio: "runtime product 70 / blocker closure 20 / governance 10",
+    nextExecutionRatio: "runtime product 70 / data readiness 20 / governance 10",
     reason:
       "近期 runtime 工作提升了安全性與可追溯性，但過多小型治理與純 UI 切片讓可見進度變慢。",
     targetSliceSize: "每次完成一個一致的 runtime 產品成果",

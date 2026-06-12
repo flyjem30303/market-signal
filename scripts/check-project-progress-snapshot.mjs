@@ -58,7 +58,7 @@ const requiredSourcePhrases = [
   "Do not wait for A1, A2, or I",
   "recent_slices_too_fragmented",
   "larger_mock_runtime_product_slice",
-  "runtime product 70 / blocker closure 20 / governance 10",
+  "runtime product 70 / data readiness 20 / governance 10",
   "保留必要 gate",
   "任何 Supabase 連線嘗試前",
   "任何 SQL 執行前",
@@ -72,7 +72,7 @@ const requiredSourcePhrases = [
   "npm run report:source-rights-disclosure-local-review",
   "npm run report:model-credibility-local-review",
   "npm run report:data-quality-field-validity-qa-review",
-  "runtime product 70 / blocker closure 20 / governance 10",
+  "runtime product 70 / data readiness 20 / governance 10",
   "唯讀驗證後公開 Beta 決策，接著資料結構/新鮮度/品質檢查點",
   "decisionNodes",
   "id: \"local-verification\"",
@@ -263,7 +263,7 @@ if (output) {
     blocked.push(`output.cadenceAssessment.nextExecutionMode: ${String(output.cadenceAssessment?.nextExecutionMode)}`);
   }
 
-  if (output.cadenceAssessment?.nextExecutionRatio !== "runtime product 70 / blocker closure 20 / governance 10") {
+  if (output.cadenceAssessment?.nextExecutionRatio !== "runtime product 70 / data readiness 20 / governance 10") {
     blocked.push(`output.cadenceAssessment.nextExecutionRatio: ${String(output.cadenceAssessment?.nextExecutionRatio)}`);
   }
 

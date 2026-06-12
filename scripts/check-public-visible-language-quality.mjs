@@ -22,6 +22,7 @@ const publicOperationsForbidden = [
   "preflight",
   "packet",
   "operator",
+  "blocker",
   "Indicator Roadmap",
   "Runtime/data foundation",
   "Product wording",
