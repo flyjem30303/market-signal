@@ -48,7 +48,7 @@ Fill these fields only with safe non-secret conclusions, citations, or internal 
 
 | Field id | Field | Fill state | Required safe value |
 | --- | --- | --- | --- |
-| `OFFICIAL-001` | Source authority | `TBD_SAFE_NON_SECRET_REFERENCE` | Name the official or licensed authority for TWII historical index values. |
+| `OFFICIAL-001` | Source authority | `ACCEPTED_SAFE_PUBLIC_REFERENCE` | Taiwan Stock Exchange Corporation (`TWSE`) is the official public authority/source surface for TAIEX/TWII index series and TAIEX historical index values. This accepts source identity only; it does not approve automated access, storage, redistribution, derived analysis, candidate generation, or execution. |
 | `OFFICIAL-002` | Terms location | `TBD_SAFE_NON_SECRET_REFERENCE` | Provide a safe reference to terms, license, or internal approval source. |
 | `OFFICIAL-003` | Automated access | `TBD_ACCEPTED_REJECTED_OR_BLOCKED` | State whether the exact future access method is allowed. |
 | `OFFICIAL-004` | Internal storage | `TBD_ACCEPTED_REJECTED_OR_BLOCKED` | State whether internal storage of source-derived TWII values is allowed. |
@@ -63,7 +63,24 @@ Fill these fields only with safe non-secret conclusions, citations, or internal 
 
 Official source fill status:
 
-`not_filled_official_source_evidence_pending`
+`partially_filled_official_001_source_authority_only`
+
+### OFFICIAL-001 Evidence Note
+
+PM records `TWSE` as the safe public source authority for the TWII/TAIEX index lane because TWSE identifies the Taiwan Stock Exchange Capitalization Weighted Stock Index (`TAIEX`) as a TWSE self-compiled index and provides a public TAIEX Total Index Historical Data surface.
+
+This note is intentionally narrow:
+
+- accepted: source authority / official public source surface;
+- not accepted: automated access method;
+- not accepted: internal storage;
+- not accepted: retention / deletion;
+- not accepted: redistribution / public display;
+- not accepted: attribution wording;
+- not accepted: derived analysis or row coverage scoring;
+- not accepted: commercial/global use;
+- not accepted: field-contract approval;
+- not accepted: candidate generation, parser work, market-data fetch, SQL, Supabase, `daily_prices` mutation, public source promotion, or real scoring.
 
 ## Vendor Terms Review Fields
 
