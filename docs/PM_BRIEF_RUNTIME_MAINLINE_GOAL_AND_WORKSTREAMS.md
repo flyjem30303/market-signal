@@ -33,6 +33,8 @@ PM should not wait for A1/A2 unless a mainline change directly depends on their 
 
 Latest PM integration:
 
+- A2 TWII source-attribution and cadence public-copy guard is ready for PM intake at `docs/A2_TWII_SOURCE_ATTRIBUTION_AND_CADENCE_PUBLIC_COPY_GUARD.md`. PM accepted the background output after bounded repair and registered `scripts/check-a2-twii-source-attribution-and-cadence-public-copy-guard.mjs`. The guard protects source-attribution wording, daily-after-close cadence wording, mock boundary, and non-investment-advice wording before any real-data promotion.
+- A1 bounded readonly gate candidate requirements are now ready for PM intake at `docs/A1_TWII_BOUNDED_READONLY_GATE_CANDIDATE_REQUIREMENTS_NO_EXECUTION.md`. The packet defines future attempt fields, fail-closed requirements, source-rights evidence, field contract, cadence, no-secret output, no raw/row payload output, no Supabase write, no `daily_prices` mutation, no promotion, and post-run review requirements while remaining no-execution. The next PM route is `surface_bounded_readonly_requirements_as_runtime_readiness_then_wait_for_external_execution_decision`; A1 next owns `prepare_exact_source_rights_and_field_contract_evidence_for_future_readonly_attempt`; A2 next owns `review_twii_source_attribution_and_cadence_public_copy_guard`.
 - PM wired the TWII terms/field/cadence/attribution packet into the shared public Beta data-readiness runtime surface. `src/lib/public-beta-data-readiness-status.ts` and `src/components/public-beta-data-readiness-status.tsx` now expose `資料條款`, `欄位對照`, `更新節奏`, and `公開引用` as reader-facing readiness cards. The integration keeps `publicDataSource=mock`, `scoreSource=mock`, no SQL, no Supabase, no raw market-data fetch, no endpoint probe, and no real-data promotion. The next PM route is `review_twii_terms_runtime_readiness_copy_then_prepare_bounded_readonly_requirements`; A1 next owns `prepare_twii_bounded_readonly_gate_candidate_requirements_no_execution`; A2 next owns `review_twii_source_attribution_and_cadence_public_copy_guard`.
 - A1 TWII terms/field/cadence/attribution no-fetch packet is ready for PM intake at `docs/A1_TWII_TERMS_FIELD_CADENCE_ATTRIBUTION_NO_FETCH_PACKET.md`. It narrows the TWII source route into terms, minimum fields, daily-after-close cadence, and public attribution decisions while preserving `publicDataSource=mock`, `scoreSource=mock`, no SQL, no Supabase connection/write, no staging rows, no `daily_prices` mutation, no endpoint probe, no market-data fetch/ingest/store/commit, no row payloads, no row coverage points, and no real-data promotion. The next PM route is `wire_twii_terms_field_cadence_attribution_status_into_runtime_readiness_copy`; A1 next owns `prepare_twii_bounded_readonly_gate_candidate_requirements_no_execution`; A2 next owns `review_twii_source_attribution_and_cadence_public_copy_guard`.
 - PM wired the accepted A1 no-fetch coverage artifact into the public data-readiness runtime surface. `src/lib/public-beta-data-readiness-status.ts` and `src/components/public-beta-data-readiness-status.tsx` now expose the next coverage scopes as user-readable cards: `TWII 大盤基準準備中`, `核心 ETF 來源條件待確認`, `第一批上市個股示範`, `產業與族群待 taxonomy review`, and `進階指標 mock 可解釋，真實計算未開放`. The integration remains mock-only and does not promote public data, score source, row coverage points, SQL, Supabase, or raw market data.
@@ -70,7 +72,8 @@ Active A1 artifact:
 - `docs/A1_BATCH1_LISTED_EQUITY_SYMBOL_POLICY_NO_ROW_LIST.md`
 - `docs/A1_PUBLIC_BETA_NEXT_NO_FETCH_COVERAGE_ARTIFACT.md`
 - `docs/A1_TWII_TERMS_FIELD_CADENCE_ATTRIBUTION_NO_FETCH_PACKET.md`
-- current PM assignment: absorb the TWII terms/field/cadence/attribution no-fetch packet into runtime readiness copy only if it improves source trust, cadence clarity, and public attribution without implying real-data promotion.
+- `docs/A1_TWII_BOUNDED_READONLY_GATE_CANDIDATE_REQUIREMENTS_NO_EXECUTION.md`
+- current PM assignment: surface the bounded readonly requirements as runtime readiness only if it improves source-trust clarity without implying a readonly attempt has been authorized.
 
 A1 is responsible for:
 
@@ -78,7 +81,7 @@ A1 is responsible for:
 - coverage categories for daily close, volume, date, symbol, ETF, index, and stock lanes,
 - no-fetch terms review packets,
 - source-lane questions for PM/CEO decisions.
-- next background task: prepare `prepare_twii_bounded_readonly_gate_candidate_requirements_no_execution`; keep output field-name-only, aggregate-only, local-only, no-fetch, no-secret, and PM-readable.
+- next background task: prepare `prepare_exact_source_rights_and_field_contract_evidence_for_future_readonly_attempt`; keep output field-name-only, aggregate-only, local-only, no-fetch, no-secret, and PM-readable.
 
 A1 is not authorized by this goal to:
 
@@ -100,6 +103,7 @@ Active A2 artifact:
 - `docs/A2_PUBLIC_COPY_UX_SAFETY_QA_HANDOFF_2026_06_12.md`
 - `docs/A2_SOURCE_COVERAGE_RUNTIME_LABELS_PUBLIC_COPY_REVIEW.md`
 - `docs/A2_FIELD_CONTRACT_PUBLIC_COPY_GUARD.md`
+- `docs/A2_TWII_SOURCE_ATTRIBUTION_AND_CADENCE_PUBLIC_COPY_GUARD.md`
 - current PM assignment: review stock detail and home-to-briefing language for 30-second comprehension, 3-minute action judgment, mock/real boundary clarity, and non-advice wording; propose copy patches only when they improve comprehension or safety.
 
 A2 is responsible for:
@@ -109,7 +113,7 @@ A2 is responsible for:
 - mock/real boundary readability,
 - non-investment-advice wording,
 - blocking internal execution strings on public surfaces.
-- next background task: review `docs/A1_TWII_TERMS_FIELD_CADENCE_ATTRIBUTION_NO_FETCH_PACKET.md` plus current data-readiness public wording; propose only bounded copy repair if source attribution, daily cadence, mock boundary, or non-advice wording is unclear.
+- next background task: prepare `prepare_twii_source_attribution_cadence_phrase_set_patch_if_pm_requests`; keep it copy-only and do not approve source rights, real data, real scoring, SQL, Supabase, raw payloads, or investment advice.
 
 A2 is not authorized by this goal to:
 
@@ -164,8 +168,8 @@ This goal slice is complete when:
 
 Recommended next mainline action:
 
-`review_twii_terms_runtime_readiness_copy_then_prepare_bounded_readonly_requirements`
+`surface_bounded_readonly_requirements_as_runtime_readiness_then_wait_for_external_execution_decision`
 
 Meaning:
 
-PM has translated the TWII terms/field/cadence/attribution packet into mock-safe runtime wording. A1 should prepare the bounded readonly gate requirements without execution, while A2 checks public attribution, cadence, mock boundary, and non-advice copy. Real-data promotion remains blocked until a separately accepted source-rights, coverage, quality, rollback, and runtime gate is recorded.
+PM has a no-execution bounded readonly requirements packet and should translate only the readiness status into mock-safe runtime wording. A1 should prepare exact source-rights and field-contract evidence for a future readonly attempt, while A2 checks public attribution, cadence, mock boundary, and non-advice copy. Real-data promotion remains blocked until a separately accepted source-rights, coverage, quality, rollback, and runtime gate is recorded.

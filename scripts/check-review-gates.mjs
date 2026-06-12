@@ -4363,9 +4363,19 @@ const checks = [
     name: "a1-twii-terms-field-cadence-attribution-no-fetch-packet"
   },
   {
+    command: [node, "scripts/check-a1-twii-bounded-readonly-gate-candidate-requirements-no-execution.mjs"],
+    expectStatus: "ok",
+    name: "a1-twii-bounded-readonly-gate-candidate-requirements-no-execution"
+  },
+  {
     command: [node, "scripts/check-a2-field-contract-public-copy-guard.mjs"],
     expectStatus: "ok",
     name: "a2-field-contract-public-copy-guard"
+  },
+  {
+    command: [node, "scripts/check-a2-twii-source-attribution-and-cadence-public-copy-guard.mjs"],
+    expectStatus: "ok",
+    name: "a2-twii-source-attribution-and-cadence-public-copy-guard"
   },
   {
     command: [node, "scripts/check-pm-brief-runtime-mainline-goal-and-workstreams.mjs"],
@@ -5813,7 +5823,9 @@ const publicBetaFocusedReviewGateNames = new Set([
   "a1-batch1-listed-equity-symbol-policy-no-row-list",
   "a1-public-beta-next-no-fetch-coverage-artifact",
   "a1-twii-terms-field-cadence-attribution-no-fetch-packet",
+  "a1-twii-bounded-readonly-gate-candidate-requirements-no-execution",
   "a2-field-contract-public-copy-guard",
+  "a2-twii-source-attribution-and-cadence-public-copy-guard",
   "twse-openapi-index-baseline-synthetic-parser-fixture",
   "twse-openapi-index-baseline-mock-runtime-handoff",
   "public-beta-launch-readiness-panel",
