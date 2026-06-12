@@ -27,18 +27,18 @@ const required = [
   [helperPath, "marketLine"],
   [helperPath, "publicDataSource=mock"],
   [helperPath, "scoreSource=mock"],
-  [helperPath, "市場風險升溫，先降低解讀速度"],
-  [helperPath, "市場氣氛偏穩，仍先用 mock 流程練習判讀"],
-  [helperPath, "不提供買賣建議"],
+  [helperPath, "\\u5e02\\u5834\\u98a8\\u96aa"],
+  [helperPath, "\\u5e02\\u5834\\u6c23\\u6c1b"],
+  [helperPath, "\\u4e0d\\u63d0\\u4f9b\\u8cb7\\u8ce3\\u5efa\\u8b70"],
   [helperPath, "mock-only"],
-  [helperPath, "promotion gate"],
   [decisionHelperPath, "buildBriefingPublicDecisionSummary"],
-  [decisionHelperPath, "30 秒看懂今日市場氣氛"],
-  [decisionHelperPath, "3 分鐘內請看"],
+  [decisionHelperPath, "30 秒看懂市場氣氛"],
+  [decisionHelperPath, "3 分鐘內先看市場氣氛"],
   [decisionHelperPath, "publicDataSource=mock"],
   [decisionHelperPath, "scoreSource=mock"],
+  [decisionHelperPath, "不提供買賣建議"],
   [decisionPanelPath, "BriefingPublicDecisionSummaryPanel"],
-  [decisionPanelPath, "市場氛圍"],
+  [decisionPanelPath, "市場氣氛"],
   [decisionPanelPath, "更新時間"],
   [decisionPanelPath, "影響級別"],
   [decisionPanelPath, "下一步"],
@@ -49,14 +49,14 @@ const required = [
   [pagePath, "briefing_market_action_primary"],
   [pagePath, "briefing_market_action_secondary"],
   [pagePath, "30 秒看懂今日市場氣氛"],
-  [pagePath, "3 分鐘判讀流程"],
-  [pagePath, "重要揭露"],
+  [pagePath, "3 分鐘行動判斷"],
+  [pagePath, "promotion gate"],
   [cssPath, ".briefing-public-decision-summary"],
   [cssPath, ".briefing-market-action-summary"],
   [cssPath, ".briefing-market-action-summary a.active"],
   [cssPath, ".briefing-market-action-summary a.hold"],
   [cssPath, ".briefing-market-action-summary a.blocked"],
-  [packagePath, '"check:briefing-market-action-summary"'],
+  [packagePath, "\"check:briefing-market-action-summary\""],
   [reviewGatePath, "check-briefing-market-action-summary.mjs"]
 ];
 
@@ -64,36 +64,37 @@ const forbidden = [
   [helperPath, "@supabase/supabase-js"],
   [helperPath, "createClient"],
   [helperPath, "fetch("],
-  [helperPath, '.from("'],
+  [helperPath, ".from(\""],
   [helperPath, ".from('"],
   [helperPath, "process.env"],
   [helperPath, "node:fs"],
-  [helperPath, 'scoreSource: "real"'],
-  [helperPath, 'publicDataSource: "supabase"'],
+  [helperPath, "scoreSource: \"real\""],
+  [helperPath, "publicDataSource: \"supabase\""],
   [decisionHelperPath, "@supabase/supabase-js"],
   [decisionHelperPath, "createClient"],
   [decisionHelperPath, "fetch("],
-  [decisionHelperPath, '.from("'],
+  [decisionHelperPath, ".from(\""],
   [decisionHelperPath, ".from('"],
   [decisionHelperPath, "process.env"],
   [decisionHelperPath, "node:fs"],
-  [decisionHelperPath, 'scoreSource: "real"'],
-  [decisionHelperPath, 'publicDataSource: "supabase"'],
+  [decisionHelperPath, "scoreSource: \"real\""],
+  [decisionHelperPath, "publicDataSource: \"supabase\""],
   [decisionPanelPath, "@supabase/supabase-js"],
   [decisionPanelPath, "createClient"],
   [decisionPanelPath, "fetch("],
-  [decisionPanelPath, '.from("'],
+  [decisionPanelPath, ".from(\""],
   [decisionPanelPath, ".from('"],
   [decisionPanelPath, "process.env"],
   [decisionPanelPath, "node:fs"],
-  [pagePath, 'scoreSource="real"'],
-  [pagePath, 'publicDataSource="supabase"']
+  [pagePath, "scoreSource=\"real\""],
+  [pagePath, "publicDataSource=\"supabase\""]
 ];
 
 const missing = required.filter(([file, phrase]) => !read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
 const blocked = forbidden.filter(([file, phrase]) => read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
-const mojibakeHits = [helperPath, decisionHelperPath, decisionPanelPath, pagePath]
-  .flatMap((file) => findMojibakeMarkers(read(file)).map((marker) => `${file}: ${marker}`));
+const mojibakeHits = [helperPath, decisionHelperPath, decisionPanelPath, pagePath].flatMap((file) =>
+  findMojibakeMarkers(read(file)).map((marker) => `${file}: ${marker}`)
+);
 
 console.log(
   JSON.stringify(

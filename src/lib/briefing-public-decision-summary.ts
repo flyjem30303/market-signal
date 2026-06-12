@@ -22,26 +22,27 @@ export function buildBriefingPublicDecisionSummary(
   breadth: { constructive: number; defensive: number; watch: number }
 ): BriefingPublicDecisionSummary {
   const caution = market.riskScore >= 60 || topRisk.riskScore >= 70 || breadth.defensive > breadth.constructive;
-  const marketMood = caution ? "偏保守觀察" : "偏穩定觀察";
+  const marketMood = caution ? "偏防守，先放慢判讀速度" : "偏穩定，先建立觀察順序";
 
   return {
     alert: {
       cause: caution
-        ? `${topRisk.asset.symbol} 的風險分數較高，市場解讀先放慢，避免只看單一數字。`
-        : `${market.asset.symbol} 的綜合狀態暫時偏穩，仍需搭配資料邊界與 mock 流程判讀。`,
+        ? `${topRisk.asset.symbol} 的風險分數較高，代表目前最需要先理解風險來源與影響範圍。`
+        : `${market.asset.symbol} 可作為市場氣氛入口；目前仍要搭配 ETF 與高風險樣本複核。`,
       impactLevel: caution ? "中" : "低",
       nextStep: caution
-        ? `先看 ${topRisk.asset.symbol} 的成因，再回到 TWII 與市場廣度交叉確認。`
-        : `先看 ${market.asset.symbol} 的趨勢，再觀察 ETF 與產業族群是否同步。`,
-      status: caution ? "需要加強觀察" : "可持續觀察",
-      title: "主要市場警示",
+        ? `先打開 ${topRisk.asset.symbol}，看風險成因、更新時間與資料邊界，再回到 TWII 判斷是否是全市場擴散。`
+        : `先看 ${market.asset.symbol} 的市場輪廓，再掃描 ETF 與風險清單，形成今天的觀察順序。`,
+      status: caution ? "需要加強觀察" : "可維持觀察",
+      title: "今日市場警示",
       updatedAt: market.lastUpdatedAt.replace("T", " ").replace("+08:00", " 台北時間")
     },
     boundaryLine:
-      "資料邊界：publicDataSource=mock，scoreSource=mock；目前不是即時真實資料，不提供買賣建議。",
-    headline: "30 秒看懂今日市場氣氛",
+      "資料邊界：publicDataSource=mock；scoreSource=mock。正式資料尚未上線，本頁不提供買賣建議。",
+    headline: "30 秒看懂市場氣氛",
     marketMood,
-    nextObservation: "3 分鐘內請看：成因、更新時間、影響級別、下一步觀察。所有訊號都要搭配資料來源與時間脈絡。",
-    quickRead: `市場廣度：${breadth.constructive} 個偏建設、${breadth.watch} 個觀察、${breadth.defensive} 個偏防守。`
+    nextObservation:
+      "3 分鐘內先看市場氣氛、風險來源、更新時間與資料邊界；若訊號互相矛盾，就先等待，不把單一分數當成交易結論。",
+    quickRead: `市場廣度：${breadth.constructive} 個偏建設性、${breadth.watch} 個需要觀察、${breadth.defensive} 個偏防守。`
   };
 }

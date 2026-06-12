@@ -13,6 +13,7 @@ export function BriefingPublicDecisionSummaryPanel({
   topRisk
 }: BriefingPublicDecisionSummaryPanelProps) {
   const summary = buildBriefingPublicDecisionSummary(market, topRisk, breadth);
+  const alertTone = summary.alert.impactLevel === "高" || summary.alert.impactLevel === "中" ? "blocked" : "readying";
 
   return (
     <section className="briefing-public-decision-summary" aria-label="Briefing public decision summary">
@@ -23,11 +24,11 @@ export function BriefingPublicDecisionSummaryPanel({
         <p>{summary.nextObservation}</p>
       </div>
       <article className="active">
-        <span>市場氛圍</span>
+        <span>市場氣氛</span>
         <strong>{summary.marketMood}</strong>
         <p>{summary.boundaryLine}</p>
       </article>
-      <article className={summary.alert.impactLevel === "中" || summary.alert.impactLevel === "高" ? "blocked" : "readying"}>
+      <article className={alertTone}>
         <span>{summary.alert.status}</span>
         <strong>{summary.alert.title}</strong>
         <p>{summary.alert.cause}</p>

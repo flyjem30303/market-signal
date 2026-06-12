@@ -104,6 +104,7 @@ export default async function BriefingPage() {
           <p className="eyebrow">Market Action Summary</p>
           <h2>{marketActionSummary.headline}</h2>
           <p>{marketActionSummary.marketLine}</p>
+          <p>3 分鐘行動判斷：先看市場氣氛，再看主要風險，最後確認資料邊界；若訊號互相矛盾，先等待更多資料。</p>
           <p>{marketActionSummary.stopLine}</p>
         </div>
         <TrackedLink

@@ -353,6 +353,41 @@ Next PM mainline candidate:
 
 This should reduce public-facing internal process residue on high-traffic pages without weakening the mock boundary, legal disclosure, or data-source caution.
 
+## 8D. 2026-06-13 Briefing Public Decision Summary Cleanup
+
+CEO decision:
+
+`clean_briefing_first_view_public_decision_summary_before_broader_ui_polish`
+
+PM executed the next BRIEF product/runtime slice on `/briefing`. The slice stayed narrow: it cleaned the first public decision summary helper and panel, synchronized the briefing action-summary checker, and added one visible 3-minute action judgment line to the Market Action Summary section. It did not change data source behavior, did not connect to Supabase, did not run SQL, did not fetch market data, and did not promote real scores.
+
+Completed mainline work:
+
+- Rewrote `src/lib/briefing-public-decision-summary.ts` into readable public copy for market mood, alert cause, update time, impact level, next step, and mock boundary.
+- Rewrote `src/components/briefing-public-decision-summary-panel.tsx` to remove mojibake from the first visible briefing decision panel.
+- Updated `scripts/check-briefing-market-action-summary.mjs` so the guard now expects readable BRIEF wording instead of legacy mojibake strings.
+- Added visible `/briefing` copy for `3 分鐘行動判斷` in the action-summary path.
+
+Verification completed:
+
+- `cmd.exe /c npm run check:briefing-market-action-summary`
+- `cmd.exe /c npm run check:public-beta-mainline-action-bridge`
+- `cmd.exe /c npm run check:public-visible-language-quality`
+- `cmd.exe /c npx tsc --noEmit`
+- Browser visible-text check on `http://localhost:3000/briefing`: confirmed 30-second market mood, 3-minute action judgment, mock boundary, non-investment-advice copy, no visible replacement character, no `???` run, and no internal packet/cmd/PUBLIC_BETA terms in the checked first page text.
+
+Current lane assignments:
+
+- PM mainline: continue reducing public-facing internal residue on `/briefing`, then return to `/` and `/stocks/[symbol]` only where visible language blocks the 30-second / 3-minute reading path.
+- A1 background: continue source and coverage work outside this runtime slice; do not fetch/store rows or alter source promotion state.
+- A2 background: use the updated briefing checker as the copy-safety baseline and flag remaining user-visible jargon, especially `promotion gate`, `mock-only`, and any English process wording that can be phrased for investors.
+
+Next PM mainline candidate:
+
+`briefing_midpage_navigation_readability_cleanup`
+
+This should target the next visible `/briefing` block with the most user-facing residue, especially navigation labels and reading-plan copy, while keeping the scope smaller than a full page rewrite.
+
 Recommended next mainline action:
 
 `wait_for_explicit_operator_decision_before_execution_packet`
