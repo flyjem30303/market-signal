@@ -173,29 +173,29 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
             <p>{runtimeDeliveryCadence.targetSliceSize}</p>
           </article>
           <article className="active runtime-boundary-copy-card">
-            <span>Public data boundary</span>
+            <span>公開資料邊界</span>
             <strong>{boundaryCopy.headline}</strong>
             <p>{boundaryCopy.summary}</p>
             <p>{boundaryCopy.currentState}</p>
           </article>
           <article className="blocked runtime-boundary-copy-card">
-            <span>Promotion blocked</span>
-            <strong>Real data, complete coverage, and advice wording remain blocked</strong>
+            <span>升級仍鎖住</span>
+            <strong>真實資料、完整覆蓋與建議語氣尚未開放</strong>
             <p>{boundaryCopy.blockedState}</p>
             <p>{boundaryCopy.stopLine}</p>
           </article>
           <article className="active">
-            <span>Current progress</span>
+            <span>目前進度</span>
             <strong>{decisionSummary.currentProgressPercent}%</strong>
             <p>{decisionSummary.stage}</p>
           </article>
           <article className="readying">
-            <span>Next decision</span>
+            <span>下一步判斷</span>
             <strong>{decisionSummary.decisionLabel}</strong>
             <p>{decisionSummary.nextLift}</p>
           </article>
           <article className="blocked">
-            <span>Blocked transition</span>
+            <span>尚未開放的切換</span>
             <strong>{decisionSummary.blockedTransition}</strong>
             <p>{decisionSummary.safetyStopLine}</p>
           </article>
@@ -210,7 +210,7 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
             <p>正式資料上線前，仍需確認來源權利、欄位契約與可回溯說明。</p>
           </article>
           <article className="readying">
-            <span>Row coverage</span>
+            <span>資料列覆蓋</span>
             <strong>{rowCoverage.readiness}</strong>
             <p>
               {rowCoverage.publicDataSource} / {rowCoverage.scoreSource}. {rowCoverage.stopLine}

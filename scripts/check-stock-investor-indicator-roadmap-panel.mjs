@@ -15,8 +15,8 @@ const required = [
   [componentPath, "InvestorIndicatorStatus"],
   [componentPath, "StockInvestorIndicatorRoadmap"],
   [componentPath, "<StockInvestorIndicatorRoadmap />"],
-  [componentPath, "Investor Indicator Roadmap"],
-  [componentPath, "Indicator Roadmap"],
+  [componentPath, "Stock investor indicator roadmap"],
+  [componentPath, "指標路線圖"],
   [componentPath, "未來專業指標路線"],
   [componentPath, "roadmap.boundary.statement"],
   [componentPath, "roadmap.families.map"],
@@ -26,7 +26,7 @@ const required = [
   [componentPath, "等待真實資料"],
   [contractPath, "publicDataSource: \"mock\""],
   [contractPath, "scoreSource: \"mock\""],
-  [contractPath, "Investor indicators are a mock roadmap only"],
+  [contractPath, "投資指標目前只是 mock 路線圖"],
   [cssPath, ".stock-investor-indicator-roadmap"],
   [cssPath, ".indicator-roadmap-grid"],
   [cssPath, ".indicator-roadmap-grid article.mock-readable"],
@@ -44,8 +44,12 @@ const forbidden = [
   [componentPath, ".from('"],
   [componentPath, "scoreSource=\"real\""],
   [componentPath, "publicDataSource=\"supabase\""],
+  [componentPath, "Runtime/data foundation"],
+  [componentPath, "Future notes"],
   [contractPath, "scoreSource: \"real\""],
-  [contractPath, "publicDataSource: \"supabase\""]
+  [contractPath, "publicDataSource: \"supabase\""],
+  [contractPath, "Market temperature"],
+  [contractPath, "Stock health"]
 ];
 
 const missing = required.filter(([file, phrase]) => !read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);

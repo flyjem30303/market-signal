@@ -88,6 +88,12 @@ requireIncludes("component", component, [
   "下一步：",
   "等待條件",
   "檢查中",
+  "候選來源",
+  "條件檢查中",
+  "未來擴充",
+  "暫不開放",
+  "市價檢查中",
+  "暫不接入",
   "mock 示範",
   "下一步：",
   "資料來源",
@@ -189,6 +195,12 @@ async function checkRoute(path) {
     "再看覆蓋範圍",
     "最後做觀察判斷",
     "publicDataSource=mock",
+    "候選來源",
+    "條件檢查中",
+    "未來擴充",
+    "暫不開放",
+    "市價檢查中",
+    "暫不接入",
     "ETF 市價範圍",
     "NAV 暫不接入",
     "成分股暫不接入",
@@ -209,8 +221,9 @@ async function checkRoute(path) {
     "Supabase writes are approved",
     "raw market data fetch is approved"
   ];
+  const internalStatusLabels = ["Candidate", "Checking", "Future", "Blocked", "Excluded", "Mock only"];
   const missing = required.filter((token) => !text.includes(token));
-  const blocked = forbidden.filter((token) => text.includes(token));
+  const blocked = [...forbidden, ...internalStatusLabels].filter((token) => text.includes(token));
   const markers = findMojibakeMarkers(text);
 
   if (response.status !== 200) problems.push(`${path} returned ${response.status}`);

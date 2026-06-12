@@ -823,12 +823,12 @@ function HomeProductOverview({
 
       <section className="home-indicator-roadmap" aria-label="首頁未來專業指標路線">
         <div>
-          <p className="eyebrow">Indicator Roadmap</p>
+          <p className="eyebrow">指標路線圖</p>
           <h2>未來專業指標仍在準備階段</h2>
           <p>{indicatorRoadmap.boundary.statement}</p>
           <strong>
             資料基礎 {indicatorRoadmap.nextExecutionRatio.runtimeDataFoundation}% · 產品文字{" "}
-            {indicatorRoadmap.nextExecutionRatio.productReadabilityAndWording}% · Future notes{" "}
+            {indicatorRoadmap.nextExecutionRatio.productReadabilityAndWording}% · 未來指標設計{" "}
             {indicatorRoadmap.nextExecutionRatio.futureIndicatorDesignNotes}%
           </strong>
         </div>
@@ -1338,14 +1338,14 @@ function StockInvestorIndicatorRoadmap() {
   const roadmap = getInvestorIndicatorRoadmap();
 
   return (
-    <section className="stock-investor-indicator-roadmap" aria-label="Investor Indicator Roadmap">
+    <section className="stock-investor-indicator-roadmap" aria-label="Stock investor indicator roadmap">
       <div>
-        <p className="eyebrow">Indicator Roadmap</p>
+        <p className="eyebrow">指標路線圖</p>
         <h2>未來專業指標路線</h2>
         <p>{roadmap.boundary.statement}</p>
         <strong>
-          Runtime/data foundation {roadmap.nextExecutionRatio.runtimeDataFoundation}% · Product wording{" "}
-          {roadmap.nextExecutionRatio.productReadabilityAndWording}% · Future notes{" "}
+          資料基礎 {roadmap.nextExecutionRatio.runtimeDataFoundation}% · 產品文字{" "}
+          {roadmap.nextExecutionRatio.productReadabilityAndWording}% · 未來指標設計{" "}
           {roadmap.nextExecutionRatio.futureIndicatorDesignNotes}%
         </strong>
       </div>

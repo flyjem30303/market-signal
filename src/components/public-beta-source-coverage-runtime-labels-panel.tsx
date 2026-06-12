@@ -15,16 +15,16 @@ const stateCopy = {
 } satisfies Record<string, string>;
 
 const gapStatusCopy = {
-  blocked: "Blocked",
-  candidate: "Candidate",
-  checking: "Checking",
-  future: "Future"
+  blocked: "暫不開放",
+  candidate: "候選來源",
+  checking: "條件檢查中",
+  future: "未來擴充"
 } satisfies Record<string, string>;
 
 const etfScopeStatusCopy = {
-  checking: "Checking",
-  excluded: "Excluded",
-  mock_only: "Mock only"
+  checking: "市價檢查中",
+  excluded: "暫不接入",
+  mock_only: "mock 示範"
 } satisfies Record<string, string>;
 
 export function PublicBetaSourceCoverageRuntimeLabelsPanel({

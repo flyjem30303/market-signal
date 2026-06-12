@@ -21,7 +21,13 @@ const publicOperationsForbidden = [
   "post-run",
   "preflight",
   "packet",
-  "operator"
+  "operator",
+  "Indicator Roadmap",
+  "Runtime/data foundation",
+  "Product wording",
+  "Future notes",
+  "Market temperature",
+  "Stock health"
 ];
 
 const decisionLoopRequired = [
@@ -51,7 +57,7 @@ const stockPublicRequired = [
   ...decisionLoopRequired,
   ...routeAndDataRequired,
   "TWII 資料決策",
-  "Indicator Roadmap"
+  "指標路線圖"
 ];
 
 const pages = [

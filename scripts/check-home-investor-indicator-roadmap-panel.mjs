@@ -16,7 +16,7 @@ const required = [
   [componentPath, "visibleIndicatorFamilies"],
   [componentPath, "home-indicator-roadmap"],
   [componentPath, "首頁未來專業指標路線"],
-  [componentPath, "Indicator Roadmap"],
+  [componentPath, "指標路線圖"],
   [componentPath, "未來專業指標仍在準備階段"],
   [componentPath, "indicatorRoadmap.boundary.statement"],
   [componentPath, "visibleIndicatorFamilies.map"],
@@ -26,7 +26,7 @@ const required = [
   [componentPath, "等待真實資料"],
   [contractPath, "publicDataSource: \"mock\""],
   [contractPath, "scoreSource: \"mock\""],
-  [contractPath, "Investor indicators are a mock roadmap only"],
+  [contractPath, "投資指標目前只是 mock 路線圖"],
   [cssPath, ".home-indicator-roadmap"],
   [cssPath, ".home-indicator-roadmap article.mock-readable"],
   [cssPath, ".home-indicator-roadmap article.design-only"],
@@ -43,8 +43,11 @@ const forbidden = [
   [componentPath, ".from('"],
   [componentPath, "scoreSource=\"real\""],
   [componentPath, "publicDataSource=\"supabase\""],
+  [componentPath, "Future notes"],
   [contractPath, "scoreSource: \"real\""],
-  [contractPath, "publicDataSource: \"supabase\""]
+  [contractPath, "publicDataSource: \"supabase\""],
+  [contractPath, "Market temperature"],
+  [contractPath, "Stock health"]
 ];
 
 const missing = required.filter(([file, phrase]) => !read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
