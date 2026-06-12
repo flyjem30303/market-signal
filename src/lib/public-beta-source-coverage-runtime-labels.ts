@@ -31,6 +31,14 @@ export type PublicBetaBatch1PolicyLabel = {
   status: string;
 };
 
+export type PublicBetaCoverageGapMatrixItem = {
+  detail: string;
+  id: string;
+  label: string;
+  next: string;
+  status: "candidate" | "checking" | "future" | "blocked";
+};
+
 export type PublicBetaSourceCoverageAction = {
   body: string;
   id: string;
@@ -45,6 +53,7 @@ export type PublicBetaSourceCoverageRuntimeLabels = {
     scoreSource: "mock";
     stopLine: string;
   };
+  coverageGapMatrix: PublicBetaCoverageGapMatrixItem[];
   fieldContracts: PublicBetaFieldContractStatus[];
   headline: string;
   indexBaselineChecks: PublicBetaIndexBaselineRuntimeCheck[];
@@ -90,6 +99,57 @@ export function getPublicBetaSourceCoverageRuntimeLabels(
       scoreSource: "mock",
       stopLine: "來源與覆蓋率尚未通過 gate；目前不宣稱真實資料、完整覆蓋，也不提供買賣建議。"
     },
+    coverageGapMatrix: [
+      {
+        detail: "TWII 可支撐 30 秒市場氣氛，但正式資料顯示仍要完成來源歸屬、欄位契約、缺漏交易日與修訂規則。",
+        id: "index-baseline-gap",
+        label: "TWII 指數基準",
+        next: "等明確授權後才準備受控唯讀驗證流程。",
+        status: "candidate"
+      },
+      {
+        detail: "0050、006208 可作為 3 分鐘行動判斷的 ETF 脈絡，但需先切清市場價格、NAV、成分股與折溢價資料邊界。",
+        id: "core-etf-context-gap",
+        label: "核心 ETF 脈絡",
+        next: "A1 下一步：prepare_etf_market_price_source_scope_no_fetch。",
+        status: "checking"
+      },
+      {
+        detail: "2330、2382、2308 目前只是熟悉股票的 mock demo anchors，不代表完整上市股票覆蓋。",
+        id: "listed-equity-batch1-gap",
+        label: "Batch 1 個股示範",
+        next: "維持小批次；不要輸出或暗示完整股票清單。",
+        status: "checking"
+      },
+      {
+        detail: "完整上市公司覆蓋仍未開放；需要 universe 來源、上下市處理、公司行動與延遲資料說明。",
+        id: "listed-equity-full-gap",
+        label: "完整上市股票",
+        next: "等 Batch 1 欄位契約穩定後再開 universe source 決策。",
+        status: "future"
+      },
+      {
+        detail: "OTC 與更廣的台灣市場覆蓋仍是未來擴充，不是公開 Beta 的當前承諾。",
+        id: "otc-future-expansion-gap",
+        label: "OTC 未來擴充",
+        next: "等上市股票完整覆蓋規則接受後再開。",
+        status: "future"
+      },
+      {
+        detail: "產業與族群分類可以幫使用者判斷壓力是否集中，但 taxonomy 來源與成分修訂規則尚未確定。",
+        id: "sector-industry-context-gap",
+        label: "產業分類脈絡",
+        next: "之後準備產業分類來源決策文件。",
+        status: "future"
+      },
+      {
+        detail: "趨勢、動能、資金流與風險指標需要穩定基礎資料、公式、門檻與缺值規則後才能真實化。",
+        id: "derived-indicator-layer-gap",
+        label: "衍生指標層",
+        next: "先維持 mock explanation，不提供買賣建議。",
+        status: "blocked"
+      }
+    ],
     fieldContracts: [
       {
         detail: "大盤資料至少需要交易日與收盤值，才能支撐首頁與 briefing 的市場狀態判讀。",

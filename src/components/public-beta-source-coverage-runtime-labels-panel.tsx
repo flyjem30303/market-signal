@@ -14,6 +14,13 @@ const stateCopy = {
   usable_demo: "mock 示範"
 } satisfies Record<string, string>;
 
+const gapStatusCopy = {
+  blocked: "Blocked",
+  candidate: "Candidate",
+  checking: "Checking",
+  future: "Future"
+} satisfies Record<string, string>;
+
 export function PublicBetaSourceCoverageRuntimeLabelsPanel({
   context,
   stockSymbol = "2330"
@@ -36,6 +43,17 @@ export function PublicBetaSourceCoverageRuntimeLabelsPanel({
             <strong>{layer.label}</strong>
             <p>{layer.detail}</p>
             <small>下一步：{layer.next}</small>
+          </article>
+        ))}
+      </div>
+
+      <div className="public-beta-source-coverage-runtime__gap-matrix" aria-label="Coverage gap matrix">
+        {labels.coverageGapMatrix.map((item) => (
+          <article className={item.status} key={item.id}>
+            <span>{gapStatusCopy[item.status]}</span>
+            <strong>{item.label}</strong>
+            <p>{item.detail}</p>
+            <small>下一步：{item.next}</small>
           </article>
         ))}
       </div>
