@@ -8,7 +8,7 @@ const css = fs.readFileSync(cssPath, "utf8");
 
 const requiredPagePhrases = [
   "Model Boundary",
-  "目前是 mock runtime",
+  "目前是 mock runtime，不是正式市場資料",
   "publicDataSource=mock",
   "scoreSource=mock",
   "partial coverage",

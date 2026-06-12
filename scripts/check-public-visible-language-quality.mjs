@@ -34,9 +34,11 @@ const pages = [
     required: [
       ...coreRuntimeBoundaryRequired,
       "Public Beta Index Dashboard",
-      "30 秒",
-      "市場",
-      "警示"
+      "30 秒看懂市場氛圍",
+      "3 分鐘決定關注",
+      "全市場總覽",
+      "核心指標面板",
+      "警示清單"
     ]
   },
   {
@@ -77,9 +79,9 @@ const pages = [
       "Market Briefing",
       "市場訊號晨報",
       "30 秒看懂今日市場氣氛",
-      "3 分鐘內請看",
-      "市場氣氛",
-      "警示清單",
+      "3 分鐘判讀流程",
+      "市場氛圍",
+      "主要市場警示",
       "成因",
       "更新時間",
       "影響級別",
@@ -87,14 +89,14 @@ const pages = [
       "資料邊界",
       "不提供買賣建議",
       "不是即時真實資料",
-      "不是交易建議",
+      "真實資料尚未上線",
       "partial coverage",
       "missing/delayed data",
-      "正式資料尚未上線",
+      "重要揭露",
       "Market Action Summary",
       "Model Boundary",
       "Briefing Playbook",
-      "Next reading links"
+      "下一步閱讀"
     ]
   },
   {
@@ -157,8 +159,8 @@ const sourceReadabilityTargets = [
       "Public trust copy",
       "Mock / real boundary",
       "Beta platform values",
-      "publicDataSource: \"mock\"",
-      "scoreSource: \"mock\""
+      'publicDataSource: "mock"',
+      'scoreSource: "mock"'
     ]
   },
   {
@@ -237,6 +239,13 @@ const selfContract = [
   {
     check: "blocks approved publicDataSource supabase claims",
     pass: checkerSource.includes("publicDataSource=supabase approved")
+  },
+  {
+    check: "requires readable public beta brief copy",
+    pass:
+      checkerSource.includes("30 秒看懂今日市場氣氛") &&
+      checkerSource.includes("3 分鐘判讀流程") &&
+      checkerSource.includes("重要揭露")
   },
   {
     check: "requires readable legal pages",

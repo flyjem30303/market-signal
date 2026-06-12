@@ -27,8 +27,8 @@ const required = [
   [helperPath, "marketLine"],
   [helperPath, "publicDataSource=mock"],
   [helperPath, "scoreSource=mock"],
-  [helperPath, "市場風險升溫"],
-  [helperPath, "市場氣氛偏穩"],
+  [helperPath, "市場風險升溫，先降低解讀速度"],
+  [helperPath, "市場氣氛偏穩，仍先用 mock 流程練習判讀"],
   [helperPath, "不提供買賣建議"],
   [helperPath, "mock-only"],
   [helperPath, "promotion gate"],
@@ -48,6 +48,9 @@ const required = [
   [pagePath, "briefing-market-action-summary"],
   [pagePath, "briefing_market_action_primary"],
   [pagePath, "briefing_market_action_secondary"],
+  [pagePath, "30 秒看懂今日市場氣氛"],
+  [pagePath, "3 分鐘判讀流程"],
+  [pagePath, "重要揭露"],
   [cssPath, ".briefing-public-decision-summary"],
   [cssPath, ".briefing-market-action-summary"],
   [cssPath, ".briefing-market-action-summary a.active"],
@@ -89,7 +92,7 @@ const forbidden = [
 
 const missing = required.filter(([file, phrase]) => !read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
 const blocked = forbidden.filter(([file, phrase]) => read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
-const mojibakeHits = [helperPath, decisionHelperPath, decisionPanelPath]
+const mojibakeHits = [helperPath, decisionHelperPath, decisionPanelPath, pagePath]
   .flatMap((file) => findMojibakeMarkers(read(file)).map((marker) => `${file}: ${marker}`));
 
 console.log(
@@ -114,5 +117,6 @@ function findMojibakeMarkers(source) {
   const markers = [];
   if (/\uFFFD/u.test(source)) markers.push("replacement-character");
   if (/[\uE000-\uF8FF]/u.test(source)) markers.push("private-use-codepoint");
+  if (/\?{3,}/u.test(source)) markers.push("question-mark-run");
   return markers;
 }

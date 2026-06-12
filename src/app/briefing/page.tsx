@@ -161,27 +161,27 @@ export default async function BriefingPage() {
         </div>
       </section>
 
-      <nav aria-label="Experience Flow" className="experience-flow-nav">
-        <span>Reading path</span>
-        <TrackedLink eventName="briefing_link_clicked" href="/" label="Home dashboard" payload={{ area: "experience_flow", target: "home" }}>
-          Home dashboard
+      <nav aria-label="市場訊號閱讀路徑" className="experience-flow-nav">
+        <span>閱讀路徑</span>
+        <TrackedLink eventName="briefing_link_clicked" href="/" label="首頁儀表站" payload={{ area: "experience_flow", target: "home" }}>
+          首頁儀表站
         </TrackedLink>
         <TrackedLink
           eventName="briefing_link_clicked"
           href={`/stocks/${market.asset.symbol}`}
-          label="Market detail"
+          label="市場細節"
           payload={{ area: "experience_flow", symbol: market.asset.symbol }}
         >
-          Market detail
+          市場細節
         </TrackedLink>
-        <TrackedLink eventName="briefing_link_clicked" href="/weekly" label="Weekly report" payload={{ area: "experience_flow", target: "weekly" }}>
-          Weekly report
+        <TrackedLink eventName="briefing_link_clicked" href="/weekly" label="週報" payload={{ area: "experience_flow", target: "weekly" }}>
+          週報
         </TrackedLink>
-        <TrackedLink eventName="briefing_link_clicked" href="/methodology" label="Methodology" payload={{ area: "experience_flow", target: "methodology" }}>
-          Methodology
+        <TrackedLink eventName="briefing_link_clicked" href="/methodology" label="方法說明" payload={{ area: "experience_flow", target: "methodology" }}>
+          方法說明
         </TrackedLink>
-        <TrackedLink eventName="briefing_link_clicked" href="/disclaimer" label="Disclaimer" payload={{ area: "experience_flow", target: "disclaimer" }}>
-          Disclaimer
+        <TrackedLink eventName="briefing_link_clicked" href="/disclaimer" label="風險揭露" payload={{ area: "experience_flow", target: "disclaimer" }}>
+          風險揭露
         </TrackedLink>
       </nav>
 
@@ -190,16 +190,16 @@ export default async function BriefingPage() {
       <BriefingPublicBetaGateSummary />
 
       <nav aria-label="Briefing Compass" className="briefing-compass">
-        <a href="#model-boundary">Model boundary</a>
-        <a href="#market-structure">Market structure</a>
-        <a href="#briefing-playbook">Briefing playbook</a>
-        <a href="#watchlists">Watchlists</a>
+        <a href="#model-boundary">資料邊界</a>
+        <a href="#market-structure">市場結構</a>
+        <a href="#briefing-playbook">閱讀步驟</a>
+        <a href="#watchlists">觀察清單</a>
       </nav>
 
-      <section aria-label="Briefing decision boundary" className="briefing-decision-strip">
-        <DecisionPill label="Current mode" text="Mock-only public Beta reading surface" tone="active" />
-        <DecisionPill label="Data status" text="partial coverage; missing/delayed data can still occur" tone="hold" />
-        <DecisionPill label="Hard stop" text="不提供買賣建議，也不宣稱真實資料或完整覆蓋已上線" tone="blocked" />
+      <section aria-label="晨報決策邊界" className="briefing-decision-strip">
+        <DecisionPill label="目前模式" text="mock-only 公開 Beta 閱讀介面" tone="active" />
+        <DecisionPill label="資料狀態" text="partial coverage；仍可能出現 missing/delayed data" tone="hold" />
+        <DecisionPill label="硬邊界" text="不提供買賣建議，也不宣稱真實資料或完整覆蓋已上線" tone="blocked" />
       </section>
 
       <section className="briefing-runtime-plan" aria-label="Briefing reading plan">
@@ -233,27 +233,27 @@ export default async function BriefingPage() {
         <nav>
           <BriefingBridgeLink
             href={`/stocks/${market.asset.symbol}`}
-            label="Market"
+            label="市場"
             title={`${market.asset.symbol} ${market.asset.name}`}
-            text={`Composite ${market.compositeScore}/100. Use this as the market anchor for mock Beta reading.`}
+            text={`綜合分數 ${market.compositeScore}/100。把它當成 mock Beta 的市場氣氛入口。`}
           />
           <BriefingBridgeLink
             href={`/stocks/${topEtf.asset.symbol}`}
             label="ETF"
             title={`${topEtf.asset.symbol} ${topEtf.asset.name}`}
-            text={`Health ${topEtf.healthScore}/100. ETF coverage remains partial until source and coverage gates pass.`}
+            text={`健康分數 ${topEtf.healthScore}/100。ETF 覆蓋仍是 partial coverage，需等來源與覆蓋 gate 通過。`}
           />
           <BriefingBridgeLink
             href={`/stocks/${leadingStock.asset.symbol}`}
-            label="Stock"
+            label="個股"
             title={`${leadingStock.asset.symbol} ${leadingStock.asset.name}`}
-            text={`Composite ${leadingStock.compositeScore}/100. Treat this as a mock signal example, not a recommendation.`}
+            text={`綜合分數 ${leadingStock.compositeScore}/100。這是 mock 訊號範例，不是個股建議。`}
           />
           <BriefingBridgeLink
             href={`/stocks/${topRisk.asset.symbol}`}
-            label="Risk"
+            label="風險"
             title={`${topRisk.asset.symbol} ${topRisk.asset.name}`}
-            text={`Risk ${topRisk.riskScore}/100. Review the risk explanation before interpreting the score.`}
+            text={`風險分數 ${topRisk.riskScore}/100。解讀分數前，先看風險成因。`}
           />
         </nav>
       </section>
@@ -274,9 +274,9 @@ export default async function BriefingPage() {
       </section>
 
       <section aria-label="Market Breadth" className="briefing-breadth" id="market-structure">
-        <BreadthCard label="Constructive" text="Mock signals with healthier score and controlled risk." tone="positive" value={String(breadth.constructive)} />
-        <BreadthCard label="Watch" text="Names that need more context before being treated as constructive." tone="watch" value={String(breadth.watch)} />
-        <BreadthCard label="Defensive" text="Higher-risk or weaker-health names that need extra caution." tone="risk" value={String(breadth.defensive)} />
+        <BreadthCard label="偏建設" text="健康分數較好、風險較受控的 mock 訊號。" tone="positive" value={String(breadth.constructive)} />
+        <BreadthCard label="觀察" text="需要更多脈絡，暫不直接視為建設訊號。" tone="watch" value={String(breadth.watch)} />
+        <BreadthCard label="偏防守" text="風險較高或健康分數較弱，需要更謹慎閱讀。" tone="risk" value={String(breadth.defensive)} />
       </section>
 
       <ConcentrationPanel concentration={concentration} />
@@ -299,7 +299,7 @@ export default async function BriefingPage() {
         <article className="panel briefing-market-card">
           <div className="market-card-head">
             <div>
-              <p className="panel-label">Market focus</p>
+              <p className="panel-label">市場焦點</p>
               <h2>{market.asset.name}</h2>
             </div>
             <strong className="signal-badge">{market.signal.title}</strong>
@@ -310,29 +310,29 @@ export default async function BriefingPage() {
               <small>/100</small>
             </div>
             <div className="market-score-copy">
-              <b>mock composite score</b>
+              <b>mock 綜合分數</b>
               <p>
-                Health {market.healthScore}/100, risk {market.riskScore}/100. Use this as a product reading example while
-                coverage and real-data gates remain closed.
+                健康分數 {market.healthScore}/100，風險分數 {market.riskScore}/100。覆蓋率與真實資料 gate 尚未打開前，
+                這裡只作為產品閱讀範例。
               </p>
             </div>
           </div>
         </article>
-        <MetricPanel label="Data quality" value={`${market.dataQualityGrade}`} text={`Quality score ${market.dataQualityScore}/100; still mock and bounded.`} />
-        <MetricPanel label="Model version" value={market.modelVersion} text="Mock model output; not a production investment model." />
-        <MetricPanel label="Runtime boundary" value="mock" text="No Supabase write, no raw market data, no real score promotion." />
+        <MetricPanel label="資料品質" value={`${market.dataQualityGrade}`} text={`品質分數 ${market.dataQualityScore}/100；目前仍是 mock 且有邊界。`} />
+        <MetricPanel label="模型版本" value={market.modelVersion} text="Mock model output；不是正式投資模型。" />
+        <MetricPanel label="Runtime 邊界" value="mock" text="沒有 Supabase 寫入、沒有 raw market data、沒有 real score promotion。" />
       </section>
 
       <section className="weekly-grid" id="watchlists">
-        <BriefingList title="Top mock composite signals" description="High mock composite names for product reading flow." items={strongest} valueKey="composite" />
-        <BriefingList title="Risk watch" description="Higher mock risk names that need more cautious reading." items={heated} valueKey="risk" />
+        <BriefingList title="mock 綜合訊號觀察" description="用於驗證產品閱讀流程的高 mock 綜合分數標的。" items={strongest} valueKey="composite" />
+        <BriefingList title="風險觀察" description="mock 風險較高，需要更謹慎閱讀的標的。" items={heated} valueKey="risk" />
       </section>
 
       <section className="weekly-grid">
         <article className="panel briefing-article">
           <p className="eyebrow">ETF Watch</p>
-          <h2>ETF mock watchlist</h2>
-          <p>ETF coverage remains partial. Use this area to inspect the intended reading experience before real-data promotion.</p>
+          <h2>ETF mock 觀察清單</h2>
+          <p>ETF 覆蓋仍是 partial coverage。真實資料 promotion 前，先用這區確認閱讀體驗。</p>
           <div className="rank-list">
             {etfs.map((item) => (
               <TrackedLink
@@ -353,8 +353,8 @@ export default async function BriefingPage() {
 
         <article className="panel briefing-article">
           <p className="eyebrow">Stock Watch</p>
-          <h2>Stock mock watchlist</h2>
-          <p>These cards keep the briefing actionable as a reading surface while all real-data gates remain closed.</p>
+          <h2>個股 mock 觀察清單</h2>
+          <p>真實資料 gate 尚未打開前，這些卡片讓晨報仍能作為可行動的閱讀介面。</p>
           <div className="rank-list">
             {nonEtfStocks.slice(0, 4).map((item) => (
               <TrackedLink
@@ -375,37 +375,36 @@ export default async function BriefingPage() {
       </section>
 
       <section className="panel briefing-article">
-        <p className="eyebrow">Today's Rhythm</p>
-        <h2>Use the briefing as a product walkthrough</h2>
+        <p className="eyebrow">今日節奏</p>
+        <h2>用晨報完成一次市場判讀演練</h2>
         <div className="briefing-actions">
-          <ActionCard title="Start with market context" text="Open TWII first and confirm the mock market framing." />
-          <ActionCard title="Check the risk card" text="Use the highest-risk card as a reminder that this is not a trading signal." />
-          <ActionCard title="Review the boundary" text="Keep source rights, coverage, and promotion gates visible before any real-data work." />
+          <ActionCard title="先看市場脈絡" text="先開 TWII，確認今天的 mock 市場框架。" />
+          <ActionCard title="再看風險卡" text="用最高風險卡提醒自己：這不是交易訊號。" />
+          <ActionCard title="最後看資料邊界" text="任何真實資料工作前，先確認來源權利、覆蓋率與 promotion gate。" />
         </div>
       </section>
 
       <section className="panel briefing-links">
-        <h2>Next reading links</h2>
-        <TrackedLink className="text-link" eventName="briefing_link_clicked" href="/weekly" label="Weekly report" payload={{ area: "next_steps" }}>
-          Weekly report
+        <h2>下一步閱讀</h2>
+        <TrackedLink className="text-link" eventName="briefing_link_clicked" href="/weekly" label="週報" payload={{ area: "next_steps" }}>
+          週報
         </TrackedLink>
-        <TrackedLink className="text-link" eventName="briefing_link_clicked" href="/methodology" label="Methodology" payload={{ area: "next_steps" }}>
-          Methodology
+        <TrackedLink className="text-link" eventName="briefing_link_clicked" href="/methodology" label="方法說明" payload={{ area: "next_steps" }}>
+          方法說明
         </TrackedLink>
-        <TrackedLink className="text-link" eventName="briefing_link_clicked" href="/stocks/2330" label="2330 mock detail" payload={{ area: "next_steps", symbol: "2330" }}>
-          2330 mock detail
+        <TrackedLink className="text-link" eventName="briefing_link_clicked" href="/stocks/2330" label="2330 mock 細節" payload={{ area: "next_steps", symbol: "2330" }}>
+          2330 mock 細節
         </TrackedLink>
-        <TrackedLink className="text-link" eventName="briefing_link_clicked" href="/disclaimer" label="Disclaimer" payload={{ area: "next_steps" }}>
-          Disclaimer
+        <TrackedLink className="text-link" eventName="briefing_link_clicked" href="/disclaimer" label="風險揭露" payload={{ area: "next_steps" }}>
+          風險揭露
         </TrackedLink>
       </section>
 
       <article className="disclaimer">
-        <h2>Important disclosure</h2>
+        <h2>重要揭露</h2>
         <p>
-          This briefing is a public Beta reading surface. It uses demo data and demo scores, does not provide buy/sell
-          recommendations, and does not imply that source rights, coverage, Supabase writes, ingestion/backfill, or real
-          scoring have been approved.
+          這份晨報是公開 Beta 閱讀介面，使用 demo data 與 demo scores，不提供買賣建議，也不代表來源權利、覆蓋率、
+          Supabase 寫入、ingestion/backfill 或 real scoring 已被核准。
         </p>
       </article>
     </main>
@@ -483,24 +482,24 @@ function BriefingExecutiveSummary({ market, topRisk }: { market: SignalSnapshot;
         <TrackedLink
           eventName="briefing_link_clicked"
           href={`/stocks/${market.asset.symbol}`}
-          label="Market detail"
+          label="市場細節"
           payload={{ area: "executive_summary", symbol: market.asset.symbol }}
         >
-          <span>Open market detail</span>
+          <span>開啟市場細節</span>
           <strong>{market.asset.name}</strong>
-          <small>mock composite {market.compositeScore}/100</small>
+          <small>mock 綜合分數 {market.compositeScore}/100</small>
         </TrackedLink>
         <TrackedLink
           eventName="briefing_link_clicked"
           href={`/stocks/${topRisk.asset.symbol}`}
-          label="Risk detail"
+          label="風險細節"
           payload={{ area: "executive_summary", symbol: topRisk.asset.symbol }}
         >
-          <span>Open risk detail</span>
+          <span>開啟風險細節</span>
           <strong>
             {topRisk.asset.symbol} {topRisk.asset.name}
           </strong>
-          <small>mock risk {topRisk.riskScore}/100</small>
+          <small>mock 風險分數 {topRisk.riskScore}/100</small>
         </TrackedLink>
       </nav>
     </section>
@@ -577,32 +576,32 @@ function buildBriefingRuntimePlan(
   return [
     {
       href: `/stocks/${market.asset.symbol}`,
-      label: "Market",
+      label: "市場",
       symbol: market.asset.symbol,
       text:
         marketTone === "active"
-          ? `Composite ${market.compositeScore}/100. Use the market page as the starting context.`
-          : `Risk ${market.riskScore}/100. Read the boundary notes before interpreting the market score.`,
-      title: marketTone === "active" ? "Start with market context" : "Read market caution first",
+          ? `綜合分數 ${market.compositeScore}/100。先把市場頁當作起點脈絡。`
+          : `風險分數 ${market.riskScore}/100。解讀市場分數前，先讀資料邊界。`,
+      title: marketTone === "active" ? "先看市場脈絡" : "先讀市場警示",
       tone: marketTone
     },
     {
       href: `/stocks/${topRisk.asset.symbol}`,
-      label: "Risk",
+      label: "風險",
       symbol: topRisk.asset.symbol,
-      text: `${topRisk.asset.symbol} risk ${topRisk.riskScore}/100. Keep this as the caution card in the reading path.`,
-      title: riskTone === "blocked" ? "Risk card is elevated" : "Risk card remains on watch",
+      text: `${topRisk.asset.symbol} 風險分數 ${topRisk.riskScore}/100。把這張卡留在閱讀路徑中的提醒位置。`,
+      title: riskTone === "blocked" ? "風險卡升溫" : "風險卡維持觀察",
       tone: riskTone
     },
     {
       href: concentrationTone === "hold" ? "#market-structure" : "/weekly",
-      label: "Breadth",
+      label: "廣度",
       symbol: concentrationTone === "hold" ? "market-structure" : "weekly",
       text:
         concentrationTone === "hold"
-          ? "Market structure is concentrated; use breadth before reading individual cards."
-          : "Breadth is balanced enough to continue to the weekly page.",
-      title: concentrationTone === "hold" ? "Check breadth before details" : "Continue to weekly context",
+          ? "市場結構偏集中；先看廣度，再讀個別卡片。"
+          : "市場廣度暫時均衡，可以繼續看週報脈絡。",
+      title: concentrationTone === "hold" ? "先看廣度再看細節" : "接到週報脈絡",
       tone: concentrationTone
     }
   ];

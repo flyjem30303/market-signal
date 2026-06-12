@@ -18,6 +18,7 @@ PM should run the mainline while A1 and A2 remove future blockers in parallel. P
 
 This board uses the current project state as the baseline:
 
+- Latest PM product/runtime slice: `/briefing` public Beta copy closeout is accepted as local-only runtime/product progress. The page now protects the BRIEF loop with readable market mood, 3-minute reading plan, cause, update time, impact level, next step, source trust, mock boundary, and important disclosure copy while blocking internal process terms. Focused checks passed: `check:briefing-market-action-summary`, `check:briefing-boundary-disclosure`, `check:public-visible-language-quality`, `npx tsc --noEmit --incremental false`, and browser DOM verification.
 - MVP row coverage target: `360/360`.
 - Latest accepted aggregate row coverage evidence: `182/360`.
 - Completed TW equity sub-scope: `2330`, `2382`, and `2308` at `180/180`.
@@ -43,12 +44,13 @@ PM owns the launch path and should keep moving without waiting for A1/A2 when a 
 
 Current PM route:
 
-1. Keep Level 1 MVP coverage moving toward `360/360`.
-2. Maintain the runtime promotion gate so mock-to-real decisions remain explicit.
-3. Keep ingestion/backfill, write/readback, rollback, and retention rules visible before any production data movement.
-4. Prepare launch readiness across environment variables, deployment health, monitoring, rollback, DNS/SSL, and secret handling.
-5. Integrate A1/A2 handoffs only after the relevant local checker passes.
-6. Preserve `publicDataSource=mock` and `scoreSource=mock` until a separate promotion gate accepts the change.
+1. Keep the public Beta product loop readable: home, briefing, and stock detail pages should explain market mood, cause, update time, impact level, next step, source trust, and mock boundary.
+2. Keep Level 1 MVP coverage moving toward `360/360` through A1/data-line handoffs without blocking safe PM runtime copy work.
+3. Maintain the runtime promotion gate so mock-to-real decisions remain explicit.
+4. Keep ingestion/backfill, write/readback, rollback, and retention rules visible before any production data movement.
+5. Prepare launch readiness across environment variables, deployment health, monitoring, rollback, DNS/SSL, and secret handling.
+6. Integrate A1/A2 handoffs only after the relevant local checker passes.
+7. Preserve `publicDataSource=mock` and `scoreSource=mock` until a separate promotion gate accepts the change.
 
 Latest PM mainline completion review:
 

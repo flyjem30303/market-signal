@@ -31,6 +31,13 @@ Current PM priority:
 
 PM should not wait for A1/A2 unless a mainline change directly depends on their artifact. PM absorbs their outputs at coherent integration points.
 
+Latest PM integration:
+
+- `/briefing` has been moved closer to the BRIEF product target by converting visible navigation, decision boundary, reading bridge, watchlists, action cards, next-reading links, executive links, and runtime-plan copy into reader-facing public Beta language.
+- The relevant gates now protect readable public Beta phrases, 30-second/3-minute decision flow, mock boundary, no-advice posture, and absence of internal blocker/process terms.
+- Next PM mainline should continue with stock-detail and home-to-briefing consistency only where comprehension is blocked; broad visual polish remains lower priority.
+- Previous route anchor retained for checker continuity: `integrate_runtime_readability_and_source_trust_states_before_real_data_promotion`.
+
 ## 3. A1 Data / Source / Coverage Lane
 
 A1 owns source and coverage preparation that does not fetch market rows.
@@ -45,6 +52,7 @@ A1 is responsible for:
 - coverage categories for daily close, volume, date, symbol, ETF, index, and stock lanes,
 - no-fetch terms review packets,
 - source-lane questions for PM/CEO decisions.
+- next background task: continue source/coverage evidence toward `OFFICIAL` and TWSE OpenAPI readiness without fetching market rows; return only sanitized, no-secret, aggregate or terms/field-contract artifacts for PM acceptance.
 
 A1 is not authorized by this goal to:
 
@@ -71,6 +79,7 @@ A2 is responsible for:
 - mock/real boundary readability,
 - non-investment-advice wording,
 - blocking internal execution strings on public surfaces.
+- next background task: scan remaining public surfaces for user-facing comprehension gaps, especially stock detail and home-to-briefing transitions; propose copy patches only when they improve 30-second market mood, 3-minute action judgment, source trust, or legal clarity.
 
 A2 is not authorized by this goal to:
 
@@ -125,8 +134,8 @@ This goal slice is complete when:
 
 Recommended next mainline action:
 
-`integrate_runtime_readability_and_source_trust_states_before_real_data_promotion`
+`integrate_briefing_runtime_copy_closeout_then_stock_detail_decision_readability`
 
 Meaning:
 
-PM should keep improving the public Beta usable loop while A1 continues terms/coverage work and A2 continues copy safety. Real-data promotion remains blocked until a separately accepted source-rights, coverage, quality, rollback, and runtime gate is recorded.
+PM should keep improving the public Beta usable loop while A1 continues terms/coverage work and A2 continues copy safety. The next mainline slice should focus on whether stock detail pages explain decision context, source trust, mock boundary, and next observation as clearly as `/briefing`. Real-data promotion remains blocked until a separately accepted source-rights, coverage, quality, rollback, and runtime gate is recorded.
