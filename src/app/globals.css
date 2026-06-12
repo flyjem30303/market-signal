@@ -5410,6 +5410,113 @@ select {
   margin: 0;
 }
 
+.home-public-beta-loop__hero {
+  display: grid;
+  gap: 8px;
+  max-width: 920px;
+}
+
+.home-public-beta-loop__hero h2 {
+  font-size: 24px;
+  line-height: 1.25;
+  margin: 0;
+}
+
+.home-public-beta-loop__hero p {
+  color: var(--muted);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.home-public-beta-loop__timing {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.home-public-beta-loop__timing strong {
+  border: 1px solid rgba(15, 118, 110, 0.22);
+  border-radius: 999px;
+  background: #eef8f5;
+  color: #0f766e;
+  font-size: 13px;
+  line-height: 1.2;
+  padding: 7px 10px;
+}
+
+.home-public-beta-loop__grid,
+.home-public-beta-loop__actions,
+.home-public-beta-loop__alerts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.home-public-beta-loop__actions {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.home-public-beta-loop__grid article,
+.home-public-beta-loop__actions article,
+.home-public-beta-loop__alerts article {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  padding: 13px;
+}
+
+.home-public-beta-loop__grid article {
+  border-top: 4px solid var(--teal);
+}
+
+.home-public-beta-loop__actions article.active {
+  border-top: 4px solid var(--green);
+}
+
+.home-public-beta-loop__actions article.readying {
+  border-top: 4px solid var(--amber);
+}
+
+.home-public-beta-loop__alerts article {
+  border-top: 4px solid var(--blue);
+}
+
+.home-public-beta-loop__grid span,
+.home-public-beta-loop__actions span,
+.home-public-beta-loop__alerts span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.home-public-beta-loop__grid strong,
+.home-public-beta-loop__actions strong,
+.home-public-beta-loop__alerts strong {
+  overflow-wrap: anywhere;
+  font-size: 18px;
+  line-height: 1.25;
+}
+
+.home-public-beta-loop__grid p,
+.home-public-beta-loop__actions p,
+.home-public-beta-loop__alerts p,
+.home-public-beta-loop__boundary {
+  color: var(--muted);
+  line-height: 1.65;
+  margin: 0;
+}
+
+.home-public-beta-loop__boundary {
+  border: 1px solid rgba(22, 33, 29, 0.1);
+  border-radius: 8px;
+  background: #fcfcfb;
+  padding: 12px;
+}
+
 .home-core-indicator-readout {
   display: grid;
   gap: 12px;
@@ -12193,6 +12300,9 @@ input[type="date"] {
   .twse-openapi-runtime-mock-wiring-status,
   .twse-openapi-runtime-mock-wiring-steps,
   .home-public-beta-layer-grid,
+  .home-public-beta-loop__actions,
+  .home-public-beta-loop__alerts,
+  .home-public-beta-loop__grid,
   .home-core-indicator-grid,
   .home-public-beta-alert-list,
   .stock-signal-why-grid,

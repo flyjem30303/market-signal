@@ -7,6 +7,7 @@ import { StockSeoContent } from "@/components/stock-seo-content";
 import { CommercialSlot } from "@/components/commercial-slot";
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { HomeRuntimeStatusPanel } from "@/components/home-runtime-status-panel";
+import { PublicBetaIndexDashboardBriefLoopPanel } from "@/components/public-beta-index-dashboard-brief-loop-panel";
 import { StockRuntimeAtAGlance } from "@/components/stock-runtime-at-a-glance";
 import { TrackedLink } from "@/components/tracked-link";
 import { TwiiMockDisclosureStatus } from "@/components/twii-mock-disclosure-status";
@@ -269,6 +270,8 @@ export function DashboardShell({
       />
 
       {!includeSeoContent && <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />}
+
+      {!includeSeoContent && <PublicBetaIndexDashboardBriefLoopPanel />}
 
       {!includeSeoContent && (
         <HomeProductOverview

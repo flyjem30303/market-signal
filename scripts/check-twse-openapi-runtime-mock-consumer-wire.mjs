@@ -39,6 +39,8 @@ for (const [filePath, source, phrase] of [
   [componentPath, componentSource, "fetch=false；sql=false；write=false"],
   [parentComponentPath, parentComponentSource, "import { TwseOpenApiRuntimeMockConsumerWireCard }"],
   [parentComponentPath, parentComponentSource, "<TwseOpenApiRuntimeMockConsumerWireCard />"],
+  [parentComponentPath, parentComponentSource, "資料橋接仍停在 mock runtime"],
+  [parentComponentPath, parentComponentSource, "正式資料、Supabase 讀寫、row coverage 加分與 real score 都尚未啟用"],
   [reviewGatePath, reviewGateSource, "scripts/check-twse-openapi-runtime-mock-consumer-wire.mjs"],
   [reviewGatePath, reviewGateSource, "twse-openapi-runtime-mock-consumer-wire"]
 ]) {
