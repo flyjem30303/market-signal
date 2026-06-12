@@ -2918,6 +2918,11 @@ const checks = [
     name: "stock-first-screen-readability"
   },
   {
+    command: [node, "scripts/check-stock-product-first-runtime-readability.mjs"],
+    expectStatus: "ok",
+    name: "stock-product-first-runtime-readability"
+  },
+  {
     command: [node, "scripts/check-stock-first-screen-action-summary.mjs"],
     expectStatus: "ok",
     name: "stock-first-screen-action-summary"

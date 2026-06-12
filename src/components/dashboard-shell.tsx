@@ -299,12 +299,12 @@ export function DashboardShell({
 
       {includeSeoContent && (
         <>
-          <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
           <StockRuntimeAtAGlance scoreSourceLabel={freshness.scoreSourceLabel} snapshot={snapshot} />
           <PublicBetaDecisionLoopBridge context="stock" stockSymbol={selected.symbol} />
           <PublicBetaUsableLoopPanel context="stock" stockSymbol={selected.symbol} />
           <PublicBetaRouteConsistencyPanel context="stock" stockSymbol={selected.symbol} />
           <PublicBetaSourceCoverageRuntimeLabelsPanel context="stock" stockSymbol={selected.symbol} />
+          <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
           <StockRuntimeBrief scoreSourceLabel={freshness.scoreSourceLabel} snapshot={snapshot} onTab={changeTab} />
           <StockSignalWhyPanel snapshot={snapshot} onTab={changeTab} />
           {selected.symbol === "TWII" && (
