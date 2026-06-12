@@ -3863,6 +3863,11 @@ const checks = [
     name: "twse-openapi-runtime-mock-wiring-readiness"
   },
   {
+    command: [node, "scripts/check-twse-openapi-runtime-mock-consumer-wire.mjs"],
+    expectStatus: "ok",
+    name: "twse-openapi-runtime-mock-consumer-wire"
+  },
+  {
     command: [node, "scripts/check-twse-openapi-runtime-consumer-adapter-synthetic-case-notes.mjs"],
     expectStatus: "ok",
     name: "twse-openapi-runtime-consumer-adapter-synthetic-case-notes"
@@ -5684,6 +5689,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "twse-openapi-parser-contract",
   "twse-openapi-parser-consumer-adapter",
   "twse-openapi-runtime-mock-wiring-readiness",
+  "twse-openapi-runtime-mock-consumer-wire",
   "twse-openapi-runtime-consumer-adapter-synthetic-case-notes",
   "twse-openapi-field-contract-roadmap",
   "twse-openapi-coverage-and-backfill-readiness",

@@ -71,8 +71,8 @@ for (const phrase of [
 }
 
 for (const phrase of [
-  "prepare_twse_openapi_runtime_mock_consumer_wiring_readiness",
-  "twse_openapi_runtime_consumer_adapter_synthetic_case_notes",
+  "twse_openapi_runtime_mock_consumer_wire",
+  "continue_data_line_source_and_coverage_without_market_row_fetch",
   "runtime_mock_consumer_public_boundary_copy_guardrail"
 ]) {
   if (!selectorCheck.includes(phrase)) problems.push(`${selectorCheckPath} missing: ${phrase}`);

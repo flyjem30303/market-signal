@@ -45,9 +45,9 @@ if (!reviewGate.includes("scripts/check-public-beta-data-realification-next-acti
 
 const expectedOutput = {
   status: "public_beta_data_realification_next_action_ready",
-  ceoRecommendation: "twse_openapi_runtime_mock_consumer_wiring_next_public_runtime_parallel",
-  pmMainline: "prepare_twse_openapi_runtime_mock_consumer_wiring_readiness",
-  a1Next: "twse_openapi_runtime_consumer_adapter_synthetic_case_notes",
+  ceoRecommendation: "twse_openapi_runtime_mock_consumer_wire_next_public_runtime_parallel",
+  pmMainline: "twse_openapi_runtime_mock_consumer_wire",
+  a1Next: "continue_data_line_source_and_coverage_without_market_row_fetch",
   a2Next: "runtime_mock_consumer_public_boundary_copy_guardrail",
   fallbackIfRightsStayBlocked: "continue_public_beta_runtime_readability_and_production_readonly_guards"
 };
@@ -57,6 +57,7 @@ const expectedReadiness = {
   twseFieldContractRoadmapReady: true,
   twseCoverageBackfillReadinessReady: true,
   runtimeMockWiringReadinessReady: true,
+  runtimeMockConsumerWireReady: true,
   parserFailureBlockingGuardVerified: true,
   sourceRightsPacketAligned: true
 };
@@ -106,7 +107,10 @@ if ((output.missingEvidence ?? []).length !== 0) problems.push("missingEvidence 
 if (output.coverage?.fullLevel1ExpectedRows !== 360 || output.coverage?.fullLevel1ObservedRows !== 182) {
   problems.push("coverage numbers mismatch");
 }
-if (output.decision?.pmMainline !== "prepare_twse_openapi_runtime_mock_consumer_wiring_readiness") {
+if (output.decision?.pmMainline === "prepare_twse_openapi_runtime_mock_consumer_wiring_readiness") {
+  problems.push("decision.pmMainline did not advance beyond prepare_twse_openapi_runtime_mock_consumer_wiring_readiness");
+}
+if (output.decision?.pmMainline !== expectedOutput.pmMainline) {
   problems.push("decision.pmMainline mismatch");
 }
 
@@ -121,6 +125,7 @@ for (const phrase of [
   "src/lib/twse-openapi-parser-contract.ts",
   "src/lib/twse-openapi-parser-consumer-adapter.ts",
   "src/lib/twse-openapi-runtime-mock-wiring-readiness.ts",
+  "src/lib/twse-openapi-runtime-mock-consumer-wire.ts",
   "docs/A2_PUBLIC_BETA_BATCH1_TWII_CORE_ETF_TRUST_COPY.md",
   "docs/DATA_REALIFICATION_POST_FIRST_CLOSED_LOOP_NEXT_LANE_SELECTOR.md",
   "docs/PUBLIC_BETA_INDEX_DASHBOARD_BRIEF.md"

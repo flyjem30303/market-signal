@@ -30,7 +30,7 @@ PM remains the only integration owner. A1 and A2 may prepare local-only packets,
 
 ## Active Goal - 2026-06-12
 
-GOAL: advance from completed `OFFICIAL-001` through `OFFICIAL-012` intake into `twse_openapi_bounded_metadata_terms_validation_ready_no_market_rows`, `twse_openapi_source_adapter_contract_scaffold_no_data_fetch`, `twse_openapi_parser_contract_with_synthetic_fixtures_only`, `twse_openapi_parser_contract_consumer_adapter_no_fetch`, and `twse_openapi_runtime_mock_consumer_wiring_readiness`.
+GOAL: advance from completed `OFFICIAL-001` through `OFFICIAL-012` intake into `twse_openapi_bounded_metadata_terms_validation_ready_no_market_rows`, `twse_openapi_source_adapter_contract_scaffold_no_data_fetch`, `twse_openapi_parser_contract_with_synthetic_fixtures_only`, `twse_openapi_parser_contract_consumer_adapter_no_fetch`, `twse_openapi_runtime_mock_consumer_wiring_readiness`, and `twse_openapi_runtime_mock_consumer_wire`.
 
 Completion definition:
 - `docs/TWSE_OPENAPI_BOUNDED_METADATA_TERMS_VALIDATION.md` records metadata-only TWSE OpenAPI route validation, terms / attribution posture, field-contract limitations, and next adapter route;
@@ -38,9 +38,10 @@ Completion definition:
 - `src/lib/twse-openapi-parser-contract.ts` records synthetic-only parser behavior for route-level date, number, required-field, duplicate-date, and fail-closed handling;
 - `src/lib/twse-openapi-parser-consumer-adapter.ts` records no-fetch parser-result-to-runtime-handoff behavior, runtime point ordering, attribution carry-forward, fail-closed blocked output, and mock/no-promotion boundaries;
 - `src/lib/twse-openapi-runtime-mock-wiring-readiness.ts` and `src/components/twse-openapi-runtime-mock-wiring-status.tsx` expose the TWSE runtime wiring state on the public home runtime surface without promoting real data;
+- `src/lib/twse-openapi-runtime-mock-consumer-wire.ts` and `src/components/twse-openapi-runtime-mock-consumer-wire-card.tsx` compute and display a synthetic-only runtime bridge from parser output through the consumer adapter;
 - `docs/TWSE_OPENAPI_RUNTIME_CONSUMER_ADAPTER_SYNTHETIC_CASE_NOTES.md`, `docs/TWSE_OPENAPI_FIELD_CONTRACT_ROADMAP.md`, `docs/TWSE_OPENAPI_COVERAGE_UNIVERSE_AND_BACKFILL_READINESS.md` record A1 synthetic consumer case notes, coverage universe roadmap, and ingestion readiness packets;
-- PM selector points to `prepare_twse_openapi_runtime_mock_consumer_wiring_readiness`;
-- A1 owns synthetic consumer adapter case notes without market-row fetch;
+- PM accepts A1's recommendation that `prepare_twse_openapi_runtime_mock_consumer_wiring_readiness` can move into mock runtime wire because the three A1 support packets are already covered by focused review gates;
+- A1 continues data-line source and coverage work without market-row fetch;
 - A2 owns runtime mock consumer public attribution / delay / no-advice / boundary copy guard;
 - no field authorizes SQL, Supabase writes, staging rows, `daily_prices` mutation, market-data endpoint fetch, raw market-data fetch/storage/output, `publicDataSource=supabase`, `scoreSource=real`, or investment advice;
 - checker and focused review gate pass;
@@ -69,8 +70,8 @@ Owned work:
 - Stage percentage and next-slice selection.
 
 Current next tasks:
-- Continue the active GOAL from `twse_openapi_runtime_mock_consumer_wiring_readiness` into BRIEF runtime/product readability.
-- Current mainline route is public Beta index dashboard runtime comprehension: reduce internal-only governance noise, keep the TWSE runtime mock wiring readable, and integrate A1 data-line handoffs only after checks pass.
+- Continue the active GOAL from `twse_openapi_runtime_mock_consumer_wire` into BRIEF runtime/product readability.
+- Current mainline route is public Beta index dashboard runtime comprehension: reduce internal-only governance noise, keep the TWSE runtime mock wire readable, and integrate A1 data-line handoffs only after checks pass.
 - Keep runtime foundation, route health, launch engineering, and data promotion handoff moving, but do not proceed to real-data promotion until the open-data source gate and official-source intake packet remain passing.
 - Keep publicDataSource=mock and scoreSource=mock until explicit release criteria are met.
 - Integrate A1/A2 packets only after local checks pass.

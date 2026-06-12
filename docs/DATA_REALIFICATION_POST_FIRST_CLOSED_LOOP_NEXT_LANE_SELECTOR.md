@@ -20,6 +20,8 @@ Current outcome: `twii_first_if_rights_change_otherwise_beta_runtime_mainline`.
 
 Runtime wiring handoff readiness target: `prepare_twse_openapi_runtime_mock_consumer_wiring_readiness`.
 
+PM accepted A1's handoff recommendation on 2026-06-12: the synthetic case notes, field contract roadmap, and coverage/backfill readiness packets are already covered by focused review gates, so the mainline may proceed to `twse_openapi_runtime_mock_consumer_wire` without reopening those support nodes.
+
 This selector does not execute SQL, connect to Supabase, write Supabase, create staging rows, mutate `daily_prices`, fetch or ingest market data, generate source-derived candidates, award row coverage points, promote public source, or set real scoring.
 
 ## Current Evidence Baseline
