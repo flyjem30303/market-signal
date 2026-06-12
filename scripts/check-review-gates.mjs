@@ -3838,6 +3838,11 @@ const checks = [
     name: "open-free-auto-data-source-gate"
   },
   {
+    command: [node, "scripts/check-twse-openapi-bounded-metadata-terms-validation.mjs"],
+    expectStatus: "ok",
+    name: "twse-openapi-bounded-metadata-terms-validation"
+  },
+  {
     command: [node, "scripts/check-runtime-promotion-policy-from-first-closed-loop.mjs"],
     expectStatus: "ok",
     name: "runtime-promotion-policy-from-first-closed-loop"
@@ -5636,6 +5641,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "public-beta-index-dashboard-brief-loop",
   "public-beta-data-realification-next-action",
   "open-free-auto-data-source-gate",
+  "twse-openapi-bounded-metadata-terms-validation",
   "public-beta-launch-readiness-panel",
   "public-beta-data-readiness-status",
   "beta-platform-proof-status",
