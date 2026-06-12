@@ -36,68 +36,73 @@ export type PublicBetaDataReadinessStatus = {
 
 export function getPublicBetaDataReadinessStatus(): PublicBetaDataReadinessStatus {
   return {
-    headline: "資料真實化正在補齊，公開頁仍維持示範模式",
+    headline: "資料真實化仍在準備，公開頁先用 mock 說清楚狀態",
     summary:
-      "目前已完成一批彙總證據與資料結構檢查，可用來說明市場狀態頁的方向；但正式資料覆蓋率、來源深度與寫入覆核尚未完成，因此公開頁仍以示範資料呈現。",
+      "目前公開 Beta 的重點是讓使用者看懂市場狀態與資料邊界。已完成的資料證據只代表局部覆蓋，不代表全市場、即時或可作為投資建議的真實資料已上線。",
     publicDataSource: "mock",
     scoreSource: "mock",
     rowCoverage: {
       acceptedRows: 182,
       targetRows: 360,
-      label: "已觀察 182/360 筆彙總證據"
+      label: "目前已接受 182/360 筆覆蓋證據"
     },
     twiiPrerequisites: {
       acceptedSlots: 6,
       totalSlots: 6,
-      nextOwner: "產品與資料團隊",
+      nextOwner: "CEO/PM",
       nextAction:
-        "下一步是把已接受的來源、欄位、覆蓋率與回讀條件整理成可執行檢查包；通過前不開放正式資料寫入或分數升級。"
+        "先把 TWII 與第一批資料線的來源、欄位、覆蓋範圍整理成 no-fetch artifact；通過後才可進入下一個明確授權 gate。"
     },
     lanes: [
       {
         id: "tw-equity",
-        label: "台股個股示範組",
+        label: "第一批上市個股示範",
         status: "accepted",
-        summary: "2330、2382、2308 已可支撐示範閱讀流程，但仍不是完整上市櫃覆蓋。"
+        summary:
+          "2330、2382、2308 可作為 mock 示範錨點；這不是完整上市股票覆蓋，也不是即時或真實投資訊號。"
       },
       {
         id: "twii",
-        label: "大盤基準",
+        label: "TWII 大盤基準",
         status: "readying",
         summary:
-          "TWII 已有一次安全範圍內的彙總證據，可作為下一步資料真實化檢查基準；公開頁仍維持示範狀態。"
+          "TWII 是下一個最小可解釋的大盤基準線；目前只允許 no-fetch 準備與 mock runtime 顯示，尚未升級為真實資料來源。"
       },
       {
         id: "etf",
         label: "核心 ETF",
         status: "blocked",
-        summary: "0050 與 006208 目前只支撐示範狀態，還需要來源、覆蓋率與回讀證據補齊後才能升級。"
+        summary:
+          "0050 與 006208 仍需來源權利、欄位範圍與公開顯示條件確認；在 gate 通過前只能用 mock 或未開放狀態呈現。"
       }
     ],
     sourceTrust: [
       {
         id: "twse-openapi",
-        label: "TWSE OpenAPI 候選",
+        label: "TWSE OpenAPI 候選來源",
         status: "reviewing",
-        summary: "A1 已把官方公開資料列為優先候選，但目前只完成 no-fetch 來源與覆蓋矩陣，尚未取得正式使用條件確認。",
-        nextStep: "先做 terms / automation / free-use review，不抓資料列。"
+        summary:
+          "A1 資料線已把官方開放資料候選列入 no-fetch 檢查；PM 只吸收來源位置、免費自動化條件、欄位與覆蓋範圍，不抓 raw market data。",
+        nextStep: "完成 terms、automation、free-use、attribution 與限制條件確認。"
       },
       {
         id: "twii-index",
-        label: "TWII 大盤基準",
+        label: "TWII 指數候選",
         status: "candidate",
-        summary: "可作為第一個市場氣氛基準候選，適合先確認每日收盤價、日期、欄位語意與公開展示條件。",
-        nextStep: "準備 no-fetch 欄位合約與來源條款證據包。"
+        summary:
+          "TWII 可作為公開 Beta 的大盤第一線，但目前仍停在候選與 mock 展示階段；缺口是可公開使用條件、欄位契約與回補規則。",
+        nextStep: "產出 no-fetch coverage artifact，讓 PM 決定是否進入 bounded readonly gate。"
       },
       {
         id: "etf-source",
-        label: "核心 ETF 來源",
+        label: "ETF 來源條件",
         status: "blocked",
-        summary: "0050、006208 不能直接套用大盤或個股條款；ETF market close、NAV 與成交量來源仍需分開確認。",
-        nextStep: "等 TWSE/TWII 條款路線收斂後，再做 ETF-specific review。"
+        summary:
+          "ETF 價格、NAV、持股與溢折價可能有不同來源與使用條件；目前不把 ETF 真實資料放上公開頁。",
+        nextStep: "等 TWII 線路穩定後，再做 ETF-specific review。"
       }
     ],
     stopLine:
-      "在來源權利、覆蓋率、品質檢查、回讀與回退條件都完成前，不執行正式資料寫入、不宣稱即時真實資料，也不把分數來源升級為 real。"
+      "本區不代表真實資料已上線；不執行 SQL、不寫 Supabase、不建立 staging rows、不修改 daily_prices、不抓取 raw market data，也不把 publicDataSource 或 scoreSource 升級為 real。"
   };
 }

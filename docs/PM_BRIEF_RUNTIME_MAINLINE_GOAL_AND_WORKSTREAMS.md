@@ -33,6 +33,7 @@ PM should not wait for A1/A2 unless a mainline change directly depends on their 
 
 Latest PM integration:
 
+- PM repaired the shared public Beta data-readiness and data-realization runtime helpers. Home and `/briefing` now show readable Chinese for data readiness, row coverage evidence, TWII prerequisites, public data boundary, source-trust next steps, coverage rollout batches, readonly gate status, and mock-only stop lines. This slice keeps `publicDataSource=mock`, `scoreSource=mock`, no SQL, no Supabase write, no market-data fetch, and no real-data promotion. A1 next owns the next no-fetch coverage artifact; A2 next owns public-copy review for the repaired data readiness and coverage rollout wording.
 - PM cleaned the shared public Beta route-reading path across Home, `/briefing`, and stock detail. The route panel now uses reader-facing Chinese for the three-step path, source/coverage state, next data gate, and mock boundary, and the dedicated checker blocks mojibake/developer residue on the shared route surface.
 - PM cleaned the Home `Public Beta Index Dashboard` BRIEF loop so its headline, market overview, core indicator panel, alert list, update time, impact level, next step, and stop line are readable Chinese. The dedicated checker now blocks mojibake/developer residue in this high-exposure loop while preserving `publicDataSource=mock`, `scoreSource=mock`, and non-advice boundaries.
 - PM translated the accepted Batch 1 listed-equity policy into the shared `Source & Coverage` public panel. The public label layer now explains `第一批示範標的`, `不是完整上市股票覆蓋`, and `上市個股與 ETF/指數分開` so users can understand that visible stock pages are mock demo anchors, not full listed-equity coverage or live data.
@@ -63,7 +64,7 @@ Active A1 artifact:
 - `docs/A1_TWSE_OPENAPI_INDEX_BASELINE_FIELD_CONTRACT_CONFIRMATION_NO_FETCH.md`
 - `docs/A1_INDEX_BASELINE_SYNTHETIC_CONTRACT_CASES_NO_FETCH.md`
 - `docs/A1_BATCH1_LISTED_EQUITY_SYMBOL_POLICY_NO_ROW_LIST.md`
-- current PM assignment: keep Batch 1 labels route-healthy and wait for the data/source lane's next no-fetch coverage artifact before expanding any symbol coverage claims.
+- current PM assignment: prepare the next no-fetch coverage artifact for TWII/core ETF/Batch 1 boundaries, then let PM decide whether the artifact should become runtime readiness copy or stay as a data-line planning packet.
 
 A1 is responsible for:
 
@@ -71,7 +72,7 @@ A1 is responsible for:
 - coverage categories for daily close, volume, date, symbol, ETF, index, and stock lanes,
 - no-fetch terms review packets,
 - source-lane questions for PM/CEO decisions.
-- next background task: prepare follow-up Batch 1 field-policy notes only after PM confirms the mock runtime labels are readable and not too dense; keep output local-only, no-fetch, no-secret, and PM-readable.
+- next background task: prepare a no-fetch coverage artifact that summarizes TWII, core ETF, and Batch 1 listed-equity coverage states, minimum fields, source-rights status, and public-display stop lines; keep output local-only, no-fetch, no-secret, and PM-readable.
 
 A1 is not authorized by this goal to:
 
@@ -102,7 +103,7 @@ A2 is responsible for:
 - mock/real boundary readability,
 - non-investment-advice wording,
 - blocking internal execution strings on public surfaces.
-- next background task: review the cleaned route-reading path, Home BRIEF loop, and Batch 1 labels together; propose only bounded copy repair if public wording is too dense, still feels internal, or weakens the mock/non-advice boundary.
+- next background task: review the repaired data-readiness and data-realization public wording together with the route-reading path, Home BRIEF loop, and Batch 1 labels; propose only bounded copy repair if wording is too dense, still feels internal, or weakens the mock/non-advice boundary.
 
 A2 is not authorized by this goal to:
 
@@ -157,8 +158,8 @@ This goal slice is complete when:
 
 Recommended next mainline action:
 
-`route_reading_path_cleanup_then_next_no_fetch_coverage_artifact`
+`data_readiness_runtime_copy_repaired_then_next_no_fetch_coverage_artifact`
 
 Meaning:
 
-PM should verify the new public labels remain route-healthy and not too dense, then move the data support lane toward Batch 1 listed-equity symbol policy without row-list output. A2 should keep the public copy understandable and non-advice. Real-data promotion remains blocked until a separately accepted source-rights, coverage, quality, rollback, and runtime gate is recorded.
+PM has repaired the visible data-readiness and rollout wording, so the next step is to move A1 toward the next no-fetch coverage artifact while A2 reviews the public copy. Real-data promotion remains blocked until a separately accepted source-rights, coverage, quality, rollback, and runtime gate is recorded.

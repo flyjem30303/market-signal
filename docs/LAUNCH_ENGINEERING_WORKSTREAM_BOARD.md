@@ -18,6 +18,7 @@ PM should run the mainline while A1 and A2 remove future blockers in parallel. P
 
 This board uses the current project state as the baseline:
 
+- Latest PM data-readiness runtime-copy repair slice: `src/lib/public-beta-data-readiness-status.ts`, `src/components/public-beta-data-readiness-status.tsx`, `src/lib/public-beta-data-realization-roadmap.ts`, and `scripts/check-public-beta-data-readiness-status.mjs` now keep Home and `/briefing` data readiness readable in Chinese. Public surfaces explain `資料準備狀態`, `覆蓋率證據`, `TWII 前置條件`, `公開資料邊界`, `公開資料升級`, `資料覆蓋率展開計畫`, `只讀診斷目的`, and `寫入與升級鎖定` while preserving `publicDataSource=mock`, `scoreSource=mock`, no SQL, no Supabase write, no staging rows, no `daily_prices` mutation, no raw market-data fetch, and no real-data promotion. The next PM route is `data_readiness_runtime_copy_repaired_then_next_no_fetch_coverage_artifact`.
 - Latest PM product/runtime slice: source/coverage action readability is accepted as local-only runtime/product progress. The shared `Source & Coverage` surface now gives users a 3-minute action path: check data state, check coverage gaps, and choose the next observation direction while preserving `publicDataSource=mock`, `scoreSource=mock`, and non-investment-advice boundaries.
 - Latest PM field-contract mock-labeling slice: source/coverage field-contract readability is accepted as local-only runtime/product progress. The shared `Source & Coverage` surface now translates the accepted A1 field-contract packet into public wording: `欄位對照仍在檢查`, `大盤欄位對照`, and `上市個股欄位對照`, without exposing parser internals or implying real data readiness.
 - Latest A1/A2 support-lane local completion slice: PM completed support-lane packets locally because background agent capacity was full. `docs/A1_INDEX_BASELINE_SYNTHETIC_CONTRACT_CASES_NO_FETCH.md` is accepted as local-only synthetic index-baseline case planning; `docs/A2_FIELD_CONTRACT_PUBLIC_COPY_GUARD.md` is accepted as public-copy guard for field-contract labels. The next PM route is `prepare_index_baseline_synthetic_parser_fixture_no_fetch`.
@@ -59,7 +60,7 @@ PM owns the launch path and should keep moving without waiting for A1/A2 when a 
 Current PM route:
 
 1. Keep the public Beta product loop readable: home, briefing, and stock detail pages should explain market mood, cause, update time, impact level, next step, source trust, and mock boundary.
-2. Keep Level 1 MVP coverage moving toward `360/360` through A1/data-line handoffs without blocking safe PM runtime copy work.
+2. Keep Level 1 MVP coverage moving toward `360/360` through A1/data-line handoffs without blocking safe PM runtime copy work; the next A1 support output should be a no-fetch coverage artifact, not a row-list or raw-data packet.
 3. Maintain the runtime promotion gate so mock-to-real decisions remain explicit.
 4. Keep ingestion/backfill, write/readback, rollback, and retention rules visible before any production data movement.
 5. Prepare launch readiness across environment variables, deployment health, monitoring, rollback, DNS/SSL, and secret handling.
@@ -68,9 +69,9 @@ Current PM route:
 
 Latest CEO/PM parallel-lane assignment:
 
-- PM mainline: keep integrating BRIEF product/runtime readability across public surfaces, prioritizing user comprehension over visual polish.
-- A1 support lane: continue legal/free automatable source and coverage artifacts without market-row fetch, SQL, Supabase connection/write, or raw payload storage.
-- A2 support lane: continue public-copy and product-safety QA for visible pages, especially preventing investment-advice, real-time, or real-data claims before promotion gates pass.
+- PM mainline: keep integrating BRIEF product/runtime readability across public surfaces, with current priority on data-readiness and coverage-state comprehension over visual polish.
+- A1 support lane: prepare the next no-fetch coverage artifact for TWII/core ETF/Batch 1 boundaries without market-row fetch, SQL, Supabase connection/write, or raw payload storage.
+- A2 support lane: review the repaired data-readiness and rollout wording for density, public comprehension, mock boundary clarity, and non-investment-advice safety before any broader visual polish.
 
 Latest PM mainline completion review:
 

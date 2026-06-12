@@ -71,52 +71,52 @@ export type PublicBetaCoverageRolloutPlan = {
 export function getPublicBetaDataRealizationRoadmap(): PublicBetaDataRealizationRoadmap {
   return {
     disclosure:
-      "目前公開頁仍維持示範資料與示範分數；正式資料、Supabase 寫入、ingestion/backfill 與真實分數尚未啟用。",
-    headline: "資料真實化路徑",
+      "這份路線圖只描述資料升級順序。公開頁目前仍是 mock-only，不宣稱即時行情、完整覆蓋或投資建議。",
+    headline: "公開資料升級",
     stages: [
       {
-        currentState: "TWII 與少量 ETF / 個股已有 mock 展示；完整上市公司 universe 尚未完成。",
+        currentState: "首頁、晨報與標的頁已能用 mock 狀態說明市場氛圍、風險焦點與資料邊界。",
         id: "coverage-universe",
         label: "覆蓋範圍",
-        nextStep: "先鎖定 TWII、ETF、核心權值股與板塊，建立分批補齊順序。",
-        publicMeaning: "使用者需要知道目前看得到哪些市場與標的，避免誤以為已覆蓋全部台股。",
+        nextStep: "先把 TWII、核心 ETF、第一批上市個股分開標示，避免使用者誤以為已覆蓋全市場。",
+        publicMeaning: "使用者可以知道目前看到的是示範儀表站，而不是完整台股資料庫。",
+        tone: "active"
+      },
+      {
+        currentState: "A1 正在整理合法免費可自動化來源、欄位契約與公開顯示限制。",
+        id: "source-rights",
+        label: "資料來源條件",
+        nextStep: "完成 no-fetch coverage artifact 後，由 CEO/PM 決定是否進入 bounded readonly gate。",
+        publicMeaning: "資料來源必須先能公開解釋，才會放進公開 Beta 的真實資料線。",
         tone: "hold"
       },
       {
-        currentState: "來源權利與公開引用規則仍需逐項確認。",
-        id: "source-rights",
-        label: "來源與權利",
-        nextStep: "保留來源狀態與引用邊界，未確認前不宣稱正式資料服務。",
-        publicMeaning: "資料可信度不只看數字，也要知道來源是否能公開展示。",
+        currentState: "Supabase 已作為未來資料後端候選，但公開 runtime 尚未切換到 Supabase 真實資料。",
+        id: "supabase-readiness",
+        label: "後端資料準備",
+        nextStep: "等來源、欄位、覆蓋率與回退策略通過後，再做單次明確授權的 read/write gate。",
+        publicMeaning: "使用者不會在未驗證完成前看到半成品真實資料。",
+        tone: "hold"
+      },
+      {
+        currentState: "ingestion 與 backfill 流程仍未啟用；目前只允許本地規格、mock fixture 與 no-fetch 檢查。",
+        id: "ingestion-backfill",
+        label: "回補與更新流程",
+        nextStep: "定義可重跑、可回退、可稽核的流程後，才允許接觸真實資料或寫入 staging。",
+        publicMeaning: "資料更新會先有安全流程，不會直接把未審核資料推到畫面。",
         tone: "blocked"
       },
       {
-        currentState: "Supabase 專案與資料表已進入準備，但公開 runtime 仍不讀寫正式資料。",
-        id: "supabase-readiness",
-        label: "資料庫就緒",
-        nextStep: "完成 readonly / write path gate 後，才進入正式資料 promotion。",
-        publicMeaning: "資料庫準備中不等於真實分數已上線，公開頁需明確標示 mock 邊界。",
-        tone: "hold"
-      },
-      {
-        currentState: "ingestion / backfill 仍在設計與安全檢查階段。",
-        id: "ingestion-backfill",
-        label: "匯入與回補",
-        nextStep: "先建立可重跑、可驗證、可回退的流程，再補歷史資料。",
-        publicMeaning: "更新時間、缺漏資料與回補狀態會影響使用者是否能信任警示。",
-        tone: "hold"
-      },
-      {
-        currentState: "公開頁仍使用 mock score，不提供 real-time 或 real score 宣稱。",
+        currentState: "公開頁分數與狀態仍由 mock score 驅動。",
         id: "runtime-promotion",
-        label: "公開資料升級",
-        nextStep: "資料覆蓋、品質、來源權利與法務揭露通過後，才允許升級到 real。",
-        publicMeaning: "使用者可以先理解產品，但不能把目前燈號當正式決策依據。",
+        label: "公開頁升級",
+        nextStep: "來源權利、覆蓋率、品質、回退與公開文案都通過後，才可考慮把 publicDataSource 或 scoreSource 升級。",
+        publicMeaning: "使用者看到的紅黃綠燈目前是產品示範，不是正式真實市場訊號。",
         tone: "blocked"
       }
     ],
     summary:
-      "第二階段的核心不是一次補完所有資料，而是把覆蓋範圍、來源權利、資料庫、匯入回補與 runtime promotion 做成可追蹤閉環。"
+      "CEO 目前採多線推進：PM 主線修 runtime 可理解性，A1 補 no-fetch 資料覆蓋 artifact，A2 檢查公開文案與非投資建議邊界。"
   };
 }
 
@@ -124,100 +124,100 @@ export function getPublicBetaCoverageRolloutPlan(): PublicBetaCoverageRolloutPla
   return {
     batch1Readiness: [
       {
-        blocker: "TWII 與 ETF 來源權利、引用範圍、公開展示條款仍需接受。",
+        blocker: "TWII 與 ETF 的可公開使用條件、欄位契約、更新頻率與歸因文字尚未全部接受。",
         id: "batch1-source-rights",
-        label: "Source rights",
-        nextStep: "先確認 TWII 與核心 ETF 的來源、引用、展示與再利用邊界。",
-        publicMeaning: "資料能不能公開展示，比資料本身是否存在更重要。",
-        status: "blocked"
+        label: "來源權利與使用條件",
+        nextStep: "A1 先完成 no-fetch coverage artifact；PM 只吸收彙總結論，不抓 raw market data。",
+        publicMeaning: "資料可看之前，必須先知道能不能公開展示與如何標示來源。",
+        status: "waiting"
       },
       {
-        blocker: "TWII 與 ETF 欄位、單位、日期、漲跌幅與排除欄位尚未完成合約。",
+        blocker: "TWII、ETF 與上市個股的欄位用途不同，不能混成同一個全市場資料承諾。",
         id: "batch1-field-contract",
         label: "欄位規格",
-        nextStep: "鎖定 symbol、session date、close/level、change、source status、rights status 等最小欄位。",
-        publicMeaning: "欄位合約完成後，使用者才知道每個數字代表什麼。",
+        nextStep: "分開確認 symbol、session date、close/level、change、source status、rights status。",
+        publicMeaning: "欄位清楚後，畫面才能說清楚每個數字代表什麼。",
         status: "waiting"
       },
       {
-        blocker: "更新頻率、台北時區、交易日與缺漏 session 規則尚未正式定義。",
+        blocker: "缺漏日、補正、休市與更新延遲規則尚未成為正式公開規格。",
         id: "batch1-cadence-missing-rules",
-        label: "Cadence and missing rules",
-        nextStep: "定義更新時間、缺漏標示、休市與補資料規則。",
-        publicMeaning: "使用者需要知道資料是最新、延遲、缺漏，或仍是 mock。",
+        label: "更新與缺漏規則",
+        nextStep: "定義更新時間、缺資料時的降級訊息，以及不顯示真實資料的 fail-closed 狀態。",
+        publicMeaning: "使用者需要知道資料何時更新，以及資料不完整時該怎麼解讀。",
         status: "waiting"
       },
       {
-        blocker: "readonly/write gate 尚未允許公開 runtime 讀寫正式資料。",
+        blocker: "readonly、write、rollback、promotion gate 尚未形成可公開資料升級閉環。",
         id: "batch1-runtime-gates",
-        label: "唯讀與寫入條件",
-        nextStep: "等 readonly、write path、rollback/fail-closed 全部通過後才可能 promotion。",
-        publicMeaning: "資料庫準備好不等於網站可以直接切 real。",
+        label: "升級安全線",
+        nextStep: "先完成本地檢查與 one-attempt gate 包；未通過前公開頁維持 mock。",
+        publicMeaning: "真實資料不會跳過檢查直接上線。",
         status: "blocked"
       }
     ],
     batch1UserSteps: [
       {
         id: "batch1-user-market-baseline",
-        label: "先補大盤基準",
-        message: "TWII 會先成為市場氣氛的基準線，讓使用者知道今天是偏穩、偏熱，還是需要提高警覺。",
-        nextStep: "完成來源權利、欄位與交易日規則後，才進入 readonly 驗證。",
+        label: "先看大盤基準",
+        message: "TWII 是最適合先讓使用者建立市場氛圍的基準，但目前仍是 mock 示範線。",
+        nextStep: "完成 TWII 來源、欄位與覆蓋條件後，再決定是否開啟 bounded readonly gate。",
         status: "waiting"
       },
       {
         id: "batch1-user-core-etf",
-        label: "再補核心 ETF",
-        message: "核心 ETF 會用來對照大盤與主要資金方向，但不包含持股、淨值或折溢價等進階資料。",
-        nextStep: "先確認公開展示權利與最小欄位，再決定是否納入 Batch 1。",
-        status: "waiting"
+        label: "再看核心 ETF",
+        message: "0050 與 006208 可作為投資工具 proxy，但不能直接等同於指數、NAV 或持股資料。",
+        nextStep: "等 ETF-specific source review 完成後，才可規劃真實 ETF 顯示。",
+        status: "blocked"
       },
       {
         id: "batch1-user-data-boundary",
-        label: "保持資料邊界清楚",
-        message: "目前網站仍是 mock 閱讀模式；畫面可以解釋產品邏輯，但不能宣稱已提供正式市場資料。",
-        nextStep: "等 readonly、write、回補與 promotion gate 都通過後，才可調整公開宣稱。",
+        label: "最後確認資料邊界",
+        message: "公開 Beta 會清楚標示 mock、候選來源、覆蓋缺口與非投資建議，避免使用者誤讀。",
+        nextStep: "通過來源、覆蓋、品質、回退與文案 gate 前，不升級真實資料或真實分數。",
         status: "blocked"
       }
     ],
     batches: [
       {
-        currentState: "首頁、briefing 與主要股票頁已能展示 mock-only 市場狀態與資料邊界。",
+        currentState: "目前首頁、晨報與標的頁能展示產品流程、紅黃綠燈語言與資料邊界。",
         id: "batch-0-current-mock-showcase",
-        label: "Batch 0：目前展示",
-        nextStep: "持續把公開頁文字維持為 mock-only，不宣稱正式資料。",
-        publicValue: "讓使用者先理解產品怎麼讀市場氛圍。",
+        label: "Batch 0：mock 示範儀表站",
+        nextStep: "把每個 mock 訊號都維持清楚標示，避免像真實行情或投資建議。",
+        publicValue: "使用者可以先理解產品如何幫忙閱讀市場氛圍。",
         tone: "active"
       },
       {
-        currentState: "TWII 與核心 ETF 是最適合先做真實化的基準組，但來源權利與欄位合約仍需通過。",
+        currentState: "TWII 與核心 ETF 是最直覺的第一批真實資料候選，但仍缺來源與欄位確認。",
         id: "batch-1-twii-core-etf",
         label: "Batch 1：TWII + 核心 ETF",
-        nextStep: "完成來源權利、欄位、更新時間與缺漏規則後，再進 readonly/write gate。",
-        publicValue: "先補大盤與 ETF，讓使用者有市場基準。",
+        nextStep: "先收斂 no-fetch artifact，再決定是否進入 readonly gate。",
+        publicValue: "讓使用者先從大盤與核心 proxy 看懂市場狀態。",
         tone: "hold"
       },
       {
-        currentState: "主要上市公司與個股仍需 universe、來源與回補策略。",
+        currentState: "2330、2382、2308 只能當示範錨點，不代表完整上市股票覆蓋。",
         id: "batch-2-major-listed-companies",
-        label: "Batch 2：主要上市公司",
-        nextStep: "先定義權值股與高關注清單，再逐批補資料欄位。",
-        publicValue: "讓個股頁從展示樣板逐步變成可比較的資料面板。",
+        label: "Batch 2：第一批上市個股",
+        nextStep: "等待 universe rules、來源條件與非投資建議文案更穩定後再擴充。",
+        publicValue: "幫助使用者理解標的頁閱讀方式，但不能變成選股建議。",
         tone: "hold"
       },
       {
-        currentState: "板塊與產業分類可先用 mock 分群呈現，真實分類與來源仍需確認。",
+        currentState: "產業與族群分類仍需要 taxonomy、成分規則與聚合權利確認。",
         id: "batch-3-sector-industry",
-        label: "Batch 3：板塊與產業",
-        nextStep: "建立產業對照表、分類來源與公開引用規則。",
-        publicValue: "幫使用者看見市場風險集中在哪些族群。",
+        label: "Batch 3：產業與族群",
+        nextStep: "先保留為後續 roadmap，不放在第一階段真實資料依賴。",
+        publicValue: "未來可解釋市場壓力是集中或擴散。",
         tone: "hold"
       },
       {
-        currentState: "波動率、資金流、均線與動能屬於進階指標，必須等基礎資料穩定後再升級。",
+        currentState: "波動、資金流、均線與動能仍依賴底層資料與公式 gate。",
         id: "batch-4-advanced-indicators",
         label: "Batch 4：進階指標",
-        nextStep: "等價格、量能與來源品質穩定，再導入進階指標。",
-        publicValue: "讓使用者從燈號進一步理解成因與風險結構。",
+        nextStep: "先用 mock 解釋概念；真實計算等資料來源與公式都通過後再做。",
+        publicValue: "未來可把市場氛圍轉成更完整的決策輔助。",
         tone: "blocked"
       }
     ],
@@ -225,69 +225,69 @@ export function getPublicBetaCoverageRolloutPlan(): PublicBetaCoverageRolloutPla
       {
         id: "coverage-sufficiency",
         label: "覆蓋率是否足夠",
-        notYetClaimed: "尚未宣稱完整覆蓋所有台股。",
-        publicWording: "先分批補齊市場基準、ETF、主要個股與族群資料。",
+        notYetClaimed: "尚未宣稱全市場覆蓋、完整台股覆蓋或即時資料。",
+        publicWording: "目前只呈現示範覆蓋與候選資料線，完整覆蓋仍在補齊。",
         status: "waiting"
       },
       {
         id: "source-rights-accepted",
-        label: "Source rights accepted",
-        notYetClaimed: "尚未宣稱所有來源都可公開展示或再利用。",
-        publicWording: "每批資料都需要確認來源、引用與公開展示權利。",
+        label: "來源使用條件",
+        notYetClaimed: "尚未宣稱所有來源都可公開、自動化、免費或可再散布。",
+        publicWording: "來源條件確認前，真實資料不會進入公開頁。",
         status: "blocked"
       },
       {
         id: "supabase-readiness",
-        label: "Supabase readiness",
-        notYetClaimed: "尚未宣稱公開 runtime 已讀寫正式 Supabase 資料。",
-        publicWording: "資料庫準備與公開資料服務是兩個不同階段。",
+        label: "Supabase 後端準備",
+        notYetClaimed: "尚未宣稱公開 runtime 已經改用 Supabase 真實資料。",
+        publicWording: "後端仍在準備，公開頁先用 mock 維持穩定閱讀。",
         status: "waiting"
       },
       {
         id: "ingestion-backfill-repeatability",
-        label: "Ingestion/backfill repeatability",
-        notYetClaimed: "尚未宣稱匯入與歷史回補已可穩定重跑。",
-        publicWording: "正式上線前需能重跑、驗證、回退與標示缺漏。",
+        label: "資料更新可重跑",
+        notYetClaimed: "尚未宣稱 ingestion 或 backfill 可正式重跑。",
+        publicWording: "正式更新流程通過前，不把未審核資料放到畫面。",
         status: "waiting"
       },
       {
         id: "trust-legal-disclosure",
         label: "信任與法務揭露",
-        notYetClaimed: "不提供買賣建議、績效承諾或即時精準到秒承諾。",
-        publicWording: "所有燈號都是資訊與風險辨識，不是交易指令。",
+        notYetClaimed: "不宣稱保證報酬、買賣建議或完整即時資料。",
+        publicWording: "本網站提供資訊整理與風險辨識，不提供投資建議。",
         status: "ready"
       }
     ],
     disclosure:
-      "Coverage rollout 與 promotion checklist 只說明上線路徑；目前仍保持示範資料與示範分數。",
+      "資料覆蓋率展開計畫只說明順序與邊界；任何真實資料、寫入、回補或分數升級都需要另外通過 gate。",
     headline: "資料覆蓋率展開計畫",
     readonlyGate: [
       {
         id: "readonly-purpose",
         label: "只讀診斷目的",
-        publicStatus: "已完成一次只讀診斷，結果仍需補資料",
-        publicMeaning: "這次只確認後端可讀與彙總筆數，還不能代表 Batch 1 資料已完整。",
-        requiredBeforeExecution: "下一步先處理 TWII、0050、006208 的覆蓋缺口，再評估任何寫入或回補 gate。",
+        publicStatus: "只讀診斷只用來確認資料庫可讀狀態與彙總覆蓋率，不代表可以寫入或上線。",
+        publicMeaning: "它是安全檢查，不是資料升級本身。",
+        requiredBeforeExecution: "需要明確命名的一次性 gate、可回報的彙總輸出、以及執行後 review。",
         status: "blocked"
       },
       {
         id: "aggregate-proof",
         label: "只有彙總證據",
-        publicStatus: "目前只確認彙總覆蓋率，尚未補齊 Batch 1",
-        publicMeaning: "目前 360 筆預期資料中只觀察到 182 筆；三個標的完整，但 TWII 與兩檔 ETF 還需要補覆蓋。",
-        requiredBeforeExecution: "這份結果只保留彙總資訊；未暴露原始資料、逐列資料、stock_id、密鑰、SQL、寫入或市場資料匯入。",
+        publicStatus: "目前只確認 182/360 的彙總覆蓋狀態；缺口仍包含 TWII 與 ETF。",
+        publicMeaning: "彙總數字能說明進度，但不能替代 row 級資料驗證。",
+        requiredBeforeExecution: "不得輸出 raw payload、row payload、stock id payload 或 secrets。",
         status: "ready"
       },
       {
         id: "write-promotion-lock",
         label: "寫入與升級鎖定",
-        publicStatus: "寫入、回補與真實分數升級仍關閉",
-        publicMeaning: "只讀驗證即使成功，也不代表可以寫資料、補資料、給 row coverage 分數或切 real。",
-        requiredBeforeExecution: "任何寫入、回補、公開資料升級或真實分數啟用都必須另開 gate。",
+        publicStatus: "寫入、回補與真實分數升級仍關閉。",
+        publicMeaning: "公開頁不會因一次只讀診斷就切到真實資料。",
+        requiredBeforeExecution: "需要 write path、rollback、quality、source promotion 與 score promotion 的獨立 gate。",
         status: "blocked"
       }
     ],
     summary:
-      "公開 Beta 會先從市場基準與核心 ETF 補起，再擴到主要個股、板塊產業與進階指標；未通過 checklist 前不切換 real。"
+      "CEO 建議先用 Batch 0 做公開 Beta 可用閉環，同步把 Batch 1 的 TWII/ETF 條件補齊；Batch 2 之後不阻塞目前上線準備。"
   };
 }
