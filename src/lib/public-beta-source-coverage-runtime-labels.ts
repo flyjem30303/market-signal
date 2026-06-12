@@ -8,6 +8,13 @@ export type PublicBetaSourceCoverageLayer = {
   state: "usable_demo" | "checking" | "blocked";
 };
 
+export type PublicBetaSourceCoverageAction = {
+  body: string;
+  id: string;
+  label: string;
+  title: string;
+};
+
 export type PublicBetaSourceCoverageRuntimeLabels = {
   boundary: {
     publicDataSource: "mock";
@@ -16,6 +23,7 @@ export type PublicBetaSourceCoverageRuntimeLabels = {
   };
   headline: string;
   layers: PublicBetaSourceCoverageLayer[];
+  readingActions: PublicBetaSourceCoverageAction[];
   summary: string;
   userMeaning: string;
 };
@@ -57,6 +65,26 @@ export function getPublicBetaSourceCoverageRuntimeLabels(
         label: "上市個股批次",
         next: "建立批次規則，再逐步擴大上市股票 universe。",
         state: "usable_demo"
+      }
+    ],
+    readingActions: [
+      {
+        body: "先確認這個頁面目前只是示範資料，避免把燈號誤解成正式行情。",
+        id: "check-boundary",
+        label: "1",
+        title: "先看資料狀態"
+      },
+      {
+        body: "再看大盤、ETF、上市個股哪一層仍在檢查或暫停公開。",
+        id: "check-coverage",
+        label: "2",
+        title: "再看覆蓋缺口"
+      },
+      {
+        body: "最後回到晨報或標的頁，只把它當成下一步觀察線索，不當成交易指令。",
+        id: "choose-next-observation",
+        label: "3",
+        title: "最後決定觀察方向"
       }
     ],
     summary:

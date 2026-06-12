@@ -37,6 +37,9 @@ requireIncludes("module", moduleSource, [
   "大盤基準",
   "核心 ETF",
   "上市個股批次",
+  "先看資料狀態",
+  "再看覆蓋缺口",
+  "最後決定觀察方向",
   "正式資料上線前，不宣稱即時真實資料",
   'publicDataSource: "mock"',
   'scoreSource: "mock"'
@@ -50,6 +53,7 @@ requireIncludes("component", component, [
   "檢查中",
   "暫停公開",
   "public-beta-source-coverage-runtime__layers",
+  "public-beta-source-coverage-runtime__actions",
   "public-beta-source-coverage-runtime__boundary",
   "publicDataSource=",
   "scoreSource="
@@ -69,6 +73,7 @@ requireIncludes("briefing", briefing, [
 requireIncludes("css", css, [
   ".public-beta-source-coverage-runtime",
   ".public-beta-source-coverage-runtime__layers",
+  ".public-beta-source-coverage-runtime__actions",
   ".public-beta-source-coverage-runtime__boundary"
 ]);
 
@@ -117,6 +122,9 @@ async function checkRoute(path) {
     "展示可用",
     "檢查中",
     "暫停公開",
+    "先看資料狀態",
+    "再看覆蓋缺口",
+    "最後決定觀察方向",
     "publicDataSource=mock",
     "scoreSource=mock",
     "不宣稱即時真實資料",

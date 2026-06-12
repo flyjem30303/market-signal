@@ -40,6 +40,16 @@ export function PublicBetaSourceCoverageRuntimeLabelsPanel({
         ))}
       </div>
 
+      <div className="public-beta-source-coverage-runtime__actions" aria-label="Source coverage reading actions">
+        {labels.readingActions.map((action) => (
+          <article key={action.id}>
+            <span>{action.label}</span>
+            <strong>{action.title}</strong>
+            <p>{action.body}</p>
+          </article>
+        ))}
+      </div>
+
       <div className="public-beta-source-coverage-runtime__boundary">
         <article>
           <span>資料來源</span>
