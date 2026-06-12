@@ -5143,6 +5143,11 @@ const checks = [
     name: "stock-investor-action-summary"
   },
   {
+    command: [node, "scripts/check-stock-indicator-priority-panel.mjs"],
+    expectStatus: "ok",
+    name: "stock-indicator-priority-panel"
+  },
+  {
     command: [node, "scripts/check-stock-investor-indicator-roadmap-panel.mjs"],
     expectStatus: "ok",
     name: "stock-investor-indicator-roadmap-panel"

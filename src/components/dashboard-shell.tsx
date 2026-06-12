@@ -318,6 +318,7 @@ export function DashboardShell({
           <StockDataGapPanel snapshot={snapshot} onTab={changeTab} />
           <StockDecisionCompass scoreSourceLabel={freshness.scoreSourceLabel} snapshot={snapshot} />
           <StockInvestorActionSummary snapshot={snapshot} onTab={changeTab} />
+          <StockIndicatorPriorityPanel snapshot={snapshot} onTab={changeTab} />
           <StockInvestorIndicatorRoadmap />
           <StockMarketContextPanel
             groupAverage={marketContext.groupAverage}
@@ -1405,6 +1406,69 @@ function StockInvestorActionSummary({
             <p>{item.body}</p>
             <button onClick={() => onTab(item.tab)} type="button">
               查看{item.tab === "today" ? "今日摘要" : item.tab === "technical" ? "技術風險" : item.tab === "trend" ? "趨勢" : item.tab === "fundamentals" ? "基本面" : "回測"}
+            </button>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function StockIndicatorPriorityPanel({ snapshot, onTab }: { snapshot: SignalSnapshot; onTab: (tab: TabKey) => void }) {
+  const strongestModule = snapshot.modules.slice().sort((a, b) => b.health - a.health)[0];
+  const hottestRisk = snapshot.modules.slice().sort((a, b) => b.risk - a.risk)[0];
+  const warningCount = snapshot.missingModuleFlags.length + snapshot.staleDataFlags.length;
+  const dataTone = warningCount > 0 ? "hold" : "active";
+  const riskTone = snapshot.riskScore >= 70 ? "blocked" : snapshot.riskScore >= 55 ? "hold" : "active";
+
+  const priorities = [
+    {
+      action: "\u67e5\u770b\u8cc7\u6599\u908a\u754c",
+      body: warningCount > 0
+        ? `\u76ee\u524d\u6709 ${warningCount} \u500b\u8cc7\u6599\u65d7\u6a19\uff0c\u6240\u6709\u71c8\u865f\u8207\u6307\u6a19\u90fd\u5148\u7576\u6210\u516c\u958b Beta mock \u95b1\u8b80\u7dda\u7d22\u3002`
+        : "\u76ee\u524d\u6c92\u6709\u984d\u5916\u8cc7\u6599\u65d7\u6a19\uff0c\u4f46\u771f\u5be6\u8cc7\u6599\u4e0a\u7dda\u524d\u4ecd\u4e0d\u5ba3\u7a31\u5b8c\u6574\u8986\u84cb\u3002",
+      label: "1. \u8cc7\u6599\u53ef\u4fe1\u5ea6",
+      tab: "today" as TabKey,
+      title: warningCount > 0 ? "\u5148\u964d\u7d1a\u95b1\u8b80" : "\u53ef\u7dad\u6301\u89c0\u5bdf",
+      tone: dataTone
+    },
+    {
+      action: "\u67e5\u770b\u652f\u6490\u6307\u6a19",
+      body: `\u76ee\u524d\u6700\u5f37\u652f\u6490\u4f86\u81ea ${strongestModule.name}\uff0c\u5065\u5eb7\u5206\u6578 ${strongestModule.health}/100\uff0c\u7528\u4f86\u5224\u65b7\u71c8\u865f\u662f\u5426\u6709\u7d50\u69cb\u652f\u6490\u3002`,
+      label: "2. \u4e3b\u8981\u652f\u6490",
+      tab: "fundamentals" as TabKey,
+      title: strongestModule.name,
+      tone: strongestModule.health >= 70 ? "active" : "hold"
+    },
+    {
+      action: "\u67e5\u770b\u98a8\u96aa\u4f86\u6e90",
+      body: `\u76ee\u524d\u6700\u71b1\u98a8\u96aa\u4f86\u81ea ${hottestRisk.name}\uff0c\u98a8\u96aa\u5206\u6578 ${hottestRisk.risk}/100\uff0c\u7528\u4f86\u6c7a\u5b9a\u662f\u5426\u8981\u52a0\u5f37\u89c0\u5bdf\u6216\u964d\u4f4e\u98a8\u96aa\u3002`,
+      label: "3. \u4e3b\u8981\u98a8\u96aa",
+      tab: "technical" as TabKey,
+      title: hottestRisk.name,
+      tone: riskTone
+    }
+  ];
+
+  return (
+    <section className="stock-indicator-priority-panel" aria-label="Stock indicator priority">
+      <div>
+        <p className="eyebrow">Indicator Priority</p>
+        <h2>{`${snapshot.asset.symbol} \u6307\u6a19\u512a\u5148\u9806\u5e8f`}</h2>
+        <p>
+          {
+            "\u628a\u6307\u6a19\u5f9e\u591a\u5230\u5c11\u91cd\u6392\uff1a\u5148\u78ba\u8a8d\u8cc7\u6599\u53ef\u4fe1\u5ea6\uff0c\u518d\u770b\u4e3b\u8981\u652f\u6490\u8207\u4e3b\u8981\u98a8\u96aa\u3002\u9019\u500b\u5340\u584a\u53ea\u662f\u6c7a\u7b56\u8f14\u52a9\u95b1\u8b80\uff0c\u4e0d\u63d0\u4f9b\u8cb7\u8ce3\u5efa\u8b70\u3002"
+          }
+        </p>
+      </div>
+      <div className="stock-indicator-priority-grid">
+        {priorities.map((item) => (
+          <article className={item.tone} key={item.label}>
+            <span>{item.label}</span>
+            <strong>{item.title}</strong>
+            <p>{item.body}</p>
+            <button onClick={() => onTab(item.tab)} type="button">
+              {item.action}
             </button>
           </article>
         ))}

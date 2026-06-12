@@ -6544,6 +6544,89 @@ select {
   padding: 10px 13px;
 }
 
+.stock-indicator-priority-panel {
+  display: grid;
+  gap: 14px;
+  border: 1px solid rgba(40, 94, 203, 0.16);
+  border-radius: 8px;
+  background: #f8fafc;
+  box-shadow: var(--shadow-soft);
+  margin-bottom: 16px;
+  padding: 16px;
+}
+
+.stock-indicator-priority-panel h2 {
+  font-size: 22px;
+  line-height: 1.25;
+  margin: 0 0 6px;
+}
+
+.stock-indicator-priority-panel p {
+  color: var(--muted);
+  line-height: 1.65;
+  margin: 0;
+}
+
+.stock-indicator-priority-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.stock-indicator-priority-grid article {
+  display: grid;
+  gap: 8px;
+  min-height: 190px;
+  border: 1px solid var(--line);
+  border-top: 4px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  padding: 13px;
+}
+
+.stock-indicator-priority-grid article.active {
+  border-top-color: var(--green);
+}
+
+.stock-indicator-priority-grid article.hold {
+  border-top-color: var(--amber);
+}
+
+.stock-indicator-priority-grid article.blocked {
+  border-top-color: var(--red);
+}
+
+.stock-indicator-priority-grid span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 850;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.stock-indicator-priority-grid strong {
+  overflow-wrap: anywhere;
+  font-size: 19px;
+  line-height: 1.2;
+}
+
+.stock-indicator-priority-grid button {
+  justify-self: start;
+  align-self: end;
+  border: 1px solid rgba(40, 94, 203, 0.2);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--blue);
+  cursor: pointer;
+  font-weight: 850;
+  padding: 9px 12px;
+}
+
+.stock-indicator-priority-grid button:hover {
+  border-color: rgba(40, 94, 203, 0.36);
+  background: #eef4ff;
+}
+
 .public-beta-data-realization-roadmap {
   display: grid;
   gap: 14px;
@@ -13307,6 +13390,7 @@ input[type="date"] {
   .stock-evidence-snapshot,
   .stock-runtime-at-a-glance,
   .stock-decision-aid-summary-grid,
+  .stock-indicator-priority-grid,
   .stock-public-decision-summary,
   .stock-runtime-headline-summary,
   .stock-twii-data-decision-status,
