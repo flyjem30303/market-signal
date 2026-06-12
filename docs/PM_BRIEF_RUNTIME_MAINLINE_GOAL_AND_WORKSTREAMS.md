@@ -275,6 +275,47 @@ Next PM mainline candidate:
 
 This should be a bounded product/runtime slice: add or update a checker that ensures `/weekly`, `/methodology`, `/disclaimer`, `/terms`, and `/privacy` remain readable, mock-boundary-safe, and free of development-process residue. Do not expand into broad UI redesign yet.
 
+## 8B. 2026-06-13 Route-Local Trust Consistency Guard
+
+CEO decision:
+
+`guard_route_local_trust_consistency_without_broad_visual_polish`
+
+PM executed the bounded guard slice after the route-local trust copy cleanup. This is not a broad UI redesign. It locks the minimum public Beta structure needed for usable trust pages:
+
+- hero and stop-line copy,
+- shared trust boundary notice,
+- route-local trust panel,
+- route-local quick-read cards,
+- mock/score boundary language,
+- non-investment-advice wording,
+- privacy/source payload stop lines,
+- no development-process residue.
+
+New guard:
+
+- `scripts/check-public-beta-route-local-trust-visual-consistency.mjs`
+- package command: `check:public-beta-route-local-trust-visual-consistency`
+- review-gate name: `public-beta-route-local-trust-visual-consistency`
+
+Verification completed:
+
+- `cmd.exe /c npm run check:public-beta-route-local-trust-visual-consistency`
+- `cmd.exe /c npm run check:a2-weekly-readable-copy`
+- `cmd.exe /c npm run check:a2-legal-methodology-readable-copy`
+
+Current lane assignments:
+
+- PM mainline: move back to BRIEF product/runtime closed loop on the high-traffic path (`/`, `/briefing`, `/stocks/[symbol]`) unless a trust page regression appears.
+- A1 background: continue no-fetch source and coverage work, especially legal/free/automatable source and field-contract readiness.
+- A2 background: use the new guard as the route-local trust baseline; focus future copy work on comprehension gaps, not style polish.
+
+Next PM mainline candidate:
+
+`home_briefing_stock_3_minute_action_bridge_guard`
+
+This should check that the highest-traffic path still gives users a 30-second market mood and 3-minute action judgment without exposing internal execution language or real-data claims.
+
 Recommended next mainline action:
 
 `wait_for_explicit_operator_decision_before_execution_packet`

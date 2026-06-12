@@ -5083,6 +5083,11 @@ const checks = [
     name: "a2-weekly-readable-copy"
   },
   {
+    command: [node, "scripts/check-public-beta-route-local-trust-visual-consistency.mjs"],
+    expectStatus: "ok",
+    name: "public-beta-route-local-trust-visual-consistency"
+  },
+  {
     command: [node, "scripts/check-blocker-review-decision-outcome-ledger.mjs"],
     expectStatus: "ok",
     name: "blocker-review-decision-outcome-ledger"
@@ -5893,6 +5898,7 @@ const coreReviewGateNames = new Set([
   "a2-route-local-trust-copy-route-health",
   "a2-legal-methodology-readable-copy",
   "a2-weekly-readable-copy",
+  "public-beta-route-local-trust-visual-consistency",
   "taiwan-all-listed-universe-manifest-packet",
   "public-trust-and-disclosure-copy-worklist",
   "mvp-remaining-coverage-execution-bridge",
@@ -5914,6 +5920,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "public-beta-decision-journey-panel",
   "public-beta-index-dashboard-brief-loop",
   "public-beta-route-consistency",
+  "public-beta-route-local-trust-visual-consistency",
   "public-beta-source-coverage-runtime-labels",
   "source-coverage-runtime-handoff-docs",
   "public-beta-data-realification-next-action",
