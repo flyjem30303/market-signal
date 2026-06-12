@@ -18,6 +18,7 @@ PM should run the mainline while A1 and A2 remove future blockers in parallel. P
 
 This board uses the current project state as the baseline:
 
+- Latest A1 next no-fetch coverage artifact slice: `docs/A1_PUBLIC_BETA_NEXT_NO_FETCH_COVERAGE_ARTIFACT.md` is accepted as a local-only PM intake packet for BRIEF runtime planning. It separates `TWII`, core ETF (`0050`, `006208`), Batch 1 listed-equity demo anchors (`2330`, `2382`, `2308`), sector/industry, and derived indicators into PM-safe coverage states, field-name-only planning contracts, and public-display stop lines. The next PM route is `wire_next_no_fetch_coverage_artifact_into_public_data_readiness_status`; A1 next owns `prepare_twii_terms_field_cadence_attribution_no_fetch_packet`; A2 next owns `review_data_readiness_and_coverage_artifact_public_copy_density`. This slice does not authorize SQL, Supabase connection/write, staging rows, `daily_prices` mutation, raw market-data fetch/ingest/store/commit, row coverage points, public source promotion, or `scoreSource=real`.
 - Latest PM data-readiness runtime-copy repair slice: `src/lib/public-beta-data-readiness-status.ts`, `src/components/public-beta-data-readiness-status.tsx`, `src/lib/public-beta-data-realization-roadmap.ts`, and `scripts/check-public-beta-data-readiness-status.mjs` now keep Home and `/briefing` data readiness readable in Chinese. Public surfaces explain `資料準備狀態`, `覆蓋率證據`, `TWII 前置條件`, `公開資料邊界`, `公開資料升級`, `資料覆蓋率展開計畫`, `只讀診斷目的`, and `寫入與升級鎖定` while preserving `publicDataSource=mock`, `scoreSource=mock`, no SQL, no Supabase write, no staging rows, no `daily_prices` mutation, no raw market-data fetch, and no real-data promotion. The next PM route is `data_readiness_runtime_copy_repaired_then_next_no_fetch_coverage_artifact`.
 - Latest PM product/runtime slice: source/coverage action readability is accepted as local-only runtime/product progress. The shared `Source & Coverage` surface now gives users a 3-minute action path: check data state, check coverage gaps, and choose the next observation direction while preserving `publicDataSource=mock`, `scoreSource=mock`, and non-investment-advice boundaries.
 - Latest PM field-contract mock-labeling slice: source/coverage field-contract readability is accepted as local-only runtime/product progress. The shared `Source & Coverage` surface now translates the accepted A1 field-contract packet into public wording: `欄位對照仍在檢查`, `大盤欄位對照`, and `上市個股欄位對照`, without exposing parser internals or implying real data readiness.
@@ -70,8 +71,8 @@ Current PM route:
 Latest CEO/PM parallel-lane assignment:
 
 - PM mainline: keep integrating BRIEF product/runtime readability across public surfaces, with current priority on data-readiness and coverage-state comprehension over visual polish.
-- A1 support lane: prepare the next no-fetch coverage artifact for TWII/core ETF/Batch 1 boundaries without market-row fetch, SQL, Supabase connection/write, or raw payload storage.
-- A2 support lane: review the repaired data-readiness and rollout wording for density, public comprehension, mock boundary clarity, and non-investment-advice safety before any broader visual polish.
+- A1 support lane: prepare the next `prepare_twii_terms_field_cadence_attribution_no_fetch_packet` after PM intake of the coverage artifact; no market-row fetch, SQL, Supabase connection/write, or raw payload storage.
+- A2 support lane: review the repaired data-readiness wording and the new no-fetch coverage artifact for density, public comprehension, mock boundary clarity, and non-investment-advice safety before any broader visual polish.
 
 Latest PM mainline completion review:
 

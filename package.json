@@ -41,6 +41,7 @@
     "check:a1-twse-openapi-index-baseline-field-contract-confirmation-no-fetch": "node scripts/check-a1-twse-openapi-index-baseline-field-contract-confirmation-no-fetch.mjs",
     "check:a1-index-baseline-synthetic-contract-cases-no-fetch": "node scripts/check-a1-index-baseline-synthetic-contract-cases-no-fetch.mjs",
     "check:a1-batch1-listed-equity-symbol-policy-no-row-list": "node scripts/check-a1-batch1-listed-equity-symbol-policy-no-row-list.mjs",
+    "check:a1-public-beta-next-no-fetch-coverage-artifact": "node scripts/check-a1-public-beta-next-no-fetch-coverage-artifact.mjs",
     "check:a2-field-contract-public-copy-guard": "node scripts/check-a2-field-contract-public-copy-guard.mjs",
     "check:pm-brief-runtime-mainline-goal-and-workstreams": "node scripts/check-pm-brief-runtime-mainline-goal-and-workstreams.mjs",
     "dev:recover": "powershell -ExecutionPolicy Bypass -File scripts/recover-next-dev-server.ps1",

@@ -33,6 +33,7 @@ PM should not wait for A1/A2 unless a mainline change directly depends on their 
 
 Latest PM integration:
 
+- A1 next no-fetch coverage artifact is now ready for PM intake at `docs/A1_PUBLIC_BETA_NEXT_NO_FETCH_COVERAGE_ARTIFACT.md`. It separates `TWII`, core ETF (`0050`, `006208`), Batch 1 listed-equity demo anchors (`2330`, `2382`, `2308`), sector/industry, and derived indicators into PM-safe runtime coverage states. The next PM route is `wire_next_no_fetch_coverage_artifact_into_public_data_readiness_status`; A1 next owns `prepare_twii_terms_field_cadence_attribution_no_fetch_packet`; A2 next owns `review_data_readiness_and_coverage_artifact_public_copy_density`.
 - PM repaired the shared public Beta data-readiness and data-realization runtime helpers. Home and `/briefing` now show readable Chinese for data readiness, row coverage evidence, TWII prerequisites, public data boundary, source-trust next steps, coverage rollout batches, readonly gate status, and mock-only stop lines. This slice keeps `publicDataSource=mock`, `scoreSource=mock`, no SQL, no Supabase write, no market-data fetch, and no real-data promotion. A1 next owns the next no-fetch coverage artifact; A2 next owns public-copy review for the repaired data readiness and coverage rollout wording.
 - PM cleaned the shared public Beta route-reading path across Home, `/briefing`, and stock detail. The route panel now uses reader-facing Chinese for the three-step path, source/coverage state, next data gate, and mock boundary, and the dedicated checker blocks mojibake/developer residue on the shared route surface.
 - PM cleaned the Home `Public Beta Index Dashboard` BRIEF loop so its headline, market overview, core indicator panel, alert list, update time, impact level, next step, and stop line are readable Chinese. The dedicated checker now blocks mojibake/developer residue in this high-exposure loop while preserving `publicDataSource=mock`, `scoreSource=mock`, and non-advice boundaries.
@@ -64,7 +65,8 @@ Active A1 artifact:
 - `docs/A1_TWSE_OPENAPI_INDEX_BASELINE_FIELD_CONTRACT_CONFIRMATION_NO_FETCH.md`
 - `docs/A1_INDEX_BASELINE_SYNTHETIC_CONTRACT_CASES_NO_FETCH.md`
 - `docs/A1_BATCH1_LISTED_EQUITY_SYMBOL_POLICY_NO_ROW_LIST.md`
-- current PM assignment: prepare the next no-fetch coverage artifact for TWII/core ETF/Batch 1 boundaries, then let PM decide whether the artifact should become runtime readiness copy or stay as a data-line planning packet.
+- `docs/A1_PUBLIC_BETA_NEXT_NO_FETCH_COVERAGE_ARTIFACT.md`
+- current PM assignment: absorb the next no-fetch coverage artifact into public data readiness status only if it improves runtime comprehension without implying real-data promotion.
 
 A1 is responsible for:
 
@@ -72,7 +74,7 @@ A1 is responsible for:
 - coverage categories for daily close, volume, date, symbol, ETF, index, and stock lanes,
 - no-fetch terms review packets,
 - source-lane questions for PM/CEO decisions.
-- next background task: prepare a no-fetch coverage artifact that summarizes TWII, core ETF, and Batch 1 listed-equity coverage states, minimum fields, source-rights status, and public-display stop lines; keep output local-only, no-fetch, no-secret, and PM-readable.
+- next background task: prepare `prepare_twii_terms_field_cadence_attribution_no_fetch_packet`; keep output field-name-only, aggregate-only, local-only, no-fetch, no-secret, and PM-readable.
 
 A1 is not authorized by this goal to:
 
@@ -103,7 +105,7 @@ A2 is responsible for:
 - mock/real boundary readability,
 - non-investment-advice wording,
 - blocking internal execution strings on public surfaces.
-- next background task: review the repaired data-readiness and data-realization public wording together with the route-reading path, Home BRIEF loop, and Batch 1 labels; propose only bounded copy repair if wording is too dense, still feels internal, or weakens the mock/non-advice boundary.
+- next background task: review `docs/A1_PUBLIC_BETA_NEXT_NO_FETCH_COVERAGE_ARTIFACT.md` plus the repaired data-readiness and data-realization public wording; propose only bounded copy repair if wording is too dense, still feels internal, or weakens the mock/non-advice boundary.
 
 A2 is not authorized by this goal to:
 
@@ -158,8 +160,8 @@ This goal slice is complete when:
 
 Recommended next mainline action:
 
-`data_readiness_runtime_copy_repaired_then_next_no_fetch_coverage_artifact`
+`wire_next_no_fetch_coverage_artifact_into_public_data_readiness_status`
 
 Meaning:
 
-PM has repaired the visible data-readiness and rollout wording, so the next step is to move A1 toward the next no-fetch coverage artifact while A2 reviews the public copy. Real-data promotion remains blocked until a separately accepted source-rights, coverage, quality, rollback, and runtime gate is recorded.
+PM should absorb the accepted A1 no-fetch coverage artifact into public data readiness status only as mock-safe runtime wording. A1 should prepare the next TWII terms/field/cadence/attribution no-fetch packet, while A2 checks public copy density and mock/non-advice clarity. Real-data promotion remains blocked until a separately accepted source-rights, coverage, quality, rollback, and runtime gate is recorded.
