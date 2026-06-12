@@ -38,6 +38,15 @@ export type PublicBetaBoundedReadonlyRequirementItem = {
   summary: string;
 };
 
+export type PublicBetaOperatorDecisionReadinessItem = {
+  id: string;
+  label: string;
+  status: "ready" | "waiting" | "blocked";
+  publicLabel: string;
+  summary: string;
+  nextStep: string;
+};
+
 export type PublicBetaDataReadinessStatus = {
   headline: string;
   summary: string;
@@ -56,6 +65,7 @@ export type PublicBetaDataReadinessStatus = {
   };
   twiiTermsReadiness: PublicBetaTwiiTermsReadinessItem[];
   boundedReadonlyRequirements: PublicBetaBoundedReadonlyRequirementItem[];
+  operatorDecisionReadiness: PublicBetaOperatorDecisionReadinessItem[];
   coverageArtifactScopes: PublicBetaCoverageArtifactScope[];
   lanes: PublicBetaDataReadinessLane[];
   sourceTrust: PublicBetaSourceTrustItem[];
@@ -151,6 +161,35 @@ export function getPublicBetaDataReadinessStatus(): PublicBetaDataReadinessStatu
         status: "blocked",
         summary:
           "即使未來唯讀檢查成功，也不會自動切換正式資料或真實分數；仍需獨立 promotion gate。"
+      }
+    ],
+    operatorDecisionReadiness: [
+      {
+        id: "twii-source-evidence",
+        label: "TWII 來源證據",
+        publicLabel: "已整理，尚未啟用真實資料",
+        status: "ready",
+        summary:
+          "TWII 來源與欄位契約已整理成可審證據；目前仍只用 mock 資料與 mock 分數呈現。",
+        nextStep: "等待明確操作決策，不自動執行資料讀取。"
+      },
+      {
+        id: "twii-operator-decision",
+        label: "操作決策",
+        publicLabel: "等待明確選擇",
+        status: "waiting",
+        summary:
+          "下一步只能在授權一次 bounded readonly、要求修補證據、或延後嘗試三者之間選擇。",
+        nextStep: "沒有明確決策前，不準備遠端執行準備。"
+      },
+      {
+        id: "twii-real-data-promotion",
+        label: "真實資料升級",
+        publicLabel: "仍鎖住",
+        status: "blocked",
+        summary:
+          "尚未通過來源權利、覆蓋率、品質、執行後檢查與公開升級關卡。",
+        nextStep: "公開頁維持非即時、非投資建議、mock-only。"
       }
     ],
     coverageArtifactScopes: [

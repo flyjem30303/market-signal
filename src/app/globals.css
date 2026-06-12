@@ -4314,6 +4314,7 @@ select {
 .public-beta-data-readiness-lanes span,
 .public-beta-twii-terms-readiness span,
 .public-beta-bounded-readonly-requirements span,
+.public-beta-twii-decision-readiness span,
 .public-beta-coverage-artifact-scopes span {
   color: var(--muted);
   font-size: 11px;
@@ -4325,6 +4326,7 @@ select {
 .public-beta-data-readiness-lanes strong,
 .public-beta-twii-terms-readiness strong,
 .public-beta-bounded-readonly-requirements strong,
+.public-beta-twii-decision-readiness strong,
 .public-beta-coverage-artifact-scopes strong {
   overflow-wrap: anywhere;
   color: var(--text);
@@ -4336,6 +4338,7 @@ select {
 .public-beta-data-readiness-lanes p,
 .public-beta-twii-terms-readiness p,
 .public-beta-bounded-readonly-requirements p,
+.public-beta-twii-decision-readiness p,
 .public-beta-coverage-artifact-scopes p {
   margin: 0;
   color: var(--muted);
@@ -4418,6 +4421,28 @@ select {
 }
 
 .public-beta-bounded-readonly-requirements article.blocked {
+  border-color: rgba(199, 54, 59, 0.2);
+  background: #fff7f7;
+}
+
+.public-beta-twii-decision-readiness {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.public-beta-twii-decision-readiness article.ready {
+  border-color: rgba(20, 122, 77, 0.25);
+  background: #f3fbf6;
+}
+
+.public-beta-twii-decision-readiness article.waiting {
+  border-color: rgba(183, 121, 31, 0.25);
+  background: #fffaf0;
+}
+
+.public-beta-twii-decision-readiness article.blocked {
   border-color: rgba(199, 54, 59, 0.2);
   background: #fff7f7;
 }
@@ -12869,6 +12894,7 @@ input[type="date"] {
   .public-beta-source-trust,
   .public-beta-twii-terms-readiness,
   .public-beta-bounded-readonly-requirements,
+  .public-beta-twii-decision-readiness,
   .public-beta-coverage-artifact-scopes,
   .public-beta-source-coverage-runtime,
   .public-beta-source-coverage-runtime__layers,

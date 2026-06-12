@@ -31,6 +31,12 @@ const boundedReadonlyStatusLabels = {
   required: "必要前提"
 } as const;
 
+const operatorDecisionStatusLabels = {
+  blocked: "仍鎖住",
+  ready: "已整理",
+  waiting: "等待決策"
+} as const;
+
 export function PublicBetaDataReadinessStatus() {
   const status = getPublicBetaDataReadinessStatus();
 
@@ -91,6 +97,17 @@ export function PublicBetaDataReadinessStatus() {
             <strong>{item.publicLabel}</strong>
             <p>{boundedReadonlyStatusLabels[item.status]}</p>
             <p>{item.summary}</p>
+          </article>
+        ))}
+      </div>
+      <div className="public-beta-twii-decision-readiness" aria-label="TWII 資料決策狀態">
+        {status.operatorDecisionReadiness.map((item) => (
+          <article className={item.status} key={item.id}>
+            <span>{item.label}</span>
+            <strong>{item.publicLabel}</strong>
+            <p>{operatorDecisionStatusLabels[item.status]}</p>
+            <p>{item.summary}</p>
+            <p>下一步：{item.nextStep}</p>
           </article>
         ))}
       </div>
