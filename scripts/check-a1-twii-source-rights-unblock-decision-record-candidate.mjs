@@ -90,9 +90,9 @@ for (const [filePath, content, phrases] of [
     outcomePath,
     outcome,
     [
-      "Status: `twii_source_rights_outcome_gate_blocked_external_rights_pending`",
-      "rejected_for_execution_pending_external_rights_and_field_contract",
-      "No item is accepted by this gate"
+      "Status: `twii_source_rights_outcome_gate_candidate_ready_for_pm_review`",
+      "candidate_ready_no_execution_authority",
+      "No item grants execution authority"
     ]
   ],
   [

@@ -5640,6 +5640,8 @@ const publicBetaFocusedReviewGateNames = new Set([
   "a1-twii-four-slot-reply-request",
   "a1-twii-pm-intake-decision-summary",
   "a1-twii-evidence-completion-status",
+  "a1-twii-source-rights-unblock-decision-record-candidate",
+  "a1-twii-source-rights-evidence-intake-or-vendor-fallback-decision-support",
   "twii-bounded-data-acceptance-attempt-dry-run-wrapper",
   "twii-bounded-data-acceptance-post-run-review",
   "twii-bounded-data-acceptance-dry-run-review-chain",

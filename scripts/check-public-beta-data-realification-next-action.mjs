@@ -46,9 +46,9 @@ if (!reviewGate.includes("scripts/check-public-beta-data-realification-next-acti
 const expectedOutput = {
   status: "public_beta_data_realification_next_action_ready",
   ceoRecommendation: "twii_source_rights_unblock_first_etf_parallel_public_runtime_mock",
-  pmMainline: "prepare_twii_source_rights_unblock_decision_record_candidate",
-  a1Next: "twii_source_rights_unblock_decision_record_candidate",
-  a2Next: "keep_batch1_twii_core_etf_public_copy_mock_labeled",
+  pmMainline: "prepare_twii_official_source_intake_fields_or_vendor_terms_review_packet",
+  a1Next: "twii_official_source_intake_fields_or_vendor_terms_review_packet",
+  a2Next: "source_rights_pending_public_language_guardrail",
   fallbackIfRightsStayBlocked: "continue_public_beta_runtime_readability_and_production_readonly_guards"
 };
 
@@ -85,6 +85,8 @@ if ((output.missingEvidence ?? []).length !== 0) problems.push("missingEvidence 
 for (const phrase of [
   "docs/A1_DATA_COVERAGE_NEXT_BATCH_HANDOFF.md",
   "docs/A1_SOURCE_RIGHTS_UNBLOCK_PRIORITY_PACKET.md",
+  "docs/A1_TWII_SOURCE_RIGHTS_UNBLOCK_DECISION_RECORD_CANDIDATE.md",
+  "docs/A1_TWII_SOURCE_RIGHTS_EVIDENCE_INTAKE_OR_VENDOR_FALLBACK_DECISION_SUPPORT.md",
   "docs/A2_PUBLIC_BETA_BATCH1_TWII_CORE_ETF_TRUST_COPY.md",
   "docs/DATA_REALIFICATION_POST_FIRST_CLOSED_LOOP_NEXT_LANE_SELECTOR.md",
   "docs/PUBLIC_BETA_INDEX_DASHBOARD_BRIEF.md"

@@ -3,6 +3,8 @@ import fs from "node:fs";
 const inputs = {
   a1Coverage: "docs/A1_DATA_COVERAGE_NEXT_BATCH_HANDOFF.md",
   a1RightsPriority: "docs/A1_SOURCE_RIGHTS_UNBLOCK_PRIORITY_PACKET.md",
+  a1DecisionRecord: "docs/A1_TWII_SOURCE_RIGHTS_UNBLOCK_DECISION_RECORD_CANDIDATE.md",
+  a1EvidenceFallback: "docs/A1_TWII_SOURCE_RIGHTS_EVIDENCE_INTAKE_OR_VENDOR_FALLBACK_DECISION_SUPPORT.md",
   a2TrustCopy: "docs/A2_PUBLIC_BETA_BATCH1_TWII_CORE_ETF_TRUST_COPY.md",
   pmSelector: "docs/DATA_REALIFICATION_POST_FIRST_CLOSED_LOOP_NEXT_LANE_SELECTOR.md",
   publicBrief: "docs/PUBLIC_BETA_INDEX_DASHBOARD_BRIEF.md"
@@ -25,6 +27,8 @@ const requiredPhrases = [
   [inputs.a1Coverage, "ETF daily coverage for `0050`"],
   [inputs.a1Coverage, "ETF daily coverage for `006208`"],
   [inputs.a1RightsPriority, "A1 next assignment: `twii_source_rights_unblock_decision_record_candidate`"],
+  [inputs.a1DecisionRecord, "The next route is `twii_source_rights_evidence_intake_or_vendor_fallback_decision_support`"],
+  [inputs.a1EvidenceFallback, "The next route is `twii_official_source_intake_fields_or_vendor_terms_review_packet`"],
   [inputs.a2TrustCopy, "Batch 1 starts with TWII and core ETF"],
   [inputs.publicBrief, "understand the market mood within 30 seconds"]
 ];
@@ -43,9 +47,9 @@ const output = {
   mode: "local_only_next_action_selector",
   decision: {
     ceoRecommendation: "twii_source_rights_unblock_first_etf_parallel_public_runtime_mock",
-    pmMainline: "prepare_twii_source_rights_unblock_decision_record_candidate",
-    a1Next: "twii_source_rights_unblock_decision_record_candidate",
-    a2Next: "keep_batch1_twii_core_etf_public_copy_mock_labeled",
+    pmMainline: "prepare_twii_official_source_intake_fields_or_vendor_terms_review_packet",
+    a1Next: "twii_official_source_intake_fields_or_vendor_terms_review_packet",
+    a2Next: "source_rights_pending_public_language_guardrail",
     fallbackIfRightsStayBlocked: "continue_public_beta_runtime_readability_and_production_readonly_guards"
   },
   coverage: requiredEvidence,
@@ -73,7 +77,7 @@ const output = {
   },
   missingEvidence,
   nextHumanReadableSummary:
-    "Keep public Beta readable while A1 prepares a no-secret TWII source-rights unblock decision record. ETF remains parallel but blocked by rights evidence. No data execution or promotion is authorized by this report."
+    "Keep public Beta readable while A1 prepares a no-secret official-source intake plus vendor/internal-feed fallback packet for TWII. ETF remains parallel but blocked by rights evidence. No data execution or promotion is authorized by this report."
 };
 
 console.log(JSON.stringify(output, null, 2));
