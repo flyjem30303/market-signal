@@ -2933,6 +2933,11 @@ const checks = [
     name: "stock-product-first-runtime-readability"
   },
   {
+    command: [node, "scripts/check-stock-decision-aid-actionability.mjs"],
+    expectStatus: "ok",
+    name: "stock-decision-aid-actionability"
+  },
+  {
     command: [node, "scripts/check-stock-first-screen-action-summary.mjs"],
     expectStatus: "ok",
     name: "stock-first-screen-action-summary"
@@ -5913,6 +5918,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "source-coverage-runtime-handoff-docs",
   "public-beta-data-realification-next-action",
   "open-free-auto-data-source-gate",
+  "stock-decision-aid-actionability",
   "twse-openapi-bounded-metadata-terms-validation",
   "twse-openapi-source-adapter-contract",
   "twse-openapi-parser-contract",
