@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { BriefingPublicBetaGateSummary } from "@/components/briefing-public-beta-gate-summary";
+import { BriefingPublicDecisionSummaryPanel } from "@/components/briefing-public-decision-summary-panel";
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { PageViewTracker } from "@/components/page-view-tracker";
 import { PostReadonlyProductStatus } from "@/components/post-readonly-product-status";
@@ -69,6 +70,7 @@ export default async function BriefingPage() {
   return (
     <main className="page-shell">
       <PageViewTracker eventName="briefing_page_viewed" payload={{ page: "briefing" }} />
+      <BriefingPublicDecisionSummaryPanel breadth={breadth} market={market} topRisk={topRisk} />
       <BriefingExecutiveSummary market={market} topRisk={topRisk} />
 
       <section className="hero briefing-hero">

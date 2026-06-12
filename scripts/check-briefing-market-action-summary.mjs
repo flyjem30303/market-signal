@@ -1,14 +1,23 @@
 import fs from "node:fs";
 
 const helperPath = "src/lib/briefing-market-action-summary.ts";
+const decisionHelperPath = "src/lib/briefing-public-decision-summary.ts";
+const decisionPanelPath = "src/components/briefing-public-decision-summary-panel.tsx";
 const pagePath = "src/app/briefing/page.tsx";
 const cssPath = "src/app/globals.css";
 const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 
-const files = new Map(
-  [helperPath, pagePath, cssPath, packagePath, reviewGatePath].map((file) => [file, fs.readFileSync(file, "utf8")])
-);
+const paths = [
+  helperPath,
+  decisionHelperPath,
+  decisionPanelPath,
+  pagePath,
+  cssPath,
+  packagePath,
+  reviewGatePath
+];
+const files = new Map(paths.map((file) => [file, fs.readFileSync(file, "utf8")]));
 
 const required = [
   [helperPath, "buildBriefingMarketActionSummary"],
@@ -19,16 +28,27 @@ const required = [
   [helperPath, "publicDataSource=mock"],
   [helperPath, "scoreSource=mock"],
   [helperPath, "市場風險升溫"],
-  [helperPath, "市場暫時偏穩"],
+  [helperPath, "市場氣氛偏穩"],
   [helperPath, "不提供買賣建議"],
-  [helperPath, "mock-only 公開 Beta"],
+  [helperPath, "mock-only"],
   [helperPath, "promotion gate"],
+  [decisionHelperPath, "buildBriefingPublicDecisionSummary"],
+  [decisionHelperPath, "30 秒看懂今日市場氣氛"],
+  [decisionHelperPath, "3 分鐘內請看"],
+  [decisionHelperPath, "publicDataSource=mock"],
+  [decisionHelperPath, "scoreSource=mock"],
+  [decisionPanelPath, "BriefingPublicDecisionSummaryPanel"],
+  [decisionPanelPath, "市場氛圍"],
+  [decisionPanelPath, "更新時間"],
+  [decisionPanelPath, "影響級別"],
+  [decisionPanelPath, "下一步"],
+  [pagePath, "BriefingPublicDecisionSummaryPanel"],
   [pagePath, "buildBriefingMarketActionSummary"],
   [pagePath, "marketActionSummary"],
   [pagePath, "briefing-market-action-summary"],
-  [pagePath, "Market Action Summary"],
   [pagePath, "briefing_market_action_primary"],
   [pagePath, "briefing_market_action_secondary"],
+  [cssPath, ".briefing-public-decision-summary"],
   [cssPath, ".briefing-market-action-summary"],
   [cssPath, ".briefing-market-action-summary a.active"],
   [cssPath, ".briefing-market-action-summary a.hold"],
@@ -47,13 +67,30 @@ const forbidden = [
   [helperPath, "node:fs"],
   [helperPath, 'scoreSource: "real"'],
   [helperPath, 'publicDataSource: "supabase"'],
+  [decisionHelperPath, "@supabase/supabase-js"],
+  [decisionHelperPath, "createClient"],
+  [decisionHelperPath, "fetch("],
+  [decisionHelperPath, '.from("'],
+  [decisionHelperPath, ".from('"],
+  [decisionHelperPath, "process.env"],
+  [decisionHelperPath, "node:fs"],
+  [decisionHelperPath, 'scoreSource: "real"'],
+  [decisionHelperPath, 'publicDataSource: "supabase"'],
+  [decisionPanelPath, "@supabase/supabase-js"],
+  [decisionPanelPath, "createClient"],
+  [decisionPanelPath, "fetch("],
+  [decisionPanelPath, '.from("'],
+  [decisionPanelPath, ".from('"],
+  [decisionPanelPath, "process.env"],
+  [decisionPanelPath, "node:fs"],
   [pagePath, 'scoreSource="real"'],
   [pagePath, 'publicDataSource="supabase"']
 ];
 
 const missing = required.filter(([file, phrase]) => !read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
 const blocked = forbidden.filter(([file, phrase]) => read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
-const mojibakeHits = findMojibakeMarkers(read(helperPath)).map((marker) => `${helperPath}: ${marker}`);
+const mojibakeHits = [helperPath, decisionHelperPath, decisionPanelPath]
+  .flatMap((file) => findMojibakeMarkers(read(file)).map((marker) => `${file}: ${marker}`));
 
 console.log(
   JSON.stringify(
@@ -74,7 +111,8 @@ function read(file) {
 }
 
 function findMojibakeMarkers(source) {
-  const markers = ["嚙", "銝", "蝷", "鞈", "撠", "甇", "餃", "", "", "", "", "", "�"];
-  const privateUse = /[\uE000-\uF8FF]/u.test(source) ? ["private-use-codepoint"] : [];
-  return [...markers.filter((marker) => source.includes(marker)), ...privateUse];
+  const markers = [];
+  if (/\uFFFD/u.test(source)) markers.push("replacement-character");
+  if (/[\uE000-\uF8FF]/u.test(source)) markers.push("private-use-codepoint");
+  return markers;
 }
