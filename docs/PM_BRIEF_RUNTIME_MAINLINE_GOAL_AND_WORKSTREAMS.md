@@ -33,6 +33,7 @@ PM should not wait for A1/A2 unless a mainline change directly depends on their 
 
 Latest PM integration:
 
+- PM cleaned the shared public Beta route-reading path across Home, `/briefing`, and stock detail. The route panel now uses reader-facing Chinese for the three-step path, source/coverage state, next data gate, and mock boundary, and the dedicated checker blocks mojibake/developer residue on the shared route surface.
 - PM cleaned the Home `Public Beta Index Dashboard` BRIEF loop so its headline, market overview, core indicator panel, alert list, update time, impact level, next step, and stop line are readable Chinese. The dedicated checker now blocks mojibake/developer residue in this high-exposure loop while preserving `publicDataSource=mock`, `scoreSource=mock`, and non-advice boundaries.
 - PM translated the accepted Batch 1 listed-equity policy into the shared `Source & Coverage` public panel. The public label layer now explains `第一批示範標的`, `不是完整上市股票覆蓋`, and `上市個股與 ETF/指數分開` so users can understand that visible stock pages are mock demo anchors, not full listed-equity coverage or live data.
 - PM accepted `docs/A1_BATCH1_LISTED_EQUITY_SYMBOL_POLICY_NO_ROW_LIST.md` as the Batch 1 listed-equity policy input. The accepted policy keeps the first listed-equity batch small, visible, and explainable; blocks full stock-id row-list output; separates listed equity from ETF, index, OTC, and other instrument scopes; and keeps public labels mock-only and non-advice. The next route is `prepare_batch1_listed_equity_mock_runtime_policy_labels`.
@@ -101,7 +102,7 @@ A2 is responsible for:
 - mock/real boundary readability,
 - non-investment-advice wording,
 - blocking internal execution strings on public surfaces.
-- next background task: review the cleaned Home BRIEF loop and Batch 1 labels together; propose only bounded copy repair if public wording is too dense, still feels internal, or weakens the mock/non-advice boundary.
+- next background task: review the cleaned route-reading path, Home BRIEF loop, and Batch 1 labels together; propose only bounded copy repair if public wording is too dense, still feels internal, or weakens the mock/non-advice boundary.
 
 A2 is not authorized by this goal to:
 
@@ -156,7 +157,7 @@ This goal slice is complete when:
 
 Recommended next mainline action:
 
-`home_brief_loop_readability_then_next_no_fetch_coverage_artifact`
+`route_reading_path_cleanup_then_next_no_fetch_coverage_artifact`
 
 Meaning:
 

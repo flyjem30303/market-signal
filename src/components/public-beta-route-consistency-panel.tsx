@@ -20,7 +20,7 @@ export function PublicBetaRouteConsistencyPanel({
   return (
     <section className="public-beta-route-consistency" aria-label="Public Beta route consistency">
       <div className="public-beta-route-consistency__head">
-        <p className="eyebrow">Public Beta Reading Path</p>
+        <p className="eyebrow">公開 Beta 閱讀路徑</p>
         <h2>{route.headline}</h2>
         <p>{route.primaryMessage}</p>
         <p>{route.subhead}</p>
@@ -45,13 +45,13 @@ export function PublicBetaRouteConsistencyPanel({
 
       <div className="public-beta-route-consistency__boundary">
         <article>
-          <span>資料來源與覆蓋率</span>
-          <strong>候選來源確認中</strong>
+          <span>資料來源與覆蓋</span>
+          <strong>候選確認中</strong>
           <p>{route.sourceCoverageState}</p>
         </article>
         <article>
           <span>下一個資料關卡</span>
-          <strong>先接示範標籤</strong>
+          <strong>先補來源與欄位，不升級正式資料</strong>
           <p>{route.nextDataGate}</p>
         </article>
         <article>

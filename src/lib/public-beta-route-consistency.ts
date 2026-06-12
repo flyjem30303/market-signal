@@ -31,9 +31,9 @@ export function getPublicBetaRouteConsistency(
     boundary: {
       publicDataSource: "mock",
       scoreSource: "mock",
-      stopLine: "目前所有公開路徑仍是 mock-only 公開 Beta；不是即時真實資料，不提供買賣建議。"
+      stopLine: "目前仍是 mock-only 公開 Beta，不宣稱即時真實資料、不宣稱完整覆蓋，也不提供買賣建議。"
     },
-    headline: context === "stock" ? "從標的回到市場，再確認資料邊界" : "同一條閱讀路徑：首頁、晨報、標的頁",
+    headline: context === "stock" ? "從市場到標的，保持同一條閱讀路徑" : "首頁、晨報、標的頁共用同一套判讀順序",
     nextDataGate:
       "下一步只會先補官方候選來源的條款位置、欄位對照與覆蓋範圍；正式資料上線仍需另外通過來源、品質、回讀與揭露 gate。",
     primaryMessage:
@@ -54,12 +54,12 @@ export function getPublicBetaRouteConsistency(
       {
         href: stockHref,
         label: "3",
-        purpose: "確認標的氛圍、資料缺口、風險來源與 mock 邊界。",
-        title: `${stockSymbol}：標的細節`
+        purpose: "確認單一標的狀態、資料限制與 mock 邊界。",
+        title: `${stockSymbol}：標的確認`
       }
     ],
     sourceCoverageState:
-      "資料來源與覆蓋率仍在確認中：可以公開說明候選來源與覆蓋路線，但不能宣稱正式匯入、完整覆蓋或 real score。",
-    subhead: "這個區塊用同一套語言把產品路徑、資料邊界與下一個資料關卡串起來。"
+      "資料來源與覆蓋率仍在候選確認階段；公開頁只顯示示範可讀、檢查中或暫停公開，不把 mock 結果包裝成正式市場訊號。",
+    subhead: "每個路由都先說現在能看什麼、為什麼要看、下一步該看哪裡，避免使用者只看單一數字。"
   };
 }
