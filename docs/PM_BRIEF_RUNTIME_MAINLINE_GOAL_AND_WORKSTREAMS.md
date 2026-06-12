@@ -51,7 +51,8 @@ Active A1 artifact:
 - `docs/A1_OFFICIAL_OPEN_FREE_SOURCE_TERMS_AND_COVERAGE_MATRIX_NO_FETCH.md`
 - `docs/A1_PUBLIC_BETA_SOURCE_COVERAGE_RUNTIME_NO_FETCH_HANDOFF.md`
 - `docs/A1_TWSE_OPENAPI_TERMS_FIELD_COVERAGE_MATRIX_NO_FETCH.md`
-- current PM assignment: keep extending source / coverage evidence toward the full public Beta data universe, but return only sanitized, no-secret, no-fetch artifacts that PM can accept through local checks.
+- `docs/A1_TWSE_OPENAPI_INDEX_BASELINE_FIELD_CONTRACT_CONFIRMATION_NO_FETCH.md`
+- current PM assignment: prepare index-baseline synthetic contract cases and a Batch 1 listed-equity symbol policy without stock-id row-list output; return only sanitized, no-secret, no-fetch artifacts that PM can accept through local checks.
 
 A1 is responsible for:
 
@@ -59,7 +60,7 @@ A1 is responsible for:
 - coverage categories for daily close, volume, date, symbol, ETF, index, and stock lanes,
 - no-fetch terms review packets,
 - source-lane questions for PM/CEO decisions.
-- next background task: prepare a no-fetch field-contract confirmation packet for index baseline and Batch 1 listed-equity planning; return only sanitized, no-secret, terms/field-contract artifacts for PM acceptance.
+- next background task: `prepare_index_baseline_synthetic_contract_cases_no_fetch` and `prepare_batch1_listed_equity_symbol_policy_no_row_list`; keep the output local-only, no-fetch, no-secret, and PM-readable.
 
 A1 is not authorized by this goal to:
 
@@ -89,7 +90,7 @@ A2 is responsible for:
 - mock/real boundary readability,
 - non-investment-advice wording,
 - blocking internal execution strings on public surfaces.
-- next background task: monitor the new source/coverage labels for public readability, small-screen crowding, internal workflow terms, and mock/non-advice boundary clarity; propose copy-only patches only when they improve comprehension or safety.
+- next background task: `prepare_field_contract_public_copy_guard`; keep field-contract wording public-readable as `欄位對照仍在檢查`, avoid parser internals, and preserve mock/non-advice boundary clarity.
 
 A2 is not authorized by this goal to:
 
@@ -144,8 +145,8 @@ This goal slice is complete when:
 
 Recommended next mainline action:
 
-`source_coverage_route_health_then_index_baseline_field_contract_handoff`
+`route_health_and_field_contract_status_mock_labeling`
 
 Meaning:
 
-PM should keep the new source/coverage labels route-healthy while A1 prepares the next no-fetch index-baseline field-contract confirmation packet. A2 should continue watching whether source/coverage copy remains understandable on public pages and small screens. Real-data promotion remains blocked until a separately accepted source-rights, coverage, quality, rollback, and runtime gate is recorded.
+PM should keep the new source/coverage labels route-healthy and, only if it improves public comprehension, expose field-contract status as mock-only reader wording such as `欄位對照仍在檢查`. A1 should prepare synthetic-only field-contract cases and a Batch 1 symbol policy without row-list output. A2 should guard public wording so field-contract status does not leak parser internals. Real-data promotion remains blocked until a separately accepted source-rights, coverage, quality, rollback, and runtime gate is recorded.
