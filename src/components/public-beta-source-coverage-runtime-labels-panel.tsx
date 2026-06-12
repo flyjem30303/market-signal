@@ -40,6 +40,16 @@ export function PublicBetaSourceCoverageRuntimeLabelsPanel({
         ))}
       </div>
 
+      <div className="public-beta-source-coverage-runtime__field-contracts" aria-label="Source field contract status">
+        {labels.fieldContracts.map((contract) => (
+          <article key={contract.id}>
+            <span>{contract.status}</span>
+            <strong>{contract.label}</strong>
+            <p>{contract.detail}</p>
+          </article>
+        ))}
+      </div>
+
       <div className="public-beta-source-coverage-runtime__actions" aria-label="Source coverage reading actions">
         {labels.readingActions.map((action) => (
           <article key={action.id}>

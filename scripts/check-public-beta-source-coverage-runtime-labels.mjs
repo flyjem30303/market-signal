@@ -37,6 +37,10 @@ requireIncludes("module", moduleSource, [
   "大盤基準",
   "核心 ETF",
   "上市個股批次",
+  "fieldContracts",
+  "欄位對照仍在檢查",
+  "大盤欄位對照",
+  "上市個股欄位對照",
   "先看資料狀態",
   "再看覆蓋缺口",
   "最後決定觀察方向",
@@ -53,6 +57,7 @@ requireIncludes("component", component, [
   "檢查中",
   "暫停公開",
   "public-beta-source-coverage-runtime__layers",
+  "public-beta-source-coverage-runtime__field-contracts",
   "public-beta-source-coverage-runtime__actions",
   "public-beta-source-coverage-runtime__boundary",
   "publicDataSource=",
@@ -73,6 +78,7 @@ requireIncludes("briefing", briefing, [
 requireIncludes("css", css, [
   ".public-beta-source-coverage-runtime",
   ".public-beta-source-coverage-runtime__layers",
+  ".public-beta-source-coverage-runtime__field-contracts",
   ".public-beta-source-coverage-runtime__actions",
   ".public-beta-source-coverage-runtime__boundary"
 ]);
@@ -119,6 +125,9 @@ async function checkRoute(path) {
     "大盤基準",
     "核心 ETF",
     "上市個股批次",
+    "欄位對照仍在檢查",
+    "大盤欄位對照",
+    "上市個股欄位對照",
     "展示可用",
     "檢查中",
     "暫停公開",

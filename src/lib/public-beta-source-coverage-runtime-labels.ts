@@ -8,6 +8,13 @@ export type PublicBetaSourceCoverageLayer = {
   state: "usable_demo" | "checking" | "blocked";
 };
 
+export type PublicBetaFieldContractStatus = {
+  detail: string;
+  id: string;
+  label: string;
+  status: string;
+};
+
 export type PublicBetaSourceCoverageAction = {
   body: string;
   id: string;
@@ -21,6 +28,7 @@ export type PublicBetaSourceCoverageRuntimeLabels = {
     scoreSource: "mock";
     stopLine: string;
   };
+  fieldContracts: PublicBetaFieldContractStatus[];
   headline: string;
   layers: PublicBetaSourceCoverageLayer[];
   readingActions: PublicBetaSourceCoverageAction[];
@@ -43,6 +51,20 @@ export function getPublicBetaSourceCoverageRuntimeLabels(
       scoreSource: "mock",
       stopLine: "正式資料上線前，不宣稱即時真實資料、不宣稱完整覆蓋，也不提供買賣建議。"
     },
+    fieldContracts: [
+      {
+        detail: "日期、收盤值與缺漏交易日規則仍在確認；正式資料上線前只做示範閱讀。",
+        id: "index-baseline-field-contract",
+        label: "大盤欄位對照",
+        status: "欄位對照仍在檢查"
+      },
+      {
+        detail: "標的代碼、標的名稱、收盤價、成交量與成交金額仍在確認，不代表全上市股票已覆蓋。",
+        id: "listed-equity-batch1-field-contract",
+        label: "上市個股欄位對照",
+        status: "欄位對照仍在檢查"
+      }
+    ],
     headline: "資料來源與覆蓋狀態",
     layers: [
       {

@@ -33,6 +33,7 @@ PM should not wait for A1/A2 unless a mainline change directly depends on their 
 
 Latest PM integration:
 
+- The shared `Source & Coverage` runtime-label panel now includes field-contract status copy: `欄位對照仍在檢查`, `大盤欄位對照`, and `上市個股欄位對照`. PM converted the accepted A1 no-fetch field-contract packet into public-readable mock labels without claiming real parser readiness, complete coverage, or source promotion.
 - The `Source & Coverage` runtime-label panel now includes a 3-minute reading action strip: check data state, check coverage gaps, and choose the next observation direction. This makes the source/coverage surface actionable for public Beta users while preserving mock-only and non-advice boundaries.
 - Home, briefing, and stock detail now share a `Source & Coverage` runtime-label panel. The panel turns A1's no-fetch source/coverage handoff into reader-facing states: index baseline checking, core ETF blocked, and first listed-equity batch usable only as mock demonstration. PM accepted `docs/A1_TWSE_OPENAPI_TERMS_FIELD_COVERAGE_MATRIX_NO_FETCH.md` for mock runtime label planning and accepted `docs/A2_SOURCE_COVERAGE_RUNTIME_LABELS_PUBLIC_COPY_REVIEW.md` after applying bounded copy repair. This keeps source trust and coverage gaps visible without claiming real data, complete coverage, or real score readiness.
 - Home, briefing, and stock detail now share a visible `Public Beta Reading Path` panel. The route consistency surface tells users how to move from 30-second market overview to 3-minute briefing judgment to stock detail confirmation, while translating A1 data-line status into reader-facing candidate-source confirmation and preserving `publicDataSource=mock` / `scoreSource=mock` / non-advice boundaries.
@@ -145,8 +146,8 @@ This goal slice is complete when:
 
 Recommended next mainline action:
 
-`route_health_and_field_contract_status_mock_labeling`
+`prepare_index_baseline_synthetic_contract_cases_no_fetch_then_pm_route_health`
 
 Meaning:
 
-PM should keep the new source/coverage labels route-healthy and, only if it improves public comprehension, expose field-contract status as mock-only reader wording such as `欄位對照仍在檢查`. A1 should prepare synthetic-only field-contract cases and a Batch 1 symbol policy without row-list output. A2 should guard public wording so field-contract status does not leak parser internals. Real-data promotion remains blocked until a separately accepted source-rights, coverage, quality, rollback, and runtime gate is recorded.
+PM should keep the field-contract labels route-healthy while A1 prepares synthetic-only field-contract cases and a Batch 1 symbol policy without row-list output. A2 should guard public wording so field-contract status stays understandable and does not leak parser internals. Real-data promotion remains blocked until a separately accepted source-rights, coverage, quality, rollback, and runtime gate is recorded.
