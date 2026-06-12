@@ -33,6 +33,7 @@ PM should not wait for A1/A2 unless a mainline change directly depends on their 
 
 Latest PM integration:
 
+- PM added `src/lib/twse-openapi-index-baseline-mock-runtime-handoff.ts` to summarize the index-baseline fixture into mock runtime statuses: `可示範`, `暫停公開`, and `政策待確認`. The handoff status is `twse_openapi_index_baseline_mock_runtime_handoff_ready_no_fetch`, and the next route is `index_baseline_mock_runtime_handoff_review_then_public_label_integration`.
 - PM converted A1's no-fetch index-baseline synthetic cases into `src/lib/twse-openapi-index-baseline-synthetic-fixture.ts`. The fixture status is `twse_openapi_index_baseline_synthetic_parser_fixture_ready_no_fetch` and covers valid date/close, missing close, duplicate date, missing optional fields, revision warning, and session-gap behavior without fetching market rows or promoting real data.
 - Completed route anchor retained for checker continuity: `prepare_index_baseline_synthetic_parser_fixture_no_fetch`.
 - The shared `Source & Coverage` runtime-label panel now includes field-contract status copy: `欄位對照仍在檢查`, `大盤欄位對照`, and `上市個股欄位對照`. PM converted the accepted A1 no-fetch field-contract packet into public-readable mock labels without claiming real parser readiness, complete coverage, or source promotion.
@@ -150,8 +151,8 @@ This goal slice is complete when:
 
 Recommended next mainline action:
 
-`twse_openapi_index_baseline_synthetic_parser_fixture_review_then_mock_runtime_handoff`
+`index_baseline_mock_runtime_handoff_review_then_public_label_integration`
 
 Meaning:
 
-PM should review the new index-baseline synthetic parser fixture and, if route checks remain healthy, prepare a mock runtime handoff that exposes only public-readable readiness and fail-closed labels. A1 should keep Batch 1 symbol policy queued without row-list output. A2 should keep field-contract public copy understandable and non-advice. Real-data promotion remains blocked until a separately accepted source-rights, coverage, quality, rollback, and runtime gate is recorded.
+PM should review the new mock runtime handoff and integrate only the public-readable parts into existing source/coverage labels if it improves 30-second market mood or 3-minute action judgment. A1 should keep Batch 1 symbol policy queued without row-list output. A2 should keep field-contract public copy understandable and non-advice. Real-data promotion remains blocked until a separately accepted source-rights, coverage, quality, rollback, and runtime gate is recorded.
