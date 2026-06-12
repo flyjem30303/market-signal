@@ -3898,6 +3898,11 @@ const checks = [
     name: "twse-openapi-coverage-and-backfill-readiness"
   },
   {
+    command: [node, "scripts/check-twse-openapi-index-baseline-synthetic-parser-fixture.mjs"],
+    expectStatus: "ok",
+    name: "twse-openapi-index-baseline-synthetic-parser-fixture"
+  },
+  {
     command: [node, "scripts/check-runtime-promotion-policy-from-first-closed-loop.mjs"],
     expectStatus: "ok",
     name: "runtime-promotion-policy-from-first-closed-loop"
@@ -5786,6 +5791,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "a1-twse-openapi-index-baseline-field-contract-confirmation-no-fetch",
   "a1-index-baseline-synthetic-contract-cases-no-fetch",
   "a2-field-contract-public-copy-guard",
+  "twse-openapi-index-baseline-synthetic-parser-fixture",
   "public-beta-launch-readiness-panel",
   "public-beta-data-readiness-status",
   "beta-platform-proof-status",

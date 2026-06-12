@@ -33,6 +33,8 @@ PM should not wait for A1/A2 unless a mainline change directly depends on their 
 
 Latest PM integration:
 
+- PM converted A1's no-fetch index-baseline synthetic cases into `src/lib/twse-openapi-index-baseline-synthetic-fixture.ts`. The fixture status is `twse_openapi_index_baseline_synthetic_parser_fixture_ready_no_fetch` and covers valid date/close, missing close, duplicate date, missing optional fields, revision warning, and session-gap behavior without fetching market rows or promoting real data.
+- Completed route anchor retained for checker continuity: `prepare_index_baseline_synthetic_parser_fixture_no_fetch`.
 - The shared `Source & Coverage` runtime-label panel now includes field-contract status copy: `欄位對照仍在檢查`, `大盤欄位對照`, and `上市個股欄位對照`. PM converted the accepted A1 no-fetch field-contract packet into public-readable mock labels without claiming real parser readiness, complete coverage, or source promotion.
 - The `Source & Coverage` runtime-label panel now includes a 3-minute reading action strip: check data state, check coverage gaps, and choose the next observation direction. This makes the source/coverage surface actionable for public Beta users while preserving mock-only and non-advice boundaries.
 - Home, briefing, and stock detail now share a `Source & Coverage` runtime-label panel. The panel turns A1's no-fetch source/coverage handoff into reader-facing states: index baseline checking, core ETF blocked, and first listed-equity batch usable only as mock demonstration. PM accepted `docs/A1_TWSE_OPENAPI_TERMS_FIELD_COVERAGE_MATRIX_NO_FETCH.md` for mock runtime label planning and accepted `docs/A2_SOURCE_COVERAGE_RUNTIME_LABELS_PUBLIC_COPY_REVIEW.md` after applying bounded copy repair. This keeps source trust and coverage gaps visible without claiming real data, complete coverage, or real score readiness.
@@ -148,8 +150,8 @@ This goal slice is complete when:
 
 Recommended next mainline action:
 
-`prepare_index_baseline_synthetic_parser_fixture_no_fetch`
+`twse_openapi_index_baseline_synthetic_parser_fixture_review_then_mock_runtime_handoff`
 
 Meaning:
 
-PM should convert the accepted A1 synthetic contract cases into a no-fetch parser fixture or fixture-readiness gate for index baseline. A1 should keep Batch 1 symbol policy queued without row-list output. A2 should keep field-contract public copy understandable and non-advice. Real-data promotion remains blocked until a separately accepted source-rights, coverage, quality, rollback, and runtime gate is recorded.
+PM should review the new index-baseline synthetic parser fixture and, if route checks remain healthy, prepare a mock runtime handoff that exposes only public-readable readiness and fail-closed labels. A1 should keep Batch 1 symbol policy queued without row-list output. A2 should keep field-contract public copy understandable and non-advice. Real-data promotion remains blocked until a separately accepted source-rights, coverage, quality, rollback, and runtime gate is recorded.
