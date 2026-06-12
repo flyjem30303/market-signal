@@ -33,6 +33,8 @@ PM should not wait for A1/A2 unless a mainline change directly depends on their 
 
 Latest PM integration:
 
+- A1 TWII exact source-rights and field-contract evidence is ready for PM review at `docs/A1_TWII_EXACT_SOURCE_RIGHTS_AND_FIELD_CONTRACT_EVIDENCE_NO_FETCH.md`. The packet records official metadata references, daily cadence, free/open license reference, OpenAPI metadata reference, and minimum field contract for `trade_date`, `close_value`, `instrument_code`, `instrument_name`, `source_url_label`, and `source_updated_at`. It remains no-fetch/no-execution: no SQL, no Supabase connection/read/write, no staging rows, no `daily_prices` mutation, no endpoint probe, no row payload, no raw market-data storage, no source promotion, no `publicDataSource=supabase`, and no `scoreSource=real`. The next PM route is `review_exact_twii_evidence_then_prepare_operator_readonly_decision_packet_or_repair`; A1 next owns `prepare_twii_operator_readonly_decision_packet_no_execution_if_pm_accepts_evidence`; A2 next owns `prepare_twii_source_attribution_cadence_phrase_set_patch_if_pm_requests`.
+
 - PM surfaced bounded readonly requirements in the shared public Beta data-readiness runtime surface. `src/lib/public-beta-data-readiness-status.ts` and `src/components/public-beta-data-readiness-status.tsx` now expose `來源權利`, `欄位契約`, `安全輸出`, and `升級鎖` so users and PM can see what must be true before any future readonly gate, without implying authorization or execution. The next PM/A1 route is `prepare_exact_source_rights_and_field_contract_evidence_for_future_readonly_attempt`.
 - A2 TWII source-attribution and cadence public-copy guard is ready for PM intake at `docs/A2_TWII_SOURCE_ATTRIBUTION_AND_CADENCE_PUBLIC_COPY_GUARD.md`. PM accepted the background output after bounded repair and registered `scripts/check-a2-twii-source-attribution-and-cadence-public-copy-guard.mjs`. The guard protects source-attribution wording, daily-after-close cadence wording, mock boundary, and non-investment-advice wording before any real-data promotion.
 - A1 bounded readonly gate candidate requirements are now ready for PM intake at `docs/A1_TWII_BOUNDED_READONLY_GATE_CANDIDATE_REQUIREMENTS_NO_EXECUTION.md`. The packet defines future attempt fields, fail-closed requirements, source-rights evidence, field contract, cadence, no-secret output, no raw/row payload output, no Supabase write, no `daily_prices` mutation, no promotion, and post-run review requirements while remaining no-execution. The next PM route is `surface_bounded_readonly_requirements_as_runtime_readiness_then_wait_for_external_execution_decision`; A1 next owns `prepare_exact_source_rights_and_field_contract_evidence_for_future_readonly_attempt`; A2 next owns `review_twii_source_attribution_and_cadence_public_copy_guard`.
@@ -74,7 +76,8 @@ Active A1 artifact:
 - `docs/A1_PUBLIC_BETA_NEXT_NO_FETCH_COVERAGE_ARTIFACT.md`
 - `docs/A1_TWII_TERMS_FIELD_CADENCE_ATTRIBUTION_NO_FETCH_PACKET.md`
 - `docs/A1_TWII_BOUNDED_READONLY_GATE_CANDIDATE_REQUIREMENTS_NO_EXECUTION.md`
-- current PM assignment: surface the bounded readonly requirements as runtime readiness only if it improves source-trust clarity without implying a readonly attempt has been authorized.
+- `docs/A1_TWII_EXACT_SOURCE_RIGHTS_AND_FIELD_CONTRACT_EVIDENCE_NO_FETCH.md`
+- current PM assignment: review the exact TWII source-rights and field-contract evidence, then either prepare an operator readonly decision packet or repair the evidence packet.
 
 A1 is responsible for:
 
@@ -82,7 +85,7 @@ A1 is responsible for:
 - coverage categories for daily close, volume, date, symbol, ETF, index, and stock lanes,
 - no-fetch terms review packets,
 - source-lane questions for PM/CEO decisions.
-- next background task: prepare `prepare_exact_source_rights_and_field_contract_evidence_for_future_readonly_attempt`; keep output field-name-only, aggregate-only, local-only, no-fetch, no-secret, and PM-readable.
+- next background task: prepare `prepare_twii_operator_readonly_decision_packet_no_execution_if_pm_accepts_evidence`; keep output field-name-only, aggregate-only, local-only, no-fetch, no-secret, and PM-readable.
 
 A1 is not authorized by this goal to:
 
@@ -169,8 +172,8 @@ This goal slice is complete when:
 
 Recommended next mainline action:
 
-`prepare_exact_source_rights_and_field_contract_evidence_for_future_readonly_attempt`
+`review_exact_twii_evidence_then_prepare_operator_readonly_decision_packet_or_repair`
 
 Meaning:
 
-PM has surfaced the no-execution bounded readonly requirements in mock-safe runtime wording. A1 should prepare exact source-rights and field-contract evidence for a future readonly attempt, while A2 prepares copy-only phrase-set patches only if PM requests them. Real-data promotion remains blocked until a separately accepted source-rights, coverage, quality, rollback, and runtime gate is recorded.
+PM now has exact TWII source-rights and field-contract metadata evidence in a no-fetch packet. CEO/PM should review whether the packet is sufficient to prepare a no-execution operator readonly decision packet, or whether A1 must repair evidence gaps first. A2 should prepare source-attribution/cadence phrase-set patches only if PM requests them. Real-data promotion remains blocked until a separately accepted source-rights, coverage, quality, rollback, and runtime gate is recorded.

@@ -44,6 +44,7 @@
     "check:a1-public-beta-next-no-fetch-coverage-artifact": "node scripts/check-a1-public-beta-next-no-fetch-coverage-artifact.mjs",
     "check:a1-twii-terms-field-cadence-attribution-no-fetch-packet": "node scripts/check-a1-twii-terms-field-cadence-attribution-no-fetch-packet.mjs",
     "check:a1-twii-bounded-readonly-gate-candidate-requirements-no-execution": "node scripts/check-a1-twii-bounded-readonly-gate-candidate-requirements-no-execution.mjs",
+    "check:a1-twii-exact-source-rights-and-field-contract-evidence-no-fetch": "node scripts/check-a1-twii-exact-source-rights-and-field-contract-evidence-no-fetch.mjs",
     "check:a2-field-contract-public-copy-guard": "node scripts/check-a2-field-contract-public-copy-guard.mjs",
     "check:a2-twii-source-attribution-and-cadence-public-copy-guard": "node scripts/check-a2-twii-source-attribution-and-cadence-public-copy-guard.mjs",
     "check:pm-brief-runtime-mainline-goal-and-workstreams": "node scripts/check-pm-brief-runtime-mainline-goal-and-workstreams.mjs",
