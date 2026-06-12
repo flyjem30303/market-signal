@@ -30,11 +30,12 @@ PM remains the only integration owner. A1 and A2 may prepare local-only packets,
 
 ## Active Goal - 2026-06-12
 
-GOAL: advance from completed `OFFICIAL-001` through `OFFICIAL-012` intake into `twse_openapi_bounded_metadata_terms_validation_ready_no_market_rows`, then prepare `twse_openapi_source_adapter_contract_scaffold_no_data_fetch` and the next local-only synthetic parser contract route.
+GOAL: advance from completed `OFFICIAL-001` through `OFFICIAL-012` intake into `twse_openapi_bounded_metadata_terms_validation_ready_no_market_rows`, `twse_openapi_source_adapter_contract_scaffold_no_data_fetch`, and `twse_openapi_parser_contract_with_synthetic_fixtures_only`.
 
 Completion definition:
 - `docs/TWSE_OPENAPI_BOUNDED_METADATA_TERMS_VALIDATION.md` records metadata-only TWSE OpenAPI route validation, terms / attribution posture, field-contract limitations, and next adapter route;
 - `src/lib/twse-openapi-source-adapter-contract.ts` records route contracts, normalized output shape, attribution contract, and hard mock/no-fetch boundaries;
+- `src/lib/twse-openapi-parser-contract.ts` records synthetic-only parser behavior for route-level date, number, required-field, duplicate-date, and fail-closed handling;
 - PM selector points to `prepare_twse_openapi_bounded_metadata_terms_validation_and_source_adapter_design`;
 - A1 owns endpoint metadata / field-contract notes without market-row fetch;
 - A2 owns public attribution / delay / no-advice copy guard;
@@ -43,8 +44,8 @@ Completion definition:
 - PM records status and Git backup after passing checks.
 
 Parallel work split:
-- PM: integrate the TWSE OpenAPI bounded metadata / terms validation packet, source adapter contract, checkers, selector, status, review gate, and Git backup.
-- A1: prepare endpoint metadata / field-contract notes and next synthetic fixture parser contract for TWII, listed stock daily close, listed stock daily trading info, and market statistics without fetching market rows.
+- PM: integrate the TWSE OpenAPI bounded metadata / terms validation packet, source adapter contract, parser contract, checkers, selector, status, review gate, and Git backup.
+- A1: prepare parser consumer adapter notes using synthetic fixtures only for TWII, listed stock daily close, listed stock daily trading info, and market statistics without fetching market rows.
 - A2: prepare public attribution, delayed-data, non-investment-advice, source-gap, and no-official-endorsement copy guard.
 - D: remain available for source-rights wording review if PM finds a legal ambiguity, but do not run data or runtime work.
 
@@ -61,8 +62,8 @@ Owned work:
 - Stage percentage and next-slice selection.
 
 Current next tasks:
-- Continue the active GOAL toward `twse_openapi_source_adapter_contract_scaffold_no_data_fetch`.
-- Current mainline route is `twse_openapi_parser_contract_with_synthetic_fixtures_only`.
+- Continue the active GOAL toward `twse_openapi_parser_contract_with_synthetic_fixtures_only`.
+- Current mainline route is `twse_openapi_parser_contract_consumer_adapter_no_fetch`.
 - Keep runtime foundation, route health, launch engineering, and data promotion handoff moving, but do not proceed to real-data promotion until the open-data source gate and official-source intake packet remain passing.
 - Keep publicDataSource=mock and scoreSource=mock until explicit release criteria are met.
 - Integrate A1/A2 packets only after local checks pass.

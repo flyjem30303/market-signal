@@ -3848,6 +3848,11 @@ const checks = [
     name: "twse-openapi-source-adapter-contract"
   },
   {
+    command: [node, "--experimental-strip-types", "scripts/check-twse-openapi-parser-contract.mjs"],
+    expectStatus: "ok",
+    name: "twse-openapi-parser-contract"
+  },
+  {
     command: [node, "scripts/check-runtime-promotion-policy-from-first-closed-loop.mjs"],
     expectStatus: "ok",
     name: "runtime-promotion-policy-from-first-closed-loop"
@@ -5648,6 +5653,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "open-free-auto-data-source-gate",
   "twse-openapi-bounded-metadata-terms-validation",
   "twse-openapi-source-adapter-contract",
+  "twse-openapi-parser-contract",
   "public-beta-launch-readiness-panel",
   "public-beta-data-readiness-status",
   "beta-platform-proof-status",

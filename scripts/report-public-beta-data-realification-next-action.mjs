@@ -8,6 +8,7 @@ const inputs = {
   a1OfficialIntake: "docs/A1_TWII_OFFICIAL_SOURCE_INTAKE_FIELDS_OR_VENDOR_TERMS_REVIEW_PACKET.md",
   twseMetadataTerms: "docs/TWSE_OPENAPI_BOUNDED_METADATA_TERMS_VALIDATION.md",
   twseAdapterContract: "src/lib/twse-openapi-source-adapter-contract.ts",
+  twseParserContract: "src/lib/twse-openapi-parser-contract.ts",
   a2TrustCopy: "docs/A2_PUBLIC_BETA_BATCH1_TWII_CORE_ETF_TRUST_COPY.md",
   pmSelector: "docs/DATA_REALIFICATION_POST_FIRST_CLOSED_LOOP_NEXT_LANE_SELECTOR.md",
   publicBrief: "docs/PUBLIC_BETA_INDEX_DASHBOARD_BRIEF.md"
@@ -36,6 +37,7 @@ const requiredPhrases = [
   [inputs.a1OfficialIntake, "a1_twii_official_source_intake_fields_or_vendor_terms_review_packet_filled_official_001_012_no_execution"],
   [inputs.twseMetadataTerms, "twse_openapi_bounded_metadata_terms_validation_ready_no_market_rows"],
   [inputs.twseAdapterContract, "twse_openapi_source_adapter_contract_scaffold_no_data_fetch"],
+  [inputs.twseParserContract, "twse_openapi_parser_contract_with_synthetic_fixtures_only"],
   [inputs.a2TrustCopy, "Batch 1 starts with TWII and core ETF"],
   [inputs.publicBrief, "understand the market mood within 30 seconds"]
 ];
@@ -53,9 +55,9 @@ const output = {
     : "public_beta_data_realification_next_action_blocked_missing_local_evidence",
   mode: "local_only_next_action_selector",
   decision: {
-    ceoRecommendation: "twse_openapi_parser_contract_next_public_runtime_mock_parallel",
-    pmMainline: "prepare_twse_openapi_parser_contract_with_synthetic_fixtures_only",
-    a1Next: "twse_openapi_synthetic_fixture_parser_contract_no_market_rows",
+    ceoRecommendation: "twse_openapi_consumer_adapter_next_public_runtime_mock_parallel",
+    pmMainline: "prepare_twse_openapi_parser_contract_consumer_adapter_no_fetch",
+    a1Next: "twse_openapi_parser_consumer_adapter_synthetic_only",
     a2Next: "open_data_attribution_delay_no_advice_public_copy_guardrail",
     fallbackIfRightsStayBlocked: "continue_public_beta_runtime_readability_and_production_readonly_guards"
   },
@@ -84,7 +86,7 @@ const output = {
   },
   missingEvidence,
   nextHumanReadableSummary:
-    "TWSE OpenAPI metadata / terms validation and the no-fetch source adapter contract are ready. Move next to a parser contract using synthetic fixtures only while public runtime remains mock. No market-row fetch, data execution, Supabase write, or promotion is authorized by this report."
+    "TWSE OpenAPI metadata / terms validation, source adapter contract, and synthetic-only parser contract are ready. Move next to a no-fetch consumer adapter while public runtime remains mock. No market-row fetch, data execution, Supabase write, or promotion is authorized by this report."
 };
 
 console.log(JSON.stringify(output, null, 2));
