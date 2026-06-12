@@ -5,6 +5,7 @@ import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { PageViewTracker } from "@/components/page-view-tracker";
 import { PostReadonlyProductStatus } from "@/components/post-readonly-product-status";
 import { PublicBetaDecisionLoopBridge } from "@/components/public-beta-decision-loop-bridge";
+import { PublicBetaDecisionJourneyPanel } from "@/components/public-beta-decision-journey-panel";
 import { PublicBetaDataReadinessStatus } from "@/components/public-beta-data-readiness-status";
 import { PublicBetaRouteConsistencyPanel } from "@/components/public-beta-route-consistency-panel";
 import { PublicBetaSourceCoverageRuntimeLabelsPanel } from "@/components/public-beta-source-coverage-runtime-labels-panel";
@@ -72,6 +73,7 @@ export default async function BriefingPage() {
       <BriefingPublicDecisionSummaryPanel breadth={breadth} market={market} topRisk={topRisk} />
       <PublicBetaDecisionLoopBridge context="briefing" stockSymbol={market.asset.symbol} />
       <PublicBetaUsableLoopPanel context="briefing" stockSymbol={market.asset.symbol} />
+      <PublicBetaDecisionJourneyPanel context="briefing" stockSymbol={market.asset.symbol} />
       <PublicBetaRouteConsistencyPanel context="briefing" stockSymbol={market.asset.symbol} />
       <PublicBetaSourceCoverageRuntimeLabelsPanel context="briefing" stockSymbol={market.asset.symbol} />
       <BriefingExecutiveSummary market={market} topRisk={topRisk} />

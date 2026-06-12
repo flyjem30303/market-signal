@@ -2988,6 +2988,11 @@ const checks = [
     name: "public-beta-decision-loop-bridge"
   },
   {
+    command: [node, "scripts/check-public-beta-decision-journey-panel.mjs"],
+    expectStatus: "ok",
+    name: "public-beta-decision-journey-panel"
+  },
+  {
     command: [node, "scripts/check-public-beta-usable-loop-panel.mjs"],
     expectStatus: "ok",
     name: "public-beta-usable-loop-panel"
@@ -5889,6 +5894,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "local-verification-runbook",
   "public-visible-language-quality",
   "public-beta-decision-loop-bridge",
+  "public-beta-decision-journey-panel",
   "public-beta-index-dashboard-brief-loop",
   "public-beta-route-consistency",
   "public-beta-source-coverage-runtime-labels",

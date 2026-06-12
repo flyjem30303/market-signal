@@ -3611,6 +3611,89 @@ select {
   padding-top: 12px;
 }
 
+.public-beta-decision-journey {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.9fr) minmax(340px, 1.4fr);
+  gap: 14px;
+  border: 1px solid rgba(13, 148, 136, 0.2);
+  border-radius: 8px;
+  background: #f8fffc;
+  padding: 18px;
+}
+
+.public-beta-decision-journey__head {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+}
+
+.public-beta-decision-journey__head h2 {
+  margin: 0;
+  color: var(--text);
+  font-size: 22px;
+  line-height: 1.25;
+}
+
+.public-beta-decision-journey__head p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.public-beta-decision-journey__steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.public-beta-decision-journey__step {
+  display: grid;
+  align-content: start;
+  min-width: 0;
+  gap: 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  padding: 14px;
+  text-decoration: none;
+}
+
+.public-beta-decision-journey__step:hover {
+  border-color: rgba(13, 148, 136, 0.35);
+  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.08);
+}
+
+.public-beta-decision-journey__step span,
+.public-beta-decision-journey__boundary span {
+  color: var(--teal);
+  font-size: 12px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.public-beta-decision-journey__step strong,
+.public-beta-decision-journey__boundary strong {
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.35;
+}
+
+.public-beta-decision-journey__step p,
+.public-beta-decision-journey__boundary p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.public-beta-decision-journey__boundary {
+  display: grid;
+  grid-column: 1 / -1;
+  gap: 8px;
+  border-top: 1px solid rgba(13, 148, 136, 0.16);
+  padding-top: 12px;
+}
+
 .public-beta-usable-loop {
   display: grid;
   grid-template-columns: minmax(260px, 0.8fr) minmax(320px, 1.4fr);
@@ -13366,6 +13449,8 @@ input[type="date"] {
   .public-beta-decision-loop-bridge,
   .public-beta-decision-loop-bridge__steps,
   .public-beta-decision-loop-bridge__footer,
+  .public-beta-decision-journey,
+  .public-beta-decision-journey__steps,
   .public-beta-usable-loop,
   .public-beta-usable-loop__cards,
   .public-beta-usable-loop__boundary,

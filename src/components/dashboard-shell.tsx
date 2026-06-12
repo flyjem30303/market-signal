@@ -9,6 +9,7 @@ import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { HomeRuntimeStatusPanel } from "@/components/home-runtime-status-panel";
 import { PublicBetaIndexDashboardBriefLoopPanel } from "@/components/public-beta-index-dashboard-brief-loop-panel";
 import { PublicBetaDecisionLoopBridge } from "@/components/public-beta-decision-loop-bridge";
+import { PublicBetaDecisionJourneyPanel } from "@/components/public-beta-decision-journey-panel";
 import { PublicBetaRouteConsistencyPanel } from "@/components/public-beta-route-consistency-panel";
 import { PublicBetaSourceCoverageRuntimeLabelsPanel } from "@/components/public-beta-source-coverage-runtime-labels-panel";
 import { PublicBetaUsableLoopPanel } from "@/components/public-beta-usable-loop-panel";
@@ -293,6 +294,8 @@ export function DashboardShell({
 
       {!includeSeoContent && <PublicBetaDecisionLoopBridge context="home" stockSymbol={selected.symbol} />}
 
+      {!includeSeoContent && <PublicBetaDecisionJourneyPanel context="home" stockSymbol={selected.symbol} />}
+
       {!includeSeoContent && <PublicBetaRouteConsistencyPanel context="home" stockSymbol={selected.symbol} />}
 
       {!includeSeoContent && <HomeRuntimeStatusPanel selectedSymbol={selected.symbol} />}
@@ -301,6 +304,7 @@ export function DashboardShell({
         <>
           <StockRuntimeAtAGlance scoreSourceLabel={freshness.scoreSourceLabel} snapshot={snapshot} />
           <PublicBetaDecisionLoopBridge context="stock" stockSymbol={selected.symbol} />
+          <PublicBetaDecisionJourneyPanel context="stock" stockSymbol={selected.symbol} />
           <PublicBetaUsableLoopPanel context="stock" stockSymbol={selected.symbol} />
           <PublicBetaRouteConsistencyPanel context="stock" stockSymbol={selected.symbol} />
           <PublicBetaSourceCoverageRuntimeLabelsPanel context="stock" stockSymbol={selected.symbol} />
