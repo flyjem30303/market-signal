@@ -11,6 +11,7 @@ import { PublicBetaIndexDashboardBriefLoopPanel } from "@/components/public-beta
 import { PublicBetaDecisionLoopBridge } from "@/components/public-beta-decision-loop-bridge";
 import { PublicBetaRouteConsistencyPanel } from "@/components/public-beta-route-consistency-panel";
 import { PublicBetaSourceCoverageRuntimeLabelsPanel } from "@/components/public-beta-source-coverage-runtime-labels-panel";
+import { PublicBetaUsableLoopPanel } from "@/components/public-beta-usable-loop-panel";
 import { StockRuntimeAtAGlance } from "@/components/stock-runtime-at-a-glance";
 import { TrackedLink } from "@/components/tracked-link";
 import { TwiiMockDisclosureStatus } from "@/components/twii-mock-disclosure-status";
@@ -280,6 +281,8 @@ export function DashboardShell({
 
       {!includeSeoContent && <PublicBetaSourceCoverageRuntimeLabelsPanel context="home" stockSymbol={selected.symbol} />}
 
+      {!includeSeoContent && <PublicBetaUsableLoopPanel context="home" stockSymbol={selected.symbol} />}
+
       {!includeSeoContent && (
         <HomeProductOverview
           scoreSourceLabel={freshness.scoreSourceLabel}
@@ -299,6 +302,7 @@ export function DashboardShell({
           <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
           <StockRuntimeAtAGlance scoreSourceLabel={freshness.scoreSourceLabel} snapshot={snapshot} />
           <PublicBetaDecisionLoopBridge context="stock" stockSymbol={selected.symbol} />
+          <PublicBetaUsableLoopPanel context="stock" stockSymbol={selected.symbol} />
           <PublicBetaRouteConsistencyPanel context="stock" stockSymbol={selected.symbol} />
           <PublicBetaSourceCoverageRuntimeLabelsPanel context="stock" stockSymbol={selected.symbol} />
           <StockRuntimeBrief scoreSourceLabel={freshness.scoreSourceLabel} snapshot={snapshot} onTab={changeTab} />

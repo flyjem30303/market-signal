@@ -45,7 +45,11 @@ const routeAndDataRequired = [
   "首頁：看市場溫度",
   "Briefing：看原因與行動",
   "Source & Coverage",
-  "資料來源與覆蓋範圍"
+  "資料來源與覆蓋範圍",
+  "公開 Beta 可用閉環",
+  "看懂市場氛圍",
+  "形成觀察行動",
+  "非投資建議"
 ];
 
 const homeAndBriefingDataRequired = [

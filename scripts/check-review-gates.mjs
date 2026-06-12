@@ -2973,6 +2973,11 @@ const checks = [
     name: "public-beta-decision-loop-bridge"
   },
   {
+    command: [node, "scripts/check-public-beta-usable-loop-panel.mjs"],
+    expectStatus: "ok",
+    name: "public-beta-usable-loop-panel"
+  },
+  {
     command: [node, "scripts/check-public-language-gate-self-audit.mjs"],
     expectStatus: "ok",
     name: "public-language-gate-self-audit"

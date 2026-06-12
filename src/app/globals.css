@@ -3611,6 +3611,106 @@ select {
   padding-top: 12px;
 }
 
+.public-beta-usable-loop {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.8fr) minmax(320px, 1.4fr);
+  gap: 14px;
+  border: 1px solid rgba(37, 99, 235, 0.18);
+  border-radius: 8px;
+  background: #f8fbff;
+  padding: 18px;
+}
+
+.public-beta-usable-loop__head {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+}
+
+.public-beta-usable-loop__head h2 {
+  margin: 0;
+  color: var(--text);
+  font-size: 22px;
+  line-height: 1.25;
+}
+
+.public-beta-usable-loop__head p,
+.public-beta-usable-loop__stop-line {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.public-beta-usable-loop__cards,
+.public-beta-usable-loop__boundary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.public-beta-usable-loop__boundary,
+.public-beta-usable-loop__stop-line {
+  grid-column: 1 / -1;
+}
+
+.public-beta-usable-loop__cards article,
+.public-beta-usable-loop__boundary article {
+  display: grid;
+  align-content: start;
+  min-width: 0;
+  gap: 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  padding: 14px;
+}
+
+.public-beta-usable-loop__cards article.active,
+.public-beta-usable-loop__boundary article.active {
+  border-color: rgba(15, 118, 110, 0.22);
+  background: #f7fffc;
+}
+
+.public-beta-usable-loop__cards article.readying,
+.public-beta-usable-loop__boundary article.readying {
+  border-color: rgba(217, 119, 6, 0.22);
+  background: #fffdf6;
+}
+
+.public-beta-usable-loop__cards article.blocked,
+.public-beta-usable-loop__boundary article.blocked {
+  border-color: rgba(190, 18, 60, 0.18);
+  background: #fff8f9;
+}
+
+.public-beta-usable-loop__cards span,
+.public-beta-usable-loop__boundary span {
+  color: var(--teal);
+  font-size: 12px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.public-beta-usable-loop__cards strong,
+.public-beta-usable-loop__boundary strong {
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.35;
+}
+
+.public-beta-usable-loop__cards p,
+.public-beta-usable-loop__boundary p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.public-beta-usable-loop__stop-line {
+  border-top: 1px solid rgba(37, 99, 235, 0.14);
+  padding-top: 12px;
+}
+
 .runtime-next-links {
   display: flex;
   flex-wrap: wrap;
@@ -13106,6 +13206,9 @@ input[type="date"] {
   .public-beta-decision-loop-bridge,
   .public-beta-decision-loop-bridge__steps,
   .public-beta-decision-loop-bridge__footer,
+  .public-beta-usable-loop,
+  .public-beta-usable-loop__cards,
+  .public-beta-usable-loop__boundary,
   .public-beta-data-readiness-status,
   .public-beta-data-readiness-lanes,
   .public-beta-source-trust,
