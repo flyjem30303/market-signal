@@ -4338,6 +4338,11 @@ const checks = [
     name: "a1-public-beta-source-coverage-runtime-no-fetch-handoff"
   },
   {
+    command: [node, "scripts/check-a1-brief-source-coverage-next-handoff-no-fetch.mjs"],
+    expectStatus: "ok",
+    name: "a1-brief-source-coverage-next-handoff-no-fetch"
+  },
+  {
     command: [node, "scripts/check-a1-official-open-free-source-terms-and-coverage-matrix-no-fetch.mjs"],
     expectStatus: "ok",
     name: "a1-official-open-free-source-terms-and-coverage-matrix-no-fetch"
@@ -4396,6 +4401,11 @@ const checks = [
     command: [node, "scripts/check-a2-field-contract-public-copy-guard.mjs"],
     expectStatus: "ok",
     name: "a2-field-contract-public-copy-guard"
+  },
+  {
+    command: [node, "scripts/check-a2-brief-public-runtime-surface-audit.mjs"],
+    expectStatus: "ok",
+    name: "a2-brief-public-runtime-surface-audit"
   },
   {
     command: [node, "scripts/check-a2-twii-source-attribution-and-cadence-public-copy-guard.mjs"],
@@ -5844,6 +5854,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "twse-openapi-runtime-consumer-adapter-synthetic-case-notes",
   "twse-openapi-field-contract-roadmap",
   "twse-openapi-coverage-and-backfill-readiness",
+  "a1-brief-source-coverage-next-handoff-no-fetch",
   "a1-twse-openapi-index-baseline-field-contract-confirmation-no-fetch",
   "a1-index-baseline-synthetic-contract-cases-no-fetch",
   "a1-batch1-listed-equity-symbol-policy-no-row-list",
@@ -5855,6 +5866,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "a1-twii-readonly-execution-packet-prerequisites-no-execution",
   "a2-twii-operator-decision-public-copy-guard",
   "a2-field-contract-public-copy-guard",
+  "a2-brief-public-runtime-surface-audit",
   "a2-twii-source-attribution-and-cadence-public-copy-guard",
   "twse-openapi-index-baseline-synthetic-parser-fixture",
   "twse-openapi-index-baseline-mock-runtime-handoff",

@@ -33,6 +33,8 @@ PM should not wait for A1/A2 unless a mainline change directly depends on their 
 
 Latest PM integration:
 
+- PM completed the next A1/A2 support-lane assignment locally because background agent capacity was full. A1 now owns `docs/A1_BRIEF_SOURCE_COVERAGE_NEXT_HANDOFF_NO_FETCH.md` with next task `prepare_public_beta_source_coverage_gap_matrix_no_fetch`: keep source/coverage planning no-fetch, aggregate-only, no SQL, no Supabase, and no public real-data promotion. A2 now owns `docs/A2_BRIEF_PUBLIC_RUNTIME_SURFACE_AUDIT.md`, guarding public routes for `Public Beta Decision Loop`, `30 秒市場氛圍，3 分鐘行動判斷`, `Source & Coverage`, `Data Readiness`, `publicDataSource=mock`, `scoreSource=mock`, non-real-time wording, and non-investment-advice wording. PM registered both focused checkers and review-gate entries so these lanes can run in parallel while PM remains integration owner.
+
 - PM is cleaning the public product runtime surfaces so the site reads like a Beta index status dashboard rather than an internal execution console. `Public Beta Reading Path`, `Data Readiness`, and `Source & Coverage` now focus on market mood, cause/time review, source coverage limits, mock/real boundary, and next observation action. A1 remains assigned to legal/free automated source and coverage evidence; A2 remains assigned to public copy safety. The mainline should keep integrating only the support-lane outputs that improve user comprehension or runtime safety, and defer broad visual polish until the foundation is stable.
 
 - PM added a shared `PublicBetaDecisionLoopBridge` across `/`, `/briefing`, and stock runtime pages. The bridge uses the same public product loop everywhere: `30 秒市場氛圍，3 分鐘行動判斷`, `先看市場氛圍`, `再看成因與時間`, and `最後看資料邊界`. It keeps the boundary visible: `publicDataSource=mock`, `scoreSource=mock`, not real-time live data, and no buy/sell advice. A1 continues the data/source/coverage lane without fetch, SQL, Supabase write, raw payload, or promotion. A2 now reviews this shared bridge for public-copy safety and should block any future copy that turns the bridge into live-data, official-source approval, or investment-advice language.
@@ -79,6 +81,7 @@ A1 owns source and coverage preparation that does not fetch market rows.
 
 Active A1 artifact:
 
+- `docs/A1_BRIEF_SOURCE_COVERAGE_NEXT_HANDOFF_NO_FETCH.md`
 - `docs/A1_OFFICIAL_OPEN_FREE_SOURCE_TERMS_AND_COVERAGE_MATRIX_NO_FETCH.md`
 - `docs/A1_PUBLIC_BETA_SOURCE_COVERAGE_RUNTIME_NO_FETCH_HANDOFF.md`
 - `docs/A1_TWSE_OPENAPI_TERMS_FIELD_COVERAGE_MATRIX_NO_FETCH.md`
@@ -99,6 +102,7 @@ A1 is responsible for:
 - coverage categories for daily close, volume, date, symbol, ETF, index, and stock lanes,
 - no-fetch terms review packets,
 - source-lane questions for PM/CEO decisions.
+- current next task: prepare `prepare_public_beta_source_coverage_gap_matrix_no_fetch` from already accepted no-fetch source/coverage evidence, with no market-row fetch, no raw payload, no SQL, no Supabase, no `daily_prices` mutation, and no public source promotion.
 - next background task: prepare `A1_BRIEF_SOURCE_COVERAGE_NEXT_HANDOFF_NO_FETCH` when agent capacity is available, focused on source/coverage status, the next smallest no-fetch data task, PM-safe public runtime language, and checker requirements.
 - fallback task while agent capacity is full: monitor future explicit operator decision; if authorization is later accepted, prepare no-write execution packet details from `docs/A1_TWII_READONLY_EXECUTION_PACKET_PREREQUISITES_NO_EXECUTION.md`.
 
@@ -118,6 +122,7 @@ A2 owns public-copy safety and user comprehension.
 
 Active A2 artifact:
 
+- `docs/A2_BRIEF_PUBLIC_RUNTIME_SURFACE_AUDIT.md`
 - `docs/A2_HOME_FIRST_SCREEN_PUBLIC_COPY_HANDOFF.md`
 - `docs/A2_PUBLIC_COPY_UX_SAFETY_QA_HANDOFF_2026_06_12.md`
 - `docs/A2_SOURCE_COVERAGE_RUNTIME_LABELS_PUBLIC_COPY_REVIEW.md`
@@ -133,6 +138,7 @@ A2 is responsible for:
 - mock/real boundary readability,
 - non-investment-advice wording,
 - blocking internal execution strings on public surfaces.
+- current next task: keep the public runtime surface audit current across `/`, `/briefing`, weekly, stock, methodology, disclaimer, terms, and privacy routes; block internal packet language, real-time claims, complete-coverage claims, source-promotion claims, and buy/sell advice.
 - next background task: review the cleaned `Public Beta Reading Path`, `Data Readiness`, and `Source & Coverage` surfaces for public-copy safety when agent capacity is available.
 - fallback task while agent capacity is full: monitor any future copy integration request and use `docs/A2_TWII_OPERATOR_DECISION_PUBLIC_COPY_GUARD.md`; keep it copy-only and do not approve source rights, real data, real scoring, SQL, Supabase, raw payloads, or investment advice.
 
