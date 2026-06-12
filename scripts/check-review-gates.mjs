@@ -3828,6 +3828,11 @@ const checks = [
     name: "data-realification-post-first-closed-loop-next-lane-selector"
   },
   {
+    command: [node, "scripts/check-public-beta-data-realification-next-action.mjs"],
+    expectStatus: "ok",
+    name: "public-beta-data-realification-next-action"
+  },
+  {
     command: [node, "scripts/check-runtime-promotion-policy-from-first-closed-loop.mjs"],
     expectStatus: "ok",
     name: "runtime-promotion-policy-from-first-closed-loop"
@@ -5252,6 +5257,7 @@ const coreReviewGateNames = new Set([
   "tw-equity-row-coverage-scoring-gate",
   "data-realification-first-closed-loop-rollup",
   "data-realification-post-first-closed-loop-next-lane-selector",
+  "public-beta-data-realification-next-action",
   "runtime-promotion-policy-from-first-closed-loop",
   "runtime-policy-public-surface-mapping",
   "bounded-public-surface-copy-patch-from-mapping",
@@ -5623,6 +5629,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "local-verification-runbook",
   "public-visible-language-quality",
   "public-beta-index-dashboard-brief-loop",
+  "public-beta-data-realification-next-action",
   "public-beta-launch-readiness-panel",
   "public-beta-data-readiness-status",
   "beta-platform-proof-status",
