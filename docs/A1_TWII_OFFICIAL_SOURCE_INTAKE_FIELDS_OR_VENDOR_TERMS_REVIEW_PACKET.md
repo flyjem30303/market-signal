@@ -48,9 +48,9 @@ Fill these fields only with safe non-secret conclusions, citations, or internal 
 
 | Field id | Field | Fill state | Required safe value |
 | --- | --- | --- | --- |
-| `OFFICIAL-001` | Source authority | `ACCEPTED_SAFE_PUBLIC_REFERENCE` | Taiwan Stock Exchange Corporation (`TWSE`) is the official public authority/source surface for TAIEX/TWII index series and TAIEX historical index values. This accepts source identity only; it does not approve automated access, storage, redistribution, derived analysis, candidate generation, or execution. |
-| `OFFICIAL-002` | Terms location | `TERMS_LOCATION_IDENTIFIED_SAFE_PUBLIC_REFERENCE` | Safe public reference locations are TWSE website Terms of Use and TWSE Regulations Governing the Use of Trading Information / contracts / fee standards pages. This identifies where rights review must occur; it does not approve automated access, internal storage, redistribution, commercial use, or public real-data display. |
-| `OFFICIAL-003` | Automated access | `BLOCKED_PENDING_TWSE_CONSENT_OR_CONTRACTED_METHOD` | Unconsented automated download / crawler / scraper / extraction access is not accepted as a future access method. Automated access can move forward only if a TWSE-agreed method, prior consent, contracted trading-information route, or separately approved internal feed/vendor route is recorded later. |
+| `OFFICIAL-001` | Source authority | `ACCEPTED_SAFE_PUBLIC_REFERENCE_OPEN_DATA_ROUTE_SEPARATE` | Taiwan Stock Exchange Corporation (`TWSE`) remains the official public authority/source surface for TAIEX/TWII index series and TAIEX historical index values. The current automatable candidate route is `official_open_data_api` via data.gov open-data references and TWSE OpenAPI; this does not approve TWSE website crawling, storage, redistribution, derived analysis, candidate generation, or execution. |
+| `OFFICIAL-002` | Terms location | `TERMS_LOCATION_IDENTIFIED_OPEN_DATA_AND_TWSE_BOUNDARY_REFERENCE` | Primary terms locations for the no-cost automatable route are data.gov Open Government Data License, relevant data.gov TWSE dataset pages, and TWSE OpenAPI swagger. TWSE website Terms of Use and TWSE Trading Information use / contracts / fee standards pages remain boundary references for non-open-data website automation and paid/contracted routes. |
+| `OFFICIAL-003` | Automated access | `BLOCKED_UNCONSENTED_WEBSITE_AUTOMATION_OPENAPI_ROUTE_SEPARATE` | Unconsented TWSE website download / crawler / scraper / extraction access remains blocked. The separate candidate route is machine access through data.gov-referenced TWSE OpenAPI endpoints, pending bounded metadata / terms / field-contract validation; this still does not approve parser implementation, market-data fetch, storage, Supabase write, public promotion, or real scoring. |
 | `OFFICIAL-004` | Internal storage | `TBD_ACCEPTED_REJECTED_OR_BLOCKED` | State whether internal storage of source-derived TWII values is allowed. |
 | `OFFICIAL-005` | Retention/deletion | `TBD_ACCEPTED_REJECTED_OR_BLOCKED` | State retention window, deletion duty, cache limits, rollback, and audit posture. |
 | `OFFICIAL-006` | Redistribution/display | `TBD_ACCEPTED_REJECTED_OR_BLOCKED` | State public display, screenshots, export, API reuse, and downstream-copy limits. |
@@ -63,15 +63,18 @@ Fill these fields only with safe non-secret conclusions, citations, or internal 
 
 Official source fill status:
 
-`partially_filled_official_001_002_003_source_authority_terms_location_and_automated_access_only`
+`reconciled_official_001_002_003_for_official_open_data_api_candidate_only`
 
 ### OFFICIAL-001 Evidence Note
 
-PM records `TWSE` as the safe public source authority for the TWII/TAIEX index lane because TWSE identifies the Taiwan Stock Exchange Capitalization Weighted Stock Index (`TAIEX`) as a TWSE self-compiled index and provides a public TAIEX Total Index Historical Data surface.
+PM records `TWSE` as the safe public source authority for the TWII/TAIEX index lane because TWSE identifies the Taiwan Stock Exchange Capitalization Weighted Stock Index (`TAIEX`) as a TWSE self-compiled index and provides public index-history surfaces.
+
+PM also reconciles this field with `docs/OPEN_FREE_AUTO_DATA_SOURCE_GATE.md`: the current low-cost automatable candidate is not TWSE website crawling. It is `official_open_data_api` through data.gov open-data references and TWSE OpenAPI.
 
 This note is intentionally narrow:
 
 - accepted: source authority / official public source surface;
+- accepted: `official_open_data_api` as the current candidate route for later bounded validation;
 - not accepted: automated access method;
 - not accepted: internal storage;
 - not accepted: retention / deletion;
@@ -80,11 +83,19 @@ This note is intentionally narrow:
 - not accepted: derived analysis or row coverage scoring;
 - not accepted: commercial/global use;
 - not accepted: field-contract approval;
-- not accepted: candidate generation, parser work, market-data fetch, SQL, Supabase, `daily_prices` mutation, public source promotion, or real scoring.
+- not accepted: TWSE website crawling, candidate generation, parser work, market-data fetch, SQL, Supabase, `daily_prices` mutation, public source promotion, or real scoring.
 
 ### OFFICIAL-002 Evidence Note
 
-PM records the safe public terms-location references for TWII/TAIEX source-rights review:
+PM records the safe public terms-location references for TWII/TAIEX source-rights review. The primary terms-location route for the no-cost automatable strategy is now the data.gov open-data route plus TWSE OpenAPI metadata:
+
+- Data.gov Open Government Data License: `https://data.gov.tw/license`.
+- Data.gov TWSE dataset reference: `https://data.gov.tw/dataset/11669`.
+- Data.gov TWSE dataset reference: `https://data.gov.tw/dataset/11548`.
+- Data.gov TWSE dataset reference: `https://data.gov.tw/dataset/11549`.
+- TWSE OpenAPI swagger: `https://openapi.twse.com.tw/v1/swagger.json`.
+
+TWSE website and trading-information pages remain boundary references:
 
 - TWSE Terms of Use: `https://www.twse.com.tw/zh/terms/use.html`.
 - TWSE English Terms of Use: `https://www.twse.com.tw/en/terms/use.html`.
@@ -93,12 +104,13 @@ PM records the safe public terms-location references for TWII/TAIEX source-right
 
 The terms-location review also records two important stop-lines from those references:
 
-- TWSE Terms of Use identifies download / automated-tool restrictions and intellectual-property boundaries that require separate acceptance before any automated access or reuse.
+- Data.gov license and dataset references identify the primary low-cost open-data terms location for the `official_open_data_api` candidate.
+- TWSE Terms of Use identifies download / automated-tool restrictions and intellectual-property boundaries for non-open-data website access.
 - TWSE Trading Information use pages identify the management rules / contract / fee-standard route for applicants using trading information.
 
 This note is intentionally narrow:
 
-- accepted: safe public terms-location references for review;
+- accepted: safe public terms-location references for the open-data candidate and website/contract boundary review;
 - not accepted: interpretation that the terms permit automated download;
 - not accepted: internal storage;
 - not accepted: redistribution / public display;
@@ -107,8 +119,10 @@ This note is intentionally narrow:
 
 ### OFFICIAL-003 Evidence Note
 
-PM records the automated-access posture for the TWII/TAIEX source-rights review:
+PM records the automated-access posture for the TWII/TAIEX source-rights review. This field now separates blocked website automation from the newer `official_open_data_api` candidate route:
 
+- Data.gov Open Government Data License: `https://data.gov.tw/license`.
+- TWSE OpenAPI swagger: `https://openapi.twse.com.tw/v1/swagger.json`.
 - TWSE Terms of Use: `https://www.twse.com.tw/zh/terms/use.html`.
 - TWSE English Terms of Use: `https://www.twse.com.tw/en/terms/use.html`.
 - TWSE Trading Information use / contracts / fee standards page: `https://www.twse.com.tw/zh/products/information/use.html`.
@@ -117,12 +131,15 @@ PM records the automated-access posture for the TWII/TAIEX source-rights review:
 The automated-access review records these stop-lines:
 
 - unconsented automated download, crawler, scraper, script, automated program, or extraction-tool access is not accepted;
-- automated access can move forward only through a TWSE-agreed method, prior consent, contracted trading-information route, or separately approved internal feed/vendor route;
+- TWSE website automation remains blocked;
+- data.gov-referenced TWSE OpenAPI machine access is a separate candidate route for bounded metadata / terms / field-contract validation;
+- automated access can move forward only through the open-data API route after validation, a TWSE-agreed method, prior consent, contracted trading-information route, or separately approved internal feed/vendor route;
 - this field does not choose the final source lane; it only blocks unconsented official-site automation from becoming the default.
 
 This note is intentionally narrow:
 
-- accepted: automated access is blocked unless later consented, contracted, or separately approved;
+- accepted: unconsented TWSE website automation is blocked;
+- accepted: data.gov-referenced TWSE OpenAPI is a separate automatable candidate for the next bounded validation gate;
 - not accepted: parser implementation, probe, endpoint test, market-data fetch, raw payload capture, candidate generation, SQL, Supabase, `daily_prices` mutation, public source promotion, or real scoring;
 - not accepted: treating this packet as legal advice or final contractual approval.
 
