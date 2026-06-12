@@ -3368,6 +3368,11 @@ const checks = [
     name: "a2-public-copy-ux-safety-brief-handoff"
   },
   {
+    command: [node, "scripts/check-a2-public-beta-runtime-ux-safety-handoff.mjs"],
+    expectStatus: "ok",
+    name: "a2-public-beta-runtime-ux-safety-handoff"
+  },
+  {
     command: [node, "scripts/check-a2-route-level-launch-copy-audit.mjs"],
     expectStatus: "ok",
     name: "a2-route-level-launch-copy-audit"
@@ -4301,6 +4306,11 @@ const checks = [
     command: [node, "scripts/check-a1-source-and-coverage-no-fetch-handoff.mjs"],
     expectStatus: "ok",
     name: "a1-source-and-coverage-no-fetch-handoff"
+  },
+  {
+    command: [node, "scripts/check-a1-official-open-source-coverage-no-fetch-handoff.mjs"],
+    expectStatus: "ok",
+    name: "a1-official-open-source-coverage-no-fetch-handoff"
   },
   {
     command: [node, "scripts/check-twii-aggregate-readback-contract-preflight.mjs"],
@@ -5404,6 +5414,7 @@ const coreReviewGateNames = new Set([
   "twii-coverage-repair-gate",
   "a1-coverage-gap-next-execution-roadmap",
   "a1-source-and-coverage-no-fetch-handoff",
+  "a1-official-open-source-coverage-no-fetch-handoff",
   "twii-aggregate-readback-contract-preflight",
   "twii-post-run-review-contract-preflight",
   "twii-rollback-readiness-contract-preflight",
@@ -5551,6 +5562,7 @@ const coreReviewGateNames = new Set([
   "twii-coverage-repair-gate",
   "a1-coverage-gap-next-execution-roadmap",
   "a1-source-and-coverage-no-fetch-handoff",
+  "a1-official-open-source-coverage-no-fetch-handoff",
   "twii-aggregate-readback-contract-preflight",
   "twii-post-run-review-contract-preflight",
   "twii-rollback-readiness-contract-preflight",
@@ -5681,6 +5693,7 @@ const coreReviewGateNames = new Set([
   "briefing-public-beta-gate-summary",
   "a2-beta-phrase-set-and-shared-trust-surface-patch-scope",
   "a2-public-copy-ux-safety-brief-handoff",
+  "a2-public-beta-runtime-ux-safety-handoff",
   "a2-route-local-legal-weekly-methodology-copy-regression-gate",
   "a2-bounded-route-local-trust-copy-patch",
   "a2-route-local-trust-copy-route-health",
@@ -5786,6 +5799,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "twii-coverage-repair-gate",
   "a1-coverage-gap-next-execution-roadmap",
   "a1-source-and-coverage-no-fetch-handoff",
+  "a1-official-open-source-coverage-no-fetch-handoff",
   "twii-aggregate-readback-contract-preflight",
   "twii-post-run-review-contract-preflight",
   "twii-rollback-readiness-contract-preflight",

@@ -1,49 +1,25 @@
 import fs from "node:fs";
 
 const pagePath = "src/app/briefing/page.tsx";
-const decisionSummaryPath = "src/lib/runtime-decision-summary.ts";
-const actionSummaryPath = "src/lib/home-runtime-action-summary.ts";
 const cssPath = "src/app/globals.css";
-
 const page = fs.readFileSync(pagePath, "utf8");
-const decisionSummary = fs.readFileSync(decisionSummaryPath, "utf8");
-const actionSummary = fs.readFileSync(actionSummaryPath, "utf8");
 const css = fs.readFileSync(cssPath, "utf8");
+
 const executiveStart = page.indexOf("function BriefingExecutiveSummary");
-const executiveSummary = executiveStart >= 0 ? page.slice(executiveStart) : page;
+const executiveSummary = executiveStart >= 0 ? page.slice(executiveStart) : "";
 
 const required = [
   [pagePath, "BriefingExecutiveSummary"],
-  [pagePath, "getRuntimeDecisionSummary"],
-  [pagePath, "getRuntimeInterpretationSummary"],
-  [pagePath, "示範流程強化"],
-  [pagePath, "runtimeInterpretation.laneRatio.mockRuntimeHardening"],
-  [pagePath, "briefing-runtime-action-strip"],
-  [pagePath, "晨報下一步與禁止升級"],
-  [pagePath, "decisionSummary.currentProgressPercent"],
-  [pagePath, "decisionSummary.decisionLabel"],
-  [pagePath, "decisionSummary.blockedTransition"],
-  [pagePath, "decisionSummary.safetyStopLine"],
   [pagePath, "市場訊號晨報"],
-  [pagePath, "示範資料"],
-  [pagePath, "示範分數"],
-  [pagePath, "不是即時市場資料"],
-  [pagePath, "不是投資建議"],
-  [pagePath, "查看市場頁"],
-  [pagePath, "查看高風險標的"],
+  [pagePath, "mock-only"],
+  [pagePath, "publicDataSource=mock"],
+  [pagePath, "scoreSource=mock"],
+  [pagePath, "不提供買賣建議"],
+  [pagePath, "briefing-runtime-action-strip"],
+  [pagePath, "產品閱讀流程可用"],
+  [pagePath, "真實資料尚未上線"],
   [pagePath, "mock composite"],
   [pagePath, "mock risk"],
-  [decisionSummaryPath, "RuntimeDecisionSummary"],
-  [decisionSummaryPath, "getRuntimeDecisionSummary"],
-  [decisionSummaryPath, "runtime_decision_summary"],
-  [decisionSummaryPath, "post_readonly_runtime_decision"],
-  [decisionSummaryPath, "publicDataSource: \"mock\""],
-  [decisionSummaryPath, "scoreSource: \"mock\""],
-  [actionSummaryPath, "HomeRuntimeActionSummary"],
-  [actionSummaryPath, "getHomeRuntimeActionSummary"],
-  [actionSummaryPath, "currentProgressPercent: 72"],
-  [actionSummaryPath, "nextAction: \"唯讀驗證後公開 Beta 決策\""],
-  [actionSummaryPath, "blockedTransition: \"正式分數切換\""],
   [cssPath, ".briefing-executive-summary"],
   [cssPath, ".briefing-runtime-action-strip"],
   [cssPath, ".briefing-executive-summary nav"],
@@ -51,32 +27,23 @@ const required = [
 ];
 
 const forbidden = [
-  [pagePath, "getHomeRuntimeActionSummary"],
-  [pagePath, "project-progress-score"],
+  [pagePath, "@supabase/supabase-js"],
+  [pagePath, "createClient("],
+  [pagePath, "fetch("],
+  [pagePath, ".from("],
+  [pagePath, "process.env"],
   [pagePath, "scoreSource: \"real\""],
   [pagePath, "publicDataSource: \"supabase\""],
   [pagePath, "scoreSource=real"],
   [pagePath, "publicDataSource=supabase"],
-  [decisionSummaryPath, "@supabase/supabase-js"],
-  [decisionSummaryPath, "createClient"],
-  [decisionSummaryPath, "fetch("],
-  [decisionSummaryPath, "process.env"],
-  [decisionSummaryPath, "node:fs"],
-  [decisionSummaryPath, "scoreSource: \"real\""],
-  [decisionSummaryPath, "publicDataSource: \"supabase\""],
-  [actionSummaryPath, "@supabase/supabase-js"],
-  [actionSummaryPath, "createClient"],
-  [actionSummaryPath, "fetch("],
-  [actionSummaryPath, "process.env"],
-  [actionSummaryPath, "node:fs"],
-  [actionSummaryPath, "from \"fs\""],
-  [actionSummaryPath, "scoreSource: \"real\""]
+  [pagePath, "real market data is live"],
+  [pagePath, "investment advice is allowed"]
 ];
 
 const missing = required.filter(([file, phrase]) => !read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
 const blocked = forbidden.filter(([file, phrase]) => read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
 
-for (const marker of findMojibakeMarkers(executiveSummary)) {
+for (const marker of findMojibakeMarkers(executiveSummary || page)) {
   blocked.push(`${pagePath}: mojibake executive summary ${marker}`);
 }
 
@@ -92,15 +59,10 @@ console.log(
   )
 );
 
-if (missing.length > 0 || blocked.length > 0) {
-  process.exitCode = 1;
-}
+if (missing.length > 0 || blocked.length > 0) process.exitCode = 1;
 
 function read(file) {
-  if (file === pagePath) return page;
-  if (file === decisionSummaryPath) return decisionSummary;
-  if (file === actionSummaryPath) return actionSummary;
-  return css;
+  return file === pagePath ? page : css;
 }
 
 function findMojibakeMarkers(text) {

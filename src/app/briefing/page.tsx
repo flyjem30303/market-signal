@@ -9,10 +9,6 @@ import { TrackedLink } from "@/components/tracked-link";
 import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
 import { buildBriefingMarketActionSummary } from "@/lib/briefing-market-action-summary";
 import {
-  getPublicBetaCoverageRolloutPlan,
-  getPublicBetaDataRealizationRoadmap
-} from "@/lib/public-beta-data-realization-roadmap";
-import {
   getMarketSignalRepository,
   getMarketSignalSourceStatus
 } from "@/lib/repositories/market-signal-repository";
@@ -23,7 +19,7 @@ type Tone = "active" | "hold" | "blocked";
 export const metadata: Metadata = {
   title: "市場訊號晨報 | 指數燈號",
   description:
-    "指數燈號公開 Beta 晨報，以 mock-only 資料與分數整理台股市場、ETF、風險觀察與公開 Beta 邊界。內容不是投資建議。"
+    "公開 Beta 的市場狀態晨報，以 mock-only 資料呈現市場氣氛、警示成因、更新時間與下一步觀察，不提供買賣建議。"
 };
 
 export default async function BriefingPage() {
@@ -42,7 +38,7 @@ export default async function BriefingPage() {
           <div>
             <p className="eyebrow">Market Briefing</p>
             <h1>市場訊號晨報</h1>
-            <p>目前沒有可顯示的 mock snapshot。公開頁仍使用示範資料與示範分數，真實資料 promotion 仍關閉。</p>
+            <p>目前沒有可顯示的 mock snapshot。正式資料上線前，頁面會維持安全降級。</p>
           </div>
         </section>
       </main>
@@ -62,8 +58,6 @@ export default async function BriefingPage() {
   const topRisk = heated[0] ?? market;
   const runtimePlan = buildBriefingRuntimePlan(market, breadth, concentration, topRisk);
   const marketActionSummary = buildBriefingMarketActionSummary(market, topRisk, breadth);
-  const dataRealizationRoadmap = getPublicBetaDataRealizationRoadmap();
-  const coverageRolloutPlan = getPublicBetaCoverageRolloutPlan();
   const briefingAlerts = buildBriefingAlerts(market, topRisk, breadth, concentration);
   const briefingAlertUpdateTime = market.lastUpdatedAt.replace("T", " ").replace("+08:00", " 台北時間");
 
@@ -78,12 +72,10 @@ export default async function BriefingPage() {
           <p className="eyebrow">Daily Briefing</p>
           <h1>市場訊號晨報</h1>
           <p>
-            這頁把目前的 mock 市場分數、風險觀察、ETF 與個股閱讀路徑整理成一份公開 Beta 晨報。
-            它用來展示產品方向，不是交易服務，也不是投資建議。
+            這份晨報把市場總覽、核心指標與警示清單放在同一條閱讀路徑，讓一般投資者在 30 秒看懂今日市場氣氛，再決定是否需要加強觀察。
           </p>
           <p className="runtime-boundary-line">
-            目前仍是示範資料與示範分數：publicDataSource=mock、scoreSource=mock。
-            正式市場資料、真實分數、Supabase 寫入與資料 promotion 仍需通過後續 gate。
+            目前公開資料來源與分數來源維持 publicDataSource=mock、scoreSource=mock；正式資料尚未上線，這不是即時真實資料，也不是買賣建議。
           </p>
         </div>
         <div className="briefing-meta">
@@ -129,8 +121,8 @@ export default async function BriefingPage() {
       <section className="home-public-beta-layers briefing-alert-decision-list" aria-label="Briefing alert list">
         <div className="home-public-beta-layer alerts">
           <span>警示清單</span>
-          <strong>{briefingAlerts.length} 則今日重點警示</strong>
-          <p>每則警示都包含狀態、成因、更新時間、影響級別與下一步建議，讓使用者先判斷要關注、加強觀察或減少風險。</p>
+          <strong>{briefingAlerts.length} 個觀察重點</strong>
+          <p>每個警示都保留狀態、成因、更新時間、影響級別與下一步，避免只看單一分數造成誤判。</p>
         </div>
         <div className="home-public-beta-alert-list">
           {briefingAlerts.map((alert) => (
@@ -183,100 +175,17 @@ export default async function BriefingPage() {
         <TrackedLink eventName="briefing_link_clicked" href="/weekly" label="Weekly report" payload={{ area: "experience_flow", target: "weekly" }}>
           Weekly report
         </TrackedLink>
+        <TrackedLink eventName="briefing_link_clicked" href="/methodology" label="Methodology" payload={{ area: "experience_flow", target: "methodology" }}>
+          Methodology
+        </TrackedLink>
+        <TrackedLink eventName="briefing_link_clicked" href="/disclaimer" label="Disclaimer" payload={{ area: "experience_flow", target: "disclaimer" }}>
+          Disclaimer
+        </TrackedLink>
       </nav>
 
       <PublicRuntimeStateStrip context="briefing" />
       <PostReadonlyProductStatus context="briefing" symbol={market.asset.symbol} />
       <BriefingPublicBetaGateSummary />
-
-      <section className="public-beta-data-realization-roadmap briefing-data-realization" aria-label="資料真實化路徑">
-        <div className="public-beta-data-realization-head">
-          <p className="eyebrow">資料真實化路徑</p>
-          <h2>{dataRealizationRoadmap.headline}</h2>
-          <p>{dataRealizationRoadmap.summary}</p>
-          <p>{dataRealizationRoadmap.disclosure}</p>
-        </div>
-        <div className="public-beta-data-realization-grid">
-          {dataRealizationRoadmap.stages.map((stage) => (
-            <article className={stage.tone} key={stage.id}>
-              <span>{stage.label}</span>
-              <strong>{stage.publicMeaning}</strong>
-              <p>{stage.currentState}</p>
-              <small>下一步：{stage.nextStep}</small>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="public-beta-coverage-rollout briefing-coverage-rollout" aria-label="Coverage rollout plan">
-        <div className="public-beta-coverage-rollout-head">
-          <p className="eyebrow">覆蓋率展開</p>
-          <h2>{coverageRolloutPlan.headline}</h2>
-          <p>{coverageRolloutPlan.summary}</p>
-          <p>{coverageRolloutPlan.disclosure}</p>
-        </div>
-        <div className="public-beta-coverage-batches">
-          {coverageRolloutPlan.batches.map((batch) => (
-            <article className={batch.tone} key={batch.id}>
-              <span>{batch.label}</span>
-              <strong>{batch.publicValue}</strong>
-              <p>{batch.currentState}</p>
-              <small>下一步：{batch.nextStep}</small>
-            </article>
-          ))}
-        </div>
-        <div className="public-beta-promotion-checklist">
-          {coverageRolloutPlan.checklist.map((item) => (
-            <article className={item.status} key={item.id}>
-              <span>{item.label}</span>
-              <strong>{item.publicWording}</strong>
-              <p>{item.notYetClaimed}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="public-beta-batch1-readiness briefing-batch1-readiness" aria-label="Batch 1 readiness checklist">
-        <div className="public-beta-batch1-readiness-head">
-          <p className="eyebrow">Batch 1 可上線準備</p>
-          <h2>TWII + 核心 ETF 真實化前置閉環</h2>
-          <p>
-            Batch 1 會先處理台股大盤與核心 ETF，但只有來源權利、欄位合約、更新規則與 runtime gates
-            都通過後，才可能從 mock 進入 real promotion。
-          </p>
-        </div>
-        <div className="public-beta-batch1-readiness-grid">
-          {coverageRolloutPlan.batch1Readiness.map((item) => (
-            <article className={item.status} key={item.id}>
-              <span>{item.label}</span>
-              <strong>{item.publicMeaning}</strong>
-              <p>{item.blocker}</p>
-              <small>下一步：{item.nextStep}</small>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="public-beta-readonly-gate briefing-readonly-gate" aria-label="Batch 1 bounded readonly gate">
-        <div className="public-beta-readonly-gate-head">
-          <p className="eyebrow">資料升級安全線</p>
-          <h2>Batch 1 只讀診斷結果：已完成一次，仍不可寫入</h2>
-          <p>
-            這個區塊只說明資料真實化前的安全檢查結果：目前已做過一次彙總型只讀診斷，
-            但覆蓋率還不足，所以公開頁仍維持 mock-only，沒有 SQL、沒有寫入，也不會切換 real。
-          </p>
-        </div>
-        <div className="public-beta-readonly-gate-grid">
-          {coverageRolloutPlan.readonlyGate.map((item) => (
-            <article className={item.status} key={item.id}>
-              <span>{item.label}</span>
-              <strong>{item.publicMeaning}</strong>
-              <p>{item.publicStatus}</p>
-              <small>執行前條件：{item.requiredBeforeExecution}</small>
-            </article>
-          ))}
-        </div>
-      </section>
 
       <nav aria-label="Briefing Compass" className="briefing-compass">
         <a href="#model-boundary">Model boundary</a>
@@ -287,18 +196,15 @@ export default async function BriefingPage() {
 
       <section aria-label="Briefing decision boundary" className="briefing-decision-strip">
         <DecisionPill label="Current mode" text="Mock-only public Beta reading surface" tone="active" />
-        <DecisionPill label="Data status" text="Coverage, freshness, and source-rights gates are still incomplete" tone="hold" />
-        <DecisionPill label="Hard stop" text="不提供買賣建議、不啟用真實分數、不宣稱即時市場資料" tone="blocked" />
+        <DecisionPill label="Data status" text="partial coverage; missing/delayed data can still occur" tone="hold" />
+        <DecisionPill label="Hard stop" text="不提供買賣建議，也不宣稱真實資料或完整覆蓋已上線" tone="blocked" />
       </section>
 
       <section className="briefing-runtime-plan" aria-label="Briefing reading plan">
         <div>
           <p className="eyebrow">Reading Plan</p>
-          <h2>先看市場，再看風險與族群</h2>
-          <p>
-            這份晨報把 TWII、ETF、個股與集中度分成幾條閱讀路徑。所有分數仍是 mock score，
-            用來測試產品理解與公開 Beta 呈現，不用來支持買賣決策。
-          </p>
+          <h2>先看市場，再看風險，最後看族群集中度</h2>
+          <p>這條路徑把 30 秒摘要延伸成 3 分鐘判讀流程，幫使用者知道下一步要看哪裡，而不是直接下交易結論。</p>
         </div>
         {runtimePlan.map((item) => (
           <TrackedLink
@@ -319,11 +225,8 @@ export default async function BriefingPage() {
       <section className="briefing-reading-bridge" aria-label="Briefing reading bridge">
         <div>
           <p className="eyebrow">Reading Bridge</p>
-          <h2>把摘要接到可點擊的標的頁</h2>
-          <p>
-            這裡保留晨報到標的頁的產品路徑：先理解市場，再看 ETF、強勢股與風險股。每個頁面都仍維持
-            mock-only 與非投資建議邊界。
-          </p>
+          <h2>從市場氣氛接到細節頁</h2>
+          <p>如果只看總覽還不夠，請往下查看市場、ETF、個股與風險卡片。所有分數都仍是 mock 訊號。</p>
         </div>
         <nav>
           <BriefingBridgeLink
@@ -336,7 +239,7 @@ export default async function BriefingPage() {
             href={`/stocks/${topEtf.asset.symbol}`}
             label="ETF"
             title={`${topEtf.asset.symbol} ${topEtf.asset.name}`}
-            text={`Health ${topEtf.healthScore}/100. ETF coverage remains partial until source-rights and coverage gates pass.`}
+            text={`Health ${topEtf.healthScore}/100. ETF coverage remains partial until source and coverage gates pass.`}
           />
           <BriefingBridgeLink
             href={`/stocks/${leadingStock.asset.symbol}`}
@@ -356,10 +259,9 @@ export default async function BriefingPage() {
       <section className="panel briefing-boundary" id="model-boundary">
         <div>
           <p className="eyebrow">Model Boundary</p>
-          <h2>目前是 mock runtime，不是正式資料服務</h2>
+          <h2>目前是 mock runtime，不是正式市場資料</h2>
           <p>
-            公開 Beta 先驗證資訊層級、閱讀流程、信任揭露與產品定位。正式資料、真實分數、Supabase 讀寫、
-            ingestion/backfill 與真實分數都還沒有被 promotion gate 啟用。
+            這個頁面用來驗證產品閱讀流程。資料來源、覆蓋率、模型可信度與公開聲明都還需要後續 gate 才能升級。
           </p>
         </div>
         <div className="briefing-boundary-grid">
@@ -379,7 +281,7 @@ export default async function BriefingPage() {
 
       <section className="panel briefing-playbook" aria-label="Briefing Playbook" id="briefing-playbook">
         <p className="eyebrow">Briefing Playbook</p>
-        <h2>今天的閱讀順序</h2>
+        <h2>三步驟閱讀市場訊號</h2>
         <div className="playbook-grid">
           {playbook.map((item) => (
             <article className={`playbook-card ${item.tone}`} key={item.label}>
@@ -535,45 +437,44 @@ function BriefingExecutiveSummary({ market, topRisk }: { market: SignalSnapshot;
         <p className="eyebrow">Market Briefing</p>
         <h1>市場訊號晨報</h1>
         <p>
-          先用一頁看懂今天的市場錨點、風險焦點與資料邊界。公開 Beta 目前仍是 mock-only，
-          目標是協助使用者判斷要關注、加強觀察，或先降低風險；不是投資建議。
+          先看市場氣氛，再看風險來源，最後確認資料邊界。這個頁面是公開 Beta 的 mock-only 閱讀介面，不是交易建議。
         </p>
       </div>
       <aside>
         <span>
           <b>Runtime</b>
-          <i>公開頁仍使用示範資料與示範分數</i>
+          <i>mock-only，正式資料尚未 promotion</i>
         </span>
         <span>
           <b>下一步</b>
-          <i>補齊資料授權與來源檢查後，才會評估真實資料 promotion</i>
+          <i>確認來源、覆蓋率、品質與公開聲明後，才討論真實資料提升</i>
         </span>
         <span>
-          <b>資料證據</b>
-          <i>指數來源、覆蓋率、回讀與回滾證據仍在 gate 中</i>
+          <b>資料邊界</b>
+          <i>publicDataSource=mock；scoreSource=mock</i>
         </span>
         <span>
           <b>風險焦點</b>
           <i>
-            {topRisk.asset.symbol} mock 風險 {topRisk.riskScore}/100
+            {topRisk.asset.symbol} mock risk {topRisk.riskScore}/100
           </i>
         </span>
       </aside>
       <div className="briefing-runtime-action-strip" aria-label="Briefing runtime action strip">
         <article className="active">
-          <span>市場錨點</span>
+          <span>市場入口</span>
           <strong>{market.asset.symbol}</strong>
           <p>{market.asset.name}</p>
         </article>
         <article className="readying">
-          <span>Beta 路徑</span>
-          <strong>資料 gate 準備中</strong>
-          <p>資料來源、授權、回讀與回滾證據通過前，不宣稱真實資料上線。</p>
+          <span>Beta 狀態</span>
+          <strong>產品閱讀流程可用</strong>
+          <p>目前重點是讓使用者看懂市場氣氛、成因、更新時間與下一步觀察。</p>
         </article>
         <article className="blocked">
-          <span>停止線</span>
-          <strong>不啟用真實分數</strong>
-          <p>gate 通過前不升級 publicDataSource，也不把 scoreSource 設為 real。</p>
+          <span>硬邊界</span>
+          <strong>真實資料尚未上線</strong>
+          <p>沒有 SQL、沒有 Supabase 寫入、沒有 raw market data、沒有 real score promotion。</p>
         </article>
       </div>
       <nav>
@@ -617,34 +518,34 @@ function buildBriefingAlerts(
   return [
     {
       cause: marketNeedsCaution
-        ? `大盤風險分數 ${market.riskScore}/100，防守或觀察訊號需要優先閱讀。`
-        : `大盤綜合分數 ${market.compositeScore}/100，目前仍需搭配資料邊界解讀。`,
+        ? `市場風險分數為 ${market.riskScore}/100，先降低解讀速度。`
+        : `市場綜合分數為 ${market.compositeScore}/100，可先用作氣氛判讀。`,
       href: `/stocks/${market.asset.symbol}`,
-      impact: marketNeedsCaution ? "中高" : "中",
-      next: marketNeedsCaution ? "先加強觀察大盤風險，再看機會卡。" : "可先關注大盤脈絡，再往 ETF 或族群延伸。",
-      status: marketNeedsCaution ? "加強觀察" : "關注",
+      impact: marketNeedsCaution ? "中" : "低",
+      next: marketNeedsCaution ? "先看風險來源，再看 ETF 與族群是否同步轉弱。" : "持續觀察市場入口，再確認週報脈絡。",
+      status: marketNeedsCaution ? "需要觀察" : "可觀察",
       symbol: market.asset.symbol,
-      title: `${market.asset.symbol} 市場氛圍警示`,
+      title: `${market.asset.symbol} 市場氣氛警示`,
       tone: marketNeedsCaution ? "hold" : "active"
     },
     {
-      cause: `${topRisk.asset.symbol} 風險分數 ${topRisk.riskScore}/100，是目前 briefing 內最需要複核的標的。`,
+      cause: `${topRisk.asset.symbol} 風險分數為 ${topRisk.riskScore}/100，是目前晨報的主要提醒來源。`,
       href: `/stocks/${topRisk.asset.symbol}`,
       impact: topRiskElevated ? "高" : "中",
-      next: topRiskElevated ? "先減少風險暴露想像，不要把分數視為買賣訊號。" : "保持觀察，確認風險是否擴散到同族群。",
-      status: topRiskElevated ? "減少風險" : "加強觀察",
+      next: topRiskElevated ? "先閱讀該標的細節頁，再回到市場總覽交叉確認。" : "列入風險觀察，不把分數視為交易訊號。",
+      status: topRiskElevated ? "風險升溫" : "需要觀察",
       symbol: topRisk.asset.symbol,
-      title: `${topRisk.asset.symbol} 風險卡片`,
+      title: `${topRisk.asset.symbol} 風險來源`,
       tone: topRiskElevated ? "blocked" : "hold"
     },
     {
       cause: concentrated
-        ? `${concentration.topGroup} 佔 mock universe ${concentration.topGroupShare}%，單一族群解讀容易放大市場結論。`
-        : `市場結構較分散，仍需用資料覆蓋率與更新時間確認可信度。`,
+        ? `${concentration.topGroup} 佔 mock universe ${concentration.topGroupShare}%，市場可能偏集中。`
+        : "市場分布暫時較均衡，可以繼續觀察週報脈絡。",
       href: concentrated ? "#market-structure" : "/weekly",
-      impact: concentrated ? "中高" : "中",
-      next: concentrated ? "先看市場結構，再解讀個股或 ETF。" : "可延伸到週報檢查中期脈絡。",
-      status: concentrated ? "加強觀察" : "關注",
+      impact: concentrated ? "中" : "低",
+      next: concentrated ? "先看市場結構，再看個股或 ETF。" : "前往週報確認中期背景。",
+      status: concentrated ? "需要觀察" : "可觀察",
       symbol: concentrated ? "market-structure" : "weekly",
       title: "市場結構警示",
       tone: concentrated ? "hold" : "active"
@@ -778,26 +679,19 @@ function DecisionPill({ label, text, tone }: { label: string; text: string; tone
   );
 }
 
-function ConcentrationPanel({
-  concentration
+function BreadthCard({
+  label,
+  text,
+  tone,
+  value
 }: {
-  concentration: ReturnType<typeof buildConcentrationSignal>;
+  label: string;
+  text: string;
+  tone: "positive" | "risk" | "watch";
+  value: string;
 }) {
   return (
-    <section className="panel concentration-panel">
-      <div>
-        <p className="eyebrow">Concentration</p>
-        <h2>{concentration.title}</h2>
-        <p>{concentration.text}</p>
-      </div>
-      <strong>{concentration.topGroupShare}%</strong>
-    </section>
-  );
-}
-
-function BreadthCard({ label, text, tone, value }: { label: string; text: string; tone: "positive" | "watch" | "risk"; value: string }) {
-  return (
-    <article className={tone}>
+    <article className={`breadth-card ${tone}`}>
       <span>{label}</span>
       <strong>{value}</strong>
       <p>{text}</p>
@@ -805,40 +699,53 @@ function BreadthCard({ label, text, tone, value }: { label: string; text: string
   );
 }
 
-function buildMarketBreadth(snapshots: SignalSnapshot[]) {
-  return snapshots.reduce(
-    (acc, snapshot) => {
-      if (snapshot.riskScore >= 70 || snapshot.healthScore < 45) {
-        acc.defensive += 1;
-      } else if (snapshot.compositeScore >= 60 && snapshot.healthScore >= 55) {
-        acc.constructive += 1;
-      } else {
-        acc.watch += 1;
-      }
+function ConcentrationPanel({
+  concentration
+}: {
+  concentration: ReturnType<typeof buildConcentrationSignal>;
+}) {
+  return (
+    <section className="panel concentration-panel briefing-concentration">
+      <div>
+        <p className="eyebrow">Concentration Check</p>
+        <h2>{concentration.title}</h2>
+        <p>{concentration.text}</p>
+      </div>
+      <div className="concentration-metrics">
+        <span>Top group share</span>
+        <strong>{concentration.topGroupShare}%</strong>
+        <small>{concentration.topGroup}</small>
+      </div>
+    </section>
+  );
+}
 
+function buildMarketBreadth(items: SignalSnapshot[]) {
+  return items.reduce(
+    (acc, item) => {
+      if (item.healthScore >= 70 && item.riskScore < 60) acc.constructive += 1;
+      else if (item.riskScore >= 65 || item.healthScore < 50) acc.defensive += 1;
+      else acc.watch += 1;
       return acc;
     },
     { constructive: 0, defensive: 0, watch: 0 }
   );
 }
 
-function buildConcentrationSignal(snapshots: SignalSnapshot[]) {
-  const groupCounts = snapshots.reduce<Record<string, number>>((acc, snapshot) => {
-    acc[snapshot.asset.group] = (acc[snapshot.asset.group] ?? 0) + 1;
-    return acc;
-  }, {});
-  const [topGroup = "market", topCount = 0] =
-    Object.entries(groupCounts).sort((a, b) => b[1] - a[1])[0] ?? [];
-  const topGroupShare = snapshots.length > 0 ? Math.round((topCount / snapshots.length) * 100) : 0;
-  const tone = topGroupShare >= 45 ? "concentrated" : "balanced";
+function buildConcentrationSignal(items: SignalSnapshot[]) {
+  const groups = new Map<string, number>();
+  for (const item of items) groups.set(item.asset.group, (groups.get(item.asset.group) ?? 0) + 1);
+
+  const [topGroup = "Market", topCount = 0] = [...groups.entries()].sort((a, b) => b[1] - a[1])[0] ?? [];
+  const topGroupShare = Math.round((topCount / Math.max(items.length, 1)) * 100);
+  const concentrated = topGroupShare >= 45;
 
   return {
-    text:
-      tone === "concentrated"
-        ? `${topGroup} has the largest share of the mock universe. Read breadth before treating one group as market-wide proof.`
-        : "The mock universe is distributed enough for a broader reading path.",
-    title: tone === "concentrated" ? "Market structure is concentrated" : "Market structure is balanced",
-    tone,
+    text: concentrated
+      ? `${topGroup} 佔比偏高，請先看市場結構，再解讀個別標的。`
+      : "目前 mock universe 分布較均衡，可以繼續往週報與細節頁閱讀。",
+    title: concentrated ? "市場結構偏集中" : "市場結構暫時均衡",
+    tone: concentrated ? "concentrated" : "balanced",
     topGroup,
     topGroupShare
   };
@@ -849,31 +756,24 @@ function buildBriefingPlaybook(
   breadth: ReturnType<typeof buildMarketBreadth>,
   concentration: ReturnType<typeof buildConcentrationSignal>
 ) {
-  const defensiveTilt = breadth.defensive > breadth.constructive;
-
   return [
     {
       label: "Step 1",
-      text: `Open ${market.asset.symbol} first and confirm the mock market context.`,
-      title: "Anchor the market",
-      tone: "active" as Tone
+      text: `${market.asset.symbol} 是市場入口。先確認 composite ${market.compositeScore}/100 與資料邊界。`,
+      title: "先讀市場氣氛",
+      tone: "active"
     },
     {
       label: "Step 2",
-      text: defensiveTilt
-        ? "Defensive names are leading the mock breadth; read the risk cards before reading opportunity cards."
-        : "Constructive names are leading the mock breadth; still keep the no-advice boundary visible.",
-      title: defensiveTilt ? "Read risk first" : "Read opportunity with caution",
-      tone: defensiveTilt ? ("blocked" as Tone) : ("hold" as Tone)
+      text: `目前 ${breadth.defensive} 個標的偏防守。若防守數增加，請放慢解讀速度。`,
+      title: "再看風險與廣度",
+      tone: breadth.defensive > breadth.constructive ? "blocked" : "hold"
     },
     {
       label: "Step 3",
-      text:
-        concentration.tone === "concentrated"
-          ? "Use sector concentration as a caveat before drawing any market-wide conclusion."
-          : "Move from market context to weekly context after checking breadth.",
-      title: "Check breadth and concentration",
-      tone: concentration.tone === "concentrated" ? ("hold" as Tone) : ("active" as Tone)
+      text: concentration.tone === "concentrated" ? "族群集中時，避免只用單一標的代表整個市場。" : "族群較均衡時，可接著看週報脈絡。",
+      title: "最後確認結構",
+      tone: concentration.tone === "concentrated" ? "hold" : "active"
     }
-  ];
+  ] satisfies Array<{ label: string; text: string; title: string; tone: Tone }>;
 }

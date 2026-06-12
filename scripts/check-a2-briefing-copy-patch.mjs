@@ -10,26 +10,27 @@ const blocked = [];
 
 const requiredCopy = [
   "市場訊號晨報",
-  "示範資料",
-  "示範分數",
-  "覆蓋率不足",
-  "資料缺漏或延遲",
-  "資料新鮮度",
-  "模型限制",
-  "非投資建議",
-  "正式資料與正式分數尚未上線",
-  "不是即時市場資料",
-  "不是投資建議",
-  "完整覆蓋率",
-  "mock 分數不等於正式模型結論",
+  "30 秒看懂今日市場氣氛",
+  "市場氣氛",
+  "警示清單",
+  "成因",
+  "更新時間",
+  "影響級別",
+  "下一步",
+  "資料邊界",
+  "publicDataSource=mock",
+  "scoreSource=mock",
+  "不提供買賣建議",
+  "不是即時真實資料",
+  "mock-only",
+  "partial coverage",
+  "missing/delayed data",
+  "正式資料尚未上線",
+  "不是交易建議",
   "DataFreshnessStrip",
   "PublicRuntimeStateStrip",
   "PostReadonlyProductStatus",
-  "RuntimeReadinessPanel",
-  "BriefingRowCoverageStatus",
-  "SourceDepthBlockerPanel",
-  "BlockerReadinessPanel",
-  "NarrowApprovalOutcomePanel",
+  "BriefingPublicBetaGateSummary",
   "briefing-executive-summary",
   "briefing-runtime-action-strip",
   "briefing-boundary",
@@ -85,9 +86,7 @@ const result = {
 
 console.log(JSON.stringify(result, null, 2));
 
-if (missing.length > 0 || blocked.length > 0) {
-  process.exitCode = 1;
-}
+if (missing.length > 0 || blocked.length > 0) process.exitCode = 1;
 
 function findMojibakeMarkers(text) {
   const markers = [];

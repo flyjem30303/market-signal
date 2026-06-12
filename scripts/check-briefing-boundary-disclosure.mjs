@@ -8,46 +8,30 @@ const css = fs.readFileSync(cssPath, "utf8");
 
 const requiredPagePhrases = [
   "Model Boundary",
-  "mock 分數不等於正式模型結論",
+  "目前是 mock runtime",
   "publicDataSource=mock",
   "scoreSource=mock",
   "partial coverage",
   "missing/delayed data",
-  "資料新鮮度",
-  "模型限制",
-  "非投資建議",
-  "not-live-yet",
-  "BoundaryItem",
+  "不提供買賣建議",
+  "真實資料尚未上線",
   "Briefing Compass",
-  "模型邊界",
-  "市場結構",
-  "閱讀策略",
-  "觀察清單",
   "model-boundary",
   "market-structure",
   "briefing-playbook",
   "watchlists",
-  "晨報公開邊界",
-  "目前可讀",
-  "資料限制",
-  "禁止宣稱",
   "DecisionPill",
   "Market Breadth",
-  "可閱讀",
-  "風險升溫",
+  "Concentration Check",
   "buildMarketBreadth",
   "BreadthCard",
-  "Concentration Check",
-  "市場集中度",
-  "領先族群",
-  "正向占比",
   "buildConcentrationSignal",
   "ConcentrationPanel",
   "Briefing Playbook",
-  "今天的閱讀策略",
-  "方向",
-  "廣度",
-  "邊界",
+  "三步驟閱讀市場訊號",
+  "先讀市場氣氛",
+  "再看風險與廣度",
+  "最後確認結構",
   "buildBriefingPlaybook"
 ];
 
@@ -100,9 +84,7 @@ console.log(
   )
 );
 
-if (missing.length > 0 || forbidden.length > 0) {
-  process.exitCode = 1;
-}
+if (missing.length > 0 || forbidden.length > 0) process.exitCode = 1;
 
 function findMojibakeMarkers(text) {
   const markers = [];
