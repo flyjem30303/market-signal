@@ -37,6 +37,9 @@ const stockDecisionBriefRequired = [
   "資料邊界：publicDataSource=mock，scoreSource=mock",
   "目前不是即時真實資料",
   "不提供買賣建議",
+  "TWII 資料決策",
+  "真實資料升級仍在準備中",
+  "等待一次受控讀取決策",
   "Indicator Roadmap"
 ];
 

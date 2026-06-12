@@ -3471,6 +3471,70 @@ select {
   font-size: 17px;
 }
 
+.stock-twii-data-decision-status {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: minmax(240px, 1fr) repeat(3, minmax(0, 0.72fr));
+  gap: 10px;
+}
+
+.stock-twii-data-decision-status > div,
+.stock-twii-data-decision-status article {
+  display: grid;
+  align-content: start;
+  min-width: 0;
+  gap: 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  padding: 14px;
+}
+
+.stock-twii-data-decision-status > div {
+  border-color: rgba(15, 118, 110, 0.24);
+  background: #f3fbf6;
+}
+
+.stock-twii-data-decision-status article.active {
+  border-color: rgba(15, 118, 110, 0.25);
+  background: #eff9f5;
+}
+
+.stock-twii-data-decision-status article.readying {
+  border-color: rgba(183, 121, 31, 0.25);
+  background: #fffaf0;
+}
+
+.stock-twii-data-decision-status article.blocked {
+  border-color: rgba(199, 54, 59, 0.2);
+  background: #fff7f7;
+}
+
+.stock-twii-data-decision-status span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.stock-twii-data-decision-status strong,
+.stock-twii-data-decision-status p {
+  overflow-wrap: anywhere;
+}
+
+.stock-twii-data-decision-status strong {
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.35;
+}
+
+.stock-twii-data-decision-status p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
 .runtime-next-links {
   display: flex;
   flex-wrap: wrap;
@@ -12908,6 +12972,7 @@ input[type="date"] {
   .stock-runtime-at-a-glance,
   .stock-public-decision-summary,
   .stock-runtime-headline-summary,
+  .stock-twii-data-decision-status,
   .stock-decision-aid-groups,
   .evidence-snapshot-grid,
   .stock-peer-navigator,

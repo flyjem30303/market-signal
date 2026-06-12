@@ -5,6 +5,7 @@ import { TrackedLink } from "@/components/tracked-link";
 import { getBlockerReadinessSummary } from "@/lib/blocker-readiness";
 import { getFreshnessReadonlyLatestEvidenceSummary } from "@/lib/freshness-readonly-latest-evidence";
 import { getPostReadonlyRuntimeState } from "@/lib/post-readonly-runtime-state";
+import { getPublicBetaDataReadinessStatus } from "@/lib/public-beta-data-readiness-status";
 import { getPublicRuntimeBoundaryCopy } from "@/lib/public-runtime-boundary-copy";
 import { getRowCoverageSecondAttemptReadiness } from "@/lib/row-coverage-second-attempt-readiness";
 import { getRuntimeActionStatusSummary } from "@/lib/runtime-action-status";
@@ -34,6 +35,7 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
   const runtimeStateConsistency = getRuntimeStateConsistencySummary();
   const failClosed = getRuntimeFailClosedSummary();
   const postReadonlyRuntime = getPostReadonlyRuntimeState();
+  const dataReadiness = getPublicBetaDataReadinessStatus();
   const productSummary = getRuntimeProductSummary(snapshot.asset.symbol);
   const decisionSummary = getRuntimeDecisionSummary();
   const headlineSummary = getStockRuntimeHeadlineSummary(snapshot);
@@ -120,6 +122,37 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
             <p>{item.displayBody}</p>
           </article>
         ))}
+      </div>
+
+      <div className="stock-twii-data-decision-status" aria-label="TWII data decision status">
+        <div>
+          <span>TWII 資料決策</span>
+          <strong>真實資料升級仍在準備中</strong>
+          <p>
+            目前股票頁可用於 30 秒市場氛圍閱讀與 3 分鐘觀察方向判斷；資料與分數仍維持 mock，不宣稱即時真實行情。
+          </p>
+        </div>
+        <article className="active">
+          <span>來源證據</span>
+          <strong>已整理</strong>
+          <p>
+            TWII 來源、欄位與更新節奏已有內部可審核摘要；公開頁只呈現狀態，不顯示原始資料或逐列內容。
+          </p>
+        </article>
+        <article className="readying">
+          <span>下一步</span>
+          <strong>等待一次受控讀取決策</strong>
+          <p>
+            CEO/PM 可在資料線完成條件確認後，決定是否進入一次受控讀取；未完成前不把資料來源切成正式資料。
+          </p>
+        </article>
+        <article className="blocked">
+          <span>公開邊界</span>
+          <strong>{dataReadiness.publicDataSource} / {dataReadiness.scoreSource}</strong>
+          <p>
+            publicDataSource=mock，scoreSource=mock；不提供買賣建議，不承諾報酬，也不把展示分數當成交易依據。
+          </p>
+        </article>
       </div>
 
       <RuntimeTransitionRail symbol={snapshot.asset.symbol} />
