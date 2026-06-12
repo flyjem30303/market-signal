@@ -50,7 +50,7 @@ Fill these fields only with safe non-secret conclusions, citations, or internal 
 | --- | --- | --- | --- |
 | `OFFICIAL-001` | Source authority | `ACCEPTED_SAFE_PUBLIC_REFERENCE` | Taiwan Stock Exchange Corporation (`TWSE`) is the official public authority/source surface for TAIEX/TWII index series and TAIEX historical index values. This accepts source identity only; it does not approve automated access, storage, redistribution, derived analysis, candidate generation, or execution. |
 | `OFFICIAL-002` | Terms location | `TERMS_LOCATION_IDENTIFIED_SAFE_PUBLIC_REFERENCE` | Safe public reference locations are TWSE website Terms of Use and TWSE Regulations Governing the Use of Trading Information / contracts / fee standards pages. This identifies where rights review must occur; it does not approve automated access, internal storage, redistribution, commercial use, or public real-data display. |
-| `OFFICIAL-003` | Automated access | `TBD_ACCEPTED_REJECTED_OR_BLOCKED` | State whether the exact future access method is allowed. |
+| `OFFICIAL-003` | Automated access | `BLOCKED_PENDING_TWSE_CONSENT_OR_CONTRACTED_METHOD` | Unconsented automated download / crawler / scraper / extraction access is not accepted as a future access method. Automated access can move forward only if a TWSE-agreed method, prior consent, contracted trading-information route, or separately approved internal feed/vendor route is recorded later. |
 | `OFFICIAL-004` | Internal storage | `TBD_ACCEPTED_REJECTED_OR_BLOCKED` | State whether internal storage of source-derived TWII values is allowed. |
 | `OFFICIAL-005` | Retention/deletion | `TBD_ACCEPTED_REJECTED_OR_BLOCKED` | State retention window, deletion duty, cache limits, rollback, and audit posture. |
 | `OFFICIAL-006` | Redistribution/display | `TBD_ACCEPTED_REJECTED_OR_BLOCKED` | State public display, screenshots, export, API reuse, and downstream-copy limits. |
@@ -63,7 +63,7 @@ Fill these fields only with safe non-secret conclusions, citations, or internal 
 
 Official source fill status:
 
-`partially_filled_official_001_002_source_authority_and_terms_location_only`
+`partially_filled_official_001_002_003_source_authority_terms_location_and_automated_access_only`
 
 ### OFFICIAL-001 Evidence Note
 
@@ -104,6 +104,27 @@ This note is intentionally narrow:
 - not accepted: redistribution / public display;
 - not accepted: commercial/global use;
 - not accepted: source-rights approval, field-contract approval, candidate generation, parser work, market-data fetch, SQL, Supabase, `daily_prices` mutation, public source promotion, or real scoring.
+
+### OFFICIAL-003 Evidence Note
+
+PM records the automated-access posture for the TWII/TAIEX source-rights review:
+
+- TWSE Terms of Use: `https://www.twse.com.tw/zh/terms/use.html`.
+- TWSE English Terms of Use: `https://www.twse.com.tw/en/terms/use.html`.
+- TWSE Trading Information use / contracts / fee standards page: `https://www.twse.com.tw/zh/products/information/use.html`.
+- TWSE English Trading Information use / contracts / fee standards page: `https://www.twse.com.tw/en/products/information/use.html`.
+
+The automated-access review records these stop-lines:
+
+- unconsented automated download, crawler, scraper, script, automated program, or extraction-tool access is not accepted;
+- automated access can move forward only through a TWSE-agreed method, prior consent, contracted trading-information route, or separately approved internal feed/vendor route;
+- this field does not choose the final source lane; it only blocks unconsented official-site automation from becoming the default.
+
+This note is intentionally narrow:
+
+- accepted: automated access is blocked unless later consented, contracted, or separately approved;
+- not accepted: parser implementation, probe, endpoint test, market-data fetch, raw payload capture, candidate generation, SQL, Supabase, `daily_prices` mutation, public source promotion, or real scoring;
+- not accepted: treating this packet as legal advice or final contractual approval.
 
 ## Vendor Terms Review Fields
 
