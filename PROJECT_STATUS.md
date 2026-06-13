@@ -2195,3 +2195,37 @@ No SQL, Supabase read/write, staging rows, `daily_prices` mutation, raw market-d
 Next:
 
 Commit and push the Vercel config hardening. If Vercel still fails, retrieve the deployment log for the new failed deployment id rather than continuing local polishing.
+
+# Latest A3 public Beta deployment success
+
+Status: `phase_1_public_beta_remote_smoke_passed`
+
+Date: 2026-06-14
+
+CEO decision: close the A3 stale/failed-deployment blocker and return the mainline to BRIEF execution. Phase 1 public Beta is now externally reachable with the current candidate.
+
+What changed:
+
+- Commit `a8424b56 Harden Vercel build configuration` added explicit Vercel build settings.
+- Vercel deployment for `a8424b563be6eb2766818240e8f4fa1fdd4b5fc6` completed successfully.
+- Public alias `https://market-signal-two.vercel.app/` now serves the latest route set.
+- `/membership` changed from HTTP 404 to HTTP 200.
+
+Remote verification:
+
+- `PUBLIC_BETA_QUICK_PROOF_BASE_URL=https://market-signal-two.vercel.app check:public-beta-core-route-quick-proof` passed.
+- `LOCALHOST_BASE_URL=https://market-signal-two.vercel.app check:public-visible-language-quality` passed.
+- `LOCALHOST_BASE_URL=https://market-signal-two.vercel.app check:phase-1-public-beta-public-visible-residue-cleanup` passed.
+- `LOCALHOST_BASE_URL=https://market-signal-two.vercel.app check:public-surface-user-facing-audit` passed.
+
+Classification:
+
+The A3 deployment blocker is resolved. The public site is now suitable for Phase 1 public Beta smoke review under the current mock/demo data boundary.
+
+Boundary:
+
+No SQL, Supabase read/write, staging rows, `daily_prices` mutation, raw market-data fetch/store/commit, source promotion, real score promotion, production env mutation beyond Git-backed Vercel build config, DNS change, or Vercel dashboard mutation occurred.
+
+Next:
+
+Resume BRIEF execution with Phase 1 public Beta review and next high-value lanes: A1 data/source/coverage toward lawful automated data readiness; A2 trust/legal/public-copy final review; A3 monitoring/rollback/SEO runbook; A4 membership MVP route planning without implementing full membership yet.

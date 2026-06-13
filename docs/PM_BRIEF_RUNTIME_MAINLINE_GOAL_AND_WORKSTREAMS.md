@@ -1285,6 +1285,44 @@ Next PM route:
 
 Commit and push `apply_explicit_vercel_config_and_observe_next_deployment`.
 
+## 8AW. 2026-06-14 A3 Public Beta Deployment Success
+
+CEO decision:
+
+`close_a3_deployment_blocker_and_resume_brief_mainline`
+
+PM pushed the explicit Vercel config and observed the next deployment. Vercel completed successfully, and the public alias now serves the current Phase 1 candidate.
+
+Completed A3 work:
+
+- Commit `a8424b56 Harden Vercel build configuration` added `engines.node=20.x`.
+- Added `vercel.json` with explicit Next.js framework, `npm ci`, and `npm run build`.
+- Vercel deployment for `a8424b563be6eb2766818240e8f4fa1fdd4b5fc6` completed successfully.
+- `https://market-signal-two.vercel.app/membership` now returns HTTP 200 instead of 404.
+
+Remote verification:
+
+- Remote core route quick proof passed.
+- Remote public visible-language quality passed.
+- Remote Phase 1 visible residue cleanup passed.
+- Remote public surface user-facing audit passed.
+
+Current lane assignments:
+
+- PM mainline: resume Phase 1 public Beta BRIEF review and decide the next public Beta acceptance slice.
+- A1: continue lawful free automated-source, coverage, ingestion/backfill preparation; do not fetch raw market rows or promote source yet.
+- A2: run trust/legal/public-copy final review against the deployed URL.
+- A3: add monitoring, rollback, SEO, and post-deploy runbook evidence now that deployment is current.
+- A4: keep membership MVP route planning ready, but do not implement full login/payment/watchlist persistence until Phase 1 acceptance is stable.
+
+Boundary:
+
+No SQL, Supabase write, staging rows, `daily_prices` mutation, raw market-data fetch/store/commit, source promotion, real score promotion, DNS change, Vercel dashboard mutation, or credential output occurred. Public data and score sources remain mock/demo.
+
+Next PM route:
+
+Run `phase_1_public_beta_remote_acceptance_review_then_assign_a1_a2_a3_next_lanes`.
+
 ## 8AR. 2026-06-14 Briefing Phase 1 Product-First Ordering
 
 CEO decision:
