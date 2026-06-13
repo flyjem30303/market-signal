@@ -101,6 +101,23 @@ export function DashboardShell({
         <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
       )}
 
+      {!isStockPage && (
+        <section className="panel stock-reading-summary" aria-label="首頁快速判讀">
+          <p className="eyebrow">首頁快速判讀</p>
+          <h2>先看市場氣氛，再看風險，再決定下一步觀察</h2>
+          <p>
+            這個首頁不是要讓使用者研究每個細節，而是先建立一個固定順序：看全市場燈號、確認核心指標、
+            檢查資料更新時間，最後決定今天要關注、加強觀察，或暫時降低風險。
+          </p>
+          <div className="briefing-actions">
+            <ActionCard title="30 秒看懂" text={`目前市場燈號為「${market.signal.title}」，先用它判斷今天的市場氣氛。`} />
+            <ActionCard title="3 分鐘複核" text={`再看健康 ${market.healthScore}/100、風險 ${market.riskScore}/100，確認分數是否同向。`} />
+            <ActionCard title="資料時間" text={`目前資料更新時間為 ${formatTaipeiTime(market.lastUpdatedAt)}；正式資料尚未啟用前請保留判斷空間。`} />
+            <ActionCard title="下一步" text="若風險升高，先減少新判斷、加強觀察；若狀態偏穩，再查看個別指數或 ETF。" />
+          </div>
+        </section>
+      )}
+
       <section className="home-public-beta-layers" aria-label="市場三層視圖">
         <div className="home-public-beta-layer active">
           <span>全市場總覽</span>

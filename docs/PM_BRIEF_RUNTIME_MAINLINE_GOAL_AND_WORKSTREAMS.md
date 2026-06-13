@@ -8,6 +8,37 @@ Owner: PM mainline
 
 ## Latest Mainline Decision - 2026-06-14
 
+### Home Fast Reading Loop Pass
+
+CEO decision:
+
+- Mainline stays on Phase 1 public usability.
+- The home page should make the BRIEF promise concrete: 30 seconds to understand market atmosphere and 3 minutes to decide whether to observe, review risk, or reduce exposure.
+- Phase 2 membership remains roadmap-only until Phase 1 public route quality is stable.
+
+PM completed the home fast-reading slice:
+
+- Added a `首頁快速判讀` section to Home.
+- Added public cards for `30 秒看懂`, `3 分鐘複核`, `資料時間`, and `下一步`.
+- Updated the production BRIEF alignment gate so this reading loop stays protected.
+
+Latest checks passed:
+
+- `check:public-beta-production-brief-alignment`
+- `check:public-visible-language-quality`
+- `check:phase-1-public-beta-public-visible-residue-cleanup`
+- `check:pm-brief-runtime-mainline-goal-and-workstreams`
+- `npx tsc --noEmit`
+- Browser smoke confirmed `/` renders the new fast-reading loop with no internal runtime tokens, mojibake, or console errors.
+
+Current route:
+
+- `phase_1_public_free_index_dashboard_usable_loop`
+
+Next PM slice:
+
+- Continue route-by-route user-facing clarity, with the next PM slice focused on briefing or stock-page decision flow.
+
 ### Membership Roadmap Boundary Pass
 
 CEO decision:

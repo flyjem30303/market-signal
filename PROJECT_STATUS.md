@@ -2,6 +2,40 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Home Fast Reading Loop Pass
+
+Status: `phase_1_home_fast_reading_loop_ready`
+
+CEO decision:
+
+- Phase 1 should make the home page immediately useful to general investors before expanding Phase 2 membership implementation.
+- The home page must show a simple reading order: market atmosphere first, risk second, data timestamp third, next observation last.
+- The copy must stay public-facing and avoid internal process language.
+
+What changed:
+
+- Home now includes a `首頁快速判讀` section before the market layer cards.
+- The section explains `先看市場氣氛，再看風險，再決定下一步觀察`.
+- The four quick cards are `30 秒看懂`, `3 分鐘複核`, `資料時間`, and `下一步`.
+- The production BRIEF alignment gate now requires these home-page fast-reading phrases.
+
+Checks passed:
+
+- `check:public-beta-production-brief-alignment`
+- `check:public-visible-language-quality`
+- `check:phase-1-public-beta-public-visible-residue-cleanup`
+- `check:pm-brief-runtime-mainline-goal-and-workstreams`
+- `npx tsc --noEmit`
+- Browser smoke: `/` shows `首頁快速判讀`, `30 秒看懂`, `3 分鐘複核`, `資料時間`, and `下一步`; no visible internal runtime tokens, mojibake, or console errors appeared.
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, market-row fetch, raw payload output, secret output, source promotion, real score promotion, membership implementation, production env mutation, DNS change, or Vercel dashboard mutation occurred. Runtime remains mock/demo.
+
+Next:
+
+Continue Phase 1 public route clarity and trust/readability work, with the next PM slice focused on briefing or stock-page decision flow.
+
 ### Membership Roadmap Boundary Pass
 
 Status: `membership_phase_2_roadmap_boundary_ready`
