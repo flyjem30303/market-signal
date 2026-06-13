@@ -2,6 +2,39 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Core Route Quick Proof Public-Brief Alignment
+
+Status: `public_beta_core_route_quick_proof_public_brief_aligned`
+
+CEO decision:
+
+- Keep the revised BRIEF split: Phase 1 is the public free index-lighting site for all visitors; Phase 2 is membership MVP after Phase 1 is stable.
+- Public gates should verify user-facing value, route health, disclosure clarity, and mock boundary instead of requiring early internal governance panels on public pages.
+- Internal execution residue must stay out of public source surfaces and rendered pages.
+
+What changed:
+
+- Updated `check:public-beta-core-route-quick-proof` so `/briefing` and `/weekly` are validated by public BRIEF language such as market briefing, 30-second / 3-minute judgment, demo-data boundary, non-advice wording, and membership roadmap copy.
+- Removed stale requirements for public pages to contain `PublicBetaDataReadinessStatus`, `PublicBetaSourceCoverageBridge`, or `WeeklyRowCoverageStatus`.
+- Added source-level residue scanning for high-risk internal strings such as command snippets, platform env names, SQL/Supabase/raw-data wording, hard-blocker labels, and external-reply workflow residue.
+- Kept precise runtime boundary checks for no `scoreSource: "real"`, no `publicDataSource: "supabase"`, and no Supabase client use in the guarded runtime files.
+
+Checks passed:
+
+- `check:public-beta-core-route-quick-proof`
+- `check:public-visible-language-quality`
+- `check:phase-1-public-beta-public-visible-residue-cleanup`
+- `check:public-surface-user-facing-audit`
+- `npx tsc --noEmit`
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, market-row fetch, raw payload output, secret output, source promotion, real score promotion, membership implementation, production env mutation, DNS change, or Vercel dashboard mutation occurred. Runtime remains mock/demo until data-source rights, coverage, quality, rollback, and promotion gates pass.
+
+Next:
+
+Continue Phase 1 public free index-dashboard usability and launch readiness. PM mainline should use this corrected quick proof as the lightweight route-health gate while A1 continues data/source/coverage, A2 trust copy, A3 launch engineering, and A4 Phase 2 membership planning-only.
+
 ### Stock Page Public Decision-Aid Alignment
 
 Status: `stock_public_decision_aid_alignment_passed`

@@ -21,15 +21,15 @@ const routes = [
 const routeContracts = [
   {
     file: "src/app/briefing/page.tsx",
-    tokens: ["DataFreshnessStrip", "PublicBetaDataReadinessStatus", "PublicBetaSourceCoverageBridge"]
+    tokens: ["每日市場晨報", "3 分鐘行動判斷", "示範資料", "會員路線"]
   },
   {
     file: "src/components/dashboard-shell.tsx",
-    tokens: ["指數狀態儀表站", "正式市場資料尚未啟用", "不提供個股買賣建議"]
+    tokens: ["指數燈號", "30 秒", "3 分鐘", "正式市場資料尚未啟用", "不提供個股買賣建議"]
   },
   {
     file: "src/app/membership/page.tsx",
-    tokens: ["會員功能預覽", "每日市場三層解讀", "Watchlist 與自訂警示", "盤後複盤報告"]
+    tokens: ["會員功能預覽", "目前不開放會員登入或付費", "每日市場三層解讀", "Watchlist 與自訂警示", "盤後複盤報告"]
   },
   {
     file: "src/components/public-beta-membership-mvp-roadmap.tsx",
@@ -41,7 +41,7 @@ const routeContracts = [
   },
   {
     file: "src/app/weekly/page.tsx",
-    tokens: ["TrustRuntimeBoundaryNotice", "RouteLocalTrustCopyPanel", "WeeklyRowCoverageStatus"]
+    tokens: ["市場週報", "30 秒", "3 分鐘", "示範資料", "非投資建議", "會員深度複盤"]
   },
   {
     file: "src/app/disclaimer/page.tsx",
@@ -63,11 +63,30 @@ const routeContracts = [
 
 const missing = [];
 const blocked = [];
+const forbiddenPublicSourceFragments = [
+  "cmd.exe",
+  "PUBLIC_BETA_",
+  "BETA_",
+  "Supabase",
+  "SQL",
+  "daily_prices",
+  "raw market data",
+  "candidateArtifactPath",
+  "OFFICIAL-",
+  "workflow proof",
+  "hard blocker",
+  "REQUEST BLOCKS",
+  "EXTERNAL REPLY"
+];
 
 for (const contract of routeContracts) {
   const source = read(contract.file);
   for (const token of contract.tokens) {
     if (!source.includes(token)) missing.push(`${contract.file}: ${token}`);
+  }
+
+  for (const fragment of forbiddenPublicSourceFragments) {
+    if (source.includes(fragment)) blocked.push(`${contract.file}: public source residue ${fragment}`);
   }
 }
 

@@ -8,6 +8,40 @@ Owner: PM mainline
 
 ## Latest Mainline Decision - 2026-06-14
 
+### Core Route Quick Proof Public-Brief Alignment
+
+CEO confirms the active BRIEF is split into two execution phases:
+
+- Phase 1: public free index-lighting site for all visitors.
+- Phase 2: membership MVP after Phase 1 is stable enough.
+
+PM completed a route-proof alignment slice:
+
+- `check:public-beta-core-route-quick-proof` now validates public BRIEF language and route health instead of requiring early internal governance widgets on public pages.
+- `/briefing` and `/weekly` are checked for user-facing market briefing, 30-second / 3-minute judgment, demo-data boundary, non-investment-advice wording, and membership-roadmap separation.
+- Public source surfaces are scanned for high-risk internal residue, including command snippets, platform env names, SQL/Supabase/raw-data wording, hard-blocker labels, and external-reply workflow residue.
+- Runtime promotion is still blocked by exact guardrails: no `scoreSource: "real"`, no `publicDataSource: "supabase"`, and no Supabase client use in guarded runtime files.
+
+Latest checks passed:
+
+- `check:public-beta-core-route-quick-proof`
+- `check:public-visible-language-quality`
+- `check:phase-1-public-beta-public-visible-residue-cleanup`
+- `check:public-surface-user-facing-audit`
+- `npx tsc --noEmit`
+
+Current PM route:
+
+- `phase_1_public_free_index_dashboard_usable_loop`
+
+Current lane assignments:
+
+- PM mainline: continue Phase 1 public usability, route health, and launch readiness.
+- A1: continue legal/free/automatable data-source and coverage work; no raw market-row fetch unless explicitly opened.
+- A2: continue public trust copy, non-advice copy, source/update-time disclosure, and free/member boundary.
+- A3: continue launch engineering, deployment smoke, monitoring, rollback, and Vercel readiness.
+- A4: keep Phase 2 membership MVP planning ready; do not implement membership in Phase 1.
+
 ### Stock Page Public Decision-Aid Alignment
 
 CEO confirms the revised BRIEF execution split:
