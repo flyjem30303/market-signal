@@ -34,7 +34,7 @@ export function PublicBetaSourceCoverageBridge({
       <h2>先知道資料能信到哪裡，再閱讀燈號</h2>
       <p>
         {labels.summary}
-        目前公開 Beta 會清楚標示資料來源與覆蓋率、資料範圍、示範資料與正式資料的差異；正式市場資料尚未啟用前，
+        目前公開 Beta 會清楚標示資料來源與覆蓋率、資料範圍、資料品質、示範資料與正式資料的差異；正式市場資料尚未啟用前，
         不提供買賣建議，也避免使用者把尚未升級的資料當成即時行情。
       </p>
       <div className="briefing-actions">

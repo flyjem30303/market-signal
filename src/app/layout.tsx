@@ -11,26 +11,26 @@ export const metadata: Metadata = {
     template: "%s | 指數燈號"
   },
   description:
-    "指數燈號是面向一般投資者的市場狀態儀表站，用紅黃綠燈號、核心指標、風險提示與資料更新時間，協助使用者快速理解市場氛圍。"
+    "指數燈號以紅黃綠狀態、核心指標與風險提示，協助一般投資者快速理解市場氣氛。本網站為資訊整理工具，不提供買賣建議。"
 };
 
 const footerTrustLinks = [
-  { href: "/methodology", label: "方法說明" },
-  { href: "/disclaimer", label: "免責聲明" },
-  { href: "/privacy", label: "隱私權" },
+  { href: "/methodology", label: "燈號方法" },
+  { href: "/disclaimer", label: "風險聲明" },
+  { href: "/privacy", label: "隱私說明" },
   { href: "/terms", label: "使用條款" }
 ];
 
 const footerNavLinks = [
   { href: "/", label: "首頁" },
   { href: "/briefing", label: "市場簡報" },
-  { href: "/weekly", label: "週報" },
-  { href: "/stocks/2330", label: "個股" },
-  { href: "/membership", label: "會員" },
+  { href: "/weekly", label: "市場週報" },
+  { href: "/stocks/2330", label: "個股/ETF" },
+  { href: "/membership", label: "會員預覽" },
   { href: "/methodology", label: "方法說明" },
-  { href: "/privacy", label: "隱私權" },
-  { href: "/terms", label: "使用條款" },
-  { href: "/disclaimer", label: "免責聲明" }
+  { href: "/privacy", label: "隱私" },
+  { href: "/terms", label: "條款" },
+  { href: "/disclaimer", label: "聲明" }
 ];
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -42,13 +42,13 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             className="site-logo"
             eventName="site_chrome_link_clicked"
             href="/"
-            label="指數燈號"
+            label="指數燈號首頁"
             payload={{ area: "logo" }}
           >
             <span className="logo-mark">MS</span>
             <span>
               指數燈號
-              <small>市場風險與趨勢狀態儀表站</small>
+              <small>市場狀態、風險提示與資料更新時間</small>
             </span>
           </TrackedLink>
           <SiteNav />
@@ -58,12 +58,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <div>
             <strong>指數燈號</strong>
             <p>
-              本站提供市場資訊整理、風險辨識與觀察輔助。資料來源、更新時間與可能延遲會在頁面中揭露；內容不構成投資建議，
-              也不提供個股買賣建議或保證報酬承諾。
+              本站整理市場指標、燈號狀態與風險提醒，協助使用者建立觀察流程。內容不是投資建議，不保證報酬，也不代替使用者做投資決策。
             </p>
-            <div className="site-footer-trust" aria-label="信任與法務連結">
-              <span>資料來源：頁面揭露</span>
-              <span>資料狀態：示範或正式會明確標示</span>
+            <div className="site-footer-trust" aria-label="信任與風險說明">
+              <span>公開 Beta</span>
+              <span>示範資料邊界</span>
               <span>非投資建議</span>
               {footerTrustLinks.map((link) => (
                 <TrackedLink

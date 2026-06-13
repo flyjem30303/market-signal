@@ -22,8 +22,8 @@ export function generateMetadata({ params }: StockPageProps): Metadata {
   if (!asset) return {};
 
   const snapshot = repository.getSnapshot(asset.symbol, snapshotDate);
-  const signal = snapshot?.signal.title ?? "mock 燈號";
-  const description = `${asset.symbol} ${asset.name} 的公開 Beta 燈號頁，整理 mock 市場狀態、風險分數、資料更新時間與非投資建議提醒。`;
+  const signal = snapshot?.signal.title ?? "示範燈號";
+  const description = `${asset.symbol} ${asset.name} 的示範市場狀態、風險分數與資料邊界。內容僅供資訊整理，不構成投資建議。`;
 
   return {
     alternates: {
@@ -63,23 +63,23 @@ export default async function StockPage({ params }: StockPageProps) {
       ? [
           {
             "@type": "PropertyValue",
-            name: "mock 健康分數",
+            name: "示範健康分數",
             value: snapshot.healthScore
           },
           {
             "@type": "PropertyValue",
-            name: "mock 風險分數",
+            name: "示範風險分數",
             value: snapshot.riskScore
           },
           {
             "@type": "PropertyValue",
-            name: "mock 燈號",
+            name: "示範燈號",
             value: snapshot.signal.title
           },
           {
             "@type": "PropertyValue",
             name: "資料品質",
-            value: `${snapshot.dataQualityGrade} / mock 資料`
+            value: `${snapshot.dataQualityGrade} / 示範資料`
           }
         ]
       : undefined,

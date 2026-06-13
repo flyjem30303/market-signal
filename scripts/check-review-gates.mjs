@@ -3013,6 +3013,11 @@ const checks = [
     name: "public-visible-language-quality"
   },
   {
+    command: [node, "scripts/check-public-source-residue-scan.mjs"],
+    expectStatus: "ok",
+    name: "public-source-residue-scan"
+  },
+  {
     command: [node, "scripts/check-public-surface-user-facing-audit.mjs"],
     expectStatus: "ok",
     name: "public-surface-user-facing-audit"
@@ -6203,6 +6208,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "home-briefing-investor-reading-bridge",
   "public-beta-alert-list-actionability",
   "public-visible-language-quality",
+  "public-source-residue-scan",
   "public-surface-user-facing-audit",
   "public-beta-decision-loop-bridge",
   "public-beta-decision-journey-panel",

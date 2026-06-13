@@ -1,12 +1,10 @@
 import type { Metadata } from "next";
 import { PageViewTracker } from "@/components/page-view-tracker";
-import { RouteLocalTrustCopyPanel } from "@/components/route-local-trust-copy-panel";
 import { TrackedLink } from "@/components/tracked-link";
-import { TrustRuntimeBoundaryNotice } from "@/components/trust-runtime-boundary-notice";
 
 export const metadata: Metadata = {
   title: "風險聲明",
-  description: "公開 Beta 風險聲明：本站提供市場資訊整理，不提供個別投資建議或保證報酬。"
+  description: "指數燈號是市場資訊整理與風險辨識工具，不是投資建議，也不保證報酬。"
 };
 
 export default function DisclaimerPage() {
@@ -14,56 +12,60 @@ export default function DisclaimerPage() {
     <main className="page-shell">
       <PageViewTracker eventName="disclaimer_page_viewed" payload={{ page: "disclaimer" }} />
       <section className="hero">
-        <p className="eyebrow">Disclaimer</p>
+        <p className="eyebrow">Risk Disclosure</p>
         <h1>風險聲明</h1>
         <p>
-          指數燈號的目標是協助一般投資者快速理解市場氣氛與風險變化。公開 Beta 階段仍在驗證資料來源、
-          更新時間、覆蓋率、指標解釋與使用體驗。
+          指數燈號協助使用者整理市場狀態、資料更新時間與風險提示。這些內容是資訊參考，不是投資建議，也不是任何買進、賣出或持有指令。
         </p>
-        <p className="runtime-boundary-line">本站內容不是投資建議，不保證正確、完整、即時，也不承諾任何投資結果。</p>
+        <p className="runtime-boundary-line">
+          目前公開 Beta 使用示範資料與示範分數。正式市場資料尚未啟用；資料來源、資料範圍與覆蓋率通過前，不宣稱即時或完整市場資料。本網站不提供買賣建議，市場風險自負，燈號不要當成交易指令。
+        </p>
       </section>
 
-      <TrustRuntimeBoundaryNotice context="disclaimer" />
-      <RouteLocalTrustCopyPanel context="disclaimer" />
-
-      <section className="legal-quick-read" aria-label="風險聲明快速摘要">
+      <section className="legal-quick-read" aria-label="風險重點">
         <article>
-          <span>資料限制</span>
-          <strong>示範資料與示範分數</strong>
-          <p>正式市場資料尚未啟用前，分數與警示都只用來展示判讀流程；資料來源、更新時間與覆蓋率仍需確認。</p>
+          <span>網站定位</span>
+          <strong>資訊與風險辨識</strong>
+          <p>本站用紅、黃、綠等燈號降低理解門檻，但不替使用者做投資決策。</p>
         </article>
         <article>
-          <span>非投資建議</span>
-          <strong>不提供買賣指令</strong>
-          <p>本站不針對個別使用者提供適合度判斷，不提供買賣建議，也不建議買進、賣出或持有任何標的。</p>
+          <span>資料狀態</span>
+          <strong>需看更新時間</strong>
+          <p>若資料延遲、缺漏或異常，前台會顯示狀態。使用者應避免只看單一燈號下判斷。</p>
         </article>
         <article>
-          <span>使用者責任</span>
-          <strong>請自行複核資訊</strong>
-          <p>使用者應搭配其他可靠來源、個人風險承受度與專業意見後再做決策。</p>
+          <span>使用方式</span>
+          <strong>先觀察再複核</strong>
+          <p>任何警示都應搭配市場背景、個人風險承受度與其他資訊來源共同判讀。</p>
         </article>
       </section>
 
       <section className="panel legal-section">
-        <h2>資料可能不完整</h2>
-        <p>公開 Beta 期間，資料可能出現延遲、缺漏、測試調整或暫時無法更新。若資料狀態不明，請以保守方式解讀。</p>
+        <h2>不是投資建議</h2>
+        <p>
+          本站不提供個別股票、ETF 或任何金融商品的買賣建議，不提供保證獲利承諾，也不代替專業投資顧問、券商或使用者本人做決策。
+        </p>
       </section>
 
       <section className="panel legal-section">
-        <h2>市場風險自負</h2>
-        <p>投資市場會受價格波動、流動性、政策、匯率與重大事件影響。任何交易行為與結果都由使用者自行承擔。</p>
+        <h2>資料限制</h2>
+        <p>
+          市場資料可能受到資料來源、更新頻率、快取、連線或系統維護影響。正式市場資料尚未啟用前，公開頁維持示範資料邊界，並揭露覆蓋率限制，避免使用者誤認為即時資料。
+        </p>
       </section>
 
       <section className="panel legal-section">
-        <h2>公開 Beta 說明</h2>
-        <p>目前網站正在測試資訊架構與決策輔助體驗。正式資料、正式模型與完整覆蓋率會在通過後才清楚標示。</p>
+        <h2>會員內容邊界</h2>
+        <p>
+          下一階段會員功能可提供更完整的市場解讀、watchlist、警示條件與盤後複盤，但仍以觀察、風險提醒與資料解讀為核心，不會提供下單或個人資產配置建議。
+        </p>
       </section>
 
       <section className="panel legal-links">
-        <h2>相關頁面</h2>
-        <LegalTrustLink href="/methodology" label="方法說明" />
+        <h2>相關說明</h2>
+        <LegalTrustLink href="/methodology" label="燈號方法" />
         <LegalTrustLink href="/terms" label="使用條款" />
-        <LegalTrustLink href="/privacy" label="隱私與資料說明" />
+        <LegalTrustLink href="/privacy" label="隱私說明" />
         <LegalTrustLink href="/" label="回到首頁" />
       </section>
     </main>

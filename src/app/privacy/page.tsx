@@ -1,12 +1,10 @@
 import type { Metadata } from "next";
 import { PageViewTracker } from "@/components/page-view-tracker";
-import { RouteLocalTrustCopyPanel } from "@/components/route-local-trust-copy-panel";
 import { TrackedLink } from "@/components/tracked-link";
-import { TrustRuntimeBoundaryNotice } from "@/components/trust-runtime-boundary-notice";
 
 export const metadata: Metadata = {
   title: "隱私與資料說明",
-  description: "公開 Beta 隱私與資料說明：本站不要求使用者輸入交易帳戶、密鑰或敏感個人資料。"
+  description: "說明指數燈號公開 Beta 階段的資料來源、資料蒐集範圍、會員功能預覽與使用者隱私權邊界。"
 };
 
 export default function PrivacyPage() {
@@ -15,56 +13,54 @@ export default function PrivacyPage() {
       <PageViewTracker eventName="privacy_page_viewed" payload={{ page: "privacy" }} />
       <section className="hero">
         <p className="eyebrow">Privacy</p>
-        <h1>隱私與資料說明</h1>
+        <h1>隱私權與資料說明</h1>
         <p>
-          公開 Beta 頁面可以直接瀏覽，不需要輸入交易帳戶、身份證字號、密碼、密鑰或其他敏感資料。
-          我們會優先把資料狀態、更新時間與使用邊界說清楚。
+          公開 Beta 階段以市場資訊展示與閱讀流程驗證為主。一般使用者瀏覽公開頁時，不需要輸入交易帳戶、券商帳號、身分證字號或金融帳戶資料。不要在任何表單填入券商密碼、金融帳戶或交易授權資訊。資料來源與更新狀態會在公開頁揭露。
         </p>
-        <p className="runtime-boundary-line">請不要在任何表單或回饋欄位輸入機密資訊、交易帳戶資訊或完整個資。</p>
+        <p className="runtime-boundary-line">
+          會員功能仍是下一階段規劃；若未來開放登入、watchlist 或自訂警示，會先補上明確的個資蒐集範圍、敏感資料邊界、保存方式與刪除機制。
+        </p>
       </section>
 
-      <TrustRuntimeBoundaryNotice context="privacy" />
-      <RouteLocalTrustCopyPanel context="privacy" />
-
-      <section className="legal-quick-read" aria-label="隱私快速摘要">
+      <section className="legal-quick-read" aria-label="隱私重點">
         <article>
-          <span>不要求機密</span>
-          <strong>一般瀏覽即可使用</strong>
-          <p>公開頁不需要使用者提供交易帳戶、API 密鑰、系統憑證或其他敏感資訊。</p>
+          <span>目前階段</span>
+          <strong>公開瀏覽為主</strong>
+          <p>目前主要處理頁面瀏覽、互動事件與錯誤觀察，用來改善網站可用性。</p>
         </article>
         <article>
-          <span>行為資料</span>
-          <strong>用於改善體驗</strong>
-          <p>若有瀏覽或互動紀錄，目的是改善頁面排序、文案理解度與功能穩定性。</p>
+          <span>不需要輸入</span>
+          <strong>交易帳戶</strong>
+          <p>本站不要求使用者輸入券商帳號、交易密碼、金融帳戶或個人資產資料。</p>
         </article>
         <article>
-          <span>市場資料</span>
-          <strong>只呈現整理後資訊</strong>
-          <p>公開頁只呈現必要的摘要與狀態，不顯示逐筆資料內容或不該公開的系統處理內容。</p>
+          <span>資料保護方向</span>
+          <strong>最小化蒐集</strong>
+          <p>未來會員功能會以必要資料為原則，避免蒐集與市場觀察無關的資料。</p>
         </article>
       </section>
 
       <section className="panel legal-section">
-        <h2>我們可能使用的資訊</h2>
-        <p>可能包含瀏覽頁面、點擊位置、停留時間、裝置類型與錯誤紀錄，用來改善網站可讀性與可靠性。</p>
+        <h2>目前可能蒐集的資料</h2>
+        <p>可能包含頁面瀏覽、點擊事件、裝置與瀏覽器資訊、錯誤紀錄與匿名化使用統計。這些資料用來改善內容、導覽與載入穩定性。</p>
       </section>
 
       <section className="panel legal-section">
-        <h2>我們不要求的資訊</h2>
-        <p>本站不要求交易帳戶、金融憑證、完整身份資料、信用卡資料或任何用於登入第三方服務的密鑰。</p>
+        <h2>目前不蒐集的資料</h2>
+        <p>公開 Beta 階段不需要輸入交易帳戶，不蒐集下單資訊、個人持倉、資產配置、券商密碼、信用卡資料或其他敏感資料。</p>
       </section>
 
       <section className="panel legal-section">
-        <h2>資料保護方向</h2>
-        <p>正式上線前會持續檢查公開頁是否誤露技術欄位、測試資料、機密資訊或讓使用者誤解的技術字樣。</p>
+        <h2>會員功能資料邊界</h2>
+        <p>會員 MVP 若啟用，可能需要帳號、watchlist、警示條件與閱讀紀錄；正式上線前會再補完整告知與刪除流程。</p>
       </section>
 
       <section className="panel legal-links">
-        <h2>相關頁面</h2>
+        <h2>相關說明</h2>
         <PrivacyTrustLink href="/terms" label="使用條款" />
         <PrivacyTrustLink href="/disclaimer" label="風險聲明" />
         <PrivacyTrustLink href="/methodology" label="方法說明" />
-        <PrivacyTrustLink href="/" label="回到首頁" />
+        <PrivacyTrustLink href="/" label="回首頁" />
       </section>
     </main>
   );

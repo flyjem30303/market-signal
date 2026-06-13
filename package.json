@@ -1050,6 +1050,7 @@
     "check:public-runtime-boundary-coverage": "node scripts/check-public-runtime-boundary-coverage.mjs",
     "check:site-chrome-readability": "node scripts/check-site-chrome-readability.mjs",
     "check:public-visible-language-quality": "node scripts/check-public-visible-language-quality.mjs",
+    "check:public-source-residue-scan": "node scripts/check-public-source-residue-scan.mjs",
     "check:public-beta-chinese-first-route-labels": "node scripts/check-public-beta-chinese-first-route-labels.mjs",
     "check:public-surface-user-facing-audit": "node scripts/check-public-surface-user-facing-audit.mjs",
     "check:public-beta-decision-loop-bridge": "node scripts/check-public-beta-decision-loop-bridge.mjs",

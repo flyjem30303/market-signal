@@ -2,6 +2,39 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### BRIEF Phase 1 Public Surface Residue Cleanup Pass
+
+Status: `phase_1_public_surface_residue_cleanup_ready`
+
+CEO decision:
+
+- Adopt the revised BRIEF as a two-phase execution plan.
+- Phase 1 is the public/free index signal site for all users: market overview, core indicators, risk reminders, warning context, data update time, data-source boundary, and non-investment-advice wording.
+- Phase 2 is the membership MVP path: member-only three-layer interpretation, watchlist, custom alerts, and post-market review. Phase 2 remains roadmap/preview until Phase 1 is stable and publicly usable.
+- PM mainline continues Phase 1 runtime/product cleanup. A1 continues legal/free/automatable data-source and coverage work. A2 keeps public trust, disclosure, and non-advice copy aligned. A3 owns launch/platform readiness. A4 is optional for membership MVP planning only.
+
+PM completed:
+
+- Rebuilt the shared site layout, navigation, data freshness strip, weekly page, disclaimer page, data freshness model, and public-visible language checker into clean user-facing Traditional Chinese.
+- Removed visible development-process residue from public routes and preserved the mock/demo data boundary.
+- Added `check:public-source-residue-scan` to catch mojibake, replacement characters, and internal engineering residue in the actual public route source files.
+- Registered the new source-level residue scan in the focused review gate.
+
+Checks passed:
+
+- `npx tsc --noEmit`
+- `check:public-visible-language-quality`
+- `check:phase-1-public-beta-public-visible-residue-cleanup`
+- `check:public-source-residue-scan`
+
+Boundary:
+
+No SQL, Supabase write, staging row, `daily_prices` mutation, market-row fetch, raw payload output, secret output, source promotion, real score promotion, membership implementation, production env mutation, DNS change, Vercel dashboard mutation, or production deploy occurred. Runtime remains mock/demo.
+
+Next:
+
+Continue Phase 1 public Beta usability and launch readiness. Do not implement Phase 2 membership until Phase 1 is stable; keep membership as preview/roadmap and use A4 only for planning if needed.
+
 ### A3 Deploy Smoke Rollback Closure Pass
 
 Status: `a3_phase_1_public_beta_deploy_smoke_rollback_closure_ready`

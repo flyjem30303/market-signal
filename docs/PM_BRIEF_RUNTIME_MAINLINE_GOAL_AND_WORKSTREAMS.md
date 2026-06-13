@@ -8,6 +8,37 @@ Owner: PM mainline
 
 ## Latest Mainline Decision - 2026-06-14
 
+### BRIEF Phase 1 Public Surface Residue Cleanup Pass
+
+CEO decision:
+
+- The revised BRIEF should be split into two execution phases.
+- Phase 1 is the all-user public/free index signal dashboard. It must let a general investor understand market atmosphere, core indicators, warnings, data timing, and risk boundaries without seeing internal project language.
+- Phase 2 is the membership MVP. It includes member-only depth interpretation, watchlist, custom alerts, and post-market review, but it must stay roadmap/preview until Phase 1 is stable.
+- PM mainline should stay on Phase 1 product/runtime usability. A1 keeps data-source and coverage work moving. A2 owns trust and disclosure copy. A3 owns launch readiness. A4 can be opened later for membership MVP planning, not implementation.
+
+PM completed the public residue cleanup slice:
+
+- Rebuilt the shared layout, navigation, weekly page, disclaimer page, data freshness strip, and data freshness model with clean user-facing Traditional Chinese.
+- Rewrote `check:public-visible-language-quality` so the checker itself no longer depends on corrupted phrases.
+- Added `check:public-source-residue-scan` to scan public route source files for mojibake and internal development residue.
+- Registered the new checker in the focused review gate.
+
+Latest checks passed:
+
+- `npx tsc --noEmit`
+- `check:public-visible-language-quality`
+- `check:phase-1-public-beta-public-visible-residue-cleanup`
+- `check:public-source-residue-scan`
+
+Current route:
+
+- `phase_1_public_surface_residue_cleanup_ready`
+
+Next PM slice:
+
+- Continue Phase 1 public Beta usability and launch readiness. Keep Phase 2 membership visible only as roadmap/preview unless the chairman explicitly opens a membership implementation goal.
+
 ### A3 Deploy Smoke Rollback Closure Pass
 
 CEO decision:
