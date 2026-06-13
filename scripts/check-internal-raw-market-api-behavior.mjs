@@ -33,6 +33,19 @@ cases.push(
 );
 
 process.env.INTERNAL_DIAGNOSTICS_ENABLED = "true";
+process.env.INTERNAL_DIAGNOSTICS_TOKEN = "";
+calls.loader.length = 0;
+cases.push(
+  await runCase({
+    expectedBody: { status: "unauthorized" },
+    expectedLoaderCalls: 0,
+    expectedStatus: 401,
+    name: "enabled route without configured token returns 401 before loading raw market data",
+    request: makeRequest("http://localhost:3000/api/internal/raw-market?symbol=2330")
+  })
+);
+
+process.env.INTERNAL_DIAGNOSTICS_ENABLED = "true";
 process.env.INTERNAL_DIAGNOSTICS_TOKEN = "secret";
 calls.loader.length = 0;
 cases.push(

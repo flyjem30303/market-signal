@@ -4,18 +4,18 @@ export function PublicBetaIndexDashboardBriefLoopPanel() {
   const brief = getPublicBetaIndexDashboardBriefLoop();
 
   return (
-    <section className="home-public-beta-loop" aria-label="Public Beta index dashboard brief loop">
+    <section className="home-public-beta-loop" aria-label="公開 Beta 指數狀態儀表站">
       <div className="home-public-beta-loop__hero">
-        <p className="eyebrow">Public Beta Index Dashboard</p>
+        <p className="eyebrow">Index Dashboard</p>
         <h2>{brief.headline}</h2>
         <p>{brief.marketOverview}</p>
-        <div className="home-public-beta-loop__timing" aria-label="decision timing">
+        <div className="home-public-beta-loop__timing" aria-label="閱讀時間">
           <strong>{brief.timeToUnderstand}</strong>
           <strong>{brief.timeToAction}</strong>
         </div>
       </div>
 
-      <div className="home-public-beta-loop__grid" aria-label="core indicator panel">
+      <div className="home-public-beta-loop__grid" aria-label="核心指標面板">
         {brief.indicatorPanel.map((item) => (
           <article key={item.label}>
             <span>{item.label}</span>
@@ -25,7 +25,7 @@ export function PublicBetaIndexDashboardBriefLoopPanel() {
         ))}
       </div>
 
-      <div className="home-public-beta-loop__actions" aria-label="decision helper">
+      <div className="home-public-beta-loop__actions" aria-label="行動判斷">
         <article className="active">
           <span>第一步</span>
           <strong>{brief.primaryAction}</strong>
@@ -36,7 +36,8 @@ export function PublicBetaIndexDashboardBriefLoopPanel() {
         </article>
       </div>
 
-      <div className="home-public-beta-loop__alerts" aria-label="market alert list">
+      <div className="home-public-beta-loop__alerts" aria-label="警示清單">
+        <p className="eyebrow">警示清單</p>
         {brief.alerts.map((alert) => (
           <article key={alert.title}>
             <div>
@@ -52,9 +53,7 @@ export function PublicBetaIndexDashboardBriefLoopPanel() {
         ))}
       </div>
 
-      <p className="home-public-beta-loop__boundary">
-        publicDataSource={brief.boundary.publicDataSource}; scoreSource={brief.boundary.scoreSource}. {brief.stopLine}
-      </p>
+      <p className="home-public-beta-loop__boundary">{brief.stopLine}</p>
     </section>
   );
 }

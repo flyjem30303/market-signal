@@ -54,20 +54,20 @@ export type BacktestBucket = {
 };
 
 const moduleDefinitions = [
-  { id: "trend", name: "價格趨勢", weight: 18, note: "均線結構、動能與相對強弱。" },
-  { id: "earnings", name: "獲利基本面", weight: 18, note: "營收、EPS、品質與展望。" },
-  { id: "valuation", name: "估值壓力", weight: 16, note: "PE、PB、殖利率與風險溢酬。" },
-  { id: "breadth", name: "市場廣度/族群", weight: 14, note: "同族群擴散、站上均線比例與集中度。" },
-  { id: "flow", name: "籌碼資金", weight: 16, note: "外資、主力、融資、成交熱度。" },
-  { id: "macro", name: "宏觀與產業上游", weight: 18, note: "利率、匯率、AI CAPEX、景氣循環。" }
+  { id: "trend", name: "趨勢動能", weight: 18, note: "觀察價格相對均線與中期動能，判斷市場偏多或偏弱。" },
+  { id: "earnings", name: "基本面品質", weight: 18, note: "觀察獲利、成長與營運品質，避免只看短線波動。" },
+  { id: "valuation", name: "估值壓力", weight: 16, note: "觀察本益比、股價淨值比與評價水位，判斷追高風險。" },
+  { id: "breadth", name: "市場廣度", weight: 14, note: "觀察多數標的是否同步偏強，避免少數權值股遮蔽風險。" },
+  { id: "flow", name: "資金流向", weight: 16, note: "觀察量能與資金強弱，輔助判讀燈號是否有支撐。" },
+  { id: "macro", name: "總經環境", weight: 18, note: "觀察利率、景氣與產業循環，補足市場背景。" }
 ];
 
 const signalRules: SignalRule[] = [
-  { min: 75, key: "green", title: "綠燈", text: "趨勢與基本面仍支持風險資產。" },
-  { min: 62, key: "yellow", title: "黃燈", text: "多頭仍在，但估值或情緒開始升溫。" },
-  { min: 48, key: "orange", title: "橘燈", text: "健康度與風險開始背離。" },
-  { min: 34, key: "red", title: "紅燈", text: "多個模組轉弱，防守優先。" },
-  { min: 0, key: "deep-red", title: "深紅", text: "可能進入趨勢破壞或恐慌段。" }
+  { min: 75, key: "green", title: "綠燈偏多", text: "市場狀態偏強，可先關注，但仍需確認資料更新時間與風險來源。" },
+  { min: 62, key: "yellow", title: "黃燈觀望", text: "市場仍有支撐，但風險正在升溫，適合加強觀察。" },
+  { min: 48, key: "orange", title: "橘燈警戒", text: "趨勢與風險訊號拉扯，應先檢查持倉風險與觀察條件。" },
+  { min: 34, key: "red", title: "紅燈防守", text: "市場偏弱或風險偏高，宜降低風險暴露並等待訊號改善。" },
+  { min: 0, key: "deep-red", title: "深紅高風險", text: "市場壓力明顯，應優先防守並避免單一訊號決策。" }
 ];
 
 export function buildSignalSnapshot(asset: Asset, date: Date): SignalSnapshot {
@@ -131,44 +131,44 @@ export const newsEvents: NewsEvent[] = [
   {
     date: "2008-09-15",
     source: "Reuters / Bloomberg",
-    title: "全球金融危機引發風險資產重定價",
-    summary: "信用風險上升時，金融與景氣循環股的風險分數需大幅上修。",
-    category: "宏觀",
+    title: "金融危機引發全球市場壓力",
+    summary: "大型金融機構風險升高，全球股市進入高波動環境，提醒使用者重視系統性風險。",
+    category: "總經",
     impact: -3,
     assets: ["TWII", "0050", "006208"]
   },
   {
     date: "2020-03-16",
-    source: "Reuters / 中央社",
-    title: "疫情衝擊全球需求，市場進入恐慌流動性壓力",
-    summary: "極端流動性事件下，回檔風險度應優先反映波動與信用壓力。",
-    category: "宏觀",
+    source: "Reuters / 公開新聞",
+    title: "疫情衝擊造成市場劇烈波動",
+    summary: "全球疫情與流動性壓力同步升溫，市場短期波動擴大，適合觀察風險燈號變化。",
+    category: "總經",
     impact: -3,
     assets: ["TWII", "0050", "006208", "2330"]
   },
   {
     date: "2023-05-25",
     source: "CNBC / Reuters",
-    title: "AI 晶片需求推升全球半導體信心",
-    summary: "AI CAPEX 上修會提高半導體與 AI 伺服器供應鏈健康度。",
-    category: "基本面",
+    title: "AI 需求推升半導體與伺服器題材",
+    summary: "AI 資本支出題材升溫，帶動半導體、伺服器與相關供應鏈受到市場關注。",
+    category: "產業",
     impact: 3,
     assets: ["TWII", "0050", "006208", "2330", "2382", "2308"]
   },
   {
     date: "2025-03-13",
-    source: "經濟日報 / 工商時報",
-    title: "融資與當沖熱度升高，短線情緒指標偏熱",
-    summary: "散戶槓桿升溫時，指數可以續強，但追價風險應上修。",
-    category: "籌碼",
+    source: "公開市場資料",
+    title: "外資與量能變化影響台股情緒",
+    summary: "資金流向與成交量變化使市場情緒轉為觀望，適合搭配市場廣度與風險指標判讀。",
+    category: "資金",
     impact: -2,
     assets: ["TWII", "0050", "006208", "2382"]
   },
   {
     date: "2026-05-22",
-    source: "Bloomberg / 中央社",
-    title: "AI 權值股續強但市場討論集中風險",
-    summary: "越集中於少數權值股，越需要同時看市場廣度與估值壓力。",
+    source: "Bloomberg / 公開新聞",
+    title: "AI 伺服器供應鏈仍是市場焦點",
+    summary: "市場持續關注 AI 伺服器需求與供應鏈變化，但高估值也使風險提醒更重要。",
     category: "市場廣度",
     impact: -1,
     assets: ["TWII", "0050", "006208", "2330", "2382"]

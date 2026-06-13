@@ -1,76 +1,138 @@
-import { readFileSync } from "node:fs";
+import fs from "node:fs";
 
-const files = {
-  briefing: "src/app/briefing/page.tsx",
-  dashboard: "src/components/dashboard-shell.tsx",
-  css: "src/app/globals.css",
-  packageJson: "package.json",
-  reviewGate: "scripts/check-review-gates.mjs",
-  weekly: "src/app/weekly/page.tsx"
-};
+const baseUrl = process.env.LOCALHOST_BASE_URL ?? "http://localhost:3000";
+const packagePath = "package.json";
+const reviewGatePath = "scripts/check-review-gates.mjs";
+const weeklyPath = "src/app/weekly/page.tsx";
+const briefingPath = "src/app/briefing/page.tsx";
+const dashboardPath = "src/components/dashboard-shell.tsx";
+const cssPath = "src/app/globals.css";
 
-function read(path) {
-  return readFileSync(path, "utf8");
+const publicRouteRequirements = [
+  {
+    path: "/",
+    required: ["下一步閱讀", "市場晨報", "週報", "方法說明", "風險聲明"]
+  },
+  {
+    path: "/briefing",
+    required: ["閱讀順序", "市場總覽", "指數狀態", "週報", "方法說明", "風險聲明"]
+  },
+  {
+    path: "/weekly",
+    required: ["閱讀順序", "市場總覽", "今日簡報", "指數狀態", "方法說明", "風險揭露"]
+  },
+  {
+    path: "/stocks/2330",
+    required: ["下一步閱讀", "市場晨報", "週報", "方法說明", "風險聲明"]
+  }
+];
+
+const forbiddenVisibleTerms = [
+  "cmd.exe",
+  "npm run",
+  "packet",
+  "preflight",
+  "post-run",
+  "operator",
+  "publicDataSource",
+  "scoreSource",
+  "mock-only",
+  "Supabase",
+  "SQL",
+  "daily_prices",
+  "raw market data",
+  "Runtime Status",
+  "promotion gate",
+  "CEO ",
+  "PM ",
+  "A1 ",
+  "A2 "
+];
+
+const setupProblems = [];
+const packageJson = JSON.parse(read(packagePath));
+const reviewGate = read(reviewGatePath);
+const weekly = read(weeklyPath);
+const briefing = read(briefingPath);
+const dashboard = read(dashboardPath);
+const css = read(cssPath);
+
+if (packageJson.scripts?.["check:experience-flow-navigation"] !== "node scripts/check-experience-flow-navigation.mjs") {
+  setupProblems.push(`${packagePath} missing check:experience-flow-navigation`);
 }
 
-function requireIncludes(source, token, label) {
-  if (!source.includes(token)) {
-    throw new Error(`Missing ${label}: ${token}`);
+if (!reviewGate.includes("scripts/check-experience-flow-navigation.mjs") || !reviewGate.includes('"experience-flow-navigation"')) {
+  setupProblems.push(`${reviewGatePath} missing experience-flow-navigation registration`);
+}
+
+for (const [source, filePath, phrases] of [
+  [weekly, weeklyPath, ['aria-label="週報閱讀順序"', 'payload={{ area: "experience_flow"', 'href="/"', 'href="/briefing"', 'href="/methodology"', 'href="/disclaimer"']],
+  [briefing, briefingPath, ['aria-label="晨報閱讀順序"', 'payload={{ area: "experience_flow"', 'href="/"', 'href="/weekly"', 'href="/methodology"', 'href="/disclaimer"']],
+  [dashboard, dashboardPath, ["下一步閱讀", 'href="/briefing"', 'href="/weekly"', 'href="/methodology"', 'href="/disclaimer"']],
+  [css, cssPath, [".experience-flow-nav", ".next-reading-panel"]]
+]) {
+  for (const phrase of phrases) {
+    if (!source.includes(phrase)) setupProblems.push(`${filePath} missing ${phrase}`);
   }
 }
 
-function forbidIncludes(source, token, label) {
-  if (source.includes(token)) {
-    throw new Error(`Forbidden ${label}: ${token}`);
+const routeResults = await Promise.all(publicRouteRequirements.map(checkRoute));
+const status = setupProblems.length === 0 && routeResults.every((result) => result.pass) ? "ok" : "blocked";
+
+console.log(
+  JSON.stringify(
+    {
+      routeResults,
+      setupProblems,
+      status
+    },
+    null,
+    2
+  )
+);
+
+if (status !== "ok") process.exitCode = 1;
+
+async function checkRoute({ path, required }) {
+  const response = await fetch(`${baseUrl}${path}`);
+  const text = normalizeVisibleText(await response.text());
+  const missing = required.filter((phrase) => !text.includes(phrase));
+  const forbiddenHits = forbiddenVisibleTerms.filter((phrase) => text.includes(phrase));
+  const markerHits = findMojibakeMarkers(text);
+
+  return {
+    forbiddenHits,
+    markerHits,
+    missing,
+    pass: response.status === 200 && missing.length === 0 && forbiddenHits.length === 0 && markerHits.length === 0,
+    path,
+    status: response.status
+  };
+}
+
+function normalizeVisibleText(html) {
+  return html
+    .replace(/<script[\s\S]*?<\/script>/gi, " ")
+    .replace(/<style[\s\S]*?<\/style>/gi, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function findMojibakeMarkers(source) {
+  const markers = [];
+  if (/\uFFFD/u.test(source)) markers.push("replacement-character");
+  if (/[\uE000-\uF8FF]/u.test(source)) markers.push("private-use-codepoint");
+  if (/\?{3,}/u.test(source)) markers.push("question-mark-run");
+  return markers;
+}
+
+function read(filePath) {
+  if (!fs.existsSync(filePath)) {
+    setupProblems.push(`${filePath} missing`);
+    return filePath.endsWith(".json") ? "{}" : "";
   }
+
+  return fs.readFileSync(filePath, "utf8");
 }
-
-const briefing = read(files.briefing);
-const weekly = read(files.weekly);
-const dashboard = read(files.dashboard);
-const css = read(files.css);
-const packageJson = read(files.packageJson);
-const reviewGate = read(files.reviewGate);
-
-for (const [source, page] of [
-  [briefing, "briefing"],
-  [weekly, "weekly"]
-]) {
-  requireIncludes(source, 'aria-label="Experience Flow"', `${page} flow nav label`);
-  requireIncludes(source, 'className="experience-flow-nav"', `${page} flow nav class`);
-  requireIncludes(source, 'payload={{ area: "experience_flow"', `${page} tracking payload`);
-  requireIncludes(source, 'href="/"', `${page} home link`);
-}
-
-requireIncludes(briefing, "查看市場頁", "briefing market-status link");
-requireIncludes(weekly, "看台指狀態", "weekly market-status link");
-
-requireIncludes(briefing, 'href="/weekly"', "briefing to weekly link");
-requireIncludes(weekly, 'href="/briefing"', "weekly to briefing link");
-requireIncludes(dashboard, "home_cta_clicked", "home CTA tracking");
-requireIncludes(dashboard, "Decision Compass", "home decision compass label");
-requireIncludes(dashboard, "decision_compass_briefing", "home decision compass briefing tracking");
-requireIncludes(dashboard, "decision_compass_market", "home decision compass market tracking");
-requireIncludes(dashboard, "decision_compass_target", "home decision compass target tracking");
-requireIncludes(dashboard, "先判斷市場節奏，再對照大盤，最後才進入 ETF 或個股拆解", "home decision compass reading order");
-requireIncludes(dashboard, "再看台指狀態", "home market-status reading step");
-requireIncludes(dashboard, 'href="/briefing"', "home/stock briefing route");
-requireIncludes(dashboard, 'href="/weekly"', "home/stock weekly route");
-requireIncludes(dashboard, "stock_follow_up", "stock follow-up payload");
-requireIncludes(dashboard, "回首頁看覆蓋地圖", "stock page home return link");
-requireIncludes(css, ".experience-flow-nav", "experience flow CSS");
-requireIncludes(packageJson, '"check:experience-flow-navigation"', "package script");
-requireIncludes(reviewGate, "check-experience-flow-navigation.mjs", "review gate wiring");
-
-for (const [source, page] of [
-  [briefing, "briefing"],
-  [weekly, "weekly"],
-  [dashboard, "dashboard"]
-]) {
-  forbidIncludes(source, "scoreSource=real", `${page} real score source claim`);
-  forbidIncludes(source, "publicDataSource=supabase", `${page} public supabase claim`);
-  forbidIncludes(source, "createClient(", `${page} direct Supabase client`);
-  forbidIncludes(source, "fetch(", `${page} direct remote fetch`);
-}
-
-console.log("experience flow navigation ok");

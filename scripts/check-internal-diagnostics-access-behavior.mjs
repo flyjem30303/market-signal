@@ -28,8 +28,8 @@ const cases = [
   },
   {
     enabled: "true",
-    expected: "allowed",
-    name: "enabled diagnostics without token env allows local access",
+    expected: "not_found",
+    name: "enabled diagnostics without token env remains closed",
     token: undefined,
     tokenEnv: ""
   },
@@ -120,7 +120,7 @@ function scanInternalSource() {
   const problems = [];
   const enabledIndex = source.indexOf('process.env.INTERNAL_DIAGNOSTICS_ENABLED !== "true"');
   const tokenIndex = source.indexOf("const expectedToken = process.env.INTERNAL_DIAGNOSTICS_TOKEN");
-  const tokenCompareIndex = source.indexOf("if (expectedToken && token !== expectedToken)");
+  const tokenCompareIndex = source.indexOf("if (!expectedToken || token !== expectedToken)");
 
   if (!(enabledIndex >= 0 && tokenIndex > enabledIndex && tokenCompareIndex > tokenIndex)) {
     problems.push("internal diagnostics must check enabled state before token comparison");

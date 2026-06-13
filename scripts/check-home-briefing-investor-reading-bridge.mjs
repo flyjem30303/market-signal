@@ -1,134 +1,85 @@
 import fs from "node:fs";
 
 const baseUrl = process.env.LOCALHOST_BASE_URL ?? "http://localhost:3000";
-const dashboardPath = "src/components/dashboard-shell.tsx";
-const briefingPath = "src/app/briefing/page.tsx";
 const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
-const checkerPath = "scripts/check-home-briefing-investor-reading-bridge.mjs";
 
-const files = new Map(
-  [dashboardPath, briefingPath, packagePath, reviewGatePath, checkerPath].map((file) => [file, fs.readFileSync(file, "utf8")])
-);
-
-const sourceRequired = [
-  [dashboardPath, "30 秒起點"],
-  [dashboardPath, "示範資料公開 Beta"],
-  [dashboardPath, "publicDataSource=mock"],
-  [dashboardPath, "scoreSource=mock"],
-  [dashboardPath, "示範資料閱讀模式"],
-  [dashboardPath, "查看第一批資料準備細節"],
-  [dashboardPath, "先看市場晨報"],
-  [briefingPath, "示範資料閱讀介面"],
-  [briefingPath, "正式資料尚未升級"],
-  [briefingPath, "真實資料升級檢查"],
-  [briefingPath, "沒有原始資料酬載"],
-  [packagePath, "\"check:home-briefing-investor-reading-bridge\""],
-  [reviewGatePath, "check-home-briefing-investor-reading-bridge.mjs"],
-  [reviewGatePath, "home-briefing-investor-reading-bridge"]
-];
-
-const sourceForbidden = [
-  [dashboardPath, "mock-only 閱讀模式"],
-  [dashboardPath, "Batch 1 readiness"],
-  [dashboardPath, "真實資料推廣"],
-  [briefingPath, "mock-only，正式資料尚未 promotion"],
-  [briefingPath, "raw market data"],
-  [briefingPath, "real score promotion"],
-  [briefingPath, "promotion gate"],
-  [briefingPath, "partial coverage"],
-  [briefingPath, "missing/delayed data"],
-  [briefingPath, "mock runtime"],
-  [briefingPath, "Model Boundary"]
-];
-
-const routeRequired = {
+const routeRequirements = {
   "/": [
-    "30 秒起點",
     "指數狀態儀表站",
-    "30 秒看懂市場氛圍",
-    "3 分鐘決定關注",
-    "示範資料公開 Beta",
-    "publicDataSource=mock",
-    "scoreSource=mock",
-    "示範資料閱讀模式",
-    "先看市場晨報"
+    "30 秒可讀",
+    "3 分鐘可行動",
+    "30 秒市場氣氛",
+    "3 分鐘行動判斷",
+    "正式資料升級前檢查",
+    "市場總覽",
+    "核心指標",
+    "警示清單",
+    "正式市場資料尚未啟用"
   ],
   "/briefing": [
-    "市場訊號晨報",
     "30 秒看懂今日市場氣氛",
     "3 分鐘行動判斷",
-    "示範資料閱讀介面",
-    "正式資料尚未升級",
-    "publicDataSource=mock",
-    "scoreSource=mock",
-    "不提供買賣建議"
+    "正式資料升級前檢查",
+    "市場廣度",
+    "下一步觀察",
+    "正式市場資料尚未啟用"
   ]
 };
 
-const routeForbidden = [
-  "mock-only 閱讀模式",
-  "mock-only，正式資料尚未 promotion",
-  "promotion gate",
-  "partial coverage",
-  "missing/delayed data",
-  "raw market data",
-  "real score promotion",
-  "Batch 1 readiness",
+const forbiddenVisible = [
   "cmd.exe",
-  "PUBLIC_BETA",
-  "BETA_",
-  "operator packet",
-  "execution packet",
-  "publicDataSource=supabase approved",
-  "scoreSource=real approved",
-  "Visible now: supabase",
-  "Visible now: real"
+  "npm run",
+  "packet",
+  "preflight",
+  "post-run",
+  "operator",
+  "publicDataSource",
+  "scoreSource",
+  "mock-only",
+  "BETA_HOSTING_PROJECT_NAME",
+  "BETA_TEMPORARY_URL"
 ];
 
-const missing = sourceRequired
-  .filter(([file, phrase]) => !read(file).includes(phrase))
-  .map(([file, phrase]) => `${file}: ${phrase}`);
-const blocked = sourceForbidden
-  .filter(([file, phrase]) => read(file).includes(phrase))
-  .map(([file, phrase]) => `${file}: ${phrase}`);
-const markerHits = [dashboardPath, briefingPath].flatMap((file) =>
-  findMojibakeMarkers(read(file)).map((marker) => `${file}: ${marker}`)
-);
+const packageJson = JSON.parse(fs.readFileSync(packagePath, "utf8"));
+const reviewGate = fs.readFileSync(reviewGatePath, "utf8");
+const setupProblems = [];
+
+if (
+  packageJson.scripts?.["check:home-briefing-investor-reading-bridge"] !==
+  "node scripts/check-home-briefing-investor-reading-bridge.mjs"
+) {
+  setupProblems.push(`${packagePath} missing check:home-briefing-investor-reading-bridge`);
+}
+
+if (!reviewGate.includes("scripts/check-home-briefing-investor-reading-bridge.mjs")) {
+  setupProblems.push(`${reviewGatePath} missing checker registration`);
+}
 
 const routeResults = await Promise.all(
-  Object.entries(routeRequired).map(async ([path, required]) => {
+  Object.entries(routeRequirements).map(async ([path, required]) => {
     const response = await fetch(`${baseUrl}${path}`);
-    const html = await response.text();
-    const text = normalizeVisibleText(html);
-    const routeMissing = required.filter((phrase) => !text.includes(phrase));
-    const routeBlocked = routeForbidden.filter((phrase) => text.includes(phrase));
-    const routeMarkers = findMojibakeMarkers(text);
-
+    const text = normalizeVisibleText(await response.text());
+    const missing = required.filter((phrase) => !text.includes(phrase));
+    const blocked = forbiddenVisible.filter((phrase) => text.includes(phrase));
+    const markerHits = findMojibakeMarkers(text);
     return {
-      blocked: routeBlocked,
-      markerHits: routeMarkers,
-      missing: routeMissing,
-      pass: response.status === 200 && routeMissing.length === 0 && routeBlocked.length === 0 && routeMarkers.length === 0,
+      blocked,
+      markerHits,
+      missing,
+      pass: response.status === 200 && missing.length === 0 && blocked.length === 0 && markerHits.length === 0,
       path,
       status: response.status
     };
   })
 );
 
-const status =
-  missing.length === 0 &&
-  blocked.length === 0 &&
-  markerHits.length === 0 &&
-  routeResults.every((result) => result.pass)
-    ? "ok"
-    : "blocked";
+const status = setupProblems.length === 0 && routeResults.every((result) => result.pass) ? "ok" : "blocked";
 
 console.log(
   JSON.stringify(
     {
-      blocked: [...blocked, ...markerHits],
-      missing,
+      setupProblems,
       routeResults,
       status
     },
@@ -138,10 +89,6 @@ console.log(
 );
 
 if (status !== "ok") process.exitCode = 1;
-
-function read(file) {
-  return files.get(file) ?? "";
-}
 
 function normalizeVisibleText(html) {
   return html
@@ -156,6 +103,7 @@ function normalizeVisibleText(html) {
 function findMojibakeMarkers(source) {
   const markers = [];
   if (/\uFFFD/u.test(source)) markers.push("replacement-character");
+  if (/[\uE000-\uF8FF]/u.test(source)) markers.push("private-use-codepoint");
   if (/\?{3,}/u.test(source)) markers.push("question-mark-run");
   return markers;
 }

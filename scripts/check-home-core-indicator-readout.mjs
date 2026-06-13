@@ -5,59 +5,143 @@ const cssPath = "src/app/globals.css";
 const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 
-const files = new Map(
-  [componentPath, cssPath, packagePath, reviewGatePath].map((file) => [file, readFileSync(file, "utf8")])
-);
-
 const component = read(componentPath);
-const homeStart = component.indexOf("function HomeProductOverview");
-const homeEnd = component.indexOf("function getInvestorIndicatorStatusLabel", homeStart);
-const home = homeStart >= 0 && homeEnd > homeStart ? component.slice(homeStart, homeEnd) : "";
+const css = read(cssPath);
+const pkg = read(packagePath);
+const reviewGate = read(reviewGatePath);
 
-const required = [
-  [home, "coreIndicatorReadouts", "home core indicator data"],
-  [home, "home-core-indicator-readout", "home core indicator section"],
-  [home, "home-core-indicator-grid", "home core indicator grid"],
-  [home, "Core Indicator Readout", "core indicator eyebrow"],
-  [home, "\\u6838\\u5fc3\\u6307\\u6a19\\u5feb\\u8b80", "core indicator readout title"],
-  [home, "\\u5e02\\u5834\\u6c23\\u6c1b", "market mood indicator"],
-  [home, "\\u98a8\\u96aa\\u71b1\\u5ea6", "risk heat indicator"],
-  [home, "\\u8cc7\\u6599\\u53ef\\u4fe1\\u5ea6", "data trust indicator"],
-  [home, "\\u95dc\\u6ce8", "attention action language"],
-  [home, "\\u52a0\\u5f37\\u89c0\\u5bdf", "observe action language"],
-  [home, "\\u6e1b\\u5c11\\u98a8\\u96aa", "reduce risk action language"],
-  [home, "mock-only", "mock-only boundary"],
-  [read(cssPath), ".home-core-indicator-readout", "core indicator CSS"],
-  [read(cssPath), ".home-core-indicator-grid", "core indicator grid CSS"],
-  [read(packagePath), "\"check:home-core-indicator-readout\"", "package script"],
-  [read(reviewGatePath), "scripts/check-home-core-indicator-readout.mjs", "review gate registration"]
-];
+const problems = [];
 
-const forbidden = [
-  [home, "scoreSource=real", "real score claim"],
-  [home, "publicDataSource=supabase", "public supabase claim"],
-  [home, "claimApproval=approved", "approved real claim"],
-  [home, "createClient(", "direct Supabase client"],
-  [home, "fetch(", "remote fetch"],
-  [home, "daily_prices", "daily_prices mutation surface"]
-];
+requireIncludes(componentPath, component, [
+  "function HomeCoreIndicatorReadout",
+  "coreIndicatorReadouts",
+  "home-core-indicator-readout",
+  "home-core-indicator-grid",
+  "Core Indicator Readout",
+  "核心指標快讀",
+  "市場氣氛",
+  "風險熱度",
+  "資料可信度",
+  "可先關注",
+  "加強觀察",
+  "降低風險",
+  "先複核",
+  "示範資料",
+  "正式資料尚未啟用",
+  "formatTaipeiTime(snapshot.lastUpdatedAt)"
+]);
 
-const missing = [
-  ...(home ? [] : [`${componentPath}: HomeProductOverview slice`]),
-  ...required.filter(([source, token]) => !source.includes(token)).map(([, token, label]) => `${label}: ${token}`)
-];
-const blocked = forbidden.filter(([source, token]) => source.includes(token)).map(([, token, label]) => `${label}: ${token}`);
+requireIncludes(cssPath, css, [".home-core-indicator-readout", ".home-core-indicator-grid"]);
+requireIncludes(packagePath, pkg, ["\"check:home-core-indicator-readout\""]);
+requireIncludes(reviewGatePath, reviewGate, [
+  "scripts/check-home-core-indicator-readout.mjs",
+  "home-core-indicator-readout"
+]);
 
-console.log(JSON.stringify({
-  blocked,
-  missing,
-  status: missing.length === 0 && blocked.length === 0 ? "ok" : "blocked"
-}, null, 2));
-
-if (missing.length > 0 || blocked.length > 0) {
-  process.exitCode = 1;
+for (const [label, source] of [
+  [componentPath, component],
+  [cssPath, css],
+  [componentPath, component]
+]) {
+  for (const marker of findBadEncodingMarkers(source)) {
+    problems.push(`${label} contains ${marker}`);
+  }
 }
 
-function read(file) {
-  return files.get(file) ?? "";
+for (const pattern of forbiddenPatterns()) {
+  if (pattern.test(component)) problems.push(`${componentPath} contains forbidden pattern ${String(pattern)}`);
+}
+
+const rendered = await fetchRenderedText("/");
+requireIncludes("rendered /", rendered, [
+  "核心指標快讀",
+  "市場氣氛",
+  "風險熱度",
+  "資料可信度",
+  "可先關注",
+  "加強觀察",
+  "降低風險",
+  "先複核",
+  "示範資料",
+  "正式資料尚未啟用"
+]);
+
+for (const pattern of forbiddenRenderedPatterns()) {
+  if (pattern.test(rendered)) problems.push(`rendered / contains forbidden pattern ${String(pattern)}`);
+}
+
+if (problems.length > 0) {
+  console.error(JSON.stringify({ status: "blocked", problems }, null, 2));
+  process.exit(1);
+}
+
+console.log(
+  JSON.stringify(
+    {
+      status: "ok",
+      guardedSurface: "home-core-indicator-readout",
+      indicators: ["市場氣氛", "風險熱度", "資料可信度"],
+      publicDataSource: "mock",
+      scoreSource: "mock"
+    },
+    null,
+    2
+  )
+);
+
+function read(filePath) {
+  return readFileSync(filePath, "utf8");
+}
+
+function requireIncludes(label, source, phrases) {
+  for (const phrase of phrases) {
+    if (!source.includes(phrase)) problems.push(`${label} missing phrase: ${phrase}`);
+  }
+}
+
+async function fetchRenderedText(route) {
+  const baseUrl = process.env.LOCALHOST_BASE_URL ?? "http://localhost:3000";
+  const response = await fetch(`${baseUrl}${route}`);
+  if (!response.ok) problems.push(`${route} returned HTTP ${response.status}`);
+  const html = await response.text();
+  return html
+    .replace(/<script[\s\S]*?<\/script>/g, " ")
+    .replace(/<style[\s\S]*?<\/style>/g, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function findBadEncodingMarkers(source) {
+  const markers = [];
+  if (/\uFFFD/u.test(source)) markers.push("replacement-character");
+  if (/[\uE000-\uF8FF]/u.test(source)) markers.push("private-use-character");
+  if (/[?]{4,}/u.test(source)) markers.push("question-mark-run");
+  if (/\u5699/u.test(source)) markers.push("mojibake-fragment");
+  return markers;
+}
+
+function forbiddenPatterns() {
+  return [
+    /scoreSource\s*=\s*"real"/u,
+    /publicDataSource\s*=\s*"supabase"/u,
+    /createClient\(/u,
+    /daily_prices/u,
+    /\bsb_(publishable|secret|anon|service_role)_[a-z0-9_-]+/iu
+  ];
+}
+
+function forbiddenRenderedPatterns() {
+  return [
+    /mock-only/iu,
+    /publicDataSource/iu,
+    /scoreSource/iu,
+    /Supabase/iu,
+    /SQL/iu,
+    /daily_prices/iu,
+    /cmd\.exe/iu,
+    /npm run/iu,
+    /[?]{4,}/u,
+    /[\uE000-\uF8FF\uFFFD]/u
+  ];
 }

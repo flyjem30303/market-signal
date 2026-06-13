@@ -2948,6 +2948,11 @@ const checks = [
     name: "stock-decision-aid-actionability"
   },
   {
+    command: [node, "scripts/check-stock-route-investor-language-alignment.mjs"],
+    expectStatus: "ok",
+    name: "stock-route-investor-language-alignment"
+  },
+  {
     command: [node, "scripts/check-stock-first-screen-action-summary.mjs"],
     expectStatus: "ok",
     name: "stock-first-screen-action-summary"
@@ -3006,6 +3011,11 @@ const checks = [
     command: [node, "scripts/check-public-visible-language-quality.mjs"],
     expectStatus: "ok",
     name: "public-visible-language-quality"
+  },
+  {
+    command: [node, "scripts/check-public-surface-user-facing-audit.mjs"],
+    expectStatus: "ok",
+    name: "public-surface-user-facing-audit"
   },
   {
     command: [node, "scripts/check-public-beta-decision-loop-bridge.mjs"],
@@ -3231,6 +3241,31 @@ const checks = [
     command: [node, "scripts/check-public-beta-mock-launch-proof-bundle.mjs"],
     expectStatus: "ok",
     name: "public-beta-mock-launch-proof-bundle"
+  },
+  {
+    command: [node, "scripts/check-phase-1-public-beta-mock-launch-candidate-status-summary.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-public-beta-mock-launch-candidate-status-summary"
+  },
+  {
+    command: [node, "scripts/check-phase-1-public-beta-candidate-final-public-readiness-scan.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-public-beta-candidate-final-public-readiness-scan"
+  },
+  {
+    command: [node, "scripts/check-phase-1-public-beta-human-visual-review.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-public-beta-human-visual-review"
+  },
+  {
+    command: [node, "scripts/check-phase-1-public-beta-visual-acceptance-and-a3-handoff.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-public-beta-visual-acceptance-and-a3-handoff"
+  },
+  {
+    command: [node, "scripts/check-phase-1-public-beta-chairman-visual-acceptance-record.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-public-beta-chairman-visual-acceptance-record"
   },
   {
     command: [node, "scripts/check-public-beta-separated-preflight.mjs"],
@@ -4493,6 +4528,146 @@ const checks = [
     name: "pm-brief-runtime-mainline-goal-and-workstreams"
   },
   {
+    command: [node, "scripts/check-a3-public-beta-phase-1-launch-readiness-checklist.mjs"],
+    expectStatus: "ok",
+    name: "a3-public-beta-phase-1-launch-readiness-checklist"
+  },
+  {
+    command: [node, "scripts/check-a3-no-secret-production-env-and-rollback-checklist.mjs"],
+    expectStatus: "ok",
+    name: "a3-no-secret-production-env-and-rollback-checklist"
+  },
+  {
+    command: [node, "scripts/check-a3-phase-1-post-deploy-smoke-and-monitoring-packet.mjs"],
+    expectStatus: "ok",
+    name: "a3-phase-1-post-deploy-smoke-and-monitoring-packet"
+  },
+  {
+    command: [node, "scripts/check-a3-phase-1-metadata-and-public-route-smoke-checker.mjs"],
+    expectStatus: "ok",
+    name: "a3-phase-1-metadata-and-public-route-smoke-checker"
+  },
+  {
+    command: [node, "scripts/check-a3-phase-1-release-candidate-public-smoke-report.mjs"],
+    expectStatus: "ok",
+    name: "a3-phase-1-release-candidate-public-smoke-report"
+  },
+  {
+    command: [node, "scripts/check-a3-phase-1-public-beta-release-go-no-go-packet.mjs"],
+    expectStatus: "ok",
+    name: "a3-phase-1-public-beta-release-go-no-go-packet"
+  },
+  {
+    command: [node, "scripts/check-a3-phase-1-public-beta-chairman-review-packet.mjs"],
+    expectStatus: "ok",
+    name: "a3-phase-1-public-beta-chairman-review-packet"
+  },
+  {
+    command: [node, "scripts/check-a3-phase-1-public-beta-manual-platform-action-checklist.mjs"],
+    expectStatus: "ok",
+    name: "a3-phase-1-public-beta-manual-platform-action-checklist"
+  },
+  {
+    command: [node, "scripts/check-a3-phase-1-public-beta-no-secret-pre-platform-action-packet.mjs"],
+    expectStatus: "ok",
+    name: "a3-phase-1-public-beta-no-secret-pre-platform-action-packet"
+  },
+  {
+    command: [node, "scripts/check-a3-phase-1-public-beta-post-platform-action-report-template.mjs"],
+    expectStatus: "ok",
+    name: "a3-phase-1-public-beta-post-platform-action-report-template"
+  },
+  {
+    command: [node, "scripts/check-a3-phase-1-public-beta-monitoring-and-repair-runbook.mjs"],
+    expectStatus: "ok",
+    name: "a3-phase-1-public-beta-monitoring-and-repair-runbook"
+  },
+  {
+    command: [node, "scripts/check-a3-phase-1-public-beta-release-ops-index.mjs"],
+    expectStatus: "ok",
+    name: "a3-phase-1-public-beta-release-ops-index"
+  },
+  {
+    command: [node, "scripts/check-a3-phase-1-public-beta-release-review-summary-for-chairman.mjs"],
+    expectStatus: "ok",
+    name: "a3-phase-1-public-beta-release-review-summary-for-chairman"
+  },
+  {
+    command: [node, "scripts/check-a3-phase-1-public-beta-chairman-operator-decision-record.mjs"],
+    expectStatus: "ok",
+    name: "a3-phase-1-public-beta-chairman-operator-decision-record"
+  },
+  {
+    command: [node, "scripts/check-a3-phase-1-public-beta-operator-execution-path-runbook.mjs"],
+    expectStatus: "ok",
+    name: "a3-phase-1-public-beta-operator-execution-path-runbook"
+  },
+  {
+    command: [node, "scripts/check-a3-phase-1-public-beta-operator-action-or-repair-result.mjs"],
+    expectStatus: "ok",
+    name: "a3-phase-1-public-beta-operator-action-or-repair-result"
+  },
+  {
+    command: [node, "scripts/check-a3-phase-1-public-beta-keep-open-repair-or-no-go-result-rollup.mjs"],
+    expectStatus: "ok",
+    name: "a3-phase-1-public-beta-keep-open-repair-or-no-go-result-rollup"
+  },
+  {
+    command: [node, "scripts/check-phase-1-phase-2-execution-split-and-workflow-assignment.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-phase-2-execution-split-and-workflow-assignment"
+  },
+  {
+    command: [node, "scripts/check-phase-1-public-beta-pre-operator-keep-open-status-dashboard-alignment.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-public-beta-pre-operator-keep-open-status-dashboard-alignment"
+  },
+  {
+    command: [node, "scripts/check-phase-1-public-beta-operator-decision-or-manual-platform-action-readiness-refresh.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-public-beta-operator-decision-or-manual-platform-action-readiness-refresh"
+  },
+  {
+    command: [node, "scripts/check-phase-1-public-beta-chairman-operator-decision-readiness-packet-or-repair.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-public-beta-chairman-operator-decision-readiness-packet-or-repair"
+  },
+  {
+    command: [node, "scripts/check-phase-1-public-beta-chairman-operator-decision-2026-06-13.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-public-beta-chairman-operator-decision-2026-06-13"
+  },
+  {
+    command: [node, "scripts/check-phase-1-public-beta-no-secret-manual-platform-action-readiness.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-public-beta-no-secret-manual-platform-action-readiness"
+  },
+  {
+    command: [node, "scripts/check-phase-1-public-beta-operator-safe-reply-template.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-public-beta-operator-safe-reply-template"
+  },
+  {
+    command: [node, "scripts/check-phase-1-public-beta-operator-safe-reply-pm-intake-recorder.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-public-beta-operator-safe-reply-pm-intake-recorder"
+  },
+  {
+    command: [node, "scripts/check-phase-1-public-beta-operator-action-or-no-action-safe-reply.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-public-beta-operator-action-or-no-action-safe-reply"
+  },
+  {
+    command: [node, "scripts/check-phase-1-public-beta-post-platform-report-filled-placeholder-or-repair-scaffold.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-public-beta-post-platform-report-filled-placeholder-or-repair-scaffold"
+  },
+  {
+    command: [node, "scripts/check-phase-1-public-beta-post-report-monitoring-or-repair-decision-loop.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-public-beta-post-report-monitoring-or-repair-decision-loop"
+  },
+  {
     command: [node, "scripts/check-twii-aggregate-readback-contract-preflight.mjs"],
     expectStatus: "ok",
     name: "twii-aggregate-readback-contract-preflight"
@@ -5198,6 +5373,56 @@ const checks = [
     name: "public-beta-mainline-action-bridge"
   },
   {
+    command: [node, "scripts/check-public-beta-value-loop-refinement.mjs"],
+    expectStatus: "ok",
+    name: "public-beta-value-loop-refinement"
+  },
+  {
+    command: [node, "scripts/check-public-beta-user-value-source-coverage-bridge.mjs"],
+    expectStatus: "ok",
+    name: "public-beta-user-value-source-coverage-bridge"
+  },
+  {
+    command: [node, "scripts/check-public-beta-methodology-disclaimer-source-coverage-alignment.mjs"],
+    expectStatus: "ok",
+    name: "public-beta-methodology-disclaimer-source-coverage-alignment"
+  },
+  {
+    command: [node, "scripts/check-public-beta-membership-mvp-roadmap.mjs"],
+    expectStatus: "ok",
+    name: "public-beta-membership-mvp-roadmap"
+  },
+  {
+    command: [node, "scripts/check-public-beta-phase-1-launch-gap-rollup.mjs"],
+    expectStatus: "ok",
+    name: "public-beta-phase-1-launch-gap-rollup"
+  },
+  {
+    command: [node, "scripts/check-phase-1-public-beta-operator-review-summary.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-public-beta-operator-review-summary"
+  },
+  {
+    command: [node, "scripts/check-phase-1-public-beta-post-operator-smoke-packet.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-public-beta-post-operator-smoke-packet"
+  },
+  {
+    command: [node, "scripts/check-phase-1-public-beta-keep-open-or-repair-decision.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-public-beta-keep-open-or-repair-decision"
+  },
+  {
+    command: [node, "scripts/check-phase-1-public-beta-public-status-surface-alignment.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-public-beta-public-status-surface-alignment"
+  },
+  {
+    command: [node, "scripts/check-phase-1-public-beta-public-visible-residue-cleanup.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-public-beta-public-visible-residue-cleanup"
+  },
+  {
     command: [node, "scripts/check-action-summary-language-quality.mjs"],
     expectStatus: "ok",
     name: "action-summary-language-quality"
@@ -5853,6 +6078,11 @@ const coreReviewGateNames = new Set([
   "vercel-operator-step-by-step-checklist",
   "beta-platform-unblock-kit",
   "public-beta-mock-launch-proof-bundle",
+  "phase-1-public-beta-mock-launch-candidate-status-summary",
+  "phase-1-public-beta-candidate-final-public-readiness-scan",
+  "phase-1-public-beta-human-visual-review",
+  "phase-1-public-beta-visual-acceptance-and-a3-handoff",
+  "phase-1-public-beta-chairman-visual-acceptance-record",
   "public-beta-separated-preflight",
   "public-beta-external-input-request",
   "public-beta-external-input-copy-packet",
@@ -5902,6 +6132,34 @@ const coreReviewGateNames = new Set([
   "a1-twii-source-rights-evidence-intake-or-vendor-fallback-decision-support",
   "a1-twii-official-source-intake-fields-or-vendor-terms-review-packet",
   "pm-brief-runtime-mainline-goal-and-workstreams",
+  "a3-public-beta-phase-1-launch-readiness-checklist",
+  "a3-no-secret-production-env-and-rollback-checklist",
+  "a3-phase-1-post-deploy-smoke-and-monitoring-packet",
+  "a3-phase-1-metadata-and-public-route-smoke-checker",
+  "a3-phase-1-release-candidate-public-smoke-report",
+  "a3-phase-1-public-beta-release-go-no-go-packet",
+  "a3-phase-1-public-beta-chairman-review-packet",
+  "a3-phase-1-public-beta-manual-platform-action-checklist",
+  "a3-phase-1-public-beta-no-secret-pre-platform-action-packet",
+  "a3-phase-1-public-beta-post-platform-action-report-template",
+  "a3-phase-1-public-beta-monitoring-and-repair-runbook",
+  "a3-phase-1-public-beta-release-ops-index",
+  "a3-phase-1-public-beta-release-review-summary-for-chairman",
+  "a3-phase-1-public-beta-chairman-operator-decision-record",
+  "a3-phase-1-public-beta-operator-execution-path-runbook",
+  "a3-phase-1-public-beta-operator-action-or-repair-result",
+  "a3-phase-1-public-beta-keep-open-repair-or-no-go-result-rollup",
+  "phase-1-phase-2-execution-split-and-workflow-assignment",
+  "phase-1-public-beta-pre-operator-keep-open-status-dashboard-alignment",
+  "phase-1-public-beta-operator-decision-or-manual-platform-action-readiness-refresh",
+  "phase-1-public-beta-chairman-operator-decision-readiness-packet-or-repair",
+  "phase-1-public-beta-chairman-operator-decision-2026-06-13",
+  "phase-1-public-beta-no-secret-manual-platform-action-readiness",
+  "phase-1-public-beta-operator-safe-reply-template",
+  "phase-1-public-beta-operator-safe-reply-pm-intake-recorder",
+  "phase-1-public-beta-operator-action-or-no-action-safe-reply",
+  "phase-1-public-beta-post-platform-report-filled-placeholder-or-repair-scaffold",
+  "phase-1-public-beta-post-report-monitoring-or-repair-decision-loop",
   "a2-public-beta-trust-copy-readiness",
   "briefing-public-beta-gate-summary",
   "a2-beta-phrase-set-and-shared-trust-surface-patch-scope",
@@ -5933,17 +6191,29 @@ const publicBetaFocusedReviewGateNames = new Set([
   "home-briefing-investor-reading-bridge",
   "public-beta-alert-list-actionability",
   "public-visible-language-quality",
+  "public-surface-user-facing-audit",
   "public-beta-decision-loop-bridge",
   "public-beta-decision-journey-panel",
   "public-beta-index-dashboard-brief-loop",
   "public-beta-route-consistency",
   "public-beta-route-local-trust-visual-consistency",
   "public-beta-mainline-action-bridge",
+  "public-beta-value-loop-refinement",
+  "public-beta-user-value-source-coverage-bridge",
+  "public-beta-methodology-disclaimer-source-coverage-alignment",
+  "public-beta-membership-mvp-roadmap",
+  "public-beta-phase-1-launch-gap-rollup",
+  "phase-1-public-beta-operator-review-summary",
+  "phase-1-public-beta-post-operator-smoke-packet",
+  "phase-1-public-beta-keep-open-or-repair-decision",
+  "phase-1-public-beta-public-status-surface-alignment",
+  "phase-1-public-beta-public-visible-residue-cleanup",
   "public-beta-source-coverage-runtime-labels",
   "source-coverage-runtime-handoff-docs",
   "public-beta-data-realification-next-action",
   "open-free-auto-data-source-gate",
   "stock-decision-aid-actionability",
+  "stock-route-investor-language-alignment",
   "twse-openapi-bounded-metadata-terms-validation",
   "twse-openapi-source-adapter-contract",
   "twse-openapi-parser-contract",
@@ -5981,6 +6251,11 @@ const publicBetaFocusedReviewGateNames = new Set([
   "beta-deployment-quickstart",
   "beta-runtime-fast-health",
   "public-beta-mock-launch-proof-bundle",
+  "phase-1-public-beta-mock-launch-candidate-status-summary",
+  "phase-1-public-beta-candidate-final-public-readiness-scan",
+  "phase-1-public-beta-human-visual-review",
+  "phase-1-public-beta-visual-acceptance-and-a3-handoff",
+  "phase-1-public-beta-chairman-visual-acceptance-record",
   "a2-home-first-screen-public-copy-handoff",
   "a1-twii-four-slot-reply-request",
   "a1-twii-pm-intake-decision-summary",

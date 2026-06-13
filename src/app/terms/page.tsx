@@ -6,8 +6,7 @@ import { TrustRuntimeBoundaryNotice } from "@/components/trust-runtime-boundary-
 
 export const metadata: Metadata = {
   title: "使用條款 | Taiwan Market Signal",
-  description:
-    "公開 Beta 使用條款：目前以示範資料與示範分數提供資訊整理，正式市場資料尚未啟用，內容為非投資建議。"
+  description: "公開 Beta 使用條款：本網站提供市場資訊整理與風險辨識，不提供個別買賣建議。"
 };
 
 export default function TermsPage() {
@@ -18,57 +17,51 @@ export default function TermsPage() {
         <p className="eyebrow">Terms</p>
         <h1>使用條款</h1>
         <p>
-          使用本公開 Beta 代表你理解：網站目前是資訊產品原型，使用示範資料與示範分數呈現市場狀態儀表站的流程。
-          正式市場資料尚未啟用，內容不構成投資建議。
+          Taiwan Market Signal 是市場資訊整理工具。公開 Beta 階段以示範資料呈現產品流程，協助使用者理解市場氣氛、
+          風險提示與觀察順序。
         </p>
-        <p className="runtime-boundary-line">請自行評估風險，不要把任何頁面狀態當成單一買賣依據。</p>
+        <p className="runtime-boundary-line">使用本網站時，請把內容視為資訊參考，而不是投資建議、保證報酬或交易指令。</p>
       </section>
 
       <TrustRuntimeBoundaryNotice context="terms" />
       <RouteLocalTrustCopyPanel context="terms" />
 
-      <section className="legal-quick-read" aria-label="使用條款重點">
+      <section className="legal-quick-read" aria-label="使用條款快速摘要">
         <article>
-          <span>服務狀態</span>
-          <strong>公開 Beta</strong>
-          <p>功能、資料欄位、文案、指標與頁面可能調整；Beta 期間可能變動，不保證不中斷。</p>
+          <span>服務定位</span>
+          <strong>資訊整理與風險辨識</strong>
+          <p>本站協助使用者快速看懂市場狀態，但不替使用者做投資決策。</p>
         </article>
         <article>
           <span>資料狀態</span>
-          <strong>示範資料與示範分數</strong>
-          <p>publicDataSource=mock；scoreSource=mock。正式市場資料尚未啟用，也不宣稱完整覆蓋。</p>
+          <strong>正式資料尚未啟用</strong>
+          <p>公開 Beta 目前使用示範資料與示範分數，不宣稱即時、完整或正式市場覆蓋。</p>
         </article>
         <article>
           <span>使用責任</span>
-          <strong>自行判斷與查證</strong>
-          <p>你應自行評估風險、資料適用性與交易成本，並理解本網站不提供個別買賣建議。</p>
+          <strong>請自行評估風險</strong>
+          <p>任何投資行動都應由使用者自行判斷，並搭配其他可靠資訊與自身風險承受度。</p>
         </article>
       </section>
 
       <section className="panel legal-section">
-        <h2>可接受使用</h2>
-        <p>
-          本網站可用於學習、觀察市場狀態與比較指標呈現方式；不得用於誤導他人、散布未經確認的投資結論或宣稱保證績效。
-        </p>
+        <h2>服務內容</h2>
+        <p>本網站提供市場狀態摘要、指標解釋、風險提示與觀察清單。內容可能隨公開 Beta 測試進度調整。</p>
       </section>
 
       <section className="panel legal-section">
-        <h2>資料與服務限制</h2>
-        <p>
-          系統可能因資料、快取、部署或第三方服務而出現延遲、錯誤或缺漏。公開 Beta 不承諾即時精準到秒。
-        </p>
+        <h2>資料限制</h2>
+        <p>資料可能延遲、缺漏或因測試而調整。正式資料啟用前，所有分數與提示都僅用於示範產品體驗。</p>
       </section>
 
       <section className="panel legal-section">
-        <h2>Beta 期間可能變動</h2>
-        <p>
-          我們會依資料來源權利、產品測試與使用者回饋調整功能。重大調整會盡量以頁面文案或狀態標籤提示。
-        </p>
+        <h2>禁止用途</h2>
+        <p>不得把本站內容包裝成保證獲利、個別買賣建議、代客操作依據或任何違反法規的金融服務。</p>
       </section>
 
       <section className="panel legal-links">
         <h2>相關頁面</h2>
-        <TermsTrustLink href="/disclaimer" label="免責聲明" />
+        <TermsTrustLink href="/disclaimer" label="風險聲明" />
         <TermsTrustLink href="/privacy" label="隱私與資料說明" />
         <TermsTrustLink href="/methodology" label="方法說明" />
         <TermsTrustLink href="/" label="回到首頁" />

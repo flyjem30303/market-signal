@@ -1,5 +1,5 @@
 export const siteConfig = {
-  name: "台股健康度與回檔風險燈號",
+  name: "指數燈號",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"
 };
 

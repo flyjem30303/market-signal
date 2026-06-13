@@ -9,22 +9,22 @@ type PublicBetaSourceCoverageRuntimeLabelsPanelProps = {
 };
 
 const stateCopy = {
-  blocked: "等待條件",
-  checking: "檢查中",
-  usable_demo: "mock 示範"
+  blocked: "尚未放行",
+  checking: "確認中",
+  usable_demo: "示範可用"
 } satisfies Record<string, string>;
 
 const gapStatusCopy = {
-  blocked: "暫不開放",
-  candidate: "候選來源",
-  checking: "條件檢查中",
-  future: "未來擴充"
+  blocked: "暫停",
+  candidate: "候選",
+  checking: "確認中",
+  future: "後續"
 } satisfies Record<string, string>;
 
 const etfScopeStatusCopy = {
-  checking: "市價檢查中",
-  excluded: "暫不接入",
-  mock_only: "mock 示範"
+  checking: "確認中",
+  excluded: "暫不納入",
+  mock_only: "示範階段"
 } satisfies Record<string, string>;
 
 export function PublicBetaSourceCoverageRuntimeLabelsPanel({
@@ -32,11 +32,13 @@ export function PublicBetaSourceCoverageRuntimeLabelsPanel({
   stockSymbol = "2330"
 }: PublicBetaSourceCoverageRuntimeLabelsPanelProps) {
   const labels = getPublicBetaSourceCoverageRuntimeLabels(context, stockSymbol);
+  const publicSourceLabel = labels.boundary.publicDataSource === "mock" ? "示範資料" : "正式資料";
+  const scoreSourceLabel = labels.boundary.scoreSource === "mock" ? "示範分數" : "正式分數";
 
   return (
-    <section className="public-beta-source-coverage-runtime" aria-label="Public Beta source coverage runtime labels">
+    <section className="public-beta-source-coverage-runtime" aria-label="資料來源與覆蓋率">
       <div className="public-beta-source-coverage-runtime__summary">
-        <p className="eyebrow">Source & Coverage</p>
+        <p className="eyebrow">資料來源與覆蓋率</p>
         <h2>{labels.headline}</h2>
         <p>{labels.summary}</p>
         <p>{labels.userMeaning}</p>
@@ -53,7 +55,8 @@ export function PublicBetaSourceCoverageRuntimeLabelsPanel({
         ))}
       </div>
 
-      <div className="public-beta-source-coverage-runtime__gap-matrix" aria-label="Coverage gap matrix">
+      <div className="public-beta-source-coverage-runtime__gap-matrix" aria-label="資料缺口矩陣">
+        <p className="eyebrow">資料缺口矩陣</p>
         {labels.coverageGapMatrix.map((item) => (
           <article className={item.status} key={item.id}>
             <span>{gapStatusCopy[item.status]}</span>
@@ -64,7 +67,8 @@ export function PublicBetaSourceCoverageRuntimeLabelsPanel({
         ))}
       </div>
 
-      <div className="public-beta-source-coverage-runtime__etf-scope" aria-label="ETF market price scope">
+      <div className="public-beta-source-coverage-runtime__etf-scope" aria-label="ETF 市價範圍">
+        <p className="eyebrow">ETF 市價範圍</p>
         {labels.etfMarketPriceScope.map((item) => (
           <article className={item.status} key={item.id}>
             <span>{etfScopeStatusCopy[item.status]}</span>
@@ -74,7 +78,7 @@ export function PublicBetaSourceCoverageRuntimeLabelsPanel({
         ))}
       </div>
 
-      <div className="public-beta-source-coverage-runtime__etf-checks" aria-label="ETF market price mock runtime checks">
+      <div className="public-beta-source-coverage-runtime__etf-checks" aria-label="ETF 示範檢查">
         {labels.etfMarketPriceMockChecks.map((check) => (
           <article key={check.id}>
             <span>{check.status}</span>
@@ -84,7 +88,7 @@ export function PublicBetaSourceCoverageRuntimeLabelsPanel({
         ))}
       </div>
 
-      <div className="public-beta-source-coverage-runtime__field-contracts" aria-label="Source field contract status">
+      <div className="public-beta-source-coverage-runtime__field-contracts" aria-label="欄位契約">
         {labels.fieldContracts.map((contract) => (
           <article key={contract.id}>
             <span>{contract.status}</span>
@@ -94,7 +98,7 @@ export function PublicBetaSourceCoverageRuntimeLabelsPanel({
         ))}
       </div>
 
-      <div className="public-beta-source-coverage-runtime__index-checks" aria-label="Index baseline mock runtime checks">
+      <div className="public-beta-source-coverage-runtime__index-checks" aria-label="指數基準檢查">
         {labels.indexBaselineChecks.map((check) => (
           <article key={check.id}>
             <span>{check.status}</span>
@@ -104,7 +108,7 @@ export function PublicBetaSourceCoverageRuntimeLabelsPanel({
         ))}
       </div>
 
-      <div className="public-beta-source-coverage-runtime__batch1-policy" aria-label="Batch 1 listed equity policy labels">
+      <div className="public-beta-source-coverage-runtime__batch1-policy" aria-label="第一批標的政策">
         {labels.batch1PolicyLabels.map((policy) => (
           <article key={policy.id}>
             <span>{policy.status}</span>
@@ -114,7 +118,7 @@ export function PublicBetaSourceCoverageRuntimeLabelsPanel({
         ))}
       </div>
 
-      <div className="public-beta-source-coverage-runtime__actions" aria-label="Source coverage reading actions">
+      <div className="public-beta-source-coverage-runtime__actions" aria-label="資料閱讀步驟">
         {labels.readingActions.map((action) => (
           <article key={action.id}>
             <span>{action.label}</span>
@@ -126,15 +130,15 @@ export function PublicBetaSourceCoverageRuntimeLabelsPanel({
 
       <div className="public-beta-source-coverage-runtime__boundary">
         <article>
-          <span>資料來源</span>
-          <strong>publicDataSource={labels.boundary.publicDataSource}</strong>
+          <span>公開資料來源</span>
+          <strong>{publicSourceLabel}</strong>
         </article>
         <article>
           <span>分數來源</span>
-          <strong>scoreSource={labels.boundary.scoreSource}</strong>
+          <strong>{scoreSourceLabel}</strong>
         </article>
         <article>
-          <span>公開邊界</span>
+          <span>使用邊界</span>
           <p>{labels.boundary.stopLine}</p>
         </article>
       </div>

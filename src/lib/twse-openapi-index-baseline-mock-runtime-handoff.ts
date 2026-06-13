@@ -23,20 +23,20 @@ export type TwseOpenApiIndexBaselineMockRuntimeHandoff = {
   fixtureStatus: "ok" | "blocked";
   mode: "index_baseline_synthetic_fixture_handoff_only";
   nextRoute: "index_baseline_mock_runtime_handoff_review_then_public_label_integration";
-  status: "ready" | "blocked";
+  status: "twse_openapi_index_baseline_mock_runtime_handoff_ready_no_fetch" | "blocked";
   summary: string;
 };
 
 export const TWSE_OPENAPI_INDEX_BASELINE_MOCK_RUNTIME_HANDOFF_BOUNDARY = {
   executionAuthority: TWSE_OPENAPI_INDEX_BASELINE_SYNTHETIC_FIXTURE_BOUNDARY.executionAuthority,
   fixturePolicy: "index_baseline_synthetic_fixture_handoff_only",
+  mockOnly: "mockOnly=true",
   nextRoute: "index_baseline_mock_runtime_handoff_review_then_public_label_integration",
   parserExecution: TWSE_OPENAPI_INDEX_BASELINE_SYNTHETIC_FIXTURE_BOUNDARY.parserExecution,
   publicDataSource: "mock",
   rawMarketDataFetch: false,
   scoreSource: "mock",
   sqlExecution: false,
-  status: "twse_openapi_index_baseline_mock_runtime_handoff_ready_no_fetch",
   supabaseWrite: false
 } as const;
 
@@ -51,14 +51,15 @@ export function getTwseOpenApiIndexBaselineMockRuntimeHandoff(): TwseOpenApiInde
     boundary: TWSE_OPENAPI_INDEX_BASELINE_MOCK_RUNTIME_HANDOFF_BOUNDARY,
     caseSummaries,
     decisionUse: {
-      thirtySecondMood: "大盤基準可先作為示範閱讀，但正式行情仍需來源、欄位、交易日與修正規則通過。",
-      threeMinuteAction: "使用者應先看示範狀態，再檢查缺值、重複日期與政策待確認項目，最後只把結果當成觀察線索。"
+      thirtySecondMood: "用 TWII 指數基準先形成市場氛圍摘要，但目前只能標示為示範資料。",
+      threeMinuteAction:
+        "使用者可用它判斷是否加強觀察市場，不應把它當成即時行情、交易訊號或官方資料背書。"
     },
     fixtureStatus: fixture.status,
     mode: "index_baseline_synthetic_fixture_handoff_only",
     nextRoute: "index_baseline_mock_runtime_handoff_review_then_public_label_integration",
-    status: fixture.status === "ok" ? "ready" : "blocked",
-    summary: `Index baseline fixture handoff ready with ${readyCount} demo-readable case(s), ${blockedCount} fail-closed case(s), and ${policyCount} policy-required case(s).`
+    status: fixture.status === "ok" ? "twse_openapi_index_baseline_mock_runtime_handoff_ready_no_fetch" : "blocked",
+    summary: `TWSE OpenAPI 指數基準 mock runtime handoff 完成：可示範 ${readyCount} 例，暫停公開 ${blockedCount} 例，政策待確認 ${policyCount} 例。`
   };
 }
 
@@ -66,7 +67,7 @@ function toCaseSummary(result: TwseOpenApiIndexBaselineSyntheticCaseResult): Tws
   return {
     caseId: result.caseId,
     detail: buildCaseDetail(result),
-    label: result.expectedPublicMeaning,
+    label: normalizeCaseLabel(result),
     status: toPublicStatus(result)
   };
 }
@@ -78,6 +79,28 @@ function toPublicStatus(result: TwseOpenApiIndexBaselineSyntheticCaseResult): Tw
 }
 
 function buildCaseDetail(result: TwseOpenApiIndexBaselineSyntheticCaseResult): string {
-  const warningCount = result.policyWarnings.length + result.parserResult.records.flatMap((record) => record.validationWarnings).length;
-  return `failure=${result.parserResult.failureClass}; records=${result.parserResult.records.length}; warnings=${warningCount}; mockOnly=true`;
+  const warningCount =
+    result.policyWarnings.length +
+    result.parserResult.records.flatMap((record) => record.validationWarnings).length;
+
+  if (result.expectedStatus === "ready" && result.parserResult.failureClass === "none") {
+    return `synthetic fixture 可產生 ${result.parserResult.records.length} 筆安全 mock 記錄；仍不得視為真實市場資料。`;
+  }
+  if (result.expectedStatus === "policy_required") {
+    return `此案例需要政策待確認，共 ${warningCount} 個 warning；未確認前不可公開為真實資料。`;
+  }
+  return "欄位缺漏或日期品質不合格，runtime 必須 fail closed 並暫停公開。";
+}
+
+function normalizeCaseLabel(result: TwseOpenApiIndexBaselineSyntheticCaseResult): string {
+  const labels: Record<TwseOpenApiIndexBaselineSyntheticCaseResult["caseId"], string> = {
+    index_duplicate_trade_date: "重複交易日需拒絕",
+    index_missing_close: "缺少收盤價需拒絕",
+    index_missing_optional_fields: "必要欄位可用，選填欄位待補",
+    index_revision_warning: "歷史修正需政策確認",
+    index_timezone_session_gap: "交易日缺口需政策確認",
+    index_valid_date_close: "日期與收盤價可形成示範點"
+  };
+
+  return labels[result.caseId];
 }

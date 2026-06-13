@@ -4,7 +4,7 @@ import {
   type EtfMarketPriceSyntheticCaseResult
 } from "@/lib/etf-market-price-synthetic-fixture";
 
-export type EtfMarketPriceMockRuntimeCaseStatus = "可示範" | "暫停公開" | "政策待確認";
+export type EtfMarketPriceMockRuntimeCaseStatus = "示範可讀" | "阻擋放行" | "政策待確認";
 
 export type EtfMarketPriceMockRuntimeCase = {
   caseId: EtfMarketPriceSyntheticCaseResult["caseId"];
@@ -42,24 +42,22 @@ export const ETF_MARKET_PRICE_MOCK_RUNTIME_HANDOFF_BOUNDARY = {
 export function getEtfMarketPriceMockRuntimeHandoff(): EtfMarketPriceMockRuntimeHandoff {
   const fixture = runEtfMarketPriceSyntheticFixture();
   const caseSummaries = fixture.caseResults.map(toCaseSummary);
-  const demoReadableCount = caseSummaries.filter((item) => item.status === "可示範").length;
-  const blockedCount = caseSummaries.filter((item) => item.status === "暫停公開").length;
+  const demoReadableCount = caseSummaries.filter((item) => item.status === "示範可讀").length;
+  const blockedCount = caseSummaries.filter((item) => item.status === "阻擋放行").length;
   const policyCount = caseSummaries.filter((item) => item.status === "政策待確認").length;
 
   return {
     boundary: ETF_MARKET_PRICE_MOCK_RUNTIME_HANDOFF_BOUNDARY,
     caseSummaries,
     decisionUse: {
-      thirtySecondMood:
-        "ETF 市價線目前只能輔助理解 0050、006208 的市場脈絡；它通過的是 mock 欄位形狀驗證，不是真實行情。",
-      threeMinuteAction:
-        "使用者可以把 ETF 卡片當作市場 proxy 的觀察入口，但需同時看到缺漏、重複、範圍外與 NAV 混入時會 fail closed。"
+      thirtySecondMood: "ETF 市價線目前只能輔助理解 0050、006208 的市場脈絡，不能當成真實交易建議。",
+      threeMinuteAction: "使用者可以把 ETF 卡片當作市場 proxy 的觀察入口，再回到指數與個股頁交叉確認。"
     },
     fixtureStatus: fixture.status,
     mode: "etf_market_price_synthetic_fixture_handoff_only",
     nextRoute: "etf_market_price_mock_runtime_handoff_review_then_public_label_integration",
     status: fixture.status === "ok" ? "ready" : "blocked",
-    summary: `ETF market-price fixture handoff ready with ${demoReadableCount} demo-readable case(s), ${blockedCount} fail-closed case(s), and ${policyCount} policy-required case(s).`
+    summary: `ETF 市價 mockOnly=true handoff 已用合成資料驗證：示範可讀 ${demoReadableCount} 件、阻擋放行 ${blockedCount} 件、政策待確認 ${policyCount} 件。`
   };
 }
 
@@ -73,11 +71,17 @@ function toCaseSummary(result: EtfMarketPriceSyntheticCaseResult): EtfMarketPric
 }
 
 function toPublicStatus(result: EtfMarketPriceSyntheticCaseResult): EtfMarketPriceMockRuntimeCaseStatus {
-  if (result.status === "ready" && result.failureClass === "none") return "可示範";
+  if (result.status === "ready" && result.failureClass === "none") return "示範可讀";
   if (result.status === "policy_required") return "政策待確認";
-  return "暫停公開";
+  return "阻擋放行";
 }
 
 function buildCaseDetail(result: EtfMarketPriceSyntheticCaseResult): string {
-  return `failure=${result.failureClass}; points=${result.normalizedPoints.length}; warnings=${result.warnings.length}; mockOnly=true`;
+  if (result.status === "ready" && result.failureClass === "none") {
+    return `合成資料已輸出 ${result.normalizedPoints.length} 筆可讀 ETF 市價點位，仍維持 no-fetch 與 mock runtime。`;
+  }
+  if (result.status === "policy_required") {
+    return `合成資料可讀，但有 ${result.warnings.length} 個活動脈絡警示，必須在公開文案降級說明。`;
+  }
+  return "欄位形狀或範圍不符合 ETF 市價線要求，必須 fail closed，不能輸出 runtime 點位。";
 }

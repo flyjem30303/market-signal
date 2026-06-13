@@ -23,19 +23,19 @@ export type PublicBetaDecisionLoopBridgeCopy = {
 
 const steps: DecisionLoopStep[] = [
   {
-    body: "用紅黃綠燈先判斷目前偏正向、觀察或防守，避免一開始就被單一數字帶走。",
+    body: "先用紅黃綠狀態與核心指標判斷今天的市場氛圍，避免一開始就陷入單一數字。",
     label: "Step 1",
-    title: "先看市場氛圍"
+    title: "30 秒看市場氛圍"
   },
   {
-    body: "確認警示成因、更新時間、影響級別與下一步觀察，把訊號放回時間脈絡。",
+    body: "再看成因、更新時間、影響級別與警示清單，把市場狀態轉成觀察行動。",
     label: "Step 2",
-    title: "再看成因與時間"
+    title: "3 分鐘做行動判斷"
   },
   {
-    body: "publicDataSource=mock，scoreSource=mock；目前不是即時真實資料，不提供買賣建議。",
+    body: "最後確認資料來源與覆蓋率：目前仍是示範資料與示範分數，屬於非投資建議，不提供買賣建議。",
     label: "Step 3",
-    title: "最後看資料邊界"
+    title: "確認資料邊界"
   }
 ];
 
@@ -46,36 +46,36 @@ export function getPublicBetaDecisionLoopBridge(
   const normalizedSymbol = stockSymbol || "TWII";
   const contextMap: Record<PublicBetaDecisionLoopContext, Pick<PublicBetaDecisionLoopBridgeCopy, "contextLine" | "link">> = {
     briefing: {
-      contextLine: "Briefing 把全市場總覽延伸成觀察清單，幫使用者在 3 分鐘內決定關注、加強觀察或降低風險。",
+      contextLine: "Briefing 把首頁的市場氣氛拆成原因、警示與下一步，讓使用者能在 3 分鐘內決定是否加強觀察。",
       link: {
         href: `/stocks/${normalizedSymbol}`,
-        label: "查看市場錨點頁",
-        title: `${normalizedSymbol} 標的頁`
+        label: "回到標的頁複核",
+        title: `${normalizedSymbol} 成因與指標`
       }
     },
     home: {
-      contextLine: "首頁負責 30 秒建立市場氛圍，再把需要複核的訊號導向 briefing 或標的頁。",
+      contextLine: "首頁負責 30 秒判斷市場氛圍，再把需要複核的問題帶到 briefing。",
       link: {
         href: "/briefing",
-        label: "進入今日 briefing",
-        title: "看完整觀察清單"
+        label: "查看完整 briefing",
+        title: "查看市場成因與警示"
       }
     },
     stock: {
-      contextLine: "標的頁把單一股票或指數放回市場、成因與資料邊界中判讀，避免把 mock 訊號當成交易指令。",
+      contextLine: "標的頁負責確認個別標的是否跟著市場走，或需要用資料邊界降級解讀。",
       link: {
         href: "/briefing",
-        label: "回到市場 briefing",
-        title: "複核全市場脈絡"
+        label: "回市場 briefing",
+        title: "回到全市場脈絡"
       }
     }
   };
 
   return {
-    boundary: "公開 Beta 目前只做市場狀態閱讀與決策輔助，不宣稱即時真實資料，也不提供投資建議。",
+    boundary: "公開 Beta 目前使用示範資料與示範分數；屬於非投資建議，不宣稱即時真實資料，不提供買賣建議，也不保證報酬。",
     contextLine: contextMap[context].contextLine,
     eyebrow: "Public Beta Decision Loop",
-    headline: "30 秒市場氛圍，3 分鐘行動判斷",
+    headline: "30 秒市場氛圍到 3 分鐘行動判斷",
     link: contextMap[context].link,
     steps
   };

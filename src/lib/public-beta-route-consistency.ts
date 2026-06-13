@@ -35,7 +35,7 @@ export function getPublicBetaRouteConsistency(
     boundary: {
       publicDataSource: "mock",
       scoreSource: "mock",
-      stopLine: "目前仍是 mock-only 公開 Beta，不是即時真實資料，不提供買賣建議。"
+      stopLine: "目前仍是公開 Beta 示範資料，不是即時正式資料，不提供買賣建議。"
     },
     headline,
     nextDataGate:

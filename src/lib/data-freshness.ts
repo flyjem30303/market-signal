@@ -29,22 +29,19 @@ export type MarketFreshnessMetadata = {
 };
 
 const stateLabels: Record<DataFreshnessState, string> = {
-  complete: "完整",
-  partial: "部分",
-  stale: "過期",
-  mock: "Mock",
-  unavailable: "不可用"
+  complete: "已更新",
+  partial: "部分更新",
+  stale: "可能延遲",
+  mock: "示範資料",
+  unavailable: "暫無資料"
 };
 
 const stateDescriptions: Record<DataFreshnessState, string> = {
-  complete:
-    "資料更新線索已可讀取；僅代表資料狀態可達，不代表真實評分或資料品質已核准。",
-  partial:
-    "資料更新線索仍不完整，公開頁必須降級解讀並維持 scoreSource mock。",
-  stale:
-    "資料更新線索已過期，需要資料負責人重新確認後才能支援任何公開解讀。",
-  mock: "Public runtime is using mock data for product-flow reading and disclosure verification.",
-  unavailable: "資料更新線索目前不可用，因此公開體驗必須回到 mock 或不可用狀態。"
+  complete: "資料來源已完成最近一次更新，但仍需搭配時間戳與資料品質一起判讀。",
+  partial: "部分資料已更新，部分資料仍待補齊。請先把燈號視為觀察輔助。",
+  stale: "資料可能延遲，請先確認更新時間，再判斷市場狀態。",
+  mock: "目前公開頁使用示範資料，用來呈現產品流程與閱讀方式；正式資料尚未啟用。",
+  unavailable: "目前無法取得資料更新狀態，前台應降級顯示並提醒使用者不要把燈號視為即時結論。"
 };
 
 export function buildMockDataFreshnessSnapshot(): DataFreshnessSnapshot {
@@ -55,8 +52,8 @@ export function buildMockDataFreshnessSnapshot(): DataFreshnessSnapshot {
     isMock: true,
     market: "TWSE",
     scoreSource: "mock",
-    scoreSourceLabel: "模擬評分",
-    sourceName: "Mock repository",
+    scoreSourceLabel: "示範分數",
+    sourceName: "示範資料",
     state: "mock",
     stateLabel: stateLabels.mock,
     timezone: "Asia/Taipei"
@@ -82,8 +79,8 @@ export function buildSupabaseDataFreshnessSnapshot({
       isMock: false,
       market: market.exchange,
       scoreSource: "mock",
-      scoreSourceLabel: "模擬評分",
-      sourceName: "Supabase",
+      scoreSourceLabel: "示範分數",
+      sourceName: "資料來源待確認",
       state: "unavailable",
       stateLabel: stateLabels.unavailable,
       timezone: market.timezone
@@ -103,8 +100,8 @@ export function buildSupabaseDataFreshnessSnapshot({
     isMock: false,
     market: market.exchange,
     scoreSource: "mock",
-    scoreSourceLabel: "模擬評分",
-    sourceName: sourceNames || "Supabase",
+    scoreSourceLabel: "示範分數",
+    sourceName: sourceNames || "資料來源待確認",
     state,
     stateLabel: stateLabels[state],
     timezone: market.timezone

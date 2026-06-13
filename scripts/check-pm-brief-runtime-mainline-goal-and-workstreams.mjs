@@ -4,7 +4,6 @@ const docPath = "docs/PM_BRIEF_RUNTIME_MAINLINE_GOAL_AND_WORKSTREAMS.md";
 const a1Path = "docs/A1_OFFICIAL_OPEN_FREE_SOURCE_TERMS_AND_COVERAGE_MATRIX_NO_FETCH.md";
 const a2Path = "docs/A2_HOME_FIRST_SCREEN_PUBLIC_COPY_HANDOFF.md";
 const dashboardPath = "src/components/dashboard-shell.tsx";
-const runtimePanelPath = "src/components/home-runtime-status-panel.tsx";
 const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 
@@ -13,12 +12,18 @@ const doc = read(docPath);
 const a1 = read(a1Path);
 const a2 = read(a2Path);
 const dashboard = read(dashboardPath);
-const runtimePanel = read(runtimePanelPath);
 const pkg = JSON.parse(read(packagePath));
 const reviewGate = read(reviewGatePath);
 
 const requiredPhrases = [
   [docPath, doc, "PM BRIEF Runtime Mainline Goal And Workstreams"],
+  [docPath, doc, "CEO Phase Decision - 2026-06-13"],
+  [docPath, doc, "Phase 1 comes first"],
+  [docPath, doc, "Phase 2 comes later"],
+  [docPath, doc, "A3 Launch / Production Engineering Lane"],
+  [docPath, doc, "A4 Membership MVP Planning Lane"],
+  [docPath, doc, "docs/A3_LAUNCH_ENGINEERING_HANDOFF.md"],
+  [docPath, doc, "docs/A4_MEMBERSHIP_MVP_PLANNING_HANDOFF.md"],
   [docPath, doc, "30 seconds"],
   [docPath, doc, "3 minutes"],
   [docPath, doc, "PM owns the product/runtime engineering line"],
@@ -33,7 +38,8 @@ const requiredPhrases = [
   [docPath, doc, "daily_prices"],
   [docPath, doc, "raw market-data fetch"],
   [docPath, doc, "non-investment-advice"],
-  [docPath, doc, "integrate_runtime_readability_and_source_trust_states_before_real_data_promotion"],
+  [docPath, doc, "stock_route_investor_language_alignment_guard"],
+  [docPath, doc, "stock_route_remaining_mojibake_and_density_cleanup"],
   [a1Path, a1, "no-fetch"],
   [a1Path, a1, "TWSE OpenAPI"],
   [a1Path, a1, "coverage"],
@@ -41,13 +47,10 @@ const requiredPhrases = [
   [a2Path, a2, "30 second market atmosphere"],
   [a2Path, a2, "3 minute action judgment"],
   [a2Path, a2, "No engineering strings"],
-  [dashboardPath, dashboard, "Public Beta Index Dashboard"],
-  [dashboardPath, dashboard, "30 秒看懂市場氛圍"],
-  [dashboardPath, dashboard, "全市場總覽"],
-  [dashboardPath, dashboard, "核心指標面板"],
-  [dashboardPath, dashboard, "警示清單"],
-  [runtimePanelPath, runtimePanel, "目前可用的是 mock 訊號閱讀模式"],
-  [runtimePanelPath, runtimePanel, "不是投資建議。"],
+  [dashboardPath, dashboard, "指數狀態儀表站"],
+  [dashboardPath, dashboard, "決策輔助摘要"],
+  [dashboardPath, dashboard, "示範資料"],
+  [dashboardPath, dashboard, "正式市場資料尚未啟用"],
   [packagePath, JSON.stringify(pkg), "check:pm-brief-runtime-mainline-goal-and-workstreams"],
   [reviewGatePath, reviewGate, "pm-brief-runtime-mainline-goal-and-workstreams"]
 ];
@@ -65,8 +68,7 @@ if (
 
 for (const [filePath, source] of [
   [docPath, doc],
-  [dashboardPath, dashboard],
-  [runtimePanelPath, runtimePanel]
+  [dashboardPath, dashboard]
 ]) {
   for (const pattern of forbiddenPatterns()) {
     if (pattern.test(source)) problems.push(`${filePath} contains forbidden pattern ${String(pattern)}`);
@@ -85,7 +87,13 @@ console.log(
       guardedStatus: "pm_brief_runtime_mainline_goal_ready",
       publicDataSource: "mock",
       scoreSource: "mock",
-      lanes: ["PM product/runtime mainline", "A1 data/source/coverage", "A2 public copy/product safety"]
+      lanes: [
+        "PM product/runtime mainline",
+        "A1 data/source/coverage",
+        "A2 public copy/product safety",
+        "A3 launch/production engineering",
+        "A4 membership MVP planning standby"
+      ]
     },
     null,
     2

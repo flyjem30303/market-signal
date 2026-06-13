@@ -16,7 +16,7 @@ export function BriefingPublicDecisionSummaryPanel({
   const alertTone = summary.alert.impactLevel === "高" || summary.alert.impactLevel === "中" ? "blocked" : "readying";
 
   return (
-    <section className="briefing-public-decision-summary" aria-label="Briefing public decision summary">
+    <section className="briefing-public-decision-summary" aria-label="市場晨報決策摘要">
       <div>
         <p className="eyebrow">Market Briefing</p>
         <h1>{summary.headline}</h1>

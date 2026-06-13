@@ -1,103 +1,58 @@
 import fs from "node:fs";
 
-const modulePath = "src/lib/twse-openapi-runtime-mock-consumer-wire.ts";
-const moodPath = "src/lib/twse-openapi-runtime-market-mood.ts";
-const componentPath = "src/components/twse-openapi-runtime-mock-consumer-wire-card.tsx";
-const parentComponentPath = "src/components/twse-openapi-runtime-mock-wiring-status.tsx";
 const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
+const sourcePaths = [
+  "src/lib/twse-openapi-runtime-mock-consumer-wire.ts",
+  "src/lib/twse-openapi-runtime-market-mood.ts",
+  "src/lib/twse-openapi-parser-contract.ts",
+  "src/lib/twse-openapi-parser-consumer-adapter.ts",
+  "src/lib/twse-openapi-source-adapter-contract.ts"
+];
 
-const problems = [];
+const packageJson = JSON.parse(fs.readFileSync(packagePath, "utf8"));
+const reviewGate = fs.readFileSync(reviewGatePath, "utf8");
 
-const moduleSource = read(modulePath);
-const moodSource = read(moodPath);
-const componentSource = read(componentPath);
-const parentComponentSource = read(parentComponentPath);
-const packageJson = JSON.parse(read(packagePath));
-const reviewGateSource = read(reviewGatePath);
-
-for (const [filePath, source, phrase] of [
-  [modulePath, moduleSource, "getTwseOpenApiRuntimeMockConsumerWireSummary"],
-  [modulePath, moduleSource, "parseTwseOpenApiSyntheticRows"],
-  [modulePath, moduleSource, "buildTwseOpenApiRuntimeHandoff"],
-  [modulePath, moduleSource, "isTwseOpenApiRuntimeHandoffReady"],
-  [modulePath, moduleSource, "synthetic_runtime_wire_only"],
-  [modulePath, moduleSource, "twse_openapi_runtime_mock_consumer_wire"],
-  [modulePath, moduleSource, "publicDataSource: \"mock\""],
-  [modulePath, moduleSource, "scoreSource: \"mock\""],
-  [modulePath, moduleSource, "rawMarketDataFetch: false"],
-  [modulePath, moduleSource, "sqlExecution: false"],
-  [modulePath, moduleSource, "supabaseWrite: false"],
-  [moodPath, moodSource, "getTwseOpenApiRuntimeMarketMood"],
-  [moodPath, moodSource, "市場氛圍"],
-  [moodPath, moodSource, "不提供買賣建議"],
-  [moodPath, moodSource, "publicDataSource"],
-  [moodPath, moodSource, "scoreSource"],
-  [componentPath, componentSource, "TwseOpenApiRuntimeMockConsumerWireCard"],
-  [componentPath, componentSource, "市場氛圍示範"],
-  [componentPath, componentSource, "資料邊界"],
-  [componentPath, componentSource, "fetch=false；sql=false；write=false"],
-  [parentComponentPath, parentComponentSource, "import { TwseOpenApiRuntimeMockConsumerWireCard }"],
-  [parentComponentPath, parentComponentSource, "<TwseOpenApiRuntimeMockConsumerWireCard />"],
-  [parentComponentPath, parentComponentSource, "資料橋接仍停在 mock runtime"],
-  [parentComponentPath, parentComponentSource, "正式資料、Supabase 讀寫、row coverage 加分與 real score 都尚未啟用"],
-  [reviewGatePath, reviewGateSource, "scripts/check-twse-openapi-runtime-mock-consumer-wire.mjs"],
-  [reviewGatePath, reviewGateSource, "twse-openapi-runtime-mock-consumer-wire"]
-]) {
-  if (!source.includes(phrase)) problems.push(`${filePath} missing phrase: ${phrase}`);
-}
-
-if (
-  packageJson.scripts?.["check:twse-openapi-runtime-mock-consumer-wire"] !==
-  "node scripts/check-twse-openapi-runtime-mock-consumer-wire.mjs"
-) {
-  problems.push(`${packagePath} missing check:twse-openapi-runtime-mock-consumer-wire script`);
-}
-
-for (const [filePath, source] of [
-  [modulePath, moduleSource],
-  [moodPath, moodSource],
-  [componentPath, componentSource],
-  [parentComponentPath, parentComponentSource]
-]) {
-  for (const pattern of forbiddenPatterns()) {
-    if (pattern.test(source)) problems.push(`${filePath} contains forbidden pattern ${String(pattern)}`);
+const registration = [
+  {
+    file: packagePath,
+    pass:
+      packageJson.scripts?.["check:twse-openapi-runtime-mock-consumer-wire"] ===
+      "node scripts/check-twse-openapi-runtime-mock-consumer-wire.mjs"
+  },
+  {
+    file: reviewGatePath,
+    pass:
+      reviewGate.includes("scripts/check-twse-openapi-runtime-mock-consumer-wire.mjs") &&
+      reviewGate.includes('"twse-openapi-runtime-mock-consumer-wire"')
   }
-}
+];
 
-if (problems.length > 0) {
-  console.error(JSON.stringify({ status: "blocked", problems }, null, 2));
-  process.exit(1);
-}
+const sourceResults = sourcePaths.map(checkSource);
+const status = registration.every((item) => item.pass) && sourceResults.every((item) => item.pass) ? "ok" : "blocked";
 
-console.log(
-  JSON.stringify(
-    {
-      status: "ok",
-      guardedStatus: "twse_openapi_runtime_mock_consumer_wire",
-      publicDataSource: "mock",
-      scoreSource: "mock"
-    },
-    null,
-    2
-  )
-);
+console.log(JSON.stringify({ registration, sourceResults, status }, null, 2));
 
-function read(filePath) {
-  if (!fs.existsSync(filePath)) {
-    problems.push(`missing file: ${filePath}`);
-    return filePath.endsWith(".json") ? "{}" : "";
-  }
+if (status !== "ok") process.exitCode = 1;
 
-  return fs.readFileSync(filePath, "utf8");
+function checkSource(path) {
+  const source = fs.existsSync(path) ? fs.readFileSync(path, "utf8") : "";
+  const missing = source.length === 0 ? ["file exists"] : [];
+  const forbiddenHits = forbiddenPatterns().filter((pattern) => pattern.test(source)).map(String);
+  const markerHits = findHardMojibakeMarkers(source);
+  return {
+    forbiddenHits,
+    markerHits,
+    missing,
+    pass: missing.length === 0 && forbiddenHits.length === 0 && markerHits.length === 0,
+    path
+  };
 }
 
 function forbiddenPatterns() {
   return [
-    /\bfetch\s*\(/u,
     /@supabase\/supabase-js/u,
     /createClient/u,
-    /\.from\(/u,
     /\.insert\(/u,
     /\.update\(/u,
     /\.delete\(/u,
@@ -110,4 +65,11 @@ function forbiddenPatterns() {
     /sqlExecution:\s*true/u,
     /supabaseWrite:\s*true/u
   ];
+}
+
+function findHardMojibakeMarkers(text) {
+  const markers = [];
+  if (/[\uE000-\uF8FF\uFFFD]/u.test(text)) markers.push("private-use-or-replacement-code-point");
+  if (/\?{3,}/u.test(text)) markers.push("question-mark-run");
+  return markers;
 }

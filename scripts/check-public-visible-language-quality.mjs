@@ -1,326 +1,293 @@
 import fs from "node:fs";
-import { localhostContentHealthChecks, localhostStatusHealthPaths } from "./localhost-health-config.mjs";
 
+const baseUrl = process.env.LOCALHOST_BASE_URL ?? "http://localhost:3000";
 const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 const checkerPath = "scripts/check-public-visible-language-quality.mjs";
-const baseUrl = process.env.LOCALHOST_BASE_URL ?? "http://localhost:3000";
 
-const coreRuntimeBoundaryRequired = ["mock", "publicDataSource=mock", "scoreSource=mock"];
-const publicOperationsForbidden = [
-  "Current hard blockers",
-  "Remaining hard blockers",
-  "External reply dry-run intake",
-  "BETA_HOSTING_PROJECT_NAME",
-  "BETA_TEMPORARY_URL",
-  "PUBLIC_BETA_EXTERNAL_REPLY_PATH",
-  "cmd.exe /c npm run",
-  "A1 fail-fast policy",
-  "Single reply checklist",
-  "readonly-attempt",
-  "post-run",
-  "preflight",
-  "packet",
-  "operator",
-  "blocker",
-  "Indicator Roadmap",
-  "Runtime/data foundation",
-  "Product wording",
-  "Future notes",
-  "Market temperature",
-  "Stock health"
-];
-
-const decisionLoopRequired = [
-  "Public Beta Decision Loop",
-  "30 秒市場氛圍，3 分鐘行動判斷",
-  "先看市場氛圍",
-  "再看成因與時間",
-  "最後看資料邊界",
-  "不是即時真實資料",
-  "不提供買賣建議"
-];
-
-const routeAndDataRequired = [
-  "Public Beta Reading Path",
-  "首頁：看市場溫度",
-  "Briefing：看原因與行動",
-  "Source & Coverage",
-  "資料來源與覆蓋範圍",
-  "公開 Beta 可用閉環",
-  "看懂市場氛圍",
-  "形成觀察行動",
-  "非投資建議"
-];
-
-const homeAndBriefingDataRequired = [
-  "Data Readiness",
-  "資料真實化仍在準備中，公開頁維持 mock"
-];
-
-const stockPublicRequired = [
-  ...decisionLoopRequired,
-  ...routeAndDataRequired,
-  "TWII 資料決策",
-  "指標路線圖"
-];
-
-const pages = [
-  {
-    path: "/",
-    forbidden: publicOperationsForbidden,
-    required: [
-      ...coreRuntimeBoundaryRequired,
-      "Public Beta Index Dashboard",
-      "30 秒市場氛圍，3 分鐘行動判斷",
-      "市場氛圍",
-      "風險焦點",
-      "行動判斷",
-      ...routeAndDataRequired,
-      ...homeAndBriefingDataRequired
-    ]
-  },
-  {
-    path: "/briefing",
-    forbidden: publicOperationsForbidden,
-    required: [
-      ...coreRuntimeBoundaryRequired,
-      "Market Briefing",
-      "Briefing 把全市場總覽延伸成觀察清單",
-      "Market Action Summary",
-      "資料邊界",
-      "Briefing Playbook",
-      ...decisionLoopRequired,
-      ...routeAndDataRequired,
-      ...homeAndBriefingDataRequired
-    ]
-  },
-  {
-    path: "/stocks/TWII",
-    forbidden: publicOperationsForbidden,
-    required: [...coreRuntimeBoundaryRequired, ...stockPublicRequired, "TWII Mock Disclosure"]
-  },
-  {
-    path: "/stocks/2330",
-    forbidden: publicOperationsForbidden,
-    required: [...coreRuntimeBoundaryRequired, ...stockPublicRequired]
-  },
-  {
-    path: "/stocks/0050",
-    forbidden: publicOperationsForbidden,
-    required: [...coreRuntimeBoundaryRequired, ...stockPublicRequired]
-  },
-  {
-    path: "/stocks/006208",
-    forbidden: publicOperationsForbidden,
-    required: [...coreRuntimeBoundaryRequired, ...stockPublicRequired]
-  },
-  {
-    path: "/stocks/2382",
-    forbidden: publicOperationsForbidden,
-    required: [...coreRuntimeBoundaryRequired, ...stockPublicRequired]
-  },
-  {
-    path: "/stocks/2308",
-    forbidden: publicOperationsForbidden,
-    required: [...coreRuntimeBoundaryRequired, ...stockPublicRequired]
-  },
-  {
-    path: "/weekly",
-    forbidden: publicOperationsForbidden,
-    required: [...coreRuntimeBoundaryRequired, "Weekly boundary", "data freshness metadata"]
-  },
-  {
-    path: "/methodology",
-    forbidden: publicOperationsForbidden,
-    required: [...coreRuntimeBoundaryRequired, "Methodology", "mock scores"]
-  },
-  {
-    path: "/disclaimer",
-    forbidden: publicOperationsForbidden,
-    required: [...coreRuntimeBoundaryRequired, "Investment and data limits", "not investment advice", "data freshness metadata"]
-  },
-  {
-    path: "/terms",
-    forbidden: publicOperationsForbidden,
-    required: [...coreRuntimeBoundaryRequired, "Terms of use", "mock-only", "data freshness metadata"]
-  },
-  {
-    path: "/privacy",
-    forbidden: publicOperationsForbidden,
-    required: [...coreRuntimeBoundaryRequired, "Privacy and data boundary", "raw market payloads"]
-  }
-];
-
-const visiblePagePaths = pages.map((page) => page.path);
-const expectedVisiblePaths = unique([
-  ...localhostStatusHealthPaths.filter((path) => path !== "/robots.txt"),
-  ...localhostContentHealthChecks.map((check) => check.path),
+const publicRoutes = [
+  "/",
+  "/briefing",
+  "/weekly",
+  "/membership",
   "/methodology",
   "/disclaimer",
   "/terms",
-  "/privacy"
-]);
-
-const forbiddenText = [
-  "Internal Server Error",
-  "ERR_CONNECTION_REFUSED",
-  "Visible now: real",
-  "Visible now: supabase",
-  "scoreSource=real approved",
-  "publicDataSource=supabase approved",
-  "claimApproval=approved",
-  "Public Beta pre-launch executable state",
-  ...publicOperationsForbidden
+  "/privacy",
+  "/stocks/TWII",
+  "/stocks/2330",
+  "/stocks/0050",
+  "/stocks/006208",
+  "/stocks/2382",
+  "/stocks/2308"
 ];
 
-const sourceReadabilityTargets = [
-  {
-    path: "src/lib/public-beta-route-consistency.ts",
-    required: ["從首頁總覽到 briefing，再到標的頁", "首頁：看市場溫度", "不提供買賣建議"]
-  },
-  {
-    path: "src/lib/public-beta-data-readiness-status.ts",
-    required: ["資料真實化仍在準備中，公開頁維持 mock", "TWSE OpenAPI 候選來源", "不執行資料庫寫入"]
-  },
-  {
-    path: "src/lib/public-beta-source-coverage-runtime-labels.ts",
-    required: ["資料來源與覆蓋範圍", "不宣稱全市場覆蓋", "最後做觀察判斷"]
-  }
+const internalBoundaryRoutes = [
+  { route: "/internal", allowedStatuses: [404] },
+  { route: "/internal/cp3-dry-run", allowedStatuses: [404] },
+  { route: "/internal/etf-source-readiness", allowedStatuses: [404] },
+  { route: "/internal/raw-market-preview", allowedStatuses: [404] },
+  { route: "/api/internal/raw-market?symbol=2330", allowedStatuses: [404, 401] }
 ];
 
-const results = await Promise.all(
-  pages.map(async (page) => {
-    const response = await fetch(`${baseUrl}${page.path}`);
+const globalRequiredVisibleFragments = ["示範資料", "非投資建議"];
+
+const routeRequiredVisibleFragments = {
+  "/": ["指數狀態儀表站", "30 秒", "3 分鐘", "市場氣氛", "資料可信度"],
+  "/briefing": ["每日市場晨報", "30 秒", "3 分鐘", "觀察重點", "下一步"],
+  "/weekly": ["市場週報", "30 秒", "資料更新時間", "風險聲明"],
+  "/membership": ["會員功能預覽", "30 秒", "3 分鐘", "每日市場三層解讀", "Watchlist 與自訂警示", "盤後複盤報告", "目前不開放會員登入或付費"],
+  "/methodology": ["方法說明", "市場氣氛", "資料品質", "正式資料必須先通過驗證"],
+  "/disclaimer": ["風險聲明", "資料限制", "市場風險自負"],
+  "/terms": ["使用條款", "資料狀態", "請自行評估風險"],
+  "/privacy": ["隱私與資料說明", "交易帳戶", "資料保護方向"],
+  "/stocks/TWII": ["TWII", "30 秒", "3 分鐘", "資料邊界"],
+  "/stocks/2330": ["2330", "30 秒", "3 分鐘", "資料邊界"],
+  "/stocks/0050": ["0050", "30 秒", "3 分鐘", "資料邊界"],
+  "/stocks/006208": ["006208", "30 秒", "3 分鐘", "資料邊界"],
+  "/stocks/2382": ["2382", "30 秒", "3 分鐘", "資料邊界"],
+  "/stocks/2308": ["2308", "30 秒", "3 分鐘", "資料邊界"]
+};
+
+const forbiddenVisibleFragments = [
+  "cmd.exe",
+  "npm run",
+  "pre-launch",
+  "PRE-LAUNCH",
+  "hard blocker",
+  "Hard Blocker",
+  "HARD BLOCKER",
+  "Remaining Hard",
+  "REQUEST BLOCKS",
+  "EXTERNAL REPLY",
+  "workflow proof",
+  "dry-run",
+  "packet",
+  "preflight",
+  "post-run",
+  "operator",
+  "commit ",
+  "Git",
+  "PUBLIC_BETA",
+  "BETA_",
+  "publicDataSource",
+  "scoreSource",
+  "mock-only",
+  "Supabase",
+  "SQL",
+  "daily_prices",
+  "staging rows",
+  "raw market data",
+  "raw payload",
+  "Runtime Status",
+  "Data Readiness",
+  "promotion gate",
+  "readonly",
+  "bounded",
+  "PGRST",
+  "OFFICIAL-",
+  "candidateArtifactPath",
+  "source_row_hash",
+  "Phase 1",
+  "Phase 2",
+  "Membership MVP",
+  "member-only"
+];
+
+const forbiddenRoleFragments = [
+  /\bCEO\b/u,
+  /\bPM\b/u,
+  /\bA1\b/u,
+  /\bA2\b/u,
+  /\bA3\b/u,
+  /\bA4\b/u,
+  /\bD:\\/u,
+  /\bC:\\/u
+];
+
+const publicResults = [];
+for (const route of publicRoutes) {
+  publicResults.push(await checkPublicRoute(route));
+}
+
+const internalBoundaryResults = [];
+for (const routeConfig of internalBoundaryRoutes) {
+  internalBoundaryResults.push(await checkInternalBoundary(routeConfig));
+}
+
+const registrationResults = checkRegistration();
+const checkerSourceResults = checkCheckerSource();
+const blocked = publicResults.filter((result) => !result.pass);
+const blockedInternal = internalBoundaryResults.filter((result) => !result.pass);
+const blockedRegistration = registrationResults.filter((result) => !result.pass);
+const blockedCheckerSource = checkerSourceResults.filter((result) => !result.pass);
+const status =
+  blocked.length === 0 &&
+  blockedInternal.length === 0 &&
+  blockedRegistration.length === 0 &&
+  blockedCheckerSource.length === 0
+    ? "ok"
+    : "blocked";
+
+console.log(
+  JSON.stringify(
+    {
+      baseUrl,
+      checkedPublicRoutes: publicRoutes.length,
+      checkedInternalBoundaries: internalBoundaryRoutes.length,
+      blocked,
+      blockedInternal,
+      blockedRegistration,
+      blockedCheckerSource,
+      status
+    },
+    null,
+    2
+  )
+);
+
+if (status !== "ok") process.exitCode = 1;
+
+async function checkPublicRoute(route) {
+  try {
+    const response = await fetch(`${baseUrl}${route}`);
     const html = await response.text();
-    const text = normalizeVisibleText(html);
-    const markerHits = findMojibakeMarkers(text);
-    const pageForbidden = [...forbiddenText, ...(page.forbidden ?? [])];
-    const forbiddenHits = unique(pageForbidden.filter((fragment) => text.includes(fragment)));
-    const missing = page.required.filter((phrase) => !text.includes(phrase));
+    const visibleText = normalizeVisibleText(html);
+    const pageTitle = extractTitle(html);
+    const routeRequired = routeRequiredVisibleFragments[route] ?? [];
+    const required = [...globalRequiredVisibleFragments, ...routeRequired];
+    const missing = required.filter((phrase) => !visibleText.includes(phrase));
+    const forbiddenHits = forbiddenVisibleFragments.filter((fragment) => visibleText.includes(fragment));
+    const roleHits = forbiddenRoleFragments.filter((pattern) => pattern.test(visibleText)).map(String);
+    const mojibakeHits = findMojibakeMarkers(visibleText);
+    const titleHits = pageTitle.includes("| 指數燈號 | 指數燈號") ? ["duplicated-site-title"] : [];
 
     return {
       forbiddenHits,
-      markerHits,
       missing,
-      pass: response.status === 200 && markerHits.length === 0 && forbiddenHits.length === 0 && missing.length === 0,
-      path: page.path,
+      mojibakeHits,
+      pass:
+        response.status === 200 &&
+        missing.length === 0 &&
+        forbiddenHits.length === 0 &&
+        roleHits.length === 0 &&
+        mojibakeHits.length === 0 &&
+        titleHits.length === 0,
+      roleHits,
+      route,
+      status: response.status,
+      titleHits,
+      visibleLength: visibleText.length
+    };
+  } catch (error) {
+    return {
+      error: error instanceof Error ? error.message : String(error),
+      pass: false,
+      route
+    };
+  }
+}
+
+async function checkInternalBoundary({ allowedStatuses, route }) {
+  try {
+    const response = await fetch(`${baseUrl}${route}`);
+    const visibleText = normalizeVisibleText(await response.text());
+    const forbiddenHits = forbiddenVisibleFragments.filter((fragment) => visibleText.includes(fragment));
+    const roleHits = forbiddenRoleFragments.filter((pattern) => pattern.test(visibleText)).map(String);
+    const mojibakeHits = findMojibakeMarkers(visibleText);
+
+    return {
+      forbiddenHits,
+      mojibakeHits,
+      pass:
+        allowedStatuses.includes(response.status) &&
+        forbiddenHits.length === 0 &&
+        roleHits.length === 0 &&
+        mojibakeHits.length === 0,
+      roleHits,
+      route,
       status: response.status
     };
-  })
-);
-
-const packageJson = fs.readFileSync(packagePath, "utf8");
-const reviewGate = fs.readFileSync(reviewGatePath, "utf8");
-const checkerSource = fs.readFileSync(checkerPath, "utf8");
-const sourceReadability = sourceReadabilityTargets.map((target) => {
-  const source = fs.readFileSync(target.path, "utf8");
-  const markerHits = findMojibakeMarkers(source);
-  const missing = target.required.filter((phrase) => !source.includes(phrase));
-
-  return {
-    markerHits,
-    missing,
-    pass: markerHits.length === 0 && missing.length === 0,
-    path: target.path
-  };
-});
-
-const routeAlignment = expectedVisiblePaths.map((path) => ({ pass: visiblePagePaths.includes(path), path }));
-const registration = [
-  {
-    file: packagePath,
-    pass: packageJson.includes("\"check:public-visible-language-quality\"")
-  },
-  {
-    file: reviewGatePath,
-    pass: reviewGate.includes("check-public-visible-language-quality.mjs")
+  } catch (error) {
+    return {
+      error: error instanceof Error ? error.message : String(error),
+      pass: false,
+      route
+    };
   }
-];
-
-const selfContract = [
-  {
-    check: "requires publicDataSource mock",
-    pass: checkerSource.includes("publicDataSource=mock")
-  },
-  {
-    check: "requires scoreSource mock",
-    pass: checkerSource.includes("scoreSource=mock")
-  },
-  {
-    check: "blocks approved scoreSource real claims",
-    pass: checkerSource.includes("scoreSource=real approved")
-  },
-  {
-    check: "blocks approved publicDataSource supabase claims",
-    pass: checkerSource.includes("publicDataSource=supabase approved")
-  },
-  {
-    check: "requires readable public beta decision loop",
-    pass:
-      checkerSource.includes("30 秒市場氛圍，3 分鐘行動判斷") &&
-      checkerSource.includes("先看市場氛圍") &&
-      checkerSource.includes("最後看資料邊界")
-  },
-  {
-    check: "requires readable source coverage and data readiness copy",
-    pass: checkerSource.includes("資料來源與覆蓋範圍") && checkerSource.includes("資料真實化仍在準備中")
-  },
-  {
-    check: "requires readable legal pages",
-    pass: checkerSource.includes("Investment and data limits") && checkerSource.includes("Terms of use")
-  },
-  {
-    check: "checker source avoids mojibake literals",
-    pass: findMojibakeMarkers(checkerSource).length === 0
-  },
-  {
-    check: "aligns with localhost health paths",
-    pass: routeAlignment.every((item) => item.pass)
-  },
-  {
-    check: "guards public product-facing source copy",
-    pass: sourceReadability.every((item) => item.pass)
-  }
-];
-
-const output = {
-  registration,
-  results,
-  routeAlignment,
-  selfContract,
-  sourceReadability,
-  status:
-    registration.every((item) => item.pass) &&
-    results.every((item) => item.pass) &&
-    routeAlignment.every((item) => item.pass) &&
-    selfContract.every((item) => item.pass) &&
-    sourceReadability.every((item) => item.pass)
-      ? "ok"
-      : "blocked"
-};
-
-console.log(JSON.stringify(output, null, 2));
-
-if (output.status !== "ok") process.exitCode = 1;
+}
 
 function normalizeVisibleText(html) {
   return html
     .replace(/<script[\s\S]*?<\/script>/gi, " ")
     .replace(/<style[\s\S]*?<\/style>/gi, " ")
     .replace(/<[^>]+>/g, " ")
+    .replace(/&nbsp;/g, " ")
     .replace(/&amp;/g, "&")
     .replace(/\s+/g, " ")
     .trim();
 }
 
+function extractTitle(html) {
+  const match = html.match(/<title>([\s\S]*?)<\/title>/i);
+  return match?.[1]?.replace(/&amp;/g, "&").trim() ?? "";
+}
+
 function findMojibakeMarkers(text) {
   const markers = [];
-  if (/[\uE000-\uF8FF\uFFFD]/u.test(text)) markers.push("private-use-or-replacement-code-point");
+  if (/[\uE000-\uF8FF\uFFFD]/u.test(text)) markers.push("private-use-or-replacement-codepoint");
+  if (/[\u0080-\u009F]/u.test(text)) markers.push("control-codepoint");
   if (/\?{3,}/u.test(text)) markers.push("question-mark-run");
   return markers;
 }
 
-function unique(items) {
-  return [...new Set(items)];
+function checkRegistration() {
+  const packageJson = fs.readFileSync(packagePath, "utf8");
+  const reviewGate = fs.readFileSync(reviewGatePath, "utf8");
+
+  return [
+    {
+      check: "package script registered",
+      pass: packageJson.includes('"check:public-visible-language-quality"')
+    },
+    {
+      check: "review gate registered",
+      pass: reviewGate.includes("scripts/check-public-visible-language-quality.mjs")
+    },
+    {
+      check: "focused gate registered",
+      pass: reviewGate.includes('"public-visible-language-quality"')
+    }
+  ];
+}
+
+function checkCheckerSource() {
+  const checkerSource = fs.readFileSync(checkerPath, "utf8");
+
+  return [
+    {
+      check: "checker source has readable required phrases",
+      pass:
+        checkerSource.includes("指數狀態儀表站") &&
+        checkerSource.includes("會員功能預覽") &&
+        checkerSource.includes("風險聲明") &&
+        checkerSource.includes("資料邊界")
+    },
+    {
+      check: "checker source blocks internal residue",
+      pass:
+        checkerSource.includes("cmd.exe") &&
+        checkerSource.includes("publicDataSource") &&
+        checkerSource.includes("candidateArtifactPath") &&
+        checkerSource.includes("Phase 2")
+    },
+    {
+      check: "checker source has no literal replacement character",
+      pass: !checkerSource.includes("\uFFFD")
+    },
+    {
+      check: "checker source has no private-use characters",
+      pass: !/[\uE000-\uF8FF]/u.test(checkerSource)
+    }
+  ];
 }

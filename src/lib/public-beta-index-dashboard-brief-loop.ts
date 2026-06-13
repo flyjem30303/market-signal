@@ -31,53 +31,50 @@ export function getPublicBetaIndexDashboardBriefLoop(): PublicBetaIndexDashboard
   return {
     alerts: [
       {
-        cause:
-          "TWII 目前只接到 synthetic-only mock runtime，用來驗證市場氛圍閱讀流程；正式資料來源與覆蓋率仍未升級。",
+        cause: "市場氣氛、ETF 方向與風險標的需要放在同一條閱讀路徑中確認。",
         impactLevel: "中",
-        nextStep: "先看大盤、ETF、上市個股哪一層仍在檢查，再回到晨報確認成因與更新時間。",
+        nextStep: "先看市場晨報，再確認 ETF 與主要風險標的是否同向。",
         status: "觀察",
-        title: "TWII 市場氛圍仍是示範狀態",
-        updatedAt: "mock runtime"
+        title: "市場氣氛需要交叉確認",
+        updatedAt: "示範更新"
       },
       {
-        cause:
-          "publicDataSource 與 scoreSource 仍維持 mock，避免使用者把示範燈號誤認為即時行情或正式投資訊號。",
+        cause: "正式市場資料尚未啟用，分數只能用來示範閱讀順序。",
         impactLevel: "低",
-        nextStep: "正式資料上線前，僅把燈號當成觀察入口，不作為買賣建議或保證報酬依據。",
-        status: "邊界",
-        title: "資料與分數仍維持 mock",
-        updatedAt: "持續檢查"
+        nextStep: "閱讀資料狀態與風險聲明，不把示範分數當成交易依據。",
+        status: "資料提醒",
+        title: "示範資料仍需保守解讀",
+        updatedAt: "示範更新"
       }
     ],
     boundary: {
       publicDataSource: "mock",
       scoreSource: "mock"
     },
-    headline: "30 秒看懂市場氣氛，3 分鐘形成下一步觀察",
+    headline: "30 秒可讀，3 分鐘可行動的指數狀態儀表站",
     indicatorPanel: [
       {
-        label: "市場氛圍",
+        label: "市場氣氛",
         state: "示範觀察",
-        summary: "用紅黃綠燈與核心指標先判斷今天偏向正向、觀察或防守。"
+        summary: "用紅黃綠燈先理解市場偏強、觀察或偏防守。"
       },
       {
-        label: "風險焦點",
-        state: "需要複核",
-        summary: "風險分數只協助排序注意力，仍需搭配成因、更新時間與資料狀態。"
+        label: "核心指標",
+        state: "快速摘要",
+        summary: "把健康分數、風險分數與資料品質合併成可閱讀的判斷順序。"
       },
       {
-        label: "資料可信度",
-        state: "mock 邊界",
-        summary: "目前先展示閱讀流程；來源權利、覆蓋品質與正式更新節奏仍在檢查。"
+        label: "警示清單",
+        state: "下一步觀察",
+        summary: "每則提醒都保留狀態、成因、更新時間、影響級別與下一步。"
       }
     ],
     marketOverview:
-      "首頁把全市場總覽、核心指標與警示清單放在同一條路徑，讓一般投資者先理解市場氣氛，再決定要關注、加強觀察或減少風險。",
-    primaryAction: "30 秒內：先判斷目前市場偏向正向、觀察或防守。",
-    secondaryAction: "3 分鐘內：再看警示成因、更新時間、影響級別與下一步觀察。",
-    stopLine:
-      "目前仍是 mock-only 公開 Beta，不宣稱即時真實資料、不宣稱完整覆蓋、不提供買賣建議，也不保證任何投資結果。",
-    timeToAction: "3 分鐘形成下一步觀察",
-    timeToUnderstand: "30 秒看懂市場氛圍"
+      "首頁包含三層視圖：全市場總覽、核心指標面板、警示清單。使用者先看市場氛圍，再看成因與資料狀態。",
+    primaryAction: "30 秒可讀：先判斷市場氣氛。",
+    secondaryAction: "3 分鐘可行動：再決定是否關注、加強觀察或降低風險。",
+    stopLine: "目前是公開 Beta 示範資料，不提供個股買賣建議，也不宣稱即時或完整市場資料。",
+    timeToAction: "3 分鐘可行動",
+    timeToUnderstand: "30 秒可讀"
   };
 }

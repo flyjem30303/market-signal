@@ -46,7 +46,7 @@ export function getPublicBetaUsableLoop(
         tone: "readying"
       },
       {
-        body: "最後確認 publicDataSource=mock、scoreSource=mock，所有訊號只作閱讀示範。",
+        body: "最後確認資料來源與分數來源仍為示範狀態，所有訊號只作閱讀示範。",
         id: "mock-boundary-confirmation",
         label: "邊界",
         title: "先確認資料限制",
@@ -80,7 +80,7 @@ export function getPublicBetaUsableLoop(
     contextLine,
     headline: "公開 Beta 可用閉環",
     stopLine:
-      "目前仍維持 publicDataSource=mock、scoreSource=mock；未授權前不連接真實資料、不寫 Supabase、不切換 real score。",
+      "目前仍維持示範資料與示範分數；未授權前不連接正式資料、不寫入資料庫、不切換正式分數。",
     summary:
       "這個閉環的目標不是先變成即時行情站，而是讓一般投資者能在 30 秒讀懂市場氛圍，3 分鐘內知道下一步要觀察什麼。"
   };

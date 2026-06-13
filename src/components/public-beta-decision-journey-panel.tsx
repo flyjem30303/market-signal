@@ -40,10 +40,8 @@ export function PublicBetaDecisionJourneyPanel({
         ))}
       </div>
       <div className="public-beta-decision-journey__boundary">
-        <span>{"\u516c\u958b\u908a\u754c"}</span>
-        <strong>
-          publicDataSource={journey.boundary.publicDataSource}; scoreSource={journey.boundary.scoreSource}
-        </strong>
+        <span>公開邊界</span>
+        <strong>示範資料與示範分數</strong>
         <p>{journey.boundary.text}</p>
       </div>
     </section>

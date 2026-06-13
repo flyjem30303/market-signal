@@ -5,7 +5,7 @@ export const dynamic = "force-static";
 
 export function GET() {
   const repository = getMarketSignalRepository();
-  const staticRoutes = ["", "/briefing", "/weekly", "/methodology", "/privacy", "/terms", "/disclaimer"];
+  const staticRoutes = ["", "/briefing", "/weekly", "/membership", "/methodology", "/privacy", "/terms", "/disclaimer"];
   const stockRoutes = repository.getAssets().map((asset) => `/stocks/${asset.symbol}`);
   const now = "2026-05-28T04:00:00.000Z";
   const urls = [...staticRoutes, ...stockRoutes].map((route) =>

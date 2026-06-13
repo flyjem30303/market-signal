@@ -81,115 +81,108 @@ export function getPublicBetaSourceCoverageRuntimeLabels(
   const etfMarketPriceHandoff = getEtfMarketPriceMockRuntimeHandoff();
   const contextLine =
     context === "stock"
-      ? `${stockSymbol} 仍是 mock 標的頁，請把它當成產品體驗與資料邊界示範。`
-      : "公開 Beta 先讓使用者看懂資料來源與覆蓋範圍，不急著宣稱全市場真實資料。";
+      ? `${stockSymbol} 頁面先用示範資料說明讀法，正式市場資料與完整覆蓋率還在資料線確認。`
+      : "公開 Beta 先讓使用者看懂市場氣氛、資料範圍與下一步觀察，不宣稱全市場覆蓋。";
 
   return {
     batch1PolicyLabels: [
       {
-        detail: "2330、2382、2308 目前只作為第一批 mock 示範標的，用來驗證標的頁資訊階層與行動判斷節奏。",
+        detail: "2330、2382、2308 先作為產品讀法錨點，協助驗證個股頁資訊階層與風險說明。",
         id: "batch1-demo-anchors",
-        label: "第一批個股示範",
-        status: "mock 示範"
+        label: "第一批個股錨點",
+        status: "示範可讀"
       },
       {
-        detail: "公開頁不輸出完整個股清單，也不把未驗證的 stock id row list 當成已完成覆蓋率。",
+        detail: "目前不展示完整上市櫃清單，避免使用者誤以為所有股票都已完成資料覆蓋。",
         id: "batch1-no-row-list",
         label: "不宣稱全市場覆蓋",
-        status: "限制清楚"
+        status: "邊界清楚"
       },
       {
-        detail: "指數、ETF、個股與產業族群分開處理；0050、006208 與 TWII 不混用同一套覆蓋判斷。",
+        detail: "指數、ETF、個股的資料口徑不同；正式上線前要分開確認來源、欄位與更新頻率。",
         id: "batch1-instrument-scope",
-        label: "資產類型分開",
-        status: "範圍分離"
+        label: "商品類型分流",
+        status: "持續確認"
       }
     ],
     boundary: {
       publicDataSource: "mock",
       scoreSource: "mock",
-      stopLine: "來源與覆蓋率尚未通過 gate；目前不宣稱真實資料、完整覆蓋，也不提供買賣建議。"
+      stopLine: "目前仍是示範資料與示範分數，不提供買賣建議，也不宣稱即時、完整或正式市場資料。"
     },
     coverageGapMatrix: [
       {
-        detail: "TWII 可支撐 30 秒市場氣氛，但正式資料顯示仍要完成來源歸屬、欄位契約、缺漏交易日與修訂規則。",
+        detail: "TWII 是市場氛圍主軸，目前已有候選資料形狀可供評估，但正式來源條件與上線流程仍需確認。",
         id: "index-baseline-gap",
         label: "TWII 指數基準",
-        next: "等明確授權後才準備受控唯讀驗證流程。",
+        next: "持續整理合法免費可自動化來源、欄位定義與覆蓋窗口，再收斂可公開使用的結果。",
         status: "candidate"
       },
       {
-        detail: "0050、006208 可作為 3 分鐘行動判斷的 ETF 脈絡，但需先切清市場價格、NAV、成分股與折溢價資料邊界。",
+        detail: "0050、006208 可用作 ETF 觀察入口；Beta 階段先呈現價格與風險讀法，不處理成分股、NAV 或折溢價。",
         id: "core-etf-context-gap",
         label: "核心 ETF 脈絡",
-        next: "A1 下一步：prepare_etf_market_price_source_scope_no_fetch。",
+        next: "確認 ETF 收盤價來源、更新頻率與公開使用條件後再接 runtime。",
         status: "checking"
       },
       {
-        detail: "2330、2382、2308 目前只是熟悉股票的 mock demo anchors，不代表完整上市股票覆蓋。",
+        detail: "第一批個股只用來驗證頁面決策輔助，不代表完整台股資料已補齊。",
         id: "listed-equity-batch1-gap",
-        label: "Batch 1 個股示範",
-        next: "維持小批次；不要輸出或暗示完整股票清單。",
+        label: "第一批個股",
+        next: "先完成 symbol universe 政策與欄位契約，再擴大覆蓋率。",
         status: "checking"
       },
       {
-        detail: "完整上市公司覆蓋仍未開放；需要 universe 來源、上下市處理、公司行動與延遲資料說明。",
+        detail: "所有上市公司覆蓋是正式資料線目標，但不應阻擋公開 Beta 先提供市場總覽與示範讀法。",
         id: "listed-equity-full-gap",
-        label: "完整上市股票",
-        next: "等 Batch 1 欄位契約穩定後再開 universe source 決策。",
+        label: "上市公司全覆蓋",
+        next: "等資料來源條件、補齊策略與更新流程穩定後再擴張。",
         status: "future"
       },
       {
-        detail: "OTC 與更廣的台灣市場覆蓋仍是未來擴充，不是公開 Beta 的當前承諾。",
+        detail: "上櫃與興櫃可在上市股票穩定後再進入，不放入第一波 Beta 承諾。",
         id: "otc-future-expansion-gap",
-        label: "OTC 未來擴充",
-        next: "等上市股票完整覆蓋規則接受後再開。",
+        label: "上櫃與興櫃",
+        next: "先完成上市與核心 ETF，再評估下一個市場範圍。",
         status: "future"
       },
       {
-        detail: "產業與族群分類可以幫使用者判斷壓力是否集中，但 taxonomy 來源與成分修訂規則尚未確定。",
-        id: "sector-industry-context-gap",
-        label: "產業分類脈絡",
-        next: "之後準備產業分類來源決策文件。",
-        status: "future"
-      },
-      {
-        detail: "趨勢、動能、資金流與風險指標需要穩定基礎資料、公式、門檻與缺值規則後才能真實化。",
+        detail: "乖離率、均線、動能與資金流需要可靠基礎價格與成交資訊；目前不能用示範資料包裝成正式訊號。",
         id: "derived-indicator-layer-gap",
         label: "衍生指標層",
-        next: "先維持 mock explanation，不提供買賣建議。",
+        next: "基礎資料來源與更新流程確認後，再實裝投資指標與決策輔助。",
         status: "blocked"
       }
     ],
     etfMarketPriceScope: [
       {
-        detail: "0050、006208 目前只作為 mock ETF 觀察範例；未來若開真實資料，先限於交易所市價欄位。",
+        detail: "Beta 只先討論 ETF 收盤價與交易資訊，讓使用者知道 ETF 是否跟著市場氣氛移動。",
         id: "etf-market-price-runtime-scope",
-        label: "ETF 市價範圍",
+        label: "ETF 價格範圍",
         status: "checking"
       },
       {
-        detail: "NAV 需要獨立基金資料來源、更新頻率與解讀規則，不能混入市價線。",
+        detail: "NAV、折溢價與成分股資料不列入第一波公開 Beta，避免來源與解讀責任過重。",
         id: "etf-nav-excluded",
-        label: "NAV 暫不接入",
+        label: "NAV 暫不納入",
         status: "excluded"
       },
       {
-        detail: "成分股與權重屬於另一條 issuer/fund disclosure 線，公開 Beta 先不承諾。",
+        detail: "ETF 成分股與權重屬於更深資料層，等基礎閉環完成後再評估。",
         id: "etf-holdings-excluded",
-        label: "成分股暫不接入",
+        label: "成分股暫不納入",
         status: "excluded"
       },
       {
-        detail: "折溢價需要 NAV 加市價與公式門檻，現階段只保留為未來衍生指標。",
+        detail: "折溢價需要 NAV 與價格同步品質，第一波先不顯示。",
         id: "etf-premium-discount-excluded",
-        label: "折溢價暫不接入",
+        label: "折溢價暫不納入",
         status: "excluded"
       },
       {
-        detail: "ETF 卡片只輔助觀察市場脈絡，不形成推薦排行、買進或賣出訊號。",
+        detail: "ETF 資訊只作市場觀察，不提供買賣建議或推薦排序。",
         id: "etf-non-advice-runtime-boundary",
-        label: "ETF 不提供買賣建議",
+        label: "ETF 非投資建議",
         status: "mock_only"
       }
     ],
@@ -197,14 +190,14 @@ export function getPublicBetaSourceCoverageRuntimeLabels(
       {
         detail: etfMarketPriceHandoff.decisionUse.thirtySecondMood,
         id: "etf-market-price-thirty-second-mood",
-        label: "ETF 30 秒脈絡",
-        status: "mock 驗證"
+        label: "ETF 30 秒讀法",
+        status: "示範可讀"
       },
       {
         detail: etfMarketPriceHandoff.decisionUse.threeMinuteAction,
         id: "etf-market-price-three-minute-action",
         label: "ETF 3 分鐘行動",
-        status: "mock 驗證"
+        status: "示範可讀"
       },
       ...etfMarketPriceHandoff.caseSummaries.map((item) => ({
         detail: item.detail,
@@ -215,89 +208,94 @@ export function getPublicBetaSourceCoverageRuntimeLabels(
     ],
     fieldContracts: [
       {
-        detail: "大盤資料至少需要交易日與收盤值，才能支撐首頁與 briefing 的市場狀態判讀。",
+        detail: "指數資料至少需要交易日、收盤值、來源識別與更新時間，才能支撐市場氛圍判讀。",
         id: "index-baseline-field-contract",
-        label: "大盤欄位對照",
-        status: "檢查中"
+        label: "指數欄位契約",
+        status: "草案可讀"
       },
       {
-        detail: "第一批個股需要日期、收盤、成交量與基本識別欄位；缺欄時只能維持 mock 或降級顯示。",
+        detail: "ETF 價格資料需確認開高低收、成交量、成交值與交易日期；其他欄位暫不放入 Beta 承諾。",
+        id: "etf-price-field-contract",
+        label: "ETF 價格欄位契約",
+        status: "確認中"
+      },
+      {
+        detail: "個股資料先聚焦每日收盤與交易資訊；財報、籌碼與估值指標等資料層之後再擴張。",
         id: "listed-equity-batch1-field-contract",
-        label: "上市個股欄位對照",
-        status: "檢查中"
+        label: "個股欄位契約",
+        status: "確認中"
       }
     ],
-    headline: "資料來源與覆蓋範圍",
+    headline: "資料來源與覆蓋率",
     indexBaselineChecks: indexBaselineHandoff.caseSummaries.map((item) => ({
       detail: toPublicIndexBaselineCheckDetail(item.caseId),
       id: item.caseId,
       label: item.label,
-      status: "合成案例"
+      status: "示範檢查"
     })),
     layers: [
       {
-        detail: "首頁與 briefing 需要先有大盤基準，才能把市場溫度、警示清單與標的頁串成同一個判讀流程。",
+        detail: "大盤指數是 30 秒市場氛圍的核心入口；目前先用示範資料驗證使用者是否看得懂。",
         id: "index-baseline",
-        label: "大盤基準",
-        next: "A1 持續整理 TWSE OpenAPI 候選來源、欄位契約與可公開使用條件。",
+        label: "指數基準",
+        next: "等待來源條件、欄位定義與覆蓋窗口確認後，再推進正式資料接入。",
         state: "checking"
       },
       {
-        detail: "0050、006208 等核心 ETF 需要獨立確認資料來源、更新節奏與公開引用條件。",
+        detail: "核心 ETF 可輔助判斷市場是否由大盤擴散到可交易商品，但第一波只處理價格讀法。",
         id: "core-etf",
         label: "核心 ETF",
-        next: "等大盤候選來源更穩定後，再打開 ETF 來源條件與覆蓋率檢查。",
+        next: "確認免費可自動化來源與公開使用條件。",
         state: "blocked"
       },
       {
-        detail: "2330、2382、2308 目前是 mock 示範標的，用來讓使用者理解個股頁會如何輔助觀察。",
+        detail: "第一批個股用來驗證頁面結構與決策輔助，不代表完整台股覆蓋。",
         id: "listed-equity-batch1",
         label: "第一批個股",
-        next: "先穩住標的頁讀法，再擴大資料 universe。",
+        next: "整理 universe 政策，避免使用者誤會覆蓋範圍。",
         state: "usable_demo"
       }
     ],
     readingActions: [
       {
-        body: "先確認畫面目前是 mock 還是 real；公開 Beta 目前仍標示為 mock。",
+        body: "先確認這個頁面使用的是示範資料或正式資料；目前公開 Beta 仍以示範資料為主。",
         id: "check-boundary",
         label: "1",
         title: "先看資料邊界"
       },
       {
-        body: "再確認指數、ETF、個股各自覆蓋到哪裡，避免把示範資料誤認成全市場資料。",
+        body: "再確認目前包含指數、ETF 或個股哪一層；不要把第一批示範標的當成全市場覆蓋。",
         id: "check-coverage",
         label: "2",
         title: "再看覆蓋範圍"
       },
       {
-        body: "最後才把狀態用於觀察、複核或等待，不把 mock 訊號當成買賣建議。",
+        body: "最後做觀察判斷：是否需要加強觀察、暫停追高、或等待資料更完整。",
         id: "choose-next-observation",
         label: "3",
         title: "最後做觀察判斷"
       }
     ],
-    summary:
-      "資料線正在從 mock 示範走向可驗證來源；公開頁會同步說清楚哪些資料可看、哪些資料仍在確認。",
-    userMeaning: `${contextLine} 使用者可以知道哪些資料可看、哪些資料還在確認、哪些資料目前不能用來做 real-data 判斷。`
+    summary: "資料仍在從示範讀法走向正式資料；目前重點是讓使用者看懂來源、覆蓋率與不可宣稱範圍。",
+    userMeaning: `${contextLine} 使用者可以先把燈號當成閱讀線索，並在資料來源、覆蓋率與更新時間都清楚後再提高信任度。`
   };
 }
 
 function toPublicIndexBaselineCheckDetail(caseId: string): string {
   switch (caseId) {
     case "index_valid_date_close":
-      return "可驗證交易日與收盤值是大盤基準的最小欄位。";
+      return "交易日與收盤值能被正規化，代表基礎指數資料可以進入示範讀法。";
     case "index_missing_close":
-      return "缺少收盤值時必須 fail closed，不能產生市場狀態。";
+      return "缺少收盤值時必須降級，不可把不完整資料當成正式市場訊號。";
     case "index_duplicate_trade_date":
-      return "同一交易日重複資料必須被攔下，避免覆蓋率被高估。";
+      return "同一交易日重複出現時要先拒收或人工複核，避免覆蓋錯誤。";
     case "index_missing_optional_fields":
-      return "非必要欄位缺漏時可降級，但不能影響核心日期與收盤值。";
+      return "選填欄位缺漏不一定阻擋讀法，但必須在來源與覆蓋率說明中揭露。";
     case "index_revision_warning":
-      return "來源修正或版本變動需要留下 warning，避免舊資料被誤讀。";
+      return "來源若可能修訂，頁面需要保留更新時間與修訂風險說明。";
     case "index_timezone_session_gap":
-      return "交易日與時區需要一致，避免每日資料錯位。";
+      return "交易日與時區要能對齊台北時間，避免把不同市場日誤判為同一日。";
     default:
-      return "合成案例用來確認 parser contract，不代表已抓取真實市場資料。";
+      return "示範檢查只代表資料形狀可讀，仍不能替代正式來源權利與品質審核。";
   }
 }

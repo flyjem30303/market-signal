@@ -24,7 +24,7 @@ const copy = {
   primaryRisk: "\u98a8\u96aa\u89c0\u5bdf",
   stableLabel: "\u5927\u76e4\u8108\u7d61",
   stopLine:
-    "\u9019\u662f\u516c\u958b Beta \u8cc7\u8a0a\u5100\u8868\u677f\uff1apublicDataSource=mock\uff1bscoreSource=mock\uff1b\u4e0d\u5ba3\u7a31\u5373\u6642\u771f\u5be6\u8cc7\u6599\uff0c\u4e0d\u63d0\u4f9b\u8cb7\u8ce3\u5efa\u8b70\u3002"
+    "\u9019\u662f\u516c\u958b Beta \u8cc7\u8a0a\u5100\u8868\u677f\uff1a\u76ee\u524d\u4f7f\u7528\u793a\u7bc4\u8cc7\u6599\u8207\u793a\u7bc4\u5206\u6578\uff1b\u4e0d\u5ba3\u7a31\u5373\u6642\u771f\u5be6\u8cc7\u6599\uff0c\u4e0d\u63d0\u4f9b\u500b\u80a1\u8cb7\u8ce3\u5efa\u8b70\u3002"
 };
 
 export function buildBriefingMarketActionSummary(
@@ -34,7 +34,7 @@ export function buildBriefingMarketActionSummary(
 ): BriefingMarketActionSummary {
   const marketNeedsCaution = market.riskScore >= 60 || breadth.defensive > breadth.constructive;
   const topRiskIsHot = topRisk.riskScore >= 70;
-  const marketLine = `\u5e02\u5834\u5ee3\u5ea6\uff1a${breadth.constructive} \u500b\u504f\u5efa\u8a2d\u6027\u3001${breadth.watch} \u500b\u9700\u8981\u89c0\u5bdf\u3001${breadth.defensive} \u500b\u504f\u9632\u5b88\u3002\u9019\u662f mock-only Beta \u7684\u8cc7\u8a0a\u7d50\u69cb\u5316\u8b80\u53d6\u3002`;
+  const marketLine = `\u5e02\u5834\u5ee3\u5ea6\uff1a${breadth.constructive} \u500b\u504f\u5efa\u8a2d\u6027\u3001${breadth.watch} \u500b\u9700\u8981\u89c0\u5bdf\u3001${breadth.defensive} \u500b\u504f\u9632\u5b88\u3002\u9019\u662f\u516c\u958b Beta \u7684\u8cc7\u8a0a\u7d50\u69cb\u5316\u8b80\u53d6\u3002`;
 
   if (marketNeedsCaution || topRiskIsHot) {
     return {

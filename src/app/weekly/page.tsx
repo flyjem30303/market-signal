@@ -14,9 +14,8 @@ import {
 import type { SignalSnapshot } from "@/lib/signal-model";
 
 export const metadata: Metadata = {
-  title: "Weekly Report | Taiwan Market Signal",
-  description:
-    "公開 Beta 週報：以示範資料、示範分數與 mock runtime 邊界，整理市場總覽、ETF、風險樣本與下週觀察重點。"
+  title: "市場週報",
+  description: "公開 Beta 市場週報，整理市場燈號、ETF 狀態、風險觀察與資料更新狀態。"
 };
 
 export default async function WeeklyPage() {
@@ -40,13 +39,14 @@ export default async function WeeklyPage() {
       <PageViewTracker eventName="weekly_page_viewed" payload={{ page: "weekly" }} />
       <section className="hero">
         <p className="eyebrow">Weekly Report</p>
-        <h1>公開 Beta 週報</h1>
+        <h1>市場週報</h1>
         <p>
-          本週以示範資料呈現公開閱讀流程：先看全市場氛圍，再看 ETF 與風險樣本，最後決定下週要觀察、複核或暫停追價。
-          正式市場資料尚未啟用，所有分數都只是示範分數。
+          週報把每日燈號拉成一個更穩定的觀察框架，協助使用者用 30 秒先回看市場氣氛、ETF 狀態與風險熱度。公開 Beta
+          仍以示範資料呈現閱讀流程，屬於非投資建議，不提供買賣建議。
         </p>
         <p className="runtime-boundary-line">
-          重要聲明：publicDataSource=mock；scoreSource=mock。本頁為非投資建議，不提供買賣建議，也不宣稱即時或完整市場覆蓋。
+          若資料未更新或品質偏低，請先降低判斷權重；正式資料會在來源、覆蓋與品質條件完成後另行升級，
+          會員深度複盤則屬於下一階段路線。
         </p>
       </section>
 
@@ -54,7 +54,7 @@ export default async function WeeklyPage() {
       <TrustRuntimeBoundaryNotice context="weekly" />
       <RouteLocalTrustCopyPanel context="weekly" />
 
-      <section className="weekly-market-action-summary" aria-label="Market Action Summary">
+      <section className="weekly-market-action-summary" aria-label="週報行動摘要">
         <div>
           <p className="eyebrow">Market Action Summary</p>
           <h2>{actionSummary.headline}</h2>
@@ -87,32 +87,56 @@ export default async function WeeklyPage() {
 
       <WeeklyRowCoverageStatus />
 
-      <section className="weekly-quick-read" aria-label="週報 30 秒閱讀">
+      <section className="weekly-quick-read" aria-label="週報快速閱讀">
         <article>
-          <span>30 秒市場氛圍</span>
-          <strong>{breadth.constructive} 個偏強、{breadth.defensive} 個偏防守</strong>
-          <p>先確認市場是偏進攻、偏觀察，還是需要降低風險。若防守數量增加，先複核風險成因。</p>
+          <span>本週市場狀態整理</span>
+          <strong>
+            {breadth.constructive} 個偏多、{breadth.watch} 個觀望、{breadth.defensive} 個防守
+          </strong>
+          <p>30 秒先看市場廣度，再判斷目前是擴散偏強、局部過熱，或需要降低風險。</p>
         </article>
         <article>
-          <span>3 分鐘行動判斷</span>
-          <strong>觀察、複核、等待</strong>
-          <p>使用者應先讀總覽，再打開一個 ETF 與一個高風險樣本；若兩者訊號衝突，暫時等待更多資料。</p>
+          <span>3 分鐘判斷</span>
+          <strong>先看主燈號，再看風險熱度與 ETF 參考</strong>
+          <p>週報適合用來確認每日燈號是否延續，而不是把單日分數當作立即決策。</p>
         </article>
         <article>
-          <span>下週觀察重點</span>
-          <strong>資料來源與覆蓋率仍是主線</strong>
-          <p>下週優先追蹤資料來源權利、欄位契約、覆蓋率與 promotion gate，而不是急著宣稱真實資料上線。</p>
+          <span>資料提醒</span>
+          <strong>示範資料、正式資料尚未啟用</strong>
+          <p>資料更新時間：{freshness.asOfDate}；資料來源、授權與完整覆蓋完成前，週報只呈現產品閱讀方式與風險揭露。</p>
         </article>
       </section>
 
+      <nav aria-label="週報閱讀路徑" className="experience-flow-nav">
+        <span>閱讀路徑</span>
+        <TrackedLink eventName="weekly_link_clicked" href="/" label="市場總覽" payload={{ area: "experience_flow", target: "home" }}>
+          市場總覽
+        </TrackedLink>
+        <TrackedLink eventName="weekly_link_clicked" href="/briefing" label="每日晨報" payload={{ area: "experience_flow", target: "briefing" }}>
+          每日晨報
+        </TrackedLink>
+        <TrackedLink
+          eventName="weekly_link_clicked"
+          href={`/stocks/${market.asset.symbol}`}
+          label="指數細節"
+          payload={{ area: "experience_flow", target: "market_status", symbol: market.asset.symbol }}
+        >
+          指數細節
+        </TrackedLink>
+        <TrackedLink eventName="weekly_link_clicked" href="/methodology" label="方法說明" payload={{ area: "experience_flow", target: "methodology" }}>
+          方法說明
+        </TrackedLink>
+        <TrackedLink eventName="weekly_link_clicked" href="/disclaimer" label="風險聲明" payload={{ area: "experience_flow", target: "disclaimer" }}>
+          風險聲明
+        </TrackedLink>
+      </nav>
+
       <section className="panel weekly-article">
-        <p className="eyebrow">重要聲明</p>
-        <h2>本週以示範資料呈現公開閱讀流程</h2>
+        <p className="eyebrow">下一步觀察</p>
+        <h2>週報要回答的是「這週市場狀態是否值得延續關注」</h2>
         <p>
-          週報的目標是降低資訊擷取時間，讓一般投資者先形成市場觀察順序。內容不是個股買賣建議，也不保證資料即時、完整或正確。
-        </p>
-        <p>
-          若未來 A1 資料線完成合法免費可自動化來源、欄位契約與覆蓋率驗證，週報才會進入 real-data promotion 評估。
+          若偏多標的增加、風險熱度未同步升高，可列入下週關注清單；若風險標的擴散或資料狀態不完整，應先回到防守與等待更新。
+          下一階段會員版本會再加入盤後複盤、歷史燈號回看與個人 watchlist。
         </p>
       </section>
     </main>

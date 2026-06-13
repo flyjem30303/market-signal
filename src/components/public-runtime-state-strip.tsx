@@ -8,9 +8,9 @@ export function PublicRuntimeStateStrip({ context }: PublicRuntimeStateStripProp
   const state = getPublicClaimRuntimeState();
 
   return (
-    <section className="public-runtime-state-strip" aria-label={`${context} public system state`}>
+    <section className="public-runtime-state-strip" aria-label={`${context} 公開使用邊界`}>
       <div>
-        <p className="eyebrow">Public Boundary</p>
+        <p className="eyebrow">公開使用邊界</p>
         <h2>{state.headline}</h2>
         <p>{state.summary}</p>
       </div>

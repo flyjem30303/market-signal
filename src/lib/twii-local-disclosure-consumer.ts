@@ -51,10 +51,10 @@ function pickDisclosureStatus(adapterOutput: TwiiParserConsumerAdapterOutput): T
 }
 
 function pickSafeSummary(status: TwiiLocalDisclosureStatus): string {
-  if (status === "mock_ready_for_review") return "TWII parser adapter is ready for internal review, but real data activation remains off.";
-  if (status === "mock_waiting_for_rights") return "TWII disclosure is waiting for source-rights approval before any real data claim.";
-  if (status === "mock_waiting_for_staging_schema") return "TWII disclosure is waiting for staging schema approval before storage or mapping.";
-  if (status === "mock_blocked_by_parser_contract") return "TWII disclosure is blocked by parser-contract validation and remains mock-only.";
+  if (status === "mock_ready_for_review") return "TWII 示範資料已可供頁面閱讀，但仍需來源權利與資料品質審核。";
+  if (status === "mock_waiting_for_rights") return "TWII 等待資料來源權利確認，頁面只能呈現示範讀法。";
+  if (status === "mock_waiting_for_staging_schema") return "TWII 等待資料表與欄位契約確認，不能宣稱正式資料。";
+  if (status === "mock_blocked_by_parser_contract") return "TWII parser 契約尚未通過，必須維持示範模式。";
 
-  return "TWII disclosure is not runtime-ready and remains mock-only.";
+  return "TWII 目前仍在資料真實化流程中，不能當成即時或完整市場資料。";
 }

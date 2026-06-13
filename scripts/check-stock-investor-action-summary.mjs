@@ -19,12 +19,8 @@ const requiredHelperPhrases = [
   "primaryRisk",
   "stopCondition",
   "safetyLine",
-  "publicDataSource=mock",
-  "scoreSource=mock",
-  "不構成投資建議",
-  "停看條件",
-  "資料品質檢查",
-  "mock-only",
+  "示範資料",
+  "非投資建議",
   "missingModuleFlags",
   "staleDataFlags",
   "snapshot.modules.reduce"
@@ -33,8 +29,6 @@ const requiredHelperPhrases = [
 const requiredComponentPhrases = [
   "buildInvestorActionSummary",
   "StockInvestorActionSummary",
-  "Stock Investor Action Summary",
-  "Investor Action Summary",
   "summary.observationFocus",
   "summary.primaryRisk",
   "summary.stopCondition",
@@ -61,7 +55,10 @@ const forbiddenPhrases = [
   "process.env",
   "SUPABASE",
   "scoreSource=real",
-  "publicDataSource=supabase"
+  "publicDataSource=supabase",
+  "publicDataSource=mock",
+  "scoreSource=mock",
+  "mock-only"
 ];
 
 const missing = [

@@ -42,7 +42,7 @@ const labels: Record<PostReadonlyNextGateItem["id"], string> = {
   data_quality: "資料品質",
   freshness: "資料新鮮度",
   row_coverage: "資料覆蓋率",
-  schema_shape: "資料結構",
+  schema_shape: "欄位結構",
   source_depth: "來源深度"
 };
 
@@ -58,13 +58,13 @@ export function getRuntimePromotionReadinessSummary(): RuntimePromotionReadiness
           : "needs_review";
 
     return {
-      blockedPromotion: item.blockedPromotion,
+      blockedPromotion: "不能因此宣稱正式資料、正式分數、完整覆蓋或投資建議。",
       id: item.id,
       label: labels[item.id],
       nextAction:
         item.id === "row_coverage"
-          ? "匯入前先定義來源權利、目標表、dry-run 輸出、回復方式、保留政策與 no-write preflight。"
-          : item.nextAction,
+          ? "補齊覆蓋證據與缺口說明，並保持不寫入、不升級狀態。"
+          : "整理可驗證證據，讓 PM 判斷是否能進入下一段公開升級檢查。",
       owner: item.owner,
       priority: item.priority,
       status
@@ -74,21 +74,20 @@ export function getRuntimePromotionReadinessSummary(): RuntimePromotionReadiness
   return {
     blockedReason: "aggregate_count_incomplete",
     currentRoute: "keep_mock_runtime_and_prepare_coverage_route",
-    headline: "升級準備度已可檢視，但正式資料升級仍被阻擋",
+    headline: "正式資料升級尚未就緒",
     mockBoundary: {
       publicDataSource: "mock",
       scoreSource: "mock"
     },
     mode: "runtime_promotion_readiness_summary",
-    nextCeoDecision:
-      "公開 runtime 維持示範狀態；A1/Data 準備覆蓋率路線，PM 維持 runtime 揭露一致。",
+    nextCeoDecision: "CEO/PM 先補來源、覆蓋率、品質與回退證據，再決定是否進入下一段資料升級檢查。",
     noGoActions: [
-      "執行 SQL",
-      "寫入 Supabase",
-      "匯入市場資料",
-      "修改 daily_prices",
-      "切換正式公開資料",
-      "啟用正式分數"
+      "不執行資料庫寫入",
+      "不匯入市場資料",
+      "不修改正式價格表",
+      "不切換正式公開資料來源",
+      "不啟用正式分數",
+      "不提供投資建議"
     ],
     overallStatus: "not_ready_for_real_data_promotion",
     readinessCounts: {
@@ -103,7 +102,6 @@ export function getRuntimePromotionReadinessSummary(): RuntimePromotionReadiness
       observedRows: runtime.rowCoverage.observedRows
     },
     steps,
-    stopLine:
-      "此摘要不執行 SQL、不連線或寫入 Supabase、不抓取市場資料、不給予覆蓋率分數，也不升級公開資料或正式分數。"
+    stopLine: "正式資料、正式分數、完整覆蓋與投資建議都仍未啟用；公開頁只能以示範資料呈現。"
   };
 }

@@ -27,13 +27,10 @@ for (const phrase of [
 
 const orderedDashboardMarkers = [
   "<PublicBetaIndexDashboardBriefLoopPanel />",
-  "<HomeProductOverview",
-  '<PublicBetaUsableLoopPanel context="home"',
   "<DataFreshnessStrip",
-  '<PublicBetaSourceCoverageRuntimeLabelsPanel context="home"',
-  '<PublicBetaDecisionLoopBridge context="home"',
-  '<PublicBetaRouteConsistencyPanel context="home"',
-  "<HomeRuntimeStatusPanel"
+  "<HomeRuntimeStatusPanel",
+  "<PublicBetaDataReadinessStatus />",
+  '<PublicBetaSourceCoverageBridge context={isStockPage ? "stock" : "home"}'
 ];
 
 assertOrder("dashboard home product-first component order", dashboard, orderedDashboardMarkers);
@@ -48,13 +45,13 @@ if (visible.length > 16000) {
 }
 
 const orderedVisibleMarkers = [
-  "Public Beta Index Dashboard",
-  "\u0033\u0030 \u79d2\u8d77\u9ede",
-  "Core Indicator Readout",
-  "\u53ef\u7528\u9589\u74b0",
-  "\u8cc7\u6599\u65b0\u9bae\u5ea6 metadata",
-  "Public Beta Decision Loop",
-  "Runtime Status"
+  "\u6307\u6578\u72c0\u614b\u5100\u8868\u7ad9",
+  "30 \u79d2",
+  "3 \u5206\u9418",
+  "\u6c7a\u7b56\u8f14\u52a9\u6458\u8981",
+  "Index Dashboard",
+  "\u8b66\u793a\u6e05\u55ae",
+  "\u4e0b\u4e00\u6b65\u95b1\u8b80"
 ];
 
 assertOrder("home visible product-first order", visible, orderedVisibleMarkers);
@@ -67,13 +64,27 @@ for (const forbidden of [
   "preflight",
   "post-run",
   "operator",
-  "blocker"
+  "blocker",
+  "publicDataSource",
+  "scoreSource",
+  "Runtime Status",
+  "Supabase",
+  "SQL",
+  "raw market data"
 ]) {
   if (visible.includes(forbidden)) problems.push(`home visible text must not include ${forbidden}`);
 }
 
-if (!visible.includes("publicDataSource=mock")) problems.push("home visible text missing publicDataSource=mock");
-if (!visible.includes("scoreSource=mock")) problems.push("home visible text missing scoreSource=mock");
+for (const phrase of [
+  "\u793a\u7bc4\u8cc7\u6599",
+  "\u793a\u7bc4\u5206\u6578",
+  "\u8cc7\u6599\u72c0\u614b",
+  "\u6b63\u5f0f\u8cc7\u6599\u5347\u7d1a\u524d\u6aa2\u67e5",
+  "\u4e0d\u63d0\u4f9b\u500b\u80a1\u8cb7\u8ce3\u5efa\u8b70",
+  "\u4e0d\u5ba3\u7a31\u5373\u6642\u6216\u5b8c\u6574\u5e02\u5834\u8cc7\u6599"
+]) {
+  if (!visible.includes(phrase)) problems.push(`home visible text missing ${phrase}`);
+}
 
 if (problems.length) {
   console.error(JSON.stringify({ problems, status: "blocked" }, null, 2));

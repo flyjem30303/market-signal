@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     template: "%s | 指數燈號"
   },
   description:
-    "指數燈號是 Taiwan Market Signal 的公開 Beta 介面，協助使用者閱讀台股、ETF、族群與風險狀態；目前維持 mock-only、非投資建議，正式資料與分數仍需 promotion gate。"
+    "指數燈號是公開 Beta 的市場狀態儀表站，協助一般投資者閱讀台股、ETF、族群與風險狀態；目前以示範資料呈現，非投資建議。"
 };
 
 const footerTrustLinks = [
@@ -57,12 +57,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <div>
             <strong>指數燈號</strong>
             <p>
-              目前是公開 Beta 的 mock-only 閱讀介面；資料新鮮度、覆蓋率與模型分數仍在驗證中，不構成投資建議。
-              資料來源狀態與分數來源狀態都仍是 mock-only Beta，正式市場資料與真實分數需通過獨立正式上線審核。
+              目前是公開 Beta 的示範資料閱讀介面；資料新鮮度、覆蓋率與模型分數仍在驗證中，不構成投資建議。
+              正式市場資料與正式分數需通過獨立上線審核後才會啟用。
             </p>
-            <div className="site-footer-trust" aria-label="信任與風險連結">
-              <span>資料來源：mock-only Beta</span>
-              <span>分數來源：mock-only Beta</span>
+            <div className="site-footer-trust" aria-label="信任與風險資訊">
+              <span>資料來源：示範資料</span>
+              <span>分數來源：示範分數</span>
               <span>非投資建議</span>
               {footerTrustLinks.map((link) => (
                 <TrackedLink

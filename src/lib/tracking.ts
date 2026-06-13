@@ -23,6 +23,8 @@ export type TrackingEventName =
   | "terms_page_viewed"
   | "weekly_page_viewed"
   | "weekly_link_clicked"
+  | "membership_preview_page_viewed"
+  | "membership_preview_link_clicked"
   | "news_date_changed";
 
 export type TrackingPayload = Record<string, string | number | boolean | null | undefined>;

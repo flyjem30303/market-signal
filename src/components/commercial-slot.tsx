@@ -9,35 +9,35 @@ type CommercialSlotProps = {
 export function CommercialSlot({ context }: CommercialSlotProps) {
   const copy =
     context === "stock"
-      ? "未來此區可放置券商開戶、投資工具或資料服務合作，但不得影響本頁模型分數。"
+      ? "此區塊未來可放置合作揭露或訂閱導流。目前不顯示廣告、不收集交易帳戶，也不提供個別買賣建議。"
       : context === "briefing"
-        ? "未來此區可放置晨報贊助、投資工具或資料服務合作，但不得被包裝成今日買賣指令。"
-        : "未來此區可放置週報贊助、投資工具或理財書籍合作，但需清楚標示商業合作。";
+        ? "市場晨報未來可串接訂閱或報告入口。目前仍以公開 Beta 示範閱讀流程為主。"
+        : "週報未來可作為內容資產與訂閱入口。目前不以任何商業合作影響分數或警示。";
 
   return (
-    <aside className="commercial-slot" aria-label="商業合作揭露">
-      <p className="eyebrow">Sponsored Disclosure</p>
-      <h2>商業合作預留區</h2>
+    <aside className="commercial-slot" aria-label="合作與揭露">
+      <p className="eyebrow">Disclosure</p>
+      <h2>合作與揭露</h2>
       <p>{copy}</p>
-      <p>若使用者透過合作連結註冊、購買或開戶，本網站可能取得廣告收入或佣金。</p>
-      <nav aria-label="商業合作相關說明">
+      <p>任何合作內容都必須清楚標示，且不得包裝成投資建議、保證報酬或交易指令。</p>
+      <nav aria-label="相關揭露頁面">
         <a
           href="/disclaimer"
           onClick={() => trackEvent("commercial_disclosure_link_clicked", { context, href: "/disclaimer", label: "disclaimer" })}
         >
-          查看免責聲明
+          風險聲明
         </a>
         <a
           href="/terms"
           onClick={() => trackEvent("commercial_disclosure_link_clicked", { context, href: "/terms", label: "terms" })}
         >
-          查看使用條款
+          使用條款
         </a>
         <a
           href="/privacy"
           onClick={() => trackEvent("commercial_disclosure_link_clicked", { context, href: "/privacy", label: "privacy" })}
         >
-          查看隱私權政策
+          隱私與資料說明
         </a>
       </nav>
     </aside>

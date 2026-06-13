@@ -22,8 +22,8 @@ export function generateMetadata({ params }: StockPageProps): Metadata {
   if (!asset) return {};
 
   const snapshot = repository.getSnapshot(asset.symbol, snapshotDate);
-  const signal = snapshot?.signal.title ?? "Mock signal";
-  const description = `${asset.symbol} ${asset.name} is shown in mock-only runtime. Scores are product-flow signals, not real market data, investment advice, or real score-source evidence.`;
+  const signal = snapshot?.signal.title ?? "示範燈號";
+  const description = `${asset.symbol} ${asset.name} 的指數燈號頁，整理示範燈號、核心指標、風險提示與資料更新狀態。目前仍為公開 Beta 示範資料，屬於非投資建議，不提供投資建議。`;
 
   return {
     alternates: {
@@ -63,23 +63,23 @@ export default async function StockPage({ params }: StockPageProps) {
       ? [
           {
             "@type": "PropertyValue",
-            name: "Mock health score",
+            name: "示範健康分數",
             value: snapshot.healthScore
           },
           {
             "@type": "PropertyValue",
-            name: "Mock pullback risk score",
+            name: "示範風險分數",
             value: snapshot.riskScore
           },
           {
             "@type": "PropertyValue",
-            name: "Mock signal",
+            name: "示範燈號",
             value: snapshot.signal.title
           },
           {
             "@type": "PropertyValue",
-            name: "Data quality state",
-            value: `${snapshot.dataQualityGrade} / mock-only`
+            name: "資料品質",
+            value: `${snapshot.dataQualityGrade} / 示範資料`
           }
         ]
       : undefined,

@@ -5,9 +5,8 @@ import { TrackedLink } from "@/components/tracked-link";
 import { TrustRuntimeBoundaryNotice } from "@/components/trust-runtime-boundary-notice";
 
 export const metadata: Metadata = {
-  title: "免責聲明 | Taiwan Market Signal",
-  description:
-    "公開 Beta 免責聲明：本網站目前使用示範資料與示範分數，正式市場資料尚未啟用，內容為非投資建議。"
+  title: "風險聲明 | Taiwan Market Signal",
+  description: "公開 Beta 風險聲明：本站提供市場資訊整理，不提供個別投資建議或保證報酬。"
 };
 
 export default function DisclaimerPage() {
@@ -16,56 +15,48 @@ export default function DisclaimerPage() {
       <PageViewTracker eventName="disclaimer_page_viewed" payload={{ page: "disclaimer" }} />
       <section className="hero">
         <p className="eyebrow">Disclaimer</p>
-        <h1>免責聲明</h1>
+        <h1>風險聲明</h1>
         <p>
-          Taiwan Market Signal 是公開 Beta 的市場狀態儀表站。現階段以示範資料與示範分數說明產品流程，
-          正式市場資料尚未啟用，內容不構成任何投資、買賣或持有建議。
+          Taiwan Market Signal 目標是協助一般投資者快速理解市場氣氛與風險變化。公開 Beta 階段仍在驗證資料來源、
+          更新時間、覆蓋率、指標解釋與使用體驗。
         </p>
-        <p className="runtime-boundary-line">
-          請自行查證並評估風險；投資決策應以自己的財務狀況、風險承受度與專業意見為準。
-        </p>
+        <p className="runtime-boundary-line">本站內容不是投資建議，不保證正確、完整、即時，也不承諾任何投資結果。</p>
       </section>
 
       <TrustRuntimeBoundaryNotice context="disclaimer" />
       <RouteLocalTrustCopyPanel context="disclaimer" />
 
-      <section className="legal-quick-read" aria-label="免責聲明重點">
+      <section className="legal-quick-read" aria-label="風險聲明快速摘要">
         <article>
-          <span>資料狀態</span>
+          <span>資料限制</span>
           <strong>示範資料與示範分數</strong>
-          <p>公開 Beta 目前維持 publicDataSource=mock；scoreSource=mock，不宣稱即時、完整或正式市場資料。</p>
+          <p>正式市場資料尚未啟用前，分數與警示都只用來展示判讀流程；資料來源、更新時間與覆蓋率仍需確認。</p>
         </article>
         <article>
-          <span>使用方式</span>
-          <strong>資訊整理，不是買賣指令</strong>
-          <p>頁面可協助辨識市場氛圍與風險，但非投資建議，也不保證報酬或避免損失。</p>
+          <span>非投資建議</span>
+          <strong>不提供買賣指令</strong>
+          <p>本站不針對個別使用者提供適合度判斷，不提供買賣建議，也不建議買進、賣出或持有任何標的。</p>
         </article>
         <article>
-          <span>風險承擔</span>
-          <strong>請自行查證並評估風險</strong>
-          <p>任何行動前，請確認資料來源、更新時間、個人風險承受度與交易成本。</p>
+          <span>使用者責任</span>
+          <strong>請自行複核資訊</strong>
+          <p>使用者應搭配其他可靠來源、個人風險承受度與專業意見後再做決策。</p>
         </article>
       </section>
 
       <section className="panel legal-section">
-        <h2>資料限制</h2>
-        <p>
-          本網站可能出現延遲、缺漏、錯誤或無法更新。資料來源權利、欄位契約與覆蓋率尚未完成前，不會宣稱 real data promotion。
-        </p>
+        <h2>資料可能不完整</h2>
+        <p>公開 Beta 期間，資料可能出現延遲、缺漏、測試調整或暫時無法更新。若資料狀態不明，請以保守方式解讀。</p>
       </section>
 
       <section className="panel legal-section">
-        <h2>非投資建議</h2>
-        <p>
-          所有指數、ETF、個股、產業與風險訊號都只作為資訊整理與決策輔助介面展示，不代表任何個別證券的買賣建議。
-        </p>
+        <h2>市場風險自負</h2>
+        <p>投資市場會受價格波動、流動性、政策、匯率與重大事件影響。任何交易行為與結果都由使用者自行承擔。</p>
       </section>
 
       <section className="panel legal-section">
-        <h2>Beta 期間變更</h2>
-        <p>
-          Beta 期間變更可能包含頁面、指標、資料欄位、模型權重與揭露方式。若這些變更影響使用者理解，頁面會盡量提供清楚說明。
-        </p>
+        <h2>公開 Beta 說明</h2>
+        <p>目前網站正在測試資訊架構與決策輔助體驗。正式資料、正式模型與完整覆蓋率會在通過後才清楚標示。</p>
       </section>
 
       <section className="panel legal-links">

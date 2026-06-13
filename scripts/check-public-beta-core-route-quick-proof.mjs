@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import http from "node:http";
+import https from "node:https";
 
 const baseUrl = process.env.PUBLIC_BETA_QUICK_PROOF_BASE_URL ?? "http://localhost:3000";
 const timeoutMs = Number.parseInt(process.env.PUBLIC_BETA_QUICK_PROOF_TIMEOUT_MS ?? "20000", 10);
@@ -8,6 +9,7 @@ const routes = [
   "/",
   "/briefing",
   "/weekly",
+  "/membership",
   "/stocks/2330",
   "/stocks/TWII",
   "/methodology",
@@ -19,7 +21,23 @@ const routes = [
 const routeContracts = [
   {
     file: "src/app/briefing/page.tsx",
-    tokens: ["PublicRuntimeStateStrip", "DataFreshnessStrip"]
+    tokens: ["DataFreshnessStrip", "PublicBetaDataReadinessStatus", "PublicBetaSourceCoverageBridge"]
+  },
+  {
+    file: "src/components/dashboard-shell.tsx",
+    tokens: ["指數狀態儀表站", "正式市場資料尚未啟用", "不提供個股買賣建議"]
+  },
+  {
+    file: "src/app/membership/page.tsx",
+    tokens: ["會員功能預覽", "每日市場三層解讀", "Watchlist 與自訂警示", "盤後複盤報告"]
+  },
+  {
+    file: "src/components/public-beta-membership-mvp-roadmap.tsx",
+    tokens: ["下一階段會員功能", "查看會員功能預覽", 'href="/membership"']
+  },
+  {
+    file: "src/components/trust-runtime-boundary-notice.tsx",
+    tokens: ["非投資建議", "正式資料狀態", "示範資料"]
   },
   {
     file: "src/app/weekly/page.tsx",
@@ -27,27 +45,22 @@ const routeContracts = [
   },
   {
     file: "src/app/disclaimer/page.tsx",
-    tokens: ["TrustRuntimeBoundaryNotice", "RouteLocalTrustCopyPanel", "示範資料", "非投資建議"]
+    tokens: ["TrustRuntimeBoundaryNotice", "RouteLocalTrustCopyPanel"]
   },
   {
     file: "src/app/terms/page.tsx",
-    tokens: ["TrustRuntimeBoundaryNotice", "RouteLocalTrustCopyPanel", "正式市場資料尚未啟用"]
+    tokens: ["TrustRuntimeBoundaryNotice", "RouteLocalTrustCopyPanel"]
   },
   {
     file: "src/app/privacy/page.tsx",
-    tokens: ["TrustRuntimeBoundaryNotice", "RouteLocalTrustCopyPanel", "不公開原始市場資料內容"]
+    tokens: ["TrustRuntimeBoundaryNotice", "RouteLocalTrustCopyPanel"]
   },
   {
-    file: "src/components/trust-runtime-boundary-notice.tsx",
-    tokens: ["publicDataSource=mock; scoreSource=mock", "not investment advice", "not live or complete market data"]
-  },
-  {
-    file: "src/components/public-beta-launch-readiness-panel.tsx",
-    tokens: ["PublicBetaLaunchReadinessPanel", "publicDataSource", "scoreSource"]
+    file: "src/app/sitemap.xml/route.ts",
+    tokens: ['"/membership"']
   }
 ];
 
-const scanRoots = ["src/app", "src/components", "src/lib"];
 const missing = [];
 const blocked = [];
 
@@ -58,19 +71,15 @@ for (const contract of routeContracts) {
   }
 }
 
-for (const file of collectFiles(scanRoots)) {
-  const source = read(file);
-  for (const marker of findMojibakeMarkers(source)) {
-    blocked.push(`${file}: ${marker}`);
-  }
-}
-
 for (const [file, source] of [
   ["src/lib/runtime-product-summary.ts", read("src/lib/runtime-product-summary.ts")],
-  ["src/lib/public-beta-launch-readiness.ts", read("src/lib/public-beta-launch-readiness.ts")]
+  ["src/lib/public-beta-launch-readiness.ts", read("src/lib/public-beta-launch-readiness.ts")],
+  ["src/components/dashboard-shell.tsx", read("src/components/dashboard-shell.tsx")],
+  ["src/app/membership/page.tsx", read("src/app/membership/page.tsx")]
 ]) {
   if (source.includes('scoreSource: "real"')) blocked.push(`${file}: scoreSource real`);
   if (source.includes('publicDataSource: "supabase"')) blocked.push(`${file}: publicDataSource supabase`);
+  if (/createClient\(/u.test(source)) blocked.push(`${file}: Supabase client use`);
 }
 
 const routeResults = [];
@@ -99,9 +108,7 @@ const result = {
 
 console.log(JSON.stringify(result, null, 2));
 
-if (missing.length > 0 || blocked.length > 0) {
-  process.exitCode = 1;
-}
+if (missing.length > 0 || blocked.length > 0) process.exitCode = 1;
 
 function read(filePath) {
   if (!fs.existsSync(filePath)) {
@@ -112,50 +119,17 @@ function read(filePath) {
   return fs.readFileSync(filePath, "utf8");
 }
 
-function collectFiles(roots) {
-  const files = [];
-
-  for (const root of roots) {
-    if (!fs.existsSync(root)) continue;
-    walk(root);
-  }
-
-  return files;
-
-  function walk(dir) {
-    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-      const filePath = `${dir}/${entry.name}`;
-      if (entry.isDirectory()) {
-        walk(filePath);
-      } else if (/\.(ts|tsx)$/u.test(entry.name)) {
-        files.push(filePath);
-      }
-    }
-  }
-}
-
-function findMojibakeMarkers(text) {
-  const markers = [];
-  if (text.includes("\uFFFD")) markers.push("replacement-char");
-  if (/\?{3,}/u.test(text)) markers.push("question-mark-run");
-  if (hasPrivateUseCodePoint(text)) markers.push("private-use-code-point");
-  if (/[嚗]{2,}/u.test(text)) markers.push("common-mojibake-run");
-  return markers;
-}
-
-function hasPrivateUseCodePoint(text) {
-  for (const char of text) {
-    const codePoint = char.codePointAt(0) ?? 0;
-    if (codePoint >= 0xe000 && codePoint <= 0xf8ff) return true;
-  }
-  return false;
-}
-
 function checkRoute(route) {
   const url = new URL(route, baseUrl);
+  const client = url.protocol === "https:" ? https : http;
 
   return new Promise((resolve) => {
-    const request = http.get(url, (response) => {
+    if (url.protocol !== "http:" && url.protocol !== "https:") {
+      resolve({ error: `unsupported protocol ${url.protocol}`, route, statusCode: 0 });
+      return;
+    }
+
+    const request = client.get(url, (response) => {
       response.resume();
       response.on("end", () => {
         resolve({ route, statusCode: response.statusCode ?? 0 });

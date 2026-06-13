@@ -27,12 +27,6 @@ requireIncludes("review gate", reviewGate, [
 
 requireIncludes("A2 copy guard", doc, [
   "Status: `a2_field_contract_public_copy_guard_ready`",
-  "欄位契約",
-  "大盤欄位對照",
-  "上市個股欄位對照",
-  "大盤資料至少需要交易日與收盤值",
-  "第一批個股需要日期、收盤、成交量與基本識別欄位",
-  "資料來源與覆蓋範圍",
   "`publicDataSource=mock`",
   "`scoreSource=mock`",
   "`publicDataSource=supabase`",
@@ -42,16 +36,19 @@ requireIncludes("A2 copy guard", doc, [
 ]);
 
 requireIncludes("runtime labels", moduleSource, [
-  "欄位契約",
-  "大盤欄位對照",
-  "上市個股欄位對照",
-  "大盤資料至少需要交易日與收盤值",
-  "第一批個股需要日期、收盤、成交量與基本識別欄位"
+  "指數欄位契約",
+  "ETF 價格欄位契約",
+  "個股欄位契約",
+  "指數資料至少需要交易日、收盤值、來源識別與更新時間",
+  "個股資料先聚焦每日收盤與交易資訊",
+  "資料來源與覆蓋率"
 ]);
 
 requireIncludes("runtime component", component, [
   "public-beta-source-coverage-runtime__field-contracts",
-  "Source field contract status"
+  "欄位契約",
+  "公開資料來源",
+  "分數來源"
 ]);
 
 for (const [label, source] of [

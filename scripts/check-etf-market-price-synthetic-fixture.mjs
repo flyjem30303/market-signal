@@ -51,9 +51,9 @@ requireIncludes("fixture module", source, [
   "synthetic_fixture_only",
   "synthetic-fixture-no-fetch",
   "ETF 市價欄位形狀可支撐 mock runtime",
-  "缺少收盤價時",
-  "公開 Beta 第一階段只允許 0050 與 006208",
-  "同一 ETF 同一交易日只能有一筆可用點位",
+  "缺少收盤價",
+  "0050 與 006208",
+  "同一 ETF 同一交易日重複",
   "NAV 不屬於 ETF 市價線"
 ]);
 

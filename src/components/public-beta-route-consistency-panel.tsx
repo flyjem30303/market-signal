@@ -16,11 +16,13 @@ export function PublicBetaRouteConsistencyPanel({
   stockSymbol = "2330"
 }: PublicBetaRouteConsistencyPanelProps) {
   const route = getPublicBetaRouteConsistency(context, stockSymbol);
+  const publicSourceLabel = route.boundary.publicDataSource === "mock" ? "示範資料" : "正式資料";
+  const scoreSourceLabel = route.boundary.scoreSource === "mock" ? "示範分數" : "正式分數";
 
   return (
-    <section className="public-beta-route-consistency" aria-label="Public Beta route consistency">
+    <section className="public-beta-route-consistency" aria-label="公開 Beta 閱讀路徑一致性">
       <div className="public-beta-route-consistency__head">
-        <p className="eyebrow">Public Beta Reading Path</p>
+        <p className="eyebrow">公開 Beta 閱讀路徑</p>
         <h2>{route.headline}</h2>
         <p>{route.primaryMessage}</p>
         <p>{route.subhead}</p>
@@ -46,18 +48,18 @@ export function PublicBetaRouteConsistencyPanel({
       <div className="public-beta-route-consistency__boundary">
         <article>
           <span>資料來源</span>
-          <strong>候選來源仍在確認</strong>
+          <strong>來源與覆蓋仍在確認</strong>
           <p>{route.sourceCoverageState}</p>
         </article>
         <article>
-          <span>下一個 gate</span>
+          <span>下一個資料條件</span>
           <strong>資料升級條件未通過</strong>
           <p>{route.nextDataGate}</p>
         </article>
         <article>
-          <span>公開邊界</span>
+          <span>公開使用邊界</span>
           <strong>
-            publicDataSource={route.boundary.publicDataSource}; scoreSource={route.boundary.scoreSource}
+            公開資料來源：{publicSourceLabel}；分數來源：{scoreSourceLabel}
           </strong>
           <p>{route.boundary.stopLine}</p>
         </article>

@@ -1,134 +1,66 @@
 import { getPublicBetaDataReadinessStatus } from "@/lib/public-beta-data-readiness-status";
 
-const laneStatusLabels = {
-  accepted: "已納入 mock 示範",
-  blocked: "等待條件",
-  readying: "準備中"
-} as const;
-
-const sourceStatusLabels = {
-  blocked: "暫不開放",
-  candidate: "候選",
-  reviewing: "確認中"
-} as const;
-
-const coverageScopeStatusLabels = {
-  blocked: "等待來源條件",
-  candidate: "候選線",
-  future: "後續階段",
-  "mock-ready": "mock 示範可用"
-} as const;
-
-const twiiTermsStatusLabels = {
-  blocked: "暫不開放",
-  "ready-for-copy": "可作為公開說明",
-  "review-required": "仍需 review"
-} as const;
-
-const boundedReadonlyStatusLabels = {
-  blocked: "目前鎖住",
-  prepared: "安全形狀已準備",
-  required: "必要條件"
-} as const;
-
-const operatorDecisionStatusLabels = {
-  blocked: "blocked",
-  ready: "ready",
-  waiting: "waiting"
-} as const;
-
 export function PublicBetaDataReadinessStatus() {
   const status = getPublicBetaDataReadinessStatus();
 
   return (
-    <section className="public-beta-data-readiness-status" aria-label="Public Beta data readiness status">
+    <section className="public-beta-data-readiness-status" aria-label="公開 Beta 資料狀態">
       <div className="public-beta-data-readiness-status-main">
-        <p className="eyebrow">Data Readiness</p>
+        <p className="eyebrow">資料狀態</p>
         <h2>{status.headline}</h2>
         <p>{status.summary}</p>
         <p>{status.stopLine}</p>
       </div>
       <article className="readying">
-        <span>覆蓋證據</span>
-        <strong>{status.rowCoverage.label}</strong>
-        <p>
-          目前檢查進度 {status.rowCoverage.acceptedRows}/{status.rowCoverage.targetRows}；這只是資料準備狀態，不代表真實資料已上線。
-        </p>
+        <span>目前可看</span>
+        <strong>市場狀態閱讀流程</strong>
+        <p>首頁、晨報、週報與標的頁已可示範 30 秒快讀與 3 分鐘觀察順序。</p>
       </article>
       <article className="readying">
-        <span>TWII 前置條件</span>
-        <strong>
-          {status.twiiPrerequisites.acceptedSlots}/{status.twiiPrerequisites.totalSlots} 項已整理
-        </strong>
-        <p>{status.twiiPrerequisites.nextAction}</p>
+        <span>仍在補齊</span>
+        <strong>正式資料來源與覆蓋範圍</strong>
+        <p>正式資料上線前，會先確認來源可用條件、欄位一致性、更新節奏與資料缺口提示。</p>
       </article>
       <article className="active">
-        <span>公開資料邊界</span>
-        <strong>
-          {status.publicDataSource} / {status.scoreSource}
-        </strong>
-        <p>公開 Beta 仍維持 mock；任何正式資料升級都需要另行通過資料與法務檢查。</p>
+        <span>使用邊界</span>
+        <strong>示範資料 / 示範分數</strong>
+        <p>正式市場資料尚未啟用；公開頁會明確標示資料限制，避免使用者誤解。</p>
       </article>
-      <div className="public-beta-source-trust">
-        {status.sourceTrust.map((item) => (
-          <article className={item.status} key={item.id}>
-            <span>{item.label}</span>
-            <strong>{sourceStatusLabels[item.status]}</strong>
-            <p>{item.summary}</p>
-            <p>下一步：{item.nextStep}</p>
-          </article>
-        ))}
+      <div className="public-beta-data-actionability" aria-label="目前資料可以怎麼使用">
+        <p className="eyebrow">目前資料可以怎麼使用</p>
+        <article className="active">
+          <span>30 秒可用</span>
+          <strong>看市場氣氛與閱讀順序</strong>
+          <p>可以用來快速理解強弱、風險與資料品質如何排列，但只代表示範閱讀流程。</p>
+        </article>
+        <article className="readying">
+          <span>3 分鐘要複核</span>
+          <strong>先確認成因與資料狀態</strong>
+          <p>若燈號偏強或風險升溫，請先看成因、更新時間、來源狀態與風險聲明，再決定是否持續觀察。</p>
+        </article>
+        <article className="blocked">
+          <span>不能直接做</span>
+          <strong>不能當成買賣指令</strong>
+          <p>正式資料與正式分數啟用前，不能把分數當作交易依據，也不能視為個人化投資建議。</p>
+        </article>
       </div>
-      <div className="public-beta-twii-terms-readiness" aria-label="TWII terms field cadence attribution readiness">
-        {status.twiiTermsReadiness.map((item) => (
-          <article className={item.status} key={item.id}>
-            <span>{item.label}</span>
-            <strong>{item.publicLabel}</strong>
-            <p>{twiiTermsStatusLabels[item.status]}</p>
-            <p>{item.summary}</p>
-            <p>下一步：{item.nextStep}</p>
-          </article>
-        ))}
-      </div>
-      <div className="public-beta-bounded-readonly-requirements" aria-label="Bounded readonly gate requirements">
-        {status.boundedReadonlyRequirements.map((item) => (
-          <article className={item.status} key={item.id}>
-            <span>{item.label}</span>
-            <strong>{item.publicLabel}</strong>
-            <p>{boundedReadonlyStatusLabels[item.status]}</p>
-            <p>{item.summary}</p>
-          </article>
-        ))}
-      </div>
-      <div className="public-beta-twii-decision-readiness" aria-label="TWII data decision readiness">
-        {status.operatorDecisionReadiness.map((item) => (
-          <article className={item.status} key={item.id}>
-            <span>{item.label}</span>
-            <strong>{item.publicLabel}</strong>
-            <p>{operatorDecisionStatusLabels[item.status]}</p>
-            <p>{item.summary}</p>
-            <p>下一步：{item.nextStep}</p>
-          </article>
-        ))}
-      </div>
-      <div className="public-beta-coverage-artifact-scopes" aria-label="Public Beta next coverage artifact scopes">
-        {status.coverageArtifactScopes.map((scope) => (
-          <article className={scope.status} key={scope.id}>
-            <span>{scope.label}</span>
-            <strong>{scope.publicLabel}</strong>
-            <p>{coverageScopeStatusLabels[scope.status]}</p>
-            <p>{scope.summary}</p>
-          </article>
-        ))}
-      </div>
-      <div className="public-beta-data-readiness-lanes">
-        {status.lanes.map((lane) => (
-          <article className={lane.status} key={lane.id}>
-            <span>{lane.label}</span>
-            <strong>{laneStatusLabels[lane.status]}</strong>
-            <p>{lane.summary}</p>
-          </article>
-        ))}
+      <div className="public-beta-data-upgrade-readiness" aria-label="正式資料升級前檢查">
+        <p className="eyebrow">正式資料升級前檢查</p>
+        <article className="readying">
+          <span>升級前檢查 1</span>
+          <strong>來源可用條件</strong>
+          <p>先確認資料來源可免費、自動化且可公開引用；未確認前不宣稱正式市場資料。</p>
+        </article>
+        <article className="readying">
+          <span>升級前檢查 2</span>
+          <strong>欄位與覆蓋率</strong>
+          <p>確認交易日、收盤價、代號、更新時間與缺口提示一致後，才擴大資料覆蓋。</p>
+        </article>
+        <article className="blocked">
+          <span>升級前檢查 3</span>
+          <strong>回退與公開說明</strong>
+          <p>資料延遲、缺漏或異常時，頁面必須能清楚降級，不把示範分數包裝成正式訊號。</p>
+        </article>
       </div>
     </section>
   );

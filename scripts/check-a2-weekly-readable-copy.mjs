@@ -24,17 +24,18 @@ const requiredByFile = {
     "Market Action Summary",
     "本週以示範資料呈現公開閱讀流程",
     "下週觀察重點",
-    "重要聲明"
+    "重要聲明",
+    "30 秒看市場氣氛",
+    "3 分鐘整理下週觀察重點",
+    "正式資料升級前檢查"
   ],
   [helperPath]: [
-    "publicDataSource=mock",
-    "scoreSource=mock",
     "正式市場資料尚未啟用",
-    "非投資建議",
+    "投資建議",
     "本週示範資料"
   ],
-  [componentPath]: ["週報資料覆蓋狀態", "publicDataSource", "scoreSource", "mock"],
-  [trustPanelPath]: ["weekly", "週報用來整理觀察重點", "本週以示範資料"]
+  [componentPath]: ["週報資料覆蓋狀態", "示範資料", "正式市場資料", "資料覆蓋率", "更新流程"],
+  [trustPanelPath]: ["weekly", "週報用來整理觀察順序", "示範資料"]
 };
 
 const forbiddenClaims = [

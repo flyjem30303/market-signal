@@ -94,7 +94,7 @@ export const ETF_MARKET_PRICE_SYNTHETIC_CASES: readonly EtfMarketPriceSyntheticC
       expectedFailureClass: "none",
       expectedStatus: "ready",
       expectedWarnings: [],
-      publicMeaning: "ETF 市價欄位形狀可支撐 mock runtime，但仍不是真實資料。"
+      publicMeaning: "ETF 市價欄位形狀可支撐 mock runtime，並能形成可讀的市場 proxy。"
     },
     id: "etf_valid_market_price",
     rows: [
@@ -108,7 +108,7 @@ export const ETF_MARKET_PRICE_SYNTHETIC_CASES: readonly EtfMarketPriceSyntheticC
       expectedFailureClass: "missing_required_field",
       expectedStatus: "blocked",
       expectedWarnings: [],
-      publicMeaning: "缺少收盤價時，ETF runtime 必須封閉，不補值也不推測。"
+      publicMeaning: "缺少收盤價時 ETF 市價線必須 fail closed，不能輸出 runtime 點位。"
     },
     id: "etf_missing_close_price",
     rows: [{ ...makeValidSyntheticEtfRow("0050", "元大台灣50 synthetic", "2026-06-10", 100.5), closePrice: undefined }]
@@ -119,7 +119,7 @@ export const ETF_MARKET_PRICE_SYNTHETIC_CASES: readonly EtfMarketPriceSyntheticC
       expectedFailureClass: "out_of_scope_symbol",
       expectedStatus: "blocked",
       expectedWarnings: [],
-      publicMeaning: "公開 Beta 第一階段只允許 0050 與 006208 ETF mock 範圍。"
+      publicMeaning: "公開 Beta 第一批 ETF 市價範圍只包含 0050 與 006208。"
     },
     id: "etf_out_of_scope_symbol",
     rows: [makeValidSyntheticEtfRow("00999", "Out of scope synthetic", "2026-06-10", 25.5)]
@@ -130,7 +130,7 @@ export const ETF_MARKET_PRICE_SYNTHETIC_CASES: readonly EtfMarketPriceSyntheticC
       expectedFailureClass: "duplicate_session",
       expectedStatus: "blocked",
       expectedWarnings: [],
-      publicMeaning: "同一 ETF 同一交易日只能有一筆可用點位。"
+      publicMeaning: "同一 ETF 同一交易日重複時必須拒收，避免 runtime 顯示不穩定。"
     },
     id: "etf_duplicate_session",
     rows: [
@@ -144,7 +144,7 @@ export const ETF_MARKET_PRICE_SYNTHETIC_CASES: readonly EtfMarketPriceSyntheticC
       expectedFailureClass: "none",
       expectedStatus: "policy_required",
       expectedWarnings: ["activity_context_unavailable"],
-      publicMeaning: "缺成交量或成交值時仍可保留市價點位，但活動脈絡需標示不可用。"
+      publicMeaning: "成交量或成交值缺漏時仍可保留價格讀法，但必須標示活動脈絡不足。"
     },
     id: "etf_optional_activity_missing",
     rows: [
@@ -161,7 +161,7 @@ export const ETF_MARKET_PRICE_SYNTHETIC_CASES: readonly EtfMarketPriceSyntheticC
       expectedFailureClass: "forbidden_field",
       expectedStatus: "blocked",
       expectedWarnings: [],
-      publicMeaning: "NAV 不屬於 ETF 市價線，必須等獨立基金資料 gate。"
+      publicMeaning: "NAV 不屬於 ETF 市價線；若出現 NAV 欄位，必須阻擋並交由後續資料層評估。"
     },
     id: "etf_forbidden_nav_field",
     rows: [{ ...makeValidSyntheticEtfRow("0050", "元大台灣50 synthetic", "2026-06-10", 100.5), forbiddenNavValue: 101.2 }]

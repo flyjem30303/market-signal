@@ -55,7 +55,7 @@ function isAuthorized(request: NextRequest) {
   const expectedToken = process.env.INTERNAL_DIAGNOSTICS_TOKEN;
 
   if (!expectedToken) {
-    return process.env.NODE_ENV === "development";
+    return false;
   }
 
   const headerToken = request.headers.get("x-internal-diagnostics-token");

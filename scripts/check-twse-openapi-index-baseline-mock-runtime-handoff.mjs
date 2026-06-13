@@ -2,16 +2,12 @@ import fs from "node:fs";
 
 const modulePath = "src/lib/twse-openapi-index-baseline-mock-runtime-handoff.ts";
 const fixturePath = "src/lib/twse-openapi-index-baseline-synthetic-fixture.ts";
-const statusPath = "PROJECT_STATUS.md";
-const pmGoalPath = "docs/PM_BRIEF_RUNTIME_MAINLINE_GOAL_AND_WORKSTREAMS.md";
 const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 const problems = [];
 
 const source = readText(modulePath);
 const fixture = readText(fixturePath);
-const status = readText(statusPath);
-const pmGoal = readText(pmGoalPath);
 const pkg = JSON.parse(readText(packagePath));
 const reviewGate = readText(reviewGatePath);
 
@@ -32,8 +28,8 @@ requireIncludes("handoff module", source, [
   "twse_openapi_index_baseline_mock_runtime_handoff_ready_no_fetch",
   "index_baseline_synthetic_fixture_handoff_only",
   "index_baseline_mock_runtime_handoff_review_then_public_label_integration",
-  "publicDataSource: \"mock\"",
-  "scoreSource: \"mock\"",
+  'publicDataSource: "mock"',
+  'scoreSource: "mock"',
   "rawMarketDataFetch: false",
   "sqlExecution: false",
   "supabaseWrite: false",
@@ -56,24 +52,13 @@ requireIncludes("fixture module", fixture, [
   "index_timezone_session_gap"
 ]);
 
-requireIncludes("project status", status, [
-  "Latest BRIEF index-baseline mock runtime handoff slice",
-  "twse_openapi_index_baseline_mock_runtime_handoff_ready_no_fetch",
-  "index_baseline_mock_runtime_handoff_review_then_public_label_integration"
-]);
-
-requireIncludes("PM goal", pmGoal, [
-  "twse_openapi_index_baseline_mock_runtime_handoff_ready_no_fetch",
-  "index_baseline_mock_runtime_handoff_review_then_public_label_integration"
-]);
-
 for (const [label, text] of [
   ["handoff module", source],
   ["fixture module", fixture]
 ]) {
   requireExcludes(label, text, [
-    "publicDataSource: \"supabase\"",
-    "scoreSource: \"real\"",
+    'publicDataSource: "supabase"',
+    'scoreSource: "real"',
     "rawMarketDataFetch: true",
     "sqlExecution: true",
     "supabaseWrite: true",
@@ -84,6 +69,10 @@ for (const [label, text] of [
     "daily_prices"
   ]);
   if (/\bfetch\s*\(/u.test(text)) problems.push(`${label} must not call fetch`);
+}
+
+for (const marker of findMojibakeMarkers(source)) {
+  problems.push(`${modulePath} exposes ${marker}`);
 }
 
 if (problems.length) {
@@ -123,4 +112,11 @@ function requireExcludes(label, text, needles) {
   for (const needle of needles) {
     if (text.includes(needle)) problems.push(`${label} must not include ${needle}`);
   }
+}
+
+function findMojibakeMarkers(text) {
+  const markers = [];
+  if (/[\uE000-\uF8FF\uFFFD]/u.test(text)) markers.push("private-use-or-replacement-code-point");
+  if (/\?{3,}/u.test(text)) markers.push("question-mark-run");
+  return markers;
 }

@@ -24,21 +24,18 @@ for (const phrase of [
   if (!reviewGate.includes(phrase)) problems.push(`${reviewGatePath} missing ${phrase}`);
 }
 
-const includeSeoStart = dashboard.indexOf("{includeSeoContent && (");
-const includeSeoEnd = dashboard.indexOf("<StockPageCompass", includeSeoStart);
-const stockSeoSlice = includeSeoStart >= 0 && includeSeoEnd > includeSeoStart
-  ? dashboard.slice(includeSeoStart, includeSeoEnd)
-  : "";
-
-assertOrder("stock page source product-first runtime order", stockSeoSlice, [
+for (const phrase of [
   "<StockRuntimeAtAGlance",
-  '<PublicBetaDecisionLoopBridge context="stock"',
-  '<PublicBetaUsableLoopPanel context="stock"',
-  '<PublicBetaRouteConsistencyPanel context="stock"',
-  '<PublicBetaSourceCoverageRuntimeLabelsPanel context="stock"',
-  "<StockDecisionAidSummaryPanel",
-  "<DataFreshnessStrip"
-]);
+  "<DataFreshnessStrip",
+  '<PublicBetaSourceCoverageBridge context={isStockPage ? "stock" : "home"}',
+  "<PublicBetaPublicStatusSurface />"
+]) {
+  if (!dashboard.includes(phrase)) problems.push(`${dashboardPath} missing ${phrase}`);
+}
+
+if (!dashboard.includes("!isStockPage") || !dashboard.includes("<PublicBetaPublicStatusSurface />")) {
+  problems.push(`${dashboardPath} must keep public status surface on non-stock pages only`);
+}
 
 for (const route of ["/stocks/2330", "/stocks/TWII", "/stocks/0050"]) {
   const response = await fetch(`${baseUrl}${route}`);
@@ -46,35 +43,29 @@ for (const route of ["/stocks/2330", "/stocks/TWII", "/stocks/0050"]) {
   const visible = normalize(html);
 
   if (response.status !== 200) problems.push(`${route} returned ${response.status}`);
-  if (visible.length > 20000) {
-    problems.push(`${route} visible text too dense for stock product-first surface: ${visible.length}`);
-  }
+  if (visible.length > 3800) problems.push(`${route} visible text too dense after stock trim: ${visible.length}`);
 
-  assertOrder(`${route} visible product-first stock order`, visible, [
-    "Market Signal Dashboard",
-    "Stock Decision Brief",
-    "Public Beta Decision Loop",
-    "\u8cc7\u6599\u4f86\u6e90\u8207\u8986\u84cb\u7bc4\u570d",
-    "Decision Aid Summary",
-    "\u8cc7\u6599\u65b0\u9bae\u5ea6 metadata"
-  ]);
-
-  for (const requiredDecisionAidLabel of [
-    "\u6210\u56e0",
-    "\u66f4\u65b0\u6642\u9593",
-    "\u5f71\u97ff\u7d1a\u5225",
-    "\u4e0b\u4e00\u6b65\u89c0\u5bdf"
+  for (const required of [
+    "30 秒快速閱讀",
+    "3 分鐘要複核",
+    "資料邊界",
+    "示範資料",
+    "示範分數",
+    "正式資料尚未啟用",
+    "更新時間",
+    "下一步",
+    "不提供買賣建議",
+    "資料來源與覆蓋率"
   ]) {
-    if (!visible.includes(requiredDecisionAidLabel)) {
-      problems.push(`${route} missing stock decision-aid label ${requiredDecisionAidLabel}`);
-    }
-  }
-
-  if (!visible.includes("\u53ef\u7528\u9589\u74b0")) {
-    problems.push(`${route} missing usable-loop copy`);
+    if (!visible.includes(required)) problems.push(`${route} missing ${required}`);
   }
 
   for (const forbidden of [
+    "目前公開使用狀態",
+    "Phase 1",
+    "Phase 2",
+    "Membership MVP",
+    "會員 MVP",
     "cmd.exe",
     "BETA_",
     "PUBLIC_BETA_EXTERNAL",
@@ -82,15 +73,15 @@ for (const route of ["/stocks/2330", "/stocks/TWII", "/stocks/0050"]) {
     "preflight",
     "post-run",
     "operator",
-    "blocker"
+    "blocker",
+    "publicDataSource",
+    "scoreSource",
+    "mock-only",
+    "Supabase",
+    "SQL",
+    "raw market data"
   ]) {
     if (visible.includes(forbidden)) problems.push(`${route} visible text must not include ${forbidden}`);
-  }
-
-  if (!visible.includes("publicDataSource=mock")) problems.push(`${route} missing publicDataSource=mock`);
-  if (!visible.includes("scoreSource=mock")) problems.push(`${route} missing scoreSource=mock`);
-  if (!visible.includes("\u4e0d\u69cb\u6210\u6295\u8cc7\u5efa\u8b70") && !visible.includes("\u4e0d\u63d0\u4f9b\u8cb7\u8ce3\u5efa\u8b70")) {
-    problems.push(`${route} missing non-investment-advice copy`);
   }
 }
 
@@ -110,21 +101,6 @@ console.log(
     2
   )
 );
-
-function assertOrder(label, text, markers) {
-  let cursor = -1;
-  for (const marker of markers) {
-    const index = text.indexOf(marker);
-    if (index < 0) {
-      problems.push(`${label} missing ${marker}`);
-      continue;
-    }
-    if (index <= cursor) {
-      problems.push(`${label} has ${marker} out of order`);
-    }
-    cursor = index;
-  }
-}
 
 function normalize(html) {
   return html

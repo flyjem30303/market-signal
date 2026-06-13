@@ -23,9 +23,9 @@ export type SupabaseReadonlyEvidenceSummary = {
 
 export function getSupabaseReadonlyEvidenceSummary(): SupabaseReadonlyEvidenceSummary {
   return {
-    acceptedScope: "僅接受 Supabase 物件可讀性；不代表資料完整性、資料品質、來源深度或正式分數核准。",
+    acceptedScope: "僅接受後端物件可讀性；不代表資料完整性、資料品質、來源深度或正式分數核准。",
     evidenceStatus: "object_reachability_accepted",
-    nextRuntimeGate: "資料結構、新鮮度解讀與 UI 狀態接線；不得寫入或啟用正式分數",
+    nextRuntimeGate: "下一步仍需確認資料覆蓋、品質、來源條件與公開說明，才能評估正式資料啟用。",
     objects: [
       { countStatus: "ok", name: "daily_prices", reachable: "ok" },
       { countStatus: "ok", name: "twse_stock_day_staging", reachable: "ok" },
@@ -42,6 +42,6 @@ export function getSupabaseReadonlyEvidenceSummary(): SupabaseReadonlyEvidenceSu
       secretsPrinted: false,
       sqlExecuted: false
     },
-    stopLine: "後端物件可讀性不能轉成 SQL、寫入、匯入、公開宣稱或正式分數。"
+    stopLine: "後端可讀性不能直接轉成正式資料、正式分數或公開投資訊號。"
   };
 }

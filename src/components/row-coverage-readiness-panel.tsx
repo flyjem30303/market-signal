@@ -16,53 +16,45 @@ export function RowCoverageReadinessPanel({
   summary
 }: RowCoverageReadinessPanelProps) {
   const rowCoverage = getRowCoverageSecondAttemptReadiness();
-  const latestAttemptText = rowCoverage.latestAttempt.remoteAttempted
-    ? "已完成一次限定範圍的唯讀檢查"
-    : "尚未進行外部資料檢查";
+  const observed = rowCoverage.latestAttempt.observedTotalRows;
+  const expected = rowCoverage.latestAttempt.expectedTotalRows;
+  const missing = rowCoverage.latestAttempt.missingRows;
 
   return (
     <section className={className} aria-label={ariaLabel}>
       <div>
         <p className="eyebrow">{eyebrow}</p>
-        <h2>{rowCoverage.headline}</h2>
+        <h2>資料覆蓋率仍在補齊</h2>
         <p>{summary}</p>
       </div>
       <article className="readying">
         <span>目前狀態</span>
-        <strong>本頁仍使用示範資料</strong>
-        <p>{rowCoverage.nextDecision}</p>
+        <strong>公開頁維持示範資料</strong>
+        <p>正式資料尚未啟用，避免使用者把示範分數誤認為正式市場訊號。</p>
       </article>
       <article className="readying">
-        <span>下一步條件</span>
-        <strong>先補齊缺口，再評估資料升級</strong>
-        <p>{rowCoverage.goNoGo.decisionRequired}</p>
-        <p>可前進條件：{rowCoverage.goNoGo.go.join("；")}</p>
-        <p>不可前進邊界：{rowCoverage.goNoGo.noGo.join("；")}</p>
+        <span>可前進條件</span>
+        <strong>來源、欄位、覆蓋率與回退流程都需清楚</strong>
+        <p>資料上線前必須留下可追溯結果，並能在資料不足時清楚提示使用者。</p>
       </article>
       <article className="blocked">
         <span>覆蓋率缺口</span>
-        <strong>{rowCoverage.latestAttempt.reason}</strong>
-        <p>
-          目前可驗證 {rowCoverage.latestAttempt.observedTotalRows} / 目標{" "}
-          {rowCoverage.latestAttempt.expectedTotalRows} 筆，尚缺 {rowCoverage.latestAttempt.missingRows} 筆。
-        </p>
-        <p>
-          {latestAttemptText}，結果狀態：{rowCoverage.latestAttempt.coverageStatus}
-        </p>
+        <strong>
+          已觀察 {observed} / {expected} 筆
+        </strong>
+        <p>目前尚缺 {missing} 筆，仍不可宣稱完整市場覆蓋。</p>
       </article>
       <article className="blocked">
         <span>資料邊界</span>
-        <strong>
-          {rowCoverage.publicDataSource} / {rowCoverage.scoreSource}
-        </strong>
-        <p>{rowCoverage.stopLine}</p>
+        <strong>示範資料 / 示範分數</strong>
+        <p>正式資料與正式分數會在通過來源、品質、覆蓋與公開說明後才啟用。</p>
       </article>
       <article className="blocked">
         <span>待補項目</span>
         <strong>
           {rowCoverage.unresolved.length} {openItemSuffix}
         </strong>
-        <p>{rowCoverage.unresolved[0]}</p>
+        <p>{rowCoverage.unresolved[0] ?? "仍需確認資料來源、欄位與覆蓋率。"}</p>
       </article>
     </section>
   );

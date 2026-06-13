@@ -5,26 +5,26 @@ export function TwseOpenApiRuntimeMockWiringStatus() {
   const readiness = getTwseOpenApiRuntimeMockWiringReadiness();
 
   return (
-    <section className="twse-openapi-runtime-mock-wiring-status" aria-label="TWSE OpenAPI runtime mock wiring status">
+    <section className="twse-openapi-runtime-mock-wiring-status" aria-label="資料來源準備狀態">
       <div className="twse-openapi-runtime-mock-wiring-main">
-        <p className="eyebrow">Runtime Wiring</p>
-        <h2>資料橋接仍停在 mock runtime</h2>
-        <p>這裡只顯示合成資料如何通過 parser、consumer adapter 與 runtime handoff，目的是驗證產品體驗與 fail-closed 邏輯。</p>
-        <p>正式資料、Supabase 讀寫、row coverage 加分與 real score 都尚未啟用。</p>
+        <p className="eyebrow">資料準備</p>
+        <h2>正式資料來源仍在驗證中</h2>
+        <p>這裡只說明資料格式與頁面閱讀流程是否能安全銜接，目的在確認使用者看到的狀態與風險提示清楚一致。</p>
+        <p>正式資料、完整覆蓋率與正式分數尚未啟用。</p>
       </div>
 
       <article className="active">
-        <span>Current boundary</span>
+        <span>目前狀態</span>
         <strong>
-          {readiness.boundary.publicDataSource} / {readiness.boundary.scoreSource}
+          示範資料 / 示範分數
         </strong>
-        <p>rawMarketDataFetch=false, sqlExecution=false, supabaseWrite=false.</p>
+        <p>公開頁只呈現可理解的市場狀態，不展示逐筆資料內容或系統處理細節。</p>
       </article>
 
       <article className="readying">
-        <span>Next mainline route</span>
-        <strong>{readiness.nextMainlineRoute}</strong>
-        <p>下一步是把合成 parser handoff 轉成使用者可懂的市場狀態，同時等待資料線完成合法來源與覆蓋率證據。</p>
+        <span>下一步</span>
+        <strong>補齊資料來源與覆蓋率證據</strong>
+        <p>下一步是把資料準備結果轉成使用者可懂的市場狀態，同時等待資料線完成合法來源與覆蓋率確認。</p>
       </article>
 
       <TwseOpenApiRuntimeMockConsumerWireCard />

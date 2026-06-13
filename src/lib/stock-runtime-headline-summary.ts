@@ -19,25 +19,28 @@ export type StockRuntimeHeadlineSummary = {
 };
 
 export function getStockRuntimeHeadlineSummary(snapshot: SignalSnapshot): StockRuntimeHeadlineSummary {
+  const warningCount = snapshot.missingModuleFlags.length + snapshot.staleDataFlags.length;
+  const riskState = snapshot.riskScore >= 70 ? "blocked" : snapshot.riskScore >= 55 ? "readying" : "active";
+
   return {
     decisionAidGroups: [
       {
-        items: ["示範分數方向", "風險高低排序", "資料更新狀態說明"],
-        label: "現在可參考",
+        items: ["先看燈號與風險方向", "再確認資料更新時間", "最後回到市場晨報交叉檢查"],
+        label: "30 秒閱讀",
         state: "active",
-        title: "適合用來理解相對強弱與風險氛圍"
+        title: "先建立標的狀態初判"
       },
       {
-        items: ["報價與模組細節", "回看樣本與新聞摘要", "同族群比較卡片"],
-        label: "輔助閱讀",
-        state: "readying",
-        title: "可協助理解頁面流程，但不是正式投資證據"
+        items: ["拆解成因", "確認影響級別", "決定關注、加強觀察或先降低風險"],
+        label: "3 分鐘判斷",
+        state: riskState,
+        title: "把分數轉成觀察動作"
       },
       {
-        items: ["即時真實行情宣稱", "正式資料來源", "正式分數與買賣建議"],
-        label: "尚未開放",
+        items: ["正式資料尚未啟用", "完整覆蓋率尚未宣稱", "不提供買賣建議"],
+        label: "停止線",
         state: "blocked",
-        title: "需等資料來源、覆蓋率、品質與法務揭露都通過"
+        title: "示範資料不能放大成交易結論"
       }
     ],
     headline: `${snapshot.asset.symbol} 目前可作為示範訊號閱讀`,
@@ -49,7 +52,10 @@ export function getStockRuntimeHeadlineSummary(snapshot: SignalSnapshot): StockR
         value: "示範訊號可讀"
       },
       {
-        body: "正式市場資料、完整覆蓋率、真實分數與買賣建議仍未啟用。",
+        body:
+          warningCount > 0
+            ? `目前有 ${warningCount} 個資料旗標，請先把所有分數視為示範閱讀。`
+            : "正式市場資料、完整覆蓋率、真實分數與買賣建議仍未啟用。",
         label: "仍不可推論",
         state: "blocked",
         value: "正式資料未啟用"

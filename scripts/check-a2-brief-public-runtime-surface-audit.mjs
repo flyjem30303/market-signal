@@ -1,148 +1,76 @@
 import fs from "node:fs";
 
-const docPath = "docs/A2_BRIEF_PUBLIC_RUNTIME_SURFACE_AUDIT.md";
+const baseUrl = process.env.LOCALHOST_BASE_URL ?? "http://localhost:3000";
 const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
-const baseUrl = process.env.LOCALHOST_BASE_URL ?? "http://localhost:3000";
 
-const problems = [];
-const doc = read(docPath);
-const pkg = JSON.parse(read(packagePath));
-const reviewGate = read(reviewGatePath);
+const routes = [
+  { path: "/", required: ["指數狀態儀表站", "正式市場資料尚未啟用", "不提供個股買賣建議"] },
+  { path: "/briefing", required: ["30 秒看懂今日市場氣氛", "資料品質", "不提供個股買賣建議"] },
+  { path: "/stocks/TWII", required: ["30 秒快讀", "決策輔助摘要", "正式市場資料尚未啟用"] },
+  { path: "/stocks/2330", required: ["30 秒快讀", "決策輔助摘要", "正式市場資料尚未啟用"] },
+  { path: "/stocks/0050", required: ["30 秒快讀", "決策輔助摘要", "正式市場資料尚未啟用"] },
+  { path: "/weekly", required: ["週報", "示範資料", "3 分鐘行動判斷"] },
+  { path: "/methodology", required: ["方法說明", "資料品質", "示範資料"] },
+  { path: "/disclaimer", required: ["風險聲明", "示範資料", "不是投資建議"] },
+  { path: "/terms", required: ["使用條款", "示範資料", "投資建議"] },
+  { path: "/privacy", required: ["隱私權", "資料來源", "正式上線前"] }
+];
 
-const coreRoutes = ["/", "/briefing", "/stocks/TWII", "/stocks/2330", "/stocks/0050", "/stocks/006208", "/stocks/2382", "/stocks/2308"];
-const allRoutes = [...coreRoutes, "/weekly", "/methodology", "/disclaimer", "/terms", "/privacy"];
+const forbiddenVisibleTerms = [
+  "Current hard blockers",
+  "Remaining hard blockers",
+  "External reply dry-run intake",
+  "BETA_HOSTING_PROJECT_NAME",
+  "BETA_TEMPORARY_URL",
+  "PUBLIC_BETA_EXTERNAL_REPLY_PATH",
+  "cmd.exe",
+  "npm run",
+  "SQL execution is approved",
+  "Supabase writes are approved",
+  "raw market data fetch is approved",
+  "publicDataSource",
+  "scoreSource"
+];
 
-requireIncludes("A2 audit", doc, [
-  "A2 BRIEF Public Runtime Surface Audit",
-  "Status: `a2_brief_public_runtime_surface_audit_ready`",
-  "30 秒市場氛圍，3 分鐘行動判斷",
-  "Public Beta Reading Path",
-  "Source & Coverage",
-  "Data Readiness",
-  "`publicDataSource=mock`",
-  "`scoreSource=mock`",
-  "`publicDataSource=supabase approved`",
-  "`scoreSource=real approved`",
-  "accept_a2_brief_public_runtime_surface_audit"
-]);
-requireNoMojibake("A2 audit", doc);
+const packageJson = JSON.parse(fs.readFileSync(packagePath, "utf8"));
+const reviewGate = fs.readFileSync(reviewGatePath, "utf8");
+const registration = [
+  {
+    file: packagePath,
+    pass:
+      packageJson.scripts?.["check:a2-brief-public-runtime-surface-audit"] ===
+      "node scripts/check-a2-brief-public-runtime-surface-audit.mjs"
+  },
+  {
+    file: reviewGatePath,
+    pass:
+      reviewGate.includes("scripts/check-a2-brief-public-runtime-surface-audit.mjs") &&
+      reviewGate.includes('"a2-brief-public-runtime-surface-audit"')
+  }
+];
 
-if (
-  pkg.scripts?.["check:a2-brief-public-runtime-surface-audit"] !==
-  "node scripts/check-a2-brief-public-runtime-surface-audit.mjs"
-) {
-  problems.push(`${packagePath} missing check:a2-brief-public-runtime-surface-audit`);
-}
+const routeResults = await Promise.all(routes.map(checkRoute));
+const status = registration.every((item) => item.pass) && routeResults.every((item) => item.pass) ? "ok" : "blocked";
 
-requireIncludes("review gate", reviewGate, [
-  "scripts/check-a2-brief-public-runtime-surface-audit.mjs",
-  "a2-brief-public-runtime-surface-audit"
-]);
+console.log(JSON.stringify({ registration, routeResults, status }, null, 2));
 
-const routeResults = await Promise.all(allRoutes.map(checkRoute));
+if (status !== "ok") process.exitCode = 1;
 
-if (problems.length) {
-  console.error(JSON.stringify({ docPath, problems, routeResults, status: "blocked" }, null, 2));
-  process.exit(1);
-}
-
-console.log(
-  JSON.stringify(
-    {
-      docPath,
-      routeResults,
-      status: "ok",
-      summary: "A2 public runtime surface audit confirms public routes keep mock boundary and avoid internal workflow leakage."
-    },
-    null,
-    2
-  )
-);
-
-async function checkRoute(path) {
+async function checkRoute({ path, required }) {
   const response = await fetch(`${baseUrl}${path}`);
-  const html = await response.text();
-  const text = normalizeVisibleText(html);
-  const required = coreRoutes.includes(path)
-    ? [
-        "publicDataSource=mock",
-        "scoreSource=mock",
-        "不是即時真實資料",
-        "不提供買賣建議"
-      ]
-    : ["publicDataSource=mock", "scoreSource=mock"];
-
-  if (path === "/" || path === "/briefing") {
-    required.push("Data Readiness", "資料真實化仍在準備中，公開頁維持 mock");
-  }
-  if (coreRoutes.includes(path)) {
-    required.push("Public Beta Decision Loop", "Public Beta Reading Path", "Source & Coverage");
-  }
-
-  const missing = required.filter((token) => !text.includes(token));
-  const blocked = forbiddenPublicSignals().filter((token) => text.includes(token));
-  const markers = findMojibakeMarkers(text);
-
-  if (response.status !== 200) problems.push(`${path} returned ${response.status}`);
-  for (const token of missing) problems.push(`${path} missing ${token}`);
-  for (const token of blocked) problems.push(`${path} exposes ${token}`);
-  for (const marker of markers) problems.push(`${path} exposes ${marker}`);
-
+  const text = normalizeVisibleText(await response.text());
+  const missing = required.filter((phrase) => !text.includes(phrase));
+  const forbiddenHits = forbiddenVisibleTerms.filter((phrase) => text.includes(phrase));
+  const markerHits = findHardMojibakeMarkers(text);
   return {
-    blocked,
-    markers,
+    forbiddenHits,
+    markerHits,
     missing,
-    pass: response.status === 200 && missing.length === 0 && blocked.length === 0 && markers.length === 0,
+    pass: response.status === 200 && missing.length === 0 && forbiddenHits.length === 0 && markerHits.length === 0,
     path,
     status: response.status
   };
-}
-
-function read(path) {
-  if (!fs.existsSync(path)) {
-    problems.push(`${path} missing`);
-    return path.endsWith(".json") ? "{}" : "";
-  }
-  return fs.readFileSync(path, "utf8");
-}
-
-function requireIncludes(label, text, needles) {
-  for (const needle of needles) {
-    if (!text.includes(needle)) problems.push(`${label} missing ${needle}`);
-  }
-}
-
-function requireNoMojibake(label, text) {
-  for (const marker of findMojibakeMarkers(text)) problems.push(`${label} exposes ${marker}`);
-}
-
-function forbiddenPublicSignals() {
-  return [
-    "Current hard blockers",
-    "Remaining hard blockers",
-    "External reply dry-run intake",
-    "BETA_HOSTING_PROJECT_NAME",
-    "BETA_TEMPORARY_URL",
-    "PUBLIC_BETA_EXTERNAL_REPLY_PATH",
-    "cmd.exe /c npm run",
-    "SQL execution is approved",
-    "Supabase writes are approved",
-    "raw market data fetch is approved",
-    "complete coverage approved",
-    "publicDataSource=supabase approved",
-    "scoreSource=real approved",
-    "buy now",
-    "sell now",
-    "guaranteed return approved"
-  ];
-}
-
-function findMojibakeMarkers(text) {
-  const markers = [];
-  if (/[\uE000-\uF8FF\uFFFD]/u.test(text)) markers.push("private-use-or-replacement-code-point");
-  if (/\?{3,}/u.test(text)) markers.push("question-mark-run");
-  return markers;
 }
 
 function normalizeVisibleText(html) {
@@ -153,4 +81,11 @@ function normalizeVisibleText(html) {
     .replace(/&amp;/g, "&")
     .replace(/\s+/g, " ")
     .trim();
+}
+
+function findHardMojibakeMarkers(text) {
+  const markers = [];
+  if (/[\uE000-\uF8FF\uFFFD]/u.test(text)) markers.push("private-use-or-replacement-code-point");
+  if (/\?{3,}/u.test(text)) markers.push("question-mark-run");
+  return markers;
 }

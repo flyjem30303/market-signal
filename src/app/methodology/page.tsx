@@ -9,24 +9,23 @@ import { getMarketSignalSourceStatus } from "@/lib/repositories/market-signal-re
 
 export const metadata: Metadata = {
   title: "方法說明 | Taiwan Market Signal",
-  description:
-    "公開 Beta 方法說明：解釋示範評分、資料來源邊界、風險提示與非投資建議原則。"
+  description: "公開 Beta 方法說明：指數狀態如何整理成市場氣氛、風險提示與觀察順序。"
 };
 
 const methodModules = [
-  ["趨勢與動能", "18%", "觀察價格相對均線、近期方向與動能變化", "用來判斷市場是否延續原方向"],
-  ["風險與波動", "16%", "觀察回落風險、波動與防守訊號", "用來提醒使用者先複核風險"],
-  ["市場廣度", "18%", "觀察偏強、觀察中與偏防守標的比例", "用來避免只看單一股票"],
-  ["ETF 與產業", "14%", "觀察 ETF 與產業代表標的", "用來建立比較順序"],
-  ["資料品質", "16%", "觀察資料更新時間、來源狀態與覆蓋率", "資料不足時會降低信心"],
-  ["公開信任邊界", "18%", "揭露 mock-only、非投資建議與 promotion gate", "避免誤讀示範分數"]
+  ["市場氣氛", "18%", "觀察指數狀態與整體方向", "幫助使用者先理解大盤溫度"],
+  ["風險升溫", "16%", "觀察波動、分數下降與偏防守訊號", "提醒使用者放慢判讀速度"],
+  ["市場廣度", "18%", "觀察偏強、觀察中、偏防守標的分布", "避免只看單一數字"],
+  ["ETF 與產業", "14%", "觀察 ETF 與代表標的", "建立比較順序"],
+  ["資料品質", "16%", "觀察更新時間、來源狀態與覆蓋率", "資料不足時降低信心"],
+  ["公開信任邊界", "18%", "揭露示範資料、非投資建議與正式資料狀態", "避免誤讀示範分數"]
 ];
 
 const qualityLevels = [
-  ["A", "來源、欄位、更新時間與覆蓋率都可驗證，適合進入更高信任層級。"],
-  ["B", "主要欄位可驗證，但仍需補齊部分覆蓋或更新節奏說明。"],
-  ["C", "可以做示範或內部觀察，但不適合公開宣稱完整可靠。"],
-  ["D", "來源或欄位仍不明確，只能停留在 mock 或研究狀態。"]
+  ["A", "資料更新、來源狀態與欄位一致性都足以支撐公開解讀。"],
+  ["B", "資料大致可讀，但仍需要留意更新時間或部分欄位限制。"],
+  ["C", "資料可用於觀察方向，但不適合作為高信心判斷。"],
+  ["D", "資料限制明顯，應保守解讀或等待後續更新。"]
 ];
 
 export default async function MethodologyPage() {
@@ -40,11 +39,17 @@ export default async function MethodologyPage() {
         <p className="eyebrow">Methodology</p>
         <h1>方法說明</h1>
         <p>
-          這套方法把市場資料轉成一般投資者可理解的觀察順序：先看市場氛圍，再看風險、ETF、產業與個別標的。
-          目前仍使用示範資料與示範評分，正式市場資料尚未啟用。
+          本站把市場資料整理成「市場氣氛、風險升溫、廣度、資料品質」等可讀訊號，讓使用者先看大方向，
+          再決定是否關注、加強觀察或降低風險。資料來源、覆蓋率與更新時間會影響判讀信心。
         </p>
-        <p className="runtime-boundary-line">
-          重要聲明：本頁是方法透明化，不是預測保證，也不是投資建議。
+        <p className="runtime-boundary-line">正式資料尚未啟用；目前為公開 Beta 示範階段，分數用來展示判讀流程，不代表正式投資模型。</p>
+      </section>
+
+      <section className="panel legal-section" aria-label="方法使用邊界">
+        <h2>方法是觀察工具，不是交易指令</h2>
+        <p>
+          本頁說明燈號、風險與資料品質如何整理成可閱讀的市場狀態。內容用來協助使用者理解市場氣氛，
+          不提供買賣建議、不提供個股買賣建議，也不保證任何投資結果。
         </p>
       </section>
 
@@ -52,32 +57,32 @@ export default async function MethodologyPage() {
       <TrustRuntimeBoundaryNotice context="methodology" />
       <RouteLocalTrustCopyPanel context="methodology" />
 
-      <section className="method-quick-read" aria-label="方法 30 秒理解">
+      <section className="method-quick-read" aria-label="方法快速閱讀">
         <article>
           <span>30 秒</span>
-          <strong>分數是觀察順序</strong>
-          <p>高分代表值得優先閱讀，不代表可以直接買進；低分代表需要複核，不代表一定賣出。</p>
+          <strong>先看市場氣氛</strong>
+          <p>綠色代表偏穩定，黃色代表需要觀察，紅色代表風險升溫或資料限制較高。</p>
         </article>
         <article>
           <span>3 分鐘</span>
-          <strong>先看成因，再看行動</strong>
-          <p>每個狀態都必須回到成因、更新時間、影響層級與下一步觀察，不把分數當指令。</p>
+          <strong>再看成因與資料狀態</strong>
+          <p>每個警示都應搭配成因、更新時間、影響級別與下一步建議，不只看單一分數。</p>
         </article>
         <article>
           <span>升級條件</span>
-          <strong>資料權利與覆蓋率先通過</strong>
-          <p>只有合法免費可自動化來源、欄位契約與 coverage gate 通過後，才會評估 real-data promotion。</p>
+          <strong>正式資料必須先通過驗證</strong>
+          <p>正式資料啟用前，需要確認來源可用條件、欄位契約、覆蓋率與錯誤回退流程。</p>
         </article>
       </section>
 
       <section className="panel method-section">
-        <h2>指標組成</h2>
-        <div className="method-table" role="table" aria-label="指標組成">
+        <h2>指標架構</h2>
+        <div className="method-table" role="table" aria-label="指標架構">
           <div className="method-row method-head" role="row">
             <span>模組</span>
             <span>權重</span>
             <span>觀察內容</span>
-            <span>使用方式</span>
+            <span>使用者價值</span>
           </div>
           {methodModules.map(([name, weight, data, comment]) => (
             <div className="method-row" role="row" key={name}>
@@ -104,25 +109,25 @@ export default async function MethodologyPage() {
 
       <section className="method-guardrail-grid" aria-label="方法邊界">
         <article>
-          <h2>不把分數當指令</h2>
-          <p>分數只幫助排序注意力，使用者仍需自行查證並評估風險。</p>
+          <h2>不提供個別建議</h2>
+          <p>分數用於整理資訊，不代表買進、賣出、持有或適合度判斷。</p>
         </article>
         <article>
           <h2>不宣稱即時完整</h2>
-          <p>正式市場資料尚未啟用前，所有頁面都必須清楚標示 mock-only。</p>
+          <p>正式市場資料尚未啟用前，所有頁面都會以示範資料說明使用體驗。</p>
         </article>
         <article>
-          <h2>不替代專業判斷</h2>
-          <p>本網站提供資訊整理與風險辨識，不提供個別買賣建議。</p>
+          <h2>不製造恐慌</h2>
+          <p>風險提示必須搭配條件與背景，避免只用單一閾值製造誤解。</p>
         </article>
       </section>
 
       <section className="panel method-links">
         <h2>下一步閱讀</h2>
         <TrustTextLink href="/" label="回到首頁" />
-        <TrustTextLink href="/briefing" label="閱讀市場 briefing" />
+        <TrustTextLink href="/briefing" label="閱讀市場晨報" />
         <TrustTextLink href="/weekly" label="閱讀週報" />
-        <TrustTextLink href="/disclaimer" label="查看免責聲明" />
+        <TrustTextLink href="/disclaimer" label="查看風險聲明" />
       </section>
     </main>
   );

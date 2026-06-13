@@ -1,91 +1,73 @@
 import fs from "node:fs";
 
-const pagePath = "src/app/briefing/page.tsx";
+const baseUrl = process.env.LOCALHOST_BASE_URL ?? "http://localhost:3000";
+const route = "/briefing";
 const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
-const checkerPath = "scripts/check-briefing-midpage-readability.mjs";
 
-const page = fs.readFileSync(pagePath, "utf8");
-const packageJson = fs.readFileSync(packagePath, "utf8");
+const requiredVisible = [
+  "30 秒看懂今日市場氣氛",
+  "市場廣度",
+  "3 分鐘行動判斷",
+  "下一步觀察",
+  "正式市場資料尚未啟用",
+  "不提供個股買賣建議"
+];
+
+const forbiddenVisible = [
+  "cmd.exe",
+  "npm run",
+  "packet",
+  "preflight",
+  "post-run",
+  "operator",
+  "publicDataSource",
+  "scoreSource",
+  "mock-only",
+  "Supabase",
+  "SQL",
+  "daily_prices",
+  "Runtime Status",
+  "promotion gate"
+];
+
+const problems = [];
+const packageJson = JSON.parse(fs.readFileSync(packagePath, "utf8"));
 const reviewGate = fs.readFileSync(reviewGatePath, "utf8");
-const checker = fs.readFileSync(checkerPath, "utf8");
 
-const required = [
-  [pagePath, "市場訊號閱讀路徑"],
-  [pagePath, "閱讀路徑"],
-  [pagePath, "首頁儀表站"],
-  [pagePath, "市場細節"],
-  [pagePath, "週報"],
-  [pagePath, "方法說明"],
-  [pagePath, "風險揭露"],
-  [pagePath, "晨報決策邊界"],
-  [pagePath, "示範資料公開 Beta 閱讀介面"],
-  [pagePath, "覆蓋尚未完整；仍可能出現缺漏或延遲資料"],
-  [pagePath, "不提供買賣建議，也不宣稱真實資料或完整覆蓋已上線"],
-  [pagePath, "閱讀計畫"],
-  [pagePath, "3 分鐘判讀流程"],
-  [pagePath, "閱讀橋接"],
-  [pagePath, "從市場氣氛接到細節頁"],
-  [pagePath, "資料邊界"],
-  [pagePath, "目前是示範資料狀態，不是正式市場資料"],
-  [pagePath, "升級檢查"],
-  [pagePath, "公開資料來源"],
-  [pagePath, "分數來源"],
-  [pagePath, "建議狀態"],
-  [pagePath, "publicDataSource=mock"],
-  [pagePath, "scoreSource=mock"],
-  [packagePath, "\"check:briefing-midpage-readability\""],
-  [reviewGatePath, "check-briefing-midpage-readability.mjs"],
-  [reviewGatePath, "briefing-midpage-readability"],
-  [checkerPath, "forbidden"]
-];
+if (
+  packageJson.scripts?.["check:briefing-midpage-readability"] !==
+  "node scripts/check-briefing-midpage-readability.mjs"
+) {
+  problems.push(`${packagePath} missing check:briefing-midpage-readability`);
+}
 
-const forbidden = [
-  [pagePath, "mock-only 公開 Beta 閱讀介面"],
-  [pagePath, "partial coverage"],
-  [pagePath, "missing/delayed data"],
-  [pagePath, "promotion gate"],
-  [pagePath, "Model Boundary"],
-  [pagePath, "mock runtime"],
-  [pagePath, "Public data source"],
-  [pagePath, "Score source"],
-  [pagePath, "Advice status"],
-  [pagePath, "demo data"],
-  [pagePath, "demo scores"],
-  [pagePath, "real scoring"],
-  [pagePath, "cmd.exe"],
-  [pagePath, "PUBLIC_BETA"],
-  [pagePath, "BETA_"],
-  [pagePath, "operator packet"],
-  [pagePath, "execution packet"],
-  [pagePath, "SQL execution is approved"],
-  [pagePath, "Supabase writes are approved"],
-  [pagePath, "publicDataSource=supabase"],
-  [pagePath, "scoreSource=real"]
-];
+if (!reviewGate.includes("scripts/check-briefing-midpage-readability.mjs")) {
+  problems.push(`${reviewGatePath} missing checker registration`);
+}
 
-const files = new Map([
-  [pagePath, page],
-  [packagePath, packageJson],
-  [reviewGatePath, reviewGate],
-  [checkerPath, checker]
-]);
+const response = await fetch(`${baseUrl}${route}`);
+const html = await response.text();
+const text = normalizeVisibleText(html);
 
-const missing = required
-  .filter(([file, phrase]) => !read(file).includes(phrase))
-  .map(([file, phrase]) => `${file}: ${phrase}`);
-const blocked = forbidden
-  .filter(([file, phrase]) => read(file).includes(phrase))
-  .map(([file, phrase]) => `${file}: ${phrase}`);
-const markerHits = [pagePath].flatMap((file) => findMojibakeMarkers(read(file)).map((marker) => `${file}: ${marker}`));
+const missing = requiredVisible.filter((phrase) => !text.includes(phrase));
+const blocked = forbiddenVisible.filter((phrase) => text.includes(phrase));
+const markerHits = findMojibakeMarkers(text);
 
-const status = missing.length === 0 && blocked.length === 0 && markerHits.length === 0 ? "ok" : "blocked";
+if (response.status !== 200) problems.push(`${route} returned ${response.status}`);
+problems.push(...missing.map((phrase) => `${route} missing ${phrase}`));
+problems.push(...blocked.map((phrase) => `${route} exposes ${phrase}`));
+problems.push(...markerHits.map((marker) => `${route} marker ${marker}`));
+
+const status = problems.length === 0 ? "ok" : "blocked";
 
 console.log(
   JSON.stringify(
     {
-      blocked: [...blocked, ...markerHits],
+      checkedRoute: route,
       missing,
+      blocked,
+      markerHits,
       status
     },
     null,
@@ -95,8 +77,14 @@ console.log(
 
 if (status !== "ok") process.exitCode = 1;
 
-function read(file) {
-  return files.get(file) ?? "";
+function normalizeVisibleText(html) {
+  return html
+    .replace(/<script[\s\S]*?<\/script>/gi, " ")
+    .replace(/<style[\s\S]*?<\/style>/gi, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 function findMojibakeMarkers(source) {
