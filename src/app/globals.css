@@ -11814,6 +11814,16 @@ input[type="search"] {
   margin-bottom: 16px;
 }
 
+.weekly-grid .panel-intro {
+  grid-column: 1 / -1;
+}
+
+.weekly-grid .panel-intro p:last-child {
+  color: var(--muted);
+  margin-bottom: 0;
+  max-width: 760px;
+}
+
 .weekly-quick-read {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));

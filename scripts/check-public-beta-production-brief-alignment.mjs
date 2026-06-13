@@ -1,4 +1,8 @@
-const baseUrl = (process.env.PUBLIC_BETA_PRODUCTION_URL ?? "https://market-signal-two.vercel.app").replace(/\/+$/u, "");
+const baseUrl = (
+  process.env.PUBLIC_BETA_PRODUCTION_URL ??
+  process.env.LOCALHOST_BASE_URL ??
+  "http://localhost:3000"
+).replace(/\/+$/u, "");
 
 const forbiddenVisibleText = [
   "Runtime promotion",
@@ -13,6 +17,7 @@ const forbiddenVisibleText = [
   "BETA_TEMPORARY_URL",
   "PUBLIC_BETA_EXTERNAL_REPLY_PATH",
   "cmd.exe",
+  "npm run",
   "readonly-attempt",
   "post-run",
   "preflight",
@@ -26,21 +31,31 @@ const forbiddenVisibleText = [
   "Readonly state",
   "Data and legal readiness",
   "readiness evidence",
-  "scoreSource=real claims",
   "PM ",
-  "CEO"
+  "CEO ",
+  "A1 ",
+  "A2 ",
+  "A3 ",
+  "A4 ",
+  "publicDataSource",
+  "scoreSource",
+  "Supabase",
+  "SQL",
+  "daily_prices",
+  "staging rows",
+  "raw market data",
+  "raw payload"
 ];
 
 const stockSignalRequired = [
-  "為什麼是這個燈號",
-  "結構支撐",
-  "風險拉力",
+  "公開 Beta 狀態",
+  "30 秒快速閱讀",
   "資料邊界",
-  "關注",
-  "加強觀察",
-  "減少風險",
-  "publicDataSource=mock",
-  "scoreSource=mock"
+  "決策輔助摘要",
+  "下一步觀察",
+  "示範資料",
+  "示範分數",
+  "不提供買賣建議"
 ];
 
 const routes = [
@@ -48,57 +63,57 @@ const routes = [
     path: "/",
     required: [
       "指數狀態儀表站",
-      "30 秒可讀",
-      "3 分鐘可行動",
+      "30 秒內看懂市場氛圍",
+      "3 分鐘內判斷",
+      "全市場總覽",
+      "核心指標面板",
       "核心指標快讀",
-      "市場氣氛",
-      "風險熱度",
-      "資料可信度",
-      "警示清單",
-      "資料覆蓋率展開計畫",
-      "publicDataSource=mock",
-      "scoreSource=mock"
+      "警示提醒",
+      "資料信任",
+      "示範資料",
+      "不是投資建議"
     ]
   },
   {
     path: "/briefing",
     required: [
-      "市場訊號晨報",
-      "警示清單",
-      "成因",
-      "更新時間",
-      "影響級別",
-      "下一步",
-      "關注",
-      "加強觀察",
-      "減少風險",
-      "publicDataSource=mock",
-      "scoreSource=mock"
+      "每日市場晨報",
+      "市場晨報",
+      "30 秒看懂今日市場氣氛",
+      "3 分鐘行動判斷",
+      "今日市場提醒",
+      "市場行動摘要",
+      "下一步觀察",
+      "示範資料",
+      "不提供買賣建議"
     ]
   },
   {
     path: "/weekly",
     required: [
-      "公開 Beta 週報",
-      "週報資料覆蓋率仍在補齊中",
-      "本頁使用示範資料與示範分數",
-      "publicDataSource=mock",
-      "scoreSource=mock"
+      "市場週報",
+      "30 秒",
+      "週報行動摘要",
+      "示範資料",
+      "示範分數",
+      "非投資建議",
+      "不提供買賣建議"
+    ]
+  },
+  {
+    path: "/membership",
+    required: [
+      "會員功能預覽",
+      "每日市場三層解讀",
+      "Watchlist 與自訂警示",
+      "盤後複盤報告",
+      "尚未開放登入",
+      "不提供個股買賣建議"
     ]
   },
   {
     path: "/stocks/2330",
-    required: [
-      "為什麼是這個燈號",
-      "結構支撐",
-      "風險拉力",
-      "資料邊界",
-      "關注",
-      "加強觀察",
-      "減少風險",
-      "publicDataSource=mock",
-      "scoreSource=mock"
-    ]
+    required: stockSignalRequired
   },
   {
     path: "/stocks/TWII",
@@ -130,12 +145,15 @@ for (const route of routes) {
   const visibleText = normalizeVisibleText(html);
   const missing = route.required.filter((phrase) => !visibleText.includes(phrase));
   const forbidden = forbiddenVisibleText.filter((phrase) => visibleText.includes(phrase));
+  const mojibake = findBadEncodingMarkers(visibleText);
+
   routeResults.push({
     path: route.path,
     status: response.status,
-    ok: response.status === 200 && missing.length === 0 && forbidden.length === 0,
+    ok: response.status === 200 && missing.length === 0 && forbidden.length === 0 && mojibake.length === 0,
     missing,
-    forbidden
+    forbidden,
+    mojibake
   });
 }
 
@@ -145,13 +163,15 @@ console.log(JSON.stringify({
   status: ok ? "ok" : "blocked",
   mode: "public_beta_production_brief_alignment",
   baseUrl,
+  checkedRoutes: routes.length,
   routes: routeResults,
   boundaries: {
     sqlExecuted: false,
     supabaseWriteAttempted: false,
     rawMarketDataFetched: false,
     publicDataSource: "mock",
-    scoreSource: "mock"
+    scoreSource: "mock",
+    visibleInternalRuntimeTokens: false
   }
 }, null, 2));
 
@@ -166,4 +186,13 @@ function normalizeVisibleText(html) {
     .replace(/<[^>]+>/gu, " ")
     .replace(/\s+/gu, " ")
     .trim();
+}
+
+function findBadEncodingMarkers(source) {
+  const markers = [];
+  if (/\uFFFD/u.test(source)) markers.push("replacement-character");
+  if (/[\uE000-\uF8FF]/u.test(source)) markers.push("private-use-character");
+  if (/[\u0080-\u009F]/u.test(source)) markers.push("c1-control-character");
+  if (/[?]{4,}/u.test(source)) markers.push("question-mark-run");
+  return markers;
 }

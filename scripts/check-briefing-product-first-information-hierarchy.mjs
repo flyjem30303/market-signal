@@ -27,10 +27,11 @@ for (const phrase of [
 
 const orderedSourceMarkers = [
   "<BriefingPublicDecisionSummaryPanel",
+  "briefing-market-action-summary",
+  "briefing-alert-decision-list",
   "<DataFreshnessStrip",
-  "<PublicBetaDataReadinessStatus",
-  '<PublicBetaSourceCoverageBridge context="briefing"',
-  "<BriefingPublicBetaGateSummary"
+  "<PublicBetaPublicStatusSurface",
+  "<PublicBetaMembershipMvpRoadmap"
 ];
 
 assertOrder("briefing source product-first component order", briefing, orderedSourceMarkers);
@@ -45,16 +46,16 @@ if (visible.length > 16000) {
 }
 
 const orderedVisibleMarkers = [
-  "Market Briefing",
+  "市場晨報",
   "\u0033\u0030 \u79d2\u770b\u61c2\u4eca\u65e5\u5e02\u5834\u6c23\u6c1b",
   "\u0033 \u5206\u9418\u884c\u52d5\u5224\u65b7",
   "\u4eca\u65e5\u5e02\u5834\u63d0\u9192",
-  "Market Action Summary",
-  "\u5e02\u5834\u5ee3\u5ea6",
+  "市場行動摘要",
+  "\u4eca\u65e5\u63d0\u9192",
   "\u5e02\u5834\u4e3b\u71c8\u865f",
   "\u0033 \u5206\u9418\u884c\u52d5\u5224\u65b7",
-  "\u95b1\u8b80\u9806\u5e8f",
-  "\u6b63\u5f0f\u8cc7\u6599\u5347\u7d1a\u524d\u6aa2\u67e5"
+  "\u516c\u958b\u4f7f\u7528\u72c0\u614b",
+  "\u4e0b\u4e00\u968e\u6bb5\u6703\u54e1\u529f\u80fd"
 ];
 
 assertOrder("briefing visible product-first order", visible, orderedVisibleMarkers);

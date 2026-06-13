@@ -178,7 +178,14 @@ export function DashboardShell({
         </div>
       </section>
 
-      <section className="weekly-grid" aria-label="市場清單">
+      <section className="weekly-grid" aria-label="警示提醒">
+        <div className="panel-intro">
+          <p className="eyebrow">警示提醒</p>
+          <h2>先看相對偏強，再看風險較高</h2>
+          <p>
+            這裡把可關注與需複核的標的分開，協助使用者在 3 分鐘內決定要繼續觀察、加強複核，或先降低風險。
+          </p>
+        </div>
         <MarketList
           title="相對偏強"
           description="分數較高的標的代表示範模型目前給出較正向的市場狀態，仍需搭配風險與資料時間複核。"

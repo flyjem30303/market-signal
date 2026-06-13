@@ -2,6 +2,46 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Public BRIEF Gate Alignment And Alert Surface Pass
+
+Status: `public_beta_brief_gate_alignment_ready`
+
+CEO decision:
+
+- The revised BRIEF is confirmed as two phases.
+- Phase 1 remains the public free index-lighting site for every visitor.
+- Phase 2 membership remains a roadmap / planning lane until Phase 1 is stable.
+- Public checks must validate user-facing product language, not require internal runtime variable names on public pages.
+
+What changed:
+
+- Home now has a visible `警示提醒` section above the relative-strength and higher-risk lists, making the alert / observation layer explicit for general investors.
+- `/briefing` no longer exposes the old English `Market Briefing` eyebrow; it now uses `市場晨報`.
+- `check:public-beta-production-brief-alignment` now defaults to local public-route verification unless a production URL is explicitly provided.
+- The production BRIEF alignment gate now checks user-facing phrases, mojibake, and internal residue instead of requiring visible `publicDataSource` / `scoreSource` variable names.
+- `check:briefing-product-first-information-hierarchy` now matches the current product-first route structure after internal governance widgets were removed from the public page.
+
+Checks passed:
+
+- `check:public-beta-production-brief-alignment`
+- `check:briefing-product-first-information-hierarchy`
+- `check:public-visible-language-quality`
+- `check:phase-1-public-beta-public-visible-residue-cleanup`
+- `check:public-beta-core-route-quick-proof`
+- `check:public-surface-user-facing-audit`
+- `check:pm-brief-runtime-mainline-goal-and-workstreams`
+- `check:phase-1-phase-2-execution-split-and-workflow-assignment`
+- `npx tsc --noEmit`
+- Browser smoke: `/` shows `警示提醒`; `/briefing` shows `市場晨報`, no `Market Briefing`, no `publicDataSource` / `scoreSource`, and no console errors.
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, market-row fetch, raw payload output, secret output, source promotion, real score promotion, membership implementation, production env mutation, DNS change, or Vercel dashboard mutation occurred. Runtime remains mock/demo until data-source rights, coverage, quality, rollback, and promotion gates pass.
+
+Next:
+
+Continue Phase 1 public usable loop. PM should now focus on tightening the public free user journey across Home -> Briefing -> Stock -> Weekly, while A1 continues source/coverage, A2 trust copy, A3 launch engineering, and A4 membership planning-only.
+
 ### Public Mainline Action Bridge Pass
 
 Status: `public_beta_mainline_action_bridge_passed`

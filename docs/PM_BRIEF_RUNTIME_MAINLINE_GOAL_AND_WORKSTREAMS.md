@@ -8,6 +8,46 @@ Owner: PM mainline
 
 ## Latest Mainline Decision - 2026-06-14
 
+### Public BRIEF Gate Alignment And Alert Surface Pass
+
+CEO confirms the revised BRIEF should be executed in two phases:
+
+- Phase 1: public free index-lighting site for every visitor.
+- Phase 2: membership MVP after Phase 1 is stable.
+
+PM completed a focused Phase 1 alignment slice:
+
+- Home now exposes a visible `警示提醒` section before the relative-strength and higher-risk lists.
+- `/briefing` now uses `市場晨報` instead of the old English `Market Briefing` eyebrow.
+- `check:public-beta-production-brief-alignment` now validates local public routes by default and can still target production through `PUBLIC_BETA_PRODUCTION_URL`.
+- The production BRIEF gate now checks user-facing copy, mojibake, and internal residue, instead of requiring public pages to display internal runtime tokens.
+- `check:briefing-product-first-information-hierarchy` now matches the current public route structure after old internal governance widgets were removed.
+
+Latest checks passed:
+
+- `check:public-beta-production-brief-alignment`
+- `check:briefing-product-first-information-hierarchy`
+- `check:public-visible-language-quality`
+- `check:phase-1-public-beta-public-visible-residue-cleanup`
+- `check:public-beta-core-route-quick-proof`
+- `check:public-surface-user-facing-audit`
+- `check:pm-brief-runtime-mainline-goal-and-workstreams`
+- `check:phase-1-phase-2-execution-split-and-workflow-assignment`
+- `npx tsc --noEmit`
+- Browser smoke confirmed `/` shows `警示提醒`; `/briefing` shows `市場晨報`, not `Market Briefing`; no internal runtime tokens or console errors appeared.
+
+Current route:
+
+- `phase_1_public_free_index_dashboard_usable_loop`
+
+Lane reminder:
+
+- PM owns the public free user journey.
+- A1 continues data/source/coverage.
+- A2 guards trust copy and non-advice boundaries.
+- A3 guards launch engineering.
+- A4 remains Phase 2 membership planning-only.
+
 ### Public Mainline Action Bridge Pass
 
 CEO confirms Phase 1 must feel like a decision-support dashboard, not a static score display.
