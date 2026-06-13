@@ -4,12 +4,7 @@ import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { CommercialSlot } from "@/components/commercial-slot";
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
-import { HomeRuntimeStatusPanel } from "@/components/home-runtime-status-panel";
-import { PublicBetaDataReadinessStatus } from "@/components/public-beta-data-readiness-status";
-import { PublicBetaIndexDashboardBriefLoopPanel } from "@/components/public-beta-index-dashboard-brief-loop-panel";
 import { PublicBetaMembershipMvpRoadmap } from "@/components/public-beta-membership-mvp-roadmap";
-import { PublicBetaPublicStatusSurface } from "@/components/public-beta-public-status-surface";
-import { PublicBetaSourceCoverageBridge } from "@/components/public-beta-source-coverage-bridge";
 import { StockRuntimeAtAGlance } from "@/components/stock-runtime-at-a-glance";
 import { TrackedLink } from "@/components/tracked-link";
 import { buildMockDataFreshnessSnapshot, type DataFreshnessSnapshot } from "@/lib/data-freshness";
@@ -60,88 +55,90 @@ export function DashboardShell({
     <main className="page-shell">
       <section className="hero dashboard-hero">
         <p className="eyebrow">Taiwan Market Signal</p>
-        <h1>{isStockPage ? `${selected.symbol} ${selected.name} 指數燈號` : "指數狀態儀表站"}</h1>
+        <h1>{isStockPage ? `${selected.symbol} ${selected.name} 狀態儀表` : "指數狀態儀表站"}</h1>
         <p>
-          指數燈號把市場狀態、風險熱度、資料可信度與下一步觀察整理成同一條閱讀路徑。
-          使用者可以先用 30 秒看懂大方向，再用 3 分鐘決定是否關注、加強觀察或降低風險。
+          用紅、黃、綠燈號整理市場風險、趨勢強弱與觀察重點。目標是讓使用者在 30 秒內看懂市場氛圍，
+          並在 3 分鐘內判斷要關注、加強觀察，或先降低風險。
         </p>
         <p className="runtime-boundary-line">
-          目前公開 Beta 使用示範資料與示範分數；正式市場資料尚未啟用，完整覆蓋率與正式模型也仍在驗證。
-          本站提供市場資訊整理與風險辨識，不提供個股買賣建議，也不應作為交易依據。
+          正式市場資料尚未啟用；目前公開版使用示範資料與模型分數呈現產品體驗。正式資料接入前，所有燈號都應視為觀察輔助。
+          本網站不提供買賣建議，也不提供個股買賣建議；所有內容都不是投資建議或買賣指令。
         </p>
-        {!isStockPage && (
-          <p className="runtime-boundary-line">
-            決策輔助摘要：先看市場氣氛，再看風險熱度與資料可信度，最後回到提醒列表與後續閱讀。
-          </p>
-        )}
       </section>
 
-      {!isStockPage && (
-        <>
-          <PublicBetaPublicStatusSurface />
-          <PublicBetaIndexDashboardBriefLoopPanel />
-          <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
-          <HomeRuntimeStatusPanel selectedSymbol={selected.symbol} />
-        </>
-      )}
-
-      {isStockPage && (
+      {isStockPage ? (
         <>
           <StockRuntimeAtAGlance scoreSourceLabel={freshness.scoreSourceLabel} snapshot={snapshot} />
           <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
         </>
+      ) : (
+        <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
       )}
 
-      <section className="home-public-beta-layers" aria-label="市場狀態三層摘要">
+      <section className="home-public-beta-layers" aria-label="市場三層視圖">
         <div className="home-public-beta-layer active">
-          <span>市場氣氛</span>
+          <span>全市場總覽</span>
           <strong>{market.signal.title}</strong>
           <p>
-            偏強 {breadth.constructive} 個、觀察 {breadth.watch} 個、防守 {breadth.defensive} 個。
-            先用市場氣氛判斷目前偏多、觀望或需要保守。
+            目前 {breadth.constructive} 個標的偏強、{breadth.watch} 個標的觀望、{breadth.defensive} 個標的偏防守。
+            先看市場整體氣氛，再決定是否需要深入檢查個別指標。
           </p>
         </div>
         <div className="home-public-beta-layer readying">
-          <span>核心分數</span>
+          <span>核心指標面板</span>
           <strong>
             健康 {snapshot.healthScore} / 風險 {snapshot.riskScore}
           </strong>
-          <p>分數用來排序觀察重點；請搭配成因、更新時間與資料品質一起判讀。</p>
+          <p>
+            健康分數反映趨勢、基本面、資金與市場廣度；風險分數提醒估值、波動與防守壓力。
+          </p>
         </div>
         <div className="home-public-beta-layer blocked">
           <span>資料可信度</span>
           <strong>{snapshot.dataQualityGrade}</strong>
-          <p>正式資料尚未啟用，公開頁會持續標示示範資料、更新時間與資料邊界。</p>
+          <p>
+            資料品質等級與更新時間會影響燈號可信度。若資料延遲或缺漏，請把燈號當作待複核的提示。
+          </p>
         </div>
       </section>
 
       {!isStockPage && <HomeCoreIndicatorReadout breadth={breadth} market={market} snapshot={snapshot} />}
 
       {!isStockPage && (
+        <section className="panel stock-reading-summary" aria-label="正式資料升級前檢查">
+          <p className="eyebrow">Data Trust</p>
+          <h2>正式資料升級前檢查</h2>
+          <p>
+            在正式資料源完成授權、覆蓋率與更新流程驗證前，頁面會清楚標示資料可信度、更新時間與示範資料狀態。
+            使用者可以先用它建立觀察流程，但不應把目前燈號視為即時正式市場訊號。
+          </p>
+        </section>
+      )}
+
+      {!isStockPage && (
         <section className="panel stock-reading-summary" aria-label="3 分鐘行動判斷">
           <p className="eyebrow">3 分鐘行動判斷</p>
-          <h2>先看市場氣氛，再決定是否加強觀察或降低風險</h2>
+          <h2>決策輔助摘要：先看市場狀態，再看風險來源，最後決定下一步觀察</h2>
           <p>
-            首頁把市場狀態、風險成因、資料邊界與下一步閱讀放在同一條路徑中。
-            目前仍是示範資料，適合用來熟悉判斷順序，不適合作為交易依據。
+            這個頁面不是要替使用者做買賣決定，而是把分散的市場訊號整理成可理解的觀察順序：
+            市場氛圍、核心指標、資料狀態與風險提醒。
           </p>
           <div className="briefing-actions">
-            <ActionCard title="市場燈號" text={`目前市場主燈號為 ${market.signal.title}，先確認是否仍適合關注。`} />
-            <ActionCard
-              title="成因"
-              text={`健康分數 ${market.healthScore}/100，風險分數 ${market.riskScore}/100；請看成因與更新時間。`}
-            />
-            <ActionCard title="資料狀態" text={`資料品質 ${market.dataQualityGrade}；正式資料尚未啟用，請保守解讀。`} />
-            <ActionCard title="下一步觀察" text="如果訊號偏強，列入觀察；如果風險升溫，先看市場晨報與風險聲明。" />
+            <ActionCard title="市場燈號" text={`目前市場總覽為「${market.signal.title}」，請先確認這個狀態是否符合你的觀察週期。`} />
+            <ActionCard title="風險來源" text={`健康分數 ${market.healthScore}/100，風險分數 ${market.riskScore}/100；分數接近時應避免過度解讀。`} />
+            <ActionCard title="資料更新" text={`資料品質 ${market.dataQualityGrade}，更新時間 ${formatTaipeiTime(market.lastUpdatedAt)}。`} />
+            <ActionCard title="下一步" text="若市場轉弱，優先檢查風險是否擴散；若市場偏強，也要確認資料是否新鮮與是否集中在少數標的。" />
           </div>
         </section>
       )}
 
-      <section className="stock-search-panel" aria-label="切換觀察標的">
+      <section className="stock-search-panel" aria-label="標的分類">
         <div>
           <p className="eyebrow">Explore</p>
-          <h2>切換觀察標的</h2>
-          <p>公開 Beta 先提供代表性指數、ETF 與股票樣本，協助使用者理解燈號、成因與資料邊界。</p>
+          <h2>查看指數、ETF 與核心標的</h2>
+          <p>
+            先用總覽理解市場氣氛，再切到你關注的指數、ETF 或大型權值股，檢查燈號原因與資料狀態。
+          </p>
         </div>
         <div className="stock-chip-list">
           {assets.map((asset) => (
@@ -157,30 +154,37 @@ export function DashboardShell({
         </div>
       </section>
 
-      <section className="weekly-grid" aria-label="市場觀察清單">
-        <MarketList title="偏強觀察" description="分數較高的標的可作為市場氣氛延續觀察，不代表買進建議。" items={strongList} valueKey="composite" />
-        <MarketList title="風險觀察" description="風險分數較高的標的需要先看成因與更新時間，再決定是否加強觀察。" items={riskList} valueKey="risk" />
+      <section className="weekly-grid" aria-label="市場清單">
+        <MarketList
+          title="相對偏強"
+          description="分數較高的標的代表示範模型目前給出較正向的市場狀態，仍需搭配風險與資料時間複核。"
+          items={strongList}
+          valueKey="composite"
+        />
+        <MarketList
+          title="風險較高"
+          description="風險分數較高的標的需要加強觀察，特別是波動升高、趨勢轉弱或資料延遲時。"
+          items={riskList}
+          valueKey="risk"
+        />
       </section>
 
       {isStockPage && (
-        <section className="panel stock-reading-summary" aria-label="標的頁 30 秒快速閱讀">
-          <p className="eyebrow">30 秒快速閱讀</p>
-          <h2>先看標的狀態，再對照市場與資料品質</h2>
+        <section className="panel stock-reading-summary" aria-label="標的 30 秒解讀">
+          <p className="eyebrow">30 秒解讀</p>
+          <h2>{selected.symbol} {selected.name} 目前是「{snapshot.signal.title}」</h2>
           <p>
-            目前顯示 {snapshot.signal.title}。請先看狀態、成因、更新時間與資料邊界，
-            再決定是否持續觀察；本頁不提供個股買賣建議。
+            這個狀態儀表把標的狀態拆成燈號、分數、更新時間與風險提醒。請把它當作觀察輔助，
+            不提供個股買賣建議。
           </p>
           <div className="briefing-actions">
-            <ActionCard title="分數" text={`健康分數 ${snapshot.healthScore}/100，風險分數 ${snapshot.riskScore}/100。`} />
-            <ActionCard title="更新時間" text={`資料更新時間：${formatTaipeiTime(snapshot.lastUpdatedAt)}。`} />
-            <ActionCard title="資料狀態" text="公開 Beta 目前使用示範資料；正式更新節奏尚未啟用。" />
-            <ActionCard title="下一步觀察" text="先看資料狀態與風險說明，再決定是否持續觀察；不應直接視為個股買賣建議。" />
+            <ActionCard title="核心分數" text={`健康 ${snapshot.healthScore}/100，風險 ${snapshot.riskScore}/100。`} />
+            <ActionCard title="更新時間" text={formatTaipeiTime(snapshot.lastUpdatedAt)} />
+            <ActionCard title="資料狀態" text={`資料品質等級 ${snapshot.dataQualityGrade}；若資料延遲，請降低判斷權重。`} />
+            <ActionCard title="觀察重點" text="若燈號轉弱，先看風險是否擴散；若燈號轉強，確認是否有足夠市場廣度支撐。" />
           </div>
         </section>
       )}
-
-      <PublicBetaDataReadinessStatus />
-      <PublicBetaSourceCoverageBridge context={isStockPage ? "stock" : "home"} stockSymbol={selected.symbol} />
 
       {!isStockPage && <PublicBetaMembershipMvpRoadmap />}
 
@@ -188,11 +192,11 @@ export function DashboardShell({
         <p className="eyebrow">Next</p>
         <h2>下一步閱讀</h2>
         <div className="briefing-actions">
-          <TrackedLink className="text-link" eventName="home_cta_clicked" href="/briefing" label="市場晨報" payload={{ area: "next_reading" }}>
-            市場晨報
+          <TrackedLink className="text-link" eventName="home_cta_clicked" href="/briefing" label="市場簡報" payload={{ area: "next_reading" }}>
+            市場簡報
           </TrackedLink>
-          <TrackedLink className="text-link" eventName="home_cta_clicked" href="/weekly" label="市場週報" payload={{ area: "next_reading" }}>
-            市場週報
+          <TrackedLink className="text-link" eventName="home_cta_clicked" href="/weekly" label="每週觀察" payload={{ area: "next_reading" }}>
+            每週觀察
           </TrackedLink>
           <TrackedLink className="text-link" eventName="trust_link_clicked" href="/methodology" label="方法說明" payload={{ area: "next_reading" }}>
             方法說明
@@ -221,43 +225,42 @@ function HomeCoreIndicatorReadout({
   const dataTone = snapshot.dataQualityGrade === "A" || snapshot.dataQualityGrade === "B" ? "constructive" : "watch";
   const coreIndicatorReadouts = [
     {
-      action: "可先關注",
-      body: `偏強 ${breadth.constructive} 個、觀察 ${breadth.watch} 個、防守 ${breadth.defensive} 個。`,
-      label: "市場氣氛",
+      action: "先看整體市場",
+      body: `偏強 ${breadth.constructive}、觀望 ${breadth.watch}、偏防守 ${breadth.defensive}。`,
+      label: "市場氛圍",
       tone: "constructive",
       value: market.signal.title
     },
     {
-      action: "確認擴散",
-      body: "市場廣度用來確認燈號是否由多數標的一起支撐，而不是只靠少數權值或單一題材。",
+      action: "檢查是否擴散",
+      body: "市場廣度可以提醒行情是否只集中在少數標的，或已經擴散到更多族群。",
       label: "市場廣度",
       tone: breadth.constructive >= breadth.defensive ? "constructive" : "watch",
       value: `${breadth.constructive}/${breadth.watch}/${breadth.defensive}`
     },
     {
-      action: riskTone === "defensive" ? "降低風險" : "加強觀察",
-      body: `風險分數 ${market.riskScore}/100；若升溫，先回到風險成因與市場晨報。`,
-      label: "風險熱度",
+      action: riskTone === "defensive" ? "加強風險控管" : "持續觀察",
+      body: `風險分數 ${market.riskScore}/100；分數越高，越需要檢查波動、估值與資料新鮮度。`,
+      label: "風險提醒",
       tone: riskTone,
       value: `${market.riskScore}/100`
     },
     {
-      action: "先複核",
+      action: "確認資料狀態",
       body: `資料品質 ${snapshot.dataQualityGrade}，更新時間 ${formatTaipeiTime(snapshot.lastUpdatedAt)}。`,
-      label: "資料可信度",
+      label: "資料更新",
       tone: dataTone,
       value: snapshot.dataQualityGrade
     }
   ];
 
   return (
-    <section className="home-core-indicator-readout" aria-label="核心指標快讀">
+    <section className="home-core-indicator-readout" aria-label="核心指標摘要">
       <div>
         <p className="eyebrow">Core Indicator Readout</p>
-        <h2>核心指標快讀</h2>
+        <h2>核心指標摘要</h2>
         <p>
-          先看市場氣氛，再看市場廣度、風險熱度與資料可信度。這些指標幫助使用者快速決定要關注、
-          加強觀察，或先降低風險。公開 Beta 仍使用示範資料，正式資料尚未啟用。
+          先用市場氛圍建立方向，再用廣度、風險與資料狀態複核。這個順序可以降低只看單一分數造成的誤判。
         </p>
       </div>
       <div className="home-core-indicator-grid">

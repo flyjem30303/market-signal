@@ -2229,3 +2229,39 @@ No SQL, Supabase read/write, staging rows, `daily_prices` mutation, raw market-d
 Next:
 
 Resume BRIEF execution with Phase 1 public Beta review and next high-value lanes: A1 data/source/coverage toward lawful automated data readiness; A2 trust/legal/public-copy final review; A3 monitoring/rollback/SEO runbook; A4 membership MVP route planning without implementing full membership yet.
+
+# Latest BRIEF phase split and public surface cleanup
+
+Status: `brief_phase_split_public_surface_cleanup_passed`
+
+Date: 2026-06-14
+
+CEO decision: split the revised index-signal BRIEF into Phase 1 public free site first and Phase 2 membership MVP later. Phase 1 remains the mainline; Phase 2 membership planning may continue, but login, payment, watchlist persistence, custom alert execution, and member-only content must not block the public Beta.
+
+What changed:
+
+- Rebuilt `docs/PUBLIC_BETA_INDEX_DASHBOARD_BRIEF.md` from corrupted historical text into the updated readable BRIEF.
+- Rebuilt public-facing asset names, signal labels, model module copy, and sample news copy.
+- Rebuilt the home / stock dashboard shell around market status, core indicators, data trust, risk reminder, update time, and next observation.
+- Rebuilt the membership roadmap card as a user-facing future-feature preview instead of an internal Phase/MVP panel.
+- Removed first-screen public exposure of internal readiness/status panels from the home dashboard shell.
+
+Verification:
+
+- `npx tsc --noEmit` passed.
+- `npm run build` passed.
+- `check:phase-1-phase-2-execution-split-and-workflow-assignment` passed.
+- `check:pm-brief-runtime-mainline-goal-and-workstreams` passed.
+- `check:public-beta-membership-mvp-roadmap` passed.
+- `check:public-visible-language-quality` passed against `http://localhost:3000`.
+- `check:phase-1-public-beta-public-visible-residue-cleanup` passed against `http://localhost:3000`.
+- `check:public-surface-user-facing-audit` passed against `http://localhost:3000`.
+- Browser verification confirmed `/` and `/stocks/2330` show readable user-facing copy with no visible command, PM/A-lane label, SQL/Supabase, raw-payload, or mojibake residue.
+
+Boundary:
+
+No SQL, Supabase read/write, staging rows, `daily_prices` mutation, raw market-data fetch/store/commit, source promotion, real score promotion, membership implementation, production env mutation, DNS change, or Vercel dashboard mutation occurred. The runtime remains `publicDataSource=mock` and `scoreSource=mock`.
+
+Next:
+
+Continue Phase 1 public product readiness. PM mainline should clean remaining public-route sections that still read like internal dashboards, while A1 keeps lawful automated data-source/coverage work moving, A2 audits trust copy, A3 keeps deployment/monitoring/rollback ready, and A4 stays planning-only for membership MVP.

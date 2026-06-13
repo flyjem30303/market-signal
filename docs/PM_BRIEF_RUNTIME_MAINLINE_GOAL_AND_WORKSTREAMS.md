@@ -2475,6 +2475,50 @@ Boundary:
 
 No platform deploy, DNS change, production env mutation, SQL, Supabase read/write, staging rows, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public source promotion, real score promotion, real-time claim, official endorsement claim, guaranteed-return claim, investment-advice claim, or membership implementation occurred.
 
+## 8AX. 2026-06-14 Revised BRIEF Phase Split And Public Surface Cleanup
+
+CEO decision:
+
+`brief_phase_split_public_surface_cleanup_passed`
+
+PM accepted the chairman's revised BRIEF and split execution into Phase 1 / Phase 2:
+
+- Phase 1 comes first: the public free index-lighting site for every visitor.
+- Phase 2 comes later: membership MVP, member content, watchlist, alert conditions, and post-market review.
+- A4 Membership MVP Planning may continue as planning-only, but Phase 2 implementation must not block Phase 1 public Beta readiness.
+
+Completed mainline work:
+
+- Rebuilt `docs/PUBLIC_BETA_INDEX_DASHBOARD_BRIEF.md` into readable BRIEF text.
+- Rebuilt public asset names, signal labels, module copy, and sample event copy.
+- Rebuilt `src/components/dashboard-shell.tsx` so Home and stock pages read like a public market-status dashboard instead of an internal project console.
+- Rebuilt `src/components/public-beta-membership-mvp-roadmap.tsx` into a future member-feature preview with clear non-advice boundaries.
+- Removed Home exposure of internal readiness/status panels that looked like development process artifacts.
+
+Verification:
+
+- `npx tsc --noEmit` passed.
+- `npm run build` passed.
+- `check:phase-1-phase-2-execution-split-and-workflow-assignment` passed.
+- `check:pm-brief-runtime-mainline-goal-and-workstreams` passed.
+- `check:public-beta-membership-mvp-roadmap` passed.
+- `check:public-visible-language-quality` passed.
+- `check:phase-1-public-beta-public-visible-residue-cleanup` passed.
+- `check:public-surface-user-facing-audit` passed.
+- Browser verification passed for `/` and `/stocks/2330`.
+
+Current lane assignments:
+
+- PM mainline: keep moving on Phase 1 public usability and remove any remaining public-route internal dashboard residue.
+- A1 Data / Source / Coverage: continue lawful free automated-source and coverage work independently; no source promotion or row fetch is opened by this slice.
+- A2 Public Copy / Product Safety: audit trust copy and ensure public pages keep source/update/non-advice/member-boundary wording.
+- A3 Launch / Production Engineering: keep Vercel, monitoring, rollback, SEO, and post-deploy checks ready.
+- A4 Membership MVP Planning: remain Phase 2 planning-only until Phase 1 public Beta is stable enough.
+
+Boundary:
+
+No SQL, Supabase read/write, staging rows, `daily_prices` mutation, raw market-data fetch/store/commit, source promotion, real score promotion, real-time claim, official endorsement claim, guaranteed-return claim, investment-advice claim, production env mutation, DNS change, or membership implementation occurred.
+
 ## 8O. 2026-06-13 Phase 1 Operator Review Summary
 
 CEO decision:
