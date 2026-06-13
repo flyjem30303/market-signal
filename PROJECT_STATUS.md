@@ -2,6 +2,40 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Public Route Chinese-First Label Pass
+
+Status: `public_beta_chinese_first_route_labels_ready`
+
+CEO decision:
+
+- Phase 1 public routes should read like a Chinese-first investor product, not a development preview with English test labels.
+- Keep the scope tight: this slice only improves visible labels on high-exposure public routes and adds a lightweight regression gate.
+- Do not expand Phase 2 membership implementation while improving the membership preview page.
+
+What changed:
+
+- Replaced visible English eyebrow labels on public surfaces:
+  - Home: `Data Trust` -> `資料信任`, `Explore` -> `標的瀏覽`, `Next` -> `下一步`.
+  - Briefing: `Market Briefing` -> `市場晨報`, `Market Action Summary` -> `市場行動摘要`.
+  - Weekly: `Weekly Report` -> `市場週報`, `Market Action Summary` -> `週報行動摘要`.
+- Added `check:public-beta-chinese-first-route-labels` to guard the high-exposure routes `/`, `/briefing`, `/weekly`, `/membership`, `/stocks/2330`, and `/stocks/TWII`.
+- The new gate blocks the removed English preview labels from reappearing and confirms required Chinese labels remain visible.
+
+Checks passed:
+
+- `check:public-beta-chinese-first-route-labels`
+- `check:public-visible-language-quality`
+- `check:public-surface-user-facing-audit`
+- Browser smoke: `/`, `/weekly`, and `/briefing` showed the expected Chinese labels and no old English preview labels; console error log was empty.
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, market-row fetch, raw payload output, secret output, source promotion, real score promotion, membership implementation, production env mutation, DNS change, or Vercel dashboard mutation occurred. Runtime remains mock/demo until data-source rights, coverage, quality, rollback, and promotion gates pass.
+
+Next:
+
+Continue Phase 1 public comprehension and launch readiness. PM mainline should run the Chinese-first route label gate with public route health after visible copy changes. A1 continues data/source/coverage; A2 guards trust and non-advice copy; A3 keeps launch engineering ready; A4 remains membership planning-only.
+
 ### Membership Preview Trust Context Alignment
 
 Status: `membership_preview_trust_context_aligned`

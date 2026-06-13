@@ -8,6 +8,33 @@ Owner: PM mainline
 
 ## Latest Mainline Decision - 2026-06-14
 
+### Public Route Chinese-First Label Pass
+
+CEO confirms Phase 1 public routes should be Chinese-first and investor-facing.
+
+PM completed a focused public-label slice:
+
+- Home labels now use `資料信任`, `標的瀏覽`, and `下一步`.
+- `/briefing` labels now use `市場晨報` and `市場行動摘要`.
+- `/weekly` labels now use `市場週報` and `週報行動摘要`.
+- Added `check:public-beta-chinese-first-route-labels` for high-exposure routes: `/`, `/briefing`, `/weekly`, `/membership`, `/stocks/2330`, and `/stocks/TWII`.
+- The gate blocks old English preview labels such as `Data Trust`, `Explore`, `Market Action Summary`, `Member MVP`, `Membership Preview`, `Next`, `Not Open Yet`, and `Weekly Report`.
+
+Latest checks passed:
+
+- `check:public-beta-chinese-first-route-labels`
+- `check:public-visible-language-quality`
+- `check:public-surface-user-facing-audit`
+- Browser smoke confirmed `/`, `/weekly`, and `/briefing` show the expected Chinese labels, no old English preview labels, and no console errors.
+
+Current route:
+
+- `phase_1_public_free_index_dashboard_usable_loop`
+
+Lane reminder:
+
+- This is PM mainline public UX work. A1/A2/A3/A4 assignments remain unchanged.
+
 ### Membership Preview Trust Context Alignment
 
 CEO confirms membership remains Phase 2, but the Phase 2 route must still be understandable and trustworthy during Phase 1.

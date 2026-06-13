@@ -34,7 +34,7 @@ export default async function BriefingPage() {
       <main className="page-shell">
         <section className="hero briefing-hero">
           <div>
-            <p className="eyebrow">Market Briefing</p>
+            <p className="eyebrow">市場晨報</p>
             <h1>每日市場晨報暫無資料</h1>
             <p>目前沒有可顯示的示範燈號。請稍後再試，或回首頁查看公開 Beta 狀態。</p>
           </div>
@@ -61,7 +61,7 @@ export default async function BriefingPage() {
 
       <section className="briefing-market-action-summary" aria-label="市場行動摘要">
         <div>
-          <p className="eyebrow">Market Action Summary</p>
+          <p className="eyebrow">市場行動摘要</p>
           <h2>{actionSummary.headline}</h2>
           <p>{actionSummary.marketLine}</p>
           <p>3 分鐘判斷順序：先看市場燈號，再看風險熱度，最後確認資料品質與更新時間。</p>

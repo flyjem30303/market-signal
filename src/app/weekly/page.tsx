@@ -37,7 +37,7 @@ export default async function WeeklyPage() {
     <main className="page-shell">
       <PageViewTracker eventName="weekly_page_viewed" payload={{ page: "weekly" }} />
       <section className="hero">
-        <p className="eyebrow">Weekly Report</p>
+        <p className="eyebrow">市場週報</p>
         <h1>市場週報</h1>
         <p>
           週報把每日燈號拉成一個更穩定的觀察框架，協助使用者用 30 秒先回看市場氣氛、ETF 狀態與風險熱度。公開 Beta
@@ -55,7 +55,7 @@ export default async function WeeklyPage() {
 
       <section className="weekly-market-action-summary" aria-label="週報行動摘要">
         <div>
-          <p className="eyebrow">Market Action Summary</p>
+          <p className="eyebrow">週報行動摘要</p>
           <h2>{actionSummary.headline}</h2>
           <p>{actionSummary.weeklyLine}</p>
           <p>{actionSummary.stopLine}</p>

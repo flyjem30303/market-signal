@@ -130,7 +130,7 @@ export function DashboardShell({
 
       {!isStockPage && (
         <section className="panel stock-reading-summary" aria-label="正式資料升級前檢查">
-          <p className="eyebrow">Data Trust</p>
+          <p className="eyebrow">資料信任</p>
           <h2>正式資料升級前檢查</h2>
           <p>
             在正式資料源完成授權、覆蓋率與更新流程驗證前，頁面會清楚標示資料可信度、更新時間與示範資料狀態。
@@ -158,7 +158,7 @@ export function DashboardShell({
 
       <section className="stock-search-panel" aria-label="標的分類">
         <div>
-          <p className="eyebrow">Explore</p>
+          <p className="eyebrow">標的瀏覽</p>
           <h2>查看指數、ETF 與核心標的</h2>
           <p>
             先用總覽理解市場氣氛，再切到你關注的指數、ETF 或大型權值股，檢查燈號原因與資料狀態。
@@ -225,7 +225,7 @@ export function DashboardShell({
       {!isStockPage && <PublicBetaMembershipMvpRoadmap />}
 
       <section className="panel next-reading-panel">
-        <p className="eyebrow">Next</p>
+        <p className="eyebrow">下一步</p>
         <h2>下一步閱讀</h2>
         <div className="briefing-actions">
           <TrackedLink className="text-link" eventName="home_cta_clicked" href="/briefing" label="市場簡報" payload={{ area: "next_reading" }}>
