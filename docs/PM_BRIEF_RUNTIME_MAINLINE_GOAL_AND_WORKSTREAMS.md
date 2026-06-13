@@ -8,6 +8,49 @@ Owner: PM mainline
 
 ## Latest Mainline Decision - 2026-06-14
 
+### BRIEF Phase Split And Public Surface Cleanup Pass
+
+CEO decision:
+
+- Adopt a two-phase BRIEF execution path.
+- Phase 1 is the public/free index signal dashboard: all users should understand market atmosphere, core indicators, warning list, data timing, source coverage, and risk boundaries without seeing internal development residue.
+- Phase 2 is the membership MVP path: member depth interpretation, watchlist, custom alerts, and after-market review remain preview/roadmap until Phase 1 is stable.
+- PM mainline stays on Phase 1 public usability; A1 continues data/source/coverage; A2 owns trust, legal, and source copy; A3 owns platform/release readiness.
+
+PM completed the public cleanup and phase-alignment slice:
+
+- Home now states the 30-second market-atmosphere read and 3-minute judgment flow.
+- Briefing now exposes public use status, market mood, data trust, and alert actionability.
+- Stock routes now expose fast stock interpretation, influence level, 3-minute review, and non-advice boundaries.
+- Source coverage now explains data scope, index/ETF/stock field contracts, and the route back to the market morning brief.
+- Membership appears as `會員預覽`, not as a finished member system.
+
+Latest checks passed:
+
+- `npx tsc --noEmit`
+- `check:public-visible-language-quality`
+- `check:phase-1-public-beta-public-visible-residue-cleanup`
+- `check:public-surface-user-facing-audit`
+- `check:public-beta-core-route-quick-proof`
+- `check:public-beta-decision-loop-bridge`
+- `check:public-beta-decision-journey-panel`
+- `check:public-beta-mainline-action-bridge`
+- `check:public-beta-value-loop-refinement`
+- `check:public-beta-user-value-source-coverage-bridge`
+- `check:phase-1-public-beta-public-status-surface-alignment`
+- `check:public-beta-membership-mvp-roadmap`
+- `check:a2-field-contract-public-copy-guard`
+- `check:review-gates`
+- Browser smoke confirmed `/`, `/briefing`, and `/stocks/2330` render the public reading loop, mock/demo boundary, no-advice copy, and membership preview.
+
+Current route:
+
+- `phase_1_public_free_index_dashboard_public_surface_cleanup_ready`
+
+Next PM slice:
+
+- Continue Phase 1 public launch-readiness. Do not implement Phase 2 membership yet; keep it as preview/roadmap until the free public index dashboard is stable and data/source gates are ready.
+
 ### A3 Platform Action Reading Contract Evidence Pass
 
 CEO decision:

@@ -1,7 +1,7 @@
 export type TwseOpenApiRuntimeMockWiringStep = {
   id: string;
   label: string;
-  owner: "產品線" | "資料線" | "文案線";
+  owner: "產品體驗" | "資料來源" | "公開文案";
   status: "accepted" | "readying" | "blocked";
   summary: string;
 };
@@ -32,58 +32,58 @@ export function getTwseOpenApiRuntimeMockWiringReadiness(): TwseOpenApiRuntimeMo
       sqlExecution: false,
       supabaseWrite: false
     },
-    headline: "TWSE OpenAPI 管線已進入 runtime mock 接線準備",
+    headline: "正式資料導入前的 mock runtime 接線準備",
     nextMainlineRoute: "twse_openapi_runtime_mock_consumer_wiring_readiness",
     productPromise:
-      "這一步不是上線真實行情，而是讓公開 Beta 的首頁與標的頁先能讀懂未來真實資料會長什麼樣子。",
+      "先把資料準備結果轉成使用者可理解的市場狀態，讓公開 Beta 能清楚說明資料可信度、更新時間與使用邊界。",
     status: "readying",
     stopLine:
-      "在資料覆蓋、來源條件與正式切換檢查完成前，網站仍維持 mock 資料與 mock 分數，不宣稱即時行情或投資建議。",
+      "目前不抓取真實市場資料、不執行 SQL、不寫入遠端資料庫，也不把示範分數升級為正式分數。",
     steps: [
       {
         id: "source-adapter",
-        label: "來源契約",
-        owner: "產品線",
+        label: "來源介面",
+        owner: "資料來源",
         status: "accepted",
-        summary: "TWSE OpenAPI route、授權邊界、來源標示與延遲揭露已被記錄為 no-fetch contract。"
+        summary: "來源介面已以本地合約方式整理，尚未連接正式資料來源。"
       },
       {
         id: "parser-contract",
-        label: "解析契約",
-        owner: "產品線",
+        label: "欄位契約",
+        owner: "資料來源",
         status: "accepted",
-        summary: "synthetic parser 已能處理日期、數字、必要欄位、重複日期與 fail-closed 分類。"
+        summary: "日期、收盤價與缺值處理等欄位規則已有示範契約，正式資料仍需來源確認。"
       },
       {
         id: "consumer-adapter",
         label: "runtime handoff",
-        owner: "產品線",
+        owner: "產品體驗",
         status: "accepted",
-        summary: "parser result 已可轉成 runtime handoff，失敗時會 blocked 且不輸出可用 points。"
+        summary: "前台可讀取示範結果並以 fail-closed 方式顯示資料狀態。"
       },
       {
         id: "synthetic-cases",
-        label: "synthetic cases",
-        owner: "資料線",
+        label: "示範情境",
+        owner: "資料來源",
         status: "readying",
-        summary: "資料線獨立補齊 success、empty、missing field、duplicate date、schema drift 等 synthetic cases。"
+        summary: "持續補齊成功、空資料、缺欄位、重複日期與格式變動等示範情境。"
       },
       {
         id: "public-copy-guard",
-        label: "公開邊界文案",
-        owner: "文案線",
+        label: "公開文案保護",
+        owner: "公開文案",
         status: "readying",
-        summary: "公開頁需持續標示資料延遲、mock 邊界、非投資建議與非官方背書。"
+        summary: "公開頁必須清楚標示示範資料、資料狀態與非投資建議邊界。"
       },
       {
         id: "real-promotion",
-        label: "real promotion",
-        owner: "產品線",
+        label: "正式資料升級",
+        owner: "產品體驗",
         status: "blocked",
-        summary: "真實資料與真實分數必須等來源權利、覆蓋率、品質、Supabase gate 與 promotion gate 另行通過。"
+        summary: "必須等來源權利、欄位契約、覆蓋率、品質與回退條件完整後，才可升級正式資料。"
       }
     ],
     userValue:
-      "使用者目前看到的是產品閱讀流程與風險辨識介面；工程上正在把未來真實資料接入點整理成可驗證、可回退、可揭露的 runtime 形狀。"
+      "使用者會先看到清楚的市場狀態與資料邊界，而不是內部流程或不完整的資料升級訊號。"
   };
 }

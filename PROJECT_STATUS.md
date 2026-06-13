@@ -2,6 +2,49 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### BRIEF Phase Split And Public Surface Cleanup Pass
+
+Status: `brief_phase_split_public_surface_cleanup_ready`
+
+CEO decision:
+
+- Split the updated BRIEF into two execution phases.
+- Phase 1 is the public/free index signal dashboard for all users: market atmosphere, core indicators, alert list, data update time, data trust, and non-investment-advice boundaries.
+- Phase 2 is membership MVP planning only for now: member depth interpretation, watchlist, custom alerts, and after-market review. It must not slow Phase 1 public usability or imply that membership is already complete.
+
+PM completed:
+
+- Cleaned and aligned the public Home, Briefing, and Stock reading loop around the BRIEF promise: `30 秒內看懂市場氛圍`, `3 分鐘內判斷`, `3 分鐘判斷順序`, source coverage, data boundary, and no-advice copy.
+- Updated shared public surfaces so all core routes expose `目前公開使用狀態`, `市場氣氛快讀`, `資料狀態需複核`, `會員功能下一階段`, and `會員深度解讀` as a deferred Phase 2 path.
+- Renamed the navigation item to `會員預覽` so users do not mistake the roadmap for a finished member system.
+- Strengthened source-coverage copy for index, ETF, and stock field contracts without opening SQL, Supabase writes, raw market data fetch, or real-data promotion.
+
+Checks passed:
+
+- `npx tsc --noEmit`
+- `check:public-visible-language-quality`
+- `check:phase-1-public-beta-public-visible-residue-cleanup`
+- `check:public-surface-user-facing-audit`
+- `check:public-beta-core-route-quick-proof`
+- `check:public-beta-decision-loop-bridge`
+- `check:public-beta-decision-journey-panel`
+- `check:public-beta-mainline-action-bridge`
+- `check:public-beta-value-loop-refinement`
+- `check:public-beta-user-value-source-coverage-bridge`
+- `check:phase-1-public-beta-public-status-surface-alignment`
+- `check:public-beta-membership-mvp-roadmap`
+- `check:a2-field-contract-public-copy-guard`
+- `check:review-gates`
+- Browser smoke: `/`, `/briefing`, and `/stocks/2330` load with Phase 1 reading flow, mock/demo data boundary, non-advice copy, and membership preview.
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, market-row fetch, raw payload output, secret output, source promotion, real score promotion, membership implementation, production env mutation, DNS change, Vercel dashboard mutation, or production deploy occurred. Runtime remains mock/demo.
+
+Next:
+
+Continue Phase 1 launch-readiness and public route polish while A1 continues data/source/coverage work. A2 should keep trust/legal/source copy aligned. A3 remains the platform/release lane. Phase 2 membership should stay roadmap/preview until Phase 1 is publicly usable.
+
 ### A3 Platform Action Reading Contract Evidence Pass
 
 Status: `a3_platform_action_reading_contract_evidence_ready`

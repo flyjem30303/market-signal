@@ -10,8 +10,8 @@ type PublicBetaSourceCoverageBridgeProps = {
 };
 
 const coverageStatusCopy = {
-  blocked: "尚未放行",
-  candidate: "候選確認",
+  blocked: "等待條件",
+  candidate: "候選中",
   checking: "確認中",
   future: "後續階段"
 } satisfies Record<string, string>;
@@ -29,45 +29,46 @@ export function PublicBetaSourceCoverageBridge({
     labels.coverageGapMatrix.find((item) => item.id === "derived-indicator-layer-gap") ?? labels.coverageGapMatrix[0];
 
   return (
-    <section className="panel stock-reading-summary public-beta-source-coverage-bridge" aria-label="資料來源與覆蓋率橋接">
-      <p className="eyebrow">資料來源與覆蓋率</p>
-      <h2>先確認資料範圍，再提高判斷信任度</h2>
+    <section className="panel stock-reading-summary public-beta-source-coverage-bridge" aria-label="資料來源與覆蓋狀態">
+      <p className="eyebrow">資料來源與覆蓋狀態</p>
+      <h2>先知道資料能信到哪裡，再閱讀燈號</h2>
       <p>
         {labels.summary}
-        目前公開 Beta 維持示範資料與示範分數；正式市場資料尚未啟用，本區只協助使用者理解資料邊界。
+        目前公開 Beta 會清楚標示資料來源與覆蓋率、資料範圍、示範資料與正式資料的差異；正式市場資料尚未啟用前，
+        不提供買賣建議，也避免使用者把尚未升級的資料當成即時行情。
       </p>
       <div className="briefing-actions">
-        <SourceCoverageCard title="目前可讀" text={`${indexLayer.label}：${indexLayer.detail}`} />
-        <SourceCoverageCard title="覆蓋範圍" text={`${equityLayer.label}：${equityLayer.detail}`} />
+        <SourceCoverageCard title="目前基準" text={`${indexLayer.label}：${indexLayer.detail}`} />
+        <SourceCoverageCard title="覆蓋狀態" text={`${equityLayer.label}：${equityLayer.detail}`} />
         <SourceCoverageCard
-          title="全市場進度"
+          title="後續擴充"
           text={`${fullCoverageLayer.label}：${coverageStatusCopy[fullCoverageLayer.status]}，${fullCoverageLayer.next}`}
         />
         <SourceCoverageCard
           title="升級條件"
-          text={`${derivedLayer.label}：${coverageStatusCopy[derivedLayer.status]}，來源、欄位、更新節奏與品質都通過後才會進入正式資料流程。`}
+          text={`${derivedLayer.label}：${coverageStatusCopy[derivedLayer.status]}，${derivedLayer.next}`}
         />
       </div>
       <p>
-        使用者下一步：先把燈號當成閱讀線索，再確認資料來源、覆蓋範圍、更新時間與風險聲明；本網站不提供買賣建議。
+        使用者應先看資料狀態、覆蓋範圍與更新時間，再用燈號判斷是否關注、加強觀察或降低風險。
       </p>
       <div className="briefing-actions" aria-label="資料來源下一步閱讀">
         <SourceCoverageActionLink
           href="/methodology"
           label="方法說明"
-          text="理解市場氣氛、風險升溫、資料品質與示範分數如何被整理成閱讀順序。"
+          text="了解燈號如何由分數、風險、趨勢與資料狀態組成。"
           title="查看方法說明"
         />
         <SourceCoverageActionLink
           href="/disclaimer"
-          label="風險聲明"
-          text="確認示範資料、非投資建議與使用者自行複核責任。"
+          label="免責聲明"
+          text="確認本站是市場資訊整理與風險辨識工具，不提供個股買賣建議。"
           title="查看風險聲明"
         />
         <SourceCoverageActionLink
           href="/briefing"
-          label="市場晨報"
-          text="回到晨報，用市場氣氛、成因、資料狀態與下一步觀察重新檢查今日判斷。"
+          label="市場簡報"
+          text="回到市場晨報，用同一套閱讀順序比較指數、ETF 與個股狀態。"
           title="回到市場晨報"
         />
       </div>

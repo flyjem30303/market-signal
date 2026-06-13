@@ -5,14 +5,14 @@ import { trackEvent } from "@/lib/tracking";
 
 const navItems = [
   { href: "/", label: "首頁" },
-  { href: "/briefing", label: "今日簡報" },
+  { href: "/briefing", label: "市場簡報" },
   { href: "/weekly", label: "週報" },
   { activePrefix: "/stocks", href: "/stocks/2330", label: "個股" },
   { href: "/membership", label: "會員預覽" },
   { href: "/methodology", label: "方法說明" },
   { href: "/privacy", label: "隱私權" },
   { href: "/terms", label: "使用條款" },
-  { href: "/disclaimer", label: "風險揭露" }
+  { href: "/disclaimer", label: "免責聲明" }
 ];
 
 export function SiteNav() {

@@ -11,25 +11,26 @@ export const metadata: Metadata = {
     template: "%s | 指數燈號"
   },
   description:
-    "指數燈號是公開 Beta 的市場狀態儀表站，協助一般投資者閱讀台股、ETF、族群與風險狀態；目前以示範資料呈現，非投資建議。"
+    "指數燈號是面向一般投資者的市場狀態儀表站，用紅黃綠燈號、核心指標、風險提示與資料更新時間，協助使用者快速理解市場氛圍。"
 };
 
 const footerTrustLinks = [
   { href: "/methodology", label: "方法說明" },
-  { href: "/disclaimer", label: "風險揭露" },
+  { href: "/disclaimer", label: "免責聲明" },
   { href: "/privacy", label: "隱私權" },
   { href: "/terms", label: "使用條款" }
 ];
 
 const footerNavLinks = [
   { href: "/", label: "首頁" },
-  { href: "/briefing", label: "今日簡報" },
+  { href: "/briefing", label: "市場簡報" },
   { href: "/weekly", label: "週報" },
   { href: "/stocks/2330", label: "個股" },
+  { href: "/membership", label: "會員" },
   { href: "/methodology", label: "方法說明" },
   { href: "/privacy", label: "隱私權" },
   { href: "/terms", label: "使用條款" },
-  { href: "/disclaimer", label: "風險揭露" }
+  { href: "/disclaimer", label: "免責聲明" }
 ];
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -47,7 +48,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             <span className="logo-mark">MS</span>
             <span>
               指數燈號
-              <small>市場狀態儀表站</small>
+              <small>市場風險與趨勢狀態儀表站</small>
             </span>
           </TrackedLink>
           <SiteNav />
@@ -57,12 +58,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <div>
             <strong>指數燈號</strong>
             <p>
-              目前是公開 Beta 的示範資料閱讀介面；資料新鮮度、覆蓋率與模型分數仍在驗證中，不構成投資建議。
-              正式市場資料與正式分數需通過獨立上線審核後才會啟用。
+              本站提供市場資訊整理、風險辨識與觀察輔助。資料來源、更新時間與可能延遲會在頁面中揭露；內容不構成投資建議，
+              也不提供個股買賣建議或保證報酬承諾。
             </p>
-            <div className="site-footer-trust" aria-label="信任與風險資訊">
-              <span>資料來源：示範資料</span>
-              <span>分數來源：示範分數</span>
+            <div className="site-footer-trust" aria-label="信任與法務連結">
+              <span>資料來源：頁面揭露</span>
+              <span>資料狀態：示範或正式會明確標示</span>
               <span>非投資建議</span>
               {footerTrustLinks.map((link) => (
                 <TrackedLink

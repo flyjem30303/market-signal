@@ -6,6 +6,7 @@ import { PublicBetaDataReadinessStatus } from "@/components/public-beta-data-rea
 import { PublicBetaMembershipMvpRoadmap } from "@/components/public-beta-membership-mvp-roadmap";
 import { PublicBetaPublicStatusSurface } from "@/components/public-beta-public-status-surface";
 import { PublicBetaSourceCoverageBridge } from "@/components/public-beta-source-coverage-bridge";
+import { PublicBetaUsableLoopPanel } from "@/components/public-beta-usable-loop-panel";
 import { TrackedLink } from "@/components/tracked-link";
 import { buildBriefingMarketActionSummary } from "@/lib/briefing-market-action-summary";
 import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
@@ -18,8 +19,8 @@ import type { SignalSnapshot } from "@/lib/signal-model";
 type Tone = "active" | "hold" | "blocked";
 
 export const metadata: Metadata = {
-  title: "每日市場晨報",
-  description: "公開 Beta 每日市場晨報，整理市場燈號、核心指標、風險提示與資料更新狀態。"
+  title: "市場簡報",
+  description: "公開 Beta 市場簡報，用 30 秒摘要與 3 分鐘觀察順序整理市場燈號、核心風險、資料可信度與非投資建議邊界。"
 };
 
 export default async function BriefingPage() {
@@ -36,9 +37,9 @@ export default async function BriefingPage() {
       <main className="page-shell">
         <section className="hero briefing-hero">
           <div>
-            <p className="eyebrow">市場晨報</p>
-            <h1>每日市場晨報暫無資料</h1>
-            <p>目前沒有可顯示的示範燈號。請稍後再試，或回首頁查看公開 Beta 狀態。</p>
+            <p className="eyebrow">市場簡報</p>
+            <h1>目前沒有可閱讀的市場資料</h1>
+            <p>請稍後再試；當資料無法載入時，本站不會用過期資訊替代正式判斷。</p>
           </div>
         </section>
       </main>
@@ -61,18 +62,21 @@ export default async function BriefingPage() {
       <PageViewTracker eventName="briefing_page_viewed" payload={{ page: "briefing" }} />
       <BriefingPublicDecisionSummaryPanel breadth={breadth} market={market} topRisk={topRisk} />
 
-      <section className="panel stock-reading-summary" aria-label="晨報快速判讀">
-        <p className="eyebrow">晨報快速判讀</p>
-        <h2>30 秒先看今日市場氣氛，3 分鐘再決定觀察順序</h2>
+      <section className="panel stock-reading-summary" aria-label="市場簡報閱讀順序">
+        <p className="eyebrow">每日市場晨報</p>
+        <h2>30 秒看市場狀態，3 分鐘行動判斷</h2>
         <p>
-          晨報的用途是把今天要看的市場重點排好順序。先看市場燈號與廣度，再看風險來源，
-          最後確認資料更新時間；若資料仍是示範狀態，就把它當成觀察流程示範，而不是正式市場訊號。
+          市場簡報把市場燈號、主要風險、更新時間與下一步觀察整理在同一頁，也提供公開使用狀態。使用提醒：使用者先看市場氣氛處於偏多、觀望、警戒或高風險，
+          再依 3 分鐘判斷順序複核成因與資料可信度。正式市場資料尚未啟用前，所有數字都會保留示範資料提示。
         </p>
         <div className="briefing-actions">
-          <ActionCard title="30 秒看懂今日市場氣氛" text={`目前市場主燈號為「${market.signal.title}」，先判斷今天是偏關注、偏觀望，還是偏防守。`} />
-          <ActionCard title="3 分鐘行動判斷" text={`市場廣度為 ${breadth.constructive} 個偏強、${breadth.watch} 個觀望、${breadth.defensive} 個偏防守；再看風險是否擴散。`} />
-          <ActionCard title="資料更新時間" text={`目前更新時間為 ${updatedAt}；正式資料尚未啟用前，請保留判斷空間。`} />
-          <ActionCard title="下一步觀察" text={`先看 ${topRisk.asset.symbol} 的風險成因，再對照 ETF 與市場主燈號是否一致。`} />
+          <ActionCard title="30 秒閱讀" text={`目前市場燈號為「${market.signal.title}」，先用它建立今天的市場背景。`} />
+          <ActionCard
+            title="3 分鐘判斷順序"
+            text={`市場廣度：${breadth.constructive} 個偏建設性、${breadth.watch} 個觀察中、${breadth.defensive} 個偏防守。`}
+          />
+          <ActionCard title="資料更新" text={`目前更新時間：${updatedAt}。正式資料上線前，頁面會保留示範資料標示。`} />
+          <ActionCard title="偏強觀察" text={`先看相對偏強標的是否還能支撐市場，再檢查 ${topRisk.asset.symbol} 是否屬於風險較高名單。`} />
         </div>
       </section>
 
@@ -81,8 +85,7 @@ export default async function BriefingPage() {
           <p className="eyebrow">市場行動摘要</p>
           <h2>{actionSummary.headline}</h2>
           <p>{actionSummary.marketLine}</p>
-          <p>3 分鐘判斷順序：先看市場燈號，再看風險熱度，最後確認資料品質與更新時間。</p>
-          <p>下一步觀察：先打開主要風險標的，再對照 ETF 參考與資料更新狀態。</p>
+          <p>這不是買賣建議；它只是把目前市場狀態整理成可複核的觀察順序。</p>
           <p>{actionSummary.stopLine}</p>
         </div>
         <TrackedLink
@@ -111,12 +114,9 @@ export default async function BriefingPage() {
 
       <section className="home-public-beta-layers briefing-alert-decision-list" aria-label="警示清單">
         <div className="home-public-beta-layer alerts">
-          <span>今日提醒</span>
+          <span>警示清單</span>
           <strong>{alerts.length} 個觀察重點</strong>
-          <p>
-            使用提醒：每個警示都保留狀態、成因、更新時間、影響級別與下一步，
-            避免只看單一分數做判斷。
-          </p>
+          <p>每個警示都包含狀態、成因、更新時間、影響級別與下一步，避免只看單一分數。</p>
         </div>
         <div className="home-public-beta-alert-list">
           {alerts.map((alert) => (
@@ -154,16 +154,16 @@ export default async function BriefingPage() {
       </section>
 
       <section className="briefing-decision-strip" aria-label="市場廣度">
-        <DecisionPill label="偏多" text={`${breadth.constructive} 個標的偏強`} tone="active" />
-        <DecisionPill label="觀望" text={`${breadth.watch} 個標的需觀察`} tone="hold" />
-        <DecisionPill label="防守" text={`${breadth.defensive} 個標的偏防守`} tone="blocked" />
+        <DecisionPill label="偏多" text={`${breadth.constructive} 個標的`} tone="active" />
+        <DecisionPill label="觀察" text={`${breadth.watch} 個標的`} tone="hold" />
+        <DecisionPill label="防守" text={`${breadth.defensive} 個標的`} tone="blocked" />
       </section>
 
       <section className="briefing-summary">
         <article className="panel briefing-market-card">
           <div className="market-card-head">
             <div>
-              <p className="panel-label">市場主燈號</p>
+              <p className="panel-label">市場總覽</p>
               <h2>{market.asset.name}</h2>
             </div>
             <strong className="signal-badge">{market.signal.title}</strong>
@@ -175,49 +175,46 @@ export default async function BriefingPage() {
             </div>
             <div className="market-score-copy">
               <b>綜合分數</b>
-              <p>
-                健康分數 {market.healthScore}/100，風險分數 {market.riskScore}/100。請把分數視為觀察排序，
-                不要視為買賣訊號。
-              </p>
+              <p>健康分數 {market.healthScore}/100，風險分數 {market.riskScore}/100。正式資料上線前，此分數仍屬示範模型。</p>
             </div>
           </div>
         </article>
-        <MetricPanel label="資料品質" value={market.dataQualityGrade} text={`資料品質 ${market.dataQualityScore}/100，目前仍是示範資料。`} />
-        <MetricPanel label="更新時間" value={updatedAt} text="使用者應先確認資料日期與延遲狀態，再閱讀燈號。" />
-        <MetricPanel label="資料邊界" value="示範資料" text="正式資料來源與完整授權未完成前，不顯示真實分數宣稱。" />
+        <MetricPanel label="資料品質" value={market.dataQualityGrade} text={`資料品質 ${market.dataQualityScore}/100，仍需正式來源與覆蓋率檢查。`} />
+        <MetricPanel label="更新時間" value={updatedAt} text="頁面會明確顯示資料更新時間，避免使用者把過期資料當成最新狀態。" />
+        <MetricPanel label="資料狀態" value="示範資料" text="正式資料來源、欄位契約與覆蓋率完成前，公開頁保持示範資料標示。" />
       </section>
 
-      <section className="panel stock-reading-summary" aria-label="三分鐘判斷">
-        <p className="eyebrow">3 分鐘行動判斷</p>
-        <h2>3 分鐘內完成關注、加強觀察或降低風險的初步判斷</h2>
+      <section className="panel stock-reading-summary" aria-label="三層市場解讀">
+        <p className="eyebrow">三層市場解讀</p>
+        <h2>先看市場，再看風險，最後看資料可信度</h2>
         <p>
-          這裡不是交易建議，而是把市場燈號、風險熱度、ETF 狀態與資料品質排成固定閱讀流程，協助使用者避免資訊過載。
+          這是公開 Beta 的核心閱讀方式：先用市場總覽建立背景，再找出最需要注意的風險標的，最後回到資料更新與使用邊界。
         </p>
         <div className="briefing-actions">
-          <ActionCard title="市場燈號" text={`目前市場主燈號為 ${market.signal.title}，先確認是否仍適合關注。`} />
-          <ActionCard title="風險成因" text={`${topRisk.asset.symbol} 風險分數為 ${topRisk.riskScore}/100，需檢查是否集中在單一族群。`} />
-          <ActionCard title="ETF 觀察" text={`${topEtf.asset.symbol} 健康分數為 ${topEtf.healthScore}/100，可作為大盤觀察參考。`} />
-          <ActionCard title="資料確認" text="若資料未更新或品質偏低，先降低判斷權重，等待下一次資料更新。" />
+          <ActionCard title="市場燈號" text={`目前市場總覽為「${market.signal.title}」。`} />
+          <ActionCard title="最高風險" text={`${topRisk.asset.symbol} 風險分數 ${topRisk.riskScore}/100。`} />
+          <ActionCard title="ETF 觀察" text={`${topEtf.asset.symbol} 健康分數 ${topEtf.healthScore}/100。`} />
+          <ActionCard title="資料邊界" text="目前仍為示範資料，不提供個股買賣建議。" />
         </div>
       </section>
 
       <section className="weekly-grid">
-        <BriefingList title="偏強觀察" description="分數較高的標的可作為市場熱點觀察清單。" items={strongest} valueKey="composite" />
-        <BriefingList title="風險觀察" description="風險分數較高的標的需先檢查成因與資料品質。" items={heated} valueKey="risk" />
+        <BriefingList title="相對強勢觀察" description="綜合分數較高的標的，可用來觀察市場是否仍有支撐。" items={strongest} valueKey="composite" />
+        <BriefingList title="風險升溫觀察" description="風險分數較高的標的，適合先複核成因與資料狀態。" items={heated} valueKey="risk" />
       </section>
 
-      <nav aria-label="晨報閱讀路徑" className="experience-flow-nav">
-        <span>閱讀路徑</span>
+      <nav aria-label="簡報導覽" className="experience-flow-nav">
+        <span>繼續閱讀</span>
         <TrackedLink eventName="briefing_link_clicked" href="/" label="市場總覽" payload={{ area: "experience_flow", target: "home" }}>
           市場總覽
         </TrackedLink>
         <TrackedLink
           eventName="briefing_link_clicked"
           href={`/stocks/${market.asset.symbol}`}
-          label="指數細節"
+          label="指數頁"
           payload={{ area: "experience_flow", symbol: market.asset.symbol }}
         >
-          指數細節
+          指數頁
         </TrackedLink>
         <TrackedLink eventName="briefing_link_clicked" href="/weekly" label="週報" payload={{ area: "experience_flow", target: "weekly" }}>
           週報
@@ -225,8 +222,8 @@ export default async function BriefingPage() {
         <TrackedLink eventName="briefing_link_clicked" href="/methodology" label="方法說明" payload={{ area: "experience_flow", target: "methodology" }}>
           方法說明
         </TrackedLink>
-        <TrackedLink eventName="briefing_link_clicked" href="/disclaimer" label="風險聲明" payload={{ area: "experience_flow", target: "disclaimer" }}>
-          風險聲明
+        <TrackedLink eventName="briefing_link_clicked" href="/disclaimer" label="免責聲明" payload={{ area: "experience_flow", target: "disclaimer" }}>
+          免責聲明
         </TrackedLink>
       </nav>
 
@@ -234,26 +231,27 @@ export default async function BriefingPage() {
       <PublicBetaPublicStatusSurface />
       <PublicBetaDataReadinessStatus />
       <PublicBetaSourceCoverageBridge context="briefing" stockSymbol={market.asset.symbol} />
+      <PublicBetaUsableLoopPanel context="briefing" stockSymbol={market.asset.symbol} />
 
-      <section className="panel stock-reading-summary" aria-label="資料狀態與下一階段">
-        <p className="eyebrow">資料狀態與下一階段</p>
-        <h2>目前先讓所有使用者看懂市場狀態</h2>
+      <section className="panel stock-reading-summary" aria-label="產品階段規劃">
+        <p className="eyebrow">會員路線</p>
+        <h2>免費頁先讓所有人看懂市場，會員內容留到下一階段</h2>
         <p>
-          目前頁面用示範資料呈現市場燈號、核心指標、風險提醒與資料更新時間。
-          正式資料來源、完整覆蓋率與更新流程完成前，請把本頁視為閱讀流程示範與市場觀察輔助。
+          第一階段先完成市場總覽燈號、核心指標、風險提示、更新時間與資料可信度揭露。
+          會員內容會作為下一階段產品路線：每日三層解讀、watchlist、自訂警示與盤後複盤。
         </p>
         <div className="briefing-actions">
-          <ActionCard title="公開版重點" text="先完成市場總覽、核心指標、警示清單與資料更新時間，讓所有使用者都能快速理解市場氣氛。" />
-          <ActionCard title="資料限制" text="正式市場資料尚未啟用；若資料延遲、缺漏或品質偏低，頁面會提醒使用者降低判斷權重。" />
-          <ActionCard title="會員路線" text="會員深度解讀、watchlist、自訂警示與盤後複盤會在公開版穩定後進入下一階段。" />
+          <ActionCard title="免費市場總覽" text="讓一般使用者快速理解市場目前偏多、觀望、警戒或高風險。" />
+          <ActionCard title="會員 MVP 路線" text="規劃每日市場三層解讀、watchlist、自訂警示與盤後複盤，不阻塞公開 Beta。" />
+          <ActionCard title="資料升級條件" text="資料來源、欄位契約、覆蓋率與回補通過後，才逐步升級正式資料。" />
         </div>
       </section>
 
       <PublicBetaMembershipMvpRoadmap />
 
       <article className="disclaimer">
-        <h2>重要提醒</h2>
-        <p>本頁為公開 Beta 示範，不提供個股買賣建議、不承諾投資結果，也不代替使用者做投資決策。</p>
+        <h2>風險提醒</h2>
+        <p>本站是市場資訊整理、風險辨識與觀察輔助工具，不提供個股買賣建議、不保證報酬，也不代替使用者做投資決策。</p>
       </article>
     </main>
   );
@@ -269,21 +267,21 @@ function buildBriefingAlerts(
 
   return [
     {
-      cause: marketNeedsCaution ? "市場風險分數偏高，或防守標的多於偏強標的。" : "市場主燈號仍有支撐，但需確認資料品質。",
+      cause: marketNeedsCaution ? "市場風險分數偏高或防守標的增加。" : "市場狀態相對穩定，但仍需確認資料狀態。",
       href: `/stocks/${market.asset.symbol}`,
-      impact: marketNeedsCaution ? "中高" : "中",
-      next: marketNeedsCaution ? "先看風險來源，再決定是否降低曝險。" : "保持觀察，並追蹤下一次更新。",
-      status: marketNeedsCaution ? "加強觀察" : "可先關注",
+      impact: marketNeedsCaution ? "中高" : "低",
+      next: marketNeedsCaution ? "先檢查風險成因，再決定是否降低風險。" : "維持觀察並追蹤下一次更新。",
+      status: marketNeedsCaution ? "需要觀察" : "可閱讀",
       symbol: market.asset.symbol,
       title: `${market.asset.symbol} ${market.asset.name}`,
       tone: marketNeedsCaution ? "hold" : "active"
     },
     {
-      cause: `${topRisk.asset.symbol} 風險分數為 ${topRisk.riskScore}/100。`,
+      cause: `${topRisk.asset.symbol} 風險分數 ${topRisk.riskScore}/100。`,
       href: `/stocks/${topRisk.asset.symbol}`,
       impact: topRiskElevated ? "高" : "中",
-      next: "檢查風險是否集中在估值、趨勢或資料品質。",
-      status: topRiskElevated ? "風險升溫" : "持續觀察",
+      next: "閱讀該標的的成因、更新時間與資料邊界。",
+      status: topRiskElevated ? "高風險" : "風險觀察",
       symbol: topRisk.asset.symbol,
       title: `${topRisk.asset.symbol} ${topRisk.asset.name}`,
       tone: topRiskElevated ? "blocked" : "hold"

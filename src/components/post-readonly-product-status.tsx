@@ -8,19 +8,19 @@ type PostReadonlyProductStatusProps = {
 
 const contextCopy = {
   briefing: {
-    body: "這裡把後端唯讀證據轉成公開 Beta 可理解的資料狀態，但不把它說成正式資料已上線。",
+    body: "市場簡報會把資料狀態轉成使用者可理解的摘要，讓使用者知道目前哪些內容可閱讀、哪些仍在準備。",
     label: "資料準備狀態",
-    title: "後端證據已整理，公開資料仍是示範"
+    title: "正式資料升級前，公開頁先維持清楚揭露"
   },
   home: {
-    body: "首頁可說明目前能看什麼、不能推論什麼，以及正式資料還缺哪些條件。",
+    body: "首頁先提供市場總覽、核心指標、風險提示與更新時間；正式資料升級前仍以示範資料建立閱讀流程。",
     label: "首頁資料狀態",
-    title: "目前公開頁仍使用示範資料"
+    title: "公開頁可讀，但不宣稱正式行情"
   },
   stock: {
-    body: "標的頁可以協助使用者閱讀訊號、風險與資料限制，但不能把示範分數當作正式市場判斷。",
-    label: "標的資料狀態",
-    title: "標的頁目前是示範訊號閱讀"
+    body: "個股頁先提供燈號讀法、成因、更新時間與資料邊界；正式資料完成前不把分數當成交易訊號。",
+    label: "個股資料狀態",
+    title: "個股頁以風險辨識與觀察輔助為主"
   }
 } as const;
 
@@ -31,9 +31,9 @@ const stepStatusClass = {
 } as const;
 
 function ownerLabel(owner: string) {
-  if (owner === "Engineering") return "工程線";
-  if (owner === "Data") return "資料線";
-  if (owner === "Investment") return "投資判讀線";
+  if (owner === "Engineering") return "工程";
+  if (owner === "Data") return "資料來源";
+  if (owner === "Investment") return "投資解讀";
   return owner;
 }
 
@@ -44,7 +44,7 @@ export function PostReadonlyProductStatus({ context, symbol }: PostReadonlyProdu
   const subject = symbol ? `${symbol} ` : "";
 
   return (
-    <section className={`post-readonly-product-status ${context}`} aria-label={`${context} post-readonly runtime status`}>
+    <section className={`post-readonly-product-status ${context}`} aria-label={`${context} runtime status`}>
       <div className="post-readonly-product-status-main">
         <p className="eyebrow">{copy.label}</p>
         <h2>
@@ -55,36 +55,36 @@ export function PostReadonlyProductStatus({ context, symbol }: PostReadonlyProdu
         <p>{state.userFacingSummary}</p>
       </div>
       <article className="ready">
-        <span>後端檢查</span>
-        <strong>{state.objectsReachable} 個唯讀物件曾通過檢查</strong>
+        <span>本地檢查</span>
+        <strong>{state.objectsReachable} 個資料物件通過形狀檢查</strong>
         <p>{state.acceptedEvidence}</p>
       </article>
       <article className="hold">
         <span>覆蓋率</span>
         <strong>
-          已觀察 {state.rowCoverage.observedRows}/{state.rowCoverage.expectedRows} 筆
+          目前確認 {state.rowCoverage.observedRows}/{state.rowCoverage.expectedRows} 筆
         </strong>
         <p>
-          尚缺 {state.rowCoverage.missingRows} 筆。{state.rowCoverage.summary}
+          尚缺 {state.rowCoverage.missingRows} 筆；{state.rowCoverage.summary}
         </p>
       </article>
       <article className="blocked">
-        <span>停止線</span>
-        <strong>正式資料、正式分數與完整覆蓋都尚未啟用</strong>
+        <span>升級邊界</span>
+        <strong>正式資料與正式分數仍需完整條件</strong>
         <p>{state.stopLine}</p>
       </article>
       <article className="hold">
         <span>下一步</span>
         <strong>{state.nextGate}</strong>
-        <p>資料線需要補齊合法來源、欄位契約、覆蓋率、品質與回退條件，才會進入下一段升級討論。</p>
+        <p>資料來源、欄位契約、覆蓋率、品質與回退條件齊備後，才會進入正式資料升級討論。</p>
       </article>
-      <div className="post-readonly-promotion-summary" aria-label="Runtime promotion readiness summary">
+      <div className="post-readonly-promotion-summary" aria-label="Runtime upgrade readiness summary">
         <article className="blocked">
-          <span>升級狀態</span>
+          <span>升級準備</span>
           <strong>{promotion.headline}</strong>
           <p>
-            可用於本地準備 {promotion.readinessCounts.ready}/{promotion.readinessCounts.total} 項；
-            仍需覆核 {promotion.readinessCounts.needsReview} 項，等待證據 {promotion.readinessCounts.blocked} 項。
+            可用條件 {promotion.readinessCounts.ready}/{promotion.readinessCounts.total}，需要複核{" "}
+            {promotion.readinessCounts.needsReview}，仍受阻 {promotion.readinessCounts.blocked}。
           </p>
           <p>{promotion.stopLine}</p>
         </article>
@@ -97,10 +97,10 @@ export function PostReadonlyProductStatus({ context, symbol }: PostReadonlyProdu
           </article>
         ))}
         <article className="blocked">
-          <span>不可做</span>
-          <strong>正式資料升級仍鎖住</strong>
-          <p>{promotion.noGoActions.join("、")}。</p>
-          <p>公開資料來源與分數來源仍維持示範狀態。</p>
+          <span>不可誤解</span>
+          <strong>目前不是正式行情或投資建議</strong>
+          <p>{promotion.noGoActions.join("、")}</p>
+          <p>公開頁必須持續揭露資料狀態、更新時間與非投資建議邊界。</p>
         </article>
       </div>
     </section>

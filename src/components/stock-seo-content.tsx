@@ -18,67 +18,63 @@ export function StockSeoContent({ asset, backtestBuckets, news, snapshot }: Stoc
   return (
     <section className="seo-content">
       <article className="panel">
-        <p className="eyebrow">標的訊號摘要</p>
+        <p className="eyebrow">標的補充說明</p>
         <h2>
-          {asset.symbol} {asset.name} 目前燈號：{" "}
+          {asset.symbol} {asset.name} 目前燈號{" "}
           <span style={{ color: signalColor(snapshot.signal.key) }}>{snapshot.signal.title}</span>
         </h2>
         <p>
-          這一頁目前用示範資料呈現健康分數、回檔風險與綜合燈號，目的是讓使用者看懂判讀順序；正式市場資料、
-          完整覆蓋與投資建議都尚未啟用。
+          本段提供搜尋與長文閱讀所需的背景說明。現在仍以 mock 資料展示燈號、健康分數、風險分數與資料品質，
+          不代表正式行情資料已上線。
         </p>
       </article>
 
       <div className="seo-grid">
         <article className="panel">
-          <h2>目前相對支撐</h2>
+          <h2>主要支撐</h2>
           <p>
-            示範模組中最強的是 {strongest.name}，健康分數 {strongest.health}/100。這可作為頁面解釋方向，
-            但仍需資料來源、品質與模型條件完成後才能升級為正式判讀。
+            目前健康分數最高的模組是 {strongest.name}，分數 {strongest.health}/100。這代表它在 mock 模型中
+            對目前燈號有較大支撐，但仍需等待正式資料來源與欄位契約完成。
           </p>
         </article>
 
         <article className="panel">
-          <h2>目前需要留意</h2>
+          <h2>主要風險</h2>
           <p>
-            示範模組中風險最高的是 {riskiest.name}，風險分數 {riskiest.risk}/100。使用者可以把它當成觀察提示，
-            但不能當成正式買賣訊號。
+            目前風險分數最高的模組是 {riskiest.name}，分數 {riskiest.risk}/100。若後續風險持續升高，
+            使用者應優先查看資料時間與風險來源。
           </p>
         </article>
       </div>
 
       <article className="panel">
-        <h2>最新情境提示</h2>
+        <h2>近期背景</h2>
         {latestNews ? (
           <p>
-            示範情境：{latestNews.title}，來源標籤為 {latestNews.source}。分類 {latestNews.category}；
-            影響值 {latestNews.impact > 0 ? "+" : ""}
-            {latestNews.impact}。這只用於產品情境展示，不代表已驗證新聞資料。
+            參考事件：{latestNews.title}，來源為 {latestNews.source}，分類為 {latestNews.category}，
+            影響分數 {latestNews.impact > 0 ? "+" : ""}
+            {latestNews.impact}。這些內容只作為市場脈絡，不是投資建議。
           </p>
         ) : (
-          <p>目前本地資料集中沒有可顯示的情境提示。</p>
+          <p>目前沒有可顯示的背景事件。</p>
         )}
       </article>
 
       <article className="panel">
-        <h2>回看樣本脈絡</h2>
+        <h2>歷史情境</h2>
         <p>
           {orangeBucket
-            ? `本地示範樣本中，橘燈共有 ${orangeBucket.count} 次，20 日平均報酬 ${(
-                orangeBucket.avgReturn * 100
-              ).toFixed(1)}%，勝率 ${(orangeBucket.winRate * 100).toFixed(1)}%，最大回撤 ${(
-                orangeBucket.maxDrawdown * 100
-              ).toFixed(1)}%。`
-            : "目前沒有橘燈示範樣本可顯示。"}{" "}
-          這些數字只用於理解頁面設計與風險語氣，不能支撐正式績效宣稱。
+            ? `mock 歷史樣本中，警戒觀察燈號共 ${orangeBucket.count} 筆，20 日平均變化約 ${(orangeBucket.avgReturn * 100).toFixed(1)}%，勝率約 ${(orangeBucket.winRate * 100).toFixed(1)}%，最大回撤約 ${(orangeBucket.maxDrawdown * 100).toFixed(1)}%。`
+            : "目前沒有足夠的 mock 歷史樣本可供展示。"}{" "}
+          歷史情境只用來說明燈號解讀方式，不保證未來結果。
         </p>
       </article>
 
       <article className="disclaimer">
-        <h2>閱讀邊界</h2>
+        <h2>資料邊界</h2>
         <p>
-          公開資料來源與分數來源仍維持示範狀態。正式市場資料、資料庫寫入、正式模型分數與投資建議，
-          都必須等後續資料來源、覆蓋率、品質與法務揭露條件通過後才會開啟。
+          本頁仍為公開 Beta 與 mock 資料展示；正式資料、完整覆蓋率與 real score 需要另行通過資料來源、
+          回補、驗證與正式升級檢查。內容不構成買進、賣出、持有或個人化投資建議。
         </p>
       </article>
     </section>
