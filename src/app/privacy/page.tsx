@@ -5,7 +5,7 @@ import { TrackedLink } from "@/components/tracked-link";
 import { TrustRuntimeBoundaryNotice } from "@/components/trust-runtime-boundary-notice";
 
 export const metadata: Metadata = {
-  title: "隱私與資料說明 | Taiwan Market Signal",
+  title: "隱私與資料說明",
   description: "公開 Beta 隱私與資料說明：本站不要求使用者輸入交易帳戶、密鑰或敏感個人資料。"
 };
 

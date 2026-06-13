@@ -2297,3 +2297,38 @@ No SQL, Supabase read/write, staging rows, `daily_prices` mutation, raw market-d
 Next:
 
 Continue Phase 1 public usability and launch readiness. PM mainline should keep checking remaining public pages for user-facing clarity; A1 continues lawful automated data-source/coverage work; A2 checks trust copy and non-advice wording; A3 keeps deployment monitoring and rollback ready; A4 remains Phase 2 membership planning-only.
+
+# Latest public brand language alignment
+
+Status: `phase_1_public_brand_language_alignment_passed`
+
+Date: 2026-06-14
+
+CEO decision: keep the user-facing brand as `指數燈號`. English project naming may remain in repository/package internals, but public titles, first-screen copy, and site chrome should not lead with the older English project name.
+
+What changed:
+
+- Changed the default site title to `指數燈號`.
+- Changed the site logo subtitle from English subbrand copy to `市場狀態儀表站`.
+- Changed public legal/trust page metadata titles to Chinese-only titles.
+- Changed disclaimer and terms first-screen body copy from the old English project name to `指數燈號`.
+- Changed the home hero eyebrow to `指數燈號`.
+- Updated the site-chrome readability checker so it guards public phrases like `示範資料`, `示範分數`, and `非投資建議` instead of older engineering wording.
+
+Verification:
+
+- `check:site-chrome-readability` passed.
+- `check:public-visible-language-quality` passed.
+- `check:phase-1-public-beta-public-visible-residue-cleanup` passed.
+- `check:public-surface-user-facing-audit` passed.
+- `npx tsc --noEmit` passed.
+- `npm run build` passed.
+- Local route checks for `/`, `/methodology`, and `/disclaimer` returned HTTP 200.
+
+Boundary:
+
+No SQL, Supabase read/write, staging rows, `daily_prices` mutation, raw market-data fetch/store/commit, source promotion, real score promotion, membership implementation, production env mutation, DNS change, or Vercel dashboard mutation occurred. The runtime remains `publicDataSource=mock` and `scoreSource=mock`.
+
+Next:
+
+Continue Phase 1 public readiness by tightening decision-aid readability on the home and stock pages, then rerun public route and post-deploy checks after the next deploy.

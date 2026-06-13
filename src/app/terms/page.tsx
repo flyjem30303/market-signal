@@ -5,7 +5,7 @@ import { TrackedLink } from "@/components/tracked-link";
 import { TrustRuntimeBoundaryNotice } from "@/components/trust-runtime-boundary-notice";
 
 export const metadata: Metadata = {
-  title: "使用條款 | Taiwan Market Signal",
+  title: "使用條款",
   description: "公開 Beta 使用條款：本網站提供市場資訊整理與風險辨識，不提供個別買賣建議。"
 };
 
@@ -17,7 +17,7 @@ export default function TermsPage() {
         <p className="eyebrow">Terms</p>
         <h1>使用條款</h1>
         <p>
-          Taiwan Market Signal 是市場資訊整理工具。公開 Beta 階段以示範資料呈現產品流程，協助使用者理解市場氣氛、
+          指數燈號是市場資訊整理工具。公開 Beta 階段以示範資料呈現產品流程，協助使用者理解市場氣氛、
           風險提示與觀察順序。
         </p>
         <p className="runtime-boundary-line">使用本網站時，請把內容視為資訊參考，而不是投資建議、保證報酬或交易指令。</p>

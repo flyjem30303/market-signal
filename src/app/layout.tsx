@@ -7,7 +7,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
   title: {
-    default: "指數燈號 | Taiwan Market Signal",
+    default: "指數燈號",
     template: "%s | 指數燈號"
   },
   description:
@@ -47,7 +47,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             <span className="logo-mark">MS</span>
             <span>
               指數燈號
-              <small>Market Signal</small>
+              <small>市場狀態儀表站</small>
             </span>
           </TrackedLink>
           <SiteNav />

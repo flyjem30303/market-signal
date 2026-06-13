@@ -5,7 +5,7 @@ import { TrackedLink } from "@/components/tracked-link";
 import { TrustRuntimeBoundaryNotice } from "@/components/trust-runtime-boundary-notice";
 
 export const metadata: Metadata = {
-  title: "風險聲明 | Taiwan Market Signal",
+  title: "風險聲明",
   description: "公開 Beta 風險聲明：本站提供市場資訊整理，不提供個別投資建議或保證報酬。"
 };
 
@@ -17,7 +17,7 @@ export default function DisclaimerPage() {
         <p className="eyebrow">Disclaimer</p>
         <h1>風險聲明</h1>
         <p>
-          Taiwan Market Signal 目標是協助一般投資者快速理解市場氣氛與風險變化。公開 Beta 階段仍在驗證資料來源、
+          指數燈號的目標是協助一般投資者快速理解市場氣氛與風險變化。公開 Beta 階段仍在驗證資料來源、
           更新時間、覆蓋率、指標解釋與使用體驗。
         </p>
         <p className="runtime-boundary-line">本站內容不是投資建議，不保證正確、完整、即時，也不承諾任何投資結果。</p>

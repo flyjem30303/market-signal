@@ -1103,6 +1103,45 @@ Boundary:
 
 No SQL, Supabase read/write, staging rows, `daily_prices` mutation, raw market-data fetch/store/commit, source promotion, real score promotion, membership implementation, production env mutation, DNS change, or Vercel dashboard mutation occurred.
 
+## 8Q. 2026-06-14 Public Brand Language Alignment
+
+CEO decision:
+
+`make_chinese_brand_primary_on_public_surfaces`
+
+PM executed a brand-language cleanup after the public-route cleanup slice. The product is now presented as `指數燈號` on public titles, site chrome, trust pages, and the home hero, while English/internal project naming stays limited to repository/package context.
+
+Completed mainline work:
+
+- Changed the default site title to `指數燈號`.
+- Changed the site logo subtitle to `市場狀態儀表站`.
+- Changed public legal/trust metadata titles to Chinese-only titles.
+- Changed disclaimer and terms body copy to use `指數燈號`.
+- Changed the home hero eyebrow to `指數燈號`.
+- Updated `check:site-chrome-readability` so it protects user-facing public language instead of requiring older engineering phrases.
+
+Verification:
+
+- `check:site-chrome-readability` passed.
+- `check:public-visible-language-quality` passed.
+- `check:phase-1-public-beta-public-visible-residue-cleanup` passed.
+- `check:public-surface-user-facing-audit` passed.
+- `npx tsc --noEmit` passed.
+- `npm run build` passed.
+- Local route checks for `/`, `/methodology`, and `/disclaimer` returned HTTP 200.
+
+Current lane assignments:
+
+- PM mainline: continue Phase 1 public readability, especially decision-aid clarity on home and stock pages.
+- A1 Data / Source / Coverage: continue lawful automated-source and coverage work independently; no source promotion or market-row fetch is opened by this slice.
+- A2 Public Copy / Product Safety: keep public copy aligned to Chinese brand, data status, and non-advice boundaries.
+- A3 Launch / Production Engineering: keep deployment smoke, monitoring, rollback, and SEO checks ready.
+- A4 Membership MVP Planning: remain Phase 2 planning-only until public Beta is stable.
+
+Boundary:
+
+No SQL, Supabase read/write, staging rows, `daily_prices` mutation, raw market-data fetch/store/commit, source promotion, real score promotion, membership implementation, production env mutation, DNS change, or Vercel dashboard mutation occurred.
+
 ## 8AR. 2026-06-14 Phase 1 / Phase 2 BRIEF Split and A3 Deploy Movement
 
 CEO decision:

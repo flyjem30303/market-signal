@@ -54,7 +54,7 @@ export function DashboardShell({
   return (
     <main className="page-shell">
       <section className="hero dashboard-hero">
-        <p className="eyebrow">Taiwan Market Signal</p>
+        <p className="eyebrow">指數燈號</p>
         <h1>{isStockPage ? `${selected.symbol} ${selected.name} 狀態儀表` : "指數狀態儀表站"}</h1>
         <p>
           用紅、黃、綠燈號整理市場風險、趨勢強弱與觀察重點。目標是讓使用者在 30 秒內看懂市場氛圍，

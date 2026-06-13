@@ -8,7 +8,7 @@ import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
 import { getMarketSignalSourceStatus } from "@/lib/repositories/market-signal-repository";
 
 export const metadata: Metadata = {
-  title: "方法說明 | Taiwan Market Signal",
+  title: "方法說明",
   description: "公開 Beta 方法說明：指數狀態如何整理成市場氣氛、風險提示與觀察順序。"
 };
 
