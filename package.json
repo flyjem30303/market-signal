@@ -66,6 +66,7 @@
     "check:a3-phase-1-post-deploy-smoke-and-monitoring-packet": "node scripts/check-a3-phase-1-post-deploy-smoke-and-monitoring-packet.mjs",
     "check:a3-phase-1-metadata-and-public-route-smoke-checker": "node scripts/check-a3-phase-1-metadata-and-public-route-smoke-checker.mjs",
     "check:a3-phase-1-release-candidate-public-smoke-report": "node scripts/check-a3-phase-1-release-candidate-public-smoke-report.mjs",
+    "check:a3-phase-1-core-route-reading-contract-rollup": "node scripts/check-a3-phase-1-core-route-reading-contract-rollup.mjs",
     "check:a3-phase-1-public-beta-release-go-no-go-packet": "node scripts/check-a3-phase-1-public-beta-release-go-no-go-packet.mjs",
     "check:a3-phase-1-public-beta-chairman-review-packet": "node scripts/check-a3-phase-1-public-beta-chairman-review-packet.mjs",
     "check:a3-phase-1-public-beta-manual-platform-action-checklist": "node scripts/check-a3-phase-1-public-beta-manual-platform-action-checklist.mjs",

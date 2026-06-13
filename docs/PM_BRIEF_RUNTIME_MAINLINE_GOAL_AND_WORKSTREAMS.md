@@ -8,6 +8,48 @@ Owner: PM mainline
 
 ## Latest Mainline Decision - 2026-06-14
 
+### A3 Core Route Reading Contract Rollup Pass
+
+CEO decision:
+
+- Mainline should now connect product readability to A3 launch readiness.
+- Home, Briefing, and Stock already share the public 30-second / 3-minute reading contract; A3 needs this as a formal launch evidence item.
+- The slice remains Phase 1 only: no membership implementation, no real-data promotion, and no platform mutation.
+
+PM completed the A3 rollup slice:
+
+- Added `docs/A3_PHASE_1_CORE_ROUTE_READING_CONTRACT_ROLLUP.md`.
+- Added and registered `check:a3-phase-1-core-route-reading-contract-rollup`.
+- Linked the rollup into the A3 release-candidate report, go/no-go packet, and release ops index.
+
+Latest checks passed:
+
+- `check:a3-phase-1-core-route-reading-contract-rollup`
+- `check:a3-phase-1-release-candidate-public-smoke-report`
+- `check:a3-phase-1-public-beta-release-go-no-go-packet`
+- `check:public-beta-decision-loop-bridge`
+- `check:public-beta-production-brief-alignment`
+- `check:public-beta-decision-journey-panel`
+- `check:public-beta-data-readiness-status`
+- `check:phase-1-public-beta-candidate-final-public-readiness-scan`
+- `check:a2-brief-public-runtime-surface-audit`
+- `check:public-beta-value-loop-refinement`
+- `check:public-beta-user-value-source-coverage-bridge`
+- `check:phase-1-public-beta-public-status-surface-alignment`
+- `check:public-visible-language-quality`
+- `check:phase-1-public-beta-public-visible-residue-cleanup`
+- `check:review-gates`
+- `npx tsc --noEmit`
+- Browser smoke confirmed `/`, `/briefing`, and `/stocks/2330` expose public status, data readiness, source coverage, 3-minute decision order, no-advice copy, and no internal residue.
+
+Current route:
+
+- `phase_1_public_free_index_dashboard_launch_readiness`
+
+Next PM slice:
+
+- Continue the highest-value Phase 1 launch-readiness item without opening Phase 2 membership implementation. A3 core route reading contract and public route gates are currently green.
+
 ### Stock Fast Reading Loop Pass
 
 CEO decision:

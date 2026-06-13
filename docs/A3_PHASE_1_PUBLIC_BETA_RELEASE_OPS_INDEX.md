@@ -24,11 +24,12 @@ It does not deploy production, change DNS, mutate environment variables, print s
 | 4 | `docs/A3_PHASE_1_POST_DEPLOY_SMOKE_AND_MONITORING_PACKET.md` | `a3_phase_1_post_deploy_smoke_and_monitoring_packet_ready` | Defines post-deploy route smoke, monitoring, and rollback thresholds. |
 | 5 | `docs/A3_PHASE_1_METADATA_AND_PUBLIC_ROUTE_SMOKE_CHECKER.md` | `a3_phase_1_metadata_and_public_route_smoke_checker_ready` | Defines metadata, sitemap, robots, and public route smoke readiness. |
 | 6 | `docs/A3_PHASE_1_RELEASE_CANDIDATE_PUBLIC_SMOKE_REPORT.md` | `a3_phase_1_release_candidate_public_smoke_report_ready` | Defines release-candidate evidence before/after deployment. |
-| 7 | `docs/A3_PHASE_1_PUBLIC_BETA_RELEASE_GO_NO_GO_PACKET.md` | `a3_phase_1_public_beta_release_go_no_go_packet_ready` | Defines `GO`, `GO_WITH_DEFERRALS`, and `NO_GO` decision conditions. |
-| 8 | `docs/A3_PHASE_1_PUBLIC_BETA_CHAIRMAN_REVIEW_PACKET.md` | `a3_phase_1_public_beta_chairman_review_packet_ready` | Summarizes CEO/Chairman release decision. |
-| 9 | `docs/A3_PHASE_1_PUBLIC_BETA_MANUAL_PLATFORM_ACTION_CHECKLIST.md` | `a3_phase_1_public_beta_manual_platform_action_checklist_ready` | Defines future no-secret manual Vercel/platform action checklist. |
-| 10 | `docs/A3_PHASE_1_PUBLIC_BETA_POST_PLATFORM_ACTION_REPORT_TEMPLATE.md` | `a3_phase_1_public_beta_post_platform_action_report_template_ready` | Defines post-platform route, claim, rollback, and launch-status report shape. |
-| 11 | `docs/A3_PHASE_1_PUBLIC_BETA_MONITORING_AND_REPAIR_RUNBOOK.md` | `a3_phase_1_public_beta_monitoring_and_repair_runbook_ready` | Defines monitoring cadence and repair priority ladder after public Beta opens. |
+| 7 | `docs/A3_PHASE_1_CORE_ROUTE_READING_CONTRACT_ROLLUP.md` | `a3_phase_1_core_route_reading_contract_rollup_ready` | Proves Home, Briefing, and Stock routes share the public 30-second / 3-minute reading contract. |
+| 8 | `docs/A3_PHASE_1_PUBLIC_BETA_RELEASE_GO_NO_GO_PACKET.md` | `a3_phase_1_public_beta_release_go_no_go_packet_ready` | Defines `GO`, `GO_WITH_DEFERRALS`, and `NO_GO` decision conditions. |
+| 9 | `docs/A3_PHASE_1_PUBLIC_BETA_CHAIRMAN_REVIEW_PACKET.md` | `a3_phase_1_public_beta_chairman_review_packet_ready` | Summarizes CEO/Chairman release decision. |
+| 10 | `docs/A3_PHASE_1_PUBLIC_BETA_MANUAL_PLATFORM_ACTION_CHECKLIST.md` | `a3_phase_1_public_beta_manual_platform_action_checklist_ready` | Defines future no-secret manual Vercel/platform action checklist. |
+| 11 | `docs/A3_PHASE_1_PUBLIC_BETA_POST_PLATFORM_ACTION_REPORT_TEMPLATE.md` | `a3_phase_1_public_beta_post_platform_action_report_template_ready` | Defines post-platform route, claim, rollback, and launch-status report shape. |
+| 12 | `docs/A3_PHASE_1_PUBLIC_BETA_MONITORING_AND_REPAIR_RUNBOOK.md` | `a3_phase_1_public_beta_monitoring_and_repair_runbook_ready` | Defines monitoring cadence and repair priority ladder after public Beta opens. |
 
 ## Current A3 Readiness Status
 
@@ -39,6 +40,7 @@ It does not deploy production, change DNS, mutate environment variables, print s
 | Route smoke scope | ready | Public route set is defined. |
 | Metadata/share smoke | ready | Metadata/sitemap/robots checks are defined. |
 | Public visible residue cleanup | ready | Must pass before chairman review, platform action, post-platform report, and monitoring keep-open decisions. |
+| Core route reading contract | ready | Home, Briefing, and Stock routes share one public reading contract before release-candidate review. |
 | Go/no-go decision | ready | `GO`, `GO_WITH_DEFERRALS`, and `NO_GO` are defined. |
 | Chairman review | ready | Chairman-facing summary exists. |
 | Manual platform action | prepared, not executed | Requires separate human/operator action. |
@@ -91,6 +93,7 @@ Use these commands before treating A3 release ops as locally ready:
 - `cmd.exe /c npm run check:a3-phase-1-metadata-and-public-route-smoke-checker`
 - `cmd.exe /c npm run check:phase-1-public-beta-public-visible-residue-cleanup`
 - `cmd.exe /c npm run check:a3-phase-1-release-candidate-public-smoke-report`
+- `cmd.exe /c npm run check:a3-phase-1-core-route-reading-contract-rollup`
 - `cmd.exe /c npm run check:a3-phase-1-public-beta-release-go-no-go-packet`
 - `cmd.exe /c npm run check:a3-phase-1-public-beta-chairman-review-packet`
 - `cmd.exe /c npm run check:a3-phase-1-public-beta-manual-platform-action-checklist`

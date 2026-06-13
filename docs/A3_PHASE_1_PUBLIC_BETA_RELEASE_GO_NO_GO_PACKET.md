@@ -32,6 +32,7 @@ All items below must be true before CEO/PM can choose `GO` or `GO_WITH_DEFERRALS
 - Metadata and share smoke is ok, including title, description, canonical URL, Open Graph URL, sitemap, and robots behavior.
 - Public visible-language checks are ok: no command snippets, local file paths, role labels, env placeholders, raw payload language, database implementation terms, or development-process residue appear on public pages.
 - Public visible residue cleanup is ok with `cmd.exe /c npm run check:phase-1-public-beta-public-visible-residue-cleanup`.
+- Core route reading contract rollup is ok with `cmd.exe /c npm run check:a3-phase-1-core-route-reading-contract-rollup`.
 - TypeScript is ok with `cmd.exe /c npx tsc --noEmit`.
 - Build is ok with `cmd.exe /c npm run build`.
 - Focused review gate is ok with `cmd.exe /c npm run check:review-gates`.

@@ -2,6 +2,51 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### A3 Core Route Reading Contract Rollup Pass
+
+Status: `a3_phase_1_core_route_reading_contract_rollup_ready`
+
+CEO decision:
+
+- Phase 1 launch readiness should prove route readability, not only route availability.
+- Home, Briefing, and Stock routes now share one public reading contract: 30-second market/state read, 3-minute risk review, data timing, and next observation.
+- Phase 2 membership remains deferred and should not block the Phase 1 free public index-lighting site.
+
+What changed:
+
+- Added `docs/A3_PHASE_1_CORE_ROUTE_READING_CONTRACT_ROLLUP.md`.
+- Added `check:a3-phase-1-core-route-reading-contract-rollup`.
+- Registered the new rollup in the focused review gate.
+- Linked the rollup from the A3 release-candidate report, go/no-go packet, and release ops index.
+
+Checks passed:
+
+- `check:a3-phase-1-core-route-reading-contract-rollup`
+- `check:a3-phase-1-release-candidate-public-smoke-report`
+- `check:a3-phase-1-public-beta-release-go-no-go-packet`
+- `check:public-beta-decision-loop-bridge`
+- `check:public-beta-production-brief-alignment`
+- `check:public-beta-decision-journey-panel`
+- `check:public-beta-data-readiness-status`
+- `check:phase-1-public-beta-candidate-final-public-readiness-scan`
+- `check:a2-brief-public-runtime-surface-audit`
+- `check:public-beta-value-loop-refinement`
+- `check:public-beta-user-value-source-coverage-bridge`
+- `check:phase-1-public-beta-public-status-surface-alignment`
+- `check:public-visible-language-quality`
+- `check:phase-1-public-beta-public-visible-residue-cleanup`
+- `check:review-gates`
+- `npx tsc --noEmit`
+- Browser smoke: `/`, `/briefing`, and `/stocks/2330` show public status, data readiness, source coverage, 3-minute decision order, no-advice copy, and no internal residue; no console errors appeared.
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, market-row fetch, raw payload output, secret output, source promotion, real score promotion, membership implementation, production env mutation, DNS change, or Vercel dashboard mutation occurred. Runtime remains mock/demo.
+
+Next:
+
+Continue A3 launch-readiness or PM route cleanup based on the next highest blocker. The focused review gate is currently green after repairing stale public-route gates.
+
 ### Stock Fast Reading Loop Pass
 
 Status: `phase_1_stock_fast_reading_loop_ready`

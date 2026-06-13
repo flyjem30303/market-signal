@@ -4553,6 +4553,11 @@ const checks = [
     name: "a3-phase-1-release-candidate-public-smoke-report"
   },
   {
+    command: [node, "scripts/check-a3-phase-1-core-route-reading-contract-rollup.mjs"],
+    expectStatus: "ok",
+    name: "a3-phase-1-core-route-reading-contract-rollup"
+  },
+  {
     command: [node, "scripts/check-a3-phase-1-public-beta-release-go-no-go-packet.mjs"],
     expectStatus: "ok",
     name: "a3-phase-1-public-beta-release-go-no-go-packet"
@@ -6137,6 +6142,7 @@ const coreReviewGateNames = new Set([
   "a3-phase-1-post-deploy-smoke-and-monitoring-packet",
   "a3-phase-1-metadata-and-public-route-smoke-checker",
   "a3-phase-1-release-candidate-public-smoke-report",
+  "a3-phase-1-core-route-reading-contract-rollup",
   "a3-phase-1-public-beta-release-go-no-go-packet",
   "a3-phase-1-public-beta-chairman-review-packet",
   "a3-phase-1-public-beta-manual-platform-action-checklist",

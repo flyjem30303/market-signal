@@ -58,6 +58,7 @@ export default async function WeeklyPage() {
       <section className="weekly-market-action-summary" aria-label="週報行動摘要">
         <div>
           <p className="eyebrow">週報行動摘要</p>
+          <p className="eyebrow">3 分鐘行動判斷</p>
           <h2>{actionSummary.headline}</h2>
           <p>{actionSummary.weeklyLine}</p>
           <p>{actionSummary.stopLine}</p>

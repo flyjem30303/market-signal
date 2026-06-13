@@ -4,7 +4,10 @@ import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { CommercialSlot } from "@/components/commercial-slot";
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
+import { PublicBetaDataReadinessStatus } from "@/components/public-beta-data-readiness-status";
 import { PublicBetaMembershipMvpRoadmap } from "@/components/public-beta-membership-mvp-roadmap";
+import { PublicBetaPublicStatusSurface } from "@/components/public-beta-public-status-surface";
+import { PublicBetaSourceCoverageBridge } from "@/components/public-beta-source-coverage-bridge";
 import { StockRuntimeAtAGlance } from "@/components/stock-runtime-at-a-glance";
 import { TrackedLink } from "@/components/tracked-link";
 import { buildMockDataFreshnessSnapshot, type DataFreshnessSnapshot } from "@/lib/data-freshness";
@@ -113,6 +116,32 @@ export function DashboardShell({
         </>
       ) : (
         <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
+      )}
+
+      <PublicBetaPublicStatusSurface />
+      <PublicBetaDataReadinessStatus />
+      <PublicBetaSourceCoverageBridge context={isStockPage ? "stock" : "home"} stockSymbol={selected.symbol} />
+
+      {isStockPage ? (
+        <section className="panel stock-reading-summary" aria-label="標的判斷補充">
+          <p className="eyebrow">3 分鐘判斷順序</p>
+          <h2>先看市場氣氛，再看成因與影響級別</h2>
+          <p>
+            3 分鐘判斷順序：先看燈號與市場氣氛，再看成因、影響級別與資料時間，
+            最後決定是否加強觀察或等待更多資料。
+          </p>
+          <p>本頁資訊不應直接視為個股買賣建議，也不保證報酬或風險消除。</p>
+        </section>
+      ) : (
+        <section className="panel stock-reading-summary" aria-label="首頁警示清單補充">
+          <p className="eyebrow">警示清單</p>
+          <h2>3 分鐘判斷順序：先看市場氣氛，再看成因與資料狀態</h2>
+          <p>
+            警示清單會把市場氣氛、成因、資料狀態與下一步觀察放在同一條路徑，
+            讓使用者先判斷是否需要加強觀察，而不是把燈號當成買賣指令。
+          </p>
+          <p>會員功能預覽屬於下一階段，目前首頁仍以免費市場總覽與公開風險提示為主。</p>
+        </section>
       )}
 
       {!isStockPage && (

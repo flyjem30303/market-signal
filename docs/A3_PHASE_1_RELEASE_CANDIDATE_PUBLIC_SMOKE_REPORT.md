@@ -45,6 +45,7 @@ Required before a future deploy:
 | Public surface audit | `cmd.exe /c npm run check:public-surface-user-facing-audit` | `status=ok` |
 | Public visible residue cleanup | `cmd.exe /c npm run check:phase-1-public-beta-public-visible-residue-cleanup` | `status=ok` |
 | A3 metadata smoke | `cmd.exe /c npm run check:a3-phase-1-metadata-and-public-route-smoke-checker` | `status=ok` |
+| A3 core route reading contract rollup | `cmd.exe /c npm run check:a3-phase-1-core-route-reading-contract-rollup` | `status=ok` |
 | A3 post-deploy packet | `cmd.exe /c npm run check:a3-phase-1-post-deploy-smoke-and-monitoring-packet` | `status=ok` |
 | Focused review gate | `cmd.exe /c npm run check:review-gates` | `status=ok` |
 | Build | `cmd.exe /c npm run build` | pass |
@@ -98,6 +99,7 @@ Each release candidate must confirm:
 - the free/member boundary is clear without opening member login, payment, watchlist persistence, alert execution, or member-only content during Phase 1;
 - the user can understand the market mood within 30 seconds;
 - the user can decide whether to observe, review, or reduce risk within 3 minutes.
+- Home, Briefing, and Stock routes share one public reading contract before release-candidate review.
 
 ## Metadata And Share Smoke
 

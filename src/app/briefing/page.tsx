@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import { BriefingPublicDecisionSummaryPanel } from "@/components/briefing-public-decision-summary-panel";
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { PageViewTracker } from "@/components/page-view-tracker";
+import { PublicBetaDataReadinessStatus } from "@/components/public-beta-data-readiness-status";
 import { PublicBetaMembershipMvpRoadmap } from "@/components/public-beta-membership-mvp-roadmap";
 import { PublicBetaPublicStatusSurface } from "@/components/public-beta-public-status-surface";
+import { PublicBetaSourceCoverageBridge } from "@/components/public-beta-source-coverage-bridge";
 import { TrackedLink } from "@/components/tracked-link";
 import { buildBriefingMarketActionSummary } from "@/lib/briefing-market-action-summary";
 import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
@@ -230,6 +232,8 @@ export default async function BriefingPage() {
 
       <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
       <PublicBetaPublicStatusSurface />
+      <PublicBetaDataReadinessStatus />
+      <PublicBetaSourceCoverageBridge context="briefing" stockSymbol={market.asset.symbol} />
 
       <section className="panel stock-reading-summary" aria-label="資料狀態與下一階段">
         <p className="eyebrow">資料狀態與下一階段</p>
