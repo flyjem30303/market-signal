@@ -8,6 +8,36 @@ Owner: PM mainline
 
 ## Latest Mainline Decision - 2026-06-14
 
+### Phase 1 Hero Status And Mobile Readability Pass
+
+CEO decision:
+
+- Mainline stays on Phase 1 public usability.
+- The hero should not rely on long explanatory paragraphs alone; it needs a fast status strip that reinforces the public reading contract.
+- This slice remains visual/readability only. It does not open real data, membership implementation, or platform mutation.
+
+PM completed the hero/mobile readability slice:
+
+- Added four public hero chips: `30 秒市場氣氛`, `3 分鐘判斷順序`, `示範資料邊界`, and `會員預覽下一階段`.
+- Added responsive CSS so the chips stay compact on desktop and become a stable two-column grid on mobile.
+- Adjusted the mobile header nav so longer route labels scroll horizontally without causing full-page overflow.
+
+Latest checks passed:
+
+- `npx tsc --noEmit`
+- `check:public-visible-language-quality`
+- `check:phase-1-public-beta-public-visible-residue-cleanup`
+- `check:public-beta-core-route-quick-proof`
+- Browser responsive smoke confirmed no horizontal overflow on `/` at desktop `1280x720` and mobile `390x844`.
+
+Current route:
+
+- `phase_1_public_free_index_dashboard_mobile_readability_ready`
+
+Next PM slice:
+
+- Continue Phase 1 launch-readiness with remaining visible route hierarchy and A3 deploy-readiness handoff. Keep membership as preview/roadmap only.
+
 ### BRIEF Phase Split And Public Surface Cleanup Pass
 
 CEO decision:

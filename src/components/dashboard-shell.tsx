@@ -87,6 +87,12 @@ export function DashboardShell({
         <p className="runtime-boundary-line">
           目前公開 Beta 仍以示範資料建立閱讀流程；正式市場資料尚未啟用前不宣稱即時行情、不提供買賣建議，也不提供個股買賣建議。
         </p>
+        <div className="hero-status-strip" aria-label="公開 Beta 快速閱讀重點">
+          <span>30 秒市場氣氛</span>
+          <span>3 分鐘判斷順序</span>
+          <span>示範資料邊界</span>
+          <span>會員預覽下一階段</span>
+        </div>
       </section>
 
       {isStockPage ? (

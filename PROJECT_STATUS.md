@@ -2,6 +2,38 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Phase 1 Hero Status And Mobile Readability Pass
+
+Status: `phase_1_hero_status_mobile_readability_ready`
+
+CEO decision:
+
+- Continue Phase 1 public/free usability before opening Phase 2 membership implementation.
+- The Home and Stock hero should make the BRIEF reading promise scannable before the user reaches deeper cards.
+- Mobile navigation should remain usable without squeezing long labels or creating horizontal page overflow.
+
+PM completed:
+
+- Added a public hero status strip with `30 秒市場氣氛`, `3 分鐘判斷順序`, `示範資料邊界`, and `會員預覽下一階段`.
+- Added responsive styling so the strip is chip-based on desktop and two-column on mobile.
+- Tightened mobile header navigation so long public-route labels can scroll horizontally without widening the page.
+
+Checks passed:
+
+- `npx tsc --noEmit`
+- `check:public-visible-language-quality`
+- `check:phase-1-public-beta-public-visible-residue-cleanup`
+- `check:public-beta-core-route-quick-proof`
+- Browser responsive smoke: `/` at desktop `1280x720` and mobile `390x844` shows the hero status strip, no horizontal page overflow, and mobile nav uses horizontal scrolling.
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, market-row fetch, raw payload output, secret output, source promotion, real score promotion, membership implementation, production env mutation, DNS change, Vercel dashboard mutation, or production deploy occurred. Runtime remains mock/demo.
+
+Next:
+
+Continue Phase 1 public launch-readiness by checking the remaining visible route hierarchy and A3 deploy-readiness handoff. Keep Phase 2 membership as preview/roadmap until Phase 1 is stable.
+
 ### BRIEF Phase Split And Public Surface Cleanup Pass
 
 Status: `brief_phase_split_public_surface_cleanup_ready`
