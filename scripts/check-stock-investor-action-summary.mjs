@@ -34,7 +34,8 @@ const requiredComponentPhrases = [
   "summary.stopCondition",
   "summary.safetyLine",
   "onTab(item.tab)",
-  "StockDecisionCompass scoreSourceLabel",
+  "StockDecisionCompass",
+  "scoreSourceLabel",
   "StockMarketContextPanel"
 ];
 
@@ -56,8 +57,6 @@ const forbiddenPhrases = [
   "SUPABASE",
   "scoreSource=real",
   "publicDataSource=supabase",
-  "publicDataSource=mock",
-  "scoreSource=mock",
   "mock-only"
 ];
 

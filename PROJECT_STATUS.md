@@ -2,6 +2,47 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Stock Page Public Decision-Aid Alignment
+
+Status: `stock_public_decision_aid_alignment_passed`
+
+CEO decision:
+
+- Keep the revised BRIEF split into Phase 1 and Phase 2.
+- Phase 1 remains the current execution priority: a public free index-lighting site that every visitor can use.
+- Phase 2 membership remains a planned product path and must not slow Phase 1 public usability.
+- Stock pages should help users understand a symbol in 30 seconds and know what to recheck in 3 minutes, without surfacing internal governance or data-pipeline wording.
+
+What changed:
+
+- Added stock-page decision support sections for decision compass, investor action summary, indicator priority, market context, future indicator roadmap, and data boundary.
+- Connected the existing `buildInvestorActionSummary` helper into the stock page.
+- Replaced stale stock gate expectations that required internal governance panels with BRIEF-aligned public-user checks.
+- Updated action-summary coverage so it validates visible user-facing 30-second / 3-minute decision support across Home, stock, briefing, and weekly routes.
+- Kept public stock pages free of command strings, internal role labels, `publicDataSource`, `scoreSource`, SQL/Supabase/raw-data wording, and mojibake markers.
+
+Checks passed:
+
+- `check:stock-route-investor-language-alignment`
+- `check:stock-first-screen-action-summary`
+- `check:stock-investor-action-summary`
+- `check:stock-decision-compass`
+- `check:stock-indicator-priority-panel`
+- `check:stock-investor-indicator-roadmap-panel`
+- `check:market-action-summary-coverage`
+- `check:public-visible-language-quality`
+- `check:phase-1-public-beta-public-visible-residue-cleanup`
+- `check:public-surface-user-facing-audit`
+- `npx tsc --noEmit`
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, market-row fetch, raw payload output, secret output, source promotion, real score promotion, membership implementation, production env mutation, DNS change, or Vercel dashboard mutation occurred. Runtime remains mock/demo until data-source rights, coverage, quality, rollback, and promotion gates pass.
+
+Next:
+
+Continue Phase 1 public usability and launch readiness. PM mainline should inspect remaining public pages for value clarity and run build/remote smoke after coherent changes. A1 continues legal/free/automatable data-source and coverage work; A2 guards trust and non-advice copy; A3 owns deployment/monitoring/rollback; A4 remains Phase 2 membership planning-only.
+
 ### Browser Smoke Follow-up - Public Title And Membership Reading Promise
 
 Status: `public_title_and_membership_reading_promise_ready`

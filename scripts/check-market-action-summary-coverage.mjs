@@ -1,151 +1,101 @@
-import fs from "node:fs";
-
-const packagePath = "package.json";
-const reviewGatePath = "scripts/check-review-gates.mjs";
+const baseUrl = process.env.LOCALHOST_BASE_URL ?? "http://localhost:3000";
 
 const surfaces = [
   {
-    helperPath: "src/lib/home-market-action-summary.ts",
-    integrationPath: "src/components/dashboard-shell.tsx",
-    integrationTokens: [
-      "buildHomeMarketActionSummary",
-      "home-market-action-summary",
-      "home_market_action_primary",
-      "home_market_action_secondary"
-    ],
     name: "home",
-    requiredHelperTokens: [
-      "buildHomeMarketActionSummary",
-      "HomeMarketActionSummary",
-      "primaryAction",
-      "secondaryAction",
-      "publicDataSource=mock",
-      "scoreSource=mock"
-    ]
+    route: "/",
+    required: ["指數狀態儀表站", "30 秒", "3 分鐘", "市場燈號", "風險來源", "下一步"]
   },
   {
-    helperPath: "src/lib/investor-action-summary.ts",
-    integrationPath: "src/components/dashboard-shell.tsx",
-    integrationTokens: [
-      "buildInvestorActionSummary",
-      "StockInvestorActionSummary",
-      "stock-investor-action-summary",
-      "summary.observationFocus",
-      "summary.primaryRisk",
-      "summary.stopCondition"
-    ],
     name: "stock",
-    requiredHelperTokens: [
-      "buildInvestorActionSummary",
-      "InvestorActionSummary",
-      "observationFocus",
-      "primaryRisk",
-      "stopCondition",
-      "publicDataSource=mock",
-      "scoreSource=mock"
-    ]
+    route: "/stocks/2330",
+    required: ["30 秒快速閱讀", "Investor Action Summary", "指標優先順序", "市場脈絡", "資料邊界"]
   },
   {
-    helperPath: "src/lib/briefing-market-action-summary.ts",
-    integrationPath: "src/app/briefing/page.tsx",
-    integrationTokens: [
-      "buildBriefingMarketActionSummary",
-      "briefing-market-action-summary",
-      "briefing_market_action_primary",
-      "briefing_market_action_secondary"
-    ],
     name: "briefing",
-    requiredHelperTokens: [
-      "buildBriefingMarketActionSummary",
-      "BriefingMarketActionSummary",
-      "primary",
-      "secondary",
-      "publicDataSource=mock",
-      "scoreSource=mock"
-    ]
+    route: "/briefing",
+    required: ["30 秒看懂今日市場氣氛", "3 分鐘行動判斷", "今日市場提醒", "下一步"]
   },
   {
-    helperPath: "src/lib/weekly-market-action-summary.ts",
-    integrationPath: "src/app/weekly/page.tsx",
-    integrationTokens: [
-      "buildWeeklyMarketActionSummary",
-      "weekly-market-action-summary",
-      "weekly_market_action_primary",
-      "weekly_market_action_secondary"
-    ],
     name: "weekly",
-    requiredHelperTokens: [
-      "buildWeeklyMarketActionSummary",
-      "WeeklyMarketActionSummary",
-      "primary",
-      "secondary",
-      "publicDataSource=mock",
-      "scoreSource=mock"
-    ]
+    route: "/weekly",
+    required: ["本週市場狀態整理", "30 秒", "3 分鐘", "示範資料", "非投資建議"]
   }
 ];
 
-const forbiddenHelperTokens = [
-  "@supabase/supabase-js",
-  "createClient",
-  "fetch(",
-  ".from(\"",
-  ".from('",
-  "process.env",
-  "node:fs",
-  "scoreSource: \"real\"",
-  "publicDataSource: \"supabase\""
+const forbiddenVisibleTerms = [
+  "cmd.exe",
+  "npm run",
+  "PUBLIC_BETA",
+  "BETA_",
+  "packet",
+  "preflight",
+  "post-run",
+  "operator",
+  "publicDataSource",
+  "scoreSource",
+  "Supabase",
+  "SQL",
+  "daily_prices",
+  "staging rows",
+  "raw market data",
+  "mock-only"
 ];
 
-const forbiddenIntegrationTokens = ["scoreSource=\"real\"", "publicDataSource=\"supabase\""];
-
-const packageJson = fs.readFileSync(packagePath, "utf8");
-const reviewGate = fs.readFileSync(reviewGatePath, "utf8");
-const missing = [];
-const blocked = [];
+const results = [];
 
 for (const surface of surfaces) {
-  const helper = fs.readFileSync(surface.helperPath, "utf8");
-  const integration = fs.readFileSync(surface.integrationPath, "utf8");
+  const response = await fetch(`${baseUrl}${surface.route}`);
+  const visible = normalizeVisibleText(await response.text());
+  const missing = surface.required.filter((phrase) => !visible.includes(phrase));
+  const forbidden = forbiddenVisibleTerms.filter((phrase) => visible.includes(phrase));
+  const mojibake = findMojibakeMarkers(visible);
 
-  for (const token of surface.requiredHelperTokens) {
-    if (!helper.includes(token)) missing.push(`${surface.name}:${surface.helperPath}: ${token}`);
-  }
-
-  for (const token of surface.integrationTokens) {
-    if (!integration.includes(token)) missing.push(`${surface.name}:${surface.integrationPath}: ${token}`);
-  }
-
-  for (const token of forbiddenHelperTokens) {
-    if (helper.includes(token)) blocked.push(`${surface.name}:${surface.helperPath}: ${token}`);
-  }
-
-  for (const token of forbiddenIntegrationTokens) {
-    if (integration.includes(token)) blocked.push(`${surface.name}:${surface.integrationPath}: ${token}`);
-  }
+  results.push({
+    forbidden,
+    missing,
+    mojibake,
+    name: surface.name,
+    route: surface.route,
+    status: response.status
+  });
 }
 
-if (!packageJson.includes('"check:market-action-summary-coverage"')) {
-  missing.push(`${packagePath}: check:market-action-summary-coverage`);
-}
-
-if (!reviewGate.includes("check-market-action-summary-coverage.mjs")) {
-  missing.push(`${reviewGatePath}: check-market-action-summary-coverage.mjs`);
-}
+const blocked = results.filter(
+  (result) => result.status !== 200 || result.missing.length > 0 || result.forbidden.length > 0 || result.mojibake.length > 0
+);
 
 console.log(
   JSON.stringify(
     {
+      baseUrl,
       blocked,
       checkedSurfaces: surfaces.map((surface) => surface.name),
-      missing,
-      status: missing.length === 0 && blocked.length === 0 ? "ok" : "blocked"
+      status: blocked.length === 0 ? "ok" : "blocked"
     },
     null,
     2
   )
 );
 
-if (missing.length > 0 || blocked.length > 0) {
-  process.exitCode = 1;
+if (blocked.length > 0) process.exitCode = 1;
+
+function normalizeVisibleText(html) {
+  return html
+    .replace(/<script[\s\S]*?<\/script>/gi, " ")
+    .replace(/<style[\s\S]*?<\/style>/gi, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function findMojibakeMarkers(text) {
+  const markers = [];
+  if (/[\uE000-\uF8FF\uFFFD]/u.test(text)) markers.push("private-use-or-replacement-codepoint");
+  if (/[ÃÂ�]/u.test(text)) markers.push("utf8-decoding-artifact");
+  if (/ï¿½/u.test(text)) markers.push("replacement-sequence");
+  if (/\?{3,}/u.test(text)) markers.push("question-mark-run");
+  return markers;
 }

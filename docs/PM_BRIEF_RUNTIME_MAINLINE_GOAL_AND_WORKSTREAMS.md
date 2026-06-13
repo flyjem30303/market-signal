@@ -8,6 +8,44 @@ Owner: PM mainline
 
 ## Latest Mainline Decision - 2026-06-14
 
+### Stock Page Public Decision-Aid Alignment
+
+CEO confirms the revised BRIEF execution split:
+
+- Phase 1 remains the mainline: finish the public free index-lighting site for every visitor.
+- Phase 2 remains planned: membership MVP, member-only daily interpretation, watchlist/custom alerts, and post-market review after Phase 1 is stable.
+- A4 may keep membership MVP planning ready, but login, payment, watchlist persistence, alert execution, and member-only content are not Phase 1 blockers.
+
+PM completed a stock-page public decision-aid slice:
+
+- Stock pages now show a public decision compass for 30-second reading, risk heat, and demonstrative score boundary.
+- Stock pages now connect `buildInvestorActionSummary` into a visible Investor Action Summary.
+- Stock pages now include indicator priority: data confidence, main support, and main risk.
+- Stock pages now include market context and data-boundary panels so users can place a single symbol back into the wider market.
+- Stale stock checks that previously demanded internal governance/authorization panels were replaced with public BRIEF-aligned checks.
+
+Current lane assignments:
+
+- PM mainline: continue Phase 1 public comprehension and route health.
+- A1: continue legal/free/automatable data-source and coverage work, without source promotion or raw row fetch unless explicitly opened.
+- A2: continue trust copy, non-investment-advice wording, data-source/update-time disclosure, and free/member boundary.
+- A3: keep launch engineering, remote smoke, monitoring, rollback, and deployment repair ready.
+- A4: continue membership MVP planning only; do not implement Phase 2 during Phase 1.
+
+Latest checks passed:
+
+- `check:stock-route-investor-language-alignment`
+- `check:stock-first-screen-action-summary`
+- `check:stock-investor-action-summary`
+- `check:stock-decision-compass`
+- `check:stock-indicator-priority-panel`
+- `check:stock-investor-indicator-roadmap-panel`
+- `check:market-action-summary-coverage`
+- `check:public-visible-language-quality`
+- `check:phase-1-public-beta-public-visible-residue-cleanup`
+- `check:public-surface-user-facing-audit`
+- `npx tsc --noEmit`
+
 ### Public Title And Membership Reading Promise Follow-up
 
 PM completed the next user-facing smoke slice after the BRIEF split:

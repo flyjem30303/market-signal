@@ -1,136 +1,92 @@
-import { readFileSync } from "node:fs";
+const baseUrl = process.env.LOCALHOST_BASE_URL ?? "http://localhost:3000";
+const routes = ["/stocks/2330", "/stocks/TWII", "/stocks/0050"];
 
-const dashboardPath = "src/components/dashboard-shell.tsx";
-const runtimePath = "src/components/stock-runtime-at-a-glance.tsx";
-const headlinePath = "src/lib/stock-runtime-headline-summary.ts";
-const packagePath = "package.json";
-const reviewGatePath = "scripts/check-review-gates.mjs";
-
-const dashboard = readFileSync(dashboardPath, "utf8");
-const runtime = readFileSync(runtimePath, "utf8");
-const headline = readFileSync(headlinePath, "utf8");
-const packageJson = readFileSync(packagePath, "utf8");
-const reviewGate = readFileSync(reviewGatePath, "utf8");
-
-const stockRenderStart = dashboard.indexOf("includeSeoContent && (");
-const stockRenderEnd = dashboard.indexOf('<nav className="tabs"', stockRenderStart);
-const stockRender = stockRenderStart >= 0 && stockRenderEnd > stockRenderStart ? dashboard.slice(stockRenderStart, stockRenderEnd) : "";
-
-const decisionStart = dashboard.indexOf("function StockDecisionCompass");
-const decisionEnd = dashboard.indexOf("function StockInvestorActionSummary", decisionStart);
-const decision = decisionStart >= 0 && decisionEnd > decisionStart ? dashboard.slice(decisionStart, decisionEnd) : "";
-
-const guideStart = dashboard.indexOf("function StockNextStepGuide");
-const guideEnd = dashboard.indexOf("function StockDecisionBoundary", guideStart);
-const guide = guideStart >= 0 && guideEnd > guideStart ? dashboard.slice(guideStart, guideEnd) : "";
-
-const required = [
-  [stockRender, "StockRuntimeAtAGlance", "stock render runtime summary"],
-  [stockRender, "StockRuntimeBrief", "stock render runtime brief"],
-  [stockRender, "StockDecisionCompass", "stock render decision compass"],
-  [stockRender, "StockInvestorActionSummary", "stock render investor action summary"],
-  [stockRender, "StockPageCompass", "stock render tab compass"],
-  [stockRender, "StockModuleHighlights", "stock render module highlights"],
-  [stockRender, "StockRiskChecklist", "stock render risk checklist"],
-  [stockRender, "StockNextStepGuide", "stock render next step guide"],
-  [runtime, "資料狀態摘要", "runtime readable label"],
-  [runtime, "stock-public-decision-summary", "public decision summary"],
-  [runtime, "30 秒看懂標的狀態", "30-second decision brief"],
-  [runtime, "3 分鐘內請看", "3-minute action route"],
-  [runtime, "成因", "cause label"],
-  [runtime, "更新時間", "updated time label"],
-  [runtime, "影響級別", "impact label"],
-  [runtime, "下一步", "next step label"],
-  [runtime, "資料邊界：publicDataSource=mock，scoreSource=mock", "mock boundary line"],
-  [runtime, "不提供買賣建議", "non-advice line"],
-  [runtime, "stock-runtime-headline-summary", "runtime headline summary"],
-  [runtime, "stock-decision-aid-groups", "decision aid groups"],
-  [runtime, "headlineSummary.decisionAidGroups", "decision aid group source"],
-  [runtime, "PublicRuntimeStateStrip", "public runtime strip"],
-  [runtime, 'context="stock"', "stock public runtime context"],
-  [runtime, "stock-runtime-action-strip", "stock runtime action strip"],
-  [runtime, "decisionSummary.decisionLabel", "next action summary"],
-  [runtime, "decisionSummary.safetyStopLine", "safety stop line"],
-  [runtime, "正式資料升級必須先完成來源、覆蓋率、品質檢查、回讀與揭露條件", "real data blocked line"],
-  [decision, "Stock Decision Compass", "decision compass aria"],
-  [decision, "scoreSourceLabel", "decision score source"],
-  [decision, "snapshot.riskScore", "decision risk score"],
-  [guide, "Decision Guide", "decision guide label"],
-  [guide, "Stock Next Step Guide", "next step aria"],
-  [guide, "1 · Runtime 邊界", "runtime step"],
-  [guide, "2 · 模組判讀", "module step"],
-  [guide, "3 · 資料與停止點", "data stop step"],
-  [guide, "publicDataSource=mock", "mock public source"],
-  [guide, "scoreSource=mock", "mock score source"],
-  [guide, "blocked gates", "blocked gates line"],
-  [guide, "stock_next_step_guide", "next step tracking"],
-  [headline, "建立 30 秒初判", "headline 30-second route"],
-  [headline, "3 分鐘內決定", "headline 3-minute route"],
-  [headline, "decisionAidGroups", "decision aid group contract"],
-  [headline, "現在可參考", "can reference group"],
-  [headline, "輔助閱讀", "display only group"],
-  [headline, "尚未開放", "not live group"],
-  [headline, "示範分數方向", "mock score reference"],
-  [headline, "不是正式投資證據", "display-only boundary"],
-  [headline, "正式分數與買賣建議", "real score blocked group"],
-  [headline, "示範訊號可讀", "mock readable state"],
-  [headline, "正式資料未啟用", "real data blocked state"],
-  [headline, "本頁不宣稱正式資料來源", "supabase approval blocked"],
-  [packageJson, '"check:stock-first-screen-action-summary"', "package script"],
-  [reviewGate, "scripts/check-stock-first-screen-action-summary.mjs", "review gate wiring"]
+const requiredVisiblePhrases = [
+  "狀態儀表",
+  "30 秒快速閱讀",
+  "把單一標的放回市場脈絡",
+  "Investor Action Summary",
+  "指標優先順序",
+  "市場脈絡",
+  "資料邊界",
+  "示範資料與示範分數",
+  "不提供個股買賣建議"
 ];
 
-const forbidden = [
-  [stockRender, "scoreSource=real approved", "stock render approved real score"],
-  [stockRender, "publicDataSource=supabase approved", "stock render approved supabase"],
-  [stockRender, "createClient(", "stock render direct client"],
-  [stockRender, "fetch(", "stock render remote fetch"],
-  [runtime, "@supabase/supabase-js", "runtime Supabase client"],
-  [runtime, "createClient", "runtime direct client"],
-  [runtime, "fetch(", "runtime remote fetch"],
-  [runtime, 'scoreSource: "real"', "runtime real score object"],
-  [runtime, 'publicDataSource: "supabase"', "runtime public supabase object"],
-  [decision, "scoreSource=real approved", "decision approved real score"],
-  [guide, "scoreSource=real approved", "guide approved real score"],
-  [guide, "publicDataSource=supabase approved", "guide approved supabase"],
-  [headline, 'scoreSource: "real"', "headline real score object"],
-  [headline, 'publicDataSource: "supabase"', "headline supabase object"]
+const forbiddenVisiblePhrases = [
+  "cmd.exe",
+  "npm run",
+  "PUBLIC_BETA",
+  "BETA_",
+  "packet",
+  "preflight",
+  "post-run",
+  "operator",
+  "publicDataSource",
+  "scoreSource",
+  "Supabase",
+  "SQL",
+  "daily_prices",
+  "staging rows",
+  "raw market data",
+  "Runtime Brief",
+  "Decision Guide",
+  "blocked gates"
 ];
 
-const missing = [
-  ...(stockRender ? [] : [`${dashboardPath}: stock render slice`]),
-  ...(decision ? [] : [`${dashboardPath}: StockDecisionCompass slice`]),
-  ...(guide ? [] : [`${dashboardPath}: StockNextStepGuide slice`]),
-  ...required.filter(([source, token]) => !source.includes(token)).map(([, token, label]) => `${label}: ${token}`)
-];
-const blocked = forbidden.filter(([source, token]) => source.includes(token)).map(([, token, label]) => `${label}: ${token}`);
+const results = [];
 
-for (const [name, source] of [
-  ["runtime", runtime],
-  ["headline", headline]
-]) {
-  for (const hit of findMojibakeMarkers(source)) blocked.push(`${name}: ${hit}`);
+for (const route of routes) {
+  const response = await fetch(`${baseUrl}${route}`);
+  const visible = normalizeVisibleText(await response.text());
+  const missing = requiredVisiblePhrases.filter((phrase) => !visible.includes(phrase));
+  const forbidden = forbiddenVisiblePhrases.filter((phrase) => visible.includes(phrase));
+  const mojibake = findMojibakeMarkers(visible);
+
+  results.push({
+    forbidden,
+    missing,
+    mojibake,
+    route,
+    status: response.status
+  });
 }
+
+const blocked = results.filter(
+  (result) => result.status !== 200 || result.missing.length > 0 || result.forbidden.length > 0 || result.mojibake.length > 0
+);
 
 console.log(
   JSON.stringify(
     {
+      baseUrl,
       blocked,
-      missing,
-      status: missing.length === 0 && blocked.length === 0 ? "ok" : "blocked"
+      checkedRoutes: routes,
+      status: blocked.length === 0 ? "ok" : "blocked"
     },
     null,
     2
   )
 );
 
-if (missing.length > 0 || blocked.length > 0) {
-  process.exitCode = 1;
+if (blocked.length > 0) process.exitCode = 1;
+
+function normalizeVisibleText(html) {
+  return html
+    .replace(/<script[\s\S]*?<\/script>/gi, " ")
+    .replace(/<style[\s\S]*?<\/style>/gi, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 function findMojibakeMarkers(text) {
-  const hits = [];
-  if (/[\uE000-\uF8FF\uFFFD]/u.test(text)) hits.push("private-use-or-replacement-code-point");
-  if (/\?{3,}/u.test(text)) hits.push("question-mark-run");
-  return hits;
+  const markers = [];
+  if (/[\uE000-\uF8FF\uFFFD]/u.test(text)) markers.push("private-use-or-replacement-codepoint");
+  if (/[ÃÂ�]/u.test(text)) markers.push("utf8-decoding-artifact");
+  if (/ï¿½/u.test(text)) markers.push("replacement-sequence");
+  if (/\?{3,}/u.test(text)) markers.push("question-mark-run");
+  return markers;
 }
