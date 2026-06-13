@@ -2,6 +2,35 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Membership Roadmap Boundary Pass
+
+Status: `membership_phase_2_roadmap_boundary_ready`
+
+CEO decision:
+
+- Membership remains Phase 2 and must not slow Phase 1 public free market-dashboard readiness.
+- `/membership` may explain the future member value path, but it must not imply account signup, payment, watchlist storage, custom alert execution, or member-only content is active.
+- The public reading promise stays consistent: users first understand market atmosphere quickly, then read causes, warning context, and next observation points.
+
+What changed:
+
+- `/membership` now includes a clear `會員預覽目前狀態` section.
+- The page now says `這頁是會員路線圖，不是會員入口`.
+- The page explicitly states there is currently no account creation, payment, watchlist storage, personalized alert sending, or member-only content.
+- The membership roadmap gate now validates these public-facing Phase 2 boundary phrases in both source and rendered output.
+
+Checks passed:
+
+- `check:public-beta-membership-mvp-roadmap`
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, market-row fetch, raw payload output, secret output, source promotion, real score promotion, membership implementation, production env mutation, DNS change, or Vercel dashboard mutation occurred. Runtime remains mock/demo.
+
+Next:
+
+Run the wider public gates, TypeScript, and browser smoke for `/membership`, then continue Phase 1 public free index dashboard usability before any Phase 2 membership implementation.
+
 ### Weekly Public Data Trust And Reading Path Pass
 
 Status: `weekly_public_data_trust_ready`

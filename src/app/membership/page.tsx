@@ -72,6 +72,29 @@ export default function MembershipPreviewPage() {
 
       <PublicBetaMembershipMvpRoadmap />
 
+      <section className="panel stock-reading-summary" aria-label="會員預覽目前狀態">
+        <p className="eyebrow">目前狀態</p>
+        <h2>這頁是會員路線圖，不是會員入口</h2>
+        <p>
+          目前可以做的是理解下一階段會員 MVP 會包含哪些內容，以及哪些邊界不會被突破。
+          目前不會建立帳號、不會收費、不會儲存 watchlist、不會發送個人化警示，也不會開放會員專屬內容。
+        </p>
+        <div className="briefing-actions">
+          <article>
+            <strong>現在可用</strong>
+            <p>查看會員功能方向、免費版與會員版差異、非投資建議邊界，以及未來功能的優先順序。</p>
+          </article>
+          <article>
+            <strong>尚未啟用</strong>
+            <p>會員註冊、登入、付費訂閱、個人 watchlist 儲存、自訂警示執行與會員專屬內容都尚未開放。</p>
+          </article>
+          <article>
+            <strong>上線條件</strong>
+            <p>公開 Beta 穩定、資料信任狀態清楚、法務揭露完整後，才會進入會員功能實作。</p>
+          </article>
+        </div>
+      </section>
+
       <section className="panel stock-reading-summary" aria-label="會員功能尚未開放項目">
         <p className="eyebrow">尚未開放</p>
         <h2>目前不開放會員登入或付費</h2>

@@ -8,6 +8,33 @@ Owner: PM mainline
 
 ## Latest Mainline Decision - 2026-06-14
 
+### Membership Roadmap Boundary Pass
+
+CEO decision:
+
+- `/membership` is a Phase 2 roadmap-only public page.
+- It should help users understand the future value of member features without suggesting that login, payment, watchlist storage, custom alerts, or member-only content are available now.
+- Phase 1 remains the priority: the public free index-lighting dashboard must become usable before member implementation expands.
+
+PM completed the membership boundary slice:
+
+- Added a `會員預覽目前狀態` section to `/membership`.
+- Made the page state `這頁是會員路線圖，不是會員入口`.
+- Added explicit not-yet-active wording for account creation, payment, watchlist storage, personalized alert sending, and member-only content.
+- Updated `check:public-beta-membership-mvp-roadmap` to validate the rendered membership boundary language.
+
+Latest checks passed:
+
+- `check:public-beta-membership-mvp-roadmap`
+
+Current route:
+
+- `phase_1_public_free_index_dashboard_usable_loop`
+
+Next PM slice:
+
+- Run full public gates, TypeScript, and browser smoke for `/membership`; then return to Phase 1 public route clarity and trust/readability work.
+
 ### Weekly Public Data Trust And Reading Path Pass
 
 CEO decision:
