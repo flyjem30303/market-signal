@@ -50,7 +50,7 @@ const required = [
   [pagePath, "briefing_market_action_secondary"],
   [pagePath, "30 秒看懂今日市場氣氛"],
   [pagePath, "3 分鐘行動判斷"],
-  [pagePath, "promotion gate"],
+  [pagePath, "升級檢查"],
   [cssPath, ".briefing-public-decision-summary"],
   [cssPath, ".briefing-market-action-summary"],
   [cssPath, ".briefing-market-action-summary a.active"],

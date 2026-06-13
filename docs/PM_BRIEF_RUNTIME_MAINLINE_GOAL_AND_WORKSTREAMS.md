@@ -395,3 +395,31 @@ Recommended next mainline action:
 Meaning:
 
 PM now has the no-execution TWII operator decision packet plus A1 prerequisite shape and A2 copy guard. The next decision is external/operator-facing: either explicitly authorize one bounded readonly attempt, request evidence repair, or defer the attempt. Until then, PM should keep improving BRIEF product/runtime readability without preparing or executing a remote packet. Real-data promotion remains blocked until a separately accepted source-rights, coverage, quality, rollback, execution, post-run review, and runtime promotion gate is recorded.
+
+## 8E. 2026-06-13 Briefing Midpage Investor Readability Guard
+
+CEO decision:
+
+`guard_briefing_midpage_investor_readability_without_full_ui_redesign`
+
+PM executed the next BRIEF product/runtime slice on `/briefing`. The slice stayed product-facing and did not change data behavior. It cleaned the midpage reading path, decision strip, reading bridge, data-boundary panel, ETF watch copy, action-card copy, and final disclosure so the public Beta page reads like an investor-facing dashboard instead of an internal execution report.
+
+Completed mainline work:
+
+- Replaced visible engineering terms such as `mock-only public Beta reading interface`, `partial coverage`, `missing/delayed data`, `promotion gate`, `Model Boundary`, `Public data source`, `Score source`, and `Advice status` with investor-readable Chinese wording.
+- Preserved explicit safety boundaries: `publicDataSource=mock`, `scoreSource=mock`, non-investment-advice status, no real-data claim, and no full-coverage claim.
+- Added `scripts/check-briefing-midpage-readability.mjs` as a focused guard for the `/briefing` midpage reading path.
+- Added package command `check:briefing-midpage-readability`.
+- Added review-gate name `briefing-midpage-readability`.
+
+Current lane assignments:
+
+- PM mainline: continue BRIEF product/runtime convergence on high-traffic pages, but only where visible copy still blocks 30-second market mood or 3-minute action judgment.
+- A1 background: continue source and coverage lane independently; keep no SQL, no Supabase write, no raw market row fetch/storage, and no real promotion.
+- A2 background: use this guard as the briefing midpage copy baseline; future work should target user comprehension and public trust, not broad style polish.
+
+Next PM mainline candidate:
+
+`home_first_screen_investor_readability_and_briefing_bridge_alignment`
+
+This should make the home first screen and briefing route feel like one continuous public Beta dashboard: the home page should invite the 30-second market mood scan, and `/briefing` should carry the 3-minute action judgment without exposing internal workflow residue.

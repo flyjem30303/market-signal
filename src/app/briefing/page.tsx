@@ -25,7 +25,7 @@ type Tone = "active" | "hold" | "blocked";
 export const metadata: Metadata = {
   title: "市場訊號晨報 | 指數燈號",
   description:
-    "公開 Beta 的市場狀態晨報，以 mock-only 資料呈現市場氣氛、警示成因、更新時間與下一步觀察，不提供買賣建議。"
+    "公開 Beta 的市場狀態晨報，以示範資料呈現市場氣氛、警示成因、更新時間與下一步觀察，不提供買賣建議。"
 };
 
 export default async function BriefingPage() {
@@ -208,14 +208,14 @@ export default async function BriefingPage() {
       </nav>
 
       <section aria-label="晨報決策邊界" className="briefing-decision-strip">
-        <DecisionPill label="目前模式" text="mock-only 公開 Beta 閱讀介面" tone="active" />
-        <DecisionPill label="資料狀態" text="partial coverage；仍可能出現 missing/delayed data" tone="hold" />
+        <DecisionPill label="目前模式" text="示範資料公開 Beta 閱讀介面" tone="active" />
+        <DecisionPill label="資料狀態" text="覆蓋尚未完整；仍可能出現缺漏或延遲資料" tone="hold" />
         <DecisionPill label="硬邊界" text="不提供買賣建議，也不宣稱真實資料或完整覆蓋已上線" tone="blocked" />
       </section>
 
       <section className="briefing-runtime-plan" aria-label="Briefing reading plan">
         <div>
-          <p className="eyebrow">Reading Plan</p>
+          <p className="eyebrow">閱讀計畫</p>
           <h2>先看市場，再看風險，最後看族群集中度</h2>
           <p>這條路徑把 30 秒摘要延伸成 3 分鐘判讀流程，幫使用者知道下一步要看哪裡，而不是直接下交易結論。</p>
         </div>
@@ -237,7 +237,7 @@ export default async function BriefingPage() {
 
       <section className="briefing-reading-bridge" aria-label="Briefing reading bridge">
         <div>
-          <p className="eyebrow">Reading Bridge</p>
+          <p className="eyebrow">閱讀橋接</p>
           <h2>從市場氣氛接到細節頁</h2>
           <p>如果只看總覽還不夠，請往下查看市場、ETF、個股與風險卡片。所有分數都仍是 mock 訊號。</p>
         </div>
@@ -252,7 +252,7 @@ export default async function BriefingPage() {
             href={`/stocks/${topEtf.asset.symbol}`}
             label="ETF"
             title={`${topEtf.asset.symbol} ${topEtf.asset.name}`}
-            text={`健康分數 ${topEtf.healthScore}/100。ETF 覆蓋仍是 partial coverage，需等來源與覆蓋 gate 通過。`}
+            text={`健康分數 ${topEtf.healthScore}/100。ETF 覆蓋尚未完整，需等來源與覆蓋檢查通過。`}
           />
           <BriefingBridgeLink
             href={`/stocks/${leadingStock.asset.symbol}`}
@@ -271,16 +271,16 @@ export default async function BriefingPage() {
 
       <section className="panel briefing-boundary" id="model-boundary">
         <div>
-          <p className="eyebrow">Model Boundary</p>
-          <h2>目前是 mock runtime，不是正式市場資料</h2>
+          <p className="eyebrow">資料邊界</p>
+          <h2>目前是示範資料狀態，不是正式市場資料</h2>
           <p>
-            這個頁面用來驗證產品閱讀流程。資料來源、覆蓋率、模型可信度與公開聲明都還需要後續 gate 才能升級。
+            這個頁面用來驗證產品閱讀流程。資料來源、覆蓋率、模型可信度與公開聲明都還需要後續升級檢查才能切換。
           </p>
         </div>
         <div className="briefing-boundary-grid">
-          <BoundaryItem label="Public data source" value="mock" />
-          <BoundaryItem label="Score source" value="mock" />
-          <BoundaryItem label="Advice status" value="不提供買賣建議" />
+          <BoundaryItem label="公開資料來源" value="mock" />
+          <BoundaryItem label="分數來源" value="mock" />
+          <BoundaryItem label="建議狀態" value="不提供買賣建議" />
         </div>
       </section>
 
@@ -343,7 +343,7 @@ export default async function BriefingPage() {
         <article className="panel briefing-article">
           <p className="eyebrow">ETF Watch</p>
           <h2>ETF mock 觀察清單</h2>
-          <p>ETF 覆蓋仍是 partial coverage。真實資料 promotion 前，先用這區確認閱讀體驗。</p>
+          <p>ETF 覆蓋尚未完整。真實資料升級前，先用這區確認閱讀體驗。</p>
           <div className="rank-list">
             {etfs.map((item) => (
               <TrackedLink
@@ -391,7 +391,7 @@ export default async function BriefingPage() {
         <div className="briefing-actions">
           <ActionCard title="先看市場脈絡" text="先開 TWII，確認今天的 mock 市場框架。" />
           <ActionCard title="再看風險卡" text="用最高風險卡提醒自己：這不是交易訊號。" />
-          <ActionCard title="最後看資料邊界" text="任何真實資料工作前，先確認來源權利、覆蓋率與 promotion gate。" />
+          <ActionCard title="最後看資料邊界" text="任何真實資料工作前，先確認來源權利、覆蓋率與升級檢查。" />
         </div>
       </section>
 
@@ -414,8 +414,8 @@ export default async function BriefingPage() {
       <article className="disclaimer">
         <h2>重要揭露</h2>
         <p>
-          這份晨報是公開 Beta 閱讀介面，使用 demo data 與 demo scores，不提供買賣建議，也不代表來源權利、覆蓋率、
-          Supabase 寫入、ingestion/backfill 或 real scoring 已被核准。
+          這份晨報是公開 Beta 閱讀介面，使用示範資料與示範分數，不提供買賣建議，也不代表來源權利、覆蓋率、
+          Supabase 寫入、資料匯入補齊或真實分數已被核准。
         </p>
       </article>
     </main>

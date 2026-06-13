@@ -58,6 +58,11 @@ const checks = [
     name: "briefing-market-action-summary"
   },
   {
+    command: [node, "scripts/check-briefing-midpage-readability.mjs"],
+    expectStatus: "ok",
+    name: "briefing-midpage-readability"
+  },
+  {
     command: [node, "scripts/check-briefing-boundary-disclosure.mjs"],
     expectStatus: "ok",
     name: "briefing-boundary-disclosure"
@@ -5919,6 +5924,7 @@ const coreReviewGateNames = new Set([
 const publicBetaFocusedReviewGateNames = new Set([
   "local-verification-runbook",
   "market-action-summary-readable-copy",
+  "briefing-midpage-readability",
   "public-beta-alert-list-actionability",
   "public-visible-language-quality",
   "public-beta-decision-loop-bridge",

@@ -88,7 +88,7 @@ const pages = [
       "Market Briefing",
       "Briefing 把全市場總覽延伸成觀察清單",
       "Market Action Summary",
-      "Model Boundary",
+      "資料邊界",
       "Briefing Playbook",
       ...decisionLoopRequired,
       ...routeAndDataRequired,
