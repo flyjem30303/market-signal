@@ -2121,3 +2121,41 @@ No SQL, Supabase read/write, staging rows, `daily_prices` mutation, raw market-d
 Next:
 
 Chairman/operator should open Vercel Deployments for project `market-signal`, select the failed deployment for commit `47d081da` / deployment `dpl_4wqKUxBjjcrNG36UPJEz1iYssjnk`, and provide the build error summary. After the error is known, PM can fix the exact repo issue, push a repair commit, and rerun remote smoke.
+
+# Latest A3 repeated Vercel failure after status-evidence commit
+
+Status: `vercel_failed_again_on_latest_main_log_required_before_repair`
+
+Date: 2026-06-14
+
+CEO decision: keep A3 focused on failed-build log retrieval. Another GitHub push triggered Vercel successfully, but Vercel failed again.
+
+Latest evidence:
+
+- Current GitHub `main`: `e60f54b4bf50df96bf071d617bcfc366da8873ea`.
+- GitHub commit status: `failure`.
+- Latest Vercel deployment id: `dpl_3vyMYi1vwPEhsaevhXe9XUjzDXFZ`.
+- Vercel status description: `Deployment has failed`.
+- Public alias remains stale; `https://market-signal-two.vercel.app/membership` still returns HTTP 404.
+
+Official log command for the latest failed deployment:
+
+```powershell
+cmd.exe /c npx vercel inspect dpl_3vyMYi1vwPEhsaevhXe9XUjzDXFZ --logs
+```
+
+Operator shortcut:
+
+Open this Vercel deployment page while logged in:
+
+```text
+https://vercel.com/flyjem-projects/market-signal/3vyMYi1vwPEhsaevhXe9XUjzDXFZ
+```
+
+Boundary:
+
+No SQL, Supabase read/write, staging rows, `daily_prices` mutation, raw market-data fetch/store/commit, source promotion, real score promotion, production env mutation, DNS change, or Vercel dashboard mutation occurred.
+
+Next:
+
+Retrieve the first failing build error from Vercel logs. Do not continue public-page polishing until the failed-build error is known, because local verification is already green and the blocker is now confirmed at the Vercel build/deployment layer.

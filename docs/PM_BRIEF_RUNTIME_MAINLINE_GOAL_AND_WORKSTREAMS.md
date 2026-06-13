@@ -1200,6 +1200,49 @@ Next PM route:
 
 Collect Vercel failed-build log summary for `dpl_4wqKUxBjjcrNG36UPJEz1iYssjnk`, then run `fix_vercel_build_failure_and_redeploy`.
 
+## 8AU. 2026-06-14 Latest Main Also Fails on Vercel
+
+CEO decision:
+
+`do_not_polish_more_until_vercel_build_error_is_known`
+
+PM pushed the Vercel-failure evidence commit and checked the new GitHub/Vercel status. Vercel triggered again, then failed again.
+
+Evidence:
+
+- Current GitHub `main`: `e60f54b4bf50df96bf071d617bcfc366da8873ea`.
+- GitHub status context: `Vercel`.
+- Status: `failure`.
+- Latest failed deployment id: `dpl_3vyMYi1vwPEhsaevhXe9XUjzDXFZ`.
+- Vercel deployment page: `https://vercel.com/flyjem-projects/market-signal/3vyMYi1vwPEhsaevhXe9XUjzDXFZ`.
+- Current public alias remains stale; `/membership` on `https://market-signal-two.vercel.app` still returns HTTP 404.
+
+Official log command:
+
+```powershell
+cmd.exe /c npx vercel inspect dpl_3vyMYi1vwPEhsaevhXe9XUjzDXFZ --logs
+```
+
+PM interpretation:
+
+This is now a confirmed Vercel build/deployment blocker. Local route health, build, TypeScript, and public-surface checks were already green before the push. The next useful work is not another public copy or governance slice; it is retrieving the Vercel build error and fixing that exact build/deployment mismatch.
+
+Current lane assignments:
+
+- PM mainline: wait for Vercel build log summary, then fix and redeploy.
+- A1: continue no-fetch data/source/coverage work only if separate capacity is available.
+- A2: pause extra public-copy polishing until deploy blocker is fixed.
+- A3: owner of Vercel failed deployment log retrieval and repair loop.
+- A4: remain deferred.
+
+Boundary:
+
+No SQL, Supabase write, staging rows, `daily_prices` mutation, raw market-data fetch/store/commit, source promotion, real score promotion, production env mutation, DNS change, Vercel dashboard mutation, or credential output occurred.
+
+Next PM route:
+
+Open the authenticated Vercel deployment log for `dpl_3vyMYi1vwPEhsaevhXe9XUjzDXFZ`, copy the first failing build error summary, and use that single error as the next repair target.
+
 ## 8AR. 2026-06-14 Briefing Phase 1 Product-First Ordering
 
 CEO decision:
