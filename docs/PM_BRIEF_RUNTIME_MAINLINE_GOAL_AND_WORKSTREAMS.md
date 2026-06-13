@@ -8,6 +8,36 @@ Owner: PM mainline
 
 ## Latest Mainline Decision - 2026-06-14
 
+### A3 Deploy Smoke Rollback Closure Pass
+
+CEO decision:
+
+- The mainline should keep Phase 1 public/free launch-readiness moving.
+- A3 needs one compact closure packet for pre-deploy proof, post-deploy smoke, rollback triggers, and post-rollback verification.
+- This reduces launch-time ambiguity without opening Phase 2 membership, real data, SQL, Supabase writes, or platform mutation.
+
+PM completed the A3 deploy smoke rollback closure slice:
+
+- Added `docs/A3_PHASE_1_PUBLIC_BETA_DEPLOY_SMOKE_ROLLBACK_CLOSURE.md`.
+- Added and registered `check:a3-phase-1-public-beta-deploy-smoke-rollback-closure`.
+- Linked the closure packet from the A3 release ops index.
+- Added the checker to the focused review gate.
+
+Latest checks passed:
+
+- `check:a3-phase-1-public-beta-deploy-smoke-rollback-closure`
+- `check:a3-phase-1-public-beta-release-ops-index`
+- `check:review-gates`
+- `npx tsc --noEmit`
+
+Current route:
+
+- `phase_1_public_beta_deploy_smoke_rollback_closure_ready`
+
+Next PM slice:
+
+- Continue Phase 1 public Beta readiness. If operator action is later opened, use the A3 closure packet as the smoke and rollback contract. Keep Phase 2 membership roadmap-only until Phase 1 remains stable.
+
 ### Phase 1 Hero Status And Mobile Readability Pass
 
 CEO decision:

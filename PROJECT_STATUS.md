@@ -2,6 +2,38 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### A3 Deploy Smoke Rollback Closure Pass
+
+Status: `a3_phase_1_public_beta_deploy_smoke_rollback_closure_ready`
+
+CEO decision:
+
+- Continue Phase 1 public/free launch-readiness before Phase 2 membership implementation.
+- A3 should now close the deployment operation loop into one compact packet: pre-deploy proof, post-deploy smoke, rollback triggers, and post-rollback verification.
+- This is still a local readiness slice. It does not authorize or execute a platform deploy.
+
+PM completed:
+
+- Added `docs/A3_PHASE_1_PUBLIC_BETA_DEPLOY_SMOKE_ROLLBACK_CLOSURE.md`.
+- Added `check:a3-phase-1-public-beta-deploy-smoke-rollback-closure`.
+- Linked the closure packet into the A3 release ops index and focused review gate.
+- Kept Phase 2 membership, real-data promotion, SQL, Supabase writes, and platform mutation outside this slice.
+
+Checks passed:
+
+- `check:a3-phase-1-public-beta-deploy-smoke-rollback-closure`
+- `check:a3-phase-1-public-beta-release-ops-index`
+- `check:review-gates`
+- `npx tsc --noEmit`
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, market-row fetch, raw payload output, secret output, source promotion, real score promotion, membership implementation, production env mutation, DNS change, Vercel dashboard mutation, or production deploy occurred. Runtime remains mock/demo.
+
+Next:
+
+Continue Phase 1 public Beta readiness by using the A3 closure packet for any future operator action. A1 continues data/source/coverage work; A2 keeps trust copy and legal/source boundaries aligned; A4 remains membership roadmap only.
+
 ### Phase 1 Hero Status And Mobile Readability Pass
 
 Status: `phase_1_hero_status_mobile_readability_ready`

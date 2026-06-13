@@ -30,6 +30,7 @@ It does not deploy production, change DNS, mutate environment variables, print s
 | 10 | `docs/A3_PHASE_1_PUBLIC_BETA_MANUAL_PLATFORM_ACTION_CHECKLIST.md` | `a3_phase_1_public_beta_manual_platform_action_checklist_ready` | Defines future no-secret manual Vercel/platform action checklist. |
 | 11 | `docs/A3_PHASE_1_PUBLIC_BETA_POST_PLATFORM_ACTION_REPORT_TEMPLATE.md` | `a3_phase_1_public_beta_post_platform_action_report_template_ready` | Defines post-platform route, claim, rollback, and launch-status report shape. |
 | 12 | `docs/A3_PHASE_1_PUBLIC_BETA_MONITORING_AND_REPAIR_RUNBOOK.md` | `a3_phase_1_public_beta_monitoring_and_repair_runbook_ready` | Defines monitoring cadence and repair priority ladder after public Beta opens. |
+| 13 | `docs/A3_PHASE_1_PUBLIC_BETA_DEPLOY_SMOKE_ROLLBACK_CLOSURE.md` | `a3_phase_1_public_beta_deploy_smoke_rollback_closure_ready` | Closes the pre-deploy, post-deploy smoke, rollback-trigger, and post-rollback verification loop. |
 
 ## Current A3 Readiness Status
 
@@ -46,6 +47,7 @@ It does not deploy production, change DNS, mutate environment variables, print s
 | Manual platform action | prepared, not executed | Requires separate human/operator action. |
 | Post-platform report | prepared, not filled | Use only after platform action. |
 | Monitoring and repair | ready | Cadence and P0/P1/P2 repair ladder are defined. |
+| Deploy smoke rollback closure | ready | Compact deployment operation loop is defined before any future platform action. |
 | Production deployment | not executed | This index does not authorize deployment. |
 | Real-data promotion | deferred | `publicDataSource=supabase` remains a stop line. |
 | Real-score promotion | deferred | `scoreSource=real` remains a stop line. |
@@ -100,6 +102,7 @@ Use these commands before treating A3 release ops as locally ready:
 - `cmd.exe /c npm run check:a3-phase-1-public-beta-post-platform-action-report-template`
 - `cmd.exe /c npm run check:a3-phase-1-public-beta-monitoring-and-repair-runbook`
 - `cmd.exe /c npm run check:a3-phase-1-public-beta-release-ops-index`
+- `cmd.exe /c npm run check:a3-phase-1-public-beta-deploy-smoke-rollback-closure`
 - `cmd.exe /c npx tsc --noEmit`
 - `cmd.exe /c npm run check:review-gates`
 

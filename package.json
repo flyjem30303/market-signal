@@ -74,6 +74,7 @@
     "check:a3-phase-1-public-beta-post-platform-action-report-template": "node scripts/check-a3-phase-1-public-beta-post-platform-action-report-template.mjs",
     "check:a3-phase-1-public-beta-monitoring-and-repair-runbook": "node scripts/check-a3-phase-1-public-beta-monitoring-and-repair-runbook.mjs",
     "check:a3-phase-1-public-beta-release-ops-index": "node scripts/check-a3-phase-1-public-beta-release-ops-index.mjs",
+    "check:a3-phase-1-public-beta-deploy-smoke-rollback-closure": "node scripts/check-a3-phase-1-public-beta-deploy-smoke-rollback-closure.mjs",
     "check:a3-phase-1-public-beta-release-review-summary-for-chairman": "node scripts/check-a3-phase-1-public-beta-release-review-summary-for-chairman.mjs",
     "check:a3-phase-1-public-beta-chairman-operator-decision-record": "node scripts/check-a3-phase-1-public-beta-chairman-operator-decision-record.mjs",
     "check:a3-phase-1-public-beta-operator-execution-path-runbook": "node scripts/check-a3-phase-1-public-beta-operator-execution-path-runbook.mjs",
