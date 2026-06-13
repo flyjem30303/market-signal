@@ -1118,6 +1118,43 @@ Next PM route:
 
 Commit and push the Phase 1 candidate to GitHub, then verify whether Vercel refreshes `https://market-signal-two.vercel.app/` from stale deployment to the current candidate.
 
+## 8AS. 2026-06-14 GitHub Push Done, Vercel Public URL Still Stale
+
+CEO decision:
+
+`escalate_to_a3_vercel_deployment_state_check`
+
+PM completed the Git-backed deployment movement but the public Vercel URL did not refresh to the new candidate during the smoke window.
+
+Completed mainline work:
+
+- Staged the Phase 1 public Beta candidate.
+- Created commit `fc852d4d Prepare phase 1 public beta candidate`.
+- Pushed `main` to GitHub.
+- Verified `origin/main` points to `fc852d4d149032db3800253f3a6c95db24277471`.
+
+Remote outcome:
+
+- `https://market-signal-two.vercel.app/` returns HTTP 200 but remains an older deployment.
+- `https://market-signal-two.vercel.app/membership` returns HTTP 404.
+- Remote `check:public-beta-core-route-quick-proof` remains blocked only on `/membership: HTTP 404`.
+
+Current lane assignments:
+
+- PM mainline: pause public-URL acceptance and route to A3 platform-state verification.
+- A1 data/source/coverage: continue independently; this Vercel blocker does not open data fetch, SQL, Supabase writes, or promotion.
+- A2 public copy: no new copy change is needed until Vercel serves the candidate.
+- A3 launch engineering: inspect Vercel Deployments for commit `fc852d4d`; determine whether deployment is pending, failed, not triggered, branch-disconnected, or root-directory/build-setting blocked.
+- A4 membership MVP: remain deferred. The `/membership` route is Phase 2 roadmap visibility in Phase 1, not live membership implementation.
+
+Boundary:
+
+No SQL, Supabase write, staging rows, `daily_prices` mutation, raw market-data fetch/store/commit, source promotion, real score promotion, production env mutation, DNS change, or Vercel dashboard mutation occurred.
+
+Next PM route:
+
+Perform `verify_vercel_git_integration_or_manual_redeploy`, then rerun remote quick-proof, visible-language quality, and public residue cleanup once Vercel serves the latest commit.
+
 ## 8AR. 2026-06-14 Briefing Phase 1 Product-First Ordering
 
 CEO decision:

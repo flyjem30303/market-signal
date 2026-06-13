@@ -2048,3 +2048,39 @@ No SQL, Supabase read/write, staging rows, `daily_prices` mutation, raw market-d
 Next:
 
 Commit and push the Phase 1 public Beta candidate to GitHub so Vercel can redeploy. After deployment, rerun remote quick-proof, remote visible-language quality, and remote residue cleanup against `https://market-signal-two.vercel.app/`.
+
+# Latest A3 GitHub push completed but Vercel remains stale
+
+Status: `github_main_updated_vercel_public_url_still_stale_platform_check_needed`
+
+Date: 2026-06-14
+
+CEO decision: classify the current blocker as an A3 external platform deployment-state issue, not a local runtime or GitHub push issue.
+
+PM/A3 route: `verify_vercel_git_integration_or_manual_redeploy`.
+
+What changed:
+
+- Staged and committed the Phase 1 public Beta candidate.
+- Commit: `fc852d4d Prepare phase 1 public beta candidate`.
+- Pushed `main` to GitHub successfully.
+- Verified `origin/main` points to `fc852d4d149032db3800253f3a6c95db24277471`.
+
+Post-push remote smoke:
+
+- `https://market-signal-two.vercel.app/` still returns HTTP 200, but appears to be an older cached deployment.
+- `https://market-signal-two.vercel.app/membership` still returns HTTP 404.
+- Remote quick-proof still blocks on `/membership: HTTP 404`.
+- Local `http://127.0.0.1:3000/membership` remains part of the candidate and local core route checks passed before the push.
+
+Classification:
+
+GitHub now has the candidate, but Vercel has not served it on the public URL. The likely causes are: Vercel deployment still pending/failed, Git integration not connected to the pushed repository/branch, root directory mismatch, or a Vercel-side build setting/environment issue.
+
+Boundary:
+
+No SQL, Supabase read/write, staging rows, `daily_prices` mutation, raw market-data fetch/store/commit, source promotion, real score promotion, production env mutation, DNS change, or membership implementation occurred. No Vercel dashboard mutation was performed from this run.
+
+Next:
+
+Open the Vercel project Deployments page and confirm whether commit `fc852d4d` deployed, failed, or did not trigger. If it did not trigger, reconnect Git integration or run a manual redeploy for the GitHub `main` branch. After Vercel updates, rerun remote quick-proof, remote visible-language quality, and remote residue cleanup.
