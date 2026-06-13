@@ -3274,6 +3274,36 @@ Boundary:
 
 No SQL, Supabase read/write, staging rows, `daily_prices` mutation, raw market-data fetch/store/commit, source promotion, real score promotion, real-time claim, official endorsement claim, guaranteed-return claim, investment-advice claim, production env mutation, DNS change, or membership implementation occurred.
 
+## 8AZ. 2026-06-14 A3 Remote Public Beta Monitoring Snapshot
+
+CEO decision:
+
+`a3_phase_1_public_beta_remote_monitoring_snapshot_ready`
+
+PM executed the next A3 launch-engineering slice after the remote quick proof refresh. The project now has a repeatable no-secret monitor for the current public Vercel alias, so the public Beta can be checked from outside localhost without changing platform settings or touching data infrastructure.
+
+Completed mainline work:
+
+- Added `docs/A3_PHASE_1_PUBLIC_BETA_REMOTE_MONITORING_SNAPSHOT.md`.
+- Added `scripts/check-a3-phase-1-public-beta-remote-monitoring-snapshot.mjs`.
+- Registered `check:a3-phase-1-public-beta-remote-monitoring-snapshot` in `package.json`.
+- Registered the new check in the focused review gate.
+- Linked the monitor from `docs/A3_PHASE_1_PUBLIC_BETA_RELEASE_OPS_INDEX.md`.
+- Verified `https://market-signal-two.vercel.app` on 12 public routes: `/`, `/briefing`, `/weekly`, `/membership`, `/stocks/2330`, `/stocks/TWII`, `/methodology`, `/disclaimer`, `/terms`, `/privacy`, `/robots.txt`, and `/sitemap.xml`.
+- The monitor checks route status, BRIEF-aligned public wording, Phase 2 membership preview boundaries, no-advice language, mock/demo data boundaries, and public residue stop lines.
+
+Current lane assignments:
+
+- PM mainline: next route is `continue_phase_1_public_beta_keep_open_monitoring_and_repair_readiness`.
+- A1 data/source/coverage: continue lawful free automated-source and coverage work independently; do not promote runtime source from this A3 monitor.
+- A2 public copy/product safety: own repair if the monitor flags source/update wording, no-advice wording, live-data claims, complete-coverage claims, or confusing membership boundary language.
+- A3 launch/production engineering: own the remote monitor, Vercel route health, rollback readiness, and post-deploy smoke evidence.
+- A4 membership MVP planning: remain Phase 2 planning-only and use the public membership route only as a roadmap, not as an implemented member system.
+
+Boundary:
+
+No platform deploy, DNS change, production env mutation, SQL, Supabase read/write, staging rows, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public source promotion, real score promotion, real-time claim, official endorsement claim, guaranteed-return claim, investment-advice claim, or membership implementation occurred. Runtime remains mock/demo.
+
 ## 8O. 2026-06-13 Phase 1 Operator Review Summary
 
 CEO decision:

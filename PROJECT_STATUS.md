@@ -2,6 +2,37 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### A3 Remote Public Beta Monitoring Snapshot Pass
+
+Status: `a3_phase_1_public_beta_remote_monitoring_snapshot_ready`
+
+CEO decision:
+
+- Keep Phase 1 focused on the public/free index-lighting site before Phase 2 membership implementation.
+- Convert the current public Vercel alias into a repeatable no-secret monitoring snapshot so A3 can prove the site is not only locally ready but externally reachable and still aligned with the BRIEF.
+- This is monitoring evidence only. It does not authorize platform mutation, DNS change, production env mutation, SQL, Supabase, market-data fetch, real-data promotion, or membership implementation.
+
+PM completed:
+
+- Added `docs/A3_PHASE_1_PUBLIC_BETA_REMOTE_MONITORING_SNAPSHOT.md`.
+- Added `check:a3-phase-1-public-beta-remote-monitoring-snapshot`.
+- Registered the new A3 checker in `package.json`, the A3 release ops index, and the focused review gate.
+- Verified the current public alias `https://market-signal-two.vercel.app` across 12 public routes: `/`, `/briefing`, `/weekly`, `/membership`, `/stocks/2330`, `/stocks/TWII`, `/methodology`, `/disclaimer`, `/terms`, `/privacy`, `/robots.txt`, and `/sitemap.xml`.
+- Confirmed the remote public surface keeps the Phase 1 reading promise, Phase 2 membership-preview boundary, mock/demo data boundary, no-advice language, and no internal launch residue.
+
+Checks passed:
+
+- `check:a3-phase-1-public-beta-remote-monitoring-snapshot`
+- `check:a3-phase-1-public-beta-release-ops-index`
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public source promotion, real score promotion, real-time claim, official endorsement claim, guaranteed-return claim, investment-advice claim, production env mutation, DNS change, Vercel dashboard mutation, or membership implementation occurred. Runtime remains mock/demo.
+
+Next:
+
+Continue Phase 1 public Beta launch engineering by adding the remote monitoring snapshot to post-deploy cadence and any future keep-open/repair decision. A1 continues legal/free/automatable data-source and coverage work. A2 keeps trust copy and no-advice wording aligned. A3 owns remote monitoring, rollback readiness, and operator evidence. A4 remains membership planning-only.
+
 ### BRIEF Phase 1 Public Surface Residue Cleanup Pass
 
 Status: `phase_1_public_surface_residue_cleanup_ready`

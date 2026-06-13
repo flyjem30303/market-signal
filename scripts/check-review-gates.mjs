@@ -4603,6 +4603,11 @@ const checks = [
     name: "a3-phase-1-public-beta-deploy-smoke-rollback-closure"
   },
   {
+    command: [node, "scripts/check-a3-phase-1-public-beta-remote-monitoring-snapshot.mjs"],
+    expectStatus: "ok",
+    name: "a3-phase-1-public-beta-remote-monitoring-snapshot"
+  },
+  {
     command: [node, "scripts/check-a3-phase-1-public-beta-release-review-summary-for-chairman.mjs"],
     expectStatus: "ok",
     name: "a3-phase-1-public-beta-release-review-summary-for-chairman"
@@ -6161,6 +6166,7 @@ const coreReviewGateNames = new Set([
   "a3-phase-1-public-beta-monitoring-and-repair-runbook",
   "a3-phase-1-public-beta-release-ops-index",
   "a3-phase-1-public-beta-deploy-smoke-rollback-closure",
+  "a3-phase-1-public-beta-remote-monitoring-snapshot",
   "a3-phase-1-public-beta-release-review-summary-for-chairman",
   "a3-phase-1-public-beta-chairman-operator-decision-record",
   "a3-phase-1-public-beta-operator-execution-path-runbook",

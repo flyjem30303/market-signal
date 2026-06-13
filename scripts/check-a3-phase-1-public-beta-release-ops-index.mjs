@@ -24,7 +24,8 @@ const artifactStatusPairs = [
   ["docs/A3_PHASE_1_PUBLIC_BETA_MANUAL_PLATFORM_ACTION_CHECKLIST.md", "a3_phase_1_public_beta_manual_platform_action_checklist_ready"],
   ["docs/A3_PHASE_1_PUBLIC_BETA_POST_PLATFORM_ACTION_REPORT_TEMPLATE.md", "a3_phase_1_public_beta_post_platform_action_report_template_ready"],
   ["docs/A3_PHASE_1_PUBLIC_BETA_MONITORING_AND_REPAIR_RUNBOOK.md", "a3_phase_1_public_beta_monitoring_and_repair_runbook_ready"],
-  ["docs/A3_PHASE_1_PUBLIC_BETA_DEPLOY_SMOKE_ROLLBACK_CLOSURE.md", "a3_phase_1_public_beta_deploy_smoke_rollback_closure_ready"]
+  ["docs/A3_PHASE_1_PUBLIC_BETA_DEPLOY_SMOKE_ROLLBACK_CLOSURE.md", "a3_phase_1_public_beta_deploy_smoke_rollback_closure_ready"],
+  ["docs/A3_PHASE_1_PUBLIC_BETA_REMOTE_MONITORING_SNAPSHOT.md", "a3_phase_1_public_beta_remote_monitoring_snapshot_ready"]
 ];
 
 const requiredPhrases = [
@@ -65,6 +66,7 @@ for (const readiness of [
   "Post-platform report",
   "Monitoring and repair",
   "Deploy smoke rollback closure",
+  "Remote monitoring snapshot",
   "Production deployment",
   "Real-data promotion",
   "Real-score promotion",
@@ -96,6 +98,7 @@ for (const command of [
   "cmd.exe /c npm run check:a3-phase-1-public-beta-monitoring-and-repair-runbook",
   "cmd.exe /c npm run check:a3-phase-1-public-beta-release-ops-index",
   "cmd.exe /c npm run check:a3-phase-1-public-beta-deploy-smoke-rollback-closure",
+  "cmd.exe /c npm run check:a3-phase-1-public-beta-remote-monitoring-snapshot",
   "cmd.exe /c npx tsc --noEmit",
   "cmd.exe /c npm run check:review-gates"
 ]) {
