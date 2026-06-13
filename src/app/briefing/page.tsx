@@ -1,12 +1,9 @@
 import type { Metadata } from "next";
-import { BriefingPublicBetaGateSummary } from "@/components/briefing-public-beta-gate-summary";
 import { BriefingPublicDecisionSummaryPanel } from "@/components/briefing-public-decision-summary-panel";
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { PageViewTracker } from "@/components/page-view-tracker";
-import { PublicBetaDataReadinessStatus } from "@/components/public-beta-data-readiness-status";
 import { PublicBetaMembershipMvpRoadmap } from "@/components/public-beta-membership-mvp-roadmap";
 import { PublicBetaPublicStatusSurface } from "@/components/public-beta-public-status-surface";
-import { PublicBetaSourceCoverageBridge } from "@/components/public-beta-source-coverage-bridge";
 import { TrackedLink } from "@/components/tracked-link";
 import { buildBriefingMarketActionSummary } from "@/lib/briefing-market-action-summary";
 import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
@@ -215,12 +212,24 @@ export default async function BriefingPage() {
         </TrackedLink>
       </nav>
 
-      <PublicBetaPublicStatusSurface />
       <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
-      <PublicBetaDataReadinessStatus />
-      <PublicBetaSourceCoverageBridge context="briefing" />
+      <PublicBetaPublicStatusSurface />
+
+      <section className="panel stock-reading-summary" aria-label="資料狀態與下一階段">
+        <p className="eyebrow">資料狀態與下一階段</p>
+        <h2>目前先讓所有使用者看懂市場狀態</h2>
+        <p>
+          目前頁面用示範資料呈現市場燈號、核心指標、風險提醒與資料更新時間。
+          正式資料來源、完整覆蓋率與更新流程完成前，請把本頁視為閱讀流程示範與市場觀察輔助。
+        </p>
+        <div className="briefing-actions">
+          <ActionCard title="公開版重點" text="先完成市場總覽、核心指標、警示清單與資料更新時間，讓所有使用者都能快速理解市場氣氛。" />
+          <ActionCard title="資料限制" text="正式市場資料尚未啟用；若資料延遲、缺漏或品質偏低，頁面會提醒使用者降低判斷權重。" />
+          <ActionCard title="會員路線" text="會員深度解讀、watchlist、自訂警示與盤後複盤會在公開版穩定後進入下一階段。" />
+        </div>
+      </section>
+
       <PublicBetaMembershipMvpRoadmap />
-      <BriefingPublicBetaGateSummary />
 
       <article className="disclaimer">
         <h2>重要提醒</h2>

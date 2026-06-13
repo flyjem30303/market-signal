@@ -1067,6 +1067,42 @@ Boundary:
 
 No SQL, Supabase write, staging rows, `daily_prices` mutation, raw market-data fetch/store/commit, public source promotion, or real score promotion occurred.
 
+## 8P. 2026-06-14 Public Route Cleanup And Local Route Recovery
+
+CEO decision:
+
+`keep_phase_1_public_routes_user_facing_and_defer_membership_implementation`
+
+PM executed the next BRIEF product/runtime slice after the revised Phase 1 / Phase 2 split. The goal was not cosmetic polish; it was to remove public-route content that still felt like project governance and replace it with product language for normal investors.
+
+Completed mainline work:
+
+- Replaced `/briefing` internal readiness and source-coverage route panels with a user-facing data-status and next-phase section.
+- Replaced `/weekly` row-coverage status details with a user-facing weekly data-status section.
+- Kept `/membership` as a future-feature preview only; no login, payment, saved watchlist, custom-alert execution, or member-only content was implemented.
+- Recovered local route health after a stale Next dev chunk error by clearing `.next` and restarting the dev server.
+
+Verification:
+
+- `npx tsc --noEmit` passed.
+- `npm run build` passed.
+- `check:public-visible-language-quality` passed.
+- `check:phase-1-public-beta-public-visible-residue-cleanup` passed.
+- `check:public-surface-user-facing-audit` passed.
+- Browser verification passed for `/briefing`, `/weekly`, and `/membership`; no visible mojibake, internal commands, PM/A-lane labels, database terms, raw-data terms, or development-process residue were detected.
+
+Current lane assignments:
+
+- PM mainline: keep Phase 1 public pages clear, readable, and aligned with the revised BRIEF before moving into deeper visual polish.
+- A1 Data / Source / Coverage: continue legal-free automated-source and coverage work independently; PM integrates only accepted aggregate-safe outputs.
+- A2 Public Copy / Product Safety: audit public pages for source/update/non-advice/member-boundary clarity.
+- A3 Launch / Production Engineering: keep Vercel, monitoring, rollback, SEO, and post-deploy checks ready.
+- A4 Membership MVP Planning: remain planning-only until Phase 1 public Beta is stable.
+
+Boundary:
+
+No SQL, Supabase read/write, staging rows, `daily_prices` mutation, raw market-data fetch/store/commit, source promotion, real score promotion, membership implementation, production env mutation, DNS change, or Vercel dashboard mutation occurred.
+
 ## 8AR. 2026-06-14 Phase 1 / Phase 2 BRIEF Split and A3 Deploy Movement
 
 CEO decision:

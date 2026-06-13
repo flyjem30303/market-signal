@@ -2265,3 +2265,35 @@ No SQL, Supabase read/write, staging rows, `daily_prices` mutation, raw market-d
 Next:
 
 Continue Phase 1 public product readiness. PM mainline should clean remaining public-route sections that still read like internal dashboards, while A1 keeps lawful automated data-source/coverage work moving, A2 audits trust copy, A3 keeps deployment/monitoring/rollback ready, and A4 stays planning-only for membership MVP.
+
+# Latest public route cleanup and local route recovery
+
+Status: `phase_1_public_routes_user_facing_cleanup_passed`
+
+Date: 2026-06-14
+
+CEO decision: keep Phase 1 focused on the public free site. Remove user-visible internal progress panels from public routes before doing deeper visual polish or Phase 2 membership implementation.
+
+What changed:
+
+- Cleaned `/briefing` by replacing internal data-readiness/source-coverage panels with a user-facing "data status and next phase" section.
+- Cleaned `/weekly` by replacing row-coverage gap/status details with a user-facing weekly data-status section.
+- Kept `/membership` as a Phase 2 preview only: no login, no payment, no saved watchlist, and no member-only content implementation.
+- Recovered local `http://localhost:3000/briefing` from a stale Next dev chunk error by restarting the dev server and clearing `.next`.
+
+Verification:
+
+- `npx tsc --noEmit` passed.
+- `npm run build` passed.
+- `check:public-visible-language-quality` passed.
+- `check:phase-1-public-beta-public-visible-residue-cleanup` passed.
+- `check:public-surface-user-facing-audit` passed.
+- Browser verification passed for `/briefing`, `/weekly`, and `/membership`: each route rendered visible content, had no mojibake, had no visible command/internal-role/database/raw-data residue, and kept a non-investment-advice or usage-boundary line.
+
+Boundary:
+
+No SQL, Supabase read/write, staging rows, `daily_prices` mutation, raw market-data fetch/store/commit, source promotion, real score promotion, membership implementation, production env mutation, DNS change, or Vercel dashboard mutation occurred. The runtime remains `publicDataSource=mock` and `scoreSource=mock`.
+
+Next:
+
+Continue Phase 1 public usability and launch readiness. PM mainline should keep checking remaining public pages for user-facing clarity; A1 continues lawful automated data-source/coverage work; A2 checks trust copy and non-advice wording; A3 keeps deployment monitoring and rollback ready; A4 remains Phase 2 membership planning-only.

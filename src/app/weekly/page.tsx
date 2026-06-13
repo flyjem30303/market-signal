@@ -4,7 +4,6 @@ import { PageViewTracker } from "@/components/page-view-tracker";
 import { RouteLocalTrustCopyPanel } from "@/components/route-local-trust-copy-panel";
 import { TrackedLink } from "@/components/tracked-link";
 import { TrustRuntimeBoundaryNotice } from "@/components/trust-runtime-boundary-notice";
-import { WeeklyRowCoverageStatus } from "@/components/weekly-row-coverage-status";
 import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
 import { buildWeeklyMarketActionSummary } from "@/lib/weekly-market-action-summary";
 import {
@@ -85,7 +84,28 @@ export default async function WeeklyPage() {
         </TrackedLink>
       </section>
 
-      <WeeklyRowCoverageStatus />
+      <section className="panel stock-reading-summary" aria-label="週報資料狀態">
+        <p className="eyebrow">資料狀態</p>
+        <h2>週報目前先示範閱讀方式</h2>
+        <p>
+          週報的第一階段目標，是讓使用者快速看懂本週市場氣氛、ETF 參考、風險熱度與資料更新時間。
+          正式資料來源、完整覆蓋率與更新流程完成前，所有分數與燈號都只作為市場觀察流程示範。
+        </p>
+        <div className="briefing-actions">
+          <article>
+            <strong>目前可用</strong>
+            <p>用 30 秒回看市場偏多、觀望或防守，再用 3 分鐘複核成因與資料狀態。</p>
+          </article>
+          <article>
+            <strong>需要保守</strong>
+            <p>資料更新時間、資料來源與覆蓋狀態未完整前，不把週報視為正式行情或完整市場資料庫。</p>
+          </article>
+          <article>
+            <strong>下一階段</strong>
+            <p>會員版本會加入盤後複盤、歷史燈號回看與個人 watchlist，但仍維持非投資建議定位。</p>
+          </article>
+        </div>
+      </section>
 
       <section className="weekly-quick-read" aria-label="週報快速閱讀">
         <article>
