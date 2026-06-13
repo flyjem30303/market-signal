@@ -96,6 +96,20 @@ export function DashboardShell({
         <>
           <StockRuntimeAtAGlance scoreSourceLabel={freshness.scoreSourceLabel} snapshot={snapshot} />
           <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
+          <section className="panel stock-reading-summary" aria-label="標的快速判讀">
+            <p className="eyebrow">標的快速判讀</p>
+            <h2>30 秒看懂標的狀態，3 分鐘複核風險與資料時間</h2>
+            <p>
+              個股與指數頁的閱讀順序和首頁、晨報一致：先看目前燈號，再看健康與風險分數，
+              接著確認資料更新時間，最後決定是否繼續觀察、加強複核或先降低風險。
+            </p>
+            <div className="briefing-actions">
+              <ActionCard title="30 秒看懂標的狀態" text={`${selected.symbol} ${selected.name} 目前是「${snapshot.signal.title}」。`} />
+              <ActionCard title="3 分鐘複核風險" text={`健康 ${snapshot.healthScore}/100、風險 ${snapshot.riskScore}/100；請先確認風險是否和市場晨報同向。`} />
+              <ActionCard title="資料時間" text={`目前更新時間為 ${formatTaipeiTime(snapshot.lastUpdatedAt)}；正式資料尚未啟用前請保留判斷空間。`} />
+              <ActionCard title="下一步觀察" text="先看風險成因與資料品質，再回到市場晨報確認是否為單一標的或全市場狀態。" />
+            </div>
+          </section>
         </>
       ) : (
         <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />

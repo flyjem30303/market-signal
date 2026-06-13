@@ -21,6 +21,7 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel: _scoreSourceLabel, sna
         <p className="eyebrow">公開 Beta 狀態</p>
         <h2>{snapshot.asset.symbol} 目前是示範資料閱讀頁</h2>
         <p>
+          公開 Beta 狀態：本頁目前用示範資料與示範分數呈現閱讀流程。
           這個區塊協助你在 30 秒內看懂標的狀態，並在 3 分鐘內確認風險、資料品質與下一步觀察。
           正式資料尚未啟用前，所有分數都只能作為示範閱讀流程。
         </p>

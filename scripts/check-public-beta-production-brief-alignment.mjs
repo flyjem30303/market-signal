@@ -49,7 +49,11 @@ const forbiddenVisibleText = [
 
 const stockSignalRequired = [
   "公開 Beta 狀態",
+  "標的快速判讀",
   "30 秒快速閱讀",
+  "30 秒看懂標的狀態",
+  "3 分鐘複核風險",
+  "資料時間",
   "資料邊界",
   "決策輔助摘要",
   "下一步觀察",

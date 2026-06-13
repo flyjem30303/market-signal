@@ -2,6 +2,40 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Stock Fast Reading Loop Pass
+
+Status: `phase_1_stock_fast_reading_loop_ready`
+
+CEO decision:
+
+- Stock and index detail pages should use the same public reading contract as Home and Briefing.
+- The top of each stock route should make the path explicit: 30-second status, 3-minute risk review, data timestamp, and next observation.
+- The copy must remain a public Phase 1 reading aid and must not imply real data, trading direction, or investment advice.
+
+What changed:
+
+- Stock/detail routes now include a `標的快速判讀` section after the public runtime status and freshness strip.
+- The section protects `30 秒看懂標的狀態`, `3 分鐘複核風險`, `資料時間`, and `下一步觀察`.
+- The production BRIEF alignment gate and decision-loop bridge now require the stock fast-reading phrases.
+
+Checks passed:
+
+- `check:public-beta-decision-loop-bridge`
+- `check:public-beta-production-brief-alignment`
+- `check:public-visible-language-quality`
+- `check:phase-1-public-beta-public-visible-residue-cleanup`
+- `check:pm-brief-runtime-mainline-goal-and-workstreams`
+- `npx tsc --noEmit`
+- Browser smoke: `/stocks/2330` shows `公開 Beta 狀態`, `標的快速判讀`, `30 秒看懂標的狀態`, `3 分鐘複核風險`, `資料時間`, and `下一步觀察`; no visible internal runtime tokens, mojibake, or console errors appeared.
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, market-row fetch, raw payload output, secret output, source promotion, real score promotion, membership implementation, production env mutation, DNS change, or Vercel dashboard mutation occurred. Runtime remains mock/demo.
+
+Next:
+
+Continue Phase 1 route clarity or A3 launch-readiness integration now that Home, Briefing, and Stock routes share the same public reading contract.
+
 ### Briefing Fast Reading Loop Pass
 
 Status: `phase_1_briefing_fast_reading_loop_ready`
