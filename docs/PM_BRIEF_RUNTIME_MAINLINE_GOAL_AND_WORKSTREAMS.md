@@ -8,6 +8,44 @@ Owner: PM mainline
 
 ## Latest Mainline Decision - 2026-06-14
 
+### Public Mainline Action Bridge Pass
+
+CEO confirms Phase 1 must feel like a decision-support dashboard, not a static score display.
+
+PM completed a focused action-bridge slice:
+
+- Home core indicator readout now explicitly says `30 秒可讀` and `3 分鐘可行動`.
+- Home action labels now include `可先關注`, `加強觀察`, `降低風險`, and `先複核`.
+- Home data line now keeps `正式資料尚未啟用` visible next to data freshness.
+- `/briefing` market action summary now includes a visible `下一步觀察` sentence.
+- Stock decision compass now exposes `決策輔助摘要` above the 30-second cards.
+- Stock investor action summary eyebrow is now `投資人行動摘要`.
+- `check:home-core-indicator-readout` now aligns with Chinese-first public labels and blocks the old English `Core Indicator Readout` label from returning.
+
+Latest checks passed:
+
+- `check:home-core-indicator-readout`
+- `check:public-beta-mainline-action-bridge`
+- `check:public-visible-language-quality`
+- `check:public-surface-user-facing-audit`
+- `check:public-beta-core-route-quick-proof`
+- `check:pm-brief-runtime-mainline-goal-and-workstreams`
+- `check:public-beta-chinese-first-route-labels`
+- `npx tsc --noEmit`
+- Browser smoke confirmed `/`, `/briefing`, and `/stocks/2330` show the expected action language, no old English action labels, and no console errors.
+
+Current route:
+
+- `phase_1_public_free_index_dashboard_usable_loop`
+
+Lane reminder:
+
+- PM owns public action clarity.
+- A1 continues data/source/coverage.
+- A2 guards trust copy and non-advice boundaries.
+- A3 guards launch engineering.
+- A4 remains Phase 2 membership planning-only.
+
 ### Public Route Chinese-First Label Pass
 
 CEO confirms Phase 1 public routes should be Chinese-first and investor-facing.

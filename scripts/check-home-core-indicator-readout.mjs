@@ -17,7 +17,6 @@ requireIncludes(componentPath, component, [
   "coreIndicatorReadouts",
   "home-core-indicator-readout",
   "home-core-indicator-grid",
-  "Core Indicator Readout",
   "核心指標快讀",
   "市場氣氛",
   "風險熱度",
@@ -127,6 +126,7 @@ function forbiddenPatterns() {
     /publicDataSource\s*=\s*"supabase"/u,
     /createClient\(/u,
     /daily_prices/u,
+    /Core Indicator Readout/u,
     /\bsb_(publishable|secret|anon|service_role)_[a-z0-9_-]+/iu
   ];
 }

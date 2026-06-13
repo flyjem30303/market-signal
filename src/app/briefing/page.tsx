@@ -65,6 +65,7 @@ export default async function BriefingPage() {
           <h2>{actionSummary.headline}</h2>
           <p>{actionSummary.marketLine}</p>
           <p>3 分鐘判斷順序：先看市場燈號，再看風險熱度，最後確認資料品質與更新時間。</p>
+          <p>下一步觀察：先打開主要風險標的，再對照 ETF 參考與資料更新狀態。</p>
           <p>{actionSummary.stopLine}</p>
         </div>
         <TrackedLink

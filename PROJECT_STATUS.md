@@ -2,6 +2,46 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Public Mainline Action Bridge Pass
+
+Status: `public_beta_mainline_action_bridge_passed`
+
+CEO decision:
+
+- Phase 1 must read as a decision-support dashboard, not only a data display.
+- The public site needs visible action language: 30-second reading, 3-minute action, next-step observation, and the three user actions from the BRIEF: focus, observe more closely, or reduce risk.
+- Keep data and membership boundaries unchanged while improving public action clarity.
+
+What changed:
+
+- Home core indicator readout now explicitly says `30 秒可讀` and `3 分鐘可行動`.
+- Home action labels now include `可先關注`, `加強觀察`, `降低風險`, and `先複核`.
+- Home data line now states `正式資料尚未啟用` next to data freshness, so users know the action language is still demo-bound.
+- Briefing market action summary now includes a visible `下一步觀察` sentence.
+- Stock decision compass now exposes `決策輔助摘要` before the 30-second cards.
+- Stock investor action summary eyebrow is now Chinese-first: `投資人行動摘要`.
+- Updated `check:home-core-indicator-readout` so it no longer requires the old English `Core Indicator Readout` label and now blocks that label from returning.
+
+Checks passed:
+
+- `check:home-core-indicator-readout`
+- `check:public-beta-mainline-action-bridge`
+- `check:public-visible-language-quality`
+- `check:public-surface-user-facing-audit`
+- `check:public-beta-core-route-quick-proof`
+- `check:pm-brief-runtime-mainline-goal-and-workstreams`
+- `check:public-beta-chinese-first-route-labels`
+- `npx tsc --noEmit`
+- Browser smoke: `/`, `/briefing`, and `/stocks/2330` showed the expected action language and no old English action labels; console error log was empty.
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, market-row fetch, raw payload output, secret output, source promotion, real score promotion, membership implementation, production env mutation, DNS change, or Vercel dashboard mutation occurred. Runtime remains mock/demo until data-source rights, coverage, quality, rollback, and promotion gates pass.
+
+Next:
+
+Continue Phase 1 public comprehension and launch readiness. PM mainline should keep action-language gates green while A1 continues data/source/coverage, A2 trust copy, A3 launch engineering, and A4 membership planning-only.
+
 ### Public Route Chinese-First Label Pass
 
 Status: `public_beta_chinese_first_route_labels_ready`

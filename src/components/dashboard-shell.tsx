@@ -151,7 +151,7 @@ export function DashboardShell({
             <ActionCard title="市場燈號" text={`目前市場總覽為「${market.signal.title}」，請先確認這個狀態是否符合你的觀察週期。`} />
             <ActionCard title="風險來源" text={`健康分數 ${market.healthScore}/100，風險分數 ${market.riskScore}/100；分數接近時應避免過度解讀。`} />
             <ActionCard title="資料更新" text={`資料品質 ${market.dataQualityGrade}，更新時間 ${formatTaipeiTime(market.lastUpdatedAt)}。`} />
-            <ActionCard title="下一步" text="若市場轉弱，優先檢查風險是否擴散；若市場偏強，也要確認資料是否新鮮與是否集中在少數標的。" />
+            <ActionCard title="下一步觀察" text="若市場轉弱，優先檢查風險是否擴散；若市場偏強，也要確認資料是否新鮮與是否集中在少數標的。" />
           </div>
         </section>
       )}
@@ -259,6 +259,10 @@ function StockDecisionCompass({
 
   return (
     <section aria-label="Stock Decision Compass" className="stock-decision-compass">
+      <div className="stock-decision-compass-heading">
+        <p className="eyebrow">決策輔助摘要</p>
+        <h2>30 秒快讀後，決定是否進入 3 分鐘複核</h2>
+      </div>
       <article className={snapshot.compositeScore >= 62 ? "active" : snapshot.compositeScore >= 48 ? "hold" : "blocked"}>
         <span>30 秒可用</span>
         <strong>{snapshot.signal.title}</strong>
@@ -290,7 +294,7 @@ function StockInvestorActionSummary({
   return (
     <section className="stock-investor-action-summary" aria-label="Investor Action Summary">
       <div>
-        <p className="eyebrow">Investor Action Summary</p>
+        <p className="eyebrow">投資人行動摘要</p>
         <h2>把單一標的放回市場脈絡</h2>
         <p>{summary.headline}</p>
         <p>{summary.safetyLine}</p>
@@ -485,21 +489,21 @@ function HomeCoreIndicatorReadout({
   const dataTone = snapshot.dataQualityGrade === "A" || snapshot.dataQualityGrade === "B" ? "constructive" : "watch";
   const coreIndicatorReadouts = [
     {
-      action: "先看整體市場",
+      action: "可先關注",
       body: `偏強 ${breadth.constructive}、觀望 ${breadth.watch}、偏防守 ${breadth.defensive}。`,
       label: "市場氛圍",
       tone: "constructive",
       value: market.signal.title
     },
     {
-      action: "檢查是否擴散",
+      action: "先複核",
       body: "市場廣度可以提醒行情是否只集中在少數標的，或已經擴散到更多族群。",
       label: "市場廣度",
       tone: breadth.constructive >= breadth.defensive ? "constructive" : "watch",
       value: `${breadth.constructive}/${breadth.watch}/${breadth.defensive}`
     },
     {
-      action: riskTone === "defensive" ? "加強風險控管" : "持續觀察",
+      action: riskTone === "defensive" ? "降低風險" : "加強觀察",
       body: `風險分數 ${market.riskScore}/100；分數越高，越需要檢查波動、估值與資料新鮮度。`,
       label: "風險熱度",
       tone: riskTone,
@@ -507,7 +511,7 @@ function HomeCoreIndicatorReadout({
     },
     {
       action: "確認資料狀態",
-      body: `資料品質 ${snapshot.dataQualityGrade}，更新時間 ${formatTaipeiTime(snapshot.lastUpdatedAt)}。`,
+      body: `資料品質 ${snapshot.dataQualityGrade}，更新時間 ${formatTaipeiTime(snapshot.lastUpdatedAt)}。正式資料尚未啟用前，先把燈號當成觀察線索。`,
       label: "資料更新",
       tone: dataTone,
       value: snapshot.dataQualityGrade
@@ -517,10 +521,11 @@ function HomeCoreIndicatorReadout({
   return (
     <section className="home-core-indicator-readout" aria-label="核心指標摘要">
       <div>
-        <p className="eyebrow">Core Indicator Readout</p>
+        <p className="eyebrow">核心指標快讀</p>
         <h2>核心指標快讀</h2>
         <p>
-          先用市場氛圍建立方向，再用廣度、風險與資料狀態複核。這個順序可以降低只看單一分數造成的誤判。
+          30 秒可讀：先用市場氛圍建立方向。3 分鐘可行動：再用廣度、風險與資料狀態複核，
+          決定是可先關注、加強觀察、降低風險，或先複核資料。
         </p>
       </div>
       <div className="home-core-indicator-grid">
