@@ -1243,6 +1243,48 @@ Next PM route:
 
 Open the authenticated Vercel deployment log for `dpl_3vyMYi1vwPEhsaevhXe9XUjzDXFZ`, copy the first failing build error summary, and use that single error as the next repair target.
 
+## 8AV. 2026-06-14 Repo-Side Vercel Config Hardening
+
+CEO decision:
+
+`apply_explicit_vercel_build_config_before_waiting_for_logs`
+
+PM found that the repo itself can pass a Vercel-like clean build, so the most useful repo-side action is to remove implicit Vercel project assumptions.
+
+Completed mainline work:
+
+- Added `engines.node=20.x` to `package.json`.
+- Added `vercel.json`.
+- Explicit Vercel framework: `nextjs`.
+- Explicit install command: `npm ci`.
+- Explicit build command: `npm run build`.
+
+Verification:
+
+- `check:json` passed.
+- `npm run build` passed.
+- `npx tsc --noEmit` passed.
+- `check:pm-brief-runtime-mainline-goal-and-workstreams` passed.
+- A clean temp tree produced from `git archive HEAD` passed `npm ci`.
+- The same clean temp tree passed `npm run build`.
+- A no-`.env.local` build also passed earlier, so the failure is not explained by missing local Supabase/env values.
+
+Current lane assignments:
+
+- PM mainline: push the explicit Vercel config, observe the new Vercel status, and only then decide whether a log is still required.
+- A1: continue no-fetch data/source/coverage independently.
+- A2: no further public-copy polishing until A3 deployment is current.
+- A3: if the next deployment fails, retrieve the new Vercel log id and first error.
+- A4: remain deferred.
+
+Boundary:
+
+No SQL, Supabase write, staging rows, `daily_prices` mutation, raw market-data fetch/store/commit, source promotion, real score promotion, production env mutation, DNS change, Vercel dashboard mutation, or credential output occurred.
+
+Next PM route:
+
+Commit and push `apply_explicit_vercel_config_and_observe_next_deployment`.
+
 ## 8AR. 2026-06-14 Briefing Phase 1 Product-First Ordering
 
 CEO decision:

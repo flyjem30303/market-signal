@@ -2159,3 +2159,39 @@ No SQL, Supabase read/write, staging rows, `daily_prices` mutation, raw market-d
 Next:
 
 Retrieve the first failing build error from Vercel logs. Do not continue public-page polishing until the failed-build error is known, because local verification is already green and the blocker is now confirmed at the Vercel build/deployment layer.
+
+# Latest A3 Vercel config hardening and clean-build proof
+
+Status: `a3_vercel_config_explicit_clean_ci_build_passed`
+
+Date: 2026-06-14
+
+CEO decision: apply the repo-side Vercel configuration that can be safely fixed without authenticated Vercel logs. This reduces platform ambiguity while preserving the need to inspect logs if deployment still fails.
+
+What changed:
+
+- Added `engines.node=20.x` to `package.json`.
+- Added `vercel.json` with explicit `framework=nextjs`, `installCommand=npm ci`, and `buildCommand=npm run build`.
+
+Why:
+
+- Local build passes with and without `.env.local`.
+- A clean ASCII-path archive of `HEAD` passes `npm ci` and `npm run build`.
+- Therefore the remaining Vercel failure is likely a Vercel project/build-setting/log-specific issue unless the explicit repo config resolves it on the next deployment.
+
+Verification:
+
+- `check:json` passed.
+- `npm run build` passed.
+- `npx tsc --noEmit` passed.
+- `check:pm-brief-runtime-mainline-goal-and-workstreams` passed.
+- Clean temp tree from `git archive HEAD` passed `npm ci`.
+- Clean temp tree from `git archive HEAD` passed `npm run build`.
+
+Boundary:
+
+No SQL, Supabase read/write, staging rows, `daily_prices` mutation, raw market-data fetch/store/commit, source promotion, real score promotion, production env mutation, DNS change, or Vercel dashboard mutation occurred.
+
+Next:
+
+Commit and push the Vercel config hardening. If Vercel still fails, retrieve the deployment log for the new failed deployment id rather than continuing local polishing.
