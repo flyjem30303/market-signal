@@ -49,7 +49,7 @@ if (visible.length > 16000) {
 
 const orderedVisibleMarkers = [
   "Public Beta Index Dashboard",
-  "Quick Start",
+  "\u0033\u0030 \u79d2\u8d77\u9ede",
   "Core Indicator Readout",
   "\u53ef\u7528\u9589\u74b0",
   "\u8cc7\u6599\u65b0\u9bae\u5ea6 metadata",

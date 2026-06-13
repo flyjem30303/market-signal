@@ -77,7 +77,7 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
           目前首頁只提供 mock 訊號閱讀與狀態說明；真實資料、完整覆蓋率與個別投資建議都還沒有開放。
         </p>
         <p>
-          覆蓋證據：目前可檢查的覆蓋證據 182/360；TWII 前置條件、公開資料邊界與不執行 SQL 仍是上線前檢查項。
+          覆蓋證據：目前可檢查的覆蓋證據 182/360；TWII 前置條件與公開資料邊界仍是上線前檢查項。目前不執行資料庫寫入、不匯入原始資料酬載、不修改正式資料表。
         </p>
       </article>
 

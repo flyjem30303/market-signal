@@ -76,7 +76,7 @@ export function getPublicBetaDataReadinessStatus(): PublicBetaDataReadinessStatu
   return {
     headline: "資料真實化仍在準備中，公開頁維持 mock",
     summary:
-      "目前已把資料來源、覆蓋範圍、欄位契約與升級 gate 拆成可追蹤狀態；這讓使用者知道哪些訊號只是產品示範，哪些資料線正在等待合法來源與覆蓋驗證。",
+      "目前已把資料來源、覆蓋範圍、欄位契約與升級檢查拆成可追蹤狀態；這讓使用者知道哪些訊號只是產品示範，哪些資料線正在等待合法來源與覆蓋驗證。",
     publicDataSource: "mock",
     scoreSource: "mock",
     rowCoverage: {
@@ -262,6 +262,6 @@ export function getPublicBetaDataReadinessStatus(): PublicBetaDataReadinessStatu
       }
     ],
     stopLine:
-      "目前不執行 SQL、不寫 Supabase、不抓取或儲存 raw market data、不修改 daily_prices，也不把 publicDataSource 或 scoreSource 升級成 real。"
+      "目前不執行資料庫寫入、不匯入原始資料酬載、不修改正式資料表，也不把示範資料或示範分數升級成正式狀態。"
   };
 }

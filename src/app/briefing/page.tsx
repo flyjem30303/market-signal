@@ -323,15 +323,15 @@ export default async function BriefingPage() {
             <div className="market-score-copy">
               <b>mock 綜合分數</b>
               <p>
-                健康分數 {market.healthScore}/100，風險分數 {market.riskScore}/100。覆蓋率與真實資料 gate 尚未打開前，
+                健康分數 {market.healthScore}/100，風險分數 {market.riskScore}/100。覆蓋率與真實資料升級檢查尚未打開前，
                 這裡只作為產品閱讀範例。
               </p>
             </div>
           </div>
         </article>
         <MetricPanel label="資料品質" value={`${market.dataQualityGrade}`} text={`品質分數 ${market.dataQualityScore}/100；目前仍是 mock 且有邊界。`} />
-        <MetricPanel label="模型版本" value={market.modelVersion} text="Mock model output；不是正式投資模型。" />
-        <MetricPanel label="Runtime 邊界" value="mock" text="沒有 Supabase 寫入、沒有 raw market data、沒有 real score promotion。" />
+        <MetricPanel label="模型版本" value={market.modelVersion} text="示範模型輸出；不是正式投資模型。" />
+        <MetricPanel label="資料邊界" value="mock" text="沒有 Supabase 寫入、沒有原始資料酬載、沒有真實分數升級。" />
       </section>
 
       <section className="weekly-grid" id="watchlists">
@@ -363,9 +363,9 @@ export default async function BriefingPage() {
         </article>
 
         <article className="panel briefing-article">
-          <p className="eyebrow">Stock Watch</p>
+          <p className="eyebrow">個股觀察</p>
           <h2>個股 mock 觀察清單</h2>
-          <p>真實資料 gate 尚未打開前，這些卡片讓晨報仍能作為可行動的閱讀介面。</p>
+          <p>真實資料升級檢查尚未打開前，這些卡片讓晨報仍能作為可行動的閱讀介面。</p>
           <div className="rank-list">
             {nonEtfStocks.slice(0, 4).map((item) => (
               <TrackedLink
@@ -449,13 +449,13 @@ function BriefingExecutiveSummary({ market, topRisk }: { market: SignalSnapshot;
         <p className="eyebrow">Market Briefing</p>
         <h1>市場訊號晨報</h1>
         <p>
-          先看市場氣氛，再看風險來源，最後確認資料邊界。這個頁面是公開 Beta 的 mock-only 閱讀介面，不是交易建議。
+          先看市場氣氛，再看風險來源，最後確認資料邊界。這個頁面是公開 Beta 的示範資料閱讀介面，不是交易建議。
         </p>
       </div>
       <aside>
         <span>
-          <b>Runtime</b>
-          <i>mock-only，正式資料尚未 promotion</i>
+          <b>目前狀態</b>
+          <i>示範資料，正式資料尚未升級</i>
         </span>
         <span>
           <b>下一步</b>
@@ -468,7 +468,7 @@ function BriefingExecutiveSummary({ market, topRisk }: { market: SignalSnapshot;
         <span>
           <b>風險焦點</b>
           <i>
-            {topRisk.asset.symbol} mock risk {topRisk.riskScore}/100
+            {topRisk.asset.symbol} 示範風險 {topRisk.riskScore}/100
           </i>
         </span>
       </aside>
@@ -486,7 +486,7 @@ function BriefingExecutiveSummary({ market, topRisk }: { market: SignalSnapshot;
         <article className="blocked">
           <span>硬邊界</span>
           <strong>真實資料尚未上線</strong>
-          <p>沒有 SQL、沒有 Supabase 寫入、沒有 raw market data、沒有 real score promotion。</p>
+          <p>沒有 SQL、沒有 Supabase 寫入、沒有原始資料酬載、沒有真實分數升級。</p>
         </article>
       </div>
       <nav>

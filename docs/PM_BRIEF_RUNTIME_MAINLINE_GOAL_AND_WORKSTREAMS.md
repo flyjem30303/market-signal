@@ -423,3 +423,40 @@ Next PM mainline candidate:
 `home_first_screen_investor_readability_and_briefing_bridge_alignment`
 
 This should make the home first screen and briefing route feel like one continuous public Beta dashboard: the home page should invite the 30-second market mood scan, and `/briefing` should carry the 3-minute action judgment without exposing internal workflow residue.
+
+## 8F. 2026-06-13 Home First-Screen And Briefing Bridge Alignment
+
+CEO decision:
+
+`align_home_first_screen_to_briefing_3_minute_judgment_without_real_data_promotion`
+
+PM executed the next BRIEF product/runtime slice on the high-traffic entry path. The slice keeps `/` and `/briefing` connected as one public Beta reading journey: Home starts the 30-second market mood scan, and `/briefing` continues into the 3-minute action judgment. It does not change data source behavior, does not connect to Supabase, does not run SQL, does not fetch market data, and does not promote real scores.
+
+Completed mainline work:
+
+- Cleaned Home first-screen and product overview copy so the public route says `30 秒起點`, `示範資料公開 Beta`, and `示範資料閱讀模式` instead of process-heavy internal language.
+- Cleaned briefing lower-page residue so the public route says `示範資料閱讀介面`, `正式資料尚未升級`, and plain-language data boundaries instead of `mock-only`, `promotion`, `raw market data`, or operator packet wording.
+- Updated the public Data Readiness copy so the visible stop line says no database write, no raw payload import, no official-table mutation, and no formal-data/formal-score upgrade.
+- Added `scripts/check-home-briefing-investor-reading-bridge.mjs` to guard the Home-to-briefing bridge across rendered `/` and `/briefing` routes.
+- Updated `scripts/check-home-first-screen-action-summary.mjs`, `scripts/check-home-product-first-information-hierarchy.mjs`, `scripts/check-public-visible-language-quality.mjs`, package scripts, and review-gate registration so the checks assert current BRIEF language instead of stale internal or mojibake strings.
+
+Verification completed:
+
+- `cmd.exe /c npm run check:home-briefing-investor-reading-bridge`
+- `cmd.exe /c npm run check:home-first-screen-action-summary`
+- `cmd.exe /c npm run check:home-product-first-information-hierarchy`
+- `cmd.exe /c npm run check:briefing-midpage-readability`
+- `cmd.exe /c npm run check:public-visible-language-quality`
+- `cmd.exe /c npm run check:public-beta-mainline-action-bridge`
+
+Current lane assignments:
+
+- PM mainline: continue BRIEF product/runtime convergence only where a visible route still blocks 30-second market mood, 3-minute action judgment, mock/real clarity, or public trust. Next likely route is stock-page investor-language alignment because stock detail still carries the most runtime-density risk.
+- A1 background: continue the independent data/source/coverage lane, especially legal/free/automatable sources and coverage matrix work. Do not fetch rows, run SQL, connect/write Supabase, store raw payloads, or create real-data promotion claims.
+- A2 background: use the new Home/briefing bridge guard as copy baseline; audit stock and weekly copy for the same investor-readable language, mock boundary clarity, and non-investment-advice posture.
+
+Next PM mainline candidate:
+
+`stock_route_investor_language_alignment_guard`
+
+This should reduce stock-detail runtime density and internal residue only where it improves user comprehension. It should not become broad visual polish, and it must preserve `publicDataSource=mock`, `scoreSource=mock`, source-rights caution, and non-investment-advice wording.

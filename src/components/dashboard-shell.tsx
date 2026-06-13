@@ -253,8 +253,8 @@ export function DashboardShell({
         </h1>
         <p>
           {includeSeoContent
-            ? `目前 ${selected.symbol} 仍以 mock-only 資料呈現，協助使用者快速理解狀態、風險與資料品質；不構成投資建議，也尚未啟用真實資料推廣。`
-            : "用紅黃綠燈、核心指標與警示清單，把市場氛圍整理成 30 秒可讀、3 分鐘可行動的決策輔助畫面。目前仍為 mock-only 公開 Beta。"}
+            ? `目前 ${selected.symbol} 仍以示範資料呈現，協助使用者快速理解狀態、風險與資料品質；不構成投資建議，也尚未啟用正式市場資料。`
+            : "用紅黃綠燈、核心指標與警示清單，把市場氛圍整理成 30 秒可讀、3 分鐘可行動的決策輔助畫面。目前仍為示範資料公開 Beta。"}
         </p>
       </section>
 
@@ -506,11 +506,11 @@ function HomeProductOverview({
             action: "先看強勢延伸",
             href: `/stocks/${strongestSnapshot.asset.symbol}`,
             label: `${strongestSnapshot.asset.symbol} 綜合 ${strongestSnapshot.compositeScore}/100`,
-            reason: "市場廣度尚可，先從強勢標的確認趨勢是否連續，但仍維持 mock 邊界。"
+            reason: "市場廣度尚可，先從強勢標的確認趨勢是否連續，但仍維持示範資料邊界。"
           };
   const publicDashboardAlerts = [
     {
-      cause: gapCount > 0 ? `${gapCount} 個資料旗標仍需補齊，公開解讀先維持降級。` : "目前沒有額外資料旗標，但仍維持 mock 邊界。",
+      cause: gapCount > 0 ? `${gapCount} 個資料旗標仍需補齊，公開解讀先維持降級。` : "目前沒有額外資料旗標，但仍維持示範資料邊界。",
       href: `/stocks/${selected.symbol}`,
       impact: gapCount > 0 ? "高" : "中",
       label: `${selected.symbol} 資料品質`,
@@ -557,7 +557,7 @@ function HomeProductOverview({
     {
       action: gapCount > 0 ? "\u628a\u7d50\u8ad6\u8996\u70ba\u793a\u7bc4\u95b1\u8b80\uff0c\u7b49\u5f85\u771f\u5be6\u8cc7\u6599\u88dc\u9f4a" : "\u53ef\u5148\u7576\u4f5c\u7a69\u5b9a\u793a\u7bc4\u6d41\u7a0b\u95b1\u8b80",
       label: "\u8cc7\u6599\u53ef\u4fe1\u5ea6",
-      note: "\u76ee\u524d\u4ecd\u70ba mock-only\uff1b\u771f\u5be6\u8cc7\u6599\u4e0a\u7dda\u8981\u7b49\u4f86\u6e90\u3001\u8986\u84cb\u7387\u3001\u56de\u9000\u8207\u6642\u9593\u6233\u90fd\u901a\u904e\u3002",
+      note: "\u76ee\u524d\u4ecd\u70ba\u793a\u7bc4\u8cc7\u6599\uff1b\u6b63\u5f0f\u8cc7\u6599\u4e0a\u7dda\u8981\u7b49\u4f86\u6e90\u3001\u8986\u84cb\u7387\u3001\u56de\u9000\u8207\u6642\u9593\u6233\u90fd\u901a\u904e\u3002",
       state: `${gapCount} \u500b\u5f85\u88dc\u9f4a\u9805\u76ee`,
       tone: gapCount > 0 ? "watch" : "constructive",
       value: snapshot.dataQualityGrade
@@ -568,13 +568,13 @@ function HomeProductOverview({
     <>
       <section className="home-product-overview" aria-label="首頁快速摘要">
         <article className="home-primary-card">
-          <p className="eyebrow">Quick Start</p>
+          <p className="eyebrow">30 秒起點</p>
           <h2>
             先用 {selected.symbol} {selected.name} 建立今日閱讀節奏
           </h2>
           <p>
             目前分數來源為 {scoreSourceLabel}。這個首頁先協助你理解標的狀態、風險溫度與資料限制，
-            不把 mock 分數包裝成正式決策依據。
+            不把示範分數包裝成正式決策依據。
           </p>
           <div className="home-action-row">
             <a
@@ -637,8 +637,8 @@ function HomeProductOverview({
           <p className="eyebrow">Public Beta Index Dashboard</p>
           <h2>30 秒看懂市場氛圍，3 分鐘決定關注、加強觀察或減少風險</h2>
           <p>
-            這裡把首頁收斂成三層：全市場總覽、核心指標面板、警示清單。資料仍以
-            publicDataSource=mock、scoreSource=mock 呈現，只做資訊閱讀與產品驗證。
+            這裡把首頁收斂成三層：全市場總覽、核心指標面板、警示清單。資料仍維持
+            publicDataSource=mock、scoreSource=mock，只做資訊閱讀與產品驗證。
           </p>
         </div>
         <div className="home-public-beta-layer-grid">
@@ -769,7 +769,7 @@ function HomeProductOverview({
         </div>
       </section>
 
-      <section className="public-beta-batch1-readiness" aria-label="Batch 1 readiness checklist">
+      <section className="public-beta-batch1-readiness" aria-label="第一批資料準備清單">
         <div className="public-beta-batch1-readiness-head">
           <p className="eyebrow">下一個資料步驟</p>
           <h2>先把大盤與核心 ETF 變成可驗證資料</h2>
@@ -791,7 +791,7 @@ function HomeProductOverview({
           className="inline-status-link"
           eventName="home_cta_clicked"
           href="/briefing"
-          label="查看 Batch 1 readiness 細節"
+          label="查看第一批資料準備細節"
           payload={{ action: "batch1_readiness_detail", symbol: selected.symbol }}
         >
           查看資料真實化審核細節
@@ -856,7 +856,7 @@ function HomeProductOverview({
           <p className="eyebrow">Decision Compass</p>
           <h2>{decision.action}</h2>
           <p>{decision.reason}</p>
-          <p>先判斷市場節奏，再對照大盤，最後才進入 ETF 或個股拆解；目前仍是 mock-only 閱讀模式。</p>
+          <p>先判斷市場節奏，再對照大盤，最後才進入 ETF 或個股拆解；目前仍是示範資料閱讀模式。</p>
         </div>
         <TrackedLink eventName="home_cta_clicked" href="/briefing" label="先看市場晨報" payload={{ action: "decision_compass_briefing", symbol: selected.symbol }}>
           <span>1 · 市場節奏</span>
@@ -871,7 +871,7 @@ function HomeProductOverview({
         <TrackedLink eventName="home_cta_clicked" href={decision.href} label={decision.label} payload={{ action: "decision_compass_target", symbol: selected.symbol }}>
           <span>3 · 標的拆解</span>
           <strong>{decision.label}</strong>
-          <p>最後才進入 ETF 或個股頁，檢查模組、趨勢與 mock 分數邊界，不把它當買賣建議。</p>
+          <p>最後才進入 ETF 或個股頁，檢查模組、趨勢與示範分數邊界，不把它當買賣建議。</p>
         </TrackedLink>
       </section>
 
@@ -879,7 +879,7 @@ function HomeProductOverview({
         <div className="home-reading-route-head">
           <p className="eyebrow">Reading Route</p>
           <h2>三分鐘先看這三件事</h2>
-          <p>首頁先幫新使用者建立閱讀順序：市場、指數、個別標的。每一步仍維持 mock 邊界，不提供買賣建議。</p>
+          <p>首頁先幫新使用者建立閱讀順序：市場、指數、個別標的。每一步仍維持示範資料邊界，不提供買賣建議。</p>
         </div>
         <TrackedLink eventName="home_cta_clicked" href="/briefing" label="先看市場晨報" payload={{ action: "reading_route_briefing", symbol: selected.symbol }}>
           <span>1</span>

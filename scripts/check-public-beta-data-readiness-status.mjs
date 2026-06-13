@@ -79,9 +79,9 @@ for (const [filePath, source, phrases] of [
       "TWSE OpenAPI 候選來源",
       "TWII 指數候選線",
       "ETF 來源條件",
-      "不執行 SQL",
-      "不寫 Supabase",
-      "不抓取或儲存 raw market data",
+      "不執行資料庫寫入",
+      "不匯入原始資料酬載",
+      "不修改正式資料表",
       'publicDataSource: "mock"',
       'scoreSource: "mock"'
     ]
@@ -176,8 +176,9 @@ async function checkRoute(path) {
     "真實資料升級",
     "publicDataSource=mock",
     "scoreSource=mock",
-    "不執行 SQL",
-    "不寫 Supabase"
+    "不執行資料庫寫入",
+    "不匯入原始資料酬載",
+    "不修改正式資料表"
   ];
   const forbidden = [
     "publicDataSource=supabase approved",

@@ -2868,6 +2868,11 @@ const checks = [
     name: "home-market-action-summary"
   },
   {
+    command: [node, "scripts/check-home-briefing-investor-reading-bridge.mjs"],
+    expectStatus: "ok",
+    name: "home-briefing-investor-reading-bridge"
+  },
+  {
     command: [node, "scripts/check-home-first-screen-action-summary.mjs"],
     expectStatus: "ok",
     name: "home-first-screen-action-summary"
@@ -5925,6 +5930,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "local-verification-runbook",
   "market-action-summary-readable-copy",
   "briefing-midpage-readability",
+  "home-briefing-investor-reading-bridge",
   "public-beta-alert-list-actionability",
   "public-visible-language-quality",
   "public-beta-decision-loop-bridge",

@@ -67,7 +67,7 @@ export function PublicBetaDataReadinessStatus() {
         <strong>
           {status.publicDataSource} / {status.scoreSource}
         </strong>
-        <p>公開 Beta 仍維持 mock；任何 real-data promotion 都需要另行通過資料與法務 gate。</p>
+        <p>公開 Beta 仍維持 mock；任何正式資料升級都需要另行通過資料與法務檢查。</p>
       </article>
       <div className="public-beta-source-trust">
         {status.sourceTrust.map((item) => (

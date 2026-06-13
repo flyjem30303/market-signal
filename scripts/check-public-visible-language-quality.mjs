@@ -181,7 +181,7 @@ const sourceReadabilityTargets = [
   },
   {
     path: "src/lib/public-beta-data-readiness-status.ts",
-    required: ["資料真實化仍在準備中，公開頁維持 mock", "TWSE OpenAPI 候選來源", "不寫 Supabase"]
+    required: ["資料真實化仍在準備中，公開頁維持 mock", "TWSE OpenAPI 候選來源", "不執行資料庫寫入"]
   },
   {
     path: "src/lib/public-beta-source-coverage-runtime-labels.ts",
