@@ -59,6 +59,21 @@ export default async function BriefingPage() {
       <PageViewTracker eventName="briefing_page_viewed" payload={{ page: "briefing" }} />
       <BriefingPublicDecisionSummaryPanel breadth={breadth} market={market} topRisk={topRisk} />
 
+      <section className="panel stock-reading-summary" aria-label="晨報快速判讀">
+        <p className="eyebrow">晨報快速判讀</p>
+        <h2>30 秒先看今日市場氣氛，3 分鐘再決定觀察順序</h2>
+        <p>
+          晨報的用途是把今天要看的市場重點排好順序。先看市場燈號與廣度，再看風險來源，
+          最後確認資料更新時間；若資料仍是示範狀態，就把它當成觀察流程示範，而不是正式市場訊號。
+        </p>
+        <div className="briefing-actions">
+          <ActionCard title="30 秒看懂今日市場氣氛" text={`目前市場主燈號為「${market.signal.title}」，先判斷今天是偏關注、偏觀望，還是偏防守。`} />
+          <ActionCard title="3 分鐘行動判斷" text={`市場廣度為 ${breadth.constructive} 個偏強、${breadth.watch} 個觀望、${breadth.defensive} 個偏防守；再看風險是否擴散。`} />
+          <ActionCard title="資料更新時間" text={`目前更新時間為 ${updatedAt}；正式資料尚未啟用前，請保留判斷空間。`} />
+          <ActionCard title="下一步觀察" text={`先看 ${topRisk.asset.symbol} 的風險成因，再對照 ETF 與市場主燈號是否一致。`} />
+        </div>
+      </section>
+
       <section className="briefing-market-action-summary" aria-label="市場行動摘要">
         <div>
           <p className="eyebrow">市場行動摘要</p>

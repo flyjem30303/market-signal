@@ -2,6 +2,40 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Briefing Fast Reading Loop Pass
+
+Status: `phase_1_briefing_fast_reading_loop_ready`
+
+CEO decision:
+
+- After the Home fast-reading loop, Briefing should use the same public reading pattern so users do not relearn the site on each route.
+- The morning briefing should open with a compact reading order: 30-second market mood, 3-minute action judgment, data timestamp, and next observation.
+- Briefing remains public Phase 1 content and must not imply real data, member-only analysis, or investment advice is active.
+
+What changed:
+
+- `/briefing` now includes a `晨報快速判讀` section near the top of the page.
+- The section protects the phrases `30 秒看懂今日市場氣氛`, `3 分鐘行動判斷`, `資料更新時間`, and `下一步觀察`.
+- The production BRIEF alignment gate now requires the new briefing fast-reading phrases.
+
+Checks passed:
+
+- `check:a2-briefing-copy-patch`
+- `check:public-beta-production-brief-alignment`
+- `check:public-visible-language-quality`
+- `check:phase-1-public-beta-public-visible-residue-cleanup`
+- `check:pm-brief-runtime-mainline-goal-and-workstreams`
+- `npx tsc --noEmit`
+- Browser smoke: `/briefing` shows `每日市場晨報`, `晨報快速判讀`, `30 秒看懂今日市場氣氛`, `3 分鐘行動判斷`, `資料更新時間`, and `下一步觀察`; no visible internal runtime tokens, mojibake, or console errors appeared.
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, market-row fetch, raw payload output, secret output, source promotion, real score promotion, membership implementation, production env mutation, DNS change, or Vercel dashboard mutation occurred. Runtime remains mock/demo.
+
+Next:
+
+Continue stock-page decision-flow clarity so Home, Briefing, and individual asset pages share the same public reading contract.
+
 ### Home Fast Reading Loop Pass
 
 Status: `phase_1_home_fast_reading_loop_ready`

@@ -18,7 +18,7 @@ export function BriefingPublicDecisionSummaryPanel({
   return (
     <section className="briefing-public-decision-summary" aria-label="市場晨報決策摘要">
       <div>
-        <p className="eyebrow">市場晨報</p>
+        <p className="eyebrow">每日市場晨報</p>
         <h1>{summary.headline}</h1>
         <p>{summary.quickRead}</p>
         <p>{summary.nextObservation}</p>

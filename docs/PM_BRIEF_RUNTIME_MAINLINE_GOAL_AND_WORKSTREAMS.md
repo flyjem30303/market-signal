@@ -8,6 +8,38 @@ Owner: PM mainline
 
 ## Latest Mainline Decision - 2026-06-14
 
+### Briefing Fast Reading Loop Pass
+
+CEO decision:
+
+- Mainline continues Phase 1 public usability before Phase 2 member implementation.
+- Briefing should match the Home reading contract: quick market atmosphere, risk/context review, data timestamp, and next observation.
+- The copy must remain public-facing and avoid real-data, member-only, or advice claims.
+
+PM completed the briefing fast-reading slice:
+
+- Added a `晨報快速判讀` section to `/briefing`.
+- Added public cards for `30 秒看懂今日市場氣氛`, `3 分鐘行動判斷`, `資料更新時間`, and `下一步觀察`.
+- Updated the production BRIEF alignment gate so the briefing fast-reading loop stays protected.
+
+Latest checks passed:
+
+- `check:a2-briefing-copy-patch`
+- `check:public-beta-production-brief-alignment`
+- `check:public-visible-language-quality`
+- `check:phase-1-public-beta-public-visible-residue-cleanup`
+- `check:pm-brief-runtime-mainline-goal-and-workstreams`
+- `npx tsc --noEmit`
+- Browser smoke confirmed `/briefing` renders the fast-reading loop with no internal runtime tokens, mojibake, or console errors.
+
+Current route:
+
+- `phase_1_public_free_index_dashboard_usable_loop`
+
+Next PM slice:
+
+- Continue stock-page decision-flow clarity so Home, Briefing, and individual asset pages share the same public reading contract.
+
 ### Home Fast Reading Loop Pass
 
 CEO decision:
