@@ -5,9 +5,9 @@ const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 
 const routes = [
-  { path: "/", required: ["市場總覽", "核心指標", "警示清單"] },
-  { path: "/briefing", required: ["市場廣度", "下一步觀察", "資料品質"] },
-  { path: "/stocks/2330", required: ["30 秒快讀", "決策輔助摘要", "下一步觀察"] }
+  { path: "/", required: ["指數狀態儀表站", "全市場總覽", "核心指標", "警示提醒"] },
+  { path: "/briefing", required: ["每日市場晨報", "市場行動摘要", "資料狀態"] },
+  { path: "/stocks/2330", required: ["30 秒快速閱讀", "決策輔助摘要", "下一步觀察"] }
 ];
 
 const forbiddenVisibleTerms = ["publicDataSource", "scoreSource", "mock-only", "cmd.exe", "npm run", "packet", "operator"];

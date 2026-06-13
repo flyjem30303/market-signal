@@ -8,6 +8,51 @@ Owner: PM mainline
 
 ## Latest Mainline Decision - 2026-06-14
 
+### Phase 1 Public Indicator Roadmap And Route Consistency Pass
+
+CEO confirms the revised BRIEF is now the controlling product direction, but execution must stay phase-split:
+
+- Phase 1: public free index-lighting site for every visitor.
+- Phase 2: membership MVP after the public site is stable.
+
+PM completed the next Phase 1 mainline slice:
+
+- Home now exposes `首頁未來專業指標路線`.
+- The section states that professional indicators remain in preparation and are not yet real market data, real scores, rankings, performance evidence, or investment advice.
+- The public indicator roadmap now gives user-readable future value for market temperature, stock health, risk signal, and next-step observation.
+- Route consistency and Home / Briefing reading-bridge checks now match the current BRIEF wording instead of old internal/governance wording.
+
+Latest checks passed:
+
+- `check:home-investor-indicator-roadmap-panel`
+- `check:public-beta-route-consistency`
+- `check:home-briefing-investor-reading-bridge`
+- `check:public-visible-language-quality`
+- `check:phase-1-public-beta-public-visible-residue-cleanup`
+- `check:public-beta-production-brief-alignment`
+- `check:public-beta-core-route-quick-proof`
+- `check:phase-1-phase-2-execution-split-and-workflow-assignment`
+- `check:pm-brief-runtime-mainline-goal-and-workstreams`
+- `check:public-beta-phase-1-launch-gap-rollup`
+- `npx tsc --noEmit`
+- Browser smoke confirmed `/` shows `首頁未來專業指標路線`, `未來專業指標仍在準備階段`, and `警示提醒`; `/briefing` shows `市場晨報`, `市場行動摘要`, and `公開使用狀態`; no internal runtime tokens or console errors appeared.
+
+Current route:
+
+- `phase_1_public_free_index_dashboard_usable_loop`
+
+Workflow split:
+
+- PM mainline: public user journey, runtime readability, route consistency, public residue cleanup.
+- A1: data source, coverage, ingestion/backfill readiness, no raw fetch unless explicitly opened.
+- A2: trust copy, non-advice boundary, public claim wording.
+- A3: launch engineering, production environment, monitoring, rollback.
+- A4: Phase 2 membership MVP planning only.
+
+Next PM slice:
+
+- Tighten Home -> Briefing -> Stock reading continuity and trust/status language so Phase 1 feels like a coherent index-lighting dashboard before any Phase 2 membership implementation.
+
 ### Public BRIEF Gate Alignment And Alert Surface Pass
 
 CEO confirms the revised BRIEF should be executed in two phases:

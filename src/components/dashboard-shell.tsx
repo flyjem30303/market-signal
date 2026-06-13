@@ -57,6 +57,8 @@ export function DashboardShell({
   const strongList = snapshots.slice().sort((a, b) => b.compositeScore - a.compositeScore).slice(0, 4);
   const isStockPage = includeSeoContent;
   const stockInvestorSummary = buildInvestorActionSummary(snapshot);
+  const indicatorRoadmap = useMemo(() => getInvestorIndicatorRoadmap(), []);
+  const visibleIndicatorFamilies = indicatorRoadmap.families.slice(0, 4);
 
   function selectAsset(next: Asset) {
     setSymbol(next.symbol);
@@ -227,6 +229,25 @@ export function DashboardShell({
           <StockMarketContextPanel breadth={breadth} market={market} snapshot={snapshot} />
           <StockDataBoundaryPanel snapshot={snapshot} />
         </>
+      )}
+
+      {!isStockPage && (
+        <section className="home-indicator-roadmap" aria-label="首頁未來專業指標路線">
+          <div>
+            <p className="eyebrow">首頁未來專業指標路線</p>
+            <h2>指標路線圖：未來專業指標仍在準備階段</h2>
+            <p>{indicatorRoadmap.boundary.statement}</p>
+            <strong>下一步比例：資料基礎 70%、產品可讀性 20%、未來指標設計 10%</strong>
+          </div>
+          {visibleIndicatorFamilies.map((family) => (
+            <article className={family.status} key={family.id}>
+              <span>{getInvestorIndicatorStatusLabel(family.status)}</span>
+              <strong>{family.label}</strong>
+              <p>{family.productValue}</p>
+              <small>目前用途：{family.currentUse}</small>
+            </article>
+          ))}
+        </section>
       )}
 
       {!isStockPage && <PublicBetaMembershipMvpRoadmap />}

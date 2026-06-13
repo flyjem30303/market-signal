@@ -36,7 +36,7 @@ export const investorIndicatorRoadmap: InvestorIndicatorRoadmap = {
     publicDataSource: "mock",
     scoreSource: "mock",
     statement:
-      "投資指標目前只是 mock 路線圖，只能說明產品方向；在後續 gate 通過前，不能當成真實市場資料、真實分數、投資建議、排行或績效證據。"
+      "投資指標目前只是 mock 路線圖，只能說明產品方向；在合法免費可自動化資料源、覆蓋率、回測與公開宣稱 gate 通過前，不能當成真實市場資料、真實分數、投資建議、排行或績效證據。"
   },
   families: [
     {
@@ -45,7 +45,7 @@ export const investorIndicatorRoadmap: InvestorIndicatorRoadmap = {
       foundationNeeded: ["row coverage", "source depth", "market breadth data", "public claim gate"],
       id: "market-temperature",
       label: "市場溫度",
-      productValue: "未來在真實廣度證據成立後，用來判斷市場背景偏建設性、謹慎或轉弱。",
+      productValue: "未來在真實廣度證據成立後，用來判斷市場背景偏多、觀望、警戒或高風險。",
       status: "mock-readable"
     },
     {
@@ -81,7 +81,7 @@ export const investorIndicatorRoadmap: InvestorIndicatorRoadmap = {
       foundationNeeded: ["public wording gate", "advisor review", "interaction tracking"],
       id: "watch-next-guidance",
       label: "下一步觀察",
-      productValue: "把燈號轉成非建議性的觀察提示，供下一次複核使用。",
+      productValue: "把燈號轉成關注、加強觀察、降低風險或先複核資料的下一步順序。",
       status: "mock-readable"
     },
     {

@@ -2,6 +2,48 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Phase 1 Public Indicator Roadmap And Route Consistency Pass
+
+Status: `phase_1_public_indicator_roadmap_ready`
+
+CEO decision:
+
+- The latest BRIEF should be split into two execution phases.
+- Phase 1 is the public free index-lighting site: market overview, core indicators, alert prompts, update time, trust copy, and no-advice boundary for every visitor.
+- Phase 2 is membership MVP: daily three-layer interpretation, watchlist / alert conditions, post-market review, account flow, and monetization tracking. Phase 2 remains planning-only until Phase 1 is stable.
+- Mainline PM should continue to improve public user comprehension first; A1 continues data/source/coverage, A2 continues trust and non-advice copy, A3 continues launch engineering, and A4 stays on membership MVP planning standby.
+
+What changed:
+
+- Home now has a visible `首頁未來專業指標路線` section.
+- The new section explains that professional indicators are still in preparation and that current scores remain mock/demo until source, coverage, backtest, and public-claim gates pass.
+- The indicator roadmap now maps future professional indicator families to investor-readable product value, including market temperature, stock health, risk signal, and next-step observation.
+- Route consistency checks now use current public BRIEF wording instead of outdated internal/governance wording.
+- Home / Briefing bridge checks now validate the public 30-second / 3-minute reading path and visible trust language.
+
+Checks passed:
+
+- `check:home-investor-indicator-roadmap-panel`
+- `check:public-beta-route-consistency`
+- `check:home-briefing-investor-reading-bridge`
+- `check:public-visible-language-quality`
+- `check:phase-1-public-beta-public-visible-residue-cleanup`
+- `check:public-beta-production-brief-alignment`
+- `check:public-beta-core-route-quick-proof`
+- `check:phase-1-phase-2-execution-split-and-workflow-assignment`
+- `check:pm-brief-runtime-mainline-goal-and-workstreams`
+- `check:public-beta-phase-1-launch-gap-rollup`
+- `npx tsc --noEmit`
+- Browser smoke: `/` shows `首頁未來專業指標路線`, `未來專業指標仍在準備階段`, and `警示提醒`; `/briefing` shows `市場晨報`, `市場行動摘要`, and `公開使用狀態`; no visible `publicDataSource` / `scoreSource`, old English `Market Briefing`, or console errors appeared.
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, market-row fetch, raw payload output, secret output, source promotion, real score promotion, membership implementation, production env mutation, DNS change, or Vercel dashboard mutation occurred. Runtime remains mock/demo until data-source rights, coverage, quality, rollback, and promotion gates pass.
+
+Next:
+
+Continue Phase 1 toward a public Beta index-lighting dashboard that an ordinary investor can use without seeing development residue. Next high-value mainline slice should tighten Home -> Briefing -> Stock reading continuity and public trust/status language, while A1 keeps source/coverage moving independently.
+
 ### Public BRIEF Gate Alignment And Alert Surface Pass
 
 Status: `public_beta_brief_gate_alignment_ready`
