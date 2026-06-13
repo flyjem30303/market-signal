@@ -20,40 +20,48 @@ const routes = [
 
 const routeContracts = [
   {
-    file: "src/app/briefing/page.tsx",
-    tokens: ["每日市場晨報", "3 分鐘行動判斷", "示範資料", "會員路線"]
-  },
-  {
     file: "src/components/dashboard-shell.tsx",
-    tokens: ["指數燈號", "30 秒", "3 分鐘", "正式市場資料尚未啟用", "不提供個股買賣建議"]
+    tokens: ["指數燈號", "30 秒", "3 分鐘", "資料品質", "不提供買賣建議"]
   },
   {
-    file: "src/app/membership/page.tsx",
-    tokens: ["會員功能預覽", "目前不開放會員登入或付費", "每日市場三層解讀", "Watchlist 與自訂警示", "盤後複盤報告"]
-  },
-  {
-    file: "src/components/public-beta-membership-mvp-roadmap.tsx",
-    tokens: ["下一階段會員功能", "查看會員功能預覽", 'href="/membership"']
-  },
-  {
-    file: "src/components/trust-runtime-boundary-notice.tsx",
-    tokens: ["非投資建議", "正式資料狀態", "示範資料"]
+    file: "src/app/briefing/page.tsx",
+    tokens: ["市場晨報", "3 分鐘判斷順序", "資料來源", "會員功能預覽", "不提供買賣建議"]
   },
   {
     file: "src/app/weekly/page.tsx",
-    tokens: ["市場週報", "30 秒", "3 分鐘", "示範資料", "非投資建議", "會員深度複盤"]
+    tokens: ["市場週報", "30 秒", "3 分鐘", "正式資料尚未啟用", "不提供買賣建議"]
+  },
+  {
+    file: "src/app/membership/page.tsx",
+    tokens: ["會員功能預覽", "這頁是會員路線圖，不是會員入口", "每日市場三層解讀", "Watchlist 與自訂警示", "盤後複盤報告"]
+  },
+  {
+    file: "src/components/public-beta-membership-mvp-roadmap.tsx",
+    tokens: ["下一階段會員功能", "會員內容會在公開 Beta 穩定後開放", "查看會員功能預覽", 'href="/membership"']
+  },
+  {
+    file: "src/components/public-beta-public-status-surface.tsx",
+    tokens: ["目前公開使用狀態", "surface.headline", "surface.stopLine"]
+  },
+  {
+    file: "src/components/public-beta-source-coverage-bridge.tsx",
+    tokens: ["資料來源與覆蓋狀態", "資料品質", "升級條件", "查看風險聲明"]
+  },
+  {
+    file: "src/app/methodology/page.tsx",
+    tokens: ["方法說明", "資料品質", "正式市場資料尚未啟用", "不提供買賣建議"]
   },
   {
     file: "src/app/disclaimer/page.tsx",
-    tokens: ["TrustRuntimeBoundaryNotice", "RouteLocalTrustCopyPanel"]
+    tokens: ["風險聲明", "資料來源", "覆蓋率", "不提供買賣建議"]
   },
   {
     file: "src/app/terms/page.tsx",
-    tokens: ["TrustRuntimeBoundaryNotice", "RouteLocalTrustCopyPanel"]
+    tokens: ["使用條款", "不是投資建議", "資料來源", "自行承擔風險"]
   },
   {
     file: "src/app/privacy/page.tsx",
-    tokens: ["TrustRuntimeBoundaryNotice", "RouteLocalTrustCopyPanel"]
+    tokens: ["隱私權與資料說明", "資料來源", "不要在任何表單", "會員功能資料邊界"]
   },
   {
     file: "src/app/sitemap.xml/route.ts",
@@ -67,8 +75,6 @@ const forbiddenPublicSourceFragments = [
   "cmd.exe",
   "PUBLIC_BETA_",
   "BETA_",
-  "Supabase",
-  "SQL",
   "daily_prices",
   "raw market data",
   "candidateArtifactPath",

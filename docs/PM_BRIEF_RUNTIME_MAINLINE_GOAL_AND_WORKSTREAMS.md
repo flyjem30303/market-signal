@@ -2892,6 +2892,42 @@ Boundary:
 
 No platform deploy, DNS change, production env mutation, SQL, Supabase read/write, staging rows, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public source promotion, real score promotion, real-time claim, official endorsement claim, guaranteed-return claim, investment-advice claim, or membership implementation occurred.
 
+## 8AY. 2026-06-14 Phase 1 Remote Quick Proof Refresh
+
+CEO decision:
+
+`refresh_remote_quick_proof_after_brief_phase_split`
+
+PM executed the next A3-aligned mainline slice after the public surface cleanup. The live Vercel alias was already reachable, but the core route quick-proof checker still used stale historical anchors. This slice refreshes that checker so local and remote proof now match the revised BRIEF and the Phase 1 / Phase 2 split.
+
+Completed mainline work:
+
+- Rebuilt `scripts/check-public-beta-core-route-quick-proof.mjs`.
+- Replaced mojibake and internal component requirements with readable public route/source anchors.
+- Verified the core route set locally and remotely.
+- Verified the remote public surface still has clean language, no public internal residue, and no user-facing audit blockers.
+
+Verification:
+
+- `check:public-beta-core-route-quick-proof` passed locally.
+- `PUBLIC_BETA_QUICK_PROOF_BASE_URL=https://market-signal-two.vercel.app check:public-beta-core-route-quick-proof` passed remotely.
+- `LOCALHOST_BASE_URL=https://market-signal-two.vercel.app check:public-visible-language-quality` passed.
+- `LOCALHOST_BASE_URL=https://market-signal-two.vercel.app check:phase-1-public-beta-public-visible-residue-cleanup` passed.
+- `LOCALHOST_BASE_URL=https://market-signal-two.vercel.app check:public-surface-user-facing-audit` passed.
+- `npx tsc --noEmit` passed.
+
+Current lane assignments:
+
+- PM mainline: continue Phase 1 public Beta usability and route-level readability polish.
+- A1 data/source/coverage: continue lawful free automated-source and coverage work independently; this slice does not open fetch, ingestion, or source promotion.
+- A2 public copy/product safety: continue trust copy and non-investment-advice review against the live public route set.
+- A3 launch/production engineering: treat the refreshed remote quick proof as the current smoke baseline; keep monitoring/repair/rollback readiness current.
+- A4 membership MVP planning: remain planning-only and keep login, payment, watchlist persistence, custom alert execution, and member-only content deferred.
+
+Boundary:
+
+No platform dashboard action, DNS change, production env mutation, SQL, Supabase read/write, staging rows, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public source promotion, real score promotion, real-time claim, official endorsement claim, guaranteed-return claim, investment-advice claim, or membership implementation occurred.
+
 ## 8AH. 2026-06-13 Phase 1 Operator Decision Or Manual Platform Action Readiness Refresh
 
 CEO decision:

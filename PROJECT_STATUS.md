@@ -2981,6 +2981,44 @@ Next:
 
 Continue Phase 1 public usability and launch readiness. PM mainline should keep checking remaining public pages for user-facing clarity; A1 continues lawful automated data-source/coverage work; A2 checks trust copy and non-advice wording; A3 keeps deployment monitoring and rollback ready; A4 remains Phase 2 membership planning-only.
 
+# Latest Phase 1 public Beta remote quick proof refresh
+
+Status: `phase_1_public_beta_remote_quick_proof_refreshed`
+
+Date: 2026-06-14
+
+CEO decision: after the revised BRIEF phase split and public-surface cleanup, A3 must verify the live Vercel alias against the same user-facing contract as local. The old quick-proof checker still contained historical mojibake and stale component anchors, so PM replaced it with readable BRIEF-aligned route/source checks.
+
+What changed:
+
+- Rebuilt `scripts/check-public-beta-core-route-quick-proof.mjs` around current Phase 1 public routes and user-facing source anchors.
+- The checker now covers `/`, `/briefing`, `/weekly`, `/membership`, `/stocks/2330`, `/stocks/TWII`, `/methodology`, `/disclaimer`, `/terms`, and `/privacy`.
+- The checker now verifies readable source anchors for market status, 30-second / 3-minute reading flow, data quality, source coverage, non-investment-advice copy, membership-roadmap boundaries, and privacy/legal trust copy.
+- The checker still guards `publicDataSource=mock` and `scoreSource=mock` and blocks public source residue such as command snippets, deployment packet terms, raw-market-data references, or old external-reply workflow text.
+
+Verification:
+
+- `check:public-beta-core-route-quick-proof` passed against `http://localhost:3000`.
+- `PUBLIC_BETA_QUICK_PROOF_BASE_URL=https://market-signal-two.vercel.app check:public-beta-core-route-quick-proof` passed.
+- `LOCALHOST_BASE_URL=https://market-signal-two.vercel.app check:public-visible-language-quality` passed.
+- `LOCALHOST_BASE_URL=https://market-signal-two.vercel.app check:phase-1-public-beta-public-visible-residue-cleanup` passed.
+- `LOCALHOST_BASE_URL=https://market-signal-two.vercel.app check:public-surface-user-facing-audit` passed.
+- `npx tsc --noEmit` passed.
+
+Remote result:
+
+- Public alias `https://market-signal-two.vercel.app/` returns HTTP 200 for the current core route set.
+- Remote public pages pass the clean-language, residue-cleanup, and user-facing audit gates.
+- Phase 2 membership remains visible only as a roadmap, not an opened login/payment/watchlist/alert implementation.
+
+Boundary:
+
+No SQL, Supabase read/write, staging rows, `daily_prices` mutation, raw market-data fetch/store/commit, source promotion, real score promotion, production env mutation, DNS change, Vercel dashboard mutation, or membership implementation occurred. The runtime remains `publicDataSource=mock` and `scoreSource=mock`.
+
+Next:
+
+Continue BRIEF execution from a stable public Beta surface: PM should move to route-level visual/readability polish and A3 monitoring/repair readiness; A1 continues lawful automated data-source/coverage work; A2 continues trust/legal copy review; A4 remains Phase 2 membership planning-only.
+
 # Latest public brand language alignment
 
 Status: `phase_1_public_brand_language_alignment_passed`

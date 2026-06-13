@@ -139,3 +139,29 @@ Next actual progress should either:
 ## Next Route
 
 `prepare_phase_1_public_beta_release_review_summary_for_chairman`
+
+## 2026-06-14 Remote Quick Proof Refresh
+
+Status: `phase_1_public_beta_remote_quick_proof_refreshed`
+
+The revised BRIEF phase split and public-surface cleanup were pushed to `main` and verified against the live Vercel alias without touching platform settings.
+
+What changed:
+
+- `scripts/check-public-beta-core-route-quick-proof.mjs` was rebuilt from stale historical anchors into readable Phase 1 public Beta route/source checks.
+- The remote alias `https://market-signal-two.vercel.app/` passed the refreshed quick proof for the core route set.
+- Remote language quality, public visible residue cleanup, and user-facing audit checks also passed.
+
+Remote verification commands:
+
+- `cmd.exe /c "set PUBLIC_BETA_QUICK_PROOF_BASE_URL=https://market-signal-two.vercel.app&& npm run check:public-beta-core-route-quick-proof"`
+- `cmd.exe /c "set LOCALHOST_BASE_URL=https://market-signal-two.vercel.app&& npm run check:public-visible-language-quality"`
+- `cmd.exe /c "set LOCALHOST_BASE_URL=https://market-signal-two.vercel.app&& npm run check:phase-1-public-beta-public-visible-residue-cleanup"`
+- `cmd.exe /c "set LOCALHOST_BASE_URL=https://market-signal-two.vercel.app&& npm run check:public-surface-user-facing-audit"`
+
+Current A3 conclusion:
+
+- Phase 1 public Beta route smoke is externally green under the mock/demo boundary.
+- No Vercel dashboard action, DNS change, production env mutation, or rollback action was performed.
+- Keep `publicDataSource=mock` and `scoreSource=mock`.
+- Continue monitoring/repair readiness and route-level readability polish; do not start Phase 2 membership implementation from this A3 proof.
