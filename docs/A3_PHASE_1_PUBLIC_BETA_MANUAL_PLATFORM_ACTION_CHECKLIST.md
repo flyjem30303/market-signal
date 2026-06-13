@@ -42,6 +42,7 @@ Before opening the hosting dashboard for launch action, run and record:
 | Chairman visual acceptance record | `cmd.exe /c npm run check:phase-1-public-beta-chairman-visual-acceptance-record` | `status=ok` |
 | A3 metadata smoke | `cmd.exe /c npm run check:a3-phase-1-metadata-and-public-route-smoke-checker` | `status=ok` |
 | A3 release candidate smoke report | `cmd.exe /c npm run check:a3-phase-1-release-candidate-public-smoke-report` | `status=ok` |
+| A3 core route reading contract rollup | `cmd.exe /c npm run check:a3-phase-1-core-route-reading-contract-rollup` | `status=ok` |
 | A3 go/no-go packet | `cmd.exe /c npm run check:a3-phase-1-public-beta-release-go-no-go-packet` | `status=ok` |
 | A3 chairman review packet | `cmd.exe /c npm run check:a3-phase-1-public-beta-chairman-review-packet` | `status=ok` |
 | Focused review gate | `cmd.exe /c npm run check:review-gates` | `status=ok` |
@@ -90,6 +91,7 @@ Before pressing deploy, operator must confirm:
 - no hard blocker remains;
 - local evidence above is current;
 - public visible residue cleanup passed and no development residue appears on public routes;
+- core route reading contract rollup passed, proving Home, Briefing, and Stock share the 30-second / 3-minute reading path;
 - `NEXT_PUBLIC_SITE_URL` is present in platform env for production/canonical behavior;
 - data posture remains `mock`;
 - score posture remains `mock`;
@@ -138,6 +140,14 @@ Verify public pages do not show:
 - guaranteed-return claims;
 - investment advice;
 - buy/sell/hold recommendation.
+
+Also verify public pages do show:
+
+- Home, Briefing, and Stock share the public reading contract;
+- 30-second market or stock-state quick read;
+- 3-minute decision / risk review path;
+- data timing and source-coverage boundary;
+- no-advice reminder.
 
 ## Rollback Trigger
 

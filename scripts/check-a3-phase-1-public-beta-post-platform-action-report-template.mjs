@@ -18,6 +18,7 @@ const requiredPhrases = [
   "Platform Action Outcome",
   "Post-Deploy Route Smoke Results",
   "Public Claim Smoke Results",
+  "Public Reading Contract Smoke Results",
   "Rollback Result",
   "Final Launch Note",
   "Stop Lines",
@@ -65,7 +66,8 @@ for (const route of ["/", "/briefing", "/weekly", "/methodology", "/disclaimer",
 for (const status of [
   "a3_phase_1_public_beta_manual_platform_action_checklist_ready",
   "a3_phase_1_public_beta_chairman_review_packet_ready",
-  "a3_phase_1_public_beta_release_go_no_go_packet_ready"
+  "a3_phase_1_public_beta_release_go_no_go_packet_ready",
+  "a3_phase_1_core_route_reading_contract_rollup_ready"
 ]) {
   if (!doc.includes(status)) problems.push(`${docPath} missing pre-action status: ${status}`);
 }
@@ -90,6 +92,16 @@ for (const claimGuard of [
 
 if (!doc.includes("Public visible residue cleanup")) {
   problems.push(`${docPath} missing public visible residue cleanup pre-action evidence`);
+}
+
+for (const contractPhrase of [
+  "30-second quick read visible",
+  "3-minute decision / risk review visible",
+  "data timing or freshness visible",
+  "source-coverage boundary visible",
+  "no-advice reminder visible"
+]) {
+  if (!doc.includes(contractPhrase)) problems.push(`${docPath} missing public reading contract smoke phrase: ${contractPhrase}`);
 }
 
 if (!manual.includes("prepare_phase_1_public_beta_post_platform_action_report_template")) {

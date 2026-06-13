@@ -37,6 +37,7 @@ Record the latest result before the platform action:
 | A3 manual platform checklist | `a3_phase_1_public_beta_manual_platform_action_checklist_ready` |
 | A3 chairman review packet | `a3_phase_1_public_beta_chairman_review_packet_ready` |
 | A3 go/no-go packet | `a3_phase_1_public_beta_release_go_no_go_packet_ready` |
+| A3 core route reading contract rollup | `a3_phase_1_core_route_reading_contract_rollup_ready` |
 | TypeScript | pass |
 | Build | pass |
 | Public visible-language guard | `status=ok` |
@@ -93,6 +94,18 @@ Each item must be `pass` before public Beta can remain open:
 | no guaranteed-return claim |  |
 | no investment advice |  |
 | no buy/sell/hold recommendation |  |
+
+## Public Reading Contract Smoke Results
+
+Each item must be `pass` for Home, Briefing, and Stock before public Beta can remain open:
+
+| Reading contract guard | Home | Briefing | Stock |
+| --- | --- | --- | --- |
+| 30-second quick read visible |  |  |  |
+| 3-minute decision / risk review visible |  |  |  |
+| data timing or freshness visible |  |  |  |
+| source-coverage boundary visible |  |  |  |
+| no-advice reminder visible |  |  |  |
 
 ## Rollback Result
 

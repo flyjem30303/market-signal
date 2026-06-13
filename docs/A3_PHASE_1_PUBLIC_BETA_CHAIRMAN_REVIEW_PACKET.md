@@ -43,9 +43,11 @@ Phase 1 does not need login, paid membership, watchlist persistence, custom aler
 | Evidence group | Required status before `GO` or `GO_WITH_DEFERRALS` |
 | --- | --- |
 | A3 release-candidate smoke | `a3_phase_1_release_candidate_public_smoke_report_ready` |
+| A3 core route reading contract | `a3_phase_1_core_route_reading_contract_rollup_ready` |
 | A3 metadata and public route smoke | `a3_phase_1_metadata_and_public_route_smoke_checker_ready` |
 | A3 go/no-go packet | `a3_phase_1_public_beta_release_go_no_go_packet_ready` |
 | Public visible residue cleanup | `cmd.exe /c npm run check:phase-1-public-beta-public-visible-residue-cleanup` passes |
+| Core route reading contract rollup | `cmd.exe /c npm run check:a3-phase-1-core-route-reading-contract-rollup` passes |
 | Public surface audit | no internal commands, local paths, env placeholders, raw payload wording, database terms, or development residue visible |
 | Trust pages | `/disclaimer`, `/terms`, and `/privacy` reachable |
 | TypeScript | `cmd.exe /c npx tsc --noEmit` passes |
@@ -59,6 +61,7 @@ Phase 1 does not need login, paid membership, watchlist persistence, custom aler
 Chairman can accept:
 
 - Phase 1 public Beta release action planning;
+- the Home, Briefing, and Stock public reading contract as required launch evidence;
 - public route smoke after deploy;
 - public visible residue cleanup as required pre-release evidence;
 - rollback if route smoke fails;

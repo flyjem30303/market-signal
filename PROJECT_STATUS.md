@@ -2,6 +2,41 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### A3 Platform Action Reading Contract Evidence Pass
+
+Status: `a3_platform_action_reading_contract_evidence_ready`
+
+CEO decision:
+
+- A3 manual platform action should not proceed on deployment mechanics alone.
+- The chairman packet, manual platform checklist, and post-platform report template now require the Home / Briefing / Stock public reading contract as launch evidence.
+- This keeps the BRIEF direction intact: Phase 1 must prove that a general investor can understand the market or stock state quickly before any production-facing platform action.
+
+What changed:
+
+- Updated `docs/A3_PHASE_1_PUBLIC_BETA_CHAIRMAN_REVIEW_PACKET.md` to include the core route reading contract rollup as required evidence.
+- Updated `docs/A3_PHASE_1_PUBLIC_BETA_MANUAL_PLATFORM_ACTION_CHECKLIST.md` to require pre-platform proof and post-deploy public claim smoke for the reading contract.
+- Updated `docs/A3_PHASE_1_PUBLIC_BETA_POST_PLATFORM_ACTION_REPORT_TEMPLATE.md` so the operator records public reading-contract smoke results after any future platform action.
+- Tightened the three related checkers so these documents cannot drift away from the BRIEF reading contract.
+
+Checks passed:
+
+- `check:a3-phase-1-public-beta-chairman-review-packet`
+- `check:a3-phase-1-public-beta-manual-platform-action-checklist`
+- `check:a3-phase-1-public-beta-post-platform-action-report-template`
+- `check:a3-phase-1-public-beta-release-ops-index`
+- `check:pm-brief-runtime-mainline-goal-and-workstreams`
+- `check:review-gates`
+- `npx tsc --noEmit`
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, market-row fetch, raw payload output, secret output, source promotion, real score promotion, membership implementation, production env mutation, DNS change, Vercel dashboard mutation, or production deploy occurred. Runtime remains mock/demo.
+
+Next:
+
+Continue Phase 1 launch-readiness by preparing the future manual platform action and post-deploy smoke path, or by cleaning any remaining non-user-facing public residue. Phase 2 membership remains roadmap-only until Phase 1 is publicly usable.
+
 ### A3 Core Route Reading Contract Rollup Pass
 
 Status: `a3_phase_1_core_route_reading_contract_rollup_ready`

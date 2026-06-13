@@ -53,6 +53,7 @@ for (const command of [
   "cmd.exe /c npm run check:phase-1-public-beta-chairman-visual-acceptance-record",
   "cmd.exe /c npm run check:a3-phase-1-metadata-and-public-route-smoke-checker",
   "cmd.exe /c npm run check:a3-phase-1-release-candidate-public-smoke-report",
+  "cmd.exe /c npm run check:a3-phase-1-core-route-reading-contract-rollup",
   "cmd.exe /c npm run check:a3-phase-1-public-beta-release-go-no-go-packet",
   "cmd.exe /c npm run check:a3-phase-1-public-beta-chairman-review-packet",
   'cmd.exe /c "set PUBLIC_BETA_QUICK_PROOF_BASE_URL=https://market-signal-two.vercel.app&& npm run check:public-beta-core-route-quick-proof"',
@@ -64,6 +65,7 @@ for (const command of [
 for (const phrase of [
   "Public visible residue cleanup",
   "public visible residue cleanup passed and no development residue appears on public routes",
+  "core route reading contract rollup passed, proving Home, Briefing, and Stock share the 30-second / 3-minute reading path",
   "development residue"
 ]) {
   if (!doc.includes(phrase)) problems.push(`${docPath} missing residue cleanup phrase: ${phrase}`);
@@ -98,6 +100,16 @@ for (const platformItem of [
   "Rollback"
 ]) {
   if (!doc.includes(`| ${platformItem} |`)) problems.push(`${docPath} missing platform checklist item: ${platformItem}`);
+}
+
+for (const contractPhrase of [
+  "Home, Briefing, and Stock share the public reading contract",
+  "30-second market or stock-state quick read",
+  "3-minute decision / risk review path",
+  "data timing and source-coverage boundary",
+  "no-advice reminder"
+]) {
+  if (!doc.includes(contractPhrase)) problems.push(`${docPath} missing reading contract smoke phrase: ${contractPhrase}`);
 }
 
 for (const rollbackField of [

@@ -37,6 +37,7 @@ for (const phrase of requiredPhrases) {
 
 for (const status of [
   "a3_phase_1_release_candidate_public_smoke_report_ready",
+  "a3_phase_1_core_route_reading_contract_rollup_ready",
   "a3_phase_1_metadata_and_public_route_smoke_checker_ready",
   "a3_phase_1_public_beta_release_go_no_go_packet_ready"
 ]) {
@@ -49,6 +50,7 @@ for (const route of ["/disclaimer", "/terms", "/privacy"]) {
 
 for (const command of [
   "cmd.exe /c npm run check:phase-1-public-beta-public-visible-residue-cleanup",
+  "cmd.exe /c npm run check:a3-phase-1-core-route-reading-contract-rollup",
   "cmd.exe /c npx tsc --noEmit",
   "cmd.exe /c npm run build",
   "cmd.exe /c npm run check:review-gates"
@@ -62,6 +64,10 @@ if (!doc.includes("Public visible residue cleanup")) {
 
 if (!doc.includes("public visible residue cleanup as required pre-release evidence")) {
   problems.push(`${docPath} missing chairman acceptance boundary for public visible residue cleanup`);
+}
+
+if (!doc.includes("Home, Briefing, and Stock public reading contract")) {
+  problems.push(`${docPath} missing chairman acceptance boundary for core route reading contract`);
 }
 
 for (const field of ["chairmanDecision", "decisionTimestamp", "acceptedDeferrals", "hardBlockers", "nextRoute"]) {

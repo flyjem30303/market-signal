@@ -8,6 +8,39 @@ Owner: PM mainline
 
 ## Latest Mainline Decision - 2026-06-14
 
+### A3 Platform Action Reading Contract Evidence Pass
+
+CEO decision:
+
+- The next mainline launch-readiness constraint is to make A3 platform action evidence product-readable, not only technically deployable.
+- Any future platform action packet must show that Home, Briefing, and Stock routes preserve the Phase 1 public reading contract: 30-second status, 3-minute risk review, data timing, source-coverage boundary, and no-advice reminder.
+- This is still Phase 1 only. Membership remains roadmap/preview, and no real-data promotion is opened.
+
+PM completed the A3 evidence-threading slice:
+
+- Added the A3 core route reading contract rollup to the chairman review packet.
+- Added the reading contract as a pre-platform proof and post-deploy public claim smoke requirement in the manual platform checklist.
+- Added public reading contract smoke rows to the post-platform action report template.
+- Updated the three matching checkers so the evidence requirement is enforced.
+
+Latest checks passed:
+
+- `check:a3-phase-1-public-beta-chairman-review-packet`
+- `check:a3-phase-1-public-beta-manual-platform-action-checklist`
+- `check:a3-phase-1-public-beta-post-platform-action-report-template`
+- `check:a3-phase-1-public-beta-release-ops-index`
+- `check:pm-brief-runtime-mainline-goal-and-workstreams`
+- `check:review-gates`
+- `npx tsc --noEmit`
+
+Current route:
+
+- `phase_1_public_free_index_dashboard_launch_readiness`
+
+Next PM slice:
+
+- Continue Phase 1 launch-readiness through either manual platform action preparation or public-residue cleanup. Do not implement Phase 2 membership or promote real data until the Phase 1 public free experience is stable.
+
 ### A3 Core Route Reading Contract Rollup Pass
 
 CEO decision:
