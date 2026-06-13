@@ -16,9 +16,6 @@ export function RowCoverageReadinessPanel({
   summary
 }: RowCoverageReadinessPanelProps) {
   const rowCoverage = getRowCoverageSecondAttemptReadiness();
-  const observed = rowCoverage.latestAttempt.observedTotalRows;
-  const expected = rowCoverage.latestAttempt.expectedTotalRows;
-  const missing = rowCoverage.latestAttempt.missingRows;
 
   return (
     <section className={className} aria-label={ariaLabel}>
@@ -39,10 +36,8 @@ export function RowCoverageReadinessPanel({
       </article>
       <article className="blocked">
         <span>覆蓋率缺口</span>
-        <strong>
-          已觀察 {observed} / {expected} 筆
-        </strong>
-        <p>目前尚缺 {missing} 筆，仍不可宣稱完整市場覆蓋。</p>
+        <strong>正式資料仍在補齊</strong>
+        <p>資料來源、欄位與更新流程完成前，仍不可宣稱完整市場覆蓋。</p>
       </article>
       <article className="blocked">
         <span>資料邊界</span>

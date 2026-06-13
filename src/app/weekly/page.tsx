@@ -4,6 +4,7 @@ import { PageViewTracker } from "@/components/page-view-tracker";
 import { RouteLocalTrustCopyPanel } from "@/components/route-local-trust-copy-panel";
 import { TrackedLink } from "@/components/tracked-link";
 import { TrustRuntimeBoundaryNotice } from "@/components/trust-runtime-boundary-notice";
+import { WeeklyRowCoverageStatus } from "@/components/weekly-row-coverage-status";
 import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
 import { buildWeeklyMarketActionSummary } from "@/lib/weekly-market-action-summary";
 import {
@@ -40,11 +41,11 @@ export default async function WeeklyPage() {
         <p className="eyebrow">市場週報</p>
         <h1>市場週報</h1>
         <p>
-          週報把每日燈號拉成一個更穩定的觀察框架，協助使用者用 30 秒先回看市場氣氛、ETF 狀態與風險熱度。公開 Beta
-          仍以示範資料呈現閱讀流程，屬於非投資建議，不提供買賣建議。
+          公開 Beta 週報把每日燈號拉成一個更穩定的觀察框架，協助使用者用 30 秒先回看市場氣氛、ETF 狀態與風險熱度。
+          目前仍以示範資料與示範分數呈現閱讀流程，屬於非投資建議，不提供買賣建議。
         </p>
         <p className="runtime-boundary-line">
-          若資料未更新或品質偏低，請先降低判斷權重；正式資料會在來源、覆蓋與品質條件完成後另行升級，
+          若資料未更新或品質偏低，請先降低判斷權重；正式市場資料尚未啟用，會在來源、覆蓋與品質條件完成後另行升級，
           會員深度複盤則屬於下一階段路線。
         </p>
       </section>
@@ -52,6 +53,7 @@ export default async function WeeklyPage() {
       <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
       <TrustRuntimeBoundaryNotice context="weekly" />
       <RouteLocalTrustCopyPanel context="weekly" />
+      <WeeklyRowCoverageStatus />
 
       <section className="weekly-market-action-summary" aria-label="週報行動摘要">
         <div>
@@ -89,6 +91,7 @@ export default async function WeeklyPage() {
         <h2>週報目前先示範閱讀方式</h2>
         <p>
           週報的第一階段目標，是讓使用者快速看懂本週市場氣氛、ETF 參考、風險熱度與資料更新時間。
+          本週以示範資料呈現公開閱讀流程，資料覆蓋狀態仍需搭配下方說明閱讀。
           正式資料來源、完整覆蓋率與更新流程完成前，所有分數與燈號都只作為市場觀察流程示範。
         </p>
         <div className="briefing-actions">
@@ -152,13 +155,18 @@ export default async function WeeklyPage() {
       </nav>
 
       <section className="panel weekly-article">
-        <p className="eyebrow">下一步觀察</p>
+        <p className="eyebrow">下週觀察重點</p>
         <h2>週報要回答的是「這週市場狀態是否值得延續關注」</h2>
         <p>
           若偏多標的增加、風險熱度未同步升高，可列入下週關注清單；若風險標的擴散或資料狀態不完整，應先回到防守與等待更新。
           下一階段會員版本會再加入盤後複盤、歷史燈號回看與個人 watchlist。
         </p>
       </section>
+
+      <article className="disclaimer">
+        <h2>重要聲明</h2>
+        <p>週報內容用來整理市場觀察順序，不提供個股買賣建議、不承諾投資結果，也不代替使用者做投資決策。</p>
+      </article>
     </main>
   );
 }

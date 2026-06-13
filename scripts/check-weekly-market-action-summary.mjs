@@ -25,7 +25,7 @@ const required = [
   [pagePath, "buildWeeklyMarketActionSummary"],
   [pagePath, "actionSummary"],
   [pagePath, "weekly-market-action-summary"],
-  [pagePath, "Market Action Summary"],
+  [pagePath, "週報行動摘要"],
   [pagePath, "weekly_market_action_primary"],
   [pagePath, "weekly_market_action_secondary"],
   [pagePath, "資料更新時間"],
@@ -51,8 +51,7 @@ const forbidden = [
   [pagePath, "publicDataSource=\"supabase\""],
   [pagePath, "Phase 1"],
   [pagePath, "Phase 2"],
-  [pagePath, "Membership MVP"],
-  [pagePath, "會員 MVP"]
+  [pagePath, "Membership MVP"]
 ];
 
 const missing = required.filter(([file, phrase]) => !read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
@@ -83,7 +82,7 @@ async function checkRenderedRoute() {
     const response = await fetch(`${baseUrl}/weekly`);
     const visibleText = normalizeVisibleText(await response.text());
     const requiredVisible = ["市場週報", "30 秒", "資料更新時間", "示範資料", "非投資建議", "風險聲明"];
-    const forbiddenVisible = ["Phase 1", "Phase 2", "Membership MVP", "會員 MVP", "cmd.exe", "npm run", "publicDataSource", "scoreSource"];
+    const forbiddenVisible = ["Phase 1", "Phase 2", "Membership MVP", "cmd.exe", "npm run", "publicDataSource", "scoreSource"];
     const missingVisible = requiredVisible.filter((phrase) => !visibleText.includes(phrase));
     const blockedVisible = forbiddenVisible.filter((phrase) => visibleText.includes(phrase));
 

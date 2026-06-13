@@ -2,6 +2,43 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Weekly Public Data Trust And Reading Path Pass
+
+Status: `weekly_public_data_trust_ready`
+
+CEO decision:
+
+- Weekly should remain part of Phase 1 public free experience, not a Phase 2 membership feature.
+- Weekly may show public data coverage limitations, but must not expose Supabase, readonly attempt, operator, SQL, raw-data, or internal runtime variable wording to general users.
+- Public weekly gates should validate the user-facing reading path and trust language rather than retired internal English labels.
+
+What changed:
+
+- `/weekly` now renders a public `資料覆蓋狀態` section via `WeeklyRowCoverageStatus`.
+- The shared row-coverage panel now avoids printing row-count internals and instead explains that formal data is still being completed.
+- Weekly hero copy now states `公開 Beta 週報`, `示範資料與示範分數`, and `正式市場資料尚未啟用`.
+- Weekly now includes a public `下週觀察重點` section and `重要聲明`.
+- Weekly checks were aligned to current public Chinese wording and the current non-advice / mock boundary.
+
+Checks passed:
+
+- `check:a2-weekly-readable-copy`
+- `check:weekly-market-action-summary`
+- `check:weekly-row-coverage-status`
+- `check:public-visible-language-quality`
+- `check:phase-1-public-beta-public-visible-residue-cleanup`
+- `check:public-beta-production-brief-alignment`
+- `npx tsc --noEmit`
+- Browser smoke: `/weekly` shows `市場週報`, `資料覆蓋狀態`, `示範分數`, formal-data-not-enabled language, `下週觀察重點`, and `重要聲明`; no visible `publicDataSource` / `scoreSource`, old dev terms, or console errors appeared.
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, market-row fetch, raw payload output, secret output, source promotion, real score promotion, membership implementation, production env mutation, DNS change, or Vercel dashboard mutation occurred. Runtime remains mock/demo.
+
+Next:
+
+Continue Phase 1 public usable loop. PM should next review whether `/membership` is clearly Phase 2 roadmap-only and whether public pages consistently point from free market overview into the future membership value without implying paid content is already active.
+
 ### Public Gate Language Modernization Pass
 
 Status: `public_gate_language_modernization_ready`

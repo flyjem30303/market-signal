@@ -8,6 +8,40 @@ Owner: PM mainline
 
 ## Latest Mainline Decision - 2026-06-14
 
+### Weekly Public Data Trust And Reading Path Pass
+
+CEO decision:
+
+- Weekly stays in Phase 1 as a public free market-reading route.
+- Weekly may disclose data-coverage limitations, but should not expose Supabase, operator, SQL, raw-data, or internal runtime labels to users.
+- Phase 2 membership remains a future path; weekly can mention future post-market review / watchlist value but must not implement membership now.
+
+PM completed the weekly public trust slice:
+
+- `/weekly` now includes `WeeklyRowCoverageStatus`.
+- The row-coverage panel now uses public wording and avoids row-count internals.
+- Weekly public copy now states `公開 Beta 週報`, `示範資料與示範分數`, `正式市場資料尚未啟用`, `下週觀察重點`, and `重要聲明`.
+- Weekly gates now validate current public Chinese language instead of retired internal English wording.
+
+Latest checks passed:
+
+- `check:a2-weekly-readable-copy`
+- `check:weekly-market-action-summary`
+- `check:weekly-row-coverage-status`
+- `check:public-visible-language-quality`
+- `check:phase-1-public-beta-public-visible-residue-cleanup`
+- `check:public-beta-production-brief-alignment`
+- `npx tsc --noEmit`
+- Browser smoke confirmed `/weekly` shows the new public data coverage and disclaimer language, with no internal runtime tokens or console errors.
+
+Current route:
+
+- `phase_1_public_free_index_dashboard_usable_loop`
+
+Next PM slice:
+
+- Review `/membership` as Phase 2 roadmap-only: it should explain future membership value while avoiding active-account, active-payment, or available-member-only feature claims.
+
 ### Public Gate Language Modernization Pass
 
 CEO decision:

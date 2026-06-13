@@ -7,7 +7,7 @@ export function WeeklyRowCoverageStatus() {
       className="weekly-row-coverage-status"
       eyebrow="資料覆蓋狀態"
       openItemSuffix="待補齊"
-      summary="週報目前用示範資料呈現公開閱讀流程；正式市場資料、資料覆蓋率與更新流程仍在驗證。"
+      summary="週報目前用示範資料與示範分數呈現公開閱讀流程；正式市場資料、資料覆蓋率與更新流程仍在驗證。"
     />
   );
 }

@@ -10,7 +10,7 @@ const checkerPath = "scripts/check-a2-weekly-readable-copy.mjs";
 
 const requiredByFile = {
   [pagePath]: [
-    "Weekly Report",
+    "市場週報",
     "公開 Beta 週報",
     "示範資料",
     "示範分數",
@@ -21,20 +21,20 @@ const requiredByFile = {
     "DataFreshnessStrip",
     "WeeklyRowCoverageStatus",
     "buildWeeklyMarketActionSummary",
-    "Market Action Summary",
+    "週報行動摘要",
     "本週以示範資料呈現公開閱讀流程",
     "下週觀察重點",
     "重要聲明",
-    "30 秒看市場氣氛",
-    "3 分鐘整理下週觀察重點",
-    "正式資料升級前檢查"
+    "30 秒先回看市場氣氛",
+    "3 分鐘複核成因與資料狀態",
+    "資料覆蓋狀態"
   ],
   [helperPath]: [
     "正式市場資料尚未啟用",
     "投資建議",
     "本週示範資料"
   ],
-  [componentPath]: ["週報資料覆蓋狀態", "示範資料", "正式市場資料", "資料覆蓋率", "更新流程"],
+  [componentPath]: ["週報資料覆蓋狀態", "示範資料", "示範分數", "正式市場資料", "資料覆蓋率", "更新流程"],
   [trustPanelPath]: ["weekly", "週報用來整理觀察順序", "示範資料"]
 };
 
