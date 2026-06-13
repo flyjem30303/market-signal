@@ -2,6 +2,38 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Membership Preview Trust Context Alignment
+
+Status: `membership_preview_trust_context_aligned`
+
+CEO decision:
+
+- Keep Phase 2 membership as a visible product path, but do not implement membership before Phase 1 public usability is stable.
+- The `/membership` route should read like a membership roadmap page, not inherit methodology-page trust copy.
+- Public-page language should remain Chinese-first for general investors.
+
+What changed:
+
+- Added a dedicated `membership` context to `TrustRuntimeBoundaryNotice`.
+- Updated `/membership` to use `TrustRuntimeBoundaryNotice context="membership"` instead of borrowing the methodology context.
+- Replaced English eyebrow labels on `/membership` with Chinese labels: `會員功能預覽`, `會員 MVP`, and `尚未開放`.
+- Preserved the Phase 2 boundary: no login, payment, watchlist storage, personalized alert execution, or member-only content was implemented.
+
+Checks passed:
+
+- `check:public-beta-membership-mvp-roadmap`
+- `check:public-visible-language-quality`
+- `check:public-surface-user-facing-audit`
+- `npx tsc --noEmit`
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, market-row fetch, raw payload output, secret output, source promotion, real score promotion, membership implementation, production env mutation, DNS change, or Vercel dashboard mutation occurred. Runtime remains mock/demo until data-source rights, coverage, quality, rollback, and promotion gates pass.
+
+Next:
+
+Continue Phase 1 public comprehension and launch readiness. PM mainline should keep cleaning public route copy and route-health gates; A1 continues legal/free/automatable data-source and coverage work; A2 guards trust copy; A3 keeps deployment/monitoring/rollback ready; A4 remains membership planning-only.
+
 ### Core Route Quick Proof Public-Brief Alignment
 
 Status: `public_beta_core_route_quick_proof_public_brief_aligned`

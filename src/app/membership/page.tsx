@@ -36,7 +36,7 @@ export default function MembershipPreviewPage() {
     <main className="page-shell">
       <PageViewTracker eventName="membership_preview_page_viewed" payload={{ page: "membership" }} />
       <section className="hero">
-        <p className="eyebrow">Membership Preview</p>
+        <p className="eyebrow">會員功能預覽</p>
         <h1>會員功能預覽</h1>
         <p>
           會員功能的目標，是讓使用者不只看到市場燈號，也能理解燈號背後原因、建立自己的觀察清單，
@@ -52,7 +52,7 @@ export default function MembershipPreviewPage() {
       </section>
 
       <section className="panel stock-reading-summary" aria-label="會員 MVP 三個核心能力">
-        <p className="eyebrow">Member MVP</p>
+        <p className="eyebrow">會員 MVP</p>
         <h2>三個核心能力先定義清楚，再進入會員實作</h2>
         <p>
           會員 MVP 先聚焦三件事：每日市場三層解讀、watchlist 與自訂警示、盤後複盤報告。
@@ -73,7 +73,7 @@ export default function MembershipPreviewPage() {
       <PublicBetaMembershipMvpRoadmap />
 
       <section className="panel stock-reading-summary" aria-label="會員功能尚未開放項目">
-        <p className="eyebrow">Not Open Yet</p>
+        <p className="eyebrow">尚未開放</p>
         <h2>目前不開放會員登入或付費</h2>
         <p>
           本頁是產品預覽，不會要求輸入帳號密碼、交易帳戶、信用卡、身分證字號或任何第三方服務密鑰。
@@ -89,7 +89,7 @@ export default function MembershipPreviewPage() {
         </div>
       </section>
 
-      <TrustRuntimeBoundaryNotice context="methodology" />
+      <TrustRuntimeBoundaryNotice context="membership" />
     </main>
   );
 }

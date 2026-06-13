@@ -2,7 +2,7 @@ import { PublicRuntimeStateStrip } from "@/components/public-runtime-state-strip
 import { getPublicRuntimeBoundaryCopy } from "@/lib/public-runtime-boundary-copy";
 
 type TrustRuntimeBoundaryNoticeProps = {
-  context: "disclaimer" | "methodology" | "privacy" | "terms" | "weekly";
+  context: "disclaimer" | "membership" | "methodology" | "privacy" | "terms" | "weekly";
 };
 
 const contextCopy = {
@@ -10,6 +10,11 @@ const contextCopy = {
     eyebrow: "風險聲明",
     summary: "本站協助使用者整理市場狀態與風險線索，但不替使用者做投資決策，也不承諾任何投資結果。",
     title: "請把燈號當成觀察線索，不要當成交易指令"
+  },
+  membership: {
+    eyebrow: "會員預覽",
+    summary: "會員功能目前只作為下一階段產品路線說明，尚未開放登入、付費、個人化資料儲存或個人化通知。",
+    title: "會員功能會延伸觀察流程，但不改變非投資建議邊界"
   },
   methodology: {
     eyebrow: "方法說明",

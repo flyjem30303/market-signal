@@ -8,6 +8,32 @@ Owner: PM mainline
 
 ## Latest Mainline Decision - 2026-06-14
 
+### Membership Preview Trust Context Alignment
+
+CEO confirms membership remains Phase 2, but the Phase 2 route must still be understandable and trustworthy during Phase 1.
+
+PM completed a focused membership-preview trust slice:
+
+- Added a dedicated `membership` context to `TrustRuntimeBoundaryNotice`.
+- `/membership` now uses membership-specific trust copy instead of borrowing methodology-page copy.
+- `/membership` eyebrow labels are now Chinese-first: `會員功能預覽`, `會員 MVP`, and `尚未開放`.
+- The page continues to state that login, payment, watchlist storage, personalized alert execution, and member-only content are not open yet.
+
+Latest checks passed:
+
+- `check:public-beta-membership-mvp-roadmap`
+- `check:public-visible-language-quality`
+- `check:public-surface-user-facing-audit`
+- `npx tsc --noEmit`
+
+Current route:
+
+- `phase_1_public_free_index_dashboard_usable_loop`
+
+Lane reminder:
+
+- A4 can plan membership MVP, but PM must not implement Phase 2 membership systems during Phase 1.
+
 ### Core Route Quick Proof Public-Brief Alignment
 
 CEO confirms the active BRIEF is split into two execution phases:
