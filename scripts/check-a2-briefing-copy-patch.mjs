@@ -9,8 +9,9 @@ const missing = [];
 const blocked = [];
 
 const requiredCopy = [
-  "市場訊號晨報",
-  "30 秒看懂今日市場氣氛",
+  "每日市場晨報",
+  "市場晨報",
+  "BriefingPublicDecisionSummaryPanel",
   "市場氣氛",
   "警示清單",
   "成因",
@@ -18,23 +19,23 @@ const requiredCopy = [
   "影響級別",
   "下一步",
   "資料邊界",
-  "publicDataSource=mock",
-  "scoreSource=mock",
-  "不提供買賣建議",
-  "不是即時真實資料",
-  "mock-only",
-  "partial coverage",
-  "missing/delayed data",
-  "正式資料尚未上線",
+  "市場行動摘要",
+  "今日提醒",
+  "使用提醒",
+  "資料狀態與下一階段",
+  "示範資料",
+  "資料限制",
+  "不提供個股買賣建議",
+  "正式市場資料尚未啟用",
+  "若資料延遲、缺漏或品質偏低",
   "不是交易建議",
   "DataFreshnessStrip",
-  "PublicRuntimeStateStrip",
-  "PostReadonlyProductStatus",
-  "BriefingPublicBetaGateSummary",
-  "briefing-executive-summary",
-  "briefing-runtime-action-strip",
-  "briefing-boundary",
-  "briefing-playbook"
+  "PublicBetaPublicStatusSurface",
+  "PublicBetaMembershipMvpRoadmap",
+  "briefing-market-action-summary",
+  "briefing-alert-decision-list",
+  "briefing-decision-strip",
+  "experience-flow-nav"
 ];
 
 const forbiddenSource = [

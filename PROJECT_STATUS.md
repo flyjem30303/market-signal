@@ -2,6 +2,39 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Public Gate Language Modernization Pass
+
+Status: `public_gate_language_modernization_ready`
+
+CEO decision:
+
+- Public gates must not force internal development vocabulary back into user-facing pages.
+- Old checks that required `警示清單`, `publicDataSource=mock`, `scoreSource=mock`, `mock-only`, `partial coverage`, or internal runtime component names on public pages should be aligned to current public wording.
+- The gate should still block development residue, SQL/Supabase/raw-data language, and investment-advice claims on visible public routes.
+
+What changed:
+
+- `check:public-beta-alert-list-actionability` now validates Home's current `警示提醒`, `相對偏強`, and `風險較高` structure.
+- `check:public-beta-decision-loop-bridge` now validates the current 30-second / 3-minute public reading path across Home, Briefing, and Stock pages.
+- `check:a2-briefing-copy-patch` now validates current Briefing source structure and public copy instead of requiring retired internal runtime panels or public exposure of internal source variables.
+
+Checks passed:
+
+- `check:public-beta-alert-list-actionability`
+- `check:public-beta-decision-loop-bridge`
+- `check:a2-briefing-copy-patch`
+- `check:public-visible-language-quality`
+- `check:phase-1-public-beta-public-visible-residue-cleanup`
+- `npx tsc --noEmit`
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, market-row fetch, raw payload output, secret output, source promotion, real score promotion, membership implementation, production env mutation, DNS change, or Vercel dashboard mutation occurred. Runtime remains mock/demo.
+
+Next:
+
+Continue Phase 1 public usable loop. PM should focus on user-visible continuity and trust language; old governance-only gates should be modernized only when they block current BRIEF-aligned public checks.
+
 ### Phase 1 Public Indicator Roadmap And Route Consistency Pass
 
 Status: `phase_1_public_indicator_roadmap_ready`

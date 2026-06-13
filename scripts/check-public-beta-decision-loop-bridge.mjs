@@ -5,9 +5,9 @@ const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 
 const routeRequired = {
-  "/": ["30 秒可讀", "3 分鐘可行動", "市場總覽", "警示清單", "正式市場資料尚未啟用"],
+  "/": ["30 秒內看懂市場氛圍", "3 分鐘內判斷", "全市場總覽", "警示提醒", "正式市場資料尚未啟用"],
   "/briefing": ["30 秒看懂今日市場氣氛", "3 分鐘行動判斷", "下一步觀察", "不提供個股買賣建議"],
-  "/stocks/2330": ["30 秒快讀", "決策輔助摘要", "下一步觀察", "不提供個股買賣建議"]
+  "/stocks/2330": ["30 秒快速閱讀", "決策輔助摘要", "下一步觀察", "不提供個股買賣建議"]
 };
 
 const forbiddenVisible = [

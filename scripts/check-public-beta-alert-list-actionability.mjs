@@ -5,7 +5,7 @@ const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 
 const routeRequired = {
-  "/": ["市場總覽", "核心指標", "警示清單", "偏強觀察", "風險觀察", "正式市場資料尚未啟用"],
+  "/": ["全市場總覽", "核心指標", "警示提醒", "相對偏強", "風險較高", "正式市場資料尚未啟用"],
   "/briefing": ["市場廣度", "偏強觀察", "風險觀察", "使用提醒", "下一步觀察", "不提供個股買賣建議"]
 };
 

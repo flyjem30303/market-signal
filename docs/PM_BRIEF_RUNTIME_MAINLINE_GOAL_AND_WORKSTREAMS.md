@@ -8,6 +8,37 @@ Owner: PM mainline
 
 ## Latest Mainline Decision - 2026-06-14
 
+### Public Gate Language Modernization Pass
+
+CEO decision:
+
+- Public-route gates should enforce the BRIEF and user-facing safety language.
+- They should not require old governance widgets or raw internal runtime variable labels to be visible to general users.
+- Internal source-boundary terms may remain in docs/checkers where needed, but public routes should speak in normal investor language.
+
+PM completed the gate modernization slice:
+
+- `check:public-beta-alert-list-actionability` now follows Home's current `警示提醒`, `相對偏強`, and `風險較高` wording.
+- `check:public-beta-decision-loop-bridge` now follows the current 30-second / 3-minute reading path.
+- `check:a2-briefing-copy-patch` now validates current Briefing source structure and public copy, without asking public pages to expose `publicDataSource` / `scoreSource` labels.
+
+Latest checks passed:
+
+- `check:public-beta-alert-list-actionability`
+- `check:public-beta-decision-loop-bridge`
+- `check:a2-briefing-copy-patch`
+- `check:public-visible-language-quality`
+- `check:phase-1-public-beta-public-visible-residue-cleanup`
+- `npx tsc --noEmit`
+
+Current route:
+
+- `phase_1_public_free_index_dashboard_usable_loop`
+
+Next PM slice:
+
+- Continue tightening public reading continuity and trust/status language before moving into Phase 2 membership implementation.
+
 ### Phase 1 Public Indicator Roadmap And Route Consistency Pass
 
 CEO confirms the revised BRIEF is now the controlling product direction, but execution must stay phase-split:
