@@ -2084,3 +2084,40 @@ No SQL, Supabase read/write, staging rows, `daily_prices` mutation, raw market-d
 Next:
 
 Open the Vercel project Deployments page and confirm whether commit `fc852d4d` deployed, failed, or did not trigger. If it did not trigger, reconnect Git integration or run a manual redeploy for the GitHub `main` branch. After Vercel updates, rerun remote quick-proof, remote visible-language quality, and remote residue cleanup.
+
+# Latest A3 Vercel deployment failure confirmed
+
+Status: `vercel_latest_main_deployment_failed_logs_require_authenticated_platform_review`
+
+Date: 2026-06-14
+
+CEO decision: stop treating the public URL as merely stale. GitHub confirms Vercel attempted the latest `main` deployment and marked it failed.
+
+Evidence:
+
+- GitHub `origin/main`: `47d081daefbc90900c34af9ae2214a433388ea5a`.
+- GitHub commit status for `47d081da`: `failure`.
+- Vercel deployment id: `dpl_4wqKUxBjjcrNG36UPJEz1iYssjnk`.
+- GitHub deployment id: `5048210902`.
+- GitHub deployment status: `failure`.
+- Vercel target URL: `https://market-signal-36y9mnjqf-flyjem-projects.vercel.app`.
+- Vercel target URL currently requires Vercel authentication / deployment protection, so it cannot be used as public acceptance evidence.
+- Vercel CLI read attempt reached the official login flow and could not inspect logs without authenticated Vercel access.
+
+Official Vercel log command from GitHub status:
+
+```powershell
+cmd.exe /c npx vercel inspect dpl_4wqKUxBjjcrNG36UPJEz1iYssjnk --logs
+```
+
+PM classification:
+
+Local candidate is green, GitHub push is green, but Vercel production deployment failed. The next actionable evidence must come from the Vercel deployment log, not another local route cleanup slice.
+
+Boundary:
+
+No SQL, Supabase read/write, staging rows, `daily_prices` mutation, raw market-data fetch/store/commit, source promotion, real score promotion, production env mutation, DNS change, or Vercel dashboard mutation occurred. No Vercel credentials or secrets were printed.
+
+Next:
+
+Chairman/operator should open Vercel Deployments for project `market-signal`, select the failed deployment for commit `47d081da` / deployment `dpl_4wqKUxBjjcrNG36UPJEz1iYssjnk`, and provide the build error summary. After the error is known, PM can fix the exact repo issue, push a repair commit, and rerun remote smoke.

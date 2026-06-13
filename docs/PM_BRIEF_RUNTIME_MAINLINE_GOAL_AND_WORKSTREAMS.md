@@ -1155,6 +1155,51 @@ Next PM route:
 
 Perform `verify_vercel_git_integration_or_manual_redeploy`, then rerun remote quick-proof, visible-language quality, and public residue cleanup once Vercel serves the latest commit.
 
+## 8AT. 2026-06-14 Vercel Failed Deployment Confirmed
+
+CEO decision:
+
+`require_vercel_failed_deployment_log_before_more_local_cleanup`
+
+PM used GitHub deployment/status APIs to verify the A3 blocker. The latest GitHub push did trigger Vercel, but Vercel marked the Production deployment as failed.
+
+Evidence:
+
+- Current GitHub `main`: `47d081daefbc90900c34af9ae2214a433388ea5a`.
+- GitHub commit status context: `Vercel`.
+- Status: `failure`.
+- Vercel deployment id: `dpl_4wqKUxBjjcrNG36UPJEz1iYssjnk`.
+- GitHub deployment id: `5048210902`.
+- GitHub deployment status: `failure`.
+- Failed deployment target URL: `https://market-signal-36y9mnjqf-flyjem-projects.vercel.app`.
+- Current public alias remains stale; `/membership` still returns HTTP 404 on `https://market-signal-two.vercel.app`.
+
+Log access result:
+
+The official command is:
+
+```powershell
+cmd.exe /c npx vercel inspect dpl_4wqKUxBjjcrNG36UPJEz1iYssjnk --logs
+```
+
+PM attempted the command, but Vercel CLI started the device-login flow because no local Vercel credentials are available. The stuck CLI process was stopped. No credentials or secrets were printed.
+
+Current lane assignments:
+
+- PM mainline: wait for Vercel build error summary, then fix the exact repo/build issue.
+- A1 data/source/coverage: continue independently; this failure does not open data fetch, SQL, Supabase writes, or source promotion.
+- A2 public trust copy: no new public copy change until the failed deployment reason is known.
+- A3 launch engineering: owner of the next platform action. Need authenticated Vercel deployment log for `dpl_4wqKUxBjjcrNG36UPJEz1iYssjnk`.
+- A4 membership MVP: still deferred; `/membership` route is Phase 2 roadmap visibility, not live membership implementation.
+
+Boundary:
+
+No SQL, Supabase write, staging rows, `daily_prices` mutation, raw market-data fetch/store/commit, source promotion, real score promotion, production env mutation, DNS change, Vercel dashboard mutation, or credential output occurred.
+
+Next PM route:
+
+Collect Vercel failed-build log summary for `dpl_4wqKUxBjjcrNG36UPJEz1iYssjnk`, then run `fix_vercel_build_failure_and_redeploy`.
+
 ## 8AR. 2026-06-14 Briefing Phase 1 Product-First Ordering
 
 CEO decision:
