@@ -2,6 +2,38 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### TWII Exact Execution Preflight Repair Selector
+
+Status: `twii_exact_execution_preflight_repair_selector_ready_no_execution`
+
+CEO decision:
+
+- Continue the selected Phase 1 data-online route, but stop treating TWII as an execution-ready writer.
+- The current blocker is not runner implementation; it is the acceptance sequence before any bounded execution can be considered.
+- Select `twii_source_rights_outcome_gate_acceptance` as the next PM route.
+- Keep field-contract acceptance, asset-mapping acceptance, operator packet intake, and exact bounded execution gate preparation as later ordered gates.
+
+PM completed:
+
+- Added `docs/TWII_EXACT_EXECUTION_PREFLIGHT_REPAIR_SELECTOR.md` as the TWII no-execution selector for the current selected data-online route.
+- Added `check:twii-exact-execution-preflight-repair-selector` and registered it in the focused review gate.
+- The checker validates final execution packet, final runtime gate, final operator authorization packet, source-rights bridge, target scope, stoplines, and mock/runtime locks.
+
+Evidence:
+
+- `cmd.exe /c npm run check:twii-exact-execution-preflight-repair-selector` passed with `twii_exact_execution_preflight_repair_selector_ready_no_execution`.
+- The checker reported next route `twii_source_rights_outcome_gate_acceptance`, target table `daily_prices`, lane `TWII`, scope `twii_index_daily_prices_missing_rows`, max rows `60`, `publicDataSource=mock`, `scoreSource=mock`, `twiiExecutionAllowedNow=false`, and `sourceRightsBridgeReady=true`.
+- `cmd.exe /c npx tsc --noEmit` passed.
+- `cmd.exe /c npm run check:review-gates > tmp\review-gates-twii-exact-selector.txt` passed with `status=ok`, `executedCount=188`, and `failedCount=0`.
+
+Boundary:
+
+No SQL, Supabase connection/write, Supabase read, staging row creation, `daily_prices` mutation, market endpoint fetch, raw market-data ingest/store/commit, candidate row readback, source-derived candidate generation, row coverage point award, secret output, public source promotion, score promotion, investment advice claim, production environment mutation, DNS change, broad visual redesign, or Phase 2 membership implementation occurred.
+
+Next route:
+
+Open `twii_source_rights_outcome_gate_acceptance` as a separate no-execution gate. If it is rejected or repair-required, repair TWII evidence or shift to `etf_source_rights_field_contract_parallel_repair`.
+
 ### Phase 1 Data Online Execution Selector
 
 Status: `phase_1_data_online_execution_selector_ready_no_execution`
