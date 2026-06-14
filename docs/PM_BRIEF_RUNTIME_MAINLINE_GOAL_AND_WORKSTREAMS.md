@@ -67,6 +67,8 @@ Current A2 focus:
 
 ## A3 Launch / Production Engineering Lane
 
+A3 canonical lane label: `A3 launch/production engineering`.
+
 A3 prepares launch engineering.
 
 Canonical handoff: `docs/A3_LAUNCH_ENGINEERING_HANDOFF.md`.
@@ -87,6 +89,8 @@ A3 boundaries:
 - no credential, OTP, payment, or account-verification action on behalf of the chairman
 
 ## A4 Membership MVP Planning Lane
+
+A4 canonical lane label: `A4 membership MVP planning`.
 
 A4 Membership MVP Planning Lane is a small planning-only parallel lane until Phase 1 is stable.
 
@@ -136,3 +140,7 @@ At each coherent slice, PM should:
 3. Keep A1/A2/A3/A4 assigned only where they reduce risk or unblock future work.
 4. Run focused local checks.
 5. Record status and Git backup after passing checks.
+
+Current Phase 1 operator route anchor:
+
+- `phase_1_public_beta_operator_decision_or_manual_platform_action_readiness_refresh`
