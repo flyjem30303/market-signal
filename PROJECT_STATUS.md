@@ -2,6 +2,44 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Public Runtime Readability And Source Coverage Cleanup
+
+Status: `public_runtime_readability_source_coverage_ready`
+
+CEO decision:
+
+- Advance Phase 1 toward the public free index-light site by removing early-run mojibake, internal field names, and developer-process language from the main public runtime pages.
+- Treat `/`, `/briefing`, and `/stocks/[symbol]` as product surfaces first: users must see market status, risk, data boundary, and next reading path, not project governance residue.
+- Keep the data promotion boundary unchanged: this slice improves public readability and source-coverage explanation only; it does not promote formal data.
+
+PM completed:
+
+- Rebuilt `DashboardShell` with clean Traditional Chinese copy for home and stock contexts.
+- Rebuilt `/briefing` as a market morning brief with 30-second summary, 3-minute observation flow, warning list, data freshness, and source-coverage bridge.
+- Rebuilt `StockRuntimeAtAGlance`, `PublicBetaSourceCoverageBridge`, `PublicBetaPublicStatusSurface`, `HomeRuntimeStatusPanel`, `RuntimeTransitionRail`, and `runtime-product-summary` with user-facing language.
+- Updated focused checkers so they guard readable public product language and block mojibake/internal residue instead of old corrupted phrases.
+
+Evidence:
+
+- `cmd.exe /c npm run check:stock-runtime-at-a-glance` passes with `status=ok`.
+- `cmd.exe /c npm run check:runtime-product-summary` passes with `status=ok`.
+- `cmd.exe /c npm run check:stock-product-first-runtime-readability` passes with `stock_product_first_runtime_readability_ready`.
+- `cmd.exe /c npm run check:public-beta-user-value-source-coverage-bridge` passes with `status=ok`.
+- `cmd.exe /c npm run check:public-surface-user-facing-audit` passes with `status=ok`.
+- `cmd.exe /c npm run check:phase-1-public-beta-candidate-final-public-readiness-scan` passes with `phase_1_public_beta_candidate_final_public_readiness_scan_ready`.
+- `cmd.exe /c npx tsc --noEmit` passes.
+- `git diff --check` passes.
+- Route health returns HTTP 200 for `/`, `/briefing`, `/stocks/2330`, `/stocks/TWII`, and `/stocks/0050`.
+- `cmd.exe /c npm run check:review-gates` was attempted twice and timed out at 124 seconds and 304 seconds; no failing result was produced, but this full gate remains too slow for this slice.
+
+Boundary:
+
+No SQL, Supabase connection/read/write, staging row creation, `daily_prices` mutation, market endpoint fetch, raw market-data ingest/store/commit, source-derived candidate row generation, public source promotion, score promotion, investment advice claim, production environment mutation, DNS change, broad visual redesign, or Phase 2 membership implementation occurred.
+
+Next route:
+
+Continue Phase 1 toward data-online readiness: align the remaining data-source/legal/source-coverage decisions from A1, then prepare the next bounded data write/readback promotion package without changing `publicDataSource=mock` or `scoreSource=mock` until the promotion gate passes.
+
 ### Stock Investor Indicator Roadmap Panel
 
 Status: `stock_investor_indicator_roadmap_panel_ready`

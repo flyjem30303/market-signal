@@ -25,27 +25,27 @@ function item(input: Omit<RuntimeProductSummaryItem, "body" | "title"> & { displ
 export function getRuntimeProductSummary(symbol: string): RuntimeProductSummary {
   return {
     nextGate: item({
-      displayBody: "下一步補齊來源、欄位、覆蓋率與品質條件。",
-      displayLabel: "下一步",
-      displayTitle: "補齊資料升級條件",
+      displayBody: "合法免費可自動化來源、覆蓋率與品質通過後，才會開啟前台正式資料切換。",
+      displayLabel: "下一關",
+      displayTitle: "等待資料 promotion gate",
       label: "Next gate"
     }),
     notLiveYet: item({
-      displayBody: "目前不要把頁面分數當成即時行情或買賣依據。",
-      displayLabel: "尚未上線",
-      displayTitle: "正式資料仍在準備",
+      displayBody: "目前仍以示範資料呈現閱讀流程，不能宣稱即時正式資料。",
+      displayLabel: "尚未正式",
+      displayTitle: "正式資料尚未啟用",
       label: "Not live yet"
     }),
     readonlyDecision: item({
-      displayBody: "頁面會保留資料限制，避免把展示內容誤讀成正式市場證據。",
-      displayLabel: "資料信任",
-      displayTitle: "資料限制會清楚揭露",
+      displayBody: "資料檢查需確認來源權利、欄位合約、覆蓋率、時間戳、缺漏與錯誤回退。",
+      displayLabel: "資料檢查",
+      displayTitle: "資料上線前的必要檢查",
       label: "Data check result"
     }),
     useNow: item({
-      displayBody: `${symbol} 目前可用來體驗 30 秒市場氣氛與 3 分鐘行動判斷流程。`,
+      displayBody: `${symbol} 目前可用來示範 30 秒狀態與 3 分鐘觀察流程。`,
       displayLabel: "現在可用",
-      displayTitle: "閱讀示範市場狀態",
+      displayTitle: "示範燈號可用來理解閱讀順序",
       label: "Use now"
     })
   };

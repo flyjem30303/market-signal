@@ -9,16 +9,14 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
   const productSummary = getRuntimeProductSummary(selectedSymbol);
 
   return (
-    <section className="home-runtime-status-panel" aria-label="公開 Beta 使用狀態">
+    <section className="home-runtime-status-panel" aria-label="公開版資料狀態">
       <div>
-        <p className="eyebrow">使用狀態</p>
-        <h2>先用固定流程閱讀市場氣氛</h2>
-        <p>
-          首頁先回答三件事：市場現在偏強、觀望或偏防守；主要風險在哪裡；下一步應觀察什麼。
-        </p>
+        <p className="eyebrow">資料狀態</p>
+        <h2>公開版先讓使用者看懂狀態，再逐步切換正式資料</h2>
+        <p>目前可用示範燈號驗證閱讀流程；正式資料切換前，必須完成來源、覆蓋率、品質與降級檢查。</p>
       </div>
 
-      <div className="runtime-product-summary" aria-label="公開 Beta 產品狀態">
+      <div className="runtime-product-summary" aria-label="公開版資料摘要">
         {[
           { className: "active", item: productSummary.useNow },
           { className: "blocked", item: productSummary.notLiveYet },
@@ -34,17 +32,17 @@ export function HomeRuntimeStatusPanel({ selectedSymbol }: HomeRuntimeStatusPane
       </div>
 
       <article className="home-runtime-status-panel__data">
-        <span>資料狀態</span>
-        <strong>目前維持示範資料</strong>
-        <p>正式資料來源、覆蓋率與品質通過後，才會提高公開信任等級。</p>
+        <span>資料邊界</span>
+        <strong>目前仍是示範資料</strong>
+        <p>資料上線前，前台必須清楚顯示更新時間、來源狀態與限制，避免使用者誤判。</p>
       </article>
 
-      <nav aria-label="公開 Beta 下一步閱讀">
-        <TrackedLink eventName="home_cta_clicked" href={`/stocks/${selectedSymbol}`} label="查看標的狀態" payload={{ area: "home_runtime_status" }}>
-          查看標的狀態
+      <nav aria-label="公開版延伸閱讀">
+        <TrackedLink eventName="home_cta_clicked" href={`/stocks/${selectedSymbol}`} label="查看標的燈號" payload={{ area: "home_runtime_status" }}>
+          查看標的燈號
         </TrackedLink>
-        <TrackedLink eventName="home_cta_clicked" href="/briefing" label="查看市場晨報" payload={{ area: "home_runtime_status" }}>
-          查看市場晨報
+        <TrackedLink eventName="home_cta_clicked" href="/briefing" label="查看市場簡報" payload={{ area: "home_runtime_status" }}>
+          查看市場簡報
         </TrackedLink>
         <TrackedLink eventName="trust_link_clicked" href="/methodology" label="查看方法說明" payload={{ area: "home_runtime_status" }}>
           查看方法說明

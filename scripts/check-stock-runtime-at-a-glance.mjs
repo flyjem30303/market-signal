@@ -25,34 +25,21 @@ const files = new Map(
 const required = [
   [componentPath, "StockRuntimeAtAGlance"],
   [componentPath, "stock-public-decision-summary"],
-  [componentPath, "30 秒看懂標的狀態"],
-  [componentPath, "3 分鐘內請看"],
-  [componentPath, "成因"],
-  [componentPath, "更新時間"],
-  [componentPath, "影響級別"],
-  [componentPath, "下一步"],
-  [componentPath, "資料邊界：publicDataSource=mock，scoreSource=mock"],
-  [componentPath, "目前不是即時真實資料"],
-  [componentPath, "不提供買賣建議"],
-  [componentPath, "stock-runtime-headline-summary"],
-  [componentPath, "Stock decision aid groups"],
-  [componentPath, "runtime-product-summary"],
-  [componentPath, "stock-twii-data-decision-status"],
-  [componentPath, "TWII 資料決策"],
-  [componentPath, "真實資料升級仍在準備中"],
-  [componentPath, "等待一次受控讀取決策"],
-  [componentPath, "publicDataSource=mock，scoreSource=mock"],
-  [componentPath, "不提供買賣建議"],
-  [componentPath, "看公開 Beta 市場摘要"],
-  [componentPath, "了解示範資料邊界"],
-  [componentPath, "回首頁看市場總覽"],
-  [componentPath, "正式資料升級必須先完成來源、覆蓋率、品質檢查、回讀與揭露條件"],
+  [componentPath, "狀態儀表"],
+  [componentPath, "標的快速判讀"],
+  [componentPath, "30 秒"],
+  [componentPath, "3 分鐘"],
+  [componentPath, "示範資料 / 示範分數"],
+  [componentPath, "正式市場資料尚未啟用"],
+  [componentPath, "不能當成個股買賣指令"],
+  [componentPath, "查看市場簡報"],
+  [componentPath, "查看方法說明"],
   [componentPath, "buildStockDecisionBrief"],
-  [productSummaryPath, "Use mock signals for reading only"],
-  [productSummaryPath, "Real-data claims are not live"],
+  [componentPath, "stock-runtime-headline-summary"],
   [headlineSummaryPath, "StockRuntimeHeadlineSummary"],
   [headlineSummaryPath, "decisionAidGroups"],
-  [headlineSummaryPath, "本頁不宣稱正式資料來源"],
+  [productSummaryPath, "示範 30 秒狀態與 3 分鐘觀察流程"],
+  [productSummaryPath, "正式資料尚未啟用"],
   [decisionSummaryPath, 'publicDataSource: "mock"'],
   [decisionSummaryPath, 'scoreSource: "mock"'],
   [dashboardPath, "import { StockRuntimeAtAGlance }"],
@@ -60,8 +47,6 @@ const required = [
   [cssPath, ".stock-runtime-at-a-glance"],
   [cssPath, ".stock-public-decision-summary"],
   [cssPath, ".stock-runtime-headline-summary"],
-  [cssPath, ".stock-twii-data-decision-status"],
-  [cssPath, ".stock-runtime-governance-details"],
   [packagePath, '"check:stock-runtime-at-a-glance": "node scripts/check-stock-runtime-at-a-glance.mjs"'],
   [reviewGatePath, "scripts/check-stock-runtime-at-a-glance.mjs"]
 ];
@@ -80,7 +65,7 @@ const forbidden = [
 const missing = required.filter(([file, phrase]) => !read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
 const blocked = forbidden.filter(([file, phrase]) => read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
 
-for (const file of [componentPath, productSummaryPath, headlineSummaryPath]) {
+for (const file of [componentPath, dashboardPath, productSummaryPath, headlineSummaryPath]) {
   for (const hit of findMojibakeMarkers(read(file))) blocked.push(`${file}: ${hit}`);
 }
 

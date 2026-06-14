@@ -21,6 +21,7 @@ const required = [
   [componentPath, "roadmap.boundary.statement"],
   [componentPath, "roadmap.families.map"],
   [componentPath, "getInvestorIndicatorStatusLabel"],
+  [componentPath, "目前維持示範資料與示範分數"],
   [componentPath, "mock 可讀"],
   [componentPath, "設計保留"],
   [componentPath, "等待真實資料"],

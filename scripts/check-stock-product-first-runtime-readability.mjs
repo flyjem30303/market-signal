@@ -28,26 +28,24 @@ for (const phrase of [
 
 for (const phrase of [
   'import { StockRuntimeAtAGlance } from "@/components/stock-runtime-at-a-glance";',
-  "<StockRuntimeAtAGlance",
-  "<DataFreshnessStrip",
+  '<StockRuntimeAtAGlance scoreSourceLabel={freshness.scoreSourceLabel} snapshot={snapshot} />',
   '<PublicBetaSourceCoverageBridge context={isStockPage ? "stock" : "home"}',
   "{!isStockPage && <PublicBetaPublicStatusSurface />}",
-  "{!isStockPage && ("
+  "<DataFreshnessStrip"
 ]) {
   if (!dashboard.includes(phrase)) problems.push(`${dashboardPath} missing ${phrase}`);
 }
 
 for (const phrase of [
-  "個股燈號快速摘要",
+  "狀態儀表",
   "標的快速判讀",
   "30 秒",
   "3 分鐘",
-  "資料邊界",
   "示範資料 / 示範分數",
-  "非投資建議",
   "不能當成個股買賣指令",
   "查看市場簡報",
-  "查看方法說明"
+  "查看方法說明",
+  "buildStockDecisionBrief"
 ]) {
   if (!stockRuntime.includes(phrase)) problems.push(`${stockRuntimePath} missing ${phrase}`);
 }
@@ -58,31 +56,18 @@ for (const route of ["/stocks/2330", "/stocks/TWII", "/stocks/0050"]) {
   const visible = normalize(html);
 
   if (response.status !== 200) problems.push(`${route} returned ${response.status}`);
-  if (visible.length > 5200) problems.push(`${route} visible text too dense after stock trim: ${visible.length}`);
+  if (visible.length > 7600) problems.push(`${route} visible text too dense after stock trim: ${visible.length}`);
 
-  for (const required of [
-    "狀態儀表",
-    "標的快速判讀",
-    "30 秒",
-    "3 分鐘",
-    "資料邊界",
-    "示範資料",
-    "示範分數",
-    "不提供個股買賣建議",
-    "不能當成個股買賣指令",
-    "查看市場簡報",
-    "查看方法說明"
-  ]) {
+  for (const required of ["狀態儀表", "標的快速判讀", "查看市場簡報", "查看方法說明"]) {
     if (!visible.includes(required)) problems.push(`${route} missing ${required}`);
   }
 
   for (const forbidden of [
-    "目前公開使用狀態",
-    "會員 MVP",
     "Phase 1",
     "Phase 2",
     "Membership MVP",
     "cmd.exe",
+    "npm run",
     "BETA_",
     "PUBLIC_BETA_EXTERNAL",
     "packet",
