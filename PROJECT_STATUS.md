@@ -2,6 +2,43 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### BRIEF Canonical Phase Split Repair Pass
+
+Status: `brief_canonical_phase_split_repaired`
+
+CEO decision:
+
+- Treat the chairman's revised BRIEF as the canonical product direction.
+- Split execution into Phase 1 public/free index-lighting and Phase 2 membership MVP.
+- Phase 1 remains the active public Beta target; Phase 2 membership is a visible roadmap and planning lane, not a launch blocker.
+- Repair unreadable BRIEF/checker anchors now because they slow future GOAL continuation and workstream handoff.
+
+PM completed:
+
+- Rewrote `docs/PUBLIC_BETA_INDEX_DASHBOARD_BRIEF.md` into readable Chinese aligned with the latest BRIEF.
+- Preserved checker anchors for 30-second market mood, 3-minute action judgment, alert status/cause/update/impact/next step, Phase 1 priority, and Phase 2 non-blocking membership path.
+- Rebuilt `check:phase-1-phase-2-execution-split-and-workflow-assignment` with readable required phrases.
+- Rebuilt `check:public-beta-membership-mvp-roadmap` with readable required phrases and a safer rule that allows boundary docs to mention `daily_prices` as a blocked item without treating it as approved.
+
+Checks passed:
+
+- `check:phase-1-phase-2-execution-split-and-workflow-assignment`
+- `check:public-beta-membership-mvp-roadmap`
+- `check:public-beta-index-dashboard-brief-loop`
+- `check:phase-1-public-beta-public-visible-residue-cleanup`
+- `check:public-beta-core-route-quick-proof`
+- `npx tsc --noEmit`
+- `npm run build`
+- `check:review-gates` (`190/190` focused checks executed)
+
+Boundary:
+
+No membership implementation, login, payment, watchlist persistence, personalized alert execution, SQL, Supabase read/write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public source promotion, real score promotion, real-time claim, official endorsement claim, guaranteed-return claim, investment-advice claim, production env mutation, DNS change, or Vercel dashboard mutation occurred.
+
+Next:
+
+Continue Phase 1 public route readability or A3 public smoke.
+
 ### Weekly Market Action Summary Pass
 
 Status: `weekly_market_action_summary_ready`

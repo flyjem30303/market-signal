@@ -24,7 +24,7 @@ const reviewGate = read(reviewGatePath);
 requireIncludes(componentPath, component, [
   "PublicBetaMembershipMvpRoadmap",
   "下一階段會員功能",
-  "會員內容會在公開 Beta 穩定後開放",
+  "會員 MVP 是第二階段，第一階段先把免費指數燈號做穩",
   "每日市場三層解讀",
   "Watchlist 與自訂警示",
   "盤後複盤報告",
@@ -38,16 +38,13 @@ requireIncludes(membershipPagePath, membershipPage, [
   "30 秒先看市場氣氛",
   "3 分鐘再看成因",
   "每日市場三層解讀",
-  "Watchlist 與自訂警示",
+  "Watchlist 與自訂警示條件",
   "盤後複盤報告",
-  "會員預覽目前狀態",
   "這頁是會員路線圖，不是會員入口",
-  "目前不會建立帳號、不會收費、不會儲存 watchlist、不會發送個人化警示",
-  "會員註冊、登入、付費訂閱、個人 watchlist 儲存、自訂警示執行與會員專屬內容都尚未開放",
   "目前不開放會員登入或付費",
-  "不會儲存個人資料或發送個人化通知",
-  "正式市場資料尚未啟用",
-  "非投資建議"
+  "目前不會建立帳號、不會收費、不會儲存 watchlist、不會發送個人化警示",
+  "不會串接券商或處理下單",
+  "仍維持非投資建議邊界"
 ]);
 
 requireIncludes(homePath, home, ["PublicBetaMembershipMvpRoadmap", "<PublicBetaMembershipMvpRoadmap />"]);
@@ -97,6 +94,14 @@ for (const [filePath, source] of [
   }
 }
 
+for (const marker of findBadEncodingMarkers(brief)) {
+  problems.push(`${briefPath} contains ${marker}`);
+}
+
+for (const pattern of forbiddenBriefPatterns()) {
+  if (pattern.test(brief)) problems.push(`${briefPath} contains forbidden pattern ${String(pattern)}`);
+}
+
 const renderedMembership = await fetchRenderedText("/membership");
 requireIncludes("rendered /membership", renderedMembership, [
   "會員功能預覽",
@@ -106,11 +111,9 @@ requireIncludes("rendered /membership", renderedMembership, [
   "Watchlist 與自訂警示",
   "盤後複盤報告",
   "這頁是會員路線圖，不是會員入口",
-  "目前不會建立帳號、不會收費、不會儲存 watchlist、不會發送個人化警示",
-  "會員註冊、登入、付費訂閱、個人 watchlist 儲存、自訂警示執行與會員專屬內容都尚未開放",
   "目前不開放會員登入或付費",
-  "正式市場資料尚未啟用",
-  "非投資建議"
+  "不會串接券商或處理下單",
+  "風險聲明"
 ]);
 
 for (const pattern of forbiddenRenderedPatterns()) {
@@ -182,6 +185,16 @@ function forbiddenPatterns() {
     /scoreSource\s*=\s*"real"/u,
     /createClient\(/u,
     /daily_prices/u
+  ];
+}
+
+function forbiddenBriefPatterns() {
+  return [
+    /\bsb_(publishable|secret|anon|service_role)_[a-z0-9_-]+/iu,
+    /publicDataSource\s*=\s*"supabase"/u,
+    /scoreSource\s*=\s*"real"/u,
+    /createClient\(/u,
+    /daily_prices mutation is approved/iu
   ];
 }
 

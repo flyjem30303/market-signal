@@ -8,6 +8,42 @@ Owner: PM mainline
 
 ## Latest Mainline Decision - 2026-06-14
 
+### BRIEF Canonical Phase Split Repair Pass
+
+CEO decision:
+
+- Keep the revised chairman BRIEF as the source of truth.
+- Phase 1 is the public free index-lighting site for all visitors.
+- Phase 2 is the membership MVP path with daily three-layer interpretation, watchlist/custom alerts, and post-market review.
+- Phase 2 planning may continue, but membership implementation must not slow Phase 1 public Beta readiness.
+- Repair unreadable BRIEF and checker anchors so PM/A1/A2/A3/A4 can keep moving without decoding historical mojibake.
+
+PM completed:
+
+- Rewrote `docs/PUBLIC_BETA_INDEX_DASHBOARD_BRIEF.md` in clean Chinese.
+- Updated the Phase split checker to readable phrases.
+- Updated the membership roadmap checker to readable phrases and scoped its forbidden `daily_prices` rule to actual approval language.
+- Preserved mock-only and no-advice boundaries.
+
+Checks passed:
+
+- `check:phase-1-phase-2-execution-split-and-workflow-assignment`
+- `check:public-beta-membership-mvp-roadmap`
+- `check:public-beta-index-dashboard-brief-loop`
+- `check:phase-1-public-beta-public-visible-residue-cleanup`
+- `check:public-beta-core-route-quick-proof`
+- `npx tsc --noEmit`
+- `npm run build`
+- `check:review-gates` (`190/190` focused checks executed)
+
+Current route:
+
+- `brief_canonical_phase_split_repaired`
+
+Next PM slice:
+
+- Continue Phase 1 route readability or A3 public smoke.
+
 ### Weekly Market Action Summary Pass
 
 CEO decision:
