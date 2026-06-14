@@ -4,6 +4,7 @@ import { PageViewTracker } from "@/components/page-view-tracker";
 import { PublicBetaMembershipMvpRoadmap } from "@/components/public-beta-membership-mvp-roadmap";
 import { PublicBetaPublicStatusSurface } from "@/components/public-beta-public-status-surface";
 import { PublicBetaSourceCoverageBridge } from "@/components/public-beta-source-coverage-bridge";
+import { PublicNextReadingFlow } from "@/components/public-next-reading-flow";
 import { TrackedLink } from "@/components/tracked-link";
 import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
 import {
@@ -115,18 +116,7 @@ export default async function BriefingPage() {
         <BriefingList title="風險觀察" description="風險分數較高，適合先確認是否需要加強觀察。" items={[topRisk]} valueKey="risk" />
       </section>
 
-      <nav aria-label="下一步閱讀" className="experience-flow-nav">
-        <span>下一步</span>
-        <TrackedLink eventName="briefing_link_clicked" href="/" label="回首頁" payload={{ area: "experience_flow", target: "home" }}>
-          回首頁
-        </TrackedLink>
-        <TrackedLink eventName="briefing_link_clicked" href="/weekly" label="閱讀市場週報" payload={{ area: "experience_flow", target: "weekly" }}>
-          市場週報
-        </TrackedLink>
-        <TrackedLink eventName="briefing_link_clicked" href="/membership" label="查看會員功能預覽" payload={{ area: "experience_flow", target: "membership" }}>
-          會員功能預覽
-        </TrackedLink>
-      </nav>
+      <PublicNextReadingFlow context="briefing" stockSymbol={market.asset.symbol} />
       <PublicBetaMembershipMvpRoadmap />
 
       <article className="disclaimer">

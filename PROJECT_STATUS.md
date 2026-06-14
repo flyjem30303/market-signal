@@ -2,6 +2,37 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Public Next Reading Flow Pass
+
+Status: `public_next_reading_flow_ready`
+
+CEO decision:
+
+- Keep Phase 1 focused on a public free product that ordinary visitors can understand without internal project context.
+- The Home, briefing, weekly, and stock routes should share one clear next-step reading flow: market overview, briefing, weekly context, stock/index status, methodology, and risk disclosure.
+- This improves the 30-second to 3-minute BRIEF loop without opening Phase 2 membership implementation, SQL, Supabase writes, market-data fetches, or real-data promotion.
+
+PM completed:
+
+- Added `src/components/public-next-reading-flow.tsx`.
+- Wired the shared next reading flow into the Home/stock shell, `/briefing`, and `/weekly`.
+- Updated `.next-reading-panel` styling so the flow reads as product guidance rather than internal navigation residue.
+- Updated `check:experience-flow-navigation` to verify the shared component and rendered public routes.
+
+Checks passed:
+
+- `check:experience-flow-navigation`
+- `check:public-visible-language-quality`
+- `npx tsc --noEmit`
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public source promotion, real score promotion, real-time claim, official endorsement claim, guaranteed-return claim, investment-advice claim, production env mutation, DNS change, Vercel dashboard mutation, or membership implementation occurred. Runtime remains mock/demo.
+
+Next:
+
+Run the full focused review gate, then continue Phase 1 by tightening release-readiness evidence or the homepage first-screen decision hierarchy.
+
 ### Public Support Route Reading Contract Pass
 
 Status: `public_support_route_reading_contract_ready`

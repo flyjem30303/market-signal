@@ -12334,6 +12334,20 @@ input[type="search"] {
 .next-reading-panel {
   display: grid;
   gap: 12px;
+  border-color: rgba(8, 128, 112, 0.18);
+  background: #f8fbfa;
+}
+
+.next-reading-panel h2 {
+  font-size: 22px;
+  line-height: 1.25;
+  margin: 0 0 8px;
+}
+
+.next-reading-panel p {
+  color: var(--muted);
+  line-height: 1.65;
+  margin: 0;
 }
 
 .next-reading-panel .briefing-actions {

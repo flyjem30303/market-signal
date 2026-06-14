@@ -8,6 +8,36 @@ Owner: PM mainline
 
 ## Latest Mainline Decision - 2026-06-14
 
+### Public Next Reading Flow Pass
+
+CEO decision:
+
+- Continue Phase 1 as a public/free index-lighting experience.
+- The next-step journey should be explicit across the highest-traffic routes, not hidden in scattered links.
+- Home, briefing, weekly, and stock routes now need one shared reading flow that helps users move from 30-second market atmosphere to 3-minute action judgment.
+- Keep Phase 2 membership as roadmap/preview and keep real-data promotion closed.
+
+PM completed:
+
+- Added `PublicNextReadingFlow`.
+- Wired it into the shared Home/stock shell, `/briefing`, and `/weekly`.
+- Updated route-flow styling and `check:experience-flow-navigation`.
+- Verified the rendered routes do not expose internal development terms, raw-data terms, SQL/Supabase operational residue, or mojibake.
+
+Checks passed:
+
+- `check:experience-flow-navigation`
+- `check:public-visible-language-quality`
+- `npx tsc --noEmit`
+
+Current route:
+
+- `public_next_reading_flow_ready`
+
+Next PM slice:
+
+- Run the full focused review gate, then choose between release-readiness evidence and homepage first-screen decision hierarchy based on which has the larger Phase 1 launch impact.
+
 ### Public Support Route Reading Contract Pass
 
 CEO decision:

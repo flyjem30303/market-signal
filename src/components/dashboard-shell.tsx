@@ -7,6 +7,7 @@ import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { PublicBetaMembershipMvpRoadmap } from "@/components/public-beta-membership-mvp-roadmap";
 import { PublicBetaPublicStatusSurface } from "@/components/public-beta-public-status-surface";
 import { PublicBetaSourceCoverageBridge } from "@/components/public-beta-source-coverage-bridge";
+import { PublicNextReadingFlow } from "@/components/public-next-reading-flow";
 import { TrackedLink } from "@/components/tracked-link";
 import { buildMockDataFreshnessSnapshot, type DataFreshnessSnapshot } from "@/lib/data-freshness";
 import {
@@ -81,6 +82,7 @@ export function DashboardShell({
           本頁不提供買賣建議，也不提供個股買賣建議；個股頁燈號不應直接視為個股買賣建議。
         </p>
       </section>
+      <PublicNextReadingFlow context={isStockPage ? "stock" : "home"} stockSymbol={selected.symbol} />
 
       {!isStockPage && (
         <>

@@ -6,6 +6,7 @@ const reviewGatePath = "scripts/check-review-gates.mjs";
 const weeklyPath = "src/app/weekly/page.tsx";
 const briefingPath = "src/app/briefing/page.tsx";
 const dashboardPath = "src/components/dashboard-shell.tsx";
+const componentPath = "src/components/public-next-reading-flow.tsx";
 const cssPath = "src/app/globals.css";
 
 const publicRouteRequirements = [
@@ -55,6 +56,7 @@ const reviewGate = read(reviewGatePath);
 const weekly = read(weeklyPath);
 const briefing = read(briefingPath);
 const dashboard = read(dashboardPath);
+const component = read(componentPath);
 const css = read(cssPath);
 
 if (packageJson.scripts?.["check:experience-flow-navigation"] !== "node scripts/check-experience-flow-navigation.mjs") {
@@ -66,9 +68,25 @@ if (!reviewGate.includes("scripts/check-experience-flow-navigation.mjs") || !rev
 }
 
 for (const [source, filePath, phrases] of [
-  [weekly, weeklyPath, ['aria-label="週報閱讀順序"', 'payload={{ area: "experience_flow"', 'href="/"', 'href="/briefing"', 'href="/methodology"', 'href="/disclaimer"']],
-  [briefing, briefingPath, ['aria-label="晨報閱讀順序"', 'payload={{ area: "experience_flow"', 'href="/"', 'href="/weekly"', 'href="/methodology"', 'href="/disclaimer"']],
-  [dashboard, dashboardPath, ["下一步閱讀", 'href="/briefing"', 'href="/weekly"', 'href="/methodology"', 'href="/disclaimer"']],
+  [weekly, weeklyPath, ['PublicNextReadingFlow context="weekly"', "stockSymbol={market.asset.symbol}"]],
+  [briefing, briefingPath, ['PublicNextReadingFlow context="briefing"', "stockSymbol={market.asset.symbol}"]],
+  [dashboard, dashboardPath, ['PublicNextReadingFlow context={isStockPage ? "stock" : "home"}', "stockSymbol={selected.symbol}"]],
+  [
+    component,
+    componentPath,
+    [
+      'ariaLabel: "晨報閱讀順序"',
+      'ariaLabel: "週報閱讀順序"',
+      "下一步閱讀",
+      "市場晨報",
+      "今日簡報",
+      "指數狀態",
+      "方法說明",
+      "風險聲明",
+      "風險揭露",
+      'payload={{ area: "experience_flow", context, target: link.target }}'
+    ]
+  ],
   [css, cssPath, [".experience-flow-nav", ".next-reading-panel"]]
 ]) {
   for (const phrase of phrases) {

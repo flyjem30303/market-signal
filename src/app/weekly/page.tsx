@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { PageViewTracker } from "@/components/page-view-tracker";
+import { PublicNextReadingFlow } from "@/components/public-next-reading-flow";
 import { TrackedLink } from "@/components/tracked-link";
 import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
 import {
@@ -95,18 +96,7 @@ export default async function WeeklyPage() {
         </article>
       </section>
 
-      <nav aria-label="下一步閱讀" className="experience-flow-nav">
-        <span>下一步</span>
-        <TrackedLink eventName="weekly_link_clicked" href="/briefing" label="閱讀每日市場晨報" payload={{ area: "weekly_next" }}>
-          每日市場晨報
-        </TrackedLink>
-        <TrackedLink eventName="weekly_link_clicked" href="/methodology" label="查看燈號方法" payload={{ area: "weekly_next" }}>
-          燈號方法
-        </TrackedLink>
-        <TrackedLink eventName="weekly_link_clicked" href="/disclaimer" label="查看風險聲明" payload={{ area: "weekly_next" }}>
-          風險聲明
-        </TrackedLink>
-      </nav>
+      <PublicNextReadingFlow context="weekly" stockSymbol={market.asset.symbol} />
     </main>
   );
 }
