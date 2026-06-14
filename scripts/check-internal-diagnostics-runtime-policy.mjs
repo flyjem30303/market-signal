@@ -4,8 +4,8 @@ import path from "node:path";
 const root = process.cwd();
 const internalPageRoot = "src/app/internal";
 const internalApiRoot = "src/app/api/internal";
-const sitemapPath = "src/app/sitemap.xml/route.ts";
-const robotsPath = "src/app/robots.txt/route.ts";
+const sitemapPath = "src/app/sitemap.ts";
+const robotsPath = "src/app/robots.ts";
 const publicEntryFiles = [
   "src/app/page.tsx",
   "src/app/briefing/page.tsx",
@@ -64,7 +64,7 @@ for (const file of internalApiRoutes) {
 
 if (fs.existsSync(path.join(root, robotsPath))) {
   const robots = fs.readFileSync(path.join(root, robotsPath), "utf8");
-  for (const token of ['"Disallow: /internal"', '"Disallow: /api/internal"', '"Allow: /"']) {
+  for (const token of ['"/internal"', '"/api/internal"', 'allow: "/"']) {
     if (!robots.includes(token)) {
       findings.push({ file: robotsPath, issue: `missing robots policy token: ${token}` });
     }

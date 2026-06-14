@@ -61,7 +61,7 @@ requireIncludes(cssPath, css, [
 requireIncludes(briefPath, brief, [
   "會員 MVP 優先內容包含",
   "每日會員專區《市場三層解讀》",
-  "會員自選追蹤 + 自訂警示條件",
+  "會員自選追蹤（watchlist）+ 自訂警示條件",
   "盤後複盤報告",
   "Phase 1 is current execution priority.",
   "Phase 2 should not delay Phase 1 launch readiness."

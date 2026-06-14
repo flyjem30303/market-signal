@@ -12,6 +12,8 @@ Phase 2 comes later.
 
 PM owns the product/runtime engineering line and must keep the public/free index-lighting site moving toward public Beta. Membership work should stay as a roadmap and planning lane until the public experience is stable.
 
+Updated CEO direction: Phase 2 is not cancelled. It becomes a small parallel planning lane so membership strategy is not lost, but Phase 2 runtime implementation remains blocked until Phase 1 is stable and publicly usable.
+
 ## Mainline Objective
 
 The mainline objective is `phase_1_public_free_index_dashboard_usable_loop`.
@@ -86,7 +88,7 @@ A3 boundaries:
 
 ## A4 Membership MVP Planning Lane
 
-A4 Membership MVP Planning Lane is standby until Phase 1 is stable.
+A4 Membership MVP Planning Lane is a small planning-only parallel lane until Phase 1 is stable.
 
 A4 may plan:
 
@@ -104,6 +106,8 @@ A4 must not implement:
 - persisted watchlist
 - personalized alert execution
 - member-only content gating
+
+PM rule: A4 may receive 5% planning capacity for Phase 2 scope, but PM must pause A4 whenever Phase 1 public readability, route health, launch checks, data-boundary wording, or user-facing cleanup need the capacity.
 
 ## Runtime Stop Lines
 

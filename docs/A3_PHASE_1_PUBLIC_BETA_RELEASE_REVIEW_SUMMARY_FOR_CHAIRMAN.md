@@ -1,6 +1,6 @@
 # A3 Phase 1 Public Beta Release Review Summary For Chairman
 
-Updated: 2026-06-13
+Updated: 2026-06-14
 
 Status: `a3_phase_1_public_beta_release_review_summary_for_chairman_ready`
 
@@ -37,6 +37,9 @@ Meaning:
 | Area | Evidence |
 | --- | --- |
 | Public route cleanup | `cmd.exe /c npm run check:phase-1-public-beta-public-visible-residue-cleanup` |
+| Remote public Beta monitoring | `remote_monitoring_snapshot_passed_after_visual_review_refresh` |
+| Remote core quick proof | `check:public-beta-core-route-quick-proof` against `https://market-signal-two.vercel.app` |
+| Remote public surface audit | `check:public-surface-user-facing-audit` against `https://market-signal-two.vercel.app` |
 | A3 release ops index | `a3_phase_1_public_beta_release_ops_index_ready` |
 | Chairman review packet | `a3_phase_1_public_beta_chairman_review_packet_ready` |
 | Manual platform checklist | `a3_phase_1_public_beta_manual_platform_action_checklist_ready` |
@@ -44,6 +47,28 @@ Meaning:
 | Monitoring and repair runbook | `a3_phase_1_public_beta_monitoring_and_repair_runbook_ready` |
 | Keep-open/repair decision | `phase_1_public_beta_keep_open_or_repair_decision_ready_mock_only` |
 | Mock boundary | `publicDataSource=mock` and `scoreSource=mock` |
+
+## Latest Remote Evidence
+
+Latest remote target:
+
+- `https://market-signal-two.vercel.app`
+
+Latest remote checks passed:
+
+- 12 remote monitoring routes, including `/`, `/briefing`, `/weekly`, `/membership`, `/stocks/2330`, `/stocks/TWII`, legal routes, `robots.txt`, and `sitemap.xml`.
+- 10 core quick-proof routes.
+- 14 public-surface routes and 5 internal-boundary checks.
+
+Latest remote boundary:
+
+- `publicDataSource=mock`
+- `scoreSource=mock`
+- no SQL;
+- no Supabase read/write;
+- no market-data fetch;
+- no platform mutation;
+- no Phase 2 membership implementation.
 
 ## What Still Requires Operator Action
 

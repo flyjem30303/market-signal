@@ -162,7 +162,9 @@ Not owned:
 
 Current next tasks:
 
-- Stay as planning-only until PM decides Phase 1 public/free readiness is stable enough.
+- Run as a small 5% planning-only lane for Phase 2 membership readiness.
+- Prepare `membership_mvp_scope_and_free_paid_boundary` when it does not slow Phase 1.
+- Pause immediately if PM needs capacity for Phase 1 public route readability, route health, launch checks, or data-boundary clarity.
 
 ## D: Legal / Source Rights Review
 
@@ -230,4 +232,4 @@ All roles must keep these boundaries until CEO/PM explicitly changes the stage:
 - A3: stay guard-only unless work becomes production-affecting through deployment, environment, credential, DNS, monitoring, rollback, or cloud changes.
 - A4: keep Phase 2 membership planning ready, but do not block Phase 1.
 
-PM may run mainline, A1, A2, A3, and A4 in parallel. PM must not wait for support lanes when runtime work is locally safe.
+PM may run mainline, A1, A2, A3, and A4 in parallel. Current CEO allocation is PM 50%, A1 20%, A2 10%, A3 15%, and A4 5% planning-only. PM must not wait for support lanes when runtime work is locally safe.

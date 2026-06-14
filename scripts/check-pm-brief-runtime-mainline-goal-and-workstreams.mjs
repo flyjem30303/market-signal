@@ -21,6 +21,7 @@ const requiredPhrases = [
   [docPath, doc, "Phase 1 comes first"],
   [docPath, doc, "Phase 2 comes later"],
   [docPath, doc, "PM owns the product/runtime engineering line"],
+  [docPath, doc, "Phase 2 runtime implementation remains blocked until Phase 1 is stable"],
   [docPath, doc, "A1 Data / Source / Coverage Lane"],
   [docPath, doc, "A2 Public Copy / Product Safety Lane"],
   [docPath, doc, "A3 Launch / Production Engineering Lane"],
@@ -34,7 +35,8 @@ const requiredPhrases = [
   [docPath, doc, "no raw market-data fetch/store/commit"],
   [docPath, doc, "no investment advice"],
   [docPath, doc, "phase_1_public_free_index_dashboard_usable_loop"],
-  [phasePath, phase, "PM mainline: 55%"],
+  [phasePath, phase, "PM mainline: 50%"],
+  [phasePath, phase, "A4 Membership MVP Planning: 5% planning-only"],
   [phasePath, phase, "PM remains the integration owner"],
   [briefPath, brief, "指數燈號網站 BRIEF"],
   [briefPath, brief, "免費市場總覽 + 會員深度解讀 + 個人化追蹤"],
@@ -90,7 +92,7 @@ console.log(
         "A1 data/source/coverage",
         "A2 public copy/product safety",
         "A3 launch/production engineering",
-        "A4 membership MVP planning standby"
+        "A4 membership MVP planning-only"
       ],
       publicDataSource: "mock",
       scoreSource: "mock"

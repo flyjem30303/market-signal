@@ -35,7 +35,7 @@ requireIncludes("BRIEF", brief, [
   "Phase 1 is current execution priority.",
   "Phase 2 should not delay Phase 1 launch readiness.",
   "首頁可顯示市場總覽燈號、核心指標、主要風險提示與資料更新時間",
-  "會員自選追蹤 + 自訂警示條件",
+  "會員自選追蹤（watchlist）+ 自訂警示條件",
   "understand the market mood within 30 seconds",
   "decide within 3 minutes",
   "Home includes three layers: full-market overview, core indicator panel, alert list",

@@ -2,6 +2,47 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Revised BRIEF Phase Split And Parallel Workstream Adjustment
+
+Status: `revised_brief_phase_split_parallel_workstreams_ready`
+
+CEO decision:
+
+- Accept the revised `指數燈號網站 BRIEF` as the current product direction.
+- Split execution into Phase 1 and Phase 2.
+- Phase 1 is the current mainline: complete the public/free index-lighting site that all visitors can use.
+- Phase 2 is the membership MVP path: deeper interpretation, watchlist, custom alert conditions, post-market review, login/member access, and conversion metrics.
+- Phase 2 may be planned in parallel, but Phase 2 runtime implementation must not block Phase 1 public Beta readiness.
+
+PM execution rule:
+
+- PM remains the only integration owner.
+- Current allocation is PM 50%, A1 20%, A2 10%, A3 15%, and A4 5% planning-only.
+- PM should use larger coherent slices when governance becomes too fine.
+- A4 may prepare membership scope and free/member boundaries, but must pause if Phase 1 public readability, route health, launch checks, or data-boundary clarity need capacity.
+
+Workstream assignments:
+
+- PM: Phase 1 product/runtime integration, public route cleanup, runtime readability, checks, status, and Git backup.
+- A1: legal/free automated data-source evidence, coverage universe, field contracts, ingestion/backfill readiness, aggregate-only handoffs.
+- A2: public trust copy, data-source/update-time wording, delayed/non-real-time wording, non-investment-advice wording, free/member boundary copy.
+- A3: Vercel, env, metadata, sitemap, robots, smoke, monitoring, rollback, and post-deploy packets.
+- A4: Phase 2 membership MVP planning only: three-layer interpretation, watchlist/alert spec, post-market review structure, and conversion metrics.
+
+Build/runtime repair included:
+
+- Replaced dotted App Router route-handler files `src/app/sitemap.xml/route.ts` and `src/app/robots.txt/route.ts` with official Next metadata routes `src/app/sitemap.ts` and `src/app/robots.ts`.
+- Updated metadata/internal/public-route checkers to read the new canonical files while preserving public URLs `/sitemap.xml` and `/robots.txt`.
+- This removes a recurring local/Vercel build-risk pattern where `/sitemap.xml` could be misclassified as a page module during `next build`.
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public data-source promotion, real score promotion, Phase 2 login/payment/watchlist persistence/personalized alert execution/member-only gating, real-time claim, official endorsement claim, guaranteed-return claim, or investment-advice claim occurred.
+
+Next:
+
+Continue Phase 1 public/free BRIEF execution. PM should keep removing any remaining public-route residue and improve user-facing clarity; A1/A2/A3/A4 run in parallel only where their outputs reduce mainline risk or prepare the next gate.
+
 ### A3 Remote Public Beta Smoke And Monitoring Refresh
 
 Status: `a3_remote_public_beta_smoke_and_monitoring_refresh_ready`

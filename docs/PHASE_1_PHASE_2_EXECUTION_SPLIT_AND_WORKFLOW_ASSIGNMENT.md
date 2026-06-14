@@ -14,6 +14,8 @@ Phase 2 planning may continue, but Phase 2 implementation must not block Phase 1
 
 GOAL execution should keep PM on Phase 1 product/runtime integration. A1, A2, A3, and A4 may run in parallel only when their output reduces mainline risk or prepares a future gate.
 
+CEO confirmation after the revised BRIEF: split execution is required. Phase 1 must finish the usable public/free site first; Phase 2 membership may be specified in parallel but must not enter runtime implementation until Phase 1 is stable.
+
 ## Current GOAL Operating Shape
 
 The current GOAL is `phase_1_public_free_index_dashboard_usable_loop`.
@@ -24,11 +26,11 @@ Use larger coherent slices when governance becomes too fine.
 
 Recommended workstream split:
 
-- PM mainline: 55%
+- PM mainline: 50%
 - A1 Data / Source / Coverage: 20%
 - A2 Public Copy / Product Safety: 10%
 - A3 Launch / Production Engineering: 15%
-- A4 Membership MVP Planning: standby only
+- A4 Membership MVP Planning: 5% planning-only
 
 ## PM Mainline
 
@@ -82,7 +84,7 @@ A3 must not mutate production environment, DNS, secrets, or platform settings wi
 
 ## A4 Membership MVP Planning
 
-A4 owns planning only:
+A4 owns planning only and may run in parallel when PM wants Phase 2 readiness without blocking Phase 1:
 
 - Membership preview may remain visible.
 - Phase 2 content architecture.
@@ -91,6 +93,8 @@ A4 owns planning only:
 - Member content boundary and safety wording.
 
 A4 must not implement login, payment, persisted watchlist, personalized alerts, or member-only content during Phase 1.
+
+A4 output is useful only when it makes Phase 2 cheaper later. If A4 starts slowing Phase 1 public route cleanup, runtime readability, data-boundary clarity, or launch checks, PM must pause A4 and return capacity to Phase 1.
 
 ## Stop Lines
 

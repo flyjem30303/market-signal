@@ -98,7 +98,7 @@ They are not required for Phase 1 `GO`, as long as the public site clearly commu
 | A1 | Data / source / coverage | Continue legal-free-source and coverage planning independently without raw fetch, SQL, Supabase writes, or real promotion. |
 | A2 | Trust / legal / public copy guard | Keep non-advice, source/delay, free/member boundary, and public wording safe. |
 | A3 | Launch / production engineering | Own release go/no-go, deployment checklist, post-deploy smoke, rollback, metadata, monitoring, and platform readiness. |
-| A4 | Membership MVP planning | Stay standby until PM activates Phase 2 planning; do not block Phase 1. |
+| A4 | Membership MVP planning | Run as 5% planning-only Phase 2 preparation; do not implement membership runtime or block Phase 1. |
 
 ## Stop Lines
 

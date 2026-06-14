@@ -30,24 +30,27 @@ requireIncludes(docPath, doc, [
   "Use larger coherent slices",
   "phase_1_public_free_index_dashboard_usable_loop",
   "PM remains the integration owner",
-  "PM mainline: 55%",
+  "PM mainline: 50%",
+  "A4 Membership MVP Planning: 5% planning-only",
   "operator/governance console",
   "publicDataSource=supabase",
   "scoreSource=real",
-  "Membership preview may remain visible"
+  "Membership preview may remain visible",
+  "CEO confirmation after the revised BRIEF: split execution is required"
 ]);
 
 requireIncludes(briefPath, brief, [
   "index_signal_brief_phase_1_public_first_phase_2_membership_path",
   "指數燈號網站 BRIEF",
   "免費市場總覽 + 會員深度解讀 + 個人化追蹤",
-  "會員 watchlist + 自訂警示條件",
+  "會員自選追蹤（watchlist）+ 自訂警示條件",
   "盤後複盤報告",
   "本網站定位為市場資訊整理、風險辨識與觀察輔助工具",
   "Phase 1 is the public free index-lighting site",
   "Phase 2 is the membership MVP path",
   "Phase 1 is current execution priority.",
   "Phase 2 should not delay Phase 1 launch readiness.",
+  "CEO 判斷：必須切成 Phase 1 / Phase 2",
   "understand the market mood within 30 seconds",
   "decide within 3 minutes"
 ]);

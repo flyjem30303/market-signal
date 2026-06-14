@@ -30,7 +30,7 @@ const sourceFiles = [
   "src/app/disclaimer/page.tsx",
   "src/app/terms/page.tsx",
   "src/app/privacy/page.tsx",
-  "src/app/sitemap.xml/route.ts"
+  "src/app/sitemap.ts"
 ];
 
 const routeVisibleContracts = [

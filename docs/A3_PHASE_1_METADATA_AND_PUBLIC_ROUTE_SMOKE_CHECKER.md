@@ -46,9 +46,9 @@ The route smoke list is inherited from `docs/A3_PHASE_1_POST_DEPLOY_SMOKE_AND_MO
 - `/stocks/2330`
 - `/stocks/0050`
 
-`src/app/sitemap.xml/route.ts` must expose the public static routes and stock routes from the repository.
+`src/app/sitemap.ts` must expose the public static routes and stock routes from the repository.
 
-`src/app/robots.txt/route.ts` must allow public routes while blocking `/internal` and `/api/internal`.
+`src/app/robots.ts` must allow public routes while blocking `/internal` and `/api/internal`.
 
 ## Required Checker
 

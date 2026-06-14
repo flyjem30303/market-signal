@@ -6,8 +6,8 @@ const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 const layoutPath = "src/app/layout.tsx";
 const sitePath = "src/lib/site.ts";
-const sitemapPath = "src/app/sitemap.xml/route.ts";
-const robotsPath = "src/app/robots.txt/route.ts";
+const sitemapPath = "src/app/sitemap.ts";
+const robotsPath = "src/app/robots.ts";
 
 const pageMetadataFiles = [
   "src/app/briefing/page.tsx",
@@ -73,15 +73,15 @@ for (const filePath of pageMetadataFiles) {
 }
 
 const stockPage = read("src/app/stocks/[symbol]/page.tsx");
-for (const phrase of ["generateMetadata", "canonical", "openGraph", "siteConfig.name", "狀態儀表", "非投資建議", "資料更新時間"]) {
+for (const phrase of ["generateMetadata", "canonical", "openGraph", "siteConfig.name", "市場燈號", "非投資建議", "資料更新時間"]) {
   if (!stockPage.includes(phrase)) problems.push(`src/app/stocks/[symbol]/page.tsx missing stock metadata phrase: ${phrase}`);
 }
 
-for (const phrase of ["staticRoutes", '"/briefing"', '"/weekly"', '"/methodology"', '"/privacy"', '"/terms"', '"/disclaimer"', "repository.getAssets()", "/stocks/"]) {
+for (const phrase of ["staticRoutes", '"/briefing"', '"/weekly"', '"/methodology"', '"/privacy"', '"/terms"', '"/disclaimer"', "repository.getAssets()", "/stocks/", "MetadataRoute.Sitemap"]) {
   if (!sitemap.includes(phrase)) problems.push(`${sitemapPath} missing sitemap phrase: ${phrase}`);
 }
 
-for (const phrase of ["User-Agent: *", "Allow: /", "Disallow: /internal", "Disallow: /api/internal", "Sitemap:"]) {
+for (const phrase of ["MetadataRoute.Robots", 'userAgent: "*"', 'allow: "/"', '"/internal"', '"/api/internal"', 'absoluteUrl("/sitemap.xml")']) {
   if (!robots.includes(phrase)) problems.push(`${robotsPath} missing robots phrase: ${phrase}`);
 }
 
