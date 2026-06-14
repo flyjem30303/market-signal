@@ -2,6 +2,45 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Phase 1 Public Mainline Action Bridge Copy Repair
+
+Status: `phase_1_public_mainline_action_bridge_copy_repair_ready`
+
+CEO decision:
+
+- Continue the BRIEF Phase 1 public/free runtime path with concrete route copy repairs.
+- Prioritize wording that proves the public site can communicate the product promise: `30 秒可讀`, `3 分鐘可行動`, market-action summary,示範資料 boundary, and formal-data-not-enabled trust copy.
+- Keep membership runtime, real data promotion, and platform operations out of this slice.
+
+PM completed:
+
+- Added `指數狀態儀表站`, `30 秒可讀`, and `3 分鐘可行動` to the Home public reading path.
+- Added Briefing copy for `目前公開頁以示範資料呈現閱讀流程` and `使用提醒`.
+- Added Weekly copy for `正式資料尚未啟用`.
+- Preserved the previous stock decision compass and source/coverage labels.
+
+Checks passed:
+
+- `check:briefing-midpage-readability`
+- `check:public-beta-decision-journey-panel`
+- `check:a2-home-first-screen-public-copy-handoff`
+- `check:public-beta-route-local-trust-visual-consistency`
+- `check:public-beta-mainline-action-bridge`
+- `check:public-visible-language-quality`
+- `check:public-surface-user-facing-audit`
+- `check:public-beta-core-route-quick-proof`
+- `check:phase-1-phase-2-execution-split-and-workflow-assignment`
+- `npx tsc --noEmit`
+- Browser visible-text smoke for `/`, `/briefing`, and `/weekly`
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public data-source promotion, real score promotion, production deploy, DNS change, production environment mutation, login implementation, payment implementation, persisted watchlist, personalized alert execution, member-only content gating, brokerage integration, promised-return claim, or investment-advice claim occurred.
+
+Next:
+
+Continue Phase 1 route cleanup by replacing older body copy blocks and checking remaining focused route gates. If a remaining gate is historical/data-line-only, keep PM on public runtime and assign A1/A2/A3/A4 support lanes rather than blocking mainline.
+
 ### Phase 1 Public Runtime Readability Anchor Repair
 
 Status: `phase_1_public_runtime_readability_anchor_repair_ready`

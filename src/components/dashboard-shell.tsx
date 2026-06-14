@@ -91,12 +91,12 @@ export function DashboardShell({
         <section className="home-public-beta-layers" aria-label="首頁三層市場視圖">
           <div className="home-public-beta-layer active">
             <span>核心指標面板</span>
-            <strong>30 秒看懂市場燈號</strong>
+            <strong>指數狀態儀表站：30 秒可讀</strong>
             <p>先看市場狀態、風險熱度、資料品質與更新時間，快速判斷目前偏多、觀望、警戒或高風險。</p>
           </div>
           <div className="home-public-beta-layer readying">
             <span>警示清單</span>
-            <strong>3 分鐘行動判斷</strong>
+            <strong>3 分鐘可行動</strong>
             <p>再看成因、影響級別與下一步觀察，決定是否關注、加強複核或降低風險曝露。</p>
           </div>
           <div className="home-public-beta-layer blocked">
