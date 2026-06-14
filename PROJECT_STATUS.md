@@ -2,6 +2,47 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Revised BRIEF And Workstream Recovery Anchor Cleanup Pass
+
+Status: `revised_brief_workstream_recovery_anchor_ready`
+
+CEO decision:
+
+- Accept the chairman's revised BRIEF as the current product target.
+- Split the target into Phase 1 and Phase 2:
+  - Phase 1: public/free index-lighting dashboard that all visitors can use.
+  - Phase 2: membership MVP with deeper interpretation, watchlist, alerts, and after-market review.
+- Keep Phase 1 as the mainline until the public/free experience is stable, readable, and launchable.
+- Keep Phase 2 visible as a roadmap and planning lane only; do not let membership architecture slow Phase 1 delivery.
+- Use PM + A1/A2/A3/A4 in parallel, with PM as the only integration owner.
+
+PM completed:
+
+- Rebuilt `docs/PUBLIC_BETA_INDEX_DASHBOARD_BRIEF.md` as the canonical clean BRIEF.
+- Rebuilt `docs/PHASE_1_PHASE_2_EXECUTION_SPLIT_AND_WORKFLOW_ASSIGNMENT.md` to preserve the Phase 1 / Phase 2 split and PM/A1/A2/A3/A4 allocation.
+- Rebuilt `docs/PM_BRIEF_RUNTIME_MAINLINE_GOAL_AND_WORKSTREAMS.md` so GOAL continuation uses the revised BRIEF instead of obsolete governance anchors.
+- Rebuilt `docs/ROLE_WORKSTREAMS.md` so A1/A2/A3/A4 support lanes match the current project strategy.
+- Updated the related local checkers so future compaction or background runs fail if mojibake, obsolete phase guidance, or forbidden data-promotion wording returns.
+
+Checks passed:
+
+- `check:phase-1-phase-2-execution-split-and-workflow-assignment`
+- `check:pm-brief-runtime-mainline-goal-and-workstreams`
+- `check:role-workstreams`
+- `check:public-visible-language-quality`
+- `check:phase-1-public-beta-public-visible-residue-cleanup`
+- `check:public-beta-index-dashboard-brief-loop`
+- `tsc --noEmit`
+- `build`
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public data-source promotion, real score promotion, membership implementation, login, payment, watchlist persistence, personalized alert execution, real-time claim, official endorsement claim, guaranteed-return claim, or investment-advice claim occurred.
+
+Next:
+
+Continue Phase 1 public/free BRIEF execution. PM should keep cleaning and validating the public visitor journey; A1 should continue legal/free automated source and coverage work; A2 should keep public copy and disclosure gates aligned; A3 should own launch/deploy monitoring readiness; A4 should plan membership MVP only, without implementation until Phase 1 is stable.
+
 ### Home Weekly Public Data Display Cleanup Pass
 
 Status: `home_weekly_public_data_display_cleanup_ready`

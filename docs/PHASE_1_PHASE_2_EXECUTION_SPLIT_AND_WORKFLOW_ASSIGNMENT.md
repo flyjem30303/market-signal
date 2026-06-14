@@ -4,166 +4,115 @@ Updated: 2026-06-14
 
 Status: `phase_1_phase_2_execution_split_ready`
 
-Owner: CEO / PM
+## Decision
 
-## Purpose
+Phase 1 is the public free index-lighting site.
 
-This document keeps the revised `指數燈號網站 BRIEF` executable without slowing the project down.
+Phase 2 is the membership MVP path.
 
-CEO decision:
+Phase 2 planning may continue, but Phase 2 implementation must not block Phase 1 public Beta readiness.
 
-- Phase 1 is the current mainline.
-- Phase 1 is the public free index-lighting site that every visitor can use.
-- Phase 2 is the membership MVP path.
-- Phase 2 planning may continue, but Phase 2 implementation must not block Phase 1 public Beta readiness.
-- The chairman's latest BRIEF revision keeps membership as the next product direction, but confirms that the first launch must be usable by non-members first.
-- GOAL execution should keep PM on Phase 1 product/runtime integration while A1/A2/A3/A4 continue only support work that does not slow the public free launch.
-
-## Phase 1 Current Mainline
-
-Phase 1 delivers the public free experience.
-
-A general investor should be able to understand:
-
-- current market mood,
-- signal status,
-- signal reason,
-- core indicator summary,
-- risk reminder,
-- update time,
-- source/data boundary,
-- next observation.
-
-Phase 1 can launch only when public pages are clean, readable, route-healthy, and honest about demonstrative data.
-
-Phase 1 does not require:
-
-- membership login,
-- payment,
-- member-only content,
-- watchlist persistence,
-- custom alert persistence,
-- broker integration,
-- real-data promotion.
-
-## Phase 2 Membership MVP
-
-Phase 2 starts only after PM decides Phase 1 public Beta readiness is stable enough.
-
-Phase 2 scope:
-
-- registration/login,
-- member-only daily market three-layer interpretation,
-- watchlist,
-- one custom alert condition MVP,
-- post-market review report,
-- conversion and retention metrics.
-
-Phase 2 remains non-investment-advice. It must explain, contextualize, and help users observe; it must not tell users to buy or sell.
-
-## Workflow Assignment
-
-PM mainline:
-
-- Phase 1 product/runtime integration,
-- public page readability,
-- market-light status hierarchy,
-- route health,
-- final launch status alignment.
-
-A1 Data / Source / Coverage:
-
-- legal free automated source candidates,
-- coverage universe,
-- field contracts,
-- ingestion/backfill readiness,
-- no raw market-row fetch or Supabase write unless explicitly opened later.
-
-A2 Public Copy / Product Safety:
-
-- public trust copy,
-- non-investment-advice boundary,
-- data-source and update-time disclosure,
-- free/member boundary copy.
-
-A3 Launch / Production Engineering:
-
-- Vercel/project/env inventory,
-- domain and production routing,
-- public route smoke,
-- monitoring,
-- rollback,
-- SEO and analytics readiness.
-
-A4 Membership MVP Planning:
-
-- Phase 2 planning only,
-- free/member boundary,
-- member information architecture,
-- watchlist and alert MVP shape,
-- post-market review template.
-
-## Acceleration Rule
-
-Use larger coherent slices when the work is mostly alignment or cleanup.
-
-Do not create a new governance artifact unless it unlocks one of these:
-
-- public route readiness,
-- source/data trust,
-- launch operator action,
-- rollback or repair decision,
-- membership boundary clarity,
-- checker removal of stale internal/development residue.
-
-## Hard Boundaries
-
-Until a later gate explicitly opens the action, do not:
-
-- run SQL,
-- write Supabase,
-- create staging rows,
-- modify `daily_prices`,
-- fetch, store, or commit raw market data,
-- print secrets or raw payloads,
-- set `publicDataSource=supabase`,
-- set `scoreSource=real`,
-- claim real-time market data,
-- claim investment advice,
-- implement Phase 2 membership as a Phase 1 blocker.
-
-## Current Next Route
-
-`phase_1_public_free_index_dashboard_usable_loop`
-
-The next PM route should push Phase 1 as a public product, not as an operator/governance console:
-
-1. make the public home, briefing, weekly, stock, methodology, disclaimer, terms, and privacy routes readable to general investors;
-2. keep every public surface centered on market status, signal reason, update time, risk reminder, source/data boundary, and next observation;
-3. remove or hide anything that looks like development workflow, internal role work, hard blockers, command snippets, local paths, raw payloads, or platform-operation residue;
-4. keep Phase 2 membership visible only as a roadmap until Phase 1 public Beta readiness is stable;
-5. hand only the minimum accepted output to A3 launch operations when public-route readability and local checks are green.
-
-If a future operator or platform action is needed, A3 may use the existing no-secret checklist. Until then, PM should keep moving on the Phase 1 public usable loop instead of creating more operator packets.
+GOAL execution should keep PM on Phase 1 product/runtime integration. A1, A2, A3, and A4 may run in parallel only when their output reduces mainline risk or prepares a future gate.
 
 ## Current GOAL Operating Shape
 
-The active GOAL should be interpreted as a multi-line execution system:
+The current GOAL is `phase_1_public_free_index_dashboard_usable_loop`.
 
-- PM stays on the mainline: public free product usability, runtime readability, route health, public page cleanup, and launch integration.
-- A1 stays on data/source/coverage: legal free automated source candidates, coverage universe, field contracts, ingestion/backfill readiness, and aggregate-only handoff.
-- A2 stays on trust and copy: risk disclosure, source/update-time copy, non-investment-advice wording, free/member boundary, and public residue cleanup.
-- A3 stays on launch engineering: Vercel, env inventory, smoke checks, monitoring, rollback, SEO, analytics, and post-deploy evidence.
-- A4 stays optional and Phase 2 only: membership MVP planning, information architecture, watchlist/alert/report shape, and conversion metrics design.
+PM remains the integration owner.
 
-CEO may adjust line ratios at any time. Default ratio while Phase 1 is not fully stable: PM 55%, A1 20%, A2 10%, A3 15%, A4 planning only when it removes Phase 2 ambiguity.
+Use larger coherent slices when governance becomes too fine.
 
-## 2026-06-14 Chairman BRIEF Adjustment
+Recommended workstream split:
 
-The chairman's latest BRIEF keeps the long-term membership direction, but CEO confirms the execution order:
+- PM mainline: 55%
+- A1 Data / Source / Coverage: 20%
+- A2 Public Copy / Product Safety: 10%
+- A3 Launch / Production Engineering: 15%
+- A4 Membership MVP Planning: standby only
 
-1. Phase 1 first: ship the public free index signal website for all visitors.
-2. Phase 2 later: build membership MVP only after Phase 1 is stable enough.
-3. Membership preview may remain visible, but login, payment, watchlist persistence, custom alert persistence, and member-only report access are not Phase 1 blockers.
-4. The current GOAL should continue to push the public Beta usable loop: market signal, reason, risk reminder, update time, source/data boundary, and next observation.
-5. A1/A2/A3/A4 can work in parallel, but PM remains the integration owner and must prevent support-lane work from slowing the free public launch.
+## PM Mainline
+
+PM owns:
+
+- Home / briefing / weekly / stock route integration.
+- Public runtime comprehension.
+- Public visible residue cleanup.
+- Data-boundary readability.
+- Non-investment-advice placement.
+- Checkers, build health, status, Git backup.
+
+PM must not wait for A1/A2/A3/A4 when local Phase 1 work is safe.
+
+## A1 Data / Source / Coverage
+
+A1 owns:
+
+- Legal/free automated data-source evidence.
+- Coverage universe and row coverage planning.
+- Field contracts.
+- Ingestion/backfill readiness.
+- Aggregate-only handoffs.
+
+A1 must not fetch, store, or commit raw market data unless PM/CEO explicitly opens that stage.
+
+## A2 Public Copy / Product Safety
+
+A2 owns:
+
+- Public trust copy.
+- Data-source and update-time explanation.
+- Delayed/non-real-time wording.
+- Non-investment-advice wording.
+- No-official-endorsement wording.
+- Free/member boundary copy.
+
+A2 should flag comprehension blockers before cosmetic polish.
+
+## A3 Launch / Production Engineering
+
+A3 owns:
+
+- Vercel deployment checks.
+- Environment variable inventory.
+- Metadata, sitemap, robots.
+- Monitoring and rollback.
+- Post-deploy smoke reports.
+
+A3 must not mutate production environment, DNS, secrets, or platform settings without PM/CEO approval.
+
+## A4 Membership MVP Planning
+
+A4 owns planning only:
+
+- Membership preview may remain visible.
+- Phase 2 content architecture.
+- watchlist / alert / post-market review MVP spec.
+- Free/member conversion metrics.
+- Member content boundary and safety wording.
+
+A4 must not implement login, payment, persisted watchlist, personalized alerts, or member-only content during Phase 1.
+
+## Stop Lines
+
+Do not execute or approve:
+
+- SQL execution.
+- Supabase read/write beyond separately authorized bounded readonly checks.
+- staging-row creation.
+- `daily_prices` mutation.
+- raw market-data fetch.
+- raw market-data storage or commit.
+- `publicDataSource=supabase`.
+- `scoreSource=real`.
+- Phase 2 login or payment.
+- production deploy, DNS change, or production env mutation without A3 and PM readiness.
+- operator/governance console text on public pages.
+
+## Review Gates
+
+Before claiming Phase 1 progress:
+
+- Public pages must not show internal role names, commands, local paths, raw data identifiers, or governance packet language.
+- Public pages must show data update time, data boundary, and non-investment-advice wording.
+- Public pages must remain readable in Traditional Chinese.
+- `publicDataSource=mock` and `scoreSource=mock` remain true until promotion gates are explicitly opened.

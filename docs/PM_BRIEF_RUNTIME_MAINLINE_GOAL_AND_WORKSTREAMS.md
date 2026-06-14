@@ -4,198 +4,129 @@ Updated: 2026-06-14
 
 Status: `pm_brief_runtime_mainline_goal_ready`
 
-Owner: PM mainline
+## Chairman BRIEF Phase 1 / Phase 2 Acceleration Decision
 
-## Current CEO Decision
+Phase 1 comes first.
 
-### Chairman BRIEF Phase 1 / Phase 2 Acceleration Decision
+Phase 2 comes later.
 
-Accept the chairman's latest `指數燈號網站 BRIEF` as the current product direction.
+PM owns the product/runtime engineering line and must keep the public/free index-lighting site moving toward public Beta. Membership work should stay as a roadmap and planning lane until the public experience is stable.
 
-Phase 1 comes first:
+## Mainline Objective
 
-- public free index-lighting site,
-- all visitors can use it without login,
-- market state, signal reason, risk reminder, update time, source/data boundary, and next observation are visible,
-- Home, briefing, weekly, stock, methodology, disclaimer, terms, and privacy routes must be readable to general investors,
-- public pages must not expose internal workflow, local commands, hard blockers, raw payload terms, operator packets, or development residue.
+The mainline objective is `phase_1_public_free_index_dashboard_usable_loop`.
 
-Phase 2 comes later:
+PM should improve the product in larger coherent slices:
 
-- membership MVP,
-- member-only daily three-layer interpretation,
-- watchlist/custom alerts,
-- post-market review,
-- conversion and retention metrics.
+- market mood in 30 seconds
+- action judgment in 3 minutes
+- full-market overview
+- core indicator panel
+- alert list
+- data update time
+- data boundary
+- non-investment-advice disclosure
+- stable public route health
 
-Phase 2 membership strategy is important, but login, payment, watchlist persistence, alert persistence, and member-only reports must not slow Phase 1 public Beta readiness.
+Avoid over-governance. Governance exists only to keep the project safe and continuous; it must not replace product/runtime progress.
 
-## Active GOAL Interpretation
+## A1 Data / Source / Coverage Lane
 
-The current GOAL should push toward a public Beta usable loop, not a governance console.
+A1 prepares legal/free automated source and coverage evidence.
 
-Completion direction:
+Current A1 focus:
 
-- user can understand market mood within 30 seconds;
-- user can decide within 3 minutes whether to observe, review risk, or wait;
-- every core signal has state, reason, update time, and next observation;
-- public pages state that data is demonstrative until source, coverage, quality, and runtime gates pass;
-- non-investment-advice language stays visible;
-- membership remains preview/roadmap until Phase 1 is stable.
+- legal free source confirmation
+- coverage universe roadmap
+- field-contract readiness
+- ingestion/backfill readiness
+- synthetic or aggregate-only artifacts when needed
 
-## Workstreams
+A1 boundaries:
 
-PM owns the product/runtime engineering line:
+- no SQL execution
+- no Supabase writes
+- no `daily_prices` mutation
+- no raw market-data fetch/store/commit
+- no secret output
 
-- public free product usability,
-- runtime readability,
-- route health,
-- public page cleanup,
-- public route integration,
-- launch-readiness consolidation.
+## A2 Public Copy / Product Safety Lane
 
-A1 Data / Source / Coverage Lane:
+A2 prepares public copy and safety guardrails.
 
-- legal free automated source candidates,
-- coverage universe,
-- field contracts,
-- ingestion/backfill readiness,
-- aggregate-only handoff.
+Current A2 focus:
 
-A2 Public Copy / Product Safety Lane:
+- data-source wording
+- delayed/non-real-time wording
+- non-investment-advice wording
+- no-official-endorsement wording
+- free/member boundary wording
+- visible-language regression checks
 
-- trust copy,
-- risk disclosure,
-- source/update-time wording,
-- non-investment-advice,
-- free/member boundary.
+## A3 Launch / Production Engineering Lane
 
-A3 Launch / Production Engineering Lane:
+A3 prepares launch engineering.
 
-- Vercel and environment inventory,
-- route smoke,
-- monitoring,
-- rollback,
-- SEO and analytics readiness,
-- post-deploy evidence.
+Current A3 focus:
 
-A4 Membership MVP Planning Lane:
+- Vercel health
+- metadata / sitemap / robots
+- monitoring
+- rollback
+- environment readiness
+- post-deploy smoke checks
 
-- planning-only until Phase 1 is stable,
-- membership information architecture,
-- watchlist/custom alert shape,
-- post-market review template,
-- conversion metric design.
+A3 boundaries:
 
-## Default Work Ratio
+- no production env mutation without PM/CEO approval
+- no DNS change without PM/CEO approval
+- no credential, OTP, payment, or account-verification action on behalf of the chairman
 
-Until Phase 1 is stable enough for public Beta:
+## A4 Membership MVP Planning Lane
 
-- PM: 55%
-- A1: 20%
-- A2: 10%
-- A3: 15%
-- A4: planning only when it removes Phase 2 ambiguity
+A4 Membership MVP Planning Lane is standby until Phase 1 is stable.
 
-CEO may adjust this ratio when route health, data readiness, public trust, or launch engineering becomes the bottleneck.
+A4 may plan:
 
-## Acceleration Rule
+- market three-layer interpretation
+- watchlist
+- custom alert conditions
+- post-market review report
+- member content boundary
+- conversion metrics
 
-Avoid over-governance.
+A4 must not implement:
 
-Use larger coherent slices when the work is mostly cleanup, copy alignment, route health, checker repair, or launch-readiness consolidation.
+- login
+- payment
+- persisted watchlist
+- personalized alert execution
+- member-only content gating
 
-Do not create more operator packets unless they unlock:
+## Runtime Stop Lines
 
-- public route readiness,
-- source/data trust,
-- launch action,
-- rollback or repair decision,
-- membership boundary clarity,
-- checker removal of stale internal/development residue.
-
-## Hard Boundaries
-
-The current PM mainline does not authorize:
-
-- SQL execution,
-- Supabase writes,
-- `daily_prices` mutation,
-- raw market-data fetch/store/commit,
-- secret output,
-- `publicDataSource=supabase`,
-- `scoreSource=real`,
-- real-time data claims,
-- official endorsement claims,
-- investment advice,
-- Phase 2 membership implementation as a Phase 1 blocker.
-
-The current allowed public posture remains:
+The public runtime remains:
 
 - `publicDataSource=mock`
 - `scoreSource=mock`
+
+Hard stop lines:
+
 - no SQL execution
 - no Supabase writes
 - no `daily_prices` mutation
 - no raw market-data fetch/store/commit
 - no investment advice
+- no buy/sell recommendation
+- no official endorsement claim
+- no guaranteed-return claim
 
-## Current Route
+## Next PM Rule
 
-`phase_1_public_free_index_dashboard_usable_loop`
+At each coherent slice, PM should:
 
-## Next PM Slice
-
-Continue public route cleanup and product-first runtime readability.
-
-Priority order:
-
-1. remove any remaining public-facing internal/development residue;
-2. keep stock, home, briefing, weekly, methodology, disclaimer, terms, and privacy user-readable;
-3. preserve Phase 2 membership as preview only;
-4. rerun local route checks, TypeScript, build, and review gate;
-5. hand green evidence to A3 for post-deploy monitoring when needed.
-
-## Canonical Supporting Files
-
-- `docs/PUBLIC_BETA_INDEX_DASHBOARD_BRIEF.md`
-- `docs/PHASE_1_PHASE_2_EXECUTION_SPLIT_AND_WORKFLOW_ASSIGNMENT.md`
-- `docs/A1_OFFICIAL_OPEN_FREE_SOURCE_TERMS_AND_COVERAGE_MATRIX_NO_FETCH.md`
-- `docs/A2_HOME_FIRST_SCREEN_PUBLIC_COPY_HANDOFF.md`
-- `docs/A3_PHASE_1_PUBLIC_BETA_RELEASE_OPS_INDEX.md`
-- `docs/A4_MEMBERSHIP_MVP_PLANNING_HANDOFF.md`
-
-## Support Lane Integration Anchors
-
-These anchors keep A1/A2/A3 support-lane work integrated with the PM mainline without moving those tasks into Phase 1 public UI implementation.
-
-A1 index baseline:
-
-- `prepare_index_baseline_synthetic_parser_fixture_no_fetch`
-- `twse_openapi_index_baseline_synthetic_parser_fixture_ready_no_fetch`
-- `twse_openapi_index_baseline_synthetic_parser_fixture_review_then_mock_runtime_handoff`
-
-A1 ETF market-price lane:
-
-- `prepare_etf_market_price_synthetic_fixture_no_fetch`
-- `etf_market_price_synthetic_fixture_ready_no_fetch`
-- `etf_market_price_synthetic_fixture_review_then_mock_runtime_handoff`
-- `etf_market_price_mock_runtime_handoff_ready_no_fetch`
-- `etf_market_price_mock_runtime_handoff_review_then_public_label_integration`
-
-A1 listed-equity batch policy:
-
-- `docs/A1_BATCH1_LISTED_EQUITY_SYMBOL_POLICY_NO_ROW_LIST.md`
-- `prepare_batch1_listed_equity_mock_runtime_policy_labels`
-
-Support-lane boundaries:
-
-- no-fetch
-- no SQL execution
-- no Supabase writes
-- no staging rows
-- no `daily_prices` mutation
-- no raw market-row payload output
-- no source promotion
-- no `publicDataSource=supabase`
-- no `scoreSource=real`
+1. Choose the highest-value Phase 1 product/runtime issue.
+2. Execute the slice without waiting for unnecessary governance.
+3. Keep A1/A2/A3/A4 assigned only where they reduce risk or unblock future work.
+4. Run focused local checks.
+5. Record status and Git backup after passing checks.
