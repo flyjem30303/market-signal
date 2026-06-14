@@ -2,6 +2,50 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### CEO GOAL Reset - Phase 1 Before UI/UX Polish
+
+Status: `phase_1_pre_launch_usable_loop_before_ui_ux_polish_active`
+
+CEO decision:
+
+- Reset the active GOAL to finish Phase 1 launch-before-UI-polish readiness under the latest BRIEF.
+- Phase 1 remains the public/free index-lighting site for all users.
+- The mainline must prioritize public route health, 30-second reading, 3-minute risk review, market-light explanation, update-time/source boundary, non-investment-advice disclosure, and operator-safe launch evidence.
+- UI/UX design polish is deferred to the last Phase 1 pre-launch pass. Visual work may happen earlier only if it blocks comprehension, trust, accessibility, or route health.
+- Phase 2 membership remains planning-only: no login, payment, persisted watchlist, personalized alert execution, or member-only gating in Phase 1.
+
+PM execution rule:
+
+- Use larger coherent slices and avoid over-governance.
+- Keep A1 on data/source/coverage readiness, A2 on public trust wording, A3 on launch engineering, and A4 on membership planning only when they remove a real blocker.
+- Continue with local checks and status records after each coherent slice.
+
+Checks passed after GOAL reset:
+
+- `check:phase-1-public-beta-candidate-final-public-readiness-scan`
+- `check:public-beta-core-route-quick-proof`
+- `check:public-surface-user-facing-audit`
+- `check:public-visible-language-quality`
+- `check:a3-public-beta-minimum-launch-engineering-readiness`
+- `check:a3-phase-1-public-beta-release-go-no-go-packet`
+- `check:phase-1-public-beta-no-secret-manual-platform-action-readiness`
+- `npx tsc --noEmit`
+- `check:a3-phase-1-public-beta-remote-monitoring-snapshot` against `https://market-signal-two.vercel.app`
+- `check:public-beta-core-route-quick-proof` against `https://market-signal-two.vercel.app`
+- `check:public-surface-user-facing-audit` against `https://market-signal-two.vercel.app`
+
+CEO status:
+
+Phase 1 is no longer blocked by local route health, public visible residue, launch-readiness packets, or remote Vercel smoke under the mock/demo boundary. The next product step is the final pre-launch UI/UX and human acceptance pass, not another broad governance expansion.
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public data-source promotion, real score promotion, production deploy, DNS change, production environment mutation, login implementation, payment implementation, persisted watchlist, personalized alert execution, member-only content gating, brokerage integration, promised-return claim, or investment-advice claim occurred.
+
+Next:
+
+Run the Phase 1 launch-before-UI-polish readiness checks. If checks pass, move to public/Vercel verification and operator review; if checks expose a true blocker, repair the blocker before any UI/UX polish.
+
 ### Phase 1 Reading Contract And Final Public Readiness Closure
 
 Status: `phase_1_reading_contract_final_public_readiness_ready`

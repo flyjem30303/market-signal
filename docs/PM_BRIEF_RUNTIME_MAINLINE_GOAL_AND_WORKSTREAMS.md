@@ -40,6 +40,14 @@ Current GOAL execution rule:
 - Prefer larger coherent slices that visibly improve user understanding, route health, launch readiness, or safety copy.
 - Do not create narrow governance packets unless they remove a real launch blocker.
 
+Current CEO acceleration rule:
+
+- The active GOAL is `phase_1_pre_launch_usable_loop_before_ui_ux_polish`.
+- Phase 1 must move toward launch-before-UI-polish readiness: public routes, reading contract, data/update boundary, non-advice disclosure, route health, and operator-safe launch evidence come before visual refinement.
+- UI/UX design polish is intentionally deferred to the final Phase 1 pre-launch pass. Do not spend PM capacity on cosmetic layout, palette, spacing, animation, or component beautification unless the issue blocks comprehension, trust, accessibility, or route health.
+- A1 data/source/coverage may continue in parallel, but it must not block the Phase 1 mock public Beta loop unless it exposes a launch-blocking source, rights, or boundary issue.
+- A2/A3/A4 should be assigned only when they remove a concrete Phase 1 blocker; otherwise PM keeps the mainline moving.
+
 ## A1 Data / Source / Coverage Lane
 
 A1 prepares legal/free automated source and coverage evidence.
