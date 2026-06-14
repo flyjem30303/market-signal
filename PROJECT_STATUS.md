@@ -2,6 +2,42 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### TWII Explicit Operator Packet Preparation Gate
+
+Status: `twii_explicit_operator_packet_preparation_gate_ready_no_execution`
+
+CEO decision:
+
+- Accept the completed bounded execution packet readiness gate only as the upstream bridge into an operator-facing preparation packet.
+- Prepare a single field-name-only, presence-only operator packet shape before any later authorized execution attempt can be discussed.
+- Require operator decision, operator authorization, execute switch, confirmation phrase, server-only credential presence, rollback dry-run proof, aggregate readback proof, post-run review proof, duplicate rejection proof, and public-copy truthfulness before execution can be considered.
+- Move the active PM route to `twii_separate_authorized_execution_attempt_preparation_gate`.
+
+PM completed:
+
+- Added `docs/TWII_EXPLICIT_OPERATOR_PACKET_PREPARATION_GATE.md`.
+- Added `data/source-gates/twii-explicit-operator-packet-preparation-gate.json`.
+- Added `report:twii-explicit-operator-packet-preparation-gate` and `check:twii-explicit-operator-packet-preparation-gate`.
+- Registered `twii-explicit-operator-packet-preparation-gate` in the focused review gate.
+- The gate consolidates bounded execution readiness, bounded operator authorization preparation, explicit execution packet preparation, server-only checks, rollback, readback, post-run, duplicate rejection, and public-copy truthfulness into one review-only operator packet shape.
+
+Evidence:
+
+- `node scripts/check-twii-explicit-operator-packet-preparation-gate.mjs` was first run red and blocked on missing preparation doc, source-gate record, report script, package scripts, review-gate registration, and status record before implementation.
+- `cmd.exe /c npm run check:twii-explicit-operator-packet-preparation-gate` passed with `twii_explicit_operator_packet_preparation_gate_ready_no_execution`, `requiredFieldCount=12`, `placeholderCount=12`, `providedNowCount=0`, `valueReadNowCount=0`, `executionAllowedNow=false`, `publicDataSource=mock`, and `scoreSource=mock`.
+- `cmd.exe /c npx tsc --noEmit` passed.
+- `git diff --check` passed.
+- `cmd.exe /c npm run check:review-gates > tmp\review-gates-twii-explicit-operator-packet-preparation.txt` passed with `status=ok`, `executedCount=194`, and `failedCount=0`; `twii-explicit-operator-packet-preparation-gate` was executed and passed.
+- The gate remains local-only, review-only, field-name-only, presence-only, and no-secret.
+
+Boundary:
+
+No SQL, Supabase connection/read/write, staging row creation, `daily_prices` mutation, market endpoint fetch, raw market-data ingest/store/commit, source-derived candidate row generation, candidate row acceptance, real row readback, row coverage scoring, secret output, raw payload output, row payload output, stock id payload output, public source promotion, score promotion, investment advice claim, production environment mutation, DNS change, broad visual redesign, or Phase 2 membership implementation occurred.
+
+Next route:
+
+Continue `twii_separate_authorized_execution_attempt_preparation_gate`. It may prepare the next review-only execution-attempt shape, but it must still not read secret values, execute SQL, connect to Supabase, mutate `daily_prices`, or promote runtime.
+
 ### TWII Bounded Execution Packet Readiness Gate
 
 Status: `twii_bounded_execution_packet_readiness_gate_ready_no_execution`

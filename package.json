@@ -402,6 +402,8 @@
     "check:twii-report-only-dry-run-chain-gate": "node scripts/check-twii-report-only-dry-run-chain-gate.mjs",
     "report:twii-bounded-execution-packet-readiness-gate": "node scripts/report-twii-bounded-execution-packet-readiness-gate.mjs",
     "check:twii-bounded-execution-packet-readiness-gate": "node scripts/check-twii-bounded-execution-packet-readiness-gate.mjs",
+    "report:twii-explicit-operator-packet-preparation-gate": "node scripts/report-twii-explicit-operator-packet-preparation-gate.mjs",
+    "check:twii-explicit-operator-packet-preparation-gate": "node scripts/check-twii-explicit-operator-packet-preparation-gate.mjs",
     "report:twii-aggregate-readback-gate": "node scripts/report-twii-aggregate-readback-gate.mjs",
     "check:twii-aggregate-readback-gate": "node scripts/check-twii-aggregate-readback-gate.mjs",
     "report:twii-candidate-acceptance-decision-gate": "node scripts/report-twii-candidate-acceptance-decision-gate.mjs",
