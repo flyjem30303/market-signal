@@ -16,8 +16,8 @@ CEO decision:
 - Phase 1 is the public free index-lighting site that every visitor can use.
 - Phase 2 is the membership MVP path.
 - Phase 2 planning may continue, but Phase 2 implementation must not block Phase 1 public Beta readiness.
-- The chairman's latest BRIEF revision keeps membership as the next product direction, but it confirms that the first launch must be usable by non-members first.
-- GOAL execution should keep PM on Phase 1 product/runtime integration while A1/A2/A3/A4 continue only the support work that does not slow the public free launch.
+- The chairman's latest BRIEF revision keeps membership as the next product direction, but confirms that the first launch must be usable by non-members first.
+- GOAL execution should keep PM on Phase 1 product/runtime integration while A1/A2/A3/A4 continue only support work that does not slow the public free launch.
 
 ## Phase 1 Current Mainline
 
@@ -27,6 +27,7 @@ A general investor should be able to understand:
 
 - current market mood,
 - signal status,
+- signal reason,
 - core indicator summary,
 - risk reminder,
 - update time,
@@ -38,10 +39,10 @@ Phase 1 can launch only when public pages are clean, readable, route-healthy, an
 Phase 1 does not require:
 
 - membership login,
+- payment,
 - member-only content,
 - watchlist persistence,
 - custom alert persistence,
-- payment,
 - broker integration,
 - real-data promotion.
 
@@ -155,4 +156,14 @@ The active GOAL should be interpreted as a multi-line execution system:
 - A3 stays on launch engineering: Vercel, env inventory, smoke checks, monitoring, rollback, SEO, analytics, and post-deploy evidence.
 - A4 stays optional and Phase 2 only: membership MVP planning, information architecture, watchlist/alert/report shape, and conversion metrics design.
 
-CEO may adjust line ratios at any time. Default ratio while Phase 1 is not fully stable: PM 50%, A1 20%, A2 15%, A3 15%, A4 planning only when it removes Phase 2 ambiguity.
+CEO may adjust line ratios at any time. Default ratio while Phase 1 is not fully stable: PM 55%, A1 20%, A2 10%, A3 15%, A4 planning only when it removes Phase 2 ambiguity.
+
+## 2026-06-14 Chairman BRIEF Adjustment
+
+The chairman's latest BRIEF keeps the long-term membership direction, but CEO confirms the execution order:
+
+1. Phase 1 first: ship the public free index signal website for all visitors.
+2. Phase 2 later: build membership MVP only after Phase 1 is stable enough.
+3. Membership preview may remain visible, but login, payment, watchlist persistence, custom alert persistence, and member-only report access are not Phase 1 blockers.
+4. The current GOAL should continue to push the public Beta usable loop: market signal, reason, risk reminder, update time, source/data boundary, and next observation.
+5. A1/A2/A3/A4 can work in parallel, but PM remains the integration owner and must prevent support-lane work from slowing the free public launch.

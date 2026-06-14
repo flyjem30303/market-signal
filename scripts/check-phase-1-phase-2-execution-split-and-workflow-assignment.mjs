@@ -17,11 +17,11 @@ const reviewGate = read(reviewGatePath);
 
 requireIncludes(docPath, doc, [
   "phase_1_phase_2_execution_split_ready",
+  "指數燈號網站 BRIEF",
   "Phase 1 is the public free index-lighting site",
   "Phase 2 is the membership MVP path",
   "Phase 2 planning may continue",
   "Phase 2 implementation must not block Phase 1 public Beta readiness",
-  "The chairman's latest BRIEF revision keeps membership as the next product direction",
   "GOAL execution should keep PM on Phase 1 product/runtime integration",
   "PM mainline",
   "A1 Data / Source / Coverage",
@@ -31,10 +31,12 @@ requireIncludes(docPath, doc, [
   "Use larger coherent slices",
   "phase_1_public_free_index_dashboard_usable_loop",
   "Current GOAL Operating Shape",
-  "PM 50%, A1 20%, A2 15%, A3 15%, A4 planning only",
+  "PM 55%, A1 20%, A2 10%, A3 15%",
   "operator/governance console",
   "publicDataSource=supabase",
-  "scoreSource=real"
+  "scoreSource=real",
+  "Membership preview may remain visible",
+  "PM remains the integration owner"
 ]);
 
 requireIncludes(briefPath, brief, [
@@ -53,11 +55,11 @@ requireIncludes(briefPath, brief, [
 ]);
 
 requireIncludes(pmBriefPath, pmBrief, [
-  "CEO Phase Decision - 2026-06-13",
-  "Chairman BRIEF Phase Split Confirmation",
+  "Chairman BRIEF Phase 1 / Phase 2 Acceleration Decision",
   "Phase 1 comes first",
   "Phase 2 comes later",
-  "A4 Membership MVP Planning",
+  "PM owns the product/runtime engineering line",
+  "A4 Membership MVP Planning Lane",
   "Avoid over-governance",
   "phase_1_public_free_index_dashboard_usable_loop"
 ]);

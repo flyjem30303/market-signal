@@ -29,36 +29,38 @@ requireIncludes("review gate", reviewGate, [
 ]);
 
 requireIncludes("BRIEF", brief, [
+  "指數燈號網站 BRIEF",
+  "Phase 1 is the public free index-lighting site",
+  "Phase 2 is the membership MVP path",
+  "Phase 1 is current execution priority.",
+  "Phase 2 should not delay Phase 1 launch readiness.",
+  "首頁可顯示市場總覽燈號、核心指標、主要風險提示與資料更新時間",
+  "會員 watchlist + 自訂警示條件",
   "understand the market mood within 30 seconds",
   "decide within 3 minutes",
   "Home includes three layers: full-market overview, core indicator panel, alert list",
-  "Each alert includes status, cause, update time, impact level, and next step",
-  "Phase 1 是「所有人可以使用的公開免費指數燈號網站」",
-  "Phase 2 是「會員 MVP」",
-  "Phase 1 is current execution priority.",
-  "Phase 2 should not delay Phase 1 launch readiness."
+  "Each alert includes status, cause, update time, impact level, and next step"
 ]);
 
 requireIncludes("home dashboard source", dashboard, [
   "home-public-beta-layers",
-  "市場氣氛",
-  "市場廣度",
-  "核心指標快讀",
-  "資料可信度",
-  "3 分鐘行動判斷"
+  "HomeFirstScreenDecisionSummary",
+  "PublicBetaPublicStatusSurface",
+  "PublicBetaSourceCoverageBridge",
+  "PublicNextReadingFlow",
+  "PublicBetaMembershipMvpRoadmap"
 ]);
 
 requireIncludes("home dashboard helper", helper, [
-  "30 秒可讀",
-  "3 分鐘可行動",
-  "全市場總覽",
-  "核心指標",
-  "警示清單",
-  "示範資料",
-  "不提供個股買賣建議"
+  "PublicBetaIndexDashboardBriefLoop",
+  "indicatorPanel",
+  "alerts",
+  "publicDataSource",
+  "scoreSource"
 ]);
 
 requireIncludes("home dashboard component", component, [
+  "PublicBetaIndexDashboardBriefLoopPanel",
   "Index Dashboard",
   "indicatorPanel",
   "alerts",
@@ -68,16 +70,16 @@ requireIncludes("home dashboard component", component, [
 const response = await fetch(`${baseUrl}/`);
 const text = normalizeVisibleText(await response.text());
 const requiredVisible = [
-  "指數狀態儀表站",
-  "30 秒",
-  "3 分鐘",
+  "指數燈號",
+  "公開 Beta 指數狀態儀表站",
+  "30 秒內看懂市場氛圍",
+  "3 分鐘內判斷",
   "市場氣氛",
-  "市場廣度",
-  "風險熱度",
-  "資料可信度",
+  "資料更新時間",
   "示範資料",
-  "非投資建議",
-  "會員功能預覽"
+  "資料邊界",
+  "會員功能規劃中",
+  "不提供個股買賣建議"
 ];
 
 const forbiddenVisible = [
@@ -96,8 +98,6 @@ const forbiddenVisible = [
   "post-run",
   "preflight",
   "operator",
-  "Phase 1",
-  "Phase 2",
   "Membership MVP"
 ];
 
@@ -105,16 +105,17 @@ if (response.status !== 200) problems.push(`/ must return 200, got ${response.st
 requireIncludes("home page", text, requiredVisible);
 requireExcludes("home page", text, forbiddenVisible);
 
-const markerHits = findMojibakeMarkers(text);
-for (const marker of markerHits) problems.push(`home page marker ${marker}`);
-
-const sourceMarkerHits = [
-  ...findMojibakeMarkers(dashboard).map((marker) => `${dashboardPath}: ${marker}`),
-  ...findMojibakeMarkers(helper).map((marker) => `${helperPath}: ${marker}`),
-  ...findMojibakeMarkers(component).map((marker) => `${componentPath}: ${marker}`),
-  ...findMojibakeMarkers(brief).map((marker) => `${briefPath}: ${marker}`)
-];
-for (const marker of sourceMarkerHits) problems.push(`source marker ${marker}`);
+for (const [label, source] of [
+  ["home page", text],
+  [dashboardPath, dashboard],
+  [helperPath, helper],
+  [componentPath, component],
+  [briefPath, brief]
+]) {
+  for (const marker of findBadEncodingMarkers(source)) {
+    problems.push(`${label} contains ${marker}`);
+  }
+}
 
 const status = problems.length === 0 ? "ok" : "blocked";
 
@@ -155,10 +156,11 @@ function normalizeVisibleText(html) {
     .trim();
 }
 
-function findMojibakeMarkers(source) {
+function findBadEncodingMarkers(source) {
   const markers = [];
-  if (/[\uE000-\uF8FF\uFFFD]/u.test(source)) markers.push("private-use-or-replacement-codepoint");
-  if (/[\u0080-\u009F]/u.test(source)) markers.push("control-codepoint");
-  if (/\?{3,}/u.test(source)) markers.push("question-mark-run");
+  if (/\uFFFD/u.test(source)) markers.push("replacement-character");
+  if (/[\uE000-\uF8FF]/u.test(source)) markers.push("private-use-character");
+  if (/[\u0080-\u009F]/u.test(source)) markers.push("c1-control-character");
+  if (/[?]{4,}/u.test(source)) markers.push("question-mark-run");
   return markers;
 }

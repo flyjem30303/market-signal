@@ -2,6 +2,58 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Chairman BRIEF Phase Split And GOAL Acceleration Pass
+
+Status: `chairman_brief_phase_split_goal_acceleration_ready`
+
+CEO decision:
+
+- Accept the latest chairman BRIEF as the current product target.
+- Split execution into Phase 1 and Phase 2.
+- Phase 1 is the active mainline: a public free index-lighting site that every visitor can use.
+- Phase 2 is the membership MVP path: member-only daily three-layer interpretation, watchlist/custom alerts, and post-market review.
+- Phase 2 planning may continue, but membership implementation must not slow Phase 1 public Beta readiness.
+- Use larger coherent slices and avoid over-governance; only add process artifacts when they unlock public route readiness, source/data trust, launch action, rollback/repair decisions, membership boundary clarity, or public residue cleanup.
+
+PM completed:
+
+- Rewrote `docs/PUBLIC_BETA_INDEX_DASHBOARD_BRIEF.md` into the clean latest BRIEF with Phase 1 / Phase 2 split.
+- Rewrote `docs/PHASE_1_PHASE_2_EXECUTION_SPLIT_AND_WORKFLOW_ASSIGNMENT.md` with the current multi-line GOAL operating model.
+- Updated `docs/PM_BRIEF_RUNTIME_MAINLINE_GOAL_AND_WORKSTREAMS.md` with the current CEO acceleration decision.
+- Rebuilt the Phase split, PM mainline, and public BRIEF-loop checkers around clean readable anchors.
+
+Current workstream ratio:
+
+- PM mainline: 55% public product/runtime usability and route cleanup.
+- A1: 20% legal/free automated source candidates, coverage, field contracts, ingestion/backfill readiness.
+- A2: 10% trust copy, source/update-time disclosure, non-investment-advice, free/member boundary.
+- A3: 15% launch engineering, route smoke, monitoring, rollback, SEO/analytics readiness.
+- A4: planning only, and only when it removes Phase 2 ambiguity without slowing Phase 1.
+
+Checks passed:
+
+- `check:phase-1-phase-2-execution-split-and-workflow-assignment`
+- `check:pm-brief-runtime-mainline-goal-and-workstreams`
+- `check:public-beta-index-dashboard-brief-loop`
+- `check:phase-1-public-beta-public-visible-residue-cleanup`
+- `check:public-visible-language-quality`
+- `check:public-beta-core-route-quick-proof`
+- `check:twse-openapi-index-baseline-synthetic-parser-fixture`
+- `check:etf-market-price-synthetic-fixture`
+- `check:etf-market-price-mock-runtime-handoff`
+- `check:a1-batch1-listed-equity-symbol-policy-no-row-list`
+- `npx tsc --noEmit`
+- `npm run build`
+- `check:review-gates` (`190/190` focused checks executed)
+
+Boundary:
+
+No membership implementation, login, payment, watchlist persistence, personalized alert execution, SQL, Supabase write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public source promotion, real score promotion, real-time claim, official endorsement claim, guaranteed-return claim, or investment-advice claim occurred.
+
+Next:
+
+Continue Phase 1 public route cleanup and product-first runtime readability. A1 continues source/data coverage, A2 guards public trust copy, A3 handles launch monitoring, and A4 remains planning-only for Phase 2 membership MVP.
+
 ### A3 Metadata And Public Route Smoke Repair Pass
 
 Status: `a3_metadata_public_route_smoke_ready`
