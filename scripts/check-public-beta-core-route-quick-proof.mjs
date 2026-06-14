@@ -37,7 +37,7 @@ const routeVisibleContracts = [
   { route: "/", tokens: ["公開 Beta", "30 秒", "3 分鐘", "市場總覽", "資料狀態", "非投資建議"] },
   { route: "/briefing", tokens: ["市場簡報", "30 秒", "3 分鐘", "警示清單", "資料邊界", "正式資料尚未啟用"] },
   { route: "/weekly", tokens: ["市場週報", "本週市場狀態", "示範資料", "不提供買賣建議"] },
-  { route: "/membership", tokens: ["會員 MVP", "第二階段", "市場三層解讀", "自選追蹤", "自訂警示"] },
+  { route: "/membership", tokens: ["會員功能預告", "第二階段", "市場三層解讀", "自選追蹤", "自訂警示"] },
   { route: "/stocks/2330", tokens: ["2330", "指數燈號", "資料來源與覆蓋", "3 分鐘閱讀順序", "不是投資建議"] },
   { route: "/stocks/TWII", tokens: ["TWII", "指數燈號", "資料來源與覆蓋", "3 分鐘閱讀順序", "不是投資建議"] },
   { route: "/methodology", tokens: ["方法說明", "燈號方法", "資料狀態", "不是交易指令"] },

@@ -6,7 +6,7 @@ import { TrackedLink } from "@/components/tracked-link";
 export const metadata: Metadata = {
   title: "會員功能預覽",
   description:
-    "會員 MVP 預計提供每日市場三層解讀、自選追蹤與自訂警示、盤後複盤報告。此頁是會員路線圖，不是會員入口；目前尚未開放登入。"
+    "下一階段會員功能預計提供每日市場三層解讀、自選追蹤與自訂警示、盤後複盤報告。此頁是會員路線圖，不是會員入口；目前尚未開放登入。"
 };
 
 export default function MembershipPage() {
@@ -15,7 +15,7 @@ export default function MembershipPage() {
       <PageViewTracker eventName="membership_preview_page_viewed" payload={{ page: "membership" }} />
       <section className="hero">
         <p className="eyebrow">第二階段會員路線圖</p>
-        <h1>會員 MVP：從看懂市場燈號，延伸到建立自己的觀察流程</h1>
+        <h1>會員功能預告：從看懂市場燈號，延伸到建立自己的觀察流程</h1>
         <p>
           會員功能會放在第二階段推出。第一階段先讓所有使用者都能在 30 秒內看懂市場總覽、核心指標、風險提示與資料更新時間；
           會員區則會補上更完整的市場解讀、盤後複盤與個人化觀察工具，協助使用者用 3 分鐘建立自己的觀察順序。
@@ -41,7 +41,7 @@ export default function MembershipPage() {
         </p>
       </section>
 
-      <section className="method-quick-read" aria-label="會員 MVP 優先內容">
+      <section className="method-quick-read" aria-label="會員功能優先內容">
         <article>
           <span>第一層</span>
           <strong>每日市場三層解讀</strong>

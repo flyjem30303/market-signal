@@ -25,7 +25,7 @@ const reviewGate = read(reviewGatePath);
 
 requireIncludes(componentPath, component, [
   "PublicBetaMembershipMvpRoadmap",
-  "會員 MVP 規劃",
+  "會員功能規劃",
   "每日市場三層解讀",
   "自選追蹤與自訂警示",
   "盤後複盤報告",
@@ -34,7 +34,7 @@ requireIncludes(componentPath, component, [
 ]);
 
 requireIncludes(membershipPagePath, membershipPage, [
-  "會員 MVP",
+  "會員功能預告",
   "第二階段",
   "30 秒",
   "3 分鐘",
@@ -96,7 +96,7 @@ for (const [filePath, source] of [
 
 const renderedMembership = await fetchRenderedText("/membership");
 requireIncludes("rendered /membership", renderedMembership, [
-  "會員 MVP",
+  "會員功能預告",
   "第二階段",
   "市場三層解讀",
   "自選追蹤",
@@ -179,6 +179,8 @@ function forbiddenSourcePatterns() {
 
 function forbiddenRenderedPatterns() {
   return [
+    /會員\s*MVP/iu,
+    /Membership\s+MVP/iu,
     /cmd\.exe/iu,
     /npm run/iu,
     /publicDataSource/iu,

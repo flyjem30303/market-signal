@@ -59,7 +59,7 @@ requireIncludes(membershipPagePath, membershipPage, [
 ]);
 
 requireIncludes(roadmapComponentPath, roadmapComponent, [
-  "會員 MVP",
+  "會員功能規劃",
   "目前不提供會員登入、付費、自選追蹤儲存、個人化警示執行或會員專屬內容",
   "href=\"/membership\""
 ]);

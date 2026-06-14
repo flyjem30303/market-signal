@@ -2,6 +2,33 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Public Membership Page User-Language Polish
+
+Status: `public_membership_page_user_language_polish_ready`
+
+CEO decision:
+
+- Treat visible `會員 MVP` wording on the public membership route as internal product language that should not appear in the Phase 1 user-facing surface.
+- Keep the internal Phase 2 / A4 membership MVP planning vocabulary in documents and workstreams, but present the public route as `會員功能預告`.
+- Do not implement login, payment, persisted watchlist, custom alert execution, member-only content, or any Phase 2 runtime.
+
+PM completed:
+
+- Updated `/membership` public metadata, H1, and section aria label from `會員 MVP` wording to user-facing `會員功能預告` / `會員功能`.
+- Updated the membership roadmap component aria label to `會員功能規劃`.
+- Updated `check:public-beta-core-route-quick-proof` and `check:public-beta-membership-mvp-roadmap` so public rendered `/membership` now requires `會員功能預告` and rejects visible `會員 MVP` / `Membership MVP`.
+
+Evidence:
+
+- `check:public-beta-membership-mvp-roadmap` passed.
+- `check:public-beta-core-route-quick-proof` passed.
+- `check:public-visible-language-quality` passed.
+- `check:phase-1-public-beta-public-visible-residue-cleanup` passed.
+
+Boundary:
+
+No SQL, Supabase read/write, staging rows, `daily_prices` mutation, raw market-data fetch/store/commit, source promotion, real score promotion, production environment mutation, DNS change, broad visual redesign, or Phase 2 membership implementation occurred. The runtime remains `publicDataSource=mock` and `scoreSource=mock`.
+
 ### Phase 1 Pre-UI/UX Acceptance Record
 
 Status: `phase_1_pre_ui_ux_acceptance_record_ready`

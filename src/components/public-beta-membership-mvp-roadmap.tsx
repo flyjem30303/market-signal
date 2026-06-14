@@ -21,7 +21,7 @@ const roadmapCards = [
 
 export function PublicBetaMembershipMvpRoadmap() {
   return (
-    <section className="public-beta-membership-roadmap" aria-label="會員 MVP 規劃">
+    <section className="public-beta-membership-roadmap" aria-label="會員功能規劃">
       <div className="public-beta-membership-roadmap__intro">
         <p className="eyebrow">第二階段會員路線圖</p>
         <h2>下一階段：從看到燈號，升級成理解燈號</h2>
