@@ -2,6 +2,47 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### A3 Privacy Remote Monitoring Anchor Pass
+
+Status: `a3_privacy_remote_monitoring_anchor_ready`
+
+CEO decision:
+
+- Continue Phase 1 public/free launch-readiness while keeping Phase 2 membership as roadmap/planning only.
+- Keep the remote monitoring contract strict; do not lower the route contract just because the current Vercel deploy is behind the local candidate.
+- Add the missing `/privacy` membership boundary anchor locally, then use GitHub/Vercel deployment to bring the remote site back in sync.
+
+PM completed:
+
+- Updated `/privacy` copy to explicitly state `會員功能仍是下一階段規劃`.
+- Preserved `自選追蹤` vocabulary and the no-sensitive-data warning.
+- Proved the A3 remote-monitoring route contract against localhost with `PUBLIC_BETA_MONITORING_BASE_URL=http://localhost:3000`.
+- Confirmed deploy smoke/rollback closure, monitoring/repair runbook, public visible language, and public residue cleanup remain ready.
+
+Checks passed:
+
+- `check:a3-phase-1-public-beta-deploy-smoke-rollback-closure`
+- `check:a3-phase-1-public-beta-monitoring-and-repair-runbook`
+- `check:a2-legal-methodology-readable-copy`
+- `check:public-visible-language-quality`
+- `check:phase-1-public-beta-public-visible-residue-cleanup`
+- `check:a3-phase-1-public-beta-remote-monitoring-snapshot` with `PUBLIC_BETA_MONITORING_BASE_URL=http://localhost:3000`
+- `tsc --noEmit`
+- `build`
+
+Known validation note:
+
+- Default remote monitoring still reports `/privacy` missing `會員功能仍是下一階段規劃` on `https://market-signal-two.vercel.app`; this is expected until this commit is deployed by Vercel.
+- `check:review-gates` exceeded the tool timeout during this slice, so the focused A3/A2/public/build checks above are the acceptance set for this deploy-sync repair.
+
+Boundary:
+
+No Vercel dashboard mutation, DNS change, production env mutation, membership implementation, login, payment, watchlist persistence, personalized alert execution, SQL, Supabase read/write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public source promotion, real score promotion, real-time claim, official endorsement claim, guaranteed-return claim, or investment-advice claim occurred.
+
+Next:
+
+Push this slice, wait for Vercel deployment, then rerun the default remote monitoring snapshot against `https://market-signal-two.vercel.app`. If it passes, continue A3 launch-readiness evidence; if it still fails, treat it as deploy lag or remote cache and inspect Vercel build status manually.
+
 ### Membership Vocabulary And Trust Copy Alignment Pass
 
 Status: `membership_vocabulary_trust_copy_alignment_ready`
