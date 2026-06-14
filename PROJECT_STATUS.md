@@ -2,6 +2,49 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Phase 1 Pre-UI/UX Visual Acceptance Smoke
+
+Status: `phase_1_pre_ui_ux_visual_acceptance_smoke_ready`
+
+CEO decision:
+
+- Continue the active GOAL under `phase_1_pre_launch_usable_loop_before_ui_ux_polish`.
+- Treat this slice as the last functional/acceptance confirmation before any final UI/UX polish.
+- Do not start broad cosmetic redesign while the public-free Phase 1 loop is already passing route, trust, launch, and visual hierarchy gates.
+
+PM completed:
+
+- Rechecked the existing visual acceptance gates instead of inventing a new governance chain.
+- Verified home and stock visual hierarchy gates.
+- Verified human visual review, visual acceptance/A3 handoff, and chairman visual acceptance record gates.
+- Ran a browser visual smoke on `/`, `/stocks/2330`, and `/briefing`.
+
+Browser smoke result:
+
+- `/` H1: `指數燈號儀表站`.
+- `/stocks/2330` H1: `2330 台積電 指數燈號`.
+- `/briefing` H1: `晨報快速判讀：市場行動摘要`.
+- All three sampled routes include 30-second and 3-minute reading language.
+- All three sampled routes include visible data/source/demo or non-investment-advice boundary language.
+- No sampled route exposed `PUBLIC_BETA`, `BETA_`, command snippets, source-rights labels, `publicDataSource`, `scoreSource`, SQL, or Supabase write wording as public text.
+- Browser-reported overflow count was `0` for all sampled routes.
+
+Checks passed:
+
+- `check:home-visual-hierarchy`
+- `check:stock-visual-hierarchy`
+- `check:phase-1-public-beta-human-visual-review`
+- `check:phase-1-public-beta-visual-acceptance-and-a3-handoff`
+- `check:phase-1-public-beta-chairman-visual-acceptance-record`
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public data-source promotion, real score promotion, production deploy, DNS change, production environment mutation, login implementation, payment implementation, persisted watchlist, personalized alert execution, member-only content gating, brokerage integration, promised-return claim, or investment-advice claim occurred.
+
+Next:
+
+Move to the final UI/UX polish pass only for issues that affect comprehension, trust, accessibility, or first-screen decision flow. Do not spend capacity on purely cosmetic redesign before chairman/operator acceptance direction.
+
 ### CEO GOAL Reset - Phase 1 Before UI/UX Polish
 
 Status: `phase_1_pre_launch_usable_loop_before_ui_ux_polish_active`
