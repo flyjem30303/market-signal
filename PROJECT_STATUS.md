@@ -2,6 +2,38 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Phase 1 Public Beta Candidate Route Consistency
+
+Status: `phase_1_public_beta_candidate_route_consistency_ready`
+
+CEO decision:
+
+- After public residue cleanup, advance to candidate-level public readiness checks.
+- Keep the work in Phase 1 public/free scope and avoid Phase 2 runtime membership implementation.
+- The next useful closure was route naming consistency around the public market briefing and action summary.
+
+PM completed:
+
+- Updated `/briefing` playbook copy so the page explicitly names `每日市場晨報` and `市場行動摘要`.
+- Confirmed candidate final public readiness scan passes across the checked public routes.
+- Confirmed public visible residue cleanup still passes after the wording update.
+
+Checks passed:
+
+- `check:public-beta-route-consistency`
+- `check:phase-1-public-beta-candidate-final-public-readiness-scan`
+- `check:phase-1-public-beta-public-visible-residue-cleanup`
+- `npx tsc --noEmit`
+- `npm run build`
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public data-source promotion, real score promotion, login implementation, payment implementation, persisted watchlist, personalized alert execution, member-only content gating, promised-return claim, or investment-advice claim occurred.
+
+Next:
+
+Continue Phase 1 launch candidate closure. Best next slice is browser visual review and A3 release/go-no-go artifact refresh against the revised BRIEF.
+
 ### Phase 1 Public Residue And Methodology Boundary Cleanup
 
 Status: `phase_1_public_residue_methodology_boundary_cleanup_ready`
