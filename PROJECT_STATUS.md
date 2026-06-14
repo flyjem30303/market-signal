@@ -2,6 +2,38 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Data Online Execution Selector
+
+Status: `phase_1_data_online_execution_selector_ready_no_execution`
+
+CEO decision:
+
+- Move the Phase 1 mainline back from public-copy cleanup to data-online closure.
+- Use a single PM selector so TWII, ETF, TWSE OpenAPI readiness, and runtime promotion do not compete as scattered next steps.
+- Select `twii_first_level_1_closure_exact_execution_gate_or_repair` as the next highest-value route because TWII can close `60` missing Level 1 rows with the smallest remaining blast radius.
+- Keep ETF source-rights / field-contract repair and TWSE OpenAPI metadata / backfill readiness moving in parallel when TWII remains blocked by missing operator acceptance.
+- Keep runtime promotion blocked until write, readback, quality, rollback, timestamp, and public-copy gates pass.
+
+PM completed:
+
+- Added `docs/PHASE_1_DATA_ONLINE_EXECUTION_SELECTOR.md` as the no-execution routing surface for Phase 1 data-online work.
+- Added `check:phase-1-data-online-execution-selector` and registered it in the focused review gate.
+- The selector validates the current Level 1 baseline, TWII-first route, ETF fallback, TWSE OpenAPI support lane, runtime-promotion lock, `publicDataSource=mock`, and `scoreSource=mock`.
+
+Evidence:
+
+- `cmd.exe /c npm run check:phase-1-data-online-execution-selector` passed with `phase_1_data_online_execution_selector_ready_no_execution`.
+- The checker reported Level 1 `182/360`, missing `178`; TW equity `180/180`; TWII missing `60`; ETF missing `118`; `publicDataSource=mock`; `scoreSource=mock`; and `twiiExecutionAllowedNow=false`.
+- `cmd.exe /c npm run check:review-gates > tmp\review-gates-data-online-selector.txt` passed with `status=ok`, `executedCount=187`, and `failedCount=0`.
+
+Boundary:
+
+No SQL, Supabase connection/write, staging row creation, `daily_prices` mutation, market endpoint fetch, raw market-data ingest/store/commit, source-derived candidate generation, row coverage point award, secret output, public source promotion, score promotion, investment advice claim, production environment mutation, DNS change, broad visual redesign, or Phase 2 membership implementation occurred.
+
+Next route:
+
+Continue `twii_first_level_1_closure_exact_execution_gate_or_repair`. If TWII remains blocked by missing operator acceptance, immediately progress `etf_source_rights_field_contract_parallel_repair` and `twse_openapi_metadata_terms_backfill_readiness_refresh` instead of waiting.
+
 ### Phase 1 Core Public Copy Readability Cleanup
 
 Status: `phase_1_core_public_copy_readable_and_visible_residue_clean`

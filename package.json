@@ -818,6 +818,7 @@
     "check:chairman-beta-launch-review-packet": "node scripts/check-chairman-beta-launch-review-packet.mjs",
     "check:phase-1-data-online-gap-closure-map": "node scripts/check-phase-1-data-online-gap-closure-map.mjs",
     "check:phase-1-level-1-closure-execution-packet": "node scripts/check-phase-1-level-1-closure-execution-packet.mjs",
+    "check:phase-1-data-online-execution-selector": "node scripts/check-phase-1-data-online-execution-selector.mjs",
     "check:runtime-data-promotion-handoff-checklist": "node scripts/check-runtime-data-promotion-handoff-checklist.mjs",
     "check:runtime-summary-alignment-from-first-closed-loop": "node scripts/check-runtime-summary-alignment-from-first-closed-loop.mjs",
     "check:runtime-readonly-decision-card": "node scripts/check-runtime-readonly-decision-card.mjs",

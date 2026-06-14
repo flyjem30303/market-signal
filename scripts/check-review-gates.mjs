@@ -3458,6 +3458,11 @@ const checks = [
     name: "phase-1-level-1-closure-execution-packet"
   },
   {
+    command: [node, "scripts/check-phase-1-data-online-execution-selector.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-data-online-execution-selector"
+  },
+  {
     command: [node, "scripts/check-runtime-data-promotion-handoff-checklist.mjs"],
     expectStatus: "ok",
     name: "runtime-data-promotion-handoff-checklist"
@@ -6371,6 +6376,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "phase-1-twii-operator-decision-intake-readiness",
   "phase-1-twii-operator-decision-packet-request",
   "phase-1-etf-coverage-closure-readiness-rollup",
+  "phase-1-data-online-execution-selector",
   "open-free-auto-data-source-gate",
   "stock-decision-aid-actionability",
   "stock-decision-compass",
