@@ -40,10 +40,13 @@ export default async function BriefingPage() {
       <section className="briefing-executive-summary" aria-label="市場簡報摘要">
         <div>
           <p className="eyebrow">市場簡報</p>
-          <h1>30 秒看市場氣氛，3 分鐘完成今日觀察判斷</h1>
+          <h1>30 秒看懂今日市場氣氛，3 分鐘行動判斷</h1>
           <p>
             今日先看 {market.asset.name} 的市場主燈號，再看風險最高的 {topRisk.asset.name}
             。這個頁面把市場狀態、風險來源、更新時間與下一步閱讀排成固定順序，降低資訊過載。
+          </p>
+          <p className="runtime-boundary-line">
+            目前公開頁以示範資料呈現閱讀流程，不提供買賣建議；請先確認資料時間與風險聲明，再做自己的觀察判斷。
           </p>
         </div>
         <aside>

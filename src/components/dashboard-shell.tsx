@@ -69,7 +69,7 @@ export function DashboardShell({
           用紅、黃、綠等燈號，把市場風險、趨勢強弱與觀察重點整理成可閱讀的順序。目標是讓使用者在 30 秒內看懂市場氛圍，並在 3 分鐘內知道下一步該觀察什麼。
         </p>
         <p className="runtime-boundary-line">
-          目前前台仍以示範資料呈現，真實資料來源與更新流程確認前，不會宣稱即時真實行情或提供投資建議。
+          正式市場資料尚未啟用；目前前台仍以示範資料呈現閱讀流程，不提供個股買賣建議。
         </p>
         <div className="hero-status-strip" aria-label="公開版閱讀重點">
           <span>30 秒看懂市場狀態</span>
@@ -190,9 +190,9 @@ function HomeFirstScreenDecisionSummary({
   return (
     <section className="home-first-screen-decision" aria-label="首頁第一屏決策摘要">
       <div className="home-first-screen-decision__main">
-        <p className="eyebrow">市場總覽</p>
+        <p className="eyebrow">首頁快速判讀</p>
         <h2>
-          30 秒內先看：{market.asset.name} 目前為「{market.signal.title}」
+          30 秒看懂市場氣氛：{market.asset.name} 目前為「{market.signal.title}」
         </h2>
         <p>{market.signal.text}</p>
       </div>
@@ -213,17 +213,17 @@ function HomeFirstScreenDecisionSummary({
           <p>{action}。</p>
         </article>
         <article className="watch">
-          <span>資料更新</span>
+          <span>資料時間</span>
           <strong>{freshness.asOfDate}</strong>
           <p>示範資料時間：{formatTaipeiTime(snapshot.lastUpdatedAt)}，真實資料接入前請以示範閱讀。</p>
         </article>
       </div>
       <p className="home-first-screen-decision__next">
-        3 分鐘閱讀建議：先看全市場總覽，再看核心指標面板與警示清單；若資料時間延遲或風險升高，先暫緩做單一結論。
+        3 分鐘複核：先看全市場總覽，再看核心指標面板與警示清單；若資料時間延遲或風險升高，先暫緩做單一結論。正式市場資料尚未啟用，本頁不提供個股買賣建議。
       </p>
       <div className="home-first-screen-decision__actions" aria-label="首頁下一步">
-        <TrackedLink eventName="home_cta_clicked" href="/briefing" label="閱讀今日市場簡報" payload={{ area: "home_first_screen" }}>
-          閱讀今日市場簡報
+        <TrackedLink eventName="home_cta_clicked" href="/briefing" label="查看市場晨報" payload={{ area: "home_first_screen" }}>
+          查看市場晨報
         </TrackedLink>
         <TrackedLink eventName="trust_link_clicked" href="/disclaimer" label="查看風險聲明" payload={{ area: "home_first_screen" }}>
           查看風險聲明
@@ -231,10 +231,10 @@ function HomeFirstScreenDecisionSummary({
         <TrackedLink
           eventName="membership_preview_link_clicked"
           href="/membership"
-          label="查看會員功能規劃"
+          label="查看會員功能預覽"
           payload={{ area: "home_first_screen" }}
         >
-          查看會員功能規劃
+          查看會員功能預覽
         </TrackedLink>
       </div>
     </section>
@@ -355,7 +355,10 @@ function StockPublicSummary({ snapshot }: { snapshot: SignalSnapshot }) {
         <h2>
           {snapshot.asset.symbol} {snapshot.asset.name} 目前為「{snapshot.signal.title}」
         </h2>
-        <p>30 秒快讀：{snapshot.signal.text}</p>
+        <p>30 秒快速閱讀：{snapshot.signal.text}</p>
+        <p>
+          把單一標的放回市場脈絡後再看成因、更新時間、影響級別與下一步。30 秒可用，3 分鐘要複核；目前是示範資料與示範分數，不能當成個股買賣指令。
+        </p>
       </div>
       <div className="stock-indicator-priority-grid">
         <article className="active">

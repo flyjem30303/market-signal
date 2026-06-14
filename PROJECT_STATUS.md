@@ -2,6 +2,43 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Phase 1 Public Reading Contract Alignment
+
+Status: `phase_1_public_reading_contract_alignment_ready`
+
+CEO decision:
+
+- After the revised BRIEF and A4 membership boundary, PM returned to the Phase 1 public/free mainline.
+- The highest-value next slice was public reading clarity, not more governance.
+- Home, briefing, and stock pages must visibly support the BRIEF promise: 30-second market mood, 3-minute action judgment, clear update-time boundary, and non-investment-advice language.
+
+PM completed:
+
+- Updated the home first-screen decision copy in `src/components/dashboard-shell.tsx`.
+- Updated the briefing hero/midpage boundary copy in `src/app/briefing/page.tsx`.
+- Updated stock-route summary copy so stock pages explicitly say `30 秒快速閱讀`, put the symbol back into market context, name cause/update/impact/next-step, and state demo-data / non-trading-instruction boundaries.
+
+Checks passed:
+
+- `check:home-first-screen-decision-hierarchy`
+- `check:market-action-summary-readable-copy`
+- `check:briefing-midpage-readability`
+- `check:stock-route-investor-language-alignment`
+- `check:public-visible-language-quality`
+- `check:public-surface-user-facing-audit`
+- `check:public-beta-core-route-quick-proof`
+- `npx tsc --noEmit`
+- `npm run build`
+- `curl -I http://localhost:3000/`
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public data-source promotion, real score promotion, login implementation, payment implementation, persisted watchlist, personalized alert execution, member-only content gating, promised-return claim, or investment-advice claim occurred.
+
+Next:
+
+Continue Phase 1 public/free product clarity. Best next PM slice is to clear the next public-product blockers in the focused review gate: decision journey, data readiness status, and public status surface alignment.
+
 ### A4 Membership MVP Scope And Free Member Boundary
 
 Status: `a4_membership_mvp_scope_and_free_paid_boundary_ready`
