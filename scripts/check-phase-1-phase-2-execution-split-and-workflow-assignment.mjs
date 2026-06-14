@@ -21,6 +21,8 @@ requireIncludes(docPath, doc, [
   "Phase 2 is the membership MVP path",
   "Phase 2 planning may continue",
   "Phase 2 implementation must not block Phase 1 public Beta readiness",
+  "The chairman's latest BRIEF revision keeps membership as the next product direction",
+  "GOAL execution should keep PM on Phase 1 product/runtime integration",
   "PM mainline",
   "A1 Data / Source / Coverage",
   "A2 Public Copy / Product Safety",
@@ -28,6 +30,8 @@ requireIncludes(docPath, doc, [
   "A4 Membership MVP Planning",
   "Use larger coherent slices",
   "phase_1_public_free_index_dashboard_usable_loop",
+  "Current GOAL Operating Shape",
+  "PM 50%, A1 20%, A2 15%, A3 15%, A4 planning only",
   "operator/governance console",
   "publicDataSource=supabase",
   "scoreSource=real"
@@ -50,6 +54,7 @@ requireIncludes(briefPath, brief, [
 
 requireIncludes(pmBriefPath, pmBrief, [
   "CEO Phase Decision - 2026-06-13",
+  "Chairman BRIEF Phase Split Confirmation",
   "Phase 1 comes first",
   "Phase 2 comes later",
   "A4 Membership MVP Planning",

@@ -16,6 +16,8 @@ CEO decision:
 - Phase 1 is the public free index-lighting site that every visitor can use.
 - Phase 2 is the membership MVP path.
 - Phase 2 planning may continue, but Phase 2 implementation must not block Phase 1 public Beta readiness.
+- The chairman's latest BRIEF revision keeps membership as the next product direction, but it confirms that the first launch must be usable by non-members first.
+- GOAL execution should keep PM on Phase 1 product/runtime integration while A1/A2/A3/A4 continue only the support work that does not slow the public free launch.
 
 ## Phase 1 Current Mainline
 
@@ -142,3 +144,15 @@ The next PM route should push Phase 1 as a public product, not as an operator/go
 5. hand only the minimum accepted output to A3 launch operations when public-route readability and local checks are green.
 
 If a future operator or platform action is needed, A3 may use the existing no-secret checklist. Until then, PM should keep moving on the Phase 1 public usable loop instead of creating more operator packets.
+
+## Current GOAL Operating Shape
+
+The active GOAL should be interpreted as a multi-line execution system:
+
+- PM stays on the mainline: public free product usability, runtime readability, route health, public page cleanup, and launch integration.
+- A1 stays on data/source/coverage: legal free automated source candidates, coverage universe, field contracts, ingestion/backfill readiness, and aggregate-only handoff.
+- A2 stays on trust and copy: risk disclosure, source/update-time copy, non-investment-advice wording, free/member boundary, and public residue cleanup.
+- A3 stays on launch engineering: Vercel, env inventory, smoke checks, monitoring, rollback, SEO, analytics, and post-deploy evidence.
+- A4 stays optional and Phase 2 only: membership MVP planning, information architecture, watchlist/alert/report shape, and conversion metrics design.
+
+CEO may adjust line ratios at any time. Default ratio while Phase 1 is not fully stable: PM 50%, A1 20%, A2 15%, A3 15%, A4 planning only when it removes Phase 2 ambiguity.

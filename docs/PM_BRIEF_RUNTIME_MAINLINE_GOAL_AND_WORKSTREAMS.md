@@ -8,6 +8,28 @@ Owner: PM mainline
 
 ## Latest Mainline Decision - 2026-06-14
 
+### Chairman BRIEF Phase Split Confirmation
+
+CEO decision:
+
+- Accept the latest chairman BRIEF as the current product direction.
+- Split execution into Phase 1 and Phase 2.
+- Phase 1 is the current launch target: a public free index-lighting site that every visitor can use without membership.
+- Phase 2 is the membership MVP path: member-only three-layer interpretation, watchlist/custom alerts, and post-market review.
+- Membership is strategically important, but it must remain roadmap/preview until the public free product is stable enough to launch.
+- GOAL execution should stay multi-line: PM owns Phase 1 product/runtime integration; A1 owns data/source/coverage; A2 owns trust copy and non-advice boundaries; A3 owns launch engineering; A4 stays optional for Phase 2 membership planning only.
+
+PM route:
+
+- Continue `phase_1_public_free_index_dashboard_usable_loop`.
+- Use larger coherent slices when the work is cleanup, public copy, or launch readiness.
+- Do not spend a full slice on governance unless it unlocks public route readiness, source/data trust, launch action, rollback decision, or free/member boundary clarity.
+
+Next PM slice:
+
+- Tighten the public free user loop: market status, signal reason, update time, risk reminder, source/data boundary, and next observation across home, stock, briefing, weekly, methodology, disclaimer, terms, and privacy.
+- Keep Phase 2 visible as roadmap and conversion direction only.
+
 ### BRIEF Phase 1 Public Surface Residue Cleanup Pass
 
 CEO decision:

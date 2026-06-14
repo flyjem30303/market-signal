@@ -2,6 +2,33 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Chairman BRIEF Phase Split Confirmation
+
+Status: `chairman_brief_phase_split_confirmed`
+
+CEO decision:
+
+- Accept the latest chairman BRIEF as the current product target.
+- Run the project in two phases:
+  - Phase 1: public free index-lighting site for all visitors.
+  - Phase 2: membership MVP with member-only three-layer interpretation, watchlist/custom alerts, and post-market review.
+- Phase 1 remains the active launch target. Phase 2 is product strategy and planning, not a Phase 1 blocker.
+- Keep the project multi-line: PM mainline handles public product/runtime; A1 handles data/source/coverage; A2 handles trust copy and no-advice boundaries; A3 handles launch engineering; A4 remains optional Phase 2 planning.
+- Avoid over-governance. Use larger coherent slices unless a new artifact directly unlocks public route readiness, source/data trust, launch action, rollback decision, or free/member boundary clarity.
+
+PM completed:
+
+- Updated `docs/PHASE_1_PHASE_2_EXECUTION_SPLIT_AND_WORKFLOW_ASSIGNMENT.md` with the latest GOAL operating shape and multi-line workstream ratio.
+- Updated `docs/PM_BRIEF_RUNTIME_MAINLINE_GOAL_AND_WORKSTREAMS.md` so the latest mainline decision reflects the chairman's revised BRIEF and the Phase 1/Phase 2 split.
+
+Current next route:
+
+- `phase_1_public_free_index_dashboard_usable_loop`
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public source promotion, real score promotion, real-time claim, official endorsement claim, guaranteed-return claim, investment-advice claim, production env mutation, DNS change, Vercel dashboard mutation, or membership implementation occurred. Runtime remains mock/demo.
+
 ### Remote Monitoring Keep-Open Decision Pass
 
 Status: `phase_1_public_beta_remote_monitoring_keep_open_decision_ready`
