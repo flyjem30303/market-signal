@@ -3998,6 +3998,11 @@ const checks = [
     name: "phase-1-data-online-go-no-go-status"
   },
   {
+    command: [node, "scripts/check-phase-1-twii-bounded-write-operator-decision-quickstart.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-twii-bounded-write-operator-decision-quickstart"
+  },
+  {
     command: [node, "scripts/check-open-free-auto-data-source-gate.mjs"],
     expectStatus: "ok",
     name: "open-free-auto-data-source-gate"
@@ -6341,6 +6346,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "source-coverage-runtime-handoff-docs",
   "public-beta-data-realification-next-action",
   "phase-1-data-online-go-no-go-status",
+  "phase-1-twii-bounded-write-operator-decision-quickstart",
   "open-free-auto-data-source-gate",
   "stock-decision-aid-actionability",
   "stock-decision-compass",

@@ -2,6 +2,36 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 TWII Bounded Write Operator Decision Quickstart
+
+Status: `phase_1_twii_bounded_write_operator_decision_quickstart_ready_no_execution`
+
+CEO decision:
+
+- Consolidate the TWII write path into one operator-facing quickstart before any data mutation, because the project needs faster Phase 1 progress without losing the safety boundary around real writes.
+- Treat TWII as the first bounded data-online closure lane: it can close 60 missing Level 1 rows only after the separate operator decision packet is reviewed and explicitly accepted.
+- Keep the current public runtime at `publicDataSource=mock` and `scoreSource=mock`; this slice is a readiness and decision-surface improvement, not a real-data promotion.
+
+PM completed:
+
+- Added `docs/PHASE_1_TWII_BOUNDED_WRITE_OPERATOR_DECISION_QUICKSTART.md` as the single PM/operator route for the TWII bounded write decision.
+- Added `check:phase-1-twii-bounded-write-operator-decision-quickstart` and registered it in the full review gate.
+- Verified the quickstart cross-checks the Phase 1 data-online NO-GO state, the TWII final operator authorization packet preflight, and the next execution route gate without reading candidate rows or executing a write.
+- Preserved the explicit attempt boundary: attempt id `twii-one-attempt-runner-20260610-a`, lane `TWII`, table `daily_prices`, scope `twii_index_daily_prices_missing_rows`, max rows `60`, candidate artifact reference only.
+
+Evidence:
+
+- `check:phase-1-twii-bounded-write-operator-decision-quickstart` passed with `phase_1_twii_bounded_write_operator_decision_quickstart_ready_no_execution`.
+- It reported data-online decision `PUBLIC_RUNTIME_READY_BUT_DATA_ONLINE_NO_GO`, operator outcome `final_operator_authorization_packet_ready_execution_still_blocked`, route status `blocked_waiting_real_operator_and_pre_execution_values`, `publicDataSource=mock`, `scoreSource=mock`, and `twiiExecutionAllowedNow=false`.
+
+Boundary:
+
+No SQL, Supabase connection/write, staging row creation, `daily_prices` mutation, market endpoint fetch, raw market-data ingest/store/commit, candidate row readback, row payload output, secret output, public source promotion, score promotion, investment advice claim, production environment mutation, DNS change, broad visual redesign, or Phase 2 membership implementation occurred.
+
+Next route:
+
+Run the focused and full review gates. If they pass, PM should either prepare the separate explicit operator-decision intake for TWII or proceed to ETF coverage closure, depending on whether the operator packet is accepted.
+
 ### Phase 1 Data-Online Go/No-Go And Public Trust Copy Gate
 
 Status: `phase_1_data_online_go_no_go_and_public_trust_copy_gate_ready`
