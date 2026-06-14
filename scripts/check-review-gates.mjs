@@ -3453,6 +3453,11 @@ const checks = [
     name: "phase-1-data-online-gap-closure-map"
   },
   {
+    command: [node, "scripts/check-phase-1-level-1-closure-execution-packet.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-level-1-closure-execution-packet"
+  },
+  {
     command: [node, "scripts/check-runtime-data-promotion-handoff-checklist.mjs"],
     expectStatus: "ok",
     name: "runtime-data-promotion-handoff-checklist"
