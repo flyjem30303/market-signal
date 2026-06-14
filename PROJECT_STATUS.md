@@ -2,6 +2,40 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Phase 1 Public Journey Remote Validation Addendum
+
+Status: `phase_1_public_journey_remote_validation_ready`
+
+PM completed:
+
+- Confirmed the `phase_1_public_journey_readability_gate_repair_ready` slice builds successfully.
+- Restarted localhost after build to avoid stale `.next` dev-cache issues.
+- Re-ran local public visible language and public residue gates after restart.
+- Confirmed Vercel remote deployment at `https://market-signal-two.vercel.app` passes the Phase 1 remote monitoring snapshot.
+
+Checks passed:
+
+- `build`
+- `check:public-visible-language-quality`
+- `check:phase-1-public-beta-public-visible-residue-cleanup`
+- local route probe: `/briefing` returned 200 after dev-server restart
+- `check:a3-phase-1-public-beta-remote-monitoring-snapshot`
+
+Remote snapshot:
+
+- Checked routes: `/`, `/briefing`, `/weekly`, `/membership`, `/stocks/2330`, `/stocks/TWII`, `/methodology`, `/disclaimer`, `/terms`, `/privacy`, `/robots.txt`, `/sitemap.xml`
+- All checked routes returned 200.
+- `publicDataSource=mock`
+- `scoreSource=mock`
+- `sqlExecuted=false`
+- `supabaseReadOrWriteExecuted=false`
+- `marketDataFetched=false`
+- `platformMutationExecuted=false`
+
+Next:
+
+Continue Phase 1 final public journey pass. Priority remains user-facing product quality, not Phase 2 membership implementation. A1 continues legal/free automated source and coverage work; A2 keeps public language gates strict; A3 keeps deployment monitoring and rollback ready; A4 remains second-stage membership planning only.
+
 ### Phase 1 Public Journey Readability Gate Repair Pass
 
 Status: `phase_1_public_journey_readability_gate_repair_ready`
