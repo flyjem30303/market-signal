@@ -12,11 +12,19 @@ const requiredPhrases = [
   "`/`",
   "`/briefing`",
   "`/stocks/2330`",
+  "`/membership`",
   "clear 30-second market mood language",
   "clear 3-minute action-judgment language",
   "source, update-time, and demonstrative-data boundaries",
   "non-investment-advice / no-buy-sell-advice wording",
   "Phase 2 membership roadmap as a deferred path",
+  "desktop width and 390px mobile width",
+  "mobile top navigation that intentionally scrolls horizontally",
+  "H1 is `指數狀態儀表站`",
+  "H1 is `30 秒看市場氣氛，3 分鐘完成今日觀察判斷`",
+  "H1 is `2330 台積電 指數燈號`",
+  "H1 is `會員功能預覽：從看到燈號，延伸到理解與追蹤`",
+  "not as live login, payment, stored watchlist, personalized alert, or member-only content implementation",
   "no visible command snippets",
   "no visible local file paths",
   "no visible SQL, Supabase write, staging row, raw payload, secret, API key, token",
@@ -40,7 +48,9 @@ const forbiddenPatterns = [
   /SQL execution is approved/iu,
   /Supabase writes are approved/iu,
   /raw market data fetch is approved/iu,
-  /investment advice is provided/iu
+  /investment advice is provided/iu,
+  /�/u,
+  /蝘|銵|瘞|啁||/u
 ];
 
 const doc = readText(docPath);

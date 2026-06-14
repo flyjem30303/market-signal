@@ -2,6 +2,45 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Phase 1 Human Visual Review And A3 Handoff Refresh
+
+Status: `phase_1_human_visual_review_and_a3_handoff_refresh_ready`
+
+CEO decision:
+
+- Keep Phase 1 public/free mock Beta as the active launch candidate.
+- Treat browser-visible language and actual page headings as stronger evidence than old review notes.
+- Keep Phase 2 membership visible only as a roadmap; membership implementation remains deferred.
+- Hand the candidate toward A3 only through no-secret launch engineering, monitoring, SEO, smoke, and rollback readiness.
+
+PM completed:
+
+- Rechecked the public candidate in the in-app browser at desktop width and 390px mobile width.
+- Confirmed `/`, `/briefing`, `/stocks/2330`, and `/membership` read as public product pages rather than internal project dashboards.
+- Refreshed `docs/PHASE_1_PUBLIC_BETA_HUMAN_VISUAL_REVIEW.md` with the current clean H1s:
+  - `指數狀態儀表站`
+  - `30 秒看市場氣氛，3 分鐘完成今日觀察判斷`
+  - `2330 台積電 指數燈號`
+  - `會員功能預覽：從看到燈號，延伸到理解與追蹤`
+- Recorded that mobile top navigation is intentionally horizontally scrollable through `overflow-x: auto`, not a content-overlap defect.
+- Strengthened `check:phase-1-public-beta-human-visual-review` so stale mojibake or old H1 evidence cannot pass.
+- Reconnected PM mainline documentation to `docs/A3_LAUNCH_ENGINEERING_HANDOFF.md` so A3 launch-readiness checks no longer depend on an implicit link.
+
+Checks passed:
+
+- `check:phase-1-public-beta-human-visual-review`
+- `check:phase-1-public-beta-visual-acceptance-and-a3-handoff`
+- `check:a3-public-beta-phase-1-launch-readiness-checklist`
+- `check:a3-no-secret-production-env-and-rollback-checklist`
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, production env mutation, DNS change, public data-source promotion, real score promotion, membership implementation, login, payment, persisted watchlist, personalized alert execution, real-time claim, official endorsement claim, guaranteed-return claim, or investment-advice claim occurred.
+
+Next:
+
+Continue Phase 1 public Beta with A3 release-ops smoke/monitoring evidence and PM user-facing route stability. A1 remains responsible for legal/free automated data-source and coverage work; A2 remains responsible for trust copy and disclosure; A4 remains membership MVP planning only.
+
 ### Phase 1 Public Candidate Gate Cleanup Pass
 
 Status: `phase_1_public_candidate_gate_cleanup_ready`

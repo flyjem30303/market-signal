@@ -67,6 +67,8 @@ Current A2 focus:
 
 A3 prepares launch engineering.
 
+Canonical handoff: `docs/A3_LAUNCH_ENGINEERING_HANDOFF.md`.
+
 Current A3 focus:
 
 - Vercel health
@@ -89,7 +91,7 @@ A4 Membership MVP Planning Lane is standby until Phase 1 is stable.
 A4 may plan:
 
 - market three-layer interpretation
-- watchlist
+- 自選追蹤 / watchlist
 - custom alert conditions
 - post-market review report
 - member content boundary
