@@ -5343,3 +5343,31 @@ No SQL, Supabase read/write, staging rows, `daily_prices` mutation, raw market-d
 Next:
 
 Prepare the chairman/operator acceptance record or a no-secret platform checklist only if the user wants an actual platform action. Otherwise keep A1 data-line blockers moving in parallel while Phase 1 mock public Beta remains reviewable.
+
+# Latest Phase 1 mock public Beta chairman/operator acceptance record
+
+Status: `phase_1_mock_public_beta_chairman_operator_acceptance_record_2026_06_14_recorded`
+
+Date: 2026-06-14
+
+CEO decision: `GO_WITH_DATA_LINE_DEFERRALS`.
+
+What changed:
+
+- Added `docs/PHASE_1_MOCK_PUBLIC_BETA_CHAIRMAN_OPERATOR_ACCEPTANCE_RECORD_2026_06_14.md`.
+- Updated `docs/A3_PHASE_1_PUBLIC_BETA_RELEASE_REVIEW_SUMMARY_FOR_CHAIRMAN.md` to point to the new 2026-06-14 acceptance record.
+
+Decision meaning:
+
+- Phase 1 public free site can be reviewed as a mock-data Beta candidate.
+- The full project review gate is not green because data-line / TWSE OpenAPI gates remain blocked.
+- Platform action is not automatically authorized; if desired, it must use the no-secret manual platform checklist.
+- A1 data/source coverage continues separately and is disclosed as a data-line deferral, not hidden.
+
+Boundary:
+
+No SQL, Supabase read/write, staging rows, `daily_prices` mutation, raw market-data fetch/store/commit, source promotion, real score promotion, membership implementation, production env mutation, DNS change, Vercel dashboard mutation, or platform deploy occurred. The runtime remains `publicDataSource=mock` and `scoreSource=mock`.
+
+Next:
+
+If the chairman accepts the record, proceed to no-secret manual platform checklist only when a platform action is wanted. If the chairman does not want platform action yet, PM should continue A1 data-line blocker repair while preserving the reviewable Phase 1 mock public Beta surface.

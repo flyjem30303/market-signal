@@ -60,6 +60,7 @@ Result:
 - focused public readiness gates and TypeScript passed;
 - `docs/PHASE_1_FINAL_UI_UX_POLISH_CANDIDATE.md` records the accepted UI/UX scope and deferred polish;
 - `docs/PHASE_1_MOCK_PUBLIC_BETA_ACCEPTANCE_SUMMARY.md` separates public mock Beta acceptance from unfinished data-line gates.
+- `docs/PHASE_1_MOCK_PUBLIC_BETA_CHAIRMAN_OPERATOR_ACCEPTANCE_RECORD_2026_06_14.md` records the current chairman/operator acceptance decision as `GO_WITH_DATA_LINE_DEFERRALS`.
 
 Important boundary:
 
