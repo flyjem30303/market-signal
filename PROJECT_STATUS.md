@@ -2,6 +2,48 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Phase 1 Public Route Health And Operator-Safe Smoke Packet
+
+Status: `phase_1_public_route_health_and_operator_safe_smoke_packet_ready`
+
+CEO decision:
+
+- Move from A3 minimum launch-engineering readiness into an operator-safe route-health packet.
+- Keep the packet practical and short: local checks, route smoke, remote URL smoke pattern, public claim guards, and decision outcomes.
+- Do not deploy, change DNS, mutate production env, execute SQL, write Supabase, fetch raw market data, or promote real runtime sources inside this slice.
+
+PM/A3 completed:
+
+- Added `docs/PHASE_1_PUBLIC_ROUTE_HEALTH_AND_OPERATOR_SAFE_SMOKE_PACKET.md`.
+- Registered `check:phase-1-public-route-health-and-operator-safe-smoke-packet`.
+- Added the checker to `check:review-gates`.
+- Captured the dev-server recovery note for the known `.next` cache issue after `npm run build`.
+- Preserved PM/A1/A2/A3/A4 workstream routing under the revised BRIEF.
+
+Checks passed:
+
+- `check:phase-1-public-route-health-and-operator-safe-smoke-packet`
+- `check:a3-public-beta-minimum-launch-engineering-readiness`
+- `check:a3-phase-1-metadata-and-public-route-smoke-checker`
+- `check:public-beta-core-route-quick-proof`
+- `check:public-visible-language-quality`
+- `check:public-surface-user-facing-audit`
+- `npx tsc --noEmit`
+- `npm run build`
+
+Local runtime recovery:
+
+- `npm run build` can leave the active dev server with stale `.next` chunks.
+- `cmd.exe /c npm run dev:recover` restored `/`, `/briefing`, and `/stocks/2330` to 200 after build.
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public data-source promotion, real score promotion, production deploy, DNS change, production environment mutation, login implementation, payment implementation, persisted watchlist, personalized alert execution, member-only content gating, brokerage integration, promised-return claim, or investment-advice claim occurred.
+
+Next:
+
+Proceed to `phase_1_public_beta_operator_safe_smoke_or_repair_decision`. If this route-health packet passes, PM can prepare a human-operated preview/production check; otherwise route directly to repair and rerun focused checks.
+
 ### A3 Public Beta Minimum Launch Engineering Readiness
 
 Status: `a3_public_beta_minimum_launch_engineering_ready`

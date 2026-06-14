@@ -5463,6 +5463,11 @@ const checks = [
     name: "phase-1-public-beta-post-operator-smoke-packet"
   },
   {
+    command: [node, "scripts/check-phase-1-public-route-health-and-operator-safe-smoke-packet.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-public-route-health-and-operator-safe-smoke-packet"
+  },
+  {
     command: [node, "scripts/check-phase-1-public-beta-keep-open-or-repair-decision.mjs"],
     expectStatus: "ok",
     name: "phase-1-public-beta-keep-open-or-repair-decision"
@@ -6270,6 +6275,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "public-beta-phase-1-launch-gap-rollup",
   "phase-1-public-beta-operator-review-summary",
   "phase-1-public-beta-post-operator-smoke-packet",
+  "phase-1-public-route-health-and-operator-safe-smoke-packet",
   "phase-1-public-beta-keep-open-or-repair-decision",
   "phase-1-public-beta-public-status-surface-alignment",
   "phase-1-public-beta-public-visible-residue-cleanup",
