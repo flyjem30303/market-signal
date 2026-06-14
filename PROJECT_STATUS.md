@@ -2,6 +2,42 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Home First Screen Action Path Pass
+
+Status: `home_first_screen_action_path_ready`
+
+CEO decision:
+
+- Keep pushing Phase 1 visible product value before opening Phase 2 membership implementation.
+- The homepage first screen should not only summarize signal, risk, breadth, and freshness; it should also route the user to the next useful public action.
+- The next action path should stay public and non-advisory: market briefing, risk disclosure, and membership preview only.
+
+PM completed:
+
+- Added three visible first-screen action links on the homepage:
+  - `查看市場晨報`
+  - `查看風險聲明`
+  - `查看會員功能預覽`
+- Added responsive styling for the first-screen action row.
+- Expanded `check:home-first-screen-decision-hierarchy` so the CTA path is guarded by rendered homepage verification.
+
+Checks passed:
+
+- `check:home-first-screen-decision-hierarchy`
+- `check:phase-1-public-beta-public-visible-residue-cleanup`
+- `check:public-beta-core-route-quick-proof`
+- `npx tsc --noEmit`
+- `npm run build`
+- `check:review-gates` (`190/190` focused checks executed)
+
+Boundary:
+
+No membership implementation, login, payment, watchlist persistence, personalized alert execution, SQL, Supabase read/write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public source promotion, real score promotion, real-time claim, official endorsement claim, guaranteed-return claim, investment-advice claim, production env mutation, DNS change, or Vercel dashboard mutation occurred.
+
+Next:
+
+Continue Phase 1 route-level information-density cleanup or A3 public smoke.
+
 ### Briefing Membership Preview Alignment Pass
 
 Status: `briefing_membership_preview_alignment_ready`

@@ -14,6 +14,9 @@ const requiredVisible = [
   "主要風險",
   "資料時間",
   "3 分鐘複核",
+  "查看市場晨報",
+  "查看風險聲明",
+  "查看會員功能預覽",
   "正式市場資料尚未啟用",
   "不提供個股買賣建議"
 ];
@@ -74,7 +77,8 @@ for (const phrase of [
   ".home-first-screen-decision",
   ".home-first-screen-decision__grid",
   ".home-first-screen-decision__main",
-  ".home-first-screen-decision__next"
+  ".home-first-screen-decision__next",
+  ".home-first-screen-decision__actions"
 ]) {
   if (!css.includes(phrase)) setupProblems.push(`${cssPath} missing ${phrase}`);
 }

@@ -208,6 +208,22 @@ function HomeFirstScreenDecisionSummary({
       <p className="home-first-screen-decision__next">
         3 分鐘複核：先看市場晨報，再看指數狀態與風險聲明；本頁是資訊整理與風險辨識，不提供個股買賣建議。
       </p>
+      <div className="home-first-screen-decision__actions" aria-label="首頁下一步行動">
+        <TrackedLink eventName="home_cta_clicked" href="/briefing" label="查看市場晨報" payload={{ area: "home_first_screen" }}>
+          查看市場晨報
+        </TrackedLink>
+        <TrackedLink eventName="trust_link_clicked" href="/disclaimer" label="查看風險聲明" payload={{ area: "home_first_screen" }}>
+          查看風險聲明
+        </TrackedLink>
+        <TrackedLink
+          eventName="membership_preview_link_clicked"
+          href="/membership"
+          label="查看會員功能預覽"
+          payload={{ area: "home_first_screen" }}
+        >
+          查看會員功能預覽
+        </TrackedLink>
+      </div>
     </section>
   );
 }

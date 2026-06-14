@@ -8,6 +8,37 @@ Owner: PM mainline
 
 ## Latest Mainline Decision - 2026-06-14
 
+### Home First Screen Action Path Pass
+
+CEO decision:
+
+- Continue Phase 1 public usability before Phase 2 membership implementation.
+- The homepage already has market signal, breadth, risk, and freshness; the next missing product step is explicit action routing.
+- The action routing should support the BRIEF's 30-second / 3-minute promise without implying active membership, live data, or investment advice.
+
+PM completed:
+
+- Added first-screen homepage links to `查看市場晨報`, `查看風險聲明`, and `查看會員功能預覽`.
+- Styled the action row to remain readable on desktop and mobile.
+- Updated `check:home-first-screen-decision-hierarchy` so the rendered homepage must expose the action path.
+
+Checks passed:
+
+- `check:home-first-screen-decision-hierarchy`
+- `check:phase-1-public-beta-public-visible-residue-cleanup`
+- `check:public-beta-core-route-quick-proof`
+- `npx tsc --noEmit`
+- `npm run build`
+- `check:review-gates` (`190/190` focused checks executed)
+
+Current route:
+
+- `home_first_screen_action_path_ready`
+
+Next PM slice:
+
+- Continue Phase 1 route-level information-density cleanup or A3 public smoke.
+
 ### Briefing Membership Preview Alignment Pass
 
 CEO decision:
