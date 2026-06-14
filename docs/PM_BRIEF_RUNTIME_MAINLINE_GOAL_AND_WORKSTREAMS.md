@@ -8,6 +8,39 @@ Owner: PM mainline
 
 ## Latest Mainline Decision - 2026-06-14
 
+### Weekly Market Action Summary Pass
+
+CEO decision:
+
+- Continue Phase 1 public usability before Phase 2 membership implementation.
+- The weekly route should move from a static summary into a clear public action path: market status first, then risk/ETF review.
+- Keep the route mock-bounded, no-advice, and readable to a general investor.
+
+PM completed:
+
+- Repaired the weekly action summary helper into readable UTF-8 source.
+- Connected `/weekly` to `buildWeeklyMarketActionSummary`.
+- Added `週報行動摘要`, weekly breadth wording, no-advice boundary, primary action routing, and secondary risk review routing.
+- Kept the route on mock/demo data and did not promote any source or score to real.
+
+Checks passed:
+
+- `check:weekly-market-action-summary`
+- `check:phase-1-public-beta-public-visible-residue-cleanup`
+- `check:public-beta-core-route-quick-proof`
+- `check:public-beta-methodology-disclaimer-source-coverage-alignment`
+- `npx tsc --noEmit`
+- `npm run build`
+- `check:review-gates` (`190/190` focused checks executed)
+
+Current route:
+
+- `weekly_market_action_summary_ready`
+
+Next PM slice:
+
+- Continue Phase 1 route readability or A3 public smoke.
+
 ### Home First Screen Action Path Pass
 
 CEO decision:

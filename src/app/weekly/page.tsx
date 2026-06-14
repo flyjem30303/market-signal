@@ -9,6 +9,7 @@ import {
   getMarketSignalSourceStatus
 } from "@/lib/repositories/market-signal-repository";
 import type { SignalSnapshot } from "@/lib/signal-model";
+import { buildWeeklyMarketActionSummary } from "@/lib/weekly-market-action-summary";
 
 export const metadata: Metadata = {
   title: "市場週報",
@@ -25,7 +26,13 @@ export default async function WeeklyPage() {
     .filter((snapshot): snapshot is SignalSnapshot => Boolean(snapshot));
   const market = snapshots.find((item) => item.asset.symbol === "TWII") ?? snapshots[0];
   const topRisk = snapshots.slice().sort((a, b) => b.riskScore - a.riskScore)[0] ?? market;
+  const topEtf =
+    snapshots
+      .filter((snapshot) => snapshot.asset.group === "ETF")
+      .slice()
+      .sort((a, b) => b.healthScore - a.healthScore)[0] ?? market;
   const breadth = buildWeeklyBreadth(snapshots);
+  const actionSummary = buildWeeklyMarketActionSummary(market, topRisk, topEtf, breadth);
 
   return (
     <main className="page-shell">
@@ -43,38 +50,34 @@ export default async function WeeklyPage() {
 
       <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
 
-      <section className="weekly-market-action-summary" aria-label="本週市場摘要">
+      <section className="weekly-market-action-summary" aria-label="週報行動摘要">
         <div>
-          <p className="eyebrow">市場總覽</p>
-          <h2>{market.signal.title}</h2>
-          <p>{market.signal.text}</p>
-          <p>
-            本週觀察範圍中，偏多項目 {breadth.constructive} 個、觀望項目 {breadth.watch} 個、警戒項目 {breadth.defensive} 個。
-          </p>
+          <p className="eyebrow">週報行動摘要</p>
+          <h2>{actionSummary.headline}</h2>
+          <p>{actionSummary.weeklyLine}</p>
+          <p>{actionSummary.stopLine}</p>
         </div>
         <TrackedLink
-          className="active"
+          className={actionSummary.primary.tone}
           eventName="weekly_link_clicked"
-          href={`/stocks/${market.asset.symbol}`}
-          label="查看市場總覽"
-          payload={{ area: "weekly_market", symbol: market.asset.symbol }}
+          href={actionSummary.primary.href}
+          label={actionSummary.primary.label}
+          payload={{ area: "weekly_market_action_primary", symbol: actionSummary.primary.symbol }}
         >
-          <span>市場總覽</span>
-          <strong>{market.asset.name}</strong>
-          <p>查看燈號成因、核心指標與目前資料狀態。</p>
+          <span>{actionSummary.primary.label}</span>
+          <strong>{actionSummary.primary.title}</strong>
+          <p>{actionSummary.primary.body}</p>
         </TrackedLink>
         <TrackedLink
-          className={topRisk.riskScore >= 60 ? "blocked" : "hold"}
+          className={actionSummary.secondary.tone}
           eventName="weekly_link_clicked"
-          href={`/stocks/${topRisk.asset.symbol}`}
-          label="查看高風險項目"
-          payload={{ area: "weekly_risk", symbol: topRisk.asset.symbol }}
+          href={actionSummary.secondary.href}
+          label={actionSummary.secondary.label}
+          payload={{ area: "weekly_market_action_secondary", symbol: actionSummary.secondary.symbol }}
         >
-          <span>高風險項目</span>
-          <strong>
-            {topRisk.asset.symbol} {topRisk.asset.name}
-          </strong>
-          <p>優先檢查風險分數、燈號狀態與下一步觀察重點。</p>
+          <span>{actionSummary.secondary.label}</span>
+          <strong>{actionSummary.secondary.title}</strong>
+          <p>{actionSummary.secondary.body}</p>
         </TrackedLink>
       </section>
 

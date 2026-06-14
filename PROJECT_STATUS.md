@@ -2,6 +2,41 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Weekly Market Action Summary Pass
+
+Status: `weekly_market_action_summary_ready`
+
+CEO decision:
+
+- Keep Phase 1 focused on the public, no-login index signal dashboard before opening Phase 2 membership implementation.
+- The weekly route should support the BRIEF promise: users can understand the market mood quickly, then follow a clear next action path.
+- Weekly content must stay public, non-advisory, and mock-bounded until source-rights, coverage, and promotion gates are complete.
+
+PM completed:
+
+- Repaired `src/lib/weekly-market-action-summary.ts` into a readable UTF-8 helper.
+- Connected `/weekly` to `buildWeeklyMarketActionSummary`.
+- Added a visible `週報行動摘要` with market status, weekly breadth, data boundary, primary action, and secondary risk review action.
+- Updated weekly click payload areas to `weekly_market_action_primary` and `weekly_market_action_secondary`.
+
+Checks passed:
+
+- `check:weekly-market-action-summary`
+- `check:phase-1-public-beta-public-visible-residue-cleanup`
+- `check:public-beta-core-route-quick-proof`
+- `check:public-beta-methodology-disclaimer-source-coverage-alignment`
+- `npx tsc --noEmit`
+- `npm run build`
+- `check:review-gates` (`190/190` focused checks executed)
+
+Boundary:
+
+No membership implementation, login, payment, watchlist persistence, personalized alert execution, SQL, Supabase read/write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public source promotion, real score promotion, real-time claim, official endorsement claim, guaranteed-return claim, investment-advice claim, production env mutation, DNS change, or Vercel dashboard mutation occurred.
+
+Next:
+
+Continue Phase 1 route-level readability or A3 public smoke.
+
 ### Home First Screen Action Path Pass
 
 Status: `home_first_screen_action_path_ready`
