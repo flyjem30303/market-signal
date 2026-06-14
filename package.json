@@ -750,6 +750,7 @@
     "check:phase-1-public-beta-candidate-final-public-readiness-scan": "node scripts/check-phase-1-public-beta-candidate-final-public-readiness-scan.mjs",
     "check:phase-1-public-beta-final-readiness-rollup": "node scripts/check-phase-1-public-beta-final-readiness-rollup.mjs",
     "check:phase-1-public-beta-release-readiness-evidence-rollup": "node scripts/check-phase-1-public-beta-release-readiness-evidence-rollup.mjs",
+    "check:phase-1-ui-ux-style-direction": "node scripts/check-phase-1-ui-ux-style-direction.mjs",
     "check:phase-1-public-beta-human-visual-review": "node scripts/check-phase-1-public-beta-human-visual-review.mjs",
     "check:phase-1-human-ui-ux-acceptance-checklist": "node scripts/check-phase-1-human-ui-ux-acceptance-checklist.mjs",
     "check:phase-1-pre-ui-ux-acceptance-record": "node scripts/check-phase-1-pre-ui-ux-acceptance-record.mjs",

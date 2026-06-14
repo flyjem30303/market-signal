@@ -3283,6 +3283,11 @@ const checks = [
     name: "phase-1-public-beta-release-readiness-evidence-rollup"
   },
   {
+    command: [node, "scripts/check-phase-1-ui-ux-style-direction.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-ui-ux-style-direction"
+  },
+  {
     command: [node, "scripts/check-phase-1-public-beta-human-visual-review.mjs"],
     expectStatus: "ok",
     name: "phase-1-public-beta-human-visual-review"
@@ -6172,6 +6177,7 @@ const coreReviewGateNames = new Set([
   "phase-1-public-beta-candidate-final-public-readiness-scan",
   "phase-1-public-beta-final-readiness-rollup",
   "phase-1-public-beta-release-readiness-evidence-rollup",
+  "phase-1-ui-ux-style-direction",
   "phase-1-public-beta-human-visual-review",
   "phase-1-human-ui-ux-acceptance-checklist",
   "phase-1-pre-ui-ux-acceptance-record",
@@ -6364,6 +6370,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "phase-1-public-beta-candidate-final-public-readiness-scan",
   "phase-1-public-beta-final-readiness-rollup",
   "phase-1-public-beta-release-readiness-evidence-rollup",
+  "phase-1-ui-ux-style-direction",
   "phase-1-public-beta-human-visual-review",
   "phase-1-human-ui-ux-acceptance-checklist",
   "phase-1-pre-ui-ux-acceptance-record",
