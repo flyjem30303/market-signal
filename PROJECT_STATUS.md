@@ -2,6 +2,36 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Public First-Screen Copy Readability
+
+Status: `public_first_screen_copy_readability_ready`
+
+CEO decision:
+
+- Continue Phase 1 public launch readiness by removing user-facing early-run copy residue from the first screen before expanding visual polish.
+- Treat the homepage, stock page, and briefing first screen as the highest-value public copy cleanup surface because users must understand status, next step, and data boundary within seconds.
+- Keep this slice focused on readable public copy only; do not expand into membership, broad design overhaul, or data promotion.
+
+PM completed:
+
+- Replaced the dashboard hero copy with clear home/stock context labels, a 30-second market-status headline, and a 3-minute next-observation reading strip.
+- Replaced the briefing hero and 30-second summary copy with investor-readable status, risk, next-step, watch, and risk-reduction language.
+- Preserved the public data-source boundary notice and route structure.
+- Added `check:public-first-screen-copy-readability` and registered it in the review gate list.
+
+Evidence:
+
+- `cmd.exe /c npm run check:public-first-screen-copy-readability` first failed because required first-screen copy and this status record were missing.
+- The checker now requires readable home/stock/briefing first-screen fragments and blocks common garbled first-screen fragments.
+
+Boundary:
+
+No SQL, Supabase connection/read/write, staging row creation, `daily_prices` mutation, market endpoint fetch, raw market-data ingest/store/commit, source-derived candidate row generation, public source promotion, score promotion, investment advice claim, production environment mutation, DNS change, broad visual redesign, or Phase 2 membership implementation occurred.
+
+Next route:
+
+Continue public residue cleanup below the first screen, especially market breadth, stock summary, and route panels that still need investor-readable labels, reason, next-step, update-time, and risk-disclosure language.
+
 ### Public Data Source Boundary Notice
 
 Status: `public_data_source_boundary_notice_ready`

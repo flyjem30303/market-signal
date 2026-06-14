@@ -64,20 +64,20 @@ export function DashboardShell({
       />
 
       <section className="hero dashboard-hero">
-        <p className="eyebrow">指數狀態儀表站</p>
-        <h1>{isStockPage ? `${selected.symbol} ${selected.name} 指數燈號` : "30 秒看懂台股市場狀態"}</h1>
+        <p className="eyebrow">{isStockPage ? "標的狀態" : "市場總覽"}</p>
+        <h1>{isStockPage ? `${selected.symbol} ${selected.name} 燈號狀態` : "30 秒看懂市場狀態"}</h1>
         <p>
-          指數燈號把市場分數、風險分數、資料時間與下一步觀察放在同一個畫面，
-          讓一般投資者先看懂市場氣氛，再決定是否需要加強觀察或降低風險。
+          {isStockPage
+            ? "把標的燈號、風險分數與觀察重點放在同一頁，協助你先判斷是否需要加強追蹤。"
+            : "用紅、黃、綠燈號整理市場氣氛、趨勢強弱與主要風險，讓你先抓方向，再決定是否深入查看。"}
         </p>
         <p className="runtime-boundary-line">
-          目前為公開測試示範資料，正式每日資料尚未啟用；所有內容只做資訊整理與風險辨識，
-          不是投資建議，也不能當成個股買賣指令。
+          燈號代表風險與趨勢的整理，不是買賣建議。資料仍在正式上線前，請搭配資料來源與更新時間閱讀。
         </p>
-        <div className="hero-status-strip" aria-label="公開測試狀態">
-          <span>30 秒可讀</span>
-          <span>3 分鐘可行動</span>
-          <span>正式資料待上線</span>
+        <div className="hero-status-strip" aria-label="閱讀流程">
+          <span>30 秒看懂市場狀態</span>
+          <span>3 分鐘決定下一步觀察</span>
+          <span>資料來源透明</span>
           <span>非投資建議</span>
         </div>
       </section>

@@ -3023,6 +3023,11 @@ const checks = [
     name: "public-data-source-boundary-notice"
   },
   {
+    command: [node, "scripts/check-public-first-screen-copy-readability.mjs"],
+    expectStatus: "ok",
+    name: "public-first-screen-copy-readability"
+  },
+  {
     command: [node, "scripts/check-public-visible-language-quality.mjs"],
     expectStatus: "ok",
     name: "public-visible-language-quality"
@@ -6435,6 +6440,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "phase-1-route-decision-order",
   "public-beta-alert-list-actionability",
   "public-data-source-boundary-notice",
+  "public-first-screen-copy-readability",
   "public-visible-language-quality",
   "public-source-residue-scan",
   "public-surface-user-facing-audit",

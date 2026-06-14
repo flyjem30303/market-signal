@@ -33,30 +33,29 @@ export default async function BriefingPage() {
     <main className="page-shell">
       <PageViewTracker eventName="briefing_page_viewed" payload={{ page: "briefing" }} />
 
-      <section className="hero briefing-public-summary" aria-label="市場解讀摘要">
-        <p className="eyebrow">指數狀態儀表站</p>
-        <h1>3 分鐘把市場燈號拆成原因、風險與下一步</h1>
+      <section className="hero briefing-public-summary" aria-label="今日市場簡報">
+        <p className="eyebrow">今日市場簡報</p>
+        <h1>3 分鐘整理市場氣氛與後續觀察重點</h1>
         <p>
-          這頁把首頁的 30 秒快讀延伸成完整複核流程：先確認市場狀態，再看成因與影響級別，
-          最後檢查資料邊界與警示清單。
+          先看市場方向，再看風險來源，最後決定是否需要加強觀察。這份簡報把燈號、分數與下一步閱讀順序放在同一頁。
         </p>
         <p className="runtime-boundary-line">
-          目前為公開測試示範資料，正式每日資料尚未啟用；本頁只做資訊整理與風險辨識，不是投資建議。
+          目前資料仍在正式上線前，內容用來示範解讀流程；所有資訊都不構成投資建議。
         </p>
       </section>
 
-      <section className="briefing-executive-summary" aria-label="30 秒摘要">
+      <section className="briefing-executive-summary" aria-label="30 秒重點">
         <div>
-          <p className="eyebrow">30 秒摘要</p>
+          <p className="eyebrow">30 秒重點</p>
           <h2>{market.signal.title}</h2>
           <p>
-            {market.asset.name} 市場分數為 {market.compositeScore}/100，風險熱度為 {market.riskScore}/100。
-            先用燈號掌握氛圍，再用市場廣度與資料時間做 3 分鐘複核。
+            {market.asset.name} 目前綜合分數為 {market.compositeScore}/100，風險熱度為 {market.riskScore}/100。
+            先用燈號判斷市場氛圍，再用風險來源確認是否需要加強觀察。
           </p>
         </div>
         <aside>
           <span>
-            <b>市場分數</b>
+            <b>市場狀態</b>
             <i>
               {market.asset.name}: {market.compositeScore}/100
             </i>
@@ -69,20 +68,20 @@ export default async function BriefingPage() {
           </span>
         </aside>
         <div className="briefing-runtime-action-strip">
-          <DecisionPill title="成因" body="由趨勢、估值、廣度、資金與總體風險共同形成。" tone="active" />
-          <DecisionPill title="影響級別" body="風險熱度越高，越需要降低單一訊號依賴。" tone="hold" />
-          <DecisionPill title="資料邊界" body="正式資料尚未啟用，資料時間與來源限制必須清楚顯示。" tone="blocked" />
+          <DecisionPill title="下一步" body="先確認市場方向與資料更新時間，再決定是否往標的頁深入查看。" tone="active" />
+          <DecisionPill title="加強觀察" body="如果風險熱度升高，優先看風險來源、產業擴散與隔日追蹤重點。" tone="hold" />
+          <DecisionPill title="降低風險" body="如果燈號轉弱或資料延遲，避免只依單一分數做決策，先等待更多確認。" tone="blocked" />
         </div>
-        <nav aria-label="市場解讀行動">
+        <nav aria-label="簡報延伸閱讀">
           <TrackedLink
             eventName="briefing_link_clicked"
             href={`/stocks/${market.asset.symbol}`}
-            label="查看核心指數"
+            label="查看市場標的"
             payload={{ area: "briefing_summary", symbol: market.asset.symbol }}
           >
-            <span>查看核心指數</span>
+            <span>查看市場標的</span>
             <strong>{market.asset.name}</strong>
-            <small>回到標的頁確認燈號狀態</small>
+            <small>看燈號、成因、風險熱度與資料邊界</small>
           </TrackedLink>
           <TrackedLink
             eventName="briefing_link_clicked"
@@ -92,7 +91,7 @@ export default async function BriefingPage() {
           >
             <span>查看主要風險</span>
             <strong>{topRisk.asset.name}</strong>
-            <small>檢查風險熱度與下一步觀察</small>
+            <small>確認是否需要加強觀察或降低風險</small>
           </TrackedLink>
         </nav>
       </section>
