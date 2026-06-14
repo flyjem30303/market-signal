@@ -117,6 +117,14 @@ export default async function BriefingPage() {
       </section>
 
       <PublicNextReadingFlow context="briefing" stockSymbol={market.asset.symbol} />
+      <section className="panel stock-reading-summary" aria-label="會員功能預覽">
+        <p className="eyebrow">會員功能預覽</p>
+        <h2>第二階段再把市場晨報延伸成會員追蹤流程</h2>
+        <p>
+          第一階段先讓所有使用者看懂市場燈號、風險提示與資料更新狀態。會員 MVP
+          會在公開 Beta 穩定後補上每日市場三層解讀、watchlist 與自訂警示、盤後複盤報告；目前不開放會員登入、付費或個人化資料儲存。
+        </p>
+      </section>
       <PublicBetaMembershipMvpRoadmap />
 
       <article className="disclaimer">

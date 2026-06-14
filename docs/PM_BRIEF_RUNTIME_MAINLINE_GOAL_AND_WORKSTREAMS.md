@@ -8,6 +8,38 @@ Owner: PM mainline
 
 ## Latest Mainline Decision - 2026-06-14
 
+### Briefing Membership Preview Alignment Pass
+
+CEO decision:
+
+- Preserve the Phase 1 / Phase 2 split from the updated BRIEF.
+- Phase 1 should stay focused on a public, no-login index signal dashboard.
+- Phase 2 membership should be visible as a roadmap, not implemented as active login/payment/watchlist functionality.
+- The briefing route is a high-value place to explain that split because users may read it as the daily decision-support surface.
+
+PM completed:
+
+- Added a `會員功能預覽` section to `/briefing`.
+- Clarified that public Beta currently focuses on signal readability, risk prompts, and freshness state.
+- Clarified that daily three-layer interpretation, watchlist/custom alerts, and after-market review reports belong to the future membership MVP.
+- Kept member login, payment, personalized storage, and member-only content inactive.
+
+Checks passed:
+
+- `check:public-beta-core-route-quick-proof`
+- `check:phase-1-public-beta-public-visible-residue-cleanup`
+- `npx tsc --noEmit`
+- `npm run build`
+- `check:review-gates` (`190/190` focused checks executed)
+
+Current route:
+
+- `briefing_membership_preview_alignment_ready`
+
+Next PM slice:
+
+- Continue Phase 1 public route information-density cleanup or A3 public smoke.
+
 ### Stock Decision Compass Pass
 
 CEO decision:

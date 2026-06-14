@@ -2,6 +2,40 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Briefing Membership Preview Alignment Pass
+
+Status: `briefing_membership_preview_alignment_ready`
+
+CEO decision:
+
+- Keep the new BRIEF split into Phase 1 and Phase 2.
+- Phase 1 remains the public, no-login, free index signal dashboard.
+- Phase 2 membership is shown as a roadmap only until the public Beta loop is stable.
+- The briefing route should mention membership preview clearly, but must not imply login, payment, saved watchlists, personalized alerts, or member-only content is active.
+
+PM completed:
+
+- Added a public `會員功能預覽` section to `/briefing`.
+- The section explains that Phase 1 focuses on public signal, risk, and freshness readability.
+- The section states that daily three-layer interpretation, watchlist/custom alerts, and after-market review reports are Phase 2 membership MVP items.
+- The section explicitly says member login, payment, and personalized data storage are not open.
+
+Checks passed:
+
+- `check:public-beta-core-route-quick-proof`
+- `check:phase-1-public-beta-public-visible-residue-cleanup`
+- `npx tsc --noEmit`
+- `npm run build`
+- `check:review-gates` (`190/190` focused checks executed)
+
+Boundary:
+
+No membership implementation, login, payment, watchlist persistence, personalized alert execution, SQL, Supabase read/write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public source promotion, real score promotion, real-time claim, official endorsement claim, guaranteed-return claim, investment-advice claim, production env mutation, DNS change, or Vercel dashboard mutation occurred.
+
+Next:
+
+Continue Phase 1 public route information-density cleanup or A3 public smoke.
+
 ### Stock Decision Compass Pass
 
 Status: `stock_decision_compass_ready`
