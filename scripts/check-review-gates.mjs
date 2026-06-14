@@ -5433,6 +5433,11 @@ const checks = [
     name: "public-beta-membership-mvp-roadmap"
   },
   {
+    command: [node, "scripts/check-a4-membership-mvp-scope-and-free-paid-boundary.mjs"],
+    expectStatus: "ok",
+    name: "a4-membership-mvp-scope-and-free-paid-boundary"
+  },
+  {
     command: [node, "scripts/check-public-beta-phase-1-launch-gap-rollup.mjs"],
     expectStatus: "ok",
     name: "public-beta-phase-1-launch-gap-rollup"
@@ -6250,6 +6255,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "public-beta-user-value-source-coverage-bridge",
   "public-beta-methodology-disclaimer-source-coverage-alignment",
   "public-beta-membership-mvp-roadmap",
+  "a4-membership-mvp-scope-and-free-paid-boundary",
   "public-beta-phase-1-launch-gap-rollup",
   "phase-1-public-beta-operator-review-summary",
   "phase-1-public-beta-post-operator-smoke-packet",

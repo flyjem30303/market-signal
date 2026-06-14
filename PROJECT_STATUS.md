@@ -2,6 +2,32 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### A4 Membership MVP Scope And Free Member Boundary
+
+Status: `a4_membership_mvp_scope_and_free_paid_boundary_ready`
+
+CEO decision:
+
+- Phase 1 public/free site remains the execution mainline.
+- Phase 2 membership MVP is allowed as a small parallel planning-only lane.
+- A4 may define the free/member boundary, member content shape, watchlist/alert MVP scope, post-market review structure, and conversion metrics.
+- A4 must not start login, payment, persisted watchlist, personalized alert execution, or member-only gating during Phase 1.
+
+PM/A4 completed:
+
+- Added `docs/A4_MEMBERSHIP_MVP_SCOPE_AND_FREE_PAID_BOUNDARY.md`.
+- Registered `check:a4-membership-mvp-scope-and-free-paid-boundary`.
+- Added the new checker to `check:review-gates`.
+- Confirmed the new A4 checker executes inside `check:review-gates` and passes; the overall review gate still reports blocked because of existing Phase 1/product/data-line blockers outside this A4 slice.
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public data-source promotion, real score promotion, login implementation, payment implementation, persisted watchlist, personalized alert execution, member-only content gating, promised-return claim, or investment-advice claim occurred.
+
+Next:
+
+Continue Phase 1 public/free product clarity and launch readiness. Use the A4 artifact only as Phase 2 planning support.
+
 ### Revised BRIEF Phase Split And Parallel Workstream Adjustment
 
 Status: `revised_brief_phase_split_parallel_workstreams_ready`
