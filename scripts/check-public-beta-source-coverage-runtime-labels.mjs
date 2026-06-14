@@ -5,12 +5,31 @@ const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 
 const routes = [
-  { path: "/stocks/TWII", required: ["正式市場資料尚未啟用", "資料品質", "下一步觀察"] },
-  { path: "/stocks/2330", required: ["正式市場資料尚未啟用", "資料品質", "下一步觀察"] },
-  { path: "/stocks/0050", required: ["正式市場資料尚未啟用", "資料品質", "下一步觀察"] }
+  {
+    path: "/stocks/TWII",
+    required: ["資料來源與覆蓋", "資料信心", "下一步觀察", "正式市場資料尚未啟用", "不是投資建議"]
+  },
+  {
+    path: "/stocks/2330",
+    required: ["資料來源與覆蓋", "資料信心", "下一步觀察", "正式市場資料尚未啟用", "不是投資建議"]
+  },
+  {
+    path: "/stocks/0050",
+    required: ["資料來源與覆蓋", "資料信心", "下一步觀察", "正式市場資料尚未啟用", "不是投資建議"]
+  }
 ];
 
-const forbiddenVisibleTerms = ["publicDataSource", "scoreSource", "mock-only", "cmd.exe", "npm run", "packet", "operator"];
+const forbiddenVisibleTerms = [
+  "publicDataSource",
+  "scoreSource",
+  "mock-only",
+  "cmd.exe",
+  "npm run",
+  "packet",
+  "operator",
+  "Phase 1",
+  "Phase 2"
+];
 
 const packageJson = JSON.parse(fs.readFileSync(packagePath, "utf8"));
 const reviewGate = fs.readFileSync(reviewGatePath, "utf8");

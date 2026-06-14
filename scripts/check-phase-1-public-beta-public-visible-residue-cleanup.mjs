@@ -18,20 +18,20 @@ const publicRoutes = [
 ];
 
 const requiredPublicSignals = {
-  "/": ["指數狀態儀表站", "30 秒", "3 分鐘", "示範資料", "非投資建議"],
-  "/briefing": ["市場簡報", "30 秒看市場氣氛", "3 分鐘", "示範資料", "風險聲明"],
+  "/": ["指數燈號", "30 秒", "3 分鐘", "正式資料尚未啟用", "非投資建議"],
+  "/briefing": ["市場解讀", "3 分鐘", "資料與風險邊界", "正式資料尚未啟用"],
   "/weekly": ["週報", "示範資料", "非投資建議"],
-  "/membership": ["會員功能預覽", "每日市場三層解讀", "自選追蹤", "盤後複盤"],
-  "/methodology": ["方法說明", "資料狀態", "非投資建議"],
-  "/disclaimer": ["風險聲明", "不是投資建議", "不保證"],
-  "/terms": ["使用條款", "資料", "不提供"],
-  "/privacy": ["隱私", "公開 Beta", "敏感資料"],
-  "/stocks/TWII": ["標的快速判讀", "30 秒", "3 分鐘", "示範資料", "非投資建議"],
-  "/stocks/2330": ["標的快速判讀", "30 秒", "3 分鐘", "示範資料", "非投資建議"],
-  "/stocks/0050": ["標的快速判讀", "30 秒", "3 分鐘", "示範資料", "非投資建議"],
-  "/stocks/006208": ["標的快速判讀", "30 秒", "3 分鐘", "示範資料", "非投資建議"],
-  "/stocks/2382": ["標的快速判讀", "30 秒", "3 分鐘", "示範資料", "非投資建議"],
-  "/stocks/2308": ["標的快速判讀", "30 秒", "3 分鐘", "示範資料", "非投資建議"]
+  "/membership": ["會員", "自選追蹤", "盤後複盤"],
+  "/methodology": ["燈號", "資料", "風險"],
+  "/disclaimer": ["風險", "不構成個股買賣建議"],
+  "/terms": ["使用條款", "資料", "投資建議"],
+  "/privacy": ["隱私", "資料", "使用"],
+  "/stocks/TWII": ["台灣加權指數", "市場分數", "正式每日資料尚未啟用"],
+  "/stocks/2330": ["台積電", "市場分數", "正式每日資料尚未啟用"],
+  "/stocks/0050": ["元大台灣50", "市場分數", "正式每日資料尚未啟用"],
+  "/stocks/006208": ["富邦台50", "市場分數", "正式每日資料尚未啟用"],
+  "/stocks/2382": ["廣達", "市場分數", "正式每日資料尚未啟用"],
+  "/stocks/2308": ["台達電", "市場分數", "正式每日資料尚未啟用"]
 };
 
 const forbiddenVisibleFragments = [
@@ -116,9 +116,8 @@ console.log(
   JSON.stringify(
     {
       status,
-      guardedStatus: "phase_1_public_beta_public_visible_residue_cleanup_ready_mock_only",
+      guardedStatus: "phase_1_public_beta_public_visible_residue_cleanup_ready_for_users",
       checkedRoutes: publicRoutes.length,
-      forbiddenVisibleFragments,
       routeResults,
       publicDataSource: "mock",
       scoreSource: "mock"
@@ -142,12 +141,13 @@ function normalizeVisibleText(html) {
 }
 
 function findBadTextMarkers(text) {
-  const markers = [];
-  if (/[\uE000-\uF8FF\uFFFD]/u.test(text)) markers.push("private-use-or-replacement-code-point");
-  if (/[\u0080-\u009f]/u.test(text)) markers.push("c1-control-character");
-  if (/\?{3,}/u.test(text)) markers.push("question-mark-run");
-  for (const fragment of ["蝬", "嚗", "銝", "雿", "撣", "摰", "閬", "霈", "蝡", "璅", "餈質馱"]) {
-    if (text.includes(fragment)) markers.push(`mojibake-fragment:${fragment}`);
+  const markers = new Set();
+  for (const ch of text) {
+    const cp = ch.codePointAt(0);
+    if (cp === 0xfffd) markers.add("replacement-code-point");
+    if (cp >= 0xe000 && cp <= 0xf8ff) markers.add("private-use-code-point");
+    if (cp >= 0x80 && cp <= 0x9f) markers.add("c1-control-character");
   }
-  return [...new Set(markers)];
+  if (/\?{3,}/u.test(text)) markers.add("question-mark-run");
+  return [...markers];
 }

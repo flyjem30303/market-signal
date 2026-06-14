@@ -2,6 +2,41 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Core Public Copy Readability Cleanup
+
+Status: `phase_1_core_public_copy_readable_and_visible_residue_clean`
+
+CEO decision:
+
+- Treat public mojibake and developer-process residue as a Phase 1 launch blocker, not a final UI polish item.
+- Repair the core public reading path first: home, briefing, stock pages, mock asset labels, signal rules, quote labels, stock metadata, and route residue checks.
+- Keep the fix inside the current mock/runtime boundary; do not touch Supabase, SQL, `daily_prices`, raw market data, data-source promotion, score-source promotion, or Phase 2 membership runtime.
+
+PM completed:
+
+- Rebuilt `src/lib/assets.ts`, `src/lib/signal-model.ts`, and `src/lib/market-data.ts` with readable Phase 1 public labels and mock-only disclosure language.
+- Rebuilt `src/components/dashboard-shell.tsx` so home and stock pages lead with 30-second market status, 3-minute action judgment, data status, and non-investment-advice boundaries.
+- Rebuilt `src/app/briefing/page.tsx` as a readable 3-minute market explanation route.
+- Rebuilt `src/app/stocks/[symbol]/page.tsx` metadata and JSON-LD copy to remove mojibake from public and SEO surfaces.
+- Added `check:phase-1-core-public-copy-readable` and updated `check:phase-1-public-beta-public-visible-residue-cleanup` so the review gate now protects readable public copy instead of preserving historical corrupted strings.
+
+Evidence:
+
+- `cmd.exe /c npx tsc --noEmit` passed.
+- `cmd.exe /c npm run build` passed and generated all public routes.
+- `cmd.exe /c npm run check:localhost-health` passed for `/`, `/briefing`, `/weekly`, and core stock routes.
+- `cmd.exe /c npm run check:phase-1-core-public-copy-readable` passed.
+- `cmd.exe /c npm run check:phase-1-public-beta-public-visible-residue-cleanup` passed across 14 public routes.
+- `cmd.exe /c npm run check:review-gates > tmp\review-gates-core-public-copy-final.txt` passed with `status=ok`, `executedCount=186`, and `failedCount=0`.
+
+Boundary:
+
+No SQL, Supabase connection/write, staging row creation, `daily_prices` mutation, market endpoint fetch, raw market-data ingest/store/commit, source-derived candidate generation, row coverage point award, secret output, public source promotion, score promotion, investment advice claim, production environment mutation, DNS change, broad visual redesign, or Phase 2 membership implementation occurred.
+
+Next route:
+
+Back up this slice, then continue Phase 1 data-online work: TWII operator packet intake / ETF source-rights unblock path / public data-source promotion gate preparation.
+
 ### Phase 1 ETF Coverage Closure Readiness Rollup
 
 Status: `phase_1_etf_coverage_closure_readiness_rollup_ready_rights_blocked`

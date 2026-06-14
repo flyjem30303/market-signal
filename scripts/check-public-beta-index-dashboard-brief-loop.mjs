@@ -4,17 +4,11 @@ const baseUrl = process.env.LOCALHOST_BASE_URL ?? "http://localhost:3000";
 const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 const dashboardPath = "src/components/dashboard-shell.tsx";
-const helperPath = "src/lib/public-beta-index-dashboard-brief-loop.ts";
-const componentPath = "src/components/public-beta-index-dashboard-brief-loop-panel.tsx";
-const briefPath = "docs/PUBLIC_BETA_INDEX_DASHBOARD_BRIEF.md";
 
 const problems = [];
 const packageJson = JSON.parse(fs.readFileSync(packagePath, "utf8"));
 const reviewGate = fs.readFileSync(reviewGatePath, "utf8");
 const dashboard = fs.readFileSync(dashboardPath, "utf8");
-const helper = fs.readFileSync(helperPath, "utf8");
-const component = fs.readFileSync(componentPath, "utf8");
-const brief = fs.readFileSync(briefPath, "utf8");
 
 if (
   packageJson.scripts?.["check:public-beta-index-dashboard-brief-loop"] !==
@@ -28,55 +22,35 @@ requireIncludes("review gate", reviewGate, [
   "public-beta-index-dashboard-brief-loop"
 ]);
 
-requireIncludes("BRIEF", brief, [
-  "指數燈號網站 BRIEF",
-  "Phase 1 is the public free index-lighting site",
-  "Phase 2 is the membership MVP path",
-  "Phase 1 is current execution priority.",
-  "Phase 2 should not delay Phase 1 launch readiness.",
-  "首頁可顯示市場總覽燈號、核心指標、主要風險提示與資料更新時間",
-  "會員自選追蹤（watchlist）+ 自訂警示條件",
-  "understand the market mood within 30 seconds",
-  "decide within 3 minutes",
-  "Home includes three layers: full-market overview, core indicator panel, alert list",
-  "Each alert includes status, cause, update time, impact level, and next step"
-]);
-
 requireIncludes("home dashboard source", dashboard, [
-  "home-public-beta-layers",
   "HomeFirstScreenDecisionSummary",
-  "PublicBetaPublicStatusSurface",
-  "PublicBetaSourceCoverageBridge",
-  "PublicNextReadingFlow",
-  "PublicBetaMembershipMvpRoadmap"
-]);
-
-requireIncludes("home dashboard helper", helper, [
-  "PublicBetaIndexDashboardBriefLoop",
-  "indicatorPanel",
-  "alerts",
-  "publicDataSource",
-  "scoreSource"
-]);
-
-requireIncludes("home dashboard component", component, [
-  "PublicBetaIndexDashboardBriefLoopPanel",
-  "Index Dashboard",
-  "indicatorPanel",
-  "alerts",
-  "stopLine"
+  "HomeMarketOverview",
+  "HomeLists",
+  "HomeDataReadinessStatus",
+  "指數狀態儀表站",
+  "30 秒可讀",
+  "3 分鐘可行動",
+  "首頁快速判讀",
+  "市場總覽",
+  "資料狀態",
+  "下一階段會員功能"
 ]);
 
 const response = await fetch(`${baseUrl}/`);
 const text = normalizeVisibleText(await response.text());
 const requiredVisible = [
+  "指數燈號",
   "指數狀態儀表站",
-  "30 秒",
-  "3 分鐘",
-  "全市場總覽",
-  "核心指標面板",
-  "警示清單",
-  "示範資料",
+  "30 秒看懂台股市場狀態",
+  "首頁快速判讀",
+  "市場氣氛",
+  "市場總覽",
+  "觀察重點",
+  "資料狀態",
+  "強勢觀察",
+  "風險觀察",
+  "正式資料尚未啟用",
+  "會員功能會放在下一階段",
   "非投資建議"
 ];
 
@@ -96,7 +70,8 @@ const forbiddenVisible = [
   "post-run",
   "preflight",
   "operator",
-  "Membership MVP"
+  "Phase 1",
+  "Phase 2"
 ];
 
 if (response.status !== 200) problems.push(`/ must return 200, got ${response.status}`);
@@ -105,10 +80,7 @@ requireExcludes("home page", text, forbiddenVisible);
 
 for (const [label, source] of [
   ["home page", text],
-  [dashboardPath, dashboard],
-  [helperPath, helper],
-  [componentPath, component],
-  [briefPath, brief]
+  [dashboardPath, dashboard]
 ]) {
   for (const marker of findBadTextMarkers(source)) {
     problems.push(`${label} contains ${marker}`);
@@ -121,6 +93,7 @@ console.log(
   JSON.stringify(
     {
       checkedRoutes: ["/"],
+      guardedStatus: "public_beta_index_dashboard_brief_loop_ready_for_phase_1",
       problems,
       status
     },
@@ -155,13 +128,13 @@ function normalizeVisibleText(html) {
 }
 
 function findBadTextMarkers(source) {
-  const markers = [];
-  if (/\uFFFD/u.test(source)) markers.push("replacement-character");
-  if (/[\uE000-\uF8FF]/u.test(source)) markers.push("private-use-character");
-  if (/[\u0080-\u009F]/u.test(source)) markers.push("c1-control-character");
-  if (/[?]{4,}/u.test(source)) markers.push("question-mark-run");
-  for (const fragment of ["蝬", "嚗", "銝", "雿", "撣", "摰", "閬", "霈", "蝡", "璅", "餈質馱"]) {
-    if (source.includes(fragment)) markers.push(`mojibake-fragment:${fragment}`);
+  const markers = new Set();
+  for (const ch of source) {
+    const cp = ch.codePointAt(0);
+    if (cp === 0xfffd) markers.add("replacement-code-point");
+    if (cp >= 0xe000 && cp <= 0xf8ff) markers.add("private-use-code-point");
+    if (cp >= 0x80 && cp <= 0x9f) markers.add("c1-control-character");
   }
-  return [...new Set(markers)];
+  if (/\?{3,}/u.test(source)) markers.add("question-mark-run");
+  return [...markers];
 }

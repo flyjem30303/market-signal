@@ -5553,6 +5553,11 @@ const checks = [
     name: "phase-1-public-beta-public-visible-residue-cleanup"
   },
   {
+    command: [node, "scripts/check-phase-1-core-public-copy-readable.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-core-public-copy-readable"
+  },
+  {
     command: [node, "scripts/check-action-summary-language-quality.mjs"],
     expectStatus: "ok",
     name: "action-summary-language-quality"
@@ -6357,6 +6362,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "phase-1-public-beta-keep-open-or-repair-decision",
   "phase-1-public-beta-public-status-surface-alignment",
   "phase-1-public-beta-public-visible-residue-cleanup",
+  "phase-1-core-public-copy-readable",
   "public-beta-source-coverage-runtime-labels",
   "source-coverage-runtime-handoff-docs",
   "public-beta-data-realification-next-action",

@@ -52,11 +52,11 @@ export function buildQuoteSnapshot(asset: Asset, snapshot: SignalSnapshot): Quot
     epsTtm: isIndex || isEtf ? null : roundTo(close / (14 + asset.valuation * 18), 2),
     high,
     low,
-    marketLabel: isIndex ? "指數" : isEtf ? "ETF" : "上市",
+    marketLabel: isIndex ? "指數" : isEtf ? "ETF" : "台股",
     open,
     pb: isIndex ? null : roundTo(1.2 + asset.quality * 3.6 + asset.valuation * 1.4, 2),
     pe: isIndex || isEtf ? null : roundTo(14 + asset.valuation * 18, 2),
-    rankLabel: isIndex ? "市場基準" : isEtf ? "ETF 觀察" : `同族群第 ${Math.max(1, Math.round(8 - asset.quality * 5))} 名`,
+    rankLabel: isIndex ? "市場基準" : isEtf ? "ETF 觀察" : `產業觀察第 ${Math.max(1, Math.round(8 - asset.quality * 5))} 名`,
     updatedAt: `${snapshot.date} 14:30`,
     volume: Math.round((base * 950 + asset.flow * 180000 + asset.beta * 60000) / (isIndex ? 8 : 1))
   };
