@@ -2,6 +2,33 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Phase 1 Operator-Safe Smoke Or Repair Decision
+
+Status: `phase_1_public_beta_operator_safe_smoke_or_repair_decision_ready`
+
+Decision: `READY_FOR_HUMAN_OPERATED_PREVIEW_OR_PRODUCTION_CHECK_WITH_MOCK_BOUNDARY`
+
+CEO decision:
+
+- Convert the operator-safe route-health smoke packet into a pre-platform-action decision.
+- Current repo evidence supports preparing a human-operated preview or production check, with mock data and mock score boundaries still intact.
+- This decision does not itself deploy, change DNS, mutate production env, execute SQL, write Supabase, fetch raw market data, or promote runtime sources.
+
+PM/A3 completed:
+
+- Added `docs/PHASE_1_PUBLIC_BETA_OPERATOR_SAFE_SMOKE_OR_REPAIR_DECISION.md`.
+- Registered `check:phase-1-public-beta-operator-safe-smoke-or-repair-decision`.
+- Added the checker to `check:review-gates`.
+- Routed the next action to `prepare_human_operated_preview_or_production_check_without_data_promotion`.
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public data-source promotion, real score promotion, production deploy, DNS change, production environment mutation, login implementation, payment implementation, persisted watchlist, personalized alert execution, member-only content gating, brokerage integration, promised-return claim, or investment-advice claim occurred.
+
+Next:
+
+Prepare `prepare_human_operated_preview_or_production_check_without_data_promotion`: a concise human operator checklist for preview/production smoke that keeps `publicDataSource=mock`, `scoreSource=mock`, no secrets, no SQL, no Supabase writes, and no raw market-data execution.
+
 ### Phase 1 Public Route Health And Operator-Safe Smoke Packet
 
 Status: `phase_1_public_route_health_and_operator_safe_smoke_packet_ready`

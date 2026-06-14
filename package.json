@@ -1368,6 +1368,7 @@
     "check:phase-1-public-beta-operator-review-summary": "node scripts/check-phase-1-public-beta-operator-review-summary.mjs",
     "check:phase-1-public-beta-post-operator-smoke-packet": "node scripts/check-phase-1-public-beta-post-operator-smoke-packet.mjs",
     "check:phase-1-public-route-health-and-operator-safe-smoke-packet": "node scripts/check-phase-1-public-route-health-and-operator-safe-smoke-packet.mjs",
+    "check:phase-1-public-beta-operator-safe-smoke-or-repair-decision": "node scripts/check-phase-1-public-beta-operator-safe-smoke-or-repair-decision.mjs",
     "check:phase-1-public-beta-keep-open-or-repair-decision": "node scripts/check-phase-1-public-beta-keep-open-or-repair-decision.mjs",
     "check:phase-1-public-beta-public-status-surface-alignment": "node scripts/check-phase-1-public-beta-public-status-surface-alignment.mjs",
     "check:phase-1-public-beta-public-visible-residue-cleanup": "node scripts/check-phase-1-public-beta-public-visible-residue-cleanup.mjs",
