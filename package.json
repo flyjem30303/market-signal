@@ -400,6 +400,8 @@
     "check:twii-report-only-local-runner-post-run-review": "node scripts/check-twii-report-only-local-runner-post-run-review.mjs",
     "report:twii-report-only-dry-run-chain-gate": "node scripts/report-twii-report-only-dry-run-chain-gate.mjs",
     "check:twii-report-only-dry-run-chain-gate": "node scripts/check-twii-report-only-dry-run-chain-gate.mjs",
+    "report:twii-bounded-execution-packet-readiness-gate": "node scripts/report-twii-bounded-execution-packet-readiness-gate.mjs",
+    "check:twii-bounded-execution-packet-readiness-gate": "node scripts/check-twii-bounded-execution-packet-readiness-gate.mjs",
     "report:twii-aggregate-readback-gate": "node scripts/report-twii-aggregate-readback-gate.mjs",
     "check:twii-aggregate-readback-gate": "node scripts/check-twii-aggregate-readback-gate.mjs",
     "report:twii-candidate-acceptance-decision-gate": "node scripts/report-twii-candidate-acceptance-decision-gate.mjs",
