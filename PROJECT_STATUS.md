@@ -2,6 +2,36 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 TWII Operator Decision Intake Readiness
+
+Status: `phase_1_twii_operator_decision_intake_readiness_ready_no_execution`
+
+CEO decision:
+
+- Move the TWII lane from a quickstart-only state into a consolidated operator decision intake readiness gate.
+- Keep this as the last no-execution checkpoint before any separate operator packet can supply accepted, rejected, repair-required, or deferred values.
+- Preserve the Phase 1 data-online decision as `NO_GO` until a later explicit operator packet, pre-execution checks, bounded write, aggregate readback, rollback readiness, and runtime promotion gate pass.
+
+PM completed:
+
+- Added `docs/PHASE_1_TWII_OPERATOR_DECISION_INTAKE_READINESS.md` as the consolidated TWII intake checkpoint.
+- Added `check:phase-1-twii-operator-decision-intake-readiness` and registered it in the focused review gate.
+- The checker now validates the TWII quickstart, blank real-decision intake template, real-decision acceptance dry-run, mock recorder, accepted-decision intake gate, and next execution route gate as one chain.
+- Confirmed the next selected route remains `wait_for_real_operator_values_execute_switch_confirmation_credentials_and_pre_execution_checks`.
+
+Evidence:
+
+- `check:phase-1-twii-operator-decision-intake-readiness` passed with `phase_1_twii_operator_decision_intake_readiness_ready_no_execution`.
+- Current chain state: quickstart ready, template ready, dry-run ready, mock recorder ready, accepted intake ready, next route ready, `publicDataSource=mock`, `scoreSource=mock`, and `executionAllowedNow=false`.
+
+Boundary:
+
+No SQL, Supabase connection/write, staging row creation, `daily_prices` mutation, market endpoint fetch, raw market-data ingest/store/commit, candidate row readback, real decision value read/record, execute-switch value read, confirmation phrase value read, credential read, row payload output, secret output, public source promotion, score promotion, investment advice claim, production environment mutation, DNS change, broad visual redesign, or Phase 2 membership implementation occurred.
+
+Next route:
+
+If CEO/PM wants to continue the TWII lane, the next separate step is `operator_supplies_or_rejects_twii_decision_packet_in_separate_step`. If the operator packet is not accepted, PM should shift to ETF coverage closure or public runtime comprehension work.
+
 ### Phase 1 TWII Bounded Write Operator Decision Quickstart
 
 Status: `phase_1_twii_bounded_write_operator_decision_quickstart_ready_no_execution`
