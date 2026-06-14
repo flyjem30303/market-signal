@@ -4013,6 +4013,11 @@ const checks = [
     name: "phase-1-twii-operator-decision-packet-request"
   },
   {
+    command: [node, "scripts/check-phase-1-etf-coverage-closure-readiness-rollup.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-etf-coverage-closure-readiness-rollup"
+  },
+  {
     command: [node, "scripts/check-open-free-auto-data-source-gate.mjs"],
     expectStatus: "ok",
     name: "open-free-auto-data-source-gate"
@@ -6359,6 +6364,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "phase-1-twii-bounded-write-operator-decision-quickstart",
   "phase-1-twii-operator-decision-intake-readiness",
   "phase-1-twii-operator-decision-packet-request",
+  "phase-1-etf-coverage-closure-readiness-rollup",
   "open-free-auto-data-source-gate",
   "stock-decision-aid-actionability",
   "stock-decision-compass",

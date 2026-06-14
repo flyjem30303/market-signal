@@ -2,6 +2,36 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 ETF Coverage Closure Readiness Rollup
+
+Status: `phase_1_etf_coverage_closure_readiness_rollup_ready_rights_blocked`
+
+CEO decision:
+
+- Shift the next safe Phase 1 data-coverage work to ETF while TWII waits for a separate operator decision packet.
+- Treat ETF as technically prepared for mock/runtime market-price handling, but still blocked for real data execution because source-rights evidence is not accepted.
+- Keep ETF real coverage out of `daily_prices`, row-coverage scoring, Supabase write, and real runtime promotion until a separate source-rights accepted outcome gate exists.
+
+PM completed:
+
+- Added `docs/PHASE_1_ETF_COVERAGE_CLOSURE_READINESS_ROLLUP.md` as the consolidated ETF coverage-readiness status.
+- Added `check:phase-1-etf-coverage-closure-readiness-rollup` and registered it in the focused review gate.
+- The checker validates ETF source scope, field contract, synthetic fixture, mock runtime handoff, daily-prices coverage route, candidate readiness packet, source-rights outcome gate, and Phase 1 data-online NO-GO state.
+- Confirmed ETF remains `2/120`, missing `118`; `0050` is `1/60`, `006208` is `1/60`.
+
+Evidence:
+
+- `check:phase-1-etf-coverage-closure-readiness-rollup` passed with `phase_1_etf_coverage_closure_readiness_rollup_ready_rights_blocked`.
+- Current ETF chain state: source scope ok, field contract ok, synthetic fixture ok, mock handoff ok, coverage route ok, candidate readiness ok, source-rights gate intentionally `blocked`, `publicDataSource=mock`, and `scoreSource=mock`.
+
+Boundary:
+
+No SQL, Supabase connection/write, staging row creation, `daily_prices` mutation, ETF market-data fetch, raw market-data ingest/store/commit, source-derived ETF candidate generation, row coverage point award, raw payload output, row payload output, stock id payload output, secret output, public source promotion, score promotion, investment advice claim, production environment mutation, DNS change, broad visual redesign, or Phase 2 membership implementation occurred.
+
+Next route:
+
+If ETF source rights remain blocked, PM should either continue TWII operator packet intake review or improve public runtime comprehension while keeping ETF in mock/runtime readiness. If ETF rights are accepted later, open a separate ETF sanitized candidate artifact gate for exactly `118` missing rows.
+
 ### Phase 1 TWII Operator Decision Packet Request
 
 Status: `phase_1_twii_operator_decision_packet_request_ready_no_execution`
