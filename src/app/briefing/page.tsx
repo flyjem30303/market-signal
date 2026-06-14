@@ -41,13 +41,14 @@ export default async function BriefingPage() {
       <section className="briefing-executive-summary" aria-label="市場簡報摘要">
         <div>
           <p className="eyebrow">市場簡報</p>
-          <h1>30 秒看懂市場氛圍，3 分鐘完成下一步觀察</h1>
+          <h1>30 秒看懂今日市場氣氛，3 分鐘行動判斷</h1>
           <p>
-            目前以 {market.asset.name} 作為市場主軸，燈號為「{market.signal.title}」；風險最高的觀察標的為{" "}
-            {topRisk.asset.name}。本頁把市場狀態、風險集中度與資料邊界放在同一個閱讀流程中。
+            目前以 {market.asset.name} 作為市場主燈號，燈號為「{market.signal.title}」；風險最高的觀察標的為{" "}
+            {topRisk.asset.name}。本頁把市場狀態、風險集中度、下一步觀察與資料邊界放在同一個閱讀流程中。
+            使用方式是 30 秒看市場氣氛，再用 3 分鐘完成風險與資料狀態複核。
           </p>
           <p className="runtime-boundary-line">
-            公開 Beta 目前使用示範資料與示範分數，正式資料來源、更新頻率與資料覆蓋率仍在補齊。
+            公開 Beta 目前使用示範資料與示範分數，正式資料來源、更新頻率與資料覆蓋率仍在補齊；不提供個股買賣建議。
           </p>
         </div>
         <aside>
@@ -95,7 +96,7 @@ export default async function BriefingPage() {
 
       <section className="home-public-beta-layers briefing-alert-decision-list" aria-label="市場警示清單">
         <div className="home-public-beta-layer alerts">
-          <span>警示清單</span>
+          <span>今日警示清單</span>
           <strong>把市場狀態、風險集中與資料限制合併成同一個判斷流程</strong>
           <p>本區塊不是買賣建議，而是協助使用者決定是否需要關注、加強觀察或降低風險。</p>
         </div>
@@ -103,7 +104,7 @@ export default async function BriefingPage() {
           <BriefingCard
             href={`/stocks/${market.asset.symbol}`}
             text={`${market.asset.name} 是目前市場主軸，適合先看大盤燈號與市場廣度。`}
-            title="市場主軸"
+            title="市場主燈號"
             value={`${market.compositeScore}/100`}
           />
           <BriefingCard

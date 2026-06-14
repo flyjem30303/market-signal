@@ -75,7 +75,9 @@ export function DashboardShell({
         </p>
         <div className="hero-status-strip" aria-label="公開 Beta 狀態">
           <span>30 秒市場判讀</span>
-          <span>3 分鐘行動觀察</span>
+          <span>3 分鐘內判斷</span>
+          <span>全市場總覽</span>
+          <span>警示提醒</span>
           <span>資料時間戳揭露</span>
           <span>非投資建議</span>
         </div>
@@ -190,9 +192,9 @@ function HomeFirstScreenDecisionSummary({
   return (
     <section className="home-first-screen-decision" aria-label="首頁快速判讀">
       <div className="home-first-screen-decision__main">
-        <p className="eyebrow">快速判讀</p>
+        <p className="eyebrow">首頁快速判讀</p>
         <h2>
-          目前 {market.asset.name} 為「{market.signal.title}」
+          30 秒看懂市場氣氛：目前 {market.asset.name} 為「{market.signal.title}」
         </h2>
         <p>{market.signal.text}</p>
       </div>
@@ -208,7 +210,7 @@ function HomeFirstScreenDecisionSummary({
           <p>依序代表偏多、觀望、防守標的數量。</p>
         </article>
         <article className={market.riskScore >= 60 ? "defensive" : "constructive"}>
-          <span>風險分數</span>
+          <span>主要風險</span>
           <strong>{market.riskScore}/100</strong>
           <p>{action}</p>
         </article>
@@ -219,17 +221,17 @@ function HomeFirstScreenDecisionSummary({
         </article>
       </div>
       <p className="home-first-screen-decision__next">
-        建議閱讀順序：先看市場燈號，再看風險分數與市場廣度，最後確認資料更新時間與限制。
+        3 分鐘複核與 3 分鐘閱讀建議：先看市場燈號，再看主要風險與市場廣度，最後確認資料更新時間與限制。
       </p>
       <div className="home-first-screen-decision__actions" aria-label="首頁行動">
-        <TrackedLink eventName="home_cta_clicked" href="/briefing" label="查看市場簡報" payload={{ area: "home_first_screen" }}>
-          查看市場簡報
+        <TrackedLink eventName="home_cta_clicked" href="/briefing" label="查看市場晨報" payload={{ area: "home_first_screen" }}>
+          查看市場晨報
         </TrackedLink>
         <TrackedLink eventName="trust_link_clicked" href="/disclaimer" label="查看風險聲明" payload={{ area: "home_first_screen" }}>
           查看風險聲明
         </TrackedLink>
-        <TrackedLink eventName="membership_preview_link_clicked" href="/membership" label="查看會員規劃" payload={{ area: "home_first_screen" }}>
-          查看會員規劃
+        <TrackedLink eventName="membership_preview_link_clicked" href="/membership" label="查看會員功能預覽" payload={{ area: "home_first_screen" }}>
+          查看會員功能預覽
         </TrackedLink>
       </div>
     </section>
@@ -311,7 +313,7 @@ function HomeCoreIndicatorReadout({
       <div>
         <p className="eyebrow">核心指標</p>
         <h2>用四個資訊完成第一輪判斷</h2>
-        <p>燈號、廣度、風險、資料狀態是第一階段首頁的最小可用決策順序。</p>
+        <p>燈號、廣度、主要風險、資料狀態是第一階段首頁的最小可用決策順序。</p>
       </div>
       <div className="home-core-indicator-grid">
         {items.map((item) => (

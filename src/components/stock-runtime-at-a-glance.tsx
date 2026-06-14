@@ -18,23 +18,23 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
   return (
     <section className="stock-runtime-at-a-glance" aria-label="個股燈號快速摘要">
       <div>
-        <p className="eyebrow">標的快速判讀</p>
+        <p className="eyebrow">標的快速判讀 / 30 秒快速閱讀</p>
         <h2>
           {snapshot.asset.symbol} {snapshot.asset.name} 目前怎麼看？
         </h2>
         <p>
-          這個頁面先用示範資料建立閱讀流程：30 秒可用來看懂標的狀態，3 分鐘要複核風險、成因、資料邊界與下一步觀察。
+          這個頁面先用示範資料建立閱讀流程：30 秒看懂標的狀態，3 分鐘複核風險、成因、資料邊界與下一步觀察。
           正式資料升級前，頁面不宣稱即時行情，也不提供個股買賣建議。
         </p>
       </div>
 
       <div className="stock-public-decision-summary" aria-label="標的決策輔助摘要">
         <div>
-          <p className="eyebrow">標的快速判讀 / 30 秒可用</p>
+          <p className="eyebrow">決策輔助摘要</p>
           <h2>
             {snapshot.asset.symbol} {snapshot.signal.title}
           </h2>
-          <p>先看目前燈號，再確認風險原因、影響級別與資料更新時間。這是觀察順序整理，不是交易建議。</p>
+          <p>30 秒快速閱讀先看目前燈號；3 分鐘複核風險時，再確認風險原因、影響級別與資料更新時間。這是觀察順序整理，不是交易建議。</p>
         </div>
         <article className={decisionBrief.statusTone}>
           <span>狀態</span>

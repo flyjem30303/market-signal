@@ -2,6 +2,44 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Phase 1 Public Reading Loop Reinforcement
+
+Status: `phase_1_public_reading_loop_reinforced`
+
+CEO decision:
+
+- Return from A4 membership planning to PM Phase 1 product/runtime mainline.
+- Strengthen the public free reading loop before any further membership or data-promotion work.
+- Use user-facing Traditional Chinese wording instead of internal phase labels, commands, workstream names, or platform language.
+
+PM completed:
+
+- Strengthened home first-screen wording around market mood, main risk, 3-minute review, market briefing, and membership preview.
+- Strengthened briefing wording around today's market mood, market main light, alert list, next observation, and non-investment-advice boundary.
+- Strengthened stock-page wording around 30-second quick read, 3-minute risk review, and decision-support summary.
+- Kept Phase 2 membership as a preview/spec path only; no membership runtime work was opened.
+
+Checks passed:
+
+- `check:home-first-screen-decision-hierarchy`
+- `check:home-briefing-investor-reading-bridge`
+- `check:public-beta-decision-loop-bridge`
+- `check:public-beta-alert-list-actionability`
+- `check:public-visible-language-quality`
+- `check:public-surface-user-facing-audit`
+- `check:public-beta-core-route-quick-proof`
+- `check:phase-1-public-beta-candidate-final-public-readiness-scan`
+- `npx tsc --noEmit`
+- `npm run build`
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public data-source promotion, real score promotion, login implementation, payment implementation, persisted watchlist, personalized alert execution, member-only content gating, brokerage integration, promised-return claim, or investment-advice claim occurred.
+
+Next:
+
+Continue Phase 1 public/free runtime polish and launch readiness. The next best PM slice is to verify broad public-language quality, route health, and build stability after this reading-loop reinforcement.
+
 ### A4 Membership MVP Executable Spec
 
 Status: `a4_membership_mvp_executable_spec_ready`
