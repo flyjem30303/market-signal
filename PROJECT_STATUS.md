@@ -2,6 +2,37 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Phase 1 Route Decision Order Guard
+
+Status: `phase_1_route_decision_order_guard_ready`
+
+CEO decision:
+
+- Treat public-route information order as a Phase 1 usability requirement, not final UI polish.
+- Keep the first meaningful route content focused on user judgment: market or symbol state first, then data/source boundary and the public Beta usable loop.
+- Keep visual styling, spacing, and final UI/UX polish deferred until the final pre-launch pass.
+
+PM completed:
+
+- Moved the stock-page `StockRuntimeAtAGlance` decision summary before the data freshness, source-coverage, and usable-loop panels so symbol pages support 30-second state reading earlier.
+- Added `check:phase-1-route-decision-order` to verify visible sequence on `/`, `/briefing`, `/stocks/2330`, `/stocks/TWII`, and `/stocks/0050`.
+- Registered `phase-1-route-decision-order` in the focused public Beta review gate set.
+
+Evidence:
+
+- `check:phase-1-route-decision-order` passed and confirmed route order:
+  - `/`: `首頁快速判讀` before `資料來源與覆蓋率` before `公開 Beta 可用閉環`.
+  - `/briefing`: `每日市場晨報` before `今日警示清單` before `資料來源與覆蓋率` before `公開 Beta 可用閉環`.
+  - `/stocks/2330`, `/stocks/TWII`, and `/stocks/0050`: `標的決策摘要` before `資料來源與覆蓋率` before `公開 Beta 可用閉環`.
+- `check:stock-decision-aid-actionability` passed.
+- `check:home-first-screen-decision-hierarchy` passed.
+- `check:briefing-midpage-readability` passed.
+- `npx tsc --noEmit` passed.
+
+Boundary:
+
+No SQL, Supabase read/write, staging rows, `daily_prices` mutation, raw market-data fetch/store/commit, source promotion, real score promotion, production environment mutation, DNS change, final UI/UX polish, or Phase 2 membership implementation occurred. The runtime remains `publicDataSource=mock` and `scoreSource=mock`.
+
 ### Phase 1 Public Usable Loop Panel Repair And Integration
 
 Status: `phase_1_public_usable_loop_panel_integrated`

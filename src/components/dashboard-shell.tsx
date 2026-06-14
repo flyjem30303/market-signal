@@ -109,6 +109,10 @@ export function DashboardShell({
         </section>
       )}
 
+      {isStockPage && (
+        <StockRuntimeAtAGlance scoreSourceLabel="示範分數" snapshot={snapshot} />
+      )}
+
       <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
       {!isStockPage && <PublicBetaPublicStatusSurface />}
       {!isStockPage && <PublicBetaDataReadinessStatus />}
@@ -125,7 +129,6 @@ export function DashboardShell({
 
       {isStockPage && (
         <>
-          <StockRuntimeAtAGlance scoreSourceLabel="示範分數" snapshot={snapshot} />
           <StockPublicSummary snapshot={snapshot} />
           <StockDecisionCompass snapshot={snapshot} />
           <StockMarketContextPanel breadth={breadth} market={market} snapshot={snapshot} />

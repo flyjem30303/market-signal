@@ -2883,6 +2883,11 @@ const checks = [
     name: "home-first-screen-action-summary"
   },
   {
+    command: [node, "scripts/check-phase-1-route-decision-order.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-route-decision-order"
+  },
+  {
     command: [node, "scripts/check-home-core-indicator-readout.mjs"],
     expectStatus: "ok",
     name: "home-core-indicator-readout"
@@ -6266,6 +6271,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "briefing-midpage-readability",
   "home-briefing-investor-reading-bridge",
   "home-first-screen-decision-hierarchy",
+  "phase-1-route-decision-order",
   "public-beta-alert-list-actionability",
   "public-visible-language-quality",
   "public-source-residue-scan",
