@@ -8,8 +8,8 @@ const roadmapCards = [
   },
   {
     label: "個人化追蹤",
-    title: "Watchlist 與自訂警示",
-    body: "讓使用者追蹤自己關心的指數、ETF 或指標；正式會員系統開放前，不會儲存 watchlist。"
+    title: "自選追蹤與自訂警示",
+    body: "讓使用者追蹤自己關心的指數、ETF 或指標；正式會員系統開放前，不會儲存自選追蹤清單。"
   },
   {
     label: "複盤與學習",
@@ -25,7 +25,7 @@ export function PublicBetaMembershipMvpRoadmap() {
         <p className="eyebrow">下一階段會員功能</p>
         <h2>會員 MVP 是第二階段，第一階段先把免費指數燈號做穩</h2>
         <p>
-          30 秒先看市場氣氛，3 分鐘再看成因。會員內容會在公開 Beta 穩定後開放，未來會補上更完整的原因分析、watchlist、自訂警示與盤後複盤，
+          30 秒先看市場氣氛，3 分鐘再看成因。會員內容會在公開 Beta 穩定後開放，未來會補上更完整的原因分析、自選追蹤、自訂警示與盤後複盤，
           但這頁是會員路線圖，不是會員入口。
         </p>
       </div>
@@ -40,9 +40,9 @@ export function PublicBetaMembershipMvpRoadmap() {
       </div>
       <div className="public-beta-membership-roadmap__boundary">
         <p>
-          目前不提供會員登入、付費、watchlist 儲存、個人化警示執行或會員專屬內容。
-          目前不會建立帳號、不會收費、不會儲存 watchlist、不會發送個人化警示。
-          會員註冊、登入、付費訂閱、個人 watchlist 儲存、自訂警示執行與會員專屬內容都尚未開放。
+          目前不提供會員登入、付費、自選追蹤儲存、個人化警示執行或會員專屬內容。
+          目前不會建立帳號、不會收費、不會儲存自選追蹤清單、不會發送個人化警示。
+          會員註冊、登入、付費訂閱、個人自選追蹤儲存、自訂警示執行與會員專屬內容都尚未開放。
           正式市場資料尚未啟用，本區也不是非投資建議以外的交易服務。
         </p>
         <TrackedLink

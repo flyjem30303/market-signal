@@ -2,6 +2,42 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Membership Preview Chinese Product Vocabulary Pass
+
+Status: `membership_preview_chinese_product_vocabulary_ready`
+
+CEO decision:
+
+- Continue Phase 1 public free product polish without opening Phase 2 membership implementation.
+- The membership preview should read like a Chinese investor product page, not a specification draft.
+- Replace visible `watchlist` wording with `自選追蹤` while keeping the membership route as preview/roadmap only.
+
+PM completed:
+
+- Updated `/membership` visible copy from `watchlist` / `Watchlist` to `自選追蹤` / `自選追蹤清單`.
+- Updated the shared membership roadmap component so Home and Briefing membership preview language stays Chinese-first.
+- Updated public route and membership roadmap checkers to require the Chinese product wording.
+- Browser-verified `/membership` shows `自選追蹤` and no longer shows visible `Watchlist` or `watchlist`.
+
+Checks passed:
+
+- `check:public-beta-membership-mvp-roadmap`
+- `check:public-beta-core-route-quick-proof`
+- `check:public-visible-language-quality`
+- `check:public-surface-user-facing-audit`
+- `check:phase-1-public-beta-public-visible-residue-cleanup`
+- `tsc --noEmit`
+- `build`
+- `check:review-gates` (190/190)
+
+Boundary:
+
+No membership implementation, login, payment, watchlist persistence, personalized alert execution, SQL, Supabase write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public source promotion, real score promotion, real-time claim, official endorsement claim, guaranteed-return claim, or investment-advice claim occurred.
+
+Next:
+
+Continue Phase 1 public route cleanup and product-first runtime readability.
+
 ### Chairman BRIEF Phase Split And GOAL Acceleration Pass
 
 Status: `chairman_brief_phase_split_goal_acceleration_ready`

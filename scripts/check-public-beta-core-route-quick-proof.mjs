@@ -37,7 +37,7 @@ const routeVisibleContracts = [
   { route: "/", tokens: ["指數狀態儀表站", "30 秒", "3 分鐘", "資料更新時間", "不提供個股買賣建議"] },
   { route: "/briefing", tokens: ["每日市場晨報", "30 秒", "3 分鐘", "資料狀態", "示範資料"] },
   { route: "/weekly", tokens: ["市場週報", "30 秒", "3 分鐘", "示範資料", "不提供買賣建議"] },
-  { route: "/membership", tokens: ["會員功能預覽", "會員 MVP", "watchlist", "盤後複盤", "不是會員入口"] },
+  { route: "/membership", tokens: ["會員功能預覽", "會員 MVP", "自選追蹤", "盤後複盤", "不是會員入口"] },
   { route: "/stocks/2330", tokens: ["2330", "狀態儀表", "標的快速判讀", "資料邊界", "不能當成個股買賣指令"] },
   { route: "/stocks/TWII", tokens: ["TWII", "狀態儀表", "標的快速判讀", "資料邊界", "不能當成個股買賣指令"] },
   { route: "/methodology", tokens: ["方法說明", "資料來源", "示範資料", "不提供買賣建議"] },
