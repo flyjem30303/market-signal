@@ -619,6 +619,8 @@
     "check:twii-external-values-shape-recheck-preparation-alignment-gate": "node scripts/check-twii-external-values-shape-recheck-preparation-alignment-gate.mjs",
     "report:twii-external-values-shape-recheck-preparation-gate": "node scripts/report-twii-external-values-shape-recheck-preparation-gate.mjs",
     "check:twii-external-values-shape-recheck-preparation-gate": "node scripts/check-twii-external-values-shape-recheck-preparation-gate.mjs",
+    "report:twii-pre-execution-stopline-chain-convergence-gate": "node scripts/report-twii-pre-execution-stopline-chain-convergence-gate.mjs",
+    "check:twii-pre-execution-stopline-chain-convergence-gate": "node scripts/check-twii-pre-execution-stopline-chain-convergence-gate.mjs",
     "report:twii-pre-execution-readiness-recheck-preparation-gate": "node scripts/report-twii-pre-execution-readiness-recheck-preparation-gate.mjs",
     "check:twii-pre-execution-readiness-recheck-preparation-gate": "node scripts/check-twii-pre-execution-readiness-recheck-preparation-gate.mjs",
     "report:twii-server-only-pre-execution-integration-preparation-gate": "node scripts/report-twii-server-only-pre-execution-integration-preparation-gate.mjs",
