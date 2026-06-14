@@ -2,6 +2,44 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Phase 1 Public Runtime Readability Anchor Repair
+
+Status: `phase_1_public_runtime_readability_anchor_repair_ready`
+
+CEO decision:
+
+- Prioritize BRIEF-visible Phase 1 usability over additional governance expansion.
+- Repair public route anchors that directly support the 30-second market-state understanding and 3-minute action-judgment promise.
+- Keep all data posture unchanged while improving public comprehension.
+
+PM completed:
+
+- Added clear Home anchors for `核心指標面板`, `警示清單`, data boundary, and no-investment-advice posture.
+- Added clear Briefing anchors for `每日市場晨報` and `市場行動摘要`.
+- Added clear Weekly anchor for `3 分鐘行動判斷`.
+- Added clear Stock route anchors for `股票頁決策羅盤`, `燈號狀態`, `風險熱度`, `資料信心`, `下一步觀察`, formal-data-not-enabled wording, and no buy/sell/hold/personalized-advice wording.
+
+Checks passed:
+
+- `check:public-beta-route-consistency`
+- `check:public-beta-index-dashboard-brief-loop`
+- `check:public-beta-source-coverage-runtime-labels`
+- `check:a2-brief-public-runtime-surface-audit`
+- `check:stock-decision-compass`
+- `check:public-visible-language-quality`
+- `check:public-surface-user-facing-audit`
+- `check:public-beta-core-route-quick-proof`
+- `npx tsc --noEmit`
+- Browser visible-text smoke for `/`, `/briefing`, `/weekly`, and `/stocks/2330`
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public data-source promotion, real score promotion, production deploy, DNS change, production environment mutation, login implementation, payment implementation, persisted watchlist, personalized alert execution, member-only content gating, brokerage integration, promised-return claim, or investment-advice claim occurred.
+
+Next:
+
+Continue Phase 1 by replacing remaining older page copy blocks with clean public-facing Chinese in larger coherent slices, then rerun the public surface audit and route consistency gates.
+
 ### Revised BRIEF Phase 1 / Phase 2 Execution Split Alignment
 
 Status: `phase_1_phase_2_execution_split_ready`

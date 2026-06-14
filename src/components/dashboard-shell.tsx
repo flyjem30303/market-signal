@@ -87,6 +87,26 @@ export function DashboardShell({
         <HomeFirstScreenDecisionSummary breadth={breadth} freshness={freshness} market={market} snapshot={snapshot} />
       )}
 
+      {!isStockPage && (
+        <section className="home-public-beta-layers" aria-label="首頁三層市場視圖">
+          <div className="home-public-beta-layer active">
+            <span>核心指標面板</span>
+            <strong>30 秒看懂市場燈號</strong>
+            <p>先看市場狀態、風險熱度、資料品質與更新時間，快速判斷目前偏多、觀望、警戒或高風險。</p>
+          </div>
+          <div className="home-public-beta-layer readying">
+            <span>警示清單</span>
+            <strong>3 分鐘行動判斷</strong>
+            <p>再看成因、影響級別與下一步觀察，決定是否關注、加強複核或降低風險曝露。</p>
+          </div>
+          <div className="home-public-beta-layer blocked">
+            <span>資料邊界</span>
+            <strong>正式市場資料尚未啟用</strong>
+            <p>目前維持示範資料與 mock 分數；不提供買進、賣出、持有或個人化投資建議。</p>
+          </div>
+        </section>
+      )}
+
       <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
       {!isStockPage && <PublicBetaPublicStatusSurface />}
       {!isStockPage && <PublicBetaDataReadinessStatus />}
@@ -415,6 +435,36 @@ function StockDecisionCompass({ snapshot }: { snapshot: SignalSnapshot }) {
 
   return (
     <section className="stock-decision-compass" aria-label="決策輔助">
+      <div className="stock-decision-compass__intro">
+        <p className="eyebrow">股票頁決策羅盤</p>
+        <h2>燈號狀態、風險熱度、資料信心與下一步觀察</h2>
+        <p>
+          股票頁先把目前燈號、主要風險、資料品質與觀察動作整理在同一區，協助使用者在 3 分鐘內完成複核。
+          正式市場資料尚未啟用；不提供買進、賣出、持有或個人化投資建議。
+        </p>
+      </div>
+      <div className="stock-decision-compass__grid" aria-label="股票頁決策羅盤摘要">
+        <article className={snapshot.compositeScore >= 70 ? "active" : "hold"}>
+          <span>燈號狀態</span>
+          <strong>{snapshot.signal.title}</strong>
+          <p>{snapshot.signal.text}</p>
+        </article>
+        <article className={riskTone}>
+          <span>風險熱度</span>
+          <strong>{snapshot.riskScore}/100</strong>
+          <p>風險熱度越高，越需要複核市場總覽、資料品質與隔日觀察重點。</p>
+        </article>
+        <article className={dataTone}>
+          <span>資料信心</span>
+          <strong>{snapshot.dataQualityGrade}</strong>
+          <p>資料品質仍需來源、覆蓋率與更新流程驗證；目前不作正式資料宣稱。</p>
+        </article>
+        <article className="hold">
+          <span>下一步觀察</span>
+          <strong>觀察 / 複核 / 降低風險</strong>
+          <p>{nextStep}</p>
+        </article>
+      </div>
       <div className="stock-decision-compass__intro">
         <p className="eyebrow">決策輔助</p>
         <h2>先理解狀態，再決定是否加強觀察或降低風險</h2>

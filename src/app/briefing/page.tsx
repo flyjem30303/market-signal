@@ -38,6 +38,15 @@ export default async function BriefingPage() {
     <main className="page-shell">
       <PageViewTracker eventName="briefing_page_viewed" payload={{ page: "briefing" }} />
 
+      <section className="briefing-public-summary" aria-label="每日市場晨報">
+        <p className="eyebrow">每日市場晨報</p>
+        <h1>市場行動摘要</h1>
+        <p>
+          先用 30 秒看懂今日市場氣氛，再用 3 分鐘確認主要風險、資料更新時間與下一步觀察。
+          目前公開頁維持示範資料與 mock 分數，不提供買進、賣出、持有或個人化投資建議。
+        </p>
+      </section>
+
       <section className="briefing-executive-summary" aria-label="市場簡報摘要">
         <div>
           <p className="eyebrow">市場簡報</p>
