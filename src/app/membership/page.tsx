@@ -6,7 +6,7 @@ import { TrackedLink } from "@/components/tracked-link";
 export const metadata: Metadata = {
   title: "會員功能預覽",
   description:
-    "會員 MVP 預計提供每日市場三層解讀、自選追蹤與自訂警示、盤後複盤報告。此頁是會員路線圖，不是會員入口。"
+    "會員 MVP 預計提供每日市場三層解讀、自選追蹤與自訂警示、盤後複盤報告。此頁是會員路線圖，不是會員入口；目前尚未開放登入。"
 };
 
 export default function MembershipPage() {
@@ -15,57 +15,57 @@ export default function MembershipPage() {
       <PageViewTracker eventName="membership_preview_page_viewed" payload={{ page: "membership" }} />
       <section className="hero">
         <p className="eyebrow">第二階段會員路線圖</p>
-        <h1>會員功能預覽：從看到燈號，延伸到理解與追蹤</h1>
+        <h1>會員 MVP：從看懂市場燈號，延伸到建立自己的觀察流程</h1>
         <p>
-          會員 MVP 會在第一階段公開指數燈號穩定後推進。免費頁先讓所有人 30 秒先看市場氣氛；
-          會員內容再讓使用者 3 分鐘再看成因、建立自選追蹤、設定觀察條件並回看盤後複盤。
+          會員功能會放在第二階段推出。第一階段先讓所有使用者都能在 30 秒內看懂市場總覽、核心指標、風險提示與資料更新時間；
+          會員區則會補上更完整的市場解讀、盤後複盤與個人化觀察工具，協助使用者用 3 分鐘建立自己的觀察順序。
         </p>
         <p className="runtime-boundary-line">
-          這頁是會員路線圖，不是會員入口。正式市場資料尚未啟用；目前不開放會員登入或付費。
+          這頁是會員路線圖，不是會員入口。目前尚未開放登入，也尚未提供付費會員內容。
           目前不會建立帳號、不會收費、不會儲存自選追蹤清單、不會發送個人化警示。
         </p>
       </section>
 
       <PublicBetaMembershipMvpRoadmap />
 
-      <section className="panel stock-reading-summary" aria-label="會員功能邊界">
-        <p className="eyebrow">會員預覽目前狀態</p>
-        <h2>會員 MVP 先驗證需求，不一次做成完整交易工具</h2>
+      <section className="panel stock-reading-summary" aria-label="會員內容邊界">
+        <p className="eyebrow">免費與會員內容邊界</p>
+        <h2>免費頁面先回答市場現在怎麼了，會員頁面再回答為什麼與接下來觀察什麼</h2>
         <p>
-          會員註冊、登入、付費訂閱、個人自選追蹤儲存、自訂警示執行與會員專屬內容都尚未開放。
-          目前不會儲存個人資料或發送個人化通知，也不會串接券商或處理下單。
+          免費內容會保留市場總覽燈號、核心指標摘要、主要風險提示與更新時間，讓一般投資者快速建立當日市場輪廓。
+          會員內容則預計提供每日市場三層解讀、自選追蹤、自訂警示條件與盤後複盤，協助使用者追蹤自己關心的指標。
         </p>
         <p>
-          會員內容未來會以市場總觀、關鍵指標變化、後續觀察重點與盤後複盤為主，仍維持非投資建議邊界。
-          會員內容不提供個別買賣建議，也不代替使用者做投資決策。
+          會員解讀會以觀察、風險提醒、情境判斷與資料說明為核心；即使未來開放會員功能，仍不提供個別買賣建議，也不提供個股買賣建議、
+          不代替使用者做投資決策，也不串接券商下單。
         </p>
       </section>
 
-      <section className="method-quick-read" aria-label="會員 MVP 三層">
+      <section className="method-quick-read" aria-label="會員 MVP 優先內容">
         <article>
           <span>第一層</span>
-          <strong>深度解讀</strong>
-          <p>每日市場三層解讀：市場總觀、關鍵指標變化、後續觀察重點。</p>
+          <strong>每日市場三層解讀</strong>
+          <p>整理市場總觀、關鍵指標變化與後續觀察重點，讓使用者不只看到燈號，也理解燈號變化的原因。</p>
         </article>
         <article>
           <span>第二層</span>
-          <strong>個人化追蹤</strong>
-          <p>自選追蹤與自訂警示條件，先從觀察輔助開始，不進入交易執行。</p>
+          <strong>自選追蹤與自訂警示</strong>
+          <p>讓使用者追蹤自己關心的指數、ETF 或指標，並用條件提醒建立固定觀察流程。</p>
         </article>
         <article>
           <span>第三層</span>
-          <strong>複盤與學習</strong>
-          <p>盤後複盤報告、歷史燈號案例與情境式風險說明。</p>
+          <strong>盤後複盤報告</strong>
+          <p>回看當日燈號與關鍵訊號是否有效，整理隔日值得追蹤的市場變化。</p>
         </article>
       </section>
 
       <section className="panel method-links">
-        <h2>下一步閱讀</h2>
-        <TrackedLink className="text-link" eventName="membership_preview_link_clicked" href="/" label="回到市場總覽" payload={{ area: "membership" }}>
-          回到市場總覽
+        <h2>先從公開頁面開始</h2>
+        <TrackedLink className="text-link" eventName="membership_preview_link_clicked" href="/" label="返回市場總覽" payload={{ area: "membership" }}>
+          返回市場總覽
         </TrackedLink>
-        <TrackedLink className="text-link" eventName="membership_preview_link_clicked" href="/briefing" label="回到市場晨報" payload={{ area: "membership" }}>
-          回到市場晨報
+        <TrackedLink className="text-link" eventName="membership_preview_link_clicked" href="/briefing" label="查看市場簡報" payload={{ area: "membership" }}>
+          查看市場簡報
         </TrackedLink>
         <TrackedLink className="text-link" eventName="membership_preview_link_clicked" href="/disclaimer" label="查看風險聲明" payload={{ area: "membership" }}>
           查看風險聲明

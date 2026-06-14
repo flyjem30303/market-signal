@@ -50,6 +50,7 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
         <article className="blocked">
           <span>資料來源</span>
           <strong>示範資料 / 示範分數</strong>
+          <p>公開 Beta 狀態：股票頁目前以示範資料與示範分數呈現，正式資料來源完成前不作為即時市場訊號。</p>
           <p>目前分數標示：{scoreSourceLabel}</p>
           <p>{dataReadiness.stopLine}</p>
         </article>

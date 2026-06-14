@@ -40,9 +40,10 @@ export default async function BriefingPage() {
 
       <section className="briefing-public-summary" aria-label="每日市場晨報">
         <p className="eyebrow">每日市場晨報</p>
-        <h1>市場行動摘要</h1>
+        <h1>晨報快速判讀：市場行動摘要</h1>
         <p>
           先用 30 秒看懂今日市場氣氛，再依 3 分鐘判斷順序確認主要風險、成因、資料更新時間與下一步觀察。
+          今日市場提醒：3 分鐘再決定觀察順序，不要只看單一分數。
           目前公開頁以示範資料呈現閱讀流程，正式市場資料尚未啟用。
           使用提醒：本頁協助整理市場狀態與風險線索，不提供買進、賣出、持有或個人化投資建議。
         </p>

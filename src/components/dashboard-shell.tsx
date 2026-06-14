@@ -91,8 +91,8 @@ export function DashboardShell({
         <section className="home-public-beta-layers" aria-label="首頁三層市場視圖">
           <div className="home-public-beta-layer active">
             <span>核心指標面板</span>
-            <strong>指數狀態儀表站：30 秒可讀</strong>
-            <p>30 秒快讀市場氣氛：先看市場狀態、風險熱度、資料品質與更新時間，快速判斷目前偏多、觀望、警戒或高風險。</p>
+            <strong>核心指標快讀：指數狀態儀表站 30 秒可讀</strong>
+            <p>30 秒快讀市場氣氛：先看市場氣氛，再看風險，再決定下一步觀察，快速判斷目前偏多、觀望、警戒或高風險。</p>
           </div>
           <div className="home-public-beta-layer readying">
             <span>警示清單</span>
@@ -101,8 +101,8 @@ export function DashboardShell({
           </div>
           <div className="home-public-beta-layer blocked">
             <span>資料邊界</span>
-            <strong>正式市場資料尚未啟用</strong>
-            <p>目前維持示範資料與 mock 分數；不提供買進、賣出、持有或個人化投資建議。</p>
+            <strong>資料信任：正式市場資料尚未啟用</strong>
+            <p>目前維持示範資料與示範分數；閱讀時請同步確認資料來源、更新時間與風險聲明，不提供買進、賣出、持有或個人化投資建議。</p>
           </div>
         </section>
       )}

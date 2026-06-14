@@ -51,7 +51,7 @@ export default async function WeeklyPage() {
 
       <section className="weekly-market-action-summary" aria-label="週報 3 分鐘行動判斷">
         <div>
-          <p className="eyebrow">3 分鐘行動判斷</p>
+          <p className="eyebrow">週報行動摘要 / 3 分鐘行動判斷</p>
           <h2>先回看市場燈號，再決定下週觀察順序</h2>
           <p>
             週報整理市場狀態、主要風險、資料更新時間與下一步觀察，協助使用者把每日燈號延伸成下週追蹤清單。

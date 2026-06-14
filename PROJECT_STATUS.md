@@ -2,6 +2,42 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Public Beta Production BRIEF Alignment Repair
+
+Status: `public_beta_production_brief_alignment_ready`
+
+CEO decision:
+
+- Use `@superpowers` for parallel support, but keep PM as the integration owner.
+- Move from strategy documents into visible Phase 1 route copy, because `check:public-beta-production-brief-alignment` exposed real user-facing gaps.
+- Keep Phase 2 membership as a visible roadmap and planning path, not an implemented login/payment/member-gating system.
+
+PM / A2 / A3 completed:
+
+- PM mainline updated Home, Briefing, and Weekly route copy with the missing production BRIEF anchors: `核心指標快讀`, `先看市場氣氛，再看風險，再決定下一步觀察`, `資料信任`, `晨報快速判讀`, `3 分鐘再決定觀察順序`, `今日市場提醒`, and `週報行動摘要`.
+- A2 updated `/membership` wording, then PM repaired the integration so membership roadmap gates still pass and no visible `watchlist` English leaks to the public page.
+- A3 updated stock runtime copy with `公開 Beta 狀態` on stock routes.
+- PM resolved the checker wording conflict by keeping both `不提供個別買賣建議` and `不提供個股買賣建議` in the membership boundary.
+
+Checks passed:
+
+- `check:public-beta-production-brief-alignment`
+- `check:public-beta-membership-mvp-roadmap`
+- `check:a4-membership-mvp-scope-and-free-paid-boundary`
+- `check:public-surface-user-facing-audit`
+- `check:public-visible-language-quality`
+- `check:stock-route-investor-language-alignment`
+- `npx tsc --noEmit`
+- Browser visible-text smoke for `/`, `/briefing`, `/weekly`, `/membership`, and `/stocks/2330`
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public data-source promotion, real score promotion, production deploy, DNS change, production environment mutation, login implementation, payment implementation, persisted watchlist, personalized alert execution, member-only content gating, brokerage integration, promised-return claim, or investment-advice claim occurred.
+
+Next:
+
+Continue Phase 1 by running the next launch/readiness rollup, then repair the highest-value public route or launch-engineering blocker. Keep A1 on data/source/coverage, A2 on trust copy, A3 on launch readiness, and A4 on membership planning only when they reduce a real blocker.
+
 ### Revised BRIEF Phase Split And Workstream Rebalance
 
 Status: `revised_brief_phase_split_and_workstream_rebalance_ready`
