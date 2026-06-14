@@ -2,6 +2,39 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Home First-Screen Decision Hierarchy Pass
+
+Status: `home_first_screen_decision_hierarchy_ready`
+
+CEO decision:
+
+- Continue Phase 1 by improving the first-screen product value before doing more Phase 2 membership work.
+- The Home page must answer four questions immediately: what is the current market mood, how broad is it, what is the main risk, and whether the data timing is safe to trust.
+- This makes the revised BRIEF more concrete for ordinary visitors: 30 seconds to understand, 3 minutes to decide the next observation path.
+
+PM completed:
+
+- Added a Home-only first-screen decision summary after the hero.
+- The summary shows market mood, market breadth, main risk, data time, and a 3-minute review path.
+- Added responsive styling for the four summary cards.
+- Added `check:home-first-screen-decision-hierarchy` and registered it in the focused review gate.
+
+Checks passed:
+
+- `check:home-first-screen-decision-hierarchy`
+- `check:home-briefing-investor-reading-bridge`
+- `check:public-beta-index-dashboard-brief-loop`
+- `check:public-visible-language-quality`
+- `npx tsc --noEmit`
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public source promotion, real score promotion, real-time claim, official endorsement claim, guaranteed-return claim, investment-advice claim, production env mutation, DNS change, Vercel dashboard mutation, or membership implementation occurred. Runtime remains mock/demo.
+
+Next:
+
+Run the full focused review gate, then continue Phase 1 with either release-readiness evidence or public homepage information-density cleanup.
+
 ### Public Next Reading Flow Pass
 
 Status: `public_next_reading_flow_ready`

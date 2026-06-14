@@ -71,6 +71,9 @@ export function DashboardShell({
         </div>
       </section>
 
+      {!isStockPage && (
+        <HomeFirstScreenDecisionSummary breadth={breadth} freshness={freshness} market={market} snapshot={snapshot} />
+      )}
       <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
       <PublicBetaPublicStatusSurface />
       <PublicBetaSourceCoverageBridge context={isStockPage ? "stock" : "home"} stockSymbol={selected.symbol} />
@@ -154,6 +157,57 @@ export function DashboardShell({
         <p>本站是市場資訊整理與風險辨識工具，不提供個股買賣建議、不保證報酬，也不代替使用者做投資決策。</p>
       </article>
     </main>
+  );
+}
+
+function HomeFirstScreenDecisionSummary({
+  breadth,
+  freshness,
+  market,
+  snapshot
+}: {
+  breadth: ReturnType<typeof buildBreadth>;
+  freshness: DataFreshnessSnapshot;
+  market: SignalSnapshot;
+  snapshot: SignalSnapshot;
+}) {
+  const action = market.riskScore >= 60 ? "先降低解讀信心並複核風險" : "先關注趨勢是否延續";
+
+  return (
+    <section className="home-first-screen-decision" aria-label="首頁快速判讀">
+      <div className="home-first-screen-decision__main">
+        <p className="eyebrow">首頁快速判讀</p>
+        <h2>
+          30 秒看懂：{market.asset.name} 目前是「{market.signal.title}」
+        </h2>
+        <p>{market.signal.text}</p>
+      </div>
+      <div className="home-first-screen-decision__grid">
+        <article className="constructive">
+          <span>市場氣氛</span>
+          <strong>{market.signal.title}</strong>
+          <p>先判斷目前偏多、觀望、警戒或高風險。</p>
+        </article>
+        <article className="watch">
+          <span>市場廣度</span>
+          <strong>{breadth.constructive}/{breadth.watch}/{breadth.defensive}</strong>
+          <p>偏多、觀望、警戒數量協助確認市場是否集中。</p>
+        </article>
+        <article className={market.riskScore >= 60 ? "defensive" : "constructive"}>
+          <span>主要風險</span>
+          <strong>{market.riskScore}/100</strong>
+          <p>{action}。</p>
+        </article>
+        <article className="watch">
+          <span>資料時間</span>
+          <strong>{freshness.asOfDate}</strong>
+          <p>更新時間：{formatTaipeiTime(snapshot.lastUpdatedAt)}；正式市場資料尚未啟用。</p>
+        </article>
+      </div>
+      <p className="home-first-screen-decision__next">
+        3 分鐘複核：先看市場晨報，再看指數狀態與風險聲明；本頁是資訊整理與風險辨識，不提供個股買賣建議。
+      </p>
+    </section>
   );
 }
 

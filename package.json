@@ -1024,6 +1024,7 @@
     "check:home-runtime-status-panel": "node scripts/check-home-runtime-status-panel.mjs",
     "check:home-market-action-summary": "node scripts/check-home-market-action-summary.mjs",
     "check:home-briefing-investor-reading-bridge": "node scripts/check-home-briefing-investor-reading-bridge.mjs",
+    "check:home-first-screen-decision-hierarchy": "node scripts/check-home-first-screen-decision-hierarchy.mjs",
     "check:home-first-screen-action-summary": "node scripts/check-home-first-screen-action-summary.mjs",
     "check:home-core-indicator-readout": "node scripts/check-home-core-indicator-readout.mjs",
     "check:home-investor-indicator-roadmap-panel": "node scripts/check-home-investor-indicator-roadmap-panel.mjs",

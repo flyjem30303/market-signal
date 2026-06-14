@@ -8,6 +8,38 @@ Owner: PM mainline
 
 ## Latest Mainline Decision - 2026-06-14
 
+### Home First-Screen Decision Hierarchy Pass
+
+CEO decision:
+
+- Keep the mainline on Phase 1 public/free usability.
+- The Home page should not merely explain the product; it should immediately answer what the user should look at now.
+- First-screen hierarchy now prioritizes market mood, market breadth, main risk, data time, and the 3-minute review path.
+- This moves the BRIEF from strategy into product behavior without opening membership implementation or real-data promotion.
+
+PM completed:
+
+- Added `HomeFirstScreenDecisionSummary` inside `DashboardShell`.
+- Added `.home-first-screen-decision` styles and responsive grid handling.
+- Added and registered `check:home-first-screen-decision-hierarchy`.
+- Verified the rendered Home route exposes the required user-facing decision phrases and no internal development residue.
+
+Checks passed:
+
+- `check:home-first-screen-decision-hierarchy`
+- `check:home-briefing-investor-reading-bridge`
+- `check:public-beta-index-dashboard-brief-loop`
+- `check:public-visible-language-quality`
+- `npx tsc --noEmit`
+
+Current route:
+
+- `home_first_screen_decision_hierarchy_ready`
+
+Next PM slice:
+
+- Run the full focused review gate, then continue with release-readiness evidence or homepage information-density cleanup. CEO recommendation: if the full gate passes, choose release-readiness evidence next so the visible public product and launch proof converge.
+
 ### Public Next Reading Flow Pass
 
 CEO decision:

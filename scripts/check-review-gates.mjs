@@ -2873,6 +2873,11 @@ const checks = [
     name: "home-briefing-investor-reading-bridge"
   },
   {
+    command: [node, "scripts/check-home-first-screen-decision-hierarchy.mjs"],
+    expectStatus: "ok",
+    name: "home-first-screen-decision-hierarchy"
+  },
+  {
     command: [node, "scripts/check-home-first-screen-action-summary.mjs"],
     expectStatus: "ok",
     name: "home-first-screen-action-summary"
@@ -6223,6 +6228,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "market-action-summary-readable-copy",
   "briefing-midpage-readability",
   "home-briefing-investor-reading-bridge",
+  "home-first-screen-decision-hierarchy",
   "public-beta-alert-list-actionability",
   "public-visible-language-quality",
   "public-source-residue-scan",
