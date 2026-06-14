@@ -11,7 +11,7 @@ export function CommercialSlot({ context }: CommercialSlotProps) {
     context === "stock"
       ? "下一階段會員功能會提供更完整的標的追蹤、警示條件與盤後複盤，但目前仍以公開示範頁為主。"
       : context === "briefing"
-        ? "會員功能將協助使用者追蹤每日市場三層解讀、watchlist 與盤後複盤。"
+        ? "會員功能將協助使用者追蹤每日市場三層解讀、自選追蹤與盤後複盤。"
         : "會員週報可延伸更多歷史回看與情境式風險解讀。";
 
   return (

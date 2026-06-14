@@ -142,7 +142,7 @@ export default async function BriefingPage() {
         <a href="#model-boundary">model-boundary</a>
         <a href="#market-structure">market-structure</a>
         <a href="#briefing-playbook">briefing-playbook</a>
-        <a href="/membership">watchlists</a>
+        <a href="/membership">自選追蹤</a>
       </nav>
 
       <section className="briefing-breadth" id="market-structure" aria-label="Market Breadth">

@@ -56,7 +56,7 @@ export function PublicRouteReadingContract({ context }: PublicRouteReadingContra
         <h2>{item.title}</h2>
         <p>{item.body}</p>
         <p>{item.next}</p>
-        <p>公開頁閱讀流程包含六個閱讀檢查點：市場狀態、原因、風險提醒、資料邊界、下一步觀察與使用邊界。</p>
+        <p>四步閱讀流程先看市場狀態、原因、風險提醒與資料邊界；公開頁也補上下一步觀察與使用邊界，避免把燈號誤讀成買賣建議。</p>
       </div>
       <div className="public-route-reading-contract__steps" aria-label="六個閱讀檢查點">
         {steps.map(([title, body]) => (

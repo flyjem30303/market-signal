@@ -19,7 +19,7 @@ const requiredPagePhrases = [
   "model-boundary",
   "market-structure",
   "briefing-playbook",
-  "watchlists",
+  "自選追蹤",
   "DecisionPill",
   "Market Breadth",
   "Concentration Check",

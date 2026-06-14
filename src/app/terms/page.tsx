@@ -44,7 +44,7 @@ export default function TermsPage() {
 
       <section className="panel legal-section">
         <h2>服務範圍</h2>
-        <p>本站提供市場燈號、指標摘要、資料更新時間、風險提醒與相關說明。未來會員功能會以深度解讀、watchlist、自訂警示與盤後複盤為主，但仍不提供買賣建議。</p>
+        <p>本站提供市場燈號、指標摘要、資料更新時間、風險提醒與相關說明。未來會員功能會以深度解讀、自選追蹤、自訂警示與盤後複盤為主，但仍不提供買賣建議。</p>
       </section>
 
       <section className="panel legal-section">

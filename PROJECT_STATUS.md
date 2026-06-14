@@ -2,6 +2,46 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Membership Vocabulary And Trust Copy Alignment Pass
+
+Status: `membership_vocabulary_trust_copy_alignment_ready`
+
+CEO decision:
+
+- Continue Phase 1 public/free product readiness while keeping Phase 2 membership as roadmap/planning only.
+- Public pages should use investor-friendly Traditional Chinese product language.
+- Replace visible `watchlist` wording with `自選追蹤` across public pages and the canonical BRIEF so Phase 2 vocabulary does not feel like internal product shorthand.
+- Keep A4 membership implementation closed; this slice only clarifies the future member value path.
+
+PM completed:
+
+- Updated Home, Briefing, Terms, Privacy, trust panels, and commercial membership-preview copy from `watchlist` wording to `自選追蹤`.
+- Updated `docs/PUBLIC_BETA_INDEX_DASHBOARD_BRIEF.md` so membership MVP wording uses `會員自選追蹤 + 自訂警示條件`.
+- Added precise trust anchors for `正式資料尚未啟用` and `四步閱讀流程`.
+- Updated related A2/BRIEF/membership checkers so future checks enforce Chinese product vocabulary.
+
+Checks passed:
+
+- `check:a2-legal-methodology-readable-copy`
+- `check:briefing-boundary-disclosure`
+- `check:public-beta-membership-mvp-roadmap`
+- `check:public-beta-index-dashboard-brief-loop`
+- public route visible scan: no visible `watchlist` on `/`, `/briefing`, `/terms`, `/privacy`, `/membership`
+- `check:public-visible-language-quality`
+- `check:phase-1-public-beta-public-visible-residue-cleanup`
+- `check:public-surface-user-facing-audit`
+- `tsc --noEmit`
+- `build`
+- `check:review-gates` (190/190)
+
+Boundary:
+
+No membership implementation, login, payment, watchlist persistence, personalized alert execution, SQL, Supabase write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public source promotion, real score promotion, real-time claim, official endorsement claim, guaranteed-return claim, or investment-advice claim occurred.
+
+Next:
+
+Continue Phase 1 launch-readiness evidence and public route hierarchy cleanup. A1 continues legal/free/automatable data-source and coverage work; A2 keeps trust/legal copy aligned; A3 handles Vercel/remote smoke/monitoring/rollback; A4 remains Phase 2 planning-only.
+
 ### Home And Stock Runtime Copy Tightening Pass
 
 Status: `home_stock_runtime_copy_tightening_ready`

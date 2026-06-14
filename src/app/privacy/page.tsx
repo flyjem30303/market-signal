@@ -21,7 +21,7 @@ export default function PrivacyPage() {
           目前公開頁以市場資訊展示為主，不需要輸入個人資料即可閱讀。未來若開放會員功能，會以最小必要資料支援登入、自選追蹤、提醒與內容體驗，並清楚標示資料來源。
         </p>
         <p className="runtime-boundary-line">
-          會員功能尚未正式開放；watchlist、自訂警示與個人化通知仍屬下一階段規劃，正式上線前會補齊資料用途與管理方式。請不要在任何表單輸入交易帳戶、券商密碼或不必要的敏感資料。
+          會員功能尚未正式開放；自選追蹤、自訂警示與個人化通知仍屬下一階段規劃，正式上線前會補齊資料用途與管理方式。請不要在任何表單輸入交易帳戶、券商密碼或不必要的敏感資料。
         </p>
       </section>
 
@@ -50,7 +50,7 @@ export default function PrivacyPage() {
 
       <section className="panel legal-section">
         <h2>未來會員資料</h2>
-        <p>會員功能若上線，可能包含登入資料、watchlist、自訂警示與閱讀紀錄。這些資料會用於個人化追蹤與提醒，不會被描述成投資建議。</p>
+        <p>會員功能若上線，可能包含登入資料、自選追蹤、自訂警示與閱讀紀錄。這些資料會用於個人化追蹤與提醒，不會被描述成投資建議。</p>
       </section>
 
       <RouteLocalTrustCopyPanel context="privacy" />

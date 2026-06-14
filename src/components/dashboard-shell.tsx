@@ -145,7 +145,7 @@ export function DashboardShell({
             <p className="eyebrow">下一階段會員功能</p>
             <h2>會員功能預覽：理解燈號、追蹤變化、回看判斷</h2>
             <p>
-              下一階段會把「看到燈號」延伸成「理解燈號」。會員功能預計包含每日市場三層解讀、watchlist 與自訂警示條件、盤後複盤報告。
+              下一階段會把「看到燈號」延伸成「理解燈號」。會員功能預計包含每日市場三層解讀、自選追蹤與自訂警示條件、盤後複盤報告。
             </p>
             <div className="briefing-actions">
               <TrackedLink eventName="membership_preview_link_clicked" href="/membership" label="查看會員功能預覽" payload={{ area: "dashboard_shell" }}>
