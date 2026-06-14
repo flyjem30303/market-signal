@@ -1,109 +1,114 @@
 import fs from "node:fs";
 
 const baseUrl = process.env.LOCALHOST_BASE_URL ?? "http://localhost:3000";
-const componentPath = "src/components/public-beta-usable-loop-panel.tsx";
-const libPath = "src/lib/public-beta-usable-loop.ts";
-const dashboardPath = "src/components/dashboard-shell.tsx";
-const briefingPath = "src/app/briefing/page.tsx";
-const cssPath = "src/app/globals.css";
-const packagePath = "package.json";
-const reviewGatePath = "scripts/check-review-gates.mjs";
+
+const paths = {
+  briefing: "src/app/briefing/page.tsx",
+  component: "src/components/public-beta-usable-loop-panel.tsx",
+  css: "src/app/globals.css",
+  dashboard: "src/components/dashboard-shell.tsx",
+  lib: "src/lib/public-beta-usable-loop.ts",
+  package: "package.json",
+  reviewGate: "scripts/check-review-gates.mjs"
+};
 
 const publicRequired = [
-  "可用閉環",
   "公開 Beta 可用閉環",
   "30 秒",
-  "看懂市場氛圍",
   "3 分鐘",
+  "看懂市場氛圍",
   "形成觀察行動",
   "先確認資料限制",
   "現在可用",
   "公開 Beta 閱讀閉環",
-  "真實資料升級",
-  "非投資建議",
-  "publicDataSource=mock",
-  "scoreSource=mock"
+  "真實資料升級前維持保守標示",
+  "不是投資建議"
 ];
 
-const forbidden = [
-  "publicDataSource=supabase approved",
-  "scoreSource=real approved",
-  "SQL execution is approved",
-  "Supabase writes are approved",
-  "raw market data fetch is approved",
-  "cmd.exe /c npm run",
-  "readonly-attempt",
-  "post-run",
-  "preflight",
+const publicForbidden = [
+  "cmd.exe",
+  "npm run",
   "packet",
-  "operator"
+  "preflight",
+  "post-run",
+  "operator",
+  "publicDataSource",
+  "scoreSource",
+  "mock-only",
+  "Supabase",
+  "SQL",
+  "daily_prices",
+  "raw market data",
+  "raw payload"
 ];
 
-const files = new Map(
-  [componentPath, libPath, dashboardPath, briefingPath, cssPath, packagePath, reviewGatePath].map((file) => [
-    file,
-    fs.readFileSync(file, "utf8")
-  ])
+const files = Object.fromEntries(
+  Object.entries(paths).map(([key, file]) => [key, fs.readFileSync(file, "utf8")])
 );
 
 const sourceChecks = [
   {
-    path: libPath,
+    path: paths.lib,
     required: [
       "PublicBetaUsableLoop",
       "getPublicBetaUsableLoop",
       "home",
       "briefing",
       "stock",
-      ...publicRequired,
-      "不寫 Supabase",
-      "不切換 real score"
-    ]
+      "30 秒",
+      "3 分鐘",
+      "看懂市場氛圍",
+      "形成觀察行動",
+      "先確認資料限制",
+      "公開 Beta 閱讀閉環",
+      "真實資料升級前維持保守標示",
+      "不是投資建議"
+    ],
+    source: files.lib
   },
   {
-    path: componentPath,
+    path: paths.component,
     required: [
       "PublicBetaUsableLoopPanel",
-      "public-beta-usable-loop",
-      "30 second and 3 minute usable loop",
-      "Usable loop source and advice boundary"
-    ]
+      "公開 Beta 可用閉環",
+      "30 秒與 3 分鐘閱讀流程",
+      "資料來源與非投資建議邊界"
+    ],
+    source: files.component
   },
   {
-    allowLegacyProcessTerms: true,
-    path: dashboardPath,
+    path: paths.dashboard,
     required: [
       "PublicBetaUsableLoopPanel",
-      'context="home"',
-      'context="stock"'
-    ]
+      'context={isStockPage ? "stock" : "home"}'
+    ],
+    source: files.dashboard
   },
   {
-    path: briefingPath,
-    required: ["PublicBetaUsableLoopPanel", 'context="briefing"']
+    path: paths.briefing,
+    required: ["PublicBetaUsableLoopPanel", 'context="briefing"'],
+    source: files.briefing
   },
   {
-    allowLegacyProcessTerms: true,
-    path: cssPath,
+    path: paths.css,
     required: [
       ".public-beta-usable-loop",
       ".public-beta-usable-loop__cards",
       ".public-beta-usable-loop__boundary",
       ".public-beta-usable-loop__stop-line"
-    ]
+    ],
+    source: files.css
   }
 ];
 
 const sourceResults = sourceChecks.map((check) => {
-  const source = files.get(check.path) ?? "";
-  const forbiddenHits = check.allowLegacyProcessTerms ? [] : forbidden.filter((phrase) => source.includes(phrase));
-  const markerHits = findMojibakeMarkers(source);
-  const missing = check.required.filter((phrase) => !source.includes(phrase));
+  const missing = check.required.filter((phrase) => !check.source.includes(phrase));
+  const markerHits = findMojibakeMarkers(check.source);
+
   return {
-    forbiddenHits,
     markerHits,
     missing,
-    pass: missing.length === 0 && forbiddenHits.length === 0 && markerHits.length === 0,
+    pass: missing.length === 0 && markerHits.length === 0,
     path: check.path
   };
 });
@@ -112,16 +117,16 @@ const routeResults = await Promise.all(["/", "/briefing", "/stocks/2330", "/stoc
 
 const registration = [
   {
-    file: packagePath,
+    file: paths.package,
     pass:
-      JSON.parse(files.get(packagePath) ?? "{}").scripts?.["check:public-beta-usable-loop-panel"] ===
+      JSON.parse(files.package).scripts?.["check:public-beta-usable-loop-panel"] ===
       "node scripts/check-public-beta-usable-loop-panel.mjs"
   },
   {
-    file: reviewGatePath,
+    file: paths.reviewGate,
     pass:
-      (files.get(reviewGatePath) ?? "").includes("scripts/check-public-beta-usable-loop-panel.mjs") &&
-      (files.get(reviewGatePath) ?? "").includes('"public-beta-usable-loop-panel"')
+      files.reviewGate.includes("scripts/check-public-beta-usable-loop-panel.mjs") &&
+      files.reviewGate.includes('"public-beta-usable-loop-panel"')
   }
 ];
 
@@ -141,7 +146,7 @@ async function checkRoute(path) {
   const html = await response.text();
   const text = normalizeVisibleText(html);
   const missing = publicRequired.filter((phrase) => !text.includes(phrase));
-  const forbiddenHits = forbidden.filter((phrase) => text.includes(phrase));
+  const forbiddenHits = publicForbidden.filter((phrase) => text.includes(phrase));
   const markerHits = findMojibakeMarkers(text);
 
   return {

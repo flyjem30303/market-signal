@@ -8,6 +8,7 @@ import { PublicBetaDataReadinessStatus } from "@/components/public-beta-data-rea
 import { PublicBetaMembershipMvpRoadmap } from "@/components/public-beta-membership-mvp-roadmap";
 import { PublicBetaPublicStatusSurface } from "@/components/public-beta-public-status-surface";
 import { PublicBetaSourceCoverageBridge } from "@/components/public-beta-source-coverage-bridge";
+import { PublicBetaUsableLoopPanel } from "@/components/public-beta-usable-loop-panel";
 import { PublicNextReadingFlow } from "@/components/public-next-reading-flow";
 import { StockRuntimeAtAGlance } from "@/components/stock-runtime-at-a-glance";
 import { TrackedLink } from "@/components/tracked-link";
@@ -112,6 +113,7 @@ export function DashboardShell({
       {!isStockPage && <PublicBetaPublicStatusSurface />}
       {!isStockPage && <PublicBetaDataReadinessStatus />}
       <PublicBetaSourceCoverageBridge context={isStockPage ? "stock" : "home"} stockSymbol={selected.symbol} />
+      <PublicBetaUsableLoopPanel context={isStockPage ? "stock" : "home"} stockSymbol={selected.symbol} />
 
       {!isStockPage && (
         <>

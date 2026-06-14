@@ -6279,6 +6279,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "public-beta-mainline-action-bridge",
   "public-beta-value-loop-refinement",
   "public-beta-user-value-source-coverage-bridge",
+  "public-beta-usable-loop-panel",
   "public-beta-methodology-disclaimer-source-coverage-alignment",
   "public-beta-membership-mvp-roadmap",
   "a4-membership-mvp-scope-and-free-paid-boundary",

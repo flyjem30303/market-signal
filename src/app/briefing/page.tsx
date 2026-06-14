@@ -5,6 +5,7 @@ import { PublicBetaDataReadinessStatus } from "@/components/public-beta-data-rea
 import { PublicBetaMembershipMvpRoadmap } from "@/components/public-beta-membership-mvp-roadmap";
 import { PublicBetaPublicStatusSurface } from "@/components/public-beta-public-status-surface";
 import { PublicBetaSourceCoverageBridge } from "@/components/public-beta-source-coverage-bridge";
+import { PublicBetaUsableLoopPanel } from "@/components/public-beta-usable-loop-panel";
 import { PublicNextReadingFlow } from "@/components/public-next-reading-flow";
 import { TrackedLink } from "@/components/tracked-link";
 import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
@@ -137,6 +138,7 @@ export default async function BriefingPage() {
       <PublicBetaPublicStatusSurface />
       <PublicBetaDataReadinessStatus />
       <PublicBetaSourceCoverageBridge context="briefing" />
+      <PublicBetaUsableLoopPanel context="briefing" stockSymbol={market.asset.symbol} />
 
       <section className="briefing-breadth" id="market-structure" aria-label="市場廣度">
         <BreadthCard label="偏多" tone="active" value={breadth.constructive} />

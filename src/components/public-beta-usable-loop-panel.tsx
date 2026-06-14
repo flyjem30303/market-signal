@@ -15,15 +15,15 @@ export function PublicBetaUsableLoopPanel({
   const loop = getPublicBetaUsableLoop(context, stockSymbol);
 
   return (
-    <section className="public-beta-usable-loop" aria-label="Public Beta usable decision loop">
+    <section className="public-beta-usable-loop" aria-label="公開 Beta 可用閉環">
       <div className="public-beta-usable-loop__head">
-        <p className="eyebrow">可用閉環</p>
+        <p className="eyebrow">公開 Beta 可用閉環</p>
         <h2>{loop.headline}</h2>
         <p>{loop.summary}</p>
         <p>{loop.contextLine}</p>
       </div>
 
-      <div className="public-beta-usable-loop__cards" aria-label="30 second and 3 minute usable loop">
+      <div className="public-beta-usable-loop__cards" aria-label="30 秒與 3 分鐘閱讀流程">
         {loop.actionCards.map((card) => (
           <article className={card.tone} key={card.id}>
             <span>{card.label}</span>
@@ -33,7 +33,7 @@ export function PublicBetaUsableLoopPanel({
         ))}
       </div>
 
-      <div className="public-beta-usable-loop__boundary" aria-label="Usable loop source and advice boundary">
+      <div className="public-beta-usable-loop__boundary" aria-label="資料來源與非投資建議邊界">
         {loop.boundaryCards.map((card) => (
           <article className={card.tone} key={card.id}>
             <span>{card.label}</span>

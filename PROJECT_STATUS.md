@@ -2,6 +2,37 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Phase 1 Public Usable Loop Panel Repair And Integration
+
+Status: `phase_1_public_usable_loop_panel_integrated`
+
+CEO decision:
+
+- Treat the dormant public Beta usable-loop asset as a Phase 1 BRIEF blocker because it carried older/internal wording and could reintroduce development-process residue.
+- Repair the feature as a user-facing comprehension loop, not as final visual polish: 30 seconds to understand market mood, 3 minutes to review reasons, risk, update time, and next observation.
+- Keep real-data promotion, Supabase runtime promotion, SQL, ingestion, and Phase 2 membership runtime out of this slice.
+
+PM completed:
+
+- Rebuilt `PublicBetaUsableLoop` copy in clean Traditional Chinese and removed internal `publicDataSource`, `scoreSource`, mock-only, SQL, Supabase, and operator-style wording from the public surface.
+- Integrated the usable-loop panel into the home, briefing, and stock-page public reading path.
+- Rewrote `check:public-beta-usable-loop-panel` so it validates user-facing Phase 1 language and forbids internal development/governance tokens on public routes.
+- Added `public-beta-usable-loop-panel` to the focused public Beta review gate set.
+
+Evidence:
+
+- `check:public-beta-usable-loop-panel` passed across `/`, `/briefing`, `/stocks/2330`, `/stocks/TWII`, and `/stocks/0050`.
+- `check:public-visible-language-quality` passed.
+- `check:phase-1-public-beta-public-visible-residue-cleanup` passed across 14 public routes.
+- `check:public-surface-user-facing-audit` passed.
+- `check:public-beta-core-route-quick-proof` passed.
+- `check:stock-decision-aid-actionability` passed.
+- `npx tsc --noEmit` passed.
+
+Boundary:
+
+No SQL, Supabase read/write, staging rows, `daily_prices` mutation, raw market-data fetch/store/commit, source promotion, real score promotion, production environment mutation, DNS change, or Phase 2 membership implementation occurred. The runtime remains `publicDataSource=mock` and `scoreSource=mock`.
+
 ### Phase 1 Public Chrome And Risk Disclosure Readability Repair
 
 Status: `phase_1_public_chrome_risk_disclosure_readability_ready`
