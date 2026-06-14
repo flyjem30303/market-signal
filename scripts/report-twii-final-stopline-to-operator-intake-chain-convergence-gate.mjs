@@ -1,0 +1,150 @@
+import fs from "node:fs";
+import { spawnSync } from "node:child_process";
+
+const gatePath = "data/source-gates/twii-final-stopline-to-operator-intake-chain-convergence-gate.json";
+const reportPaths = {
+  finalStoplineGoNoGo: "scripts/report-twii-final-authorization-stopline-go-no-go-gate.mjs",
+  explicitOperatorGoNoGo: "scripts/report-twii-explicit-operator-go-no-go-decision-preparation-gate.mjs",
+  operatorValueIntake: "scripts/report-twii-operator-value-intake-stopline-preparation-gate.mjs",
+  externalValuesShape: "scripts/report-twii-external-values-shape-recheck-preparation-gate.mjs"
+};
+const problems = [];
+
+const gate = readJson(gatePath);
+const reports = Object.fromEntries(Object.entries(reportPaths).map(([key, filePath]) => [key, runJsonReport(filePath, key)]));
+
+validateGate();
+validateReports();
+
+const ok = problems.length === 0;
+const report = {
+  status: ok ? "twii_final_stopline_to_operator_intake_chain_convergence_gate_ready_no_execution" : "blocked",
+  outcome: ok ? "final_stopline_to_operator_intake_chain_converged_execution_still_blocked" : "final_stopline_to_operator_intake_chain_convergence_gate_blocked",
+  mode: "twii_final_stopline_to_operator_intake_chain_convergence_gate_no_execution",
+  gatePath,
+  currentChainStatus: gate.currentChainStatus ?? null,
+  nextPMRoute: gate.nextPMRoute ?? null,
+  allowedNextCommandCategory: gate.allowedNextCommandCategory ?? null,
+  chain: {
+    readyGateCount: gate.readyGateCount ?? 0,
+    executionAllowedNow: false,
+    publicDataSource: gate.safety?.publicDataSource ?? null,
+    scoreSource: gate.safety?.scoreSource ?? null
+  },
+  chainState: {
+    finalAuthorizationStoplineGoNoGoReady: gate.finalAuthorizationStoplineGoNoGoReady === true,
+    explicitOperatorGoNoGoDecisionPreparationReady: gate.explicitOperatorGoNoGoDecisionPreparationReady === true,
+    operatorValueIntakeStoplinePreparationReady: gate.operatorValueIntakeStoplinePreparationReady === true,
+    externalValuesShapeRecheckPreparationPreparedAsNextRoute: gate.externalValuesShapeRecheckPreparationPreparedAsNextRoute === true,
+    mockBoundaryPreserved: gate.mockBoundaryPreserved === true,
+    noExecution: gate.noExecution === true,
+    noSecretValues: gate.noSecretValues === true,
+    noRawPayload: gate.noRawPayload === true
+  },
+  upstream: {
+    finalStoplineGoNoGoStatus: reports.finalStoplineGoNoGo.status ?? null,
+    explicitOperatorGoNoGoStatus: reports.explicitOperatorGoNoGo.status ?? null,
+    operatorValueIntakeStatus: reports.operatorValueIntake.status ?? null,
+    externalValuesShapeStatus: reports.externalValuesShape.status ?? null
+  },
+  promotionLocks: gate.promotionLocks ?? null,
+  safety: gate.safety ?? {},
+  problems
+};
+
+console.log(JSON.stringify(report, null, 2));
+if (!ok) process.exit(1);
+
+function validateGate() {
+  const expected = {
+    gateKind: "twii_final_stopline_to_operator_intake_chain_convergence_gate",
+    gateMode: "final_stopline_to_operator_intake_chain_convergence_fail_closed_no_execution",
+    targetLane: "TWII",
+    targetScope: "twii_index_daily_prices_missing_rows",
+    targetTable: "daily_prices",
+    maxRows: 60,
+    readyGateCount: 3,
+    finalAuthorizationStoplineGoNoGoReady: true,
+    explicitOperatorGoNoGoDecisionPreparationReady: true,
+    operatorValueIntakeStoplinePreparationReady: true,
+    externalValuesShapeRecheckPreparationPreparedAsNextRoute: true,
+    currentChainStatus: "final_stopline_to_operator_intake_chain_converged_waiting_external_values_shape_recheck",
+    nextPMRoute: "twii_external_values_shape_recheck_preparation_gate",
+    allowedNextCommandCategory: "review_only_external_values_shape_recheck_preparation",
+    chainOutcome: "final_stopline_to_operator_intake_chain_converged_but_execution_still_blocked",
+    mockBoundaryPreserved: true,
+    noExecution: true,
+    noSecretValues: true,
+    noRawPayload: true
+  };
+  for (const [key, value] of Object.entries(expected)) if (gate[key] !== value) problems.push(`gate.${key} must be ${JSON.stringify(value)}`);
+  for (const key of falseKeys()) if (gate[key] !== false) problems.push(`gate.${key} must be false`);
+  validateSafety(gate.safety ?? {});
+}
+
+function validateReports() {
+  const expectedStatuses = {
+    finalStoplineGoNoGo: "twii_final_authorization_stopline_go_no_go_gate_ready_no_execution",
+    explicitOperatorGoNoGo: "twii_explicit_operator_go_no_go_decision_preparation_gate_ready_no_execution",
+    operatorValueIntake: "twii_operator_value_intake_stopline_preparation_gate_ready_no_execution",
+    externalValuesShape: "twii_external_values_shape_recheck_preparation_gate_ready_no_execution"
+  };
+  for (const [key, status] of Object.entries(expectedStatuses)) if (reports[key]?.status !== status) problems.push(`${key} status mismatch`);
+}
+
+function falseKeys() {
+  return [
+    "externalValuesProvidedNow", "operatorDecisionAcceptedNow", "operatorValueIntakeAcceptedNow",
+    "operatorGoNoGoAcceptedNow", "operatorNoGoDecisionAcceptedNow", "operatorRepairRequiredDecisionAcceptedNow",
+    "operatorAuthorizationAcceptedNow", "explicitDecisionValueReadNow", "authorizationValueReadNow",
+    "serverOnlyCredentialCheckPassed", "credentialValuesRead", "executeSwitchProvided", "confirmationPhraseProvided",
+    "rollbackDryRunPassed", "aggregateReadbackPassed", "postRunReviewPassed",
+    "candidateDuplicateRejectionProofPassed", "runnerExecutableNow", "executionAllowedNow",
+    "writeGateExecutableNow", "finalExecutionAllowedNow", "implementationAllowedNow",
+    "sqlExecuted", "supabaseClientImported", "supabaseConnectionAttempted", "supabaseWritesEnabled",
+    "supabaseReadsEnabled", "marketDataFetched", "marketDataIngested", "dailyPricesMutated",
+    "stagingRowsCreated", "candidateRowsAccepted", "rowCoverageScoringAllowed", "rawPayloadOutput",
+    "rowPayloadOutput", "stockIdPayloadOutput", "secretsOutput", "envValueOutput",
+    "promotionAllowed", "scoreSourceRealAllowed"
+  ];
+}
+
+function validateSafety(safety) {
+  if (safety.publicDataSource !== "mock") problems.push("safety.publicDataSource must be mock");
+  if (safety.scoreSource !== "mock") problems.push("safety.scoreSource must be mock");
+  for (const key of [
+    "sqlExecuted", "supabaseClientImported", "supabaseConnectionAttempted", "supabaseReadsEnabled",
+    "supabaseWritesEnabled", "credentialValuesRead", "marketDataFetched", "marketDataIngested",
+    "candidateRowsAccepted", "externalValuesProvidedNow", "operatorDecisionAcceptedNow",
+    "operatorValueIntakeAcceptedNow", "operatorAuthorizationAcceptedNow", "operatorGoNoGoAcceptedNow",
+    "operatorNoGoDecisionAcceptedNow", "operatorRepairRequiredDecisionAcceptedNow", "explicitDecisionValueReadNow",
+    "authorizationValueReadNow", "executeSwitchProvided", "confirmationPhraseProvided",
+    "serverOnlyCredentialCheckPassed", "rollbackDryRunPassed", "aggregateReadbackPassed",
+    "postRunReviewPassed", "candidateDuplicateRejectionProofPassed", "dailyPricesMutated",
+    "stagingRowsCreated", "rowCoverageScoringAllowed", "secretsOutput", "envValueOutput",
+    "publicPromotionAllowed", "scoreSourceRealAllowed"
+  ]) if (safety[key] !== false) problems.push(`safety.${key} must be false`);
+}
+
+function readJson(filePath) {
+  try {
+    return JSON.parse(fs.readFileSync(filePath, "utf8"));
+  } catch (error) {
+    problems.push(`failed to read ${filePath}: ${error.message}`);
+    return {};
+  }
+}
+
+function runJsonReport(filePath, label) {
+  const run = spawnSync(process.execPath, [filePath], { cwd: process.cwd(), encoding: "utf8", shell: false, timeout: 120000, windowsHide: true });
+  if (run.status !== 0) {
+    problems.push(`${label} exited ${run.status}`);
+    return {};
+  }
+  try {
+    return JSON.parse(run.stdout);
+  } catch (error) {
+    problems.push(`${label} did not emit JSON: ${error.message}`);
+    return {};
+  }
+}

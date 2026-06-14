@@ -5063,6 +5063,11 @@ const checks = [
     name: "twii-execution-packet-to-final-stopline-chain-convergence-gate"
   },
   {
+    command: [node, "scripts/check-twii-final-stopline-to-operator-intake-chain-convergence-gate.mjs"],
+    expectStatus: "ok",
+    name: "twii-final-stopline-to-operator-intake-chain-convergence-gate"
+  },
+  {
     command: [node, "scripts/check-twii-a1-d-write-prerequisite-dispatch-packet.mjs"],
     expectStatus: "ok",
     name: "twii-a1-d-write-prerequisite-dispatch-packet"
@@ -6109,6 +6114,7 @@ const coreReviewGateNames = new Set([
   "twii-operator-decision-intake-chain-convergence-gate",
   "twii-preexecution-to-authorization-chain-convergence-gate",
   "twii-execution-packet-to-final-stopline-chain-convergence-gate",
+  "twii-final-stopline-to-operator-intake-chain-convergence-gate",
   "twii-a1-d-write-prerequisite-dispatch-packet",
   "twii-a1-d-write-prerequisite-pm-intake-ledger",
   "coverage-universe-roadmap",
@@ -6262,6 +6268,7 @@ const coreReviewGateNames = new Set([
   "twii-operator-decision-intake-chain-convergence-gate",
   "twii-preexecution-to-authorization-chain-convergence-gate",
   "twii-execution-packet-to-final-stopline-chain-convergence-gate",
+  "twii-final-stopline-to-operator-intake-chain-convergence-gate",
   "twii-a1-d-write-prerequisite-dispatch-packet",
   "twii-a1-d-write-prerequisite-pm-intake-ledger",
   "a1-source-rights-readiness-summary",
@@ -6632,6 +6639,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "twii-operator-decision-intake-chain-convergence-gate",
   "twii-preexecution-to-authorization-chain-convergence-gate",
   "twii-execution-packet-to-final-stopline-chain-convergence-gate",
+  "twii-final-stopline-to-operator-intake-chain-convergence-gate",
   "twii-a1-d-write-prerequisite-dispatch-packet",
   "twii-a1-d-write-prerequisite-pm-intake-ledger",
   "typescript"
