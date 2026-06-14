@@ -8,6 +8,34 @@ Owner: PM mainline
 
 ## Latest Mainline Decision - 2026-06-14
 
+### Phase 1 Operator Review Summary Refresh Pass
+
+CEO decision:
+
+- Keep the project aligned to the revised BRIEF without slowing Phase 1.
+- Phase 1 remains the public free index-lighting site for all visitors.
+- Phase 2 membership MVP remains a planned path, not a Phase 1 blocker.
+- The current release posture is `GO_WITH_DEFERRALS_READY_FOR_OPERATOR_REVIEW`.
+- A1 data/source/coverage and A4 membership MVP continue in parallel; PM mainline does not wait for them unless a public claim would become misleading.
+
+PM completed:
+
+- Refreshed `PHASE_1_PUBLIC_BETA_OPERATOR_REVIEW_SUMMARY` for the 2026-06-14 BRIEF.
+- Added `docs/PHASE_1_PUBLIC_BETA_RELEASE_READINESS_EVIDENCE_ROLLUP.md` to the operator evidence chain.
+- Updated `check:phase-1-public-beta-operator-review-summary` so it validates the new decision posture, accepted Phase 1 deferrals, hard stop lines, and PM/A1/A2/A3/A4 actions.
+
+Checks passed:
+
+- `check:phase-1-public-beta-operator-review-summary`
+
+Current route:
+
+- `phase_1_public_beta_operator_review_summary_ready_go_with_deferrals`
+
+Next PM slice:
+
+- Run TypeScript, build, and full focused review gate. If green, choose A3 operator review/public smoke when a launch action is desired; otherwise choose public information-density cleanup.
+
 ### Phase 1 Release Readiness Evidence Rollup Pass
 
 CEO decision:

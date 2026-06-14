@@ -2,6 +2,36 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Phase 1 Operator Review Summary Refresh Pass
+
+Status: `phase_1_public_beta_operator_review_summary_ready_go_with_deferrals`
+
+CEO decision:
+
+- The revised BRIEF remains a two-phase product plan.
+- Phase 1 is the active launch target: public free index-lighting for all visitors.
+- Phase 2 membership MVP is strategically important but remains an accepted deferral until Phase 1 is stable.
+- Current release posture remains `GO_WITH_DEFERRALS_READY_FOR_OPERATOR_REVIEW`.
+- PM should choose either A3 operator review/public smoke when launch movement is needed, or public information-density cleanup when first-time user comprehension is the larger risk.
+
+PM completed:
+
+- Refreshed `docs/PHASE_1_PUBLIC_BETA_OPERATOR_REVIEW_SUMMARY.md`.
+- Updated the operator summary checker to validate the 2026-06-14 BRIEF split, release readiness evidence rollup, accepted deferrals, hard stop lines, and A1/A2/A3/A4 workstream responsibilities.
+- Kept the summary no-secret, mock-only, no-SQL, no-Supabase, no-raw-market-data, and no-membership-implementation.
+
+Checks passed:
+
+- `check:phase-1-public-beta-operator-review-summary`
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public source promotion, real score promotion, real-time claim, official endorsement claim, guaranteed-return claim, investment-advice claim, production env mutation, DNS change, Vercel dashboard mutation, or membership implementation occurred. Runtime remains mock/demo.
+
+Next:
+
+Run TypeScript, build, and the full focused review gate. If green, continue with either A3 operator review/public smoke or public information-density cleanup.
+
 ### Phase 1 Release Readiness Evidence Rollup Pass
 
 Status: `phase_1_public_beta_release_readiness_evidence_rollup_ready`

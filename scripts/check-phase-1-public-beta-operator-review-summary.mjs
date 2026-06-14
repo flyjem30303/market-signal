@@ -5,8 +5,8 @@ const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 
 const requiredPhrases = [
-  "phase_1_public_beta_operator_review_summary_ready_mock_only",
-  "GO_WITH_MOCK_ONLY_PUBLIC_BETA_AFTER_OPERATOR_SMOKE",
+  "phase_1_public_beta_operator_review_summary_ready_go_with_deferrals",
+  "GO_WITH_DEFERRALS_READY_FOR_OPERATOR_REVIEW",
   "Phase 1 is the public free index-lighting site",
   "Phase 2 membership remains planned but deferred",
   "Public routes load",
@@ -14,13 +14,15 @@ const requiredPhrases = [
   "source status",
   "coverage status",
   "update time",
+  "free/member boundary",
   "non-investment-advice",
   "publicDataSource=mock",
   "scoreSource=mock",
   "SQL execution is required",
-  "Supabase write is required",
+  "Supabase read or write is required",
   "publicDataSource=supabase",
   "scoreSource=real",
+  "production env mutation or DNS change",
   "official endorsement",
   "complete Taiwan market coverage",
   "real-time precision",
@@ -30,12 +32,13 @@ const requiredPhrases = [
   "A2 public trust copy",
   "A3 launch operations",
   "A4 membership MVP planning",
-  "phase_1_public_beta_post_operator_smoke_packet"
+  "phase_1_public_beta_operator_review_or_public_information_density_cleanup"
 ];
 
 const requiredEvidencePaths = [
   "docs/PUBLIC_BETA_INDEX_DASHBOARD_BRIEF.md",
   "docs/PUBLIC_BETA_PHASE_1_LAUNCH_GAP_ROLLUP.md",
+  "docs/PHASE_1_PUBLIC_BETA_RELEASE_READINESS_EVIDENCE_ROLLUP.md",
   "docs/A3_PHASE_1_PUBLIC_BETA_RELEASE_OPS_INDEX.md",
   "docs/A3_PHASE_1_PUBLIC_BETA_RELEASE_GO_NO_GO_PACKET.md",
   "docs/A3_PHASE_1_PUBLIC_BETA_MANUAL_PLATFORM_ACTION_CHECKLIST.md",
@@ -71,7 +74,7 @@ console.log(
   JSON.stringify(
     {
       status,
-      guardedStatus: "phase_1_public_beta_operator_review_summary_ready_mock_only",
+      guardedStatus: "phase_1_public_beta_operator_review_summary_ready_go_with_deferrals",
       missingPhrases,
       missingEvidenceFiles,
       missingEvidenceReferences,
