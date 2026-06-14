@@ -144,3 +144,4 @@ At each coherent slice, PM should:
 Current Phase 1 operator route anchor:
 
 - `phase_1_public_beta_operator_decision_or_manual_platform_action_readiness_refresh`
+- `phase_1_public_beta_chairman_operator_decision_readiness_packet_or_repair_ready`

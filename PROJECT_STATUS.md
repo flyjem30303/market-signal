@@ -2,6 +2,41 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Phase 1 Chairman Operator Decision Record Closure
+
+Status: `phase_1_chairman_operator_decision_record_closure_ready`
+
+CEO decision:
+
+- Move from operator-decision readiness into recorded decision closure.
+- Treat current Phase 1 decision path as `GO_WITH_DEFERRALS` while preserving mock-only and no-platform-action boundaries.
+- Next route is not automatic deployment; it is no-secret manual platform action preparation or repair/recheck if any platform proof fails.
+
+PM completed:
+
+- Rechecked chairman/operator decision record.
+- Rechecked manual platform action checklist.
+- Rechecked chairman/operator decision 2026-06-13 record.
+- Rechecked operator action or repair result packet.
+- Added the chairman/operator decision readiness status anchor to the PM mainline workstream document.
+
+Checks passed:
+
+- `check:a3-phase-1-public-beta-chairman-operator-decision-record`
+- `check:a3-phase-1-public-beta-manual-platform-action-checklist`
+- `check:phase-1-public-beta-chairman-operator-decision-2026-06-13`
+- `check:a3-phase-1-public-beta-operator-action-or-repair-result`
+- `check:phase-1-public-beta-chairman-operator-decision-readiness-packet-or-repair`
+- `check:pm-brief-runtime-mainline-goal-and-workstreams`
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public data-source promotion, real score promotion, login implementation, payment implementation, persisted watchlist, personalized alert execution, member-only content gating, production deploy, DNS change, promised-return claim, or investment-advice claim occurred.
+
+Next:
+
+Proceed to `prepare_no_secret_manual_platform_action_or_repair_recheck_failure`. A3 should refresh the no-secret manual platform action path and post-platform smoke checklist; PM should still not execute platform actions inside the repo.
+
 ### Phase 1 Operator Decision Readiness And Remote Monitoring Refresh
 
 Status: `phase_1_operator_decision_readiness_remote_monitoring_ready`
