@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { PageViewTracker } from "@/components/page-view-tracker";
 import { PublicNextReadingFlow } from "@/components/public-next-reading-flow";
+import { RouteLocalTrustCopyPanel } from "@/components/route-local-trust-copy-panel";
 import { TrackedLink } from "@/components/tracked-link";
 import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
 import {
@@ -13,7 +14,7 @@ import { buildWeeklyMarketActionSummary } from "@/lib/weekly-market-action-summa
 
 export const metadata: Metadata = {
   title: "市場週報",
-  description: "整理本週市場燈號、核心指標與下週觀察重點，協助一般投資者快速理解市場狀態。"
+  description: "用週報回看市場燈號、核心風險、ETF 觀察與資料更新狀態。內容為資訊整理與風險辨識，不提供買賣建議。"
 };
 
 export default async function WeeklyPage() {
@@ -41,18 +42,18 @@ export default async function WeeklyPage() {
         <p className="eyebrow">市場週報</p>
         <h1>本週市場狀態整理</h1>
         <p>
-          用一頁回看本週燈號變化、核心指標與下週觀察重點。使用者可以先用 30 秒掌握市場氣氛，再用 3 分鐘檢查下週風險。
+          週報用來回看一週市場燈號、核心風險與後續觀察重點。使用者可以先用 30 秒確認市場氣氛，再用 3 分鐘行動判斷複核風險最高標的與資料狀態。
         </p>
         <p className="runtime-boundary-line">
-          正式資料尚未啟用；目前仍使用示範資料與示範分數。正式資料流程完成前，本頁不宣稱即時、完整或可作為交易依據，且不提供買賣建議。
+          目前公開頁使用示範資料呈現閱讀流程；正式資料尚未啟用，不提供買賣建議，也不應作為交易指令。
         </p>
       </section>
 
       <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
 
-      <section className="weekly-market-action-summary" aria-label="週報行動摘要">
+      <section className="weekly-market-action-summary" aria-label="週報市場行動摘要">
         <div>
-          <p className="eyebrow">週報行動摘要</p>
+          <p className="eyebrow">市場行動摘要</p>
           <h2>{actionSummary.headline}</h2>
           <p>{actionSummary.weeklyLine}</p>
           <p>{actionSummary.stopLine}</p>
@@ -81,24 +82,25 @@ export default async function WeeklyPage() {
         </TrackedLink>
       </section>
 
-      <section className="weekly-quick-read" aria-label="本週快速判讀">
+      <section className="weekly-quick-read" aria-label="週報快速閱讀">
         <article>
-          <span>燈號狀態</span>
+          <span>市場主燈號</span>
           <strong>{market.signal.title}</strong>
-          <p>先確認市場偏多、觀望或警戒，再回看造成變化的主要指標。</p>
+          <p>先確認市場目前是偏多、觀望還是警戒，再決定是否需要深入看個別標的。</p>
         </article>
         <article>
-          <span>風險分數</span>
+          <span>最高風險分數</span>
           <strong>{topRisk.riskScore}/100</strong>
-          <p>3 分鐘行動判斷：分數越高代表越需要降低解讀信心，並複核資料更新時間與異常原因。</p>
+          <p>3 分鐘判斷時，優先複核風險最高標的的成因與資料狀態。</p>
         </article>
         <article>
           <span>資料更新時間</span>
           <strong>{freshness.asOfDate}</strong>
-          <p>資料延遲或異常時，前台會維持示範邊界，不升級為真實交易訊號。</p>
+          <p>資料可能延遲或尚未正式啟用，請先看資料邊界再解讀燈號。</p>
         </article>
       </section>
 
+      <RouteLocalTrustCopyPanel context="weekly" />
       <PublicNextReadingFlow context="weekly" stockSymbol={market.asset.symbol} />
     </main>
   );

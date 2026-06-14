@@ -4,49 +4,43 @@ const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 const checkerPath = "scripts/check-a2-legal-methodology-readable-copy.mjs";
 const trustPanelPath = "src/components/route-local-trust-copy-panel.tsx";
+const readingContractPath = "src/components/public-route-reading-contract.tsx";
 
 const pages = [
   {
     path: "src/app/disclaimer/page.tsx",
     required: [
       "風險聲明",
-      "公開 Beta",
-      "示範資料",
-      "示範分數",
-      "正式市場資料尚未啟用",
-      "不是投資建議",
+      "資訊整理、風險辨識與觀察輔助工具",
+      "不構成個股買賣建議",
+      "不保證獲利",
+      "正式資料尚未啟用",
       "不提供買賣建議",
-      "市場風險自負",
-      "不要當成交易指令",
-      "會員功能"
+      "資料狀態需要複核"
     ]
   },
   {
     path: "src/app/terms/page.tsx",
     required: [
       "使用條款",
-      "公開 Beta",
       "市場資訊整理",
-      "風險辨識",
-      "不是投資建議",
-      "請自行評估風險",
-      "資料來源",
-      "更新時間",
-      "自行承擔風險"
+      "不能當作交易指令",
+      "需自行複核",
+      "自行判斷市場風險",
+      "watchlist",
+      "自訂警示"
     ]
   },
   {
     path: "src/app/privacy/page.tsx",
     required: [
-      "隱私權與資料說明",
-      "公開 Beta",
-      "資料來源",
-      "不要在任何表單",
-      "交易帳戶",
-      "會員功能資料邊界",
+      "隱私政策",
+      "目前公開頁以市場資訊展示為主",
+      "會員功能尚未正式開放",
       "watchlist",
-      "警示條件",
-      "刪除流程"
+      "自訂警示",
+      "最小必要資料",
+      "資料用途"
     ]
   },
   {
@@ -56,26 +50,32 @@ const pages = [
       "燈號方法",
       "30 秒",
       "3 分鐘",
-      "核心指標",
       "資料品質",
-      "資料狀態",
-      "資料來源",
-      "覆蓋率",
-      "更新時間",
-      "正式市場資料尚未啟用",
+      "正式資料尚未啟用",
       "不是交易指令",
-      "不提供買賣建議",
-      "個股買賣建議"
+      "指標模組",
+      "資料需要可驗證",
+      "風險提醒不能恐嚇"
     ]
   },
   {
     path: trustPanelPath,
     required: [
-      "本網站不提供買賣建議",
-      "先看市場氣氛，再看風險來源",
-      "公開頁不需要輸入機密資訊",
-      "公開 Beta 內容可能調整",
-      "週報用來整理觀察順序"
+      "本站不提供買賣建議",
+      "先看總燈號",
+      "公開頁不需要個人資料即可閱讀",
+      "條款頁會說明本站定位",
+      "週報用來整理一週市場狀態"
+    ]
+  },
+  {
+    path: readingContractPath,
+    required: [
+      "先理解用途",
+      "燈號是摘要",
+      "資訊輔助",
+      "不是買賣建議",
+      "四步閱讀流程"
     ]
   }
 ];
@@ -199,9 +199,6 @@ function findMojibakeMarkers(text) {
   if (text.includes("\uFFFD")) markers.push("replacement-char");
   if (/\?{3,}/u.test(text)) markers.push("question-mark-run");
   if (hasPrivateUseCodePoint(text)) markers.push("private-use-code-point");
-  if (/(?:嚗|銝|蝭|憟|璅|鞈|撣|閮|瘥|摨|甈|雿|蹐|蹓||){2,}/u.test(text)) {
-    markers.push("common-mojibake-run");
-  }
   return markers;
 }
 

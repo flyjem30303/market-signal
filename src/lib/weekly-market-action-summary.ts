@@ -27,51 +27,51 @@ export function buildWeeklyMarketActionSummary(
 ): WeeklyMarketActionSummary {
   const defensiveWeek = breadth.defensive > breadth.constructive || market.riskScore >= 60;
   const etfNeedsCaution = topEtf.riskScore >= 60;
-  const weeklyLine = `本週示範資料顯示，偏多 ${breadth.constructive} 項、觀望 ${breadth.watch} 項、警戒 ${breadth.defensive} 項。`;
+  const weeklyLine = `本週樣本中，偏多觀察 ${breadth.constructive} 檔，觀望 ${breadth.watch} 檔，防守或高風險 ${breadth.defensive} 檔。`;
 
   if (defensiveWeek) {
     return {
-      headline: "市場狀態偏向保守，先複核風險再觀察方向",
+      headline: "本週先降低風險假設，回看市場主燈號與最高風險標的",
       primary: {
-        body: `${market.asset.symbol} 目前燈號為「${market.signal.title}」，建議先查看市場總覽、核心指標與資料更新時間。`,
+        body: `${market.asset.symbol} 目前主燈號為「${market.signal.title}」。先確認市場整體是否仍需要防守，再看個別標的。`,
         href: `/stocks/${market.asset.symbol}`,
-        label: "查看市場狀態",
+        label: "先看市場",
         symbol: market.asset.symbol,
-        title: `${market.asset.symbol} 市場狀態`,
+        title: `${market.asset.symbol} 市場總覽`,
         tone: "hold"
       },
       secondary: {
-        body: `${topRisk.asset.symbol} 風險分數 ${topRisk.riskScore}/100，適合優先檢查造成警戒的指標與觀察重點。`,
+        body: `${topRisk.asset.symbol} 風險分數 ${topRisk.riskScore}/100。若週報顯示風險偏高，隔週應先複核資料更新與成因。`,
         href: `/stocks/${topRisk.asset.symbol}`,
-        label: "查看風險觀察",
+        label: "複核風險",
         symbol: topRisk.asset.symbol,
         title: `${topRisk.asset.symbol} 風險觀察`,
         tone: topRisk.riskScore >= 70 ? "blocked" : "hold"
       },
-      stopLine: "本週週報使用示範資料與示範分數，只作為市場資訊整理與風險辨識，不是投資建議。",
-      weeklyLine: `${weeklyLine} 警戒項目較需要優先複核；如果資料延遲或異常，應降低對單一燈號的依賴。`
+      stopLine: "週報是回看與觀察工具，不是買賣指令；若資料尚未正式啟用，請以示範資料流程閱讀。",
+      weeklyLine: `${weeklyLine} 防守比重偏高時，先找出造成警戒的指標，再決定是否需要加強觀察。`
     };
   }
 
   return {
-    headline: "市場狀態仍可觀察，先看總覽再檢查 ETF 與高風險項目",
+    headline: "本週市場仍可觀察，但需要確認 ETF 與高風險標的是否分歧",
     primary: {
-      body: `${topEtf.asset.symbol} 健康分數 ${topEtf.healthScore}/100，可用來觀察 ETF 是否同步支持目前市場氣氛。`,
+      body: `${topEtf.asset.symbol} 健康分數 ${topEtf.healthScore}/100。可作為本週 ETF 觀察入口，但仍需搭配風險分數。`,
       href: `/stocks/${topEtf.asset.symbol}`,
-      label: "查看 ETF 觀察",
+      label: "看 ETF",
       symbol: topEtf.asset.symbol,
-      title: etfNeedsCaution ? `${topEtf.asset.symbol} ETF 需留意風險` : `${topEtf.asset.symbol} ETF 觀察`,
+      title: etfNeedsCaution ? `${topEtf.asset.symbol} ETF 仍需留意風險` : `${topEtf.asset.symbol} ETF 觀察`,
       tone: etfNeedsCaution ? "hold" : "active"
     },
     secondary: {
-      body: `${topRisk.asset.symbol} 風險分數 ${topRisk.riskScore}/100，建議搭配市場總覽確認風險是否集中在少數標的。`,
+      body: `${topRisk.asset.symbol} 風險分數 ${topRisk.riskScore}/100。即使市場偏多，也要確認是否有單一標的或族群拖累。`,
       href: `/stocks/${topRisk.asset.symbol}`,
-      label: "查看風險觀察",
+      label: "看風險",
       symbol: topRisk.asset.symbol,
       title: `${topRisk.asset.symbol} 風險觀察`,
       tone: topRisk.riskScore >= 70 ? "blocked" : "hold"
     },
-    stopLine: "本週週報使用示範資料與示範分數，只作為市場資訊整理與風險辨識，不是投資建議。",
-    weeklyLine: `${weeklyLine} 目前可先維持觀察，但仍需回看資料更新時間與高風險項目。`
+    stopLine: "週報是回看與觀察工具，不是買賣指令；若資料尚未正式啟用，請以示範資料流程閱讀。",
+    weeklyLine: `${weeklyLine} 若偏多數量增加，仍要回看資料更新時間與風險最高標的。`
   };
 }

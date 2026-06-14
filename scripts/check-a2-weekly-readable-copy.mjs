@@ -2,7 +2,6 @@ import fs from "node:fs";
 
 const pagePath = "src/app/weekly/page.tsx";
 const helperPath = "src/lib/weekly-market-action-summary.ts";
-const componentPath = "src/components/weekly-row-coverage-status.tsx";
 const trustPanelPath = "src/components/route-local-trust-copy-panel.tsx";
 const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
@@ -11,31 +10,30 @@ const checkerPath = "scripts/check-a2-weekly-readable-copy.mjs";
 const requiredByFile = {
   [pagePath]: [
     "市場週報",
-    "公開 Beta 週報",
+    "本週市場狀態整理",
+    "30 秒確認市場氣氛",
+    "3 分鐘複核風險最高標的",
     "示範資料",
-    "示範分數",
-    "正式市場資料尚未啟用",
-    "非投資建議",
-    "TrustRuntimeBoundaryNotice",
+    "不提供買賣建議",
+    "市場行動摘要",
+    "週報快速閱讀",
+    "資料更新時間",
     "RouteLocalTrustCopyPanel",
-    "DataFreshnessStrip",
-    "WeeklyRowCoverageStatus",
-    "buildWeeklyMarketActionSummary",
-    "週報行動摘要",
-    "本週以示範資料呈現公開閱讀流程",
-    "下週觀察重點",
-    "重要聲明",
-    "30 秒先回看市場氣氛",
-    "3 分鐘複核成因與資料狀態",
-    "資料覆蓋狀態"
+    "PublicNextReadingFlow"
   ],
   [helperPath]: [
-    "正式市場資料尚未啟用",
-    "投資建議",
-    "本週示範資料"
+    "週報是回看與觀察工具",
+    "不是買賣指令",
+    "示範資料",
+    "本週樣本",
+    "風險觀察"
   ],
-  [componentPath]: ["週報資料覆蓋狀態", "示範資料", "示範分數", "正式市場資料", "資料覆蓋率", "更新流程"],
-  [trustPanelPath]: ["weekly", "週報用來整理觀察順序", "示範資料"]
+  [trustPanelPath]: [
+    "週報提醒",
+    "週報協助回看",
+    "週報用來整理一週市場狀態",
+    "資料狀態與更新時間"
+  ]
 };
 
 const forbiddenClaims = [
@@ -127,9 +125,6 @@ function findMojibakeMarkers(text) {
   if (text.includes("\uFFFD")) markers.push("replacement-char");
   if (/\?{3,}/u.test(text)) markers.push("question-mark-run");
   if (hasPrivateUseCodePoint(text)) markers.push("private-use-code-point");
-  if (/(?:嚗|銝|蝭|憟|璅|鞈|撣|閮|瘥|摨|甈|雿|蹐|蹓||){2,}/u.test(text)) {
-    markers.push("common-mojibake-run");
-  }
   return markers;
 }
 

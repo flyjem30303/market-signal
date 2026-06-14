@@ -2,6 +2,49 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Public Trust Routes And Weekly Readability Cleanup Pass
+
+Status: `public_trust_routes_weekly_readability_ready`
+
+CEO decision:
+
+- Continue Phase 1 public Beta readiness before Phase 2 membership implementation.
+- Treat public trust routes as product surfaces, not internal documentation dumps.
+- Remove early mojibake and development-process residue from user-facing public pages.
+- Keep membership as preview/roadmap only and keep all runtime data boundaries in mock mode.
+
+PM completed:
+
+- Rewrote `/weekly` into a readable market weekly review page with 30-second market mood, 3-minute action judgment, risk review, data update time, and next-reading flow.
+- Rewrote `/methodology` into a clear explanation of signal logic, data quality, coverage, update time, and non-trading boundaries.
+- Rewrote `/disclaimer`, `/terms`, and `/privacy` into clean Traditional Chinese trust pages aligned with the BRIEF.
+- Rewrote shared `PublicRouteReadingContract` and `RouteLocalTrustCopyPanel` so support routes use a consistent public reading flow and trust copy.
+- Cleaned `/stocks/[symbol]` metadata and JSON-LD labels to remove mojibake and duplicated site-title wording.
+- Updated A2 weekly/legal-methodology checkers so future gates enforce clean BRIEF-aligned Chinese instead of legacy mojibake anchors.
+
+Checks passed:
+
+- `tsc --noEmit`
+- `build`
+- `check:a2-weekly-readable-copy`
+- `check:a2-legal-methodology-readable-copy`
+- `check:public-beta-core-route-quick-proof`
+- `check:public-visible-language-quality`
+- `check:public-surface-user-facing-audit`
+- `check:public-support-route-reading-contract`
+- `check:public-beta-route-local-trust-visual-consistency`
+- `check:public-beta-methodology-disclaimer-source-coverage-alignment`
+- `check:phase-1-public-beta-public-visible-residue-cleanup`
+- `check:review-gates` (190/190)
+
+Boundary:
+
+No SQL, Supabase write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, `publicDataSource` promotion, `scoreSource` real promotion, membership implementation/login/payment/watchlist persistence, or investment-advice claim occurred.
+
+Next:
+
+Continue Phase 1 public product cleanup on the Home and Stock runtime panels, then let A1 continue data-source/coverage work independently while PM keeps the public Beta route experience coherent.
+
 ### Briefing Public Copy Cleanup And Data Readiness Surface Pass
 
 Status: `briefing_public_copy_cleanup_data_readiness_ready`
