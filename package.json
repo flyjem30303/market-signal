@@ -633,6 +633,8 @@
     "check:twii-operator-execution-packet-chain-convergence-gate": "node scripts/check-twii-operator-execution-packet-chain-convergence-gate.mjs",
     "report:twii-operator-decision-intake-chain-convergence-gate": "node scripts/report-twii-operator-decision-intake-chain-convergence-gate.mjs",
     "check:twii-operator-decision-intake-chain-convergence-gate": "node scripts/check-twii-operator-decision-intake-chain-convergence-gate.mjs",
+    "report:twii-preexecution-to-authorization-chain-convergence-gate": "node scripts/report-twii-preexecution-to-authorization-chain-convergence-gate.mjs",
+    "check:twii-preexecution-to-authorization-chain-convergence-gate": "node scripts/check-twii-preexecution-to-authorization-chain-convergence-gate.mjs",
     "report:twii-a1-d-write-prerequisite-dispatch-packet": "node scripts/report-twii-a1-d-write-prerequisite-dispatch-packet.mjs",
     "check:twii-a1-d-write-prerequisite-dispatch-packet": "node scripts/check-twii-a1-d-write-prerequisite-dispatch-packet.mjs",
     "report:twii-a1-d-write-prerequisite-pm-intake-ledger": "node scripts/report-twii-a1-d-write-prerequisite-pm-intake-ledger.mjs",
