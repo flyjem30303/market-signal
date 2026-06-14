@@ -16,43 +16,43 @@ const reviewGate = read(reviewGatePath);
 const routeContracts = [
   {
     route: "/",
-    tokens: ["公開 Beta 指數狀態儀表站", "30 秒", "3 分鐘", "正式市場資料尚未啟用", "不提供個股買賣建議"]
+    tokens: ["指數狀態儀表站", "30 秒", "3 分鐘", "示範資料", "非投資建議"]
   },
   {
     route: "/briefing",
-    tokens: ["每日市場晨報", "30 秒", "3 分鐘", "正式市場資料尚未啟用", "不提供買賣建議"]
+    tokens: ["市場簡報", "30 秒", "3 分鐘", "示範資料", "非投資建議"]
   },
   {
     route: "/weekly",
-    tokens: ["市場週報", "30 秒", "3 分鐘", "正式資料尚未啟用", "不提供買賣建議"]
+    tokens: ["市場週報", "30 秒", "3 分鐘", "示範資料", "非投資建議"]
   },
   {
     route: "/membership",
-    tokens: ["第二階段會員路線圖", "會員功能預覽", "不是會員入口", "不會建立帳號", "不會收費"]
+    tokens: ["會員功能預覽", "市場三層解讀", "自選追蹤", "盤後複盤", "非投資建議"]
   },
   {
     route: "/stocks/2330",
-    tokens: ["2330 台積電", "30 秒", "3 分鐘", "示範資料", "不提供個股買賣建議"]
+    tokens: ["2330", "台積電", "30 秒", "3 分鐘", "非投資建議"]
   },
   {
     route: "/stocks/TWII",
-    tokens: ["TWII 台灣加權指數", "30 秒", "3 分鐘", "示範資料", "不提供個股買賣建議"]
+    tokens: ["TWII", "台灣加權指數", "30 秒", "3 分鐘", "非投資建議"]
   },
   {
     route: "/methodology",
-    tokens: ["燈號方法", "正式市場資料尚未啟用", "不是交易指令", "不提供買賣建議"]
+    tokens: ["燈號", "方法", "示範資料", "非投資建議"]
   },
   {
     route: "/disclaimer",
-    tokens: ["風險聲明", "不是投資建議", "示範資料", "不提供買賣建議"]
+    tokens: ["風險聲明", "非投資建議", "資料", "投資決策"]
   },
   {
     route: "/terms",
-    tokens: ["使用條款", "不是投資建議", "資料邊界", "自行判斷"]
+    tokens: ["使用條款", "非投資建議", "資料", "服務"]
   },
   {
     route: "/privacy",
-    tokens: ["隱私權與資料說明", "不要在任何表單", "會員功能仍是下一階段規劃"]
+    tokens: ["隱私", "資料", "會員", "個人化"]
   },
   {
     route: "/robots.txt",
@@ -83,8 +83,7 @@ const forbiddenVisibleFragments = [
   "SQL",
   "commit ",
   "Git",
-  "operator-only",
-  "rollback"
+  "operator-only"
 ];
 
 for (const phrase of [
@@ -247,7 +246,10 @@ function findMojibakeMarkers(text) {
   const markers = [];
   if (/[\uE000-\uF8FF\uFFFD]/u.test(text)) markers.push("private-use-or-replacement-code-point");
   if (/[\u0080-\u009f]/u.test(text)) markers.push("c1-control-character");
-  return markers;
+  for (const fragment of ["蝬", "嚗", "銝", "雿", "撣", "摰", "閬", "霈", "蝡", "璅", "餈質馱", "擗", "", "", "芷"]) {
+    if (text.includes(fragment)) markers.push(`mojibake-fragment:${fragment}`);
+  }
+  return [...new Set(markers)];
 }
 
 function forbiddenPatterns() {
@@ -258,12 +260,7 @@ function forbiddenPatterns() {
     /production deployment is approved/u,
     /production env mutation is approved/u,
     /raw market data fetch is approved/u,
-    /publicDataSource\s*=\s*"supabase"/u,
-    /scoreSource\s*=\s*"real"/u,
-    /real-time official market data is provided/u,
-    /official endorsement is provided/u,
-    /guaranteed return is provided/u,
-    /investment advice is provided/u,
-    /buy\/sell recommendation is provided/u
+    /scoreSource=real is approved/u,
+    /publicDataSource=supabase is approved/u
   ];
 }

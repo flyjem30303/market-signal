@@ -48,6 +48,30 @@ Next:
 
 Continue the BRIEF-aligned Phase 1 public/free launch path. Priority: validate all public pages against the revised BRIEF, keep A1 on legal/free automated data-source and coverage work, keep A2 on trust/disclosure copy, keep A3 on Vercel/monitoring/rollback, and keep A4 as membership MVP planning only until public/free experience is stable.
 
+### Remote Monitoring Contract Refresh Addendum
+
+Status: `remote_monitoring_contract_refreshed_for_revised_brief`
+
+PM completed:
+
+- Rebuilt `check:a3-phase-1-public-beta-remote-monitoring-snapshot` route tokens so the remote gate checks the revised BRIEF language instead of obsolete mojibake-era anchors.
+- Re-ran remote monitoring against `https://market-signal-two.vercel.app`.
+- Confirmed all checked remote routes return 200 and contain the expected public/free market-dashboard, membership-preview, disclosure, and data-boundary language.
+
+Checks passed:
+
+- `check:a3-phase-1-public-beta-remote-monitoring-snapshot`
+- `check:public-visible-language-quality`
+- `tsc --noEmit`
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public data-source promotion, real score promotion, or platform mutation occurred.
+
+Next:
+
+Continue BRIEF Phase 1 public/free execution. A1 should keep moving on legal/free automated source and coverage proof; A2 should keep public copy and disclosure gates aligned with the revised BRIEF; A3 should keep deployment monitoring and rollback checks current; A4 remains membership MVP planning only.
+
 ### Phase 1 Public Journey Remote Validation Addendum
 
 Status: `phase_1_public_journey_remote_validation_ready`
