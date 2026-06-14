@@ -24,6 +24,7 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
         </h2>
         <p>
           這個頁面先用示範資料建立閱讀流程：30 秒看懂標的狀態，3 分鐘複核風險、成因、資料邊界與下一步觀察。
+          使用者應先在 30 秒內看懂標的狀態，再於 3 分鐘內確認風險、更新時間與資料限制。
           正式資料升級前，頁面不宣稱即時行情，也不提供個股買賣建議。
         </p>
       </div>

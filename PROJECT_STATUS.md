@@ -2,6 +2,42 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Phase 1 Reading Contract And Final Public Readiness Closure
+
+Status: `phase_1_reading_contract_final_public_readiness_ready`
+
+CEO decision:
+
+- Use `@superpowers` with PM as integration owner and A2/A3 as bounded support lanes.
+- Keep Phase 1 as the public/free index-lighting site: every visitor should understand market or symbol status quickly, while Phase 2 membership stays planning-only.
+- Treat the A3 findings as real Phase 1 blockers because they affected the public reading contract and manual platform action readiness record.
+
+PM / A2 / A3 completed:
+
+- A2 reviewed public copy residue and reported no blocking public-facing internal residue.
+- A3 found two blockers: stock-route reading-contract phrases were missing, and the PM workstream document was missing the Phase 1 chairman/operator decision anchor.
+- PM repaired the stock route copy with `標的快速判讀`, `30 秒看懂標的狀態`, `3 分鐘複核風險`, `30 秒內看懂標的狀態`, and `3 分鐘內確認風險`.
+- PM added `phase_1_public_beta_chairman_operator_decision_2026_06_13_recorded` to the PM mainline workstream document.
+- PM diagnosed the local `localhost:3000` 500 as a stale `.next` dev/build cache issue: Next could not find `.next/server` chunk `./948.js`. The running dev server was stopped, `.next` was verified inside the project root, cache was removed, and the dev server was restarted.
+
+Checks passed:
+
+- `check:a3-phase-1-core-route-reading-contract-rollup`
+- `check:phase-1-public-beta-no-secret-manual-platform-action-readiness`
+- `check:phase-1-public-beta-candidate-final-public-readiness-scan`
+- `check:public-beta-production-brief-alignment`
+- `check:public-surface-user-facing-audit`
+- `check:public-visible-language-quality`
+- `npx tsc --noEmit`
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public data-source promotion, real score promotion, production deploy, DNS change, production environment mutation, login implementation, payment implementation, persisted watchlist, personalized alert execution, member-only content gating, brokerage integration, promised-return claim, or investment-advice claim occurred.
+
+Next:
+
+Phase 1 mock public Beta readiness can move to public verification and operator review with deferrals. The next highest-value slice is product-facing public Beta acceptance: verify the deployed Vercel route, confirm no stale public/developer residue remains in visible pages, and keep A1 on legal/free automated source coverage while PM continues runtime clarity.
+
 ### Public Beta Production BRIEF Alignment Repair
 
 Status: `public_beta_production_brief_alignment_ready`
