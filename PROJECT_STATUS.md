@@ -2,6 +2,32 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Phase 1 Pre-UI/UX Acceptance Record
+
+Status: `phase_1_pre_ui_ux_acceptance_record_ready`
+
+CEO decision:
+
+- Close the current BRIEF mainline at the point before final UI/UX design polish.
+- Treat Phase 1 as accepted with deferrals for mock-only public usability, while keeping final brand/visual polish, real-data promotion, and Phase 2 membership runtime outside this slice.
+- Prevent another broad governance loop by making the next PM route explicit: final UI/UX polish only where it improves comprehension, trust, accessibility, mobile readability, or first-screen decision flow.
+
+PM completed:
+
+- Added `docs/PHASE_1_PRE_UI_UX_ACCEPTANCE_RECORD.md`.
+- Added and registered `check:phase-1-pre-ui-ux-acceptance-record`.
+- Registered `phase-1-pre-ui-ux-acceptance-record` in the focused public Beta review gate set.
+
+Evidence:
+
+- `check:phase-1-pre-ui-ux-acceptance-record` is now the controlling record for entering final UI/UX polish.
+- It references the existing `docs/PHASE_1_HUMAN_UI_UX_ACCEPTANCE_CHECKLIST.md`.
+- It keeps the automated evidence chain on `check:phase-1-human-ui-ux-acceptance-checklist`, `check:phase-1-public-beta-final-readiness-rollup`, `check:public-beta-core-route-quick-proof`, `check:public-surface-user-facing-audit`, `check:public-visible-language-quality`, `check:phase-1-public-beta-public-visible-residue-cleanup`, `npx tsc --noEmit`, and `check:review-gates`.
+
+Boundary:
+
+No SQL, Supabase read/write, staging rows, `daily_prices` mutation, raw market-data fetch/store/commit, source promotion, real score promotion, production environment mutation, DNS change, broad visual redesign, or Phase 2 membership implementation occurred. The runtime remains `publicDataSource=mock` and `scoreSource=mock`.
+
 ### Phase 1 Human UI/UX Acceptance Checklist
 
 Status: `phase_1_human_ui_ux_acceptance_checklist_ready`

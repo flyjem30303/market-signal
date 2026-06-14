@@ -3293,6 +3293,11 @@ const checks = [
     name: "phase-1-human-ui-ux-acceptance-checklist"
   },
   {
+    command: [node, "scripts/check-phase-1-pre-ui-ux-acceptance-record.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-pre-ui-ux-acceptance-record"
+  },
+  {
     command: [node, "scripts/check-phase-1-public-beta-visual-acceptance-and-a3-handoff.mjs"],
     expectStatus: "ok",
     name: "phase-1-public-beta-visual-acceptance-and-a3-handoff"
@@ -6169,6 +6174,7 @@ const coreReviewGateNames = new Set([
   "phase-1-public-beta-release-readiness-evidence-rollup",
   "phase-1-public-beta-human-visual-review",
   "phase-1-human-ui-ux-acceptance-checklist",
+  "phase-1-pre-ui-ux-acceptance-record",
   "phase-1-public-beta-visual-acceptance-and-a3-handoff",
   "phase-1-public-beta-chairman-visual-acceptance-record",
   "public-beta-separated-preflight",
@@ -6360,6 +6366,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "phase-1-public-beta-release-readiness-evidence-rollup",
   "phase-1-public-beta-human-visual-review",
   "phase-1-human-ui-ux-acceptance-checklist",
+  "phase-1-pre-ui-ux-acceptance-record",
   "phase-1-public-beta-visual-acceptance-and-a3-handoff",
   "phase-1-public-beta-chairman-visual-acceptance-record",
   "a2-home-first-screen-public-copy-handoff",

@@ -752,6 +752,7 @@
     "check:phase-1-public-beta-release-readiness-evidence-rollup": "node scripts/check-phase-1-public-beta-release-readiness-evidence-rollup.mjs",
     "check:phase-1-public-beta-human-visual-review": "node scripts/check-phase-1-public-beta-human-visual-review.mjs",
     "check:phase-1-human-ui-ux-acceptance-checklist": "node scripts/check-phase-1-human-ui-ux-acceptance-checklist.mjs",
+    "check:phase-1-pre-ui-ux-acceptance-record": "node scripts/check-phase-1-pre-ui-ux-acceptance-record.mjs",
     "check:phase-1-public-beta-visual-acceptance-and-a3-handoff": "node scripts/check-phase-1-public-beta-visual-acceptance-and-a3-handoff.mjs",
     "check:phase-1-public-beta-chairman-visual-acceptance-record": "node scripts/check-phase-1-public-beta-chairman-visual-acceptance-record.mjs",
     "report:public-beta-separated-preflight": "node scripts/report-public-beta-separated-preflight.mjs",
