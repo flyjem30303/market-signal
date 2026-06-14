@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { PageViewTracker } from "@/components/page-view-tracker";
+import { PublicBetaDataReadinessStatus } from "@/components/public-beta-data-readiness-status";
 import { PublicNextReadingFlow } from "@/components/public-next-reading-flow";
 import { TrackedLink } from "@/components/tracked-link";
 import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
@@ -129,6 +130,17 @@ export default async function BriefingPage() {
       </section>
 
       <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
+
+      <PublicBetaDataReadinessStatus />
+
+      <section className="panel stock-reading-summary" aria-label="正式資料狀態提醒">
+        <p className="eyebrow">資料上線提醒</p>
+        <h2>正式市場資料尚未啟用，請先看更新時間、來源狀態與資料品質</h2>
+        <p>
+          目前公開頁仍以示範資料呈現閱讀流程。正式資料完成切換前，所有燈號都應視為市場觀察與風險辨識線索，
+          不提供個股買賣建議，也不應直接當成即時市場訊號或交易指令。
+        </p>
+      </section>
 
       <section className="panel stock-reading-summary" aria-label="資料邊界">
         <p className="eyebrow">資料邊界</p>

@@ -2,6 +2,39 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Briefing Data Readiness Surface Alignment
+
+Status: `phase_1_briefing_data_readiness_surface_alignment_ready`
+
+CEO decision:
+
+- Keep Phase 1 moving toward a public launchable free surface while the next TWII coverage write remains blocked by explicit bounded write authorization.
+- Treat `/briefing` as a first-class public route, not an internal project dashboard: it must show the same data-readiness boundary as home before any real-data promotion.
+- Add user-facing wording that explains formal market data is not enabled yet, points readers to update time/source/data quality, and keeps the page away from buy/sell advice.
+
+PM completed:
+
+- Added `PublicBetaDataReadinessStatus` to `/briefing`.
+- Added a clean public-facing data-online reminder to `/briefing` so the route states the current demo-data boundary, readiness checks, and non-advice posture without exposing development residue.
+
+Evidence:
+
+- `check:public-beta-data-readiness-status` passed for `/` and `/briefing`.
+- `check:localhost-health` passed for home, stock routes, `/briefing`, `/weekly`, and `robots.txt`.
+- In-app browser verification confirmed `/briefing` renders the data-online reminder, formal-data-not-enabled copy, data-quality copy, and no-buy/sell-advice copy.
+- `check:public-visible-language-quality` passed.
+- `check:public-surface-user-facing-audit` passed.
+- `npx tsc --noEmit` passed.
+- `check:review-gates` passed with 180 focused executed gates.
+
+Boundary:
+
+No SQL, Supabase connection/write, staging row creation, `daily_prices` mutation, market endpoint fetch, raw market-data ingest/store/commit, row payload output, public source promotion, `publicDataSource=supabase`, `scoreSource=real`, investment advice claim, production environment mutation, DNS change, broad visual redesign, or Phase 2 membership implementation occurred. Runtime and score remain `publicDataSource=mock` and `scoreSource=mock`.
+
+Next route:
+
+Run focused public-copy and TypeScript checks, then keep advancing public runtime readiness until a separate explicit bounded write decision unlocks the TWII data-coverage step.
+
 ### Phase 1 Runtime Boundary Gate Realignment
 
 Status: `phase_1_runtime_boundary_gate_realignment_ready`
