@@ -8,6 +8,45 @@ Owner: PM mainline
 
 ## Latest Mainline Decision - 2026-06-14
 
+### Stock Page Product-First Readability Trim Pass
+
+CEO decision:
+
+- Stock pages should answer "what is this symbol's current state and how should I read it next" before showing platform or membership roadmap content.
+- Keep stock pages public, non-advisory, mock-bounded, and product-first.
+- Keep Phase 2 membership work on `/membership` and broader roadmap surfaces; do not make it a blocker or distraction on stock pages.
+
+PM completed:
+
+- Added `StockRuntimeAtAGlance` to stock pages.
+- Hid `PublicBetaPublicStatusSurface` from stock pages.
+- Hid the membership roadmap and membership preview block from stock pages.
+- Updated `check:stock-product-first-runtime-readability` to enforce user-facing stock comprehension and block development/member-roadmap residue.
+- Repaired `PublicBetaPublicStatusSurface` copy from unreadable mojibake into clean public Beta status language.
+- Updated `check:phase-1-public-beta-public-status-surface-alignment` so home/briefing keep the status surface and stock pages stay focused on symbol interpretation.
+- Updated `check:public-beta-core-route-quick-proof` to verify actual public route text instead of stale mojibake source anchors.
+
+Checks passed:
+
+- `check:stock-product-first-runtime-readability`
+- `check:phase-1-public-beta-public-status-surface-alignment`
+- `check:phase-1-public-beta-public-visible-residue-cleanup`
+- `check:public-beta-core-route-quick-proof`
+- `check:public-visible-language-quality`
+- `check:public-beta-methodology-disclaimer-source-coverage-alignment`
+- `npx tsc --noEmit`
+- `npm run build`
+- `check:review-gates` (`190/190` focused checks executed)
+- Browser verification on `http://localhost:3000/stocks/2330`
+
+Current route:
+
+- `stock_product_first_readability_trim_ready`
+
+Next PM slice:
+
+- Continue Phase 1 public route readability or A3 public smoke; keep Phase 2 membership work as roadmap/planning until the free public site is stable.
+
 ### A2 Public Trust Copy Checker Repair Pass
 
 CEO decision:

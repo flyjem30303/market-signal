@@ -2,6 +2,48 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Stock Page Product-First Readability Trim Pass
+
+Status: `stock_product_first_readability_trim_ready`
+
+CEO decision:
+
+- Treat stock pages as user reading surfaces, not project-status or membership-roadmap surfaces.
+- Keep the stock page focused on one-symbol interpretation: 30-second status, 3-minute review, data boundary, risk cause, update time, and next reading links.
+- Move public platform status and membership roadmap content out of individual stock pages; those belong on home, membership, methodology, and legal routes.
+- Keep Phase 2 membership visible as a separate preview route, but do not let it distract from Phase 1 stock-page comprehension.
+
+PM completed:
+
+- Wired `StockRuntimeAtAGlance` into the stock-page branch of `DashboardShell`.
+- Limited `PublicBetaPublicStatusSurface` to non-stock pages.
+- Limited the membership roadmap and membership preview section to non-stock pages.
+- Rebuilt `check:stock-product-first-runtime-readability` around user-facing stock-route requirements and forbidden public residue.
+- Repaired mojibake in `PublicBetaPublicStatusSurface` and converted it into clean public Beta status copy for home and briefing.
+- Rebuilt `check:phase-1-public-beta-public-status-surface-alignment` so home/briefing keep the public status surface while stock pages remain product-first.
+- Rebuilt `check:public-beta-core-route-quick-proof` around actual visible route text and mock-boundary proof instead of stale source-level mojibake tokens.
+
+Checks passed:
+
+- `check:stock-product-first-runtime-readability`
+- `check:phase-1-public-beta-public-status-surface-alignment`
+- `check:phase-1-public-beta-public-visible-residue-cleanup`
+- `check:public-beta-core-route-quick-proof`
+- `check:public-visible-language-quality`
+- `check:public-beta-methodology-disclaimer-source-coverage-alignment`
+- `npx tsc --noEmit`
+- `npm run build`
+- `check:review-gates` (`190/190` focused checks executed)
+- Browser verification on `http://localhost:3000/stocks/2330`
+
+Boundary:
+
+No membership implementation, login, payment, watchlist persistence, personalized alert execution, SQL, Supabase read/write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public source promotion, real score promotion, real-time claim, official endorsement claim, guaranteed-return claim, investment-advice claim, production env mutation, DNS change, or Vercel dashboard mutation occurred.
+
+Next:
+
+Continue Phase 1 public route readability or A3 public smoke; Phase 2 membership remains a roadmap lane until the free public site is stable.
+
 ### A2 Public Trust Copy Checker Repair Pass
 
 Status: `a2_public_trust_copy_checker_repaired`

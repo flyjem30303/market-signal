@@ -8,6 +8,7 @@ import { PublicBetaMembershipMvpRoadmap } from "@/components/public-beta-members
 import { PublicBetaPublicStatusSurface } from "@/components/public-beta-public-status-surface";
 import { PublicBetaSourceCoverageBridge } from "@/components/public-beta-source-coverage-bridge";
 import { PublicNextReadingFlow } from "@/components/public-next-reading-flow";
+import { StockRuntimeAtAGlance } from "@/components/stock-runtime-at-a-glance";
 import { TrackedLink } from "@/components/tracked-link";
 import { buildMockDataFreshnessSnapshot, type DataFreshnessSnapshot } from "@/lib/data-freshness";
 import {
@@ -75,7 +76,7 @@ export function DashboardShell({
         <HomeFirstScreenDecisionSummary breadth={breadth} freshness={freshness} market={market} snapshot={snapshot} />
       )}
       <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
-      <PublicBetaPublicStatusSurface />
+      {!isStockPage && <PublicBetaPublicStatusSurface />}
       <PublicBetaSourceCoverageBridge context={isStockPage ? "stock" : "home"} stockSymbol={selected.symbol} />
       <section className="panel stock-reading-summary" aria-label="三分鐘判斷順序">
         <p className="eyebrow">3 分鐘判斷順序</p>
@@ -97,6 +98,7 @@ export function DashboardShell({
 
       {isStockPage && (
         <>
+          <StockRuntimeAtAGlance scoreSourceLabel="示範分數" snapshot={snapshot} />
           <StockPublicSummary snapshot={snapshot} />
           <StockDecisionCompass snapshot={snapshot} />
           <StockMarketContextPanel breadth={breadth} market={market} snapshot={snapshot} />
@@ -135,23 +137,27 @@ export function DashboardShell({
       </section>
 
       <CommercialSlot context={isStockPage ? "stock" : "briefing"} />
-      <PublicBetaMembershipMvpRoadmap />
+      {!isStockPage && (
+        <>
+          <PublicBetaMembershipMvpRoadmap />
 
-      <section className="panel stock-reading-summary" aria-label="會員功能預覽">
-        <p className="eyebrow">下一階段會員 MVP</p>
-        <h2>會員功能預覽：理解燈號、追蹤變化、回看判斷</h2>
-        <p>
-          下一階段會把「看到燈號」延伸成「理解燈號」。會員 MVP 預計包含每日市場三層解讀、watchlist 與自訂警示條件、盤後複盤報告。
-        </p>
-        <div className="briefing-actions">
-          <TrackedLink eventName="membership_preview_link_clicked" href="/membership" label="查看會員功能預覽" payload={{ area: "dashboard_shell" }}>
-            查看會員功能預覽
-          </TrackedLink>
-          <TrackedLink eventName="trust_link_clicked" href="/methodology" label="查看方法說明" payload={{ area: "dashboard_shell" }}>
-            查看方法說明
-          </TrackedLink>
-        </div>
-      </section>
+          <section className="panel stock-reading-summary" aria-label="會員功能預覽">
+            <p className="eyebrow">下一階段會員功能</p>
+            <h2>會員功能預覽：理解燈號、追蹤變化、回看判斷</h2>
+            <p>
+              下一階段會把「看到燈號」延伸成「理解燈號」。會員功能預計包含每日市場三層解讀、watchlist 與自訂警示條件、盤後複盤報告。
+            </p>
+            <div className="briefing-actions">
+              <TrackedLink eventName="membership_preview_link_clicked" href="/membership" label="查看會員功能預覽" payload={{ area: "dashboard_shell" }}>
+                查看會員功能預覽
+              </TrackedLink>
+              <TrackedLink eventName="trust_link_clicked" href="/methodology" label="查看方法說明" payload={{ area: "dashboard_shell" }}>
+                查看方法說明
+              </TrackedLink>
+            </div>
+          </section>
+        </>
+      )}
 
       <article className="disclaimer">
         <h2>不是投資建議</h2>

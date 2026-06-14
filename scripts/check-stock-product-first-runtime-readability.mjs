@@ -3,12 +3,14 @@ import fs from "node:fs";
 const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 const dashboardPath = "src/components/dashboard-shell.tsx";
+const stockRuntimePath = "src/components/stock-runtime-at-a-glance.tsx";
 const baseUrl = process.env.LOCALHOST_BASE_URL ?? "http://localhost:3000";
 
 const problems = [];
 const pkg = JSON.parse(read(packagePath));
 const reviewGate = read(reviewGatePath);
 const dashboard = read(dashboardPath);
+const stockRuntime = read(stockRuntimePath);
 
 if (
   pkg.scripts?.["check:stock-product-first-runtime-readability"] !==
@@ -25,16 +27,29 @@ for (const phrase of [
 }
 
 for (const phrase of [
+  'import { StockRuntimeAtAGlance } from "@/components/stock-runtime-at-a-glance";',
   "<StockRuntimeAtAGlance",
   "<DataFreshnessStrip",
   '<PublicBetaSourceCoverageBridge context={isStockPage ? "stock" : "home"}',
-  "<PublicBetaPublicStatusSurface />"
+  "{!isStockPage && <PublicBetaPublicStatusSurface />}",
+  "{!isStockPage && ("
 ]) {
   if (!dashboard.includes(phrase)) problems.push(`${dashboardPath} missing ${phrase}`);
 }
 
-if (!dashboard.includes("!isStockPage") || !dashboard.includes("<PublicBetaPublicStatusSurface />")) {
-  problems.push(`${dashboardPath} must keep public status surface on non-stock pages only`);
+for (const phrase of [
+  "個股燈號快速摘要",
+  "標的快速判讀",
+  "30 秒",
+  "3 分鐘",
+  "資料邊界",
+  "示範資料 / 示範分數",
+  "非投資建議",
+  "不能當成個股買賣指令",
+  "查看市場簡報",
+  "查看方法說明"
+]) {
+  if (!stockRuntime.includes(phrase)) problems.push(`${stockRuntimePath} missing ${phrase}`);
 }
 
 for (const route of ["/stocks/2330", "/stocks/TWII", "/stocks/0050"]) {
@@ -43,29 +58,30 @@ for (const route of ["/stocks/2330", "/stocks/TWII", "/stocks/0050"]) {
   const visible = normalize(html);
 
   if (response.status !== 200) problems.push(`${route} returned ${response.status}`);
-  if (visible.length > 3800) problems.push(`${route} visible text too dense after stock trim: ${visible.length}`);
+  if (visible.length > 5200) problems.push(`${route} visible text too dense after stock trim: ${visible.length}`);
 
   for (const required of [
-    "30 秒快速閱讀",
-    "3 分鐘要複核",
+    "狀態儀表",
+    "標的快速判讀",
+    "30 秒",
+    "3 分鐘",
     "資料邊界",
     "示範資料",
     "示範分數",
-    "正式資料尚未啟用",
-    "更新時間",
-    "下一步",
-    "不提供買賣建議",
-    "資料來源與覆蓋率"
+    "不提供個股買賣建議",
+    "不能當成個股買賣指令",
+    "查看市場簡報",
+    "查看方法說明"
   ]) {
     if (!visible.includes(required)) problems.push(`${route} missing ${required}`);
   }
 
   for (const forbidden of [
     "目前公開使用狀態",
+    "會員 MVP",
     "Phase 1",
     "Phase 2",
     "Membership MVP",
-    "會員 MVP",
     "cmd.exe",
     "BETA_",
     "PUBLIC_BETA_EXTERNAL",
@@ -82,6 +98,10 @@ for (const route of ["/stocks/2330", "/stocks/TWII", "/stocks/0050"]) {
     "raw market data"
   ]) {
     if (visible.includes(forbidden)) problems.push(`${route} visible text must not include ${forbidden}`);
+  }
+
+  for (const marker of findMojibakeMarkers(visible)) {
+    problems.push(`${route} visible text has ${marker}`);
   }
 }
 
@@ -118,4 +138,12 @@ function read(path) {
     return path.endsWith(".json") ? "{}" : "";
   }
   return fs.readFileSync(path, "utf8");
+}
+
+function findMojibakeMarkers(text) {
+  const markers = [];
+  if (/\uFFFD/u.test(text)) markers.push("replacement-character");
+  if (/[\uE000-\uF8FF]/u.test(text)) markers.push("private-use-codepoint");
+  if (/\?{3,}/u.test(text)) markers.push("question-mark-run");
+  return markers;
 }

@@ -15,23 +15,16 @@ const publicStatusSurfaceSourcePaths = [
   "src/components/public-beta-public-status-surface.tsx"
 ];
 
-const routeChecks = [
-  "/",
-  "/briefing",
-  "/stocks/TWII",
-  "/stocks/2330",
-  "/stocks/0050"
-];
+const surfaceRoutes = ["/", "/briefing"];
+const stockRoutes = ["/stocks/TWII", "/stocks/2330", "/stocks/0050"];
 
 const requiredPublicPhrases = [
-  "目前公開使用狀態",
-  "市場氣氛快讀",
-  "資料狀態需複核",
-  "會員功能下一階段",
-  "可以用 30 秒",
-  "示範資料與示範分數",
-  "正式資料來源",
-  "會員深度解讀",
+  "公開 Beta 使用狀態",
+  "先用 30 秒看懂市場氣氛",
+  "資料品質需持續複核",
+  "會員功能規劃中",
+  "目前為示範資料",
+  "正式市場資料尚未啟用",
   "不提供買賣建議"
 ];
 
@@ -60,6 +53,20 @@ const forbiddenPublicStatusFragments = [
   "A4 "
 ];
 
+const stockForbiddenSurfacePhrases = [
+  "公開 Beta 使用狀態",
+  "會員功能規劃中",
+  "KEEP_OPEN_WITH_DEFERRALS",
+  "REPAIR_THEN_RECHECK",
+  "ROLLBACK_OR_NO_GO",
+  "publicDataSource",
+  "scoreSource",
+  "mock-only",
+  "Supabase",
+  "SQL",
+  "raw market data"
+];
+
 const unsafeSourceFragments = [
   "@supabase/supabase-js",
   "createClient(",
@@ -85,7 +92,7 @@ const forbiddenSourceHits = forbiddenPublicStatusFragments.filter((fragment) =>
 );
 const unsafeSourceHits = unsafeSourceFragments.filter((fragment) => publicStatusSurfaceSourceText.includes(fragment));
 const missingMounts = [
-  ["src/components/dashboard-shell.tsx", "<PublicBetaPublicStatusSurface />"],
+  ["src/components/dashboard-shell.tsx", "{!isStockPage && <PublicBetaPublicStatusSurface />}"],
   ["src/app/briefing/page.tsx", "<PublicBetaPublicStatusSurface />"],
   ["src/components/public-beta-public-status-surface.tsx", "getPublicBetaPublicStatusSurface"]
 ].filter(([path, phrase]) => !readText(path).includes(phrase));
@@ -100,9 +107,10 @@ const focusedGateRegistered = readText("scripts/check-review-gates.mjs").include
   "\"phase-1-public-beta-public-status-surface-alignment\""
 );
 
-const routeResults = [];
+const surfaceRouteResults = [];
+const stockRouteResults = [];
 
-for (const route of routeChecks) {
+for (const route of surfaceRoutes) {
   try {
     const response = await fetch(`${baseUrl}${route}`);
     const html = await response.text();
@@ -111,7 +119,7 @@ for (const route of routeChecks) {
     const forbidden = forbiddenPublicStatusFragments.filter((phrase) => text.includes(phrase));
     const mojibakeHits = findMojibakeMarkers(text);
 
-    routeResults.push({
+    surfaceRouteResults.push({
       forbidden,
       missing,
       mojibakeHits,
@@ -120,7 +128,31 @@ for (const route of routeChecks) {
       status: response.status
     });
   } catch (error) {
-    routeResults.push({
+    surfaceRouteResults.push({
+      error: error instanceof Error ? error.message : String(error),
+      pass: false,
+      route
+    });
+  }
+}
+
+for (const route of stockRoutes) {
+  try {
+    const response = await fetch(`${baseUrl}${route}`);
+    const html = await response.text();
+    const text = normalizeVisibleText(html);
+    const forbidden = stockForbiddenSurfacePhrases.filter((phrase) => text.includes(phrase));
+    const mojibakeHits = findMojibakeMarkers(text);
+
+    stockRouteResults.push({
+      forbidden,
+      mojibakeHits,
+      pass: response.status === 200 && forbidden.length === 0 && mojibakeHits.length === 0,
+      route,
+      status: response.status
+    });
+  } catch (error) {
+    stockRouteResults.push({
       error: error instanceof Error ? error.message : String(error),
       pass: false,
       route
@@ -140,7 +172,8 @@ const status =
   packageRegistered &&
   reviewGateRegistered &&
   focusedGateRegistered &&
-  routeResults.every((result) => result.pass)
+  surfaceRouteResults.every((result) => result.pass) &&
+  stockRouteResults.every((result) => result.pass)
     ? "ok"
     : "blocked";
 
@@ -159,7 +192,8 @@ console.log(
       packageRegistered,
       reviewGateRegistered,
       focusedGateRegistered,
-      routeResults,
+      surfaceRouteResults,
+      stockRouteResults,
       publicDataSource: "mock",
       scoreSource: "mock"
     },

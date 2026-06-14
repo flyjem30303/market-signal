@@ -18,55 +18,32 @@ const routes = [
   "/privacy"
 ];
 
-const routeContracts = [
-  {
-    file: "src/components/dashboard-shell.tsx",
-    tokens: ["指數燈號", "30 秒", "3 分鐘", "資料品質", "不提供買賣建議"]
-  },
-  {
-    file: "src/app/briefing/page.tsx",
-    tokens: ["市場晨報", "3 分鐘判斷順序", "資料來源", "會員功能預覽", "不提供買賣建議"]
-  },
-  {
-    file: "src/app/weekly/page.tsx",
-    tokens: ["市場週報", "30 秒", "3 分鐘", "正式資料尚未啟用", "不提供買賣建議"]
-  },
-  {
-    file: "src/app/membership/page.tsx",
-    tokens: ["會員功能預覽", "這頁是會員路線圖，不是會員入口", "每日市場三層解讀", "Watchlist 與自訂警示", "盤後複盤報告"]
-  },
-  {
-    file: "src/components/public-beta-membership-mvp-roadmap.tsx",
-    tokens: ["下一階段會員功能", "會員內容會在公開 Beta 穩定後開放", "查看會員功能預覽", 'href="/membership"']
-  },
-  {
-    file: "src/components/public-beta-public-status-surface.tsx",
-    tokens: ["目前公開使用狀態", "surface.headline", "surface.stopLine"]
-  },
-  {
-    file: "src/components/public-beta-source-coverage-bridge.tsx",
-    tokens: ["資料來源與覆蓋狀態", "資料品質", "升級條件", "查看風險聲明"]
-  },
-  {
-    file: "src/app/methodology/page.tsx",
-    tokens: ["方法說明", "資料品質", "正式市場資料尚未啟用", "不提供買賣建議"]
-  },
-  {
-    file: "src/app/disclaimer/page.tsx",
-    tokens: ["風險聲明", "資料來源", "覆蓋率", "不提供買賣建議"]
-  },
-  {
-    file: "src/app/terms/page.tsx",
-    tokens: ["使用條款", "不是投資建議", "資料來源", "自行承擔風險"]
-  },
-  {
-    file: "src/app/privacy/page.tsx",
-    tokens: ["隱私權與資料說明", "資料來源", "不要在任何表單", "會員功能資料邊界"]
-  },
-  {
-    file: "src/app/sitemap.xml/route.ts",
-    tokens: ['"/membership"']
-  }
+const sourceFiles = [
+  "src/components/dashboard-shell.tsx",
+  "src/app/briefing/page.tsx",
+  "src/app/weekly/page.tsx",
+  "src/app/membership/page.tsx",
+  "src/components/public-beta-membership-mvp-roadmap.tsx",
+  "src/components/public-beta-public-status-surface.tsx",
+  "src/components/public-beta-source-coverage-bridge.tsx",
+  "src/app/methodology/page.tsx",
+  "src/app/disclaimer/page.tsx",
+  "src/app/terms/page.tsx",
+  "src/app/privacy/page.tsx",
+  "src/app/sitemap.xml/route.ts"
+];
+
+const routeVisibleContracts = [
+  { route: "/", tokens: ["指數狀態儀表站", "30 秒", "3 分鐘", "資料更新時間", "不提供個股買賣建議"] },
+  { route: "/briefing", tokens: ["每日市場晨報", "30 秒", "3 分鐘", "資料狀態", "示範資料"] },
+  { route: "/weekly", tokens: ["市場週報", "30 秒", "3 分鐘", "示範資料", "不提供買賣建議"] },
+  { route: "/membership", tokens: ["會員功能預覽", "會員 MVP", "watchlist", "盤後複盤", "不是會員入口"] },
+  { route: "/stocks/2330", tokens: ["2330", "狀態儀表", "標的快速判讀", "資料邊界", "不能當成個股買賣指令"] },
+  { route: "/stocks/TWII", tokens: ["TWII", "狀態儀表", "標的快速判讀", "資料邊界", "不能當成個股買賣指令"] },
+  { route: "/methodology", tokens: ["方法說明", "資料來源", "示範資料", "不提供買賣建議"] },
+  { route: "/disclaimer", tokens: ["風險聲明", "資料來源", "投資決策", "不提供買賣建議"] },
+  { route: "/terms", tokens: ["使用條款", "資料來源", "不是投資建議"] },
+  { route: "/privacy", tokens: ["隱私權與資料說明", "資料", "會員"] }
 ];
 
 const missing = [];
@@ -85,14 +62,10 @@ const forbiddenPublicSourceFragments = [
   "EXTERNAL REPLY"
 ];
 
-for (const contract of routeContracts) {
-  const source = read(contract.file);
-  for (const token of contract.tokens) {
-    if (!source.includes(token)) missing.push(`${contract.file}: ${token}`);
-  }
-
+for (const file of sourceFiles) {
+  const source = read(file);
   for (const fragment of forbiddenPublicSourceFragments) {
-    if (source.includes(fragment)) blocked.push(`${contract.file}: public source residue ${fragment}`);
+    if (source.includes(fragment)) blocked.push(`${file}: public source residue ${fragment}`);
   }
 }
 
@@ -116,12 +89,20 @@ for (const result of routeResults) {
   if (result.statusCode !== 200) blocked.push(`${result.route}: HTTP ${result.statusCode}`);
 }
 
+for (const contract of routeVisibleContracts) {
+  const result = routeResults.find((item) => item.route === contract.route);
+  const text = result?.text ?? "";
+  for (const token of contract.tokens) {
+    if (!text.includes(token)) missing.push(`${contract.route}: ${token}`);
+  }
+}
+
 const result = {
   blocked,
   checked: {
     baseUrl,
-    files: routeContracts.length,
-    routes: routeResults
+    files: sourceFiles.length,
+    routes: routeResults.map(({ route, statusCode }) => ({ route, statusCode }))
   },
   missing,
   runtimeBoundary: {
@@ -155,9 +136,13 @@ function checkRoute(route) {
     }
 
     const request = client.get(url, (response) => {
-      response.resume();
+      let html = "";
+      response.setEncoding("utf8");
+      response.on("data", (chunk) => {
+        html += chunk;
+      });
       response.on("end", () => {
-        resolve({ route, statusCode: response.statusCode ?? 0 });
+        resolve({ route, statusCode: response.statusCode ?? 0, text: normalizeVisibleText(html) });
       });
     });
 
@@ -169,4 +154,15 @@ function checkRoute(route) {
       resolve({ error: error.message, route, statusCode: 0 });
     });
   });
+}
+
+function normalizeVisibleText(html) {
+  return html
+    .replace(/<script[\s\S]*?<\/script>/g, " ")
+    .replace(/<style[\s\S]*?<\/style>/g, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/\s+/g, " ")
+    .trim();
 }
