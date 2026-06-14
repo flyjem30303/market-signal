@@ -36,6 +36,8 @@ Meaning:
 
 | Area | Evidence |
 | --- | --- |
+| Final UI/UX polish candidate | `phase_1_final_ui_ux_polish_candidate_ready` |
+| Mock public Beta acceptance summary | `phase_1_mock_public_beta_acceptance_summary_ready` |
 | Public route cleanup | `cmd.exe /c npm run check:phase-1-public-beta-public-visible-residue-cleanup` |
 | Remote public Beta monitoring | `remote_monitoring_snapshot_passed_after_visual_review_refresh` |
 | Remote core quick proof | `check:public-beta-core-route-quick-proof` against `https://market-signal-two.vercel.app` |
@@ -47,6 +49,23 @@ Meaning:
 | Monitoring and repair runbook | `a3_phase_1_public_beta_monitoring_and_repair_runbook_ready` |
 | Keep-open/repair decision | `phase_1_public_beta_keep_open_or_repair_decision_ready_mock_only` |
 | Mock boundary | `publicDataSource=mock` and `scoreSource=mock` |
+
+## Latest PM Addendum - 2026-06-14
+
+PM completed a final UI/UX polish candidate review for Phase 1 public routes.
+
+Result:
+
+- desktop and mobile browser audits found no visible mojibake, no horizontal overflow, and no internal workflow residue on sampled public routes;
+- focused public readiness gates and TypeScript passed;
+- `docs/PHASE_1_FINAL_UI_UX_POLISH_CANDIDATE.md` records the accepted UI/UX scope and deferred polish;
+- `docs/PHASE_1_MOCK_PUBLIC_BETA_ACCEPTANCE_SUMMARY.md` separates public mock Beta acceptance from unfinished data-line gates.
+
+Important boundary:
+
+- `check:review-gates` executed and remains `blocked` because the data-line / TWSE OpenAPI gates are still incomplete.
+- The blocking data-line gates do not invalidate the public UI/UX candidate, but they prevent claiming the entire project review gate is green.
+- CEO recommendation remains `GO_WITH_DEFERRALS_TO_OPERATOR_REVIEW`, now more precisely interpreted as `GO_WITH_DATA_LINE_DEFERRALS` for a mock-only Phase 1 public Beta acceptance review.
 
 ## Latest Remote Evidence
 

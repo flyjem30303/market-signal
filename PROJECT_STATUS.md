@@ -5315,3 +5315,31 @@ No SQL, Supabase read/write, staging rows, `daily_prices` mutation, raw market-d
 Next:
 
 Prepare the chairman/operator acceptance summary for Phase 1 public free-site launch readiness, explicitly separating public UI/UX readiness from the still-blocked data-line review gates. A1 data/source coverage continues in parallel but does not block mock public Beta readiness.
+
+# Latest Phase 1 mock public Beta acceptance summary
+
+Status: `phase_1_mock_public_beta_acceptance_summary_ready`
+
+Date: 2026-06-14
+
+CEO recommendation: `GO_WITH_DATA_LINE_DEFERRALS_TO_CHAIRMAN_OPERATOR_REVIEW`.
+
+What changed:
+
+- Added `docs/PHASE_1_MOCK_PUBLIC_BETA_ACCEPTANCE_SUMMARY.md`.
+- Updated `docs/A3_PHASE_1_PUBLIC_BETA_RELEASE_REVIEW_SUMMARY_FOR_CHAIRMAN.md` with the 2026-06-14 PM addendum.
+- The summary now separates the public mock Beta acceptance candidate from the still-blocked data-line / TWSE OpenAPI gates.
+
+Current interpretation:
+
+- Public free-site UI/UX, route readability, user-facing language, mock boundary, and non-investment-advice posture are ready for chairman/operator acceptance review.
+- Full `check:review-gates` is not green because data-line gates remain blocked.
+- A1 data/source coverage continues separately and should not block Phase 1 mock public Beta review unless the user requests real-data promotion.
+
+Boundary:
+
+No SQL, Supabase read/write, staging rows, `daily_prices` mutation, raw market-data fetch/store/commit, source promotion, real score promotion, membership implementation, production env mutation, DNS change, or Vercel dashboard mutation occurred. The runtime remains `publicDataSource=mock` and `scoreSource=mock`.
+
+Next:
+
+Prepare the chairman/operator acceptance record or a no-secret platform checklist only if the user wants an actual platform action. Otherwise keep A1 data-line blockers moving in parallel while Phase 1 mock public Beta remains reviewable.
