@@ -5280,3 +5280,38 @@ No SQL, Supabase read/write, staging rows, `daily_prices` mutation, raw market-d
 Next:
 
 Continue Phase 1 public readiness by tightening decision-aid readability on the home and stock pages, then rerun public route and post-deploy checks after the next deploy.
+
+# Latest Phase 1 final UI/UX polish candidate
+
+Status: `phase_1_final_ui_ux_polish_candidate_ready`
+
+Date: 2026-06-14
+
+CEO decision: treat UI/UX as a final polish lane, not a new product-design expansion. Phase 1 should now converge around public free-site launch readiness: 30-second market/symbol status, 3-minute risk/reason/update-time review, honest mock-data/non-advice boundary, and Phase 2 membership roadmap only.
+
+Evidence:
+
+- Browser desktop audit covered `/`, `/stocks/2330`, `/briefing`, `/membership`, and `/disclaimer`.
+- Browser mobile audit at 390px covered `/`, `/stocks/2330`, `/briefing`, and `/membership`.
+- Desktop audit found readable H1s, no visible internal packet/command/PM/A-lane/database/raw-market residue, no mojibake markers, and no horizontal overflow.
+- Mobile audit found no horizontal overflow and first-viewport market/signal/risk/observation language on the sampled core routes.
+- Briefing and membership do not need a larger first-screen redesign before launch readiness: they already show mock-data / roadmap context early, with the full non-investment-advice boundary available on-page.
+- Focused gates passed: `check:public-visible-language-quality`, `check:phase-1-public-beta-public-visible-residue-cleanup`, `check:public-surface-user-facing-audit`, `check:public-beta-core-route-quick-proof`, `check:home-visual-hierarchy`, `check:stock-visual-hierarchy`, `check:phase-1-public-beta-candidate-final-public-readiness-scan`, and `npx tsc --noEmit`.
+- Full `check:review-gates` executed and remains `blocked` because data-line / TWSE OpenAPI gates are not complete. The failing names include TWSE OpenAPI terms validation, source adapter contract, parser contract, parser consumer adapter, synthetic case notes, field contract roadmap, coverage/backfill readiness, and index baseline synthetic parser fixture.
+
+Decision record:
+
+- Accepted for Phase 1: comprehension, trust boundary, route health, mock/real honesty, and Phase 2 membership roadmap.
+- Deferred: pure visual polish, animation, brand art direction, member dashboard UI, login/payment/persisted watchlist/custom alert execution, real-data promotion, Supabase write, SQL, and market-data ingestion.
+
+Artifact:
+
+- `docs/PHASE_1_FINAL_UI_UX_POLISH_CANDIDATE.md`
+
+Boundary:
+
+No SQL, Supabase read/write, staging rows, `daily_prices` mutation, raw market-data fetch/store/commit, source promotion, real score promotion, membership implementation, production env mutation, DNS change, or Vercel dashboard mutation occurred. The runtime remains `publicDataSource=mock` and `scoreSource=mock`.
+
+Next:
+
+Prepare the chairman/operator acceptance summary for Phase 1 public free-site launch readiness, explicitly separating public UI/UX readiness from the still-blocked data-line review gates. A1 data/source coverage continues in parallel but does not block mock public Beta readiness.
