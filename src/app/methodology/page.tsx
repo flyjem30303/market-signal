@@ -40,6 +40,13 @@ export default async function MethodologyPage() {
 
       <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
 
+      <section className="panel method-section" aria-label="公開版使用邊界">
+        <h2>公開版使用邊界</h2>
+        <p>
+          方法說明用來解釋燈號如何形成、資料狀態如何影響判讀信心，以及使用者應如何複核更新時間；本站不提供買賣建議，也不把任何燈號當成交易指令。
+        </p>
+      </section>
+
       <section className="method-quick-read" aria-label="方法快速閱讀">
         <article>
           <span>30 秒</span>

@@ -2,6 +2,38 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Phase 1 Public Residue And Methodology Boundary Cleanup
+
+Status: `phase_1_public_residue_methodology_boundary_cleanup_ready`
+
+CEO decision:
+
+- Keep Phase 1 focused on the public/free user experience.
+- Treat full review gate as a milestone integration tool, not a per-slice blocker, because it can exceed the normal execution window.
+- Use focused public-route checks for small user-facing cleanup slices, then run TypeScript and build before backup.
+
+PM completed:
+
+- Added a public-use boundary section to `/methodology` so users can see that the method page explains signal formation, update-time review, and non-advice boundaries.
+- Updated `/briefing` playbook wording so the route explicitly supports `30 秒看市場氣氛` and the 3-minute judgment order.
+- Cleared the public visible residue cleanup check across the 14 checked public routes.
+
+Checks passed:
+
+- `check:public-beta-methodology-disclaimer-source-coverage-alignment`
+- `check:phase-1-public-beta-public-visible-residue-cleanup`
+- `check:public-visible-language-quality`
+- `npx tsc --noEmit`
+- `npm run build`
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public data-source promotion, real score promotion, login implementation, payment implementation, persisted watchlist, personalized alert execution, member-only content gating, promised-return claim, or investment-advice claim occurred.
+
+Next:
+
+Continue Phase 1 public/free launch readiness. Best next slice is a candidate final public readiness scan plus route-level visual/browser review, then decide whether A3 deployment/go-no-go artifacts need refreshing for the revised BRIEF.
+
 ### Phase 1 Public Action And Source Coverage Bridge Alignment
 
 Status: `phase_1_public_action_source_coverage_bridge_ready`
