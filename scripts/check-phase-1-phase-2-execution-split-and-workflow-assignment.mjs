@@ -36,7 +36,20 @@ requireIncludes(docPath, doc, [
   "publicDataSource=supabase",
   "scoreSource=real",
   "Membership preview may remain visible",
-  "CEO confirmation after the revised BRIEF: split execution is required"
+  "CEO confirmation after the revised BRIEF: split execution is required",
+  "Revised BRIEF Anchors",
+  "reduce the market-information understanding burden",
+  "within 30 seconds",
+  "within 3 minutes",
+  "Public/free users get market-light status",
+  "Member users are Phase 2",
+  "daily three-layer market interpretation",
+  "watchlist plus at least one custom alert condition",
+  "post-market review report",
+  "free-to-member page click-through",
+  "member registration",
+  "watchlist usage",
+  "post-market review return visits"
 ]);
 
 requireIncludes(briefPath, brief, [

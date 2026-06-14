@@ -16,6 +16,30 @@ GOAL execution should keep PM on Phase 1 product/runtime integration. A1, A2, A3
 
 CEO confirmation after the revised BRIEF: split execution is required. Phase 1 must finish the usable public/free site first; Phase 2 membership may be specified in parallel but must not enter runtime implementation until Phase 1 is stable.
 
+## Revised BRIEF Anchors
+
+The revised BRIEF keeps the product goal centered on a public index-lighting dashboard for general investors:
+
+- The first user promise is to reduce the market-information understanding burden.
+- A first-time visitor should understand the market state quickly, ideally within 30 seconds.
+- A returning user should be able to decide within 3 minutes whether to watch, review risk, or reduce exposure.
+- Public/free users get market-light status, core indicators, basic risk prompts, source/update timing, and concise explanations.
+- Member users are Phase 2 and receive deeper interpretation, post-market review, watchlist, personalized alerts, and learning/history content only after Phase 1 is stable.
+
+Phase 2 membership MVP has three planning tracks:
+
+- daily three-layer market interpretation;
+- watchlist plus at least one custom alert condition;
+- post-market review report.
+
+Business tracking is a Phase 1/Phase 2 bridge, not a reason to delay Phase 1. PM/A3 should prepare non-secret event names and route-level measurement points for:
+
+- free-to-member page click-through;
+- member registration;
+- member-content reading;
+- watchlist usage;
+- post-market review return visits.
+
 ## Current GOAL Operating Shape
 
 The current GOAL is `phase_1_public_free_index_dashboard_usable_loop`.
@@ -38,6 +62,8 @@ PM owns:
 
 - Home / briefing / weekly / stock route integration.
 - Public runtime comprehension.
+- 30-second market-state understanding.
+- 3-minute watch / review-risk / reduce-exposure action judgment.
 - Public visible residue cleanup.
 - Data-boundary readability.
 - Non-investment-advice placement.
@@ -88,7 +114,8 @@ A4 owns planning only and may run in parallel when PM wants Phase 2 readiness wi
 
 - Membership preview may remain visible.
 - Phase 2 content architecture.
-- watchlist / alert / post-market review MVP spec.
+- daily three-layer market interpretation MVP spec.
+- watchlist / custom alert / post-market review MVP spec.
 - Free/member conversion metrics.
 - Member content boundary and safety wording.
 

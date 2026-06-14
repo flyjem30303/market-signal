@@ -2,6 +2,33 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Revised BRIEF Phase 1 / Phase 2 Execution Split Alignment
+
+Status: `phase_1_phase_2_execution_split_ready`
+
+CEO decision:
+
+- Split the revised BRIEF into Phase 1 and Phase 2.
+- Phase 1 is the public/free index-lighting site for all users.
+- Phase 2 is the membership MVP path and may continue as planning only until Phase 1 is stable.
+- Keep PM on Phase 1 product/runtime integration while A1/A2/A3/A4 run only when their output reduces mainline risk.
+
+PM completed:
+
+- Updated `docs/PHASE_1_PHASE_2_EXECUTION_SPLIT_AND_WORKFLOW_ASSIGNMENT.md` with the revised BRIEF anchors.
+- Locked the 30-second market-state understanding promise and 3-minute action-judgment promise.
+- Locked Phase 2 membership MVP as daily three-layer interpretation, watchlist/custom alert, and post-market review planning tracks.
+- Added business tracking anchors without letting analytics or membership runtime delay Phase 1.
+- Strengthened `check:phase-1-phase-2-execution-split-and-workflow-assignment`.
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public data-source promotion, real score promotion, production deploy, DNS change, production environment mutation, login implementation, payment implementation, persisted watchlist, personalized alert execution, member-only content gating, brokerage integration, promised-return claim, or investment-advice claim occurred.
+
+Next:
+
+Keep Phase 1 moving through concrete public runtime clarity, route health, source/update-time wording, operator-safe preview checks, and visible residue cleanup. A4 may continue membership MVP planning only when it does not slow Phase 1.
+
 ### Human-Operated Preview Or Production Check Without Data Promotion
 
 Status: `human_operated_preview_or_production_check_without_data_promotion_ready`
