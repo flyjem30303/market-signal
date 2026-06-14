@@ -2,6 +2,43 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### A3 Public Beta Minimum Launch Engineering Readiness
+
+Status: `a3_public_beta_minimum_launch_engineering_ready`
+
+CEO decision:
+
+- Consolidate A3 launch engineering into one minimum readiness gate instead of expanding more governance packets.
+- Treat Phase 1 as the public/free index-lighting site; membership remains Phase 2 planning or preview only.
+- Verify route/SEO/metadata/sitemap/robots/monitoring/rollback readiness without platform deployment, DNS change, production env mutation, SQL, Supabase writes, raw market-data fetch, or real-data promotion.
+
+PM/A3 completed:
+
+- Added `docs/A3_PUBLIC_BETA_MINIMUM_LAUNCH_ENGINEERING_READINESS.md`.
+- Registered `check:a3-public-beta-minimum-launch-engineering-readiness`.
+- Added the checker to `check:review-gates`.
+- Confirmed the minimum public route set, metadata, sitemap, robots, monitoring, rollback, and mock-boundary anchors.
+- Added explicit `非投資建議` wording to stock-detail metadata so share/search copy carries the same trust boundary as the page.
+
+Checks passed:
+
+- `check:a3-public-beta-minimum-launch-engineering-readiness`
+- `check:a3-public-beta-phase-1-launch-readiness-checklist`
+- `check:a3-phase-1-metadata-and-public-route-smoke-checker`
+- `check:public-visible-language-quality`
+- `check:public-surface-user-facing-audit`
+- `check:public-beta-core-route-quick-proof`
+- `npx tsc --noEmit`
+- `npm run build`
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public data-source promotion, real score promotion, production deploy, DNS change, production environment mutation, login implementation, payment implementation, persisted watchlist, personalized alert execution, member-only content gating, brokerage integration, promised-return claim, or investment-advice claim occurred.
+
+Next:
+
+Proceed to `prepare_phase_1_public_route_health_and_operator_safe_smoke_packet`. PM should keep Phase 1 public/free runtime moving while A1 continues data/source/coverage work and A4 remains membership-planning only.
+
 ### Phase 1 Public Reading Loop Reinforcement
 
 Status: `phase_1_public_reading_loop_reinforced`

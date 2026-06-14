@@ -62,6 +62,7 @@
     "check:a2-twii-source-attribution-and-cadence-public-copy-guard": "node scripts/check-a2-twii-source-attribution-and-cadence-public-copy-guard.mjs",
     "check:pm-brief-runtime-mainline-goal-and-workstreams": "node scripts/check-pm-brief-runtime-mainline-goal-and-workstreams.mjs",
     "check:a3-public-beta-phase-1-launch-readiness-checklist": "node scripts/check-a3-public-beta-phase-1-launch-readiness-checklist.mjs",
+    "check:a3-public-beta-minimum-launch-engineering-readiness": "node scripts/check-a3-public-beta-minimum-launch-engineering-readiness.mjs",
     "check:a3-no-secret-production-env-and-rollback-checklist": "node scripts/check-a3-no-secret-production-env-and-rollback-checklist.mjs",
     "check:a3-phase-1-post-deploy-smoke-and-monitoring-packet": "node scripts/check-a3-phase-1-post-deploy-smoke-and-monitoring-packet.mjs",
     "check:a3-phase-1-metadata-and-public-route-smoke-checker": "node scripts/check-a3-phase-1-metadata-and-public-route-smoke-checker.mjs",

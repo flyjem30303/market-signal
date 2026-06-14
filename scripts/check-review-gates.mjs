@@ -4553,6 +4553,11 @@ const checks = [
     name: "a3-public-beta-phase-1-launch-readiness-checklist"
   },
   {
+    command: [node, "scripts/check-a3-public-beta-minimum-launch-engineering-readiness.mjs"],
+    expectStatus: "ok",
+    name: "a3-public-beta-minimum-launch-engineering-readiness"
+  },
+  {
     command: [node, "scripts/check-a3-no-secret-production-env-and-rollback-checklist.mjs"],
     expectStatus: "ok",
     name: "a3-no-secret-production-env-and-rollback-checklist"
@@ -6184,6 +6189,7 @@ const coreReviewGateNames = new Set([
   "a1-twii-official-source-intake-fields-or-vendor-terms-review-packet",
   "pm-brief-runtime-mainline-goal-and-workstreams",
   "a3-public-beta-phase-1-launch-readiness-checklist",
+  "a3-public-beta-minimum-launch-engineering-readiness",
   "a3-no-secret-production-env-and-rollback-checklist",
   "a3-phase-1-post-deploy-smoke-and-monitoring-packet",
   "a3-phase-1-metadata-and-public-route-smoke-checker",

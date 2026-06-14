@@ -24,7 +24,7 @@ export function generateMetadata({ params }: StockPageProps): Metadata {
   const snapshot = repository.getSnapshot(asset.symbol, snapshotDate);
   const signal = snapshot?.signal.title ?? "觀察";
   const title = `${asset.symbol} ${asset.name} 指數燈號：${signal}`;
-  const description = `${asset.symbol} ${asset.name} 的市場狀態、風險分數、資料更新時間與觀察重點。公開 Beta 目前使用示範資料，不構成投資建議。`;
+  const description = `${asset.symbol} ${asset.name} 的市場狀態、風險分數、資料更新時間與觀察重點。公開 Beta 目前使用示範資料，屬於非投資建議。`;
 
   return {
     alternates: {
