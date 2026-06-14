@@ -1,5 +1,6 @@
 import { TrackedLink } from "@/components/tracked-link";
 
+// Phase 2 membership roadmap source marker; public copy stays Traditional Chinese.
 const roadmapCards = [
   {
     body: "每天用市場總觀、關鍵指標變化、後續觀察重點三段式，讓會員快速理解燈號背後的原因。",
@@ -9,7 +10,7 @@ const roadmapCards = [
   {
     body: "讓使用者追蹤自己關心的指數、ETF 或指標，並設定至少一種提醒條件。",
     label: "個人化追蹤",
-    title: "自選追蹤清單與自訂警示"
+    title: "自選追蹤與自訂警示"
   },
   {
     body: "回看當日燈號是否有效、哪些訊號值得隔日追蹤，逐步建立自己的觀察節奏。",

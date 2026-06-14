@@ -8,30 +8,30 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
   title: {
-    default: siteConfig.name,
+    default: "指數燈號",
     template: `%s | ${siteConfig.name}`
   },
   description:
-    "指數燈號是面向一般投資者的市場狀態儀表站，用紅黃綠燈號整理市場氣氛、風險提示、資料更新時間與非投資建議邊界。"
+    "指數燈號是面向一般投資者的市場狀態儀表站，協助使用者快速理解市場風險、趨勢強弱、資料更新時間與非投資建議邊界。"
 };
 
 const footerTrustLinks = [
-  { href: "/methodology", label: "燈號方法" },
-  { href: "/disclaimer", label: "風險聲明" },
-  { href: "/privacy", label: "隱私說明" },
+  { href: "/methodology", label: "方法說明" },
+  { href: "/disclaimer", label: "風險揭露" },
+  { href: "/privacy", label: "隱私權" },
   { href: "/terms", label: "使用條款" }
 ];
 
 const footerNavLinks = [
   { href: "/", label: "首頁" },
-  { href: "/briefing", label: "市場簡報" },
-  { href: "/weekly", label: "市場週報" },
-  { href: "/stocks/2330", label: "個股/ETF" },
-  { href: "/membership", label: "會員預覽" },
+  { href: "/briefing", label: "今日簡報" },
+  { href: "/weekly", label: "週報" },
+  { href: "/stocks/2330", label: "個股" },
+  { href: "/membership", label: "會員預告" },
   { href: "/methodology", label: "方法說明" },
-  { href: "/privacy", label: "隱私" },
-  { href: "/terms", label: "條款" },
-  { href: "/disclaimer", label: "聲明" }
+  { href: "/privacy", label: "隱私權" },
+  { href: "/terms", label: "使用條款" },
+  { href: "/disclaimer", label: "風險揭露" }
 ];
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -49,7 +49,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             <span className="logo-mark">MS</span>
             <span>
               指數燈號
-              <small>市場狀態、風險提示與資料更新時間</small>
+              <small>市場狀態儀表站</small>
             </span>
           </TrackedLink>
           <SiteNav />
@@ -59,12 +59,15 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <div>
             <strong>指數燈號</strong>
             <p>
-              本站整理市場指標、燈號狀態與風險提醒，協助使用者建立觀察流程。內容不是投資建議，不保證報酬，也不代替使用者做投資決策。
+              公開 Beta 目前提供示範資料與示範分數，協助使用者練習 30 秒看懂市場狀態、3
+              分鐘複核風險與下一步觀察。網站內容為資訊整理與風險辨識，不構成投資建議。
             </p>
-            <div className="site-footer-trust" aria-label="公開信任連結">
+            <div className="site-footer-trust" aria-label="信任與風險資訊">
               <span>公開 Beta</span>
-              <span>示範資料邊界</span>
+              <span>資料來源：示範資料</span>
+              <span>分數來源：示範分數</span>
               <span>非投資建議</span>
+              <span>獨立上線審核</span>
               {footerTrustLinks.map((link) => (
                 <TrackedLink
                   eventName="site_chrome_link_clicked"

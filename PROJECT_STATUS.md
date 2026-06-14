@@ -2,6 +2,39 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Phase 1 Public Chrome And Risk Disclosure Readability Repair
+
+Status: `phase_1_public_chrome_risk_disclosure_readability_ready`
+
+CEO decision:
+
+- Treat visible mojibake, internal process wording, and weak risk-disclosure wording as Phase 1 comprehension/trust blockers, not final cosmetic UI polish.
+- Keep broad visual/UI polish deferred until the last pre-launch UI/UX stage.
+- Keep Phase 2 membership as a visible future path only; do not implement login, payment, persisted watchlist, custom alerts, or member-only gates in this slice.
+
+PM completed:
+
+- Repaired shared site chrome labels in the main navigation and footer so public users see clear Traditional Chinese labels.
+- Rewrote the global footer trust copy to explain public Beta, demo data, demo scores, non-investment-advice, and independent launch review in user-facing language.
+- Rewrote the risk disclosure page so it clearly states that the site is an information and risk-identification tool, not investment advice, not individual buy/sell guidance, and not a guaranteed-return service.
+- Updated the core route quick proof to validate the current Phase 2 membership boundary language on `/membership` instead of the older `會員預覽` label.
+
+Evidence:
+
+- `check:site-chrome-readability` passed.
+- `check:public-visible-language-quality` passed.
+- `check:phase-1-public-beta-public-visible-residue-cleanup` passed.
+- `check:public-surface-user-facing-audit` passed.
+- `check:public-beta-methodology-disclaimer-source-coverage-alignment` passed after the risk-disclosure wording was tightened.
+- `check:public-beta-membership-mvp-roadmap` passed after the membership route and roadmap contract were aligned to the current Phase 1/Phase 2 boundary.
+- `check:public-beta-core-route-quick-proof` passed after the membership route contract was updated to the current BRIEF wording.
+- `npx tsc --noEmit` passed.
+- `check:review-gates` passed with `executedCount=194`, `registeredOnlyCount=951`, and `failedCount=0`.
+
+Boundary:
+
+No SQL, Supabase read/write, staging rows, `daily_prices` mutation, raw market-data fetch/store/commit, source promotion, real score promotion, production environment mutation, DNS change, or Phase 2 membership implementation occurred. The runtime remains `publicDataSource=mock` and `scoreSource=mock`.
+
 ### Remote Public Beta Smoke After No-Fetch Readiness Registration
 
 Status: `remote_public_beta_smoke_passed_after_no_fetch_readiness_registration`

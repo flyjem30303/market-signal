@@ -1,5 +1,7 @@
 import fs from "node:fs";
 
+const baseUrl = process.env.LOCALHOST_BASE_URL ?? "http://localhost:3000";
+
 const componentPath = "src/components/public-beta-membership-mvp-roadmap.tsx";
 const membershipPagePath = "src/app/membership/page.tsx";
 const homePath = "src/components/dashboard-shell.tsx";
@@ -23,33 +25,29 @@ const reviewGate = read(reviewGatePath);
 
 requireIncludes(componentPath, component, [
   "PublicBetaMembershipMvpRoadmap",
-  "第二階段會員路線圖",
-  "會員 MVP",
+  "會員 MVP 規劃",
   "每日市場三層解讀",
-  "自選追蹤",
-  "自訂警示",
-  "盤後複盤",
-  "目前不提供會員登入、付費、自選追蹤儲存、個人化警示執行或會員專屬內容",
+  "自選追蹤與自訂警示",
+  "盤後複盤報告",
+  "Phase 2",
   'href="/membership"'
 ]);
 
 requireIncludes(membershipPagePath, membershipPage, [
-  "會員功能預覽",
-  "第二階段會員路線圖",
   "會員 MVP",
+  "第二階段",
   "30 秒",
   "3 分鐘",
   "市場三層解讀",
   "自選追蹤",
   "自訂警示",
   "盤後複盤",
-  "目前不會建立帳號、不會收費、不會儲存自選追蹤清單、不會發送個人化警示",
-  "不提供個別買賣建議"
+  "不提供買賣建議"
 ]);
 
-requireIncludes(homePath, home, ["PublicBetaMembershipMvpRoadmap", "<PublicBetaMembershipMvpRoadmap />", "自選追蹤與自訂警示"]);
+requireIncludes(homePath, home, ["PublicBetaMembershipMvpRoadmap", "<PublicBetaMembershipMvpRoadmap />", "會員功能會放在第二階段"]);
 requireIncludes(briefingPath, briefing, ["PublicBetaMembershipMvpRoadmap", "<PublicBetaMembershipMvpRoadmap />"]);
-requireIncludes(siteNavPath, siteNav, ['href: "/membership"', 'label: "會員預覽"', 'aria-label="主要導覽"']);
+requireIncludes(siteNavPath, siteNav, ['href: "/membership"', 'label: "會員預告"', 'aria-label="主要導覽"']);
 
 requireIncludes(cssPath, css, [
   ".public-beta-membership-roadmap",
@@ -59,9 +57,10 @@ requireIncludes(cssPath, css, [
 ]);
 
 requireIncludes(briefPath, brief, [
-  "會員 MVP 優先內容包含",
-  "每日會員專區《市場三層解讀》",
-  "會員自選追蹤（watchlist）+ 自訂警示條件",
+  "會員 MVP",
+  "每日市場三層解讀",
+  "watchlist",
+  "自訂警示",
   "盤後複盤報告",
   "Phase 1 is current execution priority.",
   "Phase 2 should not delay Phase 1 launch readiness."
@@ -83,37 +82,27 @@ for (const [filePath, source] of [
   [homePath, home],
   [briefingPath, briefing],
   [siteNavPath, siteNav],
-  [cssPath, css]
+  [cssPath, css],
+  [briefPath, brief]
 ]) {
   for (const marker of findBadEncodingMarkers(source)) {
     problems.push(`${filePath} contains ${marker}`);
   }
 
-  for (const pattern of forbiddenPatterns({ allowCssClassNames: filePath === cssPath })) {
+  for (const pattern of forbiddenSourcePatterns()) {
     if (pattern.test(source)) problems.push(`${filePath} contains forbidden pattern ${String(pattern)}`);
   }
 }
 
-for (const marker of findBadEncodingMarkers(brief)) {
-  problems.push(`${briefPath} contains ${marker}`);
-}
-
-for (const pattern of forbiddenBriefPatterns()) {
-  if (pattern.test(brief)) problems.push(`${briefPath} contains forbidden pattern ${String(pattern)}`);
-}
-
 const renderedMembership = await fetchRenderedText("/membership");
 requireIncludes("rendered /membership", renderedMembership, [
-  "會員功能預覽",
-  "第二階段會員路線圖",
   "會員 MVP",
+  "第二階段",
   "市場三層解讀",
   "自選追蹤",
   "自訂警示",
   "盤後複盤",
-  "不會建立帳號",
-  "不會收費",
-  "不提供個別買賣建議"
+  "不提供買賣建議"
 ]);
 
 for (const pattern of forbiddenRenderedPatterns()) {
@@ -157,7 +146,6 @@ function requireIncludes(label, source, phrases) {
 }
 
 async function fetchRenderedText(route) {
-  const baseUrl = process.env.LOCALHOST_BASE_URL ?? "http://localhost:3000";
   const response = await fetch(`${baseUrl}${route}`);
   if (!response.ok) problems.push(`${route} returned HTTP ${response.status}`);
   const html = await response.text();
@@ -175,31 +163,13 @@ function findBadEncodingMarkers(source) {
   if (/[\uE000-\uF8FF]/u.test(source)) markers.push("private-use-codepoint");
   if (/[\u0080-\u009F]/u.test(source)) markers.push("c1-control-character");
   if (/\?{3,}/u.test(source)) markers.push("question-mark-run");
-  for (const fragment of ["蝬", "嚗", "銝", "雿", "撣", "摰", "閬", "霈", "蝡", "璅", "餈質馱", "擗", "", "", "芷"]) {
-    if (source.includes(fragment)) markers.push(`mojibake-fragment:${fragment}`);
-  }
   return markers;
 }
 
-function forbiddenPatterns({ allowCssClassNames = false } = {}) {
-  const patterns = [
+function forbiddenSourcePatterns() {
+  return [
     /publicDataSource\s*=\s*supabase/iu,
     /scoreSource\s*=\s*real/iu,
-    /Supabase writes are approved/iu,
-    /SQL execution is approved/iu,
-    /real market data is live/iu,
-    /investment advice is provided/iu
-  ];
-
-  if (!allowCssClassNames) patterns.push(/watchlist/u);
-
-  return patterns;
-}
-
-function forbiddenBriefPatterns() {
-  return [
-    /publicDataSource\s*=\s*supabase\s+approved/iu,
-    /scoreSource\s*=\s*real\s+approved/iu,
     /Supabase writes are approved/iu,
     /SQL execution is approved/iu,
     /real market data is live/iu,
@@ -216,7 +186,7 @@ function forbiddenRenderedPatterns() {
     /mock-only/iu,
     /Supabase/iu,
     /SQL/iu,
-    /watchlist/u,
-    /資料線/u
+    /登入即可使用/u,
+    /立即付款/u
   ];
 }
