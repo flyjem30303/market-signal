@@ -14,6 +14,31 @@ This document translates the `ui-ux-pro-max` evaluation into the Phase 1 style d
 
 The goal is not a broad redesign. It is a constrained UI/UX direction for the final Phase 1 polish pass, so the site can feel more like a trustworthy market-status dashboard without becoming a professional trading terminal.
 
+## CEO Skill Responsibility Split
+
+CEO accepts the chairman's split between `ui-ux-pro-max` and `frontend-design`.
+
+`ui-ux-pro-max` owns the product UX structure:
+
+- information architecture;
+- user flows;
+- component layout;
+- CTA design;
+- form flow.
+
+`frontend-design` owns the visual expression layer:
+
+- visual style;
+- color;
+- cards;
+- icons;
+- typography;
+- animation.
+
+PM integration rule: use `ui-ux-pro-max` first when a change affects what users see first, what path they follow, what action they can take, or how a form is completed. Use `frontend-design` after the UX structure is stable, or when the slice is explicitly about visual identity, palette, card treatment, icon system, type hierarchy, or motion.
+
+Conflict rule: if the two skills disagree, Phase 1 follows user comprehension and launch safety first. Visual polish must not hide source/update-time limits, non-investment-advice boundaries, or the mock/real data boundary.
+
 ## Skill Evaluation Input
 
 The `ui-ux-pro-max` design-system search matched this product to:

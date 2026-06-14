@@ -203,12 +203,24 @@ Not owned:
 Mission:
 
 - Use the MVP Launch PRD as the product baseline for design timing, annotation review, and launch-stage polish.
+- Apply the CEO-approved design-skill split so product UX structure and visual styling do not blur together.
 
 Current next tasks:
 
 - Stay lightweight now.
 - Flag comprehension blockers only.
 - Full visual redesign waits until runtime and data-source foundations stabilize.
+
+Skill split:
+
+- `ui-ux-pro-max` owns information architecture, user flows, component layout, CTA design, and form flow.
+- `frontend-design` owns visual style, color, cards, icons, typography, and animation.
+
+Operating rule:
+
+- Use `ui-ux-pro-max` first for route structure, first-screen hierarchy, user journey, CTA placement, and any future form or membership-flow planning.
+- Use `frontend-design` after the UX structure is stable, or when PM explicitly opens a visual style slice.
+- Visual style must support the BRIEF: ordinary investors should understand market state quickly without feeling they are inside a professional trading terminal.
 
 ## Shared Safety Boundaries
 

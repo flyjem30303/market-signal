@@ -1,6 +1,62 @@
 # Project Status
 
-## Latest Effective Status - 2026-06-14
+## Latest Effective Status - 2026-06-15
+
+### Phase 1 Data Online Gap Closure Map
+
+Status: `phase_1_data_online_gap_closure_map_ready`
+
+CEO decision:
+
+- Upgrade the active Phase 1 GOAL from mock-only public Beta readiness to public launch readiness that includes a real-data online path.
+- Keep the immediate data target at Level 1 MVP row coverage: `182/360` to `360/360`.
+- Treat TW equity `2330`, `2382`, and `2308` at `180/180` as accepted first closed-loop evidence.
+- Treat `TWII` at `0/60` and ETF lane `0050` / `006208` at `2/120` as the remaining Level 1 data blockers.
+- Keep `publicDataSource=mock` and `scoreSource=mock` until separate runtime and score promotion gates are accepted.
+
+PM completed:
+
+- Added `docs/PHASE_1_DATA_ONLINE_GAP_CLOSURE_MAP.md`.
+- Added and registered `check:phase-1-data-online-gap-closure-map`.
+- Connected the map to existing data evidence: `docs/DATA_REALIFICATION_FIRST_CLOSED_LOOP_ROLLUP.md`, `docs/RUNTIME_DATA_PROMOTION_HANDOFF_CHECKLIST.md`, `docs/COVERAGE_UNIVERSE_ROADMAP.md`, `docs/DATA_POPULATION_ROUTE_DECISION_2026-06-06.md`, and `docs/TW_EQUITY_ROW_COVERAGE_SCORING_GATE.md`.
+
+Evidence:
+
+- The focused checker is registered in `package.json` and `scripts/check-review-gates.mjs`.
+- Next route is `phase_1_data_online_level_1_closure_then_runtime_promotion_gate`.
+
+Boundary:
+
+No SQL, Supabase write, staging row creation, `daily_prices` mutation, raw market-data fetch/store/commit, public source promotion, `publicDataSource=supabase`, `scoreSource=real`, investment advice claim, production environment mutation, DNS change, broad visual redesign, or Phase 2 membership implementation occurred.
+
+### Phase 1 UI/UX Skill Responsibility Split
+
+Status: `phase_1_ui_ux_skill_responsibility_split_ready`
+
+CEO decision:
+
+- Accept the chairman's requested split between `ui-ux-pro-max` and `frontend-design`.
+- `ui-ux-pro-max` owns information architecture, user flows, component layout, CTA design, and form flow.
+- `frontend-design` owns visual style, color, cards, icons, typography, and animation.
+- PM must use `ui-ux-pro-max` first when a slice changes route structure, first-screen hierarchy, user journey, CTA placement, or future form/member flow planning.
+- PM must use `frontend-design` after the UX structure is stable, or when the slice is explicitly visual.
+
+PM completed:
+
+- Updated `docs/PHASE_1_UI_UX_STYLE_DIRECTION.md`.
+- Updated `docs/PM_BRIEF_RUNTIME_MAINLINE_GOAL_AND_WORKSTREAMS.md`.
+- Updated `docs/ROLE_WORKSTREAMS.md`.
+
+Evidence:
+
+- `check:phase-1-ui-ux-style-direction` passed.
+- `check:review-gates` passed with `executedCount=200` and `registeredCount=1150`.
+
+Boundary:
+
+No SQL, Supabase read/write, staging rows, `daily_prices` mutation, raw market-data fetch/store/commit, source promotion, real score promotion, production environment mutation, DNS change, broad visual redesign, or Phase 2 membership implementation occurred. The runtime remains `publicDataSource=mock` and `scoreSource=mock`.
+
+## Previous Effective Status - 2026-06-14
 
 ### Public Membership Page User-Language Polish
 

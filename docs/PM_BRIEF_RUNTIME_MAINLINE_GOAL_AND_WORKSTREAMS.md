@@ -45,6 +45,8 @@ Current CEO acceleration rule:
 - The active GOAL is `phase_1_pre_launch_usable_loop_before_ui_ux_polish`.
 - Phase 1 must move toward launch-before-UI-polish readiness: public routes, reading contract, data/update boundary, non-advice disclosure, route health, and operator-safe launch evidence come before visual refinement.
 - UI/UX design polish is intentionally deferred to the final Phase 1 pre-launch pass. Do not spend PM capacity on cosmetic layout, palette, spacing, animation, or component beautification unless the issue blocks comprehension, trust, accessibility, or route health.
+- When Phase 1 enters UI/UX work, apply the chairman-approved skill split: `ui-ux-pro-max` owns information architecture, user flow, component layout, CTA design, and form flow; `frontend-design` owns visual style, color, card treatment, icons, typography, and animation.
+- PM should run `ui-ux-pro-max` before `frontend-design` when a slice changes the user's reading order, journey, action path, or input flow. PM should run `frontend-design` after the UX structure is accepted or when the slice is purely visual.
 - A1 data/source/coverage may continue in parallel, but it must not block the Phase 1 mock public Beta loop unless it exposes a launch-blocking source, rights, or boundary issue.
 - A2/A3/A4 should be assigned only when they remove a concrete Phase 1 blocker; otherwise PM keeps the mainline moving.
 

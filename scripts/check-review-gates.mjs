@@ -3448,6 +3448,11 @@ const checks = [
     name: "chairman-beta-launch-review-packet"
   },
   {
+    command: [node, "scripts/check-phase-1-data-online-gap-closure-map.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-data-online-gap-closure-map"
+  },
+  {
     command: [node, "scripts/check-runtime-data-promotion-handoff-checklist.mjs"],
     expectStatus: "ok",
     name: "runtime-data-promotion-handoff-checklist"
