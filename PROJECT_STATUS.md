@@ -2,6 +2,42 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Briefing Public Copy Cleanup And Data Readiness Surface Pass
+
+Status: `briefing_public_copy_cleanup_data_readiness_ready`
+
+CEO decision:
+
+- Confirm the latest chairman BRIEF should be split into two delivery phases.
+- Phase 1 is the active mainline: a free public index-lighting site usable by all visitors, focused on market mood, core indicators, risk reminders, update time, and clear non-investment-advice boundaries.
+- Phase 2 is the membership MVP path: member-only daily three-layer interpretation, watchlist/custom alerts, and post-market review. Phase 2 planning may continue, but implementation stays behind Phase 1 public Beta readiness.
+- Public pages must remove development-process residue, internal role labels, raw command instructions, blocker packet wording, and confusing governance language.
+
+PM completed:
+
+- Rebuilt `/briefing` into a user-facing Traditional Chinese market morning briefing: 30-second market mood, 3-minute action order, alert list, data status, model boundary, breadth/concentration/playbook, next reading, and membership preview.
+- Rewrote shared data freshness, public data readiness, public beta status, next-reading, and briefing decision-summary copy so public pages read like a product rather than internal project notes.
+- Updated public-route checkers to enforce clean BRIEF-aligned visible copy and preserve mock/runtime boundaries.
+- Repaired local Next dev server stale cache by stopping the old Next process, clearing `.next`, and restarting the dev server; affected routes returned to 200.
+
+Checks passed:
+
+- `tsc --noEmit`
+- `build`
+- `check:public-visible-language-quality`
+- `check:phase-1-public-beta-public-visible-residue-cleanup`
+- `check:home-briefing-investor-reading-bridge`
+- `check:public-beta-route-consistency`
+- `check:review-gates` (190/190)
+
+Boundary:
+
+No SQL, Supabase write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, `publicDataSource` promotion, `scoreSource` real promotion, membership implementation/login/payment/watchlist persistence, or investment-advice claim occurred.
+
+Next:
+
+Continue Phase 1 public product cleanup across Home, Stock, Weekly, Methodology, and shared signal labels; keep Phase 2 membership as preview/roadmap until Phase 1 public Beta is stable.
+
 ### Membership Preview Chinese Product Vocabulary Pass
 
 Status: `membership_preview_chinese_product_vocabulary_ready`

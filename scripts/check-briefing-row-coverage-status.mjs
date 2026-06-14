@@ -18,23 +18,13 @@ const files = new Map(
 const required = [
   [componentPath, "BriefingRowCoverageStatus"],
   [componentPath, "RowCoverageReadinessPanel"],
-  [componentPath, "資料列覆蓋準備度"],
-  [componentPath, "local_ready_remote_paused"],
-  [componentPath, "Supabase readonly attempt"],
-  [componentPath, "不得升級公開資料來源或正式分數"],
   [sharedComponentPath, "getRowCoverageSecondAttemptReadiness"],
-  [sharedComponentPath, "目前狀態"],
-  [sharedComponentPath, "授權判斷"],
-  [sharedComponentPath, "本地指令地圖"],
-  [sharedComponentPath, "最新覆蓋觀察"],
-  [sharedComponentPath, "來源與分數邊界"],
-  [sharedComponentPath, "未決事項"],
-  [sharedComponentPath, "rowCoverage.stopLine"],
+  [sharedComponentPath, "rowCoverage.unresolved"],
   [libPath, "local_ready_remote_paused"],
-  [briefingPath, "import { BriefingRowCoverageStatus }"],
-  [briefingPath, "<BriefingRowCoverageStatus />"],
   [libPath, "scoreSource: \"mock\""],
   [libPath, "publicDataSource: \"mock\""],
+  [briefingPath, "DataFreshnessStrip"],
+  [briefingPath, "資料狀態"],
   [cssPath, ".briefing-row-coverage-status"],
   [cssPath, ".briefing-row-coverage-status article.readying"],
   [cssPath, ".briefing-row-coverage-status article.blocked"],
@@ -55,23 +45,15 @@ const forbidden = [
   [sharedComponentPath, ".from("],
   [sharedComponentPath, "process.env"],
   [sharedComponentPath, "scoreSource: \"real\""],
+  [briefingPath, "import { BriefingRowCoverageStatus }"],
+  [briefingPath, "<BriefingRowCoverageStatus"],
   [briefingPath, "scoreSource=\"real\""]
 ];
 
 const missing = required.filter(([file, phrase]) => !read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
 const blocked = forbidden.filter(([file, phrase]) => read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
 
-console.log(
-  JSON.stringify(
-    {
-      blocked,
-      missing,
-      status: missing.length === 0 && blocked.length === 0 ? "ok" : "blocked"
-    },
-    null,
-    2
-  )
-);
+console.log(JSON.stringify({ blocked, missing, status: missing.length === 0 && blocked.length === 0 ? "ok" : "blocked" }, null, 2));
 
 if (missing.length > 0 || blocked.length > 0) {
   process.exitCode = 1;

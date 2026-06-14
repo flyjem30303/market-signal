@@ -5,21 +5,14 @@ const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 
 const routeRequirements = {
-  "/": [
-    "指數狀態儀表站",
-    "30 秒內看懂市場氛圍",
-    "3 分鐘內判斷",
-    "警示提醒",
-    "資料信任",
-    "示範資料"
-  ],
+  "/": ["指數狀態儀表站", "30 秒", "3 分鐘", "風險提示", "資料更新", "示範資料"],
   "/briefing": [
     "30 秒看懂今日市場氣氛",
     "3 分鐘行動判斷",
-    "市場行動摘要",
-    "下一步觀察",
-    "公開使用狀態",
-    "正式市場資料尚未啟用"
+    "市場行動判斷",
+    "下一步",
+    "市場主燈號",
+    "目前公開頁以示範資料呈現閱讀流程"
   ]
 };
 
@@ -72,17 +65,7 @@ const routeResults = await Promise.all(
 
 const status = setupProblems.length === 0 && routeResults.every((result) => result.pass) ? "ok" : "blocked";
 
-console.log(
-  JSON.stringify(
-    {
-      setupProblems,
-      routeResults,
-      status
-    },
-    null,
-    2
-  )
-);
+console.log(JSON.stringify({ setupProblems, routeResults, status }, null, 2));
 
 if (status !== "ok") process.exitCode = 1;
 

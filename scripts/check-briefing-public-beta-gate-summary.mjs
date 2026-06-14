@@ -8,9 +8,10 @@ const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 
 const requiredVisiblePhrases = [
-  "PM project progress",
-  "Blocker Readiness",
-  "Three blocker checklists are ready for local review"
+  "公開 Beta 使用狀態",
+  "公開頁可用",
+  "資料品質需持續複核",
+  "會員功能規劃中"
 ];
 
 const forbiddenVisiblePhrases = [
@@ -39,14 +40,12 @@ const removedBriefingPanels = [
 
 const requiredComponentPhrases = [
   "BriefingPublicBetaGateSummary",
-  "PM project progress",
-  "Blocker Readiness",
-  "Three blocker checklists are ready for local review",
-  "formatPublicText",
-  "publicDataSource",
-  "scoreSource",
-  "investment advice",
-  "Supabase readonly"
+  "公開 Beta 使用狀態",
+  "30 秒可讀",
+  "3 分鐘判斷",
+  "示範資料",
+  "會員下一階段",
+  "不提供個股買賣建議"
 ];
 
 const missing = [];
@@ -77,16 +76,16 @@ const componentSource = fs.existsSync(componentPath) ? fs.readFileSync(component
 const packageSource = fs.existsSync(packagePath) ? fs.readFileSync(packagePath, "utf8") : "";
 const reviewGateSource = fs.existsSync(reviewGatePath) ? fs.readFileSync(reviewGatePath, "utf8") : "";
 
-if (!pageSource.includes("BriefingPublicBetaGateSummary")) {
-  missing.push(`${pagePath}: BriefingPublicBetaGateSummary`);
-}
-
 for (const panel of removedBriefingPanels) {
   if (pageSource.includes(panel)) blocked.push(`${pagePath}: old internal briefing panel still imported/rendered: ${panel}`);
 }
 
 for (const phrase of requiredComponentPhrases) {
   if (!componentSource.includes(phrase)) missing.push(`${componentPath}: ${phrase}`);
+}
+
+if (!pageSource.includes("PublicBetaPublicStatusSurface")) {
+  missing.push(`${pagePath}: PublicBetaPublicStatusSurface`);
 }
 
 if (!packageSource.includes('"check:briefing-public-beta-gate-summary": "node scripts/check-briefing-public-beta-gate-summary.mjs"')) {
@@ -101,21 +100,9 @@ if (!reviewGateSource.includes('"briefing-public-beta-gate-summary"')) {
   missing.push(`${reviewGatePath}: briefing-public-beta-gate-summary`);
 }
 
-console.log(
-  JSON.stringify(
-    {
-      blocked,
-      missing,
-      status: missing.length === 0 && blocked.length === 0 ? "ok" : "blocked"
-    },
-    null,
-    2
-  )
-);
+console.log(JSON.stringify({ blocked, missing, status: missing.length === 0 && blocked.length === 0 ? "ok" : "blocked" }, null, 2));
 
-if (missing.length > 0 || blocked.length > 0) {
-  process.exitCode = 1;
-}
+if (missing.length > 0 || blocked.length > 0) process.exitCode = 1;
 
 function normalizeVisibleText(htmlText) {
   return htmlText

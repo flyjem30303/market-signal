@@ -8,15 +8,7 @@ const cssPath = "src/app/globals.css";
 const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 
-const paths = [
-  helperPath,
-  decisionHelperPath,
-  decisionPanelPath,
-  pagePath,
-  cssPath,
-  packagePath,
-  reviewGatePath
-];
+const paths = [helperPath, decisionHelperPath, decisionPanelPath, pagePath, cssPath, packagePath, reviewGatePath];
 const files = new Map(paths.map((file) => [file, fs.readFileSync(file, "utf8")]));
 
 const required = [
@@ -29,16 +21,16 @@ const required = [
   [helperPath, "scoreSource=mock"],
   [helperPath, "\\u5e02\\u5834\\u98a8\\u96aa"],
   [helperPath, "\\u5e02\\u5834\\u6c23\\u6c1b"],
-  [helperPath, "\\u4e0d\\u63d0\\u4f9b\\u8cb7\\u8ce3\\u5efa\\u8b70"],
+  [helperPath, "不提供個股買賣建議"],
   [helperPath, "mock-only"],
   [decisionHelperPath, "buildBriefingPublicDecisionSummary"],
-  [decisionHelperPath, "30 秒看懂市場氣氛"],
+  [decisionHelperPath, "30 秒看懂今日市場氣氛"],
   [decisionHelperPath, "3 分鐘內先看市場氣氛"],
   [decisionHelperPath, "publicDataSource=mock"],
   [decisionHelperPath, "scoreSource=mock"],
   [decisionHelperPath, "不提供買賣建議"],
   [decisionPanelPath, "BriefingPublicDecisionSummaryPanel"],
-  [decisionPanelPath, "市場氣氛"],
+  [decisionPanelPath, "市場狀態"],
   [decisionPanelPath, "更新時間"],
   [decisionPanelPath, "影響級別"],
   [decisionPanelPath, "下一步"],
@@ -50,7 +42,7 @@ const required = [
   [pagePath, "briefing_market_action_secondary"],
   [pagePath, "30 秒看懂今日市場氣氛"],
   [pagePath, "3 分鐘行動判斷"],
-  [pagePath, "升級檢查"],
+  [pagePath, "今日提醒"],
   [cssPath, ".briefing-public-decision-summary"],
   [cssPath, ".briefing-market-action-summary"],
   [cssPath, ".briefing-market-action-summary a.active"],
@@ -96,17 +88,7 @@ const mojibakeHits = [helperPath, decisionHelperPath, decisionPanelPath, pagePat
   findMojibakeMarkers(read(file)).map((marker) => `${file}: ${marker}`)
 );
 
-console.log(
-  JSON.stringify(
-    {
-      blocked: [...blocked, ...mojibakeHits],
-      missing,
-      status: missing.length === 0 && blocked.length === 0 && mojibakeHits.length === 0 ? "ok" : "blocked"
-    },
-    null,
-    2
-  )
-);
+console.log(JSON.stringify({ blocked: [...blocked, ...mojibakeHits], missing, status: missing.length === 0 && blocked.length === 0 && mojibakeHits.length === 0 ? "ok" : "blocked" }, null, 2));
 
 if (missing.length > 0 || blocked.length > 0 || mojibakeHits.length > 0) process.exitCode = 1;
 

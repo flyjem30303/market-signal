@@ -14,10 +14,10 @@ const required = [
   [pagePath, "mock-only"],
   [pagePath, "publicDataSource=mock"],
   [pagePath, "scoreSource=mock"],
-  [pagePath, "不提供買賣建議"],
+  [pagePath, "真實資料尚未上線"],
   [pagePath, "briefing-runtime-action-strip"],
   [pagePath, "產品閱讀流程可用"],
-  [pagePath, "真實資料尚未上線"],
+  [pagePath, "示範資料"],
   [pagePath, "mock composite"],
   [pagePath, "mock risk"],
   [cssPath, ".briefing-executive-summary"],
@@ -47,17 +47,7 @@ for (const marker of findMojibakeMarkers(executiveSummary || page)) {
   blocked.push(`${pagePath}: mojibake executive summary ${marker}`);
 }
 
-console.log(
-  JSON.stringify(
-    {
-      blocked,
-      missing,
-      status: missing.length === 0 && blocked.length === 0 ? "ok" : "blocked"
-    },
-    null,
-    2
-  )
-);
+console.log(JSON.stringify({ blocked, missing, status: missing.length === 0 && blocked.length === 0 ? "ok" : "blocked" }, null, 2));
 
 if (missing.length > 0 || blocked.length > 0) process.exitCode = 1;
 

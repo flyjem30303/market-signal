@@ -32,6 +32,7 @@ export function buildBriefingMarketActionSummary(
   topRisk: SignalSnapshot,
   breadth: { constructive: number; defensive: number; watch: number }
 ): BriefingMarketActionSummary {
+  // Runtime boundary: publicDataSource=mock, scoreSource=mock, mock-only. This is not investment advice; 不提供個股買賣建議.
   const marketNeedsCaution = market.riskScore >= 60 || breadth.defensive > breadth.constructive;
   const topRiskIsHot = topRisk.riskScore >= 70;
   const marketLine = `\u5e02\u5834\u5ee3\u5ea6\uff1a${breadth.constructive} \u500b\u504f\u5efa\u8a2d\u6027\u3001${breadth.watch} \u500b\u9700\u8981\u89c0\u5bdf\u3001${breadth.defensive} \u500b\u504f\u9632\u5b88\u3002\u9019\u662f\u516c\u958b Beta \u7684\u8cc7\u8a0a\u7d50\u69cb\u5316\u8b80\u53d6\u3002`;

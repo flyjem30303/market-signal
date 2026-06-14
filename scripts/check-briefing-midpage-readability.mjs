@@ -9,9 +9,9 @@ const requiredVisible = [
   "30 秒看懂今日市場氣氛",
   "市場廣度",
   "3 分鐘行動判斷",
-  "下一步觀察",
-  "正式市場資料尚未啟用",
-  "不提供個股買賣建議"
+  "下一步",
+  "目前公開頁以示範資料呈現閱讀流程",
+  "不提供買賣建議"
 ];
 
 const forbiddenVisible = [
@@ -61,19 +61,7 @@ problems.push(...markerHits.map((marker) => `${route} marker ${marker}`));
 
 const status = problems.length === 0 ? "ok" : "blocked";
 
-console.log(
-  JSON.stringify(
-    {
-      checkedRoute: route,
-      missing,
-      blocked,
-      markerHits,
-      status
-    },
-    null,
-    2
-  )
-);
+console.log(JSON.stringify({ checkedRoute: route, missing, blocked, markerHits, status }, null, 2));
 
 if (status !== "ok") process.exitCode = 1;
 

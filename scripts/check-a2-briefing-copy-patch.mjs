@@ -1,40 +1,38 @@
 import fs from "node:fs";
 
 const pagePath = "src/app/briefing/page.tsx";
+const decisionPanelPath = "src/components/briefing-public-decision-summary-panel.tsx";
+const nextReadingPath = "src/components/public-next-reading-flow.tsx";
 const packagePath = "package.json";
 
 const page = fs.readFileSync(pagePath, "utf8");
+const decisionPanel = fs.readFileSync(decisionPanelPath, "utf8");
+const nextReading = fs.readFileSync(nextReadingPath, "utf8");
 const packageJson = JSON.parse(fs.readFileSync(packagePath, "utf8"));
 const missing = [];
 const blocked = [];
 
 const requiredCopy = [
-  "每日市場晨報",
-  "市場晨報",
+  "市場訊號晨報",
+  "30 秒看懂今日市場氣氛",
   "BriefingPublicDecisionSummaryPanel",
-  "市場氣氛",
-  "警示清單",
-  "成因",
+  "市場狀態",
   "更新時間",
   "影響級別",
   "下一步",
-  "資料邊界",
-  "市場行動摘要",
+  "3 分鐘行動判斷",
   "今日提醒",
-  "使用提醒",
-  "資料狀態與下一階段",
+  "市場主燈號",
+  "資料狀態",
   "示範資料",
-  "資料限制",
-  "不提供個股買賣建議",
-  "正式市場資料尚未啟用",
-  "若資料延遲、缺漏或品質偏低",
-  "不是交易建議",
+  "正式資料尚未啟用",
+  "不提供買賣建議",
   "DataFreshnessStrip",
   "PublicBetaPublicStatusSurface",
   "PublicBetaMembershipMvpRoadmap",
   "briefing-market-action-summary",
   "briefing-alert-decision-list",
-  "briefing-decision-strip",
+  "briefing-runtime-action-strip",
   "experience-flow-nav"
 ];
 
@@ -60,15 +58,15 @@ const forbiddenSource = [
 ];
 
 for (const token of requiredCopy) {
-  if (!page.includes(token)) missing.push(`${pagePath}: ${token}`);
+  if (!combinedSource().includes(token)) missing.push(`briefing source: ${token}`);
 }
 
 for (const token of forbiddenSource) {
-  if (page.includes(token)) blocked.push(`${pagePath}: forbidden token ${token}`);
+  if (combinedSource().includes(token)) blocked.push(`briefing source: forbidden token ${token}`);
 }
 
-for (const marker of findMojibakeMarkers(page)) {
-  blocked.push(`${pagePath}: ${marker}`);
+for (const marker of findMojibakeMarkers(combinedSource())) {
+  blocked.push(`briefing source: ${marker}`);
 }
 
 if (packageJson.scripts?.["check:a2-briefing-copy-patch"] !== "node scripts/check-a2-briefing-copy-patch.mjs") {
@@ -88,6 +86,10 @@ const result = {
 console.log(JSON.stringify(result, null, 2));
 
 if (missing.length > 0 || blocked.length > 0) process.exitCode = 1;
+
+function combinedSource() {
+  return [page, decisionPanel, nextReading].join("\n");
+}
 
 function findMojibakeMarkers(text) {
   const markers = [];

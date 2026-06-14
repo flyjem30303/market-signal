@@ -13,8 +13,8 @@ const requiredPagePhrases = [
   "scoreSource=mock",
   "partial coverage",
   "missing/delayed data",
-  "不提供買賣建議",
   "真實資料尚未上線",
+  "示範資料",
   "Briefing Compass",
   "model-boundary",
   "market-structure",
@@ -72,17 +72,7 @@ for (const marker of findMojibakeMarkers(page)) {
   forbidden.push(`${pagePath}: ${marker}`);
 }
 
-console.log(
-  JSON.stringify(
-    {
-      forbidden,
-      missing,
-      status: missing.length === 0 && forbidden.length === 0 ? "ok" : "blocked"
-    },
-    null,
-    2
-  )
-);
+console.log(JSON.stringify({ forbidden, missing, status: missing.length === 0 && forbidden.length === 0 ? "ok" : "blocked" }, null, 2));
 
 if (missing.length > 0 || forbidden.length > 0) process.exitCode = 1;
 

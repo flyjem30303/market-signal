@@ -14,24 +14,24 @@ export function DataFreshnessStrip({ freshness, marketSignalSourceStatus }: Data
 
   return (
     <aside className={`freshness-strip ${freshness.state}`} aria-label="資料更新狀態">
-      <strong>資料可信度：{freshness.stateLabel}</strong>
+      <strong>資料狀態：{freshness.stateLabel}</strong>
       <span>資料來源：{sourceLabel}</span>
-      <span>資料更新時間：{freshness.asOfDate}</span>
+      <span>更新時間：{freshness.asOfDate}</span>
       <span>
         市場：{freshness.market} / {freshness.currency}
       </span>
-      <span className={`freshness-score-source ${freshness.scoreSource}`}>燈號分數：{scoreLabel}</span>
+      <span className={`freshness-score-source ${freshness.scoreSource}`}>分數來源：{scoreLabel}</span>
       <span className="freshness-boundary">
-        資料限制：目前公開頁仍以示範資料說明閱讀流程，正式資料通過來源、覆蓋率與品質檢查前，不宣稱即時真實資料。
+        目前公開頁以示範資料呈現閱讀流程；正式資料尚未啟用，不提供買賣建議，也不應作為交易指令。
       </span>
       <TrackedLink
         className="freshness-link"
         eventName="trust_link_clicked"
         href="/methodology"
-        label="查看燈號方法"
+        label="查看方法說明"
         payload={{ area: "data_freshness_strip" }}
       >
-        燈號方法
+        方法說明
       </TrackedLink>
       <TrackedLink
         className="freshness-link"

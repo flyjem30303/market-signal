@@ -24,7 +24,7 @@ export function BriefingPublicDecisionSummaryPanel({
         <p>{summary.nextObservation}</p>
       </div>
       <article className="active">
-        <span>市場氣氛</span>
+        <span>市場狀態</span>
         <strong>{summary.marketMood}</strong>
         <p>{summary.boundaryLine}</p>
       </article>
