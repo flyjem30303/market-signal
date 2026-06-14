@@ -52,6 +52,25 @@ Reason:
 - TWII has the smallest remaining Level 1 blast radius compared with ETF `118` missing rows.
 - Real execution is still blocked, so the safe PM action is to prepare or repair the exact execution gate and operator intake, not to run the writer.
 
+## Current Selector Resolution
+
+Latest PM resolution: `twii_exact_execution_preflight_repair_selector_ready_no_execution`.
+
+Focused evidence:
+
+- `cmd.exe /c npm run check:twii-exact-execution-preflight-repair-selector` passes.
+- The selected next route is now `twii_source_rights_outcome_gate_acceptance`.
+- TWII target remains `daily_prices` / `TWII` / `twii_index_daily_prices_missing_rows` / `60`.
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+- `runnerExecutableNow=false`.
+- `executionAllowedNow=false`.
+- `writeGateExecutableNow=false`.
+
+CEO decision:
+
+The Phase 1 data-online mainline should not spend another slice proving runner implementation readiness. The immediate blocker is the acceptance sequence: source-rights outcome, field contract, asset mapping, then operator packet intake. Route 1 therefore resolves to the existing TWII source-rights outcome gate, while ETF repair and runtime promotion preparation remain parallel non-execution support lanes.
+
 ## Ordered Route Queue
 
 ### Route 1 - TWII Exact Execution Gate Or Repair

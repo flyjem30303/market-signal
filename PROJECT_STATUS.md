@@ -2,6 +2,43 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 TWII Exact Gate Resolution
+
+Status: `phase_1_twii_exact_gate_resolved_to_source_rights_outcome_no_execution`
+
+CEO decision:
+
+- Keep the active GOAL focused on Phase 1 public free launch readiness, including data online.
+- Treat TWII as the first Level 1 data-online closure candidate because it can close `60` missing rows with the smallest remaining blast radius.
+- Do not spend another slice proving runner implementation readiness; the current blocker is the acceptance sequence before exact execution.
+- Resolve the selected data-online route from `twii_first_level_1_closure_exact_execution_gate_or_repair` to `twii_source_rights_outcome_gate_acceptance`.
+
+PM completed:
+
+- Rechecked the existing TWII exact execution preflight repair selector.
+- Confirmed TWII packet/runtime/operator reports are prepared but remain no-execution.
+- Confirmed the candidate artifact remains reference-only at `data/candidates/twii-sanitized-candidate.json`.
+- Confirmed the target remains `daily_prices` / `TWII` / `twii_index_daily_prices_missing_rows` / `60`.
+- Updated `docs/PHASE_1_DATA_ONLINE_EXECUTION_SELECTOR.md` with the current selector resolution so future GOAL runs start from the resolved next route.
+
+Evidence:
+
+- `cmd.exe /c npm run check:twii-exact-execution-preflight-repair-selector` passes with `twii_exact_execution_preflight_repair_selector_ready_no_execution`.
+- Selected next route is `twii_source_rights_outcome_gate_acceptance`.
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+- `runnerExecutableNow=false`.
+- `executionAllowedNow=false`.
+- `writeGateExecutableNow=false`.
+
+Boundary:
+
+No SQL, Supabase connection/read/write, staging row creation, `daily_prices` mutation, market endpoint fetch, raw market-data ingest/store/commit, candidate row read/output, public source promotion, score promotion, investment advice claim, production environment mutation, DNS change, broad visual redesign, or Phase 2 membership implementation occurred.
+
+Next route:
+
+Open or repair the TWII source-rights outcome gate. If it is accepted, continue to TWII field-contract and asset-mapping acceptance. If it is rejected or repair-required, keep TWII blocked and move ETF source-rights/field-contract repair plus runtime promotion preparation in parallel.
+
 ### Phase 1 Data Online Execution Selector
 
 Status: `phase_1_data_online_execution_selector_ready_no_execution`
