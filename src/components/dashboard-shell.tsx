@@ -93,7 +93,7 @@ export function DashboardShell({
         <p className="eyebrow">3 分鐘閱讀順序</p>
         <h2>先看市場燈號，再看核心指標，最後看資料邊界</h2>
         <p>
-          指數燈號不是單一分數排名，而是把市場總覽、核心指標、警示清單與更新時間放在同一個判斷順序中，幫助使用者避免只看漲跌造成誤判。
+          3 分鐘判斷順序不是單一分數排名，而是把市場總覽、核心指標、警示清單、下一步觀察與更新時間放在同一個判斷順序中，幫助使用者避免只看漲跌造成誤判。
         </p>
       </section>
       <PublicNextReadingFlow context={isStockPage ? "stock" : "home"} stockSymbol={selected.symbol} />
@@ -360,7 +360,7 @@ function StockPublicSummary({ snapshot }: { snapshot: SignalSnapshot }) {
         </h2>
         <p>30 秒快速閱讀，30 秒快讀：{snapshot.signal.text}</p>
         <p>
-          30 秒看懂標的狀態後，把單一標的放回市場脈絡，再看成因、更新時間、影響級別與下一步觀察。30 秒可用，3 分鐘複核風險，3 分鐘要複核風險；目前是示範資料與示範分數，不能當成個股買賣指令，不提供個股買賣建議。
+          30 秒看懂標的狀態後，把單一標的放回市場脈絡與市場氣氛，再看成因、更新時間、影響級別與下一步觀察。3 分鐘判斷順序是先看大盤，再看標的風險與資料信心。30 秒可用，3 分鐘複核風險，3 分鐘要複核風險；目前是示範資料與示範分數，不應直接視為個股買賣建議，不能當成個股買賣指令，不提供個股買賣建議。
         </p>
       </div>
       <div className="stock-indicator-priority-grid">
@@ -397,19 +397,19 @@ function StockDecisionCompass({ snapshot }: { snapshot: SignalSnapshot }) {
   const cards = [
     {
       body: snapshot.signal.text,
-      label: "目前燈號",
+      label: "燈號狀態",
       tone: snapshot.compositeScore >= 70 ? "active" : "hold",
       value: snapshot.signal.title
     },
     {
       body: "風險分數提醒是否需要降低判斷速度，避免只看單日漲跌。",
-      label: "風險狀態",
+      label: "風險熱度",
       tone: riskTone,
       value: `${snapshot.riskScore}/100`
     },
     {
       body: "目前公開頁仍以示範資料呈現，資料品質會影響判讀信心。",
-      label: "資料品質",
+      label: "資料信心",
       tone: dataTone,
       value: snapshot.dataQualityGrade
     },
@@ -424,8 +424,8 @@ function StockDecisionCompass({ snapshot }: { snapshot: SignalSnapshot }) {
   return (
     <section className="stock-decision-compass" aria-label="標的決策輔助">
       <div className="stock-decision-compass__intro">
-        <p className="eyebrow">決策輔助摘要</p>
-        <h2>把燈號、風險、資料品質與下一步放在同一張卡片</h2>
+        <p className="eyebrow">股票頁決策羅盤</p>
+        <h2>決策輔助摘要：把燈號狀態、風險熱度、資料信心與下一步放在同一張卡片</h2>
       </div>
       {cards.map((card) => (
         <article className={card.tone} key={card.label}>
@@ -435,7 +435,7 @@ function StockDecisionCompass({ snapshot }: { snapshot: SignalSnapshot }) {
         </article>
       ))}
       <p className="stock-decision-compass__boundary">
-        這些內容是資訊整理與觀察輔助，不是個別標的買賣建議。
+        這些內容是資訊整理與觀察輔助，不提供買進、賣出、持有或個人化投資建議，也不應直接視為個股買賣建議。
       </p>
     </section>
   );

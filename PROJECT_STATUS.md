@@ -2,6 +2,45 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Phase 1 Public Action And Source Coverage Bridge Alignment
+
+Status: `phase_1_public_action_source_coverage_bridge_ready`
+
+CEO decision:
+
+- Continue Phase 1 public/free product clarity under the revised BRIEF.
+- Do not expand Phase 2 membership runtime yet.
+- The highest-value blockers were the stock decision compass, public beta action bridge, 3-minute value loop, and user-facing source/coverage bridge.
+- Public pages should explain what the user can do next, why the signal exists, what data boundary applies, and why it is not investment advice.
+
+PM completed:
+
+- Updated the stock page decision compass with user-facing labels for `股票頁決策羅盤`, `燈號狀態`, `風險熱度`, and `資料信心`.
+- Aligned home, briefing, and stock-route copy around the BRIEF promise: 30-second reading, 3-minute judgment order, market mood, cause, update time, impact level, next observation, and non-advice boundaries.
+- Updated the source coverage bridge so public users can see `資料來源與覆蓋率`, `資料範圍`, `覆蓋範圍`, `升級條件`, formal-data-not-enabled status, and clear routes back to methodology, disclaimer, and the market briefing.
+
+Checks passed:
+
+- `check:stock-decision-compass`
+- `check:public-beta-mainline-action-bridge`
+- `check:public-beta-value-loop-refinement`
+- `check:public-beta-user-value-source-coverage-bridge`
+- `check:public-visible-language-quality`
+- `check:public-surface-user-facing-audit`
+- `check:public-beta-core-route-quick-proof`
+- `check:stock-route-investor-language-alignment`
+- `check:market-action-summary-readable-copy`
+- `npx tsc --noEmit`
+- `npm run build`
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public data-source promotion, real score promotion, login implementation, payment implementation, persisted watchlist, personalized alert execution, member-only content gating, promised-return claim, or investment-advice claim occurred.
+
+Next:
+
+Continue Phase 1 public/free product clarity. Best next PM slice is focused cleanup of remaining methodology/disclaimer/source-coverage labels, then a larger review-gate sweep before any Phase 2 membership runtime work.
+
 ### Phase 1 Decision Data Status Surface Alignment
 
 Status: `phase_1_decision_data_status_surface_alignment_ready`

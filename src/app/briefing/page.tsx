@@ -140,6 +140,7 @@ export default async function BriefingPage() {
       <section className="briefing-playbook" id="briefing-playbook" aria-label="三分鐘判斷流程">
         <p className="eyebrow">3 分鐘判斷流程</p>
         <h2>把市場燈號轉成可執行的觀察順序</h2>
+        <p>3 分鐘判斷順序：先看市場氣氛，再看風險成因與市場廣度，最後整理下一步觀察。</p>
         <div className="playbook-grid">
           {playbook.map((item) => (
             <article className="playbook-card" key={item.title}>
@@ -179,7 +180,7 @@ export default async function BriefingPage() {
       <PublicBetaMembershipMvpRoadmap />
 
       <article className="disclaimer">
-        <h2>風險聲明</h2>
+        <h2>使用提醒</h2>
         <p>本網站是市場資訊整理與風險辨識輔助工具，不提供個股買賣建議，也不保證任何投資結果。</p>
       </article>
     </main>
