@@ -2,6 +2,42 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### TWII Sanitized Candidate Artifact PM Intake Gate
+
+Status: `twii_sanitized_candidate_artifact_pm_intake_accepted_for_no_write_dry_run_chain`
+
+CEO decision:
+
+- Accept `data/candidates/twii-sanitized-candidate.json` only as a sanitized aggregate-only artifact path for a later packet-driven no-write dry-run chain.
+- Treat the artifact as PM intake evidence, not as market rows, not as row coverage, and not as runtime promotion.
+- Move the active PM route to `twii_report_only_dry_run_chain_gate`.
+- Keep SQL, Supabase connection/read/write, staging rows, `daily_prices` mutation, market-data fetch, source-derived candidate row generation, row coverage scoring, public source promotion, and real scoring blocked.
+
+PM completed:
+
+- Added `docs/TWII_SANITIZED_CANDIDATE_ARTIFACT_PM_INTAKE_GATE.md`.
+- Added `data/source-gates/twii-sanitized-candidate-artifact-pm-intake.json`.
+- Added `check:twii-sanitized-candidate-artifact-pm-intake-gate` and registered it in the focused review gate.
+- The gate validates source-rights acceptance, field-contract/asset-mapping alignment, chain handoff readiness, candidate artifact aggregate-only shape, mock/runtime locks, and no-execution stop lines.
+
+Evidence:
+
+- `cmd.exe /c npm run check:twii-sanitized-candidate-artifact-chain-handoff` passed with `twii_sanitized_candidate_artifact_chain_handoff_ready`.
+- `cmd.exe /c npm run report:twii-sanitized-candidate-artifact-chain-handoff` reported `twii_sanitized_candidate_artifact_chain_handoff_ready_for_named_packet`, candidate path `data/candidates/twii-sanitized-candidate.json`, `expectedRows=60`, `candidateRows=60`, `duplicateRows=0`, `rejectedRows=0`, `missingRows=0`, and no raw/row/stock-id/secret payload flags.
+- `node scripts/check-twii-sanitized-candidate-artifact-pm-intake-gate.mjs` was first run red and blocked on the missing PM intake doc, record, package script, review-gate registration, and status record before implementation.
+- `cmd.exe /c npm run check:twii-sanitized-candidate-artifact-pm-intake-gate` passed with `twii_sanitized_candidate_artifact_pm_intake_accepted_for_no_write_dry_run_chain`.
+- `cmd.exe /c npx tsc --noEmit` passed.
+- `git diff --check` passed.
+- `cmd.exe /c npm run check:review-gates > tmp\review-gates-twii-candidate-pm-intake.txt` passed with `status=ok`, `executedCount=191`, and `failedCount=0`.
+
+Boundary:
+
+No SQL, Supabase connection/read/write, staging row creation, `daily_prices` mutation, market endpoint fetch, raw market-data ingest/store/commit, source-derived candidate row generation, candidate row acceptance, real row readback, row coverage scoring, secret output, raw payload output, row payload output, stock id payload output, public source promotion, score promotion, investment advice claim, production environment mutation, DNS change, broad visual redesign, or Phase 2 membership implementation occurred.
+
+Next route:
+
+Continue `twii_report_only_dry_run_chain_gate`. It may prepare a named local packet and prove report-only chain behavior, but it must preserve no-SQL/no-Supabase/no-fetch/no-write/no-row-coverage/mock-runtime locks until a separate explicit execution decision exists.
+
 ### TWII Field Contract Asset Mapping Alignment Gate
 
 Status: `twii_field_contract_asset_mapping_aligned_for_sanitized_candidate_gate_no_execution`

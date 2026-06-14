@@ -822,6 +822,7 @@
     "check:twii-exact-execution-preflight-repair-selector": "node scripts/check-twii-exact-execution-preflight-repair-selector.mjs",
     "check:twii-source-rights-outcome-acceptance-gate": "node scripts/check-twii-source-rights-outcome-acceptance-gate.mjs",
     "check:twii-field-contract-asset-mapping-alignment-gate": "node scripts/check-twii-field-contract-asset-mapping-alignment-gate.mjs",
+    "check:twii-sanitized-candidate-artifact-pm-intake-gate": "node scripts/check-twii-sanitized-candidate-artifact-pm-intake-gate.mjs",
     "check:runtime-data-promotion-handoff-checklist": "node scripts/check-runtime-data-promotion-handoff-checklist.mjs",
     "check:runtime-summary-alignment-from-first-closed-loop": "node scripts/check-runtime-summary-alignment-from-first-closed-loop.mjs",
     "check:runtime-readonly-decision-card": "node scripts/check-runtime-readonly-decision-card.mjs",

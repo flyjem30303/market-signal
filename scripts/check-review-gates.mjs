@@ -3478,6 +3478,11 @@ const checks = [
     name: "twii-field-contract-asset-mapping-alignment-gate"
   },
   {
+    command: [node, "scripts/check-twii-sanitized-candidate-artifact-pm-intake-gate.mjs"],
+    expectStatus: "ok",
+    name: "twii-sanitized-candidate-artifact-pm-intake-gate"
+  },
+  {
     command: [node, "scripts/check-runtime-data-promotion-handoff-checklist.mjs"],
     expectStatus: "ok",
     name: "runtime-data-promotion-handoff-checklist"
@@ -6395,6 +6400,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "twii-exact-execution-preflight-repair-selector",
   "twii-source-rights-outcome-acceptance-gate",
   "twii-field-contract-asset-mapping-alignment-gate",
+  "twii-sanitized-candidate-artifact-pm-intake-gate",
   "open-free-auto-data-source-gate",
   "stock-decision-aid-actionability",
   "stock-decision-compass",

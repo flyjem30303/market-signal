@@ -1,0 +1,69 @@
+{
+  "status": "twii_sanitized_candidate_artifact_pm_intake_accepted_for_no_write_dry_run_chain",
+  "decision": "accept_twii_sanitized_candidate_artifact_for_no_write_dry_run_chain_only",
+  "acceptedBy": "CEO/PM",
+  "acceptedAt": "2026-06-15T00:00:00+08:00",
+  "acceptedScope": "no_write_dry_run_chain_only",
+  "candidateArtifactPath": "data/candidates/twii-sanitized-candidate.json",
+  "artifactId": "twii-sanitized-candidate-20260609",
+  "lane": "TWII",
+  "assetType": "index",
+  "symbol": "TWII",
+  "targetScope": "twii_index_daily_prices_missing_rows",
+  "sourceLane": "official-exchange-index",
+  "fieldContractVersion": "twii-v1",
+  "expectedRows": 60,
+  "candidateRows": 60,
+  "duplicateRows": 0,
+  "rejectedRows": 0,
+  "missingRows": 0,
+  "rawPayloadIncluded": false,
+  "rowPayloadIncluded": false,
+  "stockIdPayloadIncluded": false,
+  "secretsIncluded": false,
+  "publicDataSource": "mock",
+  "scoreSource": "mock",
+  "twiiExecutionAllowedNow": false,
+  "nextPMRoute": "twii_report_only_dry_run_chain_gate",
+  "sqlAllowed": false,
+  "supabaseAllowed": false,
+  "dailyPricesMutationAllowed": false,
+  "marketDataFetchAllowed": false,
+  "sourceDerivedCandidateGenerationAllowed": false,
+  "rowCoverageAwardAllowed": false,
+  "runtimePromotionAllowed": false,
+  "acceptedEvidence": [
+    {
+      "artifact": "data/source-gates/twii-source-rights-outcome-acceptance.json",
+      "status": "twii_source_rights_outcome_accepted_for_next_gate_only_no_execution"
+    },
+    {
+      "artifact": "data/source-gates/twii-field-contract-asset-mapping-alignment.json",
+      "status": "twii_field_contract_asset_mapping_aligned_for_sanitized_candidate_gate_no_execution"
+    },
+    {
+      "artifact": "scripts/report-twii-sanitized-candidate-artifact-chain-handoff.mjs",
+      "status": "twii_sanitized_candidate_artifact_chain_handoff_ready_for_named_packet"
+    }
+  ],
+  "stopLines": [
+    "no_sql",
+    "no_supabase_connection",
+    "no_supabase_read",
+    "no_supabase_write",
+    "no_staging_rows",
+    "no_daily_prices_mutation",
+    "no_market_data_fetch",
+    "no_source_derived_candidate_row_generation",
+    "no_candidate_row_acceptance",
+    "no_real_readback",
+    "no_row_coverage_scoring",
+    "no_public_source_promotion",
+    "no_real_score_promotion",
+    "no_raw_payload",
+    "no_row_payload",
+    "no_stock_id_payload",
+    "no_secrets"
+  ],
+  "decisionNote": "PM accepts the TWII sanitized aggregate-only candidate artifact only as an input path for a future named packet and packet-driven no-write dry-run chain. This does not authorize source-derived candidate row generation, SQL, Supabase, daily_prices mutation, row coverage scoring, public source promotion, or real score promotion."
+}
