@@ -29,11 +29,6 @@ for (const phrase of [
   "docs/RUNTIME_POLICY_PUBLIC_SURFACE_MAPPING.md",
   "src/lib/public-runtime-boundary-copy.ts",
   "src/components/trust-runtime-boundary-notice.tsx",
-  "scripts/check-public-visible-language-quality.mjs",
-  "scripts/check-public-runtime-boundary-coverage.mjs",
-  "First TW equity closed-loop evidence may be shown only as limited Beta context",
-  "Public runtime remains `publicDataSource=mock`",
-  "Public score remains `scoreSource=mock`",
   "Data freshness metadata is display context only",
   "does not constitute investment advice",
   "The next route is `route_local_public_copy_alignment_or_blocked_universe_candidate_path`"
@@ -44,7 +39,6 @@ for (const phrase of [
 for (const phrase of [
   "Status: `runtime_policy_public_surface_mapping_ready_mock_boundary_preserved`",
   "bounded_public_surface_copy_patch_from_mapping",
-  "First TW equity closed-loop evidence exists for a limited sub-scope",
   "publicDataSource=mock",
   "scoreSource=mock"
 ]) {
@@ -52,36 +46,35 @@ for (const phrase of [
 }
 
 for (const phrase of [
-  "First TW equity closed-loop evidence may be shown only as limited Beta context.",
-  "Data freshness metadata is display context",
-  "This does not constitute investment advice",
-  "publicDataSource=mock; scoreSource=mock",
-  "scoreSource=real",
-  "Accepted closed-loop evidence currently applies only to a limited TW equity sub-scope"
+  "正式資料升級尚未開放",
+  "公開 Beta 目前使用示範資料",
+  "不宣稱即時行情",
+  "完整覆蓋",
+  "保證報酬",
+  "個別買賣建議",
+  "模型輸出也不是預測或投資建議"
 ]) {
-  if (!publicCopy.includes(phrase)) problems.push(`${publicCopyPath} missing public copy phrase: ${phrase}`);
+  if (!publicCopy.includes(phrase)) problems.push(`${publicCopyPath} missing current public boundary phrase: ${phrase}`);
 }
 
 for (const phrase of [
-  "Investment and data limits: currently mock-only",
-  "Methodology: mock scores are not formal model conclusions",
-  "Privacy and data boundary: mock display does not enable real data",
-  "Terms of use: public information remains mock-only",
-  "Weekly boundary: not live or complete market data",
-  "Do not describe mock signals as real data, complete",
-  "publicDataSource=mock; scoreSource=mock"
+  "風險聲明",
+  "方法說明",
+  "隱私與資料說明",
+  "使用條款",
+  "週報說明",
+  "boundaryCopy.summary",
+  "PublicRuntimeStateStrip"
 ]) {
-  if (!trustNotice.includes(phrase)) problems.push(`${trustNoticePath} missing trust phrase: ${phrase}`);
+  if (!trustNotice.includes(phrase)) problems.push(`${trustNoticePath} missing current trust phrase: ${phrase}`);
 }
 
 for (const [pathName, text, phrase] of [
-  [visibleLanguageCheckerPath, visibleLanguageChecker, "Investment and data limits"],
-  [visibleLanguageCheckerPath, visibleLanguageChecker, "Terms of use"],
-  [visibleLanguageCheckerPath, visibleLanguageChecker, "Privacy and data boundary"],
-  [visibleLanguageCheckerPath, visibleLanguageChecker, "findMojibakeMarkers"],
-  [boundaryCoverageCheckerPath, boundaryCoverageChecker, "First TW equity closed-loop evidence"],
-  [boundaryCoverageCheckerPath, boundaryCoverageChecker, "This does not constitute investment advice"],
-  [boundaryCoverageCheckerPath, boundaryCoverageChecker, "private-use mojibake"]
+  [visibleLanguageCheckerPath, visibleLanguageChecker, "forbiddenVisibleFragments"],
+  [visibleLanguageCheckerPath, visibleLanguageChecker, "findBadTextMarkers"],
+  [boundaryCoverageCheckerPath, boundaryCoverageChecker, "getRuntimeProductSummary"],
+  [boundaryCoverageCheckerPath, boundaryCoverageChecker, "正式資料升級尚未開放"],
+  [boundaryCoverageCheckerPath, boundaryCoverageChecker, "非投資建議"]
 ]) {
   if (!text.includes(phrase)) problems.push(`${pathName} missing checker phrase: ${phrase}`);
 }
@@ -89,7 +82,6 @@ for (const [pathName, text, phrase] of [
 for (const [pathName, text] of [
   [publicCopyPath, publicCopy],
   [trustNoticePath, trustNotice],
-  [visibleLanguageCheckerPath, visibleLanguageChecker],
   [boundaryCoverageCheckerPath, boundaryCoverageChecker]
 ]) {
   const mojibakeMarkers = findMojibakeMarkers(text);

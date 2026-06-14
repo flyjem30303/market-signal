@@ -2,6 +2,38 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Runtime Boundary Gate Realignment
+
+Status: `phase_1_runtime_boundary_gate_realignment_ready`
+
+CEO decision:
+
+- Continue the active Phase 1 launchable-data GOAL without opening SQL, Supabase writes, raw market-data fetches, or runtime promotion.
+- Treat the data-line selector as ready for `twse_openapi_runtime_mock_consumer_wire` while Level 1 coverage remains `182/360`.
+- Repair stale local gates that still expected older English/internal runtime-boundary phrases after the public-surface cleanup.
+- Keep the public product wording aligned to the current user-facing architecture: home, stock, briefing, weekly, methodology, disclaimer, terms, and privacy routes must disclose demo-data/readiness boundaries without exposing development residue.
+
+PM completed:
+
+- Updated `scripts/check-bounded-public-surface-copy-patch-from-mapping.mjs` to validate the current public boundary copy and trust-copy components instead of obsolete internal phrase requirements.
+- Updated `scripts/check-route-local-public-copy-alignment.mjs` to align with current route wiring, including `RouteLocalTrustCopyPanel`, `DataFreshnessStrip`, `PublicBetaDataReadinessStatus`, and current stock/home runtime panels.
+- Updated `scripts/check-public-runtime-boundary-coverage.mjs` to validate the current Phase 1 public runtime surfaces and prevent accidental real-score/source promotion.
+
+Evidence:
+
+- `check:public-beta-data-realification-next-action` passed with next PM mainline `twse_openapi_runtime_mock_consumer_wire`, A1 `continue_data_line_source_and_coverage_without_market_row_fetch`, and A2 `runtime_mock_consumer_public_boundary_copy_guardrail`.
+- `check:bounded-public-surface-copy-patch-from-mapping` passed.
+- `check:route-local-public-copy-alignment` passed.
+- `check:public-runtime-boundary-coverage` passed.
+
+Boundary:
+
+No SQL, Supabase connection/write, staging row creation, `daily_prices` mutation, market endpoint fetch, raw market-data ingest/store/commit, row payload output, public source promotion, `publicDataSource=supabase`, `scoreSource=real`, investment advice claim, production environment mutation, DNS change, broad visual redesign, or Phase 2 membership implementation occurred. Runtime and score remain `publicDataSource=mock` and `scoreSource=mock`.
+
+Next route:
+
+Continue toward `twse_openapi_runtime_mock_consumer_wire` and Level 1 data closure. PM mainline should keep the public runtime understandable while A1 continues source/coverage work and A2 watches public boundary copy.
+
 ### Phase 1 Level 1 Closure Execution Packet
 
 Status: `phase_1_level_1_closure_execution_packet_ready_no_raw_payloads`

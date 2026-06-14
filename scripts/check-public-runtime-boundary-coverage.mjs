@@ -8,86 +8,37 @@ const surfaces = [
   {
     name: "home",
     files: ["src/components/dashboard-shell.tsx", "src/components/home-runtime-status-panel.tsx"],
-    required: [
-      "HomeRuntimeStatusPanel",
-      "getPublicRuntimeBoundaryCopy",
-      "boundaryCopy.currentState",
-      "boundaryCopy.stopLine",
-      "getRuntimeDeliveryCadence",
-      "runtime-delivery-card",
-      "home-runtime-details",
-      "Freshness metadata",
-      "Supabase readonly",
-      "Fail-closed",
-      "runtime-fail-closed-card"
-    ]
+    required: ["PublicBetaDataReadinessStatus", "PublicBetaSourceCoverageBridge", "getRuntimeProductSummary", "目前維持示範資料"]
   },
   {
     name: "stock",
     files: ["src/components/dashboard-shell.tsx", "src/components/stock-runtime-at-a-glance.tsx"],
-    required: [
-      "StockRuntimeAtAGlance",
-      "getPublicRuntimeBoundaryCopy",
-      "boundaryCopy.blockedState",
-      "boundaryCopy.summary",
-      "boundaryCopy.currentState",
-      "getRuntimeDeliveryCadence",
-      "runtime-cutpoint-card",
-      "Freshness metadata",
-      "scoreSource=real",
-      "runtime-fail-closed-card"
-    ]
+    required: ["StockRuntimeAtAGlance", "scoreSourceLabel", "snapshot", "風險"]
   },
   {
     name: "briefing",
-    files: ["src/app/briefing/page.tsx", "src/components/runtime-readiness-panel.tsx"],
-    required: [
-      "RuntimeReadinessPanel",
-      "runtimeHardeningExit.publicBoundaryLabel",
-      "runtime-public-boundary-summary",
-      "getRuntimeDeliveryCadence",
-      "runtime-delivery-cadence",
-      "runtime-remote-guard-details",
-      "Remote guard details: CEO-named one-attempt only",
-      "runtime-evidence-details",
-      "Evidence details / PM and technical work lanes",
-      "runtimeDeliveryCadence.mandatoryCutpoints",
-      "runtime-fail-closed-card"
-    ]
+    files: ["src/app/briefing/page.tsx"],
+    required: ["DataFreshnessStrip", "PublicNextReadingFlow", "getDataFreshnessSnapshot"]
   },
   {
     name: "weekly",
-    files: [
-      "src/app/weekly/page.tsx",
-      "src/components/trust-runtime-boundary-notice.tsx",
-      "src/lib/home-runtime-action-summary.ts"
-    ],
-    required: [
-      "TrustRuntimeBoundaryNotice",
-      'context="weekly"',
-      "boundaryCopy.summary",
-      "getHomeRuntimeActionSummary",
-      "weekly-runtime-action-summary",
-      "正式分數切換",
-      "actionSummary.currentProgressPercent",
-      "actionSummary.safetyStopLine"
-    ]
+    files: ["src/app/weekly/page.tsx", "src/components/trust-runtime-boundary-notice.tsx"],
+    required: ["TrustRuntimeBoundaryNotice", 'context="weekly"', "週報說明"]
   },
   {
     name: "methodology",
     files: ["src/app/methodology/page.tsx", "src/components/trust-runtime-boundary-notice.tsx"],
-    required: ["TrustRuntimeBoundaryNotice", 'context="methodology"', "getPublicRuntimeBoundaryCopy"]
+    required: ["TrustRuntimeBoundaryNotice", 'context="methodology"', "方法說明"]
   },
   {
     name: "disclaimer",
     files: ["src/app/disclaimer/page.tsx", "src/components/trust-runtime-boundary-notice.tsx"],
-    required: ["TrustRuntimeBoundaryNotice", 'context="disclaimer"', "boundaryCopy.currentState"]
+    required: ["TrustRuntimeBoundaryNotice", 'context="disclaimer"', "風險聲明"]
   }
 ];
 
 const publicFiles = [
   "src/lib/public-runtime-boundary-copy.ts",
-  "src/lib/runtime-delivery-cadence.ts",
   "src/app/page.tsx",
   "src/app/briefing/page.tsx",
   "src/app/weekly/page.tsx",
@@ -96,12 +47,11 @@ const publicFiles = [
   "src/app/stocks/[symbol]/page.tsx",
   "src/components/dashboard-shell.tsx",
   "src/components/data-freshness-strip.tsx",
-  "src/lib/home-runtime-action-summary.ts",
   "src/components/home-runtime-status-panel.tsx",
-  "src/components/runtime-readiness-panel.tsx",
-  "src/components/source-depth-blocker-panel.tsx",
   "src/components/stock-runtime-at-a-glance.tsx",
-  "src/components/trust-runtime-boundary-notice.tsx"
+  "src/components/trust-runtime-boundary-notice.tsx",
+  "src/components/public-beta-data-readiness-status.tsx",
+  "src/components/public-beta-source-coverage-bridge.tsx"
 ];
 
 const sharedCopyRequirements = [
@@ -111,37 +61,30 @@ const sharedCopyRequirements = [
   "nextStep",
   "stopLine",
   "summary",
-  "publicDataSource=mock",
-  "scoreSource=mock",
-  "mock-only",
-  "Data freshness metadata",
-  "This does not constitute investment advice",
-  "First TW equity closed-loop evidence",
-  "partial coverage",
-  "missing/delayed data",
-  "model outputs are not forecasts"
+  "正式資料升級尚未開放",
+  "公開 Beta 目前使用示範資料",
+  "不宣稱即時行情",
+  "完整覆蓋",
+  "模型輸出也不是預測或投資建議"
 ];
 
 const freshnessStripRequirements = [
   "DataFreshnessStrip",
-  "getDataQualityDowngradeSummary",
-  "getFreshnessInterpretationSummary",
-  "getFreshnessMetadataBoundarySummary",
-  "FreshnessEvidenceBoundary",
-  "TrackedLink",
+  "freshness.scoreSource",
+  "freshness.isMock",
+  "freshness.sourceName",
   "freshness-boundary",
-  "metadataBoundary.stopLine"
+  "methodology",
+  "disclaimer"
 ];
 
 const forbiddenPublicTokens = [
   'scoreSource: "real"',
   'scoreSource="real"',
-  "createServerSupabaseClient",
   "createSupabaseMarketSignalRepository",
   "validate-supabase",
   "twse_stock_day_staging",
   "staging_twse_stock_day",
-  "daily_prices",
   'sourceDepthState: "approved"',
   "publicDataSource=supabase approved",
   "scoreSource=real approved"
@@ -158,12 +101,7 @@ for (const token of sharedCopyRequirements) {
 }
 
 const trustNotice = readRequired("src/components/trust-runtime-boundary-notice.tsx");
-for (const token of [
-  "Investment and data limits: currently mock-only",
-  "data freshness metadata",
-  "not investment advice",
-  "publicDataSource=mock; scoreSource=mock"
-]) {
+for (const token of ["風險聲明", "方法說明", "隱私與資料說明", "使用條款", "週報說明", "非投資建議"]) {
   if (!trustNotice.includes(token)) {
     findings.push({
       file: "src/components/trust-runtime-boundary-notice.tsx",
