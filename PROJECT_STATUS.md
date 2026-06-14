@@ -5726,3 +5726,37 @@ No SQL, Supabase read/write, staging rows, `daily_prices` mutation, raw market-d
 Next:
 
 If the chairman accepts the record, proceed to no-secret manual platform checklist only when a platform action is wanted. If the chairman does not want platform action yet, PM should continue A1 data-line blocker repair while preserving the reviewable Phase 1 mock public Beta surface.
+
+# Latest Phase 1 public surface cleanup and review-gate convergence
+
+Status: `phase_1_public_surface_cleanup_review_gate_converged`
+
+Date: 2026-06-15
+
+CEO decision: `ALIGN_REVIEW_GATE_TO_BRIEF_PHASE_1_PUBLIC_SURFACE`.
+
+What changed:
+
+- Cleaned the `/briefing` public surface so it reads as a user-facing market brief instead of an internal Public Beta / blocker dashboard.
+- Removed visible development-process residue from the main public navigation and footer language.
+- Reframed site chrome around `指數燈號`, market status, data boundary, and non-investment-advice trust language.
+- Updated the focused review gate so obsolete Public Beta internal-panel checks are superseded by the newer public language and public surface audits.
+
+Verification:
+
+- `cmd.exe /c npm run build` passed after stopping the dev server and clearing generated `.next`.
+- `cmd.exe /c npm run check:localhost-health` passed for `/`, stock routes, `/briefing`, `/weekly`, and `/robots.txt`.
+- `cmd.exe /c npm run check:public-visible-language-quality` passed.
+- `cmd.exe /c npm run check:public-surface-user-facing-audit` passed.
+- `cmd.exe /c npx tsc --noEmit` passed.
+- `git diff --check` passed.
+- Browser background verification confirmed `/briefing` contains `市場簡報`, `30 秒`, `3 分鐘`, `資料邊界`, and non-investment-advice language, with no visible `A1`, `A2`, `CEO`, `PM`, `commit`, `cmd.exe`, `public beta readiness`, or `hard blocker` residue.
+- Focused `cmd.exe /c npm run check:review-gates` passed with 180 executed gates and 20 superseded public-surface gates.
+
+Boundary:
+
+No SQL, Supabase write, staging rows, `daily_prices` mutation, raw market-data fetch/store/commit, source promotion, real score promotion, membership implementation, production env mutation, DNS change, Vercel dashboard mutation, or platform deploy occurred. The runtime remains `publicDataSource=mock` and `scoreSource=mock`.
+
+Next:
+
+Continue Phase 1 toward real data launch by keeping the public surface clean while advancing the data line through legal free automated source confirmation, TWII write/read execution controls, aggregate readback, rollback dry-run, and mock-to-real promotion gate. Phase 2 membership remains a roadmap boundary until Phase 1 public/data loop is stable.

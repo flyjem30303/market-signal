@@ -8,30 +8,30 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
   title: {
-    default: "指數燈號",
+    default: siteConfig.name,
     template: `%s | ${siteConfig.name}`
   },
   description:
-    "指數燈號是面向一般投資者的市場狀態儀表站，協助使用者快速理解市場風險、趨勢強弱、資料更新時間與非投資建議邊界。"
+    "指數燈號把市場資料整理成可閱讀的燈號、風險提示與觀察流程，協助一般投資者快速理解市場狀態。"
 };
 
 const footerTrustLinks = [
   { href: "/methodology", label: "方法說明" },
-  { href: "/disclaimer", label: "風險揭露" },
-  { href: "/privacy", label: "隱私權" },
+  { href: "/disclaimer", label: "風險聲明" },
+  { href: "/privacy", label: "隱私政策" },
   { href: "/terms", label: "使用條款" }
 ];
 
 const footerNavLinks = [
   { href: "/", label: "首頁" },
-  { href: "/briefing", label: "今日簡報" },
+  { href: "/briefing", label: "市場簡報" },
   { href: "/weekly", label: "週報" },
-  { href: "/stocks/2330", label: "個股" },
-  { href: "/membership", label: "會員預告" },
+  { href: "/stocks/2330", label: "標的" },
+  { href: "/membership", label: "會員規劃" },
   { href: "/methodology", label: "方法說明" },
-  { href: "/privacy", label: "隱私權" },
+  { href: "/privacy", label: "隱私政策" },
   { href: "/terms", label: "使用條款" },
-  { href: "/disclaimer", label: "風險揭露" }
+  { href: "/disclaimer", label: "風險聲明" }
 ];
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -49,7 +49,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             <span className="logo-mark">MS</span>
             <span>
               指數燈號
-              <small>市場狀態儀表站</small>
+              <small>市場風險與趨勢儀表站</small>
             </span>
           </TrackedLink>
           <SiteNav />
@@ -59,15 +59,14 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <div>
             <strong>指數燈號</strong>
             <p>
-              公開 Beta 目前提供示範資料與示範分數，協助使用者練習 30 秒看懂市場狀態、3
-              分鐘複核風險與下一步觀察。網站內容為資訊整理與風險辨識，不構成投資建議。
+              以市場燈號、風險提示與資料更新時間協助你建立固定觀察流程。本站內容僅供資訊整理與風險辨識，屬於非投資建議。
             </p>
-            <div className="site-footer-trust" aria-label="信任與風險資訊">
+            <div className="site-footer-trust" aria-label="信任與使用邊界">
               <span>公開 Beta</span>
-              <span>資料來源：示範資料</span>
-              <span>分數來源：示範分數</span>
+              <span>資料狀態清楚標示</span>
               <span>非投資建議</span>
-              <span>獨立上線審核</span>
+              <span>正式資料尚未啟用</span>
+              <span>請搭配自行判斷</span>
               {footerTrustLinks.map((link) => (
                 <TrackedLink
                   eventName="site_chrome_link_clicked"

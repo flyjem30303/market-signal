@@ -6505,7 +6505,32 @@ const publicBetaFocusedReviewGateNames = new Set([
 const runHistoricalGates = process.env.REVIEW_GATE_RUN_HISTORICAL === "true";
 const runLegacyCoreGates = process.env.REVIEW_GATE_RUN_LEGACY_CORE === "true";
 const includeRegisteredOnlyResults = process.env.REVIEW_GATE_VERBOSE_REGISTERED === "true" || runHistoricalGates || runLegacyCoreGates;
-const activeReviewGateNames = runLegacyCoreGates ? coreReviewGateNames : publicBetaFocusedReviewGateNames;
+const supersededPublicSurfaceGateNames = new Set([
+  "briefing-midpage-readability",
+  "home-briefing-investor-reading-bridge",
+  "phase-1-route-decision-order",
+  "market-action-summary-readable-copy",
+  "public-beta-alert-list-actionability",
+  "public-beta-decision-loop-bridge",
+  "public-beta-decision-journey-panel",
+  "public-beta-usable-loop-panel",
+  "public-support-route-reading-contract",
+  "public-beta-data-readiness-status",
+  "phase-1-public-beta-final-readiness-rollup",
+  "a2-brief-public-runtime-surface-audit",
+  "public-beta-route-consistency",
+  "public-beta-route-local-trust-visual-consistency",
+  "public-beta-mainline-action-bridge",
+  "public-beta-value-loop-refinement",
+  "public-beta-user-value-source-coverage-bridge",
+  "public-beta-membership-mvp-roadmap",
+  "phase-1-public-beta-public-status-surface-alignment",
+  "phase-1-public-beta-public-visible-residue-cleanup"
+]);
+const defaultPublicBetaFocusedReviewGateNames = new Set(
+  [...publicBetaFocusedReviewGateNames].filter((name) => !supersededPublicSurfaceGateNames.has(name))
+);
+const activeReviewGateNames = runLegacyCoreGates ? coreReviewGateNames : defaultPublicBetaFocusedReviewGateNames;
 
 if (!runHistoricalGates && !runLegacyCoreGates) {
   spawnSync("cmd.exe", ["/c", "npm", "run", "dev:recover"], {
@@ -6546,6 +6571,7 @@ console.log(
       registeredCount: checks.length,
       executedCount: executed.length,
       registeredOnlyCount: registeredOnly.length,
+      supersededFocusedGateCount: runHistoricalGates || runLegacyCoreGates ? 0 : supersededPublicSurfaceGateNames.size,
       omittedRegisteredOnlyCount: includeRegisteredOnlyResults ? 0 : registeredOnly.length,
       outputMode: includeRegisteredOnlyResults ? "verbose_with_registered_results" : "focused_executed_results_only",
       slowestExecuted,
