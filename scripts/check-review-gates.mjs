@@ -3268,6 +3268,11 @@ const checks = [
     name: "phase-1-public-beta-candidate-final-public-readiness-scan"
   },
   {
+    command: [node, "scripts/check-phase-1-public-beta-release-readiness-evidence-rollup.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-public-beta-release-readiness-evidence-rollup"
+  },
+  {
     command: [node, "scripts/check-phase-1-public-beta-human-visual-review.mjs"],
     expectStatus: "ok",
     name: "phase-1-public-beta-human-visual-review"
@@ -6115,6 +6120,7 @@ const coreReviewGateNames = new Set([
   "public-beta-mock-launch-proof-bundle",
   "phase-1-public-beta-mock-launch-candidate-status-summary",
   "phase-1-public-beta-candidate-final-public-readiness-scan",
+  "phase-1-public-beta-release-readiness-evidence-rollup",
   "phase-1-public-beta-human-visual-review",
   "phase-1-public-beta-visual-acceptance-and-a3-handoff",
   "phase-1-public-beta-chairman-visual-acceptance-record",
@@ -6295,6 +6301,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "public-beta-mock-launch-proof-bundle",
   "phase-1-public-beta-mock-launch-candidate-status-summary",
   "phase-1-public-beta-candidate-final-public-readiness-scan",
+  "phase-1-public-beta-release-readiness-evidence-rollup",
   "phase-1-public-beta-human-visual-review",
   "phase-1-public-beta-visual-acceptance-and-a3-handoff",
   "phase-1-public-beta-chairman-visual-acceptance-record",

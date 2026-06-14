@@ -8,6 +8,36 @@ Owner: PM mainline
 
 ## Latest Mainline Decision - 2026-06-14
 
+### Phase 1 Release Readiness Evidence Rollup Pass
+
+CEO decision:
+
+- Consolidate release readiness after the latest public product improvements.
+- The project has enough local/mock-only evidence to stay on `GO_WITH_DEFERRALS_READY_FOR_OPERATOR_REVIEW`.
+- A3 can proceed to no-secret operator review only when a real platform action, public URL smoke, monitoring record, or rollback evidence is needed.
+- PM should otherwise keep improving public information clarity without reopening broad governance.
+
+PM completed:
+
+- Added `PHASE_1_PUBLIC_BETA_RELEASE_READINESS_EVIDENCE_ROLLUP`.
+- Registered `check:phase-1-public-beta-release-readiness-evidence-rollup`.
+- The rollup connects current PM product evidence, A3 release evidence, A1 source/data deferrals, A2 trust copy guards, and A4 membership roadmap.
+
+Checks passed:
+
+- `check:phase-1-public-beta-release-readiness-evidence-rollup`
+- `check:phase-1-public-beta-candidate-final-public-readiness-scan`
+- `check:a3-phase-1-public-beta-release-go-no-go-packet`
+- `check:a3-phase-1-public-beta-release-ops-index`
+
+Current route:
+
+- `phase_1_public_beta_release_readiness_evidence_rollup_ready`
+
+Next PM slice:
+
+- Run TypeScript, build, and the full focused review gate. If green, choose A3 operator review when launch movement is desired; otherwise choose public information-density cleanup to keep improving first-time user comprehension.
+
 ### Home First-Screen Decision Hierarchy Pass
 
 CEO decision:

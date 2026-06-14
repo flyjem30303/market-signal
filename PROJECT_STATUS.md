@@ -2,6 +2,39 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Phase 1 Release Readiness Evidence Rollup Pass
+
+Status: `phase_1_public_beta_release_readiness_evidence_rollup_ready`
+
+CEO decision:
+
+- After the Home first-screen decision hierarchy and public next-reading-flow slices, release readiness should be summarized as one current evidence view instead of scattered A3 packets.
+- Current recommendation is `GO_WITH_DEFERRALS_READY_FOR_OPERATOR_REVIEW`.
+- Phase 1 may continue as a mock/demo public free index-lighting site while A1 real-data/source/coverage work and A4 membership MVP implementation remain deferred.
+- Any future operator/platform action still requires the no-secret A3 checklist and must not be executed from this rollup.
+
+PM completed:
+
+- Added `docs/PHASE_1_PUBLIC_BETA_RELEASE_READINESS_EVIDENCE_ROLLUP.md`.
+- Added `check:phase-1-public-beta-release-readiness-evidence-rollup`.
+- Registered the checker in `package.json` and the focused review gate.
+- The rollup links latest PM product evidence, A3 release evidence, A1 deferrals, A2 trust guards, A4 membership path, stop lines, and next route.
+
+Checks passed:
+
+- `check:phase-1-public-beta-release-readiness-evidence-rollup`
+- `check:phase-1-public-beta-candidate-final-public-readiness-scan`
+- `check:a3-phase-1-public-beta-release-go-no-go-packet`
+- `check:a3-phase-1-public-beta-release-ops-index`
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public source promotion, real score promotion, real-time claim, official endorsement claim, guaranteed-return claim, investment-advice claim, production env mutation, DNS change, Vercel dashboard mutation, or membership implementation occurred. Runtime remains mock/demo.
+
+Next:
+
+Run TypeScript, build, and the full focused review gate. If green, choose between A3 operator review and PM public information-density cleanup depending on whether the next move is launch operation or product comprehension.
+
 ### Home First-Screen Decision Hierarchy Pass
 
 Status: `home_first_screen_decision_hierarchy_ready`
