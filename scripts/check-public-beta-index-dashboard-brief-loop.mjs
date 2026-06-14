@@ -70,16 +70,14 @@ requireIncludes("home dashboard component", component, [
 const response = await fetch(`${baseUrl}/`);
 const text = normalizeVisibleText(await response.text());
 const requiredVisible = [
-  "指數燈號",
-  "公開 Beta 指數狀態儀表站",
-  "30 秒內看懂市場氛圍",
-  "3 分鐘內判斷",
-  "市場氣氛",
-  "資料更新時間",
+  "指數狀態儀表站",
+  "30 秒",
+  "3 分鐘",
+  "全市場總覽",
+  "核心指標面板",
+  "警示清單",
   "示範資料",
-  "資料邊界",
-  "會員功能規劃中",
-  "不提供個股買賣建議"
+  "非投資建議"
 ];
 
 const forbiddenVisible = [
@@ -112,7 +110,7 @@ for (const [label, source] of [
   [componentPath, component],
   [briefPath, brief]
 ]) {
-  for (const marker of findBadEncodingMarkers(source)) {
+  for (const marker of findBadTextMarkers(source)) {
     problems.push(`${label} contains ${marker}`);
   }
 }
@@ -156,11 +154,14 @@ function normalizeVisibleText(html) {
     .trim();
 }
 
-function findBadEncodingMarkers(source) {
+function findBadTextMarkers(source) {
   const markers = [];
   if (/\uFFFD/u.test(source)) markers.push("replacement-character");
   if (/[\uE000-\uF8FF]/u.test(source)) markers.push("private-use-character");
   if (/[\u0080-\u009F]/u.test(source)) markers.push("c1-control-character");
   if (/[?]{4,}/u.test(source)) markers.push("question-mark-run");
-  return markers;
+  for (const fragment of ["蝬", "嚗", "銝", "雿", "撣", "摰", "閬", "霈", "蝡", "璅", "餈質馱"]) {
+    if (source.includes(fragment)) markers.push(`mojibake-fragment:${fragment}`);
+  }
+  return [...new Set(markers)];
 }

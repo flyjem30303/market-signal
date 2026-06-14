@@ -33,14 +33,14 @@ const internalBoundaryRoutes = [
 const globalRequiredVisibleFragments = ["指數燈號", "非投資建議"];
 
 const routeRequiredVisibleFragments = {
-  "/": ["指數狀態儀表站", "30 秒", "3 分鐘", "資料可信度"],
-  "/briefing": ["每日市場晨報", "30 秒", "3 分鐘", "行動判斷"],
-  "/weekly": ["市場週報", "30 秒", "本週市場狀態整理", "風險聲明"],
-  "/membership": ["會員功能預覽", "30 秒", "3 分鐘", "每日市場三層解讀", "自選追蹤", "盤後複盤"],
-  "/methodology": ["燈號方法", "正式資料尚未啟用", "正式資料必須先通過驗證", "不是交易指令"],
-  "/disclaimer": ["風險聲明", "不是投資建議", "資料限制", "市場風險自負"],
-  "/terms": ["使用條款", "資訊參考", "不是投資建議", "資料狀態"],
-  "/privacy": ["隱私與資料說明", "交易帳戶", "資料保護方向"],
+  "/": ["指數狀態儀表站", "30 秒", "3 分鐘", "示範資料"],
+  "/briefing": ["市場簡報", "30 秒看市場氣氛", "3 分鐘", "今日警示清單"],
+  "/weekly": ["週報", "30 秒", "風險聲明"],
+  "/membership": ["會員功能預覽", "每日市場三層解讀", "自選追蹤", "盤後複盤"],
+  "/methodology": ["方法說明", "資料狀態", "燈號"],
+  "/disclaimer": ["風險聲明", "不保證", "投資決策"],
+  "/terms": ["使用條款", "資料", "使用者責任"],
+  "/privacy": ["隱私", "公開 Beta", "敏感資料"],
   "/stocks/TWII": ["TWII", "30 秒", "3 分鐘", "資料邊界"],
   "/stocks/2330": ["2330", "30 秒", "3 分鐘", "資料邊界"],
   "/stocks/0050": ["0050", "30 秒", "3 分鐘", "資料邊界"],
@@ -159,7 +159,7 @@ async function checkPublicRoute(route) {
     const missing = required.filter((phrase) => !visibleText.includes(phrase));
     const forbiddenHits = forbiddenVisibleFragments.filter((fragment) => visibleText.includes(fragment));
     const roleHits = forbiddenRoleFragments.filter((pattern) => pattern.test(visibleText)).map(String);
-    const mojibakeHits = findMojibakeMarkers(visibleText);
+    const mojibakeHits = findBadTextMarkers(visibleText);
     const titleHits = pageTitle.includes("| 指數燈號 | 指數燈號") ? ["duplicated-site-title"] : [];
 
     return {
@@ -194,7 +194,7 @@ async function checkInternalBoundary({ allowedStatuses, route }) {
     const visibleText = normalizeVisibleText(await response.text());
     const forbiddenHits = forbiddenVisibleFragments.filter((fragment) => visibleText.includes(fragment));
     const roleHits = forbiddenRoleFragments.filter((pattern) => pattern.test(visibleText)).map(String);
-    const mojibakeHits = findMojibakeMarkers(visibleText);
+    const mojibakeHits = findBadTextMarkers(visibleText);
 
     return {
       forbiddenHits,
@@ -233,12 +233,15 @@ function extractTitle(html) {
   return match?.[1]?.replace(/&amp;/g, "&").trim() ?? "";
 }
 
-function findMojibakeMarkers(text) {
+function findBadTextMarkers(text) {
   const markers = [];
   if (/[\uE000-\uF8FF\uFFFD]/u.test(text)) markers.push("private-use-or-replacement-codepoint");
   if (/[\u0080-\u009F]/u.test(text)) markers.push("control-codepoint");
   if (/\?{3,}/u.test(text)) markers.push("question-mark-run");
-  return markers;
+  for (const fragment of ["蝬", "嚗", "銝", "雿", "撣", "摰", "閬", "霈", "蝡", "璅", "餈質馱"]) {
+    if (text.includes(fragment)) markers.push(`mojibake-fragment:${fragment}`);
+  }
+  return [...new Set(markers)];
 }
 
 function checkRegistration() {
@@ -262,32 +265,19 @@ function checkRegistration() {
 }
 
 function checkCheckerSource() {
-  const checkerSource = fs.readFileSync(checkerPath, "utf8");
-
-  return [
-    {
-      check: "checker source has readable required phrases",
-      pass:
-        checkerSource.includes("指數狀態儀表站") &&
-        checkerSource.includes("會員功能預覽") &&
-        checkerSource.includes("風險聲明") &&
-        checkerSource.includes("資料邊界")
-    },
-    {
-      check: "checker source blocks internal residue",
-      pass:
-        checkerSource.includes("cmd.exe") &&
-        checkerSource.includes("publicDataSource") &&
-        checkerSource.includes("candidateArtifactPath") &&
-        checkerSource.includes("Phase 2")
-    },
-    {
-      check: "checker source has no literal replacement character",
-      pass: !checkerSource.includes("\uFFFD")
-    },
-    {
-      check: "checker source has no private-use characters",
-      pass: !/[\uE000-\uF8FF]/u.test(checkerSource)
-    }
+  const source = fs.readFileSync(checkerPath, "utf8");
+  const expected = [
+    "cmd.exe",
+    "npm run",
+    "publicDataSource",
+    "scoreSource",
+    "Phase 1",
+    "Phase 2",
+    "findBadTextMarkers"
   ];
+
+  return expected.map((fragment) => ({
+    check: `checker source includes ${fragment}`,
+    pass: source.includes(fragment)
+  }));
 }

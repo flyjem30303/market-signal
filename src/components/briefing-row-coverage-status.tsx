@@ -5,9 +5,9 @@ export function BriefingRowCoverageStatus() {
     <RowCoverageReadinessPanel
       ariaLabel="資料列覆蓋準備度"
       className="briefing-row-coverage-status"
-      eyebrow="Data Row Coverage"
+      eyebrow="資料覆蓋狀態"
       openItemSuffix="筆資料待補"
-      summary="目前是 local_ready_remote_paused：本地檢查與說明已準備好，但任何 Supabase readonly attempt 都必須另外命名授權、只輸出彙總結果，且不得升級公開資料來源或正式分數。"
+      summary="目前本地資料流程與說明已準備好，但正式資料來源、覆蓋範圍與更新流程仍需完成確認。公開頁在此之前維持示範資料與清楚揭露。"
     />
   );
 }

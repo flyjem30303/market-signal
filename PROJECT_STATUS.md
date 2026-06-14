@@ -2,6 +2,48 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Phase 1 Public Journey Readability Gate Repair Pass
+
+Status: `phase_1_public_journey_readability_gate_repair_ready`
+
+CEO decision:
+
+- Continue Phase 1 public/free launch readiness before opening Phase 2 membership implementation.
+- Treat visible mojibake and process-heavy language as a product blocker even if older checkers still pass.
+- Replace stale checker anchors that expected mojibake with readable Traditional Chinese product anchors.
+- Keep membership wording visible only as a next-stage roadmap; do not expose `Phase 1`, `Phase 2`, `Membership MVP`, PM/A1/A2/A3/A4, or command/process wording to general visitors.
+
+PM completed:
+
+- Rebuilt `/briefing` as a clean public market brief: 30-second market mood, 3-minute observation flow, alert list, breadth, risk concentration, next reading path, membership preview, and non-investment-advice reminder.
+- Cleaned shared public components used across public routes:
+  - `DataFreshnessStrip`
+  - `PublicBetaDataReadinessStatus`
+  - `PublicBetaSourceCoverageBridge`
+  - `PublicNextReadingFlow`
+  - `PublicBetaMembershipMvpRoadmap`
+  - `BriefingRowCoverageStatus`
+- Updated public route checkers so they enforce readable Chinese anchors and detect common mojibake fragments instead of preserving old corrupted text.
+- Removed visible `Phase 1` / `Phase 2` language from public product copy and replaced it with `目前公開頁` / `下一階段會員功能`.
+
+Checks passed:
+
+- `check:home-briefing-investor-reading-bridge`
+- `check:phase-1-public-beta-public-visible-residue-cleanup`
+- `check:public-visible-language-quality`
+- `check:public-beta-index-dashboard-brief-loop`
+- `check:public-beta-membership-mvp-roadmap`
+- `tsc --noEmit`
+- local route probes: `/briefing`, `/membership`, `/stocks/2330` returned 200
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public source promotion, real score promotion, membership implementation, login, payment, watchlist persistence, personalized alert execution, real-time claim, official endorsement claim, guaranteed-return claim, or investment-advice claim occurred.
+
+Next:
+
+Run build and Git backup. If Vercel deploys successfully, rerun remote monitoring. Continue Phase 1 final public journey pass, with priority on any remaining public surfaces that still feel like engineering status instead of investor-facing product.
+
 ### Remote Deployment Sync After BRIEF And Public Cleanup
 
 Status: `remote_deployment_sync_after_brief_cleanup_ready`

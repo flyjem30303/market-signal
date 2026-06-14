@@ -5,15 +5,8 @@ const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 
 const routeRequirements = {
-  "/": ["指數狀態儀表站", "30 秒", "3 分鐘", "風險提示", "資料更新", "示範資料"],
-  "/briefing": [
-    "30 秒看懂今日市場氣氛",
-    "3 分鐘行動判斷",
-    "市場行動判斷",
-    "下一步",
-    "市場主燈號",
-    "目前公開頁以示範資料呈現閱讀流程"
-  ]
+  "/": ["指數狀態儀表站", "30 秒", "3 分鐘", "核心指標", "資料邊界", "示範資料"],
+  "/briefing": ["市場簡報", "30 秒看市場氣氛", "3 分鐘", "今日警示清單", "資料邊界", "示範資料"]
 };
 
 const forbiddenVisible = [
@@ -51,7 +44,7 @@ const routeResults = await Promise.all(
     const text = normalizeVisibleText(await response.text());
     const missing = required.filter((phrase) => !text.includes(phrase));
     const blocked = forbiddenVisible.filter((phrase) => text.includes(phrase));
-    const markerHits = findMojibakeMarkers(text);
+    const markerHits = findBadTextMarkers(text);
     return {
       blocked,
       markerHits,
@@ -79,10 +72,13 @@ function normalizeVisibleText(html) {
     .trim();
 }
 
-function findMojibakeMarkers(source) {
+function findBadTextMarkers(source) {
   const markers = [];
-  if (/\uFFFD/u.test(source)) markers.push("replacement-character");
-  if (/[\uE000-\uF8FF]/u.test(source)) markers.push("private-use-codepoint");
+  if (/[\uE000-\uF8FF\uFFFD]/u.test(source)) markers.push("private-use-or-replacement-codepoint");
+  if (/[\u0080-\u009F]/u.test(source)) markers.push("c1-control-character");
   if (/\?{3,}/u.test(source)) markers.push("question-mark-run");
-  return markers;
+  for (const fragment of ["蝬", "嚗", "銝", "雿", "撣", "摰", "閬", "霈", "蝡", "璅", "餈質馱"]) {
+    if (source.includes(fragment)) markers.push(`mojibake-fragment:${fragment}`);
+  }
+  return [...new Set(markers)];
 }

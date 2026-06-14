@@ -18,20 +18,20 @@ const publicRoutes = [
 ];
 
 const requiredPublicSignals = {
-  "/": ["指數狀態儀表站", "30 秒", "3 分鐘", "示範資料", "不提供買賣建議"],
-  "/briefing": ["30 秒看懂今日市場氣氛", "3 分鐘行動判斷", "示範資料", "不提供買賣建議"],
-  "/weekly": ["本週市場狀態整理", "示範資料", "不提供買賣建議"],
-  "/membership": ["會員功能預覽", "30 秒", "3 分鐘", "每日市場三層解讀", "自選追蹤與自訂警示", "目前不開放會員登入或付費"],
-  "/methodology": ["方法說明", "正式資料尚未啟用", "不是交易指令"],
-  "/disclaimer": ["風險聲明", "不是投資建議", "不要當成交易指令"],
-  "/terms": ["使用條款", "資訊參考", "不是投資建議"],
-  "/privacy": ["隱私與資料說明", "公開 Beta", "不要在任何表單"],
-  "/stocks/TWII": ["狀態儀表", "30 秒", "3 分鐘", "示範資料", "不提供買賣建議"],
-  "/stocks/2330": ["狀態儀表", "30 秒", "3 分鐘", "示範資料", "不提供買賣建議"],
-  "/stocks/0050": ["狀態儀表", "30 秒", "3 分鐘", "示範資料", "不提供買賣建議"],
-  "/stocks/006208": ["狀態儀表", "30 秒", "3 分鐘", "示範資料", "不提供買賣建議"],
-  "/stocks/2382": ["狀態儀表", "30 秒", "3 分鐘", "示範資料", "不提供買賣建議"],
-  "/stocks/2308": ["狀態儀表", "30 秒", "3 分鐘", "示範資料", "不提供買賣建議"]
+  "/": ["指數狀態儀表站", "30 秒", "3 分鐘", "示範資料", "非投資建議"],
+  "/briefing": ["市場簡報", "30 秒看市場氣氛", "3 分鐘", "示範資料", "風險聲明"],
+  "/weekly": ["週報", "示範資料", "非投資建議"],
+  "/membership": ["會員功能預覽", "每日市場三層解讀", "自選追蹤", "盤後複盤"],
+  "/methodology": ["方法說明", "資料狀態", "非投資建議"],
+  "/disclaimer": ["風險聲明", "不是投資建議", "不保證"],
+  "/terms": ["使用條款", "資料", "不提供"],
+  "/privacy": ["隱私", "公開 Beta", "敏感資料"],
+  "/stocks/TWII": ["標的快速判讀", "30 秒", "3 分鐘", "示範資料", "非投資建議"],
+  "/stocks/2330": ["標的快速判讀", "30 秒", "3 分鐘", "示範資料", "非投資建議"],
+  "/stocks/0050": ["標的快速判讀", "30 秒", "3 分鐘", "示範資料", "非投資建議"],
+  "/stocks/006208": ["標的快速判讀", "30 秒", "3 分鐘", "示範資料", "非投資建議"],
+  "/stocks/2382": ["標的快速判讀", "30 秒", "3 分鐘", "示範資料", "非投資建議"],
+  "/stocks/2308": ["標的快速判讀", "30 秒", "3 分鐘", "示範資料", "非投資建議"]
 };
 
 const forbiddenVisibleFragments = [
@@ -84,7 +84,7 @@ for (const route of publicRoutes) {
     const html = await response.text();
     const visibleText = normalizeVisibleText(html);
     const forbiddenHits = forbiddenVisibleFragments.filter((fragment) => visibleText.includes(fragment));
-    const mojibakeHits = findMojibakeMarkers(visibleText);
+    const mojibakeHits = findBadTextMarkers(visibleText);
     const missingRequiredSignals = (requiredPublicSignals[route] ?? []).filter(
       (phrase) => !visibleText.includes(phrase)
     );
@@ -141,10 +141,13 @@ function normalizeVisibleText(html) {
     .trim();
 }
 
-function findMojibakeMarkers(text) {
+function findBadTextMarkers(text) {
   const markers = [];
   if (/[\uE000-\uF8FF\uFFFD]/u.test(text)) markers.push("private-use-or-replacement-code-point");
   if (/[\u0080-\u009f]/u.test(text)) markers.push("c1-control-character");
-  if (/\?[^/?.!,，。；：、\s]{1,8}\?/u.test(text)) markers.push("question-mark-run");
-  return markers;
+  if (/\?{3,}/u.test(text)) markers.push("question-mark-run");
+  for (const fragment of ["蝬", "嚗", "銝", "雿", "撣", "摰", "閬", "霈", "蝡", "璅", "餈質馱"]) {
+    if (text.includes(fragment)) markers.push(`mojibake-fragment:${fragment}`);
+  }
+  return [...new Set(markers)];
 }

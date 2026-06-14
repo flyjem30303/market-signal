@@ -22,7 +22,7 @@ export function DataFreshnessStrip({ freshness, marketSignalSourceStatus }: Data
       </span>
       <span className={`freshness-score-source ${freshness.scoreSource}`}>分數來源：{scoreLabel}</span>
       <span className="freshness-boundary">
-        目前公開頁以示範資料呈現閱讀流程；正式資料尚未啟用，不提供買賣建議，也不應作為交易指令。
+        目前公開頁用示範資料呈現閱讀流程；正式資料、完整覆蓋率與正式分數通過前，請把燈號視為觀察輔助。
       </span>
       <TrackedLink
         className="freshness-link"
