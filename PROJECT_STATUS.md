@@ -2,6 +2,39 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Stock Decision Compass Pass
+
+Status: `stock_decision_compass_ready`
+
+CEO decision:
+
+- Continue Phase 1 public information-density cleanup instead of adding more governance.
+- The stock route should not stop at a score summary; it must turn the BRIEF into an immediate reading aid.
+- Representative stock pages now need a four-part compass: signal state, risk heat, data confidence, and next observation.
+- The compass must remain non-advisory and mock/demo bounded.
+
+PM completed:
+
+- Added `StockDecisionCompass` to stock routes.
+- The compass shows `燈號狀態`, `風險熱度`, `資料信心`, and `下一步觀察`.
+- Added a visible boundary line: the compass does not provide buy, sell, hold, or personalized investment advice.
+- Updated `check:stock-decision-compass` and added it to the focused review gate.
+
+Checks passed:
+
+- `check:stock-decision-compass`
+- `npx tsc --noEmit`
+- `npm run build`
+- `check:review-gates` (`190/190` focused checks executed)
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public source promotion, real score promotion, real-time claim, official endorsement claim, guaranteed-return claim, investment-advice claim, production env mutation, DNS change, Vercel dashboard mutation, or membership implementation occurred. Runtime remains mock/demo.
+
+Next:
+
+Continue with route-level information-density cleanup or A3 public smoke depending on launch need.
+
 ### Phase 1 Operator Review Summary Refresh Pass
 
 Status: `phase_1_public_beta_operator_review_summary_ready_go_with_deferrals`

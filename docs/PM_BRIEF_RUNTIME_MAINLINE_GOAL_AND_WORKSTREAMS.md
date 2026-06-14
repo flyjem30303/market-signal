@@ -8,6 +8,38 @@ Owner: PM mainline
 
 ## Latest Mainline Decision - 2026-06-14
 
+### Stock Decision Compass Pass
+
+CEO decision:
+
+- Move from release-decision evidence back into visible product comprehension.
+- The next highest-value Phase 1 slice is stock-route decision support.
+- Stock pages should answer four questions without forcing users to infer from a raw score: what is the signal, how risky is it, can the data be trusted, and what should be observed next.
+- This supports the BRIEF's 30-second / 3-minute promise while keeping Phase 2 membership and real-data promotion deferred.
+
+PM completed:
+
+- Added `StockDecisionCompass` below the stock quick summary.
+- Added four route-level cards: `燈號狀態`, `風險熱度`, `資料信心`, and `下一步觀察`.
+- Added a visible non-advice boundary: no buy, sell, hold, or personalized investment advice.
+- Reworked `check:stock-decision-compass` from an old stale source-only checker into a rendered stock-route guard.
+- Added `stock-decision-compass` to the public beta focused review gate.
+
+Checks passed:
+
+- `check:stock-decision-compass`
+- `npx tsc --noEmit`
+- `npm run build`
+- `check:review-gates` (`190/190` focused checks executed)
+
+Current route:
+
+- `stock_decision_compass_ready`
+
+Next PM slice:
+
+- Continue route-level information-density cleanup or A3 public smoke depending on whether launch movement is needed.
+
 ### Phase 1 Operator Review Summary Refresh Pass
 
 CEO decision:

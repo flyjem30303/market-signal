@@ -98,6 +98,7 @@ export function DashboardShell({
       {isStockPage && (
         <>
           <StockPublicSummary snapshot={snapshot} />
+          <StockDecisionCompass snapshot={snapshot} />
           <StockMarketContextPanel breadth={breadth} market={market} snapshot={snapshot} />
           <StockDataBoundaryPanel snapshot={snapshot} />
         </>
@@ -344,6 +345,63 @@ function StockPublicSummary({ snapshot }: { snapshot: SignalSnapshot }) {
           <p>正式資料尚未啟用，本頁仍是示範閱讀流程。</p>
         </article>
       </div>
+    </section>
+  );
+}
+
+function StockDecisionCompass({ snapshot }: { snapshot: SignalSnapshot }) {
+  const riskTone = snapshot.riskScore >= 60 ? "blocked" : snapshot.riskScore >= 45 ? "hold" : "active";
+  const dataTone = snapshot.dataQualityGrade === "A" ? "active" : "hold";
+  const nextStep =
+    snapshot.riskScore >= 60
+      ? "先加強觀察風險原因，等待資料與市場脈絡確認後再解讀。"
+      : snapshot.compositeScore >= 70
+        ? "先關注趨勢是否延續，再回看大盤與 ETF 是否同步。"
+        : "先維持觀察，確認更新時間與警示原因是否一致。";
+
+  const cards = [
+    {
+      body: snapshot.signal.text,
+      label: "燈號狀態",
+      tone: snapshot.compositeScore >= 70 ? "active" : "hold",
+      value: snapshot.signal.title
+    },
+    {
+      body: "分數越高越需要保守閱讀，並先看警示成因。",
+      label: "風險熱度",
+      tone: riskTone,
+      value: `${snapshot.riskScore}/100`
+    },
+    {
+      body: "正式市場資料尚未啟用，目前只能作為示範閱讀流程。",
+      label: "資料信心",
+      tone: dataTone,
+      value: snapshot.dataQualityGrade
+    },
+    {
+      body: nextStep,
+      label: "下一步觀察",
+      tone: "hold",
+      value: "觀察順序"
+    }
+  ];
+
+  return (
+    <section className="stock-decision-compass" aria-label="股票頁決策羅盤">
+      <div className="stock-decision-compass__intro">
+        <p className="eyebrow">股票頁決策羅盤</p>
+        <h2>先看燈號、風險、資料信心，再決定下一步觀察</h2>
+      </div>
+      {cards.map((card) => (
+        <article className={card.tone} key={card.label}>
+          <span>{card.label}</span>
+          <strong>{card.value}</strong>
+          <p>{card.body}</p>
+        </article>
+      ))}
+      <p className="stock-decision-compass__boundary">
+        本羅盤只協助整理狀態、風險與資料邊界；不提供買進、賣出、持有或個人化投資建議。
+      </p>
     </section>
   );
 }

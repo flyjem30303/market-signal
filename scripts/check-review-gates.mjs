@@ -6261,6 +6261,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "public-beta-data-realification-next-action",
   "open-free-auto-data-source-gate",
   "stock-decision-aid-actionability",
+  "stock-decision-compass",
   "stock-route-investor-language-alignment",
   "twse-openapi-bounded-metadata-terms-validation",
   "twse-openapi-source-adapter-contract",

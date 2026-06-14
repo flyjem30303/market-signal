@@ -8968,9 +8968,17 @@ select {
 
 .stock-decision-compass {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 12px;
   margin: 0 0 16px;
+}
+
+.stock-decision-compass__intro {
+  grid-column: 1 / -1;
+}
+
+.stock-decision-compass__intro h2 {
+  margin: 6px 0 0;
 }
 
 .stock-decision-compass article {
@@ -9010,6 +9018,18 @@ select {
   color: var(--muted);
   line-height: 1.7;
   margin: 0;
+}
+
+.stock-decision-compass__boundary {
+  grid-column: 1 / -1;
+  border: 1px solid rgba(15, 118, 110, 0.18);
+  border-radius: 8px;
+  background: #f8fcfa;
+  color: var(--muted);
+  font-weight: 750;
+  line-height: 1.7;
+  margin: 0;
+  padding: 12px 14px;
 }
 
 .stock-investor-action-summary {
