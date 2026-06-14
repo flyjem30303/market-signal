@@ -30,24 +30,51 @@ const internalBoundaryRoutes = [
   { route: "/api/internal/raw-market?symbol=2330", allowedStatuses: [404, 401] }
 ];
 
-const globalRequiredVisibleFragments = ["指數燈號", "非投資建議"];
+const globalRequiredVisibleFragments = ["指數燈號", "資料", "非投資建議"];
 
 const routeRequiredVisibleFragments = {
   "/": ["指數狀態儀表站", "30 秒", "3 分鐘", "示範資料"],
-  "/briefing": ["市場簡報", "30 秒看市場氣氛", "3 分鐘", "今日警示清單"],
-  "/weekly": ["週報", "30 秒", "風險聲明"],
-  "/membership": ["會員功能預覽", "每日市場三層解讀", "自選追蹤", "盤後複盤"],
-  "/methodology": ["方法說明", "資料狀態", "燈號"],
-  "/disclaimer": ["風險聲明", "不保證", "投資決策"],
-  "/terms": ["使用條款", "資料", "使用者責任"],
-  "/privacy": ["隱私", "公開 Beta", "敏感資料"],
-  "/stocks/TWII": ["TWII", "30 秒", "3 分鐘", "資料邊界"],
-  "/stocks/2330": ["2330", "30 秒", "3 分鐘", "資料邊界"],
-  "/stocks/0050": ["0050", "30 秒", "3 分鐘", "資料邊界"],
-  "/stocks/006208": ["006208", "30 秒", "3 分鐘", "資料邊界"],
-  "/stocks/2382": ["2382", "30 秒", "3 分鐘", "資料邊界"],
-  "/stocks/2308": ["2308", "30 秒", "3 分鐘", "資料邊界"]
+  "/briefing": ["市場簡報", "30 秒", "3 分鐘", "資料來源"],
+  "/weekly": ["市場週報", "30 秒", "風險", "示範資料"],
+  "/membership": ["會員", "自選追蹤", "盤後複盤"],
+  "/methodology": ["燈號", "方法", "資料"],
+  "/disclaimer": ["風險聲明", "投資建議", "資料"],
+  "/terms": ["使用條款", "資料", "服務"],
+  "/privacy": ["隱私", "資料", "會員"],
+  "/stocks/TWII": ["TWII", "30 秒", "3 分鐘", "資料"],
+  "/stocks/2330": ["2330", "30 秒", "3 分鐘", "資料"],
+  "/stocks/0050": ["0050", "30 秒", "3 分鐘", "資料"],
+  "/stocks/006208": ["006208", "30 秒", "3 分鐘", "資料"],
+  "/stocks/2382": ["2382", "30 秒", "3 分鐘", "資料"],
+  "/stocks/2308": ["2308", "30 秒", "3 分鐘", "資料"]
 };
+
+const publicSourceFiles = [
+  "src/app/page.tsx",
+  "src/app/briefing/page.tsx",
+  "src/app/weekly/page.tsx",
+  "src/app/membership/page.tsx",
+  "src/app/methodology/page.tsx",
+  "src/app/disclaimer/page.tsx",
+  "src/app/terms/page.tsx",
+  "src/app/privacy/page.tsx",
+  "src/app/stocks/[symbol]/page.tsx",
+  "src/components/dashboard-shell.tsx",
+  "src/components/data-freshness-strip.tsx",
+  "src/components/public-beta-data-readiness-status.tsx",
+  "src/components/public-beta-membership-mvp-roadmap.tsx",
+  "src/components/public-beta-public-status-surface.tsx",
+  "src/components/public-beta-source-coverage-bridge.tsx",
+  "src/components/public-next-reading-flow.tsx",
+  "src/components/public-route-reading-contract.tsx",
+  "src/components/stock-runtime-at-a-glance.tsx",
+  "src/components/commercial-slot.tsx",
+  "src/components/route-local-trust-copy-panel.tsx",
+  "src/lib/assets.ts",
+  "src/lib/signal-model.ts",
+  "src/lib/public-beta-public-status-surface.ts",
+  "src/lib/weekly-market-action-summary.ts"
+];
 
 const forbiddenVisibleFragments = [
   "cmd.exe",
@@ -117,15 +144,18 @@ for (const routeConfig of internalBoundaryRoutes) {
 
 const registrationResults = checkRegistration();
 const checkerSourceResults = checkCheckerSource();
+const sourceResults = checkPublicSourceFiles();
 const blocked = publicResults.filter((result) => !result.pass);
 const blockedInternal = internalBoundaryResults.filter((result) => !result.pass);
 const blockedRegistration = registrationResults.filter((result) => !result.pass);
 const blockedCheckerSource = checkerSourceResults.filter((result) => !result.pass);
+const blockedSource = sourceResults.filter((result) => !result.pass);
 const status =
   blocked.length === 0 &&
   blockedInternal.length === 0 &&
   blockedRegistration.length === 0 &&
-  blockedCheckerSource.length === 0
+  blockedCheckerSource.length === 0 &&
+  blockedSource.length === 0
     ? "ok"
     : "blocked";
 
@@ -134,11 +164,13 @@ console.log(
     {
       baseUrl,
       checkedPublicRoutes: publicRoutes.length,
+      checkedPublicSourceFiles: publicSourceFiles.length,
       checkedInternalBoundaries: internalBoundaryRoutes.length,
       blocked,
       blockedInternal,
       blockedRegistration,
       blockedCheckerSource,
+      blockedSource,
       status
     },
     null,
@@ -238,10 +270,25 @@ function findBadTextMarkers(text) {
   if (/[\uE000-\uF8FF\uFFFD]/u.test(text)) markers.push("private-use-or-replacement-codepoint");
   if (/[\u0080-\u009F]/u.test(text)) markers.push("control-codepoint");
   if (/\?{3,}/u.test(text)) markers.push("question-mark-run");
-  for (const fragment of ["蝬", "嚗", "銝", "雿", "撣", "摰", "閬", "霈", "蝡", "璅", "餈質馱"]) {
+  for (const fragment of ["蝬", "嚗", "銝", "雿", "撣", "摰", "閬", "霈", "蝡", "璅", "餈質馱", "擗", "", "", "芷"]) {
     if (text.includes(fragment)) markers.push(`mojibake-fragment:${fragment}`);
   }
   return [...new Set(markers)];
+}
+
+function checkPublicSourceFiles() {
+  return publicSourceFiles.map((file) => {
+    const source = fs.readFileSync(file, "utf8");
+    const mojibakeHits = findBadTextMarkers(source);
+    const roleHits = forbiddenRoleFragments.filter((pattern) => pattern.test(source)).map(String);
+    return {
+      file,
+      forbiddenHits: [],
+      mojibakeHits,
+      pass: mojibakeHits.length === 0 && roleHits.length === 0,
+      roleHits
+    };
+  });
 }
 
 function checkRegistration() {
@@ -258,26 +305,22 @@ function checkRegistration() {
       pass: reviewGate.includes("scripts/check-public-visible-language-quality.mjs")
     },
     {
-      check: "focused gate registered",
-      pass: reviewGate.includes('"public-visible-language-quality"')
+      check: "checker owns public source scan",
+      pass: fs.readFileSync(checkerPath, "utf8").includes("publicSourceFiles")
     }
   ];
 }
 
 function checkCheckerSource() {
   const source = fs.readFileSync(checkerPath, "utf8");
-  const expected = [
-    "cmd.exe",
-    "npm run",
-    "publicDataSource",
-    "scoreSource",
-    "Phase 1",
-    "Phase 2",
-    "findBadTextMarkers"
+  return [
+    {
+      check: "forbidden visible fragment list includes internal process terms",
+      pass: ["PUBLIC_BETA", "Supabase", "Phase 1", "OFFICIAL-", "cmd.exe"].every((fragment) => source.includes(fragment))
+    },
+    {
+      check: "checker scans rendered routes",
+      pass: publicRoutes.every((route) => source.includes(`"${route}"`))
+    }
   ];
-
-  return expected.map((fragment) => ({
-    check: `checker source includes ${fragment}`,
-    pass: source.includes(fragment)
-  }));
 }

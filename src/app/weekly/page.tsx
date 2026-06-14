@@ -14,7 +14,7 @@ import { buildWeeklyMarketActionSummary } from "@/lib/weekly-market-action-summa
 
 export const metadata: Metadata = {
   title: "市場週報",
-  description: "用週報回看市場燈號、核心風險、ETF 觀察與資料更新狀態。內容為資訊整理與風險辨識，不提供買賣建議。"
+  description: "用 30 秒整理本週市場燈號、主要風險與觀察清單。內容為示範資料與資訊整理，非投資建議。"
 };
 
 export default async function WeeklyPage() {
@@ -40,12 +40,12 @@ export default async function WeeklyPage() {
       <PageViewTracker eventName="weekly_page_viewed" payload={{ page: "weekly" }} />
       <section className="hero">
         <p className="eyebrow">市場週報</p>
-        <h1>本週市場狀態整理</h1>
+        <h1>本週市場狀態與觀察重點</h1>
         <p>
-          週報用來回看一週市場燈號、核心風險與後續觀察重點。使用者可以先用 30 秒確認市場氣氛，再用 3 分鐘行動判斷複核風險最高標的與資料狀態。
+          週報把一週市場氛圍、關鍵指標與風險提醒整理成固定閱讀流程。使用者可以在 30 秒內掌握方向，再用 3 分鐘確認需要追蹤或複核的標的。
         </p>
         <p className="runtime-boundary-line">
-          目前公開頁使用示範資料呈現閱讀流程；正式資料尚未啟用，不提供買賣建議，也不應作為交易指令。
+          目前週報仍使用示範資料，僅作為閱讀流程與資訊架構展示；正式資料接入前不宣稱即時真實行情。
         </p>
       </section>
 
@@ -53,7 +53,7 @@ export default async function WeeklyPage() {
 
       <section className="weekly-market-action-summary" aria-label="週報市場行動摘要">
         <div>
-          <p className="eyebrow">市場行動摘要</p>
+          <p className="eyebrow">市場觀察摘要</p>
           <h2>{actionSummary.headline}</h2>
           <p>{actionSummary.weeklyLine}</p>
           <p>{actionSummary.stopLine}</p>
@@ -84,19 +84,19 @@ export default async function WeeklyPage() {
 
       <section className="weekly-quick-read" aria-label="週報快速閱讀">
         <article>
-          <span>市場主燈號</span>
+          <span>市場狀態</span>
           <strong>{market.signal.title}</strong>
-          <p>先確認市場目前是偏多、觀望還是警戒，再決定是否需要深入看個別標的。</p>
+          <p>{market.signal.text}</p>
         </article>
         <article>
-          <span>最高風險分數</span>
+          <span>主要風險</span>
           <strong>{topRisk.riskScore}/100</strong>
-          <p>3 分鐘判斷時，優先複核風險最高標的的成因與資料狀態。</p>
+          <p>風險分數最高的示範標的，適合放入本週複核清單。</p>
         </article>
         <article>
           <span>資料更新時間</span>
           <strong>{freshness.asOfDate}</strong>
-          <p>資料可能延遲或尚未正式啟用，請先看資料邊界再解讀燈號。</p>
+          <p>若資料時間延遲或標示異常，應先暫緩解讀。示範資料不等於即時行情。</p>
         </article>
       </section>
 

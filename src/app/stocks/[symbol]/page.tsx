@@ -22,9 +22,9 @@ export function generateMetadata({ params }: StockPageProps): Metadata {
   if (!asset) return {};
 
   const snapshot = repository.getSnapshot(asset.symbol, snapshotDate);
-  const signal = snapshot?.signal.title ?? "燈號觀察";
+  const signal = snapshot?.signal.title ?? "觀察";
   const title = `${asset.symbol} ${asset.name} ${signal}`;
-  const description = `${asset.symbol} ${asset.name} 的指數燈號頁，整理目前狀態、風險分數、資料更新時間與下一步觀察。內容為市場資訊整理，不提供個股買賣建議。`;
+  const description = `${asset.symbol} ${asset.name} 的市場燈號、核心指標、主要風險與資料更新時間。內容為資訊整理與示範資料，非投資建議。`;
 
   return {
     alternates: {

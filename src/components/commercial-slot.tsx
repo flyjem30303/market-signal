@@ -9,18 +9,18 @@ type CommercialSlotProps = {
 export function CommercialSlot({ context }: CommercialSlotProps) {
   const copy =
     context === "stock"
-      ? "下一階段會員功能會提供更完整的標的追蹤、警示條件與盤後複盤，但目前仍以公開示範頁為主。"
+      ? "後續會員功能會提供更完整的標的追蹤、燈號原因與盤後複盤，目前公開版先提供基礎觀察。"
       : context === "briefing"
-        ? "會員功能將協助使用者追蹤每日市場三層解讀、自選追蹤與盤後複盤。"
-        : "會員週報可延伸更多歷史回看與情境式風險解讀。";
+        ? "會員內容將延伸市場三層解讀、watchlist 與個人化提醒，公開版仍保留核心市場總覽。"
+        : "週報會員版會補上盤後複盤與觀察清單，目前先以公開摘要協助快速理解市場。";
 
   return (
-    <aside className="commercial-slot" aria-label="會員功能與風險揭露">
+    <aside className="commercial-slot" aria-label="會員內容預告">
       <p className="eyebrow">Disclosure</p>
-      <h2>會員功能預覽</h2>
+      <h2>會員內容預告</h2>
       <p>{copy}</p>
-      <p>公開 Beta 階段不開放會員登入、付費或個人化警示；所有內容仍是資訊整理，不提供個股買賣建議。</p>
-      <nav aria-label="信任與條款連結">
+      <p>指數燈號網站不提供投資建議或保證報酬；會員內容也會維持資訊整理、風險辨識與觀察輔助定位。</p>
+      <nav aria-label="揭露與條款">
         <a
           href="/disclaimer"
           onClick={() => trackEvent("commercial_disclosure_link_clicked", { context, href: "/disclaimer", label: "disclaimer" })}
@@ -37,7 +37,7 @@ export function CommercialSlot({ context }: CommercialSlotProps) {
           href="/privacy"
           onClick={() => trackEvent("commercial_disclosure_link_clicked", { context, href: "/privacy", label: "privacy" })}
         >
-          隱私說明
+          隱私政策
         </a>
       </nav>
     </aside>

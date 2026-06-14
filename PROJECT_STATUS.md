@@ -2,6 +2,52 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Home Weekly Public Data Display Cleanup Pass
+
+Status: `home_weekly_public_data_display_cleanup_ready`
+
+CEO decision:
+
+- Accept the revised BRIEF as a two-stage product path.
+- Public/free visitor experience stays first: market overview, core indicators, warning list, data update time, and non-investment-advice disclosure.
+- Membership work remains visible as a next-stage roadmap only; do not implement login, payment, persisted watchlist, personalized alerts, or member-only content in this slice.
+- Treat public mojibake, internal process copy, and corrupted mock-data labels as Phase 1 launch blockers because they damage user trust even when routes technically return 200.
+
+PM completed:
+
+- Rebuilt the public dashboard shell so `/`, `/stocks/2330`, and other stock pages speak in investor-facing Traditional Chinese instead of internal process language.
+- Rebuilt `/weekly` with clean market-weekly copy, action summaries, update-time reminders, and clear non-investment-advice boundaries.
+- Cleaned user-visible mock runtime sources:
+  - asset names and groups
+  - signal titles and explanations
+  - module names and notes
+  - weekly action summary copy
+  - public status cards
+  - commercial/member-preview disclosure copy
+  - route-local trust copy
+- Rebuilt stock page metadata and JSON-LD labels so search/share surfaces no longer inherit corrupted text.
+- Strengthened `check:public-visible-language-quality` so it now checks both rendered public routes and a bounded set of public source files for mojibake markers.
+
+Checks passed:
+
+- `check:public-visible-language-quality`
+- `check:phase-1-public-beta-public-visible-residue-cleanup`
+- `check:public-beta-index-dashboard-brief-loop`
+- `check:home-briefing-investor-reading-bridge`
+- `check:public-beta-membership-mvp-roadmap`
+- `tsc --noEmit`
+- `build`
+- local route probes: `/`, `/weekly`, `/stocks/2330` returned 200 after dev-server restart
+- in-app browser verification: `/`, `/weekly`, `/stocks/2330` had clean H1s, no mojibake markers, no internal process terms, and no console errors
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public data-source promotion, real score promotion, membership implementation, login, payment, watchlist persistence, personalized alert execution, real-time claim, official endorsement claim, guaranteed-return claim, or investment-advice claim occurred.
+
+Next:
+
+Continue the BRIEF-aligned Phase 1 public/free launch path. Priority: validate all public pages against the revised BRIEF, keep A1 on legal/free automated data-source and coverage work, keep A2 on trust/disclosure copy, keep A3 on Vercel/monitoring/rollback, and keep A4 as membership MVP planning only until public/free experience is stable.
+
 ### Phase 1 Public Journey Remote Validation Addendum
 
 Status: `phase_1_public_journey_remote_validation_ready`
