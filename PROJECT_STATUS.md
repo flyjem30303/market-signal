@@ -2,6 +2,38 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### BRIEF Phase Split Canonical Rebuild Pass
+
+Status: `brief_phase_split_canonical_rebuild_ready`
+
+CEO decision:
+
+- Accept the latest chairman BRIEF as the current product direction.
+- Split execution into Phase 1 public/free site and Phase 2 membership MVP.
+- Keep Phase 1 as the active line: public visitors should understand market mood, core indicators, risk hints, update time, and data boundary without login.
+- Keep Phase 2 as roadmap/planning only until Phase 1 is stable; membership login, payment, persisted watchlist, custom alerts, member-only reports, and post-market archives must not slow Phase 1.
+
+PM completed:
+
+- Rebuilt `docs/PUBLIC_BETA_INDEX_DASHBOARD_BRIEF.md` into readable Traditional Chinese after finding the canonical BRIEF had visible mojibake.
+- Preserved checker compatibility anchors for the existing BRIEF and membership roadmap gates.
+- Documented PM/A1/A2/A3/A4 workstream ownership and default execution weighting.
+- Reconfirmed hard boundaries: mock public data, mock score, no SQL, no Supabase write, no staging row, no `daily_prices` mutation, no raw market-data handling, no secret output, no real-time claim, no advice claim.
+
+Checks passed:
+
+- `check:public-beta-index-dashboard-brief-loop`
+- `check:public-beta-membership-mvp-roadmap`
+- `check:phase-1-public-beta-public-visible-residue-cleanup`
+
+Boundary:
+
+No Phase 2 membership implementation, login, payment, watchlist persistence, personalized alert execution, SQL, Supabase read/write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public source promotion, real score promotion, real-time claim, official endorsement claim, guaranteed-return claim, or investment-advice claim occurred.
+
+Next:
+
+Continue Phase 1 public Beta launch readiness. PM mainline should keep cleaning user-facing runtime and launch surfaces; A1 continues lawful/free automated data-source and coverage work; A2 guards public trust copy; A3 handles deployment monitoring and rollback; A4 remains Phase 2 planning-only.
+
 ### Phase 1 Public Route Readability Cleanup Pass
 
 Status: `phase_1_public_route_readability_cleanup_ready`
