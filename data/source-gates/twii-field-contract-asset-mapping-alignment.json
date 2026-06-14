@@ -1,0 +1,66 @@
+{
+  "status": "twii_field_contract_asset_mapping_aligned_for_sanitized_candidate_gate_no_execution",
+  "decision": "align_twii_field_contract_and_asset_mapping_for_sanitized_candidate_gate_only",
+  "alignedBy": "CEO/PM",
+  "alignedAt": "2026-06-15T00:00:00+08:00",
+  "acceptedScope": "sanitized_candidate_gate_prep_only",
+  "symbol": "TWII",
+  "assetType": "index",
+  "assetLane": "TWII:index",
+  "targetTable": "daily_prices",
+  "targetScope": "twii_index_daily_prices_missing_rows",
+  "minimumFieldContract": "trade_date,index_close,source_label,source_rights_status,validation_status",
+  "optionalFieldsRemainSeparate": true,
+  "nextPMRoute": "twii_sanitized_candidate_artifact_readiness_gate",
+  "publicDataSource": "mock",
+  "scoreSource": "mock",
+  "twiiExecutionAllowedNow": false,
+  "sourceRightsOutcomeAccepted": true,
+  "fieldContractDecisionAccepted": true,
+  "assetMappingDecisionAccepted": true,
+  "rawPayloadIncluded": false,
+  "rowPayloadIncluded": false,
+  "stockIdPayloadIncluded": false,
+  "secretsIncluded": false,
+  "sqlAllowed": false,
+  "supabaseAllowed": false,
+  "dailyPricesMutationAllowed": false,
+  "marketDataFetchAllowed": false,
+  "candidateGenerationAllowed": false,
+  "rowCoverageAwardAllowed": false,
+  "runtimePromotionAllowed": false,
+  "acceptedPrerequisiteSlots": [
+    {
+      "slotId": "source-rights-decision",
+      "classification": "accepted"
+    },
+    {
+      "slotId": "field-contract-decision",
+      "classification": "accepted"
+    },
+    {
+      "slotId": "asset-mapping-decision",
+      "classification": "accepted"
+    }
+  ],
+  "stopLines": [
+    "no_sql",
+    "no_supabase_connection",
+    "no_supabase_read",
+    "no_supabase_write",
+    "no_staging_rows",
+    "no_daily_prices_mutation",
+    "no_market_data_fetch",
+    "no_source_derived_candidate_row_generation",
+    "no_candidate_row_acceptance",
+    "no_real_readback",
+    "no_row_coverage_scoring",
+    "no_public_source_promotion",
+    "no_real_score_promotion",
+    "no_raw_payload",
+    "no_row_payload",
+    "no_stock_id_payload",
+    "no_secrets"
+  ],
+  "decisionNote": "PM aligns TWII field-contract and asset-mapping prerequisite decisions only for the next sanitized candidate artifact readiness gate. This is not data fetch, not candidate row generation, not SQL, not Supabase, not daily_prices mutation, and not runtime promotion."
+}

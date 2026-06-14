@@ -2,6 +2,42 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### TWII Field Contract Asset Mapping Alignment Gate
+
+Status: `twii_field_contract_asset_mapping_aligned_for_sanitized_candidate_gate_no_execution`
+
+CEO decision:
+
+- Align the newer TWII source-rights outcome acceptance with the existing write prerequisite ledger and write-readiness consolidation packet.
+- Treat `source-rights-decision`, `field-contract-decision`, and `asset-mapping-decision` as accepted for sanitized candidate-gate preparation only.
+- Move the active PM route to `twii_sanitized_candidate_artifact_readiness_gate`.
+- Keep optional index fields, candidate row generation, Supabase work, `daily_prices` mutation, row coverage scoring, and runtime promotion blocked.
+
+PM completed:
+
+- Added `docs/TWII_FIELD_CONTRACT_ASSET_MAPPING_ALIGNMENT_GATE.md`.
+- Added `data/source-gates/twii-field-contract-asset-mapping-alignment.json`.
+- Added `check:twii-field-contract-asset-mapping-alignment-gate` and registered it in the focused review gate.
+- The gate validates source-rights outcome acceptance, the six accepted write-prerequisite ledger rows, write-readiness consolidation, minimum TWII field contract, safe index asset lane, mock/runtime locks, and no-execution stop lines.
+
+Evidence:
+
+- `cmd.exe /c npm run check:a1-twii-index-field-contract-decision-support` passed.
+- `cmd.exe /c npm run check:a1-twii-source-rights-and-candidate-readiness-packet` passed.
+- `cmd.exe /c npm run check:twii-write-readiness-packet-consolidation` passed with `twii_write_readiness_packet_consolidation_prerequisites_accepted_future_gate_ready`.
+- `node scripts/check-twii-field-contract-asset-mapping-alignment-gate.mjs` was first run red and blocked on the missing alignment doc, record, package script, and review-gate registration before implementation.
+- `cmd.exe /c npm run check:twii-field-contract-asset-mapping-alignment-gate` passed with `twii_field_contract_asset_mapping_aligned_for_sanitized_candidate_gate_no_execution`.
+- `cmd.exe /c npx tsc --noEmit` passed.
+- `cmd.exe /c npm run check:review-gates > tmp\review-gates-twii-field-contract-asset-alignment.txt` passed with `status=ok`, `executedCount=190`, and `failedCount=0`.
+
+Boundary:
+
+No SQL, Supabase connection/read/write, staging row creation, `daily_prices` mutation, market endpoint fetch, raw market-data ingest/store/commit, source-derived candidate row generation, candidate row acceptance, real row readback, row coverage scoring, secret output, raw payload output, row payload output, stock id payload output, public source promotion, score promotion, investment advice claim, production environment mutation, DNS change, broad visual redesign, or Phase 2 membership implementation occurred.
+
+Next route:
+
+Continue `twii_sanitized_candidate_artifact_readiness_gate`. It must verify only sanitized aggregate candidate artifact readiness and preserve all no-fetch/no-write/no-promotion stop lines.
+
 ### TWII Source-Rights Outcome Acceptance Gate
 
 Status: `twii_source_rights_outcome_accepted_for_next_gate_only_no_execution`
