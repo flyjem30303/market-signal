@@ -2,6 +2,44 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### A3 Remote Public Beta Smoke And Monitoring Refresh
+
+Status: `a3_remote_public_beta_smoke_and_monitoring_refresh_ready`
+
+CEO decision:
+
+- Continue treating Phase 1 public/free mock Beta as the launch candidate.
+- Use the current Vercel alias as a no-secret remote monitoring target.
+- Record remote smoke as a keep-open monitoring point, not as a final production-launch completion claim.
+- Keep Phase 2 membership as a preview/roadmap only.
+
+PM/A3 completed:
+
+- Refreshed the remote monitoring snapshot for `https://market-signal-two.vercel.app`.
+- Updated `docs/A3_PHASE_1_PUBLIC_BETA_REMOTE_MONITORING_SNAPSHOT.md` with the latest no-secret monitoring point.
+- Updated `docs/A3_PHASE_1_PUBLIC_BETA_RELEASE_OPS_INDEX.md` so the A3 single entrypoint includes the latest remote smoke result.
+
+Checks passed:
+
+- `check:a3-phase-1-public-beta-remote-monitoring-snapshot`
+- `check:public-beta-core-route-quick-proof` against `https://market-signal-two.vercel.app`
+- `check:public-surface-user-facing-audit` against `https://market-signal-two.vercel.app`
+
+Remote evidence:
+
+- 12 remote monitoring routes passed: `/`, `/briefing`, `/weekly`, `/membership`, `/stocks/2330`, `/stocks/TWII`, `/methodology`, `/disclaimer`, `/terms`, `/privacy`, `/robots.txt`, and `/sitemap.xml`.
+- 10 core quick-proof routes passed.
+- 14 public-surface routes and 5 internal-boundary checks passed.
+- Runtime boundary remained `publicDataSource=mock` and `scoreSource=mock`.
+
+Boundary:
+
+No Vercel dashboard action, production deploy, DNS change, production env mutation, SQL, Supabase read/write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public data-source promotion, real score promotion, Phase 2 membership implementation, login, payment, persisted watchlist, personalized alert execution, real-time claim, official endorsement claim, guaranteed-return claim, or investment-advice claim occurred.
+
+Next:
+
+Continue A3 release-ops closure with release review summary / go-no-go packet alignment, while PM keeps public route readability stable. A1 continues legal/free automated data-source and coverage work; A2 keeps trust copy stable; A4 remains membership MVP planning only.
+
 ### Phase 1 Human Visual Review And A3 Handoff Refresh
 
 Status: `phase_1_human_visual_review_and_a3_handoff_refresh_ready`

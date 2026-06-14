@@ -119,3 +119,37 @@ If it passes, A3 can record a keep-open monitoring point under the mock/demo bou
 
 If it fails, PM should route the issue to A2 for public copy repair, A3 for route/platform repair, or A4 only if the membership preview is confusing users into thinking Phase 2 is already live.
 
+## 2026-06-14 Monitoring Point
+
+Status: `remote_monitoring_snapshot_passed_after_visual_review_refresh`
+
+Remote target:
+
+- `https://market-signal-two.vercel.app`
+
+Commands run:
+
+- `cmd.exe /c npm run check:a3-phase-1-public-beta-remote-monitoring-snapshot`
+- `cmd.exe /c "set PUBLIC_BETA_QUICK_PROOF_BASE_URL=https://market-signal-two.vercel.app&& npm run check:public-beta-core-route-quick-proof"`
+- `cmd.exe /c "set LOCALHOST_BASE_URL=https://market-signal-two.vercel.app&& npm run check:public-surface-user-facing-audit"`
+
+Observed result:
+
+- 12 monitoring routes returned safe public results, including `/`, `/briefing`, `/weekly`, `/membership`, representative stock/index routes, legal routes, `robots.txt`, and `sitemap.xml`.
+- Core route quick proof passed against the remote URL.
+- Public surface user-facing audit passed across 14 public routes and 5 internal-boundary checks.
+- No public command snippets, local paths, env placeholders, workflow residue, raw-payload language, SQL/Supabase implementation language, or source/score promotion claim was detected.
+- Membership remains a Phase 2 preview; no login, payment, persisted watchlist, personalized alert, or member-only implementation was claimed.
+
+Runtime boundary:
+
+- `publicDataSource=mock`
+- `scoreSource=mock`
+- `platformMutationExecuted=false`
+- `sqlExecuted=false`
+- `supabaseReadOrWriteExecuted=false`
+- `marketDataFetched=false`
+
+PM/A3 conclusion:
+
+The public Vercel alias remains safe to keep open as a Phase 1 mock/demo public Beta candidate while A1 continues data-source/coverage work and A4 remains planning-only.
