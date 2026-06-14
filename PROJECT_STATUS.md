@@ -2,6 +2,36 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 TWII Operator Decision Packet Request
+
+Status: `phase_1_twii_operator_decision_packet_request_ready_no_execution`
+
+CEO decision:
+
+- Convert the TWII decision-intake readiness into a single operator-facing packet request before any future real decision is supplied.
+- Keep the operator packet separate from execution: an accepted packet can only move PM to pre-execution review, not directly to Supabase write.
+- Preserve the current data-online decision as `NO_GO` while the project waits for real operator values, execute-switch confirmation, server-only credential checks, aggregate readback, rollback readiness, and promotion gates.
+
+PM completed:
+
+- Added `docs/PHASE_1_TWII_OPERATOR_DECISION_PACKET_REQUEST.md` as the single TWII operator decision request surface.
+- Added `check:phase-1-twii-operator-decision-packet-request` and registered it in the focused review gate.
+- The checker validates the intake readiness gate, operator-visible packet readiness, packet fill simulation, real operator packet blocker, and next execution route gate.
+- Confirmed the next route remains `operator_submits_one_twii_decision_packet_for_pm_intake_review`, while the actual selected blocked route remains `wait_for_real_operator_values_execute_switch_confirmation_credentials_and_pre_execution_checks`.
+
+Evidence:
+
+- `check:phase-1-twii-operator-decision-packet-request` passed with `phase_1_twii_operator_decision_packet_request_ready_no_execution`.
+- The chain reports visible packet ready, fill simulation ready, real operator packet blocker ready, next route ready, real values not provided, `publicDataSource=mock`, `scoreSource=mock`, and execution still blocked.
+
+Boundary:
+
+No SQL, Supabase connection/write, staging row creation, `daily_prices` mutation, market endpoint fetch, raw market-data ingest/store/commit, candidate row readback, real operator value read/record, execute-switch value read, confirmation phrase value read, credential read, row payload output, secret output, public source promotion, score promotion, investment advice claim, production environment mutation, DNS change, broad visual redesign, or Phase 2 membership implementation occurred.
+
+Next route:
+
+If CEO/PM continues the TWII lane, the next separate step is to receive one operator packet using the documented fields and route it through PM intake review. If not, PM should shift to ETF coverage closure or public runtime comprehension work while TWII remains blocked.
+
 ### Phase 1 TWII Operator Decision Intake Readiness
 
 Status: `phase_1_twii_operator_decision_intake_readiness_ready_no_execution`
