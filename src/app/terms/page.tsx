@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { PageViewTracker } from "@/components/page-view-tracker";
+import { PublicRouteReadingContract } from "@/components/public-route-reading-contract";
 import { TrackedLink } from "@/components/tracked-link";
 
 export const metadata: Metadata = {
@@ -48,6 +49,8 @@ export default function TermsPage() {
         <h2>資料與功能變更</h2>
         <p>公開 Beta 期間，資料來源、模型、功能與頁面呈現可能持續調整。重大變更會盡量在頁面或文件中標示。</p>
       </section>
+
+      <PublicRouteReadingContract context="terms" />
 
       <section className="panel legal-links">
         <h2>相關頁面</h2>

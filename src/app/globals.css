@@ -12999,6 +12999,55 @@ input[type="search"] {
   margin: 0;
 }
 
+.public-route-reading-contract {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.9fr) minmax(0, 1.1fr);
+  gap: 16px;
+  border: 1px solid rgba(8, 128, 112, 0.18);
+  border-radius: 8px;
+  background: #f7fbf8;
+  box-shadow: var(--shadow-soft);
+  margin-bottom: 16px;
+  padding: 18px;
+}
+
+.public-route-reading-contract__intro h2 {
+  font-size: 24px;
+  line-height: 1.25;
+  margin: 0 0 10px;
+}
+
+.public-route-reading-contract__intro p {
+  color: var(--muted);
+  line-height: 1.7;
+  margin: 0 0 10px;
+}
+
+.public-route-reading-contract__steps {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.public-route-reading-contract__steps article {
+  border: 1px solid rgba(8, 128, 112, 0.14);
+  border-radius: 8px;
+  background: #fff;
+  padding: 12px;
+}
+
+.public-route-reading-contract__steps strong {
+  display: block;
+  font-size: 16px;
+  margin-bottom: 6px;
+}
+
+.public-route-reading-contract__steps p {
+  color: var(--muted);
+  line-height: 1.55;
+  margin: 0;
+}
+
 .trust-runtime-boundary-notice {
   display: grid;
   grid-template-columns: minmax(260px, 1.15fr) repeat(auto-fit, minmax(150px, 0.5fr));
@@ -13813,6 +13862,8 @@ input[type="date"] {
   .public-beta-usable-loop,
   .public-beta-usable-loop__cards,
   .public-beta-usable-loop__boundary,
+  .public-route-reading-contract,
+  .public-route-reading-contract__steps,
   .public-beta-data-readiness-status,
   .public-beta-public-status-surface__grid,
   .public-beta-membership-roadmap__grid,

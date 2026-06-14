@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { PageViewTracker } from "@/components/page-view-tracker";
+import { PublicRouteReadingContract } from "@/components/public-route-reading-contract";
 import { TrackedLink } from "@/components/tracked-link";
 
 export const metadata: Metadata = {
@@ -60,6 +61,8 @@ export default function DisclaimerPage() {
           下一階段會員功能可提供更完整的市場解讀、watchlist、警示條件與盤後複盤，但仍以觀察、風險提醒與資料解讀為核心，不會提供下單或個人資產配置建議。
         </p>
       </section>
+
+      <PublicRouteReadingContract context="disclaimer" />
 
       <section className="panel legal-links">
         <h2>相關說明</h2>

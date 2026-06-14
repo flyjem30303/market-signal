@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { PageViewTracker } from "@/components/page-view-tracker";
+import { PublicRouteReadingContract } from "@/components/public-route-reading-contract";
 import { TrackedLink } from "@/components/tracked-link";
 
 export const metadata: Metadata = {
@@ -54,6 +55,8 @@ export default function PrivacyPage() {
         <h2>會員功能資料邊界</h2>
         <p>會員 MVP 若啟用，可能需要帳號、watchlist、警示條件與閱讀紀錄；正式上線前會再補完整告知與刪除流程。</p>
       </section>
+
+      <PublicRouteReadingContract context="privacy" />
 
       <section className="panel legal-links">
         <h2>相關說明</h2>

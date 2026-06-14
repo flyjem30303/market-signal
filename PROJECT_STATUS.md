@@ -2,6 +2,39 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Public Support Route Reading Contract Pass
+
+Status: `public_support_route_reading_contract_ready`
+
+CEO decision:
+
+- Continue Phase 1 as a public free product, not as isolated legal or methodology documents.
+- The support routes must connect back to the same user reading loop as the Home, briefing, weekly, and stock routes.
+- `methodology`, `disclaimer`, `terms`, and `privacy` should each help users understand how to return to market status, signal reason, update time, risk reminder, data boundary, and next observation.
+- This is a Phase 1 product/runtime readability slice. It does not open Phase 2 membership implementation or real-data promotion.
+
+PM completed:
+
+- Added `src/components/public-route-reading-contract.tsx`.
+- Wired the reading contract into `/methodology`, `/disclaimer`, `/terms`, and `/privacy`.
+- Added responsive styling for `.public-route-reading-contract`.
+- Added `check:public-support-route-reading-contract` and registered it in the focused review gate.
+- The checker verifies the four public support routes render the six user reading checkpoints and do not expose internal operations residue.
+
+Checks passed:
+
+- `check:public-support-route-reading-contract`
+- `check:public-visible-language-quality`
+- `npx tsc --noEmit`
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public source promotion, real score promotion, real-time claim, official endorsement claim, guaranteed-return claim, investment-advice claim, production env mutation, DNS change, Vercel dashboard mutation, or membership implementation occurred. Runtime remains mock/demo.
+
+Next:
+
+Run the full focused review gate, then continue Phase 1 public free usable loop by tightening route-to-route decision flow and release-readiness evidence.
+
 ### Chairman BRIEF Phase Split Confirmation
 
 Status: `chairman_brief_phase_split_confirmed`

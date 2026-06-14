@@ -3038,6 +3038,11 @@ const checks = [
     name: "public-beta-usable-loop-panel"
   },
   {
+    command: [node, "scripts/check-public-support-route-reading-contract.mjs"],
+    expectStatus: "ok",
+    name: "public-support-route-reading-contract"
+  },
+  {
     command: [node, "scripts/check-public-language-gate-self-audit.mjs"],
     expectStatus: "ok",
     name: "public-language-gate-self-audit"
@@ -6224,6 +6229,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "public-surface-user-facing-audit",
   "public-beta-decision-loop-bridge",
   "public-beta-decision-journey-panel",
+  "public-support-route-reading-contract",
   "public-beta-index-dashboard-brief-loop",
   "public-beta-route-consistency",
   "public-beta-route-local-trust-visual-consistency",

@@ -8,6 +8,36 @@ Owner: PM mainline
 
 ## Latest Mainline Decision - 2026-06-14
 
+### Public Support Route Reading Contract Pass
+
+CEO decision:
+
+- Keep Phase 1 moving through public product comprehension.
+- The support routes are part of the product, not side documents.
+- Methodology, risk disclosure, terms, and privacy should all connect users back to the same six-step reading loop: market status, reason, update time, risk reminder, data boundary, and next observation.
+- This improves public usability without starting Phase 2 membership implementation or real-data promotion.
+
+PM completed:
+
+- Added `PublicRouteReadingContract`.
+- Wired it into `/methodology`, `/disclaimer`, `/terms`, and `/privacy`.
+- Added responsive CSS and `check:public-support-route-reading-contract`.
+- Registered the checker in the focused review gate.
+
+Checks passed:
+
+- `check:public-support-route-reading-contract`
+- `check:public-visible-language-quality`
+- `npx tsc --noEmit`
+
+Current route:
+
+- `public_support_route_reading_contract_ready`
+
+Next PM slice:
+
+- Run full focused review gate, then continue with route-to-route decision flow or release-readiness evidence, whichever has the larger Phase 1 launch impact.
+
 ### Chairman BRIEF Phase Split Confirmation
 
 CEO decision:

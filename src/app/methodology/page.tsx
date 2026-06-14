@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { PageViewTracker } from "@/components/page-view-tracker";
+import { PublicRouteReadingContract } from "@/components/public-route-reading-contract";
 import { TrackedLink } from "@/components/tracked-link";
 import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
 import { getMarketSignalSourceStatus } from "@/lib/repositories/market-signal-repository";
@@ -88,6 +89,8 @@ export default async function MethodologyPage() {
           <p>本站協助整理市場資訊與風險，不提供個股買賣建議、不保證報酬。</p>
         </article>
       </section>
+
+      <PublicRouteReadingContract context="methodology" />
 
       <section className="panel method-links">
         <h2>下一步</h2>
