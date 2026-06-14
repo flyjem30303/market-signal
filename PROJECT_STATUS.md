@@ -2,6 +2,28 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Remote Public Beta Smoke After No-Fetch Readiness Registration
+
+Status: `remote_public_beta_smoke_passed_after_no_fetch_readiness_registration`
+
+CEO decision:
+
+- After pushing the no-fetch readiness registration slice, verify the public Vercel alias before moving toward final UI/UX polish.
+- Keep Phase 1 public/free runtime under mock/demo data boundaries.
+
+Evidence:
+
+- Git commit: `c788df2f Register no-fetch data readiness gates`.
+- Remote public URL: `https://market-signal-two.vercel.app`.
+- Core public routes returned HTTP 200 for `/`, `/briefing`, `/weekly`, `/membership`, `/stocks/2330`, `/stocks/TWII`, `/methodology`, `/disclaimer`, `/terms`, and `/privacy`.
+- Remote public visible-language quality passed.
+- Remote public visible residue cleanup passed across 14 public routes.
+- Remote public surface user-facing audit passed.
+
+Boundary:
+
+No SQL, Supabase read/write, staging rows, `daily_prices` mutation, raw market-data fetch/store/commit, source promotion, real score promotion, production environment mutation outside Git-backed Vercel redeploy, DNS change, or Phase 2 membership implementation occurred. The runtime remains `publicDataSource=mock` and `scoreSource=mock`.
+
 ### TWSE OpenAPI No-Fetch Readiness Workstream Registration
 
 Status: `twse_openapi_no_fetch_readiness_workstream_registration_ready`
