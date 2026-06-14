@@ -18,7 +18,7 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
   return (
     <section className="stock-runtime-at-a-glance" aria-label="個股燈號快速摘要">
       <div>
-        <p className="eyebrow">標的快速判讀 / 30 秒快速閱讀</p>
+        <p className="eyebrow">標的決策摘要 / 標的快速判讀 / 30 秒快速閱讀</p>
         <h2>
           {snapshot.asset.symbol} {snapshot.asset.name} 目前怎麼看？
         </h2>

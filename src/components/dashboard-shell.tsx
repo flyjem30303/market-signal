@@ -92,12 +92,12 @@ export function DashboardShell({
           <div className="home-public-beta-layer active">
             <span>核心指標面板</span>
             <strong>指數狀態儀表站：30 秒可讀</strong>
-            <p>先看市場狀態、風險熱度、資料品質與更新時間，快速判斷目前偏多、觀望、警戒或高風險。</p>
+            <p>30 秒快讀市場氣氛：先看市場狀態、風險熱度、資料品質與更新時間，快速判斷目前偏多、觀望、警戒或高風險。</p>
           </div>
           <div className="home-public-beta-layer readying">
             <span>警示清單</span>
             <strong>3 分鐘可行動</strong>
-            <p>再看成因、影響級別與下一步觀察，決定是否關注、加強複核或降低風險曝露。</p>
+            <p>3 分鐘判斷順序：再看成因、影響級別與下一步觀察，決定是否關注、加強複核或降低風險曝露。</p>
           </div>
           <div className="home-public-beta-layer blocked">
             <span>資料邊界</span>
@@ -437,10 +437,11 @@ function StockDecisionCompass({ snapshot }: { snapshot: SignalSnapshot }) {
     <section className="stock-decision-compass" aria-label="決策輔助">
       <div className="stock-decision-compass__intro">
         <p className="eyebrow">股票頁決策羅盤</p>
-        <h2>燈號狀態、風險熱度、資料信心與下一步觀察</h2>
+        <h2>決策輔助摘要：燈號狀態、風險熱度、資料信心與下一步觀察</h2>
         <p>
-          股票頁先把目前燈號、主要風險、資料品質與觀察動作整理在同一區，協助使用者在 3 分鐘內完成複核。
-          正式市場資料尚未啟用；不提供買進、賣出、持有或個人化投資建議。
+          股票頁先把目前燈號、主要風險、資料品質與觀察動作整理在同一區，協助使用者依 3 分鐘判斷順序完成複核。
+          把單一標的放回市場脈絡與市場氣氛一起看，避免只看單一分數。正式市場資料尚未啟用，仍屬示範資料與示範分數；
+          這些內容不應直接視為個股買賣建議，也不提供買進、賣出、持有或個人化投資建議。
         </p>
       </div>
       <div className="stock-decision-compass__grid" aria-label="股票頁決策羅盤摘要">

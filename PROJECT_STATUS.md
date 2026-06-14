@@ -2,6 +2,42 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Phase 1 Investor Language And Value Loop Repair
+
+Status: `phase_1_investor_language_and_value_loop_repair_ready`
+
+CEO decision:
+
+- Continue Phase 1 public runtime cleanup through investor-facing language, not more governance packets.
+- Focus on stock-route readability and value-loop proof: `30 秒快讀`, `3 分鐘判斷順序`, `決策輔助摘要`, market context, cause, and non-advice wording.
+- Preserve the mock data and mock score boundary while making the page more understandable.
+
+PM completed:
+
+- Added `30 秒快讀` and `3 分鐘判斷順序` to the Home reading path.
+- Added `3 分鐘判斷順序` and `成因` to the Briefing summary path.
+- Added `標的決策摘要` to the stock runtime quick-read component.
+- Strengthened stock decision copy with `決策輔助摘要`, `把單一標的放回市場脈絡`, `示範資料與示範分數`, `市場氣氛`, and `不應直接視為個股買賣建議`.
+
+Checks passed:
+
+- `check:stock-decision-aid-actionability`
+- `check:stock-route-investor-language-alignment`
+- `check:public-beta-value-loop-refinement`
+- `check:public-visible-language-quality`
+- `check:public-surface-user-facing-audit`
+- `check:public-beta-core-route-quick-proof`
+- `npx tsc --noEmit`
+- Browser visible-text smoke for `/`, `/briefing`, and `/stocks/2330`
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public data-source promotion, real score promotion, production deploy, DNS change, production environment mutation, login implementation, payment implementation, persisted watchlist, personalized alert execution, member-only content gating, brokerage integration, promised-return claim, or investment-advice claim occurred.
+
+Next:
+
+Continue Phase 1 route cleanup by replacing remaining older body copy blocks in Home and Stock routes, then run focused route gates before considering any broader review gate.
+
 ### Phase 1 Public Mainline Action Bridge Copy Repair
 
 Status: `phase_1_public_mainline_action_bridge_copy_repair_ready`
