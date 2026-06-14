@@ -748,6 +748,7 @@
     "check:public-beta-mock-launch-proof-bundle": "node scripts/check-public-beta-mock-launch-proof-bundle.mjs",
     "check:phase-1-public-beta-mock-launch-candidate-status-summary": "node scripts/check-phase-1-public-beta-mock-launch-candidate-status-summary.mjs",
     "check:phase-1-public-beta-candidate-final-public-readiness-scan": "node scripts/check-phase-1-public-beta-candidate-final-public-readiness-scan.mjs",
+    "check:phase-1-public-beta-final-readiness-rollup": "node scripts/check-phase-1-public-beta-final-readiness-rollup.mjs",
     "check:phase-1-public-beta-release-readiness-evidence-rollup": "node scripts/check-phase-1-public-beta-release-readiness-evidence-rollup.mjs",
     "check:phase-1-public-beta-human-visual-review": "node scripts/check-phase-1-public-beta-human-visual-review.mjs",
     "check:phase-1-public-beta-visual-acceptance-and-a3-handoff": "node scripts/check-phase-1-public-beta-visual-acceptance-and-a3-handoff.mjs",

@@ -2,6 +2,38 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Phase 1 Public Beta Final Readiness Rollup
+
+Status: `phase_1_public_beta_final_readiness_rollup_ready`
+
+CEO decision:
+
+- Create one public Beta final-readiness rollup so PM can judge Phase 1 launch-prep state without manually reconciling scattered gates.
+- Keep the rollup strictly local and public-surface focused: route health, BRIEF alignment, readable decision order, mock-only boundary, public residue cleanup, and user-facing audit.
+- Do not treat this as final UI/UX acceptance or real-data promotion approval.
+
+PM completed:
+
+- Added `check:phase-1-public-beta-final-readiness-rollup`.
+- The rollup executes:
+  - `check:phase-1-public-beta-candidate-final-public-readiness-scan`
+  - `check:public-beta-mock-launch-proof-bundle`
+  - `check:public-beta-production-brief-alignment`
+  - `check:phase-1-route-decision-order`
+  - `check:public-surface-user-facing-audit`
+  - `check:phase-1-public-beta-public-visible-residue-cleanup`
+- Registered `phase-1-public-beta-final-readiness-rollup` in the review gate and focused public Beta gate set.
+
+Evidence:
+
+- `check:phase-1-public-beta-final-readiness-rollup` passed with all six child checks passing.
+- Runtime boundary remained `publicDataSource=mock` and `scoreSource=mock`.
+- The rollup reported no missing scripts, no registration gaps, and no forbidden runtime-boundary fragments.
+
+Boundary:
+
+No SQL, Supabase read/write, staging rows, `daily_prices` mutation, raw market-data fetch/store/commit, source promotion, real score promotion, production environment mutation, DNS change, final UI/UX polish, or Phase 2 membership implementation occurred. The runtime remains `publicDataSource=mock` and `scoreSource=mock`.
+
 ### Phase 1 Route Decision Order Guard
 
 Status: `phase_1_route_decision_order_guard_ready`
