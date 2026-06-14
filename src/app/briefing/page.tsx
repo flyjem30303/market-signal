@@ -35,12 +35,16 @@ export default async function BriefingPage() {
     <main className="page-shell">
       <PageViewTracker eventName="briefing_page_viewed" payload={{ page: "briefing" }} />
 
-      <section className="briefing-public-summary" aria-label="市場簡報總覽">
+      <section className="hero briefing-public-summary" aria-label="市場簡報總覽">
         <p className="eyebrow">市場簡報</p>
         <h1>先看市場燈號，再確認風險來源與觀察順序</h1>
         <p>
           這頁把首頁、個股/指數頁與資料狀態整理成一條閱讀路徑。目標是讓一般投資者先用 30 秒掌握市場氛圍，
           再用 3 分鐘確認是否需要加強觀察、等待更多資料，或降低風險曝險。
+        </p>
+        <p className="runtime-boundary-line">
+          公開 Beta 目前以示範資料呈現燈號與閱讀流程；正式市場資料尚未啟用前，所有分數與燈號只用來理解產品方式，
+          不是投資建議，也不是即時行情或個別買賣依據。
         </p>
       </section>
 

@@ -22,7 +22,7 @@ export default function MembershipPage() {
         </p>
         <p className="runtime-boundary-line">
           這頁是會員路線圖，不是會員入口。目前尚未開放登入，也尚未提供付費會員內容。
-          目前不會建立帳號、不會收費、不會儲存自選追蹤清單、不會發送個人化警示。
+          目前不會建立帳號、不會收費、不會儲存自選追蹤清單、不會發送個人化警示；公開頁仍以示範資料呈現產品流程。
         </p>
       </section>
 

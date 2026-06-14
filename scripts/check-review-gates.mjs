@@ -3993,6 +3993,11 @@ const checks = [
     name: "public-beta-data-realification-next-action"
   },
   {
+    command: [node, "scripts/check-phase-1-data-online-go-no-go-status.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-data-online-go-no-go-status"
+  },
+  {
     command: [node, "scripts/check-open-free-auto-data-source-gate.mjs"],
     expectStatus: "ok",
     name: "open-free-auto-data-source-gate"
@@ -6335,6 +6340,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "public-beta-source-coverage-runtime-labels",
   "source-coverage-runtime-handoff-docs",
   "public-beta-data-realification-next-action",
+  "phase-1-data-online-go-no-go-status",
   "open-free-auto-data-source-gate",
   "stock-decision-aid-actionability",
   "stock-decision-compass",

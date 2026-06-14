@@ -2,6 +2,45 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Data-Online Go/No-Go And Public Trust Copy Gate
+
+Status: `phase_1_data_online_go_no_go_and_public_trust_copy_gate_ready`
+
+CEO decision:
+
+- Set the active Phase 1 target as a public launchable index-light dashboard, including data-online readiness, while keeping Phase 2 membership runtime out of the current scope.
+- Treat public comprehension and data truthfulness as the same launch gate: users must see clear demo-data, source, update-time, and non-advice boundaries before any real-data promotion.
+- Keep data-online at `NO_GO` until TWII and ETF coverage gaps are closed through explicit bounded execution, aggregate readback, rollback readiness, and runtime promotion gates.
+
+PM completed:
+
+- Added `docs/PHASE_1_DATA_ONLINE_GO_NO_GO_STATUS.md` as the current machine-readable Phase 1 data-online decision surface.
+- Added `check:phase-1-data-online-go-no-go-status` and registered it in the review gate.
+- Cleared the current A2 public-copy launch blocker by adding first-screen demo-data and non-advice boundary copy to `/briefing` and `/membership`.
+- Recovered route-level trust copy for `/privacy`, `/terms`, and `/disclaimer`, including clear privacy, trading-account, self-risk, and market-risk language.
+- Preserved runtime state as `publicDataSource=mock` and `scoreSource=mock`.
+
+Evidence:
+
+- `npx tsc --noEmit` passed.
+- `check:a2-public-copy-readability-candidates` passed with `P0=0`, `P1=0`, and `boundaryInsufficientFiles=0`.
+- `check:a2-route-local-trust-copy-route-health` passed for `/weekly`, `/methodology`, `/disclaimer`, `/terms`, and `/privacy`.
+- `check:phase-1-data-online-go-no-go-status` passed and reported `PUBLIC_RUNTIME_READY_BUT_DATA_ONLINE_NO_GO`.
+- `check:public-visible-language-quality` passed.
+- `check:public-surface-user-facing-audit` passed.
+- `check:localhost-health` passed.
+- `check:review-gates` passed with 181 focused executed gates.
+- In-app browser verification confirmed `/briefing`, `/privacy`, `/terms`, and `/disclaimer` render clean public titles and visible demo-data/risk boundaries.
+- Current coverage remains Level 1 `182/360`, missing `178`; TW equity `180/180`; TWII missing `60`; ETF missing `118`.
+
+Boundary:
+
+No SQL, Supabase connection/write, staging row creation, `daily_prices` mutation, market endpoint fetch, raw market-data ingest/store/commit, row payload output, public source promotion, `publicDataSource=supabase`, `scoreSource=real`, investment advice claim, production environment mutation, DNS change, broad visual redesign, or Phase 2 membership implementation occurred.
+
+Next route:
+
+Run the full review gate. If it passes, continue Phase 1 by preparing the explicit bounded TWII write decision packet and ETF coverage closure route; do not execute any real write until the separate operator gate is satisfied.
+
 ### Phase 1 Briefing Public Copy Recovery
 
 Status: `phase_1_briefing_public_copy_recovery_ready`

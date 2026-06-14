@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     template: `%s | ${siteConfig.name}`
   },
   description:
-    "指數燈號把市場資料整理成可閱讀的燈號、風險提示與觀察流程，協助一般投資者快速理解市場狀態。"
+    "指數燈號是面向一般投資者的市場風險與趨勢儀表站，協助使用者快速理解燈號、資料狀態與下一步觀察方向。"
 };
 
 const footerTrustLinks = [
@@ -59,14 +59,15 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <div>
             <strong>指數燈號</strong>
             <p>
-              以市場燈號、風險提示與資料更新時間協助你建立固定觀察流程。本站內容僅供資訊整理與風險辨識，屬於非投資建議。
+              本網站協助整理市場燈號、風險提示與資料更新狀態。正式市場資料尚未啟用前，公開頁仍以示範資料呈現產品流程；
+              燈號不提供個股買賣建議，也不能當成即時交易指令。
             </p>
-            <div className="site-footer-trust" aria-label="信任與使用邊界">
+            <div className="site-footer-trust" aria-label="公開信任連結">
               <span>公開 Beta</span>
-              <span>資料狀態清楚標示</span>
+              <span>示範資料</span>
               <span>非投資建議</span>
-              <span>正式資料尚未啟用</span>
-              <span>請搭配自行判斷</span>
+              <span>資料來源與更新時間需複核</span>
+              <span>使用者自行承擔風險</span>
               {footerTrustLinks.map((link) => (
                 <TrackedLink
                   eventName="site_chrome_link_clicked"
