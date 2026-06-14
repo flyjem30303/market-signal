@@ -2,6 +2,36 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Public Data Source Boundary Notice
+
+Status: `public_data_source_boundary_notice_ready`
+
+CEO decision:
+
+- Keep the active GOAL focused on Phase 1 public launch readiness, including data-online preparation, without reopening the goal.
+- Stop repeating internal TWII gate reactivation as the next mainline move; the higher-value public launch gap is that users must understand whether current pages are demo data, planned formal data, or real-time market data.
+- Add a small public-facing data-source boundary notice to the homepage, stock pages, and briefing page before broader UI/UX polish.
+
+PM completed:
+
+- Added a reusable `PublicDataSourceBoundaryNotice` component with route-specific copy for home, briefing, and stock contexts.
+- Rendered the notice after the data freshness strip in the dashboard shell and briefing page.
+- Added responsive styling so the notice remains readable on mobile.
+- Added `check:public-data-source-boundary-notice` and registered it in the review gate list.
+
+Evidence:
+
+- `cmd.exe /c npm run check:public-data-source-boundary-notice` first failed because the component, route wiring, and status record were missing.
+- The checker now requires public copy for planned source, demo-data boundary, non-real-time status, update time, source/rights, and non-investment-advice language.
+
+Boundary:
+
+No SQL, Supabase connection/read/write, staging row creation, `daily_prices` mutation, market endpoint fetch, raw market-data ingest/store/commit, source-derived candidate row generation, public source promotion, score promotion, investment advice claim, production environment mutation, DNS change, broad visual redesign, or Phase 2 membership implementation occurred.
+
+Next route:
+
+Continue Phase 1 public launch readiness by cleaning user-facing residue and replacing remaining internal/garbled public copy with investor-readable status, reason, next-step, source, update-time, and risk-disclosure language.
+
 ### TWII Bounded Authorization To Explicit Execution Reactivation
 
 Status: `twii_preexecution_to_authorization_chain_convergence_gate_ready_no_execution`

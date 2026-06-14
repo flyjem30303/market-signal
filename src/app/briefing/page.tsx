@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { PageViewTracker } from "@/components/page-view-tracker";
+import { PublicDataSourceBoundaryNotice } from "@/components/public-data-source-boundary-notice";
 import { TrackedLink } from "@/components/tracked-link";
 import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
 import {
@@ -97,6 +98,7 @@ export default async function BriefingPage() {
       </section>
 
       <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
+      <PublicDataSourceBoundaryNotice context="briefing" />
 
       <section className="briefing-breadth" id="market-structure" aria-label="市場廣度">
         <BreadthCard label="偏強" tone="active" value={breadth.constructive} />

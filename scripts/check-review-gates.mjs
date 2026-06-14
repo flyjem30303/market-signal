@@ -3018,6 +3018,11 @@ const checks = [
     name: "site-chrome-readability"
   },
   {
+    command: [node, "scripts/check-public-data-source-boundary-notice.mjs"],
+    expectStatus: "ok",
+    name: "public-data-source-boundary-notice"
+  },
+  {
     command: [node, "scripts/check-public-visible-language-quality.mjs"],
     expectStatus: "ok",
     name: "public-visible-language-quality"
@@ -6429,6 +6434,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "home-first-screen-decision-hierarchy",
   "phase-1-route-decision-order",
   "public-beta-alert-list-actionability",
+  "public-data-source-boundary-notice",
   "public-visible-language-quality",
   "public-source-residue-scan",
   "public-surface-user-facing-audit",

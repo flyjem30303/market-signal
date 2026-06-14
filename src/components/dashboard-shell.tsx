@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { PageViewTracker } from "@/components/page-view-tracker";
+import { PublicDataSourceBoundaryNotice } from "@/components/public-data-source-boundary-notice";
 import { TrackedLink } from "@/components/tracked-link";
 import { buildMockDataFreshnessSnapshot, type DataFreshnessSnapshot } from "@/lib/data-freshness";
 import {
@@ -99,6 +100,7 @@ export function DashboardShell({
       )}
 
       <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
+      <PublicDataSourceBoundaryNotice context={isStockPage ? "stock" : "home"} />
 
       <section className="stock-search-panel" aria-label="切換觀察標的">
         <div>
