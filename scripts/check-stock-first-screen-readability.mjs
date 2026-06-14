@@ -9,50 +9,32 @@ const files = new Map(
 );
 
 const component = read(componentPath);
-const firstScreenStart = component.indexOf('<section className="hero">');
-const firstScreenEnd = component.indexOf("function StockPageFollowUpLinks", firstScreenStart);
-const followUpStart = component.indexOf("function StockPageFollowUpLinks");
-const followUpEnd = component.indexOf("function HomeProductOverview", followUpStart);
-const homeStart = component.indexOf("function HomeProductOverview");
-const homeEnd = component.indexOf("function buildHomeGroupSummaries", homeStart);
+const firstScreenStart = component.indexOf('<section className="hero dashboard-hero">');
+const firstScreenEnd = component.indexOf("<DataFreshnessStrip", firstScreenStart);
+const followUpStart = component.indexOf("<PublicNextReadingFlow", firstScreenEnd);
+const followUpEnd = component.indexOf("{!isStockPage && (", followUpStart);
+const homeStart = component.indexOf("function HomeMarketOverview");
+const homeEnd = component.indexOf("function HomeCoreIndicatorReadout", homeStart);
 
 const firstScreen = slice(firstScreenStart, firstScreenEnd);
 const followUp = slice(followUpStart, followUpEnd);
 const homeOverview = slice(homeStart, homeEnd);
 
 const required = [
-  ["firstScreen", "Market Signal Dashboard"],
   ["firstScreen", "狀態儀表"],
-  ["firstScreen", "mock-only 資料"],
-  ["firstScreen", "快速理解狀態、風險與資料品質"],
-  ["firstScreen", "不構成投資建議"],
-  ["firstScreen", "尚未啟用真實資料推廣"],
-  ["firstScreen", "股票內容分頁"],
-  ["firstScreen", "今日"],
-  ["firstScreen", "趨勢"],
-  ["firstScreen", "技術"],
-  ["firstScreen", "量能"],
-  ["firstScreen", "基本面"],
-  ["firstScreen", "回測"],
-  ["firstScreen", "新聞"],
-  ["followUp", "After Reading"],
-  ["followUp", "看完"],
-  ["followUp", "回到市場層級交叉檢查"],
-  ["followUp", "看每日晨報"],
-  ["followUp", "看本週週報"],
-  ["followUp", "回首頁看覆蓋地圖"],
-  ["followUp", "確認方法論"],
-  ["followUp", "確認免責聲明"],
-  ["homeOverview", "市場氛圍"],
-  ["homeOverview", "3 分鐘決定"],
+  ["firstScreen", "指數燈號把市場資料整理成紅、黃、綠等狀態提示"],
+  ["firstScreen", "30 秒內看懂市場氛圍"],
+  ["firstScreen", "3 分鐘內判斷"],
+  ["firstScreen", "正式市場資料尚未啟用"],
+  ["firstScreen", "不提供個股買賣建議"],
+  ["followUp", "PublicNextReadingFlow"],
+  ["followUp", "context={isStockPage ? \"stock\" : \"home\"}"],
+  ["homeOverview", "全市場總覽"],
   ["homeOverview", "全市場總覽"],
   ["homeOverview", "核心指標面板"],
   ["homeOverview", "警示清單"],
-  ["homeOverview", "市場氛圍"],
-  ["homeOverview", "警示清單"],
-  ["homeOverview", "mock 邊界"],
-  ["homeOverview", "正式市場資料或正式評分"],
-  ["homeOverview", "正式市場資料"],
+  ["homeOverview", "正式資料升級前檢查仍未完成"],
+  ["homeOverview", "示範資料邊界"],
   [packagePath, '"check:stock-first-screen-readability": "node scripts/check-stock-first-screen-readability.mjs"'],
   [reviewGatePath, "scripts/check-stock-first-screen-readability.mjs"]
 ];

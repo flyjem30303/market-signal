@@ -2,6 +2,49 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Home And Stock Runtime Copy Tightening Pass
+
+Status: `home_stock_runtime_copy_tightening_ready`
+
+CEO decision:
+
+- Accept the chairman's revised BRIEF as a two-phase execution plan.
+- Phase 1 remains the active mainline: a public/free index-lighting site usable by every visitor.
+- Phase 2 remains membership MVP: daily three-layer interpretation, watchlist/custom alerts, and post-market review. It stays preview/planning until Phase 1 is stable.
+- Remove public-facing development residue and outdated English/internal labels from stock runtime surfaces.
+- Update stale checkers when they force old internal wording back into public product copy.
+
+PM completed:
+
+- Tightened the stock runtime at-a-glance copy so the top section reads as a user-facing observation flow instead of repeated keyword anchors.
+- Replaced the visible `Investor Action Summary` label with `觀察順序整理`.
+- Updated stock first-screen, stock actionability, and market action coverage checkers to validate current BRIEF-aligned Chinese product language.
+- Kept Home/Stock public pages in Phase 1: market mood, risk reason, update time, data boundary, and non-investment-advice language remain visible without opening Phase 2 membership implementation.
+
+Checks passed:
+
+- `check:stock-product-first-runtime-readability`
+- `check:stock-route-investor-language-alignment`
+- `check:stock-first-screen-action-summary`
+- `check:stock-first-screen-readability`
+- `check:stock-decision-aid-actionability`
+- `check:market-action-summary-coverage`
+- `check:public-visible-language-quality`
+- `check:phase-1-public-beta-public-visible-residue-cleanup`
+- `check:home-briefing-investor-reading-bridge`
+- `check:public-surface-user-facing-audit`
+- `tsc --noEmit`
+- `build`
+- `check:review-gates` (190/190)
+
+Boundary:
+
+No membership implementation, login, payment, watchlist persistence, personalized alert execution, SQL, Supabase write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public source promotion, real score promotion, real-time claim, official endorsement claim, guaranteed-return claim, or investment-advice claim occurred.
+
+Next:
+
+Continue Phase 1 public/free usable loop. PM mainline should next tighten the remaining visible public route hierarchy and launch-readiness evidence; A1 continues source/data coverage independently, A2 guards trust/legal copy, A3 handles platform/remote smoke, and A4 remains Phase 2 membership planning-only.
+
 ### Public Trust Routes And Weekly Readability Cleanup Pass
 
 Status: `public_trust_routes_weekly_readability_ready`

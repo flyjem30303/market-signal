@@ -4,12 +4,12 @@ const surfaces = [
   {
     name: "home",
     route: "/",
-    required: ["指數狀態儀表站", "30 秒", "3 分鐘", "市場燈號", "風險來源", "下一步"]
+    required: ["指數狀態儀表站", "30 秒", "3 分鐘", "市場燈號", "主要風險", "下一步"]
   },
   {
     name: "stock",
     route: "/stocks/2330",
-    required: ["30 秒快速閱讀", "Investor Action Summary", "指標優先順序", "市場脈絡", "資料邊界"]
+    required: ["標的快速判讀", "觀察順序整理", "股票頁決策羅盤", "市場脈絡", "資料邊界"]
   },
   {
     name: "briefing",

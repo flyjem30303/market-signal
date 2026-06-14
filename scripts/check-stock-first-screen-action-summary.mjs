@@ -3,10 +3,11 @@ const routes = ["/stocks/2330", "/stocks/TWII", "/stocks/0050"];
 
 const requiredVisiblePhrases = [
   "狀態儀表",
-  "30 秒快速閱讀",
+  "標的快速判讀",
+  "30 秒看懂標的狀態",
+  "觀察順序整理",
   "把單一標的放回市場脈絡",
-  "Investor Action Summary",
-  "指標優先順序",
+  "股票頁決策羅盤",
   "市場脈絡",
   "資料邊界",
   "示範資料與示範分數",
