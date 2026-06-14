@@ -2,6 +2,53 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Data Online Execution Selector
+
+Status: `phase_1_data_online_execution_selector_ready_no_execution`
+
+CEO decision:
+
+- Set the active Phase 1 goal to a launchable public free index-light site with a controlled data-online path.
+- Keep product/runtime work moving, but treat Level 1 data coverage as the main blocker before real runtime promotion can be meaningful.
+- Select `twii_first_level_1_closure_exact_execution_gate_or_repair` as the next data-online mainline route.
+
+PM completed:
+
+- Rechecked the data-online go/no-go status.
+- Rechecked the Level 1 gap closure map.
+- Rechecked A1 MVP coverage closure route support and A1 source/coverage no-fetch handoff.
+- Rechecked the data coverage route decision and backfill plan.
+- Confirmed the existing execution selector is ready and points to TWII first, with ETF and runtime-promotion preparation as parallel fallback lanes.
+
+Evidence:
+
+- `cmd.exe /c npm run check:phase-1-data-online-go-no-go-status` passes with `PUBLIC_RUNTIME_READY_BUT_DATA_ONLINE_NO_GO`.
+- `cmd.exe /c npm run check:phase-1-data-online-gap-closure-map` passes with `phase_1_data_online_gap_closure_map_ready`.
+- `cmd.exe /c npm run check:a1-mvp-coverage-closure-route-support` passes.
+- `cmd.exe /c npm run check:a1-brief-source-coverage-next-handoff-no-fetch` passes with next A1 task `prepare_public_beta_source_coverage_gap_matrix_no_fetch`.
+- `cmd.exe /c npm run check:data-coverage-route-decision` passes.
+- `cmd.exe /c npm run check:data-coverage-backfill-plan` passes.
+- `cmd.exe /c npm run check:phase-1-data-online-execution-selector` passes with selected route `twii_first_level_1_closure_exact_execution_gate_or_repair`.
+
+Current coverage:
+
+- Level 1 expected rows: `360`.
+- Level 1 observed rows: `182`.
+- Level 1 missing rows: `178`.
+- Accepted TW equity rows: `180/180`.
+- Remaining TWII rows: `0/60`.
+- Remaining ETF rows: `2/120`.
+- Runtime remains `publicDataSource=mock`.
+- Score remains `scoreSource=mock`.
+
+Boundary:
+
+No SQL, Supabase connection/read/write, staging row creation, `daily_prices` mutation, market endpoint fetch, raw market-data ingest/store/commit, source-derived candidate row generation, public source promotion, score promotion, investment advice claim, production environment mutation, DNS change, broad visual redesign, or Phase 2 membership implementation occurred.
+
+Next route:
+
+Prepare the TWII Level 1 closure exact execution gate or repair packet. Parallel safe lanes may continue ETF source-rights/field-contract repair and runtime promotion preparation, but neither lane may execute writes or promote real data until the selected gate passes.
+
 ### Public Runtime Readability And Source Coverage Cleanup
 
 Status: `public_runtime_readability_source_coverage_ready`
