@@ -54,7 +54,7 @@ export const TWSE_OPENAPI_INDEX_BASELINE_SYNTHETIC_CASES: readonly TwseOpenApiIn
     description: "Valid synthetic TWII index date and close can produce mock-only parser output.",
     expectation: {
       expectedFailureClass: "none",
-      expectedPublicMeaning: "欄位對照測試可讀",
+      expectedPublicMeaning: "Synthetic TWII close is readable for mock-only route validation.",
       expectedStatus: "ready",
       expectedWarnings: []
     },
@@ -68,7 +68,7 @@ export const TWSE_OPENAPI_INDEX_BASELINE_SYNTHETIC_CASES: readonly TwseOpenApiIn
     description: "Missing close value must fail closed and export no runtime point.",
     expectation: {
       expectedFailureClass: "missing_required_field",
-      expectedPublicMeaning: "收盤值缺漏，暫停公開",
+      expectedPublicMeaning: "Missing close must block runtime promotion and show no public point.",
       expectedStatus: "blocked",
       expectedWarnings: []
     },
@@ -79,7 +79,7 @@ export const TWSE_OPENAPI_INDEX_BASELINE_SYNTHETIC_CASES: readonly TwseOpenApiIn
     description: "Duplicate trade dates must be rejected before any real-data promotion.",
     expectation: {
       expectedFailureClass: "duplicate_dates",
-      expectedPublicMeaning: "日期重複，需重新確認",
+      expectedPublicMeaning: "Duplicate trade dates must be rejected before real-data promotion.",
       expectedStatus: "blocked",
       expectedWarnings: []
     },
@@ -93,7 +93,7 @@ export const TWSE_OPENAPI_INDEX_BASELINE_SYNTHETIC_CASES: readonly TwseOpenApiIn
     description: "Required fields can remain readable while optional volume / turnover fields stay unconfirmed.",
     expectation: {
       expectedFailureClass: "none",
-      expectedPublicMeaning: "可示範閱讀，延伸欄位待補",
+      expectedPublicMeaning: "Required index close fields pass while optional market fields remain unconfirmed.",
       expectedStatus: "ready",
       expectedWarnings: ["volume_not_required_for_route", "turnover_not_required_for_route"]
     },
@@ -104,7 +104,7 @@ export const TWSE_OPENAPI_INDEX_BASELINE_SYNTHETIC_CASES: readonly TwseOpenApiIn
     description: "Synthetic revision package must surface a policy warning instead of silently replacing history.",
     expectation: {
       expectedFailureClass: "none",
-      expectedPublicMeaning: "修正規則待確認",
+      expectedPublicMeaning: "Historical replacement requires a revision policy before public promotion.",
       expectedStatus: "policy_required",
       expectedWarnings: ["revision_policy_required_before_replacement"]
     },
@@ -118,7 +118,7 @@ export const TWSE_OPENAPI_INDEX_BASELINE_SYNTHETIC_CASES: readonly TwseOpenApiIn
     description: "Synthetic session gaps must remain visible as trading-calendar policy work.",
     expectation: {
       expectedFailureClass: "none",
-      expectedPublicMeaning: "交易日缺口待確認",
+      expectedPublicMeaning: "Trading-session gaps require a calendar policy before real promotion.",
       expectedStatus: "policy_required",
       expectedWarnings: ["session_gap_policy_required_before_real_promotion"]
     },

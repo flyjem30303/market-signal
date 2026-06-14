@@ -2,6 +2,48 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### TWSE OpenAPI No-Fetch Readiness Workstream Registration
+
+Status: `twse_openapi_no_fetch_readiness_workstream_registration_ready`
+
+CEO decision:
+
+- Continue Phase 1 under the BRIEF as the public/free index-lighting site.
+- Keep UI/UX polish deferred until the final pre-launch pass unless a design issue blocks comprehension, trust, accessibility, or route health.
+- Move the A1 data/source lane forward without fetching market rows, running SQL, writing Supabase, mutating `daily_prices`, or promoting runtime sources.
+
+PM completed:
+
+- Registered the TWSE OpenAPI no-fetch readiness chain in `docs/ROLE_WORKSTREAMS.md`.
+- Registered A1 ownership for endpoint metadata, field-contract notes, source-adapter contract, parser contract, parser-consumer adapter, runtime synthetic case notes, and index-baseline synthetic parser fixture.
+- Registered A2 ownership for public attribution, delay, and no-advice copy guard.
+- Registered PM ownership for the mock runtime wiring bridge and the rule that no field authorizes SQL.
+- Repaired corrupted public-meaning strings in the index-baseline synthetic fixture source.
+- Registered ETF market-price synthetic fixture and mock-runtime handoff readiness in the PM GOAL.
+- Registered the A1 Batch 1 listed-equity no-row-list policy path in the PM GOAL.
+
+Current readiness labels:
+
+- `twse_openapi_bounded_metadata_terms_validation_ready_no_market_rows`
+- `twse_openapi_source_adapter_contract_scaffold_no_data_fetch`
+- `twse_openapi_parser_contract_with_synthetic_fixtures_only`
+- `twse_openapi_parser_contract_consumer_adapter_no_fetch`
+- `twse_openapi_runtime_consumer_adapter_synthetic_case_notes`
+- `prepare_twse_openapi_runtime_mock_consumer_wiring_readiness`
+- `twse_openapi_runtime_mock_consumer_wiring_readiness`
+- `prepare_index_baseline_synthetic_parser_fixture_no_fetch`
+- `twse_openapi_index_baseline_synthetic_parser_fixture_ready_no_fetch`
+- `prepare_etf_market_price_synthetic_fixture_no_fetch`
+- `etf_market_price_synthetic_fixture_ready_no_fetch`
+- `etf_market_price_mock_runtime_handoff_ready_no_fetch`
+- `etf_market_price_mock_runtime_handoff_review_then_public_label_integration`
+- `docs/A1_BATCH1_LISTED_EQUITY_SYMBOL_POLICY_NO_ROW_LIST.md`
+- `prepare_batch1_listed_equity_mock_runtime_policy_labels`
+
+Boundary:
+
+No SQL, Supabase read/write, staging rows, `daily_prices` mutation, raw market-data fetch/store/commit, source promotion, real score promotion, production environment mutation, DNS change, or Phase 2 membership implementation occurred. The runtime remains `publicDataSource=mock` and `scoreSource=mock`.
+
 ### Phase 1 Pre-UI/UX Visual Acceptance Smoke
 
 Status: `phase_1_pre_ui_ux_visual_acceptance_smoke_ready`

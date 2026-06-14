@@ -78,6 +78,14 @@ Current next tasks:
 - Continue legal/free automated source and coverage proof.
 - Keep data-line source and coverage work independent from PM public runtime work.
 - Escalate before any remote attempt, SQL, data write, raw-data fetch, or production source promotion.
+- A1 owns endpoint metadata / field-contract notes for `twse_openapi_bounded_metadata_terms_validation_ready_no_market_rows`.
+- Prepare `twse_openapi_source_adapter_contract_scaffold_no_data_fetch`.
+- Prepare `twse_openapi_parser_contract_with_synthetic_fixtures_only`.
+- Prepare `twse_openapi_parser_contract_consumer_adapter_no_fetch`.
+- Prepare `twse_openapi_runtime_consumer_adapter_synthetic_case_notes`.
+- Prepare `prepare_index_baseline_synthetic_parser_fixture_no_fetch`.
+- Prepare `twse_openapi_index_baseline_synthetic_parser_fixture_ready_no_fetch`.
+- Keep every TWSE OpenAPI artifact synthetic-only or metadata-only until PM opens a bounded execution gate.
 
 ## A2: Public Copy / Product Safety
 
@@ -107,6 +115,8 @@ Current next tasks:
 
 - Repair only launch-blocking public trust and readability issues.
 - Keep cosmetic polish lower priority until Phase 1 public/free experience is stable.
+- A2 owns public attribution / delay / no-advice copy guard for TWSE OpenAPI readiness.
+- Confirm that OpenAPI readiness copy does not imply real-time data, official endorsement, investment advice, or `scoreSource=real`.
 
 ## A3: Launch / Production Engineering
 
@@ -227,7 +237,12 @@ All roles must keep these boundaries until CEO/PM explicitly changes the stage:
 ## Current Blocker-Closure Assignments
 
 - PM mainline: integrate blocker closure into runtime decision surfaces, run local checks, keep Git backup coherent, and decide whether role output is accepted.
+- PM mainline owns `prepare_twse_openapi_runtime_mock_consumer_wiring_readiness`.
+- PM mainline owns `twse_openapi_runtime_mock_consumer_wiring_readiness`.
+- PM mainline owns the bridge from `twse_openapi_parser_contract_consumer_adapter_no_fetch` to mock runtime wiring.
+- PM mainline records that no field authorizes SQL.
 - A1: prepare data-quality evidence, row-coverage readiness, field-validity QA, and downgrade-rule handoff material.
+- A1: prepare `twse_openapi_bounded_metadata_terms_validation_ready_no_market_rows`, `twse_openapi_source_adapter_contract_scaffold_no_data_fetch`, `twse_openapi_parser_contract_with_synthetic_fixtures_only`, `twse_openapi_parser_contract_consumer_adapter_no_fetch`, `twse_openapi_runtime_consumer_adapter_synthetic_case_notes`, and `twse_openapi_index_baseline_synthetic_parser_fixture_ready_no_fetch`.
 - A2: review whether blocker closure is understandable to users, especially public wording for mock-only status, source-rights limits, model-credibility limits, and real-score stop lines.
 - A3: stay guard-only unless work becomes production-affecting through deployment, environment, credential, DNS, monitoring, rollback, or cloud changes.
 - A4: keep Phase 2 membership planning ready, but do not block Phase 1.

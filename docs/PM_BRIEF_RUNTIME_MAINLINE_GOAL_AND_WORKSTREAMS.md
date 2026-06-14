@@ -59,6 +59,14 @@ Current A1 focus:
 - field-contract readiness
 - ingestion/backfill readiness
 - synthetic or aggregate-only artifacts when needed
+- prepare_index_baseline_synthetic_parser_fixture_no_fetch
+- twse_openapi_index_baseline_synthetic_parser_fixture_ready_no_fetch
+- prepare_etf_market_price_synthetic_fixture_no_fetch
+- etf_market_price_synthetic_fixture_ready_no_fetch
+- etf_market_price_mock_runtime_handoff_ready_no_fetch
+- etf_market_price_mock_runtime_handoff_review_then_public_label_integration
+- docs/A1_BATCH1_LISTED_EQUITY_SYMBOL_POLICY_NO_ROW_LIST.md
+- prepare_batch1_listed_equity_mock_runtime_policy_labels
 
 A1 boundaries:
 
