@@ -24,7 +24,7 @@ export function generateMetadata({ params }: StockPageProps): Metadata {
   const snapshot = repository.getSnapshot(asset.symbol, snapshotDate);
   const signal = snapshot?.signal.title ?? "燈號觀察";
   const title = `${asset.symbol} ${asset.name} ${signal}`;
-  const description = `${asset.symbol} ${asset.name} 的 30 秒燈號、3 分鐘觀察順序、資料更新時間與風險提示。內容為資訊整理，不提供買賣建議。`;
+  const description = `${asset.symbol} ${asset.name} 的指數燈號頁，整理目前狀態、風險分數、資料更新時間與下一步觀察。內容為市場資訊整理，不提供個股買賣建議。`;
 
   return {
     alternates: {
@@ -74,12 +74,12 @@ export default async function StockPage({ params }: StockPageProps) {
           },
           {
             "@type": "PropertyValue",
-            name: "燈號狀態",
+            name: "目前燈號",
             value: snapshot.signal.title
           },
           {
             "@type": "PropertyValue",
-            name: "資料品質",
+            name: "資料狀態",
             value: `${snapshot.dataQualityGrade} / 示範資料`
           }
         ]

@@ -2,6 +2,50 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Phase 1 Public Route Readability Cleanup Pass
+
+Status: `phase_1_public_route_readability_cleanup_ready`
+
+CEO decision:
+
+- Split the revised BRIEF into two phases.
+- Phase 1 is the active target: finish the public/free market dashboard so ordinary visitors can understand market mood quickly and know what to observe next.
+- Phase 2 membership remains roadmap/planning only; no login, payment, persisted watchlist, personalized alert execution, or member-only content implementation was opened.
+- Prioritize user-visible cleanup over additional governance because visible mojibake, internal field names, and development residue directly hurt public Beta readiness.
+
+PM completed:
+
+- Rebuilt the homepage and dashboard shell copy around `指數狀態儀表站`, `全市場總覽`, `核心指標面板`, `警示清單`, update time, data boundary, and non-investment-advice guidance.
+- Rebuilt the stock quick-read component around `標的快速判讀`, `30 秒可用`, `3 分鐘要複核`, risk cause, impact level, update time, next step, `示範資料 / 示範分數`, and `不能當成個股買賣指令`.
+- Cleaned stock route SEO metadata and JSON-LD labels so search/share surfaces no longer contain mojibake.
+- Rebuilt `/methodology` and the shared public reading contract into readable trust copy.
+- Recovered localhost after a Next dev-cache failure caused by running production build while the dev server was active; final local route probes returned 200 after clearing `.next` and restarting dev server.
+
+Checks passed:
+
+- `check:stock-product-first-runtime-readability`
+- `check:stock-route-investor-language-alignment`
+- `check:stock-first-screen-readability`
+- `check:home-briefing-investor-reading-bridge`
+- `check:public-visible-language-quality`
+- `check:a2-legal-methodology-readable-copy`
+- `check:phase-1-public-beta-public-visible-residue-cleanup`
+- `tsc --noEmit`
+- `build`
+- local route probes: `/`, `/methodology`, `/stocks/2330` returned 200 after dev-server restart
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public source promotion, real score promotion, membership implementation, login, payment, watchlist persistence, personalized alert execution, real-time claim, official endorsement claim, guaranteed-return claim, or investment-advice claim occurred.
+
+Operational note:
+
+Running `npm run build` while the Next dev server is open can corrupt `.next` dev chunks and produce `Cannot find module './<chunk>.js'` on localhost. If this happens, stop the port-3000 node process, remove `.next`, and restart `npm run dev -- --hostname localhost --port 3000`.
+
+Next:
+
+Commit and push this cleanup, then let Vercel redeploy. After deployment, rerun remote monitoring and continue Phase 1 public Beta review. A1 continues lawful/free automated source and coverage work; A2 guards trust/legal copy; A3 keeps deployment/monitoring/rollback ready; A4 remains Phase 2 planning-only.
+
 ### A3 Privacy Remote Monitoring Anchor Pass
 
 Status: `a3_privacy_remote_monitoring_anchor_ready`

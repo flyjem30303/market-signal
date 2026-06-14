@@ -25,6 +25,12 @@ type DashboardShellProps = {
   marketSignalSourceStatus?: MarketSignalSourceStatus;
 };
 
+type BreadthSummary = {
+  constructive: number;
+  defensive: number;
+  watch: number;
+};
+
 const snapshotDate = "2026-05-28";
 
 export function DashboardShell({
@@ -60,15 +66,14 @@ export function DashboardShell({
         <p className="eyebrow">公開 Beta</p>
         <h1>{isStockPage ? `${selected.symbol} ${selected.name} 狀態儀表` : "指數狀態儀表站"}</h1>
         <p>
-          指數燈號把市場資料整理成紅、黃、綠等狀態提示，讓一般投資者在 30 秒內看懂市場氛圍，並用 3 分鐘內判斷是否關注、加強觀察或降低風險。
-          這是 30 秒可讀、3 分鐘可行動的公開閱讀流程。
+          指數燈號把市場資料整理成紅、黃、綠等狀態提示，讓一般投資者先用 30 秒內看懂市場氛圍，再用 3 分鐘內判斷是否關注、加強觀察或降低風險。
         </p>
         <p className="runtime-boundary-line">正式市場資料尚未啟用；目前為示範資料與示範分數，不提供個股買賣建議。</p>
-        <div className="hero-status-strip" aria-label="公開 Beta 快速重點">
+        <div className="hero-status-strip" aria-label="公開 Beta 閱讀重點">
           <span>30 秒內看懂市場氛圍</span>
           <span>3 分鐘內判斷</span>
-          <span>警示提醒</span>
-          <span>資料信任</span>
+          <span>顯示資料更新時間</span>
+          <span>保留非投資建議邊界</span>
         </div>
       </section>
 
@@ -78,12 +83,12 @@ export function DashboardShell({
       <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
       {!isStockPage && <PublicBetaPublicStatusSurface />}
       <PublicBetaSourceCoverageBridge context={isStockPage ? "stock" : "home"} stockSymbol={selected.symbol} />
-      <section className="panel stock-reading-summary" aria-label="三分鐘判斷順序">
-        <p className="eyebrow">3 分鐘判斷順序</p>
-        <h2>先看市場氣氛，再看資料品質，最後決定下一步觀察</h2>
+
+      <section className="panel stock-reading-summary" aria-label="三分鐘閱讀流程">
+        <p className="eyebrow">3 分鐘閱讀流程</p>
+        <h2>先看市場氣氛，再看風險原因，最後確認資料狀態</h2>
         <p>
-          下一步觀察：若燈號偏綠，先追蹤趨勢是否延續；若燈號偏黃，先等待資料確認；若燈號偏紅，先降低風險暴露。
-          本頁不提供買賣建議，也不提供個股買賣建議；個股頁燈號不應直接視為個股買賣建議。
+          本頁把燈號、風險分數、資料更新時間與下一步觀察放在同一條閱讀順序。燈號代表需要觀察的市場線索，不是交易指令。
         </p>
       </section>
       <PublicNextReadingFlow context={isStockPage ? "stock" : "home"} stockSymbol={selected.symbol} />
@@ -106,11 +111,11 @@ export function DashboardShell({
         </>
       )}
 
-      <section className="stock-search-panel" aria-label="標的選擇">
+      <section className="stock-search-panel" aria-label="標的切換">
         <div>
-          <p className="eyebrow">分類</p>
-          <h2>查看指數、ETF 與示範股票</h2>
-          <p>這裡先保留少量示範標的，資料流程完成覆蓋率後再擴大到完整市場清單。</p>
+          <p className="eyebrow">標的列表</p>
+          <h2>切換指數、ETF 與示範標的</h2>
+          <p>目前先保留少量示範標的，資料流程完成覆蓋率後再擴大到完整市場清單。</p>
         </div>
         <div className="stock-chip-list">
           {assets.map((asset) => (
@@ -173,7 +178,7 @@ function HomeFirstScreenDecisionSummary({
   market,
   snapshot
 }: {
-  breadth: ReturnType<typeof buildBreadth>;
+  breadth: BreadthSummary;
   freshness: DataFreshnessSnapshot;
   market: SignalSnapshot;
   snapshot: SignalSnapshot;
@@ -181,9 +186,9 @@ function HomeFirstScreenDecisionSummary({
   const action = market.riskScore >= 60 ? "先降低解讀信心並複核風險" : "先關注趨勢是否延續";
 
   return (
-    <section className="home-first-screen-decision" aria-label="首頁快速判讀">
+    <section className="home-first-screen-decision" aria-label="首頁快速閱讀">
       <div className="home-first-screen-decision__main">
-        <p className="eyebrow">首頁快速判讀</p>
+        <p className="eyebrow">全市場總覽</p>
         <h2>
           30 秒看懂：{market.asset.name} 目前是「{market.signal.title}」
         </h2>
@@ -239,7 +244,7 @@ function HomeMarketOverview({
   market,
   snapshot
 }: {
-  breadth: ReturnType<typeof buildBreadth>;
+  breadth: BreadthSummary;
   market: SignalSnapshot;
   snapshot: SignalSnapshot;
 }) {
@@ -253,12 +258,12 @@ function HomeMarketOverview({
       <div className="home-public-beta-layer readying">
         <span>核心指標面板</span>
         <strong>{breadth.constructive}/{breadth.watch}/{breadth.defensive}</strong>
-        <p>偏多、觀望、警戒項目會幫助使用者判斷市場廣度是否健康。</p>
+        <p>用偏多、觀望、警戒數量判斷市場是否集中在少數強勢標的。</p>
       </div>
       <div className="home-public-beta-layer blocked">
         <span>警示清單</span>
         <strong>{snapshot.dataQualityGrade}</strong>
-        <p>正式資料升級前檢查仍未完成，頁面維持示範資料邊界。</p>
+        <p>正式資料升級前檢查仍未完成，請把目前分數視為示範資料邊界內的閱讀流程。</p>
       </div>
     </section>
   );
@@ -269,7 +274,7 @@ function HomeCoreIndicatorReadout({
   market,
   snapshot
 }: {
-  breadth: ReturnType<typeof buildBreadth>;
+  breadth: BreadthSummary;
   market: SignalSnapshot;
   snapshot: SignalSnapshot;
 }) {
@@ -277,7 +282,7 @@ function HomeCoreIndicatorReadout({
     {
       action: "先看市場氣氛",
       body: market.signal.text,
-      label: "核心指標快讀",
+      label: "核心燈號",
       tone: "constructive",
       value: market.signal.title
     },
@@ -290,13 +295,13 @@ function HomeCoreIndicatorReadout({
     },
     {
       action: market.riskScore >= 55 ? "加強風險複核" : "維持觀察",
-      body: "風險分數越高，越需要看資料狀態、波動與警示原因。",
+      body: "風險分數偏高時，先回看資料狀態與警示原因。",
       label: "風險熱度",
       tone: market.riskScore >= 55 ? "watch" : "constructive",
       value: `${market.riskScore}/100`
     },
     {
-      action: "確認資料邊界",
+      action: "確認資料時間",
       body: `更新時間：${formatTaipeiTime(snapshot.lastUpdatedAt)}。`,
       label: "資料可信度",
       tone: "watch",
@@ -305,11 +310,11 @@ function HomeCoreIndicatorReadout({
   ];
 
   return (
-    <section className="home-core-indicator-readout" aria-label="核心指標快讀">
+    <section className="home-core-indicator-readout" aria-label="核心指標摘要">
       <div>
-        <p className="eyebrow">核心指標快讀</p>
-        <h2>30 秒看市場，3 分鐘行動判斷</h2>
-        <p>先看燈號，再看風險與資料可信度，最後決定要關注、加強觀察或降低風險。</p>
+        <p className="eyebrow">核心指標面板</p>
+        <h2>30 秒看市場，3 分鐘排觀察順序</h2>
+        <p>先看燈號，再看強弱分布、風險熱度與資料時間，避免只看單一分數就做判斷。</p>
       </div>
       <div className="home-core-indicator-grid">
         {items.map((item) => (
@@ -328,12 +333,12 @@ function HomeCoreIndicatorReadout({
 function HomeDataReadinessStatus() {
   return (
     <section className="panel public-data-readiness-summary" aria-label="資料準備狀態">
-      <p className="eyebrow">資料品質</p>
-      <h2>目前資料可以怎麼使用</h2>
+      <p className="eyebrow">資料狀態</p>
+      <h2>正式資料導入前，先把閱讀流程做好</h2>
       <p>
-        30 秒可用：先用示範燈號理解市場氣氛。3 分鐘要複核：再看資料狀態、來源可用條件、欄位與覆蓋率、回退與公開說明。
+        目前公開頁使用示範資料建立市場燈號、風險提示與更新時間的閱讀方式。正式資料升級前檢查仍未完成；資料來源、覆蓋率與自動化更新流程確認後，才會升級為正式資料。
       </p>
-      <p>正式資料升級前檢查仍在進行；目前內容不能當成買賣指令。</p>
+      <p>在正式資料啟用前，頁面會持續標示示範資料邊界與非投資建議邊界。</p>
     </section>
   );
 }
@@ -342,29 +347,29 @@ function StockPublicSummary({ snapshot }: { snapshot: SignalSnapshot }) {
   const missing = snapshot.missingModuleFlags.length + snapshot.staleDataFlags.length;
 
   return (
-    <section className="stock-indicator-priority" id="stock-public-summary" aria-label="標的快速判讀">
+    <section className="stock-indicator-priority" id="stock-public-summary" aria-label="標的快速摘要">
       <div>
-        <p className="eyebrow">標的快速判讀</p>
+        <p className="eyebrow">標的快速摘要</p>
         <h2>
-          決策輔助摘要：30 秒快速閱讀：{snapshot.asset.symbol} {snapshot.asset.name}：{snapshot.signal.title}
+          先看燈號：{snapshot.asset.symbol} {snapshot.asset.name} 是「{snapshot.signal.title}」
         </h2>
-        <p>30 秒快讀、30 秒看懂標的狀態：{snapshot.signal.text}</p>
+        <p>30 秒快速閱讀：{snapshot.signal.text}</p>
       </div>
       <div className="stock-indicator-priority-grid">
         <article className="active">
-          <span>30 秒可用</span>
+          <span>綜合分數</span>
           <strong>{snapshot.compositeScore}/100</strong>
-          <p>用來快速看目前狀態，但仍需搭配資料狀態與風險分數。</p>
+          <p>用來快速理解目前偏強、觀望或偏防守。</p>
         </article>
         <article className={snapshot.riskScore >= 60 ? "blocked" : "hold"}>
-          <span>影響級別</span>
+          <span>風險分數</span>
           <strong>{snapshot.riskScore}/100</strong>
-          <p>風險越高，越應保守閱讀並複核更新時間。</p>
+          <p>風險偏高時，先看成因與資料狀態，不急著做方向判斷。</p>
         </article>
         <article className={missing ? "hold" : "active"}>
-          <span>下一步觀察</span>
-          <strong>{missing ? `${missing} 項提示` : "已揭露"}</strong>
-          <p>正式資料尚未啟用，本頁仍是示範閱讀流程。</p>
+          <span>資料提醒</span>
+          <strong>{missing ? `${missing} 項提醒` : "暫無提醒"}</strong>
+          <p>正式市場資料尚未啟用，請先確認資料狀態再閱讀燈號。</p>
         </article>
       </div>
     </section>
@@ -376,27 +381,27 @@ function StockDecisionCompass({ snapshot }: { snapshot: SignalSnapshot }) {
   const dataTone = snapshot.dataQualityGrade === "A" ? "active" : "hold";
   const nextStep =
     snapshot.riskScore >= 60
-      ? "先加強觀察風險原因，等待資料與市場脈絡確認後再解讀。"
+      ? "先複核風險來源、資料時間與市場總覽，再決定是否降低風險。"
       : snapshot.compositeScore >= 70
-        ? "先關注趨勢是否延續，再回看大盤與 ETF 是否同步。"
-        : "先維持觀察，確認更新時間與警示原因是否一致。";
+        ? "先觀察趨勢是否延續，再比較市場總覽與相關 ETF。"
+        : "維持觀察，等待更多資料或連續燈號變化。";
 
   const cards = [
     {
       body: snapshot.signal.text,
-      label: "燈號狀態",
+      label: "目前燈號",
       tone: snapshot.compositeScore >= 70 ? "active" : "hold",
       value: snapshot.signal.title
     },
     {
-      body: "分數越高越需要保守閱讀，並先看警示成因。",
+      body: "風險分數越高，越需要先複核成因與資料狀態。",
       label: "風險熱度",
       tone: riskTone,
       value: `${snapshot.riskScore}/100`
     },
     {
-      body: "正式市場資料尚未啟用，目前只能作為示範閱讀流程。",
-      label: "資料信心",
+      body: "正式市場資料尚未啟用，目前為示範閱讀流程。",
+      label: "資料品質",
       tone: dataTone,
       value: snapshot.dataQualityGrade
     },
@@ -409,10 +414,10 @@ function StockDecisionCompass({ snapshot }: { snapshot: SignalSnapshot }) {
   ];
 
   return (
-    <section className="stock-decision-compass" aria-label="股票頁決策羅盤">
+    <section className="stock-decision-compass" aria-label="標的決策輔助">
       <div className="stock-decision-compass__intro">
-        <p className="eyebrow">股票頁決策羅盤</p>
-        <h2>先看燈號、風險、資料信心，再決定下一步觀察</h2>
+        <p className="eyebrow">決策輔助</p>
+        <h2>把燈號、風險、資料狀態整理成一個觀察順序</h2>
       </div>
       {cards.map((card) => (
         <article className={card.tone} key={card.label}>
@@ -422,7 +427,7 @@ function StockDecisionCompass({ snapshot }: { snapshot: SignalSnapshot }) {
         </article>
       ))}
       <p className="stock-decision-compass__boundary">
-        本羅盤只協助整理狀態、風險與資料邊界；不提供買進、賣出、持有或個人化投資建議。
+        本區塊提供市場資訊整理與風險辨識，不是買賣建議，也不保證任何投資結果。
       </p>
     </section>
   );
@@ -433,7 +438,7 @@ function StockMarketContextPanel({
   market,
   snapshot
 }: {
-  breadth: ReturnType<typeof buildBreadth>;
+  breadth: BreadthSummary;
   market: SignalSnapshot;
   snapshot: SignalSnapshot;
 }) {
@@ -441,24 +446,24 @@ function StockMarketContextPanel({
     <section className="stock-market-context" id="stock-market-context" aria-label="市場脈絡">
       <div>
         <p className="eyebrow">市場脈絡</p>
-        <h2>把單一標的放回市場脈絡</h2>
-        <p>個股或 ETF 燈號需要搭配大盤、廣度與風險分數一起判讀，避免只看單一分數造成誤判。</p>
+        <h2>把單一標的放回整體市場一起看</h2>
+        <p>單一指數、ETF 或個股不應孤立閱讀；請同時看市場總燈號、廣度與資料狀態。</p>
       </div>
       <div className="market-context-grid">
         <article className="positive">
-          <span>大盤燈號</span>
+          <span>市場總燈號</span>
           <strong>{market.signal.title}</strong>
           <p>{market.signal.text}</p>
         </article>
         <article className="watch">
           <span>市場廣度</span>
           <strong>{breadth.constructive}/{breadth.watch}/{breadth.defensive}</strong>
-          <p>偏多、觀望、警戒的比例可用來判斷市場是否集中。</p>
+          <p>偏多、觀望、警戒數量協助判斷市場是否集中。</p>
         </article>
         <article className={snapshot.riskScore >= 60 ? "risk" : "positive"}>
           <span>標的風險</span>
           <strong>{snapshot.riskScore}/100</strong>
-          <p>風險分數偏高時，先看警示原因與資料狀態。</p>
+          <p>風險分數偏高時，請先回看原因與資料更新時間。</p>
         </article>
       </div>
     </section>
@@ -472,31 +477,31 @@ function StockDataBoundaryPanel({ snapshot }: { snapshot: SignalSnapshot }) {
     <section className="stock-risk-checklist" id="stock-data-boundary" aria-label="資料邊界">
       <div>
         <p className="eyebrow">資料邊界</p>
-        <h2>正式資料尚未啟用，先用示範資料理解流程</h2>
-        <p>資料時間：{formatTaipeiTime(snapshot.lastUpdatedAt)}。資料真實化與覆蓋率仍在資料流程推進，前台會清楚揭露示範資料狀態。</p>
+        <h2>目前仍是示範資料，正式資料尚未啟用</h2>
+        <p>資料時間：{formatTaipeiTime(snapshot.lastUpdatedAt)}。正式資料來源、覆蓋率與自動化更新完成前，請勿把目前燈號視為即時市場訊號。</p>
       </div>
       <div className="risk-check-grid">
         <article className="watch">
-          <span>資料狀態</span>
+          <span>資料等級</span>
           <strong>{snapshot.dataQualityGrade}</strong>
-          <p>3 分鐘要複核、3 分鐘複核風險：資料狀態會影響燈號信心，不應單獨作為交易依據。</p>
+          <p>3 分鐘判斷時，先確認資料品質，再解讀風險或趨勢。</p>
         </article>
         <article className={missing.length ? "watch" : "pass"}>
-          <span>資料提示</span>
+          <span>資料提醒</span>
           <strong>{missing.length ? `${missing.length} 項` : "無"}</strong>
-          <p>{missing.length ? missing.join("、") : "目前沒有額外缺漏提示。"}</p>
+          <p>{missing.length ? missing.join("、") : "目前沒有額外資料缺漏提醒。"}</p>
         </article>
         <article className="watch">
-          <span>非投資建議</span>
+          <span>使用邊界</span>
           <strong>資訊整理</strong>
-          <p>燈號只協助整理狀態，不提供個股買賣建議或保證報酬，不能當成個股買賣指令。</p>
+          <p>燈號只能用來建立觀察順序，不能視為買賣指令或報酬承諾。</p>
         </article>
       </div>
     </section>
   );
 }
 
-function buildBreadth(snapshots: SignalSnapshot[]) {
+function buildBreadth(snapshots: SignalSnapshot[]): BreadthSummary {
   return snapshots.reduce(
     (summary, item) => {
       if (item.compositeScore >= 70) summary.constructive += 1;
