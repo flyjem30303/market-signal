@@ -34,16 +34,16 @@ const sourceFiles = [
 ];
 
 const routeVisibleContracts = [
-  { route: "/", tokens: ["指數狀態儀表站", "30 秒", "3 分鐘", "資料更新時間", "不提供個股買賣建議"] },
-  { route: "/briefing", tokens: ["每日市場晨報", "30 秒", "3 分鐘", "資料狀態", "示範資料"] },
-  { route: "/weekly", tokens: ["市場週報", "30 秒", "3 分鐘", "示範資料", "不提供買賣建議"] },
-  { route: "/membership", tokens: ["會員功能預覽", "會員 MVP", "自選追蹤", "盤後複盤", "不是會員入口"] },
-  { route: "/stocks/2330", tokens: ["2330", "狀態儀表", "標的快速判讀", "資料邊界", "不能當成個股買賣指令"] },
-  { route: "/stocks/TWII", tokens: ["TWII", "狀態儀表", "標的快速判讀", "資料邊界", "不能當成個股買賣指令"] },
-  { route: "/methodology", tokens: ["方法說明", "資料來源", "示範資料", "不提供買賣建議"] },
-  { route: "/disclaimer", tokens: ["風險聲明", "資料來源", "投資決策", "不提供買賣建議"] },
-  { route: "/terms", tokens: ["使用條款", "資料來源", "不是投資建議"] },
-  { route: "/privacy", tokens: ["隱私權與資料說明", "資料", "會員"] }
+  { route: "/", tokens: ["公開 Beta", "30 秒", "3 分鐘", "市場總覽", "資料狀態", "非投資建議"] },
+  { route: "/briefing", tokens: ["市場簡報", "30 秒", "3 分鐘", "警示清單", "資料邊界", "正式資料尚未啟用"] },
+  { route: "/weekly", tokens: ["市場週報", "本週市場狀態", "示範資料", "不提供買賣建議"] },
+  { route: "/membership", tokens: ["會員預覽", "會員 MVP", "市場三層解讀", "自選追蹤", "自訂警示"] },
+  { route: "/stocks/2330", tokens: ["2330", "指數燈號", "資料來源與覆蓋", "3 分鐘閱讀順序", "不是投資建議"] },
+  { route: "/stocks/TWII", tokens: ["TWII", "指數燈號", "資料來源與覆蓋", "3 分鐘閱讀順序", "不是投資建議"] },
+  { route: "/methodology", tokens: ["方法說明", "燈號方法", "資料狀態", "不是交易指令"] },
+  { route: "/disclaimer", tokens: ["風險聲明", "市場資訊整理", "不構成個股買賣建議", "示範資料"] },
+  { route: "/terms", tokens: ["使用條款", "市場觀察", "不能當作交易指令", "資料來源"] },
+  { route: "/privacy", tokens: ["隱私", "會員功能", "自選追蹤", "自訂警示"] }
 ];
 
 const missing = [];
@@ -67,6 +67,9 @@ for (const file of sourceFiles) {
   for (const fragment of forbiddenPublicSourceFragments) {
     if (source.includes(fragment)) blocked.push(`${file}: public source residue ${fragment}`);
   }
+  for (const marker of findMojibakeMarkers(source)) {
+    blocked.push(`${file}: ${marker}`);
+  }
 }
 
 for (const [file, source] of [
@@ -87,6 +90,9 @@ for (const route of routes) {
 
 for (const result of routeResults) {
   if (result.statusCode !== 200) blocked.push(`${result.route}: HTTP ${result.statusCode}`);
+  for (const marker of findMojibakeMarkers(result.text ?? "")) {
+    blocked.push(`${result.route}: ${marker}`);
+  }
 }
 
 for (const contract of routeVisibleContracts) {
@@ -165,4 +171,16 @@ function normalizeVisibleText(html) {
     .replace(/&amp;/g, "&")
     .replace(/\s+/g, " ")
     .trim();
+}
+
+function findMojibakeMarkers(source) {
+  const markers = [];
+  if (/\uFFFD/u.test(source)) markers.push("replacement-character");
+  if (/[\uE000-\uF8FF]/u.test(source)) markers.push("private-use-codepoint");
+  if (/[\u0080-\u009F]/u.test(source)) markers.push("c1-control-character");
+  if (/\?{3,}/u.test(source)) markers.push("question-mark-run");
+  for (const fragment of ["蝬", "嚗", "銝", "雿", "撣", "摰", "閬", "霈", "蝡", "璅", "餈質馱", "擗", "", "", "芷"]) {
+    if (source.includes(fragment)) markers.push(`mojibake-fragment:${fragment}`);
+  }
+  return markers;
 }

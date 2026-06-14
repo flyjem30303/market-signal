@@ -14,12 +14,30 @@ const sourcePaths = [
 ];
 
 const routeChecks = [
-  { path: "/", required: ["指數狀態儀表站", "正式市場資料尚未啟用", "示範資料"] },
-  { path: "/briefing", required: ["30 秒看懂今日市場氣氛", "正式資料尚未啟用", "示範資料"] },
-  { path: "/stocks/2330", required: ["決策輔助摘要", "正式市場資料尚未啟用", "示範資料"] },
-  { path: "/weekly", required: ["週報", "示範資料", "正式資料尚未啟用"] },
-  { path: "/methodology", required: ["資料品質", "示範資料", "正式市場資料尚未啟用"] },
-  { path: "/disclaimer", required: ["風險聲明", "示範資料", "不是投資建議"] }
+  {
+    path: "/",
+    required: ["公開 Beta", "30 秒", "3 分鐘", "市場總覽", "資料狀態", "示範資料", "非投資建議"]
+  },
+  {
+    path: "/briefing",
+    required: ["市場簡報", "30 秒", "3 分鐘", "警示清單", "資料邊界", "正式資料尚未啟用"]
+  },
+  {
+    path: "/stocks/2330",
+    required: ["2330", "指數燈號", "資料來源與覆蓋", "示範資料", "市場簡報", "不是投資建議"]
+  },
+  {
+    path: "/weekly",
+    required: ["市場週報", "本週市場狀態", "示範資料", "週報僅提供市場資訊整理", "不提供買賣建議"]
+  },
+  {
+    path: "/methodology",
+    required: ["方法說明", "燈號方法", "市場狀態", "資料狀態", "不是交易指令"]
+  },
+  {
+    path: "/disclaimer",
+    required: ["風險聲明", "市場資訊整理", "不構成個股買賣建議", "示範資料", "交易指令"]
+  }
 ];
 
 const forbiddenVisibleTerms = [
@@ -80,7 +98,20 @@ const status =
     ? "ok"
     : "blocked";
 
-console.log(JSON.stringify({ registration, routeResults, sourceResults, status }, null, 2));
+console.log(
+  JSON.stringify(
+    {
+      registration,
+      routeResults,
+      sourceResults,
+      status,
+      publicDataSource: "mock",
+      scoreSource: "mock"
+    },
+    null,
+    2
+  )
+);
 
 if (status !== "ok") process.exitCode = 1;
 
@@ -114,5 +145,9 @@ function findHardMojibakeMarkers(text) {
   const markers = [];
   if (/[\uE000-\uF8FF\uFFFD]/u.test(text)) markers.push("private-use-or-replacement-code-point");
   if (/\?{3,}/u.test(text)) markers.push("question-mark-run");
+  if (/[\u0080-\u009F]/u.test(text)) markers.push("c1-control-character");
+  for (const fragment of ["蝬", "嚗", "銝", "雿", "撣", "摰", "閬", "霈", "蝡", "璅", "餈質馱", "擗", "", "", "芷"]) {
+    if (text.includes(fragment)) markers.push(`mojibake-fragment:${fragment}`);
+  }
   return markers;
 }

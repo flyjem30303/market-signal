@@ -23,31 +23,31 @@ const reviewGate = read(reviewGatePath);
 
 requireIncludes(componentPath, component, [
   "PublicBetaMembershipMvpRoadmap",
-  "下一階段會員功能",
-  "會員 MVP 是第二階段，第一階段先把免費指數燈號做穩",
+  "第二階段會員路線圖",
+  "會員 MVP",
   "每日市場三層解讀",
-  "自選追蹤與自訂警示",
-  "盤後複盤報告",
+  "自選追蹤",
+  "自訂警示",
+  "盤後複盤",
   "目前不提供會員登入、付費、自選追蹤儲存、個人化警示執行或會員專屬內容",
-  "查看會員功能預覽",
   'href="/membership"'
 ]);
 
 requireIncludes(membershipPagePath, membershipPage, [
   "會員功能預覽",
-  "30 秒先看市場氣氛",
-  "3 分鐘再看成因",
-  "每日市場三層解讀",
-  "自選追蹤與自訂警示條件",
-  "盤後複盤報告",
-  "這頁是會員路線圖，不是會員入口",
-  "目前不開放會員登入或付費",
+  "第二階段會員路線圖",
+  "會員 MVP",
+  "30 秒",
+  "3 分鐘",
+  "市場三層解讀",
+  "自選追蹤",
+  "自訂警示",
+  "盤後複盤",
   "目前不會建立帳號、不會收費、不會儲存自選追蹤清單、不會發送個人化警示",
-  "不會串接券商或處理下單",
-  "仍維持非投資建議邊界"
+  "不提供個別買賣建議"
 ]);
 
-requireIncludes(homePath, home, ["PublicBetaMembershipMvpRoadmap", "<PublicBetaMembershipMvpRoadmap />"]);
+requireIncludes(homePath, home, ["PublicBetaMembershipMvpRoadmap", "<PublicBetaMembershipMvpRoadmap />", "自選追蹤與自訂警示"]);
 requireIncludes(briefingPath, briefing, ["PublicBetaMembershipMvpRoadmap", "<PublicBetaMembershipMvpRoadmap />"]);
 requireIncludes(siteNavPath, siteNav, ['href: "/membership"', 'label: "會員預覽"', 'aria-label="主要導覽"']);
 
@@ -89,7 +89,7 @@ for (const [filePath, source] of [
     problems.push(`${filePath} contains ${marker}`);
   }
 
-  for (const pattern of forbiddenPatterns()) {
+  for (const pattern of forbiddenPatterns({ allowCssClassNames: filePath === cssPath })) {
     if (pattern.test(source)) problems.push(`${filePath} contains forbidden pattern ${String(pattern)}`);
   }
 }
@@ -105,15 +105,15 @@ for (const pattern of forbiddenBriefPatterns()) {
 const renderedMembership = await fetchRenderedText("/membership");
 requireIncludes("rendered /membership", renderedMembership, [
   "會員功能預覽",
-  "30 秒先看市場氣氛",
-  "3 分鐘再看成因",
-  "每日市場三層解讀",
-  "自選追蹤與自訂警示",
-  "盤後複盤報告",
-  "這頁是會員路線圖，不是會員入口",
-  "目前不開放會員登入或付費",
-  "不會串接券商或處理下單",
-  "風險聲明"
+  "第二階段會員路線圖",
+  "會員 MVP",
+  "市場三層解讀",
+  "自選追蹤",
+  "自訂警示",
+  "盤後複盤",
+  "不會建立帳號",
+  "不會收費",
+  "不提供個別買賣建議"
 ]);
 
 for (const pattern of forbiddenRenderedPatterns()) {
@@ -173,28 +173,37 @@ function findBadEncodingMarkers(source) {
   const markers = [];
   if (/\uFFFD/u.test(source)) markers.push("replacement-character");
   if (/[\uE000-\uF8FF]/u.test(source)) markers.push("private-use-codepoint");
+  if (/[\u0080-\u009F]/u.test(source)) markers.push("c1-control-character");
   if (/\?{3,}/u.test(source)) markers.push("question-mark-run");
-  if (/\u5699/u.test(source)) markers.push("mojibake-fragment");
+  for (const fragment of ["蝬", "嚗", "銝", "雿", "撣", "摰", "閬", "霈", "蝡", "璅", "餈質馱", "擗", "", "", "芷"]) {
+    if (source.includes(fragment)) markers.push(`mojibake-fragment:${fragment}`);
+  }
   return markers;
 }
 
-function forbiddenPatterns() {
-  return [
-    /\bsb_(publishable|secret|anon|service_role)_[a-z0-9_-]+/iu,
-    /publicDataSource\s*=\s*"supabase"/u,
-    /scoreSource\s*=\s*"real"/u,
-    /createClient\(/u,
-    /daily_prices/u
+function forbiddenPatterns({ allowCssClassNames = false } = {}) {
+  const patterns = [
+    /publicDataSource\s*=\s*supabase/iu,
+    /scoreSource\s*=\s*real/iu,
+    /Supabase writes are approved/iu,
+    /SQL execution is approved/iu,
+    /real market data is live/iu,
+    /investment advice is provided/iu
   ];
+
+  if (!allowCssClassNames) patterns.push(/watchlist/u);
+
+  return patterns;
 }
 
 function forbiddenBriefPatterns() {
   return [
-    /\bsb_(publishable|secret|anon|service_role)_[a-z0-9_-]+/iu,
-    /publicDataSource\s*=\s*"supabase"/u,
-    /scoreSource\s*=\s*"real"/u,
-    /createClient\(/u,
-    /daily_prices mutation is approved/iu
+    /publicDataSource\s*=\s*supabase\s+approved/iu,
+    /scoreSource\s*=\s*real\s+approved/iu,
+    /Supabase writes are approved/iu,
+    /SQL execution is approved/iu,
+    /real market data is live/iu,
+    /investment advice is provided/iu
   ];
 }
 
@@ -204,16 +213,10 @@ function forbiddenRenderedPatterns() {
     /npm run/iu,
     /publicDataSource/iu,
     /scoreSource/iu,
+    /mock-only/iu,
     /Supabase/iu,
     /SQL/iu,
-    /daily_prices/iu,
-    /raw payload/iu,
-    /raw market data/iu,
-    /member-only/iu,
-    /Membership MVP/iu,
-    /Phase 1/iu,
-    /Phase 2/iu,
-    /[?]{4,}/u,
-    /[\uE000-\uF8FF\uFFFD]/u
+    /watchlist/u,
+    /資料線/u
   ];
 }

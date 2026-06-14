@@ -2,19 +2,21 @@ import fs from "node:fs";
 
 const baseUrl = process.env.LOCALHOST_BASE_URL ?? "http://localhost:3000";
 const docPath = "docs/PHASE_1_PUBLIC_BETA_CANDIDATE_FINAL_PUBLIC_READINESS_SCAN.md";
+const summaryPath = "docs/PHASE_1_PUBLIC_BETA_MOCK_LAUNCH_CANDIDATE_STATUS_SUMMARY.md";
+const rollupPath = "docs/PUBLIC_BETA_PHASE_1_LAUNCH_GAP_ROLLUP.md";
 const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 
 const routeRequired = {
-  "/": ["30 秒", "3 分鐘", "市場", "核心指標", "資料", "非投資建議", "會員功能預覽"],
-  "/briefing": ["30 秒", "3 分鐘", "市場", "使用提醒", "更新時間", "資料", "不提供買賣建議"],
-  "/weekly": ["30 秒", "3 分鐘", "示範資料", "正式資料尚未啟用", "非投資建議"],
-  "/stocks/2330": ["30 秒", "3 分鐘", "更新時間", "資料邊界", "不提供個股買賣建議"],
-  "/stocks/TWII": ["30 秒", "3 分鐘", "更新時間", "資料邊界", "不提供個股買賣建議"],
-  "/methodology": ["資料來源", "資料", "不提供", "買賣建議"],
-  "/disclaimer": ["風險", "資料", "不提供", "投資建議"],
-  "/terms": ["使用", "資訊參考", "投資建議"],
-  "/privacy": ["隱私", "資料"]
+  "/": ["公開 Beta", "30 秒", "3 分鐘", "市場總覽", "資料狀態", "示範資料", "非投資建議"],
+  "/briefing": ["市場簡報", "30 秒", "3 分鐘", "警示清單", "資料邊界", "示範資料", "正式資料尚未啟用"],
+  "/weekly": ["市場週報", "30 秒", "3 分鐘", "本週市場狀態", "示範資料", "不提供買賣建議"],
+  "/stocks/2330": ["2330", "指數燈號", "30 秒", "3 分鐘", "資料來源與覆蓋", "示範資料", "不是投資建議"],
+  "/stocks/TWII": ["TWII", "指數燈號", "30 秒", "3 分鐘", "資料來源與覆蓋", "示範資料", "不是投資建議"],
+  "/methodology": ["方法說明", "燈號方法", "30 秒", "3 分鐘", "資料狀態", "不是交易指令"],
+  "/disclaimer": ["風險聲明", "市場資訊整理", "不構成個股買賣建議", "示範資料", "交易指令"],
+  "/terms": ["使用條款", "市場觀察", "不能當作交易指令", "資料來源", "會員功能"],
+  "/privacy": ["隱私", "會員功能", "自選追蹤", "自訂警示", "不需要輸入個人資料"]
 };
 
 const forbiddenVisible = [
@@ -63,16 +65,27 @@ const requiredDocPhrases = [
   "No investment advice claim"
 ];
 
-const requiredEvidencePaths = [
-  "docs/PHASE_1_PUBLIC_BETA_MOCK_LAUNCH_CANDIDATE_STATUS_SUMMARY.md",
-  "docs/PUBLIC_BETA_PHASE_1_LAUNCH_GAP_ROLLUP.md"
+const requiredSummaryPhrases = [
+  "phase_1_public_beta_mock_launch_candidate_status_summary_ready",
+  "指數燈號網站 BRIEF",
+  "GO_WITH_MOCK_ONLY_PUBLIC_BETA_CANDIDATE",
+  "Phase 1 can move as a public free index-lighting site candidate while the runtime stays mock-only",
+  "What Can Go Public Now",
+  "What Remains Deferred",
+  "A3 Resume Conditions",
+  "A4 membership MVP planning",
+  "phase_1_public_beta_candidate_final_public_readiness_scan"
 ];
 
+const requiredEvidencePaths = [summaryPath, rollupPath];
+
 const doc = readText(docPath);
+const summary = readText(summaryPath);
 const packageJson = readText(packagePath);
 const reviewGate = readText(reviewGatePath);
 
 const missingDocPhrases = requiredDocPhrases.filter((phrase) => !doc.includes(phrase));
+const missingSummaryPhrases = requiredSummaryPhrases.filter((phrase) => !summary.includes(phrase));
 const missingEvidenceFiles = requiredEvidencePaths.filter((path) => !fs.existsSync(path));
 const missingEvidenceReferences = requiredEvidencePaths.filter((path) => !doc.includes(path));
 const packageRegistered = packageJson.includes(
@@ -84,14 +97,21 @@ const reviewGateRegistered = reviewGate.includes(
 const focusedGateRegistered = reviewGate.includes('"phase-1-public-beta-candidate-final-public-readiness-scan"');
 const routeResults = await Promise.all(Object.entries(routeRequired).map(checkRoute));
 const docForbiddenHits = findForbiddenHits(doc);
+const summaryForbiddenHits = findForbiddenHits(summary);
+const docMarkerHits = findMojibakeMarkers(doc);
+const summaryMarkerHits = findMojibakeMarkers(summary);
 const status =
   missingDocPhrases.length === 0 &&
+  missingSummaryPhrases.length === 0 &&
   missingEvidenceFiles.length === 0 &&
   missingEvidenceReferences.length === 0 &&
   packageRegistered &&
   reviewGateRegistered &&
   focusedGateRegistered &&
   docForbiddenHits.length === 0 &&
+  summaryForbiddenHits.length === 0 &&
+  docMarkerHits.length === 0 &&
+  summaryMarkerHits.length === 0 &&
   routeResults.every((result) => result.pass)
     ? "ok"
     : "blocked";
@@ -102,12 +122,16 @@ console.log(
       status,
       guardedStatus: "phase_1_public_beta_candidate_final_public_readiness_scan_ready",
       missingDocPhrases,
+      missingSummaryPhrases,
       missingEvidenceFiles,
       missingEvidenceReferences,
       packageRegistered,
       reviewGateRegistered,
       focusedGateRegistered,
       docForbiddenHits,
+      summaryForbiddenHits,
+      docMarkerHits,
+      summaryMarkerHits,
       routeResults,
       publicDataSource: "mock",
       scoreSource: "mock"
@@ -120,20 +144,32 @@ console.log(
 if (status !== "ok") process.exitCode = 1;
 
 async function checkRoute([path, required]) {
-  const response = await fetch(`${baseUrl}${path}`);
-  const visibleText = normalizeVisibleText(await response.text());
-  const missing = required.filter((phrase) => !visibleText.includes(phrase));
-  const forbiddenHits = forbiddenVisible.filter((phrase) => visibleText.includes(phrase));
-  const markerHits = findMojibakeMarkers(visibleText);
+  try {
+    const response = await fetch(`${baseUrl}${path}`);
+    const visibleText = normalizeVisibleText(await response.text());
+    const missing = required.filter((phrase) => !visibleText.includes(phrase));
+    const forbiddenHits = forbiddenVisible.filter((phrase) => visibleText.includes(phrase));
+    const markerHits = findMojibakeMarkers(visibleText);
 
-  return {
-    forbiddenHits,
-    markerHits,
-    missing,
-    pass: response.status === 200 && missing.length === 0 && forbiddenHits.length === 0 && markerHits.length === 0,
-    path,
-    status: response.status
-  };
+    return {
+      forbiddenHits,
+      markerHits,
+      missing,
+      pass: response.status === 200 && missing.length === 0 && forbiddenHits.length === 0 && markerHits.length === 0,
+      path,
+      status: response.status
+    };
+  } catch (error) {
+    return {
+      error: error instanceof Error ? error.message : String(error),
+      forbiddenHits: [],
+      markerHits: [],
+      missing: required,
+      pass: false,
+      path,
+      status: "fetch_failed"
+    };
+  }
 }
 
 function readText(path) {
@@ -155,7 +191,11 @@ function findMojibakeMarkers(source) {
   const markers = [];
   if (/\uFFFD/u.test(source)) markers.push("replacement-character");
   if (/[\uE000-\uF8FF]/u.test(source)) markers.push("private-use-codepoint");
+  if (/[\u0080-\u009F]/u.test(source)) markers.push("c1-control-character");
   if (/\?{3,}/u.test(source)) markers.push("question-mark-run");
+  for (const fragment of ["蝬", "嚗", "銝", "雿", "撣", "摰", "閬", "霈", "蝡", "璅", "餈質馱", "擗", "", "", "芷"]) {
+    if (source.includes(fragment)) markers.push(`mojibake-fragment:${fragment}`);
+  }
   return markers;
 }
 

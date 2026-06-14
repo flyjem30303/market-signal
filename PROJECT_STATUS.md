@@ -2,6 +2,53 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Phase 1 Public Candidate Gate Cleanup Pass
+
+Status: `phase_1_public_candidate_gate_cleanup_ready`
+
+CEO decision:
+
+- Keep Phase 1 public/free mock Beta as the mainline: every visitor must be able to read market status, key indicators, alerts, update time, and non-investment-advice boundaries.
+- Keep Phase 2 membership as a visible roadmap only until Phase 1 is stable: no login, payment, persisted watchlist, personalized alerts, member-only content, or membership architecture implementation in this slice.
+- Treat stale launch-gate copy, mojibake, internal process labels, and developer-only vocabulary as launch blockers because they can make public readiness checks lie or confuse users.
+- Keep PM as the integration owner. A1 continues data/source/coverage work, A2 continues trust copy/disclosure checks, A3 continues launch/deploy readiness, and A4 plans membership without implementation.
+
+PM completed:
+
+- Rebuilt `docs/PHASE_1_PUBLIC_BETA_MOCK_LAUNCH_CANDIDATE_STATUS_SUMMARY.md` as a clean Phase 1 candidate summary.
+- Rebuilt `check:phase-1-public-beta-candidate-final-public-readiness-scan`.
+- Rebuilt `check:public-beta-mock-launch-proof-bundle`.
+- Rebuilt `check:public-beta-core-route-quick-proof`.
+- Rebuilt `check:public-surface-user-facing-audit`.
+- Rebuilt `check:public-beta-alert-list-actionability`.
+- Rebuilt `check:public-beta-membership-mvp-roadmap`.
+- Cleaned user-facing copy so `資料線` becomes `資料建置工作`, and English `watchlist` becomes `自選追蹤`.
+- Restored revised BRIEF membership wording: `會員 MVP 優先內容包含` and `每日會員專區《市場三層解讀》`.
+- Confirmed the localhost 500 was a `.next` cache/dev-server collision, not a product-code failure. The safe sequence is: do not run `next build`, route checkers, and dev server cache rebuild concurrently; restart dev and clear `.next` when the cache references missing chunks.
+
+Checks passed:
+
+- `check:public-beta-core-route-quick-proof`
+- `check:public-beta-mock-launch-proof-bundle`
+- `check:phase-1-public-beta-candidate-final-public-readiness-scan`
+- `check:public-surface-user-facing-audit`
+- `check:public-beta-alert-list-actionability`
+- `check:public-beta-membership-mvp-roadmap`
+- `check:public-visible-language-quality`
+- `check:phase-1-public-beta-public-visible-residue-cleanup`
+- `check:public-beta-phase-1-launch-gap-rollup`
+- `tsc --noEmit`
+- `build`
+- `curl -I http://localhost:3000/` returned `200 OK` after dev-server restart.
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public data-source promotion, real score promotion, membership implementation, login, payment, persisted watchlist, personalized alert execution, real-time claim, official endorsement claim, guaranteed-return claim, or investment-advice claim occurred.
+
+Next:
+
+Continue Phase 1 public Beta candidate toward a human/browser visual review and A3 no-secret launch checklist. Keep A1 data/source work independent, keep A4 membership planning only, and only promote real data after source-rights, coverage, quality, and runtime gates are explicit.
+
 ### Revised BRIEF And Workstream Recovery Anchor Cleanup Pass
 
 Status: `revised_brief_workstream_recovery_anchor_ready`

@@ -5,8 +5,8 @@ const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 
 const routeRequired = {
-  "/": ["全市場總覽", "核心指標", "警示提醒", "相對偏強", "風險較高", "正式市場資料尚未啟用"],
-  "/briefing": ["市場廣度", "偏強觀察", "風險觀察", "使用提醒", "下一步觀察", "不提供個股買賣建議"]
+  "/": ["市場燈號", "市場廣度", "主要風險", "資料更新", "3 分鐘閱讀建議", "資料狀態", "示範資料"],
+  "/briefing": ["警示清單", "市場主燈號", "風險觀察", "資料邊界", "下一步閱讀", "示範資料", "正式資料尚未啟用"]
 };
 
 const forbiddenVisible = [
@@ -22,7 +22,9 @@ const forbiddenVisible = [
   "BETA_",
   "PUBLIC_BETA_EXTERNAL",
   "SQL",
-  "Supabase"
+  "Supabase",
+  "資料線",
+  "watchlist"
 ];
 
 const packageJson = JSON.parse(fs.readFileSync(packagePath, "utf8"));
@@ -62,7 +64,19 @@ const routeResults = await Promise.all(
 
 const status = registration.every((item) => item.pass) && routeResults.every((item) => item.pass) ? "ok" : "blocked";
 
-console.log(JSON.stringify({ registration, routeResults, status }, null, 2));
+console.log(
+  JSON.stringify(
+    {
+      registration,
+      routeResults,
+      status,
+      publicDataSource: "mock",
+      scoreSource: "mock"
+    },
+    null,
+    2
+  )
+);
 
 if (status !== "ok") process.exitCode = 1;
 
@@ -80,6 +94,10 @@ function findMojibakeMarkers(source) {
   const markers = [];
   if (/\uFFFD/u.test(source)) markers.push("replacement-character");
   if (/[\uE000-\uF8FF]/u.test(source)) markers.push("private-use-codepoint");
+  if (/[\u0080-\u009F]/u.test(source)) markers.push("c1-control-character");
   if (/\?{3,}/u.test(source)) markers.push("question-mark-run");
+  for (const fragment of ["蝬", "嚗", "銝", "雿", "撣", "摰", "閬", "霈", "蝡", "璅", "餈質馱", "擗", "", "", "芷"]) {
+    if (source.includes(fragment)) markers.push(`mojibake-fragment:${fragment}`);
+  }
   return markers;
 }

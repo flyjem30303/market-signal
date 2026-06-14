@@ -11,7 +11,7 @@ export function CommercialSlot({ context }: CommercialSlotProps) {
     context === "stock"
       ? "後續會員功能會提供更完整的標的追蹤、燈號原因與盤後複盤，目前公開版先提供基礎觀察。"
       : context === "briefing"
-        ? "會員內容將延伸市場三層解讀、watchlist 與個人化提醒，公開版仍保留核心市場總覽。"
+        ? "會員內容將延伸市場三層解讀、自選追蹤與個人化提醒，公開版仍保留核心市場總覽。"
         : "週報會員版會補上盤後複盤與觀察清單，目前先以公開摘要協助快速理解市場。";
 
   return (

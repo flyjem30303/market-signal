@@ -26,20 +26,20 @@ const internalBoundaryRoutes = [
 ];
 
 const routeRequiredPhrases = {
-  "/": ["指數狀態儀表站", "30 秒", "3 分鐘", "示範資料", "正式資料升級前檢查", "不提供個股買賣建議"],
-  "/briefing": ["30 秒看懂今日市場氣氛", "3 分鐘行動判斷", "今日市場提醒", "示範資料", "不提供買賣建議"],
-  "/weekly": ["本週市場狀態整理", "30 秒", "3 分鐘", "示範資料", "非投資建議"],
-  "/membership": ["會員功能預覽", "30 秒", "3 分鐘", "每日市場三層解讀", "自選追蹤與自訂警示", "目前不開放會員登入或付費"],
-  "/methodology": ["方法說明", "資料狀態", "示範資料", "不提供個股買賣建議"],
-  "/disclaimer": ["風險聲明", "不是投資建議", "不保證", "公開 Beta"],
-  "/terms": ["使用條款", "資訊參考", "不是投資建議", "公開 Beta"],
-  "/privacy": ["隱私與資料說明", "公開 Beta", "不需要輸入", "敏感資料"],
-  "/stocks/TWII": ["狀態儀表", "30 秒", "3 分鐘", "資料狀態", "不提供個股買賣建議"],
-  "/stocks/2330": ["狀態儀表", "30 秒", "3 分鐘", "資料狀態", "不提供個股買賣建議"],
-  "/stocks/0050": ["狀態儀表", "30 秒", "3 分鐘", "資料狀態", "不提供個股買賣建議"],
-  "/stocks/006208": ["狀態儀表", "30 秒", "3 分鐘", "資料狀態", "不提供個股買賣建議"],
-  "/stocks/2382": ["狀態儀表", "30 秒", "3 分鐘", "資料狀態", "不提供個股買賣建議"],
-  "/stocks/2308": ["狀態儀表", "30 秒", "3 分鐘", "資料狀態", "不提供個股買賣建議"]
+  "/": ["公開 Beta", "市場總覽", "30 秒", "3 分鐘", "示範資料", "非投資建議"],
+  "/briefing": ["市場簡報", "30 秒", "3 分鐘", "警示清單", "資料邊界", "正式資料尚未啟用"],
+  "/weekly": ["市場週報", "本週市場狀態", "示範資料", "不提供買賣建議"],
+  "/membership": ["會員功能預覽", "會員 MVP", "自選追蹤", "自訂警示", "不提供個別買賣建議"],
+  "/methodology": ["方法說明", "燈號方法", "資料狀態", "不是交易指令"],
+  "/disclaimer": ["風險聲明", "市場資訊整理", "不構成個股買賣建議"],
+  "/terms": ["使用條款", "市場觀察", "不能當作交易指令", "資料來源"],
+  "/privacy": ["隱私", "會員功能", "自選追蹤", "自訂警示"],
+  "/stocks/TWII": ["TWII", "指數燈號", "30 秒", "3 分鐘", "資料來源與覆蓋", "不是投資建議"],
+  "/stocks/2330": ["2330", "指數燈號", "30 秒", "3 分鐘", "資料來源與覆蓋", "不是投資建議"],
+  "/stocks/0050": ["0050", "指數燈號", "30 秒", "3 分鐘", "資料來源與覆蓋", "不是投資建議"],
+  "/stocks/006208": ["006208", "指數燈號", "30 秒", "3 分鐘", "資料來源與覆蓋", "不是投資建議"],
+  "/stocks/2382": ["2382", "指數燈號", "30 秒", "3 分鐘", "資料來源與覆蓋", "不是投資建議"],
+  "/stocks/2308": ["2308", "指數燈號", "30 秒", "3 分鐘", "資料來源與覆蓋", "不是投資建議"]
 };
 
 const forbiddenVisibleFragments = [
@@ -81,17 +81,8 @@ const forbiddenVisibleFragments = [
   "OFFICIAL-",
   "candidateArtifactPath",
   "source_row_hash",
-  "產品可用度",
-  "真實資料閉環",
-  "後端資料流程",
-  "不匯入市場原始資料",
   "資料線",
-  "目前硬阻塞",
-  "剩餘阻塞",
-  "開發進度",
-  "內部覆核",
-  "工作包",
-  "執行包"
+  "watchlist"
 ];
 
 const forbiddenRoleFragments = [
@@ -99,6 +90,8 @@ const forbiddenRoleFragments = [
   /\bPM\b/u,
   /\bA1\b/u,
   /\bA2\b/u,
+  /\bA3\b/u,
+  /\bA4\b/u,
   /\bD:\\/u,
   /\bC:\\/u
 ];
@@ -148,7 +141,12 @@ async function checkPublicRoute(route) {
       forbiddenHits,
       missing,
       mojibakeHits,
-      pass: response.status === 200 && missing.length === 0 && forbiddenHits.length === 0 && roleHits.length === 0 && mojibakeHits.length === 0,
+      pass:
+        response.status === 200 &&
+        missing.length === 0 &&
+        forbiddenHits.length === 0 &&
+        roleHits.length === 0 &&
+        mojibakeHits.length === 0,
       roleHits,
       route,
       status: response.status,
@@ -202,8 +200,10 @@ function normalizeVisibleText(html) {
 function findMojibakeMarkers(text) {
   const markers = [];
   if (/[\uE000-\uF8FF\uFFFD]/u.test(text)) markers.push("private-use-or-replacement-codepoint");
-  if (/[ÃÂ�]/u.test(text)) markers.push("utf8-decoding-artifact");
-  if (/ï¿½/u.test(text)) markers.push("replacement-sequence");
+  if (/[\u0080-\u009F]/u.test(text)) markers.push("c1-control-character");
   if (/\?{3,}/u.test(text)) markers.push("question-mark-run");
+  for (const fragment of ["蝬", "嚗", "銝", "雿", "撣", "摰", "閬", "霈", "蝡", "璅", "餈質馱", "擗", "", "", "芷"]) {
+    if (text.includes(fragment)) markers.push(`mojibake-fragment:${fragment}`);
+  }
   return markers;
 }

@@ -22,7 +22,7 @@ export function PublicBetaSourceCoverageBridge({
       <div className="briefing-actions">
         <SourceCoverageCard title="指數基準" text="優先確認大盤指數每日收盤與基本交易資訊，作為市場總覽的基礎。" />
         <SourceCoverageCard title="ETF 與核心標的" text="逐步補齊常用 ETF 與代表性標的，避免一開始承諾完整市場覆蓋。" />
-        <SourceCoverageCard title="全市場覆蓋" text="上市櫃全量覆蓋屬於後續資料線工作，不阻塞目前免費公開頁。" />
+        <SourceCoverageCard title="全市場覆蓋" text="上市櫃全量覆蓋屬於後續資料建置工作，不阻塞目前免費公開頁。" />
         <SourceCoverageCard title="衍生指標" text="均線、乖離、波動與資金流等指標需等基礎資料穩定後再擴充。" />
       </div>
       <p>使用者看到任何燈號時，都應同時看到資料來源狀態、更新時間與可能延遲，而不是只看單一分數。</p>

@@ -152,7 +152,7 @@ export function DashboardShell({
             <p className="eyebrow">下一階段會員內容</p>
             <h2>會員版會從「看到燈號」延伸到「理解燈號與追蹤變化」</h2>
             <p>
-              會員 MVP 會優先規劃每日市場三層解讀、watchlist 與自訂警示、盤後複盤。公開版先完成市場總覽與風險辨識，會員功能不阻塞目前上線。
+              會員 MVP 會優先規劃每日市場三層解讀、自選追蹤與自訂警示、盤後複盤。公開版先完成市場總覽與風險辨識，會員功能不阻塞目前上線。
             </p>
             <div className="briefing-actions">
               <TrackedLink eventName="membership_preview_link_clicked" href="/membership" label="查看會員內容規劃" payload={{ area: "dashboard_shell" }}>

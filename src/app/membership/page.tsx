@@ -37,6 +37,7 @@ export default function MembershipPage() {
         </p>
         <p>
           會員內容未來會以市場總觀、關鍵指標變化、後續觀察重點與盤後複盤為主，仍維持非投資建議邊界。
+          會員內容不提供個別買賣建議，也不代替使用者做投資決策。
         </p>
       </section>
 
