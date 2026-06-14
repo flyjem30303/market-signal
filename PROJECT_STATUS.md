@@ -2,6 +2,33 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Phase 1 Human UI/UX Acceptance Checklist
+
+Status: `phase_1_human_ui_ux_acceptance_checklist_ready`
+
+CEO decision:
+
+- Move UI/UX from broad cleanup into a bounded final human acceptance pass.
+- Separate must-fix comprehension/trust/accessibility issues from deferred visual polish and Phase 2 membership runtime.
+- Update stale UI/UX candidate wording so it reflects the latest green final readiness rollup and review gate state.
+
+PM completed:
+
+- Added `docs/PHASE_1_HUMAN_UI_UX_ACCEPTANCE_CHECKLIST.md`.
+- Updated `docs/PHASE_1_FINAL_UI_UX_POLISH_CANDIDATE.md` so it no longer says the full review gate is blocked.
+- Added and registered `check:phase-1-human-ui-ux-acceptance-checklist`.
+- Registered `phase-1-human-ui-ux-acceptance-checklist` in the focused public Beta review gate set.
+
+Evidence:
+
+- `check:phase-1-human-ui-ux-acceptance-checklist` passed.
+- `check:phase-1-public-beta-human-visual-review` passed.
+- `check:phase-1-public-beta-final-readiness-rollup` passed.
+
+Boundary:
+
+No SQL, Supabase read/write, staging rows, `daily_prices` mutation, raw market-data fetch/store/commit, source promotion, real score promotion, production environment mutation, DNS change, visual redesign, or Phase 2 membership implementation occurred. The runtime remains `publicDataSource=mock` and `scoreSource=mock`.
+
 ### Phase 1 Public Beta Final Readiness Rollup
 
 Status: `phase_1_public_beta_final_readiness_rollup_ready`

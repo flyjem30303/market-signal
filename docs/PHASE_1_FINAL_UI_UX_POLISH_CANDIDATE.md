@@ -51,11 +51,11 @@ Focused local gates passed:
 - `check:phase-1-public-beta-candidate-final-public-readiness-scan`
 - `npx tsc --noEmit`
 
-Full review gate status:
+Latest review gate status:
 
-- `check:review-gates` executed but remains `blocked`.
-- The observed blockers are data-line / TWSE OpenAPI gates, including terms validation, source adapter contract, parser contract, parser consumer adapter, synthetic case notes, field contract roadmap, coverage/backfill readiness, and index baseline synthetic parser fixture.
-- These blockers do not invalidate this UI/UX polish candidate, but they do prevent claiming the entire project review gate is green.
+- `check:phase-1-public-beta-final-readiness-rollup` is available as the current public Beta final-readiness rollup.
+- Latest `check:review-gates` passed with `status=ok`, `executedCount=197`, and `failedCount=0`.
+- The UI/UX polish lane can now move to final human acceptance using `docs/PHASE_1_HUMAN_UI_UX_ACCEPTANCE_CHECKLIST.md`.
 
 ## Accepted For Phase 1
 
@@ -77,10 +77,11 @@ Full review gate status:
 
 PM should move from broad UI/UX cleanup to final Phase 1 launch-readiness convergence:
 
-1. Run final local route and language gates.
+1. Keep `check:phase-1-public-beta-final-readiness-rollup` green locally and on the Vercel public URL.
 2. Verify TypeScript.
-3. Keep A1 data/source coverage as a parallel lane, but do not block Phase 1 mock public Beta readiness on real-data completion.
-4. Prepare chairman/operator acceptance summary for the public free site with an explicit note that the full review gate still contains data-line blockers.
+3. Run the final human UI/UX acceptance checklist.
+4. Keep A1 data/source coverage as a parallel lane, but do not block Phase 1 mock public Beta readiness on real-data completion.
+5. Prepare chairman/operator acceptance or A3 no-secret platform checklist only after the human acceptance pass is accepted or accepted with deferrals.
 
 ## Boundary
 
