@@ -2,6 +2,40 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Public Surface Mojibake And Internal Residue Cleanup
+
+Status: `phase_1_public_surface_user_language_cleanup_ready`
+
+CEO decision:
+
+- Prioritize user-visible trust and BRIEF alignment over more launch-governance expansion.
+- Repair public-route copy where early mojibake, internal workstream wording, and developer-facing terms leaked into user-facing pages.
+- Keep Phase 2 membership as a public roadmap/preview only; no login, payment, persisted watchlist, personalized alert execution, or member-only gating was implemented.
+
+PM completed:
+
+- Rewrote public asset names and signal model copy into readable Traditional Chinese.
+- Rewrote Home, Briefing, stock metadata, public navigation, and membership roadmap copy around the BRIEF's 30-second / 3-minute reading loop.
+- Replaced internal wording such as data workstream references with user-facing data coverage and source-readiness language.
+- Added the required stock-page `3 分鐘閱讀順序` line for the public route proof.
+
+Checks passed:
+
+- `check:public-surface-user-facing-audit`
+- `check:public-beta-core-route-quick-proof`
+- `check:phase-1-public-beta-candidate-final-public-readiness-scan`
+- `npx tsc --noEmit`
+- `npm run build`
+- Browser text smoke for `/`, `/briefing`, and `/stocks/2330` found no visible mojibake markers in the first user-facing text sample.
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public data-source promotion, real score promotion, platform deploy, DNS change, production environment mutation, login implementation, payment implementation, persisted watchlist, personalized alert execution, member-only content gating, promised-return claim, or investment-advice claim occurred.
+
+Next:
+
+Continue Phase 1 product/runtime hardening on public user comprehension, then separately let A1 continue data-source and coverage work. A4 membership remains planning-only until Phase 1 public free loop is stable.
+
 ### Phase 1 No-Secret Platform Action Loop Ready
 
 Status: `phase_1_no_secret_platform_action_loop_ready`

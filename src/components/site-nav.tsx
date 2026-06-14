@@ -6,8 +6,8 @@ import { trackEvent } from "@/lib/tracking";
 const navItems = [
   { href: "/", label: "首頁" },
   { href: "/briefing", label: "市場簡報" },
-  { href: "/weekly", label: "市場週報" },
-  { activePrefix: "/stocks", href: "/stocks/2330", label: "個股/ETF" },
+  { href: "/weekly", label: "週報" },
+  { activePrefix: "/stocks", href: "/stocks/2330", label: "指數/ETF" },
   { href: "/membership", label: "會員預覽" },
   { href: "/methodology", label: "方法說明" },
   { href: "/privacy", label: "隱私" },

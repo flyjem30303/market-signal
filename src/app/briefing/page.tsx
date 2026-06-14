@@ -15,8 +15,8 @@ import {
 import type { SignalSnapshot } from "@/lib/signal-model";
 
 export const metadata: Metadata = {
-  title: "市場簡報",
-  description: "用 30 秒看懂今日市場氣氛，並在 3 分鐘內完成關注、加強觀察或降低風險的行動判斷。"
+  title: "市場簡報｜指數燈號",
+  description: "用 30 秒看懂市場氛圍，3 分鐘完成風險、趨勢與資料狀態檢查。公開 Beta 目前使用示範資料。"
 };
 
 export default async function BriefingPage() {
@@ -41,85 +41,82 @@ export default async function BriefingPage() {
       <section className="briefing-executive-summary" aria-label="市場簡報摘要">
         <div>
           <p className="eyebrow">市場簡報</p>
-          <h1>30 秒看懂今日市場氣氛，3 分鐘行動判斷</h1>
+          <h1>30 秒看懂市場氛圍，3 分鐘完成下一步觀察</h1>
           <p>
-            今日先看 {market.asset.name} 的市場主燈號，再看風險最高的 {topRisk.asset.name}
-            。這個頁面把市場狀態、風險來源、更新時間與下一步閱讀排成固定順序，降低資訊過載。
+            目前以 {market.asset.name} 作為市場主軸，燈號為「{market.signal.title}」；風險最高的觀察標的為{" "}
+            {topRisk.asset.name}。本頁把市場狀態、風險集中度與資料邊界放在同一個閱讀流程中。
           </p>
           <p className="runtime-boundary-line">
-            正式市場資料尚未啟用；目前公開頁以示範資料呈現閱讀流程，不提供個股買賣建議。請先確認資料時間與風險聲明，再做下一步觀察。
+            公開 Beta 目前使用示範資料與示範分數，正式資料來源、更新頻率與資料覆蓋率仍在補齊。
           </p>
         </div>
         <aside>
           <span>
-            <b>市場主燈號</b>
+            <b>市場燈號</b>
             <i>
               {market.asset.name}：{market.compositeScore}/100
             </i>
           </span>
           <span>
-            <b>風險觀察起點</b>
+            <b>風險觀察</b>
             <i>
               {topRisk.asset.name}：{topRisk.riskScore}/100
             </i>
           </span>
         </aside>
         <div className="briefing-runtime-action-strip">
-          <DecisionPill title="先讀市場氣氛" body="用主燈號判斷今天偏多、觀望、警戒或高風險。" tone="active" />
-          <DecisionPill title="再看風險與廣度" body="確認風險是否集中，或是否擴散到多個標的。" tone="hold" />
-          <DecisionPill title="最後確認資料邊界" body="回到更新時間、方法說明與風險聲明，避免過度解讀。" tone="blocked" />
+          <DecisionPill title="先看燈號" body="判斷市場偏多、觀望、警戒或高風險。" tone="active" />
+          <DecisionPill title="再看風險" body="確認風險是否集中在少數標的或族群。" tone="hold" />
+          <DecisionPill title="最後看資料" body="確認目前資料是否為示範、延遲或正式資料。" tone="blocked" />
         </div>
-        <nav aria-label="市場簡報快速連結">
+        <nav aria-label="市場簡報導覽">
           <TrackedLink
             eventName="briefing_link_clicked"
             href={`/stocks/${market.asset.symbol}`}
-            label="查看市場主燈號"
+            label="查看市場主軸"
             payload={{ area: "briefing_summary", symbol: market.asset.symbol }}
           >
-            <span>市場主燈號</span>
+            <span>市場主軸</span>
             <strong>{market.asset.name}</strong>
-            <small>查看主燈號原因</small>
+            <small>查看個股/指數頁</small>
           </TrackedLink>
           <TrackedLink
             eventName="briefing_link_clicked"
             href={`/stocks/${topRisk.asset.symbol}`}
-            label="查看風險觀察起點"
+            label="查看風險標的"
             payload={{ area: "briefing_summary", symbol: topRisk.asset.symbol }}
           >
             <span>風險觀察</span>
             <strong>{topRisk.asset.name}</strong>
-            <small>查看風險原因</small>
+            <small>檢查風險分數</small>
           </TrackedLink>
         </nav>
       </section>
 
-      <section className="home-public-beta-layers briefing-alert-decision-list" aria-label="今日警示清單">
+      <section className="home-public-beta-layers briefing-alert-decision-list" aria-label="市場警示清單">
         <div className="home-public-beta-layer alerts">
           <span>警示清單</span>
-          <strong>今日警示清單：先看市場主燈號，再看風險最高標的</strong>
-          <p>
-            這裡不是買賣清單，而是今日觀察順序。使用者可以先用 30 秒確認市場氣氛，再用 3
-            分鐘複核風險原因、資料時間與下一步閱讀。
-          </p>
+          <strong>把市場狀態、風險集中與資料限制合併成同一個判斷流程</strong>
+          <p>本區塊不是買賣建議，而是協助使用者決定是否需要關注、加強觀察或降低風險。</p>
         </div>
         <div className="home-public-beta-alert-list">
           <BriefingCard
             href={`/stocks/${market.asset.symbol}`}
-            text={`${market.asset.name} 是目前市場主燈號，用來判斷今天的市場背景。`}
-            title="市場主燈號"
+            text={`${market.asset.name} 是目前市場主軸，適合先看大盤燈號與市場廣度。`}
+            title="市場主軸"
             value={`${market.compositeScore}/100`}
           />
           <BriefingCard
             href={`/stocks/${topRisk.asset.symbol}`}
-            text={`${topRisk.asset.name} 風險分數最高，適合作為加強觀察清單的第一個標的。`}
+            text={`${topRisk.asset.name} 的風險分數較高，建議檢查波動、集中度與資料時效。`}
             title="風險觀察"
             value={`${topRisk.riskScore}/100`}
           />
           <BriefingCard
             href="/methodology"
-            text="目前使用示範資料與示範分數；正式資料尚未啟用，燈號只用於閱讀流程展示。"
-            title="資料邊界"
-            value="示範資料"
+            text="了解目前示範資料、燈號邏輯、資料更新時間與非投資建議邊界。"
+            title="方法與限制"
+            value="說明"
           />
         </div>
       </section>
@@ -129,18 +126,18 @@ export default async function BriefingPage() {
       <PublicBetaDataReadinessStatus />
       <PublicBetaSourceCoverageBridge context="briefing" />
 
-      <section className="briefing-breadth" id="market-structure" aria-label="市場結構">
-        <BreadthCard label="偏多觀察" tone="active" value={breadth.constructive} />
-        <BreadthCard label="觀望整理" tone="hold" value={breadth.watch} />
-        <BreadthCard label="防守警戒" tone="blocked" value={breadth.defensive} />
+      <section className="briefing-breadth" id="market-structure" aria-label="市場廣度">
+        <BreadthCard label="偏多" tone="active" value={breadth.constructive} />
+        <BreadthCard label="觀望" tone="hold" value={breadth.watch} />
+        <BreadthCard label="防守" tone="blocked" value={breadth.defensive} />
       </section>
 
       <ConcentrationPanel concentration={concentration} />
 
-      <section className="briefing-playbook" id="briefing-playbook" aria-label="三分鐘判斷流程">
-        <p className="eyebrow">3 分鐘判斷流程</p>
-        <h2>把市場燈號轉成可執行的觀察順序</h2>
-        <p>每日市場晨報的市場行動摘要：30 秒看市場氣氛，3 分鐘判斷順序是先看市場氣氛，再看風險成因與市場廣度，最後整理下一步觀察。</p>
+      <section className="briefing-playbook" id="briefing-playbook" aria-label="三分鐘觀察流程">
+        <p className="eyebrow">3 分鐘觀察流程</p>
+        <h2>依序檢查燈號、風險與資料，不被單一分數帶著走</h2>
+        <p>先理解市場氛圍，再確認風險是否集中，最後檢查資料更新時間與示範資料限制。</p>
         <div className="playbook-grid">
           {playbook.map((item) => (
             <article className="playbook-card" key={item.title}>
@@ -154,13 +151,13 @@ export default async function BriefingPage() {
 
       <section className="weekly-grid">
         <BriefingList
-          description="分數較強的標的可用來觀察市場是否仍有支撐，但仍需搭配資料狀態與風險提示。"
+          description="綜合分數較高，代表示範模型中趨勢、品質與資金條件相對較好。"
           items={strongest}
-          title="相對強勢觀察"
+          title="較強觀察"
           valueKey="composite"
         />
         <BriefingList
-          description="風險分數較高的標的，適合放在加強觀察清單中。高風險不等於立即操作。"
+          description="風險分數較高，代表估值、波動或資料狀態需要更仔細檢查。"
           items={[topRisk]}
           title="風險觀察"
           valueKey="risk"
@@ -169,19 +166,19 @@ export default async function BriefingPage() {
 
       <PublicNextReadingFlow context="briefing" stockSymbol={market.asset.symbol} />
 
-      <section className="panel stock-reading-summary" aria-label="下一階段會員功能">
-        <p className="eyebrow">下一階段會員功能</p>
-        <h2>會員內容會把看到燈號延伸成理解燈號與追蹤變化</h2>
+      <section className="panel stock-reading-summary" aria-label="會員路線摘要">
+        <p className="eyebrow">會員路線</p>
+        <h2>Phase 2 才會導入會員深度解讀與個人化追蹤</h2>
         <p>
-          會員下一階段才會開放登入、每日市場三層解讀、自選追蹤、自訂警示與盤後複盤。目前公開頁只先展示會員
-          MVP 路線，避免會員架構拖慢公開 Beta 上線。
+          Phase 1 先把所有人可用的市場總覽、核心燈號、資料揭露與風險聲明完成；Phase 2 再做會員專區、自選追蹤清單、
+          自訂警示與盤後複盤。
         </p>
       </section>
       <PublicBetaMembershipMvpRoadmap />
 
       <article className="disclaimer">
-        <h2>使用提醒</h2>
-        <p>本網站是市場資訊整理與風險辨識輔助工具，不提供個股買賣建議，也不保證任何投資結果。</p>
+        <h2>重要聲明</h2>
+        <p>本網站提供市場資訊整理與風險辨識，不提供買賣建議、不保證報酬，也不代替使用者做投資決策。</p>
       </article>
     </main>
   );
@@ -267,7 +264,7 @@ function BreadthCard({
     <article className={`breadth-card ${tone}`}>
       <span>{label}</span>
       <strong>{value}</strong>
-      <p>市場廣度</p>
+      <p>代表標的數量</p>
     </article>
   );
 }
@@ -278,7 +275,7 @@ function buildConcentrationSignal(snapshots: SignalSnapshot[]) {
   const second = sorted[1];
   const spread = top && second ? top.riskScore - second.riskScore : 0;
   return {
-    headline: spread >= 12 ? "風險相對集中" : "風險分布較平均",
+    headline: spread >= 12 ? "風險集中在少數標的" : "風險分布相對分散",
     primary: top,
     spread
   };
@@ -295,7 +292,7 @@ function ConcentrationPanel({
       <h2>{concentration.headline}</h2>
       <div className="concentration-metrics">
         <article>
-          <span>最高風險標的</span>
+          <span>主要風險標的</span>
           <strong>{concentration.primary?.asset.name ?? "-"}</strong>
         </article>
         <article>
@@ -310,19 +307,19 @@ function ConcentrationPanel({
 function buildBriefingPlaybook(market: SignalSnapshot, topRisk: SignalSnapshot) {
   return [
     {
-      body: `${market.asset.name} 是今天的市場背景，用來判斷整體氣氛是偏多、觀望或警戒。`,
+      body: `${market.asset.name} 目前為「${market.signal.title}」，先用它建立整體市場氛圍。`,
       step: "1",
-      title: "先讀市場氣氛"
+      title: "看市場燈號"
     },
     {
-      body: `${topRisk.asset.name} 是今天的風險觀察起點，用來確認是否需要加強觀察。`,
+      body: `${topRisk.asset.name} 是目前風險分數較高的標的，適合檢查是否為單點風險。`,
       step: "2",
-      title: "再看風險與廣度"
+      title: "看風險集中"
     },
     {
-      body: "最後回到資料狀態、方法說明與風險聲明，避免把示範分數當成交易指令。",
+      body: "確認目前是否為示範資料、更新時間是否過舊，以及正式資料是否已完成揭露。",
       step: "3",
-      title: "最後確認資料邊界"
+      title: "看資料邊界"
     }
   ];
 }
