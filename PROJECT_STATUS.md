@@ -2,6 +2,41 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### TWII Source-Rights Outcome Acceptance Gate
+
+Status: `twii_source_rights_outcome_accepted_for_next_gate_only_no_execution`
+
+CEO decision:
+
+- Accept the TWII source-rights outcome only as a next-gate routing decision.
+- Close the ambiguity between the ready bridge and the older blocked acceptance record without authorizing execution.
+- Move the TWII mainline to `twii_field_contract_asset_mapping_acceptance_gate`.
+- Keep `official-exchange-index` as the selected source lane, with `licensed-market-data-vendor` and `internal-approved-feed` preserved as fallback lanes.
+
+PM completed:
+
+- Added `docs/TWII_SOURCE_RIGHTS_OUTCOME_ACCEPTANCE_GATE.md`.
+- Added `data/source-gates/twii-source-rights-outcome-acceptance.json` as the no-secret decision record.
+- Added `check:twii-source-rights-outcome-acceptance-gate` and registered it in the focused review gate.
+- The gate validates bridge readiness, four accepted evidence slots, the exact execution selector route, mock/runtime locks, and no-execution stop lines.
+
+Evidence:
+
+- `cmd.exe /c npm run report:twii-source-rights-outcome-gate-bridge` reports `ready_for_twii_source_rights_outcome_gate_only`, `canOpenTwiiSourceRightsOutcomeGate=true`, and `4/4` accepted slots.
+- `cmd.exe /c npm run check:twii-source-rights-outcome-gate` passed with `twii_source_rights_outcome_gate_candidate_ready_for_pm_review`.
+- `node scripts/check-twii-source-rights-outcome-acceptance-gate.mjs` was first run red and blocked on the missing acceptance doc, record, package script, and review-gate registration before implementation.
+- `cmd.exe /c npm run check:twii-source-rights-outcome-acceptance-gate` passed with `twii_source_rights_outcome_accepted_for_next_gate_only_no_execution`.
+- `cmd.exe /c npx tsc --noEmit` passed.
+- `cmd.exe /c npm run check:review-gates > tmp\review-gates-twii-source-rights-acceptance.txt` passed with `status=ok`, `executedCount=189`, and `failedCount=0`.
+
+Boundary:
+
+No SQL, Supabase connection/read/write, staging row creation, `daily_prices` mutation, market endpoint fetch, raw market-data ingest/store/commit, source-derived candidate generation, row coverage point award, secret output, raw payload output, row payload output, stock id payload output, public source promotion, score promotion, investment advice claim, production environment mutation, DNS change, broad visual redesign, or Phase 2 membership implementation occurred.
+
+Next route:
+
+Continue `twii_field_contract_asset_mapping_acceptance_gate`. It must separately accept field contract, asset mapping, sanitized candidate artifact readiness, rollback/readback posture, and exact operator authorization before any later bounded execution can be considered.
+
 ### TWII Exact Execution Preflight Repair Selector
 
 Status: `twii_exact_execution_preflight_repair_selector_ready_no_execution`

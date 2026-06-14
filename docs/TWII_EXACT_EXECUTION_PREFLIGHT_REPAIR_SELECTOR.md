@@ -56,6 +56,8 @@ Therefore, the selected next route is:
 
 Route id: `twii_source_rights_outcome_gate_acceptance`
 
+selected next route: `twii_source_rights_outcome_gate_acceptance`
+
 Current posture: `ready_to_open_separate_gate_no_execution`
 
 Evidence:

@@ -1,0 +1,66 @@
+{
+  "status": "twii_source_rights_outcome_accepted_for_next_gate_only_no_execution",
+  "decision": "accept_twii_source_rights_outcome_for_field_contract_and_asset_mapping_gate_only",
+  "acceptedBy": "CEO/PM",
+  "acceptedAt": "2026-06-15T00:00:00+08:00",
+  "selectedSourceLane": "official-exchange-index",
+  "fallbackSourceLanes": [
+    "licensed-market-data-vendor",
+    "internal-approved-feed"
+  ],
+  "acceptedScope": "next_gate_only",
+  "nextPMRoute": "twii_field_contract_asset_mapping_acceptance_gate",
+  "publicDataSource": "mock",
+  "scoreSource": "mock",
+  "twiiExecutionAllowedNow": false,
+  "sourceRightsBridgeReady": true,
+  "evidenceLedgerAcceptedCount": 4,
+  "requiredEvidenceCount": 4,
+  "rawPayloadIncluded": false,
+  "rowPayloadIncluded": false,
+  "stockIdPayloadIncluded": false,
+  "secretsIncluded": false,
+  "sqlAllowed": false,
+  "supabaseAllowed": false,
+  "dailyPricesMutationAllowed": false,
+  "marketDataFetchAllowed": false,
+  "candidateGenerationAllowed": false,
+  "rowCoverageAwardAllowed": false,
+  "runtimePromotionAllowed": false,
+  "evidenceSlots": [
+    {
+      "id": "vendor-terms-evidence",
+      "classification": "accepted_for_source_rights_outcome_gate_only"
+    },
+    {
+      "id": "internal-feed-owner-evidence",
+      "classification": "accepted_for_source_rights_outcome_gate_only"
+    },
+    {
+      "id": "field-contract-evidence",
+      "classification": "accepted_for_source_rights_outcome_gate_only"
+    },
+    {
+      "id": "asset-mapping-evidence",
+      "classification": "accepted_for_source_rights_outcome_gate_only"
+    }
+  ],
+  "stopLines": [
+    "no_sql",
+    "no_supabase_connection",
+    "no_supabase_read",
+    "no_supabase_write",
+    "no_staging_rows",
+    "no_daily_prices_mutation",
+    "no_market_data_fetch",
+    "no_source_derived_candidate_generation",
+    "no_row_coverage_points",
+    "no_public_source_promotion",
+    "no_real_score_promotion",
+    "no_raw_payload",
+    "no_row_payload",
+    "no_stock_id_payload",
+    "no_secrets"
+  ],
+  "decisionNote": "PM accepts the TWII source-rights outcome only for routing into the next field-contract and asset-mapping acceptance gate. This is not execution, not legal clearance, not candidate generation, not Supabase access, not daily_prices mutation, and not runtime promotion."
+}
