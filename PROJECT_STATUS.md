@@ -2,6 +2,39 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Briefing Public Copy Recovery
+
+Status: `phase_1_briefing_public_copy_recovery_ready`
+
+CEO decision:
+
+- Promote public copy cleanup above additional governance expansion because `/briefing` had early encoding residue that directly affected Phase 1 launchability.
+- Keep the page as a user-facing market brief aligned with the BRIEF: 30-second market atmosphere, 3-minute risk/data-status review, clear data boundary, and no investment-advice posture.
+- Preserve existing data wiring, route links, tracking events, and public data-readiness components while replacing unreadable copy.
+
+PM completed:
+
+- Rebuilt `/briefing` visible copy in clean Traditional Chinese.
+- Replaced corrupted metadata, headings, card labels, ranking explanations, breadth labels, concentration labels, playbook text, and usage reminder.
+- Kept `PublicBetaDataReadinessStatus`, `DataFreshnessStrip`, `PublicNextReadingFlow`, and tracked stock/methodology links in place.
+- Removed duplicated page-title output by keeping metadata title as `市場簡報` and letting the site title template append `指數燈號`.
+
+Evidence:
+
+- In-app browser verification confirmed `/briefing` has clean visible copy, renders `先看市場燈號，再確認風險來源與觀察順序`, keeps the data-online reminder, keeps no-buy/sell-advice copy, and has no visible mojibake pattern hit.
+- `check:public-visible-language-quality` passed.
+- `check:public-surface-user-facing-audit` passed.
+- `check:public-beta-data-readiness-status` passed.
+- `npx tsc --noEmit` passed.
+
+Boundary:
+
+No SQL, Supabase connection/write, staging row creation, `daily_prices` mutation, market endpoint fetch, raw market-data ingest/store/commit, row payload output, public source promotion, `publicDataSource=supabase`, `scoreSource=real`, investment advice claim, production environment mutation, DNS change, broad visual redesign, or Phase 2 membership implementation occurred. Runtime and score remain `publicDataSource=mock` and `scoreSource=mock`.
+
+Next route:
+
+Run the full focused review gate, then continue Phase 1 launchable-data work. The next true data-online step still requires a separate explicit bounded TWII write decision; until then PM should keep cleaning public routes and runtime comprehension.
+
 ### Phase 1 Briefing Data Readiness Surface Alignment
 
 Status: `phase_1_briefing_data_readiness_surface_alignment_ready`
