@@ -2,6 +2,42 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### TWII Operator Decision Intake Chain Convergence Gate
+
+Status: `twii_operator_decision_intake_chain_convergence_gate_ready_no_execution`
+
+CEO decision:
+
+- Accelerate Phase 1 data-online preparation by converging the operator go/no-go, operator value intake, and external value shape recheck route into one PM route.
+- Treat explicit operator go/no-go preparation alignment, explicit operator go/no-go preparation, operator value intake stopline preparation, external values shape recheck preparation, and the existing operator execution packet chain as ready upstream evidence only.
+- Move the active PM route to `twii_pre_execution_readiness_recheck_preparation_gate` without accepting real operator values, reading real rows, or relaxing the mock-only public runtime boundary.
+
+PM completed:
+
+- Added `docs/TWII_OPERATOR_DECISION_INTAKE_CHAIN_CONVERGENCE_GATE.md`.
+- Added `data/source-gates/twii-operator-decision-intake-chain-convergence-gate.json`.
+- Added `report:twii-operator-decision-intake-chain-convergence-gate` and `check:twii-operator-decision-intake-chain-convergence-gate`.
+- Registered `twii-operator-decision-intake-chain-convergence-gate` in the focused review gate.
+- The gate consolidates five ready gates into the pre-execution readiness recheck preparation route.
+
+Evidence:
+
+- `node scripts/check-twii-operator-decision-intake-chain-convergence-gate.mjs` was first run red and blocked on missing report script, gate JSON, documentation, package scripts, focused review-gate registration, and status record before implementation.
+- The implemented gate reports `operator_decision_intake_chain_converged_execution_still_blocked`, `nextPMRoute=twii_pre_execution_readiness_recheck_preparation_gate`, `readyGateCount=5`, `executionAllowedNow=false`, `publicDataSource=mock`, and `scoreSource=mock`.
+- `cmd.exe /c npm run check:twii-operator-decision-intake-chain-convergence-gate` passed.
+- `cmd.exe /c npx tsc --noEmit` passed.
+- `git diff --check` passed with only Windows line-ending warnings.
+- `cmd.exe /c npm run check:review-gates > tmp\review-gates-twii-operator-decision-intake-chain-convergence-2.txt` passed with `status=ok`, `executedCount=198`; `twii-operator-decision-intake-chain-convergence-gate` was executed and passed.
+- Review-gate runtime was long because older focused gates such as `phase-1-twii-operator-decision-packet-request`, `phase-1-twii-operator-decision-intake-readiness`, and bounded readonly preflight gates dominate execution time. CEO/PM should prefer focused checks for small slices and reserve the full review gate for milestone integration.
+
+Boundary:
+
+No SQL, Supabase connection/read/write, staging row creation, `daily_prices` mutation, market endpoint fetch, raw market-data ingest/store/commit, source-derived candidate row generation, candidate row acceptance, real row readback, row coverage scoring, secret output, raw payload output, row payload output, stock id payload output, public source promotion, score promotion, investment advice claim, production environment mutation, DNS change, broad visual redesign, or Phase 2 membership implementation occurred.
+
+Next route:
+
+Continue `twii_pre_execution_readiness_recheck_preparation_gate`, then decide whether the next pre-execution readiness route can be advanced without accepting real operator values or relaxing the mock-only public runtime boundary.
+
 ### TWII Operator Execution Packet Chain Convergence Gate
 
 Status: `twii_operator_execution_packet_chain_convergence_gate_ready_no_execution`
