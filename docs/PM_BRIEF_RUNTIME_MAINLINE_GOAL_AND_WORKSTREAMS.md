@@ -8,6 +8,44 @@ Owner: PM mainline
 
 ## Latest Mainline Decision - 2026-06-14
 
+### A2 Public Trust Copy Checker Repair Pass
+
+CEO decision:
+
+- Public legal and methodology routes should explain product boundaries in user language.
+- Keep risk, source, freshness, coverage, formal-data-disabled, and non-advice disclosures visible.
+- Do not expose internal runtime flags, raw payload terms, SQL/Supabase operation wording, packet commands, or operator workflow text on public pages.
+- Phase 1 remains the public/free index-lighting route; Phase 2 membership remains a non-blocking roadmap lane.
+
+PM completed:
+
+- Repaired the A2 legal/methodology readable-copy checker.
+- Repaired the A2 route-local legal/weekly/methodology regression gate.
+- Repaired the A2 route-local trust-copy route-health checker.
+- Converted stale internal-notice requirements into public trust copy guards.
+- Preserved no-SQL, no-Supabase-write, no-raw-market-data, no-secret, mock-source, and mock-score boundaries.
+
+Checks passed:
+
+- `check:a2-legal-methodology-readable-copy`
+- `check:a2-route-local-legal-weekly-methodology-copy-regression-gate`
+- `check:a2-route-local-trust-copy-route-health`
+- `check:public-visible-language-quality`
+- `check:public-beta-methodology-disclaimer-source-coverage-alignment`
+- `check:phase-1-public-beta-public-visible-residue-cleanup`
+- `check:public-beta-core-route-quick-proof`
+- `npx tsc --noEmit`
+- `npm run build`
+- `check:review-gates` (`190/190` focused checks executed)
+
+Current route:
+
+- `a2_public_trust_copy_checker_repaired`
+
+Next PM slice:
+
+- Continue Phase 1 public route readiness or A3 public smoke.
+
 ### BRIEF Canonical Phase Split Repair Pass
 
 CEO decision:

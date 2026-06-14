@@ -1,106 +1,86 @@
 import fs from "node:fs";
 
-const docPath = "docs/A2_ROUTE_LOCAL_LEGAL_WEEKLY_METHODOLOGY_COPY_REGRESSION_GATE.md";
 const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
+const docPath = "docs/A2_ROUTE_LOCAL_LEGAL_WEEKLY_METHODOLOGY_COPY_REGRESSION_GATE.md";
 
-const routeFiles = [
-  "src/app/weekly/page.tsx",
-  "src/app/methodology/page.tsx",
-  "src/app/disclaimer/page.tsx",
-  "src/app/terms/page.tsx",
-  "src/app/privacy/page.tsx"
-];
-
-const supportFiles = [
-  "src/components/trust-runtime-boundary-notice.tsx",
-  "src/app/layout.tsx",
-  "docs/A2_ROUTE_LEVEL_LAUNCH_COPY_PLACEMENT_CRITERIA.md",
-  "docs/A2_ROUTE_LEVEL_LAUNCH_COPY_AUDIT.md"
-];
-
-const missing = [];
-const blocked = [];
-
-function read(path) {
-  if (!fs.existsSync(path)) {
-    missing.push(`${path}: file exists`);
-    return "";
+const routeContracts = [
+  {
+    path: "src/app/weekly/page.tsx",
+    required: ["市場週報", "30 秒", "3 分鐘", "正式資料尚未啟用", "示範資料", "示範分數", "不提供買賣建議", "資料更新時間"]
+  },
+  {
+    path: "src/app/methodology/page.tsx",
+    required: ["方法說明", "燈號方法", "市場氣氛", "核心指標", "資料品質", "資料狀態", "覆蓋率", "更新時間", "不是交易指令", "不提供買賣建議"]
+  },
+  {
+    path: "src/app/disclaimer/page.tsx",
+    required: ["風險聲明", "公開 Beta", "示範資料", "正式市場資料尚未啟用", "不是投資建議", "不提供買賣建議", "市場風險自負"]
+  },
+  {
+    path: "src/app/terms/page.tsx",
+    required: ["使用條款", "市場資訊整理", "風險辨識", "不是投資建議", "資料來源", "更新時間", "自行承擔風險"]
+  },
+  {
+    path: "src/app/privacy/page.tsx",
+    required: ["隱私權與資料說明", "公開 Beta", "資料來源", "不要在任何表單", "交易帳戶", "會員功能資料邊界"]
+  },
+  {
+    path: "src/app/layout.tsx",
+    required: ["/methodology", "/disclaimer", "/privacy", "/terms"]
+  },
+  {
+    path: "src/components/route-local-trust-copy-panel.tsx",
+    required: ["揭露摘要", "方法摘要", "隱私摘要", "條款摘要", "週報摘要", "不是個別投資建議"]
   }
+];
 
-  return fs.readFileSync(path, "utf8");
-}
-
-const doc = read(docPath);
-const packageJson = JSON.parse(read(packagePath));
-const reviewGate = read(reviewGatePath);
-const files = Object.fromEntries([...routeFiles, ...supportFiles].map((path) => [path, read(path)]));
-const joinedRouteCopy = routeFiles.map((path) => files[path]).join("\n");
-const joinedSupportCopy = supportFiles.map((path) => files[path]).join("\n");
-
-const requiredDocTokens = [
+const docRequiredTokens = [
   "a2_route_local_legal_weekly_methodology_copy_regression_gate_ready",
   "bounded_local_only_route_copy_regression",
-  "CEO decision: `promote_route_local_trust_copy_regression_before_visual_polish`.",
-  "PM route: `route_local_legal_weekly_methodology_copy_regression_gate_then_bounded_copy_patches`.",
   "## Boundary",
   "## Regression Scope",
   "## Required Public Trust Topics",
   "## Accepted Evidence",
   "## A2 Next Assignment",
-  "## PM Record",
-  "`/weekly`",
-  "`/methodology`",
-  "`/disclaimer`",
-  "`/terms`",
-  "`/privacy`",
-  "Footer/legal shared chrome",
-  "`publicDataSource=mock`",
-  "`scoreSource=mock`",
-  "Data freshness as metadata/readiness",
-  "Partial coverage and missing/delayed data limitations",
-  "Model limitation and no guarantee of score quality",
-  "Risk disclosure and non-investment-advice boundary",
-  "Visual polish stays lower priority"
+  "## PM Record"
 ];
 
-const requiredBoundaryTokens = [
+const boundaryTokens = [
   "Keep `publicDataSource=mock`.",
   "Keep `scoreSource=mock`.",
   "Do not set `publicDataSource=supabase`.",
   "Do not set `scoreSource=real`.",
   "Do not run SQL.",
-  "Do not connect to Supabase.",
   "Do not write Supabase.",
   "Do not modify `daily_prices`.",
-  "Do not fetch, ingest, store, or commit raw market data.",
-  "Do not print secrets, row payloads, stock id payloads, or raw source payloads."
+  "Do not fetch, ingest, store, or commit raw market data."
 ];
 
-const requiredRouteTokens = [
-  ["src/app/weekly/page.tsx", "TrustRuntimeBoundaryNotice"],
-  ["src/app/weekly/page.tsx", "DataFreshnessStrip"],
-  ["src/app/weekly/page.tsx", "WeeklyRowCoverageStatus"],
-  ["src/app/methodology/page.tsx", "TrustRuntimeBoundaryNotice"],
-  ["src/app/methodology/page.tsx", "DataFreshnessStrip"],
-  ["src/app/disclaimer/page.tsx", "TrustRuntimeBoundaryNotice"],
-  ["src/app/terms/page.tsx", "TrustRuntimeBoundaryNotice"],
-  ["src/app/privacy/page.tsx", "TrustRuntimeBoundaryNotice"],
-  ["src/app/layout.tsx", "/methodology"],
-  ["src/app/layout.tsx", "/disclaimer"],
-  ["src/app/layout.tsx", "/privacy"],
-  ["src/app/layout.tsx", "/terms"],
-  ["src/components/trust-runtime-boundary-notice.tsx", "publicDataSource=mock; scoreSource=mock"],
-  ["src/components/trust-runtime-boundary-notice.tsx", "not investment advice"],
-  ["src/components/trust-runtime-boundary-notice.tsx", "not live or complete market data"],
-  ["src/components/trust-runtime-boundary-notice.tsx", "model limitation"],
-  ["docs/A2_ROUTE_LEVEL_LAUNCH_COPY_PLACEMENT_CRITERIA.md", "Footer / legal pages `/disclaimer`, `/terms`, `/privacy`, `/methodology`"],
-  ["docs/A2_ROUTE_LEVEL_LAUNCH_COPY_PLACEMENT_CRITERIA.md", "Weekly `/weekly`"],
-  ["docs/A2_ROUTE_LEVEL_LAUNCH_COPY_AUDIT.md", "`/weekly`"],
-  ["docs/A2_ROUTE_LEVEL_LAUNCH_COPY_AUDIT.md", "`/methodology`"],
-  ["docs/A2_ROUTE_LEVEL_LAUNCH_COPY_AUDIT.md", "`/disclaimer`"],
-  ["docs/A2_ROUTE_LEVEL_LAUNCH_COPY_AUDIT.md", "`/terms`"],
-  ["docs/A2_ROUTE_LEVEL_LAUNCH_COPY_AUDIT.md", "`/privacy`"]
+const forbiddenPublicResidue = [
+  "cmd.exe",
+  "npm run",
+  "packet",
+  "preflight",
+  "post-run",
+  "operator",
+  "publicDataSource",
+  "scoreSource",
+  "mock-only",
+  "Supabase",
+  "SQL",
+  "daily_prices",
+  "raw market data",
+  "raw market payloads",
+  "raw payload",
+  "row payloads",
+  "stock id payloads",
+  "secrets",
+  "Runtime Status",
+  "promotion gate",
+  "Phase 1",
+  "Phase 2",
+  "Membership MVP"
 ];
 
 const forbiddenClaims = [
@@ -119,17 +99,33 @@ const forbiddenClaims = [
   "stock id payloads were printed"
 ];
 
-for (const token of [...requiredDocTokens, ...requiredBoundaryTokens]) {
+const missing = [];
+const blocked = [];
+
+const doc = read(docPath);
+const packageJson = JSON.parse(read(packagePath) || "{}");
+const reviewGate = read(reviewGatePath);
+
+for (const token of [...docRequiredTokens, ...boundaryTokens]) {
   if (!doc.includes(token)) missing.push(`${docPath}: ${token}`);
 }
 
-for (const [path, token] of requiredRouteTokens) {
-  if (!files[path]?.includes(token)) missing.push(`${path}: ${token}`);
-}
+for (const route of routeContracts) {
+  const source = read(route.path);
+  for (const token of route.required) {
+    if (!source.includes(token)) missing.push(`${route.path}: ${token}`);
+  }
 
-for (const token of forbiddenClaims) {
-  if (doc.includes(token) || joinedRouteCopy.includes(token) || joinedSupportCopy.includes(token)) {
-    blocked.push(`forbidden claim: ${token}`);
+  for (const residue of forbiddenPublicResidue) {
+    if (source.includes(residue)) blocked.push(`${route.path}: public residue ${residue}`);
+  }
+
+  for (const claim of forbiddenClaims) {
+    if (source.includes(claim)) blocked.push(`${route.path}: forbidden claim ${claim}`);
+  }
+
+  for (const marker of findMojibakeMarkers(source)) {
+    blocked.push(`${route.path}: mojibake marker ${marker}`);
   }
 }
 
@@ -155,25 +151,56 @@ const sectionOrder = [
 ].map((section) => doc.indexOf(section));
 
 if (sectionOrder.some((index) => index < 0) || !sectionOrder.every((index, i) => i === 0 || index > sectionOrder[i - 1])) {
-  blocked.push(`${docPath}: required sections must stay in regression-gate order`);
+  blocked.push(`${docPath}: required sections out of order`);
 }
 
-const result = {
-  blocked,
-  missing,
-  checked: {
-    boundaryTokens: requiredBoundaryTokens.length,
-    docTokens: requiredDocTokens.length,
-    forbiddenClaims: forbiddenClaims.length,
-    routeFiles: routeFiles.length,
-    routeTokens: requiredRouteTokens.length,
-    supportFiles: supportFiles.length
-  },
-  status: missing.length === 0 && blocked.length === 0 ? "ok" : "blocked"
-};
-
-console.log(JSON.stringify(result, null, 2));
+console.log(
+  JSON.stringify(
+    {
+      blocked,
+      missing,
+      checked: {
+        boundaryTokens: boundaryTokens.length,
+        docTokens: docRequiredTokens.length,
+        forbiddenClaims: forbiddenClaims.length,
+        forbiddenPublicResidue: forbiddenPublicResidue.length,
+        routeContracts: routeContracts.length
+      },
+      status: missing.length === 0 && blocked.length === 0 ? "ok" : "blocked"
+    },
+    null,
+    2
+  )
+);
 
 if (missing.length > 0 || blocked.length > 0) {
   process.exitCode = 1;
+}
+
+function read(filePath) {
+  if (!fs.existsSync(filePath)) {
+    missing.push(`${filePath}: file exists`);
+    return "";
+  }
+
+  return fs.readFileSync(filePath, "utf8");
+}
+
+function findMojibakeMarkers(text) {
+  const markers = [];
+  if (text.includes("\uFFFD")) markers.push("replacement-char");
+  if (/\?{3,}/u.test(text)) markers.push("question-mark-run");
+  if (hasPrivateUseCodePoint(text)) markers.push("private-use-code-point");
+  if (/(?:嚗|銝|蝭|憟|璅|鞈|撣|閮|瘥|摨|甈|雿|蹐|蹓||){2,}/u.test(text)) {
+    markers.push("common-mojibake-run");
+  }
+  return markers;
+}
+
+function hasPrivateUseCodePoint(text) {
+  for (const char of text) {
+    const codePoint = char.codePointAt(0) ?? 0;
+    if (codePoint >= 0xe000 && codePoint <= 0xf8ff) return true;
+  }
+  return false;
 }

@@ -9,17 +9,33 @@ const defaultBaseUrl = process.env.A2_ROUTE_LOCAL_TRUST_COPY_BASE_URL ?? "http:/
 const fallbackBaseUrl = process.env.A2_ROUTE_LOCAL_TRUST_COPY_FALLBACK_BASE_URL ?? "http://localhost:3101";
 
 const routes = [
-  { path: "/weekly", required: ["Weekly Reading Boundary", "publicDataSource=mock", "scoreSource=mock", "mock-only"] },
-  { path: "/methodology", required: ["Model Boundary", "publicDataSource=mock", "scoreSource=mock", "mock-only"] },
-  { path: "/disclaimer", required: ["Disclosure Summary", "publicDataSource=mock", "scoreSource=mock", "mock-only"] },
-  { path: "/terms", required: ["Terms Summary", "publicDataSource=mock", "scoreSource=mock", "mock-only"] },
-  { path: "/privacy", required: ["Privacy Boundary", "publicDataSource=mock", "scoreSource=mock", "mock-only"] }
+  { path: "/weekly", required: ["市場週報", "30 秒", "3 分鐘", "正式資料尚未啟用", "不提供買賣建議"] },
+  { path: "/methodology", required: ["方法說明", "燈號方法", "資料品質", "資料狀態", "不提供買賣建議"] },
+  { path: "/disclaimer", required: ["風險聲明", "公開 Beta", "不是投資建議", "市場風險自負", "正式市場資料尚未啟用"] },
+  { path: "/terms", required: ["使用條款", "市場資訊整理", "風險辨識", "資料來源", "自行承擔風險"] },
+  { path: "/privacy", required: ["隱私權與資料說明", "公開 Beta", "資料來源", "交易帳戶", "會員功能資料邊界"] }
 ];
 
 const forbidden = [
   "Internal Server Error",
   "Application error",
   "Unhandled Runtime Error",
+  "cmd.exe",
+  "npm run",
+  "packet",
+  "preflight",
+  "post-run",
+  "operator",
+  "publicDataSource",
+  "scoreSource",
+  "mock-only",
+  "Supabase",
+  "SQL",
+  "daily_prices",
+  "raw market data",
+  "raw payload",
+  "Runtime Status",
+  "promotion gate",
   "publicDataSource: supabase",
   "scoreSource: real",
   "publicDataSource=supabase is approved",

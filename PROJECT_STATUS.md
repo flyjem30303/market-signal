@@ -2,6 +2,45 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### A2 Public Trust Copy Checker Repair Pass
+
+Status: `a2_public_trust_copy_checker_repaired`
+
+CEO decision:
+
+- Treat `/methodology`, `/disclaimer`, `/terms`, `/privacy`, and `/weekly` as public trust surfaces, not internal runtime ledgers.
+- Keep the required user-facing disclosures: data source, update time, coverage limits, formal data not enabled, no investment advice, no buy/sell instruction, and self-risk language.
+- Do not reintroduce internal development wording such as `publicDataSource`, `scoreSource`, raw payload labels, SQL/Supabase operation terms, or packet/operator commands into public pages just to satisfy stale checkers.
+- Phase 1 remains the active public-free site target; Phase 2 membership stays roadmap/planning until Phase 1 is stable.
+
+PM completed:
+
+- Rebuilt `check:a2-legal-methodology-readable-copy` around readable public legal/methodology/privacy/terms copy.
+- Rebuilt `check:a2-route-local-legal-weekly-methodology-copy-regression-gate` around route-level public trust requirements.
+- Rebuilt `check:a2-route-local-trust-copy-route-health` around user-facing route health evidence instead of internal runtime labels.
+- Added explicit checker blocks against public development residue while preserving internal boundary enforcement in docs and review gates.
+
+Checks passed:
+
+- `check:a2-legal-methodology-readable-copy`
+- `check:a2-route-local-legal-weekly-methodology-copy-regression-gate`
+- `check:a2-route-local-trust-copy-route-health`
+- `check:public-visible-language-quality`
+- `check:public-beta-methodology-disclaimer-source-coverage-alignment`
+- `check:phase-1-public-beta-public-visible-residue-cleanup`
+- `check:public-beta-core-route-quick-proof`
+- `npx tsc --noEmit`
+- `npm run build`
+- `check:review-gates` (`190/190` focused checks executed)
+
+Boundary:
+
+No membership implementation, login, payment, watchlist persistence, personalized alert execution, SQL, Supabase read/write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public source promotion, real score promotion, real-time claim, official endorsement claim, guaranteed-return claim, investment-advice claim, production env mutation, DNS change, or Vercel dashboard mutation occurred.
+
+Next:
+
+Continue Phase 1 route readability or A3 public smoke.
+
 ### BRIEF Canonical Phase Split Repair Pass
 
 Status: `brief_canonical_phase_split_repaired`
