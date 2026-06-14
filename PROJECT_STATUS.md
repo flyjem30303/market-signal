@@ -2,6 +2,37 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Remote Monitoring Keep-Open Decision Pass
+
+Status: `phase_1_public_beta_remote_monitoring_keep_open_decision_ready`
+
+CEO decision:
+
+- Treat the current public Vercel alias as keep-open under the mock/demo boundary while remote monitoring passes.
+- Keep the decision operational: route regressions go to A3, public copy regressions go to A2, data-source gaps remain A1 accepted deferrals, and membership remains A4 Phase 2 planning-only.
+- This does not authorize deploy, DNS changes, production env mutation, SQL, Supabase, market-data fetch, real-data promotion, or membership implementation.
+
+PM completed:
+
+- Added `docs/PHASE_1_PUBLIC_BETA_REMOTE_MONITORING_KEEP_OPEN_DECISION.md`.
+- Added `check:phase-1-public-beta-remote-monitoring-keep-open-decision`.
+- Registered the checker in `package.json` and the focused review gate.
+- Recorded current decision: `KEEP_OPEN_WITH_DEFERRALS_FROM_REMOTE_MONITOR` for `https://market-signal-two.vercel.app`.
+- Defined repair/pause routing for route failure, public copy regression, membership-boundary confusion, P0 exposure, and data deferrals.
+
+Checks passed:
+
+- `check:a3-phase-1-public-beta-remote-monitoring-snapshot`
+- `check:phase-1-public-beta-remote-monitoring-keep-open-decision`
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public source promotion, real score promotion, real-time claim, official endorsement claim, guaranteed-return claim, investment-advice claim, production env mutation, DNS change, Vercel dashboard mutation, or membership implementation occurred. Runtime remains mock/demo.
+
+Next:
+
+Continue the remote monitoring cadence. PM/A3 should rerun the remote monitor after each future deploy or public-copy repair; A1 continues data/source/coverage; A2 guards trust copy; A4 stays Phase 2 membership planning-only.
+
 ### A3 Remote Public Beta Monitoring Snapshot Pass
 
 Status: `a3_phase_1_public_beta_remote_monitoring_snapshot_ready`

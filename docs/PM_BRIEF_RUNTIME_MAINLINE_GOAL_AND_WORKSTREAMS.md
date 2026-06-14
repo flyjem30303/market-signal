@@ -3304,6 +3304,35 @@ Boundary:
 
 No platform deploy, DNS change, production env mutation, SQL, Supabase read/write, staging rows, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public source promotion, real score promotion, real-time claim, official endorsement claim, guaranteed-return claim, investment-advice claim, or membership implementation occurred. Runtime remains mock/demo.
 
+## 8BA. 2026-06-14 Remote Monitoring Keep-Open Decision
+
+CEO decision:
+
+`phase_1_public_beta_remote_monitoring_keep_open_decision_ready`
+
+PM executed the next route after the A3 remote monitoring snapshot. The project now has a practical decision record for the already deployed public alias: if the remote monitor passes, PM/A3 can keep the Phase 1 public Beta open under explicit deferrals; if it regresses, the issue routes to the smallest owner lane.
+
+Completed mainline work:
+
+- Added `docs/PHASE_1_PUBLIC_BETA_REMOTE_MONITORING_KEEP_OPEN_DECISION.md`.
+- Added `scripts/check-phase-1-public-beta-remote-monitoring-keep-open-decision.mjs`.
+- Registered `check:phase-1-public-beta-remote-monitoring-keep-open-decision` in `package.json`.
+- Registered the new checker in the focused review gate.
+- Recorded the current no-secret decision as `KEEP_OPEN_WITH_DEFERRALS_FROM_REMOTE_MONITOR` for `https://market-signal-two.vercel.app`.
+- Defined repair routes for remote route failure, public copy regression, membership-boundary confusion, P0 pause/rollback triggers, and data-source deferrals.
+
+Current lane assignments:
+
+- PM mainline: next route is `continue_remote_monitoring_cadence_and_repair_if_regression`.
+- A1 data/source/coverage: continue legal/free/automatable data-source and coverage work as an accepted deferral; do not block Phase 1 unless public copy claims formal data is live.
+- A2 public copy/product safety: own source/update/no-advice/coverage/member-boundary repair if the monitor flags public wording risk.
+- A3 launch/production engineering: own remote route health, robots/sitemap, rollback readiness, and monitor reruns after future deploys.
+- A4 membership MVP planning: keep Phase 2 planning-only unless the membership preview itself becomes confusing or over-promises.
+
+Boundary:
+
+No platform deploy, DNS change, production env mutation, SQL, Supabase read/write, staging rows, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public source promotion, real score promotion, real-time claim, official endorsement claim, guaranteed-return claim, investment-advice claim, or membership implementation occurred. Runtime remains mock/demo.
+
 ## 8O. 2026-06-13 Phase 1 Operator Review Summary
 
 CEO decision:

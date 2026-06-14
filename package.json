@@ -92,6 +92,7 @@
     "check:phase-1-public-beta-operator-action-or-no-action-safe-reply": "node scripts/check-phase-1-public-beta-operator-action-or-no-action-safe-reply.mjs",
     "check:phase-1-public-beta-post-platform-report-filled-placeholder-or-repair-scaffold": "node scripts/check-phase-1-public-beta-post-platform-report-filled-placeholder-or-repair-scaffold.mjs",
     "check:phase-1-public-beta-post-report-monitoring-or-repair-decision-loop": "node scripts/check-phase-1-public-beta-post-report-monitoring-or-repair-decision-loop.mjs",
+    "check:phase-1-public-beta-remote-monitoring-keep-open-decision": "node scripts/check-phase-1-public-beta-remote-monitoring-keep-open-decision.mjs",
     "dev:recover": "powershell -ExecutionPolicy Bypass -File scripts/recover-next-dev-server.ps1",
     "check:json": "node -e \"const fs=require('fs'); for (const f of ['package.json','tsconfig.json','data/seeds/markets.seed.json','data/seeds/stocks.seed.json','data/source-gates/narrow-approval-outcomes.json','data/source-gates/runner-approval-decision-outcomes.json','data/source-gates/blocker-review-decision-outcomes.json','data/source-gates/tw-equity-provider-specific-terms-review-outcomes.json','data/source-gates/tw-equity-schema-exposure-repair-outcomes.json','data/source-gates/tw-equity-staging-migration-apply-outcomes.json','data/source-gates/twii-vendor-internal-evidence-outcomes.json']) { JSON.parse(fs.readFileSync(f,'utf8')); console.log(f+' ok'); }\"",
     "check:asset-policy": "node --experimental-strip-types scripts/check-asset-type-policy.mjs",

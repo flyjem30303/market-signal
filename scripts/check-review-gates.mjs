@@ -4688,6 +4688,11 @@ const checks = [
     name: "phase-1-public-beta-post-report-monitoring-or-repair-decision-loop"
   },
   {
+    command: [node, "scripts/check-phase-1-public-beta-remote-monitoring-keep-open-decision.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-public-beta-remote-monitoring-keep-open-decision"
+  },
+  {
     command: [node, "scripts/check-twii-aggregate-readback-contract-preflight.mjs"],
     expectStatus: "ok",
     name: "twii-aggregate-readback-contract-preflight"
@@ -6183,6 +6188,7 @@ const coreReviewGateNames = new Set([
   "phase-1-public-beta-operator-action-or-no-action-safe-reply",
   "phase-1-public-beta-post-platform-report-filled-placeholder-or-repair-scaffold",
   "phase-1-public-beta-post-report-monitoring-or-repair-decision-loop",
+  "phase-1-public-beta-remote-monitoring-keep-open-decision",
   "a2-public-beta-trust-copy-readiness",
   "briefing-public-beta-gate-summary",
   "a2-beta-phrase-set-and-shared-trust-surface-patch-scope",
