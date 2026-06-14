@@ -2,6 +2,41 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### TWII Bounded Authorization To Explicit Execution Reactivation
+
+Status: `twii_preexecution_to_authorization_chain_convergence_gate_ready_no_execution`
+
+CEO decision:
+
+- Avoid duplicating an already-valid authorization-to-execution convergence gate. The existing `twii_preexecution_to_authorization_chain_convergence_gate` still passes and already consolidates bounded operator authorization packet preparation into explicit execution packet preparation.
+- Reactivate that existing passing chain as the active PM route so Phase 1 data-online preparation continues with larger coherent slices.
+- Move the active PM route to `twii_explicit_execution_packet_preparation_gate`.
+
+PM completed:
+
+- Re-ran `check:twii-bounded-operator-authorization-packet-preparation-gate`.
+- Re-ran `check:twii-explicit-execution-packet-preparation-gate`.
+- Confirmed the existing bounded authorization packet preparation gate reports `bounded_operator_authorization_packet_prepared_execution_still_blocked`, `providedNowCount=0`, `valueReadNowCount=0`, `authorizationAcceptedNowCount=0`, `executionAllowedNow=false`, `publicDataSource=mock`, and `scoreSource=mock`.
+- Confirmed the existing explicit execution packet preparation gate reports `explicit_execution_packet_preparation_ready_execution_still_blocked`, `providedNowCount=0`, `valueReadNowCount=0`, `executionAuthorizedNowCount=0`, `executionAllowedNow=false`, `publicDataSource=mock`, and `scoreSource=mock`.
+
+Evidence:
+
+- `cmd.exe /c npm run check:twii-bounded-operator-authorization-packet-preparation-gate` passed with `twii_bounded_operator_authorization_packet_preparation_gate_ready_no_execution`.
+- `cmd.exe /c npm run check:twii-explicit-execution-packet-preparation-gate` passed with `twii_explicit_execution_packet_preparation_gate_ready_no_execution`.
+- `cmd.exe /c npm run check:twii-preexecution-to-authorization-chain-convergence-gate` passed with `twii_preexecution_to_authorization_chain_convergence_gate_ready_no_execution`.
+- `cmd.exe /c npm run check:twii-separate-authorized-execution-attempt-preparation-gate` passed with `twii_separate_authorized_execution_attempt_preparation_gate_ready_no_execution`.
+- `cmd.exe /c npx tsc --noEmit` passed.
+- `git diff --check` passed with only Windows line-ending warnings.
+- `cmd.exe /c npm run check:review-gates > tmp\review-gates-twii-bounded-authorization-to-explicit-execution-reactivation.txt` passed with `status=ok`, `executedCount=201`; `twii-preexecution-to-authorization-chain-convergence-gate` and `twii-separate-authorized-execution-attempt-preparation-gate` were executed and passed.
+
+Boundary:
+
+No SQL, Supabase connection/read/write, staging row creation, `daily_prices` mutation, market endpoint fetch, raw market-data ingest/store/commit, source-derived candidate row generation, candidate row acceptance, real row readback, row coverage scoring, secret output, raw payload output, row payload output, stock id payload output, public source promotion, score promotion, investment advice claim, production environment mutation, DNS change, broad visual redesign, or Phase 2 membership implementation occurred.
+
+Next route:
+
+Continue `twii_explicit_execution_packet_preparation_gate`, then decide whether explicit execution packet preparation can be advanced into separate authorized execution attempt preparation without accepting real operator values or relaxing the mock-only public runtime boundary.
+
 ### TWII External-to-Server Preexecution Chain Reactivation
 
 Status: `twii_external_to_server_preexecution_chain_convergence_gate_ready_no_execution`
