@@ -2,6 +2,36 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Remote Deployment Sync After BRIEF And Public Cleanup
+
+Status: `remote_deployment_sync_after_brief_cleanup_ready`
+
+PM completed:
+
+- Pushed both the Phase 1 public route readability cleanup and the canonical BRIEF rebuild to GitHub.
+- Confirmed Vercel remote deployment at `https://market-signal-two.vercel.app` is in sync with the latest Phase 1 public Beta route contract.
+- Verified the remote site still stays inside the mock-only public boundary.
+
+Checks passed:
+
+- `check:a3-phase-1-public-beta-remote-monitoring-snapshot`
+
+Remote snapshot:
+
+- Checked routes: `/`, `/briefing`, `/weekly`, `/membership`, `/stocks/2330`, `/stocks/TWII`, `/methodology`, `/disclaimer`, `/terms`, `/privacy`, `/robots.txt`, `/sitemap.xml`
+- All checked routes returned 200.
+- No forbidden public residue, no mojibake hits, and no missing route tokens were reported.
+- `publicDataSource=mock`
+- `scoreSource=mock`
+- `sqlExecuted=false`
+- `supabaseReadOrWriteExecuted=false`
+- `marketDataFetched=false`
+- `platformMutationExecuted=false`
+
+Next:
+
+Continue Phase 1 public Beta readiness from product/runtime surfaces, not Phase 2 implementation. The next highest-value PM mainline slice is a final public journey pass: home -> stock detail -> methodology -> membership preview -> disclaimer/terms/privacy, ensuring every page supports the BRIEF without developer-process language.
+
 ### BRIEF Phase Split Canonical Rebuild Pass
 
 Status: `brief_phase_split_canonical_rebuild_ready`
