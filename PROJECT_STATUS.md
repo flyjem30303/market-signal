@@ -2,6 +2,45 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Phase 1 Decision Data Status Surface Alignment
+
+Status: `phase_1_decision_data_status_surface_alignment_ready`
+
+CEO decision:
+
+- Continue Phase 1 public/free product clarity instead of expanding Phase 2 membership implementation.
+- The highest-value blockers were the public decision loop, decision journey panel, data readiness status, and public status surface alignment.
+- The fix should connect existing public status/data-readiness models to the public UI and use user-facing wording, not internal gate wording.
+
+PM completed:
+
+- Mounted `PublicBetaPublicStatusSurface` on `/briefing`.
+- Mounted `PublicBetaDataReadinessStatus` on `/`.
+- Updated `PublicBetaDataReadinessStatus` to render the canonical status model from `src/lib/public-beta-data-readiness-status.ts`.
+- Updated public status copy to show: `公開 Beta 使用狀態`, `先用 30 秒看懂市場氣氛`, `資料品質需持續複核`, `會員功能規劃中`, `目前為示範資料`, `正式市場資料尚未啟用`, and `不提供買賣建議`.
+- Updated home/stock wording so the decision loop clearly includes 30-second reading, 3-minute action/review, alert reminders, data readiness, and non-trading-instruction boundaries.
+
+Checks passed:
+
+- `check:public-beta-decision-loop-bridge`
+- `check:public-beta-decision-journey-panel`
+- `check:public-beta-data-readiness-status`
+- `check:phase-1-public-beta-public-status-surface-alignment`
+- `check:public-visible-language-quality`
+- `check:public-surface-user-facing-audit`
+- `check:public-beta-core-route-quick-proof`
+- `npx tsc --noEmit`
+- `npm run build`
+- `curl -I http://localhost:3000/`
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public data-source promotion, real score promotion, login implementation, payment implementation, persisted watchlist, personalized alert execution, member-only content gating, promised-return claim, or investment-advice claim occurred.
+
+Next:
+
+Continue Phase 1 focused review-gate cleanup. Best next PM slice is to clear remaining public-product blockers around stock decision compass, public beta mainline action bridge, and source coverage runtime labels.
+
 ### Phase 1 Public Reading Contract Alignment
 
 Status: `phase_1_public_reading_contract_alignment_ready`

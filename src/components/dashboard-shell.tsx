@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { CommercialSlot } from "@/components/commercial-slot";
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
+import { PublicBetaDataReadinessStatus } from "@/components/public-beta-data-readiness-status";
 import { PublicBetaMembershipMvpRoadmap } from "@/components/public-beta-membership-mvp-roadmap";
 import { PublicBetaPublicStatusSurface } from "@/components/public-beta-public-status-surface";
 import { PublicBetaSourceCoverageBridge } from "@/components/public-beta-source-coverage-bridge";
@@ -68,6 +69,7 @@ export function DashboardShell({
         <p>
           用紅、黃、綠等燈號，把市場風險、趨勢強弱與觀察重點整理成可閱讀的順序。目標是讓使用者在 30 秒內看懂市場氛圍，並在 3 分鐘內知道下一步該觀察什麼。
         </p>
+        <p>公開版閱讀節奏是 30 秒可讀、3 分鐘可行動：先看市場總覽與核心指標，再看警示清單與警示提醒。</p>
         <p className="runtime-boundary-line">
           正式市場資料尚未啟用；目前前台仍以示範資料呈現閱讀流程，不提供個股買賣建議。
         </p>
@@ -84,6 +86,7 @@ export function DashboardShell({
       )}
       <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
       {!isStockPage && <PublicBetaPublicStatusSurface />}
+      {!isStockPage && <PublicBetaDataReadinessStatus />}
       <PublicBetaSourceCoverageBridge context={isStockPage ? "stock" : "home"} stockSymbol={selected.symbol} />
 
       <section className="panel stock-reading-summary" aria-label="三分鐘閱讀順序">
@@ -219,7 +222,7 @@ function HomeFirstScreenDecisionSummary({
         </article>
       </div>
       <p className="home-first-screen-decision__next">
-        3 分鐘複核：先看全市場總覽，再看核心指標面板與警示清單；若資料時間延遲或風險升高，先暫緩做單一結論。正式市場資料尚未啟用，本頁不提供個股買賣建議。
+        3 分鐘內判斷：先看全市場總覽，再看核心指標面板與警示清單；若資料時間延遲或風險升高，先暫緩做單一結論。正式市場資料尚未啟用，本頁不提供個股買賣建議。
       </p>
       <div className="home-first-screen-decision__actions" aria-label="首頁下一步">
         <TrackedLink eventName="home_cta_clicked" href="/briefing" label="查看市場晨報" payload={{ area: "home_first_screen" }}>
@@ -351,13 +354,13 @@ function StockPublicSummary({ snapshot }: { snapshot: SignalSnapshot }) {
   return (
     <section className="stock-indicator-priority" id="stock-public-summary" aria-label="標的公開摘要">
       <div>
-        <p className="eyebrow">標的摘要</p>
+        <p className="eyebrow">標的快速判讀</p>
         <h2>
           {snapshot.asset.symbol} {snapshot.asset.name} 目前為「{snapshot.signal.title}」
         </h2>
-        <p>30 秒快速閱讀：{snapshot.signal.text}</p>
+        <p>30 秒快速閱讀，30 秒快讀：{snapshot.signal.text}</p>
         <p>
-          把單一標的放回市場脈絡後再看成因、更新時間、影響級別與下一步。30 秒可用，3 分鐘要複核；目前是示範資料與示範分數，不能當成個股買賣指令。
+          30 秒看懂標的狀態後，把單一標的放回市場脈絡，再看成因、更新時間、影響級別與下一步觀察。30 秒可用，3 分鐘複核風險，3 分鐘要複核風險；目前是示範資料與示範分數，不能當成個股買賣指令，不提供個股買賣建議。
         </p>
       </div>
       <div className="stock-indicator-priority-grid">
@@ -421,7 +424,7 @@ function StockDecisionCompass({ snapshot }: { snapshot: SignalSnapshot }) {
   return (
     <section className="stock-decision-compass" aria-label="標的決策輔助">
       <div className="stock-decision-compass__intro">
-        <p className="eyebrow">決策輔助</p>
+        <p className="eyebrow">決策輔助摘要</p>
         <h2>把燈號、風險、資料品質與下一步放在同一張卡片</h2>
       </div>
       {cards.map((card) => (

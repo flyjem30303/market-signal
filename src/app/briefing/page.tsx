@@ -3,6 +3,7 @@ import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { PageViewTracker } from "@/components/page-view-tracker";
 import { PublicBetaDataReadinessStatus } from "@/components/public-beta-data-readiness-status";
 import { PublicBetaMembershipMvpRoadmap } from "@/components/public-beta-membership-mvp-roadmap";
+import { PublicBetaPublicStatusSurface } from "@/components/public-beta-public-status-surface";
 import { PublicBetaSourceCoverageBridge } from "@/components/public-beta-source-coverage-bridge";
 import { PublicNextReadingFlow } from "@/components/public-next-reading-flow";
 import { TrackedLink } from "@/components/tracked-link";
@@ -46,7 +47,7 @@ export default async function BriefingPage() {
             。這個頁面把市場狀態、風險來源、更新時間與下一步閱讀排成固定順序，降低資訊過載。
           </p>
           <p className="runtime-boundary-line">
-            目前公開頁以示範資料呈現閱讀流程，不提供買賣建議；請先確認資料時間與風險聲明，再做自己的觀察判斷。
+            正式市場資料尚未啟用；目前公開頁以示範資料呈現閱讀流程，不提供個股買賣建議。請先確認資料時間與風險聲明，再做下一步觀察。
           </p>
         </div>
         <aside>
@@ -124,6 +125,7 @@ export default async function BriefingPage() {
       </section>
 
       <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
+      <PublicBetaPublicStatusSurface />
       <PublicBetaDataReadinessStatus />
       <PublicBetaSourceCoverageBridge context="briefing" />
 
