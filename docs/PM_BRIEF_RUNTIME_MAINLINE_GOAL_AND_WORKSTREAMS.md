@@ -32,6 +32,14 @@ PM should improve the product in larger coherent slices:
 
 Avoid over-governance. Governance exists only to keep the project safe and continuous; it must not replace product/runtime progress.
 
+Current GOAL execution rule:
+
+- Push toward `public_beta_index_signal_dashboard_usable_loop`.
+- Treat Phase 1 as the active product/runtime deliverable.
+- Treat Phase 2 membership MVP as planning/specification until Phase 1 is stable.
+- Prefer larger coherent slices that visibly improve user understanding, route health, launch readiness, or safety copy.
+- Do not create narrow governance packets unless they remove a real launch blocker.
+
 ## A1 Data / Source / Coverage Lane
 
 A1 prepares legal/free automated source and coverage evidence.
@@ -52,6 +60,8 @@ A1 boundaries:
 - no raw market-data fetch/store/commit
 - no secret output
 
+PM assignment rule: A1 should stay on legal/free automated data source, coverage universe, field contracts, and ingestion/backfill preparation. A1 outputs should be aggregate-only or synthetic-only until PM explicitly opens a bounded execution gate.
+
 ## A2 Public Copy / Product Safety Lane
 
 A2 prepares public copy and safety guardrails.
@@ -64,6 +74,8 @@ Current A2 focus:
 - no-official-endorsement wording
 - free/member boundary wording
 - visible-language regression checks
+
+PM assignment rule: A2 should remove user-facing ambiguity. A2 should not write internal governance copy for users; every output should help a normal investor understand source status, delay, risk, and non-advice boundaries.
 
 ## A3 Launch / Production Engineering Lane
 
@@ -87,6 +99,8 @@ A3 boundaries:
 - no production env mutation without PM/CEO approval
 - no DNS change without PM/CEO approval
 - no credential, OTP, payment, or account-verification action on behalf of the chairman
+
+PM assignment rule: A3 should prepare launch checks, monitoring, rollback, metadata, sitemap, robots, and public route smoke evidence. A3 should not hold Phase 1 hostage to perfect production automation.
 
 ## A4 Membership MVP Planning Lane
 
@@ -112,6 +126,8 @@ A4 must not implement:
 - member-only content gating
 
 PM rule: A4 may receive 5% planning capacity for Phase 2 scope, but PM must pause A4 whenever Phase 1 public readability, route health, launch checks, data-boundary wording, or user-facing cleanup need the capacity.
+
+A4 planning acceptance: A4 is useful only if it clarifies the future MVP for market three-layer interpretation, watchlist/custom alert, post-market review, member boundary, and conversion metrics. A4 must not create login, payment, persisted watchlist, personalized alert execution, or member-only content gating during Phase 1.
 
 ## Runtime Stop Lines
 
@@ -145,3 +161,28 @@ Current Phase 1 operator route anchor:
 
 - `phase_1_public_beta_operator_decision_or_manual_platform_action_readiness_refresh`
 - `phase_1_public_beta_chairman_operator_decision_readiness_packet_or_repair_ready`
+
+## Dynamic Workstream Balance
+
+Default allocation:
+
+- PM mainline: 55%
+- A1 data/source/coverage: 20%
+- A2 public copy/product safety: 10%
+- A3 launch engineering: 10%
+- A4 membership MVP planning: 5%
+
+PM may rebalance at any slice:
+
+- If public pages are unclear, PM increases PM/A2 capacity.
+- If data source or coverage gates block real-data readiness, PM increases A1 capacity.
+- If Vercel, route health, metadata, monitoring, or rollback blocks launch, PM increases A3 capacity.
+- If membership direction becomes vague but Phase 1 is healthy, PM lets A4 prepare the next spec.
+- If any support lane slows Phase 1 without removing a real blocker, PM pauses it.
+
+GOAL continuation guidance:
+
+- Keep moving until a hard blocker requires external platform action, legal/source-rights decision, credential/secret input, or chairman-facing business decision.
+- Record each completed slice in `PROJECT_STATUS.md`.
+- Run focused local checks first; run broader checks only when the slice is integration-heavy.
+- Git backup after passing checks when the environment allows it.

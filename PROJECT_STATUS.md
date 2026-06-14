@@ -2,6 +2,40 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Revised BRIEF Phase Split And Workstream Rebalance
+
+Status: `revised_brief_phase_split_and_workstream_rebalance_ready`
+
+CEO decision:
+
+- Accept the revised `指數燈號網站 BRIEF` as the active product direction.
+- Split execution into Phase 1 and Phase 2.
+- Phase 1 is the public/free index-lighting site for all users and remains the active product/runtime mainline.
+- Phase 2 is the membership MVP path: daily market three-layer interpretation, watchlist/custom alert, and post-market review. It may continue as planning/specification only until Phase 1 is stable.
+- PM may rebalance A1/A2/A3/A4 dynamically, but PM remains the integration owner and must avoid over-governance.
+
+PM completed:
+
+- Updated `docs/PUBLIC_BETA_INDEX_DASHBOARD_BRIEF.md` with the active CEO execution rule, Phase 2 planning-not-blocking rule, Phase 2 membership MVP completion definition, and current GOAL interpretation.
+- Updated `docs/PM_BRIEF_RUNTIME_MAINLINE_GOAL_AND_WORKSTREAMS.md` with current GOAL execution rules, A1/A2/A3/A4 PM assignment rules, dynamic workstream balance, and continuation guidance.
+- Kept Phase 1 focused on public readability, route health, source/update-time disclosure, mock/real boundary clarity, launch engineering readiness, and public page residue cleanup.
+
+Checks passed:
+
+- `check:phase-1-phase-2-execution-split-and-workflow-assignment`
+- `check:pm-brief-runtime-mainline-goal-and-workstreams`
+- `check:public-beta-membership-mvp-roadmap`
+- `check:a4-membership-mvp-scope-and-free-paid-boundary`
+- `check:phase-1-public-beta-public-visible-residue-cleanup`
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public data-source promotion, real score promotion, production deploy, DNS change, production environment mutation, login implementation, payment implementation, persisted watchlist, personalized alert execution, member-only content gating, brokerage integration, promised-return claim, or investment-advice claim occurred.
+
+Next:
+
+Continue Phase 1 by improving visible public runtime clarity and launch readiness in larger coherent slices. Assign A1 to data/source/coverage, A2 to public trust wording, A3 to launch engineering, and A4 to membership MVP planning only when each support lane removes a real blocker.
+
 ### Phase 1 Investor Language And Value Loop Repair
 
 Status: `phase_1_investor_language_and_value_loop_repair_ready`

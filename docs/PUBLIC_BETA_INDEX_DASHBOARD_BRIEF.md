@@ -17,6 +17,8 @@ Owner: CEO / PM
 
 CEO 判斷：必須切成 Phase 1 / Phase 2。Phase 1 先把所有人可用的公開免費版做成可信、可理解、可上線；Phase 2 才製作會員可看的深度內容、登入、watchlist、自訂警示與盤後複盤架構。會員內容可以先做路線圖、預告與規格，但不得拖慢公開 Beta 的可用閉環。
 
+CEO execution rule: Phase 1 is a launchable public product, not a governance exercise. Phase 2 is a product expansion path. Any workstream may run in parallel only when it shortens the path to a clearer public site, safer data boundary, or better launch readiness.
+
 ## 1. 目標
 
 本專案目標是打造一個面向一般投資者的「指數燈號網站」，透過紅、黃、綠等視覺化狀態，協助使用者快速理解目前市場風險、趨勢強弱與觀察重點。
@@ -168,6 +170,15 @@ Phase 2 只有在 Phase 1 公開版穩定後開啟。
 - watchlist 使用率
 - 盤後複盤回訪率
 
+Phase 2 planning may continue during Phase 1, but Phase 2 implementation must not block:
+
+- public market-light readability
+- public route health
+- source/update-time disclosure
+- mock/real boundary clarity
+- launch engineering readiness
+- residue cleanup on public pages
+
 ## 7. Workstream Assignment
 
 PM 主線：
@@ -217,6 +228,8 @@ A4 Membership MVP Planning：
 - A3 15%
 - A4 5% planning only
 
+PM may rebalance these ratios during execution. The default is PM-led Phase 1. A1/A2/A3/A4 are support lanes, not separate product owners. If a support lane creates extra ceremony without removing a real blocker, PM should pause it and return capacity to Phase 1.
+
 ## 8. Current CEO Priority
 
 1. 完成 Phase 1 公開免費版，先不要讓會員 MVP 拖慢公開 Beta。
@@ -236,6 +249,23 @@ Phase 1 完成定義：
 - 載入錯誤時有替代資訊。
 - 資料流程驗證包含來源、時間戳、快取、錯誤回退。
 - 核心頁面可在預期時間內穩定載入，且無阻斷性錯誤。
+
+Phase 2 會員 MVP 完成定義：
+
+- 使用者可以註冊/登入會員。
+- 使用者可以查看會員專區的每日市場三層解讀。
+- 使用者可以建立 watchlist。
+- 使用者可以設定至少一種自訂警示條件。
+- 使用者可以查看盤後複盤內容。
+- 免費與會員內容邊界明確。
+- 會員內容仍維持觀察、風險提醒、情境判斷與資料解讀，不提供個股買賣建議。
+
+Current GOAL execution interpretation:
+
+- Push Phase 1 public Beta readiness first.
+- Keep Phase 2 membership MVP as planning/specification until Phase 1 is stable.
+- Use A1 for data/source/coverage, A2 for public trust copy, A3 for launch engineering, and A4 for membership MVP planning.
+- Do not promote real data, real score, SQL, Supabase write, raw market data, login, payment, persisted watchlist, personalized alert execution, or member-only content gating inside Phase 1.
 
 Checker compatibility anchors:
 
