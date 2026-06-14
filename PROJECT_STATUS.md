@@ -2,6 +2,38 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Stock Investor Indicator Roadmap Panel
+
+Status: `stock_investor_indicator_roadmap_panel_ready`
+
+CEO decision:
+
+- Advance Phase 1 by making the stock page explain which investor-facing indicators are readable now, which are design-only, and which must wait for real data.
+- Repair the existing indicator-roadmap gates instead of adding another governance layer, because the old checker text still carried early mojibake requirements.
+- Keep the runtime boundary unchanged: this is a product-readability and decision-support slice, not a data promotion or model approval.
+
+PM completed:
+
+- Wired `StockInvestorIndicatorRoadmap` into the stock page after the decision compass and before the data-boundary panel.
+- Used `getInvestorIndicatorRoadmap()` so the stock page reads from the existing indicator roadmap contract.
+- Rebuilt `check:investor-indicator-roadmap-contract` and `check:stock-investor-indicator-roadmap-panel` with readable Traditional Chinese requirements and mojibake guards.
+- Preserved `publicDataSource=mock` and `scoreSource=mock` in the visible boundary copy.
+
+Evidence:
+
+- `cmd.exe /c npm run check:stock-investor-indicator-roadmap-panel` previously failed because the stock page did not render the roadmap panel.
+- `cmd.exe /c npm run check:investor-indicator-roadmap-contract` now passes with `status=ok`.
+- `cmd.exe /c npm run check:stock-investor-indicator-roadmap-panel` now passes with `status=ok`.
+- `cmd.exe /c npx tsc --noEmit` passes.
+
+Boundary:
+
+No SQL, Supabase connection/read/write, staging row creation, `daily_prices` mutation, market endpoint fetch, raw market-data ingest/store/commit, source-derived candidate row generation, public source promotion, score promotion, investment advice claim, production environment mutation, DNS change, broad visual redesign, or Phase 2 membership implementation occurred.
+
+Next route:
+
+Continue Phase 1 product/runtime readiness by aligning remaining stock/home/briefing sections with public user language, then return to data-line promotion only after source-rights, coverage, write/readback, quality, and rollback gates are complete.
+
 ### Public First-Screen Copy Readability
 
 Status: `public_first_screen_copy_readability_ready`

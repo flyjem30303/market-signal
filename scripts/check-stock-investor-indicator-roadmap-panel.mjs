@@ -24,15 +24,15 @@ const required = [
   [componentPath, "mock 可讀"],
   [componentPath, "設計保留"],
   [componentPath, "等待真實資料"],
-  [contractPath, "publicDataSource: \"mock\""],
-  [contractPath, "scoreSource: \"mock\""],
+  [contractPath, 'publicDataSource: "mock"'],
+  [contractPath, 'scoreSource: "mock"'],
   [contractPath, "投資指標目前只是 mock 路線圖"],
   [cssPath, ".stock-investor-indicator-roadmap"],
   [cssPath, ".indicator-roadmap-grid"],
   [cssPath, ".indicator-roadmap-grid article.mock-readable"],
   [cssPath, ".indicator-roadmap-grid article.design-only"],
   [cssPath, ".indicator-roadmap-grid article.blocked-until-real-data"],
-  [packagePath, "\"check:stock-investor-indicator-roadmap-panel\""],
+  [packagePath, '"check:stock-investor-indicator-roadmap-panel"'],
   [reviewGatePath, "check-stock-investor-indicator-roadmap-panel.mjs"]
 ];
 
@@ -42,12 +42,12 @@ const forbidden = [
   [componentPath, "fetch("],
   [componentPath, ".from(\""],
   [componentPath, ".from('"],
-  [componentPath, "scoreSource=\"real\""],
-  [componentPath, "publicDataSource=\"supabase\""],
+  [componentPath, 'scoreSource="real"'],
+  [componentPath, 'publicDataSource="supabase"'],
   [componentPath, "Runtime/data foundation"],
   [componentPath, "Future notes"],
-  [contractPath, "scoreSource: \"real\""],
-  [contractPath, "publicDataSource: \"supabase\""],
+  [contractPath, 'scoreSource: "real"'],
+  [contractPath, 'publicDataSource: "supabase"'],
   [contractPath, "Market temperature"],
   [contractPath, "Stock health"]
 ];

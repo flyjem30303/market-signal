@@ -12,6 +12,10 @@ import {
   type MarketSignalSourceStatus
 } from "@/lib/repositories/market-signal-repository";
 import type { Asset } from "@/lib/assets";
+import {
+  getInvestorIndicatorRoadmap,
+  type InvestorIndicatorStatus
+} from "@/lib/investor-indicator-roadmap";
 import type { SignalSnapshot } from "@/lib/signal-model";
 
 type DashboardShellProps = {
@@ -95,6 +99,7 @@ export function DashboardShell({
         <>
           <StockPublicSummary snapshot={snapshot} />
           <StockDecisionCompass snapshot={snapshot} />
+          <StockInvestorIndicatorRoadmap />
           <StockDataBoundaryPanel snapshot={snapshot} />
         </>
       )}
@@ -335,6 +340,39 @@ function StockDecisionCompass({ snapshot }: { snapshot: SignalSnapshot }) {
       </p>
     </section>
   );
+}
+
+function StockInvestorIndicatorRoadmap() {
+  const roadmap = getInvestorIndicatorRoadmap();
+
+  return (
+    <section className="stock-investor-indicator-roadmap" aria-label="Stock investor indicator roadmap">
+      <div>
+        <p className="eyebrow">指標路線圖</p>
+        <h2>未來專業指標路線：先說明能讀什麼，再說明哪些要等真實資料</h2>
+        <p>{roadmap.boundary.statement}</p>
+        <strong>
+          目前維持 publicDataSource=mock、scoreSource=mock；指標說明只用來建立閱讀順序。
+        </strong>
+      </div>
+      <div className="indicator-roadmap-grid">
+        {roadmap.families.map((family) => (
+          <article className={family.status} key={family.id}>
+            <span>{getInvestorIndicatorStatusLabel(family.status)}</span>
+            <strong>{family.label}</strong>
+            <p>{family.productValue}</p>
+            <small>{family.currentUse}</small>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function getInvestorIndicatorStatusLabel(status: InvestorIndicatorStatus) {
+  if (status === "mock-readable") return "mock 可讀";
+  if (status === "design-only") return "設計保留";
+  return "等待真實資料";
 }
 
 function StockDataBoundaryPanel({ snapshot }: { snapshot: SignalSnapshot }) {
