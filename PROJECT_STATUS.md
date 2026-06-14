@@ -2,6 +2,33 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### A4 Membership MVP Executable Spec
+
+Status: `a4_membership_mvp_executable_spec_ready`
+
+CEO decision:
+
+- Confirm the revised BRIEF should be executed in two phases.
+- Phase 1 remains the public/free index-lighting site and current mainline.
+- Phase 2 membership stays as a planning and specification lane until Phase 1 is stable.
+- A4 may define the member daily interpretation, watchlist, one alert condition, post-market review, and analytics event names, but must not implement login, payment, persisted watchlist, personalized alert execution, or member-only gating during Phase 1.
+
+PM/A4 completed:
+
+- Added `docs/A4_MEMBERSHIP_MVP_EXECUTABLE_SPEC.md`.
+- Defined four Phase 2 MVP surfaces: member daily market three-layer interpretation, watchlist, one custom alert condition, and post-market review report.
+- Defined the first alert condition as light-state change for a selected symbol or indicator.
+- Defined initial product-learning events for member reading, watchlist, alert, and post-market review behavior.
+- Registered `check:a4-membership-mvp-executable-spec` and added it to `check:review-gates`.
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public data-source promotion, real score promotion, login implementation, payment implementation, persisted watchlist, personalized alert execution, member-only content gating, brokerage integration, promised-return claim, or investment-advice claim occurred.
+
+Next:
+
+Return PM mainline to Phase 1 public/free product runtime. A4 output is ready for future Phase 2 implementation-gate review, not a Phase 1 blocker.
+
 ### Public Surface Mojibake And Internal Residue Cleanup
 
 Status: `phase_1_public_surface_user_language_cleanup_ready`

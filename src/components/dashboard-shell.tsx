@@ -146,10 +146,10 @@ export function DashboardShell({
           <PublicBetaMembershipMvpRoadmap />
           <section className="panel stock-reading-summary" aria-label="會員預覽">
             <p className="eyebrow">下一階段</p>
-            <h2>會員功能會放在 Phase 2，不拖慢 Phase 1 公開可用閉環</h2>
+            <h2>會員功能會放在第二階段，不拖慢第一階段公開可用閉環</h2>
             <p>
-              Phase 1 先完成所有人可使用的市場總覽、資料揭露與風險提示。Phase 2 再導入每日三層解讀、
-              自選追蹤清單、自訂警示與盤後複盤。
+              第一階段先完成所有人可使用的市場總覽、資料揭露與風險提示。第二階段再導入每日三層解讀、
+              自選追蹤與自訂警示、盤後複盤。
             </p>
             <div className="briefing-actions">
               <TrackedLink eventName="membership_preview_link_clicked" href="/membership" label="查看會員規劃" payload={{ area: "dashboard_shell" }}>
@@ -311,7 +311,7 @@ function HomeCoreIndicatorReadout({
       <div>
         <p className="eyebrow">核心指標</p>
         <h2>用四個資訊完成第一輪判斷</h2>
-        <p>燈號、廣度、風險、資料狀態是 Phase 1 首頁的最小可用決策順序。</p>
+        <p>燈號、廣度、風險、資料狀態是第一階段首頁的最小可用決策順序。</p>
       </div>
       <div className="home-core-indicator-grid">
         {items.map((item) => (

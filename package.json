@@ -1362,6 +1362,7 @@
     "check:public-beta-methodology-disclaimer-source-coverage-alignment": "node scripts/check-public-beta-methodology-disclaimer-source-coverage-alignment.mjs",
     "check:public-beta-membership-mvp-roadmap": "node scripts/check-public-beta-membership-mvp-roadmap.mjs",
     "check:a4-membership-mvp-scope-and-free-paid-boundary": "node scripts/check-a4-membership-mvp-scope-and-free-paid-boundary.mjs",
+    "check:a4-membership-mvp-executable-spec": "node scripts/check-a4-membership-mvp-executable-spec.mjs",
     "check:public-beta-phase-1-launch-gap-rollup": "node scripts/check-public-beta-phase-1-launch-gap-rollup.mjs",
     "check:phase-1-public-beta-operator-review-summary": "node scripts/check-phase-1-public-beta-operator-review-summary.mjs",
     "check:phase-1-public-beta-post-operator-smoke-packet": "node scripts/check-phase-1-public-beta-post-operator-smoke-packet.mjs",

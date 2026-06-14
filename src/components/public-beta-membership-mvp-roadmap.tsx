@@ -22,7 +22,7 @@ export function PublicBetaMembershipMvpRoadmap() {
   return (
     <section className="public-beta-membership-roadmap" aria-label="會員 MVP 規劃">
       <div className="public-beta-membership-roadmap__intro">
-        <p className="eyebrow">會員 MVP 規劃</p>
+        <p className="eyebrow">第二階段會員路線圖</p>
         <h2>下一階段：從看到燈號，升級成理解燈號</h2>
         <p>
           第一階段先把免費市場總覽做好；會員功能會在後續階段導入，重點是深度解讀、個人化追蹤與盤後複盤，
@@ -42,6 +42,9 @@ export function PublicBetaMembershipMvpRoadmap() {
         <p>
           會員內容會以觀察、風險提醒、情境判斷與資料解讀為核心。初期不做下單、不串接券商、不提供資產配置建議，
           也不承諾任何報酬。
+        </p>
+        <p>
+          目前不提供會員登入、付費、自選追蹤儲存、個人化警示執行或會員專屬內容。
         </p>
         <TrackedLink
           className="text-link"

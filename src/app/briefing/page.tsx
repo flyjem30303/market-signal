@@ -168,9 +168,9 @@ export default async function BriefingPage() {
 
       <section className="panel stock-reading-summary" aria-label="會員路線摘要">
         <p className="eyebrow">會員路線</p>
-        <h2>Phase 2 才會導入會員深度解讀與個人化追蹤</h2>
+        <h2>第二階段才會導入會員深度解讀與個人化追蹤</h2>
         <p>
-          Phase 1 先把所有人可用的市場總覽、核心燈號、資料揭露與風險聲明完成；Phase 2 再做會員專區、自選追蹤清單、
+          第一階段先把所有人可用的市場總覽、核心燈號、資料揭露與風險聲明完成；第二階段再做會員專區、自選追蹤清單、
           自訂警示與盤後複盤。
         </p>
       </section>

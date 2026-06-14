@@ -138,7 +138,7 @@ export function getPublicBetaSourceCoverageRuntimeLabels(
         detail: "櫃買、興櫃或海外資料會留到台股核心資料穩定後再展開。",
         id: "otc-future-expansion-gap",
         label: "後續市場擴充",
-        next: "先不納入 Phase 1 公開 Beta 完成條件。",
+        next: "先不納入第一階段公開 Beta 完成條件。",
         status: "future"
       },
       {
@@ -157,7 +157,7 @@ export function getPublicBetaSourceCoverageRuntimeLabels(
         status: "checking"
       },
       {
-        detail: "淨值與折溢價不是 Phase 1 必備資料，避免增加資料授權與解釋成本。",
+        detail: "淨值與折溢價不是第一階段必備資料，避免增加資料授權與解釋成本。",
         id: "etf-nav-excluded",
         label: "ETF 淨值",
         status: "excluded"

@@ -5438,6 +5438,11 @@ const checks = [
     name: "a4-membership-mvp-scope-and-free-paid-boundary"
   },
   {
+    command: [node, "scripts/check-a4-membership-mvp-executable-spec.mjs"],
+    expectStatus: "ok",
+    name: "a4-membership-mvp-executable-spec"
+  },
+  {
     command: [node, "scripts/check-public-beta-phase-1-launch-gap-rollup.mjs"],
     expectStatus: "ok",
     name: "public-beta-phase-1-launch-gap-rollup"
