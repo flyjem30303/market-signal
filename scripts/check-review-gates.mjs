@@ -4188,6 +4188,11 @@ const checks = [
     name: "twii-report-only-local-runner-post-run-review"
   },
   {
+    command: [node, "scripts/check-twii-report-only-dry-run-chain-gate.mjs"],
+    expectStatus: "ok",
+    name: "twii-report-only-dry-run-chain-gate"
+  },
+  {
     command: [node, "scripts/check-twii-aggregate-readback-gate.mjs"],
     expectStatus: "ok",
     name: "twii-aggregate-readback-gate"
@@ -5957,6 +5962,7 @@ const coreReviewGateNames = new Set([
   "twii-sanitized-candidate-artifact-chain-handoff",
   "twii-bounded-data-acceptance-named-packet-scaffold",
   "twii-scaffold-to-packet-driven-chain-smoke-proof",
+  "twii-report-only-dry-run-chain-gate",
   "twii-real-handoff-intake-checklist",
   "twii-a1-d-handoff-reply-template",
   "pm-twii-named-attempt-no-write-proof",
@@ -6401,6 +6407,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "twii-source-rights-outcome-acceptance-gate",
   "twii-field-contract-asset-mapping-alignment-gate",
   "twii-sanitized-candidate-artifact-pm-intake-gate",
+  "twii-report-only-dry-run-chain-gate",
   "open-free-auto-data-source-gate",
   "stock-decision-aid-actionability",
   "stock-decision-compass",

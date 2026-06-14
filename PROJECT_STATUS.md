@@ -2,6 +2,42 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### TWII Report-Only Dry-Run Chain Gate
+
+Status: `twii_report_only_dry_run_chain_gate_completed_no_write_aggregate_only`
+
+CEO decision:
+
+- Accept the TWII report-only dry-run chain as completed for local aggregate-only proof.
+- Treat the chain as a no-write readiness bridge from PM intake to the later bounded execution packet readiness gate.
+- Confirm the current sanitized candidate artifact can pass decision gate, local shape runner, and post-run review without SQL, Supabase, source fetch, `daily_prices` mutation, row coverage scoring, or runtime promotion.
+- Move the active PM route to `twii_bounded_execution_packet_readiness_gate`.
+
+PM completed:
+
+- Added `docs/TWII_REPORT_ONLY_DRY_RUN_CHAIN_GATE.md`.
+- Added `data/source-gates/twii-report-only-dry-run-chain-gate.json`.
+- Added `report:twii-report-only-dry-run-chain-gate` and `check:twii-report-only-dry-run-chain-gate`.
+- Registered `twii-report-only-dry-run-chain-gate` in the focused review gate.
+- The gate runs the existing decision-gate, local-runner, and post-run-review reports against `data/candidates/twii-sanitized-candidate.json`, then records only aggregate no-write results.
+
+Evidence:
+
+- `node scripts/check-twii-report-only-dry-run-chain-gate.mjs` was first run red and blocked on missing chain doc, record, report script, package script, review-gate registration, and status record before implementation.
+- `cmd.exe /c npm run check:twii-report-only-dry-run-chain-gate` initially blocked only on missing `PROJECT_STATUS.md` status phrases after implementation.
+- `cmd.exe /c npm run check:twii-report-only-dry-run-chain-gate` passed with `twii_report_only_dry_run_chain_gate_completed_no_write_aggregate_only`.
+- `cmd.exe /c npx tsc --noEmit` passed.
+- `git diff --check` passed.
+- `cmd.exe /c npm run check:review-gates > tmp\review-gates-twii-report-only-chain-gate.txt` passed with `status=ok`, `executedCount=192`, and `failedCount=0`; `twii-report-only-dry-run-chain-gate` was executed and passed.
+
+Boundary:
+
+No SQL, Supabase connection/read/write, staging row creation, `daily_prices` mutation, market endpoint fetch, raw market-data ingest/store/commit, source-derived candidate row generation, candidate row acceptance, real row readback, row coverage scoring, secret output, raw payload output, row payload output, stock id payload output, public source promotion, score promotion, investment advice claim, production environment mutation, DNS change, broad visual redesign, or Phase 2 membership implementation occurred.
+
+Next route:
+
+Continue `twii_bounded_execution_packet_readiness_gate`. It must prove explicit operator decision, rollback/readback posture, timestamp/error handling, and public-copy truthfulness before any bounded execution can be considered.
+
 ### TWII Sanitized Candidate Artifact PM Intake Gate
 
 Status: `twii_sanitized_candidate_artifact_pm_intake_accepted_for_no_write_dry_run_chain`
