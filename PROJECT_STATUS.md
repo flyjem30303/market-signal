@@ -2,6 +2,31 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Human-Operated Preview Or Production Check Without Data Promotion
+
+Status: `human_operated_preview_or_production_check_without_data_promotion_ready`
+
+CEO decision:
+
+- Turn the operator-safe smoke decision into a short human-operated Vercel/public URL checklist.
+- Allow a human preview/production smoke check to be prepared without changing data posture.
+- Keep deployment, DNS, production env mutation, SQL, Supabase read/write, raw market-data execution, `publicDataSource=supabase`, and `scoreSource=real` outside this repo action.
+
+PM/A3 completed:
+
+- Added `docs/HUMAN_OPERATED_PREVIEW_OR_PRODUCTION_CHECK_WITHOUT_DATA_PROMOTION.md`.
+- Registered `check:human-operated-preview-or-production-check-without-data-promotion`.
+- Added the checker to `check:review-gates`.
+- Defined allowed no-secret operator reply fields and the next PM route.
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public data-source promotion, real score promotion, production deploy, DNS change, production environment mutation, login implementation, payment implementation, persisted watchlist, personalized alert execution, member-only content gating, brokerage integration, promised-return claim, or investment-advice claim occurred.
+
+Next:
+
+Proceed to `record_human_operated_preview_or_production_check_reply_or_continue_public_runtime`. If no operator reply is available, PM should continue concrete Phase 1 public runtime, trust copy, source/coverage, and membership-MVP planning without changing data posture.
+
 ### Phase 1 Operator-Safe Smoke Or Repair Decision
 
 Status: `phase_1_public_beta_operator_safe_smoke_or_repair_decision_ready`

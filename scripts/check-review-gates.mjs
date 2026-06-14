@@ -5473,6 +5473,11 @@ const checks = [
     name: "phase-1-public-beta-operator-safe-smoke-or-repair-decision"
   },
   {
+    command: [node, "scripts/check-human-operated-preview-or-production-check-without-data-promotion.mjs"],
+    expectStatus: "ok",
+    name: "human-operated-preview-or-production-check-without-data-promotion"
+  },
+  {
     command: [node, "scripts/check-phase-1-public-beta-keep-open-or-repair-decision.mjs"],
     expectStatus: "ok",
     name: "phase-1-public-beta-keep-open-or-repair-decision"
@@ -6282,6 +6287,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "phase-1-public-beta-post-operator-smoke-packet",
   "phase-1-public-route-health-and-operator-safe-smoke-packet",
   "phase-1-public-beta-operator-safe-smoke-or-repair-decision",
+  "human-operated-preview-or-production-check-without-data-promotion",
   "phase-1-public-beta-keep-open-or-repair-decision",
   "phase-1-public-beta-public-status-surface-alignment",
   "phase-1-public-beta-public-visible-residue-cleanup",
