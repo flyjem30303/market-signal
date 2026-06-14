@@ -2,6 +2,41 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### TWII External-to-Server Preexecution Chain Convergence Gate
+
+Status: `twii_external_to_server_preexecution_chain_convergence_gate_ready_no_execution`
+
+CEO decision:
+
+- Accelerate Phase 1 data-online preparation by converging the external-values shape recheck, pre-execution readiness recheck preparation, and server-only pre-execution integration preparation into one PM route.
+- Treat the route as review-only and fail-closed; this does not authorize Supabase execution, `daily_prices` mutation, source promotion, or `scoreSource=real`.
+- Move the active PM route to `twii_bounded_operator_authorization_packet_preparation_gate`.
+
+PM completed:
+
+- Added `docs/TWII_EXTERNAL_TO_SERVER_PREEXECUTION_CHAIN_CONVERGENCE_GATE.md`.
+- Added `data/source-gates/twii-external-to-server-preexecution-chain-convergence-gate.json`.
+- Added `report:twii-external-to-server-preexecution-chain-convergence-gate` and `check:twii-external-to-server-preexecution-chain-convergence-gate`.
+- Registered `twii-external-to-server-preexecution-chain-convergence-gate` in the focused review gate.
+- The gate consolidates four ready gates into the bounded operator authorization packet preparation route.
+
+Evidence:
+
+- `node scripts/check-twii-external-to-server-preexecution-chain-convergence-gate.mjs` was first run red and blocked on missing report script, gate JSON, documentation, package scripts, focused review-gate registration, and status record before implementation.
+- The implemented gate reports `external_to_server_preexecution_chain_converged_execution_still_blocked`, `nextPMRoute=twii_bounded_operator_authorization_packet_preparation_gate`, `readyGateCount=4`, `executionAllowedNow=false`, `publicDataSource=mock`, and `scoreSource=mock`.
+- `cmd.exe /c npm run check:twii-external-to-server-preexecution-chain-convergence-gate` passed.
+- `cmd.exe /c npx tsc --noEmit` passed.
+- `git diff --check` passed with only Windows line-ending warnings.
+- `cmd.exe /c npm run check:review-gates > tmp\review-gates-twii-external-to-server-preexecution-chain-convergence.txt` passed with `status=ok`, `executedCount=196`; `twii-external-to-server-preexecution-chain-convergence-gate` was executed and passed.
+
+Boundary:
+
+No SQL, Supabase connection/read/write, staging row creation, `daily_prices` mutation, market endpoint fetch, raw market-data ingest/store/commit, source-derived candidate row generation, candidate row acceptance, real row readback, row coverage scoring, secret output, raw payload output, row payload output, stock id payload output, public source promotion, score promotion, investment advice claim, production environment mutation, DNS change, broad visual redesign, or Phase 2 membership implementation occurred.
+
+Next route:
+
+Continue `twii_bounded_operator_authorization_packet_preparation_gate`, then decide whether the next operator authorization packet can be prepared without relaxing the mock-only public runtime boundary.
+
 ### TWII Pre-Execution Stopline Chain Convergence Gate
 
 Status: `twii_pre_execution_stopline_chain_convergence_gate_ready_no_execution`

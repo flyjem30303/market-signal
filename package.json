@@ -625,6 +625,8 @@
     "check:twii-pre-execution-readiness-recheck-preparation-gate": "node scripts/check-twii-pre-execution-readiness-recheck-preparation-gate.mjs",
     "report:twii-server-only-pre-execution-integration-preparation-gate": "node scripts/report-twii-server-only-pre-execution-integration-preparation-gate.mjs",
     "check:twii-server-only-pre-execution-integration-preparation-gate": "node scripts/check-twii-server-only-pre-execution-integration-preparation-gate.mjs",
+    "report:twii-external-to-server-preexecution-chain-convergence-gate": "node scripts/report-twii-external-to-server-preexecution-chain-convergence-gate.mjs",
+    "check:twii-external-to-server-preexecution-chain-convergence-gate": "node scripts/check-twii-external-to-server-preexecution-chain-convergence-gate.mjs",
     "report:twii-bounded-operator-authorization-packet-preparation-gate": "node scripts/report-twii-bounded-operator-authorization-packet-preparation-gate.mjs",
     "check:twii-bounded-operator-authorization-packet-preparation-gate": "node scripts/check-twii-bounded-operator-authorization-packet-preparation-gate.mjs",
     "report:twii-a1-d-write-prerequisite-dispatch-packet": "node scripts/report-twii-a1-d-write-prerequisite-dispatch-packet.mjs",

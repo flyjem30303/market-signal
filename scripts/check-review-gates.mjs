@@ -5033,6 +5033,11 @@ const checks = [
     name: "twii-server-only-pre-execution-integration-preparation-gate"
   },
   {
+    command: [node, "scripts/check-twii-external-to-server-preexecution-chain-convergence-gate.mjs"],
+    expectStatus: "ok",
+    name: "twii-external-to-server-preexecution-chain-convergence-gate"
+  },
+  {
     command: [node, "scripts/check-twii-bounded-operator-authorization-packet-preparation-gate.mjs"],
     expectStatus: "ok",
     name: "twii-bounded-operator-authorization-packet-preparation-gate"
@@ -6078,6 +6083,7 @@ const coreReviewGateNames = new Set([
   "twii-pre-execution-stopline-chain-convergence-gate",
   "twii-pre-execution-readiness-recheck-preparation-gate",
   "twii-server-only-pre-execution-integration-preparation-gate",
+  "twii-external-to-server-preexecution-chain-convergence-gate",
   "twii-bounded-operator-authorization-packet-preparation-gate",
   "twii-a1-d-write-prerequisite-dispatch-packet",
   "twii-a1-d-write-prerequisite-pm-intake-ledger",
@@ -6227,6 +6233,7 @@ const coreReviewGateNames = new Set([
   "twii-external-values-shape-recheck-preparation-gate",
   "twii-pre-execution-stopline-chain-convergence-gate",
   "twii-pre-execution-readiness-recheck-preparation-gate",
+  "twii-external-to-server-preexecution-chain-convergence-gate",
   "twii-a1-d-write-prerequisite-dispatch-packet",
   "twii-a1-d-write-prerequisite-pm-intake-ledger",
   "a1-source-rights-readiness-summary",
@@ -6592,6 +6599,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "twii-external-values-shape-recheck-preparation-gate",
   "twii-pre-execution-stopline-chain-convergence-gate",
   "twii-pre-execution-readiness-recheck-preparation-gate",
+  "twii-external-to-server-preexecution-chain-convergence-gate",
   "twii-a1-d-write-prerequisite-dispatch-packet",
   "twii-a1-d-write-prerequisite-pm-intake-ledger",
   "typescript"
