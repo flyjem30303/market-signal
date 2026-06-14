@@ -53,7 +53,8 @@ for (const route of ["/", "/briefing", "/weekly", "/methodology", "/disclaimer",
 for (const phrase of [
   "指數燈號",
   "市場狀態儀表站",
-  "示範資料",
+  "風險提示",
+  "資料更新時間",
   "非投資建議",
   "metadataBase",
   "NEXT_PUBLIC_SITE_URL"
@@ -72,7 +73,7 @@ for (const filePath of pageMetadataFiles) {
 }
 
 const stockPage = read("src/app/stocks/[symbol]/page.tsx");
-for (const phrase of ["generateMetadata", "canonical", "openGraph", "siteConfig.name", "示範資料", "非投資建議"]) {
+for (const phrase of ["generateMetadata", "canonical", "openGraph", "siteConfig.name", "狀態儀表", "非投資建議", "資料更新時間"]) {
   if (!stockPage.includes(phrase)) problems.push(`src/app/stocks/[symbol]/page.tsx missing stock metadata phrase: ${phrase}`);
 }
 
@@ -103,6 +104,9 @@ for (const [label, source] of [
   [robotsPath, robots],
   ...pageMetadataFiles.map((filePath) => [filePath, read(filePath)])
 ]) {
+  for (const marker of findMojibakeMarkers(source)) {
+    problems.push(`${label} contains mojibake marker ${marker}`);
+  }
   for (const pattern of forbiddenPatterns()) {
     if (pattern.test(source)) problems.push(`${label} contains forbidden pattern ${String(pattern)}`);
   }
@@ -153,4 +157,15 @@ function forbiddenPatterns() {
     /investment advice is provided/u,
     /buy\/sell recommendation is provided/u
   ];
+}
+
+function findMojibakeMarkers(source) {
+  const markers = [];
+  if (/\uFFFD/u.test(source)) markers.push("replacement-character");
+  if (/[\uE000-\uF8FF]/u.test(source)) markers.push("private-use-codepoint");
+  if (/\?{3,}/u.test(source)) markers.push("question-mark-run");
+  if (/(?:瘞|鞈|撣|蝷|隤|蝚|銝|閮|甇|霈|憸|雿|璇|蝭|靘|摰|敺|嚗|銴|鈭|銵|蝡|脫|蝘|餈|頝|鞎)/u.test(source)) {
+    markers.push("legacy-mojibake-cjk-run");
+  }
+  return markers;
 }

@@ -8,6 +8,40 @@ Owner: PM mainline
 
 ## Latest Mainline Decision - 2026-06-14
 
+### A3 Metadata And Public Route Smoke Repair Pass
+
+CEO decision:
+
+- Phase 1 public Beta readiness now needs deploy-facing metadata and route smoke to be clean, not only visible page copy.
+- Stock pages must expose non-advisory title/description and clean JSON-LD so public sharing/search previews do not carry legacy wording.
+- A3 can verify local and remote public route health, but cannot mutate Vercel, DNS, production env, Supabase, SQL, or real data settings in this slice.
+
+PM completed:
+
+- Cleaned global metadata, site chrome, footer trust links, and site name.
+- Cleaned stock-page metadata and JSON-LD property names.
+- Rebuilt the A3 metadata/public route smoke checker around revised BRIEF phrases and no-mojibake boundaries.
+- Confirmed local production route proof and stock-page metadata/JSON-LD proof.
+- Confirmed remote public route quick proof against `https://market-signal-two.vercel.app/` before this metadata repair.
+
+Checks passed:
+
+- `check:a3-phase-1-metadata-and-public-route-smoke-checker`
+- `check:a3-phase-1-release-candidate-public-smoke-report`
+- `check:public-beta-core-route-quick-proof` locally
+- Remote `check:public-beta-core-route-quick-proof` against `https://market-signal-two.vercel.app/`
+- `npx tsc --noEmit`
+- `npm run build`
+- Local metadata/JSON-LD proof on `http://localhost:3000/stocks/2330`
+
+Current route:
+
+- `a3_metadata_public_route_smoke_ready`
+
+Next PM slice:
+
+- Run review gate, push the repair, then verify Vercel after deployment completes.
+
 ### Stock Page Product-First Readability Trim Pass
 
 CEO decision:

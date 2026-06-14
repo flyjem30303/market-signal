@@ -22,8 +22,9 @@ export function generateMetadata({ params }: StockPageProps): Metadata {
   if (!asset) return {};
 
   const snapshot = repository.getSnapshot(asset.symbol, snapshotDate);
-  const signal = snapshot?.signal.title ?? "示範燈號";
-  const description = `${asset.symbol} ${asset.name} 的示範市場狀態、風險分數與資料邊界。內容僅供資訊整理，不構成投資建議。`;
+  const signal = snapshot?.signal.title ?? "市場燈號";
+  const title = `${asset.symbol} ${asset.name} ${signal} | 非投資建議`;
+  const description = `${asset.symbol} ${asset.name} 狀態儀表：用 30 秒看懂目前燈號、風險提示、資料更新時間與非投資建議邊界。`;
 
   return {
     alternates: {
@@ -33,11 +34,11 @@ export function generateMetadata({ params }: StockPageProps): Metadata {
     openGraph: {
       description,
       siteName: siteConfig.name,
-      title: `${asset.symbol} ${asset.name} ${signal}`,
+      title,
       type: "article",
       url: absoluteUrl(`/stocks/${asset.symbol}`)
     },
-    title: `${asset.symbol} ${asset.name} ${signal}`
+    title
   };
 }
 
@@ -63,17 +64,17 @@ export default async function StockPage({ params }: StockPageProps) {
       ? [
           {
             "@type": "PropertyValue",
-            name: "示範健康分數",
+            name: "健康分數",
             value: snapshot.healthScore
           },
           {
             "@type": "PropertyValue",
-            name: "示範風險分數",
+            name: "風險分數",
             value: snapshot.riskScore
           },
           {
             "@type": "PropertyValue",
-            name: "示範燈號",
+            name: "市場燈號",
             value: snapshot.signal.title
           },
           {

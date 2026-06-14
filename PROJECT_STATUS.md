@@ -2,6 +2,42 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### A3 Metadata And Public Route Smoke Repair Pass
+
+Status: `a3_metadata_public_route_smoke_ready`
+
+CEO decision:
+
+- Continue Phase 1 public Beta readiness by hardening deploy-facing metadata, route smoke, and public SEO/trust surfaces.
+- Treat clean metadata, clean site chrome, and stock-page JSON-LD as launch engineering requirements, not late UI polish.
+- Keep the site mock-bounded and non-advisory; A3 may verify local/remote public routes but must not mutate Vercel settings, DNS, Supabase, SQL, or market data.
+
+PM completed:
+
+- Repaired global site metadata, title template, header, footer, and trust links in `src/app/layout.tsx`.
+- Repaired `siteConfig.name` in `src/lib/site.ts`.
+- Rebuilt stock-page metadata and JSON-LD in `src/app/stocks/[symbol]/page.tsx` with clean non-advisory language.
+- Rebuilt `check:a3-phase-1-metadata-and-public-route-smoke-checker` around the revised BRIEF, public route smoke scope, clean metadata, and no-mojibake/no-promotion boundaries.
+- Confirmed remote Vercel route quick proof on `https://market-signal-two.vercel.app/` before this local metadata repair slice; local production proof passed after the repair.
+
+Checks passed:
+
+- `check:a3-phase-1-metadata-and-public-route-smoke-checker`
+- `check:a3-phase-1-release-candidate-public-smoke-report`
+- `check:public-beta-core-route-quick-proof` locally
+- Remote `check:public-beta-core-route-quick-proof` against `https://market-signal-two.vercel.app/`
+- `npx tsc --noEmit`
+- `npm run build`
+- Local metadata/JSON-LD proof on `http://localhost:3000/stocks/2330`
+
+Boundary:
+
+No Vercel dashboard mutation, DNS change, production env mutation, membership implementation, login, payment, watchlist persistence, personalized alert execution, SQL, Supabase read/write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public source promotion, real score promotion, real-time claim, official endorsement claim, guaranteed-return claim, investment-advice claim, or guaranteed-return claim occurred.
+
+Next:
+
+Run review gate, then push this A3 metadata/public route smoke repair and verify the Vercel deployment after GitHub/Vercel finishes building.
+
 ### Stock Page Product-First Readability Trim Pass
 
 Status: `stock_product_first_readability_trim_ready`

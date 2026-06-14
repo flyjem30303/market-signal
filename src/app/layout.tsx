@@ -2,16 +2,17 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { SiteNav } from "@/components/site-nav";
 import { TrackedLink } from "@/components/tracked-link";
+import { siteConfig } from "@/lib/site";
 import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
   title: {
-    default: "指數燈號",
-    template: "%s | 指數燈號"
+    default: siteConfig.name,
+    template: `%s | ${siteConfig.name}`
   },
   description:
-    "指數燈號以紅黃綠狀態、核心指標與風險提示，協助一般投資者快速理解市場氣氛。本網站為資訊整理工具，不提供買賣建議。"
+    "指數燈號是面向一般投資者的市場狀態儀表站，用紅黃綠燈號整理市場氣氛、風險提示、資料更新時間與非投資建議邊界。"
 };
 
 const footerTrustLinks = [
@@ -60,7 +61,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             <p>
               本站整理市場指標、燈號狀態與風險提醒，協助使用者建立觀察流程。內容不是投資建議，不保證報酬，也不代替使用者做投資決策。
             </p>
-            <div className="site-footer-trust" aria-label="信任與風險說明">
+            <div className="site-footer-trust" aria-label="公開信任連結">
               <span>公開 Beta</span>
               <span>示範資料邊界</span>
               <span>非投資建議</span>
