@@ -2,6 +2,71 @@
 
 ## Latest Effective Status - 2026-06-14
 
+### Phase 1 Visual Review And A3 Launch Handoff Closure
+
+Status: `phase_1_visual_review_a3_launch_handoff_ready`
+
+CEO decision:
+
+- Continue launch candidate closure before Phase 2 membership runtime work.
+- Treat the current public Beta as a mock-only, public/free candidate that may move through A3 operator review.
+- Keep data/source promotion and real scoring deferred.
+
+PM completed:
+
+- Rechecked human visual review artifact.
+- Rechecked visual acceptance and A3 handoff artifact.
+- Rechecked A3 deploy smoke / rollback closure.
+- Performed browser route spot check for `/`, `/briefing`, and `/stocks/2330`.
+- Confirmed the checked routes show `指數燈號`, `30 秒`, `3 分鐘`, and non-advice language, with no visible command/env/source-flag residue in the sampled text.
+
+Checks passed:
+
+- `check:phase-1-public-beta-human-visual-review`
+- `check:phase-1-public-beta-visual-acceptance-and-a3-handoff`
+- `check:a3-phase-1-public-beta-deploy-smoke-rollback-closure`
+- Browser spot check for `/`, `/briefing`, `/stocks/2330`
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public data-source promotion, real score promotion, login implementation, payment implementation, persisted watchlist, personalized alert execution, member-only content gating, production deploy, DNS change, promised-return claim, or investment-advice claim occurred.
+
+Next:
+
+Refresh A3 post-deploy smoke / monitoring checklist against the revised BRIEF and current Vercel public URL, then decide whether Phase 1 is ready for a chairman/operator `GO_WITH_DEFERRALS` review packet refresh.
+
+### Phase 1 A3 Release Go/No-Go And Chairman Summary Refresh
+
+Status: `phase_1_a3_release_go_no_go_chairman_summary_ready`
+
+CEO decision:
+
+- Phase 1 public/free site remains the launch candidate mainline.
+- A3 launch/go-no-go artifacts are already structurally ready and should be treated as the current operator-review path.
+- Phase 2 membership remains planned and visible, but not a Phase 1 release blocker.
+- Full review gate is still reserved for milestone integration; focused checks are preferred for this slice.
+
+PM completed:
+
+- Rechecked A3 release go/no-go packet.
+- Rechecked A3 chairman release review summary.
+- Rechecked Phase 1 release readiness evidence rollup.
+- Preserved mock-only boundaries and avoided any platform mutation.
+
+Checks passed:
+
+- `check:a3-phase-1-public-beta-release-go-no-go-packet`
+- `check:a3-phase-1-public-beta-release-review-summary-for-chairman`
+- `check:phase-1-public-beta-release-readiness-evidence-rollup`
+
+Boundary:
+
+No SQL, Supabase read/write, staging row, `daily_prices` mutation, raw market-data fetch/store/commit, secret output, public data-source promotion, real score promotion, login implementation, payment implementation, persisted watchlist, personalized alert execution, member-only content gating, production deploy, DNS change, promised-return claim, or investment-advice claim occurred.
+
+Next:
+
+Continue launch candidate closure with browser visual review and route-level user-facing copy inspection. If visual review passes, refresh A3 post-deploy smoke / monitoring checklist for the already deployed Vercel URL.
+
 ### Phase 1 Public Beta Candidate Route Consistency
 
 Status: `phase_1_public_beta_candidate_route_consistency_ready`
