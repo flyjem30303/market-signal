@@ -1,0 +1,57 @@
+{
+  "status": "phase_1_final_operator_boolean_reply_intake_ready_waiting_reply",
+  "packetMode": "final_operator_boolean_reply_intake_no_execution",
+  "createdAt": "2026-06-15",
+  "inputStopline": "phase_1_final_operator_value_stopline_ready_no_execution",
+  "replyPath": "tmp/phase-1-final-operator-boolean-reply.json",
+  "acceptedOperatorReplyNow": false,
+  "acceptedOperatorReplyStatus": "waiting_operator_boolean_reply",
+  "allowedReplyFields": [
+    "executeSwitchPresent",
+    "confirmationPhrasePresent"
+  ],
+  "forbiddenReplyFields": [
+    "executeSwitchValue",
+    "confirmationPhraseValue",
+    "operatorDecisionValue",
+    "credentialValue",
+    "rawPayload",
+    "rowPayload",
+    "secret",
+    "sql"
+  ],
+  "replyAcceptanceRules": {
+    "executeSwitchPresent": "boolean_required",
+    "confirmationPhrasePresent": "boolean_required",
+    "bothTrueRequiredForNextReviewedResult": true,
+    "falseAllowedButKeepsNoGo": true
+  },
+  "writeGateExecutableNow": false,
+  "dataOnlineDecision": "PUBLIC_RUNTIME_READY_BUT_DATA_ONLINE_NO_GO",
+  "safety": {
+    "valuesRead": false,
+    "valuesStored": false,
+    "valuesPrinted": false,
+    "valuesHashed": false,
+    "valuesCompared": false,
+    "valuesTransformed": false,
+    "credentialValueRead": false,
+    "credentialValueStored": false,
+    "credentialValuePrinted": false,
+    "sqlExecuted": false,
+    "supabaseReadAttempted": false,
+    "supabaseWriteAttempted": false,
+    "marketDataFetched": false,
+    "marketDataIngested": false,
+    "dailyPricesMutated": false,
+    "stagingRowsCreated": false,
+    "rawPayloadsPrinted": false,
+    "rowPayloadsPrinted": false,
+    "secretsPrinted": false,
+    "publicPromotionAllowed": false,
+    "scoreSourceRealAllowed": false,
+    "investmentAdviceClaimAllowed": false,
+    "publicDataSource": "mock",
+    "scoreSource": "mock"
+  }
+}

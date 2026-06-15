@@ -2,6 +2,49 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Final Operator Boolean Reply Intake Ready
+
+Status: `phase_1_final_operator_boolean_reply_intake_ready_waiting_reply`
+
+CEO decision:
+
+- Prepare the safe intake path for the final two operator booleans instead of waiting in an undefined state.
+- The intake accepts only `executeSwitchPresent` and `confirmationPhrasePresent` as booleans from `tmp/phase-1-final-operator-boolean-reply.json`.
+- Missing reply is a valid waiting state and must not fail the focused review gate.
+
+PM completed:
+
+- Added `data/evidence-intake/phase-1-final-operator-boolean-reply-intake.json`.
+- Added `docs/PHASE_1_FINAL_OPERATOR_BOOLEAN_REPLY_INTAKE.md`.
+- Added and registered `check:phase-1-final-operator-boolean-reply-intake`.
+
+Verified:
+
+- `cmd.exe /c npm run check:phase-1-final-operator-boolean-reply-intake` passes with `replyExists=false` and `acceptedOperatorReplyStatus=waiting_operator_boolean_reply`.
+
+Current blocker view:
+
+- Waiting for `executeSwitchPresent` and `confirmationPhrasePresent`.
+- Write gate remains non-executable.
+
+Current boundary:
+
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+- No switch value, confirmation phrase, operator value, credential value, raw payload, row payload, or secret was printed, stored, hashed, compared, or transformed.
+- No SQL, Supabase read/write, staging row, `daily_prices` mutation, market-data fetch/ingestion, source promotion, score promotion, public real-data claim, or investment-advice claim occurred.
+
+Next route:
+
+When the two booleans are available, place only this safe JSON under `tmp/phase-1-final-operator-boolean-reply.json`:
+
+```json
+{
+  "executeSwitchPresent": true,
+  "confirmationPhrasePresent": true
+}
+```
+
 ### Phase 1 Final Operator Value Stopline Ready
 
 Status: `phase_1_final_operator_value_stopline_ready_no_execution`

@@ -1521,6 +1521,7 @@
     "check:phase-1-server-only-credential-presence-reviewed-result": "node scripts/check-phase-1-server-only-credential-presence-reviewed-result.mjs",
     "check:phase-1-external-operator-presence-reviewed-result": "node scripts/check-phase-1-external-operator-presence-reviewed-result.mjs",
     "check:phase-1-final-operator-value-stopline": "node scripts/check-phase-1-final-operator-value-stopline.mjs",
+    "check:phase-1-final-operator-boolean-reply-intake": "node scripts/check-phase-1-final-operator-boolean-reply-intake.mjs",
     "check:phase-1-row-coverage-readonly-result-20260615-a": "node scripts/check-phase-1-row-coverage-readonly-result-20260615-a.mjs",
     "check:phase-1-twii-etf-missing-rows-backfill-readiness": "node scripts/check-phase-1-twii-etf-missing-rows-backfill-readiness.mjs",
     "check:phase-1-twii-write-attempt-stopline-rollup": "node scripts/check-phase-1-twii-write-attempt-stopline-rollup.mjs",
