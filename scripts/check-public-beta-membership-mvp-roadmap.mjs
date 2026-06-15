@@ -1,116 +1,65 @@
 import fs from "node:fs";
 
-const baseUrl = process.env.LOCALHOST_BASE_URL ?? "http://localhost:3000";
-
 const componentPath = "src/components/public-beta-membership-mvp-roadmap.tsx";
 const membershipPagePath = "src/app/membership/page.tsx";
-const homePath = "src/components/dashboard-shell.tsx";
-const briefingPath = "src/app/briefing/page.tsx";
-const siteNavPath = "src/components/site-nav.tsx";
-const cssPath = "src/app/globals.css";
-const briefPath = "docs/PUBLIC_BETA_INDEX_DASHBOARD_BRIEF.md";
 const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 
 const problems = [];
 const component = read(componentPath);
 const membershipPage = read(membershipPagePath);
-const home = read(homePath);
-const briefing = read(briefingPath);
-const siteNav = read(siteNavPath);
-const css = read(cssPath);
-const brief = read(briefPath);
-const pkg = JSON.parse(read(packagePath));
+const packageJson = JSON.parse(read(packagePath));
 const reviewGate = read(reviewGatePath);
 
 requireIncludes(componentPath, component, [
   "PublicBetaMembershipMvpRoadmap",
-  "會員功能規劃",
-  "每日市場三層解讀",
-  "自選追蹤與自訂警示",
-  "盤後複盤報告",
   "會員功能預告",
-  'href="/membership"'
+  "下一階段：從看到燈號，升級成理解燈號",
+  "深度解讀",
+  "個人化追蹤",
+  "複盤與學習",
+  "目前不提供會員登入、付費、自選追蹤儲存、個人化警示執行或會員專屬內容。"
 ]);
 
 requireIncludes(membershipPagePath, membershipPage, [
-  "會員功能預覽",
-  "會員功能預告",
-  "第二階段",
-  "30 秒",
-  "3 分鐘",
-  "市場三層解讀",
-  "自選追蹤",
-  "自訂警示",
-  "盤後複盤",
-  "不提供買賣建議",
-  "不提供個別買賣建議"
+  "notFound()",
+  "index: false",
+  "follow: false",
+  'title: "Not Found"'
 ]);
 
-requireIncludes(homePath, home, ["市場狀態"]);
-requireIncludes(briefingPath, briefing, ["市場簡報"]);
-requireIncludes(siteNavPath, siteNav, ['href: "/membership"', 'label: "會員預告"', 'aria-label="主要導覽"']);
-
-requireIncludes(cssPath, css, [
-  ".public-beta-membership-roadmap",
-  ".public-beta-membership-roadmap__grid",
-  ".public-beta-membership-roadmap__boundary",
-  ".membership-preview-grid"
+forbidIncludes(componentPath, component, [
+  'href="/membership"',
+  "membership_preview_link_clicked",
+  "會員功能已開放",
+  "立即註冊",
+  "立即登入",
+  "立即付費"
 ]);
 
-requireIncludes(briefPath, brief, [
-  "會員 MVP",
-  "每日市場三層解讀",
-  "watchlist",
-  "自訂警示",
-  "盤後複盤報告",
-  "Phase 1 is current execution priority.",
-  "Phase 2 should not delay Phase 1 launch readiness."
-]);
+for (const [filePath, source] of [
+  [componentPath, component],
+  [membershipPagePath, membershipPage]
+]) {
+  for (const marker of findBadEncodingMarkers(source)) {
+    problems.push(`${filePath} contains ${marker}`);
+  }
+  for (const pattern of forbiddenSourcePatterns()) {
+    if (pattern.test(source)) problems.push(`${filePath} contains forbidden pattern ${String(pattern)}`);
+  }
+}
 
-const scriptName = "check:public-beta-membership-mvp-roadmap";
-if (pkg.scripts?.[scriptName] !== "node scripts/check-public-beta-membership-mvp-roadmap.mjs") {
-  problems.push(`${packagePath} missing ${scriptName}`);
+if (
+  packageJson.scripts?.["check:public-beta-membership-mvp-roadmap"] !==
+  "node scripts/check-public-beta-membership-mvp-roadmap.mjs"
+) {
+  problems.push(`${packagePath} missing check:public-beta-membership-mvp-roadmap`);
 }
 
 requireIncludes(reviewGatePath, reviewGate, [
   "scripts/check-public-beta-membership-mvp-roadmap.mjs",
   "public-beta-membership-mvp-roadmap"
 ]);
-
-for (const [filePath, source] of [
-  [componentPath, component],
-  [membershipPagePath, membershipPage],
-  [homePath, home],
-  [briefingPath, briefing],
-  [siteNavPath, siteNav],
-  [cssPath, css],
-  [briefPath, brief]
-]) {
-  for (const marker of findBadEncodingMarkers(source)) {
-    problems.push(`${filePath} contains ${marker}`);
-  }
-
-  for (const pattern of forbiddenSourcePatterns()) {
-    if (pattern.test(source)) problems.push(`${filePath} contains forbidden pattern ${String(pattern)}`);
-  }
-}
-
-const renderedMembership = await fetchRenderedText("/membership");
-requireIncludes("rendered /membership", renderedMembership, [
-  "會員功能預告",
-  "第二階段",
-  "市場三層解讀",
-  "自選追蹤",
-  "自訂警示",
-  "盤後複盤",
-  "不提供買賣建議",
-  "不提供個別買賣建議"
-]);
-
-for (const pattern of forbiddenRenderedPatterns()) {
-  if (pattern.test(renderedMembership)) problems.push(`rendered /membership contains forbidden pattern ${String(pattern)}`);
-}
 
 if (problems.length > 0) {
   console.error(JSON.stringify({ status: "blocked", problems }, null, 2));
@@ -121,10 +70,9 @@ console.log(
   JSON.stringify(
     {
       status: "ok",
-      guardedStatus: "public_beta_membership_mvp_roadmap_ready",
-      publicLabel: "next-stage membership features",
-      memberRoute: "/membership",
-      phase2: "membership MVP path visible but deferred",
+      guardedStatus: "public_beta_membership_mvp_roadmap_deferred_no_public_dead_link",
+      membershipRoute: "/membership",
+      membershipRouteExpectedStatus: 404,
       publicDataSource: "mock",
       scoreSource: "mock"
     },
@@ -138,7 +86,6 @@ function read(filePath) {
     problems.push(`missing file: ${filePath}`);
     return filePath.endsWith(".json") ? "{}" : "";
   }
-
   return fs.readFileSync(filePath, "utf8");
 }
 
@@ -148,16 +95,10 @@ function requireIncludes(label, source, phrases) {
   }
 }
 
-async function fetchRenderedText(route) {
-  const response = await fetch(`${baseUrl}${route}`);
-  if (!response.ok) problems.push(`${route} returned HTTP ${response.status}`);
-  const html = await response.text();
-  return html
-    .replace(/<script[\s\S]*?<\/script>/g, " ")
-    .replace(/<style[\s\S]*?<\/style>/g, " ")
-    .replace(/<[^>]+>/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
+function forbidIncludes(label, source, phrases) {
+  for (const phrase of phrases) {
+    if (source.includes(phrase)) problems.push(`${label} must not include phrase: ${phrase}`);
+  }
 }
 
 function findBadEncodingMarkers(source) {
@@ -177,21 +118,5 @@ function forbiddenSourcePatterns() {
     /SQL execution is approved/iu,
     /real market data is live/iu,
     /investment advice is provided/iu
-  ];
-}
-
-function forbiddenRenderedPatterns() {
-  return [
-    /會員\s*MVP/iu,
-    /Membership\s+MVP/iu,
-    /cmd\.exe/iu,
-    /npm run/iu,
-    /publicDataSource/iu,
-    /scoreSource/iu,
-    /mock-only/iu,
-    /Supabase/iu,
-    /SQL/iu,
-    /登入即可使用/u,
-    /立即付款/u
   ];
 }

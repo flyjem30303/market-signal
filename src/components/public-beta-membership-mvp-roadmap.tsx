@@ -1,5 +1,3 @@
-import { TrackedLink } from "@/components/tracked-link";
-
 // Membership roadmap source marker; public copy stays Traditional Chinese.
 const roadmapCards = [
   {
@@ -47,15 +45,6 @@ export function PublicBetaMembershipMvpRoadmap() {
         <p>
           目前不提供會員登入、付費、自選追蹤儲存、個人化警示執行或會員專屬內容。
         </p>
-        <TrackedLink
-          className="text-link"
-          eventName="membership_preview_link_clicked"
-          href="/membership"
-          label="查看會員規劃"
-          payload={{ area: "membership_roadmap" }}
-        >
-          查看會員規劃
-        </TrackedLink>
       </div>
     </section>
   );
