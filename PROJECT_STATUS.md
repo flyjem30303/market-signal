@@ -2,6 +2,54 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Data Online Readonly Operator Decision Record No Execution
+
+Status: `phase_1_data_online_readonly_operator_decision_record_no_execution_ready`
+
+CEO decision:
+
+- Accept the next implementation slice for exactly one bounded readonly attempt boundary.
+- Keep this record no-execution; it does not perform the remote attempt.
+- Preserve mock/mock public runtime state until a future post-run review and promotion gate pass.
+
+PM completed:
+
+- Added `data/evidence-intake/phase-1-readonly-operator-decision-record.json`.
+- Added `docs/PHASE_1_DATA_ONLINE_READONLY_OPERATOR_DECISION_RECORD_NO_EXECUTION.md`.
+- Added `check:phase-1-data-online-readonly-operator-decision-record-no-execution`.
+- Registered the checker in the focused review gate.
+- Confirmed the runner stub and data-online NO_GO state remain aligned.
+
+Decision output:
+
+- `operatorDecisionAccepted=true`.
+- `attemptId=phase1-data-online-readonly-20260615-a`.
+- `remoteAttempted=false`.
+- `executionOccurred=false`.
+- `maxAttemptCount=1`.
+- `writeGateExecutableNow=false`.
+
+Current data-online position:
+
+- Phase 1 data-online decision remains `PUBLIC_RUNTIME_READY_BUT_DATA_ONLINE_NO_GO`.
+- Current Level 1 coverage remains `182/360`; missing rows remain `178/360`.
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+
+Evidence:
+
+- `cmd.exe /c npm run check:phase-1-data-online-readonly-operator-decision-record-no-execution` passes.
+- `cmd.exe /c npm run check:phase-1-data-online-bounded-readonly-runner-stub-no-execution` remains the fail-closed runner proof.
+- `cmd.exe /c npm run check:phase-1-data-online-go-no-go-status` remains the current data-online NO_GO proof.
+
+Boundary:
+
+No SQL, Supabase connection/read/write, staging-row creation, `daily_prices` mutation, market-row fetch, raw payload output, endpoint response output, credential value output, operator value output, execution value storage, readonly attempt execution, write-gate execution, source promotion, score promotion, public real-data claim, real-time claim, official endorsement claim, investment advice claim, or production mutation occurred.
+
+Next route:
+
+CEO should implement the real bounded readonly runner boundary for this exact attempt id, keeping aggregate-only output and immediate post-run review. Only after that future run is reviewed can PM decide whether data-online gates move beyond `NO_GO`.
+
 ### Phase 1 Data Online Bounded Readonly Runner Stub No Execution
 
 Status: `phase_1_data_online_bounded_readonly_runner_stub_no_execution_ready`

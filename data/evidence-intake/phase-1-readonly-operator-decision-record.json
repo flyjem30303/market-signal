@@ -1,0 +1,29 @@
+{
+  "status": "readonly_operator_decision_record_ready_no_execution",
+  "packetMode": "readonly_operator_decision_record_no_execution",
+  "attemptId": "phase1-data-online-readonly-20260615-a",
+  "operatorDecision": "accepted_for_exactly_one_bounded_readonly_attempt_implementation",
+  "maxAttemptCount": 1,
+  "remoteAttemptedNow": false,
+  "executionOccurredNow": false,
+  "writeGateExecutableNow": false,
+  "publicDataSource": "mock",
+  "scoreSource": "mock",
+  "authorizedNextSliceOnly": [
+    "implement the remote readonly runner boundary for this exact attempt id",
+    "keep output aggregate-only and sanitized",
+    "require immediate post-run review before any data-online or runtime promotion claim"
+  ],
+  "notAuthorized": [
+    "run SQL",
+    "write Supabase",
+    "create staging rows",
+    "mutate daily_prices",
+    "fetch market rows",
+    "print raw payloads",
+    "print secrets",
+    "promote publicDataSource",
+    "promote scoreSource",
+    "claim public real data online"
+  ]
+}
