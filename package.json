@@ -1518,6 +1518,7 @@
     "check:phase-1-data-online-bounded-readonly-execution-guard": "node scripts/check-phase-1-data-online-bounded-readonly-execution-guard.mjs",
     "check:phase-1-data-online-bounded-readonly-attempt-result-20260615-a": "node scripts/check-phase-1-data-online-bounded-readonly-attempt-result-20260615-a.mjs",
     "check:phase-1-aggregate-readonly-result-to-write-gate-or-env-repair": "node scripts/check-phase-1-aggregate-readonly-result-to-write-gate-or-env-repair.mjs",
+    "check:phase-1-server-only-credential-presence-reviewed-result": "node scripts/check-phase-1-server-only-credential-presence-reviewed-result.mjs",
     "check:phase-1-row-coverage-readonly-result-20260615-a": "node scripts/check-phase-1-row-coverage-readonly-result-20260615-a.mjs",
     "check:phase-1-twii-etf-missing-rows-backfill-readiness": "node scripts/check-phase-1-twii-etf-missing-rows-backfill-readiness.mjs",
     "check:phase-1-twii-write-attempt-stopline-rollup": "node scripts/check-phase-1-twii-write-attempt-stopline-rollup.mjs",

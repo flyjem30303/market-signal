@@ -30,7 +30,6 @@ Route next to `prepare_external_operator_boolean_presence_reviewed_result`.
 The write gate is still blocked, but not because the aggregate readonly path is unknown. The remaining blockers are the external/operator presence chain:
 
 - `operator_values_missing`
-- `credential_presence_unverified`
 - `operator_owned_presence_confirmation_unverified`
 - `external_presence_acceptance_unverified`
 - `external_presence_reviewed_result_missing`
@@ -42,6 +41,7 @@ The accepted aggregate readonly result and dashboard API exposure evidence reduc
 - `schema_cache_exposure_unverified`
 - `dashboard_api_exposure_unverified`
 - `pgrst205_regression_unverified`
+- `credential_presence_unverified`
 
 These remain audit history, not the current mainline stop reason.
 

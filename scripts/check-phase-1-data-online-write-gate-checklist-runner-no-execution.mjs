@@ -35,6 +35,10 @@ const readonlyResult = runJson(
   "scripts/check-phase-1-data-online-bounded-readonly-attempt-result-20260615-a.mjs",
   "bounded readonly attempt result"
 );
+const credentialPresenceResult = runJson(
+  "scripts/check-phase-1-server-only-credential-presence-reviewed-result.mjs",
+  "server-only credential presence reviewed result"
+);
 const dashboardApiExposure = runJson(
   "scripts/check-phase-1-data-online-dashboard-api-exposure-evidence.mjs",
   "dashboard API exposure evidence"
@@ -62,6 +66,7 @@ const blockedReasons = [
   "pgrst205_regression_unverified"
 ];
 const reducedBlockers = [
+  "credential_presence_unverified",
   "rollback_plan_unverified",
   "aggregate_readback_plan_unverified",
   "post_run_review_unverified",
@@ -82,6 +87,8 @@ const report = {
   reducedBlockers,
   remainingBlockers,
   readonlyEvidenceStatus: "readonly_aggregate_probe_accepted",
+  credentialPresenceReviewedResultStatus: credentialPresenceResult.reviewedResultStatus ?? null,
+  serverOnlyCredentialPresent: credentialPresenceResult.serverOnlyCredentialPresent ?? null,
   dashboardApiExposureStatus: dashboardApiExposure.dashboardApiExposureStatus ?? null,
   presenceRecheckStatus: serverOnlyPresenceRecheck.presenceRecheckStatus ?? null,
   operatorOwnedPresenceConfirmationStatus:
@@ -165,6 +172,18 @@ function validatePrerequisites() {
     "bounded readonly result guarded status"
   );
   expect(readonlyResult.remoteAttempted, true, "bounded readonly result remoteAttempted");
+  expect(credentialPresenceResult.status, "ok", "server-only credential presence reviewed result status");
+  expect(
+    credentialPresenceResult.guardedStatus,
+    "phase_1_server_only_credential_presence_reviewed_result_ready_boolean_only",
+    "server-only credential presence reviewed result guarded status"
+  );
+  expect(
+    credentialPresenceResult.reviewedResultStatus,
+    "credential_presence_reviewed_boolean_only",
+    "server-only credential presence reviewed result status"
+  );
+  expect(credentialPresenceResult.serverOnlyCredentialPresent, true, "server-only credential presence boolean");
   expect(dashboardApiExposure.status, "ok", "dashboard API exposure evidence status");
   expect(
     dashboardApiExposure.guardedStatus,
@@ -202,6 +221,8 @@ function validateDoc() {
     "reducedBlockers",
     "remainingBlockers",
     "readonly_aggregate_probe_accepted",
+    "credentialPresenceReviewedResultStatus=credential_presence_reviewed_boolean_only",
+    "serverOnlyCredentialPresent=true",
     "dashboardApiExposureStatus=accepted_read_path_for_daily_prices",
     "server_only_presence_recheck_required",
     "presenceRecheckStatus=prepared_waiting_external_presence",

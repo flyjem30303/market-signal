@@ -2,6 +2,45 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Server-Only Credential Presence Boolean Accepted
+
+Status: `phase_1_server_only_credential_presence_reviewed_result_ready_boolean_only`
+
+CEO decision:
+
+- Accept only the server-only credential presence boolean, not the credential value.
+- Use `.env.local` presence as a local-only boolean check and keep the value hidden from logs, docs, artifacts, Git, and runtime.
+- Reduce `credential_presence_unverified`; keep write gate non-executable.
+
+PM completed:
+
+- Added `data/evidence-intake/phase-1-server-only-credential-presence-reviewed-result.json`.
+- Added `docs/PHASE_1_SERVER_ONLY_CREDENTIAL_PRESENCE_REVIEWED_RESULT.md`.
+- Added and registered `check:phase-1-server-only-credential-presence-reviewed-result`.
+- Updated the write-gate checklist runner and aggregate readonly bridge so active remaining blockers now exclude `credential_presence_unverified`.
+
+Verified:
+
+- `cmd.exe /c npm run check:phase-1-server-only-credential-presence-reviewed-result` passes.
+- `cmd.exe /c npm run check:phase-1-data-online-write-gate-checklist-runner-no-execution` passes.
+- `cmd.exe /c npm run check:phase-1-aggregate-readonly-result-to-write-gate-or-env-repair` passes.
+
+Current blocker view:
+
+- Remaining active blockers are now `operator_values_missing`, `operator_owned_presence_confirmation_unverified`, `external_presence_acceptance_unverified`, and `external_presence_reviewed_result_missing`.
+- Write gate remains non-executable.
+
+Current boundary:
+
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+- No credential value was printed, stored, hashed, compared, or transformed.
+- No SQL, Supabase read/write, staging row, `daily_prices` mutation, market-data fetch/ingestion, raw payload output, row payload output, source promotion, score promotion, public real-data claim, or investment-advice claim occurred.
+
+Next route:
+
+Prepare a no-secret operator-owned boolean presence reviewed result for the remaining external/operator chain.
+
 ### Phase 1 Aggregate Readonly Result Routed To Presence Result
 
 Status: `phase_1_aggregate_readonly_result_to_write_gate_or_env_repair_ready_no_execution`

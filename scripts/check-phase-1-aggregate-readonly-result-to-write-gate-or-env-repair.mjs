@@ -103,7 +103,6 @@ function validateArtifact() {
 
   const expectedRemaining = [
     "operator_values_missing",
-    "credential_presence_unverified",
     "operator_owned_presence_confirmation_unverified",
     "external_presence_acceptance_unverified",
     "external_presence_reviewed_result_missing"
@@ -114,7 +113,8 @@ function validateArtifact() {
   const expectedReduced = [
     "schema_cache_exposure_unverified",
     "dashboard_api_exposure_unverified",
-    "pgrst205_regression_unverified"
+    "pgrst205_regression_unverified",
+    "credential_presence_unverified"
   ];
   for (const item of expectedReduced) {
     if (!artifact.reducedByAggregateReadonlyEvidence?.includes(item)) {
@@ -163,7 +163,6 @@ function validateDoc() {
     "envRepairNeededNow=false",
     "writeGateExecutableNow=false",
     "operator_values_missing",
-    "credential_presence_unverified",
     "operator_owned_presence_confirmation_unverified",
     "external_presence_acceptance_unverified",
     "external_presence_reviewed_result_missing",
