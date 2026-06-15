@@ -2,6 +2,57 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Data Online External Platform Evidence Checklist No Execution
+
+Status: `phase_1_data_online_external_platform_evidence_checklist_no_execution_ready`
+
+CEO decision:
+
+- Add a no-execution external-platform evidence checklist after the local-lane checklist runner.
+- Make Supabase schema cache, dashboard API exposure, and PGRST205 regression risks explicit before any future readonly/write attempt.
+- Keep the checklist local-only; no platform connection, Supabase read/write, SQL, row mutation, or source promotion is authorized by this slice.
+
+PM completed:
+
+- Added `docs/PHASE_1_DATA_ONLINE_EXTERNAL_PLATFORM_EVIDENCE_CHECKLIST_NO_EXECUTION.md`.
+- Added `check:phase-1-data-online-external-platform-evidence-checklist-no-execution`.
+- Registered the checker in the focused review gate.
+- Confirmed local-lane runner and current data-online GO/NO-GO state remain aligned.
+
+External platform evidence items:
+
+- `schema_cache_evidence_required`.
+- `dashboard_api_exposure_evidence_required`.
+- `pgrst205_regression_evidence_required`.
+- `metadata_readiness_evidence_required`.
+- `write_path_exposure_evidence_required`.
+- `external_platform_blockers_mapped`.
+- `writeGateExecutableNow=false`.
+
+Current data-online position:
+
+- Phase 1 data-online decision remains `PUBLIC_RUNTIME_READY_BUT_DATA_ONLINE_NO_GO`.
+- Current Level 1 coverage remains `182/360`; missing rows remain `178/360`.
+- Remaining operator blockers are still `operator_values_missing` and `credential_presence_unverified`.
+- External platform evidence checklist is ready, but actual external evidence has not been gathered in this no-execution slice.
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+
+Evidence:
+
+- `cmd.exe /c npm run check:phase-1-data-online-external-platform-evidence-checklist-no-execution` passes and reports external platform evidence checklist ready.
+- `cmd.exe /c npm run check:phase-1-data-online-local-lane-checklist-runner-no-execution` passes.
+- `cmd.exe /c npm run check:phase-1-data-online-go-no-go-status` passes and remains `NO_GO`.
+- `cmd.exe /c npx tsc --noEmit` passes.
+
+Boundary:
+
+No SQL, Supabase connection/read/write, staging-row creation, `daily_prices` mutation, market-row fetch, raw payload output, endpoint response output, credential value output, operator value output, execution value storage, write-gate execution, candidate row acceptance, row coverage award, source promotion, score promotion, public real-data claim, real-time claim, official endorsement claim, investment advice claim, or production mutation occurred.
+
+Next route:
+
+CEO should prepare an external-platform evidence checklist runner or operator-lane authorization shape. Recommended next slice is an external-platform evidence checklist runner that can report whether the required platform evidence has been gathered without connecting to Supabase.
+
 ### Phase 1 Data Online Local-Lane Checklist Runner No Execution
 
 Status: `phase_1_data_online_local_lane_checklist_runner_no_execution_ready`

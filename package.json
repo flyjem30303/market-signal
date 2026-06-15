@@ -863,6 +863,7 @@
     "check:phase-1-data-online-write-gate-readiness-escalation-map-no-execution": "node scripts/check-phase-1-data-online-write-gate-readiness-escalation-map-no-execution.mjs",
     "check:phase-1-data-online-local-lane-plan-pack-no-execution": "node scripts/check-phase-1-data-online-local-lane-plan-pack-no-execution.mjs",
     "check:phase-1-data-online-local-lane-checklist-runner-no-execution": "node scripts/check-phase-1-data-online-local-lane-checklist-runner-no-execution.mjs",
+    "check:phase-1-data-online-external-platform-evidence-checklist-no-execution": "node scripts/check-phase-1-data-online-external-platform-evidence-checklist-no-execution.mjs",
     "check:twii-exact-execution-preflight-repair-selector": "node scripts/check-twii-exact-execution-preflight-repair-selector.mjs",
     "check:twii-source-rights-outcome-acceptance-gate": "node scripts/check-twii-source-rights-outcome-acceptance-gate.mjs",
     "check:twii-field-contract-asset-mapping-alignment-gate": "node scripts/check-twii-field-contract-asset-mapping-alignment-gate.mjs",
