@@ -2,6 +2,57 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Latest Phase 1 ETF sanitized candidate artifact reply execution brief slice
+
+Status: `phase_1_etf_sanitized_candidate_artifact_reply_execution_brief_no_row_payloads_ready`
+
+CEO decision:
+
+- Convert the ETF 118-row blocker into a concrete A1 execution brief instead of leaving it as a waiting label.
+- Allow A1 to prepare an aggregate-only sanitized candidate artifact reply.
+- Keep PM acceptance, artifact reading, candidate row acceptance, Supabase write, and real-data promotion blocked until a future A1 reply passes the intake validator.
+
+PM completed:
+
+- Added `scripts/report-phase-1-etf-sanitized-candidate-artifact-reply-execution-brief-no-row-payloads.mjs`.
+- Added `data/evidence-intake/phase-1-etf-sanitized-candidate-artifact-reply-execution-brief-no-row-payloads.json`.
+- Added `docs/PHASE_1_ETF_SANITIZED_CANDIDATE_ARTIFACT_REPLY_EXECUTION_BRIEF_NO_ROW_PAYLOADS.md`.
+- Added and registered `check:phase-1-etf-sanitized-candidate-artifact-reply-execution-brief-no-row-payloads`.
+
+Execution brief state:
+
+- `briefDecision=a1_can_prepare_etf_reply_aggregate_only_pm_intake_ready`
+- `a1CanExecuteNow=true`
+- `pmCanAcceptNow=false`
+- `pmAcceptanceRequiresFutureReply=true`
+- `candidateArtifactPathAcceptedNow=false`
+- `candidateArtifactReadNow=false`
+- `candidateRowsAcceptedNow=false`
+- `targetLane=ETF`
+- `symbolGroup=ETF`
+- `targetScope=phase_1_core_etf_daily_prices_missing_rows`
+- `expectedMissingRows=118`
+
+A1 reply required values:
+
+- `candidateMissingRows: 118`
+- `expectedRows: 118`
+- `sanitizedAggregateOnly: true`
+- `rawPayloadIncluded: false`
+- `rowPayloadIncluded: false`
+- `stockIdPayloadIncluded: false`
+- `secretsIncluded: false`
+
+Current boundary:
+
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+- No artifact content read, candidate row acceptance, Supabase write, raw market data, row payload, secret, or public real-data promotion occurred.
+
+Next route:
+
+`nextRoute=a1_prepare_etf_sanitized_candidate_artifact_reply_then_pm_intake_validator`.
+
 ### Latest Phase 1 ETF sanitized candidate artifact reply intake validator slice
 
 Status: `phase_1_etf_sanitized_candidate_artifact_reply_intake_validator_no_row_payloads_ready`
