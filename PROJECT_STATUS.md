@@ -2,6 +2,52 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Data Online Local-Lane Checklist Runner No Execution
+
+Status: `phase_1_data_online_local_lane_checklist_runner_no_execution_ready`
+
+CEO decision:
+
+- Add a local-lane checklist runner after the local-lane plan pack.
+- Report local blockers as planned while keeping the write gate blocked by operator and external platform lanes.
+- Keep the future eligible attempt bounded to `twii_and_etf_phase_1_missing_row_closure_only`.
+
+PM completed:
+
+- Added `docs/PHASE_1_DATA_ONLINE_LOCAL_LANE_CHECKLIST_RUNNER_NO_EXECUTION.md`.
+- Added `check:phase-1-data-online-local-lane-checklist-runner-no-execution`.
+- Registered the checker in the focused review gate.
+- Confirmed local-lane plan pack and current data-online GO/NO-GO state remain aligned.
+
+Current runner output:
+
+- `localBlockersPlanned=true`.
+- `writeGateExecutableNow=false`.
+- Remaining operator blockers: `operator_values_missing`, `credential_presence_unverified`.
+- Remaining external platform blockers: `schema_cache_exposure_unverified`, `dashboard_api_exposure_unverified`, `pgrst205_regression_unverified`.
+
+Current data-online position:
+
+- Phase 1 data-online decision remains `PUBLIC_RUNTIME_READY_BUT_DATA_ONLINE_NO_GO`.
+- Current Level 1 coverage remains `182/360`; missing rows remain `178/360`.
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+- The next CEO decision is whether to reduce the operator lane or the external platform lane first.
+
+Evidence:
+
+- `cmd.exe /c npm run check:phase-1-data-online-local-lane-checklist-runner-no-execution` passes and reports local blockers planned.
+- `cmd.exe /c npm run check:phase-1-data-online-local-lane-plan-pack-no-execution` passes.
+- `cmd.exe /c npm run check:phase-1-data-online-go-no-go-status` passes and remains `NO_GO`.
+
+Boundary:
+
+No SQL, Supabase connection/read/write, staging-row creation, `daily_prices` mutation, market-row fetch, raw payload output, endpoint response output, credential value output, operator value output, execution value storage, write-gate execution, candidate row acceptance, row coverage award, source promotion, score promotion, public real-data claim, real-time claim, official endorsement claim, investment advice claim, or production mutation occurred.
+
+Next route:
+
+CEO should choose between operator-lane authorization shape and external-platform evidence checklist. The faster no-platform route is operator-lane authorization shape; the more launch-critical technical risk route is external-platform evidence checklist.
+
 ### Phase 1 Data Online Local-Lane Plan Pack No Execution
 
 Status: `phase_1_data_online_local_lane_plan_pack_no_execution_ready`
