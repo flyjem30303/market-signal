@@ -2,6 +2,51 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Latest Phase 1 ETF reply PM acceptance apply gate slice
+
+Status: `phase_1_etf_reply_pm_acceptance_apply_gate_no_row_payloads_ready`
+
+CEO decision:
+
+- Prepare the PM-side apply rule for a future A1 ETF reply that passes the intake validator.
+- Do not accept ETF artifact rows now; keep application blocked until a future reply exists and validates.
+- Make the future state explicit: after a validator pass, ETF artifact acceptance can complete the candidate artifact set before write-gate execution review.
+
+PM completed:
+
+- Added `scripts/report-phase-1-etf-reply-pm-acceptance-apply-gate-no-row-payloads.mjs`.
+- Added `data/evidence-intake/phase-1-etf-reply-pm-acceptance-apply-gate-no-row-payloads.json`.
+- Added `docs/PHASE_1_ETF_REPLY_PM_ACCEPTANCE_APPLY_GATE_NO_ROW_PAYLOADS.md`.
+- Added and registered `check:phase-1-etf-reply-pm-acceptance-apply-gate-no-row-payloads`.
+
+Apply gate state:
+
+- `applyDecision=ready_to_apply_future_validator_pass_without_reading_rows`
+- `applyAllowedNow=false`
+- `futureReplyRequired=true`
+- `requiredFutureReplyStatus=validator_passed_future_a1_etf_reply`
+- `currentEtfArtifactAccepted=false`
+- `futureEtfArtifactAcceptedAfterPass=true`
+- `futureArtifactSetCompleteAfterPass=true`
+- `futureExpectedMissingRows=178`
+- `futureTwiiMissingRows=60`
+- `futureEtfMissingRows=118`
+- `candidateArtifactReadNow=false`
+- `candidateRowsAcceptedNow=false`
+- `executionAllowedNow=false`
+- `writeGateExecutableNow=false`
+- `promotionAllowedNow=false`
+
+Current boundary:
+
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+- No row payload read, candidate row acceptance, Supabase write, raw market data, secret, or public real-data promotion occurred.
+
+Next route:
+
+`nextRoute=wait_for_future_a1_etf_reply_then_run_pm_intake_validator`.
+
 ### Latest Phase 1 ETF sanitized candidate artifact reply execution brief slice
 
 Status: `phase_1_etf_sanitized_candidate_artifact_reply_execution_brief_no_row_payloads_ready`
