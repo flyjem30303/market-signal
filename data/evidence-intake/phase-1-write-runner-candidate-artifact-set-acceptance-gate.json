@@ -8,6 +8,9 @@
   "twiiArtifactAccepted": true,
   "etfArtifactAccepted": true,
   "artifactSetComplete": true,
+  "aggregateArtifactSetComplete": true,
+  "rowPayloadArtifactSetComplete": false,
+  "rowPayloadCandidateArtifactPathRequired": true,
   "expectedMissingRows": 178,
   "twiiMissingRows": 60,
   "etfMissingRows": 118,
@@ -30,7 +33,7 @@
     "stockIdPayloadIncluded",
     "secretsIncluded"
   ],
-  "nextRoute": "phase_1_write_runner_bounded_insert_missing_only_contract_no_execution",
+  "nextRoute": "provide_sanitized_row_payload_candidate_artifact_path_then_run_phase_1_write_runner_implementation_candidate",
   "safety": {
     "publicDataSource": "mock",
     "scoreSource": "mock",

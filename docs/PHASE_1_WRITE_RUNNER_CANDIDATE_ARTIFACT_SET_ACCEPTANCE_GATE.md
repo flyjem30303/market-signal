@@ -4,13 +4,16 @@ Status: `phase_1_write_runner_candidate_artifact_set_acceptance_gate_artifact_se
 
 Decision: `artifact_set_complete_twii_and_etf_aggregate_artifacts_accepted_no_execution`
 
-This gate records the current candidate artifact set state for the Phase 1 write chain. TWII and ETF aggregate-only candidate artifacts are accepted, but execution is still blocked by the later bounded write, readback, rollback, and promotion gates.
+This gate records the current candidate artifact set state for the Phase 1 write chain. TWII and ETF aggregate-only candidate artifacts are accepted, but the writable sanitized row-payload artifact is not complete yet. Execution remains blocked.
 
 ## Artifact Set State
 
 - `twiiArtifactAccepted=true`
 - `etfArtifactAccepted=true`
 - `artifactSetComplete=true`
+- `aggregateArtifactSetComplete=true`
+- `rowPayloadArtifactSetComplete=false`
+- `rowPayloadCandidateArtifactPathRequired=true`
 - `expectedMissingRows=178`
 - `twiiMissingRows=60`
 - `etfMissingRows=118`
@@ -51,4 +54,4 @@ This gate records the current candidate artifact set state for the Phase 1 write
 
 ## Next Route
 
-`phase_1_write_runner_bounded_insert_missing_only_contract_no_execution`
+`provide_sanitized_row_payload_candidate_artifact_path_then_run_phase_1_write_runner_implementation_candidate`

@@ -11788,3 +11788,32 @@ Next:
 Provide or generate a non-committed sanitized row-payload candidate artifact matching `scripts/validate-phase-1-sanitized-row-payload-candidate-artifact.mjs`, then validate with:
 
 `cmd.exe /c npm run validate:phase-1-sanitized-row-payload-candidate-artifact -- --candidate-artifact <sanitized-row-payload-candidate-path>`
+
+# Latest Phase 1 aggregate-vs-row-payload gate clarification
+
+Status: `phase_1_candidate_artifact_set_aggregate_complete_row_payload_incomplete_no_execution`
+
+Date: 2026-06-16
+
+CEO decision: `KEEP_AGGREGATE_ACCEPTANCE_SEPARATE_FROM_WRITABLE_ROW_PAYLOAD_READINESS`.
+
+What changed:
+
+- Clarified the Phase 1 candidate artifact set gate: TWII and ETF aggregate artifacts are accepted, but writable sanitized row-payload readiness is still incomplete.
+- Preserved the existing `artifactSetComplete=true` compatibility field while adding `aggregateArtifactSetComplete=true`, `rowPayloadArtifactSetComplete=false`, and `rowPayloadCandidateArtifactPathRequired=true`.
+- Updated the next route to require a sanitized row-payload candidate artifact path before the implementation candidate can proceed to separate write execution review.
+- `nextRoute=provide_sanitized_row_payload_candidate_artifact_path_then_run_phase_1_write_runner_implementation_candidate`
+
+Verification:
+
+- `cmd.exe /c npm run check:phase-1-write-runner-candidate-artifact-set-acceptance-gate` passed.
+
+Boundary:
+
+No SQL, Supabase read, Supabase write, staging rows, `daily_prices` mutation, market-data fetch, market-data ingestion, row payload output, raw payload output, secret output, source promotion, score promotion, or public real-data claim occurred.
+
+Next:
+
+Provide a sanitized row-payload candidate artifact path and run:
+
+`cmd.exe /c npm run run:phase-1-write-runner-implementation-candidate -- --candidate-artifact <sanitized-row-payload-candidate-path>`

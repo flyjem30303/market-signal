@@ -48,6 +48,8 @@ console.log(
         ? "phase_1_write_runner_candidate_artifact_set_acceptance_gate_artifact_set_complete_no_execution"
         : "phase_1_write_runner_candidate_artifact_set_acceptance_gate_blocked",
       artifactSetComplete: artifact.artifactSetComplete ?? null,
+      aggregateArtifactSetComplete: artifact.aggregateArtifactSetComplete ?? null,
+      rowPayloadArtifactSetComplete: artifact.rowPayloadArtifactSetComplete ?? null,
       etfArtifactAccepted: artifact.etfArtifactAccepted ?? null,
       executionAllowedNow: artifact.executionAllowedNow ?? null,
       nextRoute: artifact.nextRoute ?? null,
@@ -85,6 +87,9 @@ function validateArtifact() {
   expect(artifact.twiiArtifactAccepted, true, "twiiArtifactAccepted");
   expect(artifact.etfArtifactAccepted, true, "etfArtifactAccepted");
   expect(artifact.artifactSetComplete, true, "artifactSetComplete");
+  expect(artifact.aggregateArtifactSetComplete, true, "aggregateArtifactSetComplete");
+  expect(artifact.rowPayloadArtifactSetComplete, false, "rowPayloadArtifactSetComplete");
+  expect(artifact.rowPayloadCandidateArtifactPathRequired, true, "rowPayloadCandidateArtifactPathRequired");
   expect(artifact.expectedMissingRows, 178, "expectedMissingRows");
   expect(artifact.twiiMissingRows, 60, "twiiMissingRows");
   expect(artifact.etfMissingRows, 118, "etfMissingRows");
@@ -92,7 +97,11 @@ function validateArtifact() {
   expect(artifact.writeGateExecutableNow, false, "writeGateExecutableNow");
   expect(artifact.implementationAllowedNow, false, "implementationAllowedNow");
   expect(artifact.promotionAllowedNow, false, "promotionAllowedNow");
-  expect(artifact.nextRoute, "phase_1_write_runner_bounded_insert_missing_only_contract_no_execution", "nextRoute");
+  expect(
+    artifact.nextRoute,
+    "provide_sanitized_row_payload_candidate_artifact_path_then_run_phase_1_write_runner_implementation_candidate",
+    "nextRoute"
+  );
 
   expectArray(artifact.requiredA1ReplyFields, [
     "candidateArtifactPath",
@@ -116,6 +125,9 @@ function validateArtifact() {
 function validateReport() {
   expect(report.status, "phase_1_write_runner_candidate_artifact_set_acceptance_gate_artifact_set_complete_no_execution", "report status");
   expect(report.artifactSetComplete, true, "report artifactSetComplete");
+  expect(report.aggregateArtifactSetComplete, true, "report aggregateArtifactSetComplete");
+  expect(report.rowPayloadArtifactSetComplete, false, "report rowPayloadArtifactSetComplete");
+  expect(report.rowPayloadCandidateArtifactPathRequired, true, "report rowPayloadCandidateArtifactPathRequired");
   expect(report.etfArtifactAccepted, true, "report etfArtifactAccepted");
   expect(report.executionAllowedNow, false, "report executionAllowedNow");
 }
@@ -128,6 +140,9 @@ function validateDoc() {
     "twiiArtifactAccepted=true",
     "etfArtifactAccepted=true",
     "artifactSetComplete=true",
+    "aggregateArtifactSetComplete=true",
+    "rowPayloadArtifactSetComplete=false",
+    "rowPayloadCandidateArtifactPathRequired=true",
     "expectedMissingRows=178",
     "twiiMissingRows=60",
     "etfMissingRows=118",
@@ -141,7 +156,7 @@ function validateDoc() {
     "No candidate row acceptance",
     "No Supabase write",
     "No public real-data promotion",
-    "phase_1_write_runner_bounded_insert_missing_only_contract_no_execution"
+    "provide_sanitized_row_payload_candidate_artifact_path_then_run_phase_1_write_runner_implementation_candidate"
   ];
   for (const token of requiredTokens) if (!doc.includes(token)) problems.push(`${docPath} missing ${token}`);
 }
@@ -173,8 +188,10 @@ function validateStatus() {
     "docs/PHASE_1_WRITE_RUNNER_CANDIDATE_ARTIFACT_SET_ACCEPTANCE_GATE.md",
     "phase_1_write_runner_candidate_artifact_set_acceptance_gate_artifact_set_complete_no_execution",
     "artifactSetComplete=true",
+    "aggregateArtifactSetComplete=true",
+    "rowPayloadArtifactSetComplete=false",
     "etfArtifactAccepted=true",
-    "nextRoute=phase_1_write_runner_bounded_insert_missing_only_contract_no_execution"
+    "nextRoute=provide_sanitized_row_payload_candidate_artifact_path_then_run_phase_1_write_runner_implementation_candidate"
   ];
   for (const token of requiredTokens) if (!status.includes(token)) problems.push(`${statusPath} missing ${token}`);
 }

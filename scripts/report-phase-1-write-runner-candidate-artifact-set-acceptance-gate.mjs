@@ -30,12 +30,15 @@ console.log(
       twiiArtifactAccepted: artifact.twiiArtifactAccepted ?? null,
       etfArtifactAccepted: etfAccepted,
       artifactSetComplete: etfAccepted,
+      aggregateArtifactSetComplete: etfAccepted,
+      rowPayloadArtifactSetComplete: artifact.rowPayloadArtifactSetComplete ?? false,
+      rowPayloadCandidateArtifactPathRequired: artifact.rowPayloadCandidateArtifactPathRequired ?? true,
       expectedMissingRows: artifact.expectedMissingRows ?? null,
       executionAllowedNow: artifact.executionAllowedNow ?? null,
       writeGateExecutableNow: artifact.writeGateExecutableNow ?? null,
       promotionAllowedNow: artifact.promotionAllowedNow ?? null,
       nextRoute: etfAccepted
-        ? "phase_1_write_runner_bounded_insert_missing_only_contract_no_execution"
+        ? "provide_sanitized_row_payload_candidate_artifact_path_then_run_phase_1_write_runner_implementation_candidate"
         : artifact.nextRoute ?? null,
       safety: artifact.safety ?? {},
       problems
@@ -76,6 +79,11 @@ function validateArtifact() {
   if (artifact.twiiArtifactAccepted !== true) problems.push("twiiArtifactAccepted must be true");
   if (artifact.etfArtifactAccepted !== etfAccepted) problems.push("etfArtifactAccepted mismatch");
   if (artifact.artifactSetComplete !== etfAccepted) problems.push("artifactSetComplete mismatch");
+  if (artifact.aggregateArtifactSetComplete !== etfAccepted) problems.push("aggregateArtifactSetComplete mismatch");
+  if (artifact.rowPayloadArtifactSetComplete !== false) problems.push("rowPayloadArtifactSetComplete must be false");
+  if (artifact.rowPayloadCandidateArtifactPathRequired !== true) {
+    problems.push("rowPayloadCandidateArtifactPathRequired must be true");
+  }
   if (artifact.expectedMissingRows !== 178) problems.push("expectedMissingRows must be 178");
   if (artifact.executionAllowedNow !== false) problems.push("executionAllowedNow must be false");
   if (artifact.writeGateExecutableNow !== false) problems.push("writeGateExecutableNow must be false");
