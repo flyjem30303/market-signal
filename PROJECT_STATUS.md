@@ -2,6 +2,54 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Write Runner Implementation Review Gate Ready
+
+Status: `phase_1_write_runner_implementation_review_gate_no_execution_ready`
+
+CEO decision:
+
+- Create a Phase 1 TWII+ETF implementation review gate after accepting the fail-closed runner stub post-run review.
+- Keep implementation blocked until a separate implementation scope packet explicitly narrows what can be added.
+- Continue to block Supabase client import, credential-value handling, bounded insert code, readback implementation, rollback implementation, and runtime promotion.
+
+PM completed:
+
+- Added `data/evidence-intake/phase-1-write-runner-implementation-review-gate-no-execution.json`.
+- Added `docs/PHASE_1_WRITE_RUNNER_IMPLEMENTATION_REVIEW_GATE_NO_EXECUTION.md`.
+- Added and registered `check:phase-1-write-runner-implementation-review-gate-no-execution`.
+
+Implementation review state:
+
+- `implementationReviewReady=true`
+- `implementationAllowedNow=false`
+- `runnerExecutableNow=false`
+- `executionAllowedNow=false`
+- `writeGateExecutableNow=false`
+- `reviewDecision=implementation_review_ready_but_real_runner_implementation_still_blocked`
+- `boundedAttemptScope=twii_and_etf_phase_1_missing_row_closure_only`
+- `targetTable=daily_prices`
+
+Implementation controls:
+
+- `runnerStubPostRunReviewAccepted=true`
+- `supabaseClientImplementationAllowed=false`
+- `credentialPresenceCheckImplementationAllowed=false`
+- `boundedInsertMissingOnlyImplementationAllowed=false`
+- `aggregateReadbackImplementationAllowed=false`
+- `rollbackOrQuarantineImplementationAllowed=false`
+- `runtimePromotionImplementationAllowed=false`
+
+Current boundary:
+
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+- No switch value, confirmation phrase, operator value, credential value, raw payload, row payload, or secret was printed, stored, hashed, compared, or transformed.
+- No SQL, Supabase client import/read/write/connection, staging row, `daily_prices` mutation, candidate row acceptance, market-data fetch/ingestion, source promotion, score promotion, public real-data claim, or investment-advice claim occurred.
+
+Next route:
+
+Prepare `phase_1_write_runner_implementation_scope_packet_no_execution`.
+
 ### Phase 1 Write-Gate Runner Stub Post-Run Review Ready
 
 Status: `phase_1_write_gate_runner_stub_post_run_review_no_execution_ready`
