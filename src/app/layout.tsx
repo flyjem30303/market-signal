@@ -11,21 +11,22 @@ export const metadata: Metadata = {
     default: siteConfig.name,
     template: `%s | ${siteConfig.name}`
   },
-  description: "用紅黃綠燈號、核心指標與風險提示，協助一般投資者快速理解台股市場狀態。"
+  description:
+    "指數燈號是市場狀態儀表站，協助一般投資者用市場燈號、資料更新時間、風險提示與非投資建議邊界，快速理解目前市場氣氛。"
 };
 
 const footerTrustLinks = [
   { href: "/methodology", label: "方法說明" },
-  { href: "/disclaimer", label: "風險聲明" },
+  { href: "/disclaimer", label: "免責聲明" },
   { href: "/privacy", label: "隱私政策" },
   { href: "/terms", label: "使用條款" }
 ];
 
 const footerNavLinks = [
-  { href: "/", label: "首頁" },
-  { href: "/briefing", label: "市場簡報" },
-  { href: "/weekly", label: "每週觀察" },
-  { href: "/stocks/2330", label: "標的燈號" }
+  { href: "/", label: "總覽" },
+  { href: "/briefing", label: "市場快報" },
+  { href: "/weekly", label: "市場週報" },
+  { href: "/stocks/2330", label: "個股燈號" }
 ];
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -37,7 +38,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             className="site-logo"
             eventName="site_chrome_link_clicked"
             href="/"
-            label="指數燈號首頁"
+            label="指數燈號總覽"
             payload={{ area: "logo" }}
           >
             <span className="logo-mark">MS</span>
@@ -53,14 +54,14 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <div>
             <strong>指數燈號</strong>
             <p>
-              本網站提供市場資訊整理與風險觀察，不構成投資建議。公開 Beta 階段仍以示範資料與資料品質檢查為主，
-              正式資料啟用前會清楚標示來源、更新時間與延遲狀態。
+              指數燈號整理市場資訊、風險提示與資料更新時間，協助使用者建立固定觀察流程。
+              目前公開版仍使用示範資料與示範分數；所有內容僅供資訊整理，不構成投資建議或買賣建議。
             </p>
-            <div className="site-footer-trust" aria-label="信任與風險資訊">
-              <span>公開 Beta</span>
+            <div className="site-footer-trust" aria-label="信任與風險連結">
+              <span>Phase 1 公開版</span>
               <span>示範資料</span>
               <span>非投資建議</span>
-              <span>資料更新狀態透明</span>
+              <span>資料更新時間需明確標示</span>
               {footerTrustLinks.map((link) => (
                 <TrackedLink
                   eventName="site_chrome_link_clicked"

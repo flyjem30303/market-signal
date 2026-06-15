@@ -7,7 +7,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/internal", "/api/internal", "/membership"]
+      disallow: ["/internal", "/api/internal", "/membership", "/watchlist"]
     },
     sitemap: absoluteUrl("/sitemap.xml"),
     host: siteConfig.url
