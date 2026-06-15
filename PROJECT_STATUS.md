@@ -2,6 +2,52 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Latest Phase 1 ETF sanitized candidate artifact reply intake validator slice
+
+Status: `phase_1_etf_sanitized_candidate_artifact_reply_intake_validator_no_row_payloads_ready`
+
+CEO decision:
+
+- Keep Phase 1 data online goal moving by preparing PM's validation step for the future A1 ETF artifact reply.
+- Validate only reply shape and aggregate-only safety flags before artifact path intake.
+- Do not accept artifact contents, candidate rows, Supabase writes, or public real-data promotion in this slice.
+
+PM completed:
+
+- Added `scripts/report-phase-1-etf-sanitized-candidate-artifact-reply-intake-validator-no-row-payloads.mjs`.
+- Added `data/evidence-intake/phase-1-etf-sanitized-candidate-artifact-reply-intake-validator-no-row-payloads.json`.
+- Added `docs/PHASE_1_ETF_SANITIZED_CANDIDATE_ARTIFACT_REPLY_INTAKE_VALIDATOR_NO_ROW_PAYLOADS.md`.
+- Added and registered `check:phase-1-etf-sanitized-candidate-artifact-reply-intake-validator-no-row-payloads`.
+
+Validator state:
+
+- `validatorDecision=ready_to_validate_future_a1_etf_reply_shape_only`
+- `futureReplyPresentNow=false`
+- `replyAcceptedNow=false`
+- `candidateArtifactPathAcceptedNow=false`
+- `candidateArtifactReadNow=false`
+- `candidateRowsAcceptedNow=false`
+- `targetLane=ETF`
+- `targetScope=phase_1_core_etf_daily_prices_missing_rows`
+- `expectedMissingRows=118`
+- `candidateMissingRows=118`
+- `expectedRows=118`
+- `sanitizedAggregateOnly=true`
+- `rawPayloadIncluded=false`
+- `rowPayloadIncluded=false`
+- `stockIdPayloadIncluded=false`
+- `secretsIncluded=false`
+
+Current boundary:
+
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+- No artifact content read, candidate row acceptance, Supabase write, raw market data, row payload, secret, or public real-data promotion occurred.
+
+Next route:
+
+`nextRoute=wait_for_a1_etf_sanitized_candidate_artifact_reply`.
+
 ### Latest Phase 1 ETF sanitized candidate artifact reply template slice
 
 Status: `phase_1_etf_sanitized_candidate_artifact_reply_template_no_row_payloads_ready`
