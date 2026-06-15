@@ -8,8 +8,10 @@
   },
   "scripts": {
     "dev": "next dev",
+    "prebuild": "node scripts/check-node-engine.mjs",
     "build": "next build",
     "start": "next start",
+    "check:node-engine": "node scripts/check-node-engine.mjs",
     "lint": "next lint",
     "check:localhost-health": "node scripts/check-localhost-health.mjs",
     "check:localhost-health-config": "node scripts/check-localhost-health-config.mjs",
