@@ -16,6 +16,8 @@ const publicRoutes = [
   "/stocks/2308"
 ];
 
+const inaccessiblePhase2Routes = ["/membership", "/watchlist"];
+
 const requiredPublicSignals = {
   "/": ["市場總覽", "30 秒看懂今天的市場狀態", "資料狀態", "重要提醒"],
   "/briefing": ["市場快報", "30 秒看懂市場燈號", "下一步行動", "資料邊界"],
@@ -75,6 +77,7 @@ const forbiddenVisibleFragments = [
 ];
 
 const routeResults = [];
+const inaccessibleRouteResults = [];
 
 for (const route of publicRoutes) {
   try {
@@ -108,7 +111,27 @@ for (const route of publicRoutes) {
   }
 }
 
-const status = routeResults.every((result) => result.pass) ? "ok" : "blocked";
+for (const route of inaccessiblePhase2Routes) {
+  try {
+    const response = await fetch(`${baseUrl}${route}`);
+    inaccessibleRouteResults.push({
+      pass: response.status === 404,
+      route,
+      status: response.status
+    });
+  } catch (error) {
+    inaccessibleRouteResults.push({
+      error: error instanceof Error ? error.message : String(error),
+      pass: false,
+      route
+    });
+  }
+}
+
+const status =
+  routeResults.every((result) => result.pass) && inaccessibleRouteResults.every((result) => result.pass)
+    ? "ok"
+    : "blocked";
 
 console.log(
   JSON.stringify(
@@ -116,7 +139,9 @@ console.log(
       status,
       guardedStatus: "phase_1_public_beta_public_visible_residue_cleanup_ready_for_users",
       checkedRoutes: publicRoutes.length,
+      checkedInaccessiblePhase2Routes: inaccessiblePhase2Routes.length,
       routeResults,
+      inaccessibleRouteResults,
       publicDataSource: "mock",
       scoreSource: "mock"
     },
