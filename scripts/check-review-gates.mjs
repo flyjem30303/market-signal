@@ -3658,6 +3658,11 @@ const checks = [
     name: "phase-1-row-coverage-readonly-result-20260615-a"
   },
   {
+    command: [node, "scripts/check-phase-1-twii-etf-missing-rows-backfill-readiness.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-twii-etf-missing-rows-backfill-readiness"
+  },
+  {
     command: [node, "scripts/check-phase-1-data-online-readonly-operator-decision-record-no-execution.mjs"],
     expectStatus: "ok",
     name: "phase-1-data-online-readonly-operator-decision-record-no-execution"
@@ -6714,6 +6719,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "phase-1-data-online-bounded-readonly-execution-guard",
   "phase-1-data-online-bounded-readonly-attempt-result-20260615-a",
   "phase-1-row-coverage-readonly-result-20260615-a",
+  "phase-1-twii-etf-missing-rows-backfill-readiness",
   "phase-1-data-online-readonly-operator-decision-record-no-execution",
   "twii-exact-execution-preflight-repair-selector",
   "twii-source-rights-outcome-acceptance-gate",

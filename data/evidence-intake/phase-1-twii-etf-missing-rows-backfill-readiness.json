@@ -1,0 +1,83 @@
+{
+  "status": "phase_1_twii_etf_missing_rows_backfill_readiness_ready_not_executable",
+  "packetMode": "phase_1_twii_etf_missing_rows_backfill_readiness",
+  "createdAt": "2026-06-15",
+  "sourceEvidence": {
+    "aggregateReadonlyResult": "data/evidence-intake/phase-1-bounded-readonly-attempt-result-20260615-a.json",
+    "rowCoverageReadonlyResult": "data/evidence-intake/phase-1-row-coverage-readonly-result-20260615-a.json",
+    "twiiCandidateArtifact": "data/candidates/twii-sanitized-candidate.json",
+    "etfRightsDecisionSupport": "docs/A1_ETF_SOURCE_RIGHTS_OUTCOME_DECISION_SUPPORT.md"
+  },
+  "coverage": {
+    "expectedTotalRows": 360,
+    "observedTotalRows": 182,
+    "missingRows": 178,
+    "requiredTradingSessions": 60,
+    "targetRelation": "daily_prices"
+  },
+  "lanes": [
+    {
+      "lane": "TWII",
+      "symbols": ["TWII"],
+      "observedRows": 0,
+      "missingRows": 60,
+      "candidateArtifactPath": "data/candidates/twii-sanitized-candidate.json",
+      "candidateStatus": "present_pending_pm_review",
+      "nextRoute": "twii_no_write_candidate_review_then_write_gate_preflight",
+      "executionReady": false,
+      "writeGateReady": false,
+      "why": "TWII has a sanitized aggregate-only candidate artifact for the 60 missing rows, but PM must still accept the candidate for a no-write review chain and prepare target table, rollback, dry-run, and post-run review gates before any write."
+    },
+    {
+      "lane": "ETF",
+      "symbols": ["0050", "006208"],
+      "observedRows": 2,
+      "missingRows": 118,
+      "sourceRightsStatus": "blocked_legal_and_redistribution_terms_unapproved",
+      "candidateStatus": "blocked_no_candidate_generation",
+      "nextRoute": "etf_source_rights_and_field_contract_resolution",
+      "executionReady": false,
+      "writeGateReady": false,
+      "why": "ETF coverage can close 118 rows, but no source lane is accepted for storage, retention, redistribution, attribution, derived analysis, rate limits, and delayed or missing wording. Do not generate ETF candidates yet."
+    },
+    {
+      "lane": "TW_EQUITY",
+      "symbols": ["2330", "2382", "2308"],
+      "observedRows": 180,
+      "missingRows": 0,
+      "nextRoute": "hold_no_backfill_needed",
+      "executionReady": false,
+      "writeGateReady": false,
+      "why": "The current Phase 1 row coverage validator reports 60 of 60 rows for each Level 1 equity symbol, so no missing-row backfill is needed for this lane now."
+    }
+  ],
+  "requiredBeforeAnyWrite": [
+    "sourceRightsAccepted",
+    "targetTableBoundaryAccepted",
+    "dryRunReportAccepted",
+    "rollbackRetentionAccepted",
+    "postRunReviewAccepted"
+  ],
+  "recommendation": "prioritize_twii_no_write_candidate_review_before_etf",
+  "parallelWork": {
+    "PM": "Open the TWII no-write candidate review route, keep it review-only, and prepare the write-gate preflight without executing writes.",
+    "A1": "Continue ETF source-rights and field-contract resolution; no ETF candidate generation until one source lane is accepted.",
+    "A2": "Keep public copy honest: mock boundary, delayed/missing data wording, and no real-data or investment-advice claims."
+  },
+  "safety": {
+    "publicDataSource": "mock",
+    "scoreSource": "mock",
+    "sqlExecuted": false,
+    "supabaseWriteAttempted": false,
+    "marketDataFetched": false,
+    "marketDataIngested": false,
+    "dailyPricesMutated": false,
+    "stagingRowsCreated": false,
+    "rowPayloadsPrinted": false,
+    "rawPayloadsPrinted": false,
+    "secretsPrinted": false,
+    "rowCoveragePointsAwarded": false,
+    "sourcePromotionAllowed": false,
+    "scoreSourceRealAllowed": false
+  }
+}

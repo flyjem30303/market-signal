@@ -2,6 +2,41 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 TWII + ETF Missing Rows Backfill Readiness
+
+Status: `phase_1_twii_etf_missing_rows_backfill_readiness_ready_not_executable`
+
+CEO decision:
+
+- Treat the 2026-06-15 row coverage readonly result as the current aggregate-only coverage baseline.
+- Route the missing-row work into three lanes instead of treating all 178 missing rows as one undifferentiated blocker.
+- Prioritize TWII no-write candidate review before ETF because TWII already has a sanitized aggregate-only candidate artifact; keep ETF rights and field-contract work parallel.
+- Keep public runtime and score state in mock mode until write/backfill, readback, rollback, freshness, disclosure, and promotion gates pass.
+
+PM completed:
+
+- Added `data/evidence-intake/phase-1-twii-etf-missing-rows-backfill-readiness.json`.
+- Added `docs/PHASE_1_TWII_ETF_MISSING_ROWS_BACKFILL_READINESS.md`.
+- Added `check:phase-1-twii-etf-missing-rows-backfill-readiness`.
+- Registered the checker in the focused review gate.
+
+Current lane split:
+
+- TWII: `0/60`, missing `60`; candidate artifact exists at `data/candidates/twii-sanitized-candidate.json`, but remains `present_pending_pm_review`.
+- ETF: `2/120`, missing `118`; remains blocked by `legal_and_redistribution_terms_unapproved`, with no candidate generation allowed.
+- TW equity: `180/180`, missing `0`; no current backfill needed for `2330`, `2382`, or `2308`.
+
+Current data-online position:
+
+- Phase 1 remains data-online `NO_GO`.
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+- The readiness packet does not execute SQL, write Supabase, mutate `daily_prices`, fetch market data, ingest market data, award row coverage points, or promote public real-data mode.
+
+Next route:
+
+CEO should open the TWII no-write candidate review route and write-gate preflight while A1 continues ETF source-rights and field-contract resolution in parallel.
+
 ### Phase 1 Data Online Bounded Readonly Attempt Result Accepted
 
 Status: `phase_1_data_online_bounded_readonly_attempt_result_20260615_a_ready`
