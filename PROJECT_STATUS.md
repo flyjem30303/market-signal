@@ -2,6 +2,40 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Production Build Readiness
+
+Status: `phase_1_production_build_ready_data_online_no_go`
+
+CEO decision:
+
+- Treat production build readiness as the current mainline launch-engineering proof because public route readability is now stable.
+- Separate deployable frontend readiness from data-online readiness: the site can build for production, but Phase 1 is not fully launch-complete until the data online gate turns GO.
+- Keep visual/UX polish behind the stronger Phase 1 launch blockers unless it affects public comprehension or trust.
+
+PM completed:
+
+- Ran the production Next.js build without modifying Supabase, SQL, staging rows, `daily_prices`, public data source, score source, or market-data rows.
+- Confirmed the production route manifest includes the public Phase 1 route set: `/`, `/briefing`, `/weekly`, `/membership`, `/stocks/TWII`, `/stocks/0050`, `/stocks/006208`, `/stocks/2330`, `/methodology`, `/disclaimer`, `/terms`, and `/privacy`.
+- Kept internal/debug routes out of the public completion claim; they are build-visible but not part of the public Phase 1 user promise.
+
+Verified:
+
+- `cmd.exe /c npm run build` passes.
+- Build output uses `.env.local`, compiles successfully, checks types, and generates 25 static pages.
+- Build warnings are limited to webpack cache big-string serialization warnings; no blocking build error was found.
+
+Current boundary:
+
+- Frontend production build readiness is `READY`.
+- Data online remains `NO_GO` until coverage/source-rights/operator-value gates are resolved.
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+- No SQL, Supabase read/write, staging row, `daily_prices` mutation, market-data fetch/ingestion, source promotion, score promotion, secret output, or public real-data claim occurred.
+
+Next route:
+
+CEO should run a focused post-build verification bundle, then keep PM on the shortest path to data-online GO while preserving the now-green production build route.
+
 ### Phase 1 Public Pages Readability Cleanup
 
 Status: `phase_1_public_pages_readability_cleanup_ready`
