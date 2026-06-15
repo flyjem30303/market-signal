@@ -870,6 +870,7 @@
     "check:phase-1-data-online-external-platform-evidence-acceptance-ledger-no-execution": "node scripts/check-phase-1-data-online-external-platform-evidence-acceptance-ledger-no-execution.mjs",
     "check:phase-1-data-online-external-platform-evidence-collection-packet-no-execution": "node scripts/check-phase-1-data-online-external-platform-evidence-collection-packet-no-execution.mjs",
     "check:phase-1-data-online-external-platform-completed-evidence-validator-no-execution": "node scripts/check-phase-1-data-online-external-platform-completed-evidence-validator-no-execution.mjs",
+    "check:phase-1-data-online-external-platform-ledger-sync-candidate-no-execution": "node scripts/check-phase-1-data-online-external-platform-ledger-sync-candidate-no-execution.mjs",
     "check:twii-exact-execution-preflight-repair-selector": "node scripts/check-twii-exact-execution-preflight-repair-selector.mjs",
     "check:twii-source-rights-outcome-acceptance-gate": "node scripts/check-twii-source-rights-outcome-acceptance-gate.mjs",
     "check:twii-field-contract-asset-mapping-alignment-gate": "node scripts/check-twii-field-contract-asset-mapping-alignment-gate.mjs",

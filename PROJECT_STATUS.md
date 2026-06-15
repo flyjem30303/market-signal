@@ -2,6 +2,54 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Data Online External Platform Ledger Sync Candidate No Execution
+
+Status: `phase_1_data_online_external_platform_ledger_sync_candidate_no_execution_ready`
+
+CEO decision:
+
+- Add a ledger sync candidate after the completed-evidence validator.
+- Convert the five validator-passing completed evidence observations into ledger-ready accepted entries.
+- Keep the candidate review-only; it does not mutate the acceptance ledger, open readonly gate, or authorize write gate.
+
+PM completed:
+
+- Added `docs/PHASE_1_DATA_ONLINE_EXTERNAL_PLATFORM_LEDGER_SYNC_CANDIDATE_NO_EXECUTION.md`.
+- Added `data/evidence-intake/phase-1-external-platform-ledger-sync-candidate.json`.
+- Added `check:phase-1-data-online-external-platform-ledger-sync-candidate-no-execution`.
+- Registered the checker in the focused review gate.
+- Confirmed completed-evidence validator and current data-online state remain aligned.
+
+Candidate output:
+
+- `ledgerSyncCandidateReady=true`.
+- `candidateEntryCount=5`.
+- `mutatesAcceptanceLedgerNow=false`.
+- `readyForReadonlyGate=false`.
+- `writeGateExecutableNow=false`.
+
+Current data-online position:
+
+- Phase 1 data-online decision remains `PUBLIC_RUNTIME_READY_BUT_DATA_ONLINE_NO_GO`.
+- Current Level 1 coverage remains `182/360`; missing rows remain `178/360`.
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+
+Evidence:
+
+- `cmd.exe /c npm run check:phase-1-data-online-external-platform-ledger-sync-candidate-no-execution` passes and reports 5 candidate entries.
+- `cmd.exe /c npm run check:phase-1-data-online-external-platform-completed-evidence-validator-no-execution` passes.
+- `cmd.exe /c npm run check:phase-1-data-online-go-no-go-status` passes and remains `NO_GO`.
+- `cmd.exe /c npx tsc --noEmit` passes.
+
+Boundary:
+
+No SQL, Supabase connection/read/write, staging-row creation, `daily_prices` mutation, market-row fetch, raw payload output, endpoint response output, credential value output, operator value output, execution value storage, write-gate execution, candidate row acceptance, row coverage award, source promotion, score promotion, public real-data claim, real-time claim, official endorsement claim, investment advice claim, or production mutation occurred.
+
+Next route:
+
+CEO should prepare a reviewed ledger-sync apply gate that can decide whether to append the candidate into the acceptance ledger while still leaving readonly/write gates closed.
+
 ### Phase 1 Data Online External Platform Completed Evidence Validator No Execution
 
 Status: `phase_1_data_online_external_platform_completed_evidence_validator_no_execution_ready`
