@@ -3833,6 +3833,11 @@ const checks = [
     name: "phase-1-a1-etf-sanitized-reply-task-packet-no-row-payloads"
   },
   {
+    command: [node, "scripts/check-phase-1-public-route-user-facing-residue-gate.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-public-route-user-facing-residue-gate"
+  },
+  {
     command: [node, "scripts/check-phase-1-row-coverage-readonly-result-20260615-a.mjs"],
     expectStatus: "ok",
     name: "phase-1-row-coverage-readonly-result-20260615-a"
@@ -6949,6 +6954,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "phase-1-etf-sanitized-candidate-artifact-reply-execution-brief-no-row-payloads",
   "phase-1-etf-reply-pm-acceptance-apply-gate-no-row-payloads",
   "phase-1-a1-etf-sanitized-reply-task-packet-no-row-payloads",
+  "phase-1-public-route-user-facing-residue-gate",
   "phase-1-row-coverage-readonly-result-20260615-a",
   "phase-1-twii-etf-missing-rows-backfill-readiness",
   "phase-1-twii-write-attempt-stopline-rollup",

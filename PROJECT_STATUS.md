@@ -2,6 +2,42 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Latest Phase 1 public route user-facing residue gate slice
+
+Status: `phase_1_public_route_user_facing_residue_gate_ready`
+
+CEO decision:
+
+- Treat public-facing residue cleanup as a Phase 1 release-candidate gate, not a final polish item.
+- Keep the data line moving in parallel, but do not let public pages expose PM/A1/A2/A3/A4 workflow copy, command packets, blocker ledgers, commit hashes, or internal operator instructions.
+- Protect the BRIEF promise: users should see market state, reason, update time, risk boundary, and next reading path, not development process artifacts.
+
+PM completed:
+
+- Added `scripts/report-phase-1-public-route-user-facing-residue-gate.mjs`.
+- Added `data/evidence-intake/phase-1-public-route-user-facing-residue-gate.json`.
+- Added `docs/PHASE_1_PUBLIC_ROUTE_USER_FACING_RESIDUE_GATE.md`.
+- Added and registered `check:phase-1-public-route-user-facing-residue-gate`.
+
+Gate state:
+
+- `gateDecision=public_routes_must_not_show_internal_project_process_copy`
+- `targetRoutes=/,/briefing,/stocks/[symbol]`
+- `publicVisibleResidueAllowed=false`
+- `developerWorkflowCopyAllowed=false`
+- `userFacingCopyRequired=true`
+- `nextRoute=repair_any_public_route_residue_before_phase_1_release_candidate`
+
+Current boundary:
+
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+- No SQL execution, Supabase write, market-data fetch, raw payload output, row payload output, secret output, public real-data promotion, or investment-advice claim occurred.
+
+Next route:
+
+Run `check:phase-1-public-route-user-facing-residue-gate` before any Phase 1 release-candidate review and repair any detected public route residue.
+
 ### Latest Phase 1 A1 ETF sanitized reply task packet slice
 
 Status: `phase_1_a1_etf_sanitized_reply_task_packet_no_row_payloads_ready`
