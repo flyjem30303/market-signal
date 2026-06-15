@@ -2,6 +2,68 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Data Online Bounded Readonly Attempt Result Accepted
+
+Status: `phase_1_data_online_bounded_readonly_attempt_result_20260615_a_ready`
+
+CEO decision:
+
+- Execute exactly one bounded aggregate-only Supabase readonly attempt after the runner boundary passed.
+- Preserve the public runtime mock boundary until a separate write/backfill and promotion gate passes.
+- Store only sanitized aggregate evidence; do not store secrets, URL values, confirmation values, row payloads, raw payloads, endpoint response bodies, or stock-id payloads.
+
+PM completed:
+
+- Added a fast runner boundary gate and removed the slow nested checker dependency from the runner/stub path.
+- Implemented the runner's aggregate-only readonly path with `head: true` and exact count against `daily_prices`.
+- Executed one bounded readonly attempt for `attemptId=phase1-data-online-readonly-20260615-a`.
+- Ran immediate post-run review and accepted the result as sanitized aggregate readonly evidence only.
+- Added `data/evidence-intake/phase-1-bounded-readonly-attempt-result-20260615-a.json`.
+- Added `check:phase-1-data-online-bounded-readonly-runner-boundary`.
+- Added `check:phase-1-data-online-bounded-readonly-execution-guard`.
+- Added `check:phase-1-data-online-bounded-readonly-attempt-result-20260615-a`.
+- Registered the new focused review gates.
+
+Readonly result:
+
+- `remoteAttempted=true`.
+- `postRunReviewStatus=phase_1_data_online_bounded_readonly_post_run_review_accepted_aggregate_probe`.
+- `daily_prices.queryStatus=ok`.
+- `daily_prices.rowCount=1260`.
+- `rowPayloadIncluded=false`.
+- `rawPayloadIncluded=false`.
+- `secretsIncluded=false`.
+- `supabaseWriteAttempted=false`.
+- `dailyPricesMutated=false`.
+
+Current data-online position:
+
+- Phase 1 data-online decision is still not promoted to public real-data mode.
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+- The readonly evidence proves aggregate reachability only; it does not award row coverage points, execute backfill, write Supabase, or close the promotion gate.
+
+Evidence:
+
+- `cmd.exe /c npm run check:phase-1-data-online-bounded-readonly-execution-guard` passes.
+- `cmd.exe /c npm run check:phase-1-data-online-bounded-readonly-runner-boundary` passes.
+- `cmd.exe /c npm run check:phase-1-data-online-bounded-readonly-runner-stub-no-execution` passes.
+- `cmd.exe /c npm run run:phase-1-data-online-bounded-readonly-attempt-once -- --attempt-id phase1-data-online-readonly-20260615-a --scope aggregate-readonly-daily-prices-level1-coverage --aggregate-only --confirm CEO_APPROVED_PHASE1_DATA_ONLINE_READONLY_ONCE --real-readonly-boundary true --execute true` completed once and wrote only a sanitized tmp summary.
+- `cmd.exe /c npm run report:phase-1-data-online-bounded-readonly-post-run-review -- --summary-path tmp/phase-1-data-online-readonly-execution-phase1-data-online-readonly-20260615-a.json` accepted the aggregate probe.
+- `cmd.exe /c npm run check:phase-1-data-online-bounded-readonly-attempt-result-20260615-a` passes.
+- `cmd.exe /c npm run check:phase-1-data-online-go-no-go-status` passes and confirms public runtime remains `NO_GO` for data online.
+- `cmd.exe /c npx tsc --noEmit` passes.
+- `git diff --check` passes with line-ending warnings only.
+- `cmd.exe /c npm run check:review-gates` was attempted after registration but timed out after 244 seconds; do not treat the full focused review gate as passed for this slice.
+
+Boundary:
+
+No SQL, Supabase write, staging-row creation, `daily_prices` mutation, market-row fetch, market-data ingestion, raw payload output, endpoint response output, row payload output, stock-id payload output, credential value output, source promotion, score promotion, public real-data claim, real-time claim, official endorsement claim, investment advice claim, or production mutation occurred.
+
+Next route:
+
+CEO should route this accepted readonly aggregate evidence into either a write/backfill readiness gate or an env/schema repair path. PM should not set `publicDataSource=supabase` or `scoreSource=real` until write/backfill, coverage, quality, rollback, freshness, and public disclosure gates pass.
+
 ### Phase 1 Data Online Readonly Operator Decision Record No Execution
 
 Status: `phase_1_data_online_readonly_operator_decision_record_no_execution_ready`

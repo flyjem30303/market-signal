@@ -1,0 +1,46 @@
+{
+  "status": "bounded_readonly_attempt_result_accepted_aggregate_only",
+  "packetMode": "bounded_readonly_attempt_result",
+  "attemptId": "phase1-data-online-readonly-20260615-a",
+  "attemptedAt": "2026-06-15",
+  "scope": "aggregate_readonly_daily_prices_level1_coverage",
+  "remoteAttempted": true,
+  "postRunReviewStatus": "phase_1_data_online_bounded_readonly_post_run_review_accepted_aggregate_probe",
+  "postRunReviewOutcome": "accepted_aggregate_readonly_probe_no_write",
+  "aggregateProbe": {
+    "dailyPrices": {
+      "table": "daily_prices",
+      "queryStatus": "ok",
+      "rowCount": 1260,
+      "errorCategory": "none",
+      "errorCode": "none"
+    }
+  },
+  "outputPolicy": {
+    "aggregateOnly": true,
+    "rowPayloadIncluded": false,
+    "rawPayloadIncluded": false,
+    "endpointResponseBodyIncluded": false,
+    "stockIdPayloadIncluded": false,
+    "secretsIncluded": false,
+    "supabaseUrlIncluded": false,
+    "confirmationPhraseIncluded": false
+  },
+  "safety": {
+    "publicDataSource": "mock",
+    "scoreSource": "mock",
+    "sqlExecuted": false,
+    "supabaseWriteAttempted": false,
+    "marketDataFetched": false,
+    "marketDataIngested": false,
+    "dailyPricesMutated": false,
+    "stagingRowsCreated": false,
+    "rawPayloadsPrinted": false,
+    "rowPayloadsPrinted": false,
+    "secretsPrinted": false,
+    "publicPromotionAllowed": false,
+    "scoreSourceRealAllowed": false,
+    "investmentAdviceClaimAllowed": false
+  },
+  "nextRecommendedSlice": "phase_1_data_online_aggregate_readonly_result_to_write_gate_or_env_repair"
+}

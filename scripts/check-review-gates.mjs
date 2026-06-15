@@ -3638,6 +3638,21 @@ const checks = [
     name: "phase-1-data-online-bounded-readonly-runner-stub-no-execution"
   },
   {
+    command: [node, "scripts/check-phase-1-data-online-bounded-readonly-runner-boundary.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-data-online-bounded-readonly-runner-boundary"
+  },
+  {
+    command: [node, "scripts/check-phase-1-data-online-bounded-readonly-execution-guard.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-data-online-bounded-readonly-execution-guard"
+  },
+  {
+    command: [node, "scripts/check-phase-1-data-online-bounded-readonly-attempt-result-20260615-a.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-data-online-bounded-readonly-attempt-result-20260615-a"
+  },
+  {
     command: [node, "scripts/check-phase-1-data-online-readonly-operator-decision-record-no-execution.mjs"],
     expectStatus: "ok",
     name: "phase-1-data-online-readonly-operator-decision-record-no-execution"
@@ -6690,6 +6705,9 @@ const publicBetaFocusedReviewGateNames = new Set([
   "phase-1-data-online-readonly-gate-preflight-no-execution",
   "phase-1-data-online-bounded-readonly-attempt-packet-no-execution",
   "phase-1-data-online-bounded-readonly-runner-stub-no-execution",
+  "phase-1-data-online-bounded-readonly-runner-boundary",
+  "phase-1-data-online-bounded-readonly-execution-guard",
+  "phase-1-data-online-bounded-readonly-attempt-result-20260615-a",
   "phase-1-data-online-readonly-operator-decision-record-no-execution",
   "twii-exact-execution-preflight-repair-selector",
   "twii-source-rights-outcome-acceptance-gate",
