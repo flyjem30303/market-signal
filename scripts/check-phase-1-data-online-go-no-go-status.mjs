@@ -158,6 +158,16 @@ console.log(
       guardedStatus,
       decision,
       coverage: expectedCoverage,
+      aggregateArtifacts: {
+        accepted: writeRunnerCandidate.aggregateArtifactSetStatus?.accepted === true,
+        twiiArtifactPath: writeRunnerCandidate.aggregateArtifactSetStatus?.twiiArtifactPath ?? null,
+        etfArtifactPath: writeRunnerCandidate.aggregateArtifactSetStatus?.etfArtifactPath ?? null,
+        twiiCandidateRows: writeRunnerCandidate.aggregateArtifactSetStatus?.twiiCandidateRows ?? null,
+        etfCandidateRows: writeRunnerCandidate.aggregateArtifactSetStatus?.etfCandidateRows ?? null,
+        totalExpectedRows: writeRunnerCandidate.aggregateArtifactSetStatus?.totalExpectedRows ?? 178,
+        rowPayloadArtifactStillRequired:
+          writeRunnerCandidate.aggregateArtifactSetStatus?.rowPayloadArtifactStillRequired ?? true
+      },
       rowPayloadCandidate: {
         status: writeRunnerCandidate.status ?? null,
         blockedReasons: writeRunnerCandidate.blockedReasons ?? [],

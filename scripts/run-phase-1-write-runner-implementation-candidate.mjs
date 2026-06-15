@@ -46,8 +46,28 @@ const rowPayloadStatus = {
   rowPayloadCandidateInvalidOptionalNumberCount:
     rowPayloadCandidateValidation?.invalidOptionalNumberCount ?? null
 };
+const aggregateArtifactSetStatus = {
+  accepted: false,
+  twiiArtifactPath: candidatePaths.twii,
+  etfArtifactPath: candidatePaths.etf,
+  twiiExpectedRows: expected.twiiMissingRows,
+  etfExpectedRows: expected.etfMissingRows,
+  totalExpectedRows: expected.fullLevel1MissingRows,
+  twiiCandidateRows: candidates.twii.candidateMissingRows ?? null,
+  etfCandidateRows: candidates.etf.candidateMissingRows ?? null,
+  twiiRowPayloadIncluded: rowPayloadStatus.twiiRowPayloadIncluded,
+  etfRowPayloadIncluded: rowPayloadStatus.etfRowPayloadIncluded,
+  rowPayloadArtifactStillRequired: true
+};
 
 validateAggregateShape();
+aggregateArtifactSetStatus.accepted =
+  candidates.twii.candidateMissingRows === expected.twiiMissingRows &&
+  candidates.etf.candidateMissingRows === expected.etfMissingRows &&
+  candidates.twii.sanitizedAggregateOnly === true &&
+  candidates.etf.sanitizedAggregateOnly === true &&
+  !rowPayloadStatus.twiiRawPayloadIncluded &&
+  !rowPayloadStatus.etfRawPayloadIncluded;
 
 const rowPayloadsReady =
   rowPayloadStatus.rowPayloadCandidateAccepted ||
@@ -73,6 +93,7 @@ const output = {
   targetTable: "daily_prices",
   expected,
   candidatePaths,
+  aggregateArtifactSetStatus,
   rowPayloadStatus,
   rowPayloadCandidateValidationStatus: rowPayloadCandidateValidation?.status ?? null,
   rowPayloadCandidateValidationProblems: rowPayloadCandidateValidation?.problems ?? [],
