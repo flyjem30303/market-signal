@@ -2,6 +2,54 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Final Operator Boolean Reply Template Ready
+
+Status: `phase_1_final_operator_boolean_reply_template_ready`
+
+CEO decision:
+
+- Provide a local ignored template command so the final two booleans can be supplied without copying any secret, phrase value, switch value, SQL, payload, or row data into Git.
+- The template defaults to `false/false`; this is safe and does not authorize execution.
+
+PM completed:
+
+- Added `scripts/write-phase-1-final-operator-boolean-reply-template.mjs`.
+- Added `scripts/check-phase-1-final-operator-boolean-reply-template.mjs`.
+- Registered `write:phase-1-final-operator-boolean-reply-template` and `check:phase-1-final-operator-boolean-reply-template`.
+- Updated `docs/PHASE_1_FINAL_OPERATOR_BOOLEAN_REPLY_INTAKE.md` with the safe local template command.
+- Ran the write command once to create ignored local file `tmp/phase-1-final-operator-boolean-reply.json`.
+
+Verified:
+
+- `cmd.exe /c npm run check:phase-1-final-operator-boolean-reply-template` passes.
+- `cmd.exe /c npm run write:phase-1-final-operator-boolean-reply-template` writes only `executeSwitchPresent=false` and `confirmationPhrasePresent=false`.
+- `cmd.exe /c npm run check:phase-1-final-operator-boolean-reply-intake` reads the local template as `operator_boolean_reply_safe_but_not_complete`.
+
+Current blocker view:
+
+- The safe reply file now exists locally under ignored `tmp/`.
+- `executeSwitchPresent=false`.
+- `confirmationPhrasePresent=false`.
+- Write gate remains non-executable and Phase 1 data online remains `NO_GO`.
+
+Current boundary:
+
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+- No switch value, confirmation phrase, operator value, credential value, raw payload, row payload, or secret was printed, stored, hashed, compared, or transformed.
+- No SQL, Supabase read/write, staging row, `daily_prices` mutation, market-data fetch/ingestion, source promotion, score promotion, public real-data claim, or investment-advice claim occurred.
+
+Next route:
+
+If CEO/chairman decides both final operator booleans are present, edit only `tmp/phase-1-final-operator-boolean-reply.json` to:
+
+```json
+{
+  "executeSwitchPresent": true,
+  "confirmationPhrasePresent": true
+}
+```
+
 ### Phase 1 Final Operator Boolean Reply Intake Ready
 
 Status: `phase_1_final_operator_boolean_reply_intake_ready_waiting_reply`

@@ -31,6 +31,22 @@ Both fields must be booleans.
 
 If either field is `false`, the reply can still be read as a safe boolean reply, but Phase 1 data online remains `NO_GO`.
 
+## Safe Local Template
+
+Use this command to create a local ignored `false/false` template:
+
+```text
+cmd.exe /c npm run write:phase-1-final-operator-boolean-reply-template
+```
+
+Use this command to validate the template generator:
+
+```text
+cmd.exe /c npm run check:phase-1-final-operator-boolean-reply-template
+```
+
+The generated `false/false` template does not authorize execution. It only creates the file shape under `tmp/` so the two booleans can later be edited without exposing values.
+
 ## Forbidden Reply Fields
 
 - `executeSwitchValue`
@@ -79,4 +95,3 @@ If either field is `false`, the reply can still be read as a safe boolean reply,
 ## Next Route
 
 After the `tmp` reply exists and both booleans are true, PM may create a separate no-secret reviewed result artifact. This intake gate itself does not open the write gate.
-
