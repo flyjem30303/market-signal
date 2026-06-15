@@ -2,6 +2,56 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Data Online Single Authorization Packet Review Only
+
+Status: `phase_1_data_online_single_authorization_packet_review_only_ready_no_execution`
+
+CEO decision:
+
+- Open the single review-only authorization packet after all required A1/A2 outcomes were accepted.
+- Keep this packet as preparation only; it does not execute, connect, write, read back, promote, or claim real public data.
+- Require a later separately named operator decision before any bounded data-online attempt.
+
+PM completed:
+
+- Added `docs/PHASE_1_DATA_ONLINE_SINGLE_AUTHORIZATION_PACKET_REVIEW_ONLY.md`.
+- Added `check:phase-1-data-online-single-authorization-packet-review-only`.
+- Registered the checker in the focused review gate.
+- Confirmed the selected route is `open_phase_1_data_online_single_authorization_packet_review_only`.
+
+Required future execution fields:
+
+- `operator_decision_required`
+- `execute_switch_required`
+- `confirmation_phrase_required`
+- `server_only_credential_presence_required`
+- `rollback_dry_run_required`
+- `aggregate_readback_required`
+- `post_run_review_required`
+- `duplicate_rejection_required`
+
+Current data-online position:
+
+- Phase 1 data-online decision remains `PUBLIC_RUNTIME_READY_BUT_DATA_ONLINE_NO_GO`.
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+- The next possible progress route is a separately named operator decision packet.
+
+Evidence:
+
+- `cmd.exe /c npm run check:phase-1-data-online-single-authorization-packet-review-only` passes.
+- `cmd.exe /c npm run check:phase-1-data-online-authorization-route-selector` passes.
+- `cmd.exe /c npm run check:phase-1-data-online-accepted-outcome-aggregation-gate` passes.
+- `cmd.exe /c npm run check:phase-1-data-online-go-no-go-status` passes and remains `NO_GO`.
+
+Boundary:
+
+No SQL, Supabase connection/read/write, staging-row creation, `daily_prices` mutation, market-row fetch, raw payload output, endpoint response output, operator value storage, candidate row acceptance, row coverage award, source promotion, score promotion, public real-data claim, real-time claim, official endorsement claim, investment advice claim, or production mutation occurred.
+
+Next route:
+
+Prepare the separately named operator decision packet for one bounded Phase 1 data-online attempt, still fail-closed and no-execution until explicit operator fields are present.
+
 ### Phase 1 Data Online Outcome Evidence Accepted Route
 
 Status: `phase_1_data_online_outcome_evidence_accepted_route_ready_no_execution`
