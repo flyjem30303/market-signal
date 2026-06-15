@@ -2,6 +2,51 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Write-Gate Dry Run After Preflight Requirements Ready
+
+Status: `phase_1_write_gate_dry_run_after_preflight_requirements_ready_no_execution`
+
+CEO decision:
+
+- Move from preflight requirements closure into a bounded dry-run packet.
+- Keep this as an acceleration step toward data online, not a real write attempt.
+- The next route is an explicit execution packet draft; SQL/Supabase write and runtime promotion remain separate.
+
+PM completed:
+
+- Added `data/evidence-intake/phase-1-write-gate-dry-run-after-preflight-requirements.json`.
+- Added `docs/PHASE_1_WRITE_GATE_DRY_RUN_AFTER_PREFLIGHT_REQUIREMENTS.md`.
+- Added and registered `check:phase-1-write-gate-dry-run-after-preflight-requirements`.
+
+Dry-run state:
+
+- `writeGatePreflightRequirementsClosed=true`
+- `dryRunReady=true`
+- `writeGateExecutableNow=false`
+- `dryRunMode=no_sql_no_supabase_write_no_daily_prices_mutation`
+- `boundedAttemptScope=twii_and_etf_phase_1_missing_row_closure_only`
+
+Coverage target:
+
+- `fullLevel1ExpectedRows=360`
+- `fullLevel1ObservedRows=182`
+- `fullLevel1MissingRows=178`
+- `twEquityObservedRows=180`
+- `twEquityExpectedRows=180`
+- `twiiMissingRows=60`
+- `etfMissingRows=118`
+
+Current boundary:
+
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+- No switch value, confirmation phrase, operator value, credential value, raw payload, row payload, or secret was printed, stored, hashed, compared, or transformed.
+- No SQL, Supabase read/write, staging row, `daily_prices` mutation, market-data fetch/ingestion, source promotion, score promotion, public real-data claim, or investment-advice claim occurred.
+
+Next route:
+
+Prepare `phase_1_write_gate_execution_packet_draft_no_execution`.
+
 ### Phase 1 Write-Gate Preflight Requirements Closure Ready
 
 Status: `phase_1_write_gate_preflight_requirements_closure_ready_no_execution`

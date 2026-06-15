@@ -3728,6 +3728,11 @@ const checks = [
     name: "phase-1-write-gate-preflight-requirements-closure"
   },
   {
+    command: [node, "scripts/check-phase-1-write-gate-dry-run-after-preflight-requirements.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-write-gate-dry-run-after-preflight-requirements"
+  },
+  {
     command: [node, "scripts/check-phase-1-row-coverage-readonly-result-20260615-a.mjs"],
     expectStatus: "ok",
     name: "phase-1-row-coverage-readonly-result-20260615-a"
@@ -6823,6 +6828,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "phase-1-final-operator-boolean-reviewed-result",
   "phase-1-write-gate-preflight-after-operator-booleans",
   "phase-1-write-gate-preflight-requirements-closure",
+  "phase-1-write-gate-dry-run-after-preflight-requirements",
   "phase-1-row-coverage-readonly-result-20260615-a",
   "phase-1-twii-etf-missing-rows-backfill-readiness",
   "phase-1-twii-write-attempt-stopline-rollup",
