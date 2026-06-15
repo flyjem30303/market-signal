@@ -3703,6 +3703,11 @@ const checks = [
     name: "phase-1-twii-operator-value-blocker-rollup"
   },
   {
+    command: [node, "scripts/check-phase-1-twii-operator-action-bridge.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-twii-operator-action-bridge"
+  },
+  {
     command: [node, "scripts/check-phase-1-data-online-readonly-operator-decision-record-no-execution.mjs"],
     expectStatus: "ok",
     name: "phase-1-data-online-readonly-operator-decision-record-no-execution"
@@ -6768,6 +6773,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "phase-1-twii-etf-missing-rows-backfill-readiness",
   "phase-1-twii-write-attempt-stopline-rollup",
   "phase-1-twii-operator-value-blocker-rollup",
+  "phase-1-twii-operator-action-bridge",
   "phase-1-data-online-readonly-operator-decision-record-no-execution",
   "twii-exact-execution-preflight-repair-selector",
   "twii-source-rights-outcome-acceptance-gate",

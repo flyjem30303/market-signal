@@ -2,6 +2,48 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 TWII Operator Action Bridge Ready
+
+Status: `phase_1_twii_operator_action_bridge_ready_not_executable`
+
+CEO decision:
+
+- Stop adding TWII preparation-only gates before external operator values exist.
+- Use the existing `data/source-gates/twii-real-operator-intake-checklist-packet.json` as the external value collection surface.
+- Treat the new bridge as a PM/CEO routing surface that connects the 6 checklist items with the 9 write-gate blockers.
+
+PM completed:
+
+- Added `data/evidence-intake/phase-1-twii-operator-action-bridge.json`.
+- Added `docs/PHASE_1_TWII_OPERATOR_ACTION_BRIDGE.md`.
+- Added `scripts/check-phase-1-twii-operator-action-bridge.mjs`.
+- Registered `check:phase-1-twii-operator-action-bridge` in `package.json` and the focused review gate.
+
+Verified:
+
+- `cmd.exe /c npm run check:phase-1-twii-operator-action-bridge` passes.
+- `cmd.exe /c npm run check:twii-real-operator-intake-checklist-packet-gate-preflight` passes.
+- `cmd.exe /c npm run check:phase-1-twii-operator-value-blocker-rollup` passes.
+- `cmd.exe /c npm run check:phase-1-twii-write-attempt-stopline-rollup` passes.
+- `cmd.exe /c npx tsc --noEmit` passes.
+
+Current blocker view:
+
+- Current action status is `waiting_external_operator_values`.
+- Operator checklist is still `6/6` missing.
+- Write-gate blocker count remains `9`.
+- Next review route after external values exist: `operator_values_shape_recheck_then_pre_execution_readiness_recheck`.
+
+Current boundary:
+
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+- No SQL, Supabase read/write, staging row, `daily_prices` mutation, market-data fetch/ingestion, candidate-row acceptance, row coverage scoring, source promotion, score promotion, secret output, env value output, row payload output, raw payload output, or public real-data claim occurred.
+
+Next route:
+
+CEO/PM should ask for or receive only presence-level external operator checklist results. The checklist value bodies, confirmation phrase, authorization value, execute switch value, and server credentials must remain outside the repo and outside logs. A1 should continue legal-free automated source and coverage artifacts in parallel.
+
 ### Phase 1 Public Data Readiness Status Rendered
 
 Status: `phase_1_public_data_readiness_status_rendered_mock_no_go`
