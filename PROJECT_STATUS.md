@@ -2,6 +2,45 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 TWII Write Attempt Stopline Rollup
+
+Status: `phase_1_twii_write_attempt_stopline_rollup_ready_not_executable`
+
+CEO decision:
+
+- Do not repeat already-green TWII review-only gates.
+- Treat TWII as advanced through candidate intake, report-only chain, bounded execution packet readiness, explicit operator packet preparation, and separate authorized attempt preparation.
+- Continue to final authorization stopline preparation before any execution.
+- Keep execution blocked until external operator decision, authorization, execute switch, confirmation phrase, server-only credential presence, rollback dry-run, aggregate readback, post-run review, and duplicate rejection proof are all present and reviewed.
+
+PM completed:
+
+- Added `data/evidence-intake/phase-1-twii-write-attempt-stopline-rollup.json`.
+- Added `docs/PHASE_1_TWII_WRITE_ATTEMPT_STOPLINE_ROLLUP.md`.
+- Added `check:phase-1-twii-write-attempt-stopline-rollup`.
+- Registered the checker in the focused review gate.
+
+Current TWII execution position:
+
+- Target lane: `TWII`.
+- Target table: `daily_prices`.
+- Maximum candidate rows: `60`.
+- Current stopline: `separate_authorized_execution_attempt_preparation_ready_waiting_external_values`.
+- Next route: `final_authorization_stopline_preparation_before_any_execution`.
+- `executionAllowedNow=false`.
+- `writeGateExecutableNow=false`.
+
+Current data-online position:
+
+- Phase 1 remains data-online `NO_GO`.
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+- No SQL, Supabase write, Supabase read in this rollup, staging rows, `daily_prices` mutation, market-data fetch/ingestion, candidate-row acceptance, row coverage scoring, raw payload output, row payload output, stock-id payload output, secret output, source promotion, score promotion, or public real-data claim occurred.
+
+Next route:
+
+CEO should prepare the final authorization stopline packet. A1 should continue ETF source-rights/field-contract resolution in parallel. A2 should keep public copy aligned with mock mode and no investment-advice claims.
+
 ### Phase 1 TWII + ETF Missing Rows Backfill Readiness
 
 Status: `phase_1_twii_etf_missing_rows_backfill_readiness_ready_not_executable`
