@@ -2,6 +2,38 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Latest TWSE runtime mock wire public copy repair
+
+Status: `twse_openapi_runtime_mock_consumer_wire_public_copy_readable`
+
+CEO decision:
+
+- Treat unreadable TWSE runtime mock-wire copy as a Phase 1 launch-readiness defect, not as final UI polish.
+- Repair only the public-facing runtime copy and the checker that guards it.
+- Keep the runtime source and score source locked to mock while the data-online path remains `NO_GO`.
+
+PM completed:
+
+- Rewrote `src/lib/twse-openapi-runtime-market-mood.ts` into readable Traditional Chinese product copy.
+- Rewrote `src/components/twse-openapi-runtime-mock-consumer-wire-card.tsx` so the card states source wiring, update time, impact level, mock-data boundary, next observation, and non-investment-advice boundary in user language.
+- Updated `scripts/check-twse-openapi-runtime-mock-consumer-wire.mjs` to require readable public phrases and include the rendered card source in the guard.
+
+Verification:
+
+- `cmd.exe /c npm run check:twse-openapi-runtime-mock-consumer-wire` passed.
+- `cmd.exe /c npm run check:phase-1-public-beta-final-readiness-rollup` passed.
+- `cmd.exe /c npm run check:localhost-health` passed.
+- `git diff --check` passed.
+
+Boundary:
+
+- No SQL, Supabase read/write, staging row creation, `daily_prices` mutation, raw market-data fetch/store/commit, row payload read/output, source promotion, real score promotion, membership implementation, production env mutation, DNS change, Vercel mutation, or platform deploy occurred.
+- Runtime remains `publicDataSource=mock` and `scoreSource=mock`.
+
+Next:
+
+Continue Phase 1 by keeping public runtime surfaces readable while A1 works ETF source-rights evidence and TWII waits at the final operator stopline.
+
 ### Latest A1 source-rights unblock priority packet refresh
 
 Status: `a1_source_rights_unblock_priority_packet_ready_local_only_not_executable`

@@ -5,6 +5,7 @@ const reviewGatePath = "scripts/check-review-gates.mjs";
 const sourcePaths = [
   "src/lib/twse-openapi-runtime-mock-consumer-wire.ts",
   "src/lib/twse-openapi-runtime-market-mood.ts",
+  "src/components/twse-openapi-runtime-mock-consumer-wire-card.tsx",
   "src/lib/twse-openapi-parser-contract.ts",
   "src/lib/twse-openapi-parser-consumer-adapter.ts",
   "src/lib/twse-openapi-source-adapter-contract.ts"
@@ -38,6 +39,9 @@ if (status !== "ok") process.exitCode = 1;
 function checkSource(path) {
   const source = fs.existsSync(path) ? fs.readFileSync(path, "utf8") : "";
   const missing = source.length === 0 ? ["file exists"] : [];
+  for (const phrase of requiredReadablePhrases(path)) {
+    if (!source.includes(phrase)) missing.push(`required readable phrase: ${phrase}`);
+  }
   const forbiddenHits = forbiddenPatterns().filter((pattern) => pattern.test(source)).map(String);
   const markerHits = findHardMojibakeMarkers(source);
   return {
@@ -47,6 +51,26 @@ function checkSource(path) {
     pass: missing.length === 0 && forbiddenHits.length === 0 && markerHits.length === 0,
     path
   };
+}
+
+function requiredReadablePhrases(path) {
+  if (path.endsWith("twse-openapi-runtime-market-mood.ts")) {
+    return [
+      "示範資料可讀",
+      "正式資料已上線",
+      "不提供買賣建議"
+    ];
+  }
+
+  if (path.endsWith("twse-openapi-runtime-mock-consumer-wire-card.tsx")) {
+    return [
+      "資料來源示範接線",
+      "正式每日資料尚未啟用",
+      "不提供買賣建議"
+    ];
+  }
+
+  return [];
 }
 
 function forbiddenPatterns() {

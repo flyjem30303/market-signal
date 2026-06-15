@@ -6,10 +6,10 @@ export type TwseOpenApiRuntimeMarketMood = {
     scoreSource: "mock";
   };
   cause: string;
-  impactLevel: "示範觀察";
+  impactLevel: "中等影響";
   nextObservation: string;
   safetyLine: string;
-  status: "可閱讀示範" | "暫停解讀";
+  status: "示範資料可讀" | "示範資料暫停";
   summary: string;
   updatedAtLabel: string;
 };
@@ -18,8 +18,8 @@ export function getTwseOpenApiRuntimeMarketMood(): TwseOpenApiRuntimeMarketMood 
   const wire = getTwseOpenApiRuntimeMockConsumerWireSummary();
   const latestPoint = wire.handoff.latestPoint;
   const changePercent = wire.handoff.runtimeChange.changePercent;
-  const changeDirection = changePercent === null ? "尚無變化方向" : changePercent >= 0 ? "示範偏正向" : "示範偏保守";
-  const status = wire.status === "ready" ? "可閱讀示範" : "暫停解讀";
+  const changeDirection = changePercent === null ? "尚無可比較變化" : changePercent >= 0 ? "短線偏強" : "短線轉弱";
+  const status = wire.status === "ready" ? "示範資料可讀" : "示範資料暫停";
 
   return {
     boundary: {
@@ -28,19 +28,19 @@ export function getTwseOpenApiRuntimeMarketMood(): TwseOpenApiRuntimeMarketMood 
     },
     cause:
       wire.status === "ready"
-        ? `合成資料已通過 parser 到 runtime handoff，最新示範日期為 ${latestPoint?.tradeDate ?? "未標示"}，示範變化為 ${formatChangePercent(changePercent)}。`
-        : "合成資料尚未形成可讀 runtime handoff，畫面維持 fail-closed。",
-    impactLevel: "示範觀察",
+        ? `目前以合成資料驗證 parser 到 runtime 的接線，最新示範日期為 ${latestPoint?.tradeDate ?? "尚未產生"}，變化幅度為 ${formatChangePercent(changePercent)}。`
+        : "合成資料尚未通過 parser / runtime handoff，公開頁維持 fail-closed 示範狀態。",
+    impactLevel: "中等影響",
     nextObservation:
       wire.status === "ready"
-        ? "下一步等待資料支援線完成合法來源與 coverage handoff，再評估是否能進入正式資料 gate。"
-        : "下一步先修 parser / handoff，避免首頁顯示不可解讀的市場狀態。",
-    safetyLine: "目前只用合成資料演練產品體驗；不代表即時市場、不提供買賣建議，也不啟用真實分數。",
+        ? "下一步觀察資料來源權利、覆蓋率與寫入 gate 是否通過；通過前不啟用正式資料。"
+        : "下一步先修復 parser 或 handoff，再回到公開頁可讀性檢查。",
+    safetyLine: "目前仍是示範資料與示範分數，不提供買賣建議，也不代表正式資料已上線。",
     status,
     summary:
       wire.status === "ready"
-        ? `TWII mock runtime 已能讀取 ${wire.handoff.pointCount} 筆合成點位，提供市場氛圍示範：${changeDirection}。`
-        : "TWII mock runtime 尚未準備好，暫不提供市場氛圍示範。",
+        ? `TWSE OpenAPI runtime 示範接線已可讀，包含 ${wire.handoff.pointCount} 筆合成資料點，市場脈絡判讀為${changeDirection}。`
+        : "TWSE OpenAPI runtime 示範接線暫停，公開頁不應宣稱真實資料可用。",
     updatedAtLabel: latestPoint?.tradeDate ?? "尚無示範日期"
   };
 }
