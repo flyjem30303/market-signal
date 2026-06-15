@@ -52,6 +52,15 @@ export default async function BriefingPage() {
 
       <PublicBetaPublicStatusSurface />
 
+      <section className="panel stock-reading-summary" aria-label="市場簡報閱讀方式">
+        <p className="eyebrow">閱讀方式</p>
+        <h2>3 分鐘把市場燈號拆成原因</h2>
+        <p>
+          本頁先用燈號說明市場氣氛，再補上成因、風險與下一步觀察。正式資料尚未啟用前，所有數字都會維持示範資料標示，
+          避免使用者把公開 Beta 誤認為正式即時訊號。
+        </p>
+      </section>
+
       <section className="panel stock-reading-summary" aria-label="每日市場晨報">
         <p className="eyebrow">每日市場晨報</p>
         <h2>先看市場氣氛，再看風險，最後確認資料與風險邊界</h2>

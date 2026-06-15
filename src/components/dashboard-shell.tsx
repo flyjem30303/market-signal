@@ -55,7 +55,7 @@ export function DashboardShell({
   const riskList = snapshots.slice().sort((a, b) => b.riskScore - a.riskScore).slice(0, 4);
   const strongList = snapshots.slice().sort((a, b) => b.compositeScore - a.compositeScore).slice(0, 4);
   const isStockPage = includeSeoContent;
-  const scoreSourceLabel = "示範分數";
+  const scoreLabel = "示範分數";
 
   function selectAsset(next: Asset) {
     setSymbol(next.symbol);
@@ -105,9 +105,9 @@ export function DashboardShell({
       {isStockPage && (
         <>
           <StockRuntimeAtAGlance snapshot={snapshot} />
-          <StockDecisionCompass activeTab={activeTab} scoreSourceLabel={scoreSourceLabel} />
+          <StockDecisionCompass activeTab={activeTab} scoreLabel={scoreLabel} />
           <StockInvestorActionSummary summary={buildInvestorActionSummary(snapshot)} onTab={(tab) => setActiveTab(tab)} />
-          <StockMarketContextPanel snapshot={snapshot} scoreSourceLabel={scoreSourceLabel} />
+          <StockMarketContextPanel snapshot={snapshot} scoreLabel={scoreLabel} />
           <StockPublicSummary snapshot={snapshot} />
         </>
       )}
@@ -285,17 +285,17 @@ function StockRuntimeAtAGlance({ snapshot }: { snapshot: SignalSnapshot }) {
 
 function StockDecisionCompass({
   activeTab,
-  scoreSourceLabel
+  scoreLabel
 }: {
   activeTab: ActionTab;
-  scoreSourceLabel: string;
+  scoreLabel: string;
 }) {
   return (
     <section className="panel stock-decision-compass" aria-label="標的決策指南">
       <p className="eyebrow">標的決策指南</p>
       <h2>先看狀態，再看風險，最後看資料邊界</h2>
       <p>
-        目前閱讀焦點是 {activeTab}；分數來源標示為 {scoreSourceLabel}，正式資料尚未啟用前不作為投資建議。
+        目前閱讀焦點是 {activeTab}；分數來源標示為 {scoreLabel}，正式資料尚未啟用前不作為投資建議。
       </p>
     </section>
   );
@@ -332,16 +332,16 @@ function StockInvestorActionSummary({
 }
 
 function StockMarketContextPanel({
-  scoreSourceLabel,
+  scoreLabel,
   snapshot
 }: {
-  scoreSourceLabel: string;
+  scoreLabel: string;
   snapshot: SignalSnapshot;
 }) {
   return (
     <section className="panel stock-reading-summary" aria-label="標的市場脈絡">
       <p className="eyebrow">市場脈絡</p>
-      <h2>{snapshot.asset.name} 目前以{scoreSourceLabel}呈現</h2>
+      <h2>{snapshot.asset.name} 目前以{scoreLabel}呈現</h2>
       <p>
         這個區塊把市場分數、風險分數與資料邊界放在一起，協助使用者確認「可以觀察什麼」以及「不能誤解成什麼」。
       </p>
