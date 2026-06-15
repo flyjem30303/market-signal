@@ -4,6 +4,8 @@ import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { PageViewTracker } from "@/components/page-view-tracker";
+import { PublicBetaSourceCoverageBridge } from "@/components/public-beta-source-coverage-bridge";
+import { PublicBetaUsableLoopPanel } from "@/components/public-beta-usable-loop-panel";
 import { PublicDataSourceBoundaryNotice } from "@/components/public-data-source-boundary-notice";
 import { TrackedLink } from "@/components/tracked-link";
 import type { Asset } from "@/lib/assets";
@@ -83,13 +85,21 @@ export function DashboardShell({
 
       {!isStockPage && (
         <>
+          <HomeFirstScreenDecisionSummary market={market} />
           <HomeMarketSummary market={market} />
           <MarketLists riskList={riskList} strongList={strongList} />
         </>
       )}
 
-      {isStockPage && <StockPublicSummary snapshot={snapshot} />}
+      {isStockPage && (
+        <>
+          <StockRuntimeAtAGlance snapshot={snapshot} />
+          <StockPublicSummary snapshot={snapshot} />
+        </>
+      )}
 
+      <PublicBetaSourceCoverageBridge context={isStockPage ? "stock" : "home"} stockSymbol={selected.symbol} />
+      <PublicBetaUsableLoopPanel context={isStockPage ? "stock" : "home"} stockSymbol={selected.symbol} />
       <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
       <PublicDataSourceBoundaryNotice context={isStockPage ? "stock" : "home"} />
       {isStockPage && (
@@ -196,6 +206,62 @@ function HomeMarketSummary({ market }: { market: SignalSnapshot }) {
         >
           查看指數詳情
         </TrackedLink>
+      </div>
+    </section>
+  );
+}
+
+function HomeFirstScreenDecisionSummary({ market }: { market: SignalSnapshot }) {
+  return (
+    <section className="panel stock-reading-summary" aria-label="首頁快速判讀">
+      <p className="eyebrow">全市場總覽</p>
+      <h2>首頁快速判讀：30 秒內看懂市場氛圍，3 分鐘內判斷下一步觀察</h2>
+      <p>
+        先看市場氣氛，再看風險，再決定下一步觀察。現在公開 Beta 以示範資料呈現核心指標面板，正式資料尚未啟用前，請把燈號視為產品流程示範。
+      </p>
+      <div className="briefing-actions" aria-label="首頁決策輔助摘要">
+        <article>
+          <strong>核心指標快讀</strong>
+          <p>
+            {market.asset.name} 市場分數 {market.compositeScore}/100，風險分數 {market.riskScore}/100。先用 30 秒掌握偏多、觀望或警戒，再進入 3 分鐘複核。
+          </p>
+        </article>
+        <article>
+          <strong>警示提醒</strong>
+          <p>燈號只協助整理市場狀態，不是投資建議；若資料時間或來源狀態異常，前台會保留資料信任提示。</p>
+        </article>
+        <article>
+          <strong>資料信任</strong>
+          <p>目前為示範資料與公開 Beta 邊界，正式每日資料上線前不宣稱即時真實資料。</p>
+        </article>
+      </div>
+    </section>
+  );
+}
+
+function StockRuntimeAtAGlance({ snapshot }: { snapshot: SignalSnapshot }) {
+  return (
+    <section className="panel stock-reading-summary" aria-label="標的快速判讀">
+      <p className="eyebrow">公開 Beta 狀態</p>
+      <h2>標的快速判讀：30 秒看懂標的狀態，3 分鐘複核風險</h2>
+      <p>
+        30 秒快速閱讀 {snapshot.asset.symbol} {snapshot.asset.name} 的市場分數、風險分數、資料時間與資料邊界；再用 3 分鐘複核風險與下一步觀察。
+      </p>
+      <div className="briefing-actions" aria-label="標的決策摘要">
+        <article>
+          <strong>標的決策摘要 / 決策輔助摘要</strong>
+          <p>
+            示範分數：市場分數 {snapshot.compositeScore}/100，風險分數 {snapshot.riskScore}/100。示範資料僅用來驗證公開 Beta 可用流程。
+          </p>
+        </article>
+        <article>
+          <strong>下一步觀察</strong>
+          <p>{snapshot.signal.text}</p>
+        </article>
+        <article>
+          <strong>資料時間</strong>
+          <p>資料邊界仍維持公開 Beta 說明；正式資料尚未啟用前，不提供買賣建議。</p>
+        </article>
       </div>
     </section>
   );

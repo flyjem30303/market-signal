@@ -23,6 +23,14 @@ export default function MembershipPage() {
         </p>
       </section>
 
+      <section className="panel stock-reading-summary" aria-label="會員 MVP 邊界">
+        <p className="eyebrow">會員 MVP 邊界</p>
+        <h2>會員功能規劃中，尚未開放登入</h2>
+        <p>
+          公開 Beta 先完成免費市場總覽；後續會員區才會提供自選追蹤與自訂警示、每日市場三層解讀與盤後複盤。所有內容定位為觀察輔助，不提供個股買賣建議。
+        </p>
+      </section>
+
       <section className="method-quick-read" aria-label="會員功能預告">
         <article>
           <span>深度解讀</span>

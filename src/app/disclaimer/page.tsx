@@ -25,6 +25,12 @@ export default function DisclaimerPage() {
 
       <PublicRouteReadingContract context="disclaimer" />
 
+      <section className="panel stock-reading-summary" aria-label="非投資建議提醒">
+        <p className="eyebrow">非投資建議提醒</p>
+        <h2>本網站不提供交易指令</h2>
+        <p>所有燈號與摘要只協助使用者理解市場狀態，不是個別買賣建議，也不是任何形式的交易指令。</p>
+      </section>
+
       <section className="legal-quick-read" aria-label="風險聲明摘要">
         <article>
           <span>定位</span>

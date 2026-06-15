@@ -11296,3 +11296,38 @@ No SQL, Supabase read/write, staging rows, `daily_prices` mutation, raw market-d
 Next:
 
 Continue Phase 1 through the data line blocker: wait for A1 ETF aggregate-only sanitized candidate artifact reply, then run the PM intake validator and candidate artifact set acceptance gate. Keep build and full review-gates sequential; do not run them in parallel because both can touch heavy generated state.
+
+# Latest Phase 1 BRIEF decision-order readiness closure
+
+Status: `phase_1_brief_decision_order_readiness_closed`
+
+Date: 2026-06-15
+
+CEO decision: `MAKE_PUBLIC_PAGES_READ_AS_PHASE_1_USER_DECISION_SURFACE`.
+
+What changed:
+
+- Added a home first-screen decision summary so the public landing page now states the intended 30-second market mood and 3-minute observation flow before data-boundary panels.
+- Added stock-page at-a-glance decision copy so each stock route presents public Beta status, quick read, decision summary, next observation, data time, and mock-data boundary before source/freshness panels.
+- Added briefing, weekly, membership, disclaimer, and privacy copy needed for the BRIEF-aligned public route checks without adding Phase 2 membership implementation.
+- Preserved the product boundary: member login, watchlist, alerts, paid content, and real-data promotion remain out of this slice.
+
+Verification:
+
+- `cmd.exe /c npm run check:phase-1-public-beta-candidate-final-public-readiness-scan` passed.
+- `cmd.exe /c npm run check:public-beta-production-brief-alignment` passed.
+- `cmd.exe /c npm run check:phase-1-route-decision-order` passed.
+- `cmd.exe /c npm run check:phase-1-public-beta-final-readiness-rollup` passed.
+- `cmd.exe /c npm run check:public-visible-language-quality` passed.
+- `cmd.exe /c npm run check:public-surface-user-facing-audit` passed.
+- `cmd.exe /c npx tsc --noEmit --incremental false` passed.
+- `cmd.exe /c npm run check:localhost-health` passed.
+- `git diff --check` passed.
+
+Boundary:
+
+No SQL, Supabase read/write, staging rows, `daily_prices` mutation, raw market-data fetch/store/commit, source promotion, real score promotion, membership implementation, production env mutation, DNS change, Vercel dashboard mutation, or platform deploy occurred. Runtime remains `publicDataSource=mock` and `scoreSource=mock`.
+
+Next:
+
+CEO/PM should keep Phase 1 moving on two tracks: maintain the now-green public decision surface while continuing the data-line path toward legally usable automated source confirmation, bounded write/readback controls, rollback dry-run, and mock-to-real promotion gate. UI/UX polish can follow after these gates stay green.

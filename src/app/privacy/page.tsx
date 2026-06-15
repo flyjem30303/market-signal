@@ -25,6 +25,12 @@ export default function PrivacyPage() {
 
       <PublicRouteReadingContract context="privacy" />
 
+      <section className="panel stock-reading-summary" aria-label="隱私快速說明">
+        <p className="eyebrow">隱私快速說明</p>
+        <h2>公開 Beta 不需要輸入個人資料</h2>
+        <p>目前公開 Beta 以瀏覽市場燈號與說明頁為主，不需要輸入個人資料；若未來啟用會員功能，會再明確揭露資料用途與保存方式。</p>
+      </section>
+
       <section className="legal-quick-read" aria-label="隱私說明摘要">
         <article>
           <span>目前資料</span>

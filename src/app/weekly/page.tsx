@@ -60,6 +60,26 @@ export default async function WeeklyPage() {
         </article>
       </section>
 
+      <section className="panel stock-reading-summary" aria-label="週報行動摘要">
+        <p className="eyebrow">週報行動摘要</p>
+        <h2>用 3 分鐘回看本週市場燈號與示範分數</h2>
+        <p>
+          週報協助使用者把每日燈號拉成一週脈絡：先看市場方向，再看風險是否升高，最後決定下週要追蹤哪些指標。
+        </p>
+        <div className="briefing-actions">
+          <article>
+            <strong>示範分數</strong>
+            <p>
+              {market.asset.name} 市場分數 {market.compositeScore}/100；{topRisk.asset.name} 風險分數 {topRisk.riskScore}/100。
+            </p>
+          </article>
+          <article>
+            <strong>3 分鐘複核</strong>
+            <p>確認燈號變化、資料更新時間與風險提示，再決定下週觀察順序。</p>
+          </article>
+        </div>
+      </section>
+
       <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
 
       <section className="panel method-links">

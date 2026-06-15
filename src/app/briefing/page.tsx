@@ -48,6 +48,32 @@ export default async function BriefingPage() {
         </p>
       </section>
 
+      <section className="panel stock-reading-summary" aria-label="每日市場晨報">
+        <p className="eyebrow">每日市場晨報</p>
+        <h2>晨報快速判讀：30 秒看懂今日市場氣氛，3 分鐘再決定觀察順序</h2>
+        <p>
+          今日市場提醒先整理市場行動摘要，再用今日警示清單協助使用者判斷要關注、加強觀察或降低風險。這是決策輔助介面，不是投資建議。
+        </p>
+        <div className="briefing-actions" aria-label="3 分鐘行動判斷">
+          <article>
+            <strong>市場行動摘要</strong>
+            <p>
+              {market.asset.name} 市場分數 {market.compositeScore}/100，風險分數 {market.riskScore}/100；先看氣氛，再看風險。
+            </p>
+          </article>
+          <article>
+            <strong>今日警示清單</strong>
+            <p>
+              {topRisk.asset.name} 風險分數 {topRisk.riskScore}/100；若風險升高，先複核資料時間與燈號原因。
+            </p>
+          </article>
+          <article>
+            <strong>3 分鐘行動判斷</strong>
+            <p>觀察市場狀態、複核警示原因、決定下一步是否追蹤，不提供個股買賣建議。</p>
+          </article>
+        </div>
+      </section>
+
       <section className="briefing-executive-summary" aria-label="30 秒市場摘要">
         <div>
           <p className="eyebrow">30 秒摘要</p>
