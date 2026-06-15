@@ -25,8 +25,7 @@ const footerNavLinks = [
   { href: "/", label: "首頁" },
   { href: "/briefing", label: "市場簡報" },
   { href: "/weekly", label: "每週觀察" },
-  { href: "/stocks/2330", label: "標的燈號" },
-  { href: "/membership", label: "會員規劃" }
+  { href: "/stocks/2330", label: "標的燈號" }
 ];
 
 export default function RootLayout({ children }: { children: ReactNode }) {
