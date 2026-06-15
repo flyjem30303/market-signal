@@ -2,6 +2,42 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Latest Karpathy-guided Phase 1 public readability repair
+
+Status: `phase_1_public_core_copy_repaired_and_verified`
+
+CEO decision:
+
+- Apply `karpathy-guidelines` as the active development rule: fix the concrete user-facing defect first, avoid new abstractions, and do not add another governance layer.
+- Treat BRIEF as the product target: public users should see market state, reason, update time, risk boundary, and next observation path.
+- Repair only the public-facing mojibake that directly breaks Phase 1 comprehension.
+
+PM completed:
+
+- Repaired core asset labels in `src/lib/assets.ts`.
+- Repaired signal titles, indicator notes, disclosure text, flags, and sample news in `src/lib/signal-model.ts`.
+- Rebuilt `/briefing` into a readable user-facing market brief with 30-second summary, 3-minute observation flow, market breadth, risk focus, and data boundary.
+- Repaired `/stocks/[symbol]` metadata and JSON-LD labels so stock pages expose readable market-score and risk wording.
+- Restarted the local dev server after stale localhost 500 responses.
+
+Verification:
+
+- `cmd.exe /c npx tsc --noEmit` passed.
+- `cmd.exe /c npm run check:phase-1-public-route-user-facing-residue-gate` passed.
+- `cmd.exe /c npm run check:phase-1-core-public-copy-readable` passed.
+- `cmd.exe /c npm run build` passed.
+- Local HTTP smoke passed: `/` 200, `/briefing` 200 with `30 秒看懂市場狀態`, `/stocks/2330` 200 with `台積電`.
+- `git diff --check` passed.
+
+Boundary:
+
+- No SQL, Supabase write, staging row creation, `daily_prices` mutation, raw market-data fetch/store/commit, source promotion, real score promotion, membership implementation, production env mutation, DNS change, Vercel mutation, or platform deploy occurred.
+- Runtime remains `publicDataSource=mock` and `scoreSource=mock`.
+
+Next:
+
+Continue Phase 1 by checking the remaining public surfaces for mojibake and developer-process residue, then advance the data-online write/read loop only where it directly supports the BRIEF.
+
 ### Latest Phase 1 public route user-facing residue gate slice
 
 Status: `phase_1_public_route_user_facing_residue_gate_ready`
