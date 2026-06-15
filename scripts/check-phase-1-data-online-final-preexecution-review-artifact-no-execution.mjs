@@ -21,6 +21,10 @@ const serverOnlyPresenceRecheck = runJson(
   "scripts/check-phase-1-data-online-server-only-presence-recheck-no-execution.mjs",
   "server-only presence recheck"
 );
+const operatorOwnedPresenceConfirmation = runJson(
+  "scripts/check-phase-1-data-online-operator-owned-presence-confirmation-path-no-execution.mjs",
+  "operator-owned presence confirmation path"
+);
 const dataOnline = runJson("scripts/check-phase-1-data-online-go-no-go-status.mjs", "data-online go/no-go");
 
 validatePrerequisites();
@@ -35,6 +39,8 @@ const report = {
     ? "phase_1_data_online_final_preexecution_review_artifact_no_execution_ready"
     : "phase_1_data_online_final_preexecution_review_artifact_no_execution_blocked",
   packetMode: "final_preexecution_review_artifact_no_execution",
+  operatorOwnedPresenceConfirmationStatus:
+    operatorOwnedPresenceConfirmation.operatorOwnedPresenceConfirmationStatus ?? null,
   dataOnlineDecision: dataOnline.decision ?? null,
   publicDataSource: dataOnline.publicDataSource ?? null,
   scoreSource: dataOnline.scoreSource ?? null,
@@ -73,6 +79,17 @@ function validatePrerequisites() {
     "prepared_waiting_external_presence",
     "server-only presence recheck status"
   );
+  expect(operatorOwnedPresenceConfirmation.status, "ok", "operator-owned presence confirmation path status");
+  expect(
+    operatorOwnedPresenceConfirmation.guardedStatus,
+    "phase_1_data_online_operator_owned_presence_confirmation_path_no_execution_ready",
+    "operator-owned presence confirmation path guarded status"
+  );
+  expect(
+    operatorOwnedPresenceConfirmation.operatorOwnedPresenceConfirmationStatus,
+    "prepared_external_only",
+    "operator-owned presence confirmation status"
+  );
   expect(dataOnline.status, "ok", "dataOnline status");
   expect(dataOnline.decision, "PUBLIC_RUNTIME_READY_BUT_DATA_ONLINE_NO_GO", "dataOnline decision");
   expect(dataOnline.publicDataSource, "mock", "dataOnline publicDataSource");
@@ -88,6 +105,9 @@ function validateDoc() {
     "execution_values_dry_run_shape_included",
     "operator_credential_presence_packet_included",
     "server_only_presence_recheck_included",
+    "operator_owned_presence_confirmation_path_included",
+    "operatorOwnedPresenceConfirmationStatus=prepared_external_only",
+    "presenceConfirmationMode=boolean_presence_only_external_operator_owned",
     "prepared_waiting_external_presence",
     "ready_for_external_operator_values_and_server_presence_check",
     "rollback_plan_shape_included",

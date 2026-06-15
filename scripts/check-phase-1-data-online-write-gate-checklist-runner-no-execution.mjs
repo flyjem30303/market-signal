@@ -19,6 +19,10 @@ const serverOnlyPresenceRecheck = runJson(
   "scripts/check-phase-1-data-online-server-only-presence-recheck-no-execution.mjs",
   "server-only presence recheck"
 );
+const operatorOwnedPresenceConfirmation = runJson(
+  "scripts/check-phase-1-data-online-operator-owned-presence-confirmation-path-no-execution.mjs",
+  "operator-owned presence confirmation path"
+);
 const readonlyResult = runJson(
   "scripts/check-phase-1-data-online-bounded-readonly-attempt-result-20260615-a.mjs",
   "bounded readonly attempt result"
@@ -38,6 +42,7 @@ const ok = problems.length === 0;
 const blockedReasons = [
   "operator_values_missing",
   "credential_presence_unverified",
+  "operator_owned_presence_confirmation_unverified",
   "rollback_plan_unverified",
   "aggregate_readback_plan_unverified",
   "post_run_review_unverified",
@@ -69,6 +74,8 @@ const report = {
   readonlyEvidenceStatus: "readonly_aggregate_probe_accepted",
   dashboardApiExposureStatus: dashboardApiExposure.dashboardApiExposureStatus ?? null,
   presenceRecheckStatus: serverOnlyPresenceRecheck.presenceRecheckStatus ?? null,
+  operatorOwnedPresenceConfirmationStatus:
+    operatorOwnedPresenceConfirmation.operatorOwnedPresenceConfirmationStatus ?? null,
   dataOnlineDecision: dataOnline.decision ?? null,
   publicDataSource: dataOnline.publicDataSource ?? null,
   scoreSource: dataOnline.scoreSource ?? null,
@@ -95,6 +102,17 @@ function validatePrerequisites() {
     serverOnlyPresenceRecheck.presenceRecheckStatus,
     "prepared_waiting_external_presence",
     "server-only presence recheck status"
+  );
+  expect(operatorOwnedPresenceConfirmation.status, "ok", "operator-owned presence confirmation path status");
+  expect(
+    operatorOwnedPresenceConfirmation.guardedStatus,
+    "phase_1_data_online_operator_owned_presence_confirmation_path_no_execution_ready",
+    "operator-owned presence confirmation path guarded status"
+  );
+  expect(
+    operatorOwnedPresenceConfirmation.operatorOwnedPresenceConfirmationStatus,
+    "prepared_external_only",
+    "operator-owned presence confirmation status"
   );
   if (!localLaneDoc.includes("phase_1_data_online_local_lane_checklist_runner_no_execution_ready")) {
     problems.push("local-lane checklist doc not ready");
@@ -131,6 +149,7 @@ function validateDoc() {
     "checklist_runner_outputs_blocked_reasons",
     "operator_values_missing",
     "credential_presence_unverified",
+    "operator_owned_presence_confirmation_unverified",
     "rollback_plan_unverified",
     "aggregate_readback_plan_unverified",
     "post_run_review_unverified",
@@ -144,6 +163,7 @@ function validateDoc() {
     "dashboardApiExposureStatus=accepted_read_path_for_daily_prices",
     "server_only_presence_recheck_required",
     "presenceRecheckStatus=prepared_waiting_external_presence",
+    "operatorOwnedPresenceConfirmationStatus=prepared_external_only",
     "writeGateExecutableNow=false",
     "twii_and_etf_phase_1_missing_row_closure_only",
     "publicDataSource=mock",

@@ -17,6 +17,10 @@ const serverOnlyPresenceRecheck = runJson(
   "scripts/check-phase-1-data-online-server-only-presence-recheck-no-execution.mjs",
   "server-only presence recheck"
 );
+const operatorOwnedPresenceConfirmation = runJson(
+  "scripts/check-phase-1-data-online-operator-owned-presence-confirmation-path-no-execution.mjs",
+  "operator-owned presence confirmation path"
+);
 const dataOnline = runJson("scripts/check-phase-1-data-online-go-no-go-status.mjs", "data-online go/no-go");
 
 validatePrerequisites();
@@ -31,6 +35,8 @@ const report = {
     ? "phase_1_data_online_write_gate_fail_closed_simulation_no_execution_ready"
     : "phase_1_data_online_write_gate_fail_closed_simulation_no_execution_blocked",
   packetMode: "write_gate_fail_closed_simulation_no_execution",
+  operatorOwnedPresenceConfirmationStatus:
+    operatorOwnedPresenceConfirmation.operatorOwnedPresenceConfirmationStatus ?? null,
   dataOnlineDecision: dataOnline.decision ?? null,
   publicDataSource: dataOnline.publicDataSource ?? null,
   scoreSource: dataOnline.scoreSource ?? null,
@@ -58,6 +64,17 @@ function validatePrerequisites() {
     "prepared_waiting_external_presence",
     "server-only presence recheck status"
   );
+  expect(operatorOwnedPresenceConfirmation.status, "ok", "operator-owned presence confirmation path status");
+  expect(
+    operatorOwnedPresenceConfirmation.guardedStatus,
+    "phase_1_data_online_operator_owned_presence_confirmation_path_no_execution_ready",
+    "operator-owned presence confirmation path guarded status"
+  );
+  expect(
+    operatorOwnedPresenceConfirmation.operatorOwnedPresenceConfirmationStatus,
+    "prepared_external_only",
+    "operator-owned presence confirmation status"
+  );
   expect(dataOnline.status, "ok", "dataOnline status");
   expect(dataOnline.decision, "PUBLIC_RUNTIME_READY_BUT_DATA_ONLINE_NO_GO", "dataOnline decision");
   expect(dataOnline.publicDataSource, "mock", "dataOnline publicDataSource");
@@ -70,8 +87,10 @@ function validateDoc() {
     "write_gate_fail_closed_simulation_no_execution",
     "simulation_matrix_required",
     "server_only_presence_recheck_consumed",
+    "operator_owned_presence_confirmation_path_consumed",
     "all_missing_inputs_block_write",
     "missing_server_only_presence_recheck_blocks_write",
+    "missing_operator_owned_presence_confirmation_blocks_write",
     "missing_operator_values_blocks_write",
     "missing_credential_presence_blocks_write",
     "missing_rollback_plan_blocks_write",

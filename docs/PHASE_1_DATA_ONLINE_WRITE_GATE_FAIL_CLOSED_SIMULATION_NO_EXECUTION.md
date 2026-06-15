@@ -15,11 +15,13 @@ This artifact simulates the future write gate from local-only review inputs. It 
 This simulation now consumes the server-only presence recheck:
 
 - `server_only_presence_recheck_consumed`
+- `operator_owned_presence_confirmation_path_consumed`
 
 The write gate must stay blocked when any required input is missing:
 
 - `all_missing_inputs_block_write`
 - `missing_server_only_presence_recheck_blocks_write`
+- `missing_operator_owned_presence_confirmation_blocks_write`
 - `missing_operator_values_blocks_write`
 - `missing_credential_presence_blocks_write`
 - `missing_rollback_plan_blocks_write`

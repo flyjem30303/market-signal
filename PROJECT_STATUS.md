@@ -2,6 +2,50 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Operator-Owned Presence Confirmation Path Ready
+
+Status: `phase_1_operator_owned_presence_confirmation_path_ready_no_execution`
+
+CEO decision:
+
+- Advance Phase 1 data-online readiness by adding the smallest operator-owned presence confirmation path.
+- Keep this path external-only and boolean-presence-only: Codex must not read, print, store, hash, compare, or transform operator values, confirmation phrases, or credential values.
+- Wire the path into final pre-execution review, write-gate dry-run preview, fail-closed simulation, and checklist reporting so it becomes a visible gate, not a loose note.
+
+PM completed:
+
+- Added `data/evidence-intake/phase-1-operator-owned-presence-confirmation-path.json`.
+- Added `docs/PHASE_1_DATA_ONLINE_OPERATOR_OWNED_PRESENCE_CONFIRMATION_PATH_NO_EXECUTION.md`.
+- Added `scripts/check-phase-1-data-online-operator-owned-presence-confirmation-path-no-execution.mjs`.
+- Added `check:phase-1-data-online-operator-owned-presence-confirmation-path-no-execution` and registered it in the focused review gate.
+- Updated the final pre-execution review artifact, write-gate dry-run preview, fail-closed simulation, and checklist runner to consume/report this path.
+
+Verified:
+
+- `cmd.exe /c npm run check:phase-1-data-online-operator-owned-presence-confirmation-path-no-execution` passes.
+- `cmd.exe /c npm run check:phase-1-data-online-final-preexecution-review-artifact-no-execution` passes.
+- `cmd.exe /c npm run check:phase-1-data-online-write-gate-dry-run-preview-no-execution` passes.
+- `cmd.exe /c npm run check:phase-1-data-online-write-gate-fail-closed-simulation-no-execution` passes.
+- `cmd.exe /c npm run check:phase-1-data-online-write-gate-checklist-runner-no-execution` passes.
+
+Current blocker view:
+
+- Data online remains `NO_GO`.
+- `writeGateExecutableNow=false`.
+- Current remaining write-gate blockers are `operator_values_missing`, `credential_presence_unverified`, and `operator_owned_presence_confirmation_unverified`.
+- `operatorOwnedPresenceConfirmationStatus=prepared_external_only`.
+- `presenceConfirmationMode=boolean_presence_only_external_operator_owned`.
+
+Current boundary:
+
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+- No SQL, Supabase write, staging row, `daily_prices` mutation, market-data fetch/ingestion, row coverage award, source promotion, score promotion, secret output, row payload output, or public real-data claim occurred.
+
+Next route:
+
+CEO should prepare the future acceptance gate for external boolean presence results. That gate must still avoid value storage, value printing, value hashing, value comparison, value transformation, SQL, Supabase writes, and runtime promotion.
+
 ### Phase 1 Fail-Closed Simulation Consumes Presence Recheck
 
 Status: `phase_1_fail_closed_simulation_consumes_server_only_presence_recheck`

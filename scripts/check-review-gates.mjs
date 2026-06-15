@@ -3548,6 +3548,11 @@ const checks = [
     name: "phase-1-data-online-server-only-presence-recheck-no-execution"
   },
   {
+    command: [node, "scripts/check-phase-1-data-online-operator-owned-presence-confirmation-path-no-execution.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-data-online-operator-owned-presence-confirmation-path-no-execution"
+  },
+  {
     command: [node, "scripts/check-phase-1-data-online-final-preexecution-review-artifact-no-execution.mjs"],
     expectStatus: "ok",
     name: "phase-1-data-online-final-preexecution-review-artifact-no-execution"
@@ -6722,6 +6727,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "phase-1-data-online-execution-values-dry-run-shape-no-execution",
   "phase-1-data-online-operator-credential-presence-packet-no-execution",
   "phase-1-data-online-server-only-presence-recheck-no-execution",
+  "phase-1-data-online-operator-owned-presence-confirmation-path-no-execution",
   "phase-1-data-online-final-preexecution-review-artifact-no-execution",
   "phase-1-data-online-write-gate-dry-run-preview-no-execution",
   "phase-1-data-online-write-gate-fail-closed-simulation-no-execution",

@@ -17,6 +17,9 @@ The final artifact confirms the following inputs are included as review sections
 - `execution_values_dry_run_shape_included`
 - `operator_credential_presence_packet_included`
 - `server_only_presence_recheck_included`
+- `operator_owned_presence_confirmation_path_included`
+- `operatorOwnedPresenceConfirmationStatus=prepared_external_only`
+- `presenceConfirmationMode=boolean_presence_only_external_operator_owned`
 - `rollback_plan_shape_included`
 - `aggregate_readback_plan_shape_included`
 - `post_run_review_checklist_included`
