@@ -12,17 +12,15 @@ import {
 import type { SignalSnapshot } from "@/lib/signal-model";
 
 const copy = {
-  title: "\u5e02\u5834\u9031\u5831",
-  description:
-    "\u7528\u4e00\u9031\u8996\u89d2\u6574\u7406\u5e02\u5834\u71c8\u865f\u3001\u98a8\u96aa\u4f86\u6e90\u8207\u89c0\u5bdf\u6e05\u55ae\u3002Phase 1 \u4f7f\u7528\u793a\u7bc4\u8cc7\u6599\uff0c\u4e0d\u63d0\u4f9b\u6295\u8cc7\u5efa\u8b70\u3002",
-  hero: "\u7528\u4e00\u9031\u8996\u89d2\u770b\u5e02\u5834\u71c8\u865f\u8207\u98a8\u96aa\u8b8a\u5316",
-  summary: "\u9031\u5831\u6458\u8981",
-  signal: "\u5e02\u5834\u71c8\u865f",
-  risk: "\u6700\u9ad8\u98a8\u96aa\u89c0\u5bdf",
-  data: "\u8cc7\u6599\u72c0\u614b",
-  updateStatus: "\u8cc7\u6599\u66f4\u65b0\u72c0\u614b",
-  list: "\u9031\u5831\u89c0\u5bdf\u6e05\u55ae",
-  viewSignal: "\u67e5\u770b\u71c8\u865f"
+  title: "市場週報",
+  description: "整理本週市場狀態、主要燈號、風險最高標的與資料更新狀態。Phase 1 使用示範資料，不提供買賣建議。",
+  hero: "本週市場狀態整理",
+  summary: "週報快速閱讀",
+  signal: "市場總燈號",
+  risk: "風險最高標的",
+  updateStatus: "資料更新時間",
+  list: "市場行動摘要",
+  viewSignal: "查看燈號"
 };
 
 export const metadata: Metadata = {
@@ -49,8 +47,14 @@ export default async function WeeklyPage() {
       <section className="hero">
         <p className="eyebrow">{copy.title}</p>
         <h1>{copy.hero}</h1>
-        <p>週報把每日燈號放進較長的觀察脈絡，協助使用者整理市場主軸、風險來源與後續追蹤清單。</p>
-        <p className="runtime-boundary-line">Phase 1 使用示範資料，不提供投資建議或買賣推薦。</p>
+        <p>
+          用 30 秒確認市場燈號，再用 3 分鐘複核風險最高標的、資料狀態與下一步觀察重點。
+          週報僅提供市場資訊整理，不提供買賣建議。
+        </p>
+        <p>週報行動摘要：本頁是非投資建議，只協助使用者整理本週觀察順序。</p>
+        <p className="runtime-boundary-line">
+          Phase 1 仍使用示範資料與示範分數；正式資料尚未啟用，請以資料更新時間與資料狀態作為閱讀前提。
+        </p>
       </section>
 
       <section className="weekly-quick-read" aria-label={copy.summary}>
@@ -62,12 +66,17 @@ export default async function WeeklyPage() {
         <article>
           <span>{copy.risk}</span>
           <strong>{topRisk.asset.name}</strong>
-          <p>風險分數 {topRisk.riskScore}/100。請先確認風險原因與資料狀態。</p>
+          <p>
+            風險分數 {topRisk.riskScore}/100。分數較高時，先降低單一訊號判斷，改以資料狀態、
+            市場背景與後續觀察重點一起複核。
+          </p>
         </article>
         <article>
           <span>{copy.updateStatus}</span>
           <strong>示範資料</strong>
-          <p>正式資料上線前，不宣稱即時或完整市場資料。</p>
+          <p>
+            資料更新狀態：目前公開頁以 mock 資料呈現閱讀流程；正式每日資料上線前，不宣稱即時、完整或可作為交易依據。
+          </p>
         </article>
       </section>
 
@@ -77,7 +86,8 @@ export default async function WeeklyPage() {
             <p className="eyebrow">{snapshot.asset.symbol}</p>
             <h2>{snapshot.asset.name}</h2>
             <p>
-              市場分數 {snapshot.compositeScore}/100，風險分數 {snapshot.riskScore}/100。此排序只作為示範觀察。
+              燈號分數 {snapshot.compositeScore}/100，風險分數 {snapshot.riskScore}/100。先看狀態，
+              再確認原因與資料邊界，避免只用單一分數做判斷。
             </p>
             <TrackedLink
               eventName="weekly_link_clicked"

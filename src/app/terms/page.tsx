@@ -6,7 +6,7 @@ import { TrackedLink } from "@/components/tracked-link";
 
 export const metadata: Metadata = {
   title: "使用條款",
-  description: "說明指數燈號 Phase 1 公開版的使用範圍、資料限制、風險提醒與使用者責任。"
+  description: "說明指數燈號公開版的使用範圍、資料限制與非投資建議邊界。"
 };
 
 export default function TermsPage() {
@@ -15,38 +15,39 @@ export default function TermsPage() {
       <PageViewTracker eventName="terms_page_viewed" payload={{ page: "terms" }} />
       <section className="hero">
         <p className="eyebrow">使用條款</p>
-        <h1>請把指數燈號視為市場資訊整理工具</h1>
+        <h1>請將指數燈號視為市場資訊整理工具</h1>
         <p>
-          指數燈號提供市場燈號、風險提示、資料更新時間與觀察順序，目的是降低資訊理解門檻，而不是提供個別投資建議。
+          指數燈號協助使用者快速理解市場狀態、風險位置與後續觀察重點。網站內容僅供市場觀察與資訊參考，
+          不構成投資建議、交易建議或任何獲利承諾，不能當作交易指令。
         </p>
         <p className="runtime-boundary-line">
-          Phase 1 公開版仍使用示範資料與示範分數；正式資料啟用前，使用者不應把本網站內容視為即時行情或交易依據。
+          Phase 1 使用示範資料與公開說明呈現產品流程；真實資料切換前，網站會持續標示資料來源與更新狀態。
         </p>
       </section>
 
       <PublicRouteReadingContract context="terms" />
       <TrustRuntimeBoundaryNotice context="terms" />
 
-      <section className="legal-quick-read" aria-label="使用條款摘要">
+      <section className="legal-quick-read" aria-label="使用條款重點">
         <article>
-          <span>服務定位</span>
-          <strong>市場資訊整理與風險辨識</strong>
-          <p>本網站協助使用者理解市場狀態、燈號原因與資料時間，不提供買賣指令、保證報酬或個人化投資配置。</p>
+          <span>使用範圍</span>
+          <strong>市場總覽與風險辨識</strong>
+          <p>燈號、分數與摘要用於協助閱讀市場，不應作為單一買賣依據。</p>
         </article>
         <article>
           <span>資料限制</span>
-          <strong>請搭配來源、時間戳與風險聲明閱讀</strong>
-          <p>資料可能延遲、缺漏或仍在示範階段；正式資料上線前，頁面會持續標示資料狀態與使用邊界。</p>
+          <strong>請留意來源、時間與延遲</strong>
+          <p>資料可能因來源、更新時間或驗證狀態而延遲。若資料異常，前台會保留提示。</p>
         </article>
         <article>
-          <span>使用者責任</span>
-          <strong>使用者需自行判斷與承擔風險</strong>
-          <p>任何投資行動都應另行複核資料來源、個人風險承受度與專業意見，不應只依賴單一燈號或分數。</p>
+          <span>責任邊界</span>
+          <strong>投資決策由使用者自行負責</strong>
+          <p>使用者應自行評估風險，必要時諮詢合格專業人士。</p>
         </article>
       </section>
 
       <section className="panel legal-links">
-        <h2>延伸閱讀</h2>
+        <h2>相關文件</h2>
         <TrackedLink className="text-link" eventName="trust_link_clicked" href="/privacy" label="查看隱私政策" payload={{ area: "terms" }}>
           查看隱私政策
         </TrackedLink>

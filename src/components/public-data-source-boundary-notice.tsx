@@ -4,16 +4,16 @@ type PublicDataSourceBoundaryNoticeProps = {
 
 const contextCopy = {
   home: {
-    title: "資料來源仍維持示範邊界",
-    lead: "首頁用來建立市場狀態的閱讀流程；正式資料上線前，不會宣稱即時行情、完整覆蓋或正式分數。"
+    title: "目前使用示範資料呈現市場燈號",
+    lead: "Phase 1 先讓使用者看懂燈號、風險與觀察順序。正式資料尚未切換前，畫面會清楚標示資料狀態。"
   },
   briefing: {
-    title: "市場簡報仍以示範資料呈現",
-    lead: "市場簡報用來說明燈號、風險與觀察順序；正式資料切換前，不會宣稱即時或完整覆蓋。"
+    title: "今日簡報仍以示範資料輔助閱讀",
+    lead: "簡報用來說明市場狀態的閱讀流程；正式資料來源、覆蓋率與寫入檢查完成後，才會升級為真實資料。"
   },
   stock: {
-    title: "個股燈號仍是觀察輔助",
-    lead: "單一標的頁協助使用者整理市場狀態與風險分數；正式資料上線前，不作交易建議或即時資料宣稱。"
+    title: "標的頁目前不是即時報價",
+    lead: "個股與 ETF 頁面先呈現燈號邏輯、風險判讀與資料狀態，不提供即時交易價格或買賣建議。"
   }
 } as const;
 
@@ -21,28 +21,28 @@ export function PublicDataSourceBoundaryNotice({ context }: PublicDataSourceBoun
   const copy = contextCopy[context];
 
   return (
-    <section className="public-data-source-boundary-notice" aria-label="資料來源邊界">
+    <section className="public-data-source-boundary-notice" aria-label="資料來源與使用邊界">
       <div className="public-data-source-boundary-notice__intro">
-        <p className="eyebrow">資料邊界</p>
+        <p className="eyebrow">資料來源與覆蓋</p>
         <h2>{copy.title}</h2>
         <p>{copy.lead}</p>
       </div>
       <ul>
         <li>
-          <strong>目前可使用</strong>
-          <span>閱讀市場燈號、分數與風險提示，建立固定觀察流程。</span>
+          <strong>先看狀態，不看秒級報價</strong>
+          <span>網站目標是協助理解市場氛圍與風險位置，不取代券商報價或交易系統。</span>
         </li>
         <li>
-          <strong>目前不宣稱</strong>
-          <span>不宣稱即時真實行情、完整市場覆蓋、正式模型分數或買賣建議。</span>
+          <strong>資料異常會明確標示</strong>
+          <span>若資料尚未更新、覆蓋不足或仍在驗證，前台會保留示範資料並顯示邊界說明。</span>
         </li>
         <li>
-          <strong>正式資料切換條件</strong>
-          <span>需完成合法來源、資料品質、寫入驗證、讀回驗證、回復計畫與正式資料切換檢查。</span>
+          <strong>不提供投資建議</strong>
+          <span>所有燈號與分數僅作資訊整理與風險辨識，使用者仍需自行判斷與承擔風險。</span>
         </li>
       </ul>
       <p className="public-data-source-boundary-notice__footnote">
-        若資料異常或尚未更新，前台會以資料狀態提示使用者，不把示範資料包裝成正式資料。
+        真實資料升級需要合法來源、資料品質、寫入檢查、讀回驗證、回復路徑與公開揭露都通過後才會開啟。
       </p>
     </section>
   );

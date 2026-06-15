@@ -6,7 +6,7 @@ import { TrackedLink } from "@/components/tracked-link";
 
 export const metadata: Metadata = {
   title: "隱私政策",
-  description: "說明指數燈號 Phase 1 公開版的資料使用、會員資料邊界與追蹤原則。"
+  description: "說明指數燈號 Phase 1 如何處理使用資料、追蹤事件與資料保護邊界。"
 };
 
 export default function PrivacyPage() {
@@ -15,12 +15,13 @@ export default function PrivacyPage() {
       <PageViewTracker eventName="privacy_page_viewed" payload={{ page: "privacy" }} />
       <section className="hero">
         <p className="eyebrow">隱私政策</p>
-        <h1>Phase 1 公開版不啟用會員或付款資料</h1>
+        <h1>Phase 1 不需要輸入個人資料即可使用</h1>
         <p>
-          指數燈號目前提供公開瀏覽體驗，不要求會員登入、不收集付款資料，也不儲存自選清單或個人化警示條件。
+          指數燈號公開版目前提供市場總覽、今日簡報、週報與標的燈號。使用者不需要註冊、
+          登入或輸入個人投資資料，即可閱讀 Phase 1 內容。
         </p>
         <p className="runtime-boundary-line">
-          若未來導入會員功能，會在啟用前補充資料收集目的、使用範圍、保存期間與刪除方式。
+          若未來啟用會員、自選追蹤或自訂警示，會另行揭露需要蒐集的資料、使用目的與退出方式。
         </p>
       </section>
 
@@ -29,24 +30,24 @@ export default function PrivacyPage() {
 
       <section className="legal-quick-read" aria-label="隱私政策重點">
         <article>
-          <span>目前收集</span>
-          <strong>基本瀏覽事件</strong>
-          <p>Phase 1 只用於理解頁面瀏覽、連結點擊與使用流程，不建立個人投資檔案。</p>
-        </article>
-        <article>
           <span>目前不收集</span>
-          <strong>不收集會員與付款資料</strong>
-          <p>目前沒有會員登入、付款、自選清單儲存或個人化警示，因此不處理相關個資。</p>
+          <strong>不需要個人持股或交易資料</strong>
+          <p>Phase 1 不要求使用者提供姓名、電話、持股、交易紀錄或券商帳號。</p>
         </article>
         <article>
-          <span>後續功能</span>
-          <strong>會員功能需另行揭露</strong>
-          <p>未來若加入會員或提醒功能，會先說明資料用途、權限、保存與刪除流程。</p>
+          <span>可能記錄</span>
+          <strong>匿名化的頁面互動事件</strong>
+          <p>網站可能記錄頁面瀏覽、導覽點擊與停留情況，用於改善內容排序與使用體驗。</p>
+        </article>
+        <article>
+          <span>未來功能</span>
+          <strong>會員功能會另行揭露</strong>
+          <p>自選追蹤、自訂警示與會員內容尚非 Phase 1 上線範圍，啟用前會補齊對應告知。</p>
         </article>
       </section>
 
       <section className="panel legal-links">
-        <h2>相關頁面</h2>
+        <h2>相關文件</h2>
         <TrackedLink className="text-link" eventName="trust_link_clicked" href="/terms" label="查看使用條款" payload={{ area: "privacy" }}>
           查看使用條款
         </TrackedLink>

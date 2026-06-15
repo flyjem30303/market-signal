@@ -12,29 +12,28 @@ import {
 import type { SignalSnapshot } from "@/lib/signal-model";
 
 const copy = {
-  title: "\u4eca\u65e5\u7c21\u5831",
-  marketFlash: "\u5e02\u5834\u5feb\u5831",
-  description:
-    "\u7528 30 \u79d2\u6574\u7406\u5e02\u5834\u71c8\u865f\u3001\u6838\u5fc3\u98a8\u96aa\u8207\u5f8c\u7e8c\u89c0\u5bdf\u91cd\u9ede\u3002Phase 1 \u4f7f\u7528\u793a\u7bc4\u8cc7\u6599\uff0c\u4e0d\u63d0\u4f9b\u6295\u8cc7\u5efa\u8b70\u3002",
-  hero: "30 \u79d2\u770b\u61c2\u5e02\u5834\u71c8\u865f",
-  heroSub: "3 \u5206\u9418\u628a\u5e02\u5834\u71c8\u865f\u62c6\u6210\u539f\u56e0",
-  summary: "\u5e02\u5834\u6458\u8981",
-  quick: "30 \u79d2\u6458\u8981",
-  score: "\u5e02\u5834\u5206\u6578",
-  risk: "\u6700\u9ad8\u98a8\u96aa\u89c0\u5bdf",
-  structure: "\u5e02\u5834\u7d50\u69cb",
-  constructive: "\u504f\u591a\u89c0\u5bdf",
-  watch: "\u89c0\u671b\u6574\u7406",
-  defensive: "\u98a8\u96aa\u504f\u9ad8",
-  next: "\u4e0b\u4e00\u6b65\u884c\u52d5",
-  nextTitle:
-    "\u5148\u770b\u5927\u76e4\uff0c\u518d\u770b\u98a8\u96aa\u4f86\u6e90\uff0c\u6700\u5f8c\u78ba\u8a8d\u8cc7\u6599\u72c0\u614b",
-  boundary: "\u8cc7\u6599\u8207\u98a8\u96aa\u908a\u754c",
-  realDataNotEnabled: "\u6b63\u5f0f\u8cc7\u6599\u5c1a\u672a\u555f\u7528",
-  watchList: "\u5e02\u5834\u89c0\u5bdf\u6e05\u55ae",
-  strongList: "\u76f8\u5c0d\u504f\u5f37\u89c0\u5bdf",
-  riskList: "\u512a\u5148\u98a8\u96aa\u89c0\u5bdf",
-  marketWatch: "\u5e02\u5834\u89c0\u5bdf"
+  title: "今日市場簡報",
+  marketFlash: "每日市場晨報",
+  description: "用 30 秒看懂市場燈號，用 3 分鐘整理市場氣氛與後續觀察重點。Phase 1 使用示範資料，不提供買賣建議。",
+  hero: "30 秒看懂市場燈號",
+  heroSub: "3 分鐘把市場燈號拆成原因：先看市場主燈號，再看今日警示清單、資料邊界與下一步觀察。",
+  summary: "市場簡報",
+  quick: "30 秒快速閱讀",
+  score: "市場分數",
+  risk: "風險觀察",
+  structure: "核心指標",
+  constructive: "偏多觀察",
+  watch: "觀望整理",
+  defensive: "警戒防守",
+  next: "下一步觀察",
+  nextTitle: "先複核警示清單，再確認資料來源與覆蓋率",
+  boundary: "資料邊界",
+  realDataNotEnabled: "正式資料尚未啟用",
+  watchList: "今日警示清單",
+  strongList: "強勢觀察清單",
+  riskList: "風險觀察清單",
+  marketWatch: "市場觀察",
+  betaLoop: "公開 Beta 可用閉環"
 };
 
 export const metadata: Metadata = {
@@ -64,11 +63,11 @@ export default async function BriefingPage() {
         <h1>{copy.hero}</h1>
         <p>{copy.heroSub}</p>
         <p>
-          {market.asset.name} {market.signal.title}。{copy.score} {market.compositeScore}/100，
-          {copy.risk} {market.riskScore}/100。
+          市場快報 / 市場晨報：{market.asset.name} 目前為「{market.signal.title}」，{copy.score} {market.compositeScore}/100，
+          {copy.risk} {market.riskScore}/100。這是非投資建議，僅協助建立市場觀察順序。
         </p>
         <p className="runtime-boundary-line">
-          {copy.boundary}：{copy.realDataNotEnabled}。Phase 1 使用示範資料，不提供投資建議或買賣推薦。
+          {copy.boundary}：{copy.realDataNotEnabled}。Phase 1 仍以示範資料呈現，資料來源準備與覆蓋率仍需通過上線檢查。
         </p>
       </section>
 
@@ -101,12 +100,27 @@ export default async function BriefingPage() {
       <section className="panel stock-reading-summary" aria-label={copy.next}>
         <p className="eyebrow">{copy.next}</p>
         <h2>{copy.nextTitle}</h2>
-        <p>先判斷整體市場，再複核風險最高的標的，最後確認資料更新時間與資料狀態。</p>
+        <p>
+          晨報快速判讀：30 秒看懂今日市場氣氛，3 分鐘再決定觀察順序。
+        </p>
+        <p>
+          先看今日警示清單的影響級別，再確認資料更新時間、資料來源準備狀態，以及資料與風險邊界。若資料狀態仍是示範資料，
+          就只把燈號當作閱讀流程範例，不作為交易依據。
+        </p>
+        <p>今日市場提醒與市場行動摘要：3 分鐘行動判斷完成前，本頁不提供買賣建議。下一步行動：{copy.betaLoop}</p>
       </section>
 
       <section className="weekly-grid" aria-label={copy.watchList}>
-        <BriefingList description="示範模型中相對偏強的觀察清單。" items={strongest} title={copy.strongList} />
-        <BriefingList description="風險分數較高，適合優先複核。" items={[topRisk]} title={copy.riskList} />
+        <BriefingList
+          description="分數較強的標的適合放入觀察清單，但仍需搭配資料邊界與風險分數一起看。"
+          items={strongest}
+          title={copy.strongList}
+        />
+        <BriefingList
+          description="風險分數較高的標的需要提高複核頻率，避免只看單一燈號或單一分數。"
+          items={[topRisk]}
+          title={copy.riskList}
+        />
       </section>
 
       <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
@@ -133,7 +147,7 @@ function BreadthCard({ label, tone, value }: { label: string; tone: "active" | "
     <article className={tone}>
       <span>{label}</span>
       <strong>{value}</strong>
-      <p>依目前示範資料分類，用來協助快速掃描市場結構。</p>
+      <p>依目前示範資料統計，用來快速了解市場氣氛分布；正式資料上線前仍需看資料狀態。</p>
     </article>
   );
 }
