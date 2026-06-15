@@ -2,6 +2,48 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 ETF Sanitized Candidate Artifact Path Intake Waiting A1 Reply
+
+Status: `phase_1_etf_sanitized_candidate_artifact_path_intake_waiting_a1_reply_no_row_payloads`
+
+CEO decision:
+
+- Prepare PM intake for A1's future ETF sanitized candidate artifact reply.
+- Keep intake blocked until A1 supplies a sanitized aggregate-only artifact path and summary.
+- Do not accept a candidate path, read artifact contents, read row payloads, or proceed to bounded insert contract yet.
+
+PM completed:
+
+- Added `scripts/report-phase-1-etf-sanitized-candidate-artifact-path-intake-no-row-payloads.mjs`.
+- Added `data/evidence-intake/phase-1-etf-sanitized-candidate-artifact-path-intake-no-row-payloads.json`.
+- Added `docs/PHASE_1_ETF_SANITIZED_CANDIDATE_ARTIFACT_PATH_INTAKE_NO_ROW_PAYLOADS.md`.
+- Added and registered `check:phase-1-etf-sanitized-candidate-artifact-path-intake-no-row-payloads`.
+
+Intake state:
+
+- `sourceRequestPath=data/evidence-intake/phase-1-etf-sanitized-candidate-artifact-path-request-no-fetch.json`
+- `intakeDecision=blocked_waiting_a1_etf_sanitized_candidate_artifact_reply`
+- `blockedUntilA1Reply=true`
+- `candidateArtifactPathAccepted=false`
+- `candidateArtifactRead=false`
+- `candidateRowPayloadRead=false`
+- `rawPayloadRead=false`
+- `expectedMissingRows=118`
+- `executionAllowedNow=false`
+- `writeGateExecutableNow=false`
+- `implementationAllowedNow=false`
+
+Current boundary:
+
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+- No candidate artifact content, candidate row payload, raw payload, stock-id payload, credential value, row payload, or secret was read or printed.
+- No SQL, Supabase client import/read/write/connection, staging row, `daily_prices` mutation, candidate row acceptance, market-data fetch/ingestion, source promotion, score promotion, public real-data claim, or investment-advice claim occurred.
+
+Next route:
+
+Wait for `wait_for_a1_etf_sanitized_candidate_artifact_reply`.
+
 ### Phase 1 ETF Sanitized Candidate Artifact Path Request Ready
 
 Status: `phase_1_etf_sanitized_candidate_artifact_path_request_no_fetch_ready`
