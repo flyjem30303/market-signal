@@ -1,5 +1,5 @@
 import fs from "node:fs";
-import { spawn } from "node:child_process";
+import { spawn, spawnSync } from "node:child_process";
 import { localhostContentForbidden, localhostContentHealthChecks } from "./localhost-health-config.mjs";
 
 const node = process.execPath;
@@ -45,7 +45,7 @@ try {
   }
 } finally {
   if (managedServer) {
-    managedServer.child.kill();
+    stopManagedServer(managedServer.child);
   }
 }
 
@@ -149,4 +149,16 @@ function normalizeEnv(env) {
     delete next.PATH;
   }
   return next;
+}
+
+function stopManagedServer(child) {
+  if (process.platform === "win32") {
+    spawnSync("taskkill", ["/PID", String(child.pid), "/T", "/F"], {
+      stdio: "ignore",
+      windowsHide: true
+    });
+    return;
+  }
+
+  child.kill();
 }

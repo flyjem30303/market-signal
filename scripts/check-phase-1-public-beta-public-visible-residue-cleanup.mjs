@@ -1,4 +1,9 @@
+import fs from "node:fs";
+import { spawn, spawnSync } from "node:child_process";
+
+const node = process.execPath;
 const baseUrl = process.env.LOCALHOST_BASE_URL ?? "http://localhost:3000";
+const shouldManageServer = process.env.LOCALHOST_HEALTH_MANAGE_SERVER !== "false";
 
 const publicRoutes = [
   "/",
@@ -87,78 +92,94 @@ const forbiddenVisibleFragments = [
 const routeResults = [];
 const inaccessibleRouteResults = [];
 
-for (const route of publicRoutes) {
-  try {
-    const response = await fetch(`${baseUrl}${route}`);
-    const html = await response.text();
-    const visibleText = normalizeVisibleText(html);
-    const forbiddenHits = forbiddenVisibleFragments.filter((fragment) => visibleText.includes(fragment));
-    const mojibakeHits = findBadTextMarkers(visibleText);
-    const missingRequiredSignals = (requiredPublicSignals[route] ?? []).filter(
-      (phrase) => !visibleText.includes(phrase)
-    );
+const managedServer = shouldManageServer && !(await canFetchRoot()) ? await startTemporaryServer() : null;
 
-    routeResults.push({
-      forbiddenHits,
-      missingRequiredSignals,
-      mojibakeHits,
-      pass:
-        response.status === 200 &&
-        forbiddenHits.length === 0 &&
-        mojibakeHits.length === 0 &&
-        missingRequiredSignals.length === 0,
-      route,
-      status: response.status
-    });
-  } catch (error) {
-    routeResults.push({
-      error: error instanceof Error ? error.message : String(error),
-      pass: false,
-      route
-    });
+try {
+  for (const route of publicRoutes) {
+    try {
+      const response = await fetch(`${baseUrl}${route}`);
+      const html = await response.text();
+      const visibleText = normalizeVisibleText(html);
+      const forbiddenHits = forbiddenVisibleFragments.filter((fragment) => visibleText.includes(fragment));
+      const mojibakeHits = findBadTextMarkers(visibleText);
+      const missingRequiredSignals = (requiredPublicSignals[route] ?? []).filter(
+        (phrase) => !visibleText.includes(phrase)
+      );
+
+      routeResults.push({
+        forbiddenHits,
+        missingRequiredSignals,
+        mojibakeHits,
+        pass:
+          response.status === 200 &&
+          forbiddenHits.length === 0 &&
+          mojibakeHits.length === 0 &&
+          missingRequiredSignals.length === 0,
+        route,
+        status: response.status
+      });
+    } catch (error) {
+      routeResults.push({
+        error: error instanceof Error ? error.message : String(error),
+        pass: false,
+        route
+      });
+    }
+  }
+
+  for (const route of inaccessiblePhase2Routes) {
+    try {
+      const response = await fetch(`${baseUrl}${route}`);
+      inaccessibleRouteResults.push({
+        pass: response.status === 404,
+        route,
+        status: response.status
+      });
+    } catch (error) {
+      inaccessibleRouteResults.push({
+        error: error instanceof Error ? error.message : String(error),
+        pass: false,
+        route
+      });
+    }
+  }
+
+  const status =
+    routeResults.every((result) => result.pass) && inaccessibleRouteResults.every((result) => result.pass)
+      ? "ok"
+      : "blocked";
+
+  console.log(
+    JSON.stringify(
+      {
+        status,
+        guardedStatus: "phase_1_public_beta_public_visible_residue_cleanup_ready_for_users",
+        managedServer: managedServer
+          ? {
+              command: managedServer.commandLabel,
+              started: true
+            }
+          : {
+              started: false
+            },
+        checkedRoutes: publicRoutes.length,
+        checkedInaccessiblePhase2Routes: inaccessiblePhase2Routes.length,
+        routeResults,
+        inaccessibleRouteResults,
+        publicDataSource: "mock",
+        scoreSource: "mock"
+      },
+      null,
+      2
+    )
+  );
+
+  if (status !== "ok") process.exitCode = 1;
+} finally {
+  if (managedServer) {
+    stopManagedServer(managedServer.child);
   }
 }
-
-for (const route of inaccessiblePhase2Routes) {
-  try {
-    const response = await fetch(`${baseUrl}${route}`);
-    inaccessibleRouteResults.push({
-      pass: response.status === 404,
-      route,
-      status: response.status
-    });
-  } catch (error) {
-    inaccessibleRouteResults.push({
-      error: error instanceof Error ? error.message : String(error),
-      pass: false,
-      route
-    });
-  }
-}
-
-const status =
-  routeResults.every((result) => result.pass) && inaccessibleRouteResults.every((result) => result.pass)
-    ? "ok"
-    : "blocked";
-
-console.log(
-  JSON.stringify(
-    {
-      status,
-      guardedStatus: "phase_1_public_beta_public_visible_residue_cleanup_ready_for_users",
-      checkedRoutes: publicRoutes.length,
-      checkedInaccessiblePhase2Routes: inaccessiblePhase2Routes.length,
-      routeResults,
-      inaccessibleRouteResults,
-      publicDataSource: "mock",
-      scoreSource: "mock"
-    },
-    null,
-    2
-  )
-);
-
-if (status !== "ok") process.exitCode = 1;
 
 function normalizeVisibleText(html) {
   return html
@@ -181,4 +202,70 @@ function findBadTextMarkers(text) {
   }
   if (/\?{3,}/u.test(text)) markers.add("question-mark-run");
   return [...markers];
+}
+
+async function startTemporaryServer() {
+  const hasProductionBuild = fs.existsSync(".next/BUILD_ID");
+  const args = hasProductionBuild
+    ? ["node_modules/next/dist/bin/next", "start", "--hostname", "localhost", "--port", "3000"]
+    : ["node_modules/next/dist/bin/next", "dev", "--hostname", "localhost", "--port", "3000"];
+  const child = spawn(node, args, {
+    cwd: process.cwd(),
+    env: normalizeEnv(process.env),
+    stdio: "ignore",
+    windowsHide: true
+  });
+
+  const ready = await waitForRoot();
+  if (!ready) {
+    child.kill();
+    throw new Error("temporary localhost server did not become ready");
+  }
+
+  return {
+    child,
+    commandLabel: hasProductionBuild ? "next start" : "next dev"
+  };
+}
+
+async function waitForRoot() {
+  for (let attempt = 1; attempt <= 30; attempt += 1) {
+    if (await canFetchRoot()) return true;
+    await delay(1000);
+  }
+
+  return false;
+}
+
+async function canFetchRoot() {
+  try {
+    const response = await fetch(new URL("/", baseUrl), { cache: "no-store" });
+    return response.status === 200;
+  } catch {
+    return false;
+  }
+}
+
+function normalizeEnv(env) {
+  const next = { ...env };
+  if (next.Path && next.PATH) {
+    delete next.PATH;
+  }
+  return next;
+}
+
+function delay(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function stopManagedServer(child) {
+  if (process.platform === "win32") {
+    spawnSync("taskkill", ["/PID", String(child.pid), "/T", "/F"], {
+      stdio: "ignore",
+      windowsHide: true
+    });
+    return;
+  }
+
+  child.kill();
 }
