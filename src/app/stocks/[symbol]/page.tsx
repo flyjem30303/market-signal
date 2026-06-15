@@ -15,7 +15,7 @@ type StockPageProps = {
 };
 
 const snapshotDate = "2026-05-28";
-const stockPagePublicCopyContract = "指數燈號提供市場分數、狀態整理與風險觀察輔助，不提供個股買賣建議。";
+const stockPagePublicCopyContract = "指數燈號提供市場分數、風險辨識與觀察輔助，不提供買賣建議。";
 
 export function generateMetadata({ params }: StockPageProps): Metadata {
   const repository = getMarketSignalRepository();
@@ -25,7 +25,7 @@ export function generateMetadata({ params }: StockPageProps): Metadata {
   const snapshot = repository.getSnapshot(asset.symbol, snapshotDate);
   const signal = snapshot?.signal.title ?? "觀察";
   const title = `${asset.symbol} ${asset.name} 燈號：${signal}`;
-  const description = `${asset.symbol} ${asset.name} 的市場分數、市場狀態、風險分數、資料更新時間與觀察重點。公開 Beta 期間仍可能使用示範資料，請搭配資料來源狀態閱讀。`;
+  const description = `${asset.symbol} ${asset.name} 的市場分數、市場狀態、風險提醒、資料更新時間與示範資料邊界。內容僅供市場觀察，非投資建議。`;
 
   return {
     alternates: {

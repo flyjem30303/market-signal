@@ -4,44 +4,33 @@ type PublicRouteReadingContractProps = {
 
 const copy = {
   disclaimer: {
-    eyebrow: "公開頁閱讀流程",
-    title: "先看資料邊界，再理解風險聲明",
-    body: "風險聲明的重點是協助使用者知道本站只做資訊整理與觀察輔助，不提供買賣建議。",
-    next: "閱讀完風險聲明後，回到首頁或晨報時仍要先確認市場狀態、資料時間與下一步觀察。"
+    title: "如何閱讀風險聲明",
+    body: "這一頁說明網站能做什麼、不能做什麼，以及使用者在解讀燈號時應保留哪些判斷空間。",
+    next: "讀完後可回到首頁看市場狀態，再到方法頁確認燈號成因。"
   },
   methodology: {
-    eyebrow: "公開頁閱讀流程",
-    title: "先理解燈號怎麼形成，再回到市場狀態",
-    body: "方法說明頁用來解釋狀態、風險提醒與資料邊界，避免使用者把單一分數當成完整結論。",
-    next: "讀完方法後，請回到首頁、晨報或標的頁，依照六個閱讀檢查點重新複核。"
+    title: "如何閱讀方法說明",
+    body: "這一頁說明燈號如何由趨勢、風險、資料品質與市場廣度組成，幫助使用者理解分數背後的原因。",
+    next: "讀完後可回到市場總覽，對照燈號、原因與資料更新時間。"
   },
   privacy: {
-    eyebrow: "公開頁閱讀流程",
-    title: "先了解資料使用方式，再使用追蹤功能",
-    body: "隱私頁說明網站如何處理基本使用資料；目前版本仍以公開閱讀與非登入體驗為主。",
-    next: "閱讀後可回到市場頁面，依序看市場狀態、風險提醒、資料邊界與下一步觀察。"
+    title: "如何閱讀隱私說明",
+    body: "這一頁說明網站目前蒐集的互動資料與使用邊界，協助使用者理解追蹤事件的用途。",
+    next: "讀完後可回到首頁或條款頁，確認使用資料與服務邊界。"
   },
   terms: {
-    eyebrow: "公開頁閱讀流程",
-    title: "先確認使用條款，再閱讀市場提示",
-    body: "條款頁提醒使用者，網站內容是資訊整理與風險辨識，不是交易工具或個人化投資建議。",
-    next: "閱讀後可回到首頁或晨報，依照風險提醒與下一步觀察建立自己的檢查流程。"
+    title: "如何閱讀服務條款",
+    body: "這一頁說明網站定位、使用限制、資料延遲與非投資建議邊界，避免使用者誤解服務用途。",
+    next: "讀完後可回到風險聲明，確認燈號只作為觀察輔助。"
   }
-} satisfies Record<
-  PublicRouteReadingContractProps["context"],
-  {
-    body: string;
-    eyebrow: string;
-    next: string;
-    title: string;
-  }
->;
+} satisfies Record<PublicRouteReadingContractProps["context"], { body: string; next: string; title: string }>;
 
 const steps = [
-  ["市場狀態", "先看目前是偏多、觀望、警戒或高風險，不急著做單一結論。"],
-  ["風險提醒", "再看風險熱度、成因與是否有異常提示，避免只看分數。"],
-  ["資料邊界", "確認資料時間、來源狀態、缺口與延遲說明，正式資料未啟用時要降低解讀信心。"],
-  ["下一步觀察", "最後決定是關注、加強觀察或等待更多資料，而不是把頁面當成買賣建議。"]
+  ["閱讀流程", "先看頁面主旨，再確認原因、風險提醒、資料邊界與下一步觀察。"],
+  ["原因", "每個公開頁都應說明為什麼需要這個資訊，而不是只列規則或術語。"],
+  ["風險提醒", "所有燈號與說明都不構成投資建議，也不保證報酬。"],
+  ["資料邊界", "目前仍維持示範資料與模擬分數，正式資料上線前會清楚標示。"],
+  ["下一步觀察", "使用者應回到市場總覽、個別標的或方法頁，交叉檢查狀態與時間。"]
 ] as const;
 
 export function PublicRouteReadingContract({ context }: PublicRouteReadingContractProps) {
@@ -50,13 +39,13 @@ export function PublicRouteReadingContract({ context }: PublicRouteReadingContra
   return (
     <section className="public-route-reading-contract" aria-label="公開頁閱讀流程">
       <div className="public-route-reading-contract__intro">
-        <p className="eyebrow">{item.eyebrow}</p>
+        <p className="eyebrow">閱讀流程</p>
         <h2>{item.title}</h2>
+        <p>六個閱讀檢查點：狀態、原因、風險提醒、資料邊界、更新時間與下一步觀察。</p>
         <p>{item.body}</p>
         <p>{item.next}</p>
-        <p>六個閱讀檢查點：市場狀態、風險提醒、資料邊界、資料時間、原因說明、下一步觀察。</p>
-        <p>原因會說明燈號為何偏綠、偏黃或偏紅；更新時間則協助判斷資料是否仍適合解讀。</p>
-        <p>目標是協助使用者做出關注、加強觀察或等待更多資料的判斷。</p>
+        <p>示範資料只用來呈現產品體驗；正式資料與真實分數必須等資料來源、品質、回讀與正式資料切換檢查完成。</p>
+        <p>使用者可根據頁面資訊決定關注、加強觀察或等待更多資料。</p>
       </div>
       <div className="public-route-reading-contract__steps" aria-label="閱讀步驟">
         {steps.map(([title, body]) => (

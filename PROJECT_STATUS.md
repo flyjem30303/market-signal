@@ -11194,3 +11194,36 @@ No SQL, Supabase write, staging rows, `daily_prices` mutation, raw market-data f
 Next:
 
 Continue Phase 1 toward real data launch by keeping the public surface clean while advancing the data line through legal free automated source confirmation, TWII write/read execution controls, aggregate readback, rollback dry-run, and mock-to-real promotion gate. Phase 2 membership remains a roadmap boundary until Phase 1 public/data loop is stable.
+
+# Latest Phase 1 public copy de-mojibake and user-facing cleanup
+
+Status: `phase_1_public_copy_demojibake_user_facing_cleanup_passed`
+
+Date: 2026-06-15
+
+CEO decision: `FIX_VISIBLE_PUBLIC_COPY_BEFORE_MORE_GOVERNANCE`.
+
+What changed:
+
+- Replaced corrupted public copy in the home and stock shared shell with readable Phase 1 investor-facing copy.
+- Replaced corrupted public names and signal copy for core public assets, signal rules, data freshness labels, and public data-boundary notices.
+- Rewrote `/methodology`, `/disclaimer`, `/terms`, and `/privacy` as concise user-facing pages with the existing public reading contract.
+- Preserved the current data boundary: public pages remain mock / simulated, no real-data promotion occurred.
+
+Verification:
+
+- `cmd.exe /c npx tsc --noEmit --incremental false` passed.
+- `cmd.exe /c npm run check:phase-1-core-public-copy-readable` passed.
+- `cmd.exe /c npm run check:public-support-route-reading-contract` passed.
+- `cmd.exe /c npm run check:public-visible-language-quality` passed.
+- `cmd.exe /c npm run check:public-surface-user-facing-audit` passed.
+- `cmd.exe /c npm run build` passed after stopping the dev server and clearing generated `.next`.
+- `cmd.exe /c npm run check:localhost-health` passed after restarting localhost.
+
+Boundary:
+
+No SQL, Supabase read/write, staging rows, `daily_prices` mutation, raw market-data fetch/store/commit, source promotion, real score promotion, membership implementation, production env mutation, DNS change, Vercel dashboard mutation, or platform deploy occurred. Runtime remains `publicDataSource=mock` and `scoreSource=mock`.
+
+Next:
+
+Continue Phase 1 through the data line blocker: wait for A1 ETF aggregate-only sanitized candidate artifact reply, then run the PM intake validator and candidate artifact set acceptance gate. Keep build and full review-gates sequential; do not run them in parallel because both can touch heavy generated state.
