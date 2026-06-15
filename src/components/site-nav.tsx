@@ -4,14 +4,14 @@ import { usePathname } from "next/navigation";
 import { trackEvent } from "@/lib/tracking";
 
 const navItems = [
-  { href: "/", label: "總覽" },
+  { href: "/", label: "首頁" },
   { href: "/briefing", label: "市場簡報" },
-  { href: "/weekly", label: "週報" },
-  { activePrefix: "/stocks", href: "/stocks/2330", label: "標的" },
+  { href: "/weekly", label: "每週觀察" },
+  { activePrefix: "/stocks", href: "/stocks/2330", label: "標的燈號" },
   { href: "/membership", label: "會員規劃" },
   { href: "/methodology", label: "方法說明" },
-  { href: "/privacy", label: "隱私權" },
-  { href: "/terms", label: "使用條款" },
+  { href: "/privacy", label: "隱私" },
+  { href: "/terms", label: "條款" },
   { href: "/disclaimer", label: "風險聲明" }
 ];
 

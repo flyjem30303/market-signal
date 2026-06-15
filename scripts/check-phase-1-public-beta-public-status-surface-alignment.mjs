@@ -18,8 +18,8 @@ const requiredPublicPhrases = [
   "先用 30 秒看懂市場氣氛",
   "資料品質需持續複核",
   "會員功能規劃中",
-  "目前為示範資料",
-  "不提供個股買賣建議"
+  "市場資訊整理與風險觀察",
+  "不構成投資建議"
 ];
 const forbiddenPublicStatusFragments = [
   "KEEP_OPEN_WITH_DEFERRALS",

@@ -11,21 +11,21 @@ export const metadata: Metadata = {
     default: siteConfig.name,
     template: `%s | ${siteConfig.name}`
   },
-  description: "指數燈號把市場狀態、成因、影響級別與資料更新時間整理成可理解的公開儀表站。"
+  description: "用紅黃綠燈號、核心指標與風險提示，協助一般投資者快速理解台股市場狀態。"
 };
 
 const footerTrustLinks = [
   { href: "/methodology", label: "方法說明" },
   { href: "/disclaimer", label: "風險聲明" },
-  { href: "/privacy", label: "隱私權" },
+  { href: "/privacy", label: "隱私政策" },
   { href: "/terms", label: "使用條款" }
 ];
 
 const footerNavLinks = [
-  { href: "/", label: "總覽" },
+  { href: "/", label: "首頁" },
   { href: "/briefing", label: "市場簡報" },
-  { href: "/weekly", label: "週報" },
-  { href: "/stocks/2330", label: "標的" },
+  { href: "/weekly", label: "每週觀察" },
+  { href: "/stocks/2330", label: "標的燈號" },
   { href: "/membership", label: "會員規劃" }
 ];
 
@@ -54,13 +54,14 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <div>
             <strong>指數燈號</strong>
             <p>
-              本網站提供市場資訊整理、風險辨識與觀察輔助。公開 Beta 目前仍使用展示資料，不構成投資建議，也不保證任何投資結果。
+              本網站提供市場資訊整理與風險觀察，不構成投資建議。公開 Beta 階段仍以示範資料與資料品質檢查為主，
+              正式資料啟用前會清楚標示來源、更新時間與延遲狀態。
             </p>
-            <div className="site-footer-trust" aria-label="公開信任說明">
+            <div className="site-footer-trust" aria-label="信任與風險資訊">
               <span>公開 Beta</span>
-              <span>展示資料</span>
+              <span>示範資料</span>
               <span>非投資建議</span>
-              <span>資料更新時間需複核</span>
+              <span>資料更新狀態透明</span>
               {footerTrustLinks.map((link) => (
                 <TrackedLink
                   eventName="site_chrome_link_clicked"
