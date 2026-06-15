@@ -31,7 +31,7 @@ export function getPublicBetaPublicStatusSurface(): PublicBetaPublicStatusSurfac
       },
       {
         body:
-          "會員深度解讀、自選追蹤與自訂警示屬於 Phase 2 規劃；Phase 1 先完成公開免費版可用閉環。",
+          "會員深度解讀、自選追蹤與自訂警示屬於後續階段規劃；目前先完成公開免費版可用閉環。",
         label: "產品階段",
         title: "會員功能規劃中",
         tone: "blocked"
@@ -40,6 +40,6 @@ export function getPublicBetaPublicStatusSurface(): PublicBetaPublicStatusSurfac
     headline: "公開 Beta 使用狀態",
     stopLine: "本網站提供市場資訊整理與風險觀察，不構成投資建議，也不保證任何投資結果。",
     summary:
-      "Phase 1 目標是讓一般投資者能看懂市場燈號、核心指標與風險提示；正式資料與會員功能會在資料權利、覆蓋率與品質門檻通過後再開放。"
+      "目前目標是讓一般投資者能看懂市場燈號、核心指標與風險提示；正式資料與會員功能會在資料權利、覆蓋率與品質門檻通過後再開放。"
   };
 }

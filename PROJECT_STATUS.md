@@ -11757,3 +11757,34 @@ No SQL, Supabase write, Supabase read, staging rows, `daily_prices` mutation, ra
 Next:
 
 The local no-execution prewrite chain is converged. The remaining Phase 1 data-online step is an explicit, separate, irreversible Supabase/`daily_prices` write attempt followed by aggregate readback, rollback/quarantine readiness, post-run review, and only then mock-to-real promotion review.
+
+# Latest Phase 1 sanitized row-payload blocker clarification
+
+Status: `phase_1_data_online_blocked_missing_sanitized_row_payload_artifact`
+
+Date: 2026-06-16
+
+CEO decision: `DO_NOT_ATTEMPT_WRITE_UNTIL_SANITIZED_ROW_PAYLOAD_ARTIFACT_EXISTS_AND_VALIDATES`.
+
+What changed:
+
+- Confirmed the existing TWII and ETF candidate artifacts are aggregate-only and cannot feed the write runner.
+- Confirmed the implementation candidate fails closed before any SQL, Supabase connection, Supabase write, row acceptance, or `daily_prices` mutation.
+- Confirmed A1 must provide a local or external sanitized row-payload candidate artifact path, or the project must remain at data-online no-go.
+
+Verification:
+
+- `cmd.exe /c npm run check:phase-1-sanitized-row-payload-candidate-artifact-spec` passed.
+- `cmd.exe /c npm run check:phase-1-sanitized-row-payload-candidate-validator` passed.
+- `cmd.exe /c npm run run:phase-1-write-runner-implementation-candidate` returned `status=blocked` with `blockedReasons=["candidate_row_payloads_missing"]`.
+- A1 no-fetch inspection found no usable current artifact path under `data/candidates`.
+
+Boundary:
+
+No SQL, Supabase read, Supabase write, staging rows, `daily_prices` mutation, market-data fetch, market-data ingestion, committed market row payload, raw payload output, row payload output, secret output, source promotion, score promotion, or public real-data claim occurred.
+
+Next:
+
+Provide or generate a non-committed sanitized row-payload candidate artifact matching `scripts/validate-phase-1-sanitized-row-payload-candidate-artifact.mjs`, then validate with:
+
+`cmd.exe /c npm run validate:phase-1-sanitized-row-payload-candidate-artifact -- --candidate-artifact <sanitized-row-payload-candidate-path>`

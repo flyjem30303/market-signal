@@ -65,11 +65,12 @@ export default async function BriefingPage() {
         <p className="eyebrow">每日市場晨報</p>
         <h2>先看市場氣氛，再看風險，最後確認資料與風險邊界</h2>
         <p>
-          今日市場提醒先整理市場行動摘要，再用警示清單協助使用者判斷要關注、加強觀察或降低風險。
+          晨報快速判讀：先用 30 秒看懂今日市場氣氛，再用 3 分鐘再決定觀察順序。今日市場提醒先整理市場行動摘要，
+          再用警示清單協助使用者判斷要關注、加強觀察或降低風險。
         </p>
         <div className="briefing-actions" aria-label="3 分鐘行動判斷">
           <article>
-            <strong>市場行動摘要</strong>
+            <strong>3 分鐘行動判斷</strong>
             <p>
               {market.asset.name} 市場分數 {market.compositeScore}/100，風險分數 {market.riskScore}/100；先看氣氛，
               再看風險。

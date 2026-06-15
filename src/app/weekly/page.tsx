@@ -12,8 +12,8 @@ import {
 import type { SignalSnapshot } from "@/lib/signal-model";
 
 export const metadata: Metadata = {
-  title: "每週市場觀察",
-  description: "整理本週市場燈號、主要風險、觀察重點與資料邊界。"
+  title: "市場週報",
+  description: "整理本週市場燈號、主要風險、觀察重點與資料邊界；內容不提供買賣建議。"
 };
 
 export default async function WeeklyPage() {
@@ -33,13 +33,14 @@ export default async function WeeklyPage() {
       <PageViewTracker eventName="weekly_page_viewed" payload={{ page: "weekly" }} />
 
       <section className="hero">
-        <p className="eyebrow">每週市場觀察</p>
+        <p className="eyebrow">市場週報</p>
         <h1>用一頁回看市場燈號、風險與下週觀察重點</h1>
         <p>
-          每週頁把本週市場狀態整理成可追蹤的觀察流程：先看主燈號，再看風險是否集中，最後確認資料是否足以支撐判斷。
+          每週頁把本週市場狀態整理成可追蹤的觀察流程：先用 30 秒看主燈號，再用 3 分鐘看風險是否集中，
+          最後確認資料是否足以支撐判斷。
         </p>
         <p className="runtime-boundary-line">
-          目前仍為公開 Beta 示範資料；正式每日資料與回補流程完成前，本頁不宣稱即時真實資料，也不提供投資建議。
+          目前仍為公開 Beta 示範資料；正式每日資料與回補流程完成前，本頁不宣稱即時真實資料，也不提供買賣建議。
         </p>
       </section>
 
@@ -65,9 +66,10 @@ export default async function WeeklyPage() {
 
       <section className="panel stock-reading-summary" aria-label="每週行動摘要">
         <p className="eyebrow">每週行動摘要</p>
-        <h2>下週先追蹤市場方向、風險集中度與資料更新</h2>
+        <h2>週報行動摘要：下週先追蹤市場方向、風險集中度與資料更新</h2>
         <p>
           本頁不是投資建議，而是協助使用者把市場狀態轉成固定觀察流程：先看燈號，再看原因，最後看資料邊界。
+          週報僅提供市場資訊整理與觀察輔助，不提供買賣建議或報酬承諾。
         </p>
         <div className="briefing-actions">
           <article>

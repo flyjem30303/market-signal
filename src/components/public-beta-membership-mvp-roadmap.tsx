@@ -1,6 +1,6 @@
 import { TrackedLink } from "@/components/tracked-link";
 
-// Phase 2 membership roadmap source marker; public copy stays Traditional Chinese.
+// Membership roadmap source marker; public copy stays Traditional Chinese.
 const roadmapCards = [
   {
     body: "每天用市場總觀、關鍵指標變化、後續觀察重點三段式，讓會員快速理解燈號背後的原因。",
@@ -23,11 +23,11 @@ export function PublicBetaMembershipMvpRoadmap() {
   return (
     <section className="public-beta-membership-roadmap" aria-label="會員功能規劃">
       <div className="public-beta-membership-roadmap__intro">
-        <p className="eyebrow">第二階段會員路線圖</p>
+        <p className="eyebrow">會員功能預告</p>
         <h2>下一階段：從看到燈號，升級成理解燈號</h2>
         <p>
           第一階段先把免費市場總覽做好；會員功能會在後續階段導入，重點是深度解讀、個人化追蹤與盤後複盤，
-          不提供買賣建議，也不代替使用者做投資決策。
+          不提供買賣建議或個別買賣建議，也不代替使用者做投資決策。
         </p>
       </div>
       <div className="public-beta-membership-roadmap__grid">

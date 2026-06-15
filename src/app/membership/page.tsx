@@ -3,8 +3,8 @@ import { PageViewTracker } from "@/components/page-view-tracker";
 import { TrackedLink } from "@/components/tracked-link";
 
 export const metadata: Metadata = {
-  title: "會員規劃",
-  description: "會員功能屬 Phase 2 規劃；Phase 1 先完成公開免費版的市場總覽、核心指標與風險提示。"
+  title: "會員功能預覽",
+  description: "會員功能預告：公開版先完成市場總覽、核心指標與風險提示，後續再導入深度解讀與個人化追蹤。"
 };
 
 export default function MembershipPage() {
@@ -13,23 +13,23 @@ export default function MembershipPage() {
       <PageViewTracker eventName="membership_preview_page_viewed" payload={{ page: "membership" }} />
 
       <section className="hero">
-        <p className="eyebrow">會員規劃</p>
-        <h1>Phase 2 才會導入會員深度解讀與個人化追蹤</h1>
+        <p className="eyebrow">會員功能預覽</p>
+        <h1>會員功能預告：從看到燈號，延伸到理解與追蹤</h1>
         <p>
-          指數燈號的第一階段先完成公開免費版：市場總覽、核心指標、風險提示與資料更新狀態。會員功能會在資料流程與公開頁面穩定後，
-          再逐步導入深度解讀、自選追蹤、自訂警示與盤後複盤。
+          指數燈號目前先完成公開免費版，讓使用者在 30 秒內看懂市場狀態，並在 3 分鐘內判斷是否需要關注、加強觀察或降低風險。
+          後續會員功能會在公開版穩定後，再逐步導入深度解讀、自選追蹤、自訂警示與盤後複盤。
         </p>
         <p className="runtime-boundary-line">
-          目前尚未開放會員登入、付款、持久化自選清單或個人化警示；本頁只說明產品方向，不代表功能已上線。
+          目前尚未開放會員登入、付款、持久化自選清單或個人化警示；本頁只說明第二階段產品方向，不代表功能已上線。
         </p>
       </section>
 
-      <section className="panel stock-reading-summary" aria-label="會員 MVP 邊界">
-        <p className="eyebrow">會員 MVP 邊界</p>
+      <section className="panel stock-reading-summary" aria-label="會員功能邊界">
+        <p className="eyebrow">會員功能邊界</p>
         <h2>會員功能規劃中，尚未開放登入</h2>
         <p>
           會員版本會延伸「看到燈號」到「理解燈號」與「追蹤變化」。初期不做交易、不串接券商、不提供個人資產配置建議，
-          也不會把觀察訊號包裝成買賣指令。
+          也不提供買賣建議，不提供個別買賣建議，不提供個股買賣建議。
         </p>
       </section>
 

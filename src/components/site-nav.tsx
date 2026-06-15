@@ -8,7 +8,7 @@ const navItems = [
   { href: "/briefing", label: "市場簡報" },
   { href: "/weekly", label: "每週觀察" },
   { activePrefix: "/stocks", href: "/stocks/2330", label: "標的燈號" },
-  { href: "/membership", label: "會員規劃" },
+  { href: "/membership", label: "會員預告" },
   { href: "/methodology", label: "方法說明" },
   { href: "/privacy", label: "隱私" },
   { href: "/terms", label: "條款" },

@@ -30,7 +30,7 @@ export function BriefingPublicBetaGateSummary() {
 
         <article className="hold">
           <span>會員下一階段</span>
-          <strong>會員 MVP 尚未開放</strong>
+          <strong>會員功能尚未開放</strong>
           <p>登入、付費、自選追蹤與自訂警示仍屬後續實作。</p>
         </article>
       </div>

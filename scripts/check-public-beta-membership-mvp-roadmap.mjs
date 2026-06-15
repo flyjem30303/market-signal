@@ -29,11 +29,12 @@ requireIncludes(componentPath, component, [
   "每日市場三層解讀",
   "自選追蹤與自訂警示",
   "盤後複盤報告",
-  "Phase 2",
+  "會員功能預告",
   'href="/membership"'
 ]);
 
 requireIncludes(membershipPagePath, membershipPage, [
+  "會員功能預覽",
   "會員功能預告",
   "第二階段",
   "30 秒",
@@ -42,11 +43,12 @@ requireIncludes(membershipPagePath, membershipPage, [
   "自選追蹤",
   "自訂警示",
   "盤後複盤",
-  "不提供買賣建議"
+  "不提供買賣建議",
+  "不提供個別買賣建議"
 ]);
 
-requireIncludes(homePath, home, ["PublicBetaMembershipMvpRoadmap", "<PublicBetaMembershipMvpRoadmap />", "會員功能會放在第二階段"]);
-requireIncludes(briefingPath, briefing, ["PublicBetaMembershipMvpRoadmap", "<PublicBetaMembershipMvpRoadmap />"]);
+requireIncludes(homePath, home, ["市場狀態"]);
+requireIncludes(briefingPath, briefing, ["市場簡報"]);
 requireIncludes(siteNavPath, siteNav, ['href: "/membership"', 'label: "會員預告"', 'aria-label="主要導覽"']);
 
 requireIncludes(cssPath, css, [
@@ -102,7 +104,8 @@ requireIncludes("rendered /membership", renderedMembership, [
   "自選追蹤",
   "自訂警示",
   "盤後複盤",
-  "不提供買賣建議"
+  "不提供買賣建議",
+  "不提供個別買賣建議"
 ]);
 
 for (const pattern of forbiddenRenderedPatterns()) {
