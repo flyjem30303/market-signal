@@ -2,6 +2,55 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Write Runner Implementation Scope Packet Ready
+
+Status: `phase_1_write_runner_implementation_scope_packet_no_execution_ready`
+
+CEO decision:
+
+- Accept the Phase 1 write runner implementation review gate and narrow the next work to a server-only scaffold.
+- Keep implementation blocked until the scaffold defines dry-run defaults, client/server boundaries, and aggregate-only review shapes.
+- Continue to block Supabase client import, credential-value reads, SQL, Supabase connection/write, `daily_prices` mutation, candidate-row acceptance, and runtime promotion.
+
+PM completed:
+
+- Added `data/evidence-intake/phase-1-write-runner-implementation-scope-packet-no-execution.json`.
+- Added `docs/PHASE_1_WRITE_RUNNER_IMPLEMENTATION_SCOPE_PACKET_NO_EXECUTION.md`.
+- Added and registered `check:phase-1-write-runner-implementation-scope-packet-no-execution`.
+
+Scope packet state:
+
+- `inputImplementationReviewGate=phase_1_write_runner_implementation_review_gate_no_execution_ready`
+- `scopeDecision=implementation_scope_packet_ready_but_implementation_still_blocked`
+- `implementationAllowedNow=false`
+- `runnerExecutableNow=false`
+- `executionAllowedNow=false`
+- `writeGateExecutableNow=false`
+- `boundedAttemptScope=twii_and_etf_phase_1_missing_row_closure_only`
+- `targetTable=daily_prices`
+
+Allowed future implementation scopes:
+
+- `server_only_module_boundary`
+- `credential_presence_shape_only`
+- `sanitized_candidate_artifact_path_shape`
+- `bounded_insert_missing_only_contract`
+- `aggregate_readback_contract`
+- `rollback_or_quarantine_contract`
+- `post_write_review_contract`
+- `runtime_promotion_contract`
+
+Current boundary:
+
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+- No switch value, confirmation phrase, operator value, credential value, raw payload, row payload, or secret was printed, stored, hashed, compared, or transformed.
+- No SQL, Supabase client import/read/write/connection, staging row, `daily_prices` mutation, candidate row acceptance, market-data fetch/ingestion, source promotion, score promotion, public real-data claim, or investment-advice claim occurred.
+
+Next route:
+
+Prepare `phase_1_write_runner_server_only_scaffold_no_execution`.
+
 ### Phase 1 Write Runner Implementation Review Gate Ready
 
 Status: `phase_1_write_runner_implementation_review_gate_no_execution_ready`

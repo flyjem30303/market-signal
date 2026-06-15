@@ -1533,6 +1533,7 @@
     "check:phase-1-write-gate-fail-closed-runner-stub": "node scripts/check-phase-1-write-gate-fail-closed-runner-stub.mjs",
     "check:phase-1-write-gate-runner-stub-post-run-review-no-execution": "node scripts/check-phase-1-write-gate-runner-stub-post-run-review-no-execution.mjs",
     "check:phase-1-write-runner-implementation-review-gate-no-execution": "node scripts/check-phase-1-write-runner-implementation-review-gate-no-execution.mjs",
+    "check:phase-1-write-runner-implementation-scope-packet-no-execution": "node scripts/check-phase-1-write-runner-implementation-scope-packet-no-execution.mjs",
     "check:phase-1-row-coverage-readonly-result-20260615-a": "node scripts/check-phase-1-row-coverage-readonly-result-20260615-a.mjs",
     "check:phase-1-twii-etf-missing-rows-backfill-readiness": "node scripts/check-phase-1-twii-etf-missing-rows-backfill-readiness.mjs",
     "check:phase-1-twii-write-attempt-stopline-rollup": "node scripts/check-phase-1-twii-write-attempt-stopline-rollup.mjs",
