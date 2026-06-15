@@ -98,4 +98,6 @@ It does not include credential values, operator values, SQL, Supabase commands, 
 
 ## Next Route
 
-Close the two remaining no-secret execution prerequisites: operator values and credential presence. They must remain server-only and cannot be printed in logs or docs.
+CEO/PM now has a presence-only packet for the two remaining write-gate blockers: `operator_values_missing` and `credential_presence_unverified`.
+
+The next route is not another broad planning packet. Prepare the smallest possible server-only presence recheck gate that can confirm boolean presence only without printing, storing, hashing, comparing, or transforming credential/operator values.

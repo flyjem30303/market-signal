@@ -856,6 +856,7 @@
     "check:phase-1-data-online-operator-decision-packet-no-execution": "node scripts/check-phase-1-data-online-operator-decision-packet-no-execution.mjs",
     "check:phase-1-data-online-server-preexecution-readiness-no-execution": "node scripts/check-phase-1-data-online-server-preexecution-readiness-no-execution.mjs",
     "check:phase-1-data-online-execution-values-dry-run-shape-no-execution": "node scripts/check-phase-1-data-online-execution-values-dry-run-shape-no-execution.mjs",
+    "check:phase-1-data-online-operator-credential-presence-packet-no-execution": "node scripts/check-phase-1-data-online-operator-credential-presence-packet-no-execution.mjs",
     "check:phase-1-data-online-final-preexecution-review-artifact-no-execution": "node scripts/check-phase-1-data-online-final-preexecution-review-artifact-no-execution.mjs",
     "check:phase-1-data-online-write-gate-dry-run-preview-no-execution": "node scripts/check-phase-1-data-online-write-gate-dry-run-preview-no-execution.mjs",
     "check:phase-1-data-online-write-gate-fail-closed-simulation-no-execution": "node scripts/check-phase-1-data-online-write-gate-fail-closed-simulation-no-execution.mjs",

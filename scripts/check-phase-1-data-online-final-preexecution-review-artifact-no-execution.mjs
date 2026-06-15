@@ -13,6 +13,10 @@ const executionShape = runJson(
   "scripts/check-phase-1-data-online-execution-values-dry-run-shape-no-execution.mjs",
   "execution values dry-run shape"
 );
+const operatorCredentialPresence = runJson(
+  "scripts/check-phase-1-data-online-operator-credential-presence-packet-no-execution.mjs",
+  "operator credential presence packet"
+);
 const dataOnline = runJson("scripts/check-phase-1-data-online-go-no-go-status.mjs", "data-online go/no-go");
 
 validatePrerequisites();
@@ -43,6 +47,17 @@ function validatePrerequisites() {
     "phase_1_data_online_execution_values_dry_run_shape_no_execution_ready",
     "execution values dry-run shape guarded status"
   );
+  expect(operatorCredentialPresence.status, "ok", "operator credential presence packet status");
+  expect(
+    operatorCredentialPresence.guardedStatus,
+    "phase_1_data_online_operator_credential_presence_packet_no_execution_ready",
+    "operator credential presence packet guarded status"
+  );
+  expect(
+    operatorCredentialPresence.operatorCredentialPacketStatus,
+    "ready_for_external_operator_values_and_server_presence_check",
+    "operator credential packet status"
+  );
   expect(dataOnline.status, "ok", "dataOnline status");
   expect(dataOnline.decision, "PUBLIC_RUNTIME_READY_BUT_DATA_ONLINE_NO_GO", "dataOnline decision");
   expect(dataOnline.publicDataSource, "mock", "dataOnline publicDataSource");
@@ -56,6 +71,8 @@ function validateDoc() {
     "operator_decision_packet_included",
     "server_preexecution_readiness_included",
     "execution_values_dry_run_shape_included",
+    "operator_credential_presence_packet_included",
+    "ready_for_external_operator_values_and_server_presence_check",
     "rollback_plan_shape_included",
     "aggregate_readback_plan_shape_included",
     "post_run_review_checklist_included",

@@ -2,6 +2,46 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Operator/Credential Presence Packet Ready
+
+Status: `phase_1_operator_credential_presence_packet_ready_no_execution`
+
+CEO decision:
+
+- Stop expanding broad governance around the last data-online blockers.
+- Collapse the remaining `operator_values_missing` and `credential_presence_unverified` blockers into one explicit no-secret, presence-only packet.
+- Keep the write gate closed until a separate operator-owned process confirms the required presence slots outside repository storage.
+
+PM completed:
+
+- Added `phase-1-operator-credential-presence-packet.json` as a sanitized artifact with no values, credentials, SQL, row payloads, or source promotion.
+- Added `PHASE_1_DATA_ONLINE_OPERATOR_CREDENTIAL_PRESENCE_PACKET_NO_EXECUTION.md`.
+- Added `check:phase-1-data-online-operator-credential-presence-packet-no-execution` and registered it in the focused review gate.
+- Updated the final pre-execution review artifact so it consumes the operator/credential presence packet before any later write-gate dry-run.
+- Reduced checker runtime by reading the already-verified write-gate checklist document instead of recursively rerunning the full write-gate checker inside the packet checker.
+
+Verified:
+
+- `cmd.exe /c npm run check:phase-1-data-online-operator-credential-presence-packet-no-execution` passes.
+- `cmd.exe /c npm run check:phase-1-data-online-final-preexecution-review-artifact-no-execution` passes.
+
+Current blocker view:
+
+- Remaining blockers are still `operator_values_missing` and `credential_presence_unverified`.
+- They now have a single required presence packet: `ready_for_external_operator_values_and_server_presence_check`.
+- Write gate remains non-executable until external/operator presence is confirmed by a separate server-only gate.
+
+Current boundary:
+
+- Data online remains `NO_GO`.
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+- No SQL, Supabase write, staging row, `daily_prices` mutation, market-data fetch/ingestion, row coverage award, source promotion, score promotion, secret output, row payload output, or public real-data claim occurred.
+
+Next route:
+
+CEO should prepare the smallest possible server-only presence recheck gate. It may confirm boolean presence only and must not print, store, hash, compare, or transform credential/operator values.
+
 ### Phase 1 Dashboard API Exposure Evidence Accepted
 
 Status: `phase_1_dashboard_api_exposure_reduced_write_gate_remaining_two`
