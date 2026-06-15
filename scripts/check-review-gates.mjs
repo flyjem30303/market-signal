@@ -3583,6 +3583,11 @@ const checks = [
     name: "phase-1-data-online-external-platform-evidence-runner-no-execution"
   },
   {
+    command: [node, "scripts/check-phase-1-data-online-external-platform-evidence-intake-format-no-execution.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-data-online-external-platform-evidence-intake-format-no-execution"
+  },
+  {
     command: [node, "scripts/check-twii-exact-execution-preflight-repair-selector.mjs"],
     expectStatus: "ok",
     name: "twii-exact-execution-preflight-repair-selector"
@@ -6619,6 +6624,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "phase-1-data-online-local-lane-checklist-runner-no-execution",
   "phase-1-data-online-external-platform-evidence-checklist-no-execution",
   "phase-1-data-online-external-platform-evidence-runner-no-execution",
+  "phase-1-data-online-external-platform-evidence-intake-format-no-execution",
   "twii-exact-execution-preflight-repair-selector",
   "twii-source-rights-outcome-acceptance-gate",
   "twii-field-contract-asset-mapping-alignment-gate",
