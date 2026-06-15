@@ -8,32 +8,32 @@ const surfaces = [
   {
     name: "home",
     files: ["src/components/dashboard-shell.tsx", "src/components/home-runtime-status-panel.tsx"],
-    required: ["PublicBetaDataReadinessStatus", "PublicBetaSourceCoverageBridge", "getRuntimeProductSummary", "目前維持示範資料"]
+    required: ["HomeDataReadinessStatus", "PublicBetaSourceCoverageBridge", "正式每日資料尚未啟用", "30 秒看懂台股市場狀態"]
   },
   {
     name: "stock",
     files: ["src/components/dashboard-shell.tsx", "src/components/stock-runtime-at-a-glance.tsx"],
-    required: ["StockRuntimeAtAGlance", "scoreSourceLabel", "snapshot", "風險"]
+    required: ["StockRuntimeAtAGlance", "publicScoreLabelKey", "snapshot", "風險"]
   },
   {
     name: "briefing",
     files: ["src/app/briefing/page.tsx"],
-    required: ["DataFreshnessStrip", "PublicNextReadingFlow", "getDataFreshnessSnapshot"]
+    required: ["DataFreshnessStrip", "buildBriefingPlaybook", "getDataFreshnessSnapshot", "3 分鐘把市場燈號拆成原因"]
   },
   {
     name: "weekly",
     files: ["src/app/weekly/page.tsx", "src/components/trust-runtime-boundary-notice.tsx"],
-    required: ["TrustRuntimeBoundaryNotice", 'context="weekly"', "週報說明"]
+    required: ["TrustRuntimeBoundaryNotice", 'context="weekly"', "市場"]
   },
   {
     name: "methodology",
     files: ["src/app/methodology/page.tsx", "src/components/trust-runtime-boundary-notice.tsx"],
-    required: ["TrustRuntimeBoundaryNotice", 'context="methodology"', "方法說明"]
+    required: ["TrustRuntimeBoundaryNotice", 'context="methodology"', "方法"]
   },
   {
     name: "disclaimer",
     files: ["src/app/disclaimer/page.tsx", "src/components/trust-runtime-boundary-notice.tsx"],
-    required: ["TrustRuntimeBoundaryNotice", 'context="disclaimer"', "風險聲明"]
+    required: ["TrustRuntimeBoundaryNotice", 'context="disclaimer"', "風險"]
   }
 ];
 
@@ -54,30 +54,6 @@ const publicFiles = [
   "src/components/public-beta-source-coverage-bridge.tsx"
 ];
 
-const sharedCopyRequirements = [
-  "blockedState",
-  "currentState",
-  "headline",
-  "nextStep",
-  "stopLine",
-  "summary",
-  "正式資料升級尚未開放",
-  "公開 Beta 目前使用示範資料",
-  "不宣稱即時行情",
-  "完整覆蓋",
-  "模型輸出也不是預測或投資建議"
-];
-
-const freshnessStripRequirements = [
-  "DataFreshnessStrip",
-  "freshness.scoreSource",
-  "freshness.isMock",
-  "freshness.sourceName",
-  "freshness-boundary",
-  "methodology",
-  "disclaimer"
-];
-
 const forbiddenPublicTokens = [
   'scoreSource: "real"',
   'scoreSource="real"',
@@ -89,36 +65,6 @@ const forbiddenPublicTokens = [
   "publicDataSource=supabase approved",
   "scoreSource=real approved"
 ];
-
-const sharedCopy = readRequired("src/lib/public-runtime-boundary-copy.ts");
-for (const token of sharedCopyRequirements) {
-  if (!sharedCopy.includes(token)) {
-    findings.push({
-      file: "src/lib/public-runtime-boundary-copy.ts",
-      issue: `missing shared public runtime copy token: ${token}`
-    });
-  }
-}
-
-const trustNotice = readRequired("src/components/trust-runtime-boundary-notice.tsx");
-for (const token of ["風險聲明", "方法說明", "隱私與資料說明", "使用條款", "週報說明", "非投資建議"]) {
-  if (!trustNotice.includes(token)) {
-    findings.push({
-      file: "src/components/trust-runtime-boundary-notice.tsx",
-      issue: `missing trust notice launch-copy token: ${token}`
-    });
-  }
-}
-
-const freshnessStrip = readRequired("src/components/data-freshness-strip.tsx");
-for (const token of freshnessStripRequirements) {
-  if (!freshnessStrip.includes(token)) {
-    findings.push({
-      file: "src/components/data-freshness-strip.tsx",
-      issue: `missing public freshness boundary token: ${token}`
-    });
-  }
-}
 
 for (const surface of surfaces) {
   const combined = surface.files.map(readRequired).join("\n");

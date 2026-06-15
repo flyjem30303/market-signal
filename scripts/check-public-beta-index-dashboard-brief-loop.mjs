@@ -27,30 +27,23 @@ requireIncludes("home dashboard source", dashboard, [
   "HomeMarketOverview",
   "HomeLists",
   "HomeDataReadinessStatus",
-  "指數狀態儀表站",
-  "30 秒可讀",
-  "3 分鐘可行動",
-  "首頁快速判讀",
-  "市場總覽",
-  "資料狀態",
-  "下一階段會員功能"
+  "30 秒看懂台股市場狀態",
+  "3 分鐘複核",
+  "資料上線狀態",
+  "下一階段會把公開燈號延伸成個人化追蹤",
+  "偏強觀察",
+  "風險觀察"
 ]);
 
 const response = await fetch(`${baseUrl}/`);
 const text = normalizeVisibleText(await response.text());
 const requiredVisible = [
-  "指數燈號",
-  "指數狀態儀表站",
+  "指數燈號總覽",
   "30 秒看懂台股市場狀態",
-  "首頁快速判讀",
-  "市場氣氛",
-  "市場總覽",
-  "觀察重點",
-  "資料狀態",
-  "強勢觀察",
+  "資料上線狀態",
+  "偏強觀察",
   "風險觀察",
-  "正式資料尚未啟用",
-  "會員功能會放在下一階段",
+  "下一階段會把公開燈號延伸成個人化追蹤",
   "非投資建議"
 ];
 

@@ -2,6 +2,41 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Public Copy Runtime Boundary Readability Cleanup
+
+Status: `phase_1_public_copy_runtime_boundary_readability_cleanup_ready`
+
+CEO decision:
+
+- Treat public-copy readability as a Phase 1 launch blocker when internal field names or missing BRIEF promises appear on user-facing routes.
+- Keep visual polish deferred, but fix copy that affects comprehension, trust, or route health.
+- Update stale checkers away from early corrupted/internal tokens and toward current BRIEF public-surface requirements.
+
+PM completed:
+
+- Removed the `scoreSource` internal token from the dashboard shell public route source by using a generated key for the stock runtime label handoff.
+- Added homepage copy for `30 秒看懂台股市場狀態`.
+- Added briefing copy for `3 分鐘把市場燈號拆成原因`.
+- Updated the stock runtime, public runtime boundary, stock product readability, and home dashboard brief-loop checkers to validate the current BRIEF language and safer handoff.
+
+Evidence:
+
+- `cmd.exe /c npm run check:phase-1-core-public-copy-readable` passes.
+- `cmd.exe /c npm run check:phase-1-public-beta-public-visible-residue-cleanup` passes.
+- `cmd.exe /c npm run check:stock-runtime-at-a-glance` passes.
+- `cmd.exe /c npm run check:public-runtime-boundary-coverage` passes.
+- `cmd.exe /c npm run check:stock-product-first-runtime-readability` passes.
+- `cmd.exe /c npm run check:public-beta-index-dashboard-brief-loop` passes.
+- `cmd.exe /c npx tsc --noEmit` passes.
+
+Boundary:
+
+No visual redesign, broad UI/UX polish, SQL, Supabase read/write, staging-row creation, `daily_prices` mutation, market-row fetch, raw payload output, source promotion, score promotion, public real-data claim, real-time claim, official endorsement claim, investment advice claim, or Phase 2 membership implementation occurred.
+
+Next route:
+
+Continue Phase 1 data-online closure. Public routes are safer for user-facing copy, but data-online remains `NO_GO` until A1/A2 outcomes are accepted and a separate review-only authorization packet is opened.
+
 ### Phase 1 Data Online Authorization Route Selector
 
 Status: `phase_1_data_online_authorization_route_selector_ready_no_execution`

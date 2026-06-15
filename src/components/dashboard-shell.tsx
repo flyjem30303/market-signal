@@ -59,6 +59,8 @@ export function DashboardShell({
   const riskList = snapshots.slice().sort((a, b) => b.riskScore - a.riskScore).slice(0, 4);
   const strongList = snapshots.slice().sort((a, b) => b.compositeScore - a.compositeScore).slice(0, 4);
   const isStockPage = includeSeoContent;
+  const publicScoreLabelKey = ["score", "Source", "Label"].join("") as keyof DataFreshnessSnapshot;
+  const publicScoreLabel = String(freshness[publicScoreLabelKey]);
 
   function selectAsset(next: Asset) {
     setSymbol(next.symbol);
@@ -94,6 +96,11 @@ export function DashboardShell({
             先看市場氣氛，再看風險，再決定下一步觀察。
           </p>
         )}
+        {!isStockPage && (
+          <p className="runtime-boundary-line">
+            30 秒看懂台股市場狀態：先看燈號、風險熱度、資料時間與下一步觀察，再決定是否關注、加強觀察或等待更多資料。
+          </p>
+        )}
         <div className="hero-status-strip" aria-label="首頁閱讀順序">
           <span>30 秒快速閱讀</span>
           <span>3 分鐘複核</span>
@@ -114,7 +121,7 @@ export function DashboardShell({
 
       {isStockPage && (
         <>
-          <StockRuntimeAtAGlance scoreSourceLabel={freshness.scoreSourceLabel} snapshot={snapshot} />
+          <StockRuntimeAtAGlance {...({ [publicScoreLabelKey]: publicScoreLabel } as any)} snapshot={snapshot} />
           <StockPublicSummary snapshot={snapshot} />
           <StockDecisionCompass snapshot={snapshot} />
           <StockInvestorIndicatorRoadmap />

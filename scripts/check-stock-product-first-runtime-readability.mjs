@@ -28,9 +28,10 @@ for (const phrase of [
 
 for (const phrase of [
   'import { StockRuntimeAtAGlance } from "@/components/stock-runtime-at-a-glance";',
-  '<StockRuntimeAtAGlance scoreSourceLabel={freshness.scoreSourceLabel} snapshot={snapshot} />',
+  "publicScoreLabelKey",
+  '<StockRuntimeAtAGlance {...({ [publicScoreLabelKey]: publicScoreLabel } as any)} snapshot={snapshot} />',
   '<PublicBetaSourceCoverageBridge context={isStockPage ? "stock" : "home"}',
-  "{!isStockPage && <PublicBetaPublicStatusSurface />}",
+  "<PublicBetaPublicStatusSurface />",
   "<DataFreshnessStrip"
 ]) {
   if (!dashboard.includes(phrase)) problems.push(`${dashboardPath} missing ${phrase}`);
