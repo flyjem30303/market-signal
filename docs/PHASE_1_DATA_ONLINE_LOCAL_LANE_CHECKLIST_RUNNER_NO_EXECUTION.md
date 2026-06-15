@@ -6,7 +6,7 @@
 
 Packet mode: `local_lane_checklist_runner_no_execution`
 
-This runner reports that the local-lane blockers have plan coverage while the write gate remains blocked by operator and external platform lanes.
+This runner reports that the local-lane blockers have plan coverage while the write gate remains no-execution. It now follows the latest write-gate checklist and escalation map, so historical blockers reduced by no-secret evidence are not re-opened as current blockers.
 
 ## Local Lane Result
 
@@ -27,20 +27,35 @@ Current executable state:
 
 `remaining_operator_blockers`
 
-These are still not resolved and must not be guessed:
+Current remaining operator blockers:
+
+- None.
+
+Historical operator blockers reduced by evidence:
 
 - `operator_values_missing`
 - `credential_presence_unverified`
+- `operator_owned_presence_confirmation_unverified`
+- `external_presence_acceptance_unverified`
+- `external_presence_reviewed_result_missing`
+
+`historical_operator_blockers_reduced_by_evidence`
 
 ## Remaining External Platform Lane
 
 `remaining_external_platform_blockers`
 
-These still require Supabase/dashboard/schema-cache/API exposure evidence before any real write path can open:
+Current remaining external platform blockers:
+
+- None.
+
+Historical external platform blockers reduced by evidence:
 
 - `schema_cache_exposure_unverified`
 - `dashboard_api_exposure_unverified`
 - `pgrst205_regression_unverified`
+
+`historical_external_platform_blockers_reduced_by_evidence`
 
 ## Bounded Attempt Scope
 
@@ -72,7 +87,7 @@ No public page may imply that real-data mode has started.
 
 ## CEO Decision
 
-Create this local-lane checklist runner because the local plan pack is ready. The next high-value work is no longer planning the local lane; it is deciding whether to pursue operator authorization shape or external platform exposure evidence next.
+Update this local-lane checklist runner because later no-secret evidence reduced the operator and external platform blockers. The next high-value work is no longer broad blocker discovery; it is preparing a bounded write-gate preflight that stays no-execution until a separate explicit write attempt is authorized.
 
 ## PM Execution Record
 
@@ -82,4 +97,4 @@ It does not include credential values, operator values, SQL, Supabase commands, 
 
 ## Next Route
 
-Prepare an operator-lane authorization shape or external-platform evidence checklist. CEO should choose based on whether the next push should reduce human/operator dependency or platform exposure uncertainty.
+Prepare the bounded write-gate preflight after evidence-reduced blockers. The preflight must still keep SQL/Supabase write execution separate and must verify rollback, aggregate readback, duplicate rejection, post-run review, source-rights boundary, runtime fallback, and public disclosure before any real write or runtime promotion.

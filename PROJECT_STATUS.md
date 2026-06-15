@@ -2,6 +2,41 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Latest Phase 1 write runner implementation candidate blocker
+
+Status: `phase_1_write_runner_implementation_candidate_blocked_no_execution_ready`
+
+CEO decision:
+
+- Treat the Phase 1 write-runner path as ready for implementation review, but not ready for write execution.
+- Record the current hard blocker precisely: accepted TWII and ETF artifacts are aggregate/path-only and do not include sanitized row payloads that an insert-missing-only runner can write.
+- Do not keep looping on operator/platform blockers that have already been reduced by no-secret evidence.
+
+PM completed:
+
+- Added `scripts/run-phase-1-write-runner-implementation-candidate.mjs`.
+- Added `scripts/check-phase-1-write-runner-implementation-candidate.mjs`.
+- Added `docs/PHASE_1_WRITE_RUNNER_IMPLEMENTATION_CANDIDATE.md`.
+- Updated `docs/PHASE_1_DATA_ONLINE_LOCAL_LANE_CHECKLIST_RUNNER_NO_EXECUTION.md` and its checker so historical operator/platform blockers are not re-opened as current blockers.
+- Registered the new checker in `package.json` and `scripts/check-review-gates.mjs`.
+
+Current data-online blocker:
+
+- `candidate_row_payloads_missing`
+- `twiiRowPayloadIncluded=false`
+- `etfRowPayloadIncluded=false`
+- `fullLevel1MissingRows=178`
+- `publicDataSource=mock`
+- `scoreSource=mock`
+
+Boundary:
+
+- No SQL, Supabase read/write, staging row creation, `daily_prices` mutation, raw market-data fetch/store/commit, row payload read/output, candidate row acceptance, source promotion, real score promotion, membership implementation, production env mutation, DNS change, Vercel mutation, or platform deploy occurred.
+
+Next:
+
+Provide separately accepted sanitized row-payload candidate artifacts for `TWII`, `0050`, and `006208`, or keep Phase 1 data online at `NO_GO`.
+
 ### Latest TWSE runtime mock wire public copy repair
 
 Status: `twse_openapi_runtime_mock_consumer_wire_public_copy_readable`

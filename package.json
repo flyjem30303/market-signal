@@ -1553,6 +1553,8 @@
     "check:phase-1-write-runner-post-write-review-contract-no-execution": "node scripts/check-phase-1-write-runner-post-write-review-contract-no-execution.mjs",
     "report:phase-1-write-runner-candidate-artifact-set-acceptance-gate": "node scripts/report-phase-1-write-runner-candidate-artifact-set-acceptance-gate.mjs",
     "check:phase-1-write-runner-candidate-artifact-set-acceptance-gate": "node scripts/check-phase-1-write-runner-candidate-artifact-set-acceptance-gate.mjs",
+    "run:phase-1-write-runner-implementation-candidate": "node scripts/run-phase-1-write-runner-implementation-candidate.mjs",
+    "check:phase-1-write-runner-implementation-candidate": "node scripts/check-phase-1-write-runner-implementation-candidate.mjs",
     "report:phase-1-etf-sanitized-candidate-artifact-reply-template-no-row-payloads": "node scripts/report-phase-1-etf-sanitized-candidate-artifact-reply-template-no-row-payloads.mjs",
     "check:phase-1-etf-sanitized-candidate-artifact-reply-template-no-row-payloads": "node scripts/check-phase-1-etf-sanitized-candidate-artifact-reply-template-no-row-payloads.mjs",
     "report:phase-1-etf-sanitized-candidate-artifact-reply-intake-validator-no-row-payloads": "node scripts/report-phase-1-etf-sanitized-candidate-artifact-reply-intake-validator-no-row-payloads.mjs",
