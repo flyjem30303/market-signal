@@ -56,10 +56,19 @@ Reason:
 
 Latest PM resolution: `twii_exact_execution_preflight_repair_selector_ready_no_execution`.
 
+Current subroute: `twii_final_authorization_stopline_go_no_go_gate`.
+
 Focused evidence:
 
 - `cmd.exe /c npm run check:twii-exact-execution-preflight-repair-selector` passes.
-- The selected next route is now `twii_source_rights_outcome_gate_acceptance`.
+- The exact selector selected next route is now `twii_sanitized_candidate_artifact_readiness_gate`.
+- `cmd.exe /c npm run check:twii-sanitized-candidate-artifact-pm-intake-gate` passes.
+- `cmd.exe /c npm run check:twii-report-only-dry-run-chain-gate` passes.
+- `cmd.exe /c npm run check:twii-bounded-execution-packet-readiness-gate` passes.
+- `cmd.exe /c npm run check:twii-explicit-operator-packet-preparation-gate` passes.
+- `cmd.exe /c npm run check:twii-separate-authorized-execution-attempt-preparation-gate` passes.
+- `cmd.exe /c npm run check:twii-separate-authorized-execution-attempt-readiness-gate` passes.
+- `cmd.exe /c npm run check:twii-final-authorization-stopline-go-no-go-gate` passes.
 - TWII target remains `daily_prices` / `TWII` / `twii_index_daily_prices_missing_rows` / `60`.
 - `publicDataSource=mock`.
 - `scoreSource=mock`.
@@ -69,7 +78,9 @@ Focused evidence:
 
 CEO decision:
 
-The Phase 1 data-online mainline should not spend another slice proving runner implementation readiness. The immediate blocker is the acceptance sequence: source-rights outcome, field contract, asset mapping, then operator packet intake. Route 1 therefore resolves to the existing TWII source-rights outcome gate, while ETF repair and runtime promotion preparation remain parallel non-execution support lanes.
+The Phase 1 data-online mainline should not spend another slice proving runner implementation readiness or re-opening resolved TWII source-rights / field-contract gates. Route 1 has advanced through sanitized candidate readiness, dry-run, bounded packet readiness, explicit operator packet preparation, separate authorized attempt preparation/readiness, and final authorization stopline preparation. The active blocker is now external operator values and execution authorization, not evidence routing.
+
+PM should keep ETF repair and runtime promotion preparation as parallel non-execution support lanes, but the TWII mainline must stop at the final authorization stopline until a separate operator decision provides the required external values outside the repository.
 
 ## Ordered Route Queue
 
@@ -160,7 +171,7 @@ Reason:
 PM should apply this selector at the start of every data-online slice:
 
 1. If TWII operator packet and source/field/candidate evidence are accepted, continue Route 1 and prepare the exact bounded execution gate.
-2. If TWII remains blocked, continue Route 2 and Route 3 in parallel without raw data fetch or database writes.
+2. If TWII is waiting only on external operator values, continue Route 2 and Route 3 in parallel without raw data fetch or database writes.
 3. If a write/readback/post-run review is later accepted, open Route 4 as a separate promotion preparation gate.
 4. If any route would require secrets, raw rows, SQL, Supabase write, or irreversible mutation, stop and create a separate operator decision packet.
 
@@ -180,6 +191,6 @@ This selector is accepted when:
 
 ## Next PM Route
 
-Next route: `twii_first_level_1_closure_exact_execution_gate_or_repair`.
+Next route: `wait_for_real_operator_values_execute_switch_confirmation_credentials_and_pre_execution_checks`.
 
-If TWII remains blocked by missing operator acceptance, PM should immediately move to `etf_source_rights_field_contract_parallel_repair` and `twse_openapi_metadata_terms_backfill_readiness_refresh` rather than waiting.
+While TWII waits at the stopline, PM should immediately move to `etf_source_rights_field_contract_parallel_repair` and `twse_openapi_metadata_terms_backfill_readiness_refresh` rather than waiting.

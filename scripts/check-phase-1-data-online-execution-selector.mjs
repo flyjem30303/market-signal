@@ -20,10 +20,12 @@ const pkg = JSON.parse(read(packagePath));
 const reviewGate = read(reviewGatePath);
 const publicBetaReport = runJson("scripts/report-public-beta-data-realification-next-action.mjs");
 const twiiOperatorReport = runJson("scripts/report-twii-final-operator-authorization-packet-preflight.mjs");
+const finalStoplineReport = runJson("scripts/check-twii-final-authorization-stopline-go-no-go-gate.mjs");
 
 const requiredPhrases = [
   "Status: `phase_1_data_online_execution_selector_ready_no_execution`",
   "Selected next route: `twii_first_level_1_closure_exact_execution_gate_or_repair`",
+  "Current subroute: `twii_final_authorization_stopline_go_no_go_gate`",
   "Level 1 expected rows: `360`",
   "Level 1 observed rows: `182`",
   "Level 1 missing rows: `178`",
@@ -40,6 +42,7 @@ const requiredPhrases = [
   "Route 4 - Runtime Promotion Gate Preparation",
   "Current posture: `blocked_until_write_readback_quality_rollback_pass`",
   "PM should apply this selector at the start of every data-online slice",
+  "Next route: `wait_for_real_operator_values_execute_switch_confirmation_credentials_and_pre_execution_checks`",
   "publicDataSource=mock",
   "scoreSource=mock",
   "does not authorize SQL, Supabase write, staging rows, `daily_prices` mutation"
@@ -100,6 +103,14 @@ if (twiiOperatorReport.operatorAuthorizationPacketState?.executionAllowedNow !==
   problems.push("TWII executionAllowedNow must remain false");
 }
 
+if (finalStoplineReport.guardedStatus !== "twii_final_authorization_stopline_go_no_go_gate_ready_no_execution") {
+  problems.push("final authorization stopline gate must be ready no-execution");
+}
+
+if (finalStoplineReport.executionAllowedNow !== false) {
+  problems.push("final authorization stopline executionAllowedNow must remain false");
+}
+
 for (const [key, value] of Object.entries(publicBetaReport.hardStops ?? {})) {
   if (value !== false) problems.push(`hardStops.${key} must be false`);
 }
@@ -131,6 +142,8 @@ console.log(
       status,
       guardedStatus: "phase_1_data_online_execution_selector_ready_no_execution",
       selectedNextRoute: "twii_first_level_1_closure_exact_execution_gate_or_repair",
+      currentSubroute: "twii_final_authorization_stopline_go_no_go_gate",
+      operatorWaitRoute: "wait_for_real_operator_values_execute_switch_confirmation_credentials_and_pre_execution_checks",
       fallbackRoutes: [
         "etf_source_rights_field_contract_parallel_repair",
         "twse_openapi_metadata_terms_backfill_readiness_refresh",
@@ -140,6 +153,7 @@ console.log(
       publicDataSource: publicBetaReport.sourceBoundary?.publicDataSource,
       scoreSource: publicBetaReport.sourceBoundary?.scoreSource,
       twiiExecutionAllowedNow: twiiOperatorReport.operatorAuthorizationPacketState?.executionAllowedNow,
+      finalStoplineExecutionAllowedNow: finalStoplineReport.executionAllowedNow,
       problems
     },
     null,
