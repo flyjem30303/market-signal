@@ -15,6 +15,10 @@ const simulation = runJson(
   "scripts/check-phase-1-data-online-write-gate-fail-closed-simulation-no-execution.mjs",
   "write-gate fail-closed simulation"
 );
+const serverOnlyPresenceRecheck = runJson(
+  "scripts/check-phase-1-data-online-server-only-presence-recheck-no-execution.mjs",
+  "server-only presence recheck"
+);
 const readonlyResult = runJson(
   "scripts/check-phase-1-data-online-bounded-readonly-attempt-result-20260615-a.mjs",
   "bounded readonly attempt result"
@@ -64,6 +68,7 @@ const report = {
   remainingBlockers,
   readonlyEvidenceStatus: "readonly_aggregate_probe_accepted",
   dashboardApiExposureStatus: dashboardApiExposure.dashboardApiExposureStatus ?? null,
+  presenceRecheckStatus: serverOnlyPresenceRecheck.presenceRecheckStatus ?? null,
   dataOnlineDecision: dataOnline.decision ?? null,
   publicDataSource: dataOnline.publicDataSource ?? null,
   scoreSource: dataOnline.scoreSource ?? null,
@@ -79,6 +84,17 @@ function validatePrerequisites() {
     simulation.guardedStatus,
     "phase_1_data_online_write_gate_fail_closed_simulation_no_execution_ready",
     "write-gate fail-closed simulation guarded status"
+  );
+  expect(serverOnlyPresenceRecheck.status, "ok", "server-only presence recheck status");
+  expect(
+    serverOnlyPresenceRecheck.guardedStatus,
+    "phase_1_data_online_server_only_presence_recheck_no_execution_ready",
+    "server-only presence recheck guarded status"
+  );
+  expect(
+    serverOnlyPresenceRecheck.presenceRecheckStatus,
+    "prepared_waiting_external_presence",
+    "server-only presence recheck status"
   );
   if (!localLaneDoc.includes("phase_1_data_online_local_lane_checklist_runner_no_execution_ready")) {
     problems.push("local-lane checklist doc not ready");
@@ -126,6 +142,8 @@ function validateDoc() {
     "remainingBlockers",
     "readonly_aggregate_probe_accepted",
     "dashboardApiExposureStatus=accepted_read_path_for_daily_prices",
+    "server_only_presence_recheck_required",
+    "presenceRecheckStatus=prepared_waiting_external_presence",
     "writeGateExecutableNow=false",
     "twii_and_etf_phase_1_missing_row_closure_only",
     "publicDataSource=mock",

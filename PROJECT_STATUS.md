@@ -2,6 +2,44 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Fail-Closed Simulation Consumes Presence Recheck
+
+Status: `phase_1_fail_closed_simulation_consumes_server_only_presence_recheck`
+
+CEO decision:
+
+- Update the write-gate fail-closed simulation so it consumes the server-only presence recheck.
+- Preserve the fail-closed posture: missing server-only presence recheck, missing operator values, or missing credential presence must still block write execution.
+- Avoid new broad planning layers; this slice only strengthens the existing simulation path.
+
+PM completed:
+
+- Updated `check-phase-1-data-online-write-gate-fail-closed-simulation-no-execution.mjs` to require `check:phase-1-data-online-server-only-presence-recheck-no-execution`.
+- Updated `PHASE_1_DATA_ONLINE_WRITE_GATE_FAIL_CLOSED_SIMULATION_NO_EXECUTION.md` with `server_only_presence_recheck_consumed`.
+- Added `missing_server_only_presence_recheck_blocks_write` to the simulation matrix.
+- Updated the write-gate checklist runner to report `presenceRecheckStatus=prepared_waiting_external_presence`.
+
+Verified:
+
+- `cmd.exe /c npm run check:phase-1-data-online-write-gate-fail-closed-simulation-no-execution` passes.
+- `cmd.exe /c npm run check:phase-1-data-online-write-gate-checklist-runner-no-execution` passes.
+
+Current blocker view:
+
+- The simulation now proves the write gate remains blocked when the server-only presence recheck is absent or still waiting external presence.
+- `writeGateExecutableNow=false`.
+- Data online remains `NO_GO`.
+
+Current boundary:
+
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+- No SQL, Supabase write, staging row, `daily_prices` mutation, market-data fetch/ingestion, row coverage award, source promotion, score promotion, secret output, row payload output, or public real-data claim occurred.
+
+Next route:
+
+CEO should keep the next slice focused on the smallest path toward an operator-owned presence confirmation, while still avoiding value storage, value printing, SQL, Supabase writes, and runtime promotion.
+
 ### Phase 1 Server-Only Presence Recheck Ready
 
 Status: `phase_1_server_only_presence_recheck_ready_no_execution`

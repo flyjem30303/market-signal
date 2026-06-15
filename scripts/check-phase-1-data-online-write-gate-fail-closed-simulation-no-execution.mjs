@@ -13,6 +13,10 @@ const writeGatePreview = runJson(
   "scripts/check-phase-1-data-online-write-gate-dry-run-preview-no-execution.mjs",
   "write-gate dry-run preview"
 );
+const serverOnlyPresenceRecheck = runJson(
+  "scripts/check-phase-1-data-online-server-only-presence-recheck-no-execution.mjs",
+  "server-only presence recheck"
+);
 const dataOnline = runJson("scripts/check-phase-1-data-online-go-no-go-status.mjs", "data-online go/no-go");
 
 validatePrerequisites();
@@ -43,6 +47,17 @@ function validatePrerequisites() {
     "phase_1_data_online_write_gate_dry_run_preview_no_execution_ready",
     "write-gate dry-run preview guarded status"
   );
+  expect(serverOnlyPresenceRecheck.status, "ok", "server-only presence recheck status");
+  expect(
+    serverOnlyPresenceRecheck.guardedStatus,
+    "phase_1_data_online_server_only_presence_recheck_no_execution_ready",
+    "server-only presence recheck guarded status"
+  );
+  expect(
+    serverOnlyPresenceRecheck.presenceRecheckStatus,
+    "prepared_waiting_external_presence",
+    "server-only presence recheck status"
+  );
   expect(dataOnline.status, "ok", "dataOnline status");
   expect(dataOnline.decision, "PUBLIC_RUNTIME_READY_BUT_DATA_ONLINE_NO_GO", "dataOnline decision");
   expect(dataOnline.publicDataSource, "mock", "dataOnline publicDataSource");
@@ -54,7 +69,9 @@ function validateDoc() {
     "phase_1_data_online_write_gate_fail_closed_simulation_no_execution_ready",
     "write_gate_fail_closed_simulation_no_execution",
     "simulation_matrix_required",
+    "server_only_presence_recheck_consumed",
     "all_missing_inputs_block_write",
+    "missing_server_only_presence_recheck_blocks_write",
     "missing_operator_values_blocks_write",
     "missing_credential_presence_blocks_write",
     "missing_rollback_plan_blocks_write",

@@ -49,12 +49,15 @@ Current evidence marker:
 
 - `readonly_aggregate_probe_accepted`
 - `dashboardApiExposureStatus=accepted_read_path_for_daily_prices`
+- `server_only_presence_recheck_required`
+- `presenceRecheckStatus=prepared_waiting_external_presence`
 
 Machine fields:
 
 - `reducedBlockers`
 - `remainingBlockers`
 - `dashboardApiExposureStatus`
+- `presenceRecheckStatus`
 
 ## Bounded Attempt Scope
 
@@ -88,7 +91,7 @@ No public page may imply that real-data mode has started.
 
 Create this no-execution checklist runner because the fail-closed simulation is now ready and needs a repeatable local report of why the write gate remains blocked.
 
-The accepted aggregate-only bounded readonly result now also resolves the dashboard/API read exposure blocker for `daily_prices`. This runner is still not a write gate. It is a visibility layer for the write gate's blocked state.
+The accepted aggregate-only bounded readonly result now also resolves the dashboard/API read exposure blocker for `daily_prices`. The server-only presence recheck is now a required fail-closed prerequisite, but it still waits for external/operator presence. This runner is still not a write gate. It is a visibility layer for the write gate's blocked state.
 
 ## PM Execution Record
 
@@ -100,4 +103,4 @@ It does not include credential values, operator values, SQL, Supabase commands, 
 
 CEO/PM now has a presence-only packet for the two remaining write-gate blockers: `operator_values_missing` and `credential_presence_unverified`.
 
-The next route is not another broad planning packet. Prepare the smallest possible server-only presence recheck gate that can confirm boolean presence only without printing, storing, hashing, comparing, or transforming credential/operator values.
+The next route is not another broad planning packet. Prepare the smallest possible operator-owned presence confirmation path that can later set safe boolean presence outside repository storage without printing, storing, hashing, comparing, or transforming credential/operator values.
