@@ -2,6 +2,45 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Latest Phase 1 ETF sanitized candidate artifact reply template slice
+
+Status: `phase_1_etf_sanitized_candidate_artifact_reply_template_no_row_payloads_ready`
+
+CEO decision:
+
+- Prepare an A1 reply template for the ETF 118-row sanitized candidate artifact path.
+- Keep the template aggregate-only and forbid raw payloads, row payloads, stock-id payloads, credential values, and secrets.
+- Keep PM mainline ready to intake A1's reply without opening execution, write, or promotion.
+
+PM completed:
+
+- Added `scripts/report-phase-1-etf-sanitized-candidate-artifact-reply-template-no-row-payloads.mjs`.
+- Added `data/evidence-intake/phase-1-etf-sanitized-candidate-artifact-reply-template-no-row-payloads.json`.
+- Added `docs/PHASE_1_ETF_SANITIZED_CANDIDATE_ARTIFACT_REPLY_TEMPLATE_NO_ROW_PAYLOADS.md`.
+- Added and registered `check:phase-1-etf-sanitized-candidate-artifact-reply-template-no-row-payloads`.
+
+Template state:
+
+- `templateDecision=ready_for_a1_etf_sanitized_aggregate_reply`
+- `targetLane=ETF`
+- `targetScope=phase_1_core_etf_daily_prices_missing_rows`
+- `expectedMissingRows=118`
+- `requiredSanitizedAggregateOnly=true`
+- `outputContainsRowPayload=false`
+- `outputContainsRawPayload=false`
+- `outputContainsStockIdPayload=false`
+- `outputContainsSecrets=false`
+
+Current boundary:
+
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+- No raw market data, row payload, secret, candidate row acceptance, Supabase write, or public real-data promotion occurred.
+
+Next route:
+
+`nextRoute=a1_reply_then_pm_etf_sanitized_candidate_artifact_path_intake`.
+
 ### Latest Phase 1 candidate artifact set acceptance gate slice
 
 Status: `phase_1_write_runner_candidate_artifact_set_acceptance_gate_waiting_etf_artifact`
