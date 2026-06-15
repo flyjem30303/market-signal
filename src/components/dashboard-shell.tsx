@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { PageViewTracker } from "@/components/page-view-tracker";
 import { PublicBetaDataReadinessStatus } from "@/components/public-beta-data-readiness-status";
+import { PublicBetaPublicStatusSurface } from "@/components/public-beta-public-status-surface";
 import { PublicBetaSourceCoverageBridge } from "@/components/public-beta-source-coverage-bridge";
 import { PublicBetaUsableLoopPanel } from "@/components/public-beta-usable-loop-panel";
 import { PublicDataSourceBoundaryNotice } from "@/components/public-data-source-boundary-notice";
@@ -94,6 +95,7 @@ export function DashboardShell({
 
       {!isStockPage && (
         <>
+          <PublicBetaPublicStatusSurface />
           <HomeFirstScreenDecisionSummary market={market} />
           <HomeMarketSummary market={market} />
           <MarketLists riskList={riskList} strongList={strongList} />

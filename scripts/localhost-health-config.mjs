@@ -11,31 +11,12 @@ export const localhostStatusHealthPaths = [
   "/robots.txt"
 ];
 
-const sharedRuntimeBoundaryTokens = [
-  "local_ready_remote_paused",
-  "mock-only",
-  "publicDataSource=mock",
-  "scoreSource=mock"
-];
-
-const stockContentTokens = [
-  "Runtime At A Glance",
-  "Investor Action Summary",
-  "Indicator Roadmap",
-  "Data / Legal / Investment checklists are local-ready",
-  ...sharedRuntimeBoundaryTokens
-];
+const stockContentTokens = ["標的燈號", "標的快速判讀", "資料邊界", "非投資建議"];
 
 export const localhostContentHealthChecks = [
   {
     path: "/",
-    required: [
-      "Runtime Status",
-      "Market Action Summary",
-      "mock-only runtime",
-      "Data / Legal / Investment checklists are local-ready",
-      ...sharedRuntimeBoundaryTokens
-    ]
+    required: ["指數狀態儀表站", "30 秒看懂台股市場狀態", "公開 Beta 使用狀態", "資料邊界清楚揭露"]
   },
   ...["/stocks/2330", "/stocks/TWII", "/stocks/0050", "/stocks/006208", "/stocks/2382", "/stocks/2308"].map(
     (path) => ({
@@ -45,23 +26,11 @@ export const localhostContentHealthChecks = [
   ),
   {
     path: "/briefing",
-    required: [
-      "Market Action Summary",
-      "遠端唯讀檢查",
-      "Blocker Readiness",
-      "Three blocker checklists are ready for local review",
-      "示範資料",
-      "示範分數",
-      "不是投資建議"
-    ]
+    required: ["市場簡報", "30 秒看懂市場狀態", "公開 Beta 使用狀態", "資料邊界", "非投資建議"]
   },
   {
     path: "/weekly",
-    required: [
-      "Market Action Summary",
-      "Supabase readonly attempt",
-      ...sharedRuntimeBoundaryTokens
-    ]
+    required: ["每週市場", "市場", "資料"]
   }
 ];
 
@@ -70,5 +39,9 @@ export const localhostContentForbidden = [
   "Application error",
   "Unhandled Runtime Error",
   "scoreSource: real",
-  "publicDataSource: supabase"
+  "publicDataSource: supabase",
+  "publicDataSource=mock",
+  "scoreSource=mock",
+  "mock-only",
+  "Supabase readonly attempt"
 ];

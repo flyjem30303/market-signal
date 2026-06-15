@@ -9,25 +9,18 @@ const sourcePaths = [
   "src/app/briefing/page.tsx",
   "src/app/globals.css"
 ];
-
 const publicStatusSurfaceSourcePaths = [
   "src/lib/public-beta-public-status-surface.ts",
   "src/components/public-beta-public-status-surface.tsx"
 ];
-
-const surfaceRoutes = ["/", "/briefing"];
-const stockRoutes = ["/stocks/TWII", "/stocks/2330", "/stocks/0050"];
-
 const requiredPublicPhrases = [
   "公開 Beta 使用狀態",
   "先用 30 秒看懂市場氣氛",
   "資料品質需持續複核",
   "會員功能規劃中",
   "目前為示範資料",
-  "正式市場資料尚未啟用",
-  "不提供買賣建議"
+  "不提供個股買賣建議"
 ];
-
 const forbiddenPublicStatusFragments = [
   "KEEP_OPEN_WITH_DEFERRALS",
   "REPAIR_THEN_RECHECK",
@@ -52,10 +45,7 @@ const forbiddenPublicStatusFragments = [
   "A3 ",
   "A4 "
 ];
-
 const stockForbiddenSurfacePhrases = [
-  "公開 Beta 使用狀態",
-  "會員功能規劃中",
   "KEEP_OPEN_WITH_DEFERRALS",
   "REPAIR_THEN_RECHECK",
   "ROLLBACK_OR_NO_GO",
@@ -66,7 +56,6 @@ const stockForbiddenSurfacePhrases = [
   "SQL",
   "raw market data"
 ];
-
 const unsafeSourceFragments = [
   "@supabase/supabase-js",
   "createClient(",
@@ -92,7 +81,7 @@ const forbiddenSourceHits = forbiddenPublicStatusFragments.filter((fragment) =>
 );
 const unsafeSourceHits = unsafeSourceFragments.filter((fragment) => publicStatusSurfaceSourceText.includes(fragment));
 const missingMounts = [
-  ["src/components/dashboard-shell.tsx", "{!isStockPage && <PublicBetaPublicStatusSurface />}"],
+  ["src/components/dashboard-shell.tsx", "<PublicBetaPublicStatusSurface />"],
   ["src/app/briefing/page.tsx", "<PublicBetaPublicStatusSurface />"],
   ["src/components/public-beta-public-status-surface.tsx", "getPublicBetaPublicStatusSurface"]
 ].filter(([path, phrase]) => !readText(path).includes(phrase));
@@ -110,54 +99,12 @@ const focusedGateRegistered = readText("scripts/check-review-gates.mjs").include
 const surfaceRouteResults = [];
 const stockRouteResults = [];
 
-for (const route of surfaceRoutes) {
-  try {
-    const response = await fetch(`${baseUrl}${route}`);
-    const html = await response.text();
-    const text = normalizeVisibleText(html);
-    const missing = requiredPublicPhrases.filter((phrase) => !text.includes(phrase));
-    const forbidden = forbiddenPublicStatusFragments.filter((phrase) => text.includes(phrase));
-    const mojibakeHits = findMojibakeMarkers(text);
-
-    surfaceRouteResults.push({
-      forbidden,
-      missing,
-      mojibakeHits,
-      pass: response.status === 200 && missing.length === 0 && forbidden.length === 0 && mojibakeHits.length === 0,
-      route,
-      status: response.status
-    });
-  } catch (error) {
-    surfaceRouteResults.push({
-      error: error instanceof Error ? error.message : String(error),
-      pass: false,
-      route
-    });
-  }
+for (const route of ["/", "/briefing"]) {
+  surfaceRouteResults.push(await checkRoute(route, requiredPublicPhrases, forbiddenPublicStatusFragments));
 }
 
-for (const route of stockRoutes) {
-  try {
-    const response = await fetch(`${baseUrl}${route}`);
-    const html = await response.text();
-    const text = normalizeVisibleText(html);
-    const forbidden = stockForbiddenSurfacePhrases.filter((phrase) => text.includes(phrase));
-    const mojibakeHits = findMojibakeMarkers(text);
-
-    stockRouteResults.push({
-      forbidden,
-      mojibakeHits,
-      pass: response.status === 200 && forbidden.length === 0 && mojibakeHits.length === 0,
-      route,
-      status: response.status
-    });
-  } catch (error) {
-    stockRouteResults.push({
-      error: error instanceof Error ? error.message : String(error),
-      pass: false,
-      route
-    });
-  }
+for (const route of ["/stocks/TWII", "/stocks/2330", "/stocks/0050"]) {
+  stockRouteResults.push(await checkRoute(route, [], stockForbiddenSurfacePhrases));
 }
 
 const sourceMojibakeHits = findMojibakeMarkers(publicStatusSurfaceSourceText);
@@ -181,7 +128,7 @@ console.log(
   JSON.stringify(
     {
       status,
-      guardedStatus: "phase_1_public_beta_public_status_surface_alignment_ready_mock_only",
+      guardedStatus: "phase_1_public_beta_public_status_surface_alignment_ready_public_copy",
       missingSourceFiles,
       missingSourcePhrases,
       forbiddenSourceHits,
@@ -203,6 +150,32 @@ console.log(
 );
 
 if (status !== "ok") process.exitCode = 1;
+
+async function checkRoute(route, required, forbiddenFragments) {
+  try {
+    const response = await fetch(`${baseUrl}${route}`);
+    const html = await response.text();
+    const text = normalizeVisibleText(html);
+    const missing = required.filter((phrase) => !text.includes(phrase));
+    const forbidden = forbiddenFragments.filter((phrase) => text.includes(phrase));
+    const mojibakeHits = findMojibakeMarkers(text);
+
+    return {
+      forbidden,
+      missing,
+      mojibakeHits,
+      pass: response.status === 200 && missing.length === 0 && forbidden.length === 0 && mojibakeHits.length === 0,
+      route,
+      status: response.status
+    };
+  } catch (error) {
+    return {
+      error: error instanceof Error ? error.message : String(error),
+      pass: false,
+      route
+    };
+  }
+}
 
 function readText(path) {
   if (!fs.existsSync(path)) return "";

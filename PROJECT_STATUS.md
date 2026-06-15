@@ -2,6 +2,39 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Latest Phase 1 public route cleanup and live-core review gate
+
+Status: `phase_1_live_core_execution_with_historical_registration`
+
+CEO decision:
+
+- Treat visible mojibake, internal runtime tokens, and slow review-gate defaults as Phase 1 launch blockers.
+- Keep Phase 1 public pages user-facing: no `mock-only`, `publicDataSource=mock`, `scoreSource=mock`, operator packets, or Supabase attempt wording on public surfaces.
+- Replace the default review gate with a Phase 1 live-core set; historical and expanded gates remain available through explicit environment flags.
+
+PM completed:
+
+- Rewrote `/briefing` and `/weekly` public pages into readable Traditional Chinese aligned with the BRIEF.
+- Repaired `PublicBetaPublicStatusSurface` and mounted it on `/` and `/briefing`.
+- Rewrote localhost public-content health config to check user-facing phrases and block internal residue.
+- Rewrote the public status surface checker to use clean Chinese phrases and detect mojibake.
+- Added per-check and runtime-health time limits to the review gate, then narrowed the default gate to live Phase 1 checks.
+
+Verification:
+
+- `cmd.exe /c npm run check:review-gates` passed in live-core mode.
+- `cmd.exe /c npx tsc --noEmit --incremental false` passed.
+- `cmd.exe /c npm run check:localhost-health` passed.
+- `cmd.exe /c npm run build` passed.
+
+Boundary:
+
+- No SQL, Supabase read/write, staging row creation, `daily_prices` mutation, market-data fetch/store/commit, row payload output, source promotion, real score promotion, membership implementation, production env mutation, DNS change, Vercel mutation, or platform deploy occurred.
+
+Next:
+
+Phase 1 runtime/public route quality is now guarded by a fast live-core gate. Data online remains `NO_GO` until A1 provides accepted sanitized row-payload candidate artifacts.
+
 ### Latest Phase 1 write runner implementation candidate blocker
 
 Status: `phase_1_write_runner_implementation_candidate_blocked_no_execution_ready`

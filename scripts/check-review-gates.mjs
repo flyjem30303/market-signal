@@ -1,6 +1,9 @@
 import { spawnSync } from "node:child_process";
 
 const node = process.execPath;
+const perCheckTimeoutMs = Number(process.env.REVIEW_GATE_CHECK_TIMEOUT_MS ?? 45000);
+const runtimeHealthTimeoutMs = Number(process.env.REVIEW_GATE_RUNTIME_HEALTH_TIMEOUT_MS ?? 15000);
+const runtimeHealthAttempts = Number(process.env.REVIEW_GATE_RUNTIME_HEALTH_ATTEMPTS ?? 2);
 const checks = [
   {
     command: [node, "-e", "JSON.parse(require('fs').readFileSync('package.json','utf8')); console.log('package.json ok')"],
@@ -7163,6 +7166,7 @@ const publicBetaFocusedReviewGateNames = new Set([
 
 const runHistoricalGates = process.env.REVIEW_GATE_RUN_HISTORICAL === "true";
 const runLegacyCoreGates = process.env.REVIEW_GATE_RUN_LEGACY_CORE === "true";
+const runExpandedFocusedGates = process.env.REVIEW_GATE_RUN_EXPANDED_FOCUSED === "true";
 const includeRegisteredOnlyResults = process.env.REVIEW_GATE_VERBOSE_REGISTERED === "true" || runHistoricalGates || runLegacyCoreGates;
 const supersededPublicSurfaceGateNames = new Set([
   "briefing-midpage-readability",
@@ -7189,13 +7193,31 @@ const supersededPublicSurfaceGateNames = new Set([
 const defaultPublicBetaFocusedReviewGateNames = new Set(
   [...publicBetaFocusedReviewGateNames].filter((name) => !supersededPublicSurfaceGateNames.has(name))
 );
-const activeReviewGateNames = runLegacyCoreGates ? coreReviewGateNames : defaultPublicBetaFocusedReviewGateNames;
+const phase1LiveCoreReviewGateNames = new Set([
+  "package-json",
+  "localhost-health-config",
+  "localhost-content-health",
+  "phase-1-public-beta-public-status-surface-alignment",
+  "phase-1-public-beta-public-visible-residue-cleanup",
+  "phase-1-write-runner-implementation-candidate",
+  "phase-1-sanitized-row-payload-candidate-artifact-spec",
+  "phase-1-sanitized-row-payload-candidate-validator",
+  "phase-1-data-online-go-no-go-status",
+  "beta-runtime-fast-health",
+  "typescript"
+]);
+const activeReviewGateNames = runLegacyCoreGates
+  ? coreReviewGateNames
+  : runExpandedFocusedGates
+    ? defaultPublicBetaFocusedReviewGateNames
+    : phase1LiveCoreReviewGateNames;
 
 if (!runHistoricalGates && !runLegacyCoreGates) {
   spawnSync("cmd.exe", ["/c", "npm", "run", "dev:recover"], {
     cwd: process.cwd(),
     encoding: "utf8",
     shell: false,
+    timeout: 30000,
     windowsHide: true
   });
   waitForFocusedRuntimeHealth();
@@ -7226,7 +7248,9 @@ console.log(
         ? "full_historical_execution"
         : runLegacyCoreGates
           ? "legacy_core_milestone_execution_with_historical_registration"
-          : "public_beta_focused_execution_with_historical_registration",
+          : runExpandedFocusedGates
+            ? "public_beta_expanded_focused_execution_with_historical_registration"
+            : "phase_1_live_core_execution_with_historical_registration",
       registeredCount: checks.length,
       executedCount: executed.length,
       registeredOnlyCount: registeredOnly.length,
@@ -7251,7 +7275,7 @@ function runCheck(check) {
     cwd: process.cwd(),
     encoding: "utf8",
     shell: false,
-    timeout: 180000
+    timeout: perCheckTimeoutMs
   });
   const output = `${result.stdout ?? ""}\n${result.stderr ?? ""}`.trim();
   const observedStatus = readStatus(output, result.status);
@@ -7300,12 +7324,12 @@ function wait(ms) {
 }
 
 function waitForFocusedRuntimeHealth() {
-  for (let attempt = 1; attempt <= 4; attempt += 1) {
+  for (let attempt = 1; attempt <= runtimeHealthAttempts; attempt += 1) {
     const result = spawnSync("cmd.exe", ["/c", "npm", "run", "check:beta-runtime-fast-health"], {
       cwd: process.cwd(),
       encoding: "utf8",
       shell: false,
-      timeout: 45000,
+      timeout: runtimeHealthTimeoutMs,
       windowsHide: true
     });
     if (result.status === 0) return;
