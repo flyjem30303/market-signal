@@ -54,17 +54,10 @@ function validatePrerequisites() {
     "accepted_read_path_for_daily_prices",
     "checklist dashboardApiExposureStatus"
   );
-  const expectedRemainingBlockers = [
-    "operator_values_missing",
-    "credential_presence_unverified",
-    "operator_owned_presence_confirmation_unverified",
-    "external_presence_acceptance_unverified",
-    "external_presence_reviewed_result_missing"
-  ];
   const remaining = Array.isArray(checklist.remainingBlockers) ? checklist.remainingBlockers : [];
-  if (remaining.join(",") !== expectedRemainingBlockers.join(",")) {
+  if (remaining.length !== 0) {
     problems.push(
-      `checklist remainingBlockers expected external/operator presence chain but got ${remaining.join(",")}`
+      `checklist remainingBlockers expected no remaining blockers after boolean-only evidence reduction but got ${remaining.join(",")}`
     );
   }
   expect(dataOnline.status, "ok", "dataOnline status");

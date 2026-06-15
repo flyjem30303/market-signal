@@ -36,13 +36,17 @@ Current dashboard/API evidence marker:
 
 `operator_authorized_blockers`
 
-These blockers require a later explicit operator decision and must not be guessed or stored in repo files:
+These historical blockers were reduced by boolean-only credential/operator presence evidence. They are retained here for audit continuity and must not be re-opened unless a later checker contradicts the reviewed boolean-only results:
 
 - `operator_values_missing`
 - `credential_presence_unverified`
 - `operator_owned_presence_confirmation_unverified`
 - `external_presence_acceptance_unverified`
 - `external_presence_reviewed_result_missing`
+
+Current operator lane remaining blockers:
+
+- None.
 
 ### External Platform Lane
 
@@ -84,7 +88,7 @@ No public page may imply that real-data mode has started.
 
 ## CEO Decision
 
-Create this escalation map because the checklist runner now tells us why the write gate is blocked. After the accepted aggregate readonly and dashboard/API exposure evidence, the next productive step is to close operator values and credential presence without exposing secrets.
+Create this escalation map because the checklist runner now tells us why the write gate remains non-executable even after local, dashboard/API, credential-presence, and operator-presence blockers were reduced by no-secret evidence. The next productive step is not another broad planning packet; it is a bounded write-gate preflight that still keeps execution separate.
 
 ## PM Execution Record
 
@@ -94,4 +98,4 @@ It does not include credential values, operator values, SQL, Supabase commands, 
 
 ## Next Route
 
-Prepare the actual PM-reviewed result artifact only after external/operator boolean presence is available. That artifact must contain allowed boolean presence fields only and still avoid printing, storing, hashing, comparing, or transforming credential/operator values.
+Prepare the write-gate preflight after operator booleans. That preflight must still keep SQL/Supabase write execution separate and must verify rollback, aggregate readback, duplicate rejection, post-run review, source-rights boundary, runtime fallback, and public disclosure before any real write or runtime promotion.
