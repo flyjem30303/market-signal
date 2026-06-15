@@ -6,7 +6,7 @@ import { TrackedLink } from "@/components/tracked-link";
 
 export const metadata: Metadata = {
   title: "免責聲明",
-  description: "說明指數燈號的資訊用途、限制、非投資建議定位與資料風險。"
+  description: "說明指數燈號的非投資建議定位、資料限制、示範資料邊界與使用者風險責任。"
 };
 
 export default function DisclaimerPage() {
@@ -15,38 +15,38 @@ export default function DisclaimerPage() {
       <PageViewTracker eventName="disclaimer_page_viewed" payload={{ page: "disclaimer" }} />
       <section className="hero">
         <p className="eyebrow">免責聲明</p>
-        <h1>指數燈號不是投資建議，也不保證任何報酬</h1>
+        <h1>指數燈號不是投資建議，也不是交易訊號</h1>
         <p>
-          本網站提供市場資訊整理、風險辨識與觀察輔助。所有燈號、分數與文字說明都不構成買進、賣出、持有或資產配置建議。
+          本網站內容用於市場資訊整理、風險辨識與觀察流程輔助。任何燈號、分數、摘要或提示都不代表買進、賣出或持有建議。
         </p>
         <p className="runtime-boundary-line">
-          使用者應自行判斷資料是否適用於自身情況，並理解資料可能延遲、錯誤或仍處於示範資料模式。
+          Phase 1 公開版仍使用示範資料；正式資料、完整覆蓋率與品質驗證完成前，不宣稱即時真實行情或正式投資分析。
         </p>
       </section>
 
       <PublicRouteReadingContract context="disclaimer" />
       <TrustRuntimeBoundaryNotice context="disclaimer" />
 
-      <section className="legal-quick-read" aria-label="免責聲明重點">
+      <section className="legal-quick-read" aria-label="免責聲明摘要">
         <article>
           <span>非投資建議</span>
-          <strong>燈號不等於交易指令</strong>
-          <p>任何分數或狀態都只協助整理市場資訊，不代表適合任何特定使用者採取交易行動。</p>
+          <strong>燈號只協助閱讀市場狀態</strong>
+          <p>分數與燈號是資訊整理結果，不是個人化建議，也不保證未來報酬、方向或風險結果。</p>
         </article>
         <article>
           <span>資料限制</span>
-          <strong>請確認更新時間與資料狀態</strong>
-          <p>資料可能延遲、缺漏或暫時使用示範資料；正式資料上線前不宣稱完整或即時覆蓋。</p>
+          <strong>請確認資料來源、更新時間與狀態</strong>
+          <p>資料可能延遲、缺漏或處於示範階段。使用者應搭配其他可信資料來源進行複核。</p>
         </article>
         <article>
-          <span>風險自負</span>
-          <strong>投資決策需自行承擔</strong>
-          <p>市場有波動與損失風險。使用者應搭配其他資料來源、專業意見與自身風險承受度判斷。</p>
+          <span>風險責任</span>
+          <strong>投資決策由使用者自行承擔</strong>
+          <p>市場波動可能造成損失。使用者應依自己的財務狀況、風險承受度與專業意見做決策。</p>
         </article>
       </section>
 
       <section className="panel legal-links">
-        <h2>相關頁面</h2>
+        <h2>延伸閱讀</h2>
         <TrackedLink className="text-link" eventName="trust_link_clicked" href="/terms" label="查看使用條款" payload={{ area: "disclaimer" }}>
           查看使用條款
         </TrackedLink>
