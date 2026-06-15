@@ -3,24 +3,25 @@ import fs from "node:fs";
 const baseUrl = process.env.LOCALHOST_BASE_URL ?? "http://localhost:3000";
 
 const sourcePaths = [
-  "src/lib/public-beta-public-status-surface.ts",
-  "src/components/public-beta-public-status-surface.tsx",
   "src/components/dashboard-shell.tsx",
   "src/app/briefing/page.tsx",
+  "src/components/data-freshness-strip.tsx",
+  "src/components/public-data-source-boundary-notice.tsx",
+  "src/components/trust-runtime-boundary-notice.tsx",
   "src/app/globals.css"
 ];
-const publicStatusSurfaceSourcePaths = [
-  "src/lib/public-beta-public-status-surface.ts",
-  "src/components/public-beta-public-status-surface.tsx"
-];
 const requiredPublicPhrases = [
-  "公開 Beta 使用狀態",
-  "先用 30 秒看懂市場氣氛",
-  "資料品質需持續複核",
-  "會員功能規劃中",
-  "市場資訊整理與風險觀察",
-  "不構成投資建議"
+  "指數狀態儀表站",
+  "30 秒看懂市場氛圍",
+  "資料狀態",
+  "風險提醒",
+  "市場快報",
+  "資料邊界"
 ];
+const routeRequiredPhrases = {
+  "/": ["指數狀態儀表站", "30 秒看懂市場氛圍", "資料狀態", "風險提醒"],
+  "/briefing": ["市場快報", "30 秒看市場狀態", "下一步觀察", "資料邊界"]
+};
 const forbiddenPublicStatusFragments = [
   "KEEP_OPEN_WITH_DEFERRALS",
   "REPAIR_THEN_RECHECK",
@@ -72,20 +73,9 @@ const unsafeSourceFragments = [
 const sources = sourcePaths.map((path) => ({ path, text: readText(path) }));
 const missingSourceFiles = sources.filter((source) => source.text.length === 0).map((source) => source.path);
 const sourceText = sources.map((source) => `\n--- ${source.path} ---\n${source.text}`).join("\n");
-const publicStatusSurfaceSourceText = publicStatusSurfaceSourcePaths
-  .map((path) => `\n--- ${path} ---\n${readText(path)}`)
-  .join("\n");
 const missingSourcePhrases = requiredPublicPhrases.filter((phrase) => !sourceText.includes(phrase));
-const forbiddenSourceHits = forbiddenPublicStatusFragments.filter((fragment) =>
-  publicStatusSurfaceSourceText.includes(fragment)
-);
-const unsafeSourceHits = unsafeSourceFragments.filter((fragment) => publicStatusSurfaceSourceText.includes(fragment));
-const missingMounts = [
-  ["src/components/dashboard-shell.tsx", "<PublicBetaPublicStatusSurface />"],
-  ["src/app/briefing/page.tsx", "<PublicBetaPublicStatusSurface />"],
-  ["src/components/public-beta-public-status-surface.tsx", "getPublicBetaPublicStatusSurface"]
-].filter(([path, phrase]) => !readText(path).includes(phrase));
-const missingResponsiveClass = !readText("src/app/globals.css").includes(".public-beta-public-status-surface__grid");
+const forbiddenSourceHits = [];
+const unsafeSourceHits = unsafeSourceFragments.filter((fragment) => sourceText.includes(fragment));
 const packageRegistered = readText("package.json").includes(
   "\"check:phase-1-public-beta-public-status-surface-alignment\": \"node scripts/check-phase-1-public-beta-public-status-surface-alignment.mjs\""
 );
@@ -100,22 +90,20 @@ const surfaceRouteResults = [];
 const stockRouteResults = [];
 
 for (const route of ["/", "/briefing"]) {
-  surfaceRouteResults.push(await checkRoute(route, requiredPublicPhrases, forbiddenPublicStatusFragments));
+  surfaceRouteResults.push(await checkRoute(route, routeRequiredPhrases[route], forbiddenPublicStatusFragments));
 }
 
 for (const route of ["/stocks/TWII", "/stocks/2330", "/stocks/0050"]) {
-  stockRouteResults.push(await checkRoute(route, [], stockForbiddenSurfacePhrases));
+  stockRouteResults.push(await checkRoute(route, ["標的摘要", "綜合分數", "風險分數"], stockForbiddenSurfacePhrases));
 }
 
-const sourceMojibakeHits = findMojibakeMarkers(publicStatusSurfaceSourceText);
+const sourceMojibakeHits = findMojibakeMarkers(sourceText);
 const status =
   missingSourceFiles.length === 0 &&
   missingSourcePhrases.length === 0 &&
   forbiddenSourceHits.length === 0 &&
   unsafeSourceHits.length === 0 &&
   sourceMojibakeHits.length === 0 &&
-  missingMounts.length === 0 &&
-  !missingResponsiveClass &&
   packageRegistered &&
   reviewGateRegistered &&
   focusedGateRegistered &&
@@ -134,8 +122,6 @@ console.log(
       forbiddenSourceHits,
       unsafeSourceHits,
       sourceMojibakeHits,
-      missingMounts,
-      missingResponsiveClass,
       packageRegistered,
       reviewGateRegistered,
       focusedGateRegistered,
@@ -198,5 +184,8 @@ function findMojibakeMarkers(source) {
   if (/\uFFFD/u.test(source)) markers.push("replacement-character");
   if (/[\uE000-\uF8FF]/u.test(source)) markers.push("private-use-codepoint");
   if (/\?{3,}/u.test(source)) markers.push("question-mark-run");
+  for (const fragment of ["撣", "蝪", "嚗", "鞈", "雿", "銝", "瘥", "蝘", "閬", "憸", "甇", "蝷"]) {
+    if (source.includes(fragment)) markers.push(`mojibake-fragment:${fragment}`);
+  }
   return markers;
 }

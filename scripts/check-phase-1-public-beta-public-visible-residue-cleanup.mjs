@@ -17,19 +17,19 @@ const publicRoutes = [
 ];
 
 const requiredPublicSignals = {
-  "/": ["指數燈號", "30 秒", "3 分鐘", "正式資料尚未啟用", "非投資建議"],
-  "/briefing": ["市場解讀", "3 分鐘", "資料與風險邊界", "正式資料尚未啟用"],
-  "/weekly": ["週報", "示範資料", "非投資建議"],
-  "/methodology": ["燈號", "資料", "風險"],
-  "/disclaimer": ["風險", "不構成個股買賣建議"],
-  "/terms": ["使用條款", "資料", "投資建議"],
-  "/privacy": ["隱私", "資料", "使用"],
-  "/stocks/TWII": ["台灣加權指數", "市場分數", "正式每日資料尚未啟用"],
-  "/stocks/2330": ["台積電", "市場分數", "正式每日資料尚未啟用"],
-  "/stocks/0050": ["元大台灣50", "市場分數", "正式每日資料尚未啟用"],
-  "/stocks/006208": ["富邦台50", "市場分數", "正式每日資料尚未啟用"],
-  "/stocks/2382": ["廣達", "市場分數", "正式每日資料尚未啟用"],
-  "/stocks/2308": ["台達電", "市場分數", "正式每日資料尚未啟用"]
+  "/": ["指數狀態儀表站", "市場總覽", "資料狀態", "風險提醒"],
+  "/briefing": ["市場快報", "30 秒看市場狀態", "下一步觀察", "資料邊界"],
+  "/weekly": ["市場週報", "市場燈號", "示範資料", "資料更新狀態"],
+  "/methodology": ["方法說明", "燈號是市場閱讀工具", "核心模組", "風險聲明"],
+  "/disclaimer": ["風險聲明", "不提供投資建議", "不是建議", "資料限制"],
+  "/terms": ["使用條款", "資料與風險邊界", "服務定位", "使用責任"],
+  "/privacy": ["隱私政策", "公開版不需要敏感交易資料", "目前階段", "未來功能"],
+  "/stocks/TWII": ["台灣加權指數", "標的摘要", "綜合分數", "風險分數"],
+  "/stocks/2330": ["台積電", "標的摘要", "綜合分數", "風險分數"],
+  "/stocks/0050": ["元大台灣50", "標的摘要", "綜合分數", "風險分數"],
+  "/stocks/006208": ["富邦台50", "標的摘要", "綜合分數", "風險分數"],
+  "/stocks/2382": ["廣達", "標的摘要", "綜合分數", "風險分數"],
+  "/stocks/2308": ["台達電", "標的摘要", "綜合分數", "風險分數"]
 };
 
 const forbiddenVisibleFragments = [
@@ -72,6 +72,36 @@ const forbiddenVisibleFragments = [
   "KEEP_OPEN_WITH_DEFERRALS",
   "REPAIR_THEN_RECHECK",
   "ROLLBACK_OR_NO_GO"
+];
+
+const mojibakeFragments = [
+  "撣",
+  "蝪",
+  "嚗",
+  "鞈",
+  "雿",
+  "銝",
+  "瘥",
+  "蝘",
+  "閬",
+  "憸",
+  "甇",
+  "摰",
+  "餈",
+  "蝷",
+  "鞎",
+  "蝬",
+  "靘",
+  "璅",
+  "皜",
+  "隤",
+  "銵",
+  "閫",
+  "?",
+  "?啁",
+  "?祇",
+  "?梁",
+  "?寞"
 ];
 
 const routeResults = [];
@@ -147,5 +177,8 @@ function findBadTextMarkers(text) {
     if (cp >= 0x80 && cp <= 0x9f) markers.add("c1-control-character");
   }
   if (/\?{3,}/u.test(text)) markers.add("question-mark-run");
+  for (const fragment of mojibakeFragments) {
+    if (text.includes(fragment)) markers.add(`mojibake-fragment:${fragment}`);
+  }
   return [...markers];
 }

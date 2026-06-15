@@ -56,39 +56,39 @@ export type BacktestBucket = {
 const moduleDefinitions = [
   {
     id: "trend",
-    name: "趨勢動能",
+    name: "趨勢強弱",
     weight: 18,
-    note: "觀察價格與均線位置，判斷市場是延續趨勢、整理，或轉弱。"
+    note: "觀察價格與均線方向，協助判斷市場是否仍維持偏多或轉弱。"
   },
   {
     id: "quality",
     name: "資料品質",
     weight: 18,
-    note: "檢查資料來源、更新時間與缺漏狀態，避免把示範資料誤認為正式訊號。"
+    note: "檢查資料完整度、更新時間與模型可讀性，避免使用者誤判。"
   },
   {
     id: "valuation",
     name: "評價壓力",
     weight: 16,
-    note: "用簡化模型提醒目前位置是否偏熱、偏冷，或需要等待更多確認。"
+    note: "用估值與風險分數提醒使用者，市場是否已經偏熱或需要保守觀察。"
   },
   {
     id: "breadth",
     name: "市場廣度",
     weight: 14,
-    note: "觀察強弱分布是否集中在少數標的，避免只看單一指數造成誤判。"
+    note: "觀察上漲或轉弱是否集中在少數標的，或已擴散到更多市場類別。"
   },
   {
     id: "flow",
     name: "資金流向",
     weight: 16,
-    note: "用模擬資金狀態描述市場買盤是否延續、降溫，或轉為保守。"
+    note: "用資金動能輔助判斷市場氛圍，不作為單一買賣依據。"
   },
   {
     id: "macro",
-    name: "風險背景",
+    name: "風險環境",
     weight: 18,
-    note: "整理波動、利率、匯率與外部風險對市場情緒的可能影響。"
+    note: "納入波動、外部風險與情境提醒，協助使用者設定觀察重點。"
   }
 ] as const;
 
@@ -97,31 +97,31 @@ const signalRules: SignalRule[] = [
     min: 75,
     key: "green",
     title: "偏多",
-    text: "市場狀態偏健康，可以維持觀察，但仍需確認資料更新時間與風險提示。"
+    text: "市場狀態相對健康，可持續觀察趨勢延續，但仍需注意資料來源與更新時間。"
   },
   {
     min: 62,
     key: "yellow",
     title: "偏多觀察",
-    text: "趨勢仍有支撐，但部分指標開始分歧，適合加強觀察而非追高。"
+    text: "市場仍有支撐，但風險開始累積，適合加強觀察而不是只看單一分數。"
   },
   {
     min: 48,
     key: "orange",
     title: "觀望",
-    text: "市場訊號混合，建議先看風險來源、成交量與更新時間，再決定是否行動。"
+    text: "市場訊號分歧，建議先確認趨勢、風險與資料品質，再決定是否提高關注。"
   },
   {
     min: 34,
     key: "red",
     title: "警戒",
-    text: "風險分數升高，應降低衝動操作，等待趨勢或資料品質恢復確認。"
+    text: "風險分數偏高，應降低衝動決策，優先確認是否有資料延遲或異常。"
   },
   {
     min: 0,
     key: "deep-red",
     title: "高風險",
-    text: "市場狀態偏弱，優先檢查持倉風險、資料時效與是否需要減少曝險。"
+    text: "市場狀態偏弱，建議先保守觀察，等待風險緩和或資料更新後再評估。"
   }
 ];
 
@@ -135,7 +135,7 @@ const signalColors: Record<SignalKey, string> = {
 
 export const publicSignalDataDisclosureNotes = {
   dataMode: "示範資料",
-  runtimeBoundary: "目前仍使用示範資料與模擬分數，尚未切換正式每日資料流程。"
+  runtimeBoundary: "目前公開頁仍使用示範資料與示範分數；真實資料上線前會保留清楚標示。"
 } as const;
 
 export function signalColor(key: SignalKey) {
@@ -160,8 +160,8 @@ export function buildSignalSnapshot(asset: Asset, date: Date | string): SignalSn
     compositeScore,
     dataQualityScore,
     dataQualityGrade: "C",
-    staleDataFlags: ["目前為公開測試版示範資料，尚未切換正式每日資料流程。"],
-    missingModuleFlags: ["真實資料覆蓋、寫入回讀、回復機制與正式資料切換檢查尚未全部完成。"],
+    staleDataFlags: ["目前為公開 Beta 示範資料，尚未切換為完整真實資料來源。"],
+    missingModuleFlags: ["部分資料覆蓋率仍在補齊，真實資料上線前不宣稱即時或完整。"],
     modelVersion: "mock-v0.1",
     lastUpdatedAt: `${dateString}T14:30:00+08:00`,
     signal,
@@ -205,8 +205,8 @@ export const newsEvents: NewsEvent[] = [
   {
     date: "2026-05-28",
     source: "示範資料",
-    title: "AI 供應鏈動能仍是市場觀察主軸",
-    summary: "示範事件用來說明指標解讀方式，不代表即時新聞或投資建議。",
+    title: "AI 題材延續帶動大型權值股觀察",
+    summary: "示範事件用來說明市場解讀方式，並非即時新聞或投資建議。",
     category: "市場觀察",
     impact: 2,
     assets: ["TWII", "2330", "2382"]
@@ -214,8 +214,8 @@ export const newsEvents: NewsEvent[] = [
   {
     date: "2026-05-28",
     source: "示範資料",
-    title: "ETF 追蹤標的需要確認資料覆蓋",
-    summary: "示範事件提醒使用者檢查資料來源、更新時間與風險提示。",
+    title: "ETF 觀察樣本維持偏多但仍需確認來源",
+    summary: "示範事件用來呈現 ETF 觀察脈絡，真實資料仍需通過資料來源 gate。",
     category: "ETF",
     impact: 1,
     assets: ["0050", "006208"]

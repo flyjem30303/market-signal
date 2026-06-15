@@ -8,7 +8,7 @@ type DataFreshnessStripProps = {
 };
 
 export function DataFreshnessStrip({ freshness, marketSignalSourceStatus }: DataFreshnessStripProps) {
-  const scoreLabel = freshness.scoreSource === "mock" ? "模擬分數" : freshness.scoreSourceLabel;
+  const scoreLabel = freshness.scoreSource === "mock" ? "示範分數" : freshness.scoreSourceLabel;
   const sourceLabel =
     marketSignalSourceStatus?.resolvedSource === "mock" || freshness.isMock ? "示範資料" : freshness.sourceName;
 
@@ -22,7 +22,7 @@ export function DataFreshnessStrip({ freshness, marketSignalSourceStatus }: Data
       </span>
       <span className={`freshness-score-source ${freshness.scoreSource}`}>分數來源：{scoreLabel}</span>
       <span className="freshness-boundary">
-        目前公開頁維持示範資料與模擬分數，正式每日資料尚未啟用；所有內容僅供市場觀察，不是投資建議。
+        目前仍是公開 Beta 示範資料。真實資料上線前，本網站不宣稱即時、完整或可作為交易依據。
       </span>
       <TrackedLink
         className="freshness-link"
