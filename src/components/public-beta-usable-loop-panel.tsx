@@ -33,7 +33,7 @@ export function PublicBetaUsableLoopPanel({
         ))}
       </div>
 
-      <div className="public-beta-usable-loop__boundary" aria-label="資料來源與非投資建議邊界">
+      <div className="public-beta-usable-loop__boundary" aria-label="資料狀態與非投資建議邊界">
         {loop.boundaryCards.map((card) => (
           <article className={card.tone} key={card.id}>
             <span>{card.label}</span>

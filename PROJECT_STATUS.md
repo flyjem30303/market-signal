@@ -2,6 +2,42 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Public Route Readability Cleanup
+
+Status: `phase_1_public_route_readability_cleanup_ready`
+
+CEO decision:
+
+- Keep the active GOAL focused on Phase 1 public launch readiness, including data online.
+- Because TWII waits on external operator values and ETF waits on source-rights evidence, PM should improve launchable public comprehension without touching data execution.
+- Remove early mojibake, internal workflow wording, and development-process residue from the public home, briefing, stock, public Beta loop, and support-route reading contract surfaces.
+
+PM completed:
+
+- Rewrote `src/components/dashboard-shell.tsx` public-facing copy for Home and Stock routes.
+- Rewrote `src/app/briefing/page.tsx` public-facing copy for the daily briefing route.
+- Rewrote `src/lib/public-beta-usable-loop.ts` and `src/components/public-beta-usable-loop-panel.tsx` so the shared public Beta loop uses reader-facing language.
+- Rewrote `src/components/public-route-reading-contract.tsx` so support pages explain market state, reason, update time, risk reminder, data boundary, and next observation.
+- Kept public runtime posture unchanged: `publicDataSource=mock`, `scoreSource=mock`.
+
+Evidence:
+
+- `cmd.exe /c npm run check:phase-1-route-decision-order` passes.
+- `cmd.exe /c npm run check:home-first-screen-decision-hierarchy` passes.
+- `cmd.exe /c npm run check:stock-decision-compass` passes.
+- `cmd.exe /c npm run check:public-support-route-reading-contract` passes.
+- `cmd.exe /c npm run check:public-visible-language-quality` passes.
+- `cmd.exe /c npx tsc --noEmit` passes.
+- `cmd.exe /c npm run build` passes.
+
+Boundary:
+
+No SQL, Supabase connection/read/write, staging row creation, `daily_prices` mutation, market endpoint fetch, raw market-data ingest/store/commit, candidate row read/output, public source promotion, score promotion, real-time claim, official endorsement claim, investment advice claim, production environment mutation, DNS change, broad visual redesign, or Phase 2 membership implementation occurred.
+
+Next route:
+
+Continue Phase 1 launchable loop by keeping data-online work on TWII operator values and ETF source-rights repair while PM runs only focused public-route checks after public copy changes. The next high-value slice is either A1 ETF source-rights acceptance evidence without market-row fetch, or A3 operator-safe preview smoke if the chairman wants a release-readiness pass before data promotion.
+
 ### Phase 1 ETF Parallel Coverage Repair Selector
 
 Status: `phase_1_etf_parallel_coverage_repair_selector_ready_no_fetch_no_execution`

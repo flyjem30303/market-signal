@@ -24,62 +24,62 @@ export function getPublicBetaUsableLoop(
 ): PublicBetaUsableLoop {
   const contextLine =
     context === "stock"
-      ? `${stockSymbol} 頁先協助使用者看懂標的燈號、主要成因、更新時間與資料邊界。`
+      ? `${stockSymbol} 頁面用同一套閱讀順序呈現：狀態、原因、風險、資料時間與下一步觀察。`
       : context === "briefing"
-        ? "今日簡報把市場氣氛、風險集中度、警示清單與資料限制放在同一個閱讀流程。"
-        : "首頁先回答市場現在偏多、觀望、警戒或高風險，再引導使用者確認原因與下一步觀察。";
+        ? "晨報頁用市場狀態、警示清單與資料邊界，協助使用者快速建立今日觀察重點。"
+        : "首頁先回答目前市場氣氛，再引導使用者複核風險、資料時間與資料邊界。";
 
   return {
     actionCards: [
       {
-        body: "先看市場或標的目前是偏多、觀望、警戒或高風險，再決定是否需要打開更多細節。",
+        body: "先看市場或標的目前偏多、觀望或偏警戒，建立第一層判讀。",
         id: "thirty-second-market-mood",
         label: "30 秒",
-        title: "看懂市場氛圍",
+        title: "看懂市場氣氛",
         tone: "active"
       },
       {
-        body: "再檢查成因、主要風險、更新時間與資料邊界，形成觀察、複核或降低風險的行動。",
+        body: "再檢查風險熱度、成因、資料時間與是否有缺口，避免只看單一分數。",
         id: "three-minute-action-judgement",
         label: "3 分鐘",
-        title: "形成觀察行動",
+        title: "複核風險與原因",
         tone: "readying"
       },
       {
-        body: "若資料標示為示範資料、延遲或狀態不明，先確認資料限制，不把燈號當成交易指令。",
+        body: "最後確認正式資料是否已啟用、是否有延遲或缺漏，再決定關注、加強觀察或等待。",
         id: "source-boundary-confirmation",
         label: "資料邊界",
-        title: "先確認資料限制",
+        title: "確認能不能解讀",
         tone: "blocked"
       }
     ],
     boundaryCards: [
       {
-        body: "現在可用的是公開 Beta 閱讀閉環：市場總覽、核心指標、風險提示、更新時間與下一步觀察。",
+        body: "公開 Beta 目前可以用來理解閱讀流程與市場狀態呈現方式。",
         id: "usable-now",
-        label: "現在可用",
-        title: "公開 Beta 閱讀閉環",
+        label: "目前可用",
+        title: "公開 Beta 可用閉環",
         tone: "active"
       },
       {
-        body: "真實資料升級前，公開頁維持示範資料與示範分數，並清楚標示資料來源、更新時間與可能延遲。",
+        body: "正式市場資料與真實分數尚未切換，頁面會持續標示資料來源與覆蓋率狀態。",
         id: "not-yet-real",
         label: "資料狀態",
-        title: "真實資料升級前維持保守標示",
+        title: "正式資料尚未啟用",
         tone: "readying"
       },
       {
-        body: "本網站只提供市場資訊整理、風險辨識與觀察輔助，不提供買賣建議、不保證報酬。",
+        body: "本站不提供買進、賣出、持有、目標價或個人化投資建議。",
         id: "never-advice",
         label: "使用邊界",
-        title: "不是投資建議",
+        title: "非投資建議",
         tone: "blocked"
       }
     ],
     context,
     contextLine,
     headline: "公開 Beta 可用閉環",
-    stopLine: "若資料來源、更新時間或風險提示不清楚，請先暫停解讀，改看風險揭露與方法說明。",
+    stopLine: "若資料時間延遲、來源狀態未確認或風險提示異常，請先暫緩解讀並等待下一次更新。",
     summary: "用 30 秒看懂市場氛圍，再用 3 分鐘複核成因、風險、更新時間與下一步觀察。"
   };
 }

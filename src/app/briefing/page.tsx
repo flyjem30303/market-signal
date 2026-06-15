@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { PageViewTracker } from "@/components/page-view-tracker";
 import { PublicBetaSourceCoverageBridge } from "@/components/public-beta-source-coverage-bridge";
+import { PublicBetaUsableLoopPanel } from "@/components/public-beta-usable-loop-panel";
 import { PublicDataSourceBoundaryNotice } from "@/components/public-data-source-boundary-notice";
 import { TrackedLink } from "@/components/tracked-link";
 import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
@@ -12,8 +13,8 @@ import {
 import type { SignalSnapshot } from "@/lib/signal-model";
 
 export const metadata: Metadata = {
-  title: "市場晨報",
-  description: "用 30 秒看懂市場狀態，再用 3 分鐘整理觀察重點與風險提示。"
+  title: "每日市場晨報",
+  description: "用 30 秒看市場氣氛，再用 3 分鐘複核風險、資料時間與下一步觀察。"
 };
 
 export default async function BriefingPage() {
@@ -34,24 +35,24 @@ export default async function BriefingPage() {
     <main className="page-shell">
       <PageViewTracker eventName="briefing_page_viewed" payload={{ page: "briefing" }} />
 
-      <section className="hero briefing-public-summary" aria-label="市場晨報">
-        <p className="eyebrow">市場晨報</p>
-        <h1>30 秒看懂市場狀態，3 分鐘整理觀察重點</h1>
+      <section className="hero briefing-public-summary" aria-label="每日市場晨報">
+        <p className="eyebrow">每日市場晨報</p>
+        <h1>30 秒看市場氣氛，3 分鐘複核今日風險</h1>
         <p>
-          這頁把市場燈號、主要風險、強弱清單、資料更新時間與下一步觀察放在一起，協助一般投資者快速建立今日市場脈絡。
+          晨報把市場狀態、警示清單、資料時間與下一步觀察放在同一個閱讀流程，協助一般投資者快速建立今日觀察重點。
         </p>
         <p className="runtime-boundary-line">
-          正式資料尚未啟用，內容用來示範解讀流程；所有資訊都不構成投資建議。
+          正式資料尚未切換；目前頁面以示範資料呈現閱讀流程，不提供買進、賣出、持有或個人化投資建議。
         </p>
       </section>
 
-      <section className="briefing-executive-summary" aria-label="30 秒摘要">
+      <section className="briefing-executive-summary" aria-label="30 秒快讀">
         <div>
-          <p className="eyebrow">30 秒摘要</p>
+          <p className="eyebrow">30 秒快讀</p>
           <h2>{market.signal.title}</h2>
           <p>
-            {market.asset.name} 目前市場分數為 {market.compositeScore}/100，風險分數為 {market.riskScore}/100。
-            先看整體市場氣氛，再看風險是否集中，最後確認資料更新狀態。
+            {market.asset.name} 目前燈號分數為 {market.compositeScore}/100，風險熱度為 {market.riskScore}/100。
+            先把它當成市場氣氛摘要，再往下複核風險與資料邊界。
           </p>
         </div>
         <aside>
@@ -69,37 +70,33 @@ export default async function BriefingPage() {
           </span>
         </aside>
         <div className="briefing-runtime-action-strip">
-          <DecisionPill title="先看狀態" body="確認市場目前偏多、觀望或警戒。" tone="active" />
-          <DecisionPill title="再看風險" body="查看風險是否集中在少數標的或正在擴散。" tone="hold" />
-          <DecisionPill title="最後複核資料" body="確認更新時間、資料品質與正式資料是否已啟用。" tone="blocked" />
+          <DecisionPill title="先看狀態" body="確認市場目前偏多、觀望或偏警戒。" tone="active" />
+          <DecisionPill title="再看風險" body="複核風險熱度是否集中在少數標的。" tone="hold" />
+          <DecisionPill title="最後看資料" body="確認資料時間、來源狀態與缺口提示。" tone="blocked" />
         </div>
-        <nav aria-label="市場晨報延伸連結">
+        <nav aria-label="晨報下一步">
           <TrackedLink
             eventName="briefing_link_clicked"
             href={`/stocks/${market.asset.symbol}`}
-            label="查看市場核心標的"
+            label="查看市場代表標的"
             payload={{ area: "briefing_summary", symbol: market.asset.symbol }}
           >
-            <span>查看市場核心標的</span>
+            <span>查看市場代表標的</span>
             <strong>{market.asset.name}</strong>
-            <small>看燈號、風險、資料品質與下一步觀察。</small>
+            <small>回到標的頁複核燈號狀態、風險與資料時間。</small>
           </TrackedLink>
           <TrackedLink
             eventName="briefing_link_clicked"
             href={`/stocks/${topRisk.asset.symbol}`}
-            label="查看主要風險"
+            label="查看主要風險標的"
             payload={{ area: "briefing_summary", symbol: topRisk.asset.symbol }}
           >
-            <span>查看主要風險</span>
+            <span>查看主要風險標的</span>
             <strong>{topRisk.asset.name}</strong>
-            <small>複核風險分數是否需要提高觀察頻率。</small>
+            <small>複核風險熱度是否需要加強觀察。</small>
           </TrackedLink>
         </nav>
       </section>
-
-      <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
-      <PublicDataSourceBoundaryNotice context="briefing" />
-      <PublicBetaSourceCoverageBridge context="briefing" stockSymbol={market.asset.symbol} />
 
       <section className="briefing-breadth" id="market-structure" aria-label="市場廣度">
         <BreadthCard label="偏強" tone="active" value={breadth.constructive} />
@@ -107,10 +104,10 @@ export default async function BriefingPage() {
         <BreadthCard label="防守" tone="blocked" value={breadth.defensive} />
       </section>
 
-      <section className="briefing-playbook" id="briefing-playbook" aria-label="3 分鐘觀察流程">
-        <p className="eyebrow">3 分鐘觀察流程</p>
-        <h2>從市場狀態、風險來源與資料邊界建立今日觀察順序</h2>
-        <p>這不是買賣建議，而是把市場資訊整理成可追蹤、可複核的觀察流程。</p>
+      <section className="briefing-playbook" id="briefing-playbook" aria-label="3 分鐘複核流程">
+        <p className="eyebrow">3 分鐘複核流程</p>
+        <h2>用狀態、風險、資料邊界整理今日觀察順序</h2>
+        <p>晨報不是買賣建議，而是協助使用者用固定流程確認市場是否值得關注、加強觀察或等待更多資料。</p>
         <div className="playbook-grid">
           {playbook.map((item) => (
             <article className="playbook-card" key={item.title}>
@@ -122,43 +119,40 @@ export default async function BriefingPage() {
         </div>
       </section>
 
-      <section className="panel stock-reading-summary" aria-label="警示清單">
-        <p className="eyebrow">警示清單</p>
-        <h2>今日優先複核的兩個提醒</h2>
+      <section className="panel stock-reading-summary" aria-label="今日警示清單">
+        <p className="eyebrow">今日警示清單</p>
+        <h2>先看最高風險標的，再確認資料是否適合解讀</h2>
         <div className="briefing-actions">
           <article>
             <strong>{topRisk.asset.name} 風險較高</strong>
-            <p>風險分數 {topRisk.riskScore}/100，請先觀察風險是否連續升高或擴散到其他標的。</p>
+            <p>風險熱度 {topRisk.riskScore}/100，建議複核是否由資料延遲、集中弱勢或市場背景造成。</p>
           </article>
           <article>
             <strong>正式資料尚未啟用</strong>
-            <p>請確認資料更新時間與資料邊界，不要把示範資料當成正式市場結論。</p>
+            <p>若資料時間延遲或來源狀態未確認，請先暫緩解讀，等待下一次資料更新或 gate 通過。</p>
           </article>
         </div>
       </section>
 
       <section className="weekly-grid">
         <BriefingList
-          description="市場分數較高的標的，用來觀察強勢是否集中或擴散。"
+          description="燈號分數較高的標的，用來觀察市場強勢來源。"
           items={strongest}
           title="偏強觀察"
           valueKey="composite"
         />
         <BriefingList
-          description="風險分數較高的標的，用來提醒哪些區塊需要提高警覺。"
+          description="風險熱度較高的標的，用來複核今日是否需要加強觀察。"
           items={[topRisk]}
           title="風險觀察"
           valueKey="risk"
         />
       </section>
 
-      <section className="panel stock-reading-summary" aria-label="資料使用提醒">
-        <p className="eyebrow">資料使用提醒</p>
-        <h2>資料異常或未更新時，請先複核來源與更新時間</h2>
-        <p>
-          市場晨報只提供市場資訊整理與風險辨識，不提供買賣建議。正式資料上線前，本頁會明確標示示範資料與資料限制。
-        </p>
-      </section>
+      <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
+      <PublicDataSourceBoundaryNotice context="briefing" />
+      <PublicBetaSourceCoverageBridge context="briefing" stockSymbol={market.asset.symbol} />
+      <PublicBetaUsableLoopPanel context="briefing" stockSymbol={market.asset.symbol} />
     </main>
   );
 }
@@ -241,17 +235,17 @@ function BreadthCard({
 function buildBriefingPlaybook(market: SignalSnapshot, topRisk: SignalSnapshot) {
   return [
     {
-      body: `${market.asset.name} 目前是「${market.signal.title}」，先確認它是否代表整體市場氣氛。`,
+      body: `${market.asset.name} 目前為「${market.signal.title}」，先確認這個狀態是否與市場廣度一致。`,
       step: "1",
       title: "確認市場狀態"
     },
     {
-      body: `${topRisk.asset.name} 風險分數為 ${topRisk.riskScore}/100，觀察風險是否集中或正在擴散。`,
+      body: `${topRisk.asset.name} 風險熱度為 ${topRisk.riskScore}/100，複核是否需要加強觀察。`,
       step: "2",
       title: "查看主要風險"
     },
     {
-      body: "確認資料更新時間、資料品質與正式資料狀態，避免把示範資料當成正式結論。",
+      body: "確認資料時間、來源狀態與缺口提示；正式資料未啟用時，請降低對分數的解讀信心。",
       step: "3",
       title: "複核資料邊界"
     }
