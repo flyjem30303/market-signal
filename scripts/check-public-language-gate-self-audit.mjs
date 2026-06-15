@@ -10,52 +10,66 @@ const auditedCheckers = [
   "scripts/check-stock-first-screen-action-summary.mjs"
 ];
 
+const sources = Object.fromEntries(auditedCheckers.map((file) => [file, fs.readFileSync(file, "utf8")]));
+const packageJson = fs.readFileSync(packagePath, "utf8");
+const reviewGate = fs.readFileSync(reviewGatePath, "utf8");
 const missing = [];
 const blocked = [];
 
-const publicVisibleSource = fs.readFileSync("scripts/check-public-visible-language-quality.mjs", "utf8");
-const actionSummarySource = fs.readFileSync("scripts/check-action-summary-language-quality.mjs", "utf8");
-const homeFirstScreenSource = fs.readFileSync("scripts/check-home-first-screen-action-summary.mjs", "utf8");
-const stockFirstScreenSource = fs.readFileSync("scripts/check-stock-first-screen-readability.mjs", "utf8");
-const stockActionSource = fs.readFileSync("scripts/check-stock-first-screen-action-summary.mjs", "utf8");
+requireTokens("scripts/check-public-visible-language-quality.mjs", [
+  "publicRoutes",
+  "internalBoundaryRoutes",
+  "publicSourceFiles",
+  "forbiddenVisibleFragments",
+  "forbiddenMembershipReadyFragments",
+  "findBadTextMarkers",
+  "publicDataSource",
+  "scoreSource",
+  "Supabase",
+  "/membership"
+]);
 
-for (const token of ["免責聲明", "使用條款", "隱私政策", "publicDataSource=mock", "scoreSource=mock"]) {
-  if (!publicVisibleSource.includes(token)) {
-    missing.push(`scripts/check-public-visible-language-quality.mjs: ${token}`);
-  }
-}
+requireTokens("scripts/check-action-summary-language-quality.mjs", [
+  "src/lib/home-market-action-summary.ts",
+  "src/lib/investor-action-summary.ts",
+  "src/lib/briefing-market-action-summary.ts",
+  "src/lib/weekly-market-action-summary.ts",
+  "scoreSource=real",
+  "publicDataSource=supabase",
+  "replacement/private-use character"
+]);
 
-for (const token of ["scoreSource=real approved", "publicDataSource=supabase approved"]) {
-  if (!publicVisibleSource.includes(token)) {
-    missing.push(`scripts/check-public-visible-language-quality.mjs forbidden sample: ${token}`);
-  }
-}
+requireTokens("scripts/check-home-first-screen-action-summary.mjs", [
+  "HomeProductOverview",
+  "actionSummary.headline",
+  "actionSummary.stopLine",
+  "scoreSourceLabel",
+  "scoreSource=real",
+  "publicDataSource=supabase",
+  "findMojibakeMarkers"
+]);
 
-for (const token of ["src/lib/home-market-action-summary.ts", "src/lib/investor-action-summary.ts", "src/lib/briefing-market-action-summary.ts", "src/lib/weekly-market-action-summary.ts", "publicDataSource=mock", "scoreSource=mock"]) {
-  if (!actionSummarySource.includes(token)) {
-    missing.push(`scripts/check-action-summary-language-quality.mjs: ${token}`);
-  }
-}
+requireAny("stock first-screen language gates", [
+  ["scripts/check-stock-first-screen-readability.mjs", "required"],
+  ["scripts/check-stock-first-screen-readability.mjs", "forbidden"],
+  ["scripts/check-stock-first-screen-readability.mjs", "findMojibakeMarkers"],
+  ["scripts/check-stock-first-screen-action-summary.mjs", "requiredVisiblePhrases"],
+  ["scripts/check-stock-first-screen-action-summary.mjs", "forbiddenVisiblePhrases"],
+  ["scripts/check-stock-first-screen-action-summary.mjs", "findMojibakeMarkers"]
+]);
 
-for (const token of ["Quick Start", "Market Action Summary", "Decision Compass", "actionSummary.stopLine"]) {
-  if (!homeFirstScreenSource.includes(token)) {
-    missing.push(`scripts/check-home-first-screen-action-summary.mjs: ${token}`);
-  }
-}
-
-for (const token of ["Market Signal Dashboard", "publicDataSource=mock", "scoreSource=mock"]) {
-  if (!stockFirstScreenSource.includes(token) && !stockActionSource.includes(token)) {
-    missing.push(`stock first-screen language gates: ${token}`);
-  }
-}
-
-const packageJson = fs.readFileSync(packagePath, "utf8");
-const reviewGate = fs.readFileSync(reviewGatePath, "utf8");
 if (!packageJson.includes('"check:public-language-gate-self-audit"')) {
   missing.push(`${packagePath}: check:public-language-gate-self-audit`);
 }
 if (!reviewGate.includes("scripts/check-public-language-gate-self-audit.mjs")) {
   missing.push(`${reviewGatePath}: scripts/check-public-language-gate-self-audit.mjs`);
+}
+
+for (const file of ["scripts/check-public-visible-language-quality.mjs", "scripts/check-public-language-gate-self-audit.mjs"]) {
+  const content = fs.readFileSync(file, "utf8");
+  if (/[\uE000-\uF8FF\uFFFD\u0080-\u009F]/u.test(content)) {
+    blocked.push(`${file}: checker source contains replacement/private-use/control codepoint`);
+  }
 }
 
 console.log(
@@ -73,4 +87,20 @@ console.log(
 
 if (missing.length > 0 || blocked.length > 0) {
   process.exitCode = 1;
+}
+
+function requireTokens(file, tokens) {
+  for (const token of tokens) {
+    if (!sources[file]?.includes(token)) {
+      missing.push(`${file}: ${token}`);
+    }
+  }
+}
+
+function requireAny(label, checks) {
+  for (const [file, token] of checks) {
+    if (!sources[file]?.includes(token)) {
+      missing.push(`${label}: ${file}: ${token}`);
+    }
+  }
 }

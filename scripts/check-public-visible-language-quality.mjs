@@ -294,8 +294,11 @@ function findBadTextMarkers(text) {
   if (/[\uE000-\uF8FF\uFFFD]/u.test(text)) markers.push("private-use-or-replacement-codepoint");
   if (/[\u0080-\u009F]/u.test(text)) markers.push("control-codepoint");
   if (/\?{3,}/u.test(text)) markers.push("question-mark-run");
-  for (const fragment of ["蝬", "嚗", "銝", "雿", "撣", "摰", "閬", "霈", "蝡", "璅", "餈質馱", "擗", "", "", "芷"]) {
-    if (text.includes(fragment)) markers.push(`mojibake-fragment:${fragment}`);
+  const mojibakePatterns = [
+    ["latin1-utf8-lead-byte", /(?:Ã|Â|â|å|æ|ç|è|é|ï)/u]
+  ];
+  for (const [label, pattern] of mojibakePatterns) {
+    if (pattern.test(text)) markers.push(`mojibake-fragment:${label}`);
   }
   return [...new Set(markers)];
 }
