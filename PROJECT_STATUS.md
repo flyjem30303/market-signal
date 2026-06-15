@@ -2,6 +2,60 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Data Online Write-Gate Fail-Closed Simulation No Execution
+
+Status: `phase_1_data_online_write_gate_fail_closed_simulation_no_execution_ready`
+
+CEO decision:
+
+- Add a write-gate fail-closed simulation after the write-gate dry-run preview.
+- Keep the simulation local-only and no-execution; it proves the future write gate remains blocked when required inputs are absent.
+- Keep the future eligible attempt bounded to `twii_and_etf_phase_1_missing_row_closure_only`.
+
+PM completed:
+
+- Added `docs/PHASE_1_DATA_ONLINE_WRITE_GATE_FAIL_CLOSED_SIMULATION_NO_EXECUTION.md`.
+- Added `check:phase-1-data-online-write-gate-fail-closed-simulation-no-execution`.
+- Registered the checker in the focused review gate.
+- Confirmed write-gate dry-run preview and current data-online GO/NO-GO state remain aligned.
+
+Simulation blockers captured:
+
+- `simulation_matrix_required`
+- `all_missing_inputs_block_write`
+- `missing_operator_values_blocks_write`
+- `missing_credential_presence_blocks_write`
+- `missing_rollback_plan_blocks_write`
+- `missing_aggregate_readback_plan_blocks_write`
+- `missing_post_run_review_blocks_write`
+- `missing_duplicate_rejection_blocks_write`
+- `missing_schema_cache_exposure_check_blocks_write`
+- `missing_dashboard_api_exposure_check_blocks_write`
+- `missing_pgrst205_regression_check_blocks_write`
+- `writeGateExecutableNow=false`
+
+Current data-online position:
+
+- Phase 1 data-online decision remains `PUBLIC_RUNTIME_READY_BUT_DATA_ONLINE_NO_GO`.
+- Current Level 1 coverage remains `182/360`; missing rows remain `178/360`.
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+- The next possible progress route is a no-execution write-gate checklist runner that reports why the gate remains blocked without connecting to Supabase.
+
+Evidence:
+
+- `cmd.exe /c npm run check:phase-1-data-online-write-gate-fail-closed-simulation-no-execution` passes.
+- `cmd.exe /c npm run check:phase-1-data-online-write-gate-dry-run-preview-no-execution` passes.
+- `cmd.exe /c npm run check:phase-1-data-online-go-no-go-status` passes and remains `NO_GO`.
+
+Boundary:
+
+No SQL, Supabase connection/read/write, staging-row creation, `daily_prices` mutation, market-row fetch, raw payload output, endpoint response output, credential value output, operator value output, execution value storage, write-gate execution, candidate row acceptance, row coverage award, source promotion, score promotion, public real-data claim, real-time claim, official endorsement claim, investment advice claim, or production mutation occurred.
+
+Next route:
+
+Prepare a no-execution write-gate checklist runner that can evaluate the fail-closed simulation matrix and explain every remaining blocker. It must still not connect to Supabase or write data.
+
 ### Phase 1 Data Online Write-Gate Dry-Run Preview No Execution
 
 Status: `phase_1_data_online_write_gate_dry_run_preview_no_execution_ready`
