@@ -2,6 +2,46 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Latest Phase 1 candidate artifact set acceptance gate slice
+
+Status: `phase_1_write_runner_candidate_artifact_set_acceptance_gate_waiting_etf_artifact`
+
+CEO decision:
+
+- Make the data-online blocker explicit at the write-chain entry: the full candidate artifact set is not complete.
+- TWII artifact is accepted, but ETF artifact is still waiting for A1 sanitized aggregate-only reply.
+- Keep implementation, execution, write gate, and promotion blocked until ETF artifact intake is accepted.
+
+PM completed:
+
+- Added `scripts/report-phase-1-write-runner-candidate-artifact-set-acceptance-gate.mjs`.
+- Added `data/evidence-intake/phase-1-write-runner-candidate-artifact-set-acceptance-gate.json`.
+- Added `docs/PHASE_1_WRITE_RUNNER_CANDIDATE_ARTIFACT_SET_ACCEPTANCE_GATE.md`.
+- Added and registered `check:phase-1-write-runner-candidate-artifact-set-acceptance-gate`.
+
+Artifact set state:
+
+- `twiiArtifactAccepted=true`
+- `etfArtifactAccepted=false`
+- `artifactSetComplete=false`
+- `expectedMissingRows=178`
+- `twiiMissingRows=60`
+- `etfMissingRows=118`
+- `executionAllowedNow=false`
+- `writeGateExecutableNow=false`
+- `implementationAllowedNow=false`
+- `promotionAllowedNow=false`
+
+Current boundary:
+
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+- No candidate row acceptance, Supabase write, public real-data promotion, row payload output, raw payload output, or investment-advice claim occurred.
+
+Next route:
+
+`nextRoute=wait_for_a1_etf_sanitized_candidate_artifact_reply`.
+
 ### Latest Phase 1 post-write review contract slice
 
 Status: `phase_1_write_runner_post_write_review_contract_no_execution_ready`
