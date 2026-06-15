@@ -2,6 +2,59 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Write-Gate Execution Packet Draft Ready
+
+Status: `phase_1_write_gate_execution_packet_draft_no_execution_ready`
+
+CEO decision:
+
+- Create the execution packet draft after the write-gate dry run.
+- Move toward the actual missing-row closure attempt without authorizing execution in this slice.
+- Keep runtime promotion, real SQL, Supabase write, and `daily_prices` mutation separate from this draft.
+
+PM completed:
+
+- Added `data/evidence-intake/phase-1-write-gate-execution-packet-draft-no-execution.json`.
+- Added `docs/PHASE_1_WRITE_GATE_EXECUTION_PACKET_DRAFT_NO_EXECUTION.md`.
+- Added and registered `check:phase-1-write-gate-execution-packet-draft-no-execution`.
+
+Execution packet state:
+
+- `executionPacketDraftReady=true`
+- `executionAllowedNow=false`
+- `writeGateExecutableNow=false`
+- `boundedAttemptScope=twii_and_etf_phase_1_missing_row_closure_only`
+- `targetTable=daily_prices`
+
+Target rows:
+
+- `fullLevel1ExpectedRows=360`
+- `fullLevel1ObservedRows=182`
+- `fullLevel1MissingRows=178`
+- `twiiMissingRows=60`
+- `etfMissingRows=118`
+
+Required before or after future execution:
+
+- `operator_final_go_no_go`
+- `sanitized_candidate_artifact_paths`
+- `server_only_credentials_present`
+- `insert_missing_only_runner`
+- `aggregate_readback_runner`
+- `rollback_or_quarantine_decision`
+- `runtime_promotion_decision`
+
+Current boundary:
+
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+- No switch value, confirmation phrase, operator value, credential value, raw payload, row payload, or secret was printed, stored, hashed, compared, or transformed.
+- No SQL, Supabase read/write, staging row, `daily_prices` mutation, market-data fetch/ingestion, source promotion, score promotion, public real-data claim, or investment-advice claim occurred.
+
+Next route:
+
+Prepare `phase_1_write_gate_runner_stub_or_operator_execution_packet_review`.
+
 ### Phase 1 Write-Gate Dry Run After Preflight Requirements Ready
 
 Status: `phase_1_write_gate_dry_run_after_preflight_requirements_ready_no_execution`

@@ -1,0 +1,82 @@
+{
+  "status": "phase_1_write_gate_execution_packet_draft_no_execution_ready",
+  "packetMode": "write_gate_execution_packet_draft_no_execution",
+  "createdAt": "2026-06-15",
+  "inputDryRun": "phase_1_write_gate_dry_run_after_preflight_requirements_ready_no_execution",
+  "executionPacketDraftReady": true,
+  "executionAllowedNow": false,
+  "writeGateExecutableNow": false,
+  "boundedAttemptScope": "twii_and_etf_phase_1_missing_row_closure_only",
+  "targetTable": "daily_prices",
+  "targetRows": {
+    "fullLevel1ExpectedRows": 360,
+    "fullLevel1ObservedRows": 182,
+    "fullLevel1MissingRows": 178,
+    "twiiMissingRows": 60,
+    "etfMissingRows": 118
+  },
+  "executionPacketRequirements": [
+    {
+      "id": "operator_final_go_no_go",
+      "status": "required_before_execution",
+      "rule": "Operator must give a separate explicit go/no-go for the execution packet; this draft does not authorize execution."
+    },
+    {
+      "id": "sanitized_candidate_artifact_paths",
+      "status": "required_before_execution",
+      "rule": "Execution packet must reference sanitized aggregate-only candidate artifacts for TWII and ETF missing rows without raw payloads or row bodies."
+    },
+    {
+      "id": "server_only_credentials_present",
+      "status": "required_before_execution",
+      "rule": "Server-only credential presence must be verified without printing, storing, hashing, comparing, or transforming credential values."
+    },
+    {
+      "id": "insert_missing_only_runner",
+      "status": "required_before_execution",
+      "rule": "Runner must fail closed unless it can perform insert-missing-only behavior for the bounded Phase 1 missing rows."
+    },
+    {
+      "id": "aggregate_readback_runner",
+      "status": "required_after_execution",
+      "rule": "Post-run readback must report aggregate counts, duplicate counts, rejection counts, and date bounds without printing row bodies."
+    },
+    {
+      "id": "rollback_or_quarantine_decision",
+      "status": "required_after_execution",
+      "rule": "If aggregate readback or post-run review fails, rows must be quarantined or rollback path must be selected before any runtime promotion."
+    },
+    {
+      "id": "runtime_promotion_decision",
+      "status": "required_after_successful_post_run_review",
+      "rule": "Runtime promotion remains separate and must pass source rights, data quality, timestamp, fallback, disclosure, and no-advice gates."
+    }
+  ],
+  "nextRoute": "phase_1_write_gate_runner_stub_or_operator_execution_packet_review",
+  "safety": {
+    "valuesRead": false,
+    "valuesStored": false,
+    "valuesPrinted": false,
+    "valuesHashed": false,
+    "valuesCompared": false,
+    "valuesTransformed": false,
+    "credentialValueRead": false,
+    "credentialValueStored": false,
+    "credentialValuePrinted": false,
+    "sqlExecuted": false,
+    "supabaseReadAttempted": false,
+    "supabaseWriteAttempted": false,
+    "marketDataFetched": false,
+    "marketDataIngested": false,
+    "dailyPricesMutated": false,
+    "stagingRowsCreated": false,
+    "rawPayloadsPrinted": false,
+    "rowPayloadsPrinted": false,
+    "secretsPrinted": false,
+    "publicPromotionAllowed": false,
+    "scoreSourceRealAllowed": false,
+    "investmentAdviceClaimAllowed": false,
+    "publicDataSource": "mock",
+    "scoreSource": "mock"
+  }
+}
