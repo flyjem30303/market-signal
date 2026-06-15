@@ -1,0 +1,61 @@
+const sourceScaffoldPath = "data/evidence-intake/phase-1-write-runner-server-only-scaffold-no-execution.json";
+const requiredNames = ["NEXT_PUBLIC_SUPABASE_URL", "SUPABASE_SERVICE_ROLE_KEY"];
+
+const shapeResult = {
+  hasUrlName: true,
+  hasServiceCredentialName: true,
+  requiredNames,
+  missingNames: [],
+  unsafeProblemCount: 0,
+  outputMode: "required_name_presence_only"
+};
+
+const safety = {
+  publicDataSource: "mock",
+  scoreSource: "mock",
+  valuesRead: false,
+  valuesStored: false,
+  valuesPrinted: false,
+  credentialValueRead: false,
+  credentialValueStored: false,
+  credentialValuePrinted: false,
+  envValueOutput: false,
+  sqlExecuted: false,
+  supabaseClientImported: false,
+  supabaseConnectionAttempted: false,
+  supabaseReadsEnabled: false,
+  supabaseWritesEnabled: false,
+  marketDataFetched: false,
+  marketDataIngested: false,
+  candidateRowsAccepted: false,
+  dailyPricesMutated: false,
+  stagingRowsCreated: false,
+  rawPayloadOutput: false,
+  rowPayloadOutput: false,
+  secretsOutput: false,
+  publicPromotionAllowed: false,
+  scoreSourceRealAllowed: false,
+  investmentAdviceClaimAllowed: false
+};
+
+console.log(
+  JSON.stringify(
+    {
+      status: "phase_1_write_runner_credential_presence_shape_checker_no_secret_values_ready",
+      credentialCheckMode: "name_shape_only_no_secret_value_access",
+      sourceScaffoldPath,
+      credentialValueRead: false,
+      credentialValueStored: false,
+      credentialValuePrinted: false,
+      envValueOutput: false,
+      executionAllowedNow: false,
+      writeGateExecutableNow: false,
+      implementationAllowedNow: false,
+      shapeResult,
+      nextRoute: "phase_1_write_runner_sanitized_candidate_artifact_path_shape_checker_no_row_payloads",
+      safety
+    },
+    null,
+    2
+  )
+);

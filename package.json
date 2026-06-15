@@ -1536,6 +1536,8 @@
     "check:phase-1-write-runner-implementation-scope-packet-no-execution": "node scripts/check-phase-1-write-runner-implementation-scope-packet-no-execution.mjs",
     "report:phase-1-write-runner-server-only-scaffold-no-execution": "node scripts/report-phase-1-write-runner-server-only-scaffold-no-execution.mjs",
     "check:phase-1-write-runner-server-only-scaffold-no-execution": "node scripts/check-phase-1-write-runner-server-only-scaffold-no-execution.mjs",
+    "report:phase-1-write-runner-credential-presence-shape-checker-no-secret-values": "node scripts/report-phase-1-write-runner-credential-presence-shape-checker-no-secret-values.mjs",
+    "check:phase-1-write-runner-credential-presence-shape-checker-no-secret-values": "node scripts/check-phase-1-write-runner-credential-presence-shape-checker-no-secret-values.mjs",
     "check:phase-1-row-coverage-readonly-result-20260615-a": "node scripts/check-phase-1-row-coverage-readonly-result-20260615-a.mjs",
     "check:phase-1-twii-etf-missing-rows-backfill-readiness": "node scripts/check-phase-1-twii-etf-missing-rows-backfill-readiness.mjs",
     "check:phase-1-twii-write-attempt-stopline-rollup": "node scripts/check-phase-1-twii-write-attempt-stopline-rollup.mjs",

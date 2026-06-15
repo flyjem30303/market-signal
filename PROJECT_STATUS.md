@@ -2,6 +2,49 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Write Runner Credential Presence Shape Checker Ready
+
+Status: `phase_1_write_runner_credential_presence_shape_checker_no_secret_values_ready`
+
+CEO decision:
+
+- Convert the Phase 1 server-only scaffold into a credential-name shape checker.
+- Keep this as name-shape only: no runtime env inspection, no credential value read, no credential value output.
+- Continue to block Supabase client import, SQL, Supabase connection/write, `daily_prices` mutation, candidate-row acceptance, and runtime promotion.
+
+PM completed:
+
+- Added `scripts/report-phase-1-write-runner-credential-presence-shape-checker-no-secret-values.mjs`.
+- Added `data/evidence-intake/phase-1-write-runner-credential-presence-shape-checker-no-secret-values.json`.
+- Added `docs/PHASE_1_WRITE_RUNNER_CREDENTIAL_PRESENCE_SHAPE_CHECKER_NO_SECRET_VALUES.md`.
+- Added and registered `check:phase-1-write-runner-credential-presence-shape-checker-no-secret-values`.
+
+Credential shape state:
+
+- `sourceScaffoldPath=data/evidence-intake/phase-1-write-runner-server-only-scaffold-no-execution.json`
+- `credentialCheckMode=name_shape_only_no_secret_value_access`
+- `credentialValueRead=false`
+- `credentialValueStored=false`
+- `credentialValuePrinted=false`
+- `envValueOutput=false`
+- `executionAllowedNow=false`
+- `writeGateExecutableNow=false`
+- `implementationAllowedNow=false`
+- Required names: `NEXT_PUBLIC_SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`
+- `missingNames=[]`
+- `unsafeProblemCount=0`
+
+Current boundary:
+
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+- No switch value, confirmation phrase, operator value, credential value, raw payload, row payload, or secret was printed, stored, hashed, compared, or transformed.
+- No SQL, Supabase client import/read/write/connection, staging row, `daily_prices` mutation, candidate row acceptance, market-data fetch/ingestion, source promotion, score promotion, public real-data claim, or investment-advice claim occurred.
+
+Next route:
+
+Prepare `phase_1_write_runner_sanitized_candidate_artifact_path_shape_checker_no_row_payloads`.
+
 ### Phase 1 Write Runner Server-Only Scaffold Ready
 
 Status: `phase_1_write_runner_server_only_scaffold_no_execution_ready`
