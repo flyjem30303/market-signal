@@ -77,6 +77,24 @@ Routing preview:
 
 The dry-run recorder rejects `--apply`, secrets, raw payload labels, row payload labels, stock-id payload labels, source payload labels, Supabase keys, Supabase URLs, and buy/sell/hold language.
 
+## Reviewed Apply Gate
+
+Status: `phase_1_data_online_a1_a2_outcome_reviewed_apply_gate_ready_no_remote`
+
+Reviewed apply updates only the local outcome ledger.
+
+Reviewed apply requires a prior dry-run preview.
+
+Reviewed apply still does not authorize SQL, Supabase, market-row fetch, row coverage, or runtime promotion.
+
+Command:
+
+```powershell
+cmd.exe /c npm run record:phase-1-data-online-a1-a2-outcome-reviewed-apply -- --dry-run --id a2_twii_etf_public_copy_guard_outcome --status deferred --recordedBy PM --safe-summary "No-secret summary only." --source-reference-label "internal-review-label" --remaining-risk "No execution yet." --reviewed-by PM --reviewed-note "Reviewed dry-run route only."
+```
+
+`--apply` is allowed only in a reviewed slice after the dry-run preview is accepted. Even then it only updates `data/source-gates/phase-1-data-online-a1-a2-handoff-outcomes.json`.
+
 ## PM Safety Rules
 
 No row coverage points may be awarded from this ledger.

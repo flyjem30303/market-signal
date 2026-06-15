@@ -2,6 +2,43 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Data Online A1/A2 Outcome Reviewed Apply Gate
+
+Status: `phase_1_data_online_a1_a2_outcome_reviewed_apply_gate_ready_no_remote`
+
+CEO decision:
+
+- Allow PM to update the local A1/A2 outcome ledger only after a reviewed dry-run preview.
+- Keep reviewed apply local-only and no-remote.
+- Preserve all data-online blockers until a later separate authorization gate.
+
+PM completed:
+
+- Added `scripts/record-phase-1-data-online-a1-a2-outcome-reviewed-apply.mjs`.
+- Added `check:phase-1-data-online-a1-a2-outcome-reviewed-apply-gate`.
+- Registered `record:phase-1-data-online-a1-a2-outcome-reviewed-apply`.
+- Registered the checker in the focused review gate.
+- Updated `docs/PHASE_1_DATA_ONLINE_A1_A2_OUTCOME_INTAKE_LEDGER.md` with reviewed apply command and boundary.
+
+Current data-online position:
+
+- Phase 1 data-online decision remains `PUBLIC_RUNTIME_READY_BUT_DATA_ONLINE_NO_GO`.
+- The checker proves the reviewed apply preview does not mutate the ledger.
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+
+Evidence:
+
+- `cmd.exe /c npm run check:phase-1-data-online-a1-a2-outcome-reviewed-apply-gate` passes.
+
+Boundary:
+
+No SQL, Supabase connection/read/write, staging-row creation, `daily_prices` mutation, TWII/ETF market-row fetch, raw payload output, endpoint response output, operator value storage, candidate row acceptance, row coverage points, source promotion, score promotion, real-time claim, official endorsement claim, investment advice claim, production environment mutation, DNS change, broad visual redesign, or Phase 2 membership implementation occurred.
+
+Next route:
+
+When a no-secret A1/A2 outcome is available, PM may first run dry-run preview, then use the reviewed apply command in a separate slice to update the local ledger. If enough outcomes become accepted, PM must still open a separate lane authorization gate before any write, readback, promotion, or public real-data claim.
+
 ### Phase 1 Data Online A1/A2 Outcome Dry-Run Recorder
 
 Status: `phase_1_data_online_a1_a2_outcome_dry_run_recorder_ready_no_apply`
