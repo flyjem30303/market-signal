@@ -30,13 +30,14 @@ try {
     parseError: error.message
   };
 }
+const status = checkerOutput.status === "ok" ? "ok" : "blocked";
 
 console.log(
   JSON.stringify(
     {
-      status: checkerOutput.status === "ok" ? "ok" : "blocked",
+      status,
       guardedStatus:
-        checkerOutput.status === "ok"
+        status === "ok"
           ? "phase_1_production_public_url_smoke_ready"
           : "phase_1_production_public_url_smoke_blocked",
       baseUrl: normalizedBaseUrl,
@@ -60,4 +61,4 @@ console.log(
   )
 );
 
-process.exitCode = 0;
+process.exitCode = status === "ok" ? 0 : 1;
