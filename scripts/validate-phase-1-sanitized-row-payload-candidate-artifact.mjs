@@ -1,10 +1,15 @@
 import fs from "node:fs";
+import path from "node:path";
 
 const args = parseArgs(process.argv.slice(2));
 const artifactPath = args.candidateArtifact ?? process.env.PHASE_1_SANITIZED_ROW_PAYLOAD_CANDIDATE_PATH;
 const problems = [];
 
 if (!artifactPath) problems.push("candidate_artifact_path_missing");
+const candidatePathPolicy = artifactPath ? classifyCandidatePath(artifactPath) : null;
+if (candidatePathPolicy?.insideCommittedCandidateFolder) {
+  problems.push("candidate_artifact_path_must_stay_outside_data_candidates");
+}
 
 const artifact = artifactPath ? readJson(artifactPath) : {};
 const rows = Array.isArray(artifact.rows) ? artifact.rows : [];
@@ -97,6 +102,7 @@ const output = {
     : "phase_1_sanitized_row_payload_candidate_artifact_blocked",
   validatorMode: "aggregate_only_no_row_output",
   artifactPathProvided: Boolean(artifactPath),
+  candidatePathPolicy,
   rowCount: rows.length,
   expectedRows: artifact.expectedRows ?? null,
   symbolsCovered: [...symbols].sort(),
@@ -153,6 +159,19 @@ function readJson(filePath) {
     problems.push(`candidate_artifact_unreadable:${error.message}`);
     return {};
   }
+}
+
+function classifyCandidatePath(filePath) {
+  const resolved = path.resolve(filePath);
+  const committedCandidateFolder = path.resolve("data/candidates");
+  const relativeToCandidateFolder = path.relative(committedCandidateFolder, resolved);
+  return {
+    insideCommittedCandidateFolder:
+      relativeToCandidateFolder !== "" &&
+      !relativeToCandidateFolder.startsWith("..") &&
+      !path.isAbsolute(relativeToCandidateFolder),
+    allowedStoragePolicy: "local_or_external_path_outside_data_candidates"
+  };
 }
 
 function isValidIsoDate(value) {

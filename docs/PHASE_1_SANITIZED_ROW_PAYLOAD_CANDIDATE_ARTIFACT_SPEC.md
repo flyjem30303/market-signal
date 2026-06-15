@@ -16,6 +16,7 @@ This spec defines the format only. It does not create, fetch, store, print, or c
 
 - `deliveryMode=local_or_external_path_only`
 - `commitPolicy=do_not_commit_market_row_payloads_by_default`
+- `pathPolicy=local_or_external_path_outside_data_candidates`
 - `validatorOutput=aggregate_counts_only`
 - `rowPayloadAllowedForFutureValidator=true`
 - `rowPayloadPrinted=false`
@@ -117,7 +118,8 @@ It must not print row bodies, raw payloads, stock ids, secrets, authorization va
 
 A1 should prepare a local or external sanitized row-payload candidate artifact path for `TWII`, `0050`, and `006208` under this spec.
 
+The filled candidate artifact must not be placed under `data/candidates`; that folder is for aggregate-only committed intake material unless PM explicitly approves a separate storage policy.
+
 A1 must return only the path, artifact id, aggregate counts, symbols covered, date bounds, duplicate count, rejected count, forbidden-field count, and safety flags.
 
 PM will not accept the artifact for writing until a separate validator and write gate pass.
-

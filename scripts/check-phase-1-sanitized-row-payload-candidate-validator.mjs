@@ -18,11 +18,15 @@ const badDatePath = writeFixture({ invalidDate: true });
 const badDateRun = runValidator(badDatePath);
 const wrongCountPath = writeFixture({ wrongSymbolCounts: true });
 const wrongCountRun = runValidator(wrongCountPath);
+const committedCandidateFolderPath = writeCommittedCandidateFolderFixture();
+const committedCandidateFolderRun = runValidator(committedCandidateFolderPath);
+cleanupFile(committedCandidateFolderPath);
 
 validateMissingRun();
 validateFixtureRun();
 validateBadDateRun();
 validateWrongCountRun();
+validateCommittedCandidateFolderRun();
 validateRegistration();
 validateBoundaries();
 
@@ -38,6 +42,7 @@ console.log(
       fixtureAccepted: fixtureRun.output.accepted ?? false,
       badDateAccepted: badDateRun.output.accepted ?? false,
       wrongCountAccepted: wrongCountRun.output.accepted ?? false,
+      committedCandidateFolderAccepted: committedCandidateFolderRun.output.accepted ?? false,
       missingPathStatus: missingRun.output.status ?? null,
       publicDataSource: "mock",
       scoreSource: "mock",
@@ -107,6 +112,26 @@ function validateWrongCountRun() {
   expect(wrongCountRun.output.accepted, false, "wrong-count accepted");
   expectIncludes(wrongCountRun.output.problems, "symbol_count_mismatch:TWII", "wrong-count TWII problems");
   expectIncludes(wrongCountRun.output.problems, "symbol_count_mismatch:0050", "wrong-count 0050 problems");
+}
+
+function validateCommittedCandidateFolderRun() {
+  expect(committedCandidateFolderRun.status, 0, "committed-candidate-folder run exit status");
+  expect(
+    committedCandidateFolderRun.output.status,
+    "phase_1_sanitized_row_payload_candidate_artifact_blocked",
+    "committed-candidate-folder status"
+  );
+  expect(committedCandidateFolderRun.output.accepted, false, "committed-candidate-folder accepted");
+  expectIncludes(
+    committedCandidateFolderRun.output.problems,
+    "candidate_artifact_path_must_stay_outside_data_candidates",
+    "committed-candidate-folder problems"
+  );
+  expect(
+    committedCandidateFolderRun.output.candidatePathPolicy?.insideCommittedCandidateFolder,
+    true,
+    "committed-candidate-folder path policy"
+  );
 }
 
 function validateRegistration() {
@@ -194,6 +219,20 @@ function writeFixture(options = {}) {
   const fixturePath = path.join(dir, "candidate.json");
   fs.writeFileSync(fixturePath, JSON.stringify(artifact, null, 2));
   return fixturePath;
+}
+
+function writeCommittedCandidateFolderFixture() {
+  const fixturePath = path.join("data", "candidates", "__phase_1_row_payload_path_policy_fixture.json");
+  fs.writeFileSync(fixturePath, JSON.stringify({ artifactId: "path-policy-fixture-no-rows" }, null, 2));
+  return fixturePath;
+}
+
+function cleanupFile(filePath) {
+  try {
+    fs.unlinkSync(filePath);
+  } catch {
+    // Best effort cleanup for a local checker-only fixture.
+  }
 }
 
 function runValidator(candidatePath) {
