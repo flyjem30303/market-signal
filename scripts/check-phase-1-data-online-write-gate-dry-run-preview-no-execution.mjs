@@ -13,6 +13,10 @@ const finalReview = runJson(
   "scripts/check-phase-1-data-online-final-preexecution-review-artifact-no-execution.mjs",
   "final preexecution review artifact"
 );
+const serverOnlyPresenceRecheck = runJson(
+  "scripts/check-phase-1-data-online-server-only-presence-recheck-no-execution.mjs",
+  "server-only presence recheck"
+);
 const dataOnline = runJson("scripts/check-phase-1-data-online-go-no-go-status.mjs", "data-online go/no-go");
 
 validatePrerequisites();
@@ -43,6 +47,17 @@ function validatePrerequisites() {
     "phase_1_data_online_final_preexecution_review_artifact_no_execution_ready",
     "final preexecution review artifact guarded status"
   );
+  expect(serverOnlyPresenceRecheck.status, "ok", "server-only presence recheck status");
+  expect(
+    serverOnlyPresenceRecheck.guardedStatus,
+    "phase_1_data_online_server_only_presence_recheck_no_execution_ready",
+    "server-only presence recheck guarded status"
+  );
+  expect(
+    serverOnlyPresenceRecheck.presenceRecheckStatus,
+    "prepared_waiting_external_presence",
+    "server-only presence recheck status"
+  );
   expect(dataOnline.status, "ok", "dataOnline status");
   expect(dataOnline.decision, "PUBLIC_RUNTIME_READY_BUT_DATA_ONLINE_NO_GO", "dataOnline decision");
   expect(dataOnline.publicDataSource, "mock", "dataOnline publicDataSource");
@@ -55,6 +70,8 @@ function validateDoc() {
     "write_gate_dry_run_preview_no_execution",
     "fail_closed_default_required",
     "write_gate_must_not_execute",
+    "server_only_presence_recheck_required",
+    "prepared_waiting_external_presence",
     "operator_values_absent_blocks_write",
     "credential_presence_absent_blocks_write",
     "rollback_plan_absent_blocks_write",

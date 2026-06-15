@@ -14,6 +14,8 @@ The future write gate must remain blocked when any required input is absent:
 
 - `fail_closed_default_required`
 - `write_gate_must_not_execute`
+- `server_only_presence_recheck_required`
+- `prepared_waiting_external_presence`
 - `operator_values_absent_blocks_write`
 - `credential_presence_absent_blocks_write`
 - `rollback_plan_absent_blocks_write`

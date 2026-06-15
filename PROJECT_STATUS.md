@@ -2,6 +2,48 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Server-Only Presence Recheck Ready
+
+Status: `phase_1_server_only_presence_recheck_ready_no_execution`
+
+CEO decision:
+
+- Add the smallest possible server-only presence recheck gate after the operator/credential presence packet.
+- Keep the recheck as boolean presence only: it must not print, store, hash, compare, or transform operator/credential values.
+- Wire the recheck into final pre-execution review and write-gate dry-run preview so future data-online work cannot skip it.
+
+PM completed:
+
+- Added `phase-1-server-only-presence-recheck.json` as a sanitized, value-hidden artifact.
+- Added `PHASE_1_DATA_ONLINE_SERVER_ONLY_PRESENCE_RECHECK_NO_EXECUTION.md`.
+- Added `check:phase-1-data-online-server-only-presence-recheck-no-execution` and registered it in the focused review gate.
+- Updated the final pre-execution review artifact to include `server_only_presence_recheck_included`.
+- Updated the write-gate dry-run preview to require `server_only_presence_recheck_required`.
+
+Verified:
+
+- `cmd.exe /c npm run check:phase-1-data-online-server-only-presence-recheck-no-execution` passes.
+- `cmd.exe /c npm run check:phase-1-data-online-final-preexecution-review-artifact-no-execution` passes.
+- `cmd.exe /c npm run check:phase-1-data-online-write-gate-dry-run-preview-no-execution` passes.
+
+Current blocker view:
+
+- Server-only presence recheck is prepared but still waiting for external presence.
+- `serverOnlyCredentialPresenceStatus=not_checked_value_hidden`.
+- `externalOperatorValuesPresenceStatus=not_checked_value_hidden`.
+- Write gate remains non-executable.
+
+Current boundary:
+
+- Data online remains `NO_GO`.
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+- No SQL, Supabase write, staging row, `daily_prices` mutation, market-data fetch/ingestion, row coverage award, source promotion, score promotion, secret output, row payload output, or public real-data claim occurred.
+
+Next route:
+
+CEO should update the fail-closed write-gate simulation so it consumes the server-only presence recheck and continues to prove the gate blocks when external/operator presence is not confirmed.
+
 ### Phase 1 Operator/Credential Presence Packet Ready
 
 Status: `phase_1_operator_credential_presence_packet_ready_no_execution`

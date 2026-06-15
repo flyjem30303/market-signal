@@ -1,0 +1,33 @@
+{
+  "status": "server_only_presence_recheck_ready_no_execution",
+  "packetMode": "server_only_presence_recheck_no_execution",
+  "presenceRecheckStatus": "prepared_waiting_external_presence",
+  "serverOnlyCredentialPresenceStatus": "not_checked_value_hidden",
+  "externalOperatorValuesPresenceStatus": "not_checked_value_hidden",
+  "writeGateExecutableNow": false,
+  "publicDataSource": "mock",
+  "scoreSource": "mock",
+  "recheckSlots": [
+    "operator_decision_presence_recheck",
+    "execute_switch_presence_recheck",
+    "confirmation_phrase_presence_recheck",
+    "server_only_credential_presence_recheck",
+    "rollback_reference_presence_recheck",
+    "post_run_review_reference_presence_recheck"
+  ],
+  "safety": {
+    "valuesRead": false,
+    "valuesStored": false,
+    "valuesHashed": false,
+    "valuesCompared": false,
+    "credentialValueRead": false,
+    "credentialValuePrinted": false,
+    "sqlExecuted": false,
+    "supabaseWriteAttempted": false,
+    "dailyPricesMutated": false,
+    "marketDataFetched": false,
+    "writeGateExecutableNow": false,
+    "publicPromotionAllowed": false,
+    "scoreSourceRealAllowed": false
+  }
+}

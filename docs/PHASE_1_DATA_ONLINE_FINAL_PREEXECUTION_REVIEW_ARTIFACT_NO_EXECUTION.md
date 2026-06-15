@@ -16,6 +16,7 @@ The final artifact confirms the following inputs are included as review sections
 - `server_preexecution_readiness_included`
 - `execution_values_dry_run_shape_included`
 - `operator_credential_presence_packet_included`
+- `server_only_presence_recheck_included`
 - `rollback_plan_shape_included`
 - `aggregate_readback_plan_shape_included`
 - `post_run_review_checklist_included`
@@ -35,6 +36,7 @@ This artifact does not authorize a broader backfill, live ingestion scheduler, p
 - `value_presence_only_no_values`
 - `credential_value_must_not_be_printed`
 - `ready_for_external_operator_values_and_server_presence_check`
+- `prepared_waiting_external_presence`
 
 The artifact may state whether each required future value/checklist is expected, but it must not contain actual switch values, confirmation phrases, secrets, endpoint responses, raw payloads, row bodies, generated market rows, or SQL.
 
