@@ -2,6 +2,46 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Public Data Readiness Status Rendered
+
+Status: `phase_1_public_data_readiness_status_rendered_mock_no_go`
+
+CEO decision:
+
+- Keep the active GOAL focused on Phase 1 public-free launch readiness with data online included.
+- Use the external/operator waiting time to improve public runtime clarity, not to add more governance-only artifacts.
+- Make `/` and `/briefing` show a user-readable data status surface that explains what is usable now, what still needs review, and why the site remains mock before the real-data promotion gate.
+
+PM completed:
+
+- Reused the shared `PublicBetaDataReadinessStatus` component on the home route.
+- Added the same public data readiness status to `/briefing`.
+- Strengthened the stop line to state that the current mock state does not provide individual stock trading advice.
+- Kept `publicDataSource=mock` and `scoreSource=mock`; no data source promotion was made.
+
+Verified:
+
+- `cmd.exe /c npm run check:public-beta-data-readiness-status` passes.
+- `cmd.exe /c npm run check:phase-1-data-online-go-no-go-status` passes with `PUBLIC_RUNTIME_READY_BUT_DATA_ONLINE_NO_GO`.
+- `cmd.exe /c npx tsc --noEmit` passes.
+- `git diff --check` reports only existing CRLF conversion warnings for the touched files.
+
+Current blocker view:
+
+- Data online remains `NO_GO`.
+- Coverage remains `182/360`; missing rows remain `178` (`TWII=60`, `ETF=118`).
+- The next data-online blocker is still the write-gate/external presence chain, not UI promotion.
+
+Current boundary:
+
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+- No SQL, Supabase write, staging row, `daily_prices` mutation, market-data fetch/ingestion, raw market data storage, secret output, row payload output, source promotion, score promotion, or public real-data claim occurred.
+
+Next route:
+
+CEO should continue Phase 1 by pairing two workstreams: PM mainline cleans visible public-page readability/residue, while A1/data line advances the legal-free automated source and bounded data-online write/read closure. Membership remains Phase 2.
+
 ### Phase 1 External Presence Reviewed-Result Shape Ready
 
 Status: `phase_1_external_presence_reviewed_result_shape_ready_no_execution`

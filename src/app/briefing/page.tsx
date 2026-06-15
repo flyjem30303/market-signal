@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { PageViewTracker } from "@/components/page-view-tracker";
+import { PublicBetaDataReadinessStatus } from "@/components/public-beta-data-readiness-status";
 import { PublicBetaSourceCoverageBridge } from "@/components/public-beta-source-coverage-bridge";
 import { PublicBetaUsableLoopPanel } from "@/components/public-beta-usable-loop-panel";
 import { PublicDataSourceBoundaryNotice } from "@/components/public-data-source-boundary-notice";
@@ -150,6 +151,7 @@ export default async function BriefingPage() {
       </section>
 
       <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
+      <PublicBetaDataReadinessStatus />
       <PublicDataSourceBoundaryNotice context="briefing" />
       <PublicBetaSourceCoverageBridge context="briefing" stockSymbol={market.asset.symbol} />
       <PublicBetaUsableLoopPanel context="briefing" stockSymbol={market.asset.symbol} />

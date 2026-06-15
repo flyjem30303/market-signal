@@ -40,7 +40,8 @@ export function getPublicBetaDataReadinessStatus(): PublicBetaDataReadinessStatu
     ],
     publicDataSource: "mock",
     scoreSource: "mock",
-    stopLine: "正式資料尚未啟用；資料來源權利、欄位與覆蓋率、回退與公開說明完成前，不宣稱真實資料上線。",
+    stopLine:
+      "正式資料尚未啟用；資料來源權利、欄位與覆蓋率、回退與公開說明完成前，不宣稱真實資料上線，也不提供個股買賣建議。",
     summary:
       "目前公開頁以示範資料呈現市場閱讀流程。使用者可以看懂燈號與風險順序，但仍需知道這不是正式市場資料。",
     upgradeChecks: [

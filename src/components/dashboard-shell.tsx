@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { PageViewTracker } from "@/components/page-view-tracker";
+import { PublicBetaDataReadinessStatus } from "@/components/public-beta-data-readiness-status";
 import { PublicBetaSourceCoverageBridge } from "@/components/public-beta-source-coverage-bridge";
 import { PublicBetaUsableLoopPanel } from "@/components/public-beta-usable-loop-panel";
 import { PublicDataSourceBoundaryNotice } from "@/components/public-data-source-boundary-notice";
@@ -98,7 +99,7 @@ export function DashboardShell({
           <HomeFirstScreenDecisionSummary breadth={breadth} freshness={freshness} market={market} />
           <HomeMarketOverview breadth={breadth} market={market} />
           <HomeLists riskList={riskList} strongList={strongList} />
-          <HomeDataReadinessStatus />
+          <PublicBetaDataReadinessStatus />
         </>
       )}
 
