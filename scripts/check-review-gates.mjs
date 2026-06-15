@@ -3826,6 +3826,11 @@ const checks = [
     name: "phase-1-row-payload-candidate-request-packet"
   },
   {
+    command: [node, "scripts/check-phase-1-row-payload-candidate-pm-review.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-row-payload-candidate-pm-review"
+  },
+  {
     command: [node, "scripts/check-phase-1-sanitized-row-payload-candidate-validator.mjs"],
     expectStatus: "ok",
     name: "phase-1-sanitized-row-payload-candidate-validator"
@@ -6975,6 +6980,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "phase-1-write-runner-implementation-candidate",
   "phase-1-sanitized-row-payload-candidate-artifact-spec",
   "phase-1-row-payload-candidate-request-packet",
+  "phase-1-row-payload-candidate-pm-review",
   "phase-1-sanitized-row-payload-candidate-validator",
   "phase-1-etf-sanitized-candidate-artifact-reply-template-no-row-payloads",
   "phase-1-etf-sanitized-candidate-artifact-reply-intake-validator-no-row-payloads",
@@ -7207,6 +7213,7 @@ const phase1LiveCoreReviewGateNames = new Set([
   "phase-1-public-beta-public-visible-residue-cleanup",
   "phase-1-write-runner-implementation-candidate",
   "phase-1-sanitized-row-payload-candidate-artifact-spec",
+  "phase-1-row-payload-candidate-pm-review",
   "phase-1-sanitized-row-payload-candidate-validator",
   "phase-1-data-online-go-no-go-status",
   "beta-runtime-fast-health",
