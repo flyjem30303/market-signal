@@ -18,6 +18,8 @@ const badDatePath = writeFixture({ invalidDate: true });
 const badDateRun = runValidator(badDatePath);
 const wrongCountPath = writeFixture({ wrongSymbolCounts: true });
 const wrongCountRun = runValidator(wrongCountPath);
+const unacceptedStatusPath = writeFixture({ unacceptedStatus: true });
+const unacceptedStatusRun = runValidator(unacceptedStatusPath);
 const committedCandidateFolderPath = writeCommittedCandidateFolderFixture();
 const committedCandidateFolderRun = runValidator(committedCandidateFolderPath);
 cleanupFile(committedCandidateFolderPath);
@@ -29,6 +31,7 @@ validateMissingRun();
 validateFixtureRun();
 validateBadDateRun();
 validateWrongCountRun();
+validateUnacceptedStatusRun();
 validateCommittedCandidateFolderRun();
 validateUnignoredRepositoryRun();
 validateRegistration();
@@ -46,6 +49,7 @@ console.log(
       fixtureAccepted: fixtureRun.output.accepted ?? false,
       badDateAccepted: badDateRun.output.accepted ?? false,
       wrongCountAccepted: wrongCountRun.output.accepted ?? false,
+      unacceptedStatusAccepted: unacceptedStatusRun.output.accepted ?? false,
       committedCandidateFolderAccepted: committedCandidateFolderRun.output.accepted ?? false,
       unignoredRepositoryAccepted: unignoredRepositoryRun.output.accepted ?? false,
       missingPathStatus: missingRun.output.status ?? null,
@@ -118,6 +122,18 @@ function validateWrongCountRun() {
   expect(wrongCountRun.output.accepted, false, "wrong-count accepted");
   expectIncludes(wrongCountRun.output.problems, "symbol_count_mismatch:TWII", "wrong-count TWII problems");
   expectIncludes(wrongCountRun.output.problems, "symbol_count_mismatch:0050", "wrong-count 0050 problems");
+}
+
+function validateUnacceptedStatusRun() {
+  expect(unacceptedStatusRun.status, 0, "unaccepted-status run exit status");
+  expect(
+    unacceptedStatusRun.output.status,
+    "phase_1_sanitized_row_payload_candidate_artifact_blocked",
+    "unaccepted-status status"
+  );
+  expect(unacceptedStatusRun.output.accepted, false, "unaccepted-status accepted");
+  expectIncludes(unacceptedStatusRun.output.problems, "source_rights_status_not_accepted", "unaccepted-status source rights");
+  expectIncludes(unacceptedStatusRun.output.problems, "field_contract_status_not_accepted", "unaccepted-status field contract");
 }
 
 function validateCommittedCandidateFolderRun() {
@@ -230,8 +246,8 @@ function writeFixture(options = {}) {
     artifactId: "phase-1-row-payload-synthetic-fixture",
     createdAt: "2026-06-15T00:00:00.000Z",
     scope: "twii_and_etf_phase_1_missing_row_closure_only",
-    sourceRightsStatus: "fixture_only_not_source_evidence",
-    fieldContractStatus: "fixture_only_not_field_contract_evidence",
+    sourceRightsStatus: options.unacceptedStatus ? "fixture_only_not_source_evidence" : "accepted",
+    fieldContractStatus: options.unacceptedStatus ? "fixture_only_not_field_contract_evidence" : "accepted",
     sanitizedRowPayloadIncluded: true,
     rawPayloadIncluded: false,
     stockIdPayloadIncluded: false,

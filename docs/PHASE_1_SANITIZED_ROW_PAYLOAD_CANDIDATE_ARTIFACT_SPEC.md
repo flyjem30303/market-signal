@@ -51,6 +51,11 @@ Future row-payload candidate artifacts must include:
 - `expectedRows`
 - `rows`
 
+Required status values:
+
+- `sourceRightsStatus=accepted`
+- `fieldContractStatus=accepted`
+
 ## Required Row Fields
 
 Each row must include only normalized fields:

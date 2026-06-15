@@ -57,6 +57,8 @@ if (artifact.sanitizedRowPayloadIncluded !== true) problems.push("sanitized_row_
 if (artifact.rawPayloadIncluded !== false) problems.push("raw_payload_must_be_excluded");
 if (artifact.stockIdPayloadIncluded !== false) problems.push("stock_id_payload_must_be_excluded");
 if (artifact.secretsIncluded !== false) problems.push("secrets_must_be_excluded");
+if (artifact.sourceRightsStatus !== "accepted") problems.push("source_rights_status_not_accepted");
+if (artifact.fieldContractStatus !== "accepted") problems.push("field_contract_status_not_accepted");
 if (artifact.expectedRows !== 178) problems.push("expected_rows_must_be_178");
 if (rows.length !== 178) problems.push("row_count_must_be_178");
 

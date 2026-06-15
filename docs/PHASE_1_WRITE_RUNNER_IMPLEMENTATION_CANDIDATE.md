@@ -55,6 +55,8 @@ Expected safe result after a valid artifact path:
 - `rowPayloadCandidateSymbolsCovered=[0050,006208,TWII]`
 - `rowPayloadCandidateSymbolCounts={TWII:60,0050:59,006208:59}`
 - `rowPayloadCandidateInvalidTradeDateCount=0`
+- `sourceRightsStatus=accepted`
+- `fieldContractStatus=accepted`
 - `nextRoute=separate_operator_write_execution_review_required`
 
 The runner still does not execute a write. It only proves the candidate path can pass the aggregate-only artifact validator.

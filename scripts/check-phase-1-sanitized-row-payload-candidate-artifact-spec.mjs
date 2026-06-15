@@ -51,6 +51,8 @@ function validateDoc() {
     "`trade_date`",
     "`close`",
     "`source_row_hash`",
+    "sourceRightsStatus=accepted",
+    "fieldContractStatus=accepted",
     "stock_id",
     "No committed market row payloads",
     "No row payload output",
