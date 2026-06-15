@@ -2,6 +2,54 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Latest Phase 1 bounded insert missing-only contract slice
+
+Status: `phase_1_write_runner_bounded_insert_missing_only_contract_no_execution_ready`
+
+CEO decision:
+
+- Prepare the Phase 1 write-runner bounded insert missing-only contract while A1 ETF candidate artifact path intake is still waiting.
+- Keep the contract prepared but not implementation-ready until the candidate artifact set is complete.
+- Preserve the mock boundary and block any SQL, Supabase write, `daily_prices` mutation, candidate row acceptance, raw market-data fetch, public real-data promotion, or investment-advice claim.
+
+PM completed:
+
+- Added `scripts/report-phase-1-write-runner-bounded-insert-missing-only-contract-no-execution.mjs`.
+- Added `data/evidence-intake/phase-1-write-runner-bounded-insert-missing-only-contract-no-execution.json`.
+- Added `docs/PHASE_1_WRITE_RUNNER_BOUNDED_INSERT_MISSING_ONLY_CONTRACT_NO_EXECUTION.md`.
+- Added and registered `check:phase-1-write-runner-bounded-insert-missing-only-contract-no-execution`.
+
+Contract state:
+
+- `contractDecision=bounded_insert_missing_only_contract_prepared_but_candidate_artifact_set_incomplete`
+- `candidateArtifactSetComplete=false`
+- `contractReadyForImplementation=false`
+- `targetTable=daily_prices`
+- `targetScope=twii_and_etf_phase_1_missing_row_closure_only`
+- `insertMode=missing_only`
+- `requiredConflictKey=symbol,trade_date`
+- `maxRowsPerAttempt=178`
+- `fullLevel1ExpectedRows=360`
+- `fullLevel1ObservedRows=182`
+- `fullLevel1MissingRows=178`
+- `twiiMissingRows=60`
+- `etfMissingRows=118`
+
+Current boundary:
+
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+- `candidateRowAcceptanceAllowedNow=false`
+- `dailyPricesMutationAllowedNow=false`
+- `supabaseWriteAllowedNow=false`
+- `executionAllowedNow=false`
+- `writeGateExecutableNow=false`
+- `implementationAllowedNow=false`
+
+Next route:
+
+`nextRoute=phase_1_write_runner_aggregate_readback_contract_no_execution`.
+
 ### Phase 1 ETF Sanitized Candidate Artifact Path Intake Waiting A1 Reply
 
 Status: `phase_1_etf_sanitized_candidate_artifact_path_intake_waiting_a1_reply_no_row_payloads`
