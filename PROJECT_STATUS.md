@@ -2,6 +2,39 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Latest Phase 1 public visible residue cleanup closure
+
+Status: `phase_1_public_beta_public_visible_residue_cleanup_ready_for_users`
+
+CEO decision:
+
+- Treat the residue cleanup failure as a real Phase 1 user-facing gap, not another governance detour.
+- Apply the smallest copy changes needed to make public routes explain status, data boundary, and market score in user language.
+- Keep data execution blocked until the ETF aggregate-only sanitized candidate artifact is accepted.
+
+PM completed:
+
+- Updated the home runtime boundary line to include both `正式資料尚未啟用` and `正式每日資料尚未啟用`.
+- Updated `/briefing` hero copy to explicitly frame the page as `市場解讀`.
+- Updated stock-facing copy from `綜合分數` to `市場分數` where the public route contract expects user-facing score language.
+
+Verification:
+
+- `cmd.exe /c npm run check:phase-1-public-beta-public-visible-residue-cleanup` passed across 14 public routes.
+- `cmd.exe /c npm run check:public-visible-language-quality` passed.
+- `cmd.exe /c npm run check:public-surface-user-facing-audit` passed.
+- `cmd.exe /c npx tsc --noEmit --incremental false` passed.
+- `cmd.exe /c npm run check:localhost-health` passed.
+
+Boundary:
+
+- No SQL, Supabase read/write, staging row creation, `daily_prices` mutation, raw market-data fetch/store/commit, source promotion, real score promotion, membership implementation, production env mutation, DNS change, Vercel mutation, or platform deploy occurred.
+- Runtime remains `publicDataSource=mock` and `scoreSource=mock`.
+
+Next:
+
+Continue the data-line blocker path: A1 must provide the ETF aggregate-only sanitized candidate artifact reply before PM can run the ETF reply intake validator and candidate artifact set acceptance gate.
+
 ### Latest Phase 1 rendered public route UTF-8 confirmation
 
 Status: `phase_1_rendered_public_routes_readable_utf8_confirmed`

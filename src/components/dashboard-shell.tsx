@@ -70,7 +70,7 @@ export function DashboardShell({
             : `${market.asset.name} 目前為「${market.signal.title}」，模擬綜合分數 ${market.compositeScore}/100。這個頁面協助一般投資者快速理解市場氛圍。`}
         </p>
         <p className="runtime-boundary-line">
-          正式每日資料尚未啟用；目前公開頁維持示範資料與模擬分數，內容僅供市場觀察，非投資建議。
+          正式資料尚未啟用；正式每日資料尚未啟用前，公開頁維持示範資料與模擬分數，內容僅供市場觀察，非投資建議。
         </p>
         <div className="hero-status-strip" aria-label="閱讀重點">
           <span>30 秒看懂市場氛圍</span>
@@ -157,7 +157,7 @@ function HomeMarketSummary({ market }: { market: SignalSnapshot }) {
       <div className="home-first-screen-decision__main">
         <p className="eyebrow">市場總覽</p>
         <h2>
-          {market.asset.name}：{market.signal.title}，綜合分數 {market.compositeScore}/100
+          {market.asset.name}：{market.signal.title}，市場分數 {market.compositeScore}/100
         </h2>
         <p>{market.signal.text}</p>
       </div>
@@ -265,7 +265,7 @@ function StockPublicSummary({ snapshot }: { snapshot: SignalSnapshot }) {
         <p>{snapshot.signal.text}</p>
       </article>
       <article className="panel">
-        <p className="eyebrow">綜合分數</p>
+        <p className="eyebrow">市場分數</p>
         <h2>{snapshot.compositeScore}/100</h2>
         <p>用來示範趨勢、品質、評價與資金狀態的合成結果。</p>
       </article>

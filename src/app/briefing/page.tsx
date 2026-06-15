@@ -40,7 +40,7 @@ export default async function BriefingPage() {
         <p className="eyebrow">市場簡報</p>
         <h1>30 秒看懂市場狀態，3 分鐘決定下一步觀察</h1>
         <p>
-          指數燈號把市場分數、風險分數與資料更新狀態整理成一頁摘要，讓使用者用 3 分鐘把市場燈號拆成原因，
+          指數燈號把市場分數、風險分數與資料更新狀態整理成一頁市場解讀，讓使用者用 3 分鐘把市場燈號拆成原因，
           並先判斷目前是偏多、觀望、警戒或高風險。
         </p>
         <p className="runtime-boundary-line">
