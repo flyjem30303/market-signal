@@ -5,18 +5,6 @@ type TrustRuntimeBoundaryNoticeProps = {
   context: "disclaimer" | "membership" | "methodology" | "privacy" | "terms" | "weekly";
 };
 
-const auditMarkers = {
-  disclaimer: "Investment and data limits: currently mock-only",
-  methodology: "Methodology: mock scores are not formal model conclusions",
-  privacy: "Privacy and data boundary: mock display does not enable real data",
-  runtimeBoundary: "publicDataSource=mock; scoreSource=mock",
-  runtimeHardening: "Mock runtime hardening remains active",
-  runtimeLane: "runtimeInterpretation.laneRatio.mockRuntimeHardening",
-  runtimeStopLine: "runtimeInterpretation.stopLine",
-  terms: "Terms of use: public information remains mock-only",
-  weekly: "Weekly boundary: not live or complete market data"
-} as const;
-
 const contextCopy = {
   disclaimer: {
     eyebrow: "風險聲明",
@@ -70,14 +58,14 @@ export function TrustRuntimeBoundaryNotice({ context }: TrustRuntimeBoundaryNoti
       </article>
       <article className="blocked">
         <span>資料限制</span>
-        <strong>not live or complete market data</strong>
+        <strong>不是即時或完整市場資料</strong>
         <p>目前不宣稱即時、完整或來源授權完成；正式資料上線前，使用者應把內容視為閱讀流程示範。</p>
       </article>
       <article className="readying">
         <span>模型限制</span>
-        <strong>model limitation</strong>
+        <strong>模型仍在示範階段</strong>
         <p>{boundaryCopy.nextStep}</p>
-        <p>燈號與分數只做觀察輔助，not investment advice。</p>
+        <p>燈號與分數只做觀察輔助，不是投資建議。</p>
       </article>
     </section>
   );

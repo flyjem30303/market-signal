@@ -33,7 +33,7 @@ export function PublicDataSourceBoundaryNotice({ context }: PublicDataSourceBoun
       <ul>
         <li>
           <strong>來源</strong>
-          <span>只使用可驗證、可公開說明的資料來源；未完成來源確認前維持 mock。</span>
+          <span>只使用可驗證、可公開說明的資料來源；未完成來源確認前維持示範資料。</span>
         </li>
         <li>
           <strong>更新</strong>

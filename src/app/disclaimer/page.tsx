@@ -42,7 +42,7 @@ export default function DisclaimerPage() {
         <article>
           <span>資料邊界</span>
           <strong>示範資料</strong>
-          <p>正式資料上線前，前台會保留 mock 邊界與更新時間提醒。</p>
+          <p>正式資料上線前，前台會保留示範資料邊界與更新時間提醒。</p>
         </article>
         <article>
           <span>使用方式</span>

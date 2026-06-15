@@ -201,7 +201,7 @@ function HomeMarketSummary({ market }: { market: SignalSnapshot }) {
         </article>
         <article className="watch">
           <span>資料</span>
-          <strong>mock</strong>
+          <strong>示範</strong>
           <p>正式每日資料尚未啟用，前台會持續標示。</p>
         </article>
       </div>

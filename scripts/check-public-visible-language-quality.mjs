@@ -97,6 +97,8 @@ const forbiddenVisibleFragments = [
   "Git",
   "PUBLIC_BETA",
   "BETA_",
+  "mock",
+  "Mock",
   "publicDataSource",
   "scoreSource",
   "mock-only",
@@ -110,6 +112,9 @@ const forbiddenVisibleFragments = [
   "Concentration Check",
   "Briefing Playbook",
   "Decision Compass",
+  "not live or complete market data",
+  "model limitation",
+  "not investment advice",
   "Runtime Status",
   "Data Readiness",
   "promotion gate",
@@ -336,8 +341,8 @@ function checkCheckerSource() {
   return [
     {
       check: "forbidden visible fragment list includes internal process terms",
-      pass: ["PUBLIC_BETA", "Supabase", "Phase 1", "OFFICIAL-", "cmd.exe", "Concentration Check"].every((fragment) =>
-        source.includes(fragment)
+      pass: ["PUBLIC_BETA", "Supabase", "Phase 1", "OFFICIAL-", "cmd.exe", "Concentration Check", "not investment advice"].every(
+        (fragment) => source.includes(fragment)
       )
     },
     {

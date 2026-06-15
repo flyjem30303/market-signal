@@ -47,7 +47,7 @@ export default function PrivacyPage() {
         <article>
           <span>資料邊界</span>
           <strong>示範資料</strong>
-          <p>市場資料仍維持 mock 邊界，不代表已啟用正式資料服務。</p>
+          <p>市場資料仍維持示範資料邊界，不代表已啟用正式資料服務。</p>
         </article>
       </section>
 
