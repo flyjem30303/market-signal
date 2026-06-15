@@ -133,6 +133,11 @@ const signalColors: Record<SignalKey, string> = {
   "deep-red": "#8f1f2f"
 };
 
+export const publicSignalDataDisclosureNotes = {
+  dataMode: "示範資料",
+  runtimeBoundary: "尚未切換正式每日資料流程"
+} as const;
+
 export function signalColor(key: SignalKey) {
   return signalColors[key];
 }

@@ -152,6 +152,16 @@ export default async function BriefingPage() {
 
       <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
       <PublicBetaDataReadinessStatus />
+      <section className="panel briefing-public-reading-contract" aria-label="市場解讀與資料邊界">
+        <p className="eyebrow">市場解讀</p>
+        <h2>3 分鐘把市場燈號拆成原因</h2>
+        <p>
+          這頁協助使用者把主燈號、風險提示與後續觀察重點放在同一個脈絡中閱讀。
+        </p>
+        <p>
+          資料與風險邊界：正式資料尚未啟用前，內容仍以示範資料呈現，不提供個股買賣建議。
+        </p>
+      </section>
       <PublicDataSourceBoundaryNotice context="briefing" />
       <PublicBetaSourceCoverageBridge context="briefing" stockSymbol={market.asset.symbol} />
       <PublicBetaUsableLoopPanel context="briefing" stockSymbol={market.asset.symbol} />

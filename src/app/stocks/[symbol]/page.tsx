@@ -15,6 +15,7 @@ type StockPageProps = {
 };
 
 const snapshotDate = "2026-05-28";
+const stockPagePublicCopyContract = "市場分數；示範資料";
 
 export function generateMetadata({ params }: StockPageProps): Metadata {
   const repository = getMarketSignalRepository();
@@ -60,6 +61,7 @@ export default async function StockPage({ params }: StockPageProps) {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "FinancialProduct",
+    description: stockPagePublicCopyContract,
     additionalProperty: snapshot
       ? [
           {

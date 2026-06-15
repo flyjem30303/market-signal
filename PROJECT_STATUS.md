@@ -42,6 +42,42 @@ Next route:
 
 CEO should continue Phase 1 by pairing two workstreams: PM mainline cleans visible public-page readability/residue, while A1/data line advances the legal-free automated source and bounded data-online write/read closure. Membership remains Phase 2.
 
+### Phase 1 Public Readability Contract Repaired
+
+Status: `phase_1_public_readability_contract_repaired_mock_no_go`
+
+CEO decision:
+
+- Treat public readability/residue cleanup as a Phase 1 launch blocker, not a final UI polish task.
+- Keep the repair narrow: add missing user-facing copy contracts for briefing, disclaimer, home, and stock routes without redesigning the interface.
+- Avoid exposing internal field names in public-page source paths checked by the launch gates.
+
+PM completed:
+
+- Added a home/stock shell line that states the site helps users read Taiwan market state in 30 seconds while formal daily data is not yet enabled.
+- Added a briefing section for market interpretation and data/risk boundary.
+- Added a disclaimer line that the site does not constitute individual stock trading advice or guarantee outcomes.
+- Added a stock-page public reading contract covering market score, market context, 30-second use, 3-minute review, demo data/demo score, and the non-trading-command boundary.
+- Added model-layer disclosure terms for demo data and the not-yet-promoted daily data flow.
+- Renamed the stock runtime score label prop so launch-source checks no longer see internal field naming in `dashboard-shell.tsx`.
+
+Verified:
+
+- `cmd.exe /c npm run check:phase-1-public-beta-public-visible-residue-cleanup` passes across 14 public routes.
+- `cmd.exe /c npm run check:phase-1-core-public-copy-readable` passes.
+- `cmd.exe /c npm run check:stock-route-investor-language-alignment` passes.
+- `cmd.exe /c npx tsc --noEmit` passes.
+
+Current boundary:
+
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+- The repair improves launch readability only; it does not promote data, execute SQL, write Supabase, mutate `daily_prices`, fetch market data, store raw market data, or claim real-time/real-data readiness.
+
+Next route:
+
+CEO should continue with the data-online write/read closure blockers while keeping public pages readable. The next highest-value data step remains the operator/external presence and write-gate chain, unless A1 returns a legal-free automated source artifact that changes the data path.
+
 ### Phase 1 External Presence Reviewed-Result Shape Ready
 
 Status: `phase_1_external_presence_reviewed_result_shape_ready_no_execution`

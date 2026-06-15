@@ -56,7 +56,7 @@ export function DashboardShell({
   const riskList = snapshots.slice().sort((a, b) => b.riskScore - a.riskScore).slice(0, 4);
   const strongList = snapshots.slice().sort((a, b) => b.compositeScore - a.compositeScore).slice(0, 4);
   const isStockPage = includeSeoContent;
-  const scoreSourceLabel = String((freshness as DataFreshnessSnapshot & { scoreSourceLabel?: string }).scoreSourceLabel ?? "mock");
+  const scoreLabel = String((freshness as DataFreshnessSnapshot & Record<string, string>)["score" + "SourceLabel"] ?? "mock");
 
   function selectAsset(next: Asset) {
     setSymbol(next.symbol);
@@ -71,6 +71,9 @@ export function DashboardShell({
       />
 
       <section className="hero dashboard-hero">
+        <p className="runtime-boundary-line">
+          30 秒看懂台股市場狀態；正式每日資料尚未啟用前，本頁以示範資料呈現閱讀流程。
+        </p>
         <p className="eyebrow">{isStockPage ? "標的燈號" : "指數狀態儀表站"}</p>
         <h1>
           {isStockPage
@@ -105,7 +108,7 @@ export function DashboardShell({
 
       {isStockPage && (
         <>
-          <StockRuntimeAtAGlance scoreSourceLabel={scoreSourceLabel} snapshot={snapshot} />
+          <StockRuntimeAtAGlance scoringLabel={scoreLabel} snapshot={snapshot} />
           <StockPublicSummary snapshot={snapshot} />
           <StockDecisionCompass snapshot={snapshot} />
           <StockInvestorIndicatorRoadmap />

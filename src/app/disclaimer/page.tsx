@@ -12,6 +12,9 @@ export default function DisclaimerPage() {
     <main className="page-shell">
       <PageViewTracker eventName="disclaimer_page_viewed" payload={{ page: "disclaimer" }} />
       <section className="hero">
+        <p className="runtime-boundary-line">
+          本網站提供市場資訊整理與風險辨識，不構成個股買賣建議，也不保證任何投資結果。
+        </p>
         <p className="eyebrow">風險聲明</p>
         <h1>指數燈號提供市場資訊整理，不構成投資建議</h1>
         <p>本網站協助使用者理解市場狀態、成因與風險，但不提供個股買賣建議、保證報酬承諾或交易指令。</p>

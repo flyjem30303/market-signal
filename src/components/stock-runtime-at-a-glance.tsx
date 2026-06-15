@@ -4,11 +4,11 @@ import type { SignalSnapshot } from "@/lib/signal-model";
 import { getStockRuntimeHeadlineSummary } from "@/lib/stock-runtime-headline-summary";
 
 type StockRuntimeAtAGlanceProps = {
-  scoreSourceLabel: string;
+  scoringLabel: string;
   snapshot: SignalSnapshot;
 };
 
-export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRuntimeAtAGlanceProps) {
+export function StockRuntimeAtAGlance({ scoringLabel, snapshot }: StockRuntimeAtAGlanceProps) {
   const dataReadiness = getPublicBetaDataReadinessStatus();
   const headlineSummary = getStockRuntimeHeadlineSummary(snapshot);
   const impactLevel = snapshot.riskScore >= 70 ? "高" : snapshot.riskScore >= 55 ? "中" : "低";
@@ -41,9 +41,23 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
           <span>資料邊界</span>
           <strong>展示資料 / 示範分數</strong>
           <p>目前前台仍使用展示資料與示範分數，尚未切換到正式資料來源。</p>
-          <p>分數來源：{scoreSourceLabel}</p>
+          <p>分數來源：{scoringLabel}</p>
         <p>{dataReadiness.stopLine.replace(/publicDataSource|scoreSource|promotion gate/gu, "正式資料切換")}</p>
         </article>
+      </div>
+
+      <div className="stock-runtime-user-contract" aria-label="標的頁公開資料判讀提示">
+        <p className="eyebrow">30 秒快速閱讀</p>
+        <h3>把單一標的放回市場脈絡</h3>
+        <p>
+          市場分數用來協助排序觀察順序；目前仍是示範資料與示範分數，正式每日資料尚未啟用。
+        </p>
+        <div className="hero-status-strip" aria-label="標的頁行動邊界">
+          <span>30 秒可用</span>
+          <span>3 分鐘要複核</span>
+          <span>不能當成個股買賣指令</span>
+          <span>示範資料與示範分數</span>
+        </div>
       </div>
 
       <div className="stock-runtime-action-strip" aria-label="3 分鐘判斷順序">
