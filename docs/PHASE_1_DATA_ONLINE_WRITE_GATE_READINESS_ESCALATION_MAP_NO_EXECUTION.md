@@ -40,6 +40,9 @@ These blockers require a later explicit operator decision and must not be guesse
 
 - `operator_values_missing`
 - `credential_presence_unverified`
+- `operator_owned_presence_confirmation_unverified`
+- `external_presence_acceptance_unverified`
+- `external_presence_reviewed_result_missing`
 
 ### External Platform Lane
 
@@ -91,4 +94,4 @@ It does not include credential values, operator values, SQL, Supabase commands, 
 
 ## Next Route
 
-Prepare the no-secret operator/credential presence packet. That can open the final pre-write readiness path without storing or printing secrets.
+Prepare the actual PM-reviewed result artifact only after external/operator boolean presence is available. That artifact must contain allowed boolean presence fields only and still avoid printing, storing, hashing, comparing, or transforming credential/operator values.

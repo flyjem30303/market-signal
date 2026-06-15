@@ -54,9 +54,18 @@ function validatePrerequisites() {
     "accepted_read_path_for_daily_prices",
     "checklist dashboardApiExposureStatus"
   );
+  const expectedRemainingBlockers = [
+    "operator_values_missing",
+    "credential_presence_unverified",
+    "operator_owned_presence_confirmation_unverified",
+    "external_presence_acceptance_unverified",
+    "external_presence_reviewed_result_missing"
+  ];
   const remaining = Array.isArray(checklist.remainingBlockers) ? checklist.remainingBlockers : [];
-  if (remaining.join(",") !== "operator_values_missing,credential_presence_unverified") {
-    problems.push(`checklist remainingBlockers expected operator/credential only but got ${remaining.join(",")}`);
+  if (remaining.join(",") !== expectedRemainingBlockers.join(",")) {
+    problems.push(
+      `checklist remainingBlockers expected external/operator presence chain but got ${remaining.join(",")}`
+    );
   }
   expect(dataOnline.status, "ok", "dataOnline status");
   expect(dataOnline.decision, "PUBLIC_RUNTIME_READY_BUT_DATA_ONLINE_NO_GO", "dataOnline decision");
@@ -77,6 +86,9 @@ function validateDoc() {
     "duplicate_rejection_unverified",
     "operator_values_missing",
     "credential_presence_unverified",
+    "operator_owned_presence_confirmation_unverified",
+    "external_presence_acceptance_unverified",
+    "external_presence_reviewed_result_missing",
     "schema_cache_exposure_unverified",
     "dashboard_api_exposure_unverified",
     "accepted_read_path_for_daily_prices",

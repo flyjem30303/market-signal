@@ -2,6 +2,45 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Data Online Write-Gate Escalation Map Repaired
+
+Status: `phase_1_data_online_write_gate_readiness_escalation_map_no_execution_ready`
+
+CEO decision:
+
+- Keep Phase 1 data-online moving through the existing single authorization chain, not through more broad planning.
+- Treat the current write-gate blocker set as an external/operator presence chain with 5 remaining blockers.
+- Preserve the reduced evidence blockers as audit history; they are not the current reason to stop the PM route.
+
+PM completed:
+
+- Repaired `scripts/check-phase-1-data-online-write-gate-readiness-escalation-map-no-execution.mjs` after the checklist runner expanded remaining blockers from 2 to 5.
+- Updated `docs/PHASE_1_DATA_ONLINE_WRITE_GATE_READINESS_ESCALATION_MAP_NO_EXECUTION.md` so the Operator Lane matches the current checklist runner output.
+- Kept the next route focused on a PM-reviewed external/operator boolean presence result artifact; no value body, credential, SQL, raw payload, or row payload is allowed.
+
+Verified:
+
+- `cmd.exe /c npm run check:phase-1-data-online-write-gate-readiness-escalation-map-no-execution` passes.
+- `cmd.exe /c npm run check:phase-1-data-online-write-gate-checklist-runner-no-execution` passes.
+- `cmd.exe /c npm run check:phase-1-data-online-go-no-go-status` passes.
+
+Current blocker view:
+
+- Data-online remains `PUBLIC_RUNTIME_READY_BUT_DATA_ONLINE_NO_GO`.
+- Coverage remains `182/360`; missing rows remain `178` (`TWII=60`, `ETF=118`).
+- Reduced-by-evidence blockers remain tracked for audit: rollback plan, aggregate readback, post-run review, duplicate rejection, schema cache exposure, dashboard API exposure, and PGRST205 regression.
+- Current remaining blockers are `operator_values_missing`, `credential_presence_unverified`, `operator_owned_presence_confirmation_unverified`, `external_presence_acceptance_unverified`, and `external_presence_reviewed_result_missing`.
+
+Current boundary:
+
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+- No SQL, Supabase read/write, staging row, `daily_prices` mutation, market-data fetch/ingestion, raw payload output, row payload output, candidate-row acceptance, row coverage award, source promotion, score promotion, or public real-data claim occurred.
+
+Next route:
+
+Prepare or accept a no-secret PM-reviewed result artifact only after external/operator boolean presence exists. The result artifact must record allowed boolean presence fields only and must not print, store, hash, compare, or transform credential/operator values.
+
 ### Phase 1 TWII Operator Action Bridge Ready
 
 Status: `phase_1_twii_operator_action_bridge_ready_not_executable`
