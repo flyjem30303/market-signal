@@ -2,6 +2,44 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Latest Phase 1 rollback or quarantine contract slice
+
+Status: `phase_1_write_runner_rollback_or_quarantine_contract_no_execution_ready`
+
+CEO decision:
+
+- Prepare the recovery boundary for future bounded write/readback mismatch.
+- If future readback fails, keep public runtime on mock and require human review instead of automatic retry or overwrite repair.
+- Continue blocking row payload output, raw payload output, secrets output, public real-data promotion, and investment-advice claims.
+
+PM completed:
+
+- Added `scripts/report-phase-1-write-runner-rollback-or-quarantine-contract-no-execution.mjs`.
+- Added `data/evidence-intake/phase-1-write-runner-rollback-or-quarantine-contract-no-execution.json`.
+- Added `docs/PHASE_1_WRITE_RUNNER_ROLLBACK_OR_QUARANTINE_CONTRACT_NO_EXECUTION.md`.
+- Added and registered `check:phase-1-write-runner-rollback-or-quarantine-contract-no-execution`.
+
+Contract state:
+
+- `recoveryDecision=rollback_or_quarantine_contract_prepared_but_write_execution_still_blocked`
+- `rollbackOrQuarantinePrepared=true`
+- `automaticRepairAllowedNow=false`
+- `automaticRetryAllowedNow=false`
+- `overwriteRepairAllowedNow=false`
+- `executionAllowedNow=false`
+- `writeGateExecutableNow=false`
+- `implementationAllowedNow=false`
+
+Current boundary:
+
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+- No automatic retry, overwrite repair, row payload output, raw payload output, public real-data promotion, or investment-advice claim occurred.
+
+Next route:
+
+`nextRoute=phase_1_write_runner_post_write_review_contract_no_execution`.
+
 ### Latest Phase 1 aggregate readback contract slice
 
 Status: `phase_1_write_runner_aggregate_readback_contract_no_execution_ready`

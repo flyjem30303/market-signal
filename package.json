@@ -1547,6 +1547,8 @@
     "check:phase-1-write-runner-bounded-insert-missing-only-contract-no-execution": "node scripts/check-phase-1-write-runner-bounded-insert-missing-only-contract-no-execution.mjs",
     "report:phase-1-write-runner-aggregate-readback-contract-no-execution": "node scripts/report-phase-1-write-runner-aggregate-readback-contract-no-execution.mjs",
     "check:phase-1-write-runner-aggregate-readback-contract-no-execution": "node scripts/check-phase-1-write-runner-aggregate-readback-contract-no-execution.mjs",
+    "report:phase-1-write-runner-rollback-or-quarantine-contract-no-execution": "node scripts/report-phase-1-write-runner-rollback-or-quarantine-contract-no-execution.mjs",
+    "check:phase-1-write-runner-rollback-or-quarantine-contract-no-execution": "node scripts/check-phase-1-write-runner-rollback-or-quarantine-contract-no-execution.mjs",
     "check:phase-1-row-coverage-readonly-result-20260615-a": "node scripts/check-phase-1-row-coverage-readonly-result-20260615-a.mjs",
     "check:phase-1-twii-etf-missing-rows-backfill-readiness": "node scripts/check-phase-1-twii-etf-missing-rows-backfill-readiness.mjs",
     "check:phase-1-twii-write-attempt-stopline-rollup": "node scripts/check-phase-1-twii-write-attempt-stopline-rollup.mjs",
