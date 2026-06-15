@@ -3758,6 +3758,11 @@ const checks = [
     name: "phase-1-write-runner-implementation-scope-packet-no-execution"
   },
   {
+    command: [node, "scripts/check-phase-1-write-runner-server-only-scaffold-no-execution.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-write-runner-server-only-scaffold-no-execution"
+  },
+  {
     command: [node, "scripts/check-phase-1-row-coverage-readonly-result-20260615-a.mjs"],
     expectStatus: "ok",
     name: "phase-1-row-coverage-readonly-result-20260615-a"
@@ -6859,6 +6864,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "phase-1-write-gate-runner-stub-post-run-review-no-execution",
   "phase-1-write-runner-implementation-review-gate-no-execution",
   "phase-1-write-runner-implementation-scope-packet-no-execution",
+  "phase-1-write-runner-server-only-scaffold-no-execution",
   "phase-1-row-coverage-readonly-result-20260615-a",
   "phase-1-twii-etf-missing-rows-backfill-readiness",
   "phase-1-twii-write-attempt-stopline-rollup",
