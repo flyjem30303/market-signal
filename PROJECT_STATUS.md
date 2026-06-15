@@ -2,6 +2,47 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Data Online Accepted Outcome Aggregation Gate
+
+Status: `phase_1_data_online_accepted_outcome_aggregation_gate_ready_no_go`
+
+CEO decision:
+
+- Add a deterministic aggregation gate over the A1/A2 outcome ledger.
+- Keep data-online `NO_GO` while required outcomes remain pending, deferred, rejected, or repair-required.
+- Open only a separate authorization gate if all required A1/A2 outcomes become accepted.
+
+PM completed:
+
+- Added `docs/PHASE_1_DATA_ONLINE_ACCEPTED_OUTCOME_AGGREGATION_GATE.md`.
+- Added `check:phase-1-data-online-accepted-outcome-aggregation-gate`.
+- Registered the checker in the focused review gate.
+- Confirmed the current ledger state has `3` pending outcomes and routes to `keep_data_online_no_go_until_required_outcomes_are_accepted`.
+
+Current data-online position:
+
+- Phase 1 data-online decision remains `PUBLIC_RUNTIME_READY_BUT_DATA_ONLINE_NO_GO`.
+- Outcome aggregation decision: `OUTCOME_AGGREGATION_PENDING_KEEP_DATA_ONLINE_NO_GO`.
+- Outcome aggregation route: `keep_data_online_no_go_until_required_outcomes_are_accepted`.
+- Pending blockers:
+  - `a1_twii_operator_presence_shape_outcome`
+  - `a1_etf_source_rights_acceptance_evidence_outcome`
+  - `a2_twii_etf_public_copy_guard_outcome`
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+
+Evidence:
+
+- `cmd.exe /c npm run check:phase-1-data-online-accepted-outcome-aggregation-gate` passes.
+
+Boundary:
+
+No SQL, Supabase connection/read/write, staging-row creation, `daily_prices` mutation, TWII/ETF market-row fetch, raw payload output, endpoint response output, operator value storage, candidate row acceptance, row coverage points, source promotion, score promotion, real-time claim, official endorsement claim, investment advice claim, production environment mutation, DNS change, broad visual redesign, or Phase 2 membership implementation occurred.
+
+Next route:
+
+When the reviewed apply gate records real no-secret A1/A2 outcomes, rerun the aggregation gate. If all required outcomes are accepted, open a separate lane authorization gate before any write, readback, promotion, or public real-data claim. Until then, keep public runtime mock-visible and data-online `NO_GO`.
+
 ### Phase 1 Data Online A1/A2 Outcome Reviewed Apply Gate
 
 Status: `phase_1_data_online_a1_a2_outcome_reviewed_apply_gate_ready_no_remote`
