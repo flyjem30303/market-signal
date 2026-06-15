@@ -2,6 +2,52 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Data Online A1/A2 Outcome Intake Ledger
+
+Status: `phase_1_data_online_a1_a2_outcome_intake_ledger_ready_pending`
+
+CEO decision:
+
+- Keep Phase 1 data-online work moving by making A1/A2 outcomes recordable before they are available.
+- Establish a no-secret pending ledger for A1 TWII, A1 ETF, and A2 public-copy guard outcomes.
+- Keep all entries pending until PM reviews safe, aggregate-only outputs.
+
+PM completed:
+
+- Added `data/source-gates/phase-1-data-online-a1-a2-handoff-outcomes.json`.
+- Added `docs/PHASE_1_DATA_ONLINE_A1_A2_OUTCOME_INTAKE_LEDGER.md`.
+- Added `check:phase-1-data-online-a1-a2-outcome-intake-ledger`.
+- Registered the checker in the focused review gate.
+- Reduced the checker scope to avoid repeating heavy upstream gates and slowing the mainline.
+
+Current data-online position:
+
+- Phase 1 data-online decision remains `PUBLIC_RUNTIME_READY_BUT_DATA_ONLINE_NO_GO`.
+- Full Level 1 coverage remains `182/360`; missing `178`.
+- TWII missing rows remain `60`.
+- ETF missing rows remain `118`.
+- Outcome ledger has `3` pending outcomes.
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+
+Recordable outcome slots:
+
+- A1 TWII: `a1_twii_operator_presence_shape_outcome`.
+- A1 ETF: `a1_etf_source_rights_acceptance_evidence_outcome`.
+- A2 public copy: `a2_twii_etf_public_copy_guard_outcome`.
+
+Evidence:
+
+- `cmd.exe /c npm run check:phase-1-data-online-a1-a2-outcome-intake-ledger` passes.
+
+Boundary:
+
+No SQL, Supabase connection/read/write, staging-row creation, `daily_prices` mutation, TWII/ETF market-row fetch, raw payload output, endpoint response output, operator value storage, candidate row acceptance, row coverage points, source promotion, score promotion, real-time claim, official endorsement claim, investment advice claim, production environment mutation, DNS change, broad visual redesign, or Phase 2 membership implementation occurred.
+
+Next route:
+
+After A1/A2 return no-secret outcomes, PM can update this ledger in a separate reviewed slice, then run the PM handoff receiver router. Accepted outcomes may advance only to a separate authorization gate; this ledger cannot execute, write, readback, promote, or claim public real data.
+
 ### Phase 1 Data Online PM Handoff Receiver Router
 
 Status: `phase_1_data_online_pm_handoff_receiver_router_ready_no_execution`

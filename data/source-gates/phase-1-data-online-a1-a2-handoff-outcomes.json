@@ -1,0 +1,48 @@
+{
+  "status": "phase_1_data_online_a1_a2_outcome_intake_ledger_ready_pending",
+  "decision": "RECORD_A1_A2_OUTCOMES_AS_PENDING_UNTIL_REVIEWED",
+  "dataOnlineDecision": "PUBLIC_RUNTIME_READY_BUT_DATA_ONLINE_NO_GO",
+  "publicDataSource": "mock",
+  "scoreSource": "mock",
+  "executionAllowedNow": false,
+  "supabaseWriteAllowedNow": false,
+  "rowCoverageAwardAllowedNow": false,
+  "outcomes": [
+    {
+      "id": "a1_twii_operator_presence_shape_outcome",
+      "lane": "A1_TWII",
+      "expectedRoute": "submit_twii_operator_presence_shape_outcome_no_values",
+      "status": "pending",
+      "pmReceiverRoute": "pending_no_pm_integration",
+      "recordedBy": "not_recorded",
+      "recordedAt": null,
+      "sourceReferenceLabel": "not_recorded",
+      "safeOutcomeSummary": "Awaiting no-secret outcome.",
+      "remainingRisk": "TWII remains blocked before separate authorization, write, readback, and runtime promotion gates."
+    },
+    {
+      "id": "a1_etf_source_rights_acceptance_evidence_outcome",
+      "lane": "A1_ETF",
+      "expectedRoute": "submit_etf_source_rights_acceptance_evidence_no_market_rows",
+      "status": "pending",
+      "pmReceiverRoute": "pending_no_pm_integration",
+      "recordedBy": "not_recorded",
+      "recordedAt": null,
+      "sourceReferenceLabel": "not_recorded",
+      "safeOutcomeSummary": "Awaiting no-secret outcome.",
+      "remainingRisk": "ETF source-rights evidence remains blocked before candidate artifact, write, readback, and runtime promotion gates."
+    },
+    {
+      "id": "a2_twii_etf_public_copy_guard_outcome",
+      "lane": "A2_PUBLIC_COPY",
+      "expectedRoute": "submit_twii_etf_public_copy_guard_outcome",
+      "status": "pending",
+      "pmReceiverRoute": "pending_no_pm_integration",
+      "recordedBy": "not_recorded",
+      "recordedAt": null,
+      "sourceReferenceLabel": "not_recorded",
+      "safeOutcomeSummary": "Awaiting no-secret outcome.",
+      "remainingRisk": "Public copy guard remains pending before any data-source or score-source promotion language can change."
+    }
+  ]
+}
