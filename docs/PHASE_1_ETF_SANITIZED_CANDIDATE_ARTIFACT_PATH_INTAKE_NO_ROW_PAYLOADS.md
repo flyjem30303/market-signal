@@ -1,21 +1,23 @@
 # Phase 1 ETF Sanitized Candidate Artifact Path Intake - No Row Payloads
 
-Status: `phase_1_etf_sanitized_candidate_artifact_path_intake_waiting_a1_reply_no_row_payloads`
+Status: `phase_1_etf_sanitized_candidate_artifact_path_intake_accepted_no_row_payloads`
 
-Intake mode: `pm_intake_waiting_a1_reply_no_row_payloads`
+Intake mode: `pm_intake_accept_etf_aggregate_artifact_path_no_row_payloads`
 
 ## CEO Decision
 
-Prepare the PM intake gate for A1's future ETF sanitized candidate artifact reply, but do not accept any candidate path yet.
+Accept A1's ETF sanitized candidate artifact path as an aggregate-only, no-row-payload artifact.
 
-This gate keeps Phase 1 data online moving by making the next validation step executable as soon as A1 replies. It does not read candidate artifacts, row payloads, raw payloads, stock-id payloads, or secrets.
+This gate keeps Phase 1 data online moving by accepting only path and aggregate metadata. It does not read candidate rows, raw payloads, stock-id payloads, or secrets.
 
 ## Current State
 
 - `sourceRequestPath=data/evidence-intake/phase-1-etf-sanitized-candidate-artifact-path-request-no-fetch.json`
-- `intakeDecision=blocked_waiting_a1_etf_sanitized_candidate_artifact_reply`
-- `blockedUntilA1Reply=true`
-- `candidateArtifactPathAccepted=false`
+- `intakeDecision=accepted_a1_etf_sanitized_candidate_artifact_path_aggregate_only`
+- `blockedUntilA1Reply=false`
+- `candidateArtifactPath=data/candidates/phase-1-etf-sanitized-candidate.json`
+- `candidateArtifactPathAccepted=true`
+- `candidateArtifactMetadataRead=true`
 - `candidateArtifactRead=false`
 - `candidateRowPayloadRead=false`
 - `rawPayloadRead=false`
@@ -41,7 +43,7 @@ This gate keeps Phase 1 data online moving by making the next validation step ex
 
 ## Hard Boundaries
 
-- No candidate artifact content read
+- No candidate row payload read
 - No row payload read
 - No raw payload read
 - No stock-id payload read
@@ -65,8 +67,8 @@ This gate keeps Phase 1 data online moving by making the next validation step ex
 
 ## PM Execution Record
 
-This slice creates the PM-side intake gate for the ETF artifact reply. The gate is intentionally blocked until A1 supplies a sanitized aggregate-only artifact path and summary.
+This slice accepts the A1 ETF aggregate-only artifact path and summary. Candidate rows are still not accepted, and write execution remains blocked by later write-gate controls.
 
 ## Next Route
 
-Wait for `wait_for_a1_etf_sanitized_candidate_artifact_reply`.
+Prepare `phase_1_write_runner_candidate_artifact_set_acceptance_gate`.

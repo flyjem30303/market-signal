@@ -40,11 +40,11 @@ console.log(
 if (!ok) process.exit(1);
 
 function validateInputGate() {
-  if (inputGate.status !== "phase_1_etf_sanitized_candidate_artifact_path_intake_waiting_a1_reply_no_row_payloads") {
+  if (inputGate.status !== "phase_1_etf_sanitized_candidate_artifact_path_intake_accepted_no_row_payloads") {
     problems.push("input gate status mismatch");
   }
-  if (inputGate.blockedUntilA1Reply !== true) problems.push("input gate must still be blocked waiting A1 reply");
-  if (inputGate.candidateArtifactPathAccepted !== false) problems.push("input candidate path must not be accepted yet");
+  if (inputGate.blockedUntilA1Reply !== false) problems.push("input gate must no longer be blocked waiting A1 reply");
+  if (inputGate.candidateArtifactPathAccepted !== true) problems.push("input candidate path must be accepted");
   if (inputGate.expectedMissingRows !== 118) problems.push("input expectedMissingRows must be 118");
 }
 
@@ -56,8 +56,8 @@ function validateArtifact() {
     problems.push("artifact contractMode mismatch");
   }
   if (artifact.contractPrepared !== true) problems.push("contractPrepared must be true");
-  if (artifact.candidateArtifactSetComplete !== false) problems.push("candidateArtifactSetComplete must be false");
-  if (artifact.contractReadyForImplementation !== false) problems.push("contractReadyForImplementation must be false");
+  if (artifact.candidateArtifactSetComplete !== true) problems.push("candidateArtifactSetComplete must be true");
+  if (artifact.contractReadyForImplementation !== true) problems.push("contractReadyForImplementation must be true");
   if (artifact.targetRows?.fullLevel1MissingRows !== 178) problems.push("fullLevel1MissingRows must be 178");
   if (artifact.targetRows?.twiiMissingRows !== 60) problems.push("twiiMissingRows must be 60");
   if (artifact.targetRows?.etfMissingRows !== 118) problems.push("etfMissingRows must be 118");

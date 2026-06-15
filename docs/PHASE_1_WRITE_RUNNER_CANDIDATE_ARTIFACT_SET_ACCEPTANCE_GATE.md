@@ -1,16 +1,16 @@
 # Phase 1 Write Runner Candidate Artifact Set Acceptance Gate
 
-Status: `phase_1_write_runner_candidate_artifact_set_acceptance_gate_waiting_etf_artifact`
+Status: `phase_1_write_runner_candidate_artifact_set_acceptance_gate_artifact_set_complete_no_execution`
 
-Decision: `artifact_set_incomplete_waiting_a1_etf_sanitized_candidate_artifact`
+Decision: `artifact_set_complete_twii_and_etf_aggregate_artifacts_accepted_no_execution`
 
-This gate records the current candidate artifact set state for the Phase 1 write chain. TWII is accepted, but ETF is not yet accepted, so the complete 178-row write candidate set is not ready.
+This gate records the current candidate artifact set state for the Phase 1 write chain. TWII and ETF aggregate-only candidate artifacts are accepted, but execution is still blocked by the later bounded write, readback, rollback, and promotion gates.
 
 ## Artifact Set State
 
 - `twiiArtifactAccepted=true`
-- `etfArtifactAccepted=false`
-- `artifactSetComplete=false`
+- `etfArtifactAccepted=true`
+- `artifactSetComplete=true`
 - `expectedMissingRows=178`
 - `twiiMissingRows=60`
 - `etfMissingRows=118`
@@ -51,4 +51,4 @@ This gate records the current candidate artifact set state for the Phase 1 write
 
 ## Next Route
 
-`wait_for_a1_etf_sanitized_candidate_artifact_reply`
+`phase_1_write_runner_bounded_insert_missing_only_contract_no_execution`

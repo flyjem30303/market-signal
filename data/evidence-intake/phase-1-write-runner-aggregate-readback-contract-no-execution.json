@@ -5,7 +5,7 @@
   "sourceContractStatus": "phase_1_write_runner_bounded_insert_missing_only_contract_no_execution_ready",
   "readbackDecision": "aggregate_readback_contract_prepared_but_write_execution_still_blocked",
   "readbackContractPrepared": true,
-  "sourceContractReadyForImplementation": false,
+  "sourceContractReadyForImplementation": true,
   "aggregateOnlyOutput": true,
   "immediateReadbackAllowedNow": false,
   "supabaseReadAllowedNow": false,

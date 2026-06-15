@@ -1,13 +1,13 @@
 {
-  "status": "phase_1_write_runner_candidate_artifact_set_acceptance_gate_waiting_etf_artifact",
+  "status": "phase_1_write_runner_candidate_artifact_set_acceptance_gate_artifact_set_complete_no_execution",
   "gateMode": "candidate_artifact_set_acceptance_gate",
   "sourceReviewPath": "data/evidence-intake/phase-1-write-runner-post-write-review-contract-no-execution.json",
   "sourceReviewStatus": "phase_1_write_runner_post_write_review_contract_no_execution_ready",
   "etfIntakePath": "data/evidence-intake/phase-1-etf-sanitized-candidate-artifact-path-intake-no-row-payloads.json",
-  "acceptanceDecision": "artifact_set_incomplete_waiting_a1_etf_sanitized_candidate_artifact",
+  "acceptanceDecision": "artifact_set_complete_twii_and_etf_aggregate_artifacts_accepted_no_execution",
   "twiiArtifactAccepted": true,
-  "etfArtifactAccepted": false,
-  "artifactSetComplete": false,
+  "etfArtifactAccepted": true,
+  "artifactSetComplete": true,
   "expectedMissingRows": 178,
   "twiiMissingRows": 60,
   "etfMissingRows": 118,
@@ -30,7 +30,7 @@
     "stockIdPayloadIncluded",
     "secretsIncluded"
   ],
-  "nextRoute": "wait_for_a1_etf_sanitized_candidate_artifact_reply",
+  "nextRoute": "phase_1_write_runner_bounded_insert_missing_only_contract_no_execution",
   "safety": {
     "publicDataSource": "mock",
     "scoreSource": "mock",

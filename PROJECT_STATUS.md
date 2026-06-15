@@ -2,6 +2,116 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Latest Phase 1 ETF aggregate artifact acceptance
+
+Status: `phase_1_write_runner_candidate_artifact_set_acceptance_gate_artifact_set_complete_no_execution`
+
+CEO decision:
+
+- Accept A1's ETF aggregate-only sanitized candidate artifact as a metadata/path artifact, not as executable market rows.
+- Close the previous ETF waiting blocker without fetching market data, reading row payloads, writing Supabase, or mutating `daily_prices`.
+- Continue Phase 1 data-online work through the bounded insert missing-only contract and later readback, rollback, and promotion gates.
+
+PM completed:
+
+- Added `data/candidates/phase-1-etf-sanitized-candidate.json` with aggregate-only ETF coverage metadata.
+- Updated the sanitized artifact path shape checker so TWII and ETF paths are both present.
+- Updated the ETF artifact path intake gate to `candidateArtifactPathAccepted=true` while keeping candidate row acceptance and write execution disabled.
+- Updated the candidate artifact set acceptance gate to `artifactSetComplete=true` and `etfArtifactAccepted=true`.
+
+Current gate state:
+
+- `candidateArtifactPathSetComplete=true`
+- `twiiArtifactAccepted=true`
+- `etfArtifactAccepted=true`
+- `artifactSetComplete=true`
+- `expectedMissingRows=178`
+- `twiiMissingRows=60`
+- `etfMissingRows=118`
+- `executionAllowedNow=false`
+- `writeGateExecutableNow=false`
+- `promotionAllowedNow=false`
+- `nextRoute=phase_1_write_runner_bounded_insert_missing_only_contract_no_execution`
+
+Boundary:
+
+- No SQL, Supabase read/write, staging row creation, `daily_prices` mutation, raw market-data fetch/store/commit, row payload read/output, source promotion, real score promotion, membership implementation, production env mutation, DNS change, Vercel mutation, or platform deploy occurred.
+- Runtime remains `publicDataSource=mock` and `scoreSource=mock`.
+
+Next:
+
+Run the bounded insert missing-only contract, aggregate readback contract, rollback/quarantine contract, and post-write review contract as no-execution gates before any explicit operator write attempt is considered.
+
+### Latest Phase 1 bounded insert missing-only contract slice
+
+Status: `phase_1_write_runner_bounded_insert_missing_only_contract_no_execution_ready`
+
+CEO decision:
+
+- Move the write-runner contract from "candidate set incomplete" to "contract ready for implementation planning" after the ETF aggregate artifact was accepted.
+- Keep the contract no-execution: no SQL, no Supabase write, no row mutation, and no runtime promotion.
+- Require aggregate readback, rollback/quarantine, post-write review, and operator final go/no-go before any future write attempt.
+
+PM completed:
+
+- Updated the bounded insert missing-only contract to use `sourceIntakeStatus=phase_1_etf_sanitized_candidate_artifact_path_intake_accepted_no_row_payloads`.
+- Confirmed `candidateArtifactSetComplete=true`.
+- Confirmed `contractReadyForImplementation=true`.
+- Kept `executionAllowedNow=false`, `writeGateExecutableNow=false`, and `implementationAllowedNow=false`.
+
+Current gate state:
+
+- `contractDecision=bounded_insert_missing_only_contract_ready_after_candidate_artifact_set_complete_no_execution`
+- `candidateArtifactSetComplete=true`
+- `contractReadyForImplementation=true`
+- `targetTable=daily_prices`
+- `targetScope=twii_and_etf_phase_1_missing_row_closure_only`
+- `insertMode=missing_only`
+- `maxRowsPerAttempt=178`
+- `nextRoute=phase_1_write_runner_aggregate_readback_contract_no_execution`
+
+Boundary:
+
+- No SQL, Supabase read/write, staging row creation, `daily_prices` mutation, raw market-data fetch/store/commit, row payload read/output, source promotion, real score promotion, membership implementation, production env mutation, DNS change, Vercel mutation, or platform deploy occurred.
+- Runtime remains `publicDataSource=mock` and `scoreSource=mock`.
+
+Next:
+
+Run aggregate readback, rollback/quarantine, and post-write review contracts, then continue to the write-runner implementation review without executing the write.
+
+### Latest Phase 1 aggregate readback contract slice
+
+Status: `phase_1_write_runner_aggregate_readback_contract_no_execution_ready`
+
+CEO decision:
+
+- Prepare the future post-write readback format now that the bounded insert contract is implementation-ready for planning.
+- Keep readback no-execution: no Supabase read, no row output, no raw payload, and no public real-data promotion.
+- Allow only aggregate fields after a separately authorized write attempt.
+
+PM completed:
+
+- Updated the aggregate readback contract to reflect `sourceContractReadyForImplementation=true`.
+- Kept `aggregateOnlyOutput=true`.
+- Kept `immediateReadbackAllowedNow=false`, `supabaseReadAllowedNow=false`, and `executionAllowedNow=false`.
+
+Current gate state:
+
+- `readbackDecision=aggregate_readback_contract_prepared_but_write_execution_still_blocked`
+- `aggregateOnlyOutput=true`
+- `immediateReadbackAllowedNow=false`
+- `supabaseReadAllowedNow=false`
+- `nextRoute=phase_1_write_runner_rollback_or_quarantine_contract_no_execution`
+
+Boundary:
+
+- No SQL, Supabase read/write, staging row creation, `daily_prices` mutation, raw market-data fetch/store/commit, row payload read/output, source promotion, real score promotion, membership implementation, production env mutation, DNS change, Vercel mutation, or platform deploy occurred.
+- Runtime remains `publicDataSource=mock` and `scoreSource=mock`.
+
+Next:
+
+Confirm rollback/quarantine and post-write review contracts against the now-ready bounded insert and readback chain, then continue to write-runner implementation review without execution.
+
 ### Latest Phase 1 public visible residue cleanup closure
 
 Status: `phase_1_public_beta_public_visible_residue_cleanup_ready_for_users`

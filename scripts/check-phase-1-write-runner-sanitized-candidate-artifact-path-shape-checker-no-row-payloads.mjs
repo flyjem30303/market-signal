@@ -72,7 +72,7 @@ function validateOutput(output) {
   expect(output.executionAllowedNow, false, "output executionAllowedNow");
   expect(output.writeGateExecutableNow, false, "output writeGateExecutableNow");
   expect(output.implementationAllowedNow, false, "output implementationAllowedNow");
-  expect(output.nextRoute, "phase_1_etf_sanitized_candidate_artifact_path_request_no_fetch", "output nextRoute");
+  expect(output.nextRoute, "phase_1_write_runner_bounded_insert_missing_only_contract_no_execution", "output nextRoute");
   validateSafety(output.safety ?? {}, "output.safety");
 }
 
@@ -84,7 +84,7 @@ function validateArtifact(artifact) {
   expect(artifact.executionAllowedNow, false, "artifact executionAllowedNow");
   expect(artifact.writeGateExecutableNow, false, "artifact writeGateExecutableNow");
   expect(artifact.implementationAllowedNow, false, "artifact implementationAllowedNow");
-  expect(artifact.nextRoute, "phase_1_etf_sanitized_candidate_artifact_path_request_no_fetch", "artifact nextRoute");
+  expect(artifact.nextRoute, "phase_1_write_runner_bounded_insert_missing_only_contract_no_execution", "artifact nextRoute");
   validateSafety(artifact.safety ?? {}, "artifact.safety");
 }
 
@@ -92,11 +92,11 @@ function validatePathShape(pathShape, label) {
   expect(pathShape.twiiCandidateArtifactPath, "data/candidates/twii-sanitized-candidate.json", `${label}.twiiCandidateArtifactPath`);
   expect(pathShape.twiiCandidateArtifactPathExists, true, `${label}.twiiCandidateArtifactPathExists`);
   expect(pathShape.twiiExpectedMissingRows, 60, `${label}.twiiExpectedMissingRows`);
-  expect(pathShape.etfCandidateArtifactPath, null, `${label}.etfCandidateArtifactPath`);
-  expect(pathShape.etfCandidateArtifactPathExists, false, `${label}.etfCandidateArtifactPathExists`);
+  expect(pathShape.etfCandidateArtifactPath, "data/candidates/phase-1-etf-sanitized-candidate.json", `${label}.etfCandidateArtifactPath`);
+  expect(pathShape.etfCandidateArtifactPathExists, true, `${label}.etfCandidateArtifactPathExists`);
   expect(pathShape.etfExpectedMissingRows, 118, `${label}.etfExpectedMissingRows`);
   expect(pathShape.fullLevel1MissingRows, 178, `${label}.fullLevel1MissingRows`);
-  expect(pathShape.candidateArtifactPathSetComplete, false, `${label}.candidateArtifactPathSetComplete`);
+  expect(pathShape.candidateArtifactPathSetComplete, true, `${label}.candidateArtifactPathSetComplete`);
   expect(pathShape.outputMode, "path_presence_and_aggregate_counts_only", `${label}.outputMode`);
 }
 
@@ -108,11 +108,11 @@ function validateDoc() {
     "twiiCandidateArtifactPath=data/candidates/twii-sanitized-candidate.json",
     "twiiCandidateArtifactPathExists=true",
     "twiiExpectedMissingRows=60",
-    "etfCandidateArtifactPath=null",
-    "etfCandidateArtifactPathExists=false",
+    "etfCandidateArtifactPath=data/candidates/phase-1-etf-sanitized-candidate.json",
+    "etfCandidateArtifactPathExists=true",
     "etfExpectedMissingRows=118",
     "fullLevel1MissingRows=178",
-    "candidateArtifactPathSetComplete=false",
+    "candidateArtifactPathSetComplete=true",
     "outputMode=path_presence_and_aggregate_counts_only",
     "executionAllowedNow=false",
     "writeGateExecutableNow=false",
@@ -125,7 +125,7 @@ function validateDoc() {
     "No stock-id payload read",
     "No `daily_prices` mutation",
     "No public real-data claim",
-    "phase_1_etf_sanitized_candidate_artifact_path_request_no_fetch"
+    "phase_1_write_runner_bounded_insert_missing_only_contract_no_execution"
   ];
   for (const token of requiredTokens) if (!doc.includes(token)) problems.push(`${docPath} missing ${token}`);
 }

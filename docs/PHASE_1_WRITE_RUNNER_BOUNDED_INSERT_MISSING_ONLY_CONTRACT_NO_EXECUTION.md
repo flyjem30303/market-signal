@@ -2,16 +2,16 @@
 
 Status: `phase_1_write_runner_bounded_insert_missing_only_contract_no_execution_ready`
 
-Decision: `bounded_insert_missing_only_contract_prepared_but_candidate_artifact_set_incomplete`
+Decision: `bounded_insert_missing_only_contract_ready_after_candidate_artifact_set_complete_no_execution`
 
 This slice prepares the Phase 1 missing-row write contract without executing anything. It does not read candidate row payloads, does not connect to Supabase, does not run SQL, and does not mutate `daily_prices`.
 
 ## Contract State
 
-- `sourceIntakeStatus=phase_1_etf_sanitized_candidate_artifact_path_intake_waiting_a1_reply_no_row_payloads`
+- `sourceIntakeStatus=phase_1_etf_sanitized_candidate_artifact_path_intake_accepted_no_row_payloads`
 - `contractPrepared=true`
-- `candidateArtifactSetComplete=false`
-- `contractReadyForImplementation=false`
+- `candidateArtifactSetComplete=true`
+- `contractReadyForImplementation=true`
 - `targetTable=daily_prices`
 - `targetScope=twii_and_etf_phase_1_missing_row_closure_only`
 - `insertMode=missing_only`

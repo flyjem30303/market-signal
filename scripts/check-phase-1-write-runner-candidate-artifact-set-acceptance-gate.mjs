@@ -45,7 +45,7 @@ console.log(
     {
       status: ok ? "ok" : "blocked",
       guardedStatus: ok
-        ? "phase_1_write_runner_candidate_artifact_set_acceptance_gate_waiting_etf_artifact"
+        ? "phase_1_write_runner_candidate_artifact_set_acceptance_gate_artifact_set_complete_no_execution"
         : "phase_1_write_runner_candidate_artifact_set_acceptance_gate_blocked",
       artifactSetComplete: artifact.artifactSetComplete ?? null,
       etfArtifactAccepted: artifact.etfArtifactAccepted ?? null,
@@ -69,22 +69,22 @@ function validatePrerequisites() {
   expect(sourceReview.nextRoute, "phase_1_write_runner_candidate_artifact_set_acceptance_gate", "source review nextRoute");
   expect(
     etfIntake.status,
-    "phase_1_etf_sanitized_candidate_artifact_path_intake_waiting_a1_reply_no_row_payloads",
+    "phase_1_etf_sanitized_candidate_artifact_path_intake_accepted_no_row_payloads",
     "ETF intake status"
   );
-  expect(etfIntake.blockedUntilA1Reply, true, "ETF blockedUntilA1Reply");
-  expect(etfIntake.candidateArtifactPathAccepted, false, "ETF candidateArtifactPathAccepted");
+  expect(etfIntake.blockedUntilA1Reply, false, "ETF blockedUntilA1Reply");
+  expect(etfIntake.candidateArtifactPathAccepted, true, "ETF candidateArtifactPathAccepted");
   expect(etfIntake.expectedMissingRows, 118, "ETF expectedMissingRows");
 }
 
 function validateArtifact() {
-  expect(artifact.status, "phase_1_write_runner_candidate_artifact_set_acceptance_gate_waiting_etf_artifact", "artifact status");
+  expect(artifact.status, "phase_1_write_runner_candidate_artifact_set_acceptance_gate_artifact_set_complete_no_execution", "artifact status");
   expect(artifact.gateMode, "candidate_artifact_set_acceptance_gate", "gateMode");
   expect(artifact.sourceReviewStatus, "phase_1_write_runner_post_write_review_contract_no_execution_ready", "sourceReviewStatus");
-  expect(artifact.acceptanceDecision, "artifact_set_incomplete_waiting_a1_etf_sanitized_candidate_artifact", "acceptanceDecision");
+  expect(artifact.acceptanceDecision, "artifact_set_complete_twii_and_etf_aggregate_artifacts_accepted_no_execution", "acceptanceDecision");
   expect(artifact.twiiArtifactAccepted, true, "twiiArtifactAccepted");
-  expect(artifact.etfArtifactAccepted, false, "etfArtifactAccepted");
-  expect(artifact.artifactSetComplete, false, "artifactSetComplete");
+  expect(artifact.etfArtifactAccepted, true, "etfArtifactAccepted");
+  expect(artifact.artifactSetComplete, true, "artifactSetComplete");
   expect(artifact.expectedMissingRows, 178, "expectedMissingRows");
   expect(artifact.twiiMissingRows, 60, "twiiMissingRows");
   expect(artifact.etfMissingRows, 118, "etfMissingRows");
@@ -92,7 +92,7 @@ function validateArtifact() {
   expect(artifact.writeGateExecutableNow, false, "writeGateExecutableNow");
   expect(artifact.implementationAllowedNow, false, "implementationAllowedNow");
   expect(artifact.promotionAllowedNow, false, "promotionAllowedNow");
-  expect(artifact.nextRoute, "wait_for_a1_etf_sanitized_candidate_artifact_reply", "nextRoute");
+  expect(artifact.nextRoute, "phase_1_write_runner_bounded_insert_missing_only_contract_no_execution", "nextRoute");
 
   expectArray(artifact.requiredA1ReplyFields, [
     "candidateArtifactPath",
@@ -114,20 +114,20 @@ function validateArtifact() {
 }
 
 function validateReport() {
-  expect(report.status, "phase_1_write_runner_candidate_artifact_set_acceptance_gate_waiting_etf_artifact", "report status");
-  expect(report.artifactSetComplete, false, "report artifactSetComplete");
-  expect(report.etfArtifactAccepted, false, "report etfArtifactAccepted");
+  expect(report.status, "phase_1_write_runner_candidate_artifact_set_acceptance_gate_artifact_set_complete_no_execution", "report status");
+  expect(report.artifactSetComplete, true, "report artifactSetComplete");
+  expect(report.etfArtifactAccepted, true, "report etfArtifactAccepted");
   expect(report.executionAllowedNow, false, "report executionAllowedNow");
 }
 
 function validateDoc() {
   const requiredTokens = [
     "Phase 1 Write Runner Candidate Artifact Set Acceptance Gate",
-    "phase_1_write_runner_candidate_artifact_set_acceptance_gate_waiting_etf_artifact",
-    "artifact_set_incomplete_waiting_a1_etf_sanitized_candidate_artifact",
+    "phase_1_write_runner_candidate_artifact_set_acceptance_gate_artifact_set_complete_no_execution",
+    "artifact_set_complete_twii_and_etf_aggregate_artifacts_accepted_no_execution",
     "twiiArtifactAccepted=true",
-    "etfArtifactAccepted=false",
-    "artifactSetComplete=false",
+    "etfArtifactAccepted=true",
+    "artifactSetComplete=true",
     "expectedMissingRows=178",
     "twiiMissingRows=60",
     "etfMissingRows=118",
@@ -140,7 +140,8 @@ function validateDoc() {
     "scoreSource=mock",
     "No candidate row acceptance",
     "No Supabase write",
-    "No public real-data promotion"
+    "No public real-data promotion",
+    "phase_1_write_runner_bounded_insert_missing_only_contract_no_execution"
   ];
   for (const token of requiredTokens) if (!doc.includes(token)) problems.push(`${docPath} missing ${token}`);
 }
@@ -170,10 +171,10 @@ function validateStatus() {
   const requiredTokens = [
     "Latest Phase 1 candidate artifact set acceptance gate slice",
     "docs/PHASE_1_WRITE_RUNNER_CANDIDATE_ARTIFACT_SET_ACCEPTANCE_GATE.md",
-    "phase_1_write_runner_candidate_artifact_set_acceptance_gate_waiting_etf_artifact",
-    "artifactSetComplete=false",
-    "etfArtifactAccepted=false",
-    "nextRoute=wait_for_a1_etf_sanitized_candidate_artifact_reply"
+    "phase_1_write_runner_candidate_artifact_set_acceptance_gate_artifact_set_complete_no_execution",
+    "artifactSetComplete=true",
+    "etfArtifactAccepted=true",
+    "nextRoute=phase_1_write_runner_bounded_insert_missing_only_contract_no_execution"
   ];
   for (const token of requiredTokens) if (!status.includes(token)) problems.push(`${statusPath} missing ${token}`);
 }
@@ -196,8 +197,6 @@ function validateBoundaries() {
     /\bsb_(publishable|secret|anon|service_role)_[a-z0-9_-]+/iu,
     /publicDataSource"\s*:\s*"supabase"/u,
     /scoreSource"\s*:\s*"real"/u,
-    /artifactSetComplete"\s*:\s*true/u,
-    /etfArtifactAccepted"\s*:\s*true/u,
     /executionAllowedNow"\s*:\s*true/u,
     /writeGateExecutableNow"\s*:\s*true/u,
     /promotionAllowedNow"\s*:\s*true/u

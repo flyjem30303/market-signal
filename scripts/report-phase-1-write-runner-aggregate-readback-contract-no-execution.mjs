@@ -42,8 +42,8 @@ function validateSourceContract() {
   if (sourceContract.status !== "phase_1_write_runner_bounded_insert_missing_only_contract_no_execution_ready") {
     problems.push("source contract status mismatch");
   }
-  if (sourceContract.contractReadyForImplementation !== false) {
-    problems.push("source contract must not be implementation-ready yet");
+  if (sourceContract.contractReadyForImplementation !== true) {
+    problems.push("source contract must be implementation-ready for no-execution planning");
   }
   if (sourceContract.nextRoute !== "phase_1_write_runner_aggregate_readback_contract_no_execution") {
     problems.push("source contract nextRoute mismatch");

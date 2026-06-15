@@ -65,8 +65,8 @@ function validateSourceContract() {
     "source contract status"
   );
   expect(sourceContract.contractPrepared, true, "source contractPrepared");
-  expect(sourceContract.candidateArtifactSetComplete, false, "source candidateArtifactSetComplete");
-  expect(sourceContract.contractReadyForImplementation, false, "source contractReadyForImplementation");
+  expect(sourceContract.candidateArtifactSetComplete, true, "source candidateArtifactSetComplete");
+  expect(sourceContract.contractReadyForImplementation, true, "source contractReadyForImplementation");
   expect(sourceContract.nextRoute, "phase_1_write_runner_aggregate_readback_contract_no_execution", "source nextRoute");
 }
 
@@ -84,7 +84,7 @@ function validateArtifact() {
     "readbackDecision"
   );
   expect(artifact.readbackContractPrepared, true, "readbackContractPrepared");
-  expect(artifact.sourceContractReadyForImplementation, false, "sourceContractReadyForImplementation");
+  expect(artifact.sourceContractReadyForImplementation, true, "sourceContractReadyForImplementation");
   expect(artifact.aggregateOnlyOutput, true, "aggregateOnlyOutput");
   expect(artifact.immediateReadbackAllowedNow, false, "immediateReadbackAllowedNow");
   expect(artifact.supabaseReadAllowedNow, false, "supabaseReadAllowedNow");
@@ -145,7 +145,7 @@ function validateDoc() {
     "aggregate_readback_contract_prepared_but_write_execution_still_blocked",
     "sourceContractStatus=phase_1_write_runner_bounded_insert_missing_only_contract_no_execution_ready",
     "readbackContractPrepared=true",
-    "sourceContractReadyForImplementation=false",
+    "sourceContractReadyForImplementation=true",
     "aggregateOnlyOutput=true",
     "immediateReadbackAllowedNow=false",
     "supabaseReadAllowedNow=false",

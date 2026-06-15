@@ -10,7 +10,7 @@ This slice prepares the future post-write readback contract. It only defines agg
 
 - `sourceContractStatus=phase_1_write_runner_bounded_insert_missing_only_contract_no_execution_ready`
 - `readbackContractPrepared=true`
-- `sourceContractReadyForImplementation=false`
+- `sourceContractReadyForImplementation=true`
 - `aggregateOnlyOutput=true`
 - `immediateReadbackAllowedNow=false`
 - `supabaseReadAllowedNow=false`

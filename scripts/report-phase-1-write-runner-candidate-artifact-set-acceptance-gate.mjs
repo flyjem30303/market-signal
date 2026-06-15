@@ -8,6 +8,7 @@ const problems = [];
 const artifact = readJson(artifactPath);
 const sourceReview = readJson(sourceReviewPath);
 const etfIntake = readJson(etfIntakePath);
+const etfAccepted = etfIntake.status === "phase_1_etf_sanitized_candidate_artifact_path_intake_accepted_no_row_payloads";
 
 validateSourceReview();
 validateEtfIntake();
@@ -18,16 +19,24 @@ const ok = problems.length === 0;
 console.log(
   JSON.stringify(
     {
-      status: ok ? "phase_1_write_runner_candidate_artifact_set_acceptance_gate_waiting_etf_artifact" : "blocked",
-      acceptanceDecision: artifact.acceptanceDecision ?? null,
+      status: ok
+        ? etfAccepted
+          ? "phase_1_write_runner_candidate_artifact_set_acceptance_gate_artifact_set_complete_no_execution"
+          : "phase_1_write_runner_candidate_artifact_set_acceptance_gate_waiting_etf_artifact"
+        : "blocked",
+      acceptanceDecision: etfAccepted
+        ? "artifact_set_complete_twii_and_etf_aggregate_artifacts_accepted_no_execution"
+        : artifact.acceptanceDecision ?? null,
       twiiArtifactAccepted: artifact.twiiArtifactAccepted ?? null,
-      etfArtifactAccepted: artifact.etfArtifactAccepted ?? null,
-      artifactSetComplete: artifact.artifactSetComplete ?? null,
+      etfArtifactAccepted: etfAccepted,
+      artifactSetComplete: etfAccepted,
       expectedMissingRows: artifact.expectedMissingRows ?? null,
       executionAllowedNow: artifact.executionAllowedNow ?? null,
       writeGateExecutableNow: artifact.writeGateExecutableNow ?? null,
       promotionAllowedNow: artifact.promotionAllowedNow ?? null,
-      nextRoute: artifact.nextRoute ?? null,
+      nextRoute: etfAccepted
+        ? "phase_1_write_runner_bounded_insert_missing_only_contract_no_execution"
+        : artifact.nextRoute ?? null,
       safety: artifact.safety ?? {},
       problems
     },
@@ -48,20 +57,25 @@ function validateSourceReview() {
 }
 
 function validateEtfIntake() {
-  if (etfIntake.status !== "phase_1_etf_sanitized_candidate_artifact_path_intake_waiting_a1_reply_no_row_payloads") {
+  if (![
+    "phase_1_etf_sanitized_candidate_artifact_path_intake_waiting_a1_reply_no_row_payloads",
+    "phase_1_etf_sanitized_candidate_artifact_path_intake_accepted_no_row_payloads"
+  ].includes(etfIntake.status)) {
     problems.push("ETF intake status mismatch");
   }
-  if (etfIntake.candidateArtifactPathAccepted !== false) problems.push("ETF artifact must not be accepted yet");
+  if (etfIntake.candidateArtifactPathAccepted !== etfAccepted) problems.push("ETF artifact acceptance mismatch");
   if (etfIntake.expectedMissingRows !== 118) problems.push("ETF expectedMissingRows must be 118");
 }
 
 function validateArtifact() {
-  if (artifact.status !== "phase_1_write_runner_candidate_artifact_set_acceptance_gate_waiting_etf_artifact") {
+  if (artifact.status !== (etfAccepted
+    ? "phase_1_write_runner_candidate_artifact_set_acceptance_gate_artifact_set_complete_no_execution"
+    : "phase_1_write_runner_candidate_artifact_set_acceptance_gate_waiting_etf_artifact")) {
     problems.push("artifact status mismatch");
   }
   if (artifact.twiiArtifactAccepted !== true) problems.push("twiiArtifactAccepted must be true");
-  if (artifact.etfArtifactAccepted !== false) problems.push("etfArtifactAccepted must be false");
-  if (artifact.artifactSetComplete !== false) problems.push("artifactSetComplete must be false");
+  if (artifact.etfArtifactAccepted !== etfAccepted) problems.push("etfArtifactAccepted mismatch");
+  if (artifact.artifactSetComplete !== etfAccepted) problems.push("artifactSetComplete mismatch");
   if (artifact.expectedMissingRows !== 178) problems.push("expectedMissingRows must be 178");
   if (artifact.executionAllowedNow !== false) problems.push("executionAllowedNow must be false");
   if (artifact.writeGateExecutableNow !== false) problems.push("writeGateExecutableNow must be false");

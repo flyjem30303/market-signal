@@ -42,7 +42,7 @@ console.log(
     {
       status: ok ? "ok" : "blocked",
       guardedStatus: ok
-        ? "phase_1_etf_sanitized_candidate_artifact_path_intake_waiting_a1_reply_no_row_payloads"
+        ? "phase_1_etf_sanitized_candidate_artifact_path_intake_accepted_no_row_payloads"
         : "phase_1_etf_sanitized_candidate_artifact_path_intake_blocked",
       intakeDecision: artifact.intakeDecision ?? null,
       blockedUntilA1Reply: artifact.blockedUntilA1Reply ?? null,
@@ -64,11 +64,14 @@ function validatePrerequisites() {
 }
 
 function validateOutput(output) {
-  expect(output.status, "phase_1_etf_sanitized_candidate_artifact_path_intake_waiting_a1_reply_no_row_payloads", "output status");
-  expect(output.intakeMode, "pm_intake_waiting_a1_reply_no_row_payloads", "output intakeMode");
+  expect(output.status, "phase_1_etf_sanitized_candidate_artifact_path_intake_accepted_no_row_payloads", "output status");
+  expect(output.intakeMode, "pm_intake_accept_etf_aggregate_artifact_path_no_row_payloads", "output intakeMode");
   expect(output.sourceRequestPath, requestPath, "output sourceRequestPath");
-  expect(output.blockedUntilA1Reply, true, "output blockedUntilA1Reply");
-  expect(output.candidateArtifactPathAccepted, false, "output candidateArtifactPathAccepted");
+  expect(output.intakeDecision, "accepted_a1_etf_sanitized_candidate_artifact_path_aggregate_only", "output intakeDecision");
+  expect(output.blockedUntilA1Reply, false, "output blockedUntilA1Reply");
+  expect(output.candidateArtifactPath, "data/candidates/phase-1-etf-sanitized-candidate.json", "output candidateArtifactPath");
+  expect(output.candidateArtifactPathAccepted, true, "output candidateArtifactPathAccepted");
+  expect(output.candidateArtifactMetadataRead, true, "output candidateArtifactMetadataRead");
   expect(output.candidateArtifactRead, false, "output candidateArtifactRead");
   expect(output.candidateRowPayloadRead, false, "output candidateRowPayloadRead");
   expect(output.rawPayloadRead, false, "output rawPayloadRead");
@@ -76,18 +79,20 @@ function validateOutput(output) {
   expect(output.executionAllowedNow, false, "output executionAllowedNow");
   expect(output.writeGateExecutableNow, false, "output writeGateExecutableNow");
   expect(output.implementationAllowedNow, false, "output implementationAllowedNow");
-  expect(output.nextRoute, "wait_for_a1_etf_sanitized_candidate_artifact_reply", "output nextRoute");
+  expect(output.nextRoute, "phase_1_write_runner_candidate_artifact_set_acceptance_gate", "output nextRoute");
   validateReplyContract(output.requiredA1ReplyContract ?? {}, "output.requiredA1ReplyContract");
   validateSafety(output.safety ?? {}, "output.safety");
 }
 
 function validateArtifact(artifact) {
-  expect(artifact.status, "phase_1_etf_sanitized_candidate_artifact_path_intake_waiting_a1_reply_no_row_payloads", "artifact status");
-  expect(artifact.intakeMode, "pm_intake_waiting_a1_reply_no_row_payloads", "artifact intakeMode");
+  expect(artifact.status, "phase_1_etf_sanitized_candidate_artifact_path_intake_accepted_no_row_payloads", "artifact status");
+  expect(artifact.intakeMode, "pm_intake_accept_etf_aggregate_artifact_path_no_row_payloads", "artifact intakeMode");
   expect(artifact.sourceRequestPath, requestPath, "artifact sourceRequestPath");
-  expect(artifact.intakeDecision, "blocked_waiting_a1_etf_sanitized_candidate_artifact_reply", "artifact intakeDecision");
-  expect(artifact.blockedUntilA1Reply, true, "artifact blockedUntilA1Reply");
-  expect(artifact.candidateArtifactPathAccepted, false, "artifact candidateArtifactPathAccepted");
+  expect(artifact.intakeDecision, "accepted_a1_etf_sanitized_candidate_artifact_path_aggregate_only", "artifact intakeDecision");
+  expect(artifact.blockedUntilA1Reply, false, "artifact blockedUntilA1Reply");
+  expect(artifact.candidateArtifactPath, "data/candidates/phase-1-etf-sanitized-candidate.json", "artifact candidateArtifactPath");
+  expect(artifact.candidateArtifactPathAccepted, true, "artifact candidateArtifactPathAccepted");
+  expect(artifact.candidateArtifactMetadataRead, true, "artifact candidateArtifactMetadataRead");
   expect(artifact.candidateArtifactRead, false, "artifact candidateArtifactRead");
   expect(artifact.candidateRowPayloadRead, false, "artifact candidateRowPayloadRead");
   expect(artifact.rawPayloadRead, false, "artifact rawPayloadRead");
@@ -95,7 +100,7 @@ function validateArtifact(artifact) {
   expect(artifact.executionAllowedNow, false, "artifact executionAllowedNow");
   expect(artifact.writeGateExecutableNow, false, "artifact writeGateExecutableNow");
   expect(artifact.implementationAllowedNow, false, "artifact implementationAllowedNow");
-  expect(artifact.nextRoute, "wait_for_a1_etf_sanitized_candidate_artifact_reply", "artifact nextRoute");
+  expect(artifact.nextRoute, "phase_1_write_runner_candidate_artifact_set_acceptance_gate", "artifact nextRoute");
   validateReplyContract(artifact.requiredA1ReplyContract ?? {}, "artifact.requiredA1ReplyContract");
   validateSafety(artifact.safety ?? {}, "artifact.safety");
 }
@@ -112,12 +117,14 @@ function validateReplyContract(contract, label) {
 
 function validateDoc() {
   const requiredTokens = [
-    "phase_1_etf_sanitized_candidate_artifact_path_intake_waiting_a1_reply_no_row_payloads",
-    "pm_intake_waiting_a1_reply_no_row_payloads",
+    "phase_1_etf_sanitized_candidate_artifact_path_intake_accepted_no_row_payloads",
+    "pm_intake_accept_etf_aggregate_artifact_path_no_row_payloads",
     `sourceRequestPath=${requestPath}`,
-    "intakeDecision=blocked_waiting_a1_etf_sanitized_candidate_artifact_reply",
-    "blockedUntilA1Reply=true",
-    "candidateArtifactPathAccepted=false",
+    "intakeDecision=accepted_a1_etf_sanitized_candidate_artifact_path_aggregate_only",
+    "blockedUntilA1Reply=false",
+    "candidateArtifactPath=data/candidates/phase-1-etf-sanitized-candidate.json",
+    "candidateArtifactPathAccepted=true",
+    "candidateArtifactMetadataRead=true",
     "candidateArtifactRead=false",
     "candidateRowPayloadRead=false",
     "rawPayloadRead=false",
@@ -134,11 +141,11 @@ function validateDoc() {
     "implementationAllowedNow=false",
     "publicDataSource=mock",
     "scoreSource=mock",
-    "No candidate artifact content read",
+    "No candidate row payload read",
     "No row payload read",
     "No Supabase write",
     "No `daily_prices` mutation",
-    "wait_for_a1_etf_sanitized_candidate_artifact_reply"
+    "phase_1_write_runner_candidate_artifact_set_acceptance_gate"
   ];
   for (const token of requiredTokens) if (!doc.includes(token)) problems.push(`${docPath} missing ${token}`);
 }
@@ -202,8 +209,6 @@ function validateSafety(safety, label) {
 
 function forbiddenPatterns() {
   return [
-    /JSON\.parse\s*\(\s*fs\.readFileSync/u,
-    /readFileSync\s*\(\s*candidateArtifactPath/u,
     /@supabase\/supabase-js/u,
     /createClient\s*\(/u,
     /\.from\(/u,
@@ -213,7 +218,6 @@ function forbiddenPatterns() {
     /\.upsert\(/u,
     /publicDataSource":\s*"supabase"/u,
     /scoreSource":\s*"real"/u,
-    /candidateArtifactPathAccepted":\s*true/u,
     /candidateArtifactRead":\s*true/u,
     /candidateRowPayloadRead":\s*true/u,
     /dailyPricesMutated":\s*true/u

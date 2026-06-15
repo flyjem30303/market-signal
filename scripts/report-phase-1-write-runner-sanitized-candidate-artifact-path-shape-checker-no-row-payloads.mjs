@@ -3,10 +3,10 @@ import fs from "node:fs";
 const sourceCredentialShapePath =
   "data/evidence-intake/phase-1-write-runner-credential-presence-shape-checker-no-secret-values.json";
 const twiiCandidateArtifactPath = "data/candidates/twii-sanitized-candidate.json";
-const etfCandidateArtifactPath = null;
+const etfCandidateArtifactPath = "data/candidates/phase-1-etf-sanitized-candidate.json";
 
 const twiiPathExists = fs.existsSync(twiiCandidateArtifactPath);
-const etfPathExists = false;
+const etfPathExists = fs.existsSync(etfCandidateArtifactPath);
 const candidateArtifactPathSetComplete = twiiPathExists && etfPathExists;
 
 const pathShape = {
@@ -54,10 +54,10 @@ console.log(
       sourceCredentialShapePath,
       pathShape,
       executionAllowedNow: false,
-      writeGateExecutableNow: false,
-      implementationAllowedNow: false,
-      nextRoute: candidateArtifactPathSetComplete
-        ? "phase_1_write_runner_bounded_insert_missing_only_contract_no_execution"
+  writeGateExecutableNow: false,
+  implementationAllowedNow: false,
+  nextRoute: candidateArtifactPathSetComplete
+    ? "phase_1_write_runner_bounded_insert_missing_only_contract_no_execution"
         : "phase_1_etf_sanitized_candidate_artifact_path_request_no_fetch",
       safety
     },

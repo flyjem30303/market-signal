@@ -62,11 +62,11 @@ if (!ok) process.exit(1);
 function validatePrerequisites() {
   expect(
     inputGate.status,
-    "phase_1_etf_sanitized_candidate_artifact_path_intake_waiting_a1_reply_no_row_payloads",
+    "phase_1_etf_sanitized_candidate_artifact_path_intake_accepted_no_row_payloads",
     "input status"
   );
-  expect(inputGate.blockedUntilA1Reply, true, "input blockedUntilA1Reply");
-  expect(inputGate.candidateArtifactPathAccepted, false, "input candidateArtifactPathAccepted");
+  expect(inputGate.blockedUntilA1Reply, false, "input blockedUntilA1Reply");
+  expect(inputGate.candidateArtifactPathAccepted, true, "input candidateArtifactPathAccepted");
   expect(inputGate.expectedMissingRows, 118, "input expectedMissingRows");
   expect(inputGate.executionAllowedNow, false, "input executionAllowedNow");
   expect(inputGate.writeGateExecutableNow, false, "input writeGateExecutableNow");
@@ -82,17 +82,17 @@ function validateArtifact() {
   expect(artifact.contractMode, "bounded_insert_missing_only_contract_no_execution", "contractMode");
   expect(
     artifact.sourceIntakeStatus,
-    "phase_1_etf_sanitized_candidate_artifact_path_intake_waiting_a1_reply_no_row_payloads",
+    "phase_1_etf_sanitized_candidate_artifact_path_intake_accepted_no_row_payloads",
     "sourceIntakeStatus"
   );
   expect(
     artifact.contractDecision,
-    "bounded_insert_missing_only_contract_prepared_but_candidate_artifact_set_incomplete",
+    "bounded_insert_missing_only_contract_ready_after_candidate_artifact_set_complete_no_execution",
     "contractDecision"
   );
   expect(artifact.contractPrepared, true, "contractPrepared");
-  expect(artifact.candidateArtifactSetComplete, false, "candidateArtifactSetComplete");
-  expect(artifact.contractReadyForImplementation, false, "contractReadyForImplementation");
+  expect(artifact.candidateArtifactSetComplete, true, "candidateArtifactSetComplete");
+  expect(artifact.contractReadyForImplementation, true, "contractReadyForImplementation");
   expect(artifact.targetTable, "daily_prices", "targetTable");
   expect(artifact.targetScope, "twii_and_etf_phase_1_missing_row_closure_only", "targetScope");
   expect(artifact.insertMode, "missing_only", "insertMode");
@@ -146,7 +146,7 @@ function validateArtifact() {
 function validateReport() {
   expect(report.status, "phase_1_write_runner_bounded_insert_missing_only_contract_no_execution_ready", "report status");
   expect(report.contractDecision, artifact.contractDecision, "report contractDecision");
-  expect(report.contractReadyForImplementation, false, "report contractReadyForImplementation");
+  expect(report.contractReadyForImplementation, true, "report contractReadyForImplementation");
   expect(report.executionAllowedNow, false, "report executionAllowedNow");
   expect(report.writeGateExecutableNow, false, "report writeGateExecutableNow");
 }
@@ -155,11 +155,11 @@ function validateDoc() {
   const requiredTokens = [
     "Phase 1 Write Runner Bounded Insert Missing-Only Contract",
     "phase_1_write_runner_bounded_insert_missing_only_contract_no_execution_ready",
-    "bounded_insert_missing_only_contract_prepared_but_candidate_artifact_set_incomplete",
-    "sourceIntakeStatus=phase_1_etf_sanitized_candidate_artifact_path_intake_waiting_a1_reply_no_row_payloads",
+    "bounded_insert_missing_only_contract_ready_after_candidate_artifact_set_complete_no_execution",
+    "sourceIntakeStatus=phase_1_etf_sanitized_candidate_artifact_path_intake_accepted_no_row_payloads",
     "contractPrepared=true",
-    "candidateArtifactSetComplete=false",
-    "contractReadyForImplementation=false",
+    "candidateArtifactSetComplete=true",
+    "contractReadyForImplementation=true",
     "targetTable=daily_prices",
     "targetScope=twii_and_etf_phase_1_missing_row_closure_only",
     "insertMode=missing_only",
@@ -218,9 +218,9 @@ function validateStatus() {
     "Latest Phase 1 bounded insert missing-only contract slice",
     "docs/PHASE_1_WRITE_RUNNER_BOUNDED_INSERT_MISSING_ONLY_CONTRACT_NO_EXECUTION.md",
     "phase_1_write_runner_bounded_insert_missing_only_contract_no_execution_ready",
-    "bounded_insert_missing_only_contract_prepared_but_candidate_artifact_set_incomplete",
-    "candidateArtifactSetComplete=false",
-    "contractReadyForImplementation=false",
+    "bounded_insert_missing_only_contract_ready_after_candidate_artifact_set_complete_no_execution",
+    "candidateArtifactSetComplete=true",
+    "contractReadyForImplementation=true",
     "nextRoute=phase_1_write_runner_aggregate_readback_contract_no_execution"
   ];
   for (const token of requiredTokens) if (!status.includes(token)) problems.push(`${statusPath} missing ${token}`);

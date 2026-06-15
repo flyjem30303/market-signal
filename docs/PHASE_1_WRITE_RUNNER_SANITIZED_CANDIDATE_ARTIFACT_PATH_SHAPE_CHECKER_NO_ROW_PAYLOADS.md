@@ -16,11 +16,11 @@ This gate deliberately avoids reading candidate artifact contents, row payloads,
 - `twiiCandidateArtifactPath=data/candidates/twii-sanitized-candidate.json`
 - `twiiCandidateArtifactPathExists=true`
 - `twiiExpectedMissingRows=60`
-- `etfCandidateArtifactPath=null`
-- `etfCandidateArtifactPathExists=false`
+- `etfCandidateArtifactPath=data/candidates/phase-1-etf-sanitized-candidate.json`
+- `etfCandidateArtifactPathExists=true`
 - `etfExpectedMissingRows=118`
 - `fullLevel1MissingRows=178`
-- `candidateArtifactPathSetComplete=false`
+- `candidateArtifactPathSetComplete=true`
 - `outputMode=path_presence_and_aggregate_counts_only`
 - `executionAllowedNow=false`
 - `writeGateExecutableNow=false`
@@ -57,10 +57,10 @@ This gate deliberately avoids reading candidate artifact contents, row payloads,
 
 ## PM Execution Record
 
-This slice confirms that TWII has a known sanitized candidate artifact path, while ETF still needs a sanitized candidate artifact path before the Phase 1 write-runner contract can be complete.
+This slice confirms that both TWII and ETF now have known sanitized aggregate-only candidate artifact paths before the Phase 1 write-runner contract can continue.
 
-The checker therefore routes to ETF artifact-path preparation instead of pretending the full Phase 1 candidate set is complete.
+The checker therefore routes to the bounded insert missing-only contract while execution remains blocked by the later write-gate controls.
 
 ## Next Route
 
-Prepare `phase_1_etf_sanitized_candidate_artifact_path_request_no_fetch`.
+Prepare `phase_1_write_runner_bounded_insert_missing_only_contract_no_execution`.
