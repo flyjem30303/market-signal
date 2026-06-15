@@ -1,0 +1,32 @@
+{
+  "ledgerStatus": "ledger_ready",
+  "writeGateExecutableNow": false,
+  "publicDataSource": "mock",
+  "scoreSource": "mock",
+  "entries": [
+    {
+      "id": "phase1-ext-platform-safe-example-accepted",
+      "evidenceItem": "schema_cache_evidence_pending",
+      "decision": "accepted",
+      "validatorResult": "passed",
+      "nonSecretSummary": "Safe example packet contains only non-secret fields and no platform connection evidence.",
+      "recordedAtLocal": "2026-06-15T00:00:00+08:00",
+      "rejectReasons": []
+    },
+    {
+      "id": "phase1-ext-platform-unsafe-example-rejected",
+      "evidenceItem": "pgrst205_regression_evidence_pending",
+      "decision": "rejected",
+      "validatorResult": "failed",
+      "nonSecretSummary": "Reject example demonstrates forbidden field detection without storing unsafe values.",
+      "recordedAtLocal": "2026-06-15T00:00:00+08:00",
+      "rejectReasons": [
+        "secretValue",
+        "rawPayload",
+        "endpointResponseBody",
+        "serviceRoleKey",
+        "sqlStatement"
+      ]
+    }
+  ]
+}
