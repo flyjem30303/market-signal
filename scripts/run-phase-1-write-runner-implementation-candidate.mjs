@@ -35,10 +35,12 @@ const rowPayloadStatus = {
   rowPayloadCandidateAccepted: rowPayloadCandidateValidation?.accepted === true,
   rowPayloadCandidateRowCount: rowPayloadCandidateValidation?.rowCount ?? null,
   rowPayloadCandidateSymbolsCovered: rowPayloadCandidateValidation?.symbolsCovered ?? [],
+  rowPayloadCandidateSymbolCounts: rowPayloadCandidateValidation?.symbolCounts ?? null,
   rowPayloadCandidateDateBounds: rowPayloadCandidateValidation?.dateBounds ?? null,
   rowPayloadCandidateDuplicateCount: rowPayloadCandidateValidation?.duplicateCount ?? null,
   rowPayloadCandidateMissingRequiredFieldCount: rowPayloadCandidateValidation?.missingRequiredFieldCount ?? null,
-  rowPayloadCandidateForbiddenFieldCount: rowPayloadCandidateValidation?.forbiddenFieldCount ?? null
+  rowPayloadCandidateForbiddenFieldCount: rowPayloadCandidateValidation?.forbiddenFieldCount ?? null,
+  rowPayloadCandidateInvalidTradeDateCount: rowPayloadCandidateValidation?.invalidTradeDateCount ?? null
 };
 
 validateAggregateShape();

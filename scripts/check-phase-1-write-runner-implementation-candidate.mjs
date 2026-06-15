@@ -116,6 +116,14 @@ function validateFixtureOutput() {
   expect(fixtureOutput.rowPayloadStatus?.rowPayloadCandidatePathProvided, true, "fixture rowPayloadCandidatePathProvided");
   expect(fixtureOutput.rowPayloadStatus?.rowPayloadCandidateAccepted, true, "fixture rowPayloadCandidateAccepted");
   expect(fixtureOutput.rowPayloadStatus?.rowPayloadCandidateRowCount, 178, "fixture rowPayloadCandidateRowCount");
+  expect(fixtureOutput.rowPayloadStatus?.rowPayloadCandidateSymbolCounts?.TWII, 60, "fixture TWII symbol count");
+  expect(fixtureOutput.rowPayloadStatus?.rowPayloadCandidateSymbolCounts?.["0050"], 59, "fixture 0050 symbol count");
+  expect(fixtureOutput.rowPayloadStatus?.rowPayloadCandidateSymbolCounts?.["006208"], 59, "fixture 006208 symbol count");
+  expect(
+    fixtureOutput.rowPayloadStatus?.rowPayloadCandidateInvalidTradeDateCount,
+    0,
+    "fixture rowPayloadCandidateInvalidTradeDateCount"
+  );
   for (const symbol of ["0050", "006208", "TWII"]) {
     expectIncludes(fixtureOutput.rowPayloadStatus?.rowPayloadCandidateSymbolsCovered, symbol, "fixture symbolsCovered");
   }
