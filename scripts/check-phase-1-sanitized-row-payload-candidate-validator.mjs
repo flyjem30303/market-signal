@@ -4,6 +4,7 @@ import path from "node:path";
 import { spawnSync } from "node:child_process";
 
 const validatorPath = "scripts/validate-phase-1-sanitized-row-payload-candidate-artifact.mjs";
+const dataOnlineGoNoGoPath = "scripts/check-phase-1-data-online-go-no-go-status.mjs";
 const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 const problems = [];
@@ -14,6 +15,7 @@ const reviewGate = readText(reviewGatePath);
 const missingRun = runValidator("__missing__/phase-1-row-payload.json");
 const fixturePath = writeFixture();
 const fixtureRun = runValidator(fixturePath);
+const dataOnlineCandidateRun = runScript(dataOnlineGoNoGoPath, ["--candidate-artifact", fixturePath]);
 const badDatePath = writeFixture({ invalidDate: true });
 const badDateRun = runValidator(badDatePath);
 const wrongCountPath = writeFixture({ wrongSymbolCounts: true });
@@ -29,6 +31,7 @@ cleanupFile(unignoredRepositoryPath);
 
 validateMissingRun();
 validateFixtureRun();
+validateDataOnlineCandidateRun();
 validateBadDateRun();
 validateWrongCountRun();
 validateUnacceptedStatusRun();
@@ -47,6 +50,7 @@ console.log(
         : "phase_1_sanitized_row_payload_candidate_validator_blocked",
       validatorMode: "aggregate_only_no_row_output",
       fixtureAccepted: fixtureRun.output.accepted ?? false,
+      dataOnlineCandidateReady: dataOnlineCandidateRun.output.rowPayloadCandidate?.accepted ?? false,
       badDateAccepted: badDateRun.output.accepted ?? false,
       wrongCountAccepted: wrongCountRun.output.accepted ?? false,
       unacceptedStatusAccepted: unacceptedStatusRun.output.accepted ?? false,
@@ -106,6 +110,26 @@ function validateFixtureRun() {
   expect(fixtureRun.output.safety?.publicDataSource, "mock", "fixture publicDataSource");
   expect(fixtureRun.output.safety?.scoreSource, "mock", "fixture scoreSource");
   expect(fixtureRun.output.candidatePathPolicy?.insideRepository, false, "fixture outside repository");
+}
+
+function validateDataOnlineCandidateRun() {
+  expect(dataOnlineCandidateRun.status, 0, "data-online candidate run exit status");
+  expect(dataOnlineCandidateRun.output.status, "ok", "data-online candidate status");
+  expect(
+    dataOnlineCandidateRun.output.guardedStatus,
+    "phase_1_data_online_candidate_ready_write_review_required",
+    "data-online candidate guardedStatus"
+  );
+  expect(
+    dataOnlineCandidateRun.output.decision,
+    "PUBLIC_RUNTIME_READY_ROW_PAYLOAD_CANDIDATE_READY_WRITE_REVIEW_REQUIRED",
+    "data-online candidate decision"
+  );
+  expect(dataOnlineCandidateRun.output.rowPayloadCandidate?.accepted, true, "data-online candidate accepted");
+  expect(dataOnlineCandidateRun.output.rowPayloadCandidate?.rowCount, 178, "data-online candidate rowCount");
+  expect(dataOnlineCandidateRun.output.publicDataSource, "mock", "data-online candidate publicDataSource");
+  expect(dataOnlineCandidateRun.output.scoreSource, "mock", "data-online candidate scoreSource");
+  expect(dataOnlineCandidateRun.output.twiiExecutionAllowedNow, false, "data-online candidate execution remains disabled");
 }
 
 function validateBadDateRun() {
@@ -281,7 +305,11 @@ function cleanupFile(filePath) {
 }
 
 function runValidator(candidatePath) {
-  const run = spawnSync(process.execPath, [validatorPath, "--candidate-artifact", candidatePath], {
+  return runScript(validatorPath, ["--candidate-artifact", candidatePath]);
+}
+
+function runScript(scriptPath, scriptArgs) {
+  const run = spawnSync(process.execPath, [scriptPath, ...scriptArgs], {
     cwd: process.cwd(),
     encoding: "utf8",
     shell: false,
@@ -290,7 +318,7 @@ function runValidator(candidatePath) {
   });
   return {
     status: run.status,
-    output: parseJson(run.stdout, "validator stdout")
+    output: parseJson(run.stdout, `${scriptPath} stdout`)
   };
 }
 
