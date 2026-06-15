@@ -2,6 +2,38 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Bounded Supabase Readonly Post-Run Accepted
+
+Status: `phase_1_data_online_bounded_readonly_post_run_review_accepted_aggregate_probe`
+
+CEO decision:
+
+- Accept the existing bounded Supabase readonly attempt as aggregate-only evidence, not as data-online promotion.
+- Do not rerun the readonly attempt because the named one-attempt summary already exists and duplicate execution is intentionally blocked.
+- Move the mainline from readonly proof toward the remaining write-gate blockers: operator values, credential presence, rollback/readback/post-run/duplicate proof, and final promotion controls.
+
+PM completed:
+
+- Corrected the post-run review path after discovering that `report:phase-1-data-online-bounded-readonly-post-run-review` only accepts runner-native summaries under `tmp/`.
+- Reviewed the existing runner-native summary at `tmp/phase-1-data-online-readonly-execution-phase1-data-online-readonly-20260615-a.json`.
+- Accepted the aggregate-only readonly result through the intended post-run reporter.
+
+Verified:
+
+- `cmd.exe /c npm run report:phase-1-data-online-bounded-readonly-post-run-review -- --summary-path tmp/phase-1-data-online-readonly-execution-phase1-data-online-readonly-20260615-a.json` passes.
+- Reviewed summary reports `remoteAttempted=true`, `queryStatus=ok`, and `rowCount=1260` for `daily_prices`.
+- Safety fields remain `publicDataSource=mock`, `scoreSource=mock`, `supabaseWritesEnabled=false`, `dailyPricesMutated=false`, `rawPayloadsPrinted=false`, `rowPayloadsPrinted=false`, and `secretsPrinted=false`.
+
+Current boundary:
+
+- Supabase readonly evidence is accepted only as sanitized aggregate proof.
+- Data online remains `NO_GO`.
+- No SQL, Supabase write, staging row, `daily_prices` mutation, market-data fetch/ingestion, row coverage award, source promotion, score promotion, secret output, row payload output, or public real-data claim occurred.
+
+Next route:
+
+CEO should use the accepted readonly proof to drive `phase_1_data_online_aggregate_readonly_result_to_write_gate_or_env_repair`, with the write gate still fail-closed until operator and write-safety blockers are resolved.
+
 ### Phase 1 Production Build Readiness
 
 Status: `phase_1_production_build_ready_data_online_no_go`
