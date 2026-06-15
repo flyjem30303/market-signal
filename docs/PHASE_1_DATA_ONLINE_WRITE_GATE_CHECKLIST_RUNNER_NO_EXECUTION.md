@@ -24,6 +24,7 @@ Current blocked reasons:
 - `credential_presence_unverified`
 - `operator_owned_presence_confirmation_unverified`
 - `external_presence_acceptance_unverified`
+- `external_presence_reviewed_result_missing`
 - `rollback_plan_unverified`
 - `aggregate_readback_plan_unverified`
 - `post_run_review_unverified`
@@ -48,6 +49,7 @@ Current remaining blockers:
 - `credential_presence_unverified`
 - `operator_owned_presence_confirmation_unverified`
 - `external_presence_acceptance_unverified`
+- `external_presence_reviewed_result_missing`
 
 Current evidence marker:
 
@@ -58,6 +60,7 @@ Current evidence marker:
 - `operatorOwnedPresenceConfirmationStatus=prepared_external_only`
 - `externalPresenceAcceptanceStatus=prepared_waiting_pm_review`
 - `acceptedPresenceResultStatus=not_accepted_no_boolean_result_stored`
+- `reviewedResultShapeStatus=shape_ready_waiting_external_boolean_result`
 
 Machine fields:
 
@@ -68,6 +71,7 @@ Machine fields:
 - `operatorOwnedPresenceConfirmationStatus`
 - `externalPresenceAcceptanceStatus`
 - `acceptedPresenceResultStatus`
+- `reviewedResultShapeStatus`
 
 ## Bounded Attempt Scope
 
@@ -101,7 +105,7 @@ No public page may imply that real-data mode has started.
 
 Create this no-execution checklist runner because the fail-closed simulation is now ready and needs a repeatable local report of why the write gate remains blocked.
 
-The accepted aggregate-only bounded readonly result now also resolves the dashboard/API read exposure blocker for `daily_prices`. The server-only presence recheck, operator-owned confirmation path, and external presence acceptance gate are now required fail-closed prerequisites, but they still wait for an accepted external/operator boolean presence result. This runner is still not a write gate. It is a visibility layer for the write gate's blocked state.
+The accepted aggregate-only bounded readonly result now also resolves the dashboard/API read exposure blocker for `daily_prices`. The server-only presence recheck, operator-owned confirmation path, external presence acceptance gate, and reviewed-result shape are now required fail-closed prerequisites, but they still wait for an actual accepted external/operator boolean presence result. This runner is still not a write gate. It is a visibility layer for the write gate's blocked state.
 
 ## PM Execution Record
 
@@ -111,6 +115,6 @@ It does not include credential values, operator values, SQL, Supabase commands, 
 
 ## Next Route
 
-CEO/PM now has a presence-only packet, operator-owned confirmation path, and external acceptance gate for the remaining write-gate blockers: `operator_values_missing`, `credential_presence_unverified`, `operator_owned_presence_confirmation_unverified`, and `external_presence_acceptance_unverified`.
+CEO/PM now has a presence-only packet, operator-owned confirmation path, external acceptance gate, and reviewed-result shape for the remaining write-gate blockers: `operator_values_missing`, `credential_presence_unverified`, `operator_owned_presence_confirmation_unverified`, `external_presence_acceptance_unverified`, and `external_presence_reviewed_result_missing`.
 
-The next route is not another broad planning packet. Prepare a future reviewed-result artifact that contains only allowed boolean presence fields and still avoids printing, storing, hashing, comparing, or transforming credential/operator values.
+The next route is not another broad planning packet. Prepare the actual PM-reviewed result artifact only after external/operator boolean presence is available; it must contain only allowed boolean presence fields and still avoid printing, storing, hashing, comparing, or transforming credential/operator values.

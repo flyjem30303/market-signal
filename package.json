@@ -860,6 +860,7 @@
     "check:phase-1-data-online-server-only-presence-recheck-no-execution": "node scripts/check-phase-1-data-online-server-only-presence-recheck-no-execution.mjs",
     "check:phase-1-data-online-operator-owned-presence-confirmation-path-no-execution": "node scripts/check-phase-1-data-online-operator-owned-presence-confirmation-path-no-execution.mjs",
     "check:phase-1-data-online-external-presence-acceptance-gate-no-execution": "node scripts/check-phase-1-data-online-external-presence-acceptance-gate-no-execution.mjs",
+    "check:phase-1-data-online-external-presence-reviewed-result-shape-no-execution": "node scripts/check-phase-1-data-online-external-presence-reviewed-result-shape-no-execution.mjs",
     "check:phase-1-data-online-final-preexecution-review-artifact-no-execution": "node scripts/check-phase-1-data-online-final-preexecution-review-artifact-no-execution.mjs",
     "check:phase-1-data-online-write-gate-dry-run-preview-no-execution": "node scripts/check-phase-1-data-online-write-gate-dry-run-preview-no-execution.mjs",
     "check:phase-1-data-online-write-gate-fail-closed-simulation-no-execution": "node scripts/check-phase-1-data-online-write-gate-fail-closed-simulation-no-execution.mjs",

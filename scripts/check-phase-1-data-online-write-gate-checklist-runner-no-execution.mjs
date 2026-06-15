@@ -27,6 +27,10 @@ const externalPresenceAcceptance = runJson(
   "scripts/check-phase-1-data-online-external-presence-acceptance-gate-no-execution.mjs",
   "external presence acceptance gate"
 );
+const externalPresenceReviewedResultShape = runJson(
+  "scripts/check-phase-1-data-online-external-presence-reviewed-result-shape-no-execution.mjs",
+  "external presence reviewed result shape"
+);
 const readonlyResult = runJson(
   "scripts/check-phase-1-data-online-bounded-readonly-attempt-result-20260615-a.mjs",
   "bounded readonly attempt result"
@@ -48,6 +52,7 @@ const blockedReasons = [
   "credential_presence_unverified",
   "operator_owned_presence_confirmation_unverified",
   "external_presence_acceptance_unverified",
+  "external_presence_reviewed_result_missing",
   "rollback_plan_unverified",
   "aggregate_readback_plan_unverified",
   "post_run_review_unverified",
@@ -83,6 +88,7 @@ const report = {
     operatorOwnedPresenceConfirmation.operatorOwnedPresenceConfirmationStatus ?? null,
   externalPresenceAcceptanceStatus: externalPresenceAcceptance.externalPresenceAcceptanceStatus ?? null,
   acceptedPresenceResultStatus: externalPresenceAcceptance.acceptedPresenceResultStatus ?? null,
+  reviewedResultShapeStatus: externalPresenceReviewedResultShape.reviewedResultShapeStatus ?? null,
   dataOnlineDecision: dataOnline.decision ?? null,
   publicDataSource: dataOnline.publicDataSource ?? null,
   scoreSource: dataOnline.scoreSource ?? null,
@@ -137,6 +143,17 @@ function validatePrerequisites() {
     "not_accepted_no_boolean_result_stored",
     "accepted presence result status"
   );
+  expect(externalPresenceReviewedResultShape.status, "ok", "external presence reviewed result shape status");
+  expect(
+    externalPresenceReviewedResultShape.guardedStatus,
+    "phase_1_data_online_external_presence_reviewed_result_shape_no_execution_ready",
+    "external presence reviewed result shape guarded status"
+  );
+  expect(
+    externalPresenceReviewedResultShape.reviewedResultShapeStatus,
+    "shape_ready_waiting_external_boolean_result",
+    "external presence reviewed result shape status"
+  );
   if (!localLaneDoc.includes("phase_1_data_online_local_lane_checklist_runner_no_execution_ready")) {
     problems.push("local-lane checklist doc not ready");
   }
@@ -174,6 +191,7 @@ function validateDoc() {
     "credential_presence_unverified",
     "operator_owned_presence_confirmation_unverified",
     "external_presence_acceptance_unverified",
+    "external_presence_reviewed_result_missing",
     "rollback_plan_unverified",
     "aggregate_readback_plan_unverified",
     "post_run_review_unverified",
@@ -190,6 +208,7 @@ function validateDoc() {
     "operatorOwnedPresenceConfirmationStatus=prepared_external_only",
     "externalPresenceAcceptanceStatus=prepared_waiting_pm_review",
     "acceptedPresenceResultStatus=not_accepted_no_boolean_result_stored",
+    "reviewedResultShapeStatus=shape_ready_waiting_external_boolean_result",
     "writeGateExecutableNow=false",
     "twii_and_etf_phase_1_missing_row_closure_only",
     "publicDataSource=mock",

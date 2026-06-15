@@ -2,6 +2,46 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 External Presence Reviewed-Result Shape Ready
+
+Status: `phase_1_external_presence_reviewed_result_shape_ready_no_execution`
+
+CEO decision:
+
+- Define the exact PM-reviewed external presence result shape before accepting any external/operator boolean result.
+- Require only six boolean fields: operator decision presence, execute switch presence, confirmation phrase presence, server-only credential presence, rollback reference presence, and post-run review reference presence.
+- Keep the reviewed-result shape as a contract only; it does not include a real external result and does not open the write gate.
+
+PM completed:
+
+- Added `data/evidence-intake/phase-1-external-presence-reviewed-result-shape.json`.
+- Added `docs/PHASE_1_DATA_ONLINE_EXTERNAL_PRESENCE_REVIEWED_RESULT_SHAPE_NO_EXECUTION.md`.
+- Added `scripts/check-phase-1-data-online-external-presence-reviewed-result-shape-no-execution.mjs`.
+- Added `check:phase-1-data-online-external-presence-reviewed-result-shape-no-execution` and registered it in the focused review gate.
+- Updated the write-gate checklist runner to report `reviewedResultShapeStatus=shape_ready_waiting_external_boolean_result`.
+
+Verified:
+
+- `cmd.exe /c npm run check:phase-1-data-online-external-presence-reviewed-result-shape-no-execution` passes.
+
+Current blocker view:
+
+- Data online remains `NO_GO`.
+- `writeGateExecutableNow=false`.
+- Current remaining write-gate blockers include `external_presence_reviewed_result_missing` because no actual reviewed external boolean result exists yet.
+- `acceptedPresenceResultStatus=not_accepted_no_boolean_result_stored`.
+- `reviewedResultShapeStatus=shape_ready_waiting_external_boolean_result`.
+
+Current boundary:
+
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+- No SQL, Supabase write, staging row, `daily_prices` mutation, market-data fetch/ingestion, row coverage award, source promotion, score promotion, secret output, row payload output, or public real-data claim occurred.
+
+Next route:
+
+CEO should only create the actual PM-reviewed result artifact after external/operator boolean presence is available. Until then, mainline can continue improving runtime/public Phase 1 readiness without promoting data.
+
 ### Phase 1 External Presence Acceptance Gate Ready
 
 Status: `phase_1_external_presence_acceptance_gate_ready_no_execution`
