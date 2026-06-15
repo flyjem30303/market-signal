@@ -33,8 +33,8 @@ const internalBoundaryRoutes = [
 const globalRequiredVisibleFragments = ["指數燈號", "資料", "非投資建議"];
 
 const routeRequiredVisibleFragments = {
-  "/": ["指數狀態儀表站", "30 秒", "3 分鐘", "示範資料"],
-  "/briefing": ["市場簡報", "30 秒", "3 分鐘", "資料來源"],
+  "/": ["指數狀態儀表站", "30 秒", "3 分鐘", "示範資料", "資料來源準備"],
+  "/briefing": ["市場簡報", "30 秒", "3 分鐘", "資料來源", "資料來源準備"],
   "/weekly": ["市場週報", "30 秒", "風險", "示範資料"],
   "/membership": ["會員", "自選追蹤", "盤後複盤", "尚未開放", "後續"],
   "/methodology": ["燈號", "方法", "資料"],
