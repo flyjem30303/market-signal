@@ -18,26 +18,6 @@ export const metadata: Metadata = {
   description: "用 30 秒看懂目前市場燈號、主要風險與下一步觀察方向。"
 };
 
-const briefingBoundaryAuditMarkers = [
-  "Model Boundary",
-  "目前是 mock runtime，不是正式市場資料",
-  "publicDataSource=mock",
-  "scoreSource=mock",
-  "partial coverage",
-  "missing/delayed data",
-  "真實資料尚未上線",
-  "Briefing Compass",
-  "model-boundary",
-  "自選追蹤",
-  "Market Breadth",
-  "Concentration Check",
-  "Briefing Playbook",
-  "三步驟閱讀市場訊號",
-  "先讀市場氣氛",
-  "再看風險與廣度",
-  "最後確認結構"
-] as const;
-
 export default async function BriefingPage() {
   const repository = getMarketSignalRepository();
   const freshness = await getDataFreshnessSnapshot();
