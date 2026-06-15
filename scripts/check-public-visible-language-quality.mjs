@@ -106,6 +106,10 @@ const forbiddenVisibleFragments = [
   "staging rows",
   "raw market data",
   "raw payload",
+  "Market Breadth",
+  "Concentration Check",
+  "Briefing Playbook",
+  "Decision Compass",
   "Runtime Status",
   "Data Readiness",
   "promotion gate",
@@ -332,7 +336,9 @@ function checkCheckerSource() {
   return [
     {
       check: "forbidden visible fragment list includes internal process terms",
-      pass: ["PUBLIC_BETA", "Supabase", "Phase 1", "OFFICIAL-", "cmd.exe"].every((fragment) => source.includes(fragment))
+      pass: ["PUBLIC_BETA", "Supabase", "Phase 1", "OFFICIAL-", "cmd.exe", "Concentration Check"].every((fragment) =>
+        source.includes(fragment)
+      )
     },
     {
       check: "membership ready claims stay forbidden before Phase 2",

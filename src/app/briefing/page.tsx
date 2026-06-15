@@ -288,7 +288,7 @@ function ConcentrationPanel({ signal }: { signal: ReturnType<typeof buildConcent
   return (
     <section className="briefing-concentration" aria-label="集中度檢查">
       <div>
-        <p className="eyebrow">Concentration Check</p>
+        <p className="eyebrow">集中度檢查</p>
         <h2>集中度檢查：確認風險是否集中在少數標的</h2>
         <p>市場廣度只是第一層，還要看分數與風險是否集中在同一批標的，避免只被單一標的帶動。</p>
       </div>
