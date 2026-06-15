@@ -1540,6 +1540,7 @@
     "check:phase-1-write-runner-credential-presence-shape-checker-no-secret-values": "node scripts/check-phase-1-write-runner-credential-presence-shape-checker-no-secret-values.mjs",
     "report:phase-1-write-runner-sanitized-candidate-artifact-path-shape-checker-no-row-payloads": "node scripts/report-phase-1-write-runner-sanitized-candidate-artifact-path-shape-checker-no-row-payloads.mjs",
     "check:phase-1-write-runner-sanitized-candidate-artifact-path-shape-checker-no-row-payloads": "node scripts/check-phase-1-write-runner-sanitized-candidate-artifact-path-shape-checker-no-row-payloads.mjs",
+    "check:phase-1-etf-sanitized-candidate-artifact-path-request-no-fetch": "node scripts/check-phase-1-etf-sanitized-candidate-artifact-path-request-no-fetch.mjs",
     "check:phase-1-row-coverage-readonly-result-20260615-a": "node scripts/check-phase-1-row-coverage-readonly-result-20260615-a.mjs",
     "check:phase-1-twii-etf-missing-rows-backfill-readiness": "node scripts/check-phase-1-twii-etf-missing-rows-backfill-readiness.mjs",
     "check:phase-1-twii-write-attempt-stopline-rollup": "node scripts/check-phase-1-twii-write-attempt-stopline-rollup.mjs",

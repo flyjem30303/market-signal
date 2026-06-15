@@ -2,6 +2,46 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 ETF Sanitized Candidate Artifact Path Request Ready
+
+Status: `phase_1_etf_sanitized_candidate_artifact_path_request_no_fetch_ready`
+
+CEO decision:
+
+- Ask A1 to provide the ETF sanitized candidate artifact path and aggregate validation summary for the remaining 118 ETF rows.
+- Keep PM mainline no-fetch and no-row-payload while the ETF artifact path is missing.
+- Do not proceed to bounded insert contract until ETF artifact path intake is accepted.
+
+PM completed:
+
+- Added `data/evidence-intake/phase-1-etf-sanitized-candidate-artifact-path-request-no-fetch.json`.
+- Added `docs/PHASE_1_ETF_SANITIZED_CANDIDATE_ARTIFACT_PATH_REQUEST_NO_FETCH.md`.
+- Added and registered `check:phase-1-etf-sanitized-candidate-artifact-path-request-no-fetch`.
+
+Request state:
+
+- `requestedLane=A1`
+- `targetLane=ETF`
+- `targetScope=phase_1_core_etf_daily_prices_missing_rows`
+- `targetTable=daily_prices`
+- `expectedMissingRows=118`
+- `blockedUntilA1Reply=true`
+- `nextRouteIfA1Replies=phase_1_etf_sanitized_candidate_artifact_path_intake_no_row_payloads`
+- `nextRouteIfA1CannotReply=phase_1_etf_candidate_gap_remains_blocking_data_online`
+
+Current boundary:
+
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+- No remote fetch was requested by PM mainline.
+- No candidate artifact was created or read by PM mainline.
+- No candidate row payload, raw payload, stock-id payload, credential value, row payload, or secret was read or printed.
+- No SQL, Supabase client import/read/write/connection, staging row, `daily_prices` mutation, candidate row acceptance, market-data fetch/ingestion, source promotion, score promotion, public real-data claim, or investment-advice claim occurred.
+
+Next route:
+
+Wait for A1 reply, then prepare `phase_1_etf_sanitized_candidate_artifact_path_intake_no_row_payloads`.
+
 ### Phase 1 Sanitized Candidate Artifact Path Shape Checker Ready
 
 Status: `phase_1_write_runner_sanitized_candidate_artifact_path_shape_checker_no_row_payloads_ready`

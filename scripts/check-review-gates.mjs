@@ -3773,6 +3773,11 @@ const checks = [
     name: "phase-1-write-runner-sanitized-candidate-artifact-path-shape-checker-no-row-payloads"
   },
   {
+    command: [node, "scripts/check-phase-1-etf-sanitized-candidate-artifact-path-request-no-fetch.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-etf-sanitized-candidate-artifact-path-request-no-fetch"
+  },
+  {
     command: [node, "scripts/check-phase-1-row-coverage-readonly-result-20260615-a.mjs"],
     expectStatus: "ok",
     name: "phase-1-row-coverage-readonly-result-20260615-a"
@@ -6877,6 +6882,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "phase-1-write-runner-server-only-scaffold-no-execution",
   "phase-1-write-runner-credential-presence-shape-checker-no-secret-values",
   "phase-1-write-runner-sanitized-candidate-artifact-path-shape-checker-no-row-payloads",
+  "phase-1-etf-sanitized-candidate-artifact-path-request-no-fetch",
   "phase-1-row-coverage-readonly-result-20260615-a",
   "phase-1-twii-etf-missing-rows-backfill-readiness",
   "phase-1-twii-write-attempt-stopline-rollup",
