@@ -66,6 +66,39 @@ Next:
 
 A1 provides the sanitized row-payload candidate artifact path; PM then adds a validator that reads only the named local/external artifact and emits aggregate counts.
 
+### Latest Phase 1 sanitized row-payload candidate validator
+
+Status: `phase_1_sanitized_row_payload_candidate_validator_ready_no_committed_market_rows`
+
+CEO decision:
+
+- Build the validator before asking for another data artifact so A1 knows the acceptance surface.
+- Keep candidate row payload files out of committed source by default.
+- Validate only the PM-named local or external artifact path and emit aggregate counts only.
+
+PM completed:
+
+- Added `scripts/validate-phase-1-sanitized-row-payload-candidate-artifact.mjs`.
+- Added `scripts/check-phase-1-sanitized-row-payload-candidate-validator.mjs`.
+- Registered `validate:phase-1-sanitized-row-payload-candidate-artifact`.
+- Verified missing path fails closed and a temporary synthetic fixture validates without committing market rows.
+
+Current output contract:
+
+- `validatorMode=aggregate_only_no_row_output`
+- `fixtureAccepted=true`
+- `missingPathStatus=phase_1_sanitized_row_payload_candidate_artifact_blocked`
+- `publicDataSource=mock`
+- `scoreSource=mock`
+
+Boundary:
+
+- No SQL, Supabase read/write, staging row creation, `daily_prices` mutation, market-data fetch/store/commit, committed market row payloads, row payload output, source promotion, real score promotion, membership implementation, production env mutation, DNS change, Vercel mutation, or platform deploy occurred.
+
+Next:
+
+A1 can now provide `PHASE_1_SANITIZED_ROW_PAYLOAD_CANDIDATE_PATH` or an equivalent local/external path for PM validation.
+
 ### Latest TWSE runtime mock wire public copy repair
 
 Status: `twse_openapi_runtime_mock_consumer_wire_public_copy_readable`

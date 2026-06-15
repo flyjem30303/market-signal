@@ -3818,6 +3818,11 @@ const checks = [
     name: "phase-1-sanitized-row-payload-candidate-artifact-spec"
   },
   {
+    command: [node, "scripts/check-phase-1-sanitized-row-payload-candidate-validator.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-sanitized-row-payload-candidate-validator"
+  },
+  {
     command: [node, "scripts/check-phase-1-etf-sanitized-candidate-artifact-reply-template-no-row-payloads.mjs"],
     expectStatus: "ok",
     name: "phase-1-etf-sanitized-candidate-artifact-reply-template-no-row-payloads"
@@ -6961,6 +6966,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "phase-1-write-runner-candidate-artifact-set-acceptance-gate",
   "phase-1-write-runner-implementation-candidate",
   "phase-1-sanitized-row-payload-candidate-artifact-spec",
+  "phase-1-sanitized-row-payload-candidate-validator",
   "phase-1-etf-sanitized-candidate-artifact-reply-template-no-row-payloads",
   "phase-1-etf-sanitized-candidate-artifact-reply-intake-validator-no-row-payloads",
   "phase-1-etf-sanitized-candidate-artifact-reply-execution-brief-no-row-payloads",

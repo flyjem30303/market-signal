@@ -1,0 +1,202 @@
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
+import { spawnSync } from "node:child_process";
+
+const validatorPath = "scripts/validate-phase-1-sanitized-row-payload-candidate-artifact.mjs";
+const packagePath = "package.json";
+const reviewGatePath = "scripts/check-review-gates.mjs";
+const problems = [];
+
+const validatorSource = readText(validatorPath);
+const packageJson = JSON.parse(readText(packagePath));
+const reviewGate = readText(reviewGatePath);
+const missingRun = runValidator("__missing__/phase-1-row-payload.json");
+const fixturePath = writeFixture();
+const fixtureRun = runValidator(fixturePath);
+
+validateMissingRun();
+validateFixtureRun();
+validateRegistration();
+validateBoundaries();
+
+const ok = problems.length === 0;
+console.log(
+  JSON.stringify(
+    {
+      status: ok ? "ok" : "blocked",
+      guardedStatus: ok
+        ? "phase_1_sanitized_row_payload_candidate_validator_ready_no_committed_market_rows"
+        : "phase_1_sanitized_row_payload_candidate_validator_blocked",
+      validatorMode: "aggregate_only_no_row_output",
+      fixtureAccepted: fixtureRun.output.accepted ?? false,
+      missingPathStatus: missingRun.output.status ?? null,
+      publicDataSource: "mock",
+      scoreSource: "mock",
+      problems
+    },
+    null,
+    2
+  )
+);
+
+if (!ok) process.exit(1);
+
+function validateMissingRun() {
+  expect(missingRun.status, 0, "missing run exit status");
+  expect(missingRun.output.status, "phase_1_sanitized_row_payload_candidate_artifact_blocked", "missing status");
+  expect(missingRun.output.accepted, false, "missing accepted");
+  expectIncludes(missingRun.output.problems, "candidate_artifact_unreadable", "missing problems");
+}
+
+function validateFixtureRun() {
+  expect(fixtureRun.status, 0, "fixture run exit status");
+  expect(
+    fixtureRun.output.status,
+    "phase_1_sanitized_row_payload_candidate_artifact_validated_aggregate_only",
+    "fixture status"
+  );
+  expect(fixtureRun.output.validatorMode, "aggregate_only_no_row_output", "validatorMode");
+  expect(fixtureRun.output.rowCount, 178, "rowCount");
+  expect(fixtureRun.output.expectedRows, 178, "expectedRows");
+  expect(fixtureRun.output.duplicateCount, 0, "duplicateCount");
+  expect(fixtureRun.output.missingRequiredFieldCount, 0, "missingRequiredFieldCount");
+  expect(fixtureRun.output.forbiddenFieldCount, 0, "forbiddenFieldCount");
+  expect(fixtureRun.output.accepted, true, "accepted");
+  for (const symbol of ["0050", "006208", "TWII"]) expectIncludes(fixtureRun.output.symbolsCovered, symbol, "symbolsCovered");
+  for (const key of [
+    "rowPayloadOutput",
+    "rawPayloadOutput",
+    "stockIdPayloadOutput",
+    "secretsOutput",
+    "sqlExecuted",
+    "supabaseClientImported",
+    "supabaseConnectionAttempted",
+    "supabaseWriteAttempted",
+    "dailyPricesMutated"
+  ]) {
+    expect(fixtureRun.output.safety?.[key], false, `fixture safety.${key}`);
+  }
+  expect(fixtureRun.output.safety?.publicDataSource, "mock", "fixture publicDataSource");
+  expect(fixtureRun.output.safety?.scoreSource, "mock", "fixture scoreSource");
+}
+
+function validateRegistration() {
+  if (
+    packageJson.scripts?.["validate:phase-1-sanitized-row-payload-candidate-artifact"] !==
+    "node scripts/validate-phase-1-sanitized-row-payload-candidate-artifact.mjs"
+  ) {
+    problems.push("package.json missing validate:phase-1-sanitized-row-payload-candidate-artifact");
+  }
+  if (
+    packageJson.scripts?.["check:phase-1-sanitized-row-payload-candidate-validator"] !==
+    "node scripts/check-phase-1-sanitized-row-payload-candidate-validator.mjs"
+  ) {
+    problems.push("package.json missing check:phase-1-sanitized-row-payload-candidate-validator");
+  }
+  if (!reviewGate.includes("scripts/check-phase-1-sanitized-row-payload-candidate-validator.mjs")) {
+    problems.push("review gate missing row-payload candidate validator checker");
+  }
+  if (!reviewGate.includes('"phase-1-sanitized-row-payload-candidate-validator"')) {
+    problems.push("focused review gate missing row-payload candidate validator checker");
+  }
+}
+
+function validateBoundaries() {
+  for (const pattern of [
+    /@supabase\/supabase-js/u,
+    /createClient\s*\(/u,
+    /\.from\s*\(/u,
+    /\.insert\s*\(/u,
+    /\.update\s*\(/u,
+    /\.delete\s*\(/u,
+    /\.upsert\s*\(/u,
+    /\bsb_(publishable|secret|anon|service_role)_[a-z0-9_-]+/iu,
+    /publicDataSource"\s*:\s*"supabase"/u,
+    /scoreSource"\s*:\s*"real"/u,
+    /dailyPricesMutated"\s*:\s*true/u,
+    /supabaseWriteAttempted"\s*:\s*true/u
+  ]) {
+    if (pattern.test(validatorSource)) problems.push(`${validatorPath} contains forbidden pattern ${pattern}`);
+  }
+}
+
+function writeFixture() {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "phase-1-row-payload-fixture-"));
+  const rows = [];
+  for (const [symbol, count] of [
+    ["TWII", 60],
+    ["0050", 59],
+    ["006208", 59]
+  ]) {
+    for (let index = 1; index <= count; index += 1) {
+      const date = new Date(Date.UTC(2026, 0, index));
+      rows.push({
+        symbol,
+        trade_date: date.toISOString().slice(0, 10),
+        close: 100 + index,
+        source_name: "synthetic_fixture",
+        source_updated_at: "2026-06-15T00:00:00.000Z",
+        source_row_hash: `${symbol}-${index}`
+      });
+    }
+  }
+  const artifact = {
+    artifactId: "phase-1-row-payload-synthetic-fixture",
+    createdAt: "2026-06-15T00:00:00.000Z",
+    scope: "twii_and_etf_phase_1_missing_row_closure_only",
+    sourceRightsStatus: "fixture_only_not_source_evidence",
+    fieldContractStatus: "fixture_only_not_field_contract_evidence",
+    sanitizedRowPayloadIncluded: true,
+    rawPayloadIncluded: false,
+    stockIdPayloadIncluded: false,
+    secretsIncluded: false,
+    expectedRows: 178,
+    rows
+  };
+  const fixturePath = path.join(dir, "candidate.json");
+  fs.writeFileSync(fixturePath, JSON.stringify(artifact, null, 2));
+  return fixturePath;
+}
+
+function runValidator(candidatePath) {
+  const run = spawnSync(process.execPath, [validatorPath, "--candidate-artifact", candidatePath], {
+    cwd: process.cwd(),
+    encoding: "utf8",
+    shell: false,
+    timeout: 120000,
+    windowsHide: true
+  });
+  return {
+    status: run.status,
+    output: parseJson(run.stdout, "validator stdout")
+  };
+}
+
+function expect(actual, expected, label) {
+  if (actual !== expected) problems.push(`${label} expected ${JSON.stringify(expected)} but got ${JSON.stringify(actual)}`);
+}
+
+function expectIncludes(actual, expected, label) {
+  if (!Array.isArray(actual) || !actual.some((item) => String(item).includes(expected))) {
+    problems.push(`${label} missing ${expected}`);
+  }
+}
+
+function readText(filePath) {
+  try {
+    return fs.readFileSync(filePath, "utf8");
+  } catch (error) {
+    problems.push(`failed to read ${filePath}: ${error.message}`);
+    return "{}";
+  }
+}
+
+function parseJson(text, label) {
+  try {
+    return JSON.parse(text);
+  } catch (error) {
+    problems.push(`${label} JSON parse failed: ${error.message}`);
+    return {};
+  }
+}

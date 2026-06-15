@@ -1556,6 +1556,8 @@
     "run:phase-1-write-runner-implementation-candidate": "node scripts/run-phase-1-write-runner-implementation-candidate.mjs",
     "check:phase-1-write-runner-implementation-candidate": "node scripts/check-phase-1-write-runner-implementation-candidate.mjs",
     "check:phase-1-sanitized-row-payload-candidate-artifact-spec": "node scripts/check-phase-1-sanitized-row-payload-candidate-artifact-spec.mjs",
+    "validate:phase-1-sanitized-row-payload-candidate-artifact": "node scripts/validate-phase-1-sanitized-row-payload-candidate-artifact.mjs",
+    "check:phase-1-sanitized-row-payload-candidate-validator": "node scripts/check-phase-1-sanitized-row-payload-candidate-validator.mjs",
     "report:phase-1-etf-sanitized-candidate-artifact-reply-template-no-row-payloads": "node scripts/report-phase-1-etf-sanitized-candidate-artifact-reply-template-no-row-payloads.mjs",
     "check:phase-1-etf-sanitized-candidate-artifact-reply-template-no-row-payloads": "node scripts/check-phase-1-etf-sanitized-candidate-artifact-reply-template-no-row-payloads.mjs",
     "report:phase-1-etf-sanitized-candidate-artifact-reply-intake-validator-no-row-payloads": "node scripts/report-phase-1-etf-sanitized-candidate-artifact-reply-intake-validator-no-row-payloads.mjs",
