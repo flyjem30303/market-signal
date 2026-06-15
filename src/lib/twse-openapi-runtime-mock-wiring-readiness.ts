@@ -32,7 +32,7 @@ export function getTwseOpenApiRuntimeMockWiringReadiness(): TwseOpenApiRuntimeMo
       sqlExecution: false,
       supabaseWrite: false
     },
-    headline: "正式資料導入前的 mock runtime 接線準備",
+    headline: "正式資料導入前的資料呈現準備",
     nextMainlineRoute: "twse_openapi_runtime_mock_consumer_wiring_readiness",
     productPromise:
       "先把資料準備結果轉成使用者可理解的市場狀態，讓公開 Beta 能清楚說明資料可信度、更新時間與使用邊界。",
@@ -56,7 +56,7 @@ export function getTwseOpenApiRuntimeMockWiringReadiness(): TwseOpenApiRuntimeMo
       },
       {
         id: "consumer-adapter",
-        label: "runtime handoff",
+        label: "前台顯示",
         owner: "產品體驗",
         status: "accepted",
         summary: "前台可讀取示範結果並以 fail-closed 方式顯示資料狀態。"

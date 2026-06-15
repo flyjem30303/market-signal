@@ -9,6 +9,7 @@ import { PublicBetaSourceCoverageBridge } from "@/components/public-beta-source-
 import { PublicBetaUsableLoopPanel } from "@/components/public-beta-usable-loop-panel";
 import { PublicDataSourceBoundaryNotice } from "@/components/public-data-source-boundary-notice";
 import { TrackedLink } from "@/components/tracked-link";
+import { TwseOpenApiRuntimeMockWiringStatus } from "@/components/twse-openapi-runtime-mock-wiring-status";
 import type { Asset } from "@/lib/assets";
 import { buildMockDataFreshnessSnapshot, type DataFreshnessSnapshot } from "@/lib/data-freshness";
 import {
@@ -113,6 +114,7 @@ export function DashboardShell({
       <PublicBetaUsableLoopPanel context={isStockPage ? "stock" : "home"} stockSymbol={selected.symbol} />
       <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
       <PublicBetaDataReadinessStatus />
+      <TwseOpenApiRuntimeMockWiringStatus />
       <PublicDataSourceBoundaryNotice context={isStockPage ? "stock" : "home"} />
       {isStockPage && (
         <section className="panel">

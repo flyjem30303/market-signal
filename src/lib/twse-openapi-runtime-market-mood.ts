@@ -28,19 +28,19 @@ export function getTwseOpenApiRuntimeMarketMood(): TwseOpenApiRuntimeMarketMood 
     },
     cause:
       wire.status === "ready"
-        ? `目前以合成資料驗證 parser 到 runtime 的接線，最新示範日期為 ${latestPoint?.tradeDate ?? "尚未產生"}，變化幅度為 ${formatChangePercent(changePercent)}。`
-        : "合成資料尚未通過 parser / runtime handoff，公開頁維持 fail-closed 示範狀態。",
+        ? `目前以安全示範資料驗證資料到畫面的呈現流程，最新示範日期為 ${latestPoint?.tradeDate ?? "尚未產生"}，變化幅度為 ${formatChangePercent(changePercent)}。`
+        : "示範資料尚未通過前台呈現檢查，公開頁維持保守的示範狀態。",
     impactLevel: "中等影響",
     nextObservation:
       wire.status === "ready"
-        ? "下一步觀察資料來源權利、覆蓋率與寫入 gate 是否通過；通過前不啟用正式資料。"
-        : "下一步先修復 parser 或 handoff，再回到公開頁可讀性檢查。",
+        ? "下一步觀察資料來源權利、覆蓋率、寫入與回讀檢查是否通過；通過前不啟用正式資料。"
+        : "下一步先修復資料呈現流程，再回到公開頁可讀性檢查。",
     safetyLine: "目前仍是示範資料與示範分數，不提供買賣建議，也不代表正式資料已上線。",
     status,
     summary:
       wire.status === "ready"
-        ? `TWSE OpenAPI runtime 示範接線已可讀，包含 ${wire.handoff.pointCount} 筆合成資料點，市場脈絡判讀為${changeDirection}。`
-        : "TWSE OpenAPI runtime 示範接線暫停，公開頁不應宣稱真實資料可用。",
+        ? `資料來源示範流程已可讀，包含 ${wire.handoff.pointCount} 筆安全示範資料點，市場脈絡判讀為${changeDirection}。`
+        : "資料來源示範流程暫停，公開頁不應宣稱真實資料可用。",
     updatedAtLabel: latestPoint?.tradeDate ?? "尚無示範日期"
   };
 }

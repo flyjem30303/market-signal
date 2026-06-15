@@ -6,6 +6,7 @@ import { PublicBetaSourceCoverageBridge } from "@/components/public-beta-source-
 import { PublicBetaUsableLoopPanel } from "@/components/public-beta-usable-loop-panel";
 import { PublicDataSourceBoundaryNotice } from "@/components/public-data-source-boundary-notice";
 import { TrackedLink } from "@/components/tracked-link";
+import { TwseOpenApiRuntimeMockWiringStatus } from "@/components/twse-openapi-runtime-mock-wiring-status";
 import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
 import {
   getMarketSignalRepository,
@@ -183,6 +184,7 @@ export default async function BriefingPage() {
 
       <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
       <PublicBetaDataReadinessStatus />
+      <TwseOpenApiRuntimeMockWiringStatus />
       <section className="panel briefing-public-reading-contract" aria-label="簡報閱讀說明">
         <p className="eyebrow">閱讀說明</p>
         <h2>這頁只回答三件事</h2>

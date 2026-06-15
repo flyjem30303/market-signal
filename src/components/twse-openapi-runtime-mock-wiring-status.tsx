@@ -5,6 +5,12 @@ function ownerLabel(owner: string) {
   return owner;
 }
 
+function statusLabel(status: "accepted" | "blocked" | "readying") {
+  if (status === "accepted") return "已準備";
+  if (status === "blocked") return "暫不開放";
+  return "準備中";
+}
+
 export function TwseOpenApiRuntimeMockWiringStatus() {
   const readiness = getTwseOpenApiRuntimeMockWiringReadiness();
 
@@ -37,7 +43,7 @@ export function TwseOpenApiRuntimeMockWiringStatus() {
             <span>
               {ownerLabel(step.owner)} / {step.label}
             </span>
-            <strong>{step.status}</strong>
+            <strong>{statusLabel(step.status)}</strong>
             <p>{step.summary}</p>
           </article>
         ))}
