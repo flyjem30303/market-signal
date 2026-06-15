@@ -2,6 +2,55 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Data Online External Platform Completed Evidence Validator No Execution
+
+Status: `phase_1_data_online_external_platform_completed_evidence_validator_no_execution_ready`
+
+CEO decision:
+
+- Add a completed-evidence validator after the collection packet.
+- Validate filled non-secret observations for all five external platform evidence items.
+- Allow the completed packet to move to ledger review only, not readonly gate execution.
+- Keep `readyForReadonlyGate=false` and `writeGateExecutableNow=false`.
+
+PM completed:
+
+- Added `docs/PHASE_1_DATA_ONLINE_EXTERNAL_PLATFORM_COMPLETED_EVIDENCE_VALIDATOR_NO_EXECUTION.md`.
+- Added `data/evidence-intake/phase-1-external-platform-completed-evidence-example.json`.
+- Added `check:phase-1-data-online-external-platform-completed-evidence-validator-no-execution`.
+- Registered the checker in the focused review gate.
+- Confirmed the collection packet and current data-online state remain aligned.
+
+Validator output:
+
+- `completedPacketValid=true`.
+- `observationCount=5`.
+- `readyForLedgerReview=true`.
+- `readyForReadonlyGate=false`.
+- `writeGateExecutableNow=false`.
+
+Current data-online position:
+
+- Phase 1 data-online decision remains `PUBLIC_RUNTIME_READY_BUT_DATA_ONLINE_NO_GO`.
+- Current Level 1 coverage remains `182/360`; missing rows remain `178/360`.
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+
+Evidence:
+
+- `cmd.exe /c npm run check:phase-1-data-online-external-platform-completed-evidence-validator-no-execution` passes and reports 5 non-secret observations.
+- `cmd.exe /c npm run check:phase-1-data-online-external-platform-evidence-collection-packet-no-execution` passes.
+- `cmd.exe /c npm run check:phase-1-data-online-go-no-go-status` passes and remains `NO_GO`.
+- `cmd.exe /c npx tsc --noEmit` passes.
+
+Boundary:
+
+No SQL, Supabase connection/read/write, staging-row creation, `daily_prices` mutation, market-row fetch, raw payload output, endpoint response output, credential value output, operator value output, execution value storage, write-gate execution, candidate row acceptance, row coverage award, source promotion, score promotion, public real-data claim, real-time claim, official endorsement claim, investment advice claim, or production mutation occurred.
+
+Next route:
+
+CEO should prepare a ledger sync candidate that can append validator-passing completed evidence summaries into the acceptance ledger without changing runtime data source state.
+
 ### Phase 1 Data Online External Platform Evidence Collection Packet No Execution
 
 Status: `phase_1_data_online_external_platform_evidence_collection_packet_no_execution_ready`
