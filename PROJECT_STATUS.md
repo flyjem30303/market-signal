@@ -42,6 +42,8 @@ Current data-online position:
 - `publicDataSource=mock`.
 - `scoreSource=mock`.
 - The readonly evidence proves aggregate reachability only; it does not award row coverage points, execute backfill, write Supabase, or close the promotion gate.
+- A follow-up row-coverage readonly validator confirms remote coverage is still incomplete: `182/360` observed, `178/360` missing.
+- Missing rows are now isolated to `TWII=60`, `0050=59`, and `006208=59`; `2330`, `2382`, and `2308` each have `60/60` rows.
 
 Evidence:
 
@@ -51,6 +53,8 @@ Evidence:
 - `cmd.exe /c npm run run:phase-1-data-online-bounded-readonly-attempt-once -- --attempt-id phase1-data-online-readonly-20260615-a --scope aggregate-readonly-daily-prices-level1-coverage --aggregate-only --confirm CEO_APPROVED_PHASE1_DATA_ONLINE_READONLY_ONCE --real-readonly-boundary true --execute true` completed once and wrote only a sanitized tmp summary.
 - `cmd.exe /c npm run report:phase-1-data-online-bounded-readonly-post-run-review -- --summary-path tmp/phase-1-data-online-readonly-execution-phase1-data-online-readonly-20260615-a.json` accepted the aggregate probe.
 - `cmd.exe /c npm run check:phase-1-data-online-bounded-readonly-attempt-result-20260615-a` passes.
+- `cmd.exe /c npm run run:row-coverage-readonly` was executed with the guarded confirmation and returned `status=blocked`, `reason=aggregate_count_incomplete`, `observedTotalRows=182`, `missingRows=178`, and no row payloads or secrets.
+- `cmd.exe /c npm run check:phase-1-row-coverage-readonly-result-20260615-a` passes.
 - `cmd.exe /c npm run check:phase-1-data-online-go-no-go-status` passes and confirms public runtime remains `NO_GO` for data online.
 - `cmd.exe /c npx tsc --noEmit` passes.
 - `git diff --check` passes with line-ending warnings only.
@@ -62,7 +66,7 @@ No SQL, Supabase write, staging-row creation, `daily_prices` mutation, market-ro
 
 Next route:
 
-CEO should route this accepted readonly aggregate evidence into either a write/backfill readiness gate or an env/schema repair path. PM should not set `publicDataSource=supabase` or `scoreSource=real` until write/backfill, coverage, quality, rollback, freshness, and public disclosure gates pass.
+CEO should route this accepted readonly aggregate evidence into a TWII + ETF missing-row backfill readiness gate. PM should not set `publicDataSource=supabase` or `scoreSource=real` until write/backfill, coverage, quality, rollback, freshness, and public disclosure gates pass.
 
 ### Phase 1 Data Online Readonly Operator Decision Record No Execution
 

@@ -1510,7 +1510,8 @@
     "check:phase-1-data-online-readonly-operator-decision-record-no-execution": "node scripts/check-phase-1-data-online-readonly-operator-decision-record-no-execution.mjs",
     "check:phase-1-data-online-bounded-readonly-runner-boundary": "node scripts/check-phase-1-data-online-bounded-readonly-runner-boundary.mjs",
     "check:phase-1-data-online-bounded-readonly-execution-guard": "node scripts/check-phase-1-data-online-bounded-readonly-execution-guard.mjs",
-    "check:phase-1-data-online-bounded-readonly-attempt-result-20260615-a": "node scripts/check-phase-1-data-online-bounded-readonly-attempt-result-20260615-a.mjs"
+    "check:phase-1-data-online-bounded-readonly-attempt-result-20260615-a": "node scripts/check-phase-1-data-online-bounded-readonly-attempt-result-20260615-a.mjs",
+    "check:phase-1-row-coverage-readonly-result-20260615-a": "node scripts/check-phase-1-row-coverage-readonly-result-20260615-a.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.4",

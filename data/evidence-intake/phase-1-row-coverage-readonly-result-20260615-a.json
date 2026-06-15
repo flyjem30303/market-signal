@@ -1,0 +1,70 @@
+{
+  "status": "row_coverage_readonly_remote_validation_blocked_incomplete",
+  "packetMode": "row_coverage_readonly_result",
+  "attemptedAt": "2026-06-15",
+  "targetRelation": "daily_prices",
+  "remoteAttempted": true,
+  "coverageStatus": "blocked",
+  "reason": "aggregate_count_incomplete",
+  "expectedSymbolCount": 6,
+  "requiredTradingSessions": 60,
+  "expectedTotalRows": 360,
+  "observedTotalRows": 182,
+  "missingRows": 178,
+  "symbolsChecked": [
+    {
+      "symbol": "TWII",
+      "observedRows": 0,
+      "missingRows": 60
+    },
+    {
+      "symbol": "0050",
+      "observedRows": 1,
+      "missingRows": 59
+    },
+    {
+      "symbol": "006208",
+      "observedRows": 1,
+      "missingRows": 59
+    },
+    {
+      "symbol": "2330",
+      "observedRows": 60,
+      "missingRows": 0
+    },
+    {
+      "symbol": "2382",
+      "observedRows": 60,
+      "missingRows": 0
+    },
+    {
+      "symbol": "2308",
+      "observedRows": 60,
+      "missingRows": 0
+    }
+  ],
+  "outputPolicy": {
+    "aggregateOnly": true,
+    "rowPayloadIncluded": false,
+    "rawPayloadIncluded": false,
+    "stockIdPayloadIncluded": false,
+    "secretsIncluded": false,
+    "supabaseUrlIncluded": false
+  },
+  "safety": {
+    "publicDataSource": "mock",
+    "scoreSource": "mock",
+    "sqlExecuted": false,
+    "supabaseWriteAttempted": false,
+    "marketDataFetched": false,
+    "marketDataIngested": false,
+    "dailyPricesMutated": false,
+    "stagingRowsCreated": false,
+    "rowPayloadsPrinted": false,
+    "secretsPrinted": false,
+    "canAwardRowCoveragePoints": false,
+    "canClaimCoverage": false,
+    "canSetScoreSourceReal": false
+  },
+  "nextRecommendedSlice": "phase_1_twii_etf_missing_rows_backfill_readiness"
+}
