@@ -2,6 +2,47 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Sanitized Candidate Artifact Path Shape Checker Ready
+
+Status: `phase_1_write_runner_sanitized_candidate_artifact_path_shape_checker_no_row_payloads_ready`
+
+CEO decision:
+
+- Check sanitized candidate artifact path presence only, without reading candidate artifact contents or row payloads.
+- Record TWII as having a known candidate artifact path and ETF as still missing its candidate artifact path.
+- Route next work to ETF sanitized candidate artifact path preparation instead of pretending the Phase 1 candidate set is complete.
+
+PM completed:
+
+- Added `scripts/report-phase-1-write-runner-sanitized-candidate-artifact-path-shape-checker-no-row-payloads.mjs`.
+- Added `data/evidence-intake/phase-1-write-runner-sanitized-candidate-artifact-path-shape-checker-no-row-payloads.json`.
+- Added `docs/PHASE_1_WRITE_RUNNER_SANITIZED_CANDIDATE_ARTIFACT_PATH_SHAPE_CHECKER_NO_ROW_PAYLOADS.md`.
+- Added and registered `check:phase-1-write-runner-sanitized-candidate-artifact-path-shape-checker-no-row-payloads`.
+
+Candidate path shape state:
+
+- `sourceCredentialShapePath=data/evidence-intake/phase-1-write-runner-credential-presence-shape-checker-no-secret-values.json`
+- `twiiCandidateArtifactPath=data/candidates/twii-sanitized-candidate.json`
+- `twiiCandidateArtifactPathExists=true`
+- `twiiExpectedMissingRows=60`
+- `etfCandidateArtifactPath=null`
+- `etfCandidateArtifactPathExists=false`
+- `etfExpectedMissingRows=118`
+- `fullLevel1MissingRows=178`
+- `candidateArtifactPathSetComplete=false`
+- `outputMode=path_presence_and_aggregate_counts_only`
+
+Current boundary:
+
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+- No candidate artifact content, candidate row payload, raw payload, stock-id payload, credential value, row payload, or secret was read or printed.
+- No SQL, Supabase client import/read/write/connection, staging row, `daily_prices` mutation, candidate row acceptance, market-data fetch/ingestion, source promotion, score promotion, public real-data claim, or investment-advice claim occurred.
+
+Next route:
+
+Prepare `phase_1_etf_sanitized_candidate_artifact_path_request_no_fetch`.
+
 ### Phase 1 Write Runner Credential Presence Shape Checker Ready
 
 Status: `phase_1_write_runner_credential_presence_shape_checker_no_secret_values_ready`
