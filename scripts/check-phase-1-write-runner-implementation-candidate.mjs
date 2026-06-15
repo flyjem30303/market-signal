@@ -173,6 +173,8 @@ function validateDoc() {
     "cmd.exe /c npm run run:phase-1-write-runner-implementation-candidate -- --candidate-artifact <LOCAL_JSON_PATH>",
     "rowPayloadCandidateRowCount=178",
     "rowPayloadCandidateSymbolsCovered=[0050,006208,TWII]",
+    "rowPayloadCandidateSymbolCounts={TWII:60,0050:59,006208:59}",
+    "rowPayloadCandidateInvalidTradeDateCount=0",
     "nextRoute=separate_operator_write_execution_review_required",
     "No SQL",
     "No Supabase write",
