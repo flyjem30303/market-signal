@@ -2,6 +2,56 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Data Online Operator Decision Packet No Execution
+
+Status: `phase_1_data_online_operator_decision_packet_no_execution_ready`
+
+CEO decision:
+
+- Move Phase 1 data-online from review-only authorization packet to a separately named operator decision packet.
+- Keep the packet as no-execution preparation; it names the future decision surface but does not run SQL, connect to Supabase, read, write, fetch, mutate, or promote.
+- Limit the future eligible attempt to `twii_and_etf_phase_1_missing_row_closure_only`.
+
+PM completed:
+
+- Added `docs/PHASE_1_DATA_ONLINE_OPERATOR_DECISION_PACKET_NO_EXECUTION.md`.
+- Added `check:phase-1-data-online-operator-decision-packet-no-execution`.
+- Registered the checker in the focused review gate.
+- Confirmed the prior review-only packet and current data-online GO/NO-GO state remain aligned.
+
+Required future operator fields:
+
+- `operator_decision_required`
+- `execute_switch_required`
+- `confirmation_phrase_required`
+- `server_only_credential_presence_required`
+- `rollback_dry_run_required`
+- `aggregate_readback_required`
+- `post_run_review_required`
+- `duplicate_rejection_required`
+
+Current data-online position:
+
+- Phase 1 data-online decision remains `PUBLIC_RUNTIME_READY_BUT_DATA_ONLINE_NO_GO`.
+- Current Level 1 coverage remains `182/360`; missing rows remain `178/360`.
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+- The next possible progress route is server-only pre-execution readiness or rollback dry-run packet design, still no execution until a later explicit gate.
+
+Evidence:
+
+- `cmd.exe /c npm run check:phase-1-data-online-operator-decision-packet-no-execution` passes.
+- `cmd.exe /c npm run check:phase-1-data-online-single-authorization-packet-review-only` passes.
+- `cmd.exe /c npm run check:phase-1-data-online-go-no-go-status` passes and remains `NO_GO`.
+
+Boundary:
+
+No SQL, Supabase connection/read/write, staging-row creation, `daily_prices` mutation, market-row fetch, raw payload output, endpoint response output, operator value storage, candidate row acceptance, row coverage award, source promotion, score promotion, public real-data claim, real-time claim, official endorsement claim, investment advice claim, or production mutation occurred.
+
+Next route:
+
+Prepare a server-only pre-execution readiness / rollback dry-run packet for the future bounded attempt. It must still be no-execution unless a later gate explicitly authorizes execution values and confirms rollback/readback/post-run review requirements.
+
 ### Phase 1 Data Online Single Authorization Packet Review Only
 
 Status: `phase_1_data_online_single_authorization_packet_review_only_ready_no_execution`
