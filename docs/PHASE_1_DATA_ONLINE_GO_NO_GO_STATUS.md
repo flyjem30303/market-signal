@@ -1,6 +1,6 @@
 # Phase 1 Data Online Go/No-Go Status
 
-Updated: 2026-06-15
+Updated: 2026-06-16
 
 Status: `phase_1_data_online_go_no_go_status_ready_no_go`
 
@@ -27,8 +27,9 @@ Reason:
 
 - Level 1 coverage is still `182/360`.
 - Missing Level 1 rows remain `178/360`.
-- TWII can add `60` rows, but the next meaningful move is a bounded write attempt to `daily_prices`.
-- ETF coverage still has `118` missing rows.
+- TWII still needs `60` sanitized row-payload rows.
+- ETF coverage still needs `118` sanitized row-payload rows.
+- The next required input is a non-committed sanitized row-payload candidate artifact covering all `178` missing rows.
 - Runtime public source and score remain `publicDataSource=mock` and `scoreSource=mock`.
 - No real-data promotion is allowed until post-run review, aggregate readback, rollback readiness, quality checks, timestamps, and public boundary copy pass.
 
@@ -52,21 +53,24 @@ Reason:
 | Legal/free automated source | Ready for prepared TWSE OpenAPI path | `check:open-free-auto-data-source-gate`, `check:twse-openapi-bounded-metadata-terms-validation` | Keep source terms and attribution visible; do not overclaim official endorsement. |
 | Field contract and parser path | Ready for synthetic and mock-runtime wiring | `check:twse-openapi-source-adapter-contract`, `check:twse-openapi-parser-contract`, `check:twse-openapi-parser-consumer-adapter` | Keep parser fail-closed and raw payload excluded. |
 | Runtime mock consumer wire | Ready | `check:twse-openapi-runtime-mock-consumer-wire` | Use it only to improve public comprehension while real promotion stays locked. |
-| TWII candidate packet | Prepared but not executable | `report:twii-final-operator-authorization-packet-preflight` | Requires a separate explicit bounded write decision before any execution. |
-| TWII daily_prices write | Blocked | `authorizationDecisionAcceptedNow=false`, `runnerExecutableNow=false`, `writeGateExecutableNow=false` | Do not run the writer until CEO/operator supplies the required bounded attempt values in a separate decision step. |
-| ETF coverage closure | In progress | `check:etf-daily-prices-coverage-completion-route`, `check:etf-market-price-synthetic-fixture`, `check:etf-market-price-mock-runtime-handoff` | Continue source-rights, candidate shape, and coverage route work without raw row fetch. |
+| Aggregate candidate packets | Prepared but not executable | `data/candidates/twii-sanitized-candidate.json`, `data/candidates/phase-1-etf-sanitized-candidate.json` | These are aggregate-only and cannot feed the write runner. |
+| Sanitized row-payload candidate | Missing | `run:phase-1-write-runner-implementation-candidate` returns `candidate_row_payloads_missing` | Provide one non-committed local JSON artifact that passes the Phase 1 row-payload validator. |
+| TWII / ETF daily_prices write | Blocked | `report:twii-final-operator-authorization-packet-preflight`, `authorizationDecisionAcceptedNow=false`, `runnerExecutableNow=false`, `writeGateExecutableNow=false` | Do not run the writer until the sanitized row-payload candidate is valid and a separate bounded write review explicitly opens. |
+| ETF coverage closure | In progress | `check:etf-daily-prices-coverage-completion-route`, `check:etf-market-price-synthetic-fixture`, `check:etf-market-price-mock-runtime-handoff` | Continue source-rights, candidate shape, and coverage route work without raw row fetch or committed row payload. |
 | Runtime promotion | Blocked | `publicDataSource=mock`, `scoreSource=mock` | Promote only after write, readback, quality, rollback, timestamp, and public-copy gates pass. |
 
 ## Required Before Data-Online Go
 
 Data-online can become `GO` only after all of the following are true:
 
-1. TWII bounded write attempt is explicitly authorized, executed, and post-run reviewed.
-2. Aggregate readback confirms accepted row counts without exposing row payloads.
-3. Rollback readiness is recorded.
-4. ETF coverage route has accepted source rights, field contract, candidate shape, and execution packet.
-5. Runtime promotion gate confirms quality, timestamps, freshness, source attribution, fallback copy, and no investment-advice claims.
-6. `publicDataSource=supabase` and `scoreSource=real` remain blocked until the promotion gate explicitly opens them.
+1. A non-committed sanitized row-payload candidate artifact covers TWII `60` rows and ETF `118` rows.
+2. The candidate artifact passes `validate:phase-1-sanitized-row-payload-candidate-artifact`.
+3. `run:phase-1-write-runner-implementation-candidate -- --candidate-artifact <LOCAL_JSON_PATH>` returns ready for separate review.
+4. TWII / ETF bounded write attempt is explicitly authorized, executed, and post-run reviewed.
+5. Aggregate readback confirms accepted row counts without exposing row payloads.
+6. Rollback readiness is recorded.
+7. Runtime promotion gate confirms quality, timestamps, freshness, source attribution, fallback copy, and no investment-advice claims.
+8. `publicDataSource=supabase` and `scoreSource=real` remain blocked until the promotion gate explicitly opens them.
 
 ## Current Safe Mainline
 
@@ -86,12 +90,12 @@ PM should not continue:
 - staging row creation;
 - `daily_prices` mutation;
 - raw market-data fetch/store/commit;
-- row payload or raw payload output;
+- committed row payload or raw payload output;
 - real-data or real-score promotion;
-- any claim of investment advice, 保證獲利, real-time precision, or complete market coverage.
+- any claim of investment advice, buy/sell/hold direction, real-time precision, or complete market coverage.
 
 ## Next PM Route
 
-`phase_1_data_online_no_go_status_then_prepare_bounded_write_decision`
+`phase_1_data_online_no_go_status_then_request_sanitized_row_payload_candidate`
 
-The next high-value PM route is to keep the public runtime ready and prepare the bounded write decision packet for operator review. If the operator does not explicitly accept the write attempt, PM should continue ETF/source coverage and public route comprehension cleanup.
+The next high-value PM route is to keep the public runtime ready and request a non-committed sanitized row-payload candidate artifact for the full `178` missing rows. If no valid local candidate artifact is available, PM should keep data online at `NO-GO` and continue source/coverage preparation without SQL, Supabase write, raw fetch, or public real-data promotion.

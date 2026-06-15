@@ -6,6 +6,7 @@ const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 const publicBetaReportPath = "scripts/report-public-beta-data-realification-next-action.mjs";
 const twiiOperatorReportPath = "scripts/report-twii-final-operator-authorization-packet-preflight.mjs";
+const writeRunnerCandidatePath = "scripts/run-phase-1-write-runner-implementation-candidate.mjs";
 
 const problems = [];
 
@@ -14,6 +15,7 @@ const packageJson = JSON.parse(readText(packagePath));
 const reviewGate = readText(reviewGatePath);
 const publicBetaReport = runJson(publicBetaReportPath);
 const twiiOperatorReport = runJson(twiiOperatorReportPath);
+const writeRunnerCandidate = runJson(writeRunnerCandidatePath);
 
 for (const phrase of [
   "phase_1_data_online_go_no_go_status_ready_no_go",
@@ -21,16 +23,19 @@ for (const phrase of [
   "NO_GO_FOR_DATA_ONLINE",
   "Level 1 coverage is still `182/360`",
   "Missing Level 1 rows remain `178/360`",
-  "TWII can add `60` rows",
-  "ETF coverage still has `118` missing rows",
+  "TWII still needs `60` sanitized row-payload rows",
+  "ETF coverage still needs `118` sanitized row-payload rows",
+  "non-committed sanitized row-payload candidate artifact covering all `178` missing rows",
   "publicDataSource=mock",
   "scoreSource=mock",
   "check:twse-openapi-runtime-mock-consumer-wire",
   "report:twii-final-operator-authorization-packet-preflight",
+  "run:phase-1-write-runner-implementation-candidate",
+  "candidate_row_payloads_missing",
   "authorizationDecisionAcceptedNow=false",
   "runnerExecutableNow=false",
   "writeGateExecutableNow=false",
-  "phase_1_data_online_no_go_status_then_prepare_bounded_write_decision"
+  "phase_1_data_online_no_go_status_then_request_sanitized_row_payload_candidate"
 ]) {
   if (!doc.includes(phrase)) problems.push(`${docPath} missing phrase: ${phrase}`);
 }
@@ -94,6 +99,26 @@ if (twiiOperatorReport.operatorAuthorizationPacketState?.writeGateExecutableNow 
   problems.push("TWII writeGateExecutableNow must remain false");
 }
 
+if (writeRunnerCandidate.status !== "blocked") {
+  problems.push("write runner candidate must remain blocked before row-payload candidate");
+}
+
+if (!writeRunnerCandidate.blockedReasons?.includes("candidate_row_payloads_missing")) {
+  problems.push("write runner candidate must report candidate_row_payloads_missing");
+}
+
+if (writeRunnerCandidate.rowPayloadStatus?.rowPayloadCandidatePathProvided !== false) {
+  problems.push("row payload candidate path must be absent in default no-go check");
+}
+
+if (writeRunnerCandidate.rowPayloadStatus?.twiiRowPayloadIncluded !== false) {
+  problems.push("TWII aggregate candidate must not include row payload");
+}
+
+if (writeRunnerCandidate.rowPayloadStatus?.etfRowPayloadIncluded !== false) {
+  problems.push("ETF aggregate candidate must not include row payload");
+}
+
 for (const [key, value] of Object.entries(publicBetaReport.hardStops ?? {})) {
   if (value !== false) problems.push(`hardStops.${key} must be false`);
 }
@@ -120,6 +145,18 @@ console.log(
       guardedStatus: "phase_1_data_online_go_no_go_status_ready_no_go",
       decision: "PUBLIC_RUNTIME_READY_BUT_DATA_ONLINE_NO_GO",
       coverage: expectedCoverage,
+      rowPayloadCandidate: {
+        status: writeRunnerCandidate.status ?? null,
+        blockedReasons: writeRunnerCandidate.blockedReasons ?? [],
+        nextRoute: writeRunnerCandidate.nextRoute ?? null,
+        pathProvided: writeRunnerCandidate.rowPayloadStatus?.rowPayloadCandidatePathProvided ?? null,
+        expectedRows: 178,
+        expectedSymbolCounts: {
+          TWII: 60,
+          "0050": 59,
+          "006208": 59
+        }
+      },
       publicDataSource: publicBetaReport.sourceBoundary?.publicDataSource,
       scoreSource: publicBetaReport.sourceBoundary?.scoreSource,
       twiiExecutionAllowedNow: twiiOperatorReport.operatorAuthorizationPacketState?.executionAllowedNow,
