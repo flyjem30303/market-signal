@@ -11,10 +11,35 @@ import {
 } from "@/lib/repositories/market-signal-repository";
 import type { SignalSnapshot } from "@/lib/signal-model";
 
-export const metadata: Metadata = {
-  title: "市場快報",
+const copy = {
+  title: "\u4eca\u65e5\u7c21\u5831",
+  marketFlash: "\u5e02\u5834\u5feb\u5831",
   description:
-    "用 30 秒看懂市場燈號、風險提示、資料更新時間與下一步觀察順序；目前為示範資料，不構成投資建議。"
+    "\u7528 30 \u79d2\u6574\u7406\u5e02\u5834\u71c8\u865f\u3001\u6838\u5fc3\u98a8\u96aa\u8207\u5f8c\u7e8c\u89c0\u5bdf\u91cd\u9ede\u3002Phase 1 \u4f7f\u7528\u793a\u7bc4\u8cc7\u6599\uff0c\u4e0d\u63d0\u4f9b\u6295\u8cc7\u5efa\u8b70\u3002",
+  hero: "30 \u79d2\u770b\u61c2\u5e02\u5834\u71c8\u865f",
+  heroSub: "3 \u5206\u9418\u628a\u5e02\u5834\u71c8\u865f\u62c6\u6210\u539f\u56e0",
+  summary: "\u5e02\u5834\u6458\u8981",
+  quick: "30 \u79d2\u6458\u8981",
+  score: "\u5e02\u5834\u5206\u6578",
+  risk: "\u6700\u9ad8\u98a8\u96aa\u89c0\u5bdf",
+  structure: "\u5e02\u5834\u7d50\u69cb",
+  constructive: "\u504f\u591a\u89c0\u5bdf",
+  watch: "\u89c0\u671b\u6574\u7406",
+  defensive: "\u98a8\u96aa\u504f\u9ad8",
+  next: "\u4e0b\u4e00\u6b65\u884c\u52d5",
+  nextTitle:
+    "\u5148\u770b\u5927\u76e4\uff0c\u518d\u770b\u98a8\u96aa\u4f86\u6e90\uff0c\u6700\u5f8c\u78ba\u8a8d\u8cc7\u6599\u72c0\u614b",
+  boundary: "\u8cc7\u6599\u8207\u98a8\u96aa\u908a\u754c",
+  realDataNotEnabled: "\u6b63\u5f0f\u8cc7\u6599\u5c1a\u672a\u555f\u7528",
+  watchList: "\u5e02\u5834\u89c0\u5bdf\u6e05\u55ae",
+  strongList: "\u76f8\u5c0d\u504f\u5f37\u89c0\u5bdf",
+  riskList: "\u512a\u5148\u98a8\u96aa\u89c0\u5bdf",
+  marketWatch: "\u5e02\u5834\u89c0\u5bdf"
+};
+
+export const metadata: Metadata = {
+  title: copy.title,
+  description: copy.description
 };
 
 export default async function BriefingPage() {
@@ -34,32 +59,32 @@ export default async function BriefingPage() {
     <main className="page-shell">
       <PageViewTracker eventName="briefing_page_viewed" payload={{ page: "briefing" }} />
 
-      <section className="hero briefing-public-summary" aria-label="市場快報摘要">
-        <p className="eyebrow">市場快報</p>
-        <h1>30 秒看懂市場燈號，3 分鐘把市場燈號拆成原因</h1>
+      <section className="hero briefing-public-summary" aria-label={copy.title}>
+        <p className="eyebrow">{copy.marketFlash}</p>
+        <h1>{copy.hero}</h1>
+        <p>{copy.heroSub}</p>
         <p>
-          目前以 {market.asset.name} 作為台股市場輪廓參考，燈號為「{market.signal.title}」，
-          市場分數 {market.compositeScore}/100，風險分數 {market.riskScore}/100。先看市場氣氛，
-          再確認風險最高標的與資料更新時間。
+          {market.asset.name} {market.signal.title}。{copy.score} {market.compositeScore}/100，
+          {copy.risk} {market.riskScore}/100。
         </p>
         <p className="runtime-boundary-line">
-          資料與風險邊界：本頁仍使用示範資料與示範分數，正式資料尚未啟用；所有內容僅供市場資訊整理與風險辨識，不是投資建議。
+          {copy.boundary}：{copy.realDataNotEnabled}。Phase 1 使用示範資料，不提供投資建議或買賣推薦。
         </p>
       </section>
 
-      <section className="briefing-executive-summary" aria-label="市場快報重點">
+      <section className="briefing-executive-summary" aria-label={copy.summary}>
         <div>
-          <p className="eyebrow">30 秒重點</p>
+          <p className="eyebrow">{copy.quick}</p>
           <h2>{market.signal.title}</h2>
           <p>{market.signal.text}</p>
         </div>
         <aside>
           <span>
-            <b>市場分數</b>
+            <b>{copy.score}</b>
             <i>{market.compositeScore}/100</i>
           </span>
           <span>
-            <b>優先複核風險</b>
+            <b>{copy.risk}</b>
             <i>
               {topRisk.asset.name}: {topRisk.riskScore}/100
             </i>
@@ -67,42 +92,21 @@ export default async function BriefingPage() {
         </aside>
       </section>
 
-      <section className="briefing-breadth" id="market-structure" aria-label="市場廣度">
-        <BreadthCard label="偏多觀察" tone="active" value={breadth.constructive} />
-        <BreadthCard label="觀望整理" tone="hold" value={breadth.watch} />
-        <BreadthCard label="警戒防守" tone="blocked" value={breadth.defensive} />
+      <section className="briefing-breadth" id="market-structure" aria-label={copy.structure}>
+        <BreadthCard label={copy.constructive} tone="active" value={breadth.constructive} />
+        <BreadthCard label={copy.watch} tone="hold" value={breadth.watch} />
+        <BreadthCard label={copy.defensive} tone="blocked" value={breadth.defensive} />
       </section>
 
-      <section className="panel stock-reading-summary" aria-label="三分鐘閱讀順序">
-        <p className="eyebrow">下一步行動</p>
-        <h2>先看市場，再看風險，最後確認資料狀態</h2>
-        <div className="briefing-actions">
-          <article>
-            <strong>1. 看市場氣氛</strong>
-            <p>用 TWII 與市場廣度判斷目前偏多、觀望或防守，不用單一分數做結論。</p>
-          </article>
-          <article>
-            <strong>2. 看風險來源</strong>
-            <p>優先檢查風險分數最高的標的，確認是市場共同風險，還是個別標的異常。</p>
-          </article>
-          <article>
-            <strong>3. 看資料時間</strong>
-            <p>確認資料更新時間與示範資料邊界；正式資料上線前，不把燈號當成交易訊號。</p>
-          </article>
-        </div>
+      <section className="panel stock-reading-summary" aria-label={copy.next}>
+        <p className="eyebrow">{copy.next}</p>
+        <h2>{copy.nextTitle}</h2>
+        <p>先判斷整體市場，再複核風險最高的標的，最後確認資料更新時間與資料狀態。</p>
       </section>
 
-      <section className="weekly-grid" aria-label="市場觀察清單">
-        <BriefingList
-          description="市場分數較高的標的可作為觀察清單起點，但仍要回看成因、資料時間與風險分數。"
-          items={strongest}
-          title="相對強勢觀察"
-        />
-        <BriefingList
-          description="風險分數較高的標的需要先複核資料狀態與主要風險，不適合直接延伸成買賣判斷。"
-          items={[topRisk]}
-          title="優先複核風險來源"
-        />
+      <section className="weekly-grid" aria-label={copy.watchList}>
+        <BriefingList description="示範模型中相對偏強的觀察清單。" items={strongest} title={copy.strongList} />
+        <BriefingList description="風險分數較高，適合優先複核。" items={[topRisk]} title={copy.riskList} />
       </section>
 
       <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
@@ -129,7 +133,7 @@ function BreadthCard({ label, tone, value }: { label: string; tone: "active" | "
     <article className={tone}>
       <span>{label}</span>
       <strong>{value}</strong>
-      <p>依目前示範燈號統計的市場結構，請搭配資料時間與風險提示閱讀。</p>
+      <p>依目前示範資料分類，用來協助快速掃描市場結構。</p>
     </article>
   );
 }
@@ -137,7 +141,7 @@ function BreadthCard({ label, tone, value }: { label: string; tone: "active" | "
 function BriefingList({ description, items, title }: { description: string; items: SignalSnapshot[]; title: string }) {
   return (
     <section className="panel">
-      <p className="eyebrow">市場觀察清單</p>
+      <p className="eyebrow">{copy.marketWatch}</p>
       <h2>{title}</h2>
       <p>{description}</p>
       <div className="stock-chip-list">

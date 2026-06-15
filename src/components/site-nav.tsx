@@ -4,21 +4,21 @@ import { usePathname } from "next/navigation";
 import { trackEvent } from "@/lib/tracking";
 
 const navItems = [
-  { href: "/", label: "總覽" },
-  { href: "/briefing", label: "市場快報" },
-  { href: "/weekly", label: "市場週報" },
-  { activePrefix: "/stocks", href: "/stocks/2330", label: "個股燈號" },
-  { href: "/methodology", label: "方法說明" },
-  { href: "/privacy", label: "隱私政策" },
-  { href: "/terms", label: "使用條款" },
-  { href: "/disclaimer", label: "免責聲明" }
+  { href: "/", label: "\u5e02\u5834\u7e3d\u89bd" },
+  { href: "/briefing", label: "\u4eca\u65e5\u7c21\u5831" },
+  { href: "/weekly", label: "\u9031\u5831" },
+  { activePrefix: "/stocks", href: "/stocks/2330", label: "\u6a19\u7684\u71c8\u865f" },
+  { href: "/methodology", label: "\u65b9\u6cd5\u8aaa\u660e" },
+  { href: "/privacy", label: "\u96b1\u79c1\u6b0a" },
+  { href: "/terms", label: "\u4f7f\u7528\u689d\u6b3e" },
+  { href: "/disclaimer", label: "\u98a8\u96aa\u8072\u660e" }
 ];
 
 export function SiteNav() {
   const pathname = usePathname();
 
   return (
-    <nav aria-label="主選單">
+    <nav aria-label="\u4e3b\u8981\u5c0e\u89bd">
       {navItems.map((item) => {
         const activePath = item.activePrefix ?? item.href;
         const isActive = pathname === activePath || pathname.startsWith(`${activePath}/`);

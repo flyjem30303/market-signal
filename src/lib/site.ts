@@ -1,5 +1,5 @@
 export const siteConfig = {
-  name: "指數燈號",
+  name: "\u6307\u6578\u71c8\u865f",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"
 };
 

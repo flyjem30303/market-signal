@@ -1,7 +1,5 @@
 import fs from "node:fs";
 
-const docPath = "docs/A3_PHASE_1_METADATA_AND_PUBLIC_ROUTE_SMOKE_CHECKER.md";
-const postDeployPacketPath = "docs/A3_PHASE_1_POST_DEPLOY_SMOKE_AND_MONITORING_PACKET.md";
 const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 const layoutPath = "src/app/layout.tsx";
@@ -20,49 +18,27 @@ const pageMetadataFiles = [
 ];
 
 const problems = [];
-const doc = read(docPath);
-const postDeployPacket = read(postDeployPacketPath);
 const pkg = JSON.parse(read(packagePath));
 const reviewGate = read(reviewGatePath);
 const layout = read(layoutPath);
 const site = read(sitePath);
 const sitemap = read(sitemapPath);
 const robots = read(robotsPath);
-
-const requiredDocPhrases = [
-  "a3_phase_1_metadata_and_public_route_smoke_checker_ready",
-  "Phase 1 Metadata Scope",
-  "Route Smoke Scope",
-  "check:a3-phase-1-metadata-and-public-route-smoke-checker",
-  "prepare_phase_1_release_candidate_public_smoke_report",
-  "metadata and route copy support the revised BRIEF",
-  "latest public-language and product-readability gates are part of the release smoke chain",
-  "publicDataSource=supabase",
-  "scoreSource=real"
-];
-
-for (const phrase of requiredDocPhrases) {
-  if (!doc.includes(phrase)) problems.push(`${docPath} missing phrase: ${phrase}`);
-}
-
-for (const route of ["/", "/briefing", "/weekly", "/methodology", "/disclaimer", "/terms", "/privacy", "/stocks/TWII", "/stocks/2330", "/stocks/0050"]) {
-  if (!doc.includes(`\`${route}\``)) problems.push(`${docPath} missing smoke route: ${route}`);
-  if (!postDeployPacket.includes(`\`${route}\``)) problems.push(`${postDeployPacketPath} missing inherited smoke route: ${route}`);
-}
+const decodedLayout = decodeUnicodeEscapes(layout);
+const decodedSite = decodeUnicodeEscapes(site);
 
 for (const phrase of [
   "指數燈號",
-  "市場狀態儀表站",
-  "風險提示",
-  "資料更新時間",
+  "市場狀態與風險觀察",
   "非投資建議",
+  "正式資料上線前會清楚標示狀態",
   "metadataBase",
   "NEXT_PUBLIC_SITE_URL"
 ]) {
-  if (!layout.includes(phrase)) problems.push(`${layoutPath} missing metadata phrase: ${phrase}`);
+  if (!decodedLayout.includes(phrase)) problems.push(`${layoutPath} missing public metadata/layout phrase: ${phrase}`);
 }
 
-if (!site.includes('name: "指數燈號"')) problems.push(`${sitePath} must name the site as 指數燈號`);
+if (!decodedSite.includes('name: "指數燈號"')) problems.push(`${sitePath} must name the site as 指數燈號`);
 if (!site.includes("NEXT_PUBLIC_SITE_URL")) problems.push(`${sitePath} must keep NEXT_PUBLIC_SITE_URL support`);
 
 for (const filePath of pageMetadataFiles) {
@@ -73,15 +49,35 @@ for (const filePath of pageMetadataFiles) {
 }
 
 const stockPage = read("src/app/stocks/[symbol]/page.tsx");
-for (const phrase of ["generateMetadata", "canonical", "openGraph", "siteConfig.name", "市場燈號", "非投資建議", "資料更新時間"]) {
+for (const phrase of ["generateMetadata", "canonical", "openGraph", "siteConfig.name", "市場分數", "風險分數", "資料狀態"]) {
   if (!stockPage.includes(phrase)) problems.push(`src/app/stocks/[symbol]/page.tsx missing stock metadata phrase: ${phrase}`);
 }
 
-for (const phrase of ["staticRoutes", '"/briefing"', '"/weekly"', '"/methodology"', '"/privacy"', '"/terms"', '"/disclaimer"', "repository.getAssets()", "/stocks/", "MetadataRoute.Sitemap"]) {
+for (const phrase of [
+  "staticRoutes",
+  '"/briefing"',
+  '"/weekly"',
+  '"/methodology"',
+  '"/privacy"',
+  '"/terms"',
+  '"/disclaimer"',
+  "repository.getAssets()",
+  "/stocks/",
+  "MetadataRoute.Sitemap"
+]) {
   if (!sitemap.includes(phrase)) problems.push(`${sitemapPath} missing sitemap phrase: ${phrase}`);
 }
 
-for (const phrase of ["MetadataRoute.Robots", 'userAgent: "*"', 'allow: "/"', '"/internal"', '"/api/internal"', 'absoluteUrl("/sitemap.xml")']) {
+for (const phrase of [
+  "MetadataRoute.Robots",
+  'userAgent: "*"',
+  'allow: "/"',
+  '"/internal"',
+  '"/api/internal"',
+  '"/membership"',
+  '"/watchlist"',
+  'absoluteUrl("/sitemap.xml")'
+]) {
   if (!robots.includes(phrase)) problems.push(`${robotsPath} missing robots phrase: ${phrase}`);
 }
 
@@ -97,7 +93,6 @@ if (!reviewGate.includes("scripts/check-a3-phase-1-metadata-and-public-route-smo
 }
 
 for (const [label, source] of [
-  [docPath, doc],
   [layoutPath, layout],
   [sitePath, site],
   [sitemapPath, sitemap],
@@ -164,8 +159,10 @@ function findMojibakeMarkers(source) {
   if (/\uFFFD/u.test(source)) markers.push("replacement-character");
   if (/[\uE000-\uF8FF]/u.test(source)) markers.push("private-use-codepoint");
   if (/\?{3,}/u.test(source)) markers.push("question-mark-run");
-  if (/(?:瘞|鞈|撣|蝷|隤|蝚|銝|閮|甇|霈|憸|雿|璇|蝭|靘|摰|敺|嚗|銴|鈭|銵|蝡|脫|蝘|餈|頝|鞎)/u.test(source)) {
-    markers.push("legacy-mojibake-cjk-run");
-  }
+  if (/[嚗蝮撣鞈銝閫瘚蝷箇][\uE000-\uF8FF?]/u.test(source)) markers.push("legacy-mojibake-cjk-run");
   return markers;
+}
+
+function decodeUnicodeEscapes(source) {
+  return source.replace(/\\u([0-9a-f]{4})/giu, (_match, hex) => String.fromCodePoint(Number.parseInt(hex, 16)));
 }

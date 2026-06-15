@@ -5,6 +5,15 @@ import { TrackedLink } from "@/components/tracked-link";
 import { siteConfig } from "@/lib/site";
 import "./globals.css";
 
+const copy = {
+  marketOverview: "\u5e02\u5834\u7e3d\u89bd",
+  siteSubtitle: "\u5e02\u5834\u72c0\u614b\u8207\u98a8\u96aa\u89c0\u5bdf",
+  footerTrustAria: "\u4fe1\u4efb\u8207\u98a8\u96aa\u9023\u7d50",
+  footerNavAria: "\u9801\u5c3e\u5c0e\u89bd",
+  footerBody:
+    "\u672c\u7db2\u7ad9\u6574\u7406\u5e02\u5834\u72c0\u614b\u3001\u98a8\u96aa\u63d0\u793a\u8207\u8cc7\u6599\u66f4\u65b0\u6642\u9593\uff0c\u5354\u52a9\u4f7f\u7528\u8005\u5efa\u7acb\u89c0\u5bdf\u6d41\u7a0b\u3002\u6240\u6709\u5167\u5bb9\u50c5\u4f9b\u8cc7\u8a0a\u53c3\u8003\uff0c\u4e0d\u69cb\u6210\u6295\u8cc7\u5efa\u8b70\u3001\u5831\u916c\u627f\u8afe\u6216\u8cb7\u8ce3\u63a8\u85a6\u3002"
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
   title: {
@@ -12,21 +21,21 @@ export const metadata: Metadata = {
     template: `%s | ${siteConfig.name}`
   },
   description:
-    "指數燈號是市場狀態儀表站，協助一般投資者用市場燈號、資料更新時間、風險提示與非投資建議邊界，快速理解目前市場氣氛。"
+    "\u6307\u6578\u71c8\u865f\u7528\u7d05\u9ec3\u7da0\u72c0\u614b\u6574\u7406\u5e02\u5834\u98a8\u96aa\u3001\u8da8\u52e2\u5f37\u5f31\u8207\u89c0\u5bdf\u91cd\u9ede\u3002Phase 1 \u4ee5\u793a\u7bc4\u8cc7\u6599\u5448\u73fe\uff0c\u4e0d\u63d0\u4f9b\u6295\u8cc7\u5efa\u8b70\u3002"
 };
 
 const footerTrustLinks = [
-  { href: "/methodology", label: "方法說明" },
-  { href: "/disclaimer", label: "免責聲明" },
-  { href: "/privacy", label: "隱私政策" },
-  { href: "/terms", label: "使用條款" }
+  { href: "/methodology", label: "\u65b9\u6cd5\u8aaa\u660e" },
+  { href: "/disclaimer", label: "\u98a8\u96aa\u8072\u660e" },
+  { href: "/privacy", label: "\u96b1\u79c1\u6b0a" },
+  { href: "/terms", label: "\u4f7f\u7528\u689d\u6b3e" }
 ];
 
 const footerNavLinks = [
-  { href: "/", label: "總覽" },
-  { href: "/briefing", label: "市場快報" },
-  { href: "/weekly", label: "市場週報" },
-  { href: "/stocks/2330", label: "個股燈號" }
+  { href: "/", label: copy.marketOverview },
+  { href: "/briefing", label: "\u4eca\u65e5\u7c21\u5831" },
+  { href: "/weekly", label: "\u9031\u5831" },
+  { href: "/stocks/2330", label: "\u6a19\u7684\u71c8\u865f" }
 ];
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -38,13 +47,13 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             className="site-logo"
             eventName="site_chrome_link_clicked"
             href="/"
-            label="指數燈號總覽"
+            label={`${siteConfig.name}${copy.marketOverview}`}
             payload={{ area: "logo" }}
           >
             <span className="logo-mark">MS</span>
             <span>
-              指數燈號
-              <small>市場狀態與風險觀察儀表站</small>
+              {siteConfig.name}
+              <small>{copy.siteSubtitle}</small>
             </span>
           </TrackedLink>
           <SiteNav />
@@ -52,16 +61,13 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         {children}
         <footer className="site-footer">
           <div>
-            <strong>指數燈號</strong>
-            <p>
-              指數燈號整理市場資訊、風險提示與資料更新時間，協助使用者建立固定觀察流程。
-              目前公開版仍使用示範資料與示範分數；所有內容僅供資訊整理，不構成投資建議或買賣建議。
-            </p>
-            <div className="site-footer-trust" aria-label="信任與風險連結">
-              <span>Phase 1 公開版</span>
-              <span>示範資料</span>
-              <span>非投資建議</span>
-              <span>資料更新時間需明確標示</span>
+            <strong>{siteConfig.name}</strong>
+            <p>{copy.footerBody}</p>
+            <div className="site-footer-trust" aria-label={copy.footerTrustAria}>
+              <span>Phase 1 \u514d\u8cbb\u7248</span>
+              <span>\u793a\u7bc4\u8cc7\u6599</span>
+              <span>\u975e\u6295\u8cc7\u5efa\u8b70</span>
+              <span>\u6b63\u5f0f\u8cc7\u6599\u4e0a\u7dda\u524d\u6703\u6e05\u695a\u6a19\u793a\u72c0\u614b</span>
               {footerTrustLinks.map((link) => (
                 <TrackedLink
                   eventName="site_chrome_link_clicked"
@@ -75,7 +81,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               ))}
             </div>
           </div>
-          <nav aria-label="頁尾導覽">
+          <nav aria-label={copy.footerNavAria}>
             {footerNavLinks.map((link) => (
               <TrackedLink
                 eventName="site_chrome_link_clicked"

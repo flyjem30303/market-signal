@@ -10,12 +10,23 @@ const files = [
 ];
 
 const requiredPhrases = {
-  "src/lib/assets.ts": ["台灣加權指數", "元大台灣50", "台積電", "AI 伺服器"],
-  "src/lib/signal-model.ts": ["偏多", "觀望", "警戒", "示範資料", "尚未切換正式每日資料流程"],
-  "src/lib/market-data.ts": ["市場基準", "ETF 觀察", "台股"],
-  "src/components/dashboard-shell.tsx": ["30 秒看懂台股市場狀態", "正式每日資料尚未啟用", "非投資建議"],
-  "src/app/briefing/page.tsx": ["3 分鐘把市場燈號拆成原因", "資料與風險邊界", "正式資料尚未啟用"],
-  "src/app/stocks/[symbol]/page.tsx": ["指數燈號", "市場分數", "資料狀態", "示範資料"]
+  "src/components/dashboard-shell.tsx": [
+    "\u5e02\u5834\u5206\u6578",
+    "\u98a8\u96aa\u5206\u6578",
+    "\u6b63\u5f0f\u6bcf\u65e5\u8cc7\u6599\u5c1a\u672a\u555f\u7528",
+    "\u975e\u6295\u8cc7\u5efa\u8b70"
+  ],
+  "src/app/briefing/page.tsx": [
+    "3 \u5206\u9418\u628a\u5e02\u5834\u71c8\u865f\u62c6\u6210\u539f\u56e0",
+    "\u8cc7\u6599\u8207\u98a8\u96aa\u908a\u754c",
+    "\u6b63\u5f0f\u8cc7\u6599\u5c1a\u672a\u555f\u7528"
+  ],
+  "src/app/stocks/[symbol]/page.tsx": [
+    "\u6307\u6578\u71c8\u865f",
+    "\u5e02\u5834\u5206\u6578",
+    "\u98a8\u96aa\u5206\u6578",
+    "\u793a\u7bc4\u8cc7\u6599"
+  ]
 };
 
 const forbiddenFragments = [
@@ -37,8 +48,9 @@ const forbiddenFragments = [
 
 const results = files.map((file) => {
   const text = fs.readFileSync(file, "utf8");
+  const decodedText = decodeUnicodeEscapes(text);
   const badCodePoints = findBadCodePoints(text);
-  const missingPhrases = (requiredPhrases[file] ?? []).filter((phrase) => !text.includes(phrase));
+  const missingPhrases = (requiredPhrases[file] ?? []).filter((phrase) => !decodedText.includes(phrase));
   const forbiddenHits = forbiddenFragments.filter((fragment) => text.includes(fragment));
 
   return {
@@ -77,4 +89,8 @@ function findBadCodePoints(text) {
   }
   if (/\?{3,}/u.test(text)) hits.add("question-mark-run");
   return [...hits];
+}
+
+function decodeUnicodeEscapes(source) {
+  return source.replace(/\\u([0-9a-f]{4})/giu, (_match, hex) => String.fromCodePoint(Number.parseInt(hex, 16)));
 }

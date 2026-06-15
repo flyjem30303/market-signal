@@ -11,9 +11,23 @@ import {
 } from "@/lib/repositories/market-signal-repository";
 import type { SignalSnapshot } from "@/lib/signal-model";
 
+const copy = {
+  title: "\u5e02\u5834\u9031\u5831",
+  description:
+    "\u7528\u4e00\u9031\u8996\u89d2\u6574\u7406\u5e02\u5834\u71c8\u865f\u3001\u98a8\u96aa\u4f86\u6e90\u8207\u89c0\u5bdf\u6e05\u55ae\u3002Phase 1 \u4f7f\u7528\u793a\u7bc4\u8cc7\u6599\uff0c\u4e0d\u63d0\u4f9b\u6295\u8cc7\u5efa\u8b70\u3002",
+  hero: "\u7528\u4e00\u9031\u8996\u89d2\u770b\u5e02\u5834\u71c8\u865f\u8207\u98a8\u96aa\u8b8a\u5316",
+  summary: "\u9031\u5831\u6458\u8981",
+  signal: "\u5e02\u5834\u71c8\u865f",
+  risk: "\u6700\u9ad8\u98a8\u96aa\u89c0\u5bdf",
+  data: "\u8cc7\u6599\u72c0\u614b",
+  updateStatus: "\u8cc7\u6599\u66f4\u65b0\u72c0\u614b",
+  list: "\u9031\u5831\u89c0\u5bdf\u6e05\u55ae",
+  viewSignal: "\u67e5\u770b\u71c8\u865f"
+};
+
 export const metadata: Metadata = {
-  title: "市場週報",
-  description: "用一週視角回看市場燈號、風險變化、相對強勢標的與資料更新狀態；目前為示範資料，不構成投資建議。"
+  title: copy.title,
+  description: copy.description
 };
 
 export default async function WeeklyPage() {
@@ -33,47 +47,45 @@ export default async function WeeklyPage() {
       <PageViewTracker eventName="weekly_page_viewed" payload={{ page: "weekly" }} />
 
       <section className="hero">
-        <p className="eyebrow">市場週報</p>
-        <h1>用一週視角回看市場燈號與風險變化</h1>
-        <p>
-          週報協助使用者回看市場狀態、風險變化與相對強勢標的。正式資料上線前，本頁仍以示範資料呈現閱讀流程。
-        </p>
-        <p className="runtime-boundary-line">本頁不是投資建議，也不宣稱即時真實行情；請搭配資料時間與風險提示閱讀。</p>
+        <p className="eyebrow">{copy.title}</p>
+        <h1>{copy.hero}</h1>
+        <p>週報把每日燈號放進較長的觀察脈絡，協助使用者整理市場主軸、風險來源與後續追蹤清單。</p>
+        <p className="runtime-boundary-line">Phase 1 使用示範資料，不提供投資建議或買賣推薦。</p>
       </section>
 
-      <section className="weekly-quick-read" aria-label="週報摘要">
+      <section className="weekly-quick-read" aria-label={copy.summary}>
         <article>
-          <span>市場燈號</span>
+          <span>{copy.signal}</span>
           <strong>{market.signal.title}</strong>
           <p>{market.signal.text}</p>
         </article>
         <article>
-          <span>本週優先複核</span>
+          <span>{copy.risk}</span>
           <strong>{topRisk.asset.name}</strong>
-          <p>風險分數 {topRisk.riskScore}/100。請先確認資料狀態與主要風險來源，再延伸後續觀察。</p>
+          <p>風險分數 {topRisk.riskScore}/100。請先確認風險原因與資料狀態。</p>
         </article>
         <article>
-          <span>資料狀態</span>
+          <span>{copy.updateStatus}</span>
           <strong>示範資料</strong>
-          <p>資料更新狀態會顯示在頁面下方；正式資料流程啟用前，不把週報視為交易訊號。</p>
+          <p>正式資料上線前，不宣稱即時或完整市場資料。</p>
         </article>
       </section>
 
-      <section className="weekly-grid" aria-label="週報觀察清單">
+      <section className="weekly-grid" aria-label={copy.list}>
         {strongest.map((snapshot) => (
           <article className="panel" key={snapshot.asset.symbol}>
             <p className="eyebrow">{snapshot.asset.symbol}</p>
             <h2>{snapshot.asset.name}</h2>
             <p>
-              市場分數 {snapshot.compositeScore}/100，風險分數 {snapshot.riskScore}/100。適合放入一週觀察清單，但仍需回看成因與資料時間。
+              市場分數 {snapshot.compositeScore}/100，風險分數 {snapshot.riskScore}/100。此排序只作為示範觀察。
             </p>
             <TrackedLink
               eventName="weekly_link_clicked"
               href={`/stocks/${snapshot.asset.symbol}`}
-              label={`查看 ${snapshot.asset.name}`}
+              label={`${copy.viewSignal} ${snapshot.asset.name}`}
               payload={{ area: "weekly", symbol: snapshot.asset.symbol }}
             >
-              查看燈號
+              {copy.viewSignal}
             </TrackedLink>
           </article>
         ))}
@@ -81,7 +93,7 @@ export default async function WeeklyPage() {
 
       <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
       <TrustRuntimeBoundaryNotice context="weekly" />
-      <PublicNextReadingFlow context="weekly" />
+      <PublicNextReadingFlow context="weekly" stockSymbol={market.asset.symbol} />
     </main>
   );
 }
