@@ -2,6 +2,51 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Data Online External Platform Evidence Runner No Execution
+
+Status: `phase_1_data_online_external_platform_evidence_runner_no_execution_ready`
+
+CEO decision:
+
+- Add an external-platform evidence runner after the checklist.
+- Report the platform evidence state as pending without connecting to Supabase or gathering platform evidence in this slice.
+- Keep the write gate closed until non-secret external evidence is later supplied through a bounded intake.
+
+PM completed:
+
+- Added `docs/PHASE_1_DATA_ONLINE_EXTERNAL_PLATFORM_EVIDENCE_RUNNER_NO_EXECUTION.md`.
+- Added `check:phase-1-data-online-external-platform-evidence-runner-no-execution`.
+- Registered the checker in the focused review gate.
+- Confirmed the external-platform checklist remains ready and the current data-online state remains `NO_GO`.
+
+Runner output:
+
+- `externalPlatformEvidenceGathered=false`.
+- `externalPlatformEvidenceReadyForWriteGate=false`.
+- `writeGateExecutableNow=false`.
+- Pending evidence: `schema_cache_evidence_pending`, `dashboard_api_exposure_evidence_pending`, `pgrst205_regression_evidence_pending`, `metadata_readiness_evidence_pending`, `write_path_exposure_evidence_pending`.
+
+Current data-online position:
+
+- Phase 1 data-online decision remains `PUBLIC_RUNTIME_READY_BUT_DATA_ONLINE_NO_GO`.
+- Current Level 1 coverage remains `182/360`; missing rows remain `178/360`.
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+
+Evidence:
+
+- `cmd.exe /c npm run check:phase-1-data-online-external-platform-evidence-runner-no-execution` passes and reports evidence pending.
+- `cmd.exe /c npm run check:phase-1-data-online-external-platform-evidence-checklist-no-execution` passes.
+- `cmd.exe /c npx tsc --noEmit` passes.
+
+Boundary:
+
+No SQL, Supabase connection/read/write, staging-row creation, `daily_prices` mutation, market-row fetch, raw payload output, endpoint response output, credential value output, operator value output, execution value storage, write-gate execution, candidate row acceptance, row coverage award, source promotion, score promotion, public real-data claim, real-time claim, official endorsement claim, investment advice claim, or production mutation occurred.
+
+Next route:
+
+CEO should prepare a no-secret evidence intake format for external platform checks, so later dashboard/schema/API observations can be recorded safely without exposing credentials or raw payloads.
+
 ### Phase 1 Data Online External Platform Evidence Checklist No Execution
 
 Status: `phase_1_data_online_external_platform_evidence_checklist_no_execution_ready`
