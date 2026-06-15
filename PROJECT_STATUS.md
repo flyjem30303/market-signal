@@ -2,6 +2,44 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Data Online Authorization Route Selector
+
+Status: `phase_1_data_online_authorization_route_selector_ready_no_execution`
+
+CEO decision:
+
+- Add a single PM route selector after the accepted-outcome aggregation gate.
+- Keep current runtime mock-only while A1/A2 required outcomes are pending.
+- If all required outcomes become accepted, open one review-only authorization packet instead of scattering into multiple competing authorization paths.
+
+PM completed:
+
+- Added `docs/PHASE_1_DATA_ONLINE_AUTHORIZATION_ROUTE_SELECTOR.md`.
+- Added `check:phase-1-data-online-authorization-route-selector`.
+- Registered the checker in the focused review gate.
+- Confirmed the current selected route is `keep_mock_runtime_and_wait_for_required_a1_a2_outcomes`.
+
+Current data-online position:
+
+- Phase 1 data-online decision remains `PUBLIC_RUNTIME_READY_BUT_DATA_ONLINE_NO_GO`.
+- Current aggregation decision: `OUTCOME_AGGREGATION_PENDING_KEEP_DATA_ONLINE_NO_GO`.
+- Current route: `keep_mock_runtime_and_wait_for_required_a1_a2_outcomes`.
+- All-accepted next route: `open_phase_1_data_online_single_authorization_packet_review_only`.
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+
+Evidence:
+
+- `cmd.exe /c npm run check:phase-1-data-online-authorization-route-selector` passes.
+
+Boundary:
+
+No SQL, Supabase read/write, staging-row creation, `daily_prices` mutation, market-row fetch, raw payload output, endpoint response output, operator value storage, candidate row acceptance, row coverage award, source promotion, score promotion, public real-data claim, real-time claim, official endorsement claim, investment advice claim, or production mutation occurred.
+
+Next route:
+
+Wait for no-secret A1/A2 outcomes to become accepted through the reviewed apply gate, rerun accepted-outcome aggregation, then open the single review-only authorization packet. Until then, public runtime stays mock-visible and data-online stays `NO_GO`.
+
 ### Phase 1 Data Online Accepted Outcome Aggregation Gate
 
 Status: `phase_1_data_online_accepted_outcome_aggregation_gate_ready_no_go`
