@@ -14,9 +14,15 @@ const reviewGate = readText(reviewGatePath);
 const missingRun = runValidator("__missing__/phase-1-row-payload.json");
 const fixturePath = writeFixture();
 const fixtureRun = runValidator(fixturePath);
+const badDatePath = writeFixture({ invalidDate: true });
+const badDateRun = runValidator(badDatePath);
+const wrongCountPath = writeFixture({ wrongSymbolCounts: true });
+const wrongCountRun = runValidator(wrongCountPath);
 
 validateMissingRun();
 validateFixtureRun();
+validateBadDateRun();
+validateWrongCountRun();
 validateRegistration();
 validateBoundaries();
 
@@ -30,6 +36,8 @@ console.log(
         : "phase_1_sanitized_row_payload_candidate_validator_blocked",
       validatorMode: "aggregate_only_no_row_output",
       fixtureAccepted: fixtureRun.output.accepted ?? false,
+      badDateAccepted: badDateRun.output.accepted ?? false,
+      wrongCountAccepted: wrongCountRun.output.accepted ?? false,
       missingPathStatus: missingRun.output.status ?? null,
       publicDataSource: "mock",
       scoreSource: "mock",
@@ -62,8 +70,12 @@ function validateFixtureRun() {
   expect(fixtureRun.output.duplicateCount, 0, "duplicateCount");
   expect(fixtureRun.output.missingRequiredFieldCount, 0, "missingRequiredFieldCount");
   expect(fixtureRun.output.forbiddenFieldCount, 0, "forbiddenFieldCount");
+  expect(fixtureRun.output.invalidTradeDateCount, 0, "invalidTradeDateCount");
   expect(fixtureRun.output.accepted, true, "accepted");
   for (const symbol of ["0050", "006208", "TWII"]) expectIncludes(fixtureRun.output.symbolsCovered, symbol, "symbolsCovered");
+  expect(fixtureRun.output.symbolCounts?.TWII, 60, "TWII symbol count");
+  expect(fixtureRun.output.symbolCounts?.["0050"], 59, "0050 symbol count");
+  expect(fixtureRun.output.symbolCounts?.["006208"], 59, "006208 symbol count");
   for (const key of [
     "rowPayloadOutput",
     "rawPayloadOutput",
@@ -79,6 +91,22 @@ function validateFixtureRun() {
   }
   expect(fixtureRun.output.safety?.publicDataSource, "mock", "fixture publicDataSource");
   expect(fixtureRun.output.safety?.scoreSource, "mock", "fixture scoreSource");
+}
+
+function validateBadDateRun() {
+  expect(badDateRun.status, 0, "bad-date run exit status");
+  expect(badDateRun.output.status, "phase_1_sanitized_row_payload_candidate_artifact_blocked", "bad-date status");
+  expect(badDateRun.output.accepted, false, "bad-date accepted");
+  expectIncludes(badDateRun.output.problems, "invalid_trade_date", "bad-date problems");
+  if (!(badDateRun.output.invalidTradeDateCount > 0)) problems.push("bad-date invalidTradeDateCount must be > 0");
+}
+
+function validateWrongCountRun() {
+  expect(wrongCountRun.status, 0, "wrong-count run exit status");
+  expect(wrongCountRun.output.status, "phase_1_sanitized_row_payload_candidate_artifact_blocked", "wrong-count status");
+  expect(wrongCountRun.output.accepted, false, "wrong-count accepted");
+  expectIncludes(wrongCountRun.output.problems, "symbol_count_mismatch:TWII", "wrong-count TWII problems");
+  expectIncludes(wrongCountRun.output.problems, "symbol_count_mismatch:0050", "wrong-count 0050 problems");
 }
 
 function validateRegistration() {
@@ -121,19 +149,28 @@ function validateBoundaries() {
   }
 }
 
-function writeFixture() {
+function writeFixture(options = {}) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), "phase-1-row-payload-fixture-"));
   const rows = [];
-  for (const [symbol, count] of [
+  const counts = options.wrongSymbolCounts
+    ? [
+        ["TWII", 59],
+        ["0050", 60],
+        ["006208", 59]
+      ]
+    : [
     ["TWII", 60],
     ["0050", 59],
     ["006208", 59]
-  ]) {
+      ];
+  for (const [symbol, count] of counts) {
     for (let index = 1; index <= count; index += 1) {
       const date = new Date(Date.UTC(2026, 0, index));
       rows.push({
         symbol,
-        trade_date: date.toISOString().slice(0, 10),
+        trade_date: options.invalidDate && symbol === "TWII" && index === 60
+          ? "2026-02-30"
+          : date.toISOString().slice(0, 10),
         close: 100 + index,
         source_name: "synthetic_fixture",
         source_updated_at: "2026-06-15T00:00:00.000Z",

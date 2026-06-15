@@ -31,6 +31,13 @@ const requiredTopLevel = [
 const requiredRowFields = ["symbol", "trade_date", "close", "source_name", "source_updated_at", "source_row_hash"];
 const allowedRowFields = new Set([...requiredRowFields, "open", "high", "low", "volume"]);
 const allowedSymbols = new Set(["TWII", "0050", "006208"]);
+const expectedSymbolCounts = {
+  TWII: 60,
+  "0050": 59,
+  "006208": 59
+};
+const symbolCounts = new Map();
+let invalidTradeDateCount = 0;
 
 for (const field of requiredTopLevel) {
   if (!(field in artifact)) problems.push(`missing_top_level_field:${field}`);
@@ -56,6 +63,7 @@ for (const row of rows) {
     if (!allowedRowFields.has(field)) forbiddenFieldCount += 1;
   }
   if (typeof row.symbol === "string") symbols.add(row.symbol);
+  if (typeof row.symbol === "string") symbolCounts.set(row.symbol, (symbolCounts.get(row.symbol) ?? 0) + 1);
   if (typeof row.trade_date === "string") tradeDates.push(row.trade_date);
   if (typeof row.symbol === "string" && typeof row.trade_date === "string") {
     const key = `${row.symbol}|${row.trade_date}`;
@@ -63,12 +71,17 @@ for (const row of rows) {
     seenKeys.add(key);
   }
   if (!allowedSymbols.has(row.symbol)) problems.push("unexpected_symbol");
+  if (typeof row.trade_date !== "string" || !isValidIsoDate(row.trade_date)) invalidTradeDateCount += 1;
   if (typeof row.close !== "number" || !Number.isFinite(row.close)) problems.push("invalid_close");
 }
 
 if (missingRequiredFieldCount > 0) problems.push("missing_required_row_fields");
 if (forbiddenFieldCount > 0) problems.push("forbidden_row_fields_present");
 if (duplicateCount > 0) problems.push("duplicate_symbol_trade_date_rows");
+if (invalidTradeDateCount > 0) problems.push("invalid_trade_date");
+for (const [symbol, expectedCount] of Object.entries(expectedSymbolCounts)) {
+  if ((symbolCounts.get(symbol) ?? 0) !== expectedCount) problems.push(`symbol_count_mismatch:${symbol}`);
+}
 
 const sortedDates = tradeDates.slice().sort();
 const accepted =
@@ -87,6 +100,7 @@ const output = {
   rowCount: rows.length,
   expectedRows: artifact.expectedRows ?? null,
   symbolsCovered: [...symbols].sort(),
+  symbolCounts: Object.fromEntries([...symbolCounts.entries()].sort(([a], [b]) => a.localeCompare(b))),
   dateBounds: {
     minTradeDate: sortedDates[0] ?? null,
     maxTradeDate: sortedDates[sortedDates.length - 1] ?? null
@@ -94,6 +108,7 @@ const output = {
   duplicateCount,
   missingRequiredFieldCount,
   forbiddenFieldCount,
+  invalidTradeDateCount,
   accepted,
   problems,
   safety: {
@@ -138,4 +153,10 @@ function readJson(filePath) {
     problems.push(`candidate_artifact_unreadable:${error.message}`);
     return {};
   }
+}
+
+function isValidIsoDate(value) {
+  if (!/^\d{4}-\d{2}-\d{2}$/u.test(value)) return false;
+  const parsed = new Date(`${value}T00:00:00.000Z`);
+  return !Number.isNaN(parsed.getTime()) && parsed.toISOString().slice(0, 10) === value;
 }
