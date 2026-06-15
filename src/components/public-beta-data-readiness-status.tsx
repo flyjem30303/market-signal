@@ -7,6 +7,7 @@ export function PublicBetaDataReadinessStatus() {
     <section className="public-beta-data-readiness-status" aria-label="公開 Beta 資料準備狀態">
       <div className="public-beta-data-readiness-status-main">
         <p className="eyebrow">資料準備狀態</p>
+        <p className="eyebrow">資料上線狀態</p>
         <h2>{status.headline}</h2>
         <p>{status.summary}</p>
         <p>{status.stopLine}</p>

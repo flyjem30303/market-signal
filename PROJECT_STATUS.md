@@ -2,6 +2,37 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Home Data Status Route Contract Repaired
+
+Status: `phase_1_home_data_status_route_contract_repaired`
+
+CEO decision:
+
+- Keep UI/UX broad polish for later, but fix public route contract failures immediately when they block Phase 1 launch proof.
+- Treat the missing Home visible phrase `資料上線狀態` as a user-facing data-readiness clarity issue, not as cosmetic polish.
+
+PM completed:
+
+- Added a visible `資料上線狀態` label to `src/components/public-beta-data-readiness-status.tsx`, which is the component actually rendered on Home and `/briefing`.
+- Kept the runtime boundary unchanged: this is only clearer copy, not a data-source promotion.
+
+Verified:
+
+- `cmd.exe /c npm run check:public-beta-core-route-quick-proof` passes across `/`, `/briefing`, `/weekly`, `/membership`, `/stocks/2330`, `/stocks/TWII`, `/methodology`, `/disclaimer`, `/terms`, and `/privacy`.
+- `cmd.exe /c npm run check:public-beta-data-readiness-status` passes.
+- `cmd.exe /c npm run check:phase-1-public-beta-public-visible-residue-cleanup` passes across 14 public routes.
+- `cmd.exe /c npx tsc --noEmit` passes.
+
+Current boundary:
+
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+- No SQL, Supabase read/write, staging row, `daily_prices` mutation, market-data fetch/ingestion, source promotion, score promotion, or public real-data claim occurred.
+
+Next route:
+
+Continue Phase 1 data-online by closing the external/operator boolean presence result chain, while public pages remain readable and mock-boundary honest.
+
 ### Phase 1 Data Online Write-Gate Escalation Map Repaired
 
 Status: `phase_1_data_online_write_gate_readiness_escalation_map_no_execution_ready`
