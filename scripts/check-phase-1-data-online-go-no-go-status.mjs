@@ -8,6 +8,9 @@ const publicBetaReportPath = "scripts/report-public-beta-data-realification-next
 const twiiOperatorReportPath = "scripts/report-twii-final-operator-authorization-packet-preflight.mjs";
 const writeRunnerCandidatePath = "scripts/run-phase-1-write-runner-implementation-candidate.mjs";
 
+const args = parseArgs(process.argv.slice(2));
+const candidateArtifactPath =
+  args.candidateArtifact ?? process.env.PHASE_1_SANITIZED_ROW_PAYLOAD_CANDIDATE_PATH ?? null;
 const problems = [];
 
 const doc = readText(docPath);
@@ -15,7 +18,10 @@ const packageJson = JSON.parse(readText(packagePath));
 const reviewGate = readText(reviewGatePath);
 const publicBetaReport = runJson(publicBetaReportPath);
 const twiiOperatorReport = runJson(twiiOperatorReportPath);
-const writeRunnerCandidate = runJson(writeRunnerCandidatePath);
+const writeRunnerCandidate = runJson(
+  writeRunnerCandidatePath,
+  candidateArtifactPath ? ["--candidate-artifact", candidateArtifactPath] : []
+);
 
 for (const phrase of [
   "phase_1_data_online_go_no_go_status_ready_no_go",
@@ -99,15 +105,15 @@ if (twiiOperatorReport.operatorAuthorizationPacketState?.writeGateExecutableNow 
   problems.push("TWII writeGateExecutableNow must remain false");
 }
 
-if (writeRunnerCandidate.status !== "blocked") {
+if (!candidateArtifactPath && writeRunnerCandidate.status !== "blocked") {
   problems.push("write runner candidate must remain blocked before row-payload candidate");
 }
 
-if (!writeRunnerCandidate.blockedReasons?.includes("candidate_row_payloads_missing")) {
+if (!candidateArtifactPath && !writeRunnerCandidate.blockedReasons?.includes("candidate_row_payloads_missing")) {
   problems.push("write runner candidate must report candidate_row_payloads_missing");
 }
 
-if (writeRunnerCandidate.rowPayloadStatus?.rowPayloadCandidatePathProvided !== false) {
+if (!candidateArtifactPath && writeRunnerCandidate.rowPayloadStatus?.rowPayloadCandidatePathProvided !== false) {
   problems.push("row payload candidate path must be absent in default no-go check");
 }
 
@@ -137,19 +143,30 @@ for (const pattern of [
 }
 
 const status = problems.length === 0 ? "ok" : "blocked";
+const rowPayloadCandidateAccepted = writeRunnerCandidate.rowPayloadStatus?.rowPayloadCandidateAccepted === true;
+const decision = rowPayloadCandidateAccepted
+  ? "PUBLIC_RUNTIME_READY_ROW_PAYLOAD_CANDIDATE_READY_WRITE_REVIEW_REQUIRED"
+  : "PUBLIC_RUNTIME_READY_BUT_DATA_ONLINE_NO_GO";
+const guardedStatus = rowPayloadCandidateAccepted
+  ? "phase_1_data_online_candidate_ready_write_review_required"
+  : "phase_1_data_online_go_no_go_status_ready_no_go";
 
 console.log(
   JSON.stringify(
     {
       status,
-      guardedStatus: "phase_1_data_online_go_no_go_status_ready_no_go",
-      decision: "PUBLIC_RUNTIME_READY_BUT_DATA_ONLINE_NO_GO",
+      guardedStatus,
+      decision,
       coverage: expectedCoverage,
       rowPayloadCandidate: {
         status: writeRunnerCandidate.status ?? null,
         blockedReasons: writeRunnerCandidate.blockedReasons ?? [],
         nextRoute: writeRunnerCandidate.nextRoute ?? null,
         pathProvided: writeRunnerCandidate.rowPayloadStatus?.rowPayloadCandidatePathProvided ?? null,
+        accepted: rowPayloadCandidateAccepted,
+        rowCount: writeRunnerCandidate.rowPayloadStatus?.rowPayloadCandidateRowCount ?? null,
+        symbolsCovered: writeRunnerCandidate.rowPayloadStatus?.rowPayloadCandidateSymbolsCovered ?? [],
+        symbolCounts: writeRunnerCandidate.rowPayloadStatus?.rowPayloadCandidateSymbolCounts ?? null,
         expectedRows: 178,
         expectedSymbolCounts: {
           TWII: 60,
@@ -169,6 +186,23 @@ console.log(
 
 if (status !== "ok") process.exit(1);
 
+function parseArgs(tokens) {
+  const parsed = {};
+  for (let index = 0; index < tokens.length; index += 1) {
+    const token = tokens[index];
+    if (!token.startsWith("--")) continue;
+    const key = token.slice(2).replace(/-([a-z])/g, (_, letter) => letter.toUpperCase());
+    const next = tokens[index + 1];
+    if (!next || next.startsWith("--")) {
+      parsed[key] = true;
+      continue;
+    }
+    parsed[key] = next;
+    index += 1;
+  }
+  return parsed;
+}
+
 function readText(path) {
   if (!fs.existsSync(path)) {
     problems.push(`missing ${path}`);
@@ -178,8 +212,8 @@ function readText(path) {
   return fs.readFileSync(path, "utf8");
 }
 
-function runJson(scriptPath) {
-  const run = spawnSync(process.execPath, [scriptPath], {
+function runJson(scriptPath, scriptArgs = []) {
+  const run = spawnSync(process.execPath, [scriptPath, ...scriptArgs], {
     encoding: "utf8",
     maxBuffer: 1024 * 1024 * 2
   });
