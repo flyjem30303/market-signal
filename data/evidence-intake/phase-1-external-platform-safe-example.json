@@ -1,0 +1,9 @@
+{
+  "evidenceItem": "schema_cache_evidence_pending",
+  "observedState": "pending_non_secret_observation",
+  "observedAtLocal": "2026-06-15T00:00:00+08:00",
+  "operatorInitials": "PM",
+  "nonSecretSummary": "No platform connection was performed in this example packet.",
+  "riskDisposition": "pending",
+  "followUpRequired": true
+}

@@ -1,0 +1,14 @@
+{
+  "evidenceItem": "pgrst205_regression_evidence_pending",
+  "observedState": "unsafe_example",
+  "observedAtLocal": "2026-06-15T00:00:00+08:00",
+  "operatorInitials": "PM",
+  "nonSecretSummary": "This example must be rejected by the validator.",
+  "riskDisposition": "reject",
+  "followUpRequired": true,
+  "secretValue": "redacted-example",
+  "rawPayload": "redacted-example",
+  "endpointResponseBody": "redacted-example",
+  "serviceRoleKey": "redacted-example",
+  "sqlStatement": "redacted-example"
+}
