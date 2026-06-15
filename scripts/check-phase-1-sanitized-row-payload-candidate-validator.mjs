@@ -21,12 +21,16 @@ const wrongCountRun = runValidator(wrongCountPath);
 const committedCandidateFolderPath = writeCommittedCandidateFolderFixture();
 const committedCandidateFolderRun = runValidator(committedCandidateFolderPath);
 cleanupFile(committedCandidateFolderPath);
+const unignoredRepositoryPath = writeUnignoredRepositoryFixture();
+const unignoredRepositoryRun = runValidator(unignoredRepositoryPath);
+cleanupFile(unignoredRepositoryPath);
 
 validateMissingRun();
 validateFixtureRun();
 validateBadDateRun();
 validateWrongCountRun();
 validateCommittedCandidateFolderRun();
+validateUnignoredRepositoryRun();
 validateRegistration();
 validateBoundaries();
 
@@ -43,6 +47,7 @@ console.log(
       badDateAccepted: badDateRun.output.accepted ?? false,
       wrongCountAccepted: wrongCountRun.output.accepted ?? false,
       committedCandidateFolderAccepted: committedCandidateFolderRun.output.accepted ?? false,
+      unignoredRepositoryAccepted: unignoredRepositoryRun.output.accepted ?? false,
       missingPathStatus: missingRun.output.status ?? null,
       publicDataSource: "mock",
       scoreSource: "mock",
@@ -96,6 +101,7 @@ function validateFixtureRun() {
   }
   expect(fixtureRun.output.safety?.publicDataSource, "mock", "fixture publicDataSource");
   expect(fixtureRun.output.safety?.scoreSource, "mock", "fixture scoreSource");
+  expect(fixtureRun.output.candidatePathPolicy?.insideRepository, false, "fixture outside repository");
 }
 
 function validateBadDateRun() {
@@ -132,6 +138,23 @@ function validateCommittedCandidateFolderRun() {
     true,
     "committed-candidate-folder path policy"
   );
+}
+
+function validateUnignoredRepositoryRun() {
+  expect(unignoredRepositoryRun.status, 0, "unignored-repository run exit status");
+  expect(
+    unignoredRepositoryRun.output.status,
+    "phase_1_sanitized_row_payload_candidate_artifact_blocked",
+    "unignored-repository status"
+  );
+  expect(unignoredRepositoryRun.output.accepted, false, "unignored-repository accepted");
+  expectIncludes(
+    unignoredRepositoryRun.output.problems,
+    "candidate_artifact_path_must_be_outside_git_or_ignored",
+    "unignored-repository problems"
+  );
+  expect(unignoredRepositoryRun.output.candidatePathPolicy?.insideRepository, true, "unignored-repository inside repo");
+  expect(unignoredRepositoryRun.output.candidatePathPolicy?.gitIgnored, false, "unignored-repository git ignored");
 }
 
 function validateRegistration() {
@@ -223,6 +246,12 @@ function writeFixture(options = {}) {
 
 function writeCommittedCandidateFolderFixture() {
   const fixturePath = path.join("data", "candidates", "__phase_1_row_payload_path_policy_fixture.json");
+  fs.writeFileSync(fixturePath, JSON.stringify({ artifactId: "path-policy-fixture-no-rows" }, null, 2));
+  return fixturePath;
+}
+
+function writeUnignoredRepositoryFixture() {
+  const fixturePath = "__phase_1_row_payload_path_policy_fixture.json";
   fs.writeFileSync(fixturePath, JSON.stringify({ artifactId: "path-policy-fixture-no-rows" }, null, 2));
   return fixturePath;
 }

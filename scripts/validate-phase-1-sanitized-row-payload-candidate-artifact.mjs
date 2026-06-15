@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { spawnSync } from "node:child_process";
 
 const args = parseArgs(process.argv.slice(2));
 const artifactPath = args.candidateArtifact ?? process.env.PHASE_1_SANITIZED_ROW_PAYLOAD_CANDIDATE_PATH;
@@ -9,6 +10,9 @@ if (!artifactPath) problems.push("candidate_artifact_path_missing");
 const candidatePathPolicy = artifactPath ? classifyCandidatePath(artifactPath) : null;
 if (candidatePathPolicy?.insideCommittedCandidateFolder) {
   problems.push("candidate_artifact_path_must_stay_outside_data_candidates");
+}
+if (candidatePathPolicy?.insideRepository && !candidatePathPolicy.gitIgnored) {
+  problems.push("candidate_artifact_path_must_be_outside_git_or_ignored");
 }
 
 const artifact = artifactPath ? readJson(artifactPath) : {};
@@ -163,15 +167,31 @@ function readJson(filePath) {
 
 function classifyCandidatePath(filePath) {
   const resolved = path.resolve(filePath);
+  const repositoryRoot = path.resolve(".");
   const committedCandidateFolder = path.resolve("data/candidates");
   const relativeToCandidateFolder = path.relative(committedCandidateFolder, resolved);
+  const relativeToRepository = path.relative(repositoryRoot, resolved);
+  const insideRepository =
+    relativeToRepository === "" ||
+    (!relativeToRepository.startsWith("..") && !path.isAbsolute(relativeToRepository));
   return {
     insideCommittedCandidateFolder:
       relativeToCandidateFolder !== "" &&
       !relativeToCandidateFolder.startsWith("..") &&
       !path.isAbsolute(relativeToCandidateFolder),
-    allowedStoragePolicy: "local_or_external_path_outside_data_candidates"
+    insideRepository,
+    gitIgnored: insideRepository ? isGitIgnored(relativeToRepository) : null,
+    allowedStoragePolicy: "local_or_external_path_outside_git_or_gitignored"
   };
+}
+
+function isGitIgnored(relativePath) {
+  const run = spawnSync("git", ["check-ignore", "--quiet", "--", relativePath], {
+    cwd: process.cwd(),
+    shell: false,
+    windowsHide: true
+  });
+  return run.status === 0;
 }
 
 function isValidIsoDate(value) {

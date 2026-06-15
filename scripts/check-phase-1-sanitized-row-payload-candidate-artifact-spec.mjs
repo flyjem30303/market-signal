@@ -40,7 +40,7 @@ function validateDoc() {
     "candidate_row_payloads_missing",
     "deliveryMode=local_or_external_path_only",
     "commitPolicy=do_not_commit_market_row_payloads_by_default",
-    "pathPolicy=local_or_external_path_outside_data_candidates",
+    "pathPolicy=local_or_external_path_outside_git_or_gitignored",
     "validatorOutput=aggregate_counts_only",
     "boundedAttemptScope=twii_and_etf_phase_1_missing_row_closure_only",
     "fullLevel1MissingRows=178",
@@ -57,6 +57,7 @@ function validateDoc() {
     "No public real-data claim",
     "No investment advice",
     "A1 should prepare a local or external sanitized row-payload candidate artifact path",
+    "Preferred local path is under `tmp/`",
     "must not be placed under `data/candidates`"
   ]) {
     if (!doc.includes(token)) problems.push(`${docPath} missing ${token}`);
