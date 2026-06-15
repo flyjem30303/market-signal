@@ -18,6 +18,10 @@ const fixtureRun = runValidator(fixturePath);
 const dataOnlineCandidateRun = runScript(dataOnlineGoNoGoPath, ["--candidate-artifact", fixturePath]);
 const badDatePath = writeFixture({ invalidDate: true });
 const badDateRun = runValidator(badDatePath);
+const badSourceMetadataPath = writeFixture({ invalidSourceMetadata: true });
+const badSourceMetadataRun = runValidator(badSourceMetadataPath);
+const badOptionalNumberPath = writeFixture({ invalidOptionalNumber: true });
+const badOptionalNumberRun = runValidator(badOptionalNumberPath);
 const wrongCountPath = writeFixture({ wrongSymbolCounts: true });
 const wrongCountRun = runValidator(wrongCountPath);
 const unacceptedStatusPath = writeFixture({ unacceptedStatus: true });
@@ -33,6 +37,8 @@ validateMissingRun();
 validateFixtureRun();
 validateDataOnlineCandidateRun();
 validateBadDateRun();
+validateBadSourceMetadataRun();
+validateBadOptionalNumberRun();
 validateWrongCountRun();
 validateUnacceptedStatusRun();
 validateCommittedCandidateFolderRun();
@@ -52,6 +58,8 @@ console.log(
       fixtureAccepted: fixtureRun.output.accepted ?? false,
       dataOnlineCandidateReady: dataOnlineCandidateRun.output.rowPayloadCandidate?.accepted ?? false,
       badDateAccepted: badDateRun.output.accepted ?? false,
+      badSourceMetadataAccepted: badSourceMetadataRun.output.accepted ?? false,
+      badOptionalNumberAccepted: badOptionalNumberRun.output.accepted ?? false,
       wrongCountAccepted: wrongCountRun.output.accepted ?? false,
       unacceptedStatusAccepted: unacceptedStatusRun.output.accepted ?? false,
       committedCandidateFolderAccepted: committedCandidateFolderRun.output.accepted ?? false,
@@ -89,6 +97,8 @@ function validateFixtureRun() {
   expect(fixtureRun.output.missingRequiredFieldCount, 0, "missingRequiredFieldCount");
   expect(fixtureRun.output.forbiddenFieldCount, 0, "forbiddenFieldCount");
   expect(fixtureRun.output.invalidTradeDateCount, 0, "invalidTradeDateCount");
+  expect(fixtureRun.output.invalidSourceMetadataCount, 0, "invalidSourceMetadataCount");
+  expect(fixtureRun.output.invalidOptionalNumberCount, 0, "invalidOptionalNumberCount");
   expect(fixtureRun.output.accepted, true, "accepted");
   for (const symbol of ["0050", "006208", "TWII"]) expectIncludes(fixtureRun.output.symbolsCovered, symbol, "symbolsCovered");
   expect(fixtureRun.output.symbolCounts?.TWII, 60, "TWII symbol count");
@@ -138,6 +148,34 @@ function validateBadDateRun() {
   expect(badDateRun.output.accepted, false, "bad-date accepted");
   expectIncludes(badDateRun.output.problems, "invalid_trade_date", "bad-date problems");
   if (!(badDateRun.output.invalidTradeDateCount > 0)) problems.push("bad-date invalidTradeDateCount must be > 0");
+}
+
+function validateBadSourceMetadataRun() {
+  expect(badSourceMetadataRun.status, 0, "bad-source-metadata run exit status");
+  expect(
+    badSourceMetadataRun.output.status,
+    "phase_1_sanitized_row_payload_candidate_artifact_blocked",
+    "bad-source-metadata status"
+  );
+  expect(badSourceMetadataRun.output.accepted, false, "bad-source-metadata accepted");
+  expectIncludes(badSourceMetadataRun.output.problems, "invalid_source_metadata", "bad-source-metadata problems");
+  if (!(badSourceMetadataRun.output.invalidSourceMetadataCount > 0)) {
+    problems.push("bad-source-metadata invalidSourceMetadataCount must be > 0");
+  }
+}
+
+function validateBadOptionalNumberRun() {
+  expect(badOptionalNumberRun.status, 0, "bad-optional-number run exit status");
+  expect(
+    badOptionalNumberRun.output.status,
+    "phase_1_sanitized_row_payload_candidate_artifact_blocked",
+    "bad-optional-number status"
+  );
+  expect(badOptionalNumberRun.output.accepted, false, "bad-optional-number accepted");
+  expectIncludes(badOptionalNumberRun.output.problems, "invalid_optional_number_fields", "bad-optional-number problems");
+  if (!(badOptionalNumberRun.output.invalidOptionalNumberCount > 0)) {
+    problems.push("bad-optional-number invalidOptionalNumberCount must be > 0");
+  }
 }
 
 function validateWrongCountRun() {
@@ -260,9 +298,12 @@ function writeFixture(options = {}) {
           ? "2026-02-30"
           : date.toISOString().slice(0, 10),
         close: 100 + index,
-        source_name: "synthetic_fixture",
-        source_updated_at: "2026-06-15T00:00:00.000Z",
-        source_row_hash: `${symbol}-${index}`
+        source_name: options.invalidSourceMetadata && symbol === "TWII" && index === 1 ? "" : "synthetic_fixture",
+        source_updated_at: options.invalidSourceMetadata && symbol === "TWII" && index === 2
+          ? "2026-06-15"
+          : "2026-06-15T00:00:00.000Z",
+        source_row_hash: options.invalidSourceMetadata && symbol === "TWII" && index === 3 ? "" : `${symbol}-${index}`,
+        ...(options.invalidOptionalNumber && symbol === "0050" && index === 1 ? { volume: "bad-volume" } : {})
       });
     }
   }

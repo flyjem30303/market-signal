@@ -47,6 +47,8 @@ const expectedSymbolCounts = {
 };
 const symbolCounts = new Map();
 let invalidTradeDateCount = 0;
+let invalidSourceMetadataCount = 0;
+let invalidOptionalNumberCount = 0;
 
 for (const field of requiredTopLevel) {
   if (!(field in artifact)) problems.push(`missing_top_level_field:${field}`);
@@ -61,6 +63,9 @@ if (artifact.sourceRightsStatus !== "accepted") problems.push("source_rights_sta
 if (artifact.fieldContractStatus !== "accepted") problems.push("field_contract_status_not_accepted");
 if (artifact.expectedRows !== 178) problems.push("expected_rows_must_be_178");
 if (rows.length !== 178) problems.push("row_count_must_be_178");
+if (typeof artifact.createdAt !== "string" || !isValidIsoTimestamp(artifact.createdAt)) {
+  problems.push("invalid_created_at");
+}
 
 for (const row of rows) {
   if (!row || typeof row !== "object" || Array.isArray(row)) {
@@ -84,12 +89,22 @@ for (const row of rows) {
   if (!allowedSymbols.has(row.symbol)) problems.push("unexpected_symbol");
   if (typeof row.trade_date !== "string" || !isValidIsoDate(row.trade_date)) invalidTradeDateCount += 1;
   if (typeof row.close !== "number" || !Number.isFinite(row.close)) problems.push("invalid_close");
+  if (!isNonEmptyString(row.source_name)) invalidSourceMetadataCount += 1;
+  if (!isNonEmptyString(row.source_row_hash)) invalidSourceMetadataCount += 1;
+  if (typeof row.source_updated_at !== "string" || !isValidIsoTimestamp(row.source_updated_at)) {
+    invalidSourceMetadataCount += 1;
+  }
+  for (const optionalNumberField of ["open", "high", "low", "volume"]) {
+    if (optionalNumberField in row && !isFiniteNumber(row[optionalNumberField])) invalidOptionalNumberCount += 1;
+  }
 }
 
 if (missingRequiredFieldCount > 0) problems.push("missing_required_row_fields");
 if (forbiddenFieldCount > 0) problems.push("forbidden_row_fields_present");
 if (duplicateCount > 0) problems.push("duplicate_symbol_trade_date_rows");
 if (invalidTradeDateCount > 0) problems.push("invalid_trade_date");
+if (invalidSourceMetadataCount > 0) problems.push("invalid_source_metadata");
+if (invalidOptionalNumberCount > 0) problems.push("invalid_optional_number_fields");
 for (const [symbol, expectedCount] of Object.entries(expectedSymbolCounts)) {
   if ((symbolCounts.get(symbol) ?? 0) !== expectedCount) problems.push(`symbol_count_mismatch:${symbol}`);
 }
@@ -121,6 +136,8 @@ const output = {
   missingRequiredFieldCount,
   forbiddenFieldCount,
   invalidTradeDateCount,
+  invalidSourceMetadataCount,
+  invalidOptionalNumberCount,
   accepted,
   problems,
   safety: {
@@ -200,4 +217,17 @@ function isValidIsoDate(value) {
   if (!/^\d{4}-\d{2}-\d{2}$/u.test(value)) return false;
   const parsed = new Date(`${value}T00:00:00.000Z`);
   return !Number.isNaN(parsed.getTime()) && parsed.toISOString().slice(0, 10) === value;
+}
+
+function isValidIsoTimestamp(value) {
+  const parsed = new Date(value);
+  return !Number.isNaN(parsed.getTime()) && parsed.toISOString() === value;
+}
+
+function isNonEmptyString(value) {
+  return typeof value === "string" && value.trim().length > 0;
+}
+
+function isFiniteNumber(value) {
+  return typeof value === "number" && Number.isFinite(value);
 }
