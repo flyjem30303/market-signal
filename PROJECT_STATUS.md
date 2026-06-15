@@ -2,6 +2,46 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Aggregate Readonly Result Routed To Presence Result
+
+Status: `phase_1_aggregate_readonly_result_to_write_gate_or_env_repair_ready_no_execution`
+
+CEO decision:
+
+- Treat the accepted bounded readonly result `phase1-data-online-readonly-20260615-a` as proof that the aggregate `daily_prices` read path is reachable.
+- Do not route the mainline back to environment repair unless a new failing read result appears.
+- Route next to `prepare_external_operator_boolean_presence_reviewed_result`, because write gate is still blocked by the external/operator presence chain.
+
+PM completed:
+
+- Added an aggregate-only bridge artifact at `data/evidence-intake/phase-1-aggregate-readonly-result-to-write-gate-or-env-repair.json`.
+- Added `docs/PHASE_1_AGGREGATE_READONLY_RESULT_TO_WRITE_GATE_OR_ENV_REPAIR.md` to preserve the decision boundary.
+- Added and registered `check:phase-1-aggregate-readonly-result-to-write-gate-or-env-repair` in package scripts and review gates.
+
+Verified:
+
+- `cmd.exe /c npm run check:phase-1-aggregate-readonly-result-to-write-gate-or-env-repair` passes.
+- Focused supporting checks pass: bounded readonly result, write-gate checklist runner, data-online go/no-go, and `cmd.exe /c npx tsc --noEmit`.
+- `cmd.exe /c git diff --check` passes with only Windows line-ending warnings.
+- Full `cmd.exe /c npm run check:review-gates` exceeded the local execution window twice; this is tracked as gate-suite weight, not as a failure of this slice. The new checker is registered and independently passing.
+
+Current blocker view:
+
+- Readonly reachability is proven by accepted aggregate evidence.
+- Environment repair is not the next route.
+- Write gate is not executable yet.
+- Remaining blockers are `operator_values_missing`, `credential_presence_unverified`, `operator_owned_presence_confirmation_unverified`, `external_presence_acceptance_unverified`, and `external_presence_reviewed_result_missing`.
+
+Current boundary:
+
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+- No SQL, Supabase write, staging row, `daily_prices` mutation, market-data fetch/ingestion, raw payload output, row payload output, secret output, source promotion, score promotion, public real-data claim, or investment-advice claim occurred.
+
+Next route:
+
+Prepare the no-secret, boolean-only external/operator presence reviewed result. It may record presence/review booleans only; it must not store, print, hash, compare, or transform credential/operator values.
+
 ### Phase 1 Home Data Status Route Contract Repaired
 
 Status: `phase_1_home_data_status_route_contract_repaired`

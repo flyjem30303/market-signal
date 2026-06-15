@@ -1,0 +1,50 @@
+{
+  "status": "phase_1_aggregate_readonly_result_to_write_gate_or_env_repair_ready_no_execution",
+  "packetMode": "aggregate_readonly_result_to_write_gate_or_env_repair",
+  "createdAt": "2026-06-15",
+  "inputAttemptId": "phase1-data-online-readonly-20260615-a",
+  "inputResultPath": "data/evidence-intake/phase-1-bounded-readonly-attempt-result-20260615-a.json",
+  "decision": "ROUTE_TO_EXTERNAL_OPERATOR_PRESENCE_RESULT_NOT_ENV_REPAIR",
+  "readonlyReachabilityProved": true,
+  "envRepairNeededNow": false,
+  "writeGateExecutableNow": false,
+  "dataOnlineDecision": "PUBLIC_RUNTIME_READY_BUT_DATA_ONLINE_NO_GO",
+  "currentRemainingBlockers": [
+    "operator_values_missing",
+    "credential_presence_unverified",
+    "operator_owned_presence_confirmation_unverified",
+    "external_presence_acceptance_unverified",
+    "external_presence_reviewed_result_missing"
+  ],
+  "reducedByAggregateReadonlyEvidence": [
+    "schema_cache_exposure_unverified",
+    "dashboard_api_exposure_unverified",
+    "pgrst205_regression_unverified"
+  ],
+  "nextRoute": "prepare_external_operator_boolean_presence_reviewed_result",
+  "allowedNextArtifactShape": {
+    "aggregateOnly": true,
+    "booleanPresenceOnly": true,
+    "secretValueStored": false,
+    "credentialValueStored": false,
+    "operatorValueStored": false,
+    "rawPayloadStored": false,
+    "rowPayloadStored": false
+  },
+  "safety": {
+    "publicDataSource": "mock",
+    "scoreSource": "mock",
+    "sqlExecuted": false,
+    "supabaseWriteAttempted": false,
+    "marketDataFetched": false,
+    "marketDataIngested": false,
+    "dailyPricesMutated": false,
+    "stagingRowsCreated": false,
+    "rawPayloadsPrinted": false,
+    "rowPayloadsPrinted": false,
+    "secretsPrinted": false,
+    "publicPromotionAllowed": false,
+    "scoreSourceRealAllowed": false,
+    "investmentAdviceClaimAllowed": false
+  }
+}
