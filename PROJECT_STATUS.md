@@ -2,6 +2,60 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Write-Gate Preflight Requirements Closure Ready
+
+Status: `phase_1_write_gate_preflight_requirements_closure_ready_no_execution`
+
+CEO decision:
+
+- Close the seven write-preflight requirements by reference instead of adding another narrow governance loop.
+- Keep the next route as a bounded dry-run packet, not a real SQL/Supabase write attempt.
+- Phase 1 goal remains data-online launch readiness, but `publicDataSource` and `scoreSource` stay mock until post-run review and promotion gates pass.
+
+PM completed:
+
+- Added `data/evidence-intake/phase-1-write-gate-preflight-requirements-closure.json`.
+- Added `docs/PHASE_1_WRITE_GATE_PREFLIGHT_REQUIREMENTS_CLOSURE.md`.
+- Added and registered `check:phase-1-write-gate-preflight-requirements-closure`.
+- Optimized the new checker to read the previous preflight artifact instead of nesting the full previous preflight check; this keeps the new checker fast while review-gate registration still preserves the dependency order.
+
+Closed preflight requirements:
+
+- `rollback_plan`
+- `aggregate_readback_plan`
+- `duplicate_rejection_plan`
+- `post_run_review_plan`
+- `source_rights_boundary`
+- `runtime_fallback_boundary`
+- `public_disclosure_boundary`
+
+Current blocker view:
+
+- Operator blockers are cleared.
+- Write-gate checklist remaining blockers are `[]`.
+- Write-preflight requirements are closed by reference.
+- `writeGateExecutableNow=false`; the next route is a dry-run packet after requirements closure.
+
+Verified:
+
+- `cmd.exe /c npm run check:phase-1-write-gate-preflight-requirements-closure` passes.
+- `cmd.exe /c npm run check:phase-1-write-gate-preflight-after-operator-booleans` passes.
+- `cmd.exe /c npm run check:phase-1-data-online-go-no-go-status` passes and correctly remains `PUBLIC_RUNTIME_READY_BUT_DATA_ONLINE_NO_GO`.
+- `cmd.exe /c npx tsc --noEmit` passes.
+- `cmd.exe /c git diff --check` passes with only existing CRLF warnings.
+- `cmd.exe /c npm run check:review-gates` was attempted twice and timed out at the 5-minute command limit; CEO classifies this as review-gate weight debt, not a blocker in the new closure checker.
+
+Current boundary:
+
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+- No switch value, confirmation phrase, operator value, credential value, raw payload, row payload, or secret was printed, stored, hashed, compared, or transformed.
+- No SQL, Supabase read/write, staging row, `daily_prices` mutation, market-data fetch/ingestion, source promotion, score promotion, public real-data claim, or investment-advice claim occurred.
+
+Next route:
+
+Prepare `phase_1_write_gate_dry_run_after_preflight_requirements`.
+
 ### Phase 1 Write-Gate Preflight After Operator Booleans Ready
 
 Status: `phase_1_write_gate_preflight_after_operator_booleans_ready_no_execution`

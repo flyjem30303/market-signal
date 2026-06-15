@@ -1,0 +1,76 @@
+{
+  "status": "phase_1_write_gate_preflight_requirements_closure_ready_no_execution",
+  "packetMode": "write_gate_preflight_requirements_closure_no_execution",
+  "createdAt": "2026-06-15",
+  "inputPreflight": "phase_1_write_gate_preflight_after_operator_booleans_ready_no_execution",
+  "operatorBlockersCleared": true,
+  "writeGateChecklistRemainingBlockers": [],
+  "writeGatePreflightRequirementsClosed": true,
+  "writeGateExecutableNow": false,
+  "preflightClosureMode": "reference_plans_closed_no_execution",
+  "boundedAttemptScope": "twii_and_etf_phase_1_missing_row_closure_only",
+  "closedRequirements": [
+    {
+      "id": "rollback_plan",
+      "status": "closed_reference_only",
+      "evidence": "phase_1_data_online_local_lane_plan_pack_no_execution_ready"
+    },
+    {
+      "id": "aggregate_readback_plan",
+      "status": "closed_reference_only",
+      "evidence": "phase_1_data_online_local_lane_plan_pack_no_execution_ready"
+    },
+    {
+      "id": "duplicate_rejection_plan",
+      "status": "closed_reference_only",
+      "evidence": "phase_1_data_online_local_lane_plan_pack_no_execution_ready"
+    },
+    {
+      "id": "post_run_review_plan",
+      "status": "closed_reference_only",
+      "evidence": "phase_1_data_online_local_lane_plan_pack_no_execution_ready"
+    },
+    {
+      "id": "source_rights_boundary",
+      "status": "closed_reference_only",
+      "evidence": "official_open_free_automated_source_boundary_requires_attribution_and_no_raw_payload"
+    },
+    {
+      "id": "runtime_fallback_boundary",
+      "status": "closed_reference_only",
+      "evidence": "public_runtime_remains_mock_until_post_run_review_and_promotion_gate"
+    },
+    {
+      "id": "public_disclosure_boundary",
+      "status": "closed_reference_only",
+      "evidence": "public_pages_must_disclose_source_time_delay_mock_or_real_state_and_no_investment_advice"
+    }
+  ],
+  "nextRoute": "phase_1_write_gate_dry_run_after_preflight_requirements",
+  "safety": {
+    "valuesRead": false,
+    "valuesStored": false,
+    "valuesPrinted": false,
+    "valuesHashed": false,
+    "valuesCompared": false,
+    "valuesTransformed": false,
+    "credentialValueRead": false,
+    "credentialValueStored": false,
+    "credentialValuePrinted": false,
+    "sqlExecuted": false,
+    "supabaseReadAttempted": false,
+    "supabaseWriteAttempted": false,
+    "marketDataFetched": false,
+    "marketDataIngested": false,
+    "dailyPricesMutated": false,
+    "stagingRowsCreated": false,
+    "rawPayloadsPrinted": false,
+    "rowPayloadsPrinted": false,
+    "secretsPrinted": false,
+    "publicPromotionAllowed": false,
+    "scoreSourceRealAllowed": false,
+    "investmentAdviceClaimAllowed": false,
+    "publicDataSource": "mock",
+    "scoreSource": "mock"
+  }
+}
