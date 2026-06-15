@@ -13,7 +13,8 @@ import type { SignalSnapshot } from "@/lib/signal-model";
 
 export const metadata: Metadata = {
   title: "市場快報",
-  description: "用 30 秒看懂市場燈號、主要風險、下一步行動與資料邊界。"
+  description:
+    "用 30 秒看懂市場燈號、風險提示、資料更新時間與下一步觀察順序；目前為示範資料，不構成投資建議。"
 };
 
 export default async function BriefingPage() {
@@ -35,29 +36,30 @@ export default async function BriefingPage() {
 
       <section className="hero briefing-public-summary" aria-label="市場快報摘要">
         <p className="eyebrow">市場快報</p>
-        <h1>30 秒看懂市場燈號，3 分鐘整理下一步行動</h1>
+        <h1>30 秒看懂市場燈號，3 分鐘決定今天要觀察什麼</h1>
         <p>
-          目前 {market.asset.name} 為「{market.signal.title}」，綜合分數 {market.compositeScore}/100，風險分數{" "}
-          {market.riskScore}/100。先看整體市場，再確認需要加強觀察的標的。
+          目前以 {market.asset.name} 作為市場輪廓參考，燈號為「{market.signal.title}」，
+          綜合分數 {market.compositeScore}/100，風險分數 {market.riskScore}/100。先看市場氣氛，
+          再確認風險最高標的與資料更新時間。
         </p>
         <p className="runtime-boundary-line">
-          本頁仍使用示範資料，不宣稱正式即時資料，也不提供個股買賣建議。
+          本頁仍使用示範資料與示範分數；所有內容僅供市場資訊整理與風險辨識，不是投資建議。
         </p>
       </section>
 
-      <section className="briefing-executive-summary" aria-label="市場摘要">
+      <section className="briefing-executive-summary" aria-label="市場快報重點">
         <div>
-          <p className="eyebrow">30 秒摘要</p>
+          <p className="eyebrow">30 秒重點</p>
           <h2>{market.signal.title}</h2>
           <p>{market.signal.text}</p>
         </div>
         <aside>
           <span>
-            <b>市場分數</b>
+            <b>市場綜合分數</b>
             <i>{market.compositeScore}/100</i>
           </span>
           <span>
-            <b>最高風險觀察</b>
+            <b>優先複核風險</b>
             <i>
               {topRisk.asset.name}: {topRisk.riskScore}/100
             </i>
@@ -65,34 +67,42 @@ export default async function BriefingPage() {
         </aside>
       </section>
 
-      <section className="briefing-breadth" id="market-structure" aria-label="市場結構">
-        <BreadthCard label="偏多" tone="active" value={breadth.constructive} />
-        <BreadthCard label="觀望" tone="hold" value={breadth.watch} />
-        <BreadthCard label="警戒" tone="blocked" value={breadth.defensive} />
+      <section className="briefing-breadth" id="market-structure" aria-label="市場廣度">
+        <BreadthCard label="偏多或穩定" tone="active" value={breadth.constructive} />
+        <BreadthCard label="需要觀察" tone="hold" value={breadth.watch} />
+        <BreadthCard label="偏防守" tone="blocked" value={breadth.defensive} />
       </section>
 
-      <section className="panel stock-reading-summary" aria-label="下一步行動">
+      <section className="panel stock-reading-summary" aria-label="三分鐘判斷流程">
         <p className="eyebrow">下一步行動</p>
-        <h2>把市場狀態轉成可追蹤的觀察清單</h2>
+        <h2>先看市場，再看風險，最後確認資料狀態</h2>
         <div className="briefing-actions">
           <article>
-            <strong>1. 看方向</strong>
-            <p>先用綜合分數判斷市場偏多、觀望或警戒，再決定是否需要加強觀察。</p>
+            <strong>1. 看市場氣氛</strong>
+            <p>用 TWII 與市場廣度判斷目前偏多、觀望或防守，不用單一分數做結論。</p>
           </article>
           <article>
-            <strong>2. 看風險</strong>
-            <p>確認風險分數最高的標的，檢查波動、資料新鮮度與下行風險。</p>
+            <strong>2. 看風險來源</strong>
+            <p>優先檢查風險分數最高的標的，確認是市場共同風險，還是個別標的異常。</p>
           </article>
           <article>
-            <strong>3. 看資料</strong>
-            <p>確認資料狀態與更新時間；正式資料上線前，所有判讀都以示範資料為主。</p>
+            <strong>3. 看資料時間</strong>
+            <p>確認資料更新時間與示範資料邊界；正式資料上線前，不把燈號當成交易訊號。</p>
           </article>
         </div>
       </section>
 
-      <section className="weekly-grid" aria-label="市場觀察列表">
-        <BriefingList description="綜合分數較高，適合優先觀察趨勢與動能。" items={strongest} title="相對強勢" />
-        <BriefingList description="風險分數較高，適合優先檢查波動與下行風險。" items={[topRisk]} title="最高風險" />
+      <section className="weekly-grid" aria-label="市場觀察清單">
+        <BriefingList
+          description="綜合分數較高的標的可作為觀察清單起點，但仍要回看成因、資料時間與風險分數。"
+          items={strongest}
+          title="優先觀察強勢變化"
+        />
+        <BriefingList
+          description="風險分數較高的標的需要先複核資料狀態與主要風險，不適合直接延伸成買賣判斷。"
+          items={[topRisk]}
+          title="優先複核風險來源"
+        />
       </section>
 
       <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
@@ -119,7 +129,7 @@ function BreadthCard({ label, tone, value }: { label: string; tone: "active" | "
     <article className={tone}>
       <span>{label}</span>
       <strong>{value}</strong>
-      <p>符合此狀態的觀察標的數量</p>
+      <p>依目前示範燈號統計的市場結構，請搭配資料時間與風險提示閱讀。</p>
     </article>
   );
 }
@@ -127,7 +137,7 @@ function BreadthCard({ label, tone, value }: { label: string; tone: "active" | "
 function BriefingList({ description, items, title }: { description: string; items: SignalSnapshot[]; title: string }) {
   return (
     <section className="panel">
-      <p className="eyebrow">市場觀察</p>
+      <p className="eyebrow">市場觀察清單</p>
       <h2>{title}</h2>
       <p>{description}</p>
       <div className="stock-chip-list">
