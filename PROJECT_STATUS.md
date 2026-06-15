@@ -2,6 +2,39 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Latest A1 source-rights unblock priority packet refresh
+
+Status: `a1_source_rights_unblock_priority_packet_ready_local_only_not_executable`
+
+CEO decision:
+
+- `prioritize_etf_source_rights_unblock_while_twii_waits_at_final_operator_stopline`.
+- Stop assigning A1 to TWII source-rights unblock work unless TWII regresses; TWII now waits at `twii_final_authorization_stopline_go_no_go_gate`.
+- Move A1's active source-rights unblock assignment to ETF, because `0050` and `006208` together represent `118` missing Phase 1 rows.
+- Keep ETF blocked for execution until source-rights evidence is accepted in a separate decision.
+
+PM completed:
+
+- Refreshed `docs/A1_SOURCE_RIGHTS_UNBLOCK_PRIORITY_PACKET.md`.
+- Updated `scripts/check-a1-source-rights-unblock-priority-packet.mjs` to validate the current stopline/ETF split instead of stale TWII source-rights blockers.
+- Preserved `publicDataSource=mock`, `scoreSource=mock`, and all no-execution hard stops.
+
+Current routing:
+
+- `twiiCurrentSubroute=twii_final_authorization_stopline_go_no_go_gate`
+- `nextA1Route=prepare_etf_source_rights_acceptance_evidence_without_market_row_fetch`
+- `etfSourceRightsOutcome=rejected_for_execution_pending_external_rights`
+- `source_rights_priority_ready_execution_blocked`
+
+Boundary:
+
+- No SQL, Supabase read/write, staging row creation, `daily_prices` mutation, raw market-data fetch/store/commit, row payload read/output, ETF candidate generation, source promotion, real score promotion, membership implementation, production env mutation, DNS change, Vercel mutation, or platform deploy occurred.
+- Runtime remains `publicDataSource=mock` and `scoreSource=mock`.
+
+Next:
+
+A1 should prepare ETF source-rights acceptance evidence without market-row fetch. PM should keep TWII waiting at the final operator stopline until external operator values are provided outside the repository.
+
 ### Latest TWII exact-route convergence to sanitized candidate gate
 
 Status: `twii_exact_execution_preflight_repair_selector_ready_no_execution`

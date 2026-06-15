@@ -37,7 +37,7 @@ const requiredPhrases = [
   [inputs.a1Coverage, "TWII index daily coverage"],
   [inputs.a1Coverage, "ETF daily coverage for `0050`"],
   [inputs.a1Coverage, "ETF daily coverage for `006208`"],
-  [inputs.a1RightsPriority, "A1 next assignment: `twii_source_rights_unblock_decision_record_candidate`"],
+  [inputs.a1RightsPriority, "A1 next assignment: `prepare_etf_source_rights_acceptance_evidence_without_market_row_fetch`"],
   [inputs.a1DecisionRecord, "The next route is `twii_source_rights_evidence_intake_or_vendor_fallback_decision_support`"],
   [inputs.a1EvidenceFallback, "The next route is `twii_official_source_intake_fields_or_vendor_terms_review_packet`"],
   [inputs.a1OfficialIntake, "filled_official_001_012_for_official_open_data_api_candidate_no_execution"],
