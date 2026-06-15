@@ -2,6 +2,63 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Write-Gate Fail-Closed Runner Stub Ready
+
+Status: `phase_1_write_gate_fail_closed_runner_stub_ready_no_execution`
+
+CEO decision:
+
+- Build the fail-closed runner stub before any operator-controlled real write.
+- Prefer technical risk closure over another review-only packet: the runner stub is executable locally but always returns a blocked no-execution JSON summary.
+- Keep SQL, Supabase write, `daily_prices` mutation, candidate row acceptance, and runtime promotion closed.
+
+PM completed:
+
+- Added `data/evidence-intake/phase-1-write-gate-fail-closed-runner-stub.json`.
+- Added `docs/PHASE_1_WRITE_GATE_FAIL_CLOSED_RUNNER_STUB.md`.
+- Added `run:phase-1-write-gate-fail-closed-runner-stub`.
+- Added and registered `check:phase-1-write-gate-fail-closed-runner-stub`.
+
+Runner state:
+
+- `runnerStubReady=true`
+- `runnerMode=fail_closed_no_execution`
+- `runnerExecutableNow=false`
+- `executionAllowedNow=false`
+- `writeGateExecutableNow=false`
+- `boundedAttemptScope=twii_and_etf_phase_1_missing_row_closure_only`
+- `targetTable=daily_prices`
+
+Target rows:
+
+- `fullLevel1ExpectedRows=360`
+- `fullLevel1ObservedRows=182`
+- `fullLevel1MissingRows=178`
+- `twiiMissingRows=60`
+- `etfMissingRows=118`
+
+Blocked until:
+
+- `operator_final_go_no_go`
+- `sanitized_candidate_artifact_paths`
+- `server_only_credentials_present`
+- `insert_missing_only_runner_implementation_review`
+- `aggregate_readback_runner_implementation_review`
+- `rollback_or_quarantine_decision`
+- `post_run_review_packet`
+- `runtime_promotion_decision`
+
+Current boundary:
+
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+- No switch value, confirmation phrase, operator value, credential value, raw payload, row payload, or secret was printed, stored, hashed, compared, or transformed.
+- No SQL, Supabase client import/read/write/connection, staging row, `daily_prices` mutation, candidate row acceptance, market-data fetch/ingestion, source promotion, score promotion, public real-data claim, or investment-advice claim occurred.
+
+Next route:
+
+Prepare `phase_1_write_gate_runner_stub_post_run_review_no_execution`.
+
 ### Phase 1 Write-Gate Execution Packet Draft Ready
 
 Status: `phase_1_write_gate_execution_packet_draft_no_execution_ready`

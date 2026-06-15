@@ -1529,6 +1529,8 @@
     "check:phase-1-write-gate-preflight-requirements-closure": "node scripts/check-phase-1-write-gate-preflight-requirements-closure.mjs",
     "check:phase-1-write-gate-dry-run-after-preflight-requirements": "node scripts/check-phase-1-write-gate-dry-run-after-preflight-requirements.mjs",
     "check:phase-1-write-gate-execution-packet-draft-no-execution": "node scripts/check-phase-1-write-gate-execution-packet-draft-no-execution.mjs",
+    "run:phase-1-write-gate-fail-closed-runner-stub": "node scripts/run-phase-1-write-gate-fail-closed-runner-stub.mjs",
+    "check:phase-1-write-gate-fail-closed-runner-stub": "node scripts/check-phase-1-write-gate-fail-closed-runner-stub.mjs",
     "check:phase-1-row-coverage-readonly-result-20260615-a": "node scripts/check-phase-1-row-coverage-readonly-result-20260615-a.mjs",
     "check:phase-1-twii-etf-missing-rows-backfill-readiness": "node scripts/check-phase-1-twii-etf-missing-rows-backfill-readiness.mjs",
     "check:phase-1-twii-write-attempt-stopline-rollup": "node scripts/check-phase-1-twii-write-attempt-stopline-rollup.mjs",
