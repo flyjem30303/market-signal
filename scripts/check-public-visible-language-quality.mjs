@@ -36,7 +36,7 @@ const routeRequiredVisibleFragments = {
   "/": ["指數狀態儀表站", "30 秒", "3 分鐘", "示範資料"],
   "/briefing": ["市場簡報", "30 秒", "3 分鐘", "資料來源"],
   "/weekly": ["市場週報", "30 秒", "風險", "示範資料"],
-  "/membership": ["會員", "自選追蹤", "盤後複盤"],
+  "/membership": ["會員", "自選追蹤", "盤後複盤", "尚未開放", "後續"],
   "/methodology": ["燈號", "方法", "資料"],
   "/disclaimer": ["風險聲明", "投資建議", "資料"],
   "/terms": ["使用條款", "資料", "服務"],
@@ -132,6 +132,19 @@ const forbiddenRoleFragments = [
   /\bC:\\/u
 ];
 
+const forbiddenMembershipReadyFragments = [
+  "立即註冊",
+  "登入會員",
+  "開始使用 watchlist",
+  "建立 watchlist",
+  "建立自選",
+  "設定自訂警示",
+  "付費方案",
+  "訂閱方案",
+  "會員專區已開放",
+  "會員專屬內容已開放"
+];
+
 const publicResults = [];
 for (const route of publicRoutes) {
   publicResults.push(await checkPublicRoute(route));
@@ -190,6 +203,7 @@ async function checkPublicRoute(route) {
     const required = [...globalRequiredVisibleFragments, ...routeRequired];
     const missing = required.filter((phrase) => !visibleText.includes(phrase));
     const forbiddenHits = forbiddenVisibleFragments.filter((fragment) => visibleText.includes(fragment));
+    const membershipReadyHits = forbiddenMembershipReadyFragments.filter((fragment) => visibleText.includes(fragment));
     const roleHits = forbiddenRoleFragments.filter((pattern) => pattern.test(visibleText)).map(String);
     const mojibakeHits = findBadTextMarkers(visibleText);
     const titleHits = pageTitle.includes("| 指數燈號 | 指數燈號") ? ["duplicated-site-title"] : [];
@@ -202,9 +216,11 @@ async function checkPublicRoute(route) {
         response.status === 200 &&
         missing.length === 0 &&
         forbiddenHits.length === 0 &&
+        membershipReadyHits.length === 0 &&
         roleHits.length === 0 &&
         mojibakeHits.length === 0 &&
         titleHits.length === 0,
+      membershipReadyHits,
       roleHits,
       route,
       status: response.status,
@@ -317,6 +333,10 @@ function checkCheckerSource() {
     {
       check: "forbidden visible fragment list includes internal process terms",
       pass: ["PUBLIC_BETA", "Supabase", "Phase 1", "OFFICIAL-", "cmd.exe"].every((fragment) => source.includes(fragment))
+    },
+    {
+      check: "membership ready claims stay forbidden before Phase 2",
+      pass: forbiddenMembershipReadyFragments.every((fragment) => source.includes(fragment))
     },
     {
       check: "checker scans rendered routes",
