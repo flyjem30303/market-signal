@@ -2,6 +2,56 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Data Online Bounded Readonly Runner Stub No Execution
+
+Status: `phase_1_data_online_bounded_readonly_runner_stub_no_execution_ready`
+
+CEO decision:
+
+- Add a fail-closed local runner stub and post-run review shell for the named Phase 1 bounded readonly attempt.
+- Prove the runner blocks without confirmation and does not attempt any remote Supabase read.
+- Keep the real remote readonly attempt blocked until a separate operator decision explicitly authorizes exactly one bounded attempt.
+
+PM completed:
+
+- Added `scripts/run-phase-1-data-online-bounded-readonly-attempt-once.mjs`.
+- Added `scripts/report-phase-1-data-online-bounded-readonly-post-run-review.mjs`.
+- Added `docs/PHASE_1_DATA_ONLINE_BOUNDED_READONLY_RUNNER_STUB_NO_EXECUTION.md`.
+- Added `check:phase-1-data-online-bounded-readonly-runner-stub-no-execution`.
+- Registered the checker in the focused review gate.
+- Confirmed the attempt packet and data-online NO_GO state remain aligned.
+
+Runner stub output:
+
+- `runnerStubReady=true`.
+- `attemptId=phase1-data-online-readonly-20260615-a`.
+- `runnerStatus=phase_1_data_online_bounded_readonly_stub_blocked_confirmation_required`.
+- `postRunReviewStatus=phase_1_data_online_bounded_readonly_post_run_review_accepted_fail_closed_stub`.
+- `executionAuthorizedNow=false`.
+- `readonlyAttemptExecutableNow=false`.
+- `remoteAttempted=false`.
+
+Current data-online position:
+
+- Phase 1 data-online decision remains `PUBLIC_RUNTIME_READY_BUT_DATA_ONLINE_NO_GO`.
+- Current Level 1 coverage remains `182/360`; missing rows remain `178/360`.
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+
+Evidence:
+
+- `cmd.exe /c npm run check:phase-1-data-online-bounded-readonly-runner-stub-no-execution` passes.
+- `cmd.exe /c npm run check:phase-1-data-online-bounded-readonly-attempt-packet-no-execution` remains the packet proof.
+- `cmd.exe /c npm run check:phase-1-data-online-go-no-go-status` remains the current data-online NO_GO proof.
+
+Boundary:
+
+No SQL, Supabase connection/read/write, staging-row creation, `daily_prices` mutation, market-row fetch, raw payload output, endpoint response output, credential value output, operator value output, execution value storage, readonly attempt execution, write-gate execution, source promotion, score promotion, public real-data claim, real-time claim, official endorsement claim, investment advice claim, or production mutation occurred.
+
+Next route:
+
+CEO should prepare a separate operator decision record for exactly one bounded readonly attempt. That decision can either keep the remote attempt blocked or explicitly authorize one aggregate-only readonly attempt for `daily_prices`, followed immediately by the post-run review.
+
 ### Phase 1 Data Online Bounded Readonly Attempt Packet No Execution
 
 Status: `phase_1_data_online_bounded_readonly_attempt_packet_no_execution_ready`

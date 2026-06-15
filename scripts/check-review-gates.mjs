@@ -3633,6 +3633,11 @@ const checks = [
     name: "phase-1-data-online-bounded-readonly-attempt-packet-no-execution"
   },
   {
+    command: [node, "scripts/check-phase-1-data-online-bounded-readonly-runner-stub-no-execution.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-data-online-bounded-readonly-runner-stub-no-execution"
+  },
+  {
     command: [node, "scripts/check-twii-exact-execution-preflight-repair-selector.mjs"],
     expectStatus: "ok",
     name: "twii-exact-execution-preflight-repair-selector"
@@ -6679,6 +6684,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "phase-1-data-online-external-platform-ledger-append-no-execution",
   "phase-1-data-online-readonly-gate-preflight-no-execution",
   "phase-1-data-online-bounded-readonly-attempt-packet-no-execution",
+  "phase-1-data-online-bounded-readonly-runner-stub-no-execution",
   "twii-exact-execution-preflight-repair-selector",
   "twii-source-rights-outcome-acceptance-gate",
   "twii-field-contract-asset-mapping-alignment-gate",
