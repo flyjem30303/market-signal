@@ -3,8 +3,8 @@ import { PageViewTracker } from "@/components/page-view-tracker";
 import { TrackedLink } from "@/components/tracked-link";
 
 export const metadata: Metadata = {
-  title: "隱私權政策",
-  description: "說明公開版與未來會員功能可能使用的資料類型，例如 watchlist、警示條件與盤後複盤閱讀紀錄。"
+  title: "隱私政策",
+  description: "說明公開版與未來會員功能可能涉及的資料範圍；目前不啟用會員登入或持久化自選追蹤。"
 };
 
 export default function PrivacyPage() {
@@ -12,34 +12,37 @@ export default function PrivacyPage() {
     <main className="page-shell">
       <PageViewTracker eventName="privacy_page_viewed" payload={{ page: "privacy" }} />
       <section className="hero">
-        <p className="eyebrow">隱私權政策</p>
-        <h1>公開版先以最少資料運作；會員功能上線後再補充個人化資料規則</h1>
+        <p className="eyebrow">隱私政策</p>
+        <h1>公開版可直接瀏覽；會員資料功能會在啟用前另行說明</h1>
         <p>
-          目前公開版主要使用基本瀏覽與互動事件來改善產品。未來會員功能可能包含 watchlist、自訂警示條件與盤後複盤閱讀紀錄。
+          第一階段以公開市場總覽為主，不啟用會員登入、付款、持久化自選追蹤或個人化警示。若未來開放會員功能，
+          會先說明收集目的、使用範圍與保存方式。
         </p>
-        <p className="runtime-boundary-line">會員資料只會用於提供追蹤、提醒與內容體驗，不會作為交易指令或個人投資建議。</p>
+        <p className="runtime-boundary-line">
+          自選追蹤、警示與盤後複盤屬於後續會員功能預告；目前公開版不需要使用者提供敏感資料。
+        </p>
       </section>
 
-      <section className="legal-quick-read" aria-label="隱私權快讀">
+      <section className="legal-quick-read" aria-label="隱私政策快讀">
         <article>
           <span>公開版</span>
-          <strong>最少資料</strong>
-          <p>以頁面瀏覽與互動資料協助改善可讀性。</p>
+          <strong>可直接瀏覽</strong>
+          <p>目前核心頁面不要求登入，也不需要提供個人金融資料。</p>
         </article>
         <article>
-          <span>會員規劃</span>
-          <strong>watchlist 與警示</strong>
-          <p>用於保存使用者關注標的與提醒條件。</p>
+          <span>自選追蹤</span>
+          <strong>尚未啟用</strong>
+          <p>自選追蹤與自訂警示會留到會員階段，正式啟用前會另行揭露。</p>
         </article>
         <article>
-          <span>內容體驗</span>
-          <strong>盤後複盤</strong>
-          <p>可能記錄閱讀與互動狀態，協助改善回訪體驗。</p>
+          <span>風險聲明</span>
+          <strong>非投資建議</strong>
+          <p>隱私政策不改變網站定位：本網站只提供市場資訊整理與觀察輔助。</p>
         </article>
       </section>
 
       <section className="panel legal-links">
-        <h2>相關頁面</h2>
+        <h2>相關文件</h2>
         <TrackedLink className="text-link" eventName="trust_link_clicked" href="/terms" label="查看使用條款" payload={{ area: "privacy" }}>
           查看使用條款
         </TrackedLink>

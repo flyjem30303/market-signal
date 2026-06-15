@@ -38,6 +38,41 @@ Next:
 
 Continue Phase 1 by checking the remaining public surfaces for mojibake and developer-process residue, then advance the data-online write/read loop only where it directly supports the BRIEF.
 
+### Latest Phase 1 public support route cleanup
+
+Status: `phase_1_public_support_routes_clean_and_verified`
+
+CEO decision:
+
+- Continue the active GOAL with `karpathy-guidelines`: repair the concrete public-facing defects instead of adding more process.
+- Treat public support routes as Phase 1 launch requirements, not final polish, because terms, privacy, methodology, weekly, membership-preview, home, and stock pages all affect user trust.
+- Keep Phase 2 membership visible only as a clearly marked future roadmap; do not expose `watchlist` English, internal workflow terms, or development-process language.
+
+PM completed:
+
+- Simplified `src/components/dashboard-shell.tsx` into a clean Phase 1 market dashboard: market state, 30-second summary, 3-minute observation flow, data boundary, and non-investment-advice language.
+- Rebuilt `/weekly`, `/membership`, `/methodology`, `/terms`, and `/privacy` into readable Traditional Chinese public support pages.
+- Removed visible `watchlist` English from public pages and replaced it with user-facing `自選追蹤`.
+- Fixed `/briefing` metadata title so the site title is not duplicated.
+
+Verification:
+
+- `cmd.exe /c npx tsc --noEmit` passed.
+- `cmd.exe /c npm run check:public-surface-user-facing-audit` passed.
+- `cmd.exe /c npm run check:public-visible-language-quality` passed.
+- `cmd.exe /c npm run build` passed.
+- `git diff --check` passed.
+- Local HTTP smoke passed: `/`, `/weekly`, `/membership`, and `/methodology` returned 200 with expected readable copy.
+
+Boundary:
+
+- No SQL, Supabase write, staging row creation, `daily_prices` mutation, raw market-data fetch/store/commit, source promotion, real score promotion, membership implementation, production env mutation, DNS change, Vercel mutation, or platform deploy occurred.
+- Runtime remains `publicDataSource=mock` and `scoreSource=mock`.
+
+Next:
+
+Resume the data-online path by resolving the existing write-gate readiness escalation map change, then move toward the smallest safe write/read loop needed for Phase 1 data completion.
+
 ### Latest Phase 1 public route user-facing residue gate slice
 
 Status: `phase_1_public_route_user_facing_residue_gate_ready`

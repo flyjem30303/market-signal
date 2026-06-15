@@ -14,7 +14,7 @@ import {
 import type { SignalSnapshot } from "@/lib/signal-model";
 
 export const metadata: Metadata = {
-  title: "市場簡報 | 指數燈號",
+  title: "市場簡報",
   description: "用 30 秒看懂目前市場燈號、主要風險與下一步觀察方向。"
 };
 

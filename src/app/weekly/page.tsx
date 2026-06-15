@@ -12,7 +12,7 @@ import type { SignalSnapshot } from "@/lib/signal-model";
 
 export const metadata: Metadata = {
   title: "市場週報",
-  description: "公開週報整理本週市場燈號、觀察重點與資料邊界。目前為模擬資料，不是投資建議。"
+  description: "整理本週市場狀態、主要風險與下一步觀察方向；內容不提供買賣建議。"
 };
 
 export default async function WeeklyPage() {
@@ -30,31 +30,33 @@ export default async function WeeklyPage() {
     <main className="page-shell">
       <PageViewTracker eventName="weekly_page_viewed" payload={{ page: "weekly" }} />
       <section className="hero">
-        <p className="eyebrow">公開週報</p>
-        <h1>市場週報：一週一次整理市場燈號與觀察重點</h1>
+        <p className="eyebrow">市場週報</p>
+        <h1>本週市場狀態：先看燈號，再看風險來源</h1>
         <p>
-          週報把每日燈號整理成較長週期的觀察摘要，協助使用者用 30 秒回看市場狀態是否延續、風險是否升高，以及下週應該優先追蹤什麼。
+          本週市場狀態整理會把主燈號、最高風險項目與資料更新時間放在同一頁，讓使用者用 30 秒快速回顧市場變化。
         </p>
-        <p className="runtime-boundary-line">目前週報使用模擬資料展示閱讀流程，不是投資建議，也不宣稱即時真實資料。</p>
+        <p className="runtime-boundary-line">
+          週報僅提供市場資訊整理與觀察輔助，不提供買賣建議，也不保證任何投資結果。
+        </p>
       </section>
 
       <section className="weekly-quick-read" aria-label="週報快讀">
         <article>
-          <span>市場燈號</span>
+          <span>本週市場狀態</span>
           <strong>{market.signal.title}</strong>
           <p>{market.signal.text}</p>
         </article>
         <article>
-          <span>影響級別</span>
+          <span>主要風險</span>
           <strong>{topRisk.riskScore >= 70 ? "高" : topRisk.riskScore >= 55 ? "中" : "低"}</strong>
           <p>
-            {topRisk.asset.name} 風險分數 {topRisk.riskScore}/100；若影響級別升高，下週先檢查資料更新時間與風險變化。
+            {topRisk.asset.name} 風險分數 {topRisk.riskScore}/100。若風險升高，請先確認資料時間與成因。
           </p>
         </article>
         <article>
-          <span>資料邊界</span>
-          <strong>模擬資料</strong>
-          <p>正式資料上線前，週報只作為公開 Beta 的閱讀示範。</p>
+          <span>資料狀態</span>
+          <strong>示範資料</strong>
+          <p>正式資料尚未啟用，週報內容需搭配資料來源與更新時間閱讀。</p>
         </article>
       </section>
 
@@ -65,8 +67,8 @@ export default async function WeeklyPage() {
         <TrackedLink className="text-link" eventName="weekly_link_clicked" href="/briefing" label="查看市場簡報" payload={{ area: "weekly" }}>
           查看市場簡報
         </TrackedLink>
-        <TrackedLink className="text-link" eventName="weekly_link_clicked" href={`/stocks/${market.asset.symbol}`} label="查看指數詳情" payload={{ area: "weekly" }}>
-          查看指數詳情
+        <TrackedLink className="text-link" eventName="weekly_link_clicked" href={`/stocks/${market.asset.symbol}`} label="查看市場主燈號" payload={{ area: "weekly" }}>
+          查看市場主燈號
         </TrackedLink>
       </section>
 
