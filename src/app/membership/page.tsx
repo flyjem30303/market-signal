@@ -4,7 +4,11 @@ import { TrackedLink } from "@/components/tracked-link";
 
 export const metadata: Metadata = {
   title: "會員功能預覽",
-  description: "會員功能預告：公開版先完成市場總覽、核心指標與風險提示，後續再導入深度解讀與個人化追蹤。"
+  description: "會員功能預告：公開版先完成市場總覽、核心指標與風險提示，後續再導入深度解讀與個人化追蹤。",
+  robots: {
+    follow: false,
+    index: false
+  }
 };
 
 export default function MembershipPage() {
