@@ -13,7 +13,7 @@ import type { SignalSnapshot } from "@/lib/signal-model";
 
 export const metadata: Metadata = {
   title: "市場週報",
-  description: "回看一週市場燈號、示範資料狀態、風險變化與後續觀察重點。"
+  description: "用一週視角回看市場燈號、風險變化、相對強勢標的與資料更新狀態；目前為示範資料，不構成投資建議。"
 };
 
 export default async function WeeklyPage() {
@@ -34,11 +34,11 @@ export default async function WeeklyPage() {
 
       <section className="hero">
         <p className="eyebrow">市場週報</p>
-        <h1>回看一週市場燈號與主要觀察重點</h1>
+        <h1>用一週視角回看市場燈號與風險變化</h1>
         <p>
           週報協助使用者回看市場狀態、風險變化與相對強勢標的。正式資料上線前，本頁仍以示範資料呈現閱讀流程。
         </p>
-        <p className="runtime-boundary-line">目前不是投資建議，也不宣稱正式即時資料或完整市場覆蓋。</p>
+        <p className="runtime-boundary-line">本頁不是投資建議，也不宣稱即時真實行情；請搭配資料時間與風險提示閱讀。</p>
       </section>
 
       <section className="weekly-quick-read" aria-label="週報摘要">
@@ -48,24 +48,24 @@ export default async function WeeklyPage() {
           <p>{market.signal.text}</p>
         </article>
         <article>
-          <span>最高風險觀察</span>
+          <span>本週優先複核</span>
           <strong>{topRisk.asset.name}</strong>
-          <p>風險分數 {topRisk.riskScore}/100。請確認資料狀態與後續觀察條件。</p>
+          <p>風險分數 {topRisk.riskScore}/100。請先確認資料狀態與主要風險來源，再延伸後續觀察。</p>
         </article>
         <article>
           <span>資料狀態</span>
           <strong>示範資料</strong>
-          <p>資料更新狀態會清楚標示；正式資料上線前不作即時或完整覆蓋宣稱。</p>
+          <p>資料更新狀態會顯示在頁面下方；正式資料流程啟用前，不把週報視為交易訊號。</p>
         </article>
       </section>
 
-      <section className="weekly-grid" aria-label="週報觀察標的">
+      <section className="weekly-grid" aria-label="週報觀察清單">
         {strongest.map((snapshot) => (
           <article className="panel" key={snapshot.asset.symbol}>
             <p className="eyebrow">{snapshot.asset.symbol}</p>
             <h2>{snapshot.asset.name}</h2>
             <p>
-              綜合分數 {snapshot.compositeScore}/100，風險分數 {snapshot.riskScore}/100。可作為下週觀察清單的一部分。
+              市場分數 {snapshot.compositeScore}/100，風險分數 {snapshot.riskScore}/100。適合放入一週觀察清單，但仍需回看成因與資料時間。
             </p>
             <TrackedLink
               eventName="weekly_link_clicked"

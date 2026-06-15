@@ -9,15 +9,15 @@ import { getMarketSignalSourceStatus } from "@/lib/repositories/market-signal-re
 
 export const metadata: Metadata = {
   title: "方法說明",
-  description: "說明指數燈號如何以燈號、綜合分數、風險分數與資料狀態協助市場判讀。"
+  description: "說明指數燈號如何整理市場狀態、風險分數、資料狀態與非投資建議邊界。"
 };
 
 const methodModules = [
-  ["燈號狀態", "把市場狀態整理成偏多、觀望、警戒或高風險等可讀訊號。", "協助使用者先抓方向，再進一步看成因。"],
-  ["綜合分數", "彙整趨勢、動能與市場結構的示範分數。", "用於比較不同標的的相對強弱，不代表買賣建議。"],
-  ["風險分數", "呈現波動、資料新鮮度與潛在風險條件。", "提醒使用者何時需要加強觀察或降低曝險。"],
-  ["資料狀態", "標示資料來源、更新時間與 mock/real 邊界。", "避免使用者把示範資料誤認為正式即時資料。"]
-];
+  ["市場燈號", "把市場狀態整理成偏多、觀望、警戒或高風險等可讀狀態。", "讓使用者先理解市場氛圍，而不是直接做買賣判斷。"],
+  ["市場分數", "整合趨勢、資料品質、估值、廣度、資金與風險環境等示範模型因子。", "用來比較相對狀態，不代表預測報酬或投資建議。"],
+  ["風險分數", "提示波動、資料延遲、訊號分歧或市場壓力是否升高。", "分數越高越需要複核資料時間、來源與自身風險承受度。"],
+  ["資料狀態", "標示目前為示範資料或正式資料，並揭露更新時間與使用邊界。", "正式資料啟用前，公開頁不宣稱即時真實行情。"]
+] as const;
 
 export default async function MethodologyPage() {
   const freshness = await getDataFreshnessSnapshot();
@@ -28,12 +28,12 @@ export default async function MethodologyPage() {
       <PageViewTracker eventName="methodology_page_viewed" payload={{ page: "methodology" }} />
       <section className="hero">
         <p className="eyebrow">方法說明</p>
-        <h1>燈號用來降低市場資訊理解門檻，不是交易指令</h1>
+        <h1>燈號是市場閱讀工具，不是買賣建議</h1>
         <p>
-          指數燈號把市場資料整理成燈號、分數、風險提示與資料狀態，協助使用者在短時間內建立觀察順序。
+          指數燈號把趨勢、風險、資料品質與市場廣度整理成容易閱讀的狀態，協助一般投資者建立固定觀察流程。
         </p>
         <p className="runtime-boundary-line">
-          目前仍為示範資料模式。正式資料上線前，本頁只說明判讀框架，不宣稱真實資料服務已完成。
+          目前公開版仍使用示範資料與示範分數；正式資料必須完成合法來源、資料品質、寫入回讀、回退與上線審核後才會啟用。
         </p>
       </section>
 
@@ -47,7 +47,7 @@ export default async function MethodologyPage() {
           <div className="method-row method-head" role="row">
             <span>模組</span>
             <span>用途</span>
-            <span>使用者價值</span>
+            <span>使用者應該怎麼看</span>
           </div>
           {methodModules.map(([name, purpose, value]) => (
             <div className="method-row" role="row" key={name}>
