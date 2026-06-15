@@ -1,0 +1,34 @@
+{
+  "status": "external_presence_acceptance_gate_ready_no_execution",
+  "packetMode": "external_presence_acceptance_gate_no_execution",
+  "externalPresenceAcceptanceStatus": "prepared_waiting_pm_review",
+  "acceptedPresenceResultStatus": "not_accepted_no_boolean_result_stored",
+  "writeGateExecutableNow": false,
+  "publicDataSource": "mock",
+  "scoreSource": "mock",
+  "allowedBooleanFields": [
+    "operatorDecisionPresent",
+    "executeSwitchPresent",
+    "confirmationPhrasePresent",
+    "serverOnlyCredentialPresent",
+    "rollbackReferencePresent",
+    "postRunReviewReferencePresent"
+  ],
+  "safety": {
+    "valuesRead": false,
+    "valuesStored": false,
+    "valuesPrinted": false,
+    "valuesHashed": false,
+    "valuesCompared": false,
+    "valuesTransformed": false,
+    "credentialValueRead": false,
+    "credentialValuePrinted": false,
+    "sqlExecuted": false,
+    "supabaseWriteAttempted": false,
+    "dailyPricesMutated": false,
+    "marketDataFetched": false,
+    "writeGateExecutableNow": false,
+    "publicPromotionAllowed": false,
+    "scoreSourceRealAllowed": false
+  }
+}

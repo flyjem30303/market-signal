@@ -2,6 +2,46 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 External Presence Acceptance Gate Ready
+
+Status: `phase_1_external_presence_acceptance_gate_ready_no_execution`
+
+CEO decision:
+
+- Move from operator-owned presence path to an explicit external presence acceptance gate.
+- Allow only future boolean presence field names; do not accept operator values, confirmation phrases, credential values, SQL, row payloads, raw market data, or market rows.
+- Keep write execution blocked until a separate reviewed-result artifact exists and downstream rollback/readback/post-run/duplicate/promotion gates remain satisfied.
+
+PM completed:
+
+- Added `data/evidence-intake/phase-1-external-presence-acceptance-gate.json`.
+- Added `docs/PHASE_1_DATA_ONLINE_EXTERNAL_PRESENCE_ACCEPTANCE_GATE_NO_EXECUTION.md`.
+- Added `scripts/check-phase-1-data-online-external-presence-acceptance-gate-no-execution.mjs`.
+- Added `check:phase-1-data-online-external-presence-acceptance-gate-no-execution` and registered it in the focused review gate.
+- Updated the write-gate checklist runner to report `externalPresenceAcceptanceStatus=prepared_waiting_pm_review` and `acceptedPresenceResultStatus=not_accepted_no_boolean_result_stored`.
+
+Verified:
+
+- `cmd.exe /c npm run check:phase-1-data-online-external-presence-acceptance-gate-no-execution` passes.
+
+Current blocker view:
+
+- Data online remains `NO_GO`.
+- `writeGateExecutableNow=false`.
+- Current remaining write-gate blockers include `operator_values_missing`, `credential_presence_unverified`, `operator_owned_presence_confirmation_unverified`, and `external_presence_acceptance_unverified`.
+- `externalPresenceAcceptanceStatus=prepared_waiting_pm_review`.
+- `acceptedPresenceResultStatus=not_accepted_no_boolean_result_stored`.
+
+Current boundary:
+
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+- No SQL, Supabase write, staging row, `daily_prices` mutation, market-data fetch/ingestion, row coverage award, source promotion, score promotion, secret output, row payload output, or public real-data claim occurred.
+
+Next route:
+
+CEO should prepare a future reviewed-result artifact that can contain only the allowed boolean presence fields. It must still avoid value storage, value printing, value hashing, value comparison, value transformation, SQL, Supabase writes, and runtime promotion.
+
 ### Phase 1 Operator-Owned Presence Confirmation Path Ready
 
 Status: `phase_1_operator_owned_presence_confirmation_path_ready_no_execution`
