@@ -2,6 +2,53 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Data Online PM Handoff Receiver Router
+
+Status: `phase_1_data_online_pm_handoff_receiver_router_ready_no_execution`
+
+CEO decision:
+
+- Keep the Phase 1 data-online mainline moving after A1/A2 handoff outputs arrive.
+- Add a deterministic PM receiver router so accepted, rejected, repair-required, deferred, and mixed outcomes each have a next route.
+- Preserve no-execution boundaries: this receiver router does not authorize SQL, Supabase read/write, market-row fetch, row coverage points, or runtime promotion.
+
+PM completed:
+
+- Added `docs/PHASE_1_DATA_ONLINE_PM_HANDOFF_RECEIVER_ROUTER.md`.
+- Added `check:phase-1-data-online-pm-handoff-receiver-router`.
+- Registered the checker in the focused review gate.
+- Proved the router against the A1/A2 handoff packet, data-online parallel selector, and data-online go/no-go status.
+
+Current data-online position:
+
+- Phase 1 data-online decision remains `PUBLIC_RUNTIME_READY_BUT_DATA_ONLINE_NO_GO`.
+- Full Level 1 coverage remains `182/360`; missing `178`.
+- TW equity rows remain `180/180`.
+- TWII missing rows remain `60`.
+- ETF missing rows remain `118`.
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+
+PM receiver routes:
+
+- All accepted: `open_separate_lane_authorization_gate_before_any_write_or_promotion`.
+- Any rejected: `return_rejected_lane_to_repair_without_runtime_promotion`.
+- Any repair required: `return_lane_to_a1_a2_repair_with_missing_fields_only`.
+- Any deferred: `keep_data_online_no_go_and_continue_mock_runtime_truthfulness`.
+- Mixed outcomes: `integrate_only_accepted_aggregate_safe_outputs_and_keep_remaining_lanes_blocked`.
+
+Evidence:
+
+- `cmd.exe /c npm run check:phase-1-data-online-pm-handoff-receiver-router` passes.
+
+Boundary:
+
+No SQL, Supabase connection/read/write, staging-row creation, `daily_prices` mutation, TWII/ETF market-row fetch, raw payload output, endpoint response output, operator value storage, candidate row acceptance, row coverage points, source promotion, score promotion, real-time claim, official endorsement claim, investment advice claim, production environment mutation, DNS change, broad visual redesign, or Phase 2 membership implementation occurred.
+
+Next route:
+
+When A1/A2 return outcomes, PM should run the receiver router and record only the deterministic route. If all required lane outputs are accepted, open a separate lane authorization gate. Do not execute, write, readback, promote, or claim public real data from this router.
+
 ### Phase 1 Data Online A1/A2 Handoff Packet
 
 Status: `phase_1_data_online_a1_a2_handoff_packet_ready_no_execution`
