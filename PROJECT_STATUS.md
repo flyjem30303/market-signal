@@ -44,6 +44,47 @@ Next route:
 
 CEO/PM should ask for or receive only presence-level external operator checklist results. The checklist value bodies, confirmation phrase, authorization value, execute switch value, and server credentials must remain outside the repo and outside logs. A1 should continue legal-free automated source and coverage artifacts in parallel.
 
+### Phase 1 Data Source And Coverage Route Rechecked
+
+Status: `phase_1_data_source_coverage_route_rechecked_mock_no_go`
+
+CEO decision:
+
+- The next blocker is not "find any source" anymore. The accepted primary candidate is already `twse_openapi_via_data_gov_open_data_references`.
+- TWII is blocked by external/operator values and write-gate prerequisites.
+- ETF is blocked by source-rights outcome, not by source scope, field contract, synthetic fixture, mock handoff, or coverage route.
+- PM should keep runtime public pages readable while A1 continues legal-free automated source/coverage evidence and ETF source-rights acceptance evidence without fetching market rows.
+
+Verified:
+
+- `cmd.exe /c npm run check:open-free-auto-data-source-gate` passes with accepted primary candidate `twse_openapi_via_data_gov_open_data_references`.
+- `cmd.exe /c npm run check:twse-openapi-bounded-metadata-terms-validation` passes.
+- `cmd.exe /c npm run check:twse-openapi-source-adapter-contract` passes.
+- `cmd.exe /c npm run check:twse-openapi-runtime-mock-wiring-readiness` passes.
+- `cmd.exe /c npm run check:twse-openapi-runtime-mock-consumer-wire` passes.
+- `cmd.exe /c npm run check:twse-openapi-field-contract-roadmap` passes.
+- `cmd.exe /c npm run check:twse-openapi-coverage-and-backfill-readiness` passes.
+- `cmd.exe /c npm run check:a1-public-beta-source-coverage-gap-matrix-no-fetch` passes.
+- `cmd.exe /c npm run check:phase-1-etf-coverage-closure-readiness-rollup` passes but remains `phase_1_etf_coverage_closure_readiness_rollup_ready_rights_blocked`.
+- `cmd.exe /c npm run check:phase-1-etf-parallel-coverage-repair-selector` passes and routes A1 to `prepare_etf_source_rights_acceptance_evidence_without_market_row_fetch`.
+
+Current blocker view:
+
+- TWII missing rows: `60`, blocked by operator/external value chain.
+- ETF missing rows: `118`, blocked by source-rights acceptance evidence.
+- Total Phase 1 Level 1 coverage remains `182/360`, missing `178`.
+- Runtime remains public-readable but data-online remains `NO_GO`.
+
+Current boundary:
+
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+- No SQL, Supabase read/write, staging row, `daily_prices` mutation, market-data fetch/ingestion, candidate-row acceptance, source promotion, score promotion, secret output, raw payload output, or public real-data claim occurred.
+
+Next route:
+
+PM mainline should keep TWII operator-value bridge as the write-gate route. A1 should continue ETF source-rights acceptance evidence and coverage artifacts without market-row fetch. A2 should keep public copy aligned with mock/non-advice boundaries.
+
 ### Phase 1 Public Data Readiness Status Rendered
 
 Status: `phase_1_public_data_readiness_status_rendered_mock_no_go`
