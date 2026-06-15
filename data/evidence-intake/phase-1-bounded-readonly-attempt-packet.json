@@ -1,0 +1,53 @@
+{
+  "status": "bounded_readonly_attempt_packet_ready_no_execution",
+  "packetMode": "bounded_readonly_attempt_packet_no_execution",
+  "attemptId": "phase1-data-online-readonly-20260615-a",
+  "targetSystem": "Supabase PostgREST readonly",
+  "scope": "aggregate_readonly_daily_prices_level1_coverage",
+  "operatorDecisionRequired": true,
+  "executionAuthorizedNow": false,
+  "readonlyAttemptExecutableNow": false,
+  "writeGateExecutableNow": false,
+  "publicDataSource": "mock",
+  "scoreSource": "mock",
+  "allowedTables": [
+    "daily_prices"
+  ],
+  "allowedAggregateFields": [
+    "tableReachable",
+    "rowCount",
+    "minTradeDate",
+    "maxTradeDate",
+    "distinctSymbolCount",
+    "missingExpectedRows",
+    "queryStatus"
+  ],
+  "allowedOutputShape": "aggregate_counts_only_no_rows_no_payloads",
+  "forbiddenFields": [
+    "rowBody",
+    "rawPayload",
+    "endpointResponseBody",
+    "secretValue",
+    "serviceRoleKey",
+    "sqlStatement",
+    "individualPriceRows",
+    "candidateMarketRows",
+    "stockIdPayload",
+    "credentialValue"
+  ],
+  "failClosedConditions": [
+    "missing operator decision",
+    "credential shape unsafe",
+    "scope differs from daily_prices aggregate readonly",
+    "any raw row or raw payload would be emitted",
+    "attempt count would exceed one",
+    "post-run review path is not named",
+    "runtime promotion is requested in the same slice"
+  ],
+  "maxAttemptCount": 1,
+  "postRunReviewRequired": true,
+  "nextCommandsPreview": [
+    "cmd.exe /c npm run run:phase-1-data-online-bounded-readonly-attempt-once -- --attempt-id phase1-data-online-readonly-20260615-a --scope aggregate-readonly-daily-prices-level1-coverage --aggregate-only",
+    "cmd.exe /c npm run report:phase-1-data-online-bounded-readonly-post-run-review -- --summary-path <SANITIZED_SUMMARY_JSON>"
+  ]
+}

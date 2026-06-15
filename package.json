@@ -1502,7 +1502,8 @@
     "check:stock-route-investor-language-alignment": "node scripts/check-stock-route-investor-language-alignment.mjs",
     "check:public-support-route-reading-contract": "node scripts/check-public-support-route-reading-contract.mjs",
     "check:phase-1-data-online-external-platform-ledger-append-no-execution": "node scripts/check-phase-1-data-online-external-platform-ledger-append-no-execution.mjs",
-    "check:phase-1-data-online-readonly-gate-preflight-no-execution": "node scripts/check-phase-1-data-online-readonly-gate-preflight-no-execution.mjs"
+    "check:phase-1-data-online-readonly-gate-preflight-no-execution": "node scripts/check-phase-1-data-online-readonly-gate-preflight-no-execution.mjs",
+    "check:phase-1-data-online-bounded-readonly-attempt-packet-no-execution": "node scripts/check-phase-1-data-online-bounded-readonly-attempt-packet-no-execution.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.4",
