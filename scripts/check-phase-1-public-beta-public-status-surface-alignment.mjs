@@ -12,18 +12,14 @@ const sourcePaths = [
   "src/components/public-next-reading-flow.tsx",
   "src/app/globals.css"
 ];
-const requiredPublicPhrases = [
-  "目前市場",
-  "30 秒",
-  "資料狀態",
-  "風險聲明",
-  "市場快報",
-  "資料邊界"
-];
+
+const requiredPublicPhrases = ["市場總覽", "30 秒", "資料狀態", "免責聲明", "市場快報", "資料邊界"];
+
 const routeRequiredPhrases = {
-  "/": ["目前市場", "30 秒", "資料狀態", "風險聲明"],
+  "/": ["市場總覽", "30 秒看懂今天的市場狀態", "資料狀態", "重要提醒"],
   "/briefing": ["市場快報", "30 秒看懂市場燈號", "下一步行動", "資料邊界"]
 };
+
 const forbiddenPublicStatusFragments = [
   "KEEP_OPEN_WITH_DEFERRALS",
   "REPAIR_THEN_RECHECK",
@@ -48,6 +44,7 @@ const forbiddenPublicStatusFragments = [
   "A3 ",
   "A4 "
 ];
+
 const stockForbiddenSurfacePhrases = [
   "KEEP_OPEN_WITH_DEFERRALS",
   "REPAIR_THEN_RECHECK",
@@ -59,6 +56,7 @@ const stockForbiddenSurfacePhrases = [
   "SQL",
   "raw market data"
 ];
+
 const unsafeSourceFragments = [
   "@supabase/supabase-js",
   "createClient(",
@@ -79,13 +77,13 @@ const missingSourcePhrases = requiredPublicPhrases.filter((phrase) => !sourceTex
 const forbiddenSourceHits = [];
 const unsafeSourceHits = unsafeSourceFragments.filter((fragment) => sourceText.includes(fragment));
 const packageRegistered = readText("package.json").includes(
-  "\"check:phase-1-public-beta-public-status-surface-alignment\": \"node scripts/check-phase-1-public-beta-public-status-surface-alignment.mjs\""
+  '"check:phase-1-public-beta-public-status-surface-alignment": "node scripts/check-phase-1-public-beta-public-status-surface-alignment.mjs"'
 );
 const reviewGateRegistered = readText("scripts/check-review-gates.mjs").includes(
   "scripts/check-phase-1-public-beta-public-status-surface-alignment.mjs"
 );
 const focusedGateRegistered = readText("scripts/check-review-gates.mjs").includes(
-  "\"phase-1-public-beta-public-status-surface-alignment\""
+  '"phase-1-public-beta-public-status-surface-alignment"'
 );
 
 const surfaceRouteResults = [];
@@ -96,7 +94,7 @@ for (const route of ["/", "/briefing"]) {
 }
 
 for (const route of ["/stocks/TWII", "/stocks/2330", "/stocks/0050"]) {
-  stockRouteResults.push(await checkRoute(route, ["標的燈號", "綜合分數", "風險分數"], stockForbiddenSurfacePhrases));
+  stockRouteResults.push(await checkRoute(route, ["個股燈號", "綜合分數", "風險分數"], stockForbiddenSurfacePhrases));
 }
 
 const sourceMojibakeHits = findMojibakeMarkers(sourceText);

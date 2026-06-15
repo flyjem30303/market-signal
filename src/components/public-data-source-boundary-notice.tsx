@@ -4,16 +4,16 @@ type PublicDataSourceBoundaryNoticeProps = {
 
 const contextCopy = {
   home: {
-    title: "資料來源仍在上線前檢查",
-    lead: "目前市場畫面先以示範資料呈現閱讀流程；正式資料需完成來源權利、覆蓋率、品質與寫入回讀檢查後才會切換。"
+    title: "資料來源仍維持示範邊界",
+    lead: "首頁用來建立市場狀態的閱讀流程；正式資料上線前，不會宣稱即時行情、完整覆蓋或正式分數。"
   },
   briefing: {
-    title: "快報資料仍屬示範模式",
-    lead: "市場快報用來展示燈號、風險與觀察順序；正式資料切換前，不會宣稱即時或完整覆蓋。"
+    title: "市場簡報仍以示範資料呈現",
+    lead: "市場簡報用來說明燈號、風險與觀察順序；正式資料切換前，不會宣稱即時或完整覆蓋。"
   },
   stock: {
-    title: "個股與指數資料仍在驗證",
-    lead: "此頁先展示使用者應如何閱讀燈號、原因與資料時間；正式資料需通過上線前檢查。"
+    title: "個股燈號仍是觀察輔助",
+    lead: "單一標的頁協助使用者整理市場狀態與風險分數；正式資料上線前，不作交易建議或即時資料宣稱。"
   }
 } as const;
 
@@ -29,20 +29,20 @@ export function PublicDataSourceBoundaryNotice({ context }: PublicDataSourceBoun
       </div>
       <ul>
         <li>
-          <strong>目前可用</strong>
-          <span>市場燈號、風險提示、更新時間與閱讀路徑可先被驗證。</span>
+          <strong>目前可使用</strong>
+          <span>閱讀市場燈號、分數與風險提示，建立固定觀察流程。</span>
         </li>
         <li>
-          <strong>目前不可宣稱</strong>
-          <span>不得宣稱正式即時資料、完整市場覆蓋或投資建議。</span>
+          <strong>目前不宣稱</strong>
+          <span>不宣稱即時真實行情、完整市場覆蓋、正式模型分數或買賣建議。</span>
         </li>
         <li>
           <strong>正式資料切換條件</strong>
-          <span>合法來源、資料覆蓋率、品質驗證、寫入回讀與公開說明都通過後才會切換。</span>
+          <span>需完成合法來源、資料品質、寫入驗證、讀回驗證、回復計畫與正式資料切換檢查。</span>
         </li>
       </ul>
       <p className="public-data-source-boundary-notice__footnote">
-        若資料異常或尚未更新，前台需清楚顯示狀態，避免使用者誤判。
+        若資料異常或尚未更新，前台會以資料狀態提示使用者，不把示範資料包裝成正式資料。
       </p>
     </section>
   );

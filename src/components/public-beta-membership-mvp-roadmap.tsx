@@ -1,29 +1,29 @@
 const roadmapCards = [
   {
-    body: "未來可把市場總覽拆成市場總觀、關鍵指標變化與後續觀察重點，但 Phase 1 不把它做成已上線承諾。",
+    body: "會員階段可提供每日市場三層解讀，但 Phase 1 不啟用付費、登入或會員內容權限。",
     label: "後續規劃",
-    title: "每日市場三層解讀"
+    title: "深度解讀"
   },
   {
-    body: "未來可提供個人化追蹤與提醒，但 Phase 1 不啟用帳號、付費、自選清單儲存或個人化警示。",
+    body: "未來可提供個人化追蹤與提醒，但 Phase 1 不儲存自選清單或個人化警示條件。",
     label: "後續規劃",
     title: "個人化追蹤"
   },
   {
-    body: "未來可回看燈號變化與判讀品質，但 Phase 1 先完成公開資料狀態、方法說明與風險揭露。",
+    body: "未來可提供盤後複盤與歷史案例，Phase 1 先把公開燈號、資料邊界與風險揭露做穩。",
     label: "後續規劃",
-    title: "盤後複盤與學習"
+    title: "複盤與學習"
   }
 ];
 
 export function PublicBetaMembershipMvpRoadmap() {
   return (
-    <section className="public-beta-membership-roadmap" aria-label="後續功能規劃">
+    <section className="public-beta-membership-roadmap" aria-label="會員功能後續規劃">
       <div className="public-beta-membership-roadmap__intro">
-        <p className="eyebrow">後續功能規劃</p>
-        <h2>Phase 1 先完成公開免費版，進階功能不放入目前上線承諾</h2>
+        <p className="eyebrow">會員功能後續規劃</p>
+        <h2>Phase 1 先完成免費市場總覽，會員功能不在本階段啟用</h2>
         <p>
-          本區塊只描述後續產品方向，不代表目前已提供登入、付費、個人化追蹤、警示執行或專屬內容。
+          會員功能的方向是讓使用者更理解燈號、追蹤重點並回看判斷品質；但公開 Beta 先聚焦可讀、可信、可驗證的免費版。
         </p>
       </div>
       <div className="public-beta-membership-roadmap__grid">
@@ -36,12 +36,8 @@ export function PublicBetaMembershipMvpRoadmap() {
         ))}
       </div>
       <div className="public-beta-membership-roadmap__boundary">
-        <p>
-          目前公開版的目標是讓使用者看懂市場燈號、核心指標、主要風險與資料更新狀態。
-        </p>
-        <p>
-          若未來啟用會員或個人化功能，會先補齊資料使用、付款、權限、風險揭露與客服流程。
-        </p>
+        <p>目前不開放會員註冊、登入、付款、自選清單儲存或個人化警示。</p>
+        <p>若未來啟用會員功能，會先補齊資料使用、付款、權限、風險揭露與客服流程。</p>
       </div>
     </section>
   );

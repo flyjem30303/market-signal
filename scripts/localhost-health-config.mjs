@@ -11,12 +11,12 @@ export const localhostStatusHealthPaths = [
   "/robots.txt"
 ];
 
-const stockContentTokens = ["標的燈號", "標的摘要", "綜合分數", "風險分數", "資料狀態"];
+const stockContentTokens = ["個股燈號", "一眼判讀", "綜合分數", "風險分數", "資料狀態"];
 
 export const localhostContentHealthChecks = [
   {
     path: "/",
-    required: ["指數狀態儀表站", "30 秒看懂市場氛圍", "市場總覽", "風險提醒"]
+    required: ["30 秒看懂今天的市場狀態", "市場總覽", "快速判讀", "重要提醒"]
   },
   ...["/stocks/2330", "/stocks/TWII", "/stocks/0050", "/stocks/006208", "/stocks/2382", "/stocks/2308"].map(
     (path) => ({
@@ -26,7 +26,7 @@ export const localhostContentHealthChecks = [
   ),
   {
     path: "/briefing",
-    required: ["市場快報", "30 秒看市場狀態", "下一步觀察", "資料邊界"]
+    required: ["市場快報", "30 秒看懂市場燈號", "下一步行動", "資料邊界"]
   },
   {
     path: "/weekly",

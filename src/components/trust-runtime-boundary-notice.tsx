@@ -4,9 +4,9 @@ type TrustRuntimeBoundaryNoticeProps = {
 
 const contextCopy = {
   disclaimer: {
-    eyebrow: "風險邊界",
-    title: "本網站提供市場資訊整理，不提供投資建議",
-    summary: "燈號是觀察輔助工具，使用者仍需自行判斷資訊是否適用於自身情況。"
+    eyebrow: "免責邊界",
+    title: "本網站不是投資建議或交易服務",
+    summary: "燈號只能協助整理市場資訊與風險提示，不能取代個人判斷、專業諮詢或完整投資研究。"
   },
   membership: {
     eyebrow: "會員邊界",
@@ -15,18 +15,18 @@ const contextCopy = {
   },
   methodology: {
     eyebrow: "方法邊界",
-    title: "燈號說明重點是可理解，不是保證預測",
-    summary: "方法頁說明燈號、趨勢、風險與資料時間，協助使用者理解訊號來源。"
+    title: "燈號是閱讀框架，不是交易指令",
+    summary: "方法說明只解釋分數與燈號如何輔助觀察，不宣稱正式資料、完整覆蓋或投資績效。"
   },
   privacy: {
     eyebrow: "隱私邊界",
     title: "Phase 1 不收集會員或付款資料",
-    summary: "目前沒有登入、付款、個人化追蹤或警示功能；相關功能上線前會另行揭露。"
+    summary: "目前不啟用登入、付款、自選清單或個人化警示；未來會員功能會另行揭露資料使用方式。"
   },
   terms: {
     eyebrow: "使用邊界",
     title: "請把燈號視為觀察輔助",
-    summary: "使用條款說明網站用途、資料限制與使用者責任。"
+    summary: "使用條款說明資訊用途、資料限制與使用者責任，避免把燈號誤解為保證或指令。"
   },
   weekly: {
     eyebrow: "週報邊界",
@@ -39,7 +39,7 @@ export function TrustRuntimeBoundaryNotice({ context }: TrustRuntimeBoundaryNoti
   const copy = contextCopy[context];
 
   return (
-    <section className="trust-runtime-boundary-notice" aria-label={`${copy.eyebrow}與資料說明`}>
+    <section className="trust-runtime-boundary-notice" aria-label={`${copy.eyebrow}說明`}>
       <div>
         <p className="eyebrow">{copy.eyebrow}</p>
         <h2>{copy.title}</h2>
@@ -56,9 +56,9 @@ export function TrustRuntimeBoundaryNotice({ context }: TrustRuntimeBoundaryNoti
         <p>正式資料、會員內容、個人化追蹤與提醒功能都需通過上線前檢查後才會開放。</p>
       </article>
       <article className="readying">
-        <span>切換條件</span>
-        <strong>資料來源、品質與公開說明都需完成</strong>
-        <p>合法來源、覆蓋率、資料品質、寫入回讀與風險揭露都通過後，才可由示範模式升級。</p>
+        <span>上線條件</span>
+        <strong>來源、品質、回復方案與風險揭露都要可驗證</strong>
+        <p>只有合法來源、資料品質、寫入驗證、讀回驗證、回復計畫與正式資料切換檢查都通過後，才可切換正式資料。</p>
       </article>
     </section>
   );
