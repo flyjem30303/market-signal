@@ -8,7 +8,7 @@ Packet mode: `implementation_candidate_fail_closed_no_execution`
 
 Create a minimal implementation candidate runner before any real write. The runner checks whether the accepted Phase 1 candidate artifacts are sufficient for an insert-missing-only runner.
 
-Current result: blocked, because the available TWII and ETF artifacts are aggregate/path-only and do not include sanitized row payloads.
+Current result without an explicit row-payload artifact path: blocked, because the available TWII and ETF artifacts are aggregate/path-only and do not include sanitized row payloads.
 
 This is a useful blocker, not a failure. It prevents the project from treating aggregate-only evidence as writable market rows.
 
@@ -28,10 +28,34 @@ This is a useful blocker, not a failure. It prevents the project from treating a
 
 - `twiiCandidateArtifactPath=data/candidates/twii-sanitized-candidate.json`
 - `etfCandidateArtifactPath=data/candidates/phase-1-etf-sanitized-candidate.json`
+- optional row-payload candidate path: `--candidate-artifact <LOCAL_JSON_PATH>`
+- optional row-payload candidate env: `PHASE_1_SANITIZED_ROW_PAYLOAD_CANDIDATE_PATH=<LOCAL_JSON_PATH>`
 - `twiiRowPayloadIncluded=false`
 - `etfRowPayloadIncluded=false`
 - `twiiRawPayloadIncluded=false`
 - `etfRawPayloadIncluded=false`
+- `rowPayloadCandidatePathProvided=false`
+- `rowPayloadCandidateAccepted=false`
+
+## Row-Payload Candidate Path Intake
+
+When A1 or PM has a separate sanitized row-payload candidate artifact, run:
+
+```powershell
+cmd.exe /c npm run validate:phase-1-sanitized-row-payload-candidate-artifact -- --candidate-artifact <LOCAL_JSON_PATH>
+cmd.exe /c npm run run:phase-1-write-runner-implementation-candidate -- --candidate-artifact <LOCAL_JSON_PATH>
+cmd.exe /c npm run check:phase-1-write-runner-implementation-candidate
+```
+
+Expected safe result after a valid artifact path:
+
+- `rowPayloadCandidatePathProvided=true`
+- `rowPayloadCandidateAccepted=true`
+- `rowPayloadCandidateRowCount=178`
+- `rowPayloadCandidateSymbolsCovered=[0050,006208,TWII]`
+- `nextRoute=separate_operator_write_execution_review_required`
+
+The runner still does not execute a write. It only proves the candidate path can pass the aggregate-only artifact validator.
 
 ## Hard Boundaries
 
@@ -59,4 +83,3 @@ This is a useful blocker, not a failure. It prevents the project from treating a
 This slice creates a fail-closed runner candidate and checker. It does not execute a write and does not inspect row bodies because row bodies are not present.
 
 The next productive data-line task is to provide separately accepted sanitized row-payload candidate artifacts for `TWII`, `0050`, and `006208`, or keep Phase 1 data online at `NO_GO`.
-
