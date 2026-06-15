@@ -43,6 +43,10 @@ const externalOperatorPresenceResult = runJson(
   "scripts/check-phase-1-external-operator-presence-reviewed-result.mjs",
   "external operator presence reviewed result"
 );
+const finalOperatorBooleanReviewedResult = runJson(
+  "scripts/check-phase-1-final-operator-boolean-reviewed-result.mjs",
+  "final operator boolean reviewed result"
+);
 const dashboardApiExposure = runJson(
   "scripts/check-phase-1-data-online-dashboard-api-exposure-evidence.mjs",
   "dashboard API exposure evidence"
@@ -71,6 +75,8 @@ const blockedReasons = [
 ];
 const reducedBlockers = [
   "credential_presence_unverified",
+  "operator_values_missing",
+  "operator_owned_presence_confirmation_unverified",
   "external_presence_acceptance_unverified",
   "external_presence_reviewed_result_missing",
   "rollback_plan_unverified",
@@ -97,8 +103,12 @@ const report = {
   serverOnlyCredentialPresent: credentialPresenceResult.serverOnlyCredentialPresent ?? null,
   externalOperatorPresenceReviewedResultStatus: externalOperatorPresenceResult.reviewedResultStatus ?? null,
   acceptedPresenceResultStatus: externalOperatorPresenceResult.acceptedPresenceResultStatus ?? null,
-  executeSwitchPresent: externalOperatorPresenceResult.executeSwitchPresent ?? null,
-  confirmationPhrasePresent: externalOperatorPresenceResult.confirmationPhrasePresent ?? null,
+  finalOperatorBooleanReviewedResultStatus: finalOperatorBooleanReviewedResult.acceptedOperatorReplyStatus ?? null,
+  executeSwitchPresent: finalOperatorBooleanReviewedResult.executeSwitchPresent ?? null,
+  confirmationPhrasePresent: finalOperatorBooleanReviewedResult.confirmationPhrasePresent ?? null,
+  operatorValuesSatisfied: finalOperatorBooleanReviewedResult.operatorValuesSatisfied ?? null,
+  operatorOwnedPresenceConfirmationSatisfied:
+    finalOperatorBooleanReviewedResult.operatorOwnedPresenceConfirmationSatisfied ?? null,
   dashboardApiExposureStatus: dashboardApiExposure.dashboardApiExposureStatus ?? null,
   presenceRecheckStatus: serverOnlyPresenceRecheck.presenceRecheckStatus ?? null,
   operatorOwnedPresenceConfirmationStatus:
@@ -212,8 +222,20 @@ function validatePrerequisites() {
   );
   expect(externalOperatorPresenceResult.operatorDecisionPresent, true, "operator decision presence boolean");
   expect(externalOperatorPresenceResult.serverOnlyCredentialPresent, true, "external server-only credential boolean");
-  expect(externalOperatorPresenceResult.executeSwitchPresent, false, "execute switch remains missing");
-  expect(externalOperatorPresenceResult.confirmationPhrasePresent, false, "confirmation phrase remains missing");
+  expect(finalOperatorBooleanReviewedResult.status, "ok", "final operator boolean reviewed result status");
+  expect(
+    finalOperatorBooleanReviewedResult.guardedStatus,
+    "phase_1_final_operator_boolean_reviewed_result_ready_no_values",
+    "final operator boolean reviewed result guarded status"
+  );
+  expect(finalOperatorBooleanReviewedResult.executeSwitchPresent, true, "execute switch presence boolean");
+  expect(finalOperatorBooleanReviewedResult.confirmationPhrasePresent, true, "confirmation phrase presence boolean");
+  expect(finalOperatorBooleanReviewedResult.operatorValuesSatisfied, true, "operator values satisfied");
+  expect(
+    finalOperatorBooleanReviewedResult.operatorOwnedPresenceConfirmationSatisfied,
+    true,
+    "operator-owned presence confirmation satisfied"
+  );
   expect(dashboardApiExposure.status, "ok", "dashboard API exposure evidence status");
   expect(
     dashboardApiExposure.guardedStatus,
@@ -255,8 +277,11 @@ function validateDoc() {
     "serverOnlyCredentialPresent=true",
     "externalOperatorPresenceReviewedResultStatus=accepted_partial_boolean_presence_result_no_values",
     "acceptedPresenceResultStatus=accepted_partial_boolean_result_no_values",
-    "executeSwitchPresent=false",
-    "confirmationPhrasePresent=false",
+    "finalOperatorBooleanReviewedResultStatus=accepted_boolean_reply_no_values",
+    "executeSwitchPresent=true",
+    "confirmationPhrasePresent=true",
+    "operatorValuesSatisfied=true",
+    "operatorOwnedPresenceConfirmationSatisfied=true",
     "dashboardApiExposureStatus=accepted_read_path_for_daily_prices",
     "server_only_presence_recheck_required",
     "presenceRecheckStatus=prepared_waiting_external_presence",

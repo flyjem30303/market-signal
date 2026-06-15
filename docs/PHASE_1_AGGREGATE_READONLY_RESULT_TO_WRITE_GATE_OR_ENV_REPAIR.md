@@ -27,10 +27,7 @@ Route next to `prepare_external_operator_boolean_presence_reviewed_result`.
 
 `writeGateExecutableNow=false`
 
-The write gate is still blocked, but not because the aggregate readonly path is unknown. The remaining blockers are the external/operator presence chain:
-
-- `operator_values_missing`
-- `operator_owned_presence_confirmation_unverified`
+The write gate is no longer blocked by the aggregate readonly path or by operator boolean presence. The remaining blocker list for this checklist layer is empty, but write execution is still not authorized by this bridge.
 
 ## Reduced By Aggregate Readonly Evidence
 
@@ -42,6 +39,8 @@ The accepted aggregate readonly result and dashboard API exposure evidence reduc
 - `credential_presence_unverified`
 - `external_presence_acceptance_unverified`
 - `external_presence_reviewed_result_missing`
+- `operator_values_missing`
+- `operator_owned_presence_confirmation_unverified`
 
 These remain audit history, not the current mainline stop reason.
 

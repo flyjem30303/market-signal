@@ -2,6 +2,85 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Write-Gate Preflight After Operator Booleans Ready
+
+Status: `phase_1_write_gate_preflight_after_operator_booleans_ready_no_execution`
+
+CEO decision:
+
+- Operator-value blockers are cleared, but this does not open the write gate.
+- Move next to write-preflight requirements closure instead of creating more operator-value packets.
+- Keep actual SQL, Supabase write, `daily_prices` mutation, and runtime promotion separate.
+
+PM completed:
+
+- Added `data/evidence-intake/phase-1-write-gate-preflight-after-operator-booleans.json`.
+- Added `docs/PHASE_1_WRITE_GATE_PREFLIGHT_AFTER_OPERATOR_BOOLEANS.md`.
+- Added and registered `check:phase-1-write-gate-preflight-after-operator-booleans`.
+
+Verified:
+
+- `cmd.exe /c npm run check:phase-1-write-gate-preflight-after-operator-booleans` passes.
+
+Current blocker view:
+
+- Operator blockers are cleared.
+- Write-gate checklist remaining blockers are `[]`.
+- Write gate remains non-executable until write-preflight requirements close.
+
+Current boundary:
+
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+- No switch value, confirmation phrase, operator value, credential value, raw payload, row payload, or secret was printed, stored, hashed, compared, or transformed.
+- No SQL, Supabase read/write, staging row, `daily_prices` mutation, market-data fetch/ingestion, source promotion, score promotion, public real-data claim, or investment-advice claim occurred.
+
+Next route:
+
+Prepare `phase_1_write_gate_preflight_requirements_closure` for rollback plan, aggregate readback plan, duplicate rejection plan, post-run review plan, source-rights boundary, runtime fallback boundary, and public disclosure boundary.
+
+### Phase 1 Final Operator Boolean Reviewed Result Accepted
+
+Status: `phase_1_final_operator_boolean_reviewed_result_ready_no_values`
+
+CEO decision:
+
+- Accept `executeSwitchPresent=true` and `confirmationPhrasePresent=true` as final operator booleans.
+- Record only boolean presence; do not record, print, hash, compare, transform, or store the actual switch value or confirmation phrase value.
+- Keep write execution closed until a separate write-gate preflight passes.
+
+PM completed:
+
+- Updated ignored local reply `tmp/phase-1-final-operator-boolean-reply.json` to `true/true`.
+- Added `data/evidence-intake/phase-1-final-operator-boolean-reviewed-result.json`.
+- Added `docs/PHASE_1_FINAL_OPERATOR_BOOLEAN_REVIEWED_RESULT.md`.
+- Added and registered `check:phase-1-final-operator-boolean-reviewed-result`.
+- Updated the write-gate checklist runner and aggregate readonly bridge so the active remaining blocker list is now empty.
+- Repaired `check:phase-1-final-operator-boolean-reply-intake` to read the stopline artifact directly instead of re-running the full nested stopline chain. This reduced the check from roughly 120 seconds to under 1 second and avoids nested timeout failures.
+
+Verified:
+
+- `cmd.exe /c npm run check:phase-1-final-operator-boolean-reviewed-result` passes.
+- `cmd.exe /c npm run check:phase-1-final-operator-boolean-reply-template` passes.
+- `cmd.exe /c npm run check:phase-1-data-online-write-gate-checklist-runner-no-execution` passes with `remainingBlockers=[]`.
+- `cmd.exe /c npm run check:phase-1-aggregate-readonly-result-to-write-gate-or-env-repair` passes.
+
+Current blocker view:
+
+- Write-gate checklist active blockers are empty.
+- Write gate remains non-executable until the next preflight separately validates rollback, aggregate readback, duplicate rejection, post-run review, source-rights boundary, runtime fallback, and public disclosure.
+
+Current boundary:
+
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+- No switch value, confirmation phrase, operator value, credential value, raw payload, row payload, or secret was printed, stored, hashed, compared, or transformed.
+- No SQL, Supabase read/write, staging row, `daily_prices` mutation, market-data fetch/ingestion, source promotion, score promotion, public real-data claim, or investment-advice claim occurred.
+
+Next route:
+
+Prepare `phase_1_data_online_write_gate_preflight_after_operator_booleans`.
+
 ### Phase 1 Final Operator Boolean Reply Template Ready
 
 Status: `phase_1_final_operator_boolean_reply_template_ready`

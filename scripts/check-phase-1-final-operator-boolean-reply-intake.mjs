@@ -1,7 +1,7 @@
 import fs from "node:fs";
-import { spawnSync } from "node:child_process";
 
 const artifactPath = "data/evidence-intake/phase-1-final-operator-boolean-reply-intake.json";
+const stoplineArtifactPath = "data/evidence-intake/phase-1-final-operator-value-stopline.json";
 const docPath = "docs/PHASE_1_FINAL_OPERATOR_BOOLEAN_REPLY_INTAKE.md";
 const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
@@ -13,7 +13,7 @@ const artifact = parseJson(artifactRaw, artifactPath);
 const doc = readText(docPath);
 const packageJson = parseJson(readText(packagePath), packagePath);
 const reviewGate = readText(reviewGatePath);
-const stopline = runJson("scripts/check-phase-1-final-operator-value-stopline.mjs", "final operator value stopline");
+const stopline = parseJson(readText(stoplineArtifactPath), stoplineArtifactPath);
 const reply = readOptionalReply(replyPath);
 
 validatePrerequisites();
@@ -62,9 +62,10 @@ console.log(
 if (!ok) process.exit(1);
 
 function validatePrerequisites() {
-  expect(stopline.status, "ok", "stopline status");
-  expect(stopline.guardedStatus, "phase_1_final_operator_value_stopline_ready_no_execution", "stopline guarded status");
+  expect(stopline.status, "phase_1_final_operator_value_stopline_ready_no_execution", "stopline status");
+  expect(stopline.packetMode, "final_operator_value_stopline_no_execution", "stopline packetMode");
   expect(stopline.stoplineStatus, "waiting_two_boolean_presence_fields", "stopline status detail");
+  expect(stopline.writeGateExecutableNow, false, "stopline writeGateExecutableNow");
 }
 
 function validateArtifact() {
@@ -271,19 +272,4 @@ function parseJson(text, label) {
     problems.push(`${label} JSON parse failed: ${error.message}`);
     return {};
   }
-}
-
-function runJson(filePath, label) {
-  const run = spawnSync(process.execPath, [filePath], {
-    cwd: process.cwd(),
-    encoding: "utf8",
-    shell: false,
-    timeout: 120000,
-    windowsHide: true
-  });
-  if (run.status !== 0) {
-    problems.push(`${label} exited ${run.status}`);
-    return {};
-  }
-  return parseJson(run.stdout, label);
 }

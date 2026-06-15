@@ -101,10 +101,7 @@ function validateArtifact() {
   expect(goNoGo.publicDataSource, "mock", "publicDataSource");
   expect(goNoGo.scoreSource, "mock", "scoreSource");
 
-  const expectedRemaining = [
-    "operator_values_missing",
-    "operator_owned_presence_confirmation_unverified"
-  ];
+  const expectedRemaining = [];
   expectArray(artifact.currentRemainingBlockers, expectedRemaining, "artifact currentRemainingBlockers");
   expectArray(writeGate.remainingBlockers, expectedRemaining, "write gate remainingBlockers");
 
@@ -114,7 +111,9 @@ function validateArtifact() {
     "pgrst205_regression_unverified",
     "credential_presence_unverified",
     "external_presence_acceptance_unverified",
-    "external_presence_reviewed_result_missing"
+    "external_presence_reviewed_result_missing",
+    "operator_values_missing",
+    "operator_owned_presence_confirmation_unverified"
   ];
   for (const item of expectedReduced) {
     if (!artifact.reducedByAggregateReadonlyEvidence?.includes(item)) {
@@ -162,8 +161,6 @@ function validateDoc() {
     "readonlyReachabilityProved=true",
     "envRepairNeededNow=false",
     "writeGateExecutableNow=false",
-    "operator_values_missing",
-    "operator_owned_presence_confirmation_unverified",
     "schema_cache_exposure_unverified",
     "dashboard_api_exposure_unverified",
     "pgrst205_regression_unverified",

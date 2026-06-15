@@ -1524,6 +1524,8 @@
     "check:phase-1-final-operator-boolean-reply-intake": "node scripts/check-phase-1-final-operator-boolean-reply-intake.mjs",
     "write:phase-1-final-operator-boolean-reply-template": "node scripts/write-phase-1-final-operator-boolean-reply-template.mjs --write",
     "check:phase-1-final-operator-boolean-reply-template": "node scripts/check-phase-1-final-operator-boolean-reply-template.mjs",
+    "check:phase-1-final-operator-boolean-reviewed-result": "node scripts/check-phase-1-final-operator-boolean-reviewed-result.mjs",
+    "check:phase-1-write-gate-preflight-after-operator-booleans": "node scripts/check-phase-1-write-gate-preflight-after-operator-booleans.mjs",
     "check:phase-1-row-coverage-readonly-result-20260615-a": "node scripts/check-phase-1-row-coverage-readonly-result-20260615-a.mjs",
     "check:phase-1-twii-etf-missing-rows-backfill-readiness": "node scripts/check-phase-1-twii-etf-missing-rows-backfill-readiness.mjs",
     "check:phase-1-twii-write-attempt-stopline-rollup": "node scripts/check-phase-1-twii-write-attempt-stopline-rollup.mjs",
