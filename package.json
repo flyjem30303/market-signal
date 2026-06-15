@@ -854,6 +854,7 @@
     "check:phase-1-data-online-outcome-evidence-scavenger": "node scripts/check-phase-1-data-online-outcome-evidence-scavenger.mjs",
     "check:phase-1-data-online-single-authorization-packet-review-only": "node scripts/check-phase-1-data-online-single-authorization-packet-review-only.mjs",
     "check:phase-1-data-online-operator-decision-packet-no-execution": "node scripts/check-phase-1-data-online-operator-decision-packet-no-execution.mjs",
+    "check:phase-1-data-online-server-preexecution-readiness-no-execution": "node scripts/check-phase-1-data-online-server-preexecution-readiness-no-execution.mjs",
     "check:twii-exact-execution-preflight-repair-selector": "node scripts/check-twii-exact-execution-preflight-repair-selector.mjs",
     "check:twii-source-rights-outcome-acceptance-gate": "node scripts/check-twii-source-rights-outcome-acceptance-gate.mjs",
     "check:twii-field-contract-asset-mapping-alignment-gate": "node scripts/check-twii-field-contract-asset-mapping-alignment-gate.mjs",

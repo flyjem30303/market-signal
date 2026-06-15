@@ -3528,6 +3528,11 @@ const checks = [
     name: "phase-1-data-online-operator-decision-packet-no-execution"
   },
   {
+    command: [node, "scripts/check-phase-1-data-online-server-preexecution-readiness-no-execution.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-data-online-server-preexecution-readiness-no-execution"
+  },
+  {
     command: [node, "scripts/check-twii-exact-execution-preflight-repair-selector.mjs"],
     expectStatus: "ok",
     name: "twii-exact-execution-preflight-repair-selector"
@@ -6553,6 +6558,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "phase-1-data-online-outcome-evidence-scavenger",
   "phase-1-data-online-single-authorization-packet-review-only",
   "phase-1-data-online-operator-decision-packet-no-execution",
+  "phase-1-data-online-server-preexecution-readiness-no-execution",
   "twii-exact-execution-preflight-repair-selector",
   "twii-source-rights-outcome-acceptance-gate",
   "twii-field-contract-asset-mapping-alignment-gate",
