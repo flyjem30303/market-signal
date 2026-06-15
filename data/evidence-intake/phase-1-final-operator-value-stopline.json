@@ -4,6 +4,8 @@
   "createdAt": "2026-06-15",
   "inputReviewedResult": "phase_1_external_operator_presence_reviewed_result_ready_partial_boolean_only",
   "stoplineStatus": "waiting_two_boolean_presence_fields",
+  "resolutionStatus": "resolved_by_final_operator_boolean_reviewed_result_no_execution",
+  "resolvedByReviewedResult": "phase_1_final_operator_boolean_reviewed_result_ready_no_values",
   "requiredMissingBooleanFields": [
     "executeSwitchPresent",
     "confirmationPhrasePresent"
@@ -32,6 +34,12 @@
     "operator_values_missing",
     "operator_owned_presence_confirmation_unverified"
   ],
+  "resolvedBooleanFields": [
+    "executeSwitchPresent",
+    "confirmationPhrasePresent"
+  ],
+  "remainingBlockersAfterResolution": [],
+  "nextRouteAfterResolution": "phase_1_write_gate_preflight_after_operator_booleans",
   "safety": {
     "valuesRead": false,
     "valuesStored": false,

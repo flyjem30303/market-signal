@@ -16,6 +16,10 @@ const externalOperatorResult = runJson(
   "scripts/check-phase-1-external-operator-presence-reviewed-result.mjs",
   "external operator presence reviewed result"
 );
+const finalOperatorResult = runJson(
+  "scripts/check-phase-1-final-operator-boolean-reviewed-result.mjs",
+  "final operator boolean reviewed result"
+);
 const writeGate = runJson(
   "scripts/check-phase-1-data-online-write-gate-checklist-runner-no-execution.mjs",
   "write gate checklist runner"
@@ -38,7 +42,10 @@ console.log(
         ? "phase_1_final_operator_value_stopline_ready_no_execution"
         : "phase_1_final_operator_value_stopline_blocked",
       stoplineStatus: artifact.stoplineStatus ?? null,
+      resolutionStatus: artifact.resolutionStatus ?? null,
       requiredMissingBooleanFields: artifact.requiredMissingBooleanFields ?? [],
+      remainingBlockersAfterResolution: artifact.remainingBlockersAfterResolution ?? null,
+      nextRouteAfterResolution: artifact.nextRouteAfterResolution ?? null,
       writeGateExecutableNow: artifact.writeGateExecutableNow ?? null,
       dataOnlineDecision: artifact.dataOnlineDecision ?? null,
       publicDataSource: artifact.safety?.publicDataSource ?? null,
@@ -61,11 +68,23 @@ function validatePrerequisites() {
   );
   expect(externalOperatorResult.executeSwitchPresent, false, "execute switch should still be missing");
   expect(externalOperatorResult.confirmationPhrasePresent, false, "confirmation phrase should still be missing");
+  expect(finalOperatorResult.status, "ok", "final operator result status");
+  expect(
+    finalOperatorResult.guardedStatus,
+    "phase_1_final_operator_boolean_reviewed_result_ready_no_values",
+    "final operator result guarded status"
+  );
+  expect(finalOperatorResult.executeSwitchPresent, true, "final execute switch presence");
+  expect(finalOperatorResult.confirmationPhrasePresent, true, "final confirmation phrase presence");
+  expect(finalOperatorResult.operatorValuesSatisfied, true, "operator values satisfied");
+  expect(
+    finalOperatorResult.operatorOwnedPresenceConfirmationSatisfied,
+    true,
+    "operator-owned presence confirmation satisfied"
+  );
+  expectArray(finalOperatorResult.remainingBlockersAfterThisResult, [], "final operator remainingBlockersAfterThisResult");
   expect(writeGate.status, "ok", "write gate status");
-  expectArray(writeGate.remainingBlockers, [
-    "operator_values_missing",
-    "operator_owned_presence_confirmation_unverified"
-  ], "write gate remainingBlockers");
+  expectArray(writeGate.remainingBlockers, [], "write gate remainingBlockers after final boolean result");
   expect(goNoGo.status, "ok", "go/no-go status");
   expect(goNoGo.decision, "PUBLIC_RUNTIME_READY_BUT_DATA_ONLINE_NO_GO", "go/no-go decision");
 }
@@ -75,6 +94,16 @@ function validateArtifact() {
   expect(artifact.packetMode, "final_operator_value_stopline_no_execution", "packetMode");
   expect(artifact.inputReviewedResult, "phase_1_external_operator_presence_reviewed_result_ready_partial_boolean_only", "inputReviewedResult");
   expect(artifact.stoplineStatus, "waiting_two_boolean_presence_fields", "stoplineStatus");
+  expect(
+    artifact.resolutionStatus,
+    "resolved_by_final_operator_boolean_reviewed_result_no_execution",
+    "resolutionStatus"
+  );
+  expect(
+    artifact.resolvedByReviewedResult,
+    "phase_1_final_operator_boolean_reviewed_result_ready_no_values",
+    "resolvedByReviewedResult"
+  );
   expectArray(artifact.requiredMissingBooleanFields, [
     "executeSwitchPresent",
     "confirmationPhrasePresent"
@@ -103,6 +132,12 @@ function validateArtifact() {
     "operator_values_missing",
     "operator_owned_presence_confirmation_unverified"
   ], "remainingBlockers");
+  expectArray(artifact.resolvedBooleanFields, [
+    "executeSwitchPresent",
+    "confirmationPhrasePresent"
+  ], "resolvedBooleanFields");
+  expectArray(artifact.remainingBlockersAfterResolution, [], "remainingBlockersAfterResolution");
+  expect(artifact.nextRouteAfterResolution, "phase_1_write_gate_preflight_after_operator_booleans", "nextRouteAfterResolution");
   expect(artifact.safety?.publicDataSource, "mock", "publicDataSource");
   expect(artifact.safety?.scoreSource, "mock", "scoreSource");
   for (const key of [
@@ -138,6 +173,8 @@ function validateDoc() {
     "phase_1_final_operator_value_stopline_ready_no_execution",
     "final_operator_value_stopline_no_execution",
     "waiting_two_boolean_presence_fields",
+    "resolved_by_final_operator_boolean_reviewed_result_no_execution",
+    "phase_1_final_operator_boolean_reviewed_result_ready_no_values",
     "executeSwitchPresent",
     "confirmationPhrasePresent",
     "boolean_only_no_value",
@@ -157,6 +194,8 @@ function validateDoc() {
     "scoreSource=mock",
     "operator_values_missing",
     "operator_owned_presence_confirmation_unverified",
+    "remainingBlockersAfterResolution=[]",
+    "nextRouteAfterResolution=phase_1_write_gate_preflight_after_operator_booleans",
     "No value read",
     "No value storage",
     "No value printing",
