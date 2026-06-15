@@ -56,6 +56,27 @@ A2 public copy:
 
 `accepted` is not execution approval. It only means PM may pass that lane into the PM handoff receiver router. The router may then open a separate authorization gate if every required lane is accepted.
 
+## Dry-Run Recorder
+
+Status: `phase_1_data_online_a1_a2_outcome_dry_run_recorder_ready_no_apply`
+
+Dry-run recording does not modify the ledger.
+
+Command:
+
+```powershell
+cmd.exe /c npm run record:phase-1-data-online-a1-a2-outcome-dry-run -- --dry-run --id a1_etf_source_rights_acceptance_evidence_outcome --status accepted --recordedBy PM --safe-summary "No-secret summary only." --source-reference-label "internal-review-label" --remaining-risk "No execution yet."
+```
+
+Routing preview:
+
+- `accepted` routes to `open_separate_lane_authorization_gate_before_any_write_or_promotion`.
+- `rejected` routes to `return_rejected_lane_to_repair_without_runtime_promotion`.
+- `repair_required` routes to `return_lane_to_a1_a2_repair_with_missing_fields_only`.
+- `deferred` routes to `keep_data_online_no_go_and_continue_mock_runtime_truthfulness`.
+
+The dry-run recorder rejects `--apply`, secrets, raw payload labels, row payload labels, stock-id payload labels, source payload labels, Supabase keys, Supabase URLs, and buy/sell/hold language.
+
 ## PM Safety Rules
 
 No row coverage points may be awarded from this ledger.

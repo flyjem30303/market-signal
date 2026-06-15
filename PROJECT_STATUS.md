@@ -2,6 +2,50 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Data Online A1/A2 Outcome Dry-Run Recorder
+
+Status: `phase_1_data_online_a1_a2_outcome_dry_run_recorder_ready_no_apply`
+
+CEO decision:
+
+- Add a dry-run-only recorder so PM can preview A1/A2 outcome intake without mutating the ledger.
+- Keep the recorder no-apply, no-secret, no-raw, no-write, and no-promotion.
+- Use the dry-run output to confirm PM receiver routes before any separate reviewed ledger update.
+
+PM completed:
+
+- Added `scripts/record-phase-1-data-online-a1-a2-outcome-dry-run.mjs`.
+- Added `check:phase-1-data-online-a1-a2-outcome-dry-run-recorder`.
+- Registered `record:phase-1-data-online-a1-a2-outcome-dry-run`.
+- Registered the checker in the focused review gate.
+- Updated `docs/PHASE_1_DATA_ONLINE_A1_A2_OUTCOME_INTAKE_LEDGER.md` with dry-run command and routing preview.
+
+Current data-online position:
+
+- Phase 1 data-online decision remains `PUBLIC_RUNTIME_READY_BUT_DATA_ONLINE_NO_GO`.
+- A1/A2 outcome ledger remains pending and unchanged by dry-run.
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+
+Dry-run routes:
+
+- `accepted` -> `open_separate_lane_authorization_gate_before_any_write_or_promotion`.
+- `rejected` -> `return_rejected_lane_to_repair_without_runtime_promotion`.
+- `repair_required` -> `return_lane_to_a1_a2_repair_with_missing_fields_only`.
+- `deferred` -> `keep_data_online_no_go_and_continue_mock_runtime_truthfulness`.
+
+Evidence:
+
+- `cmd.exe /c npm run check:phase-1-data-online-a1-a2-outcome-dry-run-recorder` passes.
+
+Boundary:
+
+No SQL, Supabase connection/read/write, staging-row creation, `daily_prices` mutation, TWII/ETF market-row fetch, raw payload output, endpoint response output, operator value storage, candidate row acceptance, row coverage points, source promotion, score promotion, real-time claim, official endorsement claim, investment advice claim, production environment mutation, DNS change, broad visual redesign, or Phase 2 membership implementation occurred.
+
+Next route:
+
+When A1/A2 provide no-secret outcomes, PM should first use the dry-run recorder to preview the route. A separate reviewed slice may later update the ledger. Accepted outcomes still only open a separate authorization gate; they do not execute, write, readback, promote, or claim public real data.
+
 ### Phase 1 Data Online A1/A2 Outcome Intake Ledger
 
 Status: `phase_1_data_online_a1_a2_outcome_intake_ledger_ready_pending`

@@ -845,6 +845,8 @@
     "check:phase-1-data-online-a1-a2-handoff-packet": "node scripts/check-phase-1-data-online-a1-a2-handoff-packet.mjs",
     "check:phase-1-data-online-pm-handoff-receiver-router": "node scripts/check-phase-1-data-online-pm-handoff-receiver-router.mjs",
     "check:phase-1-data-online-a1-a2-outcome-intake-ledger": "node scripts/check-phase-1-data-online-a1-a2-outcome-intake-ledger.mjs",
+    "record:phase-1-data-online-a1-a2-outcome-dry-run": "node scripts/record-phase-1-data-online-a1-a2-outcome-dry-run.mjs",
+    "check:phase-1-data-online-a1-a2-outcome-dry-run-recorder": "node scripts/check-phase-1-data-online-a1-a2-outcome-dry-run-recorder.mjs",
     "check:twii-exact-execution-preflight-repair-selector": "node scripts/check-twii-exact-execution-preflight-repair-selector.mjs",
     "check:twii-source-rights-outcome-acceptance-gate": "node scripts/check-twii-source-rights-outcome-acceptance-gate.mjs",
     "check:twii-field-contract-asset-mapping-alignment-gate": "node scripts/check-twii-field-contract-asset-mapping-alignment-gate.mjs",

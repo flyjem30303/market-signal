@@ -3493,6 +3493,11 @@ const checks = [
     name: "phase-1-data-online-a1-a2-outcome-intake-ledger"
   },
   {
+    command: [node, "scripts/check-phase-1-data-online-a1-a2-outcome-dry-run-recorder.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-data-online-a1-a2-outcome-dry-run-recorder"
+  },
+  {
     command: [node, "scripts/check-twii-exact-execution-preflight-repair-selector.mjs"],
     expectStatus: "ok",
     name: "twii-exact-execution-preflight-repair-selector"
@@ -6511,6 +6516,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "phase-1-data-online-a1-a2-handoff-packet",
   "phase-1-data-online-pm-handoff-receiver-router",
   "phase-1-data-online-a1-a2-outcome-intake-ledger",
+  "phase-1-data-online-a1-a2-outcome-dry-run-recorder",
   "twii-exact-execution-preflight-repair-selector",
   "twii-source-rights-outcome-acceptance-gate",
   "twii-field-contract-asset-mapping-alignment-gate",
