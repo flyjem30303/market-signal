@@ -17,19 +17,19 @@ export type PublicBetaDataReadinessStatus = {
 
 export function getPublicBetaDataReadinessStatus(): PublicBetaDataReadinessStatus {
   return {
-    headline: "目前資料可以怎麼使用",
+    headline: "目前資料可用於閱讀流程，尚未切換正式資料",
     lanes: [
       {
         id: "quick-read",
-        label: "30 秒可用",
+        label: "30 秒可用：市場閱讀",
         status: "accepted",
-        summary: "可用來理解市場氣氛、主燈號與今日提醒。"
+        summary: "可用來理解市場氣氛、主燈號、今日提醒與指標閱讀順序。"
       },
       {
-        id: "review-needed",
-        label: "3 分鐘要複核",
+        id: "equity-demo",
+        label: "個股示範覆蓋",
         status: "readying",
-        summary: "行動判斷前要再看資料狀態、更新時間與風險聲明。"
+        summary: "台股個股示範資料可支撐前台演示；正式上線仍需完成來源權利、品質與回退檢查。"
       },
       {
         id: "not-trading-command",
@@ -41,21 +41,21 @@ export function getPublicBetaDataReadinessStatus(): PublicBetaDataReadinessStatu
     publicDataSource: "mock",
     scoreSource: "mock",
     stopLine:
-      "正式資料尚未啟用；資料來源權利、欄位與覆蓋率、回退與公開說明完成前，不宣稱真實資料上線，也不提供個股買賣建議。",
+      "正式資料尚未啟用；大盤指數與 ETF 的覆蓋、來源權利、品質檢查、寫入回讀與回退說明完成前，不宣稱真實資料上線，也不提供個股買賣建議。",
     summary:
-      "目前公開頁以示範資料呈現市場閱讀流程。使用者可以看懂燈號與風險順序，但仍需知道這不是正式市場資料。",
+      "目前公開頁以示範資料呈現市場閱讀流程。使用者可以看懂燈號、風險順序與觀察重點，但仍需知道這不是正式市場資料。",
     upgradeChecks: [
       {
         id: "source-terms",
         label: "來源可用條件",
         status: "readying",
-        summary: "確認資料來源是否可合法免費自動化使用與公開展示。"
+        summary: "確認每日收盤價與當日交易資訊來源可合法免費自動化使用與公開展示。"
       },
       {
         id: "field-coverage",
-        label: "欄位與覆蓋率",
+        label: "大盤指數與 ETF 覆蓋",
         status: "readying",
-        summary: "確認每日收盤價、成交資訊、更新時間與缺漏狀態足以支撐公開頁。"
+        summary: "補齊大盤指數與 ETF 每日資料缺口，並清楚顯示更新時間與缺漏狀態。"
       },
       {
         id: "fallback-copy",
