@@ -1,0 +1,69 @@
+{
+  "packetStatus": "collection_packet_ready",
+  "operatorFillMode": "non_secret_summary_only",
+  "writeGateExecutableNow": false,
+  "publicDataSource": "mock",
+  "scoreSource": "mock",
+  "collectionItems": [
+    {
+      "evidenceItem": "schema_cache_evidence_required",
+      "prompt": "Confirm whether the relevant Supabase schema cache appears current enough for a later bounded readonly/write review. Summarize without endpoint bodies or secrets.",
+      "allowedResponseShape": "non_secret_summary",
+      "forbiddenValues": [
+        "secretValue",
+        "rawPayload",
+        "endpointResponseBody",
+        "serviceRoleKey",
+        "sqlStatement"
+      ]
+    },
+    {
+      "evidenceItem": "dashboard_api_exposure_evidence_required",
+      "prompt": "Confirm whether dashboard/API exposure for required tables or metadata is visible enough for later review. Summarize only the visible state.",
+      "allowedResponseShape": "non_secret_summary",
+      "forbiddenValues": [
+        "secretValue",
+        "rawPayload",
+        "endpointResponseBody",
+        "serviceRoleKey",
+        "sqlStatement"
+      ]
+    },
+    {
+      "evidenceItem": "pgrst205_regression_evidence_required",
+      "prompt": "Confirm whether the prior PGRST205 class remains a risk or was not observed in a bounded non-secret check. Do not include response payloads.",
+      "allowedResponseShape": "non_secret_summary",
+      "forbiddenValues": [
+        "secretValue",
+        "rawPayload",
+        "endpointResponseBody",
+        "serviceRoleKey",
+        "sqlStatement"
+      ]
+    },
+    {
+      "evidenceItem": "metadata_readiness_evidence_required",
+      "prompt": "Confirm whether table and column metadata needed for a future bounded write/read review is understood. Summarize field readiness only.",
+      "allowedResponseShape": "non_secret_summary",
+      "forbiddenValues": [
+        "secretValue",
+        "rawPayload",
+        "endpointResponseBody",
+        "serviceRoleKey",
+        "sqlStatement"
+      ]
+    },
+    {
+      "evidenceItem": "write_path_exposure_evidence_required",
+      "prompt": "Confirm whether a future write path can be framed with fail-closed controls. Summarize readiness without commands or credentials.",
+      "allowedResponseShape": "non_secret_summary",
+      "forbiddenValues": [
+        "secretValue",
+        "rawPayload",
+        "endpointResponseBody",
+        "serviceRoleKey",
+        "sqlStatement"
+      ]
+    }
+  ]
+}
