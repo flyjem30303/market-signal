@@ -39,6 +39,60 @@ Next route:
 
 Open or repair the TWII source-rights outcome gate. If it is accepted, continue to TWII field-contract and asset-mapping acceptance. If it is rejected or repair-required, keep TWII blocked and move ETF source-rights/field-contract repair plus runtime promotion preparation in parallel.
 
+### Phase 1 TWII No-Execution Data Gate Progression
+
+Status: `phase_1_twii_no_execution_data_gate_progressed_to_separate_attempt_preparation`
+
+CEO decision:
+
+- Push the Phase 1 data-online mainline through the already prepared no-execution gates instead of repeatedly restating the same blocker.
+- Treat each accepted gate as a real project progression only when it preserves aggregate-only evidence, mock runtime, no execution, and no promotion.
+- The next active PM route is now `separate_authorized_execution_attempt_preparation_review_then_final_authorization_stopline_preparation`.
+
+PM completed:
+
+- Confirmed TWII source-rights outcome is accepted for the next gate only.
+- Confirmed TWII field contract and asset mapping are aligned for sanitized candidate gate only.
+- Confirmed TWII sanitized candidate artifact is accepted for a no-write dry-run chain only.
+- Confirmed the TWII report-only dry-run chain is completed with aggregate-only proof.
+- Confirmed the TWII bounded execution packet readiness gate is ready for operator packet preparation only.
+- Confirmed the separate authorized execution attempt preparation gate is ready, still waiting for external values, with `13` placeholders and zero provided/read/authorized values.
+
+Evidence:
+
+- `cmd.exe /c npm run check:twii-source-rights-outcome-acceptance-gate` passes.
+- `cmd.exe /c npm run check:twii-field-contract-asset-mapping-alignment-gate` passes.
+- `cmd.exe /c npm run check:twii-sanitized-candidate-artifact-pm-intake-gate` passes.
+- `cmd.exe /c npm run check:twii-report-only-dry-run-chain-gate` passes.
+- `cmd.exe /c npm run check:twii-bounded-execution-packet-readiness-gate` passes.
+- `cmd.exe /c npm run check:twii-explicit-operator-packet-preparation-gate` passes.
+- `cmd.exe /c npm run check:twii-separate-authorized-execution-attempt-preparation-gate` passes.
+
+Current TWII data-online position:
+
+- Source lane: `official-exchange-index`.
+- Asset lane: `TWII:index`.
+- Target table: `daily_prices`.
+- Target scope: `twii_index_daily_prices_missing_rows`.
+- Candidate artifact: `data/candidates/twii-sanitized-candidate.json`.
+- Candidate rows: `60`.
+- Placeholder count at separate attempt preparation: `13`.
+- Provided values now: `0`.
+- Values read now: `0`.
+- Attempt authorized now: `0`.
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+- `runnerExecutableNow=false`.
+- `executionAllowedNow=false`.
+
+Boundary:
+
+No SQL, Supabase connection/read/write, staging row creation, `daily_prices` mutation, market endpoint fetch, raw market-data ingest/store/commit, candidate row read/output, public source promotion, score promotion, investment advice claim, production environment mutation, DNS change, broad visual redesign, or Phase 2 membership implementation occurred.
+
+Next route:
+
+Prepare or review the final authorization stopline. This must remain review-only until an explicit external operator decision, execute switch, confirmation phrase, server-only credential check, rollback proof, aggregate readback proof, post-run review, duplicate-rejection proof, and public-copy truthfulness proof are all present and accepted in a separate gate.
+
 ### Phase 1 Data Online Execution Selector
 
 Status: `phase_1_data_online_execution_selector_ready_no_execution`
