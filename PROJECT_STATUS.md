@@ -11331,3 +11331,44 @@ No SQL, Supabase read/write, staging rows, `daily_prices` mutation, raw market-d
 Next:
 
 CEO/PM should keep Phase 1 moving on two tracks: maintain the now-green public decision surface while continuing the data-line path toward legally usable automated source confirmation, bounded write/readback controls, rollback dry-run, and mock-to-real promotion gate. UI/UX polish can follow after these gates stay green.
+
+# Latest Phase 1 source-rights local closure convergence
+
+Status: `phase_1_source_rights_mvp_local_closure_ready_external_rights_unapproved`
+
+Date: 2026-06-15
+
+CEO decision: `CLOSE_LOCAL_SOURCE_RIGHTS_MVP_REVIEW_WITHOUT_REAL_SOURCE_PROMOTION`.
+
+What changed:
+
+- Reconnected the trust runtime boundary notice to methodology, disclaimer, terms, privacy, and weekly routes using readable public copy.
+- Rewrote the stock investor action summary helper so stock pages show observation focus, primary risk, stop condition, and a non-advisory safety line in readable language.
+- Added briefing structure support for market breadth, concentration check, and reading playbook evidence while keeping internal runtime markers out of visible page text.
+- Updated role workstream references so F / Product Design explicitly uses `docs/MVP_LAUNCH_PRD.md` as the product baseline.
+
+Verification:
+
+- `cmd.exe /c npm run check:trust-runtime-boundary-notice` passed.
+- `cmd.exe /c npm run check:briefing-boundary-disclosure` passed.
+- `cmd.exe /c npm run check:stock-investor-action-summary` passed.
+- `cmd.exe /c npm run check:mvp-launch-prd` passed.
+- `cmd.exe /c npm run check:source-rights-public-placement-readiness` passed.
+- `cmd.exe /c npm run check:source-rights-specific-classification-readiness` passed.
+- `cmd.exe /c npm run check:source-rights-public-copy-acceptance-readiness` passed.
+- `cmd.exe /c npm run check:source-rights-mvp-deferral-decision-readiness` passed.
+- `cmd.exe /c npm run check:source-rights-mvp-final-closure-readiness` passed.
+- `cmd.exe /c npm run check:phase-1-public-beta-final-readiness-rollup` passed.
+- `cmd.exe /c npm run check:public-visible-language-quality` passed.
+- `cmd.exe /c npm run check:public-surface-user-facing-audit` passed.
+- `cmd.exe /c npx tsc --noEmit --incremental false` passed.
+- `cmd.exe /c npm run check:localhost-health` passed.
+- `git diff --check` passed.
+
+Boundary:
+
+This closes only local source-rights MVP review readiness for mock public launch. It does not approve external provider terms, source license, redistribution, raw market-data use, Supabase readonly execution, SQL, ingestion, staging rows, `daily_prices` writes, `publicDataSource=supabase`, or `scoreSource=real`.
+
+Next:
+
+Phase 1 can keep the public/mock launch surface green while separately advancing real-data execution prerequisites: TWII field-contract and asset-mapping acceptance, sanitized candidate artifact acceptance, bounded write/readback packet, rollback dry-run, and a separate mock-to-real promotion decision.

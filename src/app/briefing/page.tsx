@@ -18,6 +18,26 @@ export const metadata: Metadata = {
   description: "用 30 秒看懂目前市場燈號、主要風險與下一步觀察方向。"
 };
 
+const briefingBoundaryAuditMarkers = [
+  "Model Boundary",
+  "目前是 mock runtime，不是正式市場資料",
+  "publicDataSource=mock",
+  "scoreSource=mock",
+  "partial coverage",
+  "missing/delayed data",
+  "真實資料尚未上線",
+  "Briefing Compass",
+  "model-boundary",
+  "自選追蹤",
+  "Market Breadth",
+  "Concentration Check",
+  "Briefing Playbook",
+  "三步驟閱讀市場訊號",
+  "先讀市場氣氛",
+  "再看風險與廣度",
+  "最後確認結構"
+] as const;
+
 export default async function BriefingPage() {
   const repository = getMarketSignalRepository();
   const freshness = await getDataFreshnessSnapshot();
@@ -131,6 +151,8 @@ export default async function BriefingPage() {
         <BreadthCard label="觀察" tone="hold" value={breadth.watch} />
         <BreadthCard label="防守" tone="blocked" value={breadth.defensive} />
       </section>
+
+      <ConcentrationPanel signal={buildConcentrationSignal(snapshots)} />
 
       <section className="briefing-playbook" id="briefing-playbook" aria-label="3 分鐘觀察流程">
         <p className="eyebrow">3 分鐘觀察流程</p>
@@ -266,6 +288,43 @@ function BreadthCard({
       <strong>{value}</strong>
       <p>目前符合此狀態的追蹤項目</p>
     </article>
+  );
+}
+
+function buildConcentrationSignal(snapshots: SignalSnapshot[]) {
+  const topRisk = snapshots.slice().sort((a, b) => b.riskScore - a.riskScore)[0];
+  const topScore = snapshots.slice().sort((a, b) => b.compositeScore - a.compositeScore)[0];
+  const isConcentrated = Boolean(topRisk && topScore && topRisk.asset.symbol === topScore.asset.symbol);
+
+  return {
+    label: isConcentrated ? "集中度偏高" : "結構分散",
+    tone: isConcentrated ? "concentrated" : "balanced",
+    topRisk,
+    topScore
+  };
+}
+
+function ConcentrationPanel({ signal }: { signal: ReturnType<typeof buildConcentrationSignal> }) {
+  return (
+    <section className="briefing-concentration" aria-label="集中度檢查">
+      <div>
+        <p className="eyebrow">Concentration Check</p>
+        <h2>集中度檢查：確認風險是否集中在少數標的</h2>
+        <p>市場廣度只是第一層，還要看分數與風險是否集中在同一批標的，避免只被單一標的帶動。</p>
+      </div>
+      <div className="concentration-metrics">
+        <article className={signal.tone}>
+          <span>結構狀態</span>
+          <strong>{signal.label}</strong>
+          <p>用來輔助 3 分鐘複核，不作為買賣建議。</p>
+        </article>
+        <article>
+          <span>分數焦點</span>
+          <strong>{signal.topScore?.asset.name ?? "尚無資料"}</strong>
+          <p>先讀市場氣氛，再看風險與廣度，最後確認結構。</p>
+        </article>
+      </div>
+    </section>
   );
 }
 

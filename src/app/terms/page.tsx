@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { PageViewTracker } from "@/components/page-view-tracker";
 import { PublicRouteReadingContract } from "@/components/public-route-reading-contract";
+import { TrustRuntimeBoundaryNotice } from "@/components/trust-runtime-boundary-notice";
 import { TrackedLink } from "@/components/tracked-link";
 
 export const metadata: Metadata = {
@@ -24,6 +25,7 @@ export default function TermsPage() {
       </section>
 
       <PublicRouteReadingContract context="terms" />
+      <TrustRuntimeBoundaryNotice context="terms" />
 
       <section className="legal-quick-read" aria-label="服務條款摘要">
         <article>

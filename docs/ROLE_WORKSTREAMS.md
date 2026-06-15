@@ -203,6 +203,7 @@ Not owned:
 Mission:
 
 - Use the MVP Launch PRD as the product baseline for design timing, annotation review, and launch-stage polish.
+- F / Product Design should use docs/MVP_LAUNCH_PRD.md.
 - Apply the CEO-approved design-skill split so product UX structure and visual styling do not blur together.
 
 Current next tasks:

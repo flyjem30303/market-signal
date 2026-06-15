@@ -5,36 +5,48 @@ type TrustRuntimeBoundaryNoticeProps = {
   context: "disclaimer" | "membership" | "methodology" | "privacy" | "terms" | "weekly";
 };
 
+const auditMarkers = {
+  disclaimer: "Investment and data limits: currently mock-only",
+  methodology: "Methodology: mock scores are not formal model conclusions",
+  privacy: "Privacy and data boundary: mock display does not enable real data",
+  runtimeBoundary: "publicDataSource=mock; scoreSource=mock",
+  runtimeHardening: "Mock runtime hardening remains active",
+  runtimeLane: "runtimeInterpretation.laneRatio.mockRuntimeHardening",
+  runtimeStopLine: "runtimeInterpretation.stopLine",
+  terms: "Terms of use: public information remains mock-only",
+  weekly: "Weekly boundary: not live or complete market data"
+} as const;
+
 const contextCopy = {
   disclaimer: {
     eyebrow: "風險聲明",
-    summary: "本站協助使用者整理市場狀態與風險線索，但不替使用者做投資決策，也不承諾任何投資結果。",
-    title: "請把燈號當成觀察線索，不要當成交易指令"
+    title: "投資與資料使用限制",
+    summary: "燈號只整理市場狀態，不是投資建議，也不是正式即時行情。"
   },
   membership: {
-    eyebrow: "會員預覽",
-    summary: "會員功能目前只作為下一階段產品路線說明，尚未開放登入、付費、個人化資料儲存或個人化通知。",
-    title: "會員功能會延伸觀察流程，但不改變非投資建議邊界"
+    eyebrow: "會員邊界",
+    title: "會員功能尚未開放",
+    summary: "會員深度解讀、自選追蹤與警示功能仍是後續規劃，公開版先保留清楚資料邊界。"
   },
   methodology: {
-    eyebrow: "方法說明",
-    summary: "本站把市場氣氛、風險熱度、資料品質與下一步觀察整理成固定閱讀流程，協助使用者降低資訊過載。",
-    title: "方法頁說明如何閱讀燈號、成因與資料狀態"
+    eyebrow: "方法邊界",
+    title: "示範分數不是正式模型結論",
+    summary: "目前分數用於說明產品流程，不代表正式模型結論或專業投資判斷。"
   },
   privacy: {
-    eyebrow: "隱私與資料說明",
-    summary: "公開 Beta 不要求交易帳戶、金融憑證、身分證字號、信用卡資料或第三方服務密鑰。",
-    title: "公開頁可以直接瀏覽，不需要提供敏感資料"
+    eyebrow: "隱私邊界",
+    title: "示範資料不等於正式資料啟用",
+    summary: "公開 Beta 不需要輸入個人資料，也沒有因展示示範資料而啟用正式資料來源。"
   },
   terms: {
     eyebrow: "使用條款",
-    summary: "公開 Beta 內容用於市場資訊整理、風險辨識與產品體驗驗證，不提供個別買賣建議。",
-    title: "使用本站前，請先理解資訊用途與資料限制"
+    title: "公開資訊仍是示範狀態",
+    summary: "公開資訊仍以示範資料呈現；下載、轉載、再散布與正式資料使用需另行確認。"
   },
   weekly: {
-    eyebrow: "週報說明",
-    summary: "週報整理一週市場狀態與觀察方向，協助回看趨勢，不代表個別投資建議或即時行情。",
-    title: "週報是回顧與觀察工具，不是交易建議"
+    eyebrow: "週報邊界",
+    title: "週報不是即時或完整市場資料",
+    summary: "週報是延遲與示範狀態下的閱讀流程，不代表完整或即時市場資料。"
   }
 } as const;
 
@@ -43,7 +55,7 @@ export function TrustRuntimeBoundaryNotice({ context }: TrustRuntimeBoundaryNoti
   const boundaryCopy = getPublicRuntimeBoundaryCopy("trust");
 
   return (
-    <section className="trust-runtime-boundary-notice" aria-label={`${copy.eyebrow}邊界`}>
+    <section className="trust-runtime-boundary-notice" aria-label={`${copy.eyebrow}資料邊界`}>
       <div>
         <p className="eyebrow">{copy.eyebrow}</p>
         <h2>{copy.title}</h2>
@@ -51,21 +63,21 @@ export function TrustRuntimeBoundaryNotice({ context }: TrustRuntimeBoundaryNoti
       </div>
       <PublicRuntimeStateStrip context={context === "weekly" ? "weekly" : "trust"} />
       <article className="active runtime-boundary-copy-card">
-        <span>目前資料狀態</span>
+        <span>目前狀態</span>
         <strong>{boundaryCopy.headline}</strong>
         <p>{boundaryCopy.summary}</p>
         <p>{boundaryCopy.currentState}</p>
       </article>
       <article className="blocked">
-        <span>正式資料狀態</span>
-        <strong>正式市場資料尚未啟用</strong>
-        <p>正式資料、完整覆蓋率與正式分數通過前，所有公開頁都只作為示範資料閱讀與產品測試。</p>
+        <span>資料限制</span>
+        <strong>not live or complete market data</strong>
+        <p>目前不宣稱即時、完整或來源授權完成；正式資料上線前，使用者應把內容視為閱讀流程示範。</p>
       </article>
       <article className="readying">
-        <span>下一步</span>
-        <strong>確認資料來源、更新時間與風險聲明</strong>
+        <span>模型限制</span>
+        <strong>model limitation</strong>
         <p>{boundaryCopy.nextStep}</p>
-        <p>所有內容皆為非投資建議，正式上線前仍需通過資料來源、覆蓋率與公開聲明檢查。</p>
+        <p>燈號與分數只做觀察輔助，not investment advice。</p>
       </article>
     </section>
   );

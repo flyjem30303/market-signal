@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { PageViewTracker } from "@/components/page-view-tracker";
 import { PublicRouteReadingContract } from "@/components/public-route-reading-contract";
+import { TrustRuntimeBoundaryNotice } from "@/components/trust-runtime-boundary-notice";
 import { TrackedLink } from "@/components/tracked-link";
 import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
 import { getMarketSignalSourceStatus } from "@/lib/repositories/market-signal-repository";
@@ -38,6 +39,7 @@ export default async function MethodologyPage() {
 
       <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
       <PublicRouteReadingContract context="methodology" />
+      <TrustRuntimeBoundaryNotice context="methodology" />
 
       <section className="panel method-section">
         <h2>核心閱讀模組</h2>

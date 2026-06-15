@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { PageViewTracker } from "@/components/page-view-tracker";
 import { PublicNextReadingFlow } from "@/components/public-next-reading-flow";
+import { TrustRuntimeBoundaryNotice } from "@/components/trust-runtime-boundary-notice";
 import { TrackedLink } from "@/components/tracked-link";
 import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
 import {
@@ -81,6 +82,7 @@ export default async function WeeklyPage() {
       </section>
 
       <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
+      <TrustRuntimeBoundaryNotice context="weekly" />
 
       <section className="panel method-links">
         <h2>下一步閱讀</h2>

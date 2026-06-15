@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { PageViewTracker } from "@/components/page-view-tracker";
 import { PublicRouteReadingContract } from "@/components/public-route-reading-contract";
+import { TrustRuntimeBoundaryNotice } from "@/components/trust-runtime-boundary-notice";
 import { TrackedLink } from "@/components/tracked-link";
 
 export const metadata: Metadata = {
@@ -24,6 +25,7 @@ export default function PrivacyPage() {
       </section>
 
       <PublicRouteReadingContract context="privacy" />
+      <TrustRuntimeBoundaryNotice context="privacy" />
 
       <section className="panel stock-reading-summary" aria-label="隱私快速說明">
         <p className="eyebrow">隱私快速說明</p>
