@@ -167,6 +167,17 @@ console.log(
         rowCount: writeRunnerCandidate.rowPayloadStatus?.rowPayloadCandidateRowCount ?? null,
         symbolsCovered: writeRunnerCandidate.rowPayloadStatus?.rowPayloadCandidateSymbolsCovered ?? [],
         symbolCounts: writeRunnerCandidate.rowPayloadStatus?.rowPayloadCandidateSymbolCounts ?? null,
+        dateBounds: writeRunnerCandidate.rowPayloadStatus?.rowPayloadCandidateDateBounds ?? null,
+        duplicateCount: writeRunnerCandidate.rowPayloadStatus?.rowPayloadCandidateDuplicateCount ?? null,
+        missingRequiredFieldCount:
+          writeRunnerCandidate.rowPayloadStatus?.rowPayloadCandidateMissingRequiredFieldCount ?? null,
+        forbiddenFieldCount: writeRunnerCandidate.rowPayloadStatus?.rowPayloadCandidateForbiddenFieldCount ?? null,
+        invalidTradeDateCount:
+          writeRunnerCandidate.rowPayloadStatus?.rowPayloadCandidateInvalidTradeDateCount ?? null,
+        invalidSourceMetadataCount:
+          writeRunnerCandidate.rowPayloadStatus?.rowPayloadCandidateInvalidSourceMetadataCount ?? null,
+        invalidOptionalNumberCount:
+          writeRunnerCandidate.rowPayloadStatus?.rowPayloadCandidateInvalidOptionalNumberCount ?? null,
         expectedRows: 178,
         expectedSymbolCounts: {
           TWII: 60,

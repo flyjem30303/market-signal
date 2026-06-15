@@ -40,7 +40,11 @@ const rowPayloadStatus = {
   rowPayloadCandidateDuplicateCount: rowPayloadCandidateValidation?.duplicateCount ?? null,
   rowPayloadCandidateMissingRequiredFieldCount: rowPayloadCandidateValidation?.missingRequiredFieldCount ?? null,
   rowPayloadCandidateForbiddenFieldCount: rowPayloadCandidateValidation?.forbiddenFieldCount ?? null,
-  rowPayloadCandidateInvalidTradeDateCount: rowPayloadCandidateValidation?.invalidTradeDateCount ?? null
+  rowPayloadCandidateInvalidTradeDateCount: rowPayloadCandidateValidation?.invalidTradeDateCount ?? null,
+  rowPayloadCandidateInvalidSourceMetadataCount:
+    rowPayloadCandidateValidation?.invalidSourceMetadataCount ?? null,
+  rowPayloadCandidateInvalidOptionalNumberCount:
+    rowPayloadCandidateValidation?.invalidOptionalNumberCount ?? null
 };
 
 validateAggregateShape();
@@ -140,6 +144,9 @@ function validateRowPayloadCandidate(filePath) {
       duplicateCount: null,
       missingRequiredFieldCount: null,
       forbiddenFieldCount: null,
+      invalidTradeDateCount: null,
+      invalidSourceMetadataCount: null,
+      invalidOptionalNumberCount: null,
       problems: [`candidate_artifact_validator_unreadable:${error.message}`]
     };
   }

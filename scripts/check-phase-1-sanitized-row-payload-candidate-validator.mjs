@@ -137,6 +137,32 @@ function validateDataOnlineCandidateRun() {
   );
   expect(dataOnlineCandidateRun.output.rowPayloadCandidate?.accepted, true, "data-online candidate accepted");
   expect(dataOnlineCandidateRun.output.rowPayloadCandidate?.rowCount, 178, "data-online candidate rowCount");
+  expect(dataOnlineCandidateRun.output.rowPayloadCandidate?.duplicateCount, 0, "data-online candidate duplicateCount");
+  expect(
+    dataOnlineCandidateRun.output.rowPayloadCandidate?.missingRequiredFieldCount,
+    0,
+    "data-online candidate missingRequiredFieldCount"
+  );
+  expect(
+    dataOnlineCandidateRun.output.rowPayloadCandidate?.forbiddenFieldCount,
+    0,
+    "data-online candidate forbiddenFieldCount"
+  );
+  expect(
+    dataOnlineCandidateRun.output.rowPayloadCandidate?.invalidTradeDateCount,
+    0,
+    "data-online candidate invalidTradeDateCount"
+  );
+  expect(
+    dataOnlineCandidateRun.output.rowPayloadCandidate?.invalidSourceMetadataCount,
+    0,
+    "data-online candidate invalidSourceMetadataCount"
+  );
+  expect(
+    dataOnlineCandidateRun.output.rowPayloadCandidate?.invalidOptionalNumberCount,
+    0,
+    "data-online candidate invalidOptionalNumberCount"
+  );
   expect(dataOnlineCandidateRun.output.publicDataSource, "mock", "data-online candidate publicDataSource");
   expect(dataOnlineCandidateRun.output.scoreSource, "mock", "data-online candidate scoreSource");
   expect(dataOnlineCandidateRun.output.twiiExecutionAllowedNow, false, "data-online candidate execution remains disabled");
