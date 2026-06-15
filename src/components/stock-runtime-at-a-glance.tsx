@@ -8,67 +8,65 @@ type StockRuntimeAtAGlanceProps = {
   snapshot: SignalSnapshot;
 };
 
-type Tone = "active" | "readying" | "blocked";
-
 export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRuntimeAtAGlanceProps) {
   const dataReadiness = getPublicBetaDataReadinessStatus();
   const headlineSummary = getStockRuntimeHeadlineSummary(snapshot);
-  const decisionBrief = buildStockDecisionBrief(snapshot);
+  const impactLevel = snapshot.riskScore >= 70 ? "高" : snapshot.riskScore >= 55 ? "中" : "低";
 
   return (
-    <section className="stock-runtime-at-a-glance" aria-label="狀態儀表">
+    <section className="stock-runtime-at-a-glance" aria-label="標的即時摘要">
       <div>
-        <p className="eyebrow">標的快速判讀</p>
+        <p className="eyebrow">標的 30 秒摘要</p>
         <h2>
-          {snapshot.asset.symbol} {snapshot.asset.name} 狀態儀表
+          {snapshot.asset.symbol} {snapshot.asset.name}：{snapshot.signal.title}
         </h2>
         <p>
-          這裡把燈號、風險、資料狀態與下一步觀察整理在同一個區塊，讓使用者先用 30 秒看懂狀態，再用 3 分鐘決定要觀察什麼。
+          用市場狀態、成因、影響級別與資料更新時間，協助你在 3 分鐘內完成「觀察、複核、等待」的初步判斷。
         </p>
       </div>
 
-      <div className="stock-public-decision-summary" aria-label="標的快速判讀">
-        <article className={decisionBrief.statusTone}>
-          <span>目前狀態</span>
-          <strong>{decisionBrief.status}</strong>
-          <p>成因：{decisionBrief.cause}</p>
+      <div className="stock-public-decision-summary" aria-label="標的決策摘要">
+        <article className={snapshot.compositeScore >= 70 ? "active" : "readying"}>
+          <span>狀態</span>
+          <strong>{snapshot.signal.title}</strong>
+          <p>成因：趨勢、品質、評價、廣度、資金與總體風險共同形成目前燈號。</p>
         </article>
-        <article className={decisionBrief.impactTone}>
-          <span>影響層級</span>
-          <strong>{decisionBrief.impactLevel}</strong>
-          <p>更新時間：{decisionBrief.updatedAt}</p>
-          <p>下一步：{decisionBrief.nextStep}</p>
+        <article className={snapshot.riskScore >= 60 ? "blocked" : "readying"}>
+          <span>影響級別</span>
+          <strong>{impactLevel}</strong>
+          <p>資料更新時間：{formatTaipeiTime(snapshot.lastUpdatedAt)}</p>
+          <p>下一步：先複核風險分數與資料邊界，再決定是否加強觀察。</p>
         </article>
         <article className="blocked">
           <span>資料邊界</span>
-          <strong>示範資料 / 示範分數</strong>
-          <p>公開 Beta 目前用示範資料建立閱讀流程；正式市場資料尚未啟用。</p>
+          <strong>展示資料 / 示範分數</strong>
+          <p>目前前台仍使用展示資料與示範分數，尚未切換到正式資料來源。</p>
           <p>分數來源：{scoreSourceLabel}</p>
-          <p>{dataReadiness.stopLine}</p>
+        <p>{dataReadiness.stopLine.replace(/publicDataSource|scoreSource|promotion gate/gu, "正式資料切換")}</p>
         </article>
       </div>
 
-      <div className="stock-runtime-action-strip" aria-label="標的行動順序">
+      <div className="stock-runtime-action-strip" aria-label="3 分鐘判斷順序">
         <article className="active">
-          <span>30 秒</span>
-          <strong>先看燈號與風險</strong>
-          <p>先確認市場氣氛、標的狀態與風險是否需要提高觀察頻率。</p>
+          <span>1</span>
+          <strong>看狀態</strong>
+          <p>先確認目前是偏多、觀望、警戒或高風險。</p>
         </article>
         <article className="readying">
-          <span>3 分鐘</span>
-          <strong>再看原因與資料邊界</strong>
-          <p>複核成因、更新時間、資料品質與下一步觀察，不把單一分數當成結論。</p>
+          <span>2</span>
+          <strong>看成因與影響級別</strong>
+          <p>再確認燈號是由哪些指標造成，以及風險是否升高。</p>
         </article>
         <article className="blocked">
-          <span>使用邊界</span>
-          <strong>不能當成個股買賣指令</strong>
-          <p>本頁是市場資訊整理與風險辨識工具，不提供報酬承諾，也不代替使用者做投資決策。</p>
+          <span>3</span>
+          <strong>看資料更新時間</strong>
+          <p>資料未完成上線前，不應直接視為個股買賣建議。</p>
         </article>
       </div>
 
-      <div className="stock-runtime-headline-summary" aria-label="標的重點摘要">
+      <div className="stock-runtime-headline-summary" aria-label="標的閱讀摘要">
         <div>
-          <span>重點摘要</span>
+          <span>閱讀摘要</span>
           <strong>{headlineSummary.headline}</strong>
           <p>{headlineSummary.subhead}</p>
         </div>
@@ -82,7 +80,7 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
         <p className="stock-runtime-headline-stop-line">{headlineSummary.stopLine}</p>
       </div>
 
-      <nav className="runtime-next-links" aria-label="標的延伸閱讀">
+      <nav className="runtime-next-links" aria-label="標的下一步">
         <TrackedLink
           eventName="stock_link_clicked"
           href="/briefing"
@@ -102,68 +100,14 @@ export function StockRuntimeAtAGlance({ scoreSourceLabel, snapshot }: StockRunti
         <TrackedLink
           eventName="stock_link_clicked"
           href="/"
-          label="返回市場總覽"
+          label="回到市場總覽"
           payload={{ area: "stock_runtime_next_links", symbol: snapshot.asset.symbol }}
         >
-          返回市場總覽
+          回到市場總覽
         </TrackedLink>
       </nav>
     </section>
   );
-}
-
-function buildStockDecisionBrief(snapshot: SignalSnapshot) {
-  const hasDataWarnings = snapshot.missingModuleFlags.length > 0 || snapshot.staleDataFlags.length > 0;
-  const highRisk = snapshot.riskScore >= 70;
-  const watchRisk = snapshot.riskScore >= 55;
-  const strongHealth = snapshot.healthScore >= 68;
-  const updatedAt = formatTaipeiTime(snapshot.lastUpdatedAt);
-
-  if (hasDataWarnings) {
-    return {
-      cause: "資料有缺漏或過期標記，需先確認更新時間與資料品質。",
-      impactLevel: "需複核",
-      impactTone: "readying" as Tone,
-      nextStep: "先確認資料邊界，再搭配市場總覽判讀。",
-      status: "資料需複核",
-      statusTone: "readying" as Tone,
-      updatedAt
-    };
-  }
-
-  if (highRisk) {
-    return {
-      cause: `風險分數 ${snapshot.riskScore}/100，表示需要提高警覺並複核關鍵成因。`,
-      impactLevel: "高",
-      impactTone: "blocked" as Tone,
-      nextStep: "降低單點判斷，優先觀察風險是否連續升高。",
-      status: "高風險觀察",
-      statusTone: "blocked" as Tone,
-      updatedAt
-    };
-  }
-
-  if (watchRisk || !strongHealth) {
-    return {
-      cause: `綜合分數 ${snapshot.compositeScore}/100，市場訊號仍需要等待確認。`,
-      impactLevel: "中",
-      impactTone: "readying" as Tone,
-      nextStep: "持續觀察量能、風險與燈號是否出現一致方向。",
-      status: "觀望中",
-      statusTone: "readying" as Tone,
-      updatedAt
-    };
-  }
-
-  return {
-    cause: `健康分數 ${snapshot.healthScore}/100，短線狀態相對穩定。`,
-    impactLevel: "低",
-    impactTone: "active" as Tone,
-    nextStep: "維持追蹤，並確認資料更新時間與風險提示。",
-    status: "相對穩定",
-    statusTone: "active" as Tone,
-    updatedAt
-  };
 }
 
 function formatTaipeiTime(value: string) {

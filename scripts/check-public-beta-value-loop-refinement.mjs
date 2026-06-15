@@ -8,23 +8,23 @@ const sourcePaths = ["src/components/dashboard-shell.tsx", "src/app/briefing/pag
 const routeChecks = [
   {
     path: "/",
-    required: ["3 分鐘判斷順序", "市場氣氛", "成因", "資料狀態", "下一步觀察", "正式市場資料尚未啟用"]
+    required: ["3 分鐘判斷順序", "市場燈號", "成因", "影響級別", "資料更新時間", "非投資建議"]
   },
   {
     path: "/briefing",
-    required: ["3 分鐘判斷順序", "市場氣氛", "成因", "資料狀態", "下一步觀察", "正式市場資料尚未啟用"]
+    required: ["3 分鐘判斷順序", "市場燈號", "成因", "影響級別", "資料更新時間", "非投資建議"]
   },
   {
     path: "/stocks/2330",
-    required: ["3 分鐘判斷順序", "市場氣氛", "成因", "影響級別", "下一步觀察", "不應直接視為個股買賣建議"]
+    required: ["3 分鐘判斷順序", "市場狀態", "成因", "影響級別", "資料更新時間", "不應直接視為個股買賣建議"]
   },
   {
     path: "/stocks/TWII",
-    required: ["3 分鐘判斷順序", "市場氣氛", "成因", "影響級別", "下一步觀察", "不應直接視為個股買賣建議"]
+    required: ["3 分鐘判斷順序", "市場狀態", "成因", "影響級別", "資料更新時間", "不應直接視為個股買賣建議"]
   },
   {
     path: "/stocks/0050",
-    required: ["3 分鐘判斷順序", "市場氣氛", "成因", "影響級別", "下一步觀察", "不應直接視為個股買賣建議"]
+    required: ["3 分鐘判斷順序", "市場狀態", "成因", "影響級別", "資料更新時間", "不應直接視為個股買賣建議"]
   }
 ];
 
@@ -67,7 +67,9 @@ const registration = [
 
 const sourceResults = sourcePaths.map((path) => {
   const source = fs.readFileSync(path, "utf8");
-  const missing = ["3 分鐘判斷順序", "市場氣氛", "成因", "下一步觀察"].filter((phrase) => !source.includes(phrase));
+  const missing = ["3 分鐘判斷順序", "市場燈號", "成因", "影響級別", "資料更新時間"].filter(
+    (phrase) => !source.includes(phrase)
+  );
   const markerHits = findHardMojibakeMarkers(source);
   return { markerHits, missing, pass: missing.length === 0 && markerHits.length === 0, path };
 });

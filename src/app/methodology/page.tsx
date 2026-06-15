@@ -1,23 +1,20 @@
 import type { Metadata } from "next";
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { PageViewTracker } from "@/components/page-view-tracker";
-import { PublicRouteReadingContract } from "@/components/public-route-reading-contract";
-import { RouteLocalTrustCopyPanel } from "@/components/route-local-trust-copy-panel";
 import { TrackedLink } from "@/components/tracked-link";
 import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
 import { getMarketSignalSourceStatus } from "@/lib/repositories/market-signal-repository";
 
 export const metadata: Metadata = {
   title: "方法說明",
-  description: "說明指數燈號如何閱讀、資料狀態如何影響解讀，以及為什麼本站只提供資訊整理與風險辨識。"
+  description: "說明指數燈號如何整理市場資料、形成燈號、揭露資料邊界，並提醒本網站不是投資建議。"
 };
 
 const methodModules = [
-  ["市場主燈號", "把市場狀態整理成偏多、觀望、警戒或高風險。", "幫助使用者先看大方向。"],
-  ["核心指標", "搭配趨勢、成交量、風險分數與健康分數。", "避免只用單一數字判斷。"],
-  ["資料狀態", "揭露更新時間、來源狀態與是否為示範資料。", "避免把延遲或未啟用資料當作即時訊號。"],
-  ["行動順序", "先看燈號，再看成因，最後看資料邊界。", "讓 30 秒閱讀與 3 分鐘判斷有固定流程。"],
-  ["風險邊界", "所有內容都是資訊整理，不是買賣建議。", "降低誤用與過度解讀。"]
+  ["市場燈號", "整合趨勢、資金、評價與風險", "讓使用者先看懂市場狀態"],
+  ["成因", "拆解造成燈號的主要因素", "避免只看單一分數"],
+  ["資料", "標示來源、更新時間與模擬邊界", "降低誤判風險"],
+  ["不是投資建議", "不提供買賣點或保證報酬", "維持資訊整理與風險辨識定位"]
 ];
 
 export default async function MethodologyPage() {
@@ -29,49 +26,20 @@ export default async function MethodologyPage() {
       <PageViewTracker eventName="methodology_page_viewed" payload={{ page: "methodology" }} />
       <section className="hero">
         <p className="eyebrow">方法說明</p>
-        <h1>燈號方法：讓市場狀態更容易閱讀</h1>
-        <p>
-          指數燈號不是要用一個分數取代判斷，而是把市場狀態、指標成因、資料更新與風險邊界整理成使用者看得懂的資訊輔助順序。
-        </p>
-        <p className="runtime-boundary-line">
-          正式資料尚未啟用前，公開頁以示範資料呈現閱讀流程；正式市場資料尚未啟用，正式資料必須先通過驗證，任何燈號都不是交易指令，也不提供個股買賣建議。
-        </p>
+        <h1>燈號怎麼來：先整理資料，再形成可理解的市場狀態</h1>
+        <p>指數燈號把複雜市場資訊轉成狀態、成因、影響級別與下一步觀察，協助一般投資者建立固定閱讀流程。</p>
+        <p className="runtime-boundary-line">目前公開 Beta 使用展示資料；正式資料切換前，不宣稱即時真實資料，也不是投資建議。</p>
       </section>
 
       <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
 
-      <section className="panel method-section" aria-label="公開版使用邊界">
-        <h2>公開版使用邊界</h2>
-        <p>
-          方法說明用來解釋燈號如何形成、資料狀態如何影響判讀信心，以及使用者應如何複核更新時間；本站不提供買賣建議，也不把任何燈號當成交易指令。
-        </p>
-      </section>
-
-      <section className="method-quick-read" aria-label="方法快速閱讀">
-        <article>
-          <span>30 秒</span>
-          <strong>先看市場主燈號</strong>
-          <p>確認目前市場偏多、觀望、警戒或高風險。</p>
-        </article>
-        <article>
-          <span>3 分鐘</span>
-          <strong>再看成因與資料狀態</strong>
-          <p>複核風險、趨勢、成交量與更新時間，避免只看單一分數。</p>
-        </article>
-        <article>
-          <span>資料品質</span>
-          <strong>不是交易指令</strong>
-          <p>燈號是觀察輔助，不能取代使用者自己的投資判斷。</p>
-        </article>
-      </section>
-
       <section className="panel method-section">
-        <h2>指標模組</h2>
-        <div className="method-table" role="table" aria-label="指標模組">
+        <h2>核心方法</h2>
+        <div className="method-table" role="table" aria-label="核心方法">
           <div className="method-row method-head" role="row">
-            <span>模組</span>
+            <span>項目</span>
             <span>用途</span>
-            <span>使用價值</span>
+            <span>使用者價值</span>
           </div>
           {methodModules.map(([name, purpose, value]) => (
             <div className="method-row" role="row" key={name}>
@@ -83,39 +51,15 @@ export default async function MethodologyPage() {
         </div>
       </section>
 
-      <section className="method-guardrail-grid" aria-label="資料品質與風險邊界">
-        <article>
-          <h2>資料需要可驗證</h2>
-          <p>資料來源、更新時間、覆蓋率與可能延遲必須能被使用者看見；若資料品質異常，前台應清楚降級。</p>
-        </article>
-        <article>
-          <h2>燈號需要解釋</h2>
-          <p>紅黃綠狀態必須搭配原因、影響級別與後續觀察重點，避免只留下顏色判斷。</p>
-        </article>
-        <article>
-          <h2>風險提醒不能恐嚇</h2>
-          <p>警戒代表需要複核與觀察，不應用恐慌式文案推動使用者做交易。</p>
-        </article>
-      </section>
-
-      <RouteLocalTrustCopyPanel context="methodology" />
-      <PublicRouteReadingContract context="methodology" />
-
       <section className="panel method-links">
-        <h2>下一步閱讀</h2>
-        <TrustTextLink href="/" label="市場總覽" />
-        <TrustTextLink href="/briefing" label="每日市場晨報" />
-        <TrustTextLink href="/weekly" label="市場週報" />
-        <TrustTextLink href="/disclaimer" label="風險聲明" />
+        <h2>繼續閱讀</h2>
+        <TrackedLink className="text-link" eventName="trust_link_clicked" href="/disclaimer" label="查看風險聲明" payload={{ area: "methodology" }}>
+          查看風險聲明
+        </TrackedLink>
+        <TrackedLink className="text-link" eventName="trust_link_clicked" href="/" label="回到市場總覽" payload={{ area: "methodology" }}>
+          回到市場總覽
+        </TrackedLink>
       </section>
     </main>
-  );
-}
-
-function TrustTextLink({ href, label }: { href: string; label: string }) {
-  return (
-    <TrackedLink className="text-link" eventName="trust_link_clicked" href={href} label={label} payload={{ area: "methodology_next_links" }}>
-      {label}
-    </TrackedLink>
   );
 }

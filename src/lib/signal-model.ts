@@ -58,37 +58,37 @@ const moduleDefinitions = [
     id: "trend",
     name: "趨勢強弱",
     weight: 18,
-    note: "觀察均線、動能與相對位置，判斷市場是否延續原本方向。"
+    note: "觀察均線、動能與近期方向，協助判斷市場是否仍在偏多結構。"
   },
   {
     id: "quality",
-    name: "基本體質",
+    name: "基本面品質",
     weight: 18,
-    note: "用獲利品質、營運穩定度與產業位置，衡量標的承受波動的能力。"
+    note: "用穩定度、獲利品質與產業位置建立基礎信心，避免只看短線價格。"
   },
   {
     id: "valuation",
-    name: "估值壓力",
+    name: "評價壓力",
     weight: 16,
-    note: "估值愈緊繃，遇到消息或資金轉向時，回檔風險通常較高。"
+    note: "評估價格是否已反映過高期待，提醒使用者注意追高風險。"
   },
   {
     id: "breadth",
     name: "市場廣度",
     weight: 14,
-    note: "觀察強勢標的是否擴散，避免只由少數權值股撐住表面行情。"
+    note: "觀察上漲家數與族群擴散程度，判斷行情是否只集中在少數標的。"
   },
   {
     id: "flow",
     name: "資金流向",
     weight: 16,
-    note: "追蹤資金是否持續流入，或開始轉向保守與防禦型資產。"
+    note: "追蹤資金是否仍支撐主要指數與大型權值股。"
   },
   {
     id: "macro",
     name: "總體風險",
     weight: 18,
-    note: "把利率、匯率、波動與外部事件納入判斷，避免只看單一價格。"
+    note: "納入利率、匯率、波動與外部風險，避免忽略市場背景。"
   }
 ] as const;
 
@@ -97,31 +97,31 @@ const signalRules: SignalRule[] = [
     min: 75,
     key: "green",
     title: "偏多",
-    text: "市場趨勢與資金狀態偏正向，但仍應搭配風險分數與資料更新時間觀察。"
+    text: "市場結構偏正向，趨勢與資金條件相對支撐，但仍需留意資料更新時間與風險變化。"
   },
   {
     min: 62,
     key: "yellow",
     title: "偏多觀察",
-    text: "市場仍有支撐，但部分風險開始升高，適合加強觀察而不是只看單一燈號。"
+    text: "市場仍有支撐，但部分指標進入觀察區，適合加強複核風險與族群擴散。"
   },
   {
     min: 48,
     key: "orange",
     title: "觀望",
-    text: "多空訊號混合，應先確認風險來源與資料品質，再決定是否提高警覺。"
+    text: "市場訊號分歧，短線方向尚不穩定，建議先看資料品質、風險分數與後續確認訊號。"
   },
   {
     min: 34,
     key: "red",
     title: "警戒",
-    text: "風險訊號明顯升高，適合降低追價衝動，並等待資料與趨勢重新穩定。"
+    text: "風險條件升高，趨勢支撐不足，應優先檢查是否需要降低曝險或等待訊號改善。"
   },
   {
     min: 0,
     key: "deep-red",
     title: "高風險",
-    text: "市場狀態偏弱且風險集中，應以保守觀察與風險控管為主。"
+    text: "市場狀態偏弱且風險集中，應避免只用單一指標判斷，先等待資料與趨勢回穩。"
   }
 ];
 
@@ -155,8 +155,8 @@ export function buildSignalSnapshot(asset: Asset, date: Date | string): SignalSn
     compositeScore,
     dataQualityScore,
     dataQualityGrade: "C",
-    staleDataFlags: ["目前為示範資料，尚未切換正式每日資料流程"],
-    missingModuleFlags: ["正式資料來源、覆蓋率與回退條件仍在上線前驗證"],
+    staleDataFlags: ["目前為公開 Beta 模擬資料，尚未完成正式資料切換條件。"],
+    missingModuleFlags: ["資料來源、寫入回讀與錯誤降級仍在第一階段資料上線流程中。"],
     modelVersion: "mock-v0.1",
     lastUpdatedAt: `${dateString}T14:30:00+08:00`,
     signal,
@@ -199,18 +199,18 @@ export function buildSignalSeries(asset: Asset, startDate: string, endDateOrDays
 export const newsEvents: NewsEvent[] = [
   {
     date: "2026-05-28",
-    source: "示範資料",
-    title: "AI 與半導體族群維持市場關注",
-    summary: "示範資料顯示資金仍偏好大型科技權值與 AI 伺服器供應鏈，但正式資料尚未上線。",
+    source: "模擬資料",
+    title: "AI 相關族群維持市場關注",
+    summary: "模擬資料顯示大型科技與 AI 供應鏈仍是市場觀察重點，但公開版仍需等待真實資料上線後才能作為正式更新來源。",
     category: "市場狀態",
     impact: 2,
     assets: ["TWII", "2330", "2382"]
   },
   {
     date: "2026-05-28",
-    source: "示範資料",
-    title: "核心 ETF 維持觀察清單",
-    summary: "ETF 目前作為公開 Beta 的示範觀察標的，正式 ETF 資料來源與欄位仍需通過資料 gate。",
+    source: "模擬資料",
+    title: "ETF 觀察仍待來源權利確認",
+    summary: "ETF 相關資料在第一階段仍需完成來源權利、欄位合約與回填流程，前台不得宣稱為即時真實資料。",
     category: "ETF",
     impact: 1,
     assets: ["0050", "006208"]

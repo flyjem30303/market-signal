@@ -34,16 +34,16 @@ const sourceFiles = [
 ];
 
 const routeVisibleContracts = [
-  { route: "/", tokens: ["公開 Beta", "30 秒", "3 分鐘", "市場總覽", "資料狀態", "非投資建議"] },
-  { route: "/briefing", tokens: ["市場簡報", "30 秒", "3 分鐘", "警示清單", "資料邊界", "正式資料尚未啟用"] },
-  { route: "/weekly", tokens: ["市場週報", "本週市場狀態", "示範資料", "不提供買賣建議"] },
-  { route: "/membership", tokens: ["會員功能預告", "第二階段", "市場三層解讀", "自選追蹤", "自訂警示"] },
-  { route: "/stocks/2330", tokens: ["2330", "指數燈號", "資料來源與覆蓋", "3 分鐘閱讀順序", "不是投資建議"] },
-  { route: "/stocks/TWII", tokens: ["TWII", "指數燈號", "資料來源與覆蓋", "3 分鐘閱讀順序", "不是投資建議"] },
-  { route: "/methodology", tokens: ["方法說明", "燈號方法", "資料狀態", "不是交易指令"] },
-  { route: "/disclaimer", tokens: ["風險聲明", "市場資訊整理", "不構成個股買賣建議", "示範資料"] },
-  { route: "/terms", tokens: ["使用條款", "市場觀察", "不能當作交易指令", "資料來源"] },
-  { route: "/privacy", tokens: ["隱私", "會員功能", "自選追蹤", "自訂警示"] }
+  { route: "/", tokens: ["公開 Beta", "30 秒", "3 分鐘判斷順序", "指數狀態儀表站", "資料上線狀態", "非投資建議"] },
+  { route: "/briefing", tokens: ["每日市場簡報", "30 秒", "3 分鐘判斷順序", "影響級別", "資料更新時間", "非投資建議"] },
+  { route: "/weekly", tokens: ["市場週報", "公開週報", "模擬資料", "不是投資建議"] },
+  { route: "/membership", tokens: ["會員", "市場三層解讀", "watchlist", "盤後複盤"] },
+  { route: "/stocks/2330", tokens: ["2330", "指數燈號", "資料邊界", "3 分鐘判斷順序", "不應直接視為個股買賣建議"] },
+  { route: "/stocks/TWII", tokens: ["TWII", "指數燈號", "資料邊界", "3 分鐘判斷順序", "不應直接視為個股買賣建議"] },
+  { route: "/methodology", tokens: ["方法說明", "燈號", "資料", "不是投資建議"] },
+  { route: "/disclaimer", tokens: ["風險聲明", "市場資訊", "不構成投資建議", "模擬資料"] },
+  { route: "/terms", tokens: ["使用條款", "市場資訊", "不構成投資建議", "資料"] },
+  { route: "/privacy", tokens: ["隱私權", "會員", "watchlist", "盤後複盤"] }
 ];
 
 const missing = [];
@@ -179,7 +179,7 @@ function findMojibakeMarkers(source) {
   if (/[\uE000-\uF8FF]/u.test(source)) markers.push("private-use-codepoint");
   if (/[\u0080-\u009F]/u.test(source)) markers.push("c1-control-character");
   if (/\?{3,}/u.test(source)) markers.push("question-mark-run");
-  for (const fragment of ["蝬", "嚗", "銝", "雿", "撣", "摰", "閬", "霈", "蝡", "璅", "餈質馱", "擗", "", "", "芷"]) {
+  for (const fragment of ["擗", "蝺抵圾", "銝", "鞈", "撣", "嚗", "蝷箇"]) {
     if (source.includes(fragment)) markers.push(`mojibake-fragment:${fragment}`);
   }
   return markers;

@@ -2,6 +2,41 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Public Pages Readability Cleanup
+
+Status: `phase_1_public_pages_readability_cleanup_ready`
+
+CEO decision:
+
+- Treat public user-facing readability as the current mainline because data execution is blocked on external operator values.
+- Replace early mojibake, internal labels, and development-process residue on the public route set before deeper visual polish.
+- Keep the site positioned as a public/free index-lighting dashboard; membership remains planned for the next stage and does not block Phase 1 public launch readiness.
+
+PM completed:
+
+- Rebuilt clean public copy for the global layout, navigation, home/stock dashboard shell, briefing, weekly, membership planning, methodology, disclaimer, terms, and privacy routes.
+- Repaired core mock asset names and signal-model copy so front-facing market states, reasons, impact levels, update times, and non-investment-advice boundaries render as readable Traditional Chinese.
+- Updated public route proof checkers to validate the BRIEF-driven Chinese value loop instead of older corrupted text fragments.
+
+Verified:
+
+- `cmd.exe /c npx tsc --noEmit` passes.
+- `cmd.exe /c npm run check:public-visible-language-quality` passes across 14 public routes and 24 public source files.
+- `cmd.exe /c npm run check:public-beta-value-loop-refinement` passes for `/`, `/briefing`, `/stocks/2330`, `/stocks/TWII`, and `/stocks/0050`.
+- `cmd.exe /c npm run check:public-beta-core-route-quick-proof` passes across the core public route set.
+- `cmd.exe /c npm run check:phase-1-data-online-go-no-go-status` remains `PUBLIC_RUNTIME_READY_BUT_DATA_ONLINE_NO_GO`.
+
+Current boundary:
+
+- Public pages are now readable, but data online remains `NO_GO`.
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+- No SQL, Supabase read/write, staging row, `daily_prices` mutation, market-data fetch/ingestion, source promotion, score promotion, secret output, or public real-data claim occurred.
+
+Next route:
+
+CEO should keep PM on Phase 1 launch-readiness integration and visual/UX acceptance after public copy is stable, while A1 continues data-source/coverage work and TWII waits for explicit external operator values.
+
 ### Phase 1 TWII Operator Value Blocker Rollup
 
 Status: `phase_1_twii_operator_value_blocker_rollup_ready_not_executable`

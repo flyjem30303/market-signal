@@ -22,9 +22,9 @@ export function generateMetadata({ params }: StockPageProps): Metadata {
   if (!asset) return {};
 
   const snapshot = repository.getSnapshot(asset.symbol, snapshotDate);
-  const signal = snapshot?.signal.title ?? "觀望";
+  const signal = snapshot?.signal.title ?? "觀察";
   const title = `${asset.symbol} ${asset.name} 指數燈號：${signal}`;
-  const description = `${asset.symbol} ${asset.name} 的市場燈號、風險分數、資料更新時間與觀察重點。公開 Beta 目前使用示範資料，不提供買賣建議。`;
+  const description = `${asset.symbol} ${asset.name} 的市場狀態、成因、影響級別與資料更新時間。公開 Beta 目前使用模擬資料，不應直接視為個股買賣建議。`;
 
   return {
     alternates: {
@@ -64,7 +64,7 @@ export default async function StockPage({ params }: StockPageProps) {
       ? [
           {
             "@type": "PropertyValue",
-            name: "市場分數",
+            name: "市場綜合分數",
             value: snapshot.compositeScore
           },
           {
@@ -80,7 +80,7 @@ export default async function StockPage({ params }: StockPageProps) {
           {
             "@type": "PropertyValue",
             name: "資料狀態",
-            value: `${snapshot.dataQualityGrade} / 示範資料`
+            value: `${snapshot.dataQualityGrade} / mock 資料`
           }
         ]
       : undefined,
