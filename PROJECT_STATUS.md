@@ -2,6 +2,42 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Latest Phase 1 rendered public route UTF-8 confirmation
+
+Status: `phase_1_rendered_public_routes_readable_utf8_confirmed`
+
+CEO decision:
+
+- Do not treat PowerShell `Get-Content` mojibake as proof that the source files or website are broken.
+- Verify user-facing language from UTF-8 file reads and actual localhost route output before making copy changes.
+- Keep the next Phase 1 mainline focused on the real blocker: ETF aggregate-only sanitized candidate artifact is still missing.
+
+PM completed:
+
+- Rechecked the current public route set through localhost HTML output.
+- Confirmed the rendered user-facing text is readable Traditional Chinese on `/`, `/briefing`, `/weekly`, `/stocks/2330`, `/stocks/TWII`, `/stocks/0050`, `/methodology`, `/terms`, `/privacy`, `/disclaimer`, and `/membership`.
+- Confirmed no public route sample exposed `PUBLIC_BETA`, `BETA_`, `candidateArtifact`, `promotion gate`, `pre-launch`, hard-blocker wording, Windows paths, or internal role labels.
+- Confirmed the active write-runner artifact set gate is still waiting for the ETF sanitized candidate artifact and does not allow execution.
+
+Verification:
+
+- `cmd.exe /c npm run check:localhost-health` passed.
+- `cmd.exe /c npm run check:public-visible-language-quality` passed.
+- `cmd.exe /c npm run check:public-surface-user-facing-audit` passed.
+- `cmd.exe /c npm run check:phase-1-core-public-copy-readable` passed.
+- `cmd.exe /c npx tsc --noEmit --incremental false` passed.
+- One-off localhost rendered-text probe returned 200 for the checked routes and found no internal-process residue.
+- `cmd.exe /c npm run check:phase-1-write-runner-candidate-artifact-set-acceptance-gate` returned `phase_1_write_runner_candidate_artifact_set_acceptance_gate_waiting_etf_artifact`.
+
+Boundary:
+
+- No SQL, Supabase read/write, staging row creation, `daily_prices` mutation, raw market-data fetch/store/commit, source promotion, real score promotion, membership implementation, production env mutation, DNS change, Vercel mutation, or platform deploy occurred.
+- Runtime remains `publicDataSource=mock` and `scoreSource=mock`.
+
+Next:
+
+Wait for or request the A1 ETF aggregate-only sanitized candidate artifact reply, then run the ETF reply intake validator and candidate artifact set acceptance gate before any write/readback path can continue.
+
 ### Latest Karpathy-guided Phase 1 public readability repair
 
 Status: `phase_1_public_core_copy_repaired_and_verified`
