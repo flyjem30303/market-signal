@@ -1,0 +1,15 @@
+{
+  "gateStatus": "apply_gate_ready",
+  "reviewDecision": "approved_for_future_ledger_append_only",
+  "candidateAppendApprovedForFutureSlice": true,
+  "requiredCandidateEntryCount": 5,
+  "mutatesAcceptanceLedgerNow": false,
+  "readyForReadonlyGate": false,
+  "writeGateExecutableNow": false,
+  "publicDataSource": "mock",
+  "scoreSource": "mock",
+  "notes": [
+    "Candidate may be appended only in a later explicit ledger-append slice.",
+    "This gate does not authorize Supabase read, write, SQL, runtime promotion, or public real-data claims."
+  ]
+}

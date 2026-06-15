@@ -2,6 +2,54 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Data Online External Platform Ledger Sync Apply Gate No Execution
+
+Status: `phase_1_data_online_external_platform_ledger_sync_apply_gate_no_execution_ready`
+
+CEO decision:
+
+- Add a reviewed apply gate after the ledger sync candidate.
+- Approve the candidate only for a future explicit ledger-append slice.
+- Keep this slice from mutating the acceptance ledger, opening readonly gate, or authorizing write gate.
+
+PM completed:
+
+- Added `docs/PHASE_1_DATA_ONLINE_EXTERNAL_PLATFORM_LEDGER_SYNC_APPLY_GATE_NO_EXECUTION.md`.
+- Added `data/evidence-intake/phase-1-external-platform-ledger-sync-apply-gate.json`.
+- Added `check:phase-1-data-online-external-platform-ledger-sync-apply-gate-no-execution`.
+- Registered the checker in the focused review gate.
+- Confirmed the ledger sync candidate and current data-online state remain aligned.
+
+Apply gate output:
+
+- `applyGateReady=true`.
+- `candidateAppendApprovedForFutureSlice=true`.
+- `mutatesAcceptanceLedgerNow=false`.
+- `readyForReadonlyGate=false`.
+- `writeGateExecutableNow=false`.
+
+Current data-online position:
+
+- Phase 1 data-online decision remains `PUBLIC_RUNTIME_READY_BUT_DATA_ONLINE_NO_GO`.
+- Current Level 1 coverage remains `182/360`; missing rows remain `178/360`.
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+
+Evidence:
+
+- `cmd.exe /c npm run check:phase-1-data-online-external-platform-ledger-sync-apply-gate-no-execution` passes and approves only a future ledger append slice.
+- `cmd.exe /c npm run check:phase-1-data-online-external-platform-ledger-sync-candidate-no-execution` passes.
+- `cmd.exe /c npm run check:phase-1-data-online-go-no-go-status` passes and remains `NO_GO`.
+- `cmd.exe /c npx tsc --noEmit` passes.
+
+Boundary:
+
+No SQL, Supabase connection/read/write, staging-row creation, `daily_prices` mutation, market-row fetch, raw payload output, endpoint response output, credential value output, operator value output, execution value storage, write-gate execution, candidate row acceptance, row coverage award, source promotion, score promotion, public real-data claim, real-time claim, official endorsement claim, investment advice claim, or production mutation occurred.
+
+Next route:
+
+CEO should prepare an explicit ledger append no-execution slice that appends the approved candidate entries into the acceptance ledger while keeping readonly and write gates closed.
+
 ### Phase 1 Data Online External Platform Ledger Sync Candidate No Execution
 
 Status: `phase_1_data_online_external_platform_ledger_sync_candidate_no_execution_ready`
