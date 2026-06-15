@@ -2,6 +2,50 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 ETF Parallel Coverage Repair Selector
+
+Status: `phase_1_etf_parallel_coverage_repair_selector_ready_no_fetch_no_execution`
+
+CEO decision:
+
+- Keep the active GOAL aimed at Phase 1 public launch readiness, including data-online, but stop waiting on only TWII external operator values.
+- Treat ETF as the next parallel data-coverage repair lane because it accounts for `118` missing Level 1 rows.
+- Keep ETF as a mock/runtime readiness lane until source-rights evidence is accepted in a separate decision.
+
+PM completed:
+
+- Added `docs/PHASE_1_ETF_PARALLEL_COVERAGE_REPAIR_SELECTOR.md`.
+- Added `check:phase-1-etf-parallel-coverage-repair-selector`.
+- Registered the checker in the focused review gate.
+- Split next work across PM, A1, and A2 without allowing fetch, candidate rows, Supabase, or real promotion.
+
+Current ETF position:
+
+- Target ETF symbols: `0050`, `006208`.
+- ETF coverage remains `2/120`, missing `118`.
+- `0050` remains `1/60`, missing `59`.
+- `006208` remains `1/60`, missing `59`.
+- Source-rights decision remains `etf_source_rights_outcome_decision_gate_blocked_external_rights_pending`.
+- Source-rights outcome remains `rejected_for_execution_pending_external_rights`.
+- Phase 1 data-online decision remains `PUBLIC_RUNTIME_READY_BUT_DATA_ONLINE_NO_GO`.
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+
+Evidence:
+
+- `cmd.exe /c npm run check:a1-etf-market-price-source-scope-no-fetch` passes.
+- `cmd.exe /c npm run check:a1-etf-market-price-field-contract-no-fetch` passes.
+- `cmd.exe /c npm run check:phase-1-etf-coverage-closure-readiness-rollup` passes.
+- `cmd.exe /c npm run check:phase-1-etf-parallel-coverage-repair-selector` is the focused gate for this slice.
+
+Boundary:
+
+No SQL, Supabase connection/read/write, staging row creation, `daily_prices` mutation, ETF market-row fetch, raw payload output, endpoint response output, ETF candidate row acceptance, ETF row coverage points, source promotion, score promotion, real-time claim, official endorsement claim, investment advice claim, production environment mutation, DNS change, broad visual redesign, or Phase 2 membership implementation occurred.
+
+Next route:
+
+Default PM route is `keep_etf_parallel_coverage_repair_in_mock_runtime_readiness`. A1 should prepare `prepare_etf_source_rights_acceptance_evidence_without_market_row_fetch`; A2 should run `review_etf_mock_runtime_copy_against_non_advice_and_source_boundary`. If source rights are accepted later, open `etf_sanitized_candidate_artifact_gate_for_118_missing_rows` as a separate gate before any staging/write/promotion path.
+
 ### TWII Operator No-Secret Intake Instructions
 
 Status: `twii_operator_no_secret_intake_instructions_ready_no_execution`
