@@ -28,9 +28,10 @@ const report = {
     : "phase_1_data_online_write_gate_readiness_escalation_map_no_execution_blocked",
   packetMode: "write_gate_readiness_escalation_map_no_execution",
   writeGateExecutableNow: false,
-  localResolvableBlockers: ["rollback_plan_unverified", "aggregate_readback_plan_unverified", "post_run_review_unverified", "duplicate_rejection_unverified"],
-  operatorAuthorizedBlockers: ["operator_values_missing", "credential_presence_unverified"],
-  externalPlatformBlockers: ["schema_cache_exposure_unverified", "dashboard_api_exposure_unverified", "pgrst205_regression_unverified"],
+  reducedByEvidenceBlockers: checklist.reducedBlockers ?? [],
+  operatorAuthorizedBlockers: checklist.remainingBlockers ?? [],
+  externalPlatformBlockers: [],
+  dashboardApiExposureStatus: checklist.dashboardApiExposureStatus ?? null,
   dataOnlineDecision: dataOnline.decision ?? null,
   publicDataSource: dataOnline.publicDataSource ?? null,
   scoreSource: dataOnline.scoreSource ?? null,
@@ -48,6 +49,15 @@ function validatePrerequisites() {
     "write-gate checklist runner guarded status"
   );
   expect(checklist.writeGateExecutableNow, false, "checklist writeGateExecutableNow");
+  expect(
+    checklist.dashboardApiExposureStatus,
+    "accepted_read_path_for_daily_prices",
+    "checklist dashboardApiExposureStatus"
+  );
+  const remaining = Array.isArray(checklist.remainingBlockers) ? checklist.remainingBlockers : [];
+  if (remaining.join(",") !== "operator_values_missing,credential_presence_unverified") {
+    problems.push(`checklist remainingBlockers expected operator/credential only but got ${remaining.join(",")}`);
+  }
   expect(dataOnline.status, "ok", "dataOnline status");
   expect(dataOnline.decision, "PUBLIC_RUNTIME_READY_BUT_DATA_ONLINE_NO_GO", "dataOnline decision");
   expect(dataOnline.publicDataSource, "mock", "dataOnline publicDataSource");
@@ -58,7 +68,7 @@ function validateDoc() {
   const requiredTokens = [
     "phase_1_data_online_write_gate_readiness_escalation_map_no_execution_ready",
     "write_gate_readiness_escalation_map_no_execution",
-    "local_resolvable_blockers",
+    "reduced_by_evidence_blockers",
     "operator_authorized_blockers",
     "external_platform_blockers",
     "rollback_plan_unverified",
@@ -69,6 +79,7 @@ function validateDoc() {
     "credential_presence_unverified",
     "schema_cache_exposure_unverified",
     "dashboard_api_exposure_unverified",
+    "accepted_read_path_for_daily_prices",
     "pgrst205_regression_unverified",
     "writeGateExecutableNow=false",
     "twii_and_etf_phase_1_missing_row_closure_only",

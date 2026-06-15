@@ -1,0 +1,24 @@
+{
+  "status": "dashboard_api_exposure_evidence_ready",
+  "evidenceMode": "no_secret_dashboard_api_exposure_evidence",
+  "dashboardApiExposureStatus": "accepted_read_path_for_daily_prices",
+  "readonlyAttemptId": "phase1-data-online-readonly-20260615-a",
+  "targetTable": "daily_prices",
+  "aggregateReadQueryStatus": "ok",
+  "aggregateRowCount": 1260,
+  "reducesBlocker": "dashboard_api_exposure_unverified",
+  "writeGateExecutableNow": false,
+  "publicDataSource": "mock",
+  "scoreSource": "mock",
+  "safety": {
+    "sqlExecuted": false,
+    "supabaseWriteAttempted": false,
+    "dailyPricesMutated": false,
+    "marketDataFetched": false,
+    "rawPayloadIncluded": false,
+    "rowPayloadIncluded": false,
+    "secretsIncluded": false,
+    "publicPromotionAllowed": false,
+    "scoreSourceRealAllowed": false
+  }
+}

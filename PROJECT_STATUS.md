@@ -2,6 +2,48 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Dashboard API Exposure Evidence Accepted
+
+Status: `phase_1_dashboard_api_exposure_reduced_write_gate_remaining_two`
+
+CEO decision:
+
+- Accept the aggregate-only bounded readonly evidence as proof that the Phase 1 `daily_prices` target table has a working dashboard/API read path.
+- Reduce `dashboard_api_exposure_unverified` from the write-gate blocker set.
+- Keep the write gate closed because operator values and credential presence still require a separate no-secret, server-only execution decision.
+
+PM completed:
+
+- Added `phase-1-dashboard-api-exposure-evidence.json` as a sanitized, no-secret evidence artifact.
+- Added `PHASE_1_DATA_ONLINE_DASHBOARD_API_EXPOSURE_EVIDENCE.md` to record the dashboard/API exposure decision and boundaries.
+- Registered `check:phase-1-data-online-dashboard-api-exposure-evidence` in `package.json` and the focused review gate.
+- Updated the write-gate checklist runner to report `dashboardApiExposureStatus=accepted_read_path_for_daily_prices` and current remaining blockers.
+- Updated the write-gate readiness escalation map so evidence-reduced blockers no longer appear as currently open external platform blockers.
+
+Verified:
+
+- `cmd.exe /c npm run check:phase-1-data-online-dashboard-api-exposure-evidence` passes.
+- `cmd.exe /c npm run check:phase-1-data-online-write-gate-checklist-runner-no-execution` passes.
+- `cmd.exe /c npm run check:phase-1-data-online-write-gate-readiness-escalation-map-no-execution` passes.
+
+Current blocker view:
+
+- Reduced blockers: `rollback_plan_unverified`, `aggregate_readback_plan_unverified`, `post_run_review_unverified`, `duplicate_rejection_unverified`, `schema_cache_exposure_unverified`, `dashboard_api_exposure_unverified`, `pgrst205_regression_unverified`.
+- Remaining blockers: `operator_values_missing`, `credential_presence_unverified`.
+- Evidence markers: `readonly_aggregate_probe_accepted`, `dashboardApiExposureStatus=accepted_read_path_for_daily_prices`.
+
+Current boundary:
+
+- Write gate remains non-executable.
+- Data online remains `NO_GO`.
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+- No SQL, Supabase write, staging row, `daily_prices` mutation, market-data fetch/ingestion, row coverage award, source promotion, score promotion, secret output, row payload output, or public real-data claim occurred.
+
+Next route:
+
+CEO should focus the next data-online slice on a no-secret operator/credential presence packet so PM can open the final write readiness path without exposing secrets.
+
 ### Phase 1 Write Gate Blocker Reduction
 
 Status: `phase_1_write_gate_blockers_reduced_to_three_remaining`

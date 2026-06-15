@@ -12,7 +12,7 @@ This runner is a local-only checklist report for the future write gate. It outpu
 
 `checklist_runner_outputs_blocked_reasons`
 
-The runner now reports both the original blocker set and the current reduced state after local-lane planning and the accepted aggregate-only readonly probe.
+The runner now reports both the original blocker set and the current reduced state after local-lane planning, the accepted aggregate-only readonly probe, and the accepted dashboard/API read exposure evidence.
 
 Current executable state:
 
@@ -37,22 +37,24 @@ Reduced blockers:
 - `post_run_review_unverified`
 - `duplicate_rejection_unverified`
 - `schema_cache_exposure_unverified`
+- `dashboard_api_exposure_unverified`
 - `pgrst205_regression_unverified`
 
 Current remaining blockers:
 
 - `operator_values_missing`
 - `credential_presence_unverified`
-- `dashboard_api_exposure_unverified`
 
 Current evidence marker:
 
 - `readonly_aggregate_probe_accepted`
+- `dashboardApiExposureStatus=accepted_read_path_for_daily_prices`
 
 Machine fields:
 
 - `reducedBlockers`
 - `remainingBlockers`
+- `dashboardApiExposureStatus`
 
 ## Bounded Attempt Scope
 
@@ -86,7 +88,7 @@ No public page may imply that real-data mode has started.
 
 Create this no-execution checklist runner because the fail-closed simulation is now ready and needs a repeatable local report of why the write gate remains blocked.
 
-This runner is still not a write gate. It is a visibility layer for the write gate's blocked state.
+The accepted aggregate-only bounded readonly result now also resolves the dashboard/API read exposure blocker for `daily_prices`. This runner is still not a write gate. It is a visibility layer for the write gate's blocked state.
 
 ## PM Execution Record
 
@@ -96,4 +98,4 @@ It does not include credential values, operator values, SQL, Supabase commands, 
 
 ## Next Route
 
-Prepare a no-execution write-gate readiness escalation map that separates locally resolvable blockers from external/operator-authorized blockers.
+Close the two remaining no-secret execution prerequisites: operator values and credential presence. They must remain server-only and cannot be printed in logs or docs.

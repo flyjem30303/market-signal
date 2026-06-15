@@ -6,7 +6,7 @@
 
 Packet mode: `write_gate_readiness_escalation_map_no_execution`
 
-This map separates current write-gate blockers into local, operator-authorized, and external platform lanes. It is a no-execution planning artifact.
+This map separates current write-gate blockers into evidence-reduced, operator-authorized, and external platform lanes. It is a no-execution planning artifact.
 
 Current executable state:
 
@@ -14,16 +14,23 @@ Current executable state:
 
 ## Escalation Lanes
 
-### Local Lane
+### Evidence-Reduced Lane
 
-`local_resolvable_blockers`
+`reduced_by_evidence_blockers`
 
-These blockers can be reduced by local artifacts and no-execution checks:
+These blockers have been reduced by local artifacts, accepted aggregate-only readonly evidence, and dashboard/API read exposure evidence:
 
 - `rollback_plan_unverified`
 - `aggregate_readback_plan_unverified`
 - `post_run_review_unverified`
 - `duplicate_rejection_unverified`
+- `schema_cache_exposure_unverified`
+- `dashboard_api_exposure_unverified`
+- `pgrst205_regression_unverified`
+
+Current dashboard/API evidence marker:
+
+- `accepted_read_path_for_daily_prices`
 
 ### Operator Lane
 
@@ -38,7 +45,7 @@ These blockers require a later explicit operator decision and must not be guesse
 
 `external_platform_blockers`
 
-These blockers require Supabase/dashboard/schema-cache/API exposure evidence before any real write path can open:
+No external platform blocker remains open in this map after the accepted aggregate readonly and dashboard/API exposure evidence. Historical external platform blockers reduced in this slice are retained above for audit continuity:
 
 - `schema_cache_exposure_unverified`
 - `dashboard_api_exposure_unverified`
@@ -74,7 +81,7 @@ No public page may imply that real-data mode has started.
 
 ## CEO Decision
 
-Create this escalation map because the checklist runner now tells us why the write gate is blocked. The next productive step is to reduce local blockers first, while keeping operator and platform blockers clearly separated.
+Create this escalation map because the checklist runner now tells us why the write gate is blocked. After the accepted aggregate readonly and dashboard/API exposure evidence, the next productive step is to close operator values and credential presence without exposing secrets.
 
 ## PM Execution Record
 
@@ -84,4 +91,4 @@ It does not include credential values, operator values, SQL, Supabase commands, 
 
 ## Next Route
 
-Prepare a local-lane rollback/readback/post-run/duplicate-rejection plan pack. That can reduce the local blockers without requiring Supabase access or operator execution values.
+Prepare the no-secret operator/credential presence packet. That can open the final pre-write readiness path without storing or printing secrets.

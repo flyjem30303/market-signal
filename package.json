@@ -860,6 +860,7 @@
     "check:phase-1-data-online-write-gate-dry-run-preview-no-execution": "node scripts/check-phase-1-data-online-write-gate-dry-run-preview-no-execution.mjs",
     "check:phase-1-data-online-write-gate-fail-closed-simulation-no-execution": "node scripts/check-phase-1-data-online-write-gate-fail-closed-simulation-no-execution.mjs",
     "check:phase-1-data-online-write-gate-checklist-runner-no-execution": "node scripts/check-phase-1-data-online-write-gate-checklist-runner-no-execution.mjs",
+    "check:phase-1-data-online-dashboard-api-exposure-evidence": "node scripts/check-phase-1-data-online-dashboard-api-exposure-evidence.mjs",
     "check:phase-1-data-online-write-gate-readiness-escalation-map-no-execution": "node scripts/check-phase-1-data-online-write-gate-readiness-escalation-map-no-execution.mjs",
     "check:phase-1-data-online-local-lane-plan-pack-no-execution": "node scripts/check-phase-1-data-online-local-lane-plan-pack-no-execution.mjs",
     "check:phase-1-data-online-local-lane-checklist-runner-no-execution": "node scripts/check-phase-1-data-online-local-lane-checklist-runner-no-execution.mjs",

@@ -19,6 +19,10 @@ const readonlyResult = runJson(
   "scripts/check-phase-1-data-online-bounded-readonly-attempt-result-20260615-a.mjs",
   "bounded readonly attempt result"
 );
+const dashboardApiExposure = runJson(
+  "scripts/check-phase-1-data-online-dashboard-api-exposure-evidence.mjs",
+  "dashboard API exposure evidence"
+);
 const dataOnline = runJson("scripts/check-phase-1-data-online-go-no-go-status.mjs", "data-online go/no-go");
 
 validatePrerequisites();
@@ -44,6 +48,7 @@ const reducedBlockers = [
   "post_run_review_unverified",
   "duplicate_rejection_unverified",
   "schema_cache_exposure_unverified",
+  "dashboard_api_exposure_unverified",
   "pgrst205_regression_unverified"
 ];
 const remainingBlockers = blockedReasons.filter((reason) => !reducedBlockers.includes(reason));
@@ -58,6 +63,7 @@ const report = {
   reducedBlockers,
   remainingBlockers,
   readonlyEvidenceStatus: "readonly_aggregate_probe_accepted",
+  dashboardApiExposureStatus: dashboardApiExposure.dashboardApiExposureStatus ?? null,
   dataOnlineDecision: dataOnline.decision ?? null,
   publicDataSource: dataOnline.publicDataSource ?? null,
   scoreSource: dataOnline.scoreSource ?? null,
@@ -85,6 +91,17 @@ function validatePrerequisites() {
     "bounded readonly result guarded status"
   );
   expect(readonlyResult.remoteAttempted, true, "bounded readonly result remoteAttempted");
+  expect(dashboardApiExposure.status, "ok", "dashboard API exposure evidence status");
+  expect(
+    dashboardApiExposure.guardedStatus,
+    "phase_1_data_online_dashboard_api_exposure_evidence_ready",
+    "dashboard API exposure evidence guarded status"
+  );
+  expect(
+    dashboardApiExposure.dashboardApiExposureStatus,
+    "accepted_read_path_for_daily_prices",
+    "dashboard API exposure status"
+  );
   expect(dataOnline.status, "ok", "dataOnline status");
   expect(dataOnline.decision, "PUBLIC_RUNTIME_READY_BUT_DATA_ONLINE_NO_GO", "dataOnline decision");
   expect(dataOnline.publicDataSource, "mock", "dataOnline publicDataSource");
@@ -108,6 +125,7 @@ function validateDoc() {
     "reducedBlockers",
     "remainingBlockers",
     "readonly_aggregate_probe_accepted",
+    "dashboardApiExposureStatus=accepted_read_path_for_daily_prices",
     "writeGateExecutableNow=false",
     "twii_and_etf_phase_1_missing_row_closure_only",
     "publicDataSource=mock",

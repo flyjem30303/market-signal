@@ -3558,6 +3558,11 @@ const checks = [
     name: "phase-1-data-online-write-gate-checklist-runner-no-execution"
   },
   {
+    command: [node, "scripts/check-phase-1-data-online-dashboard-api-exposure-evidence.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-data-online-dashboard-api-exposure-evidence"
+  },
+  {
     command: [node, "scripts/check-phase-1-data-online-write-gate-readiness-escalation-map-no-execution.mjs"],
     expectStatus: "ok",
     name: "phase-1-data-online-write-gate-readiness-escalation-map-no-execution"
@@ -6709,6 +6714,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "phase-1-data-online-write-gate-dry-run-preview-no-execution",
   "phase-1-data-online-write-gate-fail-closed-simulation-no-execution",
   "phase-1-data-online-write-gate-checklist-runner-no-execution",
+  "phase-1-data-online-dashboard-api-exposure-evidence",
   "phase-1-data-online-write-gate-readiness-escalation-map-no-execution",
   "phase-1-data-online-local-lane-plan-pack-no-execution",
   "phase-1-data-online-local-lane-checklist-runner-no-execution",
