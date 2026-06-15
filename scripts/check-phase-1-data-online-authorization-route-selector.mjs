@@ -28,7 +28,7 @@ const report = {
     : "phase_1_data_online_authorization_route_selector_blocked",
   currentAggregationDecision: aggregation.decision ?? null,
   currentAggregationRoute: aggregation.route ?? null,
-  selectedRouteNow: "keep_mock_runtime_and_wait_for_required_a1_a2_outcomes",
+  selectedRouteNow: "open_phase_1_data_online_single_authorization_packet_review_only",
   allAcceptedNextRoute: "open_phase_1_data_online_single_authorization_packet_review_only",
   dataOnlineDecision: dataOnline.decision ?? null,
   publicDataSource: dataOnline.publicDataSource ?? null,
@@ -59,12 +59,12 @@ function validateCurrentRoute() {
   expect(aggregation.status, "ok", "aggregation status");
   expect(
     aggregation.decision,
-    "OUTCOME_AGGREGATION_PENDING_KEEP_DATA_ONLINE_NO_GO",
+    "ALL_REQUIRED_OUTCOMES_ACCEPTED_OPEN_SEPARATE_AUTHORIZATION_GATE",
     "current aggregation decision"
   );
   expect(
     aggregation.route,
-    "keep_data_online_no_go_until_required_outcomes_are_accepted",
+    "open_separate_lane_authorization_gate_before_any_write_or_promotion",
     "current aggregation route"
   );
   expect(dataOnline.status, "ok", "dataOnline status");

@@ -2,6 +2,55 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Data Online Outcome Evidence Accepted Route
+
+Status: `phase_1_data_online_outcome_evidence_accepted_route_ready_no_execution`
+
+CEO decision:
+
+- Use the existing local no-secret artifacts as PM-reviewed evidence candidates for the three A1/A2 outcome blockers.
+- Accept the three outcomes into the local ledger only after dry-run previews confirm safe summaries, remaining risk, and no remote actions.
+- Move the data-online mainline from `waiting for A1/A2 outcomes` to `open one review-only authorization packet`.
+
+PM completed:
+
+- Added `docs/PHASE_1_DATA_ONLINE_OUTCOME_EVIDENCE_SCAVENGER.md`.
+- Added `check:phase-1-data-online-outcome-evidence-scavenger`.
+- Registered the scavenger in the focused review gate.
+- Dry-ran and applied accepted local ledger outcomes for:
+  - `a1_twii_operator_presence_shape_outcome`
+  - `a1_etf_source_rights_acceptance_evidence_outcome`
+  - `a2_twii_etf_public_copy_guard_outcome`
+- Updated the accepted-outcome aggregation gate to current all-accepted state.
+- Updated the authorization route selector to `open_phase_1_data_online_single_authorization_packet_review_only`.
+
+Current data-online position:
+
+- A1/A2 required outcomes accepted: `3`.
+- Current aggregation decision: `ALL_REQUIRED_OUTCOMES_ACCEPTED_OPEN_SEPARATE_AUTHORIZATION_GATE`.
+- Current route: `open_separate_lane_authorization_gate_before_any_write_or_promotion`.
+- Selected PM route: `open_phase_1_data_online_single_authorization_packet_review_only`.
+- Phase 1 data-online decision remains `PUBLIC_RUNTIME_READY_BUT_DATA_ONLINE_NO_GO`.
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+
+Evidence:
+
+- `cmd.exe /c npm run check:phase-1-data-online-outcome-evidence-scavenger` passes.
+- `cmd.exe /c npm run check:phase-1-data-online-accepted-outcome-aggregation-gate` passes.
+- `cmd.exe /c npm run check:phase-1-data-online-authorization-route-selector` passes.
+- `cmd.exe /c npm run check:phase-1-data-online-a1-a2-outcome-reviewed-apply-gate` passes.
+- `cmd.exe /c npm run check:phase-1-data-online-go-no-go-status` passes and remains `NO_GO`.
+- `cmd.exe /c npx tsc --noEmit` passes.
+
+Boundary:
+
+No SQL, Supabase connection/read/write, staging-row creation, `daily_prices` mutation, market-row fetch, raw payload output, endpoint response output, operator value storage, candidate row acceptance, row coverage award, source promotion, score promotion, public real-data claim, real-time claim, official endorsement claim, investment advice claim, or production mutation occurred.
+
+Next route:
+
+Create the single review-only Phase 1 data-online authorization packet. That packet must still require a separate explicit operator decision before any bounded write, readback, promotion, or public real-data claim.
+
 ### Phase 1 Public Copy Runtime Boundary Readability Cleanup
 
 Status: `phase_1_public_copy_runtime_boundary_readability_cleanup_ready`

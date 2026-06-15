@@ -10,15 +10,15 @@ Purpose: select exactly one PM route after the A1/A2 outcome aggregation gate. T
 
 Current selected route:
 
-`keep_mock_runtime_and_wait_for_required_a1_a2_outcomes`
+`open_phase_1_data_online_single_authorization_packet_review_only`
 
 Reason:
 
-- `a1_twii_operator_presence_shape_outcome` is not accepted yet.
-- `a1_etf_source_rights_acceptance_evidence_outcome` is not accepted yet.
-- `a2_twii_etf_public_copy_guard_outcome` is not accepted yet.
+- `a1_twii_operator_presence_shape_outcome` is accepted from local no-secret PM review.
+- `a1_etf_source_rights_acceptance_evidence_outcome` is accepted from local no-secret PM review.
+- `a2_twii_etf_public_copy_guard_outcome` is accepted from local no-secret PM review.
 
-The current aggregation decision remains `OUTCOME_AGGREGATION_PENDING_KEEP_DATA_ONLINE_NO_GO`, so Phase 1 public runtime must remain truthful and mock-visible.
+The current aggregation decision is `ALL_REQUIRED_OUTCOMES_ACCEPTED_OPEN_SEPARATE_AUTHORIZATION_GATE`, so PM can open a single review-only authorization packet. Phase 1 public runtime must still remain truthful and mock-visible until that later packet is explicitly approved and executed.
 
 ## All-Accepted Route
 
@@ -80,8 +80,8 @@ All required outcomes accepted:
 
 This selector is ready when the checker proves:
 
-1. the aggregation gate is currently pending and keeps data-online `NO_GO`;
-2. the current route is `keep_mock_runtime_and_wait_for_required_a1_a2_outcomes`;
+1. the aggregation gate is currently all-accepted but keeps data-online `NO_GO`;
+2. the current route is `open_phase_1_data_online_single_authorization_packet_review_only`;
 3. the all-accepted next route is `open_phase_1_data_online_single_authorization_packet_review_only`;
 4. the route selector is registered in package scripts and review gates;
 5. `publicDataSource=mock` and `scoreSource=mock` remain unchanged;

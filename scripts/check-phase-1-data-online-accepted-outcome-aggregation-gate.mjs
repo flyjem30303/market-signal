@@ -140,11 +140,15 @@ function validateLedger() {
   expect(ledger.supabaseWriteAllowedNow, false, "ledger supabaseWriteAllowedNow");
   expect(ledger.rowCoverageAwardAllowedNow, false, "ledger rowCoverageAwardAllowedNow");
   if (!Array.isArray(ledger.outcomes) || ledger.outcomes.length !== 3) problems.push("ledger must include exactly 3 outcomes");
-  if (route.counts.pending !== 3) {
-    problems.push("current aggregation gate should see all 3 outcomes pending until A1/A2 reviewed results exist");
+  if (route.counts.accepted !== 3) {
+    problems.push("current aggregation gate should see all 3 outcomes accepted after PM reviewed local no-secret evidence");
   }
-  expect(route.decision, "OUTCOME_AGGREGATION_PENDING_KEEP_DATA_ONLINE_NO_GO", "current route decision");
-  expect(route.route, "keep_data_online_no_go_until_required_outcomes_are_accepted", "current route");
+  expect(
+    route.decision,
+    "ALL_REQUIRED_OUTCOMES_ACCEPTED_OPEN_SEPARATE_AUTHORIZATION_GATE",
+    "current route decision"
+  );
+  expect(route.route, "open_separate_lane_authorization_gate_before_any_write_or_promotion", "current route");
 }
 
 function validateRegistration() {

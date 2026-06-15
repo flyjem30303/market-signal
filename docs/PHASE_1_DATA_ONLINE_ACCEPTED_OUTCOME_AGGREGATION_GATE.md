@@ -10,19 +10,19 @@ Purpose: aggregate the local A1/A2 outcome ledger into a deterministic PM route.
 
 Current decision:
 
-`OUTCOME_AGGREGATION_PENDING_KEEP_DATA_ONLINE_NO_GO`
+`ALL_REQUIRED_OUTCOMES_ACCEPTED_OPEN_SEPARATE_AUTHORIZATION_GATE`
 
 Current route:
 
-`keep_data_online_no_go_until_required_outcomes_are_accepted`
+`open_separate_lane_authorization_gate_before_any_write_or_promotion`
 
-Current blockers:
+Current accepted outcomes:
 
 - `a1_twii_operator_presence_shape_outcome`
 - `a1_etf_source_rights_acceptance_evidence_outcome`
 - `a2_twii_etf_public_copy_guard_outcome`
 
-All three outcomes are currently pending, so the aggregation gate keeps data-online blocked.
+All three outcomes are currently accepted from local no-secret PM review. The aggregation gate can open a separate authorization gate, but still does not execute, write, readback, promote, award coverage, or claim public real data.
 
 ## Route Rules
 
@@ -83,9 +83,9 @@ This gate does not authorize:
 
 This gate is ready when its checker proves:
 
-1. the current ledger has three pending outcomes;
-2. the current route is `keep_data_online_no_go_until_required_outcomes_are_accepted`;
-3. the current decision is `OUTCOME_AGGREGATION_PENDING_KEEP_DATA_ONLINE_NO_GO`;
-4. a hypothetical all-accepted state would only open `open_separate_lane_authorization_gate_before_any_write_or_promotion`;
+1. the current ledger has three accepted outcomes;
+2. the current route is `open_separate_lane_authorization_gate_before_any_write_or_promotion`;
+3. the current decision is `ALL_REQUIRED_OUTCOMES_ACCEPTED_OPEN_SEPARATE_AUTHORIZATION_GATE`;
+4. the accepted state only opens `open_separate_lane_authorization_gate_before_any_write_or_promotion`;
 5. `publicDataSource=mock` and `scoreSource=mock` remain unchanged;
 6. no execution, write, readback, row coverage, promotion, or public real-data claim is authorized.
