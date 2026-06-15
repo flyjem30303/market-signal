@@ -3788,6 +3788,11 @@ const checks = [
     name: "phase-1-write-runner-bounded-insert-missing-only-contract-no-execution"
   },
   {
+    command: [node, "scripts/check-phase-1-write-runner-aggregate-readback-contract-no-execution.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-write-runner-aggregate-readback-contract-no-execution"
+  },
+  {
     command: [node, "scripts/check-phase-1-row-coverage-readonly-result-20260615-a.mjs"],
     expectStatus: "ok",
     name: "phase-1-row-coverage-readonly-result-20260615-a"
@@ -6895,6 +6900,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "phase-1-etf-sanitized-candidate-artifact-path-request-no-fetch",
   "phase-1-etf-sanitized-candidate-artifact-path-intake-no-row-payloads",
   "phase-1-write-runner-bounded-insert-missing-only-contract-no-execution",
+  "phase-1-write-runner-aggregate-readback-contract-no-execution",
   "phase-1-row-coverage-readonly-result-20260615-a",
   "phase-1-twii-etf-missing-rows-backfill-readiness",
   "phase-1-twii-write-attempt-stopline-rollup",

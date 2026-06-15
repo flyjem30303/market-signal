@@ -2,6 +2,45 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Latest Phase 1 aggregate readback contract slice
+
+Status: `phase_1_write_runner_aggregate_readback_contract_no_execution_ready`
+
+CEO decision:
+
+- Prepare aggregate-only post-write readback rules while actual write execution remains blocked.
+- Allow only aggregate fields in a future post-write summary.
+- Continue blocking row payload output, raw payload output, Supabase read/write attempts, public real-data promotion, and investment-advice claims.
+
+PM completed:
+
+- Added `scripts/report-phase-1-write-runner-aggregate-readback-contract-no-execution.mjs`.
+- Added `data/evidence-intake/phase-1-write-runner-aggregate-readback-contract-no-execution.json`.
+- Added `docs/PHASE_1_WRITE_RUNNER_AGGREGATE_READBACK_CONTRACT_NO_EXECUTION.md`.
+- Added and registered `check:phase-1-write-runner-aggregate-readback-contract-no-execution`.
+
+Contract state:
+
+- `readbackDecision=aggregate_readback_contract_prepared_but_write_execution_still_blocked`
+- `readbackContractPrepared=true`
+- `sourceContractReadyForImplementation=false`
+- `aggregateOnlyOutput=true`
+- `immediateReadbackAllowedNow=false`
+- `supabaseReadAllowedNow=false`
+- `executionAllowedNow=false`
+- `writeGateExecutableNow=false`
+- `implementationAllowedNow=false`
+
+Current boundary:
+
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+- No SQL, Supabase read/write, row payload output, raw payload output, public real-data promotion, or investment-advice claim occurred.
+
+Next route:
+
+`nextRoute=phase_1_write_runner_rollback_or_quarantine_contract_no_execution`.
+
 ### Latest Phase 1 bounded insert missing-only contract slice
 
 Status: `phase_1_write_runner_bounded_insert_missing_only_contract_no_execution_ready`
