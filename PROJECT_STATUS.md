@@ -2,6 +2,39 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 TWII Operator Value Blocker Rollup
+
+Status: `phase_1_twii_operator_value_blocker_rollup_ready_not_executable`
+
+CEO decision:
+
+- Stop adding TWII preparation-only gates unless they directly collect, validate, or apply external operator values.
+- Treat the current TWII data-online blocker as `external_operator_values_missing`, not as another runtime or review-gate blocker.
+- Continue non-data BRIEF/runtime work in parallel while A1 continues ETF/source coverage.
+
+PM completed:
+
+- Added `data/evidence-intake/phase-1-twii-operator-value-blocker-rollup.json`.
+- Added `docs/PHASE_1_TWII_OPERATOR_VALUE_BLOCKER_ROLLUP.md`.
+- Added `check:phase-1-twii-operator-value-blocker-rollup`.
+- Registered the checker in the focused review gate.
+- Confirmed the upstream gate chain remains review-only and non-executable.
+
+Current data-online position:
+
+- Target lane: `TWII`.
+- Target table: `daily_prices`.
+- Maximum candidate rows: `60`.
+- Current main blocker: `external_operator_values_missing`.
+- Phase 1 remains data-online `NO_GO`.
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+- No SQL, Supabase read/write, staging row, `daily_prices` mutation, market-data fetch/ingestion, candidate-row acceptance, row-coverage scoring, source promotion, score promotion, secret output, or public real-data claim occurred.
+
+Next route:
+
+CEO should either prepare a concise operator-value collection packet if external values are ready, or keep PM on public product/runtime work while data-line execution waits for those values.
+
 ### Phase 1 TWII Final Authorization Stopline Verified
 
 Status: `twii_final_authorization_stopline_go_no_go_gate_ready_no_execution`
