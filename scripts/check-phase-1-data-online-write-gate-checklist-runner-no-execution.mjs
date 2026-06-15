@@ -39,6 +39,10 @@ const credentialPresenceResult = runJson(
   "scripts/check-phase-1-server-only-credential-presence-reviewed-result.mjs",
   "server-only credential presence reviewed result"
 );
+const externalOperatorPresenceResult = runJson(
+  "scripts/check-phase-1-external-operator-presence-reviewed-result.mjs",
+  "external operator presence reviewed result"
+);
 const dashboardApiExposure = runJson(
   "scripts/check-phase-1-data-online-dashboard-api-exposure-evidence.mjs",
   "dashboard API exposure evidence"
@@ -67,6 +71,8 @@ const blockedReasons = [
 ];
 const reducedBlockers = [
   "credential_presence_unverified",
+  "external_presence_acceptance_unverified",
+  "external_presence_reviewed_result_missing",
   "rollback_plan_unverified",
   "aggregate_readback_plan_unverified",
   "post_run_review_unverified",
@@ -89,12 +95,16 @@ const report = {
   readonlyEvidenceStatus: "readonly_aggregate_probe_accepted",
   credentialPresenceReviewedResultStatus: credentialPresenceResult.reviewedResultStatus ?? null,
   serverOnlyCredentialPresent: credentialPresenceResult.serverOnlyCredentialPresent ?? null,
+  externalOperatorPresenceReviewedResultStatus: externalOperatorPresenceResult.reviewedResultStatus ?? null,
+  acceptedPresenceResultStatus: externalOperatorPresenceResult.acceptedPresenceResultStatus ?? null,
+  executeSwitchPresent: externalOperatorPresenceResult.executeSwitchPresent ?? null,
+  confirmationPhrasePresent: externalOperatorPresenceResult.confirmationPhrasePresent ?? null,
   dashboardApiExposureStatus: dashboardApiExposure.dashboardApiExposureStatus ?? null,
   presenceRecheckStatus: serverOnlyPresenceRecheck.presenceRecheckStatus ?? null,
   operatorOwnedPresenceConfirmationStatus:
     operatorOwnedPresenceConfirmation.operatorOwnedPresenceConfirmationStatus ?? null,
   externalPresenceAcceptanceStatus: externalPresenceAcceptance.externalPresenceAcceptanceStatus ?? null,
-  acceptedPresenceResultStatus: externalPresenceAcceptance.acceptedPresenceResultStatus ?? null,
+  acceptanceGateAcceptedPresenceResultStatus: externalPresenceAcceptance.acceptedPresenceResultStatus ?? null,
   reviewedResultShapeStatus: externalPresenceReviewedResultShape.reviewedResultShapeStatus ?? null,
   dataOnlineDecision: dataOnline.decision ?? null,
   publicDataSource: dataOnline.publicDataSource ?? null,
@@ -184,6 +194,26 @@ function validatePrerequisites() {
     "server-only credential presence reviewed result status"
   );
   expect(credentialPresenceResult.serverOnlyCredentialPresent, true, "server-only credential presence boolean");
+  expect(externalOperatorPresenceResult.status, "ok", "external operator presence reviewed result status");
+  expect(
+    externalOperatorPresenceResult.guardedStatus,
+    "phase_1_external_operator_presence_reviewed_result_ready_partial_boolean_only",
+    "external operator presence reviewed result guarded status"
+  );
+  expect(
+    externalOperatorPresenceResult.reviewedResultStatus,
+    "accepted_partial_boolean_presence_result_no_values",
+    "external operator presence reviewed result status"
+  );
+  expect(
+    externalOperatorPresenceResult.acceptedPresenceResultStatus,
+    "accepted_partial_boolean_result_no_values",
+    "external operator accepted presence result status"
+  );
+  expect(externalOperatorPresenceResult.operatorDecisionPresent, true, "operator decision presence boolean");
+  expect(externalOperatorPresenceResult.serverOnlyCredentialPresent, true, "external server-only credential boolean");
+  expect(externalOperatorPresenceResult.executeSwitchPresent, false, "execute switch remains missing");
+  expect(externalOperatorPresenceResult.confirmationPhrasePresent, false, "confirmation phrase remains missing");
   expect(dashboardApiExposure.status, "ok", "dashboard API exposure evidence status");
   expect(
     dashboardApiExposure.guardedStatus,
@@ -223,6 +253,10 @@ function validateDoc() {
     "readonly_aggregate_probe_accepted",
     "credentialPresenceReviewedResultStatus=credential_presence_reviewed_boolean_only",
     "serverOnlyCredentialPresent=true",
+    "externalOperatorPresenceReviewedResultStatus=accepted_partial_boolean_presence_result_no_values",
+    "acceptedPresenceResultStatus=accepted_partial_boolean_result_no_values",
+    "executeSwitchPresent=false",
+    "confirmationPhrasePresent=false",
     "dashboardApiExposureStatus=accepted_read_path_for_daily_prices",
     "server_only_presence_recheck_required",
     "presenceRecheckStatus=prepared_waiting_external_presence",

@@ -2,6 +2,45 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 External Operator Presence Partial Result Accepted
+
+Status: `phase_1_external_operator_presence_reviewed_result_ready_partial_boolean_only`
+
+CEO decision:
+
+- Accept a no-secret partial external/operator presence result.
+- Record only boolean presence fields; do not read, store, print, hash, compare, or transform any operator values.
+- Keep `executeSwitchPresent=false` and `confirmationPhrasePresent=false`, so this is not execution authorization and not a write gate.
+
+PM completed:
+
+- Added `data/evidence-intake/phase-1-external-operator-presence-reviewed-result.json`.
+- Added `docs/PHASE_1_EXTERNAL_OPERATOR_PRESENCE_REVIEWED_RESULT.md`.
+- Added and registered `check:phase-1-external-operator-presence-reviewed-result`.
+- Updated the write-gate checklist runner and aggregate readonly bridge so active remaining blockers now exclude `external_presence_acceptance_unverified` and `external_presence_reviewed_result_missing`.
+
+Verified:
+
+- `cmd.exe /c npm run check:phase-1-external-operator-presence-reviewed-result` passes.
+- `cmd.exe /c npm run check:phase-1-data-online-write-gate-checklist-runner-no-execution` passes.
+- `cmd.exe /c npm run check:phase-1-aggregate-readonly-result-to-write-gate-or-env-repair` passes.
+
+Current blocker view:
+
+- Remaining active blockers are now `operator_values_missing` and `operator_owned_presence_confirmation_unverified`.
+- Write gate remains non-executable because the execution switch and confirmation phrase are still intentionally absent.
+
+Current boundary:
+
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+- No operator value, execute switch value, confirmation phrase, credential value, raw payload, row payload, or secret was printed, stored, hashed, compared, or transformed.
+- No SQL, Supabase read/write, staging row, `daily_prices` mutation, market-data fetch/ingestion, source promotion, score promotion, public real-data claim, or investment-advice claim occurred.
+
+Next route:
+
+Prepare a final operator-value stopline for only `executeSwitchPresent` and `confirmationPhrasePresent`. Until both are true in a separate no-secret reviewed result, Phase 1 data-online must remain `NO_GO`.
+
 ### Phase 1 Server-Only Credential Presence Boolean Accepted
 
 Status: `phase_1_server_only_credential_presence_reviewed_result_ready_boolean_only`

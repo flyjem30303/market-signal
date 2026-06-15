@@ -36,6 +36,8 @@ Current blocked reasons:
 Reduced blockers:
 
 - `credential_presence_unverified`
+- `external_presence_acceptance_unverified`
+- `external_presence_reviewed_result_missing`
 - `rollback_plan_unverified`
 - `aggregate_readback_plan_unverified`
 - `post_run_review_unverified`
@@ -48,14 +50,16 @@ Current remaining blockers:
 
 - `operator_values_missing`
 - `operator_owned_presence_confirmation_unverified`
-- `external_presence_acceptance_unverified`
-- `external_presence_reviewed_result_missing`
 
 Current evidence marker:
 
 - `readonly_aggregate_probe_accepted`
 - `credentialPresenceReviewedResultStatus=credential_presence_reviewed_boolean_only`
 - `serverOnlyCredentialPresent=true`
+- `externalOperatorPresenceReviewedResultStatus=accepted_partial_boolean_presence_result_no_values`
+- `acceptedPresenceResultStatus=accepted_partial_boolean_result_no_values`
+- `executeSwitchPresent=false`
+- `confirmationPhrasePresent=false`
 - `dashboardApiExposureStatus=accepted_read_path_for_daily_prices`
 - `server_only_presence_recheck_required`
 - `presenceRecheckStatus=prepared_waiting_external_presence`
@@ -70,6 +74,10 @@ Machine fields:
 - `remainingBlockers`
 - `credentialPresenceReviewedResultStatus`
 - `serverOnlyCredentialPresent`
+- `externalOperatorPresenceReviewedResultStatus`
+- `acceptedPresenceResultStatus`
+- `executeSwitchPresent`
+- `confirmationPhrasePresent`
 - `dashboardApiExposureStatus`
 - `presenceRecheckStatus`
 - `operatorOwnedPresenceConfirmationStatus`
@@ -109,7 +117,7 @@ No public page may imply that real-data mode has started.
 
 Create this no-execution checklist runner because the fail-closed simulation is now ready and needs a repeatable local report of why the write gate remains blocked.
 
-The accepted aggregate-only bounded readonly result now also resolves the dashboard/API read exposure blocker for `daily_prices`. The server-only credential presence reviewed result reduces `credential_presence_unverified` without exposing, storing, hashing, comparing, transforming, or printing credential values. The operator-owned confirmation path, external presence acceptance gate, and reviewed-result shape are now required fail-closed prerequisites, but they still wait for an actual accepted external/operator boolean presence result. This runner is still not a write gate. It is a visibility layer for the write gate's blocked state.
+The accepted aggregate-only bounded readonly result now also resolves the dashboard/API read exposure blocker for `daily_prices`. The server-only credential presence reviewed result reduces `credential_presence_unverified` without exposing, storing, hashing, comparing, transforming, or printing credential values. The partial external/operator presence reviewed result reduces `external_presence_acceptance_unverified` and `external_presence_reviewed_result_missing`, but keeps `executeSwitchPresent=false` and `confirmationPhrasePresent=false`. This runner is still not a write gate. It is a visibility layer for the write gate's blocked state.
 
 ## PM Execution Record
 
@@ -119,6 +127,6 @@ It does not include credential values, operator values, SQL, Supabase commands, 
 
 ## Next Route
 
-CEO/PM now has a presence-only packet, operator-owned confirmation path, external acceptance gate, and reviewed-result shape for the remaining write-gate blockers: `operator_values_missing`, `operator_owned_presence_confirmation_unverified`, `external_presence_acceptance_unverified`, and `external_presence_reviewed_result_missing`.
+CEO/PM now has a presence-only packet, operator-owned confirmation path, external acceptance gate, reviewed-result shape, and partial reviewed result for the remaining write-gate blockers: `operator_values_missing` and `operator_owned_presence_confirmation_unverified`.
 
-The next route is not another broad planning packet. Prepare the actual PM-reviewed result artifact only after external/operator boolean presence is available; it must contain only allowed boolean presence fields and still avoid printing, storing, hashing, comparing, or transforming credential/operator values.
+The next route is not another broad planning packet. Prepare the final operator-value stopline for only `executeSwitchPresent` and `confirmationPhrasePresent`; it must still avoid printing, storing, hashing, comparing, or transforming credential/operator values.

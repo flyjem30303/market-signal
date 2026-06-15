@@ -11,15 +11,15 @@
   "dataOnlineDecision": "PUBLIC_RUNTIME_READY_BUT_DATA_ONLINE_NO_GO",
   "currentRemainingBlockers": [
     "operator_values_missing",
-    "operator_owned_presence_confirmation_unverified",
-    "external_presence_acceptance_unverified",
-    "external_presence_reviewed_result_missing"
+    "operator_owned_presence_confirmation_unverified"
   ],
   "reducedByAggregateReadonlyEvidence": [
     "schema_cache_exposure_unverified",
     "dashboard_api_exposure_unverified",
     "pgrst205_regression_unverified",
-    "credential_presence_unverified"
+    "credential_presence_unverified",
+    "external_presence_acceptance_unverified",
+    "external_presence_reviewed_result_missing"
   ],
   "nextRoute": "prepare_external_operator_boolean_presence_reviewed_result",
   "allowedNextArtifactShape": {

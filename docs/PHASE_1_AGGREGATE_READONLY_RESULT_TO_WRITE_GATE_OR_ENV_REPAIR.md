@@ -31,8 +31,6 @@ The write gate is still blocked, but not because the aggregate readonly path is 
 
 - `operator_values_missing`
 - `operator_owned_presence_confirmation_unverified`
-- `external_presence_acceptance_unverified`
-- `external_presence_reviewed_result_missing`
 
 ## Reduced By Aggregate Readonly Evidence
 
@@ -42,6 +40,8 @@ The accepted aggregate readonly result and dashboard API exposure evidence reduc
 - `dashboard_api_exposure_unverified`
 - `pgrst205_regression_unverified`
 - `credential_presence_unverified`
+- `external_presence_acceptance_unverified`
+- `external_presence_reviewed_result_missing`
 
 These remain audit history, not the current mainline stop reason.
 
