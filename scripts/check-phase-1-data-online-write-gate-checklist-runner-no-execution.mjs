@@ -2,16 +2,22 @@ import fs from "node:fs";
 import { spawnSync } from "node:child_process";
 
 const docPath = "docs/PHASE_1_DATA_ONLINE_WRITE_GATE_CHECKLIST_RUNNER_NO_EXECUTION.md";
+const localLaneDocPath = "docs/PHASE_1_DATA_ONLINE_LOCAL_LANE_CHECKLIST_RUNNER_NO_EXECUTION.md";
 const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 const problems = [];
 
 const doc = readText(docPath);
+const localLaneDoc = readText(localLaneDocPath);
 const packageJson = parseJson(readText(packagePath), "package.json");
 const reviewGate = readText(reviewGatePath);
 const simulation = runJson(
   "scripts/check-phase-1-data-online-write-gate-fail-closed-simulation-no-execution.mjs",
   "write-gate fail-closed simulation"
+);
+const readonlyResult = runJson(
+  "scripts/check-phase-1-data-online-bounded-readonly-attempt-result-20260615-a.mjs",
+  "bounded readonly attempt result"
 );
 const dataOnline = runJson("scripts/check-phase-1-data-online-go-no-go-status.mjs", "data-online go/no-go");
 
@@ -32,6 +38,15 @@ const blockedReasons = [
   "dashboard_api_exposure_unverified",
   "pgrst205_regression_unverified"
 ];
+const reducedBlockers = [
+  "rollback_plan_unverified",
+  "aggregate_readback_plan_unverified",
+  "post_run_review_unverified",
+  "duplicate_rejection_unverified",
+  "schema_cache_exposure_unverified",
+  "pgrst205_regression_unverified"
+];
+const remainingBlockers = blockedReasons.filter((reason) => !reducedBlockers.includes(reason));
 const report = {
   status: ok ? "ok" : "blocked",
   guardedStatus: ok
@@ -40,6 +55,9 @@ const report = {
   packetMode: "write_gate_checklist_runner_no_execution",
   writeGateExecutableNow: false,
   blockedReasons,
+  reducedBlockers,
+  remainingBlockers,
+  readonlyEvidenceStatus: "readonly_aggregate_probe_accepted",
   dataOnlineDecision: dataOnline.decision ?? null,
   publicDataSource: dataOnline.publicDataSource ?? null,
   scoreSource: dataOnline.scoreSource ?? null,
@@ -56,6 +74,17 @@ function validatePrerequisites() {
     "phase_1_data_online_write_gate_fail_closed_simulation_no_execution_ready",
     "write-gate fail-closed simulation guarded status"
   );
+  if (!localLaneDoc.includes("phase_1_data_online_local_lane_checklist_runner_no_execution_ready")) {
+    problems.push("local-lane checklist doc not ready");
+  }
+  if (!localLaneDoc.includes("local_blockers_planned")) problems.push("local-lane blockers not planned");
+  expect(readonlyResult.status, "ok", "bounded readonly result status");
+  expect(
+    readonlyResult.guardedStatus,
+    "phase_1_data_online_bounded_readonly_attempt_result_20260615_a_ready",
+    "bounded readonly result guarded status"
+  );
+  expect(readonlyResult.remoteAttempted, true, "bounded readonly result remoteAttempted");
   expect(dataOnline.status, "ok", "dataOnline status");
   expect(dataOnline.decision, "PUBLIC_RUNTIME_READY_BUT_DATA_ONLINE_NO_GO", "dataOnline decision");
   expect(dataOnline.publicDataSource, "mock", "dataOnline publicDataSource");
@@ -76,6 +105,9 @@ function validateDoc() {
     "schema_cache_exposure_unverified",
     "dashboard_api_exposure_unverified",
     "pgrst205_regression_unverified",
+    "reducedBlockers",
+    "remainingBlockers",
+    "readonly_aggregate_probe_accepted",
     "writeGateExecutableNow=false",
     "twii_and_etf_phase_1_missing_row_closure_only",
     "publicDataSource=mock",

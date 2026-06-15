@@ -12,6 +12,8 @@ This runner is a local-only checklist report for the future write gate. It outpu
 
 `checklist_runner_outputs_blocked_reasons`
 
+The runner now reports both the original blocker set and the current reduced state after local-lane planning and the accepted aggregate-only readonly probe.
+
 Current executable state:
 
 - `writeGateExecutableNow=false`
@@ -27,6 +29,30 @@ Current blocked reasons:
 - `schema_cache_exposure_unverified`
 - `dashboard_api_exposure_unverified`
 - `pgrst205_regression_unverified`
+
+Reduced blockers:
+
+- `rollback_plan_unverified`
+- `aggregate_readback_plan_unverified`
+- `post_run_review_unverified`
+- `duplicate_rejection_unverified`
+- `schema_cache_exposure_unverified`
+- `pgrst205_regression_unverified`
+
+Current remaining blockers:
+
+- `operator_values_missing`
+- `credential_presence_unverified`
+- `dashboard_api_exposure_unverified`
+
+Current evidence marker:
+
+- `readonly_aggregate_probe_accepted`
+
+Machine fields:
+
+- `reducedBlockers`
+- `remainingBlockers`
 
 ## Bounded Attempt Scope
 

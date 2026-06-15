@@ -2,6 +2,47 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Write Gate Blocker Reduction
+
+Status: `phase_1_write_gate_blockers_reduced_to_three_remaining`
+
+CEO decision:
+
+- Treat the previous nine-blocker write-gate report as stale aggregation, not as a reset of Phase 1 progress.
+- Keep the original blocker history visible, but surface which blockers have been reduced by local-lane planning and accepted aggregate-only readonly evidence.
+- Continue to keep the write gate fail-closed until the three remaining blocker groups are resolved.
+
+PM completed:
+
+- Updated `check:phase-1-data-online-write-gate-checklist-runner-no-execution` to report `reducedBlockers`, `remainingBlockers`, and `readonlyEvidenceStatus`.
+- Removed a recursive checker dependency by reading the local-lane document state directly instead of calling the local-lane checker from the write-gate checker.
+- Updated the write-gate checklist document so the PM/CEO dashboard can distinguish original blockers from current remaining blockers.
+
+Verified:
+
+- `cmd.exe /c npm run check:phase-1-data-online-write-gate-checklist-runner-no-execution` passes.
+- `cmd.exe /c npm run check:phase-1-data-online-write-gate-readiness-escalation-map-no-execution` passes.
+- `cmd.exe /c npm run check:phase-1-data-online-go-no-go-status` passes.
+- `cmd.exe /c npx tsc --noEmit` passes.
+
+Current blocker view:
+
+- Reduced blockers: `rollback_plan_unverified`, `aggregate_readback_plan_unverified`, `post_run_review_unverified`, `duplicate_rejection_unverified`, `schema_cache_exposure_unverified`, `pgrst205_regression_unverified`.
+- Remaining blockers: `operator_values_missing`, `credential_presence_unverified`, `dashboard_api_exposure_unverified`.
+- Readonly evidence marker: `readonly_aggregate_probe_accepted`.
+
+Current boundary:
+
+- Write gate remains non-executable.
+- Data online remains `NO_GO`.
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+- No SQL, Supabase write, staging row, `daily_prices` mutation, market-data fetch/ingestion, row coverage award, source promotion, score promotion, secret output, row payload output, or public real-data claim occurred.
+
+Next route:
+
+CEO should focus the next data-online slice on the remaining three blockers, starting with a no-secret dashboard/API exposure evidence check or operator-value/credential-presence packet, whichever can be completed without exposing secrets or mutating data.
+
 ### Phase 1 Bounded Supabase Readonly Post-Run Accepted
 
 Status: `phase_1_data_online_bounded_readonly_post_run_review_accepted_aggregate_probe`
