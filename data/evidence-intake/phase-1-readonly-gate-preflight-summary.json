@@ -1,0 +1,30 @@
+{
+  "status": "readonly_gate_preflight_ready_no_execution",
+  "packetMode": "readonly_gate_preflight_no_execution",
+  "operatorDecisionRequired": true,
+  "readonlyAttemptExecutableNow": false,
+  "writeGateExecutableNow": false,
+  "publicDataSource": "mock",
+  "scoreSource": "mock",
+  "ledgerEntryCount": 7,
+  "acceptedEvidenceCount": 6,
+  "rejectedEvidenceCount": 1,
+  "nextRequiredHumanDecision": "name_bounded_supabase_readonly_attempt",
+  "allowedNextActions": [
+    "prepare a no-secret bounded Supabase readonly attempt packet",
+    "name the exact readonly checker and table scope before execution",
+    "keep runtime public copy on mock/no-go until a separate post-run review passes"
+  ],
+  "forbiddenNextActions": [
+    "run SQL",
+    "write Supabase",
+    "create staging rows",
+    "mutate daily_prices",
+    "fetch market rows",
+    "print raw payloads",
+    "print secrets",
+    "set publicDataSource to supabase",
+    "set scoreSource to real",
+    "claim public real data online"
+  ]
+}

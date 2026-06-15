@@ -2,6 +2,55 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Data Online Readonly Gate Preflight No Execution
+
+Status: `phase_1_data_online_readonly_gate_preflight_no_execution_ready`
+
+CEO decision:
+
+- Move from local ledger append into a readonly gate preflight.
+- Treat the preflight as preparation only; it does not execute a Supabase request.
+- Require the next human/operator decision to name the exact bounded readonly attempt before any remote read.
+
+PM completed:
+
+- Added `data/evidence-intake/phase-1-readonly-gate-preflight-summary.json`.
+- Added `docs/PHASE_1_DATA_ONLINE_READONLY_GATE_PREFLIGHT_NO_EXECUTION.md`.
+- Added `check:phase-1-data-online-readonly-gate-preflight-no-execution`.
+- Registered the checker in the focused review gate.
+- Confirmed the ledger append and data-online NO_GO state remain aligned.
+
+Preflight output:
+
+- `readonlyGatePreflightReady=true`.
+- `operatorDecisionRequired=true`.
+- `readonlyAttemptExecutableNow=false`.
+- `writeGateExecutableNow=false`.
+- `ledgerEntryCount=7`.
+- `acceptedEvidenceCount=6`.
+- `rejectedEvidenceCount=1`.
+
+Current data-online position:
+
+- Phase 1 data-online decision remains `PUBLIC_RUNTIME_READY_BUT_DATA_ONLINE_NO_GO`.
+- Current Level 1 coverage remains `182/360`; missing rows remain `178/360`.
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+
+Evidence:
+
+- `cmd.exe /c npm run check:phase-1-data-online-readonly-gate-preflight-no-execution` passes.
+- `cmd.exe /c npm run check:phase-1-data-online-external-platform-ledger-append-no-execution` passes.
+- `cmd.exe /c npm run check:phase-1-data-online-go-no-go-status` passes and remains `NO_GO`.
+
+Boundary:
+
+No SQL, Supabase connection/read/write, staging-row creation, `daily_prices` mutation, market-row fetch, raw payload output, endpoint response output, credential value output, operator value output, execution value storage, readonly attempt execution, write-gate execution, source promotion, score promotion, public real-data claim, real-time claim, official endorsement claim, investment advice claim, or production mutation occurred.
+
+Next route:
+
+CEO should create a bounded readonly attempt packet that names the exact checker, table/scope, allowed sanitized output, and post-run review. PM should still not execute the remote readonly attempt until that separate packet is accepted.
+
 ### Phase 1 Data Online External Platform Ledger Append No Execution
 
 Status: `phase_1_data_online_external_platform_ledger_append_no_execution_ready`
