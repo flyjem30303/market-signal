@@ -1558,6 +1558,7 @@
     "run:phase-1-write-runner-implementation-candidate": "node scripts/run-phase-1-write-runner-implementation-candidate.mjs",
     "check:phase-1-write-runner-implementation-candidate": "node scripts/check-phase-1-write-runner-implementation-candidate.mjs",
     "check:phase-1-sanitized-row-payload-candidate-artifact-spec": "node scripts/check-phase-1-sanitized-row-payload-candidate-artifact-spec.mjs",
+    "report:phase-1-row-payload-candidate-request-packet": "node scripts/report-phase-1-row-payload-candidate-request-packet.mjs",
     "validate:phase-1-sanitized-row-payload-candidate-artifact": "node scripts/validate-phase-1-sanitized-row-payload-candidate-artifact.mjs",
     "validate:phase-1-twii-sanitized-row-payload-candidate-artifact": "node scripts/validate-phase-1-twii-sanitized-row-payload-candidate-artifact.mjs",
     "check:phase-1-twii-row-payload-runner-integration": "node scripts/check-phase-1-twii-row-payload-runner-integration.mjs",
