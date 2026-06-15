@@ -4953,6 +4953,11 @@ const checks = [
     name: "twii-operator-values-intake-readiness-surface-gate-preflight"
   },
   {
+    command: [node, "scripts/check-twii-operator-no-secret-intake-instructions.mjs"],
+    expectStatus: "ok",
+    name: "twii-operator-no-secret-intake-instructions"
+  },
+  {
     command: [node, "scripts/check-twii-operator-values-shape-recheck-gate-preflight.mjs"],
     expectStatus: "ok",
     name: "twii-operator-values-shape-recheck-gate-preflight"
@@ -6483,6 +6488,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "twii-report-only-dry-run-chain-gate",
   "twii-bounded-execution-packet-readiness-gate",
   "twii-explicit-operator-packet-preparation-gate",
+  "twii-operator-no-secret-intake-instructions",
   "open-free-auto-data-source-gate",
   "stock-decision-aid-actionability",
   "stock-decision-compass",

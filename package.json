@@ -589,6 +589,7 @@
     "check:twii-operator-checklist-next-execution-route-gate-preflight": "node scripts/check-twii-operator-checklist-next-execution-route-gate-preflight.mjs",
     "report:twii-operator-values-intake-readiness-surface-gate-preflight": "node scripts/report-twii-operator-values-intake-readiness-surface-gate-preflight.mjs",
     "check:twii-operator-values-intake-readiness-surface-gate-preflight": "node scripts/check-twii-operator-values-intake-readiness-surface-gate-preflight.mjs",
+    "check:twii-operator-no-secret-intake-instructions": "node scripts/check-twii-operator-no-secret-intake-instructions.mjs",
     "report:twii-operator-values-shape-recheck-gate-preflight": "node scripts/report-twii-operator-values-shape-recheck-gate-preflight.mjs",
     "check:twii-operator-values-shape-recheck-gate-preflight": "node scripts/check-twii-operator-values-shape-recheck-gate-preflight.mjs",
     "report:twii-pre-execution-readiness-recheck-gate-preflight": "node scripts/report-twii-pre-execution-readiness-recheck-gate-preflight.mjs",

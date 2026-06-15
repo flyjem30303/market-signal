@@ -2,6 +2,50 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### TWII Operator No-Secret Intake Instructions
+
+Status: `twii_operator_no_secret_intake_instructions_ready_no_execution`
+
+CEO decision:
+
+- Move from generic "waiting external values" to an operator-facing no-secret instruction surface.
+- Keep the next data-online action outside Git until an operator supplies external-only values through a separate channel.
+- Allow PM to record only presence/shape outcomes, never value bodies.
+
+PM completed:
+
+- Added `docs/TWII_OPERATOR_NO_SECRET_INTAKE_INSTRUCTIONS.md`.
+- Added `check:twii-operator-no-secret-intake-instructions`.
+- Registered the checker in the review-gate list.
+- Tied the instruction sheet to the current operator values intake, shape recheck, final stopline, and server-only pre-execution gates.
+
+Evidence:
+
+- `cmd.exe /c npm run check:twii-operator-values-intake-readiness-surface-gate-preflight` passes.
+- `cmd.exe /c npm run check:twii-operator-values-shape-recheck-gate-preflight` passes.
+- `cmd.exe /c npm run check:twii-final-authorization-stopline-go-no-go-gate` passes.
+- `cmd.exe /c npm run check:twii-server-only-pre-execution-integration-gate` passes.
+- `cmd.exe /c npm run check:twii-operator-no-secret-intake-instructions` is the focused gate for this slice.
+
+Current operator input position:
+
+- External-only value classes: `5`.
+- PM-refreshable value classes are local-safe only.
+- Never-store value classes include credentials, secrets, env values, authorization values, confirmation phrase values, execute switch values, real decision values, row bodies, trade date lists, market values, source payloads, raw payloads, stock-id payloads, candidate rows, and protected Supabase responses.
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+- `runnerExecutableNow=false`.
+- `executionAllowedNow=false`.
+- `writeGateExecutableNow=false`.
+
+Boundary:
+
+No SQL, Supabase connection/read/write, staging row creation, `daily_prices` mutation, market endpoint fetch, raw market-data ingest/store/commit, candidate row read/output, public source promotion, score promotion, investment advice claim, production environment mutation, DNS change, broad visual redesign, or Phase 2 membership implementation occurred.
+
+Next route:
+
+When an operator is ready, use the instruction sheet outside the repo and then run the no-execution shape recheck route. Until external-only values exist, PM should continue parallel ETF coverage repair and public runtime truthfulness work.
+
 ### Phase 1 TWII Exact Gate Resolution
 
 Status: `phase_1_twii_exact_gate_resolved_to_source_rights_outcome_no_execution`
