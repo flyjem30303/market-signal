@@ -73,6 +73,37 @@ Next:
 
 Resume the data-online path by resolving the existing write-gate readiness escalation map change, then move toward the smallest safe write/read loop needed for Phase 1 data completion.
 
+### Latest Phase 1 data write-gate progression and current blocker
+
+Status: `phase_1_write_gate_ready_until_etf_sanitized_candidate_artifact_reply`
+
+CEO decision:
+
+- Continue the data-online path only through safe no-execution checks until the missing sanitized candidate artifact set is complete.
+- Do not invent ETF rows, fetch raw market data, read row payloads, write Supabase, or promote runtime while the ETF artifact is missing.
+- Treat A1 ETF aggregate-only reply as the current critical blocker for data completion.
+
+PM completed:
+
+- Confirmed `phase_1_write_gate_preflight_requirements_closure_ready_no_execution`.
+- Confirmed `phase_1_write_gate_dry_run_after_preflight_requirements_ready_no_execution`.
+- Confirmed execution packet draft, fail-closed runner stub, runner post-run review, implementation review gate, scope packet, server-only scaffold, credential shape checker, and sanitized artifact path shape checker.
+- Confirmed TWII candidate artifact path exists.
+- Confirmed ETF candidate artifact path is still missing.
+- Confirmed A1 ETF reply template and A1 ETF task packet are ready and no row payload, raw payload, secret, SQL, Supabase connection, or write action occurred.
+
+Current blocker:
+
+- `candidateArtifactPathSetComplete=false`
+- `twiiCandidateArtifactPathExists=true`
+- `etfCandidateArtifactPathExists=false`
+- `blockedUntilA1Reply=true`
+- `expectedMissingRows=118`
+
+Next:
+
+Ask A1/Data to provide an aggregate-only ETF sanitized candidate artifact reply for `phase_1_core_etf_daily_prices_missing_rows`. After A1 replies, run `check:phase-1-etf-sanitized-candidate-artifact-path-intake-no-row-payloads`, then continue candidate artifact set acceptance and write-gate readiness.
+
 ### Latest Phase 1 public route user-facing residue gate slice
 
 Status: `phase_1_public_route_user_facing_residue_gate_ready`
