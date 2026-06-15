@@ -2,11 +2,5 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "nextjs",
   "installCommand": "npm ci",
-  "buildCommand": "npm run build",
-  "rewrites": [
-    {
-      "source": "/membership",
-      "destination": "/404"
-    }
-  ]
+  "buildCommand": "npm run build"
 }

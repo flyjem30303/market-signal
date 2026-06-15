@@ -1453,6 +1453,7 @@
     "check:phase-1-public-beta-keep-open-or-repair-decision": "node scripts/check-phase-1-public-beta-keep-open-or-repair-decision.mjs",
     "check:phase-1-public-beta-public-status-surface-alignment": "node scripts/check-phase-1-public-beta-public-status-surface-alignment.mjs",
     "check:phase-1-public-beta-public-visible-residue-cleanup": "node scripts/check-phase-1-public-beta-public-visible-residue-cleanup.mjs",
+    "check:phase-1-production-public-url-smoke": "node scripts/check-phase-1-production-public-url-smoke.mjs",
     "check:phase-1-core-public-copy-readable": "node scripts/check-phase-1-core-public-copy-readable.mjs",
     "check:action-summary-language-quality": "node scripts/check-action-summary-language-quality.mjs",
     "check:supabase-readonly-validator-output-contract": "node scripts/check-supabase-readonly-validator-output-contract.mjs",
