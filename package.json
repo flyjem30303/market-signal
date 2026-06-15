@@ -860,6 +860,7 @@
     "check:phase-1-data-online-write-gate-dry-run-preview-no-execution": "node scripts/check-phase-1-data-online-write-gate-dry-run-preview-no-execution.mjs",
     "check:phase-1-data-online-write-gate-fail-closed-simulation-no-execution": "node scripts/check-phase-1-data-online-write-gate-fail-closed-simulation-no-execution.mjs",
     "check:phase-1-data-online-write-gate-checklist-runner-no-execution": "node scripts/check-phase-1-data-online-write-gate-checklist-runner-no-execution.mjs",
+    "check:phase-1-data-online-write-gate-readiness-escalation-map-no-execution": "node scripts/check-phase-1-data-online-write-gate-readiness-escalation-map-no-execution.mjs",
     "check:twii-exact-execution-preflight-repair-selector": "node scripts/check-twii-exact-execution-preflight-repair-selector.mjs",
     "check:twii-source-rights-outcome-acceptance-gate": "node scripts/check-twii-source-rights-outcome-acceptance-gate.mjs",
     "check:twii-field-contract-asset-mapping-alignment-gate": "node scripts/check-twii-field-contract-asset-mapping-alignment-gate.mjs",

@@ -2,6 +2,52 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Data Online Write-Gate Readiness Escalation Map No Execution
+
+Status: `phase_1_data_online_write_gate_readiness_escalation_map_no_execution_ready`
+
+CEO decision:
+
+- Add a no-execution write-gate readiness escalation map after the checklist runner.
+- Separate current write-gate blockers into local, operator-authorized, and external platform lanes.
+- Keep the future eligible attempt bounded to `twii_and_etf_phase_1_missing_row_closure_only`.
+
+PM completed:
+
+- Added `docs/PHASE_1_DATA_ONLINE_WRITE_GATE_READINESS_ESCALATION_MAP_NO_EXECUTION.md`.
+- Added `check:phase-1-data-online-write-gate-readiness-escalation-map-no-execution`.
+- Registered the checker in the focused review gate.
+- Confirmed checklist runner and current data-online GO/NO-GO state remain aligned.
+
+Current escalation lanes:
+
+- Local lane: `rollback_plan_unverified`, `aggregate_readback_plan_unverified`, `post_run_review_unverified`, `duplicate_rejection_unverified`.
+- Operator lane: `operator_values_missing`, `credential_presence_unverified`.
+- External platform lane: `schema_cache_exposure_unverified`, `dashboard_api_exposure_unverified`, `pgrst205_regression_unverified`.
+- `writeGateExecutableNow=false`.
+
+Current data-online position:
+
+- Phase 1 data-online decision remains `PUBLIC_RUNTIME_READY_BUT_DATA_ONLINE_NO_GO`.
+- Current Level 1 coverage remains `182/360`; missing rows remain `178/360`.
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+- The next possible progress route is a local-lane rollback/readback/post-run/duplicate-rejection plan pack.
+
+Evidence:
+
+- `cmd.exe /c npm run check:phase-1-data-online-write-gate-readiness-escalation-map-no-execution` passes and emits the three escalation lanes.
+- `cmd.exe /c npm run check:phase-1-data-online-write-gate-checklist-runner-no-execution` passes.
+- `cmd.exe /c npm run check:phase-1-data-online-go-no-go-status` passes and remains `NO_GO`.
+
+Boundary:
+
+No SQL, Supabase connection/read/write, staging-row creation, `daily_prices` mutation, market-row fetch, raw payload output, endpoint response output, credential value output, operator value output, execution value storage, write-gate execution, candidate row acceptance, row coverage award, source promotion, score promotion, public real-data claim, real-time claim, official endorsement claim, investment advice claim, or production mutation occurred.
+
+Next route:
+
+Prepare a local-lane rollback/readback/post-run/duplicate-rejection plan pack. This can reduce local blockers without requiring Supabase access, operator values, credentials, or real-data promotion.
+
 ### Phase 1 Data Online Write-Gate Checklist Runner No Execution
 
 Status: `phase_1_data_online_write_gate_checklist_runner_no_execution_ready`
