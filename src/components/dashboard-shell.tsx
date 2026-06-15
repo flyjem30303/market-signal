@@ -154,7 +154,7 @@ export function DashboardShell({
         </p>
         <div className="briefing-actions">
           <TrackedLink
-            eventName="membership_preview_link_clicked"
+            eventName="briefing_link_clicked"
             href="/briefing"
             label="查看市場簡報"
             payload={{ area: "dashboard_shell" }}
