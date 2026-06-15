@@ -98,7 +98,9 @@ for (const [path, source, phrase] of [
   [candidateGatePath, candidateGate, "Status: `twii_source_rights_outcome_gate_candidate_ready_for_pm_review`"],
   [candidateGatePath, candidateGate, "`candidate_ready_no_execution_authority`"],
   [bridgePath, bridge, "Status: `twii_source_rights_outcome_gate_bridge_ready_evidence_pending`"],
-  [selectorPath, selector, "selected next route: `twii_source_rights_outcome_gate_acceptance`"],
+  [selectorPath, selector, "Resolved Route - TWII Source-Rights Outcome Gate"],
+  [selectorPath, selector, "Route id: `twii_source_rights_outcome_gate_acceptance`"],
+  [selectorPath, selector, "Current posture: `resolved_next_gate_only_no_execution`"],
   [statusPath, status, "TWII Source-Rights Outcome Acceptance Gate"],
   [statusPath, status, "twii_source_rights_outcome_accepted_for_next_gate_only_no_execution"],
   [reviewGatePath, reviewGate, "scripts/check-twii-source-rights-outcome-acceptance-gate.mjs"],
@@ -130,8 +132,12 @@ if (bridgeReport?.runtimeBoundary?.publicDataSource !== "mock" || bridgeReport?.
   problems.push("bridge report must keep mock/mock runtime boundary");
 }
 
-if (exactSelectorReport?.selectedNextRoute !== "twii_source_rights_outcome_gate_acceptance") {
-  problems.push("exact execution selector must still point to source-rights outcome acceptance");
+if (!exactSelectorReport?.resolvedRoutes?.includes("twii_source_rights_outcome_gate_acceptance")) {
+  problems.push("exact execution selector must list source-rights outcome acceptance as resolved");
+}
+
+if (exactSelectorReport?.selectedNextRoute !== "twii_sanitized_candidate_artifact_readiness_gate") {
+  problems.push("exact execution selector must now point to sanitized candidate artifact readiness");
 }
 
 if (exactSelectorReport?.twiiExecutionAllowedNow !== false) {

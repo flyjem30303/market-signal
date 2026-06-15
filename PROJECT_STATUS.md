@@ -2,6 +2,44 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Latest TWII exact-route convergence to sanitized candidate gate
+
+Status: `twii_exact_execution_preflight_repair_selector_ready_no_execution`
+
+CEO decision:
+
+- Treat the older TWII source-rights / field-contract blocked record as historical after the newer acceptance and alignment gates passed.
+- Move the active TWII route to `twii_sanitized_candidate_artifact_readiness_gate` instead of looping back to the old source-rights route.
+- Keep the execution stopline intact: the candidate can advance through no-execution readiness checks, but no SQL, Supabase write, `daily_prices` mutation, raw market-data fetch, source promotion, or real scoring is allowed.
+
+PM completed:
+
+- Updated the TWII source-rights field-contract acceptance record so it reflects the current accepted-for-next-gate state.
+- Updated the exact execution preflight repair selector so source-rights and field-contract alignment are recorded as resolved routes, and sanitized candidate readiness is the selected next route.
+- Updated the source-rights outcome acceptance checker so it validates the new route convergence instead of requiring the stale selected route.
+- Rechecked the TWII sanitized candidate chain through dry-run and operator packet preparation gates.
+
+Current gate state:
+
+- `selectedNextRoute=twii_sanitized_candidate_artifact_readiness_gate`
+- `candidateArtifactPath=data/candidates/twii-sanitized-candidate.json`
+- `candidateRows=60`
+- `nextAfterDryRun=twii_bounded_execution_packet_readiness_gate`
+- `nextAfterBoundedPacket=twii_explicit_operator_packet_preparation_gate`
+- `nextAfterOperatorPacket=twii_separate_authorized_execution_attempt_preparation_gate`
+- `executionAllowedNow=false`
+- `publicDataSource=mock`
+- `scoreSource=mock`
+
+Boundary:
+
+- No SQL, Supabase read/write, staging row creation, `daily_prices` mutation, raw market-data fetch/store/commit, row payload read/output, source promotion, real score promotion, membership implementation, production env mutation, DNS change, Vercel mutation, or platform deploy occurred.
+- Runtime remains `publicDataSource=mock` and `scoreSource=mock`.
+
+Next:
+
+Prepare the separate authorized execution-attempt gate as a no-execution packet, then stop before any irreversible Supabase or `daily_prices` write unless the operator explicitly approves that attempt.
+
 ### Latest Phase 1 ETF aggregate artifact acceptance
 
 Status: `phase_1_write_runner_candidate_artifact_set_acceptance_gate_artifact_set_complete_no_execution`

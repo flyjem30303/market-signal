@@ -14,25 +14,31 @@ const finalExecution = runJson("scripts/report-twii-final-execution-packet-prefl
 const finalRuntime = runJson("scripts/report-twii-final-runtime-execution-gate-preflight.mjs");
 const finalOperator = runJson("scripts/report-twii-final-operator-authorization-packet-preflight.mjs");
 const sourceRightsBridge = runJson("scripts/report-twii-source-rights-outcome-gate-bridge.mjs");
+const sourceRightsAcceptance = readJson("data/source-gates/twii-source-rights-outcome-acceptance.json");
+const fieldAlignment = readJson("data/source-gates/twii-field-contract-asset-mapping-alignment.json");
 
 const requiredDocPhrases = [
   "Status: `twii_exact_execution_preflight_repair_selector_ready_no_execution`",
   "`twii_first_level_1_closure_exact_execution_gate_or_repair`",
   "The blocker is not runner implementation.",
-  "The blocker is acceptance sequence:",
-  "`twii_source_rights_field_contract_acceptance_before_exact_execution`",
-  "Route 1 - TWII Source-Rights Outcome Gate",
-  "Route id: `twii_source_rights_outcome_gate_acceptance`",
-  "Current posture: `ready_to_open_separate_gate_no_execution`",
+  "The former source-rights and field-contract blockers are now resolved for the next gate only.",
+  "`twii_sanitized_candidate_artifact_readiness_gate`",
+  "Route 1 - TWII Sanitized Candidate Artifact Readiness Gate",
+  "Route id: `twii_sanitized_candidate_artifact_readiness_gate`",
+  "Current posture: `selected_next_no_execution`",
   "acceptedForSourceRightsOutcomeGateOnly=4",
   "missingRequiredIds=0",
-  "Route 2 - TWII Field-Contract And Asset-Mapping Acceptance",
-  "Route id: `twii_field_contract_asset_mapping_acceptance`",
-  "Route 3 - Operator Packet Intake Review",
+  "Route 2 - Operator Packet Intake Review",
   "Route id: `twii_operator_packet_intake_review`",
-  "Route 4 - Exact Bounded Execution Gate Preparation",
+  "Route 3 - Exact Bounded Execution Gate Preparation",
   "Route id: `twii_exact_bounded_execution_gate_prepare_only`",
-  "Next route: `twii_source_rights_outcome_gate_acceptance`",
+  "Resolved Route - TWII Source-Rights Outcome Gate",
+  "Route id: `twii_source_rights_outcome_gate_acceptance`",
+  "Current posture: `resolved_next_gate_only_no_execution`",
+  "Resolved Route - TWII Field-Contract And Asset-Mapping Acceptance",
+  "Route id: `twii_field_contract_asset_mapping_acceptance`",
+  "Current posture: `resolved_for_sanitized_candidate_gate_only`",
+  "Next route: `twii_sanitized_candidate_artifact_readiness_gate`",
   "publicDataSource=mock",
   "scoreSource=mock"
 ];
@@ -68,6 +74,17 @@ expect(finalOperator.target?.maxRows, 60, "maxRows");
 expect(sourceRightsBridge.canOpenTwiiSourceRightsOutcomeGate, true, "canOpenTwiiSourceRightsOutcomeGate");
 expect(sourceRightsBridge.counts?.acceptedForSourceRightsOutcomeGateOnly, 4, "acceptedForSourceRightsOutcomeGateOnly");
 expect(sourceRightsBridge.counts?.missingRequiredIds, 0, "missingRequiredIds");
+expect(
+  sourceRightsAcceptance.status,
+  "twii_source_rights_outcome_accepted_for_next_gate_only_no_execution",
+  "sourceRightsAcceptance.status"
+);
+expect(
+  fieldAlignment.status,
+  "twii_field_contract_asset_mapping_aligned_for_sanitized_candidate_gate_no_execution",
+  "fieldAlignment.status"
+);
+expect(fieldAlignment.nextPMRoute, "twii_sanitized_candidate_artifact_readiness_gate", "fieldAlignment.nextPMRoute");
 
 expect(finalOperator.operatorAuthorizationPacketState?.authorizationDecisionAcceptedNow, false, "authorizationDecisionAcceptedNow");
 expect(finalOperator.operatorAuthorizationPacketState?.runnerExecutableNow, false, "runnerExecutableNow");
@@ -95,12 +112,6 @@ for (const [key, value] of Object.entries(finalOperator.safety ?? {})) {
   if (value !== false) problems.push(`finalOperator.safety.${key} must be false`);
 }
 
-for (const blocker of ["source-rights approval", "field-contract approval", "asset-mapping approval"]) {
-  if (!sourceRightsBridge.stillBlocked?.includes(blocker)) {
-    problems.push(`sourceRightsBridge.stillBlocked missing ${blocker}`);
-  }
-}
-
 const forbiddenPatterns = [
   /NEXT_PUBLIC_SUPABASE_URL\s*=\s*https?:/u,
   /NEXT_PUBLIC_SUPABASE_ANON_KEY\s*=/u,
@@ -126,11 +137,14 @@ console.log(
     {
       status,
       guardedStatus: "twii_exact_execution_preflight_repair_selector_ready_no_execution",
-      selectedNextRoute: "twii_source_rights_outcome_gate_acceptance",
+      selectedNextRoute: "twii_sanitized_candidate_artifact_readiness_gate",
       nextAfterAcceptance: [
-        "twii_field_contract_asset_mapping_acceptance",
         "twii_operator_packet_intake_review",
         "twii_exact_bounded_execution_gate_prepare_only"
+      ],
+      resolvedRoutes: [
+        "twii_source_rights_outcome_gate_acceptance",
+        "twii_field_contract_asset_mapping_acceptance"
       ],
       target: finalOperator.target,
       publicDataSource: finalOperator.safety?.publicDataSource,
@@ -152,6 +166,15 @@ function read(filePath) {
     return "{}";
   }
   return fs.readFileSync(filePath, "utf8");
+}
+
+function readJson(filePath) {
+  try {
+    return JSON.parse(read(filePath));
+  } catch (error) {
+    problems.push(`${filePath} invalid JSON: ${error.message}`);
+    return {};
+  }
 }
 
 function runJson(scriptPath) {
