@@ -1561,6 +1561,8 @@
     "check:phase-1-etf-sanitized-candidate-artifact-reply-execution-brief-no-row-payloads": "node scripts/check-phase-1-etf-sanitized-candidate-artifact-reply-execution-brief-no-row-payloads.mjs",
     "report:phase-1-etf-reply-pm-acceptance-apply-gate-no-row-payloads": "node scripts/report-phase-1-etf-reply-pm-acceptance-apply-gate-no-row-payloads.mjs",
     "check:phase-1-etf-reply-pm-acceptance-apply-gate-no-row-payloads": "node scripts/check-phase-1-etf-reply-pm-acceptance-apply-gate-no-row-payloads.mjs",
+    "report:phase-1-a1-etf-sanitized-reply-task-packet-no-row-payloads": "node scripts/report-phase-1-a1-etf-sanitized-reply-task-packet-no-row-payloads.mjs",
+    "check:phase-1-a1-etf-sanitized-reply-task-packet-no-row-payloads": "node scripts/check-phase-1-a1-etf-sanitized-reply-task-packet-no-row-payloads.mjs",
     "check:phase-1-row-coverage-readonly-result-20260615-a": "node scripts/check-phase-1-row-coverage-readonly-result-20260615-a.mjs",
     "check:phase-1-twii-etf-missing-rows-backfill-readiness": "node scripts/check-phase-1-twii-etf-missing-rows-backfill-readiness.mjs",
     "check:phase-1-twii-write-attempt-stopline-rollup": "node scripts/check-phase-1-twii-write-attempt-stopline-rollup.mjs",

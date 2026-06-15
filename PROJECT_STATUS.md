@@ -2,6 +2,46 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Latest Phase 1 A1 ETF sanitized reply task packet slice
+
+Status: `phase_1_a1_etf_sanitized_reply_task_packet_no_row_payloads_ready`
+
+CEO decision:
+
+- Convert the ETF waiting state into a copyable A1 task packet.
+- Give A1 a precise aggregate-only reply shape for the remaining 118 ETF rows.
+- Keep PM acceptance blocked until A1 replies and the PM intake validator passes.
+
+PM completed:
+
+- Added `scripts/report-phase-1-a1-etf-sanitized-reply-task-packet-no-row-payloads.mjs`.
+- Added `data/evidence-intake/phase-1-a1-etf-sanitized-reply-task-packet-no-row-payloads.json`.
+- Added `docs/PHASE_1_A1_ETF_SANITIZED_REPLY_TASK_PACKET_NO_ROW_PAYLOADS.md`.
+- Added and registered `check:phase-1-a1-etf-sanitized-reply-task-packet-no-row-payloads`.
+
+Task packet state:
+
+- `taskDecision=send_to_a1_prepare_aggregate_only_reply`
+- `ownerLane=A1/Data`
+- `targetLane=ETF`
+- `symbolGroup=ETF`
+- `targetScope=phase_1_core_etf_daily_prices_missing_rows`
+- `expectedRows=118`
+- `candidateMissingRows=118`
+- `pmAcceptsNow=false`
+- `a1MayReplyNow=true`
+- `nextPmRouteAfterReply=phase_1_etf_sanitized_candidate_artifact_reply_intake_validator_no_row_payloads`
+
+Current boundary:
+
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+- No raw payload, row payload, stock-id payload, market row, secret, SQL execution, Supabase write, candidate row acceptance, or public real-data promotion occurred.
+
+Next route:
+
+Run `report:phase-1-a1-etf-sanitized-reply-task-packet-no-row-payloads` and send the `copyableTask` to A1.
+
 ### Latest Phase 1 ETF reply PM acceptance apply gate slice
 
 Status: `phase_1_etf_reply_pm_acceptance_apply_gate_no_row_payloads_ready`
