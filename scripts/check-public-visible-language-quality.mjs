@@ -22,6 +22,7 @@ const publicRoutes = [
 ];
 
 const internalBoundaryRoutes = [
+  { route: "/membership", allowedStatuses: [404] },
   { route: "/internal", allowedStatuses: [404] },
   { route: "/internal/cp3-dry-run", allowedStatuses: [404] },
   { route: "/internal/etf-source-readiness", allowedStatuses: [404] },
