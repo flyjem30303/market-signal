@@ -3543,6 +3543,11 @@ const checks = [
     name: "phase-1-data-online-final-preexecution-review-artifact-no-execution"
   },
   {
+    command: [node, "scripts/check-phase-1-data-online-write-gate-dry-run-preview-no-execution.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-data-online-write-gate-dry-run-preview-no-execution"
+  },
+  {
     command: [node, "scripts/check-twii-exact-execution-preflight-repair-selector.mjs"],
     expectStatus: "ok",
     name: "twii-exact-execution-preflight-repair-selector"
@@ -6571,6 +6576,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "phase-1-data-online-server-preexecution-readiness-no-execution",
   "phase-1-data-online-execution-values-dry-run-shape-no-execution",
   "phase-1-data-online-final-preexecution-review-artifact-no-execution",
+  "phase-1-data-online-write-gate-dry-run-preview-no-execution",
   "twii-exact-execution-preflight-repair-selector",
   "twii-source-rights-outcome-acceptance-gate",
   "twii-field-contract-asset-mapping-alignment-gate",
