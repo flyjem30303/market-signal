@@ -112,17 +112,6 @@ const routes = [
     ]
   },
   {
-    path: "/membership",
-    required: [
-      "會員功能預覽",
-      "每日市場三層解讀",
-      "自選追蹤與自訂警示",
-      "盤後複盤報告",
-      "尚未開放登入",
-      "不提供個股買賣建議"
-    ]
-  },
-  {
     path: "/stocks/2330",
     required: stockSignalRequired
   },
