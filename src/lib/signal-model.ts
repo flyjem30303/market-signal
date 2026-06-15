@@ -130,7 +130,7 @@ export function buildSignalSnapshot(asset: Asset, date: Date | string): SignalSn
     compositeScore,
     dataQualityScore,
     dataQualityGrade: "C",
-    staleDataFlags: ["目前為公開 Beta 示範資料，尚未宣稱正式即時資料。"],
+    staleDataFlags: ["目前為公開 Beta 示範資料，尚未切換正式每日資料流程，也尚未宣稱正式即時資料。"],
     missingModuleFlags: ["正式資料覆蓋率仍在補齊，請先以閱讀流程與資料邊界為主。"],
     modelVersion: "mock-v0.1",
     lastUpdatedAt: `${dateString}T14:30:00+08:00`,

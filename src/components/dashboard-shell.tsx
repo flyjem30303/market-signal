@@ -73,15 +73,15 @@ export function DashboardShell({
         </h1>
         <p>
           {isStockPage
-            ? `${selected.name} 目前綜合分數 ${snapshot.compositeScore}/100，風險分數 ${snapshot.riskScore}/100。這裡提供觀察輔助，不是買賣建議。`
-            : `${market.asset.name} 目前為「${market.signal.title}」，綜合分數 ${market.compositeScore}/100。先看市場氛圍，再決定是否加強觀察或降低風險。`}
+            ? `${selected.name} 目前綜合分數 ${snapshot.compositeScore}/100，風險分數 ${snapshot.riskScore}/100。這裡提供市場觀察輔助，不是買賣建議。`
+            : `${market.asset.name} 目前為「${market.signal.title}」，市場分數 ${market.compositeScore}/100。30 秒看懂台股市場狀態，再決定是否加強觀察或降低風險。`}
         </p>
         <p className="runtime-boundary-line">
-          Phase 1 公開版使用示範資料與 mock 分數。正式資料上線前，頁面會持續標示來源、更新時間與 mock/real 邊界。
+          Phase 1 公開版使用示範資料與 mock 分數；正式每日資料尚未啟用。內容為市場資訊整理與風險辨識，屬非投資建議。
         </p>
         <div className="hero-status-strip" aria-label="市場狀態摘要">
           <span>市場燈號：{market.signal.title}</span>
-          <span>綜合分數：{market.compositeScore}/100</span>
+          <span>市場分數：{market.compositeScore}/100</span>
           <span>風險分數：{market.riskScore}/100</span>
           <span>資料狀態：示範資料</span>
         </div>
@@ -110,9 +110,9 @@ export function DashboardShell({
 
       <section className="stock-search-panel" aria-label="標的切換">
         <div>
-          <p className="eyebrow">快速切換</p>
+          <p className="eyebrow">觀察清單</p>
           <h2>查看其他指數、ETF 或股票燈號</h2>
-          <p>Phase 1 先提供有限標的的示範閱讀體驗；資料完整覆蓋與正式資料來源仍需通過資料上線 gate。</p>
+          <p>Phase 1 先提供有限標的的示範閱讀體驗；資料完整覆蓋與正式資料來源仍需通過資料上線檢查。</p>
         </div>
         <div className="stock-chip-list">
           {assets.map((asset) => (
@@ -143,28 +143,28 @@ function HomeFirstScreenDecisionSummary({ market }: { market: SignalSnapshot }) 
     <section className="panel stock-reading-summary" aria-label="市場快速判讀">
       <p className="eyebrow">快速判讀</p>
       <h2>
-        {market.asset.name}: {market.signal.title}，綜合分數 {market.compositeScore}/100
+        {market.asset.name}: {market.signal.title}，市場分數 {market.compositeScore}/100
       </h2>
       <p>{market.signal.text}</p>
       <div className="briefing-actions" aria-label="市場觀察重點">
         <article>
-          <strong>現在怎麼看</strong>
+          <strong>今天先看什麼</strong>
           <p>
-            綜合分數 {market.compositeScore}/100，風險分數 {market.riskScore}/100。先判斷市場偏多、觀望或警戒，再決定觀察強度。
+            市場分數 {market.compositeScore}/100，風險分數 {market.riskScore}/100。先判斷市場偏多、觀望或警戒，再決定觀察強度。
           </p>
         </article>
         <article>
           <strong>下一步</strong>
-          <p>閱讀市場簡報與週報，確認燈號變化、主要風險與後續觀察條件。</p>
+          <p>閱讀市場快報與週報，確認燈號變化、主要風險與後續觀察條件。</p>
         </article>
         <article>
           <strong>資料邊界</strong>
           <p>目前仍是示範資料，正式資料上線前不宣稱即時真實行情或投資建議。</p>
         </article>
       </div>
-      <div className="home-first-screen-decision__actions" aria-label="主要行動">
-        <TrackedLink eventName="home_cta_clicked" href="/briefing" label="查看市場簡報" payload={{ area: "home_first_screen" }}>
-          查看市場簡報
+      <div className="home-first-screen-decision__actions" aria-label="下一步行動">
+        <TrackedLink eventName="home_cta_clicked" href="/briefing" label="查看市場快報" payload={{ area: "home_first_screen" }}>
+          查看市場快報
         </TrackedLink>
         <TrackedLink
           eventName="home_cta_clicked"
@@ -181,15 +181,15 @@ function HomeFirstScreenDecisionSummary({ market }: { market: SignalSnapshot }) 
 
 function StockRuntimeAtAGlance({ snapshot }: { snapshot: SignalSnapshot }) {
   return (
-    <section className="panel stock-reading-summary" aria-label="標的一眼判讀">
+    <section className="panel stock-reading-summary" aria-label="個股快速判讀">
       <p className="eyebrow">一眼判讀</p>
       <h2>
         {snapshot.asset.symbol} {snapshot.asset.name}: {snapshot.signal.title}
       </h2>
       <p>
-        綜合分數 {snapshot.compositeScore}/100，風險分數 {snapshot.riskScore}/100。這裡協助使用者整理觀察重點，不提供買賣建議。
+        市場分數 {snapshot.compositeScore}/100，風險分數 {snapshot.riskScore}/100。這裡協助使用者整理觀察重點，不提供買賣建議。
       </p>
-      <div className="briefing-actions" aria-label="標的觀察重點">
+      <div className="briefing-actions" aria-label="個股觀察重點">
         <article>
           <strong>燈號原因</strong>
           <p>{snapshot.signal.text}</p>
@@ -199,7 +199,7 @@ function StockRuntimeAtAGlance({ snapshot }: { snapshot: SignalSnapshot }) {
           <p>{snapshot.staleDataFlags[0]}</p>
         </article>
         <article>
-          <strong>觀察方式</strong>
+          <strong>閱讀方式</strong>
           <p>搭配市場總覽與週報一起閱讀，避免只用單一分數做判斷。</p>
         </article>
       </div>
@@ -209,8 +209,8 @@ function StockRuntimeAtAGlance({ snapshot }: { snapshot: SignalSnapshot }) {
 
 function StockDecisionCompass({ activeTab }: { activeTab: ActionTab }) {
   return (
-    <section className="panel stock-decision-compass" aria-label="決策輔助">
-      <p className="eyebrow">決策輔助</p>
+    <section className="panel stock-decision-compass" aria-label="觀察決策輔助">
+      <p className="eyebrow">觀察決策</p>
       <h2>把燈號轉成可追蹤的觀察條件</h2>
       <p>目前焦點：{activeTab}。請把燈號視為觀察輔助，並搭配自身風險承受度與其他資料來源。</p>
     </section>
@@ -262,7 +262,7 @@ function StockMarketContextPanel({ snapshot }: { snapshot: SignalSnapshot }) {
 function MarketLists({ riskList, strongList }: { riskList: SignalSnapshot[]; strongList: SignalSnapshot[] }) {
   return (
     <section className="weekly-grid" aria-label="市場排行">
-      <MarketList description="綜合分數較高的標的，適合優先觀察趨勢與動能。" items={strongList} title="相對強勢" valueKey="composite" />
+      <MarketList description="市場分數較高的標的，適合優先觀察趨勢與動能。" items={strongList} title="相對強勢" valueKey="composite" />
       <MarketList description="風險分數較高的標的，適合優先檢查波動與下行風險。" items={riskList} title="風險較高" valueKey="risk" />
     </section>
   );
@@ -306,14 +306,14 @@ function MarketList({
 
 function StockPublicSummary({ snapshot }: { snapshot: SignalSnapshot }) {
   return (
-    <section className="stock-public-summary" aria-label="標的摘要">
+    <section className="stock-public-summary" aria-label="個股摘要">
       <article className="panel">
         <p className="eyebrow">目前燈號</p>
         <h2>{snapshot.signal.title}</h2>
         <p>{snapshot.signal.text}</p>
       </article>
       <article className="panel">
-        <p className="eyebrow">綜合分數</p>
+        <p className="eyebrow">市場分數</p>
         <h2>{snapshot.compositeScore}/100</h2>
         <p>用來快速比較市場狀態與相對強弱，不代表買賣建議。</p>
       </article>

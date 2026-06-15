@@ -36,14 +36,14 @@ export default async function BriefingPage() {
 
       <section className="hero briefing-public-summary" aria-label="市場快報摘要">
         <p className="eyebrow">市場快報</p>
-        <h1>30 秒看懂市場燈號，3 分鐘決定今天要觀察什麼</h1>
+        <h1>30 秒看懂市場燈號，3 分鐘把市場燈號拆成原因</h1>
         <p>
-          目前以 {market.asset.name} 作為市場輪廓參考，燈號為「{market.signal.title}」，
-          綜合分數 {market.compositeScore}/100，風險分數 {market.riskScore}/100。先看市場氣氛，
+          目前以 {market.asset.name} 作為台股市場輪廓參考，燈號為「{market.signal.title}」，
+          市場分數 {market.compositeScore}/100，風險分數 {market.riskScore}/100。先看市場氣氛，
           再確認風險最高標的與資料更新時間。
         </p>
         <p className="runtime-boundary-line">
-          本頁仍使用示範資料與示範分數；所有內容僅供市場資訊整理與風險辨識，不是投資建議。
+          資料與風險邊界：本頁仍使用示範資料與示範分數，正式資料尚未啟用；所有內容僅供市場資訊整理與風險辨識，不是投資建議。
         </p>
       </section>
 
@@ -55,7 +55,7 @@ export default async function BriefingPage() {
         </div>
         <aside>
           <span>
-            <b>市場綜合分數</b>
+            <b>市場分數</b>
             <i>{market.compositeScore}/100</i>
           </span>
           <span>
@@ -68,12 +68,12 @@ export default async function BriefingPage() {
       </section>
 
       <section className="briefing-breadth" id="market-structure" aria-label="市場廣度">
-        <BreadthCard label="偏多或穩定" tone="active" value={breadth.constructive} />
-        <BreadthCard label="需要觀察" tone="hold" value={breadth.watch} />
-        <BreadthCard label="偏防守" tone="blocked" value={breadth.defensive} />
+        <BreadthCard label="偏多觀察" tone="active" value={breadth.constructive} />
+        <BreadthCard label="觀望整理" tone="hold" value={breadth.watch} />
+        <BreadthCard label="警戒防守" tone="blocked" value={breadth.defensive} />
       </section>
 
-      <section className="panel stock-reading-summary" aria-label="三分鐘判斷流程">
+      <section className="panel stock-reading-summary" aria-label="三分鐘閱讀順序">
         <p className="eyebrow">下一步行動</p>
         <h2>先看市場，再看風險，最後確認資料狀態</h2>
         <div className="briefing-actions">
@@ -94,9 +94,9 @@ export default async function BriefingPage() {
 
       <section className="weekly-grid" aria-label="市場觀察清單">
         <BriefingList
-          description="綜合分數較高的標的可作為觀察清單起點，但仍要回看成因、資料時間與風險分數。"
+          description="市場分數較高的標的可作為觀察清單起點，但仍要回看成因、資料時間與風險分數。"
           items={strongest}
-          title="優先觀察強勢變化"
+          title="相對強勢觀察"
         />
         <BriefingList
           description="風險分數較高的標的需要先複核資料狀態與主要風險，不適合直接延伸成買賣判斷。"
