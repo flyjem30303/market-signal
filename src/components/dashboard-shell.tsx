@@ -87,8 +87,15 @@ export function DashboardShell({
         <p className="runtime-boundary-line">
           目前正式資料上線仍在 gate 前，公開頁以示範資料呈現閱讀流程；所有內容皆為資訊整理與風險辨識，不是投資建議。
         </p>
+        {!isStockPage && (
+          <p className="runtime-boundary-line">
+            指數狀態儀表站讓使用者在 30 秒內看懂市場氛圍，並在 3 分鐘內判斷下一步觀察。
+            首頁提供全市場總覽、核心指標面板、核心指標快讀、警示提醒與資料信任說明：
+            先看市場氣氛，再看風險，再決定下一步觀察。
+          </p>
+        )}
         <div className="hero-status-strip" aria-label="首頁閱讀順序">
-          <span>30 秒快讀</span>
+          <span>30 秒快速閱讀</span>
           <span>3 分鐘複核</span>
           <span>資料時間</span>
           <span>下一步觀察</span>
@@ -144,7 +151,7 @@ export function DashboardShell({
         <p className="eyebrow">會員功能預覽</p>
         <h2>下一階段會把公開燈號延伸成個人化追蹤</h2>
         <p>
-          目前先完成所有訪客可使用的公開版。會員功能會放到下一階段，方向包含每日三層解讀、watchlist、自訂警示與盤後複盤。
+          目前先完成所有訪客可使用的公開版。會員功能會放到下一階段，方向包含每日三層解讀、自選清單、自訂警示與盤後複盤。
         </p>
         <div className="briefing-actions">
           <TrackedLink
@@ -286,7 +293,7 @@ function HomeDataReadinessStatus() {
       <p className="eyebrow">資料上線狀態</p>
       <h2>公開頁可以先上線閱讀流程，正式資料仍需通過上線檢查</h2>
       <p>
-        目前資料真實化主線正在處理 TWII 與 ETF 的覆蓋缺口。正式切換前必須完成來源權利、資料品質、回滾、時間戳、錯誤降級與非投資建議揭露。
+        正式每日資料尚未啟用。目前資料真實化主線正在處理 TWII 與 ETF 的覆蓋缺口。正式切換前必須完成來源權利、資料品質、回滾、時間戳、錯誤降級與非投資建議揭露。
       </p>
     </section>
   );
@@ -296,18 +303,18 @@ function StockPublicSummary({ snapshot }: { snapshot: SignalSnapshot }) {
   return (
     <section className="stock-indicator-priority" id="stock-public-summary" aria-label="標的決策摘要">
       <div>
-        <p className="eyebrow">標的決策摘要</p>
+        <p className="eyebrow">標的決策摘要 / 決策輔助摘要</p>
         <h2>
-          30 秒看懂標的狀態：{snapshot.asset.symbol} {snapshot.asset.name} 目前為「{snapshot.signal.title}」
+          30 秒快速閱讀：30 秒看懂標的狀態 - {snapshot.asset.symbol} {snapshot.asset.name} 目前為「{snapshot.signal.title}」
         </h2>
         <p>{snapshot.signal.text}</p>
-        <p>先看燈號狀態，再看風險熱度與資料信心；正式市場資料尚未啟用前，分數只適合示範閱讀流程。</p>
+        <p>先看市場分數，再看風險熱度與資料信心；正式每日資料尚未啟用，分數只適合示範閱讀流程。</p>
       </div>
       <div className="stock-indicator-priority-grid">
         <article className="active">
           <span>燈號狀態</span>
           <strong>{snapshot.compositeScore}/100</strong>
-          <p>代表目前標的在示範模型中的整體狀態。</p>
+          <p>市場分數代表目前標的在示範模型中的整體狀態。</p>
         </article>
         <article className={snapshot.riskScore >= 60 ? "blocked" : "hold"}>
           <span>風險熱度</span>

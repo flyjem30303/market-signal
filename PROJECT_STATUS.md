@@ -2,6 +2,51 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Public Beta Final Route Gate Cleanup
+
+Status: `phase_1_public_beta_final_route_gate_ready_data_online_no_go`
+
+CEO decision:
+
+- Keep the active GOAL focused on Phase 1 launch readiness, including data online.
+- Treat public-route clarity as a mainline blocker because Phase 1 cannot launch with development residue, internal workflow copy, or missing BRIEF signals.
+- Keep data promotion blocked until coverage and rights gates pass; do not set `publicDataSource=supabase` or `scoreSource=real`.
+
+PM completed:
+
+- Added explicit Phase 1 BRIEF signals to the Home, Briefing, and Stock public surfaces: 30-second read, 3-minute decision support, market atmosphere, core indicators, alerts, data trust, data/risk boundary, and non-investment-advice posture.
+- Kept support, membership preview, weekly, methodology, disclaimer, terms, and privacy routes user-facing and free of public residue.
+- Recovered the local dev server after stale `.next` chunk references caused 500s.
+- Confirmed that `next dev` route gates and `next build` must not run concurrently because both touch `.next` and can produce missing chunk references such as `Cannot find module './948.js'`.
+
+Evidence:
+
+- `cmd.exe /c npm run check:phase-1-public-beta-final-readiness-rollup` passes.
+- `cmd.exe /c npm run check:public-beta-production-brief-alignment` passes.
+- `cmd.exe /c npm run check:phase-1-public-beta-public-visible-residue-cleanup` passes.
+- `cmd.exe /c npm run check:public-surface-user-facing-audit` passes.
+- `cmd.exe /c npm run check:public-visible-language-quality` passes.
+- `cmd.exe /c npm run check:phase-1-route-decision-order` passes.
+- `cmd.exe /c npx tsc --noEmit` passes.
+- `cmd.exe /c npm run build` passes when the dev server is stopped first and `.next` is cleaned.
+- `cmd.exe /c npm run check:phase-1-data-online-go-no-go-status` passes with decision `PUBLIC_RUNTIME_READY_BUT_DATA_ONLINE_NO_GO`.
+
+Current data-online position:
+
+- Full Level 1 coverage is `182/360`; missing `178`.
+- TWII missing rows: `60`.
+- ETF missing rows: `118`.
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+
+Boundary:
+
+No SQL, Supabase connection/read/write, staging row creation, `daily_prices` mutation, market endpoint fetch, raw market-data ingest/store/commit, candidate row read/output, public source promotion, score promotion, real-time claim, official endorsement claim, investment advice claim, production environment mutation, DNS change, broad visual redesign, or Phase 2 membership implementation occurred.
+
+Next route:
+
+Run the next data-online slice with A1/A2 focused on ETF source-rights acceptance evidence and TWII operator values, while PM keeps the public route final-readiness gate green. If a build verification is needed, stop dev server and clean `.next` before building, then recover `next dev` before localhost route checks.
+
 ### Phase 1 Public Route Readability Cleanup
 
 Status: `phase_1_public_route_readability_cleanup_ready`

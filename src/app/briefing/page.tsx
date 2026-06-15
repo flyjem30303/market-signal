@@ -44,11 +44,16 @@ export default async function BriefingPage() {
         <p className="runtime-boundary-line">
           正式資料尚未切換；目前頁面以示範資料呈現閱讀流程，不提供買進、賣出、持有或個人化投資建議。
         </p>
+        <p className="runtime-boundary-line">
+          晨報快速判讀：30 秒看懂今日市場氣氛，3 分鐘再決定觀察順序。
+          今日市場提醒會整理市場解讀、警示清單、資料更新時間、資料與風險邊界與下一步觀察。
+          市場行動摘要與 3 分鐘行動判斷只協助排序觀察重點，正式每日資料尚未啟用，且不提供買賣建議。
+        </p>
       </section>
 
       <section className="briefing-executive-summary" aria-label="30 秒快讀">
         <div>
-          <p className="eyebrow">30 秒快讀</p>
+          <p className="eyebrow">30 秒快速閱讀</p>
           <h2>{market.signal.title}</h2>
           <p>
             {market.asset.name} 目前燈號分數為 {market.compositeScore}/100，風險熱度為 {market.riskScore}/100。
@@ -132,6 +137,12 @@ export default async function BriefingPage() {
             <p>若資料時間延遲或來源狀態未確認，請先暫緩解讀，等待下一次資料更新或 gate 通過。</p>
           </article>
         </div>
+      </section>
+
+      <section className="panel stock-reading-summary" aria-label="決策輔助摘要">
+        <p className="eyebrow">決策輔助摘要</p>
+        <h2>市場分數與警示只用來整理觀察順序</h2>
+        <p>正式每日資料尚未啟用；晨報目前用示範資料協助使用者理解市場狀態、原因、更新時間與下一步觀察。</p>
       </section>
 
       <section className="weekly-grid">

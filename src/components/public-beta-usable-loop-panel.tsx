@@ -17,7 +17,7 @@ export function PublicBetaUsableLoopPanel({
   return (
     <section className="public-beta-usable-loop" aria-label="公開 Beta 可用閉環">
       <div className="public-beta-usable-loop__head">
-        <p className="eyebrow">公開 Beta 可用閉環</p>
+        <p className="eyebrow">公開 Beta 狀態</p>
         <h2>{loop.headline}</h2>
         <p>{loop.summary}</p>
         <p>{loop.contextLine}</p>
