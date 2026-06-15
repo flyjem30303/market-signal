@@ -6,7 +6,7 @@ import { TrackedLink } from "@/components/tracked-link";
 
 export const metadata: Metadata = {
   title: "隱私政策",
-  description: "說明指數燈號網站如何處理公開版基礎互動資料與未來會員資料邊界。"
+  description: "說明指數燈號網站在 Phase 1 公開版如何處理基礎互動資料。"
 };
 
 export default function PrivacyPage() {
@@ -15,33 +15,33 @@ export default function PrivacyPage() {
       <PageViewTracker eventName="privacy_page_viewed" payload={{ page: "privacy" }} />
       <section className="hero">
         <p className="eyebrow">隱私政策</p>
-        <h1>Phase 1 公開版不需要敏感交易資料</h1>
+        <h1>Phase 1 公開版只處理基礎互動資料</h1>
         <p>
-          目前公開版主要提供市場燈號閱讀，不需要使用者提供券商帳戶、資產配置或個人交易紀錄。
+          指數燈號網站目前以公開市場資訊展示為主，可能記錄頁面瀏覽、連結點擊與基本使用情形，用來改善閱讀流程。
         </p>
         <p className="runtime-boundary-line">
-          未來若導入會員、watchlist 或個人化警示，會再補充更完整的資料使用說明。
+          目前不啟用帳號登入、付款、個人化追蹤或個人化警示資料。
         </p>
       </section>
 
       <PublicRouteReadingContract context="privacy" />
       <TrustRuntimeBoundaryNotice context="privacy" />
 
-      <section className="legal-quick-read" aria-label="隱私政策摘要">
+      <section className="legal-quick-read" aria-label="隱私政策重點">
         <article>
-          <span>目前階段</span>
-          <strong>公開閱讀為主</strong>
-          <p>Phase 1 以公開頁面瀏覽與基本互動為主。</p>
+          <span>目前範圍</span>
+          <strong>公開版互動紀錄</strong>
+          <p>Phase 1 只需要理解哪些頁面被閱讀、哪些信任連結被點擊。</p>
         </article>
         <article>
-          <span>不需要</span>
-          <strong>交易帳戶或資產資料</strong>
-          <p>網站不要求使用者提供下單權限或個人投資組合。</p>
+          <span>不收集</span>
+          <strong>不處理交易或個人資產資料</strong>
+          <p>目前沒有券商串接、下單、個人投資組合或交易紀錄功能。</p>
         </article>
         <article>
-          <span>未來功能</span>
-          <strong>會員資料另行揭露</strong>
-          <p>會員功能上線前會補上註冊、登入、watchlist 與警示資料說明。</p>
+          <span>後續功能</span>
+          <strong>啟用前另行揭露</strong>
+          <p>若未來導入帳號、付款或個人化功能，會在啟用前補充完整資料使用說明。</p>
         </article>
       </section>
 

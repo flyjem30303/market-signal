@@ -4,34 +4,34 @@ type TrustRuntimeBoundaryNoticeProps = {
 
 const contextCopy = {
   disclaimer: {
-    eyebrow: "風險聲明",
-    title: "本網站不是投資建議",
-    summary: "所有內容僅供市場資訊整理與風險辨識參考，不能取代使用者自己的投資判斷。"
+    eyebrow: "風險邊界",
+    title: "本網站提供市場資訊整理，不提供投資建議",
+    summary: "燈號是觀察輔助工具，使用者仍需自行判斷資訊是否適用於自身情況。"
   },
   membership: {
-    eyebrow: "會員規劃",
-    title: "會員功能仍屬下一階段",
-    summary: "Phase 1 先完成公開免費版；會員深度解讀與個人化追蹤會在後續階段處理。"
+    eyebrow: "會員邊界",
+    title: "會員功能屬下一階段規劃",
+    summary: "Phase 1 先完成免費市場總覽；會員深度解讀、追蹤與提醒需等 MVP 邊界確認後再推出。"
   },
   methodology: {
     eyebrow: "方法邊界",
-    title: "燈號是輔助閱讀，不是交易訊號",
-    summary: "燈號會整合趨勢、風險與資料品質，但不應被解讀為買進、賣出或持有建議。"
+    title: "燈號說明重點是可理解，不是保證預測",
+    summary: "方法頁說明燈號、趨勢、風險與資料時間，協助使用者理解訊號來源。"
   },
   privacy: {
     eyebrow: "隱私邊界",
-    title: "Phase 1 不需要敏感個資",
-    summary: "目前公開版以頁面瀏覽與基礎互動為主，不需要使用者提供交易帳戶或資產資訊。"
+    title: "Phase 1 不收集會員或付款資料",
+    summary: "目前沒有登入、付款、個人化追蹤或警示功能；相關功能上線前會另行揭露。"
   },
   terms: {
-    eyebrow: "使用條款",
-    title: "請把內容視為資訊服務",
-    summary: "使用者應自行確認資料狀態與風險，本網站不保證資料即時、完整或適合任何特定投資目的。"
+    eyebrow: "使用邊界",
+    title: "請把燈號視為觀察輔助",
+    summary: "使用條款說明網站用途、資料限制與使用者責任。"
   },
   weekly: {
     eyebrow: "週報邊界",
-    title: "週報提供脈絡，不提供預測保證",
-    summary: "週報用來整理觀察重點與可能風險，不承諾市場方向或報酬結果。"
+    title: "週報是市場回顧，不是交易指令",
+    summary: "週報協助整理市場狀態與觀察重點，不取代個人投資決策。"
   }
 } as const;
 
@@ -39,7 +39,7 @@ export function TrustRuntimeBoundaryNotice({ context }: TrustRuntimeBoundaryNoti
   const copy = contextCopy[context];
 
   return (
-    <section className="trust-runtime-boundary-notice" aria-label={`${copy.eyebrow}資料與風險邊界`}>
+    <section className="trust-runtime-boundary-notice" aria-label={`${copy.eyebrow}與資料說明`}>
       <div>
         <p className="eyebrow">{copy.eyebrow}</p>
         <h2>{copy.title}</h2>
@@ -47,18 +47,18 @@ export function TrustRuntimeBoundaryNotice({ context }: TrustRuntimeBoundaryNoti
       </div>
       <article className="active runtime-boundary-copy-card">
         <span>目前狀態</span>
-        <strong>公開 Beta 示範資料</strong>
-        <p>網站目前保留 mock/real 邊界，真實資料尚未完成完整上線檢查。</p>
+        <strong>示範資料模式</strong>
+        <p>網站可先驗證閱讀流程、燈號說明與風險揭露；正式資料尚未對外宣稱。</p>
       </article>
       <article className="blocked">
-        <span>不可誤解</span>
-        <strong>不是即時交易訊號</strong>
-        <p>燈號與分數僅協助理解市場狀態，不構成任何個別標的買賣建議。</p>
+        <span>尚未開放</span>
+        <strong>正式資料與會員功能</strong>
+        <p>正式資料、會員內容、個人化追蹤與提醒功能都需通過上線前檢查後才會開放。</p>
       </article>
       <article className="readying">
-        <span>下一步</span>
-        <strong>補齊合法資料來源與資料品質驗證</strong>
-        <p>只有來源、品質、寫入、讀回、回滾與正式上線檢查都通過後，才會切換真實資料宣稱。</p>
+        <span>切換條件</span>
+        <strong>資料來源、品質與公開說明都需完成</strong>
+        <p>合法來源、覆蓋率、資料品質、寫入回讀與風險揭露都通過後，才可由示範模式升級。</p>
       </article>
     </section>
   );

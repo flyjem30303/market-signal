@@ -9,18 +9,18 @@ type CommercialSlotProps = {
 export function CommercialSlot({ context }: CommercialSlotProps) {
   const copy =
     context === "stock"
-      ? "後續會員功能會提供更完整的標的追蹤、燈號原因與盤後複盤，目前公開版先提供基礎觀察。"
+      ? "本頁先提供標的燈號、分數與資料狀態，協助你把單一標的放回市場脈絡。"
       : context === "briefing"
-        ? "會員內容將延伸市場三層解讀、自選追蹤與個人化提醒，公開版仍保留核心市場總覽。"
-        : "週報會員版會補上盤後複盤與觀察清單，目前先以公開摘要協助快速理解市場。";
+        ? "快報先協助你快速理解市場氣氛、風險來源與下一步觀察順序。"
+        : "週報先協助你回看一段時間的市場變化，整理下週可追蹤的觀察重點。";
 
   return (
-    <aside className="commercial-slot" aria-label="會員內容預告">
-      <p className="eyebrow">Disclosure</p>
-      <h2>會員內容預告</h2>
+    <aside className="commercial-slot" aria-label="公開版使用提醒">
+      <p className="eyebrow">公開版提醒</p>
+      <h2>先看懂市場，再決定是否深入追蹤</h2>
       <p>{copy}</p>
-      <p>指數燈號網站不提供投資建議或保證報酬；會員內容也會維持資訊整理、風險辨識與觀察輔助定位。</p>
-      <nav aria-label="揭露與條款">
+      <p>目前公開版不提供投資建議、保證報酬或個人化交易判斷；正式資料上線前仍維持示範模式。</p>
+      <nav aria-label="信任與風險連結">
         <a
           href="/disclaimer"
           onClick={() => trackEvent("commercial_disclosure_link_clicked", { context, href: "/disclaimer", label: "disclaimer" })}

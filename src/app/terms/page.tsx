@@ -6,7 +6,7 @@ import { TrackedLink } from "@/components/tracked-link";
 
 export const metadata: Metadata = {
   title: "使用條款",
-  description: "說明指數燈號網站的使用方式、資料限制與責任邊界。"
+  description: "說明指數燈號網站的資訊使用方式、責任邊界與風險限制。"
 };
 
 export default function TermsPage() {
@@ -15,33 +15,33 @@ export default function TermsPage() {
       <PageViewTracker eventName="terms_page_viewed" payload={{ page: "terms" }} />
       <section className="hero">
         <p className="eyebrow">使用條款</p>
-        <h1>使用本網站前，請先理解資料與風險邊界</h1>
+        <h1>本網站提供市場資訊整理，不代替使用者做投資決策</h1>
         <p>
-          指數燈號網站提供市場資訊整理、風險辨識與觀察輔助。使用者仍需自行判斷資料是否適合自己的需求。
+          指數燈號網站以市場狀態、風險提示與資料更新狀態協助使用者閱讀資訊。使用者應自行判斷資訊是否適用於自身情況。
         </p>
         <p className="runtime-boundary-line">
-          本網站不提供下單、交易執行、保證報酬或個別投資建議。
+          本網站不提供買進、賣出、持有、目標價、保證報酬或個人化資產配置建議。
         </p>
       </section>
 
       <PublicRouteReadingContract context="terms" />
       <TrustRuntimeBoundaryNotice context="terms" />
 
-      <section className="legal-quick-read" aria-label="使用條款摘要">
+      <section className="legal-quick-read" aria-label="使用條款重點">
         <article>
-          <span>服務定位</span>
-          <strong>資訊整理工具</strong>
-          <p>網站內容用於協助閱讀市場狀態，不代表任何交易指令。</p>
+          <span>網站定位</span>
+          <strong>資訊整理與風險辨識</strong>
+          <p>燈號與分數協助理解市場狀態，不是交易指令。</p>
         </article>
         <article>
-          <span>資料限制</span>
-          <strong>可能延遲或不完整</strong>
-          <p>資料來源、更新時間與示範狀態會在頁面上標示。</p>
+          <span>資料狀態</span>
+          <strong>需注意更新時間與示範模式</strong>
+          <p>正式資料上線前，請勿把頁面內容視為即時或完整市場資料。</p>
         </article>
         <article>
           <span>使用責任</span>
-          <strong>使用者需自行判斷</strong>
-          <p>任何投資決策都應由使用者自行評估風險後做出。</p>
+          <strong>使用者仍需自行判斷</strong>
+          <p>任何投資行動都應由使用者自行評估風險，必要時諮詢合格專業人士。</p>
         </article>
       </section>
 

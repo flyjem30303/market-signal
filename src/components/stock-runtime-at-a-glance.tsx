@@ -14,14 +14,14 @@ export function StockRuntimeAtAGlance({ scoringLabel, snapshot }: StockRuntimeAt
   const impactLevel = snapshot.riskScore >= 70 ? "高" : snapshot.riskScore >= 55 ? "中" : "低";
 
   return (
-    <section className="stock-runtime-at-a-glance" aria-label="標的即時摘要">
+    <section className="stock-runtime-at-a-glance" aria-label="標的狀態摘要">
       <div>
-        <p className="eyebrow">標的 30 秒摘要</p>
+        <p className="eyebrow">標的 30 秒快讀</p>
         <h2>
-          {snapshot.asset.symbol} {snapshot.asset.name}：{snapshot.signal.title}
+          {snapshot.asset.symbol} {snapshot.asset.name}: {snapshot.signal.title}
         </h2>
         <p>
-          用市場狀態、成因、影響級別與資料更新時間，協助你在 3 分鐘內完成「觀察、複核、等待」的初步判斷。
+          先看燈號，再看風險與資料時間。這個區塊協助使用者快速判斷要關注、加強觀察，或暫時降低依賴。
         </p>
       </div>
 
@@ -29,58 +29,58 @@ export function StockRuntimeAtAGlance({ scoringLabel, snapshot }: StockRuntimeAt
         <article className={snapshot.compositeScore >= 70 ? "active" : "readying"}>
           <span>狀態</span>
           <strong>{snapshot.signal.title}</strong>
-          <p>成因：趨勢、品質、評價、廣度、資金與總體風險共同形成目前燈號。</p>
+          <p>{snapshot.signal.text}</p>
         </article>
         <article className={snapshot.riskScore >= 60 ? "blocked" : "readying"}>
-          <span>影響級別</span>
+          <span>風險級別</span>
           <strong>{impactLevel}</strong>
           <p>資料更新時間：{formatTaipeiTime(snapshot.lastUpdatedAt)}</p>
-          <p>下一步：先複核風險分數與資料邊界，再決定是否加強觀察。</p>
+          <p>若風險升高，請先確認是趨勢、資金、估值或資料品質造成。</p>
         </article>
         <article className="blocked">
           <span>資料邊界</span>
-          <strong>展示資料 / 示範分數</strong>
-          <p>目前前台仍使用展示資料與示範分數，尚未切換到正式資料來源。</p>
-          <p>分數來源：{scoringLabel}</p>
-        <p>{dataReadiness.stopLine.replace(/publicDataSource|scoreSource|promotion gate/gu, "正式資料切換")}</p>
+          <strong>示範資料 / 示範分數</strong>
+          <p>目前尚未宣稱正式即時資料，請勿把示範分數視為投資建議。</p>
+          <p>分數標籤：{scoringLabel}</p>
+          <p>{toPublicDataStopLine(dataReadiness.stopLine)}</p>
         </article>
       </div>
 
-      <div className="stock-runtime-user-contract" aria-label="標的頁公開資料判讀提示">
-        <p className="eyebrow">30 秒快速閱讀</p>
-        <h3>把單一標的放回市場脈絡</h3>
+      <div className="stock-runtime-user-contract" aria-label="標的頁使用說明">
+        <p className="eyebrow">3 分鐘觀察流程</p>
+        <h3>從燈號、原因、資料狀態到下一步觀察</h3>
         <p>
-          市場分數用來協助排序觀察順序；目前仍是示範資料與示範分數，正式每日資料尚未啟用。
+          標的頁不是交易工具。使用者應先理解市場狀態，再複核資料時間、主要風險與後續觀察條件。
         </p>
-        <div className="hero-status-strip" aria-label="標的頁行動邊界">
-          <span>30 秒可用</span>
-          <span>3 分鐘要複核</span>
-          <span>不能當成個股買賣指令</span>
-          <span>示範資料與示範分數</span>
+        <div className="hero-status-strip" aria-label="標的頁重點">
+          <span>30 秒可讀</span>
+          <span>3 分鐘可複核</span>
+          <span>非投資建議</span>
+          <span>資料狀態清楚揭露</span>
         </div>
       </div>
 
-      <div className="stock-runtime-action-strip" aria-label="3 分鐘判斷順序">
+      <div className="stock-runtime-action-strip" aria-label="3 分鐘觀察步驟">
         <article className="active">
           <span>1</span>
-          <strong>看狀態</strong>
+          <strong>看燈號</strong>
           <p>先確認目前是偏多、觀望、警戒或高風險。</p>
         </article>
         <article className="readying">
           <span>2</span>
-          <strong>看成因與影響級別</strong>
-          <p>再確認燈號是由哪些指標造成，以及風險是否升高。</p>
+          <strong>看風險來源</strong>
+          <p>確認風險是否集中在趨勢、資金、估值或資料品質。</p>
         </article>
         <article className="blocked">
           <span>3</span>
-          <strong>看資料更新時間</strong>
-          <p>資料未完成上線前，不應直接視為個股買賣建議。</p>
+          <strong>看資料狀態</strong>
+          <p>若資料仍為示範或尚未更新，請不要用單一分數做判斷。</p>
         </article>
       </div>
 
-      <div className="stock-runtime-headline-summary" aria-label="標的閱讀摘要">
+      <div className="stock-runtime-headline-summary" aria-label="標的重點摘要">
         <div>
-          <span>閱讀摘要</span>
+          <span>重點摘要</span>
           <strong>{headlineSummary.headline}</strong>
           <p>{headlineSummary.subhead}</p>
         </div>
@@ -98,10 +98,10 @@ export function StockRuntimeAtAGlance({ scoringLabel, snapshot }: StockRuntimeAt
         <TrackedLink
           eventName="stock_link_clicked"
           href="/briefing"
-          label="查看市場簡報"
+          label="查看市場快報"
           payload={{ area: "stock_runtime_next_links", symbol: snapshot.asset.symbol }}
         >
-          查看市場簡報
+          查看市場快報
         </TrackedLink>
         <TrackedLink
           eventName="trust_link_clicked"
@@ -126,4 +126,10 @@ export function StockRuntimeAtAGlance({ scoringLabel, snapshot }: StockRuntimeAt
 
 function formatTaipeiTime(value: string) {
   return value.replace("T", " ").replace("+08:00", " 台北時間");
+}
+
+function toPublicDataStopLine(value: string) {
+  return value
+    .replace(/publicDataSource|scoreSource/gu, "正式資料切換檢查")
+    .replace(new RegExp("promotion\\s+gates?", "gu"), "正式資料切換檢查");
 }

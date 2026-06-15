@@ -12,8 +12,8 @@ import {
 import type { SignalSnapshot } from "@/lib/signal-model";
 
 export const metadata: Metadata = {
-  title: "市場週報",
-  description: "整理一週市場燈號、風險變化與後續觀察重點。"
+  title: "週報",
+  description: "整理本週市場燈號、風險重點與下一週觀察方向。"
 };
 
 export default async function WeeklyPage() {
@@ -33,41 +33,41 @@ export default async function WeeklyPage() {
       <PageViewTracker eventName="weekly_page_viewed" payload={{ page: "weekly" }} />
 
       <section className="hero">
-        <p className="eyebrow">市場週報</p>
-        <h1>用較長時間脈絡檢查市場燈號</h1>
+        <p className="eyebrow">週報</p>
+        <h1>市場週報：把一週市場狀態整理成可追蹤的觀察清單</h1>
         <p>
-          週報協助使用者回看市場狀態是否延續、風險是否集中，以及下一週需要優先觀察哪些指標。
+          週報用來回看市場燈號、風險分數與相對強弱，協助你建立固定的盤後或週末檢查流程。
         </p>
-        <p className="runtime-boundary-line">目前仍為公開 Beta 示範資料，不宣稱即時真實資料或投資建議。</p>
+        <p className="runtime-boundary-line">目前仍是公開版示範資料，正式資料上線前不作投資建議。</p>
       </section>
 
       <section className="weekly-quick-read" aria-label="週報快讀">
         <article>
-          <span>市場燈號</span>
+          <span>市場狀態</span>
           <strong>{market.signal.title}</strong>
           <p>{market.signal.text}</p>
         </article>
         <article>
-          <span>最高風險樣本</span>
+          <span>最高風險觀察</span>
           <strong>{topRisk.asset.name}</strong>
           <p>
-            風險分數 {topRisk.riskScore}/100。若風險分數持續升高，建議先保守觀察。
+            風險分數 {topRisk.riskScore}/100。若風險偏高，適合先檢查原因，再決定是否降低曝險。
           </p>
         </article>
         <article>
-          <span>資料提醒</span>
+          <span>資料狀態</span>
           <strong>示範資料</strong>
-          <p>資料真實化 gate 完成前，週報只用來展示閱讀流程與資訊層級。</p>
+          <p>資料真實化完成前，週報只用來展示閱讀流程與資訊層級。</p>
         </article>
       </section>
 
-      <section className="weekly-grid" aria-label="週報觀察清單">
+      <section className="weekly-grid" aria-label="週報觀察標的">
         {strongest.map((snapshot) => (
           <article className="panel" key={snapshot.asset.symbol}>
             <p className="eyebrow">{snapshot.asset.symbol}</p>
             <h2>{snapshot.asset.name}</h2>
             <p>
-              綜合分數 {snapshot.compositeScore}/100，風險分數 {snapshot.riskScore}/100。請搭配市場總覽一起閱讀。
+              綜合分數 {snapshot.compositeScore}/100，風險分數 {snapshot.riskScore}/100。可作為本週相對強弱觀察項目。
             </p>
             <TrackedLink
               eventName="weekly_link_clicked"
@@ -75,7 +75,7 @@ export default async function WeeklyPage() {
               label={`查看 ${snapshot.asset.name}`}
               payload={{ area: "weekly", symbol: snapshot.asset.symbol }}
             >
-              查看標的燈號
+              查看燈號
             </TrackedLink>
           </article>
         ))}

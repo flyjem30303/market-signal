@@ -17,31 +17,31 @@ type LinkItem = {
 const contextCopy = {
   briefing: {
     ariaLabel: "市場快報下一步",
-    body: "讀完快報後，可以回首頁確認總覽，或進入標的頁看單一標的的燈號與風險。",
+    body: "看完快報後，可以回到首頁確認全市場狀態，或進入標的頁複核分數與風險原因。",
     eyebrow: "下一步",
     eventName: "briefing_link_clicked",
-    title: "從 30 秒快讀進到 3 分鐘觀察"
+    title: "從快讀進入細節"
   },
   home: {
     ariaLabel: "首頁下一步",
-    body: "首頁先看市場氛圍，再進入快報、週報或標的頁確認原因與更新時間。",
+    body: "先用首頁掌握市場氣氛，再進入快報、週報或標的頁確認需要追蹤的風險。",
     eyebrow: "下一步",
     eventName: "home_cta_clicked",
-    title: "先看總覽，再看原因"
+    title: "看完總覽後怎麼做"
   },
   stock: {
     ariaLabel: "標的頁下一步",
-    body: "看完單一標的後，可以回市場快報確認整體氛圍，避免只用單一標的判斷。",
+    body: "看完單一標的後，可以回到市場快報或週報，確認它在整體市場中的位置。",
     eyebrow: "下一步",
     eventName: "stock_link_clicked",
-    title: "把標的放回市場脈絡"
+    title: "把單一標的放回市場脈絡"
   },
   weekly: {
     ariaLabel: "週報下一步",
-    body: "週報整理較長時間的觀察重點，下一步可回首頁或進入快報確認最新狀態。",
+    body: "週報適合回看一段時間的市場狀態；若需要更即時的判讀，請回到市場快報或標的頁。",
     eyebrow: "下一步",
     eventName: "weekly_link_clicked",
-    title: "用週報補足時間脈絡"
+    title: "從週報回到當前狀態"
   }
 } satisfies Record<
   PublicNextReadingFlowContext,
@@ -66,7 +66,7 @@ export function PublicNextReadingFlow({ context, stockSymbol = "TWII" }: PublicN
         <p>{copy.body}</p>
       </div>
       <nav className="experience-flow-nav" aria-label={`${copy.ariaLabel}連結`}>
-        <span>建議閱讀</span>
+        <span>建議路徑</span>
         {links.map((link) => (
           <TrackedLink
             eventName={copy.eventName}

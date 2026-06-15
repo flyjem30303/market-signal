@@ -1,43 +1,43 @@
 export function BriefingPublicBetaGateSummary() {
   return (
-    <section className="panel briefing-public-beta-gate-summary" aria-label="公開 Beta 使用狀態摘要">
+    <section className="panel briefing-public-beta-gate-summary" aria-label="公開版使用狀態摘要">
       <div>
-        <p className="eyebrow">公開 Beta 使用狀態</p>
-        <h2>目前公開頁可閱讀，資料仍以示範狀態呈現</h2>
+        <p className="eyebrow">公開版使用狀態</p>
+        <h2>目前可用來理解市場燈號與閱讀流程</h2>
         <p>
-          本摘要只保留使用者需要知道的內容：目前能看市場燈號、風險提示與更新狀態；正式資料與會員功能會在後續階段開放。
+          本摘要只保留使用者需要知道的內容：目前能看市場燈號、風險提示與更新狀態；正式資料與進階功能會在後續 gate 通過後才開放。
         </p>
       </div>
 
       <div className="briefing-public-beta-gate-grid">
         <article className="ready">
-          <span>30 秒可讀</span>
-          <strong>市場氣氛清楚</strong>
-          <p>使用者可先看市場主燈號、核心指標與今日提醒。</p>
+          <span>30 秒快讀</span>
+          <strong>市場狀態可閱讀</strong>
+          <p>使用者可以快速看到市場目前偏多、觀望或警戒。</p>
         </article>
 
         <article className="ready">
           <span>3 分鐘判斷</span>
-          <strong>行動順序清楚</strong>
-          <p>頁面引導使用者依序看市場氣氛、風險最高標的、資料狀態與下一步閱讀。</p>
+          <strong>風險來源可追蹤</strong>
+          <p>頁面會引導使用者從市場總覽進入標的、方法與風險聲明。</p>
         </article>
 
         <article className="hold">
-          <span>資料邊界</span>
-          <strong>示範資料</strong>
-          <p>正式資料尚未啟用，頁面不宣稱即時真實資料。</p>
+          <span>資料狀態</span>
+          <strong>仍是示範資料</strong>
+          <p>正式資料必須等來源權利、覆蓋率與品質 gate 通過。</p>
         </article>
 
         <article className="hold">
-          <span>會員下一階段</span>
-          <strong>會員功能尚未開放</strong>
-          <p>登入、付費、自選追蹤與自訂警示仍屬後續實作。</p>
+          <span>後續功能</span>
+          <strong>不放入 Phase 1 主流程</strong>
+          <p>Phase 1 先把公開免費版做好，不在頁面上承諾尚未完成的功能。</p>
         </article>
       </div>
 
       <footer className="briefing-public-beta-gate-footer">
-        <strong>使用邊界</strong>
-        <p>本網站提供市場資訊整理與風險辨識輔助，不提供個股買賣建議，也不保證任何投資結果。</p>
+        <strong>使用提醒</strong>
+        <p>目前內容是市場資訊整理與風險辨識輔助，不提供個股買賣建議或保證報酬。</p>
       </footer>
     </section>
   );

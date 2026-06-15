@@ -4,16 +4,16 @@ type PublicDataSourceBoundaryNoticeProps = {
 
 const contextCopy = {
   home: {
-    title: "目前資料仍是示範狀態",
-    lead: "首頁用來呈現指數燈號的閱讀方式。資料真實化完成前，請把分數與燈號視為產品示範。"
+    title: "資料來源仍在上線前檢查",
+    lead: "目前市場畫面先以示範資料呈現閱讀流程；正式資料需完成來源權利、覆蓋率、品質與寫入回讀檢查後才會切換。"
   },
   briefing: {
-    title: "市場快報仍保留資料邊界",
-    lead: "快報協助整理市場氛圍與觀察重點，但目前尚未宣稱使用完整真實資料。"
+    title: "快報資料仍屬示範模式",
+    lead: "市場快報用來展示燈號、風險與觀察順序；正式資料切換前，不會宣稱即時或完整覆蓋。"
   },
   stock: {
-    title: "個別標的頁仍是觀察輔助",
-    lead: "標的燈號用來示範如何閱讀狀態、原因與風險，不能視為個股買賣建議。"
+    title: "個股與指數資料仍在驗證",
+    lead: "此頁先展示使用者應如何閱讀燈號、原因與資料時間；正式資料需通過上線前檢查。"
   }
 } as const;
 
@@ -21,7 +21,7 @@ export function PublicDataSourceBoundaryNotice({ context }: PublicDataSourceBoun
   const copy = contextCopy[context];
 
   return (
-    <section className="public-data-source-boundary-notice" aria-label="資料來源與風險邊界">
+    <section className="public-data-source-boundary-notice" aria-label="資料來源邊界">
       <div className="public-data-source-boundary-notice__intro">
         <p className="eyebrow">資料邊界</p>
         <h2>{copy.title}</h2>
@@ -29,20 +29,20 @@ export function PublicDataSourceBoundaryNotice({ context }: PublicDataSourceBoun
       </div>
       <ul>
         <li>
-          <strong>來源</strong>
-          <span>正式切換前會清楚標示來源、更新時間與資料延遲。</span>
+          <strong>目前可用</strong>
+          <span>市場燈號、風險提示、更新時間與閱讀路徑可先被驗證。</span>
         </li>
         <li>
-          <strong>用途</strong>
-          <span>本網站定位是市場資訊整理與風險辨識，不是交易指令。</span>
+          <strong>目前不可宣稱</strong>
+          <span>不得宣稱正式即時資料、完整市場覆蓋或投資建議。</span>
         </li>
         <li>
-          <strong>限制</strong>
-          <span>資料異常、延遲或覆蓋率不足時，前台會保留提示，避免使用者誤判。</span>
+          <strong>正式資料切換條件</strong>
+          <span>合法來源、資料覆蓋率、品質驗證、寫入回讀與公開說明都通過後才會切換。</span>
         </li>
       </ul>
       <p className="public-data-source-boundary-notice__footnote">
-        所有燈號都應搭配原因、更新時間與風險提示一起閱讀。
+        若資料異常或尚未更新，前台需清楚顯示狀態，避免使用者誤判。
       </p>
     </section>
   );

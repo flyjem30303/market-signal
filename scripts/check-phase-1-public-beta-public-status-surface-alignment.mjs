@@ -5,22 +5,24 @@ const baseUrl = process.env.LOCALHOST_BASE_URL ?? "http://localhost:3000";
 const sourcePaths = [
   "src/components/dashboard-shell.tsx",
   "src/app/briefing/page.tsx",
+  "src/app/weekly/page.tsx",
   "src/components/data-freshness-strip.tsx",
   "src/components/public-data-source-boundary-notice.tsx",
   "src/components/trust-runtime-boundary-notice.tsx",
+  "src/components/public-next-reading-flow.tsx",
   "src/app/globals.css"
 ];
 const requiredPublicPhrases = [
-  "指數狀態儀表站",
-  "30 秒看懂市場氛圍",
+  "目前市場",
+  "30 秒",
   "資料狀態",
-  "風險提醒",
+  "風險聲明",
   "市場快報",
   "資料邊界"
 ];
 const routeRequiredPhrases = {
-  "/": ["指數狀態儀表站", "30 秒看懂市場氛圍", "資料狀態", "風險提醒"],
-  "/briefing": ["市場快報", "30 秒看市場狀態", "下一步觀察", "資料邊界"]
+  "/": ["目前市場", "30 秒", "資料狀態", "風險聲明"],
+  "/briefing": ["市場快報", "30 秒看懂市場燈號", "下一步行動", "資料邊界"]
 };
 const forbiddenPublicStatusFragments = [
   "KEEP_OPEN_WITH_DEFERRALS",
@@ -94,7 +96,7 @@ for (const route of ["/", "/briefing"]) {
 }
 
 for (const route of ["/stocks/TWII", "/stocks/2330", "/stocks/0050"]) {
-  stockRouteResults.push(await checkRoute(route, ["標的摘要", "綜合分數", "風險分數"], stockForbiddenSurfacePhrases));
+  stockRouteResults.push(await checkRoute(route, ["標的燈號", "綜合分數", "風險分數"], stockForbiddenSurfacePhrases));
 }
 
 const sourceMojibakeHits = findMojibakeMarkers(sourceText);
@@ -184,8 +186,8 @@ function findMojibakeMarkers(source) {
   if (/\uFFFD/u.test(source)) markers.push("replacement-character");
   if (/[\uE000-\uF8FF]/u.test(source)) markers.push("private-use-codepoint");
   if (/\?{3,}/u.test(source)) markers.push("question-mark-run");
-  for (const fragment of ["撣", "蝪", "嚗", "鞈", "雿", "銝", "瘥", "蝘", "閬", "憸", "甇", "蝷"]) {
-    if (source.includes(fragment)) markers.push(`mojibake-fragment:${fragment}`);
+  if (/(?:嚗|銝|蝭|憟|璅|鞈|撣|閮|瘥|摨|甈|雿|蹐|蹓||){2,}/u.test(source)) {
+    markers.push("common-mojibake-run");
   }
   return markers;
 }

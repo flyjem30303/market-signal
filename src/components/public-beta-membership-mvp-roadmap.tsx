@@ -1,31 +1,29 @@
-// Membership roadmap source marker; public copy stays Traditional Chinese.
 const roadmapCards = [
   {
-    body: "每天用市場總觀、關鍵指標變化、後續觀察重點三段式，讓會員快速理解燈號背後的原因。",
-    label: "深度解讀",
+    body: "未來可把市場總覽拆成市場總觀、關鍵指標變化與後續觀察重點，但 Phase 1 不把它做成已上線承諾。",
+    label: "後續規劃",
     title: "每日市場三層解讀"
   },
   {
-    body: "讓使用者追蹤自己關心的指數、ETF 或指標，並設定至少一種提醒條件。",
-    label: "個人化追蹤",
-    title: "自選追蹤與自訂警示"
+    body: "未來可提供個人化追蹤與提醒，但 Phase 1 不啟用帳號、付費、自選清單儲存或個人化警示。",
+    label: "後續規劃",
+    title: "個人化追蹤"
   },
   {
-    body: "回看當日燈號是否有效、哪些訊號值得隔日追蹤，逐步建立自己的觀察節奏。",
-    label: "複盤與學習",
-    title: "盤後複盤報告"
+    body: "未來可回看燈號變化與判讀品質，但 Phase 1 先完成公開資料狀態、方法說明與風險揭露。",
+    label: "後續規劃",
+    title: "盤後複盤與學習"
   }
 ];
 
 export function PublicBetaMembershipMvpRoadmap() {
   return (
-    <section className="public-beta-membership-roadmap" aria-label="會員功能規劃">
+    <section className="public-beta-membership-roadmap" aria-label="後續功能規劃">
       <div className="public-beta-membership-roadmap__intro">
-        <p className="eyebrow">會員功能預告</p>
-        <h2>下一階段：從看到燈號，升級成理解燈號</h2>
+        <p className="eyebrow">後續功能規劃</p>
+        <h2>Phase 1 先完成公開免費版，進階功能不放入目前上線承諾</h2>
         <p>
-          第一階段先把免費市場總覽做好；會員功能會在後續階段導入，重點是深度解讀、個人化追蹤與盤後複盤，
-          不提供買賣建議或個別買賣建議，也不代替使用者做投資決策。
+          本區塊只描述後續產品方向，不代表目前已提供登入、付費、個人化追蹤、警示執行或專屬內容。
         </p>
       </div>
       <div className="public-beta-membership-roadmap__grid">
@@ -39,11 +37,10 @@ export function PublicBetaMembershipMvpRoadmap() {
       </div>
       <div className="public-beta-membership-roadmap__boundary">
         <p>
-          會員內容會以觀察、風險提醒、情境判斷與資料解讀為核心。初期不做下單、不串接券商、不提供資產配置建議，
-          也不承諾任何報酬。
+          目前公開版的目標是讓使用者看懂市場燈號、核心指標、主要風險與資料更新狀態。
         </p>
         <p>
-          目前不提供會員登入、付費、自選追蹤儲存、個人化警示執行或會員專屬內容。
+          若未來啟用會員或個人化功能，會先補齊資料使用、付款、權限、風險揭露與客服流程。
         </p>
       </div>
     </section>
