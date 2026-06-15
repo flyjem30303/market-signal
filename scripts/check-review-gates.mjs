@@ -3473,6 +3473,11 @@ const checks = [
     name: "phase-1-data-online-execution-selector"
   },
   {
+    command: [node, "scripts/check-phase-1-data-online-parallel-unblock-selector.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-data-online-parallel-unblock-selector"
+  },
+  {
     command: [node, "scripts/check-twii-exact-execution-preflight-repair-selector.mjs"],
     expectStatus: "ok",
     name: "twii-exact-execution-preflight-repair-selector"
@@ -6487,6 +6492,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "phase-1-etf-coverage-closure-readiness-rollup",
   "phase-1-etf-parallel-coverage-repair-selector",
   "phase-1-data-online-execution-selector",
+  "phase-1-data-online-parallel-unblock-selector",
   "twii-exact-execution-preflight-repair-selector",
   "twii-source-rights-outcome-acceptance-gate",
   "twii-field-contract-asset-mapping-alignment-gate",

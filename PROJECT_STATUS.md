@@ -2,6 +2,56 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Data Online Parallel Unblock Selector
+
+Status: `phase_1_data_online_parallel_unblock_selector_ready_no_execution`
+
+CEO decision:
+
+- Keep the active GOAL focused on Phase 1 launch readiness including data online.
+- Stop treating data-online as a single-lane TWII wait state.
+- Run TWII operator-value preparation, ETF source-rights acceptance evidence, and A2 public-copy guard in parallel while preserving mock runtime truthfulness.
+
+PM completed:
+
+- Added `docs/PHASE_1_DATA_ONLINE_PARALLEL_UNBLOCK_SELECTOR.md`.
+- Added `check:phase-1-data-online-parallel-unblock-selector`.
+- Registered the checker in the focused review gate.
+- Confirmed the selector ties together the current TWII, ETF, data-online, A2 copy, and final public-route readiness gates.
+
+Current data-online position:
+
+- Phase 1 data-online decision remains `PUBLIC_RUNTIME_READY_BUT_DATA_ONLINE_NO_GO`.
+- Full Level 1 coverage remains `182/360`; missing `178`.
+- TW equity rows remain `180/180`.
+- TWII missing rows remain `60`.
+- ETF missing rows remain `118`.
+- TWII execution allowed now remains `false`.
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+
+Workstream assignment:
+
+- PM mainline: `keep_parallel_unblock_selector_current_until_one_lane_becomes_executable`.
+- A1 TWII: `prepare_twii_operator_values_shape_review_without_value_storage_or_execution`.
+- A1 ETF: `prepare_etf_source_rights_acceptance_evidence_without_market_row_fetch`.
+- A2 trust/public copy: `review_twii_etf_public_copy_against_non_advice_and_source_boundary`.
+
+Evidence:
+
+- `cmd.exe /c npm run check:phase-1-data-online-parallel-unblock-selector` passes.
+- `cmd.exe /c npm run check:phase-1-data-online-execution-selector` passes.
+- `cmd.exe /c npm run check:phase-1-etf-parallel-coverage-repair-selector` passes.
+- `cmd.exe /c npm run check:phase-1-twii-operator-decision-intake-readiness` passes.
+
+Boundary:
+
+No SQL, Supabase connection/read/write, staging-row creation, `daily_prices` mutation, TWII/ETF market-row fetch, raw payload output, endpoint response output, operator value storage, candidate row acceptance, row coverage points, source promotion, score promotion, real-time claim, official endorsement claim, investment advice claim, production environment mutation, DNS change, broad visual redesign, or Phase 2 membership implementation occurred.
+
+Next route:
+
+Continue A1/A2 data unblock in parallel. PM should integrate only accepted aggregate-safe outputs. The first lane that becomes executable must still open a separate authorization gate before any write/readback/promotion action.
+
 ### Phase 1 Public Beta Final Route Gate Cleanup
 
 Status: `phase_1_public_beta_final_route_gate_ready_data_online_no_go`
