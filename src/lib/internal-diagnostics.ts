@@ -1,10 +1,6 @@
 import { notFound } from "next/navigation";
 
 export function assertInternalDiagnosticsAccess(token?: string | null) {
-  if (process.env.NEXT_PHASE === "phase-production-build") {
-    return;
-  }
-
   if (process.env.INTERNAL_DIAGNOSTICS_ENABLED !== "true") {
     notFound();
   }

@@ -16,7 +16,15 @@ const publicRoutes = [
   "/stocks/2308"
 ];
 
-const inaccessiblePhase2Routes = ["/membership", "/watchlist"];
+const inaccessiblePhase2Routes = [
+  "/membership",
+  "/watchlist",
+  "/internal",
+  "/internal/cp3-dry-run",
+  "/internal/raw-market-preview",
+  "/internal/etf-source-readiness",
+  "/api/internal/raw-market"
+];
 
 const requiredPublicSignals = {
   "/": ["市場總覽", "30 秒看懂今天的市場狀態", "資料狀態", "重要提醒"],
