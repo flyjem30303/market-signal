@@ -2,6 +2,55 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Data Online External Platform Ledger Append No Execution
+
+Status: `phase_1_data_online_external_platform_ledger_append_no_execution_ready`
+
+CEO decision:
+
+- Append the reviewed and approved external platform candidate entries into the local acceptance ledger.
+- Keep this append slice local-only and no-execution.
+- Do not treat the append as readonly authorization, write authorization, or runtime source promotion.
+
+PM completed:
+
+- Updated `data/evidence-intake/phase-1-external-platform-acceptance-ledger.json` from 2 entries to 7 entries.
+- Appended the 5 accepted candidate entries from `phase-1-external-platform-ledger-sync-candidate.json`.
+- Added `docs/PHASE_1_DATA_ONLINE_EXTERNAL_PLATFORM_LEDGER_APPEND_NO_EXECUTION.md`.
+- Added `check:phase-1-data-online-external-platform-ledger-append-no-execution`.
+- Registered the checker in the focused review gate.
+- Confirmed the prior apply gate and current data-online state remain aligned.
+
+Append output:
+
+- `ledgerAppendApplied=true`.
+- `appendedCandidateCount=5`.
+- `ledgerEntryCount=7`.
+- `readyForReadonlyGate=false`.
+- `writeGateExecutableNow=false`.
+
+Current data-online position:
+
+- Phase 1 data-online decision remains `PUBLIC_RUNTIME_READY_BUT_DATA_ONLINE_NO_GO`.
+- Current Level 1 coverage remains `182/360`; missing rows remain `178/360`.
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+
+Evidence:
+
+- `cmd.exe /c npm run check:phase-1-data-online-external-platform-ledger-append-no-execution` passes and confirms the append without opening execution gates.
+- `cmd.exe /c npm run check:phase-1-data-online-external-platform-ledger-sync-apply-gate-no-execution` passes and remains the upstream proof for append approval.
+- `cmd.exe /c npm run check:phase-1-data-online-go-no-go-status` passes and remains `NO_GO`.
+- `cmd.exe /c npm run check:review-gates` was attempted after registration but timed out after 304 seconds before returning a pass/fail report; do not treat the full focused review gate as passed for this slice.
+
+Boundary:
+
+No SQL, Supabase connection/read/write, staging-row creation, `daily_prices` mutation, market-row fetch, raw payload output, endpoint response output, credential value output, operator value output, execution value storage, readonly-gate opening, write-gate execution, source promotion, score promotion, public real-data claim, real-time claim, official endorsement claim, investment advice claim, or production mutation occurred.
+
+Next route:
+
+CEO should prepare a readonly gate readiness preflight / platform evidence disposition summary. That route may identify the next explicit human-operated Supabase readonly attempt, but it must not execute remote reads or writes without a separate named authorization.
+
 ### Phase 1 Data Online External Platform Ledger Sync Apply Gate No Execution
 
 Status: `phase_1_data_online_external_platform_ledger_sync_apply_gate_no_execution_ready`

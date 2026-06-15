@@ -27,6 +27,51 @@
         "serviceRoleKey",
         "sqlStatement"
       ]
+    },
+    {
+      "id": "phase1-ext-platform-schema-cache-completed-candidate",
+      "evidenceItem": "schema_cache_evidence_required",
+      "decision": "accepted",
+      "validatorResult": "passed",
+      "nonSecretSummary": "Schema cache evidence remains represented as a non-secret observation placeholder.",
+      "recordedAtLocal": "2026-06-15T00:00:00+08:00",
+      "rejectReasons": []
+    },
+    {
+      "id": "phase1-ext-platform-dashboard-api-completed-candidate",
+      "evidenceItem": "dashboard_api_exposure_evidence_required",
+      "decision": "accepted",
+      "validatorResult": "passed",
+      "nonSecretSummary": "Dashboard and API exposure evidence remains pending without endpoint payloads.",
+      "recordedAtLocal": "2026-06-15T00:00:00+08:00",
+      "rejectReasons": []
+    },
+    {
+      "id": "phase1-ext-platform-pgrst205-completed-candidate",
+      "evidenceItem": "pgrst205_regression_evidence_required",
+      "decision": "accepted",
+      "validatorResult": "passed",
+      "nonSecretSummary": "PGRST205 regression evidence remains pending without response body capture.",
+      "recordedAtLocal": "2026-06-15T00:00:00+08:00",
+      "rejectReasons": []
+    },
+    {
+      "id": "phase1-ext-platform-metadata-completed-candidate",
+      "evidenceItem": "metadata_readiness_evidence_required",
+      "decision": "accepted",
+      "validatorResult": "passed",
+      "nonSecretSummary": "Metadata readiness evidence remains pending with only field-readiness summary allowed.",
+      "recordedAtLocal": "2026-06-15T00:00:00+08:00",
+      "rejectReasons": []
+    },
+    {
+      "id": "phase1-ext-platform-write-path-completed-candidate",
+      "evidenceItem": "write_path_exposure_evidence_required",
+      "decision": "accepted",
+      "validatorResult": "passed",
+      "nonSecretSummary": "Write path exposure evidence remains pending and does not authorize execution.",
+      "recordedAtLocal": "2026-06-15T00:00:00+08:00",
+      "rejectReasons": []
     }
   ]
 }

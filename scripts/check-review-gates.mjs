@@ -3618,6 +3618,11 @@ const checks = [
     name: "phase-1-data-online-external-platform-ledger-sync-apply-gate-no-execution"
   },
   {
+    command: [node, "scripts/check-phase-1-data-online-external-platform-ledger-append-no-execution.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-data-online-external-platform-ledger-append-no-execution"
+  },
+  {
     command: [node, "scripts/check-twii-exact-execution-preflight-repair-selector.mjs"],
     expectStatus: "ok",
     name: "twii-exact-execution-preflight-repair-selector"
@@ -6661,6 +6666,7 @@ const publicBetaFocusedReviewGateNames = new Set([
   "phase-1-data-online-external-platform-completed-evidence-validator-no-execution",
   "phase-1-data-online-external-platform-ledger-sync-candidate-no-execution",
   "phase-1-data-online-external-platform-ledger-sync-apply-gate-no-execution",
+  "phase-1-data-online-external-platform-ledger-append-no-execution",
   "twii-exact-execution-preflight-repair-selector",
   "twii-source-rights-outcome-acceptance-gate",
   "twii-field-contract-asset-mapping-alignment-gate",
