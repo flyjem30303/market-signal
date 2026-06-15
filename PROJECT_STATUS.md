@@ -37,6 +37,35 @@ Next:
 
 Provide separately accepted sanitized row-payload candidate artifacts for `TWII`, `0050`, and `006208`, or keep Phase 1 data online at `NO_GO`.
 
+### Latest Phase 1 sanitized row-payload candidate artifact spec
+
+Status: `phase_1_sanitized_row_payload_candidate_artifact_spec_ready_no_market_rows`
+
+CEO decision:
+
+- Keep Phase 1 data-online work moving by converting the current `candidate_row_payloads_missing` blocker into a concrete A1 delivery spec.
+- Require local or external artifact paths by default, not committed market row payloads.
+- Future validation must output aggregate counts only and must not print row bodies, stock ids, secrets, raw payloads, authorization values, confirmation phrases, or credential values.
+
+PM completed:
+
+- Added `docs/PHASE_1_SANITIZED_ROW_PAYLOAD_CANDIDATE_ARTIFACT_SPEC.md`.
+- Added `scripts/check-phase-1-sanitized-row-payload-candidate-artifact-spec.mjs`.
+- Registered `check:phase-1-sanitized-row-payload-candidate-artifact-spec`.
+
+Current A1 assignment:
+
+- Prepare a local or external sanitized row-payload candidate artifact path for `TWII`, `0050`, and `006208`.
+- Return only path, artifact id, aggregate counts, symbols covered, date bounds, duplicate count, rejected count, forbidden-field count, and safety flags.
+
+Boundary:
+
+- No SQL, Supabase read/write, staging row creation, `daily_prices` mutation, market-data fetch/store/commit, committed market row payloads, row payload output, source promotion, real score promotion, membership implementation, production env mutation, DNS change, Vercel mutation, or platform deploy occurred.
+
+Next:
+
+A1 provides the sanitized row-payload candidate artifact path; PM then adds a validator that reads only the named local/external artifact and emits aggregate counts.
+
 ### Latest TWSE runtime mock wire public copy repair
 
 Status: `twse_openapi_runtime_mock_consumer_wire_public_copy_readable`
