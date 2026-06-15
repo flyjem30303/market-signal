@@ -2,6 +2,48 @@
 
 ## Latest Effective Status - 2026-06-15
 
+### Phase 1 Final Operator Value Stopline Ready
+
+Status: `phase_1_final_operator_value_stopline_ready_no_execution`
+
+CEO decision:
+
+- Stop expanding governance. The remaining operator stopline is only two boolean presence fields.
+- Do not ask for, store, print, hash, compare, transform, or commit any actual switch value or confirmation phrase value.
+- Keep write gate closed until both missing booleans are true in a separate no-secret reviewed result.
+
+PM completed:
+
+- Added `data/evidence-intake/phase-1-final-operator-value-stopline.json`.
+- Added `docs/PHASE_1_FINAL_OPERATOR_VALUE_STOPLINE.md`.
+- Added and registered `check:phase-1-final-operator-value-stopline`.
+
+Verified:
+
+- `cmd.exe /c npm run check:phase-1-final-operator-value-stopline` passes.
+
+Current blocker view:
+
+- Remaining required booleans are `executeSwitchPresent` and `confirmationPhrasePresent`.
+- Remaining active blockers are `operator_values_missing` and `operator_owned_presence_confirmation_unverified`.
+- Write gate remains non-executable.
+
+Current boundary:
+
+- `publicDataSource=mock`.
+- `scoreSource=mock`.
+- No switch value, confirmation phrase, operator value, credential value, raw payload, row payload, or secret was printed, stored, hashed, compared, or transformed.
+- No SQL, Supabase read/write, staging row, `daily_prices` mutation, market-data fetch/ingestion, source promotion, score promotion, public real-data claim, or investment-advice claim occurred.
+
+Next operator reply:
+
+Reply with booleans only, no values:
+
+```text
+executeSwitchPresent=true/false
+confirmationPhrasePresent=true/false
+```
+
 ### Phase 1 External Operator Presence Partial Result Accepted
 
 Status: `phase_1_external_operator_presence_reviewed_result_ready_partial_boolean_only`
