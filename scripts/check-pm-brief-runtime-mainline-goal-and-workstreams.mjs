@@ -27,6 +27,10 @@ const requiredPhrases = [
   [docPath, doc, "A3 Launch / Production Engineering Lane"],
   [docPath, doc, "A4 Membership MVP Planning Lane"],
   [docPath, doc, "Avoid over-governance"],
+  [docPath, doc, "phase_1_public_free_index_dashboard_usable_loop"],
+  [docPath, doc, "phase_1_runtime_promotion_dry_run_packet_fail_closed_verified"],
+  [docPath, doc, "keep_mock_and_supply_missing_promotion_packet_fields"],
+  [docPath, doc, "phase_1_runtime_promotion_operator_review_before_any_mutation"],
   [docPath, doc, "publicDataSource=mock"],
   [docPath, doc, "scoreSource=mock"],
   [docPath, doc, "no SQL execution"],
@@ -34,13 +38,20 @@ const requiredPhrases = [
   [docPath, doc, "no `daily_prices` mutation"],
   [docPath, doc, "no raw market-data fetch/store/commit"],
   [docPath, doc, "no investment advice"],
-  [docPath, doc, "phase_1_public_free_index_dashboard_usable_loop"],
   [phasePath, phase, "PM mainline: 50%"],
   [phasePath, phase, "A4 Membership MVP Planning: 5% planning-only"],
   [phasePath, phase, "PM remains the integration owner"],
   [briefPath, brief, "指數燈號網站 BRIEF"],
-  [briefPath, brief, "免費市場總覽 + 會員深度解讀 + 個人化追蹤"],
-  [briefPath, brief, "會員 MVP 優先內容"],
+  [briefPath, brief, "Phase 1 是公開免費的指數燈號網站"],
+  [briefPath, brief, "Phase 2 是會員 MVP 路線"],
+  [briefPath, brief, "免費市場總覽"],
+  [briefPath, brief, "會員深度解讀"],
+  [briefPath, brief, "個人化追蹤"],
+  [briefPath, brief, "公開頁不得出現內部開發殘留"],
+  [briefPath, brief, "understand the market mood within 30 seconds"],
+  [briefPath, brief, "decide within 3 minutes"],
+  [briefPath, brief, "Home includes three layers: full-market overview, core indicator panel, alert list"],
+  [briefPath, brief, "Each alert includes status, cause, update time, impact level, and next step"],
   [rolePath, role, "A1: Data / Source / Coverage"],
   [rolePath, role, "A2: Public Copy / Product Safety"],
   [rolePath, role, "A3: Launch / Production Engineering"],
@@ -87,6 +98,7 @@ console.log(
       guardedStatus: "pm_brief_runtime_mainline_goal_ready",
       phase1: "public free index-lighting mainline",
       phase2: "membership MVP deferred",
+      activePromotionRoute: "keep_mock_and_supply_missing_promotion_packet_fields",
       lanes: [
         "PM product/runtime mainline",
         "A1 data/source/coverage",
@@ -116,7 +128,7 @@ function findBadEncodingMarkers(source) {
   if (/\uFFFD/u.test(source)) markers.push("replacement-character");
   if (/[\uE000-\uF8FF]/u.test(source)) markers.push("private-use-character");
   if (/[\u0080-\u009F]/u.test(source)) markers.push("c1-control-character");
-  for (const fragment of ["蝬", "嚗", "銝", "雿", "撣", "摰", "閬", "霈", "蝡", "璅", "餈質馱", "擗", "", "", "芷"]) {
+  for (const fragment of ["?", "?", "嚗", "銝", "瘛勗", "蝬", "鞈", "摰", "憸", "撣", "雿", "餈", "蝷", "閬"]) {
     if (source.includes(fragment)) markers.push(`mojibake-fragment:${fragment}`);
   }
   return markers;

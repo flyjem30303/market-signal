@@ -2,6 +2,35 @@
 
 ## Latest Effective Status - 2026-06-16
 
+### Latest PM BRIEF Operational GOAL Route Cleanup
+
+Status: `pm_brief_runtime_mainline_goal_route_cleanup_verified`
+
+CEO decision:
+
+- Treat corrupted BRIEF text and stale operator route anchors as real execution drag, because they can send PM back into old governance routes.
+- Keep the fix surgical: clean the BRIEF document, update the PM operational route, and update only the matching checker.
+- Preserve Phase 1 as the active public/free index-lighting site and Phase 2 membership as planning only.
+- Keep `publicDataSource=mock` and `scoreSource=mock`.
+
+PM completed:
+
+- Rebuilt `docs/PUBLIC_BETA_INDEX_DASHBOARD_BRIEF.md` into a readable Phase 1 / Phase 2 BRIEF.
+- Updated `docs/PM_BRIEF_RUNTIME_MAINLINE_GOAL_AND_WORKSTREAMS.md` so the current route is `keep_mock_and_supply_missing_promotion_packet_fields`.
+- Rewrote `scripts/check-pm-brief-runtime-mainline-goal-and-workstreams.mjs` so it validates readable BRIEF anchors and the current runtime-promotion route instead of stale mojibake fragments.
+
+Verification:
+
+- `cmd.exe /c scripts\with-node20.cmd npm run check:pm-brief-runtime-mainline-goal-and-workstreams` passed.
+
+Boundary:
+
+- No SQL, Supabase read/write, staging row creation, `daily_prices` mutation, market-data fetch/store/commit, raw payload output, row payload output, source promotion, real score promotion, membership implementation, production env mutation, DNS change, Vercel mutation, or platform secret handling occurred.
+
+Next:
+
+Continue with `keep_mock_and_supply_missing_promotion_packet_fields` while keeping Phase 1 product/runtime work moving. The missing promotion packet fields remain the next real-data promotion prerequisite; they are not a reason to stop public mock Beta improvements.
+
 ### Latest Phase 1 Runtime Promotion Dry-Run Packet
 
 Status: `phase_1_runtime_promotion_dry_run_packet_fail_closed_verified`

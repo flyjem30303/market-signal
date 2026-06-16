@@ -210,9 +210,15 @@ At each coherent slice, PM should:
 
 Current Phase 1 operator route anchor:
 
-- `phase_1_public_beta_operator_decision_or_manual_platform_action_readiness_refresh`
-- `phase_1_public_beta_chairman_operator_decision_readiness_packet_or_repair_ready`
-- `phase_1_public_beta_chairman_operator_decision_2026_06_13_recorded`
+- `phase_1_runtime_promotion_dry_run_packet_fail_closed_verified`
+- `keep_mock_and_supply_missing_promotion_packet_fields`
+- `phase_1_runtime_promotion_operator_review_before_any_mutation`
+
+Current PM interpretation:
+
+- The public mock Beta can keep moving while real-data promotion remains blocked.
+- The next runtime-promotion action is not execution. It is supplying the missing reviewed packet fields: runtime flag name, target value, rollback owner, rollback command, readback command, production smoke command, post-promotion review owner, public-copy fallback line, and freshness fallback line.
+- PM must keep `publicDataSource=mock` and `scoreSource=mock` until the completed packet passes operator review and a separate bounded mutation gate is explicitly opened.
 
 ## Dynamic Workstream Balance
 
