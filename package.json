@@ -346,6 +346,7 @@
     "check:phase-1-runtime-promotion-missing-packet-fields": "node scripts/check-phase-1-runtime-promotion-missing-packet-fields.mjs",
     "check:phase-1-runtime-promotion-field-intake-template": "node scripts/check-phase-1-runtime-promotion-field-intake-template.mjs",
     "check:phase-1-runtime-promotion-field-intake-example": "node scripts/check-phase-1-runtime-promotion-field-intake-example.mjs",
+    "check:phase-1-runtime-promotion-operator-packet-intake": "node scripts/check-phase-1-runtime-promotion-operator-packet-intake.mjs",
     "check:phase-1-twii-bounded-write-operator-decision-quickstart": "node scripts/check-phase-1-twii-bounded-write-operator-decision-quickstart.mjs",
     "check:phase-1-twii-operator-decision-intake-readiness": "node scripts/check-phase-1-twii-operator-decision-intake-readiness.mjs",
     "check:phase-1-twii-operator-decision-packet-request": "node scripts/check-phase-1-twii-operator-decision-packet-request.mjs",

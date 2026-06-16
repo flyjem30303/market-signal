@@ -12544,3 +12544,30 @@ Do not run `next build` and `tsc` concurrently in this Windows workspace. Parall
 Next:
 
 Continue the data realification GOAL at the promotion review layer: close `data_quality`, `freshness_display`, `source_disclosure`, `rollback_fail_closed`, and `public_copy_boundary` review gates, then prepare a separately authorized bounded write/readback/rollback attempt. Runtime must stay mock until that separate promotion chain passes.
+
+# Latest Runtime Promotion Operator Packet Intake Gate
+
+Status: `phase_1_runtime_promotion_operator_packet_intake_blocked_until_non_example_packet`
+
+Date: 2026-06-16
+
+CEO decision: `KEEP_MOCK_AND_REQUIRE_NON_EXAMPLE_OPERATOR_PACKET`.
+
+What changed:
+
+- Added an operator-packet intake checker for the next runtime promotion step.
+- The checker intentionally blocks the example-only filled packet so it cannot be mistaken for an executable operator packet.
+- The gate now requires a future packet with reviewed, non-example, non-template values for runtime flag, rollback, readback, smoke, post-promotion owner, and public freshness fallback copy.
+- The next route stays `phase_1_runtime_promotion_operator_review_before_any_mutation` only after a non-example packet passes shape validation.
+
+Verification target:
+
+- `cmd.exe /c scripts\with-node20.cmd npm run check:phase-1-runtime-promotion-operator-packet-intake` should return `status=blocked` until the reviewed non-example operator packet exists.
+
+Boundary:
+
+No SQL, Supabase read/write, staging-row creation, `daily_prices` mutation, market-data fetch, raw payload output, row payload output, secret output, runtime flag mutation, production env mutation, `publicDataSource=supabase`, or `scoreSource=real` occurred.
+
+Next:
+
+Prepare or collect the real non-secret operator packet fields. Until then, continue Phase 1 public product/runtime work with `publicDataSource=mock` and `scoreSource=mock`.
