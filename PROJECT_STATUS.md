@@ -12738,3 +12738,28 @@ No SQL, Supabase read/write, staging-row creation, `daily_prices` mutation, mark
 Next:
 
 Prepare the dry-run-only proof review. It should review the local dry-run output and decide whether a separate bounded write/readback/rollback preparation path can proceed while runtime remains mock.
+
+# Latest Runtime Promotion Dry-Run-Only Proof Review
+
+Status: `phase_1_runtime_promotion_dry_run_only_proof_review_ready_no_execution`
+
+Date: 2026-06-16
+
+CEO decision: `ALLOW_SEPARATE_BOUNDED_PREPARATION_KEEP_MOCK`.
+
+What changed:
+
+- Added `data/evidence-intake/phase-1-runtime-promotion-dry-run-only-proof-review.json`.
+- Added `docs/PHASE_1_RUNTIME_PROMOTION_DRY_RUN_ONLY_PROOF_REVIEW.md`.
+- Added a focused checker that consumes the preparation packet and the local dry-run output.
+- The review accepts the dry-run proof categories and allows only a separate bounded write/readback/rollback preparation path.
+- The review keeps `boundedAttemptExecutableNow=false`, `writeGateExecutableNow=false`, `runnerExecutableNow=false`, `promotionAllowedNow=false`, `publicDataSource=mock`, and `scoreSource=mock`.
+- The next route is `phase_1_runtime_promotion_separate_bounded_write_readback_rollback_preparation_no_execution`.
+
+Boundary:
+
+No SQL, Supabase read/write, staging-row creation, `daily_prices` mutation, market-data fetch, raw payload output, row payload output, secret output, runtime flag mutation, production env mutation, `publicDataSource=supabase`, or `scoreSource=real` occurred.
+
+Next:
+
+Prepare the separate bounded write/readback/rollback preparation packet. It must keep write shape, readback proof, rollback/quarantine, and post-run review as separate fail-closed requirements before any execution packet can be considered.
