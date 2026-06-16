@@ -1,4 +1,4 @@
-import { spawnSync } from "node:child_process";
+import { spawn } from "node:child_process";
 
 const checks = [
   {
@@ -69,19 +69,13 @@ const checks = [
   }
 ];
 
-const evidence = checks.map((check) => {
-  const run = spawnSync(process.execPath, [check.command], {
-    cwd: process.cwd(),
-    encoding: "utf8",
-    shell: false
-  });
-
-  return {
+const evidence = await Promise.all(
+  checks.map(async (check) => ({
     id: check.id,
-    ok: run.status === 0,
+    ok: await runCheck(check.command),
     evidence: check.evidence
-  };
-});
+  }))
+);
 
 const allOk = evidence.every((item) => item.ok);
 
@@ -149,3 +143,16 @@ const report = {
 };
 
 console.log(JSON.stringify(report, null, 2));
+
+function runCheck(command) {
+  return new Promise((resolve) => {
+    const child = spawn(process.execPath, [command], {
+      cwd: process.cwd(),
+      shell: false,
+      stdio: "ignore"
+    });
+
+    child.on("error", () => resolve(false));
+    child.on("exit", (code) => resolve(code === 0));
+  });
+}

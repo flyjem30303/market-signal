@@ -2,6 +2,44 @@
 
 ## Latest Effective Status - 2026-06-16
 
+### Latest Phase 1 Data Readiness Gate Convergence
+
+Status: `phase_1_data_readiness_gate_convergence_verified`
+
+CEO decision:
+
+- Keep the active GOAL on Phase 1 data realification, but narrow this slice to local promotion-review readiness and runtime user clarity.
+- Fix the concrete freshness display gap before any broader data-source or UI work.
+- Reduce repeated validation drag by making the data freshness/quality readiness reporter run independent child gates concurrently instead of serially.
+- Keep runtime in mock mode until the separate promotion review accepts data quality, freshness display, source disclosure, rollback/fail-closed, and public-copy boundary.
+
+PM completed:
+
+- Added `freshness.description` to the public data freshness strip so users can read why the data state is mock, complete, partial, stale, or unavailable.
+- Reworked `report-data-freshness-quality-mvp-readiness` to run independent local checks concurrently.
+- Reconfirmed source disclosure, public-copy boundary, rollback/quarantine contract, freshness runtime boundary, data freshness/quality readiness, runtime promotion preflight, public residue, and focused review gates.
+
+Verification:
+
+- `cmd.exe /c scripts\with-node20.cmd npm run check:public-freshness-runtime-boundary` passed.
+- `cmd.exe /c scripts\with-node20.cmd npm run check:source-rights-disclosure-acceptance-gate` passed.
+- `cmd.exe /c scripts\with-node20.cmd npm run check:phase-1-write-runner-rollback-or-quarantine-contract-no-execution` passed.
+- `cmd.exe /c scripts\with-node20.cmd npm run check:source-rights-public-copy-acceptance-readiness` passed.
+- `cmd.exe /c scripts\with-node20.cmd npm run check:data-freshness-quality-mvp-readiness` passed within the standard 120 second command budget after the reporter concurrency change.
+- `cmd.exe /c scripts\with-node20.cmd npm run check:phase-1-runtime-promotion-preflight-status` passed with `promotionAllowedNow=false`, `publicDataSource=mock`, and `scoreSource=mock`.
+- `cmd.exe /c scripts\with-node20.cmd npm run check:phase-1-public-route-user-facing-residue-gate` passed.
+- `cmd.exe /c scripts\with-node20.cmd npm run check:review-gates` passed.
+- `cmd.exe /c scripts\with-node20.cmd npm run build` passed after clearing a local `.next` lock caused by parallel verification.
+- `cmd.exe /c scripts\with-node20.cmd npx tsc --noEmit --incremental false` passed after build regenerated `.next/types`.
+
+Boundary:
+
+- No SQL, Supabase read/write, staging row creation, `daily_prices` mutation, market-data fetch/store/commit, raw payload output, row payload output, source promotion, real score promotion, membership implementation, production env mutation, DNS change, Vercel mutation, or platform secret handling occurred.
+
+Next:
+
+Continue toward the explicit promotion-review packet. Do not set `publicDataSource=supabase` or `scoreSource=real` until that review accepts all required gates and rollback/readback evidence.
+
 ### Latest Phase 1 Production URL Smoke
 
 Status: `phase_1_production_public_url_smoke_verified_after_push`

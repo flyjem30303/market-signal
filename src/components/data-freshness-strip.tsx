@@ -20,6 +20,7 @@ export function DataFreshnessStrip({ freshness, marketSignalSourceStatus }: Data
       <span>
         市場：{freshness.market} / {freshness.currency}
       </span>
+      <span className="freshness-description">{freshness.description}</span>
       <span className={`freshness-score-source ${freshness.scoreSource}`}>分數來源：{scoreLabel}</span>
       <span className="freshness-boundary">
         公開頁目前使用示範資料與示範分數；正式每日資料啟用前，請以資料狀態與風險聲明一起閱讀。
