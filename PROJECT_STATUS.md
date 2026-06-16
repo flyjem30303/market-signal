@@ -2,6 +2,50 @@
 
 ## Latest Effective Status - 2026-06-16
 
+### Latest Phase 1 Runtime Promotion Operator Decision Gate
+
+Status: `phase_1_runtime_promotion_operator_decision_gate_ready_keep_mock`
+
+CEO decision:
+
+- Accept the explicit GO/NO-GO packet as the bridge into an operator decision gate.
+- Keep the active operator decision as `KEEP_MOCK_AND_MONITOR`.
+- Do not authorize runtime promotion from this gate; it only names the required fields for any future bounded promotion packet.
+- Keep `publicDataSource=mock` and `scoreSource=mock`.
+
+PM completed:
+
+- Added `docs/PHASE_1_RUNTIME_PROMOTION_OPERATOR_DECISION_GATE.md`.
+- Added `scripts/check-phase-1-runtime-promotion-operator-decision-gate.mjs`.
+- Added `check:phase-1-runtime-promotion-operator-decision-gate` to `package.json`.
+- Registered the operator-decision gate in the focused review gate set.
+
+Required future fields before any separate bounded promotion packet:
+
+- `runtimeFlagName`
+- `runtimeFlagTargetValue`
+- `rollbackOwner`
+- `rollbackCommand`
+- `readbackCommand`
+- `productionSmokeCommand`
+- `postPromotionReviewOwner`
+- `publicCopyFallbackLine`
+- `freshnessFallbackLine`
+
+Verification:
+
+- `cmd.exe /c scripts\with-node20.cmd npm run check:phase-1-runtime-promotion-operator-decision-gate` passed.
+- `cmd.exe /c scripts\with-node20.cmd npm run check:review-gates` passed.
+- `cmd.exe /c scripts\with-node20.cmd npx tsc --noEmit --incremental false` passed.
+
+Boundary:
+
+- No SQL, Supabase read/write, staging row creation, `daily_prices` mutation, market-data fetch/store/commit, raw payload output, row payload output, source promotion, real score promotion, membership implementation, production env mutation, DNS change, Vercel mutation, or platform secret handling occurred.
+
+Next:
+
+Continue with `phase_1_runtime_promotion_keep_mock_monitoring_or_future_bounded_promotion_packet`. CEO recommendation remains `KEEP_MOCK_AND_MONITOR` until the operator can name the exact runtime flag, rollback owner, readback command, production smoke command, and post-promotion review owner.
+
 ### Latest Phase 1 Runtime Promotion Explicit GO/NO-GO Decision
 
 Status: `phase_1_runtime_promotion_explicit_go_no_go_decision_ready_no_go`
