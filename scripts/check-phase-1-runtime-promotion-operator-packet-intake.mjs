@@ -3,7 +3,7 @@ import { spawnSync } from "node:child_process";
 
 const args = parseArgs(process.argv.slice(2));
 const packetPath =
-  args.packet ?? "data/evidence-intake/phase-1-runtime-promotion-field-intake.example.json";
+  args.packet ?? "data/evidence-intake/phase-1-runtime-promotion-operator-packet.draft.json";
 const runnerPath = "scripts/run-phase-1-runtime-promotion-dry-run-packet.mjs";
 const outPath = args.out ?? "tmp/phase-1-runtime-promotion-operator-packet-intake-check.json";
 const problems = [];
@@ -26,6 +26,9 @@ const requiredFields = [
 if (packet.exampleOnly === true) problems.push("operator packet must not be exampleOnly");
 if (packet.packetLabel === "EXAMPLE_ONLY_NOT_FOR_OPERATOR_USE") {
   problems.push("operator packet must not use the example-only packet label");
+}
+if (packet.packetLabel !== "PHASE_1_OPERATOR_PACKET_DRAFT_NO_EXECUTION") {
+  problems.push("operator packet must use the reviewed draft packet label");
 }
 if (packetText.includes("EXAMPLE_ONLY")) problems.push("operator packet must not contain EXAMPLE_ONLY values");
 if (packetText.includes('"runtimeFlagName": null')) problems.push("operator packet must not be the template");

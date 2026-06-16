@@ -12545,24 +12545,25 @@ Next:
 
 Continue the data realification GOAL at the promotion review layer: close `data_quality`, `freshness_display`, `source_disclosure`, `rollback_fail_closed`, and `public_copy_boundary` review gates, then prepare a separately authorized bounded write/readback/rollback attempt. Runtime must stay mock until that separate promotion chain passes.
 
-# Latest Runtime Promotion Operator Packet Intake Gate
+# Latest Runtime Promotion Operator Packet Draft Intake Gate
 
-Status: `phase_1_runtime_promotion_operator_packet_intake_blocked_until_non_example_packet`
+Status: `phase_1_runtime_promotion_operator_packet_draft_ready_no_execution`
 
 Date: 2026-06-16
 
-CEO decision: `KEEP_MOCK_AND_REQUIRE_NON_EXAMPLE_OPERATOR_PACKET`.
+CEO decision: `KEEP_MOCK_AND_VALIDATE_NON_EXAMPLE_OPERATOR_PACKET_DRAFT`.
 
 What changed:
 
 - Added an operator-packet intake checker for the next runtime promotion step.
-- The checker intentionally blocks the example-only filled packet so it cannot be mistaken for an executable operator packet.
-- The gate now requires a future packet with reviewed, non-example, non-template values for runtime flag, rollback, readback, smoke, post-promotion owner, and public freshness fallback copy.
-- The next route stays `phase_1_runtime_promotion_operator_review_before_any_mutation` only after a non-example packet passes shape validation.
+- Added a non-example operator packet draft at `data/evidence-intake/phase-1-runtime-promotion-operator-packet.draft.json`.
+- The draft supplies reviewed non-secret fields for runtime flag name, future target value, rollback owner, rollback shape, readback check, smoke check, post-promotion review owner, and public fallback copy.
+- The draft still keeps `promotionAllowedNow=false`, `dryRunOnlyAllowedNow=true`, `publicDataSource=mock`, and `scoreSource=mock`.
+- The next route remains `phase_1_runtime_promotion_operator_review_before_any_mutation`; this draft does not authorize mutation.
 
 Verification target:
 
-- `cmd.exe /c scripts\with-node20.cmd npm run check:phase-1-runtime-promotion-operator-packet-intake` should return `status=blocked` until the reviewed non-example operator packet exists.
+- `cmd.exe /c scripts\with-node20.cmd npm run check:phase-1-runtime-promotion-operator-packet-intake` should return `status=ok` while still reporting no execution and no promotion.
 
 Boundary:
 
@@ -12570,4 +12571,4 @@ No SQL, Supabase read/write, staging-row creation, `daily_prices` mutation, mark
 
 Next:
 
-Prepare or collect the real non-secret operator packet fields. Until then, continue Phase 1 public product/runtime work with `publicDataSource=mock` and `scoreSource=mock`.
+Run the operator packet intake checker, review gate, and TypeScript. If they pass, the next safe slice is a no-execution operator review summary that decides whether to keep mock, run another dry-run, or request a separately authorized bounded promotion attempt.

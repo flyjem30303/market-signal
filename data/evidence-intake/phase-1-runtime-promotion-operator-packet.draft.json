@@ -1,0 +1,20 @@
+{
+  "packetMode": "phase_1_runtime_promotion_dry_run_packet",
+  "packetLabel": "PHASE_1_OPERATOR_PACKET_DRAFT_NO_EXECUTION",
+  "operatorDecision": "RUN_PROMOTION_DRY_RUN_ONLY",
+  "promotionAllowedNow": false,
+  "dryRunOnlyAllowedNow": true,
+  "publicDataSource": "mock",
+  "scoreSource": "mock",
+  "requiredFieldCompleteness": "complete",
+  "runtimeFlagName": "NEXT_PUBLIC_DATA_SOURCE",
+  "runtimeFlagTargetValue": "supabase",
+  "rollbackOwner": "A3 release operations with PM review",
+  "rollbackCommand": "Manual platform rollback step only: restore NEXT_PUBLIC_DATA_SOURCE to mock, redeploy, then rerun public route smoke and runtime boundary checks.",
+  "readbackCommand": "cmd.exe /c scripts\\with-node20.cmd npm run check:phase-1-production-public-url-smoke",
+  "productionSmokeCommand": "cmd.exe /c scripts\\with-node20.cmd npm run check:phase-1-public-route-user-facing-residue-gate",
+  "postPromotionReviewOwner": "CEO / PM mainline",
+  "publicCopyFallbackLine": "資料暫時無法更新時，本頁會保留最後可確認狀態並明確標示更新時間；請勿把單一燈號視為投資建議。",
+  "freshnessFallbackLine": "若資料延遲或暫停更新，燈號僅供市場狀態觀察，請以頁面顯示的更新時間作為判讀前提。",
+  "stopLine": "Draft validates operator packet shape only. Do not execute, mutate runtime flags, connect to Supabase, run SQL, write data, or promote publicDataSource/scoreSource from this file."
+}

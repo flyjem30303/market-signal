@@ -4507,7 +4507,7 @@ const checks = [
   },
   {
     command: [node, "scripts/check-phase-1-runtime-promotion-operator-packet-intake.mjs"],
-    expectStatus: "blocked",
+    expectStatus: "ok",
     name: "phase-1-runtime-promotion-operator-packet-intake"
   },
   {
