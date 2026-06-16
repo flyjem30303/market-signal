@@ -1562,6 +1562,7 @@
     "report:phase-1-row-payload-candidate-request-packet": "node scripts/report-phase-1-row-payload-candidate-request-packet.mjs",
     "run:phase-1-row-payload-candidate-pm-review-once": "node scripts/run-phase-1-row-payload-candidate-pm-review-once.mjs",
     "check:phase-1-row-payload-candidate-pm-review": "node scripts/check-phase-1-row-payload-candidate-pm-review.mjs",
+    "report:phase-1-operator-write-review-summary-no-execution": "node scripts/report-phase-1-operator-write-review-summary-no-execution.mjs",
     "validate:phase-1-sanitized-row-payload-candidate-artifact": "node scripts/validate-phase-1-sanitized-row-payload-candidate-artifact.mjs",
     "validate:phase-1-twii-sanitized-row-payload-candidate-artifact": "node scripts/validate-phase-1-twii-sanitized-row-payload-candidate-artifact.mjs",
     "check:phase-1-twii-row-payload-runner-integration": "node scripts/check-phase-1-twii-row-payload-runner-integration.mjs",
