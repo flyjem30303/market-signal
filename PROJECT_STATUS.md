@@ -2,6 +2,46 @@
 
 ## Latest Effective Status - 2026-06-16
 
+### Latest Phase 1 Runtime Promotion Dry-Run Packet
+
+Status: `phase_1_runtime_promotion_dry_run_packet_fail_closed_verified`
+
+CEO decision:
+
+- Accept the future bounded packet readiness gate as enough to create a local dry-run packet runner.
+- Allow dry-run field-shape validation only.
+- Do not allow runtime flag mutation, source promotion, score promotion, Supabase read/write, SQL, or production environment mutation from this packet.
+- Keep `publicDataSource=mock` and `scoreSource=mock`.
+
+PM completed:
+
+- Added `data/evidence-intake/phase-1-runtime-promotion-dry-run-packet.template.json` with all required future execution fields intentionally blank.
+- Added `scripts/run-phase-1-runtime-promotion-dry-run-packet.mjs` to validate packet shape locally and fail closed when required fields are missing.
+- Added `scripts/check-phase-1-runtime-promotion-dry-run-packet.mjs` to verify the runner, template, safety flags, package scripts, and no-execution boundary.
+- Added `run:phase-1-runtime-promotion-dry-run-packet` and `check:phase-1-runtime-promotion-dry-run-packet` to `package.json`.
+- Registered `phase-1-runtime-promotion-dry-run-packet` in the focused review gate set.
+
+Current dry-run result:
+
+- `runnerStatus`: `phase_1_runtime_promotion_dry_run_packet_blocked_missing_required_fields`
+- `promotionAllowedNow`: `false`
+- `dryRunOnlyAllowedNow`: `true`
+- `publicDataSource`: `mock`
+- `scoreSource`: `mock`
+- `nextRoute`: `keep_mock_and_supply_missing_promotion_packet_fields`
+
+Verification:
+
+- `cmd.exe /c scripts\with-node20.cmd npm run check:phase-1-runtime-promotion-dry-run-packet` passed.
+
+Boundary:
+
+- No SQL, Supabase read/write, staging row creation, `daily_prices` mutation, market-data fetch/store/commit, raw payload output, row payload output, source promotion, real score promotion, membership implementation, production env mutation, DNS change, Vercel mutation, or platform secret handling occurred.
+
+Next:
+
+Continue with `keep_mock_and_supply_missing_promotion_packet_fields`. The next safe engineering action is to keep mock runtime active unless the operator supplies a separate reviewed packet with the exact runtime flag, rollback owner, readback command, production smoke command, post-promotion owner, and fallback copy.
+
 ### Latest Phase 1 Runtime Promotion Future Bounded Packet Readiness
 
 Status: `phase_1_runtime_promotion_future_bounded_packet_readiness_keep_mock`

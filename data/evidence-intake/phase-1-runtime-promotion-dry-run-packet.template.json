@@ -1,0 +1,18 @@
+{
+  "packetMode": "phase_1_runtime_promotion_dry_run_packet",
+  "operatorDecision": "RUN_PROMOTION_DRY_RUN_ONLY",
+  "promotionAllowedNow": false,
+  "dryRunOnlyAllowedNow": true,
+  "publicDataSource": "mock",
+  "scoreSource": "mock",
+  "requiredFieldCompleteness": "incomplete",
+  "runtimeFlagName": null,
+  "runtimeFlagTargetValue": null,
+  "rollbackOwner": null,
+  "rollbackCommand": null,
+  "readbackCommand": null,
+  "productionSmokeCommand": null,
+  "postPromotionReviewOwner": null,
+  "publicCopyFallbackLine": null,
+  "freshnessFallbackLine": null
+}
