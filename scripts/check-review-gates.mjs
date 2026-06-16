@@ -3891,6 +3891,11 @@ const checks = [
     name: "phase-1-twii-operator-action-bridge"
   },
   {
+    command: [node, "scripts/check-phase-1-post-write-coverage-scoring-gate.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-post-write-coverage-scoring-gate"
+  },
+  {
     command: [node, "scripts/check-phase-1-data-online-readonly-operator-decision-record-no-execution.mjs"],
     expectStatus: "ok",
     name: "phase-1-data-online-readonly-operator-decision-record-no-execution"
@@ -7215,6 +7220,7 @@ const phase1LiveCoreReviewGateNames = new Set([
   "phase-1-sanitized-row-payload-candidate-artifact-spec",
   "phase-1-row-payload-candidate-pm-review",
   "phase-1-sanitized-row-payload-candidate-validator",
+  "phase-1-post-write-coverage-scoring-gate",
   "phase-1-data-online-go-no-go-status",
   "beta-runtime-fast-health",
   "typescript"

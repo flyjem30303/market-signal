@@ -1583,7 +1583,8 @@
     "check:phase-1-twii-etf-missing-rows-backfill-readiness": "node scripts/check-phase-1-twii-etf-missing-rows-backfill-readiness.mjs",
     "check:phase-1-twii-write-attempt-stopline-rollup": "node scripts/check-phase-1-twii-write-attempt-stopline-rollup.mjs",
     "check:phase-1-twii-operator-value-blocker-rollup": "node scripts/check-phase-1-twii-operator-value-blocker-rollup.mjs",
-    "check:phase-1-twii-operator-action-bridge": "node scripts/check-phase-1-twii-operator-action-bridge.mjs"
+    "check:phase-1-twii-operator-action-bridge": "node scripts/check-phase-1-twii-operator-action-bridge.mjs",
+    "check:phase-1-post-write-coverage-scoring-gate": "node scripts/check-phase-1-post-write-coverage-scoring-gate.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.4",
