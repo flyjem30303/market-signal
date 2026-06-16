@@ -92,3 +92,7 @@ Stop before any of the following:
 ## Next PM Action
 
 Prepare an operator authorization response template and validator. That response gate must remain no-execution and must not accept secrets, row payloads, or raw market data.
+
+Next route:
+
+`phase_1_runtime_promotion_operator_authorization_response_template`

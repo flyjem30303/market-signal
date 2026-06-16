@@ -1,0 +1,26 @@
+{
+  "responseMode": "phase_1_runtime_promotion_operator_authorization_response",
+  "responseLabel": "PHASE_1_OPERATOR_AUTHORIZATION_RESPONSE_TEMPLATE_NO_EXECUTION",
+  "operatorOutcome": "REJECT_KEEP_MOCK",
+  "promotionAllowedNow": false,
+  "dryRunOnlyAllowedNow": true,
+  "publicDataSource": "mock",
+  "scoreSource": "mock",
+  "confirmationCompleteness": "incomplete",
+  "confirmations": {
+    "runtimeFlagNameReviewed": false,
+    "futureTargetValueReviewed": false,
+    "rollbackOwnerAvailable": false,
+    "rollbackShapeReviewed": false,
+    "readbackCommandShapeReviewed": false,
+    "productionSmokeCommandShapeReviewed": false,
+    "postRunReviewOwnerAvailable": false,
+    "publicFallbackCopyReviewed": false,
+    "freshnessFallbackCopyReviewed": false,
+    "noSecretValuesPrintedOrRequested": false,
+    "noRawRowPayloadsPrintedOrRequested": false,
+    "noInvestmentAdviceOrRealtimeGuarantee": false
+  },
+  "nextRoute": "keep_mock_and_request_repair",
+  "stopLine": "Template only. Do not execute, mutate runtime flags, connect to Supabase, run SQL, write data, accept row payloads, or promote publicDataSource/scoreSource from this file."
+}
