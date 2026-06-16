@@ -4461,6 +4461,11 @@ const checks = [
     name: "phase-1-data-online-go-no-go-status"
   },
   {
+    command: [node, "scripts/check-phase-1-runtime-promotion-preflight-status.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-runtime-promotion-preflight-status"
+  },
+  {
     command: [node, "scripts/check-phase-1-twii-bounded-write-operator-decision-quickstart.mjs"],
     expectStatus: "ok",
     name: "phase-1-twii-bounded-write-operator-decision-quickstart"
@@ -7222,6 +7227,7 @@ const phase1LiveCoreReviewGateNames = new Set([
   "phase-1-sanitized-row-payload-candidate-validator",
   "phase-1-post-write-coverage-scoring-gate",
   "phase-1-data-online-go-no-go-status",
+  "phase-1-runtime-promotion-preflight-status",
   "beta-runtime-fast-health",
   "typescript"
 ]);
