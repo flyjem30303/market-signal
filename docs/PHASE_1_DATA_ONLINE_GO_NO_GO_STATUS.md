@@ -8,6 +8,8 @@ Owner: CEO / PM mainline
 
 CEO decision: `PUBLIC_RUNTIME_READY_BUT_DATA_ONLINE_NO_GO`
 
+Current operator note: default checks intentionally stay `NO_GO` unless a local row-payload candidate path is supplied. A non-committed local candidate currently exists at `tmp/phase-1-sanitized-row-payload-candidate.json` and is ready for separate operator write review when explicitly passed to the checker.
+
 ## Purpose
 
 This document is the Phase 1 data-online decision surface.
@@ -32,6 +34,25 @@ Reason:
 - The next required input is a non-committed sanitized row-payload candidate artifact covering all `178` missing rows.
 - Runtime public source and score remain `publicDataSource=mock` and `scoreSource=mock`.
 - No real-data promotion is allowed until post-run review, aggregate readback, rollback readiness, quality checks, timestamps, and public boundary copy pass.
+
+## Explicit Candidate-Path Status
+
+The default no-go result is expected because the gate must fail closed when no operator-supplied candidate path is present.
+
+When PM explicitly supplies `PHASE_1_SANITIZED_ROW_PAYLOAD_CANDIDATE_PATH=tmp\phase-1-sanitized-row-payload-candidate.json`, the same gate reports:
+
+- `decision=PUBLIC_RUNTIME_READY_ROW_PAYLOAD_CANDIDATE_READY_WRITE_REVIEW_REQUIRED`
+- `rowPayloadCandidate.status=ready_for_separate_write_execution_review`
+- `rowPayloadCandidate.accepted=true`
+- `rowPayloadCandidate.rowCount=178`
+- `rowPayloadCandidate.symbolCounts={TWII:60,0050:59,006208:59}`
+- `rowPayloadCandidate.dateBounds=2026-03-19..2026-06-15`
+- `rowPayloadCandidate.duplicateCount=0`
+- `rowPayloadCandidate.missingRequiredFieldCount=0`
+- `rowPayloadCandidate.forbiddenFieldCount=0`
+- `nextRoute=separate_operator_write_execution_review_required`
+
+This proves the local candidate can advance to operator review. It does not approve SQL, Supabase writes, `daily_prices` mutation, runtime source promotion, or `scoreSource=real`.
 
 ## Current Coverage Snapshot
 

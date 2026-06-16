@@ -12,6 +12,8 @@ Current result without an explicit row-payload artifact path: blocked, because t
 
 This is a useful blocker, not a failure. It prevents the project from treating aggregate-only evidence as writable market rows.
 
+Current local candidate note: PM has a non-committed sanitized row-payload candidate at `tmp/phase-1-sanitized-row-payload-candidate.json`. The runner may inspect only the artifact shape and aggregate counts when this path is explicitly supplied. The runner still must not execute SQL, connect to Supabase, write rows, print row payloads, or promote public runtime sources.
+
 ## Current State
 
 - `boundedAttemptScope=twii_and_etf_phase_1_missing_row_closure_only`
@@ -45,6 +47,12 @@ When A1 or PM has a separate sanitized row-payload candidate artifact, run:
 cmd.exe /c npm run validate:phase-1-sanitized-row-payload-candidate-artifact -- --candidate-artifact <LOCAL_JSON_PATH>
 cmd.exe /c npm run run:phase-1-write-runner-implementation-candidate -- --candidate-artifact <LOCAL_JSON_PATH>
 cmd.exe /c npm run check:phase-1-write-runner-implementation-candidate
+```
+
+Current local candidate command:
+
+```powershell
+cmd.exe /c "set PHASE_1_SANITIZED_ROW_PAYLOAD_CANDIDATE_PATH=tmp\phase-1-sanitized-row-payload-candidate.json&& npm run check:phase-1-data-online-go-no-go-status"
 ```
 
 Expected safe result after a valid artifact path:
