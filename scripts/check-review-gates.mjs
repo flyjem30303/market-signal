@@ -5951,6 +5951,11 @@ const checks = [
     name: "runtime-promotion-readiness-summary"
   },
   {
+    command: [node, "scripts/check-phase-1-promotion-review-outcome.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-promotion-review-outcome"
+  },
+  {
     command: [node, "scripts/check-phase-1-mock-to-real-promotion-gate.mjs"],
     expectStatus: "no_go_safe",
     name: "phase-1-mock-to-real-promotion-gate"

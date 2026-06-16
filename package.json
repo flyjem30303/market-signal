@@ -921,6 +921,7 @@
     "check:runtime-readonly-decision-card": "node scripts/check-runtime-readonly-decision-card.mjs",
     "check:post-readonly-runtime-state": "node scripts/check-post-readonly-runtime-state.mjs",
     "check:runtime-promotion-readiness-summary": "node scripts/check-runtime-promotion-readiness-summary.mjs",
+    "check:phase-1-promotion-review-outcome": "node scripts/check-phase-1-promotion-review-outcome.mjs",
     "check:phase-1-mock-to-real-promotion-gate": "node scripts/check-phase-1-mock-to-real-promotion-gate.mjs",
     "check:post-readonly-next-gate-queue": "node scripts/check-post-readonly-next-gate-queue.mjs",
     "check:runtime-workstream-integration-queue": "node scripts/check-runtime-workstream-integration-queue.mjs",

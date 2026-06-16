@@ -1,5 +1,6 @@
 import { buildDataQualityEvidenceGate } from "@/lib/data-quality-evidence-gate";
 import { getFreshnessReadonlyLatestEvidenceSummary } from "@/lib/freshness-readonly-latest-evidence";
+import { getPhase1PromotionReviewOutcomeSummary } from "@/lib/phase-1-promotion-review-outcome";
 import { getSchemaShapeAcceptanceContract } from "@/lib/schema-shape-acceptance-contract";
 
 export type PostReadonlyNextGateItem = {
@@ -38,6 +39,9 @@ export function getPostReadonlyNextGateQueue(): PostReadonlyNextGateQueue {
   const schemaShape = getSchemaShapeAcceptanceContract();
   const freshnessEvidence = getFreshnessReadonlyLatestEvidenceSummary();
   const dataQualityGate = buildDataQualityEvidenceGate({ freshnessState: freshnessEvidence.state });
+  const promotionReview = getPhase1PromotionReviewOutcomeSummary();
+  const dataQualityOutcome = promotionReview.outcomes.find((outcome) => outcome.id === "data_quality");
+  const sourceDepthOutcome = promotionReview.outcomes.find((outcome) => outcome.id === "source_depth");
   const items: PostReadonlyNextGateItem[] = [
     {
       acceptanceSignal: "Phase 1 runtime schema shape 已可供本地使用，沒有 row payload、stock id 或 secret 暴露。",
@@ -67,22 +71,30 @@ export function getPostReadonlyNextGateQueue(): PostReadonlyNextGateQueue {
       status: "local_ready"
     },
     {
-      acceptanceSignal: "資料品質候選已涵蓋 Phase 1 必要欄位，但尚未等同 real score 可用。",
-      blockedPromotion: "品質 review 未完成前，只能保留 mock score，不能設定 scoreSource=real。",
+      acceptanceSignal:
+        dataQualityOutcome?.acceptedEvidence.join("；") ??
+        "資料品質候選已涵蓋 Phase 1 必要欄位，但尚未等同 real score 可用。",
+      blockedPromotion:
+        dataQualityOutcome?.reason ?? "品質 review 未完成前，只能保留 mock score，不能設定 scoreSource=real。",
       id: "data_quality",
-      nextAction: "只 review Phase 1 必要欄位、空值、日期與 fallback；不要擴成完整模型評鑑。",
+      nextAction:
+        `field validity promotion rejected；${dataQualityOutcome?.minFixes.join("；") ?? "補齊最小品質證據"}`,
       owner: "Data",
       priority: 4,
-      status: "needs_role_review"
+      status: "blocked_waiting_evidence"
     },
     {
-      acceptanceSignal: "來源揭露與公開使用條件已有候選路徑，但仍需維持延遲、來源與非背書說明。",
-      blockedPromotion: "來源條件未被 promotion packet 接受前，不可宣稱官方背書或完整市場資料。",
+      acceptanceSignal:
+        sourceDepthOutcome?.acceptedEvidence.join("；") ??
+        "來源揭露與公開使用條件已有候選路徑，但仍需維持延遲、來源與非背書說明。",
+      blockedPromotion:
+        sourceDepthOutcome?.reason ?? "來源條件未被 promotion packet 接受前，不可宣稱官方背書或完整市場資料。",
       id: "source_depth",
-      nextAction: "確認 attribution、延遲、非背書與資料異常 fallback 文案，避免過度承諾。",
+      nextAction:
+        `source-depth artifact promotion rejected；${sourceDepthOutcome?.minFixes.join("；") ?? "補齊來源深度證據"}`,
       owner: "Investment",
       priority: 5,
-      status: "needs_role_review"
+      status: "blocked_waiting_evidence"
     }
   ];
 
@@ -104,7 +116,7 @@ export function getPostReadonlyNextGateQueue(): PostReadonlyNextGateQueue {
       localReadyCount: items.filter((item) => item.status === "local_ready").length,
       needsRoleReviewCount: items.filter((item) => item.status === "needs_role_review").length,
       readableSummary:
-        "資料覆蓋 blocker 已關閉；下一步是完成品質、來源、更新時間、rollback/readback 與公開文案 review，才可討論 mock-to-real promotion。",
+        "資料覆蓋 blocker 已關閉；品質與來源深度已明確 rejected for promotion，下一步只補最小證據，不擴治理範圍。",
       schemaAcceptedCount: schemaShape.acceptedCount,
       schemaObjectCount: schemaShape.objects.length
     },
