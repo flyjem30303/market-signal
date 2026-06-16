@@ -17,7 +17,8 @@ const required = [
   [files.sourceStatus, text.sourceStatus, "resolvedSource: \"mock\""],
   [files.sourceStatus, text.sourceStatus, "publicScoreSource: \"mock\""],
   [files.sourceStatus, text.sourceStatus, "public score repository still resolves to mock"],
-  [files.supabaseRepository, text.supabaseRepository, "Supabase repository is not implemented yet."],
+  [files.supabaseRepository, text.supabaseRepository, "createLoadedSupabaseMarketSignalRepository"],
+  [files.supabaseRepository, text.supabaseRepository, "Use createLoadedSupabaseMarketSignalRepository() to preload readonly Supabase rows before use."],
   [files.freshnessStrip, text.freshnessStrip, "市場訊號來源：目前 {marketSignalSourceStatus.resolvedSource}"],
   [files.freshnessStrip, text.freshnessStrip, "後端唯讀狀態 {marketSignalSourceStatus.supabaseRuntimeReads}"],
   [files.readinessSummary, text.readinessSummary, "publicDataSource: \"mock\""],
@@ -45,7 +46,7 @@ const blocked = forbidden
 
 const readyLocalGates = (text.nextGateQueue.match(/status: "local_ready"/g) ?? []).length;
 const needsReviewGates = (text.nextGateQueue.match(/status: "needs_role_review"/g) ?? []).length;
-const supabaseRepositoryImplemented = !text.supabaseRepository.includes("Supabase repository is not implemented yet.");
+const supabaseRepositoryImplemented = text.supabaseRepository.includes("createLoadedSupabaseMarketSignalRepository");
 
 const status = missing.length === 0 && blocked.length === 0 ? "no_go_safe" : "blocked";
 
@@ -57,7 +58,7 @@ console.log(
         canPromotePublicDataSourceToSupabase: false,
         canSetScoreSourceReal: false,
         reason:
-          "Phase 1 data coverage is complete, but runtime promotion remains NO-GO until the Supabase market-signal repository is implemented and data-quality/source-depth role reviews are accepted."
+          "Phase 1 data coverage is complete and the readonly Supabase market-signal adapter has a local preload path, but runtime promotion remains NO-GO until data-quality/source-depth role reviews are accepted and the public runtime factory is deliberately switched."
       },
       gateCounts: {
         needsReviewGates,
