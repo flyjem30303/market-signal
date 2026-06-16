@@ -12819,3 +12819,15 @@ Prepare the separate bounded write/readback/rollback preparation packet. It must
 - Scope: links runtime promotion to the existing fail-closed write-runner implementation candidate without creating a new execution path.
 - Guardrails: current authorization intake remains `authorizationAcceptedForNextPreparation=false`; `boundedAttemptExecutableNow=false`, `writeGateExecutableNow=false`, `runnerExecutableNow=false`, `promotionAllowedNow=false`, `publicDataSource=mock`, `scoreSource=mock`.
 - Next route: `await_accepted_bounded_write_authorization_response_or_keep_mock`.
+# Latest Runtime Promotion Bounded Write Authorization Response Branch Fixtures
+
+- Date: 2026-06-16
+- Status: `phase_1_runtime_promotion_bounded_write_authorization_response_branch_fixtures_ready_no_execution`
+- CEO decision: `VERIFY_ACCEPTED_REJECTED_BRANCHES_WITH_TEMP_FIXTURES_KEEP_MOCK`
+- Contract: `docs/PHASE_1_RUNTIME_PROMOTION_BOUNDED_WRITE_AUTHORIZATION_RESPONSE_BRANCH_FIXTURES.md`
+- Checker: `scripts/check-phase-1-runtime-promotion-bounded-write-authorization-response-branch-fixtures.mjs`
+- Scope: verifies default template, rejected response, and accepted response intake branches without committing a filled accepted authorization response.
+- Fixture policy: accepted and rejected branch fixtures are created only in the OS temp directory and removed after the checker exits.
+- Guardrails: default template remains `operatorDecision=REJECT_KEEP_MOCK`; all branches keep `boundedAttemptExecutableNow=false`, `writeGateExecutableNow=false`, `runnerExecutableNow=false`, `promotionAllowedNow=false`, `publicDataSource=mock`, `scoreSource=mock`.
+- Hard stops: SQL execution, SQL generation, Supabase client import, Supabase read/write, Supabase connection, staging-row creation, `daily_prices` mutation, market-data fetch, market-data ingestion, candidate-row acceptance, raw payload output, row payload output, stock-id payload output, secret or environment value output, production environment mutation, runtime flag mutation, `publicDataSource=supabase`, `scoreSource=real`, real-time precision claim, complete-market coverage claim, investment-advice claim.
+- Next route if a future real external response is accepted: `phase_1_runtime_promotion_one_bounded_write_attempt_runner_preparation_no_execution`.
