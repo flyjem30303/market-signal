@@ -1,0 +1,30 @@
+{
+  "responseMode": "phase_1_runtime_promotion_bounded_write_authorization_response",
+  "responseLabel": "PHASE_1_RUNTIME_PROMOTION_BOUNDED_WRITE_AUTHORIZATION_RESPONSE_TEMPLATE_NO_EXECUTION",
+  "operatorDecision": "REJECT_KEEP_MOCK",
+  "targetTable": "daily_prices",
+  "targetScope": "twii_and_etf_phase_1_missing_row_closure_only",
+  "maxRowsPerAttempt": 178,
+  "confirmationCompleteness": "incomplete",
+  "confirmations": {
+    "oneBoundedWriteAttemptOnly": false,
+    "sourceLegalityReviewed": false,
+    "candidateArtifactSetAccepted": false,
+    "serverOnlyCredentialPresenceReviewed": false,
+    "readbackRequired": false,
+    "rollbackOrQuarantineRequired": false,
+    "postRunReviewRequired": false,
+    "publicRuntimeMustRemainMockUntilPromotionReview": false,
+    "noSecretValuesPrintedOrRequested": false,
+    "noRawRowPayloadsPrintedOrRequested": false,
+    "noInvestmentAdviceOrRealtimeGuarantee": false
+  },
+  "boundedAttemptExecutableNow": false,
+  "writeGateExecutableNow": false,
+  "runnerExecutableNow": false,
+  "promotionAllowedNow": false,
+  "publicDataSource": "mock",
+  "scoreSource": "mock",
+  "nextRoute": "keep_mock_and_request_repair",
+  "stopLine": "Template only. Do not execute, connect to Supabase, generate SQL, write data, accept candidate rows, print secrets or payloads, or promote publicDataSource/scoreSource."
+}
