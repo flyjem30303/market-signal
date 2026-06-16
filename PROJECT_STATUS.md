@@ -2,6 +2,38 @@
 
 ## Latest Effective Status - 2026-06-16
 
+### Latest Phase 1 Core Route Reading Contract Repair
+
+Status: `phase_1_core_route_reading_contract_repaired`
+
+CEO decision:
+
+- Treat the A3 core route reading contract failure as a real Phase 1 BRIEF blocker because it checks the 30-second and 3-minute user promise across Home, Briefing, and Stock routes.
+- Keep the fix surgical: add missing user-facing reading anchors instead of rewriting page layout, data flow, or UI style.
+- Preserve the mock/real boundary and do not touch data-write, Supabase, or Phase 2 membership runtime work.
+
+PM completed:
+
+- Added Home reading anchors for `首頁快速判讀`, `30 秒`, `3 分鐘複核`, `資料時間`, and next-step wording.
+- Added Briefing reading anchors for `晨報快速判讀`, `30 秒看懂今日市場氣氛`, `3 分鐘行動判斷`, `資料更新時間`, and `下一步觀察`.
+- Added Stock reading anchors for `標的快速判讀`, `30 秒看懂標的狀態`, `3 分鐘複核風險`, `資料時間`, `下一步觀察`, and `公開 Beta 狀態`.
+
+Verification:
+
+- `cmd.exe /c scripts\with-node20.cmd npm run check:a3-phase-1-core-route-reading-contract-rollup` passed.
+- `cmd.exe /c scripts\with-node20.cmd npx tsc --noEmit --incremental false` passed.
+- `cmd.exe /c scripts\with-node20.cmd npm run check:phase-1-public-route-user-facing-residue-gate` passed.
+- `cmd.exe /c scripts\with-node20.cmd npm run check:phase-1-core-public-copy-readable` passed.
+- `cmd.exe /c scripts\with-node20.cmd npm run check:localhost-content-health` passed.
+
+Boundary:
+
+- No SQL, Supabase read/write, staging row creation, `daily_prices` mutation, market-data fetch/store/commit, raw payload output, row payload output, source promotion, real score promotion, membership implementation, production env mutation, DNS change, Vercel mutation, or platform deploy occurred.
+
+Next:
+
+Continue Phase 1 release-candidate readiness with public route smoke, first-screen comprehension, data/update boundary, and non-investment-advice wording. Keep the separate operator write execution review out of the runtime/public-copy mainline until explicitly authorized.
+
 ### Latest Operational GOAL v4 Alignment
 
 Status: `phase_1_operational_goal_v4_active`

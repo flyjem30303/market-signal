@@ -136,6 +136,10 @@ export function DashboardShell({
 function HomeFirstScreenDecisionSummary({ market }: { market: SignalSnapshot }) {
   return (
     <section className="panel stock-reading-summary" aria-label="市場總覽快速判讀">
+      <p className="eyebrow">首頁快速判讀</p>
+      <p>
+        30 秒看懂市場狀態，3 分鐘複核原因、資料時間與下一步。這裡只協助判斷是否觀察、複核或降低風險，不提供買賣建議。
+      </p>
       <p className="eyebrow">市場總覽快速判讀</p>
       <p className="eyebrow">30 秒快讀</p>
       <h2>
@@ -177,6 +181,10 @@ function HomeFirstScreenDecisionSummary({ market }: { market: SignalSnapshot }) 
 function StockRuntimeAtAGlance({ snapshot }: { snapshot: SignalSnapshot }) {
   return (
     <section className="panel stock-reading-summary" aria-label="標的快速判讀">
+      <p className="eyebrow">標的快速判讀</p>
+      <p>
+        30 秒看懂標的狀態，3 分鐘複核風險、資料時間與下一步觀察。分數是示範燈號，正式資料與真實評分尚未啟用。
+      </p>
       <p className="eyebrow">標的 30 秒快讀</p>
       <h2>
         {snapshot.asset.symbol} {snapshot.asset.name}: {snapshot.signal.title}

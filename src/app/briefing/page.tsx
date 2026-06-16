@@ -35,6 +35,10 @@ export default async function BriefingPage() {
       <PageViewTracker eventName="briefing_page_viewed" payload={{ page: "briefing" }} />
 
       <section className="hero briefing-public-summary" aria-label="市場快報">
+        <p className="eyebrow">晨報快速判讀</p>
+        <p>
+          30 秒看懂今日市場氣氛，3 分鐘行動判斷：先看燈號，再看主要成因、資料更新時間與下一步觀察。
+        </p>
         <p className="eyebrow">市場快報</p>
         <h1>3 分鐘把市場燈號拆成原因</h1>
         <p>

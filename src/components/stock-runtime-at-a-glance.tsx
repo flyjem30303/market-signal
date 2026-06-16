@@ -16,6 +16,10 @@ export function StockRuntimeAtAGlance({ scoringLabel, snapshot }: StockRuntimeAt
   return (
     <section className="stock-runtime-at-a-glance" aria-label="標的狀態摘要">
       <div>
+        <p className="eyebrow">公開 Beta 狀態</p>
+        <p>
+          目前使用示範資料呈現流程：30 秒內看懂標的狀態，3 分鐘內確認風險、資料更新時間與下一步觀察。
+        </p>
         <p className="eyebrow">標的 30 秒快讀</p>
         <h2>
           {snapshot.asset.symbol} {snapshot.asset.name}: {snapshot.signal.title}
