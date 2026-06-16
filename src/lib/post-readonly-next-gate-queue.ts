@@ -40,46 +40,46 @@ export function getPostReadonlyNextGateQueue(): PostReadonlyNextGateQueue {
   const dataQualityGate = buildDataQualityEvidenceGate({ freshnessState: freshnessEvidence.state });
   const items: PostReadonlyNextGateItem[] = [
     {
-      acceptanceSignal: "Phase 1 runtime 所需 schema shape 已可本機使用，且未暴露 row payload、stock_id 或 secrets。",
-      blockedPromotion: "schema shape 通過只代表資料形狀可用，尚不代表 runtime 可以讀 Supabase。",
+      acceptanceSignal: "Phase 1 runtime schema shape 已可供本地使用，沒有 row payload、stock id 或 secret 暴露。",
+      blockedPromotion: "schema shape 已不是 blocker；仍不可因此連 Supabase 或切換 public data source。",
       id: "schema_shape",
-      nextAction: "保留為已完成基礎項，後續只在欄位契約變動時重驗。",
+      nextAction: "維持目前 schema contract，僅在 promotion packet 明確要求時再調整欄位。",
       owner: "Engineering",
       priority: 1,
       status: "local_ready"
     },
     {
-      acceptanceSignal: "Freshness evidence 已具備可顯示的更新時間與延遲說明基礎。",
-      blockedPromotion: "仍需確認前台 stale fallback 與延遲文案，避免使用者誤認為即時資料。",
+      acceptanceSignal: "Freshness evidence 已完成，可顯示資料更新時間、延遲與 stale fallback。",
+      blockedPromotion: "尚未通過公開 promotion 前，不可宣稱即時資料或完整市場覆蓋。",
       id: "freshness",
-      nextAction: "確認公開頁顯示更新時間、延遲說明與資料未更新時的停用提示。",
+      nextAction: "保持更新時間、延遲說明與 stale fallback 可見。",
       owner: "Data",
       priority: 2,
       status: "local_ready"
     },
     {
-      acceptanceSignal: "Phase 1 目標範圍 360/360 rows 已補齊，missingRows=0。",
-      blockedPromotion: "row coverage 已不再是 blocker；promotion 仍需資料品質、來源揭露、回退與文案覆核。",
+      acceptanceSignal: "Phase 1 範圍 360/360 rows 已完成，missingRows=0。",
+      blockedPromotion: "row coverage 已不是 blocker；promotion 仍需品質、來源、rollback/readback 與文案 gate。",
       id: "row_coverage",
-      nextAction: "將 row coverage 視為 accepted，不再重開補齊工作，除非新增資料範圍。",
+      nextAction: "把 row coverage 視為 accepted，不重跑寫入或補資料，除非資料範圍被明確擴大。",
       owner: "Data",
       priority: 3,
       status: "local_ready"
     },
     {
-      acceptanceSignal: "資料品質需完成 Phase 1 欄位有效性、異常值與降級規則覆核。",
-      blockedPromotion: "品質未覆核前，不可把 mock score 升級為 real score。",
+      acceptanceSignal: "資料品質候選已涵蓋 Phase 1 必要欄位，但尚未等同 real score 可用。",
+      blockedPromotion: "品質 review 未完成前，只能保留 mock score，不能設定 scoreSource=real。",
       id: "data_quality",
-      nextAction: "只覆核 Phase 1 必要欄位，不擴大到完整市場或長期 backfill。",
+      nextAction: "只 review Phase 1 必要欄位、空值、日期與 fallback；不要擴成完整模型評鑑。",
       owner: "Data",
       priority: 4,
       status: "needs_role_review"
     },
     {
-      acceptanceSignal: "資料來源與公開揭露需能清楚說明來源、延遲、限制與非官方背書。",
-      blockedPromotion: "來源文案未完成前，不可對外宣稱真實資料、即時資料或完整市場覆蓋。",
+      acceptanceSignal: "來源揭露與公開使用條件已有候選路徑，但仍需維持延遲、來源與非背書說明。",
+      blockedPromotion: "來源條件未被 promotion packet 接受前，不可宣稱官方背書或完整市場資料。",
       id: "source_depth",
-      nextAction: "收斂公開 attribution、資料延遲、免費來源限制與非投資建議聲明。",
+      nextAction: "確認 attribution、延遲、非背書與資料異常 fallback 文案，避免過度承諾。",
       owner: "Investment",
       priority: 5,
       status: "needs_role_review"
@@ -88,12 +88,12 @@ export function getPostReadonlyNextGateQueue(): PostReadonlyNextGateQueue {
 
   return {
     blockedActions: [
-      "不得執行 SQL",
-      "不得寫入 Supabase",
-      "不得抓取或提交 raw market data",
-      "不得修改 daily_prices",
-      "不得切換 publicDataSource=supabase",
-      "不得切換 scoreSource=real"
+      "不要執行 SQL",
+      "不要寫入 Supabase",
+      "不要抓取或提交 raw market data",
+      "不要改寫 daily_prices",
+      "不要切換 publicDataSource=supabase",
+      "不要切換 scoreSource=real"
     ],
     currentDefaultRoute: "runtime_promotion_preflight_preparation",
     gateSummary: {
@@ -104,16 +104,15 @@ export function getPostReadonlyNextGateQueue(): PostReadonlyNextGateQueue {
       localReadyCount: items.filter((item) => item.status === "local_ready").length,
       needsRoleReviewCount: items.filter((item) => item.status === "needs_role_review").length,
       readableSummary:
-        "資料覆蓋 blocker 已關閉；下一段只處理 real promotion 前必須讓使用者看得懂且不誤判的品質、更新時間、來源與文案邊界。",
+        "資料覆蓋 blocker 已關閉；下一步是完成品質、來源、更新時間、rollback/readback 與公開文案 review，才可討論 mock-to-real promotion。",
       schemaAcceptedCount: schemaShape.acceptedCount,
       schemaObjectCount: schemaShape.objects.length
     },
-    headline: "資料補齊完成，下一步進入 mock-to-real promotion preflight",
+    headline: "資料覆蓋已完成，進入 mock-to-real promotion preflight",
     items,
     mode: "post_readonly_next_gate_queue",
     publicDataSource: "mock",
     scoreSource: "mock",
-    stopLine:
-      "coverage 完成不是公開 real 的許可；上線檢查通過前，公開 runtime 仍維持 mock。"
+    stopLine: "coverage 完成不等於 real 上線；runtime 必須維持 mock，直到獨立 promotion gate 通過。"
   };
 }

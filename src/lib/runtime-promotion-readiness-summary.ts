@@ -39,11 +39,11 @@ export type RuntimePromotionReadinessSummary = {
 };
 
 const labels: Record<PostReadonlyNextGateItem["id"], string> = {
-  data_quality: "資料品質覆核",
-  freshness: "更新時間與延遲顯示",
+  data_quality: "資料品質 review",
+  freshness: "更新時間與延遲揭露",
   row_coverage: "資料覆蓋率",
   schema_shape: "Runtime schema shape",
-  source_depth: "來源揭露與公開限制"
+  source_depth: "資料來源與公開使用條件"
 };
 
 export function getRuntimePromotionReadinessSummary(): RuntimePromotionReadinessSummary {
@@ -71,21 +71,21 @@ export function getRuntimePromotionReadinessSummary(): RuntimePromotionReadiness
   return {
     blockedReason: "promotion_gate_pending",
     currentRoute: "prepare_runtime_promotion_gate_preflight",
-    headline: "資料覆蓋已完成，正在準備真實資料上線檢查",
+    headline: "資料覆蓋已完成，等待 mock-to-real promotion 決策",
     mockBoundary: {
       publicDataSource: "mock",
       scoreSource: "mock"
     },
     mode: "runtime_promotion_readiness_summary",
     nextCeoDecision:
-      "CEO/PM 下一步只收斂 Phase 1 real promotion 必要條件：資料品質、更新時間、來源揭露、fail-closed 與公開文案。",
+      "CEO/PM 需先完成品質、來源揭露、更新時間、rollback/readback 與公開文案 review，才可建立下一個 bounded promotion packet。",
     noGoActions: [
-      "不得執行 SQL",
-      "不得寫入 Supabase",
-      "不得抓取或提交 raw market data",
-      "不得把 publicDataSource 切到 supabase",
-      "不得把 scoreSource 切到 real",
-      "不得宣稱即時、完整市場覆蓋或投資建議"
+      "不要執行 SQL",
+      "不要寫入 Supabase",
+      "不要抓取或提交 raw market data",
+      "不要把 publicDataSource 切到 supabase",
+      "不要把 scoreSource=real",
+      "不要宣稱即時、完整覆蓋或投資建議"
     ],
     overallStatus: "coverage_complete_promotion_pending",
     readinessCounts: {
@@ -101,6 +101,6 @@ export function getRuntimePromotionReadinessSummary(): RuntimePromotionReadiness
     },
     steps,
     stopLine:
-      "row coverage 已完成，但 runtime 仍維持 mock；上線檢查未通過前不可把公開網站切成 real。"
+      "row coverage 已完成，但 runtime 仍維持 mock；必須通過 operator decision、readback、rollback 與公開文案 gate 才能討論 real promotion。"
   };
 }

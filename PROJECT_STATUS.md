@@ -2,6 +2,39 @@
 
 ## Latest Effective Status - 2026-06-16
 
+### Latest Runtime Promotion Readability Cleanup
+
+Status: `runtime_promotion_readiness_summary_readable_mock_boundary_verified`
+
+CEO decision:
+
+- Treat mojibake in runtime promotion copy as a user-facing trust issue, not a cosmetic polish item.
+- Keep this as a surgical cleanup: fix copy and checker expectations only, without changing runtime source behavior.
+- Preserve `publicDataSource=mock`, `scoreSource=mock`, and all no-SQL/no-Supabase/no-real-promotion boundaries.
+
+PM completed:
+
+- Replaced mojibake copy in `src/lib/runtime-promotion-readiness-summary.ts`.
+- Replaced mojibake copy in `src/lib/post-readonly-next-gate-queue.ts`.
+- Replaced mojibake copy in `src/components/post-readonly-product-status.tsx`.
+- Rewrote `scripts/check-runtime-promotion-readiness-summary.mjs` so it now requires readable Chinese phrases and blocks common mojibake patterns.
+
+Verification:
+
+- `cmd.exe /c scripts\with-node20.cmd npm run check:runtime-promotion-readiness-summary` passed.
+- `cmd.exe /c scripts\with-node20.cmd npm run check:phase-1-runtime-promotion-operator-decision-gate` passed.
+- `cmd.exe /c scripts\with-node20.cmd npx tsc --noEmit --incremental false` passed.
+- `cmd.exe /c scripts\with-node20.cmd npm run build` passed after running it alone; do not run `next build` in parallel with review gates because `.next` can contain mixed dev/build artifacts on Windows.
+- `cmd.exe /c scripts\with-node20.cmd npm run check:review-gates` passed after build.
+
+Boundary:
+
+- No SQL, Supabase read/write, staging row creation, `daily_prices` mutation, market-data fetch/store/commit, raw payload output, row payload output, source promotion, real score promotion, membership implementation, production env mutation, DNS change, Vercel mutation, or platform secret handling occurred.
+
+Next:
+
+Continue with `phase_1_runtime_promotion_keep_mock_monitoring_or_future_bounded_promotion_packet`; the public/runtime status surface is now more readable while still explicitly blocking real promotion.
+
 ### Latest Phase 1 Runtime Promotion Operator Decision Gate
 
 Status: `phase_1_runtime_promotion_operator_decision_gate_ready_keep_mock`

@@ -29,21 +29,21 @@ const required = [
   [helperPath, "ready_for_local_use"],
   [helperPath, "blocked_by_evidence"],
   [helperPath, "needs_review"],
-  [helperPath, "不得執行 SQL"],
-  [helperPath, "不得寫入 Supabase"],
+  [helperPath, "不要執行 SQL"],
+  [helperPath, "不要寫入 Supabase"],
   [helperPath, "raw market data"],
-  [helperPath, "scoreSource 切到 real"],
+  [helperPath, "scoreSource=real"],
   [queuePath, "row_coverage"],
   [queuePath, "missingRows=0"],
   [queuePath, "status: \"local_ready\""],
   [queuePath, "runtime_promotion_preflight_preparation"],
-  [queuePath, "資料補齊完成，下一步進入 mock-to-real promotion preflight"],
+  [queuePath, "資料覆蓋已完成，進入 mock-to-real promotion preflight"],
   [componentPath, "getRuntimePromotionReadinessSummary"],
   [componentPath, "post-readonly-promotion-summary"],
   [componentPath, "Runtime promotion readiness summary"],
   [componentPath, "Promotion readiness"],
   [componentPath, "No-go actions"],
-  [componentPath, "目前不可直接切 real"],
+  [componentPath, "目前不可切換 real"],
   [componentPath, "promotion.steps.map"],
   [componentPath, "promotion.readinessCounts.ready"],
   [componentPath, "promotion.noGoActions.join"],
@@ -82,8 +82,16 @@ const forbidden = [
   [componentPath, "scoreSource=real approved"]
 ];
 
+const mojibakePatterns = [/鞈/u, /銝/u, /嚗/u, /蝣/u, /撌/u, /甇/u, /摰/u, /靘/u, /雿/u, /蝺/u, /\?/u, /\?/u];
+
 const missing = required.filter(([file, phrase]) => !read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
 const blocked = forbidden.filter(([file, phrase]) => read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
+
+for (const file of [helperPath, queuePath, componentPath]) {
+  for (const pattern of mojibakePatterns) {
+    if (pattern.test(read(file))) blocked.push(`${file}: mojibake pattern ${pattern}`);
+  }
+}
 
 const tsc = spawnSync(process.execPath, ["node_modules/typescript/bin/tsc", "--noEmit"], {
   cwd: process.cwd(),
