@@ -12618,3 +12618,27 @@ No SQL, Supabase read/write, staging-row creation, `daily_prices` mutation, mark
 Next:
 
 Prepare an operator authorization request packet. It must remain separate from execution and fail closed unless rollback, readback, post-run review, and public copy gates are present.
+
+# Latest Runtime Promotion Operator Authorization Request Packet
+
+Status: `phase_1_runtime_promotion_operator_authorization_request_packet_ready_no_execution`
+
+Date: 2026-06-16
+
+CEO decision: `REQUEST_OPERATOR_AUTHORIZATION_KEEP_MOCK`.
+
+What changed:
+
+- Added `docs/PHASE_1_RUNTIME_PROMOTION_OPERATOR_AUTHORIZATION_REQUEST_PACKET.md`.
+- Added a focused checker that verifies the request packet against the separate bounded attempt review packet and operator packet draft.
+- The request defines allowed operator outcomes: `REJECT_KEEP_MOCK`, `APPROVE_DRY_RUN_ONLY`, and `APPROVE_BOUNDED_ATTEMPT_PREP_ONLY`.
+- The request explicitly states that no outcome may directly execute mutation.
+- The next route is `phase_1_runtime_promotion_operator_authorization_response_template`.
+
+Boundary:
+
+No SQL, Supabase read/write, staging-row creation, `daily_prices` mutation, market-data fetch, raw payload output, row payload output, secret output, runtime flag mutation, production env mutation, `publicDataSource=supabase`, or `scoreSource=real` occurred.
+
+Next:
+
+Prepare an operator authorization response template and validator. The response gate must remain no-execution and must not accept secrets, row payloads, raw market data, or direct mutation instructions.
