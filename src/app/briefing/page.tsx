@@ -12,28 +12,29 @@ import {
 import type { SignalSnapshot } from "@/lib/signal-model";
 
 const copy = {
-  title: "今日市場簡報",
-  marketFlash: "每日市場晨報",
-  description: "用 30 秒看懂市場燈號，用 3 分鐘整理市場氣氛與後續觀察重點。Phase 1 使用示範資料，不提供買賣建議。",
-  hero: "30 秒看懂市場燈號",
-  heroSub: "3 分鐘把市場燈號拆成原因：先看市場主燈號，再看今日警示清單、資料邊界與下一步觀察。",
-  summary: "市場簡報",
-  quick: "30 秒快速閱讀",
-  score: "市場分數",
-  risk: "風險觀察",
-  structure: "核心指標",
-  constructive: "偏多觀察",
-  watch: "觀望整理",
-  defensive: "警戒防守",
-  next: "下一步觀察",
-  nextTitle: "先複核警示清單，再確認資料來源與覆蓋率",
   boundary: "資料邊界",
-  realDataNotEnabled: "正式資料尚未啟用",
-  watchList: "今日警示清單",
-  strongList: "強勢觀察清單",
-  riskList: "風險觀察清單",
+  constructive: "偏多觀察",
+  defensive: "風險警戒",
+  description:
+    "用 30 秒看懂市場燈號，用 3 分鐘整理市場氣氛與後續觀察重點。Phase 1 使用示範資料，不提供買賣建議。",
+  hero: "30 秒看懂市場燈號",
+  heroSub:
+    "把大盤燈號、風險分數與觀察清單放在同一頁，協助一般投資者快速判斷今天應該關注、等待或降低風險。",
+  marketFlash: "市場快報",
   marketWatch: "市場觀察",
-  betaLoop: "公開 Beta 可用閉環"
+  next: "下一步行動",
+  nextTitle: "先看市場氣氛，再看原因與風險",
+  quick: "30 秒摘要",
+  realDataNotEnabled: "正式每日資料尚未啟用",
+  risk: "風險分數",
+  riskList: "風險較高標的",
+  score: "市場分數",
+  strongList: "強勢觀察標的",
+  structure: "市場結構",
+  summary: "市場簡報摘要",
+  title: "指數燈號市場簡報",
+  watch: "等待確認",
+  watchList: "觀察標的"
 };
 
 export const metadata: Metadata = {
@@ -63,11 +64,13 @@ export default async function BriefingPage() {
         <h1>{copy.hero}</h1>
         <p>{copy.heroSub}</p>
         <p>
-          市場快報 / 市場晨報：{market.asset.name} 目前為「{market.signal.title}」，{copy.score} {market.compositeScore}/100，
-          {copy.risk} {market.riskScore}/100。這是非投資建議，僅協助建立市場觀察順序。
+          目前代表市場為 {market.asset.name}，燈號為「{market.signal.title}」；
+          {copy.score} {market.compositeScore}/100，{copy.risk} {market.riskScore}/100。請把它視為市場氣氛摘要，
+          不是個別標的買賣建議。
         </p>
         <p className="runtime-boundary-line">
-          {copy.boundary}：{copy.realDataNotEnabled}。Phase 1 仍以示範資料呈現，資料來源準備與覆蓋率仍需通過上線檢查。
+          {copy.boundary}：{copy.realDataNotEnabled}。Phase 1 仍以示範資料呈現，真實資料上線前仍需完成合法來源、
+          資料品質、寫入回讀、回復方案與正式切換檢查。
         </p>
       </section>
 
@@ -92,32 +95,48 @@ export default async function BriefingPage() {
       </section>
 
       <section className="briefing-breadth" id="market-structure" aria-label={copy.structure}>
-        <BreadthCard label={copy.constructive} tone="active" value={breadth.constructive} />
-        <BreadthCard label={copy.watch} tone="hold" value={breadth.watch} />
-        <BreadthCard label={copy.defensive} tone="blocked" value={breadth.defensive} />
+        <BreadthCard
+          description="市場分數較高、風險尚未明顯升高的標的數量。適合列入觀察，但仍需搭配資料更新時間。"
+          label={copy.constructive}
+          tone="active"
+          value={breadth.constructive}
+        />
+        <BreadthCard
+          description="分數與風險沒有明顯方向的標的數量。適合等待更多訊號，不急著下判斷。"
+          label={copy.watch}
+          tone="hold"
+          value={breadth.watch}
+        />
+        <BreadthCard
+          description="風險分數較高的標的數量。適合優先檢查原因、降低過度解讀單一燈號的風險。"
+          label={copy.defensive}
+          tone="blocked"
+          value={breadth.defensive}
+        />
       </section>
 
       <section className="panel stock-reading-summary" aria-label={copy.next}>
         <p className="eyebrow">{copy.next}</p>
         <h2>{copy.nextTitle}</h2>
         <p>
-          晨報快速判讀：30 秒看懂今日市場氣氛，3 分鐘再決定觀察順序。
+          第一層先看市場燈號與分數，確認今天偏向積極、觀望或警戒。第二層再看風險分數與標的分布，
+          避免只因單一數字就做出過度判斷。
         </p>
         <p>
-          先看今日警示清單的影響級別，再確認資料更新時間、資料來源準備狀態，以及資料與風險邊界。若資料狀態仍是示範資料，
-          就只把燈號當作閱讀流程範例，不作為交易依據。
+          若市場分數上升但風險也同步升高，代表需要加強觀察而不是直接追價；若市場分數下降且風險擴大，
+          則應先檢查部位風險與資料更新時間。
         </p>
-        <p>今日市場提醒與市場行動摘要：3 分鐘行動判斷完成前，本頁不提供買賣建議。下一步行動：{copy.betaLoop}</p>
+        <p>Phase 1 的任務是讓使用者建立固定閱讀流程：先看狀態，再看原因，最後決定下一步觀察重點。</p>
       </section>
 
       <section className="weekly-grid" aria-label={copy.watchList}>
         <BriefingList
-          description="分數較強的標的適合放入觀察清單，但仍需搭配資料邊界與風險分數一起看。"
+          description="這些標的在示範資料中市場分數較高，可作為觀察市場強弱的參考入口。"
           items={strongest}
           title={copy.strongList}
         />
         <BriefingList
-          description="風險分數較高的標的需要提高複核頻率，避免只看單一燈號或單一分數。"
+          description="這些標的在示範資料中風險分數較高，適合優先檢查燈號原因與資料狀態。"
           items={[topRisk]}
           title={copy.riskList}
         />
@@ -142,12 +161,22 @@ function buildMarketBreadth(snapshots: SignalSnapshot[]) {
   );
 }
 
-function BreadthCard({ label, tone, value }: { label: string; tone: "active" | "blocked" | "hold"; value: number }) {
+function BreadthCard({
+  description,
+  label,
+  tone,
+  value
+}: {
+  description: string;
+  label: string;
+  tone: "active" | "blocked" | "hold";
+  value: number;
+}) {
   return (
     <article className={tone}>
       <span>{label}</span>
       <strong>{value}</strong>
-      <p>依目前示範資料統計，用來快速了解市場氣氛分布；正式資料上線前仍需看資料狀態。</p>
+      <p>{description}</p>
     </article>
   );
 }
