@@ -28,7 +28,7 @@ Reason:
 
 - Phase 1 bounded write/readback completed for the accepted candidate set.
 - Candidate row payload validation accepted `178` rows.
-- The bounded write inserted `176` missing rows and skipped `2` existing rows.
+- The bounded attempt found all `178` candidate keys already present before insert planning, so it inserted `0` rows and skipped `178` existing rows.
 - Final candidate-key readback confirmed `178/178`.
 - Missing rows after write are `0`.
 - Runtime public source and score remain `publicDataSource=mock` and `scoreSource=mock`.
@@ -39,10 +39,10 @@ Reason:
 | Coverage item | Current status |
 | --- | --- |
 | Phase 1 candidate rows | `178` |
-| Existing rows before write | `2` |
-| Planned insert rows | `176` |
-| Inserted rows | `176` |
-| Skipped existing rows | `2` |
+| Existing rows before write | `178` |
+| Planned insert rows | `0` |
+| Inserted rows | `0` |
+| Skipped existing rows | `178` |
 | Final candidate-key rows after write | `178/178` |
 | Missing rows after write | `0` |
 | Coverage complete after write | `true` |
@@ -57,7 +57,7 @@ Reason:
 | Field contract and parser path | Ready for synthetic and mock-runtime wiring | `check:twse-openapi-source-adapter-contract`, `check:twse-openapi-parser-contract`, `check:twse-openapi-parser-consumer-adapter` | Keep parser fail-closed and raw payload excluded. |
 | Runtime mock consumer wire | Ready | `check:twse-openapi-runtime-mock-consumer-wire` | Use it only to improve public comprehension while real promotion stays locked. |
 | Sanitized row-payload candidate | Accepted for executed bounded attempt | `validate:phase-1-sanitized-row-payload-candidate-artifact` | Do not reuse for another write without a new explicit authorization. |
-| Phase 1 daily_prices write/readback | Complete for the accepted candidate set | `PHASE_1_DAILY_PRICES_BOUNDED_WRITE_POST_RUN_REVIEW_2026-06-16_A.md`, `check:phase-1-post-write-coverage-scoring-gate` | Move to runtime promotion preflight; do not run another write. |
+| Phase 1 daily_prices bounded attempt/readback | Complete for the accepted candidate set | `data/evidence-intake/phase-1-daily-prices-bounded-write-post-run-review-2026-06-16.json`, `check:phase-1-post-write-coverage-scoring-gate` | Move to runtime promotion preflight; do not run another write. |
 | Runtime promotion | No-go pending preflight | `publicDataSource=mock`, `scoreSource=mock`, `check:runtime-promotion-readiness-summary` | Promote only after quality, freshness, rollback, source disclosure, and public-copy gates pass. |
 
 ## Required Before Runtime Real Promotion Go

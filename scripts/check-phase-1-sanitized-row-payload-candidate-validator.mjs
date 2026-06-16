@@ -137,8 +137,8 @@ function validateDataOnlineCandidateRun() {
   );
   expect(dataOnlineCandidateRun.output.accepted, true, "data-online accepted");
   expect(dataOnlineCandidateRun.output.coverage?.acceptedCoverageRows, 178, "data-online acceptedCoverageRows");
-  expect(dataOnlineCandidateRun.output.coverage?.insertedRows, 176, "data-online insertedRows");
-  expect(dataOnlineCandidateRun.output.coverage?.skippedExistingRows, 2, "data-online skippedExistingRows");
+  expect(dataOnlineCandidateRun.output.coverage?.insertedRows, 0, "data-online insertedRows");
+  expect(dataOnlineCandidateRun.output.coverage?.skippedExistingRows, 178, "data-online skippedExistingRows");
   expect(dataOnlineCandidateRun.output.coverage?.missingRowsAfterWrite, 0, "data-online missingRowsAfterWrite");
   expect(dataOnlineCandidateRun.output.runtimePromotionAllowedNow, false, "data-online promotion remains blocked");
   expect(dataOnlineCandidateRun.output.publicDataSource, "mock", "data-online candidate publicDataSource");

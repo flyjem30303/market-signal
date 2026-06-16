@@ -19,7 +19,7 @@ for (const phrase of [
   "DATA_COVERAGE_COMPLETE_BUT_RUNTIME_PROMOTION_NO_GO",
   "NO_GO_FOR_RUNTIME_REAL_PROMOTION",
   "Candidate row payload validation accepted `178` rows",
-  "The bounded write inserted `176` missing rows and skipped `2` existing rows",
+  "The bounded attempt found all `178` candidate keys already present before insert planning, so it inserted `0` rows and skipped `178` existing rows",
   "Final candidate-key readback confirmed `178/178`",
   "Missing rows after write are `0`",
   "publicDataSource=mock",
@@ -89,10 +89,10 @@ console.log(
       accepted: status === "ok",
       decision: "DATA_COVERAGE_COMPLETE_BUT_RUNTIME_PROMOTION_NO_GO",
       coverage: {
-        acceptedCoverageRows: 178,
-        insertedRows: 176,
-        skippedExistingRows: 2,
-        finalCandidateKeyRows: 178,
+      acceptedCoverageRows: 178,
+      insertedRows: 0,
+      skippedExistingRows: 178,
+      finalCandidateKeyRows: 178,
         missingRowsAfterWrite: 0
       },
       runtimePromotionAllowedNow: false,
