@@ -12870,3 +12870,15 @@ Prepare the separate bounded write/readback/rollback preparation packet. It must
 - Guardrails: default committed template remains rejected; `boundedAttemptExecutableNow=false`, `writeGateExecutableNow=false`, `runnerExecutableNow=false`, `promotionAllowedNow=false`, `publicDataSource=mock`, `scoreSource=mock`.
 - Hard stops: SQL execution, SQL generation, Supabase client import, Supabase read/write, Supabase connection, staging-row creation, `daily_prices` mutation, market-data fetch, market-data ingestion, candidate-row acceptance, raw payload output, row payload output, stock-id payload output, secret or environment value output, production environment mutation, runtime flag mutation, `publicDataSource=supabase`, `scoreSource=real`, real-time precision claim, complete-market coverage claim, investment-advice claim.
 - Next route: `await_external_local_authorization_response_file_or_keep_mock`.
+# Latest Runtime Promotion External Authorization Quickstart
+
+- Date: 2026-06-16
+- Status: `phase_1_runtime_promotion_external_authorization_quickstart_no_execution_ready`
+- CEO decision: `GUIDE_EXTERNAL_AUTHORIZATION_FILE_KEEP_MOCK`
+- Contract: `docs/PHASE_1_RUNTIME_PROMOTION_EXTERNAL_AUTHORIZATION_QUICKSTART_NO_EXECUTION.md`
+- Checker: `scripts/check-phase-1-runtime-promotion-external-authorization-quickstart-no-execution.mjs`
+- Scope: gives PM/chairman the shortest safe path for preparing a future external local accepted authorization response without committing it to the repository.
+- Current state: no filled accepted authorization response is committed; validator path remains external-only; a passing validator result still requires a fresh PM go/no-go record before any bounded write attempt can be considered.
+- Guardrails: `boundedAttemptExecutableNow=false`, `writeGateExecutableNow=false`, `runnerExecutableNow=false`, `promotionAllowedNow=false`, `publicDataSource=mock`, `scoreSource=mock`.
+- Hard stops: committing a filled accepted authorization response, SQL execution, Supabase connection, Supabase write, `daily_prices` mutation, raw payload output, secret output, runtime flag mutation, `publicDataSource=supabase`, `scoreSource=real`, real-time precision claim, complete-market coverage claim, investment-advice claim.
+- Next route: `external_authorization_validated_then_create_fresh_pm_go_no_go_or_keep_mock`.

@@ -4596,6 +4596,11 @@ const checks = [
     name: "phase-1-runtime-promotion-real-accepted-authorization-external-intake-record-no-execution"
   },
   {
+    command: [node, "scripts/check-phase-1-runtime-promotion-external-authorization-quickstart-no-execution.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-runtime-promotion-external-authorization-quickstart-no-execution"
+  },
+  {
     command: [node, "scripts/check-phase-1-twii-bounded-write-operator-decision-quickstart.mjs"],
     expectStatus: "ok",
     name: "phase-1-twii-bounded-write-operator-decision-quickstart"
@@ -7384,6 +7389,7 @@ const phase1LiveCoreReviewGateNames = new Set([
   "phase-1-runtime-promotion-one-attempt-execution-review-packet-no-execution",
   "phase-1-runtime-promotion-operator-go-no-go-record-no-execution",
   "phase-1-runtime-promotion-real-accepted-authorization-external-intake-record-no-execution",
+  "phase-1-runtime-promotion-external-authorization-quickstart-no-execution",
   "beta-runtime-fast-health",
   "typescript"
 ]);
