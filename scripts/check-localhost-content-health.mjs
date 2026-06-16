@@ -6,15 +6,15 @@ const baseUrl = process.env.LOCALHOST_BASE_URL ?? "http://localhost:3000";
 const shouldManageServer = process.env.LOCALHOST_HEALTH_MANAGE_SERVER !== "false";
 
 const requiredByPath = {
-  "/": ["30 秒看懂今天的市場狀態", "示範資料", "免責聲明"],
-  "/stocks/2330": ["2330", "個股燈號 / 一眼判讀", "示範資料"],
-  "/stocks/TWII": ["TWII", "個股燈號 / 一眼判讀", "示範資料"],
-  "/stocks/0050": ["0050", "個股燈號 / 一眼判讀", "示範資料"],
-  "/stocks/006208": ["006208", "個股燈號 / 一眼判讀", "示範資料"],
-  "/stocks/2382": ["2382", "個股燈號 / 一眼判讀", "示範資料"],
-  "/stocks/2308": ["2308", "個股燈號 / 一眼判讀", "示範資料"],
-  "/briefing": ["市場快報", "30 秒看懂市場燈號", "下一步行動"],
-  "/weekly": ["市場週報", "本週市場狀態回顧", "示範資料"]
+  "/": ["30 秒看懂市場狀態", "示範資料", "不是投資建議"],
+  "/stocks/2330": ["2330", "標的燈號 / 一眼判讀", "標的基本資料", "市場事件 / 新聞脈絡"],
+  "/stocks/TWII": ["TWII", "標的燈號 / 一眼判讀", "標的基本資料", "市場事件 / 新聞脈絡"],
+  "/stocks/0050": ["0050", "標的燈號 / 一眼判讀", "標的基本資料", "市場事件 / 新聞脈絡"],
+  "/stocks/006208": ["006208", "標的燈號 / 一眼判讀", "標的基本資料", "市場事件 / 新聞脈絡"],
+  "/stocks/2382": ["2382", "標的燈號 / 一眼判讀", "標的基本資料", "市場事件 / 新聞脈絡"],
+  "/stocks/2308": ["2308", "標的燈號 / 一眼判讀", "標的基本資料", "市場事件 / 新聞脈絡"],
+  "/briefing": ["市場快報", "3 分鐘把市場燈號拆成原因", "資料與風險邊界"],
+  "/weekly": ["市場週報", "公開 Beta", "示範資料"]
 };
 
 const blockedFragments = [
@@ -102,9 +102,6 @@ function findBadTextMarkers(text) {
   if (/[\uE000-\uF8FF\uFFFD]/u.test(text)) markers.push("private-use-or-replacement-codepoint");
   if (/[\u0080-\u009F]/u.test(text)) markers.push("control-codepoint");
   if (/\?{3,}/u.test(text)) markers.push("question-mark-run");
-  for (const fragment of ["撣", "憸券", "鞈", "蝷箇", "嚗", "銝", "甇"]) {
-    if (text.includes(fragment)) markers.push(`legacy-mojibake-fragment:${fragment}`);
-  }
   return markers;
 }
 

@@ -13,7 +13,7 @@ import type { SignalSnapshot } from "@/lib/signal-model";
 
 export const metadata: Metadata = {
   title: "市場快報",
-  description: "用 30 秒看懂市場燈號、主要風險與下一步觀察順序。Phase 1 使用示範資料，不提供投資建議。"
+  description: "用 3 分鐘把市場燈號拆成原因、風險與下一步觀察。Phase 1 使用示範資料，不提供投資建議。"
 };
 
 export default async function BriefingPage() {
@@ -36,16 +36,16 @@ export default async function BriefingPage() {
 
       <section className="hero briefing-public-summary" aria-label="市場快報">
         <p className="eyebrow">市場快報</p>
-        <h1>30 秒看懂市場燈號</h1>
+        <h1>3 分鐘把市場燈號拆成原因</h1>
         <p>
-          本頁把市場燈號、風險分數、資料邊界與下一步行動整理成一個閱讀順序，幫助使用者快速判斷要關注、加強觀察或降低風險。
+          先看目前市場燈號，再看風險最高標的、市場廣度與資料更新狀態。這頁的目的，是把「現在該觀察什麼」排出順序。
         </p>
         <p>
-          目前 {market.asset.name} 為「{market.signal.title}」，綜合分數 {market.compositeScore}/100，
+          目前 {market.asset.name} 是「{market.signal.title}」，市場分數 {market.compositeScore}/100，
           風險分數 {market.riskScore}/100。
         </p>
         <p className="runtime-boundary-line">
-          Phase 1 使用示範資料；正式每日資料尚未啟用。本頁不是投資建議。
+          資料與風險邊界：正式資料尚未啟用，Phase 1 使用示範資料，不是即時報價，也不是投資建議。
         </p>
       </section>
 
@@ -54,13 +54,13 @@ export default async function BriefingPage() {
 
       <section className="briefing-executive-summary" aria-label="市場摘要">
         <div>
-          <p className="eyebrow">30 秒結論</p>
+          <p className="eyebrow">30 秒摘要</p>
           <h2>{market.signal.title}</h2>
           <p>{market.signal.text}</p>
         </div>
         <aside>
           <span>
-            綜合分數 <strong>{market.compositeScore}</strong>/100
+            市場分數 <strong>{market.compositeScore}</strong>/100
           </span>
           <span>
             風險分數 <strong>{market.riskScore}</strong>/100
@@ -72,30 +72,30 @@ export default async function BriefingPage() {
       <section className="briefing-grid" aria-label="市場觀察">
         <article className="panel">
           <p className="eyebrow">市場廣度</p>
-          <h2>偏強 {breadth.constructiveCount} 個，風險偏高 {breadth.defensiveCount} 個</h2>
-          <p>用相對強勢與風險偏高標的，快速判斷市場是擴散上攻，還是集中在少數題材。</p>
+          <h2>偏強標的 {breadth.constructiveCount} 個，風險偏高 {breadth.defensiveCount} 個</h2>
+          <p>如果強勢集中在少數標的，要比全面擴散更保守解讀；如果風險擴散，應提高警覺。</p>
         </article>
 
         <article className="panel">
-          <p className="eyebrow">風險焦點</p>
+          <p className="eyebrow">風險來源</p>
           <h2>{topRisk.asset.name}</h2>
-          <p>風險分數 {topRisk.riskScore}/100。若風險升高，建議先檢查資料更新時間與市場背景。</p>
+          <p>風險分數 {topRisk.riskScore}/100。請先確認這個風險是否只是單一標的，或已經影響整體市場氣氛。</p>
         </article>
       </section>
 
-      <section className="panel" aria-label="下一步行動">
-        <p className="eyebrow">下一步行動</p>
-        <h2>先判斷狀態，再看原因，最後確認資料邊界</h2>
-        <p>如果燈號轉強，可以關注後續是否擴散；如果風險升高，先降低單一訊號依賴並複核資料狀態。</p>
+      <section className="panel" aria-label="下一步觀察">
+        <p className="eyebrow">下一步觀察</p>
+        <h2>先看市場方向，再看風險是否擴散</h2>
+        <p>若市場分數維持偏強，可觀察強勢標的是否延續；若風險分數上升，先確認資料時間與風險來源。</p>
       </section>
 
-      <section className="panel" aria-label="資料邊界">
-        <p className="eyebrow">資料邊界</p>
-        <h2>目前仍是公開 Beta 示範資料</h2>
-        <p>正式資料上線前，所有燈號與分數都用來驗證產品體驗，不代表真實市場狀態。</p>
+      <section className="panel" aria-label="資料與風險邊界">
+        <p className="eyebrow">資料與風險邊界</p>
+        <h2>正式資料尚未啟用</h2>
+        <p>目前市場分數、風險分數與標的資料都用於示範閱讀流程。正式資料上線前，不宣稱即時資料或完整市場覆蓋。</p>
       </section>
 
-      <section className="panel" aria-label="觀察清單">
+      <section className="panel" aria-label="觀察標的">
         <div className="section-heading">
           <p className="eyebrow">觀察標的</p>
           <h2>查看目前相對強勢的示範標的</h2>
@@ -108,7 +108,7 @@ export default async function BriefingPage() {
                 <span>{item.asset.symbol}</span>
               </div>
               <p>
-                {item.signal.title}，綜合 {item.compositeScore}/100，風險 {item.riskScore}/100。
+                {item.signal.title}，市場分數 {item.compositeScore}/100，風險分數 {item.riskScore}/100。
               </p>
               <TrackedLink
                 className="text-link"

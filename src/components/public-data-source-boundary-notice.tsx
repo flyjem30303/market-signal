@@ -4,16 +4,16 @@ type PublicDataSourceBoundaryNoticeProps = {
 
 const contextCopy = {
   home: {
-    title: "目前公開版使用示範資料",
-    lead: "首頁先驗證 30 秒閱讀流程、燈號層級與風險提示。正式資料來源完成驗證前，不宣稱即時真實市場資料。"
+    title: "目前是公開 Beta 示範資料",
+    lead: "首頁用來建立市場閱讀流程，協助使用者在短時間內理解市場氣氛、主要風險與資料更新狀態。"
   },
   briefing: {
-    title: "市場快報是決策輔助，不是投資建議",
-    lead: "快報用來整理市場狀態、風險來源與下一步觀察順序。所有內容都應搭配資料時間與風險聲明閱讀。"
+    title: "市場快報仍維持資訊整理定位",
+    lead: "快報用來整理市場狀態、風險來源與下一步觀察重點，不提供買賣指令或保證報酬。"
   },
   stock: {
-    title: "個股與 ETF 頁目前是示範閱讀介面",
-    lead: "此頁展示燈號、風險分數與觀察重點的呈現方式，不代表正式資料或買賣建議。"
+    title: "標的頁目前是示範閱讀介面",
+    lead: "標的頁用來說明燈號、基本資料、風險來源與資料限制；正式資料上線前不宣稱即時報價。"
   }
 } as const;
 
@@ -30,19 +30,19 @@ export function PublicDataSourceBoundaryNotice({ context }: PublicDataSourceBoun
       <ul>
         <li>
           <strong>不是即時報價</strong>
-          <span>Phase 1 先使用 mock 資料驗證產品體驗；正式資料會另行標示來源、更新時間與延遲。</span>
+          <span>Phase 1 仍以 mock 資料驗證閱讀流程，正式資料需要完成來源、品質、寫入回讀與回退檢查。</span>
         </li>
         <li>
-          <strong>不是買賣建議</strong>
-          <span>燈號是市場資訊整理與風險辨識，不代替個人投資判斷。</span>
+          <strong>不是投資建議</strong>
+          <span>燈號協助整理市場狀態與觀察順序，不代替使用者做投資決策。</span>
         </li>
         <li>
-          <strong>正式資料需通過 gate</strong>
-          <span>來源權利、欄位契約、覆蓋率、品質檢查與錯誤回退通過後，才可切換到正式資料。</span>
+          <strong>正式資料仍需 gate</strong>
+          <span>只有合法來源、資料品質、寫入/readback、rollback 與 promotion gate 都通過後，才會切換真實資料。</span>
         </li>
       </ul>
       <p className="public-data-source-boundary-notice__footnote">
-        這個說明會保留在公開頁，避免使用者把示範燈號誤認成正式市場訊號。
+        若資料異常或尚未更新，前台應清楚顯示狀態，避免使用者誤判。
       </p>
     </section>
   );
