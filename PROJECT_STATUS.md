@@ -2,6 +2,39 @@
 
 ## Latest Effective Status - 2026-06-16
 
+### Latest Runtime Promotion Field Intake Template
+
+Status: `phase_1_runtime_promotion_field_intake_template_ready_keep_mock`
+
+CEO decision:
+
+- Convert the missing packet fields into a concrete no-secret intake template.
+- Reuse the existing dry-run packet runner instead of creating a second execution path.
+- Keep the template intentionally incomplete so it remains fail-closed until PM/A2/A3 supply reviewed values.
+- Keep `publicDataSource=mock` and `scoreSource=mock`.
+
+PM completed:
+
+- Added `data/evidence-intake/phase-1-runtime-promotion-field-intake.template.json`.
+- Added `scripts/check-phase-1-runtime-promotion-field-intake-template.mjs`.
+- Added `check:phase-1-runtime-promotion-field-intake-template` to `package.json`.
+- Registered `phase-1-runtime-promotion-field-intake-template` in the focused review gate set.
+
+Current behavior:
+
+- The template includes all nine required promotion fields as `null`.
+- The template includes `fieldOwners` and `fieldInstructions` for PM, A2, and A3.
+- The existing dry-run runner reads the template and returns `phase_1_runtime_promotion_dry_run_packet_blocked_missing_required_fields`.
+- This is the intended safe state until a separate reviewed packet supplies values.
+
+Boundary:
+
+- No SQL, Supabase read/write, staging row creation, `daily_prices` mutation, market-data fetch/store/commit, raw payload output, row payload output, source promotion, real score promotion, membership implementation, production env mutation, DNS change, Vercel mutation, or platform secret handling occurred.
+
+Next:
+
+Continue with `phase_1_runtime_promotion_packet_field_intake_or_keep_mock_runtime`. PM/A2/A3 may use the template to supply non-secret values in a separate reviewed packet; mutation still requires a later gate.
+
 ### Latest Runtime Promotion Missing Packet Fields
 
 Status: `phase_1_runtime_promotion_missing_packet_fields_ready_keep_mock`

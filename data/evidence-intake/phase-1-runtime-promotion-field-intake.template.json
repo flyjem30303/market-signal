@@ -1,0 +1,41 @@
+{
+  "packetMode": "phase_1_runtime_promotion_dry_run_packet",
+  "operatorDecision": "RUN_PROMOTION_DRY_RUN_ONLY",
+  "promotionAllowedNow": false,
+  "dryRunOnlyAllowedNow": true,
+  "publicDataSource": "mock",
+  "scoreSource": "mock",
+  "requiredFieldCompleteness": "incomplete",
+  "runtimeFlagName": null,
+  "runtimeFlagTargetValue": null,
+  "rollbackOwner": null,
+  "rollbackCommand": null,
+  "readbackCommand": null,
+  "productionSmokeCommand": null,
+  "postPromotionReviewOwner": null,
+  "publicCopyFallbackLine": null,
+  "freshnessFallbackLine": null,
+  "fieldOwners": {
+    "runtimeFlagName": "PM / runtime engineering",
+    "runtimeFlagTargetValue": "PM / runtime engineering",
+    "rollbackOwner": "A3 / PM",
+    "rollbackCommand": "A3 / PM",
+    "readbackCommand": "PM / A3",
+    "productionSmokeCommand": "A3",
+    "postPromotionReviewOwner": "CEO / PM",
+    "publicCopyFallbackLine": "A2 / PM",
+    "freshnessFallbackLine": "A2 / PM"
+  },
+  "fieldInstructions": {
+    "runtimeFlagName": "Supply the exact non-secret runtime flag or environment key in a separate reviewed packet. Do not mutate it here.",
+    "runtimeFlagTargetValue": "Supply the exact non-secret target value in a separate reviewed packet. Do not apply it here.",
+    "rollbackOwner": "Name the owner accountable for rollback before any future mutation gate.",
+    "rollbackCommand": "Supply the rollback command or manual step shape only. Do not run it here.",
+    "readbackCommand": "Supply the command or route check that proves runtime source state without printing secrets or row payloads.",
+    "productionSmokeCommand": "Supply the production smoke command or route sequence without secret output or real-time claims.",
+    "postPromotionReviewOwner": "Name the post-promotion review owner.",
+    "publicCopyFallbackLine": "Supply non-advice fallback copy for stale, unavailable, or rolled-back data.",
+    "freshnessFallbackLine": "Supply freshness-delay copy without real-time guarantee or complete-coverage claims."
+  },
+  "stopLine": "This is an intake template only. It does not run SQL, connect to Supabase, write data, mutate runtime flags, change production environment values, or promote publicDataSource/scoreSource."
+}
