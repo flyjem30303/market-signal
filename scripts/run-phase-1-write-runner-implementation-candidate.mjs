@@ -9,7 +9,13 @@ const candidatePaths = {
     process.env.PHASE_1_SANITIZED_ROW_PAYLOAD_CANDIDATE_PATH ??
     null
 };
+const authorizationResponsePath =
+  parseArgs(process.argv.slice(2)).authorizationResponse ??
+  process.env.PHASE_1_BOUNDED_WRITE_AUTHORIZATION_RESPONSE_PATH ??
+  null;
 const validatorPath = "scripts/validate-phase-1-sanitized-row-payload-candidate-artifact.mjs";
+const authorizationValidatorPath =
+  "scripts/check-phase-1-runtime-promotion-bounded-write-authorization-response-intake-validator.mjs";
 
 const expected = {
   fullLevel1MissingRows: 178,
@@ -24,6 +30,9 @@ const candidates = {
 };
 const rowPayloadCandidateValidation = candidatePaths.rowPayloadCandidate
   ? validateRowPayloadCandidate(candidatePaths.rowPayloadCandidate)
+  : null;
+const authorizationValidation = authorizationResponsePath
+  ? validateAuthorizationResponse(authorizationResponsePath)
   : null;
 
 const rowPayloadStatus = {
@@ -59,6 +68,14 @@ const aggregateArtifactSetStatus = {
   etfRowPayloadIncluded: rowPayloadStatus.etfRowPayloadIncluded,
   rowPayloadArtifactStillRequired: true
 };
+const authorizationStatus = {
+  authorizationResponsePathProvided: Boolean(authorizationResponsePath),
+  authorizationResponseAccepted: authorizationValidation?.authorizationAcceptedForNextPreparation === true,
+  authorizationOperatorDecision: authorizationValidation?.operatorDecision ?? null,
+  authorizationValidatorStatus: authorizationValidation?.status ?? null,
+  authorizationValidatorProblems: authorizationValidation?.problems ?? [],
+  authorizationStillRequired: true
+};
 
 validateAggregateShape();
 aggregateArtifactSetStatus.accepted =
@@ -76,9 +93,15 @@ if (!rowPayloadsReady) {
   problems.push(
     candidatePaths.rowPayloadCandidate
       ? "candidate_row_payload_artifact_invalid"
-      : "candidate_row_payloads_missing"
+    : "candidate_row_payloads_missing"
   );
 }
+if (authorizationResponsePath && !authorizationStatus.authorizationResponseAccepted) {
+  problems.push("accepted_authorization_response_invalid");
+}
+
+const preRunInputsConverged = rowPayloadsReady && authorizationStatus.authorizationResponseAccepted;
+const nextRoute = selectNextRoute();
 
 const output = {
   status: problems.length === 0 ? "ready_for_separate_write_execution_review" : "blocked",
@@ -93,16 +116,17 @@ const output = {
   targetTable: "daily_prices",
   expected,
   candidatePaths,
+  authorizationResponsePath,
   aggregateArtifactSetStatus,
   rowPayloadStatus,
+  authorizationStatus,
   rowPayloadCandidateValidationStatus: rowPayloadCandidateValidation?.status ?? null,
   rowPayloadCandidateValidationProblems: rowPayloadCandidateValidation?.problems ?? [],
+  authorizationValidationStatus: authorizationValidation?.status ?? null,
+  authorizationValidationProblems: authorizationValidation?.problems ?? [],
+  preRunInputsConverged,
   blockedReasons: problems,
-  nextRoute: problems.includes("candidate_row_payloads_missing")
-    ? "provide_sanitized_row_payload_candidate_artifacts_or_keep_data_online_no_go"
-    : problems.includes("candidate_row_payload_artifact_invalid")
-      ? "provide_valid_sanitized_row_payload_candidate_artifact_or_keep_data_online_no_go"
-    : "separate_operator_write_execution_review_required",
+  nextRoute,
   executionAllowedNow: false,
   writeGateExecutableNow: false,
   implementationAllowedNow: false,
@@ -171,6 +195,42 @@ function validateRowPayloadCandidate(filePath) {
       problems: [`candidate_artifact_validator_unreadable:${error.message}`]
     };
   }
+}
+
+function validateAuthorizationResponse(filePath) {
+  const run = spawnSync(process.execPath, [authorizationValidatorPath, "--response", filePath], {
+    cwd: process.cwd(),
+    encoding: "utf8",
+    shell: false,
+    timeout: 120000,
+    windowsHide: true
+  });
+  try {
+    return JSON.parse(run.stdout);
+  } catch (error) {
+    return {
+      status: "phase_1_runtime_promotion_bounded_write_authorization_response_intake_validator_blocked",
+      authorizationAcceptedForNextPreparation: false,
+      operatorDecision: null,
+      problems: [`authorization_response_validator_unreadable:${error.message}`]
+    };
+  }
+}
+
+function selectNextRoute() {
+  if (problems.includes("candidate_row_payloads_missing")) {
+    return "provide_sanitized_row_payload_candidate_artifacts_or_keep_data_online_no_go";
+  }
+  if (problems.includes("candidate_row_payload_artifact_invalid")) {
+    return "provide_valid_sanitized_row_payload_candidate_artifact_or_keep_data_online_no_go";
+  }
+  if (problems.includes("accepted_authorization_response_invalid")) {
+    return "provide_valid_external_accepted_authorization_response_or_keep_mock";
+  }
+  if (preRunInputsConverged) {
+    return "fresh_pm_go_no_go_required_after_candidate_and_authorization_validation";
+  }
+  return "separate_operator_write_execution_review_required";
 }
 
 function parseArgs(tokens) {

@@ -29,13 +29,28 @@ const fixtureRun = spawnSync(process.execPath, [runnerPath, "--candidate-artifac
   timeout: 120000,
   windowsHide: true
 });
+const authorizationFixturePath = writeAuthorizationFixture();
+const convergedRun = spawnSync(
+  process.execPath,
+  [runnerPath, "--candidate-artifact", fixturePath, "--authorization-response", authorizationFixturePath],
+  {
+    cwd: process.cwd(),
+    encoding: "utf8",
+    shell: false,
+    timeout: 120000,
+    windowsHide: true
+  }
+);
 if (run.status !== 0) problems.push("runner candidate must exit 0 while blocked");
 if (fixtureRun.status !== 0) problems.push("runner candidate must exit 0 with valid fixture");
+if (convergedRun.status !== 0) problems.push("runner candidate must exit 0 with valid candidate and authorization fixtures");
 const output = parseJson(run.stdout, "runner stdout");
 const fixtureOutput = parseJson(fixtureRun.stdout, "runner fixture stdout");
+const convergedOutput = parseJson(convergedRun.stdout, "runner converged stdout");
 
 validateOutput();
 validateFixtureOutput();
+validateConvergedOutput();
 validateDoc();
 validateRegistration();
 validateBoundaries();
@@ -52,6 +67,7 @@ console.log(
       blockedReasons: output.blockedReasons ?? [],
       fixtureRunnerStatus: fixtureOutput.runnerStatus ?? null,
       fixtureNextRoute: fixtureOutput.nextRoute ?? null,
+      convergedNextRoute: convergedOutput.nextRoute ?? null,
       nextRoute: output.nextRoute ?? null,
       publicDataSource: output.publicDataSource ?? null,
       scoreSource: output.scoreSource ?? null,
@@ -78,6 +94,9 @@ function validateOutput() {
   expect(output.rowPayloadStatus?.etfRowPayloadIncluded, false, "etfRowPayloadIncluded");
   expect(output.rowPayloadStatus?.twiiRawPayloadIncluded, false, "twiiRawPayloadIncluded");
   expect(output.rowPayloadStatus?.etfRawPayloadIncluded, false, "etfRawPayloadIncluded");
+  expect(output.authorizationStatus?.authorizationResponsePathProvided, false, "authorizationResponsePathProvided");
+  expect(output.authorizationStatus?.authorizationResponseAccepted, false, "authorizationResponseAccepted");
+  expect(output.preRunInputsConverged, false, "preRunInputsConverged");
   expectIncludes(output.blockedReasons, "candidate_row_payloads_missing", "blockedReasons");
   expect(output.nextRoute, "provide_sanitized_row_payload_candidate_artifacts_or_keep_data_online_no_go", "nextRoute");
   for (const key of [
@@ -117,6 +136,9 @@ function validateFixtureOutput() {
   expect(fixtureOutput.rowPayloadStatus?.rowPayloadCandidatePathProvided, true, "fixture rowPayloadCandidatePathProvided");
   expect(fixtureOutput.rowPayloadStatus?.rowPayloadCandidateAccepted, true, "fixture rowPayloadCandidateAccepted");
   expect(fixtureOutput.rowPayloadStatus?.rowPayloadCandidateRowCount, 178, "fixture rowPayloadCandidateRowCount");
+  expect(fixtureOutput.authorizationStatus?.authorizationResponsePathProvided, false, "fixture authorizationResponsePathProvided");
+  expect(fixtureOutput.authorizationStatus?.authorizationResponseAccepted, false, "fixture authorizationResponseAccepted");
+  expect(fixtureOutput.preRunInputsConverged, false, "fixture preRunInputsConverged");
   expect(fixtureOutput.rowPayloadStatus?.rowPayloadCandidateSymbolCounts?.TWII, 60, "fixture TWII symbol count");
   expect(fixtureOutput.rowPayloadStatus?.rowPayloadCandidateSymbolCounts?.["0050"], 59, "fixture 0050 symbol count");
   expect(fixtureOutput.rowPayloadStatus?.rowPayloadCandidateSymbolCounts?.["006208"], 59, "fixture 006208 symbol count");
@@ -156,6 +178,55 @@ function validateFixtureOutput() {
   }
 }
 
+function validateConvergedOutput() {
+  expect(convergedOutput.status, "ready_for_separate_write_execution_review", "converged output.status");
+  expect(
+    convergedOutput.runnerStatus,
+    "phase_1_write_runner_implementation_candidate_ready_for_separate_review",
+    "converged runnerStatus"
+  );
+  expect(convergedOutput.rowPayloadStatus?.rowPayloadCandidateAccepted, true, "converged rowPayloadCandidateAccepted");
+  expect(convergedOutput.authorizationStatus?.authorizationResponsePathProvided, true, "converged authorizationResponsePathProvided");
+  expect(convergedOutput.authorizationStatus?.authorizationResponseAccepted, true, "converged authorizationResponseAccepted");
+  expect(
+    convergedOutput.authorizationStatus?.authorizationOperatorDecision,
+    "APPROVE_ONE_BOUNDED_WRITE_ATTEMPT",
+    "converged authorizationOperatorDecision"
+  );
+  expect(convergedOutput.preRunInputsConverged, true, "converged preRunInputsConverged");
+  expect(
+    convergedOutput.nextRoute,
+    "fresh_pm_go_no_go_required_after_candidate_and_authorization_validation",
+    "converged nextRoute"
+  );
+  for (const key of [
+    "executionAllowedNow",
+    "writeGateExecutableNow",
+    "implementationAllowedNow",
+    "sqlExecuted",
+    "supabaseClientImported",
+    "supabaseConnectionAttempted",
+    "supabaseReadAttempted",
+    "supabaseWriteAttempted",
+    "credentialValueRead",
+    "marketDataFetched",
+    "marketDataIngested",
+    "candidateRowsAccepted",
+    "dailyPricesMutated",
+    "stagingRowsCreated",
+    "rawPayloadsPrinted",
+    "rowPayloadsPrinted",
+    "secretsPrinted"
+  ]) {
+    expect(convergedOutput[key], false, `converged ${key}`);
+  }
+  expect(convergedOutput.publicDataSource, "mock", "converged publicDataSource");
+  expect(convergedOutput.scoreSource, "mock", "converged scoreSource");
+  for (const leakedToken of ["source_row_hash", "synthetic_fixture", "\"rows\""]) {
+    if ((convergedRun.stdout ?? "").includes(leakedToken)) problems.push(`runner converged stdout leaked ${leakedToken}`);
+  }
+}
+
 function validateDoc() {
   for (const token of [
     "phase_1_write_runner_implementation_candidate_blocked_no_execution",
@@ -164,6 +235,8 @@ function validateDoc() {
     "provide_sanitized_row_payload_candidate_artifacts_or_keep_data_online_no_go",
     "--candidate-artifact <LOCAL_JSON_PATH>",
     "PHASE_1_SANITIZED_ROW_PAYLOAD_CANDIDATE_PATH=<LOCAL_JSON_PATH>",
+    "--authorization-response <EXTERNAL_LOCAL_JSON_PATH>",
+    "PHASE_1_BOUNDED_WRITE_AUTHORIZATION_RESPONSE_PATH=<EXTERNAL_LOCAL_JSON_PATH>",
     "twiiCandidateArtifactPath=data/candidates/twii-sanitized-candidate.json",
     "etfCandidateArtifactPath=data/candidates/phase-1-etf-sanitized-candidate.json",
     "twiiRowPayloadIncluded=false",
@@ -176,8 +249,12 @@ function validateDoc() {
     "rowPayloadCandidateSymbolsCovered=[0050,006208,TWII]",
     "rowPayloadCandidateSymbolCounts={TWII:60,0050:59,006208:59}",
     "rowPayloadCandidateInvalidTradeDateCount=0",
+    "authorizationResponsePathProvided=true",
+    "authorizationResponseAccepted=true",
+    "preRunInputsConverged=true",
     "sourceRightsStatus=accepted",
     "fieldContractStatus=accepted",
+    "nextRoute=fresh_pm_go_no_go_required_after_candidate_and_authorization_validation",
     "nextRoute=separate_operator_write_execution_review_required",
     "No SQL",
     "No Supabase write",
@@ -217,7 +294,8 @@ function validateBoundaries() {
     [runnerPath, runnerSource],
     [docPath, doc],
     ["runner output", run.stdout ?? ""],
-    ["runner fixture output", fixtureRun.stdout ?? ""]
+    ["runner fixture output", fixtureRun.stdout ?? ""],
+    ["runner converged output", convergedRun.stdout ?? ""]
   ]) {
     for (const pattern of [
       /@supabase\/supabase-js/u,
@@ -309,6 +387,50 @@ function writeFixture() {
         secretsIncluded: false,
         expectedRows: 178,
         rows
+      },
+      null,
+      2
+    )
+  );
+  return fixturePath;
+}
+
+function writeAuthorizationFixture() {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "phase-1-write-runner-authorization-fixture-"));
+  const fixturePath = path.join(dir, "authorization.json");
+  fs.writeFileSync(
+    fixturePath,
+    JSON.stringify(
+      {
+        responseMode: "phase_1_runtime_promotion_bounded_write_authorization_response",
+        responseLabel: "PHASE_1_RUNTIME_PROMOTION_BOUNDED_WRITE_AUTHORIZATION_RESPONSE_FILLED_NO_EXECUTION",
+        operatorDecision: "APPROVE_ONE_BOUNDED_WRITE_ATTEMPT",
+        targetTable: "daily_prices",
+        targetScope: "twii_and_etf_phase_1_missing_row_closure_only",
+        maxRowsPerAttempt: 178,
+        confirmationCompleteness: "complete",
+        confirmations: {
+          oneBoundedWriteAttemptOnly: true,
+          sourceLegalityReviewed: true,
+          candidateArtifactSetAccepted: true,
+          serverOnlyCredentialPresenceReviewed: true,
+          readbackRequired: true,
+          rollbackOrQuarantineRequired: true,
+          postRunReviewRequired: true,
+          publicRuntimeMustRemainMockUntilPromotionReview: true,
+          noSecretValuesPrintedOrRequested: true,
+          noRawRowPayloadsPrintedOrRequested: true,
+          noInvestmentAdviceOrRealtimeGuarantee: true
+        },
+        boundedAttemptExecutableNow: false,
+        writeGateExecutableNow: false,
+        runnerExecutableNow: false,
+        promotionAllowedNow: false,
+        publicDataSource: "mock",
+        scoreSource: "mock",
+        nextRoute: "phase_1_runtime_promotion_one_bounded_write_attempt_runner_preparation_no_execution",
+        stopLine:
+          "Fixture only. Do not execute, connect to Supabase, generate SQL, write data, accept candidate rows, print secrets or payloads, or promote publicDataSource/scoreSource."
       },
       null,
       2

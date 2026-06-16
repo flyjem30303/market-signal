@@ -32,6 +32,8 @@ Current local candidate note: PM has a non-committed sanitized row-payload candi
 - `etfCandidateArtifactPath=data/candidates/phase-1-etf-sanitized-candidate.json`
 - optional row-payload candidate path: `--candidate-artifact <LOCAL_JSON_PATH>`
 - optional row-payload candidate env: `PHASE_1_SANITIZED_ROW_PAYLOAD_CANDIDATE_PATH=<LOCAL_JSON_PATH>`
+- optional external authorization response path: `--authorization-response <EXTERNAL_LOCAL_JSON_PATH>`
+- optional external authorization response env: `PHASE_1_BOUNDED_WRITE_AUTHORIZATION_RESPONSE_PATH=<EXTERNAL_LOCAL_JSON_PATH>`
 - `twiiRowPayloadIncluded=false`
 - `etfRowPayloadIncluded=false`
 - `twiiRawPayloadIncluded=false`
@@ -68,6 +70,23 @@ Expected safe result after a valid artifact path:
 - `nextRoute=separate_operator_write_execution_review_required`
 
 The runner still does not execute a write. It only proves the candidate path can pass the aggregate-only artifact validator.
+
+## Candidate + Authorization Convergence Intake
+
+When PM also has an external local accepted authorization response, run:
+
+```powershell
+cmd.exe /c npm run run:phase-1-write-runner-implementation-candidate -- --candidate-artifact <LOCAL_JSON_PATH> --authorization-response <EXTERNAL_LOCAL_JSON_PATH>
+```
+
+Expected safe result after both files validate:
+
+- `authorizationResponsePathProvided=true`
+- `authorizationResponseAccepted=true`
+- `preRunInputsConverged=true`
+- `nextRoute=fresh_pm_go_no_go_required_after_candidate_and_authorization_validation`
+
+This still does not execute a write. It only proves the row-payload candidate and external accepted authorization response can be reviewed together before a fresh PM go/no-go record.
 
 ## Hard Boundaries
 

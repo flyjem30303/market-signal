@@ -12882,3 +12882,16 @@ Prepare the separate bounded write/readback/rollback preparation packet. It must
 - Guardrails: `boundedAttemptExecutableNow=false`, `writeGateExecutableNow=false`, `runnerExecutableNow=false`, `promotionAllowedNow=false`, `publicDataSource=mock`, `scoreSource=mock`.
 - Hard stops: committing a filled accepted authorization response, SQL execution, Supabase connection, Supabase write, `daily_prices` mutation, raw payload output, secret output, runtime flag mutation, `publicDataSource=supabase`, `scoreSource=real`, real-time precision claim, complete-market coverage claim, investment-advice claim.
 - Next route: `external_authorization_validated_then_create_fresh_pm_go_no_go_or_keep_mock`.
+# Latest Write Runner Candidate + Authorization Convergence
+
+- Date: 2026-06-16
+- Status: `phase_1_write_runner_implementation_candidate_authorization_convergence_ready_no_execution`
+- CEO decision: `CONVERGE_CANDIDATE_AND_EXTERNAL_AUTHORIZATION_BEFORE_PM_GO_NO_GO`
+- Runner: `scripts/run-phase-1-write-runner-implementation-candidate.mjs`
+- Checker: `scripts/check-phase-1-write-runner-implementation-candidate.mjs`
+- Scope: the fail-closed runner can now validate a sanitized row-payload candidate path and an external local accepted authorization response path together before a fresh PM go/no-go record.
+- Current default state: without an explicit row-payload candidate path, the runner still blocks with `candidate_row_payloads_missing`.
+- Fixture-proven safe route: with valid candidate and external authorization fixtures, `preRunInputsConverged=true` and `nextRoute=fresh_pm_go_no_go_required_after_candidate_and_authorization_validation`.
+- Guardrails: `executionAllowedNow=false`, `writeGateExecutableNow=false`, `implementationAllowedNow=false`, `publicDataSource=mock`, `scoreSource=mock`.
+- Hard stops: SQL execution, Supabase client import, Supabase connection, Supabase read/write, credential value read, market-data fetch, market-data ingestion, candidate-row acceptance, `daily_prices` mutation, staging-row creation, raw payload output, row payload output, secret output, public source promotion, score promotion, public real-data claim, investment advice.
+- Next route: `fresh_pm_go_no_go_required_after_candidate_and_authorization_validation` after real external files validate, otherwise keep mock.
