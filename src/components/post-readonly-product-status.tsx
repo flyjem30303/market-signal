@@ -10,10 +10,10 @@ const contextCopy = {
   briefing: {
     body: "資料覆蓋已完成，現在的主線不是再補 row，而是確認真實資料上線前的品質、更新時間、來源揭露與回退邊界。",
     label: "資料與 runtime 狀態",
-    title: "資料補齊完成，仍待 promotion gate"
+    title: "資料補齊完成，仍待上線檢查"
   },
   home: {
-    body: "首頁仍以安全的 mock 燈號呈現。後台資料補齊已完成，但公開網站要等 promotion gate 通過後才會切換成真實資料來源。",
+    body: "首頁仍以安全的 mock 燈號呈現。後台資料補齊已完成，但公開網站要等上線檢查通過後才會切換成真實資料來源。",
     label: "公開資料狀態",
     title: "目前可看市場狀態，真實資料切換仍受控"
   },

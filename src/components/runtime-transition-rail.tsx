@@ -25,7 +25,7 @@ export function RuntimeTransitionRail({ symbol }: RuntimeTransitionRailProps) {
       </article>
       <article className="blocked">
         <span>切換條件</span>
-        <strong>promotion gate 通過前不切 real</strong>
+        <strong>上線檢查通過前不切 real</strong>
         <p>{postReadonly.stopLine}</p>
       </article>
     </section>

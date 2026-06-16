@@ -13,7 +13,7 @@ export function DataFreshnessStrip({ freshness, marketSignalSourceStatus }: Data
     marketSignalSourceStatus?.resolvedSource === "mock" || freshness.isMock ? "示範資料" : freshness.sourceName;
 
   return (
-    <aside className={`freshness-strip ${freshness.state}`} aria-label="資料狀態">
+    <aside className={`freshness-strip ${freshness.state}`} aria-label="資料更新狀態">
       <strong>資料狀態：{freshness.stateLabel}</strong>
       <span>資料來源：{sourceLabel}</span>
       <span>更新時間：{freshness.asOfDate}</span>
@@ -22,7 +22,7 @@ export function DataFreshnessStrip({ freshness, marketSignalSourceStatus }: Data
       </span>
       <span className={`freshness-score-source ${freshness.scoreSource}`}>分數來源：{scoreLabel}</span>
       <span className="freshness-boundary">
-        Phase 1 公開版目前維持示範資料邊界；正式資料上線前，仍需完成來源權利、覆蓋率、品質驗證與正式資料切換檢查。
+        Phase 1 公開版仍以示範燈號協助閱讀流程；真實資料上線前，需通過來源、品質、更新時間與回退檢查。
       </span>
       <TrackedLink
         className="freshness-link"
@@ -37,10 +37,10 @@ export function DataFreshnessStrip({ freshness, marketSignalSourceStatus }: Data
         className="freshness-link"
         eventName="trust_link_clicked"
         href="/disclaimer"
-        label="查看免責聲明"
+        label="查看風險聲明"
         payload={{ area: "data_freshness_strip" }}
       >
-        免責聲明
+        風險聲明
       </TrackedLink>
     </aside>
   );

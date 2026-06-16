@@ -12,9 +12,9 @@ import {
 import type { SignalSnapshot } from "@/lib/signal-model";
 
 export const metadata: Metadata = {
-  title: "市場快報",
+  title: "市場簡報",
   description:
-    "30 秒看懂市場燈號，3 分鐘把市場燈號拆成原因、風險分數與下一步觀察順序。Phase 1 使用示範資料，非投資建議。"
+    "用 30 秒看懂市場氣氛，並用 3 分鐘確認風險、更新時間與下一步觀察重點。Phase 1 仍使用示範資料，不提供投資建議。"
 };
 
 export default async function BriefingPage() {
@@ -35,19 +35,18 @@ export default async function BriefingPage() {
     <main className="page-shell">
       <PageViewTracker eventName="briefing_page_viewed" payload={{ page: "briefing" }} />
 
-      <section className="hero briefing-public-summary" aria-label="市場快報">
+      <section className="hero briefing-public-summary" aria-label="市場簡報">
         <p className="eyebrow">市場快報</p>
         <h1>30 秒看懂市場燈號</h1>
         <p>
-          3 分鐘把市場燈號拆成原因：先看大盤燈號，再看風險分數、觀察清單與資料與風險邊界。
+          先看市場燈號，再看風險分數與資料更新時間。這份簡報用來幫助一般投資者建立觀察順序，不提供買賣建議。
         </p>
         <p>
-          目前示範市場為 {market.asset.name}，燈號為 {market.signal.title}，市場分數 {market.compositeScore}/100，
-          風險分數 {market.riskScore}/100。這頁協助使用者整理觀察順序，不是買賣建議。
+          目前 {market.asset.name} 為「{market.signal.title}」，綜合分數 {market.compositeScore}/100，
+          風險分數 {market.riskScore}/100。請搭配資料狀態與風險聲明一起判讀。
         </p>
         <p className="runtime-boundary-line">
-          資料與風險邊界：正式資料尚未啟用，Phase 1 仍使用示範資料與示範分數。任何行動前都應確認資料來源、
-          更新時間、覆蓋範圍與自身風險承受能力。
+          Phase 1 仍以示範資料呈現；正式資料切換前，需完成資料品質、來源揭露、更新時間與回退檢查。
         </p>
       </section>
 
@@ -62,7 +61,7 @@ export default async function BriefingPage() {
         </div>
         <aside>
           <span>
-            市場分數 <strong>{market.compositeScore}</strong>/100
+            綜合分數 <strong>{market.compositeScore}</strong>/100
           </span>
           <span>
             風險分數 <strong>{market.riskScore}</strong>/100
@@ -71,28 +70,42 @@ export default async function BriefingPage() {
         </aside>
       </section>
 
-      <section className="briefing-grid" aria-label="市場拆解">
+      <section className="briefing-grid" aria-label="市場重點">
         <article className="panel">
-          <p className="eyebrow">市場結構</p>
-          <h2>偏多觀察 {breadth.constructiveCount} 項，風險觀察 {breadth.defensiveCount} 項</h2>
+          <p className="eyebrow">市場廣度</p>
+          <h2>偏強 {breadth.constructiveCount} 檔，風險偏高 {breadth.defensiveCount} 檔</h2>
           <p>
-            市場分數較高代表可以放入觀察清單；風險分數升高時，重點應改為確認原因、等待資料更新與降低誤判。
+            如果強勢集中在少數標的，解讀信心應降低；如果風險分數同步上升，應優先檢查資料新鮮度與回退提示。
           </p>
         </article>
 
         <article className="panel">
-          <p className="eyebrow">風險清單</p>
+          <p className="eyebrow">風險焦點</p>
           <h2>{topRisk.asset.name}</h2>
           <p>
-            風險分數 {topRisk.riskScore}/100。若市場分數上升但風險同步升高，代表需要加強觀察，而不是直接追價。
+            風險分數 {topRisk.riskScore}/100。這代表目前需要更多觀察，不代表一定下跌，也不是買賣指令。
           </p>
         </article>
       </section>
 
+      <section className="panel" aria-label="下一步行動">
+        <p className="eyebrow">下一步行動</p>
+        <h2>先觀察，再複核，不把燈號當成買賣指令</h2>
+        <p>
+          若市場偏多但風險分數同步升高，優先確認資料更新時間、風險來源與資料邊界；若訊號分歧，先等待更多確認訊號。
+        </p>
+      </section>
+
+      <section className="panel" aria-label="資料邊界">
+        <p className="eyebrow">資料邊界</p>
+        <h2>目前仍是公開 Beta 與示範資料</h2>
+        <p>正式資料上線前，需通過來源、品質、更新時間、回退與公開文案檢查。</p>
+      </section>
+
       <section className="panel" aria-label="觀察清單">
         <div className="section-heading">
-          <p className="eyebrow">後續觀察</p>
-          <h2>先看分數，再看原因，最後才決定是否追蹤</h2>
+          <p className="eyebrow">相對強勢</p>
+          <h2>先看狀態，再看是否值得持續觀察</h2>
         </div>
         <div className="signal-list">
           {strongest.map((item) => (
@@ -102,7 +115,7 @@ export default async function BriefingPage() {
                 <span>{item.asset.symbol}</span>
               </div>
               <p>
-                {item.signal.title}，市場分數 {item.compositeScore}/100，風險分數 {item.riskScore}/100。
+                {item.signal.title}，綜合分數 {item.compositeScore}/100，風險分數 {item.riskScore}/100。
               </p>
               <TrackedLink
                 className="text-link"

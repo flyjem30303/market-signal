@@ -114,6 +114,6 @@ export function getPostReadonlyNextGateQueue(): PostReadonlyNextGateQueue {
     publicDataSource: "mock",
     scoreSource: "mock",
     stopLine:
-      "coverage 完成不是公開 real 的許可；promotion gate 通過前，公開 runtime 仍維持 mock。"
+      "coverage 完成不是公開 real 的許可；上線檢查通過前，公開 runtime 仍維持 mock。"
   };
 }

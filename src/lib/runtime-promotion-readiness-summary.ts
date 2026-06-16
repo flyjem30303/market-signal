@@ -71,7 +71,7 @@ export function getRuntimePromotionReadinessSummary(): RuntimePromotionReadiness
   return {
     blockedReason: "promotion_gate_pending",
     currentRoute: "prepare_runtime_promotion_gate_preflight",
-    headline: "資料覆蓋已完成，正在準備 runtime promotion gate",
+    headline: "資料覆蓋已完成，正在準備真實資料上線檢查",
     mockBoundary: {
       publicDataSource: "mock",
       scoreSource: "mock"
@@ -101,6 +101,6 @@ export function getRuntimePromotionReadinessSummary(): RuntimePromotionReadiness
     },
     steps,
     stopLine:
-      "row coverage 已完成，但 runtime 仍維持 mock；promotion gate 未通過前不可把公開網站切成 real。"
+      "row coverage 已完成，但 runtime 仍維持 mock；上線檢查未通過前不可把公開網站切成 real。"
   };
 }

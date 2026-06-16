@@ -59,24 +59,23 @@ export function DashboardShell({
       />
 
       <section className="hero dashboard-hero">
-        <p className="eyebrow">{isStockPage ? "個股燈號" : "市場總覽"}</p>
-        <p className="eyebrow">公開 Beta 狀態</p>
+        <p className="eyebrow">{isStockPage ? "個股燈號 / 一眼判讀" : "市場總覽 / 快速判讀"}</p>
+        <p className="eyebrow">公開 Beta / Phase 1</p>
         <h1>{isStockPage ? `${selected.symbol} ${selected.name}: ${snapshot.signal.title}` : "30 秒看懂今天的市場狀態"}</h1>
         <p>
           {isStockPage
-            ? `${selected.name} 目前綜合分數 ${snapshot.compositeScore}/100，風險分數 ${snapshot.riskScore}/100。先看個股燈號，再看資料來源與覆蓋。`
-            : `${market.asset.name} 目前為「${market.signal.title}」，綜合分數 ${market.compositeScore}/100。全市場總覽先讓使用者 30 秒內看懂市場氛圍，再用 3 分鐘內判斷下一步觀察。`}
+            ? `${selected.name} 目前綜合分數 ${snapshot.compositeScore}/100，風險分數 ${snapshot.riskScore}/100。這是狀態整理，不是買賣建議。`
+            : `${market.asset.name} 目前為「${market.signal.title}」，綜合分數 ${market.compositeScore}/100。先看燈號，再看風險與資料更新時間。`}
         </p>
         <p className="runtime-boundary-line">
-          Phase 1 使用示範資料，正式每日資料尚未啟用；本網站為非投資建議，不是即時報價。
-          正式資料上線前會清楚標示示範/正式資料邊界。
+          Phase 1 仍以示範資料呈現產品流程；真實資料上線需通過來源、品質、更新時間與回退檢查。
         </p>
-        <div className="hero-status-strip" aria-label="狀態儀表">
+        <div className="hero-status-strip" aria-label="目前狀態">
           <span>{isStockPage ? "個股燈號" : "市場燈號"}：{isStockPage ? snapshot.signal.title : market.signal.title}</span>
           <span>綜合分數：{isStockPage ? snapshot.compositeScore : market.compositeScore}/100</span>
           <span>風險分數：{isStockPage ? snapshot.riskScore : market.riskScore}/100</span>
-          <span>資料時間：{snapshotDate}</span>
-          <span>資料上線狀態：示範資料</span>
+          <span>資料日期：{snapshotDate}</span>
+          <span>資料模式：示範資料</span>
         </div>
       </section>
 
@@ -103,8 +102,8 @@ export function DashboardShell({
       <section className="stock-search-panel" aria-label="標的切換">
         <div>
           <p className="eyebrow">標的清單</p>
-          <h2>選擇指數、ETF 或個股範例</h2>
-          <p>Phase 1 先用少量示範標的驗證閱讀流程；完整市場覆蓋與真實資料仍在後續資料作業中補齊。</p>
+          <h2>切換指數、ETF 或主要觀察標的</h2>
+          <p>Phase 1 先提供一組示範觀察清單，讓使用者理解燈號、風險分數與資料邊界的閱讀方式。</p>
         </div>
         <div className="stock-chip-list">
           {assets.map((asset) => (
@@ -121,10 +120,10 @@ export function DashboardShell({
       </section>
 
       <article className="disclaimer">
-        <h2>重要提醒</h2>
+        <h2>重要提醒 / 免責聲明</h2>
         <p>
-          指數燈號是市場資訊整理與風險辨識工具，不提供買賣建議，也不能當成個股買賣指令。
-          正式資料升級前檢查仍未完成，請先把目前分數視為示範分數。
+          指數燈號是市場資訊整理與風險辨識工具，不提供個股買賣建議、不保證報酬，也不代替使用者做投資決策。
+          目前公開版仍使用示範資料；請搭配資料來源、更新時間與自身風險承受度判斷。
         </p>
       </article>
     </main>
@@ -133,33 +132,32 @@ export function DashboardShell({
 
 function HomeFirstScreenDecisionSummary({ market }: { market: SignalSnapshot }) {
   return (
-    <section className="panel stock-reading-summary" aria-label="指數狀態儀表站">
-      <p className="eyebrow">指數狀態儀表站</p>
-      <p className="eyebrow">30 秒快速閱讀</p>
+    <section className="panel stock-reading-summary" aria-label="市場第一眼摘要">
+      <p className="eyebrow">市場第一眼摘要</p>
+      <p className="eyebrow">30 秒閱讀</p>
       <h2>
-        {market.asset.name}: {market.signal.title}，市場分數 {market.compositeScore}/100
+        {market.asset.name}: {market.signal.title}，綜合分數 {market.compositeScore}/100
       </h2>
       <p>{market.signal.text}</p>
       <p>
-        首頁快速判讀：先看市場氣氛，再看風險，再決定下一步觀察。3 分鐘複核時，依序看核心指標快讀、
-        警示提醒、資料信任、資料來源與覆蓋率，確認這只是公開 Beta 可用閉環與示範資料，不是投資建議。
+        建議先確認整體燈號，再看風險分數與資料更新時間。若燈號偏多但風險同步升高，應視為「加強觀察」而非直接行動。
       </p>
-      <p className="eyebrow">核心指標面板</p>
-      <div className="briefing-actions" aria-label="核心指標面板">
+      <p className="eyebrow">下一步建議</p>
+      <div className="briefing-actions" aria-label="下一步建議">
         <article>
-          <strong>先看市場燈號</strong>
-          <p>用一個狀態理解目前市場偏多、觀望、警戒或高風險。</p>
+          <strong>看市場簡報</strong>
+          <p>用更完整的文字摘要理解市場狀態與觀察重點。</p>
         </article>
         <article>
-          <strong>再看警示清單</strong>
-          <p>找出風險分數較高或需要加強觀察的標的。</p>
+          <strong>檢查風險標的</strong>
+          <p>查看風險分數較高的標的，避免只追逐高分數。</p>
         </article>
         <article>
-          <strong>最後看資料狀態</strong>
-          <p>若仍為示範資料，就不能把燈號當成真實交易依據。</p>
+          <strong>確認資料邊界</strong>
+          <p>目前仍是公開 Beta 與示範資料，真實資料切換前必須通過上線檢查。</p>
         </article>
       </div>
-      <div className="home-first-screen-decision__actions" aria-label="下一步閱讀">
+      <div className="home-first-screen-decision__actions" aria-label="主要操作">
         <TrackedLink eventName="home_cta_clicked" href="/briefing" label="查看市場簡報" payload={{ area: "home_first_screen" }}>
           查看市場簡報
         </TrackedLink>
@@ -178,21 +176,19 @@ function HomeFirstScreenDecisionSummary({ market }: { market: SignalSnapshot }) 
 
 function StockRuntimeAtAGlance({ snapshot }: { snapshot: SignalSnapshot }) {
   return (
-    <section className="panel stock-reading-summary" aria-label="標的快速判讀">
-      <p className="eyebrow">標的快速判讀 / 一眼判讀</p>
-      <p className="eyebrow">決策輔助摘要</p>
-      <p className="eyebrow">30 秒快速閱讀</p>
+    <section className="panel stock-reading-summary" aria-label="標的快速摘要">
+      <p className="eyebrow">標的快速摘要 / 一眼閱讀</p>
+      <p className="eyebrow">30 秒閱讀</p>
       <h2>
         {snapshot.asset.symbol} {snapshot.asset.name}: {snapshot.signal.title}
       </h2>
       <p>
-        綜合分數 {snapshot.compositeScore}/100，風險分數 {snapshot.riskScore}/100。請用 30 秒看懂標的狀態，
-        再用 3 分鐘複核風險來源、資料來源與覆蓋。
+        綜合分數 {snapshot.compositeScore}/100，風險分數 {snapshot.riskScore}/100。請先把它視為觀察輔助，再搭配市場簡報與資料狀態判讀。
       </p>
-      <p>標的決策摘要：先看燈號，再看資料來源與覆蓋率，最後確認公開 Beta 可用閉環仍是示範資料。</p>
-      <div className="briefing-actions" aria-label="個股判讀順序">
+      <p>目前頁面使用示範資料呈現，重點是讓使用者理解燈號背後的狀態與風險，而不是形成買賣建議。</p>
+      <div className="briefing-actions" aria-label="標的觀察重點">
         <article>
-          <strong>狀態摘要</strong>
+          <strong>目前訊號</strong>
           <p>{snapshot.signal.text}</p>
         </article>
         <article>
@@ -200,8 +196,8 @@ function StockRuntimeAtAGlance({ snapshot }: { snapshot: SignalSnapshot }) {
           <p>{snapshot.staleDataFlags[0]}</p>
         </article>
         <article>
-          <strong>下一步觀察</strong>
-          <p>查看市場簡報與方法說明，確認這個標的是否只是市場狀態的一部分。</p>
+          <strong>下一步</strong>
+          <p>回到市場簡報交叉確認整體環境，再決定是否加入觀察清單。</p>
         </article>
       </div>
     </section>
@@ -210,11 +206,11 @@ function StockRuntimeAtAGlance({ snapshot }: { snapshot: SignalSnapshot }) {
 
 function StockDecisionCompass() {
   return (
-    <section className="panel stock-decision-compass" aria-label="判讀順序">
-      <p className="eyebrow">判讀順序</p>
-      <h2>燈號不是交易指令</h2>
-      <p>請先確認資料狀態，再閱讀市場簡報與方法說明。本頁不是投資建議，也不能當成個股買賣指令。</p>
-      <div className="home-first-screen-decision__actions" aria-label="股票頁下一步">
+    <section className="panel stock-decision-compass" aria-label="決策輔助">
+      <p className="eyebrow">決策輔助</p>
+      <h2>燈號不是買賣指令</h2>
+      <p>請把燈號視為市場狀態整理：先確認趨勢、風險與資料更新，再決定是否需要觀察、複核或降低曝險。</p>
+      <div className="home-first-screen-decision__actions" aria-label="延伸閱讀">
         <TrackedLink eventName="stock_link_clicked" href="/briefing" label="查看市場簡報" payload={{ area: "stock_compass" }}>
           查看市場簡報
         </TrackedLink>
@@ -230,8 +226,8 @@ function StockMarketContextPanel({ snapshot }: { snapshot: SignalSnapshot }) {
   return (
     <section className="panel stock-reading-summary" aria-label="市場脈絡">
       <p className="eyebrow">市場脈絡</p>
-      <h2>{snapshot.asset.name} 的判讀位置</h2>
-      <p>Phase 1 先把標的放進市場總覽中閱讀。分數與燈號應搭配大盤、風險分數與資料更新時間一起使用。</p>
+      <h2>{snapshot.asset.name} 的觀察位置</h2>
+      <p>Phase 1 先用簡化模型呈現趨勢、風險與資料品質。未來切換真實資料後，會補上更完整的來源、回看與品質提示。</p>
     </section>
   );
 }
@@ -239,8 +235,8 @@ function StockMarketContextPanel({ snapshot }: { snapshot: SignalSnapshot }) {
 function MarketLists({ riskList, strongList }: { riskList: SignalSnapshot[]; strongList: SignalSnapshot[] }) {
   return (
     <section className="weekly-grid" aria-label="市場排行">
-      <MarketList description="綜合分數較高的標的適合放入觀察清單，但仍需搭配資料狀態與風險分數一起看。" items={strongList} title="強勢觀察" valueKey="composite" />
-      <MarketList description="風險分數較高的標的需要提高複核頻率，避免只看單一燈號。" items={riskList} title="主要風險" valueKey="risk" />
+      <MarketList description="綜合分數較高的標的，適合用來觀察目前市場支撐來自哪些族群。" items={strongList} title="相對強勢" valueKey="composite" />
+      <MarketList description="風險分數較高的標的，適合用來提醒是否需要降低解讀信心。" items={riskList} title="風險較高" valueKey="risk" />
     </section>
   );
 }
@@ -283,7 +279,7 @@ function MarketList({
 
 function StockPublicSummary({ snapshot }: { snapshot: SignalSnapshot }) {
   return (
-    <section className="stock-public-summary" aria-label="個股燈號摘要">
+    <section className="stock-public-summary" aria-label="標的公開摘要">
       <article className="panel">
         <p className="eyebrow">目前燈號</p>
         <h2>{snapshot.signal.title}</h2>
@@ -292,12 +288,12 @@ function StockPublicSummary({ snapshot }: { snapshot: SignalSnapshot }) {
       <article className="panel">
         <p className="eyebrow">綜合分數</p>
         <h2>{snapshot.compositeScore}/100</h2>
-        <p>綜合分數用來整理趨勢與動能，但仍需搭配風險分數與資料狀態。</p>
+        <p>綜合分數用來概括趨勢、品質、資金與風險背景，不能單獨視為操作依據。</p>
       </article>
       <article className="panel">
         <p className="eyebrow">風險分數</p>
         <h2>{snapshot.riskScore}/100</h2>
-        <p>風險分數越高，越應提高觀察頻率，並避免用單一訊號做決策。</p>
+        <p>風險分數越高，越需要檢查資料更新、波動來源與自身曝險。</p>
       </article>
     </section>
   );

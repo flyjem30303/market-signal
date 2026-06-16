@@ -26,7 +26,7 @@ export function getPostReadonlyRuntimeState(): PostReadonlyRuntimeState {
   return {
     acceptedEvidence: evidence.acceptedScope,
     headline: "資料覆蓋已補齊，但公開網站仍維持 mock 安全模式",
-    nextGate: "進入 runtime promotion preflight：先完成品質、更新時間、來源揭露、回退與公開文案覆核，才可討論 real promotion。",
+    nextGate: "進入真實資料上線前檢查：先完成品質、更新時間、來源揭露、回退與公開文案覆核，才可討論 real promotion。",
     objectsReachable: evidence.objects.length,
     publicDataSource: "mock",
     rowCoverage: {
@@ -41,7 +41,7 @@ export function getPostReadonlyRuntimeState(): PostReadonlyRuntimeState {
     scoreSource: "mock",
     state: "coverage_complete_mock_only",
     stopLine:
-      "在 promotion gate 通過前，不切換 publicDataSource=supabase、不切換 scoreSource=real，也不宣稱即時、完整市場覆蓋或投資建議。",
+      "在上線檢查通過前，不切換 publicDataSource=supabase、不切換 scoreSource=real，也不宣稱即時、完整市場覆蓋或投資建議。",
     userFacingSummary:
       "目前可用於產品展示與本機驗證；公開頁面仍以 mock 燈號呈現，避免使用者把尚未完成 promotion 的資料誤認為正式投資訊號。"
   };

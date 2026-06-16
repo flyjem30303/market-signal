@@ -16,32 +16,32 @@ type LinkItem = {
 
 const contextCopy = {
   briefing: {
-    ariaLabel: "市場快報下一步行動",
-    body: "看完快報後，建議回到市場總覽確認全局，再進入標的頁或週報查看細節。",
-    eyebrow: "下一步行動",
+    ariaLabel: "市場簡報下一步",
+    body: "看完市場簡報後，可以回到總覽確認燈號，也可以進入個別標的頁查看細節。",
+    eyebrow: "下一步",
     eventName: "briefing_link_clicked",
-    title: "把快報轉成可執行的觀察順序"
+    title: "從市場總覽接到具體觀察"
   },
   home: {
-    ariaLabel: "首頁下一步行動",
-    body: "首頁適合先看整體燈號；需要原因時進入市場快報，需要方法時查看方法說明。",
-    eyebrow: "下一步行動",
+    ariaLabel: "首頁下一步",
+    body: "首頁先看整體市場氣氛，再進入市場簡報、個別標的或方法說明確認判讀方式。",
+    eyebrow: "下一步",
     eventName: "home_cta_clicked",
-    title: "從總覽進入更完整的市場判讀"
+    title: "用 30 秒建立市場第一印象"
   },
   stock: {
-    ariaLabel: "標的頁下一步行動",
-    body: "標的頁用來看單一指數、ETF 或股票的狀態；下一步可回到快報與週報交叉確認。",
-    eyebrow: "下一步行動",
+    ariaLabel: "個股頁下一步",
+    body: "個股頁適合確認單一標的狀態；若要避免只看單點，建議回到簡報或總覽交叉檢查。",
+    eyebrow: "下一步",
     eventName: "stock_link_clicked",
-    title: "不要只看單一分數，回到市場脈絡判斷"
+    title: "不要只看單一分數"
   },
   weekly: {
-    ariaLabel: "週報下一步行動",
-    body: "週報用來整理一週變化；若需要當前摘要，請回到市場快報或首頁。",
-    eyebrow: "下一步行動",
+    ariaLabel: "週報下一步",
+    body: "週報用來回看趨勢與變化，接著可回到首頁或簡報確認目前狀態。",
+    eyebrow: "下一步",
     eventName: "weekly_link_clicked",
-    title: "把週報結論接回日常觀察流程"
+    title: "從回顧接回當前狀態"
   }
 } satisfies Record<
   PublicNextReadingFlowContext,
@@ -99,7 +99,7 @@ function getLinks(context: PublicNextReadingFlowContext, stockSymbol: string): L
   if (context === "weekly") {
     return [
       { href: "/", label: "市場總覽", target: "home" },
-      { href: "/briefing", label: "市場快報", target: "briefing" },
+      { href: "/briefing", label: "市場簡報", target: "briefing" },
       { href: stockHref, label: "標的燈號", target: "stock" },
       { href: "/methodology", label: "方法說明", target: "methodology" },
       { href: "/disclaimer", label: "風險聲明", target: "disclaimer" }
@@ -107,7 +107,7 @@ function getLinks(context: PublicNextReadingFlowContext, stockSymbol: string): L
   }
 
   return [
-    { href: "/briefing", label: "市場快報", target: "briefing" },
+    { href: "/briefing", label: "市場簡報", target: "briefing" },
     { href: "/weekly", label: "市場週報", target: "weekly" },
     { href: stockHref, label: "標的燈號", target: "stock" },
     { href: "/methodology", label: "方法說明", target: "methodology" },
