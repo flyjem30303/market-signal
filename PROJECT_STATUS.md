@@ -2,6 +2,39 @@
 
 ## Latest Effective Status - 2026-06-16
 
+### Latest Phase 1 Production URL Smoke
+
+Status: `phase_1_production_public_url_smoke_verified_after_push`
+
+CEO decision:
+
+- Push the already verified public user-language cleanup commit to `origin/main` so Vercel can redeploy the public site.
+- Do not change Vercel settings, DNS, environment variables, Supabase, SQL, data writes, real-data promotion, or membership runtime in this slice.
+- Treat production smoke as the authoritative external confirmation for public route readability after deploy.
+
+PM completed:
+
+- Pushed commit `33054f0d Clean public Phase 1 user language` to `origin/main`.
+- Waited for Vercel deployment propagation by rerunning the production smoke gate.
+- Confirmed the production URL no longer exposes public `Phase 1` / `Phase 2` residue on the checked public routes.
+
+Verification:
+
+- `cmd.exe /c scripts\with-node20.cmd npm run check:phase-1-production-public-url-smoke` passed on attempt 5.
+- Checked production base URL: `https://market-signal-two.vercel.app`.
+- Checked public routes: 13.
+- Checked inaccessible Phase 2 routes: 7.
+- `publicDataSource` remained `mock`.
+- `scoreSource` remained `mock`.
+
+Boundary:
+
+- No SQL, Supabase read/write, staging row creation, `daily_prices` mutation, market-data fetch/store/commit, raw payload output, row payload output, source promotion, real score promotion, membership implementation, production env mutation, DNS change, manual Vercel setting mutation, or platform secret handling occurred.
+
+Next:
+
+Continue Phase 1 final completion audit. Remaining risk is no longer public copy deployment; it is the broader release decision and the separate data real-promotion/write path.
+
 ### Latest Phase 1 Public User-Language Cleanup
 
 Status: `phase_1_public_user_language_cleanup_verified`
