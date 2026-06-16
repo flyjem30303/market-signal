@@ -4516,6 +4516,11 @@ const checks = [
     name: "phase-1-runtime-promotion-operator-review-summary"
   },
   {
+    command: [node, "scripts/check-phase-1-runtime-promotion-separate-bounded-attempt-review-packet.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-runtime-promotion-separate-bounded-attempt-review-packet"
+  },
+  {
     command: [node, "scripts/check-phase-1-twii-bounded-write-operator-decision-quickstart.mjs"],
     expectStatus: "ok",
     name: "phase-1-twii-bounded-write-operator-decision-quickstart"
@@ -7288,6 +7293,7 @@ const phase1LiveCoreReviewGateNames = new Set([
   "phase-1-runtime-promotion-field-intake-example",
   "phase-1-runtime-promotion-operator-packet-intake",
   "phase-1-runtime-promotion-operator-review-summary",
+  "phase-1-runtime-promotion-separate-bounded-attempt-review-packet",
   "beta-runtime-fast-health",
   "typescript"
 ]);
