@@ -75,4 +75,4 @@ ETF symbols `0050` and `006208` are deferred to Phase 1.1.
 
 ## Next Route
 
-`prepare_twii_plus_listed_stock_sanitized_candidate_artifact_no_execution`
+`a1_or_pm_prepare_twii_plus_listed_stock_sanitized_candidate_artifact_path_no_execution`

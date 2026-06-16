@@ -30,7 +30,7 @@ for (const phrase of [
   "`promotionAllowedNow=false`",
   "`publicDataSource=mock`",
   "`scoreSource=mock`",
-  "`prepare_twii_plus_listed_stock_sanitized_candidate_artifact_no_execution`"
+  "`a1_or_pm_prepare_twii_plus_listed_stock_sanitized_candidate_artifact_path_no_execution`"
 ]) {
   if (!doc.includes(phrase)) problems.push(`${docPath} missing phrase: ${phrase}`);
 }
@@ -75,7 +75,11 @@ expect(artifact.runnerExecutableNow, false, "artifact.runnerExecutableNow");
 expect(artifact.promotionAllowedNow, false, "artifact.promotionAllowedNow");
 expect(artifact.publicDataSource, "mock", "artifact.publicDataSource");
 expect(artifact.scoreSource, "mock", "artifact.scoreSource");
-expect(artifact.nextRoute, "prepare_twii_plus_listed_stock_sanitized_candidate_artifact_no_execution", "artifact.nextRoute");
+expect(
+  artifact.nextRoute,
+  "a1_or_pm_prepare_twii_plus_listed_stock_sanitized_candidate_artifact_path_no_execution",
+  "artifact.nextRoute"
+);
 
 expectArray(
   artifact.requiredBeforeExecution,

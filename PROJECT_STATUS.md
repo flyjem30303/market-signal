@@ -2,6 +2,28 @@
 
 ## Latest Effective Status - 2026-06-16
 
+### Latest Phase 1 Current-Scope Sanitized Candidate Artifact Readiness
+
+Status: `phase_1_current_scope_sanitized_candidate_artifact_readiness_ready_no_market_rows`
+
+CEO decision:
+
+- Keep the old `TWII + 0050 + 006208` candidate path as historical evidence only.
+- Treat current Phase 1 as `twii_plus_listed_stock_daily_close`.
+- Prepare the next candidate artifact as a local or external path, not committed market row payloads.
+- Keep `publicDataSource=mock` and `scoreSource=mock`.
+
+PM completed:
+
+- Added `docs/PHASE_1_CURRENT_SCOPE_SANITIZED_CANDIDATE_ARTIFACT_READINESS.md`.
+- Added `data/evidence-intake/phase-1-current-scope-sanitized-candidate-artifact-readiness.json`.
+- Added `scripts/check-phase-1-current-scope-sanitized-candidate-artifact-readiness.mjs`.
+- Registered `phase-1-current-scope-sanitized-candidate-artifact-readiness` in the focused review gate set.
+
+Next:
+
+Continue with `a1_or_pm_prepare_twii_plus_listed_stock_sanitized_candidate_artifact_path_no_execution`. Do not fetch, paste, commit, or validate market row payloads in this readiness contract.
+
 ### Latest Runtime Promotion Example-Only Filled Packet
 
 Status: `phase_1_runtime_promotion_field_intake_example_ready_no_execution`
