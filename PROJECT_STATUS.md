@@ -2,6 +2,44 @@
 
 ## Latest Effective Status - 2026-06-16
 
+### Latest Runtime Promotion Missing Packet Fields
+
+Status: `phase_1_runtime_promotion_missing_packet_fields_ready_keep_mock`
+
+CEO decision:
+
+- Treat the dry-run packet blocker as a concrete field-intake problem, not an execution request.
+- Keep real-data promotion blocked until every required field is supplied in a separate reviewed packet.
+- Allow PM/A2/A3 to prepare the missing field values while Phase 1 public mock Beta work continues.
+- Keep `publicDataSource=mock` and `scoreSource=mock`.
+
+PM completed:
+
+- Added `docs/PHASE_1_RUNTIME_PROMOTION_MISSING_PACKET_FIELDS.md`.
+- Added `scripts/check-phase-1-runtime-promotion-missing-packet-fields.mjs`.
+- Added `check:phase-1-runtime-promotion-missing-packet-fields` to `package.json`.
+- Registered `phase-1-runtime-promotion-missing-packet-fields` in the focused review gate set.
+
+Current missing packet fields:
+
+- `runtimeFlagName`
+- `runtimeFlagTargetValue`
+- `rollbackOwner`
+- `rollbackCommand`
+- `readbackCommand`
+- `productionSmokeCommand`
+- `postPromotionReviewOwner`
+- `publicCopyFallbackLine`
+- `freshnessFallbackLine`
+
+Boundary:
+
+- No SQL, Supabase read/write, staging row creation, `daily_prices` mutation, market-data fetch/store/commit, raw payload output, row payload output, source promotion, real score promotion, membership implementation, production env mutation, DNS change, Vercel mutation, or platform secret handling occurred.
+
+Next:
+
+Continue with `phase_1_runtime_promotion_packet_field_intake_or_keep_mock_runtime`. Filling these fields is preparation only; mutation still requires a separate reviewed gate.
+
 ### Latest PM BRIEF Operational GOAL Route Cleanup
 
 Status: `pm_brief_runtime_mainline_goal_route_cleanup_verified`

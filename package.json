@@ -343,6 +343,7 @@
     "check:phase-1-runtime-promotion-future-bounded-packet-readiness": "node scripts/check-phase-1-runtime-promotion-future-bounded-packet-readiness.mjs",
     "run:phase-1-runtime-promotion-dry-run-packet": "node scripts/run-phase-1-runtime-promotion-dry-run-packet.mjs",
     "check:phase-1-runtime-promotion-dry-run-packet": "node scripts/check-phase-1-runtime-promotion-dry-run-packet.mjs",
+    "check:phase-1-runtime-promotion-missing-packet-fields": "node scripts/check-phase-1-runtime-promotion-missing-packet-fields.mjs",
     "check:phase-1-twii-bounded-write-operator-decision-quickstart": "node scripts/check-phase-1-twii-bounded-write-operator-decision-quickstart.mjs",
     "check:phase-1-twii-operator-decision-intake-readiness": "node scripts/check-phase-1-twii-operator-decision-intake-readiness.mjs",
     "check:phase-1-twii-operator-decision-packet-request": "node scripts/check-phase-1-twii-operator-decision-packet-request.mjs",
