@@ -93,10 +93,12 @@ export function getPostReadonlyNextGateQueue(): PostReadonlyNextGateQueue {
         sourceDepthOutcome?.reason ?? "來源條件未被 promotion packet 接受前，不可宣稱官方背書或完整市場資料。",
       id: "source_depth",
       nextAction:
-        `source-depth artifact promotion rejected；${sourceDepthOutcome?.minFixes.join("；") ?? "補齊來源深度證據"}`,
+        sourceDepthOutcome?.outcome === "accepted"
+          ? "source-depth accepted for Phase 1 TWII plus listed-stock daily close；ETF coverage deferred to Phase 1.1"
+          : `source-depth artifact promotion rejected；${sourceDepthOutcome?.minFixes.join("；") ?? "補齊來源深度證據"}`,
       owner: "Investment",
       priority: 5,
-      status: "blocked_waiting_evidence"
+      status: sourceDepthOutcome?.outcome === "accepted" ? "local_ready" : "blocked_waiting_evidence"
     }
   ];
 

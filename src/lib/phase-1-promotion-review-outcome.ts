@@ -42,7 +42,7 @@ export function getPhase1PromotionReviewOutcomeSummary(): Phase1PromotionReviewO
         ],
         id: "data_quality",
         minFixes: dataQualityAccepted
-          ? ["keep scoreSource=mock until source-depth, source-rights, model, and claim reviews pass"]
+          ? ["keep scoreSource=mock until model, claim, runtime promotion, and bounded execution reviews pass"]
           : [
               `raise data-quality evidence from ${quality.score}/${quality.passThreshold} to at least ${quality.passThreshold}`,
               "accept downgrade rules and public disclosure wording",
@@ -62,13 +62,13 @@ export function getPhase1PromotionReviewOutcomeSummary(): Phase1PromotionReviewO
         ],
         id: "source_depth",
         minFixes: [
-          sourceDepth.blockedScopes[0].nextAction,
+          sourceDepth.deferredScopes[0].nextAction,
           "keep redistribution, export, and API reuse blocked until a later source-rights packet accepts them",
-          "keep publicDataSource=mock until this source-depth packet is accepted"
+          "keep publicDataSource=mock until runtime promotion and bounded execution gates pass"
         ],
-        outcome: "rejected_for_promotion",
+        outcome: "accepted",
         reason:
-          "TWII and listed-stock open-data routes are locally source-depth acceptable, but ETF source-rights coverage for 0050/006208 remains unresolved."
+          "Phase 1 scope is TWII plus listed-stock daily close; ETF coverage is deferred to Phase 1.1, so source-depth is accepted for the Phase 1 universe."
       }
     ],
     publicDataSource: "mock",

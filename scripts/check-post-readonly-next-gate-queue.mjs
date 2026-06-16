@@ -36,7 +36,7 @@ const required = [
   [libPath, "Freshness evidence"],
   [libPath, "missingRows=0"],
   [libPath, "field validity promotion accepted"],
-  [libPath, "source-depth artifact promotion rejected"],
+  [libPath, "source-depth accepted for Phase 1 TWII plus listed-stock daily close"],
   [libPath, "資料覆蓋與資料品質已可作為本地 Phase 1 promotion evidence"],
   [libPath, "publicDataSource: \"mock\""],
   [libPath, "scoreSource: \"mock\""],

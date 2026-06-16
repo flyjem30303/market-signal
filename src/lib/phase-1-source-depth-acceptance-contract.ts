@@ -3,7 +3,7 @@ export type Phase1SourceDepthAcceptedRouteId =
   | "tw_cross_market_index_history"
   | "tw_listed_stock_daily_close";
 
-export type Phase1SourceDepthBlockedScopeId = "phase_1_etf_source_rights";
+export type Phase1SourceDepthDeferredScopeId = "phase_1_1_etf_source_rights";
 
 export type Phase1SourceDepthAcceptedRoute = {
   apiDocumentationUrl: string;
@@ -17,22 +17,23 @@ export type Phase1SourceDepthAcceptedRoute = {
   sourceUrl: string;
 };
 
-export type Phase1SourceDepthBlockedScope = {
+export type Phase1SourceDepthDeferredScope = {
   affectedSymbols: ["0050", "006208"];
-  id: Phase1SourceDepthBlockedScopeId;
+  id: Phase1SourceDepthDeferredScopeId;
   nextAction: string;
   reason: string;
 };
 
 export type Phase1SourceDepthAcceptanceContract = {
   acceptedRoutes: Phase1SourceDepthAcceptedRoute[];
-  blockedScopes: Phase1SourceDepthBlockedScope[];
+  deferredScopes: Phase1SourceDepthDeferredScope[];
   canPromotePublicDataSourceToSupabase: false;
   canSetScoreSourceReal: false;
   mode: "phase_1_source_depth_acceptance_contract";
+  phase1Universe: "twii_plus_listed_stock_daily_close";
   publicDataSource: "mock";
   scoreSource: "mock";
-  status: "blocked_by_etf_source_rights";
+  status: "accepted_for_phase_1_scope";
   stopLine: string;
   summary: string;
 };
@@ -76,25 +77,26 @@ export function getPhase1SourceDepthAcceptanceContract(): Phase1SourceDepthAccep
         sourceUrl: "https://data.gov.tw/dataset/11548"
       }
     ],
-    blockedScopes: [
+    deferredScopes: [
       {
         affectedSymbols: ["0050", "006208"],
-        id: "phase_1_etf_source_rights",
+        id: "phase_1_1_etf_source_rights",
         nextAction:
-          "Complete ETF source-rights evidence for 0050 and 006208 before full Phase 1 source-depth acceptance.",
+          "Complete ETF source-rights evidence for 0050 and 006208 in Phase 1.1 before adding ETF coverage.",
         reason:
-          "TWII and listed-stock open-data routes are locally source-depth acceptable, but ETF source-rights coverage remains unresolved."
+          "ETF coverage is deliberately deferred out of Phase 1 so Phase 1 can ship TWII plus listed-stock daily close first."
       }
     ],
     canPromotePublicDataSourceToSupabase: false,
     canSetScoreSourceReal: false,
     mode: "phase_1_source_depth_acceptance_contract",
+    phase1Universe: "twii_plus_listed_stock_daily_close",
     publicDataSource: "mock",
     scoreSource: "mock",
-    status: "blocked_by_etf_source_rights",
+    status: "accepted_for_phase_1_scope",
     stopLine:
       "No SQL, Supabase write, raw market-data fetch, daily_prices mutation, publicDataSource=supabase, or scoreSource=real in this contract.",
     summary:
-      "Official open-data routes can support delayed public display and derived metrics for TWII/listed-stock daily close design, while ETF source-rights remains the single Phase 1 source-depth blocker."
+      "Phase 1 source depth is accepted for TWII and listed-stock daily close. ETF coverage is deferred to Phase 1.1."
   };
 }
