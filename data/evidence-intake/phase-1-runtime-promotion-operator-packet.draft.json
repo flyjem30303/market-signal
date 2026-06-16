@@ -14,7 +14,7 @@
   "readbackCommand": "cmd.exe /c scripts\\with-node20.cmd npm run check:phase-1-production-public-url-smoke",
   "productionSmokeCommand": "cmd.exe /c scripts\\with-node20.cmd npm run check:phase-1-public-route-user-facing-residue-gate",
   "postPromotionReviewOwner": "CEO / PM mainline",
-  "publicCopyFallbackLine": "資料暫時無法更新時，本頁會保留最後可確認狀態並明確標示更新時間；請勿把單一燈號視為投資建議。",
-  "freshnessFallbackLine": "若資料延遲或暫停更新，燈號僅供市場狀態觀察，請以頁面顯示的更新時間作為判讀前提。",
+  "publicCopyFallbackLine": "If data is delayed or unavailable, this page keeps the last confirmed status and shows the as-of time. Signals are market-status references, not investment advice.",
+  "freshnessFallbackLine": "When refresh is delayed, use the displayed as-of time as the reading context. Do not treat the signal as real-time or complete-market coverage.",
   "stopLine": "Draft validates operator packet shape only. Do not execute, mutate runtime flags, connect to Supabase, run SQL, write data, or promote publicDataSource/scoreSource from this file."
 }
