@@ -2,6 +2,30 @@
 
 ## Latest Effective Status - 2026-06-16
 
+### Latest Phase 1 Current-Scope Candidate Reply Intake
+
+Status: `phase_1_current_scope_sanitized_candidate_reply_intake_no_row_payloads_ready`
+
+CEO decision:
+
+- Convert the current Phase 1 candidate handoff into a no-secret reply/intake surface.
+- Accept only path and aggregate metadata shape at this stage.
+- Do not read candidate artifacts, row payloads, raw payloads, stock-id payloads, secrets, SQL, Supabase, or `daily_prices`.
+- Keep `publicDataSource=mock` and `scoreSource=mock`.
+
+PM completed:
+
+- Added `data/evidence-intake/phase-1-current-scope-sanitized-candidate-reply-template-no-row-payloads.json`.
+- Added `docs/PHASE_1_CURRENT_SCOPE_SANITIZED_CANDIDATE_REPLY_TEMPLATE_NO_ROW_PAYLOADS.md`.
+- Added `data/evidence-intake/phase-1-current-scope-sanitized-candidate-reply-intake-validator-no-row-payloads.json`.
+- Added `docs/PHASE_1_CURRENT_SCOPE_SANITIZED_CANDIDATE_REPLY_INTAKE_VALIDATOR_NO_ROW_PAYLOADS.md`.
+- Added `scripts/check-phase-1-current-scope-sanitized-candidate-reply-intake-no-row-payloads.mjs`.
+- Registered `phase-1-current-scope-sanitized-candidate-reply-intake-no-row-payloads` in the focused review gate set.
+
+Next:
+
+Continue with `wait_for_current_scope_sanitized_candidate_artifact_reply`, then validate only the reply shape before any candidate artifact path is accepted.
+
 ### Latest Phase 1 Current-Scope Sanitized Candidate Artifact Readiness
 
 Status: `phase_1_current_scope_sanitized_candidate_artifact_readiness_ready_no_market_rows`
