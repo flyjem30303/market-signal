@@ -12923,3 +12923,15 @@ Prepare the separate bounded write/readback/rollback preparation packet. It must
 - Guardrails: `boundedAttemptExecutableNow=false`, `writeGateExecutableNow=false`, `runnerExecutableNow=false`, `promotionAllowedNow=false`, `publicDataSource=mock`, `scoreSource=mock`.
 - Hard stops after any execution: no second bounded write attempt, no update/upsert/delete/truncate/overwrite, no secret output, no raw/row/stock-id payload output, no public real-data claim, no `publicDataSource=supabase`, no `scoreSource=real`, no skipped readback, no skipped rollback/quarantine review.
 - Next route: `explicit_operator_may_run_one_final_bounded_write_attempt_or_keep_mock`.
+# Latest Daily Prices Bounded Write Post-Run Review
+
+- Date: 2026-06-16
+- Status: `phase_1_daily_prices_bounded_insert_missing_passed_readback`
+- Evidence: `data/evidence-intake/phase-1-daily-prices-bounded-write-post-run-review-2026-06-16.json`
+- Checker: `scripts/check-phase-1-daily-prices-bounded-write-post-run-review-2026-06-16.mjs`
+- Execution summary: `executionRequested=true`, `remoteAttempted=true`, `connectionAttempted=true`, `stockMappingComplete=true`, `readbackAttempted=true`, `candidateRowCount=178`, `existingRowsBeforeWrite=178`, `plannedInsertRows=0`, `insertedRows=0`, `skippedExistingRows=178`, `finalRowsAfterWrite=178`, `missingRowsAfterWrite=0`, `coverageCompleteAfterWrite=true`.
+- Interpretation: the bounded attempt was an idempotent no-op because the 178 candidate keys were already present before insert planning. No rows were mutated by this attempt.
+- Rollback/quarantine decision: `not_required_no_rows_mutated_and_readback_complete`.
+- Runtime state remains `publicDataSource=mock`, `scoreSource=mock`; `promotionAllowedNow=false`.
+- Node 20 runner fix: the bounded write runner now provides `ws` as Supabase realtime transport so client creation does not fail before PostgREST readback.
+- Next route: `prepare_mock_to_real_promotion_review_no_flag_change`.

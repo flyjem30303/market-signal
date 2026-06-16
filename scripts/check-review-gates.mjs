@@ -4611,6 +4611,11 @@ const checks = [
     name: "phase-1-daily-prices-final-bounded-write-execution-packet-no-execution"
   },
   {
+    command: [node, "scripts/check-phase-1-daily-prices-bounded-write-post-run-review-2026-06-16.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-daily-prices-bounded-write-post-run-review-2026-06-16"
+  },
+  {
     command: [node, "scripts/check-phase-1-twii-bounded-write-operator-decision-quickstart.mjs"],
     expectStatus: "ok",
     name: "phase-1-twii-bounded-write-operator-decision-quickstart"
@@ -7402,6 +7407,7 @@ const phase1LiveCoreReviewGateNames = new Set([
   "phase-1-runtime-promotion-external-authorization-quickstart-no-execution",
   "phase-1-runtime-promotion-fresh-pm-go-no-go-after-input-convergence-no-execution",
   "phase-1-daily-prices-final-bounded-write-execution-packet-no-execution",
+  "phase-1-daily-prices-bounded-write-post-run-review-2026-06-16",
   "beta-runtime-fast-health",
   "typescript"
 ]);
