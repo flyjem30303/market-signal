@@ -16,6 +16,7 @@ const reviewGate = readText(reviewGatePath);
 const run = spawnSync(process.execPath, [runnerPath], {
   cwd: process.cwd(),
   encoding: "utf8",
+  env: withoutRowPayloadCandidateEnv(),
   shell: false,
   timeout: 120000,
   windowsHide: true
@@ -255,6 +256,12 @@ function readText(filePath) {
     problems.push(`failed to read ${filePath}: ${error.message}`);
     return "{}";
   }
+}
+
+function withoutRowPayloadCandidateEnv() {
+  const env = { ...process.env };
+  delete env.PHASE_1_SANITIZED_ROW_PAYLOAD_CANDIDATE_PATH;
+  return env;
 }
 
 function parseJson(text, label) {

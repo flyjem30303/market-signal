@@ -368,6 +368,7 @@ function runJson(filePath, label) {
   const run = spawnSync(process.execPath, [filePath], {
     cwd: process.cwd(),
     encoding: "utf8",
+    env: withoutRowPayloadCandidateEnv(),
     shell: false,
     timeout: 120000,
     windowsHide: true
@@ -377,4 +378,10 @@ function runJson(filePath, label) {
     return {};
   }
   return parseJson(run.stdout, label);
+}
+
+function withoutRowPayloadCandidateEnv() {
+  const env = { ...process.env };
+  delete env.PHASE_1_SANITIZED_ROW_PAYLOAD_CANDIDATE_PATH;
+  return env;
 }
