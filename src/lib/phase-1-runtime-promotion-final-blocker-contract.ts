@@ -45,8 +45,10 @@ export function getPhase1RuntimePromotionFinalBlockerContract(): Phase1RuntimePr
     blockers: [
       {
         id: "bounded_execution_packet",
-        nextAction: "Prepare the exact bounded execution packet, but do not execute it in this gate.",
-        reason: "The public runtime cannot switch until the bounded attempt command, inputs, and stop-line are explicit."
+        nextAction:
+          "Prepare the final operator input surface before any bounded execution packet is assembled.",
+        reason:
+          "The public runtime cannot switch until the GO/NO-GO final operator input surface confirms the bounded attempt command, inputs, and stop-line are explicit."
       },
       {
         id: "aggregate_readback",
@@ -79,6 +81,6 @@ export function getPhase1RuntimePromotionFinalBlockerContract(): Phase1RuntimePr
     stopLine:
       "Do not run SQL, write Supabase, mutate daily_prices, fetch raw market data, print secrets, set publicDataSource=supabase, or set scoreSource=real from this contract.",
     summary:
-      "Phase 1 data/source scope is locally ready; the remaining work is bounded runtime promotion execution discipline, not ETF/source-depth repair."
+      "Phase 1 data/source scope is locally ready; the remaining work is the phase_1_runtime_promotion_final_operator_input_surface and bounded runtime promotion execution discipline, not ETF/source-depth repair."
   };
 }

@@ -352,6 +352,7 @@
     "check:phase-1-runtime-promotion-operator-authorization-request-packet": "node scripts/check-phase-1-runtime-promotion-operator-authorization-request-packet.mjs",
     "check:phase-1-runtime-promotion-operator-authorization-response-template": "node scripts/check-phase-1-runtime-promotion-operator-authorization-response-template.mjs",
     "check:phase-1-runtime-promotion-operator-authorization-response-intake-validator": "node scripts/check-phase-1-runtime-promotion-operator-authorization-response-intake-validator.mjs",
+    "check:phase-1-runtime-promotion-final-operator-input-surface": "node scripts/check-phase-1-runtime-promotion-final-operator-input-surface.mjs",
     "check:phase-1-runtime-promotion-dry-run-only-authorized-route": "node scripts/check-phase-1-runtime-promotion-dry-run-only-authorized-route.mjs",
     "check:phase-1-runtime-promotion-dry-run-only-preparation-packet": "node scripts/check-phase-1-runtime-promotion-dry-run-only-preparation-packet.mjs",
     "check:phase-1-runtime-promotion-dry-run-only-proof-review": "node scripts/check-phase-1-runtime-promotion-dry-run-only-proof-review.mjs",

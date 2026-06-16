@@ -1,0 +1,29 @@
+{
+  "responseMode": "phase_1_runtime_promotion_final_operator_input",
+  "responseLabel": "PHASE_1_FINAL_OPERATOR_INPUT_SURFACE_TEMPLATE_NO_EXECUTION",
+  "phase1Universe": "twii_plus_listed_stock_daily_close",
+  "operatorOutcome": "NO_GO_KEEP_MOCK",
+  "allowedOutcomes": [
+    "NO_GO_KEEP_MOCK",
+    "GO_PREPARE_BOUNDED_PACKET_ONLY"
+  ],
+  "confirmations": {
+    "phase1UniverseReviewed": false,
+    "sourceDepthAcceptedForPhase1Scope": false,
+    "dataQualityAcceptedForPhase1Scope": false,
+    "boundedExecutionPacketReviewed": false,
+    "aggregateReadbackReviewed": false,
+    "rollbackOrQuarantineReviewed": false,
+    "postRunReviewReviewed": false,
+    "publicRuntimeFactorySwitchReviewed": false,
+    "claimAndDisclosureBoundaryReviewed": false,
+    "noSecretsOrPayloadsIncluded": false,
+    "noDirectMutationRequested": false
+  },
+  "confirmationCompleteness": "incomplete",
+  "promotionAllowedNow": false,
+  "writeGateExecutableNow": false,
+  "publicDataSource": "mock",
+  "scoreSource": "mock",
+  "nextRoute": "keep_mock_and_request_repair"
+}
