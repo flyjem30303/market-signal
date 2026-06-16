@@ -1,0 +1,49 @@
+{
+  "packetMode": "phase_1_runtime_promotion_separate_bounded_write_readback_rollback_preparation_no_execution",
+  "packetLabel": "PHASE_1_RUNTIME_PROMOTION_SEPARATE_BOUNDED_WRITE_READBACK_ROLLBACK_PREPARATION_NO_EXECUTION",
+  "inputProofReviewStatus": "phase_1_runtime_promotion_dry_run_only_proof_review_ready_no_execution",
+  "reviewDecision": "PREPARE_SEPARATE_BOUNDED_WRITE_READBACK_ROLLBACK_KEEP_MOCK",
+  "writeShapePrepared": true,
+  "readbackShapePrepared": true,
+  "rollbackOrQuarantineShapePrepared": true,
+  "postRunReviewShapePrepared": true,
+  "requiredPreparationContracts": [
+    "phase_1_write_runner_bounded_insert_missing_only_contract_no_execution",
+    "phase_1_write_runner_aggregate_readback_contract_no_execution",
+    "phase_1_write_runner_rollback_or_quarantine_contract_no_execution",
+    "phase_1_write_runner_post_write_review_contract_no_execution"
+  ],
+  "requiredPreparationContractStatuses": [
+    "phase_1_write_runner_bounded_insert_missing_only_contract_no_execution_ready",
+    "phase_1_write_runner_aggregate_readback_contract_no_execution_ready",
+    "phase_1_write_runner_rollback_or_quarantine_contract_no_execution_ready",
+    "phase_1_write_runner_post_write_review_contract_no_execution_ready"
+  ],
+  "boundedAttemptExecutableNow": false,
+  "writeGateExecutableNow": false,
+  "runnerExecutableNow": false,
+  "promotionAllowedNow": false,
+  "publicDataSource": "mock",
+  "scoreSource": "mock",
+  "nextRoute": "phase_1_runtime_promotion_bounded_attempt_pre_execution_packet_no_execution",
+  "safety": {
+    "sqlExecuted": false,
+    "supabaseConnectionAttempted": false,
+    "supabaseReadAttempted": false,
+    "supabaseWriteAttempted": false,
+    "stagingRowsCreated": false,
+    "dailyPricesMutated": false,
+    "marketDataFetched": false,
+    "marketDataIngested": false,
+    "rawPayloadOutput": false,
+    "rowPayloadOutput": false,
+    "stockIdPayloadOutput": false,
+    "secretsOutput": false,
+    "envMutated": false,
+    "runtimeFlagMutated": false,
+    "publicDataSourcePromoted": false,
+    "scoreSourcePromoted": false,
+    "investmentAdviceClaimAllowed": false
+  },
+  "stopLine": "Preparation packet only. It validates the separate bounded write/readback/rollback/post-run contract chain, but must not execute, connect to Supabase, run SQL, mutate daily_prices, accept candidate rows, emit payloads, or promote publicDataSource/scoreSource."
+}
