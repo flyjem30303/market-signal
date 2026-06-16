@@ -1,6 +1,56 @@
 # Project Status
 
-## Latest Effective Status - 2026-06-15
+## Latest Effective Status - 2026-06-16
+
+### Latest Phase 1 row-payload candidate PM review
+
+Status: `phase_1_row_payload_candidate_pm_review_ready_for_separate_write_review`
+
+CEO decision:
+
+- Treat the Phase 1 data-online blocker as advanced from `candidate_row_payloads_missing` to `separate_operator_write_execution_review_required`.
+- Keep the accepted row-payload candidate in a Git-ignored local path; do not commit market row payloads.
+- Do not execute SQL, connect to Supabase, mutate `daily_prices`, create staging rows, or promote public/real scoring until a separate write execution review and explicit operator authorization pass.
+
+PM completed:
+
+- Validated `tmp/phase-1-sanitized-row-payload-candidate.json` with the aggregate-only validator.
+- Rechecked Phase 1 data-online go/no-go with the PM-named candidate path.
+- Rechecked the write-runner implementation candidate in fail-closed, no-execution mode.
+- Rechecked write execution review prerequisites: implementation review, operator boolean preflight, requirements closure, dry-run packet, execution packet draft, fail-closed runner stub, server-only scaffold, credential presence shape, bounded insert contract, aggregate readback contract, rollback/quarantine contract, and post-write review contract.
+
+Current candidate aggregate result:
+
+- `rowCount=178`
+- `symbolCounts={TWII:60, 0050:59, 006208:59}`
+- `dateBounds=2026-03-19..2026-06-15`
+- `duplicateCount=0`
+- `missingRequiredFieldCount=0`
+- `forbiddenFieldCount=0`
+- `invalidTradeDateCount=0`
+- `invalidSourceMetadataCount=0`
+- `invalidOptionalNumberCount=0`
+
+Current gate state:
+
+- `decision=PUBLIC_RUNTIME_READY_ROW_PAYLOAD_CANDIDATE_READY_WRITE_REVIEW_REQUIRED`
+- `nextRoute=separate_operator_write_execution_review_required`
+- `executionAllowedNow=false`
+- `writeGateExecutableNow=false`
+- `implementationAllowedNow=false`
+- `publicDataSource=mock`
+- `scoreSource=mock`
+
+Boundary:
+
+- No SQL, Supabase read/write, staging row creation, `daily_prices` mutation, market-data fetch/store/commit, raw payload output, row payload output, stock-id output, secret output, source promotion, real score promotion, membership implementation, production env mutation, DNS change, Vercel mutation, or platform deploy occurred.
+- The row-payload candidate remains in `tmp/`, which is Git-ignored.
+
+Next:
+
+Prepare the separate operator write execution review. Stop before any irreversible Supabase write unless the chairman explicitly authorizes the bounded write attempt.
+
+## Previous Effective Status - 2026-06-15
 
 ### Latest Phase 1 public route cleanup and live-core review gate
 
