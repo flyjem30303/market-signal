@@ -22,6 +22,14 @@ export function DataFreshnessStrip({ freshness, marketSignalSourceStatus }: Data
       </span>
       <span className="freshness-description">{freshness.description}</span>
       <span className={`freshness-score-source ${freshness.scoreSource}`}>分數來源：{scoreLabel}</span>
+      {marketSignalSourceStatus ? (
+        <>
+          <span>市場訊號來源：目前 {marketSignalSourceStatus.resolvedSource}</span>
+          <span>要求來源 {marketSignalSourceStatus.requestedSource}</span>
+          <span>後端唯讀狀態 {marketSignalSourceStatus.supabaseRuntimeReads}</span>
+          <span className="freshness-description">{marketSignalSourceStatus.reason}</span>
+        </>
+      ) : null}
       <span className="freshness-boundary">
         公開頁目前使用示範資料與示範分數；正式每日資料啟用前，請以資料狀態與風險聲明一起閱讀。
       </span>
