@@ -96,3 +96,7 @@ Stop before any of the following:
 ## Next PM Action
 
 Prepare a response intake validator that can accept a filled local response file only when the allowed outcome and all confirmations pass. The validator must remain no-execution and must not accept secrets, row payloads, raw market data, or direct mutation instructions.
+
+Next route:
+
+`phase_1_runtime_promotion_operator_authorization_response_intake_validator`

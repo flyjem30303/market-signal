@@ -1,0 +1,26 @@
+{
+  "responseMode": "phase_1_runtime_promotion_operator_authorization_response",
+  "responseLabel": "PHASE_1_OPERATOR_AUTHORIZATION_RESPONSE_FILLED_NO_EXECUTION",
+  "operatorOutcome": "APPROVE_DRY_RUN_ONLY",
+  "promotionAllowedNow": false,
+  "dryRunOnlyAllowedNow": true,
+  "publicDataSource": "mock",
+  "scoreSource": "mock",
+  "confirmationCompleteness": "complete",
+  "confirmations": {
+    "runtimeFlagNameReviewed": true,
+    "futureTargetValueReviewed": true,
+    "rollbackOwnerAvailable": true,
+    "rollbackShapeReviewed": true,
+    "readbackCommandShapeReviewed": true,
+    "productionSmokeCommandShapeReviewed": true,
+    "postRunReviewOwnerAvailable": true,
+    "publicFallbackCopyReviewed": true,
+    "freshnessFallbackCopyReviewed": true,
+    "noSecretValuesPrintedOrRequested": true,
+    "noRawRowPayloadsPrintedOrRequested": true,
+    "noInvestmentAdviceOrRealtimeGuarantee": true
+  },
+  "nextRoute": "phase_1_runtime_promotion_dry_run_only_authorized_no_execution",
+  "stopLine": "Accepted for dry-run-only preparation. Do not execute, mutate runtime flags, connect to Supabase, run SQL, write data, accept row payloads, or promote publicDataSource/scoreSource from this file."
+}

@@ -351,6 +351,7 @@
     "check:phase-1-runtime-promotion-separate-bounded-attempt-review-packet": "node scripts/check-phase-1-runtime-promotion-separate-bounded-attempt-review-packet.mjs",
     "check:phase-1-runtime-promotion-operator-authorization-request-packet": "node scripts/check-phase-1-runtime-promotion-operator-authorization-request-packet.mjs",
     "check:phase-1-runtime-promotion-operator-authorization-response-template": "node scripts/check-phase-1-runtime-promotion-operator-authorization-response-template.mjs",
+    "check:phase-1-runtime-promotion-operator-authorization-response-intake-validator": "node scripts/check-phase-1-runtime-promotion-operator-authorization-response-intake-validator.mjs",
     "check:phase-1-twii-bounded-write-operator-decision-quickstart": "node scripts/check-phase-1-twii-bounded-write-operator-decision-quickstart.mjs",
     "check:phase-1-twii-operator-decision-intake-readiness": "node scripts/check-phase-1-twii-operator-decision-intake-readiness.mjs",
     "check:phase-1-twii-operator-decision-packet-request": "node scripts/check-phase-1-twii-operator-decision-packet-request.mjs",
