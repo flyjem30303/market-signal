@@ -356,6 +356,7 @@
     "check:phase-1-runtime-promotion-narrowed-bounded-packet-readiness-no-execution": "node scripts/check-phase-1-runtime-promotion-narrowed-bounded-packet-readiness-no-execution.mjs",
     "check:phase-1-current-scope-sanitized-candidate-artifact-readiness": "node scripts/check-phase-1-current-scope-sanitized-candidate-artifact-readiness.mjs",
     "check:phase-1-current-scope-sanitized-candidate-reply-intake-no-row-payloads": "node scripts/check-phase-1-current-scope-sanitized-candidate-reply-intake-no-row-payloads.mjs",
+    "check:phase-1-current-scope-sanitized-candidate-reply-fixtures-no-row-payloads": "node scripts/check-phase-1-current-scope-sanitized-candidate-reply-fixtures-no-row-payloads.mjs",
     "check:phase-1-runtime-promotion-dry-run-only-authorized-route": "node scripts/check-phase-1-runtime-promotion-dry-run-only-authorized-route.mjs",
     "check:phase-1-runtime-promotion-dry-run-only-preparation-packet": "node scripts/check-phase-1-runtime-promotion-dry-run-only-preparation-packet.mjs",
     "check:phase-1-runtime-promotion-dry-run-only-proof-review": "node scripts/check-phase-1-runtime-promotion-dry-run-only-proof-review.mjs",

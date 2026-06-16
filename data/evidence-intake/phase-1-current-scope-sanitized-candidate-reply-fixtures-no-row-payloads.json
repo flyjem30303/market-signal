@@ -1,0 +1,119 @@
+{
+  "status": "phase_1_current_scope_sanitized_candidate_reply_fixtures_no_row_payloads_ready",
+  "fixtureMode": "current_scope_sanitized_candidate_reply_accept_reject_fixtures_no_row_payloads",
+  "sourceValidatorPath": "data/evidence-intake/phase-1-current-scope-sanitized-candidate-reply-intake-validator-no-row-payloads.json",
+  "sourceValidatorStatus": "phase_1_current_scope_sanitized_candidate_reply_intake_validator_no_row_payloads_ready",
+  "fixtureDecision": "ready_to_verify_future_reply_accept_reject_branches_without_row_payloads",
+  "phase1Universe": "twii_plus_listed_stock_daily_close",
+  "targetScope": "twii_plus_listed_stock_daily_close",
+  "deferredSymbols": ["0050", "006208"],
+  "acceptedFixture": {
+    "candidateArtifactPath": "D:\\指數燈號\\tmp\\phase-1-current-scope-sanitized-candidate.example.json",
+    "artifactId": "phase-1-current-scope-sanitized-candidate-example",
+    "phase1Universe": "twii_plus_listed_stock_daily_close",
+    "scope": "twii_plus_listed_stock_daily_close",
+    "sourceLane": "official-free-automatable-daily-close",
+    "coverageWindowSessions": 60,
+    "aggregateRowCount": 6000,
+    "symbolsCoveredCount": 100,
+    "dateBounds": {
+      "start": "EXAMPLE_ONLY",
+      "end": "EXAMPLE_ONLY"
+    },
+    "duplicateCount": 0,
+    "rejectedCount": 0,
+    "missingRequiredFieldCount": 0,
+    "forbiddenFieldCount": 0,
+    "sanitizedAggregateOnly": true,
+    "rawPayloadIncluded": false,
+    "rowPayloadIncluded": false,
+    "stockIdPayloadIncluded": false,
+    "secretsIncluded": false,
+    "safetyFlags": {
+      "publicDataSource": "mock",
+      "scoreSource": "mock",
+      "candidateArtifactReadNow": false,
+      "candidateRowsAcceptedNow": false,
+      "sqlExecuted": false,
+      "supabaseWriteAttempted": false,
+      "dailyPricesMutated": false,
+      "marketDataFetched": false,
+      "marketDataIngested": false
+    }
+  },
+  "rejectedFixtures": [
+    {
+      "label": "reject_raw_payload",
+      "patch": {
+        "rawPayloadIncluded": true
+      },
+      "expectedProblem": "rawPayloadIncluded must be false"
+    },
+    {
+      "label": "reject_row_payload",
+      "patch": {
+        "rowPayloadIncluded": true
+      },
+      "expectedProblem": "rowPayloadIncluded must be false"
+    },
+    {
+      "label": "reject_stock_id_payload",
+      "patch": {
+        "stockIdPayloadIncluded": true
+      },
+      "expectedProblem": "stockIdPayloadIncluded must be false"
+    },
+    {
+      "label": "reject_secrets",
+      "patch": {
+        "secretsIncluded": true
+      },
+      "expectedProblem": "secretsIncluded must be false"
+    },
+    {
+      "label": "reject_etf_current_scope_mismatch",
+      "patch": {
+        "scope": "twii_plus_0050_006208_daily_close"
+      },
+      "expectedProblem": "scope must be twii_plus_listed_stock_daily_close"
+    },
+    {
+      "label": "reject_real_promotion",
+      "patch": {
+        "safetyFlags": {
+          "publicDataSource": "NOT_MOCK",
+          "scoreSource": "NOT_MOCK"
+        }
+      },
+      "expectedProblem": "publicDataSource must remain mock"
+    }
+  ],
+  "futureReplyAcceptedNow": false,
+  "candidateArtifactReadNow": false,
+  "candidateRowsAcceptedNow": false,
+  "nextRoute": "future_a1_or_pm_reply_can_be_checked_against_accept_reject_fixture_contract",
+  "safety": {
+    "publicDataSource": "mock",
+    "scoreSource": "mock",
+    "sqlExecuted": false,
+    "supabaseClientImported": false,
+    "supabaseConnectionAttempted": false,
+    "supabaseReadAttempted": false,
+    "supabaseWriteAttempted": false,
+    "marketDataFetched": false,
+    "marketDataIngested": false,
+    "dailyPricesMutated": false,
+    "stagingRowsCreated": false,
+    "candidateRowsAccepted": false,
+    "candidateArtifactRowsRead": false,
+    "rowPayloadRead": false,
+    "rawPayloadRead": false,
+    "rowPayloadOutput": false,
+    "rawPayloadOutput": false,
+    "stockIdPayloadOutput": false,
+    "secretsOutput": false,
+    "publicPromotionAllowed": false,
+    "scoreSourceRealAllowed": false,
+    "investmentAdviceClaimAllowed": false
+  }
+}

@@ -2,6 +2,30 @@
 
 ## Latest Effective Status - 2026-06-16
 
+### Latest Phase 1 Current-Scope Candidate Reply Fixtures
+
+Status: `phase_1_current_scope_sanitized_candidate_reply_fixtures_no_row_payloads_ready`
+
+Decision: `ready_to_verify_future_reply_accept_reject_branches_without_row_payloads`
+
+CEO decision:
+
+- Add accepted/rejected fixture coverage before accepting any future A1/PM current-scope candidate reply.
+- Keep the future reply limited to `candidateArtifactPath`, `artifactId`, and aggregate metadata.
+- Reject raw payloads, row payloads, stock-id payloads, secrets, ETF current-scope mismatch, and real-data promotion attempts.
+- Keep `publicDataSource=mock` and `scoreSource=mock`.
+
+PM completed:
+
+- Added `data/evidence-intake/phase-1-current-scope-sanitized-candidate-reply-fixtures-no-row-payloads.json`.
+- Added `docs/PHASE_1_CURRENT_SCOPE_SANITIZED_CANDIDATE_REPLY_FIXTURES_NO_ROW_PAYLOADS.md`.
+- Added `scripts/check-phase-1-current-scope-sanitized-candidate-reply-fixtures-no-row-payloads.mjs`.
+- Registered `phase-1-current-scope-sanitized-candidate-reply-fixtures-no-row-payloads` in the focused review gate set.
+
+Next:
+
+Continue with `future_a1_or_pm_reply_can_be_checked_against_accept_reject_fixture_contract`, then accept or reject the reply shape before any candidate artifact path is considered.
+
 ### Latest Phase 1 Current-Scope Candidate Reply Intake
 
 Status: `phase_1_current_scope_sanitized_candidate_reply_intake_no_row_payloads_ready`
