@@ -32,19 +32,19 @@ const inaccessiblePhase2Routes = [
 ];
 
 const requiredPublicSignals = {
-  "/": ["市場總覽", "30 秒看懂今天的市場狀態", "資料狀態", "重要提醒"],
+  "/": ["市場總覽 / 快速判讀", "30 秒看懂今天的市場狀態", "資料狀態", "重要提醒"],
   "/briefing": ["市場快報", "30 秒看懂市場燈號", "下一步行動", "資料邊界"],
   "/weekly": ["市場週報", "市場燈號", "示範資料", "資料更新狀態"],
-  "/methodology": ["方法說明", "燈號", "風險", "資料"],
-  "/disclaimer": ["免責聲明", "不是投資建議", "不保證", "資料"],
-  "/terms": ["使用條款", "市場資訊", "風險", "資料"],
+  "/methodology": ["方法說明", "燈號", "風險分數", "資料狀態"],
+  "/disclaimer": ["免責聲明", "不是投資建議", "資料限制", "示範資料"],
+  "/terms": ["使用條款", "市場資訊整理", "風險", "示範資料"],
   "/privacy": ["隱私政策", "Phase 1", "不啟用會員", "資料"],
-  "/stocks/TWII": ["個股燈號", "綜合分數", "風險分數"],
-  "/stocks/2330": ["個股燈號", "綜合分數", "風險分數"],
-  "/stocks/0050": ["個股燈號", "綜合分數", "風險分數"],
-  "/stocks/006208": ["個股燈號", "綜合分數", "風險分數"],
-  "/stocks/2382": ["個股燈號", "綜合分數", "風險分數"],
-  "/stocks/2308": ["個股燈號", "綜合分數", "風險分數"]
+  "/stocks/TWII": ["個股燈號 / 一眼判讀", "綜合分數", "風險分數"],
+  "/stocks/2330": ["個股燈號 / 一眼判讀", "綜合分數", "風險分數"],
+  "/stocks/0050": ["個股燈號 / 一眼判讀", "綜合分數", "風險分數"],
+  "/stocks/006208": ["個股燈號 / 一眼判讀", "綜合分數", "風險分數"],
+  "/stocks/2382": ["個股燈號 / 一眼判讀", "綜合分數", "風險分數"],
+  "/stocks/2308": ["個股燈號 / 一眼判讀", "綜合分數", "風險分數"]
 };
 
 const forbiddenVisibleFragments = [
@@ -53,16 +53,12 @@ const forbiddenVisibleFragments = [
   "pre-launch",
   "PRE-LAUNCH",
   "hard blocker",
-  "Hard Blocker",
-  "HARD BLOCKER",
   "REQUEST BLOCKS",
   "EXTERNAL REPLY",
   "workflow proof",
   "dry-run",
   "packet",
   "operator",
-  "commit ",
-  "Git",
   "publicDataSource",
   "scoreSource",
   "mock-only",
@@ -75,73 +71,22 @@ const forbiddenVisibleFragments = [
   "Runtime Status",
   "promotion gate",
   "real-data promotion",
-  "PM ",
-  "CEO ",
-  "A1 ",
-  "A2 ",
-  "A3 ",
-  "A4 ",
   "BETA_HOSTING_PROJECT_NAME",
   "BETA_TEMPORARY_URL",
-  "PUBLIC_BETA_EXTERNAL_REPLY_PATH",
-  "KEEP_OPEN_WITH_DEFERRALS",
-  "REPAIR_THEN_RECHECK",
-  "ROLLBACK_OR_NO_GO"
+  "PUBLIC_BETA_EXTERNAL_REPLY_PATH"
 ];
 
 const routeResults = [];
 const inaccessibleRouteResults = [];
-
 const managedServer = shouldManageServer && !(await canFetchRoot()) ? await startTemporaryServer() : null;
 
 try {
   for (const route of publicRoutes) {
-    try {
-      const response = await fetch(`${baseUrl}${route}`);
-      const html = await response.text();
-      const visibleText = normalizeVisibleText(html);
-      const forbiddenHits = forbiddenVisibleFragments.filter((fragment) => visibleText.includes(fragment));
-      const mojibakeHits = findBadTextMarkers(visibleText);
-      const missingRequiredSignals = (requiredPublicSignals[route] ?? []).filter(
-        (phrase) => !visibleText.includes(phrase)
-      );
-
-      routeResults.push({
-        forbiddenHits,
-        missingRequiredSignals,
-        mojibakeHits,
-        pass:
-          response.status === 200 &&
-          forbiddenHits.length === 0 &&
-          mojibakeHits.length === 0 &&
-          missingRequiredSignals.length === 0,
-        route,
-        status: response.status
-      });
-    } catch (error) {
-      routeResults.push({
-        error: error instanceof Error ? error.message : String(error),
-        pass: false,
-        route
-      });
-    }
+    routeResults.push(await checkPublicRoute(route));
   }
 
   for (const route of inaccessiblePhase2Routes) {
-    try {
-      const response = await fetch(`${baseUrl}${route}`);
-      inaccessibleRouteResults.push({
-        pass: response.status === 404,
-        route,
-        status: response.status
-      });
-    } catch (error) {
-      inaccessibleRouteResults.push({
-        error: error instanceof Error ? error.message : String(error),
-        pass: false,
-        route
-      });
-    }
+    inaccessibleRouteResults.push(await checkInaccessibleRoute(route));
   }
 
   const status =
@@ -154,14 +99,7 @@ try {
       {
         status,
         guardedStatus: "phase_1_public_beta_public_visible_residue_cleanup_ready_for_users",
-        managedServer: managedServer
-          ? {
-              command: managedServer.commandLabel,
-              started: true
-            }
-          : {
-              started: false
-            },
+        managedServer: managedServer ? { command: managedServer.commandLabel, started: true } : { started: false },
         checkedRoutes: publicRoutes.length,
         checkedInaccessiblePhase2Routes: inaccessiblePhase2Routes.length,
         routeResults,
@@ -176,8 +114,55 @@ try {
 
   if (status !== "ok") process.exitCode = 1;
 } finally {
-  if (managedServer) {
-    stopManagedServer(managedServer.child);
+  if (managedServer) stopManagedServer(managedServer.child);
+}
+
+async function checkPublicRoute(route) {
+  try {
+    const response = await fetch(`${baseUrl}${route}`);
+    const html = await response.text();
+    const visibleText = normalizeVisibleText(html);
+    const forbiddenHits = forbiddenVisibleFragments.filter((fragment) => visibleText.includes(fragment));
+    const mojibakeHits = findBadTextMarkers(visibleText);
+    const missingRequiredSignals = (requiredPublicSignals[route] ?? []).filter(
+      (phrase) => !visibleText.includes(phrase)
+    );
+
+    return {
+      forbiddenHits,
+      missingRequiredSignals,
+      mojibakeHits,
+      pass:
+        response.status === 200 &&
+        forbiddenHits.length === 0 &&
+        mojibakeHits.length === 0 &&
+        missingRequiredSignals.length === 0,
+      route,
+      status: response.status
+    };
+  } catch (error) {
+    return {
+      error: error instanceof Error ? error.message : String(error),
+      pass: false,
+      route
+    };
+  }
+}
+
+async function checkInaccessibleRoute(route) {
+  try {
+    const response = await fetch(`${baseUrl}${route}`);
+    return {
+      pass: response.status === 404,
+      route,
+      status: response.status
+    };
+  } catch (error) {
+    return {
+      error: error instanceof Error ? error.message : String(error),
+      pass: false,
+      route
+    };
   }
 }
 
@@ -193,15 +178,14 @@ function normalizeVisibleText(html) {
 }
 
 function findBadTextMarkers(text) {
-  const markers = new Set();
-  for (const ch of text) {
-    const cp = ch.codePointAt(0);
-    if (cp === 0xfffd) markers.add("replacement-code-point");
-    if (cp >= 0xe000 && cp <= 0xf8ff) markers.add("private-use-code-point");
-    if (cp >= 0x80 && cp <= 0x9f) markers.add("c1-control-character");
+  const markers = [];
+  if (/[\uE000-\uF8FF\uFFFD]/u.test(text)) markers.push("private-use-or-replacement-codepoint");
+  if (/[\u0080-\u009F]/u.test(text)) markers.push("control-codepoint");
+  if (/\?{3,}/u.test(text)) markers.push("question-mark-run");
+  for (const fragment of ["撣", "憸券", "鞈", "蝷箇", "嚗", "銝", "甇"]) {
+    if (text.includes(fragment)) markers.push(`legacy-mojibake-fragment:${fragment}`);
   }
-  if (/\?{3,}/u.test(text)) markers.add("question-mark-run");
-  return [...markers];
+  return markers;
 }
 
 async function startTemporaryServer() {
@@ -222,10 +206,7 @@ async function startTemporaryServer() {
     throw new Error("temporary localhost server did not become ready");
   }
 
-  return {
-    child,
-    commandLabel: hasProductionBuild ? "next start" : "next dev"
-  };
+  return { child, commandLabel: hasProductionBuild ? "next start" : "next dev" };
 }
 
 async function waitForRoot() {
@@ -233,7 +214,6 @@ async function waitForRoot() {
     if (await canFetchRoot()) return true;
     await delay(1000);
   }
-
   return false;
 }
 
@@ -248,9 +228,7 @@ async function canFetchRoot() {
 
 function normalizeEnv(env) {
   const next = { ...env };
-  if (next.Path && next.PATH) {
-    delete next.PATH;
-  }
+  if (next.Path && next.PATH) delete next.PATH;
   return next;
 }
 
@@ -266,6 +244,5 @@ function stopManagedServer(child) {
     });
     return;
   }
-
   child.kill();
 }

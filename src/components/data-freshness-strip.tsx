@@ -22,7 +22,7 @@ export function DataFreshnessStrip({ freshness, marketSignalSourceStatus }: Data
       </span>
       <span className={`freshness-score-source ${freshness.scoreSource}`}>分數來源：{scoreLabel}</span>
       <span className="freshness-boundary">
-        Phase 1 公開版仍以示範燈號協助閱讀流程；真實資料上線前，需通過來源、品質、更新時間與回退檢查。
+        Phase 1 公開頁使用示範資料與示範分數；正式每日資料啟用前，請以資料狀態與風險聲明一起閱讀。
       </span>
       <TrackedLink
         className="freshness-link"
@@ -37,10 +37,10 @@ export function DataFreshnessStrip({ freshness, marketSignalSourceStatus }: Data
         className="freshness-link"
         eventName="trust_link_clicked"
         href="/disclaimer"
-        label="查看風險聲明"
+        label="查看免責聲明"
         payload={{ area: "data_freshness_strip" }}
       >
-        風險聲明
+        免責聲明
       </TrackedLink>
     </aside>
   );

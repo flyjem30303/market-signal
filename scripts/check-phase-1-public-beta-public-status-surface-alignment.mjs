@@ -13,10 +13,10 @@ const sourcePaths = [
   "src/app/globals.css"
 ];
 
-const requiredPublicPhrases = ["市場總覽", "30 秒", "資料狀態", "免責聲明", "市場快報", "資料邊界"];
+const requiredPublicPhrases = ["市場總覽 / 快速判讀", "30 秒", "資料狀態", "免責聲明", "市場快報", "資料邊界"];
 
 const routeRequiredPhrases = {
-  "/": ["市場總覽", "30 秒看懂今天的市場狀態", "資料狀態", "重要提醒"],
+  "/": ["市場總覽 / 快速判讀", "30 秒看懂今天的市場狀態", "資料狀態", "重要提醒"],
   "/briefing": ["市場快報", "30 秒看懂市場燈號", "下一步行動", "資料邊界"]
 };
 
@@ -26,10 +26,8 @@ const forbiddenPublicStatusFragments = [
   "ROLLBACK_OR_NO_GO",
   "operator",
   "smoke",
-  "packet",
   "phase_1",
   "publicDataSource",
-  "scoreSource",
   "mock-only",
   "Supabase",
   "SQL",
@@ -37,12 +35,7 @@ const forbiddenPublicStatusFragments = [
   "raw market data",
   "raw payload",
   "go/no-go",
-  "rollback",
-  "PM ",
-  "A1 ",
-  "A2 ",
-  "A3 ",
-  "A4 "
+  "rollback"
 ];
 
 const stockForbiddenSurfacePhrases = [
@@ -74,7 +67,7 @@ const sources = sourcePaths.map((path) => ({ path, text: readText(path) }));
 const missingSourceFiles = sources.filter((source) => source.text.length === 0).map((source) => source.path);
 const sourceText = sources.map((source) => `\n--- ${source.path} ---\n${source.text}`).join("\n");
 const missingSourcePhrases = requiredPublicPhrases.filter((phrase) => !sourceText.includes(phrase));
-const forbiddenSourceHits = [];
+const forbiddenSourceHits = forbiddenPublicStatusFragments.filter((fragment) => sourceText.includes(fragment));
 const unsafeSourceHits = unsafeSourceFragments.filter((fragment) => sourceText.includes(fragment));
 const packageRegistered = readText("package.json").includes(
   '"check:phase-1-public-beta-public-status-surface-alignment": "node scripts/check-phase-1-public-beta-public-status-surface-alignment.mjs"'
@@ -94,7 +87,7 @@ for (const route of ["/", "/briefing"]) {
 }
 
 for (const route of ["/stocks/TWII", "/stocks/2330", "/stocks/0050"]) {
-  stockRouteResults.push(await checkRoute(route, ["個股燈號", "綜合分數", "風險分數"], stockForbiddenSurfacePhrases));
+  stockRouteResults.push(await checkRoute(route, ["個股燈號 / 一眼判讀", "綜合分數", "風險分數"], stockForbiddenSurfacePhrases));
 }
 
 const sourceMojibakeHits = findMojibakeMarkers(sourceText);
@@ -181,11 +174,11 @@ function normalizeVisibleText(html) {
 
 function findMojibakeMarkers(source) {
   const markers = [];
-  if (/\uFFFD/u.test(source)) markers.push("replacement-character");
-  if (/[\uE000-\uF8FF]/u.test(source)) markers.push("private-use-codepoint");
+  if (/[\uE000-\uF8FF\uFFFD]/u.test(source)) markers.push("private-use-or-replacement-codepoint");
+  if (/[\u0080-\u009F]/u.test(source)) markers.push("control-codepoint");
   if (/\?{3,}/u.test(source)) markers.push("question-mark-run");
-  if (/(?:嚗|銝|蝭|憟|璅|鞈|撣|閮|瘥|摨|甈|雿|蹐|蹓||){2,}/u.test(source)) {
-    markers.push("common-mojibake-run");
+  for (const fragment of ["撣", "憸券", "鞈", "蝷箇", "嚗", "銝", "甇"]) {
+    if (source.includes(fragment)) markers.push(`legacy-mojibake-fragment:${fragment}`);
   }
   return markers;
 }

@@ -29,7 +29,7 @@ export type MarketFreshnessMetadata = {
 };
 
 const stateLabels: Record<DataFreshnessState, string> = {
-  complete: "資料已更新",
+  complete: "資料完整",
   partial: "資料部分更新",
   stale: "資料可能延遲",
   mock: "示範資料",
@@ -37,11 +37,11 @@ const stateLabels: Record<DataFreshnessState, string> = {
 };
 
 const stateDescriptions: Record<DataFreshnessState, string> = {
-  complete: "資料時間戳已確認，但仍需搭配來源、品質與公開文案邊界判讀。",
-  partial: "部分資料尚未完整，前台應降低信心並提醒使用者保持觀察。",
-  stale: "資料更新時間可能落後，請不要把目前燈號視為即時狀態。",
-  mock: "目前公開版使用示範資料呈現產品流程，不代表即時或完整市場資料。",
-  unavailable: "目前無法確認資料更新狀態，前台應停止過度解讀。"
+  complete: "資料流程已完成最近一次更新，但仍請搭配時間戳與風險聲明閱讀。",
+  partial: "部分資料尚未完成更新，頁面會保守顯示資料狀態，避免誤導使用者。",
+  stale: "資料更新時間較舊，請先確認來源與更新時間後再解讀燈號。",
+  mock: "目前公開 Beta 使用示範資料，目的在驗證閱讀流程與燈號呈現，不代表真實市場狀態。",
+  unavailable: "目前無法取得資料更新狀態，前台應以保守方式呈現。"
 };
 
 export function buildMockDataFreshnessSnapshot(): DataFreshnessSnapshot {
@@ -80,7 +80,7 @@ export function buildSupabaseDataFreshnessSnapshot({
       market: market.exchange,
       scoreSource: "mock",
       scoreSourceLabel: "示範分數",
-      sourceName: "資料來源未確認",
+      sourceName: "資料來源待確認",
       state: "unavailable",
       stateLabel: stateLabels.unavailable,
       timezone: market.timezone
@@ -101,7 +101,7 @@ export function buildSupabaseDataFreshnessSnapshot({
     market: market.exchange,
     scoreSource: "mock",
     scoreSourceLabel: "示範分數",
-    sourceName: sourceNames || "資料來源未確認",
+    sourceName: sourceNames || "資料來源待確認",
     state,
     stateLabel: stateLabels[state],
     timezone: market.timezone

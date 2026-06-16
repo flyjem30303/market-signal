@@ -13,13 +13,13 @@ import type { SignalSnapshot } from "@/lib/signal-model";
 
 const copy = {
   title: "市場週報",
-  description: "整理本週市場狀態、主要燈號、風險最高標的與資料更新狀態。Phase 1 使用示範資料，不提供買賣建議。",
-  hero: "本週市場狀態整理",
-  summary: "週報快速閱讀",
-  signal: "市場總燈號",
-  risk: "風險最高標的",
-  updateStatus: "資料更新時間",
-  list: "市場行動摘要",
+  description: "整理本週市場燈號、主要風險標的與資料更新狀態。Phase 1 使用示範資料，不提供買賣建議。",
+  hero: "本週市場狀態回顧",
+  summary: "本週快速閱讀",
+  signal: "市場燈號",
+  risk: "主要風險觀察",
+  updateStatus: "資料更新狀態",
+  list: "本週觀察清單",
   viewSignal: "查看燈號"
 };
 
@@ -48,12 +48,11 @@ export default async function WeeklyPage() {
         <p className="eyebrow">{copy.title}</p>
         <h1>{copy.hero}</h1>
         <p>
-          用 30 秒確認市場燈號，再用 3 分鐘複核風險最高標的、資料狀態與下一步觀察重點。
-          週報僅提供市場資訊整理，不提供買賣建議。
+          本頁用週報方式整理市場燈號、風險分數與資料更新狀態，協助使用者回看本週市場脈絡。
         </p>
-        <p>週報行動摘要：本頁是非投資建議，只協助使用者整理本週觀察順序。</p>
+        <p>這是公開 Beta 的週報示範，不是投資建議，也不是即時報價或個股買賣指令。</p>
         <p className="runtime-boundary-line">
-          Phase 1 仍使用示範資料與示範分數；正式資料尚未啟用，請以資料更新時間與資料狀態作為閱讀前提。
+          Phase 1 仍使用示範資料與示範分數；正式每日資料尚未啟用，請搭配資料邊界閱讀。
         </p>
       </section>
 
@@ -66,17 +65,12 @@ export default async function WeeklyPage() {
         <article>
           <span>{copy.risk}</span>
           <strong>{topRisk.asset.name}</strong>
-          <p>
-            風險分數 {topRisk.riskScore}/100。分數較高時，先降低單一訊號判斷，改以資料狀態、
-            市場背景與後續觀察重點一起複核。
-          </p>
+          <p>風險分數 {topRisk.riskScore}/100。建議先看風險來源，再看資料是否延遲。</p>
         </article>
         <article>
           <span>{copy.updateStatus}</span>
           <strong>示範資料</strong>
-          <p>
-            資料更新狀態：目前公開頁以示範資料呈現閱讀流程；正式每日資料上線前，不宣稱即時、完整或可作為交易依據。
-          </p>
+          <p>本週報目前使用示範資料，正式資料上線前不代表真實市場狀態。</p>
         </article>
       </section>
 
@@ -86,8 +80,7 @@ export default async function WeeklyPage() {
             <p className="eyebrow">{snapshot.asset.symbol}</p>
             <h2>{snapshot.asset.name}</h2>
             <p>
-              燈號分數 {snapshot.compositeScore}/100，風險分數 {snapshot.riskScore}/100。先看狀態，
-              再確認原因與資料邊界，避免只用單一分數做判斷。
+              綜合分數 {snapshot.compositeScore}/100，風險分數 {snapshot.riskScore}/100。建議先看燈號原因，再確認資料更新時間。
             </p>
             <TrackedLink
               eventName="weekly_link_clicked"

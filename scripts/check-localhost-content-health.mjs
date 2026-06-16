@@ -1,104 +1,111 @@
 import fs from "node:fs";
 import { spawn, spawnSync } from "node:child_process";
-import { localhostContentForbidden, localhostContentHealthChecks } from "./localhost-health-config.mjs";
 
 const node = process.execPath;
-const baseUrl = process.env.LOCALHOST_HEALTH_BASE_URL ?? "http://localhost:3000";
+const baseUrl = process.env.LOCALHOST_BASE_URL ?? "http://localhost:3000";
 const shouldManageServer = process.env.LOCALHOST_HEALTH_MANAGE_SERVER !== "false";
-const timeoutMs = Number.parseInt(process.env.LOCALHOST_HEALTH_TIMEOUT_MS ?? "10000", 10);
-const retryCount = Number.parseInt(process.env.LOCALHOST_HEALTH_RETRY_COUNT ?? "4", 10);
-const retryDelayMs = Number.parseInt(process.env.LOCALHOST_HEALTH_RETRY_DELAY_MS ?? "1500", 10);
 
-const results = [];
+const requiredByPath = {
+  "/": ["30 秒看懂今天的市場狀態", "示範資料", "免責聲明"],
+  "/stocks/2330": ["2330", "個股燈號 / 一眼判讀", "示範資料"],
+  "/stocks/TWII": ["TWII", "個股燈號 / 一眼判讀", "示範資料"],
+  "/stocks/0050": ["0050", "個股燈號 / 一眼判讀", "示範資料"],
+  "/stocks/006208": ["006208", "個股燈號 / 一眼判讀", "示範資料"],
+  "/stocks/2382": ["2382", "個股燈號 / 一眼判讀", "示範資料"],
+  "/stocks/2308": ["2308", "個股燈號 / 一眼判讀", "示範資料"],
+  "/briefing": ["市場快報", "30 秒看懂市場燈號", "下一步行動"],
+  "/weekly": ["市場週報", "本週市場狀態回顧", "示範資料"]
+};
+
+const blockedFragments = [
+  "Internal Server Error",
+  "Unhandled Runtime Error",
+  "cmd.exe",
+  "PUBLIC_BETA_",
+  "BETA_",
+  "daily_prices",
+  "raw market data",
+  "candidateArtifactPath",
+  "REQUEST BLOCKS",
+  "EXTERNAL REPLY",
+  "publicDataSource",
+  "scoreSource"
+];
 
 const managedServer = shouldManageServer && !(await canFetchRoot()) ? await startTemporaryServer() : null;
+const results = [];
 
 try {
-  for (const check of localhostContentHealthChecks) {
-    results.push(await checkContent(check));
+  for (const [path, required] of Object.entries(requiredByPath)) {
+    results.push(await checkPath(path, required));
   }
 
-  const failed = results.filter((result) => result.missing.length > 0 || result.blocked.length > 0 || result.statusCode !== 200);
-
+  const status = results.every((result) => result.ok) ? "ok" : "blocked";
   console.log(
     JSON.stringify(
       {
         baseUrl,
-        managedServer: managedServer
-          ? {
-              command: managedServer.commandLabel,
-              started: true
-            }
-          : {
-              started: false
-            },
+        managedServer: managedServer ? { command: managedServer.commandLabel, started: true } : { started: false },
         results,
-        status: failed.length === 0 ? "ok" : "blocked"
+        status
       },
       null,
       2
     )
   );
 
-  if (failed.length > 0) {
-    process.exitCode = 1;
-  }
+  if (status !== "ok") process.exitCode = 1;
 } finally {
-  if (managedServer) {
-    stopManagedServer(managedServer.child);
+  if (managedServer) stopManagedServer(managedServer.child);
+}
+
+async function checkPath(path, required) {
+  for (let attempt = 1; attempt <= 4; attempt += 1) {
+    try {
+      const response = await fetch(`${baseUrl}${path}`, { cache: "no-store" });
+      const text = normalizeVisibleText(await response.text());
+      const missing = required.filter((phrase) => !text.includes(phrase));
+      const blocked = blockedFragments.filter((fragment) => text.includes(fragment));
+      const mojibake = findBadTextMarkers(text);
+      const ok = response.status === 200 && missing.length === 0 && blocked.length === 0 && mojibake.length === 0;
+      if (ok || attempt === 4) {
+        return { blocked, missing, mojibake, ok, attempt, path, statusCode: response.status };
+      }
+    } catch (error) {
+      if (attempt === 4) {
+        return {
+          error: error instanceof Error ? error.message : String(error),
+          ok: false,
+          attempt,
+          path,
+          statusCode: 0
+        };
+      }
+    }
+    await delay(1000);
   }
 }
 
-async function checkContent(check) {
-  let lastResult;
-
-  for (let attempt = 1; attempt <= retryCount; attempt += 1) {
-    lastResult = await fetchContent(check, attempt);
-    if (lastResult.ok) return lastResult;
-    await delay(retryDelayMs);
-  }
-
-  return lastResult;
+function normalizeVisibleText(html) {
+  return html
+    .replace(/<script[\s\S]*?<\/script>/g, " ")
+    .replace(/<style[\s\S]*?<\/style>/g, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
-async function fetchContent(check, attempt) {
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), timeoutMs);
-
-  try {
-    const response = await fetch(new URL(check.path, baseUrl), {
-      cache: "no-store",
-      signal: controller.signal
-    });
-    const text = await response.text();
-    const missing = check.required.filter((phrase) => !text.includes(phrase));
-    const blocked = localhostContentForbidden.filter((phrase) => text.includes(phrase));
-
-    return {
-      blocked,
-      missing,
-      ok: response.ok && missing.length === 0 && blocked.length === 0,
-      attempt,
-      path: check.path,
-      statusCode: response.status
-    };
-  } catch (error) {
-    return {
-      blocked: [],
-      error: error instanceof Error ? error.message : String(error),
-      missing: check.required,
-      ok: false,
-      attempt,
-      path: check.path,
-      statusCode: 0
-    };
-  } finally {
-    clearTimeout(timeout);
+function findBadTextMarkers(text) {
+  const markers = [];
+  if (/[\uE000-\uF8FF\uFFFD]/u.test(text)) markers.push("private-use-or-replacement-codepoint");
+  if (/[\u0080-\u009F]/u.test(text)) markers.push("control-codepoint");
+  if (/\?{3,}/u.test(text)) markers.push("question-mark-run");
+  for (const fragment of ["撣", "憸券", "鞈", "蝷箇", "嚗", "銝", "甇"]) {
+    if (text.includes(fragment)) markers.push(`legacy-mojibake-fragment:${fragment}`);
   }
-}
-
-function delay(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
+  return markers;
 }
 
 async function startTemporaryServer() {
@@ -145,10 +152,12 @@ async function canFetchRoot() {
 
 function normalizeEnv(env) {
   const next = { ...env };
-  if (next.Path && next.PATH) {
-    delete next.PATH;
-  }
+  if (next.Path && next.PATH) delete next.PATH;
   return next;
+}
+
+function delay(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 function stopManagedServer(child) {

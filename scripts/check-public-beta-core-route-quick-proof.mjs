@@ -5,11 +5,10 @@ import https from "node:https";
 const baseUrl = process.env.PUBLIC_BETA_QUICK_PROOF_BASE_URL ?? "http://localhost:3000";
 const timeoutMs = Number.parseInt(process.env.PUBLIC_BETA_QUICK_PROOF_TIMEOUT_MS ?? "20000", 10);
 
-const routes = [
+const publicRoutes = [
   "/",
   "/briefing",
   "/weekly",
-  "/membership",
   "/stocks/2330",
   "/stocks/TWII",
   "/methodology",
@@ -18,11 +17,12 @@ const routes = [
   "/privacy"
 ];
 
+const inaccessibleRoutes = ["/membership", "/watchlist"];
+
 const sourceFiles = [
   "src/components/dashboard-shell.tsx",
   "src/app/briefing/page.tsx",
   "src/app/weekly/page.tsx",
-  "src/app/membership/page.tsx",
   "src/components/public-beta-membership-mvp-roadmap.tsx",
   "src/components/public-beta-public-status-surface.tsx",
   "src/components/public-beta-source-coverage-bridge.tsx",
@@ -34,16 +34,15 @@ const sourceFiles = [
 ];
 
 const routeVisibleContracts = [
-  { route: "/", tokens: ["公開 Beta", "30 秒", "3 分鐘判斷順序", "指數狀態儀表站", "資料上線狀態", "非投資建議"] },
-  { route: "/briefing", tokens: ["每日市場簡報", "30 秒", "3 分鐘判斷順序", "影響級別", "資料更新時間", "非投資建議"] },
-  { route: "/weekly", tokens: ["市場週報", "公開週報", "模擬資料", "不是投資建議"] },
-  { route: "/membership", tokens: ["會員", "市場三層解讀", "watchlist", "盤後複盤"] },
-  { route: "/stocks/2330", tokens: ["2330", "指數燈號", "資料邊界", "3 分鐘判斷順序", "不應直接視為個股買賣建議"] },
-  { route: "/stocks/TWII", tokens: ["TWII", "指數燈號", "資料邊界", "3 分鐘判斷順序", "不應直接視為個股買賣建議"] },
-  { route: "/methodology", tokens: ["方法說明", "燈號", "資料", "不是投資建議"] },
-  { route: "/disclaimer", tokens: ["風險聲明", "市場資訊", "不構成投資建議", "模擬資料"] },
-  { route: "/terms", tokens: ["使用條款", "市場資訊", "不構成投資建議", "資料"] },
-  { route: "/privacy", tokens: ["隱私權", "會員", "watchlist", "盤後複盤"] }
+  { route: "/", tokens: ["市場總覽 / 快速判讀", "30 秒", "示範資料", "免責聲明"] },
+  { route: "/briefing", tokens: ["市場快報", "30 秒看懂市場燈號", "下一步行動", "資料邊界"] },
+  { route: "/weekly", tokens: ["市場週報", "本週市場狀態回顧", "示範資料", "不是投資建議"] },
+  { route: "/stocks/2330", tokens: ["2330", "個股燈號 / 一眼判讀", "示範資料", "免責聲明"] },
+  { route: "/stocks/TWII", tokens: ["TWII", "個股燈號 / 一眼判讀", "示範資料", "免責聲明"] },
+  { route: "/methodology", tokens: ["方法說明", "燈號", "風險分數", "不是投資建議"] },
+  { route: "/disclaimer", tokens: ["風險聲明", "不是投資建議", "示範資料"] },
+  { route: "/terms", tokens: ["使用條款", "市場資訊整理", "示範資料"] },
+  { route: "/privacy", tokens: ["隱私權", "Phase 1", "會員"] }
 ];
 
 const missing = [];
@@ -59,7 +58,9 @@ const forbiddenPublicSourceFragments = [
   "workflow proof",
   "hard blocker",
   "REQUEST BLOCKS",
-  "EXTERNAL REPLY"
+  "EXTERNAL REPLY",
+  'scoreSource: "real"',
+  'publicDataSource: "supabase"'
 ];
 
 for (const file of sourceFiles) {
@@ -75,28 +76,39 @@ for (const file of sourceFiles) {
 for (const [file, source] of [
   ["src/lib/runtime-product-summary.ts", read("src/lib/runtime-product-summary.ts")],
   ["src/lib/public-beta-launch-readiness.ts", read("src/lib/public-beta-launch-readiness.ts")],
-  ["src/components/dashboard-shell.tsx", read("src/components/dashboard-shell.tsx")],
-  ["src/app/membership/page.tsx", read("src/app/membership/page.tsx")]
+  ["src/components/dashboard-shell.tsx", read("src/components/dashboard-shell.tsx")]
 ]) {
   if (source.includes('scoreSource: "real"')) blocked.push(`${file}: scoreSource real`);
   if (source.includes('publicDataSource: "supabase"')) blocked.push(`${file}: publicDataSource supabase`);
   if (/createClient\(/u.test(source)) blocked.push(`${file}: Supabase client use`);
 }
 
-const routeResults = [];
-for (const route of routes) {
-  routeResults.push(await checkRoute(route));
+const publicRouteResults = [];
+for (const route of publicRoutes) {
+  publicRouteResults.push(await checkRoute(route));
 }
 
-for (const result of routeResults) {
+const inaccessibleRouteResults = [];
+for (const route of inaccessibleRoutes) {
+  inaccessibleRouteResults.push(await checkRoute(route));
+}
+
+for (const result of publicRouteResults) {
   if (result.statusCode !== 200) blocked.push(`${result.route}: HTTP ${result.statusCode}`);
   for (const marker of findMojibakeMarkers(result.text ?? "")) {
     blocked.push(`${result.route}: ${marker}`);
   }
 }
 
+for (const result of inaccessibleRouteResults) {
+  if (![401, 404].includes(result.statusCode)) blocked.push(`${result.route}: expected inaccessible route, got HTTP ${result.statusCode}`);
+  for (const marker of findMojibakeMarkers(result.text ?? "")) {
+    blocked.push(`${result.route}: ${marker}`);
+  }
+}
+
 for (const contract of routeVisibleContracts) {
-  const result = routeResults.find((item) => item.route === contract.route);
+  const result = publicRouteResults.find((item) => item.route === contract.route);
   const text = result?.text ?? "";
   for (const token of contract.tokens) {
     if (!text.includes(token)) missing.push(`${contract.route}: ${token}`);
@@ -108,7 +120,8 @@ const result = {
   checked: {
     baseUrl,
     files: sourceFiles.length,
-    routes: routeResults.map(({ route, statusCode }) => ({ route, statusCode }))
+    inaccessibleRoutes: inaccessibleRouteResults.map(({ route, statusCode }) => ({ route, statusCode })),
+    routes: publicRouteResults.map(({ route, statusCode }) => ({ route, statusCode }))
   },
   missing,
   runtimeBoundary: {
@@ -175,12 +188,11 @@ function normalizeVisibleText(html) {
 
 function findMojibakeMarkers(source) {
   const markers = [];
-  if (/\uFFFD/u.test(source)) markers.push("replacement-character");
-  if (/[\uE000-\uF8FF]/u.test(source)) markers.push("private-use-codepoint");
-  if (/[\u0080-\u009F]/u.test(source)) markers.push("c1-control-character");
+  if (/[\uE000-\uF8FF\uFFFD]/u.test(source)) markers.push("private-use-or-replacement-codepoint");
+  if (/[\u0080-\u009F]/u.test(source)) markers.push("control-codepoint");
   if (/\?{3,}/u.test(source)) markers.push("question-mark-run");
-  for (const fragment of ["擗", "蝺抵圾", "銝", "鞈", "撣", "嚗", "蝷箇"]) {
-    if (source.includes(fragment)) markers.push(`mojibake-fragment:${fragment}`);
+  for (const fragment of ["撣", "憸券", "鞈", "蝷箇", "嚗", "銝", "甇"]) {
+    if (source.includes(fragment)) markers.push(`legacy-mojibake-fragment:${fragment}`);
   }
   return markers;
 }

@@ -55,19 +55,19 @@ const publicSourceFiles = [
 ];
 
 const requiredByRoute = {
-  "/": ["市場分數", "風險分數", "正式每日資料尚未啟用", "非投資建議"],
-  "/briefing": ["市場快報", "30 秒看懂市場燈號", "3 分鐘把市場燈號拆成原因", "資料與風險邊界"],
-  "/weekly": ["市場週報", "正式資料尚未啟用", "非投資建議"],
-  "/methodology": ["方法說明", "市場分數", "風險分數", "非投資建議"],
-  "/disclaimer": ["風險聲明", "不是投資建議", "正式市場資料尚未啟用"],
-  "/terms": ["使用條款", "市場資訊整理", "自行承擔風險"],
-  "/privacy": ["隱私權與資料說明", "不要求使用者提供姓名", "會員功能資料邊界"],
-  "/stocks/TWII": ["TWII", "市場分數", "風險分數", "示範資料"],
-  "/stocks/2330": ["2330", "市場分數", "風險分數", "示範資料"],
-  "/stocks/0050": ["0050", "市場分數", "風險分數", "示範資料"],
-  "/stocks/006208": ["006208", "市場分數", "風險分數", "示範資料"],
-  "/stocks/2382": ["2382", "市場分數", "風險分數", "示範資料"],
-  "/stocks/2308": ["2308", "市場分數", "風險分數", "示範資料"]
+  "/": ["市場總覽 / 快速判讀", "30 秒", "示範資料", "免責聲明"],
+  "/briefing": ["市場快報", "30 秒看懂市場燈號", "下一步行動", "資料邊界"],
+  "/weekly": ["市場週報", "本週市場狀態回顧", "示範資料", "不是投資建議"],
+  "/methodology": ["方法說明", "燈號", "風險分數", "不是投資建議"],
+  "/disclaimer": ["風險聲明", "不是投資建議", "示範資料"],
+  "/terms": ["使用條款", "市場資訊整理", "示範資料"],
+  "/privacy": ["隱私權", "Phase 1", "會員"],
+  "/stocks/TWII": ["TWII", "個股燈號 / 一眼判讀", "示範資料", "免責聲明"],
+  "/stocks/2330": ["2330", "個股燈號 / 一眼判讀", "示範資料", "免責聲明"],
+  "/stocks/0050": ["0050", "個股燈號 / 一眼判讀", "示範資料", "免責聲明"],
+  "/stocks/006208": ["006208", "個股燈號 / 一眼判讀", "示範資料", "免責聲明"],
+  "/stocks/2382": ["2382", "個股燈號 / 一眼判讀", "示範資料", "免責聲明"],
+  "/stocks/2308": ["2308", "個股燈號 / 一眼判讀", "示範資料", "免責聲明"]
 };
 
 const forbiddenVisibleFragments = [
@@ -244,8 +244,8 @@ function findBadTextMarkers(text) {
   if (/[\uE000-\uF8FF\uFFFD]/u.test(text)) markers.push("private-use-or-replacement-codepoint");
   if (/[\u0080-\u009F]/u.test(text)) markers.push("control-codepoint");
   if (/\?{3,}/u.test(text)) markers.push("question-mark-run");
-  if (/(?:嚗|銝|蝭|憟|璅|鞈|撣|閮|瘥|摨|甈|雿|蹐|蹓|||||){2,}/u.test(text)) {
-    markers.push("legacy-mojibake-cjk-run");
+  for (const fragment of ["撣", "憸券", "鞈", "蝷箇", "嚗", "銝", "甇"]) {
+    if (text.includes(fragment)) markers.push(`legacy-mojibake-fragment:${fragment}`);
   }
   return markers;
 }
