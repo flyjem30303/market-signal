@@ -90,9 +90,8 @@ Stop before any of the following:
 
 If the filled local input is accepted as `GO_PREPARE_BOUNDED_PACKET_ONLY`, the next route may become:
 
-`phase_1_runtime_promotion_bounded_execution_packet_preparation_no_execution`
+`phase_1_runtime_promotion_narrowed_bounded_packet_readiness_no_execution`
 
 If not accepted, keep:
 
 `keep_mock_and_request_repair`
-

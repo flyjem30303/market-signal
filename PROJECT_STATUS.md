@@ -12912,17 +12912,18 @@ Prepare the separate bounded write/readback/rollback preparation packet. It must
 # Latest Daily Prices Final Bounded Write Execution Packet
 
 - Date: 2026-06-16
-- Status: `phase_1_daily_prices_final_bounded_write_execution_packet_no_execution_ready`
-- CEO decision: `FINAL_BOUNDED_WRITE_EXECUTION_PACKET_READY_NOT_EXECUTED`
+- Status: `phase_1_daily_prices_final_bounded_write_execution_packet_superseded_no_execution`
+- CEO decision: `SUPERSEDED_BY_PHASE_1_TWII_PLUS_LISTED_STOCK_SCOPE_KEEP_MOCK`
 - Artifact: `data/evidence-intake/phase-1-daily-prices-final-bounded-write-execution-packet-no-execution.json`
 - Contract: `docs/PHASE_1_DAILY_PRICES_FINAL_BOUNDED_WRITE_EXECUTION_PACKET_NO_EXECUTION.md`
 - Checker: `scripts/check-phase-1-daily-prices-final-bounded-write-execution-packet-no-execution.mjs`
 - Runner: `scripts/run-phase-1-daily-prices-bounded-insert-missing-once.mjs`
-- Dry-run observed: `status=phase_1_daily_prices_bounded_insert_missing_ready_not_executed`, `commandAccepted=true`, `candidateArtifactAccepted=true`, `candidateRowCount=178`, `credentialPresence.nextPublicSupabaseUrl=true`, `credentialPresence.serviceRoleKey=true`, `executionRequested=false`, `remoteAttempted=false`, `connectionAttempted=false`, `readbackAttempted=false`, `insertedRows=0`.
-- Execution command exists only with `--execute`; this packet did not run it.
+- Dry-run observed historically: `status=phase_1_daily_prices_bounded_insert_missing_ready_not_executed`, `commandAccepted=true`, `candidateArtifactAccepted=true`, `candidateRowCount=178`, `credentialPresence.nextPublicSupabaseUrl=true`, `credentialPresence.serviceRoleKey=true`, `executionRequested=false`, `remoteAttempted=false`, `connectionAttempted=false`, `readbackAttempted=false`, `insertedRows=0`.
+- Execution command exists only with `--execute`; this packet did not run it, and it must not be used for the current Phase 1 scope.
+- Supersession reason: this historical packet covered `TWII`, `0050`, and `006208`; current Phase 1 is `twii_plus_listed_stock_daily_close`, while ETF symbols `0050` and `006208` are deferred to Phase 1.1.
 - Guardrails: `boundedAttemptExecutableNow=false`, `writeGateExecutableNow=false`, `runnerExecutableNow=false`, `promotionAllowedNow=false`, `publicDataSource=mock`, `scoreSource=mock`.
 - Hard stops after any execution: no second bounded write attempt, no update/upsert/delete/truncate/overwrite, no secret output, no raw/row/stock-id payload output, no public real-data claim, no `publicDataSource=supabase`, no `scoreSource=real`, no skipped readback, no skipped rollback/quarantine review.
-- Next route: `explicit_operator_may_run_one_final_bounded_write_attempt_or_keep_mock`.
+- Next route: `prepare_phase_1_twii_plus_listed_stock_daily_close_bounded_packet_no_execution`.
 # Latest Daily Prices Bounded Write Post-Run Review
 
 - Date: 2026-06-16

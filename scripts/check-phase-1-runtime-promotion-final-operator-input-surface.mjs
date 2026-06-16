@@ -40,7 +40,7 @@ for (const phrase of [
   "NO_GO_KEEP_MOCK",
   "GO_PREPARE_BOUNDED_PACKET_ONLY",
   "No allowed outcome may directly execute mutation",
-  "phase_1_runtime_promotion_bounded_execution_packet_preparation_no_execution",
+  "phase_1_runtime_promotion_narrowed_bounded_packet_readiness_no_execution",
   "keep_mock_and_request_repair"
 ]) {
   if (!doc.includes(phrase)) problems.push(`${docPath} missing phrase: ${phrase}`);
@@ -85,9 +85,9 @@ if (!Array.isArray(template.allowedOutcomes) || !template.allowedOutcomes.includ
 }
 
 for (const phrase of [
-  "phase_1_runtime_promotion_final_operator_input_surface",
-  "GO/NO-GO final operator input surface",
-  "Prepare the final operator input surface before any bounded execution packet is assembled."
+  "narrowed TWII plus listed-stock bounded packet inputs",
+  "historical ETF-scoped packet",
+  "current Phase 1 candidate artifact"
 ]) {
   if (!finalBlocker.includes(phrase)) problems.push(`${finalBlockerPath} missing final input surface linkage: ${phrase}`);
 }
@@ -130,7 +130,7 @@ console.log(
       writeGateExecutableNow: false,
       publicDataSource: "mock",
       scoreSource: "mock",
-      nextRoute: "phase_1_runtime_promotion_bounded_execution_packet_preparation_no_execution",
+      nextRoute: "phase_1_runtime_promotion_narrowed_bounded_packet_readiness_no_execution",
       problems
     },
     null,

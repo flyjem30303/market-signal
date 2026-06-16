@@ -46,9 +46,9 @@ export function getPhase1RuntimePromotionFinalBlockerContract(): Phase1RuntimePr
       {
         id: "bounded_execution_packet",
         nextAction:
-          "Prepare the final operator input surface before any bounded execution packet is assembled.",
+          "Prepare the narrowed TWII plus listed-stock bounded packet inputs; do not use the historical ETF-scoped packet.",
         reason:
-          "The public runtime cannot switch until the GO/NO-GO final operator input surface confirms the bounded attempt command, inputs, and stop-line are explicit."
+          "The public runtime cannot switch until the current Phase 1 candidate artifact, bounded attempt command, inputs, and stop-line are explicit for TWII plus listed-stock daily close."
       },
       {
         id: "aggregate_readback",
@@ -81,6 +81,6 @@ export function getPhase1RuntimePromotionFinalBlockerContract(): Phase1RuntimePr
     stopLine:
       "Do not run SQL, write Supabase, mutate daily_prices, fetch raw market data, print secrets, set publicDataSource=supabase, or set scoreSource=real from this contract.",
     summary:
-      "Phase 1 data/source scope is locally ready; the remaining work is the phase_1_runtime_promotion_final_operator_input_surface and bounded runtime promotion execution discipline, not ETF/source-depth repair."
+      "Phase 1 data/source scope is locally ready; the remaining work is the narrowed TWII plus listed-stock bounded packet input chain and bounded runtime promotion execution discipline, not ETF/source-depth repair."
   };
 }

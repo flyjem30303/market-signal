@@ -1,10 +1,16 @@
 # Phase 1 Daily Prices Final Bounded Write Execution Packet
 
-Status: `phase_1_daily_prices_final_bounded_write_execution_packet_no_execution_ready`
+Status: `phase_1_daily_prices_final_bounded_write_execution_packet_superseded_no_execution`
 
-Decision: `FINAL_BOUNDED_WRITE_EXECUTION_PACKET_READY_NOT_EXECUTED`
+Decision: `SUPERSEDED_BY_PHASE_1_TWII_PLUS_LISTED_STOCK_SCOPE_KEEP_MOCK`
 
-This packet names the exact final bounded write command for Phase 1 daily prices, but it does not execute it.
+This packet is preserved as historical evidence only. It named an ETF-scoped bounded write command for TWII, 0050, and 006208, but the current Phase 1 scope is now narrowed to TWII plus Taiwan listed-stock daily close. ETF coverage is deferred to Phase 1.1.
+
+Do not execute this historical command for the current Phase 1.
+
+Current Phase 1 universe: `twii_plus_listed_stock_daily_close`
+
+Deferred symbols: `0050`, `006208`
 
 ## Dry Run Command
 
@@ -29,7 +35,7 @@ Observed dry-run result:
 
 ## Execution Command
 
-This is the only command that would execute the bounded write:
+This historical command is now superseded and must not be executed for the current Phase 1:
 
 `cmd.exe /c scripts\with-node20.cmd node scripts\run-phase-1-daily-prices-bounded-insert-missing-once.mjs --authorization-id PHASE1-DAILY-PRICES-BOUNDED-WRITE-2026-06-16-A --acknowledge-bounded-write-once CEO_AUTHORIZED_ONE_PHASE1_BOUNDED_WRITE_ATTEMPT_20260616_A --candidate-artifact tmp\phase-1-sanitized-row-payload-candidate.json --post-run-review tmp\phase-1-daily-prices-bounded-write-post-run-review.local.md --execute`
 
@@ -68,4 +74,4 @@ This is the only command that would execute the bounded write:
 
 ## Next Route
 
-`explicit_operator_may_run_one_final_bounded_write_attempt_or_keep_mock`
+`prepare_phase_1_twii_plus_listed_stock_daily_close_bounded_packet_no_execution`

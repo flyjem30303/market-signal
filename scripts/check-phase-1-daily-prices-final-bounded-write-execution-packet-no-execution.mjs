@@ -33,7 +33,7 @@ console.log(
     {
       status: ok ? "ok" : "blocked",
       guardedStatus: ok
-        ? "phase_1_daily_prices_final_bounded_write_execution_packet_no_execution_ready"
+        ? "phase_1_daily_prices_final_bounded_write_execution_packet_superseded_no_execution"
         : "phase_1_daily_prices_final_bounded_write_execution_packet_no_execution_blocked",
       packetDecision: artifact.packetDecision ?? null,
       dryRunStatus: dryRun.status ?? null,
@@ -87,7 +87,14 @@ function validateDryRun() {
 
 function validateArtifact() {
   expect(artifact.packetMode, "phase_1_daily_prices_final_bounded_write_execution_packet_no_execution", "artifact.packetMode");
-  expect(artifact.packetDecision, "FINAL_BOUNDED_WRITE_EXECUTION_PACKET_READY_NOT_EXECUTED", "artifact.packetDecision");
+  expect(
+    artifact.packetDecision,
+    "SUPERSEDED_BY_PHASE_1_TWII_PLUS_LISTED_STOCK_SCOPE_KEEP_MOCK",
+    "artifact.packetDecision"
+  );
+  expect(artifact.supersededByPhase1Scope, true, "artifact.supersededByPhase1Scope");
+  expect(artifact.currentPhase1Universe, "twii_plus_listed_stock_daily_close", "artifact.currentPhase1Universe");
+  expectArray(artifact.deferredSymbols, ["0050", "006208"], "artifact.deferredSymbols");
   expect(
     artifact.sourceFreshPmGoNoGoStatus,
     "phase_1_runtime_promotion_fresh_pm_go_no_go_after_input_convergence_no_execution_ready",
@@ -118,7 +125,11 @@ function validateArtifact() {
   expect(artifact.promotionAllowedNow, false, "artifact.promotionAllowedNow");
   expect(artifact.publicDataSource, "mock", "artifact.publicDataSource");
   expect(artifact.scoreSource, "mock", "artifact.scoreSource");
-  expect(artifact.nextRoute, "explicit_operator_may_run_one_final_bounded_write_attempt_or_keep_mock", "artifact.nextRoute");
+  expect(
+    artifact.nextRoute,
+    "prepare_phase_1_twii_plus_listed_stock_daily_close_bounded_packet_no_execution",
+    "artifact.nextRoute"
+  );
   for (const key of [
     "sqlExecuted",
     "sqlGenerated",
@@ -147,8 +158,10 @@ function validateArtifact() {
 
 function validateDoc() {
   for (const phrase of [
-    "Status: `phase_1_daily_prices_final_bounded_write_execution_packet_no_execution_ready`",
-    "Decision: `FINAL_BOUNDED_WRITE_EXECUTION_PACKET_READY_NOT_EXECUTED`",
+    "Status: `phase_1_daily_prices_final_bounded_write_execution_packet_superseded_no_execution`",
+    "Decision: `SUPERSEDED_BY_PHASE_1_TWII_PLUS_LISTED_STOCK_SCOPE_KEEP_MOCK`",
+    "Current Phase 1 universe: `twii_plus_listed_stock_daily_close`",
+    "Deferred symbols: `0050`, `006208`",
     "`status=phase_1_daily_prices_bounded_insert_missing_ready_not_executed`",
     "`commandAccepted=true`",
     "`candidateArtifactAccepted=true`",
@@ -169,7 +182,7 @@ function validateDoc() {
     "`promotionAllowedNow=false`",
     "`publicDataSource=mock`",
     "`scoreSource=mock`",
-    "`explicit_operator_may_run_one_final_bounded_write_attempt_or_keep_mock`"
+    "`prepare_phase_1_twii_plus_listed_stock_daily_close_bounded_packet_no_execution`"
   ]) {
     if (!doc.includes(phrase)) problems.push(`${docPath} missing phrase: ${phrase}`);
   }
@@ -193,8 +206,8 @@ function validateRegistration() {
 function validateProjectStatus() {
   for (const phrase of [
     "Latest Daily Prices Final Bounded Write Execution Packet",
-    "phase_1_daily_prices_final_bounded_write_execution_packet_no_execution_ready",
-    "FINAL_BOUNDED_WRITE_EXECUTION_PACKET_READY_NOT_EXECUTED"
+    "phase_1_daily_prices_final_bounded_write_execution_packet_superseded_no_execution",
+    "SUPERSEDED_BY_PHASE_1_TWII_PLUS_LISTED_STOCK_SCOPE_KEEP_MOCK"
   ]) {
     if (!projectStatus.includes(phrase)) problems.push(`${projectStatusPath} missing phrase: ${phrase}`);
   }
@@ -280,6 +293,18 @@ function parseJson(text, label) {
 
 function expect(actual, expected, label) {
   if (actual !== expected) problems.push(`${label} expected ${JSON.stringify(expected)} but got ${JSON.stringify(actual)}`);
+}
+
+function expectArray(actual, expected, label) {
+  if (!Array.isArray(actual)) {
+    problems.push(`${label} must be an array`);
+    return;
+  }
+  const missing = expected.filter((item) => !actual.includes(item));
+  const extra = actual.filter((item) => !expected.includes(item));
+  if (missing.length > 0 || extra.length > 0) {
+    problems.push(`${label} mismatch missing=${JSON.stringify(missing)} extra=${JSON.stringify(extra)}`);
+  }
 }
 
 function forbiddenPatterns() {

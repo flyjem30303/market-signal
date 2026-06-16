@@ -1,7 +1,11 @@
 {
   "packetMode": "phase_1_daily_prices_final_bounded_write_execution_packet_no_execution",
   "packetLabel": "PHASE_1_DAILY_PRICES_FINAL_BOUNDED_WRITE_EXECUTION_PACKET_NO_EXECUTION",
-  "packetDecision": "FINAL_BOUNDED_WRITE_EXECUTION_PACKET_READY_NOT_EXECUTED",
+  "packetDecision": "SUPERSEDED_BY_PHASE_1_TWII_PLUS_LISTED_STOCK_SCOPE_KEEP_MOCK",
+  "supersededByPhase1Scope": true,
+  "supersededReason": "This historical packet covered TWII plus ETF symbols 0050 and 006208. Current Phase 1 scope is TWII plus Taiwan listed-stock daily close; ETF coverage is deferred to Phase 1.1.",
+  "currentPhase1Universe": "twii_plus_listed_stock_daily_close",
+  "deferredSymbols": ["0050", "006208"],
   "sourceFreshPmGoNoGoStatus": "phase_1_runtime_promotion_fresh_pm_go_no_go_after_input_convergence_no_execution_ready",
   "runnerPath": "scripts/run-phase-1-daily-prices-bounded-insert-missing-once.mjs",
   "authorizationId": "PHASE1-DAILY-PRICES-BOUNDED-WRITE-2026-06-16-A",
@@ -34,7 +38,7 @@
     "problems": []
   },
   "targetTable": "daily_prices",
-  "targetScope": "twii_and_etf_phase_1_missing_row_closure_only",
+  "targetScope": "historical_twii_and_etf_packet_superseded_not_current_phase_1_scope",
   "maxRowsPerAttempt": 178,
   "executeSwitchRequired": true,
   "executeSwitchPresentInDryRun": false,
@@ -48,7 +52,7 @@
   "promotionAllowedNow": false,
   "publicDataSource": "mock",
   "scoreSource": "mock",
-  "nextRoute": "explicit_operator_may_run_one_final_bounded_write_attempt_or_keep_mock",
+  "nextRoute": "prepare_phase_1_twii_plus_listed_stock_daily_close_bounded_packet_no_execution",
   "safety": {
     "sqlExecuted": false,
     "sqlGenerated": false,
@@ -71,5 +75,5 @@
     "scoreSourcePromoted": false,
     "investmentAdviceClaimAllowed": false
   },
-  "stopLine": "Final execution packet only. The dry-run command was observed ready_not_executed. Do not execute the executionCommand unless the operator explicitly chooses to run one irreversible bounded write attempt."
+  "stopLine": "Historical superseded execution packet only. Do not execute this ETF-scoped executionCommand for the current Phase 1. Prepare a new TWII plus listed-stock daily close bounded packet instead."
 }
