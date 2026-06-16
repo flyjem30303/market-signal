@@ -12844,3 +12844,16 @@ Prepare the separate bounded write/readback/rollback preparation packet. It must
 - Guardrails: `boundedAttemptExecutableNow=false`, `writeGateExecutableNow=false`, `runnerExecutableNow=false`, `promotionAllowedNow=false`, `publicDataSource=mock`, `scoreSource=mock`.
 - Hard stops: SQL execution, SQL generation, Supabase client import, Supabase read/write, Supabase connection, staging-row creation, `daily_prices` mutation, market-data fetch, market-data ingestion, candidate-row acceptance, raw payload output, row payload output, stock-id payload output, secret or environment value output, production environment mutation, runtime flag mutation, `publicDataSource=supabase`, `scoreSource=real`, real-time precision claim, complete-market coverage claim, investment-advice claim.
 - Next route: `await_real_accepted_bounded_write_authorization_response_or_keep_mock`.
+# Latest Runtime Promotion Operator Go/No-Go Record
+
+- Date: 2026-06-16
+- Status: `phase_1_runtime_promotion_operator_go_no_go_record_no_execution_ready`
+- CEO decision: `PREPARE_OPERATOR_GO_NO_GO_RECORD_KEEP_MOCK`
+- Artifact: `data/evidence-intake/phase-1-runtime-promotion-operator-go-no-go-record-no-execution.json`
+- Contract: `docs/PHASE_1_RUNTIME_PROMOTION_OPERATOR_GO_NO_GO_RECORD_NO_EXECUTION.md`
+- Checker: `scripts/check-phase-1-runtime-promotion-operator-go-no-go-record-no-execution.mjs`
+- Current decision: `NO_GO_KEEP_MOCK_WAITING_REAL_ACCEPTED_AUTHORIZATION`.
+- Current state: `allPreExecutionDependenciesReady=true`, but `acceptedAuthorizationResponsePresent=false` and `freshPmGoNoGoForExecutionPresent=false`.
+- Guardrails: `boundedAttemptExecutableNow=false`, `writeGateExecutableNow=false`, `runnerExecutableNow=false`, `promotionAllowedNow=false`, `publicDataSource=mock`, `scoreSource=mock`.
+- Hard stops: SQL execution, SQL generation, Supabase client import, Supabase read/write, Supabase connection, staging-row creation, `daily_prices` mutation, market-data fetch, market-data ingestion, candidate-row acceptance, raw payload output, row payload output, stock-id payload output, secret or environment value output, production environment mutation, runtime flag mutation, `publicDataSource=supabase`, `scoreSource=real`, real-time precision claim, complete-market coverage claim, investment-advice claim.
+- Next route: `await_real_accepted_authorization_and_fresh_pm_go_no_go_or_keep_mock`.
