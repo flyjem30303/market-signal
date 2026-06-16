@@ -61,7 +61,7 @@ export function DashboardShell({
 
       <section className="hero dashboard-hero">
         <p className="eyebrow">{isStockPage ? "標的燈號 / 一眼判讀" : "市場總覽 / 快速判讀"}</p>
-        <p className="eyebrow">公開 Beta / Phase 1</p>
+        <p className="eyebrow">公開 Beta / 免費版</p>
         <h1>{isStockPage ? `${selected.symbol} ${selected.name}: ${snapshot.signal.title}` : "30 秒看懂市場狀態"}</h1>
         <p>
           {isStockPage
@@ -69,7 +69,7 @@ export function DashboardShell({
             : `${market.asset.name} 目前是「${market.signal.title}」，綜合分數 ${market.compositeScore}/100。先看市場氣氛，再看風險來源與資料狀態。`}
         </p>
         <p className="runtime-boundary-line">
-          Phase 1 使用示範資料，不是即時報價，也不是投資建議；正式每日資料尚未啟用，上線前會明確標示來源、更新時間與資料狀態。
+          目前使用示範資料，不是即時報價，也不是投資建議；正式每日資料尚未啟用，上線前會明確標示來源、更新時間與資料狀態。
         </p>
         <div className="hero-status-strip" aria-label="目前狀態">
           <span>{isStockPage ? "標的燈號" : "市場燈號"}：{isStockPage ? snapshot.signal.title : market.signal.title}</span>
@@ -106,7 +106,7 @@ export function DashboardShell({
         <div>
           <p className="eyebrow">分類 / 標的</p>
           <h2>查看指數、ETF 與主要觀察標的</h2>
-          <p>Phase 1 先提供一組示範標的，讓使用者理解燈號、風險分數與資料狀態的閱讀方式。</p>
+          <p>公開免費版先提供一組示範標的，讓使用者理解燈號、風險分數與資料狀態的閱讀方式。</p>
         </div>
         <div className="stock-chip-list">
           {assets.map((asset) => (
@@ -126,7 +126,7 @@ export function DashboardShell({
         <h2>重要聲明</h2>
         <p>
           指數燈號是市場資訊整理與風險辨識工具，不提供個股買賣建議、不保證報酬，也不代替使用者做投資決策。
-          Phase 1 使用示範資料建立閱讀流程；正式每日資料尚未啟用，所有數字都應被視為產品示範與非投資建議。
+          目前使用示範資料建立閱讀流程；正式每日資料尚未啟用，所有數字都應被視為產品示範與非投資建議。
         </p>
       </article>
     </main>
@@ -245,7 +245,7 @@ function StockEventContext({ news }: { news: NewsEvent[] }) {
           {latestNews.title}。{latestNews.summary}
         </p>
       ) : (
-        <p>目前沒有示範市場事件。Phase 1 不用新聞作為硬性評分指標。</p>
+        <p>目前沒有示範市場事件。公開免費版不用新聞作為硬性評分指標。</p>
       )}
     </section>
   );
@@ -275,7 +275,7 @@ function StockMarketContextPanel({ snapshot }: { snapshot: SignalSnapshot }) {
       <p className="eyebrow">市場背景</p>
       <h2>{snapshot.asset.name} 的判讀脈絡</h2>
       <p>
-        Phase 1 先用示範資料呈現閱讀方式：燈號負責快速判斷，基本資料負責確認當日狀態，資料邊界負責提醒目前尚未切換正式資料。
+        目前先用示範資料呈現閱讀方式：燈號負責快速判斷，基本資料負責確認當日狀態，資料邊界負責提醒目前尚未切換正式資料。
       </p>
     </section>
   );

@@ -42,7 +42,7 @@ const routeVisibleContracts = [
   { route: "/methodology", tokens: ["方法說明", "燈號", "風險分數", "不是投資建議"] },
   { route: "/disclaimer", tokens: ["風險聲明", "不是投資建議", "示範資料"] },
   { route: "/terms", tokens: ["使用條款", "市場資訊整理", "示範資料"] },
-  { route: "/privacy", tokens: ["隱私權", "Phase 1", "會員"] }
+  { route: "/privacy", tokens: ["隱私權", "公開免費版", "會員"] }
 ];
 
 const missing = [];

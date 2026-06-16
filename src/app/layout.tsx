@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     template: `%s | ${siteConfig.name}`
   },
   description:
-    "\u6307\u6578\u71c8\u865f\u7528\u7d05\u9ec3\u7da0\u72c0\u614b\u6574\u7406\u5e02\u5834\u98a8\u96aa\u3001\u8da8\u52e2\u5f37\u5f31\u8207\u89c0\u5bdf\u91cd\u9ede\u3002Phase 1 \u4ee5\u793a\u7bc4\u8cc7\u6599\u5448\u73fe\uff0c\u4e0d\u63d0\u4f9b\u6295\u8cc7\u5efa\u8b70\u3002"
+    "\u6307\u6578\u71c8\u865f\u7528\u7d05\u9ec3\u7da0\u72c0\u614b\u6574\u7406\u5e02\u5834\u98a8\u96aa\u3001\u8da8\u52e2\u5f37\u5f31\u8207\u89c0\u5bdf\u91cd\u9ede\u3002\u76ee\u524d\u4ee5\u793a\u7bc4\u8cc7\u6599\u5448\u73fe\uff0c\u4e0d\u63d0\u4f9b\u6295\u8cc7\u5efa\u8b70\u3002"
 };
 
 const footerTrustLinks = [
@@ -64,7 +64,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             <strong>{siteConfig.name}</strong>
             <p>{copy.footerBody}</p>
             <div className="site-footer-trust" aria-label={copy.footerTrustAria}>
-              <span>Phase 1 \u514d\u8cbb\u7248</span>
+              <span>\u516c\u958b\u514d\u8cbb\u7248</span>
               <span>\u793a\u7bc4\u8cc7\u6599</span>
               <span>\u975e\u6295\u8cc7\u5efa\u8b70</span>
               <span>\u6b63\u5f0f\u8cc7\u6599\u4e0a\u7dda\u524d\u6703\u6e05\u695a\u6a19\u793a\u72c0\u614b</span>

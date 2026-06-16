@@ -20,7 +20,7 @@ export default function TermsPage() {
           指數燈號是市場資訊整理與風險辨識工具。使用者應自行確認資料時間、來源限制與個人風險承受度。
         </p>
         <p className="runtime-boundary-line">
-          Phase 1 使用示範資料；會員、watchlist、自訂警示與正式資料功能尚未啟用。
+          目前使用示範資料；會員、watchlist、自訂警示與正式資料功能尚未啟用。
         </p>
       </section>
 

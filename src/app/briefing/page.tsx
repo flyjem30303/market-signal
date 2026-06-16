@@ -13,7 +13,7 @@ import type { SignalSnapshot } from "@/lib/signal-model";
 
 export const metadata: Metadata = {
   title: "市場快報",
-  description: "用 3 分鐘把市場燈號拆成原因、風險與下一步觀察。Phase 1 使用示範資料，不提供投資建議。"
+  description: "用 3 分鐘把市場燈號拆成原因、風險與下一步觀察。目前使用示範資料，不提供投資建議。"
 };
 
 export default async function BriefingPage() {
@@ -50,7 +50,7 @@ export default async function BriefingPage() {
           風險分數 {market.riskScore}/100。
         </p>
         <p className="runtime-boundary-line">
-          資料與風險邊界：正式資料尚未啟用，Phase 1 使用示範資料，不是即時報價，也不是投資建議。
+          資料與風險邊界：正式資料尚未啟用，目前使用示範資料，不是即時報價，也不是投資建議。
         </p>
       </section>
 

@@ -38,7 +38,7 @@ const requiredPublicSignals = {
   "/methodology": ["方法說明", "燈號", "風險分數", "資料狀態"],
   "/disclaimer": ["免責聲明", "不是投資建議", "資料限制", "示範資料"],
   "/terms": ["使用條款", "市場資訊整理", "風險", "示範資料"],
-  "/privacy": ["隱私政策", "Phase 1", "不啟用會員", "資料"],
+  "/privacy": ["隱私政策", "公開免費版", "不啟用會員", "資料"],
   "/stocks/TWII": ["個股燈號 / 一眼判讀", "綜合分數", "風險分數"],
   "/stocks/2330": ["個股燈號 / 一眼判讀", "綜合分數", "風險分數"],
   "/stocks/0050": ["個股燈號 / 一眼判讀", "綜合分數", "風險分數"],
@@ -73,7 +73,9 @@ const forbiddenVisibleFragments = [
   "real-data promotion",
   "BETA_HOSTING_PROJECT_NAME",
   "BETA_TEMPORARY_URL",
-  "PUBLIC_BETA_EXTERNAL_REPLY_PATH"
+  "PUBLIC_BETA_EXTERNAL_REPLY_PATH",
+  "Phase 1",
+  "Phase 2"
 ];
 
 const routeResults = [];

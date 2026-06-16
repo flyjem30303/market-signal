@@ -30,7 +30,7 @@ export function PublicDataSourceBoundaryNotice({ context }: PublicDataSourceBoun
       <ul>
         <li>
           <strong>不是即時報價</strong>
-          <span>Phase 1 先用示範資料驗證閱讀流程，不能把目前燈號當成即時交易資訊。</span>
+          <span>公開頁先用示範資料驗證閱讀流程，不能把目前燈號當成即時交易資訊。</span>
         </li>
         <li>
           <strong>不是投資建議</strong>

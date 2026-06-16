@@ -34,7 +34,7 @@ export default async function MethodologyPage() {
           使用者應把它當成觀察輔助，而不是交易指令。
         </p>
         <p className="runtime-boundary-line">
-          Phase 1 使用示範資料；正式資料、正式分數與資料來源揭露會在正式資料檢查通過後才啟用。
+          目前使用示範資料；正式資料、正式分數與資料來源揭露會在正式資料檢查通過後才啟用。
         </p>
       </section>
 

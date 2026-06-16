@@ -2,6 +2,40 @@
 
 ## Latest Effective Status - 2026-06-16
 
+### Latest Phase 1 Public User-Language Cleanup
+
+Status: `phase_1_public_user_language_cleanup_verified`
+
+CEO decision:
+
+- Adjust the active GOAL in practice toward a smaller, faster Phase 1 release-candidate loop: remove visible developer/governance wording from public pages, keep only user-understandable product language, and verify with focused route gates.
+- Treat `Phase 1` / `Phase 2` as internal planning terms only. Public pages should say `公開免費版`, `目前使用示範資料`, or `下一階段會員功能` instead.
+- Keep Karpathy-guided discipline: no extra abstractions, no data-source changes, no Supabase/SQL/write-runner execution, no membership implementation, and no UI redesign in this slice.
+
+PM completed:
+
+- Replaced visible `Phase 1` / `Phase 2` wording on public support, briefing, weekly, stock, privacy, terms, methodology, footer, data-freshness, and trust-boundary surfaces.
+- Expanded `PublicRouteReadingContract` from a generic three-step note into six user-facing reading checks: market state, reason, update time, risk reminder, data boundary, and next observation.
+- Tightened public visible residue checks so future public route smoke fails if `Phase 1` or `Phase 2` leaks back into rendered user pages.
+
+Verification:
+
+- `cmd.exe /c scripts\with-node20.cmd npm run build` passed.
+- `cmd.exe /c scripts\with-node20.cmd npx tsc --noEmit --incremental false` passed.
+- `cmd.exe /c scripts\with-node20.cmd npm run check:phase-1-public-route-user-facing-residue-gate` passed.
+- `cmd.exe /c scripts\with-node20.cmd npm run check:phase-1-public-beta-public-visible-residue-cleanup` passed against a fresh local `next start`.
+- `cmd.exe /c scripts\with-node20.cmd npm run check:public-support-route-reading-contract` passed against a fresh local `next start`.
+- `cmd.exe /c scripts\with-node20.cmd npm run check:public-beta-core-route-quick-proof` passed against a fresh local `next start`.
+- `cmd.exe /c scripts\with-node20.cmd npm run check:public-visible-language-quality` passed against a fresh local `next start`.
+
+Boundary:
+
+- No SQL, Supabase read/write, staging row creation, `daily_prices` mutation, market-data fetch/store/commit, raw payload output, row payload output, source promotion, real score promotion, membership implementation, production env mutation, DNS change, Vercel mutation, or platform deploy occurred.
+
+Next:
+
+Continue Phase 1 release-candidate verification with production URL smoke and final launch/readiness packet checks. Data real promotion remains a separate high-risk operator path and should not be mixed into public-copy/runtime cleanup.
+
 ### Latest Phase 1 Public Visible Residue Cleanup
 
 Status: `phase_1_public_visible_residue_cleanup_repaired`

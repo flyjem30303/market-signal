@@ -113,7 +113,7 @@ const signalColors: Record<SignalKey, string> = {
 export const publicSignalDataDisclosureNotes = {
   dataMode: "示範資料",
   runtimeBoundary:
-    "Phase 1 使用示範資料建立閱讀流程；正式資料需要來源權利、品質檢查、寫入回讀與公開切換審核全部通過後才會啟用。"
+    "目前使用示範資料建立閱讀流程；正式資料需要來源權利、品質檢查、寫入回讀與公開切換審核全部通過後才會啟用。"
 } as const;
 
 export function signalColor(key: SignalKey) {
@@ -138,7 +138,7 @@ export function buildSignalSnapshot(asset: Asset, date: Date | string): SignalSn
     compositeScore,
     dataQualityScore,
     dataQualityGrade: "C",
-    staleDataFlags: ["Phase 1 使用示範資料；正式收盤價與交易資訊尚未切換到公開資料源。"],
+    staleDataFlags: ["目前使用示範資料；正式收盤價與交易資訊尚未切換到公開資料源。"],
     missingModuleFlags: ["新聞、基本面與完整歷史覆蓋尚未納入正式分數。"],
     modelVersion: "mock-v0.1",
     lastUpdatedAt: `${dateString}T14:30:00+08:00`,
@@ -218,7 +218,7 @@ function buildMockMarketFacts(asset: Asset, dateString: string, compositeScore: 
     return [
       { label: "指數收盤", value: `${Math.round(14800 + compositeScore * 42).toLocaleString("zh-TW")} 點`, note: "示範值，正式資料尚未啟用" },
       { label: "日變動", value: `${compositeScore >= 55 ? "+" : "-"}${Math.abs(compositeScore - 55).toFixed(1)}%`, note: "用於版面驗證" },
-      { label: "資料日期", value: dateString, note: "Phase 1 mock 時間戳" }
+      { label: "資料日期", value: dateString, note: "示範資料時間" }
     ];
   }
 
@@ -226,7 +226,7 @@ function buildMockMarketFacts(asset: Asset, dateString: string, compositeScore: 
     { label: asset.type === "etf" ? "ETF 收盤價" : "收盤價", value: `${Math.round(40 + compositeScore * 3.8).toLocaleString("zh-TW")} 元`, note: "示範值，正式資料尚未啟用" },
     { label: "日變動", value: `${compositeScore >= 55 ? "+" : "-"}${Math.abs(compositeScore - 55).toFixed(1)}%`, note: "用於版面驗證" },
     { label: "成交量", value: `${Math.round(1200 + compositeScore * 95).toLocaleString("zh-TW")} 張`, note: "示範值，正式資料尚未啟用" },
-    { label: "資料日期", value: dateString, note: "Phase 1 mock 時間戳" }
+    { label: "資料日期", value: dateString, note: "示範資料時間" }
   ];
 }
 

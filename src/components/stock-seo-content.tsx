@@ -49,7 +49,7 @@ export function StockSeoContent({ asset, backtestBuckets, news, snapshot }: Stoc
             {latestNews.title}。來源標記為 {latestNews.source}，分類為 {latestNews.category}。這是示範內容，不代表即時新聞，也不納入燈號分數。
           </p>
         ) : (
-          <p>目前沒有示範市場事件。Phase 1 不把新聞當成硬性評分指標。</p>
+          <p>目前沒有示範市場事件。公開免費版不把新聞當成硬性評分指標。</p>
         )}
       </article>
 
@@ -65,7 +65,7 @@ export function StockSeoContent({ asset, backtestBuckets, news, snapshot }: Stoc
 
       <article className="disclaimer">
         <h2>資料聲明</h2>
-        <p>Phase 1 使用示範資料，不是即時報價、不提供買賣建議，也不保證任何投資結果。</p>
+        <p>目前使用示範資料，不是即時報價、不提供買賣建議，也不保證任何投資結果。</p>
       </article>
     </section>
   );

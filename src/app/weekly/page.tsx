@@ -13,7 +13,7 @@ import type { SignalSnapshot } from "@/lib/signal-model";
 
 const copy = {
   title: "市場週報",
-  description: "整理本週市場燈號、主要風險標的與資料更新狀態。Phase 1 使用示範資料，不提供買賣建議。",
+  description: "整理本週市場燈號、主要風險標的與資料更新狀態。目前使用示範資料，不提供買賣建議。",
   hero: "本週市場狀態回顧",
   summary: "本週快速閱讀",
   signal: "市場燈號",
@@ -52,7 +52,7 @@ export default async function WeeklyPage() {
         </p>
         <p>這是公開 Beta 的週報示範，不是投資建議，也不是即時報價或個股買賣指令。</p>
         <p className="runtime-boundary-line">
-          Phase 1 仍使用示範資料與示範分數；正式每日資料尚未啟用，請搭配資料邊界閱讀。
+          目前仍使用示範資料與示範分數；正式每日資料尚未啟用，請搭配資料邊界閱讀。
         </p>
       </section>
 

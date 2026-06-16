@@ -11,7 +11,7 @@ const contextCopy = {
   membership: {
     eyebrow: "會員邊界",
     title: "會員功能仍是下一階段規劃",
-    summary: "Phase 1 先完成公開版；登入、watchlist、自訂警示與會員專屬內容留待 Phase 2。"
+    summary: "目前先完成公開免費版；登入、watchlist、自訂警示與會員專屬內容留待下一階段。"
   },
   methodology: {
     eyebrow: "方法邊界",
@@ -20,7 +20,7 @@ const contextCopy = {
   },
   privacy: {
     eyebrow: "隱私邊界",
-    title: "Phase 1 不收集會員追蹤資料",
+    title: "公開免費版不收集會員追蹤資料",
     summary: "公開版不提供登入、watchlist 或自訂警示，因此不會儲存會員個人化追蹤內容。"
   },
   terms: {
@@ -48,7 +48,7 @@ export function TrustRuntimeBoundaryNotice({ context }: TrustRuntimeBoundaryNoti
       <article className="active runtime-boundary-copy-card">
         <span>目前狀態</span>
         <strong>示範資料模式</strong>
-        <p>公開頁先呈現產品閱讀流程與燈號邏輯，所有分數與資料狀態都以 mock 方式呈現。</p>
+        <p>公開頁先呈現產品閱讀流程與燈號邏輯，所有分數與資料狀態都以示範方式呈現。</p>
       </article>
       <article className="blocked">
         <span>尚未啟用</span>
@@ -58,7 +58,7 @@ export function TrustRuntimeBoundaryNotice({ context }: TrustRuntimeBoundaryNoti
       <article className="readying">
         <span>上線前要求</span>
         <strong>來源、品質、回退與揭露要通過檢查</strong>
-        <p>正式資料 promotion 前，必須確認資料來源可用、欄位契約穩定、錯誤能 fail-closed，並清楚揭露限制。</p>
+        <p>正式資料切換前，必須確認資料來源可用、欄位契約穩定、錯誤能安全降級，並清楚揭露限制。</p>
       </article>
     </section>
   );
