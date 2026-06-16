@@ -12058,3 +12058,45 @@ No SQL, Supabase read/write, staging rows, `daily_prices` mutation, raw market-d
 Next:
 
 PM mainline continues Phase 1 mock public Beta launch readiness and remote/public smoke checks. A1 should provide a valid local or external sanitized row-payload candidate artifact path for `TWII`, `0050`, and `006208`; PM will then run the validator and PM review chain before any separate write execution decision.
+
+# Latest Phase 1 public mock Beta completion audit
+
+Status: `phase_1_public_mock_beta_launchable_audit_passed`
+
+Date: 2026-06-16
+
+CEO decision: `PHASE_1_PUBLIC_FREE_SITE_IS_LAUNCHABLE_IN_MOCK_MODE`.
+
+What changed:
+
+- Completed the focused Phase 1 completion audit without expanding into historical governance-only gates.
+- Confirmed production public routes are reachable at `https://market-signal-two.vercel.app`.
+- Confirmed public user-facing pages no longer expose development workflow residue, mojibake, or Phase 2/member-only routes.
+- Confirmed `/membership`, `/watchlist`, `/internal`, internal dry-run routes, internal raw-market preview, ETF readiness route, and `/api/internal/raw-market` stay inaccessible from the public surface.
+- Confirmed the public data boundary remains explicit: `publicDataSource=mock` and `scoreSource=mock`.
+- Confirmed real-data promotion remains separated from the public mock Beta launch posture until legal source-rights, sanitized row-payload coverage, bounded write/readback, rollback/quarantine, and promotion review pass.
+
+Verification:
+
+- `cmd.exe /c scripts\with-node20.cmd npm run build` passed.
+- `cmd.exe /c scripts\with-node20.cmd npx tsc --noEmit --incremental false` passed.
+- `cmd.exe /c scripts\with-node20.cmd npm run check:phase-1-production-public-url-smoke` passed with `checkedRoutes=13`, `checkedInaccessiblePhase2Routes=7`, `publicDataSource=mock`, and `scoreSource=mock`.
+- `cmd.exe /c scripts\with-node20.cmd npm run check:public-release-gate-behavior` passed.
+- `cmd.exe /c scripts\with-node20.cmd npm run check:public-release-gate-runtime-wiring` passed.
+- `cmd.exe /c scripts\with-node20.cmd npm run check:phase-1-public-route-user-facing-residue-gate` passed.
+- `cmd.exe /c scripts\with-node20.cmd npm run check:public-support-route-reading-contract` passed.
+- `cmd.exe /c scripts\with-node20.cmd npm run check:public-visible-language-quality` passed.
+- `cmd.exe /c scripts\with-node20.cmd npm run check:public-beta-core-route-quick-proof` passed.
+- `cmd.exe /c scripts\with-node20.cmd npm run check:phase-1-public-beta-public-visible-residue-cleanup` passed.
+- `cmd.exe /c scripts\with-node20.cmd npm run check:phase-1-public-beta-public-status-surface-alignment` passed.
+- `cmd.exe /c scripts\with-node20.cmd npm run check:a3-phase-1-public-beta-release-go-no-go-packet` passed.
+- `cmd.exe /c scripts\with-node20.cmd npm run check:phase-1-core-public-copy-readable` passed.
+- `cmd.exe /c scripts\with-node20.cmd npm run check:review-gates` passed with `runMode=phase_1_live_core_execution_with_historical_registration`, `executedCount=14`, and `omittedRegisteredOnlyCount=1249`.
+
+Boundary:
+
+No SQL, Supabase read/write, staging rows, `daily_prices` mutation, raw market-data fetch/store/commit, source promotion, score promotion, membership implementation, production env mutation, DNS change, Vercel dashboard mutation, or public real-data claim occurred.
+
+Next:
+
+Phase 1 public mock Beta can be treated as launchable. The next major track is data realification outside the public mock launch boundary: A1 should continue valid legal/free automated source confirmation and sanitized row-payload coverage for `TWII`, `0050`, and `006208`; PM should only promote runtime from mock to real after the separate write/readback/rollback/promotion gates pass.
