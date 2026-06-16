@@ -1,0 +1,41 @@
+{
+  "packetMode": "phase_1_runtime_promotion_dry_run_only_preparation_packet_no_execution",
+  "packetLabel": "PHASE_1_RUNTIME_PROMOTION_DRY_RUN_ONLY_PREPARATION_PACKET_NO_EXECUTION",
+  "inputRouteStatus": "phase_1_runtime_promotion_dry_run_only_authorized_route_ready_no_execution",
+  "dryRunPacketPath": "data/evidence-intake/phase-1-runtime-promotion-operator-packet.draft.json",
+  "dryRunCommand": "cmd.exe /c scripts\\with-node20.cmd npm run run:phase-1-runtime-promotion-dry-run-packet -- --packet data/evidence-intake/phase-1-runtime-promotion-operator-packet.draft.json --out tmp/phase-1-runtime-promotion-dry-run-only-preparation-result.json",
+  "proofCommand": "cmd.exe /c scripts\\with-node20.cmd npm run check:phase-1-runtime-promotion-dry-run-only-preparation-packet",
+  "allowedProofs": [
+    "dry_run_packet_shape_ready_no_execution",
+    "runtime_boundary_stays_mock",
+    "public_copy_fallback_reviewed",
+    "freshness_fallback_reviewed"
+  ],
+  "promotionAllowedNow": false,
+  "dryRunOnlyAllowedNow": true,
+  "boundedAttemptPrepAllowedNow": false,
+  "runnerExecutableNow": false,
+  "publicDataSource": "mock",
+  "scoreSource": "mock",
+  "nextRoute": "phase_1_runtime_promotion_dry_run_only_proof_review_no_execution",
+  "safety": {
+    "sqlExecuted": false,
+    "supabaseConnectionAttempted": false,
+    "supabaseReadAttempted": false,
+    "supabaseWriteAttempted": false,
+    "stagingRowsCreated": false,
+    "dailyPricesMutated": false,
+    "marketDataFetched": false,
+    "marketDataIngested": false,
+    "rawPayloadOutput": false,
+    "rowPayloadOutput": false,
+    "stockIdPayloadOutput": false,
+    "secretsOutput": false,
+    "envMutated": false,
+    "runtimeFlagMutated": false,
+    "publicDataSourcePromoted": false,
+    "scoreSourcePromoted": false,
+    "investmentAdviceClaimAllowed": false
+  },
+  "stopLine": "Preparation packet only. It may run local no-write dry-run packet shape checks, but it must not mutate runtime flags, connect to Supabase, run SQL, write data, accept row payloads, or promote publicDataSource/scoreSource."
+}

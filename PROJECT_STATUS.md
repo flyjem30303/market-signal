@@ -12714,3 +12714,27 @@ No SQL, Supabase read/write, staging-row creation, `daily_prices` mutation, mark
 Next:
 
 Prepare the dry-run-only preparation packet. It should describe local no-write proof only and must stay separate from any bounded write/readback/rollback attempt.
+
+# Latest Runtime Promotion Dry-Run-Only Preparation Packet
+
+Status: `phase_1_runtime_promotion_dry_run_only_preparation_packet_ready_no_execution`
+
+Date: 2026-06-16
+
+CEO decision: `PREPARE_LOCAL_DRY_RUN_PROOF_KEEP_MOCK`.
+
+What changed:
+
+- Added `data/evidence-intake/phase-1-runtime-promotion-dry-run-only-preparation-packet.json`.
+- Added `docs/PHASE_1_RUNTIME_PROMOTION_DRY_RUN_ONLY_PREPARATION_PACKET.md`.
+- Added a focused checker that consumes the dry-run-only authorized route and runs the existing local dry-run packet runner against the reviewed operator packet draft.
+- The packet permits only local no-write proof categories: `dry_run_packet_shape_ready_no_execution`, `runtime_boundary_stays_mock`, `public_copy_fallback_reviewed`, and `freshness_fallback_reviewed`.
+- The next route is `phase_1_runtime_promotion_dry_run_only_proof_review_no_execution`.
+
+Boundary:
+
+No SQL, Supabase read/write, staging-row creation, `daily_prices` mutation, market-data fetch, raw payload output, row payload output, secret output, runtime flag mutation, production env mutation, `publicDataSource=supabase`, or `scoreSource=real` occurred.
+
+Next:
+
+Prepare the dry-run-only proof review. It should review the local dry-run output and decide whether a separate bounded write/readback/rollback preparation path can proceed while runtime remains mock.

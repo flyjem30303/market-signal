@@ -4541,6 +4541,11 @@ const checks = [
     name: "phase-1-runtime-promotion-dry-run-only-authorized-route"
   },
   {
+    command: [node, "scripts/check-phase-1-runtime-promotion-dry-run-only-preparation-packet.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-runtime-promotion-dry-run-only-preparation-packet"
+  },
+  {
     command: [node, "scripts/check-phase-1-twii-bounded-write-operator-decision-quickstart.mjs"],
     expectStatus: "ok",
     name: "phase-1-twii-bounded-write-operator-decision-quickstart"
@@ -7318,6 +7323,7 @@ const phase1LiveCoreReviewGateNames = new Set([
   "phase-1-runtime-promotion-operator-authorization-response-template",
   "phase-1-runtime-promotion-operator-authorization-response-intake-validator",
   "phase-1-runtime-promotion-dry-run-only-authorized-route",
+  "phase-1-runtime-promotion-dry-run-only-preparation-packet",
   "beta-runtime-fast-health",
   "typescript"
 ]);
