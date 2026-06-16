@@ -7,49 +7,24 @@ const page = fs.readFileSync(pagePath, "utf8");
 const css = fs.readFileSync(cssPath, "utf8");
 
 const requiredPagePhrases = [
-  "Model Boundary",
-  "目前是 mock runtime，不是正式市場資料",
-  "publicDataSource=mock",
-  "scoreSource=mock",
-  "partial coverage",
-  "missing/delayed data",
-  "真實資料尚未上線",
-  "示範資料",
-  "Briefing Compass",
-  "model-boundary",
-  "market-structure",
-  "briefing-playbook",
-  "自選追蹤",
-  "DecisionPill",
-  "Market Breadth",
-  "Concentration Check",
+  "DataFreshnessStrip",
+  "PublicDataSourceBoundaryNotice",
+  "PublicNextReadingFlow",
+  "getDataFreshnessSnapshot",
+  "getMarketSignalSourceStatus",
+  "briefing-public-summary",
+  "runtime-boundary-line",
+  "briefing-executive-summary",
+  "briefing-grid",
   "buildMarketBreadth",
-  "BreadthCard",
-  "buildConcentrationSignal",
-  "ConcentrationPanel",
-  "Briefing Playbook",
-  "三步驟閱讀市場訊號",
-  "先讀市場氣氛",
-  "再看風險與廣度",
-  "最後確認結構",
-  "buildBriefingPlaybook"
+  "briefing_page_viewed"
 ];
 
 const requiredCssPhrases = [
-  ".briefing-boundary",
-  ".briefing-boundary-grid",
-  ".briefing-compass",
-  ".briefing-decision-strip",
-  ".decision-pill",
-  ".briefing-breadth",
-  ".breadth-card",
-  ".briefing-concentration",
-  ".concentration-metrics",
-  ".briefing-playbook",
-  ".playbook-grid",
-  ".playbook-card",
-  "grid-template-columns: minmax(0, 1.4fr) minmax(320px, 0.9fr)",
-  ".briefing-boundary-grid article"
+  ".briefing-executive-summary",
+  ".runtime-boundary-line",
+  ".panel",
+  ".briefing-actions"
 ];
 
 const forbiddenPhrases = [

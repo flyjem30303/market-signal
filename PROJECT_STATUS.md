@@ -12100,3 +12100,47 @@ No SQL, Supabase read/write, staging rows, `daily_prices` mutation, raw market-d
 Next:
 
 Phase 1 public mock Beta can be treated as launchable. The next major track is data realification outside the public mock launch boundary: A1 should continue valid legal/free automated source confirmation and sanitized row-payload coverage for `TWII`, `0050`, and `006208`; PM should only promote runtime from mock to real after the separate write/readback/rollback/promotion gates pass.
+
+# Latest data realification readiness gate cleanup
+
+Status: `data_realification_local_readiness_gates_aligned`
+
+Date: 2026-06-16
+
+CEO decision: `UPDATE_STALE_INTERNAL_COPY_GATES_DO_NOT_REINTRODUCE_DEV_RESIDUE`.
+
+What changed:
+
+- Opened the new active GOAL for `Phase 1 data realification track`.
+- Confirmed data coverage is locally complete but runtime promotion remains no-go: `publicDataSource=mock` and `scoreSource=mock`.
+- Found stale readiness gates that still required public/internal strings such as `mock runtime`, `publicDataSource=mock`, `scoreSource=mock`, and old component names on user-facing pages.
+- Updated the stale checkers to validate the current Phase 1 contract instead: public pages must include data freshness, public data boundary, next-reading flow, support-route boundary notice, stock interpretation sections, and no real-data or investment-advice promotion.
+- Repaired source-rights and data-coverage readiness rollups without changing runtime state or reintroducing developer-facing residue into the public UI.
+
+Verification:
+
+- `cmd.exe /c scripts\with-node20.cmd npm run check:source-rights-public-placement-readiness` passed.
+- `cmd.exe /c scripts\with-node20.cmd npm run check:source-rights-specific-classification-readiness` passed.
+- `cmd.exe /c scripts\with-node20.cmd npm run check:data-coverage-quality-route-readiness` passed.
+- `cmd.exe /c scripts\with-node20.cmd npm run check:data-coverage-mvp-deferral-decision-readiness` passed.
+- `cmd.exe /c scripts\with-node20.cmd npm run check:data-coverage-promotion-execution-readiness` passed.
+- `cmd.exe /c scripts\with-node20.cmd npm run check:source-rights-mvp-readiness` passed.
+- `cmd.exe /c scripts\with-node20.cmd npm run check:phase-1-runtime-promotion-preflight-status` passed and still returned `promotionAllowedNow=false`.
+- `cmd.exe /c scripts\with-node20.cmd npm run check:phase-1-data-online-go-no-go-status` passed with `DATA_COVERAGE_COMPLETE_BUT_RUNTIME_PROMOTION_NO_GO`.
+- `cmd.exe /c scripts\with-node20.cmd npm run check:review-gates` passed.
+- `cmd.exe /c scripts\with-node20.cmd npm run check:phase-1-public-route-user-facing-residue-gate` passed.
+- `cmd.exe /c scripts\with-node20.cmd npm run check:phase-1-production-public-url-smoke` passed.
+- `cmd.exe /c scripts\with-node20.cmd npm run build` passed after stopping stale project Node processes and cleaning `.next`.
+- `cmd.exe /c scripts\with-node20.cmd npx tsc --noEmit --incremental false` passed after build.
+
+Boundary:
+
+No SQL, Supabase write, new staging row, `daily_prices` mutation, market-data fetch, raw payload output, row payload output, secret output, source promotion, score promotion, membership implementation, production env mutation, DNS change, or Vercel dashboard mutation occurred.
+
+Operational note:
+
+Do not run `next build` and `tsc` concurrently in this Windows workspace. Parallel execution can corrupt or lock `.next`, producing `EPERM: open .next\trace` and `.next/types` missing-file errors. The stable order is build first, then tsc.
+
+Next:
+
+Continue the data realification GOAL at the promotion review layer: close `data_quality`, `freshness_display`, `source_disclosure`, `rollback_fail_closed`, and `public_copy_boundary` review gates, then prepare a separately authorized bounded write/readback/rollback attempt. Runtime must stay mock until that separate promotion chain passes.
