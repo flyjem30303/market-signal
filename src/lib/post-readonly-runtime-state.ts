@@ -7,15 +7,15 @@ export type PostReadonlyRuntimeState = {
   objectsReachable: number;
   publicDataSource: "mock";
   rowCoverage: {
-    coverageStatus: "blocked";
+    coverageStatus: "complete";
     expectedRows: 360;
-    missingRows: 178;
-    observedRows: 182;
-    reason: "aggregate_count_incomplete";
+    missingRows: 0;
+    observedRows: 360;
+    reason: "aggregate_count_complete";
     summary: string;
   };
   scoreSource: "mock";
-  state: "readonly_verified_mock_only";
+  state: "coverage_complete_mock_only";
   stopLine: string;
   userFacingSummary: string;
 };
@@ -25,21 +25,24 @@ export function getPostReadonlyRuntimeState(): PostReadonlyRuntimeState {
 
   return {
     acceptedEvidence: evidence.acceptedScope,
-    headline: "後端唯讀檢查已整理，公開頁仍維持示範資料",
-    nextGate: "確認來源權利、覆蓋率、品質與公開升級條件",
+    headline: "資料覆蓋已補齊，公開網站仍維持 mock 安全模式",
+    nextGate: "進入 runtime promotion preflight：確認品質、延遲、回退與揭露後才可切換 real",
     objectsReachable: evidence.objects.length,
     publicDataSource: "mock",
     rowCoverage: {
-      coverageStatus: "blocked",
+      coverageStatus: "complete",
       expectedRows: 360,
-      missingRows: 178,
-      observedRows: 182,
-      reason: "aggregate_count_incomplete",
-      summary: "目前可檢查的覆蓋證據仍未達完整目標，TWII、ETF 與完整股票宇宙都不能宣稱正式覆蓋。"
+      missingRows: 0,
+      observedRows: 360,
+      reason: "aggregate_count_complete",
+      summary:
+        "Phase 1 目標範圍的 TWII、0050、006208 日資料覆蓋已完成 readback；這只代表資料面可進入 promotion review，不代表前台已切真實資料。"
     },
     scoreSource: "mock",
-    state: "readonly_verified_mock_only",
-    stopLine: "唯讀證據不能轉成資料寫入、正式資料來源、正式分數或投資建議。",
-    userFacingSummary: "後端唯讀證據只代表準備度參考；公開頁仍使用示範資料，直到來源、覆蓋率、品質與公開升級檢查都通過。"
+    state: "coverage_complete_mock_only",
+    stopLine:
+      "在 promotion gate 通過前，不切換 publicDataSource=supabase、不設定 scoreSource=real，也不宣稱即時真實資料或投資建議。",
+    userFacingSummary:
+      "資料覆蓋已完成後台驗證；目前公開頁仍使用 mock 燈號，下一步是做真實資料切換前的品質、延遲、回退與風險揭露檢查。"
   };
 }

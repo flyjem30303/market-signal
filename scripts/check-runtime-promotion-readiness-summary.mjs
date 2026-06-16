@@ -2,13 +2,14 @@ import fs from "node:fs";
 import { spawnSync } from "node:child_process";
 
 const helperPath = "src/lib/runtime-promotion-readiness-summary.ts";
+const queuePath = "src/lib/post-readonly-next-gate-queue.ts";
 const componentPath = "src/components/post-readonly-product-status.tsx";
 const cssPath = "src/app/globals.css";
 const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 
 const files = new Map(
-  [helperPath, componentPath, cssPath, packagePath, reviewGatePath].map((file) => [
+  [helperPath, queuePath, componentPath, cssPath, packagePath, reviewGatePath].map((file) => [
     file,
     fs.readFileSync(file, "utf8")
   ])
@@ -18,21 +19,24 @@ const required = [
   [helperPath, "RuntimePromotionReadinessSummary"],
   [helperPath, "getRuntimePromotionReadinessSummary"],
   [helperPath, "getPostReadonlyNextGateQueue"],
-  [helperPath, "Define source rights, target tables, dry-run output, rollback, retention, and no-write preflight before any ingestion."],
-  [helperPath, "keep_mock_runtime_and_prepare_coverage_route"],
-  [helperPath, "not_ready_for_real_data_promotion"],
-  [helperPath, "aggregate_count_incomplete"],
-  [helperPath, "missingRows: 178"],
-  [helperPath, "observedRows: 182"],
+  [helperPath, "promotion_gate_pending"],
+  [helperPath, "prepare_runtime_promotion_gate_preflight"],
+  [helperPath, "coverage_complete_promotion_pending"],
+  [helperPath, "missingRows: 0"],
+  [helperPath, "observedRows: 360"],
   [helperPath, "publicDataSource: \"mock\""],
   [helperPath, "scoreSource: \"mock\""],
   [helperPath, "ready_for_local_use"],
   [helperPath, "blocked_by_evidence"],
   [helperPath, "needs_review"],
-  [helperPath, "does not run SQL"],
-  [helperPath, "write Supabase"],
-  [helperPath, "fetch market data"],
-  [helperPath, "set scoreSource=real"],
+  [helperPath, "不執行 SQL"],
+  [helperPath, "不新增 Supabase 寫入"],
+  [helperPath, "raw market data"],
+  [helperPath, "scoreSource 改為 real"],
+  [queuePath, "row_coverage"],
+  [queuePath, "missingRows=0"],
+  [queuePath, "status: \"local_ready\""],
+  [queuePath, "runtime_promotion_preflight_preparation"],
   [componentPath, "getRuntimePromotionReadinessSummary"],
   [componentPath, "post-readonly-promotion-summary"],
   [componentPath, "Runtime promotion readiness summary"],
@@ -40,7 +44,7 @@ const required = [
   [componentPath, "No-go actions"],
   [componentPath, "promotion.steps.map"],
   [componentPath, "promotion.readinessCounts.ready"],
-  [componentPath, "promotion.mockBoundary.publicDataSource"],
+  [componentPath, "promotion.noGoActions.join"],
   [cssPath, ".post-readonly-promotion-summary"],
   [packagePath, "\"check:runtime-promotion-readiness-summary\": \"node scripts/check-runtime-promotion-readiness-summary.mjs\""],
   [reviewGatePath, "scripts/check-runtime-promotion-readiness-summary.mjs"]

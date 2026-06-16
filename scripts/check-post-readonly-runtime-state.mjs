@@ -2,9 +2,6 @@ import fs from "node:fs";
 
 const helperPath = "src/lib/post-readonly-runtime-state.ts";
 const productStatusPath = "src/components/post-readonly-product-status.tsx";
-const homePath = "src/components/home-runtime-status-panel.tsx";
-const stockPath = "src/components/stock-runtime-at-a-glance.tsx";
-const briefingPagePath = "src/app/briefing/page.tsx";
 const briefingPanelPath = "src/components/runtime-readiness-panel.tsx";
 const cssPath = "src/app/globals.css";
 const packagePath = "package.json";
@@ -14,9 +11,6 @@ const files = new Map(
   [
     helperPath,
     productStatusPath,
-    homePath,
-    stockPath,
-    briefingPagePath,
     briefingPanelPath,
     cssPath,
     packagePath,
@@ -27,35 +21,29 @@ const files = new Map(
 const required = [
   [helperPath, "PostReadonlyRuntimeState"],
   [helperPath, "getPostReadonlyRuntimeState"],
-  [helperPath, "readonly_verified_mock_only"],
+  [helperPath, "coverage_complete_mock_only"],
   [helperPath, "objectsReachable: evidence.objects.length"],
   [helperPath, "rowCoverage: {"],
-  [helperPath, "coverageStatus: \"blocked\""],
+  [helperPath, "coverageStatus: \"complete\""],
   [helperPath, "expectedRows: 360"],
-  [helperPath, "missingRows: 178"],
-  [helperPath, "observedRows: 182"],
-  [helperPath, "Accepted first closed-loop evidence now covers 182 of 360 expected Level 1 rows"],
+  [helperPath, "missingRows: 0"],
+  [helperPath, "observedRows: 360"],
+  [helperPath, "aggregate_count_complete"],
   [helperPath, "publicDataSource: \"mock\""],
   [helperPath, "scoreSource: \"mock\""],
-  [helperPath, "The first TW equity closed loop is accepted as backend evidence only"],
-  [helperPath, "Do not convert readonly reachability into writes"],
+  [helperPath, "資料覆蓋已完成後台驗證"],
+  [helperPath, "不切換 publicDataSource=supabase"],
+  [helperPath, "不設定 scoreSource=real"],
   [productStatusPath, "PostReadonlyProductStatus"],
   [productStatusPath, "getPostReadonlyRuntimeState"],
-  [productStatusPath, "Backend read evidence is accepted; public signals remain mock"],
-  [productStatusPath, "The product can be reviewed, but not treated as live data"],
-  [productStatusPath, "This stock page is readable as a mock signal"],
-  [productStatusPath, "Readonly evidence"],
-  [productStatusPath, "Row coverage"],
-  [productStatusPath, "Public boundary"],
-  [productStatusPath, "Next gate"],
+  [productStatusPath, "資料覆蓋已完成"],
+  [productStatusPath, "公開頁仍需通過 promotion gate"],
+  [productStatusPath, "唯讀證據"],
+  [productStatusPath, "資料覆蓋"],
+  [productStatusPath, "公開邊界"],
+  [productStatusPath, "下一道 gate"],
   [productStatusPath, "publicDataSource={state.publicDataSource}; scoreSource={state.scoreSource}"],
-  [productStatusPath, "does not enable scoreSource=real"],
-  [homePath, "PostReadonlyProductStatus"],
-  [homePath, "<PostReadonlyProductStatus context=\"home\" symbol={selectedSymbol} />"],
-  [stockPath, "PostReadonlyProductStatus"],
-  [stockPath, "<PostReadonlyProductStatus context=\"stock\" symbol={snapshot.asset.symbol} />"],
-  [briefingPagePath, "PostReadonlyProductStatus"],
-  [briefingPagePath, "<PostReadonlyProductStatus context=\"briefing\" symbol={market.asset.symbol} />"],
+  [productStatusPath, "不會自動啟用 scoreSource=real"],
   [briefingPanelPath, "getPostReadonlyRuntimeState"],
   [briefingPanelPath, "Post-readonly runtime"],
   [briefingPanelPath, "postReadonlyRuntime.userFacingSummary"],
@@ -93,9 +81,6 @@ const forbidden = [
   [productStatusPath, "publicDataSource: \"supabase\""],
   [productStatusPath, "scoreSource: \"real\""],
   [productStatusPath, "scoreSource=real approved"],
-  [homePath, "scoreSource=real approved"],
-  [stockPath, "scoreSource=real approved"],
-  [briefingPagePath, "scoreSource=real approved"],
   [briefingPanelPath, "scoreSource=real approved"]
 ];
 

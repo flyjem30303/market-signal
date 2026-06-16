@@ -8,19 +8,19 @@ type PostReadonlyProductStatusProps = {
 
 const contextCopy = {
   briefing: {
-    body: "市場簡報會把資料狀態轉成使用者可理解的摘要，讓使用者知道目前哪些內容可閱讀、哪些仍在準備。",
-    label: "資料準備狀態",
-    title: "正式資料升級前，公開頁先維持清楚揭露"
+    body: "這裡呈現的是資料閉環後的上線前狀態：資料覆蓋已完成，但公開頁仍需通過 promotion gate 才能改讀真實資料。",
+    label: "資料與 runtime 狀態",
+    title: "資料覆蓋已完成，準備進入真實資料切換前檢查"
   },
   home: {
-    body: "首頁先提供市場總覽、核心指標、風險提示與更新時間；正式資料升級前仍以示範資料建立閱讀流程。",
+    body: "首頁目前可作為 Phase 1 公開體驗審核；燈號與分數仍是 mock，避免在切換前誤導使用者。",
     label: "首頁資料狀態",
-    title: "公開頁可讀，但不宣稱正式行情"
+    title: "可讀的市場儀表站，真實資料切換仍待 gate"
   },
   stock: {
-    body: "個股頁先提供燈號讀法、成因、更新時間與資料邊界；正式資料完成前不把分數當成交易訊號。",
-    label: "個股資料狀態",
-    title: "個股頁以風險辨識與觀察輔助為主"
+    body: "個股頁已可承載 Phase 1 觀察流程；切 real 前仍需完成品質、延遲、回退與來源揭露。",
+    label: "標的資料狀態",
+    title: "資料覆蓋完成，尚未切換正式分數"
   }
 } as const;
 
@@ -32,8 +32,8 @@ const stepStatusClass = {
 
 function ownerLabel(owner: string) {
   if (owner === "Engineering") return "工程";
-  if (owner === "Data") return "資料來源";
-  if (owner === "Investment") return "投資解讀";
+  if (owner === "Data") return "資料";
+  if (owner === "Investment") return "投資顧問";
   return owner;
 }
 
@@ -55,52 +55,54 @@ export function PostReadonlyProductStatus({ context, symbol }: PostReadonlyProdu
         <p>{state.userFacingSummary}</p>
       </div>
       <article className="ready">
-        <span>本地檢查</span>
-        <strong>{state.objectsReachable} 個資料物件通過形狀檢查</strong>
+        <span>唯讀證據</span>
+        <strong>{state.objectsReachable} 個 runtime 物件可讀</strong>
         <p>{state.acceptedEvidence}</p>
       </article>
-      <article className="hold">
-        <span>覆蓋率</span>
+      <article className="ready">
+        <span>資料覆蓋</span>
         <strong>
-          目前確認 {state.rowCoverage.observedRows}/{state.rowCoverage.expectedRows} 筆
+          已完成 {state.rowCoverage.observedRows}/{state.rowCoverage.expectedRows} rows
         </strong>
         <p>
-          尚缺 {state.rowCoverage.missingRows} 筆；{state.rowCoverage.summary}
+          missingRows={state.rowCoverage.missingRows}；{state.rowCoverage.summary}
         </p>
       </article>
-      <article className="blocked">
-        <span>升級邊界</span>
-        <strong>正式資料與正式分數仍需完整條件</strong>
+      <article className="hold">
+        <span>公開邊界</span>
+        <strong>publicDataSource={state.publicDataSource}; scoreSource={state.scoreSource}</strong>
         <p>{state.stopLine}</p>
       </article>
       <article className="hold">
-        <span>下一步</span>
+        <span>下一道 gate</span>
         <strong>{state.nextGate}</strong>
-        <p>資料來源、欄位契約、覆蓋率、品質與回退條件齊備後，才會進入正式資料升級討論。</p>
+        <p>資料覆蓋完成不會自動啟用 scoreSource=real；下一步先完成 promotion preflight。</p>
       </article>
-      <div className="post-readonly-promotion-summary" aria-label="Runtime upgrade readiness summary">
-        <article className="blocked">
-          <span>升級準備</span>
+      <div className="post-readonly-promotion-summary" aria-label="Runtime promotion readiness summary">
+        <article className="hold">
+          <span>Promotion readiness</span>
           <strong>{promotion.headline}</strong>
           <p>
-            可用條件 {promotion.readinessCounts.ready}/{promotion.readinessCounts.total}，需要複核{" "}
-            {promotion.readinessCounts.needsReview}，仍受阻 {promotion.readinessCounts.blocked}。
+            ready {promotion.readinessCounts.ready}/{promotion.readinessCounts.total}；needs review{" "}
+            {promotion.readinessCounts.needsReview}；blocked {promotion.readinessCounts.blocked}。
           </p>
           <p>{promotion.stopLine}</p>
         </article>
         {promotion.steps.map((step) => (
           <article className={stepStatusClass[step.status]} key={step.id}>
-            <span>{ownerLabel(step.owner)}</span>
+            <span>
+              {ownerLabel(step.owner)} / priority {step.priority}
+            </span>
             <strong>{step.label}</strong>
             <p>{step.nextAction}</p>
             <p>{step.blockedPromotion}</p>
           </article>
         ))}
         <article className="blocked">
-          <span>不可誤解</span>
-          <strong>目前不是正式行情或投資建議</strong>
-          <p>{promotion.noGoActions.join("、")}</p>
-          <p>公開頁必須持續揭露資料狀態、更新時間與非投資建議邊界。</p>
+          <span>No-go actions</span>
+          <strong>目前仍不可切 real</strong>
+          <p>{promotion.noGoActions.join("；")}</p>
+          <p>這是上線前安全邊界，不是新的資料 blocker。</p>
         </article>
       </div>
     </section>

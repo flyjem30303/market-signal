@@ -14,7 +14,7 @@ export type PostReadonlyNextGateItem = {
 
 export type PostReadonlyNextGateQueue = {
   blockedActions: string[];
-  currentDefaultRoute: "post_readonly_next_gate_preparation";
+  currentDefaultRoute: "runtime_promotion_preflight_preparation";
   gateSummary: {
     blockedWaitingEvidenceCount: number;
     dataQualityProgressPercent: number;
@@ -40,56 +40,46 @@ export function getPostReadonlyNextGateQueue(): PostReadonlyNextGateQueue {
   const dataQualityGate = buildDataQualityEvidenceGate({ freshnessState: freshnessEvidence.state });
   const items: PostReadonlyNextGateItem[] = [
     {
-      acceptanceSignal:
-        "唯讀資料結構摘要列出必要物件與欄位，且不含 row payload 或 secrets",
-      blockedPromotion: "Supabase 支撐的公開 runtime",
+      acceptanceSignal: "Schema shape 已可支援 Phase 1 runtime 讀取，不需要在前台暴露 row payload、stock_id 或 secrets。",
+      blockedPromotion: "仍需通過 promotion gate 才能讓公開 runtime 改讀 Supabase。",
       id: "schema_shape",
-      nextAction:
-        "比對去識別化物件可讀性與 runtime 欄位契約，並在本地記錄缺口",
+      nextAction: "保持既有資料形狀，進入 mock-to-real preflight，不新增資料模型抽象。",
       owner: "Engineering",
       priority: 1,
       status: "local_ready"
     },
     {
-      acceptanceSignal:
-        "新鮮度解讀把最新去識別化證據映射為過期、目前可用或未知，且不核准公開資料來源",
-      blockedPromotion: "以新鮮度為基礎的公開宣稱",
+      acceptanceSignal: "Freshness evidence 已完成，前台可以顯示更新時間與延遲說明。",
+      blockedPromotion: "仍需確認延遲顯示、資料異常與 fail-closed 文案。",
       id: "freshness",
-      nextAction:
-        "對齊 data_freshness 證據、runtime 文案，以及過期或缺日期時的 fail-closed 標籤",
+      nextAction: "把更新時間與延遲狀態接入公開可讀文案，資料異常時必須清楚降級。",
       owner: "Data",
       priority: 2,
       status: "local_ready"
     },
     {
-      acceptanceSignal:
-        "覆蓋率說明已觀察與預期筆數，以及缺資料的影響",
-      blockedPromotion: "覆蓋率加分",
+      acceptanceSignal: "Phase 1 目標範圍 360/360 rows 已完成 readback，missingRows=0。",
+      blockedPromotion: "資料覆蓋已不再是 blocker；promotion 仍受品質、來源權利與回退機制限制。",
       id: "row_coverage",
-      nextAction:
-        "保留不完整 aggregate 結果的可見性，並決定下一個有範圍的唯讀證據問題",
+      nextAction: "將 row coverage 視為 accepted，下一步只做 promotion preflight，不再重跑補齊流程。",
       owner: "Data",
       priority: 3,
-      status: "blocked_waiting_evidence"
+      status: "local_ready"
     },
     {
-      acceptanceSignal:
-        "資料品質檢查點定義最低欄位有效性、降級行為與公開宣稱限制",
-      blockedPromotion: "資料品質分數升級",
+      acceptanceSignal: "資料品質需要對空值、重複、日期連續性與燈號分數影響做最後 role review。",
+      blockedPromotion: "品質未覆核前，不得把 mock score 換成 real score。",
       id: "data_quality",
-      nextAction:
-        "把欄位有效性 QA、降級矩陣與 release blocker 文案串成同一條接受路徑",
+      nextAction: "做最小品質檢查與風險備註，只驗證 Phase 1 上線所需欄位，不擴大到全市場 backfill。",
       owner: "Data",
       priority: 4,
       status: "needs_role_review"
     },
     {
-      acceptanceSignal:
-        "來源深度 artifact 證明歷史深度、來源權利邊界與缺日期政策",
-      blockedPromotion: "正式分數",
+      acceptanceSignal: "資料來源權利已轉向合法免費可自動化來源；公開頁仍需清楚揭露來源與延遲。",
+      blockedPromotion: "來源揭露與使用條件未完成前，不宣稱完整正式資料服務。",
       id: "source_depth",
-      nextAction:
-        "等資料結構、新鮮度、覆蓋率與品質缺口明確後，再準備來源深度證據請求",
+      nextAction: "補齊公開來源揭露文案與限制說明，避免誤導為即時交易資料。",
       owner: "Investment",
       priority: 5,
       status: "needs_role_review"
@@ -98,14 +88,14 @@ export function getPostReadonlyNextGateQueue(): PostReadonlyNextGateQueue {
 
   return {
     blockedActions: [
-      "執行 SQL",
-      "寫入 Supabase",
-      "抓取或匯入市場原始資料",
-      "修改 daily_prices",
-      "切換正式公開資料",
-      "啟用正式分數"
+      "不執行 SQL",
+      "不新增 Supabase 寫入",
+      "不抓取、儲存或提交 raw market data",
+      "不修改 daily_prices",
+      "不切換 publicDataSource=supabase",
+      "不設定 scoreSource=real"
     ],
-    currentDefaultRoute: "post_readonly_next_gate_preparation",
+    currentDefaultRoute: "runtime_promotion_preflight_preparation",
     gateSummary: {
       blockedWaitingEvidenceCount: items.filter((item) => item.status === "blocked_waiting_evidence").length,
       dataQualityProgressPercent: dataQualityGate.evidenceProgressPercent,
@@ -114,17 +104,16 @@ export function getPostReadonlyNextGateQueue(): PostReadonlyNextGateQueue {
       localReadyCount: items.filter((item) => item.status === "local_ready").length,
       needsRoleReviewCount: items.filter((item) => item.status === "needs_role_review").length,
       readableSummary:
-        "資料結構與新鮮度已有本地證據可支援 runtime 揭露；覆蓋率、資料品質與來源深度仍阻擋升級。",
+        "資料覆蓋 blocker 已解除；現在主線改成公開 runtime promotion preflight，重點是品質、來源揭露、延遲與回退。",
       schemaAcceptedCount: schemaShape.acceptedCount,
       schemaObjectCount: schemaShape.objects.length
     },
-    headline:
-      "後端物件可讀性已接受；下一步是證據品質，不是正式資料升級。",
+    headline: "資料覆蓋完成，下一步是 mock-to-real promotion preflight",
     items,
     mode: "post_readonly_next_gate_queue",
     publicDataSource: "mock",
     scoreSource: "mock",
     stopLine:
-      "此佇列不執行 SQL、不寫入 Supabase、不抓取市場資料、不修改 daily_prices，也不啟用正式分數。"
+      "coverage 完成不等於已上線真實資料；promotion gate 通過前，公開頁必須保持 mock 並清楚標示邊界。"
   };
 }

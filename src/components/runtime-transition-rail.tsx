@@ -13,17 +13,17 @@ export function RuntimeTransitionRail({ symbol }: RuntimeTransitionRailProps) {
     <section className="runtime-transition-rail" aria-label="資料切換狀態">
       <article className="active">
         <span>現在可用</span>
-        <strong>示範燈號閱讀流程</strong>
+        <strong>公開頁維持 mock 燈號</strong>
         <p>{productSummary.useNow.body}</p>
       </article>
       <article className="readying">
-        <span>讀取檢查</span>
-        <strong>{postReadonly.objectsReachable} 個物件已可檢查</strong>
+        <span>資料準備</span>
+        <strong>{postReadonly.rowCoverage.observedRows}/{postReadonly.rowCoverage.expectedRows} rows 已完成</strong>
         <p>{postReadonly.userFacingSummary}</p>
       </article>
       <article className="blocked">
-        <span>尚未正式</span>
-        <strong>正式資料切換仍需通過上線條件</strong>
+        <span>切換限制</span>
+        <strong>promotion gate 通過前不切 real</strong>
         <p>{postReadonly.stopLine}</p>
       </article>
     </section>
