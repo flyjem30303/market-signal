@@ -69,7 +69,7 @@ export function DashboardShell({
         </p>
         <p className="runtime-boundary-line">
           Phase 1 使用示範資料，正式每日資料尚未啟用；本網站為非投資建議，不是即時報價。
-          真實資料上線前會維持 mock/real 邊界。
+          正式資料上線前會清楚標示示範/正式資料邊界。
         </p>
         <div className="hero-status-strip" aria-label="狀態儀表">
           <span>{isStockPage ? "個股燈號" : "市場燈號"}：{isStockPage ? snapshot.signal.title : market.signal.title}</span>

@@ -75,7 +75,7 @@ export default async function WeeklyPage() {
           <span>{copy.updateStatus}</span>
           <strong>示範資料</strong>
           <p>
-            資料更新狀態：目前公開頁以 mock 資料呈現閱讀流程；正式每日資料上線前，不宣稱即時、完整或可作為交易依據。
+            資料更新狀態：目前公開頁以示範資料呈現閱讀流程；正式每日資料上線前，不宣稱即時、完整或可作為交易依據。
           </p>
         </article>
       </section>
