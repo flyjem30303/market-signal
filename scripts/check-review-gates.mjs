@@ -5951,6 +5951,11 @@ const checks = [
     name: "runtime-promotion-readiness-summary"
   },
   {
+    command: [node, "scripts/check-phase-1-source-depth-acceptance-contract.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-source-depth-acceptance-contract"
+  },
+  {
     command: [node, "scripts/check-phase-1-promotion-review-outcome.mjs"],
     expectStatus: "ok",
     name: "phase-1-promotion-review-outcome"

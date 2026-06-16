@@ -1,5 +1,6 @@
 import { buildDataQualityScoreContract } from "@/lib/data-quality-score-contract";
 import { getPostReadonlyRuntimeState } from "@/lib/post-readonly-runtime-state";
+import { getPhase1SourceDepthAcceptanceContract } from "@/lib/phase-1-source-depth-acceptance-contract";
 
 export type Phase1PromotionReviewId = "data_quality" | "source_depth";
 
@@ -24,6 +25,7 @@ export type Phase1PromotionReviewOutcomeSummary = {
 export function getPhase1PromotionReviewOutcomeSummary(): Phase1PromotionReviewOutcomeSummary {
   const quality = buildDataQualityScoreContract();
   const runtime = getPostReadonlyRuntimeState();
+  const sourceDepth = getPhase1SourceDepthAcceptanceContract();
 
   const dataQualityAccepted = quality.score >= quality.passThreshold;
 
@@ -53,18 +55,20 @@ export function getPhase1PromotionReviewOutcomeSummary(): Phase1PromotionReviewO
       },
       {
         acceptedEvidence: [
+          `${sourceDepth.acceptedRoutes.length} official open-data routes accepted locally for delayed public display and derived metrics`,
+          "TWII and listed-stock open-data routes have source URL, OGL v1 license, free charge, daily cadence, attribution, and OpenAPI documentation recorded",
           "public copy already shows source, delay, mock boundary, and non-investment-advice disclaimers",
           "no raw market payload, stock id payload, or secret is exposed"
         ],
         id: "source_depth",
         minFixes: [
-          "accept source attribution, cadence, delay, and non-endorsement wording for the promoted data family",
-          "record source-rights outcome for public use of daily close and daily trading fields",
+          sourceDepth.blockedScopes[0].nextAction,
+          "keep redistribution, export, and API reuse blocked until a later source-rights packet accepts them",
           "keep publicDataSource=mock until this source-depth packet is accepted"
         ],
         outcome: "rejected_for_promotion",
         reason:
-          "Source disclosure is usable for mock/public reading, but not yet accepted as a real-data promotion packet."
+          "TWII and listed-stock open-data routes are locally source-depth acceptable, but ETF source-rights coverage for 0050/006208 remains unresolved."
       }
     ],
     publicDataSource: "mock",
