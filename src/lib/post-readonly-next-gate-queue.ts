@@ -78,10 +78,12 @@ export function getPostReadonlyNextGateQueue(): PostReadonlyNextGateQueue {
         dataQualityOutcome?.reason ?? "品質 review 未完成前，只能保留 mock score，不能設定 scoreSource=real。",
       id: "data_quality",
       nextAction:
-        `field validity promotion rejected；${dataQualityOutcome?.minFixes.join("；") ?? "補齊最小品質證據"}`,
+        dataQualityOutcome?.outcome === "accepted"
+          ? "field validity promotion accepted for local Phase 1 quality scoring；仍不可切 scoreSource=real"
+          : `field validity promotion rejected；${dataQualityOutcome?.minFixes.join("；") ?? "補齊最小品質證據"}`,
       owner: "Data",
       priority: 4,
-      status: "blocked_waiting_evidence"
+      status: dataQualityOutcome?.outcome === "accepted" ? "local_ready" : "blocked_waiting_evidence"
     },
     {
       acceptanceSignal:
@@ -116,7 +118,7 @@ export function getPostReadonlyNextGateQueue(): PostReadonlyNextGateQueue {
       localReadyCount: items.filter((item) => item.status === "local_ready").length,
       needsRoleReviewCount: items.filter((item) => item.status === "needs_role_review").length,
       readableSummary:
-        "資料覆蓋 blocker 已關閉；品質與來源深度已明確 rejected for promotion，下一步只補最小證據，不擴治理範圍。",
+        "資料覆蓋與資料品質已可作為本地 Phase 1 promotion evidence；來源深度仍 rejected for promotion，下一步只補來源權利與公開使用證據。",
       schemaAcceptedCount: schemaShape.acceptedCount,
       schemaObjectCount: schemaShape.objects.length
     },

@@ -8,7 +8,7 @@ Decision: `ACCEPT_FIELD_VALIDITY_AS_LOCAL_QA_REVIEWED_SPEC_ONLY`
 
 ## Scope
 
-This gate accepts the field-validity and downgrade-rule contract as local QA-reviewed specification only. It does not approve data-quality score points, row coverage points, Supabase reads, Supabase writes, SQL execution, market-data ingestion, public source promotion, public claims, or `scoreSource=real`.
+This gate accepts the field-validity and downgrade-rule contract as local QA-reviewed scoring evidence for Phase 1 only. It does not approve Supabase reads, Supabase writes, SQL execution, market-data ingestion, public source promotion, public claims, or `scoreSource=real`.
 
 ## Reviewed Inputs
 
@@ -23,12 +23,12 @@ This gate accepts the field-validity and downgrade-rule contract as local QA-rev
 - `QA-FIELD-001` required identity, date, price, volume, and source-quality fields have local invalid-state rules.
 - `QA-FIELD-002` critical close-price and source-quality failures block real scoring rather than degrading silently.
 - `QA-DOWNGRADE-001` unavailable, stale, and partial runtime states have score caps and public-claim limits.
-- `QA-BOUNDARY-001` the contract keeps `publicDataSource` and `scoreSource` mock and awards no data-quality points.
+- `QA-BOUNDARY-001` the contract keeps `publicDataSource` and `scoreSource` mock while allowing local Phase 1 data-quality points.
 
 ## Still Blocked
 
-- Data-quality score increase remains blocked.
-- Row coverage evidence acceptance for runtime promotion remains blocked.
+- Data-quality score increase is accepted for local Phase 1 scoring evidence only.
+- Row coverage evidence acceptance for local Phase 1 scoring evidence is accepted; runtime promotion remains blocked.
 - Source-rights approval remains blocked.
 - Public claim approval remains blocked.
 - Supabase readonly execution remains a separate gate.
@@ -41,7 +41,7 @@ This gate accepts the field-validity and downgrade-rule contract as local QA-rev
 
 ## CEO Synthesis
 
-The project can now treat field validity and downgrade behavior as QA-reviewed local specification. This reduces ambiguity in the Data lane, but it does not move the product to real data or real scoring. The next highest-value blocker work is to connect this accepted local spec to row coverage evidence and source-rights review, still without changing runtime public claims.
+The project can now treat field validity and downgrade behavior as QA-reviewed local scoring evidence. This reduces ambiguity in the Data lane and allows the local data-quality threshold to pass, but it does not move the product to real data or real scoring. The next highest-value blocker work is source-rights/source-depth review, still without changing runtime public claims.
 
 ## Verification Expectations
 

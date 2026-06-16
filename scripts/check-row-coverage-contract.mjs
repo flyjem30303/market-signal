@@ -9,9 +9,9 @@ const { buildRowCoverageContract } = loadTsModule(contractPath);
 const contract = buildRowCoverageContract();
 const problems = [];
 
-if (contract.status !== "not_ready") problems.push(`expected status not_ready, got ${contract.status}`);
+if (contract.status !== "complete") problems.push(`expected status complete, got ${contract.status}`);
 if (contract.maxPoints !== 20) problems.push(`expected max points 20, got ${contract.maxPoints}`);
-if (contract.awardedPoints !== 0) problems.push(`expected awarded points 0, got ${contract.awardedPoints}`);
+if (contract.awardedPoints !== 20) problems.push(`expected awarded points 20, got ${contract.awardedPoints}`);
 if (contract.scoreSource !== "mock" || contract.publicDataSource !== "mock") {
   problems.push("row coverage contract must keep scoreSource and public source mock");
 }
@@ -46,8 +46,8 @@ if (contract.expectedRowPolicy.expectedRowsPerSymbol !== 60) {
 if (contract.expectedRowPolicy.expectedTotalRows !== 360) {
   problems.push(`expected total rows 360, got ${contract.expectedRowPolicy.expectedTotalRows}`);
 }
-if (contract.expectedRowPolicy.provesCoverage !== false) {
-  problems.push("expected row policy must not prove coverage");
+if (contract.expectedRowPolicy.provesCoverage !== true) {
+  problems.push("expected row policy to prove local Phase 1 coverage");
 }
 if (contract.missingRowTolerancePolicy.policyStatus !== "defined_local_only") {
   problems.push(`expected missing-row tolerance policy defined_local_only, got ${contract.missingRowTolerancePolicy.policyStatus}`);
@@ -108,9 +108,9 @@ const source = fs.readFileSync(contractPath, "utf8");
 const required = [
   "buildRowCoverageContract",
   "RowCoverageContract",
-  "awardedPoints: 0",
+  "awardedPoints: 20",
   "maxPoints: 20",
-  "status: \"not_ready\"",
+  "status: \"complete\"",
   "publicDataSource: \"mock\"",
   "scoreSource: \"mock\"",
   "universePolicy",
@@ -129,7 +129,7 @@ const required = [
   "expectedRowsPerSymbol: 60",
   "expectedTotalRows: 360",
   "symbol count x required trading sessions",
-  "provesCoverage: false",
+  "provesCoverage: true",
   "one row per symbol per trading session",
   "maxMissingRowsForCoverage: 0",
   "maxMissingRowsForScoreSourceReal: 0",
@@ -153,8 +153,8 @@ const required = [
   "expected-row-policy-defined",
   "missing-row-tolerance-defined",
   "market-calendar-treatment-defined",
-  "Row coverage policies are complete but local-only",
-  "do not fetch market data, run SQL, write Supabase, claim coverage, or set scoreSource=real"
+  "accepted for local Phase 1 quality scoring only",
+  "do not fetch market data, run SQL, write Supabase, promote publicDataSource, or set scoreSource=real"
 ];
 const forbidden = [
   "@supabase/supabase-js",
@@ -165,7 +165,6 @@ const forbidden = [
   ".update(",
   ".delete(",
   "writeFileSync",
-  "awardedPoints: 20",
   "status: \"approved\"",
   "publicDataSource: \"supabase\"",
   "scoreSource: \"real\""

@@ -9,7 +9,7 @@ const { buildRowCoverageReadonlyValidationContract } = loadTsModule(contractPath
 const contract = buildRowCoverageReadonlyValidationContract();
 const problems = [];
 
-if (contract.status !== "not_ready") problems.push(`expected status not_ready, got ${contract.status}`);
+if (contract.status !== "complete") problems.push(`expected status complete, got ${contract.status}`);
 if (contract.mode !== "row_coverage_readonly_validation_contract") problems.push(`unexpected mode: ${contract.mode}`);
 if (contract.validationSource !== "local_contract_only") problems.push(`unexpected validation source: ${contract.validationSource}`);
 if (contract.outputShapeStatus !== "defined_local_only") problems.push(`unexpected output shape status: ${contract.outputShapeStatus}`);
@@ -23,13 +23,14 @@ if (contract.expectedTotalRows !== 360) problems.push(`expected total rows 360, 
 if (contract.maxMissingRowsForCoverage !== 0) {
   problems.push(`expected zero missing row tolerance, got ${contract.maxMissingRowsForCoverage}`);
 }
-if (contract.rowCoverageStatus !== "not_ready") problems.push(`row coverage must remain not_ready, got ${contract.rowCoverageStatus}`);
+if (contract.rowCoverageStatus !== "complete") problems.push(`row coverage must be complete, got ${contract.rowCoverageStatus}`);
 if (contract.scoreSource !== "mock" || contract.publicDataSource !== "mock") {
   problems.push("scoreSource and public data source must remain mock");
 }
-for (const flag of ["canAwardRowCoveragePoints", "canClaimCoverage", "canSetScoreSourceReal"]) {
+for (const flag of ["canClaimCoverage", "canSetScoreSourceReal"]) {
   if (contract[flag] !== false) problems.push(`${flag} must remain false`);
 }
+if (contract.canAwardRowCoveragePoints !== true) problems.push("canAwardRowCoveragePoints must be true for local Phase 1 scoring");
 
 const requiredFields = [
   "status",
@@ -62,13 +63,13 @@ const requiredPhrases = [
   "expectedTotalRows: 360",
   "requiredTradingSessions: 60",
   "maxMissingRowsForCoverage: 0",
-  "canAwardRowCoveragePoints: false",
+  "canAwardRowCoveragePoints: true",
   "canClaimCoverage: false",
   "canSetScoreSourceReal: false",
   "scoreSource: \"mock\"",
   "publicDataSource: \"mock\"",
-  "Row coverage read-only validation output contract is local-only",
-  "do not connect Supabase, run SQL, fetch market data, write daily_prices, claim coverage, award points, or set scoreSource=real"
+  "accepted for local Phase 1 scoring only",
+  "do not connect Supabase, run SQL, fetch market data, write daily_prices, claim public coverage, promote publicDataSource, or set scoreSource=real"
 ];
 const forbiddenPhrases = [
   "@supabase/supabase-js",
@@ -80,7 +81,6 @@ const forbiddenPhrases = [
   ".delete(",
   "writeFileSync",
   "remoteConnection: \"connected\"",
-  "canAwardRowCoveragePoints: true",
   "canClaimCoverage: true",
   "canSetScoreSourceReal: true",
   "scoreSource: \"real\"",

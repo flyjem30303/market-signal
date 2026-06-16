@@ -42,7 +42,7 @@ export function getBlockerClosureReadinessGate(): BlockerClosureReadinessGate {
     const readinessLane = blockerReadiness.lanes.find((lane) => lane.blockerId === item.blockerId);
     const heldForRemote =
       item.blockerId === "data-quality-evidence" &&
-      dataQualityScore.rowCoverage.status === "not_ready";
+      dataQualityScore.score < dataQualityScore.passThreshold;
 
     return {
       blockerId: item.blockerId,

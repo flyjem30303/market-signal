@@ -7,7 +7,7 @@ export type Phase1PromotionReviewOutcome = {
   acceptedEvidence: string[];
   id: Phase1PromotionReviewId;
   minFixes: string[];
-  outcome: "rejected_for_promotion";
+  outcome: "accepted" | "rejected_for_promotion";
   reason: string;
 };
 
@@ -18,12 +18,14 @@ export type Phase1PromotionReviewOutcomeSummary = {
   outcomes: Phase1PromotionReviewOutcome[];
   publicDataSource: "mock";
   scoreSource: "mock";
-  status: "rejected";
+  status: "partially_accepted";
 };
 
 export function getPhase1PromotionReviewOutcomeSummary(): Phase1PromotionReviewOutcomeSummary {
   const quality = buildDataQualityScoreContract();
   const runtime = getPostReadonlyRuntimeState();
+
+  const dataQualityAccepted = quality.score >= quality.passThreshold;
 
   return {
     canPromotePublicDataSourceToSupabase: false,
@@ -33,17 +35,21 @@ export function getPhase1PromotionReviewOutcomeSummary(): Phase1PromotionReviewO
       {
         acceptedEvidence: [
           `${runtime.rowCoverage.observedRows}/${runtime.rowCoverage.expectedRows} Phase 1 rows read back`,
-          "readonly market-signal adapter has local preload verification"
+          "readonly market-signal adapter has local preload verification",
+          `${quality.score}/${quality.passThreshold} local data-quality threshold`
         ],
         id: "data_quality",
-        minFixes: [
-          `raise data-quality evidence from ${quality.score}/${quality.passThreshold} to at least ${quality.passThreshold}`,
-          "accept downgrade rules and public disclosure wording",
-          "keep scoreSource=mock until model and claim reviews pass"
-        ],
-        outcome: "rejected_for_promotion",
-        reason:
-          "Row coverage and adapter shape are ready, but data-quality evidence is still below the real-score threshold."
+        minFixes: dataQualityAccepted
+          ? ["keep scoreSource=mock until source-depth, source-rights, model, and claim reviews pass"]
+          : [
+              `raise data-quality evidence from ${quality.score}/${quality.passThreshold} to at least ${quality.passThreshold}`,
+              "accept downgrade rules and public disclosure wording",
+              "keep scoreSource=mock until model and claim reviews pass"
+            ],
+        outcome: dataQualityAccepted ? "accepted" : "rejected_for_promotion",
+        reason: dataQualityAccepted
+          ? "Row coverage, field validity, downgrade rules, and public disclosure now pass the local data-quality threshold."
+          : "Row coverage and adapter shape are ready, but data-quality evidence is still below the real-score threshold."
       },
       {
         acceptedEvidence: [
@@ -63,6 +69,6 @@ export function getPhase1PromotionReviewOutcomeSummary(): Phase1PromotionReviewO
     ],
     publicDataSource: "mock",
     scoreSource: "mock",
-    status: "rejected"
+    status: "partially_accepted"
   };
 }

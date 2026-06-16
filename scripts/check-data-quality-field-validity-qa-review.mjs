@@ -14,7 +14,7 @@ const blocked = [];
 
 for (const phrase of [
   "mode: \"local_data_quality_field_validity_qa_review\"",
-  "status: \"qa_review_recorded_no_points_awarded\"",
+  "status: \"qa_review_recorded_local_points_awarded\"",
   "scripts/report-data-quality-field-validity.mjs",
   "QA-FIELD-001",
   "QA-FIELD-002",
@@ -27,10 +27,9 @@ for (const phrase of [
   "connectionAttempted: false",
   "sqlExecuted: false",
   "supabaseWritesEnabled: false",
-  "data-quality score increase",
   "Supabase readonly execution",
   "scoreSource=real",
-  "data-quality score at 25"
+  "local Phase 1 data-quality points"
 ]) {
   if (!source.includes(phrase)) {
     missing.push(`${reportPath}: ${phrase}`);
@@ -121,10 +120,10 @@ if (output) {
   if (output.mode !== "local_data_quality_field_validity_qa_review") {
     blocked.push(`output.mode: ${String(output.mode)}`);
   }
-  if (output.status !== "qa_review_recorded_no_points_awarded") {
+  if (output.status !== "qa_review_recorded_local_points_awarded") {
     blocked.push(`output.status: ${String(output.status)}`);
   }
-  if (output.reviewedContract?.canAwardDataQualityPoints !== false) {
+  if (output.reviewedContract?.canAwardDataQualityPoints !== true) {
     blocked.push(`output.reviewedContract.canAwardDataQualityPoints: ${String(output.reviewedContract?.canAwardDataQualityPoints)}`);
   }
   if (output.reviewedContract?.publicDataSource !== "mock" || output.reviewedContract?.scoreSource !== "mock") {

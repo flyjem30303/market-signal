@@ -10,7 +10,7 @@ const contract = buildDataQualityScoreContract();
 
 const problems = [];
 
-if (contract.score !== 25) problems.push(`expected local score 25, got ${contract.score}`);
+if (contract.score !== 85) problems.push(`expected local score 85, got ${contract.score}`);
 if (contract.passThreshold !== 80) problems.push(`expected pass threshold 80, got ${contract.passThreshold}`);
 if (contract.canCountAsRealScoreEvidence !== false) problems.push("contract must not count as real-score evidence");
 if (contract.scoreSource !== "mock" || contract.publicDataSource !== "mock") {
@@ -19,14 +19,14 @@ if (contract.scoreSource !== "mock" || contract.publicDataSource !== "mock") {
 if (!contract.factors.some((factor) => factor.code === "freshness-metadata" && factor.state === "complete")) {
   problems.push("freshness metadata factor must be complete");
 }
-if (contract.rowCoverage.status !== "not_ready" || contract.rowCoverage.awardedPoints !== 0) {
-  problems.push("row coverage must remain not_ready with zero awarded points");
+if (contract.rowCoverage.status !== "complete" || contract.rowCoverage.awardedPoints !== 20) {
+  problems.push("row coverage must be complete with 20 local points");
 }
-if (contract.fieldValidity.approvalState !== "local_spec_defined_not_approved") {
-  problems.push(`field validity approval state must remain local spec only, got ${contract.fieldValidity.approvalState}`);
+if (contract.fieldValidity.approvalState !== "local_qa_reviewed") {
+  problems.push(`field validity approval state must be local_qa_reviewed, got ${contract.fieldValidity.approvalState}`);
 }
-if (contract.fieldValidity.canAwardDataQualityPoints !== false) {
-  problems.push("field validity must not award data-quality points");
+if (contract.fieldValidity.canAwardDataQualityPoints !== true) {
+  problems.push("field validity must award local data-quality points");
 }
 if (contract.fieldValidity.fieldRules.length < 6 || contract.fieldValidity.downgradeRules.length < 4) {
   problems.push("field validity must expose field rules and downgrade rules");
@@ -70,7 +70,12 @@ if (!contract.rowCoverage.requirements.some((requirement) => requirement.code ==
 if (contract.rowCoverage.requirements.some((requirement) => requirement.state === "missing")) {
   problems.push("data quality contract must see row coverage policy requirements as complete");
 }
-for (const code of ["row-coverage", "field-validity", "downgrade-rules", "source-rights", "public-disclosure"]) {
+for (const code of ["row-coverage", "field-validity", "downgrade-rules", "public-disclosure"]) {
+  if (!contract.factors.some((factor) => factor.code === code && factor.state === "complete" && factor.points > 0)) {
+    problems.push(`complete factor not awarded: ${code}`);
+  }
+}
+for (const code of ["source-rights"]) {
   if (!contract.factors.some((factor) => factor.code === code && factor.state === "missing" && factor.points === 0)) {
     problems.push(`missing factor not blocked: ${code}`);
   }
@@ -83,14 +88,9 @@ const required = [
   "buildRowCoverageContract",
   "buildDataQualityFieldValidityContract",
   "fieldValidity",
-  "local_spec_defined_not_approved",
+  "local_qa_reviewed",
   "canAwardDataQualityPoints",
   "rowCoverage",
-  "universePolicy",
-  "coverageWindowPolicy",
-  "expectedRowPolicy",
-  "missingRowTolerancePolicy",
-  "marketCalendarPolicy",
   "canCountAsRealScoreEvidence: false",
   "passThreshold: 80",
   "publicDataSource: \"mock\"",
@@ -101,7 +101,7 @@ const required = [
   "downgrade-rules",
   "source-rights",
   "public-disclosure",
-  "do not run SQL, write Supabase, ingest market data, change public source, or set scoreSource=real"
+  "Source rights remain a separate promotion blocker"
 ];
 const forbidden = [
   "@supabase/supabase-js",

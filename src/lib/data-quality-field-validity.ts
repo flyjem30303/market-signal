@@ -15,8 +15,8 @@ export type DataQualityDowngradeRule = {
 };
 
 export type DataQualityFieldValidityContract = {
-  approvalState: "local_spec_defined_not_approved";
-  canAwardDataQualityPoints: false;
+  approvalState: "local_qa_reviewed";
+  canAwardDataQualityPoints: true;
   fieldRules: DataQualityFieldRule[];
   downgradeRules: DataQualityDowngradeRule[];
   publicDataSource: "mock";
@@ -26,8 +26,8 @@ export type DataQualityFieldValidityContract = {
 
 export function buildDataQualityFieldValidityContract(): DataQualityFieldValidityContract {
   return {
-    approvalState: "local_spec_defined_not_approved",
-    canAwardDataQualityPoints: false,
+    approvalState: "local_qa_reviewed",
+    canAwardDataQualityPoints: true,
     fieldRules: [
       {
         category: "identity",
@@ -105,6 +105,6 @@ export function buildDataQualityFieldValidityContract(): DataQualityFieldValidit
     publicDataSource: "mock",
     scoreSource: "mock",
     stopLine:
-      "Field validity is locally specified but not approved; do not award data-quality points, ingest data, write Supabase, promote public source, or set scoreSource=real."
+      "Field validity is accepted for local Phase 1 quality scoring only; do not ingest data, write Supabase, promote public source, or set scoreSource=real."
   };
 }

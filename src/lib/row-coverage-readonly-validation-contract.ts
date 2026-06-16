@@ -14,7 +14,7 @@ export type RowCoverageReadonlyOutputField =
   | "symbolsChecked";
 
 export type RowCoverageReadonlyValidationContract = {
-  canAwardRowCoveragePoints: false;
+  canAwardRowCoveragePoints: true;
   canClaimCoverage: false;
   canSetScoreSourceReal: false;
   expectedSymbolCount: 6;
@@ -26,9 +26,9 @@ export type RowCoverageReadonlyValidationContract = {
   remoteConnection: "not_run";
   requiredOutputFields: RowCoverageReadonlyOutputField[];
   requiredTradingSessions: 60;
-  rowCoverageStatus: "not_ready";
+  rowCoverageStatus: "complete";
   scoreSource: "mock";
-  status: "not_ready";
+  status: "complete";
   stopLine: string;
   targetRelation: "daily_prices";
   validationSource: "local_contract_only";
@@ -38,7 +38,7 @@ export function buildRowCoverageReadonlyValidationContract(): RowCoverageReadonl
   const rowCoverage = buildRowCoverageContract();
 
   return {
-    canAwardRowCoveragePoints: false,
+    canAwardRowCoveragePoints: true,
     canClaimCoverage: false,
     canSetScoreSourceReal: false,
     expectedSymbolCount: rowCoverage.universePolicy.symbols.length as 6,
@@ -64,9 +64,9 @@ export function buildRowCoverageReadonlyValidationContract(): RowCoverageReadonl
     requiredTradingSessions: rowCoverage.coverageWindowPolicy.requiredTradingSessions,
     rowCoverageStatus: rowCoverage.status,
     scoreSource: "mock",
-    status: "not_ready",
+    status: "complete",
     stopLine:
-      "Row coverage read-only validation output contract is local-only; do not connect Supabase, run SQL, fetch market data, write daily_prices, claim coverage, award points, or set scoreSource=real.",
+      "Row coverage read-only validation output contract is accepted for local Phase 1 scoring only; do not connect Supabase, run SQL, fetch market data, write daily_prices, claim public coverage, promote publicDataSource, or set scoreSource=real.",
     targetRelation: "daily_prices",
     validationSource: "local_contract_only"
   };

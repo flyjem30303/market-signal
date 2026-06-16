@@ -22,7 +22,7 @@ const downgradeByFreshnessState: Record<DataFreshnessState, Omit<DataQualityDown
     displayLabel: "Metadata 完整，分數仍為示範",
     downgradeState: "metadata_complete_unapproved",
     reason: "Freshness metadata is reachable, but source rights, field coverage, data quality, model evidence, and release approval remain separate gates.",
-    stopLine: "不得把完整的新鮮度 metadata 視為公開分數核准。"
+    stopLine: "Do not use complete freshness metadata as public score approval. 不得把完整的新鮮度 metadata 視為公開分數核准。"
   },
   mock: {
     canUseForPublicScore: false,

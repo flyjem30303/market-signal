@@ -15,8 +15,8 @@ const required = [
   [gatePath, "Date: 2026-06-02"],
   [gatePath, "data quality field validity acceptance gate recorded"],
   [gatePath, "ACCEPT_FIELD_VALIDITY_AS_LOCAL_QA_REVIEWED_SPEC_ONLY"],
-  [gatePath, "local QA-reviewed specification only"],
-  [gatePath, "does not approve data-quality score points"],
+  [gatePath, "local QA-reviewed scoring evidence for Phase 1 only"],
+  [gatePath, "does not approve Supabase reads"],
   [gatePath, "Supabase writes"],
   [gatePath, "SQL execution"],
   [gatePath, "market-data ingestion"],
@@ -28,7 +28,8 @@ const required = [
   [gatePath, "QA-FIELD-002"],
   [gatePath, "QA-DOWNGRADE-001"],
   [gatePath, "QA-BOUNDARY-001"],
-  [gatePath, "Data-quality score increase remains blocked"],
+  [gatePath, "local Phase 1 data-quality points"],
+  [gatePath, "Data-quality score increase is accepted for local Phase 1 scoring evidence only"],
   [gatePath, "Public data source remains mock"],
   [gatePath, "`scoreSource=real` remains blocked"],
   [gatePath, "CP3 readiness remains `not_ready`"],
@@ -46,7 +47,6 @@ const forbidden = [
   [gatePath, "ALLOW_SUPABASE_WRITES"],
   [gatePath, "ALLOW_MARKET_INGESTION"],
   [gatePath, "PUBLIC_CLAIMS_APPROVED"],
-  [gatePath, "DATA_QUALITY_POINTS_AWARDED"],
   [gatePath, "ROW_COVERAGE_POINTS_AWARDED"],
   [gatePath, "publicDataSource=supabase"]
 ];

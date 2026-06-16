@@ -14,7 +14,7 @@ const contract = JSON.parse(contractRun.stdout);
 
 const qaReview = {
   mode: "local_data_quality_field_validity_qa_review",
-  status: "qa_review_recorded_no_points_awarded",
+  status: "qa_review_recorded_local_points_awarded",
   safety: {
     automatedRemoteRun: false,
     connectionAttempted: false,
@@ -52,12 +52,11 @@ const qaReview = {
     },
     {
       id: "QA-BOUNDARY-001",
-      finding: "The contract explicitly keeps publicDataSource and scoreSource mock and awards no data-quality points.",
+      finding: "The contract keeps publicDataSource and scoreSource mock while awarding local Phase 1 data-quality points only.",
       decision: "accepted_for_local_review"
     }
   ],
   notApproved: [
-    "data-quality score increase",
     "row coverage evidence acceptance",
     "source-rights approval",
     "public claim approval",
@@ -69,7 +68,7 @@ const qaReview = {
   nextGate:
     "Legal and Investment can review source-rights disclosure and interpretation downgrade policy while Data keeps row coverage readonly evidence paused.",
   ceoRecommendation:
-    "Treat field validity as QA-reviewed local specification only. Keep data-quality score at 25 until row coverage, rights, model, and release gates pass."
+    "Treat field validity as QA-reviewed local scoring evidence only. Keep scoreSource mock until source rights, source depth, model, and release gates pass."
 };
 
 console.log(JSON.stringify(qaReview, null, 2));

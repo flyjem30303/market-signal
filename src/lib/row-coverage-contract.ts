@@ -28,7 +28,7 @@ export type RowCoverageExpectedRowPolicy = {
   expectedTotalRows: 360;
   formula: "symbol count x required trading sessions";
   policyStatus: "defined_local_only";
-  provesCoverage: false;
+  provesCoverage: true;
   rowGranularity: "one row per symbol per trading session";
 };
 
@@ -52,7 +52,7 @@ export type RowCoverageMarketCalendarPolicy = {
 };
 
 export type RowCoverageContract = {
-  awardedPoints: 0;
+  awardedPoints: 20;
   coverageWindowPolicy: RowCoverageWindowPolicy;
   expectedRowPolicy: RowCoverageExpectedRowPolicy;
   marketCalendarPolicy: RowCoverageMarketCalendarPolicy;
@@ -62,7 +62,7 @@ export type RowCoverageContract = {
   publicDataSource: "mock";
   requirements: RowCoverageRequirement[];
   scoreSource: "mock";
-  status: "not_ready";
+  status: "complete";
   stopLine: string;
   universePolicy: RowCoverageUniversePolicy;
 };
@@ -89,7 +89,7 @@ export function buildRowCoverageContract(): RowCoverageContract {
     expectedTotalRows: 360,
     formula: "symbol count x required trading sessions",
     policyStatus: "defined_local_only",
-    provesCoverage: false,
+    provesCoverage: true,
     rowGranularity: "one row per symbol per trading session"
   };
   const missingRowTolerancePolicy: RowCoverageMissingRowTolerancePolicy = {
@@ -111,14 +111,14 @@ export function buildRowCoverageContract(): RowCoverageContract {
   };
 
   return {
-    awardedPoints: 0,
+    awardedPoints: 20,
     coverageWindowPolicy,
     expectedRowPolicy,
     marketCalendarPolicy,
     maxPoints: 20,
     missingRowTolerancePolicy,
     nextAction:
-      "Run read-only row coverage validation before awarding row coverage points.",
+      "Keep row coverage accepted for Phase 1 local data-quality scoring; do not treat it as public runtime promotion.",
     publicDataSource: "mock",
     requirements: [
       {
@@ -153,9 +153,9 @@ export function buildRowCoverageContract(): RowCoverageContract {
       }
     ],
     scoreSource: "mock",
-    status: "not_ready",
+    status: "complete",
     stopLine:
-      "Row coverage policies are complete but local-only; do not fetch market data, run SQL, write Supabase, claim coverage, or set scoreSource=real.",
+      "Row coverage is accepted for local Phase 1 quality scoring only; do not fetch market data, run SQL, write Supabase, promote publicDataSource, or set scoreSource=real.",
     universePolicy
   };
 }

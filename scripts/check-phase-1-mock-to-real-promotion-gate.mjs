@@ -24,12 +24,13 @@ const required = [
   [files.freshnessStrip, text.freshnessStrip, "後端唯讀狀態 {marketSignalSourceStatus.supabaseRuntimeReads}"],
   [files.readinessSummary, text.readinessSummary, "publicDataSource: \"mock\""],
   [files.readinessSummary, text.readinessSummary, "scoreSource: \"mock\""],
-  [files.promotionReview, text.promotionReview, "status: \"rejected\""],
+  [files.promotionReview, text.promotionReview, "status: \"partially_accepted\""],
+  [files.promotionReview, text.promotionReview, "outcome: dataQualityAccepted ? \"accepted\" : \"rejected_for_promotion\""],
   [files.promotionReview, text.promotionReview, "outcome: \"rejected_for_promotion\""],
   [files.promotionReview, text.promotionReview, "canPromotePublicDataSourceToSupabase: false"],
   [files.promotionReview, text.promotionReview, "canSetScoreSourceReal: false"],
   [files.nextGateQueue, text.nextGateQueue, "status: \"blocked_waiting_evidence\""],
-  [files.nextGateQueue, text.nextGateQueue, "field validity promotion rejected"],
+  [files.nextGateQueue, text.nextGateQueue, "field validity promotion accepted"],
   [files.nextGateQueue, text.nextGateQueue, "source-depth artifact promotion rejected"],
   [files.nextGateQueue, text.nextGateQueue, "coverage 完成不等於 real 上線"]
 ];
@@ -59,6 +60,7 @@ const readyLocalGates = (text.nextGateQueue.match(/status: "local_ready"/g) ?? [
 const needsReviewGates = (text.nextGateQueue.match(/status: "needs_role_review"/g) ?? []).length;
 const blockedWaitingEvidenceGates = (text.nextGateQueue.match(/status: "blocked_waiting_evidence"/g) ?? []).length;
 const rejectedPromotionReviews = (text.promotionReview.match(/outcome: "rejected_for_promotion",/g) ?? []).length;
+const acceptedPromotionReviews = (text.promotionReview.match(/outcome: dataQualityAccepted \? "accepted" : "rejected_for_promotion"/g) ?? []).length;
 const supabaseRepositoryImplemented = text.supabaseRepository.includes("createLoadedSupabaseMarketSignalRepository");
 
 const status = missing.length === 0 && blocked.length === 0 ? "no_go_safe" : "blocked";
@@ -71,9 +73,10 @@ console.log(
         canPromotePublicDataSourceToSupabase: false,
         canSetScoreSourceReal: false,
         reason:
-          "Phase 1 data coverage is complete and the readonly Supabase market-signal adapter has a local preload path, but data-quality/source-depth promotion reviews are rejected for now. Runtime promotion remains NO-GO until those fixes are accepted and the public runtime factory is deliberately switched."
+          "Phase 1 data coverage, local data-quality scoring, and the readonly Supabase market-signal adapter preload path are ready, but source-depth/source-rights promotion remains rejected. Runtime promotion remains NO-GO until those fixes are accepted and the public runtime factory is deliberately switched."
       },
       gateCounts: {
+        acceptedPromotionReviews,
         blockedWaitingEvidenceGates,
         needsReviewGates,
         readyLocalGates,

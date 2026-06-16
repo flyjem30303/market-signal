@@ -1,5 +1,6 @@
 import { TrackedLink } from "@/components/tracked-link";
 import type { DataFreshnessSnapshot } from "@/lib/data-freshness";
+import { getDataQualityDowngradeSummary } from "@/lib/data-quality-downgrade";
 import type { MarketSignalSourceStatus } from "@/lib/repositories/market-signal-repository";
 
 type DataFreshnessStripProps = {
@@ -8,6 +9,7 @@ type DataFreshnessStripProps = {
 };
 
 export function DataFreshnessStrip({ freshness, marketSignalSourceStatus }: DataFreshnessStripProps) {
+  const dataQuality = getDataQualityDowngradeSummary(freshness);
   const scoreLabel = freshness.scoreSource === "mock" ? "示範分數" : freshness.scoreSourceLabel;
   const sourceLabel =
     marketSignalSourceStatus?.resolvedSource === "mock" || freshness.isMock ? "示範資料" : freshness.sourceName;
@@ -22,6 +24,10 @@ export function DataFreshnessStrip({ freshness, marketSignalSourceStatus }: Data
       </span>
       <span className="freshness-description">{freshness.description}</span>
       <span className={`freshness-score-source ${freshness.scoreSource}`}>分數來源：{scoreLabel}</span>
+      <span>資料品質閘門：{dataQuality.displayLabel}</span>
+      <span className="freshness-description">
+        品質狀態 {dataQuality.downgradeState}，{dataQuality.reason}
+      </span>
       {marketSignalSourceStatus ? (
         <>
           <span>市場訊號來源：目前 {marketSignalSourceStatus.resolvedSource}</span>

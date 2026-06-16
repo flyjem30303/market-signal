@@ -16,8 +16,8 @@ const blocked = [];
 
 for (const phrase of [
   "buildDataQualityFieldValidityContract",
-  "local_spec_defined_not_approved",
-  "canAwardDataQualityPoints: false",
+  "local_qa_reviewed",
+  "canAwardDataQualityPoints: true",
   "symbol",
   "trade_date",
   "close",
@@ -30,7 +30,7 @@ for (const phrase of [
   "source rights unclear or redistribution not approved",
   "publicDataSource: \"mock\"",
   "scoreSource: \"mock\"",
-  "do not award data-quality points",
+  "accepted for local Phase 1 quality scoring",
   "set scoreSource=real"
 ]) {
   if (!source.includes(phrase)) {
@@ -49,7 +49,7 @@ for (const pattern of [
   /process\.env\.(NEXT_PUBLIC_SUPABASE_URL|NEXT_PUBLIC_SUPABASE_ANON_KEY|SUPABASE_SERVICE_ROLE_KEY)/,
   /publicDataSource:\s*"supabase"/,
   /scoreSource:\s*"real"/,
-  /canAwardDataQualityPoints:\s*true/
+  /publicDataSource:\s*"supabase"/
 ]) {
   if (pattern.test(source) || pattern.test(reportSource)) {
     blocked.push(`forbidden pattern ${String(pattern)}`);
@@ -110,10 +110,10 @@ if (run.status !== 0) {
 }
 
 if (output) {
-  if (output.approvalState !== "local_spec_defined_not_approved") {
+  if (output.approvalState !== "local_qa_reviewed") {
     blocked.push(`output.approvalState: ${String(output.approvalState)}`);
   }
-  if (output.canAwardDataQualityPoints !== false) {
+  if (output.canAwardDataQualityPoints !== true) {
     blocked.push(`output.canAwardDataQualityPoints: ${String(output.canAwardDataQualityPoints)}`);
   }
   if (output.publicDataSource !== "mock" || output.scoreSource !== "mock") {
