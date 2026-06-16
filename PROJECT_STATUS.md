@@ -2,6 +2,41 @@
 
 ## Latest Effective Status - 2026-06-16
 
+### Latest Phase 1 Runtime Promotion Explicit GO/NO-GO Decision
+
+Status: `phase_1_runtime_promotion_explicit_go_no_go_decision_ready_no_go`
+
+CEO decision:
+
+- Accept the runtime promotion review packet as a local evidence bridge.
+- Do not promote real runtime automatically from local checks.
+- Enter the named operator decision gate, but keep the current decision as `NO_GO_FOR_REAL_RUNTIME_PROMOTION_NOW`.
+- Keep default CEO recommendation as `KEEP_MOCK_AND_MONITOR` until a future operator decision names exact runtime flags, rollback owner, readback command, smoke command, and post-promotion review owner.
+
+PM completed:
+
+- Added `docs/PHASE_1_RUNTIME_PROMOTION_EXPLICIT_GO_NO_GO_DECISION.md`.
+- Added `scripts/check-phase-1-runtime-promotion-explicit-go-no-go-decision.mjs`.
+- Added `check:phase-1-runtime-promotion-explicit-go-no-go-decision` to `package.json`.
+- Registered the review-packet and explicit-decision checks in the focused review gate set.
+
+Verification:
+
+- `cmd.exe /c scripts\with-node20.cmd npm run check:phase-1-runtime-promotion-explicit-go-no-go-decision` passed.
+- `cmd.exe /c scripts\with-node20.cmd npm run check:phase-1-runtime-promotion-review-packet` passed.
+- `cmd.exe /c scripts\with-node20.cmd npm run check:json` passed.
+- `cmd.exe /c scripts\with-node20.cmd npm run check:review-gates` passed.
+- `cmd.exe /c scripts\with-node20.cmd npx tsc --noEmit --incremental false` passed.
+- `cmd.exe /c scripts\with-node20.cmd npm run build` passed.
+
+Boundary:
+
+- No SQL, Supabase read/write, staging row creation, `daily_prices` mutation, market-data fetch/store/commit, raw payload output, row payload output, source promotion, real score promotion, membership implementation, production env mutation, DNS change, Vercel mutation, or platform secret handling occurred.
+
+Next:
+
+Proceed only to `phase_1_runtime_promotion_operator_decision_gate`. The next gate may choose `KEEP_MOCK_AND_MONITOR`, `RUN_PROMOTION_DRY_RUN_ONLY`, or a separately authorized bounded public-source promotion path. Current runtime remains `publicDataSource=mock` and `scoreSource=mock`.
+
 ### Latest Phase 1 Runtime Promotion Review Packet
 
 Status: `phase_1_runtime_promotion_review_packet_ready_no_go`

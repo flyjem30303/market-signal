@@ -4466,6 +4466,16 @@ const checks = [
     name: "phase-1-runtime-promotion-preflight-status"
   },
   {
+    command: [node, "scripts/check-phase-1-runtime-promotion-review-packet.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-runtime-promotion-review-packet"
+  },
+  {
+    command: [node, "scripts/check-phase-1-runtime-promotion-explicit-go-no-go-decision.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-runtime-promotion-explicit-go-no-go-decision"
+  },
+  {
     command: [node, "scripts/check-phase-1-twii-bounded-write-operator-decision-quickstart.mjs"],
     expectStatus: "ok",
     name: "phase-1-twii-bounded-write-operator-decision-quickstart"
@@ -7228,6 +7238,8 @@ const phase1LiveCoreReviewGateNames = new Set([
   "phase-1-post-write-coverage-scoring-gate",
   "phase-1-data-online-go-no-go-status",
   "phase-1-runtime-promotion-preflight-status",
+  "phase-1-runtime-promotion-review-packet",
+  "phase-1-runtime-promotion-explicit-go-no-go-decision",
   "beta-runtime-fast-health",
   "typescript"
 ]);
