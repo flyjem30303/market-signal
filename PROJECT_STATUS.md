@@ -2,6 +2,40 @@
 
 ## Latest Effective Status - 2026-06-16
 
+### Latest Phase 1 Runtime Promotion Review Packet
+
+Status: `phase_1_runtime_promotion_review_packet_ready_no_go`
+
+CEO decision:
+
+- Treat `docs/PHASE_1_RUNTIME_PROMOTION_PREFLIGHT_STATUS.md` as the current single source of truth for real-data promotion routing.
+- Avoid reopening stale Beta packet counts or old launch governance.
+- Create a lightweight promotion review packet for the five review gates only: data quality, freshness display, source disclosure, rollback/fail-closed, and public-copy boundary.
+- Keep the packet as a review bridge, not a runtime promotion.
+
+PM completed:
+
+- Added `docs/PHASE_1_RUNTIME_PROMOTION_REVIEW_PACKET.md`.
+- Added `scripts/check-phase-1-runtime-promotion-review-packet.mjs`.
+- Added `check:phase-1-runtime-promotion-review-packet` to `package.json`.
+
+Verification:
+
+- `cmd.exe /c scripts\with-node20.cmd npm run check:phase-1-runtime-promotion-review-packet` passed.
+- `cmd.exe /c scripts\with-node20.cmd npm run check:json` passed.
+- `cmd.exe /c scripts\with-node20.cmd npm run check:phase-1-runtime-promotion-preflight-status` passed.
+- `cmd.exe /c scripts\with-node20.cmd npm run check:review-gates` passed.
+- `cmd.exe /c scripts\with-node20.cmd npx tsc --noEmit --incremental false` passed.
+- `cmd.exe /c scripts\with-node20.cmd npm run build` passed after stopping the local dev server and clearing `.next`; on Windows, `next dev` and `next build` should not run against the same `.next` directory at the same time.
+
+Boundary:
+
+- No SQL, Supabase read/write, staging row creation, `daily_prices` mutation, market-data fetch/store/commit, raw payload output, row payload output, source promotion, real score promotion, membership implementation, production env mutation, DNS change, Vercel mutation, or platform secret handling occurred.
+
+Next:
+
+Prepare the explicit `GO` / `NO-GO` promotion decision only after PM accepts the review packet evidence. Runtime remains `publicDataSource=mock` and `scoreSource=mock`.
+
 ### Latest Phase 1 Data Readiness Gate Convergence
 
 Status: `phase_1_data_readiness_gate_convergence_verified`
