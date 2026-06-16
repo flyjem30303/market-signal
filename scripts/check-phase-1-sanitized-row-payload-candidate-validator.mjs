@@ -127,45 +127,22 @@ function validateDataOnlineCandidateRun() {
   expect(dataOnlineCandidateRun.output.status, "ok", "data-online candidate status");
   expect(
     dataOnlineCandidateRun.output.guardedStatus,
-    "phase_1_data_online_candidate_ready_write_review_required",
+    "phase_1_data_online_go_no_go_status_coverage_complete_promotion_pending",
     "data-online candidate guardedStatus"
   );
   expect(
     dataOnlineCandidateRun.output.decision,
-    "PUBLIC_RUNTIME_READY_ROW_PAYLOAD_CANDIDATE_READY_WRITE_REVIEW_REQUIRED",
+    "DATA_COVERAGE_COMPLETE_BUT_RUNTIME_PROMOTION_NO_GO",
     "data-online candidate decision"
   );
-  expect(dataOnlineCandidateRun.output.rowPayloadCandidate?.accepted, true, "data-online candidate accepted");
-  expect(dataOnlineCandidateRun.output.rowPayloadCandidate?.rowCount, 178, "data-online candidate rowCount");
-  expect(dataOnlineCandidateRun.output.rowPayloadCandidate?.duplicateCount, 0, "data-online candidate duplicateCount");
-  expect(
-    dataOnlineCandidateRun.output.rowPayloadCandidate?.missingRequiredFieldCount,
-    0,
-    "data-online candidate missingRequiredFieldCount"
-  );
-  expect(
-    dataOnlineCandidateRun.output.rowPayloadCandidate?.forbiddenFieldCount,
-    0,
-    "data-online candidate forbiddenFieldCount"
-  );
-  expect(
-    dataOnlineCandidateRun.output.rowPayloadCandidate?.invalidTradeDateCount,
-    0,
-    "data-online candidate invalidTradeDateCount"
-  );
-  expect(
-    dataOnlineCandidateRun.output.rowPayloadCandidate?.invalidSourceMetadataCount,
-    0,
-    "data-online candidate invalidSourceMetadataCount"
-  );
-  expect(
-    dataOnlineCandidateRun.output.rowPayloadCandidate?.invalidOptionalNumberCount,
-    0,
-    "data-online candidate invalidOptionalNumberCount"
-  );
+  expect(dataOnlineCandidateRun.output.accepted, true, "data-online accepted");
+  expect(dataOnlineCandidateRun.output.coverage?.acceptedCoverageRows, 178, "data-online acceptedCoverageRows");
+  expect(dataOnlineCandidateRun.output.coverage?.insertedRows, 176, "data-online insertedRows");
+  expect(dataOnlineCandidateRun.output.coverage?.skippedExistingRows, 2, "data-online skippedExistingRows");
+  expect(dataOnlineCandidateRun.output.coverage?.missingRowsAfterWrite, 0, "data-online missingRowsAfterWrite");
+  expect(dataOnlineCandidateRun.output.runtimePromotionAllowedNow, false, "data-online promotion remains blocked");
   expect(dataOnlineCandidateRun.output.publicDataSource, "mock", "data-online candidate publicDataSource");
   expect(dataOnlineCandidateRun.output.scoreSource, "mock", "data-online candidate scoreSource");
-  expect(dataOnlineCandidateRun.output.twiiExecutionAllowedNow, false, "data-online candidate execution remains disabled");
 }
 
 function validateBadDateRun() {
