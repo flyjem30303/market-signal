@@ -7,6 +7,20 @@ type InternalDiagnosticsHomeProps = {
   };
 };
 
+type StatusCard = {
+  detail: string;
+  label: string;
+  tone: "active" | "blocked" | "hold";
+  value: string;
+};
+
+type ToolCard = {
+  description: string;
+  href: string;
+  name: string;
+  status: string;
+};
+
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
@@ -20,73 +34,48 @@ export const metadata: Metadata = {
 export default function InternalDiagnosticsHome({ searchParams }: InternalDiagnosticsHomeProps) {
   assertInternalDiagnosticsAccess(searchParams.token);
 
-  const cp3Status = [
+  const statusCards: StatusCard[] = [
     {
-      detail: "維持 mock score，不建立 real score 宣稱。",
+      detail: "Public pages must keep mock score output until the real-data promotion gate passes.",
       label: "Score source",
       tone: "hold",
       value: "mock"
     },
     {
-      detail: "歷史深度不足，不能進入 production model。",
-      label: "Source depth",
-      tone: "blocked",
-      value: "not_ready"
-    },
-    {
-      detail: "只做本地決策品質與內部工具，不排會、不授權。",
-      label: "Active route",
+      detail: "Row payload candidate review is ready, but Supabase write execution remains separate.",
+      label: "Data online",
       tone: "active",
-      value: "Option A"
+      value: "write review"
     },
     {
-      detail: "公開頁仍不可宣稱真實模型或真實資料訊號。",
-      label: "Public claim",
+      detail: "Internal tools are token-protected, noindex, and not part of the public Phase 1 surface.",
+      label: "Access",
+      tone: "active",
+      value: "protected"
+    },
+    {
+      detail: "No public real-data claim, scoreSource=real, SQL, or daily_prices mutation is allowed here.",
+      label: "Boundary",
       tone: "blocked",
-      value: "blocked"
+      value: "fail-closed"
     }
   ];
 
-  const executionMix = [
+  const tools: ToolCard[] = [
     {
-      detail: "優先改善首頁、晨報、週報、個股頁、資料狀態與閱讀路徑，讓 mock 階段也能像完整產品。",
-      label: "Runtime / UX",
-      owner: "PM",
-      share: 70,
-      state: "active"
-    },
-    {
-      detail: "只做 read-only 前置、schema 契約、環境檢查與授權清單；不連線、不跑 SQL、不寫入市場資料。",
-      label: "Supabase / SQL readiness",
-      owner: "Engineering",
-      share: 30,
-      state: "prep"
-    }
-  ];
-
-  const nextActions = [
-    "優先推進可見的內部工具與狀態呈現",
-    "每個切片前由 CEO/PM 重新判斷 Runtime 與資料準備線比例",
-    "預設 Runtime 70%、Supabase/SQL readiness 30%，但可依風險與卡點調整",
-    "只在進入遠端連線、SQL、真實市場資料、正式分數切換或公開宣稱時啟動重治理",
-    "保持 scoreSource=mock 與 public-ineligible，直到正式授權"
-  ];
-
-  const tools = [
-    {
-      description: "Inspect real raw market data beside mock score output and public release blockers.",
+      description: "Compare protected raw-market diagnostics with mock score output and public release blockers.",
       href: withToken("/internal/raw-market-preview?symbol=2330", searchParams.token),
       name: "Raw Market Preview",
       status: "internal-only"
     },
     {
-      description: "Inspect the CP3 Taiwan stock dry-run report while keeping scoreSource mock and public eligibility false.",
+      description: "Run the CP3 Taiwan stock dry-run report without writes or public source promotion.",
       href: withToken("/internal/cp3-dry-run?symbol=2330", searchParams.token),
       name: "CP3 Dry Run",
       status: "internal-only"
     },
     {
-      description: "Review ETF source scores, field gaps, and role-owned blockers before ingestion.",
+      description: "Review ETF source readiness before any ingestion or public ETF interpretation.",
       href: withToken("/internal/etf-source-readiness", searchParams.token),
       name: "ETF Source Readiness",
       status: "blocked"
@@ -98,56 +87,30 @@ export default function InternalDiagnosticsHome({ searchParams }: InternalDiagno
       <section className="panel">
         <p className="eyebrow">Internal Diagnostics</p>
         <h1>Review Console</h1>
-        <p>Protected internal review tools. Public data source switching, ETF ingestion, and real score claims remain blocked.</p>
+        <p>
+          Protected diagnostics for Phase 1 review. Public visitors should not see this surface, and all real-data
+          promotion remains fail-closed.
+        </p>
       </section>
 
       <section className="panel internal-status-panel">
         <div>
-          <p className="eyebrow">CP3 Operating State</p>
-          <h2>目前採低治理、高產出密度推進</h2>
+          <p className="eyebrow">Operating State</p>
+          <h2>Phase 1 protected review</h2>
           <p>
-            Option A remains active for local-only product and review tooling. Full role review is reserved for new risk
-            boundaries such as Supabase, SQL, real market data, authorization packets, or public claims.
+            Use these tools only to inspect readiness and blockers. They do not execute SQL, write Supabase, mutate
+            daily_prices, or change public runtime sources.
           </p>
         </div>
+
         <div className="internal-status-grid">
-          {cp3Status.map((item) => (
+          {statusCards.map((item) => (
             <article className={`internal-status-card ${item.tone}`} key={item.label}>
               <span>{item.label}</span>
               <strong>{item.value}</strong>
               <p>{item.detail}</p>
             </article>
           ))}
-        </div>
-        <section className="internal-execution-mix" aria-label="Dynamic Execution Mix">
-          <div>
-            <p className="panel-label">Dynamic Execution Mix</p>
-            <h3>目前採雙線並行，比例可滾動調整</h3>
-            <p>
-              CEO 不再固定單一路線；PM 以產品可見進展為主，Engineering 保持資料真實化準備線，但所有外部資料動作仍需獨立 gate。
-            </p>
-          </div>
-          <div className="internal-execution-bars">
-            {executionMix.map((lane) => (
-              <article className={`internal-execution-lane ${lane.state}`} key={lane.label}>
-                <div>
-                  <span>{lane.label}</span>
-                  <strong>{lane.share}%</strong>
-                </div>
-                <i style={{ ["--share" as string]: `${lane.share}%` }} />
-                <p>{lane.detail}</p>
-                <b>{lane.owner}</b>
-              </article>
-            ))}
-          </div>
-        </section>
-        <div className="internal-next-actions">
-          <p className="panel-label">Next CEO Actions</p>
-          <ul>
-            {nextActions.map((action) => (
-              <li key={action}>{action}</li>
-            ))}
-          </ul>
         </div>
       </section>
 
