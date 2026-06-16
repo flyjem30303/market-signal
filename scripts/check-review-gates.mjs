@@ -5951,6 +5951,11 @@ const checks = [
     name: "runtime-promotion-readiness-summary"
   },
   {
+    command: [node, "scripts/check-phase-1-runtime-promotion-final-blocker-contract.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-runtime-promotion-final-blocker-contract"
+  },
+  {
     command: [node, "scripts/check-phase-1-source-depth-acceptance-contract.mjs"],
     expectStatus: "ok",
     name: "phase-1-source-depth-acceptance-contract"
@@ -7393,6 +7398,7 @@ const phase1LiveCoreReviewGateNames = new Set([
   "phase-1-post-write-coverage-scoring-gate",
   "phase-1-data-online-go-no-go-status",
   "phase-1-runtime-promotion-preflight-status",
+  "phase-1-runtime-promotion-final-blocker-contract",
   "phase-1-runtime-promotion-review-packet",
   "phase-1-runtime-promotion-explicit-go-no-go-decision",
   "phase-1-runtime-promotion-operator-decision-gate",
