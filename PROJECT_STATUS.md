@@ -2,6 +2,50 @@
 
 ## Latest Effective Status - 2026-06-16
 
+### Latest Phase 1 Runtime Promotion Future Bounded Packet Readiness
+
+Status: `phase_1_runtime_promotion_future_bounded_packet_readiness_keep_mock`
+
+CEO decision:
+
+- Accept the operator decision gate as complete enough to define the next packet shape.
+- Keep current decision at `KEEP_MOCK_AND_MONITOR`.
+- Allow dry-run validation of field shape only; do not allow runtime mutation, source promotion, or score promotion.
+- Keep `publicDataSource=mock` and `scoreSource=mock`.
+
+PM completed:
+
+- Added `docs/PHASE_1_RUNTIME_PROMOTION_FUTURE_BOUNDED_PACKET_READINESS.md`.
+- Added `scripts/check-phase-1-runtime-promotion-future-bounded-packet-readiness.mjs`.
+- Added `check:phase-1-runtime-promotion-future-bounded-packet-readiness` to `package.json`.
+- Registered the future bounded packet readiness check in the focused review gate set.
+
+Required future fields before any separate bounded promotion packet:
+
+- `runtimeFlagName`
+- `runtimeFlagTargetValue`
+- `rollbackOwner`
+- `rollbackCommand`
+- `readbackCommand`
+- `productionSmokeCommand`
+- `postPromotionReviewOwner`
+- `publicCopyFallbackLine`
+- `freshnessFallbackLine`
+
+Verification:
+
+- `cmd.exe /c scripts\with-node20.cmd npm run check:phase-1-runtime-promotion-future-bounded-packet-readiness` passed.
+- `cmd.exe /c scripts\with-node20.cmd npm run check:review-gates` passed.
+- `cmd.exe /c scripts\with-node20.cmd npx tsc --noEmit --incremental false` passed.
+
+Boundary:
+
+- No SQL, Supabase read/write, staging row creation, `daily_prices` mutation, market-data fetch/store/commit, raw payload output, row payload output, source promotion, real score promotion, membership implementation, production env mutation, DNS change, Vercel mutation, or platform secret handling occurred.
+
+Next:
+
+Continue with `phase_1_runtime_promotion_dry_run_packet_or_keep_mock_monitoring`. The next safe engineering action is to validate dry-run field shape only, with no env mutation and no Supabase/runtime state change.
+
 ### Latest Runtime Promotion Readability Cleanup
 
 Status: `runtime_promotion_readiness_summary_readable_mock_boundary_verified`
