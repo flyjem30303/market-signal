@@ -2,6 +2,34 @@
 
 ## Latest Effective Status - 2026-06-16
 
+### Latest Operational GOAL v4 Alignment
+
+Status: `phase_1_operational_goal_v4_active`
+
+CEO decision:
+
+- Treat the app-level `/goal` blocked state as stale execution metadata for this thread, not as the current product blocker.
+- Use `docs/PM_BRIEF_RUNTIME_MAINLINE_GOAL_AND_WORKSTREAMS.md` as the active project-operational GOAL until a fresh app-level goal can be created.
+- Keep Phase 1 focused on a public/free index-lighting dashboard that users can understand quickly.
+- Keep Phase 2 membership as planning-only until Phase 1 public/free routes are stable.
+- Keep data realification moving in parallel, but do not let incomplete real-data promotion block a useful mock public Beta.
+- Preserve `publicDataSource=mock` and `scoreSource=mock` until a separate source, write/readback, rollback, and promotion review chain passes.
+
+PM completed:
+
+- Added `Active Operational GOAL v4` to `docs/PM_BRIEF_RUNTIME_MAINLINE_GOAL_AND_WORKSTREAMS.md`.
+- Rechecked the focused public route residue gate.
+- Rechecked the focused core public copy readability gate.
+
+Verification:
+
+- `cmd.exe /c scripts\with-node20.cmd npm run check:phase-1-public-route-user-facing-residue-gate` passed.
+- `cmd.exe /c scripts\with-node20.cmd npm run check:phase-1-core-public-copy-readable` passed.
+
+Next:
+
+Continue Phase 1 with larger coherent public-runtime slices: route health, first-screen comprehension, data/update boundary, non-investment-advice wording, and release-candidate smoke. Prepare the separate operator write execution review only when explicitly ready to enter the high-risk data-write stage.
+
 ### Latest Phase 1 row-payload candidate PM review
 
 Status: `phase_1_row_payload_candidate_pm_review_ready_for_separate_write_review`

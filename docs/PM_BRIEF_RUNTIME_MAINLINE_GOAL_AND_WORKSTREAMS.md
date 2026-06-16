@@ -4,6 +4,26 @@ Updated: 2026-06-16
 
 Status: `pm_brief_runtime_mainline_goal_ready`
 
+## Active Operational GOAL v4
+
+The Codex app-level `/goal` may still show an older blocked goal in this thread. PM should treat this document as the current project-operational GOAL until a fresh app-level goal can be created.
+
+Active project goal:
+
+- Deliver Phase 1 as a public/free index-lighting dashboard that is understandable and launchable before Phase 2 membership runtime work begins.
+- Keep the user promise simple: a visitor can understand market state in 30 seconds and decide whether to watch, review risk, or reduce exposure within 3 minutes.
+- Keep public pages free of development process residue: no PM/A1/A2/A3/A4 workflow labels, local paths, command packets, Git/GOAL text, Supabase operation packets, row payload language, or internal field names on user-facing routes.
+- Keep Phase 2 membership as planning only until Phase 1 public/free routes are stable.
+- Keep data realification moving in parallel, but do not let incomplete real-data promotion block a useful mock public Beta.
+- Preserve `publicDataSource=mock` and `scoreSource=mock` until source legality, candidate validation, bounded write/readback, rollback/quarantine, and promotion gates are separately accepted.
+- Prefer concrete product/runtime improvements over additional governance. Add or update documents only when they preserve context, remove a real blocker, or define a needed handoff.
+
+Fast execution rule:
+
+- Use focused checks after most slices.
+- Use full build and localhost smoke when a slice changes routing, public data flow, runtime rendering, or release-candidate status.
+- Stop only for external platform action, legal/source-rights decision, credential/secret input, irreversible data write, or real-data promotion.
+
 ## Chairman BRIEF Phase 1 / Phase 2 Acceleration Decision
 
 Phase 1 comes first.
