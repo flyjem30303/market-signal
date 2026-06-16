@@ -4561,6 +4561,11 @@ const checks = [
     name: "phase-1-runtime-promotion-bounded-attempt-pre-execution-packet-no-execution"
   },
   {
+    command: [node, "scripts/check-phase-1-runtime-promotion-explicit-operator-bounded-write-authorization-required.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-runtime-promotion-explicit-operator-bounded-write-authorization-required"
+  },
+  {
     command: [node, "scripts/check-phase-1-twii-bounded-write-operator-decision-quickstart.mjs"],
     expectStatus: "ok",
     name: "phase-1-twii-bounded-write-operator-decision-quickstart"
@@ -7342,6 +7347,7 @@ const phase1LiveCoreReviewGateNames = new Set([
   "phase-1-runtime-promotion-dry-run-only-proof-review",
   "phase-1-runtime-promotion-separate-bounded-write-readback-rollback-preparation",
   "phase-1-runtime-promotion-bounded-attempt-pre-execution-packet-no-execution",
+  "phase-1-runtime-promotion-explicit-operator-bounded-write-authorization-required",
   "beta-runtime-fast-health",
   "typescript"
 ]);
