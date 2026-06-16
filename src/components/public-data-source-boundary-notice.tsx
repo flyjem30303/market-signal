@@ -4,16 +4,16 @@ type PublicDataSourceBoundaryNoticeProps = {
 
 const contextCopy = {
   home: {
-    title: "目前是公開 Beta 示範資料",
-    lead: "首頁用來建立市場閱讀流程，協助使用者在短時間內理解市場氣氛、主要風險與資料更新狀態。"
+    title: "公開 Beta 使用示範資料",
+    lead: "首頁目前用示範資料呈現市場燈號流程，協助你先理解狀態、成因、資料時間與下一步觀察。"
   },
   briefing: {
-    title: "市場快報仍維持資訊整理定位",
-    lead: "快報用來整理市場狀態、風險來源與下一步觀察重點，不提供買賣指令或保證報酬。"
+    title: "晨報資料邊界",
+    lead: "晨報目前整理示範燈號、主要風險與下一步行動，正式資料啟用前請以觀察流程為主。"
   },
   stock: {
-    title: "標的頁目前是示範閱讀介面",
-    lead: "標的頁用來說明燈號、基本資料、風險來源與資料限制；正式資料上線前不宣稱即時報價。"
+    title: "標的頁資料邊界",
+    lead: "標的頁目前用示範資料呈現個股或 ETF 的燈號閱讀方式，尚未啟用正式資料與真實評分。"
   }
 } as const;
 
@@ -21,7 +21,7 @@ export function PublicDataSourceBoundaryNotice({ context }: PublicDataSourceBoun
   const copy = contextCopy[context];
 
   return (
-    <section className="public-data-source-boundary-notice" aria-label="資料來源邊界">
+    <section className="public-data-source-boundary-notice" aria-label="資料來源與使用邊界">
       <div className="public-data-source-boundary-notice__intro">
         <p className="eyebrow">資料邊界</p>
         <h2>{copy.title}</h2>
@@ -30,19 +30,19 @@ export function PublicDataSourceBoundaryNotice({ context }: PublicDataSourceBoun
       <ul>
         <li>
           <strong>不是即時報價</strong>
-          <span>Phase 1 仍以 mock 資料驗證閱讀流程，正式資料需要完成來源、品質、寫入回讀與回退檢查。</span>
+          <span>Phase 1 先用示範資料驗證閱讀流程，不能把目前燈號當成即時交易資訊。</span>
         </li>
         <li>
           <strong>不是投資建議</strong>
-          <span>燈號協助整理市場狀態與觀察順序，不代替使用者做投資決策。</span>
+          <span>燈號只協助觀察市場狀態、風險與資料更新時間，不提供買進、賣出或持有建議。</span>
         </li>
         <li>
-          <strong>正式資料仍需 gate</strong>
-          <span>只有合法來源、資料品質、寫入/readback、rollback 與 promotion gate 都通過後，才會切換真實資料。</span>
+          <strong>正式資料啟用條件</strong>
+          <span>只有合法來源、資料品質、寫入回讀、回復機制與公開切換審核都通過後，才會切換真實資料。</span>
         </li>
       </ul>
       <p className="public-data-source-boundary-notice__footnote">
-        若資料異常或尚未更新，前台應清楚顯示狀態，避免使用者誤判。
+        若資料狀態顯示延遲或未啟用，請先查看資料更新時間與風險提示，再決定是否繼續觀察。
       </p>
     </section>
   );

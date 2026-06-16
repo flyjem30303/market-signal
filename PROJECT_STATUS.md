@@ -2,6 +2,41 @@
 
 ## Latest Effective Status - 2026-06-16
 
+### Latest Phase 1 Public Visible Residue Cleanup
+
+Status: `phase_1_public_visible_residue_cleanup_repaired`
+
+CEO decision:
+
+- Treat the public visible residue gate failure as a real Phase 1 launch blocker because it showed internal wording (`promotion gate`) and missing public reading signals on Home, Briefing, and Stock routes.
+- Fix only user-facing copy and shared boundary wording; do not change data source, scoring, Supabase, write runner, routing architecture, or Phase 2 membership behavior.
+- Keep the public site honest: Phase 1 remains a mock/demo public Beta until separate data-source, write/readback, rollback, and promotion reviews pass.
+
+PM completed:
+
+- Rewrote `PublicDataSourceBoundaryNotice` into clean Traditional Chinese public copy.
+- Replaced public `promotion gate` wording with `公開切換審核`.
+- Added exact public reading signals for Home, Briefing, and Stock pages.
+- Preserved inaccessible Phase 2 routes: `/membership` and `/watchlist` remain 404.
+
+Verification:
+
+- `cmd.exe /c scripts\with-node20.cmd npm run build` passed.
+- `cmd.exe /c scripts\with-node20.cmd npm run check:phase-1-public-beta-public-visible-residue-cleanup` passed.
+- `cmd.exe /c scripts\with-node20.cmd npm run check:localhost-content-health` passed.
+- `cmd.exe /c scripts\with-node20.cmd npm run check:phase-1-public-route-user-facing-residue-gate` passed.
+- `cmd.exe /c scripts\with-node20.cmd npm run check:phase-1-public-beta-public-status-surface-alignment` passed with a temporary local `next start`.
+- `cmd.exe /c scripts\with-node20.cmd npm run check:public-beta-core-route-quick-proof` passed with a temporary local `next start`.
+- `cmd.exe /c scripts\with-node20.cmd npx tsc --noEmit --incremental false` passed.
+
+Boundary:
+
+- No SQL, Supabase read/write, staging row creation, `daily_prices` mutation, market-data fetch/store/commit, raw payload output, row payload output, source promotion, real score promotion, membership implementation, production env mutation, DNS change, Vercel mutation, or platform deploy occurred.
+
+Next:
+
+Continue Phase 1 release-candidate verification. The remaining high-risk path is the separate operator write execution review; keep it out of public runtime work until explicitly authorized.
+
 ### Latest Phase 1 Core Route Reading Contract Repair
 
 Status: `phase_1_core_route_reading_contract_repaired`

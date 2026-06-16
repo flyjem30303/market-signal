@@ -20,6 +20,7 @@ export function StockRuntimeAtAGlance({ scoringLabel, snapshot }: StockRuntimeAt
         <p>
           目前使用示範資料呈現流程：30 秒內看懂標的狀態，3 分鐘內確認風險、資料更新時間與下一步觀察。
         </p>
+        <p>個股燈號 / 一眼判讀：先看綜合分數與風險分數，再確認資料時間與使用邊界。</p>
         <p className="eyebrow">標的 30 秒快讀</p>
         <h2>
           {snapshot.asset.symbol} {snapshot.asset.name}: {snapshot.signal.title}

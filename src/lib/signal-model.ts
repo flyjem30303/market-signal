@@ -113,7 +113,7 @@ const signalColors: Record<SignalKey, string> = {
 export const publicSignalDataDisclosureNotes = {
   dataMode: "示範資料",
   runtimeBoundary:
-    "Phase 1 使用 mock 資料建立閱讀流程；正式資料需要來源權利、品質檢查、寫入回讀與 promotion gate 全部通過後才會啟用。"
+    "Phase 1 使用示範資料建立閱讀流程；正式資料需要來源權利、品質檢查、寫入回讀與公開切換審核全部通過後才會啟用。"
 } as const;
 
 export function signalColor(key: SignalKey) {

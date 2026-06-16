@@ -39,6 +39,7 @@ export default async function BriefingPage() {
         <p>
           30 秒看懂今日市場氣氛，3 分鐘行動判斷：先看燈號，再看主要成因、資料更新時間與下一步觀察。
         </p>
+        <p>30 秒看懂市場燈號；下一步行動：確認風險最高標的、資料邊界與是否需要加強觀察。</p>
         <p className="eyebrow">市場快報</p>
         <h1>3 分鐘把市場燈號拆成原因</h1>
         <p>

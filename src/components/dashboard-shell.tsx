@@ -140,6 +140,9 @@ function HomeFirstScreenDecisionSummary({ market }: { market: SignalSnapshot }) 
       <p>
         30 秒看懂市場狀態，3 分鐘複核原因、資料時間與下一步。這裡只協助判斷是否觀察、複核或降低風險，不提供買賣建議。
       </p>
+      <p>
+        30 秒看懂今天的市場狀態；重要提醒：目前為示範資料，請先確認資料時間與風險來源。
+      </p>
       <p className="eyebrow">市場總覽快速判讀</p>
       <p className="eyebrow">30 秒快讀</p>
       <h2>
@@ -185,6 +188,7 @@ function StockRuntimeAtAGlance({ snapshot }: { snapshot: SignalSnapshot }) {
       <p>
         30 秒看懂標的狀態，3 分鐘複核風險、資料時間與下一步觀察。分數是示範燈號，正式資料與真實評分尚未啟用。
       </p>
+      <p>個股燈號 / 一眼判讀：先看綜合分數與風險分數，再確認資料時間與使用邊界。</p>
       <p className="eyebrow">標的 30 秒快讀</p>
       <h2>
         {snapshot.asset.symbol} {snapshot.asset.name}: {snapshot.signal.title}
