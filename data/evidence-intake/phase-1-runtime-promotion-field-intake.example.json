@@ -1,0 +1,21 @@
+{
+  "packetMode": "phase_1_runtime_promotion_dry_run_packet",
+  "packetLabel": "EXAMPLE_ONLY_NOT_FOR_OPERATOR_USE",
+  "exampleOnly": true,
+  "operatorDecision": "RUN_PROMOTION_DRY_RUN_ONLY",
+  "promotionAllowedNow": false,
+  "dryRunOnlyAllowedNow": true,
+  "publicDataSource": "mock",
+  "scoreSource": "mock",
+  "requiredFieldCompleteness": "complete",
+  "runtimeFlagName": "EXAMPLE_ONLY_PUBLIC_DATA_SOURCE_FLAG_NAME_REVIEWED_SHAPE",
+  "runtimeFlagTargetValue": "EXAMPLE_ONLY_TARGET_VALUE_FOR_LATER_REVIEWED_GATE",
+  "rollbackOwner": "EXAMPLE_ONLY_A3_PM_ROLLBACK_OWNER_REVIEWED_SHAPE",
+  "rollbackCommand": "EXAMPLE_ONLY_REVIEWED_ROLLBACK_STEP_RESTORE_MOCK_SOURCE_NO_EXECUTION",
+  "readbackCommand": "EXAMPLE_ONLY_REVIEWED_READBACK_STEP_CHECK_PUBLIC_SOURCE_STATE_NO_SECRETS",
+  "productionSmokeCommand": "EXAMPLE_ONLY_REVIEWED_SMOKE_STEP_VISIT_PUBLIC_ROUTES_NO_SECRETS",
+  "postPromotionReviewOwner": "EXAMPLE_ONLY_CEO_PM_POST_PROMOTION_REVIEW_OWNER",
+  "publicCopyFallbackLine": "EXAMPLE_ONLY_PUBLIC_COPY_FALLBACK_KEEP_DEMO_BOUNDARY_NO_ADVICE",
+  "freshnessFallbackLine": "EXAMPLE_ONLY_FRESHNESS_COPY_DELAYED_OR_UNAVAILABLE_NO_REALTIME_CLAIM",
+  "stopLine": "Example-only filled packet for local shape validation. Do not execute, mutate runtime flags, connect to Supabase, run SQL, write data, or promote publicDataSource/scoreSource from this file."
+}

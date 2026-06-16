@@ -2,6 +2,38 @@
 
 ## Latest Effective Status - 2026-06-16
 
+### Latest Runtime Promotion Example-Only Filled Packet
+
+Status: `phase_1_runtime_promotion_field_intake_example_ready_no_execution`
+
+CEO decision:
+
+- Provide a filled packet example so PM/A2/A3 can see the required shape before supplying real reviewed values.
+- Mark every filled value as `EXAMPLE_ONLY` so it cannot be mistaken for production configuration.
+- Reuse the existing dry-run runner to prove the example is shape-ready without executing any mutation.
+- Keep `publicDataSource=mock` and `scoreSource=mock`.
+
+PM completed:
+
+- Added `data/evidence-intake/phase-1-runtime-promotion-field-intake.example.json`.
+- Added `scripts/check-phase-1-runtime-promotion-field-intake-example.mjs`.
+- Added `check:phase-1-runtime-promotion-field-intake-example` to `package.json`.
+- Registered `phase-1-runtime-promotion-field-intake-example` in the focused review gate set.
+
+Current behavior:
+
+- The example packet fills all nine required fields with explicit `EXAMPLE_ONLY` values.
+- The dry-run runner returns `phase_1_runtime_promotion_dry_run_packet_shape_ready_no_execution`.
+- The example does not authorize a mutation and must not be used as an operator packet.
+
+Boundary:
+
+- No SQL, Supabase read/write, staging row creation, `daily_prices` mutation, market-data fetch/store/commit, raw payload output, row payload output, source promotion, real score promotion, membership implementation, production env mutation, DNS change, Vercel mutation, or platform secret handling occurred.
+
+Next:
+
+Continue with `phase_1_runtime_promotion_operator_review_before_any_mutation` only after a separate reviewed non-example packet supplies real non-secret values. Until then, continue Phase 1 mock runtime work.
+
 ### Latest Runtime Promotion Field Intake Template
 
 Status: `phase_1_runtime_promotion_field_intake_template_ready_keep_mock`
