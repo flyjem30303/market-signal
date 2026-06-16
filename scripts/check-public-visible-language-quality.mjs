@@ -1,6 +1,9 @@
 import fs from "node:fs";
+import { spawn, spawnSync } from "node:child_process";
 
+const node = process.execPath;
 const baseUrl = process.env.LOCALHOST_BASE_URL ?? "http://localhost:3000";
+const shouldManageServer = process.env.LOCALHOST_HEALTH_MANAGE_SERVER !== "false";
 const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 const checkerPath = "scripts/check-public-visible-language-quality.mjs";
@@ -92,6 +95,8 @@ const forbiddenVisibleFragments = [
 ];
 
 const publicResults = [];
+const managedServer = shouldManageServer && !(await canFetchRoot()) ? await startTemporaryServer() : null;
+
 for (const route of publicRoutes) {
   publicResults.push(await checkPublicRoute(route));
 }
@@ -116,6 +121,14 @@ console.log(
     {
       baseUrl,
       blocked,
+      managedServer: managedServer
+        ? {
+            command: managedServer.commandLabel,
+            started: true
+          }
+        : {
+            started: false
+          },
       checkedInaccessibleRoutes: inaccessibleRoutes.length,
       checkedPublicRoutes: publicRoutes.length,
       checkedPublicSourceFiles: publicSourceFiles.length,
@@ -126,6 +139,7 @@ console.log(
   )
 );
 
+if (managedServer) stopManagedServer(managedServer.child);
 if (status !== "ok") process.exitCode = 1;
 
 async function checkPublicRoute(route) {
@@ -234,4 +248,70 @@ function findBadTextMarkers(text) {
     markers.push("legacy-mojibake-cjk-run");
   }
   return markers;
+}
+
+async function startTemporaryServer() {
+  const hasProductionBuild = fs.existsSync(".next/BUILD_ID");
+  const args = hasProductionBuild
+    ? ["node_modules/next/dist/bin/next", "start", "--hostname", "localhost", "--port", "3000"]
+    : ["node_modules/next/dist/bin/next", "dev", "--hostname", "localhost", "--port", "3000"];
+  const child = spawn(node, args, {
+    cwd: process.cwd(),
+    env: normalizeEnv(process.env),
+    stdio: "ignore",
+    windowsHide: true
+  });
+
+  const ready = await waitForRoot();
+  if (!ready) {
+    child.kill();
+    throw new Error("temporary localhost server did not become ready");
+  }
+
+  return {
+    child,
+    commandLabel: hasProductionBuild ? "next start" : "next dev"
+  };
+}
+
+async function waitForRoot() {
+  for (let attempt = 1; attempt <= 30; attempt += 1) {
+    if (await canFetchRoot()) return true;
+    await delay(1000);
+  }
+
+  return false;
+}
+
+async function canFetchRoot() {
+  try {
+    const response = await fetch(new URL("/", baseUrl), { cache: "no-store" });
+    return response.status === 200;
+  } catch {
+    return false;
+  }
+}
+
+function delay(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function normalizeEnv(env) {
+  const next = { ...env };
+  if (next.Path && next.PATH) {
+    delete next.PATH;
+  }
+  return next;
+}
+
+function stopManagedServer(child) {
+  if (process.platform === "win32") {
+    spawnSync("taskkill", ["/PID", String(child.pid), "/T", "/F"], {
+      stdio: "ignore",
+      windowsHide: true
+    });
+    return;
+  }
+
+  child.kill();
 }
