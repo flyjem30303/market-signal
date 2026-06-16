@@ -12857,3 +12857,16 @@ Prepare the separate bounded write/readback/rollback preparation packet. It must
 - Guardrails: `boundedAttemptExecutableNow=false`, `writeGateExecutableNow=false`, `runnerExecutableNow=false`, `promotionAllowedNow=false`, `publicDataSource=mock`, `scoreSource=mock`.
 - Hard stops: SQL execution, SQL generation, Supabase client import, Supabase read/write, Supabase connection, staging-row creation, `daily_prices` mutation, market-data fetch, market-data ingestion, candidate-row acceptance, raw payload output, row payload output, stock-id payload output, secret or environment value output, production environment mutation, runtime flag mutation, `publicDataSource=supabase`, `scoreSource=real`, real-time precision claim, complete-market coverage claim, investment-advice claim.
 - Next route: `await_real_accepted_authorization_and_fresh_pm_go_no_go_or_keep_mock`.
+# Latest Runtime Promotion Real Accepted Authorization External Intake Record
+
+- Date: 2026-06-16
+- Status: `phase_1_runtime_promotion_real_accepted_authorization_external_intake_record_no_execution_ready`
+- CEO decision: `PREPARE_EXTERNAL_AUTHORIZATION_INTAKE_KEEP_MOCK`
+- Artifact: `data/evidence-intake/phase-1-runtime-promotion-real-accepted-authorization-external-intake-record-no-execution.json`
+- Contract: `docs/PHASE_1_RUNTIME_PROMOTION_REAL_ACCEPTED_AUTHORIZATION_EXTERNAL_INTAKE_RECORD_NO_EXECUTION.md`
+- Checker: `scripts/check-phase-1-runtime-promotion-real-accepted-authorization-external-intake-record-no-execution.mjs`
+- Scope: defines the only allowed path for a future real accepted bounded-write authorization response: validate an external local JSON file by path, never commit the filled accepted response.
+- Current state: `externalLocalPathOnly=true`, `committedAcceptedAuthorizationResponseAllowed=false`, `acceptedAuthorizationResponsePresentNow=false`, `freshPmGoNoGoForExecutionPresentNow=false`.
+- Guardrails: default committed template remains rejected; `boundedAttemptExecutableNow=false`, `writeGateExecutableNow=false`, `runnerExecutableNow=false`, `promotionAllowedNow=false`, `publicDataSource=mock`, `scoreSource=mock`.
+- Hard stops: SQL execution, SQL generation, Supabase client import, Supabase read/write, Supabase connection, staging-row creation, `daily_prices` mutation, market-data fetch, market-data ingestion, candidate-row acceptance, raw payload output, row payload output, stock-id payload output, secret or environment value output, production environment mutation, runtime flag mutation, `publicDataSource=supabase`, `scoreSource=real`, real-time precision claim, complete-market coverage claim, investment-advice claim.
+- Next route: `await_external_local_authorization_response_file_or_keep_mock`.
