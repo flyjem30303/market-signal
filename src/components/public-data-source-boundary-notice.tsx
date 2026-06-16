@@ -4,16 +4,16 @@ type PublicDataSourceBoundaryNoticeProps = {
 
 const contextCopy = {
   home: {
-    title: "目前使用示範資料呈現市場燈號",
-    lead: "Phase 1 先讓使用者看懂燈號、風險與觀察順序。正式資料尚未切換前，畫面會清楚標示資料狀態。"
+    title: "目前使用示範資料，正式市場資料尚未啟用",
+    lead: "首頁先示範市場燈號的閱讀方式；正式資料來源、覆蓋率、品質檢查與回讀流程完成前，不宣稱真實即時資料。"
   },
   briefing: {
-    title: "今日簡報仍以示範資料輔助閱讀",
-    lead: "簡報用來說明市場狀態的閱讀流程；正式資料來源、覆蓋率與寫入檢查完成後，才會升級為真實資料。"
+    title: "市場快報先說清楚資料邊界",
+    lead: "快報用來整理市場燈號、原因與下一步觀察。正式資料尚未啟用前，所有分數都是示範分數。"
   },
   stock: {
-    title: "標的頁目前不是即時報價",
-    lead: "個股與 ETF 頁面先呈現燈號邏輯、風險判讀與資料狀態，不提供即時交易價格或買賣建議。"
+    title: "標的頁使用示範資料",
+    lead: "個股、ETF 與指數頁目前用示範資料呈現閱讀順序；正式資料上線前，不提供買賣建議或即時報價。"
   }
 } as const;
 
@@ -23,26 +23,26 @@ export function PublicDataSourceBoundaryNotice({ context }: PublicDataSourceBoun
   return (
     <section className="public-data-source-boundary-notice" aria-label="資料來源與使用邊界">
       <div className="public-data-source-boundary-notice__intro">
-        <p className="eyebrow">資料來源與覆蓋</p>
+        <p className="eyebrow">資料邊界</p>
         <h2>{copy.title}</h2>
         <p>{copy.lead}</p>
       </div>
       <ul>
         <li>
-          <strong>先看狀態，不看秒級報價</strong>
-          <span>網站目標是協助理解市場氛圍與風險位置，不取代券商報價或交易系統。</span>
+          <strong>資料不是即時報價</strong>
+          <span>Phase 1 以示範資料說明產品體驗；正式資料需通過來源權利、欄位契約、品質檢查與回讀驗證。</span>
         </li>
         <li>
-          <strong>資料異常會明確標示</strong>
-          <span>若資料尚未更新、覆蓋不足或仍在驗證，前台會保留示範資料並顯示邊界說明。</span>
+          <strong>分數只輔助觀察</strong>
+          <span>市場分數與風險分數用來排序觀察重點，不代表買賣指令，也不保證未來結果。</span>
         </li>
         <li>
-          <strong>不提供投資建議</strong>
-          <span>所有燈號與分數僅作資訊整理與風險辨識，使用者仍需自行判斷與承擔風險。</span>
+          <strong>非投資建議</strong>
+          <span>使用者需自行承擔風險，並依自身狀況確認資料是否符合使用目的。</span>
         </li>
       </ul>
       <p className="public-data-source-boundary-notice__footnote">
-        真實資料升級需要合法來源、資料品質、寫入檢查、讀回驗證、回復路徑與公開揭露都通過後才會開啟。
+        若資料延遲、來源異常或品質不足，前台應降級顯示並清楚揭露，不讓使用者誤以為資料已正式上線。
       </p>
     </section>
   );

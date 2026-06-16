@@ -9,29 +9,29 @@ import { getMarketSignalSourceStatus } from "@/lib/repositories/market-signal-re
 
 export const metadata: Metadata = {
   title: "方法說明",
-  description: "說明指數燈號如何把市場資料整理成燈號、分數、風險提示與資料狀態。"
+  description: "說明指數燈號如何整理市場分數、風險分數、資料品質與非投資建議邊界。"
 };
 
 const methodModules = [
   [
     "市場燈號",
-    "把市場狀態整理成偏多、觀望、警戒或高風險等易讀狀態。",
-    "讓使用者先知道目前市場氛圍，而不是直接陷入大量數字。"
+    "把多個市場觀察項目整理成紅、黃、綠等可理解狀態。",
+    "幫助使用者先判斷市場氛圍，再決定是否需要深入觀察。"
   ],
   [
     "市場分數",
-    "用 0 到 100 的分數呈現趨勢、動能與風險的綜合狀態。",
-    "分數越高代表狀態越強，但仍需搭配風險分數與資料狀態一起看。"
+    "以 0 到 100 呈現示範資料中的趨勢、動能與結構強弱。",
+    "分數較高代表可列入觀察，但仍需搭配風險分數與更新時間。"
   ],
   [
     "風險分數",
-    "整理波動、回檔、資料異常與市場壓力訊號。",
-    "風險分數越高，越應降低單一訊號判斷，改以觀察與複核為主。"
+    "整理波動、偏離、資料品質與其他風險提示。",
+    "風險分數升高時，重點是加強確認，不是做出單一方向判斷。"
   ],
   [
-    "資料狀態",
-    "標示資料來源、更新時間、覆蓋率與目前是否仍為示範資料。",
-    "若資料尚未驗證或覆蓋不足，前台不會宣稱真實資料已上線。"
+    "資料品質",
+    "標示目前資料是否為示範資料、來源是否完成確認、更新時間是否可靠。",
+    "正式資料未啟用前，所有分數都只能用來示範閱讀順序。"
   ]
 ] as const;
 
@@ -43,14 +43,15 @@ export default async function MethodologyPage() {
     <main className="page-shell">
       <PageViewTracker eventName="methodology_page_viewed" payload={{ page: "methodology" }} />
       <section className="hero">
-        <p className="eyebrow">燈號方法</p>
-        <h1>燈號先回答市場狀態，再提醒風險與資料邊界</h1>
+        <p className="eyebrow">方法說明</p>
+        <h1>把市場資料整理成可閱讀、可追蹤、可回看的燈號</h1>
         <p>
-          指數燈號不是把指標堆在一起，而是把市場資訊整理成「現在狀態、主要原因、下一步觀察」。
-          目標是讓一般投資者能用 30 秒看懂狀態，再用 3 分鐘確認原因、風險與資料狀態。
+          指數燈號不是投資建議，也不是即時報價。它的目的，是把市場狀態整理成一般投資者能在 30 秒內理解的順序：
+          先看市場燈號，再看市場分數、風險分數、資料品質與下一步觀察。
         </p>
         <p className="runtime-boundary-line">
-          Phase 1 使用示範資料驗證產品流程；真實資料上線前，仍需通過來源權利、資料品質與切換門檻。
+          Phase 1 使用示範資料；正式市場資料、完整覆蓋率與真實分數必須通過來源、品質、回讀與揭露 gate 後才能啟用。
+          本頁為非投資建議。
         </p>
       </section>
 
@@ -59,12 +60,12 @@ export default async function MethodologyPage() {
       <TrustRuntimeBoundaryNotice context="methodology" />
 
       <section className="panel method-section">
-        <h2>核心模組</h2>
-        <div className="method-table" role="table" aria-label="核心模組">
+        <h2>核心指標</h2>
+        <div className="method-table" role="table" aria-label="核心指標">
           <div className="method-row method-head" role="row">
-            <span>模組</span>
+            <span>項目</span>
             <span>用途</span>
-            <span>使用者價值</span>
+            <span>閱讀方式</span>
           </div>
           {methodModules.map(([name, purpose, value]) => (
             <div className="method-row" role="row" key={name}>
@@ -77,9 +78,9 @@ export default async function MethodologyPage() {
       </section>
 
       <section className="panel method-links">
-        <h2>相關閱讀</h2>
-        <TrackedLink className="text-link" eventName="trust_link_clicked" href="/disclaimer" label="查看免責聲明" payload={{ area: "methodology" }}>
-          查看免責聲明
+        <h2>延伸閱讀</h2>
+        <TrackedLink className="text-link" eventName="trust_link_clicked" href="/disclaimer" label="查看風險聲明" payload={{ area: "methodology" }}>
+          查看風險聲明
         </TrackedLink>
         <TrackedLink className="text-link" eventName="trust_link_clicked" href="/" label="回到市場總覽" payload={{ area: "methodology" }}>
           回到市場總覽
