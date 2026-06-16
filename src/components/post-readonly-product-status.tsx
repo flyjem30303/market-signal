@@ -8,19 +8,19 @@ type PostReadonlyProductStatusProps = {
 
 const contextCopy = {
   briefing: {
-    body: "這裡呈現的是資料閉環後的上線前狀態：資料覆蓋已完成，但公開頁仍需通過 promotion gate 才能改讀真實資料。",
+    body: "資料覆蓋已完成，現在的主線不是再補 row，而是確認真實資料上線前的品質、更新時間、來源揭露與回退邊界。",
     label: "資料與 runtime 狀態",
-    title: "資料覆蓋已完成，準備進入真實資料切換前檢查"
+    title: "資料補齊完成，仍待 promotion gate"
   },
   home: {
-    body: "首頁目前可作為 Phase 1 公開體驗審核；燈號與分數仍是 mock，避免在切換前誤導使用者。",
-    label: "首頁資料狀態",
-    title: "可讀的市場儀表站，真實資料切換仍待 gate"
+    body: "首頁仍以安全的 mock 燈號呈現。後台資料補齊已完成，但公開網站要等 promotion gate 通過後才會切換成真實資料來源。",
+    label: "公開資料狀態",
+    title: "目前可看市場狀態，真實資料切換仍受控"
   },
   stock: {
-    body: "個股頁已可承載 Phase 1 觀察流程；切 real 前仍需完成品質、延遲、回退與來源揭露。",
-    label: "標的資料狀態",
-    title: "資料覆蓋完成，尚未切換正式分數"
+    body: "這檔商品目前仍用 mock score 呈現。資料覆蓋完成後，下一步是確認品質、更新時間、來源揭露與公開文案，不急著切 real。",
+    label: "個股資料狀態",
+    title: "資料補齊完成，但尚未升級為 real score"
   }
 } as const;
 
@@ -55,28 +55,28 @@ export function PostReadonlyProductStatus({ context, symbol }: PostReadonlyProdu
         <p>{state.userFacingSummary}</p>
       </div>
       <article className="ready">
-        <span>唯讀證據</span>
+        <span>本機證據</span>
         <strong>{state.objectsReachable} 個 runtime 物件可讀</strong>
         <p>{state.acceptedEvidence}</p>
       </article>
       <article className="ready">
-        <span>資料覆蓋</span>
+        <span>資料覆蓋率</span>
         <strong>
-          已完成 {state.rowCoverage.observedRows}/{state.rowCoverage.expectedRows} rows
+          已補齊 {state.rowCoverage.observedRows}/{state.rowCoverage.expectedRows} rows
         </strong>
         <p>
           missingRows={state.rowCoverage.missingRows}；{state.rowCoverage.summary}
         </p>
       </article>
       <article className="hold">
-        <span>公開邊界</span>
+        <span>公開資料邊界</span>
         <strong>publicDataSource={state.publicDataSource}; scoreSource={state.scoreSource}</strong>
         <p>{state.stopLine}</p>
       </article>
       <article className="hold">
-        <span>下一道 gate</span>
+        <span>下一個 gate</span>
         <strong>{state.nextGate}</strong>
-        <p>資料覆蓋完成不會自動啟用 scoreSource=real；下一步先完成 promotion preflight。</p>
+        <p>資料覆蓋已不再是 blocker；下一步只關閉 promotion preflight 的必要條件。</p>
       </article>
       <div className="post-readonly-promotion-summary" aria-label="Runtime promotion readiness summary">
         <article className="hold">
@@ -84,7 +84,7 @@ export function PostReadonlyProductStatus({ context, symbol }: PostReadonlyProdu
           <strong>{promotion.headline}</strong>
           <p>
             ready {promotion.readinessCounts.ready}/{promotion.readinessCounts.total}；needs review{" "}
-            {promotion.readinessCounts.needsReview}；blocked {promotion.readinessCounts.blocked}。
+            {promotion.readinessCounts.needsReview}；blocked {promotion.readinessCounts.blocked}
           </p>
           <p>{promotion.stopLine}</p>
         </article>
@@ -100,9 +100,9 @@ export function PostReadonlyProductStatus({ context, symbol }: PostReadonlyProdu
         ))}
         <article className="blocked">
           <span>No-go actions</span>
-          <strong>目前仍不可切 real</strong>
+          <strong>目前不可直接切 real</strong>
           <p>{promotion.noGoActions.join("；")}</p>
-          <p>這是上線前安全邊界，不是新的資料 blocker。</p>
+          <p>這些限制不是退回資料補齊，而是避免公開網站誤導使用者。</p>
         </article>
       </div>
     </section>

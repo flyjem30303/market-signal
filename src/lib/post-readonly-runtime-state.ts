@@ -25,8 +25,8 @@ export function getPostReadonlyRuntimeState(): PostReadonlyRuntimeState {
 
   return {
     acceptedEvidence: evidence.acceptedScope,
-    headline: "資料覆蓋已補齊，公開網站仍維持 mock 安全模式",
-    nextGate: "進入 runtime promotion preflight：確認品質、延遲、回退與揭露後才可切換 real",
+    headline: "資料覆蓋已補齊，但公開網站仍維持 mock 安全模式",
+    nextGate: "進入 runtime promotion preflight：先完成品質、更新時間、來源揭露、回退與公開文案覆核，才可討論 real promotion。",
     objectsReachable: evidence.objects.length,
     publicDataSource: "mock",
     rowCoverage: {
@@ -36,13 +36,13 @@ export function getPostReadonlyRuntimeState(): PostReadonlyRuntimeState {
       observedRows: 360,
       reason: "aggregate_count_complete",
       summary:
-        "Phase 1 目標範圍的 TWII、0050、006208 日資料覆蓋已完成 readback；這只代表資料面可進入 promotion review，不代表前台已切真實資料。"
+        "Phase 1 目標範圍已完成 360/360 筆覆蓋與 readback；這代表資料缺口已關閉，但尚不代表公開 runtime 可以切到真實資料。"
     },
     scoreSource: "mock",
     state: "coverage_complete_mock_only",
     stopLine:
-      "在 promotion gate 通過前，不切換 publicDataSource=supabase、不設定 scoreSource=real，也不宣稱即時真實資料或投資建議。",
+      "在 promotion gate 通過前，不切換 publicDataSource=supabase、不切換 scoreSource=real，也不宣稱即時、完整市場覆蓋或投資建議。",
     userFacingSummary:
-      "資料覆蓋已完成後台驗證；目前公開頁仍使用 mock 燈號，下一步是做真實資料切換前的品質、延遲、回退與風險揭露檢查。"
+      "目前可用於產品展示與本機驗證；公開頁面仍以 mock 燈號呈現，避免使用者把尚未完成 promotion 的資料誤認為正式投資訊號。"
   };
 }
