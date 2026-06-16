@@ -12690,3 +12690,27 @@ No SQL, Supabase read/write, staging-row creation, `daily_prices` mutation, mark
 Next:
 
 Prepare the dry-run-only authorized no-execution route that consumes this validator output without changing runtime flags, writing data, or promoting the public data source.
+
+# Latest Runtime Promotion Dry-Run-Only Authorized Route
+
+Status: `phase_1_runtime_promotion_dry_run_only_authorized_route_ready_no_execution`
+
+Date: 2026-06-16
+
+CEO decision: `PREPARE_DRY_RUN_ONLY_ROUTE_KEEP_MOCK`.
+
+What changed:
+
+- Added `data/evidence-intake/phase-1-runtime-promotion-dry-run-only-authorized-route.json`.
+- Added `docs/PHASE_1_RUNTIME_PROMOTION_DRY_RUN_ONLY_AUTHORIZED_ROUTE.md`.
+- Added a focused checker that verifies the dry-run-only route consumes the accepted operator authorization response intake.
+- The route records `inputOperatorOutcome=APPROVE_DRY_RUN_ONLY` while keeping `promotionAllowedNow=false`, `boundedAttemptPrepAllowedNow=false`, `runnerExecutableNow=false`, `publicDataSource=mock`, and `scoreSource=mock`.
+- The next route is `phase_1_runtime_promotion_dry_run_only_preparation_packet_no_execution`.
+
+Boundary:
+
+No SQL, Supabase read/write, staging-row creation, `daily_prices` mutation, market-data fetch, raw payload output, row payload output, secret output, runtime flag mutation, production env mutation, `publicDataSource=supabase`, or `scoreSource=real` occurred.
+
+Next:
+
+Prepare the dry-run-only preparation packet. It should describe local no-write proof only and must stay separate from any bounded write/readback/rollback attempt.
