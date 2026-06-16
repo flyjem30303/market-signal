@@ -11867,3 +11867,32 @@ Next:
 Provide a sanitized row-payload candidate artifact path and run:
 
 `cmd.exe /c npm run run:phase-1-write-runner-implementation-candidate -- --candidate-artifact <sanitized-row-payload-candidate-path>`
+
+# Latest CEO operational GOAL adjustment for Phase 1 convergence
+
+Status: `phase_1_operational_goal_adjusted_mock_public_beta_first`
+
+Date: 2026-06-16
+
+CEO decision: `SHIP_PHASE_1_MOCK_PUBLIC_BETA_WHILE_A1_CONTINUES_ROW_PAYLOAD_READINESS`.
+
+What changed:
+
+- Updated `docs/PM_BRIEF_RUNTIME_MAINLINE_GOAL_AND_WORKSTREAMS.md` so the active operational GOAL is now `phase_1_mock_public_beta_launchable_loop`.
+- Clarified that the tool-level `/goal` may remain stale or blocked, but PM should not spend capacity fighting the tool state when the project has a clear operational GOAL in the repo.
+- Clarified that Phase 1 public mock Beta remains the mainline: readable public routes, mock/demo data boundary, non-investment-advice copy, route health, public deployment smoke, and operator-safe launch evidence.
+- Clarified that real-data promotion remains a separate later decision after sanitized row-payload artifact validation, bounded write/readback, rollback/quarantine, and mock-to-real promotion review pass.
+- Clarified that the current A1 blocker is writable sanitized row-payload readiness for `TWII`, `0050`, and `006208`. Existing aggregate artifacts are accepted, but they are not writable row payload artifacts.
+
+Verification:
+
+- Local inspection confirmed `data/candidates/tw-equity-staging-candidate.json` covers `2330`, `2382`, and `2308`, not the validator-required `TWII`, `0050`, and `006208` row-payload set.
+- PM did not generate a fake row-payload artifact from mismatched symbols.
+
+Boundary:
+
+No SQL, Supabase read/write, staging rows, `daily_prices` mutation, raw market-data fetch/store/commit, source promotion, score promotion, public real-data claim, membership implementation, production env mutation, DNS change, or Vercel dashboard mutation occurred. Runtime remains `publicDataSource=mock` and `scoreSource=mock`.
+
+Next:
+
+PM mainline continues Phase 1 mock public Beta launch readiness and remote/public smoke checks. A1 should provide a valid local or external sanitized row-payload candidate artifact path for `TWII`, `0050`, and `006208`; PM will then run the validator and PM review chain before any separate write execution decision.

@@ -1,6 +1,6 @@
 # PM BRIEF Runtime Mainline Goal And Workstreams
 
-Updated: 2026-06-14
+Updated: 2026-06-16
 
 Status: `pm_brief_runtime_mainline_goal_ready`
 
@@ -18,6 +18,13 @@ Updated CEO direction: Phase 2 is not cancelled. It becomes a small parallel pla
 
 The mainline objective is `phase_1_public_free_index_dashboard_usable_loop`.
 
+Current operational GOAL:
+
+- Ship the Phase 1 mock public Beta as a readable, honest, public free index-lighting site.
+- Keep the public site useful with demo/mock data while real-data readiness continues in A1.
+- Do not let Phase 2 membership, broad visual polish, or missing writable row payload artifacts block the Phase 1 mock public Beta.
+- Treat real-data promotion as a separate later decision after sanitized row-payload artifact validation, bounded write/readback, rollback/quarantine, and mock-to-real promotion review all pass.
+
 PM should improve the product in larger coherent slices:
 
 - market mood in 30 seconds
@@ -34,7 +41,7 @@ Avoid over-governance. Governance exists only to keep the project safe and conti
 
 Current GOAL execution rule:
 
-- Push toward `public_beta_index_signal_dashboard_usable_loop`.
+- Push toward `phase_1_mock_public_beta_launchable_loop`.
 - Treat Phase 1 as the active product/runtime deliverable.
 - Treat Phase 2 membership MVP as planning/specification until Phase 1 is stable.
 - Prefer larger coherent slices that visibly improve user understanding, route health, launch readiness, or safety copy.
@@ -42,12 +49,13 @@ Current GOAL execution rule:
 
 Current CEO acceleration rule:
 
-- The active GOAL is `phase_1_pre_launch_usable_loop_before_ui_ux_polish`.
-- Phase 1 must move toward launch-before-UI-polish readiness: public routes, reading contract, data/update boundary, non-advice disclosure, route health, and operator-safe launch evidence come before visual refinement.
+- The active GOAL is `phase_1_mock_public_beta_launchable_loop`.
+- Phase 1 must move toward launch readiness: public routes, reading contract, data/update boundary, non-advice disclosure, route health, public deployment smoke, and operator-safe launch evidence come before visual refinement.
 - UI/UX design polish is intentionally deferred to the final Phase 1 pre-launch pass. Do not spend PM capacity on cosmetic layout, palette, spacing, animation, or component beautification unless the issue blocks comprehension, trust, accessibility, or route health.
 - When Phase 1 enters UI/UX work, apply the chairman-approved skill split: `ui-ux-pro-max` owns information architecture, user flow, component layout, CTA design, and form flow; `frontend-design` owns visual style, color, card treatment, icons, typography, and animation.
 - PM should run `ui-ux-pro-max` before `frontend-design` when a slice changes the user's reading order, journey, action path, or input flow. PM should run `frontend-design` after the UX structure is accepted or when the slice is purely visual.
 - A1 data/source/coverage may continue in parallel, but it must not block the Phase 1 mock public Beta loop unless it exposes a launch-blocking source, rights, or boundary issue.
+- The current A1 blocker is writable sanitized row payload readiness: aggregate artifacts for TWII and ETF are accepted, but the write runner still requires a valid local or external sanitized row-payload candidate artifact for `TWII`, `0050`, and `006208`.
 - A2/A3/A4 should be assigned only when they remove a concrete Phase 1 blocker; otherwise PM keeps the mainline moving.
 
 ## A1 Data / Source / Coverage Lane
@@ -56,6 +64,9 @@ A1 prepares legal/free automated source and coverage evidence.
 
 Current A1 focus:
 
+- sanitized row-payload candidate artifact path for `TWII`, `0050`, and `006208`
+- validator-compatible row counts: `TWII=60`, `0050=59`, `006208=59`
+- source rights and field-contract status must be accepted before any write review
 - legal free source confirmation
 - coverage universe roadmap
 - field-contract readiness
@@ -79,6 +90,8 @@ A1 boundaries:
 - no secret output
 
 PM assignment rule: A1 should stay on legal/free automated data source, coverage universe, field contracts, and ingestion/backfill preparation. A1 outputs should be aggregate-only or synthetic-only until PM explicitly opens a bounded execution gate.
+
+PM integration rule: if A1 provides a row-payload candidate path, PM first runs the validator and PM review chain. PM must not execute SQL, Supabase write, `daily_prices` mutation, or mock-to-real promotion from this document alone.
 
 ## A2 Public Copy / Product Safety Lane
 
@@ -205,3 +218,4 @@ GOAL continuation guidance:
 - Record each completed slice in `PROJECT_STATUS.md`.
 - Run focused local checks first; run broader checks only when the slice is integration-heavy.
 - Git backup after passing checks when the environment allows it.
+- If tool-level `/goal` is stale or blocked, do not spend PM capacity fighting the tool. Use this document as the operational GOAL and keep Phase 1 moving.
