@@ -385,6 +385,8 @@
     "check:phase-1-current-scope-write-capable-runner-scaffold-no-execution": "node scripts/check-phase-1-current-scope-write-capable-runner-scaffold-no-execution.mjs",
     "run:phase-1-current-scope-write-runner-execution-authorization-gate-once": "node scripts/run-phase-1-current-scope-write-runner-execution-authorization-gate-once.mjs",
     "check:phase-1-current-scope-write-runner-execution-authorization-gate-no-execution": "node scripts/check-phase-1-current-scope-write-runner-execution-authorization-gate-no-execution.mjs",
+    "run:phase-1-current-scope-write-runner-dry-run-packet-once": "node scripts/run-phase-1-current-scope-write-runner-dry-run-packet-once.mjs",
+    "check:phase-1-current-scope-write-runner-dry-run-packet-no-execution": "node scripts/check-phase-1-current-scope-write-runner-dry-run-packet-no-execution.mjs",
     "check:phase-1-runtime-promotion-dry-run-only-authorized-route": "node scripts/check-phase-1-runtime-promotion-dry-run-only-authorized-route.mjs",
     "check:phase-1-runtime-promotion-dry-run-only-preparation-packet": "node scripts/check-phase-1-runtime-promotion-dry-run-only-preparation-packet.mjs",
     "check:phase-1-runtime-promotion-dry-run-only-proof-review": "node scripts/check-phase-1-runtime-promotion-dry-run-only-proof-review.mjs",

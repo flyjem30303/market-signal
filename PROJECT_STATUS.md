@@ -2,6 +2,29 @@
 
 ## Latest Effective Status - 2026-06-16
 
+### Latest Phase 1 Current-Scope Write Runner Dry-Run Packet
+
+Status: `phase_1_current_scope_write_runner_dry_run_packet_no_execution_ready`
+
+CEO decision:
+
+- Add a no-execution dry-run packet after the current-scope write runner execution authorization gate.
+- Prepare aggregate-only metadata for the future dry-run route, not an executable dry run.
+- Keep this packet scoped to `twii_plus_listed_stock_daily_close` and `insert_missing_daily_prices_from_sanitized_candidate_only`.
+- Keep dry-run non-executed, runner non-executable, bounded write non-executable, candidate rows unaccepted, write gate closed, `publicDataSource=mock`, and `scoreSource=mock`.
+- Do not read env values, output secrets, output confirmation phrase values, read candidate artifact content, execute SQL, connect to Supabase, fetch market rows, or write `daily_prices`.
+
+PM completed:
+
+- Added `scripts/run-phase-1-current-scope-write-runner-dry-run-packet-once.mjs`.
+- Added `scripts/check-phase-1-current-scope-write-runner-dry-run-packet-no-execution.mjs`.
+- Added `docs/PHASE_1_CURRENT_SCOPE_WRITE_RUNNER_DRY_RUN_PACKET_NO_EXECUTION.md`.
+- Registered `phase-1-current-scope-write-runner-dry-run-packet-no-execution` in the focused review gate set.
+
+Next:
+
+Continue with `await_separate_current_scope_dry_run_execution_authorization_no_execution`, then require a separate authorization before any dry-run execution can be prepared.
+
 ### Latest Phase 1 Current-Scope Write Runner Execution Authorization Gate
 
 Status: `phase_1_current_scope_write_runner_execution_authorization_gate_no_execution_ready`
