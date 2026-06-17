@@ -4936,14 +4936,19 @@ const checks = [
     name: "twse-openapi-source-adapter-contract"
   },
   {
-    command: [node, "--experimental-strip-types", "scripts/check-twse-openapi-parser-contract.mjs"],
+    command: [node, "scripts/check-twse-openapi-parser-contract.mjs"],
     expectStatus: "ok",
     name: "twse-openapi-parser-contract"
   },
   {
-    command: [node, "--experimental-strip-types", "scripts/check-twse-openapi-parser-consumer-adapter.mjs"],
+    command: [node, "scripts/check-twse-openapi-parser-consumer-adapter.mjs"],
     expectStatus: "ok",
     name: "twse-openapi-parser-consumer-adapter"
+  },
+  {
+    command: [node, "scripts/check-twse-openapi-ingestion-backfill-runner.mjs"],
+    expectStatus: "ok",
+    name: "twse-openapi-ingestion-backfill-runner"
   },
   {
     command: [node, "scripts/check-twse-openapi-runtime-mock-wiring-readiness.mjs"],
@@ -7679,6 +7684,7 @@ const phase1LiveCoreReviewGateNames = new Set([
   "phase-1-data-online-go-no-go-status",
   "phase-1-runtime-promotion-preflight-status",
   "phase-1-runtime-promotion-final-blocker-contract",
+  "twse-openapi-ingestion-backfill-runner",
   "phase-1-runtime-promotion-review-packet",
   "phase-1-runtime-promotion-explicit-go-no-go-decision",
   "phase-1-runtime-promotion-operator-decision-gate",

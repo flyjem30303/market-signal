@@ -2,6 +2,29 @@
 
 ## Latest Effective Status - 2026-06-17
 
+### Latest Real Runtime Promotion Stage 3 Ingestion And Backfill Runner
+
+Status: `stage_3_ingestion_and_backfill_runner_complete`
+
+CEO decision:
+
+- Completed Stage 3 by adding a server-only ingestion/backfill dry-run runner before any public runtime promotion.
+- The runner defaults to synthetic rows and aggregate-only output.
+- Live TWSE OpenAPI fetch is possible only behind an exact authorization id and `TWSE_OPENAPI_ALLOW_LIVE_FETCH=true`; without both, it fails closed.
+- Dry-run output reports candidate rows, rejected rows, duplicate keys, missing sessions, source timestamps, and per-route summaries.
+- No SQL, no Supabase write, no `daily_prices` mutation, no raw payload echo, no row payload echo, no `publicDataSource=supabase`, and no `scoreSource=real` happened in this stage.
+
+PM completed:
+
+- Added `src/lib/twse-openapi-ingestion-backfill-runner.ts`.
+- Added `scripts/run-twse-openapi-ingestion-backfill-dry-run.mjs`.
+- Added `scripts/check-twse-openapi-ingestion-backfill-runner.mjs`.
+- Registered the checker in `package.json` and the focused review gate.
+
+Current route:
+
+- `twse_openapi_supabase_bounded_write_and_post_run_review`
+
 ### Latest Real Runtime Promotion Stage 2 Field Contract And Source Adapter
 
 Status: `stage_2_field_contract_and_source_adapter_complete`

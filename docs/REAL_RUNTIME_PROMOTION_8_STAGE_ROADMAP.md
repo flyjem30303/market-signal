@@ -2,7 +2,7 @@
 
 Updated: 2026-06-17
 
-Status: `stage_2_field_contract_and_source_adapter_complete`
+Status: `stage_3_ingestion_and_backfill_runner_complete`
 
 CEO rule: keep this route execution-first. Do not add extra governance unless a later stage would otherwise risk legal misuse, bad data, secret exposure, or misleading public claims.
 
@@ -64,6 +64,8 @@ Stage 2 output:
 
 ## Stage 3 - Ingestion and backfill runner
 
+Status: `complete`
+
 Goal: build a server-only runner that can fetch official daily rows, normalize them, validate them, and dry-run upsert plans.
 
 Completion target:
@@ -71,7 +73,17 @@ Completion target:
 - Dry-run output shows candidate row count, duplicate count, rejected count, missing sessions, and source timestamps.
 - No public runtime promotion yet.
 
+Stage 3 output:
+
+- Added a server-only dry-run runner for TWII plus listed-stock daily close/trading routes.
+- Default execution uses synthetic rows only and reports aggregate counts.
+- Live OpenAPI fetch is blocked unless the operator provides the exact Stage 3 authorization id and `TWSE_OPENAPI_ALLOW_LIVE_FETCH=true`.
+- Dry-run output includes `candidateRowCount`, `duplicateCount`, `rejectedCount`, `missingSessionCount`, `sourceTimestamp`, and per-route summaries.
+- Dry-run output explicitly keeps `rawPayloadEcho=false`, `rowPayloadEcho=false`, `publicDataSource=mock`, and `scoreSource=mock`.
+
 ## Stage 4 - Bounded Supabase write and post-run review
+
+Status: `next`
 
 Goal: perform a small authorized write/readback loop, then review row counts and rollback/fail-closed behavior.
 
@@ -123,4 +135,4 @@ Completion target:
 
 ## Next execution step
 
-Proceed to Stage 3: `twse_openapi_ingestion_and_backfill_runner`.
+Proceed to Stage 4: `twse_openapi_supabase_bounded_write_and_post_run_review`.

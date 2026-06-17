@@ -476,6 +476,8 @@
     "check:twse-openapi-source-adapter-contract": "node scripts/check-twse-openapi-source-adapter-contract.mjs",
     "check:twse-openapi-parser-contract": "node scripts/check-twse-openapi-parser-contract.mjs",
     "check:twse-openapi-parser-consumer-adapter": "node scripts/check-twse-openapi-parser-consumer-adapter.mjs",
+    "run:twse-openapi-ingestion-backfill-dry-run": "node scripts/run-twse-openapi-ingestion-backfill-dry-run.mjs",
+    "check:twse-openapi-ingestion-backfill-runner": "node scripts/check-twse-openapi-ingestion-backfill-runner.mjs",
     "check:twse-openapi-runtime-mock-wiring-readiness": "node scripts/check-twse-openapi-runtime-mock-wiring-readiness.mjs",
     "check:twse-openapi-runtime-mock-consumer-wire": "node scripts/check-twse-openapi-runtime-mock-consumer-wire.mjs",
     "check:twse-openapi-runtime-consumer-adapter-synthetic-case-notes": "node scripts/check-twse-openapi-runtime-consumer-adapter-synthetic-case-notes.mjs",
