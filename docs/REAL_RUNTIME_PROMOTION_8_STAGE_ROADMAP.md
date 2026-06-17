@@ -2,7 +2,7 @@
 
 Updated: 2026-06-17
 
-Status: `stage_4_bounded_supabase_write_and_post_run_review_complete`
+Status: `stage_5_supabase_readonly_gate_complete`
 
 CEO rule: keep this route execution-first. Do not add extra governance unless a later stage would otherwise risk legal misuse, bad data, secret exposure, or misleading public claims.
 
@@ -102,9 +102,12 @@ Stage 4 output:
 - `--execute` fails closed unless the operator supplies the exact Stage 4 authorization id and `TWSE_OPENAPI_STAGE4_ALLOW_WRITE=true`.
 - The runner refuses to create missing rows without a separate row-payload candidate path; Stage 3 aggregate evidence is not treated as writable row data.
 - Post-run review remains aggregate-only with `rawPayloadEcho=false`, `rowPayloadEcho=false`, `publicDataSource=mock`, and `scoreSource=mock`.
+- Retained Stage 4 status token: `stage_4_bounded_supabase_write_and_post_run_review_complete`.
 - The next route is `twse_openapi_supabase_readonly_gate`.
 
 ## Stage 5 - Supabase readonly gate
+
+Status: `complete`
 
 Goal: prove the public app can read normalized Supabase data safely without promoting the public source yet.
 
@@ -113,6 +116,15 @@ Completion target:
 - Readonly API returns expected shape.
 - Stale, missing, and source-error states are distinguishable.
 - Secrets stay server-only.
+
+Stage 5 output:
+
+- Added a server-only readonly gate runner for normalized Supabase aggregate shape.
+- Default execution is synthetic aggregate-shape proof and does not connect to Supabase.
+- Live readonly execution is blocked unless the operator supplies the exact Stage 5 authorization id and `TWSE_OPENAPI_STAGE5_ALLOW_READONLY=true`.
+- Readonly output distinguishes `current`, `stale`, `missing`, and `source_error`.
+- Readonly output remains aggregate-shape-only with `rawPayloadEcho=false`, `rowPayloadEcho=false`, `secretsPrinted=false`, `publicDataSource=mock`, and `scoreSource=mock`.
+- The next route is `publicDataSource_supabase_promotion_gate`.
 
 ## Stage 6 - publicDataSource=supabase promotion
 
@@ -146,4 +158,4 @@ Completion target:
 
 ## Next execution step
 
-Proceed to Stage 5: `twse_openapi_supabase_readonly_gate`.
+Proceed to Stage 6: `publicDataSource_supabase_promotion_gate`.

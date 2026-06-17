@@ -2,6 +2,29 @@
 
 ## Latest Effective Status - 2026-06-17
 
+### Latest Real Runtime Promotion Stage 5 Supabase Readonly Gate
+
+Status: `stage_5_supabase_readonly_gate_complete`
+
+CEO decision:
+
+- Completed Stage 5 by adding a Supabase readonly gate that proves aggregate normalized runtime shape without public source promotion.
+- The runner defaults to synthetic aggregate-shape output and does not connect to Supabase.
+- Live readonly execution is guarded by the exact Stage 5 authorization id and `TWSE_OPENAPI_STAGE5_ALLOW_READONLY=true`; without both, it fails closed.
+- The readonly output distinguishes `current`, `stale`, `missing`, and `source_error`.
+- No SQL, no Supabase write, no `daily_prices` mutation, no raw payload echo, no row payload echo, no secret printing, no `publicDataSource=supabase`, and no `scoreSource=real` happened in this stage.
+
+PM completed:
+
+- Added `src/lib/twse-openapi-stage-5-supabase-readonly-gate.ts`.
+- Added `scripts/run-twse-openapi-stage-5-supabase-readonly-gate-once.mjs`.
+- Added `scripts/check-twse-openapi-stage-5-supabase-readonly-gate.mjs`.
+- Registered the checker in `package.json` and the focused review gate.
+
+Current route:
+
+- `publicDataSource_supabase_promotion_gate`
+
 ### Latest Real Runtime Promotion Stage 4 Bounded Write And Post Run Review
 
 Status: `stage_4_bounded_supabase_write_and_post_run_review_complete`
