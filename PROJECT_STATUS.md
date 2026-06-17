@@ -2,6 +2,43 @@
 
 ## Latest Effective Status - 2026-06-17
 
+### Latest Phase 1 Current-Scope Bounded Insert-Missing Post-Run Review
+
+Status: `phase_1_current_scope_bounded_insert_missing_passed_readback`
+
+CEO decision:
+
+- Decision token: `CURRENT_SCOPE_DAILY_PRICES_COVERAGE_COMPLETE_KEEP_RUNTIME_MOCK_UNTIL_PROMOTION_GATE`.
+- Accepted the one bounded current-scope insert-missing attempt result.
+- Current Phase 1 scope is `twii_plus_listed_stock_daily_close`.
+- Target table was `daily_prices`.
+- Candidate artifact contained `240` sanitized candidate rows across `4` symbols: `2308`, `2330`, `2382`, and `TWII`.
+- Supabase connection and aggregate readback completed.
+- Existing candidate-key rows before write: `240`.
+- Planned insert rows: `0`.
+- Inserted rows: `0`.
+- Skipped existing rows: `240`.
+- Final candidate-key rows after readback: `240`.
+- Missing rows after readback: `0`.
+- Coverage complete after write/readback: `true`.
+
+PM completed:
+
+- Recorded aggregate-only post-run evidence at `data/evidence-intake/phase-1-current-scope-bounded-insert-missing-post-run-review-2026-06-17.json`.
+- Added `scripts/check-phase-1-current-scope-bounded-insert-missing-post-run-review-2026-06-17.mjs`.
+- Registered the post-run review checker in the Phase 1 live core review gate.
+
+Boundaries preserved:
+
+- No SQL execution, no market-data fetch, no market-data ingestion, no raw payload output, no row payload output, no stock id output, no secret output, no update, no upsert, no delete.
+- `publicDataSource` remains `mock`.
+- `scoreSource` remains `mock`.
+- Runtime source/score promotion remains blocked until a separate promotion gate passes.
+
+Current route:
+
+- `phase_1_runtime_promotion_gate_preflight_mock_to_supabase_review`
+
 ### Latest Phase 1 Current-Scope Bounded Insert-Missing Runner
 
 Status: `phase_1_current_scope_bounded_insert_missing_runner_ready`

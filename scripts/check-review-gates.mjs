@@ -4586,6 +4586,11 @@ const checks = [
     name: "phase-1-current-scope-bounded-insert-missing-runner"
   },
   {
+    command: [node, "scripts/check-phase-1-current-scope-bounded-insert-missing-post-run-review-2026-06-17.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-current-scope-bounded-insert-missing-post-run-review-2026-06-17"
+  },
+  {
     command: [node, "scripts/check-phase-1-current-scope-write-runner-input-review.mjs"],
     expectStatus: "ok",
     name: "phase-1-current-scope-write-runner-input-review"
@@ -7688,6 +7693,7 @@ const phase1LiveCoreReviewGateNames = new Set([
   "current-scope-candidate-converter",
   "phase-1-current-scope-local-candidate-assembly",
   "phase-1-current-scope-bounded-insert-missing-runner",
+  "phase-1-current-scope-bounded-insert-missing-post-run-review-2026-06-17",
   "phase-1-current-scope-write-runner-input-review",
   "phase-1-current-scope-candidate-reply-apply-gate-no-execution",
   "phase-1-current-scope-candidate-artifact-path-shape-gate-no-row-payloads",
