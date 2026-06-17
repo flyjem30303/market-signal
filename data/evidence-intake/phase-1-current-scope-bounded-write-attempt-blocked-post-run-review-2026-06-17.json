@@ -1,0 +1,45 @@
+{
+  "packetMode": "phase_1_current_scope_bounded_write_attempt_blocked_post_run_review",
+  "status": "phase_1_current_scope_bounded_write_attempt_blocked_before_mutation",
+  "attemptId": "execute_one_bounded_write_attempt_then_post_run_review_2026_06_17",
+  "operatorDecision": "BLOCK_EXECUTION_REPAIR_CURRENT_SCOPE_PACKET_FIRST",
+  "phase1Universe": "twii_plus_listed_stock_daily_close",
+  "scope": "twii_plus_listed_stock_daily_close",
+  "requestedAction": "execute_one_bounded_write_attempt_then_post_run_review",
+  "executionAttempted": false,
+  "connectionAttempted": false,
+  "supabaseWriteAttempted": false,
+  "dailyPricesMutated": false,
+  "sqlExecuted": false,
+  "marketDataFetched": false,
+  "postRunReviewCompleted": true,
+  "blockedReason": "The only concrete executable command currently found points to a superseded historical TWII plus ETF packet. It targets scope twii_and_etf_phase_1_missing_row_closure_only with symbols 0050, 006208, and TWII. Current Phase 1 scope excludes ETF rows and requires TWII plus Taiwan listed-stock daily close.",
+  "supersededPacketObserved": {
+    "path": "data/evidence-intake/phase-1-daily-prices-final-bounded-write-execution-packet-no-execution.json",
+    "packetDecision": "SUPERSEDED_BY_PHASE_1_TWII_PLUS_LISTED_STOCK_SCOPE_KEEP_MOCK",
+    "runnerPath": "scripts/run-phase-1-daily-prices-bounded-insert-missing-once.mjs",
+    "candidateArtifactPath": "tmp/phase-1-sanitized-row-payload-candidate.json",
+    "candidateScope": "twii_and_etf_phase_1_missing_row_closure_only",
+    "candidateRows": 178,
+    "symbolsCovered": ["0050", "006208", "TWII"],
+    "deferredSymbols": ["0050", "006208"]
+  },
+  "currentScopeReadyArtifactsObserved": {
+    "finalGoReadinessSummary": "data/evidence-intake/phase-1-current-scope-final-go-readiness-summary-no-execution.json",
+    "postRunReviewIntake": "data/evidence-intake/phase-1-current-scope-actual-bounded-write-post-run-review-intake-no-execution.json",
+    "externalExecutionRunbook": "data/evidence-intake/phase-1-current-scope-actual-bounded-write-external-execution-runbook-no-execution.json"
+  },
+  "missingForSafeExecution": [
+    "current_scope_sanitized_row_payload_candidate_without_deferred_etf_symbols",
+    "current_scope_executable_insert_missing_runner_contract",
+    "current_scope_dry_run_result_against_current_payload",
+    "current_scope_post_run_review_path_bound_to_current_payload"
+  ],
+  "nextRoute": "prepare_current_scope_twii_plus_listed_stock_daily_close_candidate_and_runner_before_write",
+  "publicDataSource": "mock",
+  "scoreSource": "mock",
+  "rawPayloadIncluded": false,
+  "rowPayloadIncluded": false,
+  "stockIdPayloadIncluded": false,
+  "secretsIncluded": false
+}

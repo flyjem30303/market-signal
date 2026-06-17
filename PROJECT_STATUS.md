@@ -1,6 +1,28 @@
 # Project Status
 
-## Latest Effective Status - 2026-06-16
+## Latest Effective Status - 2026-06-17
+
+### Latest Phase 1 Current-Scope Bounded Write Attempt Post-Run Review
+
+Status: `phase_1_current_scope_bounded_write_attempt_blocked_before_mutation`
+
+CEO decision:
+
+- Requested route was `execute_one_bounded_write_attempt_then_post_run_review`.
+- The only concrete executable command currently found still points to the superseded historical TWII plus ETF packet.
+- That packet is explicitly marked `SUPERSEDED_BY_PHASE_1_TWII_PLUS_LISTED_STOCK_SCOPE_KEEP_MOCK` and covers `0050`, `006208`, and `TWII`.
+- Current Phase 1 scope is `twii_plus_listed_stock_daily_close`; ETF symbols remain deferred to Phase 1.1.
+- Execution was blocked before mutation to avoid writing out-of-scope ETF rows into `daily_prices`.
+- No SQL, Supabase connection, Supabase write, `daily_prices` mutation, market-data fetch, raw payload, row payload, stock id payload, secret output, `publicDataSource=supabase`, or `scoreSource=real` occurred.
+
+PM completed:
+
+- Added `data/evidence-intake/phase-1-current-scope-bounded-write-attempt-blocked-post-run-review-2026-06-17.json`.
+- Added `docs/PHASE_1_CURRENT_SCOPE_BOUNDED_WRITE_ATTEMPT_BLOCKED_POST_RUN_REVIEW_2026_06_17.md`.
+
+Current route:
+
+- `prepare_current_scope_twii_plus_listed_stock_daily_close_candidate_and_runner_before_write`
 
 ### Latest Phase 1 Current-Scope Final Go Readiness Summary
 
