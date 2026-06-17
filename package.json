@@ -359,6 +359,8 @@
     "check:phase-1-current-scope-sanitized-candidate-reply-fixtures-no-row-payloads": "node scripts/check-phase-1-current-scope-sanitized-candidate-reply-fixtures-no-row-payloads.mjs",
     "run:phase-1-current-scope-sanitized-candidate-reply-intake-once": "node scripts/run-phase-1-current-scope-sanitized-candidate-reply-intake-once.mjs",
     "check:phase-1-current-scope-sanitized-candidate-reply-intake-runner-no-row-payloads": "node scripts/check-phase-1-current-scope-sanitized-candidate-reply-intake-runner-no-row-payloads.mjs",
+    "validate:phase-1-current-scope-sanitized-row-payload-candidate-artifact": "node scripts/validate-phase-1-current-scope-sanitized-row-payload-candidate-artifact.mjs",
+    "check:phase-1-current-scope-sanitized-row-payload-candidate-artifact-validator": "node scripts/check-phase-1-current-scope-sanitized-row-payload-candidate-artifact-validator.mjs",
     "run:phase-1-current-scope-candidate-reply-apply-gate-once": "node scripts/run-phase-1-current-scope-candidate-reply-apply-gate-once.mjs",
     "check:phase-1-current-scope-candidate-reply-apply-gate-no-execution": "node scripts/check-phase-1-current-scope-candidate-reply-apply-gate-no-execution.mjs",
     "run:phase-1-current-scope-candidate-artifact-path-shape-gate-once": "node scripts/run-phase-1-current-scope-candidate-artifact-path-shape-gate-once.mjs",

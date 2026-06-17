@@ -2,6 +2,29 @@
 
 ## Latest Effective Status - 2026-06-17
 
+### Latest Phase 1 Current-Scope Row Payload Validator
+
+Status: `phase_1_current_scope_sanitized_row_payload_candidate_artifact_validator_ready`
+
+CEO decision:
+
+- Added a current-scope validator for future TWII + Taiwan listed-stock daily close row payload candidates.
+- This validator rejects deferred ETF symbols such as `0050`, `006208`, and `00`-prefixed ETF-like symbols for Phase 1.
+- This validator rejects stale scope `twii_and_etf_phase_1_missing_row_closure_only`.
+- Validator output remains aggregate-only and does not print row payloads, raw payloads, stock ids, or secrets.
+- This is the next practical repair step after the blocked bounded write attempt: future current-scope candidate paths must pass this validator before write final-go can reopen.
+- No SQL, Supabase connection, Supabase write, `daily_prices` mutation, market-data fetch, raw payload, row payload, stock id payload, secret output, `publicDataSource=supabase`, or `scoreSource=real` occurred.
+
+PM completed:
+
+- Added `scripts/validate-phase-1-current-scope-sanitized-row-payload-candidate-artifact.mjs`.
+- Added `scripts/check-phase-1-current-scope-sanitized-row-payload-candidate-artifact-validator.mjs`.
+- Added npm validate/check scripts and registered the checker in the Phase 1 live core review gate.
+
+Current route:
+
+- `provide_current_scope_row_payload_candidate_path_then_run_validator`
+
 ### Latest Phase 1 Current-Scope Final-Go Reality Reconciliation
 
 Status: `phase_1_current_scope_final_go_reconciled_repair_required`
