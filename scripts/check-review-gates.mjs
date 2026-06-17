@@ -4751,6 +4751,11 @@ const checks = [
     name: "phase-1-current-scope-actual-bounded-write-attempt-final-operator-execution-acceptance-no-execution"
   },
   {
+    command: [node, "scripts/check-phase-1-current-scope-actual-bounded-write-attempt-actual-execution-final-go-no-execution.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-current-scope-actual-bounded-write-attempt-actual-execution-final-go-no-execution"
+  },
+  {
     command: [node, "scripts/check-phase-1-runtime-promotion-dry-run-only-authorized-route.mjs"],
     expectStatus: "ok",
     name: "phase-1-runtime-promotion-dry-run-only-authorized-route"
@@ -7671,6 +7676,7 @@ const phase1LiveCoreReviewGateNames = new Set([
   "phase-1-current-scope-actual-bounded-write-attempt-runtime-execution-command-packet-no-execution",
   "phase-1-current-scope-actual-bounded-write-attempt-runtime-execution-authorization-no-execution",
   "phase-1-current-scope-actual-bounded-write-attempt-final-operator-execution-acceptance-no-execution",
+  "phase-1-current-scope-actual-bounded-write-attempt-actual-execution-final-go-no-execution",
   "phase-1-runtime-promotion-dry-run-only-authorized-route",
   "phase-1-runtime-promotion-dry-run-only-preparation-packet",
   "phase-1-runtime-promotion-dry-run-only-proof-review",
