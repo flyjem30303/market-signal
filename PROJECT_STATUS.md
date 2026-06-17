@@ -2,6 +2,29 @@
 
 ## Latest Effective Status - 2026-06-16
 
+### Latest Phase 1 Current-Scope Bounded Write Execution Decision Gate
+
+Status: `phase_1_current_scope_bounded_write_execution_decision_gate_no_execution_ready`
+
+CEO decision:
+
+- Add a separate no-execution execution decision gate after the accepted operator authorization response intake.
+- Accept only `APPROVE_PREPARE_ONE_BOUNDED_WRITE_EXECUTION_PACKET` shape with response-intake acceptance, candidate artifact reference presence, rollback confirmation, post-run review owner confirmation, readback plan confirmation, and abort switch presence.
+- Keep this as permission to prepare a later execution packet only; it does not make a bounded write executable.
+- Keep candidate rows unaccepted, write gate closed, `publicDataSource=mock`, and `scoreSource=mock`.
+- Do not read env values, output secrets, output confirmation phrase values, read candidate artifact content, execute SQL, connect to Supabase, or write `daily_prices`.
+
+PM completed:
+
+- Added `scripts/run-phase-1-current-scope-bounded-write-execution-decision-gate-once.mjs`.
+- Added `scripts/check-phase-1-current-scope-bounded-write-execution-decision-gate-no-execution.mjs`.
+- Added `docs/PHASE_1_CURRENT_SCOPE_BOUNDED_WRITE_EXECUTION_DECISION_GATE_NO_EXECUTION.md`.
+- Registered `phase-1-current-scope-bounded-write-execution-decision-gate-no-execution` in the focused review gate set.
+
+Next:
+
+Continue with `prepare_current_scope_bounded_write_execution_packet_no_execution`, then prepare a separate no-execution execution packet before any write-capable runner can be considered.
+
 ### Latest Phase 1 Current-Scope Explicit Operator Bounded Write Authorization Response Intake
 
 Status: `phase_1_current_scope_explicit_operator_bounded_write_authorization_response_intake_no_execution_ready`
