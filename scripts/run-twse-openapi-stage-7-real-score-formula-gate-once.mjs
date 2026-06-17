@@ -77,11 +77,11 @@ function buildStage7Score(series) {
     nextRoute: "scoreSource_real_promotion_gate",
     noBuySellAdvice: true,
     readableReasons: [
-      `當日漲跌轉換為 dailyChangeScore=${components.dailyChangeScore}。`,
-      `收盤價相對均線轉換為 movingAveragePostureScore=${components.movingAveragePostureScore}。`,
-      `成交量相對近期均量轉換為 volumeChangeScore=${components.volumeChangeScore}。`,
-      `近端波動轉換為 volatilityScore=${components.volatilityScore}。`,
-      `價格偏離近期均值轉換為 dispersionScore=${components.dispersionScore}。`
+      `Daily change component: dailyChangeScore=${components.dailyChangeScore}.`,
+      `Moving-average posture component: movingAveragePostureScore=${components.movingAveragePostureScore}.`,
+      `Volume change component: volumeChangeScore=${components.volumeChangeScore}.`,
+      `Volatility component: volatilityScore=${components.volatilityScore}.`,
+      `Dispersion component: dispersionScore=${components.dispersionScore}.`
     ],
     riskScore,
     scoreSource: "mock",

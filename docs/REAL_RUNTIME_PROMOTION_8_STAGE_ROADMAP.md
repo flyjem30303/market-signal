@@ -2,7 +2,7 @@
 
 Updated: 2026-06-17
 
-Status: `stage_7_real_score_formula_complete`
+Status: `stage_8_score_source_real_promotion_complete`
 
 CEO rule: keep this route execution-first. Do not add extra governance unless a later stage would otherwise risk legal misuse, bad data, secret exposure, or misleading public claims.
 
@@ -176,6 +176,8 @@ Stage 7 output:
 
 ## Stage 8 - scoreSource=real promotion
 
+Status: `complete`
+
 Goal: promote scoring only after real data and formula explanations are stable.
 
 Completion target:
@@ -184,6 +186,17 @@ Completion target:
 - Signals can be recalculated and explained from stored data.
 - Public disclaimers and source/update-time copy remain visible.
 
+Stage 8 output:
+
+- Added a fail-closed score-source promotion gate.
+- Public scoring can resolve to `scoreSource=real` only when the requested score source is `real`, public data source is already `supabase`, readonly state is `current`, formula status is `stable`, the exact Stage 8 gate is present, and public disclaimer/source/update-time/no-buy-sell-advice boundaries are visible.
+- Default/local execution still fails closed to `scoreSource=mock`.
+- Added a local proof runner with a default fail-closed scenario and a promoted scenario.
+- Updated runtime source status so `publicScoreSource` can be `real` only behind the Stage 8 gate.
+- This stage did not run SQL, write Supabase, fetch market data, print secrets, echo raw payloads, echo row payloads, or mutate deployment env.
+- Retained Stage 8 status token: `stage_8_score_source_real_promotion_complete`.
+- The route is now `real_runtime_phase_1_complete`.
+
 ## Next execution step
 
-Proceed to Stage 8: `scoreSource_real_promotion_gate`.
+Proceed to post-promotion production verification and deployment-env application when the operator is ready: `real_runtime_phase_1_complete`.

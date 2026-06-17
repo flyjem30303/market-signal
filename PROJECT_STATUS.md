@@ -2,6 +2,32 @@
 
 ## Latest Effective Status - 2026-06-17
 
+### Latest Real Runtime Promotion Stage 8 scoreSource Real Promotion Gate
+
+Status: `stage_8_score_source_real_promotion_complete`
+
+CEO decision:
+
+- Completed Stage 8 by adding a fail-closed score-source promotion gate.
+- `scoreSource=real` is allowed only when public data source has already resolved to `supabase`, readonly state is `current`, formula status is `stable`, the exact Stage 8 gate is present, and public disclaimer/source/update-time/no-buy-sell-advice boundaries remain visible.
+- Default/local runtime remains `scoreSource=mock`.
+- Runtime source status can now represent `publicScoreSource=real` behind the Stage 8 gate instead of treating real scoring as impossible forever.
+- The Stage 7 readable reasons were repaired from mojibake to clear component explanations before promotion.
+- No SQL, no Supabase write, no `daily_prices` mutation, no market-data fetch, no raw payload echo, no row payload echo, no secret printing, and no deployment env mutation happened in this stage.
+
+PM completed:
+
+- Added `src/lib/twse-openapi-stage-8-score-source-real-promotion-gate.ts`.
+- Added `scripts/run-twse-openapi-stage-8-score-source-real-promotion-gate-once.mjs`.
+- Added `scripts/check-twse-openapi-stage-8-score-source-real-promotion-gate.mjs`.
+- Updated `src/lib/repositories/market-signal-source-status.ts` with the Stage 8 score-source resolver.
+- Repaired Stage 7 formula and proof runner readable reasons.
+- Registered the checker in `package.json` and the focused review gate.
+
+Current route:
+
+- `real_runtime_phase_1_complete`
+
 ### Latest Real Runtime Promotion Stage 7 Real Score Formula
 
 Status: `stage_7_real_score_formula_complete`

@@ -53,7 +53,7 @@ for (const phrase of [
 for (const phrase of [
   "MARKET_SIGNAL_SUPABASE_PROMOTION_GATE",
   "stage_6_public_data_source_supabase_approved",
-  "resolvedSource: \"supabase\"",
+  "const resolvedSource = requestedSource === \"supabase\" ? \"supabase\" : \"mock\"",
   "publicScoreSource: \"mock\"",
   "stage_6_promotion_gate_missing"
 ]) {
