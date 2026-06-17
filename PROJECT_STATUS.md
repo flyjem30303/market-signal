@@ -2,6 +2,28 @@
 
 ## Latest Effective Status - 2026-06-16
 
+### Latest Phase 1 Current-Scope Candidate Artifact Path Shape Gate
+
+Status: `phase_1_current_scope_candidate_artifact_path_shape_gate_no_row_payloads_ready`
+
+CEO decision:
+
+- Add a metadata-only candidate artifact path gate after the reply apply gate.
+- Check only path existence, file type, and `.json` extension.
+- Do not read candidate artifact content, accept rows, or open a write gate.
+- Keep `publicDataSource=mock` and `scoreSource=mock`.
+
+PM completed:
+
+- Added `scripts/run-phase-1-current-scope-candidate-artifact-path-shape-gate-once.mjs`.
+- Added `scripts/check-phase-1-current-scope-candidate-artifact-path-shape-gate-no-row-payloads.mjs`.
+- Added `docs/PHASE_1_CURRENT_SCOPE_CANDIDATE_ARTIFACT_PATH_SHAPE_GATE_NO_ROW_PAYLOADS.md`.
+- Registered `phase-1-current-scope-candidate-artifact-path-shape-gate-no-row-payloads` in the focused review gate set.
+
+Next:
+
+Continue with `prepare_candidate_artifact_header_contract_no_row_payloads`, then define the smallest safe artifact header contract before any row-level validation.
+
 ### Latest Phase 1 Current-Scope Candidate Reply Apply Gate
 
 Status: `phase_1_current_scope_candidate_reply_apply_gate_no_execution_ready`
