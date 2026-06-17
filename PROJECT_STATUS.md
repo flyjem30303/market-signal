@@ -2,6 +2,30 @@
 
 ## Latest Effective Status - 2026-06-16
 
+### Latest Phase 1 Current-Scope Final Operator Go/No-Go Intake
+
+Status: `phase_1_current_scope_final_operator_go_no_go_intake_no_execution_ready`
+
+CEO decision:
+
+- Add a no-execution final operator go/no-go intake after the current-scope bounded write final execution packet.
+- Accept only `APPROVE_ONE_CURRENT_SCOPE_BOUNDED_WRITE_ATTEMPT` with matching attempt ID, current-scope universe, operation, and all required confirmations true.
+- Treat accepted final go/no-go as an intake record only: keep `finalExecutionAllowedNow=false` and require a separate execution gate before any later bounded write attempt.
+- Reject no-go/repair decisions, mismatched attempt IDs, missing confirmations, row/raw/stock-id payloads, secret/env/confirmation values, deferred ETF scope, real promotion, and already-attempted SQL/write flags.
+- Keep current-scope routing separate from older TWII-only and ETF deferred artifacts.
+- Keep dry-run non-executable, dry-run non-executed, runner non-executable, bounded write non-executable, candidate rows unaccepted, write gate closed, `publicDataSource=mock`, and `scoreSource=mock`.
+
+PM completed:
+
+- Added `scripts/run-phase-1-current-scope-final-operator-go-no-go-intake-once.mjs`.
+- Added `scripts/check-phase-1-current-scope-final-operator-go-no-go-intake-no-execution.mjs`.
+- Added `docs/PHASE_1_CURRENT_SCOPE_FINAL_OPERATOR_GO_NO_GO_INTAKE_NO_EXECUTION.md`.
+- Registered `phase-1-current-scope-final-operator-go-no-go-intake-no-execution` in the focused review gate set.
+
+Next:
+
+Continue with `prepare_current_scope_single_bounded_write_attempt_execution_gate_no_execution`, then require a separate execution gate before any later bounded write attempt can be considered.
+
 ### Latest Phase 1 Current-Scope Bounded Write Final Execution Packet
 
 Status: `phase_1_current_scope_bounded_write_final_execution_packet_no_execution_ready`
