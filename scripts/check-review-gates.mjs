@@ -4571,6 +4571,11 @@ const checks = [
     name: "phase-1-current-scope-sanitized-row-payload-candidate-artifact-validator"
   },
   {
+    command: [node, "scripts/check-current-scope-candidate-converter.mjs"],
+    expectStatus: "ok",
+    name: "current-scope-candidate-converter"
+  },
+  {
     command: [node, "scripts/check-phase-1-current-scope-write-runner-input-review.mjs"],
     expectStatus: "ok",
     name: "phase-1-current-scope-write-runner-input-review"
@@ -7670,6 +7675,7 @@ const phase1LiveCoreReviewGateNames = new Set([
   "phase-1-current-scope-sanitized-candidate-reply-fixtures-no-row-payloads",
   "phase-1-current-scope-sanitized-candidate-reply-intake-runner-no-row-payloads",
   "phase-1-current-scope-sanitized-row-payload-candidate-artifact-validator",
+  "current-scope-candidate-converter",
   "phase-1-current-scope-write-runner-input-review",
   "phase-1-current-scope-candidate-reply-apply-gate-no-execution",
   "phase-1-current-scope-candidate-artifact-path-shape-gate-no-row-payloads",

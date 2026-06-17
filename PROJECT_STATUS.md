@@ -2,6 +2,28 @@
 
 ## Latest Effective Status - 2026-06-17
 
+### Latest Current-Scope Candidate Converter
+
+Status: `current_scope_candidate_converter_ready`
+
+CEO decision:
+
+- Added a fail-closed converter from staging-shaped TWII/listed-stock price candidates into the current Phase 1 row payload artifact shape.
+- The converter only writes output when `sourceRightsStatus` and `fieldContractStatus` are both explicitly `accepted`.
+- Output must be outside committed candidate storage, or inside a gitignored path such as `tmp/`.
+- The checker proves the converted output passes the current-scope validator and the write-runner input review.
+- This moves final-go closer by creating the missing local candidate preparation bridge, without running a fetch, SQL, Supabase connection, Supabase write, or `daily_prices` mutation.
+
+PM completed:
+
+- Added `scripts/convert-tw-equity-staging-candidate-to-current-scope-artifact.mjs`.
+- Added `scripts/check-current-scope-candidate-converter.mjs`.
+- Added npm convert/check scripts and registered the checker in the Phase 1 live core review gate.
+
+Current route:
+
+- `prepare_or_receive_current_scope_staging_shaped_candidate_then_convert_to_tmp_and_run_input_review`
+
 ### Latest Phase 1 Current-Scope Write Runner Input Review
 
 Status: `phase_1_current_scope_write_runner_input_review_check_ready`
