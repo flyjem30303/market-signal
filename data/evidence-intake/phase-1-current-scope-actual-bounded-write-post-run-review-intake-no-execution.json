@@ -1,0 +1,50 @@
+{
+  "packetMode": "phase_1_current_scope_actual_bounded_write_post_run_review_intake_no_execution",
+  "status": "phase_1_current_scope_actual_bounded_write_post_run_review_intake_no_execution_ready",
+  "decision": "PREPARE_AGGREGATE_POST_RUN_REVIEW_INTAKE_KEEP_MOCK",
+  "sourceRunbookGuardedStatus": "phase_1_current_scope_actual_bounded_write_external_execution_runbook_no_execution_ready",
+  "phase1Universe": "twii_plus_listed_stock_daily_close",
+  "scope": "twii_plus_listed_stock_daily_close",
+  "operationKind": "insert_missing_daily_prices_from_sanitized_candidate_only",
+  "intakeMode": "aggregate_only_external_result",
+  "externalAttemptExecutedHere": false,
+  "postRunReviewIntakePreparedNow": true,
+  "acceptedReviewFields": [
+    "attemptId",
+    "attemptStatus",
+    "insertedRows",
+    "rejectedRows",
+    "duplicateRows",
+    "readbackRows",
+    "mutationSummary",
+    "problemCount",
+    "promotionRecommendation",
+    "rollbackOrQuarantineDecision"
+  ],
+  "rejectedReviewFields": [
+    "rawPayload",
+    "rowPayload",
+    "stockIds",
+    "secrets",
+    "envValues",
+    "serviceRoleKey",
+    "sqlText"
+  ],
+  "acceptanceRules": {
+    "aggregateOnly": true,
+    "promotionDefault": "keep_mock_until_accepted_review",
+    "quarantineOnProblemCountGreaterThanZero": true,
+    "rejectIfDuplicateRowsNonZero": true,
+    "rejectIfReadbackMismatch": true
+  },
+  "sqlExecuted": false,
+  "supabaseWriteAttempted": false,
+  "dailyPricesMutated": false,
+  "marketDataFetched": false,
+  "rawPayloadIncluded": false,
+  "rowPayloadIncluded": false,
+  "stockIdPayloadIncluded": false,
+  "secretsIncluded": false,
+  "publicDataSource": "mock",
+  "scoreSource": "mock"
+}

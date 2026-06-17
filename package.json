@@ -436,6 +436,7 @@
     "run:phase-1-current-scope-actual-bounded-write-attempt-actual-execution-final-go-once": "node scripts/run-phase-1-current-scope-actual-bounded-write-attempt-actual-execution-final-go-once.mjs",
     "check:phase-1-current-scope-actual-bounded-write-attempt-actual-execution-final-go-no-execution": "node scripts/check-phase-1-current-scope-actual-bounded-write-attempt-actual-execution-final-go-no-execution.mjs",
     "check:phase-1-current-scope-actual-bounded-write-external-execution-runbook-no-execution": "node scripts/check-phase-1-current-scope-actual-bounded-write-external-execution-runbook-no-execution.mjs",
+    "check:phase-1-current-scope-actual-bounded-write-post-run-review-intake-no-execution": "node scripts/check-phase-1-current-scope-actual-bounded-write-post-run-review-intake-no-execution.mjs",
     "check:phase-1-runtime-promotion-dry-run-only-authorized-route": "node scripts/check-phase-1-runtime-promotion-dry-run-only-authorized-route.mjs",
     "check:phase-1-runtime-promotion-dry-run-only-preparation-packet": "node scripts/check-phase-1-runtime-promotion-dry-run-only-preparation-packet.mjs",
     "check:phase-1-runtime-promotion-dry-run-only-proof-review": "node scripts/check-phase-1-runtime-promotion-dry-run-only-proof-review.mjs",

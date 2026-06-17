@@ -2,6 +2,38 @@
 
 ## Latest Effective Status - 2026-06-16
 
+### Latest Phase 1 Current-Scope Actual Bounded Write Post-Run Review Intake
+
+Status: `phase_1_current_scope_actual_bounded_write_post_run_review_intake_no_execution_ready`
+
+CEO decision:
+
+- Decision token: `PREPARE_AGGREGATE_POST_RUN_REVIEW_INTAKE_KEEP_MOCK`.
+- Prepare the aggregate-only post-run review intake after the external execution runbook.
+- Do not execute the attempt here; keep the repository in no-execution mode and accept only aggregate result fields from any future external attempt.
+- Accept only attempt id, attempt status, inserted/rejected/duplicate/readback counts, mutation summary, problem count, promotion recommendation, and rollback/quarantine decision.
+- Reject raw payloads, row payloads, stock ids, secrets, env values, service role keys, and SQL text.
+- Keep promotion default as `keep_mock_until_accepted_review`; quarantine on any non-zero problem count, duplicate rows, readback mismatch, or unclear review.
+- Keep `externalAttemptExecutedHere=false`, `publicDataSource=mock`, and `scoreSource=mock`.
+
+PM completed:
+
+- Added `data/evidence-intake/phase-1-current-scope-actual-bounded-write-post-run-review-intake-no-execution.json`.
+- Added `docs/PHASE_1_CURRENT_SCOPE_ACTUAL_BOUNDED_WRITE_POST_RUN_REVIEW_INTAKE_NO_EXECUTION.md`.
+- Added `scripts/check-phase-1-current-scope-actual-bounded-write-post-run-review-intake-no-execution.mjs`.
+- Added npm check script and registered the checker in the Phase 1 live core review gate.
+
+Latest verification:
+
+```powershell
+cmd.exe /c scripts\with-node20.cmd npm run check:phase-1-current-scope-actual-bounded-write-post-run-review-intake-no-execution
+cmd.exe /c scripts\with-node20.cmd npm run check:review-gates
+```
+
+Current route:
+
+- `await_external_aggregate_post_run_review_or_keep_mock`
+
 ### Latest Phase 1 Current-Scope Actual Bounded Write External Execution Runbook
 
 Status: `phase_1_current_scope_actual_bounded_write_external_execution_runbook_no_execution_ready`
