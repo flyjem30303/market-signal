@@ -2,6 +2,29 @@
 
 ## Latest Effective Status - 2026-06-17
 
+### Latest Real Runtime Promotion Stage 4 Bounded Write And Post Run Review
+
+Status: `stage_4_bounded_supabase_write_and_post_run_review_complete`
+
+CEO decision:
+
+- Completed Stage 4 by adding the bounded write/readback runner and post-run review gate before any public runtime promotion.
+- The runner defaults to dry-run-only aggregate output.
+- Write execution is guarded by an exact Stage 4 authorization id and `TWSE_OPENAPI_STAGE4_ALLOW_WRITE=true`; without both, it fails closed.
+- The runner does not treat Stage 3 aggregate evidence as row payload and refuses to create missing rows without a separate writable candidate path.
+- No SQL, no unguarded Supabase write, no `daily_prices` mutation, no raw payload echo, no row payload echo, no `publicDataSource=supabase`, and no `scoreSource=real` happened in this stage.
+
+PM completed:
+
+- Added `src/lib/twse-openapi-stage-4-bounded-write-readback-runner.ts`.
+- Added `scripts/run-twse-openapi-stage-4-bounded-write-readback-once.mjs`.
+- Added `scripts/check-twse-openapi-stage-4-bounded-write-readback-runner.mjs`.
+- Registered the checker in `package.json` and the focused review gate.
+
+Current route:
+
+- `twse_openapi_supabase_readonly_gate`
+
 ### Latest Real Runtime Promotion Stage 3 Ingestion And Backfill Runner
 
 Status: `stage_3_ingestion_and_backfill_runner_complete`

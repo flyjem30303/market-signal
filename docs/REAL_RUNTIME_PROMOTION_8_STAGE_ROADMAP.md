@@ -2,7 +2,7 @@
 
 Updated: 2026-06-17
 
-Status: `stage_3_ingestion_and_backfill_runner_complete`
+Status: `stage_4_bounded_supabase_write_and_post_run_review_complete`
 
 CEO rule: keep this route execution-first. Do not add extra governance unless a later stage would otherwise risk legal misuse, bad data, secret exposure, or misleading public claims.
 
@@ -80,10 +80,12 @@ Stage 3 output:
 - Live OpenAPI fetch is blocked unless the operator provides the exact Stage 3 authorization id and `TWSE_OPENAPI_ALLOW_LIVE_FETCH=true`.
 - Dry-run output includes `candidateRowCount`, `duplicateCount`, `rejectedCount`, `missingSessionCount`, `sourceTimestamp`, and per-route summaries.
 - Dry-run output explicitly keeps `rawPayloadEcho=false`, `rowPayloadEcho=false`, `publicDataSource=mock`, and `scoreSource=mock`.
+- Retained Stage 3 status token: `stage_3_ingestion_and_backfill_runner_complete`.
+- Stage 3 next route was `twse_openapi_supabase_bounded_write_and_post_run_review`.
 
 ## Stage 4 - Bounded Supabase write and post-run review
 
-Status: `next`
+Status: `complete`
 
 Goal: perform a small authorized write/readback loop, then review row counts and rollback/fail-closed behavior.
 
@@ -92,6 +94,15 @@ Completion target:
 - Bounded write succeeds or fails closed.
 - Readback confirms expected rows.
 - No raw payload or secret is printed or committed.
+
+Stage 4 output:
+
+- Added a bounded write/readback runner and one-command post-run review.
+- Default execution is dry-run only and reports an aggregate insert-missing plan.
+- `--execute` fails closed unless the operator supplies the exact Stage 4 authorization id and `TWSE_OPENAPI_STAGE4_ALLOW_WRITE=true`.
+- The runner refuses to create missing rows without a separate row-payload candidate path; Stage 3 aggregate evidence is not treated as writable row data.
+- Post-run review remains aggregate-only with `rawPayloadEcho=false`, `rowPayloadEcho=false`, `publicDataSource=mock`, and `scoreSource=mock`.
+- The next route is `twse_openapi_supabase_readonly_gate`.
 
 ## Stage 5 - Supabase readonly gate
 
@@ -135,4 +146,4 @@ Completion target:
 
 ## Next execution step
 
-Proceed to Stage 4: `twse_openapi_supabase_bounded_write_and_post_run_review`.
+Proceed to Stage 5: `twse_openapi_supabase_readonly_gate`.
