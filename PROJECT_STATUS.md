@@ -2,6 +2,28 @@
 
 ## Latest Effective Status - 2026-06-17
 
+### Latest Phase 1 Current-Scope Write Runner Input Review
+
+Status: `phase_1_current_scope_write_runner_input_review_check_ready`
+
+CEO decision:
+
+- Added a direct current-scope candidate-to-runner input review entrypoint.
+- This closes the practical gap between the new TWII + listed-stock row payload validator and the future dry-run/write-runner path.
+- The review accepts only aggregate validator output and keeps row payloads, raw payloads, stock ids, and secrets out of console output.
+- It rejects missing candidates and deferred ETF candidates before any runner/dry-run preparation can proceed.
+- No SQL, Supabase connection, Supabase write, `daily_prices` mutation, market-data fetch, raw payload, row payload, stock id payload, secret output, `publicDataSource=supabase`, or `scoreSource=real` occurred.
+
+PM completed:
+
+- Added `scripts/run-phase-1-current-scope-write-runner-input-review.mjs`.
+- Added `scripts/check-phase-1-current-scope-write-runner-input-review.mjs`.
+- Added npm run/check scripts and registered the checker in the Phase 1 live core review gate.
+
+Current route:
+
+- `provide_current_scope_row_payload_candidate_path_then_run_input_review`
+
 ### Latest Phase 1 Current-Scope Row Payload Validator
 
 Status: `phase_1_current_scope_sanitized_row_payload_candidate_artifact_validator_ready`
