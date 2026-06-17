@@ -2,6 +2,38 @@
 
 ## Latest Effective Status - 2026-06-16
 
+### Latest Phase 1 Current-Scope Actual Bounded Write External Execution Runbook
+
+Status: `phase_1_current_scope_actual_bounded_write_external_execution_runbook_no_execution_ready`
+
+CEO decision:
+
+- Decision token: `PREPARE_EXTERNAL_EXECUTION_RUNBOOK_KEEP_MOCK_UNTIL_POST_RUN_REVIEW`.
+- Prepare a concise external execution runbook after the actual execution final-go no-execution packet.
+- Do not add another narrow authorization gate; converge the remaining pre-write requirements into one larger operator package.
+- Keep the repository in no-execution mode: the runbook does not execute SQL, write Supabase, mutate `daily_prices`, include server-only runtime values, include command values, include row/raw/stock-id payloads, or promote runtime sources.
+- Limit any later external attempt to `maxAttemptCount=1`, insert-missing-only, current Phase 1 scope `twii_plus_listed_stock_daily_close`; defer `0050`, `006208`, and `etf_all_phase_1_1`.
+- Require dry-run first, immediate aggregate-only post-run review, readback summary, and rollback/quarantine default action before any promotion is considered.
+- Keep `actualWriteAttemptAllowedHere=false`, `publicDataSource=mock`, and `scoreSource=mock`.
+
+PM completed:
+
+- Added `data/evidence-intake/phase-1-current-scope-actual-bounded-write-external-execution-runbook-no-execution.json`.
+- Added `docs/PHASE_1_CURRENT_SCOPE_ACTUAL_BOUNDED_WRITE_EXTERNAL_EXECUTION_RUNBOOK_NO_EXECUTION.md`.
+- Added `scripts/check-phase-1-current-scope-actual-bounded-write-external-execution-runbook-no-execution.mjs`.
+- Added npm check script and registered the checker in the Phase 1 live core review gate.
+
+Latest verification:
+
+```powershell
+cmd.exe /c scripts\with-node20.cmd npm run check:phase-1-current-scope-actual-bounded-write-external-execution-runbook-no-execution
+cmd.exe /c scripts\with-node20.cmd npm run check:review-gates
+```
+
+Current route:
+
+- `external_operator_may_execute_one_bounded_attempt_then_post_run_review_or_keep_mock`
+
 ### Latest Phase 1 Current-Scope Actual Bounded Write Attempt Actual Execution Final Go
 
 Status: `phase_1_current_scope_actual_bounded_write_attempt_actual_execution_final_go_no_execution_ready`

@@ -1,0 +1,72 @@
+{
+  "packetMode": "phase_1_current_scope_actual_bounded_write_external_execution_runbook_no_execution",
+  "status": "phase_1_current_scope_actual_bounded_write_external_execution_runbook_no_execution_ready",
+  "decision": "PREPARE_EXTERNAL_EXECUTION_RUNBOOK_KEEP_MOCK_UNTIL_POST_RUN_REVIEW",
+  "sourceFinalGoGuardedStatus": "phase_1_current_scope_actual_bounded_write_attempt_actual_execution_final_go_no_execution_ready",
+  "phase1Universe": "twii_plus_listed_stock_daily_close",
+  "scope": "twii_plus_listed_stock_daily_close",
+  "operationKind": "insert_missing_daily_prices_from_sanitized_candidate_only",
+  "currentRoute": "await_explicit_external_current_scope_actual_bounded_write_execution_outside_no_execution_gates",
+  "scopeExclusions": [
+    "0050",
+    "006208",
+    "etf_all_phase_1_1"
+  ],
+  "operatorRunbook": {
+    "executionOwner": "CEO/PM external operator",
+    "maxAttemptCount": 1,
+    "dryRunFirstRequired": true,
+    "insertMissingOnlyRequired": true,
+    "noRawPayloadAllowed": true,
+    "noSecretsInArtifactAllowed": true,
+    "executeHere": false,
+    "requiredInputs": [
+      "accepted_actual_execution_final_go_packet",
+      "server_only_runtime_values_present_outside_repo",
+      "sanitized_candidate_artifact_path",
+      "explicit_execute_switch",
+      "confirmation_phrase",
+      "post_run_review_output_path"
+    ]
+  },
+  "postRunReview": {
+    "required": true,
+    "aggregateOnly": true,
+    "requiredTiming": "immediate_after_attempt",
+    "mustRecord": [
+      "attemptId",
+      "insertedRows",
+      "rejectedRows",
+      "duplicateRows",
+      "readbackRows",
+      "mutationSummary",
+      "problems",
+      "promotionRecommendation"
+    ]
+  },
+  "rollbackOrQuarantine": {
+    "required": true,
+    "defaultAction": "quarantine_then_keep_mock",
+    "promotionBlockedUntilReview": true,
+    "triggerConditions": [
+      "insertedRowsExceedExpected",
+      "duplicateRowsNonZero",
+      "readbackMismatch",
+      "unexpectedSymbol",
+      "unexpectedDateWindow",
+      "runnerProblemNonEmpty"
+    ]
+  },
+  "actualWriteAttemptAllowedHere": false,
+  "externalExecutionRunbookPreparedNow": true,
+  "sqlExecuted": false,
+  "supabaseWriteAttempted": false,
+  "dailyPricesMutated": false,
+  "marketDataFetched": false,
+  "rawPayloadIncluded": false,
+  "rowPayloadIncluded": false,
+  "stockIdPayloadIncluded": false,
+  "secretsIncluded": false,
+  "publicDataSource": "mock",
+  "scoreSource": "mock"
+}
