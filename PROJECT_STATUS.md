@@ -2,6 +2,28 @@
 
 ## Latest Effective Status - 2026-06-16
 
+### Latest Phase 1 Current-Scope Candidate Reply Apply Gate
+
+Status: `phase_1_current_scope_candidate_reply_apply_gate_no_execution_ready`
+
+CEO decision:
+
+- Add a PM apply gate after the current-scope reply intake runner.
+- Treat accepted runner output as reply-shape acceptance only, not candidate artifact content acceptance.
+- Keep candidate artifact unread, candidate rows unaccepted, and write gate closed.
+- Keep `publicDataSource=mock` and `scoreSource=mock`.
+
+PM completed:
+
+- Added `scripts/run-phase-1-current-scope-candidate-reply-apply-gate-once.mjs`.
+- Added `scripts/check-phase-1-current-scope-candidate-reply-apply-gate-no-execution.mjs`.
+- Added `docs/PHASE_1_CURRENT_SCOPE_CANDIDATE_REPLY_APPLY_GATE_NO_EXECUTION.md`.
+- Registered `phase-1-current-scope-candidate-reply-apply-gate-no-execution` in the focused review gate set.
+
+Next:
+
+Continue with `prepare_candidate_artifact_path_existence_and_shape_gate_no_row_payloads`, then validate only path existence/shape before any artifact content or rows are considered.
+
 ### Latest Phase 1 Current-Scope Candidate Reply Intake Runner
 
 Status: `phase_1_current_scope_sanitized_candidate_reply_intake_runner_no_row_payloads_ready`
