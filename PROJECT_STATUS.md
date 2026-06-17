@@ -2,6 +2,29 @@
 
 ## Latest Effective Status - 2026-06-16
 
+### Latest Phase 1 Current-Scope Bounded Write Runner Authorization Gate
+
+Status: `phase_1_current_scope_bounded_write_runner_authorization_gate_no_execution_ready`
+
+CEO decision:
+
+- Add a no-execution runner authorization gate after the current-scope bounded write execution packet.
+- Accept only `APPROVE_PREPARE_WRITE_CAPABLE_RUNNER_SCAFFOLD` shape with execution packet readiness, operation kind confirmation, runtime input plan confirmation, stop condition confirmation, readback plan confirmation, rollback plan confirmation, post-run review confirmation, and abort switch presence.
+- Keep this as permission to prepare a future runner scaffold only; it does not create an executable runner and does not authorize a write.
+- Keep runner non-executable, bounded write non-executable, candidate rows unaccepted, write gate closed, `publicDataSource=mock`, and `scoreSource=mock`.
+- Do not read env values, output secrets, output confirmation phrase values, read candidate artifact content, execute SQL, connect to Supabase, fetch market rows, or write `daily_prices`.
+
+PM completed:
+
+- Added `scripts/run-phase-1-current-scope-bounded-write-runner-authorization-gate-once.mjs`.
+- Added `scripts/check-phase-1-current-scope-bounded-write-runner-authorization-gate-no-execution.mjs`.
+- Added `docs/PHASE_1_CURRENT_SCOPE_BOUNDED_WRITE_RUNNER_AUTHORIZATION_GATE_NO_EXECUTION.md`.
+- Registered `phase-1-current-scope-bounded-write-runner-authorization-gate-no-execution` in the focused review gate set.
+
+Next:
+
+Continue with `prepare_current_scope_write_capable_runner_scaffold_no_execution`, then prepare a scaffold that remains fail-closed until a separate explicit execution authorization exists.
+
 ### Latest Phase 1 Current-Scope Bounded Write Execution Packet
 
 Status: `phase_1_current_scope_bounded_write_execution_packet_no_execution_ready`
