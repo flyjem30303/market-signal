@@ -1,0 +1,36 @@
+{
+  "packetMode": "phase_1_current_scope_final_go_reality_reconciliation",
+  "status": "phase_1_current_scope_final_go_reconciled_repair_required",
+  "decision": "FINAL_GO_NOT_ALLOWED_UNTIL_CURRENT_SCOPE_CANDIDATE_AND_RUNNER_REPAIRED",
+  "phase1Universe": "twii_plus_listed_stock_daily_close",
+  "scope": "twii_plus_listed_stock_daily_close",
+  "sourceFinalGoSummaryPath": "data/evidence-intake/phase-1-current-scope-final-go-readiness-summary-no-execution.json",
+  "sourceBlockedPostRunReviewPath": "data/evidence-intake/phase-1-current-scope-bounded-write-attempt-blocked-post-run-review-2026-06-17.json",
+  "previousFinalGoReadinessClaim": true,
+  "reconciledFinalGoForWriteAttempt": false,
+  "reconciledFinalGoForKeepMockProductFinish": true,
+  "primaryFinding": "The prior final-go summary completed the no-execution governance chain, but the attempted execution review found no current-scope executable candidate and runner. The available executable command is superseded and ETF-scoped.",
+  "hardBlockers": [
+    "current_scope_sanitized_row_payload_candidate_missing",
+    "current_scope_executable_insert_missing_runner_missing",
+    "current_scope_dry_run_against_current_payload_missing",
+    "current_scope_post_run_review_bound_to_current_payload_missing"
+  ],
+  "explicitlyRejectedInputs": [
+    "tmp/phase-1-sanitized-row-payload-candidate.json",
+    "data/candidates/tw-equity-staging-candidate.json",
+    "data/candidates/phase-1-etf-sanitized-candidate.json"
+  ],
+  "acceptedNextRoute": "repair_current_scope_candidate_and_runner_before_any_write_final_go",
+  "sqlExecuted": false,
+  "supabaseConnectionAttempted": false,
+  "supabaseWriteAttempted": false,
+  "dailyPricesMutated": false,
+  "marketDataFetched": false,
+  "rawPayloadIncluded": false,
+  "rowPayloadIncluded": false,
+  "stockIdPayloadIncluded": false,
+  "secretsIncluded": false,
+  "publicDataSource": "mock",
+  "scoreSource": "mock"
+}

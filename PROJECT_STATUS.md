@@ -2,6 +2,31 @@
 
 ## Latest Effective Status - 2026-06-17
 
+### Latest Phase 1 Current-Scope Final-Go Reality Reconciliation
+
+Status: `phase_1_current_scope_final_go_reconciled_repair_required`
+
+CEO decision:
+
+- Decision token: `FINAL_GO_NOT_ALLOWED_UNTIL_CURRENT_SCOPE_CANDIDATE_AND_RUNNER_REPAIRED`.
+- Reconciled the previous no-execution final-go summary with the actual bounded write attempt review.
+- Previous `finalGoReadinessReached=true` is valid only as completion of the no-execution governance chain, not as approval to write current-scope rows.
+- `reconciledFinalGoForWriteAttempt=false` until a current-scope sanitized row payload candidate and current-scope executable insert-missing runner are repaired.
+- `reconciledFinalGoForKeepMockProductFinish=true`; product/runtime can continue with mock data while the data write lane is repaired.
+- Explicitly reject `tmp/phase-1-sanitized-row-payload-candidate.json`, `data/candidates/tw-equity-staging-candidate.json`, and `data/candidates/phase-1-etf-sanitized-candidate.json` as current-scope write final-go inputs.
+- No SQL, Supabase connection, Supabase write, `daily_prices` mutation, market-data fetch, raw payload, row payload, stock id payload, secret output, `publicDataSource=supabase`, or `scoreSource=real` occurred.
+
+PM completed:
+
+- Added `data/evidence-intake/phase-1-current-scope-final-go-reality-reconciliation-2026-06-17.json`.
+- Added `docs/PHASE_1_CURRENT_SCOPE_FINAL_GO_REALITY_RECONCILIATION_2026_06_17.md`.
+- Added `scripts/check-phase-1-current-scope-final-go-reality-reconciliation-2026-06-17.mjs`.
+- Added npm check script and registered the checker in the Phase 1 live core review gate.
+
+Current route:
+
+- `repair_current_scope_candidate_and_runner_before_any_write_final_go`
+
 ### Latest Phase 1 Current-Scope Bounded Write Attempt Post-Run Review
 
 Status: `phase_1_current_scope_bounded_write_attempt_blocked_before_mutation`
