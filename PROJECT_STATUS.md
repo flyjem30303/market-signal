@@ -2,6 +2,41 @@
 
 ## Latest Effective Status - 2026-06-17
 
+### Latest Phase 1 Current-Scope Local Candidate Assembly
+
+Status: `phase_1_current_scope_local_candidate_assembly_check_ready`
+
+CEO decision:
+
+- Added a local artifact assembler that can combine TWII rows from a prior accepted TWII row artifact with listed-stock rows from a staging-shaped stock candidate.
+- The assembler filters out deferred ETF rows and writes only to an allowed local/gitignored output path.
+- This creates a practical route to repair the current-scope candidate without fetching market data or touching Supabase.
+- The checker proves the assembled candidate passes the current-scope validator and the write-runner input review.
+- No SQL, Supabase connection, Supabase write, `daily_prices` mutation, market-data fetch, raw payload, row payload console output, stock id payload, secret output, `publicDataSource=supabase`, or `scoreSource=real` occurred.
+
+PM completed:
+
+- Added `scripts/assemble-phase-1-current-scope-candidate-from-local-artifacts.mjs`.
+- Added `scripts/check-phase-1-current-scope-local-candidate-assembly.mjs`.
+- Added npm assemble/check scripts and registered the checker in the Phase 1 live core review gate.
+
+Current route:
+
+- `assemble_current_scope_candidate_from_local_twii_and_listed_stock_artifacts_then_run_input_review`
+
+Actual local proof:
+
+- Output candidate path: `tmp/phase-1-current-scope-row-payload-candidate-from-local-artifacts.json` (gitignored, not committed).
+- Validator status: `phase_1_current_scope_sanitized_row_payload_candidate_artifact_validated_aggregate_only`.
+- Input review status: `phase_1_current_scope_write_runner_input_review_ready`.
+- Row count: `240`.
+- Symbols covered: `TWII`, `2308`, `2330`, `2382`.
+- Per-symbol rows: `60` each.
+- Date bounds: `2026-03-11` to `2026-06-15`.
+- ETF rows: `0`.
+- Duplicate rows: `0`.
+- Next route: `prepare_current_scope_insert_missing_dry_run_review_against_candidate`.
+
 ### Latest Current-Scope Candidate Converter
 
 Status: `current_scope_candidate_converter_ready`
