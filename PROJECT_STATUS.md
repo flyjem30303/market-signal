@@ -2,6 +2,30 @@
 
 ## Latest Effective Status - 2026-06-17
 
+### Latest Real Runtime Promotion Stage 7 Real Score Formula
+
+Status: `stage_7_real_score_formula_complete`
+
+CEO decision:
+
+- Completed Stage 7 by adding a transparent real-score formula core before public score promotion.
+- The formula uses visible daily inputs: daily change, moving-average posture, volume change, volatility, and price dispersion.
+- The output provides `compositeScore`, `healthScore`, `riskScore`, signal label, and readable reasons.
+- The formula explicitly carries `noBuySellAdvice=true`.
+- `scoreSource` remains `mock`; public real-score promotion is deferred to Stage 8.
+- No SQL, no Supabase write, no `daily_prices` mutation, no market-data fetch, no raw payload echo, no row payload echo, no secret printing, no deployment env mutation, and no `scoreSource=real` happened in this stage.
+
+PM completed:
+
+- Added `src/lib/twse-openapi-stage-7-real-score-formula.ts`.
+- Added `scripts/run-twse-openapi-stage-7-real-score-formula-gate-once.mjs`.
+- Added `scripts/check-twse-openapi-stage-7-real-score-formula-gate.mjs`.
+- Registered the checker in `package.json` and the focused review gate.
+
+Current route:
+
+- `scoreSource_real_promotion_gate`
+
 ### Latest Real Runtime Promotion Stage 6 publicDataSource Supabase Promotion Gate
 
 Status: `stage_6_public_data_source_supabase_promotion_complete`

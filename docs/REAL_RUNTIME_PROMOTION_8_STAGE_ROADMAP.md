@@ -2,7 +2,7 @@
 
 Updated: 2026-06-17
 
-Status: `stage_6_public_data_source_supabase_promotion_complete`
+Status: `stage_7_real_score_formula_complete`
 
 CEO rule: keep this route execution-first. Do not add extra governance unless a later stage would otherwise risk legal misuse, bad data, secret exposure, or misleading public claims.
 
@@ -153,6 +153,8 @@ Stage 6 output:
 
 ## Stage 7 - real score formula
 
+Status: `complete`
+
 Goal: replace demonstration score with transparent, explainable calculations.
 
 Completion target:
@@ -160,6 +162,17 @@ Completion target:
 - Score is based on simple visible inputs such as daily change, moving-average posture, volume change, and volatility/dispersion.
 - Each signal has a readable reason.
 - No buy/sell advice.
+
+Stage 7 output:
+
+- Added a transparent real-score formula core based on visible daily market inputs.
+- Formula components are `dailyChangeScore`, `movingAveragePostureScore`, `volumeChangeScore`, `volatilityScore`, and `dispersionScore`.
+- Output includes `compositeScore`, `healthScore`, `riskScore`, signal label, and readable reasons.
+- The formula carries `noBuySellAdvice=true`.
+- This stage keeps `scoreSource=mock`; public real-score promotion is deferred to Stage 8.
+- This stage did not run SQL, write Supabase, fetch market data, print secrets, or mutate deployment env.
+- Retained Stage 7 status token: `stage_7_real_score_formula_complete`.
+- The next route is `scoreSource_real_promotion_gate`.
 
 ## Stage 8 - scoreSource=real promotion
 
@@ -173,4 +186,4 @@ Completion target:
 
 ## Next execution step
 
-Proceed to Stage 7: `real_score_formula_gate`.
+Proceed to Stage 8: `scoreSource_real_promotion_gate`.
