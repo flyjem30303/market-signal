@@ -1,165 +1,77 @@
 import fs from "node:fs";
 
-const repositoryPath = "src/lib/repositories/market-signal-repository.ts";
-const sourceStatusPath = "src/lib/repositories/market-signal-source-status.ts";
-const stripPath = "src/components/data-freshness-strip.tsx";
-const dashboardPath = "src/components/dashboard-shell.tsx";
-const homePath = "src/app/page.tsx";
-const stockPagePath = "src/app/stocks/[symbol]/page.tsx";
-const briefingPath = "src/app/briefing/page.tsx";
-const weeklyPath = "src/app/weekly/page.tsx";
-const methodologyPath = "src/app/methodology/page.tsx";
-const envExamplePath = ".env.example";
-const repository = fs.readFileSync(repositoryPath, "utf8");
-const sourceStatus = fs.readFileSync(sourceStatusPath, "utf8");
-const strip = fs.readFileSync(stripPath, "utf8");
-const dashboard = fs.readFileSync(dashboardPath, "utf8");
-const home = fs.readFileSync(homePath, "utf8");
-const stockPage = fs.readFileSync(stockPagePath, "utf8");
-const briefing = fs.readFileSync(briefingPath, "utf8");
-const weekly = fs.readFileSync(weeklyPath, "utf8");
-const methodology = fs.readFileSync(methodologyPath, "utf8");
-const envExample = fs.readFileSync(envExamplePath, "utf8");
+const files = {
+  dashboard: "src/components/dashboard-shell.tsx",
+  envExample: ".env.example",
+  repository: "src/lib/repositories/market-signal-repository.ts",
+  sourceStatus: "src/lib/repositories/market-signal-source-status.ts",
+  staticRepository: "src/lib/repositories/static-market-signal-repository.ts",
+  strip: "src/components/data-freshness-strip.tsx",
+  supabaseRepository: "src/lib/repositories/supabase-market-signal-repository.ts"
+};
 
-const requiredRepositoryPhrases = [
-  "export { getMarketSignalSourceStatus, type MarketSignalSourceStatus };",
-  "getMarketSignalSourceStatus({ env });",
-  "return mockMarketSignalRepository;"
+const text = Object.fromEntries(Object.entries(files).map(([key, file]) => [key, fs.readFileSync(file, "utf8")]));
+
+const required = [
+  [files.repository, text.repository, "getMarketSignalRuntime"],
+  [files.repository, text.repository, "createLoadedSupabaseMarketSignalRepository"],
+  [files.repository, text.repository, "createServerSupabaseClient"],
+  [files.repository, text.repository, "Supabase readonly data could not be loaded"],
+  [files.staticRepository, text.staticRepository, "toMarketSignalRepositoryData"],
+  [files.staticRepository, text.staticRepository, "createStaticMarketSignalRepository"],
+  [files.sourceStatus, text.sourceStatus, "stage_6_public_data_source_supabase_approved"],
+  [files.sourceStatus, text.sourceStatus, "stage_8_score_source_real_approved"],
+  [files.sourceStatus, text.sourceStatus, "supabase_read_failed"],
+  [files.supabaseRepository, text.supabaseRepository, ".from(\"stocks\")"],
+  [files.supabaseRepository, text.supabaseRepository, ".from(\"daily_prices\")"],
+  [files.supabaseRepository, text.supabaseRepository, ".from(\"daily_scores\")"],
+  [files.supabaseRepository, text.supabaseRepository, "Supabase readonly daily_prices"],
+  [files.dashboard, text.dashboard, "repositoryData?: MarketSignalRepositoryData"],
+  [files.dashboard, text.dashboard, "createStaticMarketSignalRepository(repositoryData)"],
+  [files.dashboard, text.dashboard, "mockMarketSignalRepository"],
+  [files.strip, text.strip, "資料狀態"],
+  [files.strip, text.strip, "Supabase 唯讀"],
+  [files.strip, text.strip, "分數狀態"],
+  [files.envExample, text.envExample, "NEXT_PUBLIC_DATA_SOURCE=mock"],
+  [files.envExample, text.envExample, "NEXT_PUBLIC_SCORE_SOURCE=mock"],
+  [files.envExample, text.envExample, "MARKET_SIGNAL_SUPABASE_READS=disabled"],
+  [files.envExample, text.envExample, "MARKET_SIGNAL_SUPABASE_PROMOTION_GATE=disabled"],
+  [files.envExample, text.envExample, "MARKET_SIGNAL_SCORE_SOURCE_GATE=disabled"]
 ];
 
-const requiredSourceStatusPhrases = [
-  "export type MarketSignalDataSource = \"mock\" | \"supabase\";",
-  "export type MarketSignalSupabaseReads = \"disabled\" | \"enabled\";",
-  "MARKET_SIGNAL_SUPABASE_READS?: string;",
-  "env.NEXT_PUBLIC_DATA_SOURCE ?? \"mock\"",
-  "env.MARKET_SIGNAL_SUPABASE_READS === \"enabled\" ? \"enabled\" : \"disabled\"",
-  "publicScoreSource: \"mock\"",
-  "resolvedSource: \"mock\"",
-  "Supabase market-signal reads are not enabled",
-  "public score repository still resolves to mock"
+const forbidden = [
+  [files.repository, text.repository, ".insert("],
+  [files.repository, text.repository, ".upsert("],
+  [files.repository, text.repository, ".delete("],
+  [files.repository, text.repository, ".rpc("],
+  [files.supabaseRepository, text.supabaseRepository, ".insert("],
+  [files.supabaseRepository, text.supabaseRepository, ".upsert("],
+  [files.supabaseRepository, text.supabaseRepository, ".delete("],
+  [files.supabaseRepository, text.supabaseRepository, ".rpc("],
+  [files.supabaseRepository, text.supabaseRepository, ".storage"]
 ];
 
-const requiredEnvPhrases = [
-  "NEXT_PUBLIC_DATA_SOURCE=mock",
-  "MARKET_SIGNAL_SUPABASE_READS=disabled",
-  "bounded market-signal runtime-read checkpoint"
-];
-
-const requiredUiPhrases = [
-  {
-    content: strip,
-    file: stripPath,
-    phrases: [
-      "marketSignalSourceStatus?: MarketSignalSourceStatus",
-      "市場訊號來源：目前 {marketSignalSourceStatus.resolvedSource}",
-      "要求來源 {marketSignalSourceStatus.requestedSource}",
-      "後端唯讀狀態",
-      "{marketSignalSourceStatus.supabaseRuntimeReads}",
-      "{marketSignalSourceStatus.reason}"
-    ]
-  },
-  {
-    content: dashboard,
-    file: dashboardPath,
-    phrases: [
-      "marketSignalSourceStatus?: MarketSignalSourceStatus",
-      "marketSignalSourceStatus={marketSignalSourceStatus}"
-    ]
-  },
-  {
-    content: home,
-    file: homePath,
-    phrases: ["getMarketSignalSourceStatus", "marketSignalSourceStatus={marketSignalSourceStatus}"]
-  },
-  {
-    content: stockPage,
-    file: stockPagePath,
-    phrases: ["getMarketSignalSourceStatus", "marketSignalSourceStatus={marketSignalSourceStatus}"]
-  },
-  {
-    content: briefing,
-    file: briefingPath,
-    phrases: ["getMarketSignalSourceStatus", "marketSignalSourceStatus={marketSignalSourceStatus}"]
-  },
-  {
-    content: weekly,
-    file: weeklyPath,
-    phrases: ["getMarketSignalSourceStatus", "marketSignalSourceStatus={marketSignalSourceStatus}"]
-  },
-  {
-    content: methodology,
-    file: methodologyPath,
-    phrases: ["getMarketSignalSourceStatus", "marketSignalSourceStatus={marketSignalSourceStatus}"]
-  }
-];
-
-const forbiddenRepositoryPhrases = [
-  "createSupabaseMarketSignalRepository(",
-  "createServerSupabaseClient()",
-  "scoreSource: \"real\"",
-  "scoreSource" + "=real",
-  "resolvedSource: \"supabase\"",
-  "publicScoreSource: \"real\"",
-  "throw new Error(\"NEXT_PUBLIC_DATA_SOURCE=supabase"
-];
-
-const missingRepository = requiredRepositoryPhrases
-  .filter((phrase) => !repository.includes(phrase))
-  .map((phrase) => ({ file: repositoryPath, phrase }));
-
-const missingSourceStatus = requiredSourceStatusPhrases
-  .filter((phrase) => !sourceStatus.includes(phrase))
-  .map((phrase) => ({ file: sourceStatusPath, phrase }));
-
-const missingEnv = requiredEnvPhrases
-  .filter((phrase) => !envExample.includes(phrase))
-  .map((phrase) => ({ file: envExamplePath, phrase }));
-
-const missingUi = requiredUiPhrases.flatMap((requirement) =>
-  requirement.phrases
-    .filter((phrase) => !requirement.content.includes(phrase))
-    .map((phrase) => ({ file: requirement.file, phrase }))
-);
-
-const forbidden = forbiddenRepositoryPhrases
-  .flatMap((phrase) =>
-    [
-      { content: repository, file: repositoryPath },
-      { content: sourceStatus, file: sourceStatusPath }
-    ]
-      .filter((target) => target.content.includes(phrase))
-      .map((target) => ({ file: target.file, phrase }))
-  );
-
-const problems = [...missingRepository, ...missingSourceStatus, ...missingEnv, ...missingUi, ...forbidden];
+const missing = required
+  .filter(([, content, phrase]) => !content.includes(phrase))
+  .map(([file, , phrase]) => ({ file, phrase }));
+const forbiddenHits = forbidden
+  .filter(([, content, phrase]) => content.includes(phrase))
+  .map(([file, , phrase]) => ({ file, phrase }));
+const status = missing.length === 0 && forbiddenHits.length === 0 ? "ok" : "blocked";
 
 console.log(
   JSON.stringify(
     {
-      checked_files: [
-        repositoryPath,
-        sourceStatusPath,
-        stripPath,
-        dashboardPath,
-        homePath,
-        stockPagePath,
-        briefingPath,
-        weeklyPath,
-        methodologyPath,
-        envExamplePath
-      ],
-      forbidden,
-      missingEnv,
-      missingRepository,
-      missingSourceStatus,
-      missingUi,
-      status: problems.length === 0 ? "ok" : "blocked"
+      checked_files: Object.values(files),
+      forbidden: forbiddenHits,
+      missing,
+      status
     },
     null,
     2
   )
 );
 
-if (problems.length > 0) {
+if (status !== "ok") {
   process.exitCode = 1;
 }

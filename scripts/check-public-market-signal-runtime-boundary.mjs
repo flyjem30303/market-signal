@@ -1,25 +1,20 @@
 import fs from "node:fs";
+import Module from "node:module";
+import path from "node:path";
+import ts from "typescript";
 
+const root = process.cwd();
 const repositoryPath = "src/lib/repositories/market-signal-repository.ts";
-const repositorySource = fs.readFileSync(repositoryPath, "utf8");
-
-const { getMarketSignalSourceStatus } = await import("../src/lib/repositories/market-signal-source-status.ts");
-
-const forbiddenRepositoryTokens = [
-  "createServerSupabaseClient",
-  "createSupabaseMarketSignalRepository",
-  "supabase-market-signal-repository",
-  "@supabase/supabase-js",
-  'scoreSource: "real"',
-  "scoreSource=\"real\"",
-  "scoreSource=real",
-  "resolvedSource: \"supabase\"",
-  "publicScoreSource: \"real\""
-];
+const repositorySource = fs.readFileSync(path.join(root, repositoryPath), "utf8");
+const { getMarketSignalSourceStatus } = loadTsModule("src/lib/repositories/market-signal-source-status.ts");
 
 const runtimeCases = [
   {
     env: {},
+    expected: {
+      publicScoreSource: "mock",
+      resolvedSource: "mock"
+    },
     name: "default runtime remains mock"
   },
   {
@@ -27,35 +22,63 @@ const runtimeCases = [
       MARKET_SIGNAL_SUPABASE_READS: "enabled",
       NEXT_PUBLIC_DATA_SOURCE: "mock"
     },
+    expected: {
+      publicScoreSource: "mock",
+      resolvedSource: "mock"
+    },
     name: "enabled reads with mock request remains mock"
   },
   {
     env: {
       NEXT_PUBLIC_DATA_SOURCE: "supabase"
     },
-    name: "supabase request with reads disabled remains mock"
+    expected: {
+      failClosedReason: "supabase_reads_disabled",
+      publicScoreSource: "mock",
+      resolvedSource: "mock"
+    },
+    name: "supabase request with reads disabled fails closed"
   },
   {
     env: {
       MARKET_SIGNAL_SUPABASE_READS: "enabled",
       NEXT_PUBLIC_DATA_SOURCE: "supabase"
     },
-    name: "supabase request with enabled reads still returns public mock"
+    expected: {
+      failClosedReason: "stage_6_promotion_gate_missing",
+      publicScoreSource: "mock",
+      resolvedSource: "mock"
+    },
+    name: "supabase request without stage 6 gate fails closed"
+  },
+  {
+    env: {
+      MARKET_SIGNAL_SCORE_SOURCE_GATE: "stage_8_score_source_real_approved",
+      MARKET_SIGNAL_SUPABASE_PROMOTION_GATE: "stage_6_public_data_source_supabase_approved",
+      MARKET_SIGNAL_SUPABASE_READS: "enabled",
+      NEXT_PUBLIC_DATA_SOURCE: "supabase",
+      NEXT_PUBLIC_SCORE_SOURCE: "real"
+    },
+    expected: {
+      publicScoreSource: "real",
+      resolvedSource: "supabase"
+    },
+    name: "stage 6 plus stage 8 can promote source and score"
   }
 ];
 
 const sourceStatusResults = runtimeCases.map((testCase) => {
   const status = getMarketSignalSourceStatus({ env: testCase.env });
-  const problems = [];
-  if (status.publicScoreSource !== "mock") problems.push(`publicScoreSource=${status.publicScoreSource}`);
-  if (status.resolvedSource !== "mock") problems.push(`resolvedSource=${status.resolvedSource}`);
+  const problems = Object.entries(testCase.expected)
+    .filter(([key, value]) => status[key] !== value)
+    .map(([key, value]) => `${key} expected ${value}, got ${status[key]}`);
 
   return {
     name: testCase.name,
     pass: problems.length === 0,
     problems,
-    resolvedSource: status.resolvedSource,
     publicScoreSource: status.publicScoreSource,
+    resolvedSource: status.resolvedSource,
     supabaseRuntimeReads: status.supabaseRuntimeReads
   };
 });
@@ -69,17 +92,25 @@ try {
 
 const staticResults = [
   {
-    pass: repositorySource.includes("return mockMarketSignalRepository;"),
-    rule: "public repository returns mockMarketSignalRepository"
+    pass: repositorySource.includes("getMarketSignalRuntime"),
+    rule: "public runtime exposes async server runtime factory"
   },
   {
-    pass: repositorySource.includes("getMarketSignalSourceStatus({ env });"),
-    rule: "public repository records source status before returning mock"
+    pass: repositorySource.includes("createLoadedSupabaseMarketSignalRepository"),
+    rule: "public runtime can load readonly Supabase repository after gate"
   },
-  ...forbiddenRepositoryTokens.map((token) => ({
-    pass: !repositorySource.includes(token),
-    rule: `forbidden repository token absent: ${token}`
-  }))
+  {
+    pass: repositorySource.includes("createServerSupabaseClient"),
+    rule: "public runtime uses server-only Supabase client"
+  },
+  {
+    pass: repositorySource.includes("Supabase readonly data could not be loaded"),
+    rule: "Supabase read errors fail closed to mock data"
+  },
+  {
+    pass: !repositorySource.includes(".insert(") && !repositorySource.includes(".upsert(") && !repositorySource.includes(".delete("),
+    rule: "public runtime repository boundary does not write"
+  }
 ];
 
 const invalidSourcePass = invalidSourceError?.includes("Unsupported NEXT_PUBLIC_DATA_SOURCE") ?? false;
@@ -106,4 +137,47 @@ console.log(
 
 if (failed.length > 0) {
   process.exitCode = 1;
+}
+
+function loadTsModule(relativePath, cache = new Map()) {
+  const absolutePath = path.join(root, relativePath);
+  const normalizedPath = path.normalize(relativePath);
+
+  if (cache.has(normalizedPath)) {
+    return cache.get(normalizedPath).exports;
+  }
+
+  const module = { exports: {} };
+  cache.set(normalizedPath, module);
+  const sourceText = fs.readFileSync(absolutePath, "utf8");
+  const transpiled = ts.transpileModule(sourceText, {
+    compilerOptions: {
+      esModuleInterop: true,
+      module: ts.ModuleKind.CommonJS,
+      target: ts.ScriptTarget.ES2022
+    },
+    fileName: absolutePath
+  }).outputText;
+  const localRequire = createLocalRequire(relativePath, cache);
+  const execute = new Function("require", "exports", "module", "__filename", "__dirname", transpiled);
+  execute(localRequire, module.exports, module, absolutePath, path.dirname(absolutePath));
+  return module.exports;
+}
+
+function createLocalRequire(fromRelativePath, cache) {
+  const nativeRequire = Module.createRequire(path.join(root, fromRelativePath));
+
+  return function localRequire(specifier) {
+    if (specifier.startsWith("@/")) {
+      return loadTsModule(`src/${specifier.slice(2)}.ts`, cache);
+    }
+
+    if (specifier.startsWith(".")) {
+      const baseDirectory = path.dirname(fromRelativePath);
+      const resolved = path.normalize(path.join(baseDirectory, `${specifier}.ts`));
+      return loadTsModule(resolved, cache);
+    }
+
+    return nativeRequire(specifier);
+  };
 }

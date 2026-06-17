@@ -1,13 +1,10 @@
 import type { Metadata } from "next";
 import { PageViewTracker } from "@/components/page-view-tracker";
-import { PublicRouteReadingContract } from "@/components/public-route-reading-contract";
-import { RouteLocalTrustCopyPanel } from "@/components/route-local-trust-copy-panel";
-import { TrustRuntimeBoundaryNotice } from "@/components/trust-runtime-boundary-notice";
 import { TrackedLink } from "@/components/tracked-link";
 
 export const metadata: Metadata = {
   title: "使用條款",
-  description: "使用指數燈號前，請理解資料、燈號與非投資建議邊界。"
+  description: "使用指數燈號時，請理解本站定位為市場資訊整理與風險辨識工具，不提供投資建議。"
 };
 
 export default function TermsPage() {
@@ -16,35 +13,31 @@ export default function TermsPage() {
       <PageViewTracker eventName="terms_page_viewed" payload={{ page: "terms" }} />
       <section className="hero">
         <p className="eyebrow">使用條款</p>
-        <h1>請把本站視為市場資訊輔助工具</h1>
-        <p>指數燈號用來整理市場資訊、提示風險與建立觀察流程，不提供交易指令或保證結果。</p>
-        <p className="runtime-boundary-line">正式資料升級尚未開放；公開頁仍維持示範資料與 mock score。</p>
+        <h1>請把本站作為市場觀察輔助工具</h1>
+        <p>指數燈號整理市場狀態、資料時間與風險提示，協助使用者縮短資訊閱讀時間。</p>
+        <p className="runtime-boundary-line">使用本站即表示你理解內容僅供資訊參考，不構成投資建議。</p>
       </section>
-
-      <PublicRouteReadingContract context="terms" />
-      <RouteLocalTrustCopyPanel context="terms" />
-      <TrustRuntimeBoundaryNotice context="terms" />
 
       <section className="legal-quick-read" aria-label="使用條款重點">
         <article>
-          <span>使用定位</span>
-          <strong>資訊整理與風險辨識</strong>
-          <p>不得把燈號、分數或文字視為買賣建議。</p>
+          <span>使用範圍</span>
+          <strong>市場資訊整理</strong>
+          <p>本站內容可作為市場觀察、風險辨識與學習用途，不應作為唯一決策依據。</p>
         </article>
         <article>
-          <span>資料限制</span>
-          <strong>更新時間與來源需以頁面揭露為準</strong>
-          <p>資料可能延遲、異常或降級，使用前需確認頁面狀態。</p>
+          <span>資料更新</span>
+          <strong>可能延遲或降級</strong>
+          <p>資料來源、更新時間與品質狀態會盡量標示；若資料異常，前台會保守降級。</p>
         </article>
         <article>
           <span>責任邊界</span>
-          <strong>使用者自行承擔投資決策</strong>
-          <p>本站不保證報酬，也不代替專業投資顧問。</p>
+          <strong>不承擔投資結果</strong>
+          <p>使用者應自行評估風險，本站不保證任何報酬或投資結果。</p>
         </article>
       </section>
 
       <section className="panel legal-links">
-        <h2>相關頁面</h2>
+        <h2>延伸閱讀</h2>
         <TrackedLink className="text-link" eventName="trust_link_clicked" href="/privacy" label="查看隱私權政策" payload={{ area: "terms" }}>
           查看隱私權政策
         </TrackedLink>

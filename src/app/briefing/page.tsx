@@ -7,8 +7,7 @@ import { PublicNextReadingFlow } from "@/components/public-next-reading-flow";
 import { TrackedLink } from "@/components/tracked-link";
 import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
 import {
-  getMarketSignalRepository,
-  getMarketSignalSourceStatus
+  getMarketSignalRuntime
 } from "@/lib/repositories/market-signal-repository";
 import { getRuntimeDecisionSummary } from "@/lib/runtime-decision-summary";
 import type { SignalSnapshot } from "@/lib/signal-model";
@@ -19,9 +18,8 @@ export const metadata: Metadata = {
 };
 
 export default async function BriefingPage() {
-  const repository = getMarketSignalRepository();
+  const { marketSignalSourceStatus, repository } = await getMarketSignalRuntime();
   const freshness = await getDataFreshnessSnapshot();
-  const marketSignalSourceStatus = getMarketSignalSourceStatus();
   const decisionSummary = getRuntimeDecisionSummary();
   const snapshots = repository
     .getAssets()

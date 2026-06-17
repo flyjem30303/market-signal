@@ -97,32 +97,32 @@ const signalRules: Record<SignalKey, SignalRule> = {
   "deep-red": {
     key: "deep-red",
     min: 0,
-    text: "市場狀態偏高風險，應先降低解讀信心，等待資料、趨勢與風險條件重新穩定。",
+    text: "風險分數明顯偏高，市場狀態需要嚴格控管部位與追蹤更新時間。",
     title: "高風險"
   },
   green: {
     key: "green",
     min: 75,
-    text: "市場狀態偏正向，趨勢與資金條件相對健康，但仍需確認資料更新時間與風險來源。",
+    text: "市場狀態偏強，但仍應確認資料更新時間與風險提示。適合維持觀察，不代表保證上漲。",
     title: "偏多"
   },
   orange: {
     key: "orange",
     min: 48,
-    text: "多空訊號混合，建議先看原因、資料狀態與風險分數，再決定是否提高警覺。",
+    text: "市場訊號分歧，適合先觀察成交量、趨勢延續與風險變化。",
     title: "觀望"
   },
   red: {
     key: "red",
     min: 34,
-    text: "風險分數偏高，應先確認弱勢是否擴散，並避免只用單一分數做判斷。",
+    text: "風險訊號升高，應提高警覺並檢查是否有資料延遲或市場異常。",
     title: "警戒"
   },
   yellow: {
     key: "yellow",
     min: 62,
-    text: "市場仍有支撐，但部分指標開始分歧，適合加強觀察而不是直接追價。",
-    title: "觀望偏多"
+    text: "市場仍有支撐，但部分指標開始分歧。適合加強觀察資金、廣度與波動變化。",
+    title: "中性偏多"
   }
 };
 
@@ -136,7 +136,8 @@ export async function createLoadedSupabaseMarketSignalRepository(
 ): Promise<MarketSignalRepository> {
   const stocks = await getActiveStocks(client, market);
   const stockIds = stocks.map((stock) => stock.id);
-  const [prices, scores] = stockIds.length > 0 ? await Promise.all([getPrices(client, stockIds), getScores(client, stockIds)]) : [[], []];
+  const [prices, scores] =
+    stockIds.length > 0 ? await Promise.all([getPrices(client, stockIds), getScores(client, stockIds)]) : [[], []];
 
   return createRepositoryFromRows(stocks, prices, scores);
 }
@@ -149,9 +150,10 @@ function createRepositoryFromRows(
   const assets = stocks.map(toAsset);
   const assetsBySymbol = new Map(assets.map((asset) => [asset.symbol.toLowerCase(), asset]));
   const pricesByStockDate = new Map(prices.map((price) => [`${price.stock_id}:${price.trade_date}`, price]));
+  const stocksById = new Map(stocks.map((stock) => [stock.id, stock]));
   const snapshots = scores
     .map((score) => {
-      const stock = stocks.find((item) => item.id === score.stock_id);
+      const stock = stocksById.get(score.stock_id);
       if (!stock) return null;
       const asset = assetsBySymbol.get(stock.symbol.toLowerCase());
       if (!asset) return null;
@@ -233,7 +235,7 @@ function toAsset(row: StockRow): Asset {
     ai: 0.5,
     beta: type === "index" ? 1 : type === "etf" ? 0.9 : 1.05,
     flow: 0.5,
-    group: type === "index" ? "指數" : type === "etf" ? "ETF" : (row.industry ?? "台股"),
+    group: type === "index" ? "指數" : type === "etf" ? "ETF" : (row.industry ?? "上市股票"),
     id: row.symbol,
     name: row.name,
     quality: 0.5,
@@ -271,8 +273,8 @@ function toSnapshot(asset: Asset, score: DailyScoreRow, price?: DailyPriceRow): 
 
 function buildMarketFacts(asset: Asset, date: string, price?: DailyPriceRow) {
   const unit = asset.type === "index" ? "點" : "元";
-  const close = price?.close == null ? "尚無收盤價" : `${formatNumber(price.close)} ${unit}`;
-  const volume = price?.volume == null ? "尚無成交量" : `${formatNumber(price.volume)} 股`;
+  const close = price?.close == null ? "尚無收盤價資料" : `${formatNumber(price.close)} ${unit}`;
+  const volume = price?.volume == null ? "尚無成交量資料" : `${formatNumber(price.volume)} 股`;
 
   return [
     { label: asset.type === "index" ? "指數收盤" : "收盤價", note: "Supabase readonly daily_prices", value: close },

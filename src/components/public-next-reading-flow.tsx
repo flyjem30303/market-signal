@@ -16,32 +16,32 @@ type LinkItem = {
 
 const contextCopy = {
   briefing: {
-    ariaLabel: "市場摘要延伸閱讀",
-    body: "看完市場摘要後，可以回到總覽、查看標的燈號，或確認方法與風險聲明。",
+    ariaLabel: "市場快報延伸閱讀",
+    body: "看完快報後，可以回到總覽、標的燈號或方法說明，確認資料時間與燈號邏輯。",
     eyebrow: "下一步",
     eventName: "briefing_link_clicked",
-    title: "把市場狀態接到下一個判斷"
+    title: "把快報接成完整觀察流程"
   },
   home: {
     ariaLabel: "首頁延伸閱讀",
-    body: "先用總覽掌握市場氛圍，再進一步查看摘要、標的燈號與方法說明。",
+    body: "先用首頁掌握市場氛圍，再進一步查看快報、標的燈號與方法說明。",
     eyebrow: "下一步",
     eventName: "home_cta_clicked",
     title: "從總覽進入更完整的觀察流程"
   },
   stock: {
     ariaLabel: "標的頁延伸閱讀",
-    body: "標的燈號適合搭配市場摘要與方法說明一起看，避免只用單一分數做判斷。",
+    body: "標的燈號適合搭配市場快報與方法說明一起閱讀，避免只看單一分數。",
     eyebrow: "下一步",
     eventName: "stock_link_clicked",
-    title: "把單一標的放回市場脈絡"
+    title: "回到市場脈絡中理解標的"
   },
   weekly: {
     ariaLabel: "週報延伸閱讀",
-    body: "週報適合回看變化脈絡，再回到市場總覽與標的燈號確認目前狀態。",
+    body: "週報適合回看趨勢與風險變化，再連回市場快報與標的燈號追蹤。",
     eyebrow: "下一步",
     eventName: "weekly_link_clicked",
-    title: "從週期回顧回到今日觀察"
+    title: "把本週變化接到每日觀察"
   }
 } satisfies Record<
   PublicNextReadingFlowContext,
@@ -99,7 +99,7 @@ function getLinks(context: PublicNextReadingFlowContext, stockSymbol: string): L
   if (context === "weekly") {
     return [
       { href: "/", label: "市場總覽", target: "home" },
-      { href: "/briefing", label: "市場摘要", target: "briefing" },
+      { href: "/briefing", label: "市場快報", target: "briefing" },
       { href: stockHref, label: "標的燈號", target: "stock" },
       { href: "/methodology", label: "方法說明", target: "methodology" },
       { href: "/disclaimer", label: "風險聲明", target: "disclaimer" }
@@ -107,7 +107,7 @@ function getLinks(context: PublicNextReadingFlowContext, stockSymbol: string): L
   }
 
   return [
-    { href: "/briefing", label: "市場摘要", target: "briefing" },
+    { href: "/briefing", label: "市場快報", target: "briefing" },
     { href: "/weekly", label: "週報回顧", target: "weekly" },
     { href: stockHref, label: "標的燈號", target: "stock" },
     { href: "/methodology", label: "方法說明", target: "methodology" },

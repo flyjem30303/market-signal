@@ -3,7 +3,7 @@ import {
   TWSE_OPENAPI_STAGE8_SCORE_SOURCE_REAL_APPROVAL,
   buildTwseOpenApiStage8ScoreSourcePromotionSnapshot,
   type TwseOpenApiStage8ScoreSource
-} from "@/lib/twse-openapi-stage-8-score-source-real-promotion-gate";
+} from "../twse-openapi-stage-8-score-source-real-promotion-gate";
 
 export type MarketSignalDataSource = "mock" | "supabase";
 export type MarketSignalScoreSource = TwseOpenApiStage8ScoreSource;
@@ -19,7 +19,8 @@ export type MarketSignalSourceStatus = {
     | "scoreSource_real_public_data_source_not_supabase"
     | "scoreSource_real_readonly_state_not_current"
     | "scoreSource_real_formula_not_stable"
-    | "scoreSource_real_public_copy_missing";
+    | "scoreSource_real_public_copy_missing"
+    | "supabase_read_failed";
   publicScoreSource: MarketSignalScoreSource;
   reason: string;
   requestedScoreSource: MarketSignalScoreSource;

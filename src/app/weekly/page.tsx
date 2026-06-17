@@ -2,28 +2,22 @@ import type { Metadata } from "next";
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { PageViewTracker } from "@/components/page-view-tracker";
 import { PublicNextReadingFlow } from "@/components/public-next-reading-flow";
-import { RouteLocalTrustCopyPanel } from "@/components/route-local-trust-copy-panel";
-import { TrustRuntimeBoundaryNotice } from "@/components/trust-runtime-boundary-notice";
 import { TrackedLink } from "@/components/tracked-link";
 import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
-import {
-  getMarketSignalRepository,
-  getMarketSignalSourceStatus
-} from "@/lib/repositories/market-signal-repository";
+import { getMarketSignalRuntime } from "@/lib/repositories/market-signal-repository";
 import type { SignalSnapshot } from "@/lib/signal-model";
 
 export const metadata: Metadata = {
   title: "市場週報",
-  description: "回看本週市場燈號、風險焦點與後續觀察重點。"
+  description: "整理本週市場燈號、相對強勢標的、風險觀察與後續追蹤重點。"
 };
 
 export default async function WeeklyPage() {
-  const repository = getMarketSignalRepository();
+  const { marketSignalSourceStatus, repository } = await getMarketSignalRuntime();
   const freshness = await getDataFreshnessSnapshot();
-  const marketSignalSourceStatus = getMarketSignalSourceStatus();
   const snapshots = repository
     .getAssets()
-    .map((asset) => repository.getSnapshot(asset.symbol, "2026-05-28"))
+    .map((asset) => repository.getSeries(asset.symbol).at(-1))
     .filter((snapshot): snapshot is SignalSnapshot => Boolean(snapshot));
   const market = snapshots.find((item) => item.asset.symbol === "TWII") ?? snapshots[0];
   const topRisk = snapshots.slice().sort((a, b) => b.riskScore - a.riskScore)[0] ?? market;
@@ -35,9 +29,9 @@ export default async function WeeklyPage() {
 
       <section className="hero">
         <p className="eyebrow">市場週報</p>
-        <h1>回看市場燈號與風險焦點</h1>
-        <p>週報用於複盤與學習，協助使用者看見燈號變化、風險集中處與下週觀察重點。</p>
-        <p className="runtime-boundary-line">目前週報使用示範資料；正式資料升級尚未開放。</p>
+        <h1>本週市場燈號與風險觀察</h1>
+        <p>週報協助使用者回看本週市場狀態、相對強勢標的與需要加強觀察的風險。</p>
+        <p className="runtime-boundary-line">週報僅供市場資訊整理與風險辨識，不提供買賣建議。</p>
       </section>
 
       <section className="weekly-quick-read" aria-label="週報摘要">
@@ -50,18 +44,16 @@ export default async function WeeklyPage() {
         <article>
           <span>主要風險</span>
           <strong>{topRisk.asset.name}</strong>
-          <p>風險分數 {topRisk.riskScore}/100。若風險集中在少數標的，仍需回看市場廣度。</p>
+          <p>風險分數 {topRisk.riskScore}/100，適合列入後續觀察清單。</p>
         </article>
         <article>
-          <span>資料狀態</span>
-          <strong>示範資料</strong>
-          <p>週報目前不宣稱即時真實資料，也不提供投資建議。</p>
+          <span>資料日期</span>
+          <strong>{market.date}</strong>
+          <p>使用前請確認資料時間與是否有降級提示。</p>
         </article>
       </section>
 
       <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
-      <RouteLocalTrustCopyPanel context="weekly" />
-      <TrustRuntimeBoundaryNotice context="weekly" />
 
       <section className="weekly-grid" aria-label="週報觀察標的">
         {strongest.map((snapshot) => (

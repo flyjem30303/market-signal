@@ -4,16 +4,16 @@ type PublicDataSourceBoundaryNoticeProps = {
 
 const contextCopy = {
   home: {
-    title: "目前公開版使用示範資料",
-    lead: "首頁用來驗證市場總覽、燈號與風險提示的閱讀流程；正式資料啟用前，所有數字都應視為示範。"
+    title: "資料來源與使用邊界",
+    lead: "首頁提供市場狀態總覽、風險提示與觀察順序。請先確認資料來源、更新時間與風險聲明，再使用燈號作為輔助判斷。"
   },
   briefing: {
-    title: "市場摘要目前是示範解讀",
-    lead: "本頁協助使用者理解 30 秒總覽與 3 分鐘觀察流程；正式資料、延遲與來源揭露會在審核通過後再啟用。"
+    title: "市場快報的資料邊界",
+    lead: "市場快報用來縮短閱讀時間，協助使用者快速掌握市場氛圍；所有內容仍屬資訊整理，不是買賣建議。"
   },
   stock: {
-    title: "標的頁目前是示範燈號",
-    lead: "標的頁呈現的是可讀的指標結構與風險提示，不代表正式行情、即時報價或投資建議。"
+    title: "標的頁不是交易指令",
+    lead: "標的燈號協助理解單一標的的狀態、風險與資料時間，不提供個股買賣建議，也不保證任何投資結果。"
   }
 } as const;
 
@@ -33,8 +33,8 @@ export function PublicDataSourceBoundaryNotice({ context }: PublicDataSourceBoun
           <span>燈號只協助辨識市場狀態與風險，不提供買賣建議、保證報酬或個人化資產配置。</span>
         </li>
         <li>
-          <strong>不是即時報價</strong>
-          <span>正式資料上線前，本網站不宣稱秒級即時性；正式上線後也會清楚標示資料時間與可能延遲。</span>
+          <strong>不是秒級報價</strong>
+          <span>Phase 1 以每日資料與可理解決策輔助為主，前台需標示資料時間與可能延遲。</span>
         </li>
         <li>
           <strong>資料異常會降級</strong>
@@ -42,7 +42,7 @@ export function PublicDataSourceBoundaryNotice({ context }: PublicDataSourceBoun
         </li>
       </ul>
       <p className="public-data-source-boundary-notice__footnote">
-        目前版本的目標是讓使用者快速理解市場氛圍；正式資料與分數切換需另行通過來源、品質、回退與公開文案審核。
+        本網站目標是降低市場資訊理解門檻；任何燈號都應搭配資料時間、風險提示與使用者自己的判斷。
       </p>
     </section>
   );
