@@ -2,6 +2,28 @@
 
 ## Latest Effective Status - 2026-06-17
 
+### Latest Phase 1 Current-Scope Bounded Insert-Missing Runner
+
+Status: `phase_1_current_scope_bounded_insert_missing_runner_ready`
+
+CEO decision:
+
+- Added a current-scope bounded insert-missing runner for `daily_prices`.
+- This runner is separate from the superseded TWII+ETF runner and only accepts `twii_plus_listed_stock_daily_close` candidate artifacts.
+- The runner defaults to no execution and requires an exact authorization id, exact acknowledgement phrase, candidate path, post-run review path, and `--execute` before any remote write.
+- The no-execute checker proves valid candidate readiness and missing-authorization blocking without importing a Supabase client or writing data.
+- No SQL, Supabase connection, Supabase write, `daily_prices` mutation, market-data fetch, raw payload, row payload console output, stock id payload, secret output, `publicDataSource=supabase`, or `scoreSource=real` occurred during checker execution.
+
+PM completed:
+
+- Added `scripts/run-phase-1-current-scope-bounded-insert-missing-once.mjs`.
+- Added `scripts/check-phase-1-current-scope-bounded-insert-missing-runner.mjs`.
+- Added npm run/check scripts and registered the checker in the Phase 1 live core review gate.
+
+Current route:
+
+- `execute_one_current_scope_bounded_write_attempt_then_post_run_review`
+
 ### Latest Phase 1 Current-Scope Local Candidate Assembly
 
 Status: `phase_1_current_scope_local_candidate_assembly_check_ready`
