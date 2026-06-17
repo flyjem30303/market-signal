@@ -2,6 +2,27 @@
 
 ## Latest Effective Status - 2026-06-17
 
+### Latest Real Runtime Promotion Stage 1 Source Selection
+
+Status: `stage_1_source_selection_complete`
+
+CEO decision:
+
+- Fixed the 8-stage real runtime promotion route from source selection through `scoreSource=real`.
+- Completed Stage 1 by selecting `twse_openapi_via_data_gov_open_data` as the Phase 1 legal/free/automatable data-source route.
+- Phase 1 real-data scope is TWII daily index data plus listed-stock daily close/trading information.
+- Official source references are data.gov datasets `11755`, `11548`, and `11549`, each tied to the Open Government Data License and TWSE OpenAPI/OAS reference.
+- Public claims remain daily/open-data/update-time based, not real-time quote claims.
+
+PM completed:
+
+- Added `docs/REAL_RUNTIME_PROMOTION_8_STAGE_ROADMAP.md`.
+- Kept this as a minimal execution roadmap; no new broad governance loop was introduced.
+
+Current route:
+
+- `twse_openapi_field_contract_and_source_adapter`
+
 ### Latest Phase 1 Public Beta Mock Launch Final-Go
 
 Status: `phase_1_public_beta_mock_launch_final_go_ready`
