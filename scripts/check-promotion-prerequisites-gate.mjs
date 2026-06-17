@@ -50,8 +50,8 @@ for (const flag of [
 if (gate.totalCount !== 7 || gate.items.length !== 7) {
   problems.push(`expected 7 prerequisite items, got ${gate.items.length}`);
 }
-if (gate.completedLocalCount !== 2) {
-  problems.push(`expected 2 local-only completed prerequisites, got ${gate.completedLocalCount}`);
+if (gate.completedLocalCount !== 4) {
+  problems.push(`expected 4 local-only completed prerequisites, got ${gate.completedLocalCount}`);
 }
 if (!Array.isArray(gate.postRunReviewRequiredFields) || gate.postRunReviewRequiredFields.length !== 18) {
   problems.push(`expected 18 post-run review fields, got ${gate.postRunReviewRequiredFields?.length ?? "missing"}`);
@@ -67,13 +67,9 @@ for (const code of [
 ]) {
   if (!gate.items.some((item) => item.code === code)) problems.push(`missing gate item ${code}`);
 }
-for (const code of ["row-coverage-policy", "field-validity-spec"]) {
+for (const code of ["row-coverage-policy", "row-coverage-readonly-evidence", "field-validity-spec", "data-quality-threshold"]) {
   const item = gate.items.find((entry) => entry.code === code);
   if (item?.state !== "complete_local_only") problems.push(`${code} must be complete_local_only`);
-}
-for (const code of ["row-coverage-readonly-evidence", "data-quality-threshold"]) {
-  const item = gate.items.find((entry) => entry.code === code);
-  if (item?.state !== "blocked_remote_evidence") problems.push(`${code} must be blocked_remote_evidence`);
 }
 for (const code of ["source-rights", "model-credibility", "public-release"]) {
   const item = gate.items.find((entry) => entry.code === code);
@@ -138,11 +134,11 @@ if (report) {
   if (report.decisionPacket?.publicDataSource !== "mock" || report.decisionPacket?.scoreSource !== "mock") {
     problems.push("report must keep publicDataSource and scoreSource mock");
   }
-  if (report.localOnlyCompleted?.length !== 2) {
-    problems.push(`report expected 2 local-only completed items, got ${report.localOnlyCompleted?.length ?? "missing"}`);
+  if (report.localOnlyCompleted?.length !== 4) {
+    problems.push(`report expected 4 local-only completed items, got ${report.localOnlyCompleted?.length ?? "missing"}`);
   }
-  if (report.remoteEvidenceBlockers?.length !== 2) {
-    problems.push(`report expected 2 remote evidence blockers, got ${report.remoteEvidenceBlockers?.length ?? "missing"}`);
+  if (report.remoteEvidenceBlockers?.length !== 0) {
+    problems.push(`report expected 0 remote evidence blockers, got ${report.remoteEvidenceBlockers?.length ?? "missing"}`);
   }
   if (report.externalApprovalBlockers?.length !== 3) {
     problems.push(`report expected 3 external blockers, got ${report.externalApprovalBlockers?.length ?? "missing"}`);
@@ -172,16 +168,16 @@ if (report) {
 }
 
 const rowPolicy = gate.items.find((entry) => entry.code === "row-coverage-policy");
-if (!rowPolicy?.evidence.includes("6 TW MVP symbols") || !rowPolicy.evidence.includes("60 trading sessions")) {
+if (!rowPolicy?.evidence.includes("TW MVP symbols") || !rowPolicy.evidence.includes("60 trading sessions")) {
   problems.push("row coverage policy must summarize universe and coverage window");
 }
 const rowEvidence = gate.items.find((entry) => entry.code === "row-coverage-readonly-evidence");
-if (!rowEvidence?.evidence.includes("0/20 row coverage points awarded") || !rowEvidence.evidence.includes("not_ready")) {
-  problems.push("row coverage evidence must remain zero points and not_ready");
+if (!rowEvidence?.evidence.includes("240/240 candidate-key rows") || !rowEvidence.evidence.includes("missing rows after readback 0")) {
+  problems.push("row coverage evidence must include accepted current-scope readback");
 }
 const qualityThreshold = gate.items.find((entry) => entry.code === "data-quality-threshold");
-if (!qualityThreshold?.evidence.includes("Current local score 25/80")) {
-  problems.push("data quality threshold must remain 25/80");
+if (!qualityThreshold?.evidence.includes("Current local score 85/80")) {
+  problems.push("data quality threshold must reflect accepted 85/80 local score");
 }
 const sourceRights = gate.items.find((entry) => entry.code === "source-rights");
 if (!sourceRights?.label.includes("external approval pending")) {

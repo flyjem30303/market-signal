@@ -2,6 +2,29 @@
 
 ## Latest Effective Status - 2026-06-17
 
+### Latest Phase 1 Promotion Prerequisites Reconciliation
+
+Status: `phase_1_promotion_prerequisites_current_scope_coverage_and_quality_reconciled`
+
+CEO decision:
+
+- Reconciled the promotion prerequisite model after the accepted current-scope bounded insert/readback attempt.
+- Row coverage evidence is now accepted for the current Phase 1 scope: `240/240` candidate-key rows, `0` missing rows after readback.
+- Data-quality threshold is now locally accepted at `85/80`.
+- Runtime promotion is still not automatic; source rights, model credibility, and public release remain external/promotion blockers.
+- `publicDataSource` remains `mock`.
+- `scoreSource` remains `mock`.
+
+PM completed:
+
+- Updated `src/lib/promotion-prerequisites-gate.ts`.
+- Updated `scripts/check-promotion-prerequisites-gate.mjs`.
+- Re-ran downstream readiness gates; `promotion-prerequisites-gate`, `data-coverage-quality-route-readiness`, `data-coverage-mvp-deferral-decision-readiness`, `data-coverage-promotion-execution-readiness`, and `data-freshness-quality-mvp-readiness` all passed.
+
+Current route:
+
+- `phase_1_runtime_promotion_preflight_quality_freshness_source_rollback_copy_review`
+
 ### Latest Phase 1 Current-Scope Bounded Insert-Missing Post-Run Review
 
 Status: `phase_1_current_scope_bounded_insert_missing_passed_readback`
