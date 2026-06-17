@@ -1,0 +1,45 @@
+{
+  "packetMode": "phase_1_public_beta_mock_launch_final_go",
+  "status": "phase_1_public_beta_mock_launch_final_go_ready",
+  "decision": "FINAL_GO_PUBLIC_BETA_MOCK_LAUNCH_READY_KEEP_REAL_RUNTIME_NO_GO",
+  "phase": "phase_1_public_beta",
+  "launchScope": "public_beta_mock_data_index_signal_dashboard",
+  "briefAligned": true,
+  "publicSurfaceReady": true,
+  "publicVisibleResidueClean": true,
+  "localhostContentHealthOk": true,
+  "reviewGatesOk": true,
+  "productionBuildPassed": true,
+  "currentScopeDataClosureReady": true,
+  "currentScopeWriteClosureFinalGo": true,
+  "runtimePromotionFinalGo": false,
+  "runtimePromotionAllowedNow": false,
+  "realRuntimePromotionBlocked": true,
+  "publicDataSource": "mock",
+  "scoreSource": "mock",
+  "currentScope": "twii_plus_listed_stock_daily_close",
+  "phase11DeferredScope": "etf_full_coverage",
+  "allowedLaunchClaims": [
+    "Users can understand the public Beta market mood quickly from the signal dashboard.",
+    "The public Beta uses demonstration data and demonstration scoring.",
+    "Source, update-time, mock-data, and non-investment-advice boundaries must remain visible.",
+    "The site is a market information and risk-awareness aid."
+  ],
+  "forbiddenLaunchClaims": [
+    "Do not claim real-time official quotes.",
+    "Do not claim a live production investment model.",
+    "Do not provide buy or sell advice.",
+    "Do not promise returns."
+  ],
+  "acceptedEvidence": [
+    "check:phase-1-public-beta-public-visible-residue-cleanup",
+    "check:phase-1-public-beta-public-status-surface-alignment",
+    "check:localhost-content-health",
+    "check:phase-1-current-scope-write-closure-final-go-judgement-2026-06-17",
+    "check:phase-1-runtime-promotion-explicit-go-no-go-decision",
+    "check:review-gates",
+    "npm run build"
+  ],
+  "nextRoute": "ship_public_beta_mock_launch_or_continue_real_runtime_promotion_review",
+  "problems": []
+}

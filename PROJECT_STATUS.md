@@ -2,6 +2,30 @@
 
 ## Latest Effective Status - 2026-06-17
 
+### Latest Phase 1 Public Beta Mock Launch Final-Go
+
+Status: `phase_1_public_beta_mock_launch_final_go_ready`
+
+CEO decision:
+
+- Decision token: `FINAL_GO_PUBLIC_BETA_MOCK_LAUNCH_READY_KEEP_REAL_RUNTIME_NO_GO`.
+- Phase 1 can reach public Beta final-go as a mock-data index signal dashboard aligned with the current BRIEF.
+- This final-go is limited to a disclosed public Beta surface: demonstration data, demonstration scoring, non-investment-advice copy, and clear source/update-time boundaries.
+- Current-scope data closure remains accepted for `twii_plus_listed_stock_daily_close`.
+- Real runtime promotion remains deliberately blocked; `publicDataSource` remains `mock` and `scoreSource` remains `mock`.
+- ETF full coverage remains deferred to Phase 1.1.
+
+PM completed:
+
+- Added `data/evidence-intake/phase-1-public-beta-mock-launch-final-go-2026-06-17.json`.
+- Added `docs/PHASE_1_PUBLIC_BETA_MOCK_LAUNCH_FINAL_GO_2026_06_17.md`.
+- Added `scripts/check-phase-1-public-beta-mock-launch-final-go-2026-06-17.mjs`.
+- Registered the checker in the Phase 1 live core review gate.
+
+Current route:
+
+- `ship_public_beta_mock_launch_or_continue_real_runtime_promotion_review`
+
 ### Latest Phase 1 Public Surface And Runtime Gate Reconciliation
 
 Status: `phase_1_public_surface_and_runtime_gate_reconciliation_ready`
