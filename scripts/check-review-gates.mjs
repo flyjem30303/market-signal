@@ -4581,6 +4581,11 @@ const checks = [
     name: "phase-1-current-scope-candidate-artifact-header-gate-no-row-payloads"
   },
   {
+    command: [node, "scripts/check-phase-1-current-scope-candidate-artifact-aggregate-gate-no-row-payloads.mjs"],
+    expectStatus: "ok",
+    name: "phase-1-current-scope-candidate-artifact-aggregate-gate-no-row-payloads"
+  },
+  {
     command: [node, "scripts/check-phase-1-runtime-promotion-dry-run-only-authorized-route.mjs"],
     expectStatus: "ok",
     name: "phase-1-runtime-promotion-dry-run-only-authorized-route"
@@ -7467,6 +7472,7 @@ const phase1LiveCoreReviewGateNames = new Set([
   "phase-1-current-scope-candidate-reply-apply-gate-no-execution",
   "phase-1-current-scope-candidate-artifact-path-shape-gate-no-row-payloads",
   "phase-1-current-scope-candidate-artifact-header-gate-no-row-payloads",
+  "phase-1-current-scope-candidate-artifact-aggregate-gate-no-row-payloads",
   "phase-1-runtime-promotion-dry-run-only-authorized-route",
   "phase-1-runtime-promotion-dry-run-only-preparation-packet",
   "phase-1-runtime-promotion-dry-run-only-proof-review",

@@ -2,6 +2,28 @@
 
 ## Latest Effective Status - 2026-06-16
 
+### Latest Phase 1 Current-Scope Candidate Artifact Aggregate Gate
+
+Status: `phase_1_current_scope_candidate_artifact_aggregate_gate_no_row_payloads_ready`
+
+CEO decision:
+
+- Add an aggregate-only contract gate after the candidate artifact header gate.
+- Validate only aggregate metadata: positive coverage and symbol counts, date bounds, and zero duplicate/rejected/missing/forbidden counts.
+- Reject `EXAMPLE_ONLY` date bounds, row payloads, raw payloads, stock-id payloads, secrets, ETF current-scope mismatch, and real promotion attempts.
+- Keep candidate rows unaccepted, write gate closed, `publicDataSource=mock`, and `scoreSource=mock`.
+
+PM completed:
+
+- Added `scripts/run-phase-1-current-scope-candidate-artifact-aggregate-gate-once.mjs`.
+- Added `scripts/check-phase-1-current-scope-candidate-artifact-aggregate-gate-no-row-payloads.mjs`.
+- Added `docs/PHASE_1_CURRENT_SCOPE_CANDIDATE_ARTIFACT_AGGREGATE_GATE_NO_ROW_PAYLOADS.md`.
+- Registered `phase-1-current-scope-candidate-artifact-aggregate-gate-no-row-payloads` in the focused review gate set.
+
+Next:
+
+Continue with `prepare_candidate_artifact_aggregate_pm_acceptance_record_no_row_payloads`, then create the PM acceptance record before any row-level or write-gate decision.
+
 ### Latest Phase 1 Current-Scope Candidate Artifact Header Gate
 
 Status: `phase_1_current_scope_candidate_artifact_header_gate_no_row_payloads_ready`
