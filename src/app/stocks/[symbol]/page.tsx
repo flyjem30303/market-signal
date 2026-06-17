@@ -16,7 +16,7 @@ type StockPageProps = {
 
 const snapshotDate = "2026-05-28";
 const stockPagePublicCopyContract =
-  "指數燈號標的頁提供市場狀態、標的基本資料、市場分數、風險分數與資料限制說明；目前使用示範資料，不提供買賣建議。";
+  "標的燈號頁提供市場狀態、風險提示、資料更新時間與資料邊界說明，不提供個別買賣建議。";
 
 export function generateMetadata({ params }: StockPageProps): Metadata {
   const repository = getMarketSignalRepository();
@@ -26,7 +26,7 @@ export function generateMetadata({ params }: StockPageProps): Metadata {
   const snapshot = repository.getSnapshot(asset.symbol, snapshotDate);
   const signal = snapshot?.signal.title ?? "燈號觀察";
   const title = `${asset.symbol} ${asset.name} 標的燈號：${signal}`;
-  const description = `${asset.symbol} ${asset.name} 的指數燈號、市場分數、風險分數、標的基本資料與資料時間。目前使用示範資料，不提供買賣建議。`;
+  const description = `${asset.symbol} ${asset.name} 的市場狀態、風險提示、更新時間與資料邊界說明。`;
 
   return {
     alternates: {

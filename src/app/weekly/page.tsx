@@ -11,21 +11,9 @@ import {
 } from "@/lib/repositories/market-signal-repository";
 import type { SignalSnapshot } from "@/lib/signal-model";
 
-const copy = {
-  title: "市場週報",
-  description: "整理本週市場燈號、主要風險標的與資料更新狀態。目前使用示範資料，不提供買賣建議。",
-  hero: "本週市場狀態回顧",
-  summary: "本週快速閱讀",
-  signal: "市場燈號",
-  risk: "主要風險觀察",
-  updateStatus: "資料更新狀態",
-  list: "本週觀察清單",
-  viewSignal: "查看燈號"
-};
-
 export const metadata: Metadata = {
-  title: copy.title,
-  description: copy.description
+  title: "市場週報",
+  description: "用週期回顧整理市場燈號、風險變化與資料更新狀態。目前使用示範資料，不提供投資建議。"
 };
 
 export default async function WeeklyPage() {
@@ -45,57 +33,55 @@ export default async function WeeklyPage() {
       <PageViewTracker eventName="weekly_page_viewed" payload={{ page: "weekly" }} />
 
       <section className="hero">
-        <p className="eyebrow">{copy.title}</p>
-        <h1>{copy.hero}</h1>
-        <p>
-          本頁用週報方式整理市場燈號、風險分數與資料更新狀態，協助使用者回看本週市場脈絡。
-        </p>
-        <p>這是公開 Beta 的週報示範，不是投資建議，也不是即時報價或個股買賣指令。</p>
-        <p className="runtime-boundary-line">
-          目前仍使用示範資料與示範分數；正式每日資料尚未啟用，請搭配資料邊界閱讀。
-        </p>
+        <p className="eyebrow">市場週報</p>
+        <h1>回看本週市場狀態與風險變化</h1>
+        <p>週報用來整理市場燈號、相對強勢標的與風險來源，協助使用者回看判斷脈絡。</p>
+        <p className="runtime-boundary-line">目前週報使用示範資料，不代表正式行情，也不提供投資建議。</p>
       </section>
 
-      <section className="weekly-quick-read" aria-label={copy.summary}>
+      <section className="weekly-quick-read" aria-label="週報摘要">
+        <p className="eyebrow">週報摘要</p>
         <article>
-          <span>{copy.signal}</span>
+          <span>市場燈號</span>
           <strong>{market.signal.title}</strong>
           <p>{market.signal.text}</p>
         </article>
         <article>
-          <span>{copy.risk}</span>
+          <span>主要風險</span>
           <strong>{topRisk.asset.name}</strong>
-          <p>風險分數 {topRisk.riskScore}/100。建議先看風險來源，再看資料是否延遲。</p>
+          <p>風險分數 {topRisk.riskScore}/100。請確認風險是否只集中在單一標的，或已經擴散。</p>
         </article>
         <article>
-          <span>{copy.updateStatus}</span>
+          <span>資料狀態</span>
           <strong>示範資料</strong>
-          <p>本週報目前使用示範資料，正式資料上線前不代表真實市場狀態。</p>
+          <p>週報目前用示範資料驗證閱讀流程；正式資料啟用前，不宣稱完整市場覆蓋。</p>
         </article>
       </section>
 
-      <section className="weekly-grid" aria-label={copy.list}>
+      <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
+      <TrustRuntimeBoundaryNotice context="weekly" />
+
+      <section className="weekly-grid" aria-label="週報觀察標的">
         {strongest.map((snapshot) => (
           <article className="panel" key={snapshot.asset.symbol}>
             <p className="eyebrow">{snapshot.asset.symbol}</p>
             <h2>{snapshot.asset.name}</h2>
             <p>
-              綜合分數 {snapshot.compositeScore}/100，風險分數 {snapshot.riskScore}/100。建議先看燈號原因，再確認資料更新時間。
+              {snapshot.signal.title}，綜合分數 {snapshot.compositeScore}/100，風險分數 {snapshot.riskScore}/100。
             </p>
             <TrackedLink
+              className="text-link"
               eventName="weekly_link_clicked"
               href={`/stocks/${snapshot.asset.symbol}`}
-              label={`${copy.viewSignal} ${snapshot.asset.name}`}
-              payload={{ area: "weekly", symbol: snapshot.asset.symbol }}
+              label={`查看 ${snapshot.asset.symbol}`}
+              payload={{ symbol: snapshot.asset.symbol }}
             >
-              {copy.viewSignal}
+              查看燈號
             </TrackedLink>
           </article>
         ))}
       </section>
 
-      <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
-      <TrustRuntimeBoundaryNotice context="weekly" />
       <PublicNextReadingFlow context="weekly" stockSymbol={market.asset.symbol} />
     </main>
   );

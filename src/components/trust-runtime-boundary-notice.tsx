@@ -5,33 +5,33 @@ type TrustRuntimeBoundaryNoticeProps = {
 const contextCopy = {
   disclaimer: {
     eyebrow: "風險邊界",
-    title: "市場燈號是資訊整理，不是投資建議",
-    summary: "本網站協助整理市場狀態與風險提示，但不提供個股買賣建議、保證報酬或交易指令。"
+    title: "市場燈號不是投資建議",
+    summary: "所有內容僅供資訊參考，不能替代使用者自己的判斷或專業顧問意見。"
   },
   membership: {
     eyebrow: "會員邊界",
-    title: "會員功能仍是下一階段規劃",
-    summary: "目前先完成公開免費版；登入、watchlist、自訂警示與會員專屬內容留待下一階段。"
+    title: "會員功能仍屬後續規劃",
+    summary: "目前公開版不提供登入、付款、watchlist 儲存或自訂警示執行。"
   },
   methodology: {
     eyebrow: "方法邊界",
-    title: "燈號協助閱讀，不取代判斷",
-    summary: "燈號用於降低理解門檻，仍需搭配資料時間、來源品質與個人風險承受度。"
+    title: "分數用來排序觀察，不用來直接交易",
+    summary: "燈號協助理解市場狀態，但不保證結果，也不代表任何個別商品建議。"
   },
   privacy: {
     eyebrow: "隱私邊界",
-    title: "公開免費版不收集會員追蹤資料",
-    summary: "公開版不提供登入、watchlist 或自訂警示，因此不會儲存會員個人化追蹤內容。"
+    title: "目前公開版不建立個人投資檔案",
+    summary: "在會員功能上線前，本網站不儲存 watchlist、警示條件或個人投資偏好。"
   },
   terms: {
     eyebrow: "使用邊界",
-    title: "請把燈號當成觀察輔助",
-    summary: "使用者應自行判斷資料適用性，並理解公開 Beta 仍處於示範資料階段。"
+    title: "使用者需自行承擔投資判斷",
+    summary: "本網站提供資訊整理與風險提示，不承諾資料完全即時、完整或適合所有情境。"
   },
   weekly: {
     eyebrow: "週報邊界",
-    title: "週報用來回看市場，不是交易指令",
-    summary: "週報整理本週燈號與風險脈絡，協助建立觀察流程，不代表買賣建議。"
+    title: "週報是回顧，不是預測保證",
+    summary: "週報協助回看市場狀態變化，不應被視為未來績效承諾。"
   }
 } as const;
 
@@ -48,17 +48,17 @@ export function TrustRuntimeBoundaryNotice({ context }: TrustRuntimeBoundaryNoti
       <article className="active runtime-boundary-copy-card">
         <span>目前狀態</span>
         <strong>示範資料模式</strong>
-        <p>公開頁先呈現產品閱讀流程與燈號邏輯，所有分數與資料狀態都以示範方式呈現。</p>
+        <p>公開頁用示範資料驗證閱讀流程；正式資料啟用後仍會清楚標示來源與更新時間。</p>
       </article>
       <article className="blocked">
-        <span>尚未啟用</span>
-        <strong>真實資料與個人化功能</strong>
-        <p>正式資料、會員 watchlist、自訂警示與會員專屬內容都需要通過後續 gate 才會開放。</p>
+        <span>不提供</span>
+        <strong>買賣建議與保證報酬</strong>
+        <p>任何燈號、分數或摘要都不能直接解讀為買進、賣出或持有建議。</p>
       </article>
       <article className="readying">
-        <span>上線前要求</span>
-        <strong>來源、品質、回退與揭露要通過檢查</strong>
-        <p>正式資料切換前，必須確認資料來源可用、欄位契約穩定、錯誤能安全降級，並清楚揭露限制。</p>
+        <span>需要搭配</span>
+        <strong>資料狀態與風險聲明</strong>
+        <p>若資料延遲、異常或尚未正式啟用，使用者應先降低判斷權重。</p>
       </article>
     </section>
   );

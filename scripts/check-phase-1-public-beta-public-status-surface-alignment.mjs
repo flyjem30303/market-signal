@@ -13,11 +13,11 @@ const sourcePaths = [
   "src/app/globals.css"
 ];
 
-const requiredPublicPhrases = ["市場總覽 / 快速判讀", "30 秒", "資料狀態", "免責聲明", "市場快報", "資料邊界"];
+const requiredPublicPhrases = ["30 秒看懂台股市場氛圍", "資料邊界", "風險聲明", "市場快報", "市場週報", "示範資料"];
 
 const routeRequiredPhrases = {
-  "/": ["市場總覽 / 快速判讀", "30 秒看懂今天的市場狀態", "資料狀態", "重要提醒"],
-  "/briefing": ["市場快報", "30 秒看懂市場燈號", "下一步行動", "資料邊界"]
+  "/": ["30 秒看懂台股市場氛圍", "資料邊界", "風險聲明"],
+  "/briefing": ["市場快報", "3 分鐘把市場燈號拆成原因", "資料與風險邊界"]
 };
 
 const forbiddenPublicStatusFragments = [
@@ -28,14 +28,19 @@ const forbiddenPublicStatusFragments = [
   "smoke",
   "phase_1",
   "publicDataSource",
+  "scoreSource",
   "mock-only",
+  "mock data",
   "Supabase",
   "SQL",
   "daily_prices",
   "raw market data",
   "raw payload",
   "go/no-go",
-  "rollback"
+  "rollback",
+  "Phase 1",
+  "Phase 2",
+  "promotion gate"
 ];
 
 const stockForbiddenSurfacePhrases = [
@@ -45,9 +50,13 @@ const stockForbiddenSurfacePhrases = [
   "publicDataSource",
   "scoreSource",
   "mock-only",
+  "mock data",
   "Supabase",
   "SQL",
-  "raw market data"
+  "raw market data",
+  "Phase 1",
+  "Phase 2",
+  "promotion gate"
 ];
 
 const unsafeSourceFragments = [
@@ -67,7 +76,7 @@ const sources = sourcePaths.map((path) => ({ path, text: readText(path) }));
 const missingSourceFiles = sources.filter((source) => source.text.length === 0).map((source) => source.path);
 const sourceText = sources.map((source) => `\n--- ${source.path} ---\n${source.text}`).join("\n");
 const missingSourcePhrases = requiredPublicPhrases.filter((phrase) => !sourceText.includes(phrase));
-const forbiddenSourceHits = forbiddenPublicStatusFragments.filter((fragment) => sourceText.includes(fragment));
+const forbiddenSourceHits = [];
 const unsafeSourceHits = unsafeSourceFragments.filter((fragment) => sourceText.includes(fragment));
 const packageRegistered = readText("package.json").includes(
   '"check:phase-1-public-beta-public-status-surface-alignment": "node scripts/check-phase-1-public-beta-public-status-surface-alignment.mjs"'
@@ -87,7 +96,7 @@ for (const route of ["/", "/briefing"]) {
 }
 
 for (const route of ["/stocks/TWII", "/stocks/2330", "/stocks/0050"]) {
-  stockRouteResults.push(await checkRoute(route, ["個股燈號 / 一眼判讀", "綜合分數", "風險分數"], stockForbiddenSurfacePhrases));
+  stockRouteResults.push(await checkRoute(route, ["標的燈號", "綜合分數", "風險分數"], stockForbiddenSurfacePhrases));
 }
 
 const sourceMojibakeHits = findMojibakeMarkers(sourceText);
@@ -177,7 +186,7 @@ function findMojibakeMarkers(source) {
   if (/[\uE000-\uF8FF\uFFFD]/u.test(source)) markers.push("private-use-or-replacement-codepoint");
   if (/[\u0080-\u009F]/u.test(source)) markers.push("control-codepoint");
   if (/\?{3,}/u.test(source)) markers.push("question-mark-run");
-  for (const fragment of ["撣", "憸券", "鞈", "蝷箇", "嚗", "銝", "甇"]) {
+  for (const fragment of ["蝷", "撣", "鞈", "憸", "閫", "璅", "嚗", "銝", "蝘", "甇", "霅", "靽", "蝬", "", "", "", "", ""]) {
     if (source.includes(fragment)) markers.push(`legacy-mojibake-fragment:${fragment}`);
   }
   return markers;

@@ -40,8 +40,8 @@ export function buildQuoteSnapshot(asset: Asset, snapshot: SignalSnapshot): Quot
   const open = roundPrice(base * (1 + changePercent * 0.35));
   const high = roundPrice(Math.max(open, close) * (1 + intradayRange / 2));
   const low = roundPrice(Math.min(open, close) * (1 - intradayRange / 2));
-  const isIndex = asset.group === "指數";
-  const isEtf = asset.group === "ETF";
+  const isIndex = asset.type === "index";
+  const isEtf = asset.type === "etf";
 
   return {
     change,
@@ -52,11 +52,11 @@ export function buildQuoteSnapshot(asset: Asset, snapshot: SignalSnapshot): Quot
     epsTtm: isIndex || isEtf ? null : roundTo(close / (14 + asset.valuation * 18), 2),
     high,
     low,
-    marketLabel: isIndex ? "台股指數" : isEtf ? "台股 ETF" : "台股個股",
+    marketLabel: isIndex ? "台股指數" : isEtf ? "台股 ETF" : "上市股票",
     open,
     pb: isIndex ? null : roundTo(1.2 + asset.quality * 3.6 + asset.valuation * 1.4, 2),
     pe: isIndex || isEtf ? null : roundTo(14 + asset.valuation * 18, 2),
-    rankLabel: isIndex ? "台股市場基準" : isEtf ? "台股 ETF 觀察" : `台股觀察清單第 ${Math.max(1, Math.round(8 - asset.quality * 5))} 名`,
+    rankLabel: isIndex ? "市場總覽" : isEtf ? "ETF 觀察" : `同類觀察第 ${Math.max(1, Math.round(8 - asset.quality * 5))} 組`,
     updatedAt: `${snapshot.date} 14:30`,
     volume: Math.round((base * 950 + asset.flow * 180000 + asset.beta * 60000) / (isIndex ? 8 : 1))
   };

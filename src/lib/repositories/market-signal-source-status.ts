@@ -42,7 +42,7 @@ export function getMarketSignalSourceStatus({
   if (requestedSource === "supabase" && supabaseRuntimeReads !== "enabled") {
     return {
       publicScoreSource: "mock",
-      reason: "Supabase market-signal reads are not enabled, so the public repository remains on mock data.",
+      reason: "正式資料讀取尚未啟用，公開頁仍以示範資料呈現。",
       requestedSource,
       resolvedSource: "mock",
       supabaseRuntimeReads
@@ -52,8 +52,7 @@ export function getMarketSignalSourceStatus({
   if (requestedSource === "supabase") {
     return {
       publicScoreSource: "mock",
-      reason:
-        "Supabase market-signal reads are enabled, but the public score repository still resolves to mock until the production transition gate is approved.",
+      reason: "後端唯讀已可評估，但公開分數仍需通過正式切換審核才會啟用。",
       requestedSource,
       resolvedSource: "mock",
       supabaseRuntimeReads
@@ -62,7 +61,7 @@ export function getMarketSignalSourceStatus({
 
   return {
     publicScoreSource: "mock",
-    reason: "Public market-signal repository is configured for mock data.",
+    reason: "公開頁目前設定為示範資料模式。",
     requestedSource,
     resolvedSource: "mock",
     supabaseRuntimeReads

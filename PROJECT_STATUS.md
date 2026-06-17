@@ -2,6 +2,35 @@
 
 ## Latest Effective Status - 2026-06-17
 
+### Latest Phase 1 Public User-Facing Cleanup
+
+Status: `phase_1_public_user_facing_copy_and_residue_cleanup_ready`
+
+CEO decision:
+
+- Converged the public Beta surface back to BRIEF-facing user language.
+- Removed development-process residue, internal blocker vocabulary, stale Phase 1 governance wording, and mojibake-like public copy from user-facing routes.
+- Public pages now explain the product as an index signal dashboard for market-state reading, not as an internal readiness console.
+- Current public data posture remains honest: pages still disclose demonstration/mock data and do not claim real-time market data, investment advice, `publicDataSource=supabase`, or `scoreSource=real`.
+- ETF full coverage remains deferred; Phase 1 public wording focuses on TWII and listed-stock daily close scope.
+
+PM completed:
+
+- Cleaned user-facing copy on `/`, `/briefing`, `/weekly`, `/methodology`, `/disclaimer`, `/terms`, `/privacy`, and stock routes.
+- Updated public-visible language, residue cleanup, localhost content health, and public status-surface checkers so they guard the current BRIEF-facing copy contract instead of stale internal text.
+- Re-ran TypeScript, public-visible language quality, public-visible residue cleanup, localhost content health, public status-surface alignment, and the full review-gate suite.
+
+Boundaries preserved:
+
+- No new Supabase write in this cleanup slice.
+- No SQL execution, market-data fetch, market-data ingestion, raw payload output, row payload output, stock id output, or secret output.
+- `publicDataSource` remains `mock`.
+- `scoreSource` remains `mock`.
+
+Current route:
+
+- `final_go_public_beta_mock_readability_or_continue_real_data_runtime_promotion`
+
 ### Latest Phase 1 Promotion Prerequisites Reconciliation
 
 Status: `phase_1_promotion_prerequisites_current_scope_coverage_and_quality_reconciled`

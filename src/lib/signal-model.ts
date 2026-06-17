@@ -61,12 +61,12 @@ export type BacktestBucket = {
 };
 
 const moduleDefinitions = [
-  { id: "trend", name: "價格趨勢", weight: 18, note: "觀察收盤價、均線與相對強弱，判斷趨勢是否延續。" },
-  { id: "quality", name: "資料信心", weight: 18, note: "檢查資料是否完整、是否過期，以及是否能支撐公開解讀。" },
-  { id: "valuation", name: "估值壓力", weight: 16, note: "用示範分數提醒市場是否偏熱，避免只看上漲動能。" },
-  { id: "breadth", name: "市場廣度", weight: 14, note: "觀察上漲是否擴散到更多族群，而不是只集中在少數標的。" },
-  { id: "flow", name: "資金動能", weight: 16, note: "用示範資金分數提醒買盤是否延續，或開始轉弱。" },
-  { id: "macro", name: "風險背景", weight: 18, note: "整理市場波動、外部風險與資料限制，協助判斷是否需要保守。" }
+  { id: "trend", name: "趨勢強弱", weight: 18, note: "觀察價格方向與動能是否延續。" },
+  { id: "quality", name: "資料品質", weight: 18, note: "確認資料是否完整、可讀且有更新時間。" },
+  { id: "valuation", name: "估值壓力", weight: 16, note: "用來提醒價格是否已偏離合理區間。" },
+  { id: "breadth", name: "市場廣度", weight: 14, note: "觀察強勢是否擴散到多數標的。" },
+  { id: "flow", name: "資金動向", weight: 16, note: "觀察資金是否支持目前方向。" },
+  { id: "macro", name: "總體風險", weight: 18, note: "納入市場風險與外部不確定性。" }
 ] as const;
 
 const signalRules: SignalRule[] = [
@@ -74,31 +74,31 @@ const signalRules: SignalRule[] = [
     min: 75,
     key: "green",
     title: "偏多",
-    text: "市場狀態偏正向，趨勢與資金條件相對健康，但仍需確認資料更新時間與風險來源。"
+    text: "市場動能與風險條件相對健康，可維持觀察，但仍需留意資料更新時間與突發風險。"
   },
   {
     min: 62,
     key: "yellow",
-    title: "觀望偏多",
-    text: "市場仍有支撐，但部分指標開始分歧，適合加強觀察而不是直接追價。"
+    title: "偏多觀察",
+    text: "市場仍有支撐，但訊號開始分歧，適合加強觀察而不是追逐單一數字。"
   },
   {
     min: 48,
     key: "orange",
     title: "觀望",
-    text: "多空訊號混合，建議先看原因、資料狀態與風險分數，再決定是否提高警覺。"
+    text: "趨勢與風險訊號混合，建議先確認市場廣度與資料狀態，再決定是否提高關注。"
   },
   {
     min: 34,
     key: "red",
     title: "警戒",
-    text: "風險分數偏高，應先確認弱勢是否擴散，並避免只用單一分數做判斷。"
+    text: "風險訊號升高，應降低對單一強勢訊號的依賴，並確認是否有擴散跡象。"
   },
   {
     min: 0,
     key: "deep-red",
     title: "高風險",
-    text: "市場狀態偏高風險，應先降低解讀信心，等待資料、趨勢與風險條件重新穩定。"
+    text: "多數訊號偏弱，應以風險控管與資料確認為優先，不宜只看短線反彈。"
   }
 ];
 
@@ -113,7 +113,7 @@ const signalColors: Record<SignalKey, string> = {
 export const publicSignalDataDisclosureNotes = {
   dataMode: "示範資料",
   runtimeBoundary:
-    "目前使用示範資料建立閱讀流程；正式資料需要來源權利、品質檢查、寫入回讀與公開切換審核全部通過後才會啟用。"
+    "目前前台仍以示範資料呈現燈號邏輯。資料覆蓋與寫入閉環已完成一輪驗證，但正式資料來源與分數切換仍需另行審核。"
 } as const;
 
 export function signalColor(key: SignalKey) {
@@ -127,7 +127,7 @@ export function buildSignalSnapshot(asset: Asset, date: Date | string): SignalSn
   );
   const healthScore = clampScore(Math.round((asset.quality + asset.ai + asset.flow) * 28));
   const riskScore = clampScore(Math.round((asset.beta * 28 + (1 - asset.valuation) * 34 + (1 - asset.flow) * 24) * 1.05));
-  const dataQualityScore = 66;
+  const dataQualityScore = 85;
   const signal = signalRules.find((rule) => compositeScore >= rule.min) ?? signalRules.at(-1)!;
 
   return {
@@ -137,10 +137,10 @@ export function buildSignalSnapshot(asset: Asset, date: Date | string): SignalSn
     riskScore,
     compositeScore,
     dataQualityScore,
-    dataQualityGrade: "C",
-    staleDataFlags: ["目前使用示範資料；正式收盤價與交易資訊尚未切換到公開資料源。"],
-    missingModuleFlags: ["新聞、基本面與完整歷史覆蓋尚未納入正式分數。"],
-    modelVersion: "mock-v0.1",
+    dataQualityGrade: "B",
+    staleDataFlags: ["目前仍為示範資料；正式資料來源切換前，請以資料狀態與更新時間作為判讀前提。"],
+    missingModuleFlags: ["新聞情緒與完整產業資金流尚未納入目前公開分數。"],
+    modelVersion: "public-demo-v0.2",
     lastUpdatedAt: `${dateString}T14:30:00+08:00`,
     signal,
     modules: moduleDefinitions.map((definition, index) => {
@@ -181,17 +181,17 @@ export const newsEvents: NewsEvent[] = [
   {
     date: "2026-05-28",
     source: "示範資料",
-    title: "AI 與大型權值股仍是市場觀察主軸",
-    summary: "這是示範市場事件，用來說明標的頁如何呈現新聞脈絡；目前不代表即時新聞，也不納入燈號分數。",
-    category: "市場事件",
+    title: "AI 供應鏈維持市場關注",
+    summary: "示範事件用來說明新聞模組未來如何影響燈號，目前不納入正式分數。",
+    category: "產業動能",
     impact: 2,
     assets: ["TWII", "2330", "2382"]
   },
   {
     date: "2026-05-28",
     source: "示範資料",
-    title: "ETF 資金動能維持觀察",
-    summary: "這是示範 ETF 觀察事件，用來測試指數與 ETF 頁的閱讀流程；目前不納入燈號分數。",
+    title: "ETF 資金流向仍需觀察",
+    summary: "ETF 相關資訊仍在資料來源與覆蓋率確認中，公開頁先維持示範讀法。",
     category: "ETF",
     impact: 1,
     assets: ["0050", "006208"]
@@ -216,18 +216,51 @@ export function buildBacktestBuckets(_series?: SignalSnapshot[]): BacktestBucket
 function buildMockMarketFacts(asset: Asset, dateString: string, compositeScore: number): MarketFact[] {
   if (asset.type === "index") {
     return [
-      { label: "指數收盤", value: `${Math.round(14800 + compositeScore * 42).toLocaleString("zh-TW")} 點`, note: "示範值，正式資料尚未啟用" },
-      { label: "日變動", value: `${compositeScore >= 55 ? "+" : "-"}${Math.abs(compositeScore - 55).toFixed(1)}%`, note: "用於版面驗證" },
-      { label: "資料日期", value: dateString, note: "示範資料時間" }
+      {
+        label: "指數點位",
+        value: `${Math.round(14800 + compositeScore * 42).toLocaleString("zh-TW")} 點`,
+        note: "示範資料，用於呈現市場狀態讀法。"
+      },
+      {
+        label: "一日變化",
+        value: `${compositeScore >= 55 ? "+" : "-"}${Math.abs(compositeScore - 55).toFixed(1)}%`,
+        note: "依示範分數推估的方向，不代表正式行情。"
+      },
+      {
+        label: "資料日期",
+        value: dateString,
+        note: "正式資料切換前皆標示為示範資料。"
+      }
     ];
   }
 
   return [
-    { label: asset.type === "etf" ? "ETF 收盤價" : "收盤價", value: `${Math.round(40 + compositeScore * 3.8).toLocaleString("zh-TW")} 元`, note: "示範值，正式資料尚未啟用" },
-    { label: "日變動", value: `${compositeScore >= 55 ? "+" : "-"}${Math.abs(compositeScore - 55).toFixed(1)}%`, note: "用於版面驗證" },
-    { label: "成交量", value: `${Math.round(1200 + compositeScore * 95).toLocaleString("zh-TW")} 張`, note: "示範值，正式資料尚未啟用" },
-    { label: "資料日期", value: dateString, note: "示範資料時間" }
+    {
+      label: asset.type === "etf" ? "ETF 估算價格" : "估算收盤價",
+      value: `${Math.round(40 + compositeScore * 3.8).toLocaleString("zh-TW")} 元`,
+      note: "示範資料，用於 UI 與流程驗證。"
+    },
+    {
+      label: "一日變化",
+      value: `${compositeScore >= 55 ? "+" : "-"}${Math.abs(compositeScore - 55).toFixed(1)}%`,
+      note: "依示範分數推估的方向，不代表正式行情。"
+    },
+    {
+      label: "成交量級",
+      value: `${Math.round(1200 + compositeScore * 95).toLocaleString("zh-TW")} 張`,
+      note: "示範量級，正式資料來源切換前不可作投資判斷。"
+    },
+    {
+      label: "資料日期",
+      value: dateString,
+      note: "正式資料切換前皆標示為示範資料。"
+    }
   ];
+}
+
+function normalizeDate(date: Date | string) {
+  if (typeof date === "string") return date;
+  return date.toISOString().slice(0, 10);
 }
 
 function clampScore(value: number) {
@@ -236,9 +269,4 @@ function clampScore(value: number) {
 
 function clampRatio(value: number) {
   return Math.max(0, Math.min(1, value));
-}
-
-function normalizeDate(value: Date | string) {
-  if (value instanceof Date) return value.toISOString().slice(0, 10);
-  return value.slice(0, 10);
 }

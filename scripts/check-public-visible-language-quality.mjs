@@ -1,5 +1,5 @@
 import fs from "node:fs";
-import { spawn, spawnSync } from "node:child_process";
+import { spawn } from "node:child_process";
 
 const node = process.execPath;
 const baseUrl = process.env.LOCALHOST_BASE_URL ?? "http://localhost:3000";
@@ -49,25 +49,26 @@ const publicSourceFiles = [
   "src/components/public-next-reading-flow.tsx",
   "src/components/public-route-reading-contract.tsx",
   "src/components/stock-runtime-at-a-glance.tsx",
+  "src/components/trust-runtime-boundary-notice.tsx",
   "src/lib/assets.ts",
   "src/lib/market-data.ts",
   "src/lib/signal-model.ts"
 ];
 
 const requiredByRoute = {
-  "/": ["市場總覽 / 快速判讀", "30 秒", "示範資料", "免責聲明"],
-  "/briefing": ["市場快報", "30 秒看懂市場燈號", "下一步行動", "資料邊界"],
-  "/weekly": ["市場週報", "本週市場狀態回顧", "示範資料", "不是投資建議"],
-  "/methodology": ["方法說明", "燈號", "風險分數", "不是投資建議"],
-  "/disclaimer": ["風險聲明", "不是投資建議", "示範資料"],
-  "/terms": ["使用條款", "市場資訊整理", "示範資料"],
-  "/privacy": ["隱私權", "公開免費版", "會員"],
-  "/stocks/TWII": ["TWII", "個股燈號 / 一眼判讀", "示範資料", "免責聲明"],
-  "/stocks/2330": ["2330", "個股燈號 / 一眼判讀", "示範資料", "免責聲明"],
-  "/stocks/0050": ["0050", "個股燈號 / 一眼判讀", "示範資料", "免責聲明"],
-  "/stocks/006208": ["006208", "個股燈號 / 一眼判讀", "示範資料", "免責聲明"],
-  "/stocks/2382": ["2382", "個股燈號 / 一眼判讀", "示範資料", "免責聲明"],
-  "/stocks/2308": ["2308", "個股燈號 / 一眼判讀", "示範資料", "免責聲明"]
+  "/": ["公開 Beta / 指數狀態儀表站", "30 秒看懂台股市場氛圍", "資料邊界", "風險聲明"],
+  "/briefing": ["市場快報", "3 分鐘把市場燈號拆成原因", "資料與風險邊界", "市場摘要"],
+  "/weekly": ["市場週報", "回看本週市場狀態與風險變化", "示範資料"],
+  "/methodology": ["方法說明", "燈號幫你建立觀察順序", "核心模組"],
+  "/disclaimer": ["風險聲明", "不是投資建議", "不保證任何投資結果"],
+  "/terms": ["使用條款", "資訊用途與限制", "使用者需自行判斷風險"],
+  "/privacy": ["隱私權政策", "不建立會員資料", "未來會員"],
+  "/stocks/TWII": ["TWII", "標的燈號", "綜合分數", "風險分數"],
+  "/stocks/2330": ["2330", "標的燈號", "綜合分數", "風險分數"],
+  "/stocks/0050": ["0050", "標的燈號", "綜合分數", "風險分數"],
+  "/stocks/006208": ["006208", "標的燈號", "綜合分數", "風險分數"],
+  "/stocks/2382": ["2382", "標的燈號", "綜合分數", "風險分數"],
+  "/stocks/2308": ["2308", "標的燈號", "綜合分數", "風險分數"]
 };
 
 const forbiddenVisibleFragments = [
@@ -90,57 +91,56 @@ const forbiddenVisibleFragments = [
   "raw payload",
   "candidateArtifactPath",
   "source_row_hash",
-  "Membership MVP",
-  "member-only"
+  "Phase 1",
+  "Phase 2",
+  "promotion gate",
+  "mock-only",
+  "mock data"
 ];
 
-const publicResults = [];
 const managedServer = shouldManageServer && !(await canFetchRoot()) ? await startTemporaryServer() : null;
-
-for (const route of publicRoutes) {
-  publicResults.push(await checkPublicRoute(route));
-}
-
+const publicResults = [];
 const inaccessibleResults = [];
-for (const route of inaccessibleRoutes) {
-  inaccessibleResults.push(await checkInaccessibleRoute(route));
+
+try {
+  for (const route of publicRoutes) {
+    publicResults.push(await checkPublicRoute(route));
+  }
+
+  for (const route of inaccessibleRoutes) {
+    inaccessibleResults.push(await checkInaccessibleRoute(route));
+  }
+
+  const sourceResults = checkPublicSourceFiles();
+  const registrationResults = checkRegistration();
+  const blocked = [
+    ...publicResults.filter((result) => !result.pass),
+    ...inaccessibleResults.filter((result) => !result.pass),
+    ...sourceResults.filter((result) => !result.pass),
+    ...registrationResults.filter((result) => !result.pass)
+  ];
+  const status = blocked.length === 0 ? "ok" : "blocked";
+
+  console.log(
+    JSON.stringify(
+      {
+        baseUrl,
+        blocked,
+        managedServer: managedServer ? { command: managedServer.commandLabel, started: true } : { started: false },
+        checkedInaccessibleRoutes: inaccessibleRoutes.length,
+        checkedPublicRoutes: publicRoutes.length,
+        checkedPublicSourceFiles: publicSourceFiles.length,
+        status
+      },
+      null,
+      2
+    )
+  );
+
+  if (status !== "ok") process.exitCode = 1;
+} finally {
+  if (managedServer) stopManagedServer(managedServer.child);
 }
-
-const sourceResults = checkPublicSourceFiles();
-const registrationResults = checkRegistration();
-const blocked = [
-  ...publicResults.filter((result) => !result.pass),
-  ...inaccessibleResults.filter((result) => !result.pass),
-  ...sourceResults.filter((result) => !result.pass),
-  ...registrationResults.filter((result) => !result.pass)
-];
-const status = blocked.length === 0 ? "ok" : "blocked";
-
-console.log(
-  JSON.stringify(
-    {
-      baseUrl,
-      blocked,
-      managedServer: managedServer
-        ? {
-            command: managedServer.commandLabel,
-            started: true
-          }
-        : {
-            started: false
-          },
-      checkedInaccessibleRoutes: inaccessibleRoutes.length,
-      checkedPublicRoutes: publicRoutes.length,
-      checkedPublicSourceFiles: publicSourceFiles.length,
-      status
-    },
-    null,
-    2
-  )
-);
-
-if (managedServer) stopManagedServer(managedServer.child);
-if (status !== "ok") process.exitCode = 1;
 
 async function checkPublicRoute(route) {
   try {
@@ -218,23 +218,19 @@ function checkRegistration() {
       pass: reviewGate.includes("scripts/check-public-visible-language-quality.mjs")
     },
     {
-      check: "Phase 2 routes stay inaccessible",
-      pass: checker.includes('"/membership"') && checker.includes('"/watchlist"')
+      check: "checker guards public routes",
+      pass: checker.includes('"/briefing"') && checker.includes('"/stocks/2330"')
     }
   ];
 }
 
 function normalizeVisibleText(html) {
   return html
-    .replace(/<script[\s\S]*?<\/script>/gi, " ")
-    .replace(/<style[\s\S]*?<\/style>/gi, " ")
+    .replace(/<script[\s\S]*?<\/script>/g, " ")
+    .replace(/<style[\s\S]*?<\/style>/g, " ")
     .replace(/<[^>]+>/g, " ")
     .replace(/&nbsp;/g, " ")
     .replace(/&amp;/g, "&")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
-    .replace(/&#x27;/g, "'")
-    .replace(/&quot;/g, '"')
     .replace(/\s+/g, " ")
     .trim();
 }
@@ -244,7 +240,7 @@ function findBadTextMarkers(text) {
   if (/[\uE000-\uF8FF\uFFFD]/u.test(text)) markers.push("private-use-or-replacement-codepoint");
   if (/[\u0080-\u009F]/u.test(text)) markers.push("control-codepoint");
   if (/\?{3,}/u.test(text)) markers.push("question-mark-run");
-  for (const fragment of ["撣", "憸券", "鞈", "蝷箇", "嚗", "銝", "甇"]) {
+  for (const fragment of ["蝷", "撣", "鞈", "憸", "閫", "璅", "嚗", "銝", "蝘", "甇", "霅", "靽", "蝬", "", "", "", "", ""]) {
     if (text.includes(fragment)) markers.push(`legacy-mojibake-fragment:${fragment}`);
   }
   return markers;
@@ -268,10 +264,7 @@ async function startTemporaryServer() {
     throw new Error("temporary localhost server did not become ready");
   }
 
-  return {
-    child,
-    commandLabel: hasProductionBuild ? "next start" : "next dev"
-  };
+  return { child, commandLabel: hasProductionBuild ? "next start" : "next dev" };
 }
 
 async function waitForRoot() {
@@ -279,17 +272,20 @@ async function waitForRoot() {
     if (await canFetchRoot()) return true;
     await delay(1000);
   }
-
   return false;
 }
 
 async function canFetchRoot() {
   try {
-    const response = await fetch(new URL("/", baseUrl), { cache: "no-store" });
-    return response.status === 200;
+    const response = await fetch(baseUrl);
+    return response.ok;
   } catch {
     return false;
   }
+}
+
+function stopManagedServer(child) {
+  child.kill();
 }
 
 function delay(ms) {
@@ -297,21 +293,7 @@ function delay(ms) {
 }
 
 function normalizeEnv(env) {
-  const next = { ...env };
-  if (next.Path && next.PATH) {
-    delete next.PATH;
-  }
-  return next;
-}
-
-function stopManagedServer(child) {
-  if (process.platform === "win32") {
-    spawnSync("taskkill", ["/PID", String(child.pid), "/T", "/F"], {
-      stdio: "ignore",
-      windowsHide: true
-    });
-    return;
-  }
-
-  child.kill();
+  const nextEnv = { ...env };
+  nextEnv.NEXT_TELEMETRY_DISABLED = "1";
+  return nextEnv;
 }

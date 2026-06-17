@@ -36,15 +36,8 @@ export default async function BriefingPage() {
 
       <section className="hero briefing-public-summary" aria-label="市場快報">
         <p className="eyebrow">晨報快速判讀</p>
-        <p>
-          30 秒看懂今日市場氣氛，3 分鐘行動判斷：先看燈號，再看主要成因、資料更新時間與下一步觀察。
-        </p>
-        <p>30 秒看懂市場燈號；下一步行動：確認風險最高標的、資料邊界與是否需要加強觀察。</p>
-        <p className="eyebrow">市場快報</p>
         <h1>3 分鐘把市場燈號拆成原因</h1>
-        <p>
-          先看目前市場燈號，再看風險最高標的、市場廣度與資料更新狀態。這頁的目的，是把「現在該觀察什麼」排出順序。
-        </p>
+        <p>先看目前市場燈號，再看風險最高標的、市場廣度與資料更新狀態。這頁的目的，是把「現在該觀察什麼」排出順序。</p>
         <p>
           目前 {market.asset.name} 是「{market.signal.title}」，市場分數 {market.compositeScore}/100，
           風險分數 {market.riskScore}/100。
@@ -77,7 +70,9 @@ export default async function BriefingPage() {
       <section className="briefing-grid" aria-label="市場觀察">
         <article className="panel">
           <p className="eyebrow">市場廣度</p>
-          <h2>偏強標的 {breadth.constructiveCount} 個，風險偏高 {breadth.defensiveCount} 個</h2>
+          <h2>
+            偏強標的 {breadth.constructiveCount} 個，風險偏高 {breadth.defensiveCount} 個
+          </h2>
           <p>如果強勢集中在少數標的，要比全面擴散更保守解讀；如果風險擴散，應提高警覺。</p>
         </article>
 

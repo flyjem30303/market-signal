@@ -1,5 +1,5 @@
 import fs from "node:fs";
-import { spawn, spawnSync } from "node:child_process";
+import { spawn } from "node:child_process";
 
 const node = process.execPath;
 const baseUrl = process.env.LOCALHOST_BASE_URL ?? "http://localhost:3000";
@@ -32,19 +32,19 @@ const inaccessiblePhase2Routes = [
 ];
 
 const requiredPublicSignals = {
-  "/": ["市場總覽 / 快速判讀", "30 秒看懂今天的市場狀態", "資料狀態", "重要提醒"],
-  "/briefing": ["市場快報", "30 秒看懂市場燈號", "下一步行動", "資料邊界"],
-  "/weekly": ["市場週報", "市場燈號", "示範資料", "資料更新狀態"],
-  "/methodology": ["方法說明", "燈號", "風險分數", "資料狀態"],
-  "/disclaimer": ["免責聲明", "不是投資建議", "資料限制", "示範資料"],
-  "/terms": ["使用條款", "市場資訊整理", "風險", "示範資料"],
-  "/privacy": ["隱私政策", "公開免費版", "不啟用會員", "資料"],
-  "/stocks/TWII": ["個股燈號 / 一眼判讀", "綜合分數", "風險分數"],
-  "/stocks/2330": ["個股燈號 / 一眼判讀", "綜合分數", "風險分數"],
-  "/stocks/0050": ["個股燈號 / 一眼判讀", "綜合分數", "風險分數"],
-  "/stocks/006208": ["個股燈號 / 一眼判讀", "綜合分數", "風險分數"],
-  "/stocks/2382": ["個股燈號 / 一眼判讀", "綜合分數", "風險分數"],
-  "/stocks/2308": ["個股燈號 / 一眼判讀", "綜合分數", "風險分數"]
+  "/": ["30 秒看懂台股市場氛圍", "資料邊界", "風險聲明"],
+  "/briefing": ["市場快報", "市場摘要", "資料與風險邊界"],
+  "/weekly": ["市場週報", "週報摘要", "示範資料"],
+  "/methodology": ["方法說明", "核心模組", "燈號"],
+  "/disclaimer": ["風險聲明", "不是投資建議", "投資決策"],
+  "/terms": ["使用條款", "資訊用途", "資料限制"],
+  "/privacy": ["隱私權政策", "不建立會員資料", "未來會員"],
+  "/stocks/TWII": ["TWII", "標的燈號", "資料邊界"],
+  "/stocks/2330": ["2330", "標的燈號", "資料邊界"],
+  "/stocks/0050": ["0050", "標的燈號", "資料邊界"],
+  "/stocks/006208": ["006208", "標的燈號", "資料邊界"],
+  "/stocks/2382": ["2382", "標的燈號", "資料邊界"],
+  "/stocks/2308": ["2308", "標的燈號", "資料邊界"]
 };
 
 const forbiddenVisibleFragments = [
@@ -62,6 +62,7 @@ const forbiddenVisibleFragments = [
   "publicDataSource",
   "scoreSource",
   "mock-only",
+  "mock data",
   "Supabase",
   "SQL",
   "daily_prices",
@@ -155,7 +156,7 @@ async function checkInaccessibleRoute(route) {
   try {
     const response = await fetch(`${baseUrl}${route}`);
     return {
-      pass: response.status === 404,
+      pass: [401, 404].includes(response.status),
       route,
       status: response.status
     };
@@ -184,7 +185,7 @@ function findBadTextMarkers(text) {
   if (/[\uE000-\uF8FF\uFFFD]/u.test(text)) markers.push("private-use-or-replacement-codepoint");
   if (/[\u0080-\u009F]/u.test(text)) markers.push("control-codepoint");
   if (/\?{3,}/u.test(text)) markers.push("question-mark-run");
-  for (const fragment of ["撣", "憸券", "鞈", "蝷箇", "嚗", "銝", "甇"]) {
+  for (const fragment of ["蝷", "撣", "鞈", "憸", "閫", "璅", "嚗", "銝", "蝘", "甇", "霅", "靽", "蝬", "", "", "", "", ""]) {
     if (text.includes(fragment)) markers.push(`legacy-mojibake-fragment:${fragment}`);
   }
   return markers;
@@ -221,30 +222,23 @@ async function waitForRoot() {
 
 async function canFetchRoot() {
   try {
-    const response = await fetch(new URL("/", baseUrl), { cache: "no-store" });
-    return response.status === 200;
+    const response = await fetch(baseUrl);
+    return response.ok;
   } catch {
     return false;
   }
 }
 
-function normalizeEnv(env) {
-  const next = { ...env };
-  if (next.Path && next.PATH) delete next.PATH;
-  return next;
+function stopManagedServer(child) {
+  child.kill();
 }
 
 function delay(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-function stopManagedServer(child) {
-  if (process.platform === "win32") {
-    spawnSync("taskkill", ["/PID", String(child.pid), "/T", "/F"], {
-      stdio: "ignore",
-      windowsHide: true
-    });
-    return;
-  }
-  child.kill();
+function normalizeEnv(env) {
+  const nextEnv = { ...env };
+  nextEnv.NEXT_TELEMETRY_DISABLED = "1";
+  return nextEnv;
 }

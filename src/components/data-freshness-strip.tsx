@@ -24,20 +24,19 @@ export function DataFreshnessStrip({ freshness, marketSignalSourceStatus }: Data
       </span>
       <span className="freshness-description">{freshness.description}</span>
       <span className={`freshness-score-source ${freshness.scoreSource}`}>分數來源：{scoreLabel}</span>
-      <span>資料品質閘門：{dataQuality.displayLabel}</span>
+      <span>資料品質：{dataQuality.displayLabel}</span>
       <span className="freshness-description">
-        品質狀態 {dataQuality.downgradeState}，{dataQuality.reason}
+        品質狀態：{dataQuality.displayLabel}。{dataQuality.reason}
       </span>
       {marketSignalSourceStatus ? (
         <>
-          <span>市場訊號來源：目前 {marketSignalSourceStatus.resolvedSource}</span>
-          <span>要求來源 {marketSignalSourceStatus.requestedSource}</span>
-          <span>後端唯讀狀態 {marketSignalSourceStatus.supabaseRuntimeReads}</span>
+          <span>公開資料：{marketSignalSourceStatus.resolvedSource === "mock" ? "示範資料" : "正式資料"}</span>
+          <span>後端唯讀：{marketSignalSourceStatus.supabaseRuntimeReads === "enabled" ? "已啟用" : "未啟用"}</span>
           <span className="freshness-description">{marketSignalSourceStatus.reason}</span>
         </>
       ) : null}
       <span className="freshness-boundary">
-        公開頁目前使用示範資料與示範分數；正式每日資料啟用前，請以資料狀態與風險聲明一起閱讀。
+        公開頁目前以示範資料說明閱讀流程；正式每日資料啟用前，請搭配資料狀態與風險聲明一起判讀。
       </span>
       <TrackedLink
         className="freshness-link"
@@ -52,10 +51,10 @@ export function DataFreshnessStrip({ freshness, marketSignalSourceStatus }: Data
         className="freshness-link"
         eventName="trust_link_clicked"
         href="/disclaimer"
-        label="查看免責聲明"
+        label="查看風險聲明"
         payload={{ area: "data_freshness_strip" }}
       >
-        免責聲明
+        風險聲明
       </TrackedLink>
     </aside>
   );

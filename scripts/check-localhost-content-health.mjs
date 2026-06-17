@@ -6,15 +6,15 @@ const baseUrl = process.env.LOCALHOST_BASE_URL ?? "http://localhost:3000";
 const shouldManageServer = process.env.LOCALHOST_HEALTH_MANAGE_SERVER !== "false";
 
 const requiredByPath = {
-  "/": ["30 秒看懂市場狀態", "示範資料", "不是投資建議"],
-  "/stocks/2330": ["2330", "標的燈號 / 一眼判讀", "標的基本資料", "市場事件 / 新聞脈絡"],
-  "/stocks/TWII": ["TWII", "標的燈號 / 一眼判讀", "標的基本資料", "市場事件 / 新聞脈絡"],
-  "/stocks/0050": ["0050", "標的燈號 / 一眼判讀", "標的基本資料", "市場事件 / 新聞脈絡"],
-  "/stocks/006208": ["006208", "標的燈號 / 一眼判讀", "標的基本資料", "市場事件 / 新聞脈絡"],
-  "/stocks/2382": ["2382", "標的燈號 / 一眼判讀", "標的基本資料", "市場事件 / 新聞脈絡"],
-  "/stocks/2308": ["2308", "標的燈號 / 一眼判讀", "標的基本資料", "市場事件 / 新聞脈絡"],
+  "/": ["30 秒看懂台股市場氛圍", "資料邊界", "風險聲明"],
+  "/stocks/2330": ["2330", "標的燈號", "標的分類", "市場事件 / 觀察脈絡"],
+  "/stocks/TWII": ["TWII", "標的燈號", "標的分類", "市場事件 / 觀察脈絡"],
+  "/stocks/0050": ["0050", "標的燈號", "標的分類", "市場事件 / 觀察脈絡"],
+  "/stocks/006208": ["006208", "標的燈號", "標的分類", "市場事件 / 觀察脈絡"],
+  "/stocks/2382": ["2382", "標的燈號", "標的分類", "市場事件 / 觀察脈絡"],
+  "/stocks/2308": ["2308", "標的燈號", "標的分類", "市場事件 / 觀察脈絡"],
   "/briefing": ["市場快報", "3 分鐘把市場燈號拆成原因", "資料與風險邊界"],
-  "/weekly": ["市場週報", "公開 Beta", "示範資料"]
+  "/weekly": ["市場週報", "週報摘要", "示範資料"]
 };
 
 const blockedFragments = [
@@ -29,7 +29,12 @@ const blockedFragments = [
   "REQUEST BLOCKS",
   "EXTERNAL REPLY",
   "publicDataSource",
-  "scoreSource"
+  "scoreSource",
+  "Phase 1",
+  "Phase 2",
+  "promotion gate",
+  "mock-only",
+  "mock data"
 ];
 
 const managedServer = shouldManageServer && !(await canFetchRoot()) ? await startTemporaryServer() : null;
@@ -102,6 +107,9 @@ function findBadTextMarkers(text) {
   if (/[\uE000-\uF8FF\uFFFD]/u.test(text)) markers.push("private-use-or-replacement-codepoint");
   if (/[\u0080-\u009F]/u.test(text)) markers.push("control-codepoint");
   if (/\?{3,}/u.test(text)) markers.push("question-mark-run");
+  for (const fragment of ["蝷", "撣", "鞈", "憸", "閫", "璅", "嚗", "銝", "蝘", "甇", "霅", "靽", "蝬", "", "", "", "", ""]) {
+    if (text.includes(fragment)) markers.push(`legacy-mojibake-fragment:${fragment}`);
+  }
   return markers;
 }
 
