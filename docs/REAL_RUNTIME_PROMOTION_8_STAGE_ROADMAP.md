@@ -2,7 +2,7 @@
 
 Updated: 2026-06-17
 
-Status: `stage_5_supabase_readonly_gate_complete`
+Status: `stage_6_public_data_source_supabase_promotion_complete`
 
 CEO rule: keep this route execution-first. Do not add extra governance unless a later stage would otherwise risk legal misuse, bad data, secret exposure, or misleading public claims.
 
@@ -124,9 +124,12 @@ Stage 5 output:
 - Live readonly execution is blocked unless the operator supplies the exact Stage 5 authorization id and `TWSE_OPENAPI_STAGE5_ALLOW_READONLY=true`.
 - Readonly output distinguishes `current`, `stale`, `missing`, and `source_error`.
 - Readonly output remains aggregate-shape-only with `rawPayloadEcho=false`, `rowPayloadEcho=false`, `secretsPrinted=false`, `publicDataSource=mock`, and `scoreSource=mock`.
+- Retained Stage 5 status token: `stage_5_supabase_readonly_gate_complete`.
 - The next route is `publicDataSource_supabase_promotion_gate`.
 
 ## Stage 6 - publicDataSource=supabase promotion
+
+Status: `complete`
 
 Goal: switch public runtime data source from mock to Supabase only after Stage 5 is stable.
 
@@ -135,6 +138,18 @@ Completion target:
 - Homepage, briefing, weekly, stock routes show Supabase-backed data.
 - UI clearly displays source and update time.
 - Failure mode does not silently show stale data as current.
+
+Stage 6 output:
+
+- Added a fail-closed public data-source promotion gate for the runtime source resolver.
+- Public runtime can resolve `publicDataSource` to `supabase` only when requested source is `supabase`, Supabase reads are enabled, and `MARKET_SIGNAL_SUPABASE_PROMOTION_GATE=stage_6_public_data_source_supabase_approved`.
+- Default/local execution still resolves to `mock`.
+- Score source remains `mock`; `scoreSource=real` is deferred to Stage 8.
+- Source disclosure is fixed to TWSE OpenAPI via data.gov open data.
+- Update-time display is required, and stale/missing/source-error data must fail closed instead of silently presenting as current.
+- This stage did not mutate deployment environment variables and did not write Supabase.
+- Retained Stage 6 status token: `stage_6_public_data_source_supabase_promotion_complete`.
+- The next route is `real_score_formula_gate`.
 
 ## Stage 7 - real score formula
 
@@ -158,4 +173,4 @@ Completion target:
 
 ## Next execution step
 
-Proceed to Stage 6: `publicDataSource_supabase_promotion_gate`.
+Proceed to Stage 7: `real_score_formula_gate`.

@@ -4961,6 +4961,11 @@ const checks = [
     name: "twse-openapi-stage-5-supabase-readonly-gate"
   },
   {
+    command: [node, "scripts/check-twse-openapi-stage-6-public-data-source-promotion-gate.mjs"],
+    expectStatus: "ok",
+    name: "twse-openapi-stage-6-public-data-source-promotion-gate"
+  },
+  {
     command: [node, "scripts/check-twse-openapi-runtime-mock-wiring-readiness.mjs"],
     expectStatus: "ok",
     name: "twse-openapi-runtime-mock-wiring-readiness"
@@ -7697,6 +7702,7 @@ const phase1LiveCoreReviewGateNames = new Set([
   "twse-openapi-ingestion-backfill-runner",
   "twse-openapi-stage-4-bounded-write-readback-runner",
   "twse-openapi-stage-5-supabase-readonly-gate",
+  "twse-openapi-stage-6-public-data-source-promotion-gate",
   "phase-1-runtime-promotion-review-packet",
   "phase-1-runtime-promotion-explicit-go-no-go-decision",
   "phase-1-runtime-promotion-operator-decision-gate",

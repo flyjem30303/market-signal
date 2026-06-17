@@ -2,6 +2,32 @@
 
 ## Latest Effective Status - 2026-06-17
 
+### Latest Real Runtime Promotion Stage 6 publicDataSource Supabase Promotion Gate
+
+Status: `stage_6_public_data_source_supabase_promotion_complete`
+
+CEO decision:
+
+- Completed Stage 6 by adding a fail-closed public data-source promotion gate.
+- Public runtime source can resolve to `supabase` only when `NEXT_PUBLIC_DATA_SOURCE=supabase`, `MARKET_SIGNAL_SUPABASE_READS=enabled`, and `MARKET_SIGNAL_SUPABASE_PROMOTION_GATE=stage_6_public_data_source_supabase_approved`.
+- Default/local runtime remains `mock`.
+- `scoreSource` and public score source remain `mock`; real scoring is deferred to Stage 7/8.
+- Source disclosure is TWSE OpenAPI via data.gov open data.
+- Update-time display is required, and stale/missing/source-error states must fail closed.
+- No SQL, no Supabase write, no `daily_prices` mutation, no raw payload echo, no row payload echo, no secret printing, no deployment env mutation, and no `scoreSource=real` happened in this stage.
+
+PM completed:
+
+- Added `src/lib/twse-openapi-stage-6-public-data-source-promotion-gate.ts`.
+- Added `scripts/run-twse-openapi-stage-6-public-data-source-promotion-gate-once.mjs`.
+- Added `scripts/check-twse-openapi-stage-6-public-data-source-promotion-gate.mjs`.
+- Updated `src/lib/repositories/market-signal-source-status.ts` with the Stage 6 fail-closed promotion resolver.
+- Registered the checker in `package.json` and the focused review gate.
+
+Current route:
+
+- `real_score_formula_gate`
+
 ### Latest Real Runtime Promotion Stage 5 Supabase Readonly Gate
 
 Status: `stage_5_supabase_readonly_gate_complete`

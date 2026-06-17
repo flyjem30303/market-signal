@@ -7,6 +7,7 @@ const cases = [
       publicScoreSource: "mock",
       requestedSource: "mock",
       resolvedSource: "mock",
+      supabasePromotionGate: "disabled",
       supabaseRuntimeReads: "disabled"
     },
     name: "default mock"
@@ -20,6 +21,7 @@ const cases = [
       publicScoreSource: "mock",
       requestedSource: "mock",
       resolvedSource: "mock",
+      supabasePromotionGate: "disabled",
       supabaseRuntimeReads: "enabled"
     },
     name: "mock request with reads enabled still mock"
@@ -32,6 +34,7 @@ const cases = [
       publicScoreSource: "mock",
       requestedSource: "supabase",
       resolvedSource: "mock",
+      supabasePromotionGate: "disabled",
       supabaseRuntimeReads: "disabled"
     },
     name: "supabase request with reads disabled"
@@ -45,9 +48,25 @@ const cases = [
       publicScoreSource: "mock",
       requestedSource: "supabase",
       resolvedSource: "mock",
+      supabasePromotionGate: "disabled",
       supabaseRuntimeReads: "enabled"
     },
-    name: "supabase request with reads enabled remains public mock"
+    name: "supabase request with reads enabled remains public mock without stage 6 gate"
+  },
+  {
+    env: {
+      NEXT_PUBLIC_DATA_SOURCE: "supabase",
+      MARKET_SIGNAL_SUPABASE_PROMOTION_GATE: "stage_6_public_data_source_supabase_approved",
+      MARKET_SIGNAL_SUPABASE_READS: "enabled"
+    },
+    expected: {
+      publicScoreSource: "mock",
+      requestedSource: "supabase",
+      resolvedSource: "supabase",
+      supabasePromotionGate: "stage_6_public_data_source_supabase_approved",
+      supabaseRuntimeReads: "enabled"
+    },
+    name: "stage 6 promoted source still keeps public score mock"
   }
 ];
 
