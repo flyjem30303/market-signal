@@ -2,6 +2,28 @@
 
 ## Latest Effective Status - 2026-06-16
 
+### Latest Phase 1 Current-Scope Candidate Artifact Header Gate
+
+Status: `phase_1_current_scope_candidate_artifact_header_gate_no_row_payloads_ready`
+
+CEO decision:
+
+- Add a header-only candidate artifact contract after the path shape gate.
+- Parse only sanitized header and aggregate metadata.
+- Reject row payloads, raw payloads, stock-id payloads, secrets, ETF current-scope mismatch, and real promotion attempts.
+- Keep candidate rows unaccepted, write gate closed, `publicDataSource=mock`, and `scoreSource=mock`.
+
+PM completed:
+
+- Added `scripts/run-phase-1-current-scope-candidate-artifact-header-gate-once.mjs`.
+- Added `scripts/check-phase-1-current-scope-candidate-artifact-header-gate-no-row-payloads.mjs`.
+- Added `docs/PHASE_1_CURRENT_SCOPE_CANDIDATE_ARTIFACT_HEADER_GATE_NO_ROW_PAYLOADS.md`.
+- Registered `phase-1-current-scope-candidate-artifact-header-gate-no-row-payloads` in the focused review gate set.
+
+Next:
+
+Continue with `prepare_candidate_artifact_aggregate_contract_gate_no_row_payloads`, then validate aggregate completeness without accepting row payloads.
+
 ### Latest Phase 1 Current-Scope Candidate Artifact Path Shape Gate
 
 Status: `phase_1_current_scope_candidate_artifact_path_shape_gate_no_row_payloads_ready`
