@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import { PageViewTracker } from "@/components/page-view-tracker";
 import { PublicRouteReadingContract } from "@/components/public-route-reading-contract";
+import { RouteLocalTrustCopyPanel } from "@/components/route-local-trust-copy-panel";
 import { TrustRuntimeBoundaryNotice } from "@/components/trust-runtime-boundary-notice";
 import { TrackedLink } from "@/components/tracked-link";
 
 export const metadata: Metadata = {
   title: "隱私權政策",
-  description: "說明指數燈號公開版目前如何處理資料、會員功能與個人化功能邊界。"
+  description: "說明指數燈號公開 Beta 階段的資料使用與後續會員功能邊界。"
 };
 
 export default function PrivacyPage() {
@@ -15,34 +16,35 @@ export default function PrivacyPage() {
       <PageViewTracker eventName="privacy_page_viewed" payload={{ page: "privacy" }} />
       <section className="hero">
         <p className="eyebrow">隱私權政策</p>
-        <h1>公開版目前不建立會員資料或個人化投資檔案</h1>
-        <p>目前網站不提供登入、付款、watchlist 儲存或自訂警示，因此不會建立個人投資偏好資料。</p>
-        <p className="runtime-boundary-line">未來若加入會員功能，會另行揭露資料用途、保存方式、刪除方式與通知設定。</p>
+        <h1>公開瀏覽階段不建立會員資料</h1>
+        <p>會員、watchlist 與個人化警示屬後續階段；正式上線前會補齊更完整的資料使用說明。</p>
+        <p className="runtime-boundary-line">目前不建立交易連線，也不處理個人資產配置資料。</p>
       </section>
 
       <PublicRouteReadingContract context="privacy" />
+      <RouteLocalTrustCopyPanel context="privacy" />
       <TrustRuntimeBoundaryNotice context="privacy" />
 
-      <section className="legal-quick-read" aria-label="隱私權摘要">
+      <section className="legal-quick-read" aria-label="隱私權重點">
         <article>
-          <span>目前不收集</span>
-          <strong>會員帳號、watchlist 與自訂警示</strong>
-          <p>公開版尚未啟用會員功能，因此不保存這些個人化資料。</p>
+          <span>目前不做</span>
+          <strong>不串接券商交易</strong>
+          <p>目前不做下單、資產配置或交易帳戶整合。</p>
         </article>
         <article>
-          <span>基本使用資料</span>
-          <strong>可能使用匿名流量指標改善網站</strong>
-          <p>若使用流量分析，應以匿名、彙總方式理解頁面使用情況。</p>
+          <span>基本追蹤</span>
+          <strong>只用於改善內容與流程</strong>
+          <p>頁面瀏覽與互動事件用來觀察產品是否容易理解。</p>
         </article>
         <article>
-          <span>未來會員</span>
-          <strong>會員功能上線前會補充完整政策</strong>
-          <p>包含資料用途、保存期限、刪除流程與通知偏好設定。</p>
+          <span>後續會員</span>
+          <strong>會員功能上線前另補政策</strong>
+          <p>watchlist、自訂警示與通知設定會在會員版本補齊資料權限說明。</p>
         </article>
       </section>
 
       <section className="panel legal-links">
-        <h2>延伸閱讀</h2>
+        <h2>相關頁面</h2>
         <TrackedLink className="text-link" eventName="trust_link_clicked" href="/terms" label="查看使用條款" payload={{ area: "privacy" }}>
           查看使用條款
         </TrackedLink>

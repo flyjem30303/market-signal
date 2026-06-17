@@ -1,4 +1,4 @@
-export type AssetType = "index" | "etf" | "stock";
+﻿export type AssetType = "index" | "etf" | "stock";
 
 export type Asset = {
   id: string;
@@ -20,7 +20,7 @@ export const assets: Asset[] = [
   { id: "2330", symbol: "2330", name: "台積電", group: "半導體", type: "stock", beta: 1.08, ai: 0.95, quality: 0.92, valuation: 0.76, flow: 0.74 },
   { id: "2454", symbol: "2454", name: "聯發科", group: "IC 設計", type: "stock", beta: 1.18, ai: 0.7, quality: 0.76, valuation: 0.7, flow: 0.66 },
   { id: "2317", symbol: "2317", name: "鴻海", group: "電子代工", type: "stock", beta: 1.06, ai: 0.78, quality: 0.65, valuation: 0.55, flow: 0.62 },
-  { id: "2308", symbol: "2308", name: "台達電", group: "電源/工控", type: "stock", beta: 0.98, ai: 0.74, quality: 0.82, valuation: 0.68, flow: 0.58 },
+  { id: "2308", symbol: "2308", name: "台達電", group: "電源 / 工控", type: "stock", beta: 0.98, ai: 0.74, quality: 0.82, valuation: 0.68, flow: 0.58 },
   { id: "2382", symbol: "2382", name: "廣達", group: "AI 伺服器", type: "stock", beta: 1.28, ai: 0.92, quality: 0.66, valuation: 0.78, flow: 0.7 }
 ];
 

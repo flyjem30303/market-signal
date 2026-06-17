@@ -1,4 +1,4 @@
-import fs from "node:fs";
+﻿import fs from "node:fs";
 
 const helperPath = "src/lib/post-readonly-runtime-state.ts";
 const productStatusPath = "src/components/post-readonly-product-status.tsx";
@@ -8,14 +8,10 @@ const packagePath = "package.json";
 const reviewGatePath = "scripts/check-review-gates.mjs";
 
 const files = new Map(
-  [
-    helperPath,
-    productStatusPath,
-    briefingPanelPath,
-    cssPath,
-    packagePath,
-    reviewGatePath
-  ].map((file) => [file, fs.readFileSync(file, "utf8")])
+  [helperPath, productStatusPath, briefingPanelPath, cssPath, packagePath, reviewGatePath].map((file) => [
+    file,
+    fs.readFileSync(file, "utf8")
+  ])
 );
 
 const required = [
@@ -29,21 +25,18 @@ const required = [
   [helperPath, "missingRows: 0"],
   [helperPath, "observedRows: 360"],
   [helperPath, "aggregate_count_complete"],
+  [helperPath, "資料覆蓋已完成"],
+  [helperPath, "公開 runtime 仍維持示範資料"],
+  [helperPath, "公開頁仍維持示範資料與示範分數"],
   [helperPath, "publicDataSource: \"mock\""],
   [helperPath, "scoreSource: \"mock\""],
-  [helperPath, "資料覆蓋已完成後台驗證"],
-  [helperPath, "不切換 publicDataSource=supabase"],
-  [helperPath, "不設定 scoreSource=real"],
   [productStatusPath, "PostReadonlyProductStatus"],
   [productStatusPath, "getPostReadonlyRuntimeState"],
-  [productStatusPath, "資料覆蓋已完成"],
-  [productStatusPath, "公開頁仍需通過 promotion gate"],
-  [productStatusPath, "唯讀證據"],
-  [productStatusPath, "資料覆蓋"],
-  [productStatusPath, "公開邊界"],
-  [productStatusPath, "下一道 gate"],
+  [productStatusPath, "資料覆蓋完成"],
+  [productStatusPath, "正式資料切換"],
+  [productStatusPath, "Promotion readiness"],
+  [productStatusPath, "尚未允許正式資料模式"],
   [productStatusPath, "publicDataSource={state.publicDataSource}; scoreSource={state.scoreSource}"],
-  [productStatusPath, "不會自動啟用 scoreSource=real"],
   [briefingPanelPath, "getPostReadonlyRuntimeState"],
   [briefingPanelPath, "Post-readonly runtime"],
   [briefingPanelPath, "postReadonlyRuntime.userFacingSummary"],
@@ -84,20 +77,17 @@ const forbidden = [
   [briefingPanelPath, "scoreSource=real approved"]
 ];
 
+const mojibakePatterns = [/鞈/u, /銝/u, /嚗/u, /蝣/u, /撌/u, /甇/u, /摰/u, /靘/u, /雿/u, /蝺/u, /�/u];
 const missing = required.filter(([file, phrase]) => !read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
 const blocked = forbidden.filter(([file, phrase]) => read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
 
-console.log(
-  JSON.stringify(
-    {
-      blocked,
-      missing,
-      status: missing.length === 0 && blocked.length === 0 ? "ok" : "blocked"
-    },
-    null,
-    2
-  )
-);
+for (const file of [helperPath, productStatusPath]) {
+  for (const pattern of mojibakePatterns) {
+    if (pattern.test(read(file))) blocked.push(`${file}: mojibake pattern ${pattern}`);
+  }
+}
+
+console.log(JSON.stringify({ blocked, missing, status: missing.length === 0 && blocked.length === 0 ? "ok" : "blocked" }, null, 2));
 
 if (missing.length > 0 || blocked.length > 0) {
   process.exitCode = 1;

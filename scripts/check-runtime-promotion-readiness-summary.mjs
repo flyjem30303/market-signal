@@ -1,4 +1,4 @@
-import fs from "node:fs";
+﻿import fs from "node:fs";
 import { spawnSync } from "node:child_process";
 
 const helperPath = "src/lib/runtime-promotion-readiness-summary.ts";
@@ -29,21 +29,22 @@ const required = [
   [helperPath, "ready_for_local_use"],
   [helperPath, "blocked_by_evidence"],
   [helperPath, "needs_review"],
-  [helperPath, "不要執行 SQL"],
-  [helperPath, "不要寫入 Supabase"],
-  [helperPath, "raw market data"],
-  [helperPath, "scoreSource=real"],
+  [helperPath, "資料覆蓋完成，正式資料升級仍需最後審核"],
+  [helperPath, "不得執行資料庫結構或內容變更"],
+  [helperPath, "不得寫入正式資料庫"],
+  [helperPath, "未審核的市場原始資料"],
+  [helperPath, "不得把示範分數宣稱為正式投資模型"],
   [queuePath, "row_coverage"],
   [queuePath, "missingRows=0"],
   [queuePath, "status: \"local_ready\""],
   [queuePath, "runtime_promotion_preflight_preparation"],
-  [queuePath, "資料覆蓋已完成，進入 mock-to-real promotion preflight"],
+  [queuePath, "資料覆蓋完成，進入正式資料升級前檢查"],
   [componentPath, "getRuntimePromotionReadinessSummary"],
   [componentPath, "post-readonly-promotion-summary"],
   [componentPath, "Runtime promotion readiness summary"],
   [componentPath, "Promotion readiness"],
   [componentPath, "No-go actions"],
-  [componentPath, "目前不可切換 real"],
+  [componentPath, "尚未允許正式資料模式"],
   [componentPath, "promotion.steps.map"],
   [componentPath, "promotion.readinessCounts.ready"],
   [componentPath, "promotion.noGoActions.join"],
@@ -82,8 +83,7 @@ const forbidden = [
   [componentPath, "scoreSource=real approved"]
 ];
 
-const mojibakePatterns = [/鞈/u, /銝/u, /嚗/u, /蝣/u, /撌/u, /甇/u, /摰/u, /靘/u, /雿/u, /蝺/u, /\?/u, /\?/u];
-
+const mojibakePatterns = [/鞈/u, /銝/u, /嚗/u, /蝣/u, /撌/u, /甇/u, /摰/u, /靘/u, /雿/u, /蝺/u, /�/u];
 const missing = required.filter(([file, phrase]) => !read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
 const blocked = forbidden.filter(([file, phrase]) => read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
 
@@ -103,17 +103,7 @@ if (tsc.status !== 0) {
   blocked.push(`typescript failed: ${(tsc.stderr || tsc.stdout).trim()}`);
 }
 
-console.log(
-  JSON.stringify(
-    {
-      blocked,
-      missing,
-      status: missing.length === 0 && blocked.length === 0 ? "ok" : "blocked"
-    },
-    null,
-    2
-  )
-);
+console.log(JSON.stringify({ blocked, missing, status: missing.length === 0 && blocked.length === 0 ? "ok" : "blocked" }, null, 2));
 
 if (missing.length > 0 || blocked.length > 0) {
   process.exitCode = 1;

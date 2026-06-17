@@ -1,4 +1,4 @@
-import { TrackedLink } from "@/components/tracked-link";
+﻿import { TrackedLink } from "@/components/tracked-link";
 
 type PublicBetaSourceCoverageBridgeProps = {
   context: "briefing" | "home" | "stock" | "weekly";
@@ -14,36 +14,35 @@ export function PublicBetaSourceCoverageBridge({
   return (
     <section className="panel stock-reading-summary public-beta-source-coverage-bridge" aria-label="資料來源與覆蓋率說明">
       <p className="eyebrow">資料來源與覆蓋率</p>
-      <h2>正式市場資料尚未啟用，先清楚說明資料範圍、覆蓋範圍與升級條件</h2>
+      <h2>正式資料升級前，公開頁先維持清楚揭露</h2>
       <p>
         {contextLabel}
-        目前公開版仍以示範資料呈現閱讀流程；正式資料切換前，需完成合法免費可自動化來源、欄位合約、覆蓋率與錯誤回退檢查。
+        目前先以台股大盤與上市股票日收盤價作為主範圍。ETF 全量覆蓋、新聞評分與會員深度內容會在後續版本補齊。
       </p>
       <div className="briefing-actions">
-        <SourceCoverageCard title="資料範圍" text="確認資料來源可公開使用、自動化讀取，並保留來源頁、條款位置與更新頻率。" />
-        <SourceCoverageCard title="覆蓋範圍" text="先補核心指數、ETF 與主要觀察標的，再擴到全市場清單與歷史區間。" />
-        <SourceCoverageCard title="品質檢查" text="每批資料都要檢查日期、缺漏、重複、欄位型別與可回溯雜湊。" />
-        <SourceCoverageCard title="升級條件" text="資料延遲或異常時，前台必須清楚顯示狀態，避免使用者把示範資料當成正式資料。" />
+        <SourceCoverageCard title="資料來源" text="只使用可驗證、可追溯且符合公開使用條件的資料來源；未確認前不切換正式資料模式。" />
+        <SourceCoverageCard title="覆蓋範圍" text="目前聚焦台股大盤與上市股票日收盤價，先完成公開 Beta 可用閉環。" />
+        <SourceCoverageCard title="品質審核" text="資料品質、更新時間、來源揭露與回復機制都要完成檢查。" />
+        <SourceCoverageCard title="使用者揭露" text="若仍是示範資料，前台必須清楚標示，不讓使用者誤判。" />
       </div>
-      <p>這個區塊不代表正式資料已啟用；它只說明從示範資料升級到正式資料前必須完成的條件，也不提供買賣建議。</p>
-      <div className="briefing-actions" aria-label="資料來源說明連結">
+      <div className="briefing-actions" aria-label="資料來源下一步">
         <SourceCoverageActionLink
           href="/methodology"
           label="查看方法說明"
-          text="了解燈號、分數、資料品質與錯誤回退的判讀方式。"
+          text="了解燈號如何閱讀、哪些資料仍在示範邊界，以及正式資料升級前的限制。"
           title="查看方法說明"
         />
         <SourceCoverageActionLink
           href="/disclaimer"
           label="查看風險聲明"
-          text="確認本網站定位為市場資訊整理與風險辨識，不是投資建議。"
+          text="確認本站定位為資訊整理與風險辨識，不是投資建議。"
           title="查看風險聲明"
         />
         <SourceCoverageActionLink
           href="/briefing"
-          label="回到市場晨報"
-          text="回到 30 秒市場狀態與 3 分鐘觀察重點。"
-          title="回到市場晨報"
+          label="回市場快報"
+          text="用 30 秒摘要與 3 分鐘閱讀流程理解目前市場氛圍。"
+          title="回市場快報"
         />
       </div>
     </section>
@@ -84,8 +83,8 @@ function SourceCoverageActionLink({
 }
 
 function getContextLabel(context: PublicBetaSourceCoverageBridgeProps["context"], stockSymbol: string) {
-  if (context === "stock") return `這個標的頁正在閱讀 ${stockSymbol} 的示範燈號。`;
-  if (context === "weekly") return "週報頁用來整理較長時間的市場觀察。";
-  if (context === "briefing") return "市場簡報頁用來整理今日市場氣氛與後續觀察。";
-  return "首頁用來快速理解整體市場氣氛。";
+  if (context === "stock") return `此區塊說明 ${stockSymbol} 標的頁的資料邊界。`;
+  if (context === "weekly") return "此區塊說明週報頁的資料來源與覆蓋限制。";
+  if (context === "briefing") return "此區塊說明市場快報的資料來源與覆蓋限制。";
+  return "此區塊說明首頁市場總覽的資料來源與覆蓋限制。";
 }

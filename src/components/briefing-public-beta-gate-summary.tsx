@@ -1,43 +1,43 @@
-export function BriefingPublicBetaGateSummary() {
+﻿export function BriefingPublicBetaGateSummary() {
   return (
-    <section className="panel briefing-public-beta-gate-summary" aria-label="公開版使用狀態摘要">
+    <section className="panel briefing-public-beta-gate-summary" aria-label="公開 Beta 使用者閱讀路徑">
       <div>
-        <p className="eyebrow">公開版使用狀態</p>
-        <h2>目前可用來理解市場燈號與閱讀流程</h2>
+        <p className="eyebrow">公開 Beta 閱讀路徑</p>
+        <h2>先讓使用者看懂市場狀態，再逐步補齊正式資料</h2>
         <p>
-          本摘要只保留使用者需要知道的內容：目前能看市場燈號、風險提示與更新狀態；正式資料與進階功能會在後續 gate 通過後才開放。
+          目前首頁、快報與標的頁會優先呈現市場燈號、成因、更新時間與風險提示。正式資料尚未完全開放前，所有公開頁都要清楚標示資料邊界。
         </p>
       </div>
 
       <div className="briefing-public-beta-gate-grid">
         <article className="ready">
-          <span>30 秒快讀</span>
-          <strong>市場狀態可閱讀</strong>
-          <p>使用者可以快速看到市場目前偏多、觀望或警戒。</p>
+          <span>30 秒閱讀</span>
+          <strong>先看市場氛圍</strong>
+          <p>使用者進站後可以快速理解目前是偏多、觀望、警戒或高風險。</p>
         </article>
 
         <article className="ready">
-          <span>3 分鐘判斷</span>
-          <strong>風險來源可追蹤</strong>
-          <p>頁面會引導使用者從市場總覽進入標的、方法與風險聲明。</p>
+          <span>3 分鐘拆解</span>
+          <strong>再看原因與觀察重點</strong>
+          <p>每個燈號都應搭配成因、資料更新時間與下一步觀察方向。</p>
         </article>
 
         <article className="hold">
-          <span>資料狀態</span>
-          <strong>仍是示範資料</strong>
-          <p>正式資料必須等來源權利、覆蓋率與品質 gate 通過。</p>
+          <span>資料邊界</span>
+          <strong>示範資料需清楚揭露</strong>
+          <p>正式資料升級前，不讓使用者誤以為目前燈號已連接正式行情。</p>
         </article>
 
         <article className="hold">
-          <span>後續功能</span>
-          <strong>不放入 Phase 1 主流程</strong>
-          <p>Phase 1 先把公開免費版做好，不在頁面上承諾尚未完成的功能。</p>
+          <span>會員延伸</span>
+          <strong>先不放入公開主流程</strong>
+          <p>現階段先完成免費公開版，會員深度解讀與 watchlist 留到後續階段。</p>
         </article>
       </div>
 
       <footer className="briefing-public-beta-gate-footer">
-        <strong>使用提醒</strong>
-        <p>目前內容是市場資訊整理與風險辨識輔助，不提供個股買賣建議或保證報酬。</p>
+        <strong>使用者承諾</strong>
+        <p>本站提供市場資訊整理與風險辨識，不提供個股買賣建議、不保證報酬，也不代替使用者做投資決策。</p>
       </footer>
     </section>
   );

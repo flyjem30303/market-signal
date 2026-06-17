@@ -2,6 +2,39 @@
 
 ## Latest Effective Status - 2026-06-17
 
+### Latest Phase 1 Public Surface And Runtime Gate Reconciliation
+
+Status: `phase_1_public_surface_and_runtime_gate_reconciliation_ready`
+
+CEO decision:
+
+- Public-facing pages are now cleaned for Phase 1 Beta readability: no mojibake, no internal field names, no stale development-process residue, and no visible governance/debug vocabulary on checked routes.
+- Runtime/data gate wording was reconciled so clean user-facing copy and internal safety gates no longer contradict each other.
+- Current data scope remains `twii_plus_listed_stock_daily_close`.
+- Data coverage is complete for the current scope, but real runtime promotion is still deliberately `NO_GO`.
+- `publicDataSource` remains `mock`.
+- `scoreSource` remains `mock`.
+
+PM completed:
+
+- Rebuilt readable Chinese copy for public shell, briefing, weekly, methodology, disclaimer, terms, privacy, stock routes, route-local trust panels, and runtime boundary panels.
+- Repaired corrupted public signal labels, asset names, signal model text, runtime product summary, post-readonly runtime state, next-gate queue, and runtime-promotion readiness summary.
+- Updated the related local checkers so they guard the clean contract instead of stale mojibake strings.
+- Re-ran focused public-surface checks, TypeScript, full review gate, and production build.
+- Restarted local dev server after build; `http://localhost:3000/` returned `200`.
+
+Verification:
+
+- `npm run check:phase-1-public-beta-public-visible-residue-cleanup` -> `ok`.
+- `npm run check:phase-1-public-beta-public-status-surface-alignment` -> `ok`.
+- `npm run check:localhost-content-health` -> `ok`.
+- `npm run check:review-gates` -> `ok`.
+- `npm run build` -> passed.
+
+Current route:
+
+- `phase_1_runtime_promotion_preflight_quality_freshness_source_rollback_copy_review`
+
 ### Latest Phase 1 Current-Scope Write Closure Final-Go Judgement
 
 Status: `phase_1_current_scope_write_closure_final_go_judgement_ready`

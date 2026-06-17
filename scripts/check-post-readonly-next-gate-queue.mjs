@@ -1,4 +1,4 @@
-import fs from "node:fs";
+﻿import fs from "node:fs";
 
 const libPath = "src/lib/post-readonly-next-gate-queue.ts";
 const panelPath = "src/components/runtime-readiness-panel.tsx";
@@ -35,15 +35,16 @@ const required = [
   [libPath, "Phase 1 runtime schema shape"],
   [libPath, "Freshness evidence"],
   [libPath, "missingRows=0"],
-  [libPath, "field validity promotion accepted"],
-  [libPath, "source-depth accepted for Phase 1 TWII plus listed-stock daily close"],
-  [libPath, "資料覆蓋與資料品質已可作為本地 Phase 1 promotion evidence"],
+  [libPath, "資料覆蓋率已完成"],
+  [libPath, "正式資料升級審核改看資料品質"],
+  [libPath, "資料品質證據已可作為本地審核依據"],
+  [libPath, "資料來源深度已接受於 TWII 與上市股票日收盤價範圍"],
   [libPath, "publicDataSource: \"mock\""],
   [libPath, "scoreSource: \"mock\""],
-  [libPath, "不要執行 SQL"],
-  [libPath, "不要寫入 Supabase"],
-  [libPath, "不要抓取或提交 raw market data"],
-  [libPath, "不要切換 scoreSource=real"],
+  [libPath, "不得執行 SQL"],
+  [libPath, "不得寫入 Supabase"],
+  [libPath, "raw market data"],
+  [libPath, "不得把示範分數宣稱為正式模型"],
   [panelPath, "getPostReadonlyNextGateQueue"],
   [panelPath, "postReadonlyNextGateQueue"],
   [panelPath, "runtime-next-gate-queue"],
@@ -79,20 +80,15 @@ const forbidden = [
   [panelPath, "scoreSource: \"real\""]
 ];
 
+const mojibakePatterns = [/鞈/u, /銝/u, /嚗/u, /蝣/u, /撌/u, /甇/u, /摰/u, /靘/u, /雿/u, /蝺/u, /�/u];
 const missing = required.filter(([file, phrase]) => !read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
 const blocked = forbidden.filter(([file, phrase]) => read(file).includes(phrase)).map(([file, phrase]) => `${file}: ${phrase}`);
 
-console.log(
-  JSON.stringify(
-    {
-      blocked,
-      missing,
-      status: missing.length === 0 && blocked.length === 0 ? "ok" : "blocked"
-    },
-    null,
-    2
-  )
-);
+for (const pattern of mojibakePatterns) {
+  if (pattern.test(read(libPath))) blocked.push(`${libPath}: mojibake pattern ${pattern}`);
+}
+
+console.log(JSON.stringify({ blocked, missing, status: missing.length === 0 && blocked.length === 0 ? "ok" : "blocked" }, null, 2));
 
 if (missing.length > 0 || blocked.length > 0) {
   process.exitCode = 1;

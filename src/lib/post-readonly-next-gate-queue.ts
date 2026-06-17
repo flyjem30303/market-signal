@@ -1,4 +1,4 @@
-import { buildDataQualityEvidenceGate } from "@/lib/data-quality-evidence-gate";
+﻿import { buildDataQualityEvidenceGate } from "@/lib/data-quality-evidence-gate";
 import { getFreshnessReadonlyLatestEvidenceSummary } from "@/lib/freshness-readonly-latest-evidence";
 import { getPhase1PromotionReviewOutcomeSummary } from "@/lib/phase-1-promotion-review-outcome";
 import { getSchemaShapeAcceptanceContract } from "@/lib/schema-shape-acceptance-contract";
@@ -44,58 +44,52 @@ export function getPostReadonlyNextGateQueue(): PostReadonlyNextGateQueue {
   const sourceDepthOutcome = promotionReview.outcomes.find((outcome) => outcome.id === "source_depth");
   const items: PostReadonlyNextGateItem[] = [
     {
-      acceptanceSignal: "Phase 1 runtime schema shape 已可供本地使用，沒有 row payload、stock id 或 secret 暴露。",
-      blockedPromotion: "schema shape 已不是 blocker；仍不可因此連 Supabase 或切換 public data source。",
+      acceptanceSignal: "Phase 1 runtime schema shape is locally accepted and does not expose row payloads, stock ids, or secrets.",
+      blockedPromotion: "欄位結構已不再是主要阻塞，但欄位可讀不代表可直接公開正式資料。",
       id: "schema_shape",
-      nextAction: "維持目前 schema contract，僅在 promotion packet 明確要求時再調整欄位。",
+      nextAction: "把欄位結構作為正式資料升級包的佐證；公開頁先維持示範資料。",
       owner: "Engineering",
       priority: 1,
       status: "local_ready"
     },
     {
-      acceptanceSignal: "Freshness evidence 已完成，可顯示資料更新時間、延遲與 stale fallback。",
-      blockedPromotion: "尚未通過公開 promotion 前，不可宣稱即時資料或完整市場覆蓋。",
+      acceptanceSignal: "Freshness evidence is complete and public UI has delay/stale fallback wording.",
+      blockedPromotion: "更新時間可讀，但仍需與資料來源、回復流程與公開文案一起審核。",
       id: "freshness",
-      nextAction: "保持更新時間、延遲說明與 stale fallback 可見。",
+      nextAction: "維持更新時間與延遲說明，並納入正式資料升級審核。",
       owner: "Data",
       priority: 2,
       status: "local_ready"
     },
     {
-      acceptanceSignal: "Phase 1 範圍 360/360 rows 已完成，missingRows=0。",
-      blockedPromotion: "row coverage 已不是 blocker；promotion 仍需品質、來源、rollback/readback 與文案 gate。",
+      acceptanceSignal: "Phase 1 current-scope write closure has 240/240 rows for TWII plus listed-stock daily close, missingRows=0.",
+      blockedPromotion: "資料覆蓋率已完成，但仍需品質、揭露、回復流程與公開文案審核。",
       id: "row_coverage",
-      nextAction: "把 row coverage 視為 accepted，不重跑寫入或補資料，除非資料範圍被明確擴大。",
+      nextAction: "把資料覆蓋率列為已接受證據；除非發現缺漏，不再重跑寫入。",
       owner: "Data",
       priority: 3,
       status: "local_ready"
     },
     {
-      acceptanceSignal:
-        dataQualityOutcome?.acceptedEvidence.join("；") ??
-        "資料品質候選已涵蓋 Phase 1 必要欄位，但尚未等同 real score 可用。",
-      blockedPromotion:
-        dataQualityOutcome?.reason ?? "品質 review 未完成前，只能保留 mock score，不能設定 scoreSource=real。",
+      acceptanceSignal: dataQualityOutcome?.acceptedEvidence.join("; ") ?? "資料品質證據尚未完成；維持示範分數。",
+      blockedPromotion: dataQualityOutcome?.reason ?? "資料品質尚未證明可公開正式分數。",
       id: "data_quality",
       nextAction:
         dataQualityOutcome?.outcome === "accepted"
-          ? "field validity promotion accepted for local Phase 1 quality scoring；仍不可切 scoreSource=real"
-          : `field validity promotion rejected；${dataQualityOutcome?.minFixes.join("；") ?? "補齊最小品質證據"}`,
+          ? "資料品質證據已可作為本地審核依據；正式分數仍需模型與公開宣稱檢查。"
+          : `補齊資料品質證據：${dataQualityOutcome?.minFixes.join("; ") ?? "補上缺少的證據。"}`,
       owner: "Data",
       priority: 4,
       status: dataQualityOutcome?.outcome === "accepted" ? "local_ready" : "blocked_waiting_evidence"
     },
     {
-      acceptanceSignal:
-        sourceDepthOutcome?.acceptedEvidence.join("；") ??
-        "來源揭露與公開使用條件已有候選路徑，但仍需維持延遲、來源與非背書說明。",
-      blockedPromotion:
-        sourceDepthOutcome?.reason ?? "來源條件未被 promotion packet 接受前，不可宣稱官方背書或完整市場資料。",
+      acceptanceSignal: sourceDepthOutcome?.acceptedEvidence.join("; ") ?? "資料來源深度證據尚未完成；維持示範資料。",
+      blockedPromotion: sourceDepthOutcome?.reason ?? "資料來源深度尚未證明可公開正式資料。",
       id: "source_depth",
       nextAction:
         sourceDepthOutcome?.outcome === "accepted"
-          ? "source-depth accepted for Phase 1 TWII plus listed-stock daily close；ETF coverage deferred to Phase 1.1"
-          : `source-depth artifact promotion rejected；${sourceDepthOutcome?.minFixes.join("；") ?? "補齊來源深度證據"}`,
+          ? "資料來源深度已接受於 TWII 與上市股票日收盤價範圍；ETF 全量延後到 Phase 1.1。"
+          : `補齊資料來源證據：${sourceDepthOutcome?.minFixes.join("; ") ?? "補上來源證據。"}`,
       owner: "Investment",
       priority: 5,
       status: sourceDepthOutcome?.outcome === "accepted" ? "local_ready" : "blocked_waiting_evidence"
@@ -104,12 +98,12 @@ export function getPostReadonlyNextGateQueue(): PostReadonlyNextGateQueue {
 
   return {
     blockedActions: [
-      "不要執行 SQL",
-      "不要寫入 Supabase",
-      "不要抓取或提交 raw market data",
-      "不要改寫 daily_prices",
-      "不要切換 publicDataSource=supabase",
-      "不要切換 scoreSource=real"
+      "不得執行 SQL",
+      "不得寫入 Supabase",
+      "不得抓取或提交 raw market data",
+      "不得直接修改 daily_prices",
+      "不得把公開頁切換成正式資料來源",
+      "不得把示範分數宣稱為正式模型"
     ],
     currentDefaultRoute: "runtime_promotion_preflight_preparation",
     gateSummary: {
@@ -120,15 +114,15 @@ export function getPostReadonlyNextGateQueue(): PostReadonlyNextGateQueue {
       localReadyCount: items.filter((item) => item.status === "local_ready").length,
       needsRoleReviewCount: items.filter((item) => item.status === "needs_role_review").length,
       readableSummary:
-        "資料覆蓋與資料品質已可作為本地 Phase 1 promotion evidence；來源深度仍 rejected for promotion，下一步只補來源權利與公開使用證據。",
+        "資料覆蓋率已完成；正式資料升級審核改看資料品質、來源揭露、更新時間、回復流程與公開文案，而不是再重跑 row coverage。",
       schemaAcceptedCount: schemaShape.acceptedCount,
       schemaObjectCount: schemaShape.objects.length
     },
-    headline: "資料覆蓋已完成，進入 mock-to-real promotion preflight",
+    headline: "資料覆蓋完成，進入正式資料升級前檢查",
     items,
     mode: "post_readonly_next_gate_queue",
     publicDataSource: "mock",
     scoreSource: "mock",
-    stopLine: "coverage 完成不等於 real 上線；runtime 必須維持 mock，直到獨立 promotion gate 通過。"
+    stopLine: "資料覆蓋完成仍不等於正式資料上線；公開頁維持示範資料直到升級審核通過。"
   };
 }

@@ -1,8 +1,11 @@
-import { getSupabaseReadonlyEvidenceSummary } from "@/lib/supabase-readonly-evidence";
+﻿import { getSupabaseReadonlyEvidenceSummary } from "@/lib/supabase-readonly-evidence";
 
 export type PostReadonlyRuntimeState = {
   acceptedEvidence: string;
+  coverageStatus: "complete";
+  currentRoute: "runtime_promotion_preflight";
   headline: string;
+  mode: "coverage_complete_mock_only";
   nextGate: string;
   objectsReachable: number;
   publicDataSource: "mock";
@@ -24,9 +27,12 @@ export function getPostReadonlyRuntimeState(): PostReadonlyRuntimeState {
   const evidence = getSupabaseReadonlyEvidenceSummary();
 
   return {
-    acceptedEvidence: evidence.acceptedScope,
-    headline: "資料覆蓋已補齊，但公開網站仍維持 mock 安全模式",
-    nextGate: "進入真實資料上線前檢查：先完成品質、更新時間、來源揭露、回退與公開文案覆核，才可討論 real promotion。",
+    acceptedEvidence: "目前範圍寫入閉環已完成：TWII 與上市股票日收盤價覆蓋率已由 aggregate evidence 確認。",
+    coverageStatus: "complete",
+    currentRoute: "runtime_promotion_preflight",
+    headline: "資料覆蓋已完成，公開 runtime 仍維持示範資料",
+    mode: "coverage_complete_mock_only",
+    nextGate: "正式資料升級審核：確認資料品質、更新時間揭露、資料來源揭露、回讀與回復流程，以及公開文案邊界。",
     objectsReachable: evidence.objects.length,
     publicDataSource: "mock",
     rowCoverage: {
@@ -35,14 +41,11 @@ export function getPostReadonlyRuntimeState(): PostReadonlyRuntimeState {
       missingRows: 0,
       observedRows: 360,
       reason: "aggregate_count_complete",
-      summary:
-        "Phase 1 目標範圍已完成 360/360 筆覆蓋與 readback；這代表資料缺口已關閉，但尚不代表公開 runtime 可以切到真實資料。"
+      summary: "TWII 加上市股票日收盤價目前範圍共有 360 筆預期列、360 筆觀察列，missingRows=0。"
     },
     scoreSource: "mock",
     state: "coverage_complete_mock_only",
-    stopLine:
-      "在上線檢查通過前，不切換 publicDataSource=supabase、不切換 scoreSource=real，也不宣稱即時、完整市場覆蓋或投資建議。",
-    userFacingSummary:
-      "目前可用於產品展示與本機驗證；公開頁面仍以 mock 燈號呈現，避免使用者把尚未完成 promotion 的資料誤認為正式投資訊號。"
+    stopLine: "資料覆蓋完成不等於可以公開正式燈號；完成正式資料升級審核前，公開頁仍維持示範資料與示範分數。",
+    userFacingSummary: "資料覆蓋率已完成，下一步是把正式資料切換前的品質、來源、更新時間與風險揭露檢查補齊。"
   };
 }

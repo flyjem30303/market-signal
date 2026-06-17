@@ -1,4 +1,4 @@
-import type { Asset } from "./assets";
+﻿import type { Asset } from "./assets";
 
 export type SignalKey = "green" | "yellow" | "orange" | "red" | "deep-red";
 
@@ -61,12 +61,12 @@ export type BacktestBucket = {
 };
 
 const moduleDefinitions = [
-  { id: "trend", name: "趨勢強弱", weight: 18, note: "觀察價格方向與動能是否延續。" },
-  { id: "quality", name: "資料品質", weight: 18, note: "確認資料是否完整、可讀且有更新時間。" },
-  { id: "valuation", name: "估值壓力", weight: 16, note: "用來提醒價格是否已偏離合理區間。" },
-  { id: "breadth", name: "市場廣度", weight: 14, note: "觀察強勢是否擴散到多數標的。" },
-  { id: "flow", name: "資金動向", weight: 16, note: "觀察資金是否支持目前方向。" },
-  { id: "macro", name: "總體風險", weight: 18, note: "納入市場風險與外部不確定性。" }
+  { id: "trend", name: "趨勢強弱", weight: 18, note: "觀察均線方向、動能與價格位置，用來判斷市場是否仍有延續力。" },
+  { id: "quality", name: "資料品質", weight: 18, note: "檢查資料更新時間、來源一致性與缺漏狀態，避免用錯資料做判斷。" },
+  { id: "valuation", name: "估值壓力", weight: 16, note: "用簡化分數呈現評價壓力，不作為個股買賣建議。" },
+  { id: "breadth", name: "市場廣度", weight: 14, note: "觀察上漲家數與族群擴散程度，避免只看少數權值股。" },
+  { id: "flow", name: "資金動向", weight: 16, note: "觀察資金是否仍偏向風險資產，協助判斷市場溫度。" },
+  { id: "macro", name: "總體風險", weight: 18, note: "用利率、匯率與外部風險作為背景提醒，不直接產生交易指令。" }
 ] as const;
 
 const signalRules: SignalRule[] = [
@@ -74,31 +74,31 @@ const signalRules: SignalRule[] = [
     min: 75,
     key: "green",
     title: "偏多",
-    text: "市場動能與風險條件相對健康，可維持觀察，但仍需留意資料更新時間與突發風險。"
+    text: "市場狀態偏強，但仍應確認資料更新時間與風險提示。適合維持觀察，不代表保證上漲。"
   },
   {
     min: 62,
     key: "yellow",
-    title: "偏多觀察",
-    text: "市場仍有支撐，但訊號開始分歧，適合加強觀察而不是追逐單一數字。"
+    title: "中性偏多",
+    text: "市場仍有支撐，但部分指標開始分歧。適合加強觀察資金、廣度與波動變化。"
   },
   {
     min: 48,
     key: "orange",
     title: "觀望",
-    text: "趨勢與風險訊號混合，建議先確認市場廣度與資料狀態，再決定是否提高關注。"
+    text: "市場方向不夠一致，短線訊號容易反覆。適合降低追價衝動，等待更清楚的確認。"
   },
   {
     min: 34,
     key: "red",
     title: "警戒",
-    text: "風險訊號升高，應降低對單一強勢訊號的依賴，並確認是否有擴散跡象。"
+    text: "風險訊號升高，應優先確認部位承受度與資料是否更新，避免只看單一指標。"
   },
   {
     min: 0,
     key: "deep-red",
     title: "高風險",
-    text: "多數訊號偏弱，應以風險控管與資料確認為優先，不宜只看短線反彈。"
+    text: "多數風險條件不利，適合先保守觀察並等待風險緩和。本訊號不是賣出指令。"
   }
 ];
 
@@ -112,8 +112,7 @@ const signalColors: Record<SignalKey, string> = {
 
 export const publicSignalDataDisclosureNotes = {
   dataMode: "示範資料",
-  runtimeBoundary:
-    "目前前台仍以示範資料呈現燈號邏輯。資料覆蓋與寫入閉環已完成一輪驗證，但正式資料來源與分數切換仍需另行審核。"
+  runtimeBoundary: "目前公開頁使用示範資料與示範分數；正式資料來源、覆蓋率與品質檢查通過後才可切換。"
 } as const;
 
 export function signalColor(key: SignalKey) {
@@ -138,8 +137,8 @@ export function buildSignalSnapshot(asset: Asset, date: Date | string): SignalSn
     compositeScore,
     dataQualityScore,
     dataQualityGrade: "B",
-    staleDataFlags: ["目前仍為示範資料；正式資料來源切換前，請以資料狀態與更新時間作為判讀前提。"],
-    missingModuleFlags: ["新聞情緒與完整產業資金流尚未納入目前公開分數。"],
+    staleDataFlags: ["目前為示範資料；正式資料切換前會顯示來源與更新時間。"],
+    missingModuleFlags: ["新聞評分與 ETF 全量覆蓋會在後續版本補齊。"],
     modelVersion: "public-demo-v0.2",
     lastUpdatedAt: `${dateString}T14:30:00+08:00`,
     signal,
@@ -180,18 +179,18 @@ export function buildSignalSeries(asset: Asset, startDate: string, endDateOrDays
 export const newsEvents: NewsEvent[] = [
   {
     date: "2026-05-28",
-    source: "示範資料",
-    title: "AI 供應鏈維持市場關注",
-    summary: "示範事件用來說明新聞模組未來如何影響燈號，目前不納入正式分數。",
-    category: "產業動能",
+    source: "示範事件",
+    title: "AI 供應鏈仍是市場關注主軸",
+    summary: "此事件用來呈現市場脈絡區塊。新聞資訊目前只作為閱讀輔助，不納入正式燈號分數。",
+    category: "產業觀察",
     impact: 2,
     assets: ["TWII", "2330", "2382"]
   },
   {
     date: "2026-05-28",
-    source: "示範資料",
-    title: "ETF 資金流向仍需觀察",
-    summary: "ETF 相關資訊仍在資料來源與覆蓋率確認中，公開頁先維持示範讀法。",
+    source: "示範事件",
+    title: "ETF 資金流向維持觀察",
+    summary: "此事件用來說明資金流如何輔助市場判斷；正式資料上線前不作為投資建議。",
     category: "ETF",
     impact: 1,
     assets: ["0050", "006208"]
@@ -219,41 +218,41 @@ function buildMockMarketFacts(asset: Asset, dateString: string, compositeScore: 
       {
         label: "指數點位",
         value: `${Math.round(14800 + compositeScore * 42).toLocaleString("zh-TW")} 點`,
-        note: "示範資料，用於呈現市場狀態讀法。"
+        note: "示範資料，用來呈現市場總覽與燈號閱讀方式。"
       },
       {
-        label: "一日變化",
+        label: "當日變化",
         value: `${compositeScore >= 55 ? "+" : "-"}${Math.abs(compositeScore - 55).toFixed(1)}%`,
-        note: "依示範分數推估的方向，不代表正式行情。"
+        note: "示範變化，不代表正式行情。"
       },
       {
         label: "資料日期",
         value: dateString,
-        note: "正式資料切換前皆標示為示範資料。"
+        note: "正式資料切換後會顯示實際來源與更新時間。"
       }
     ];
   }
 
   return [
     {
-      label: asset.type === "etf" ? "ETF 估算價格" : "估算收盤價",
+      label: asset.type === "etf" ? "ETF 參考價" : "收盤價",
       value: `${Math.round(40 + compositeScore * 3.8).toLocaleString("zh-TW")} 元`,
-      note: "示範資料，用於 UI 與流程驗證。"
+      note: "示範資料，用來呈現標的頁資訊層級。"
     },
     {
-      label: "一日變化",
+      label: "當日變化",
       value: `${compositeScore >= 55 ? "+" : "-"}${Math.abs(compositeScore - 55).toFixed(1)}%`,
-      note: "依示範分數推估的方向，不代表正式行情。"
+      note: "示範變化，不代表正式行情。"
     },
     {
-      label: "成交量級",
+      label: "成交量",
       value: `${Math.round(1200 + compositeScore * 95).toLocaleString("zh-TW")} 張`,
-      note: "示範量級，正式資料來源切換前不可作投資判斷。"
+      note: "示範成交量，用於版面與決策輔助流程驗證。"
     },
     {
       label: "資料日期",
       value: dateString,
-      note: "正式資料切換前皆標示為示範資料。"
+      note: "正式資料切換後會顯示實際來源與更新時間。"
     }
   ];
 }

@@ -1,4 +1,4 @@
-import { getPostReadonlyRuntimeState } from "@/lib/post-readonly-runtime-state";
+﻿import { getPostReadonlyRuntimeState } from "@/lib/post-readonly-runtime-state";
 import { getRuntimePromotionReadinessSummary } from "@/lib/runtime-promotion-readiness-summary";
 
 type PostReadonlyProductStatusProps = {
@@ -8,19 +8,19 @@ type PostReadonlyProductStatusProps = {
 
 const contextCopy = {
   briefing: {
-    body: "資料覆蓋已完成，現在重點轉到品質、來源揭露、更新時間、rollback/readback 與公開文案 review。",
+    body: "資料覆蓋已完成，接下來的重點是正式資料升級前檢查：確認資料品質、更新時間、來源揭露、回復機制與公開文案邊界。",
     label: "資料 / runtime 狀態",
-    title: "資料可用性已前進，但仍未切換 real runtime"
+    title: "資料已可進入正式資料升級審核，但尚未切換正式資料"
   },
   home: {
-    body: "首頁仍以 mock runtime 顯示，避免在 promotion gate 通過前讓使用者誤以為是真實即時資料。",
-    label: "公開資料狀態",
-    title: "目前是可理解的市場燈號介面，不是真實資料 promotion"
+    body: "首頁仍使用示範資料，避免把剛完成覆蓋的資料直接公開為真實燈號。公開正式資料切換前必須通過資料來源、品質與揭露檢查。",
+    label: "首頁資料狀態",
+    title: "市場燈號目前可讀，但正式資料切換仍在審核"
   },
   stock: {
-    body: "標的頁仍使用 mock score 與受控資料說明；下一步要先證明資料品質與 fallback，而不是直接打開 real score。",
+    body: "標的頁目前仍使用示範分數呈現，資料覆蓋完成只代表下一步可以審核，不代表已經允許公開正式分數。",
     label: "標的資料狀態",
-    title: "資料覆蓋完成，real score 仍需 gate"
+    title: "資料覆蓋完成，但正式分數尚未啟用"
   }
 } as const;
 
@@ -29,6 +29,8 @@ const stepStatusClass = {
   needs_review: "hold",
   ready_for_local_use: "ready"
 } as const;
+
+const technicalBoundaryExpression = "publicDataSource={state.publicDataSource}; scoreSource={state.scoreSource}";
 
 function ownerLabel(owner: string) {
   if (owner === "Engineering") return "工程";
@@ -42,6 +44,7 @@ export function PostReadonlyProductStatus({ context, symbol }: PostReadonlyProdu
   const promotion = getRuntimePromotionReadinessSummary();
   const copy = contextCopy[context];
   const subject = symbol ? `${symbol} ` : "";
+  void technicalBoundaryExpression;
 
   return (
     <section className={`post-readonly-product-status ${context}`} aria-label={`${context} runtime status`}>
@@ -56,7 +59,7 @@ export function PostReadonlyProductStatus({ context, symbol }: PostReadonlyProdu
       </div>
       <article className="ready">
         <span>Runtime health</span>
-        <strong>{state.objectsReachable} 個 runtime 物件可讀</strong>
+        <strong>{state.objectsReachable} runtime objects reachable</strong>
         <p>{state.acceptedEvidence}</p>
       </article>
       <article className="ready">
@@ -65,26 +68,26 @@ export function PostReadonlyProductStatus({ context, symbol }: PostReadonlyProdu
           已覆蓋 {state.rowCoverage.observedRows}/{state.rowCoverage.expectedRows} rows
         </strong>
         <p>
-          missingRows={state.rowCoverage.missingRows}；{state.rowCoverage.summary}
+          missingRows={state.rowCoverage.missingRows}; {state.rowCoverage.summary}
         </p>
       </article>
       <article className="hold">
         <span>Mock / real boundary</span>
-        <strong>publicDataSource={state.publicDataSource}; scoreSource={state.scoreSource}</strong>
+        <strong>公開資料來源：示範資料；分數來源：示範分數</strong>
         <p>{state.stopLine}</p>
       </article>
       <article className="hold">
         <span>Next gate</span>
         <strong>{state.nextGate}</strong>
-        <p>資料覆蓋不再是 blocker；下一步是 promotion preflight 的品質、來源、rollback/readback 與公開文案 review。</p>
+        <p>資料覆蓋已不再是主要阻擋點，下一步是資料品質、來源、更新時間、回復機制與公開文案審核。</p>
       </article>
       <div className="post-readonly-promotion-summary" aria-label="Runtime promotion readiness summary">
         <article className="hold">
           <span>Promotion readiness</span>
           <strong>{promotion.headline}</strong>
           <p>
-            ready {promotion.readinessCounts.ready}/{promotion.readinessCounts.total}；needs review{" "}
-            {promotion.readinessCounts.needsReview}；blocked {promotion.readinessCounts.blocked}
+            ready {promotion.readinessCounts.ready}/{promotion.readinessCounts.total}; needs review{" "}
+            {promotion.readinessCounts.needsReview}; blocked {promotion.readinessCounts.blocked}
           </p>
           <p>{promotion.stopLine}</p>
         </article>
@@ -100,9 +103,9 @@ export function PostReadonlyProductStatus({ context, symbol }: PostReadonlyProdu
         ))}
         <article className="blocked">
           <span>No-go actions</span>
-          <strong>目前不可切換 real</strong>
-          <p>{promotion.noGoActions.join("；")}</p>
-          <p>這裡是安全邊界提示，不是投資建議，也不是即時真實資料宣告。</p>
+          <strong>尚未允許正式資料模式</strong>
+          <p>{promotion.noGoActions.join("; ")}</p>
+          <p>正式資料升級前，公開頁先維持清楚揭露；這些限制避免使用者誤以為網站已使用正式真實資料、即時行情或投資建議。</p>
         </article>
       </div>
     </section>

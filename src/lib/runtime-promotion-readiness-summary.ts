@@ -1,4 +1,4 @@
-import { getPostReadonlyNextGateQueue, type PostReadonlyNextGateItem } from "@/lib/post-readonly-next-gate-queue";
+﻿import { getPostReadonlyNextGateQueue, type PostReadonlyNextGateItem } from "@/lib/post-readonly-next-gate-queue";
 import { getPostReadonlyRuntimeState } from "@/lib/post-readonly-runtime-state";
 
 export type RuntimePromotionReadinessStep = {
@@ -39,11 +39,19 @@ export type RuntimePromotionReadinessSummary = {
 };
 
 const labels: Record<PostReadonlyNextGateItem["id"], string> = {
-  data_quality: "資料品質 review",
+  data_quality: "資料品質審核",
   freshness: "更新時間與延遲揭露",
-  row_coverage: "資料覆蓋率",
-  schema_shape: "Runtime schema shape",
-  source_depth: "資料來源與公開使用條件"
+  row_coverage: "資料覆蓋率確認",
+  schema_shape: "資料欄位結構確認",
+  source_depth: "資料來源與使用條件確認"
+};
+
+const publicBlockedText: Record<PostReadonlyNextGateItem["id"], string> = {
+  data_quality: "正式資料品質尚未完成公開檢查。",
+  freshness: "更新頻率、延遲說明與異常回復尚未完成公開檢查。",
+  row_coverage: "資料覆蓋已完成，但仍需與公開文案和回復流程一起審核。",
+  schema_shape: "資料欄位已可讀，但仍需確認公開頁使用方式。",
+  source_depth: "資料來源與可公開使用條件仍需保留證據。"
 };
 
 export function getRuntimePromotionReadinessSummary(): RuntimePromotionReadinessSummary {
@@ -58,7 +66,7 @@ export function getRuntimePromotionReadinessSummary(): RuntimePromotionReadiness
           : "needs_review";
 
     return {
-      blockedPromotion: item.blockedPromotion,
+      blockedPromotion: publicBlockedText[item.id],
       id: item.id,
       label: labels[item.id],
       nextAction: item.nextAction,
@@ -71,21 +79,21 @@ export function getRuntimePromotionReadinessSummary(): RuntimePromotionReadiness
   return {
     blockedReason: "promotion_gate_pending",
     currentRoute: "prepare_runtime_promotion_gate_preflight",
-    headline: "資料覆蓋已完成，等待 mock-to-real promotion 決策",
+    headline: "資料覆蓋完成，正式資料升級仍需最後審核",
     mockBoundary: {
       publicDataSource: "mock",
       scoreSource: "mock"
     },
     mode: "runtime_promotion_readiness_summary",
     nextCeoDecision:
-      "CEO/PM 需先完成品質、來源揭露、更新時間、rollback/readback 與公開文案 review，才可建立下一個 bounded promotion packet。",
+      "CEO/PM 可進入正式資料升級評估，但必須先確認資料品質、來源揭露、更新時間、公開文案、回復流程與營運監控。",
     noGoActions: [
-      "不要執行 SQL",
-      "不要寫入 Supabase",
-      "不要抓取或提交 raw market data",
-      "不要把 publicDataSource 切到 supabase",
-      "不要把 scoreSource=real",
-      "不要宣稱即時、完整覆蓋或投資建議"
+      "不得執行資料庫結構或內容變更",
+      "不得寫入正式資料庫",
+      "不得匯入未審核的市場原始資料",
+      "不得讓公開頁宣稱已使用正式行情",
+      "不得把示範分數宣稱為正式投資模型",
+      "不得提供個股買賣建議或保證式結論"
     ],
     overallStatus: "coverage_complete_promotion_pending",
     readinessCounts: {
@@ -101,6 +109,6 @@ export function getRuntimePromotionReadinessSummary(): RuntimePromotionReadiness
     },
     steps,
     stopLine:
-      "row coverage 已完成，但 runtime 仍維持 mock；必須通過 operator decision、readback、rollback 與公開文案 gate 才能討論 real promotion。"
+      "資料覆蓋已完成，但沒有完成正式資料升級審核、回讀確認、異常回復與公開文案檢查前，不可宣稱公開頁已使用正式資料。"
   };
 }
