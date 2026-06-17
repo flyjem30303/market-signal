@@ -2,6 +2,30 @@
 
 ## Latest Effective Status - 2026-06-16
 
+### Latest Phase 1 Current-Scope Actual Bounded Write Attempt Final Go Packet
+
+Status: `phase_1_current_scope_actual_bounded_write_attempt_final_go_packet_no_execution_ready`
+
+CEO decision:
+
+- Add a no-execution final go packet after the accepted current-scope actual bounded write attempt authorization response intake.
+- Name the final decision vocabulary `FINAL_GO_ONE_CURRENT_SCOPE_ACTUAL_BOUNDED_WRITE_ATTEMPT`, but keep `finalOperatorGoNoGoAcceptedNow=false`, `finalExecutionAllowedNow=false`, and `actualWriteAttemptAllowedNow=false`.
+- Require a separate final go response before any later actual bounded write attempt can be considered.
+- Reject missing intake, missing packet, row/raw/stock-id payloads, secret/env/confirmation values, deferred ETF scope, real promotion, and already-attempted SQL/write flags.
+- Keep current-scope routing separate from older TWII-only and ETF deferred artifacts.
+- Keep dry-run non-executable, dry-run non-executed, runner non-executable, bounded write non-executable, candidate rows unaccepted, write gate closed, `publicDataSource=mock`, and `scoreSource=mock`.
+
+PM completed:
+
+- Added `scripts/run-phase-1-current-scope-actual-bounded-write-attempt-final-go-packet-once.mjs`.
+- Added `scripts/check-phase-1-current-scope-actual-bounded-write-attempt-final-go-packet-no-execution.mjs`.
+- Added `docs/PHASE_1_CURRENT_SCOPE_ACTUAL_BOUNDED_WRITE_ATTEMPT_FINAL_GO_PACKET_NO_EXECUTION.md`.
+- Registered `phase-1-current-scope-actual-bounded-write-attempt-final-go-packet-no-execution` in the focused review gate set.
+
+Next:
+
+Continue with `await_separate_current_scope_actual_bounded_write_attempt_final_go_response_no_execution`, then require a separate final go response before any actual bounded write attempt can be executed.
+
 ### Latest Phase 1 Current-Scope Actual Bounded Write Attempt Authorization Response Intake
 
 Status: `phase_1_current_scope_actual_bounded_write_attempt_authorization_response_intake_no_execution_ready`
