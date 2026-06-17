@@ -399,6 +399,8 @@
     "check:phase-1-current-scope-bounded-write-execution-authorization-packet-no-execution": "node scripts/check-phase-1-current-scope-bounded-write-execution-authorization-packet-no-execution.mjs",
     "run:phase-1-current-scope-bounded-write-execution-authorization-response-intake-once": "node scripts/run-phase-1-current-scope-bounded-write-execution-authorization-response-intake-once.mjs",
     "check:phase-1-current-scope-bounded-write-execution-authorization-response-intake-no-execution": "node scripts/check-phase-1-current-scope-bounded-write-execution-authorization-response-intake-no-execution.mjs",
+    "run:phase-1-current-scope-bounded-write-pre-execution-review-once": "node scripts/run-phase-1-current-scope-bounded-write-pre-execution-review-once.mjs",
+    "check:phase-1-current-scope-bounded-write-pre-execution-review-no-execution": "node scripts/check-phase-1-current-scope-bounded-write-pre-execution-review-no-execution.mjs",
     "check:phase-1-runtime-promotion-dry-run-only-authorized-route": "node scripts/check-phase-1-runtime-promotion-dry-run-only-authorized-route.mjs",
     "check:phase-1-runtime-promotion-dry-run-only-preparation-packet": "node scripts/check-phase-1-runtime-promotion-dry-run-only-preparation-packet.mjs",
     "check:phase-1-runtime-promotion-dry-run-only-proof-review": "node scripts/check-phase-1-runtime-promotion-dry-run-only-proof-review.mjs",
