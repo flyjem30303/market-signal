@@ -2,6 +2,28 @@
 
 ## Latest Effective Status - 2026-06-16
 
+### Latest Phase 1 Current-Scope Candidate Reply Intake Runner
+
+Status: `phase_1_current_scope_sanitized_candidate_reply_intake_runner_no_row_payloads_ready`
+
+CEO decision:
+
+- Convert the current-scope reply contract into an executable local runner.
+- Read only a future A1/PM no-secret reply JSON; do not read the candidate artifact path.
+- Keep the runner fail-closed when no reply is supplied or when forbidden payload/promotion branches appear.
+- Keep `publicDataSource=mock` and `scoreSource=mock`.
+
+PM completed:
+
+- Added `scripts/run-phase-1-current-scope-sanitized-candidate-reply-intake-once.mjs`.
+- Added `scripts/check-phase-1-current-scope-sanitized-candidate-reply-intake-runner-no-row-payloads.mjs`.
+- Added `docs/PHASE_1_CURRENT_SCOPE_SANITIZED_CANDIDATE_REPLY_INTAKE_RUNNER_NO_ROW_PAYLOADS.md`.
+- Registered `phase-1-current-scope-sanitized-candidate-reply-intake-runner-no-row-payloads` in the focused review gate set.
+
+Next:
+
+Continue with `use_runner_when_a1_or_pm_provides_current_scope_reply_json`, then accept only the reply shape before any candidate artifact path is considered.
+
 ### Latest Phase 1 Current-Scope Candidate Reply Fixtures
 
 Status: `phase_1_current_scope_sanitized_candidate_reply_fixtures_no_row_payloads_ready`
