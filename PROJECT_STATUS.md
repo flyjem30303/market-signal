@@ -2,6 +2,28 @@
 
 ## Latest Effective Status - 2026-06-16
 
+### Latest Phase 1 Current-Scope Candidate Artifact Aggregate PM Acceptance Record
+
+Status: `phase_1_current_scope_candidate_artifact_aggregate_pm_acceptance_record_no_row_payloads_ready`
+
+CEO decision:
+
+- Add an explicit PM acceptance record after the aggregate contract gate.
+- Require `--pm-decision accepted`; missing or rejected decisions fail closed.
+- Treat this as PM record readiness only, not write authorization.
+- Keep candidate rows unaccepted, write gate closed, `publicDataSource=mock`, and `scoreSource=mock`.
+
+PM completed:
+
+- Added `scripts/run-phase-1-current-scope-candidate-artifact-aggregate-pm-acceptance-record-once.mjs`.
+- Added `scripts/check-phase-1-current-scope-candidate-artifact-aggregate-pm-acceptance-record-no-row-payloads.mjs`.
+- Added `docs/PHASE_1_CURRENT_SCOPE_CANDIDATE_ARTIFACT_AGGREGATE_PM_ACCEPTANCE_RECORD_NO_ROW_PAYLOADS.md`.
+- Registered `phase-1-current-scope-candidate-artifact-aggregate-pm-acceptance-record-no-row-payloads` in the focused review gate set.
+
+Next:
+
+Continue with `prepare_candidate_artifact_bounded_write_authorization_preflight_no_execution`, then prepare the bounded write preflight packet without executing SQL or Supabase writes.
+
 ### Latest Phase 1 Current-Scope Candidate Artifact Aggregate Gate
 
 Status: `phase_1_current_scope_candidate_artifact_aggregate_gate_no_row_payloads_ready`

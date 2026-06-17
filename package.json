@@ -367,6 +367,8 @@
     "check:phase-1-current-scope-candidate-artifact-header-gate-no-row-payloads": "node scripts/check-phase-1-current-scope-candidate-artifact-header-gate-no-row-payloads.mjs",
     "run:phase-1-current-scope-candidate-artifact-aggregate-gate-once": "node scripts/run-phase-1-current-scope-candidate-artifact-aggregate-gate-once.mjs",
     "check:phase-1-current-scope-candidate-artifact-aggregate-gate-no-row-payloads": "node scripts/check-phase-1-current-scope-candidate-artifact-aggregate-gate-no-row-payloads.mjs",
+    "run:phase-1-current-scope-candidate-artifact-aggregate-pm-acceptance-record-once": "node scripts/run-phase-1-current-scope-candidate-artifact-aggregate-pm-acceptance-record-once.mjs",
+    "check:phase-1-current-scope-candidate-artifact-aggregate-pm-acceptance-record-no-row-payloads": "node scripts/check-phase-1-current-scope-candidate-artifact-aggregate-pm-acceptance-record-no-row-payloads.mjs",
     "check:phase-1-runtime-promotion-dry-run-only-authorized-route": "node scripts/check-phase-1-runtime-promotion-dry-run-only-authorized-route.mjs",
     "check:phase-1-runtime-promotion-dry-run-only-preparation-packet": "node scripts/check-phase-1-runtime-promotion-dry-run-only-preparation-packet.mjs",
     "check:phase-1-runtime-promotion-dry-run-only-proof-review": "node scripts/check-phase-1-runtime-promotion-dry-run-only-proof-review.mjs",
