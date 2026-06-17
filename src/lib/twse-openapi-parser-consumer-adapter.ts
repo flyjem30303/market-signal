@@ -14,11 +14,17 @@ export type TwseOpenApiRuntimeHandoffStatus = "ready" | "blocked";
 
 export type TwseOpenApiRuntimeDailyPoint = {
   close: number;
+  datasetId: string | null;
   high: number | null;
   low: number | null;
+  name: string | null;
   open: number | null;
+  source: "TWSE_OPENAPI_DATA_GOV";
+  sourcePath: string;
   sourceRouteId: TwseOpenApiRouteId;
+  symbol: string | null;
   tradeDate: string;
+  transactions: number | null;
   turnover: number | null;
   validationWarnings: string[];
   volume: number | null;
@@ -148,11 +154,17 @@ function toRuntimeDailyPoint(
 ): TwseOpenApiRuntimeDailyPoint {
   return {
     close: record.normalized.close ?? 0,
+    datasetId: record.normalized.datasetId,
     high: record.normalized.high,
     low: record.normalized.low,
+    name: record.normalized.name,
     open: record.normalized.open,
+    source: record.normalized.source,
+    sourcePath: record.normalized.sourcePath,
     sourceRouteId: record.normalized.sourceRouteId,
+    symbol: record.normalized.symbol,
     tradeDate: record.normalized.tradeDate,
+    transactions: record.normalized.transactions,
     turnover: record.normalized.turnover,
     validationWarnings: record.validationWarnings,
     volume: record.normalized.volume

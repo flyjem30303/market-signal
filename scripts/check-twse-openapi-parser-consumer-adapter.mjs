@@ -80,7 +80,7 @@ for (const phrase of [
 
 if (
   pkg.scripts?.["check:twse-openapi-parser-consumer-adapter"] !==
-  "node --experimental-strip-types scripts/check-twse-openapi-parser-consumer-adapter.mjs"
+  "node scripts/check-twse-openapi-parser-consumer-adapter.mjs"
 ) {
   problems.push(`${packagePath} missing check:twse-openapi-parser-consumer-adapter script`);
 }

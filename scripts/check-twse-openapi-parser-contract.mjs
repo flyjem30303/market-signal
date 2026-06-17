@@ -37,7 +37,29 @@ for (const phrase of [
   "parseTwseOpenApiSyntheticRows",
   "parseTwseOpenApiTradeDate",
   "parseTwseOpenApiNumericCell",
+  "parseTwseOpenApiTextCell",
   "ROUTE_REQUIRED_FIELDS",
+  "DATE_FIELDS",
+  "SYMBOL_FIELDS",
+  "NAME_FIELDS",
+  "OPEN_FIELDS",
+  "HIGH_FIELDS",
+  "LOW_FIELDS",
+  "CLOSE_FIELDS",
+  "VOLUME_FIELDS",
+  "TURNOVER_FIELDS",
+  "TRANSACTION_FIELDS",
+  "\"日期\"",
+  "\"股票代號\"",
+  "\"證券代號\"",
+  "\"收盤指數\"",
+  "\"收盤價\"",
+  "\"成交股數\"",
+  "\"成交金額\"",
+  "\"成交筆數\"",
+  "source: \"TWSE_OPENAPI_DATA_GOV\"",
+  "datasetId: route.datasetId",
+  "sourcePath: route.path",
   "twiiIndexHistory",
   "listedStockDailyClose",
   "listedStockDailyTradingInfo",
@@ -71,7 +93,7 @@ for (const phrase of [
   if (!roles.includes(phrase)) problems.push(`${rolePath} missing: ${phrase}`);
 }
 
-if (pkg.scripts?.["check:twse-openapi-parser-contract"] !== "node --experimental-strip-types scripts/check-twse-openapi-parser-contract.mjs") {
+if (pkg.scripts?.["check:twse-openapi-parser-contract"] !== "node scripts/check-twse-openapi-parser-contract.mjs") {
   problems.push(`${packagePath} missing check:twse-openapi-parser-contract script`);
 }
 

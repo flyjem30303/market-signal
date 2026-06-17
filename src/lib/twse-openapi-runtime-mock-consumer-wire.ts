@@ -27,25 +27,25 @@ export type TwseOpenApiRuntimeMockConsumerWireSummary = {
 
 const SYNTHETIC_TWII_ROWS = [
   {
-    ClosingIndex: "23150.20",
-    Date: "2026-06-08",
-    HighestIndex: "23220.30",
-    LowestIndex: "22980.10",
-    OpeningIndex: "23010.00"
+    "日期": "2026-06-08",
+    "收盤指數": "23150.20",
+    "最高指數": "23220.30",
+    "最低指數": "22980.10",
+    "開盤指數": "23010.00"
   },
   {
-    ClosingIndex: "23240.70",
-    Date: "2026-06-09",
-    HighestIndex: "23300.40",
-    LowestIndex: "23095.60",
-    OpeningIndex: "23160.20"
+    "日期": "2026-06-09",
+    "收盤指數": "23240.70",
+    "最高指數": "23300.40",
+    "最低指數": "23095.60",
+    "開盤指數": "23160.20"
   },
   {
-    ClosingIndex: "23190.10",
-    Date: "2026-06-10",
-    HighestIndex: "23310.00",
-    LowestIndex: "23120.20",
-    OpeningIndex: "23255.50"
+    "日期": "2026-06-10",
+    "收盤指數": "23190.10",
+    "最高指數": "23310.00",
+    "最低指數": "23120.20",
+    "開盤指數": "23255.50"
   }
 ] as const;
 

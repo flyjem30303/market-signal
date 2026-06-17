@@ -2,7 +2,7 @@
 
 Updated: 2026-06-17
 
-Status: `stage_1_source_selection_complete`
+Status: `stage_2_field_contract_and_source_adapter_complete`
 
 CEO rule: keep this route execution-first. Do not add extra governance unless a later stage would otherwise risk legal misuse, bad data, secret exposure, or misleading public claims.
 
@@ -43,6 +43,8 @@ Stage 1 output:
 
 ## Stage 2 - Field contract and source adapter
 
+Status: `complete`
+
 Goal: define exact source fields, normalized fields, date/timezone rules, symbol mapping, missing-row handling, and synthetic tests before fetching rows.
 
 Completion target:
@@ -50,6 +52,15 @@ Completion target:
 - TWII fields mapped to `trade_date`, `open`, `high`, `low`, `close`, `source`.
 - Listed-stock fields mapped to `trade_date`, `symbol`, `name`, `open`, `high`, `low`, `close`, `volume`, `turnover`, `transactions`, `source`.
 - Adapter has synthetic fixtures and no secrets.
+
+Stage 2 output:
+
+- Source route contracts include dataset ids `11755`, `11548`, and `11549`.
+- TWII source fields are mapped from `日期`, `開盤指數`, `最高指數`, `最低指數`, and `收盤指數`.
+- Listed-stock daily close source fields are mapped from `日期`, `股票代號`, `股票名稱`, `收盤價`, and `月平均價`.
+- Listed-stock daily trading source fields are mapped from `日期`, `證券代號`, `證券名稱`, `成交股數`, `成交金額`, `開盤價`, `最高價`, `最低價`, `收盤價`, `漲跌價差`, and `成交筆數`.
+- Parser supports official Chinese fields plus legacy English synthetic aliases.
+- Runtime handoff carries `symbol`, `name`, `datasetId`, `sourcePath`, `source`, `volume`, `turnover`, and `transactions` while keeping `publicDataSource=mock` and `scoreSource=mock`.
 
 ## Stage 3 - Ingestion and backfill runner
 
@@ -112,5 +123,4 @@ Completion target:
 
 ## Next execution step
 
-Proceed to Stage 2: `twse_openapi_field_contract_and_source_adapter`.
-
+Proceed to Stage 3: `twse_openapi_ingestion_and_backfill_runner`.

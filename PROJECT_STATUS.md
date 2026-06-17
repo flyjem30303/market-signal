@@ -2,6 +2,30 @@
 
 ## Latest Effective Status - 2026-06-17
 
+### Latest Real Runtime Promotion Stage 2 Field Contract And Source Adapter
+
+Status: `stage_2_field_contract_and_source_adapter_complete`
+
+CEO decision:
+
+- Completed Stage 2 by turning the selected TWSE/data.gov routes into explicit engineering contracts before any live row fetch.
+- TWII dataset `11755` is mapped from official daily OHLC fields into normalized `trade_date`, `open`, `high`, `low`, `close`, and `source`.
+- Listed-stock datasets `11548` and `11549` are mapped into normalized daily close/trading fields including `symbol`, `name`, `volume`, `turnover`, and `transactions`.
+- Parser fixtures now accept official Chinese field names and legacy English synthetic aliases.
+- Runtime handoff now carries source metadata but still stays fail-closed mock-only.
+- No SQL, no Supabase write, no market-data fetch, no raw payload storage, no `publicDataSource=supabase`, and no `scoreSource=real` happened in this stage.
+
+PM completed:
+
+- Updated `src/lib/twse-openapi-source-adapter-contract.ts`.
+- Updated `src/lib/twse-openapi-parser-contract.ts`.
+- Updated `src/lib/twse-openapi-parser-consumer-adapter.ts`.
+- Updated Stage 2 synthetic fixtures and Stage 2 checkers.
+
+Current route:
+
+- `twse_openapi_ingestion_and_backfill_runner`
+
 ### Latest Real Runtime Promotion Stage 1 Source Selection
 
 Status: `stage_1_source_selection_complete`

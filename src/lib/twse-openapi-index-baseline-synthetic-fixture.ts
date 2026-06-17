@@ -60,8 +60,8 @@ export const TWSE_OPENAPI_INDEX_BASELINE_SYNTHETIC_CASES: readonly TwseOpenApiIn
     },
     id: "index_valid_date_close",
     rows: [
-      { ClosingIndex: "22,100.25", Date: "20260610" },
-      { ClosingIndex: "22,180.75", Date: "20260611" }
+      { ClosingIndex: "22,100.25", Date: "20260610", HighestIndex: "22,200.00", LowestIndex: "22,000.00", OpeningIndex: "22,050.00" },
+      { ClosingIndex: "22,180.75", Date: "20260611", HighestIndex: "22,240.00", LowestIndex: "22,080.00", OpeningIndex: "22,120.00" }
     ]
   },
   {
@@ -85,8 +85,8 @@ export const TWSE_OPENAPI_INDEX_BASELINE_SYNTHETIC_CASES: readonly TwseOpenApiIn
     },
     id: "index_duplicate_trade_date",
     rows: [
-      { ClosingIndex: "22,100.25", Date: "20260611" },
-      { ClosingIndex: "22,101.25", Date: "20260611" }
+      { ClosingIndex: "22,100.25", Date: "20260611", HighestIndex: "22,200.00", LowestIndex: "22,000.00", OpeningIndex: "22,050.00" },
+      { ClosingIndex: "22,101.25", Date: "20260611", HighestIndex: "22,210.00", LowestIndex: "22,001.00", OpeningIndex: "22,060.00" }
     ]
   },
   {
@@ -98,7 +98,7 @@ export const TWSE_OPENAPI_INDEX_BASELINE_SYNTHETIC_CASES: readonly TwseOpenApiIn
       expectedWarnings: ["volume_not_required_for_route", "turnover_not_required_for_route"]
     },
     id: "index_missing_optional_fields",
-    rows: [{ ClosingIndex: "22,180.75", Date: "115/06/11" }]
+    rows: [{ ClosingIndex: "22,180.75", Date: "115/06/11", HighestIndex: "22,240.00", LowestIndex: "22,080.00", OpeningIndex: "22,120.00" }]
   },
   {
     description: "Synthetic revision package must surface a policy warning instead of silently replacing history.",
@@ -110,8 +110,8 @@ export const TWSE_OPENAPI_INDEX_BASELINE_SYNTHETIC_CASES: readonly TwseOpenApiIn
     },
     id: "index_revision_warning",
     rows: [
-      { ClosingIndex: "22,100.25", Date: "2026-06-10" },
-      { ClosingIndex: "22,180.75", Date: "2026-06-11" }
+      { ClosingIndex: "22,100.25", Date: "2026-06-10", HighestIndex: "22,200.00", LowestIndex: "22,000.00", OpeningIndex: "22,050.00" },
+      { ClosingIndex: "22,180.75", Date: "2026-06-11", HighestIndex: "22,240.00", LowestIndex: "22,080.00", OpeningIndex: "22,120.00" }
     ]
   },
   {
@@ -124,8 +124,8 @@ export const TWSE_OPENAPI_INDEX_BASELINE_SYNTHETIC_CASES: readonly TwseOpenApiIn
     },
     id: "index_timezone_session_gap",
     rows: [
-      { ClosingIndex: "22,100.25", Date: "2026-06-10" },
-      { ClosingIndex: "22,280.75", Date: "2026-06-12" }
+      { ClosingIndex: "22,100.25", Date: "2026-06-10", HighestIndex: "22,200.00", LowestIndex: "22,000.00", OpeningIndex: "22,050.00" },
+      { ClosingIndex: "22,280.75", Date: "2026-06-12", HighestIndex: "22,340.00", LowestIndex: "22,180.00", OpeningIndex: "22,220.00" }
     ]
   }
 ] as const;

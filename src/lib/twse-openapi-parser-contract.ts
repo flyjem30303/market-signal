@@ -1,6 +1,7 @@
 import {
   TWSE_OPENAPI_ADAPTER_BOUNDARY,
   TWSE_OPENAPI_ATTRIBUTION,
+  TWSE_OPENAPI_ROUTES,
   type TwseOpenApiNormalizedRecord,
   type TwseOpenApiRouteId
 } from "@/lib/twse-openapi-source-adapter-contract";
@@ -38,11 +39,35 @@ export const TWSE_OPENAPI_PARSER_CONTRACT_BOUNDARY = {
   supabaseWrite: false
 } as const;
 
-const ROUTE_REQUIRED_FIELDS: Record<TwseOpenApiRouteId, readonly string[]> = {
-  listedStockDailyClose: ["Date", "Code", "ClosingPrice"],
-  listedStockDailyTradingInfo: ["Date", "Code", "OpeningPrice", "HighestPrice", "LowestPrice", "ClosingPrice"],
-  marketDailyStatistics: ["Date", "IndexName", "ClosingIndex"],
-  twiiIndexHistory: ["Date", "ClosingIndex"]
+const DATE_FIELDS = ["日期", "Date"] as const;
+const SYMBOL_FIELDS = ["股票代號", "證券代號", "Code", "Symbol"] as const;
+const NAME_FIELDS = ["股票名稱", "證券名稱", "Name"] as const;
+const OPEN_FIELDS = ["開盤指數", "開盤價", "OpeningIndex", "OpeningPrice"] as const;
+const HIGH_FIELDS = ["最高指數", "最高價", "HighestIndex", "HighestPrice"] as const;
+const LOW_FIELDS = ["最低指數", "最低價", "LowestIndex", "LowestPrice"] as const;
+const CLOSE_FIELDS = ["收盤指數", "收盤價", "ClosingIndex", "ClosingPrice"] as const;
+const VOLUME_FIELDS = ["成交股數", "TradeVolume"] as const;
+const TURNOVER_FIELDS = ["成交金額", "TradeValue"] as const;
+const TRANSACTION_FIELDS = ["成交筆數", "Transaction"] as const;
+const MONTHLY_AVERAGE_FIELDS = ["月平均價", "MonthlyAveragePrice"] as const;
+const CHANGE_FIELDS = ["漲跌價差", "Change"] as const;
+
+const ROUTE_REQUIRED_FIELDS: Record<TwseOpenApiRouteId, readonly (readonly string[])[]> = {
+  listedStockDailyClose: [DATE_FIELDS, SYMBOL_FIELDS, NAME_FIELDS, CLOSE_FIELDS],
+  listedStockDailyTradingInfo: [
+    DATE_FIELDS,
+    SYMBOL_FIELDS,
+    NAME_FIELDS,
+    OPEN_FIELDS,
+    HIGH_FIELDS,
+    LOW_FIELDS,
+    CLOSE_FIELDS,
+    VOLUME_FIELDS,
+    TURNOVER_FIELDS,
+    TRANSACTION_FIELDS
+  ],
+  marketDailyStatistics: [DATE_FIELDS, CLOSE_FIELDS],
+  twiiIndexHistory: [DATE_FIELDS, OPEN_FIELDS, HIGH_FIELDS, LOW_FIELDS, CLOSE_FIELDS]
 } as const;
 
 export function parseTwseOpenApiSyntheticRows(
@@ -53,8 +78,9 @@ export function parseTwseOpenApiSyntheticRows(
     return emptyResult("no_rows");
   }
 
+  const route = TWSE_OPENAPI_ROUTES[routeId];
   const records: TwseOpenApiNormalizedRecord<"twse_openapi_synthetic_daily_close">[] = [];
-  const dateCounts = new Map<string, number>();
+  const normalizedKeyCounts = new Map<string, number>();
   let fieldParseFailureCount = 0;
   let missingRequiredFieldCount = 0;
   let notObjectCount = 0;
@@ -65,46 +91,59 @@ export function parseTwseOpenApiSyntheticRows(
       continue;
     }
 
-    const requiredFields = ROUTE_REQUIRED_FIELDS[routeId];
-    const missingFields = requiredFields.filter((field) => row[field] === undefined || row[field] === null || row[field] === "");
-    if (missingFields.length > 0) {
+    const missingRequiredGroups = getMissingRequiredFieldGroups(row, routeId);
+    if (missingRequiredGroups.length > 0) {
       missingRequiredFieldCount += 1;
       continue;
     }
 
-    const tradeDate = parseTwseOpenApiTradeDate(String(row.Date));
-    const close = parseTwseOpenApiNumericCell(pickFirstString(row, ["ClosingIndex", "ClosingPrice"]));
-    const open = parseTwseOpenApiNumericCell(pickFirstString(row, ["OpeningIndex", "OpeningPrice"]));
-    const high = parseTwseOpenApiNumericCell(pickFirstString(row, ["HighestIndex", "HighestPrice"]));
-    const low = parseTwseOpenApiNumericCell(pickFirstString(row, ["LowestIndex", "LowestPrice"]));
-    const volume = parseTwseOpenApiNumericCell(pickFirstString(row, ["TradeVolume"]));
-    const turnover = parseTwseOpenApiNumericCell(pickFirstString(row, ["TradeValue"]));
+    const tradeDate = parseTwseOpenApiTradeDate(parseTwseOpenApiTextCell(pickFirstString(row, DATE_FIELDS)) ?? "");
+    const symbol = parseTwseOpenApiTextCell(pickFirstString(row, SYMBOL_FIELDS));
+    const name = parseTwseOpenApiTextCell(pickFirstString(row, NAME_FIELDS));
+    const close = parseTwseOpenApiNumericCell(pickFirstString(row, CLOSE_FIELDS));
+    const open = parseTwseOpenApiNumericCell(pickFirstString(row, OPEN_FIELDS));
+    const high = parseTwseOpenApiNumericCell(pickFirstString(row, HIGH_FIELDS));
+    const low = parseTwseOpenApiNumericCell(pickFirstString(row, LOW_FIELDS));
+    const volume = parseTwseOpenApiNumericCell(pickFirstString(row, VOLUME_FIELDS));
+    const turnover = parseTwseOpenApiNumericCell(pickFirstString(row, TURNOVER_FIELDS));
+    const transactions = parseTwseOpenApiNumericCell(pickFirstString(row, TRANSACTION_FIELDS));
+    const monthlyAverage = parseTwseOpenApiNumericCell(pickFirstString(row, MONTHLY_AVERAGE_FIELDS));
+    const change = parseTwseOpenApiNumericCell(pickFirstString(row, CHANGE_FIELDS));
 
     if (!tradeDate || close === null) {
       fieldParseFailureCount += 1;
       continue;
     }
 
-    dateCounts.set(tradeDate, (dateCounts.get(tradeDate) ?? 0) + 1);
+    const normalizedKey = symbol ? `${tradeDate}:${symbol}` : tradeDate;
+    normalizedKeyCounts.set(normalizedKey, (normalizedKeyCounts.get(normalizedKey) ?? 0) + 1);
     records.push({
       attribution: TWSE_OPENAPI_ATTRIBUTION,
       kind: "twse_openapi_synthetic_daily_close",
       normalized: {
+        change,
         close,
+        datasetId: route.datasetId,
         high,
         low,
+        monthlyAverage,
+        name,
         open,
+        source: "TWSE_OPENAPI_DATA_GOV",
+        sourcePath: route.path,
         sourceRouteId: routeId,
+        symbol,
         tradeDate,
+        transactions,
         turnover,
         volume
       },
       sourceUpdatedAt: null,
-      validationWarnings: buildValidationWarnings({ high, low, open, routeId, turnover, volume })
+      validationWarnings: buildValidationWarnings({ high, low, open, routeId, turnover, transactions, volume })
     });
   }
 
-  const duplicateTradeDateCount = [...dateCounts.values()].filter((count) => count > 1).length;
+  const duplicateTradeDateCount = [...normalizedKeyCounts.values()].filter((count) => count > 1).length;
   const rejectedRowCount = rows.length - records.length;
 
   return {
@@ -146,12 +185,19 @@ export function parseTwseOpenApiNumericCell(value: string | null): number | null
   return Number.isFinite(parsed) ? parsed : null;
 }
 
+export function parseTwseOpenApiTextCell(value: string | null): string | null {
+  if (value === null) return null;
+  const trimmed = value.trim();
+  return trimmed === "" ? null : trimmed;
+}
+
 function buildValidationWarnings({
   high,
   low,
   open,
   routeId,
   turnover,
+  transactions,
   volume
 }: {
   high: number | null;
@@ -159,14 +205,18 @@ function buildValidationWarnings({
   open: number | null;
   routeId: TwseOpenApiRouteId;
   turnover: number | null;
+  transactions: number | null;
   volume: number | null;
 }): string[] {
   const warnings: string[] = [];
-  if (open === null) warnings.push("open_unavailable_in_synthetic_contract");
-  if (high === null) warnings.push("high_unavailable_in_synthetic_contract");
-  if (low === null) warnings.push("low_unavailable_in_synthetic_contract");
+  if (routeId !== "listedStockDailyClose" && open === null) warnings.push("open_unavailable_in_synthetic_contract");
+  if (routeId !== "listedStockDailyClose" && high === null) warnings.push("high_unavailable_in_synthetic_contract");
+  if (routeId !== "listedStockDailyClose" && low === null) warnings.push("low_unavailable_in_synthetic_contract");
   if (routeId !== "listedStockDailyTradingInfo" && volume === null) warnings.push("volume_not_required_for_route");
   if (routeId !== "listedStockDailyTradingInfo" && turnover === null) warnings.push("turnover_not_required_for_route");
+  if (routeId !== "listedStockDailyTradingInfo" && transactions === null) {
+    warnings.push("transactions_not_required_for_route");
+  }
   return warnings;
 }
 
@@ -179,6 +229,12 @@ function emptyResult<TKind extends string>(failureClass: TwseOpenApiParserFailur
     records: [],
     rejectedRowCount: 0
   };
+}
+
+function getMissingRequiredFieldGroups(row: TwseOpenApiSyntheticRow, routeId: TwseOpenApiRouteId): readonly string[] {
+  return ROUTE_REQUIRED_FIELDS[routeId]
+    .filter((aliases) => pickFirstString(row, aliases) === null)
+    .map((aliases) => aliases.join("|"));
 }
 
 function isSyntheticRow(value: unknown): value is TwseOpenApiSyntheticRow {
