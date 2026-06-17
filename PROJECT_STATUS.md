@@ -2,6 +2,29 @@
 
 ## Latest Effective Status - 2026-06-16
 
+### Latest Phase 1 Current-Scope Write-Capable Runner Scaffold
+
+Status: `phase_1_current_scope_write_capable_runner_scaffold_no_execution_ready`
+
+CEO decision:
+
+- Add a fail-closed write-capable runner scaffold after the current-scope bounded write runner authorization gate.
+- Treat the scaffold as future runner metadata only; it does not create an executable runner and does not authorize a write.
+- Keep Phase 1 scope limited to `twii_plus_listed_stock_daily_close`; ETF coverage remains Phase 1.1.
+- Keep runner non-executable, bounded write non-executable, candidate rows unaccepted, write gate closed, `publicDataSource=mock`, and `scoreSource=mock`.
+- Do not read env values, output secrets, output confirmation phrase values, read candidate artifact content, execute SQL, connect to Supabase, fetch market rows, or write `daily_prices`.
+
+PM completed:
+
+- Added `scripts/run-phase-1-current-scope-write-capable-runner-scaffold-once.mjs`.
+- Added `scripts/check-phase-1-current-scope-write-capable-runner-scaffold-no-execution.mjs`.
+- Added `docs/PHASE_1_CURRENT_SCOPE_WRITE_CAPABLE_RUNNER_SCAFFOLD_NO_EXECUTION.md`.
+- Registered `phase-1-current-scope-write-capable-runner-scaffold-no-execution` in the focused review gate set.
+
+Next:
+
+Continue with `await_separate_current_scope_write_runner_execution_authorization_no_execution`, then require a separate explicit execution authorization before any runnable write attempt exists.
+
 ### Latest Phase 1 Current-Scope Bounded Write Runner Authorization Gate
 
 Status: `phase_1_current_scope_bounded_write_runner_authorization_gate_no_execution_ready`
