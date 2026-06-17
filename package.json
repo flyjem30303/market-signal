@@ -450,6 +450,7 @@
     "check:phase-1-current-scope-actual-bounded-write-post-run-review-intake-no-execution": "node scripts/check-phase-1-current-scope-actual-bounded-write-post-run-review-intake-no-execution.mjs",
     "check:phase-1-current-scope-final-go-readiness-summary-no-execution": "node scripts/check-phase-1-current-scope-final-go-readiness-summary-no-execution.mjs",
     "check:phase-1-current-scope-final-go-reality-reconciliation-2026-06-17": "node scripts/check-phase-1-current-scope-final-go-reality-reconciliation-2026-06-17.mjs",
+    "check:phase-1-current-scope-write-closure-final-go-judgement-2026-06-17": "node scripts/check-phase-1-current-scope-write-closure-final-go-judgement-2026-06-17.mjs",
     "check:phase-1-runtime-promotion-dry-run-only-authorized-route": "node scripts/check-phase-1-runtime-promotion-dry-run-only-authorized-route.mjs",
     "check:phase-1-runtime-promotion-dry-run-only-preparation-packet": "node scripts/check-phase-1-runtime-promotion-dry-run-only-preparation-packet.mjs",
     "check:phase-1-runtime-promotion-dry-run-only-proof-review": "node scripts/check-phase-1-runtime-promotion-dry-run-only-proof-review.mjs",

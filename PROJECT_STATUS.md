@@ -2,6 +2,30 @@
 
 ## Latest Effective Status - 2026-06-17
 
+### Latest Phase 1 Current-Scope Write Closure Final-Go Judgement
+
+Status: `phase_1_current_scope_write_closure_final_go_judgement_ready`
+
+CEO decision:
+
+- Decision token: `CURRENT_SCOPE_WRITE_CLOSURE_READY_FOR_FINAL_GO_JUDGEMENT_KEEP_RUNTIME_MOCK`.
+- Current-scope write closure is ready for final-go judgement after the accepted bounded insert-missing post-run review.
+- The valid scope is `twii_plus_listed_stock_daily_close`; the old ETF packet remains excluded.
+- Candidate, runner, dry-run/guard checks, and post-run review evidence now converge on `240/240` candidate-key rows and `0` missing rows.
+- Current-scope write closure final-go is `true`.
+- Runtime promotion final-go is still `false`; `publicDataSource` and `scoreSource` remain `mock`.
+
+PM completed:
+
+- Added `data/evidence-intake/phase-1-current-scope-write-closure-final-go-judgement-2026-06-17.json`.
+- Added `docs/PHASE_1_CURRENT_SCOPE_WRITE_CLOSURE_FINAL_GO_JUDGEMENT_2026_06_17.md`.
+- Added `scripts/check-phase-1-current-scope-write-closure-final-go-judgement-2026-06-17.mjs`.
+- Registered the checker in the Phase 1 live core review gate.
+
+Current route:
+
+- `current_scope_write_closure_can_stop_or_continue_runtime_promotion_review`
+
 ### Latest Phase 1 Public User-Facing Cleanup
 
 Status: `phase_1_public_user_facing_copy_and_residue_cleanup_ready`
