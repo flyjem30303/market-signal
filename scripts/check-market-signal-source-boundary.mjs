@@ -29,9 +29,11 @@ const required = [
   [files.dashboard, text.dashboard, "repositoryData?: MarketSignalRepositoryData"],
   [files.dashboard, text.dashboard, "createStaticMarketSignalRepository(repositoryData)"],
   [files.dashboard, text.dashboard, "mockMarketSignalRepository"],
-  [files.strip, text.strip, "資料狀態"],
-  [files.strip, text.strip, "Supabase 唯讀"],
-  [files.strip, text.strip, "分數狀態"],
+  [files.dashboard, text.dashboard, "引用來源"],
+  [files.dashboard, text.dashboard, "更新至"],
+  [files.strip, text.strip, "引用來源"],
+  [files.strip, text.strip, "更新至"],
+  [files.strip, text.strip, "formatPublicSourceLabel"],
   [files.envExample, text.envExample, "NEXT_PUBLIC_DATA_SOURCE=mock"],
   [files.envExample, text.envExample, "NEXT_PUBLIC_SCORE_SOURCE=mock"],
   [files.envExample, text.envExample, "MARKET_SIGNAL_SUPABASE_READS=disabled"],
@@ -48,7 +50,11 @@ const forbidden = [
   [files.supabaseRepository, text.supabaseRepository, ".upsert("],
   [files.supabaseRepository, text.supabaseRepository, ".delete("],
   [files.supabaseRepository, text.supabaseRepository, ".rpc("],
-  [files.supabaseRepository, text.supabaseRepository, ".storage"]
+  [files.supabaseRepository, text.supabaseRepository, ".storage"],
+  [files.dashboard, text.dashboard, "Supabase 唯讀"],
+  [files.dashboard, text.dashboard, "分數來源："],
+  [files.strip, text.strip, "Supabase 唯讀"],
+  [files.strip, text.strip, "分數狀態"]
 ];
 
 const missing = required

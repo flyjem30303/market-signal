@@ -1,6 +1,5 @@
 import { TrackedLink } from "@/components/tracked-link";
 import type { DataFreshnessSnapshot } from "@/lib/data-freshness";
-import { getDataQualityDowngradeSummary } from "@/lib/data-quality-downgrade";
 import type { MarketSignalSourceStatus } from "@/lib/repositories/market-signal-source-status";
 
 type DataFreshnessStripProps = {
@@ -11,23 +10,14 @@ type DataFreshnessStripProps = {
 
 export function DataFreshnessStrip({ fallbackAsOfDate, freshness, marketSignalSourceStatus }: DataFreshnessStripProps) {
   const isSupabaseRuntime = marketSignalSourceStatus?.resolvedSource === "supabase";
-  const isRealScore = marketSignalSourceStatus?.publicScoreSource === "real";
-  const sourceLabel = isSupabaseRuntime ? "正式資料" : "示範資料";
-  const scoreLabel = isRealScore ? "正式分數" : freshness.scoreSource === "mock" ? "示範分數" : freshness.scoreSourceLabel;
-  const stateLabel = isSupabaseRuntime ? "資料已連線" : freshness.stateLabel;
+  const sourceLabel = formatPublicSourceLabel(freshness.sourceName, isSupabaseRuntime);
   const stateClass = isSupabaseRuntime ? "ready" : freshness.state;
   const asOfDate = isSupabaseRuntime && freshness.isMock ? fallbackAsOfDate ?? "正式資料日期待確認" : freshness.asOfDate;
-  const fallbackSummary = getDataQualityDowngradeSummary(freshness);
-  const statusNote = isSupabaseRuntime ? "非即時行情，僅供市場觀察" : fallbackSummary.stopLine;
 
   return (
     <aside className={`freshness-strip ${stateClass}`} aria-label="資料更新狀態">
-      <strong>資料狀態：{stateLabel}</strong>
-      <span>來源：{sourceLabel}</span>
-      <span>更新：{asOfDate}</span>
-      <span>Supabase 唯讀：{marketSignalSourceStatus?.supabaseRuntimeReads === "enabled" ? "已開啟" : "未開啟"}</span>
-      <span>分數狀態：{scoreLabel}</span>
-      <span className="freshness-description">{statusNote}</span>
+      <strong>更新至：{asOfDate}</strong>
+      <span>引用來源：{sourceLabel}</span>
       <TrackedLink
         className="freshness-link"
         eventName="trust_link_clicked"
@@ -48,4 +38,10 @@ export function DataFreshnessStrip({ fallbackAsOfDate, freshness, marketSignalSo
       </TrackedLink>
     </aside>
   );
+}
+
+function formatPublicSourceLabel(sourceName: string | undefined, isSupabaseRuntime: boolean) {
+  if (!isSupabaseRuntime) return "示範資料";
+  if (sourceName && sourceName !== "正式資料") return sourceName;
+  return "TWSE OpenAPI";
 }

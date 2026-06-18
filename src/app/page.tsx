@@ -1,14 +1,17 @@
 import { PageViewTracker } from "@/components/page-view-tracker";
 import { DashboardShell } from "@/components/dashboard-shell";
+import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
 import { getMarketSignalRuntime } from "@/lib/repositories/market-signal-repository";
 import { toMarketSignalRepositoryData } from "@/lib/repositories/static-market-signal-repository";
 
 export default async function HomePage() {
   const { marketSignalSourceStatus, repository } = await getMarketSignalRuntime();
+  const freshness = await getDataFreshnessSnapshot();
   const assets = repository.getAssets();
   const initialAsset = repository.getAssetBySymbol("TWII") ?? assets[0];
+  const snapshotDate = repository.getSeries(initialAsset.symbol).at(-1)?.date ?? "2026-05-28";
   const snapshots = assets
-    .map((asset) => repository.getSnapshot(asset.symbol, "2026-05-28") ?? repository.getSeries(asset.symbol).at(-1))
+    .map((asset) => repository.getSnapshot(asset.symbol, snapshotDate) ?? repository.getSeries(asset.symbol).at(-1))
     .filter(Boolean);
   const featuredSymbols = uniqueSymbols([
     initialAsset.symbol,
@@ -34,9 +37,10 @@ export default async function HomePage() {
     <>
       <PageViewTracker eventName="home_page_viewed" payload={{ page: "home" }} />
       <DashboardShell
+        freshnessSnapshot={freshness}
         initialSymbol={initialAsset.symbol}
         marketSignalSourceStatus={marketSignalSourceStatus}
-        repositoryData={toMarketSignalRepositoryData(repository, "2026-05-28", featuredSymbols)}
+        repositoryData={toMarketSignalRepositoryData(repository, snapshotDate, featuredSymbols)}
       />
     </>
   );
