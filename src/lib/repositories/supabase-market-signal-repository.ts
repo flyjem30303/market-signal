@@ -61,7 +61,11 @@ type StockQuery = {
 
 type StockFilterQuery = {
   eq(column: string, value: string | boolean): StockFilterQuery;
-  order(column: string, options: { ascending: boolean }): Promise<SupabaseQueryResult<StockRow[]>>;
+  order(column: string, options: { ascending: boolean }): StockOrderedQuery;
+};
+
+type StockOrderedQuery = {
+  range(from: number, to: number): Promise<SupabaseQueryResult<StockRow[]>>;
 };
 
 type DailyPriceQuery = {
@@ -92,6 +96,8 @@ type MarketKey = {
 };
 
 const defaultMarket: MarketKey = { country: "TW", exchange: "TWSE" };
+const supabaseInFilterBatchSize = 100;
+const supabasePageSize = 1000;
 
 const signalRules: Record<SignalKey, SignalRule> = {
   "deep-red": {
@@ -192,40 +198,74 @@ function createRepositoryFromRows(
 }
 
 async function getActiveStocks(client: SupabaseMarketSignalClient, market: MarketKey): Promise<StockRow[]> {
-  const { data, error } = await client
-    .from("stocks")
-    .select("asset_type, country, exchange, id, industry, is_etf, name, symbol")
-    .eq("country", market.country)
-    .eq("exchange", market.exchange)
-    .eq("is_active", true)
-    .order("symbol", { ascending: true });
+  return readPages(async (from, to) => {
+    const { data, error } = await client
+      .from("stocks")
+      .select("asset_type, country, exchange, id, industry, is_etf, name, symbol")
+      .eq("country", market.country)
+      .eq("exchange", market.exchange)
+      .eq("is_active", true)
+      .order("symbol", { ascending: true })
+      .range(from, to);
 
-  if (error) throw new Error(`Failed to load market-signal stocks: ${error.message}`);
-  return data ?? [];
+    if (error) throw new Error(`Failed to load market-signal stocks: ${error.message}`);
+    return data ?? [];
+  });
 }
 
 async function getPrices(client: SupabaseMarketSignalClient, stockIds: string[]): Promise<DailyPriceRow[]> {
-  const { data, error } = await client
-    .from("daily_prices")
-    .select("close, high, low, open, stock_id, trade_date, turnover, volume")
-    .in("stock_id", stockIds)
-    .order("trade_date", { ascending: true });
+  const rows = await readInBatches(stockIds, async (batch) => {
+    const { data, error } = await client
+      .from("daily_prices")
+      .select("close, high, low, open, stock_id, trade_date, turnover, volume")
+      .in("stock_id", batch)
+      .order("trade_date", { ascending: true });
 
-  if (error) throw new Error(`Failed to load market-signal daily prices: ${error.message}`);
-  return data ?? [];
+    if (error) throw new Error(`Failed to load market-signal daily prices: ${error.message}`);
+    return data ?? [];
+  });
+
+  return rows;
 }
 
 async function getScores(client: SupabaseMarketSignalClient, stockIds: string[]): Promise<DailyScoreRow[]> {
-  const { data, error } = await client
-    .from("daily_scores")
-    .select(
-      "composite_score, data_quality_grade, data_quality_score, health_score, last_updated_at, missing_module_flags, model_version, risk_score, signal, stale_data_flags, stock_id, trade_date"
-    )
-    .in("stock_id", stockIds)
-    .order("trade_date", { ascending: true });
+  const rows = await readInBatches(stockIds, async (batch) => {
+    const { data, error } = await client
+      .from("daily_scores")
+      .select(
+        "composite_score, data_quality_grade, data_quality_score, health_score, last_updated_at, missing_module_flags, model_version, risk_score, signal, stale_data_flags, stock_id, trade_date"
+      )
+      .in("stock_id", batch)
+      .order("trade_date", { ascending: true });
 
-  if (error) throw new Error(`Failed to load market-signal daily scores: ${error.message}`);
-  return data ?? [];
+    if (error) throw new Error(`Failed to load market-signal daily scores: ${error.message}`);
+    return data ?? [];
+  });
+
+  return rows;
+}
+
+async function readInBatches<T>(ids: string[], readBatch: (batch: string[]) => Promise<T[]>): Promise<T[]> {
+  const rows: T[] = [];
+
+  for (let index = 0; index < ids.length; index += supabaseInFilterBatchSize) {
+    rows.push(...(await readBatch(ids.slice(index, index + supabaseInFilterBatchSize))));
+  }
+
+  return rows;
+}
+
+async function readPages<T>(readPage: (from: number, to: number) => Promise<T[]>): Promise<T[]> {
+  const rows: T[] = [];
+
+  for (let from = 0; ; from += supabasePageSize) {
+    const page = await readPage(from, from + supabasePageSize - 1);
+    rows.push(...page);
+
+    if (page.length < supabasePageSize) break;
+  }
+
+  return rows;
 }
 
 function toAsset(row: StockRow): Asset {
