@@ -14,17 +14,17 @@ type StockPageProps = {
 
 const snapshotDate = "2026-05-28";
 const stockPagePublicCopyContract =
-  "標的燈號頁提供市場資訊整理、風險辨識與觀察輔助，不提供個別買賣建議。";
+  "本頁整理標的狀態、原因、更新時間與風險提示，僅供市場資訊觀察，不構成投資建議。";
 
-export function generateMetadata({ params }: StockPageProps): Metadata {
-  const repository = getMarketSignalRepository();
+export async function generateMetadata({ params }: StockPageProps): Promise<Metadata> {
+  const { repository } = await getMarketSignalRuntime();
   const asset = repository.getAssetBySymbol(params.symbol);
   if (!asset) return {};
 
   const snapshot = repository.getSnapshot(asset.symbol, snapshotDate);
-  const signal = snapshot?.signal.title ?? "燈號觀察";
+  const signal = snapshot?.signal.title ?? "市場觀察";
   const title = `${asset.symbol} ${asset.name} 標的燈號：${signal}`;
-  const description = `${asset.symbol} ${asset.name} 的標的燈號、風險提示與資料更新時間。${stockPagePublicCopyContract}`;
+  const description = `${asset.symbol} ${asset.name} 的市場狀態、風險分數、資料更新時間與閱讀提示。${stockPagePublicCopyContract}`;
 
   return {
     alternates: {
@@ -59,7 +59,6 @@ export default async function StockPage({ params }: StockPageProps) {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "FinancialProduct",
-    description: stockPagePublicCopyContract,
     additionalProperty: snapshot
       ? [
           {
@@ -85,6 +84,7 @@ export default async function StockPage({ params }: StockPageProps) {
         ]
       : undefined,
     category: asset.group,
+    description: stockPagePublicCopyContract,
     name: `${asset.symbol} ${asset.name}`,
     provider: {
       "@type": "Organization",
@@ -105,8 +105,12 @@ export default async function StockPage({ params }: StockPageProps) {
         initialSymbol={asset.symbol}
         includeSeoContent
         marketSignalSourceStatus={marketSignalSourceStatus}
-        repositoryData={toMarketSignalRepositoryData(repository)}
+        repositoryData={toMarketSignalRepositoryData(repository, snapshotDate, buildStockPageSymbols(asset.symbol))}
       />
     </>
   );
+}
+
+function buildStockPageSymbols(symbol: string) {
+  return Array.from(new Set([symbol, "TWII", "0050", "006208", "2330", "2308", "2382"]));
 }

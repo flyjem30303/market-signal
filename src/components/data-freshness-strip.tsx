@@ -32,9 +32,7 @@ export function DataFreshnessStrip({ freshness, marketSignalSourceStatus }: Data
         市場：{freshness.market} / {freshness.currency}
       </span>
       <span className="freshness-description">{description}</span>
-      <span className={`freshness-score-source ${isRealScore ? "real" : freshness.scoreSource}`}>
-        分數來源：{scoreLabel}
-      </span>
+      <span className={`freshness-score-source ${isRealScore ? "real" : freshness.scoreSource}`}>分數來源：{scoreLabel}</span>
       <span>資料品質：{qualityLabel}</span>
       <span className="freshness-description">
         品質說明：{qualityLabel}，{qualityReason}

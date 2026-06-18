@@ -10,9 +10,11 @@ export type MarketSignalRepositoryData = {
 
 export function toMarketSignalRepositoryData(
   repository: MarketSignalRepository,
-  snapshotDate = "2026-05-28"
+  snapshotDate = "2026-05-28",
+  symbols?: string[]
 ): MarketSignalRepositoryData {
-  const assets = repository.getAssets();
+  const symbolSet = symbols ? new Set(symbols.map((symbol) => symbol.toLowerCase())) : null;
+  const assets = repository.getAssets().filter((asset) => !symbolSet || symbolSet.has(asset.symbol.toLowerCase()));
   const snapshots = assets
     .map((asset) => repository.getSnapshot(asset.symbol, snapshotDate) ?? repository.getSeries(asset.symbol).at(-1))
     .filter((snapshot): snapshot is SignalSnapshot => Boolean(snapshot));
