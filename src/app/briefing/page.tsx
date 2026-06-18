@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { PageViewTracker } from "@/components/page-view-tracker";
-import { PublicBetaSourceCoverageBridge } from "@/components/public-beta-source-coverage-bridge";
-import { PublicDataSourceBoundaryNotice } from "@/components/public-data-source-boundary-notice";
 import { PublicNextReadingFlow } from "@/components/public-next-reading-flow";
 import { TrackedLink } from "@/components/tracked-link";
 import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
@@ -54,7 +52,6 @@ export default async function BriefingPage() {
         freshness={freshness}
         marketSignalSourceStatus={marketSignalSourceStatus}
       />
-      <PublicDataSourceBoundaryNotice context="briefing" />
 
       <section className="briefing-executive-summary" aria-label="市場摘要">
         <div>
@@ -137,7 +134,6 @@ export default async function BriefingPage() {
         </div>
       </section>
 
-      <PublicBetaSourceCoverageBridge context="briefing" />
       <PublicNextReadingFlow context="briefing" stockSymbol={market.asset.symbol} />
     </main>
   );

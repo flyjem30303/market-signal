@@ -10,53 +10,29 @@ type DataFreshnessStripProps = {
 };
 
 export function DataFreshnessStrip({ fallbackAsOfDate, freshness, marketSignalSourceStatus }: DataFreshnessStripProps) {
-  const dataQuality = getDataQualityDowngradeSummary(freshness);
   const isSupabaseRuntime = marketSignalSourceStatus?.resolvedSource === "supabase";
   const isRealScore = marketSignalSourceStatus?.publicScoreSource === "real";
   const sourceLabel = isSupabaseRuntime ? "正式資料" : "示範資料";
   const scoreLabel = isRealScore ? "正式分數" : freshness.scoreSource === "mock" ? "示範分數" : freshness.scoreSourceLabel;
-  const readonlyLabel = marketSignalSourceStatus?.supabaseRuntimeReads === "enabled" ? "已開啟" : "未開啟";
-  const stateLabel = isSupabaseRuntime ? "Supabase 唯讀資料" : freshness.stateLabel;
+  const stateLabel = isSupabaseRuntime ? "資料已連線" : freshness.stateLabel;
   const stateClass = isSupabaseRuntime ? "ready" : freshness.state;
   const asOfDate = isSupabaseRuntime && freshness.isMock ? fallbackAsOfDate ?? "正式資料日期待確認" : freshness.asOfDate;
-  const description = isSupabaseRuntime
-    ? "正式資料模式使用 Supabase 唯讀資料；若資料缺漏或讀取失敗，前台會保守降級。"
-    : freshness.description;
-  const qualityLabel = isSupabaseRuntime ? "正式資料監控中" : dataQuality.displayLabel;
-  const qualityReason = isSupabaseRuntime ? "資料來源、分數與更新時間已在前台揭露。" : dataQuality.reason;
+  const fallbackSummary = getDataQualityDowngradeSummary(freshness);
+  const statusNote = isSupabaseRuntime ? "非即時行情，僅供市場觀察" : fallbackSummary.stopLine;
 
   return (
     <aside className={`freshness-strip ${stateClass}`} aria-label="資料更新狀態">
       <strong>資料狀態：{stateLabel}</strong>
-      <span>資料來源：{sourceLabel}</span>
-      <span>更新日期：{asOfDate}</span>
-      <span>
-        市場：{freshness.market} / {freshness.currency}
-      </span>
-      <span className="freshness-description">{description}</span>
-      <span className={`freshness-score-source ${isRealScore ? "real" : freshness.scoreSource}`}>分數來源：{scoreLabel}</span>
-      <span>資料品質：{qualityLabel}</span>
-      <span className="freshness-description">
-        品質說明：{qualityLabel}，{qualityReason}
-      </span>
-      {marketSignalSourceStatus ? (
-        <>
-          <span className={`freshness-market-signal-source ${marketSignalSourceStatus.resolvedSource}`}>
-            市場訊號來源：{sourceLabel}
-          </span>
-          <span>Supabase 唯讀：{readonlyLabel}</span>
-          <span>分數狀態：{isRealScore ? "正式計算" : "示範分數"}</span>
-          <span className="freshness-description">{marketSignalSourceStatus.reason}</span>
-        </>
-      ) : null}
-      <span className="freshness-boundary">
-        本站提供市場資訊整理與風險辨識，不提供個別買賣建議；正式資料若缺漏或過期，前台會保守降級顯示。
-      </span>
+      <span>來源：{sourceLabel}</span>
+      <span>更新：{asOfDate}</span>
+      <span>Supabase 唯讀：{marketSignalSourceStatus?.supabaseRuntimeReads === "enabled" ? "已開啟" : "未開啟"}</span>
+      <span>分數狀態：{scoreLabel}</span>
+      <span className="freshness-description">{statusNote}</span>
       <TrackedLink
         className="freshness-link"
         eventName="trust_link_clicked"
         href="/methodology"
-        label="查看方法說明"
+        label="前往方法說明"
         payload={{ area: "data_freshness_strip" }}
       >
         方法說明
@@ -65,7 +41,7 @@ export function DataFreshnessStrip({ fallbackAsOfDate, freshness, marketSignalSo
         className="freshness-link"
         eventName="trust_link_clicked"
         href="/disclaimer"
-        label="查看風險聲明"
+        label="前往風險聲明"
         payload={{ area: "data_freshness_strip" }}
       >
         風險聲明

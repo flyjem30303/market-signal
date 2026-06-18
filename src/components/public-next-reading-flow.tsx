@@ -16,32 +16,32 @@ type LinkItem = {
 
 const contextCopy = {
   briefing: {
-    ariaLabel: "市場快報延伸閱讀",
-    body: "看完快報後，可以回到總覽、標的燈號或方法說明，確認資料時間與燈號邏輯。",
+    ariaLabel: "市場簡報下一步",
+    body: "讀完市場簡報後，可以回首頁看總覽，或進入標的頁查看單一標的狀態。",
     eyebrow: "下一步",
     eventName: "briefing_link_clicked",
-    title: "把快報接成完整觀察流程"
+    title: "把市場狀態接到下一個觀察動作"
   },
   home: {
-    ariaLabel: "首頁延伸閱讀",
-    body: "先用首頁掌握市場氛圍，再進一步查看快報、標的燈號與方法說明。",
+    ariaLabel: "首頁下一步",
+    body: "先用首頁確認市場氛圍，再到市場簡報或標的頁看原因與風險。",
     eyebrow: "下一步",
     eventName: "home_cta_clicked",
-    title: "從總覽進入更完整的觀察流程"
+    title: "從總覽進到更完整的市場判讀"
   },
   stock: {
-    ariaLabel: "標的頁延伸閱讀",
-    body: "標的燈號適合搭配市場快報與方法說明一起閱讀，避免只看單一分數。",
+    ariaLabel: "標的頁下一步",
+    body: "看完單一標的後，回到市場簡報確認它是否只是個別現象，或已經影響整體市場。",
     eyebrow: "下一步",
     eventName: "stock_link_clicked",
-    title: "回到市場脈絡中理解標的"
+    title: "把標的狀態放回市場脈絡"
   },
   weekly: {
-    ariaLabel: "週報延伸閱讀",
-    body: "週報適合回看趨勢與風險變化，再連回市場快報與標的燈號追蹤。",
+    ariaLabel: "週報下一步",
+    body: "週報適合回看趨勢變化；若要看當前狀態，請回首頁或市場簡報。",
     eyebrow: "下一步",
     eventName: "weekly_link_clicked",
-    title: "把本週變化接到每日觀察"
+    title: "從週報回到今日市場"
   }
 } satisfies Record<
   PublicNextReadingFlowContext,
@@ -66,7 +66,7 @@ export function PublicNextReadingFlow({ context, stockSymbol = "TWII" }: PublicN
         <p>{copy.body}</p>
       </div>
       <nav className="experience-flow-nav" aria-label={`${copy.ariaLabel}連結`}>
-        <span>建議閱讀順序</span>
+        <span>建議閱讀</span>
         {links.map((link) => (
           <TrackedLink
             eventName={copy.eventName}
@@ -89,28 +89,22 @@ function getLinks(context: PublicNextReadingFlowContext, stockSymbol: string): L
   if (context === "briefing") {
     return [
       { href: "/", label: "市場總覽", target: "home" },
-      { href: stockHref, label: "標的燈號", target: "stock" },
-      { href: "/weekly", label: "週報回顧", target: "weekly" },
-      { href: "/methodology", label: "方法說明", target: "methodology" },
-      { href: "/disclaimer", label: "風險聲明", target: "disclaimer" }
+      { href: stockHref, label: "標的狀態", target: "stock" },
+      { href: "/methodology", label: "方法說明", target: "methodology" }
     ];
   }
 
   if (context === "weekly") {
     return [
       { href: "/", label: "市場總覽", target: "home" },
-      { href: "/briefing", label: "市場快報", target: "briefing" },
-      { href: stockHref, label: "標的燈號", target: "stock" },
-      { href: "/methodology", label: "方法說明", target: "methodology" },
-      { href: "/disclaimer", label: "風險聲明", target: "disclaimer" }
+      { href: "/briefing", label: "市場簡報", target: "briefing" },
+      { href: stockHref, label: "標的狀態", target: "stock" }
     ];
   }
 
   return [
-    { href: "/briefing", label: "市場快報", target: "briefing" },
-    { href: "/weekly", label: "週報回顧", target: "weekly" },
-    { href: stockHref, label: "標的燈號", target: "stock" },
-    { href: "/methodology", label: "方法說明", target: "methodology" },
-    { href: "/disclaimer", label: "風險聲明", target: "disclaimer" }
+    { href: "/briefing", label: "市場簡報", target: "briefing" },
+    { href: stockHref, label: "標的狀態", target: "stock" },
+    { href: "/methodology", label: "方法說明", target: "methodology" }
   ];
 }

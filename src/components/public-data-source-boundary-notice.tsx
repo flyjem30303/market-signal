@@ -4,16 +4,16 @@ type PublicDataSourceBoundaryNoticeProps = {
 
 const contextCopy = {
   home: {
-    title: "資料來源與使用邊界",
-    lead: "首頁提供市場狀態總覽、風險提示與觀察順序。請先確認資料來源、更新時間與風險聲明，再使用燈號作為輔助判斷。"
+    lead: "首頁只保留簡短資料狀態；完整資料來源、覆蓋率與風險說明集中在方法與風險頁。",
+    title: "資料說明已收斂"
   },
   briefing: {
-    title: "市場快報的資料邊界",
-    lead: "市場快報用來縮短閱讀時間，協助使用者快速掌握市場氛圍；所有內容仍屬資訊整理，不是買賣建議。"
+    lead: "市場簡報聚焦狀態、原因與下一步觀察；資料限制用簡短狀態列提示。",
+    title: "簡報保留必要邊界"
   },
   stock: {
-    title: "標的頁不是交易指令",
-    lead: "標的燈號協助理解單一標的的狀態、風險與資料時間，不提供個股買賣建議，也不保證任何投資結果。"
+    lead: "標的頁聚焦單一標的狀態與風險，不在主流程重複完整資料治理說明。",
+    title: "標的頁保留短提示"
   }
 } as const;
 
@@ -30,19 +30,19 @@ export function PublicDataSourceBoundaryNotice({ context }: PublicDataSourceBoun
       <ul>
         <li>
           <strong>不是投資建議</strong>
-          <span>燈號只協助辨識市場狀態與風險，不提供買賣建議、保證報酬或個人化資產配置。</span>
+          <span>燈號與分數用於市場觀察，不提供個別買賣建議或保證報酬。</span>
         </li>
         <li>
-          <strong>不是秒級報價</strong>
-          <span>Phase 1 以每日資料與可理解決策輔助為主，前台需標示資料時間與可能延遲。</span>
+          <strong>非即時行情</strong>
+          <span>Phase 1 使用正式資料與日收盤價，頁面會揭露更新日期與資料狀態。</span>
         </li>
         <li>
-          <strong>資料異常會降級</strong>
-          <span>若來源、更新或品質不符合條件，前台應顯示示範、延遲、部分資料或不可用狀態。</span>
+          <strong>完整說明集中</strong>
+          <span>資料來源、覆蓋範圍與方法細節集中在方法說明與風險聲明頁。</span>
         </li>
       </ul>
       <p className="public-data-source-boundary-notice__footnote">
-        本網站目標是降低市場資訊理解門檻；任何燈號都應搭配資料時間、風險提示與使用者自己的判斷。
+        若資料缺漏、延遲或讀取失敗，公開頁會保守揭露，不把不完整資料包裝成即時正式行情。
       </p>
     </section>
   );

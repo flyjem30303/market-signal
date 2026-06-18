@@ -4,8 +4,6 @@ import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { PageViewTracker } from "@/components/page-view-tracker";
-import { PublicBetaSourceCoverageBridge } from "@/components/public-beta-source-coverage-bridge";
-import { PublicDataSourceBoundaryNotice } from "@/components/public-data-source-boundary-notice";
 import { PublicNextReadingFlow } from "@/components/public-next-reading-flow";
 import { TrackedLink } from "@/components/tracked-link";
 import type { Asset } from "@/lib/assets";
@@ -93,7 +91,6 @@ export function DashboardShell({
             status={marketSignalSourceStatus}
           />
           <DataReadinessStatus dataSourceLabel={dataSourceLabel} scoreSourceLabel={scoreSourceLabel} />
-          <PublicBetaSourceCoverageBridge context="home" />
           <MarketLists riskList={riskList} strongList={strongList} />
         </>
       )}
@@ -103,7 +100,6 @@ export function DashboardShell({
           <StockAtAGlance scoreSourceLabel={scoreSourceLabel} snapshot={snapshot} />
           <StockMarketFacts snapshot={snapshot} />
           <StockEventContext news={relatedNews} />
-          <PublicBetaSourceCoverageBridge context="stock" stockSymbol={selected.symbol} />
         </>
       )}
 
@@ -112,7 +108,6 @@ export function DashboardShell({
         freshness={freshness}
         marketSignalSourceStatus={marketSignalSourceStatus}
       />
-      <PublicDataSourceBoundaryNotice context={isStockPage ? "stock" : "home"} />
       <PublicNextReadingFlow context={isStockPage ? "stock" : "home"} stockSymbol={selected.symbol} />
 
       <section className="stock-search-panel" aria-label="標的切換">
@@ -260,7 +255,7 @@ function RuntimeStatusPanel({
         <article className={isReal ? "active" : "blocked"}>
           <span>資料來源</span>
           <strong>{dataSourceLabel}</strong>
-          <p>正式資料模式使用 Supabase readonly 資料，並保留 fail-closed 保護。</p>
+          <p>正式資料模式使用 Supabase readonly 資料，並保留保守降級保護。</p>
         </article>
         <article className={isReal ? "active" : "readying"}>
           <span>分數來源</span>
