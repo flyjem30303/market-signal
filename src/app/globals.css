@@ -1,18 +1,18 @@
 :root {
-  --bg: #f3f5f2;
-  --surface: #f9faf8;
-  --panel: #fff;
-  --panel-muted: #f5f7f4;
-  --text: #16211d;
-  --muted: #66736d;
-  --line: #d9dfd8;
-  --blue: #285ecb;
-  --green: #147a4d;
-  --amber: #b7791f;
-  --red: #c7363b;
-  --teal: #0f766e;
-  --shadow: 0 16px 34px rgba(25, 38, 33, 0.08);
-  --shadow-soft: 0 8px 20px rgba(25, 38, 33, 0.06);
+  --bg: #070b14;
+  --surface: #0c1220;
+  --panel: #111a2a;
+  --panel-muted: #172235;
+  --text: #f8fbff;
+  --muted: #9aa8bd;
+  --line: rgba(154, 168, 189, 0.18);
+  --blue: #4c7dff;
+  --green: #20e37a;
+  --amber: #f1b84b;
+  --red: #ff5d65;
+  --teal: #38d6c0;
+  --shadow: 0 24px 60px rgba(0, 0, 0, 0.34);
+  --shadow-soft: 0 14px 34px rgba(0, 0, 0, 0.24);
 }
 
 * {
@@ -21,7 +21,10 @@
 
 body {
   margin: 0;
-  background: var(--bg);
+  background:
+    radial-gradient(circle at 16% 8%, rgba(76, 125, 255, 0.24), transparent 28%),
+    radial-gradient(circle at 82% 14%, rgba(56, 214, 192, 0.16), transparent 26%),
+    linear-gradient(180deg, #080c16 0%, #0b111d 48%, #070b14 100%);
   color: var(--text);
   font-family: "Noto Sans TC", "Microsoft JhengHei", system-ui, sans-serif;
   letter-spacing: 0;
@@ -44,11 +47,11 @@ select {
   justify-content: space-between;
   gap: 16px;
   align-items: center;
-  border-bottom: 1px solid rgba(22, 33, 29, 0.08);
-  background: rgba(249, 250, 248, 0.96);
+  border-bottom: 1px solid rgba(154, 168, 189, 0.12);
+  background: rgba(7, 11, 20, 0.86);
   padding: 10px max(16px, calc((100vw - 1180px) / 2));
   backdrop-filter: blur(12px);
-  box-shadow: 0 8px 24px rgba(22, 33, 29, 0.04);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28);
 }
 
 .site-logo {
@@ -73,7 +76,7 @@ select {
   width: 34px;
   height: 34px;
   border-radius: 8px;
-  background: #17382f;
+  background: linear-gradient(135deg, #326dff, #7f5dff);
   color: #fff;
   font-size: 12px;
   letter-spacing: 0;
@@ -98,14 +101,14 @@ select {
 }
 
 .site-header nav a:hover {
-  border-color: var(--line);
-  background: #fff;
+  border-color: rgba(154, 168, 189, 0.28);
+  background: rgba(255, 255, 255, 0.06);
   color: var(--text);
 }
 
 .site-header nav a.active {
-  border-color: rgba(15, 118, 110, 0.24);
-  background: #e8f4ef;
+  border-color: rgba(56, 214, 192, 0.4);
+  background: rgba(56, 214, 192, 0.12);
   color: var(--teal);
 }
 
@@ -192,9 +195,56 @@ select {
   margin-bottom: 18px;
 }
 
+.dashboard-hero {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(320px, 0.72fr);
+  gap: 44px;
+  align-items: center;
+  min-height: 520px;
+  overflow: hidden;
+}
+
+.dashboard-hero::before {
+  content: "";
+  position: absolute;
+  right: 32px;
+  bottom: 52px;
+  width: min(44%, 520px);
+  height: 220px;
+  border: 1px solid rgba(154, 168, 189, 0.18);
+  border-radius: 18px;
+  background:
+    linear-gradient(135deg, rgba(76, 125, 255, 0.14), rgba(56, 214, 192, 0.08)),
+    #111a2a;
+  box-shadow: var(--shadow);
+}
+
+.dashboard-hero::after {
+  content: "市場儀表板\a 綜合分數 56/100\a 風險分數 40/100\a TWSE OpenAPI";
+  position: absolute;
+  right: 64px;
+  bottom: 96px;
+  width: min(36%, 420px);
+  border: 1px solid rgba(154, 168, 189, 0.2);
+  border-radius: 16px;
+  background:
+    linear-gradient(180deg, rgba(76, 125, 255, 0.22), transparent 62%),
+    linear-gradient(90deg, transparent 0 12%, rgba(76, 125, 255, 0.9) 12% 13%, transparent 13% 32%, rgba(56, 214, 192, 0.9) 32% 33%, transparent 33% 57%, rgba(241, 184, 75, 0.9) 57% 58%, transparent 58%),
+    #182436;
+  box-shadow: 0 20px 44px rgba(0, 0, 0, 0.28);
+  color: #f8fbff;
+  font-size: 15px;
+  font-weight: 850;
+  line-height: 1.8;
+  padding: 24px;
+  white-space: pre-line;
+}
+
 .hero h1 {
   margin: 0 0 8px;
-  font-size: clamp(30px, 4vw, 46px);
+  max-width: 760px;
+  font-size: clamp(42px, 6vw, 76px);
   line-height: 1.12;
 }
 
@@ -223,9 +273,9 @@ select {
   display: inline-flex;
   align-items: center;
   min-height: 34px;
-  border: 1px solid rgba(15, 118, 110, 0.18);
+  border: 1px solid rgba(56, 214, 192, 0.22);
   border-radius: 999px;
-  background: #fff;
+  background: rgba(17, 26, 42, 0.82);
   color: var(--teal);
   font-size: 13px;
   font-weight: 850;
@@ -14093,7 +14143,110 @@ input[type="date"] {
   color: #6f5a22;
 }
 
+/* UI/UX polish branch: dark fintech landing treatment. */
+.panel,
+.watchlist-search-card,
+.watchlist-result-row,
+.rank-row,
+.module-card,
+.favorite,
+.asset-card,
+.favorite-chip,
+.muted-chip,
+.commercial-slot,
+.metric-card,
+.action-card {
+  border-color: var(--line);
+  background: rgba(17, 26, 42, 0.86);
+  box-shadow: var(--shadow-soft);
+}
+
+.watchlist-search-card {
+  background:
+    linear-gradient(135deg, rgba(76, 125, 255, 0.14), transparent 46%),
+    rgba(17, 26, 42, 0.9);
+}
+
+.watchlist-result-row,
+.rank-row {
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+
+.rank-row:hover,
+.watchlist-result-row:hover {
+  border-color: rgba(76, 125, 255, 0.48);
+  background: rgba(23, 34, 53, 0.96);
+  box-shadow: var(--shadow);
+  transform: none;
+}
+
+input[type="search"],
+select,
+input[type="date"] {
+  border-color: var(--line);
+  background: rgba(7, 11, 20, 0.68);
+  color: var(--text);
+}
+
+input[type="search"]::placeholder {
+  color: rgba(154, 168, 189, 0.72);
+}
+
+.watchlist-result-row button,
+.watchlist-favorites .favorite-chip button {
+  border-color: rgba(154, 168, 189, 0.22);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--muted);
+}
+
+.watchlist-result-row button:not(:disabled):hover,
+.watchlist-favorites .favorite-chip button:hover {
+  border-color: rgba(56, 214, 192, 0.42);
+  color: var(--teal);
+}
+
+.home-first-screen-decision,
+.freshness-strip,
+.next-reading-panel {
+  border-color: rgba(154, 168, 189, 0.18);
+  background: rgba(17, 26, 42, 0.76);
+}
+
+.briefing-actions article,
+.home-first-screen-decision__actions a {
+  border-color: rgba(154, 168, 189, 0.18);
+  background: rgba(12, 18, 32, 0.72);
+}
+
+.home-first-screen-decision__actions a:hover {
+  border-color: rgba(56, 214, 192, 0.42);
+  background: rgba(56, 214, 192, 0.1);
+}
+
+.disclaimer {
+  border-color: rgba(241, 184, 75, 0.28);
+  background: rgba(241, 184, 75, 0.1);
+}
+
+.disclaimer p {
+  color: #d9c28a;
+}
+
+.site-footer {
+  border-top-color: rgba(154, 168, 189, 0.14);
+}
+
 @media (max-width: 900px) {
+  .dashboard-hero {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  .dashboard-hero::before,
+  .dashboard-hero::after {
+    display: none;
+  }
+
   .asset-toolbar,
   .asset-grid,
   .home-product-overview,
