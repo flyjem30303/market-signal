@@ -1,4 +1,5 @@
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
+import { MarketWatchlistPanel } from "@/components/market-watchlist-panel";
 import { PageViewTracker } from "@/components/page-view-tracker";
 import { PublicNextReadingFlow } from "@/components/public-next-reading-flow";
 import { TrackedLink } from "@/components/tracked-link";
@@ -42,8 +43,6 @@ export function DashboardShell({
     .map((asset) => repository.getSnapshot(asset.symbol, activeSnapshotDate) ?? repository.getSeries(asset.symbol).at(-1))
     .filter((item): item is SignalSnapshot => Boolean(item));
   const market = snapshots.find((item) => item.asset.symbol === "TWII") ?? snapshot;
-  const riskList = snapshots.slice().sort((a, b) => b.riskScore - a.riskScore).slice(0, 4);
-  const strongList = snapshots.slice().sort((a, b) => b.compositeScore - a.compositeScore).slice(0, 4);
   const relatedNews = repository.getRelatedNews(selected.symbol, activeSnapshotDate);
   const isStockPage = includeSeoContent;
   const publicSourceLabel = formatPublicSourceLabel(freshness.sourceName, marketSignalSourceStatus?.resolvedSource === "supabase");
@@ -68,7 +67,7 @@ export function DashboardShell({
       {!isStockPage && (
         <>
           <HomeFirstScreenDecisionSummary market={market} />
-          <MarketLists riskList={riskList} strongList={strongList} />
+          <MarketWatchlistPanel snapshots={snapshots} />
         </>
       )}
 
@@ -237,50 +236,5 @@ function StockEventContext({ news }: { news: NewsEvent[] }) {
         <p>目前沒有可顯示的市場脈絡提示。請先以燈號、分數、更新時間與引用來源作為主要觀察依據。</p>
       )}
     </section>
-  );
-}
-
-function MarketLists({ riskList, strongList }: { riskList: SignalSnapshot[]; strongList: SignalSnapshot[] }) {
-  return (
-    <section className="weekly-grid" aria-label="市場排行">
-      <MarketList description="綜合分數較高的標的，適合用來觀察市場強勢族群。" items={strongList} title="強勢觀察" valueKey="composite" />
-      <MarketList description="風險分數較高的標的，適合用來提醒波動與風險變化。" items={riskList} title="風險觀察" valueKey="risk" />
-    </section>
-  );
-}
-
-function MarketList({
-  description,
-  items,
-  title,
-  valueKey
-}: {
-  description: string;
-  items: SignalSnapshot[];
-  title: string;
-  valueKey: "composite" | "risk";
-}) {
-  return (
-    <article className="panel briefing-article">
-      <p className="eyebrow">{title}</p>
-      <h2>{title}</h2>
-      <p>{description}</p>
-      <div className="rank-list">
-        {items.map((item) => (
-          <TrackedLink
-            className="rank-row"
-            eventName="stock_link_clicked"
-            href={`/stocks/${item.asset.symbol}`}
-            key={item.asset.id}
-            label={`${item.asset.symbol} ${item.asset.name}`}
-            payload={{ area: title, symbol: item.asset.symbol }}
-          >
-            <strong>{item.asset.symbol}</strong>
-            <span>{item.asset.name}</span>
-            <b>{valueKey === "risk" ? item.riskScore : item.compositeScore}</b>
-          </TrackedLink>
-        ))}
-      </div>
-    </article>
   );
 }

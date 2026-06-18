@@ -11844,6 +11844,130 @@ input[type="search"] {
   color: var(--text);
 }
 
+.market-watchlist-panel {
+  display: grid;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.watchlist-search-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 0.45fr);
+  gap: 16px;
+  align-items: end;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  padding: 18px;
+}
+
+.watchlist-search-card h2 {
+  margin: 0 0 8px;
+}
+
+.watchlist-search-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.watchlist-search-field {
+  display: grid;
+  gap: 8px;
+}
+
+.watchlist-search-field span,
+.watchlist-message {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.watchlist-message {
+  grid-column: 1 / -1;
+  color: var(--teal);
+}
+
+.watchlist-favorites {
+  margin-bottom: 0;
+}
+
+.watchlist-favorites .favorite-chip {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  padding: 8px 10px;
+}
+
+.watchlist-favorites .favorite-chip a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.watchlist-favorites .favorite-chip button,
+.watchlist-result-row button {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 850;
+  padding: 6px 9px;
+}
+
+.watchlist-result-row button:not(:disabled):hover,
+.watchlist-favorites .favorite-chip button:hover {
+  border-color: rgba(15, 118, 110, 0.3);
+  color: var(--teal);
+}
+
+.watchlist-result-row button:disabled {
+  cursor: not-allowed;
+  opacity: 0.56;
+}
+
+.watchlist-search-results {
+  display: grid;
+  gap: 8px;
+}
+
+.watchlist-result-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 10px;
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  padding: 12px;
+}
+
+.watchlist-result-row strong,
+.watchlist-result-row span,
+.watchlist-result-row small {
+  display: block;
+}
+
+.watchlist-result-row span,
+.watchlist-result-row small {
+  color: var(--muted);
+}
+
+.watchlist-result-row a {
+  color: var(--blue);
+  font-weight: 850;
+  text-decoration: none;
+}
+
+.watchlist-result-row a:hover {
+  text-decoration: underline;
+}
+
+.watchlist-observation-grid {
+  margin-top: 2px;
+}
+
 .module-card span {
   display: block;
   margin-top: 4px;
@@ -13981,6 +14105,8 @@ input[type="date"] {
   .home-group-overview,
   .home-group-grid,
   .home-watchlists,
+  .watchlist-search-card,
+  .watchlist-result-row,
   .home-market-action-summary,
   .twse-openapi-runtime-mock-wiring-status,
   .twse-openapi-runtime-mock-wiring-steps,
