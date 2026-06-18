@@ -107,7 +107,11 @@ export function DashboardShell({
         </>
       )}
 
-      <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
+      <DataFreshnessStrip
+        fallbackAsOfDate={snapshot.date}
+        freshness={freshness}
+        marketSignalSourceStatus={marketSignalSourceStatus}
+      />
       <PublicDataSourceBoundaryNotice context={isStockPage ? "stock" : "home"} />
       <PublicNextReadingFlow context={isStockPage ? "stock" : "home"} stockSymbol={selected.symbol} />
 

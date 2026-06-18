@@ -11,7 +11,7 @@ const cases = [
     expected: {
       asOfDate: "2026-05-30",
       isMock: false,
-      scoreSource: "mock",
+      scoreSource: "mixed",
       state: "complete"
     },
     name: "complete when both required tables have successful rows",
@@ -36,7 +36,7 @@ const cases = [
     expected: {
       asOfDate: "2026-05-30",
       isMock: false,
-      scoreSource: "mock",
+      scoreSource: "mixed",
       state: "partial"
     },
     name: "partial when a required table is missing",
@@ -54,7 +54,7 @@ const cases = [
     expected: {
       asOfDate: "2026-05-30",
       isMock: false,
-      scoreSource: "mock",
+      scoreSource: "mixed",
       state: "partial"
     },
     name: "partial when a required table has zero rows",
@@ -79,7 +79,7 @@ const cases = [
     expected: {
       asOfDate: "2026-05-30",
       isMock: false,
-      scoreSource: "mock",
+      scoreSource: "mixed",
       state: "unavailable"
     },
     name: "unavailable when any selected required table failed",
@@ -104,7 +104,7 @@ const cases = [
     expected: {
       asOfDate: "-",
       isMock: false,
-      scoreSource: "mock",
+      scoreSource: "unavailable",
       state: "unavailable"
     },
     name: "unavailable when no required table rows exist",
@@ -136,7 +136,7 @@ const results = cases.map((testCase) => {
   if (snapshot.market !== market.exchange) problems.push("market metadata was not preserved");
   if (snapshot.currency !== market.currency) problems.push("currency metadata was not preserved");
   if (snapshot.timezone !== market.timezone) problems.push("timezone metadata was not preserved");
-  if (snapshot.scoreSource === "real") problems.push("scoreSource must not be real");
+  if (snapshot.scoreSource === "real") problems.push("raw freshness snapshot must not promote scoreSource to real");
 
   return {
     name: testCase.name,

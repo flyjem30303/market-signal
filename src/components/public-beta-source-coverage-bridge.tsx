@@ -14,22 +14,22 @@ export function PublicBetaSourceCoverageBridge({
   return (
     <section className="panel stock-reading-summary public-beta-source-coverage-bridge" aria-label="資料來源與覆蓋率說明">
       <p className="eyebrow">資料來源與覆蓋率</p>
-      <h2>正式資料升級前，公開頁先維持清楚揭露</h2>
+      <h2>公開頁清楚揭露資料來源、覆蓋範圍與限制</h2>
       <p>
         {contextLabel}
         目前先以台股大盤與上市股票日收盤價作為主範圍。ETF 全量覆蓋、新聞評分與會員深度內容會在後續版本補齊。
       </p>
       <div className="briefing-actions">
-        <SourceCoverageCard title="資料來源" text="只使用可驗證、可追溯且符合公開使用條件的資料來源；未確認前不切換正式資料模式。" />
+        <SourceCoverageCard title="資料來源" text="只使用可驗證、可追溯且符合公開使用條件的資料來源；資料異常時會保守揭露。" />
         <SourceCoverageCard title="覆蓋範圍" text="目前聚焦台股大盤與上市股票日收盤價，先完成公開 Beta 可用閉環。" />
-        <SourceCoverageCard title="品質審核" text="資料品質、更新時間、來源揭露與回復機制都要完成檢查。" />
-        <SourceCoverageCard title="使用者揭露" text="若仍是示範資料，前台必須清楚標示，不讓使用者誤判。" />
+        <SourceCoverageCard title="品質審核" text="資料品質、更新時間、來源揭露與回復機制都會在前台呈現。" />
+        <SourceCoverageCard title="使用者揭露" text="前台會清楚標示資料模式、更新時間與非投資建議邊界。" />
       </div>
       <div className="briefing-actions" aria-label="資料來源下一步">
         <SourceCoverageActionLink
           href="/methodology"
           label="查看方法說明"
-          text="了解燈號如何閱讀、哪些資料仍在示範邊界，以及正式資料升級前的限制。"
+          text="了解燈號如何閱讀、資料涵蓋哪些範圍，以及目前尚未納入的內容。"
           title="查看方法說明"
         />
         <SourceCoverageActionLink

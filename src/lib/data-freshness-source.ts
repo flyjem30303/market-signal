@@ -4,6 +4,10 @@ import {
   type FreshnessSource,
   type SupabaseRuntimeReads
 } from "@/lib/repositories/freshness-repository";
+import {
+  MARKET_SIGNAL_STAGE_6_PROMOTION_APPROVAL,
+  getMarketSignalSourceStatus
+} from "@/lib/repositories/market-signal-source-status";
 import type { SupabaseDataFreshnessClient } from "@/lib/repositories/supabase-data-freshness-repository";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 
@@ -11,6 +15,11 @@ type FreshnessEnvironment = {
   [key: string]: string | undefined;
   DATA_FRESHNESS_SOURCE?: string;
   DATA_FRESHNESS_SUPABASE_READS?: string;
+  MARKET_SIGNAL_SCORE_SOURCE_GATE?: string;
+  MARKET_SIGNAL_SUPABASE_PROMOTION_GATE?: string;
+  MARKET_SIGNAL_SUPABASE_READS?: string;
+  NEXT_PUBLIC_DATA_SOURCE?: string;
+  NEXT_PUBLIC_SCORE_SOURCE?: string;
 };
 
 export type DataFreshnessSnapshotGetterOptions = {
@@ -19,17 +28,41 @@ export type DataFreshnessSnapshotGetterOptions = {
 };
 
 function getSupabaseRuntimeReads(env: FreshnessEnvironment): SupabaseRuntimeReads {
-  return env.DATA_FRESHNESS_SUPABASE_READS === "enabled" ? "enabled" : "disabled";
+  return env.DATA_FRESHNESS_SUPABASE_READS === "enabled" || env.MARKET_SIGNAL_SUPABASE_READS === "enabled"
+    ? "enabled"
+    : "disabled";
 }
 
 function getFreshnessSource(env: FreshnessEnvironment): FreshnessSource {
-  const source = env.DATA_FRESHNESS_SOURCE ?? "mock";
+  const source = env.DATA_FRESHNESS_SOURCE ?? getDefaultFreshnessSource(env);
 
   if (source === "mock" || source === "supabase") {
     return source;
   }
 
   throw new Error(`Unsupported DATA_FRESHNESS_SOURCE: ${source}`);
+}
+
+function getDefaultFreshnessSource(env: FreshnessEnvironment): FreshnessSource {
+  return env.NEXT_PUBLIC_DATA_SOURCE === "supabase" &&
+    env.MARKET_SIGNAL_SUPABASE_READS === "enabled" &&
+    env.MARKET_SIGNAL_SUPABASE_PROMOTION_GATE === MARKET_SIGNAL_STAGE_6_PROMOTION_APPROVAL
+    ? "supabase"
+    : "mock";
+}
+
+function applyPublicRuntimeScoreStatus(snapshot: DataFreshnessSnapshot, env: FreshnessEnvironment): DataFreshnessSnapshot {
+  const marketSignalSourceStatus = getMarketSignalSourceStatus({ env });
+
+  if (marketSignalSourceStatus.publicScoreSource !== "real") {
+    return snapshot;
+  }
+
+  return {
+    ...snapshot,
+    scoreSource: "real",
+    scoreSourceLabel: "正式分數"
+  };
 }
 
 export function createDataFreshnessSnapshotGetter({
@@ -43,7 +76,8 @@ export function createDataFreshnessSnapshotGetter({
       supabaseRuntimeReads: getSupabaseRuntimeReads(env)
     });
 
-    return repository.getSnapshot();
+    const snapshot = await repository.getSnapshot();
+    return applyPublicRuntimeScoreStatus(snapshot, env);
   };
 }
 

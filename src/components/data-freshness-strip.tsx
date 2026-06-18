@@ -4,11 +4,12 @@ import { getDataQualityDowngradeSummary } from "@/lib/data-quality-downgrade";
 import type { MarketSignalSourceStatus } from "@/lib/repositories/market-signal-source-status";
 
 type DataFreshnessStripProps = {
+  fallbackAsOfDate?: string;
   freshness: DataFreshnessSnapshot;
   marketSignalSourceStatus?: MarketSignalSourceStatus;
 };
 
-export function DataFreshnessStrip({ freshness, marketSignalSourceStatus }: DataFreshnessStripProps) {
+export function DataFreshnessStrip({ fallbackAsOfDate, freshness, marketSignalSourceStatus }: DataFreshnessStripProps) {
   const dataQuality = getDataQualityDowngradeSummary(freshness);
   const isSupabaseRuntime = marketSignalSourceStatus?.resolvedSource === "supabase";
   const isRealScore = marketSignalSourceStatus?.publicScoreSource === "real";
@@ -17,6 +18,7 @@ export function DataFreshnessStrip({ freshness, marketSignalSourceStatus }: Data
   const readonlyLabel = marketSignalSourceStatus?.supabaseRuntimeReads === "enabled" ? "已開啟" : "未開啟";
   const stateLabel = isSupabaseRuntime ? "Supabase 唯讀資料" : freshness.stateLabel;
   const stateClass = isSupabaseRuntime ? "ready" : freshness.state;
+  const asOfDate = isSupabaseRuntime && freshness.isMock ? fallbackAsOfDate ?? "正式資料日期待確認" : freshness.asOfDate;
   const description = isSupabaseRuntime
     ? "正式資料模式使用 Supabase 唯讀資料；若資料缺漏或讀取失敗，前台會保守降級。"
     : freshness.description;
@@ -27,7 +29,7 @@ export function DataFreshnessStrip({ freshness, marketSignalSourceStatus }: Data
     <aside className={`freshness-strip ${stateClass}`} aria-label="資料更新狀態">
       <strong>資料狀態：{stateLabel}</strong>
       <span>資料來源：{sourceLabel}</span>
-      <span>更新日期：{freshness.asOfDate}</span>
+      <span>更新日期：{asOfDate}</span>
       <span>
         市場：{freshness.market} / {freshness.currency}
       </span>

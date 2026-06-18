@@ -82,11 +82,53 @@ const cases = [
       asOfDate: "2026-05-30",
       isMock: false,
       market: "TWSE",
-      scoreSource: "mock",
+      scoreSource: "mixed",
       sourceName: "TWSE OpenAPI",
       state: "complete"
     },
     name: "enabled Supabase freshness read maps successful data_runs snapshot"
+  }),
+  await runCase({
+    client: createFakeFreshnessClient({
+      dataRuns: [
+        {
+          data_end_date: "2026-05-30",
+          row_count: 1000,
+          source_name: "TWSE OpenAPI",
+          status: "success",
+          target_table: "daily_prices"
+        },
+        {
+          data_end_date: "2026-05-29",
+          row_count: 800,
+          source_name: "TWSE OpenAPI",
+          status: "success",
+          target_table: "daily_fundamentals"
+        }
+      ],
+      market: {
+        currency: "TWD",
+        exchange: "TWSE",
+        timezone: "Asia/Taipei"
+      }
+    }),
+    env: {
+      MARKET_SIGNAL_SCORE_SOURCE_GATE: "stage_8_score_source_real_approved",
+      MARKET_SIGNAL_SUPABASE_PROMOTION_GATE: "stage_6_public_data_source_supabase_approved",
+      MARKET_SIGNAL_SUPABASE_READS: "enabled",
+      NEXT_PUBLIC_DATA_SOURCE: "supabase",
+      NEXT_PUBLIC_SCORE_SOURCE: "real"
+    },
+    expectedClientCalls: 1,
+    expectedSnapshot: {
+      asOfDate: "2026-05-30",
+      isMock: false,
+      market: "TWSE",
+      scoreSource: "real",
+      sourceName: "TWSE OpenAPI",
+      state: "complete"
+    },
+    name: "market runtime promotion defaults freshness to Supabase and applies real score label"
   }),
   await runCase({
     client: createFakeFreshnessClient({ dataRunsError: "data runs failure" }),
@@ -173,10 +215,6 @@ async function runCase({ client = createFakeFreshnessClient(), env, expectedClie
     }
   }
 
-  if (snapshot?.scoreSource === "real") {
-    problems.push("freshness source behavior must not produce scoreSource real");
-  }
-
   return {
     clientCalls,
     errorMessage,
@@ -260,8 +298,9 @@ function scanSource() {
   const repository = fs.readFileSync(path.join(root, "src/lib/repositories/freshness-repository.ts"), "utf8");
   const problems = [];
   const requiredSourcePhrases = [
-    'env.DATA_FRESHNESS_SOURCE ?? "mock"',
-    'env.DATA_FRESHNESS_SUPABASE_READS === "enabled" ? "enabled" : "disabled"',
+    "env.DATA_FRESHNESS_SOURCE ?? getDefaultFreshnessSource(env)",
+    "env.DATA_FRESHNESS_SUPABASE_READS === \"enabled\" || env.MARKET_SIGNAL_SUPABASE_READS === \"enabled\"",
+    "applyPublicRuntimeScoreStatus",
     "createDataFreshnessSnapshotGetter",
     "createSupabaseClient = () => createServerSupabaseClient() as unknown as SupabaseDataFreshnessClient"
   ];
@@ -272,7 +311,7 @@ function scanSource() {
     "return await getSupabaseDataFreshnessSnapshot(client);",
     "return buildMockDataFreshnessSnapshot();"
   ];
-  const forbiddenPatterns = [/scoreSource:\s*"real"/, /DATA_FRESHNESS_SOURCE\s*\?\?\s*"supabase"/];
+  const forbiddenPatterns = [/DATA_FRESHNESS_SOURCE\s*\?\?\s*"supabase"/];
 
   for (const phrase of requiredSourcePhrases) {
     if (!source.includes(phrase)) {
