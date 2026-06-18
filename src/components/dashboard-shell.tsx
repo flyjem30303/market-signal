@@ -1,7 +1,3 @@
-"use client";
-
-import { useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { PageViewTracker } from "@/components/page-view-tracker";
 import { PublicNextReadingFlow } from "@/components/public-next-reading-flow";
@@ -33,16 +29,11 @@ export function DashboardShell({
   marketSignalSourceStatus,
   repositoryData
 }: DashboardShellProps) {
-  const router = useRouter();
-  const [symbol, setSymbol] = useState(initialSymbol);
-  const repository = useMemo(
-    () => (repositoryData ? createStaticMarketSignalRepository(repositoryData) : mockMarketSignalRepository),
-    [repositoryData]
-  );
-  const freshness = useMemo(() => freshnessSnapshot ?? buildMockDataFreshnessSnapshot(), [freshnessSnapshot]);
+  const repository = repositoryData ? createStaticMarketSignalRepository(repositoryData) : mockMarketSignalRepository;
+  const freshness = freshnessSnapshot ?? buildMockDataFreshnessSnapshot();
   const assets = repository.getAssets();
   const activeSnapshotDate = repositoryData?.snapshotDate ?? fallbackSnapshotDate;
-  const selected = repository.getAssetBySymbol(symbol) ?? repository.getAssetBySymbol(initialSymbol) ?? assets[0];
+  const selected = repository.getAssetBySymbol(initialSymbol) ?? assets[0];
   const snapshot =
     repository.getSnapshot(selected.symbol, activeSnapshotDate) ??
     repository.getSeries(selected.symbol).at(-1) ??
@@ -57,12 +48,6 @@ export function DashboardShell({
   const isStockPage = includeSeoContent;
   const publicSourceLabel = formatPublicSourceLabel(freshness.sourceName, marketSignalSourceStatus?.resolvedSource === "supabase");
   const scoreSourceLabel = marketSignalSourceStatus?.publicScoreSource === "real" ? "正式分數" : "示範分數";
-  const switchAssets = buildSwitchAssets(assets, selected);
-
-  function selectAsset(next: Asset) {
-    setSymbol(next.symbol);
-    router.push(`/stocks/${next.symbol}`);
-  }
 
   return (
     <main className="page-shell">
@@ -102,30 +87,11 @@ export function DashboardShell({
       />
       <PublicNextReadingFlow context={isStockPage ? "stock" : "home"} stockSymbol={selected.symbol} />
 
-      <section className="stock-search-panel" aria-label="標的切換">
-        <div>
-          <p className="eyebrow">指數 / ETF / 上市股票</p>
-          <h2>切換常用觀察標的</h2>
-          <p>Phase 1 先提供精選標的切換，完整上市股票可直接用網址 /stocks/代號 開啟；ETF 全量覆蓋留到 Phase 1.1。</p>
-        </div>
-        <div className="stock-chip-list">
-          {switchAssets.map((asset) => (
-            <button
-              className={asset.symbol === selected.symbol ? "chip active" : "chip"}
-              key={asset.id}
-              onClick={() => selectAsset(asset)}
-              type="button"
-            >
-              {asset.symbol} {asset.name}
-            </button>
-          ))}
-        </div>
-      </section>
-
       <article className="disclaimer">
         <h2>風險聲明</h2>
         <p>
-          本站提供市場資訊整理、風險辨識與觀察順序，不提供個別買賣建議、保證報酬或個人化資產配置。請搭配資料時間、來源揭露與自身風險承受度使用。
+          本站提供市場資訊整理、風險辨識與觀察輔助，不提供個股買賣建議、保證報酬或個人化資產配置。
+          請搭配資料日期、引用來源與自身風險承受度使用。
         </p>
       </article>
     </main>
@@ -152,14 +118,14 @@ function Hero({
   return (
     <section className="hero dashboard-hero">
       <p className="eyebrow">{isStockPage ? "標的燈號 / 市場觀察" : "公開 Beta / 指數狀態儀表站"}</p>
-      <h1>{isStockPage ? `${selected.symbol} ${selected.name}: ${snapshot.signal.title}` : "30 秒看懂台股市場氛圍"}</h1>
+      <h1>{isStockPage ? `${selected.symbol} ${selected.name}: ${snapshot.signal.title}` : "30 秒看懂台股市場氣氛"}</h1>
       <p>
         {isStockPage
           ? `${selected.name} 目前為 ${snapshot.signal.title}，綜合分數 ${snapshot.compositeScore}/100，風險分數 ${snapshot.riskScore}/100。`
           : `${market.asset.name} 目前為 ${market.signal.title}，綜合分數 ${market.compositeScore}/100，風險分數 ${market.riskScore}/100。`}
         本頁先整理狀態、原因、更新時間與風險提醒，協助使用者建立固定的市場觀察流程。
       </p>
-      <div className="hero-status-strip" aria-label="目前市場狀態">
+      <div className="hero-status-strip" aria-label="市場狀態摘要">
         <span>{isStockPage ? "標的狀態" : "市場狀態"}: {focus.signal.title}</span>
         <span>更新至: {snapshotDate}</span>
         <span>引用來源: {publicSourceLabel}</span>
@@ -243,7 +209,7 @@ function StockMarketFacts({ snapshot }: { snapshot: SignalSnapshot }) {
       <article className="panel">
         <p className="eyebrow">標的分類</p>
         <h2>{snapshot.asset.group}</h2>
-        <p>這裡整理可公開閱讀的關鍵資料，協助使用者先理解狀態，再看原因與風險。</p>
+        <p>本頁整理公開市場資料與燈號狀態，協助使用者理解目前觀察重點。</p>
       </article>
       {snapshot.marketFacts.map((fact) => (
         <article className="panel" key={fact.label}>
@@ -260,15 +226,15 @@ function StockEventContext({ news }: { news: NewsEvent[] }) {
   const latestNews = news[0];
 
   return (
-    <section className="panel stock-reading-summary" aria-label="市場事件脈絡">
-      <p className="eyebrow">市場事件 / 閱讀脈絡</p>
-      <h2>新聞評分尚未納入 Phase 1 正式分數</h2>
+    <section className="panel stock-reading-summary" aria-label="市場脈絡提示">
+      <p className="eyebrow">市場脈絡 / 觀察提示</p>
+      <h2>用事件脈絡輔助閱讀燈號</h2>
       {latestNews ? (
         <p>
           {latestNews.title}: {latestNews.summary}
         </p>
       ) : (
-        <p>目前沒有可公開呈現的事件脈絡。新聞資訊會在後續版本補齊，且不會直接轉成買賣建議。</p>
+        <p>目前沒有可顯示的市場脈絡提示。請先以燈號、分數、更新時間與引用來源作為主要觀察依據。</p>
       )}
     </section>
   );
@@ -277,8 +243,8 @@ function StockEventContext({ news }: { news: NewsEvent[] }) {
 function MarketLists({ riskList, strongList }: { riskList: SignalSnapshot[]; strongList: SignalSnapshot[] }) {
   return (
     <section className="weekly-grid" aria-label="市場排行">
-      <MarketList description="綜合分數較高的標的，可用來觀察目前市場相對強勢方向。" items={strongList} title="相對強勢" valueKey="composite" />
-      <MarketList description="風險分數較高的標的，提醒使用者優先確認資料與風險背景。" items={riskList} title="風險提醒" valueKey="risk" />
+      <MarketList description="綜合分數較高的標的，適合用來觀察市場強勢族群。" items={strongList} title="強勢觀察" valueKey="composite" />
+      <MarketList description="風險分數較高的標的，適合用來提醒波動與風險變化。" items={riskList} title="風險觀察" valueKey="risk" />
     </section>
   );
 }
@@ -317,11 +283,4 @@ function MarketList({
       </div>
     </article>
   );
-}
-
-function buildSwitchAssets(assets: Asset[], selected: Asset) {
-  const priority = ["TWII", "0050", "006208", "2330", "2308", "2382"];
-  const bySymbol = new Map(assets.map((asset) => [asset.symbol, asset]));
-  const selectedFirst = [selected, ...priority.map((symbol) => bySymbol.get(symbol)).filter((asset): asset is Asset => Boolean(asset))];
-  return Array.from(new Map(selectedFirst.map((asset) => [asset.symbol, asset])).values()).slice(0, 12);
 }
