@@ -28,3 +28,5 @@ out/
 tmp/
 .research/
 supabase/bootstrap-parts/
+
+.vercel
