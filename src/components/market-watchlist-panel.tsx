@@ -15,7 +15,15 @@ type ResultSort = {
   key: "compositeScore" | "riskScore";
 };
 
-export function MarketWatchlistPanel({ snapshots }: { snapshots: SignalSnapshot[] }) {
+type MarketWatchlistPanelVariant = "default" | "compact-stock";
+
+export function MarketWatchlistPanel({
+  snapshots,
+  variant = "default"
+}: {
+  snapshots: SignalSnapshot[];
+  variant?: MarketWatchlistPanelVariant;
+}) {
   const [favorites, setFavorites] = useState<string[]>([]);
   const [isDraggingResults, setIsDraggingResults] = useState(false);
   const [query, setQuery] = useState("");
@@ -49,6 +57,7 @@ export function MarketWatchlistPanel({ snapshots }: { snapshots: SignalSnapshot[
   const strongList = rankBy(base, "compositeScore");
   const riskList = rankBy(base, "riskScore");
   const hasFavorites = favoriteSnapshots.length > 0;
+  const isCompactStock = variant === "compact-stock";
 
   function toggleResultSort(key: ResultSort["key"]) {
     setResultSort((current) => ({
@@ -110,7 +119,7 @@ export function MarketWatchlistPanel({ snapshots }: { snapshots: SignalSnapshot[
   }
 
   return (
-    <section className="market-watchlist-panel" aria-label="搜尋與追蹤標的">
+    <section className={`market-watchlist-panel market-watchlist-panel--${variant}`} aria-label="搜尋與追蹤標的">
       <div className="watchlist-search-card">
         <label className="watchlist-search-field">
           <span>搜尋股票代號或名稱</span>
@@ -127,14 +136,14 @@ export function MarketWatchlistPanel({ snapshots }: { snapshots: SignalSnapshot[
         </label>
 
         <div className="watchlist-search-copy">
-          <p className="eyebrow">追蹤標的</p>
+          {!isCompactStock && <p className="eyebrow">追蹤標的</p>}
           <h2>搜尋股票，建立觀察清單</h2>
           <p>最多追蹤 5 檔；強勢與風險排行會優先依追蹤清單排序。</p>
         </div>
 
         <div className="watchlist-tracking-box" aria-live="polite">
           <div className="watchlist-tracking-box__header">
-            <strong>{message || "追蹤清單"}</strong>
+            {(message || !isCompactStock) && <strong>{message || "追蹤清單"}</strong>}
             <span>{favorites.length}/{maxWatchlistItems}</span>
           </div>
           <div className="favorite-row watchlist-favorites" aria-label="已追蹤標的">
@@ -197,27 +206,29 @@ export function MarketWatchlistPanel({ snapshots }: { snapshots: SignalSnapshot[
 
             return (
               <article className="watchlist-result-row" key={snapshot.asset.symbol}>
-                <div>
+                <div className="watchlist-result-main">
                   <strong>{snapshot.asset.symbol}</strong>
                   <span>{snapshot.asset.name}</span>
                   <small>{snapshot.signal.title}</small>
                 </div>
-                <div className="watchlist-score-strip" aria-label={`${snapshot.asset.symbol} 分數摘要`}>
-                  <span>綜合 {snapshot.compositeScore}</span>
-                  <span>風險 {snapshot.riskScore}</span>
-                </div>
-                <div className="watchlist-result-actions">
-                  <TrackedLink
-                    eventName="stock_link_clicked"
-                    href={`/stocks/${snapshot.asset.symbol}`}
-                    label={`查看 ${snapshot.asset.symbol}`}
-                    payload={{ area: "watchlist_search" }}
-                  >
-                    查看
-                  </TrackedLink>
-                  <button disabled={isFavorite || isFull} onClick={() => addFavorite(snapshot.asset.symbol)} type="button">
-                    {isFavorite ? "已追蹤" : "加入追蹤"}
-                  </button>
+                <div className="watchlist-result-side">
+                  <div className="watchlist-score-strip" aria-label={`${snapshot.asset.symbol} 分數摘要`}>
+                    <span>綜合 {snapshot.compositeScore}</span>
+                    <span>風險 {snapshot.riskScore}</span>
+                  </div>
+                  <div className="watchlist-result-actions">
+                    <TrackedLink
+                      eventName="stock_link_clicked"
+                      href={`/stocks/${snapshot.asset.symbol}`}
+                      label={`查看 ${snapshot.asset.symbol}`}
+                      payload={{ area: "watchlist_search" }}
+                    >
+                      查看
+                    </TrackedLink>
+                    <button disabled={isFavorite || isFull} onClick={() => addFavorite(snapshot.asset.symbol)} type="button">
+                      {isFavorite ? "已追蹤" : "加入追蹤"}
+                    </button>
+                  </div>
                 </div>
               </article>
             );
@@ -231,12 +242,14 @@ export function MarketWatchlistPanel({ snapshots }: { snapshots: SignalSnapshot[
           items={strongList}
           title={hasFavorites ? "追蹤強勢排行" : "市場強勢排行"}
           valueKey="compositeScore"
+          collapsible={isCompactStock}
         />
         <ScoreList
           description={hasFavorites ? "依追蹤清單排序，找出需要優先留意波動的標的。" : "尚未建立追蹤清單，先顯示常用標的。"}
           items={riskList}
           title={hasFavorites ? "追蹤風險排行" : "市場風險排行"}
           valueKey="riskScore"
+          collapsible={isCompactStock}
         />
       </section>
     </section>
@@ -260,34 +273,75 @@ function ScoreList({
   description,
   items,
   title,
-  valueKey
+  valueKey,
+  collapsible = false
 }: {
+  collapsible?: boolean;
   description: string;
   items: SignalSnapshot[];
   title: string;
   valueKey: "compositeScore" | "riskScore";
 }) {
+  const [collapsed, setCollapsed] = useState(false);
+
+  if (!collapsible) {
+    return (
+      <article className="panel briefing-article">
+        <p className="eyebrow">{title}</p>
+        <h2>{title}</h2>
+        <p>{description}</p>
+        <div className="rank-list">
+          {items.map((item) => (
+            <TrackedLink
+              className="rank-row"
+              eventName="stock_link_clicked"
+              href={`/stocks/${item.asset.symbol}`}
+              key={item.asset.id}
+              label={`${item.asset.symbol} ${item.asset.name}`}
+              payload={{ area: title, symbol: item.asset.symbol }}
+            >
+              <strong>{item.asset.symbol}</strong>
+              <span>{item.asset.name}</span>
+              <b>{item[valueKey]}</b>
+            </TrackedLink>
+          ))}
+        </div>
+      </article>
+    );
+  }
+
   return (
     <article className="panel briefing-article">
-      <p className="eyebrow">{title}</p>
-      <h2>{title}</h2>
-      <p>{description}</p>
-      <div className="rank-list">
-        {items.map((item) => (
-          <TrackedLink
-            className="rank-row"
-            eventName="stock_link_clicked"
-            href={`/stocks/${item.asset.symbol}`}
-            key={item.asset.id}
-            label={`${item.asset.symbol} ${item.asset.name}`}
-            payload={{ area: title, symbol: item.asset.symbol }}
-          >
-            <strong>{item.asset.symbol}</strong>
-            <span>{item.asset.name}</span>
-            <b>{item[valueKey]}</b>
-          </TrackedLink>
-        ))}
+      <div className="rank-panel-header">
+        <div>
+          <p className="eyebrow">{title}</p>
+          <h2>{title}</h2>
+        </div>
+        <button aria-expanded={!collapsed} onClick={() => setCollapsed((current) => !current)} type="button">
+          {collapsed ? "展開" : "收合"}
+        </button>
       </div>
+      {!collapsed && (
+        <>
+          <p>{description}</p>
+          <div className="rank-list">
+            {items.map((item) => (
+              <TrackedLink
+                className="rank-row"
+                eventName="stock_link_clicked"
+                href={`/stocks/${item.asset.symbol}`}
+                key={item.asset.id}
+                label={`${item.asset.symbol} ${item.asset.name}`}
+                payload={{ area: title, symbol: item.asset.symbol }}
+              >
+                <strong>{item.asset.symbol}</strong>
+                <span>{item.asset.name}</span>
+                <b>{item[valueKey]}</b>
+              </TrackedLink>
+            ))}
+          </div>
+        </>
+      )}
     </article>
   );
 }

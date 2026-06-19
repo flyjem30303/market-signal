@@ -69,7 +69,7 @@ export function DashboardShell({
       {isStockPage && (
         <>
           <section className="stock-watchlist-top" aria-label="標的搜尋與追蹤入口">
-            <MarketWatchlistPanel snapshots={snapshots} />
+            <MarketWatchlistPanel snapshots={snapshots} variant="compact-stock" />
           </section>
           <StockQuotePanel
             series={repository.getSeries(selected.symbol)}
