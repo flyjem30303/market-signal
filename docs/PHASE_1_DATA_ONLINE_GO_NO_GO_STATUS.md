@@ -1,6 +1,6 @@
 # Phase 1 Data Online Go/No-Go Status
 
-Updated: 2026-06-16
+Updated: 2026-06-19
 
 Status: `phase_1_data_online_go_no_go_status_coverage_complete_promotion_pending`
 
@@ -26,10 +26,10 @@ Decision: `NO_GO_FOR_RUNTIME_REAL_PROMOTION`
 
 Reason:
 
-- Phase 1 bounded write/readback completed for the accepted candidate set.
-- Candidate row payload validation accepted `178` rows.
-- The bounded attempt found all `178` candidate keys already present before insert planning, so it inserted `0` rows and skipped `178` existing rows.
-- Final candidate-key readback confirmed `178/178`.
+- Phase 1 bounded write/readback completed for the accepted current-scope shard-001 candidate set.
+- Candidate row payload validation accepted `500` rows.
+- The bounded attempt found `63` candidate keys already present before insert planning, inserted `437` missing rows, and skipped `63` existing rows.
+- Final candidate-key readback confirmed `500/500`.
 - Missing rows after write are `0`.
 - Runtime public source and score remain `publicDataSource=mock` and `scoreSource=mock`.
 - No real-data promotion is allowed until promotion preflight confirms data quality, timestamps/freshness, source attribution, rollback readiness, fallback copy, and no investment-advice claims.
@@ -38,12 +38,12 @@ Reason:
 
 | Coverage item | Current status |
 | --- | --- |
-| Phase 1 candidate rows | `178` |
-| Existing rows before write | `178` |
-| Planned insert rows | `0` |
-| Inserted rows | `0` |
-| Skipped existing rows | `178` |
-| Final candidate-key rows after write | `178/178` |
+| Phase 1 candidate rows | `500` |
+| Existing rows before write | `63` |
+| Planned insert rows | `437` |
+| Inserted rows | `437` |
+| Skipped existing rows | `63` |
+| Final candidate-key rows after write | `500/500` |
 | Missing rows after write | `0` |
 | Coverage complete after write | `true` |
 | Public data source | `mock` |
@@ -57,7 +57,7 @@ Reason:
 | Field contract and parser path | Ready for synthetic and mock-runtime wiring | `check:twse-openapi-source-adapter-contract`, `check:twse-openapi-parser-contract`, `check:twse-openapi-parser-consumer-adapter` | Keep parser fail-closed and raw payload excluded. |
 | Runtime mock consumer wire | Ready | `check:twse-openapi-runtime-mock-consumer-wire` | Use it only to improve public comprehension while real promotion stays locked. |
 | Sanitized row-payload candidate | Accepted for executed bounded attempt | `validate:phase-1-sanitized-row-payload-candidate-artifact` | Do not reuse for another write without a new explicit authorization. |
-| Phase 1 daily_prices bounded attempt/readback | Complete for the accepted candidate set | `data/evidence-intake/phase-1-daily-prices-bounded-write-post-run-review-2026-06-16.json`, `check:phase-1-post-write-coverage-scoring-gate` | Move to runtime promotion preflight; do not run another write. |
+| Phase 1 daily_prices bounded attempt/readback | Complete for accepted current-scope shard-001 | `data/evidence-intake/phase-1-current-scope-bounded-insert-missing-post-run-review-2026-06-19-shard-001.json`, `check:phase-1-post-write-coverage-scoring-gate` | Move to runtime promotion preflight; do not run another write against the same shard. |
 | Runtime promotion | No-go pending preflight | `publicDataSource=mock`, `scoreSource=mock`, `check:runtime-promotion-readiness-summary` | Promote only after quality, freshness, rollback, source disclosure, and public-copy gates pass. |
 
 ## Required Before Runtime Real Promotion Go

@@ -18,9 +18,9 @@ for (const phrase of [
   "phase_1_data_online_go_no_go_status_coverage_complete_promotion_pending",
   "DATA_COVERAGE_COMPLETE_BUT_RUNTIME_PROMOTION_NO_GO",
   "NO_GO_FOR_RUNTIME_REAL_PROMOTION",
-  "Candidate row payload validation accepted `178` rows",
-  "The bounded attempt found all `178` candidate keys already present before insert planning, so it inserted `0` rows and skipped `178` existing rows",
-  "Final candidate-key readback confirmed `178/178`",
+  "Candidate row payload validation accepted `500` rows",
+  "inserted `437` missing rows",
+  "Final candidate-key readback confirmed `500/500`",
   "Missing rows after write are `0`",
   "publicDataSource=mock",
   "scoreSource=mock",
@@ -51,7 +51,10 @@ if (!reviewGate.includes('"phase-1-data-online-go-no-go-status"')) {
 
 expect(postWriteGate.status, "ok", "postWriteGate.status");
 expect(postWriteGate.guardedStatus, "phase_1_post_write_coverage_scoring_gate_ready_for_runtime_promotion_review", "postWriteGate.guardedStatus");
-expect(postWriteGate.acceptedCoverageRows, 178, "postWriteGate.acceptedCoverageRows");
+expect(postWriteGate.acceptedCoverageRows, 500, "postWriteGate.acceptedCoverageRows");
+expect(postWriteGate.insertedRows, 437, "postWriteGate.insertedRows");
+expect(postWriteGate.skippedExistingRows, 63, "postWriteGate.skippedExistingRows");
+expect(postWriteGate.finalCandidateKeyRows, 500, "postWriteGate.finalCandidateKeyRows");
 expect(postWriteGate.missingRowsAfterWrite, 0, "postWriteGate.missingRowsAfterWrite");
 expect(postWriteGate.rowCoverageScoringAccepted, true, "postWriteGate.rowCoverageScoringAccepted");
 expect(postWriteGate.runtimePromotionAllowedNow, false, "postWriteGate.runtimePromotionAllowedNow");
@@ -89,10 +92,10 @@ console.log(
       accepted: status === "ok",
       decision: "DATA_COVERAGE_COMPLETE_BUT_RUNTIME_PROMOTION_NO_GO",
       coverage: {
-      acceptedCoverageRows: 178,
-      insertedRows: 0,
-      skippedExistingRows: 178,
-      finalCandidateKeyRows: 178,
+      acceptedCoverageRows: 500,
+      insertedRows: 437,
+      skippedExistingRows: 63,
+      finalCandidateKeyRows: 500,
         missingRowsAfterWrite: 0
       },
       runtimePromotionAllowedNow: false,

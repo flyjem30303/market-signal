@@ -30,9 +30,9 @@ export type RuntimePromotionReadinessSummary = {
     total: number;
   };
   rowCoverage: {
-    expectedRows: 360;
+    expectedRows: number;
     missingRows: 0;
-    observedRows: 360;
+    observedRows: number;
   };
   steps: RuntimePromotionReadinessStep[];
   stopLine: string;

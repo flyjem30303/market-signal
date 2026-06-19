@@ -1,6 +1,52 @@
 # Project Status
 
-## Latest Effective Status - 2026-06-17
+## Latest Effective Status - 2026-06-19
+
+### Latest Phase 1 Daily Scores Backfill Post-Run Review
+
+Status: `ok`
+
+CEO decision:
+
+- Completed one authorized bounded `daily_scores` backfill from existing Supabase `daily_prices`.
+- Authorization id was `PHASE1-DAILY-SCORES-BACKFILL-2026-06-19-A`.
+- The runner prepared `2,951` score rows, wrote `2,951` rows, and read back `2,951` rows for model version `phase1-price-derived-v1`.
+- `daily_prices` was not mutated.
+- Public runtime remains `publicDataSource=mock` and `scoreSource=mock`.
+- No SQL, no market-data fetch, no raw payload output, no row payload output, no stock-id payload output, no secrets output, no source promotion, and no score promotion occurred.
+
+PM completed:
+
+- Recorded aggregate-only post-run review evidence at `data/evidence-intake/phase-1-daily-scores-backfill-post-run-review-2026-06-19.json`.
+- Added the post-run checker `check:phase-1-daily-scores-backfill-post-run-review-2026-06-19`.
+
+Current route:
+
+- `phase_1_runtime_promotion_quality_freshness_source_rollback_copy_review_then_public_source_gate`
+
+### Latest Phase 1 Current-Scope Bounded Write Shard-001 Post-Run Review
+
+Status: `phase_1_current_scope_bounded_insert_missing_passed_readback`
+
+CEO decision:
+
+- Completed one authorized bounded Supabase write attempt for current-scope `daily_prices` shard-001.
+- Candidate scope was TWII plus listed-stock daily close, aggregate-only sanitized candidate rows.
+- Readback confirmed `500/500` candidate-key rows with `0` missing rows.
+- The attempt inserted `437` missing rows and skipped `63` existing rows.
+- Public runtime remains `publicDataSource=mock` and `scoreSource=mock`.
+- No SQL, no market-data fetch, no raw payload output, no row payload output, no stock-id payload output, no secrets output, no source promotion, and no score promotion occurred.
+
+PM completed:
+
+- Recorded aggregate-only post-run review evidence at `data/evidence-intake/phase-1-current-scope-bounded-insert-missing-post-run-review-2026-06-19-shard-001.json`.
+- Aligned runtime promotion readiness to the actual shard-001 result instead of older 178/240/360-row fixtures.
+
+Current route:
+
+- `phase_1_runtime_promotion_gate_preflight_mock_to_supabase_review`
+
+## Previous Effective Status - 2026-06-17
 
 ### Latest Real Runtime Promotion Stage 8 scoreSource Real Promotion Gate
 

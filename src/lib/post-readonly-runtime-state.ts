@@ -11,9 +11,9 @@ export type PostReadonlyRuntimeState = {
   publicDataSource: "mock";
   rowCoverage: {
     coverageStatus: "complete";
-    expectedRows: 360;
+    expectedRows: number;
     missingRows: 0;
-    observedRows: 360;
+    observedRows: number;
     reason: "aggregate_count_complete";
     summary: string;
   };
@@ -37,11 +37,11 @@ export function getPostReadonlyRuntimeState(): PostReadonlyRuntimeState {
     publicDataSource: "mock",
     rowCoverage: {
       coverageStatus: "complete",
-      expectedRows: 360,
+      expectedRows: 500,
       missingRows: 0,
-      observedRows: 360,
+      observedRows: 500,
       reason: "aggregate_count_complete",
-      summary: "TWII 加上市股票日收盤價目前範圍共有 360 筆預期列、360 筆觀察列，missingRows=0。"
+      summary: "TWII 加上市股票日收盤價 shard-001 共有 500 筆預期列、500 筆觀察列，missingRows=0；其中 437 筆為本次新增、63 筆原已存在。"
     },
     scoreSource: "mock",
     state: "coverage_complete_mock_only",

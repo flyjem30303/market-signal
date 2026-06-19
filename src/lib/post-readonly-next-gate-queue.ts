@@ -62,7 +62,8 @@ export function getPostReadonlyNextGateQueue(): PostReadonlyNextGateQueue {
       status: "local_ready"
     },
     {
-      acceptanceSignal: "Phase 1 current-scope write closure has 240/240 rows for TWII plus listed-stock daily close, missingRows=0.",
+      acceptanceSignal:
+        "Phase 1 current-scope bounded write shard-001 has 500/500 rows for TWII plus listed-stock daily close, missingRows=0; insertedRows=437 and skippedExistingRows=63.",
       blockedPromotion: "資料覆蓋率已完成，但仍需品質、揭露、回復流程與公開文案審核。",
       id: "row_coverage",
       nextAction: "把資料覆蓋率列為已接受證據；除非發現缺漏，不再重跑寫入。",
@@ -114,7 +115,7 @@ export function getPostReadonlyNextGateQueue(): PostReadonlyNextGateQueue {
       localReadyCount: items.filter((item) => item.status === "local_ready").length,
       needsRoleReviewCount: items.filter((item) => item.status === "needs_role_review").length,
       readableSummary:
-        "資料覆蓋率已完成；正式資料升級審核改看資料品質、來源揭露、更新時間、回復流程與公開文案，而不是再重跑 row coverage。",
+        "資料覆蓋率 shard-001 已完成；正式資料升級審核改看資料品質、來源揭露、更新時間、回復流程與公開文案，而不是再重跑同一個 row coverage。",
       schemaAcceptedCount: schemaShape.acceptedCount,
       schemaObjectCount: schemaShape.objects.length
     },
