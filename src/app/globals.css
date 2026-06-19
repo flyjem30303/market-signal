@@ -14935,8 +14935,8 @@ input[type="search"]::placeholder {
 .stock-watchlist-top .watchlist-results-controls {
   position: absolute;
   z-index: 2;
-  top: 0;
-  height: 116px;
+  top: 14px;
+  height: 141px;
   left: 0;
   right: 36px;
   display: block;
