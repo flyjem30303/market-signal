@@ -1,6 +1,7 @@
 const MODEL_VERSION = "phase1-price-derived-v1";
 const PAGE_SIZE = 1000;
 const TWSE_BASE_URL = "https://openapi.twse.com.tw/v1";
+const PHASE_1_CORE_ETF_SYMBOLS = new Set(["0050", "006208"]);
 
 const args = new Set(process.argv.slice(2));
 const writeEnabled = args.has("--write") || process.env.DAILY_AFTER_CLOSE_WRITE === "enabled";
@@ -27,7 +28,7 @@ const serviceRoleKey = requireEnv("SUPABASE_SERVICE_ROLE_KEY");
 const result = {
   dryRun: !writeEnabled,
   modelVersion: MODEL_VERSION,
-  scope: requestedSymbols ? "requested_symbols" : "phase1_twii_and_listed_equity",
+  scope: requestedSymbols ? "requested_symbols" : "phase1_twii_listed_equity_and_core_market_etf_baselines",
   source: "TWSE OpenAPI",
   status: "blocked",
   twseRowsRead: 0,
@@ -60,9 +61,12 @@ if (priceRows.length === 0) {
 
 const existingPrices = await readExistingPrices(priceRows.map((row) => row.stock_id));
 const mergedPrices = mergePrices(existingPrices, priceRows);
-const scoreRows = buildScoreRows(mergedPrices, new Set(priceRows.map((row) => `${row.stock_id}:${row.trade_date}`)));
-result.scoreRowsPrepared = scoreRows.length;
 result.dataDate = newestDate(priceRows.map((row) => row.trade_date));
+const scoreRows = buildScoreRows(mergedPrices, new Set(priceRows.map((row) => `${row.stock_id}:${row.trade_date}`)), {
+  assetsById: new Map(assets.map((asset) => [asset.id, asset])),
+  expectedDataDate: result.dataDate
+});
+result.scoreRowsPrepared = scoreRows.length;
 
 if (!writeEnabled) {
   result.status = "dry_run_ok";
@@ -191,7 +195,8 @@ async function insertDataRun(targetTable, rowCount, dataDate) {
     data_start_date: dataDate,
     error_message: null,
     finished_at: now,
-    notes: "Daily after-close update from TWSE OpenAPI. Phase 1 scope: TWII + listed equities; ETFs remain Phase 1.1.",
+    notes:
+      "Daily after-close update from TWSE OpenAPI. Phase 1 scope: TWII + listed equities + 0050/006208 as core market ETF baselines; full ETF coverage remains Phase 1.1.",
     row_count: rowCount,
     run_key: `daily-after-close-${targetTable}-${dataDate}-${now}`,
     source_name: "TWSE OpenAPI",
@@ -237,7 +242,9 @@ function buildPriceRows({ assets, twiiRows, twseStockRows }) {
     const symbol = stringValue(rawRow.Code).toUpperCase();
     if (!symbol || !acceptsSymbol(symbol)) continue;
     const asset = assetsBySymbol.get(symbol);
-    if (!asset || asset.is_etf || asset.asset_type !== "stock") continue;
+    if (!asset) continue;
+    const isCoreEtfBaseline = (asset.is_etf || asset.asset_type === "etf") && PHASE_1_CORE_ETF_SYMBOLS.has(symbol);
+    if (!isCoreEtfBaseline && asset.asset_type !== "stock") continue;
     const row = toStockPriceCandidate(rawRow, asset.id);
     if (row) rows.push(row);
   }
@@ -293,7 +300,7 @@ function mergePrices(existingRows, newRows) {
   );
 }
 
-function buildScoreRows(prices, targetKeys) {
+function buildScoreRows(prices, targetKeys, { assetsById, expectedDataDate }) {
   const byStock = groupBy(prices, (row) => row.stock_id);
   const rows = [];
   const lastUpdatedAt = new Date().toISOString();
@@ -307,17 +314,18 @@ function buildScoreRows(prices, targetKeys) {
       const price = ordered[index];
       if (!targetKeys.has(`${price.stock_id}:${price.trade_date}`)) continue;
       const score = buildScore(ordered.slice(0, index + 1));
+      const asset = assetsById.get(price.stock_id);
       rows.push({
         composite_score: score.compositeScore,
         data_quality_grade: score.dataQualityGrade,
         data_quality_score: score.dataQualityScore,
         health_score: score.healthScore,
         last_updated_at: lastUpdatedAt,
-        missing_module_flags: ["news_score_not_included_phase_1", "etf_full_coverage_phase_1_1"],
+        missing_module_flags: buildMissingModuleFlags(asset),
         model_version: MODEL_VERSION,
         risk_score: score.riskScore,
         signal: score.signal,
-        stale_data_flags: [],
+        stale_data_flags: buildStaleDataFlags(price.trade_date, expectedDataDate),
         stock_id: price.stock_id,
         trade_date: price.trade_date
       });
@@ -325,6 +333,44 @@ function buildScoreRows(prices, targetKeys) {
   }
 
   return rows;
+}
+
+function buildMissingModuleFlags(asset) {
+  const flags = ["news_score_not_included_phase_1"];
+  if (asset?.is_etf || asset?.asset_type === "etf") {
+    flags.push("etf_full_universe_and_deep_etf_modules_phase_1_1");
+  }
+  return flags;
+}
+
+function buildStaleDataFlags(tradeDate, expectedDataDate) {
+  if (!tradeDate || !expectedDataDate) return ["freshness_expected_date_unavailable"];
+  if (tradeDate >= expectedDataDate) return [];
+  const age = tradingDayDistance(tradeDate, expectedDataDate);
+  if (age > 5) return ["severe_stale_gt_5_trading_days"];
+  if (age > 2) return ["stale_gt_2_trading_days"];
+  return [];
+}
+
+function tradingDayDistance(fromDate, toDate) {
+  const start = parseIsoDate(fromDate);
+  const end = parseIsoDate(toDate);
+  if (!start || !end || start >= end) return 0;
+  let count = 0;
+  const cursor = new Date(start);
+  cursor.setUTCDate(cursor.getUTCDate() + 1);
+  while (cursor <= end) {
+    const day = cursor.getUTCDay();
+    if (day !== 0 && day !== 6) count += 1;
+    cursor.setUTCDate(cursor.getUTCDate() + 1);
+  }
+  return count;
+}
+
+function parseIsoDate(value) {
+  const match = String(value ?? "").match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (!match) return null;
+  return new Date(Date.UTC(Number(match[1]), Number(match[2]) - 1, Number(match[3])));
 }
 
 function buildScore(series) {
