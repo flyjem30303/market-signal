@@ -14890,11 +14890,36 @@ input[type="search"]::placeholder {
 .stock-watchlist-top .watchlist-results-shell {
   position: relative;
   margin-top: 10px;
-  padding-inline: 28px;
+  padding-inline: 28px 72px;
 }
 
 .stock-watchlist-top .watchlist-results-header {
-  margin-inline: -28px;
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  right: 0;
+  bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 64px;
+  pointer-events: none;
+}
+
+.stock-watchlist-top .watchlist-results-header > span {
+  display: none;
+}
+
+.stock-watchlist-top .watchlist-results-toolbar {
+  display: grid;
+  gap: 6px;
+  justify-items: end;
+  pointer-events: auto;
+}
+
+.stock-watchlist-top .watchlist-sort-controls {
+  display: grid;
+  gap: 6px;
 }
 
 .stock-watchlist-top .watchlist-sort-controls button {
@@ -14910,18 +14935,18 @@ input[type="search"]::placeholder {
 .stock-watchlist-top .watchlist-results-controls {
   position: absolute;
   z-index: 2;
-  top: calc(50% + 18px);
+  top: 0;
+  bottom: 8px;
   left: 0;
-  right: 0;
+  right: 72px;
   display: block;
-  transform: translateY(-50%);
   pointer-events: none;
 }
 
 .stock-watchlist-top .watchlist-results-controls button {
   position: absolute;
   width: 24px;
-  height: 52px;
+  height: 100%;
   min-height: 0;
   border-color: rgba(56, 214, 192, 0.38);
   border-radius: 8px;

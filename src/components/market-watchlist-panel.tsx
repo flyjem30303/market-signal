@@ -181,7 +181,7 @@ export function MarketWatchlistPanel({
 
       <div className="watchlist-results-shell" aria-label="搜尋結果">
         <div className="watchlist-results-header">
-          <span>{query ? "搜尋結果" : "常用觀察標的"}</span>
+          {!isCompactStock && <span>{query ? "搜尋結果" : "常用觀察標的"}</span>}
           <div className="watchlist-results-toolbar">
             <div className="watchlist-sort-controls" aria-label="搜尋結果排序">
               <button
@@ -203,15 +203,16 @@ export function MarketWatchlistPanel({
                 <span aria-hidden="true">{getSortIcon("riskScore")}</span>
               </button>
             </div>
-            <div className="watchlist-results-controls" aria-label="搜尋結果左右切換">
-              <button className="watchlist-scroll-button watchlist-scroll-button--prev" aria-label="向左切換搜尋結果" onClick={() => scrollResults(-1)} type="button">
-                ←
-              </button>
-              <button className="watchlist-scroll-button watchlist-scroll-button--next" aria-label="向右切換搜尋結果" onClick={() => scrollResults(1)} type="button">
-                →
-              </button>
-            </div>
           </div>
+        </div>
+
+        <div className="watchlist-results-controls" aria-label="搜尋結果左右切換">
+          <button className="watchlist-scroll-button watchlist-scroll-button--prev" aria-label="向左切換搜尋結果" onClick={() => scrollResults(-1)} type="button">
+            ←
+          </button>
+          <button className="watchlist-scroll-button watchlist-scroll-button--next" aria-label="向右切換搜尋結果" onClick={() => scrollResults(1)} type="button">
+            →
+          </button>
         </div>
 
         <div
