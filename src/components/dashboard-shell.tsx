@@ -14,7 +14,7 @@ import {
   createStaticMarketSignalRepository,
   type MarketSignalRepositoryData
 } from "@/lib/repositories/static-market-signal-repository";
-import type { NewsEvent, SignalSnapshot } from "@/lib/signal-model";
+import type { SignalSnapshot } from "@/lib/signal-model";
 
 type DashboardShellProps = {
   freshnessSnapshot?: DataFreshnessSnapshot;
@@ -46,7 +46,6 @@ export function DashboardShell({
     .map((asset) => repository.getSnapshot(asset.symbol, activeSnapshotDate) ?? repository.getSeries(asset.symbol).at(-1))
     .filter((item): item is SignalSnapshot => Boolean(item));
   const market = snapshots.find((item) => item.asset.symbol === "TWII") ?? snapshot;
-  const relatedNews = repository.getRelatedNews(selected.symbol, activeSnapshotDate);
   const isStockPage = includeSeoContent;
   const isOfficialRuntime = marketSignalSourceStatus?.resolvedSource === "supabase";
   const publicSourceLabel = formatPublicSourceLabel(freshness.sourceName, isOfficialRuntime);
@@ -74,7 +73,6 @@ export function DashboardShell({
             sourceLabel={publicSourceLabel}
           />
           <StockAtAGlance series={repository.getSeries(selected.symbol)} snapshot={snapshot} />
-          <StockEventContext news={relatedNews} />
           <section className="stock-watchlist-top" aria-label="標的搜尋與追蹤入口">
             <MarketWatchlistPanel snapshots={snapshots} variant="compact-stock" />
           </section>
@@ -324,9 +322,6 @@ function ConfidenceDetails({ missingInputs, staleInputs }: { missingInputs: stri
 }
 
 function formatReadableDataFlag(flag: string) {
-  if (flag.includes("valuation")) return "估值資料尚未納入 Phase 1，因此只降低判讀信心，不列為市場原因。";
-  if (flag.includes("fund_flow") || flag.includes("flow")) return "資金流資料尚未納入 Phase 1，因此只降低判讀信心，不列為市場原因。";
-  if (flag.includes("news_score") || flag.includes("news")) return "新聞情緒尚未納入 Phase 1，因此只降低判讀信心，不列為市場原因。";
   if (flag.includes("etf_full_coverage")) return "ETF 全量覆蓋列入 Phase 1.1，目前先呈現既有 ETF 標的。";
   if (flag.includes("momentum")) return "缺少開盤或收盤價格，暫時無法推估價格動能。";
   if (flag.includes("volatility")) return "缺少最高、最低或收盤價格，暫時無法推估波動風險。";
@@ -395,24 +390,6 @@ function StockQuotePanel({
           </div>
         ))}
       </dl>
-    </section>
-  );
-}
-
-function StockEventContext({ news }: { news: NewsEvent[] }) {
-  const latestNews = news[0];
-
-  return (
-    <section className="panel stock-reading-summary" aria-label="事件脈絡">
-      <p className="eyebrow">事件脈絡</p>
-      <h2>新聞與事件仍作為背景輔助</h2>
-      {latestNews ? (
-        <p>
-          {latestNews.title}: {latestNews.summary}
-        </p>
-      ) : (
-        <p>目前沒有可用的事件脈絡；請先以燈號、分數、資料日期與風險提示作為主要閱讀順序。</p>
-      )}
     </section>
   );
 }

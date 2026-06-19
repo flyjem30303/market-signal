@@ -89,6 +89,16 @@ const factorRules: Record<string, FactorRule> = {
 };
 
 const nonMarketModuleIds = new Set(["quality", "dataQuality", "dataFreshness"]);
+const deferredMissingFlagMatchers = [
+  "valuation",
+  "fund_flow",
+  "fundflow",
+  "fund-flow",
+  "fund flow",
+  "news_score",
+  "news",
+  "sentiment"
+];
 
 export function buildStockExplanation(snapshot: SignalSnapshot, options: BuildExplanationOptions = {}): StockExplanation {
   const marketModules = snapshot.modules.filter((module) => !nonMarketModuleIds.has(module.id));
@@ -278,12 +288,13 @@ function buildDecisionContext(
 }
 
 function buildConfidence(snapshot: SignalSnapshot, seriesLength: number): StockExplanation["confidence"] {
+  const missingInputs = filterPhase1MissingInputs(snapshot.missingModuleFlags);
   const stalePenalty = snapshot.staleDataFlags.length * 10;
-  const missingPenalty = snapshot.missingModuleFlags.length * 8;
+  const missingPenalty = missingInputs.length * 8;
   const samplePenalty = seriesLength >= 60 ? 0 : seriesLength >= 30 ? 5 : 12;
   const score = clamp(Math.round(snapshot.dataQualityScore - stalePenalty - missingPenalty - samplePenalty), 30, 95);
   const sampleDepth = seriesLength >= 60 ? "足夠" : seriesLength >= 30 ? "中等" : "不足";
-  const missingText = snapshot.missingModuleFlags.length > 0 ? `缺漏因子 ${snapshot.missingModuleFlags.length} 項` : "沒有缺漏因子";
+  const missingText = missingInputs.length > 0 ? `缺漏因子 ${missingInputs.length} 項` : "沒有缺漏因子";
   const staleText = snapshot.staleDataFlags.length > 0 ? `資料延遲 ${snapshot.staleDataFlags.length} 項` : "沒有資料延遲";
 
   return {
@@ -291,16 +302,23 @@ function buildConfidence(snapshot: SignalSnapshot, seriesLength: number): StockE
     level: score >= 80 ? "高" : score >= 65 ? "中" : "低",
     dataQuality: snapshot.dataQualityScore,
     sampleDepth,
-    missingInputs: snapshot.missingModuleFlags,
+    missingInputs,
     staleInputs: snapshot.staleDataFlags,
     note: `資料日期 ${snapshot.date}，資料完整度 ${snapshot.dataQualityScore}/100，${missingText}，${staleText}，歷史樣本深度${sampleDepth}。這些只影響判讀信心，不作為市場正負原因。`,
     evidence: [
       evidence("confidence-from-data-quality", "dataQualityScore", snapshot.dataQualityScore),
       evidence("confidence-from-stale-flags", "staleDataFlags.length", snapshot.staleDataFlags.length),
-      evidence("confidence-from-missing-flags", "missingModuleFlags.length", snapshot.missingModuleFlags.length),
+      evidence("confidence-from-missing-flags", "missingModuleFlags.length", missingInputs.length),
       evidence("confidence-from-series-length", "series.length", seriesLength)
     ]
   };
+}
+
+function filterPhase1MissingInputs(flags: string[]) {
+  return flags.filter((flag) => {
+    const normalized = flag.toLowerCase();
+    return !deferredMissingFlagMatchers.some((matcher) => normalized.includes(matcher));
+  });
 }
 
 function getScoreLevel(score: number) {
