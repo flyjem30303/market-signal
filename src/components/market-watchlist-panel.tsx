@@ -67,6 +67,16 @@ export function MarketWatchlistPanel({
     }));
   }
 
+  function getSortIcon(key: ResultSort["key"]) {
+    if (resultSort.key !== key) return "⇅";
+    return resultSort.direction === "desc" ? "↓" : "↑";
+  }
+
+  function getSortLabel(key: ResultSort["key"], label: string) {
+    if (resultSort.key !== key) return `依${label}排序`;
+    return resultSort.direction === "desc" ? `${label}高到低` : `${label}低到高`;
+  }
+
   function addFavorite(symbol: string) {
     if (favorites.includes(symbol)) {
       setMessage("已在追蹤清單中。");
@@ -175,21 +185,29 @@ export function MarketWatchlistPanel({
           <div className="watchlist-results-toolbar">
             <div className="watchlist-sort-controls" aria-label="搜尋結果排序">
               <button
+                aria-label={getSortLabel("compositeScore", "綜合分數")}
                 aria-pressed={resultSort.key === "compositeScore"}
                 onClick={() => toggleResultSort("compositeScore")}
+                title={getSortLabel("compositeScore", "綜合分數")}
                 type="button"
               >
-                綜合分數 {resultSort.key === "compositeScore" ? (resultSort.direction === "desc" ? "高到低" : "低到高") : ""}
+                <span aria-hidden="true">{getSortIcon("compositeScore")}</span>
               </button>
-              <button aria-pressed={resultSort.key === "riskScore"} onClick={() => toggleResultSort("riskScore")} type="button">
-                風險分數 {resultSort.key === "riskScore" ? (resultSort.direction === "desc" ? "高到低" : "低到高") : ""}
+              <button
+                aria-label={getSortLabel("riskScore", "風險分數")}
+                aria-pressed={resultSort.key === "riskScore"}
+                onClick={() => toggleResultSort("riskScore")}
+                title={getSortLabel("riskScore", "風險分數")}
+                type="button"
+              >
+                <span aria-hidden="true">{getSortIcon("riskScore")}</span>
               </button>
             </div>
             <div className="watchlist-results-controls" aria-label="搜尋結果左右切換">
-              <button aria-label="向左切換搜尋結果" onClick={() => scrollResults(-1)} type="button">
+              <button className="watchlist-scroll-button watchlist-scroll-button--prev" aria-label="向左切換搜尋結果" onClick={() => scrollResults(-1)} type="button">
                 ←
               </button>
-              <button aria-label="向右切換搜尋結果" onClick={() => scrollResults(1)} type="button">
+              <button className="watchlist-scroll-button watchlist-scroll-button--next" aria-label="向右切換搜尋結果" onClick={() => scrollResults(1)} type="button">
                 →
               </button>
             </div>

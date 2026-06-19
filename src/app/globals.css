@@ -14888,7 +14888,54 @@ input[type="search"]::placeholder {
 }
 
 .stock-watchlist-top .watchlist-results-shell {
+  position: relative;
   margin-top: 10px;
+  padding-inline: 28px;
+}
+
+.stock-watchlist-top .watchlist-results-header {
+  margin-inline: -28px;
+}
+
+.stock-watchlist-top .watchlist-sort-controls button {
+  display: inline-grid;
+  place-items: center;
+  width: 32px;
+  min-height: 32px;
+  padding: 0;
+  font-size: 17px;
+  line-height: 1;
+}
+
+.stock-watchlist-top .watchlist-results-controls {
+  position: absolute;
+  z-index: 2;
+  top: calc(50% + 18px);
+  left: 0;
+  right: 0;
+  display: block;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.stock-watchlist-top .watchlist-results-controls button {
+  position: absolute;
+  width: 24px;
+  height: 52px;
+  min-height: 0;
+  border-color: rgba(56, 214, 192, 0.38);
+  border-radius: 8px;
+  background: rgba(56, 214, 192, 0.14);
+  font-size: 16px;
+  pointer-events: auto;
+}
+
+.stock-watchlist-top .watchlist-scroll-button--prev {
+  left: 0;
+}
+
+.stock-watchlist-top .watchlist-scroll-button--next {
+  right: 0;
 }
 
 .stock-watchlist-top .watchlist-search-results {
