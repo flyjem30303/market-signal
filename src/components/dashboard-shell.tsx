@@ -291,32 +291,32 @@ function ExplanationList({
 }
 
 function ConfidenceDetails({ missingInputs, staleInputs }: { missingInputs: string[]; staleInputs: string[] }) {
+  if (missingInputs.length === 0 && staleInputs.length === 0) {
+    return null;
+  }
+
   return (
     <div className="stock-confidence-details" aria-label="判讀信心細節">
-      <div>
-        <h3>缺漏因子</h3>
-        {missingInputs.length > 0 ? (
+      {missingInputs.length > 0 && (
+        <div>
+          <h3>缺漏因子</h3>
           <ul>
             {missingInputs.map((flag) => (
               <li key={flag}>{formatReadableDataFlag(flag)}</li>
             ))}
           </ul>
-        ) : (
-          <p>目前沒有缺漏因子。</p>
-        )}
-      </div>
-      <div>
-        <h3>資料延遲</h3>
-        {staleInputs.length > 0 ? (
+        </div>
+      )}
+      {staleInputs.length > 0 && (
+        <div>
+          <h3>資料延遲</h3>
           <ul>
             {staleInputs.map((flag) => (
               <li key={flag}>{formatReadableDataFlag(flag)}</li>
             ))}
           </ul>
-        ) : (
-          <p>目前沒有資料延遲標記。</p>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }
