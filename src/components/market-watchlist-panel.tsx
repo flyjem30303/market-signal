@@ -19,7 +19,7 @@ type MarketWatchlistPanelVariant = "default" | "compact-stock";
 
 export function MarketWatchlistPanel({
   snapshots,
-  variant = "default"
+  variant = "compact-stock"
 }: {
   snapshots: SignalSnapshot[];
   variant?: MarketWatchlistPanelVariant;

@@ -14806,34 +14806,37 @@ input[type="search"]::placeholder {
 }
 
 .stock-watchlist-top {
+  margin-bottom: 22px;
+}
+
+.market-watchlist-panel--compact-stock {
   border: 1px solid rgba(56, 214, 192, 0.18);
   border-radius: 18px;
   background:
     radial-gradient(circle at 82% 18%, rgba(56, 214, 192, 0.12), transparent 34%),
     linear-gradient(135deg, rgba(8, 42, 50, 0.52), rgba(8, 17, 30, 0.9));
-  margin-bottom: 22px;
   padding: 12px;
 }
 
-.stock-watchlist-top .market-watchlist-panel {
+.market-watchlist-panel--compact-stock {
   gap: 6px;
   margin-bottom: 0;
 }
 
-.stock-watchlist-top .watchlist-search-card {
+.market-watchlist-panel--compact-stock .watchlist-search-card {
   grid-template-columns: minmax(320px, 0.95fr) minmax(230px, 0.55fr);
   gap: 8px 12px;
   padding: 8px 10px;
   box-shadow: 0 16px 36px rgba(0, 0, 0, 0.18);
 }
 
-.stock-watchlist-top .watchlist-search-field {
+.market-watchlist-panel--compact-stock .watchlist-search-field {
   position: relative;
   align-self: stretch;
   gap: 4px;
 }
 
-.stock-watchlist-top .watchlist-count {
+.market-watchlist-panel--compact-stock .watchlist-count {
   position: absolute;
   top: 0;
   right: 0;
@@ -14842,31 +14845,31 @@ input[type="search"]::placeholder {
   font-weight: 850;
 }
 
-.stock-watchlist-top .watchlist-search-field input {
+.market-watchlist-panel--compact-stock .watchlist-search-field input {
   min-height: 34px;
 }
 
-.stock-watchlist-top .watchlist-search-copy {
+.market-watchlist-panel--compact-stock .watchlist-search-copy {
   align-self: center;
 }
 
-.stock-watchlist-top .watchlist-search-copy .eyebrow {
+.market-watchlist-panel--compact-stock .watchlist-search-copy .eyebrow {
   margin-bottom: 2px;
 }
 
-.stock-watchlist-top .watchlist-search-copy h2 {
+.market-watchlist-panel--compact-stock .watchlist-search-copy h2 {
   margin: 0 0 2px;
   font-size: clamp(16px, 1.55vw, 19px);
   line-height: 1.12;
 }
 
-.stock-watchlist-top .watchlist-search-copy p:not(.eyebrow) {
+.market-watchlist-panel--compact-stock .watchlist-search-copy p:not(.eyebrow) {
   max-width: 460px;
   font-size: 12px;
   line-height: 1.3;
 }
 
-.stock-watchlist-top .watchlist-tracking-box {
+.market-watchlist-panel--compact-stock .watchlist-tracking-box {
   grid-column: 1 / 2;
   gap: 5px;
   border: 0;
@@ -14874,32 +14877,32 @@ input[type="search"]::placeholder {
   padding: 0;
 }
 
-.stock-watchlist-top .watchlist-tracking-box__header {
+.market-watchlist-panel--compact-stock .watchlist-tracking-box__header {
   min-height: 0;
   font-size: 12px;
 }
 
-.stock-watchlist-top .watchlist-tracking-box__header:empty {
+.market-watchlist-panel--compact-stock .watchlist-tracking-box__header:empty {
   display: none;
 }
 
-.stock-watchlist-top .watchlist-tracking-box .watchlist-favorites {
+.market-watchlist-panel--compact-stock .watchlist-tracking-box .watchlist-favorites {
   gap: 6px;
   min-height: 0;
 }
 
-.stock-watchlist-top .favorite-chip,
-.stock-watchlist-top .muted-chip {
+.market-watchlist-panel--compact-stock .favorite-chip,
+.market-watchlist-panel--compact-stock .muted-chip {
   padding: 3px 6px;
 }
 
-.stock-watchlist-top .watchlist-results-shell {
+.market-watchlist-panel--compact-stock .watchlist-results-shell {
   position: relative;
   margin-top: 6px;
   padding-inline: 28px 72px;
 }
 
-.stock-watchlist-top .watchlist-results-header {
+.market-watchlist-panel--compact-stock .watchlist-results-header {
   position: absolute;
   z-index: 3;
   top: 0;
@@ -14912,23 +14915,23 @@ input[type="search"]::placeholder {
   pointer-events: none;
 }
 
-.stock-watchlist-top .watchlist-results-header > span {
+.market-watchlist-panel--compact-stock .watchlist-results-header > span {
   display: none;
 }
 
-.stock-watchlist-top .watchlist-results-toolbar {
+.market-watchlist-panel--compact-stock .watchlist-results-toolbar {
   display: grid;
   gap: 6px;
   justify-items: end;
   pointer-events: auto;
 }
 
-.stock-watchlist-top .watchlist-sort-controls {
+.market-watchlist-panel--compact-stock .watchlist-sort-controls {
   display: grid;
   gap: 6px;
 }
 
-.stock-watchlist-top .watchlist-sort-controls button {
+.market-watchlist-panel--compact-stock .watchlist-sort-controls button {
   display: inline-grid;
   place-items: center;
   width: 32px;
@@ -14938,7 +14941,7 @@ input[type="search"]::placeholder {
   line-height: 1;
 }
 
-.stock-watchlist-top .watchlist-results-controls {
+.market-watchlist-panel--compact-stock .watchlist-results-controls {
   position: absolute;
   z-index: 2;
   top: 10px;
@@ -14949,7 +14952,7 @@ input[type="search"]::placeholder {
   pointer-events: none;
 }
 
-.stock-watchlist-top .watchlist-results-controls button {
+.market-watchlist-panel--compact-stock .watchlist-results-controls button {
   position: absolute;
   top: 0;
   display: grid;
@@ -14966,90 +14969,90 @@ input[type="search"]::placeholder {
   pointer-events: auto;
 }
 
-.stock-watchlist-top .watchlist-results-controls button span {
+.market-watchlist-panel--compact-stock .watchlist-results-controls button span {
   display: block;
   width: 0;
   height: 0;
 }
 
-.stock-watchlist-top .watchlist-scroll-button--prev {
+.market-watchlist-panel--compact-stock .watchlist-scroll-button--prev {
   left: 0;
 }
 
-.stock-watchlist-top .watchlist-scroll-button--prev span {
+.market-watchlist-panel--compact-stock .watchlist-scroll-button--prev span {
   border-top: 14px solid transparent;
   border-bottom: 14px solid transparent;
   border-right: 13px solid rgba(75, 255, 231, 0.92);
 }
 
-.stock-watchlist-top .watchlist-scroll-button--next {
+.market-watchlist-panel--compact-stock .watchlist-scroll-button--next {
   right: 0;
 }
 
-.stock-watchlist-top .watchlist-scroll-button--next span {
+.market-watchlist-panel--compact-stock .watchlist-scroll-button--next span {
   border-top: 14px solid transparent;
   border-bottom: 14px solid transparent;
   border-left: 13px solid rgba(75, 255, 231, 0.92);
 }
 
-.stock-watchlist-top .watchlist-search-results {
+.market-watchlist-panel--compact-stock .watchlist-search-results {
   grid-auto-columns: minmax(220px, 245px);
   margin: 8px 0;
   padding-bottom: 6px;
 }
 
-.stock-watchlist-top .watchlist-result-row {
+.market-watchlist-panel--compact-stock .watchlist-result-row {
   min-height: 98px;
   grid-template-columns: minmax(0, 1fr) minmax(92px, 0.72fr);
   gap: 8px;
   padding: 8px 10px;
 }
 
-.stock-watchlist-top .watchlist-result-side {
+.market-watchlist-panel--compact-stock .watchlist-result-side {
   display: grid;
   align-content: space-between;
   gap: 6px;
 }
 
-.stock-watchlist-top .watchlist-score-strip {
+.market-watchlist-panel--compact-stock .watchlist-score-strip {
   grid-template-columns: 1fr;
   gap: 4px;
 }
 
-.stock-watchlist-top .watchlist-score-strip span {
+.market-watchlist-panel--compact-stock .watchlist-score-strip span {
   padding: 3px 6px;
   font-size: 12px;
 }
 
-.stock-watchlist-top .watchlist-result-actions {
+.market-watchlist-panel--compact-stock .watchlist-result-actions {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 5px;
 }
 
-.stock-watchlist-top .watchlist-result-actions a,
-.stock-watchlist-top .watchlist-result-actions button {
+.market-watchlist-panel--compact-stock .watchlist-result-actions a,
+.market-watchlist-panel--compact-stock .watchlist-result-actions button {
   min-height: 26px;
   padding: 3px 6px;
   font-size: 12px;
 }
 
-.stock-watchlist-top .rank-panel-header {
+.market-watchlist-panel--compact-stock .rank-panel-header {
   display: flex;
   justify-content: space-between;
   gap: 12px;
   align-items: flex-start;
 }
 
-.stock-watchlist-top .watchlist-observation-grid {
+.market-watchlist-panel--compact-stock .watchlist-observation-grid {
   gap: 12px;
   margin-top: 0;
 }
 
-.stock-watchlist-top .rank-panel-header h2 {
+.market-watchlist-panel--compact-stock .rank-panel-header h2 {
   margin-bottom: 0;
 }
 
-.stock-watchlist-top .rank-panel-header button {
+.market-watchlist-panel--compact-stock .rank-panel-header button {
   min-height: 32px;
   border: 1px solid rgba(56, 214, 192, 0.34);
   border-radius: 8px;
