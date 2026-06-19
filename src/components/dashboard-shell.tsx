@@ -68,13 +68,15 @@ export function DashboardShell({
 
       {isStockPage && (
         <>
+          <section className="stock-watchlist-top" aria-label="標的搜尋與追蹤入口">
+            <MarketWatchlistPanel snapshots={snapshots} />
+          </section>
           <StockQuotePanel
             series={repository.getSeries(selected.symbol)}
             snapshot={snapshot}
             sourceLabel={publicSourceLabel}
           />
           <StockAtAGlance series={repository.getSeries(selected.symbol)} snapshot={snapshot} />
-          <MarketWatchlistPanel snapshots={snapshots} />
           <StockEventContext news={relatedNews} />
         </>
       )}

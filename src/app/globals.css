@@ -14805,6 +14805,65 @@ input[type="search"]::placeholder {
   margin-top: 36px;
 }
 
+.stock-watchlist-top {
+  margin-bottom: 22px;
+}
+
+.stock-watchlist-top .market-watchlist-panel {
+  gap: 10px;
+  margin-bottom: 0;
+}
+
+.stock-watchlist-top .watchlist-search-card {
+  grid-template-columns: minmax(300px, 1fr) minmax(220px, 0.5fr);
+  gap: 12px;
+  padding: 12px 14px;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.18);
+}
+
+.stock-watchlist-top .watchlist-search-field {
+  align-self: stretch;
+  gap: 6px;
+}
+
+.stock-watchlist-top .watchlist-search-field input {
+  min-height: 42px;
+}
+
+.stock-watchlist-top .watchlist-search-copy {
+  align-self: center;
+}
+
+.stock-watchlist-top .watchlist-search-copy .eyebrow {
+  margin-bottom: 2px;
+}
+
+.stock-watchlist-top .watchlist-search-copy h2 {
+  margin: 0 0 4px;
+  font-size: clamp(20px, 2.2vw, 25px);
+  line-height: 1.12;
+}
+
+.stock-watchlist-top .watchlist-search-copy p:not(.eyebrow) {
+  max-width: 460px;
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.stock-watchlist-top .watchlist-tracking-box {
+  gap: 8px;
+  padding: 10px 12px;
+}
+
+.stock-watchlist-top .favorite-chip,
+.stock-watchlist-top .muted-chip {
+  padding: 6px 8px;
+}
+
+.stock-watchlist-top .watchlist-results-shell {
+  margin-top: 10px;
+}
+
 .watchlist-search-card {
   grid-template-columns: minmax(340px, 1.12fr) minmax(280px, 0.88fr);
   align-items: start;
@@ -15593,6 +15652,10 @@ input[type="search"]::placeholder {
 
 @media (max-width: 900px) {
   .watchlist-search-card {
+    grid-template-columns: 1fr;
+  }
+
+  .stock-watchlist-top .watchlist-search-card {
     grid-template-columns: 1fr;
   }
 
