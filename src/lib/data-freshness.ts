@@ -68,8 +68,8 @@ export function buildSupabaseDataFreshnessSnapshot({
   market: MarketFreshnessMetadata;
 }): DataFreshnessSnapshot {
   const dailyPriceRun = dataRuns.find((run) => run.target_table === "daily_prices");
-  const dailyFundamentalRun = dataRuns.find((run) => run.target_table === "daily_fundamentals");
-  const rows = [dailyPriceRun, dailyFundamentalRun].filter((row): row is DataRunFreshnessRow => Boolean(row));
+  const dailyScoreRun = dataRuns.find((run) => run.target_table === "daily_scores");
+  const rows = [dailyPriceRun, dailyScoreRun].filter((row): row is DataRunFreshnessRow => Boolean(row));
 
   if (rows.length === 0) {
     return {

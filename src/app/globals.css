@@ -14626,6 +14626,9 @@ input[type="search"]::placeholder {
 
 /* Phase 1 public-page polish final overrides. */
 .dashboard-hero {
+  grid-template-columns: minmax(0, 1fr);
+  align-content: center;
+  align-items: start;
   min-height: 440px;
   padding: 44px 0 28px;
 }

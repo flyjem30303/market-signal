@@ -1,11 +1,15 @@
 import type { Metadata } from "next";
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
+import { MarketWatchlistPanel } from "@/components/market-watchlist-panel";
 import { PageViewTracker } from "@/components/page-view-tracker";
 import { PublicNextReadingFlow } from "@/components/public-next-reading-flow";
 import { TrackedLink } from "@/components/tracked-link";
 import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
 import { getMarketSignalRuntime } from "@/lib/repositories/market-signal-repository";
 import type { SignalSnapshot } from "@/lib/signal-model";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export const metadata: Metadata = {
   title: "市場週報",
@@ -54,6 +58,8 @@ export default async function WeeklyPage() {
       </section>
 
       <DataFreshnessStrip freshness={freshness} marketSignalSourceStatus={marketSignalSourceStatus} />
+
+      <MarketWatchlistPanel snapshots={snapshots} />
 
       <section className="weekly-grid" aria-label="週報觀察標的">
         {strongest.map((snapshot) => (

@@ -48,7 +48,7 @@ type MarketKey = {
   exchange: string;
 };
 
-const requiredFreshnessTables = ["daily_prices", "daily_fundamentals"];
+const requiredFreshnessTables = ["daily_prices", "daily_scores"];
 
 export async function getSupabaseDataFreshnessSnapshot(
   client: SupabaseDataFreshnessClient,

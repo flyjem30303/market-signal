@@ -11,20 +11,34 @@ export type MarketSignalRepositoryData = {
 export function toMarketSignalRepositoryData(
   repository: MarketSignalRepository,
   snapshotDate = "2026-05-28",
-  symbols?: string[]
+  symbols?: string[],
+  options: { includeSeriesDays?: number } = {}
 ): MarketSignalRepositoryData {
   const symbolSet = symbols ? new Set(symbols.map((symbol) => symbol.toLowerCase())) : null;
   const assets = repository.getAssets().filter((asset) => !symbolSet || symbolSet.has(asset.symbol.toLowerCase()));
-  const snapshots = assets
-    .map((asset) => repository.getSnapshot(asset.symbol, snapshotDate) ?? repository.getSeries(asset.symbol).at(-1))
-    .filter((snapshot): snapshot is SignalSnapshot => Boolean(snapshot));
+  const snapshots = assets.flatMap((asset) => {
+    if (options.includeSeriesDays && options.includeSeriesDays > 1) {
+      const startDate = shiftDate(snapshotDate, -(options.includeSeriesDays - 1));
+      const series = repository.getSeries(asset.symbol, { endDate: snapshotDate, startDate });
+      if (series.length) return series;
+    }
+
+    const snapshot = repository.getSnapshot(asset.symbol, snapshotDate) ?? repository.getSeries(asset.symbol).at(-1);
+    return snapshot ? [snapshot] : [];
+  });
 
   return {
     assets,
     news: assets.flatMap((asset) => repository.getRelatedNews(asset.symbol, snapshotDate)),
-    snapshotDate: snapshots[0]?.date ?? snapshotDate,
+    snapshotDate,
     snapshots
   };
+}
+
+function shiftDate(dateString: string, days: number) {
+  const date = new Date(`${dateString}T00:00:00+08:00`);
+  date.setDate(date.getDate() + days);
+  return date.toISOString().slice(0, 10);
 }
 
 export function createStaticMarketSignalRepository(data: MarketSignalRepositoryData): MarketSignalRepository {
