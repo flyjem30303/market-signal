@@ -14945,11 +14945,11 @@ input[type="search"]::placeholder {
 
 .stock-watchlist-top .watchlist-results-controls button {
   position: absolute;
-  top: 50%;
+  top: 0;
   display: grid;
   place-items: center;
   width: 26px;
-  height: 84px;
+  height: 100%;
   min-height: 0;
   padding: 0;
   border-color: rgba(56, 214, 192, 0.38);
@@ -14958,7 +14958,6 @@ input[type="search"]::placeholder {
   color: transparent;
   overflow: hidden;
   pointer-events: auto;
-  transform: translateY(-50%);
 }
 
 .stock-watchlist-top .watchlist-results-controls button span {
