@@ -60,7 +60,7 @@ export function DashboardShell({
       {!isStockPage && (
         <>
           <Hero market={market} publicSourceLabel={publicSourceLabel} selected={selected} snapshotDate={activeSnapshotDate} />
-          <HomeFirstScreenDecisionSummary market={market} />
+          <HomeFirstScreenDecisionSummary market={market} series={repository.getSeries(market.asset.symbol)} />
           <MarketWatchlistPanel snapshots={snapshots} />
         </>
       )}
@@ -113,7 +113,7 @@ function Hero({
       <h1>台股市場燈號與風險觀察</h1>
       <p>
         {market.asset.name} 目前為「{market.signal.title}」，綜合分數 {market.compositeScore}/100，風險分數{" "}
-        {market.riskScore}/100。這裡把趨勢、資金、風險與資料品質放在同一個閱讀脈絡，協助你先判斷市場溫度，再進入標的細節。
+        {market.riskScore}/100。這裡把趨勢、動能、波動與資料品質放在同一個閱讀脈絡，協助你先判斷市場溫度，再進入標的細節。
       </p>
       <div className="hero-status-strip" aria-label="市場狀態摘要">
         <span>市場狀態：{market.signal.title}</span>
@@ -132,14 +132,53 @@ function Hero({
   );
 }
 
-function HomeFirstScreenDecisionSummary({ market }: { market: SignalSnapshot }) {
+function HomeFirstScreenDecisionSummary({ market, series }: { market: SignalSnapshot; series: SignalSnapshot[] }) {
+  const explanation = buildStockExplanation(market, { seriesLength: series.length });
+  const recentScores = series.slice(-5);
+  const positives = explanation.positives.slice(0, 2);
+  const negatives = explanation.negatives.slice(0, 2);
+
   return (
     <section className="home-decision-summary" aria-label="今日市場重點">
       <p className="eyebrow">今日重點</p>
       <h2>
-        {market.asset.name}: {market.signal.title}，綜合分數 {market.compositeScore}/100
+        {market.asset.name}: {explanation.scoreLevel}，綜合分數 {market.compositeScore}/100
       </h2>
-      <p>{market.signal.text}</p>
+      <p>{explanation.summary.text}</p>
+      <div className="home-insight-strip" aria-label="首頁市場洞察">
+        <div className="home-insight-factor home-insight-factor--positive">
+          <h3>主要加分</h3>
+          <ul>
+            {positives.map((item) => (
+              <li key={item.evidence.map((entry) => entry.ruleId).join("-")}>{item.text}</li>
+            ))}
+          </ul>
+        </div>
+        <div className="home-insight-factor home-insight-factor--negative">
+          <h3>主要拖累</h3>
+          <ul>
+            {negatives.map((item) => (
+              <li key={item.evidence.map((entry) => entry.ruleId).join("-")}>{item.text}</li>
+            ))}
+          </ul>
+        </div>
+        <div className="home-score-trend" aria-label="最近市場分數">
+          <h3>最近分數</h3>
+          <div>
+            {recentScores.map((item) => (
+              <span key={`${item.asset.symbol}-${item.date}`}>
+                <b>{item.compositeScore}</b>
+                <small>{item.date.slice(5)}</small>
+              </span>
+            ))}
+          </div>
+        </div>
+        <div className="home-confidence-mini" aria-label="首頁判讀信心">
+          <span>判讀信心</span>
+          <strong>{explanation.confidence.score}%</strong>
+          <small>{explanation.confidence.note}</small>
+        </div>
+      </div>
       <div className="home-decision-grid">
         <article>
           <h3>先看燈號</h3>

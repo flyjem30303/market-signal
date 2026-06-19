@@ -275,6 +275,189 @@ select {
   white-space: nowrap;
 }
 
+.home-decision-summary {
+  display: grid;
+  gap: 16px;
+  border: 1px solid rgba(56, 214, 192, 0.2);
+  border-radius: 10px;
+  background:
+    linear-gradient(135deg, rgba(76, 125, 255, 0.16), rgba(56, 214, 192, 0.08)),
+    rgba(17, 26, 42, 0.92);
+  box-shadow: var(--shadow);
+  margin-bottom: 18px;
+  padding: 22px;
+}
+
+.home-decision-summary h2 {
+  margin: 0;
+  font-size: clamp(26px, 3.2vw, 38px);
+  line-height: 1.18;
+}
+
+.home-decision-summary > p:not(.eyebrow) {
+  max-width: 920px;
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.home-insight-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.home-insight-factor,
+.home-score-trend,
+.home-confidence-mini {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  min-height: 150px;
+  border: 1px solid rgba(154, 168, 189, 0.18);
+  border-radius: 8px;
+  background: rgba(7, 11, 20, 0.36);
+  padding: 14px;
+}
+
+.home-insight-factor h3,
+.home-score-trend h3 {
+  margin: 0;
+  color: var(--text);
+  font-size: 15px;
+}
+
+.home-insight-factor ul {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.home-insight-factor li {
+  position: relative;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.55;
+  padding-left: 18px;
+}
+
+.home-insight-factor li::before {
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-weight: 900;
+}
+
+.home-insight-factor--positive {
+  border-color: rgba(56, 214, 192, 0.22);
+}
+
+.home-insight-factor--positive li::before {
+  content: "+";
+  color: var(--teal);
+}
+
+.home-insight-factor--negative {
+  border-color: rgba(241, 184, 75, 0.24);
+}
+
+.home-insight-factor--negative li::before {
+  content: "-";
+  color: var(--amber);
+}
+
+.home-score-trend > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.home-score-trend span {
+  display: grid;
+  min-width: 58px;
+  border: 1px solid rgba(154, 168, 189, 0.18);
+  border-radius: 8px;
+  background: rgba(17, 26, 42, 0.78);
+  padding: 8px;
+}
+
+.home-score-trend b {
+  color: var(--text);
+  font-size: 18px;
+}
+
+.home-score-trend small,
+.home-confidence-mini small {
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.home-confidence-mini span {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 850;
+}
+
+.home-confidence-mini strong {
+  color: var(--teal);
+  font-size: clamp(32px, 4vw, 48px);
+  line-height: 1;
+}
+
+.home-decision-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.home-decision-grid article {
+  display: grid;
+  gap: 7px;
+  border: 1px solid rgba(154, 168, 189, 0.14);
+  border-radius: 8px;
+  background: rgba(7, 11, 20, 0.28);
+  padding: 14px;
+}
+
+.home-decision-grid h3,
+.home-decision-grid p {
+  margin: 0;
+}
+
+.home-decision-grid h3 {
+  color: var(--text);
+  font-size: 15px;
+}
+
+.home-decision-grid p {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.home-decision-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.home-decision-actions a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  border: 1px solid rgba(56, 214, 192, 0.32);
+  border-radius: 8px;
+  background: rgba(56, 214, 192, 0.1);
+  color: var(--teal);
+  font-size: 14px;
+  font-weight: 850;
+  line-height: 1.25;
+  padding: 9px 12px;
+  text-decoration: none;
+}
+
 .home-first-screen-decision {
   display: grid;
   gap: 14px;
@@ -14292,6 +14475,8 @@ input[type="search"]::placeholder {
   .home-public-beta-loop__actions,
   .home-public-beta-loop__alerts,
   .home-public-beta-loop__grid,
+  .home-insight-strip,
+  .home-decision-grid,
   .home-first-screen-decision__grid,
   .home-first-screen-decision__actions,
   .home-core-indicator-grid,
@@ -15866,6 +16051,22 @@ input[type="search"]::placeholder {
 
 @media (max-width: 900px) {
   .watchlist-search-card {
+    grid-template-columns: 1fr;
+  }
+
+  .market-watchlist-panel--compact-stock .watchlist-search-card {
+    grid-template-columns: 1fr;
+  }
+
+  .market-watchlist-panel--compact-stock .watchlist-tracking-box {
+    grid-column: 1 / -1;
+  }
+
+  .market-watchlist-panel--compact-stock .watchlist-search-copy {
+    order: -1;
+  }
+
+  .market-watchlist-panel--compact-stock .watchlist-observation-grid {
     grid-template-columns: 1fr;
   }
 
