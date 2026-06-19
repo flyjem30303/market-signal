@@ -85,15 +85,34 @@ console.log(JSON.stringify(result, null, 2));
 async function fetchTwseJson(path) {
   const response = await fetch(`${TWSE_BASE_URL}${path}`, {
     headers: {
-      accept: "application/json"
+      accept: "application/json, text/plain;q=0.9, */*;q=0.1",
+      "cache-control": "no-cache",
+      "user-agent": "market-signal-phase1-daily-update/1.0 (+https://github.com/flyjem30303/market-signal)"
     }
   });
+
+  const contentType = response.headers.get("content-type") ?? "unknown";
+  const text = await response.text();
 
   if (!response.ok) {
     throw new Error(`TWSE OpenAPI fetch failed for ${path}: ${response.status} ${response.statusText}`);
   }
 
-  const json = await response.json();
+  if (/^\s*</u.test(text) || !/json|javascript|text\/plain/i.test(contentType)) {
+    throw new Error(
+      `TWSE OpenAPI ${path} returned a non-JSON response: status=${response.status}, contentType=${contentType}, bodyLength=${text.length}`
+    );
+  }
+
+  let json;
+  try {
+    json = JSON.parse(text);
+  } catch (error) {
+    throw new Error(
+      `TWSE OpenAPI ${path} JSON parse failed: status=${response.status}, contentType=${contentType}, bodyLength=${text.length}`
+    );
+  }
+
   if (!Array.isArray(json)) throw new Error(`TWSE OpenAPI ${path} returned a non-array payload.`);
   return json;
 }
