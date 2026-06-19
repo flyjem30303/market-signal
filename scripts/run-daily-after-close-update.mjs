@@ -37,14 +37,17 @@ const result = {
   priceRowsWritten: 0,
   scoreRowsPrepared: 0,
   scoreRowsWritten: 0,
-  skippedRows: 0
+  skippedRows: 0,
+  warnings: []
 };
 
-const [assets, twseStockRows, twiiRows] = await Promise.all([
+const [assets, twseStockRows, twiiResult] = await Promise.all([
   readActiveAssets(),
   fetchTwseJson("/exchangeReport/STOCK_DAY_ALL"),
-  fetchTwseJson("/indicesReport/MI_5MINS_HIST")
+  fetchOptionalTwseJson("/indicesReport/MI_5MINS_HIST", "twii_index_source_unavailable")
 ]);
+const twiiRows = twiiResult.rows;
+if (twiiResult.warning) result.warnings.push(twiiResult.warning);
 
 result.activeAssetsRead = assets.length;
 result.twseRowsRead = twseStockRows.length + twiiRows.length;
@@ -119,6 +122,14 @@ async function fetchTwseJson(path) {
 
   if (!Array.isArray(json)) throw new Error(`TWSE OpenAPI ${path} returned a non-array payload.`);
   return json;
+}
+
+async function fetchOptionalTwseJson(path, warning) {
+  try {
+    return { rows: await fetchTwseJson(path), warning: null };
+  } catch {
+    return { rows: [], warning };
+  }
 }
 
 async function restGet(path) {
