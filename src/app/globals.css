@@ -14936,31 +14936,53 @@ input[type="search"]::placeholder {
   position: absolute;
   z-index: 2;
   top: 0;
-  bottom: 8px;
+  height: 116px;
   left: 0;
-  right: 72px;
+  right: 48px;
   display: block;
   pointer-events: none;
 }
 
 .stock-watchlist-top .watchlist-results-controls button {
   position: absolute;
-  width: 24px;
+  display: grid;
+  place-items: center;
+  width: 26px;
   height: 100%;
   min-height: 0;
+  padding: 0;
   border-color: rgba(56, 214, 192, 0.38);
   border-radius: 8px;
   background: rgba(56, 214, 192, 0.14);
-  font-size: 16px;
+  color: transparent;
+  overflow: hidden;
   pointer-events: auto;
+}
+
+.stock-watchlist-top .watchlist-results-controls button span {
+  display: block;
+  width: 0;
+  height: 0;
 }
 
 .stock-watchlist-top .watchlist-scroll-button--prev {
   left: 0;
 }
 
+.stock-watchlist-top .watchlist-scroll-button--prev span {
+  border-top: 16px solid transparent;
+  border-bottom: 16px solid transparent;
+  border-right: 15px solid rgba(75, 255, 231, 0.92);
+}
+
 .stock-watchlist-top .watchlist-scroll-button--next {
   right: 0;
+}
+
+.stock-watchlist-top .watchlist-scroll-button--next span {
+  border-top: 16px solid transparent;
+  border-bottom: 16px solid transparent;
+  border-left: 15px solid rgba(75, 255, 231, 0.92);
 }
 
 .stock-watchlist-top .watchlist-search-results {

@@ -208,10 +208,10 @@ export function MarketWatchlistPanel({
 
         <div className="watchlist-results-controls" aria-label="搜尋結果左右切換">
           <button className="watchlist-scroll-button watchlist-scroll-button--prev" aria-label="向左切換搜尋結果" onClick={() => scrollResults(-1)} type="button">
-            ←
+            <span aria-hidden="true" />
           </button>
           <button className="watchlist-scroll-button watchlist-scroll-button--next" aria-label="向右切換搜尋結果" onClick={() => scrollResults(1)} type="button">
-            →
+            <span aria-hidden="true" />
           </button>
         </div>
 
