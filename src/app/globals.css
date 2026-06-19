@@ -14822,8 +14822,18 @@ input[type="search"]::placeholder {
 }
 
 .stock-watchlist-top .watchlist-search-field {
+  position: relative;
   align-self: stretch;
   gap: 5px;
+}
+
+.stock-watchlist-top .watchlist-count {
+  position: absolute;
+  top: 0;
+  right: 0;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 850;
 }
 
 .stock-watchlist-top .watchlist-search-field input {
@@ -14851,13 +14861,25 @@ input[type="search"]::placeholder {
 }
 
 .stock-watchlist-top .watchlist-tracking-box {
+  grid-column: 1 / 2;
   gap: 6px;
-  padding: 8px 10px;
+  border: 0;
+  background: transparent;
+  padding: 0;
 }
 
 .stock-watchlist-top .watchlist-tracking-box__header {
   min-height: 0;
   font-size: 12px;
+}
+
+.stock-watchlist-top .watchlist-tracking-box__header:empty {
+  display: none;
+}
+
+.stock-watchlist-top .watchlist-tracking-box .watchlist-favorites {
+  gap: 7px;
+  min-height: 0;
 }
 
 .stock-watchlist-top .favorite-chip,

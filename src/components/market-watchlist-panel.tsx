@@ -28,6 +28,7 @@ export function MarketWatchlistPanel({
   const [isDraggingResults, setIsDraggingResults] = useState(false);
   const [query, setQuery] = useState("");
   const [message, setMessage] = useState("");
+  const [rankingCollapsed, setRankingCollapsed] = useState(variant === "compact-stock");
   const [resultSort, setResultSort] = useState<ResultSort>({ direction: "desc", key: "compositeScore" });
   const resultsRef = useRef<HTMLDivElement>(null);
   const isDraggingResultsRef = useRef(false);
@@ -123,6 +124,11 @@ export function MarketWatchlistPanel({
       <div className="watchlist-search-card">
         <label className="watchlist-search-field">
           <span>搜尋股票代號或名稱</span>
+          {isCompactStock && (
+            <span className="watchlist-count" aria-label={`目前追蹤 ${favorites.length} 個，最多 ${maxWatchlistItems} 個`}>
+              {favorites.length}/{maxWatchlistItems}
+            </span>
+          )}
           <input
             aria-label="搜尋股票代號或名稱"
             onChange={(event) => {
@@ -144,7 +150,7 @@ export function MarketWatchlistPanel({
         <div className="watchlist-tracking-box" aria-live="polite">
           <div className="watchlist-tracking-box__header">
             {(message || !isCompactStock) && <strong>{message || "追蹤清單"}</strong>}
-            <span>{favorites.length}/{maxWatchlistItems}</span>
+            {!isCompactStock && <span>{favorites.length}/{maxWatchlistItems}</span>}
           </div>
           <div className="favorite-row watchlist-favorites" aria-label="已追蹤標的">
             {hasFavorites ? (
@@ -243,6 +249,8 @@ export function MarketWatchlistPanel({
           title={hasFavorites ? "追蹤強勢排行" : "市場強勢排行"}
           valueKey="compositeScore"
           collapsible={isCompactStock}
+          collapsed={rankingCollapsed}
+          onToggle={() => setRankingCollapsed((current) => !current)}
         />
         <ScoreList
           description={hasFavorites ? "依追蹤清單排序，找出需要優先留意波動的標的。" : "尚未建立追蹤清單，先顯示常用標的。"}
@@ -250,6 +258,8 @@ export function MarketWatchlistPanel({
           title={hasFavorites ? "追蹤風險排行" : "市場風險排行"}
           valueKey="riskScore"
           collapsible={isCompactStock}
+          collapsed={rankingCollapsed}
+          onToggle={() => setRankingCollapsed((current) => !current)}
         />
       </section>
     </section>
@@ -274,16 +284,18 @@ function ScoreList({
   items,
   title,
   valueKey,
-  collapsible = false
+  collapsible = false,
+  collapsed = false,
+  onToggle
 }: {
   collapsible?: boolean;
+  collapsed?: boolean;
   description: string;
   items: SignalSnapshot[];
+  onToggle?: () => void;
   title: string;
   valueKey: "compositeScore" | "riskScore";
 }) {
-  const [collapsed, setCollapsed] = useState(false);
-
   if (!collapsible) {
     return (
       <article className="panel briefing-article">
@@ -314,10 +326,9 @@ function ScoreList({
     <article className="panel briefing-article">
       <div className="rank-panel-header">
         <div>
-          <p className="eyebrow">{title}</p>
           <h2>{title}</h2>
         </div>
-        <button aria-expanded={!collapsed} onClick={() => setCollapsed((current) => !current)} type="button">
+        <button aria-expanded={!collapsed} onClick={onToggle} type="button">
           {collapsed ? "展開" : "收合"}
         </button>
       </div>
