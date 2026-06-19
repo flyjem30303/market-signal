@@ -3,12 +3,12 @@
 export type PostReadonlyRuntimeState = {
   acceptedEvidence: string;
   coverageStatus: "complete";
-  currentRoute: "runtime_promotion_preflight";
+  currentRoute: "runtime_real_monitoring";
   headline: string;
-  mode: "coverage_complete_mock_only";
+  mode: "coverage_complete_runtime_promoted";
   nextGate: string;
   objectsReachable: number;
-  publicDataSource: "mock";
+  publicDataSource: "supabase";
   rowCoverage: {
     coverageStatus: "complete";
     expectedRows: number;
@@ -17,8 +17,8 @@ export type PostReadonlyRuntimeState = {
     reason: "aggregate_count_complete";
     summary: string;
   };
-  scoreSource: "mock";
-  state: "coverage_complete_mock_only";
+  scoreSource: "real";
+  state: "coverage_complete_runtime_promoted";
   stopLine: string;
   userFacingSummary: string;
 };
@@ -27,14 +27,14 @@ export function getPostReadonlyRuntimeState(): PostReadonlyRuntimeState {
   const evidence = getSupabaseReadonlyEvidenceSummary();
 
   return {
-    acceptedEvidence: "目前範圍寫入閉環已完成：TWII 與上市股票日收盤價覆蓋率已由 aggregate evidence 確認。",
+    acceptedEvidence: "目前範圍寫入閉環已完成，且公開 runtime 已可讀 Supabase 正式資料與正式分數。",
     coverageStatus: "complete",
-    currentRoute: "runtime_promotion_preflight",
-    headline: "資料覆蓋已完成，公開 runtime 仍維持示範資料",
-    mode: "coverage_complete_mock_only",
-    nextGate: "正式資料升級審核：確認資料品質、更新時間揭露、資料來源揭露、回讀與回復流程，以及公開文案邊界。",
+    currentRoute: "runtime_real_monitoring",
+    headline: "正式資料 runtime 已啟用，進入每日更新監控",
+    mode: "coverage_complete_runtime_promoted",
+    nextGate: "每日更新監控：確認 daily_prices / daily_scores 持續更新，且解釋區只使用可追溯資料。",
     objectsReachable: evidence.objects.length,
-    publicDataSource: "mock",
+    publicDataSource: "supabase",
     rowCoverage: {
       coverageStatus: "complete",
       expectedRows: 500,
@@ -43,9 +43,9 @@ export function getPostReadonlyRuntimeState(): PostReadonlyRuntimeState {
       reason: "aggregate_count_complete",
       summary: "TWII 加上市股票日收盤價 shard-001 共有 500 筆預期列、500 筆觀察列，missingRows=0；其中 437 筆為本次新增、63 筆原已存在。"
     },
-    scoreSource: "mock",
-    state: "coverage_complete_mock_only",
-    stopLine: "資料覆蓋完成不等於可以公開正式燈號；完成正式資料升級審核前，公開頁仍維持示範資料與示範分數。",
-    userFacingSummary: "資料覆蓋率已完成，下一步是把正式資料切換前的品質、來源、更新時間與風險揭露檢查補齊。"
+    scoreSource: "real",
+    state: "coverage_complete_runtime_promoted",
+    stopLine: "正式資料已啟用，但仍不得宣稱即時行情、完整市場覆蓋或投資建議；若每日更新延遲，前台必須降級揭露。",
+    userFacingSummary: "正式資料已啟用，下一步重點是每日更新閉環、資料延遲揭露與分數來源說明品質。"
   };
 }

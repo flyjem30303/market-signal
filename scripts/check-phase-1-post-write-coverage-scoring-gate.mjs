@@ -1,4 +1,5 @@
 import fs from "node:fs";
+import { spawnSync } from "node:child_process";
 
 const postRunReviewPath =
   "data/evidence-intake/phase-1-current-scope-bounded-insert-missing-post-run-review-2026-06-19-shard-001.json";
@@ -6,6 +7,7 @@ const problems = [];
 
 const postRunReviewText = readText(postRunReviewPath);
 const postRunReview = parseJson(postRunReviewText, postRunReviewPath);
+const currentRuntime = runJson("scripts/check-phase-1-real-runtime-supabase-load.mjs");
 
 expect(postRunReview.packetMode, "phase_1_current_scope_bounded_insert_missing_post_run_review", "postRunReview.packetMode");
 expect(postRunReview.status, "phase_1_current_scope_bounded_insert_missing_passed_readback", "postRunReview.status");
@@ -34,6 +36,9 @@ expect(postRunReview.updateAttempted, false, "postRunReview.updateAttempted");
 expect(postRunReview.upsertAttempted, false, "postRunReview.upsertAttempted");
 expect(postRunReview.deleteAttempted, false, "postRunReview.deleteAttempted");
 expect(postRunReview.insertOnlyMissingKeys, true, "postRunReview.insertOnlyMissingKeys");
+expect(currentRuntime.status, "ok", "currentRuntime.status");
+expect(currentRuntime.resolvedSource, "supabase", "currentRuntime.resolvedSource");
+expect(currentRuntime.publicScoreSource, "real", "currentRuntime.publicScoreSource");
 if (!Array.isArray(postRunReview.problems) || postRunReview.problems.length !== 0) {
   problems.push(`${postRunReviewPath} problems must be an empty array`);
 }
@@ -47,8 +52,6 @@ for (const pattern of [
   /"stockIds"\s*:/u,
   /"rawPayload"\s*:/u,
   /"rowBody"\s*:/u,
-  /publicDataSource"\s*:\s*"supabase"/u,
-  /scoreSource"\s*:\s*"real"/u,
   /guaranteed return/iu,
   /buy now/iu
 ]) {
@@ -59,7 +62,7 @@ const ok = problems.length === 0;
 const output = {
   status: ok ? "ok" : "blocked",
   guardedStatus: ok
-    ? "phase_1_post_write_coverage_scoring_gate_ready_for_runtime_promotion_review"
+    ? "phase_1_post_write_coverage_scoring_gate_runtime_promoted_monitoring"
     : "phase_1_post_write_coverage_scoring_gate_blocked",
   acceptedCoverageRows: ok ? 500 : null,
   insertedRows: ok ? 437 : null,
@@ -67,11 +70,19 @@ const output = {
   finalCandidateKeyRows: ok ? 500 : null,
   missingRowsAfterWrite: ok ? 0 : null,
   rowCoverageScoringAccepted: ok,
-  runtimePromotionAllowedNow: false,
-  publicDataSource: "mock",
-  scoreSource: "mock",
+  runtimePromotionAllowedNow: ok,
+  historicalWriteBoundary: {
+    publicDataSource: "mock",
+    scoreSource: "mock",
+    sourcePromotion: false,
+    scorePromotion: false
+  },
+  currentRuntime: {
+    publicDataSource: currentRuntime.resolvedSource ?? null,
+    scoreSource: currentRuntime.publicScoreSource ?? null
+  },
   nextRoute: ok
-    ? "phase_1_runtime_promotion_gate_preflight_mock_to_supabase_review"
+    ? "phase_1_real_runtime_daily_freshness_monitoring"
     : "repair_phase_1_post_write_coverage_evidence_before_promotion_review",
   safety: {
     sqlExecuted: false,
@@ -105,6 +116,22 @@ function parseJson(text, filePath) {
     return JSON.parse(text);
   } catch (error) {
     problems.push(`${filePath} JSON parse failed: ${error.message}`);
+    return {};
+  }
+}
+
+function runJson(scriptPath) {
+  const run = spawnSync(process.execPath, [scriptPath], {
+    encoding: "utf8",
+    maxBuffer: 1024 * 1024 * 2
+  });
+
+  if (run.status !== 0) problems.push(`${scriptPath} exited ${run.status}`);
+
+  try {
+    return JSON.parse(run.stdout);
+  } catch {
+    problems.push(`${scriptPath} did not emit JSON`);
     return {};
   }
 }

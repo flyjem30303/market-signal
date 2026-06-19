@@ -12,17 +12,17 @@ export type RuntimePromotionReadinessStep = {
 };
 
 export type RuntimePromotionReadinessSummary = {
-  blockedReason: "promotion_gate_pending";
-  currentRoute: "prepare_runtime_promotion_gate_preflight";
+  blockedReason: "promotion_gate_complete";
+  currentRoute: "monitor_real_runtime_freshness";
   headline: string;
-  mockBoundary: {
-    publicDataSource: "mock";
-    scoreSource: "mock";
+  runtimeBoundary: {
+    publicDataSource: "supabase";
+    scoreSource: "real";
   };
   mode: "runtime_promotion_readiness_summary";
   nextCeoDecision: string;
   noGoActions: string[];
-  overallStatus: "coverage_complete_promotion_pending";
+  overallStatus: "coverage_complete_runtime_promoted";
   readinessCounts: {
     blocked: number;
     needsReview: number;
@@ -77,25 +77,25 @@ export function getRuntimePromotionReadinessSummary(): RuntimePromotionReadiness
   });
 
   return {
-    blockedReason: "promotion_gate_pending",
-    currentRoute: "prepare_runtime_promotion_gate_preflight",
-    headline: "資料覆蓋完成，正式資料升級仍需最後審核",
-    mockBoundary: {
-      publicDataSource: "mock",
-      scoreSource: "mock"
+    blockedReason: "promotion_gate_complete",
+    currentRoute: "monitor_real_runtime_freshness",
+    headline: "正式資料 runtime 已啟用，接下來監控每日更新與解釋品質",
+    runtimeBoundary: {
+      publicDataSource: "supabase",
+      scoreSource: "real"
     },
     mode: "runtime_promotion_readiness_summary",
     nextCeoDecision:
-      "CEO/PM 可進入正式資料升級評估，但必須先確認資料品質、來源揭露、更新時間、公開文案、回復流程與營運監控。",
+      "CEO/PM 應維持正式資料 runtime 監控，優先看 daily_prices / daily_scores freshness、資料延遲揭露、解釋區可追溯來源與回復流程。",
     noGoActions: [
       "不得執行資料庫結構或內容變更",
-      "不得寫入正式資料庫",
+      "不得重跑未授權資料寫入",
       "不得匯入未審核的市場原始資料",
-      "不得讓公開頁宣稱已使用正式行情",
-      "不得把示範分數宣稱為正式投資模型",
+      "不得宣稱即時行情或投資建議",
+      "不得宣稱完整市場覆蓋",
       "不得提供個股買賣建議或保證式結論"
     ],
-    overallStatus: "coverage_complete_promotion_pending",
+    overallStatus: "coverage_complete_runtime_promoted",
     readinessCounts: {
       blocked: steps.filter((step) => step.status === "blocked_by_evidence").length,
       needsReview: steps.filter((step) => step.status === "needs_review").length,
@@ -109,6 +109,6 @@ export function getRuntimePromotionReadinessSummary(): RuntimePromotionReadiness
     },
     steps,
     stopLine:
-      "資料覆蓋已完成，但沒有完成正式資料升級審核、回讀確認、異常回復與公開文案檢查前，不可宣稱公開頁已使用正式資料。"
+      "正式資料已啟用，但每日更新、資料延遲、fail-safe 與解釋來源仍需持續監控；若 freshness 失敗，前台必須降級揭露。"
   };
 }

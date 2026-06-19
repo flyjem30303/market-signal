@@ -15,7 +15,7 @@ export type PostReadonlyNextGateItem = {
 
 export type PostReadonlyNextGateQueue = {
   blockedActions: string[];
-  currentDefaultRoute: "runtime_promotion_preflight_preparation";
+  currentDefaultRoute: "runtime_real_monitoring";
   gateSummary: {
     blockedWaitingEvidenceCount: number;
     dataQualityProgressPercent: number;
@@ -30,8 +30,8 @@ export type PostReadonlyNextGateQueue = {
   headline: string;
   items: PostReadonlyNextGateItem[];
   mode: "post_readonly_next_gate_queue";
-  publicDataSource: "mock";
-  scoreSource: "mock";
+  publicDataSource: "supabase";
+  scoreSource: "real";
   stopLine: string;
 };
 
@@ -103,10 +103,10 @@ export function getPostReadonlyNextGateQueue(): PostReadonlyNextGateQueue {
       "不得寫入 Supabase",
       "不得抓取或提交 raw market data",
       "不得直接修改 daily_prices",
-      "不得把公開頁切換成正式資料來源",
-      "不得把示範分數宣稱為正式模型"
+      "不得重跑未授權資料寫入",
+      "不得宣稱即時行情或投資建議"
     ],
-    currentDefaultRoute: "runtime_promotion_preflight_preparation",
+    currentDefaultRoute: "runtime_real_monitoring",
     gateSummary: {
       blockedWaitingEvidenceCount: items.filter((item) => item.status === "blocked_waiting_evidence").length,
       dataQualityProgressPercent: dataQualityGate.evidenceProgressPercent,
@@ -115,15 +115,15 @@ export function getPostReadonlyNextGateQueue(): PostReadonlyNextGateQueue {
       localReadyCount: items.filter((item) => item.status === "local_ready").length,
       needsRoleReviewCount: items.filter((item) => item.status === "needs_role_review").length,
       readableSummary:
-        "資料覆蓋率 shard-001 已完成；正式資料升級審核改看資料品質、來源揭露、更新時間、回復流程與公開文案，而不是再重跑同一個 row coverage。",
+        "正式資料已啟用；現在主線改看每日更新、資料延遲揭露、解釋品質與回復流程，而不是再重跑同一個 row coverage。",
       schemaAcceptedCount: schemaShape.acceptedCount,
       schemaObjectCount: schemaShape.objects.length
     },
-    headline: "資料覆蓋完成，進入正式資料升級前檢查",
+    headline: "正式資料已啟用，進入每日更新與解釋品質監控",
     items,
     mode: "post_readonly_next_gate_queue",
-    publicDataSource: "mock",
-    scoreSource: "mock",
-    stopLine: "資料覆蓋完成仍不等於正式資料上線；公開頁維持示範資料直到升級審核通過。"
+    publicDataSource: "supabase",
+    scoreSource: "real",
+    stopLine: "正式資料已上線，但仍需每日監控 freshness、fail-safe 與可解釋資料來源；不得新增未授權資料寫入或投資建議。"
   };
 }

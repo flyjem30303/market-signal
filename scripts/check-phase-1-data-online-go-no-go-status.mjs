@@ -15,21 +15,20 @@ const postWriteGate = runJson(postWriteGatePath);
 const runtimePromotionGate = runJson(runtimePromotionPath);
 
 for (const phrase of [
-  "phase_1_data_online_go_no_go_status_coverage_complete_promotion_pending",
-  "DATA_COVERAGE_COMPLETE_BUT_RUNTIME_PROMOTION_NO_GO",
-  "NO_GO_FOR_RUNTIME_REAL_PROMOTION",
+  "phase_1_data_online_go_no_go_status_runtime_promoted_monitoring",
+  "DATA_COVERAGE_COMPLETE_AND_RUNTIME_PROMOTED",
+  "GO_FOR_RUNTIME_REAL_MONITORING",
   "Candidate row payload validation accepted `500` rows",
   "inserted `437` missing rows",
   "Final candidate-key readback confirmed `500/500`",
   "Missing rows after write are `0`",
-  "publicDataSource=mock",
-  "scoreSource=mock",
+  "publicDataSource=supabase",
+  "scoreSource=real",
   "check:phase-1-post-write-coverage-scoring-gate",
   "check:runtime-promotion-readiness-summary",
-  "phase_1_runtime_promotion_gate_preflight_mock_to_supabase_review",
+  "phase_1_real_runtime_daily_freshness_monitoring",
   "Data coverage is no longer the blocker",
-  "publicDataSource=supabase",
-  "scoreSource=real"
+  "freshness monitoring is now the blocker"
 ]) {
   if (!doc.includes(phrase)) problems.push(`${docPath} missing phrase: ${phrase}`);
 }
@@ -50,16 +49,18 @@ if (!reviewGate.includes('"phase-1-data-online-go-no-go-status"')) {
 }
 
 expect(postWriteGate.status, "ok", "postWriteGate.status");
-expect(postWriteGate.guardedStatus, "phase_1_post_write_coverage_scoring_gate_ready_for_runtime_promotion_review", "postWriteGate.guardedStatus");
+expect(postWriteGate.guardedStatus, "phase_1_post_write_coverage_scoring_gate_runtime_promoted_monitoring", "postWriteGate.guardedStatus");
 expect(postWriteGate.acceptedCoverageRows, 500, "postWriteGate.acceptedCoverageRows");
 expect(postWriteGate.insertedRows, 437, "postWriteGate.insertedRows");
 expect(postWriteGate.skippedExistingRows, 63, "postWriteGate.skippedExistingRows");
 expect(postWriteGate.finalCandidateKeyRows, 500, "postWriteGate.finalCandidateKeyRows");
 expect(postWriteGate.missingRowsAfterWrite, 0, "postWriteGate.missingRowsAfterWrite");
 expect(postWriteGate.rowCoverageScoringAccepted, true, "postWriteGate.rowCoverageScoringAccepted");
-expect(postWriteGate.runtimePromotionAllowedNow, false, "postWriteGate.runtimePromotionAllowedNow");
-expect(postWriteGate.publicDataSource, "mock", "postWriteGate.publicDataSource");
-expect(postWriteGate.scoreSource, "mock", "postWriteGate.scoreSource");
+expect(postWriteGate.runtimePromotionAllowedNow, true, "postWriteGate.runtimePromotionAllowedNow");
+expect(postWriteGate.historicalWriteBoundary?.publicDataSource, "mock", "postWriteGate.historicalWriteBoundary.publicDataSource");
+expect(postWriteGate.historicalWriteBoundary?.scoreSource, "mock", "postWriteGate.historicalWriteBoundary.scoreSource");
+expect(postWriteGate.currentRuntime?.publicDataSource, "supabase", "postWriteGate.currentRuntime.publicDataSource");
+expect(postWriteGate.currentRuntime?.scoreSource, "real", "postWriteGate.currentRuntime.scoreSource");
 
 expect(runtimePromotionGate.status, "ok", "runtimePromotionGate.status");
 
@@ -71,8 +72,6 @@ for (const pattern of [
   /"stock_id"\s*:/u,
   /"rawPayload"\s*:/u,
   /"rowBody"\s*:/u,
-  /publicDataSource"\s*:\s*"supabase"/u,
-  /scoreSource"\s*:\s*"real"/u,
   /guaranteed return/iu,
   /buy now/iu
 ]) {
@@ -87,10 +86,10 @@ console.log(
       status,
       guardedStatus:
         status === "ok"
-          ? "phase_1_data_online_go_no_go_status_coverage_complete_promotion_pending"
+          ? "phase_1_data_online_go_no_go_status_runtime_promoted_monitoring"
           : "phase_1_data_online_go_no_go_status_blocked",
       accepted: status === "ok",
-      decision: "DATA_COVERAGE_COMPLETE_BUT_RUNTIME_PROMOTION_NO_GO",
+      decision: "DATA_COVERAGE_COMPLETE_AND_RUNTIME_PROMOTED",
       coverage: {
       acceptedCoverageRows: 500,
       insertedRows: 437,
@@ -98,10 +97,16 @@ console.log(
       finalCandidateKeyRows: 500,
         missingRowsAfterWrite: 0
       },
-      runtimePromotionAllowedNow: false,
-      publicDataSource: "mock",
-      scoreSource: "mock",
-      nextRoute: "phase_1_runtime_promotion_gate_preflight_mock_to_supabase_review",
+      runtimePromotionAllowedNow: true,
+      historicalWriteBoundary: {
+        publicDataSource: "mock",
+        scoreSource: "mock"
+      },
+      currentRuntime: {
+        publicDataSource: "supabase",
+        scoreSource: "real"
+      },
+      nextRoute: "phase_1_real_runtime_daily_freshness_monitoring",
       problems
     },
     null,

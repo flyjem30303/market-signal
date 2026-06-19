@@ -8,19 +8,19 @@ type PostReadonlyProductStatusProps = {
 
 const contextCopy = {
   briefing: {
-    body: "資料覆蓋已完成，接下來的重點是正式資料升級前檢查：確認資料品質、更新時間、來源揭露、回復機制與公開文案邊界。",
+    body: "正式資料 runtime 已啟用，接下來的重點是每日更新、延遲揭露、回復機制與分數來源說明品質。",
     label: "資料 / runtime 狀態",
-    title: "資料已可進入正式資料升級審核，但尚未切換正式資料"
+    title: "正式資料已啟用，進入每日更新監控"
   },
   home: {
-    body: "首頁仍使用示範資料，避免把剛完成覆蓋的資料直接公開為真實燈號。公開正式資料切換前必須通過資料來源、品質與揭露檢查。",
+    body: "首頁已使用正式資料來源呈現 Phase 1 燈號。接下來要確認每日收盤後更新、延遲揭露與異常回復都穩定。",
     label: "首頁資料狀態",
-    title: "市場燈號目前可讀，但正式資料切換仍在審核"
+    title: "市場燈號已切換正式資料，持續監控更新閉環"
   },
   stock: {
-    body: "標的頁目前仍使用示範分數呈現，資料覆蓋完成只代表下一步可以審核，不代表已經允許公開正式分數。",
+    body: "標的頁已讀取正式資料與正式分數。若資料延遲或缺少模組，前台必須降低判讀信心並清楚揭露。",
     label: "標的資料狀態",
-    title: "資料覆蓋完成，但正式分數尚未啟用"
+    title: "正式分數已啟用，解釋區需持續可追溯"
   }
 } as const;
 
@@ -72,14 +72,14 @@ export function PostReadonlyProductStatus({ context, symbol }: PostReadonlyProdu
         </p>
       </article>
       <article className="hold">
-        <span>Mock / real boundary</span>
-        <strong>公開資料來源：示範資料；分數來源：示範分數</strong>
+        <span>資料來源狀態</span>
+        <strong>公開資料來源：Supabase 正式資料；分數來源：正式分數</strong>
         <p>{state.stopLine}</p>
       </article>
       <article className="hold">
         <span>Next gate</span>
         <strong>{state.nextGate}</strong>
-        <p>資料覆蓋已不再是主要阻擋點，下一步是資料品質、來源、更新時間、回復機制與公開文案審核。</p>
+        <p>資料覆蓋已不再是主要阻擋點，下一步是 freshness 監控、解釋品質與異常回復。</p>
       </article>
       <div className="post-readonly-promotion-summary" aria-label="Runtime promotion readiness summary">
         <article className="hold">
@@ -103,9 +103,9 @@ export function PostReadonlyProductStatus({ context, symbol }: PostReadonlyProdu
         ))}
         <article className="blocked">
           <span>No-go actions</span>
-          <strong>尚未允許正式資料模式</strong>
+          <strong>正式資料模式維持監控</strong>
           <p>{promotion.noGoActions.join("; ")}</p>
-          <p>正式資料升級前，公開頁先維持清楚揭露；這些限制避免使用者誤以為網站已使用正式真實資料、即時行情或投資建議。</p>
+          <p>正式資料已啟用，但仍需避免使用者誤以為網站提供即時行情、完整市場覆蓋或投資建議。</p>
         </article>
       </div>
     </section>
