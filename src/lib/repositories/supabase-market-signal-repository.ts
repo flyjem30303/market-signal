@@ -1,10 +1,6 @@
 import type { Asset, AssetType } from "@/lib/assets";
-import {
-  buildBacktestBuckets,
-  type SignalKey,
-  type SignalRule,
-  type SignalSnapshot
-} from "@/lib/signal-model";
+import { buildPriceDerivedExplanationModules } from "@/lib/price-derived-explanation-modules";
+import { buildBacktestBuckets, type SignalKey, type SignalRule, type SignalSnapshot } from "@/lib/signal-model";
 import type { MarketSignalRepository } from "./types";
 
 type SupabaseQueryError = {
@@ -103,32 +99,32 @@ const signalRules: Record<SignalKey, SignalRule> = {
   "deep-red": {
     key: "deep-red",
     min: 0,
-    text: "風險分數明顯偏高，市場狀態需要嚴格控管部位與追蹤更新時間。",
+    text: "市場訊號明顯偏弱，應優先控管風險，等待資料與趨勢重新改善。本訊號不是賣出指令。",
     title: "高風險"
   },
   green: {
     key: "green",
     min: 75,
-    text: "市場狀態偏強，但仍應確認資料更新時間與風險提示。適合維持觀察，不代表保證上漲。",
+    text: "市場訊號偏強，趨勢與風險狀態相對健康，適合持續追蹤強勢變化。",
     title: "偏多"
   },
   orange: {
     key: "orange",
     min: 48,
-    text: "市場訊號分歧，適合先觀察成交量、趨勢延續與風險變化。",
-    title: "觀望"
+    text: "市場訊號開始轉弱，部分指標分歧，適合降低追高並加強風險觀察。",
+    title: "轉弱"
   },
   red: {
     key: "red",
     min: 34,
-    text: "風險訊號升高，應提高警覺並檢查是否有資料延遲或市場異常。",
+    text: "市場風險升高，價格與波動訊號偏不利，應優先確認資料品質與風險承受度。",
     title: "警戒"
   },
   yellow: {
     key: "yellow",
     min: 62,
-    text: "市場仍有支撐，但部分指標開始分歧。適合加強觀察資金、廣度與波動變化。",
-    title: "中性偏多"
+    text: "市場訊號中性偏多，但仍有分歧，適合觀望並確認關鍵指標是否延續。",
+    title: "觀望"
   }
 };
 
@@ -214,7 +210,7 @@ async function getActiveStocks(client: SupabaseMarketSignalClient, market: Marke
 }
 
 async function getPrices(client: SupabaseMarketSignalClient, stockIds: string[]): Promise<DailyPriceRow[]> {
-  const rows = await readInBatches(stockIds, async (batch) => {
+  return readInBatches(stockIds, async (batch) => {
     const { data, error } = await client
       .from("daily_prices")
       .select("close, high, low, open, stock_id, trade_date, turnover, volume")
@@ -224,12 +220,10 @@ async function getPrices(client: SupabaseMarketSignalClient, stockIds: string[])
     if (error) throw new Error(`Failed to load market-signal daily prices: ${error.message}`);
     return data ?? [];
   });
-
-  return rows;
 }
 
 async function getScores(client: SupabaseMarketSignalClient, stockIds: string[]): Promise<DailyScoreRow[]> {
-  const rows = await readInBatches(stockIds, async (batch) => {
+  return readInBatches(stockIds, async (batch) => {
     const { data, error } = await client
       .from("daily_scores")
       .select(
@@ -241,8 +235,6 @@ async function getScores(client: SupabaseMarketSignalClient, stockIds: string[])
     if (error) throw new Error(`Failed to load market-signal daily scores: ${error.message}`);
     return data ?? [];
   });
-
-  return rows;
 }
 
 async function readInBatches<T>(ids: string[], readBatch: (batch: string[]) => Promise<T[]>): Promise<T[]> {
@@ -261,7 +253,6 @@ async function readPages<T>(readPage: (from: number, to: number) => Promise<T[]>
   for (let from = 0; ; from += supabasePageSize) {
     const page = await readPage(from, from + supabasePageSize - 1);
     rows.push(...page);
-
     if (page.length < supabasePageSize) break;
   }
 
@@ -292,6 +283,18 @@ function toAssetType(row: StockRow): AssetType {
 }
 
 function toSnapshot(asset: Asset, score: DailyScoreRow, price?: DailyPriceRow): SignalSnapshot {
+  const explanationModules = buildPriceDerivedExplanationModules({
+    compositeScore: score.composite_score,
+    healthScore: score.health_score,
+    lastUpdatedAt: score.last_updated_at,
+    missingModuleFlags: score.missing_module_flags,
+    price,
+    riskScore: score.risk_score,
+    source: "TWSE OpenAPI + daily_scores",
+    staleDataFlags: score.stale_data_flags,
+    tradeDate: score.trade_date
+  });
+
   return {
     asset,
     compositeScore: score.composite_score,
@@ -300,26 +303,34 @@ function toSnapshot(asset: Asset, score: DailyScoreRow, price?: DailyPriceRow): 
     date: score.trade_date,
     healthScore: score.health_score,
     lastUpdatedAt: score.last_updated_at,
-    marketFacts: buildMarketFacts(asset, score.trade_date, price),
-    missingModuleFlags: score.missing_module_flags,
+    marketFacts: buildQuoteMarketFacts(asset, score.trade_date, price),
+    missingModuleFlags: explanationModules.missingModuleFlags,
     modelVersion: score.model_version,
-    modules: [],
+    modules: explanationModules.modules,
     riskScore: score.risk_score,
-    signal: signalRules[score.signal],
+    signal: signalRules[score.signal] ?? signalRules.orange,
     staleDataFlags: score.stale_data_flags,
     syntheticReturn: 0
   };
 }
 
-function buildMarketFacts(asset: Asset, date: string, price?: DailyPriceRow) {
+function buildQuoteMarketFacts(asset: Asset, date: string, price?: DailyPriceRow) {
   const unit = asset.type === "index" ? "點" : "元";
-  const close = price?.close == null ? "尚無收盤價資料" : `${formatNumber(price.close)} ${unit}`;
-  const volume = price?.volume == null ? "尚無成交量資料" : `${formatNumber(price.volume)} 股`;
+  const open = price?.open == null ? "尚無開盤資料" : `${formatNumber(price.open)} ${unit}`;
+  const high = price?.high == null ? "尚無最高資料" : `${formatNumber(price.high)} ${unit}`;
+  const low = price?.low == null ? "尚無最低資料" : `${formatNumber(price.low)} ${unit}`;
+  const close = price?.close == null ? "尚無收盤資料" : `${formatNumber(price.close)} ${unit}`;
+  const volume = price?.volume == null ? "尚無成交量資料" : formatNumber(price.volume);
+  const turnover = price?.turnover == null ? "尚無成交金額資料" : formatNumber(price.turnover);
 
   return [
-    { label: asset.type === "index" ? "指數收盤" : "收盤價", note: "Supabase readonly daily_prices", value: close },
-    { label: "成交量", note: "Supabase readonly daily_prices", value: volume },
-    { label: "資料日期", note: "Supabase readonly daily_scores", value: date }
+    { label: asset.type === "index" ? "指數開盤" : "開盤價", note: "TWSE OpenAPI 日收盤資料", value: open },
+    { label: asset.type === "index" ? "指數最高" : "最高價", note: "TWSE OpenAPI 日收盤資料", value: high },
+    { label: asset.type === "index" ? "指數最低" : "最低價", note: "TWSE OpenAPI 日收盤資料", value: low },
+    { label: asset.type === "index" ? "指數收盤" : "收盤價", note: "TWSE OpenAPI 日收盤資料", value: close },
+    { label: "成交量", note: "TWSE OpenAPI 日收盤資料", value: volume },
+    { label: "成交金額", note: "TWSE OpenAPI 日收盤資料", value: turnover },
+    { label: "資料日期", note: "TWSE OpenAPI 日收盤資料", value: date }
   ];
 }
 

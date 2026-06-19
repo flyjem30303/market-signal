@@ -12,10 +12,20 @@ export type SignalRule = {
 export type ModuleScore = {
   id: string;
   name: string;
+  label?: string;
   note: string;
   weight: number;
   health: number;
   risk: number;
+  evidence?: ModuleEvidence[];
+  updatedAt?: string;
+  source?: string;
+};
+
+export type ModuleEvidence = {
+  ruleId: string;
+  source: string;
+  value: number | string | boolean;
 };
 
 export type MarketFact = {
@@ -213,16 +223,39 @@ export function buildBacktestBuckets(_series?: SignalSnapshot[]): BacktestBucket
 }
 
 function buildMockMarketFacts(asset: Asset, dateString: string, compositeScore: number): MarketFact[] {
+  const closeValue = asset.type === "index" ? 14800 + compositeScore * 42 : 40 + compositeScore * 3.8;
+  const changePercent = Number((compositeScore >= 55 ? Math.abs(compositeScore - 55) : -Math.abs(compositeScore - 55)).toFixed(1));
+  const openValue = closeValue * (1 - changePercent / 100 / 2);
+  const highValue = Math.max(openValue, closeValue) * 1.006;
+  const lowValue = Math.min(openValue, closeValue) * 0.994;
+  const volumeValue = Math.round(1200 + compositeScore * 95);
+  const turnoverValue = Math.round(volumeValue * closeValue);
+
   if (asset.type === "index") {
     return [
       {
-        label: "指數點位",
-        value: `${Math.round(14800 + compositeScore * 42).toLocaleString("zh-TW")} 點`,
+        label: "指數開盤",
+        value: `${Math.round(openValue).toLocaleString("zh-TW")} 點`,
+        note: "示範資料，用來呈現標的頁資訊層級。"
+      },
+      {
+        label: "指數最高",
+        value: `${Math.round(highValue).toLocaleString("zh-TW")} 點`,
+        note: "示範資料，用來呈現標的頁資訊層級。"
+      },
+      {
+        label: "指數最低",
+        value: `${Math.round(lowValue).toLocaleString("zh-TW")} 點`,
+        note: "示範資料，用來呈現標的頁資訊層級。"
+      },
+      {
+        label: "指數收盤",
+        value: `${Math.round(closeValue).toLocaleString("zh-TW")} 點`,
         note: "示範資料，用來呈現市場總覽與燈號閱讀方式。"
       },
       {
         label: "當日變化",
-        value: `${compositeScore >= 55 ? "+" : "-"}${Math.abs(compositeScore - 55).toFixed(1)}%`,
+        value: `${changePercent >= 0 ? "+" : ""}${changePercent}%`,
         note: "示範變化，不代表正式行情。"
       },
       {
@@ -235,19 +268,39 @@ function buildMockMarketFacts(asset: Asset, dateString: string, compositeScore: 
 
   return [
     {
+      label: "開盤價",
+      value: `${formatMockPrice(openValue)} 元`,
+      note: "示範資料，用來呈現標的頁資訊層級。"
+    },
+    {
+      label: "最高價",
+      value: `${formatMockPrice(highValue)} 元`,
+      note: "示範資料，用來呈現標的頁資訊層級。"
+    },
+    {
+      label: "最低價",
+      value: `${formatMockPrice(lowValue)} 元`,
+      note: "示範資料，用來呈現標的頁資訊層級。"
+    },
+    {
       label: asset.type === "etf" ? "ETF 參考價" : "收盤價",
-      value: `${Math.round(40 + compositeScore * 3.8).toLocaleString("zh-TW")} 元`,
+      value: `${formatMockPrice(closeValue)} 元`,
       note: "示範資料，用來呈現標的頁資訊層級。"
     },
     {
       label: "當日變化",
-      value: `${compositeScore >= 55 ? "+" : "-"}${Math.abs(compositeScore - 55).toFixed(1)}%`,
+      value: `${changePercent >= 0 ? "+" : ""}${changePercent}%`,
       note: "示範變化，不代表正式行情。"
     },
     {
       label: "成交量",
-      value: `${Math.round(1200 + compositeScore * 95).toLocaleString("zh-TW")} 張`,
+      value: `${volumeValue.toLocaleString("zh-TW")} 張`,
       note: "示範成交量，用於版面與決策輔助流程驗證。"
+    },
+    {
+      label: "成交金額",
+      value: `${turnoverValue.toLocaleString("zh-TW")} 千元`,
+      note: "示範成交金額，用於版面與決策輔助流程驗證。"
     },
     {
       label: "資料日期",
@@ -255,6 +308,10 @@ function buildMockMarketFacts(asset: Asset, dateString: string, compositeScore: 
       note: "正式資料切換後會顯示實際來源與更新時間。"
     }
   ];
+}
+
+function formatMockPrice(value: number) {
+  return value.toLocaleString("zh-TW", { maximumFractionDigits: 2, minimumFractionDigits: 2 });
 }
 
 function normalizeDate(date: Date | string) {
