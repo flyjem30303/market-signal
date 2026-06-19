@@ -38,53 +38,53 @@ type BuildExplanationOptions = {
 
 type FactorRule = {
   label: string;
-  positive: (module: ModuleScore) => string;
-  negative: (module: ModuleScore) => string;
-  watch: (module: ModuleScore) => string;
+  positive: string;
+  negative: string;
+  watch: string;
 };
 
 const factorRules: Record<string, FactorRule> = {
   trend: {
-    label: "趨勢",
-    positive: () => "趨勢分數仍有支撐，代表價格與綜合分數尚未同步轉弱。",
-    negative: () => "趨勢分數偏弱，代表價格結構或綜合分數已開始失去延續力。",
-    watch: () => "下一次更新先看趨勢分數是否回升，避免只用單日漲跌判斷方向。"
+    label: "趨勢延續力",
+    positive: "趨勢分數相對穩定，代表價格位置與整體分數仍有支撐。",
+    negative: "趨勢分數偏弱，代表價格方向還沒有形成足夠延續力。",
+    watch: "後續可看趨勢分數是否回升，確認市場方向是否重新變清楚。"
   },
   momentum: {
-    label: "動能",
-    positive: () => "收盤相對開盤仍有推升力，短線買盤沒有明顯退潮。",
-    negative: () => "收盤相對開盤缺乏推升力，短線動能是目前主要拖累。",
-    watch: () => "下一次更新先看收盤是否能重新站回開盤之上，確認動能是否修復。"
+    label: "價格動能",
+    positive: "價格動能由開盤到收盤變化推估，今日收盤相對開盤仍有推升力。",
+    negative: "價格動能由開盤到收盤變化推估，今日收盤相對開盤缺乏推升力。",
+    watch: "下一步看收盤相對開盤是否改善，避免只用單日漲跌判斷強弱。"
   },
   volatility: {
-    label: "波動",
-    positive: () => "盤中震盪幅度受控，代表短線風險沒有明顯放大。",
-    negative: () => "盤中震盪幅度偏大，代表價格波動正在拉低判讀穩定度。",
-    watch: () => "下一次更新先看盤中高低差是否收斂，確認風險是否降溫。"
+    label: "波動風險",
+    positive: "盤中高低區間沒有明顯放大，短線波動壓力相對可控。",
+    negative: "盤中高低區間放大，代表價格震盪增加，短線判讀要更保守。",
+    watch: "後續可看盤中高低區間是否收斂，確認波動是否降溫。"
   },
   valuation: {
-    label: "估值",
-    positive: () => "估值壓力未明顯升高，分數沒有被過熱條件明顯拖累。",
-    negative: () => "估值壓力偏高，分數受到評價風險拖累。",
-    watch: () => "若後續補上估值資料，應優先確認分數是否被過熱或低估條件影響。"
+    label: "估值壓力",
+    positive: "估值壓力沒有明顯升高，價格沒有呈現過熱訊號。",
+    negative: "估值壓力偏高，價格可能已反映較多樂觀預期。",
+    watch: "後續可看估值壓力是否與價格動能同步改善。"
   },
   breadth: {
     label: "市場廣度",
-    positive: () => "市場廣度較佳，代表支撐不只集中在少數標的。",
-    negative: () => "市場廣度不足，代表分數可能由少數標的撐住，延續性較需要確認。",
-    watch: () => "下一次更新先看上漲擴散是否改善，確認支撐是否變廣。"
+    positive: "市場廣度較佳，代表支撐不是只集中在少數標的。",
+    negative: "市場廣度不足，代表支撐可能集中在少數標的。",
+    watch: "後續可看市場廣度是否擴散到更多族群。"
   },
   flow: {
-    label: "資金",
-    positive: () => "資金條件偏正向，代表追價或承接意願仍有支撐。",
-    negative: () => "資金條件偏弱，代表分數受到買盤延續性不足拖累。",
-    watch: () => "後續若補上資金資料，應優先確認買盤是否連續改善。"
+    label: "資金動向",
+    positive: "資金動向偏正面，代表市場仍有追蹤與承接意願。",
+    negative: "資金動向不足，代表追價意願或承接力偏弱。",
+    watch: "後續可看資金動向是否回到較穩定的流入狀態。"
   },
   macro: {
-    label: "總體",
-    positive: () => "總體風險沒有明顯壓低分數，市場背景相對穩定。",
-    negative: () => "總體風險偏高，市場背景正在壓低分數穩定度。",
-    watch: () => "下一次更新需同步看總體風險是否延續升高。"
+    label: "總體風險",
+    positive: "總體風險沒有明顯惡化，市場背景相對穩定。",
+    negative: "總體風險偏高，可能壓抑市場風險承受度。",
+    watch: "後續可看外部風險是否繼續影響市場分數。"
   }
 };
 
@@ -140,10 +140,16 @@ function buildPositiveItems(snapshot: SignalSnapshot, modules: ModuleScore[]) {
     {
       text:
         snapshot.riskScore <= 45
-          ? "風險分數沒有明顯升高，代表目前並非高壓力狀態。"
-          : "綜合分數仍保留部分支撐，但需要更多模組確認原因。",
+          ? "風險分數目前不高，代表短線波動壓力相對可控。"
+          : "綜合分數仍保留部分支撐，但需要更多市場因子補強。",
       impact: Math.max(1, snapshot.riskScore <= 45 ? 100 - snapshot.riskScore : snapshot.compositeScore),
-      evidence: [evidence("fallback-positive-from-score", snapshot.riskScore <= 45 ? "riskScore" : "compositeScore", snapshot.riskScore <= 45 ? snapshot.riskScore : snapshot.compositeScore)]
+      evidence: [
+        evidence(
+          "fallback-positive-from-score",
+          snapshot.riskScore <= 45 ? "riskScore" : "compositeScore",
+          snapshot.riskScore <= 45 ? snapshot.riskScore : snapshot.compositeScore
+        )
+      ]
     }
   ];
 }
@@ -154,7 +160,7 @@ function buildNegativeItems(snapshot: SignalSnapshot, modules: ModuleScore[]) {
 
   return [
     {
-      text: "目前缺少足夠模組拆解分數，應先把本次分數視為方向參考。",
+      text: "目前缺少足夠明確的市場加分因子，分數仍需要用較保守的方式解讀。",
       impact: Math.max(1, 100 - snapshot.compositeScore),
       evidence: [evidence("fallback-negative-from-composite-score", "compositeScore", snapshot.compositeScore)]
     }
@@ -166,7 +172,7 @@ function buildPositiveFactor(module: ModuleScore): ExplanationItem {
   const rule = factorRules[module.id];
 
   return {
-    text: rule?.positive(module) ?? `${displayModuleName(module)}相對支撐分數，仍需搭配其他模組確認。`,
+    text: rule?.positive ?? `${displayModuleName(module)}分數較佳，對綜合分數形成支撐。`,
     impact,
     evidence: [
       evidence(`positive-${module.id}-health`, `modules.${module.id}.health`, module.health),
@@ -182,7 +188,7 @@ function buildNegativeFactor(module: ModuleScore): ExplanationItem {
   const rule = factorRules[module.id];
 
   return {
-    text: rule?.negative(module) ?? `${displayModuleName(module)}目前拉低分數，應先確認其資料來源與變化方向。`,
+    text: rule?.negative ?? `${displayModuleName(module)}分數偏弱，是目前拖累綜合分數的因素之一。`,
     impact,
     evidence: [
       evidence(`negative-${module.id}-health`, `modules.${module.id}.health`, module.health),
@@ -206,32 +212,37 @@ function selectNegativeModules(modules: ModuleScore[]) {
 function buildSummaryText(snapshot: SignalSnapshot, scoreLevel: string, confidence: StockExplanation["confidence"]) {
   const scoreTone =
     snapshot.compositeScore >= 62
-      ? "目前分數仍偏正向"
+      ? "綜合分數偏強"
       : snapshot.compositeScore >= 48
-        ? "目前分數落在中間區間"
-        : "目前分數偏弱";
-  const riskTone = snapshot.riskScore >= 60 ? "風險分數偏高" : snapshot.riskScore >= 45 ? "風險需要同步觀察" : "風險分數尚未明顯升高";
-  const confidenceTone = confidence.score < 65 ? "但判讀信心偏低" : "且判讀信心可作為方向參考";
+        ? "綜合分數位於中間區間"
+        : "綜合分數偏弱";
+  const riskTone =
+    snapshot.riskScore >= 60
+      ? "風險分數偏高"
+      : snapshot.riskScore >= 45
+        ? "風險分數中等"
+        : "風險分數相對可控";
+  const confidenceTone = confidence.score < 65 ? "但判讀信心偏低" : "且判讀信心足夠作為方向參考";
 
-  return `${scoreTone}，燈號屬於「${scoreLevel}」；${riskTone}，${confidenceTone}。`;
+  return `${scoreTone}，目前屬於「${scoreLevel}」區間；${riskTone}，${confidenceTone}。`;
 }
 
 function buildLongTermView(snapshot: SignalSnapshot, confidence: StockExplanation["confidence"]) {
   if (confidence.score < 65) {
-    return "長期或定期定額投資人可以把本頁當成市場溫度參考，但不宜只依這次分數改變原本節奏。";
+    return "長期或定期投入者可把本頁當作市場溫度參考，但不宜只依賴分數；需同步看資料日期、缺漏因子與風險提示。";
   }
   if (snapshot.riskScore >= 60) {
-    return "長期或定期定額投資人應先確認自身風險承受度，因為目前風險分數已經偏高。";
+    return "長期或定期投入者可繼續觀察，但應先確認自身承受度，因為風險分數偏高。";
   }
-  return "長期或定期定額投資人可維持原本觀察節奏，並持續追蹤分數是否連續改善或轉弱。";
+  return "長期或定期投入者可把目前訊號作為市場溫度參考，再搭配自己的固定投資流程。";
 }
 
 function buildShortTermView(snapshot: SignalSnapshot, weakest: ExplanationItem) {
   if (snapshot.compositeScore >= 62 && snapshot.riskScore < 45) {
-    return "短線想加碼的投資人仍應等待下一次資料確認，避免只因單日分數偏強就追價。";
+    return "短期觀察者可優先確認價格動能與風險分數是否同步改善，再判斷訊號是否延續。";
   }
 
-  return `短線想加碼的投資人應先看主要拖累是否改善；目前最需要確認的是：${weakest.text}`;
+  return `短期觀察者應先看最大拖累因素是否改善：${weakest.text}`;
 }
 
 function buildDecisionContext(
@@ -242,20 +253,24 @@ function buildDecisionContext(
 ): ExplanationItem[] {
   return [
     {
-      text: `下一次更新先看「${watchLabelFromEvidence(weakest.evidence[0])}」是否改善，這會決定分數能否脫離目前區間。`,
+      text: `下一次更新先看「${watchLabelFromEvidence(weakest.evidence[0])}」是否改善，這會影響分數能否脫離目前區間。`,
       impact: weakest.impact,
-      evidence: [evidence("decision-context-top-negative", weakest.evidence[0]?.source ?? "compositeScore", weakest.evidence[0]?.value ?? snapshot.compositeScore)]
+      evidence: [
+        evidence("decision-context-top-negative", weakest.evidence[0]?.source ?? "compositeScore", weakest.evidence[0]?.value ?? snapshot.compositeScore)
+      ]
     },
     {
-      text: `同時保留「${watchLabelFromEvidence(strongest.evidence[0])}」作為支撐檢查，確認加分因素是否延續。`,
+      text: `再看「${watchLabelFromEvidence(strongest.evidence[0])}」能否維持，確認主要支撐不是單日現象。`,
       impact: strongest.impact,
-      evidence: [evidence("decision-context-top-positive", strongest.evidence[0]?.source ?? "compositeScore", strongest.evidence[0]?.value ?? snapshot.compositeScore)]
+      evidence: [
+        evidence("decision-context-top-positive", strongest.evidence[0]?.source ?? "compositeScore", strongest.evidence[0]?.value ?? snapshot.compositeScore)
+      ]
     },
     {
       text:
         confidence.score < 65
-          ? "因為資料完整度或缺漏因子限制，本次判讀只能作為方向參考，不能當成單一決策依據。"
-          : "若分數與主要因素連續改善，下一步再看是否形成更穩定的市場狀態。",
+          ? "因為資料缺漏或樣本深度仍有限，本次解讀只適合作為方向參考。"
+          : "資料品質與樣本深度目前足以支撐本頁的方向性解讀。",
       impact: confidence.score,
       evidence: confidence.evidence
     }
@@ -267,11 +282,9 @@ function buildConfidence(snapshot: SignalSnapshot, seriesLength: number): StockE
   const missingPenalty = snapshot.missingModuleFlags.length * 8;
   const samplePenalty = seriesLength >= 60 ? 0 : seriesLength >= 30 ? 5 : 12;
   const score = clamp(Math.round(snapshot.dataQualityScore - stalePenalty - missingPenalty - samplePenalty), 30, 95);
-  const sampleDepth = seriesLength >= 60 ? "充足" : seriesLength >= 30 ? "中等" : "不足";
-  const missingText =
-    snapshot.missingModuleFlags.length > 0 ? `缺漏因子 ${snapshot.missingModuleFlags.length} 項` : "沒有缺漏因子";
-  const staleText =
-    snapshot.staleDataFlags.length > 0 ? `資料延遲旗標 ${snapshot.staleDataFlags.length} 項` : "目前未標記資料延遲";
+  const sampleDepth = seriesLength >= 60 ? "足夠" : seriesLength >= 30 ? "中等" : "不足";
+  const missingText = snapshot.missingModuleFlags.length > 0 ? `缺漏因子 ${snapshot.missingModuleFlags.length} 項` : "沒有缺漏因子";
+  const staleText = snapshot.staleDataFlags.length > 0 ? `資料延遲 ${snapshot.staleDataFlags.length} 項` : "沒有資料延遲";
 
   return {
     score,
@@ -280,7 +293,7 @@ function buildConfidence(snapshot: SignalSnapshot, seriesLength: number): StockE
     sampleDepth,
     missingInputs: snapshot.missingModuleFlags,
     staleInputs: snapshot.staleDataFlags,
-    note: `資料日期 ${snapshot.date}；${missingText}；${staleText}；樣本深度${sampleDepth}。這些項目會影響判讀信心，但不會被當成市場漲跌原因。`,
+    note: `資料日期 ${snapshot.date}，資料完整度 ${snapshot.dataQualityScore}/100，${missingText}，${staleText}，歷史樣本深度${sampleDepth}。這些只影響判讀信心，不作為市場正負原因。`,
     evidence: [
       evidence("confidence-from-data-quality", "dataQualityScore", snapshot.dataQualityScore),
       evidence("confidence-from-stale-flags", "staleDataFlags.length", snapshot.staleDataFlags.length),
@@ -293,8 +306,8 @@ function buildConfidence(snapshot: SignalSnapshot, seriesLength: number): StockE
 function getScoreLevel(score: number) {
   if (score >= 75) return "偏強";
   if (score >= 62) return "中性偏多";
-  if (score >= 48) return "觀望";
-  if (score >= 34) return "轉弱";
+  if (score >= 48) return "中性";
+  if (score >= 34) return "偏弱";
   return "高風險";
 }
 
@@ -306,8 +319,8 @@ function watchLabelFromEvidence(item: ExplanationEvidence | undefined) {
   if (!item) return "綜合分數";
   if (item.source.includes(".health")) return "模組健康分數";
   if (item.source.includes(".risk")) return "模組風險分數";
-  if (item.source.includes("open_close_return")) return "收盤相對開盤動能";
-  if (item.source.includes("intraday_range")) return "盤中波動幅度";
+  if (item.source.includes("open_close_return")) return "價格動能";
+  if (item.source.includes("intraday_range")) return "波動風險";
   if (item.source.includes("compositeScore")) return "綜合分數";
   if (item.source.includes("riskScore")) return "風險分數";
   return item.source.replace(/_/g, " ");

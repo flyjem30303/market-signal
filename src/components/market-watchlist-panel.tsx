@@ -63,7 +63,7 @@ export function MarketWatchlistPanel({ snapshots }: { snapshots: SignalSnapshot[
       return;
     }
     if (favorites.length >= maxWatchlistItems) {
-      setMessage("最多追蹤 5 檔，請先移除一檔。");
+      setMessage("最多追蹤 5 個標的，請先移除一個。");
       return;
     }
     setFavorites(writeWatchlist([...favorites, symbol], symbol));
@@ -110,7 +110,7 @@ export function MarketWatchlistPanel({ snapshots }: { snapshots: SignalSnapshot[
   }
 
   return (
-    <section className="market-watchlist-panel" aria-label="標的搜尋與追蹤">
+    <section className="market-watchlist-panel" aria-label="搜尋與追蹤標的">
       <div className="watchlist-search-card">
         <label className="watchlist-search-field">
           <span>搜尋股票代號或名稱</span>
@@ -148,7 +148,7 @@ export function MarketWatchlistPanel({ snapshots }: { snapshots: SignalSnapshot[
                 </span>
               ))
             ) : (
-              <span className="muted-chip">尚未追蹤標的。可先搜尋 2330、0050 或 TWII。</span>
+              <span className="muted-chip">尚未加入追蹤。你可以先搜尋 2330、0050 或 TWII。</span>
             )}
           </div>
         </div>
@@ -156,7 +156,7 @@ export function MarketWatchlistPanel({ snapshots }: { snapshots: SignalSnapshot[
 
       <div className="watchlist-results-shell" aria-label="搜尋結果">
         <div className="watchlist-results-header">
-          <span>{query ? "搜尋結果" : "常用標的"}</span>
+          <span>{query ? "搜尋結果" : "常用觀察標的"}</span>
           <div className="watchlist-results-toolbar">
             <div className="watchlist-sort-controls" aria-label="搜尋結果排序">
               <button
@@ -200,7 +200,7 @@ export function MarketWatchlistPanel({ snapshots }: { snapshots: SignalSnapshot[
                 <div>
                   <strong>{snapshot.asset.symbol}</strong>
                   <span>{snapshot.asset.name}</span>
-                  <small>狀態：{snapshot.signal.title}</small>
+                  <small>{snapshot.signal.title}</small>
                 </div>
                 <div className="watchlist-score-strip" aria-label={`${snapshot.asset.symbol} 分數摘要`}>
                   <span>綜合 {snapshot.compositeScore}</span>
@@ -225,15 +225,15 @@ export function MarketWatchlistPanel({ snapshots }: { snapshots: SignalSnapshot[
         </div>
       </div>
 
-      <section className="weekly-grid watchlist-observation-grid" aria-label="追蹤標的排行">
+      <section className="weekly-grid watchlist-observation-grid" aria-label="追蹤觀察排行">
         <ScoreList
-          description={hasFavorites ? "依追蹤清單排序，先看目前分數較強的標的。" : "尚未建立追蹤清單，先以常用標的排序。"}
+          description={hasFavorites ? "依追蹤清單排序，先看目前分數較強的標的。" : "尚未建立追蹤清單，先顯示常用標的。"}
           items={strongList}
           title={hasFavorites ? "追蹤強勢排行" : "市場強勢排行"}
           valueKey="compositeScore"
         />
         <ScoreList
-          description={hasFavorites ? "依追蹤清單排序，找出需要優先留意波動的標的。" : "尚未建立追蹤清單，先以常用標的風險排序。"}
+          description={hasFavorites ? "依追蹤清單排序，找出需要優先留意波動的標的。" : "尚未建立追蹤清單，先顯示常用標的。"}
           items={riskList}
           title={hasFavorites ? "追蹤風險排行" : "市場風險排行"}
           valueKey="riskScore"
