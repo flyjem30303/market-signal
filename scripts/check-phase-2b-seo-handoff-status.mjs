@@ -8,7 +8,7 @@ for (const phrase of [
   "Owner: A3 Phase 2B SEO support lane",
   "Governance: CEO-led, PM-integrated, karpathy-guidelines",
   "Status: `phase_2b_seo_handoff_status_current`",
-  "Slice: `phase_2b_runtime_canonical_og_public_html_patch`",
+  "Slice: `phase_2b_route_level_public_head_metadata_patch`",
   "custom_domain_strategy_selected_execution_deferred",
   "parentBrandUrl=https://opensignallab.com/",
   "marketSignalProductUrl=https://market-signal.opensignallab.com/",
@@ -33,6 +33,7 @@ for (const phrase of [
   "Runtime Migration URL Contract Checker P1",
   "Product Subdomain Strategy Decision P1",
   "Runtime Canonical OG Public HTML Patch P1",
+  "Route-level Public Head Metadata Patch P1",
   "docs/PHASE_2B_GSC_READINESS_CHECKLIST.md",
   "docs/PHASE_2B_GSC_POST_SUBMIT_OBSERVATION_CHECKLIST.md",
   "docs/PHASE_2B_STOCK_FIRST_BATCH_CANDIDATE_RULE.md",
@@ -88,13 +89,22 @@ for (const phrase of [
   "NEXT_PUBLIC_SITE_BASE_PATH",
   "noGscOperation=true",
   "runtimePatchImplemented=true",
+  "routeLevelMetadataPatchImplemented=true",
   "noPlatformMigration=true",
   "noCanonicalHostMigration=true",
   "noProductSubpathMigration=true",
   "noSql=true",
   "noSupabaseWrite=true",
   "noMarketDataFetch=true",
-  "phase_2b_runtime_canonical_og_public_html_observation"
+  "phase_2b_runtime_canonical_og_public_html_observation",
+  "phase_2b_route_level_public_head_metadata_patch",
+  "src/app/page.tsx",
+  "src/app/briefing/page.tsx",
+  "src/app/weekly/page.tsx",
+  "src/app/methodology/page.tsx",
+  "src/app/disclaimer/page.tsx",
+  "src/app/privacy/page.tsx",
+  "src/app/terms/page.tsx"
 ]) {
   if (!handoff.includes(phrase)) problems.push(`${handoffPath} missing: ${phrase}`);
 }
@@ -144,6 +154,7 @@ console.log(
       runtimeMigrationUrlContractCheckerP1: "implemented",
       productSubdomainStrategyDecisionP1: "completed",
       runtimeCanonicalOgPublicHtmlPatchP1: "implemented",
+      routeLevelPublicHeadMetadataPatchP1: "completed",
       runtimeMetadataImpact: true,
       publicUiLayoutImpact: false,
       supabaseImpact: false,

@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
+import { buildRouteMetadata } from "@/lib/seo";
 import { PageViewTracker } from "@/components/page-view-tracker";
 import { TrackedLink } from "@/components/tracked-link";
 
-export const metadata: Metadata = {
-  title: "使用條款",
-  description: "使用指數燈號時，請理解本站定位為市場資訊整理與風險辨識工具，不提供投資建議。"
-};
+export const metadata: Metadata = buildRouteMetadata({
+  description: "說明 Market Signal 公開網站使用條款、資訊限制與使用者責任。",
+  path: "/terms",
+  title: "使用條款｜Market Signal"
+});
 
 export default function TermsPage() {
   return (
