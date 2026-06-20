@@ -1760,7 +1760,19 @@
     "check:phase-1-twii-write-attempt-stopline-rollup": "node scripts/check-phase-1-twii-write-attempt-stopline-rollup.mjs",
     "check:phase-1-twii-operator-value-blocker-rollup": "node scripts/check-phase-1-twii-operator-value-blocker-rollup.mjs",
     "check:phase-1-twii-operator-action-bridge": "node scripts/check-phase-1-twii-operator-action-bridge.mjs",
-    "check:phase-1-post-write-coverage-scoring-gate": "node scripts/check-phase-1-post-write-coverage-scoring-gate.mjs"
+    "check:phase-1-post-write-coverage-scoring-gate": "node scripts/check-phase-1-post-write-coverage-scoring-gate.mjs",
+    "check:phase-2b-gsc-platform-execution-packet": "node scripts/check-phase-2b-gsc-platform-execution-packet.mjs",
+    "check:phase-2b-domain-usage-decision-record": "node scripts/check-phase-2b-domain-usage-decision-record.mjs",
+    "check:phase-2b-seo-warning-closeout-checklist": "node scripts/check-phase-2b-seo-warning-closeout-checklist.mjs",
+    "check:phase-2b-seo-rollup-for-pm-integration": "node scripts/check-phase-2b-seo-rollup-for-pm-integration.mjs",
+    "check:phase-2b-custom-domain-product-subpath-execution-preflight": "node scripts/check-phase-2b-custom-domain-product-subpath-execution-preflight.mjs",
+    "check:phase-2b-custom-domain-runtime-readiness-inventory": "node scripts/check-phase-2b-custom-domain-runtime-readiness-inventory.mjs",
+    "check:phase-2b-runtime-migration-patch-plan": "node scripts/check-phase-2b-runtime-migration-patch-plan.mjs",
+    "check:phase-2b-runtime-migration-minimal-patch": "node scripts/check-phase-2b-runtime-migration-minimal-patch.mjs",
+    "check:phase-2b-runtime-migration-url-contract": "node scripts/check-phase-2b-runtime-migration-url-contract.mjs",
+    "check:phase-2b-product-subdomain-strategy-decision": "node scripts/check-phase-2b-product-subdomain-strategy-decision.mjs",
+    "check:phase-2b-runtime-canonical-og-public-html-patch": "node scripts/check-phase-2b-runtime-canonical-og-public-html-patch.mjs",
+    "check:phase-2b-seo-handoff-status": "node scripts/check-phase-2b-seo-handoff-status.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.4",
