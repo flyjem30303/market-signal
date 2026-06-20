@@ -1,13 +1,10 @@
 import type { Metadata } from "next";
 import { PageViewTracker } from "@/components/page-view-tracker";
-import { PublicRouteReadingContract } from "@/components/public-route-reading-contract";
-import { RouteLocalTrustCopyPanel } from "@/components/route-local-trust-copy-panel";
-import { TrustRuntimeBoundaryNotice } from "@/components/trust-runtime-boundary-notice";
 import { TrackedLink } from "@/components/tracked-link";
 
 export const metadata: Metadata = {
   title: "隱私權政策",
-  description: "說明指數燈號公開 Beta 階段的資料使用與後續會員功能邊界。"
+  description: "說明指數燈號目前公開瀏覽階段的資料使用、追蹤清單與互動事件邊界。"
 };
 
 export default function PrivacyPage() {
@@ -16,30 +13,26 @@ export default function PrivacyPage() {
       <PageViewTracker eventName="privacy_page_viewed" payload={{ page: "privacy" }} />
       <section className="hero">
         <p className="eyebrow">隱私權政策</p>
-        <h1>公開瀏覽階段不建立會員資料</h1>
-        <p>會員、watchlist 與個人化警示屬後續階段；正式上線前會補齊更完整的資料使用說明。</p>
-        <p className="runtime-boundary-line">目前不建立交易連線，也不處理個人資產配置資料。</p>
+        <h1>目前不建立會員帳號，也不處理交易資料</h1>
+        <p>公開版可直接瀏覽；追蹤清單只儲存在使用者自己的瀏覽器，本網站目前不建立會員資料庫。</p>
+        <p className="runtime-boundary-line">目前不串接券商、交易帳戶或個人資產配置資料。</p>
       </section>
-
-      <PublicRouteReadingContract context="privacy" />
-      <RouteLocalTrustCopyPanel context="privacy" />
-      <TrustRuntimeBoundaryNotice context="privacy" />
 
       <section className="legal-quick-read" aria-label="隱私權重點">
         <article>
-          <span>目前不做</span>
-          <strong>不串接券商交易</strong>
-          <p>目前不做下單、資產配置或交易帳戶整合。</p>
+          <span>會員資料</span>
+          <strong>目前沒有帳號系統</strong>
+          <p>本站目前不提供註冊、登入、付款或會員專區，因此不建立會員個資。</p>
         </article>
         <article>
-          <span>基本追蹤</span>
-          <strong>只用於改善內容與流程</strong>
-          <p>頁面瀏覽與互動事件用來觀察產品是否容易理解。</p>
+          <span>追蹤清單</span>
+          <strong>儲存在你的瀏覽器</strong>
+          <p>你加入的追蹤標的使用瀏覽器 localStorage 保存，不會寫入本站會員資料庫。</p>
         </article>
         <article>
-          <span>後續會員</span>
-          <strong>會員功能上線前另補政策</strong>
-          <p>watchlist、自訂警示與通知設定會在會員版本補齊資料權限說明。</p>
+          <span>互動事件</span>
+          <strong>用於改善閱讀流程</strong>
+          <p>頁面瀏覽與點擊事件用來觀察功能是否容易理解，不包含交易帳戶或資產配置資料。</p>
         </article>
       </section>
 

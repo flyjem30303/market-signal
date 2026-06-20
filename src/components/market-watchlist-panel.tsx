@@ -18,9 +18,15 @@ type ResultSort = {
 type MarketWatchlistPanelVariant = "default" | "compact-stock";
 
 export function MarketWatchlistPanel({
+  description = "最多追蹤 5 檔；強勢與風險排行會優先依追蹤清單排序。",
+  eyebrow = "追蹤標的",
+  heading = "搜尋股票，建立觀察清單",
   snapshots,
   variant = "compact-stock"
 }: {
+  description?: string;
+  eyebrow?: string;
+  heading?: string;
   snapshots: SignalSnapshot[];
   variant?: MarketWatchlistPanelVariant;
 }) {
@@ -152,9 +158,9 @@ export function MarketWatchlistPanel({
         </label>
 
         <div className="watchlist-search-copy">
-          {!isCompactStock && <p className="eyebrow">追蹤標的</p>}
-          <h2>搜尋股票，建立觀察清單</h2>
-          <p>最多追蹤 5 檔；強勢與風險排行會優先依追蹤清單排序。</p>
+          {!isCompactStock && <p className="eyebrow">{eyebrow}</p>}
+          <h2>{heading}</h2>
+          <p>{description}</p>
         </div>
 
         <div className="watchlist-tracking-box" aria-live="polite">
