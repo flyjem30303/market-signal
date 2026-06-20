@@ -1,14 +1,14 @@
-# Phase 2B GSC Post-submit Observation Checklist
+﻿# Phase 2B GSC Post-submit Observation Checklist
 
 Owner: A3 Phase 2B SEO foundation lane
 
 Governance: CEO-led execution, following `karpathy-guidelines`
 
-Status: Ready for PM/CEO after GSC property and sitemap submission
+Status: Sitemap submitted; observation pending
 
 ## Purpose
 
-This checklist defines what PM/CEO should observe after Google Search Console property setup and sitemap submission.
+This checklist records the Google Search Console sitemap submission and defines the post-submit observation rhythm.
 
 It is an observation plan only. It does not mutate external platforms, does not fetch market data, does not run SQL, and does not write Supabase.
 
@@ -18,7 +18,34 @@ It is an observation plan only. It does not mutate external platforms, does not 
 - `cmd /c npm run check:phase-2b-seo-foundation` returns `FAIL = 0`.
 - `cmd /c npm run report:phase-2b-seo-index-gate` confirms stock pages remain gated unless PM/CEO explicitly opens them.
 - PM/CEO has created the GSC property.
+- PM/CEO has verified ownership.
 - PM/CEO has submitted the sitemap.
+- Submitted sitemap URL: `https://market-signal.opensignallab.com/sitemap.xml`.
+- Submission date recorded by A3 from PM/CEO report: `2026-06-21`.
+
+## Submitted Sitemap Record
+
+```text
+propertyType=URL prefix
+propertyUrl=https://market-signal.opensignallab.com/
+sitemapUrl=https://market-signal.opensignallab.com/sitemap.xml
+submissionDate=2026-06-21
+submittedBy=PM/CEO
+recordedBy=A3
+A3PerformedGscOperation=false
+```
+
+Current known values:
+
+- `sitemapSubmitted=yes`
+- `discoveredUrls=pending`
+- `indexedUrls=pending`
+- `notIndexedUrls=pending`
+- `structuredDataWarnings=pending`
+- `mobileWarnings=pending`
+- `canonicalWarnings=pending`
+- `serverErrors=pending`
+- `nextAction=observe T+1 / T+3 / T+7 / T+14`
 
 ## Observation Window
 
@@ -40,6 +67,7 @@ Use one row per observation checkpoint.
 
 | submissionDate | sitemapSubmitted | discoveredUrls | indexedUrls | notIndexedUrls | structuredDataWarnings | mobileWarnings | canonicalWarnings | serverErrors | nextAction |
 |---|---|---:|---:|---:|---|---|---|---|---|
+| 2026-06-21 | yes | pending | pending | pending | pending | pending | pending | pending | observe T+1 / T+3 / T+7 / T+14 |
 | YYYY-MM-DD | yes/no | 0 | 0 | 0 | none / details | none / details | none / details | none / details | observe / escalate / fix |
 
 Field notes:
@@ -73,7 +101,7 @@ Expected exclusions:
 
 - `/internal/*` remains excluded.
 - `/api/internal` remains excluded.
-- `/stocks/[symbol]` remains absent from sitemap unless SEO gate passes.
+- `/stocks/[symbol]` remains gated and limited by sitemap policy unless SEO gate passes.
 - Current mock/fail-closed stock pages should not become indexed.
 
 ## Escalation Triggers
