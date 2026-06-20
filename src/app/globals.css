@@ -15664,8 +15664,8 @@ input[type="search"]::placeholder {
 .watchlist-action-icon {
   position: relative;
   display: block;
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
 }
 
 .watchlist-action-svg {
@@ -15676,9 +15676,9 @@ input[type="search"]::placeholder {
 .watchlist-action-icon--add::before,
 .watchlist-action-icon--add::after {
   position: absolute;
-  top: 6px;
+  top: 7px;
   left: 2px;
-  width: 10px;
+  width: 12px;
   height: 2px;
   border-radius: 999px;
   background: currentColor;
@@ -15693,8 +15693,8 @@ input[type="search"]::placeholder {
   position: absolute;
   top: 3px;
   left: 2px;
-  width: 10px;
-  height: 6px;
+  width: 12px;
+  height: 7px;
   border-bottom: 2px solid currentColor;
   border-left: 2px solid currentColor;
   content: "";

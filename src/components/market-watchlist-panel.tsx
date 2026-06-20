@@ -269,9 +269,9 @@ export function MarketWatchlistPanel({
                         aria-hidden="true"
                         className="watchlist-action-svg"
                         fill="none"
-                        height="15"
+                        height="17"
                         viewBox="0 0 24 24"
-                        width="15"
+                        width="17"
                       >
                         <circle cx="10.5" cy="10.5" r="5.5" stroke="currentColor" strokeWidth="2.6" />
                         <path d="M15 15l4.5 4.5" stroke="currentColor" strokeLinecap="round" strokeWidth="2.8" />
