@@ -160,7 +160,9 @@ export async function createLoadedSupabaseMarketSignalRepository(
   const historyRows = options.historyDays && options.historyDays > 0 ? stockIds.length * options.historyDays : undefined;
   const [prices, scores] =
     stockIds.length > 0
-      ? await Promise.all([getPrices(client, stockIds, historyRows), getScores(client, stockIds, historyRows)])
+      ? historyRows == null
+        ? await Promise.all([getLatestPrices(client, stockIds), getLatestScores(client, stockIds)])
+        : await Promise.all([getPrices(client, stockIds, historyRows), getScores(client, stockIds, historyRows)])
       : [[], []];
 
   return createRepositoryFromRows(stocks, prices, scores);
@@ -320,7 +322,8 @@ async function getLatestScores(client: SupabaseMarketSignalClient, stockIds: str
         "composite_score, data_quality_grade, data_quality_score, health_score, last_updated_at, missing_module_flags, model_version, risk_score, signal, stale_data_flags, stock_id, trade_date"
       )
       .in("stock_id", batch)
-      .order("trade_date", { ascending: false });
+      .order("trade_date", { ascending: false })
+      .range(0, batch.length * 3 - 1);
 
     if (error) throw new Error(`Failed to load market-signal latest daily scores: ${error.message}`);
 
@@ -334,6 +337,32 @@ async function getLatestScores(client: SupabaseMarketSignalClient, stockIds: str
   });
 
   return [...latestByStock.values()];
+}
+
+async function getLatestPrices(client: SupabaseMarketSignalClient, stockIds: string[]): Promise<DailyPriceRow[]> {
+  const latestByStock = new Map<string, DailyPriceRow>();
+  if (!stockIds.length) return [];
+
+  await readInBatches(stockIds, async (batch) => {
+    const { data, error } = await client
+      .from("daily_prices")
+      .select("close, high, low, open, stock_id, trade_date, turnover, volume")
+      .in("stock_id", batch)
+      .order("trade_date", { ascending: false })
+      .range(0, batch.length * 3 - 1);
+
+    if (error) throw new Error(`Failed to load market-signal daily prices: ${error.message}`);
+
+    for (const row of data ?? []) {
+      if (!latestByStock.has(row.stock_id) && row.close != null) {
+        latestByStock.set(row.stock_id, row);
+      }
+    }
+
+    return [];
+  });
+
+  return [...latestByStock.values()].sort(compareRowsByStockDate);
 }
 
 async function getLatestQuotes(client: SupabaseMarketSignalClient, stockIds: string[]) {

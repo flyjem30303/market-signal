@@ -25,7 +25,7 @@ if (asset?.type !== "stock") behaviorProblems.push("asset type mapping failed");
 if (snapshot?.asset.symbol !== "2330") behaviorProblems.push("snapshot asset mapping failed");
 if (snapshot?.signal.title !== "偏多") behaviorProblems.push("signal mapping failed");
 if (snapshot?.compositeScore !== 81) behaviorProblems.push("score mapping failed");
-if (snapshot?.marketFacts[0]?.value !== "950 元") behaviorProblems.push("price fact mapping failed");
+if (snapshot?.marketFacts[0]?.value !== "945 元") behaviorProblems.push("price fact mapping failed");
 if (series.length !== 1) behaviorProblems.push("series range mapping failed");
 if (backtest.length === 0) behaviorProblems.push("backtest buckets should still be available");
 if (relatedNews.length !== 0) behaviorProblems.push("Supabase adapter should not synthesize related news");
@@ -37,17 +37,20 @@ const expectedCalls = [
   ["eq", "exchange", "TWSE"],
   ["eq", "is_active", true],
   ["order", "symbol", { ascending: true }],
+  ["range", 0, 999],
   ["from", "daily_prices"],
   ["select", "close, high, low, open, stock_id, trade_date, turnover, volume"],
   ["in", "stock_id", ["stock-2330"]],
-  ["order", "trade_date", { ascending: true }],
+  ["order", "trade_date", { ascending: false }],
+  ["range", 0, 2],
   ["from", "daily_scores"],
   [
     "select",
     "composite_score, data_quality_grade, data_quality_score, health_score, last_updated_at, missing_module_flags, model_version, risk_score, signal, stale_data_flags, stock_id, trade_date"
   ],
   ["in", "stock_id", ["stock-2330"]],
-  ["order", "trade_date", { ascending: true }]
+  ["order", "trade_date", { ascending: false }],
+  ["range", 0, 2]
 ];
 const callProblems = compareCalls(fake.calls, expectedCalls);
 
@@ -65,7 +68,7 @@ if (!stockError.includes("Failed to load market-signal stocks: stock failure")) 
 if (!priceError.includes("Failed to load market-signal daily prices: price failure")) {
   errorProblems.push("price query error was not surfaced");
 }
-if (!scoreError.includes("Failed to load market-signal daily scores: score failure")) {
+if (!scoreError.includes("Failed to load market-signal latest daily scores: score failure")) {
   errorProblems.push("score query error was not surfaced");
 }
 
@@ -76,7 +79,7 @@ const requiredPhrases = [
   ".from(\"daily_scores\")",
   ".select(\"asset_type, country, exchange, id, industry, is_etf, name, symbol\")",
   ".select(\"close, high, low, open, stock_id, trade_date, turnover, volume\")",
-  "Supabase readonly daily_prices",
+  "Failed to load market-signal daily prices",
   "Use createLoadedSupabaseMarketSignalRepository() to preload readonly Supabase rows before use."
 ];
 const forbiddenPatterns = [
@@ -189,9 +192,9 @@ function createFakeClient({
               calls.push(["eq", column, value]);
               return query;
             },
-            async order(column, options) {
+            order(column, options) {
               calls.push(["order", column, options]);
-              return { data: stocks, error: stockError ? { message: stockError } : null };
+              return withRange({ calls, error: stockError, rows: stocks });
             }
           };
 
@@ -214,9 +217,9 @@ function createFakeClient({
                 in(column, values) {
                   calls.push(["in", column, values]);
                   return {
-                    async order(columnName, options) {
+                    order(columnName, options) {
                       calls.push(["order", columnName, options]);
-                      return { data: rows, error: error ? { message: error } : null };
+                      return withRange({ calls, error, rows });
                     }
                   };
                 }
@@ -229,6 +232,15 @@ function createFakeClient({
       }
     }
   };
+}
+
+function withRange({ calls, error, rows }) {
+  const result = Promise.resolve({ data: rows, error: error ? { message: error } : null });
+  result.range = async (from, to) => {
+    calls.push(["range", from, to]);
+    return { data: rows.slice(from, to + 1), error: error ? { message: error } : null };
+  };
+  return result;
 }
 
 function compareCalls(actual, expected) {
