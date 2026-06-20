@@ -234,6 +234,7 @@ export function MarketWatchlistPanel({
           {searchResults.map((snapshot) => {
             const isFavorite = favorites.includes(snapshot.asset.symbol);
             const isFull = favorites.length >= maxWatchlistItems && !isFavorite;
+            const quoteTone = snapshot.quote ? getQuoteTone(snapshot.quote.changePercent) : null;
 
             return (
               <article className="watchlist-result-row" key={snapshot.asset.symbol}>
@@ -242,7 +243,7 @@ export function MarketWatchlistPanel({
                   <span>{snapshot.asset.name}</span>
                   <small>{snapshot.signal.title}</small>
                   {snapshot.quote && (
-                    <div className={`watchlist-quote-mini ${snapshot.quote.changePercent >= 0 ? "up" : "down"}`}>
+                    <div className={`watchlist-quote-mini ${quoteTone}`}>
                       <b>{formatQuoteClose(snapshot.quote.close)}</b>
                       <em>{formatQuotePercent(snapshot.quote.changePercent)}</em>
                     </div>
@@ -250,8 +251,10 @@ export function MarketWatchlistPanel({
                 </div>
                 <div className="watchlist-result-side">
                   <div className="watchlist-score-strip" aria-label={`${snapshot.asset.symbol} 分數摘要`}>
-                    <span>綜合 {snapshot.compositeScore}</span>
-                    <span>風險 {snapshot.riskScore}</span>
+                    <span className={resultSort.key === "compositeScore" ? "is-active" : undefined}>
+                      綜合 {snapshot.compositeScore}
+                    </span>
+                    <span className={resultSort.key === "riskScore" ? "is-active" : undefined}>風險 {snapshot.riskScore}</span>
                   </div>
                   <div className="watchlist-result-actions">
                     <TrackedLink
@@ -418,4 +421,10 @@ function formatQuoteClose(value: number) {
 function formatQuotePercent(value: number) {
   const prefix = value > 0 ? "+" : "";
   return `${prefix}${value.toLocaleString("zh-TW", { maximumFractionDigits: 2, minimumFractionDigits: 2 })}%`;
+}
+
+function getQuoteTone(changePercent: number) {
+  if (changePercent > 0) return "up";
+  if (changePercent < 0) return "down";
+  return "flat";
 }

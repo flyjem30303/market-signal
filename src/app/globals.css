@@ -15339,7 +15339,6 @@ input[type="search"]::placeholder {
 }
 
 .market-watchlist-panel--compact-stock .watchlist-quote-mini b {
-  color: rgba(235, 244, 255, 0.92);
   font-size: 13px;
   line-height: 1;
 }
@@ -15359,9 +15358,26 @@ input[type="search"]::placeholder {
   color: #ff9099;
 }
 
+.market-watchlist-panel--compact-stock .watchlist-quote-mini.up b {
+  color: #ff9099;
+}
+
 .market-watchlist-panel--compact-stock .watchlist-quote-mini.down em {
-  background: rgba(91, 190, 255, 0.14);
-  color: #7fcaff;
+  background: rgba(67, 211, 151, 0.14);
+  color: #4de2a4;
+}
+
+.market-watchlist-panel--compact-stock .watchlist-quote-mini.down b {
+  color: #4de2a4;
+}
+
+.market-watchlist-panel--compact-stock .watchlist-quote-mini.flat b {
+  color: rgba(235, 244, 255, 0.76);
+}
+
+.market-watchlist-panel--compact-stock .watchlist-quote-mini.flat em {
+  background: rgba(148, 163, 184, 0.12);
+  color: rgba(203, 213, 225, 0.78);
 }
 
 .market-watchlist-panel--compact-stock .watchlist-result-side {
@@ -15378,6 +15394,13 @@ input[type="search"]::placeholder {
 .market-watchlist-panel--compact-stock .watchlist-score-strip span {
   padding: 3px 6px;
   font-size: 12px;
+}
+
+.market-watchlist-panel--compact-stock .watchlist-score-strip span.is-active {
+  border-color: rgba(246, 199, 91, 0.72);
+  background: rgba(246, 199, 91, 0.12);
+  color: #ffd166;
+  box-shadow: 0 0 0 1px rgba(246, 199, 91, 0.08);
 }
 
 .market-watchlist-panel--compact-stock .watchlist-result-actions {
