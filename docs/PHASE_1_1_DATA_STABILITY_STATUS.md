@@ -160,3 +160,13 @@ Next decision:
 
 - Keep the adjusted coverage gate as the Phase 1.1 daily workflow gate.
 - Review whether `1589` and `2380` should remain active in `stocks` before any metadata write.
+
+## Deployment Observation
+
+Main branch status on 2026-06-20:
+
+- Phase 1.1 gates were fast-forwarded from `codex/phase1.1-data-stability` to `main`.
+- `origin/main` includes the core-symbol freshness gate and adjusted listed-equity coverage gate.
+- The latest visible scheduled GitHub Actions run before this update was run `#4`, created at `2026-06-19T17:28:37Z`, and failed before the Phase 1.1 gate changes were on `main`.
+- The old run `#4` is not evidence that the new adjusted coverage gate fails.
+- Next observation target: the next scheduled or manually dispatched `Daily after-close market data update` run on `main`.

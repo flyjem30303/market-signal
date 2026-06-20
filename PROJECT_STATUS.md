@@ -31,10 +31,12 @@ PM completed:
 - Added the adjusted listed-equity coverage rollup to `.github/workflows/daily-after-close-update.yml` after the core-symbol freshness gate.
 - Added `scripts/check-phase-1-1-listed-equity-metadata-maintenance-candidates.mjs` as no-write decision support.
 - Metadata candidate check keeps `1470`, `1538`, and `8482` active for now because they are present in the latest TWSE payload without parseable close, and flags `1589` and `2380` for inactive metadata review because they are absent from the latest TWSE payload and lag by more than 10 trading days.
+- Fast-forwarded Phase 1.1 gates to `main` and pushed `origin/main`.
+- Observed GitHub Actions via public API: latest scheduled run `#4` failed on `2026-06-19T17:28:37Z`, before the Phase 1.1 gate changes reached `main`, so it is not evidence against the new adjusted coverage gate.
 
 Current route:
 
-- `phase_1_1_observe_github_actions_adjusted_coverage_gate_then_review_1589_2380_active_metadata`
+- `phase_1_1_observe_next_github_actions_run_then_review_1589_2380_active_metadata`
 
 ## Latest Effective Status - 2026-06-19
 
