@@ -4,7 +4,7 @@ Owner: A3 Phase 2B SEO foundation lane
 
 Governance: CEO-led execution, following `karpathy-guidelines`
 
-Status: Sitemap submitted; observation pending
+Status: T1 observed; sitemap success; page indexing data processing
 
 ## Purpose
 
@@ -35,17 +35,41 @@ recordedBy=A3
 A3PerformedGscOperation=false
 ```
 
+## T1 Observation Record
+
+Source: PM/CEO screenshots from Google Search Console.
+
+Observation date: 2026-06-21
+
+```text
+sitemapPath=/sitemap.xml
+sitemapStatus=success
+lastReadDate=2026-06-21
+discoveredUrls=15
+pageIndexingStatus=processing
+pageIndexingMessage=資料處理中，請等約一天後再返回查看
+notIndexedReasonRows=not available yet
+A3PerformedGscOperation=false
+```
+
 Current known values:
 
 - `sitemapSubmitted=yes`
-- `discoveredUrls=pending`
-- `indexedUrls=pending`
-- `notIndexedUrls=pending`
+- `discoveredUrls=15`
+- `indexedUrls=pending: GSC page indexing data processing`
+- `notIndexedUrls=pending: GSC page indexing data processing`
 - `structuredDataWarnings=pending`
 - `mobileWarnings=pending`
 - `canonicalWarnings=pending`
-- `serverErrors=pending`
-- `nextAction=observe T+1 / T+3 / T+7 / T+14`
+- `serverErrors=none shown in sitemap view`
+- `nextAction=observe T+2/T+3 after page indexing report finishes processing`
+
+Interpretation:
+
+- Sitemap submission is accepted by GSC.
+- GSC has discovered 15 URLs from the sitemap.
+- Page indexing data is not ready yet; no indexed/not-indexed diagnosis should be made from this screen.
+- Next observation should wait until the page indexing report finishes processing.
 
 ## Observation Window
 
@@ -67,7 +91,7 @@ Use one row per observation checkpoint.
 
 | submissionDate | sitemapSubmitted | discoveredUrls | indexedUrls | notIndexedUrls | structuredDataWarnings | mobileWarnings | canonicalWarnings | serverErrors | nextAction |
 |---|---|---:|---:|---:|---|---|---|---|---|
-| 2026-06-21 | yes | pending | pending | pending | pending | pending | pending | pending | observe T+1 / T+3 / T+7 / T+14 |
+| 2026-06-21 | yes; status=success | 15 | pending: processing | pending: processing | pending | pending | pending | none shown in sitemap view | observe T+2/T+3 after page indexing report finishes processing |
 | YYYY-MM-DD | yes/no | 0 | 0 | 0 | none / details | none / details | none / details | none / details | observe / escalate / fix |
 
 Field notes:

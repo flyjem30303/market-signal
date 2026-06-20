@@ -10,14 +10,14 @@ Status: `phase_2b_seo_handoff_status_current`
 
 ## Current Slice
 
-Slice: `phase_2b_gsc_submission_recorded`
+Slice: `phase_2b_gsc_post_submit_observation_t1`
 
 Status: Completed
 
 CEO recommendation:
 
 ```text
-gsc_submitted_observation_pending
+gsc_t1_sitemap_success_page_indexing_processing
 ```
 
 Current domain structure decision:
@@ -55,7 +55,8 @@ marketSignalProductUrl=https://market-signal.opensignallab.com/
 | Route-level Public Head Metadata Patch P1 | completed | yes |
 | Runtime Canonical OG Public HTML Observation P1 | completed; ready for PM/CEO GSC submission decision | yes |
 | GSC HTML Verification File P1 | completed; PM/CEO manual verification completed | yes |
-| GSC Sitemap Submission Record P1 | completed; observation pending | yes |
+| GSC Sitemap Submission Record P1 | completed | yes |
+| GSC Post-submit Observation T1 P1 | completed; sitemap success; page indexing processing | yes |
 
 ## Current Deliverables
 
@@ -112,7 +113,7 @@ marketSignalProductUrl=https://market-signal.opensignallab.com/
 | SEO index gate report | implemented as local report |
 | Eligible stock routes under local mock gate | `0` |
 | GSC readiness checklist | prepared |
-| GSC post-submit observation checklist | submitted; observation pending |
+| GSC post-submit observation checklist | T1 observed; sitemap success; discoveredUrls=15; page indexing processing |
 | GSC result intake template | prepared |
 | Custom domain preflight checklist | prepared |
 | SEO warning closeout checklist | prepared |
@@ -130,7 +131,7 @@ marketSignalProductUrl=https://market-signal.opensignallab.com/
 | Route-level public head metadata patch | completed for core public routes |
 | Public canonical / OG observation | passed on core public routes; no old Vercel URL or product-subpath canonical detected |
 | Custom domain execution | not executed |
-| GSC property / sitemap submission | submitted by PM/CEO; A3 observation pending; submissionDate=2026-06-21 |
+| GSC property / sitemap submission | submitted by PM/CEO; sitemap success; discoveredUrls=15; page indexing processing; submissionDate=2026-06-21 |
 
 ## Checks Run
 
@@ -215,7 +216,7 @@ noStockIndexGateOpenWithoutPmApproval=true
 Recommended next A3 slice:
 
 ```text
-phase_2b_gsc_post_submit_observation_t1
+phase_2b_gsc_post_submit_observation_t2_t3
 ```
 
 Recommended scope:
@@ -375,3 +376,7 @@ Next platform slice: `phase_2b_gsc_manual_submission`
 
 
 A3 did not perform GSC platform operations.
+
+
+
+T1 note: indexed/not-indexed counts remain pending until GSC Pages report finishes processing.
