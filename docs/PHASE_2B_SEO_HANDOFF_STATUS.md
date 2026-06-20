@@ -10,14 +10,14 @@ Status: `phase_2b_seo_handoff_status_current`
 
 ## Current Slice
 
-Slice: `phase_2b_public_seo_observation_probe`
+Slice: `phase_2c_monetization_readiness_policy`
 
 Status: Completed
 
 CEO recommendation:
 
 ```text
-public_seo_observation_probe_ready
+monetization_readiness_policy_prepared_no_ads_no_antiblock
 ```
 
 Current domain structure decision:
@@ -58,6 +58,7 @@ marketSignalProductUrl=https://market-signal.opensignallab.com/
 | GSC Sitemap Submission Record P1 | completed | yes |
 | GSC Post-submit Observation T1 P1 | completed; sitemap success; page indexing processing | yes |
 | Public SEO Observation Probe P1 | completed | yes |
+| Monetization Readiness Policy P1 | prepared; no ad code; no anti-AdBlock | yes |
 
 ## Current Deliverables
 
@@ -81,6 +82,7 @@ marketSignalProductUrl=https://market-signal.opensignallab.com/
 - `docs/PHASE_2B_RUNTIME_CANONICAL_OG_PUBLIC_HTML_PATCH.md`
 - `docs/PHASE_2B_SEO_HANDOFF_STATUS.md`
 - `docs/PHASE_2B_PUBLIC_SEO_OBSERVATION_PROBE.md`
+- `docs/PHASE_2C_MONETIZATION_READINESS_POLICY.md`
 - `src/lib/seo.ts`
 - `src/components/seo-json-ld.tsx`
 - `scripts/check-phase-2b-seo-foundation.mjs`
@@ -102,6 +104,7 @@ marketSignalProductUrl=https://market-signal.opensignallab.com/
 - `scripts/check-phase-2b-seo-rollup-for-pm-integration.mjs`
 - `scripts/check-phase-2b-seo-handoff-status.mjs`
 - `scripts/check-phase-2b-public-seo-observation-probe.mjs`
+- `scripts/check-phase-2c-monetization-readiness-policy.mjs`
 
 ## Current SEO Gate Status
 
@@ -263,9 +266,11 @@ Reason:
 - `docs/PHASE_2B_RUNTIME_CANONICAL_OG_PUBLIC_HTML_PATCH.md`
 - `docs/PHASE_2B_SEO_HANDOFF_STATUS.md`
 - `docs/PHASE_2B_PUBLIC_SEO_OBSERVATION_PROBE.md`
+- `docs/PHASE_2C_MONETIZATION_READINESS_POLICY.md`
 - `scripts/check-phase-2b-runtime-canonical-og-public-html-patch.mjs`
 - `scripts/check-phase-2b-seo-handoff-status.mjs`
 - `scripts/check-phase-2b-public-seo-observation-probe.mjs`
+- `scripts/check-phase-2c-monetization-readiness-policy.mjs`
 
 3. Checks run:
 
@@ -306,9 +311,11 @@ Reason:
 - `docs/PHASE_2B_RUNTIME_CANONICAL_OG_PUBLIC_HTML_PATCH.md`
 - `docs/PHASE_2B_SEO_HANDOFF_STATUS.md`
 - `docs/PHASE_2B_PUBLIC_SEO_OBSERVATION_PROBE.md`
+- `docs/PHASE_2C_MONETIZATION_READINESS_POLICY.md`
 - `scripts/check-phase-2b-runtime-canonical-og-public-html-patch.mjs`
 - `scripts/check-phase-2b-seo-handoff-status.mjs`
 - `scripts/check-phase-2b-public-seo-observation-probe.mjs`
+- `scripts/check-phase-2c-monetization-readiness-policy.mjs`
 
 3. Checks run:
 
@@ -357,6 +364,7 @@ Next platform slice: `phase_2b_gsc_manual_submission`
 - `public/google7e70e6b598ce7064.html`
 - `docs/PHASE_2B_SEO_HANDOFF_STATUS.md`
 - `docs/PHASE_2B_PUBLIC_SEO_OBSERVATION_PROBE.md`
+- `docs/PHASE_2C_MONETIZATION_READINESS_POLICY.md`
 
 3. Checks run:
 
@@ -391,3 +399,10 @@ T1 note: indexed/not-indexed counts remain pending until GSC Pages report finish
 
 
 Check added: cmd /c npm run check:phase-2b-public-seo-observation-probe
+
+Monetization boundary: adCodeImplemented=false; antiAdBlockImplemented=false; adBlockDetectionImplemented=false; contentBlockingForAdBlock=false.
+
+
+Phase 2C monetization readiness check: cmd /c npm run check:phase-2c-monetization-readiness-policy
+Future monetization implementation gate: phase_2c_sponsor_disclosure_and_placeholder_slot
+Do not implement ads or anti-AdBlock during GSC processing.
