@@ -181,3 +181,39 @@ Main branch status on 2026-06-20:
   - Manual default runs execute `run-daily-after-close-update.mjs` without `--write`, then run the same freshness and coverage gates.
   - Scheduled weekday runs still execute with `--write`.
 - Next observation target: the next scheduled or manually dispatched `Daily after-close market data update` run on `main`.
+
+## Manual No-Write Workflow Observation
+
+Use this only when PM/CEO needs to prove the current `main` workflow before the next scheduled after-close run.
+
+Operator steps:
+
+1. Open GitHub Actions for `flyjem30303/market-signal`.
+2. Select `Daily after-close market data update`.
+3. Choose `Run workflow` on branch `main`.
+4. Keep `write_enabled` as `false` for a no-write observation run.
+5. Start the workflow and wait for it to finish.
+
+Expected behavior:
+
+- The update step runs `scripts/run-daily-after-close-update.mjs` without `--write`.
+- No `daily_prices` or `daily_scores` rows are written by the manual observation run.
+- The workflow still runs the same freshness and coverage gates:
+  - `check-supabase-freshness.mjs`
+  - `check-phase-1-1-core-symbol-freshness.mjs`
+  - `check-phase-1-1-listed-equity-coverage-rollup.mjs`
+
+Post-run local verification:
+
+```bash
+cmd.exe /c npm run check:phase-1-1-deployment-observation
+```
+
+Completion signal:
+
+- `latestExpectedRun` is present for the current `origin/main` SHA.
+- the GitHub Actions run conclusion is `success`;
+- public routes still return HTTP `200`;
+- the observer status is `ok`.
+
+If the observer still reports `waiting_for_current_main_workflow_run`, no current-main workflow run has been observed yet. If it reports `action_required`, inspect the failed GitHub Actions run before changing code.

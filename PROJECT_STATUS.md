@@ -36,6 +36,7 @@ PM completed:
 - Observed public Vercel routes after main push: `/` and `/stocks/2330` both returned HTTP `200`.
 - Added `scripts/check-phase-1-1-deployment-observation.mjs` to repeatedly verify public route health and whether the daily workflow has run against the current `origin/main` commit.
 - Added safe manual workflow observation mode: `workflow_dispatch` defaults to no-write dry-run, while scheduled weekday runs still write daily prices and scores.
+- Added a Phase 1.1 manual no-write workflow observation runbook in `docs/PHASE_1_1_DATA_STABILITY_STATUS.md` so the next evidence step is explicit: run `Daily after-close market data update` on `main` with `write_enabled=false`, then verify with `check:phase-1-1-deployment-observation`.
 
 Current route:
 
