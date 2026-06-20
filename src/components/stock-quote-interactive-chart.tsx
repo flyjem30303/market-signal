@@ -29,7 +29,7 @@ export function StockQuoteInteractiveChart({ assetName, points, unit }: StockQuo
   const geometry = useMemo(() => buildLineGeometry(visiblePoints), [visiblePoints]);
   const activePoint = activeIndex == null ? visiblePoints.at(-1) : visiblePoints[activeIndex];
   const activeGeometryPoint = activeIndex == null ? geometry.points.at(-1) : geometry.points[activeIndex];
-  const chartTitle = `${assetName} 近 ${rangeDays} 日收盤價走勢`;
+  const chartTitle = `${assetName} 近 ${rangeDays} 日走勢`;
 
   function handlePointerMove(clientX: number) {
     const rect = svgRef.current?.getBoundingClientRect();
@@ -47,7 +47,7 @@ export function StockQuoteInteractiveChart({ assetName, points, unit }: StockQuo
 
   return (
     <>
-      <div className="stock-quote-range" aria-label="切換報價觀察期間">
+      <div className="stock-quote-range" aria-label="選擇資料區間">
         {ranges.map((range) => (
           <button
             aria-pressed={range.days === rangeDays}
@@ -87,9 +87,12 @@ export function StockQuoteInteractiveChart({ assetName, points, unit }: StockQuo
               <circle cx={activeGeometryPoint.x} cy={activeGeometryPoint.y} r="5" />
             </>
           )}
-          <text x="42" y="30">{geometry.highLabel}</text>
-          <text x="42" y="180">{geometry.lowLabel}</text>
-          <text x="590" y={(activeGeometryPoint?.y ?? geometry.points.at(-1)?.y ?? 120) - 10}>收盤價</text>
+          <text x="42" y="30">
+            {geometry.highLabel}
+          </text>
+          <text x="42" y="180">
+            {geometry.lowLabel}
+          </text>
         </svg>
 
         {activePoint && activeGeometryPoint && (

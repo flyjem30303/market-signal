@@ -17,6 +17,7 @@ export { getMarketSignalSourceStatus, type MarketSignalSourceStatus };
 
 export type MarketSignalRepositoryOptions = {
   env?: MarketSignalEnvironment;
+  historyDays?: number;
   symbols?: string[];
 };
 
@@ -39,6 +40,7 @@ export function getMarketSignalRepository(): MarketSignalRepository {
 
 export async function getMarketSignalRuntime({
   env = process.env,
+  historyDays,
   symbols
 }: MarketSignalRepositoryOptions = {}): Promise<MarketSignalRuntime> {
   const marketSignalSourceStatus = getMarketSignalSourceStatus({ env });
@@ -54,7 +56,7 @@ export async function getMarketSignalRuntime({
     const repository = await createLoadedSupabaseMarketSignalRepository(
       createServerSupabaseClient() as unknown as Parameters<typeof createLoadedSupabaseMarketSignalRepository>[0],
       undefined,
-      { symbols }
+      { historyDays, symbols }
     );
 
     if (repository.getAssets().length === 0) {
