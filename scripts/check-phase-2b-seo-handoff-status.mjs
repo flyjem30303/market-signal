@@ -8,7 +8,7 @@ for (const phrase of [
   "Owner: A3 Phase 2B SEO support lane",
   "Governance: CEO-led, PM-integrated, karpathy-guidelines",
   "Status: `phase_2b_seo_handoff_status_current`",
-  "Slice: `phase_2b_route_level_public_head_metadata_patch`",
+  "Slice: `phase_2b_runtime_canonical_og_public_html_observation`",
   "custom_domain_strategy_selected_execution_deferred",
   "parentBrandUrl=https://opensignallab.com/",
   "marketSignalProductUrl=https://market-signal.opensignallab.com/",
@@ -34,6 +34,7 @@ for (const phrase of [
   "Product Subdomain Strategy Decision P1",
   "Runtime Canonical OG Public HTML Patch P1",
   "Route-level Public Head Metadata Patch P1",
+  "Runtime Canonical OG Public HTML Observation P1",
   "docs/PHASE_2B_GSC_READINESS_CHECKLIST.md",
   "docs/PHASE_2B_GSC_POST_SUBMIT_OBSERVATION_CHECKLIST.md",
   "docs/PHASE_2B_STOCK_FIRST_BATCH_CANDIDATE_RULE.md",
@@ -83,7 +84,6 @@ for (const phrase of [
   "Product subdomain strategy decision",
   "`/market-signal/` product-subpath strategy is superseded",
   "Runtime canonical / OG public HTML patch",
-  "waiting for redeploy observation",
   "https://opensignallab.com/briefing",
   "NEXT_PUBLIC_SITE_URL=https://market-signal.opensignallab.com",
   "NEXT_PUBLIC_SITE_BASE_PATH",
@@ -97,6 +97,7 @@ for (const phrase of [
   "noSupabaseWrite=true",
   "noMarketDataFetch=true",
   "phase_2b_runtime_canonical_og_public_html_observation",
+  "phase_2b_gsc_manual_submission",
   "phase_2b_route_level_public_head_metadata_patch",
   "src/app/page.tsx",
   "src/app/briefing/page.tsx",
@@ -155,6 +156,7 @@ console.log(
       productSubdomainStrategyDecisionP1: "completed",
       runtimeCanonicalOgPublicHtmlPatchP1: "implemented",
       routeLevelPublicHeadMetadataPatchP1: "completed",
+      runtimeCanonicalOgPublicHtmlObservationP1: "completed",
       runtimeMetadataImpact: true,
       publicUiLayoutImpact: false,
       supabaseImpact: false,
@@ -163,8 +165,8 @@ console.log(
       selectedDomain: "opensignallab.com",
       parentBrandUrl: "https://opensignallab.com/",
       marketSignalProductUrl: "https://market-signal.opensignallab.com/",
-      customDomainExecutionDeferred: true,
-      nextRecommendedSlice: "phase_2b_runtime_canonical_og_public_html_observation"
+      customDomainExecutionDeferred: false,
+      nextRecommendedSlice: "phase_2b_gsc_manual_submission"
     },
     null,
     2
@@ -178,4 +180,5 @@ function read(filePath) {
   }
   return fs.readFileSync(filePath, "utf8");
 }
+
 

@@ -10,7 +10,7 @@ Status: `phase_2b_seo_handoff_status_current`
 
 ## Current Slice
 
-Slice: `phase_2b_route_level_public_head_metadata_patch`
+Slice: `phase_2b_runtime_canonical_og_public_html_observation`
 
 Status: Completed
 
@@ -52,7 +52,8 @@ marketSignalProductUrl=https://market-signal.opensignallab.com/
 | Runtime Migration URL Contract Checker P1 | implemented | yes |
 | Product Subdomain Strategy Decision P1 | completed | yes |
 | Runtime Canonical OG Public HTML Patch P1 | implemented; redeploy observation required | yes |
-| Route-level Public Head Metadata Patch P1 | completed; redeploy observation required | yes |
+| Route-level Public Head Metadata Patch P1 | completed | yes |
+| Runtime Canonical OG Public HTML Observation P1 | completed; ready for PM/CEO GSC submission decision | yes |
 
 ## Current Deliverables
 
@@ -123,8 +124,9 @@ marketSignalProductUrl=https://market-signal.opensignallab.com/
 | Runtime migration minimal patch | implemented; supports `NEXT_PUBLIC_SITE_BASE_PATH` but does not switch platform |
 | Runtime migration URL contract checker | implemented; validates Vercel root mode and product-subdomain root mode |
 | Product subdomain strategy decision | completed; `/market-signal/` product-subpath strategy is superseded |
-| Runtime canonical / OG public HTML patch | implemented; waiting for redeploy observation |
-| Route-level public head metadata patch | completed for core public routes; waiting for redeploy observation |
+| Runtime canonical / OG public HTML patch | observed pass |
+| Route-level public head metadata patch | completed for core public routes |
+| Public canonical / OG observation | passed on core public routes; no old Vercel URL or product-subpath canonical detected |
 | Custom domain execution | not executed |
 | GSC property / sitemap submission | not executed |
 
@@ -279,3 +281,53 @@ Reason:
 
 - PM integration required: yes.
 - Reason: this affects public canonical/OG readiness and GSC submission timing, but A3 does not execute GSC/DNS/Vercel platform operations.
+
+
+## Latest Coherent Slice: phase_2b_runtime_canonical_og_public_html_observation
+
+1. Completed what:
+
+- Observed production public routes after redeploy.
+- Confirmed core routes expose canonical and `og:url` on `https://market-signal.opensignallab.com`.
+- Confirmed `/market-signal` returns 404, matching product-subdomain strategy.
+- Confirmed no old Vercel canonical URL and no `/market-signal` subpath canonical were found in observed HTML.
+
+2. Modified files:
+
+- `docs/PHASE_2B_RUNTIME_CANONICAL_OG_PUBLIC_HTML_PATCH.md`
+- `docs/PHASE_2B_SEO_HANDOFF_STATUS.md`
+- `scripts/check-phase-2b-runtime-canonical-og-public-html-patch.mjs`
+- `scripts/check-phase-2b-seo-handoff-status.mjs`
+
+3. Checks run:
+
+- `curl.exe -I https://market-signal.opensignallab.com/`
+- `curl.exe -I https://market-signal.opensignallab.com/briefing`
+- `curl.exe -I https://market-signal.opensignallab.com/robots.txt`
+- `curl.exe -I https://market-signal.opensignallab.com/sitemap.xml`
+- `curl.exe -I https://market-signal.opensignallab.com/market-signal`
+- Public HTML metadata observation for `/`, `/briefing`, `/weekly`, `/methodology`, `/disclaimer`, `/privacy`, and `/terms`.
+- `cmd /c npm run check:phase-2b-runtime-canonical-og-public-html-patch`
+- `cmd /c npm run check:phase-2b-seo-handoff-status`
+
+4. Runtime / public UI / Supabase / SQL / data fetch impact:
+
+- Runtime metadata impact: observation only in this slice.
+- Public UI layout impact: none.
+- Supabase impact: none.
+- SQL impact: none.
+- Market data fetch impact: none.
+- Stock indexing impact: unchanged; full stock routes indexing remains closed.
+
+5. Next recommendation:
+
+- PM/CEO can proceed with manual GSC property verification and sitemap submission for `https://market-signal.opensignallab.com/sitemap.xml`.
+- A3 should wait for PM/CEO to complete GSC platform steps, then record GSC result intake.
+
+6. PM mainline integration:
+
+- PM integration required: yes.
+- Reason: GSC submission is a platform/SEO launch milestone and must be recorded by PM/CEO.
+
+
+Next platform slice: `phase_2b_gsc_manual_submission`

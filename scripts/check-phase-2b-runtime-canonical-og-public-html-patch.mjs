@@ -19,12 +19,16 @@ const doc = read(files.doc);
 const seo = read(files.seo);
 
 for (const phrase of [
-  "Slice: `phase_2b_route_level_public_head_metadata_patch`",
+  "Slice: `phase_2b_runtime_canonical_og_public_html_observation`",
   "https://market-signal.opensignallab.com/ = 200",
   "https://market-signal.opensignallab.com/market-signal = 404",
   "public HTML did not expose expected canonical or `og:url` tags",
   "plain `title` / `description` metadata",
   "Core public routes now use `buildRouteMetadata(...)` directly",
+  "Status: observed pass; ready for PM/CEO GSC submission decision",
+  "Observation date: 2026-06-21",
+  "hasOldVercel=false",
+  "hasSubpathCanonical=false",
   "`/`",
   "`/briefing`",
   "`/weekly`",
@@ -97,11 +101,12 @@ console.log(
   JSON.stringify(
     {
       status: "ok",
-      mode: "phase_2b_route_level_public_head_metadata_patch",
+      mode: "phase_2b_runtime_canonical_og_public_html_observation",
       expectedCanonicalHost: "https://market-signal.opensignallab.com",
       routeLevelMetadataImplemented: true,
       coreRoutesChecked: files.routes.length,
-      requiresRedeployObservation: true,
+      requiresRedeployObservation: false,
+      publicObservationPassed: true,
       changesDns: false,
       changesCloudflareSettings: false,
       changesVercelSettings: false,
