@@ -134,6 +134,8 @@ function Hero({
 
 function HomeFirstScreenDecisionSummary({ market, series }: { market: SignalSnapshot; series: SignalSnapshot[] }) {
   const explanation = buildStockExplanation(market, { seriesLength: series.length });
+  const marketDiagnosis = buildHomeMarketDiagnosis(market);
+  const confidenceBrief = buildHomeConfidenceBrief(explanation);
   const recentScores = series.slice(-5);
   const positives = explanation.positives.slice(0, 2);
   const negatives = explanation.negatives.slice(0, 2);
@@ -144,7 +146,7 @@ function HomeFirstScreenDecisionSummary({ market, series }: { market: SignalSnap
       <h2>
         {market.asset.name}: {explanation.scoreLevel}，綜合分數 {market.compositeScore}/100
       </h2>
-      <p>{explanation.summary.text}</p>
+      <p className="home-market-diagnosis">{marketDiagnosis}</p>
       <div className="home-insight-strip" aria-label="首頁市場洞察">
         <div className="home-insight-factor home-insight-factor--positive">
           <h3>主要加分</h3>
@@ -176,7 +178,7 @@ function HomeFirstScreenDecisionSummary({ market, series }: { market: SignalSnap
         <div className="home-confidence-mini" aria-label="首頁判讀信心">
           <span>判讀信心</span>
           <strong>{explanation.confidence.score}%</strong>
-          <small>{explanation.confidence.note}</small>
+          <small>{confidenceBrief}</small>
         </div>
       </div>
       <div className="home-decision-grid">
@@ -208,6 +210,34 @@ function HomeFirstScreenDecisionSummary({ market, series }: { market: SignalSnap
       </div>
     </section>
   );
+}
+
+function buildHomeMarketDiagnosis(market: SignalSnapshot) {
+  if (market.compositeScore < 60 && market.riskScore < 45) {
+    return "市場仍偏弱，但風險尚未擴散；目前更像動能降溫，而不是全面惡化。";
+  }
+  if (market.compositeScore >= 65 && market.riskScore < 45) {
+    return "市場維持偏強，且風險尚未明顯升高；可先觀察強勢是否延續。";
+  }
+  if (market.riskScore >= 60) {
+    return "市場風險升高，判讀上應優先確認波動與資料更新是否同步惡化。";
+  }
+  return "市場處於中性觀察區間，先看主要加分與拖累因素，再決定是否進入標的細節。";
+}
+
+function buildHomeConfidenceBrief(explanation: ReturnType<typeof buildStockExplanation>) {
+  const { confidence } = explanation;
+  const constraints = [
+    confidence.missingInputs.length > 0 ? "缺漏因子" : null,
+    confidence.staleInputs.length > 0 ? "資料延遲" : null,
+    confidence.sampleDepth.includes("不足") ? "歷史樣本深度限制" : null
+  ].filter(Boolean);
+
+  if (constraints.length === 0) {
+    return `資料完整度 ${confidence.dataQuality}/100，資料日期與更新狀態正常。`;
+  }
+
+  return `資料完整度 ${confidence.dataQuality}/100，信心主要受${constraints.join("、")}影響。`;
 }
 
 function StockAtAGlance({ series, snapshot }: { series: SignalSnapshot[]; snapshot: SignalSnapshot }) {

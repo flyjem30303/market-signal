@@ -301,6 +301,16 @@ select {
   line-height: 1.7;
 }
 
+.home-market-diagnosis {
+  border-left: 3px solid var(--teal);
+  background: rgba(56, 214, 192, 0.08);
+  border-radius: 8px;
+  color: #e8f4ff !important;
+  font-size: 17px;
+  font-weight: 800;
+  padding: 12px 14px;
+}
+
 .home-insight-strip {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
