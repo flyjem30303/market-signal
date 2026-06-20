@@ -259,15 +259,30 @@ export function MarketWatchlistPanel({
                   </div>
                   <div className="watchlist-result-actions">
                     <TrackedLink
+                      className="watchlist-icon-action watchlist-icon-action--view"
                       eventName="stock_link_clicked"
                       href={`/stocks/${snapshot.asset.symbol}`}
                       label={`查看 ${snapshot.asset.symbol}`}
                       payload={{ area: "watchlist_search" }}
                     >
-                      查看
+                      <span aria-hidden="true" className="watchlist-action-icon watchlist-action-icon--view" />
+                      <span className="watchlist-action-label">查看</span>
                     </TrackedLink>
-                    <button disabled={isFavorite || isFull} onClick={() => addFavorite(snapshot.asset.symbol)} type="button">
-                      {isFavorite ? "已追蹤" : "加入追蹤"}
+                    <button
+                      aria-label={isFavorite ? `${snapshot.asset.symbol} 已追蹤` : `加入追蹤 ${snapshot.asset.symbol}`}
+                      className={`watchlist-icon-action watchlist-icon-action--favorite${isFavorite ? " is-tracked" : ""}`}
+                      disabled={isFavorite || isFull}
+                      onClick={() => addFavorite(snapshot.asset.symbol)}
+                      title={isFavorite ? "已追蹤" : "加入追蹤"}
+                      type="button"
+                    >
+                      <span
+                        aria-hidden="true"
+                        className={`watchlist-action-icon ${
+                          isFavorite ? "watchlist-action-icon--tracked" : "watchlist-action-icon--add"
+                        }`}
+                      />
+                      <span className="watchlist-action-label">{isFavorite ? "已追蹤" : "加入追蹤"}</span>
                     </button>
                   </div>
                 </div>
