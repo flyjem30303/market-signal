@@ -71,6 +71,7 @@ export function MarketWatchlistPanel({
       key,
       direction: current.key === key && current.direction === "desc" ? "asc" : "desc"
     }));
+    resultsRef.current?.scrollTo({ behavior: "smooth", left: 0 });
   }
 
   function getSortIcon(key: ResultSort["key"]) {

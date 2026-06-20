@@ -15312,15 +15312,15 @@ input[type="search"]::placeholder {
 }
 
 .market-watchlist-panel--compact-stock .watchlist-search-results {
-  grid-auto-columns: minmax(220px, 245px);
+  grid-auto-columns: minmax(200px, 225px);
   margin: 8px 0;
   padding-bottom: 6px;
 }
 
 .market-watchlist-panel--compact-stock .watchlist-result-row {
   min-height: 98px;
-  grid-template-columns: minmax(0, 1fr) minmax(92px, 0.72fr);
-  gap: 8px;
+  grid-template-columns: minmax(0, 1fr) max-content;
+  gap: 6px;
   padding: 8px 10px;
 }
 
@@ -15384,6 +15384,7 @@ input[type="search"]::placeholder {
   display: grid;
   align-content: space-between;
   gap: 6px;
+  width: 68px;
 }
 
 .market-watchlist-panel--compact-stock .watchlist-score-strip {
