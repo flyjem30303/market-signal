@@ -81,9 +81,6 @@ type DailyScoreSelectQuery = {
     in(column: string, values: string[]): {
       order(column: string, options: { ascending: boolean }): Promise<SupabaseQueryResult<DailyScoreRow[]>>;
     };
-    order(column: string, options: { ascending: boolean }): {
-      range(from: number, to: number): Promise<SupabaseQueryResult<DailyScoreRow[]>>;
-    };
   };
 
 export type SupabaseMarketSignalClient = {
@@ -287,24 +284,27 @@ async function getScores(client: SupabaseMarketSignalClient, stockIds: string[])
 async function getLatestScores(client: SupabaseMarketSignalClient, stockIds: string[]): Promise<DailyScoreRow[]> {
   if (!stockIds.length) return [];
 
-  const stockIdSet = new Set(stockIds);
-  const maxRows = Math.max(stockIds.length * 2, 2200);
-  const { data, error } = await client
-    .from("daily_scores")
-    .select(
-      "composite_score, data_quality_grade, data_quality_score, health_score, last_updated_at, missing_module_flags, model_version, risk_score, signal, stale_data_flags, stock_id, trade_date"
-    )
-    .order("trade_date", { ascending: false })
-    .range(0, maxRows - 1);
-
-  if (error) throw new Error(`Failed to load market-signal latest daily scores: ${error.message}`);
-
   const latestByStock = new Map<string, DailyScoreRow>();
-  for (const row of data ?? []) {
-    if (stockIdSet.has(row.stock_id) && !latestByStock.has(row.stock_id)) {
-      latestByStock.set(row.stock_id, row);
+
+  await readInBatches(stockIds, async (batch) => {
+    const { data, error } = await client
+      .from("daily_scores")
+      .select(
+        "composite_score, data_quality_grade, data_quality_score, health_score, last_updated_at, missing_module_flags, model_version, risk_score, signal, stale_data_flags, stock_id, trade_date"
+      )
+      .in("stock_id", batch)
+      .order("trade_date", { ascending: false });
+
+    if (error) throw new Error(`Failed to load market-signal latest daily scores: ${error.message}`);
+
+    for (const row of data ?? []) {
+      if (!latestByStock.has(row.stock_id)) {
+        latestByStock.set(row.stock_id, row);
+      }
     }
-  }
+
+    return [];
+  });
 
   return [...latestByStock.values()];
 }
