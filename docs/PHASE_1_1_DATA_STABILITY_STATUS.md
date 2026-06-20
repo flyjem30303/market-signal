@@ -180,6 +180,9 @@ Main branch status on 2026-06-20:
   - checker: `check:phase-1-1-deployment-observation`
   - expected status before the next workflow run reaches current `origin/main`: `waiting_for_current_main_workflow_run`
   - failure status if public routes fail or the current-main workflow run completes unsuccessfully: `action_required`
+- Daily workflow contract:
+  - checker: `check:phase-1-1-daily-workflow-contract`
+  - verifies manual no-write default, scheduled write path, Supabase freshness, core-symbol freshness, adjusted listed-equity coverage, and metadata maintenance candidate reporting remain wired in `.github/workflows/daily-after-close-update.yml`.
 - Manual workflow observation mode:
   - `workflow_dispatch` now defaults to `write_enabled=false`.
   - Manual default runs execute `run-daily-after-close-update.mjs` without `--write`, then run the same freshness and coverage gates.
