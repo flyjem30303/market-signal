@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { seoDefaultImagePath, seoSiteDescription } from "@/lib/seo";
 import type { ReactNode } from "react";
 import { SiteNav } from "@/components/site-nav";
 import { TrackedLink } from "@/components/tracked-link";
@@ -16,11 +17,37 @@ const copy = {
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
+  alternates: {
+    canonical: "/"
+  },
+  applicationName: siteConfig.name,
   title: {
     default: siteConfig.name,
     template: `%s | ${siteConfig.name}`
   },
-  description: "以台股市場燈號、資料日期、來源揭露與風險提示，協助投資人快速掌握市場狀態。"
+  description: seoSiteDescription,
+  openGraph: {
+    description: seoSiteDescription,
+    images: [
+      {
+        alt: "???? Market Signal",
+        height: 630,
+        url: seoDefaultImagePath,
+        width: 1200
+      }
+    ],
+    locale: "zh_TW",
+    siteName: siteConfig.name,
+    title: siteConfig.name,
+    type: "website",
+    url: "/"
+  },
+  twitter: {
+    card: "summary_large_image",
+    description: seoSiteDescription,
+    images: [seoDefaultImagePath],
+    title: siteConfig.name
+  }
 };
 
 const footerLinkGroups = [

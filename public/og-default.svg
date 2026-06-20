@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">指數燈號 Market Signal</title>
+  <desc id="desc">A default Open Graph card for the Market Signal website.</desc>
+  <rect width="1200" height="630" fill="#f4f1e8"/>
+  <rect x="70" y="70" width="1060" height="490" rx="28" fill="#0f1720"/>
+  <circle cx="170" cy="170" r="44" fill="#2fbf71"/>
+  <circle cx="170" cy="315" r="44" fill="#f2c94c"/>
+  <circle cx="170" cy="460" r="44" fill="#eb5757"/>
+  <text x="270" y="250" fill="#f8fafc" font-family="Arial, sans-serif" font-size="86" font-weight="700">指數燈號</text>
+  <text x="270" y="335" fill="#d7dee8" font-family="Arial, sans-serif" font-size="42">Market Signal</text>
+  <text x="270" y="430" fill="#a9b4c0" font-family="Arial, sans-serif" font-size="32">台股燈號 · 市場風險分數 · 非投資建議</text>
+</svg>

@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
+import { buildRouteMetadata } from "@/lib/seo";
 import { PageViewTracker } from "@/components/page-view-tracker";
 import { TrackedLink } from "@/components/tracked-link";
 
-export const metadata: Metadata = {
-  title: "風險聲明",
-  description: "指數燈號提供市場資訊整理與風險辨識，不提供買賣建議、保證報酬或個人化投資建議。"
-};
+export const metadata: Metadata = buildRouteMetadata({
+  description: "????????????????????????????????????",
+  path: "/disclaimer",
+  title: "????"
+});
 
 export default function DisclaimerPage() {
   return (

@@ -1,14 +1,16 @@
 import type { Metadata } from "next";
+import { buildRouteMetadata } from "@/lib/seo";
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { PageViewTracker } from "@/components/page-view-tracker";
 import { TrackedLink } from "@/components/tracked-link";
 import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
 import { getMarketSignalSourceStatus } from "@/lib/repositories/market-signal-repository";
 
-export const metadata: Metadata = {
-  title: "方法說明",
-  description: "說明指數燈號如何閱讀市場狀態、分數、資料來源、更新時間與風險邊界。"
-};
+export const metadata: Metadata = buildRouteMetadata({
+  description: "???????????????????????????????????????",
+  path: "/methodology",
+  title: "???"
+});
 
 const methodModules = [
   ["市場燈號", "把市場狀態轉成偏多、觀望、警戒或高風險。", "建立閱讀順序，不是交易指令。"],

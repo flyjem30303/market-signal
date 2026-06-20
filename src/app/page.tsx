@@ -1,10 +1,18 @@
+import type { Metadata } from "next";
 import { PageViewTracker } from "@/components/page-view-tracker";
 import { DashboardShell } from "@/components/dashboard-shell";
 import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
 import { getMarketSignalRuntime, getMarketSignalSearchItems } from "@/lib/repositories/market-signal-repository";
 import { toMarketSignalRepositoryData } from "@/lib/repositories/static-market-signal-repository";
+import { buildRouteMetadata, seoSiteDescription } from "@/lib/seo";
 
 export const revalidate = 300;
+
+export const metadata: Metadata = buildRouteMetadata({
+  description: seoSiteDescription,
+  path: "/",
+  title: "台股燈號與市場風險分數"
+});
 
 export default async function HomePage() {
   const { marketSignalSourceStatus, repository } = await getMarketSignalRuntime();
