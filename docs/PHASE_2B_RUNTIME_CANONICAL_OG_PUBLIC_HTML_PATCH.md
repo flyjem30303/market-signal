@@ -2,9 +2,9 @@
 
 Owner: A3 Phase 2B SEO support lane
 
-Status: implemented, requires redeploy observation
+Status: observed pass; ready for PM/CEO GSC submission decision
 
-Slice: `phase_2b_route_level_public_head_metadata_patch`
+Slice: `phase_2b_runtime_canonical_og_public_html_observation`
 
 ## Trigger
 
@@ -77,6 +77,42 @@ noSupabaseWrite=true
 noMarketDataFetch=true
 ```
 
+## Public Observation Result
+
+Observation date: 2026-06-21
+
+Observed public route status:
+
+```text
+https://market-signal.opensignallab.com/ = 200
+https://market-signal.opensignallab.com/briefing = 200
+https://market-signal.opensignallab.com/robots.txt = 200
+https://market-signal.opensignallab.com/sitemap.xml = 200
+https://market-signal.opensignallab.com/market-signal = 404
+```
+
+Observed public HTML metadata:
+
+```text
+/ canonical=https://market-signal.opensignallab.com
+/ og:url=https://market-signal.opensignallab.com
+/briefing canonical=https://market-signal.opensignallab.com/briefing
+/briefing og:url=https://market-signal.opensignallab.com/briefing
+/weekly canonical=https://market-signal.opensignallab.com/weekly
+/methodology canonical=https://market-signal.opensignallab.com/methodology
+/disclaimer canonical=https://market-signal.opensignallab.com/disclaimer
+/privacy canonical=https://market-signal.opensignallab.com/privacy
+/terms canonical=https://market-signal.opensignallab.com/terms
+```
+
+Observed negative checks:
+
+```text
+hasOldVercel=false
+hasSubpathCanonical=false
+stockRoutesIndexingFullyOpen=false
+```
+
 ## Next Step
 
-PM/CEO should merge and redeploy production, then A3 should run public HTML observation again before GSC submission.
+PM/CEO may proceed to the manual GSC property and sitemap submission steps. A3 should not execute GSC operations directly.
