@@ -94,7 +94,7 @@ export function getPromotionPrerequisitesGate(): PromotionPrerequisitesGate {
       blocker: "Current-scope row coverage is accepted, but runtime promotion remains separate.",
       code: "row-coverage-readonly-evidence",
       evidence:
-        "Current-scope bounded insert-missing post-run review accepted 240/240 candidate-key rows across TWII plus listed-stock daily close scope; missing rows after readback 0.",
+        "Current-scope bounded insert-missing post-run review accepted shard-001 with 500/500 candidate-key rows across TWII plus listed-stock daily close scope; inserted rows 437, skipped existing rows 63, missing rows after readback 0.",
       label: "Row coverage evidence accepted for current Phase 1 scope",
       nextAction:
         "Use accepted coverage evidence for runtime promotion review context; do not promote public source or score until quality, freshness, disclosure, rollback, and public-copy gates pass.",

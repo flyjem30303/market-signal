@@ -1,4 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
+import WebSocket from "ws";
 import type { Database } from "./database.types";
 
 export function createServerSupabaseClient() {
@@ -12,7 +13,9 @@ export function createServerSupabaseClient() {
   return createClient<Database>(url, serviceRoleKey, {
     auth: {
       persistSession: false
+    },
+    realtime: {
+      transport: WebSocket
     }
   });
 }
-

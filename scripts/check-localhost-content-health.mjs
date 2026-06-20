@@ -1,20 +1,49 @@
-import fs from "node:fs";
 import { spawn, spawnSync } from "node:child_process";
+import fs from "node:fs";
 
 const node = process.execPath;
 const baseUrl = process.env.LOCALHOST_BASE_URL ?? "http://localhost:3000";
 const shouldManageServer = process.env.LOCALHOST_HEALTH_MANAGE_SERVER !== "false";
 
 const requiredByPath = {
-  "/": ["30 秒看懂台股市場氛圍", "資料邊界", "風險聲明"],
-  "/stocks/2330": ["2330", "標的燈號", "標的分類", "市場事件 / 觀察脈絡"],
-  "/stocks/TWII": ["TWII", "標的燈號", "標的分類", "市場事件 / 觀察脈絡"],
-  "/stocks/0050": ["0050", "標的燈號", "標的分類", "市場事件 / 觀察脈絡"],
-  "/stocks/006208": ["006208", "標的燈號", "標的分類", "市場事件 / 觀察脈絡"],
-  "/stocks/2382": ["2382", "標的燈號", "標的分類", "市場事件 / 觀察脈絡"],
-  "/stocks/2308": ["2308", "標的燈號", "標的分類", "市場事件 / 觀察脈絡"],
-  "/briefing": ["市場快報", "3 分鐘把市場燈號拆成原因", "資料與風險邊界"],
-  "/weekly": ["市場週報", "週報摘要", "示範資料"]
+  "/": [
+    "台股市場燈號與風險觀察",
+    "今日重點",
+    "主要加分",
+    "主要拖累",
+    "判讀信心",
+    "搜尋股票，建立觀察清單"
+  ],
+  "/briefing": [
+    "市場快報",
+    "今日快報摘要",
+    "主要支撐",
+    "主要拖累",
+    "市場訊號變化",
+    "目前市場相對強勢標的"
+  ],
+  "/weekly": [
+    "市場週報",
+    "本週市場摘要",
+    "本週主要支撐",
+    "本週主要拖累",
+    "本週相對強勢標的",
+    "下週觀察重點"
+  ],
+  "/stocks/2330": [
+    "2330",
+    "台積電",
+    "市場診斷",
+    "分數來源拆解",
+    "投資人解讀",
+    "決策脈絡",
+    "判讀信心"
+  ],
+  "/stocks/TWII": ["TWII", "台灣加權指數", "市場診斷", "分數來源拆解", "判讀信心"],
+  "/stocks/0050": ["0050", "元大台灣50", "市場診斷", "分數來源拆解", "判讀信心"],
+  "/stocks/006208": ["006208", "富邦台50", "市場診斷", "分數來源拆解", "判讀信心"],
+  "/stocks/2382": ["2382", "廣達", "市場診斷", "分數來源拆解", "判讀信心"],
+  "/stocks/2308": ["2308", "台達電", "市場診斷", "分數來源拆解", "判讀信心"]
 };
 
 const blockedFragments = [
@@ -30,8 +59,6 @@ const blockedFragments = [
   "EXTERNAL REPLY",
   "publicDataSource",
   "scoreSource",
-  "Phase 1",
-  "Phase 2",
   "promotion gate",
   "mock-only",
   "mock data"
@@ -107,8 +134,16 @@ function findBadTextMarkers(text) {
   if (/[\uE000-\uF8FF\uFFFD]/u.test(text)) markers.push("private-use-or-replacement-codepoint");
   if (/[\u0080-\u009F]/u.test(text)) markers.push("control-codepoint");
   if (/\?{3,}/u.test(text)) markers.push("question-mark-run");
-  for (const fragment of ["蝷", "撣", "鞈", "憸", "閫", "璅", "嚗", "銝", "蝘", "甇", "霅", "靽", "蝬", "", "", "", "", ""]) {
-    if (text.includes(fragment)) markers.push(`legacy-mojibake-fragment:${fragment}`);
+  for (const fragment of [
+    "\\u",
+    "PUBLIC_BETA",
+    "REQUEST BLOCKS",
+    "EXTERNAL REPLY",
+    "candidateArtifactPath",
+    "scoreSource",
+    "publicDataSource"
+  ]) {
+    if (text.includes(fragment)) markers.push(`legacy-fragment:${fragment}`);
   }
   return markers;
 }

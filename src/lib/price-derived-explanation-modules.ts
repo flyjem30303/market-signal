@@ -44,9 +44,6 @@ export function buildPriceDerivedExplanationModules(
     missingFlags.add("volatility_price_fields_missing_phase_1");
   }
 
-  missingFlags.add("valuation_source_missing_phase_1");
-  missingFlags.add("fund_flow_baseline_missing_phase_1");
-
   return {
     missingModuleFlags: [...missingFlags],
     modules
@@ -67,7 +64,7 @@ function buildTrendModule(input: BuildPriceDerivedModulesInput): ModuleScore {
     id: "trend",
     label: "趨勢",
     name: "趨勢",
-    note: "由綜合分數與健康分數推導目前趨勢強弱，是 Phase 1 的趨勢代理模組。",
+    note: "用綜合分數、健康分數與風險分數估算目前趨勢結構。",
     risk,
     source: input.source,
     updatedAt: input.lastUpdatedAt,
@@ -94,7 +91,7 @@ function buildMomentumModule(input: BuildPriceDerivedModulesInput): ModuleScore 
     id: "momentum",
     label: "動能",
     name: "動能",
-    note: "由當日開盤到收盤的變化推導短線動能，避免只把燈號結果翻成文字。",
+    note: "用開盤到收盤的推升力估算短線價格動能。",
     risk,
     source: input.source,
     updatedAt: input.lastUpdatedAt,
@@ -123,7 +120,7 @@ function buildVolatilityModule(input: BuildPriceDerivedModulesInput): ModuleScor
     id: "volatility",
     label: "波動",
     name: "波動",
-    note: "由最高、最低與收盤價推導單日波動範圍，用來說明風險分數的價格來源。",
+    note: "用最高、最低與收盤價估算盤中波動幅度。",
     risk,
     source: input.source,
     updatedAt: input.lastUpdatedAt,
@@ -144,7 +141,7 @@ function buildDataFreshnessModule(input: BuildPriceDerivedModulesInput): ModuleS
     id: "dataFreshness",
     label: "資料新鮮度",
     name: "資料新鮮度",
-    note: "只用於判讀信心，不列入市場正向或拖累因素。",
+    note: "用資料日期與延遲旗標估算本次判讀可信度。",
     risk: 100 - health,
     source: input.source,
     updatedAt: input.lastUpdatedAt,

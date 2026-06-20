@@ -4,6 +4,9 @@ import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
 import { getMarketSignalRuntime } from "@/lib/repositories/market-signal-repository";
 import { toMarketSignalRepositoryData } from "@/lib/repositories/static-market-signal-repository";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function HomePage() {
   const { marketSignalSourceStatus, repository } = await getMarketSignalRuntime();
   const freshness = await getDataFreshnessSnapshot();

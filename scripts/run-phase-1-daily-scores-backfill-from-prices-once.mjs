@@ -3,6 +3,7 @@ import { createClient } from "@supabase/supabase-js";
 
 const MODEL_VERSION = "phase1-price-derived-v1";
 const PAGE_SIZE = 1000;
+const WRITE_AUTHORIZATION_ID = "PHASE1-DAILY-SCORES-BACKFILL-2026-06-19-A";
 
 function loadEnvFile(path) {
   if (!fs.existsSync(path)) return;
@@ -21,10 +22,13 @@ loadEnvFile(".env.local");
 loadEnvFile(".env");
 
 const writeEnabled = process.env.PHASE1_SCORE_BACKFILL_WRITE === "enabled";
+const authorizationAccepted = process.env.PHASE1_SCORE_BACKFILL_AUTHORIZATION_ID === WRITE_AUTHORIZATION_ID;
 const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 const result = {
   dryRun: !writeEnabled,
+  authorizationAccepted,
+  requiredAuthorizationId: WRITE_AUTHORIZATION_ID,
   hasUrl: Boolean(url),
   hasServiceRoleKey: Boolean(serviceRoleKey),
   modelVersion: MODEL_VERSION,
@@ -58,6 +62,13 @@ if (!writeEnabled) {
   result.status = "dry_run_ok";
   console.log(JSON.stringify(result, null, 2));
   process.exit(0);
+}
+
+if (!authorizationAccepted) {
+  result.status = "write_blocked_missing_authorization";
+  result.reason = "PHASE1_SCORE_BACKFILL_AUTHORIZATION_ID must match the bounded score backfill authorization id";
+  console.log(JSON.stringify(result, null, 2));
+  process.exit(1);
 }
 
 for (let start = 0; start < rows.length; start += PAGE_SIZE) {

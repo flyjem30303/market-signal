@@ -46,7 +46,7 @@ export function StockFollowButton({ symbol }: { symbol: string }) {
       className="stock-quote-follow"
       disabled={isFull}
       onClick={toggleFollow}
-      title={isFull ? "最多追蹤 5 檔，請先移除一檔" : undefined}
+      title={isFull ? "最多追蹤 5 個標的，請先移除一個。" : undefined}
       type="button"
     >
       {isFollowing ? "已追蹤" : "+ 追蹤"}

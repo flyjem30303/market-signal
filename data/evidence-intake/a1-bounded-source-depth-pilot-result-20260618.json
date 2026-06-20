@@ -1,0 +1,58 @@
+{
+  "status": "accepted_for_next_gate_planning",
+  "mode": "a1_bounded_source_depth_pilot_once_result",
+  "recordedAt": "2026-06-18",
+  "authorization": {
+    "source": "chairman_current_thread",
+    "scope": "bounded_source_depth_pilot",
+    "sampleSize": 2,
+    "monthCount": 1
+  },
+  "source": {
+    "route": "TWSE exchangeReport/STOCK_DAY",
+    "targetMonth": "2024-05",
+    "requestDelayMs": 900,
+    "timeoutMs": 15000,
+    "sampleSymbolsPrinted": false,
+    "rawPayloadStored": false,
+    "rowPayloadStored": false
+  },
+  "summary": {
+    "sampleCount": 2,
+    "successfulSamples": 2,
+    "zeroRowSamples": 0,
+    "failedSamples": 0,
+    "httpStatusCounts": {
+      "200": 2
+    },
+    "parserStatusCounts": {
+      "parsed_with_rows": 2
+    },
+    "pilotStatus": "source_route_plausible"
+  },
+  "runtimeBoundary": {
+    "marketFetchAttempted": true,
+    "sqlExecuted": false,
+    "supabaseConnectionAttempted": false,
+    "supabaseWrite": false,
+    "stagingRowsCreated": false,
+    "dailyPricesMutation": false,
+    "secretsPrinted": false,
+    "stockIdPayloadIncluded": false,
+    "rowPayloadIncluded": false,
+    "rawPayloadIncluded": false,
+    "publicDataSource": "mock",
+    "scoreSource": "mock"
+  },
+  "decision": {
+    "acceptedFor": "rate_limited_candidate_generation_plan",
+    "notAcceptedFor": [
+      "full_universe_fetch",
+      "candidate_artifact_generation",
+      "staging_write",
+      "daily_prices_merge",
+      "publicDataSource=supabase",
+      "scoreSource=real"
+    ]
+  }
+}

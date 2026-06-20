@@ -1,6 +1,6 @@
 # Phase 1 Runtime Promotion Preflight Status
 
-Updated: 2026-06-16
+Updated: 2026-06-19
 
 Status: `phase_1_runtime_promotion_preflight_ready_no_go`
 
@@ -14,7 +14,7 @@ This file is the single Phase 1 promotion decision surface after row coverage co
 
 It prevents the project from falling back into solved blockers:
 
-- row coverage is complete for the Phase 1 launch subset;
+- row coverage is complete for the executed Phase 1 current-scope shard-001;
 - data-online remains `NO-GO` only because real promotion is not approved;
 - public runtime must stay `publicDataSource=mock` and `scoreSource=mock` until promotion preflight passes.
 
@@ -32,7 +32,7 @@ Reason:
 
 | Gate | Status | Current proof | Next action |
 | --- | --- | --- | --- |
-| Row coverage | `ready` | `check:phase-1-post-write-coverage-scoring-gate` reports `missingRowsAfterWrite=0`. | Do not rerun coverage or write. |
+| Row coverage | `ready` | `check:phase-1-post-write-coverage-scoring-gate` reports shard-001 `500/500`, `insertedRows=437`, and `missingRowsAfterWrite=0`. | Do not rerun coverage or write against the same shard. |
 | Data-online decision | `ready_no_go` | `check:phase-1-data-online-go-no-go-status` reports `DATA_COVERAGE_COMPLETE_BUT_RUNTIME_PROMOTION_NO_GO`. | Keep mock until all promotion gates pass. |
 | Runtime readiness summary | `ready_no_go` | `check:runtime-promotion-readiness-summary` reports promotion pending. | Use this as the PM routing summary. |
 | Data quality | `needs_review` | Field validity and row counts are locally acceptable, but real-score quality approval is not complete. | Run the smallest quality review for required Phase 1 fields only. |

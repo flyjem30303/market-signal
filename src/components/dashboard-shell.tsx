@@ -14,7 +14,7 @@ import {
   createStaticMarketSignalRepository,
   type MarketSignalRepositoryData
 } from "@/lib/repositories/static-market-signal-repository";
-import type { NewsEvent, SignalSnapshot } from "@/lib/signal-model";
+import type { SignalSnapshot } from "@/lib/signal-model";
 
 type DashboardShellProps = {
   freshnessSnapshot?: DataFreshnessSnapshot;
@@ -46,7 +46,6 @@ export function DashboardShell({
     .map((asset) => repository.getSnapshot(asset.symbol, activeSnapshotDate) ?? repository.getSeries(asset.symbol).at(-1))
     .filter((item): item is SignalSnapshot => Boolean(item));
   const market = snapshots.find((item) => item.asset.symbol === "TWII") ?? snapshot;
-  const relatedNews = repository.getRelatedNews(selected.symbol, activeSnapshotDate);
   const isStockPage = includeSeoContent;
   const isOfficialRuntime = marketSignalSourceStatus?.resolvedSource === "supabase";
   const publicSourceLabel = formatPublicSourceLabel(freshness.sourceName, isOfficialRuntime);
@@ -61,7 +60,7 @@ export function DashboardShell({
       {!isStockPage && (
         <>
           <Hero market={market} publicSourceLabel={publicSourceLabel} selected={selected} snapshotDate={activeSnapshotDate} />
-          <HomeFirstScreenDecisionSummary market={market} />
+          <HomeFirstScreenDecisionSummary market={market} series={repository.getSeries(market.asset.symbol)} />
           <MarketWatchlistPanel snapshots={snapshots} />
         </>
       )}
@@ -74,8 +73,9 @@ export function DashboardShell({
             sourceLabel={publicSourceLabel}
           />
           <StockAtAGlance series={repository.getSeries(selected.symbol)} snapshot={snapshot} />
-          <MarketWatchlistPanel snapshots={snapshots} />
-          <StockEventContext news={relatedNews} />
+          <section className="stock-watchlist-top" aria-label="標的搜尋與追蹤入口">
+            <MarketWatchlistPanel snapshots={snapshots} variant="compact-stock" />
+          </section>
         </>
       )}
 
@@ -113,7 +113,7 @@ function Hero({
       <h1>台股市場燈號與風險觀察</h1>
       <p>
         {market.asset.name} 目前為「{market.signal.title}」，綜合分數 {market.compositeScore}/100，風險分數{" "}
-        {market.riskScore}/100。這裡把趨勢、資金、風險與資料品質放在同一個閱讀脈絡，協助你先判斷市場溫度，再進入標的細節。
+        {market.riskScore}/100。這裡把趨勢、動能、波動與資料品質放在同一個閱讀脈絡，協助你先判斷市場溫度，再進入標的細節。
       </p>
       <div className="hero-status-strip" aria-label="市場狀態摘要">
         <span>市場狀態：{market.signal.title}</span>
@@ -132,14 +132,55 @@ function Hero({
   );
 }
 
-function HomeFirstScreenDecisionSummary({ market }: { market: SignalSnapshot }) {
+function HomeFirstScreenDecisionSummary({ market, series }: { market: SignalSnapshot; series: SignalSnapshot[] }) {
+  const explanation = buildStockExplanation(market, { seriesLength: series.length });
+  const marketDiagnosis = buildHomeMarketDiagnosis(market);
+  const confidenceBrief = buildHomeConfidenceBrief(explanation);
+  const recentScores = series.slice(-5);
+  const positives = explanation.positives.slice(0, 2);
+  const negatives = explanation.negatives.slice(0, 2);
+
   return (
     <section className="home-decision-summary" aria-label="今日市場重點">
       <p className="eyebrow">今日重點</p>
       <h2>
-        {market.asset.name}: {market.signal.title}，綜合分數 {market.compositeScore}/100
+        {market.asset.name}: {explanation.scoreLevel}，綜合分數 {market.compositeScore}/100
       </h2>
-      <p>{market.signal.text}</p>
+      <p className="home-market-diagnosis">{marketDiagnosis}</p>
+      <div className="home-insight-strip" aria-label="首頁市場洞察">
+        <div className="home-insight-factor home-insight-factor--positive">
+          <h3>主要加分</h3>
+          <ul>
+            {positives.map((item) => (
+              <li key={item.evidence.map((entry) => entry.ruleId).join("-")}>{item.text}</li>
+            ))}
+          </ul>
+        </div>
+        <div className="home-insight-factor home-insight-factor--negative">
+          <h3>主要拖累</h3>
+          <ul>
+            {negatives.map((item) => (
+              <li key={item.evidence.map((entry) => entry.ruleId).join("-")}>{item.text}</li>
+            ))}
+          </ul>
+        </div>
+        <div className="home-score-trend" aria-label="最近市場分數">
+          <h3>最近分數</h3>
+          <div>
+            {recentScores.map((item) => (
+              <span key={`${item.asset.symbol}-${item.date}`}>
+                <b>{item.compositeScore}</b>
+                <small>{item.date.slice(5)}</small>
+              </span>
+            ))}
+          </div>
+        </div>
+        <div className="home-confidence-mini" aria-label="首頁判讀信心">
+          <span>判讀信心</span>
+          <strong>{explanation.confidence.score}%</strong>
+          <small>{confidenceBrief}</small>
+        </div>
+      </div>
       <div className="home-decision-grid">
         <article>
           <h3>先看燈號</h3>
@@ -171,18 +212,46 @@ function HomeFirstScreenDecisionSummary({ market }: { market: SignalSnapshot }) 
   );
 }
 
+function buildHomeMarketDiagnosis(market: SignalSnapshot) {
+  if (market.compositeScore < 60 && market.riskScore < 45) {
+    return "市場仍偏弱，但風險尚未擴散；目前更像動能降溫，而不是全面惡化。";
+  }
+  if (market.compositeScore >= 65 && market.riskScore < 45) {
+    return "市場維持偏強，且風險尚未明顯升高；可先觀察強勢是否延續。";
+  }
+  if (market.riskScore >= 60) {
+    return "市場風險升高，判讀上應優先確認波動與資料更新是否同步惡化。";
+  }
+  return "市場處於中性觀察區間，先看主要加分與拖累因素，再決定是否進入標的細節。";
+}
+
+function buildHomeConfidenceBrief(explanation: ReturnType<typeof buildStockExplanation>) {
+  const { confidence } = explanation;
+  const constraints = [
+    confidence.missingInputs.length > 0 ? "缺漏因子" : null,
+    confidence.staleInputs.length > 0 ? "資料延遲" : null,
+    confidence.sampleDepth.includes("不足") ? "歷史樣本深度限制" : null
+  ].filter(Boolean);
+
+  if (constraints.length === 0) {
+    return `資料完整度 ${confidence.dataQuality}/100，資料日期與更新狀態正常。`;
+  }
+
+  return `資料完整度 ${confidence.dataQuality}/100，信心主要受${constraints.join("、")}影響。`;
+}
+
 function StockAtAGlance({ series, snapshot }: { series: SignalSnapshot[]; snapshot: SignalSnapshot }) {
   const explanation = buildStockExplanation(snapshot, { seriesLength: series.length });
 
   return (
-    <section className="stock-public-summary" aria-label="標的分析摘要">
+    <section className="stock-public-summary" aria-label="標的分數來源說明">
       <article className="panel stock-public-summary__wide stock-decision-summary">
         <p className="eyebrow">市場診斷</p>
         <h2>
           {snapshot.asset.name}: {explanation.scoreLevel}，綜合分數 {snapshot.compositeScore}/100
         </h2>
         <p>{explanation.summary.text}</p>
-        <div className="stock-decision-facts" aria-label="判讀依據">
+        <div className="stock-decision-facts" aria-label="判讀摘要">
           <span>
             <b>資料日期</b>
             {snapshot.date}
@@ -204,7 +273,7 @@ function StockAtAGlance({ series, snapshot }: { series: SignalSnapshot[]; snapsh
 
       <article className="panel stock-public-summary__wide">
         <p className="eyebrow">分數來源拆解</p>
-        <h2>哪些因素拉高，哪些因素拖累</h2>
+        <h2>哪些因素拉高或拖累目前分數</h2>
         <div className="stock-factor-columns">
           <ExplanationList title="主要加分" tone="positive" items={explanation.positives} />
           <ExplanationList title="主要扣分" tone="negative" items={explanation.negatives} />
@@ -236,12 +305,12 @@ function StockAtAGlance({ series, snapshot }: { series: SignalSnapshot[]; snapsh
           {explanation.confidence.level}信心，{explanation.confidence.score}%
         </h2>
         <p>{explanation.confidence.note}</p>
-        <div className="stock-confidence-meter" aria-label="判讀信心百分比">
+        <div className="stock-confidence-meter" aria-label="判讀信心比例">
           <b style={{ width: String(explanation.confidence.score) + "%" }} />
         </div>
-        <div className="stock-decision-facts" aria-label="信心度來源">
+        <div className="stock-decision-facts" aria-label="信心來源">
           <span>
-            <b>資料品質</b>
+            <b>資料完整度</b>
             {explanation.confidence.dataQuality}/100
           </span>
           <span>
@@ -249,7 +318,7 @@ function StockAtAGlance({ series, snapshot }: { series: SignalSnapshot[]; snapsh
             {explanation.confidence.sampleDepth}
           </span>
           <span>
-            <b>缺漏模組</b>
+            <b>缺漏因子</b>
             {formatFlagCount(explanation.confidence.missingInputs.length)}
           </span>
           <span>
@@ -291,58 +360,48 @@ function ExplanationList({
 }
 
 function ConfidenceDetails({ missingInputs, staleInputs }: { missingInputs: string[]; staleInputs: string[] }) {
+  if (missingInputs.length === 0 && staleInputs.length === 0) {
+    return null;
+  }
+
   return (
     <div className="stock-confidence-details" aria-label="判讀信心細節">
-      <div>
-        <h3>缺漏因子</h3>
-        {missingInputs.length > 0 ? (
+      {missingInputs.length > 0 && (
+        <div>
+          <h3>缺漏因子</h3>
           <ul>
             {missingInputs.map((flag) => (
               <li key={flag}>{formatReadableDataFlag(flag)}</li>
             ))}
           </ul>
-        ) : (
-          <p>目前沒有缺漏因子。</p>
-        )}
-      </div>
-      <div>
-        <h3>資料延遲</h3>
-        {staleInputs.length > 0 ? (
+        </div>
+      )}
+      {staleInputs.length > 0 && (
+        <div>
+          <h3>資料延遲</h3>
           <ul>
             {staleInputs.map((flag) => (
               <li key={flag}>{formatReadableDataFlag(flag)}</li>
             ))}
           </ul>
-        ) : (
-          <p>目前未標記資料延遲。</p>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }
 
 function formatReadableDataFlag(flag: string) {
-  if (flag.includes("valuation")) return "估值資料尚未納入，因此本頁不判斷便宜或昂貴。";
-  if (flag.includes("fund_flow") || flag.includes("flow")) return "資金流資料尚未納入，因此無法確認買盤是否穩定。";
-  if (flag.includes("news_score") || flag.includes("news")) return "新聞情緒尚未納入正式模型，本頁先以價格與分數資料判讀。";
-  if (flag.includes("etf_full_coverage")) return "ETF 全量覆蓋列入 Phase 1.1，目前先顯示已納入的核心 ETF。";
-  if (flag.includes("momentum")) return "缺少開盤或收盤欄位，因此無法完整計算短線動能。";
-  if (flag.includes("volatility")) return "缺少最高、最低或收盤欄位，因此無法完整計算盤中波動。";
-  if (flag.includes("stale_gt_5") || flag.includes("severe_stale")) return "資料已落後超過 5 個交易日，應停止把分數視為最新狀態。";
-  if (flag.includes("stale_gt_2") || flag.includes("stale")) return "資料已落後超過 2 個交易日，判讀信心會下降。";
-  if (flag.includes("freshness_expected_date_unavailable")) return "目前無法確認預期交易日，需檢查每日更新流程。";
+  if (flag.includes("etf_full_coverage")) return "ETF 全量覆蓋列入 Phase 1.1，目前先呈現既有 ETF 標的。";
+  if (flag.includes("momentum")) return "缺少開盤或收盤價格，暫時無法推估價格動能。";
+  if (flag.includes("volatility")) return "缺少最高、最低或收盤價格，暫時無法推估波動風險。";
+  if (flag.includes("stale_gt_5") || flag.includes("severe_stale")) return "資料已超過 5 個交易日未更新，判讀信心明顯下降。";
+  if (flag.includes("stale_gt_2") || flag.includes("stale")) return "資料已超過 2 個交易日未更新，判讀信心下降。";
+  if (flag.includes("freshness_expected_date_unavailable")) return "目前無法判斷最近交易日，請以資料日期為準。";
   return flag.replace(/_/g, " ");
 }
 
 function formatFlagCount(count: number) {
-  return count === 0 ? "無" : String(count) + " 項";
-}
-
-function formatDataFlag(flag: string) {
-  if (flag.includes("news_score")) return "新聞事件目前只作為背景輔助，尚未納入正式分數。";
-  if (flag.includes("etf_full_coverage")) return "ETF 全量覆蓋列入 Phase 1.1，本頁先以目前標的與上市股票資料判讀。";
-  if (flag.includes("示範資料")) return "目前資料狀態會以頁面顯示的資料日期與引用來源為準。";
-  return flag.replace(/_/g, " ");
+  return count === 0 ? "無" : `${count} 項`;
 }
 
 function StockQuotePanel({
@@ -357,7 +416,7 @@ function StockQuotePanel({
   const quote = buildQuoteViewModel(series, snapshot);
   const tone = quote.change >= 0 ? "up" : "down";
   const marketCode = snapshot.asset.type === "index" ? "TWSE 指數" : `TPE: ${snapshot.asset.symbol}`;
-  const assetTypeLabel = snapshot.asset.type === "index" ? "指數" : snapshot.asset.type === "etf" ? "ETF" : "股票";
+  const assetTypeLabel = snapshot.asset.type === "index" ? "指數" : snapshot.asset.type === "etf" ? "ETF" : "股";
 
   return (
     <section className="stock-quote-panel" aria-label={`${snapshot.asset.name} 報價資訊`}>
@@ -404,29 +463,11 @@ function StockQuotePanel({
   );
 }
 
-function StockEventContext({ news }: { news: NewsEvent[] }) {
-  const latestNews = news[0];
-
-  return (
-    <section className="panel stock-reading-summary" aria-label="事件脈絡">
-      <p className="eyebrow">事件脈絡</p>
-      <h2>新聞與事件仍作為背景輔助</h2>
-      {latestNews ? (
-        <p>
-          {latestNews.title}: {latestNews.summary}
-        </p>
-      ) : (
-        <p>目前沒有可用的事件脈絡；請先以燈號、分數、資料日期與風險提示作為主要閱讀順序。</p>
-      )}
-    </section>
-  );
-}
-
 function buildQuoteViewModel(series: SignalSnapshot[], snapshot: SignalSnapshot) {
-  const closeLabels = snapshot.asset.type === "index" ? ["指數收盤", "指數收盤價", "收盤點數"] : ["收盤價", "ETF 參考價"];
+  const closeLabels = snapshot.asset.type === "index" ? ["指數收盤", "指數收盤價", "收盤點數", "收盤"] : ["收盤價", "ETF 參考價", "收盤"];
   const points = series
     .map((item) => ({
-      close: parseMarketNumber(getMarketFactValue(item, closeLabels)),
+      close: parseMarketNumber(getMarketFactValue(item, closeLabels, 3)),
       compositeScore: item.compositeScore,
       date: item.date,
       riskScore: item.riskScore
@@ -436,7 +477,7 @@ function buildQuoteViewModel(series: SignalSnapshot[], snapshot: SignalSnapshot)
         Number.isFinite(item.close)
     )
     .slice(-90);
-  const snapshotClose = parseMarketNumber(getMarketFactValue(snapshot, closeLabels));
+  const snapshotClose = parseMarketNumber(getMarketFactValue(snapshot, closeLabels, 3));
   const fallbackClose = snapshotClose ?? points.at(-1)?.close ?? snapshot.compositeScore;
   const chartPoints = points.length
     ? [...points]
@@ -466,20 +507,20 @@ function buildQuoteViewModel(series: SignalSnapshot[], snapshot: SignalSnapshot)
     chartPoints,
     closeLabel: formatMarketNumber(close),
     stats: [
-      { label: "開盤", value: getMarketFactValue(snapshot, ["開盤價", "指數開盤"]) ?? "暫無資料" },
-      { label: "最高", value: getMarketFactValue(snapshot, ["最高價", "指數最高"]) ?? "暫無資料" },
-      { label: "最低", value: getMarketFactValue(snapshot, ["最低價", "指數最低"]) ?? "暫無資料" },
-      { label: "收盤", value: getMarketFactValue(snapshot, closeLabels) ?? "暫無資料" },
-      { label: "成交量", value: getMarketFactValue(snapshot, ["成交量"]) ?? "暫無資料" },
-      { label: "成交金額", value: getMarketFactValue(snapshot, ["成交金額"]) ?? "暫無資料" }
+      { label: "開盤", value: getMarketFactValue(snapshot, ["開盤價", "指數開盤", "開盤"], 0) ?? "暫無資料" },
+      { label: "最高", value: getMarketFactValue(snapshot, ["最高價", "指數最高", "最高"], 1) ?? "暫無資料" },
+      { label: "最低", value: getMarketFactValue(snapshot, ["最低價", "指數最低", "最低"], 2) ?? "暫無資料" },
+      { label: "收盤", value: getMarketFactValue(snapshot, closeLabels, 3) ?? "暫無資料" },
+      { label: "成交量", value: getMarketFactValue(snapshot, ["成交量"], 4) ?? "暫無資料" },
+      { label: "成交金額", value: getMarketFactValue(snapshot, ["成交金額"], 5) ?? "暫無資料" }
     ],
-    tradeDate: getMarketFactValue(snapshot, ["資料日期"]) ?? snapshot.date,
+    tradeDate: getMarketFactValue(snapshot, ["資料日期"], 6) ?? snapshot.date,
     unit: snapshot.asset.type === "index" ? "點" : "TWD"
   };
 }
 
-function getMarketFactValue(snapshot: SignalSnapshot, labels: string[]) {
-  return snapshot.marketFacts.find((fact) => labels.includes(fact.label))?.value;
+function getMarketFactValue(snapshot: SignalSnapshot, labels: string[], fallbackIndex?: number) {
+  return snapshot.marketFacts.find((fact) => labels.includes(fact.label))?.value ?? snapshot.marketFacts[fallbackIndex ?? -1]?.value;
 }
 
 function parseMarketNumber(value: string | undefined) {

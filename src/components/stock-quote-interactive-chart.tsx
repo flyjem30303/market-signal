@@ -46,7 +46,7 @@ export function StockQuoteInteractiveChart({ assetName, points, unit }: StockQuo
 
   return (
     <>
-      <div className="stock-quote-range" aria-label="切換報價圖表時間範圍">
+      <div className="stock-quote-range" aria-label="切換報價觀察期間">
         {ranges.map((range) => (
           <button
             aria-pressed={range.days === rangeDays}
@@ -61,10 +61,9 @@ export function StockQuoteInteractiveChart({ assetName, points, unit }: StockQuo
             {range.label}
           </button>
         ))}
-        <span>滑過折線可查看當日收盤與分數。</span>
       </div>
 
-      <div className="stock-quote-chart" aria-label={`${assetName} 收盤價走勢圖`}>
+      <div className="stock-quote-chart" aria-label={`${assetName} 收盤價走勢`}>
         <svg
           onPointerLeave={() => setActiveIndex(null)}
           onPointerMove={(event) => handlePointerMove(event.clientX)}
@@ -76,7 +75,7 @@ export function StockQuoteInteractiveChart({ assetName, points, unit }: StockQuo
           role="img"
           viewBox="0 0 720 220"
         >
-          <title>{assetName} 近 {rangeDays} 日收盤走勢</title>
+          <title>{assetName} 近 {rangeDays} 日收盤價走勢</title>
           <path className="stock-quote-grid-line" d="M40 38 H700" />
           <path className="stock-quote-grid-line" d="M40 96 H700" />
           <path className="stock-quote-grid-line" d="M40 154 H700" />
@@ -90,7 +89,7 @@ export function StockQuoteInteractiveChart({ assetName, points, unit }: StockQuo
           )}
           <text x="42" y="30">{geometry.highLabel}</text>
           <text x="42" y="180">{geometry.lowLabel}</text>
-          <text x="590" y={(activeGeometryPoint?.y ?? geometry.points.at(-1)?.y ?? 120) - 10}>收盤</text>
+          <text x="590" y={(activeGeometryPoint?.y ?? geometry.points.at(-1)?.y ?? 120) - 10}>收盤價</text>
         </svg>
 
         {activePoint && activeGeometryPoint && (

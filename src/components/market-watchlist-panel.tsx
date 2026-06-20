@@ -1,127 +1,290 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type PointerEvent } from "react";
 import { TrackedLink } from "@/components/tracked-link";
 import type { SignalSnapshot } from "@/lib/signal-model";
+import {
+  maxWatchlistItems,
+  readWatchlist,
+  watchlistChangedEvent,
+  writeWatchlist
+} from "@/lib/watchlist-storage";
 
-const storageKey = "market-signal:favorites:v1";
-const maxFavorites = 5;
+type ResultSort = {
+  direction: "asc" | "desc";
+  key: "compositeScore" | "riskScore";
+};
 
-export function MarketWatchlistPanel({ snapshots }: { snapshots: SignalSnapshot[] }) {
+type MarketWatchlistPanelVariant = "default" | "compact-stock";
+
+export function MarketWatchlistPanel({
+  description = "最多追蹤 5 檔；強勢與風險排行會優先依追蹤清單排序。",
+  eyebrow = "追蹤標的",
+  heading = "搜尋股票，建立觀察清單",
+  snapshots,
+  variant = "compact-stock"
+}: {
+  description?: string;
+  eyebrow?: string;
+  heading?: string;
+  snapshots: SignalSnapshot[];
+  variant?: MarketWatchlistPanelVariant;
+}) {
   const [favorites, setFavorites] = useState<string[]>([]);
-  const [hydrated, setHydrated] = useState(false);
+  const [isDraggingResults, setIsDraggingResults] = useState(false);
   const [query, setQuery] = useState("");
   const [message, setMessage] = useState("");
+  const [rankingCollapsed, setRankingCollapsed] = useState(variant === "compact-stock");
+  const [resultSort, setResultSort] = useState<ResultSort>({ direction: "desc", key: "compositeScore" });
+  const resultsRef = useRef<HTMLDivElement>(null);
+  const isDraggingResultsRef = useRef(false);
+  const dragRef = useRef({ left: 0, startX: 0 });
 
   const bySymbol = useMemo(() => new Map(snapshots.map((snapshot) => [snapshot.asset.symbol, snapshot])), [snapshots]);
 
   useEffect(() => {
-    try {
-      const saved = JSON.parse(window.localStorage.getItem(storageKey) ?? "[]");
-      setFavorites(Array.isArray(saved) ? saved.filter((symbol) => bySymbol.has(symbol)).slice(0, maxFavorites) : []);
-    } catch {
-      setFavorites([]);
-    }
-    setHydrated(true);
-  }, [bySymbol]);
+    setFavorites(readWatchlist(new Set(bySymbol.keys())));
 
-  useEffect(() => {
-    if (hydrated) window.localStorage.setItem(storageKey, JSON.stringify(favorites));
-  }, [favorites, hydrated]);
+    function handleWatchlistChanged() {
+      setFavorites(readWatchlist(new Set(bySymbol.keys())));
+    }
+
+    window.addEventListener(watchlistChangedEvent, handleWatchlistChanged);
+    window.addEventListener("storage", handleWatchlistChanged);
+
+    return () => {
+      window.removeEventListener(watchlistChangedEvent, handleWatchlistChanged);
+      window.removeEventListener("storage", handleWatchlistChanged);
+    };
+  }, [bySymbol]);
 
   const favoriteSnapshots = favorites.map((symbol) => bySymbol.get(symbol)).filter((item): item is SignalSnapshot => Boolean(item));
   const base = favoriteSnapshots.length ? favoriteSnapshots : snapshots;
-  const searchResults = filterSnapshots(snapshots, query);
+  const searchResults = sortSnapshots(filterSnapshots(snapshots, query), resultSort);
   const strongList = rankBy(base, "compositeScore");
   const riskList = rankBy(base, "riskScore");
   const hasFavorites = favoriteSnapshots.length > 0;
+  const isCompactStock = variant === "compact-stock";
+
+  function toggleResultSort(key: ResultSort["key"]) {
+    setResultSort((current) => ({
+      key,
+      direction: current.key === key && current.direction === "desc" ? "asc" : "desc"
+    }));
+  }
+
+  function getSortIcon(key: ResultSort["key"]) {
+    if (resultSort.key !== key) return "⇅";
+    return resultSort.direction === "desc" ? "↓" : "↑";
+  }
+
+  function getSortLabel(key: ResultSort["key"], label: string) {
+    if (resultSort.key !== key) return `依${label}排序`;
+    return resultSort.direction === "desc" ? `${label}高到低` : `${label}低到高`;
+  }
 
   function addFavorite(symbol: string) {
-    if (favorites.includes(symbol)) return setMessage("已在常看標的中。");
-    if (favorites.length >= maxFavorites) return setMessage("最多追蹤 5 個常看標的，請先移除一個。");
-    setFavorites([...favorites, symbol]);
-    setMessage("已加入常看標的。");
+    if (favorites.includes(symbol)) {
+      setMessage("已在追蹤清單中。");
+      return;
+    }
+    if (favorites.length >= maxWatchlistItems) {
+      setMessage("最多追蹤 5 個標的，請先移除一個。");
+      return;
+    }
+    setFavorites(writeWatchlist([...favorites, symbol], symbol));
+    setMessage("已加入追蹤。");
+  }
+
+  function removeFavorite(symbol: string) {
+    setFavorites(writeWatchlist(favorites.filter((item) => item !== symbol), symbol));
+    setMessage("已移除追蹤。");
+  }
+
+  function scrollResults(direction: -1 | 1) {
+    const container = resultsRef.current;
+    if (!container) return;
+    const card = container.querySelector<HTMLElement>(".watchlist-result-row");
+    const cardWidth = card?.getBoundingClientRect().width ?? 260;
+    container.scrollBy({ left: direction * (cardWidth * 2 + 24), behavior: "smooth" });
+  }
+
+  function startDragResults(event: PointerEvent<HTMLDivElement>) {
+    const target = event.target as HTMLElement;
+    if (target.closest("a, button")) return;
+    const container = resultsRef.current;
+    if (!container) return;
+    dragRef.current = { left: container.scrollLeft, startX: event.clientX };
+    isDraggingResultsRef.current = true;
+    setIsDraggingResults(true);
+    container.setPointerCapture(event.pointerId);
+  }
+
+  function dragResults(event: PointerEvent<HTMLDivElement>) {
+    const container = resultsRef.current;
+    if (!container || !isDraggingResultsRef.current) return;
+    const distance = event.clientX - dragRef.current.startX;
+    container.scrollLeft = dragRef.current.left - distance;
+  }
+
+  function stopDragResults(event: PointerEvent<HTMLDivElement>) {
+    const container = resultsRef.current;
+    if (!container) return;
+    if (container.hasPointerCapture(event.pointerId)) container.releasePointerCapture(event.pointerId);
+    isDraggingResultsRef.current = false;
+    setIsDraggingResults(false);
   }
 
   return (
-    <section className="market-watchlist-panel" aria-label="常看標的">
+    <section className={`market-watchlist-panel market-watchlist-panel--${variant}`} aria-label="搜尋與追蹤標的">
       <div className="watchlist-search-card">
-        <div>
-          <p className="eyebrow">常看標的</p>
-          <h2>搜尋股票代號，建立自己的觀察清單</h2>
-          <p>最多追蹤 5 個標的。加入後，下方強勢觀察與風險觀察會優先依你的清單整理。</p>
-        </div>
         <label className="watchlist-search-field">
-          <span>輸入股票代號或名稱</span>
+          <span>搜尋股票代號或名稱</span>
+          {isCompactStock && (
+            <span className="watchlist-count" aria-label={`目前追蹤 ${favorites.length} 個，最多 ${maxWatchlistItems} 個`}>
+              {favorites.length}/{maxWatchlistItems}
+            </span>
+          )}
           <input
             aria-label="搜尋股票代號或名稱"
             onChange={(event) => {
               setQuery(event.target.value);
               setMessage("");
             }}
-            placeholder="例如 2330 或 台積電"
+            placeholder="例如 2330、0050 或台積電"
             type="search"
             value={query}
           />
         </label>
-        {message && <p className="watchlist-message" role="status">{message}</p>}
+
+        <div className="watchlist-search-copy">
+          {!isCompactStock && <p className="eyebrow">{eyebrow}</p>}
+          <h2>{heading}</h2>
+          <p>{description}</p>
+        </div>
+
+        <div className="watchlist-tracking-box" aria-live="polite">
+          <div className="watchlist-tracking-box__header">
+            {(message || !isCompactStock) && <strong>{message || "追蹤清單"}</strong>}
+            {!isCompactStock && <span>{favorites.length}/{maxWatchlistItems}</span>}
+          </div>
+          <div className="favorite-row watchlist-favorites" aria-label="已追蹤標的">
+            {hasFavorites ? (
+              favoriteSnapshots.map((snapshot) => (
+                <span className="favorite-chip" key={snapshot.asset.symbol}>
+                  <StockLink area="watchlist_favorite" snapshot={snapshot} />
+                  <button onClick={() => removeFavorite(snapshot.asset.symbol)} type="button">
+                    移除
+                  </button>
+                </span>
+              ))
+            ) : (
+              <span className="muted-chip">尚未加入追蹤。你可以先搜尋 2330、0050 或 TWII。</span>
+            )}
+          </div>
+        </div>
       </div>
 
-      <div className="favorite-row watchlist-favorites" aria-label="我的最愛">
-        {hasFavorites ? (
-          favoriteSnapshots.map((snapshot) => (
-            <span className="favorite-chip" key={snapshot.asset.symbol}>
-              <StockLink area="watchlist_favorite" snapshot={snapshot} />
-              <button onClick={() => setFavorites(favorites.filter((symbol) => symbol !== snapshot.asset.symbol))} type="button">
-                移除
-              </button>
-            </span>
-          ))
-        ) : (
-          <span className="muted-chip">尚未加入常看標的，先從搜尋結果加入。</span>
-        )}
-      </div>
-
-      <div className="watchlist-search-results" aria-label="搜尋結果">
-        {searchResults.map((snapshot) => {
-          const isFavorite = favorites.includes(snapshot.asset.symbol);
-          const isFull = favorites.length >= maxFavorites && !isFavorite;
-
-          return (
-            <article className="watchlist-result-row" key={snapshot.asset.symbol}>
-              <div>
-                <strong>{snapshot.asset.symbol}</strong>
-                <span>{snapshot.asset.name}</span>
-                <small>{snapshot.signal.title} / 綜合 {snapshot.compositeScore} / 風險 {snapshot.riskScore}</small>
-              </div>
-              <TrackedLink
-                eventName="stock_link_clicked"
-                href={`/stocks/${snapshot.asset.symbol}`}
-                label={`查看 ${snapshot.asset.symbol}`}
-                payload={{ area: "watchlist_search" }}
+      <div className="watchlist-results-shell" aria-label="搜尋結果">
+        <div className="watchlist-results-header">
+          {!isCompactStock && <span>{query ? "搜尋結果" : "常用觀察標的"}</span>}
+          <div className="watchlist-results-toolbar">
+            <div className="watchlist-sort-controls" aria-label="搜尋結果排序">
+              <button
+                aria-label={getSortLabel("compositeScore", "綜合分數")}
+                aria-pressed={resultSort.key === "compositeScore"}
+                onClick={() => toggleResultSort("compositeScore")}
+                title={getSortLabel("compositeScore", "綜合分數")}
+                type="button"
               >
-                查看
-              </TrackedLink>
-              <button disabled={isFavorite || isFull} onClick={() => addFavorite(snapshot.asset.symbol)} type="button">
-                {isFavorite ? "已加入" : "加入"}
+                <span aria-hidden="true">{getSortIcon("compositeScore")}</span>
               </button>
-            </article>
-          );
-        })}
+              <button
+                aria-label={getSortLabel("riskScore", "風險分數")}
+                aria-pressed={resultSort.key === "riskScore"}
+                onClick={() => toggleResultSort("riskScore")}
+                title={getSortLabel("riskScore", "風險分數")}
+                type="button"
+              >
+                <span aria-hidden="true">{getSortIcon("riskScore")}</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className="watchlist-results-controls" aria-label="搜尋結果左右切換">
+          <button className="watchlist-scroll-button watchlist-scroll-button--prev" aria-label="向左切換搜尋結果" onClick={() => scrollResults(-1)} type="button">
+            <span aria-hidden="true" />
+          </button>
+          <button className="watchlist-scroll-button watchlist-scroll-button--next" aria-label="向右切換搜尋結果" onClick={() => scrollResults(1)} type="button">
+            <span aria-hidden="true" />
+          </button>
+        </div>
+
+        <div
+          className={`watchlist-search-results${isDraggingResults ? " is-dragging" : ""}`}
+          onPointerCancel={stopDragResults}
+          onPointerDown={startDragResults}
+          onPointerLeave={stopDragResults}
+          onPointerMove={dragResults}
+          onPointerUp={stopDragResults}
+          ref={resultsRef}
+          tabIndex={0}
+        >
+          {searchResults.map((snapshot) => {
+            const isFavorite = favorites.includes(snapshot.asset.symbol);
+            const isFull = favorites.length >= maxWatchlistItems && !isFavorite;
+
+            return (
+              <article className="watchlist-result-row" key={snapshot.asset.symbol}>
+                <div className="watchlist-result-main">
+                  <strong>{snapshot.asset.symbol}</strong>
+                  <span>{snapshot.asset.name}</span>
+                  <small>{snapshot.signal.title}</small>
+                </div>
+                <div className="watchlist-result-side">
+                  <div className="watchlist-score-strip" aria-label={`${snapshot.asset.symbol} 分數摘要`}>
+                    <span>綜合 {snapshot.compositeScore}</span>
+                    <span>風險 {snapshot.riskScore}</span>
+                  </div>
+                  <div className="watchlist-result-actions">
+                    <TrackedLink
+                      eventName="stock_link_clicked"
+                      href={`/stocks/${snapshot.asset.symbol}`}
+                      label={`查看 ${snapshot.asset.symbol}`}
+                      payload={{ area: "watchlist_search" }}
+                    >
+                      查看
+                    </TrackedLink>
+                    <button disabled={isFavorite || isFull} onClick={() => addFavorite(snapshot.asset.symbol)} type="button">
+                      {isFavorite ? "已追蹤" : "加入追蹤"}
+                    </button>
+                  </div>
+                </div>
+              </article>
+            );
+          })}
+        </div>
       </div>
 
-      <section className="weekly-grid watchlist-observation-grid" aria-label="常看標的觀察">
+      <section className="weekly-grid watchlist-observation-grid" aria-label="追蹤觀察排行">
         <ScoreList
-          description={hasFavorites ? "依你的常看標的排序，快速看出目前相對強勢者。" : "尚未加入常看標的，暫以預設市場清單呈現。"}
+          description={hasFavorites ? "依追蹤清單排序，先看目前分數較強的標的。" : "尚未建立追蹤清單，先顯示常用標的。"}
           items={strongList}
-          title={hasFavorites ? "我的強勢觀察" : "市場強勢觀察"}
+          title={hasFavorites ? "追蹤強勢排行" : "市場強勢排行"}
           valueKey="compositeScore"
+          collapsible={isCompactStock}
+          collapsed={rankingCollapsed}
+          onToggle={() => setRankingCollapsed((current) => !current)}
         />
         <ScoreList
-          description={hasFavorites ? "依你的常看標的排序，優先提醒需要留意波動的標的。" : "尚未加入常看標的，暫以預設市場清單呈現。"}
+          description={hasFavorites ? "依追蹤清單排序，找出需要優先留意波動的標的。" : "尚未建立追蹤清單，先顯示常用標的。"}
           items={riskList}
-          title={hasFavorites ? "我的風險觀察" : "市場風險觀察"}
+          title={hasFavorites ? "追蹤風險排行" : "市場風險排行"}
           valueKey="riskScore"
+          collapsible={isCompactStock}
+          collapsed={rankingCollapsed}
+          onToggle={() => setRankingCollapsed((current) => !current)}
         />
       </section>
     </section>
@@ -145,48 +308,97 @@ function ScoreList({
   description,
   items,
   title,
-  valueKey
+  valueKey,
+  collapsible = false,
+  collapsed = false,
+  onToggle
 }: {
+  collapsible?: boolean;
+  collapsed?: boolean;
   description: string;
   items: SignalSnapshot[];
+  onToggle?: () => void;
   title: string;
   valueKey: "compositeScore" | "riskScore";
 }) {
+  if (!collapsible) {
+    return (
+      <article className="panel briefing-article">
+        <p className="eyebrow">{title}</p>
+        <h2>{title}</h2>
+        <p>{description}</p>
+        <div className="rank-list">
+          {items.map((item) => (
+            <TrackedLink
+              className="rank-row"
+              eventName="stock_link_clicked"
+              href={`/stocks/${item.asset.symbol}`}
+              key={item.asset.id}
+              label={`${item.asset.symbol} ${item.asset.name}`}
+              payload={{ area: title, symbol: item.asset.symbol }}
+            >
+              <strong>{item.asset.symbol}</strong>
+              <span>{item.asset.name}</span>
+              <b>{item[valueKey]}</b>
+            </TrackedLink>
+          ))}
+        </div>
+      </article>
+    );
+  }
+
   return (
     <article className="panel briefing-article">
-      <p className="eyebrow">{title}</p>
-      <h2>{title}</h2>
-      <p>{description}</p>
-      <div className="rank-list">
-        {items.map((item) => (
-          <TrackedLink
-            className="rank-row"
-            eventName="stock_link_clicked"
-            href={`/stocks/${item.asset.symbol}`}
-            key={item.asset.id}
-            label={`${item.asset.symbol} ${item.asset.name}`}
-            payload={{ area: title, symbol: item.asset.symbol }}
-          >
-            <strong>{item.asset.symbol}</strong>
-            <span>{item.asset.name}</span>
-            <b>{item[valueKey]}</b>
-          </TrackedLink>
-        ))}
+      <div className="rank-panel-header">
+        <div>
+          <h2>{title}</h2>
+        </div>
+        <button aria-expanded={!collapsed} onClick={onToggle} type="button">
+          {collapsed ? "展開" : "收合"}
+        </button>
       </div>
+      {!collapsed && (
+        <>
+          <p>{description}</p>
+          <div className="rank-list">
+            {items.map((item) => (
+              <TrackedLink
+                className="rank-row"
+                eventName="stock_link_clicked"
+                href={`/stocks/${item.asset.symbol}`}
+                key={item.asset.id}
+                label={`${item.asset.symbol} ${item.asset.name}`}
+                payload={{ area: title, symbol: item.asset.symbol }}
+              >
+                <strong>{item.asset.symbol}</strong>
+                <span>{item.asset.name}</span>
+                <b>{item[valueKey]}</b>
+              </TrackedLink>
+            ))}
+          </div>
+        </>
+      )}
     </article>
   );
 }
 
 function filterSnapshots(snapshots: SignalSnapshot[], query: string) {
   const normalizedQuery = query.trim().toLowerCase();
-  if (!normalizedQuery) return snapshots.slice(0, 6);
+  if (!normalizedQuery) return snapshots.slice(0, 8);
   return snapshots
     .filter((snapshot) => {
       const symbol = snapshot.asset.symbol.toLowerCase();
       const name = snapshot.asset.name.toLowerCase();
       return symbol.includes(normalizedQuery) || name.includes(normalizedQuery);
     })
-    .slice(0, 8);
+    .slice(0, 12);
+}
+
+function sortSnapshots(snapshots: SignalSnapshot[], sort: ResultSort) {
+  return snapshots.slice().sort((a, b) => {
+    const value = a[sort.key] - b[sort.key];
+    return sort.direction === "asc" ? value : -value;
+  });
 }
 
 function rankBy(snapshots: SignalSnapshot[], key: "compositeScore" | "riskScore") {
