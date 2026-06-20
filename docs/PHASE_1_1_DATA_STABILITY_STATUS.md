@@ -2,7 +2,7 @@
 
 Updated: 2026-06-20
 
-Status: `phase_1_1_adjusted_listed_equity_coverage_gate_added`
+Status: `phase_1_1_data_stability_complete`
 
 Owner: CEO / PM mainline
 
@@ -16,6 +16,28 @@ Phase 1.1 focuses on keeping the Phase 1 public runtime trustworthy after launch
 - fail-closed behavior when data freshness regresses.
 
 This document records the first Phase 1.1 gate: core-symbol freshness verification after the daily update loop.
+
+## Closeout
+
+Phase 1.1 is complete for the current scope as of 2026-06-20.
+
+Closeout evidence:
+
+- `check:daily-after-close-update`: dry-run status `dry_run_ok`, data date `2026-06-18`, `1081` price rows prepared, `1081` score rows prepared, and `0` rows written.
+- `db:freshness`: `daily_prices` and `daily_scores` both complete at `2026-06-18`.
+- `check:phase-1-1-core-symbol-freshness`: `TWII`, `2330`, `0050`, and `006208` all aligned at `2026-06-18`.
+- `check:phase-1-1-listed-equity-coverage-rollup`: adjusted listed-equity price and score coverage both `1078/1078` (`100%`).
+- `check:phase-1-1-listed-equity-metadata-maintenance-candidates`: review-only reporting remains active for `1589` and `2380`, with no metadata write.
+- `check:phase-1-1-daily-workflow-contract`: status `ok`.
+- `check:phase-1-1-deployment-observation`: status `ok` after GitHub Actions run `#6` completed successfully on commit `42ca80422a305dd8a457201c1a63ea1e0f6c4659`.
+
+Write boundary:
+
+- scheduled weekday after-close runs remain the write path;
+- manual runs write only with `write_enabled=true`;
+- main pushes and default manual runs are no-write observation paths.
+
+Next scope should be handled outside Phase 1.1.
 
 ## New Gate
 
