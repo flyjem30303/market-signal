@@ -29,6 +29,7 @@ export function StockQuoteInteractiveChart({ assetName, points, unit }: StockQuo
   const geometry = useMemo(() => buildLineGeometry(visiblePoints), [visiblePoints]);
   const activePoint = activeIndex == null ? visiblePoints.at(-1) : visiblePoints[activeIndex];
   const activeGeometryPoint = activeIndex == null ? geometry.points.at(-1) : geometry.points[activeIndex];
+  const chartTitle = `${assetName} 近 ${rangeDays} 日收盤價走勢`;
 
   function handlePointerMove(clientX: number) {
     const rect = svgRef.current?.getBoundingClientRect();
@@ -63,7 +64,7 @@ export function StockQuoteInteractiveChart({ assetName, points, unit }: StockQuo
         ))}
       </div>
 
-      <div className="stock-quote-chart" aria-label={`${assetName} 收盤價走勢`}>
+      <div className="stock-quote-chart" aria-label={chartTitle}>
         <svg
           onPointerLeave={() => setActiveIndex(null)}
           onPointerMove={(event) => handlePointerMove(event.clientX)}
@@ -75,7 +76,6 @@ export function StockQuoteInteractiveChart({ assetName, points, unit }: StockQuo
           role="img"
           viewBox="0 0 720 220"
         >
-          <title>{assetName} 近 {rangeDays} 日收盤價走勢</title>
           <path className="stock-quote-grid-line" d="M40 38 H700" />
           <path className="stock-quote-grid-line" d="M40 96 H700" />
           <path className="stock-quote-grid-line" d="M40 154 H700" />
