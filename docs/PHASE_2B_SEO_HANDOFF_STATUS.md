@@ -10,14 +10,14 @@ Status: `phase_2b_seo_handoff_status_current`
 
 ## Current Slice
 
-Slice: `phase_2b_gsc_html_verification_file_prepared`
+Slice: `phase_2b_gsc_submission_recorded`
 
 Status: Completed
 
 CEO recommendation:
 
 ```text
-custom_domain_strategy_selected_execution_deferred
+gsc_submitted_observation_pending
 ```
 
 Current domain structure decision:
@@ -54,7 +54,8 @@ marketSignalProductUrl=https://market-signal.opensignallab.com/
 | Runtime Canonical OG Public HTML Patch P1 | implemented; redeploy observation required | yes |
 | Route-level Public Head Metadata Patch P1 | completed | yes |
 | Runtime Canonical OG Public HTML Observation P1 | completed; ready for PM/CEO GSC submission decision | yes |
-| GSC HTML Verification File P1 | prepared; PM/CEO manual verification required | yes |
+| GSC HTML Verification File P1 | completed; PM/CEO manual verification completed | yes |
+| GSC Sitemap Submission Record P1 | completed; observation pending | yes |
 
 ## Current Deliverables
 
@@ -111,7 +112,7 @@ marketSignalProductUrl=https://market-signal.opensignallab.com/
 | SEO index gate report | implemented as local report |
 | Eligible stock routes under local mock gate | `0` |
 | GSC readiness checklist | prepared |
-| GSC post-submit observation checklist | prepared |
+| GSC post-submit observation checklist | submitted; observation pending |
 | GSC result intake template | prepared |
 | Custom domain preflight checklist | prepared |
 | SEO warning closeout checklist | prepared |
@@ -129,7 +130,7 @@ marketSignalProductUrl=https://market-signal.opensignallab.com/
 | Route-level public head metadata patch | completed for core public routes |
 | Public canonical / OG observation | passed on core public routes; no old Vercel URL or product-subpath canonical detected |
 | Custom domain execution | not executed |
-| GSC property / sitemap submission | not executed |
+| GSC property / sitemap submission | submitted by PM/CEO; A3 observation pending; submissionDate=2026-06-21 |
 
 ## Checks Run
 
@@ -197,6 +198,7 @@ Current execution boundary:
 noDnsChange=true
 noVercelSettingsChange=true
 noGscOperation=true
+gscSubmittedByPmCeo=true
 runtimePatchImplemented=true
 routeLevelMetadataPatchImplemented=true
 noPlatformMigration=true
@@ -213,7 +215,7 @@ noStockIndexGateOpenWithoutPmApproval=true
 Recommended next A3 slice:
 
 ```text
-phase_2b_runtime_canonical_og_public_html_observation
+phase_2b_gsc_post_submit_observation_t1
 ```
 
 Recommended scope:
@@ -284,7 +286,7 @@ Reason:
 - Reason: this affects public canonical/OG readiness and GSC submission timing, but A3 does not execute GSC/DNS/Vercel platform operations.
 
 
-## Latest Coherent Slice: phase_2b_runtime_canonical_og_public_html_observation
+## Latest Coherent Slice: phase_2b_gsc_post_submit_observation_t1
 
 1. Completed what:
 
@@ -370,3 +372,6 @@ Next platform slice: `phase_2b_gsc_manual_submission`
 
 - PM integration required: yes.
 - Reason: GSC ownership verification is an external platform operation and should be recorded by PM/CEO.
+
+
+A3 did not perform GSC platform operations.

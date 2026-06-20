@@ -1772,7 +1772,8 @@
     "check:phase-2b-runtime-migration-url-contract": "node scripts/check-phase-2b-runtime-migration-url-contract.mjs",
     "check:phase-2b-product-subdomain-strategy-decision": "node scripts/check-phase-2b-product-subdomain-strategy-decision.mjs",
     "check:phase-2b-runtime-canonical-og-public-html-patch": "node scripts/check-phase-2b-runtime-canonical-og-public-html-patch.mjs",
-    "check:phase-2b-seo-handoff-status": "node scripts/check-phase-2b-seo-handoff-status.mjs"
+    "check:phase-2b-seo-handoff-status": "node scripts/check-phase-2b-seo-handoff-status.mjs",
+    "check:phase-2b-gsc-post-submit-observation-checklist": "node scripts/check-phase-2b-gsc-post-submit-observation-checklist.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.4",
