@@ -12,7 +12,8 @@ export default async function HomePage() {
   const freshness = await getDataFreshnessSnapshot();
   const assets = repository.getAssets();
   const initialAsset = repository.getAssetBySymbol("TWII") ?? assets[0];
-  const snapshotDate = repository.getSeries(initialAsset.symbol).at(-1)?.date ?? "2026-05-28";
+  const latestMarketDate = repository.getSeries(initialAsset.symbol).at(-1)?.date ?? "2026-05-28";
+  const snapshotDate = isIsoDate(freshness.asOfDate) ? freshness.asOfDate : latestMarketDate;
   const snapshots = assets
     .map((asset) => repository.getSnapshot(asset.symbol, snapshotDate) ?? repository.getSeries(asset.symbol).at(-1))
     .filter(Boolean);
@@ -52,4 +53,8 @@ export default async function HomePage() {
 
 function uniqueSymbols(symbols: string[]) {
   return Array.from(new Set(symbols.filter(Boolean)));
+}
+
+function isIsoDate(value: string) {
+  return /^\d{4}-\d{2}-\d{2}$/u.test(value);
 }
