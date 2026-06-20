@@ -33,6 +33,7 @@ PM completed:
 - Metadata candidate check keeps `1470`, `1538`, and `8482` active for now because they are present in the latest TWSE payload without parseable close, and flags `1589` and `2380` for inactive metadata review because they are absent from the latest TWSE payload and lag by more than 10 trading days.
 - Fast-forwarded Phase 1.1 gates to `main` and pushed `origin/main`.
 - Observed GitHub Actions via public API: latest scheduled run `#4` failed on `2026-06-19T17:28:37Z`, before the Phase 1.1 gate changes reached `main`, so it is not evidence against the new adjusted coverage gate.
+- Observed public Vercel routes after main push: `/` and `/stocks/2330` both returned HTTP `200`.
 
 Current route:
 

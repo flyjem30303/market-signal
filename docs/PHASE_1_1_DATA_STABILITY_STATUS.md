@@ -169,4 +169,7 @@ Main branch status on 2026-06-20:
 - `origin/main` includes the core-symbol freshness gate and adjusted listed-equity coverage gate.
 - The latest visible scheduled GitHub Actions run before this update was run `#4`, created at `2026-06-19T17:28:37Z`, and failed before the Phase 1.1 gate changes were on `main`.
 - The old run `#4` is not evidence that the new adjusted coverage gate fails.
+- Public Vercel route health on 2026-06-20:
+  - `https://market-signal-two.vercel.app/`: HTTP `200`
+  - `https://market-signal-two.vercel.app/stocks/2330`: HTTP `200`
 - Next observation target: the next scheduled or manually dispatched `Daily after-close market data update` run on `main`.
