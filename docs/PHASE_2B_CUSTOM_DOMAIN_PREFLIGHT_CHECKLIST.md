@@ -23,7 +23,8 @@ It does not change DNS, change Vercel settings, create a GSC property, submit a 
 
 ## Required Decisions Before Custom Domain
 
-- CEO/PM must select the final canonical domain.
+- CEO/PM selected `OpenSignalLab.com` as the parent brand domain in `docs/PHASE_2B_DOMAIN_USAGE_DECISION_RECORD.md`.
+- CEO/PM must still separately approve the final canonical-host switch timing before any launch.
 - CEO/PM must decide whether the Vercel URL remains accessible as a redirect or secondary host.
 - CEO/PM must decide when to create the new GSC property for the custom domain.
 - CEO/PM must decide whether the temporary Vercel GSC property remains monitored during transition.

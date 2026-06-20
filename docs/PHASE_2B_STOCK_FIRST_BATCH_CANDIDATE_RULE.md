@@ -34,7 +34,11 @@ A stock route can become a first-batch candidate only if all gates pass.
 ### 2. Data Quality Gate
 
 - stock snapshot is available
+- route returns a normal `200` response before it is considered for sitemap inclusion
+- page explanation content is not fallback/mock copy
+- source is formal Supabase data, not local mock runtime
 - latest price and score are fresh enough for the public claim
+- data is not stale for the declared public update cadence
 - `dataQualityScore >= 70`
 - `dataQualityGrade !== "D"`
 
@@ -44,6 +48,8 @@ A stock route can become a first-batch candidate only if all gates pass.
 - route has canonical metadata
 - route has Open Graph and Twitter card metadata
 - route has non-advisory public copy
+- page content is sufficiently distinct and not duplicate thin content
+- title and description are specific to the symbol and not generic fallback text
 - route does not expose internal debug, raw payload, or governance text
 
 ### 4. Sitemap Gate

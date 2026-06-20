@@ -34,6 +34,27 @@ It is an observation plan only. It does not mutate external platforms, does not 
 - T+14+ days:
   - If crawl/index status remains abnormal, A3 reviews sitemap, robots, canonical, and metadataBase.
 
+## Observation Record Table
+
+Use one row per observation checkpoint.
+
+| submissionDate | sitemapSubmitted | discoveredUrls | indexedUrls | notIndexedUrls | structuredDataWarnings | mobileWarnings | canonicalWarnings | serverErrors | nextAction |
+|---|---|---:|---:|---:|---|---|---|---|---|
+| YYYY-MM-DD | yes/no | 0 | 0 | 0 | none / details | none / details | none / details | none / details | observe / escalate / fix |
+
+Field notes:
+
+- `submissionDate`: date PM/CEO submitted sitemap in GSC.
+- `sitemapSubmitted`: whether GSC shows the sitemap submission.
+- `discoveredUrls`: total discovered URLs shown by GSC.
+- `indexedUrls`: known indexed URLs from GSC.
+- `notIndexedUrls`: known not-indexed URLs from GSC.
+- `structuredDataWarnings`: JSON-LD or structured data warnings.
+- `mobileWarnings`: mobile usability warnings.
+- `canonicalWarnings`: duplicate, alternate, or Google-selected canonical warnings.
+- `serverErrors`: 5xx, fetch errors, or sitemap fetch errors.
+- `nextAction`: observe, escalate to A3, or PM/CEO platform action.
+
 ## Expected Signals
 
 Core routes should be crawlable:

@@ -24,21 +24,19 @@ export function buildRouteMetadata({
   title: string;
   type?: "article" | "website";
 }): Metadata {
-  const url = absoluteUrl(path);
-  const imageUrl = absoluteUrl(seoDefaultImagePath);
-
   return {
     alternates: {
-      canonical: url
+      canonical: path
     },
     description,
+    metadataBase: new URL(siteConfig.url),
     openGraph: {
       description,
       images: [
         {
           alt: "指數燈號 Market Signal",
           height: 630,
-          url: imageUrl,
+          url: seoDefaultImagePath,
           width: 1200
         }
       ],
@@ -46,13 +44,13 @@ export function buildRouteMetadata({
       siteName: siteConfig.name,
       title,
       type,
-      url
+      url: path
     },
     title,
     twitter: {
       card: "summary_large_image",
       description,
-      images: [imageUrl],
+      images: [seoDefaultImagePath],
       title
     }
   };
