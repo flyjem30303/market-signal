@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { buildRouteMetadata } from "@/lib/seo";
+import { SeoJsonLd } from "@/components/seo-json-ld";
+import { buildCorePageJsonLd, buildRouteMetadata } from "@/lib/seo";
 import { PageViewTracker } from "@/components/page-view-tracker";
 import { TrackedLink } from "@/components/tracked-link";
 
@@ -9,10 +10,17 @@ export const metadata: Metadata = buildRouteMetadata({
   title: "????"
 });
 
+const termsJsonLd = buildCorePageJsonLd({
+  description: "?????????????????????????",
+  path: "/terms",
+  title: "????"
+});
+
 export default function TermsPage() {
   return (
     <main className="page-shell">
       <PageViewTracker eventName="terms_page_viewed" payload={{ page: "terms" }} />
+      <SeoJsonLd data={termsJsonLd} />
       <section className="hero">
         <p className="eyebrow">使用條款</p>
         <h1>請把本站作為市場觀察輔助工具</h1>

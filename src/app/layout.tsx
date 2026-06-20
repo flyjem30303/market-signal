@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { seoDefaultImagePath, seoSiteDescription } from "@/lib/seo";
+import { buildWebsiteJsonLd, seoDefaultImagePath, seoSiteDescription } from "@/lib/seo";
 import type { ReactNode } from "react";
 import { SiteNav } from "@/components/site-nav";
 import { TrackedLink } from "@/components/tracked-link";
@@ -72,9 +72,15 @@ const footerLinkGroups = [
 ];
 
 export default function RootLayout({ children }: { children: ReactNode }) {
+  const websiteJsonLd = buildWebsiteJsonLd();
+
   return (
     <html lang="zh-Hant">
       <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd).replace(/</g, "\\u003c") }}
+        />
         <header className="site-header">
           <TrackedLink
             className="site-logo"

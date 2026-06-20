@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { buildRouteMetadata } from "@/lib/seo";
+import { SeoJsonLd } from "@/components/seo-json-ld";
+import { buildCorePageJsonLd, buildRouteMetadata } from "@/lib/seo";
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { PageViewTracker } from "@/components/page-view-tracker";
 import { TrackedLink } from "@/components/tracked-link";
@@ -7,6 +8,12 @@ import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
 import { getMarketSignalSourceStatus } from "@/lib/repositories/market-signal-repository";
 
 export const metadata: Metadata = buildRouteMetadata({
+  description: "???????????????????????????????????????",
+  path: "/methodology",
+  title: "???"
+});
+
+const methodologyJsonLd = buildCorePageJsonLd({
   description: "???????????????????????????????????????",
   path: "/methodology",
   title: "???"
@@ -26,6 +33,7 @@ export default async function MethodologyPage() {
   return (
     <main className="page-shell">
       <PageViewTracker eventName="methodology_page_viewed" payload={{ page: "methodology" }} />
+      <SeoJsonLd data={methodologyJsonLd} />
       <section className="hero">
         <p className="eyebrow">方法說明</p>
         <h1>先看燈號，再看原因，最後看資料時間</h1>

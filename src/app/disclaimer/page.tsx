@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { buildRouteMetadata } from "@/lib/seo";
+import { SeoJsonLd } from "@/components/seo-json-ld";
+import { buildCorePageJsonLd, buildRouteMetadata } from "@/lib/seo";
 import { PageViewTracker } from "@/components/page-view-tracker";
 import { TrackedLink } from "@/components/tracked-link";
 
@@ -9,10 +10,17 @@ export const metadata: Metadata = buildRouteMetadata({
   title: "????"
 });
 
+const disclaimerJsonLd = buildCorePageJsonLd({
+  description: "????????????????????????????????????",
+  path: "/disclaimer",
+  title: "????"
+});
+
 export default function DisclaimerPage() {
   return (
     <main className="page-shell">
       <PageViewTracker eventName="disclaimer_page_viewed" payload={{ page: "disclaimer" }} />
+      <SeoJsonLd data={disclaimerJsonLd} />
       <section className="hero">
         <p className="eyebrow">風險聲明</p>
         <h1>燈號是觀察工具，不是買賣指令</h1>

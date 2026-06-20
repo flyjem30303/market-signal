@@ -111,3 +111,75 @@ export function getSeoStockSitemapAssets({
     .slice(0, SEO_STOCK_SITEMAP_LIMIT);
 }
 
+export function buildWebsiteJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    description: seoSiteDescription,
+    inLanguage: "zh-Hant",
+    name: siteConfig.name,
+    url: siteConfig.url
+  };
+}
+
+export function buildWebPageJsonLd({
+  description,
+  path,
+  title
+}: {
+  description: string;
+  path: string;
+  title: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    description,
+    inLanguage: "zh-Hant",
+    isPartOf: {
+      "@type": "WebSite",
+      name: siteConfig.name,
+      url: siteConfig.url
+    },
+    name: title,
+    url: absoluteUrl(path)
+  };
+}
+
+export function buildBreadcrumbJsonLd({ path, title }: { path: string; title: string }) {
+  const items = [
+    {
+      "@type": "ListItem",
+      item: absoluteUrl("/"),
+      name: siteConfig.name,
+      position: 1
+    }
+  ];
+
+  if (path !== "/") {
+    items.push({
+      "@type": "ListItem",
+      item: absoluteUrl(path),
+      name: title,
+      position: 2
+    });
+  }
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: items
+  };
+}
+
+export function buildCorePageJsonLd({
+  description,
+  path,
+  title
+}: {
+  description: string;
+  path: string;
+  title: string;
+}) {
+  return [buildWebPageJsonLd({ description, path, title }), buildBreadcrumbJsonLd({ path, title })];
+}

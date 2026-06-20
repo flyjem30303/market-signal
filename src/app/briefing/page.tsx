@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { buildRouteMetadata } from "@/lib/seo";
+import { SeoJsonLd } from "@/components/seo-json-ld";
+import { buildCorePageJsonLd, buildRouteMetadata } from "@/lib/seo";
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { MarketWatchlistPanel } from "@/components/market-watchlist-panel";
 import { PageViewTracker } from "@/components/page-view-tracker";
@@ -13,6 +14,12 @@ import type { SignalSnapshot } from "@/lib/signal-model";
 export const revalidate = 300;
 
 export const metadata: Metadata = buildRouteMetadata({
+  description: "??????????????????????????????????????",
+  path: "/briefing",
+  title: "?? Briefing"
+});
+
+const briefingJsonLd = buildCorePageJsonLd({
   description: "??????????????????????????????????????",
   path: "/briefing",
   title: "?? Briefing"
@@ -49,6 +56,7 @@ export default async function BriefingPage() {
   return (
     <main className="page-shell">
       <PageViewTracker eventName="briefing_page_viewed" payload={{ page: "briefing" }} />
+      <SeoJsonLd data={briefingJsonLd} />
 
       <section className="hero briefing-public-summary" aria-label="市場快報">
         <p className="eyebrow">市場快報</p>

@@ -27,6 +27,7 @@ const FILES = {
 
 const checks = [];
 const STOCK_SITEMAP_INITIAL_LIMIT = 100;
+const EXPECTED_TEMPORARY_SITE_URL = "https://market-signal-two.vercel.app";
 
 const warn = (id, msg, details = "") =>
   checks.push({ level: "WARN", id, msg, details });
@@ -47,6 +48,7 @@ const hasTitleDesc = (source) =>
 const hasCanonical = (source) => /alternates\s*:\s*{[^}]*canonical/i.test(source) || /buildRouteMetadata\s*\(/.test(source);
 const hasGenerateMetadata = (source) => /generateMetadata/i.test(source);
 const hasSocialMetadata = (source) => hasOpenGraph(source) || hasTwitter(source) || /buildRouteMetadata\s*\(/.test(source);
+const hasCorePageStructuredData = (source) => /SeoJsonLd/.test(source) && /buildCorePageJsonLd/.test(source);
 
 function printReport() {
   const groups = {
@@ -103,8 +105,24 @@ async function run() {
   } else {
     warn("layout.social", "layout.tsx 未完全定義全站 OG / Twitter baseline");
   }
+  if (has(layout, /application\/ld\+json/i) && has(layout, /buildWebsiteJsonLd/i)) {
+    pass("layout.websiteSchema", "layout.tsx 已設定全站 WebSite structured data");
+  } else {
+    warn("layout.websiteSchema", "layout.tsx 建議補全站 WebSite structured data");
+  }
   if (layout.includes("localhost")) {
     warn("layout.siteUrl", "metadataBase fallback 出現 localhost，部署/正式網域切換前請確認環境變數");
+  }
+  const configuredSiteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+  if (!configuredSiteUrl) {
+    warn(
+      "env.NEXT_PUBLIC_SITE_URL",
+      `NEXT_PUBLIC_SITE_URL 未設定；GSC 前建議先設為 ${EXPECTED_TEMPORARY_SITE_URL}`,
+    );
+  } else if (configuredSiteUrl === EXPECTED_TEMPORARY_SITE_URL || /^https:\/\/[^/]+/.test(configuredSiteUrl)) {
+    pass("env.NEXT_PUBLIC_SITE_URL", `NEXT_PUBLIC_SITE_URL 已設定：${configuredSiteUrl}`);
+  } else {
+    warn("env.NEXT_PUBLIC_SITE_URL", `NEXT_PUBLIC_SITE_URL 看起來不是公開 https URL：${configuredSiteUrl}`);
   }
 
   // route metadata checks
@@ -146,6 +164,11 @@ async function run() {
       pass(`${page.id}.canonical`, `${page.name} 有可追蹤 canonical 策略`);
     } else {
       warn(`${page.id}.canonical`, `${page.name} 未明確設定 canonical`);
+    }
+    if (hasCorePageStructuredData(page.source)) {
+      pass(`${page.id}.structuredData`, `${page.name} 有 WebPage/Breadcrumb structured data`);
+    } else {
+      warn(`${page.id}.structuredData`, `${page.name} 建議補 WebPage/Breadcrumb structured data`);
     }
   }
 

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { buildRouteMetadata } from "@/lib/seo";
+import { SeoJsonLd } from "@/components/seo-json-ld";
+import { buildCorePageJsonLd, buildRouteMetadata } from "@/lib/seo";
 import { PageViewTracker } from "@/components/page-view-tracker";
 import { TrackedLink } from "@/components/tracked-link";
 
@@ -9,10 +10,17 @@ export const metadata: Metadata = buildRouteMetadata({
   title: "?????"
 });
 
+const privacyJsonLd = buildCorePageJsonLd({
+  description: "????????????????????????",
+  path: "/privacy",
+  title: "?????"
+});
+
 export default function PrivacyPage() {
   return (
     <main className="page-shell">
       <PageViewTracker eventName="privacy_page_viewed" payload={{ page: "privacy" }} />
+      <SeoJsonLd data={privacyJsonLd} />
       <section className="hero">
         <p className="eyebrow">隱私權政策</p>
         <h1>目前不建立會員帳號，也不處理交易資料</h1>

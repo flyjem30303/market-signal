@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { buildRouteMetadata } from "@/lib/seo";
+import { SeoJsonLd } from "@/components/seo-json-ld";
+import { buildCorePageJsonLd, buildRouteMetadata } from "@/lib/seo";
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { MarketWatchlistPanel } from "@/components/market-watchlist-panel";
 import { PageViewTracker } from "@/components/page-view-tracker";
@@ -13,6 +14,12 @@ import { buildStockExplanation, type ExplanationItem } from "@/lib/stock-explana
 export const revalidate = 300;
 
 export const metadata: Metadata = buildRouteMetadata({
+  description: "??????????????????????????????????",
+  path: "/weekly",
+  title: "??????"
+});
+
+const weeklyJsonLd = buildCorePageJsonLd({
   description: "??????????????????????????????????",
   path: "/weekly",
   title: "??????"
@@ -38,6 +45,7 @@ export default async function WeeklyPage() {
   return (
     <main className="page-shell">
       <PageViewTracker eventName="weekly_page_viewed" payload={{ page: "weekly" }} />
+      <SeoJsonLd data={weeklyJsonLd} />
 
       <section className="hero weekly-hero">
         <p className="eyebrow">市場週報</p>
