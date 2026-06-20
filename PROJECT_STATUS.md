@@ -22,10 +22,12 @@ PM completed:
 - Added `docs/PHASE_1_1_DATA_STABILITY_STATUS.md`.
 - Verified current core dates: `TWII`, `2330`, `0050`, and `006208` all have price and score dates at `2026-06-18`.
 - Verified `npm run check:daily-after-close-update`, `npm run db:freshness`, `npm run check:phase-1-1-core-symbol-freshness`, `npx tsc --noEmit`, and `npm run build`.
+- Added `scripts/check-phase-1-1-listed-equity-coverage-rollup.mjs` as a diagnostic-only Phase 1.1 coverage rollup.
+- Initial listed-equity rollup found `1078/1083` active listed equities covered at the latest price and score date (`99.54%`), with five symbols requiring classification: `1470`, `1538`, `1589`, `2380`, `8482`.
 
 Current route:
 
-- `phase_1_1_listed_equity_coverage_rollup_and_github_actions_observation`
+- `phase_1_1_classify_five_listed_equity_latest_date_gaps_and_observe_github_actions`
 
 ## Latest Effective Status - 2026-06-19
 

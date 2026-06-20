@@ -69,11 +69,23 @@ Fresh local checks on 2026-06-20:
 ## Next Phase 1.1 Work
 
 1. Observe the next scheduled GitHub Actions run and confirm this new core-symbol gate passes in CI.
-2. Add a compact coverage rollup for listed equities, separating:
-   - expected active TWSE listed equities;
-   - latest-date covered equities;
-   - missing latest-date equities;
-   - ETF baseline coverage versus full ETF Phase 1.1 deferral.
-3. Keep public UI stable unless data-state wording becomes misleading.
-4. Do not add news, valuation, or fund-flow modules until those data sources are explicitly adopted.
+2. Classify the listed-equity latest-date coverage gap:
+   - active listed equities: `1083`
+   - latest price coverage: `1078/1083` (`99.54%`)
+   - latest score coverage: `1078/1083` (`99.54%`)
+   - missing latest-date symbols: `1470`, `1538`, `1589`, `2380`, `8482`
+3. Decide whether each missing symbol is:
+   - a stale `stocks.is_active` metadata issue;
+   - a suspended/no-trade latest-date condition that should be excluded from same-day coverage;
+   - a parser/source matching issue;
+   - or a genuine data gap requiring repair.
+4. Keep public UI stable unless data-state wording becomes misleading.
+5. Do not add news, valuation, or fund-flow modules until those data sources are explicitly adopted.
 
+## Listed-Equity Coverage Rollup
+
+Checker: `check:phase-1-1-listed-equity-coverage-rollup`
+
+Current result on 2026-06-20: `review`
+
+The checker is intentionally not wired into the daily GitHub Actions workflow yet. It is a Phase 1.1 diagnostic gate until the five missing latest-date symbols are classified and the expected behavior is decided.
