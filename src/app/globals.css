@@ -15312,7 +15312,7 @@ input[type="search"]::placeholder {
 }
 
 .market-watchlist-panel--compact-stock .watchlist-search-results {
-  grid-auto-columns: minmax(186px, 205px);
+  grid-auto-columns: minmax(166px, 185px);
   margin: 8px 0;
   padding-bottom: 6px;
 }
