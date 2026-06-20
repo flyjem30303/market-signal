@@ -24,10 +24,12 @@ PM completed:
 - Verified `npm run check:daily-after-close-update`, `npm run db:freshness`, `npm run check:phase-1-1-core-symbol-freshness`, `npx tsc --noEmit`, and `npm run build`.
 - Added `scripts/check-phase-1-1-listed-equity-coverage-rollup.mjs` as a diagnostic-only Phase 1.1 coverage rollup.
 - Initial listed-equity rollup found `1078/1083` active listed equities covered at the latest price and score date (`99.54%`), with five symbols requiring classification: `1470`, `1538`, `1589`, `2380`, `8482`.
+- Added `scripts/check-phase-1-1-listed-equity-gap-classification.mjs`.
+- Gap classification found `0` parser/mapping candidates: `1470`, `1538`, and `8482` are present in the TWSE latest payload without parseable close; `1589` and `2380` are not present in the latest TWSE payload.
 
 Current route:
 
-- `phase_1_1_classify_five_listed_equity_latest_date_gaps_and_observe_github_actions`
+- `phase_1_1_decide_suspended_or_no_close_symbols_coverage_denominator_policy_and_observe_github_actions`
 
 ## Latest Effective Status - 2026-06-19
 

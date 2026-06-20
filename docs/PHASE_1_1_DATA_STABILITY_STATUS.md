@@ -89,3 +89,27 @@ Checker: `check:phase-1-1-listed-equity-coverage-rollup`
 Current result on 2026-06-20: `review`
 
 The checker is intentionally not wired into the daily GitHub Actions workflow yet. It is a Phase 1.1 diagnostic gate until the five missing latest-date symbols are classified and the expected behavior is decided.
+
+## Listed-Equity Gap Classification
+
+Checker: `check:phase-1-1-listed-equity-gap-classification`
+
+Current result on 2026-06-20: `review`
+
+Classification summary:
+
+- `parser_or_mapping_gap_candidate`: `0`
+- `present_without_parseable_close`: `3`
+  - `1470`
+  - `1538`
+  - `8482`
+- `not_present_in_latest_twse_payload`: `2`
+  - `1589`
+  - `2380`
+
+Interpretation:
+
+- The five-symbol gap is not currently a parser or symbol-mapping defect.
+- Three symbols are present in the TWSE latest payload but do not have a parseable closing price for the latest date.
+- Two symbols are absent from the TWSE latest payload.
+- The next Phase 1.1 decision is whether these should be excluded from same-day coverage denominator as suspended/no-close/no-latest-source cases, or whether `stocks.is_active` metadata needs a separate maintenance route.
