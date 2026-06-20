@@ -1,5 +1,32 @@
 # Project Status
 
+## Latest Effective Status - 2026-06-20
+
+### Latest Phase 1.1 Core Symbol Freshness Gate
+
+Status: `phase_1_1_core_symbol_freshness_gate_added`
+
+CEO decision:
+
+- Phase 1 is sealed at tag `phase1-v1.0`.
+- Phase 1.1 starts with daily update stability before expanding additional UI or indicator scope.
+- Added a core-symbol freshness gate so GitHub Actions no longer passes only because the tables have any latest rows.
+- The gate verifies `TWII`, `2330`, `0050`, and `006208` each have latest `daily_prices` and `daily_scores` for `phase1-price-derived-v1`, matching dates, aligned core dates, and acceptable calendar lag.
+- This directly targets the prior ETF freshness risk where `0050` or `006208` could lag while table-level freshness still looked complete.
+
+PM completed:
+
+- Added `scripts/check-phase-1-1-core-symbol-freshness.mjs`.
+- Registered `check:phase-1-1-core-symbol-freshness` in `package.json`.
+- Added the core-symbol gate to `.github/workflows/daily-after-close-update.yml`.
+- Added `docs/PHASE_1_1_DATA_STABILITY_STATUS.md`.
+- Verified current core dates: `TWII`, `2330`, `0050`, and `006208` all have price and score dates at `2026-06-18`.
+- Verified `npm run check:daily-after-close-update`, `npm run db:freshness`, `npm run check:phase-1-1-core-symbol-freshness`, `npx tsc --noEmit`, and `npm run build`.
+
+Current route:
+
+- `phase_1_1_listed_equity_coverage_rollup_and_github_actions_observation`
+
 ## Latest Effective Status - 2026-06-19
 
 ### Latest Phase 1 Daily Scores Backfill Post-Run Review

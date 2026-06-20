@@ -32,3 +32,6 @@ jobs:
 
       - name: Verify Supabase freshness
         run: node scripts/check-supabase-freshness.mjs
+
+      - name: Verify Phase 1.1 core symbol freshness
+        run: node scripts/check-phase-1-1-core-symbol-freshness.mjs
