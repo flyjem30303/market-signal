@@ -2,6 +2,28 @@
 
 ## Latest Effective Status - 2026-06-20
 
+### Latest Phase 1 Post-Release Observation And UX Closeout
+
+Status: `phase_1_post_release_observation_and_ux_closeout_passed`
+
+CEO decision:
+
+- Phase 1 public/free route set is now treated as the shipped public surface for this closeout: `/`, `/briefing`, `/weekly`, `/stocks/2330`, `/stocks/TWII`, `/methodology`, `/disclaimer`, `/terms`, and `/privacy`.
+- Phase 2-only surfaces such as `/membership` and `/watchlist` remain intentionally unavailable.
+- No new UI feature scope is added during this closeout; next product expansion should move to Phase 1.1 or later.
+
+PM completed:
+
+- Fixed the stock quote chart hydration mismatch on `/stocks/*` by removing the SSR-sensitive inline SVG `<title>` node and keeping the accessible chart label on the surrounding chart container.
+- Aligned `check:public-beta-core-route-quick-proof` with the current Phase 1 public page copy and route contract.
+- Verified local `/`, `/stocks/2330`, and `/stocks/TWII` in a browser context with `0` runtime/hydration/page errors.
+- Verified `npx tsc --noEmit`, `npm run build`, local `check:public-beta-core-route-quick-proof`, and public-site `check:public-beta-core-route-quick-proof`.
+- Verified public routes `https://market-signal-two.vercel.app/`, `/stocks/2330`, and `/stocks/TWII` in a browser context with `0` runtime/hydration/page errors.
+
+Current route:
+
+- `phase_1_closeout_complete_then_phase_1_1_data_stability_or_next_product_scope`
+
 ### Latest Phase 1.1 Adjusted Listed-Equity Coverage Gate
 
 Status: `phase_1_1_adjusted_listed_equity_coverage_gate_added`
