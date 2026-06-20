@@ -10,14 +10,14 @@ Status: `phase_2b_seo_handoff_status_current`
 
 ## Current Slice
 
-Slice: `phase_2b_gsc_post_submit_observation_t1`
+Slice: `phase_2b_public_seo_observation_probe`
 
 Status: Completed
 
 CEO recommendation:
 
 ```text
-gsc_t1_sitemap_success_page_indexing_processing
+public_seo_observation_probe_ready
 ```
 
 Current domain structure decision:
@@ -57,6 +57,7 @@ marketSignalProductUrl=https://market-signal.opensignallab.com/
 | GSC HTML Verification File P1 | completed; PM/CEO manual verification completed | yes |
 | GSC Sitemap Submission Record P1 | completed | yes |
 | GSC Post-submit Observation T1 P1 | completed; sitemap success; page indexing processing | yes |
+| Public SEO Observation Probe P1 | completed | yes |
 
 ## Current Deliverables
 
@@ -79,6 +80,7 @@ marketSignalProductUrl=https://market-signal.opensignallab.com/
 - `docs/PHASE_2B_PRODUCT_SUBDOMAIN_STRATEGY_DECISION.md`
 - `docs/PHASE_2B_RUNTIME_CANONICAL_OG_PUBLIC_HTML_PATCH.md`
 - `docs/PHASE_2B_SEO_HANDOFF_STATUS.md`
+- `docs/PHASE_2B_PUBLIC_SEO_OBSERVATION_PROBE.md`
 - `src/lib/seo.ts`
 - `src/components/seo-json-ld.tsx`
 - `scripts/check-phase-2b-seo-foundation.mjs`
@@ -99,6 +101,7 @@ marketSignalProductUrl=https://market-signal.opensignallab.com/
 - `scripts/check-phase-2b-seo-warning-closeout-checklist.mjs`
 - `scripts/check-phase-2b-seo-rollup-for-pm-integration.mjs`
 - `scripts/check-phase-2b-seo-handoff-status.mjs`
+- `scripts/check-phase-2b-public-seo-observation-probe.mjs`
 
 ## Current SEO Gate Status
 
@@ -259,8 +262,10 @@ Reason:
 - `src/app/terms/page.tsx`
 - `docs/PHASE_2B_RUNTIME_CANONICAL_OG_PUBLIC_HTML_PATCH.md`
 - `docs/PHASE_2B_SEO_HANDOFF_STATUS.md`
+- `docs/PHASE_2B_PUBLIC_SEO_OBSERVATION_PROBE.md`
 - `scripts/check-phase-2b-runtime-canonical-og-public-html-patch.mjs`
 - `scripts/check-phase-2b-seo-handoff-status.mjs`
+- `scripts/check-phase-2b-public-seo-observation-probe.mjs`
 
 3. Checks run:
 
@@ -300,8 +305,10 @@ Reason:
 
 - `docs/PHASE_2B_RUNTIME_CANONICAL_OG_PUBLIC_HTML_PATCH.md`
 - `docs/PHASE_2B_SEO_HANDOFF_STATUS.md`
+- `docs/PHASE_2B_PUBLIC_SEO_OBSERVATION_PROBE.md`
 - `scripts/check-phase-2b-runtime-canonical-og-public-html-patch.mjs`
 - `scripts/check-phase-2b-seo-handoff-status.mjs`
+- `scripts/check-phase-2b-public-seo-observation-probe.mjs`
 
 3. Checks run:
 
@@ -349,6 +356,7 @@ Next platform slice: `phase_2b_gsc_manual_submission`
 
 - `public/google7e70e6b598ce7064.html`
 - `docs/PHASE_2B_SEO_HANDOFF_STATUS.md`
+- `docs/PHASE_2B_PUBLIC_SEO_OBSERVATION_PROBE.md`
 
 3. Checks run:
 
@@ -380,3 +388,6 @@ A3 did not perform GSC platform operations.
 
 
 T1 note: indexed/not-indexed counts remain pending until GSC Pages report finishes processing.
+
+
+Check added: cmd /c npm run check:phase-2b-public-seo-observation-probe
