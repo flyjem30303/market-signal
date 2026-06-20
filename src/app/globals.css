@@ -15622,7 +15622,7 @@ input[type="search"]::placeholder {
   display: grid;
   align-content: space-between;
   gap: 6px;
-  width: 58px;
+  width: 62px;
 }
 
 .market-watchlist-panel--compact-stock .watchlist-score-strip {
@@ -15631,12 +15631,12 @@ input[type="search"]::placeholder {
 }
 
 .market-watchlist-panel--compact-stock .watchlist-score-strip span {
-  padding: 3px 5px;
+  padding: 3px 6px;
   font-size: 11px;
 }
 
 .market-watchlist-panel--compact-stock .watchlist-result-actions {
-  grid-template-columns: repeat(2, 26px);
+  grid-template-columns: repeat(2, 28px);
   gap: 4px;
 }
 
@@ -15644,10 +15644,10 @@ input[type="search"]::placeholder {
   position: relative;
   display: grid;
   place-items: center;
-  width: 26px;
-  min-width: 26px;
-  height: 26px;
-  min-height: 26px;
+  width: 28px;
+  min-width: 28px;
+  height: 28px;
+  min-height: 28px;
   padding: 0;
 }
 
@@ -15672,8 +15672,8 @@ input[type="search"]::placeholder {
   position: absolute;
   top: 1px;
   left: 1px;
-  width: 8px;
-  height: 8px;
+  width: 9px;
+  height: 9px;
   border: 2px solid currentColor;
   border-radius: 999px;
   content: "";
@@ -15681,9 +15681,9 @@ input[type="search"]::placeholder {
 
 .watchlist-action-icon--view::after {
   position: absolute;
-  right: 1px;
-  bottom: 1px;
-  width: 6px;
+  top: 10px;
+  left: 10px;
+  width: 5px;
   height: 2px;
   border-radius: 999px;
   background: currentColor;
@@ -16459,6 +16459,11 @@ input[type="search"]::placeholder {
   .stock-public-summary {
     grid-template-columns: 1fr;
     align-items: stretch;
+  }
+
+  .market-watchlist-panel--compact-stock .watchlist-result-row {
+    grid-template-columns: minmax(0, 1fr) max-content;
+    align-items: center;
   }
 
   .stock-explanation-list.compact {
