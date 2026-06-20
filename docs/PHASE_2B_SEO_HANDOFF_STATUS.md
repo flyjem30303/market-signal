@@ -10,7 +10,7 @@ Status: `phase_2b_seo_handoff_status_current`
 
 ## Current Slice
 
-Slice: `phase_2b_runtime_canonical_og_public_html_observation`
+Slice: `phase_2b_gsc_html_verification_file_prepared`
 
 Status: Completed
 
@@ -54,6 +54,7 @@ marketSignalProductUrl=https://market-signal.opensignallab.com/
 | Runtime Canonical OG Public HTML Patch P1 | implemented; redeploy observation required | yes |
 | Route-level Public Head Metadata Patch P1 | completed | yes |
 | Runtime Canonical OG Public HTML Observation P1 | completed; ready for PM/CEO GSC submission decision | yes |
+| GSC HTML Verification File P1 | prepared; PM/CEO manual verification required | yes |
 
 ## Current Deliverables
 
@@ -331,3 +332,41 @@ Reason:
 
 
 Next platform slice: `phase_2b_gsc_manual_submission`
+
+
+## Latest Coherent Slice: phase_2b_gsc_html_verification_file_prepared
+
+1. Completed what:
+
+- Added Google Search Console HTML verification file for the URL-prefix property verification flow.
+- Prepared expected public URL: `https://market-signal.opensignallab.com/google7e70e6b598ce7064.html`.
+- A3 did not click GSC verification and did not perform DNS, Vercel settings, or GSC platform operations.
+
+2. Modified files:
+
+- `public/google7e70e6b598ce7064.html`
+- `docs/PHASE_2B_SEO_HANDOFF_STATUS.md`
+
+3. Checks run:
+
+- Not run yet in production; requires PM/CEO merge and Vercel redeploy first.
+
+4. Runtime / public UI / Supabase / SQL / data fetch impact:
+
+- Runtime static asset impact: yes, one public Google verification HTML file.
+- Public UI layout impact: none.
+- Supabase impact: none.
+- SQL impact: none.
+- Market data fetch impact: none.
+- Stock indexing impact: unchanged; full stock routes indexing remains closed.
+
+5. Next recommendation:
+
+- PM/CEO merge and redeploy production.
+- A3 can then confirm the verification file returns 200.
+- PM/CEO then clicks Verify in Google Search Console and submits `https://market-signal.opensignallab.com/sitemap.xml`.
+
+6. PM mainline integration:
+
+- PM integration required: yes.
+- Reason: GSC ownership verification is an external platform operation and should be recorded by PM/CEO.
