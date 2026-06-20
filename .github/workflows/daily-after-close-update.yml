@@ -48,3 +48,6 @@ jobs:
 
       - name: Verify Phase 1.1 listed equity adjusted coverage
         run: node scripts/check-phase-1-1-listed-equity-coverage-rollup.mjs
+
+      - name: Report Phase 1.1 listed equity metadata maintenance candidates
+        run: node scripts/check-phase-1-1-listed-equity-metadata-maintenance-candidates.mjs

@@ -119,6 +119,10 @@ Checker: `check:phase-1-1-listed-equity-gap-classification`
 
 Current result on 2026-06-20: `review`
 
+Workflow hook: `.github/workflows/daily-after-close-update.yml`
+
+This checker runs after the adjusted listed-equity coverage gate as no-write decision support. It reports stale active-listing candidates without mutating `stocks.is_active`.
+
 Classification summary:
 
 - `parser_or_mapping_gap_candidate`: `0`
@@ -202,6 +206,7 @@ Expected behavior:
   - `check-supabase-freshness.mjs`
   - `check-phase-1-1-core-symbol-freshness.mjs`
   - `check-phase-1-1-listed-equity-coverage-rollup.mjs`
+  - `check-phase-1-1-listed-equity-metadata-maintenance-candidates.mjs`
 
 Post-run local verification:
 
