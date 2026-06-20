@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { buildRouteMetadata } from "@/lib/seo";
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { MarketWatchlistPanel } from "@/components/market-watchlist-panel";
 import { PageViewTracker } from "@/components/page-view-tracker";
@@ -11,10 +12,11 @@ import { buildStockExplanation, type ExplanationItem } from "@/lib/stock-explana
 
 export const revalidate = 300;
 
-export const metadata: Metadata = {
-  title: "市場週報",
-  description: "整理本週市場燈號、相對強勢標的、風險觀察與後續追蹤重點。"
-};
+export const metadata: Metadata = buildRouteMetadata({
+  description: "整理每週台股燈號變化、風險分數與市場觀察重點，協助投資者追蹤趨勢，不保證報酬。",
+  path: "/weekly",
+  title: "每週市場燈號回顧｜Market Signal"
+});
 
 export default async function WeeklyPage() {
   const { marketSignalSourceStatus, repository } = await getMarketSignalRuntime();

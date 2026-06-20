@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
+import { buildRouteMetadata } from "@/lib/seo";
 import { PageViewTracker } from "@/components/page-view-tracker";
 import { TrackedLink } from "@/components/tracked-link";
 
-export const metadata: Metadata = {
-  title: "隱私權政策",
-  description: "說明指數燈號目前公開瀏覽階段的資料使用、追蹤清單與互動事件邊界。"
-};
+export const metadata: Metadata = buildRouteMetadata({
+  description: "說明 Market Signal 的隱私與資料使用原則，以及使用者在公開網站上的基本資料邊界。",
+  path: "/privacy",
+  title: "隱私權政策｜Market Signal"
+});
 
 export default function PrivacyPage() {
   return (

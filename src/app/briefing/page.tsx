@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { buildRouteMetadata } from "@/lib/seo";
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { MarketWatchlistPanel } from "@/components/market-watchlist-panel";
 import { PageViewTracker } from "@/components/page-view-tracker";
@@ -11,10 +12,11 @@ import type { SignalSnapshot } from "@/lib/signal-model";
 
 export const revalidate = 300;
 
-export const metadata: Metadata = {
-  title: "市場快報",
-  description: "以台股市場燈號、風險分數、資料日期與引用來源整理目前市場狀態。"
-};
+export const metadata: Metadata = buildRouteMetadata({
+  description: "快速閱讀台股市場燈號、風險分數、趨勢強弱與主要觀察重點，作為市場理解輔助，不提供投資建議。",
+  path: "/briefing",
+  title: "今日市場燈號重點｜Market Signal"
+});
 
 const fallbackSnapshotDate = "2026-05-28";
 

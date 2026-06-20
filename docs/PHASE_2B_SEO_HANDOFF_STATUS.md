@@ -10,7 +10,7 @@ Status: `phase_2b_seo_handoff_status_current`
 
 ## Current Slice
 
-Slice: `phase_2b_runtime_canonical_og_public_html_patch`
+Slice: `phase_2b_route_level_public_head_metadata_patch`
 
 Status: Completed
 
@@ -52,6 +52,7 @@ marketSignalProductUrl=https://market-signal.opensignallab.com/
 | Runtime Migration URL Contract Checker P1 | implemented | yes |
 | Product Subdomain Strategy Decision P1 | completed | yes |
 | Runtime Canonical OG Public HTML Patch P1 | implemented; redeploy observation required | yes |
+| Route-level Public Head Metadata Patch P1 | completed; redeploy observation required | yes |
 
 ## Current Deliverables
 
@@ -123,6 +124,7 @@ marketSignalProductUrl=https://market-signal.opensignallab.com/
 | Runtime migration URL contract checker | implemented; validates Vercel root mode and product-subdomain root mode |
 | Product subdomain strategy decision | completed; `/market-signal/` product-subpath strategy is superseded |
 | Runtime canonical / OG public HTML patch | implemented; waiting for redeploy observation |
+| Route-level public head metadata patch | completed for core public routes; waiting for redeploy observation |
 | Custom domain execution | not executed |
 | GSC property / sitemap submission | not executed |
 
@@ -169,7 +171,7 @@ Known warnings:
 - Runtime migration patch plan is prepared but not executed; it recommends coordinating Next.js `basePath`, `src/lib/site.ts` URL composition, sitemap, robots, canonical, OG, Twitter, and JSON-LD in one future patch.
 - Runtime migration minimal patch is implemented, but production platform migration remains blocked; default base path is empty unless `NEXT_PUBLIC_SITE_BASE_PATH` is explicitly set.
 - Runtime migration URL contract checker now guards root mode and product-subdomain mode; `https://opensignallab.com/briefing` is treated as a bad Market Signal product URL.
-- Runtime canonical / OG patch implemented after production observation found robots/sitemap correct but public HTML missing canonical and `og:url`; PM/CEO redeploy observation is required before GSC submission.
+- Runtime canonical / OG patch implemented after production observation found robots/sitemap correct but public HTML missing canonical and `og:url`; route-level metadata is now wired to `buildRouteMetadata(...)` for core public routes; PM/CEO redeploy observation is required before GSC submission.
 - Stock universe exceeds the first-batch sitemap cap, so stock indexing remains intentionally gated.
 - Warning closeout criteria are documented in `docs/PHASE_2B_SEO_WARNING_CLOSEOUT_CHECKLIST.md`; A3 should not close these by changing PM platform settings or opening stock indexing.
 
@@ -193,6 +195,7 @@ noDnsChange=true
 noVercelSettingsChange=true
 noGscOperation=true
 runtimePatchImplemented=true
+routeLevelMetadataPatchImplemented=true
 noPlatformMigration=true
 noCanonicalHostMigration=true
 noProductSubpathMigration=true
@@ -229,3 +232,50 @@ Reason:
 - SEO touches public route discoverability, canonical host policy, sitemap policy, and external platform timing.
 - A3 can prepare checks and templates, but PM/CEO must decide domain/GSC execution timing.
 
+
+
+## Latest Coherent Slice: phase_2b_route_level_public_head_metadata_patch
+
+1. Completed what:
+
+- Wired core public routes to `buildRouteMetadata(...)` so canonical and `og:url` can be emitted from route-level metadata.
+- Covered `/`, `/briefing`, `/weekly`, `/methodology`, `/disclaimer`, `/privacy`, and `/terms`.
+- Kept stock route indexing gated and did not change sitemap stock cap.
+
+2. Modified files:
+
+- `src/app/page.tsx`
+- `src/app/briefing/page.tsx`
+- `src/app/weekly/page.tsx`
+- `src/app/methodology/page.tsx`
+- `src/app/disclaimer/page.tsx`
+- `src/app/privacy/page.tsx`
+- `src/app/terms/page.tsx`
+- `docs/PHASE_2B_RUNTIME_CANONICAL_OG_PUBLIC_HTML_PATCH.md`
+- `docs/PHASE_2B_SEO_HANDOFF_STATUS.md`
+- `scripts/check-phase-2b-runtime-canonical-og-public-html-patch.mjs`
+- `scripts/check-phase-2b-seo-handoff-status.mjs`
+
+3. Checks run:
+
+- `cmd /c npm run check:phase-2b-runtime-canonical-og-public-html-patch`
+- `cmd /c npm run check:phase-2b-seo-handoff-status`
+
+4. Runtime / public UI / Supabase / SQL / data fetch impact:
+
+- Runtime metadata impact: yes, route-level SEO metadata only.
+- Public UI layout impact: none.
+- Supabase impact: none.
+- SQL impact: none.
+- Market data fetch impact: none.
+- Stock indexing impact: unchanged; full stock routes indexing remains closed.
+
+5. Next recommendation:
+
+- PM/CEO merge and redeploy production.
+- A3 then observes public HTML for canonical and `og:url` before any GSC sitemap submission.
+
+6. PM mainline integration:
+
+- PM integration required: yes.
+- Reason: this affects public canonical/OG readiness and GSC submission timing, but A3 does not execute GSC/DNS/Vercel platform operations.

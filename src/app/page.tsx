@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+import { buildRouteMetadata } from "@/lib/seo";
 import { PageViewTracker } from "@/components/page-view-tracker";
 import { DashboardShell } from "@/components/dashboard-shell";
 import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
@@ -5,6 +7,12 @@ import { getMarketSignalRuntime, getMarketSignalSearchItems } from "@/lib/reposi
 import { toMarketSignalRepositoryData } from "@/lib/repositories/static-market-signal-repository";
 
 export const revalidate = 300;
+
+export const metadata: Metadata = buildRouteMetadata({
+  description: "用紅黃綠燈號與分數快速理解台股市場風險、趨勢強弱與觀察重點；不提供買賣建議。",
+  path: "/",
+  title: "台股燈號｜Market Signal"
+});
 
 export default async function HomePage() {
   const { marketSignalSourceStatus, repository } = await getMarketSignalRuntime();
