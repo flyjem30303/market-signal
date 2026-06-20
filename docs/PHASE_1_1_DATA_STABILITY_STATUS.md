@@ -2,7 +2,7 @@
 
 Updated: 2026-06-20
 
-Status: `phase_1_1_core_symbol_freshness_gate_added`
+Status: `phase_1_1_adjusted_listed_equity_coverage_gate_added`
 
 Owner: CEO / PM mainline
 
@@ -86,9 +86,32 @@ Fresh local checks on 2026-06-20:
 
 Checker: `check:phase-1-1-listed-equity-coverage-rollup`
 
-Current result on 2026-06-20: `review`
+Workflow hook: `.github/workflows/daily-after-close-update.yml`
 
-The checker is intentionally not wired into the daily GitHub Actions workflow yet. It is a Phase 1.1 diagnostic gate until the five missing latest-date symbols are classified and the expected behavior is decided.
+Current result on 2026-06-20: `ok`
+
+Coverage policy:
+
+- Keep raw active listed-equity coverage visible.
+- Exclude symbols from the same-day adjusted denominator only when the latest TWSE payload either:
+  - does not include the symbol; or
+  - includes the symbol but has no parseable closing price.
+- Do not treat these denominator exclusions as parser or symbol-mapping success.
+- Continue to expose the excluded symbols and reasons for PM review.
+
+Current raw coverage:
+
+- active listed equities: `1083`
+- latest price coverage: `1078/1083` (`99.54%`)
+- latest score coverage: `1078/1083` (`99.54%`)
+- raw missing latest-date symbols: `1470`, `1538`, `1589`, `2380`, `8482`
+
+Current adjusted coverage:
+
+- adjusted listed-equity denominator: `1078`
+- adjusted price coverage: `1078/1078` (`100%`)
+- adjusted score coverage: `1078/1078` (`100%`)
+- excluded from same-day denominator: `5`
 
 ## Listed-Equity Gap Classification
 
@@ -112,4 +135,5 @@ Interpretation:
 - The five-symbol gap is not currently a parser or symbol-mapping defect.
 - Three symbols are present in the TWSE latest payload but do not have a parseable closing price for the latest date.
 - Two symbols are absent from the TWSE latest payload.
-- The next Phase 1.1 decision is whether these should be excluded from same-day coverage denominator as suspended/no-close/no-latest-source cases, or whether `stocks.is_active` metadata needs a separate maintenance route.
+- These five symbols are excluded from the same-day adjusted coverage denominator while still remaining visible as raw latest-date coverage gaps.
+- A separate metadata maintenance route may still decide later whether long-running absent symbols should remain `is_active=true`.

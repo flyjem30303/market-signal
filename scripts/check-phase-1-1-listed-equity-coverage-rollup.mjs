@@ -1,5 +1,6 @@
 const MODEL_VERSION = "phase1-price-derived-v1";
 const SAMPLE_LIMIT = 12;
+const TWSE_STOCK_DAY_ALL_URL = "https://openapi.twse.com.tw/v1/exchangeReport/STOCK_DAY_ALL";
 
 function requireEnv(name) {
   const value = process.env[name];
@@ -42,9 +43,24 @@ const latestPriceStockIds = new Set(latestPriceRows.map((row) => row.stock_id));
 const latestScoreStockIds = new Set(latestScoreRows.map((row) => row.stock_id));
 const missingLatestPrice = activeListedEquities.filter((asset) => !latestPriceStockIds.has(asset.id));
 const missingLatestScore = activeListedEquities.filter((asset) => !latestScoreStockIds.has(asset.id));
+const twseRowsByCode = await fetchTwseLatestRowsByCode();
+const excludedFromSameDayDenominator = classifySameDayDenominatorExclusions(missingLatestPrice, twseRowsByCode);
+const includedActiveListedEquities = activeListedEquities.filter(
+  (asset) => !excludedFromSameDayDenominator.some((row) => row.symbol === asset.symbol)
+);
+const includedLatestPriceCount = includedActiveListedEquities.filter((asset) => latestPriceStockIds.has(asset.id)).length;
+const includedLatestScoreCount = includedActiveListedEquities.filter((asset) => latestScoreStockIds.has(asset.id)).length;
 
 const coverage = {
   activeListedEquityCount: activeListedEquities.length,
+  adjustedCoveragePolicy: "exclude_latest_twse_absent_or_no_parseable_close_from_same_day_denominator",
+  adjustedListedEquityCount: includedActiveListedEquities.length,
+  adjustedPriceCoverageCount: includedLatestPriceCount,
+  adjustedPriceCoveragePct: pct(includedLatestPriceCount, includedActiveListedEquities.length),
+  adjustedScoreCoverageCount: includedLatestScoreCount,
+  adjustedScoreCoveragePct: pct(includedLatestScoreCount, includedActiveListedEquities.length),
+  excludedFromSameDayDenominatorCount: excludedFromSameDayDenominator.length,
+  excludedFromSameDayDenominatorSample: excludedFromSameDayDenominator.slice(0, SAMPLE_LIMIT),
   latestPriceCoverageCount: latestPriceStockIds.size,
   latestPriceCoveragePct: pct(latestPriceStockIds.size, activeListedEquities.length),
   latestPriceDate,
@@ -60,8 +76,8 @@ const coverage = {
     latestPriceDate &&
     latestScoreDate &&
     latestPriceDate === latestScoreDate &&
-    missingLatestPrice.length === 0 &&
-    missingLatestScore.length === 0
+    includedLatestPriceCount === includedActiveListedEquities.length &&
+    includedLatestScoreCount === includedActiveListedEquities.length
       ? "ok"
       : "review"
 };
@@ -110,4 +126,56 @@ function pct(value, total) {
 
 function sampleSymbols(rows) {
   return rows.slice(0, SAMPLE_LIMIT).map((row) => row.symbol);
+}
+
+async function fetchTwseLatestRowsByCode() {
+  const response = await fetch(TWSE_STOCK_DAY_ALL_URL, {
+    headers: {
+      accept: "application/json, text/plain;q=0.9, */*;q=0.1",
+      "cache-control": "no-cache",
+      "user-agent": "market-signal-phase1.1-coverage-rollup/1.0 (+https://github.com/flyjem30303/market-signal)"
+    }
+  });
+  const text = await response.text();
+  if (!response.ok) throw new Error(`TWSE code presence fetch failed: ${response.status} ${response.statusText}`);
+  if (/^\s*</u.test(text)) throw new Error("TWSE code presence fetch returned an HTML payload.");
+  const rows = JSON.parse(text);
+  if (!Array.isArray(rows)) throw new Error("TWSE code presence fetch returned a non-array payload.");
+  return new Map(
+    rows
+      .map((row) => [String(row.Code ?? "").trim().toUpperCase(), row])
+      .filter(([code]) => Boolean(code))
+  );
+}
+
+function classifySameDayDenominatorExclusions(missingAssets, rowsByCode) {
+  return missingAssets
+    .map((asset) => {
+      const row = rowsByCode.get(String(asset.symbol).toUpperCase());
+      if (!row) {
+        return {
+          reason: "not_present_in_latest_twse_payload",
+          symbol: asset.symbol
+        };
+      }
+      if (numberValue(row.ClosingPrice) == null) {
+        return {
+          reason: "present_without_parseable_close",
+          symbol: asset.symbol
+        };
+      }
+      return null;
+    })
+    .filter(Boolean);
+}
+
+function stringValue(value) {
+  return value == null ? "" : String(value).trim();
+}
+
+function numberValue(value) {
+  const raw = stringValue(value).replace(/,/g, "");
+  if (!raw || raw === "--") return null;
+  const number = Number(raw);
+  return Number.isFinite(number) ? number : null;
 }

@@ -2,9 +2,9 @@
 
 ## Latest Effective Status - 2026-06-20
 
-### Latest Phase 1.1 Core Symbol Freshness Gate
+### Latest Phase 1.1 Adjusted Listed-Equity Coverage Gate
 
-Status: `phase_1_1_core_symbol_freshness_gate_added`
+Status: `phase_1_1_adjusted_listed_equity_coverage_gate_added`
 
 CEO decision:
 
@@ -26,10 +26,13 @@ PM completed:
 - Initial listed-equity rollup found `1078/1083` active listed equities covered at the latest price and score date (`99.54%`), with five symbols requiring classification: `1470`, `1538`, `1589`, `2380`, `8482`.
 - Added `scripts/check-phase-1-1-listed-equity-gap-classification.mjs`.
 - Gap classification found `0` parser/mapping candidates: `1470`, `1538`, and `8482` are present in the TWSE latest payload without parseable close; `1589` and `2380` are not present in the latest TWSE payload.
+- Updated `scripts/check-phase-1-1-listed-equity-coverage-rollup.mjs` with an adjusted denominator policy that excludes symbols only when the latest TWSE payload is absent or has no parseable closing price.
+- The rollup now keeps raw coverage visible (`1078/1083`, `99.54%`) while allowing adjusted same-day coverage to pass (`1078/1078`, `100%`).
+- Added the adjusted listed-equity coverage rollup to `.github/workflows/daily-after-close-update.yml` after the core-symbol freshness gate.
 
 Current route:
 
-- `phase_1_1_decide_suspended_or_no_close_symbols_coverage_denominator_policy_and_observe_github_actions`
+- `phase_1_1_observe_github_actions_adjusted_coverage_gate_then_metadata_maintenance_decision`
 
 ## Latest Effective Status - 2026-06-19
 
