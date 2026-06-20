@@ -7,8 +7,7 @@ import type { MarketSignalRepository } from "@/lib/repositories/types";
 import { toMarketSignalRepositoryData } from "@/lib/repositories/static-market-signal-repository";
 import { absoluteUrl, siteConfig } from "@/lib/site";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+export const revalidate = 300;
 
 type StockPageProps = {
   params: {
@@ -21,7 +20,7 @@ const stockPagePublicCopyContract =
   "本頁整理標的燈號、分數、資料日期與引用來源，協助使用者建立觀察順序；內容不構成投資建議。";
 
 export async function generateMetadata({ params }: StockPageProps): Promise<Metadata> {
-  const { repository } = await getMarketSignalRuntime();
+  const { repository } = await getMarketSignalRuntime({ symbols: [params.symbol] });
   const asset = repository.getAssetBySymbol(params.symbol);
   if (!asset) return {};
 
@@ -48,7 +47,8 @@ export async function generateMetadata({ params }: StockPageProps): Promise<Meta
 }
 
 export default async function StockPage({ params }: StockPageProps) {
-  const { marketSignalSourceStatus, repository } = await getMarketSignalRuntime();
+  const stockPageSymbols = buildStockPageSymbols(params.symbol);
+  const { marketSignalSourceStatus, repository } = await getMarketSignalRuntime({ symbols: stockPageSymbols });
   const asset = repository.getAssetBySymbol(params.symbol);
   if (!asset) notFound();
 
@@ -104,7 +104,7 @@ export default async function StockPage({ params }: StockPageProps) {
         initialSymbol={asset.symbol}
         includeSeoContent
         marketSignalSourceStatus={marketSignalSourceStatus}
-        repositoryData={toMarketSignalRepositoryData(repository, snapshotDate, buildStockPageSymbols(asset.symbol), {
+        repositoryData={toMarketSignalRepositoryData(repository, snapshotDate, stockPageSymbols, {
           includeSeriesDays: 90
         })}
       />

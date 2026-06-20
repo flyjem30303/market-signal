@@ -9,8 +9,7 @@ import { getMarketSignalRuntime } from "@/lib/repositories/market-signal-reposit
 import type { SignalSnapshot } from "@/lib/signal-model";
 import { buildStockExplanation, type ExplanationItem } from "@/lib/stock-explanation-engine";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: "市場週報",
@@ -28,6 +27,7 @@ export default async function WeeklyPage() {
   const market = snapshots.find((item) => item.asset.symbol === "TWII") ?? snapshots[0];
   const topRisk = snapshots.slice().sort((a, b) => b.riskScore - a.riskScore)[0] ?? market;
   const strongest = snapshots.slice().sort((a, b) => b.compositeScore - a.compositeScore).slice(0, 3);
+  const watchlistSnapshots = buildPublicWatchlistSnapshots(snapshots, [market, topRisk, ...strongest]);
   const weeklyChange = buildWeeklyChangeSummary(marketSeries);
   const explanation = buildStockExplanation(market, { seriesLength: marketSeries.length });
   const positives = explanation.positives.slice(0, 3);
@@ -129,7 +129,7 @@ export default async function WeeklyPage() {
         description="週報先看市場變化；若要補查單一標的，再用搜尋建立追蹤清單。"
         eyebrow="延伸查詢"
         heading="想查其他標的"
-        snapshots={snapshots}
+        snapshots={watchlistSnapshots}
       />
 
       <PublicNextReadingFlow context="weekly" stockSymbol={market.asset.symbol} />
@@ -191,6 +191,19 @@ function buildWeeklyChangeSummary(series: SignalSnapshot[]) {
     summary: buildWeeklySummary(compositeDelta, riskDelta, signalChanged),
     title: `本週回看：${previous.date} → ${latest.date}`
   };
+}
+
+function buildPublicWatchlistSnapshots(snapshots: SignalSnapshot[], priority: SignalSnapshot[]) {
+  const prioritySymbols = new Set(["TWII", "0050", "006208", "2330", "2308", "2382"]);
+  for (const snapshot of priority) prioritySymbols.add(snapshot.asset.symbol);
+
+  return snapshots
+    .filter((snapshot) => prioritySymbols.has(snapshot.asset.symbol))
+    .sort((a, b) => {
+      const priorityDelta = Number(prioritySymbols.has(b.asset.symbol)) - Number(prioritySymbols.has(a.asset.symbol));
+      return priorityDelta || b.compositeScore - a.compositeScore;
+    })
+    .slice(0, 12);
 }
 
 function formatWeeklyDelta(previous: number, current: number, delta: number) {

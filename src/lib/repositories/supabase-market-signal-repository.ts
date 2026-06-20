@@ -86,6 +86,10 @@ export type SupabaseMarketSignalClient = {
   from(table: "daily_scores"): DailyScoreQuery;
 };
 
+type SupabaseMarketSignalRepositoryOptions = {
+  symbols?: string[];
+};
+
 type MarketKey = {
   country: string;
   exchange: string;
@@ -134,14 +138,21 @@ export function createSupabaseMarketSignalRepository(_client: SupabaseMarketSign
 
 export async function createLoadedSupabaseMarketSignalRepository(
   client: SupabaseMarketSignalClient,
-  market: MarketKey = defaultMarket
+  market: MarketKey = defaultMarket,
+  options: SupabaseMarketSignalRepositoryOptions = {}
 ): Promise<MarketSignalRepository> {
-  const stocks = await getActiveStocks(client, market);
+  const stocks = filterStocksBySymbols(await getActiveStocks(client, market), options.symbols);
   const stockIds = stocks.map((stock) => stock.id);
   const [prices, scores] =
     stockIds.length > 0 ? await Promise.all([getPrices(client, stockIds), getScores(client, stockIds)]) : [[], []];
 
   return createRepositoryFromRows(stocks, prices, scores);
+}
+
+function filterStocksBySymbols(stocks: StockRow[], symbols: string[] | undefined) {
+  if (!symbols?.length) return stocks;
+  const symbolSet = new Set(symbols.map((symbol) => symbol.toLowerCase()));
+  return stocks.filter((stock) => symbolSet.has(stock.symbol.toLowerCase()));
 }
 
 function createRepositoryFromRows(

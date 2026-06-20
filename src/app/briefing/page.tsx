@@ -9,8 +9,7 @@ import { getMarketSignalRuntime } from "@/lib/repositories/market-signal-reposit
 import { buildStockExplanation, type ExplanationItem } from "@/lib/stock-explanation-engine";
 import type { SignalSnapshot } from "@/lib/signal-model";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: "市場快報",
@@ -37,6 +36,7 @@ export default async function BriefingPage() {
   const marketChange = buildMarketChangeSummary(marketSeries);
   const positives = explanation.positives.slice(0, 2);
   const negatives = explanation.negatives.slice(0, 2);
+  const watchlistSnapshots = buildPublicWatchlistSnapshots(snapshots, [market, topRisk, ...strongest]);
   const sourceLabel =
     marketSignalSourceStatus.resolvedSource === "supabase"
       ? freshness.sourceName && freshness.sourceName !== "正式資料" && !freshness.sourceName.toLowerCase().includes("supabase")
@@ -119,7 +119,7 @@ export default async function BriefingPage() {
         </div>
       </section>
 
-      <MarketWatchlistPanel snapshots={snapshots} />
+      <MarketWatchlistPanel snapshots={watchlistSnapshots} />
 
       <section className="briefing-grid" aria-label="市場觀察">
         <article className="panel">
@@ -222,6 +222,19 @@ function buildMarketBreadth(snapshots: SignalSnapshot[]) {
     },
     { constructiveCount: 0, defensiveCount: 0 }
   );
+}
+
+function buildPublicWatchlistSnapshots(snapshots: SignalSnapshot[], priority: SignalSnapshot[]) {
+  const prioritySymbols = new Set(["TWII", "0050", "006208", "2330", "2308", "2382"]);
+  for (const snapshot of priority) prioritySymbols.add(snapshot.asset.symbol);
+
+  return snapshots
+    .filter((snapshot) => prioritySymbols.has(snapshot.asset.symbol))
+    .sort((a, b) => {
+      const priorityDelta = Number(prioritySymbols.has(b.asset.symbol)) - Number(prioritySymbols.has(a.asset.symbol));
+      return priorityDelta || b.compositeScore - a.compositeScore;
+    })
+    .slice(0, 12);
 }
 
 function buildBriefingMarketDiagnosis(market: SignalSnapshot) {
