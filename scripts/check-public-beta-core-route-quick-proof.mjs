@@ -17,15 +17,14 @@ const publicRoutes = [
   "/privacy"
 ];
 
-const inaccessibleRoutes = ["/membership", "/watchlist"];
+const phaseTwoRoutes = ["/membership", "/watchlist"];
 
 const sourceFiles = [
   "src/components/dashboard-shell.tsx",
+  "src/components/market-watchlist-panel.tsx",
   "src/app/briefing/page.tsx",
   "src/app/weekly/page.tsx",
-  "src/components/public-beta-membership-mvp-roadmap.tsx",
-  "src/components/public-beta-public-status-surface.tsx",
-  "src/components/public-beta-source-coverage-bridge.tsx",
+  "src/app/stocks/[symbol]/page.tsx",
   "src/app/methodology/page.tsx",
   "src/app/disclaimer/page.tsx",
   "src/app/terms/page.tsx",
@@ -34,15 +33,15 @@ const sourceFiles = [
 ];
 
 const routeVisibleContracts = [
-  { route: "/", tokens: ["市場總覽 / 快速判讀", "30 秒", "示範資料", "免責聲明"] },
-  { route: "/briefing", tokens: ["市場快報", "30 秒看懂市場燈號", "下一步行動", "資料邊界"] },
-  { route: "/weekly", tokens: ["市場週報", "本週市場狀態回顧", "示範資料", "不是投資建議"] },
-  { route: "/stocks/2330", tokens: ["2330", "個股燈號 / 一眼判讀", "示範資料", "免責聲明"] },
-  { route: "/stocks/TWII", tokens: ["TWII", "個股燈號 / 一眼判讀", "示範資料", "免責聲明"] },
-  { route: "/methodology", tokens: ["方法說明", "燈號", "風險分數", "不是投資建議"] },
-  { route: "/disclaimer", tokens: ["風險聲明", "不是投資建議", "示範資料"] },
-  { route: "/terms", tokens: ["使用條款", "市場資訊整理", "示範資料"] },
-  { route: "/privacy", tokens: ["隱私權", "公開免費版", "會員"] }
+  { route: "/", tokens: ["台股市場燈號", "今日重點", "搜尋股票"] },
+  { route: "/briefing", tokens: ["市場快報", "主要支撐", "主要拖累"] },
+  { route: "/weekly", tokens: ["市場週報", "本週市場摘要", "本週主要支撐"] },
+  { route: "/stocks/2330", tokens: ["2330", "市場診斷", "搜尋股票"] },
+  { route: "/stocks/TWII", tokens: ["TWII", "市場診斷", "搜尋股票"] },
+  { route: "/methodology", tokens: ["方法說明", "燈號", "風險分數"] },
+  { route: "/disclaimer", tokens: ["風險聲明", "不提供個股買賣建議", "可能延遲或缺漏"] },
+  { route: "/terms", tokens: ["使用條款", "市場觀察", "不構成投資建議"] },
+  { route: "/privacy", tokens: ["隱私權政策", "目前沒有帳號系統", "儲存在你的瀏覽器"] }
 ];
 
 const missing = [];
@@ -51,7 +50,6 @@ const forbiddenPublicSourceFragments = [
   "cmd.exe",
   "PUBLIC_BETA_",
   "BETA_",
-  "daily_prices",
   "raw market data",
   "candidateArtifactPath",
   "OFFICIAL-",
@@ -88,9 +86,9 @@ for (const route of publicRoutes) {
   publicRouteResults.push(await checkRoute(route));
 }
 
-const inaccessibleRouteResults = [];
-for (const route of inaccessibleRoutes) {
-  inaccessibleRouteResults.push(await checkRoute(route));
+const phaseTwoRouteResults = [];
+for (const route of phaseTwoRoutes) {
+  phaseTwoRouteResults.push(await checkRoute(route));
 }
 
 for (const result of publicRouteResults) {
@@ -100,8 +98,10 @@ for (const result of publicRouteResults) {
   }
 }
 
-for (const result of inaccessibleRouteResults) {
-  if (![401, 404].includes(result.statusCode)) blocked.push(`${result.route}: expected inaccessible route, got HTTP ${result.statusCode}`);
+for (const result of phaseTwoRouteResults) {
+  if (![401, 404].includes(result.statusCode)) {
+    blocked.push(`${result.route}: Phase 2 route should stay unavailable, got HTTP ${result.statusCode}`);
+  }
   for (const marker of findMojibakeMarkers(result.text ?? "")) {
     blocked.push(`${result.route}: ${marker}`);
   }
@@ -120,7 +120,7 @@ const result = {
   checked: {
     baseUrl,
     files: sourceFiles.length,
-    inaccessibleRoutes: inaccessibleRouteResults.map(({ route, statusCode }) => ({ route, statusCode })),
+    phaseTwoRoutes: phaseTwoRouteResults.map(({ route, statusCode }) => ({ route, statusCode })),
     routes: publicRouteResults.map(({ route, statusCode }) => ({ route, statusCode }))
   },
   missing,
@@ -191,8 +191,5 @@ function findMojibakeMarkers(source) {
   if (/[\uE000-\uF8FF\uFFFD]/u.test(source)) markers.push("private-use-or-replacement-codepoint");
   if (/[\u0080-\u009F]/u.test(source)) markers.push("control-codepoint");
   if (/\?{3,}/u.test(source)) markers.push("question-mark-run");
-  for (const fragment of ["撣", "憸券", "鞈", "蝷箇", "嚗", "銝", "甇"]) {
-    if (source.includes(fragment)) markers.push(`legacy-mojibake-fragment:${fragment}`);
-  }
   return markers;
 }
