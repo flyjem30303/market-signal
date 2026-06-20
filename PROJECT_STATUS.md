@@ -29,10 +29,12 @@ PM completed:
 - Updated `scripts/check-phase-1-1-listed-equity-coverage-rollup.mjs` with an adjusted denominator policy that excludes symbols only when the latest TWSE payload is absent or has no parseable closing price.
 - The rollup now keeps raw coverage visible (`1078/1083`, `99.54%`) while allowing adjusted same-day coverage to pass (`1078/1078`, `100%`).
 - Added the adjusted listed-equity coverage rollup to `.github/workflows/daily-after-close-update.yml` after the core-symbol freshness gate.
+- Added `scripts/check-phase-1-1-listed-equity-metadata-maintenance-candidates.mjs` as no-write decision support.
+- Metadata candidate check keeps `1470`, `1538`, and `8482` active for now because they are present in the latest TWSE payload without parseable close, and flags `1589` and `2380` for inactive metadata review because they are absent from the latest TWSE payload and lag by more than 10 trading days.
 
 Current route:
 
-- `phase_1_1_observe_github_actions_adjusted_coverage_gate_then_metadata_maintenance_decision`
+- `phase_1_1_observe_github_actions_adjusted_coverage_gate_then_review_1589_2380_active_metadata`
 
 ## Latest Effective Status - 2026-06-19
 

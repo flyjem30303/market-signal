@@ -137,3 +137,26 @@ Interpretation:
 - Two symbols are absent from the TWSE latest payload.
 - These five symbols are excluded from the same-day adjusted coverage denominator while still remaining visible as raw latest-date coverage gaps.
 - A separate metadata maintenance route may still decide later whether long-running absent symbols should remain `is_active=true`.
+
+## Listed-Equity Metadata Maintenance Candidates
+
+Checker: `check:phase-1-1-listed-equity-metadata-maintenance-candidates`
+
+Current result on 2026-06-20: `review`
+
+This checker is no-write decision support. It does not update `stocks.is_active`.
+
+Current candidate split:
+
+- keep active because the latest TWSE payload includes the symbol but has no parseable close: `3`
+  - `1470`
+  - `1538`
+  - `8482`
+- candidate inactive metadata review because the symbol is absent from the latest TWSE payload and lag exceeds 10 trading days: `2`
+  - `1589` (`56` trading days behind)
+  - `2380` (`16` trading days behind)
+
+Next decision:
+
+- Keep the adjusted coverage gate as the Phase 1.1 daily workflow gate.
+- Review whether `1589` and `2380` should remain active in `stocks` before any metadata write.
