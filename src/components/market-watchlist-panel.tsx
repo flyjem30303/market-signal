@@ -265,7 +265,17 @@ export function MarketWatchlistPanel({
                       label={`查看 ${snapshot.asset.symbol}`}
                       payload={{ area: "watchlist_search" }}
                     >
-                      <span aria-hidden="true" className="watchlist-action-icon watchlist-action-icon--view" />
+                      <svg
+                        aria-hidden="true"
+                        className="watchlist-action-svg"
+                        fill="none"
+                        height="15"
+                        viewBox="0 0 24 24"
+                        width="15"
+                      >
+                        <circle cx="10.5" cy="10.5" r="5.5" stroke="currentColor" strokeWidth="2.6" />
+                        <path d="M15 15l4.5 4.5" stroke="currentColor" strokeLinecap="round" strokeWidth="2.8" />
+                      </svg>
                       <span className="watchlist-action-label">查看</span>
                     </TrackedLink>
                     <button
