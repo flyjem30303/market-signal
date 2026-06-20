@@ -1644,6 +1644,7 @@
     "check:phase-1-1-listed-equity-coverage-rollup": "node --env-file=.env.local scripts/check-phase-1-1-listed-equity-coverage-rollup.mjs",
     "check:phase-1-1-listed-equity-gap-classification": "node --env-file=.env.local scripts/check-phase-1-1-listed-equity-gap-classification.mjs",
     "check:phase-1-1-listed-equity-metadata-maintenance-candidates": "node --env-file=.env.local scripts/check-phase-1-1-listed-equity-metadata-maintenance-candidates.mjs",
+    "check:phase-1-1-deployment-observation": "node scripts/check-phase-1-1-deployment-observation.mjs",
     "check:daily-after-close-update": "node --env-file=.env.local scripts/run-daily-after-close-update.mjs",
     "run:daily-after-close-update": "node --env-file=.env.local scripts/run-daily-after-close-update.mjs --write",
     "db:preflight": "node scripts/check-supabase-preflight.mjs",

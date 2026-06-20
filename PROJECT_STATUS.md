@@ -34,6 +34,7 @@ PM completed:
 - Fast-forwarded Phase 1.1 gates to `main` and pushed `origin/main`.
 - Observed GitHub Actions via public API: latest scheduled run `#4` failed on `2026-06-19T17:28:37Z`, before the Phase 1.1 gate changes reached `main`, so it is not evidence against the new adjusted coverage gate.
 - Observed public Vercel routes after main push: `/` and `/stocks/2330` both returned HTTP `200`.
+- Added `scripts/check-phase-1-1-deployment-observation.mjs` to repeatedly verify public route health and whether the daily workflow has run against the current `origin/main` commit.
 
 Current route:
 

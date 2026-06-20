@@ -172,4 +172,8 @@ Main branch status on 2026-06-20:
 - Public Vercel route health on 2026-06-20:
   - `https://market-signal-two.vercel.app/`: HTTP `200`
   - `https://market-signal-two.vercel.app/stocks/2330`: HTTP `200`
+- Deployment observer:
+  - checker: `check:phase-1-1-deployment-observation`
+  - expected status before the next workflow run reaches current `origin/main`: `waiting_for_current_main_workflow_run`
+  - failure status if public routes fail or the current-main workflow run completes unsuccessfully: `action_required`
 - Next observation target: the next scheduled or manually dispatched `Daily after-close market data update` run on `main`.
