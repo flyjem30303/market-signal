@@ -17,14 +17,29 @@ const requiredSnippets = [
     reason: "Manual observation runs must default to no-write."
   },
   {
-    id: "manual_dispatch_no_write_branch",
-    snippet: '[ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.write_enabled }}" != "true" ]',
-    reason: "Manual workflow_dispatch must run without --write unless explicitly enabled."
+    id: "main_push_observation_enabled",
+    snippet: "branches:\n      - main",
+    reason: "Main pushes should automatically run the no-write observation gate."
   },
   {
     id: "scheduled_runs_keep_write_path",
+    snippet: '[ "${{ github.event_name }}" = "schedule" ]',
+    reason: "Scheduled weekday after-close runs must continue to write daily prices and scores."
+  },
+  {
+    id: "manual_write_requires_explicit_true",
+    snippet: '[ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.write_enabled }}" = "true" ]',
+    reason: "Manual workflow_dispatch must write only when explicitly enabled."
+  },
+  {
+    id: "write_command_still_present",
     snippet: "node scripts/run-daily-after-close-update.mjs --write",
     reason: "Scheduled weekday after-close runs must continue to write daily prices and scores."
+  },
+  {
+    id: "no_write_observation_branch",
+    snippet: "else\n            node scripts/run-daily-after-close-update.mjs",
+    reason: "Main push and default manual observation runs must execute the no-write update path."
   },
   {
     id: "supabase_freshness_gate",

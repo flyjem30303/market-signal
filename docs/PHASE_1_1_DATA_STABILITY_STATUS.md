@@ -187,6 +187,10 @@ Main branch status on 2026-06-20:
   - `workflow_dispatch` now defaults to `write_enabled=false`.
   - Manual default runs execute `run-daily-after-close-update.mjs` without `--write`, then run the same freshness and coverage gates.
   - Scheduled weekday runs still execute with `--write`.
+- Main-push observation mode:
+  - pushes to `main` now run the same workflow in no-write observation mode;
+  - this lets each production code change prove the daily update gates without mutating `daily_prices` or `daily_scores`;
+  - write mode remains limited to scheduled after-close runs or manual `workflow_dispatch` with `write_enabled=true`.
 - Next observation target: the next scheduled or manually dispatched `Daily after-close market data update` run on `main`.
 
 ## Manual No-Write Workflow Observation

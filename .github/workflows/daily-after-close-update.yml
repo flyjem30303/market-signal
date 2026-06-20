@@ -1,6 +1,9 @@
 name: Daily after-close market data update
 
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
     inputs:
       write_enabled:
@@ -34,10 +37,12 @@ jobs:
 
       - name: Update daily prices and scores
         run: |
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.write_enabled }}" != "true" ]; then
-            node scripts/run-daily-after-close-update.mjs
-          else
+          if [ "${{ github.event_name }}" = "schedule" ]; then
             node scripts/run-daily-after-close-update.mjs --write
+          elif [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.write_enabled }}" = "true" ]; then
+            node scripts/run-daily-after-close-update.mjs --write
+          else
+            node scripts/run-daily-after-close-update.mjs
           fi
 
       - name: Verify Supabase freshness
