@@ -1,4 +1,5 @@
 import type { Asset, AssetType } from "@/lib/assets";
+import type { MarketWatchlistItem } from "@/lib/market-watchlist-search";
 import { buildPriceDerivedExplanationModules } from "@/lib/price-derived-explanation-modules";
 import { buildBacktestBuckets, type SignalKey, type SignalRule, type SignalSnapshot } from "@/lib/signal-model";
 import type { MarketSignalRepository } from "./types";
@@ -73,12 +74,17 @@ type DailyPriceQuery = {
 };
 
 type DailyScoreQuery = {
-  select(columns: string): {
+  select(columns: string): DailyScoreSelectQuery;
+};
+
+type DailyScoreSelectQuery = {
     in(column: string, values: string[]): {
       order(column: string, options: { ascending: boolean }): Promise<SupabaseQueryResult<DailyScoreRow[]>>;
     };
+    order(column: string, options: { ascending: boolean }): {
+      range(from: number, to: number): Promise<SupabaseQueryResult<DailyScoreRow[]>>;
+    };
   };
-};
 
 export type SupabaseMarketSignalClient = {
   from(table: "stocks"): StockQuery;
@@ -147,6 +153,36 @@ export async function createLoadedSupabaseMarketSignalRepository(
     stockIds.length > 0 ? await Promise.all([getPrices(client, stockIds), getScores(client, stockIds)]) : [[], []];
 
   return createRepositoryFromRows(stocks, prices, scores);
+}
+
+export async function createLoadedSupabaseMarketSignalSearchItems(
+  client: SupabaseMarketSignalClient,
+  market: MarketKey = defaultMarket
+): Promise<MarketWatchlistItem[]> {
+  const stocks = await getActiveStocks(client, market);
+  const stockIds = stocks.map((stock) => stock.id);
+  const latestScores = await getLatestScores(client, stockIds);
+  const stocksById = new Map(stocks.map((stock) => [stock.id, stock]));
+
+  return latestScores
+    .map((score) => {
+      const stock = stocksById.get(score.stock_id);
+      if (!stock) return null;
+      const asset = toAsset(stock);
+      return {
+        asset: {
+          id: asset.id,
+          name: asset.name,
+          symbol: asset.symbol
+        },
+        compositeScore: score.composite_score,
+        riskScore: score.risk_score,
+        signal: {
+          title: (signalRules[score.signal] ?? signalRules.orange).title
+        }
+      };
+    })
+    .filter((item): item is MarketWatchlistItem => Boolean(item));
 }
 
 function filterStocksBySymbols(stocks: StockRow[], symbols: string[] | undefined) {
@@ -246,6 +282,31 @@ async function getScores(client: SupabaseMarketSignalClient, stockIds: string[])
     if (error) throw new Error(`Failed to load market-signal daily scores: ${error.message}`);
     return data ?? [];
   });
+}
+
+async function getLatestScores(client: SupabaseMarketSignalClient, stockIds: string[]): Promise<DailyScoreRow[]> {
+  if (!stockIds.length) return [];
+
+  const stockIdSet = new Set(stockIds);
+  const maxRows = Math.max(stockIds.length * 2, 2200);
+  const { data, error } = await client
+    .from("daily_scores")
+    .select(
+      "composite_score, data_quality_grade, data_quality_score, health_score, last_updated_at, missing_module_flags, model_version, risk_score, signal, stale_data_flags, stock_id, trade_date"
+    )
+    .order("trade_date", { ascending: false })
+    .range(0, maxRows - 1);
+
+  if (error) throw new Error(`Failed to load market-signal latest daily scores: ${error.message}`);
+
+  const latestByStock = new Map<string, DailyScoreRow>();
+  for (const row of data ?? []) {
+    if (stockIdSet.has(row.stock_id) && !latestByStock.has(row.stock_id)) {
+      latestByStock.set(row.stock_id, row);
+    }
+  }
+
+  return [...latestByStock.values()];
 }
 
 async function readInBatches<T>(ids: string[], readBatch: (batch: string[]) => Promise<T[]>): Promise<T[]> {

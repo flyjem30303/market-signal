@@ -1,13 +1,14 @@
 import { PageViewTracker } from "@/components/page-view-tracker";
 import { DashboardShell } from "@/components/dashboard-shell";
 import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
-import { getMarketSignalRuntime } from "@/lib/repositories/market-signal-repository";
+import { getMarketSignalRuntime, getMarketSignalSearchItems } from "@/lib/repositories/market-signal-repository";
 import { toMarketSignalRepositoryData } from "@/lib/repositories/static-market-signal-repository";
 
 export const revalidate = 300;
 
 export default async function HomePage() {
   const { marketSignalSourceStatus, repository } = await getMarketSignalRuntime();
+  const watchlistItems = await getMarketSignalSearchItems();
   const freshness = await getDataFreshnessSnapshot();
   const assets = repository.getAssets();
   const initialAsset = repository.getAssetBySymbol("TWII") ?? assets[0];
@@ -43,6 +44,7 @@ export default async function HomePage() {
         initialSymbol={initialAsset.symbol}
         marketSignalSourceStatus={marketSignalSourceStatus}
         repositoryData={toMarketSignalRepositoryData(repository, snapshotDate, featuredSymbols)}
+        watchlistItems={watchlistItems}
       />
     </>
   );

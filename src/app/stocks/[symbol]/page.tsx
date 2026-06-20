@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { DashboardShell } from "@/components/dashboard-shell";
 import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
-import { getMarketSignalRuntime } from "@/lib/repositories/market-signal-repository";
+import { getMarketSignalRuntime, getMarketSignalSearchItems } from "@/lib/repositories/market-signal-repository";
 import type { MarketSignalRepository } from "@/lib/repositories/types";
 import { toMarketSignalRepositoryData } from "@/lib/repositories/static-market-signal-repository";
 import { absoluteUrl, siteConfig } from "@/lib/site";
@@ -49,6 +49,7 @@ export async function generateMetadata({ params }: StockPageProps): Promise<Meta
 export default async function StockPage({ params }: StockPageProps) {
   const stockPageSymbols = buildStockPageSymbols(params.symbol);
   const { marketSignalSourceStatus, repository } = await getMarketSignalRuntime({ symbols: stockPageSymbols });
+  const watchlistItems = await getMarketSignalSearchItems();
   const asset = repository.getAssetBySymbol(params.symbol);
   if (!asset) notFound();
 
@@ -107,6 +108,7 @@ export default async function StockPage({ params }: StockPageProps) {
         repositoryData={toMarketSignalRepositoryData(repository, snapshotDate, stockPageSymbols, {
           includeSeriesDays: 90
         })}
+        watchlistItems={watchlistItems}
       />
     </>
   );

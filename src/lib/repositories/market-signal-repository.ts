@@ -4,8 +4,13 @@ import {
   type MarketSignalEnvironment,
   type MarketSignalSourceStatus
 } from "./market-signal-source-status";
+import { toMarketWatchlistItem, type MarketWatchlistItem } from "@/lib/market-watchlist-search";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
-import { createLoadedSupabaseMarketSignalRepository } from "./supabase-market-signal-repository";
+import {
+  createLoadedSupabaseMarketSignalRepository,
+  createLoadedSupabaseMarketSignalSearchItems
+} from "./supabase-market-signal-repository";
+import type { SignalSnapshot } from "@/lib/signal-model";
 import type { MarketSignalRepository } from "./types";
 
 export { getMarketSignalSourceStatus, type MarketSignalSourceStatus };
@@ -83,4 +88,31 @@ export async function getMarketSignalRuntime({
       repository: mockMarketSignalRepository
     };
   }
+}
+
+export async function getMarketSignalSearchItems({
+  env = process.env
+}: MarketSignalRepositoryOptions = {}): Promise<MarketWatchlistItem[]> {
+  const marketSignalSourceStatus = getMarketSignalSourceStatus({ env });
+
+  if (marketSignalSourceStatus.resolvedSource !== "supabase") {
+    return buildSearchItemsFromRepository(mockMarketSignalRepository);
+  }
+
+  try {
+    const items = await createLoadedSupabaseMarketSignalSearchItems(
+      createServerSupabaseClient() as unknown as Parameters<typeof createLoadedSupabaseMarketSignalSearchItems>[0]
+    );
+    return items.length ? items : buildSearchItemsFromRepository(mockMarketSignalRepository);
+  } catch {
+    return buildSearchItemsFromRepository(mockMarketSignalRepository);
+  }
+}
+
+function buildSearchItemsFromRepository(repository: MarketSignalRepository): MarketWatchlistItem[] {
+  return repository
+    .getAssets()
+    .map((asset) => repository.getSeries(asset.symbol).at(-1))
+    .filter((snapshot): snapshot is SignalSnapshot => Boolean(snapshot))
+    .map(toMarketWatchlistItem);
 }

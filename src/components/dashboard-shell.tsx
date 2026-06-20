@@ -7,6 +7,7 @@ import { StockQuoteInteractiveChart } from "@/components/stock-quote-interactive
 import { TrackedLink } from "@/components/tracked-link";
 import type { Asset } from "@/lib/assets";
 import { buildMockDataFreshnessSnapshot, type DataFreshnessSnapshot } from "@/lib/data-freshness";
+import { toMarketWatchlistItem, type MarketWatchlistItem } from "@/lib/market-watchlist-search";
 import { buildStockExplanation, type ExplanationItem } from "@/lib/stock-explanation-engine";
 import type { MarketSignalSourceStatus } from "@/lib/repositories/market-signal-source-status";
 import { mockMarketSignalRepository } from "@/lib/repositories/mock-market-signal-repository";
@@ -22,6 +23,7 @@ type DashboardShellProps = {
   includeSeoContent?: boolean;
   marketSignalSourceStatus?: MarketSignalSourceStatus;
   repositoryData?: MarketSignalRepositoryData;
+  watchlistItems?: MarketWatchlistItem[];
 };
 
 const fallbackSnapshotDate = "2026-05-28";
@@ -31,7 +33,8 @@ export function DashboardShell({
   initialSymbol,
   includeSeoContent = false,
   marketSignalSourceStatus,
-  repositoryData
+  repositoryData,
+  watchlistItems
 }: DashboardShellProps) {
   const repository = repositoryData ? createStaticMarketSignalRepository(repositoryData) : mockMarketSignalRepository;
   const freshness = freshnessSnapshot ?? buildMockDataFreshnessSnapshot();
@@ -46,6 +49,7 @@ export function DashboardShell({
     .map((asset) => repository.getSnapshot(asset.symbol, activeSnapshotDate) ?? repository.getSeries(asset.symbol).at(-1))
     .filter((item): item is SignalSnapshot => Boolean(item));
   const market = snapshots.find((item) => item.asset.symbol === "TWII") ?? snapshot;
+  const searchItems = watchlistItems ?? snapshots.map(toMarketWatchlistItem);
   const isStockPage = includeSeoContent;
   const isOfficialRuntime = marketSignalSourceStatus?.resolvedSource === "supabase";
   const publicSourceLabel = formatPublicSourceLabel(freshness.sourceName, isOfficialRuntime);
@@ -61,7 +65,7 @@ export function DashboardShell({
         <>
           <Hero market={market} publicSourceLabel={publicSourceLabel} selected={selected} snapshotDate={activeSnapshotDate} />
           <HomeFirstScreenDecisionSummary market={market} series={repository.getSeries(market.asset.symbol)} />
-          <MarketWatchlistPanel snapshots={snapshots} />
+          <MarketWatchlistPanel items={searchItems} />
         </>
       )}
 
@@ -74,7 +78,7 @@ export function DashboardShell({
           />
           <StockAtAGlance series={repository.getSeries(selected.symbol)} snapshot={snapshot} />
           <section className="stock-watchlist-top" aria-label="標的搜尋與追蹤入口">
-            <MarketWatchlistPanel snapshots={snapshots} variant="compact-stock" />
+            <MarketWatchlistPanel items={searchItems} variant="compact-stock" />
           </section>
         </>
       )}

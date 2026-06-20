@@ -5,7 +5,7 @@ import { PageViewTracker } from "@/components/page-view-tracker";
 import { PublicNextReadingFlow } from "@/components/public-next-reading-flow";
 import { TrackedLink } from "@/components/tracked-link";
 import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
-import { getMarketSignalRuntime } from "@/lib/repositories/market-signal-repository";
+import { getMarketSignalRuntime, getMarketSignalSearchItems } from "@/lib/repositories/market-signal-repository";
 import { buildStockExplanation, type ExplanationItem } from "@/lib/stock-explanation-engine";
 import type { SignalSnapshot } from "@/lib/signal-model";
 
@@ -20,6 +20,7 @@ const fallbackSnapshotDate = "2026-05-28";
 
 export default async function BriefingPage() {
   const { marketSignalSourceStatus, repository } = await getMarketSignalRuntime();
+  const watchlistItems = await getMarketSignalSearchItems();
   const freshness = await getDataFreshnessSnapshot();
   const marketSeries = repository.getSeries("TWII");
   const snapshotDate = marketSeries.at(-1)?.date ?? fallbackSnapshotDate;
@@ -36,7 +37,6 @@ export default async function BriefingPage() {
   const marketChange = buildMarketChangeSummary(marketSeries);
   const positives = explanation.positives.slice(0, 2);
   const negatives = explanation.negatives.slice(0, 2);
-  const watchlistSnapshots = buildPublicWatchlistSnapshots(snapshots, [market, topRisk, ...strongest]);
   const sourceLabel =
     marketSignalSourceStatus.resolvedSource === "supabase"
       ? freshness.sourceName && freshness.sourceName !== "正式資料" && !freshness.sourceName.toLowerCase().includes("supabase")
@@ -119,7 +119,7 @@ export default async function BriefingPage() {
         </div>
       </section>
 
-      <MarketWatchlistPanel snapshots={watchlistSnapshots} />
+      <MarketWatchlistPanel items={watchlistItems} />
 
       <section className="briefing-grid" aria-label="市場觀察">
         <article className="panel">
@@ -222,19 +222,6 @@ function buildMarketBreadth(snapshots: SignalSnapshot[]) {
     },
     { constructiveCount: 0, defensiveCount: 0 }
   );
-}
-
-function buildPublicWatchlistSnapshots(snapshots: SignalSnapshot[], priority: SignalSnapshot[]) {
-  const prioritySymbols = new Set(["TWII", "0050", "006208", "2330", "2308", "2382"]);
-  for (const snapshot of priority) prioritySymbols.add(snapshot.asset.symbol);
-
-  return snapshots
-    .filter((snapshot) => prioritySymbols.has(snapshot.asset.symbol))
-    .sort((a, b) => {
-      const priorityDelta = Number(prioritySymbols.has(b.asset.symbol)) - Number(prioritySymbols.has(a.asset.symbol));
-      return priorityDelta || b.compositeScore - a.compositeScore;
-    })
-    .slice(0, 12);
 }
 
 function buildBriefingMarketDiagnosis(market: SignalSnapshot) {

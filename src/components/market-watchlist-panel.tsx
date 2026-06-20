@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState, type PointerEvent } from "react";
 import { TrackedLink } from "@/components/tracked-link";
-import type { SignalSnapshot } from "@/lib/signal-model";
+import type { MarketWatchlistItem } from "@/lib/market-watchlist-search";
 import {
   maxWatchlistItems,
   readWatchlist,
@@ -21,13 +21,13 @@ export function MarketWatchlistPanel({
   description = "最多追蹤 5 檔；強勢與風險排行會優先依追蹤清單排序。",
   eyebrow = "追蹤標的",
   heading = "搜尋股票，建立觀察清單",
-  snapshots,
+  items,
   variant = "compact-stock"
 }: {
   description?: string;
   eyebrow?: string;
   heading?: string;
-  snapshots: SignalSnapshot[];
+  items: MarketWatchlistItem[];
   variant?: MarketWatchlistPanelVariant;
 }) {
   const [favorites, setFavorites] = useState<string[]>([]);
@@ -40,7 +40,7 @@ export function MarketWatchlistPanel({
   const isDraggingResultsRef = useRef(false);
   const dragRef = useRef({ left: 0, startX: 0 });
 
-  const bySymbol = useMemo(() => new Map(snapshots.map((snapshot) => [snapshot.asset.symbol, snapshot])), [snapshots]);
+  const bySymbol = useMemo(() => new Map(items.map((item) => [item.asset.symbol, item])), [items]);
 
   useEffect(() => {
     setFavorites(readWatchlist(new Set(bySymbol.keys())));
@@ -58,9 +58,9 @@ export function MarketWatchlistPanel({
     };
   }, [bySymbol]);
 
-  const favoriteSnapshots = favorites.map((symbol) => bySymbol.get(symbol)).filter((item): item is SignalSnapshot => Boolean(item));
-  const base = favoriteSnapshots.length ? favoriteSnapshots : snapshots;
-  const searchResults = sortSnapshots(filterSnapshots(snapshots, query), resultSort);
+  const favoriteSnapshots = favorites.map((symbol) => bySymbol.get(symbol)).filter((item): item is MarketWatchlistItem => Boolean(item));
+  const base = favoriteSnapshots.length ? favoriteSnapshots : items;
+  const searchResults = sortItems(filterItems(items, query), resultSort);
   const strongList = rankBy(base, "compositeScore");
   const riskList = rankBy(base, "riskScore");
   const hasFavorites = favoriteSnapshots.length > 0;
@@ -291,7 +291,7 @@ export function MarketWatchlistPanel({
   );
 }
 
-function StockLink({ area, snapshot }: { area: string; snapshot: SignalSnapshot }) {
+function StockLink({ area, snapshot }: { area: string; snapshot: MarketWatchlistItem }) {
   return (
     <TrackedLink
       eventName="stock_link_clicked"
@@ -316,7 +316,7 @@ function ScoreList({
   collapsible?: boolean;
   collapsed?: boolean;
   description: string;
-  items: SignalSnapshot[];
+  items: MarketWatchlistItem[];
   onToggle?: () => void;
   title: string;
   valueKey: "compositeScore" | "riskScore";
@@ -382,25 +382,25 @@ function ScoreList({
   );
 }
 
-function filterSnapshots(snapshots: SignalSnapshot[], query: string) {
+function filterItems(items: MarketWatchlistItem[], query: string) {
   const normalizedQuery = query.trim().toLowerCase();
-  if (!normalizedQuery) return snapshots.slice(0, 8);
-  return snapshots
-    .filter((snapshot) => {
-      const symbol = snapshot.asset.symbol.toLowerCase();
-      const name = snapshot.asset.name.toLowerCase();
+  if (!normalizedQuery) return items.slice(0, 8);
+  return items
+    .filter((item) => {
+      const symbol = item.asset.symbol.toLowerCase();
+      const name = item.asset.name.toLowerCase();
       return symbol.includes(normalizedQuery) || name.includes(normalizedQuery);
     })
     .slice(0, 12);
 }
 
-function sortSnapshots(snapshots: SignalSnapshot[], sort: ResultSort) {
-  return snapshots.slice().sort((a, b) => {
+function sortItems(items: MarketWatchlistItem[], sort: ResultSort) {
+  return items.slice().sort((a, b) => {
     const value = a[sort.key] - b[sort.key];
     return sort.direction === "asc" ? value : -value;
   });
 }
 
-function rankBy(snapshots: SignalSnapshot[], key: "compositeScore" | "riskScore") {
-  return snapshots.slice().sort((a, b) => b[key] - a[key]).slice(0, 4);
+function rankBy(items: MarketWatchlistItem[], key: "compositeScore" | "riskScore") {
+  return items.slice().sort((a, b) => b[key] - a[key]).slice(0, 4);
 }
