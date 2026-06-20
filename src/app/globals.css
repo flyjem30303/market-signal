@@ -15324,6 +15324,46 @@ input[type="search"]::placeholder {
   padding: 8px 10px;
 }
 
+.market-watchlist-panel--compact-stock .watchlist-result-main {
+  display: grid;
+  min-width: 0;
+  align-content: space-between;
+}
+
+.market-watchlist-panel--compact-stock .watchlist-quote-mini {
+  align-self: end;
+  display: grid;
+  gap: 2px;
+  margin-top: 6px;
+  font-variant-numeric: tabular-nums;
+}
+
+.market-watchlist-panel--compact-stock .watchlist-quote-mini b {
+  color: rgba(235, 244, 255, 0.92);
+  font-size: 13px;
+  line-height: 1;
+}
+
+.market-watchlist-panel--compact-stock .watchlist-quote-mini em {
+  width: fit-content;
+  border-radius: 999px;
+  padding: 2px 6px;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 850;
+  line-height: 1.1;
+}
+
+.market-watchlist-panel--compact-stock .watchlist-quote-mini.up em {
+  background: rgba(255, 135, 149, 0.16);
+  color: #ff9099;
+}
+
+.market-watchlist-panel--compact-stock .watchlist-quote-mini.down em {
+  background: rgba(91, 190, 255, 0.14);
+  color: #7fcaff;
+}
+
 .market-watchlist-panel--compact-stock .watchlist-result-side {
   display: grid;
   align-content: space-between;

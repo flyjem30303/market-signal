@@ -241,6 +241,12 @@ export function MarketWatchlistPanel({
                   <strong>{snapshot.asset.symbol}</strong>
                   <span>{snapshot.asset.name}</span>
                   <small>{snapshot.signal.title}</small>
+                  {snapshot.quote && (
+                    <div className={`watchlist-quote-mini ${snapshot.quote.changePercent >= 0 ? "up" : "down"}`}>
+                      <b>{formatQuoteClose(snapshot.quote.close)}</b>
+                      <em>{formatQuotePercent(snapshot.quote.changePercent)}</em>
+                    </div>
+                  )}
                 </div>
                 <div className="watchlist-result-side">
                   <div className="watchlist-score-strip" aria-label={`${snapshot.asset.symbol} 分數摘要`}>
@@ -403,4 +409,13 @@ function sortItems(items: MarketWatchlistItem[], sort: ResultSort) {
 
 function rankBy(items: MarketWatchlistItem[], key: "compositeScore" | "riskScore") {
   return items.slice().sort((a, b) => b[key] - a[key]).slice(0, 4);
+}
+
+function formatQuoteClose(value: number) {
+  return value.toLocaleString("zh-TW", { maximumFractionDigits: 2, minimumFractionDigits: 2 });
+}
+
+function formatQuotePercent(value: number) {
+  const prefix = value > 0 ? "+" : "";
+  return `${prefix}${value.toLocaleString("zh-TW", { maximumFractionDigits: 2, minimumFractionDigits: 2 })}%`;
 }

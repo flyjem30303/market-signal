@@ -66,11 +66,17 @@ type StockOrderedQuery = {
 };
 
 type DailyPriceQuery = {
-  select(columns: string): {
+  select(columns: string): DailyPriceSelectQuery;
+};
+
+type DailyPriceSelectQuery = {
     in(column: string, values: string[]): {
-      order(column: string, options: { ascending: boolean }): Promise<SupabaseQueryResult<DailyPriceRow[]>>;
+      order(column: string, options: { ascending: boolean }): DailyPriceOrderedQuery;
     };
-  };
+};
+
+type DailyPriceOrderedQuery = Promise<SupabaseQueryResult<DailyPriceRow[]>> & {
+  range(from: number, to: number): Promise<SupabaseQueryResult<DailyPriceRow[]>>;
 };
 
 type DailyScoreQuery = {
@@ -158,7 +164,7 @@ export async function createLoadedSupabaseMarketSignalSearchItems(
 ): Promise<MarketWatchlistItem[]> {
   const stocks = await getActiveStocks(client, market);
   const stockIds = stocks.map((stock) => stock.id);
-  const latestScores = await getLatestScores(client, stockIds);
+  const [latestScores, latestQuotes] = await Promise.all([getLatestScores(client, stockIds), getLatestQuotes(client, stockIds)]);
   const stocksById = new Map(stocks.map((stock) => [stock.id, stock]));
 
   return latestScores
@@ -173,6 +179,7 @@ export async function createLoadedSupabaseMarketSignalSearchItems(
           symbol: asset.symbol
         },
         compositeScore: score.composite_score,
+        ...(latestQuotes.has(score.stock_id) ? { quote: latestQuotes.get(score.stock_id) } : {}),
         riskScore: score.risk_score,
         signal: {
           title: (signalRules[score.signal] ?? signalRules.orange).title
@@ -307,6 +314,40 @@ async function getLatestScores(client: SupabaseMarketSignalClient, stockIds: str
   });
 
   return [...latestByStock.values()];
+}
+
+async function getLatestQuotes(client: SupabaseMarketSignalClient, stockIds: string[]) {
+  const quotes = new Map<string, MarketWatchlistItem["quote"]>();
+  if (!stockIds.length) return quotes;
+
+  await readInBatches(stockIds, async (batch) => {
+    const { data, error } = await client
+      .from("daily_prices")
+      .select("close, high, low, open, stock_id, trade_date, turnover, volume")
+      .in("stock_id", batch)
+      .order("trade_date", { ascending: false })
+      .range(0, batch.length * 3 - 1);
+
+    if (error) throw new Error(`Failed to load market-signal latest daily price quotes: ${error.message}`);
+
+    const pricesByStock = groupBy(data ?? [], (price) => price.stock_id);
+    for (const [stockId, prices] of pricesByStock) {
+      const latest = prices.find((price) => price.close != null);
+      const previous = prices.find((price) => price.trade_date !== latest?.trade_date && price.close != null);
+      if (!latest?.close) continue;
+
+      const previousClose = previous?.close ?? latest.close;
+      quotes.set(stockId, {
+        changePercent: previousClose === 0 ? 0 : ((latest.close - previousClose) / previousClose) * 100,
+        close: latest.close,
+        tradeDate: latest.trade_date
+      });
+    }
+
+    return [];
+  });
+
+  return quotes;
 }
 
 async function readInBatches<T>(ids: string[], readBatch: (batch: string[]) => Promise<T[]>): Promise<T[]> {

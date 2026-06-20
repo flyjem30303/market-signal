@@ -7,6 +7,11 @@ export type MarketWatchlistItem = {
     symbol: string;
   };
   compositeScore: number;
+  quote?: {
+    changePercent: number;
+    close: number;
+    tradeDate: string;
+  };
   riskScore: number;
   signal: {
     title: string;
