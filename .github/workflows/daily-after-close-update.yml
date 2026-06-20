@@ -2,6 +2,11 @@ name: Daily after-close market data update
 
 on:
   workflow_dispatch:
+    inputs:
+      write_enabled:
+        description: "Set true to write daily_prices/daily_scores. Leave false for a no-write observation run."
+        required: false
+        default: "false"
   schedule:
     # Taiwan market data is updated after close. This runs at 17:30 Asia/Taipei.
     - cron: "30 9 * * 1-5"
@@ -28,7 +33,12 @@ jobs:
         run: npm ci
 
       - name: Update daily prices and scores
-        run: node scripts/run-daily-after-close-update.mjs --write
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.write_enabled }}" != "true" ]; then
+            node scripts/run-daily-after-close-update.mjs
+          else
+            node scripts/run-daily-after-close-update.mjs --write
+          fi
 
       - name: Verify Supabase freshness
         run: node scripts/check-supabase-freshness.mjs

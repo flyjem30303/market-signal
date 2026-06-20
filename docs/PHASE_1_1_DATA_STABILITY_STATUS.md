@@ -176,4 +176,8 @@ Main branch status on 2026-06-20:
   - checker: `check:phase-1-1-deployment-observation`
   - expected status before the next workflow run reaches current `origin/main`: `waiting_for_current_main_workflow_run`
   - failure status if public routes fail or the current-main workflow run completes unsuccessfully: `action_required`
+- Manual workflow observation mode:
+  - `workflow_dispatch` now defaults to `write_enabled=false`.
+  - Manual default runs execute `run-daily-after-close-update.mjs` without `--write`, then run the same freshness and coverage gates.
+  - Scheduled weekday runs still execute with `--write`.
 - Next observation target: the next scheduled or manually dispatched `Daily after-close market data update` run on `main`.
