@@ -85,9 +85,13 @@ type DailyScoreQuery = {
 
 type DailyScoreSelectQuery = {
     in(column: string, values: string[]): {
-      order(column: string, options: { ascending: boolean }): Promise<SupabaseQueryResult<DailyScoreRow[]>>;
+      order(column: string, options: { ascending: boolean }): DailyScoreOrderedQuery;
     };
   };
+
+type DailyScoreOrderedQuery = Promise<SupabaseQueryResult<DailyScoreRow[]>> & {
+  range(from: number, to: number): Promise<SupabaseQueryResult<DailyScoreRow[]>>;
+};
 
 export type SupabaseMarketSignalClient = {
   from(table: "stocks"): StockQuery;
@@ -96,6 +100,7 @@ export type SupabaseMarketSignalClient = {
 };
 
 type SupabaseMarketSignalRepositoryOptions = {
+  historyDays?: number;
   symbols?: string[];
 };
 
@@ -152,8 +157,11 @@ export async function createLoadedSupabaseMarketSignalRepository(
 ): Promise<MarketSignalRepository> {
   const stocks = filterStocksBySymbols(await getActiveStocks(client, market), options.symbols);
   const stockIds = stocks.map((stock) => stock.id);
+  const historyRows = options.historyDays && options.historyDays > 0 ? stockIds.length * options.historyDays : undefined;
   const [prices, scores] =
-    stockIds.length > 0 ? await Promise.all([getPrices(client, stockIds), getScores(client, stockIds)]) : [[], []];
+    stockIds.length > 0
+      ? await Promise.all([getPrices(client, stockIds, historyRows), getScores(client, stockIds, historyRows)])
+      : [[], []];
 
   return createRepositoryFromRows(stocks, prices, scores);
 }
@@ -260,31 +268,43 @@ async function getActiveStocks(client: SupabaseMarketSignalClient, market: Marke
   });
 }
 
-async function getPrices(client: SupabaseMarketSignalClient, stockIds: string[]): Promise<DailyPriceRow[]> {
+async function getPrices(
+  client: SupabaseMarketSignalClient,
+  stockIds: string[],
+  historyRows?: number
+): Promise<DailyPriceRow[]> {
   return readInBatches(stockIds, async (batch) => {
-    const { data, error } = await client
+    const query = client
       .from("daily_prices")
       .select("close, high, low, open, stock_id, trade_date, turnover, volume")
       .in("stock_id", batch)
-      .order("trade_date", { ascending: true });
+      .order("trade_date", { ascending: historyRows == null });
+    const { data, error } =
+      historyRows == null ? await query : await query.range(0, Math.max(historyRows - 1, batch.length - 1));
 
     if (error) throw new Error(`Failed to load market-signal daily prices: ${error.message}`);
-    return data ?? [];
+    return (data ?? []).slice().sort(compareRowsByStockDate);
   });
 }
 
-async function getScores(client: SupabaseMarketSignalClient, stockIds: string[]): Promise<DailyScoreRow[]> {
+async function getScores(
+  client: SupabaseMarketSignalClient,
+  stockIds: string[],
+  historyRows?: number
+): Promise<DailyScoreRow[]> {
   return readInBatches(stockIds, async (batch) => {
-    const { data, error } = await client
+    const query = client
       .from("daily_scores")
       .select(
         "composite_score, data_quality_grade, data_quality_score, health_score, last_updated_at, missing_module_flags, model_version, risk_score, signal, stale_data_flags, stock_id, trade_date"
       )
       .in("stock_id", batch)
-      .order("trade_date", { ascending: true });
+      .order("trade_date", { ascending: historyRows == null });
+    const { data, error } =
+      historyRows == null ? await query : await query.range(0, Math.max(historyRows - 1, batch.length - 1));
 
     if (error) throw new Error(`Failed to load market-signal daily scores: ${error.message}`);
-    return data ?? [];
+    return (data ?? []).slice().sort(compareRowsByStockDate);
   });
 }
 
@@ -370,6 +390,10 @@ async function readPages<T>(readPage: (from: number, to: number) => Promise<T[]>
   }
 
   return rows;
+}
+
+function compareRowsByStockDate<T extends { stock_id: string; trade_date: string }>(left: T, right: T) {
+  return left.stock_id.localeCompare(right.stock_id) || left.trade_date.localeCompare(right.trade_date);
 }
 
 function toAsset(row: StockRow): Asset {

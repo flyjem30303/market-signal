@@ -8,6 +8,7 @@ import { toMarketSignalRepositoryData } from "@/lib/repositories/static-market-s
 import { absoluteUrl, siteConfig } from "@/lib/site";
 
 export const revalidate = 300;
+const stockPageHistoryDays = 120;
 
 type StockPageProps = {
   params: {
@@ -20,7 +21,7 @@ const stockPagePublicCopyContract =
   "本頁整理標的燈號、分數、資料日期與引用來源，協助使用者建立觀察順序；內容不構成投資建議。";
 
 export async function generateMetadata({ params }: StockPageProps): Promise<Metadata> {
-  const { repository } = await getMarketSignalRuntime({ symbols: [params.symbol] });
+  const { repository } = await getMarketSignalRuntime({ historyDays: stockPageHistoryDays, symbols: [params.symbol] });
   const asset = repository.getAssetBySymbol(params.symbol);
   if (!asset) return {};
 
@@ -48,7 +49,10 @@ export async function generateMetadata({ params }: StockPageProps): Promise<Meta
 
 export default async function StockPage({ params }: StockPageProps) {
   const stockPageSymbols = buildStockPageSymbols(params.symbol);
-  const { marketSignalSourceStatus, repository } = await getMarketSignalRuntime({ symbols: stockPageSymbols });
+  const { marketSignalSourceStatus, repository } = await getMarketSignalRuntime({
+    historyDays: stockPageHistoryDays,
+    symbols: stockPageSymbols
+  });
   const watchlistItems = await getMarketSignalSearchItems();
   const asset = repository.getAssetBySymbol(params.symbol);
   if (!asset) notFound();
