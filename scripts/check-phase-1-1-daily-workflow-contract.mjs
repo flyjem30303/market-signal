@@ -3,7 +3,7 @@ import path from "node:path";
 
 const WORKFLOW_PATH = path.join(".github", "workflows", "daily-after-close-update.yml");
 
-const workflowText = fs.readFileSync(WORKFLOW_PATH, "utf8");
+const workflowText = fs.readFileSync(WORKFLOW_PATH, "utf8").replace(/\r\n/g, "\n");
 
 const requiredSnippets = [
   {
@@ -17,9 +17,10 @@ const requiredSnippets = [
     reason: "Manual observation runs must default to no-write."
   },
   {
-    id: "main_push_observation_enabled",
-    snippet: "branches:\n      - main",
-    reason: "Main pushes should automatically run the no-write observation gate."
+    id: "main_push_does_not_trigger_daily_workflow",
+    snippet: "push:",
+    reason: "Daily market-data workflow must not run on main pushes; code integration should not trigger freshness gates.",
+    forbidden: true
   },
   {
     id: "scheduled_runs_keep_write_path",
@@ -64,8 +65,10 @@ const requiredSnippets = [
 ];
 
 const failures = requiredSnippets
-  .filter((requirement) => !workflowText.includes(requirement.snippet))
-  .map(({ id, reason, snippet }) => ({ id, reason, snippet }));
+  .filter((requirement) =>
+    requirement.forbidden ? workflowText.includes(requirement.snippet) : !workflowText.includes(requirement.snippet)
+  )
+  .map(({ id, reason, snippet, forbidden }) => ({ id, reason, snippet, forbidden: Boolean(forbidden) }));
 
 const result = {
   checkedFile: WORKFLOW_PATH,

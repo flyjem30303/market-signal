@@ -1,5 +1,9 @@
+import fs from "node:fs";
+
 const DEFAULT_SYMBOLS = ["TWII", "2330", "0050", "006208"];
 const MODEL_VERSION = "phase1-price-derived-v1";
+
+loadDotEnv([".env.local", ".env"]);
 
 const args = process.argv.slice(2);
 const symbolArg = args.find((arg) => arg.startsWith("--symbols="));
@@ -45,21 +49,10 @@ const assetIds = requiredSymbols
   .map((symbol) => assetsBySymbol.get(symbol)?.id)
   .filter(Boolean);
 
-const [priceRows, scoreRows] = assetIds.length
-  ? await Promise.all([
-      restGet(
-        `daily_prices?select=stock_id,trade_date&stock_id=in.(${assetIds.join(",")})&order=stock_id.asc&order=trade_date.desc`
-      ),
-      restGet(
-        `daily_scores?select=stock_id,trade_date,model_version&model_version=eq.${MODEL_VERSION}&stock_id=in.(${assetIds.join(
-          ","
-        )})&order=stock_id.asc&order=trade_date.desc`
-      )
-    ])
-  : [[], []];
-
-const latestPriceByStockId = latestDateByStockId(priceRows ?? []);
-const latestScoreByStockId = latestDateByStockId(scoreRows ?? []);
+const [latestPriceByStockId, latestScoreByStockId] = await Promise.all([
+  latestDateMapByStockId("daily_prices", assetIds),
+  latestDateMapByStockId("daily_scores", assetIds, `model_version=eq.${MODEL_VERSION}`)
+]);
 const core = requiredSymbols.map((symbol) => {
   const asset = assetsBySymbol.get(symbol);
   const stockId = asset?.id ?? null;
@@ -117,14 +110,39 @@ if (failures.length > 0) {
   process.exitCode = 1;
 }
 
-function latestDateByStockId(rows) {
+async function latestDateMapByStockId(table, stockIds, extraFilter = null) {
   const map = new Map();
-  for (const row of rows) {
-    if (!map.has(row.stock_id) || row.trade_date > map.get(row.stock_id)) {
-      map.set(row.stock_id, row.trade_date);
+  await Promise.all(
+    stockIds.map(async (stockId) => {
+      const filter = extraFilter ? `&${extraFilter}` : "";
+      const rows = await restGet(
+        `${table}?select=stock_id,trade_date&stock_id=eq.${encodeURIComponent(
+          stockId
+        )}${filter}&order=trade_date.desc&limit=1`
+      );
+      if (rows?.[0]?.trade_date) map.set(stockId, rows[0].trade_date);
+    })
+  );
+  return map;
+}
+
+function loadDotEnv(files) {
+  for (const file of files) {
+    try {
+      const text = fs.readFileSync(file, "utf8");
+      for (const line of text.split(/\r?\n/)) {
+        const trimmed = line.trim();
+        if (!trimmed || trimmed.startsWith("#")) continue;
+        const separator = trimmed.indexOf("=");
+        if (separator < 0) continue;
+        const key = trimmed.slice(0, separator).trim();
+        const value = trimmed.slice(separator + 1).trim().replace(/^['"]|['"]$/g, "");
+        if (key && process.env[key] == null) process.env[key] = value;
+      }
+    } catch {
+      // Optional local env file.
     }
   }
-  return map;
 }
 
 function uniquePresent(values) {

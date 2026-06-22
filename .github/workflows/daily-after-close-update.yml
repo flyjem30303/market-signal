@@ -1,9 +1,6 @@
 name: Daily after-close market data update
 
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
     inputs:
       write_enabled:
@@ -11,7 +8,9 @@ on:
         required: false
         default: "false"
   schedule:
-    # Taiwan market data is updated after close. This runs at 17:30 Asia/Taipei.
+    # Observation run after Taiwan close. This runs at 15:30 Asia/Taipei and does not write.
+    - cron: "30 7 * * 1-5"
+    # Write run after Taiwan market data is expected to be complete. This runs at 17:30 Asia/Taipei.
     - cron: "30 9 * * 1-5"
 
 jobs:
@@ -37,7 +36,7 @@ jobs:
 
       - name: Update daily prices and scores
         run: |
-          if [ "${{ github.event_name }}" = "schedule" ]; then
+          if [ "${{ github.event_name }}" = "schedule" ] && [ "${{ github.event.schedule }}" = "30 9 * * 1-5" ]; then
             node scripts/run-daily-after-close-update.mjs --write
           elif [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.write_enabled }}" = "true" ]; then
             node scripts/run-daily-after-close-update.mjs --write

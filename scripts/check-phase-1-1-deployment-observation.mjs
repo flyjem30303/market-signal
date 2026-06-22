@@ -7,8 +7,10 @@ const PUBLIC_ROUTES = ["https://market-signal-two.vercel.app/", "https://market-
 const expectedMainSha = process.env.PHASE_1_1_EXPECTED_MAIN_SHA || git("rev-parse", "origin/main");
 
 const [workflowRuns, routeChecks] = await Promise.all([fetchWorkflowRuns(), Promise.all(PUBLIC_ROUTES.map(checkRoute))]);
-const latestMainRun = workflowRuns.find((run) => run.head_branch === "main") ?? null;
-const latestExpectedRun = workflowRuns.find((run) => run.head_branch === "main" && run.head_sha === expectedMainSha) ?? null;
+const operationalRuns = workflowRuns.filter((run) => run.event === "schedule" || run.event === "workflow_dispatch");
+const latestMainRun = operationalRuns.find((run) => run.head_branch === "main") ?? null;
+const latestExpectedRun =
+  operationalRuns.find((run) => run.head_branch === "main" && run.head_sha === expectedMainSha) ?? null;
 const routeFailures = routeChecks.filter((route) => route.statusCode !== 200);
 
 const status = statusFor({ latestExpectedRun, routeFailures });
@@ -17,6 +19,7 @@ const result = {
   latestExpectedRun: latestExpectedRun ? summarizeRun(latestExpectedRun) : null,
   latestMainRun: latestMainRun ? summarizeRun(latestMainRun) : null,
   publicRoutes: routeChecks,
+  ignoredEvents: [...new Set(workflowRuns.map((run) => run.event).filter((event) => event === "push"))].sort(),
   status,
   workflow: "daily-after-close-update.yml"
 };
