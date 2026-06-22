@@ -241,14 +241,18 @@ export function MarketWatchlistPanel({
               <article className="watchlist-result-row" key={snapshot.asset.symbol}>
                 <div className="watchlist-result-main">
                   <strong>{snapshot.asset.symbol}</strong>
-                  <span>{snapshot.asset.name}</span>
-                  <small>{snapshot.signal.title}</small>
-                  {snapshot.quote && (
-                    <div className={`watchlist-quote-mini ${quoteTone}`}>
-                      <b>{formatQuoteClose(snapshot.quote.close)}</b>
-                      <em>{formatQuotePercent(snapshot.quote.changePercent)}</em>
-                    </div>
-                  )}
+                  <span className="watchlist-asset-name" title={snapshot.asset.name}>
+                    {snapshot.asset.name}
+                  </span>
+                  <div className="watchlist-card-market-foot">
+                    <small>{snapshot.signal.title}</small>
+                    {snapshot.quote && (
+                      <div className={`watchlist-quote-mini ${quoteTone}`}>
+                        <b>{formatQuoteClose(snapshot.quote.close)}</b>
+                        <em>{formatQuotePercent(snapshot.quote.changePercent)}</em>
+                      </div>
+                    )}
+                  </div>
                 </div>
                 <div className="watchlist-result-side">
                   <div className="watchlist-score-strip" aria-label={`${snapshot.asset.symbol} 分數摘要`}>
