@@ -16,20 +16,22 @@ type StockQuoteInteractiveChartProps = {
 };
 
 const ranges = [
-  { days: 30, label: "近 30 日" },
-  { days: 60, label: "近 60 日" },
-  { days: 90, label: "近 90 日" }
+  { label: "1M", months: 1 },
+  { label: "3M", months: 3 },
+  { label: "6M", months: 6 },
+  { label: "1Y", years: 1 }
 ];
 
 export function StockQuoteInteractiveChart({ assetName, points, unit }: StockQuoteInteractiveChartProps) {
   const svgRef = useRef<SVGSVGElement>(null);
-  const [rangeDays, setRangeDays] = useState(60);
+  const [rangeLabel, setRangeLabel] = useState("3M");
+  const activeRange = ranges.find((range) => range.label === rangeLabel) ?? ranges[1];
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  const visiblePoints = useMemo(() => points.slice(-rangeDays), [points, rangeDays]);
+  const visiblePoints = useMemo(() => filterPointsByCalendarRange(points, activeRange), [points, activeRange]);
   const geometry = useMemo(() => buildLineGeometry(visiblePoints), [visiblePoints]);
   const activePoint = activeIndex == null ? visiblePoints.at(-1) : visiblePoints[activeIndex];
   const activeGeometryPoint = activeIndex == null ? geometry.points.at(-1) : geometry.points[activeIndex];
-  const chartTitle = `${assetName} 近 ${rangeDays} 日走勢`;
+  const chartTitle = `${assetName} ${activeRange.label} 價格走勢`;
 
   function handlePointerMove(clientX: number) {
     const rect = svgRef.current?.getBoundingClientRect();
@@ -47,14 +49,14 @@ export function StockQuoteInteractiveChart({ assetName, points, unit }: StockQuo
 
   return (
     <>
-      <div className="stock-quote-range" aria-label="選擇資料區間">
+      <div className="stock-quote-range" aria-label="時間範圍">
         {ranges.map((range) => (
           <button
-            aria-pressed={range.days === rangeDays}
-            className={range.days === rangeDays ? "active" : undefined}
-            key={range.days}
+            aria-pressed={range.label === rangeLabel}
+            className={range.label === rangeLabel ? "active" : undefined}
+            key={range.label}
             onClick={() => {
-              setRangeDays(range.days);
+              setRangeLabel(range.label);
               setActiveIndex(null);
             }}
             type="button"
@@ -105,7 +107,7 @@ export function StockQuoteInteractiveChart({ assetName, points, unit }: StockQuo
           >
             <strong>{activePoint.date}</strong>
             <span>
-              收盤 {formatMarketNumber(activePoint.close)} {unit}
+              價格 {formatMarketNumber(activePoint.close)} {unit}
             </span>
             <span>綜合分數 {activePoint.compositeScore}/100</span>
             <span>風險分數 {activePoint.riskScore}/100</span>
@@ -148,4 +150,20 @@ function buildLineGeometry(points: StockQuoteChartPoint[]) {
 
 function formatMarketNumber(value: number) {
   return value.toLocaleString("zh-TW", { maximumFractionDigits: 2, minimumFractionDigits: 2 });
+}
+
+function filterPointsByCalendarRange(points: StockQuoteChartPoint[], range: (typeof ranges)[number]) {
+  const lastPoint = points.at(-1);
+  if (!lastPoint) return [];
+  const cutoff = shiftDateByRange(lastPoint.date, range);
+  const filtered = points.filter((point) => point.date >= cutoff);
+  return filtered.length ? filtered : [lastPoint];
+}
+
+function shiftDateByRange(dateString: string, range: (typeof ranges)[number]) {
+  const [year, month, day] = dateString.split("-").map(Number);
+  const date = new Date(Date.UTC(year, month - 1, day));
+  if (range.months != null) date.setUTCMonth(date.getUTCMonth() - range.months);
+  if (range.years != null) date.setUTCFullYear(date.getUTCFullYear() - range.years);
+  return date.toISOString().slice(0, 10);
 }
