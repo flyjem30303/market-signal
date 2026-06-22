@@ -1,10 +1,13 @@
 const MODEL_VERSION = "phase1-price-derived-v1";
 const PAGE_SIZE = 1000;
 const TWSE_BASE_URL = "https://openapi.twse.com.tw/v1";
+const TWSE_MI_INDEX_URL = "https://www.twse.com.tw/exchangeReport/MI_INDEX";
 const PHASE_1_CORE_ETF_SYMBOLS = new Set(["0050", "006208"]);
 
 const args = new Set(process.argv.slice(2));
 const writeEnabled = args.has("--write") || process.env.DAILY_AFTER_CLOSE_WRITE === "enabled";
+const fallbackDateArg = process.argv.find((arg) => arg.startsWith("--fallback-date="));
+const fallbackDate = fallbackDateArg ? fallbackDateArg.slice("--fallback-date=".length).trim() : taipeiToday();
 const symbolArg = process.argv.find((arg) => arg.startsWith("--symbols="));
 const requestedSymbols = symbolArg
   ? new Set(
@@ -38,6 +41,9 @@ const result = {
   scoreRowsPrepared: 0,
   scoreRowsWritten: 0,
   skippedRows: 0,
+  miIndexFallbackUsed: false,
+  miIndexFallbackDate: null,
+  miIndexRowsRead: 0,
   warnings: []
 };
 
@@ -52,9 +58,31 @@ if (twiiResult.warning) result.warnings.push(twiiResult.warning);
 result.activeAssetsRead = assets.length;
 result.twseRowsRead = twseStockRows.length + twiiRows.length;
 
-const priceRows = buildPriceRows({ assets, twiiRows, twseStockRows });
+let priceRows = buildPriceRows({ assets, twiiRows, twseStockRows });
+const openApiDataDate = newestDate(priceRows.map((row) => row.trade_date));
+result.openApiDataDate = openApiDataDate;
+
+if (fallbackDate && isIsoDate(fallbackDate) && (!openApiDataDate || openApiDataDate < fallbackDate)) {
+  const fallback = await fetchMiIndexDate(fallbackDate);
+  result.miIndexFallbackDate = fallbackDate;
+  result.miIndexRowsRead = fallback.sourceRowsRead;
+  if (fallback.status === "ok") {
+    const fallbackRows = buildMiIndexPriceRows({ assets, miIndexRows: fallback.rows, tradeDate: fallbackDate });
+    if (fallbackRows.length > 0) {
+      priceRows = mergeSameDayRows(priceRows, fallbackRows);
+      result.miIndexFallbackUsed = true;
+    } else {
+      result.warnings.push("mi_index_fallback_no_matching_assets");
+    }
+  } else {
+    result.warnings.push(`mi_index_fallback_${fallback.status}`);
+  }
+}
+
+result.dataDate = newestDate(priceRows.map((row) => row.trade_date));
+priceRows = priceRows.filter((row) => row.trade_date === result.dataDate);
 result.priceRowsPrepared = priceRows.length;
-result.skippedRows = result.twseRowsRead - priceRows.length;
+result.skippedRows = result.twseRowsRead + result.miIndexRowsRead - priceRows.length;
 
 if (priceRows.length === 0) {
   result.status = "blocked_no_matching_price_rows";
@@ -64,7 +92,13 @@ if (priceRows.length === 0) {
 
 const existingPrices = await readExistingPrices(priceRows.map((row) => row.stock_id));
 const mergedPrices = mergePrices(existingPrices, priceRows);
-result.dataDate = newestDate(priceRows.map((row) => row.trade_date));
+
+if (writeEnabled && fallbackDate && isIsoDate(fallbackDate) && result.dataDate < fallbackDate) {
+  result.status = "blocked_stale_source_no_fresh_fallback";
+  console.log(JSON.stringify(result, null, 2));
+  process.exit(1);
+}
+
 const scoreRows = buildScoreRows(mergedPrices, new Set(priceRows.map((row) => `${row.stock_id}:${row.trade_date}`)), {
   assetsById: new Map(assets.map((asset) => [asset.id, asset])),
   expectedDataDate: result.dataDate
@@ -130,6 +164,59 @@ async function fetchOptionalTwseJson(path, warning) {
   } catch {
     return { rows: [], warning };
   }
+}
+
+async function fetchMiIndexDate(tradeDate) {
+  const url = `${TWSE_MI_INDEX_URL}?${new URLSearchParams({
+    response: "json",
+    date: tradeDate.replaceAll("-", ""),
+    type: "ALLBUT0999"
+  }).toString()}`;
+
+  let response;
+  try {
+    response = await fetch(url, {
+      headers: {
+        accept: "application/json, text/plain;q=0.9, */*;q=0.1",
+        "cache-control": "no-cache",
+        "user-agent": "market-signal-phase1-daily-update-mi-index-fallback/1.0"
+      }
+    });
+  } catch {
+    return { status: "network_error", rows: [], sourceRowsRead: 0 };
+  }
+
+  if (!response.ok) return { status: "http_error", rows: [], sourceRowsRead: 0 };
+
+  let payload;
+  try {
+    payload = await response.json();
+  } catch {
+    return { status: "json_parse_error", rows: [], sourceRowsRead: 0 };
+  }
+
+  if (payload?.stat !== "OK" || !Array.isArray(payload?.tables)) {
+    return { status: "source_not_ok", rows: [], sourceRowsRead: 0 };
+  }
+
+  const stockTable = payload.tables.find(
+    (table) => typeof table?.title === "string" && table.title.includes("每日收盤行情") && Array.isArray(table?.data)
+  );
+  const twiiTable = payload.tables.find(
+    (table) => typeof table?.title === "string" && table.title.includes("價格指數(臺灣證券交易所)") && Array.isArray(table?.data)
+  );
+
+  if (!stockTable && !twiiTable) return { status: "table_not_found", rows: [], sourceRowsRead: 0 };
+
+  const rows = [
+    ...(stockTable?.data ?? []).map(parseMiIndexStockRow).filter(Boolean),
+    ...(twiiTable?.data ?? []).map(parseMiIndexTwiiRow).filter(Boolean)
+  ];
+  return {
+    status: rows.length > 0 ? "ok" : "no_parseable_rows",
+    rows,
+    sourceRowsRead: (stockTable?.data?.length ?? 0) + (twiiTable?.data?.length ?? 0)
+  };
 }
 
 async function restGet(path) {
@@ -263,6 +350,39 @@ function buildPriceRows({ assets, twiiRows, twseStockRows }) {
   return rows;
 }
 
+function buildMiIndexPriceRows({ assets, miIndexRows, tradeDate }) {
+  const assetsBySymbol = new Map(assets.map((asset) => [asset.symbol.toUpperCase(), asset]));
+  const rows = [];
+  for (const sourceRow of miIndexRows) {
+    if (!acceptsSymbol(sourceRow.symbol)) continue;
+    const asset = assetsBySymbol.get(sourceRow.symbol);
+    if (!asset) continue;
+    if (sourceRow.symbol !== "TWII") {
+      const isCoreEtfBaseline =
+        (asset.is_etf || asset.asset_type === "etf") && PHASE_1_CORE_ETF_SYMBOLS.has(sourceRow.symbol);
+      if (!isCoreEtfBaseline && asset.asset_type !== "stock") continue;
+    }
+    rows.push({
+      close: sourceRow.close,
+      high: sourceRow.high,
+      low: sourceRow.low,
+      open: sourceRow.open,
+      stock_id: asset.id,
+      trade_date: tradeDate,
+      turnover: sourceRow.turnover,
+      volume: sourceRow.volume
+    });
+  }
+  return rows;
+}
+
+function mergeSameDayRows(baseRows, fallbackRows) {
+  const map = new Map();
+  for (const row of baseRows) map.set(`${row.stock_id}:${row.trade_date}`, row);
+  for (const row of fallbackRows) map.set(`${row.stock_id}:${row.trade_date}`, row);
+  return [...map.values()];
+}
+
 function acceptsSymbol(symbol) {
   return !requestedSymbols || requestedSymbols.has(symbol);
 }
@@ -295,6 +415,39 @@ function toTwiiPriceCandidate(rawRow) {
     low: numberValue(rawRow.LowestIndex),
     open: numberValue(rawRow.OpeningIndex),
     trade_date: tradeDate,
+    turnover: null,
+    volume: null
+  };
+}
+
+function parseMiIndexStockRow(row) {
+  if (!Array.isArray(row) || row.length < 9) return null;
+  const symbol = stringValue(row[0]).toUpperCase();
+  const close = numberValue(row[8]);
+  if (!symbol || close == null) return null;
+  return {
+    symbol,
+    close,
+    high: numberValue(row[6]),
+    low: numberValue(row[7]),
+    open: numberValue(row[5]),
+    turnover: integerValue(row[4]),
+    volume: integerValue(row[2])
+  };
+}
+
+function parseMiIndexTwiiRow(row) {
+  if (!Array.isArray(row) || row.length < 2) return null;
+  const label = stringValue(row[0]);
+  if (label !== "發行量加權股價指數") return null;
+  const close = numberValue(row[1]);
+  if (close == null) return null;
+  return {
+    symbol: "TWII",
+    close,
+    high: null,
+    low: null,
+    open: null,
     turnover: null,
     volume: null
   };
@@ -382,6 +535,19 @@ function parseIsoDate(value) {
   const match = String(value ?? "").match(/^(\d{4})-(\d{2})-(\d{2})$/);
   if (!match) return null;
   return new Date(Date.UTC(Number(match[1]), Number(match[2]) - 1, Number(match[3])));
+}
+
+function isIsoDate(value) {
+  return /^\d{4}-\d{2}-\d{2}$/.test(String(value ?? ""));
+}
+
+function taipeiToday() {
+  return new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Asia/Taipei",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit"
+  }).format(new Date());
 }
 
 function buildScore(series) {
