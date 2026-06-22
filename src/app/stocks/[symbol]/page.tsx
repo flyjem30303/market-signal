@@ -8,7 +8,7 @@ import { toMarketSignalRepositoryData } from "@/lib/repositories/static-market-s
 import { absoluteUrl, siteConfig } from "@/lib/site";
 
 export const revalidate = 300;
-const stockPageHistoryDays = 120;
+const stockPageHistoryDays = 370;
 
 type StockPageProps = {
   params: {
@@ -110,7 +110,7 @@ export default async function StockPage({ params }: StockPageProps) {
         includeSeoContent
         marketSignalSourceStatus={marketSignalSourceStatus}
         repositoryData={toMarketSignalRepositoryData(repository, snapshotDate, stockPageSymbols, {
-          includeSeriesDays: 90
+          includeSeriesDays: stockPageHistoryDays
         })}
         watchlistItems={watchlistItems}
       />

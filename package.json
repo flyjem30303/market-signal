@@ -1685,6 +1685,7 @@
     "generate:tw-equity-sanitized-candidate-artifact": "node scripts/generate-tw-equity-sanitized-candidate-artifact.mjs",
     "check:tw-equity-sanitized-candidate-artifact-generation": "node scripts/check-tw-equity-sanitized-candidate-artifact-generation.mjs",
     "check:stock-route-investor-language-alignment": "node scripts/check-stock-route-investor-language-alignment.mjs",
+    "check:stock-quote-chart-range-options": "node scripts/check-stock-quote-chart-range-options.mjs",
     "check:public-support-route-reading-contract": "node scripts/check-public-support-route-reading-contract.mjs",
     "check:phase-1-data-online-external-platform-ledger-append-no-execution": "node scripts/check-phase-1-data-online-external-platform-ledger-append-no-execution.mjs",
     "check:phase-1-data-online-readonly-gate-preflight-no-execution": "node scripts/check-phase-1-data-online-readonly-gate-preflight-no-execution.mjs",

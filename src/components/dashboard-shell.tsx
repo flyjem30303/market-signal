@@ -480,7 +480,7 @@ function buildQuoteViewModel(series: SignalSnapshot[], snapshot: SignalSnapshot)
       (item): item is { close: number; compositeScore: number; date: string; riskScore: number } =>
         Number.isFinite(item.close)
     )
-    .slice(-90);
+    .slice(-252);
   const snapshotClose = parseMarketNumber(getMarketFactValue(snapshot, closeLabels, 3));
   const fallbackClose = snapshotClose ?? points.at(-1)?.close ?? snapshot.compositeScore;
   const chartPoints = points.length

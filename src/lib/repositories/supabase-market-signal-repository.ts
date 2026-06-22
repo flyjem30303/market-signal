@@ -157,12 +157,12 @@ export async function createLoadedSupabaseMarketSignalRepository(
 ): Promise<MarketSignalRepository> {
   const stocks = filterStocksBySymbols(await getActiveStocks(client, market), options.symbols);
   const stockIds = stocks.map((stock) => stock.id);
-  const historyRows = options.historyDays && options.historyDays > 0 ? stockIds.length * options.historyDays : undefined;
+  const historyRowsPerStock = options.historyDays && options.historyDays > 0 ? options.historyDays : undefined;
   const [prices, scores] =
     stockIds.length > 0
-      ? historyRows == null
+      ? historyRowsPerStock == null
         ? await Promise.all([getLatestPrices(client, stockIds), getLatestScores(client, stockIds)])
-        : await Promise.all([getPrices(client, stockIds, historyRows), getScores(client, stockIds, historyRows)])
+        : await Promise.all([getPrices(client, stockIds, historyRowsPerStock), getScores(client, stockIds, historyRowsPerStock)])
       : [[], []];
 
   return createRepositoryFromRows(stocks, prices, scores);
@@ -273,16 +273,30 @@ async function getActiveStocks(client: SupabaseMarketSignalClient, market: Marke
 async function getPrices(
   client: SupabaseMarketSignalClient,
   stockIds: string[],
-  historyRows?: number
+  historyRowsPerStock?: number
 ): Promise<DailyPriceRow[]> {
   return readInBatches(stockIds, async (batch) => {
-    const query = client
+    if (historyRowsPerStock != null) {
+      const rows: DailyPriceRow[] = [];
+      for (const stockId of batch) {
+        const { data, error } = await client
+          .from("daily_prices")
+          .select("close, high, low, open, stock_id, trade_date, turnover, volume")
+          .in("stock_id", [stockId])
+          .order("trade_date", { ascending: false })
+          .range(0, historyRowsPerStock - 1);
+
+        if (error) throw new Error(`Failed to load market-signal daily prices: ${error.message}`);
+        rows.push(...(data ?? []));
+      }
+      return rows.slice().sort(compareRowsByStockDate);
+    }
+
+    const { data, error } = await client
       .from("daily_prices")
       .select("close, high, low, open, stock_id, trade_date, turnover, volume")
       .in("stock_id", batch)
-      .order("trade_date", { ascending: historyRows == null });
-    const { data, error } =
-      historyRows == null ? await query : await query.range(0, Math.max(historyRows - 1, batch.length - 1));
+      .order("trade_date", { ascending: true });
 
     if (error) throw new Error(`Failed to load market-signal daily prices: ${error.message}`);
     return (data ?? []).slice().sort(compareRowsByStockDate);
@@ -292,18 +306,34 @@ async function getPrices(
 async function getScores(
   client: SupabaseMarketSignalClient,
   stockIds: string[],
-  historyRows?: number
+  historyRowsPerStock?: number
 ): Promise<DailyScoreRow[]> {
   return readInBatches(stockIds, async (batch) => {
-    const query = client
+    if (historyRowsPerStock != null) {
+      const rows: DailyScoreRow[] = [];
+      for (const stockId of batch) {
+        const { data, error } = await client
+          .from("daily_scores")
+          .select(
+            "composite_score, data_quality_grade, data_quality_score, health_score, last_updated_at, missing_module_flags, model_version, risk_score, signal, stale_data_flags, stock_id, trade_date"
+          )
+          .in("stock_id", [stockId])
+          .order("trade_date", { ascending: false })
+          .range(0, historyRowsPerStock - 1);
+
+        if (error) throw new Error(`Failed to load market-signal daily scores: ${error.message}`);
+        rows.push(...(data ?? []));
+      }
+      return rows.slice().sort(compareRowsByStockDate);
+    }
+
+    const { data, error } = await client
       .from("daily_scores")
       .select(
         "composite_score, data_quality_grade, data_quality_score, health_score, last_updated_at, missing_module_flags, model_version, risk_score, signal, stale_data_flags, stock_id, trade_date"
       )
       .in("stock_id", batch)
-      .order("trade_date", { ascending: historyRows == null });
-    const { data, error } =
-      historyRows == null ? await query : await query.range(0, Math.max(historyRows - 1, batch.length - 1));
+      .order("trade_date", { ascending: true });
 
     if (error) throw new Error(`Failed to load market-signal daily scores: ${error.message}`);
     return (data ?? []).slice().sort(compareRowsByStockDate);
