@@ -70,9 +70,12 @@ type DailyPriceQuery = {
 };
 
 type DailyPriceSelectQuery = {
-    in(column: string, values: string[]): {
-      order(column: string, options: { ascending: boolean }): DailyPriceOrderedQuery;
-    };
+  in(column: string, values: string[]): DailyPriceFilterQuery;
+};
+
+type DailyPriceFilterQuery = {
+  gte(column: string, value: string): DailyPriceFilterQuery;
+  order(column: string, options: { ascending: boolean }): DailyPriceOrderedQuery;
 };
 
 type DailyPriceOrderedQuery = Promise<SupabaseQueryResult<DailyPriceRow[]>> & {
@@ -84,10 +87,13 @@ type DailyScoreQuery = {
 };
 
 type DailyScoreSelectQuery = {
-    in(column: string, values: string[]): {
-      order(column: string, options: { ascending: boolean }): DailyScoreOrderedQuery;
-    };
-  };
+  in(column: string, values: string[]): DailyScoreFilterQuery;
+};
+
+type DailyScoreFilterQuery = {
+  gte(column: string, value: string): DailyScoreFilterQuery;
+  order(column: string, options: { ascending: boolean }): DailyScoreOrderedQuery;
+};
 
 type DailyScoreOrderedQuery = Promise<SupabaseQueryResult<DailyScoreRow[]>> & {
   range(from: number, to: number): Promise<SupabaseQueryResult<DailyScoreRow[]>>;
@@ -157,12 +163,12 @@ export async function createLoadedSupabaseMarketSignalRepository(
 ): Promise<MarketSignalRepository> {
   const stocks = filterStocksBySymbols(await getActiveStocks(client, market), options.symbols);
   const stockIds = stocks.map((stock) => stock.id);
-  const historyRowsPerStock = options.historyDays && options.historyDays > 0 ? options.historyDays : undefined;
+  const historyStartDate = toHistoryStartDate(options.historyDays);
   const [prices, scores] =
     stockIds.length > 0
-      ? historyRowsPerStock == null
+      ? historyStartDate == null
         ? await Promise.all([getLatestPrices(client, stockIds), getLatestScores(client, stockIds)])
-        : await Promise.all([getPrices(client, stockIds, historyRowsPerStock), getScores(client, stockIds, historyRowsPerStock)])
+        : await Promise.all([getPrices(client, stockIds, historyStartDate), getScores(client, stockIds, historyStartDate)])
       : [[], []];
 
   return createRepositoryFromRows(stocks, prices, scores);
@@ -270,25 +276,32 @@ async function getActiveStocks(client: SupabaseMarketSignalClient, market: Marke
   });
 }
 
+function toHistoryStartDate(historyDays?: number) {
+  if (historyDays == null || historyDays <= 0) return undefined;
+  const date = new Date();
+  date.setUTCDate(date.getUTCDate() - historyDays - 14);
+  return date.toISOString().slice(0, 10);
+}
+
 async function getPrices(
   client: SupabaseMarketSignalClient,
   stockIds: string[],
-  historyRowsPerStock?: number
+  historyStartDate?: string
 ): Promise<DailyPriceRow[]> {
   return readInBatches(stockIds, async (batch) => {
-    if (historyRowsPerStock != null) {
-      const rows: DailyPriceRow[] = [];
-      for (const stockId of batch) {
+    if (historyStartDate != null) {
+      const rows = await readPages<DailyPriceRow>(async (from, to) => {
         const { data, error } = await client
           .from("daily_prices")
           .select("close, high, low, open, stock_id, trade_date, turnover, volume")
-          .in("stock_id", [stockId])
-          .order("trade_date", { ascending: false })
-          .range(0, historyRowsPerStock - 1);
+          .in("stock_id", batch)
+          .gte("trade_date", historyStartDate)
+          .order("trade_date", { ascending: true })
+          .range(from, to);
 
         if (error) throw new Error(`Failed to load market-signal daily prices: ${error.message}`);
-        rows.push(...(data ?? []));
-      }
+        return data ?? [];
+      });
       return rows.slice().sort(compareRowsByStockDate);
     }
 
@@ -306,24 +319,24 @@ async function getPrices(
 async function getScores(
   client: SupabaseMarketSignalClient,
   stockIds: string[],
-  historyRowsPerStock?: number
+  historyStartDate?: string
 ): Promise<DailyScoreRow[]> {
   return readInBatches(stockIds, async (batch) => {
-    if (historyRowsPerStock != null) {
-      const rows: DailyScoreRow[] = [];
-      for (const stockId of batch) {
+    if (historyStartDate != null) {
+      const rows = await readPages<DailyScoreRow>(async (from, to) => {
         const { data, error } = await client
           .from("daily_scores")
           .select(
             "composite_score, data_quality_grade, data_quality_score, health_score, last_updated_at, missing_module_flags, model_version, risk_score, signal, stale_data_flags, stock_id, trade_date"
           )
-          .in("stock_id", [stockId])
-          .order("trade_date", { ascending: false })
-          .range(0, historyRowsPerStock - 1);
+          .in("stock_id", batch)
+          .gte("trade_date", historyStartDate)
+          .order("trade_date", { ascending: true })
+          .range(from, to);
 
         if (error) throw new Error(`Failed to load market-signal daily scores: ${error.message}`);
-        rows.push(...(data ?? []));
-      }
+        return data ?? [];
+      });
       return rows.slice().sort(compareRowsByStockDate);
     }
 

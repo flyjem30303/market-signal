@@ -34,9 +34,11 @@ for (const phrase of [
 }
 
 for (const phrase of [
-  "const historyRowsPerStock",
-  ".in(\"stock_id\", [stockId])",
-  ".range(0, historyRowsPerStock - 1)"
+  "const historyStartDate",
+  "toHistoryStartDate(options.historyDays)",
+  ".gte(\"trade_date\", historyStartDate)",
+  "readPages<DailyPriceRow>",
+  "readPages<DailyScoreRow>"
 ]) {
   if (!supabaseRepository.includes(phrase)) problems.push(`supabase repository missing: ${phrase}`);
 }
@@ -52,6 +54,8 @@ for (const forbidden of [
   "{ days: 132",
   "{ days: 252",
   "stockIds.length * options.historyDays",
+  ".in(\"stock_id\", [stockId])",
+  ".range(0, historyRowsPerStock - 1)",
   "points.slice(-rangeDays)",
   "slice(-90)"
 ]) {
@@ -75,7 +79,7 @@ console.log(
       chartRanges: ["1M", "3M", "6M", "1Y"],
       defaultRange: "3M",
       rangeBasis: "calendar_months_and_year",
-      historyQueryBasis: "per_stock"
+      historyQueryBasis: "batched_calendar_window"
     },
     null,
     2
