@@ -1,14 +1,13 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { DashboardShell } from "@/components/dashboard-shell";
-import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
-import { getMarketSignalRuntime, getMarketSignalSearchItems } from "@/lib/repositories/market-signal-repository";
-import type { MarketSignalRepository } from "@/lib/repositories/types";
-import { toMarketSignalRepositoryData } from "@/lib/repositories/static-market-signal-repository";
+import { buildStockPagePayload } from "@/lib/stock-page-payload";
 import { absoluteUrl, siteConfig } from "@/lib/site";
 
 export const revalidate = 300;
 const stockPageHistoryDays = 370;
+const stockPagePublicCopyContract =
+  "本頁提供市場資訊整理、燈號狀態與風險觀察，不構成個股買賣建議。請搭配資料日期、引用來源與自身風險承受度判斷。";
 
 type StockPageProps = {
   params: {
@@ -16,20 +15,14 @@ type StockPageProps = {
   };
 };
 
-const fallbackSnapshotDate = "2026-05-28";
-const stockPagePublicCopyContract =
-  "本頁整理標的燈號、分數、資料日期與引用來源，協助使用者建立觀察順序；內容不構成投資建議。";
-
 export async function generateMetadata({ params }: StockPageProps): Promise<Metadata> {
-  const { repository } = await getMarketSignalRuntime({ historyDays: stockPageHistoryDays, symbols: [params.symbol] });
-  const asset = repository.getAssetBySymbol(params.symbol);
+  const payload = await buildStockPagePayload(params.symbol, stockPageHistoryDays);
+  const asset = payload.asset;
   if (!asset) return {};
 
-  const snapshotDate = getLatestSnapshotDate(repository, asset.symbol);
-  const snapshot = repository.getSnapshot(asset.symbol, snapshotDate);
-  const signal = snapshot?.signal.title ?? "觀察";
+  const signal = payload.snapshot?.signal.title ?? "觀察";
   const title = `${asset.symbol} ${asset.name} 標的燈號：${signal}`;
-  const description = `${asset.symbol} ${asset.name} 的市場狀態、綜合分數、風險分數與資料日期。${stockPagePublicCopyContract}`;
+  const description = `${asset.symbol} ${asset.name} 的市場燈號、分數、報價走勢與風險觀察。${stockPagePublicCopyContract}`;
 
   return {
     alternates: {
@@ -48,18 +41,11 @@ export async function generateMetadata({ params }: StockPageProps): Promise<Meta
 }
 
 export default async function StockPage({ params }: StockPageProps) {
-  const stockPageSymbols = buildStockPageSymbols(params.symbol);
-  const { marketSignalSourceStatus, repository } = await getMarketSignalRuntime({
-    historyDays: stockPageHistoryDays,
-    symbols: stockPageSymbols
-  });
-  const watchlistItems = await getMarketSignalSearchItems();
-  const asset = repository.getAssetBySymbol(params.symbol);
+  const payload = await buildStockPagePayload(params.symbol, stockPageHistoryDays);
+  const asset = payload.asset;
   if (!asset) notFound();
 
-  const freshness = await getDataFreshnessSnapshot();
-  const snapshotDate = getLatestSnapshotDate(repository, asset.symbol);
-  const snapshot = repository.getSnapshot(asset.symbol, snapshotDate);
+  const snapshot = payload.snapshot;
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "FinancialProduct",
@@ -77,7 +63,7 @@ export default async function StockPage({ params }: StockPageProps) {
           },
           {
             "@type": "PropertyValue",
-            name: "燈號狀態",
+            name: "市場燈號",
             value: snapshot.signal.title
           },
           {
@@ -105,23 +91,13 @@ export default async function StockPage({ params }: StockPageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
       />
       <DashboardShell
-        freshnessSnapshot={freshness}
+        freshnessSnapshot={payload.freshnessSnapshot}
         initialSymbol={asset.symbol}
         includeSeoContent
-        marketSignalSourceStatus={marketSignalSourceStatus}
-        repositoryData={toMarketSignalRepositoryData(repository, snapshotDate, stockPageSymbols, {
-          includeSeriesDays: stockPageHistoryDays
-        })}
-        watchlistItems={watchlistItems}
+        marketSignalSourceStatus={payload.marketSignalSourceStatus}
+        repositoryData={payload.repositoryData}
+        watchlistItems={payload.watchlistItems}
       />
     </>
   );
-}
-
-function getLatestSnapshotDate(repository: MarketSignalRepository, symbol: string) {
-  return repository.getSeries(symbol).at(-1)?.date ?? fallbackSnapshotDate;
-}
-
-function buildStockPageSymbols(symbol: string) {
-  return Array.from(new Set([symbol, "TWII", "0050", "006208", "2330", "2308", "2382"]));
 }

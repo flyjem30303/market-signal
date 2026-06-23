@@ -55,3 +55,6 @@ jobs:
 
       - name: Report Phase 1.1 listed equity metadata maintenance candidates
         run: node scripts/check-phase-1-1-listed-equity-metadata-maintenance-candidates.mjs
+
+      - name: Warm stock page payload cache
+        run: node scripts/warm-stock-page-cache.mjs

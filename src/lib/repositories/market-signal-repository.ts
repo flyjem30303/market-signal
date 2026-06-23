@@ -1,3 +1,4 @@
+import { unstable_cache } from "next/cache";
 import { mockMarketSignalRepository } from "./mock-market-signal-repository";
 import {
   getMarketSignalSourceStatus,
@@ -102,14 +103,21 @@ export async function getMarketSignalSearchItems({
   }
 
   try {
-    const items = await createLoadedSupabaseMarketSignalSearchItems(
-      createServerSupabaseClient() as unknown as Parameters<typeof createLoadedSupabaseMarketSignalSearchItems>[0]
-    );
+    const items = await getCachedSupabaseMarketSignalSearchItems();
     return items.length ? items : buildSearchItemsFromRepository(mockMarketSignalRepository);
   } catch {
     return buildSearchItemsFromRepository(mockMarketSignalRepository);
   }
 }
+
+const getCachedSupabaseMarketSignalSearchItems = unstable_cache(
+  async () =>
+    createLoadedSupabaseMarketSignalSearchItems(
+      createServerSupabaseClient() as unknown as Parameters<typeof createLoadedSupabaseMarketSignalSearchItems>[0]
+    ),
+  ["market-signal-search-items"],
+  { revalidate: 900 }
+);
 
 function buildSearchItemsFromRepository(repository: MarketSignalRepository): MarketWatchlistItem[] {
   return repository

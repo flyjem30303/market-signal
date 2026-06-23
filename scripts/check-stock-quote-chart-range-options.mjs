@@ -3,12 +3,17 @@ import fs from "node:fs";
 const problems = [];
 
 const stockPage = read("src/app/stocks/[symbol]/page.tsx");
+const stockPagePayload = read("src/lib/stock-page-payload.ts");
 const dashboardShell = read("src/components/dashboard-shell.tsx");
 const chart = read("src/components/stock-quote-interactive-chart.tsx");
 const supabaseRepository = read("src/lib/repositories/supabase-market-signal-repository.ts");
 
-for (const phrase of ["const stockPageHistoryDays = 370;", "includeSeriesDays: stockPageHistoryDays"]) {
+for (const phrase of ["const stockPageHistoryDays = 370;"]) {
   if (!stockPage.includes(phrase)) problems.push(`stock page missing: ${phrase}`);
+}
+
+for (const phrase of ["includeSeriesDays: historyDays"]) {
+  if (!stockPagePayload.includes(phrase)) problems.push(`stock page payload missing: ${phrase}`);
 }
 
 for (const phrase of [".slice(-252)"]) {
