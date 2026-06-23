@@ -6,9 +6,11 @@ const stockPage = read("src/app/stocks/[symbol]/page.tsx");
 const stockPagePayload = read("src/lib/stock-page-payload.ts");
 const dashboardShell = read("src/components/dashboard-shell.tsx");
 const chart = read("src/components/stock-quote-interactive-chart.tsx");
+const historyRoute = read("src/app/api/stocks/[symbol]/history/route.ts");
+const quoteViewModel = read("src/lib/stock-quote-view-model.ts");
 const supabaseRepository = read("src/lib/repositories/supabase-market-signal-repository.ts");
 
-for (const phrase of ["const stockPageHistoryDays = 370;"]) {
+for (const phrase of ["const stockPageInitialHistoryDays = 75;"]) {
   if (!stockPage.includes(phrase)) problems.push(`stock page missing: ${phrase}`);
 }
 
@@ -16,8 +18,8 @@ for (const phrase of ["includeSeriesDays: historyDays"]) {
   if (!stockPagePayload.includes(phrase)) problems.push(`stock page payload missing: ${phrase}`);
 }
 
-for (const phrase of [".slice(-252)"]) {
-  if (!dashboardShell.includes(phrase)) problems.push(`dashboard shell missing: ${phrase}`);
+for (const phrase of ["buildQuoteViewModel", ".slice(-252)"]) {
+  if (!quoteViewModel.includes(phrase)) problems.push(`quote view model missing: ${phrase}`);
 }
 
 for (const phrase of [
@@ -26,11 +28,16 @@ for (const phrase of [
   '{ label: "6M", months: 6 }',
   '{ label: "1Y", years: 1 }',
   'const [rangeLabel, setRangeLabel] = useState("3M");',
-  "filterPointsByCalendarRange(points, activeRange)",
+  "filterPointsByCalendarRange(chartPoints, activeRange)",
+  "/api/stocks/${encodeURIComponent(symbol)}/history",
   "function filterPointsByCalendarRange",
   "function shiftDateByRange"
 ]) {
   if (!chart.includes(phrase)) problems.push(`chart missing: ${phrase}`);
+}
+
+for (const phrase of ["rangeToHistoryDays", '"1Y": 390', "buildStockPagePayload(symbol, historyDays)"]) {
+  if (!historyRoute.includes(phrase)) problems.push(`history route missing: ${phrase}`);
 }
 
 for (const phrase of [
@@ -74,8 +81,8 @@ console.log(
     {
       status: "ok",
       mode: "stock_quote_chart_range_options",
-      stockPageHistoryDays: 370,
-      includeSeriesDays: "stockPageHistoryDays",
+      stockPageInitialHistoryDays: 75,
+      chartHistory: "lazy_api_route",
       chartRanges: ["1M", "3M", "6M", "1Y"],
       defaultRange: "3M",
       rangeBasis: "calendar_months_and_year",

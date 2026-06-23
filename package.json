@@ -1686,6 +1686,7 @@
     "check:tw-equity-sanitized-candidate-artifact-generation": "node scripts/check-tw-equity-sanitized-candidate-artifact-generation.mjs",
     "check:stock-route-investor-language-alignment": "node scripts/check-stock-route-investor-language-alignment.mjs",
     "check:stock-quote-chart-range-options": "node scripts/check-stock-quote-chart-range-options.mjs",
+    "check:stock-history-lazy-load-architecture": "node scripts/check-stock-history-lazy-load-architecture.mjs",
     "check:stock-route-performance-cache": "node scripts/check-stock-route-performance-cache.mjs",
     "run:stock-page-cache-warm": "node scripts/warm-stock-page-cache.mjs",
     "check:public-support-route-reading-contract": "node scripts/check-public-support-route-reading-contract.mjs",

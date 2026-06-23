@@ -34,7 +34,8 @@ for (const phrase of [
 for (const phrase of [
   'import { buildStockPagePayload } from "@/lib/stock-page-payload";',
   'export const dynamic = "force-static";',
-  "const payload = await buildStockPagePayload(params.symbol, stockPageHistoryDays);",
+  "const stockPageInitialHistoryDays",
+  "const payload = await buildStockPagePayload(params.symbol, stockPageInitialHistoryDays);",
   "repositoryData={payload.repositoryData}",
   "watchlistItems={payload.watchlistItems}"
 ]) {

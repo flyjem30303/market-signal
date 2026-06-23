@@ -16291,6 +16291,15 @@ input[type="search"]::placeholder {
   min-height: 220px;
 }
 
+.stock-quote-chart-status {
+  position: absolute;
+  right: 14px;
+  top: 12px;
+  color: #9fb0c9;
+  font-size: 12px;
+  font-weight: 800;
+}
+
 .stock-quote-chart text {
   fill: #dbe6ff;
   font-size: 13px;

@@ -6,7 +6,7 @@ import { absoluteUrl, siteConfig } from "@/lib/site";
 
 export const revalidate = 300;
 export const dynamic = "force-static";
-const stockPageHistoryDays = 370;
+const stockPageInitialHistoryDays = 75;
 const stockPagePublicCopyContract =
   "本頁提供市場資訊整理、燈號狀態與風險觀察，不構成個股買賣建議。請搭配資料日期、引用來源與自身風險承受度判斷。";
 
@@ -17,7 +17,7 @@ type StockPageProps = {
 };
 
 export async function generateMetadata({ params }: StockPageProps): Promise<Metadata> {
-  const payload = await buildStockPagePayload(params.symbol, stockPageHistoryDays);
+  const payload = await buildStockPagePayload(params.symbol, stockPageInitialHistoryDays);
   const asset = payload.asset;
   if (!asset) return {};
 
@@ -42,7 +42,7 @@ export async function generateMetadata({ params }: StockPageProps): Promise<Meta
 }
 
 export default async function StockPage({ params }: StockPageProps) {
-  const payload = await buildStockPagePayload(params.symbol, stockPageHistoryDays);
+  const payload = await buildStockPagePayload(params.symbol, stockPageInitialHistoryDays);
   const asset = payload.asset;
   if (!asset) notFound();
 
