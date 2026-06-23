@@ -1,11 +1,12 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { StockQuoteChartPoint } from "@/lib/stock-quote-view-model";
 
 type StockQuoteInteractiveChartProps = {
   assetName: string;
   points: StockQuoteChartPoint[];
+  symbol: string;
   unit: string;
 };
 
@@ -16,12 +17,14 @@ const ranges = [
   { label: "1Y", years: 1 }
 ];
 
-export function StockQuoteInteractiveChart({ assetName, points, unit }: StockQuoteInteractiveChartProps) {
+export function StockQuoteInteractiveChart({ assetName, points, symbol, unit }: StockQuoteInteractiveChartProps) {
   const svgRef = useRef<SVGSVGElement>(null);
   const [rangeLabel, setRangeLabel] = useState("3M");
   const activeRange = ranges.find((range) => range.label === rangeLabel) ?? ranges[1];
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  const visiblePoints = useMemo(() => filterPointsByCalendarRange(points, activeRange), [points, activeRange]);
+  const [lazyPoints, setLazyPoints] = useState<StockQuoteChartPoint[]>([]);
+  const chartPoints = lazyPoints.length ? lazyPoints : points;
+  const visiblePoints = useMemo(() => filterPointsByCalendarRange(chartPoints, activeRange), [chartPoints, activeRange]);
   const geometry = useMemo(() => buildLineGeometry(visiblePoints), [visiblePoints]);
   const activePoint = activeIndex == null ? visiblePoints.at(-1) : visiblePoints[activeIndex];
   const activeGeometryPoint = activeIndex == null ? geometry.points.at(-1) : geometry.points[activeIndex];
@@ -31,7 +34,7 @@ export function StockQuoteInteractiveChart({ assetName, points, unit }: StockQuo
     const rect = svgRef.current?.getBoundingClientRect();
     if (!rect || visiblePoints.length === 0) return;
     const viewBoxX = ((clientX - rect.left) / rect.width) * 720;
-    const nearest = geometry.points.reduce(
+  const nearest = geometry.points.reduce(
       (best, point, index) => {
         const distance = Math.abs(point.x - viewBoxX);
         return distance < best.distance ? { distance, index } : best;
@@ -40,6 +43,27 @@ export function StockQuoteInteractiveChart({ assetName, points, unit }: StockQuo
     );
     setActiveIndex(nearest.index);
   }
+
+  useEffect(() => {
+    let isActive = true;
+
+    fetch(`/api/stocks/${encodeURIComponent(symbol)}/chart-history`)
+      .then((response) => {
+        if (!response.ok) throw new Error(`stock chart history request failed: ${response.status}`);
+        return response.json() as Promise<{ points?: StockQuoteChartPoint[] }>;
+      })
+      .then((payload) => {
+        if (!isActive || !Array.isArray(payload.points)) return;
+        setLazyPoints(payload.points);
+      })
+      .catch(() => {
+        // Keep the initial chart available when the extended chart payload is not ready.
+      });
+
+    return () => {
+      isActive = false;
+    };
+  }, [symbol]);
 
   return (
     <>

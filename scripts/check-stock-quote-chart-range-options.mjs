@@ -7,12 +7,13 @@ const stockPagePayload = read("src/lib/stock-page-payload.ts");
 const dashboardShell = read("src/components/dashboard-shell.tsx");
 const watchlistPanel = read("src/components/market-watchlist-panel.tsx");
 const watchlistApi = read("src/app/api/watchlist/search-items/route.ts");
+const chartApi = read("src/app/api/stocks/[symbol]/chart-history/route.ts");
 const chart = read("src/components/stock-quote-interactive-chart.tsx");
 const historyRoute = readOptional("src/app/api/stocks/[symbol]/history/route.ts");
 const quoteViewModel = read("src/lib/stock-quote-view-model.ts");
 const supabaseRepository = read("src/lib/repositories/supabase-market-signal-repository.ts");
 
-for (const phrase of ["const stockPageInitialHistoryDays = 390;"]) {
+for (const phrase of ["const stockPageInitialHistoryDays = 95;"]) {
   if (!stockPage.includes(phrase)) problems.push(`stock page missing: ${phrase}`);
 }
 
@@ -36,6 +37,16 @@ for (const phrase of ["getMarketSignalSearchItems", "Cache-Control", "s-maxage=3
   if (!watchlistApi.includes(phrase)) problems.push(`watchlist API missing: ${phrase}`);
 }
 
+for (const phrase of [
+  "const chartHistoryDays = 390;",
+  "buildStockPagePayload(symbol, chartHistoryDays)",
+  "buildQuoteViewModel",
+  "Cache-Control",
+  "s-maxage=300"
+]) {
+  if (!chartApi.includes(phrase)) problems.push(`chart history API missing: ${phrase}`);
+}
+
 for (const phrase of ["buildQuoteViewModel", ".slice(-252)"]) {
   if (!quoteViewModel.includes(phrase)) problems.push(`quote view model missing: ${phrase}`);
 }
@@ -46,7 +57,9 @@ for (const phrase of [
   '{ label: "6M", months: 6 }',
   '{ label: "1Y", years: 1 }',
   'const [rangeLabel, setRangeLabel] = useState("3M");',
-  "filterPointsByCalendarRange(points, activeRange)",
+  'fetch(`/api/stocks/${encodeURIComponent(symbol)}/chart-history`)',
+  "const chartPoints = lazyPoints.length ? lazyPoints : points",
+  "filterPointsByCalendarRange(chartPoints, activeRange)",
   "function filterPointsByCalendarRange",
   "function shiftDateByRange"
 ]) {
@@ -57,6 +70,10 @@ for (const forbidden of ["rangeToHistoryDays", "buildStockPagePayload(symbol, hi
   if (historyRoute.includes(forbidden) || chart.includes(forbidden)) {
     problems.push(`per-range history loading remains: ${forbidden}`);
   }
+}
+
+if (chart.includes("?range=") || chartApi.includes("?range=")) {
+  problems.push("chart history lazy API must not split requests by range");
 }
 
 if (historyRoute.trim().length > 0) {
@@ -118,12 +135,12 @@ console.log(
     {
       status: "ok",
       mode: "stock_quote_chart_range_options",
-      stockPageInitialHistoryDays: 390,
-      chartHistory: "one_shot_page_payload",
+      stockPageInitialHistoryDays: 95,
+      chartHistory: "client_lazy_one_shot_api",
       chartRanges: ["1M", "3M", "6M", "1Y"],
       defaultRange: "3M",
       rangeBasis: "calendar_months_and_year",
-      historyQueryBasis: "single_selected_symbol_calendar_window",
+      historyQueryBasis: "short_initial_payload_plus_lazy_selected_symbol_year",
       stockPageWatchlistLoading: "client_lazy_api"
     },
     null,

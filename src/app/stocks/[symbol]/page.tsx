@@ -6,7 +6,7 @@ import { absoluteUrl, siteConfig } from "@/lib/site";
 
 export const revalidate = 300;
 export const dynamic = "force-static";
-const stockPageInitialHistoryDays = 390;
+const stockPageInitialHistoryDays = 95;
 const stockPagePublicCopyContract =
   "本頁提供市場資訊整理、燈號狀態與風險觀察，不構成個股買賣建議。請搭配資料日期、引用來源與自身風險承受度判斷。";
 
