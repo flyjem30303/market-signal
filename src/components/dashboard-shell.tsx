@@ -79,7 +79,11 @@ export function DashboardShell({
           />
           <StockAtAGlance series={repository.getSeries(selected.symbol)} snapshot={snapshot} />
           <section className="stock-watchlist-top" aria-label="標的搜尋與追蹤入口">
-            <MarketWatchlistPanel items={searchItems} variant="compact-stock" />
+            <MarketWatchlistPanel
+              items={searchItems}
+              loadItemsEndpoint="/api/watchlist/search-items"
+              variant="compact-stock"
+            />
           </section>
         </>
       )}
@@ -454,7 +458,7 @@ function StockQuotePanel({
         資料日期：{quote.tradeDate} ・ 引用來源：{sourceLabel} ・ 非即時行情，僅供市場觀察。
       </p>
 
-      <StockQuoteInteractiveChart assetName={snapshot.asset.name} points={quote.chartPoints} symbol={quote.symbol} unit={quote.unit} />
+      <StockQuoteInteractiveChart assetName={snapshot.asset.name} points={quote.chartPoints} unit={quote.unit} />
 
       <dl className="stock-quote-stat-grid" aria-label="報價摘要">
         {quote.stats.map((item) => (

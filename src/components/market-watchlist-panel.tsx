@@ -22,16 +22,19 @@ export function MarketWatchlistPanel({
   eyebrow = "追蹤標的",
   heading = "搜尋股票，建立觀察清單",
   items,
+  loadItemsEndpoint,
   variant = "compact-stock"
 }: {
   description?: string;
   eyebrow?: string;
   heading?: string;
   items: MarketWatchlistItem[];
+  loadItemsEndpoint?: string;
   variant?: MarketWatchlistPanelVariant;
 }) {
   const [favorites, setFavorites] = useState<string[]>([]);
   const [isDraggingResults, setIsDraggingResults] = useState(false);
+  const [loadedItems, setLoadedItems] = useState(items);
   const [query, setQuery] = useState("");
   const [message, setMessage] = useState("");
   const [rankingCollapsed, setRankingCollapsed] = useState(variant === "compact-stock");
@@ -39,8 +42,35 @@ export function MarketWatchlistPanel({
   const resultsRef = useRef<HTMLDivElement>(null);
   const isDraggingResultsRef = useRef(false);
   const dragRef = useRef({ left: 0, startX: 0 });
+  const panelItems = loadedItems;
 
-  const bySymbol = useMemo(() => new Map(items.map((item) => [item.asset.symbol, item])), [items]);
+  useEffect(() => {
+    setLoadedItems(items);
+  }, [items]);
+
+  useEffect(() => {
+    if (!loadItemsEndpoint) return;
+    let isActive = true;
+
+    fetch(loadItemsEndpoint)
+      .then((response) => {
+        if (!response.ok) throw new Error(`watchlist search items request failed: ${response.status}`);
+        return response.json() as Promise<{ items?: MarketWatchlistItem[] }>;
+      })
+      .then((payload) => {
+        if (!isActive || !Array.isArray(payload.items)) return;
+        setLoadedItems(payload.items);
+      })
+      .catch(() => {
+        if (isActive) setMessage("搜尋清單暫時無法更新，請稍後再試。");
+      });
+
+    return () => {
+      isActive = false;
+    };
+  }, [loadItemsEndpoint]);
+
+  const bySymbol = useMemo(() => new Map(panelItems.map((item) => [item.asset.symbol, item])), [panelItems]);
 
   useEffect(() => {
     setFavorites(readWatchlist(new Set(bySymbol.keys())));
@@ -59,8 +89,8 @@ export function MarketWatchlistPanel({
   }, [bySymbol]);
 
   const favoriteSnapshots = favorites.map((symbol) => bySymbol.get(symbol)).filter((item): item is MarketWatchlistItem => Boolean(item));
-  const base = favoriteSnapshots.length ? favoriteSnapshots : items;
-  const searchResults = sortItems(filterItems(items, query), resultSort);
+  const base = favoriteSnapshots.length ? favoriteSnapshots : panelItems;
+  const searchResults = sortItems(filterItems(panelItems, query), resultSort);
   const strongList = rankBy(base, "compositeScore");
   const riskList = rankBy(base, "riskScore");
   const hasFavorites = favoriteSnapshots.length > 0;

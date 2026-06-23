@@ -1,7 +1,7 @@
 import { unstable_cache } from "next/cache";
 import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
 import type { MarketWatchlistItem } from "@/lib/market-watchlist-search";
-import { getMarketSignalRuntime, getMarketSignalSearchItems, type MarketSignalSourceStatus } from "@/lib/repositories/market-signal-repository";
+import { getMarketSignalRuntime, type MarketSignalSourceStatus } from "@/lib/repositories/market-signal-repository";
 import type { MarketSignalRepositoryData } from "@/lib/repositories/static-market-signal-repository";
 import { toMarketSignalRepositoryData } from "@/lib/repositories/static-market-signal-repository";
 import type { MarketSignalRepository } from "@/lib/repositories/types";
@@ -33,7 +33,6 @@ const getCachedStockPagePayload = unstable_cache(
       historyDays,
       symbols: stockPageSymbols
     });
-    const watchlistItems = await getMarketSignalSearchItems();
     const asset = repository.getAssetBySymbol(symbol);
     const freshnessSnapshot = await getDataFreshnessSnapshot();
     const snapshotDate = asset ? getLatestSnapshotDate(repository, asset.symbol) : fallbackSnapshotDate;
@@ -50,7 +49,7 @@ const getCachedStockPagePayload = unstable_cache(
       snapshot,
       snapshotDate,
       stockPageSymbols,
-      watchlistItems
+      watchlistItems: []
     };
   },
   ["stock-page-payload"],
@@ -62,5 +61,5 @@ function getLatestSnapshotDate(repository: MarketSignalRepository, symbol: strin
 }
 
 function buildStockPageSymbols(symbol: string) {
-  return Array.from(new Set([symbol, "TWII", "0050", "006208", "2330", "2308", "2382"]));
+  return [symbol];
 }

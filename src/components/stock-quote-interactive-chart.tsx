@@ -1,12 +1,11 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import type { StockQuoteChartPoint } from "@/lib/stock-quote-view-model";
 
 type StockQuoteInteractiveChartProps = {
   assetName: string;
   points: StockQuoteChartPoint[];
-  symbol: string;
   unit: string;
 };
 
@@ -17,42 +16,16 @@ const ranges = [
   { label: "1Y", years: 1 }
 ];
 
-export function StockQuoteInteractiveChart({ assetName, points, symbol, unit }: StockQuoteInteractiveChartProps) {
+export function StockQuoteInteractiveChart({ assetName, points, unit }: StockQuoteInteractiveChartProps) {
   const svgRef = useRef<SVGSVGElement>(null);
   const [rangeLabel, setRangeLabel] = useState("3M");
   const activeRange = ranges.find((range) => range.label === rangeLabel) ?? ranges[1];
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  const [remotePoints, setRemotePoints] = useState<StockQuoteChartPoint[]>([]);
-  const [historyStatus, setHistoryStatus] = useState<"idle" | "loading" | "ready" | "error">("idle");
-  const chartPoints = remotePoints.length ? remotePoints : points;
-  const visiblePoints = useMemo(() => filterPointsByCalendarRange(chartPoints, activeRange), [chartPoints, activeRange]);
+  const visiblePoints = useMemo(() => filterPointsByCalendarRange(points, activeRange), [points, activeRange]);
   const geometry = useMemo(() => buildLineGeometry(visiblePoints), [visiblePoints]);
   const activePoint = activeIndex == null ? visiblePoints.at(-1) : visiblePoints[activeIndex];
   const activeGeometryPoint = activeIndex == null ? geometry.points.at(-1) : geometry.points[activeIndex];
   const chartTitle = `${assetName} ${activeRange.label} 價格走勢`;
-
-  useEffect(() => {
-    const controller = new AbortController();
-    setHistoryStatus("loading");
-
-    fetch(`/api/stocks/${encodeURIComponent(symbol)}/history?range=${encodeURIComponent(rangeLabel)}`, {
-      signal: controller.signal
-    })
-      .then((response) => {
-        if (!response.ok) throw new Error(`stock history request failed: ${response.status}`);
-        return response.json() as Promise<{ points?: StockQuoteChartPoint[] }>;
-      })
-      .then((payload) => {
-        setRemotePoints(Array.isArray(payload.points) ? payload.points : []);
-        setHistoryStatus("ready");
-      })
-      .catch((error) => {
-        if (error instanceof DOMException && error.name === "AbortError") return;
-        setHistoryStatus("error");
-      });
-
-    return () => controller.abort();
-  }, [rangeLabel, symbol]);
 
   function handlePointerMove(clientX: number) {
     const rect = svgRef.current?.getBoundingClientRect();
@@ -88,7 +61,6 @@ export function StockQuoteInteractiveChart({ assetName, points, symbol, unit }: 
       </div>
 
       <div className="stock-quote-chart" aria-label={chartTitle}>
-        {historyStatus === "loading" && <span className="stock-quote-chart-status">載入區間資料</span>}
         <svg
           onPointerLeave={() => setActiveIndex(null)}
           onPointerMove={(event) => handlePointerMove(event.clientX)}
