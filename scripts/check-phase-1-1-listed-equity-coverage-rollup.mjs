@@ -1,6 +1,7 @@
 const MODEL_VERSION = "phase1-price-derived-v1";
 const SAMPLE_LIMIT = 12;
 const TWSE_STOCK_DAY_ALL_URL = "https://openapi.twse.com.tw/v1/exchangeReport/STOCK_DAY_ALL";
+const reportOnly = process.argv.includes("--report-only");
 
 function requireEnv(name) {
   const value = process.env[name];
@@ -72,6 +73,7 @@ const coverage = {
   missingLatestScoreCount: missingLatestScore.length,
   missingLatestScoreSample: sampleSymbols(missingLatestScore),
   modelVersion: MODEL_VERSION,
+  reportOnly,
   status:
     latestPriceDate &&
     latestScoreDate &&
@@ -84,7 +86,7 @@ const coverage = {
 
 console.log(JSON.stringify({ coverage }, null, 2));
 
-if (coverage.status !== "ok") {
+if (coverage.status !== "ok" && !reportOnly) {
   process.exitCode = 1;
 }
 

@@ -124,7 +124,7 @@ result.status = "ok";
 console.log(JSON.stringify(result, null, 2));
 
 async function fetchTwseJson(path) {
-  const response = await fetch(`${TWSE_BASE_URL}${path}`, {
+  const response = await fetchWithRetry(`${TWSE_BASE_URL}${path}`, {
     headers: {
       accept: "application/json, text/plain;q=0.9, */*;q=0.1",
       "cache-control": "no-cache",
@@ -175,7 +175,7 @@ async function fetchMiIndexDate(tradeDate) {
 
   let response;
   try {
-    response = await fetch(url, {
+    response = await fetchWithRetry(url, {
       headers: {
         accept: "application/json, text/plain;q=0.9, */*;q=0.1",
         "cache-control": "no-cache",
@@ -217,6 +217,30 @@ async function fetchMiIndexDate(tradeDate) {
     rows,
     sourceRowsRead: (stockTable?.data?.length ?? 0) + (twiiTable?.data?.length ?? 0)
   };
+}
+
+async function fetchWithRetry(url, options) {
+  const delays = [750, 2000, 5000];
+  let lastError = null;
+
+  for (let attempt = 0; attempt <= delays.length; attempt += 1) {
+    try {
+      const response = await fetch(url, options);
+      if (response.ok || attempt >= delays.length) return response;
+      lastError = new Error(`fetch_non_ok_${response.status}`);
+    } catch (error) {
+      lastError = error;
+      if (attempt >= delays.length) break;
+    }
+
+    await sleep(delays[attempt]);
+  }
+
+  throw lastError ?? new Error("fetch_failed");
+}
+
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 async function restGet(path) {
