@@ -6,7 +6,7 @@ import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
 import { getMarketSignalRuntime, getMarketSignalSearchItems } from "@/lib/repositories/market-signal-repository";
 import { toMarketSignalRepositoryData } from "@/lib/repositories/static-market-signal-repository";
 
-export const revalidate = 300;
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = buildRouteMetadata({
   description: "用紅黃綠燈號與分數快速理解台股市場風險、趨勢強弱與觀察重點；不提供買賣建議。",
