@@ -1,6 +1,7 @@
 const MODEL_VERSION = "phase1-price-derived-v1";
 const PAGE_SIZE = 1000;
 const TWSE_BASE_URL = "https://openapi.twse.com.tw/v1";
+const TWSE_MI_INDEX_URL = "https://www.twse.com.tw/exchangeReport/MI_INDEX";
 const PHASE_1_CORE_ETF_SYMBOLS = new Set(["0050", "006208"]);
 
 const args = new Set(process.argv.slice(2));
@@ -29,7 +30,7 @@ const result = {
   dryRun: !writeEnabled,
   modelVersion: MODEL_VERSION,
   scope: requestedSymbols ? "requested_symbols" : "phase1_twii_listed_equity_and_core_market_etf_baselines",
-  source: "TWSE OpenAPI",
+  source: "TWSE OpenAPI / TWSE MI_INDEX fallback",
   status: "blocked",
   twseRowsRead: 0,
   activeAssetsRead: 0,
@@ -41,18 +42,33 @@ const result = {
   warnings: []
 };
 
-const [assets, twseStockRows, twiiResult] = await Promise.all([
+const [assets, twseStockRows, twiiResult, miIndexResult] = await Promise.all([
   readActiveAssets(),
   fetchTwseJson("/exchangeReport/STOCK_DAY_ALL"),
-  fetchOptionalTwseJson("/indicesReport/MI_5MINS_HIST", "twii_index_source_unavailable")
+  fetchOptionalTwseJson("/indicesReport/MI_5MINS_HIST", "twii_index_source_unavailable"),
+  fetchOptionalLatestMiIndexJson("mi_index_latest_source_unavailable")
 ]);
 const twiiRows = twiiResult.rows;
 if (twiiResult.warning) result.warnings.push(twiiResult.warning);
+if (miIndexResult.warning) result.warnings.push(miIndexResult.warning);
+
+const stockRowsLatestDate = newestDate(twseStockRows.map((row) => normalizeDate(row.Date)).filter(Boolean));
+const twiiRowsLatestDate = newestDate(twiiRows.map((row) => normalizeDate(row.Date)).filter(Boolean));
+const shouldUseMiIndexFallback =
+  miIndexResult.tradeDate &&
+  (!stockRowsLatestDate || miIndexResult.tradeDate > stockRowsLatestDate || !twiiRowsLatestDate || miIndexResult.tradeDate > twiiRowsLatestDate);
+const effectiveStockRows = shouldUseMiIndexFallback ? miIndexResult.stockRows : twseStockRows;
+const effectiveTwiiRows = shouldUseMiIndexFallback ? miIndexResult.twiiRows : twiiRows;
+
+if (shouldUseMiIndexFallback) {
+  result.source = "TWSE MI_INDEX fallback";
+  result.warnings.push(`using_mi_index_fallback_for_${miIndexResult.tradeDate}`);
+}
 
 result.activeAssetsRead = assets.length;
-result.twseRowsRead = twseStockRows.length + twiiRows.length;
+result.twseRowsRead = effectiveStockRows.length + effectiveTwiiRows.length;
 
-const priceRows = buildPriceRows({ assets, twiiRows, twseStockRows });
+const priceRows = buildPriceRows({ assets, twiiRows: effectiveTwiiRows, twseStockRows: effectiveStockRows });
 result.priceRowsPrepared = priceRows.length;
 result.skippedRows = result.twseRowsRead - priceRows.length;
 
@@ -90,7 +106,7 @@ result.status = "ok";
 console.log(JSON.stringify(result, null, 2));
 
 async function fetchTwseJson(path) {
-  const response = await fetch(`${TWSE_BASE_URL}${path}`, {
+  const response = await fetchWithRetry(`${TWSE_BASE_URL}${path}`, {
     headers: {
       accept: "application/json, text/plain;q=0.9, */*;q=0.1",
       "cache-control": "no-cache",
@@ -124,12 +140,113 @@ async function fetchTwseJson(path) {
   return json;
 }
 
+async function fetchWithRetry(url, options) {
+  const delays = [750, 2000, 5000];
+  let lastError = null;
+
+  for (let attempt = 0; attempt <= delays.length; attempt += 1) {
+    try {
+      const response = await fetch(url, options);
+      if (response.ok || attempt >= delays.length) return response;
+      lastError = new Error(`fetch_non_ok_${response.status}`);
+    } catch (error) {
+      lastError = error;
+      if (attempt >= delays.length) break;
+    }
+
+    await sleep(delays[attempt]);
+  }
+
+  throw lastError ?? new Error("fetch_failed");
+}
+
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 async function fetchOptionalTwseJson(path, warning) {
   try {
     return { rows: await fetchTwseJson(path), warning: null };
   } catch {
     return { rows: [], warning };
   }
+}
+
+async function fetchOptionalMiIndexJson(tradeDate, warning) {
+  try {
+    return { ...(await fetchMiIndexJson(tradeDate)), warning: null };
+  } catch {
+    return { stockRows: [], tradeDate: null, twiiRows: [], warning };
+  }
+}
+
+async function fetchOptionalLatestMiIndexJson(warning) {
+  const dates = latestTaipeiCalendarDates(7);
+  for (const tradeDate of dates) {
+    try {
+      return { ...(await fetchMiIndexJson(tradeDate)), warning: null };
+    } catch {
+      // Keep looking backward for the latest published trading day.
+    }
+  }
+  return { stockRows: [], tradeDate: null, twiiRows: [], warning };
+}
+
+async function fetchMiIndexJson(tradeDate) {
+  const url = `${TWSE_MI_INDEX_URL}?${new URLSearchParams({
+    response: "json",
+    type: "ALLBUT0999",
+    date: tradeDate.replaceAll("-", "")
+  }).toString()}`;
+  const response = await fetchWithRetry(url, {
+    headers: {
+      accept: "application/json, text/plain;q=0.9, */*;q=0.1",
+      "cache-control": "no-cache",
+      "user-agent": "market-signal-phase1-daily-update/1.0 (+https://github.com/flyjem30303/market-signal)"
+    }
+  });
+  const payload = await response.json();
+  if (!response.ok || payload?.stat !== "OK" || !Array.isArray(payload?.tables)) {
+    throw new Error(`TWSE MI_INDEX fetch failed for ${tradeDate}`);
+  }
+
+  const stockTable = payload.tables.find((table) => Array.isArray(table?.fields) && table.fields.includes("證券代號") && table.fields.includes("收盤價"));
+  const indexTable = payload.tables.find((table) => Array.isArray(table?.fields) && table.fields.includes("指數") && table.fields.includes("收盤指數"));
+  const stockRows = (stockTable?.data ?? []).map((row) => toStockDayAllLikeRow(row, tradeDate)).filter(Boolean);
+  const twiiRow = (indexTable?.data ?? [])
+    .map((row) => toTwiiHistLikeRow(row, tradeDate))
+    .find(Boolean);
+
+  return {
+    stockRows,
+    tradeDate,
+    twiiRows: twiiRow ? [twiiRow] : []
+  };
+}
+
+function toStockDayAllLikeRow(row, tradeDate) {
+  if (!Array.isArray(row) || row.length < 9) return null;
+  return {
+    Code: row[0],
+    Date: tradeDate,
+    OpeningPrice: row[5],
+    HighestPrice: row[6],
+    LowestPrice: row[7],
+    ClosingPrice: row[8],
+    TradeVolume: row[2],
+    TradeValue: row[4]
+  };
+}
+
+function toTwiiHistLikeRow(row, tradeDate) {
+  if (!Array.isArray(row) || String(row[0] ?? "").trim() !== "發行量加權股價指數") return null;
+  return {
+    ClosingIndex: row[1],
+    Date: tradeDate,
+    HighestIndex: null,
+    LowestIndex: null,
+    OpeningIndex: null
+  };
 }
 
 async function restGet(path) {
@@ -382,6 +499,31 @@ function parseIsoDate(value) {
   const match = String(value ?? "").match(/^(\d{4})-(\d{2})-(\d{2})$/);
   if (!match) return null;
   return new Date(Date.UTC(Number(match[1]), Number(match[2]) - 1, Number(match[3])));
+}
+
+function taipeiTodayIsoDate() {
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    day: "2-digit",
+    month: "2-digit",
+    timeZone: "Asia/Taipei",
+    year: "numeric"
+  }).formatToParts(new Date());
+  const year = parts.find((part) => part.type === "year")?.value;
+  const month = parts.find((part) => part.type === "month")?.value;
+  const day = parts.find((part) => part.type === "day")?.value;
+  return `${year}-${month}-${day}`;
+}
+
+function latestTaipeiCalendarDates(days) {
+  const today = parseIsoDate(taipeiTodayIsoDate());
+  if (!today) return [];
+  const dates = [];
+  for (let offset = 0; offset < days; offset += 1) {
+    const date = new Date(today);
+    date.setUTCDate(date.getUTCDate() - offset);
+    dates.push(date.toISOString().slice(0, 10));
+  }
+  return dates;
 }
 
 function buildScore(series) {

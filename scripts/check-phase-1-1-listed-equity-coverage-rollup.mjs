@@ -1,6 +1,8 @@
 const MODEL_VERSION = "phase1-price-derived-v1";
 const SAMPLE_LIMIT = 12;
 const TWSE_STOCK_DAY_ALL_URL = "https://openapi.twse.com.tw/v1/exchangeReport/STOCK_DAY_ALL";
+const TWSE_MI_INDEX_URL = "https://www.twse.com.tw/exchangeReport/MI_INDEX";
+const reportOnly = process.argv.includes("--report-only");
 
 function requireEnv(name) {
   const value = process.env[name];
@@ -43,7 +45,7 @@ const latestPriceStockIds = new Set(latestPriceRows.map((row) => row.stock_id));
 const latestScoreStockIds = new Set(latestScoreRows.map((row) => row.stock_id));
 const missingLatestPrice = activeListedEquities.filter((asset) => !latestPriceStockIds.has(asset.id));
 const missingLatestScore = activeListedEquities.filter((asset) => !latestScoreStockIds.has(asset.id));
-const twseRowsByCode = await fetchTwseLatestRowsByCode();
+const twseRowsByCode = await fetchLatestRowsByCode(latestPriceDate);
 const excludedFromSameDayDenominator = classifySameDayDenominatorExclusions(missingLatestPrice, twseRowsByCode);
 const includedActiveListedEquities = activeListedEquities.filter(
   (asset) => !excludedFromSameDayDenominator.some((row) => row.symbol === asset.symbol)
@@ -72,6 +74,7 @@ const coverage = {
   missingLatestScoreCount: missingLatestScore.length,
   missingLatestScoreSample: sampleSymbols(missingLatestScore),
   modelVersion: MODEL_VERSION,
+  reportOnly,
   status:
     latestPriceDate &&
     latestScoreDate &&
@@ -84,7 +87,7 @@ const coverage = {
 
 console.log(JSON.stringify({ coverage }, null, 2));
 
-if (coverage.status !== "ok") {
+if (coverage.status !== "ok" && !reportOnly) {
   process.exitCode = 1;
 }
 
@@ -124,8 +127,19 @@ function pct(value, total) {
   return total > 0 ? Math.round((value / total) * 10000) / 100 : 0;
 }
 
+function newestDate(dates) {
+  return dates.slice().sort().at(-1) ?? null;
+}
+
 function sampleSymbols(rows) {
   return rows.slice(0, SAMPLE_LIMIT).map((row) => row.symbol);
+}
+
+async function fetchLatestRowsByCode(targetDate) {
+  const stockDayRows = await fetchTwseLatestRowsByCode();
+  const stockDayLatestDate = newestDate([...stockDayRows.values()].map((row) => normalizeDate(row.Date)).filter(Boolean));
+  if (!targetDate || stockDayLatestDate === targetDate) return stockDayRows;
+  return fetchMiIndexRowsByCode(targetDate);
 }
 
 async function fetchTwseLatestRowsByCode() {
@@ -146,6 +160,49 @@ async function fetchTwseLatestRowsByCode() {
       .map((row) => [String(row.Code ?? "").trim().toUpperCase(), row])
       .filter(([code]) => Boolean(code))
   );
+}
+
+async function fetchMiIndexRowsByCode(tradeDate) {
+  const response = await fetch(
+    `${TWSE_MI_INDEX_URL}?${new URLSearchParams({ response: "json", type: "ALLBUT0999", date: tradeDate.replaceAll("-", "") }).toString()}`,
+    {
+      headers: {
+        accept: "application/json, text/plain;q=0.9, */*;q=0.1",
+        "cache-control": "no-cache",
+        "user-agent": "market-signal-phase1.1-coverage-rollup/1.0 (+https://github.com/flyjem30303/market-signal)"
+      }
+    }
+  );
+  const text = await response.text();
+  if (!response.ok) throw new Error(`TWSE MI_INDEX code presence fetch failed: ${response.status} ${response.statusText}`);
+  if (/^\s*</u.test(text)) throw new Error("TWSE MI_INDEX code presence fetch returned an HTML payload.");
+  const payload = JSON.parse(text);
+  if (payload?.stat !== "OK" || !Array.isArray(payload?.tables)) throw new Error("TWSE MI_INDEX code presence fetch returned an invalid payload.");
+  const table = payload.tables.find((item) => Array.isArray(item?.fields) && item.fields.includes("證券代號") && item.fields.includes("收盤價"));
+  if (!table || !Array.isArray(table.data)) throw new Error("TWSE MI_INDEX code presence fetch did not include daily close table.");
+  return new Map(
+    table.data
+      .map((row) => [
+        String(row?.[0] ?? "").trim().toUpperCase(),
+        {
+          ClosingPrice: row?.[8],
+          Code: row?.[0],
+          Date: tradeDate
+        }
+      ])
+      .filter(([code]) => Boolean(code))
+  );
+}
+
+function normalizeDate(value) {
+  const raw = stringValue(value).replace(/\//g, "-");
+  if (!raw) return null;
+  if (/^\d{4}-\d{2}-\d{2}$/.test(raw)) return raw;
+  const compactRoc = raw.match(/^(\d{3})(\d{2})(\d{2})$/);
+  if (compactRoc) return `${Number(compactRoc[1]) + 1911}-${compactRoc[2]}-${compactRoc[3]}`;
+  const compactIso = raw.match(/^(\d{4})(\d{2})(\d{2})$/);
+  if (compactIso) return `${compactIso[1]}-${compactIso[2]}-${compactIso[3]}`;
+  return null;
 }
 
 function classifySameDayDenominatorExclusions(missingAssets, rowsByCode) {
