@@ -7,7 +7,8 @@ const PHASE_1_CORE_ETF_SYMBOLS = new Set(["0050", "006208"]);
 const args = new Set(process.argv.slice(2));
 const writeEnabled = args.has("--write") || process.env.DAILY_AFTER_CLOSE_WRITE === "enabled";
 const fallbackDateArg = process.argv.find((arg) => arg.startsWith("--fallback-date="));
-const fallbackDate = fallbackDateArg ? fallbackDateArg.slice("--fallback-date=".length).trim() : taipeiToday();
+const requestedFallbackDate = fallbackDateArg ? fallbackDateArg.slice("--fallback-date=".length).trim() : null;
+const fallbackSearchStartDate = requestedFallbackDate || taipeiToday();
 const symbolArg = process.argv.find((arg) => arg.startsWith("--symbols="));
 const requestedSymbols = symbolArg
   ? new Set(
@@ -62,14 +63,23 @@ let priceRows = buildPriceRows({ assets, twiiRows, twseStockRows });
 const openApiDataDate = newestDate(priceRows.map((row) => row.trade_date));
 result.openApiDataDate = openApiDataDate;
 
-if (fallbackDate && isIsoDate(fallbackDate) && (!openApiDataDate || openApiDataDate < fallbackDate)) {
-  const fallback = await fetchMiIndexDate(fallbackDate);
-  result.miIndexFallbackDate = fallbackDate;
+if (
+  fallbackSearchStartDate &&
+  isIsoDate(fallbackSearchStartDate) &&
+  (!openApiDataDate || openApiDataDate < fallbackSearchStartDate)
+) {
+  const fallback = await fetchLatestMiIndexDate({
+    openApiDataDate,
+    searchStartDate: fallbackSearchStartDate,
+    strictDate: requestedFallbackDate
+  });
+  result.miIndexFallbackDate = fallback.tradeDate;
   result.miIndexRowsRead = fallback.sourceRowsRead;
   if (fallback.status === "ok") {
-    const fallbackRows = buildMiIndexPriceRows({ assets, miIndexRows: fallback.rows, tradeDate: fallbackDate });
+    const fallbackRows = buildMiIndexPriceRows({ assets, miIndexRows: fallback.rows, tradeDate: fallback.tradeDate });
     if (fallbackRows.length > 0) {
       priceRows = mergeSameDayRows(priceRows, fallbackRows);
+      result.source = "TWSE MI_INDEX fallback";
       result.miIndexFallbackUsed = true;
     } else {
       result.warnings.push("mi_index_fallback_no_matching_assets");
@@ -93,7 +103,7 @@ if (priceRows.length === 0) {
 const existingPrices = await readExistingPrices(priceRows.map((row) => row.stock_id));
 const mergedPrices = mergePrices(existingPrices, priceRows);
 
-if (writeEnabled && fallbackDate && isIsoDate(fallbackDate) && result.dataDate < fallbackDate) {
+if (writeEnabled && requestedFallbackDate && isIsoDate(requestedFallbackDate) && result.dataDate < requestedFallbackDate) {
   result.status = "blocked_stale_source_no_fresh_fallback";
   console.log(JSON.stringify(result, null, 2));
   process.exit(1);
@@ -217,6 +227,19 @@ async function fetchMiIndexDate(tradeDate) {
     rows,
     sourceRowsRead: (stockTable?.data?.length ?? 0) + (twiiTable?.data?.length ?? 0)
   };
+}
+
+async function fetchLatestMiIndexDate({ openApiDataDate, searchStartDate, strictDate }) {
+  const candidateDates = strictDate ? [strictDate] : recentIsoDates(searchStartDate, 7);
+  let fallback = { status: "not_checked", rows: [], sourceRowsRead: 0, tradeDate: searchStartDate };
+
+  for (const tradeDate of candidateDates) {
+    if (openApiDataDate && tradeDate <= openApiDataDate) break;
+    fallback = { ...(await fetchMiIndexDate(tradeDate)), tradeDate };
+    if (fallback.status === "ok") return fallback;
+  }
+
+  return fallback;
 }
 
 async function fetchWithRetry(url, options) {
@@ -572,6 +595,18 @@ function taipeiToday() {
     month: "2-digit",
     day: "2-digit"
   }).format(new Date());
+}
+
+function recentIsoDates(startDate, days) {
+  const start = parseIsoDate(startDate);
+  if (!start) return [];
+  const dates = [];
+  const cursor = new Date(start);
+  for (let index = 0; index < days; index += 1) {
+    dates.push(cursor.toISOString().slice(0, 10));
+    cursor.setUTCDate(cursor.getUTCDate() - 1);
+  }
+  return dates;
 }
 
 function buildScore(series) {
