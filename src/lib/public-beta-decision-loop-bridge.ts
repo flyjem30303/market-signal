@@ -56,7 +56,7 @@ export function getPublicBetaDecisionLoopBridge(
     home: {
       contextLine: "首頁負責 30 秒判斷市場氛圍，再把需要複核的問題帶到 briefing。",
       link: {
-        href: "/briefing",
+        href: "/markets/tw",
         label: "查看完整 briefing",
         title: "查看市場成因與警示"
       }
@@ -64,7 +64,7 @@ export function getPublicBetaDecisionLoopBridge(
     stock: {
       contextLine: "標的頁負責確認個別標的是否跟著市場走，或需要用資料邊界降級解讀。",
       link: {
-        href: "/briefing",
+        href: "/markets/tw",
         label: "回市場 briefing",
         title: "回到全市場脈絡"
       }

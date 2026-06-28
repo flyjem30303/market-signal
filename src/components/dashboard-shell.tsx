@@ -16,7 +16,6 @@ import {
   type MarketSignalRepositoryData
 } from "@/lib/repositories/static-market-signal-repository";
 import type { SignalSnapshot } from "@/lib/signal-model";
-import { buildQuoteViewModel } from "@/lib/stock-quote-view-model";
 
 type DashboardShellProps = {
   freshnessSnapshot?: DataFreshnessSnapshot;
@@ -79,11 +78,7 @@ export function DashboardShell({
           />
           <StockAtAGlance series={repository.getSeries(selected.symbol)} snapshot={snapshot} />
           <section className="stock-watchlist-top" aria-label="標的搜尋與追蹤入口">
-            <MarketWatchlistPanel
-              items={searchItems}
-              loadItemsEndpoint="/api/watchlist/search-items"
-              variant="compact-stock"
-            />
+            <MarketWatchlistPanel items={searchItems} loadItemsEndpoint="/api/watchlist/search-items" variant="compact-stock" />
           </section>
         </>
       )}
@@ -130,8 +125,8 @@ function Hero({
         <span>引用來源：{publicSourceLabel}</span>
       </div>
       <div className="hero-cta-row" aria-label="主要操作">
-        <TrackedLink eventName="home_cta_clicked" href="/briefing" label="查看市場快報" payload={{ area: "hero" }}>
-          查看市場快報
+        <TrackedLink eventName="home_cta_clicked" href="/markets/tw" label="查看台灣市場" payload={{ area: "hero" }}>
+          查看台灣市場
         </TrackedLink>
         <TrackedLink eventName="home_cta_clicked" href={`/stocks/${selected.symbol}`} label="查看標的觀察" payload={{ area: "hero" }}>
           查看標的觀察
@@ -205,8 +200,8 @@ function HomeFirstScreenDecisionSummary({ market, series }: { market: SignalSnap
         </article>
       </div>
       <div className="home-decision-actions">
-        <TrackedLink eventName="home_cta_clicked" href="/briefing" label="查看市場快報" payload={{ area: "summary" }}>
-          查看市場快報
+        <TrackedLink eventName="home_cta_clicked" href="/markets/tw" label="查看台灣市場" payload={{ area: "summary" }}>
+          查看台灣市場
         </TrackedLink>
         <TrackedLink
           eventName="home_cta_clicked"
@@ -458,7 +453,7 @@ function StockQuotePanel({
         資料日期：{quote.tradeDate} ・ 引用來源：{sourceLabel} ・ 非即時行情，僅供市場觀察。
       </p>
 
-      <StockQuoteInteractiveChart assetName={snapshot.asset.name} points={quote.chartPoints} symbol={quote.symbol} unit={quote.unit} />
+      <StockQuoteInteractiveChart assetName={snapshot.asset.name} points={quote.chartPoints} unit={quote.unit} />
 
       <dl className="stock-quote-stat-grid" aria-label="報價摘要">
         {quote.stats.map((item) => (
@@ -470,6 +465,76 @@ function StockQuotePanel({
       </dl>
     </section>
   );
+}
+
+function buildQuoteViewModel(series: SignalSnapshot[], snapshot: SignalSnapshot) {
+  const closeLabels = snapshot.asset.type === "index" ? ["指數收盤", "指數收盤價", "收盤點數", "收盤"] : ["收盤價", "ETF 參考價", "收盤"];
+  const points = series
+    .map((item) => ({
+      close: parseMarketNumber(getMarketFactValue(item, closeLabels, 3)),
+      compositeScore: item.compositeScore,
+      date: item.date,
+      riskScore: item.riskScore
+    }))
+    .filter(
+      (item): item is { close: number; compositeScore: number; date: string; riskScore: number } =>
+        Number.isFinite(item.close)
+    )
+    .slice(-252);
+  const snapshotClose = parseMarketNumber(getMarketFactValue(snapshot, closeLabels, 3));
+  const fallbackClose = snapshotClose ?? points.at(-1)?.close ?? snapshot.compositeScore;
+  const chartPoints = points.length
+    ? [...points]
+    : [
+        {
+          close: fallbackClose,
+          compositeScore: snapshot.compositeScore,
+          date: snapshot.date,
+          riskScore: snapshot.riskScore
+        }
+      ];
+  if (snapshotClose !== null) {
+    chartPoints[chartPoints.length - 1] = {
+      ...chartPoints[chartPoints.length - 1],
+      close: snapshotClose,
+      date: snapshot.date
+    };
+  }
+  const previousClose = chartPoints.at(-2)?.close ?? chartPoints.at(-1)!.close;
+  const close = snapshotClose ?? chartPoints.at(-1)!.close;
+  const change = close - previousClose;
+  const changePercent = previousClose === 0 ? 0 : (change / previousClose) * 100;
+
+  return {
+    change,
+    changePercent,
+    chartPoints,
+    closeLabel: formatMarketNumber(close),
+    stats: [
+      { label: "開盤", value: getMarketFactValue(snapshot, ["開盤價", "指數開盤", "開盤"], 0) ?? "暫無資料" },
+      { label: "最高", value: getMarketFactValue(snapshot, ["最高價", "指數最高", "最高"], 1) ?? "暫無資料" },
+      { label: "最低", value: getMarketFactValue(snapshot, ["最低價", "指數最低", "最低"], 2) ?? "暫無資料" },
+      { label: "收盤", value: getMarketFactValue(snapshot, closeLabels, 3) ?? "暫無資料" },
+      { label: "成交量", value: getMarketFactValue(snapshot, ["成交量"], 4) ?? "暫無資料" },
+      { label: "成交金額", value: getMarketFactValue(snapshot, ["成交金額"], 5) ?? "暫無資料" }
+    ],
+    tradeDate: getMarketFactValue(snapshot, ["資料日期"], 6) ?? snapshot.date,
+    unit: snapshot.asset.type === "index" ? "點" : "TWD"
+  };
+}
+
+function getMarketFactValue(snapshot: SignalSnapshot, labels: string[], fallbackIndex?: number) {
+  return snapshot.marketFacts.find((fact) => labels.includes(fact.label))?.value ?? snapshot.marketFacts[fallbackIndex ?? -1]?.value;
+}
+
+function parseMarketNumber(value: string | undefined) {
+  if (!value) return null;
+  const parsed = Number(value.replace(/[^\d.-]/g, ""));
+  return Number.isFinite(parsed) ? parsed : null;
+}
+
+function formatMarketNumber(value: number) {
+  return value.toLocaleString("zh-TW", { maximumFractionDigits: 2, minimumFractionDigits: 2 });
 }
 
 function formatSignedNumber(value: number) {
