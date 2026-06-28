@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { HomepageGlobalShell } from "@/components/homepage-global-shell";
 import { PageViewTracker } from "@/components/page-view-tracker";
 import { SeoJsonLd } from "@/components/seo-json-ld";
+import { SECONDARY_LOCALE } from "@/lib/i18n/config";
 import { buildI18nAlternates } from "@/lib/i18n/metadata";
 import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
 import { getMarketSignalRuntime } from "@/lib/repositories/market-signal-repository";
@@ -12,19 +13,19 @@ export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = buildRouteMetadata({
   description: seoSiteDescription,
-  path: "/",
-  title: "全球市場風險指南針"
+  path: "/en",
+  title: "Global Market Risk Compass"
 });
 
-metadata.alternates = buildI18nAlternates("home");
+metadata.alternates = buildI18nAlternates("home", SECONDARY_LOCALE);
 
 const homeJsonLd = buildCorePageJsonLd({
-  description: "指數燈號提供全球市場風險指南針，目前以台灣市場正式資料為主，協助使用者理解市場變化、風險與標的觀察順序。",
-  path: "/",
-  title: "全球市場風險指南針"
+  description: seoSiteDescription,
+  path: "/en",
+  title: "Global Market Risk Compass"
 });
 
-export default async function HomePage() {
+export default async function EnglishHomePage() {
   const { marketSignalSourceStatus, repository } = await getMarketSignalRuntime();
   const freshness = await getDataFreshnessSnapshot();
   const taiwanAsset = repository.getAssetBySymbol("TWII");
@@ -47,9 +48,10 @@ export default async function HomePage() {
 
   return (
     <>
-      <PageViewTracker eventName="home_page_viewed" payload={{ page: "home" }} />
+      <PageViewTracker eventName="home_page_viewed" payload={{ locale: "en", page: "home" }} />
       <SeoJsonLd data={homeJsonLd} />
       <HomepageGlobalShell
+        locale="en"
         todaySummary={{
           globalComposite: null,
           globalCompositeStatus: "requires_two_or_more_production_markets",
@@ -67,7 +69,7 @@ export default async function HomePage() {
 }
 
 function formatPublicSourceLabel(sourceName: string, isOfficialRuntime: boolean) {
-  if (!isOfficialRuntime) return "示範資料";
+  if (!isOfficialRuntime) return "Mock data";
   if (!sourceName || sourceName.toLowerCase().includes("supabase")) return "TWSE OpenAPI";
   return sourceName;
 }

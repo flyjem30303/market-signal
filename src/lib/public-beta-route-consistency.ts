@@ -50,7 +50,7 @@ export function getPublicBetaRouteConsistency(
         title: "首頁：看市場溫度"
       },
       {
-        href: "/briefing",
+        href: "/markets/tw",
         label: "2",
         purpose: "3 分鐘內確認警示成因、更新時間、影響級別與下一步觀察。",
         title: "Briefing：看原因與行動"

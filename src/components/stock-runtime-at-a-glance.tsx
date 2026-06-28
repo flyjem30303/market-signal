@@ -47,11 +47,11 @@ export function StockRuntimeAtAGlance({ scoringLabel = "示範分數", snapshot 
       <nav className="runtime-next-links" aria-label="標的下一步閱讀">
         <TrackedLink
           eventName="stock_link_clicked"
-          href="/briefing"
-          label="查看市場晨報"
+          href="/markets/tw"
+          label="查看台灣市場"
           payload={{ area: "stock_runtime_next_links", symbol: snapshot.asset.symbol }}
         >
-          查看市場晨報
+          查看台灣市場
         </TrackedLink>
         <TrackedLink
           eventName="trust_link_clicked"

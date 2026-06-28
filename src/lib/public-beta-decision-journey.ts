@@ -46,7 +46,7 @@ export function getPublicBetaDecisionJourney(
         title: "30 秒市場氛圍"
       },
       {
-        href: "/briefing",
+        href: "/markets/tw",
         label: "2",
         purpose: "把市場狀態轉成原因、觀察清單與下一步行動判斷。",
         title: "3 分鐘行動判斷"
