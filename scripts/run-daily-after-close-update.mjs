@@ -2,7 +2,6 @@ const MODEL_VERSION = "phase1-price-derived-v1";
 const PAGE_SIZE = 1000;
 const TWSE_BASE_URL = "https://openapi.twse.com.tw/v1";
 const TWSE_MI_INDEX_URL = "https://www.twse.com.tw/exchangeReport/MI_INDEX";
-const PHASE_1_CORE_ETF_SYMBOLS = new Set(["0050", "006208"]);
 
 const args = new Set(process.argv.slice(2));
 const writeEnabled = args.has("--write") || process.env.DAILY_AFTER_CLOSE_WRITE === "enabled";
@@ -32,7 +31,7 @@ const serviceRoleKey = requireEnv("SUPABASE_SERVICE_ROLE_KEY");
 const result = {
   dryRun: !writeEnabled,
   modelVersion: MODEL_VERSION,
-  scope: requestedSymbols ? "requested_symbols" : "phase1_twii_listed_equity_and_core_market_etf_baselines",
+  scope: requestedSymbols ? "requested_symbols" : "phase1_twii_listed_equity_and_etf_daily_update",
   source: "TWSE OpenAPI",
   status: "blocked",
   twseRowsRead: 0,
@@ -341,7 +340,7 @@ async function insertDataRun(targetTable, rowCount, dataDate) {
     error_message: null,
     finished_at: now,
     notes:
-      "Daily after-close update from TWSE OpenAPI. Phase 1 scope: TWII + listed equities + 0050/006208 as core market ETF baselines; full ETF coverage remains Phase 1.1.",
+      "Daily after-close update from TWSE OpenAPI. Phase 1.1 scope: TWII + active TWSE listed stocks + active TWSE listed ETFs.",
     row_count: rowCount,
     run_key: `daily-after-close-${targetTable}-${dataDate}-${now}`,
     source_name: "TWSE OpenAPI",
@@ -388,8 +387,7 @@ function buildPriceRows({ assets, twiiRows, twseStockRows }) {
     if (!symbol || !acceptsSymbol(symbol)) continue;
     const asset = assetsBySymbol.get(symbol);
     if (!asset) continue;
-    const isCoreEtfBaseline = (asset.is_etf || asset.asset_type === "etf") && PHASE_1_CORE_ETF_SYMBOLS.has(symbol);
-    if (!isCoreEtfBaseline && asset.asset_type !== "stock") continue;
+    if (asset.asset_type !== "stock" && asset.asset_type !== "etf" && !asset.is_etf) continue;
     const row = toStockPriceCandidate(rawRow, asset.id);
     if (row) rows.push(row);
   }
@@ -405,9 +403,7 @@ function buildMiIndexPriceRows({ assets, miIndexRows, tradeDate }) {
     const asset = assetsBySymbol.get(sourceRow.symbol);
     if (!asset) continue;
     if (sourceRow.symbol !== "TWII") {
-      const isCoreEtfBaseline =
-        (asset.is_etf || asset.asset_type === "etf") && PHASE_1_CORE_ETF_SYMBOLS.has(sourceRow.symbol);
-      if (!isCoreEtfBaseline && asset.asset_type !== "stock") continue;
+      if (asset.asset_type !== "stock" && asset.asset_type !== "etf" && !asset.is_etf) continue;
     }
     rows.push({
       close: sourceRow.close,

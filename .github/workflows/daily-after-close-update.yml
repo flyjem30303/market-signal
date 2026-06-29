@@ -53,6 +53,9 @@ jobs:
       - name: Report Phase 1.1 listed equity adjusted coverage
         run: node scripts/check-phase-1-1-listed-equity-coverage-rollup.mjs --report-only
 
+      - name: Verify Phase 1.1 listed ETF freshness
+        run: node scripts/check-phase-1-1-listed-etf-freshness.mjs
+
       - name: Report Phase 1.1 listed equity metadata maintenance candidates
         run: node scripts/check-phase-1-1-listed-equity-metadata-maintenance-candidates.mjs
 

@@ -58,6 +58,11 @@ const requiredSnippets = [
     reason: "Daily workflow must verify adjusted listed-equity coverage."
   },
   {
+    id: "listed_etf_freshness_gate",
+    snippet: "node scripts/check-phase-1-1-listed-etf-freshness.mjs",
+    reason: "Daily workflow must verify active TWSE listed ETF freshness."
+  },
+  {
     id: "metadata_maintenance_candidate_report",
     snippet: "node scripts/check-phase-1-1-listed-equity-metadata-maintenance-candidates.mjs",
     reason: "Daily workflow must report no-write active-listing maintenance candidates."
