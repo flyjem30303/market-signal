@@ -16057,6 +16057,12 @@ input[type="search"]::placeholder {
   opacity: 0.72;
 }
 
+.global-market-card__actions--disabled span {
+  background: rgba(148, 163, 184, 0.04);
+  border-color: rgba(148, 163, 184, 0.12);
+  color: var(--muted);
+}
+
 .global-home-search,
 .global-home-next {
   background: rgba(8, 18, 31, 0.42);

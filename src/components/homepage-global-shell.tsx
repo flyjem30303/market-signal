@@ -208,7 +208,7 @@ export function HomepageGlobalShell({ locale = "zh", todaySummary }: HomepageGlo
             <div className="global-market-card__actions">
               <TrackedLink
                 eventName="home_cta_clicked"
-                href="/markets/tw"
+                href={`${homePrefix}/markets/tw`}
                 label={copy.marketDetail}
                 payload={{ area: "global-home-index-card", market: "tw", target: "market" }}
               >
@@ -226,7 +226,7 @@ export function HomepageGlobalShell({ locale = "zh", todaySummary }: HomepageGlo
               <span>{card.marketName[locale]}</span>
               <p>{copy.plannedBody}</p>
               <div className="global-market-card__actions global-market-card__actions--disabled">
-                <span>{copy.marketDetail}</span>
+                <span>{copy.planned}</span>
               </div>
             </article>
           ))}
