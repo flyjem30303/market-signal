@@ -15449,6 +15449,10 @@ input[type="search"]::placeholder {
   gap: 24px;
 }
 
+.homepage-global-shell > * {
+  min-width: 0;
+}
+
 .global-home-hero {
   align-items: stretch;
   display: grid;
@@ -16303,6 +16307,11 @@ input[type="search"]::placeholder {
 }
 
 @media (max-width: 900px) {
+  html,
+  body {
+    overflow-x: hidden;
+  }
+
   .global-home-hero,
   .global-daily-change,
   .global-market-grid,
@@ -16314,6 +16323,22 @@ input[type="search"]::placeholder {
   .global-home-hero {
     min-height: auto;
     padding-top: 38px;
+  }
+
+  .global-home-hero,
+  .global-home-hero__copy,
+  .global-daily-change,
+  .global-market-map,
+  .global-composite-hold,
+  .global-home-search,
+  .global-home-next {
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .global-home-hero h1 {
+    font-size: 40px;
+    overflow-wrap: anywhere;
   }
 
   .global-market-card--live {
@@ -16379,9 +16404,11 @@ input[type="search"]::placeholder {
   }
 
   .global-market-entry-grid {
+    contain: layout paint;
     cursor: grab;
     display: flex;
     overflow-x: auto;
+    max-width: 100%;
     padding-bottom: 10px;
     overscroll-behavior-inline: contain;
     scroll-padding-inline: 2px;
@@ -16421,6 +16448,10 @@ input[type="search"]::placeholder {
   .global-market-entry-grid__placeholder {
     flex: 0 0 240px;
     scroll-snap-align: start;
+  }
+
+  .global-market-map--featured {
+    overflow: hidden;
   }
 }
 

@@ -20,6 +20,11 @@ export function DraggableScrollRail({ "aria-label": ariaLabel, children, classNa
       return;
     }
 
+    const target = event.target;
+    if (target instanceof Element && target.closest("a, button, input, select, textarea, summary")) {
+      return;
+    }
+
     dragStateRef.current = {
       pointerId: event.pointerId,
       startX: event.clientX,
