@@ -516,3 +516,52 @@ PM integrates A3 status into the PM mainline.
 - Required: yes.
 - A3 did not modify `docs/PHASE_2_MAINLINE_INTEGRATION_STATUS.md`.
 - A3 does not execute DNS, Vercel settings, GSC operations, Supabase writes, SQL, data fetch, ad runtime, analytics runtime, or stock indexing changes in this slice.
+
+
+## Latest Coherent Slice: phase_2b_23_gsc_core_url_manual_request_or_wait_decision
+
+1. Completed what:
+
+- Recorded the CEO/PM decision after the core five URL inspection requests were submitted once in GSC.
+- Confirmed the next SEO action is to wait for the GSC Pages indexing report instead of repeatedly requesting indexing or resubmitting the sitemap.
+- Preserved Taiwan-only SEO scope while Phase 2A live market expansion remains paused.
+
+2. Modified files:
+
+- `docs/PHASE_2B_23_GSC_CORE_URL_MANUAL_REQUEST_OR_WAIT_DECISION.md`
+- `scripts/check-phase-2b-23-gsc-core-url-manual-request-or-wait-decision.mjs`
+- `docs/PHASE_2B_SEO_HANDOFF_STATUS.md`
+- `package.json`
+
+3. Checks run:
+
+- `cmd /c npm run check:phase-2b-23-gsc-core-url-manual-request-or-wait-decision`
+- `cmd /c npx tsc --noEmit`
+- `cmd /c npm run build`
+
+4. Runtime / public UI / Supabase / SQL / data fetch impact:
+
+- Runtime impact: none.
+- Public UI impact: none.
+- Supabase impact: none.
+- SQL impact: none.
+- Market data fetch impact: none.
+- Stock indexing impact: none.
+- GSC action impact: none after the one-time PM/CEO manual request.
+
+5. Decision tokens:
+
+- Phase 2B.23 GSC core URL manual request or wait decision is accepted.
+- phase_2b_23_gsc_core_url_manual_request_or_wait_decision_ready
+- coreUrlManualRequestStatus=completed_by_pm_once
+- repeatRequestIndexingNow=false
+- sitemapResubmissionNow=false
+- sitemapUrlExpansionNow=false
+- gscActionNow=false
+- phase2aLiveMarketExpansion=paused
+- globalPublicDataSource=mock
+
+6. Next recommendation:
+
+- Wait for GSC to produce a concrete Pages report result, then run `phase_2b_gsc_observation_result_intake_when_report_available`.
+- Do not request all pages, open stock route indexing, expose `/global`, or expand non-Taiwan market SEO while GSC is still processing.
