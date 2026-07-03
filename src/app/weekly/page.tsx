@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { buildRouteMetadata } from "@/lib/seo";
+import { SeoJsonLd } from "@/components/seo-json-ld";
+import { buildCorePageJsonLd, buildRouteMetadata } from "@/lib/seo";
 import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { MarketWatchlistPanel } from "@/components/market-watchlist-panel";
 import { PageViewTracker } from "@/components/page-view-tracker";
@@ -13,9 +14,15 @@ import { buildStockExplanation, type ExplanationItem } from "@/lib/stock-explana
 export const revalidate = 300;
 
 export const metadata: Metadata = buildRouteMetadata({
-  description: "整理每週台股燈號變化、風險分數與市場觀察重點，協助投資者追蹤趨勢，不保證報酬。",
+  description: "回看本週市場分數、風險狀態與主要支撐或拖累因素。",
   path: "/weekly",
-  title: "每週市場燈號回顧｜Market Signal"
+  title: "週報"
+});
+
+const weeklyJsonLd = buildCorePageJsonLd({
+  description: "回看本週市場分數、風險狀態與主要支撐或拖累因素。",
+  path: "/weekly",
+  title: "週報"
 });
 
 export default async function WeeklyPage() {
@@ -38,6 +45,7 @@ export default async function WeeklyPage() {
   return (
     <main className="page-shell">
       <PageViewTracker eventName="weekly_page_viewed" payload={{ page: "weekly" }} />
+      <SeoJsonLd data={weeklyJsonLd} />
 
       <section className="hero weekly-hero">
         <p className="eyebrow">市場週報</p>
@@ -113,8 +121,8 @@ export default async function WeeklyPage() {
           下週先看「{buildWatchLabel(negatives[0])}」是否改善，再確認「{buildWatchLabel(positives[0])}」能否延續。若風險分數續升，閱讀順序應先轉向風險標的與資料日期。
         </p>
         <div className="briefing-actions">
-          <TrackedLink eventName="weekly_link_clicked" href="/briefing" label="查看市場快報" payload={{ area: "weekly_next" }}>
-            查看市場快報
+          <TrackedLink eventName="weekly_link_clicked" href="/markets/tw" label="查看台灣市場" payload={{ area: "weekly_next" }}>
+            查看台灣市場
           </TrackedLink>
           <TrackedLink
             eventName="weekly_link_clicked"

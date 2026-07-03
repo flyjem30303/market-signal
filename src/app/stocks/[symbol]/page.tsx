@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { DashboardShell } from "@/components/dashboard-shell";
-import { buildStockPagePayload } from "@/lib/stock-page-payload";
+import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
+import { getMarketSignalRuntime } from "@/lib/repositories/market-signal-repository";
+import type { MarketSignalRepository } from "@/lib/repositories/types";
+import { buildRouteMetadata, getStockSeoMetadataCopy, shouldIndexStockPage } from "@/lib/seo";
+import { toMarketSignalRepositoryData } from "@/lib/repositories/static-market-signal-repository";
 import { absoluteUrl, siteConfig } from "@/lib/site";
 
 export const revalidate = 300;
-export const dynamic = "force-static";
-const stockPageInitialHistoryDays = 95;
-const stockPagePublicCopyContract =
-  "本頁提供市場資訊整理、燈號狀態與風險觀察，不構成個股買賣建議。請搭配資料日期、引用來源與自身風險承受度判斷。";
+const stockPageHistoryDays = 370;
 
 type StockPageProps = {
   params: {
@@ -16,37 +17,64 @@ type StockPageProps = {
   };
 };
 
-export async function generateMetadata({ params }: StockPageProps): Promise<Metadata> {
-  const payload = await buildStockPagePayload(params.symbol, stockPageInitialHistoryDays);
-  const asset = payload.asset;
-  if (!asset) return {};
+const fallbackSnapshotDate = "2026-05-28";
 
-  const signal = payload.snapshot?.signal.title ?? "觀察";
-  const title = `${asset.symbol} ${asset.name} 標的燈號：${signal}`;
-  const description = `${asset.symbol} ${asset.name} 的市場燈號、分數、報價走勢與風險觀察。${stockPagePublicCopyContract}`;
+export async function generateMetadata({ params }: StockPageProps): Promise<Metadata> {
+  const { marketSignalSourceStatus, repository } = await getMarketSignalRuntime({
+    historyDays: 1,
+    symbols: [params.symbol]
+  });
+  const asset = repository.getAssetBySymbol(params.symbol);
+  if (!asset) {
+    return {
+      robots: {
+        follow: false,
+        index: false
+      }
+    };
+  }
+
+  const snapshotDate = getLatestSnapshotDate(repository, asset.symbol);
+  const snapshot = repository.getSnapshot(asset.symbol, snapshotDate);
+  const copy = getStockSeoMetadataCopy(asset, snapshot?.signal.title);
+  const indexable = shouldIndexStockPage({ asset, repository, sourceStatus: marketSignalSourceStatus });
 
   return {
-    alternates: {
-      canonical: absoluteUrl(`/stocks/${asset.symbol}`)
-    },
-    description,
-    openGraph: {
-      description,
-      siteName: siteConfig.name,
-      title,
-      type: "article",
-      url: absoluteUrl(`/stocks/${asset.symbol}`)
-    },
-    title
+    ...buildRouteMetadata({
+      description: copy.description,
+      path: `/stocks/${asset.symbol}`,
+      title: copy.title,
+      type: "article"
+    }),
+    robots: indexable
+      ? {
+          follow: true,
+          index: true
+        }
+      : {
+          follow: false,
+          index: false,
+          googleBot: {
+            follow: false,
+            index: false
+          }
+        }
   };
 }
 
 export default async function StockPage({ params }: StockPageProps) {
-  const payload = await buildStockPagePayload(params.symbol, stockPageInitialHistoryDays);
-  const asset = payload.asset;
+  const stockPageSymbols = buildStockPageSymbols(params.symbol);
+  const { marketSignalSourceStatus, repository } = await getMarketSignalRuntime({
+    historyDays: stockPageHistoryDays,
+    symbols: stockPageSymbols
+  });
+  const asset = repository.getAssetBySymbol(params.symbol);
   if (!asset) notFound();
 
-  const snapshot = payload.snapshot;
+  const freshness = await getDataFreshnessSnapshot();
+  const snapshotDate = getLatestSnapshotDate(repository, asset.symbol);
+  const snapshot = repository.getSnapshot(asset.symbol, snapshotDate);
+  const seoCopy = getStockSeoMetadataCopy(asset, snapshot?.signal.title);
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "FinancialProduct",
@@ -64,7 +92,7 @@ export default async function StockPage({ params }: StockPageProps) {
           },
           {
             "@type": "PropertyValue",
-            name: "市場燈號",
+            name: "燈號狀態",
             value: snapshot.signal.title
           },
           {
@@ -75,7 +103,7 @@ export default async function StockPage({ params }: StockPageProps) {
         ]
       : undefined,
     category: asset.group,
-    description: stockPagePublicCopyContract,
+    description: seoCopy.description,
     name: `${asset.symbol} ${asset.name}`,
     provider: {
       "@type": "Organization",
@@ -92,12 +120,22 @@ export default async function StockPage({ params }: StockPageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
       />
       <DashboardShell
-        freshnessSnapshot={payload.freshnessSnapshot}
+        freshnessSnapshot={freshness}
         initialSymbol={asset.symbol}
         includeSeoContent
-        marketSignalSourceStatus={payload.marketSignalSourceStatus}
-        repositoryData={payload.repositoryData}
+        marketSignalSourceStatus={marketSignalSourceStatus}
+        repositoryData={toMarketSignalRepositoryData(repository, snapshotDate, stockPageSymbols, {
+          includeSeriesDays: stockPageHistoryDays
+        })}
       />
     </>
   );
+}
+
+function getLatestSnapshotDate(repository: MarketSignalRepository, symbol: string) {
+  return repository.getSeries(symbol).at(-1)?.date ?? fallbackSnapshotDate;
+}
+
+function buildStockPageSymbols(symbol: string) {
+  return [symbol];
 }

@@ -1,18 +1,29 @@
 import type { Metadata } from "next";
-import { buildRouteMetadata } from "@/lib/seo";
+import { SeoJsonLd } from "@/components/seo-json-ld";
+import { buildCorePageJsonLd, buildRouteMetadata } from "@/lib/seo";
 import { PageViewTracker } from "@/components/page-view-tracker";
 import { TrackedLink } from "@/components/tracked-link";
+import { buildI18nAlternates } from "@/lib/i18n/metadata";
 
 export const metadata: Metadata = buildRouteMetadata({
-  description: "說明 Market Signal 公開網站使用條款、資訊限制與使用者責任。",
+  description: "說明指數燈號的使用範圍、資料限制與非投資建議邊界。",
   path: "/terms",
-  title: "使用條款｜Market Signal"
+  title: "使用條款"
+});
+
+metadata.alternates = buildI18nAlternates("terms");
+
+const termsJsonLd = buildCorePageJsonLd({
+  description: "說明指數燈號的使用範圍、資料限制與非投資建議邊界。",
+  path: "/terms",
+  title: "使用條款"
 });
 
 export default function TermsPage() {
   return (
     <main className="page-shell">
       <PageViewTracker eventName="terms_page_viewed" payload={{ page: "terms" }} />
+      <SeoJsonLd data={termsJsonLd} />
       <section className="hero">
         <p className="eyebrow">使用條款</p>
         <h1>請把本站作為市場觀察輔助工具</h1>

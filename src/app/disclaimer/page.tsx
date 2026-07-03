@@ -1,18 +1,29 @@
 import type { Metadata } from "next";
-import { buildRouteMetadata } from "@/lib/seo";
+import { SeoJsonLd } from "@/components/seo-json-ld";
+import { buildCorePageJsonLd, buildRouteMetadata } from "@/lib/seo";
 import { PageViewTracker } from "@/components/page-view-tracker";
 import { TrackedLink } from "@/components/tracked-link";
+import { buildI18nAlternates } from "@/lib/i18n/metadata";
 
 export const metadata: Metadata = buildRouteMetadata({
-  description: "Market Signal 僅提供市場風險與趨勢觀察資訊，不構成投資建議、買賣建議或報酬保證。",
+  description: "說明指數燈號僅供市場觀察與風險辨識，不構成投資建議、報酬承諾或買賣推薦。",
   path: "/disclaimer",
-  title: "風險聲明｜Market Signal"
+  title: "風險聲明"
+});
+
+metadata.alternates = buildI18nAlternates("disclaimer");
+
+const disclaimerJsonLd = buildCorePageJsonLd({
+  description: "說明指數燈號僅供市場觀察與風險辨識，不構成投資建議、報酬承諾或買賣推薦。",
+  path: "/disclaimer",
+  title: "風險聲明"
 });
 
 export default function DisclaimerPage() {
   return (
     <main className="page-shell">
       <PageViewTracker eventName="disclaimer_page_viewed" payload={{ page: "disclaimer" }} />
+      <SeoJsonLd data={disclaimerJsonLd} />
       <section className="hero">
         <p className="eyebrow">風險聲明</p>
         <h1>燈號是觀察工具，不是買賣指令</h1>

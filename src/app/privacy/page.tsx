@@ -1,18 +1,29 @@
 import type { Metadata } from "next";
-import { buildRouteMetadata } from "@/lib/seo";
+import { SeoJsonLd } from "@/components/seo-json-ld";
+import { buildCorePageJsonLd, buildRouteMetadata } from "@/lib/seo";
 import { PageViewTracker } from "@/components/page-view-tracker";
 import { TrackedLink } from "@/components/tracked-link";
+import { buildI18nAlternates } from "@/lib/i18n/metadata";
 
 export const metadata: Metadata = buildRouteMetadata({
-  description: "說明 Market Signal 的隱私與資料使用原則，以及使用者在公開網站上的基本資料邊界。",
+  description: "說明指數燈號目前不建立會員帳號、不處理交易資料，並列出目前的隱私資料邊界。",
   path: "/privacy",
-  title: "隱私權政策｜Market Signal"
+  title: "隱私權政策"
+});
+
+metadata.alternates = buildI18nAlternates("privacy");
+
+const privacyJsonLd = buildCorePageJsonLd({
+  description: "說明指數燈號目前不建立會員帳號、不處理交易資料，並列出目前的隱私資料邊界。",
+  path: "/privacy",
+  title: "隱私權政策"
 });
 
 export default function PrivacyPage() {
   return (
     <main className="page-shell">
       <PageViewTracker eventName="privacy_page_viewed" payload={{ page: "privacy" }} />
+      <SeoJsonLd data={privacyJsonLd} />
       <section className="hero">
         <p className="eyebrow">隱私權政策</p>
         <h1>目前不建立會員帳號，也不處理交易資料</h1>
