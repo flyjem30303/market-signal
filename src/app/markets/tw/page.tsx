@@ -3,20 +3,21 @@ import { DataFreshnessStrip } from "@/components/data-freshness-strip";
 import { PageViewTracker } from "@/components/page-view-tracker";
 import { TrackedLink } from "@/components/tracked-link";
 import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
+import { buildI18nAlternates } from "@/lib/i18n/metadata";
 import { getMarketSignalRuntime } from "@/lib/repositories/market-signal-repository";
+import { buildRouteMetadata } from "@/lib/seo";
 import { buildStockExplanation, type ExplanationItem } from "@/lib/stock-explanation-engine";
 import type { ModuleScore, SignalSnapshot } from "@/lib/signal-model";
 
 export const revalidate = 300;
 
-export const metadata: Metadata = {
-  alternates: {
-    canonical: "/markets/tw"
-  },
-  description:
-    "Taiwan Market Risk Compass with composite score, risk score, recent change, evidence drivers, historical context, and signal history.",
-  title: "Taiwan Market Risk Compass"
-};
+export const metadata: Metadata = buildRouteMetadata({
+  description: "台灣市場風險指南針，說明綜合分數、風險分數、今日變化、證據因子、歷史位置與近期燈號脈絡。",
+  path: "/markets/tw",
+  title: "台灣市場風險指南針"
+});
+
+metadata.alternates = buildI18nAlternates("marketTw");
 
 export default async function TaiwanMarketPage() {
   const { marketSignalSourceStatus, repository } = await getMarketSignalRuntime({ historyDays: 260, symbols: ["TWII"] });
