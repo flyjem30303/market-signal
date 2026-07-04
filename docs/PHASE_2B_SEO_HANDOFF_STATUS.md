@@ -628,3 +628,63 @@ PM integrates A3 status into the PM mainline.
 
 - Proceed to `phase_2b_26_core_page_content_seo_audit` while continuing the GSC watchlist.
 - If GSC surfaces concrete URL examples under discovered/crawled buckets, record a targeted addendum instead of broad site changes.
+
+
+## Latest Coherent Slice: phase_2b_26_core_page_content_seo_audit
+
+1. Completed what:
+
+- Audited the first GSC core-page examples under `crawled_currently_not_indexed`.
+- Classified `/markets`, `/stocks`, and `/methodology` by page role, current SEO state, indexing risk, and next content patch recommendation.
+- Preserved the current Phase 2 sitemap and GSC watchlist while identifying the next content-focused slice.
+
+2. Modified files:
+
+- `docs/PHASE_2B_26_CORE_PAGE_CONTENT_SEO_AUDIT.md`
+- `scripts/check-phase-2b-26-core-page-content-seo-audit.mjs`
+- `docs/PHASE_2B_SEO_HANDOFF_STATUS.md`
+- `package.json`
+
+3. Checks to run:
+
+- `npm run check:phase-2b-26-core-page-content-seo-audit`
+- `npx tsc --noEmit`
+
+4. Runtime / public UI / Supabase / SQL / data fetch impact:
+
+- Runtime impact: none.
+- Public UI impact: none.
+- Supabase impact: none.
+- SQL impact: none.
+- Market data fetch impact: none.
+- Scoring impact: none.
+- Stock indexing impact: unchanged.
+- GSC action impact: none.
+
+5. Decision tokens:
+
+- phase_2b_26_core_page_content_seo_audit_ready
+- gscReasonObserved=crawled_currently_not_indexed
+- affectedCoreExamples=/methodology,/stocks,/markets
+- phase2SitemapLive=true
+- runtimePagePatch=false
+- requestIndexingAllPages=false
+- repeatSitemapSubmissionNow=false
+- sitemapExpansionNow=false
+- stockRouteIndexing=keep_existing_gated_scope
+- globalRouteIndexing=gated
+- nonTaiwanMarketIndexing=gated
+- analyticsRuntime=false
+- adRuntime=false
+- supabaseWrite=false
+- sqlExecution=false
+- marketDataFetch=false
+- scoringChange=false
+- runtimePromotion=false
+- nextRecommendedSlice=phase_2b_27_core_page_content_patch
+
+6. Next recommendation:
+
+- Proceed to `phase_2b_27_core_page_content_patch`.
+- Patch only small static content on `/markets`, `/stocks`, and `/methodology`.
+- Keep sitemap expansion, all-stock indexing, non-Taiwan SEO exposure, analytics runtime, ad runtime, Supabase writes, SQL, market-data fetches, and scoring changes closed.
