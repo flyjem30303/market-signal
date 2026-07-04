@@ -6,8 +6,11 @@ import { GlobalIndexRouteTemplate } from "@/components/global-index-route-templa
 import { PageViewTracker } from "@/components/page-view-tracker";
 import { TrackedLink } from "@/components/tracked-link";
 import { getDataFreshnessSnapshot } from "@/lib/data-freshness-source";
+import { buildI18nAlternates } from "@/lib/i18n/metadata";
+import { SECONDARY_LOCALE } from "@/lib/i18n/config";
 import { mockGlobalIndexProvider } from "@/lib/mock-global-index-provider";
 import { getMarketSignalRuntime } from "@/lib/repositories/market-signal-repository";
+import { buildRouteMetadata } from "@/lib/seo";
 import type { SignalSnapshot } from "@/lib/signal-model";
 
 export const revalidate = 300;
@@ -46,18 +49,21 @@ type PageProps = {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   if (params.market === "tw") {
-    return {
-      alternates: {
-        canonical: "/en/markets/tw",
-        languages: {
-          "en-US": "/en/markets/tw",
-          "zh-TW": "/markets/tw"
-        }
-      },
+    const metadata = buildRouteMetadata({
       description:
         "Taiwan Market Risk Compass with composite score, risk score, recent change, evidence drivers, historical context, and signal history.",
+      path: "/en/markets/tw",
       title: "Taiwan Market Risk Compass"
+    });
+
+    metadata.alternates = buildI18nAlternates("marketTw", SECONDARY_LOCALE);
+    metadata.openGraph = {
+      ...metadata.openGraph,
+      locale: "en_US",
+      url: "/en/markets/tw"
     };
+
+    return metadata;
   }
 
   return {

@@ -3,6 +3,7 @@ import { DEFAULT_LOCALE, SECONDARY_LOCALE, type SupportedLocale } from "@/lib/i1
 export const I18N_ROUTE_KEYS = [
   "home",
   "markets",
+  "marketTw",
   "stocks",
   "weekly",
   "methodology",
@@ -25,6 +26,10 @@ export const I18N_ROUTES: Record<I18nRouteKey, Record<SupportedLocale, string>> 
   markets: {
     [DEFAULT_LOCALE]: "/markets",
     [SECONDARY_LOCALE]: "/en/markets"
+  },
+  marketTw: {
+    [DEFAULT_LOCALE]: "/markets/tw",
+    [SECONDARY_LOCALE]: "/en/markets/tw"
   },
   methodology: {
     [DEFAULT_LOCALE]: "/methodology",

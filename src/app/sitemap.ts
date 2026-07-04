@@ -14,7 +14,6 @@ export const dynamic = "force-dynamic";
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const repository = getMarketSignalRepository();
   const sourceStatus = getMarketSignalSourceStatus();
-  const staticRoutes = ["/markets/tw"];
   const i18nRoutes = I18N_ROUTE_KEYS.flatMap((routeKey) =>
     ([DEFAULT_LOCALE, SECONDARY_LOCALE] as const).map((locale) => buildI18nSitemapEntry(routeKey, locale))
   );
@@ -23,12 +22,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   return [
     ...i18nRoutes.map((entry) => ({ ...entry, lastModified })),
-    ...staticRoutes.map((route) => ({
-      url: absoluteUrl(route),
-      lastModified,
-      changeFrequency: "weekly" as const,
-      priority: 0.7
-    })),
     ...stockRoutes.map((route) => ({
       url: absoluteUrl(route),
       lastModified,
