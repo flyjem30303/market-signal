@@ -10,7 +10,7 @@ import { buildCorePageJsonLd, buildRouteMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = buildRouteMetadata({
   description:
-    "了解 Market Signal 如何用 QMV1 方法論解釋市場狀態、綜合分數、風險分數與信心度。",
+    "了解 Market Signal 如何用可追溯的方法論解釋市場分數、風險、信心度與資料邊界，而不是提供投資建議。",
   path: "/methodology",
   title: "方法說明"
 });
@@ -78,8 +78,8 @@ export default async function MethodologyPage() {
         <p className="eyebrow">方法說明 / QMV1</p>
         <h1>Market Signal 如何解釋市場分數</h1>
         <p>
-          Market Signal uses an explainable market-state framework. QMV1 透過趨勢、動能、波動穩定度與參與度，
-          將市場狀態整理成可追溯的綜合分數、風險分數與信心度。
+          這頁說明「為什麼今天是這個分數」。Market Signal uses an explainable market-state framework.
+          QMV1 透過趨勢、動能、波動穩定度與參與度，將市場狀態整理成可追溯的綜合分數、風險分數與信心度。
         </p>
         <p className="runtime-boundary-line">
           QMV1 is a governance-approved heuristic, not a statistically validated prediction model, and not investment advice.

@@ -8,7 +8,7 @@ import type { SignalSnapshot } from "@/lib/signal-model";
 export const revalidate = 300;
 
 export const metadata: Metadata = {
-  description: "探索各市場目前的風險、燈號與資料成熟度。台灣是目前唯一正式市場，其他市場仍等待資料與方法論 gate。",
+  description: "探索 Market Signal 已支援與規劃中的市場。台灣是目前唯一正式市場，其他市場仍等待合法資料、資料管線與方法論 gate。",
   title: "全球市場總覽"
 };
 
@@ -50,6 +50,36 @@ export default async function MarketsPage() {
           <span>目前完整列出已登錄市場與指數。</span>
           <span>至少 2 個正式市場通過 production gate 後，才會啟用全球綜合分數與跨市場排行。</span>
         </div>
+
+        <section className="panel method-section" aria-labelledby="markets-how-to-use-title">
+          <p className="eyebrow">How to use</p>
+          <h2 id="markets-how-to-use-title">如何使用市場入口</h2>
+          <p>
+            這頁負責完整市場探索，不取代首頁的每日摘要。先從「目前可用市場」進入台灣市場風險指南針；
+            規劃中市場只代表路線已登錄，尚未公開正式燈號，也不會用 mock 分數暗示市場狀態。
+          </p>
+          <div className="method-table" role="table" aria-label="市場入口使用方式">
+            <div className="method-row method-head" role="row">
+              <span>使用情境</span>
+              <span>前往頁面</span>
+              <span>說明</span>
+            </div>
+            <div className="method-row" role="row">
+              <strong>看單一市場原因</strong>
+              <TrackedLink eventName="nav_link_clicked" href="/markets/tw" label="台灣市場頁" payload={{ area: "markets-how-to-use" }}>
+                台灣市場頁
+              </TrackedLink>
+              <span>查看今日變化、支撐風險、歷史位置與下一步觀察。</span>
+            </div>
+            <div className="method-row" role="row">
+              <strong>查單一標的</strong>
+              <TrackedLink eventName="nav_link_clicked" href="/stocks" label="標的觀察入口" payload={{ area: "markets-how-to-use" }}>
+                標的觀察入口
+              </TrackedLink>
+              <span>搜尋股票、ETF 或指數，進入單一標的觀察頁。</span>
+            </div>
+          </div>
+        </section>
 
         <div className="markets-explorer-production" aria-label="正式市場入口">
           <div className="markets-explorer-planned__head">
