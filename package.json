@@ -1785,6 +1785,7 @@
     "check:phase-2c-privacy-safe-analytics-readiness": "node scripts/check-phase-2c-privacy-safe-analytics-readiness.mjs",
     "check:phase-2b-pm-integration-handoff-packet": "node scripts/check-phase-2b-pm-integration-handoff-packet.mjs",
     "check:phase-2b-23-gsc-core-url-manual-request-or-wait-decision": "node scripts/check-phase-2b-23-gsc-core-url-manual-request-or-wait-decision.mjs",
+    "check:phase-2b-25a-gsc-indexing-result-intake-and-watchlist": "node scripts/check-phase-2b-25a-gsc-indexing-result-intake-and-watchlist.mjs",
     "check:daily-after-close-mi-index-fallback": "node scripts/check-daily-after-close-mi-index-fallback.mjs"
   },
   "dependencies": {

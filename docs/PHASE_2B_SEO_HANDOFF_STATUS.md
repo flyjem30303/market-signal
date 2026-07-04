@@ -565,3 +565,66 @@ PM integrates A3 status into the PM mainline.
 
 - Wait for GSC to produce a concrete Pages report result, then run `phase_2b_gsc_observation_result_intake_when_report_available`.
 - Do not request all pages, open stock route indexing, expose `/global`, or expand non-Taiwan market SEO while GSC is still processing.
+
+
+## Latest Coherent Slice: phase_2b_25a_gsc_indexing_result_intake_and_watchlist
+
+1. Completed what:
+
+- Recorded the first concrete GSC Pages indexing report categories after Phase 2 public IA and sitemap updates.
+- Captured current counts: `gscIndexedCount=1`, `gscNotIndexedCount=17`, and `gscReasonCount=3`.
+- Recorded that the duplicate canonical item for `/markets/tw` was fixed by the deployed canonical/hreflang/og:url patch and that validation was requested in GSC.
+- Classified the sitemap count mismatch as `sitemapUrlCountGscDisplay=25_pending_refresh` while production sitemap verification shows `sitemapUrlCountProduction=26`.
+- Preserved watch rules for discovered/crawled buckets without opening mass indexing or new SEO surfaces.
+
+2. Modified files:
+
+- `docs/PHASE_2B_25A_GSC_INDEXING_RESULT_INTAKE_AND_WATCHLIST.md`
+- `scripts/check-phase-2b-25a-gsc-indexing-result-intake-and-watchlist.mjs`
+- `docs/PHASE_2B_SEO_HANDOFF_STATUS.md`
+- `package.json`
+
+3. Checks to run:
+
+- `npm run check:phase-2b-25a-gsc-indexing-result-intake-and-watchlist`
+- `npx tsc --noEmit`
+
+4. Runtime / public UI / Supabase / SQL / data fetch impact:
+
+- Runtime impact: none.
+- Public UI impact: none.
+- Supabase impact: none.
+- SQL impact: none.
+- Market data fetch impact: none.
+- Stock indexing impact: none.
+- GSC action impact: observation only after duplicate validation was already requested by PM.
+
+5. Decision tokens:
+
+- phase_2b_25a_gsc_indexing_result_intake_and_watchlist_ready
+- gscIndexedCount=1
+- gscNotIndexedCount=17
+- gscReasonCount=3
+- sitemapSubmitted=true
+- sitemapStatus=success
+- sitemapUrlCountProduction=26
+- sitemapUrlCountGscDisplay=25_pending_refresh
+- duplicateValidationRequested=true
+- duplicateValidationRequestedAt=2026-07-04
+- requestIndexingAllPages=false
+- repeatSitemapSubmissionNow=false
+- stockRouteIndexing=keep_existing_gated_scope
+- globalRouteIndexing=gated
+- nonTaiwanMarketIndexing=gated
+- analyticsRuntime=false
+- adRuntime=false
+- supabaseWrite=false
+- sqlExecution=false
+- marketDataFetch=false
+- runtimePromotion=false
+- nextRecommendedSlice=phase_2b_26_core_page_content_seo_audit
+
+6. Next recommendation:
+
+- Proceed to `phase_2b_26_core_page_content_seo_audit` while continuing the GSC watchlist.
+- If GSC surfaces concrete URL examples under discovered/crawled buckets, record a targeted addendum instead of broad site changes.
