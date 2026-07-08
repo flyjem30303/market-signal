@@ -883,3 +883,70 @@ PM integrates A3 status into the PM mainline.
 - Proceed to `phase_2b_30_technical_seo_internal_link_audit`.
 - Audit canonical, hreflang, route metadata, OpenGraph, structured data, robots, sitemap inclusion, and internal links.
 - Do not implement fixes in the audit slice; use the audit to choose a later patch.
+
+
+## Latest Coherent Slice: phase_2b_30_technical_seo_internal_link_audit
+
+1. Completed what:
+
+- Audited the technical SEO and internal-link surfaces for the current production IA.
+- Reviewed sitemap, robots, i18n route registry, SEO helpers, site navigation, footer links, and representative public routes.
+- Confirmed robots and sitemap are structurally sound for the current public core route set.
+- Confirmed internal links are sufficient for Home -> Markets -> Market Detail -> Methodology and Home -> Stocks discovery.
+- Identified the main remaining SEO issue as metadata/canonical/hreflang/OpenGraph/structured-data consistency, especially on pages still using plain `Metadata`.
+
+2. Modified files:
+
+- `docs/PHASE_2B_30_TECHNICAL_SEO_INTERNAL_LINK_AUDIT.md`
+- `scripts/check-phase-2b-30-technical-seo-internal-link-audit.mjs`
+- `docs/PHASE_2B_SEO_HANDOFF_STATUS.md`
+- `package.json`
+
+3. Checks to run:
+
+- `npm run check:phase-2b-30-technical-seo-internal-link-audit`
+- `npx tsc --noEmit`
+
+4. Runtime / public UI / Supabase / SQL / data fetch impact:
+
+- Runtime impact: none.
+- Public UI impact: none.
+- Supabase impact: none.
+- SQL impact: none.
+- Market data fetch impact: none.
+- Scoring impact: none.
+- Stock indexing impact: unchanged.
+- Sitemap impact: none.
+- GSC action impact: none.
+
+5. Decision tokens:
+
+- phase_2b_30_technical_seo_internal_link_audit_ready
+- auditMode=technical_seo_internal_link_audit_only
+- robotsPublicRoutesAllowed=true
+- privateRoutesDisallowed=true
+- sitemapI18nRoutesPresent=true
+- stockRouteIndexing=keep_existing_gated_scope
+- internalLinkPatchNeeded=false
+- routeMetadataHelperNotUniversal=true
+- canonicalHreflangPatchNeeded=true
+- openGraphPatchNeeded=true
+- structuredDataParityPatchNeeded=true
+- englishMetadataParityPatchNeeded=true
+- requestIndexingAllPages=false
+- repeatSitemapSubmissionNow=false
+- sitemapExpansionNow=false
+- analyticsRuntime=false
+- adRuntime=false
+- supabaseWrite=false
+- sqlExecution=false
+- marketDataFetch=false
+- scoringChange=false
+- runtimePromotion=false
+- nextRecommendedSlice=phase_2b_31_core_route_metadata_consistency_patch
+
+6. Next recommendation:
+
+- Proceed to `phase_2b_31_core_route_metadata_consistency_patch`.
+- Patch only core-route metadata consistency: `/markets`, `/stocks`, selected English core pages, and optional WebPage/Breadcrumb JSON-LD if the patch stays small.
+- Do not resubmit sitemap, request all indexing, expose `/global`, open all stock routes, add analytics/ad runtime, change data/scoring, write Supabase, or execute SQL from this slice.
