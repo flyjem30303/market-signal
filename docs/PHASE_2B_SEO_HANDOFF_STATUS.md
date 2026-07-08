@@ -688,3 +688,67 @@ PM integrates A3 status into the PM mainline.
 - Proceed to `phase_2b_27_core_page_content_patch`.
 - Patch only small static content on `/markets`, `/stocks`, and `/methodology`.
 - Keep sitemap expansion, all-stock indexing, non-Taiwan SEO exposure, analytics runtime, ad runtime, Supabase writes, SQL, market-data fetches, and scoring changes closed.
+
+
+## Latest Coherent Slice: phase_2b_27_core_page_content_patch
+
+1. Completed what:
+
+- Applied a small static content patch for `/markets`, `/stocks`, and `/methodology` based on Phase 2B.26.
+- Added a "How to use" explanation to `/markets`.
+- Added a "Search Scope" explanation to `/stocks`.
+- Strengthened the methodology opening copy around "why today is this score" and traceable explanation.
+
+2. Modified files:
+
+- `src/app/markets/page.tsx`
+- `src/app/stocks/page.tsx`
+- `src/app/methodology/page.tsx`
+- `docs/PHASE_2B_27_CORE_PAGE_CONTENT_PATCH.md`
+- `scripts/check-phase-2b-27-core-page-content-patch.mjs`
+- `docs/PHASE_2B_SEO_HANDOFF_STATUS.md`
+- `package.json`
+
+3. Checks to run:
+
+- `npm run check:phase-2b-27-core-page-content-patch`
+- `npx tsc --noEmit`
+- `npm run build`
+
+4. Runtime / public UI / Supabase / SQL / data fetch impact:
+
+- Runtime impact: yes, small static content only.
+- Public UI impact: yes, three core public pages receive short explanatory copy.
+- Supabase impact: none.
+- SQL impact: none.
+- Market data fetch impact: none.
+- Scoring impact: none.
+- Stock indexing impact: unchanged.
+- Sitemap impact: none.
+- GSC action impact: none.
+
+5. Decision tokens:
+
+- phase_2b_27_core_page_content_patch_ready
+- patchRoutes=/markets,/stocks,/methodology
+- patchMode=small_static_content_only
+- requestIndexingAllPages=false
+- repeatSitemapSubmissionNow=false
+- sitemapExpansionNow=false
+- stockRouteIndexing=keep_existing_gated_scope
+- globalRouteIndexing=gated
+- nonTaiwanMarketIndexing=gated
+- analyticsRuntime=false
+- adRuntime=false
+- supabaseWrite=false
+- sqlExecution=false
+- marketDataFetch=false
+- scoringChange=false
+- runtimePromotion=false
+- nextRecommendedSlice=phase_2b_28_core_page_post_deploy_observation
+
+6. Next recommendation:
+
+- Merge, deploy, then run `phase_2b_28_core_page_post_deploy_observation`.
+- Confirm `/markets`, `/stocks`, and `/methodology` return 200 and show the new static copy.
+- Let sitemap recrawl naturally; do not request indexing for all pages.
