@@ -5,16 +5,22 @@ import { SECONDARY_LOCALE } from "@/lib/i18n/config";
 import { buildI18nAlternates } from "@/lib/i18n/metadata";
 import { getMarketRegistry, productionCurrentMarketId, type MarketRegistryEntry } from "@/lib/market-registry";
 import { getMarketSignalRuntime } from "@/lib/repositories/market-signal-repository";
+import { buildRouteMetadata } from "@/lib/seo";
 import type { SignalSnapshot } from "@/lib/signal-model";
 
 export const revalidate = 300;
 
-export const metadata: Metadata = {
-  alternates: buildI18nAlternates("markets", SECONDARY_LOCALE),
-  description:
-    "Explore market risk, signal status, and data maturity. Taiwan is the current production market; global markets remain planned until approved data and methodology gates are complete.",
-  title: "Global Market Overview"
-};
+const marketsTitle = "Global Market Overview";
+const marketsDescription =
+  "Explore market risk, signal status, and data maturity. Taiwan is the current production market; global markets remain planned until approved data and methodology gates are complete.";
+
+export const metadata: Metadata = buildRouteMetadata({
+  description: marketsDescription,
+  path: "/en/markets",
+  title: marketsTitle
+});
+metadata.alternates = buildI18nAlternates("markets", SECONDARY_LOCALE);
+metadata.openGraph = { ...metadata.openGraph, locale: "en_US", url: "/en/markets" };
 
 export default async function EnglishMarketsPage() {
   const { repository } = await getMarketSignalRuntime();

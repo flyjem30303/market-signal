@@ -1791,7 +1791,8 @@
     "check:phase-2b-28-core-page-post-deploy-observation": "node scripts/check-phase-2b-28-core-page-post-deploy-observation.mjs",
     "check:phase-2b-29-content-seo-next-action-selector": "node scripts/check-phase-2b-29-content-seo-next-action-selector.mjs",
     "check:phase-2b-30-technical-seo-internal-link-audit": "node scripts/check-phase-2b-30-technical-seo-internal-link-audit.mjs",
-    "check:daily-after-close-mi-index-fallback": "node scripts/check-daily-after-close-mi-index-fallback.mjs"
+    "check:daily-after-close-mi-index-fallback": "node scripts/check-daily-after-close-mi-index-fallback.mjs",
+    "check:phase-2b-31-core-route-metadata-consistency-patch": "node scripts/check-phase-2b-31-core-route-metadata-consistency-patch.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.4",

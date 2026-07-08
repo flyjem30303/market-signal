@@ -1,16 +1,31 @@
 import type { Metadata } from "next";
 import { PageViewTracker } from "@/components/page-view-tracker";
+import { SeoJsonLd } from "@/components/seo-json-ld";
 import { TrackedLink } from "@/components/tracked-link";
+import { buildI18nAlternates } from "@/lib/i18n/metadata";
 import { getMarketRegistry, productionCurrentMarketId, type MarketRegistryEntry } from "@/lib/market-registry";
 import { getMarketSignalRuntime } from "@/lib/repositories/market-signal-repository";
+import { buildCorePageJsonLd, buildRouteMetadata } from "@/lib/seo";
 import type { SignalSnapshot } from "@/lib/signal-model";
 
 export const revalidate = 300;
 
-export const metadata: Metadata = {
-  description: "探索 Market Signal 已支援與規劃中的市場。台灣是目前唯一正式市場，其他市場仍等待合法資料、資料管線與方法論 gate。",
-  title: "全球市場總覽"
-};
+const marketsTitle = "全球市場總覽";
+const marketsDescription =
+  "探索 Market Signal 目前支援與規劃中的市場，理解各市場的風險燈號、資料成熟度與正式 gate 狀態。";
+
+export const metadata: Metadata = buildRouteMetadata({
+  description: marketsDescription,
+  path: "/markets",
+  title: marketsTitle
+});
+metadata.alternates = buildI18nAlternates("markets");
+
+const marketsJsonLd = buildCorePageJsonLd({
+  description: marketsDescription,
+  path: "/markets",
+  title: marketsTitle
+});
 
 export default async function MarketsPage() {
   const { repository } = await getMarketSignalRuntime();
@@ -21,6 +36,7 @@ export default async function MarketsPage() {
 
   return (
     <main className="page-shell homepage-global-shell">
+      <SeoJsonLd data={marketsJsonLd} />
       <PageViewTracker eventName="home_page_viewed" payload={{ page: "markets" }} />
 
       <section className="global-market-map global-market-map--explorer" aria-labelledby="markets-title">

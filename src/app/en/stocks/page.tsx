@@ -4,15 +4,21 @@ import { PageViewTracker } from "@/components/page-view-tracker";
 import { SECONDARY_LOCALE } from "@/lib/i18n/config";
 import { buildI18nAlternates } from "@/lib/i18n/metadata";
 import { getMarketSignalSearchItems } from "@/lib/repositories/market-signal-repository";
+import { buildRouteMetadata } from "@/lib/seo";
 
 export const revalidate = 300;
 
-export const metadata: Metadata = {
-  alternates: buildI18nAlternates("stocks", SECONDARY_LOCALE),
-  description:
-    "Search Taiwan stocks, ETFs, and index targets in Market Signal. Target pages support observation, not buy or sell recommendations.",
-  title: "Target Observation"
-};
+const stocksTitle = "Target Observation";
+const stocksDescription =
+  "Search Taiwan stocks, ETFs, and index targets in Market Signal. Target pages support observation, not buy or sell recommendations.";
+
+export const metadata: Metadata = buildRouteMetadata({
+  description: stocksDescription,
+  path: "/en/stocks",
+  title: stocksTitle
+});
+metadata.alternates = buildI18nAlternates("stocks", SECONDARY_LOCALE);
+metadata.openGraph = { ...metadata.openGraph, locale: "en_US", url: "/en/stocks" };
 
 export default async function EnglishStocksPage() {
   const watchlistItems = await getMarketSignalSearchItems();
