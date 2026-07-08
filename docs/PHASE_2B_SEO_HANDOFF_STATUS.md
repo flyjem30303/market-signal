@@ -752,3 +752,70 @@ PM integrates A3 status into the PM mainline.
 - Merge, deploy, then run `phase_2b_28_core_page_post_deploy_observation`.
 - Confirm `/markets`, `/stocks`, and `/methodology` return 200 and show the new static copy.
 - Let sitemap recrawl naturally; do not request indexing for all pages.
+
+
+## Latest Coherent Slice: phase_2b_28_core_page_post_deploy_observation
+
+1. Completed what:
+
+- Recorded the first post-deploy observation baseline after Phase 2B.27 reached production.
+- Confirmed the production host is reachable at `https://market-signal.opensignallab.com`.
+- Confirmed core routes return 200: `/`, `/markets`, `/markets/tw`, `/stocks`, `/methodology`.
+- Confirmed Phase 2B.27 copy is present on `/markets`, `/stocks`, and `/methodology`.
+- Confirmed the same core routes are listed in the production sitemap.
+- Kept GSC handling observation-only: no mass indexing, no repeated sitemap submission, no sitemap expansion.
+
+2. Modified files:
+
+- `docs/PHASE_2B_28_CORE_PAGE_POST_DEPLOY_OBSERVATION.md`
+- `scripts/check-phase-2b-28-core-page-post-deploy-observation.mjs`
+- `docs/PHASE_2B_SEO_HANDOFF_STATUS.md`
+- `package.json`
+
+3. Checks to run:
+
+- `npm run check:phase-2b-28-core-page-post-deploy-observation`
+- `npx tsc --noEmit`
+
+4. Runtime / public UI / Supabase / SQL / data fetch impact:
+
+- Runtime impact: none.
+- Public UI impact: none.
+- Supabase impact: none.
+- SQL impact: none.
+- Market data fetch impact: none.
+- Scoring impact: none.
+- Stock indexing impact: unchanged.
+- Sitemap impact: none.
+- GSC action impact: none.
+
+5. Decision tokens:
+
+- phase_2b_28_core_page_post_deploy_observation_ready
+- observedHost=https://market-signal.opensignallab.com
+- observedDate=2026-07-08
+- coreRoutes200=true
+- phase2b27CopyPresent=true
+- coreRoutesInSitemap=true
+- sitemapUrlCount=26
+- pagesReportLagAccepted=true
+- requestIndexingAllPages=false
+- repeatSitemapSubmissionNow=false
+- sitemapExpansionNow=false
+- stockRouteIndexing=keep_existing_gated_scope
+- globalRouteIndexing=gated
+- nonTaiwanMarketIndexing=gated
+- analyticsRuntime=false
+- adRuntime=false
+- supabaseWrite=false
+- sqlExecution=false
+- marketDataFetch=false
+- scoringChange=false
+- runtimePromotion=false
+- nextRecommendedSlice=phase_2b_29_content_seo_next_action_selector
+
+6. Next recommendation:
+
+- Wait for the 48-72 hour GSC observation window unless a specific canonical, crawl, or sitemap regression appears.
+- If core pages remain `crawled_currently_not_indexed`, proceed to `phase_2b_29_content_seo_next_action_selector`.
+- Do not open full stock route indexing or non-Taiwan market SEO exposure from this slice.
