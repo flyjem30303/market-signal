@@ -819,3 +819,67 @@ PM integrates A3 status into the PM mainline.
 - Wait for the 48-72 hour GSC observation window unless a specific canonical, crawl, or sitemap regression appears.
 - If core pages remain `crawled_currently_not_indexed`, proceed to `phase_2b_29_content_seo_next_action_selector`.
 - Do not open full stock route indexing or non-Taiwan market SEO exposure from this slice.
+
+
+## Latest Coherent Slice: phase_2b_29_content_seo_next_action_selector
+
+1. Completed what:
+
+- Compared SEO work that can continue while GSC Pages data settles.
+- Reviewed content depth, technical SEO/internal links, off-page discovery preparation, and analytics readiness.
+- Selected `phase_2b_30_technical_seo_internal_link_audit` as the next slice.
+- Kept content patching on hold until a specific GSC snapshot or route-level gap justifies it.
+- Kept analytics/ad runtime, sitemap churn, all-page indexing requests, and full stock route SEO closed.
+
+2. Modified files:
+
+- `docs/PHASE_2B_29_CONTENT_SEO_NEXT_ACTION_SELECTOR.md`
+- `scripts/check-phase-2b-29-content-seo-next-action-selector.mjs`
+- `docs/PHASE_2B_SEO_HANDOFF_STATUS.md`
+- `package.json`
+
+3. Checks to run:
+
+- `npm run check:phase-2b-29-content-seo-next-action-selector`
+- `npx tsc --noEmit`
+
+4. Runtime / public UI / Supabase / SQL / data fetch impact:
+
+- Runtime impact: none.
+- Public UI impact: none.
+- Supabase impact: none.
+- SQL impact: none.
+- Market data fetch impact: none.
+- Scoring impact: none.
+- Stock indexing impact: unchanged.
+- Sitemap impact: none.
+- GSC action impact: none.
+
+5. Decision tokens:
+
+- phase_2b_29_content_seo_next_action_selector_ready
+- selectedNext=phase_2b_30_technical_seo_internal_link_audit
+- optionA=hold_until_next_gsc_snapshot_or_specific_page_gap
+- optionB=selected_next
+- optionC=plan_after_technical_audit
+- optionD=hold_policy_only
+- gscWaitingDoesNotBlockSeoPlanning=true
+- pagesReportLagAccepted=true
+- stockRouteIndexing=keep_existing_gated_scope
+- requestIndexingAllPages=false
+- repeatSitemapSubmissionNow=false
+- sitemapExpansionNow=false
+- analyticsRuntime=false
+- adRuntime=false
+- supabaseWrite=false
+- sqlExecution=false
+- marketDataFetch=false
+- scoringChange=false
+- runtimePromotion=false
+- nextRecommendedSlice=phase_2b_30_technical_seo_internal_link_audit
+
+6. Next recommendation:
+
+- Proceed to `phase_2b_30_technical_seo_internal_link_audit`.
+- Audit canonical, hreflang, route metadata, OpenGraph, structured data, robots, sitemap inclusion, and internal links.
+- Do not implement fixes in the audit slice; use the audit to choose a later patch.
