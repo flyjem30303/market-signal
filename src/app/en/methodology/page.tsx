@@ -2,13 +2,19 @@ import type { Metadata } from "next";
 import { EnglishCorePage } from "../english-core-page";
 import { SECONDARY_LOCALE } from "@/lib/i18n/config";
 import { buildI18nAlternates } from "@/lib/i18n/metadata";
+import { buildRouteMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  alternates: buildI18nAlternates("methodology", SECONDARY_LOCALE),
-  description:
-    "Learn how Market Signal uses market scores, risk scores, data freshness, and confidence notes to support Taiwan market observation.",
-  title: "How Market Signal Works"
-};
+const methodologyTitle = "How Market Signal Works";
+const methodologyDescription =
+  "Learn how Market Signal uses market scores, risk scores, data freshness, and confidence notes to support Taiwan market observation.";
+
+export const metadata: Metadata = buildRouteMetadata({
+  description: methodologyDescription,
+  path: "/en/methodology",
+  title: methodologyTitle
+});
+metadata.alternates = buildI18nAlternates("methodology", SECONDARY_LOCALE);
+metadata.openGraph = { ...metadata.openGraph, locale: "en_US", url: "/en/methodology" };
 
 export default function EnglishMethodologyPage() {
   return (

@@ -950,3 +950,78 @@ PM integrates A3 status into the PM mainline.
 - Proceed to `phase_2b_31_core_route_metadata_consistency_patch`.
 - Patch only core-route metadata consistency: `/markets`, `/stocks`, selected English core pages, and optional WebPage/Breadcrumb JSON-LD if the patch stays small.
 - Do not resubmit sitemap, request all indexing, expose `/global`, open all stock routes, add analytics/ad runtime, change data/scoring, write Supabase, or execute SQL from this slice.
+
+
+## Latest Coherent Slice: phase_2b_31_core_route_metadata_consistency_patch
+
+1. Completed what:
+
+- Patched remaining core route metadata consistency selected by Phase 2B.30.
+- Migrated `/markets` and `/stocks` to `buildRouteMetadata(...)` plus `buildI18nAlternates(...)`.
+- Added WebPage/Breadcrumb JSON-LD to `/markets` and `/stocks`.
+- Migrated `/en/markets`, `/en/stocks`, and `/en/methodology` to `buildRouteMetadata(...)` with English alternates and `openGraph.locale=en_US`.
+- Kept internal links, sitemap scope, stock indexing, data, scoring, Supabase, SQL, analytics, and ads unchanged.
+
+2. Modified files:
+
+- `src/app/markets/page.tsx`
+- `src/app/stocks/page.tsx`
+- `src/app/en/markets/page.tsx`
+- `src/app/en/stocks/page.tsx`
+- `src/app/en/methodology/page.tsx`
+- `docs/PHASE_2B_31_CORE_ROUTE_METADATA_CONSISTENCY_PATCH.md`
+- `scripts/check-phase-2b-31-core-route-metadata-consistency-patch.mjs`
+- `docs/PHASE_2B_SEO_HANDOFF_STATUS.md`
+- `package.json`
+
+3. Checks to run:
+
+- `npm run check:phase-2b-31-core-route-metadata-consistency-patch`
+- `npx tsc --noEmit`
+- `npm run build`
+
+4. Runtime / public UI / Supabase / SQL / data fetch impact:
+
+- Runtime impact: yes, core-route SEO metadata only.
+- Public UI layout impact: none.
+- Supabase impact: none.
+- SQL impact: none.
+- Market data fetch impact: none.
+- Scoring impact: none.
+- Stock indexing impact: unchanged.
+- Sitemap impact: none.
+- GSC action impact: none.
+
+5. Decision tokens:
+
+```text
+phase_2b_31_core_route_metadata_consistency_patch_ready
+routesPatched=/markets,/stocks,/en/markets,/en/stocks,/en/methodology
+runtimeMetadataPatch=true
+canonicalHreflangPatchApplied=true
+openGraphPatchApplied=true
+structuredDataPatchApplied=/markets,/stocks
+englishMetadataParityPatchApplied=true
+internalLinkPatch=false
+requestIndexingAllPages=false
+repeatSitemapSubmissionNow=false
+sitemapExpansionNow=false
+stockRouteIndexing=keep_existing_gated_scope
+globalRouteIndexing=gated
+nonTaiwanMarketIndexing=gated
+analyticsRuntime=false
+adRuntime=false
+supabaseWrite=false
+sqlExecution=false
+marketDataFetch=false
+scoringChange=false
+runtimePromotion=false
+nextRecommendedSlice=phase_2b_32_core_route_metadata_post_deploy_observation
+```
+
+6. Next recommendation:
+
+- Merge and deploy the metadata patch.
+- Then proceed to `phase_2b_32_core_route_metadata_post_deploy_observation`.
+- Observe public HTML for `/markets`, `/stocks`, `/en/markets`, `/en/stocks`, and `/en/methodology`.
+- Do not resubmit sitemap, request indexing for all pages, or change stock/non-Taiwan SEO exposure from this slice.

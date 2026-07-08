@@ -1,20 +1,36 @@
 import type { Metadata } from "next";
 import { MarketWatchlistPanel } from "@/components/market-watchlist-panel";
 import { PageViewTracker } from "@/components/page-view-tracker";
+import { SeoJsonLd } from "@/components/seo-json-ld";
+import { buildI18nAlternates } from "@/lib/i18n/metadata";
 import { getMarketSignalSearchItems } from "@/lib/repositories/market-signal-repository";
+import { buildCorePageJsonLd, buildRouteMetadata } from "@/lib/seo";
 
 export const revalidate = 300;
 
-export const metadata: Metadata = {
-  description: "搜尋台灣股票、ETF 或指數標的，建立最多 5 筆觀察清單，快速進入單一標的頁查看價格、分數、風險與資料日期。",
-  title: "標的觀察入口"
-};
+const stocksTitle = "標的觀察入口";
+const stocksDescription =
+  "搜尋台灣股票、ETF 或指數標的，建立最多 5 筆觀察清單，快速進入單一標的頁查看價格、分數、風險與資料日期。";
+
+export const metadata: Metadata = buildRouteMetadata({
+  description: stocksDescription,
+  path: "/stocks",
+  title: stocksTitle
+});
+metadata.alternates = buildI18nAlternates("stocks");
+
+const stocksJsonLd = buildCorePageJsonLd({
+  description: stocksDescription,
+  path: "/stocks",
+  title: stocksTitle
+});
 
 export default async function StocksIndexPage() {
   const watchlistItems = await getMarketSignalSearchItems();
 
   return (
     <main className="page-shell homepage-global-shell">
+      <SeoJsonLd data={stocksJsonLd} />
       <PageViewTracker eventName="stock_page_viewed" payload={{ page: "stocks_index" }} />
 
       <section className="global-home-search stock-index-search" aria-labelledby="stocks-title">
