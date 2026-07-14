@@ -108,3 +108,10 @@ docs/            專案文件與轉移資料
 - 部署：Vercel
 - 排程：GitHub Actions 或 Supabase Edge Functions
 - 初期資料更新：每日批次腳本
+# Market Signal
+
+Market Signal is a market signals and risk compass project. The current production site focuses on Taiwan market risk observation, market signal context, and methodology transparency.
+
+Website: https://market-signal.opensignallab.com/
+
+---
