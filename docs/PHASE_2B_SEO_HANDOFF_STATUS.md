@@ -1025,3 +1025,141 @@ nextRecommendedSlice=phase_2b_32_core_route_metadata_post_deploy_observation
 - Then proceed to `phase_2b_32_core_route_metadata_post_deploy_observation`.
 - Observe public HTML for `/markets`, `/stocks`, `/en/markets`, `/en/stocks`, and `/en/methodology`.
 - Do not resubmit sitemap, request indexing for all pages, or change stock/non-Taiwan SEO exposure from this slice.
+
+
+## Latest Coherent Slice: phase_2b_32_gsc_indexed_page_intake
+
+1. Completed what:
+
+- Recorded the first useful GSC Pages report snapshot after Phase 2B sitemap/core-page work.
+- Captured that GSC now reports 1 indexed page and 17 not indexed pages across 3 reasons from user-provided screenshots.
+- Kept the indexed page identity as `unknown_from_screenshot` until PM manually opens the GSC indexed-page detail.
+- Interpreted the current state as a new-domain / low-authority / low-external-discovery issue, not as evidence of a technical indexability failure.
+- Kept all broad indexing, sitemap churn, stock route expansion, non-Taiwan exposure, analytics, ads, data, scoring, Supabase, and SQL changes closed.
+
+2. Modified files:
+
+- `docs/PHASE_2B_32_GSC_INDEXED_PAGE_INTAKE.md`
+- `docs/PHASE_2B_SEO_HANDOFF_STATUS.md`
+- `scripts/check-phase-2b-32-33-gsc-intake-offpage-seed.mjs`
+- `package.json`
+
+3. Checks to run:
+
+- `npm run check:phase-2b-32-33-gsc-intake-offpage-seed`
+- `npx tsc --noEmit`
+
+4. Runtime / public UI / Supabase / SQL / data fetch impact:
+
+- Runtime impact: none.
+- Public UI layout impact: none.
+- Sitemap impact: none.
+- GSC platform action impact: none.
+- Supabase impact: none.
+- SQL impact: none.
+- Market data fetch impact: none.
+- Scoring impact: none.
+- Analytics/ad runtime impact: none.
+
+5. Decision tokens:
+
+```text
+phase_2b_32_gsc_indexed_page_intake_ready
+gscIndexedCount=1
+gscNotIndexedCount=17
+gscReasonCount=3
+gscObservedDate=2026-07-14
+indexedPageIdentity=unknown_from_screenshot
+manualTestClicksOnly=true
+organicTrafficObserved=false
+sitemapStatus=success
+technicalIndexabilityFailure=false
+interpretation=new_domain_low_authority_and_low_external_discovery
+requestIndexingAllPages=false
+repeatSitemapSubmissionNow=false
+sitemapExpansionNow=false
+stockRouteIndexing=keep_existing_gated_scope
+globalRouteIndexing=gated
+nonTaiwanMarketIndexing=gated
+analyticsRuntime=false
+adRuntime=false
+supabaseWrite=false
+sqlExecution=false
+marketDataFetch=false
+scoringChange=false
+runtimePromotion=false
+nextRecommendedSlice=phase_2b_33_off_page_discovery_seed_packet
+```
+
+6. Next recommendation:
+
+- Proceed to `phase_2b_33_off_page_discovery_seed_packet`.
+- Do not request indexing for every page or repeatedly resubmit sitemap from this slice.
+
+
+## Latest Coherent Slice: phase_2b_33_off_page_discovery_seed_packet
+
+1. Completed what:
+
+- Created a manual off-page discovery seed packet for legitimate public references to the production site.
+- Framed the objective as external discovery, not ranking claims, paid acquisition, fake traffic, or backlink spam.
+- Recommended 3 to 5 PM-owned placements such as GitHub README/project profile, one public social/profile post, and an optional personal/OpenSignalLab page.
+- Added copy guidance that keeps Taiwan as the only production market and avoids investment-advice language.
+- Kept runtime, sitemap, GSC mass-request, analytics, ads, Supabase, SQL, data, and scoring untouched.
+
+2. Modified files:
+
+- `docs/PHASE_2B_33_OFF_PAGE_DISCOVERY_SEED_PACKET.md`
+- `docs/PHASE_2B_SEO_HANDOFF_STATUS.md`
+- `scripts/check-phase-2b-32-33-gsc-intake-offpage-seed.mjs`
+- `package.json`
+
+3. Checks to run:
+
+- `npm run check:phase-2b-32-33-gsc-intake-offpage-seed`
+- `npx tsc --noEmit`
+
+4. Runtime / public UI / Supabase / SQL / data fetch impact:
+
+- Runtime impact: none.
+- Public UI layout impact: none.
+- Sitemap impact: none.
+- GSC platform action impact: none.
+- Supabase impact: none.
+- SQL impact: none.
+- Market data fetch impact: none.
+- Scoring impact: none.
+- Analytics/ad runtime impact: none.
+
+5. Decision tokens:
+
+```text
+phase_2b_33_off_page_discovery_seed_packet_ready
+offPageDiscoverySeedNow=ready_for_pm_manual_execution
+runtimePatch=false
+seoObjective=external_discovery_not_ranking_claim
+paidAds=false
+backlinkSpam=false
+directorySpam=false
+fakeTraffic=false
+analyticsRuntime=false
+adRuntime=false
+requestIndexingAllPages=false
+repeatSitemapSubmissionNow=false
+sitemapExpansionNow=false
+stockRouteIndexing=keep_existing_gated_scope
+globalRouteIndexing=gated
+nonTaiwanMarketIndexing=gated
+supabaseWrite=false
+sqlExecution=false
+marketDataFetch=false
+scoringChange=false
+runtimePromotion=false
+nextRecommendedSlice=phase_2b_34_off_page_seed_result_intake_or_content_seed_selector
+```
+
+6. Next recommendation:
+
+- PM manually creates 3 to 5 legitimate external references.
+- Record those URLs in a later result intake.
+- Observe GSC for 7 to 14 days before choosing the next content or technical slice.
