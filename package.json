@@ -1793,7 +1793,8 @@
     "check:phase-2b-30-technical-seo-internal-link-audit": "node scripts/check-phase-2b-30-technical-seo-internal-link-audit.mjs",
     "check:daily-after-close-mi-index-fallback": "node scripts/check-daily-after-close-mi-index-fallback.mjs",
     "check:phase-2b-31-core-route-metadata-consistency-patch": "node scripts/check-phase-2b-31-core-route-metadata-consistency-patch.mjs",
-    "check:phase-2b-32-33-gsc-intake-offpage-seed": "node scripts/check-phase-2b-32-33-gsc-intake-offpage-seed.mjs"
+    "check:phase-2b-32-33-gsc-intake-offpage-seed": "node scripts/check-phase-2b-32-33-gsc-intake-offpage-seed.mjs",
+    "check:phase-2b-34-offpage-result-intake-selector": "node scripts/check-phase-2b-34-offpage-result-intake-selector.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.4",

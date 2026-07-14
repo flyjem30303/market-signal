@@ -1163,3 +1163,74 @@ nextRecommendedSlice=phase_2b_34_off_page_seed_result_intake_or_content_seed_sel
 - PM manually creates 3 to 5 legitimate external references.
 - Record those URLs in a later result intake.
 - Observe GSC for 7 to 14 days before choosing the next content or technical slice.
+
+
+## Latest Coherent Slice: phase_2b_34_off_page_seed_result_intake_or_content_seed_selector
+
+1. Completed what:
+
+- Created a selector after Phase 2B.33 to avoid false claims about off-page discovery execution.
+- Recorded that no concrete external seed URL list was provided in-thread.
+- Decided not to run another SEO runtime/content/technical patch without either seed URLs or a completed observation window.
+- Kept Phase 2B SEO boundaries closed while allowing Phase 2C planning to proceed in parallel.
+
+2. Modified files:
+
+- `docs/PHASE_2B_34_OFF_PAGE_SEED_RESULT_INTAKE_OR_CONTENT_SEED_SELECTOR.md`
+- `docs/PHASE_2B_SEO_HANDOFF_STATUS.md`
+- `scripts/check-phase-2b-34-offpage-result-intake-selector.mjs`
+- `package.json`
+
+3. Checks to run:
+
+- `npm run check:phase-2b-34-offpage-result-intake-selector`
+- `npx tsc --noEmit`
+
+4. Runtime / public UI / Supabase / SQL / data fetch impact:
+
+- Runtime impact: none.
+- Public UI layout impact: none.
+- Sitemap impact: none.
+- GSC platform action impact: none.
+- Supabase impact: none.
+- SQL impact: none.
+- Market data fetch impact: none.
+- Scoring impact: none.
+- Analytics/ad runtime impact: none.
+
+5. Decision tokens:
+
+```text
+phase_2b_34_off_page_seed_result_intake_or_content_seed_selector_ready
+phase2b33Completed=true
+externalSeedUrlsProvidedInThread=false
+externalSeedUrlCount=0
+seedResultIntakePossibleNow=false
+gscObservationWindowStarted=false
+gscObservationWindowDays=7-14
+selectedNext=hold_seo_result_intake_until_seed_urls_or_observation_window
+seoRuntimePatchNow=false
+contentPatchNow=false
+technicalPatchNow=false
+phase2cPlanningCanProceed=true
+requestIndexingAllPages=false
+repeatSitemapSubmissionNow=false
+sitemapExpansionNow=false
+stockRouteIndexing=keep_existing_gated_scope
+globalRouteIndexing=gated
+nonTaiwanMarketIndexing=gated
+globalRoutePublicExposure=false
+analyticsRuntime=false
+adRuntime=false
+supabaseWrite=false
+sqlExecution=false
+marketDataFetch=false
+scoringChange=false
+runtimePromotion=false
+nextRecommendedSlice=phase_2c_user_layer_planning_resume_or_phase_2b_35_seed_url_intake
+```
+
+6. Next recommendation:
+
+- If PM provides external seed URLs, proceed to `phase_2b_35_seed_url_intake`.
+- If PM does not provide seed URLs yet, resume Phase 2C User Layer planning while waiting for GSC/Search processing.
