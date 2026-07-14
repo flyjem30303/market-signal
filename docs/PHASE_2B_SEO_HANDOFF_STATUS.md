@@ -1234,3 +1234,78 @@ nextRecommendedSlice=phase_2c_user_layer_planning_resume_or_phase_2b_35_seed_url
 
 - If PM provides external seed URLs, proceed to `phase_2b_35_seed_url_intake`.
 - If PM does not provide seed URLs yet, resume Phase 2C User Layer planning while waiting for GSC/Search processing.
+
+
+## Latest Coherent Slice: phase_2b_35_seed_url_intake
+
+1. Completed what:
+
+- Recorded the first concrete external discovery seed URLs for Market Signal.
+- Captured one GitHub repository seed and two Facebook seeds provided by PM/user.
+- Started the 7 to 14 day GSC/Search observation window.
+- Explicitly avoided claiming indexing, ranking, referral traffic, or SEO impact from these seeds.
+- Kept sitemap, GSC mass requests, stock route expansion, non-Taiwan exposure, analytics, ads, Supabase, SQL, data, scoring, and runtime promotion closed.
+
+2. Modified files:
+
+- `docs/PHASE_2B_35_SEED_URL_INTAKE.md`
+- `docs/PHASE_2B_SEO_HANDOFF_STATUS.md`
+- `scripts/check-phase-2b-35-seed-url-intake.mjs`
+- `package.json`
+
+3. Checks to run:
+
+- `npm run check:phase-2b-35-seed-url-intake`
+- `npx tsc --noEmit`
+
+4. Runtime / public UI / Supabase / SQL / data fetch impact:
+
+- Runtime impact: none.
+- Public UI layout impact: none.
+- Sitemap impact: none.
+- GSC platform action impact: none.
+- Supabase impact: none.
+- SQL impact: none.
+- Market data fetch impact: none.
+- Scoring impact: none.
+- Analytics/ad runtime impact: none.
+
+5. Decision tokens:
+
+```text
+phase_2b_35_seed_url_intake_ready
+externalSeedUrlsProvidedInThread=true
+externalSeedUrlCount=3
+seedResultIntakePossibleNow=true
+gscObservationWindowStarted=true
+gscObservationStartDate=2026-07-14
+gscObservationWindowDays=7-14
+seedImpactClaim=false
+requestIndexingAllPages=false
+repeatSitemapSubmissionNow=false
+sitemapExpansionNow=false
+stockRouteIndexing=keep_existing_gated_scope
+globalRouteIndexing=gated
+nonTaiwanMarketIndexing=gated
+globalRoutePublicExposure=false
+analyticsRuntime=false
+adRuntime=false
+supabaseWrite=false
+sqlExecution=false
+marketDataFetch=false
+scoringChange=false
+runtimePromotion=false
+nextRecommendedSlice=phase_2b_36_seed_observation_window_or_phase_2c_resume
+```
+
+6. Recorded seed URLs:
+
+- `https://github.com/flyjem30303/market-signal`
+- `https://www.facebook.com/people/Market-Signal%E5%B8%82%E5%A0%B4%E7%87%88%E8%99%9F/61591770246953/`
+- `https://www.facebook.com/share/p/1Bm9vCXzpW/`
+
+7. Next recommendation:
+
+- Wait 7 to 14 days before judging seed impact.
+- Continue Phase 2C planning or product work in parallel.
+- Return to Phase 2B only when GSC has a new meaningful snapshot or PM adds more seed URLs.
